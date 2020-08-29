@@ -270,6 +270,7 @@ $lang->about_use_mobile_view = '모바일 기기로 접속시 모바일 페이�
 $lang->tablets_as_mobile = '태블릿도 모바일 취급';
 $lang->mobile_viewport = '모바일 viewport 설정';
 $lang->about_mobile_viewport = '모바일 접속시 여기 입력한 내용이 &lt;meta name=&quot;viewport&quot;&gt; 태그로 출력됩니다.';
+$lang->restore_default_viewport = '기본값 복원';
 $lang->thumbnail_target = '썸네일 생성 대상';
 $lang->thumbnail_target_all = '모든 이미지 (외부 이미지 포함)';
 $lang->thumbnail_target_attachment = '첨부된 이미지';

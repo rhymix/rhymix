@@ -184,9 +184,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 			$result = $handler->getCssFileList(true);
 			$this->assertEquals(4, count($result));
 			$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[0]['file']);
-			$this->assertEquals('http://external.host/style.css', $result[1]['file']);
-			$this->assertEquals('/rhymix/common/css/bootstrap.css' . $this->_filemtime('common/css/bootstrap.css'), $result[2]['file']);
-			$this->assertEquals('IE', $result[2]['targetie']);
+			$this->assertEquals('/rhymix/common/css/bootstrap.css' . $this->_filemtime('common/css/bootstrap.css'), $result[1]['file']);
+			$this->assertEquals('IE', $result[1]['targetie']);
+			$this->assertEquals('http://external.host/style.css', $result[2]['file']);
 			$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[3]['file']);
 		});
 		

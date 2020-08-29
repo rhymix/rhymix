@@ -105,11 +105,14 @@ class adminAdminView extends admin
 			return;
 		}
 
+		$oAutoinstallAdminModel = getAdminModel('autoinstall');
+		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
+
 		$oAutoinstallModel = getModel('autoinstall');
 		$params = array();
 		$params["act"] = "getResourceapiLastupdate";
 		$body = XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml");
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml");
 		$xml_lUpdate = new XmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
@@ -578,7 +581,7 @@ class adminAdminView extends admin
 		Context::set('use_rewrite', Rhymix\Framework\Router::getRewriteLevel());
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
 		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
-		Context::set('mobile_viewport', config('mobile.viewport') ?: 'width=device-width, initial-scale=1.0, user-scalable=yes');
+		Context::set('mobile_viewport', config('mobile.viewport') ?? HTMLDisplayHandler::DEFAULT_VIEWPORT);
 		Context::set('use_ssl', Rhymix\Framework\Config::get('url.ssl'));
 		Context::set('delay_session', Rhymix\Framework\Config::get('session.delay'));
 		Context::set('use_db_session', Rhymix\Framework\Config::get('session.use_db'));

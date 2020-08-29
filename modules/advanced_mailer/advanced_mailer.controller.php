@@ -31,7 +31,8 @@ class Advanced_MailerController extends Advanced_Mailer
 		
 		if (!$mail->getFrom())
 		{
-			$mail->setFrom(config('mail.default_from'), config('mail.default_name'));
+			list($default_from, $default_name) = $this->getDefaultEmailIdentity();
+			$mail->setFrom($default_from, $default_name);
 			if ($replyTo = config('mail.default_reply_to'))
 			{
 				$mail->setReplyTo($replyTo);
@@ -48,9 +49,10 @@ class Advanced_MailerController extends Advanced_Mailer
 				$sender = $mail->message->getFrom();
 				$original_sender_email = $sender ? array_first_key($sender) : null;
 				$original_sender_name = $sender ? array_first($sender) : null;
-				if ($original_sender_email !== config('mail.default_from'))
+				list($default_from, $default_name) = $this->getDefaultEmailIdentity();
+				if ($original_sender_email !== $default_from)
 				{
-					$mail->setFrom(config('mail.default_from'), $original_sender_name ?: config('mail.default_name'));
+					$mail->setFrom($default_from, $original_sender_name ?: $default_name);
 					$mail->setReplyTo($original_sender_email);
 				}
 			}
@@ -115,6 +117,25 @@ class Advanced_MailerController extends Advanced_Mailer
 				return $output;
 			}
 		}
+	}
+	
+	/**
+	 * Get the default identity for sending email.
+	 * 
+	 * @return array
+	 */
+	public function getDefaultEmailIdentity()
+	{
+		$email = config('mail.default_from');
+		$name = config('mail.default_name');
+		if (!$email)
+		{
+			$member_config = getModel('module')->getModuleConfig('member');
+			$email = $member_config->webmaster_email;
+			$name = $member_config->webmaster_name ?: 'webmaster';
+		}
+		
+		return [$email, $name];
 	}
 	
 	/**

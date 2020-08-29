@@ -32,9 +32,7 @@ class fileAdminView extends file
 		$args->module_srl = Context::get('module_srl');
 		// Get a list
 		$oFileAdminModel = getAdminModel('file');
-		$columnList = array('file_srl', 'upload_target_srl', 'upload_target_type', 'sid', 'files.module_srl'
-				, 'source_filename', 'isvalid', 'file_size', 'download_count', 'files.regdate', 'files.ipaddress', 'member.member_srl', 'member.nick_name', 'uploaded_filename');
-		$output = $oFileAdminModel->getFileList($args, $columnList);
+		$output = $oFileAdminModel->getFileList($args);
 		
 		// Get the document for looping a list
 		if($output->data)

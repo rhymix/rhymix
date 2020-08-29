@@ -283,6 +283,10 @@ class moduleAdminController extends module
 		$columnList = array('module_srl', 'module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$module_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
 		// Register Admin ID
 		$oModuleController->deleteAdminId($module_srl);
 		$admin_member = Context::get('admin_member');
@@ -296,11 +300,10 @@ class moduleAdminController extends module
 				$oModuleController->insertAdminId($module_srl, $admin_id);
 			}
 		}
+
 		// List permissions
 		$xml_info = $oModuleModel->getModuleActionXML($module_info->module);
-
 		$grant_list = $xml_info->grant;
-
 		$grant_list->access = new stdClass();
 		$grant_list->access->default = 'guest';
 		$grant_list->manager = new stdClass();
@@ -352,6 +355,8 @@ class moduleAdminController extends module
 				if(!$output->toBool()) return $output;
 			}
 		}
+		
+		$oDB->commit();
 		
 		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 		$this->setMessage('success_registed');

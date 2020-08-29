@@ -52,8 +52,12 @@ html {
 		.light_dark(default);
 	}
 	body.cke_editable {
+		width: unset;
+		height: unset;
+		min-width: unset;
 		min-height: 100vh;
 		box-sizing: border-box;
+		margin: 0;
 		padding: 10px;
 		.light_dark(@colorset);
 	}
@@ -88,7 +92,7 @@ p.editor_autosaved_message.autosave_message {
 }
 
 
-.xe_content.editable, .rhymix_content.editable {
+.xe_content.editable, .rhymix_content.editable, .cke_wysiwyg_div {
 	.cont_font(@content_font);
 	.cont_fontsize(@content_font_size);
 	.cont_lineheight(@content_line_height);

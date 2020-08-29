@@ -920,7 +920,7 @@ class ncenterliteController extends ncenterlite
 				}
 			}
 		}
-		else if($oModule->act == 'dispBoardContent')
+		elseif(preg_match('/^disp[A-Z][a-z0-9_]+Content$/', $oModule->act))
 		{
 			$document_srl = Context::get('document_srl');
 			$oDocument = Context::get('oDocument');

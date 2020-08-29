@@ -20,18 +20,17 @@
 			</label>
 			<div class="x_controls">
 				<div class="x_input-append" style="margin-bottom:8px">
-					<select name="_admin_member" multiple="multiple" size="{count($admin_member)?count($admin_member):1}">
+					<input type="text" name="admin_id" />
+					<button class="x_btn" type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button>
+				</div><br />
+				<div class="x_input-append" style="margin-bottom:8px">
+					<select name="_admin_member" multiple="multiple" size="{max(3, count($admin_member))}">
 						<option loop="$admin_member => $key, $val" value="{$val->email_address}"|cond="$member_config->identifier=='email_address'" value="{$val->user_id}"|cond="$member_config->identifier!='email_address'">
 							{$val->nick_name} (<block cond="$member_config->identifier=='email_address'">{$val->email_address}</block><block cond="$member_config->identifier!='email_address'">{$val->user_id}</block>)
 						</option>
 					</select>
 					<button class="x_btn" type="button" onclick="doDeleteAdmin()">{$lang->cmd_delete}</button>
-				</div>
-				<br>
-				<div class="x_input-append">
-					<input type="text" name="admin_id" />
-					<button class="x_btn" type="button" onclick="doInsertAdmin()">{$lang->cmd_insert}</button>
-				</div>
+				</div><br />
 				<p id="adminListHelp" class="x_help-block">{$lang->about_admin_id}</p>
 			</div>
 		</div>

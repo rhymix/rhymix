@@ -55,3 +55,9 @@ $lang->typename['m.skin'] = '모바일 스킨';
 $lang->typename['skin'] = '스킨';
 $lang->typename['widgetstyle'] = '위젯스타일';
 $lang->typename['style'] = '문서스타일';
+
+$lang->location_site = '다운로드 홈페이지';
+$lang->about_location_site = '다운로드 홈페이지를 입력해 주세요. 예)https://xe1.xpressengine.com/';
+$lang->download_server = '다운로드 서버';
+$lang->about_download_server = '다운로드 서버를 입력해 주세요. 예)https://download.xpressengine.com/';
+

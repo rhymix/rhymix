@@ -89,7 +89,7 @@
 			<label class="x_control-label" for="mobile_viewport">{$lang->mobile_viewport}</label>
 			<div class="x_controls">
 				<input type="text" name="mobile_viewport" id="mobile_viewport" value="{$mobile_viewport}" style="min-width: 80%" />
-				<p class="x_help-block">{$lang->about_mobile_viewport}</p>
+				<p class="x_help-block">{$lang->about_mobile_viewport} <a href="javascript:restoreDefaultViewport()">{$lang->restore_default_viewport}</a></p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -224,3 +224,9 @@
 		</div>
 	</form>
 </section>
+
+<script>
+	function restoreDefaultViewport() {
+		$('#mobile_viewport').val({\HTMLDisplayHandler::DEFAULT_VIEWPORT|json|noescape});
+	}
+</script>

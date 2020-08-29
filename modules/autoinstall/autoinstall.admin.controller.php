@@ -16,7 +16,6 @@ class autoinstallAdminController extends autoinstall
 	 */
 	function init()
 	{
-
 	}
 
 	/**
@@ -75,7 +74,11 @@ class autoinstallAdminController extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml = new XmlParser();
 		$xmlDoc = $xml->parse($buff);
 		$this->updateCategory($xmlDoc);
@@ -224,7 +227,10 @@ class autoinstallAdminController extends autoinstall
 				$oModuleInstaller = new FTPModuleInstaller($package);
 			}
 
-			$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
+			$oAdminModel = getAdminModel('autoinstall');
+			$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+			$oModuleInstaller->setServerUrl($config->download_server);
 			$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->install();
 			if(!$output->toBool())
@@ -397,7 +403,10 @@ class autoinstallAdminController extends autoinstall
 			$oModuleInstaller = new FTPModuleInstaller($package);
 		}
 
-		$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+		$oModuleInstaller->setServerUrl($config->download_server);
 
 		$oModuleInstaller->setPassword($ftp_password);
 		$output = $oModuleInstaller->uninstall();
@@ -411,6 +420,39 @@ class autoinstallAdminController extends autoinstall
 		$this->setMessage('success_deleted', 'update');
 
 		return new BaseObject();
+	}
+
+	function procAutoinstallAdminInsertConfig()
+	{
+		// if end of string does not have a slash, add it
+		$_location_site = Context::get('location_site');
+		if(substr($_location_site, -1) != '/' && strlen($_location_site) > 0)
+		{
+			$_location_site .= '/';
+		}
+		$_download_server = Context::get('download_server');
+		if(substr($_download_server, -1) != '/' && strlen($_download_server) > 0)
+		{
+			$_download_server .= '/';
+		}
+		
+		$args = new stdClass();
+		$args->location_site = $_location_site;
+		$args->download_server = $_download_server;
+
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('autoinstall', $args);
+	
+		// init. DB tables
+		executeQuery("autoinstall.deletePackages");
+		executeQuery("autoinstall.deleteCategory");
+		executeQuery("autoinstall.deleteInstalledPackage");
+		
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminConfig');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 }
