@@ -804,21 +804,26 @@ class moduleController extends module
 	function insertAdminId($module_srl, $admin_id)
 	{
 		$oMemberModel = getModel('member');
-		$member_config = $oMemberModel->getMemberConfig();
-
-		if($member_config->identifier == 'email_address')
+		if(strpos($admin_id, '@') !== false)
+		{
 			$member_info = $oMemberModel->getMemberInfoByEmailAddress($admin_id);
+		}
 		else
+		{
 			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
-		
-		if(!$member_info->member_srl) return;
-		
-		Rhymix\Framework\Cache::delete("site_and_module:module_admins:$module_srl");
+		}
+		if(!$member_info->member_srl)
+		{
+			return;
+		}
 		
 		$args = new stdClass();
-		$args->module_srl = $module_srl;
+		$args->module_srl = intval($module_srl);
 		$args->member_srl = $member_info->member_srl;
-		return executeQuery('module.insertAdminId', $args);
+		$output = executeQuery('module.insertAdminId', $args);
+		
+		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));
+		return $output;
 	}
 
 	/**
