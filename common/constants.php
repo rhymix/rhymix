@@ -139,11 +139,6 @@ define('__XE_RECOMMEND_PHP_VERSION__', '7.2.0');
 define('__ZBXE__', true);
 define('__ZBXE_VERSION__', RX_VERSION);
 define('_XE_PATH_', RX_BASEDIR);
-define('_XE_PACKAGE_', 'XE');
-define('_XE_LOCATION_', 'en');
-//define('_XE_LOCATION_SITE_', 'https://xe1.xpressengine.com/');
-//define('_XE_DOWNLOAD_SERVER_', 'https://download.xpressengine.com/');
-define('__DEBUG__', 0);
 
 /**
  * Status constants for various content types.

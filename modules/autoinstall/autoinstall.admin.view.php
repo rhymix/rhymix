@@ -387,6 +387,7 @@ class autoinstallAdminView extends autoinstall
 
 		Context::set("package", $package);
 		Context::set('contain_core', $package->contain_core);
+		Context::set('module_config', $oAdminModel->getAutoInstallAdminModuleConfig());
 
 		if(!$_SESSION['ftp_password'])
 		{
