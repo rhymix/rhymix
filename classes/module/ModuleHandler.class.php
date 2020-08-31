@@ -714,7 +714,7 @@ class ModuleHandler extends Handler
 		if(Context::getRequestMethod() === 'GET')
 		{
 			$oDocument = DocumentModel::getDocument($this->document_srl);
-			if($oDocument->isExists())
+			if(!$oDocument->isExists())
 			{
 				$this->httpStatusCode = 404;
 			}
