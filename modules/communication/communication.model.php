@@ -26,6 +26,10 @@ class communicationModel extends communication
 	{
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('communication');
+		if(!$config)
+		{
+			$config = new stdClass();
+		}
 
 		if(!$config->skin)
 		{
