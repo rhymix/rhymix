@@ -330,6 +330,7 @@ $lang->cmd_admin_menu_reset = '관리자 메뉴 초기화';
 $lang->confirm_reset_admin_menu = '관리자 메뉴를 초기화하시겠습니까?';
 $lang->cmd_view_server_env = '서버 환경 표시';
 $lang->server_env = '서버 환경';
+$lang->ftp_deprecated = 'FTP 기능은 Rhymix에서 삭제되었습니다.<br>자료 설치 및 업데이트가 되지 않는 경우 퍼미션 조정으로 해결하십시오.';
 $lang->ftp_form_title = 'FTP 계정 정보 입력';
 $lang->ftp = 'FTP';
 $lang->ftp_host = 'FTP 서버 주소';

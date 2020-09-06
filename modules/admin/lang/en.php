@@ -334,6 +334,7 @@ $lang->cmd_admin_menu_reset = 'Initialize admin menu';
 $lang->confirm_reset_admin_menu = 'Are you sure initialize the admin menu?';
 $lang->cmd_view_server_env = 'View Server Env.';
 $lang->server_env = 'Server Environment';
+$lang->ftp_deprecated = 'FTP functionality is deprecated in Rhymix.<br>If you are having difficulty installing and updating third-party software, please check your server permissions.';
 $lang->ftp_form_title = 'FTP Account Information';
 $lang->ftp = 'FTP';
 $lang->ftp_host = 'FTP hostname';
