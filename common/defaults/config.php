@@ -21,6 +21,9 @@ return array(
 		),
 	),
 	'cache' => array(
+		'type' => null,
+		'ttl' => 86400,
+		'servers' => array(),
 		'truncate_method' => 'delete',
 	),
 	'ftp' => array(

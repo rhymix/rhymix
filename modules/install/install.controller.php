@@ -252,6 +252,12 @@ class installController extends install
 			Rhymix\Framework\Config::set('lock.allow', array('127.0.0.1', $user_ip_range));
 		}
 		
+		// Use APC cache if available.
+		if (function_exists('apcu_exists'))
+		{
+			Rhymix\Framework\Config::set('cache.type', 'apc');
+		}
+		
 		// Save the new configuration.
 		Rhymix\Framework\Config::save();
 		
