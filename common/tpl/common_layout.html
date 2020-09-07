@@ -5,9 +5,7 @@
 <!-- META -->
 <meta charset="utf-8">
 <meta name="generator" content="Rhymix">
-<!--@if(Mobile::isFromMobilePhone() && $__mv = config('mobile.viewport') ?? HTMLDisplayHandler::DEFAULT_VIEWPORT)-->
-<meta name="viewport" content="{$__mv}" />
-<!--@endif-->
+<meta name="viewport" content="{config('mobile.viewport') ?? HTMLDisplayHandler::DEFAULT_VIEWPORT}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <block loop="Context::getMetaTag() => $no, $val">
 <meta http-equiv="{$val['name']}"|cond="$val['is_http_equiv']" name="{$val['name']}"|cond="!$val['is_http_equiv']" content="{$val['content']}" />

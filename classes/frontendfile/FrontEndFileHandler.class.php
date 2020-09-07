@@ -229,11 +229,11 @@ class FrontEndFileHandler extends Handler
 			{
 				$file->media = 'all';
 			}
-			$file->key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
+			$file->key = sprintf('%s/%s:%s:%s', $file->filePath, $file->keyName, $file->targetIe, $file->media);
 		}
 		else if($file->fileExtension == 'js')
 		{
-			$file->key = $file->filePath . $file->keyName . "\t" . $file->targetIe;
+			$file->key = sprintf('%s/%s:%s', $file->filePath, $file->keyName, $file->targetIe);
 		}
 
 		return $file;
@@ -675,7 +675,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	protected function _arrangeCssIndex($dirname, $file)
 	{
-		if ($file->index !== 0)
+		if ($file->index < -100000)
 		{
 			return;
 		}
@@ -688,7 +688,7 @@ class FrontEndFileHandler extends Handler
 		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
 
 		$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
-		$file->index = $cssSortList[$tmp];
+		$file->index += $cssSortList[$tmp];
 	}
 	
 	/**

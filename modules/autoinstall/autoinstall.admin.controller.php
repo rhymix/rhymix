@@ -190,17 +190,7 @@ class autoinstallAdminController extends autoinstall
 		$oModel = getModel('autoinstall');
 		$oAdminModel = getAdminModel('autoinstall');
 		$packages = explode(',', $package_srls);
-		$ftp_info = Context::getFTPInfo();
-		if(!$_SESSION['ftp_password'])
-		{
-			$ftp_password = Context::get('ftp_password');
-		}
-		else
-		{
-			$ftp_password = $_SESSION['ftp_password'];
-		}
 
-		$isSftpSupported = function_exists(ssh2_sftp);
 		foreach($packages as $package_srl)
 		{
 			$package = $oModel->getPackage($package_srl);
@@ -210,28 +200,16 @@ class autoinstallAdminController extends autoinstall
 				continue;
 			}
 			
-			if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
+			if(!$oAdminModel->checkUseDirectModuleInstall($package)->toBool())
 			{
-				$oModuleInstaller = new DirectModuleInstaller($package);
-			}
-			else if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
-			{
-				$oModuleInstaller = new SFTPModuleInstaller($package);
-			}
-			else if(function_exists(ftp_connect))
-			{
-				$oModuleInstaller = new PHPFTPModuleInstaller($package);
-			}
-			else
-			{
-				$oModuleInstaller = new FTPModuleInstaller($package);
+				return new BaseObject(-1, 'msg_no_permission_to_install');
 			}
 
-			$oAdminModel = getAdminModel('autoinstall');
 			$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
+			$oModuleInstaller = new DirectModuleInstaller($package);
 			$oModuleInstaller->setServerUrl($config->download_server);
-			$oModuleInstaller->setPassword($ftp_password);
+			//$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->install();
 			if(!$output->toBool())
 			{
@@ -371,44 +349,17 @@ class autoinstallAdminController extends autoinstall
 
 	private function _uninstallPackage($package)
 	{
-		$path = $package->path;
-
 		$oAdminModel = getAdminModel('autoinstall');
-
-		if(!$_SESSION['ftp_password'])
+		if(!$oAdminModel->checkUseDirectModuleInstall($package)->toBool())
 		{
-			$ftp_password = Context::get('ftp_password');
-		}
-		else
-		{
-			$ftp_password = $_SESSION['ftp_password'];
-		}
-		$ftp_info = Context::getFTPInfo();
-
-		$isSftpSupported = function_exists(ssh2_sftp);
-		if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
-		{
-			$oModuleInstaller = new DirectModuleInstaller($package);
-		}
-		else if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
-		{
-			$oModuleInstaller = new SFTPModuleInstaller($package);
-		}
-		else if(function_exists('ftp_connect'))
-		{
-			$oModuleInstaller = new PHPFTPModuleInstaller($package);
-		}
-		else
-		{
-			$oModuleInstaller = new FTPModuleInstaller($package);
+			return new BaseObject(-1, 'msg_no_permission_to_install');
 		}
 
-		$oAdminModel = getAdminModel('autoinstall');
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
+		$oModuleInstaller = new DirectModuleInstaller($package);
 		$oModuleInstaller->setServerUrl($config->download_server);
-
-		$oModuleInstaller->setPassword($ftp_password);
+		//$oModuleInstaller->setPassword($ftp_password);
 		$output = $oModuleInstaller->uninstall();
 		if(!$output->toBool())
 		{

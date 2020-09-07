@@ -185,7 +185,6 @@ class admin extends ModuleObject
 			),
 			'configuration' => array(
 				'admin.adminConfigurationGeneral',
-				'admin.adminConfigurationFtp',
 				'admin.adminMenuSetup',
 				'module.filebox',
 			),
