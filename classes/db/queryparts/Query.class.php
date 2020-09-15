@@ -149,22 +149,22 @@ class Query extends BaseObject
 
 	function setColumnList($columnList)
 	{
-		if (!is_array($this->columnList)) return;
-		$this->columnList = $columnList;
-		
-		if(count($this->columnList) > 0)
+		if (!is_array($columnList) || count($columnList) === 0)
 		{
-			$selectColumns = array();
-			$dbParser = DB::getParser();
-
-			foreach($this->columnList as $columnName)
-			{
-				$columnName = $dbParser->escapeColumnExpression($columnName);
-				$selectColumns[] = new SelectExpression($columnName);
-			}
-			unset($this->columns);
-			$this->columns = $selectColumns;
+			return;
 		}
+		
+		$selectColumns = array();
+		$dbParser = DB::getParser();
+		
+		foreach($columnList as $columnName)
+		{
+			$columnName = $dbParser->escapeColumnExpression($columnName);
+			$selectColumns[] = new SelectExpression($columnName);
+		}
+		
+		$this->columns = $selectColumns;
+		$this->columnList = $columnList;
 	}
 
 	function setColumns($columns)
