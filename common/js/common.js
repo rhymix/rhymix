@@ -340,7 +340,7 @@ jQuery(function($) {
 	});
 	
 	/* Editor preview replacement */
-	$(".editable_preview").addClass("xe_content").attr("tabindex", 0);
+	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);
 	$(".editable_preview").on("click", function() {
 		var input = $(this).siblings(".editable_preview_content");
 		if (input.size()) {

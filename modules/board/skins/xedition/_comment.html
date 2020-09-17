@@ -16,11 +16,11 @@
 				<p class="time">{$comment->getRegdate('Y.m.d H:i')}</p>
 			</div>
 			<!--@if($comment->status == RX_STATUS_DELETED)-->
-				<div class="xe_content deleted">{$lang->msg_deleted_comment}</div>
+				<div class="rhymix_content xe_content deleted">{$lang->msg_deleted_comment}</div>
 			<!--@elseif($comment->status == RX_STATUS_DELETED_BY_ADMIN)-->
-				<div class="xe_content deleted deleted_by_admin">{$lang->msg_admin_deleted_comment}</div>
+				<div class="rhymix_content xe_content deleted deleted_by_admin">{$lang->msg_admin_deleted_comment}</div>
 			<!--@elseif(!$comment->isAccessible())-->
-			<form action="./" method="get" class="xe_content secretForm" onsubmit="return procFilter(this, input_password)">
+			<form action="./" method="get" class="rhymix_content xe_content secretForm" onsubmit="return procFilter(this, input_password)">
 				<p><label for="cpw_{$comment->comment_srl}">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
 				<p><input type="password" name="password" id="cpw_{$comment->comment_srl}" class="iText" /><input type="submit" class="btn" value="{$lang->cmd_input}" /></p>
 				<input type="hidden" name="mid" value="{$mid}" />

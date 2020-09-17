@@ -73,7 +73,7 @@ class documentView extends document
 		$obj->content = $content;
 		$obj->module_srl = getModel('module')->getModuleInfoByMid(Context::get('mid'))->module_srl;
 		$content = getModel('editor')->converter($obj, 'document');
-		$content = sprintf('<div class="document_0_%d xe_content">%s</div>', Context::get('logged_info')->member_srl, $content);
+		$content = sprintf('<div class="document_0_%d rhymix_content xe_content">%s</div>', Context::get('logged_info')->member_srl, $content);
 		Context::set('content', $content);
 		
 		$this->setTemplatePath($this->module_path.'tpl');

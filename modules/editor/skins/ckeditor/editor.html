@@ -57,13 +57,13 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		var default_font_name = {json_encode($content_font ? trim(array_first(explode(',', $content_font)), '\'" ') : null)};
 		var default_font_fullname = {json_encode($content_font ?: null)};
 		if (default_font_fullname === null && window.getComputedStyle) {
-			var test_content = $('<div class="xe_content"></div>').hide().appendTo($(document.body));
+			var test_content = $('<div class="rhymix_content xe_content"></div>').hide().appendTo($(document.body));
 			var test_styles = window.getComputedStyle(test_content[0], null);
 			if (test_styles && test_styles.getPropertyValue) {
 				default_font_fullname = test_styles.getPropertyValue("font-family");
 				if (default_font_fullname) {
 					default_font_name = $.trim(default_font_fullname.split(',')[0].replace(/['"]/g, ''));
-					css_content = ".xe_content.editable { font-family:" + default_font_fullname + "; } " + css_content;
+					css_content = ".rhymix_content.editable { font-family:" + default_font_fullname + "; } " + css_content;
 				}
 			}
 		}
@@ -159,7 +159,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.loadXeComponent = false;
 			var additional_styles = '.cke_wysiwyg_div { padding: 8px !important; }';
 			additional_styles += 'html { min-width: unset; min-height: unset; width: unset; height: unset; margin: unset; padding: unset; }';
-			$('head').append('<st' + 'yle>' + additional_styles + String(css_content).replace(/\.xe_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
+			$('head').append('<st' + 'yle>' + additional_styles + String(css_content).replace(/\.rhymix_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
 		}
 
 		<!--@if($editor_toolbar === 'simple')-->

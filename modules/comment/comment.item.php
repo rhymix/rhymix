@@ -446,7 +446,7 @@ class commentItem extends BaseObject
 			{
 				$member_srl = 0;
 			}
-			$content = vsprintf('<!--BeforeComment(%d,%d)--><div class="comment_%d_%d xe_content%s">%s</div><!--AfterComment(%d,%d)-->', array(
+			$content = vsprintf('<!--BeforeComment(%d,%d)--><div class="comment_%d_%d rhymix_content xe_content%s">%s</div><!--AfterComment(%d,%d)-->', array(
 				$this->comment_srl, $member_srl, $this->comment_srl, $member_srl, $additional_class, $content, $this->comment_srl, $member_srl
 			));
 		}
@@ -454,7 +454,7 @@ class commentItem extends BaseObject
 		{
 			if($add_xe_content_class)
 			{
-				$content = sprintf('<div class="xe_content%s">%s</div>', $additional_class, $content);
+				$content = sprintf('<div class="rhymix_content xe_content%s">%s</div>', $additional_class, $content);
 			}
 		}
 

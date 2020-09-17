@@ -721,7 +721,7 @@ class documentItem extends BaseObject
 				$memberSrl = 0;
 			}
 			$content = sprintf(
-				'<!--BeforeDocument(%d,%d)--><div class="document_%d_%d xe_content">%s</div><!--AfterDocument(%d,%d)-->',
+				'<!--BeforeDocument(%d,%d)--><div class="document_%d_%d rhymix_content xe_content">%s</div><!--AfterDocument(%d,%d)-->',
 				$this->document_srl, $memberSrl,
 				$this->document_srl, $memberSrl,
 				$content,
@@ -732,7 +732,7 @@ class documentItem extends BaseObject
 		// Add xe_content class although accessing content is not required
 		elseif($add_xe_content_class)
 		{
-			$content = sprintf('<div class="xe_content">%s</div>', $content);
+			$content = sprintf('<div class="rhymix_content xe_content">%s</div>', $content);
 		}
 		// Change the image path to a valid absolute path if resource_realpath is true
 		if($resource_realpath)
