@@ -3498,7 +3498,7 @@ class memberController extends member
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
 		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
-		$member_srl = $oDocument->get('member_srl');
+		$member_srl = abs($oDocument->get('member_srl'));
 		$module_srl = $oDocument->get('module_srl');
 
 		if(!$member_srl) return;
@@ -3527,7 +3527,7 @@ class memberController extends member
 		$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
 		$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
 		$module_srl = $oComment->get('module_srl');
-		$member_srl = $oComment->get('member_srl');
+		$member_srl = abs($oComment->get('member_srl'));
 
 		if(!$member_srl) return;
 		if($oCommentModel->grant->manager != 1 || $member_srl==$logged_info->member_srl) return;

@@ -453,7 +453,7 @@ class documentModel extends document
 			$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
 			$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
 			$module_srl = $oDocument->get('module_srl');
-			$member_srl = $oDocument->get('member_srl');
+			$member_srl = abs($oDocument->get('member_srl'));
 			if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 			$oModuleModel = getModel('module');
