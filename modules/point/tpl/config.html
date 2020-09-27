@@ -16,17 +16,17 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
-			<div class="x_controls">
-				<input type="number" min="0" max="{$system_max_level}" value="{$config->max_level}" name="max_level" id="max_level" />
-				<p class="x_help-block">{sprintf($lang->about_max_level, $system_max_level)}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label for="point_name" class="x_control-label">{$lang->point_name}</label>
 			<div class="x_controls">
 				<input type="text" value="{$config->point_name}" name="point_name" id="point_name" style="width:50px" />
 				<p class="x_help-block">{$lang->about_point_name}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="max_level" class="x_control-label">{$lang->max_level}</label>
+			<div class="x_controls">
+				<input type="number" min="0" value="{$config->max_level}" name="max_level" id="max_level" />
+				<p class="x_help-block">{$lang->about_max_level}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -196,7 +196,7 @@
 			<tr>
 				<td>1</td>
 				<td><img src="{getUrl()}modules/point/icons/{$config->level_icon}/1.gif" alt="1" /></td>
-				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" name="level_step_1" value="{$config->level_step[1]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
+				<td><label for="level_step_1" style="margin:0"><input type="number" id="level_step_1" class="level_step" value="{$config->level_step[1]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
 {@$point_group_item = $point_group[1]}
 {@$title=array()}
 <!--@if($point_group_item)-->
@@ -220,12 +220,13 @@
 			<tr class="row{(($i-1)%2+1)}">
 				<td>{$i}</td>
 				<td><img src="{getUrl()}modules/point/icons/{$config->level_icon}/{$i}.gif" alt="{$i}" /></td>
-				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" name="level_step_{$i}" value="{$config->level_step[$i]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
+				<td><label for="level_step_{$i}" style="margin:0"><input type="number" id="level_step_{$i}" class="level_step" value="{$config->level_step[$i]}" style="width:120px;text-align:right" /> {$config->point_name}</label></td>
 				<td>{implode(', ', $title)}</td>
 			</tr>
 			<!--@end-->
 		</table>
 		<div class="x_clearfix">
+			<input id="level_step" name="level_step" type="hidden" value="{implode(',', $config->level_step)}" />
 			<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 		</div>
 	</section>
