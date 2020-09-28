@@ -4,7 +4,13 @@
         <table name="documents" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="comments.*" />
+        <column name="documents.module_srl" alias="module_srl" />
+        <column name="documents.member_srl" alias="document_member_srl" />
+        <column name="documents.user_id" alias="document_user_id" />
+        <column name="documents.user_name" alias="document_user_name" />
+        <column name="documents.nick_name" alias="document_nick_name" />
+        <column name="documents.title" alias="document_title" />
     </columns>
     <conditions>
         <condition operation="equal" column="documents.document_srl" var="comments.document_srl" notnull="notnull" />

@@ -922,9 +922,9 @@ class fileController extends file
 		$args->height = $file_info['height'];
 		$args->duration = $file_info['duration'];
 		
-		// Set original type if the file is converted
+		// Set original type
 		$args->original_type = null;
-		if($file_info['converted'])
+		if($file_info['type'] !== $file_info['original_type'])
 		{
 			$args->original_type = $file_info['original_type'];
 		}

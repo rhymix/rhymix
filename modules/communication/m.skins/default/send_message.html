@@ -34,12 +34,12 @@
 			<label for="message_title">{$lang->title}</label>
 			<input type="text" name="title" id="message_title" value="{$source_message->title}"/>
 		</li>
-		<li class="xe_content">
+		<li class="rhymix_content xe_content">
 			{$source_message->content|noescape}
 		</li>
 		<li>
 			<label for="message_content">{$lang->content}</label>
-			<textarea id="message_content" name="new_content" rows="8" style="width:100%"></textarea>
+			<textarea id="message_content" name="new_content" rows="8" style="width:100%;box-sizing:border-box"></textarea>
 		</li>
 	</ul>
 	<div class="bna">

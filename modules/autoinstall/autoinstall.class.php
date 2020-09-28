@@ -47,8 +47,8 @@ class XmlGenerater
 
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site;
-		$download_server = $module_info->download_server;
+		$location_site = $module_info->location_site ? : 'https://xe1.xpressengine.com/';
+		$download_server = $module_info->download_server ? : 'https://download.xpressengine.com/';
 
 		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		if(!$buff)

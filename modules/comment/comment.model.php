@@ -48,7 +48,7 @@ class commentModel extends comment
 			$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
 			$oComment = self::getComment($comment_srl, FALSE, $columnList);
 			$module_srl = $oComment->get('module_srl');
-			$member_srl = $oComment->get('member_srl');
+			$member_srl = abs($oComment->get('member_srl'));
 
 			$comment_config = ModuleModel::getModulePartConfig('document', $module_srl);
 

@@ -10,7 +10,7 @@
 				<h3 class="author"><a href="{$val->url}" title="{htmlspecialchars($val->blog_name)}">{htmlspecialchars($val->blog_name)}</a></h3>
 				<p class="time">{zdate($val->regdate, "Y.m.d H:i")}</p>
 			</div>
-			<p class="xe_content"><strong>{htmlspecialchars($val->title)}</strong> {$val->excerpt}</p>
+			<p class="rhymix_content xe_content"><strong>{htmlspecialchars($val->title)}</strong> {$val->excerpt}</p>
 			<p class="action" cond="$grant->manager"><a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}" class="delete">{$lang->cmd_delete}</a></p>
 		</li>
 	</ul>

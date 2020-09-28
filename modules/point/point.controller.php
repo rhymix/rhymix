@@ -827,8 +827,8 @@ class pointController extends point
 
 		// Cache Settings
 		$cache_key = sprintf('member:point:%d', $member_srl);
-		$cache_path = sprintf('./files/member_extra_info/point/%s/', getNumberingPath($member_srl));
-		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
+		$cache_path = sprintf(RX_BASEDIR . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
+		$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
 			Rhymix\Framework\Cache::set($cache_key, $point);
@@ -840,7 +840,7 @@ class pointController extends point
 		}
 
 		getController('member')->_clearMemberCache($member_srl);
-		unset(self::$_member_point_cache[$member_srl]);
+		unset(parent::$_member_point_cache[$member_srl]);
 
 		return $output;
 	}

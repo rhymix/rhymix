@@ -3611,7 +3611,7 @@ class memberController extends member
 
 		$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
 		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
-		$member_srl = $oDocument->get('member_srl');
+		$member_srl = abs($oDocument->get('member_srl'));
 		$module_srl = $oDocument->get('module_srl');
 
 		if(!$member_srl || $member_srl == $logged_info->member_srl) return;
@@ -3639,7 +3639,7 @@ class memberController extends member
 		$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
 		$oComment = CommentModel::getComment($comment_srl, FALSE, $columnList);
 		$module_srl = $oComment->get('module_srl');
-		$member_srl = $oComment->get('member_srl');
+		$member_srl = abs($oComment->get('member_srl'));
 
 		if(!$member_srl || $member_srl == $logged_info->member_srl) return;
 		if(!ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info)->manager) return;

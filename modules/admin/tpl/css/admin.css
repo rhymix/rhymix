@@ -1604,6 +1604,11 @@ html[lang="mn"] .x .g11n.active>[disabled],
 #g11n .flag.mn {
 	background-image: url(../img/flag.mn.gif);
 }
+html[lang="id"] .x .g11n.active>[disabled],
+#g11n .item .id,
+#g11n .flag.id {
+	background-image: url(../img/flag.id.gif);
+}
 #g11n #lang_search .cancel,
 #g11n #lang_search .save,
 #g11n #lang_search .editMode .modify,
