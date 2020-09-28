@@ -33,11 +33,11 @@ class member extends ModuleObject {
 		// Register action forward (to use in administrator mode)
 		$oModuleController = getController('module');
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->addIndex("member_group","idx_site_title", array("site_srl","title"),true);
 
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 
 		if(empty($config))
 		{
@@ -136,7 +136,7 @@ class member extends ModuleObject {
 		}
 		// Register denied ID(default + module name)
 		$oModuleModel = getModel('module');
-		$module_list = $oModuleModel->getModuleList();
+		$module_list = ModuleModel::getModuleList();
 		foreach($module_list as $key => $val)
 		{
 			$oMemberAdminController->insertDeniedID($val->module,'');
@@ -165,32 +165,12 @@ class member extends ModuleObject {
 	 */
 	function checkUpdate()
 	{
-		$oDB = &DB::getInstance();
-		$oModuleModel = getModel('module');
+		$oDB = DB::getInstance();
 
 		// check member directory (11/08/2007 added)
 		if(!is_dir("./files/member_extra_info")) return true;
 		// check member directory (22/10/2007 added)
 		if(!is_dir("./files/member_extra_info/profile_image")) return true;
-		// Add a column(is_register) to "member_auth_mail" table (22/04/2008)
-		$act = $oDB->isColumnExists("member_auth_mail", "is_register");
-		if(!$act) return true;
-		// Add a column(site_srl) to "member_group_member" table (11/15/2008)
-		if(!$oDB->isColumnExists("member_group_member", "site_srl")) return true;
-		if(!$oDB->isColumnExists("member_group", "site_srl")) return true;
-		if($oDB->isIndexExists("member_group","uni_member_group_title")) return true;
-
-		// Add a column for list_order (05/18/2011)
-		if(!$oDB->isColumnExists("member_group", "list_order")) return true;
-
-		// image_mark 추가 (2009. 02. 14)
-		if(!$oDB->isColumnExists("member_group", "image_mark")) return true;
-		// Add c column for password expiration date
-		if(!$oDB->isColumnExists("member", "change_password_date")) return true;
-
-		// Add columns of question and answer to verify a password
-		if(!$oDB->isColumnExists("member", "find_account_question")) return true;
-		if(!$oDB->isColumnExists("member", "find_account_answer")) return true;
 
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number")) return true;
@@ -220,8 +200,7 @@ class member extends ModuleObject {
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
 		
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 		
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
@@ -281,8 +260,8 @@ class member extends ModuleObject {
 		if(!is_readable('./files/ruleset/login.xml')) return true;
 
 		// 2013. 11. 22 add menu when popup document menu called
-		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
-		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
+		if(!ModuleModel::getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
+		if(!ModuleModel::getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
 
 		// Allow duplicate nickname
 		if($config->allow_duplicate_nickname == 'Y')
@@ -303,62 +282,14 @@ class member extends ModuleObject {
 	 */
 	function moduleUpdate()
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oModuleController = getController('module');
+		
 		// Check member directory
 		FileHandler::makeDir('./files/member_extra_info/image_name');
 		FileHandler::makeDir('./files/member_extra_info/image_mark');
 		FileHandler::makeDir('./files/member_extra_info/signature');
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
-		// Add a column
-		if(!$oDB->isColumnExists("member_auth_mail", "is_register"))
-		{
-			$oDB->addColumn("member_auth_mail", "is_register", "char", 1, "N", true);
-		}
-		// Add a column(site_srl) to "member_group_member" table (11/15/2008)
-		if(!$oDB->isColumnExists("member_group_member", "site_srl"))
-		{
-			$oDB->addColumn("member_group_member", "site_srl", "number", 11, 0, true);
-			$oDB->addIndex("member_group_member", "idx_site_srl", "site_srl", false);
-		}
-		if(!$oDB->isColumnExists("member_group", "site_srl"))
-		{
-			$oDB->addColumn("member_group", "site_srl", "number", 11, 0, true);
-			$oDB->addIndex("member_group","idx_site_title", array("site_srl","title"),true);
-		}
-		if($oDB->isIndexExists("member_group","uni_member_group_title"))
-		{
-			$oDB->dropIndex("member_group","uni_member_group_title",true);
-		}
-
-		// Add a column(list_order) to "member_group" table (05/18/2011)
-		if(!$oDB->isColumnExists("member_group", "list_order"))
-		{
-			$oDB->addColumn("member_group", "list_order", "number", 11, '', true);
-			$oDB->addIndex("member_group","idx_list_order", "list_order",false);
-			$output = executeQuery('member.updateAllMemberGroupListOrder');
-		}
-		// Add a column for image_mark (02/14/2009)
-		if(!$oDB->isColumnExists("member_group", "image_mark"))
-		{
-			$oDB->addColumn("member_group", "image_mark", "text");
-		}
-		// Add a column for password expiration date
-		if(!$oDB->isColumnExists("member", "change_password_date"))
-		{
-			$oDB->addColumn("member", "change_password_date", "date");
-			executeQuery('member.updateAllChangePasswordDate');
-		}
-
-		// Add columns of question and answer to verify a password
-		if(!$oDB->isColumnExists("member", "find_account_question"))
-		{
-			$oDB->addColumn("member", "find_account_question", "number", 11);
-		}
-		if(!$oDB->isColumnExists("member", "find_account_answer"))
-		{
-			$oDB->addColumn("member", "find_account_answer", "varchar", 250);
-		}
 		
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number"))
@@ -423,7 +354,7 @@ class member extends ModuleObject {
 		if(!$oDB->isColumnExists("member_autologin", "security_key"))
 		{
 			$oDB->dropTable('member_autologin');
-			$oDB->createTableByXmlFile($this->module_path . '/schemas/member_autologin.xml');
+			$oDB->createTable($this->module_path . '/schemas/member_autologin.xml');
 		}
 
 		// Check scrap folder table
@@ -441,8 +372,7 @@ class member extends ModuleObject {
 			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
 		}
 		
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 		$changed = false;
 		
 		// Check members with phone country in old format
@@ -472,7 +402,7 @@ class member extends ModuleObject {
 			$config->signupForm = $oMemberAdminController->createSignupForm($config);
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
-		$phone_number_found = false;
+		$phone_found = false;
 		foreach($config->signupForm as $no => $signupItem)
 		{
 			if($signupItem->name === 'find_account_question')
@@ -490,7 +420,7 @@ class member extends ModuleObject {
 			}
 			if($signupItem->name === 'phone_number')
 			{
-				$phone_number_found = true;
+				$phone_found = true;
 				continue;
 			}
 		}
@@ -567,9 +497,9 @@ class member extends ModuleObject {
 			$oMemberAdminController->_createLoginRuleset($config->identifier);
 
 		// 2013. 11. 22 add menu when popup document menu called
-		if(!$oModuleModel->getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))
+		if(!ModuleModel::getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))
 			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
-		if(!$oModuleModel->getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
+		if(!ModuleModel::getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
 			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
 
 		// Allow duplicate nickname
@@ -607,7 +537,7 @@ class member extends ModuleObject {
 		$config = $oMemberModel->getMemberConfig();
 
 		// Check if there is recoding table.
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
 
 		$args = new stdClass();
@@ -652,7 +582,7 @@ class member extends ModuleObject {
 		$config = $oMemberModel->getMemberConfig();
 
 		// Check if there is recoding table.
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if(!$oDB->isTableExists('member_count_history') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
 
 		$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
