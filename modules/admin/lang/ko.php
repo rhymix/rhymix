@@ -245,6 +245,7 @@ $lang->site_meta_keywords = 'SEO 키워드';
 $lang->about_site_meta_keywords = '별도의 키워드를 지정하지 않은 페이지에서는 이 키워드 목록이 표시됩니다.';
 $lang->site_meta_description = 'SEO 설명';
 $lang->about_site_meta_description = '별도의 설명을 지정하지 않은 페이지에서는 이 설명이 표시됩니다.';
+$lang->twitter_enabled = '트위터 메타 태그 사용';
 $lang->og_enabled = 'OpenGraph 태그 사용';
 $lang->og_extract_description = '본문에서 설명 추출';
 $lang->og_extract_description_fallback = '모듈 또는 사이트 전체 설명만 사용';

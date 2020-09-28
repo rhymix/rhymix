@@ -36,6 +36,11 @@ class HTMLDisplayHandler
 	);
 	
 	/**
+	 * Image type information for SEO
+	 */
+	protected $_image_type = 'none';
+	
+	/**
 	 * Produce HTML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
 	 * @return string compiled template string
@@ -163,10 +168,14 @@ class HTMLDisplayHandler
 			}
 		}
 		
-		// Add OpenGraph metadata
+		// Add OpenGraph and Twitter metadata
 		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
 		{
 			$this->_addOpenGraphMetadata();
+			if (config('seo.twitter_enabled'))
+			{
+				$this->_addTwitterMetadata();
+			}
 		}
 
 		// set icon
@@ -400,7 +409,6 @@ class HTMLDisplayHandler
 	/**
 	 * Add OpenGraph metadata tags.
 	 * 
-	 * @param string $output
 	 * @return void
 	 */
 	function _addOpenGraphMetadata()
@@ -528,6 +536,7 @@ class HTMLDisplayHandler
 			Context::addOpenGraphData('og:image', Rhymix\Framework\URL::getCurrentDomainURL($first_image['filepath']));
 			Context::addOpenGraphData('og:image:width', $first_image['width']);
 			Context::addOpenGraphData('og:image:height', $first_image['height']);
+			$this->_image_type = 'document';
 		}
 		elseif ($default_image = getAdminModel('admin')->getSiteDefaultImageUrl($site_module_info->domain_srl, $width, $height))
 		{
@@ -537,6 +546,11 @@ class HTMLDisplayHandler
 				Context::addOpenGraphData('og:image:width', $width);
 				Context::addOpenGraphData('og:image:height', $height);
 			}
+			$this->_image_type = 'site';
+		}
+		else
+		{
+			$this->_image_type = 'none';
 		}
 		
 		// Add tags and hashtags for articles.
@@ -569,6 +583,33 @@ class HTMLDisplayHandler
 		{
 			Context::addOpenGraphData('og:article:published_time', $oDocument->getRegdate('c'));
 			Context::addOpenGraphData('og:article:modified_time', $oDocument->getUpdate('c'));
+		}
+	}
+	
+	/**
+	 * Add Twitter metadata tags.
+	 * 
+	 * @return void
+	 */
+	function _addTwitterMetadata()
+	{
+		$card_type = $this->_image_type === 'document' ? 'summary_large_image' : 'summary';
+		Context::addMetaTag('twitter:card', $card_type);
+		
+		foreach(Context::getOpenGraphData() as $val)
+		{
+			if ($val['property'] === 'og:title')
+			{
+				Context::addMetaTag('twitter:title', $val['content']);
+			}
+			if ($val['property'] === 'og:description')
+			{
+				Context::addMetaTag('twitter:description', $val['content']);
+			}
+			if ($val['property'] === 'og:image' && $this->_image_type === 'document')
+			{
+				Context::addMetaTag('twitter:image', $val['content']);
+			}
 		}
 	}
 

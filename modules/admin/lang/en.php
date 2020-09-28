@@ -249,6 +249,7 @@ $lang->site_meta_keywords = 'SEO Keywords';
 $lang->about_site_meta_keywords = 'These keywords will be used on pages that do not have their own keywords.';
 $lang->site_meta_description = 'SEO Description';
 $lang->about_site_meta_description = 'This description will be used on pages that do not have their own description.';
+$lang->twitter_enabled = 'Add Twitter Meta Tags';
 $lang->og_enabled = 'Add OpenGraph Tags';
 $lang->og_extract_description = 'Extract Description from Document';
 $lang->og_extract_description_fallback = 'Use general description only';

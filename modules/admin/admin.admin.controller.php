@@ -958,6 +958,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('seo.og_extract_images', $vars->og_extract_images === 'Y');
 		Rhymix\Framework\Config::set('seo.og_extract_hashtags', $vars->og_extract_hashtags === 'Y');
 		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
+		Rhymix\Framework\Config::set('seo.twitter_enabled', $vars->twitter_enabled === 'Y');
 		
 		// Save
 		if (!Rhymix\Framework\Config::save())
