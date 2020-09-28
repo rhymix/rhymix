@@ -487,89 +487,22 @@ class Context
 		{
 			$config = Rhymix\Framework\Config::getAll();
 		}
-		if (!is_array($config) || !count($config))
-		{
-			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
-			return;
-		}
-
+		
 		// Copy to old format for backward compatibility.
-		self::$_instance->db_info = self::convertDBInfo($config);
-	}
-
-	/**
-	 * Convert Rhymix configuration to XE DBInfo format
-	 * 
-	 * @param array $config
-	 * @return object
-	 */
-	public static function convertDBInfo($config)
-	{
-		$db_info = new stdClass;
-		$db_info->master_db = array(
-			'db_type' => $config['db']['master']['type'] . ($config['db']['master']['engine'] === 'innodb' ? '_innodb' : ''),
-			'db_hostname' => $config['db']['master']['host'],
-			'db_port' => $config['db']['master']['port'],
-			'db_userid' => $config['db']['master']['user'],
-			'db_password' => $config['db']['master']['pass'],
-			'db_database' => $config['db']['master']['database'],
-			'db_table_prefix' => $config['db']['master']['prefix'],
-			'db_charset' => $config['db']['master']['charset'],
-		);
-		$db_info->slave_db = array();
-		foreach ($config['db'] as $key => $dbconfig)
+		self::$_instance->db_info = new stdClass;
+		if (is_array($config) && count($config))
 		{
-			if ($key !== 'master')
-			{
-				$db_info->slave_db[] = array(
-					'db_type' => $dbconfig['type'] . ($dbconfig['engine'] === 'innodb' ? '_innodb' : ''),
-					'db_hostname' => $dbconfig['host'],
-					'db_port' => $dbconfig['port'],
-					'db_userid' => $dbconfig['user'],
-					'db_password' => $dbconfig['pass'],
-					'db_database' => $dbconfig['database'],
-					'db_table_prefix' => $dbconfig['prefix'],
-					'db_charset' => $dbconfig['charset'],
-				);
-			}
+			self::$_instance->db_info->master_db = array(
+				'db_type' => $config['db']['master']['type'],
+				'db_hostname' => $config['db']['master']['host'],
+				'db_port' => $config['db']['master']['port'],
+				'db_userid' => $config['db']['master']['user'],
+				'db_password' => $config['db']['master']['pass'],
+				'db_database' => $config['db']['master']['database'],
+				'db_table_prefix' => $config['db']['master']['prefix'],
+				'db_charset' => $config['db']['master']['charset'],
+			);
 		}
-		if (!count($db_info->slave_db))
-		{
-			$db_info->slave_db = array($db_info->master_db);
-		}
-		$db_info->use_object_cache = $config['cache']['type'] ?: null;
-		$db_info->ftp_info = new stdClass;
-		$db_info->ftp_info->ftp_host = $config['ftp']['host'];
-		$db_info->ftp_info->ftp_port = $config['ftp']['port'];
-		$db_info->ftp_info->ftp_user = $config['ftp']['user'];
-		$db_info->ftp_info->ftp_pasv = $config['ftp']['pasv'] ? 'Y' : 'N';
-		$db_info->ftp_info->ftp_root_path = $config['ftp']['path'];
-		$db_info->ftp_info->sftp = $config['ftp']['sftp'] ? 'Y' : 'N';
-		$db_info->lang_type = $config['locale']['default_lang'];
-		$db_info->time_zone = $config['locale']['internal_timezone'];
-		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
-		$db_info->delay_session = $config['session']['delay'] ? 'Y' : 'N';
-		$db_info->use_db_session = $config['session']['use_db'] ? 'Y' : 'N';
-		$db_info->minify_scripts = $config['view']['minify_scripts'] ? 'Y' : 'N';
-		$db_info->admin_ip_list = count($config['admin']['allow']) ? $config['admin']['allow'] : null;
-		$db_info->use_sitelock = $config['lock']['locked'] ? 'Y' : 'N';
-		$db_info->sitelock_title = $config['lock']['title'];
-		$db_info->sitelock_message = $config['lock']['message'];
-		$db_info->sitelock_whitelist = count($config['lock']['allow']) ? $config['lock']['allow'] : array('127.0.0.1');
-		$db_info->embed_white_iframe = $config['mediafilter']['iframe'] ?: $config['embedfilter']['iframe'];
-		$db_info->embed_white_object = $config['mediafilter']['object'] ?: $config['embedfilter']['object'];
-		$db_info->use_mobile_view = (isset($config['mobile']['enabled']) ? $config['mobile']['enabled'] : $config['use_mobile_view']) ? 'Y' : 'N';
-		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
-		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';
-		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
-		if (is_array($config['other']))
-		{
-			foreach ($config['other'] as $key => $value)
-			{
-				$db_info->{$key} = $value;
-			}
-		}
-		return $db_info;
 	}
 
 	/**
