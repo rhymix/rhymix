@@ -440,7 +440,8 @@ class autoinstallAdminView extends autoinstall
 
 		if(!$updateDate)
 		{
-			throw new Rhymix\Framework\Exception('msg_connection_fail');
+			Context::set('isNotUpdate', true);
+			return;
 		}
 
 		$oModel = getModel('autoinstall');

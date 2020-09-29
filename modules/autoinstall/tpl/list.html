@@ -25,6 +25,12 @@
 </div>
 
 <div id="__list_simple">
+	<!--@if($isNotUpdate)-->
+	<div class="message error">
+		<p>{$lang->msg_connection_fail}</p>
+	</div>
+	<!--@end-->
+	
 	<div style="overflow:hidden;margin-bottom:10px">
 		<strong style="position:relative;top:10px">
 			<block cond="$current_category">{$current_category}</block>
