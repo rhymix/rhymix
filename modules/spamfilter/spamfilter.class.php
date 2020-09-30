@@ -78,6 +78,13 @@ class spamfilter extends ModuleObject
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'latest_hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) return true;
+		
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		if (!is_object($config) || !isset($config->captcha))
+		{
+			return true;
+		}
+		
 		return false;
 	}
 
@@ -92,7 +99,7 @@ class spamfilter extends ModuleObject
 			return $output;
 		}
 		
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'hit'))
 		{
 			$oDB->addColumn('spamfilter_denied_word','hit','number',12,0,true);
@@ -117,6 +124,28 @@ class spamfilter extends ModuleObject
 		{
 			$oDB->addColumn('spamfilter_denied_ip','description','varchar', 250);
 		}
+		
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		if (!is_object($config) || !isset($config->captcha))
+		{
+			$config = is_object($config) ? $config : new stdClass;
+			$recaptcha_config = AddonModel::getAddonConfig('recaptcha');
+			if ($recaptcha_config)
+			{
+				$config->captcha = $this->_importRecaptchaConfig($recaptcha_config);
+			}
+			else
+			{
+				$config->captcha = new stdClass;
+				$config->captcha->type = 'none';
+			}
+			
+			$output = getController('module')->insertModuleConfig($this->module, $config);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
 	}
 
 	/**
@@ -125,6 +154,47 @@ class spamfilter extends ModuleObject
 	public function recompileCache()
 	{
 		
+	}
+	
+	/**
+	 * Import configuration from reCAPTCHA addon.
+	 */
+	protected function _importRecaptchaConfig($config)
+	{
+		$output = new stdClass;
+		$output->type = 'none';
+		if (!isset($config->site_key) || !isset($config->secret_key))
+		{
+			return $output;
+		}
+		
+		$output->type = 'recaptcha';
+		$output->site_key = $config->site_key;
+		$output->secret_key = $config->secret_key;
+		$output->theme = $config->theme;
+		$output->size = $config->size;
+		$output->target_devices = [
+			'pc' => $config->use_pc === 'Y',
+			'mobile' => $config->use_mobile === 'Y',
+		];
+		$output->target_users = $config->target_users;
+		$output->target_frequency = $config->target_frequency;
+		$output->target_actions = [];
+		foreach (['signup', 'login', 'recovery', 'document', 'comment'] as $action)
+		{
+			if ($config->{'use_' . $action} === 'Y')
+			{
+				$output->target_actions[$action] = true;
+			}
+		}
+		$output->target_modules = [];
+		foreach ($config->mid_list as $mid)
+		{
+			$module_srl = ModuleModel::getModuleInfoByMid($mid)->module_srl;
+			$output->target_modules[$module_srl] = true;
+		}
+		$output->target_modules_type = ($config->xe_run_method === 'run_selected') ? '+' : '-';
+		return $output;
 	}
 }
 /* End of file spamfilter.class.php */
