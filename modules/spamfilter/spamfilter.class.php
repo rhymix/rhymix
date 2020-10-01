@@ -79,8 +79,8 @@ class spamfilter extends ModuleObject
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'latest_hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) return true;
 		
-		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!is_object($config) || !isset($config->captcha))
+		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
+		if (!isset($config->captcha))
 		{
 			return true;
 		}
@@ -125,8 +125,8 @@ class spamfilter extends ModuleObject
 			$oDB->addColumn('spamfilter_denied_ip','description','varchar', 250);
 		}
 		
-		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!is_object($config) || !isset($config->captcha))
+		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
+		if (!isset($config->captcha))
 		{
 			$config = is_object($config) ? $config : new stdClass;
 			$recaptcha_config = AddonModel::getAddonConfig('recaptcha');
@@ -182,10 +182,7 @@ class spamfilter extends ModuleObject
 		$output->target_actions = [];
 		foreach (['signup', 'login', 'recovery', 'document', 'comment'] as $action)
 		{
-			if ($config->{'use_' . $action} === 'Y')
-			{
-				$output->target_actions[$action] = true;
-			}
+			$output->target_actions[$action] = ($config->{'use_' . $action} === 'Y') ? true : false;
 		}
 		$output->target_modules = [];
 		foreach ($config->mid_list as $mid)

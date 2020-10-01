@@ -19,7 +19,7 @@ class spamfilterModel extends spamfilter
 	 */
 	function getConfig()
 	{
-		return ModuleModel::getModuleConfig('spamfilter');
+		return ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 	}
 
 	/**

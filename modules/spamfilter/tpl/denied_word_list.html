@@ -1,10 +1,5 @@
 <include target="./header.html" />
 <section>
-	<ul class="x_nav x_nav-tabs">
-		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedIPList')}">{$lang->cmd_denied_ip}</a></li>
-		<li class="x_active"><a href="{getUrl('','module','admin','act','dispSpamfilterAdminDeniedWordList')}">{$lang->cmd_denied_word}</a></li>
-		<li><a href="{getUrl('','module','admin','act','dispSpamfilterAdminConfigBlock')}">{$lang->cmd_config_block}</a></li>
-	</ul>
 	<form action="./" method="post">
 		<input type="hidden" name="act" value="procSpamfilterAdminDeleteDeniedWord" />
 		<input type="hidden" name="module" value="spamfilter" />
