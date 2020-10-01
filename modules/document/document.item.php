@@ -157,7 +157,7 @@ class documentItem extends BaseObject
 		// set extra vars
 		if($load_extra_vars)
 		{
-			getModel('document')->setToAllDocumentExtraVars();
+			DocumentModel::setToAllDocumentExtraVars();
 		}
 		
 		// set content in user language
@@ -207,8 +207,7 @@ class documentItem extends BaseObject
 			return $this->grant_cache = true;
 		}
 		
-		$oModuleModel = getModel('module');
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
+		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
@@ -240,7 +239,7 @@ class documentItem extends BaseObject
 			return true;
 		}
 		
-		$status_list = getModel('document')->getStatusList();
+		$status_list = DocumentModel::getStatusList();
 		if ($this->get('status') === $status_list['public'])
 		{
 			$this->setAccessible();
@@ -289,8 +288,7 @@ class documentItem extends BaseObject
 			else
 			{
 				// If the trackback module is configured to be disabled, do not allow. Otherwise, check the setting of each module.
-				$oModuleModel = getModel('module');
-				$trackback_config = $oModuleModel->getModuleConfig('trackback');
+				$trackback_config = ModuleModel::getModuleConfig('trackback');
 				
 				if(!$trackback_config)
 				{
@@ -303,7 +301,7 @@ class documentItem extends BaseObject
 				{
 					$module_srl = $this->get('module_srl');
 					// Check settings of each module
-					$module_config = $oModuleModel->getModulePartConfig('trackback', $module_srl);
+					$module_config = ModuleModel::getModulePartConfig('trackback', $module_srl);
 					if($module_config->enable_trackback == 'N') $allow_trackback_status = false;
 					else if($this->get('allow_trackback')=='Y' || !$this->isExists()) $allow_trackback_status = true;
 				}
@@ -329,7 +327,7 @@ class documentItem extends BaseObject
 	
 	function isSecret()
 	{
-		return (bool) ($this->get('status') == getModel('document')->getConfigStatus('secret'));
+		return (bool) ($this->get('status') == DocumentModel::getConfigStatus('secret'));
 	}
 	
 	function isNotice()
@@ -496,7 +494,7 @@ class documentItem extends BaseObject
 		$logged_info = Context::get('logged_info');
 		if(!$logged_info->member_srl)
 		{
-			$module_info = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'));
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
 			if($module_info->non_login_vote !== 'Y')
 			{
 				return false;
@@ -871,8 +869,7 @@ class documentItem extends BaseObject
 	function isExtraVarsExists()
 	{
 		if(!$this->get('module_srl')) return false;
-		$oDocumentModel = getModel('document');
-		$extra_keys = $oDocumentModel->getExtraKeys($this->get('module_srl'));
+		$extra_keys = DocumentModel::getExtraKeys($this->get('module_srl'));
 		return count($extra_keys)?true:false;
 	}
 
@@ -880,8 +877,7 @@ class documentItem extends BaseObject
 	{
 		if(!$this->get('module_srl') || !$this->document_srl) return null;
 
-		$oDocumentModel = getModel('document');
-		return $oDocumentModel->getExtraVars($this->get('module_srl'), $this->document_srl);
+		return DocumentModel::getExtraVars($this->get('module_srl'), $this->document_srl);
 	}
 	
 	function getExtraEids()
@@ -947,8 +943,6 @@ class documentItem extends BaseObject
 			return;
 		}
 		
-		$oCommentModel = getModel('comment');
-		
 		// cpage is a number of comment pages
 		$cpageStr = sprintf('%d_cpage', $this->document_srl);
 		$cpage = Context::get($cpageStr);
@@ -958,15 +952,15 @@ class documentItem extends BaseObject
 		}
 		if(!$cpage && ($comment_srl = Context::get('comment_srl')))
 		{
-			$cpage = $oCommentModel->getCommentPage($this->document_srl, $comment_srl);
+			$cpage = CommentModel::getCommentPage($this->document_srl, $comment_srl);
 		}
 		if(!$cpage && ($comment_srl = Context::get('_comment_srl')))
 		{
-			$cpage = $oCommentModel->getCommentPage($this->document_srl, $comment_srl);
+			$cpage = CommentModel::getCommentPage($this->document_srl, $comment_srl);
 		}
 
 		// Get a list of comments
-		$output = $oCommentModel->getCommentList($this->document_srl, $cpage, $is_admin);
+		$output = CommentModel::getCommentList($this->document_srl, $cpage);
 		if(!$output->toBool() || !count($output->data)) return;
 		
 		// Create commentItem object from a comment list
@@ -1062,11 +1056,7 @@ class documentItem extends BaseObject
 		if(!$this->document_srl) return;
 
 		// Get thumbnail type information from document module's configuration
-		$config = $GLOBALS['__document_config__'];
-		if(!$config)
-		{
-			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
-		}
+		$config = DocumentModel::getDocumentConfig();
 		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
@@ -1311,8 +1301,7 @@ class documentItem extends BaseObject
 			return;
 		}
 
-		$oDocumentModel = getModel('document');
-		$documentConfig = $oDocumentModel->getDocumentConfig();
+		$documentConfig = DocumentModel::getDocumentConfig();
 
 		if(Mobile::isFromMobilePhone())
 		{
@@ -1373,8 +1362,7 @@ class documentItem extends BaseObject
 		
 		if(!$this->uploadedFiles[$sortIndex])
 		{
-			$oFileModel = getModel('file');
-			$this->uploadedFiles[$sortIndex] = $oFileModel->getFiles($this->document_srl, array(), $sortIndex, true);
+			$this->uploadedFiles[$sortIndex] = FileModel::getFiles($this->document_srl, array(), $sortIndex, true);
 		}
 		
 		return $this->uploadedFiles[$sortIndex];
@@ -1389,8 +1377,7 @@ class documentItem extends BaseObject
 		$module_srl = $this->get('module_srl');
 		if(!$module_srl) $module_srl = Context::get('module_srl');
 
-		$oEditorModel = getModel('editor');
-		return $oEditorModel->getModuleEditor('document', $module_srl, $this->document_srl, 'document_srl', 'content');
+		return EditorModel::getModuleEditor('document', $module_srl, $this->document_srl, 'document_srl', 'content');
 	}
 
 	/**
@@ -1422,8 +1409,7 @@ class documentItem extends BaseObject
 	{
 		if(!$this->isEnableComment()) return;
 
-		$oEditorModel = getModel('editor');
-		return $oEditorModel->getModuleEditor('comment', $this->get('module_srl'), $comment_srl, 'comment_srl', 'content');
+		return EditorModel::getModuleEditor('comment', $this->get('module_srl'), 0, 'comment_srl', 'content');
 	}
 
 	/**
@@ -1433,8 +1419,7 @@ class documentItem extends BaseObject
 	function getProfileImage()
 	{
 		if(!$this->isExists() || $this->get('member_srl') <= 0) return;
-		$oMemberModel = getModel('member');
-		$profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
+		$profile_info = MemberModel::getProfileImage($this->get('member_srl'));
 		if(!$profile_info) return;
 
 		return $profile_info->src;
@@ -1449,13 +1434,11 @@ class documentItem extends BaseObject
 		// Pass if a document doesn't exist
 		if(!$this->isExists() || $this->get('member_srl') <= 0) return;
 		// Get signature information
-		$oMemberModel = getModel('member');
-		$signature = $oMemberModel->getSignature($this->get('member_srl'));
+		$signature = MemberModel::getSignature($this->get('member_srl'));
 		// Check if a maximum height of signiture is set in the member module
 		if(!isset($GLOBALS['__member_signature_max_height']))
 		{
-			$oModuleModel = getModel('module');
-			$member_config = $oModuleModel->getModuleConfig('member');
+			$member_config = ModuleModel::getModuleConfig('member');
 			$GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
 		}
 		if($signature)
@@ -1513,8 +1496,7 @@ class documentItem extends BaseObject
 	 */
 	function getDocumentMid()
 	{
-		$model = getModel('module');
-		$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+		$module = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
 		return $module->mid;
 	}
 
@@ -1524,8 +1506,7 @@ class documentItem extends BaseObject
 	 */
 	function getDocumentType()
 	{
-		$model = getModel('module');
-		$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+		$module = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
 		return $module->module;
 	}
 
@@ -1535,8 +1516,7 @@ class documentItem extends BaseObject
 	 */
 	function getDocumentAlias()
 	{
-		$oDocumentModel = getModel('document');
-		return $oDocumentModel->getAlias($this->document_srl);
+		return DocumentModel::getAlias($this->document_srl);
 	}
 
 	/**
@@ -1545,8 +1525,7 @@ class documentItem extends BaseObject
 	 */
 	function getModuleName()
 	{
-		$model = getModel('module');
-		$module = $model->getModuleInfoByModuleSrl($this->get('module_srl'));
+		$module = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
 		return $module->browser_title;
 	}
 

@@ -126,8 +126,7 @@ class commentItem extends BaseObject
 			return $this->grant_cache = true;
 		}
 		
-		$oModuleModel = getModel('module');
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
+		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
@@ -171,7 +170,7 @@ class commentItem extends BaseObject
 			return true;
 		}
 		
-		$oDocument = getModel('document')->getDocument($this->get('document_srl'));
+		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
 		if ($oDocument->isGranted())
 		{
 			$this->setAccessible();
@@ -240,8 +239,7 @@ class commentItem extends BaseObject
 		}
 
 		// get where the comment belongs to 
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
+		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
 
 		// Variables
 		if($type)
@@ -524,7 +522,7 @@ class commentItem extends BaseObject
 
 	function getPermanentUrl()
 	{
-		$mid = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'))->mid;
+		$mid = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'))->mid;
 		return getFullUrl('', 'mid', $mid, 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
 	}
 
@@ -550,8 +548,7 @@ class commentItem extends BaseObject
 			return;
 		}
 		
-		$oFileModel = getModel('file');
-		$file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', TRUE);
+		$file_list = FileModel::getFiles($this->comment_srl, array(), 'file_srl', TRUE);
 		return $file_list;
 	}
 
@@ -566,8 +563,7 @@ class commentItem extends BaseObject
 		{
 			$module_srl = Context::get('module_srl');
 		}
-		$oEditorModel = getModel('editor');
-		return $oEditorModel->getModuleEditor('comment', $module_srl, $this->comment_srl, 'comment_srl', 'content');
+		return EditorModel::getModuleEditor('comment', $module_srl, $this->comment_srl, 'comment_srl', 'content');
 	}
 
 	/**
@@ -580,8 +576,7 @@ class commentItem extends BaseObject
 		{
 			return;
 		}
-		$oMemberModel = getModel('member');
-		$profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
+		$profile_info = MemberModel::getProfileImage($this->get('member_srl'));
 		if(!$profile_info)
 		{
 			return;
@@ -603,14 +598,12 @@ class commentItem extends BaseObject
 		}
 
 		// get the signiture information
-		$oMemberModel = getModel('member');
-		$signature = $oMemberModel->getSignature($this->get('member_srl'));
+		$signature = MemberModel::getSignature($this->get('member_srl'));
 
 		// check if max height of the signiture is specified on the member module
 		if(!isset($GLOBALS['__member_signature_max_height']))
 		{
-			$oModuleModel = getModel('module');
-			$member_config = $oModuleModel->getModuleConfig('member');
+			$member_config = ModuleModel::getModuleConfig('member');
 			$GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
 		}
 
@@ -651,7 +644,7 @@ class commentItem extends BaseObject
 		$config = $GLOBALS['__document_config__'];
 		if(!$config)
 		{
-			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
+			$config = $GLOBALS['__document_config__'] = DocumentModel::getDocumentConfig();
 		}
 		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
