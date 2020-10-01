@@ -106,6 +106,9 @@ class editorModel extends editor
 	 */
 	public static function getEditor($upload_target_srl = 0, $option = null)
 	{
+		// Load language files.
+		Context::loadLang('./modules/editor/lang');
+		
 		// Initialize options.
 		if (!is_object($option))
 		{
