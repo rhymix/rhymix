@@ -15,6 +15,7 @@ class spamfilter extends ModuleObject
 		array('comment.updateComment', 'before', 'controller', 'triggerInsertComment'),
 		array('trackback.insertTrackback', 'before', 'controller', 'triggerInsertTrackback'),
 		array('communication.sendMessage', 'before', 'controller', 'triggerSendMessage'),
+		array('moduleObject.proc', 'before', 'controller', 'triggerCheckCaptcha'),
 	);
 	
 	protected static $_delete_triggers = array();
