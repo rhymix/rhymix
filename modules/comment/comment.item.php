@@ -635,17 +635,13 @@ class commentItem extends BaseObject
 	function getThumbnail($width = 80, $height = 0, $thumbnail_type = '')
 	{
 		// return false if no doc exists
-		if(!$this->comment_srl)
+		if(!$this->comment_srl || !$this->isAccessible())
 		{
 			return;
 		}
 
 		// Get thumbnail type information from document module's configuration
-		$config = $GLOBALS['__document_config__'];
-		if(!$config)
-		{
-			$config = $GLOBALS['__document_config__'] = DocumentModel::getDocumentConfig();
-		}
+		$config = DocumentModel::getDocumentConfig();
 		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
@@ -659,21 +655,10 @@ class commentItem extends BaseObject
 			$config->thumbnail_quality = 75;
 		}
 		
-		if(!$this->isAccessible())
-		{
-			return;
-		}
-		
 		// If signiture height setting is omitted, create a square
 		if(!$height)
 		{
 			$height = $width;
-		}
-
-		// return false if neigher attached file nor image;
-		if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content')))
-		{
-			return;
 		}
 
 		// Define thumbnail information
@@ -693,6 +678,12 @@ class commentItem extends BaseObject
 			{
 				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 			}
+		}
+
+		// return false if neigher attached file nor image;
+		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content')))
+		{
+			return;
 		}
 
 		// Create lockfile to prevent race condition

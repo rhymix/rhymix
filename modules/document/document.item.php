@@ -1053,7 +1053,10 @@ class documentItem extends BaseObject
 	function getThumbnail($width = 80, $height = 0, $thumbnail_type = '')
 	{
 		// Return false if the document doesn't exist
-		if(!$this->document_srl) return;
+		if(!$this->document_srl || !$this->isAccessible())
+		{
+			return;
+		}
 
 		// Get thumbnail type information from document module's configuration
 		$config = DocumentModel::getDocumentConfig();
@@ -1070,28 +1073,12 @@ class documentItem extends BaseObject
 			$config->thumbnail_quality = 75;
 		}
 		
-		if(!$this->isAccessible())
-		{
-			return;
-		}
-		
 		// If not specify its height, create a square
-		if(!$height) $height = $width;
-		if($this->get('content'))
+		if(!$height)
 		{
-			$content = $this->get('content');
-		}
-		elseif($config->thumbnail_target !== 'attachment')
-		{
-			$args = new stdClass();
-			$args->document_srl = $this->document_srl;
-			$output = executeQuery('document.getDocument', $args);
-			$content = $output->data->content;
+			$height = $width;
 		}
 		
-		// Return false if neither attachement nor image files in the document
-		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $content)) return;
-
 		// Define thumbnail information
 		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
@@ -1110,6 +1097,22 @@ class documentItem extends BaseObject
 				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 			}
 		}
+		
+		// Get content if it does not exist.
+		if($this->get('content'))
+		{
+			$content = $this->get('content');
+		}
+		elseif($config->thumbnail_target !== 'attachment')
+		{
+			$args = new stdClass();
+			$args->document_srl = $this->document_srl;
+			$output = executeQuery('document.getDocument', $args);
+			$content = $output->data->content;
+		}
+		
+		// Return false if neither attachement nor image files in the document
+		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $content)) return;
 
 		// Create lockfile to prevent race condition
 		FileHandler::writeFile($thumbnail_lockfile, '', 'w');
