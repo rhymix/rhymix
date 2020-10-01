@@ -1084,6 +1084,7 @@ class documentItem extends BaseObject
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_lockfile = sprintf('%s%dx%d.%s.lock', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
+		$thumbnail_file = RX_BASEDIR . $thumbnail_file;
 
 		// Return false if thumbnail file exists and its size is 0. Otherwise, return its path
 		if(file_exists($thumbnail_file) || file_exists($thumbnail_lockfile))
@@ -1096,6 +1097,19 @@ class documentItem extends BaseObject
 			{
 				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 			}
+		}
+		
+		// Call trigger for custom thumbnails.
+		$trigger_obj = (object)[
+			'document_srl' => $this->document_srl, 'width' => $width, 'height' => $height,
+			'image_type' => 'jpg', 'type' => $thumbnail_type, 'quality' => $config->thumbnail_quality,
+			'filename' => $thumbnail_file, 'url' => $thumbnail_url,
+		];
+		$output = ModuleHandler::triggerCall('document.getThumbnail', 'before', $trigger_obj);
+		clearstatcache(true, $thumbnail_file);
+		if (file_exists($thumbnail_file) && filesize($thumbnail_file) > 0)
+		{
+			return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 		}
 		
 		// Get content if it does not exist.
@@ -1210,7 +1224,7 @@ class documentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type, $config->thumbnail_quality);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
 		}
 
 		// Remove source file if it was temporary
