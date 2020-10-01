@@ -315,6 +315,7 @@ class moduleController extends module
 		$mid = $module_info->mid;
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -473,7 +474,7 @@ class moduleController extends module
 		$oDB->commit();
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		$output->add('module_srl',$args->module_srl);
 		return $output;
 	}
@@ -592,6 +593,7 @@ class moduleController extends module
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -625,6 +627,7 @@ class moduleController extends module
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -739,6 +742,7 @@ class moduleController extends module
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -1303,6 +1307,7 @@ class moduleController extends module
 		$output = executeQuery('module.updateModuleInSites', $args);
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 	

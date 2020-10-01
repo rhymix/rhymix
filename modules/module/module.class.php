@@ -310,6 +310,7 @@ class module extends ModuleObject
 		
 		// Clear cache.
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		
 		// Return the default domain info.
 		return $default_domain;
