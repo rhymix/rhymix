@@ -285,13 +285,17 @@
 	vertical-align: middle;
 }
 .write_header select {
+	border: 1px solid #DBDBDB;
 	height: 29px;
 	width: 140px;
 	padding: 0;
 }
+.write_header select[name=is_notice] {
+	width: 76px;
+}
 .write_header .iText {
 	width: 360px;
-	margin: 0 10px 0 0;
+	margin: 0;
 	background: #fff;
 }
 .write_editor .xd {

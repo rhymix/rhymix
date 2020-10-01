@@ -109,6 +109,8 @@ class boardView extends board
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
 		Context::addJsFile($this->module_path.'tpl/js/board.js');
+		Context::loadLang('./modules/document/lang');
+		Context::loadLang('./modules/comment/lang');
 
 		// remove [document_srl]_cpage from get_vars
 		$args = Context::getRequestVars();
