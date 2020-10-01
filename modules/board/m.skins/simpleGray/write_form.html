@@ -55,6 +55,13 @@
 			</li>
 			<!--@endif-->
 			<li>
+				<!--@if($grant->manager)-->
+					<select name="is_notice">
+						<option value="N" selected="selected"|cond="$oDocument->get('is_notice') === 'N'">{$lang->not_notice}</option>
+						<option value="Y" selected="selected"|cond="$oDocument->get('is_notice') === 'Y'">{$lang->notice}</option>
+						<option value="A" selected="selected"|cond="$oDocument->get('is_notice') === 'A'">{$lang->notice_all}</option>
+					</select>
+				<!--@endif-->
 				<input type="checkbox" name="comment_status" value="ALLOW" <!--@if($oDocument->allowComment())-->checked="checked"<!--@end--> id="reAllow" />
 				<label for="reAllow">{$lang->allow_comment}</label>
 				<input type="checkbox" name="allow_trackback" value="Y" <!--@if($oDocument->allowTrackback())-->checked="checked"<!--@end--> id="trAllow" />

@@ -12,8 +12,13 @@
 		</select>
 		<input cond="$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" value="{escape($oDocument->getTitleText(), false)}" />
 		<input cond="!$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" />
-		<input cond="$grant->manager" type="checkbox" name="is_notice" value="Y" class="iCheck" checked="checked"|cond="$oDocument->isNotice()" id="is_notice" />
-		<label cond="$grant->manager" for="is_notice">{$lang->notice}</label>
+		<!--@if($grant->manager)-->
+			<select name="is_notice">
+				<option value="N" selected="selected"|cond="$oDocument->get('is_notice') === 'N'">{$lang->not_notice}</option>
+				<option value="Y" selected="selected"|cond="$oDocument->get('is_notice') === 'Y'">{$lang->notice}</option>
+				<option value="A" selected="selected"|cond="$oDocument->get('is_notice') === 'A'">{$lang->notice_all}</option>
+			</select>
+		<!--@endif-->
 	</div>
     <div class="exForm" cond="count($extra_keys)">
 		<table cond="count($extra_keys)" border="1" cellspacing="0" summary="Extra Form">
