@@ -1,1 +1,0 @@
-<filter name="move_friend" module="communication" act="procCommunicationMoveFriend" confirm_msg_code="confirm_move" />
