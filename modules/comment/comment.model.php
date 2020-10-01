@@ -804,7 +804,7 @@ class commentModel extends comment
 				case 'content' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim(utf8_normalize_spaces($search_keyword));
 					}
 
 					$args->s_content = $search_keyword;
@@ -960,7 +960,7 @@ class commentModel extends comment
 				case 'content' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim(utf8_normalize_spaces($search_keyword));
 					}
 
 					$args->s_content = $search_keyword;

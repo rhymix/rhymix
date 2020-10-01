@@ -1317,7 +1317,7 @@ class documentModel extends document
 				case 'tag' :
 				case 'title_content' :
 					$use_division = true;
-					$search_keyword = str_replace(' ', '%', $search_keyword);
+					$search_keyword = trim(utf8_normalize_spaces($search_keyword));
 					if($search_target == 'title_content')
 					{
 						$args->s_title = $search_keyword;
