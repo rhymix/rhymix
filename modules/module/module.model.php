@@ -8,6 +8,12 @@
 class moduleModel extends module
 {
 	/**
+	 * Internal cache
+	 */
+	public static $_mid_map = [];
+	public static $_module_srl_map = [];
+
+	/**
 	 * @brief Initialization
 	 */
 	public function init()
@@ -219,7 +225,7 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->mid = $mid;
 
-		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
+		$module_srl = isset(self::$_mid_map[$mid]) ? self::$_mid_map[$mid] : Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
 		if($module_srl)
 		{
 			$module_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
@@ -544,24 +550,70 @@ class moduleModel extends module
 	 */
 	public static function getModuleSrlByMid($mid)
 	{
-		if($mid && !is_array($mid)) $mid = explode(',',$mid);
-		if(is_array($mid)) $mid = "'".implode("','",$mid)."'";
+		if ($mid && !is_array($mid))
+		{
+			$mid = explode(',', $mid);
+		}
+		
+		if (count($mid) == 1 && ($first_mid = array_first($mid)) && isset(self::$_mid_map[$first_mid]))
+		{
+			return array($first_mid => self::$_mid_map[$first_mid]);
+		}
 
 		$args = new stdClass;
 		$args->mid = $mid;
-		$output = executeQuery('module.getModuleSrlByMid', $args);
-		if(!$output->toBool()) return $output;
-
-		$list = $output->data;
-		if(!$list) return;
-		if(!is_array($list)) $list = array($list);
-
-		foreach($list as $key => $val)
+		$output = executeQueryArray('module.getModuleSrlByMid', $args);
+		
+		$module_srl_list = [];
+		foreach($output->data as $row)
 		{
-			$module_srl_list[] = $val->module_srl;
+			$module_srl_list[$row->mid] = $row->module_srl;
+			self::$_mid_map[$row->mid] = $row->module_srl;
 		}
 
 		return $module_srl_list;
+	}
+
+	/**
+	 * @brief Return mid corresponding to a module_srl list
+	 */
+	public static function getMidByModuleSrl($module_srl)
+	{
+		if (is_array($module_srl))
+		{
+			$result = array();
+			foreach ($module_srl as $item)
+			{
+				$result[intval($item)] = self::getMidByModuleSrl($item);
+			}
+			return $result;
+		}
+		
+		$module_srl = intval($module_srl);
+		if (isset(self::$_module_srl_map[$module_srl]))
+		{
+			return self::$_module_srl_map[$module_srl];
+		}
+		
+		$mid = Rhymix\Framework\Cache::get('site_and_module:module_srl_mid:' . $module_srl);
+		if (isset($mid))
+		{
+			return $mid;
+		}
+		
+		$args = new stdClass;
+		$args->module_srls = $module_srl;
+		$output = executeQuery('module.getModuleInfoByModuleSrl', $args, ['mid']);
+		if ($output->data)
+		{
+			$mid = self::$_module_srl_map[$module_srl] = $output->data->mid;
+			Rhymix\Framework\Cache::set('site_and_module:module_srl_mid:' . $module_srl, $mid, 0, true);
+			return $mid;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
