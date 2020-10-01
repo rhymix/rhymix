@@ -169,7 +169,10 @@ class spamfilter extends ModuleObject
 			return $output;
 		}
 		
-		$output->type = 'recaptcha';
+		if ($config->use_pc === 'Y' || $config->use_mobile === 'Y')
+		{
+			$output->type = 'recaptcha';
+		}
 		$output->site_key = $config->site_key;
 		$output->secret_key = $config->secret_key;
 		$output->theme = $config->theme;
@@ -192,6 +195,19 @@ class spamfilter extends ModuleObject
 			$output->target_modules[$module_srl] = true;
 		}
 		$output->target_modules_type = ($config->xe_run_method === 'run_selected') ? '+' : '-';
+		
+		$oAddonAdminController = getAdminController('addon');
+		if ($output->target_devices['pc'])
+		{
+			$oAddonAdminController->doDeactivate('recaptcha', 0, 'pc');
+			$oAddonAdminController->makeCacheFile(0, 'pc');
+		}
+		if ($output->target_devices['mobile'])
+		{
+			$oAddonAdminController->doDeactivate('recaptcha', 0, 'mobile');
+			$oAddonAdminController->makeCacheFile(0, 'mobile');
+		}
+		
 		return $output;
 	}
 }
