@@ -2422,9 +2422,7 @@ class documentController extends document
 		$module_srl = intval($module_srl);
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
-		$columnList = array('module_srl', 'mid', 'site_srl');
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
-		$mid = $module_info->mid;
+		$mid = ModuleModel::getMidByModuleSrl($module_srl);
 
 		if(!is_dir('./files/cache/document_category')) FileHandler::makeDir('./files/cache/document_category');
 		// Cache file's name
@@ -2480,7 +2478,7 @@ class documentController extends document
 
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_header_buff = '';
-		$xml_body_buff = $this->getXmlTree($tree[0], $tree, $module_info->site_srl, $xml_header_buff);
+		$xml_body_buff = $this->getXmlTree($tree[0], $tree, 0, $xml_header_buff);
 		$xml_buff = sprintf(
 			'<?php '.
 			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
@@ -2503,7 +2501,7 @@ class documentController extends document
 		// Create php cache file
 		$php_header_buff = '$_titles = array();';
 		$php_header_buff .= '$_descriptions = array();';
-		$php_output = $this->getPhpCacheCode($tree[0], $tree, $module_info->site_srl, $php_header_buff);
+		$php_output = $this->getPhpCacheCode($tree[0], $tree, 0, $php_header_buff);
 		$php_buff = sprintf(
 			'<?php '.
 			'if(!defined("__XE__")) exit(); '.

@@ -522,7 +522,7 @@ class commentItem extends BaseObject
 
 	function getPermanentUrl()
 	{
-		$mid = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'))->mid;
+		$mid = ModuleModel::getMidByModuleSrl($this->get('module_srl'));
 		return getFullUrl('', 'mid', $mid, 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
 	}
 
