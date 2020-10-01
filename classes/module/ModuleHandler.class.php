@@ -686,7 +686,7 @@ class ModuleHandler extends Handler
 		if($module_info)
 		{
 			// Compare the current mid to the module that the document belongs to.
-			if(!$this->mid || ($this->mid !== $module_info->mid))
+			if(!$this->mid || ($this->mid !== $module_info->mid && $module_info->is_notice !== 'A'))
 			{
 				// If this is a GET request, redirect to the correct mid.
 				if(Context::getRequestMethod() === 'GET')
