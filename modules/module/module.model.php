@@ -173,11 +173,22 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfoByDocumentSrl($document_srl)
 	{
-		$args = new stdClass();
-		$args->document_srl = $document_srl;
-		$output = executeQuery('module.getModuleInfoByDocument', $args);
-		self::_applyDefaultSkin($output->data);
-		return self::addModuleExtraVars($output->data);
+		$document_srl = intval($document_srl);
+		$module_info = Rhymix\Framework\Cache::get('site_and_module:document_srl:' . $document_srl);
+		if (!$module_info)
+		{
+			$args = new stdClass();
+			$args->document_srl = $document_srl;
+			$output = executeQuery('module.getModuleInfoByDocument', $args);
+			$module_info = $output->data;
+			if ($module_info)
+			{
+				Rhymix\Framework\Cache::set('site_and_module:document_srl:' . $document_srl, $module_info, 0, true);
+			}
+		}
+		
+		self::_applyDefaultSkin($module_info);
+		return self::addModuleExtraVars($module_info);
 	}
 
 	/**

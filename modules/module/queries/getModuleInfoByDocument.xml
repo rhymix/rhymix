@@ -5,6 +5,8 @@
     </tables>
     <columns>
         <column name="modules.*" />
+        <column name="documents.is_notice" />
+        <column name="documents.status" />
     </columns>
     <conditions>
         <condition operation="equal" column="documents.document_srl" var="document_srl" notnull="notnull" />

@@ -960,6 +960,7 @@ class documentController extends document
 		//remove from cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($obj->document_srl) . $obj->document_srl);
 		Rhymix\Framework\Cache::delete('seo:document_images:' . $obj->document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $obj->document_srl);
 		return $output;
 	}
 
@@ -1093,6 +1094,7 @@ class documentController extends document
 		//remove from cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 		Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
 		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
 		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
 		return $output;
@@ -1254,6 +1256,7 @@ class documentController extends document
 		// Clear cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($oDocument->document_srl) . $oDocument->document_srl);
 		Rhymix\Framework\Cache::delete('seo:document_images:' . $oDocument->document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $oDocument->document_srl);
 		return $output;
 	}
 
