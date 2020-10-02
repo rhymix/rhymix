@@ -686,10 +686,15 @@ class ModuleHandler extends Handler
 		if($module_info)
 		{
 			// Compare the current mid to the module that the document belongs to.
-			if(!$this->mid || ($this->mid !== $module_info->mid && $module_info->is_notice !== 'A'))
+			if(!$this->mid || $this->mid !== $module_info->mid)
 			{
+				// If the document is notice-all, preserve the current mid.
+				if($module_info->is_notice === 'A')
+				{
+					return null;
+				}
 				// If this is a GET request, redirect to the correct mid.
-				if(Context::getRequestMethod() === 'GET')
+				elseif(Context::getRequestMethod() === 'GET')
 				{
 					Context::setCacheControl(0);
 					header('Location: ' . getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $this->document_srl), true, 301);

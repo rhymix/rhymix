@@ -242,7 +242,7 @@ class boardView extends board
 			if($oDocument->isExists())
 			{
 				// if the module srl is not consistent
-				if($oDocument->get('module_srl')!=$this->module_info->module_srl )
+				if($oDocument->get('module_srl') != $this->module_info->module_srl && $oDocument->get('is_notice') !== 'A')
 				{
 					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
