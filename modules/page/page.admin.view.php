@@ -171,7 +171,7 @@ class pageAdminView extends page
 			Context::set('module_srl',$this->module_srl);
 		}
 
-		$oPageMobile = &getMobile('page');
+		$oPageMobile = getMobile('page');
 		$oPageMobile->module_info = $this->module_info;
 		$page_type_name = strtolower($this->module_info->page_type);
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
