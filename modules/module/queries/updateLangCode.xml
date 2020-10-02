@@ -1,0 +1,11 @@
+<query id="updateLangCode" action="update">
+	<tables>
+		<table name="lang" />
+	</tables>
+	<columns>
+		<column name="lang_code" var="new_lang_code" notnull="notnull" />
+	</columns>
+    <conditions>
+        <condition operation="equal" column="lang_code" var="lang_code" notnull="notnull" />
+    </conditions>
+</query>

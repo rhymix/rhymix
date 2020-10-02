@@ -1,9 +1,9 @@
-<query id="getLang" action="select">
+<query id="getLangCount" action="select">
     <tables>
         <table name="lang" />
     </tables>
     <columns>
-        <column name="*" />
+        <column name="COUNT(*)" alias="count" />
     </columns>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" notnull="notnull" filter="number" />
