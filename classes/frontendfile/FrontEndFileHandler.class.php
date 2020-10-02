@@ -290,7 +290,7 @@ class FrontEndFileHandler extends Handler
 			return;
 		}
 		
-		$default_font_config = Context::get('default_font_config') ?: getController('editor')->default_font_config;
+		$default_font_config = Context::get('default_font_config') ?: EditorModel::$default_font_config;
 		$file->vars['enable_xe_btn_styles'] = (defined('DISABLE_XE_BTN_STYLES') && DISABLE_XE_BTN_STYLES) ? 'false' : 'true';
 		$file->vars['enable_xe_msg_styles'] = (defined('DISABLE_XE_MSG_STYLES') && DISABLE_XE_MSG_STYLES) ? 'false' : 'true';
 		$file->vars = array_merge($file->vars, $default_font_config);

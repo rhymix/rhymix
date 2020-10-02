@@ -461,6 +461,11 @@ class memberAdminView extends member
 		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
 		
+		if ($member_info->limit_date < date('Ymd'))
+		{
+			$member_info->limit_date = '';
+		}
+		
 		$member_unauthenticated = false;
 		if ($member_info->member_srl && $member_info->denied !== 'N')
 		{

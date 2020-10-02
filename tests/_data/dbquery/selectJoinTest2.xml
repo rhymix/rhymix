@@ -1,0 +1,17 @@
+<query id="selectJoinTest2" action="select">
+	<tables>
+		<table name="documents" />
+		<table name="member" type="left join">
+			<conditions>
+				<condition operation="equal" column="documents.member_srl" default="member.member_srl" />
+			</conditions>
+		</table>
+	</tables>
+	<columns>
+		<column name="documents.*" />
+		<column name="member.regdate" alias="member_regdate" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="documents.document_srl" var="document_srl_list" pipe="and" />
+	</conditions>
+</query>

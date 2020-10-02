@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<methodCall>
+	<params>
+		<module><![CDATA[board]]></module>
+		<act><![CDATA[procBoardInsertDocument]]></act>
+		<mid><![CDATA[board]]></mid>
+		<document_srl><![CDATA[197]]></document_srl>
+		<title><![CDATA[제목]]></title>
+		<content><![CDATA[<p>내용</p>
+			<p>내용</p>]]>
+		</content>
+		<foobar type="array">
+			<subkey1><![CDATA[customvalue1]]></subkey1>
+			<subkey2><![CDATA[customvalue2]]></subkey2>
+			<subkey3 type="array">
+				<subsubkey>look here</subsubkey>
+			</subkey3>
+		</foobar>
+	</params>
+</methodCall>

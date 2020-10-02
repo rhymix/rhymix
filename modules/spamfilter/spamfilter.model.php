@@ -19,9 +19,7 @@ class spamfilterModel extends spamfilter
 	 */
 	function getConfig()
 	{
-		// Get configurations (using the module model object)
-		$oModuleModel = getModel('module');
-		return $oModuleModel->getModuleConfig('spamfilter');
+		return ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 	}
 
 	/**

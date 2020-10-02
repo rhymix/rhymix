@@ -57,6 +57,7 @@ class menuAdminController extends menu
 
 	function __construct() {
 		$this->homeMenuCacheFile = _XE_PATH_ . $this->homeMenuCacheFile;
+		parent::__construct();
 	}
 
 	/**

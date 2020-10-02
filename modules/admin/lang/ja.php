@@ -70,7 +70,6 @@ $lang->about_recompile_cache = '不要もしくは、無効なキャッシュフ
 $lang->confirm_run = '時間がかかる場合があります。実行しますか？';
 $lang->use_ssl = '<abbr title="Secure Sockets Layer">SSL</abbr>を使用';
 $lang->ssl_options['none'] = '使わない';
-$lang->ssl_options['optional'] = '部分的に使う（推奨しない）';
 $lang->ssl_options['always'] = '常に使う（推奨）';
 $lang->about_use_ssl = '「部分的に使う」は、「会員登録/会員情報変更」など指定されたアクションでSSLを使います。「常に使う」は、すべてのサービスにSSLを使います。SSLサーバ証明書がインストールされてない場合での使用はお控えください。サイトへのアクセスができない場合があります。';
 $lang->server_ports = 'サーバーポート指定';

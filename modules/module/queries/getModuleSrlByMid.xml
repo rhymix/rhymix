@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="module_srl" />
+        <column name="mid" />
     </columns>
     <conditions>
         <condition operation="equal" column="site_srl" var="site_srl" />

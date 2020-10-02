@@ -198,7 +198,7 @@ class ConfigParser
 		$config['url']['default'] = $default_url ?: (\RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . \RX_BASEURL;
 		$config['url']['http_port'] = $db_info->http_port ?: null;
 		$config['url']['https_port'] = $db_info->https_port ?: null;
-		$config['url']['ssl'] = $db_info->use_ssl ?: 'none';
+		$config['url']['ssl'] = ($db_info->use_ssl === 'none') ? 'none' : 'always';
 		
 		// Convert session configuration.
 		$config['session']['delay'] = $db_info->delay_session === 'Y' ? true : false;

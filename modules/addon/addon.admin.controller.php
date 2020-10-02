@@ -141,8 +141,9 @@ class addonAdminController extends addonController
 		{
 			$this->makeCacheFile($site_srl, 'pc', 'site');
 			$this->makeCacheFile($site_srl, 'mobile', 'site');
+			Rhymix\Framework\Cache::clearGroup('addonConfig');
 		}
-
+		
 		$this->setMessage('success_updated', 'info');
 		if(Context::get('success_return_url'))
 		{
@@ -186,6 +187,7 @@ class addonAdminController extends addonController
 		}
 
 		$this->makeCacheFile($site_module_info->site_srl, $type);
+		Rhymix\Framework\Cache::clearGroup('addonConfig');
 	}
 
 	/**
@@ -214,6 +216,9 @@ class addonAdminController extends addonController
 
 		$this->makeCacheFile($site_module_info->site_srl, "pc", 'site');
 		$this->makeCacheFile($site_module_info->site_srl, "mobile", 'site');
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon_name, 'any'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon_name, 'pc'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon_name, 'mobile'));
 
 		$this->setRedirectUrl(getNotEncodedUrl('', 'module', $module, 'act', 'dispAddonAdminSetup', 'selected_addon', $addon_name), $output);
 	}
@@ -234,11 +239,19 @@ class addonAdminController extends addonController
 		$args->is_used = $isUsed;
 		if($gtype == 'global')
 		{
-			return executeQuery('addon.insertAddon', $args);
+			$output = executeQuery('addon.insertAddon', $args);
 		}
-		$args->extra_vars = serialize($extra_vars);
-		$args->site_srl = $site_srl;
-		return executeQuery('addon.insertSiteAddon', $args);
+		else
+		{
+			$args->extra_vars = serialize($extra_vars);
+			$args->site_srl = $site_srl;
+			$output = executeQuery('addon.insertSiteAddon', $args);
+		}
+		
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
+		return $output;
 	}
 
 	/**
@@ -264,10 +277,18 @@ class addonAdminController extends addonController
 		}
 		if($gtype == 'global')
 		{
-			return executeQuery('addon.updateAddon', $args);
+			$output = executeQuery('addon.updateAddon', $args);
 		}
-		$args->site_srl = $site_srl;
-		return executeQuery('addon.updateSiteAddon', $args);
+		else
+		{
+			$args->site_srl = $site_srl;
+			$output = executeQuery('addon.updateSiteAddon', $args);
+		}
+		
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
+		return $output;
 	}
 
 	/**
@@ -292,10 +313,18 @@ class addonAdminController extends addonController
 		}
 		if($gtype == 'global')
 		{
-			return executeQuery('addon.updateAddon', $args);
+			$output = executeQuery('addon.updateAddon', $args);
 		}
-		$args->site_srl = $site_srl;
-		return executeQuery('addon.updateSiteAddon', $args);
+		else
+		{
+			$args->site_srl = $site_srl;
+			$output = executeQuery('addon.updateSiteAddon', $args);
+		}
+		
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
+		return $output;
 	}
 
 }

@@ -167,10 +167,18 @@ class addonController extends addon
 		$args->extra_vars = serialize($extra_vars);
 		if($gtype == 'global')
 		{
-			return executeQuery('addon.updateAddon', $args);
+			$output = executeQuery('addon.updateAddon', $args);
 		}
-		$args->site_srl = $site_srl;
-		return executeQuery('addon.updateSiteAddon', $args);
+		else
+		{
+			$args->site_srl = $site_srl;
+			$output = executeQuery('addon.updateSiteAddon', $args);
+		}
+		
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
+		return $output;
 	}
 
 	/**
@@ -184,6 +192,7 @@ class addonController extends addon
 		$args = new stdClass();
 		$args->site_srl = $site_srl;
 		executeQuery('addon.deleteSiteAddons', $args);
+		Rhymix\Framework\Cache::clearGroup('addonConfig');
 	}
 
 }

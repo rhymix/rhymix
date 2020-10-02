@@ -1,0 +1,19 @@
+<query id="selectSubqueryTest2" action="select">
+	<tables>
+		<table name="member" />
+	</tables>
+	<columns>
+		<column name="member.*" />
+		<query alias="document_count">
+			<tables>
+				<table name="documents" />
+			</tables>
+			<columns>
+				<column name="COUNT(*)" alias="count" />
+			</columns>
+			<conditions>
+				<condition operation="equal" column="member.member_srl" default="documents.member_srl" />
+			</conditions>
+		</query>
+	</columns>
+</query>

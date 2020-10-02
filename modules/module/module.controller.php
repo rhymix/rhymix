@@ -19,13 +19,15 @@ class moduleController extends module
 	 * Action forward finds and forwards if an action is not in the requested module
 	 * This is used when installing a module
 	 */
-	function insertActionForward($module, $type, $act)
+	function insertActionForward($module, $type, $act, $route_regexp = null, $route_config = null, $global_route = 'N')
 	{
 		$args = new stdClass();
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
-
+		$args->route_regexp = is_scalar($route_regexp) ? $route_regexp : serialize($route_regexp);
+		$args->route_config = is_scalar($route_config) ? $route_config : serialize($route_config);
+		$args->global_route = $global_route === 'Y' ? 'Y' : 'N';
 		$output = executeQuery('module.insertActionForward', $args);
 
 		Rhymix\Framework\Cache::delete('action_forward');
@@ -185,7 +187,7 @@ class moduleController extends module
 
 	function updateModuleConfig($module, $config, $site_srl = 0)
 	{
-		$origin_config = getModel('module')->getModuleConfig($module, $site_srl);
+		$origin_config = ModuleModel::getModuleConfig($module, $site_srl);
 		
 		foreach($config as $key => $val)
 		{
@@ -197,7 +199,7 @@ class moduleController extends module
 
 	function updateModulePartConfig($module, $module_srl, $config)
 	{
-		$origin_config = getModel('module')->getModulePartConfig($module, $module_srl);
+		$origin_config = ModuleModel::getModulePartConfig($module, $module_srl);
 		
 		foreach($config as $key => $val)
 		{
@@ -256,8 +258,7 @@ class moduleController extends module
 	{
 		if(isSiteID($domain))
 		{
-			$oModuleModel = getModel('module');
-			if($oModuleModel->isIDExists($domain, 0)) return new BaseObject(-1, 'msg_already_registed_vid');
+			if(ModuleModel::isIDExists($domain, 0)) return new BaseObject(-1, 'msg_already_registed_vid');
 		}
 		else
 		{
@@ -271,8 +272,7 @@ class moduleController extends module
 		$args->default_language = Context::getLangType();
 
 		$columnList = array('modules.site_srl');
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);
+		$output = ModuleModel::getSiteInfoByDomain($args->domain, $columnList);
 		if($output) return new BaseObject(-1,'msg_already_registed_vid');
 
 		$output = executeQuery('module.insertSite', $args);
@@ -287,9 +287,8 @@ class moduleController extends module
 	 */
 	function updateSite($args)
 	{
-		$oModuleModel = getModel('module');
 		$columnList = array('sites.site_srl', 'sites.domain');
-		$site_info = $oModuleModel->getSiteInfo($args->site_srl, $columnList);
+		$site_info = ModuleModel::getSiteInfo($args->site_srl, $columnList);
 
 		if(!$args->domain && $site_info->site_srl == $args->site_srl)
 		{
@@ -298,9 +297,9 @@ class moduleController extends module
 
 		if($site_info->domain != $args->domain)
 		{
-			$info = $oModuleModel->getSiteInfoByDomain($args->domain, $columnList);
+			$info = ModuleModel::getSiteInfoByDomain($args->domain, $columnList);
 			if($info->site_srl && $info->site_srl != $args->site_srl) return new BaseObject(-1, 'msg_already_registed_domain');
-			if(isSiteID($args->domain) && $oModuleModel->isIDExists($args->domain)) return new BaseObject(-1, 'msg_already_registed_vid');
+			if(isSiteID($args->domain) && ModuleModel::isIDExists($args->domain)) return new BaseObject(-1, 'msg_already_registed_vid');
 
 			if($args->domain && !isSiteID($args->domain))
 			{
@@ -312,10 +311,11 @@ class moduleController extends module
 		if($args->site_srl == 0) $vid='';
 		else $vid=$args->domain;
 
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->index_module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->index_module_srl);
 		$mid = $module_info->mid;
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -376,15 +376,14 @@ class moduleController extends module
 		if(!$output->toBool()) return $output;
 		// Check whether the module name already exists
 		if(!$args->site_srl) $args->site_srl = 0;
-		$oModuleModel = getModel('module');
-		if($oModuleModel->isIDExists($args->mid, $args->site_srl)) return new BaseObject(-1, 'msg_module_name_exists');
+		if(ModuleModel::isIDExists($args->mid, $args->site_srl)) return new BaseObject(-1, 'msg_module_name_exists');
 
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Get colorset from the skin information
 		$module_path = ModuleHandler::getModulePath($args->module);
-		$skin_info = $oModuleModel->loadSkinInfo($module_path, $args->skin);
+		$skin_info = ModuleModel::loadSkinInfo($module_path, $args->skin);
 		$skin_vars = new stdClass();
 		$skin_vars->colorset = $skin_info->colorset[0]->name;
 		// Arrange variables and then execute a query
@@ -436,8 +435,6 @@ class moduleController extends module
 			// if menu is not created, create menu also. and does not supported that in virtual site.
 			if(!$menuOutput->data && !$args->site_srl)
 			{
-				$oMenuAdminModel = getAdminModel('menu');
-
 				$oMenuAdminController = getAdminController('menu');
 				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
 
@@ -477,7 +474,7 @@ class moduleController extends module
 		$oDB->commit();
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		$output->add('module_srl',$args->module_srl);
 		return $output;
 	}
@@ -502,9 +499,7 @@ class moduleController extends module
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
-		$oModuleModel = getModel('module');
-		$columnList = array('module_srl', 'site_srl', 'browser_title', 'mid');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 
 		if(!$args->site_srl || !$args->browser_title)
 		{
@@ -598,6 +593,7 @@ class moduleController extends module
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -631,6 +627,7 @@ class moduleController extends module
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -645,8 +642,7 @@ class moduleController extends module
 
 		$site_module_info = Context::get('site_module_info');
 
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$output = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 
 		$args = new stdClass();
 		$args->url = $output->mid;
@@ -707,9 +703,8 @@ class moduleController extends module
 		if(!$module_srl) return new BaseObject(-1, 'msg_invalid_request');
 
 		// check start module
-		$oModuleModel = getModel('module');
 		$columnList = array('sites.index_module_srl');
-		$start_module = $oModuleModel->getSiteInfo(0, $columnList);
+		$start_module = ModuleModel::getSiteInfo(0, $columnList);
 		if($module_srl == $start_module->index_module_srl) return new BaseObject(-1, 'msg_cannot_delete_startmodule');
 
 		// Call a trigger (before)
@@ -747,6 +742,7 @@ class moduleController extends module
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
 
@@ -803,16 +799,15 @@ class moduleController extends module
 	 */
 	function insertAdminId($module_srl, $admin_id)
 	{
-		$oMemberModel = getModel('member');
-		if(strpos($admin_id, '@') !== false)
+		if (strpos($admin_id, '@') !== false)
 		{
-			$member_info = $oMemberModel->getMemberInfoByEmailAddress($admin_id);
+			$member_info = MemberModel::getMemberInfoByEmailAddress($admin_id);
 		}
 		else
 		{
-			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
+			$member_info = MemberModel::getMemberInfoByUserID($admin_id);
 		}
-		if(!$member_info->member_srl)
+		if (!$member_info || !$member_info->member_srl)
 		{
 			return;
 		}
@@ -832,18 +827,27 @@ class moduleController extends module
 	function deleteAdminId($module_srl, $admin_id = '')
 	{
 		$args = new stdClass();
-		$args->module_srl = $module_srl;
+		$args->module_srl = intval($module_srl);
 
 		if($admin_id)
 		{
-			$oMemberModel = getModel('member');
-			$member_info = $oMemberModel->getMemberInfoByUserID($admin_id);
-			if($member_info->member_srl) $args->member_srl = $member_info->member_srl;
+			if (strpos($admin_id, '@') !== false)
+			{
+				$member_info = MemberModel::getMemberInfoByEmailAddress($admin_id);
+			}
+			else
+			{
+				$member_info = MemberModel::getMemberInfoByUserID($admin_id);
+			}
+			if ($member_info && $member_info->member_srl)
+			{
+				$args->member_srl = $member_info->member_srl;
+			}
 		}
 		
-		Rhymix\Framework\Cache::delete("site_and_module:module_admins:$module_srl");
-		
-		return executeQuery('module.deleteAdminId', $args);
+		$output = executeQuery('module.deleteAdminId', $args);
+		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));
+		return $output;
 	}
 
 	/**
@@ -1160,11 +1164,10 @@ class moduleController extends module
 		// have file
 		if($vars->addfile['tmp_name'] && is_uploaded_file($vars->addfile['tmp_name']))
 		{
-			$oModuleModel = getModel('module');
-			$output = $oModuleModel->getModuleFileBox($vars->module_filebox_srl);
+			$output = ModuleModel::getModuleFileBox($vars->module_filebox_srl);
 			FileHandler::removeFile($output->data->filename);
 
-			$path = $oModuleModel->getModuleFileBoxPath($vars->module_filebox_srl);
+			$path = ModuleModel::getModuleFileBoxPath($vars->module_filebox_srl);
 			FileHandler::makeDir($path);
 
 			$random = Rhymix\Framework\Security::getRandom(32, 'hex');
@@ -1200,8 +1203,7 @@ class moduleController extends module
 		$vars->module_filebox_srl = getNextSequence();
 
 		// get file path
-		$oModuleModel = getModel('module');
-		$path = $oModuleModel->getModuleFileBoxPath($vars->module_filebox_srl);
+		$path = ModuleModel::getModuleFileBoxPath($vars->module_filebox_srl);
 		FileHandler::makeDir($path);
 		
 		$random = Rhymix\Framework\Security::getRandom(32, 'hex');
@@ -1256,8 +1258,7 @@ class moduleController extends module
 	function deleteModuleFileBox($vars)
 	{
 		// delete real file
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getModuleFileBox($vars->module_filebox_srl);
+		$output = ModuleModel::getModuleFileBox($vars->module_filebox_srl);
 		FileHandler::removeFile($output->data->filename);
 
 		$args = new stdClass();
@@ -1306,7 +1307,82 @@ class moduleController extends module
 		$output = executeQuery('module.updateModuleInSites', $args);
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
+	}
+	
+	/**
+	 * Check if all action-forwardable routes are registered. If not, register them.
+	 * 
+	 * @param string $module_name
+	 * @return object
+	 */
+	public function registerActionForwardRoutes(string $module_name)
+	{
+		$action_forward = ModuleModel::getActionForward();
+		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+		
+		// Get the list of forwardable actions and their routes.
+		$forwardable_routes = array();
+		foreach ($module_action_info->action ?: [] as $action_name => $action_info)
+		{
+			if (count($action_info->route) && $action_info->standalone !== 'false')
+			{
+				$forwardable_routes[$action_name] = array(
+					'type' => $module_action_info->action->{$action_name}->type,
+					'regexp' => array(),
+					'config' => $action_info->route,
+					'global_route' => $action_info->global_route === 'true' ? 'Y' : 'N',
+				);
+			}
+		}
+		foreach ($module_action_info->route->GET as $regexp => $action_name)
+		{
+			if (isset($forwardable_routes[$action_name]))
+			{
+				$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
+			}
+		}
+		foreach ($module_action_info->route->POST as $regexp => $action_name)
+		{
+			if (isset($forwardable_routes[$action_name]))
+			{
+				$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
+			}
+		}
+		
+		// Insert or delete from the action_forward table.
+		foreach ($forwardable_routes as $action_name => $route_info)
+		{
+			if (!isset($action_forward[$action_name]))
+			{
+				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
+					$route_info['regexp'], $route_info['config'], $route_info['global_route']);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+			elseif ($action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
+				$action_forward[$action_name]->route_config !== $route_info['config'] ||
+				$action_forward[$action_name]->global_route !== $route_info['global_route'])
+			{
+				$output = $this->deleteActionForward($module_name, $route_info['type'], $action_name);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+				
+				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
+					$route_info['regexp'], $route_info['config'], $route_info['global_route']);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+		
+		return new BaseObject();
 	}
 }
 /* End of file module.controller.php */

@@ -8,30 +8,29 @@
  */
 class BaseObject
 {
-
 	/**
 	 * Error code. If `0`, it is not an error.
 	 * @var int
 	 */
-	var $error = 0;
+	public $error = 0;
 
 	/**
 	 * Error message. If `success`, it is not an error.
 	 * @var string
 	 */
-	var $message = 'success';
+	public $message = 'success';
 
 	/**
 	 * An additional variable
 	 * @var array
 	 */
-	var $variables = array();
+	public $variables = array();
 
 	/**
 	 * http status code.
 	 * @var int
 	 */
-	var $httpStatusCode = 200;
+	public $httpStatusCode = 200;
 
 	/**
 	 * Constructor
@@ -40,7 +39,7 @@ class BaseObject
 	 * @param string $message Error message
 	 * @return void
 	 */
-	function __construct($error = 0, $message = 'success')
+	public function __construct($error = 0, $message = 'success')
 	{
 		$this->setError($error);
 		$this->setMessage($message);
@@ -81,7 +80,7 @@ class BaseObject
 	 * @param int|strong $error error code or message
 	 * @return $this
 	 */
-	function setError($error = 0)
+	public function setError($error = 0)
 	{
 		// If the first argument is an integer, treat it as an error code. Otherwise, treat it as an error message.
 		$args = func_get_args();
@@ -113,7 +112,7 @@ class BaseObject
 	 *
 	 * @return int Returns an error code
 	 */
-	function getError()
+	public function getError()
 	{
 		return $this->error;
 	}
@@ -124,9 +123,9 @@ class BaseObject
 	 * @param int $code HTTP status code. Default value is `200` that means successful
 	 * @return $this
 	 */
-	function setHttpStatusCode($code = 200)
+	public function setHttpStatusCode($code = 200)
 	{
-		$this->httpStatusCode = (int) $code;
+		$this->httpStatusCode = (int)$code;
 		return $this;
 	}
 
@@ -135,7 +134,7 @@ class BaseObject
 	 *
 	 * @return int Returns HTTP status code
 	 */
-	function getHttpStatusCode()
+	public function getHttpStatusCode()
 	{
 		return $this->httpStatusCode;
 	}
@@ -147,7 +146,7 @@ class BaseObject
 	 * @param string $type type of message (error, info, update)
 	 * @return $this
 	 */
-	function setMessage($message = 'success', $type = null)
+	public function setMessage($message = 'success', $type = null)
 	{
 		$this->message = lang($message);
 		if($type !== null)
@@ -162,7 +161,7 @@ class BaseObject
 	 *
 	 * @return string Returns message
 	 */
-	function getMessage()
+	public function getMessage()
 	{
 		return $this->message;
 	}
@@ -172,9 +171,9 @@ class BaseObject
 	 * @param string $type type of message (error, info, update)
 	 * @return $this
 	 * */
-	function setMessageType($type)
+	public function setMessageType($type)
 	{
-		$this->add('message_type', $type);
+		$this->variables['message_type'] = strval($type);
 		return $this;
 	}
 
@@ -182,7 +181,7 @@ class BaseObject
 	 * get type of message
 	 * @return string $type
 	 * */
-	function getMessageType()
+	public function getMessageType()
 	{
 		$type = $this->get('message_type');
 		$typeList = array('error' => 1, 'info' => 1, 'update' => 1);
@@ -200,19 +199,28 @@ class BaseObject
 	 * @param mixed $val A value for the variable
 	 * @return $this
 	 */
-	function add($key, $val)
+	public function set($key, $val)
 	{
 		$this->variables[$key] = $val;
 		return $this;
 	}
 
 	/**
-	 * Method to set multiple key/value pairs as an additional variables
+	 * Alias to set().
+	 */
+	public function add($key, $val)
+	{
+		$this->variables[$key] = $val;
+		return $this;
+	}
+
+	/**
+	 * Method to set multiple key/value pairs as additional variables
 	 *
 	 * @param object|array $vars Either object or array containg key/value pairs to be added
 	 * @return $this
 	 */
-	function adds($vars)
+	public function sets($vars)
 	{
 		if(is_object($vars))
 		{
@@ -229,12 +237,20 @@ class BaseObject
 	}
 
 	/**
+	 * Alias to sets().
+	 */
+	public function adds($vars)
+	{
+		return $this->sets($vars);
+	}
+
+	/**
 	 * Method to retrieve a corresponding value to a given key
 	 *
 	 * @param string $key
 	 * @return string Returns value to a given key
 	 */
-	function get($key)
+	public function get($key)
 	{
 		return $this->variables[$key];
 	}
@@ -244,7 +260,7 @@ class BaseObject
 	 *
 	 * @return object Returns an object containing key/value pairs
 	 */
-	function gets()
+	public function gets()
 	{
 		$args = func_get_args();
 		$output = new stdClass();
@@ -260,7 +276,7 @@ class BaseObject
 	 *
 	 * @return array
 	 */
-	function getVariables()
+	public function getVariables()
 	{
 		return $this->variables;
 	}
@@ -270,14 +286,9 @@ class BaseObject
 	 *
 	 * @return object
 	 */
-	function getObjectVars()
+	public function getObjectVars()
 	{
-		$output = new stdClass();
-		foreach($this->variables as $key => $val)
-		{
-			$output->{$key} = $val;
-		}
-		return $output;
+		return (object)($this->variables);
 	}
 
 	/**
@@ -285,7 +296,7 @@ class BaseObject
 	 *
 	 * @return void
 	 */
-	function unset($key)
+	public function unset($key)
 	{
 		unset($this->variables[$key]);
 	}
@@ -295,7 +306,7 @@ class BaseObject
 	 *
 	 * @return bool Retruns true : error isn't 0 or false : otherwise.
 	 */
-	function toBool()
+	public function toBool()
 	{
 		// TODO This method is misleading in that it returns true if error is 0, which should be true in boolean representation.
 		return ($this->error == 0);
@@ -306,7 +317,7 @@ class BaseObject
 	 *
 	 * @return bool
 	 */
-	function toBoolean()
+	public function toBoolean()
 	{
 		return $this->toBool();
 	}

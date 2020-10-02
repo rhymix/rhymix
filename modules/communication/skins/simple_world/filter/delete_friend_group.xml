@@ -1,1 +1,0 @@
-<filter name="delete_friend_group" module="communication" act="procCommunicationDeleteFriendGroup" confirm_msg_code="confirm_delete" />

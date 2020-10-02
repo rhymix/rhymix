@@ -1,0 +1,17 @@
+<query id="insertMemberDevice" action="insert">
+	<tables>
+		<table name="member_devices" />
+	</tables>
+	<columns>
+		<column name="device_srl" var="device_srl" notnull="notnull" />
+		<column name="member_srl" var="member_srl" notnull="notnull" />
+		<column name="device_token" var="device_token" notnull="notnull" />
+		<column name="device_key" var="device_key" notnull="notnull" />
+		<column name="device_type" var="device_type" notnull="notnull" />
+		<column name="device_version" var="device_version" notnull="notnull" />
+		<column name="device_model" var="device_model" notnull="notnull" />
+		<column name="device_description" var="device_description" />
+		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>

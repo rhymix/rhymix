@@ -168,14 +168,12 @@ class boardAdminView extends board {
 		$documentStatusList = $oDocumentModel->getStatusNameList();
 		Context::set('document_status_list', $documentStatusList);
 
-		$oBoardModel = getModel('board');
-
 		// setup the extra vaiables
-		$extra_vars = $oBoardModel->getDefaultListConfig($this->module_info->module_srl);
+		$extra_vars = BoardModel::getDefaultListConfig($this->module_info->module_srl);
 		Context::set('extra_vars', $extra_vars);
 
 		// setup the list config (install the default value if there is no list config)
-		Context::set('list_config', $oBoardModel->getListConfig($this->module_info->module_srl));
+		Context::set('list_config', BoardModel::getListConfig($this->module_info->module_srl));
 
 		// setup extra_order_target
 		$module_extra_vars = $oDocumentModel->getExtraKeys($this->module_info->module_srl);

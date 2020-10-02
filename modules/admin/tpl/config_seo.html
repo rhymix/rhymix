@@ -53,6 +53,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->twitter_enabled}</label>
+			<div class="x_controls">
+				<label for="twitter_enabled_y" class="x_inline"><input type="radio" name="twitter_enabled" id="twitter_enabled_y" value="Y" checked="checked"|cond="$twitter_enabled" /> {$lang->cmd_yes}</label>
+				<label for="twitter_enabled_n" class="x_inline"><input type="radio" name="twitter_enabled" id="twitter_enabled_n" value="N" checked="checked"|cond="!$twitter_enabled" /> {$lang->cmd_no}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->og_extract_description}</label>
 			<div class="x_controls">
 				<label for="og_extract_description_y" class="x_inline"><input type="radio" name="og_extract_description" id="og_extract_description_y" value="Y" checked="checked"|cond="$og_extract_description" /> {$lang->cmd_yes}</label>

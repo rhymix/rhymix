@@ -112,9 +112,9 @@ class Password
 	 */
 	public static function getDefaultAlgorithm()
 	{
-		if (function_exists('getModel'))
+		if (class_exists('\MemberModel'))
 		{
-			$config = getModel('member')->getMemberConfig();
+			$config = \MemberModel::getInstance()->getMemberConfig();
 			$algorithm = $config->password_hashing_algorithm;
 			if (strval($algorithm) === '')
 			{
@@ -135,9 +135,9 @@ class Password
 	 */
 	public static function getWorkFactor()
 	{
-		if (function_exists('getModel'))
+		if (class_exists('\MemberModel'))
 		{
-			$config = getModel('member')->getMemberConfig();
+			$config = \MemberModel::getInstance()->getMemberConfig();
 			$work_factor = $config->password_hashing_work_factor;
 			if (!$work_factor || $work_factor < 4 || $work_factor > 31)
 			{

@@ -70,12 +70,21 @@ class spamfilterAdminView extends spamfilter
 	 */
 	function dispSpamfilterAdminConfigBlock()
 	{
-		// Get configurations (using module model object)
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('spamfilter');
+		$config = ModuleModel::getModuleConfig('spamfilter');
 		Context::set('config', $config);
 
 		$this->setTemplateFile('config_block');
+	}
+
+	/**
+	 * @brief Configure CAPTCHA
+	 */
+	function dispSpamfilterAdminConfigCaptcha()
+	{
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		Context::set('config', $config);
+
+		$this->setTemplateFile('config_captcha');
 	}
 }
 /* End of file spamfilter.admin.view.php */

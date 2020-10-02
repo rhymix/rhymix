@@ -27,6 +27,7 @@ class adminAdminView extends admin
 	function __construct()
 	{
 		Context::set('xe_default_url', Context::getDefaultUrl());
+		parent::__construct();
 	}
 
 	/**
@@ -314,7 +315,26 @@ class adminAdminView extends admin
 		{
 			$needUpdate = FALSE;
 			$addTables = FALSE;
-			foreach($module_list AS $key => $value)
+			$priority = array(
+				'module' => 1000000,
+				'member' => 100000,
+				'document' => 10000,
+				'comment' => 1000,
+				'file' => 100,
+			);
+			usort($module_list, function($a, $b) use($priority) {
+				$a_priority = isset($priority[$a->module]) ? $priority[$a->module] : 0;
+				$b_priority = isset($priority[$b->module]) ? $priority[$b->module] : 0;
+				if ($a_priority == 0 && $b_priority == 0)
+				{
+					return strcmp($a->module, $b->module);
+				}
+				else
+				{
+					return $b_priority - $a_priority;
+				}
+			});
+			foreach($module_list as $value)
 			{
 				if($value->need_install)
 				{
@@ -425,6 +445,18 @@ class adminAdminView extends admin
 		$sms_drivers = Rhymix\Framework\SMS::getSupportedDrivers();
 		Context::set('sms_drivers', $sms_drivers);
 		Context::set('sms_driver', config('sms.type') ?: 'dummy');
+		
+		// Load Push drivers.
+		$push_drivers = Rhymix\Framework\Push::getSupportedDrivers();
+		uasort($push_drivers, function($a, $b) { return strcmp($a['name'], $b['name']); });
+		Context::set('push_drivers', $push_drivers);
+		Context::set('push_config', config('push') ?: []);
+		$apns_certificate = false;
+		if ($apns_certificate_filename = config('push.apns.certificate'))
+		{
+			$apns_certificate = Rhymix\Framework\Storage::read($apns_certificate_filename);
+		}
+		Context::set('apns_certificate', $apns_certificate);
 		
 		// Workaround for compatibility with older version of Amazon SES driver.
 		config('mail.ses.api_key', config('mail.ses.api_user'));
@@ -546,7 +578,7 @@ class adminAdminView extends admin
 		Context::set('selected_timezone', Rhymix\Framework\Config::get('locale.default_timezone'));
 		
 		// Other settings
-		Context::set('use_rewrite', Rhymix\Framework\Config::get('use_rewrite'));
+		Context::set('use_rewrite', Rhymix\Framework\Router::getRewriteLevel());
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
 		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
 		Context::set('mobile_viewport', config('mobile.viewport') ?? HTMLDisplayHandler::DEFAULT_VIEWPORT);
@@ -611,6 +643,7 @@ class adminAdminView extends admin
 		Context::set('og_extract_images', Rhymix\Framework\Config::get('seo.og_extract_images'));
 		Context::set('og_extract_hashtags', Rhymix\Framework\Config::get('seo.og_extract_hashtags'));
 		Context::set('og_use_timestamps', Rhymix\Framework\Config::get('seo.og_use_timestamps'));
+		Context::set('twitter_enabled', Rhymix\Framework\Config::get('seo.twitter_enabled'));
 		
 		$this->setTemplateFile('config_seo');
 	}
@@ -768,7 +801,7 @@ class adminAdminView extends admin
 		
 		// System settings
 		$info[] = '[System Settings]';
-		$info['db.type'] = config('db.master.type');
+		$info['db.type'] = preg_replace('/^mysql.+/', 'mysql', config('db.master.type'));
 		$db_extra_info = array();
 		if (config('db.master.engine')) $db_extra_info[] = config('db.master.engine');
 		if (config('db.master.charset')) $db_extra_info[] = config('db.master.charset');
@@ -776,24 +809,27 @@ class adminAdminView extends admin
 		{
 			$info['db.type'] .= ' (' . implode(', ', $db_extra_info) . ')';
 		}
-		$info['db.version'] = DB::getInstance()->db_version;
+		$info['db.version'] = Rhymix\Framework\DB::getInstance()->db_version;
 		if (preg_match('/\d+\.\d+\.\d+-MariaDB.*$/', $info['db.version'], $matches))
 		{
 			$info['db.version'] = $matches[0];
 		}
 		$info['cache.type'] = config('cache.type') ?: 'none';
+		$info['file.folder_structure'] = config('file.folder_structure');
+		$info['file.umask'] = config('file.umask');
+		$info['url.rewrite'] = Rhymix\Framework\Router::getRewriteLevel();
 		$info['locale.default_lang'] = config('locale.default_lang');
 		$info['locale.default_timezone'] = config('locale.default_timezone');
 		$info['locale.internal_timezone'] = config('locale.internal_timezone');
 		$info['mobile.enabled'] = config('mobile.enabled') ? 'true' : 'false';
 		$info['mobile.tablets'] = config('mobile.tablets') ? 'true' : 'false';
+		$info['session.delay'] = config('session.delay') ? 'true' : 'false';
 		$info['session.use_db'] = config('session.use_db') ? 'true' : 'false';
 		$info['session.use_keys'] = config('session.use_keys') ? 'true' : 'false';
 		$info['session.use_ssl'] = config('session.use_ssl') ? 'true' : 'false';
 		$info['session.use_ssl_cookies'] = config('session.use_ssl_cookies') ? 'true' : 'false';
 		$info['view.concat_scripts'] = config('view.concat_scripts');
 		$info['view.minify_scripts'] = config('view.minify_scripts');
-		$info['use_rewrite'] = config('use_rewrite') ? 'true' : 'false';
 		$info['use_sso'] = config('use_sso') ? 'true' : 'false';
 		$info[] = '';
 		

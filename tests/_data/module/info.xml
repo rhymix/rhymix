@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">테스트 모듈</title>
+	<title xml:lang="en">Test Module</title>
+	<description xml:lang="ko">유닛 테스트용 모듈입니다.</description>
+	<description xml:lang="en">This module is for unit testing.</description>
+	<version>2.0</version>
+	<date>2020-07-07</date>
+	<category>service</category>
+	<license link="https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html">GPLv2</license>
+	<author email_address="devops@rhymix.org" link="https://rhymix.org">
+		<name xml:lang="ko">Rhymix 개발자</name>
+		<name xml:lang="en">Rhymix Developer</name>
+	</author>
+	<author email_address="other.developer@rhymix.org">
+		<name xml:lang="ko">다른 개발자</name>
+		<name xml:lang="en">Other Developer</name>
+	</author>
+</module>

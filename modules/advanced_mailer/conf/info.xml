@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="ko">고급 메일 발송 모듈 (메일 및 SMS 관리)</title>
-	<title xml:lang="en">Advanced Mailer (with SMS)</title>
+	<title xml:lang="ko">메일, SMS 및 푸시 알림 관리 모듈</title>
+	<title xml:lang="en">Mail, SMS and Push Notification Manager</title>
 	<description xml:lang="ko">
-		라이믹스에서 발송하는 메일과 SMS를 기록하고 테스트하는 기능을 제공합니다.
+		라이믹스에서 발송하는 메일, SMS, 푸시 알림 등을 기록하고 테스트하는 기능을 제공합니다.
 	</description>
 	<description xml:lang="en">
-		Log and test e-mails and SMS sent from Rhymix.
+		Log and test e-mails, SMS, and push notifications sent from Rhymix.
 	</description>
-	<version>2.1.0</version>
-	<date>2016-12-14</date>
+	<version>2.2.0</version>
+	<date>2020-06-25</date>
 	<author link="https://www.poesis.org">
 		<name xml:lang="ko">포에시스</name>
 		<name xml:lang="en">POESIS</name>

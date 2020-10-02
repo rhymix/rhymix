@@ -93,18 +93,17 @@ class editorController extends editor
 		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
 		$logged_info = Context::get('logged_info');
 		$module_srl = array();
-		$oModuleModel = getModel('module');
 		foreach ($target_module_srl as $srl)
 		{
 			if (!$srl) continue;
 
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
-			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -220,7 +219,7 @@ class editorController extends editor
 		
 		if ($editor_config)
 		{
-			$default_font_config = $this->default_font_config;
+			$default_font_config = self::$default_font_config;
 			if ($editor_config->content_font) $default_font_config['default_font_family'] = $editor_config->content_font;
 			if ($editor_config->content_font_size) $default_font_config['default_font_size'] = $editor_config->content_font_size;
 			if ($editor_config->content_line_height) $default_font_config['default_line_height'] = $editor_config->content_line_height;
@@ -230,7 +229,7 @@ class editorController extends editor
 		}
 		else
 		{
-			Context::set('default_font_config', $this->default_font_config);
+			Context::set('default_font_config', self::$default_font_config);
 		}
 	}
 
@@ -381,8 +380,7 @@ class editorController extends editor
 			return;
 		}
 
-		$oDocumentModel = getModel('document');
-		$oSaved = $oDocumentModel->getDocument($saved_doc->document_srl);
+		$oSaved = DocumentModel::getDocument($saved_doc->document_srl);
 		if(!$oSaved->isExists())
 		{
 			if($mode)
@@ -512,8 +510,7 @@ class editorController extends editor
 
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = getModel('module');
-		$editorConfig = $oModuleModel->getModulePartConfig('editor', $obj->originModuleSrl);
+		$editorConfig = ModuleModel::getModulePartConfig('editor', $obj->originModuleSrl);
 
 		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))

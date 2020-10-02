@@ -126,8 +126,7 @@ class commentItem extends BaseObject
 			return $this->grant_cache = true;
 		}
 		
-		$oModuleModel = getModel('module');
-		$grant = $oModuleModel->getGrant($oModuleModel->getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
+		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
@@ -171,7 +170,7 @@ class commentItem extends BaseObject
 			return true;
 		}
 		
-		$oDocument = getModel('document')->getDocument($this->get('document_srl'));
+		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
 		if ($oDocument->isGranted())
 		{
 			$this->setAccessible();
@@ -240,8 +239,7 @@ class commentItem extends BaseObject
 		}
 
 		// get where the comment belongs to 
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($this->get('document_srl'));
+		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
 
 		// Variables
 		if($type)
@@ -524,7 +522,7 @@ class commentItem extends BaseObject
 
 	function getPermanentUrl()
 	{
-		$mid = getModel('module')->getModuleInfoByModuleSrl($this->get('module_srl'))->mid;
+		$mid = ModuleModel::getMidByModuleSrl($this->get('module_srl'));
 		return getFullUrl('', 'mid', $mid, 'document_srl', $this->get('document_srl')) . '#comment_' . $this->get('comment_srl');
 	}
 
@@ -550,8 +548,7 @@ class commentItem extends BaseObject
 			return;
 		}
 		
-		$oFileModel = getModel('file');
-		$file_list = $oFileModel->getFiles($this->comment_srl, array(), 'file_srl', TRUE);
+		$file_list = FileModel::getFiles($this->comment_srl, array(), 'file_srl', TRUE);
 		return $file_list;
 	}
 
@@ -566,8 +563,7 @@ class commentItem extends BaseObject
 		{
 			$module_srl = Context::get('module_srl');
 		}
-		$oEditorModel = getModel('editor');
-		return $oEditorModel->getModuleEditor('comment', $module_srl, $this->comment_srl, 'comment_srl', 'content');
+		return EditorModel::getModuleEditor('comment', $module_srl, $this->comment_srl, 'comment_srl', 'content');
 	}
 
 	/**
@@ -580,8 +576,7 @@ class commentItem extends BaseObject
 		{
 			return;
 		}
-		$oMemberModel = getModel('member');
-		$profile_info = $oMemberModel->getProfileImage($this->get('member_srl'));
+		$profile_info = MemberModel::getProfileImage($this->get('member_srl'));
 		if(!$profile_info)
 		{
 			return;
@@ -603,14 +598,12 @@ class commentItem extends BaseObject
 		}
 
 		// get the signiture information
-		$oMemberModel = getModel('member');
-		$signature = $oMemberModel->getSignature($this->get('member_srl'));
+		$signature = MemberModel::getSignature($this->get('member_srl'));
 
 		// check if max height of the signiture is specified on the member module
 		if(!isset($GLOBALS['__member_signature_max_height']))
 		{
-			$oModuleModel = getModel('module');
-			$member_config = $oModuleModel->getModuleConfig('member');
+			$member_config = ModuleModel::getModuleConfig('member');
 			$GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
 		}
 
@@ -642,17 +635,13 @@ class commentItem extends BaseObject
 	function getThumbnail($width = 80, $height = 0, $thumbnail_type = '')
 	{
 		// return false if no doc exists
-		if(!$this->comment_srl)
+		if(!$this->comment_srl || !$this->isAccessible())
 		{
 			return;
 		}
 
 		// Get thumbnail type information from document module's configuration
-		$config = $GLOBALS['__document_config__'];
-		if(!$config)
-		{
-			$config = $GLOBALS['__document_config__'] = getModel('document')->getDocumentConfig();
-		}
+		$config = DocumentModel::getDocumentConfig();
 		if ($config->thumbnail_target === 'none' || $config->thumbnail_type === 'none')
 		{
 			return;
@@ -666,21 +655,10 @@ class commentItem extends BaseObject
 			$config->thumbnail_quality = 75;
 		}
 		
-		if(!$this->isAccessible())
-		{
-			return;
-		}
-		
 		// If signiture height setting is omitted, create a square
 		if(!$height)
 		{
 			$height = $width;
-		}
-
-		// return false if neigher attached file nor image;
-		if(!$this->hasUploadedFiles() && !preg_match("!<img!is", $this->get('content')))
-		{
-			return;
 		}
 
 		// Define thumbnail information
@@ -688,6 +666,7 @@ class commentItem extends BaseObject
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_lockfile = sprintf('%s%dx%d.%s.lock', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_url = Context::getRequestUri() . $thumbnail_file;
+		$thumbnail_file = RX_BASEDIR . $thumbnail_file;
 
 		// return false if a size of existing thumbnail file is 0. otherwise return the file path
 		if(file_exists($thumbnail_file) || file_exists($thumbnail_lockfile))
@@ -700,6 +679,26 @@ class commentItem extends BaseObject
 			{
 				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 			}
+		}
+
+		// Call trigger for custom thumbnails.
+		$trigger_obj = (object)[
+			'document_srl' => $this->document_srl, 'comment_srl' => $this->comment_srl,
+			'width' => $width, 'height' => $height,
+			'image_type' => 'jpg', 'type' => $thumbnail_type, 'quality' => $config->thumbnail_quality,
+			'filename' => $thumbnail_file, 'url' => $thumbnail_url,
+		];
+		$output = ModuleHandler::triggerCall('comment.getThumbnail', 'before', $trigger_obj);
+		clearstatcache(true, $thumbnail_file);
+		if (file_exists($thumbnail_file) && filesize($thumbnail_file) > 0)
+		{
+			return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
+		}
+		
+		// return false if neigher attached file nor image;
+		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content')))
+		{
+			return;
 		}
 
 		// Create lockfile to prevent race condition
@@ -794,7 +793,7 @@ class commentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $width, $height, 'jpg', $thumbnail_type, $config->thumbnail_quality);
+			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
 		}
 
 		// Remove source file if it was temporary

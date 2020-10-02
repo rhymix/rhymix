@@ -2,20 +2,32 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispMemberSignUpForm" type="view" meta-noindex="true" />
-		<action name="dispMemberLoginForm" type="view" meta-noindex="true" />
+		<action name="dispMemberSignUpForm" type="view" meta-noindex="true">
+			<route route="signup" />
+			<route route="signup$document_srl:delete" />
+			<route route="signup$document_srl:delete$page:delete" />
+			<route route="signup$member_srl:delete" />
+			<route route="signup$page:delete" />
+		</action>
+		<action name="dispMemberLoginForm" type="view" meta-noindex="true">
+			<route route="login" />
+			<route route="login$document_srl:delete" />
+			<route route="login$document_srl:delete$page:delete" />
+			<route route="login$member_srl:delete" />
+			<route route="login$page:delete" />
+		</action>
 		<action name="dispMemberFindAccount" type="view" meta-noindex="true" />
 		<action name="dispMemberResendAuthMail" type="view" meta-noindex="true" />
-		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" />
+		<action name="dispMemberInfo" type="view" permission="member" meta-noindex="true" route="member_info" />
 		<action name="dispMemberModifyInfo" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberModifyPassword" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberModifyEmailAddress" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberLeave" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberScrappedDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberSavedDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberOwnDocument" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" />
+		<action name="dispMemberScrappedDocument" type="view" permission="member" meta-noindex="true" route="my_scrap" />
+		<action name="dispMemberSavedDocument" type="view" permission="member" meta-noindex="true" route="my_saved_documents" />
+		<action name="dispMemberOwnDocument" type="view" permission="member" meta-noindex="true" route="my_documents" />
+		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" route="my_comments" />
+		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" route="active_logins" />
 		<action name="dispMemberModifyNicknameLog" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberLogout" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberSpammer" type="view" permission="manager" check_var="module_srl" meta-noindex="true" />
@@ -23,9 +35,11 @@
 		<action name="getMemberMenu" type="model" />
 		<action name="getApiGroups" type="model" permission="root" />
 		
-		<action name="procMemberInsert" type="controller" ruleset="@insertMember" />
+		<action name="procMemberInsert" type="controller" ruleset="@insertMember" route="signup" />
 		<action name="procMemberCheckValue" type="controller" />
-		<action name="procMemberLogin" type="controller" ruleset="@login" />
+		<action name="procMemberLogin" type="controller" ruleset="@login" route="login" />
+		<action name="procMemberRegisterDevice" type="controller" route="device/register" />
+		<action name="procMemberLoginWithDevice" type="controller" route="device/login" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" />
 		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" />
 		<action name="procMemberAuthAccount" type="controller" method="GET|POST" />

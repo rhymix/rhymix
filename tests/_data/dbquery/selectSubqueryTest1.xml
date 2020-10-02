@@ -1,0 +1,20 @@
+<query id="selectSubqueryTest1" action="select">
+	<tables>
+		<table name="documents" />
+		<table query="true" alias="m">
+			<tables>
+				<table name="member" />
+			</tables>
+			<columns>
+				<column name="member_srl" />
+				<column name="nick_name" />
+			</columns>
+		</table>
+	</tables>
+	<columns>
+		<column name="documents.*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="documents.member_srl" default="m.member_srl" />
+	</conditions>
+</query>

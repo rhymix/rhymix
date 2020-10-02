@@ -57,8 +57,7 @@
 	var https_port = {Context::get("_https_port") ?: 'null'};
 	var enforce_ssl = {$site_module_info->security === 'always' ? 'true' : 'false'};
 	var cookies_ssl = {config('session.use_ssl_cookies') ? 'true' : 'false'};
-	var ssl_actions = {json_encode(array_keys(Context::getSSLActions()))};
-	var xeVid = null;
+	var ssl_actions = [];
 </script>
 </head>
 

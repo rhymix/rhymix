@@ -21,6 +21,9 @@ return array(
 		),
 	),
 	'cache' => array(
+		'type' => null,
+		'ttl' => 86400,
+		'servers' => array(),
 		'truncate_method' => 'delete',
 	),
 	'ftp' => array(
@@ -50,6 +53,7 @@ return array(
 		'http_port' => null,
 		'https_port' => null,
 		'ssl' => 'none',
+		'rewrite' => 1,
 	),
 	'session' => array(
 		'delay' => false,

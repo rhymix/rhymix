@@ -98,10 +98,19 @@ class memberAdminController extends member
 		unset($all_args->use_editor);
 		unset($all_args->use_html);
 		unset($all_args->reset_password);
-		if(!isset($args->limit_date)) $args->limit_date = "";
 		$extra_vars = delObjectVars($all_args, $args);
 		$args->extra_vars = serialize($extra_vars);
 
+		// Delete invalid or past limit dates #1334
+		if (!isset($args->limit_date))
+		{
+			$args->limit_date = '';
+		}
+		elseif ($args->limit_date < date('Ymd'))
+		{
+			$args->limit_date = '';
+		}
+		
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
 		foreach($checkInfos as $val)
@@ -958,7 +967,7 @@ class memberAdminController extends member
 		$groups = $var->groups;
 		$members = $var->member_srls;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$oMemberController = getController('member');
@@ -1035,6 +1044,8 @@ class memberAdminController extends member
 			}
 		}
 
+		$oDB->commit();
+		
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -1077,8 +1088,9 @@ class memberAdminController extends member
 		if(!is_array($group_srl)) $group_srls = explode('|@|', $group_srl);
 		else $group_srls = $group_srl;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
+
 		// Delete a group of selected members
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
