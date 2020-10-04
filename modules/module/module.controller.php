@@ -28,7 +28,12 @@ class moduleController extends module
 		$args->route_regexp = is_scalar($route_regexp) ? $route_regexp : serialize($route_regexp);
 		$args->route_config = is_scalar($route_config) ? $route_config : serialize($route_config);
 		$args->global_route = $global_route === 'Y' ? 'Y' : 'N';
+		
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		$output = executeQuery('module.deleteActionForward', ['act' => $act]);
 		$output = executeQuery('module.insertActionForward', $args);
+		$oDB->commit();
 
 		Rhymix\Framework\Cache::delete('action_forward');
 		return $output;
@@ -43,7 +48,6 @@ class moduleController extends module
 		$args->module = $module;
 		$args->type = $type;
 		$args->act = $act;
-
 		$output = executeQuery('module.deleteActionForward', $args);
 
 		Rhymix\Framework\Cache::delete('action_forward');
@@ -220,11 +224,25 @@ class moduleController extends module
 		$args->config = serialize($config);
 		$args->site_srl = $site_srl;
 
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		$output = executeQuery('module.deleteModuleConfig', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		$output = executeQuery('module.insertModuleConfig', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
+		$oDB->commit();
+		
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
@@ -241,10 +259,24 @@ class moduleController extends module
 		$args->module_srl = $module_srl;
 		$args->config = serialize($config);
 
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		$output = executeQuery('module.deleteModulePartConfig', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		$output = executeQuery('module.insertModulePartConfig', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$oDB->commit();
 
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
