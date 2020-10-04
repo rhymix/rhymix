@@ -335,9 +335,13 @@ class DB
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
-			else
+			elseif ($query->type === 'SELECT')
 			{
 				$result = $this->_fetch($this->_last_stmt, $last_index, $result_type);
+			}
+			else
+			{
+				$result = null;
 			}
 		}
 		catch (Exceptions\DBError $e)
