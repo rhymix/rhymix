@@ -674,6 +674,7 @@ class editorModel extends editor
 		}
 		else
 		{
+			$date_obj = new stdClass;
 			sscanf($xml_doc->component->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
 
