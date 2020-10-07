@@ -264,7 +264,7 @@ $lang->use_rewrite = '짧은 주소 사용';
 $lang->use_rewrite_0 = '사용하지 않음';
 $lang->use_rewrite_1 = 'XE와 호환되는 주소 형태만 사용';
 $lang->use_rewrite_2 = '모든 주소 형태를 사용';
-$lang->about_use_rewrite = '짧은 주소를 사용하려면 웹서버에서 rewrite 기능을 지원해야 합니다. 아파치의 경우 .htaccess 파일이 있으면 대부분 자동으로 인식합니다.<br />nginx 사용시 <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md> target="_blank">매뉴얼</a>을 참고하여 직접 설정하셔야 합니다. 구 버전의 nginx 설정은 XE와 호환되는 주소만 지원하니 주의하십시오.';
+$lang->about_use_rewrite = '짧은 주소를 사용하려면 웹서버에서 rewrite 기능을 지원해야 합니다. 아파치의 경우 .htaccess 파일이 있으면 대부분 자동으로 인식합니다.<br />nginx 사용시 <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md" target="_blank">매뉴얼</a>을 참고하여 직접 설정하셔야 합니다. 구 버전의 nginx 설정은 XE와 호환되는 주소만 지원하니 주의하십시오.';
 $lang->timezone = '표준 시간대';
 $lang->use_mobile_view = '모바일 뷰 사용';
 $lang->about_use_mobile_view = '모바일 기기로 접속시 모바일 페이지를 보여줍니다.';
