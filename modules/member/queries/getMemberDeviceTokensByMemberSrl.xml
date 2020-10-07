@@ -1,0 +1,13 @@
+<query id="getMemberDeviceTokensByMemberSrl" action="select">
+    <tables>
+        <table name="member_devices" />
+    </tables>
+    <columns>
+        <column name="device_token" />
+        <column name="device_type" />
+    </columns>
+    <conditions>
+        <condition operation="in" column="member_srl" var="member_srl" notnull="notnull" />
+        <condition operation="in" column="device_type" var="device_type" pipe="and" />
+    </conditions>
+</query>

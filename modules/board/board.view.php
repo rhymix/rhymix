@@ -38,16 +38,14 @@ class boardView extends board
 		$this->except_notice = $this->module_info->except_notice == 'N' ? FALSE : TRUE;
 
 		// $this->_getStatusNameListecret option backward compatibility
-		$oDocumentModel = getModel('document');
-
-		$statusList = $this->_getStatusNameList($oDocumentModel);
+		$statusList = $this->_getStatusNameList();
 		if(isset($statusList['SECRET']))
 		{
 			$this->module_info->secret = 'Y';
 		}
 
 		// use_category <=1.5.x, hide_category >=1.7.x
-		$count_category = count($oDocumentModel->getCategoryList($this->module_info->module_srl));
+		$count_category = count(DocumentModel::getCategoryList($this->module_info->module_srl));
 		if($count_category)
 		{
 			if($this->module_info->hide_category)
@@ -93,8 +91,7 @@ class boardView extends board
 		/**
 		 * use context::set to setup extra variables
 		 **/
-		$oDocumentModel = getModel('document');
-		$extra_keys = $oDocumentModel->getExtraKeys($this->module_info->module_srl);
+		$extra_keys = DocumentModel::getExtraKeys($this->module_info->module_srl);
 		Context::set('extra_keys', $extra_keys);
 
 		/**
@@ -112,6 +109,8 @@ class boardView extends board
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
 		Context::addJsFile($this->module_path.'tpl/js/board.js');
+		Context::loadLang('./modules/document/lang');
+		Context::loadLang('./modules/comment/lang');
 
 		// remove [document_srl]_cpage from get_vars
 		$args = Context::getRequestVars();
@@ -158,7 +157,7 @@ class boardView extends board
 			}
 		}
 		// remove a search option that is not public in member config
-		$memberConfig = getModel('module')->getModuleConfig('member');
+		$memberConfig = ModuleModel::getModuleConfig('member');
 		foreach($memberConfig->signupForm as $signupFormElement)
 		{
 			if(in_array($signupFormElement->title, $search_option))
@@ -171,8 +170,7 @@ class boardView extends board
 		}
 		Context::set('search_option', $search_option);
 
-		$oDocumentModel = getModel('document');
-		$statusNameList = $this->_getStatusNameList($oDocumentModel);
+		$statusNameList = $this->_getStatusNameList();
 		if(count($statusNameList) > 0)
 		{
 			Context::set('status_list', $statusNameList);
@@ -182,8 +180,7 @@ class boardView extends board
 		$this->dispBoardContentView();
 
 		// list config, columnList setting
-		$oBoardModel = getModel('board');
-		$this->listConfig = $oBoardModel->getListConfig($this->module_info->module_srl);
+		$this->listConfig = BoardModel::getListConfig($this->module_info->module_srl);
 		if(!$this->listConfig) $this->listConfig = array();
 		$this->_makeListColumnList();
 
@@ -219,8 +216,7 @@ class boardView extends board
 				return;
 			}
 
-			$oDocumentModel = getModel('document');
-			Context::set('category_list', $oDocumentModel->getCategoryList($this->module_srl));
+			Context::set('category_list', DocumentModel::getCategoryList($this->module_srl));
 
 			$oSecurity = new Security();
 			$oSecurity->encodeHTML('category_list.', 'category_list.childs.');
@@ -235,21 +231,18 @@ class boardView extends board
 		$document_srl = Context::get('document_srl');
 		$page = Context::get('page');
 
-		// generate document model object
-		$oDocumentModel = getModel('document');
-
 		/**
 		 * if the document exists, then get the document information
 		 **/
 		if($document_srl)
 		{
-			$oDocument = $oDocumentModel->getDocument($document_srl, false, true);
+			$oDocument = DocumentModel::getDocument($document_srl, false, true);
 
 			// if the document is existed
 			if($oDocument->isExists())
 			{
 				// if the module srl is not consistent
-				if($oDocument->get('module_srl')!=$this->module_info->module_srl )
+				if($oDocument->get('module_srl') != $this->module_info->module_srl && $oDocument->get('is_notice') !== 'A')
 				{
 					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
@@ -263,7 +256,7 @@ class boardView extends board
 					$logged_info = Context::get('logged_info');
 					if(abs($oDocument->get('member_srl')) != $logged_info->member_srl)
 					{
-						$oDocument = $oDocumentModel->getDocument(0);
+						$oDocument = DocumentModel::getDocument(0);
 					}
 				}
 
@@ -272,7 +265,7 @@ class boardView extends board
 				{
 					if(!$oDocument->isGranted())
 					{
-						$oDocument = $oDocumentModel->getDocument(0);
+						$oDocument = DocumentModel::getDocument(0);
 					}
 				}
 
@@ -290,7 +283,7 @@ class boardView extends board
 		}
 		else
 		{
-			$oDocument = $oDocumentModel->getDocument(0);
+			$oDocument = DocumentModel::getDocument(0);
 		}
 
 		/**
@@ -300,7 +293,7 @@ class boardView extends board
 		{
 			if(!$this->grant->view && !$oDocument->isGranted())
 			{
-				$oDocument = $oDocumentModel->getDocument(0);
+				$oDocument = DocumentModel::getDocument(0);
 				Context::set('document_srl','',true);
 				$this->alertMessage('msg_not_permitted', 403);
 			}
@@ -360,8 +353,7 @@ class boardView extends board
 
 		// Check if a permission for file download is granted
 		// Get configurations (using module model object)
-		$oModuleModel = getModel('module');
-		$file_module_config = $oModuleModel->getModulePartConfig('file',$this->module_srl);
+		$file_module_config = ModuleModel::getModulePartConfig('file',$this->module_srl);
 		
 		$downloadGrantCount = 0;
 		if(is_array($file_module_config->download_grant))
@@ -380,14 +372,12 @@ class boardView extends board
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
-				$oModuleModel =& getModel('module');
 				$columnList = array('module_srl', 'site_srl');
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($this->module_srl, $columnList);
+				$module_info = ModuleModel::getModuleInfoByModuleSrl($this->module_srl, $columnList);
 
-				if(!$oModuleModel->isSiteAdmin($logged_info, $module_info->site_srl))
+				if(!ModuleModel::isSiteAdmin($logged_info, $module_info->site_srl))
 				{
-					$oMemberModel =& getModel('member');
-					$member_groups = $oMemberModel->getMemberGroups($logged_info->member_srl, $module_info->site_srl);
+					$member_groups = MemberModel::getMemberGroups($logged_info->member_srl, $module_info->site_srl);
 
 					$is_permitted = false;
 					for($i=0;$i<count($file_module_config->download_grant);$i++)
@@ -407,9 +397,8 @@ class boardView extends board
 			}
 		}
 
-		$oDocumentModel = getModel('document');
 		$document_srl = Context::get('document_srl');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		Context::set('oDocument', $oDocument);
 		Context::set('file_list',$oDocument->getUploadedFiles());
 
@@ -424,9 +413,8 @@ class boardView extends board
 		// check document view grant
 		$this->dispBoardContentView();
 
-		$oDocumentModel = getModel('document');
 		$document_srl = Context::get('document_srl');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		$comment_list = $oDocument->getComments();
 
 		// setup the comment list
@@ -455,10 +443,9 @@ class boardView extends board
 			return;
 		}
 
-		$oDocumentModel = getModel('document');
 		$args = new stdClass();
 		$args->module_srl = $this->module_srl;
-		$notice_output = $oDocumentModel->getNoticeList($args, $this->columnList);
+		$notice_output = DocumentModel::getNoticeList($args, $this->columnList);
 		Context::set('notice_list', $notice_output->data);
 	}
 
@@ -476,8 +463,6 @@ class boardView extends board
 			Context::set('page_navigation', new PageHandler(0,0,1,10));
 			return;
 		}
-
-		$oDocumentModel = getModel('document');
 
 		// setup module_srl/page number/ list number/ page count
 		$args = new stdClass();
@@ -534,7 +519,7 @@ class boardView extends board
 		}
 		elseif(!$args->page && $document_srl)
 		{
-			$oDocument = $oDocumentModel->getDocument($document_srl);
+			$oDocument = DocumentModel::getDocument($document_srl);
 			if($oDocument->isExists() && !$oDocument->isNotice())
 			{
 				$days = $this->module_info->skip_bottom_list_days ?: 30;
@@ -544,7 +529,7 @@ class boardView extends board
 				}
 				else
 				{
-					$args->page = $oDocumentModel->getDocumentPage($oDocument, $args);
+					$args->page = DocumentModel::getDocumentPage($oDocument, $args);
 					Context::set('page', $args->page);
 				}
 			}
@@ -575,7 +560,7 @@ class boardView extends board
 		Context::set('list_config', $this->listConfig);
 
 		// setup document list variables on context
-		$output = $oDocumentModel->getDocumentList($args, $this->except_notice, TRUE, $this->columnList);
+		$output = DocumentModel::getDocumentList($args, $this->except_notice, TRUE, $this->columnList);
 		Context::set('document_list', $output->data);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -690,7 +675,7 @@ class boardView extends board
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
-		$oDocument = getModel('document')->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -713,9 +698,6 @@ class boardView extends board
 			return $this->dispBoardMessage('msg_not_permitted');
 		}
 
-		$oDocumentModel = getModel('document');
-		$logged_info = Context::get('logged_info');
-
 		/**
 		 * check if the category option is enabled not not
 		 **/
@@ -724,7 +706,7 @@ class boardView extends board
 			// get the user group information
 			if(Context::get('is_logged'))
 			{
-				$group_srls = array_keys($logged_info->group_list);
+				$group_srls = array_keys($this->user->group_list);
 			}
 			else
 			{
@@ -734,7 +716,7 @@ class boardView extends board
 
 			// check the grant after obtained the category list
 			$category_list = array();
-			$normal_category_list = $oDocumentModel->getCategoryList($this->module_srl);
+			$normal_category_list = DocumentModel::getCategoryList($this->module_srl);
 			if(count($normal_category_list))
 			{
 				foreach($normal_category_list as $category_srl => $category)
@@ -773,11 +755,10 @@ class boardView extends board
 
 		// GET parameter document_srl from request
 		$document_srl = Context::get('document_srl');
-		$oDocument = $oDocumentModel->getDocument(0, $this->grant->manager);
+		$oDocument = DocumentModel::getDocument(0, $this->grant->manager);
 		$oDocument->setDocument($document_srl);
 
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
+		$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
 
 		if($oDocument->get('module_srl') == $oDocument->get('member_srl')) $savedDoc = TRUE;
 		$oDocument->add('module_srl', $this->module_srl);
@@ -801,13 +782,12 @@ class boardView extends board
 				}
 			}
 		}
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		if($member_info->is_admin == 'Y' && $this->user->is_admin != 'Y')
 		{
 			throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
 		}
 
 		// if the document is not granted, then back to the password input form
-		$oModuleModel = getModel('module');
 		if($oDocument->isExists() && !$oDocument->isGranted())
 		{
 			return $this->setTemplateFile('input_password_form');
@@ -815,7 +795,7 @@ class boardView extends board
 
 		if(!$oDocument->isExists())
 		{
-			$point_config = $oModuleModel->getModulePartConfig('point',$this->module_srl);
+			$point_config = ModuleModel::getModulePartConfig('point',$this->module_srl);
 			if ($point_config)
 			{
 				$pointForInsert = is_object($point_config) ? $point_config->insert_document : $point_config["insert_document"];
@@ -824,23 +804,22 @@ class boardView extends board
 			{
 				$pointForInsert = 0;
 			}
-			$logged_info = Context::get('logged_info');
 			
 			if($pointForInsert < 0)
 			{
-				if(!Context::get('is_logged'))
+				if(!$this->user->isMember())
 				{
 					return $this->dispBoardMessage('msg_not_permitted');
 				}
-				else if((getModel('point')->getPoint($logged_info->member_srl) + $pointForInsert) < 0)
+				else if((getModel('point')->getPoint($this->user->member_srl) + $pointForInsert) < 0)
 				{
 					return $this->dispBoardMessage('msg_not_enough_point');
 				}
 			}
 		}
-		if(!$oDocument->get('status')) $oDocument->add('status', $oDocumentModel->getDefaultStatus());
+		if(!$oDocument->get('status')) $oDocument->add('status', DocumentModel::getDefaultStatus());
 
-		$statusList = $this->_getStatusNameList($oDocumentModel);
+		$statusList = $this->_getStatusNameList();
 		if(count($statusList) > 0) Context::set('status_list', $statusList);
 
 		// get Document status config value
@@ -872,12 +851,12 @@ class boardView extends board
 		$this->setTemplateFile('write_form');
 	}
 
-	function _getStatusNameList(&$oDocumentModel)
+	function _getStatusNameList()
 	{
 		$resultList = array();
 		if(!empty($this->module_info->use_status))
 		{
-			$statusNameList = $oDocumentModel->getStatusNameList();
+			$statusNameList = DocumentModel::getStatusNameList();
 			$statusList = explode('|@|', $this->module_info->use_status);
 
 			if(is_array($statusList))
@@ -908,8 +887,7 @@ class boardView extends board
 		// if document exists, get the document information
 		if($document_srl)
 		{
-			$oDocumentModel = getModel('document');
-			$oDocument = $oDocumentModel->getDocument($document_srl);
+			$oDocument = DocumentModel::getDocument($document_srl);
 		}
 
 		// if the document is not existed, then back to the board content page
@@ -966,8 +944,7 @@ class boardView extends board
 		}
 
 		// get the document information
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
 			return $this->dispBoardMessage('msg_not_founded');
@@ -980,8 +957,7 @@ class boardView extends board
 		}
 
 		// obtain the comment (create an empty comment document for comment_form usage)
-		$oCommentModel = getModel('comment');
-		$oSourceComment = $oComment = $oCommentModel->getComment(0);
+		$oSourceComment = $oComment = CommentModel::getComment(0);
 		$oComment->add('document_srl', $document_srl);
 		$oComment->add('module_srl', $this->module_srl);
 
@@ -1019,8 +995,7 @@ class boardView extends board
 		}
 
 		// get the comment
-		$oCommentModel = getModel('comment');
-		$oSourceComment = $oCommentModel->getComment($parent_srl, $this->grant->manager);
+		$oSourceComment = CommentModel::getComment($parent_srl, $this->grant->manager);
 
 		// if the comment is not existed, opoup an error message
 		if(!$oSourceComment->isExists())
@@ -1033,15 +1008,14 @@ class boardView extends board
 		}
 
 		// Check allow comment
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($oSourceComment->get('document_srl'));
+		$oDocument = DocumentModel::getDocument($oSourceComment->get('document_srl'));
 		if(!$oDocument->allowComment())
 		{
 			return $this->dispBoardMessage('msg_not_allow_comment');
 		}
 
 		// get the comment information
-		$oComment = $oCommentModel->getComment();
+		$oComment = CommentModel::getComment();
 		$oComment->add('parent_srl', $parent_srl);
 		$oComment->add('document_srl', $oSourceComment->get('document_srl'));
 
@@ -1081,11 +1055,9 @@ class boardView extends board
 		}
 
 		// get comment information
-		$oCommentModel = getModel('comment');
-		$oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+		$oComment = CommentModel::getComment($comment_srl, $this->grant->manager);
 
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oComment->member_srl);
+		$member_info = MemberModel::getMemberInfo($oComment->member_srl);
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
 			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
@@ -1097,7 +1069,7 @@ class boardView extends board
 		}
 		if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 		{
-			$childs = $oCommentModel->getChildComments($comment_srl);
+			$childs = CommentModel::getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
 				throw new Rhymix\Framework\Exception('msg_board_update_protect_comment');
@@ -1122,7 +1094,7 @@ class boardView extends board
 		}
 
 		// setup the comment variables on context
-		Context::set('oSourceComment', $oCommentModel->getComment());
+		Context::set('oSourceComment', CommentModel::getComment());
 		Context::set('oComment', $oComment);
 
 		/**
@@ -1150,8 +1122,7 @@ class boardView extends board
 		// if the comment exists, then get the comment information
 		if($comment_srl)
 		{
-			$oCommentModel = getModel('comment');
-			$oComment = $oCommentModel->getComment($comment_srl, $this->grant->manager);
+			$oComment = CommentModel::getComment($comment_srl, $this->grant->manager);
 		}
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
@@ -1166,8 +1137,7 @@ class boardView extends board
 
 		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
 		{
-			$oCommentModel = getModel('comment');
-			$childs = $oCommentModel->getChildComments($comment_srl);
+			$childs = CommentModel::getChildComments($comment_srl);
 			if(count($childs) > 0)
 			{
 				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
@@ -1202,7 +1172,6 @@ class boardView extends board
 	function dispBoardDeleteTrackback()
 	{
 		$oTrackbackModel = getModel('trackback');
-
 		if(!$oTrackbackModel)
 		{
 			return;
@@ -1245,19 +1214,18 @@ class boardView extends board
 
 	function dispBoardUpdateLog()
 	{
-		$oDocumentModel = getModel('document');
-		$document_srl = Context::get('document_srl');
-
 		if($this->grant->update_view !== true)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+		
+		$document_srl = Context::get('document_srl');
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$updatelog = $oDocumentModel->getDocumentUpdateLog($document_srl);
+		$updatelog = DocumentModel::getDocumentUpdateLog($document_srl);
 		if(!$updatelog->toBool())
 		{
 			return $updatelog;
@@ -1274,16 +1242,14 @@ class boardView extends board
 
 	function dispBoardUpdateLogView()
 	{
-		$oDocumentModel = getModel('document');
-		$update_id = Context::get('update_id');
-
 		if($this->grant->update_view !== true)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
-		$update_log = $oDocumentModel->getUpdateLog($update_id);
-		$oDocument = $oDocumentModel->getDocument($update_log->document_srl);
+		$update_id = Context::get('update_id');
+		$update_log = DocumentModel::getUpdateLog($update_id);
+		$oDocument = DocumentModel::getDocument($update_log->document_srl);
 
 		$extra_vars = unserialize($update_log->extra_vars);
 
@@ -1317,8 +1283,6 @@ class boardView extends board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-
-		$oMemberModel = getModel('member');
 
 		$target = Context::get('target');
 		$target_srl = Context::get('target_srl');
@@ -1357,7 +1321,7 @@ class boardView extends board
 					{
 						continue;
 					}
-					$vote_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+					$vote_member_infos[$log->member_srl] = MemberModel::getMemberInfo($log->member_srl);
 				}
 				else
 				{
@@ -1365,13 +1329,18 @@ class boardView extends board
 					{
 						continue;
 					}
-					$blame_member_infos[$log->member_srl] = $oMemberModel->getMemberInfoByMemberSrl($log->member_srl);
+					$blame_member_infos[$log->member_srl] = MemberModel::getMemberInfo($log->member_srl);
 				}
 			}
 		}
 		Context::set('vote_member_info', $vote_member_infos);
 		Context::set('blame_member_info', $blame_member_infos);
 		$this->setTemplateFile('vote_log');
+	}
+	
+	function dispBoardNotFound()
+	{
+		$this->alertMessage('msg_not_founded', 404);
 	}
 
 	/**

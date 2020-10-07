@@ -16,6 +16,7 @@ class session extends ModuleObject
 	function __construct()
 	{
 		if(Context::isInstalled()) $this->session_started= true;
+		parent::__construct();
 	}
 
 	/**
@@ -32,9 +33,7 @@ class session extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oDB = &DB::getInstance();
-		if(!$oDB->isTableExists('session')) return true;
-		if(!$oDB->isColumnExists("session","cur_mid")) return true;
+		$oDB = DB::getInstance();
 		if(!$oDB->isIndexExists("session","idx_session_update_mid")) return true;
 		return false;
 	}
@@ -45,13 +44,10 @@ class session extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = &DB::getInstance();
-		$oModuleModel = getModel('module');
-
-		if(!$oDB->isTableExists('session')) $oDB->createTableByXmlFile($this->module_path.'schemas/session.xml');
-
-		if(!$oDB->isColumnExists("session","cur_mid")) $oDB->addColumn('session',"cur_mid","varchar",128);
-
-		if(!$oDB->isIndexExists("session","idx_session_update_mid")) $oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
+		if(!$oDB->isIndexExists("session","idx_session_update_mid"))
+		{
+			$oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
+		}
 	}
 
 	/**

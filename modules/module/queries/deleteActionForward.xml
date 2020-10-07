@@ -3,8 +3,8 @@
         <table name="action_forward" />
     </tables>
     <conditions>
-        <condition operation="equal" column="module" var="module" notnull="notnull" />
-        <condition operation="equal" column="type" var="type" notnull="notnull" pipe="and" />
-        <condition operation="equal" column="act" var="act" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="act" var="act" notnull="notnull" />
+        <condition operation="equal" column="module" var="module" pipe="and" />
+        <condition operation="equal" column="type" var="type" pipe="and" />
     </conditions>
 </query>

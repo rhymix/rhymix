@@ -97,7 +97,7 @@ class pointAdminController extends point
 
 		// The highest level
 		$config->max_level = $args->max_level;
-		if($config->max_level>1000) $config->max_level = 1000;
+		if($config->max_level>10000) $config->max_level = 10000;
 		if($config->max_level<1) $config->max_level = 1;
 
 		// Set the level icon
@@ -141,13 +141,15 @@ class pointAdminController extends point
 
 		$config->group_reset = $args->group_reset;
 		$config->group_ratchet = $args->group_ratchet;
+
 		// Per-level point configurations
-		unset($config->level_step);
+		$level_step = array_map('intval', explode(',', $args->level_step ?: '0'));
+		$config->level_step = array();
 		for($i=1;$i<=$config->max_level;$i++)
 		{
-			$key = "level_step_".$i;
-			$config->level_step[$i] = (int)$args->{$key};
+			$config->level_step[$i] = isset($level_step[$i - 1]) ? $level_step[$i - 1] : array_last($level_step);
 		}
+
 		// A function to calculate per-level points
 		$config->expression = $args->expression;
 		

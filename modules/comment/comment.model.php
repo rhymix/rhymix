@@ -16,7 +16,7 @@ class commentModel extends comment
 	 * Initialization
 	 * @return void
 	 */
-	function init()
+	public function init()
 	{
 
 	}
@@ -26,7 +26,7 @@ class commentModel extends comment
 	 * Print, scrap, vote-up(recommen), vote-down(non-recommend), report features added
 	 * @return void
 	 */
-	function getCommentMenu()
+	public function getCommentMenu()
 	{
 		// get the post's id number and the current login information
 		$comment_srl = Context::get('target_srl');
@@ -45,14 +45,12 @@ class commentModel extends comment
 		// feature that only member can do
 		if($logged_info->member_srl)
 		{
-			$oCommentModel = getModel('comment');
 			$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
-			$oComment = $oCommentModel->getComment($comment_srl, FALSE, $columnList);
+			$oComment = self::getComment($comment_srl, FALSE, $columnList);
 			$module_srl = $oComment->get('module_srl');
-			$member_srl = $oComment->get('member_srl');
+			$member_srl = abs($oComment->get('member_srl'));
 
-			$oModuleModel = getModel('module');
-			$comment_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+			$comment_config = ModuleModel::getModulePartConfig('document', $module_srl);
 
 			if($comment_config->use_vote_up != 'N' && $member_srl != $logged_info->member_srl)
 			{
@@ -86,8 +84,7 @@ class commentModel extends comment
 		// find a comment by IP matching if an administrator.
 		if($logged_info->is_admin == 'Y')
 		{
-			$oCommentModel = getModel('comment');
-			$oComment = $oCommentModel->getComment($comment_srl);
+			$oComment = self::getComment($comment_srl);
 
 			if($oComment->isExists())
 			{
@@ -119,7 +116,7 @@ class commentModel extends comment
 	 * @param int $comment_srl
 	 * @return bool
 	 */
-	function isGranted($comment_srl)
+	public static function isGranted($comment_srl)
 	{
 		return $_SESSION['granted_comment'][$comment_srl];
 	}
@@ -129,7 +126,7 @@ class commentModel extends comment
 	 * @param int $comment_srl
 	 * @return int
 	 */
-	function getChildCommentCount($comment_srl)
+	public static function getChildCommentCount($comment_srl)
 	{
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
@@ -142,7 +139,7 @@ class commentModel extends comment
 	 * @param int $comment_srl
 	 * @return int
 	 */
-	function getChildComments($comment_srl)
+	public static function getChildComments($comment_srl)
 	{
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
@@ -157,7 +154,7 @@ class commentModel extends comment
 	 * @param array $columnList
 	 * @return commentItem
 	 */
-	function getComment($comment_srl = 0, $is_admin = FALSE, $columnList = array())
+	public static function getComment($comment_srl = 0, $is_admin = FALSE, $columnList = array())
 	{
 		$oComment = new commentItem($comment_srl, $columnList);
 		if($is_admin)
@@ -174,7 +171,7 @@ class commentModel extends comment
 	 * @param array $columnList
 	 * @return array
 	 */
-	function getComments($comment_srl_list, $columnList = array())
+	public static function getComments($comment_srl_list, $columnList = array())
 	{
 		if (!is_array($comment_srl_list))
 		{
@@ -204,7 +201,6 @@ class commentModel extends comment
 			$comment_list = array($comment_list);
 		}
 
-		$comment_count = count($comment_list);
 		foreach($comment_list as $key => $attribute)
 		{
 			if(!$attribute->comment_srl)
@@ -212,7 +208,6 @@ class commentModel extends comment
 				continue;
 			}
 
-			$oComment = NULL;
 			$oComment = new commentItem();
 			$oComment->setAttribute($attribute);
 
@@ -226,16 +221,14 @@ class commentModel extends comment
 	 * @param int $document_srl
 	 * @return int
 	 */
-	function getCommentCount($document_srl)
+	public static function getCommentCount($document_srl)
 	{
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 
 		// get the number of comments on the document module
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl');
-
-		$oDocument = $oDocumentModel->getDocument($document_srl, FALSE, TRUE, $columnList);
+		$oDocument = DocumentModel::getDocument($document_srl, FALSE, TRUE, $columnList);
 
 		// return if no doc exists.
 		if(!$oDocument->isExists())
@@ -249,7 +242,7 @@ class commentModel extends comment
 		//check if module is using validation system
 		$oCommentController = getController('comment');
 		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
-		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+		$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		$use_comment_massage = $module_info->comment_delete_message;
 
 		if($using_validation)
@@ -273,7 +266,7 @@ class commentModel extends comment
 	 * @param array $moduleSrlList
 	 * @return int
 	 */
-	function getCommentCountByDate($date = '', $moduleSrlList = array())
+	public static function getCommentCountByDate($date = '', $moduleSrlList = array())
 	{
 		$args = new stdClass();
 		if($date)
@@ -301,7 +294,7 @@ class commentModel extends comment
 	 * @param bool $published
 	 * @return int
 	 */
-	function getCommentAllCount($module_srl, $published = false)
+	public static function getCommentAllCount($module_srl, $published = false)
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
@@ -336,22 +329,24 @@ class commentModel extends comment
 
 	/**
 	 * Get the module info without duplication
+	 * 
+	 * @deprecated
+	 * 
 	 * @return array
 	 */
-	function getDistinctModules()
+	public static function getDistinctModules()
 	{
 		return array();
 
 		/*
 		$output = executeQueryArray('comment.getDistinctModules');
 		$module_srls = $output->data;
-		$oModuleModel = getModel('module');
 		$result = array();
 		if($module_srls)
 		{
 			foreach($module_srls as $module)
 			{
-				$module_info = $oModuleModel->getModuleInfoByModuleSrl($module->module_srl);
+				$module_info = ModuleModel::getModuleInfoByModuleSrl($module->module_srl);
 				$result[$module->module_srl] = $module_info->mid;
 			}
 		}
@@ -366,7 +361,7 @@ class commentModel extends comment
 	 * @param array $columnList
 	 * @return array
 	 */
-	function getNewestCommentList($obj, $columnList = array())
+	public static function getNewestCommentList($obj, $columnList = array())
 	{
 		$args = new stdClass();
 
@@ -377,8 +372,7 @@ class commentModel extends comment
 
 		if($obj->mid)
 		{
-			$oModuleModel = getModel('module');
-			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+			$obj->module_srl = ModuleModel::getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
 
@@ -454,7 +448,7 @@ class commentModel extends comment
 	 * @param int $count
 	 * @return object
 	 */
-	function getCommentList($document_srl, $page = 0, $is_admin = FALSE, $count = 0)
+	public static function getCommentList($document_srl, $page = 0, $is_admin = FALSE, $count = 0)
 	{
 		if(!$document_srl)
 		{
@@ -462,9 +456,8 @@ class commentModel extends comment
 		}
 
 		// get the number of comments on the document module
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'comment_count');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
 
 		// return if no doc exists.
 		if(!$oDocument->isExists())
@@ -484,7 +477,7 @@ class commentModel extends comment
 
 		if(!$count)
 		{
-			$comment_config = $this->getCommentConfig($module_srl);
+			$comment_config = self::getCommentConfig($module_srl);
 			$comment_count = $comment_config->comment_count;
 			$comment_page_count = $comment_config->comment_page_count;
 		}
@@ -525,9 +518,8 @@ class commentModel extends comment
 		$trigger_output = ModuleHandler::triggerCall('comment.getCommentList', 'before', $args);
 		if($trigger_output instanceof BaseObject && !$trigger_output->toBool())
 		{
-			return $output;
+			return $trigger_output;
 		}
-		
 		
 		// If an alternate output is set, use it instead of running the default queries
 		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
@@ -546,7 +538,7 @@ class commentModel extends comment
 			// insert data into CommentPageList table if the number of results is different from stored comments
 			if(!$output->data)
 			{
-				$this->fixCommentList($oDocument->get('module_srl'), $document_srl);
+				self::fixCommentList($oDocument->get('module_srl'), $document_srl);
 				$output = executeQueryArray('comment.getCommentPageList', $args);
 				if(!$output->toBool())
 				{
@@ -568,12 +560,11 @@ class commentModel extends comment
 	 * @param int $count
 	 * @return int
 	 */
-	function getCommentPage($document_srl, $comment_srl, $count = 0)
+	public static function getCommentPage($document_srl, $comment_srl, $count = 0)
 	{
 		// Check the document
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'comment_count');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false, $columnList);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
 		if(!$oDocument->isExists())
 		{
 			return 0;
@@ -590,7 +581,7 @@ class commentModel extends comment
 		if(!$count)
 		{
 			$module_srl = $oDocument->get('module_srl');
-			$comment_config = $this->getCommentConfig($module_srl);
+			$comment_config = self::getCommentConfig($module_srl);
 			$comment_count = $comment_config->comment_count;
 		}
 		else
@@ -642,7 +633,7 @@ class commentModel extends comment
 	 * @param int $document_srl
 	 * @return void
 	 */
-	function fixCommentList($module_srl, $document_srl)
+	public static function fixCommentList($module_srl, $document_srl)
 	{
 		// create a lock file to prevent repeated work when performing a batch job
 		$lock_file = "./files/cache/tmp/lock." . $document_srl;
@@ -702,7 +693,7 @@ class commentModel extends comment
 				$root->child[] = &$list[$comment_srl];
 			}
 		}
-		$this->_arrangeComment($comment_list, $root->child, 0, NULL);
+		self::_arrangeComment($comment_list, $root->child, 0, NULL);
 
 		// insert values to the database
 		if(count($comment_list))
@@ -734,7 +725,7 @@ class commentModel extends comment
 	 * @param object $parent
 	 * @return void
 	 */
-	function _arrangeComment(&$comment_list, $list, $depth, $parent = NULL)
+	public static function _arrangeComment(&$comment_list, $list, $depth, $parent = NULL)
 	{
 		if(!count($list))
 		{
@@ -758,7 +749,7 @@ class commentModel extends comment
 			{
 				$val->depth = $depth;
 				$comment_list[$val->comment_srl] = $val;
-				$this->_arrangeComment($comment_list, $val->child, $depth + 1, $val);
+				self::_arrangeComment($comment_list, $val->child, $depth + 1, $val);
 				unset($val->child);
 			}
 			else
@@ -775,7 +766,7 @@ class commentModel extends comment
 	 * @param array $columnList
 	 * @return object
 	 */
-	function getTotalCommentList($obj, $columnList = array())
+	public static function getTotalCommentList($obj, $columnList = array())
 	{
 		$query_id = 'comment.getTotalCommentList';
 
@@ -813,7 +804,7 @@ class commentModel extends comment
 				case 'content' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim(utf8_normalize_spaces($search_keyword));
 					}
 
 					$args->s_content = $search_keyword;
@@ -949,7 +940,7 @@ class commentModel extends comment
 	 * @param object $obj
 	 * @return int
 	 */
-	function getTotalCommentCount($obj)
+	public static function getTotalCommentCount($obj)
 	{
 		$query_id = 'comment.getTotalCommentCountByGroupStatus';
 
@@ -969,7 +960,7 @@ class commentModel extends comment
 				case 'content' :
 					if($search_keyword)
 					{
-						$search_keyword = str_replace(' ', '%', $search_keyword);
+						$search_keyword = trim(utf8_normalize_spaces($search_keyword));
 					}
 
 					$args->s_content = $search_keyword;
@@ -1059,10 +1050,9 @@ class commentModel extends comment
 	 * @param int $module_srl
 	 * @return object
 	 */
-	function getCommentConfig($module_srl)
+	public static function getCommentConfig($module_srl)
 	{
-		$oModuleModel = getModel('module');
-		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
+		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
 		if(!is_object($comment_config))
 		{
 			$comment_config = new stdClass();
@@ -1084,7 +1074,7 @@ class commentModel extends comment
 	 * Return a list of voting member
 	 * @return void
 	 */
-	function getCommentVotedMemberList()
+	public function getCommentVotedMemberList()
 	{
 		$comment_srl = Context::get('comment_srl');
 		if(!$comment_srl)
@@ -1098,16 +1088,14 @@ class commentModel extends comment
 			$point = 1;
 		}
 
-		$oCommentModel = getModel('comment');
-		$oComment = $oCommentModel->getComment($comment_srl, FALSE, FALSE);
+		$oComment = self::getComment($comment_srl, FALSE, FALSE);
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$oModuleModel = getModel('module');
-		$comment_config = $oModuleModel->getModulePartConfig('comment', $module_srl);
+		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
 
 		$args = new stdClass();
 
@@ -1137,12 +1125,11 @@ class commentModel extends comment
 			return $output;
 		}
 
-		$oMemberModel = getModel('member');
 		if($output->data)
 		{
 			foreach($output->data as $k => $d)
 			{
-				$profile_image = $oMemberModel->getProfileImage($d->member_srl);
+				$profile_image = MemberModel::getProfileImage($d->member_srl);
 				$output->data[$k]->src = $profile_image->src;
 			}
 		}
@@ -1154,7 +1141,7 @@ class commentModel extends comment
 	 * Return a secret status by secret field
 	 * @return array
 	 */
-	function getSecretNameList()
+	public static function getSecretNameList()
 	{
 		global $lang;
 
@@ -1173,7 +1160,7 @@ class commentModel extends comment
 	 * @param int $member_srl
 	 * @return int
 	 */
-	function getCommentCountByMemberSrl($member_srl)
+	public static function getCommentCountByMemberSrl($member_srl)
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
@@ -1191,7 +1178,7 @@ class commentModel extends comment
 	 * @param int $count
 	 * @return object
 	 */
-	function getCommentListByMemberSrl($member_srl, $columnList = array(), $page = 0, $is_admin = FALSE, $count = 0)
+	public static function getCommentListByMemberSrl($member_srl, $columnList = array(), $page = 0, $is_admin = FALSE, $count = 0)
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;

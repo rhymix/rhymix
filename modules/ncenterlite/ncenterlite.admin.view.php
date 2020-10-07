@@ -19,9 +19,16 @@ class ncenterliteAdminView extends ncenterlite
 		{
 			$sms_available = true;
 		}
-
-		$push_avaliable = false;
-
+		
+		if(count(Rhymix\Framework\Config::get('push.types')))
+		{
+			$push_avaliable = true;
+		}
+		else
+		{
+			$push_avaliable = false;
+		}
+		
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
 		Context::set('sms_available', $sms_available);

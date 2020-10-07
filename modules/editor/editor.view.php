@@ -125,7 +125,6 @@ class editorView extends editor
 		}
 		
 		// Get editors settings
-		$oModuleModel = getModel('module');
 		$oEditorModel = getModel('editor');
 		$editor_config = $oEditorModel->getEditorConfig($current_module_srl);
 		if (!is_object($editor_config))
@@ -134,7 +133,7 @@ class editorView extends editor
 		}
 
 		// Use default config for missing values.
-		foreach ($this->default_editor_config as $key => $val)
+		foreach (self::$default_editor_config as $key => $val)
 		{
 			if (!isset($editor_config->$key))
 			{
@@ -152,7 +151,7 @@ class editorView extends editor
 				continue;
 			}
 			
-			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+			$skin_info = ModuleModel::loadSkinInfo($this->module_path, $skin);
 			foreach ($skin_info->colorset ?: [] as $colorset)
 			{
 				unset($colorset->screenshot);
@@ -164,9 +163,7 @@ class editorView extends editor
 		Context::set('editor_skin_list', $editor_skin_list);
 		
 		// Get a group list
-		$oMemberModel = getModel('member');
-		$site_module_info = Context::get('site_module_info');
-		$group_list = $oMemberModel->getGroups($site_module_info->site_srl);
+		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
 
 		//Security
@@ -193,8 +190,7 @@ class editorView extends editor
 	function dispEditorSkinColorset()
 	{
 		$skin = Context::get('skin');
-		$oModuleModel = getModel('module');
-		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
+		$skin_info = ModuleModel::loadSkinInfo($this->module_path,$skin);
 		$colorset = $skin_info->colorset;
 		Context::set('colorset', $colorset);
 	}

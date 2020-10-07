@@ -15,7 +15,7 @@ $(function() {
 	
 	// Find debug panel elements.
 	var panel = $("#rhymix_debug_panel");
-	var button = $("#rhymix_debug_button").show();
+	var button = $("#rhymix_debug_button").addClass('visible');
 	
 	// Initialize the debug button.
 	var button_link = $('<a href="#"></a>').text("DEBUG").appendTo(button).click(function(event) {

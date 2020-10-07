@@ -10,30 +10,31 @@ class memberModel extends member
 	/**
 	 * @brief Keep data internally which may be frequently called ...
 	 */
-	var $join_form_list = NULL;
+	protected static $_denied_id_list;
+	protected static $_join_form_list;
+	protected static $_managed_email_hosts;
+	protected static $_member_config;
 
 	/**
 	 * @brief Initialization
 	 */
-	function init()
+	public function init()
 	{
+		
 	}
 
 	/**
 	 * @brief Return member's configuration
 	 */
-	function getMemberConfig()
+	public static function getMemberConfig()
 	{
-		static $member_config;
-
-		if($member_config)
+		if (self::$_member_config)
 		{
-			return $member_config;
+			return self::$_member_config;
 		}
 
 		// Get member configuration stored in the DB
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member');
 
 		if(!$config->signupForm || !is_array($config->signupForm))
 		{
@@ -52,7 +53,7 @@ class memberModel extends member
 		// Get terms of user
 		if(!$config->agreements)
 		{
-			$config->agreement = memberModel::_getAgreement();
+			$config->agreement = self::_getAgreement();
 			$config->agreements[1] = new stdClass;
 			$config->agreements[1]->title = lang('agreement');
 			$config->agreements[1]->content = $config->agreement;
@@ -93,15 +94,13 @@ class memberModel extends member
 			$config->redirect_url = getNotEncodedFullUrl('','mid',$config->redirect_mid);
 		}
 
-		$member_config = $config;
-
-		return $config;
+		return self::$_member_config = $config;
 	}
 
 	/**
 	 * @deprecated
 	 */
-	function _getAgreement()
+	protected static function _getAgreement()
 	{
 		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 		if(is_readable($agreement_file))
@@ -131,27 +130,30 @@ class memberModel extends member
 	/**
 	 * @brief Display menus of the member
 	 */
-	function getMemberMenu()
+	public function getMemberMenu()
 	{
 		// Get member_srl of he target member and logged info of the current user
 		$member_srl = Context::get('target_srl');
 		$mid = Context::get('cur_mid');
 		$logged_info = Context::get('logged_info');
+		$module_config = self::getMemberConfig();
 		$act = Context::get('cur_act');
 		// When click user's own nickname
 		if($member_srl == $logged_info->member_srl) $member_info = $logged_info;
 		// When click other's nickname
-		else $member_info = $this->getMemberInfoByMemberSrl($member_srl);
+		else $member_info = self::getMemberInfoByMemberSrl($member_srl);
 
 		$member_srl = $member_info->member_srl;
 		if(!$member_srl) return;
+
 		// List variables
 		$user_id = $member_info->user_id;
 		$user_name = $member_info->user_name;
+		$icon_path = '';
 
 		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $member_info);
 
-		$oMemberController = getController('member');
+		$oMemberController = MemberController::getInstance();
 		// Display member information (Don't display to non-logged user)
 		if($logged_info->member_srl)
 		{
@@ -163,7 +165,7 @@ class memberModel extends member
 		if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
 		{
 			// Get email config
-			foreach($this->module_config->signupForm as $field)
+			foreach($module_config->signupForm as $field)
 			{
 				if($field->name == 'email_address')
 				{
@@ -175,7 +177,7 @@ class memberModel extends member
 			// Send an email only if email address is public
 			if($email_config->isPublic == 'Y' && $member_info->email_address)
 			{
-				$oCommunicationModel = getModel('communication');
+				$oCommunicationModel = CommunicationModel::getInstance();
 				if($logged_info->is_admin == 'Y' || $oCommunicationModel->isFriend($member_info->member_srl))
 				{
 					$url = 'mailto:'.escape($member_info->email_address);
@@ -194,7 +196,7 @@ class memberModel extends member
 		}
 		else
 		{
-			foreach ($this->module_config->signupForm as $field)
+			foreach ($module_config->signupForm as $field)
 			{
 				if ($field->name === 'homepage' && $field->isPublic === 'Y')
 				{
@@ -250,7 +252,7 @@ class memberModel extends member
 	/**
 	 * @brief Check if logged-in
 	 */
-	function isLogged()
+	public static function isLogged()
 	{
 		return Rhymix\Framework\Session::getMemberSrl() ? true : false;
 	}
@@ -258,15 +260,17 @@ class memberModel extends member
 	/**
 	 * @brief Return session information of the logged-in user
 	 */
-	function getLoggedInfo()
+	public static function getLoggedInfo()
 	{
 		return Context::get('logged_info');
 	}
 
 	/**
 	 * @brief Return member information with user_id
+	 * 
+	 * @return object|null
 	 */
-	function getMemberInfoByUserID($user_id)
+	public static function getMemberInfoByUserID($user_id)
 	{
 		if(!$user_id) return;
 
@@ -276,15 +280,17 @@ class memberModel extends member
 		if(!$output->toBool()) return $output;
 		if(!$output->data) return;
 
-		$member_info = $this->arrangeMemberInfo($output->data);
+		$member_info = self::arrangeMemberInfo($output->data);
 
 		return $member_info;
 	}
 
 	/**
 	 * @brief Return member information with email_address
+	 * 
+	 * @return object|null
 	 */
-	function getMemberInfoByEmailAddress($email_address)
+	public static function getMemberInfoByEmailAddress($email_address)
 	{
 		if(!$email_address) return;
 
@@ -294,14 +300,16 @@ class memberModel extends member
 		if(!$output->toBool()) return $output;
 		if(!$output->data) return;
 
-		$member_info = $this->arrangeMemberInfo($output->data);
+		$member_info = self::arrangeMemberInfo($output->data);
 		return $member_info;
 	}
 
 	/**
 	 * @brief Return member information with phone number
+	 * 
+	 * @return object|null
 	 */
-	function getMemberInfoByPhoneNumber($phone_number, $phone_country = null)
+	public static function getMemberInfoByPhoneNumber($phone_number, $phone_country = null)
 	{
 		if(!$phone_number) return;
 		if($phone_country)
@@ -323,14 +331,16 @@ class memberModel extends member
 		if(!$output->toBool()) return $output;
 		if(!$output->data) return;
 
-		$member_info = $this->arrangeMemberInfo($output->data);
+		$member_info = self::arrangeMemberInfo($output->data);
 		return $member_info;
 	}
 
 	/**
 	 * @brief Return member information with member_srl
+	 * 
+	 * @return object
 	 */
-	function getMemberInfoByMemberSrl($member_srl, $site_srl = 0)
+	public static function getMemberInfoByMemberSrl($member_srl, $site_srl = 0)
 	{
 		if(!$member_srl) return new stdClass;
 
@@ -348,7 +358,7 @@ class memberModel extends member
 					return new stdClass;
 				}
 				
-				$member_info = $this->arrangeMemberInfo($output->data, $site_srl);
+				$member_info = self::arrangeMemberInfo($output->data, $site_srl);
 				if($output->toBool())
 				{
 					Rhymix\Framework\Cache::set($cache_key, $member_info);
@@ -360,25 +370,35 @@ class memberModel extends member
 	}
 
 	/**
+	 * @brief Shortcut to getMemberInfoByMemberSrl()
+	 * 
+	 * @param int $member_srl
+	 * @return object
+	 */
+	public static function getMemberInfo($member_srl)
+	{
+		return self::getMemberInfoByMemberSrl(intval($member_srl));
+	}
+
+	/**
 	 * @brief Add member info from extra_vars and other information
 	 */
-	function arrangeMemberInfo($info, $site_srl = 0)
+	public static function arrangeMemberInfo($info, $site_srl = 0)
 	{
 		if(!$GLOBALS['__member_info__'][$info->member_srl])
 		{
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('member');
+			$config = self::getMemberConfig();
 
-			$info->profile_image = $this->getProfileImage($info->member_srl);
-			$info->image_name = $this->getImageName($info->member_srl);
-			$info->image_mark = $this->getImageMark($info->member_srl);
+			$info->profile_image = self::getProfileImage($info->member_srl);
+			$info->image_name = self::getImageName($info->member_srl);
+			$info->image_mark = self::getImageMark($info->member_srl);
 			if($config->group_image_mark=='Y')
 			{
-				$info->group_mark = $this->getGroupImageMark($info->member_srl,$site_srl);
+				$info->group_mark = self::getGroupImageMark($info->member_srl,$site_srl);
 			}
-			$info->signature = $this->getSignature($info->member_srl);
-			$info->group_list = $this->getMemberGroups($info->member_srl, $site_srl);
-			$info->is_site_admin = $oModuleModel->isSiteAdmin($info) ? true : false;
+			$info->signature = self::getSignature($info->member_srl);
+			$info->group_list = self::getMemberGroups($info->member_srl, $site_srl);
+			$info->is_site_admin = ModuleModel::isSiteAdmin($info) ? true : false;
 
 			$extra_vars = unserialize($info->extra_vars);
 			unset($info->extra_vars);
@@ -445,7 +465,7 @@ class memberModel extends member
 	/**
 	 * @brief Get member_srl corresponding to userid
 	 */
-	function getMemberSrlByUserID($user_id)
+	public static function getMemberSrlByUserID($user_id)
 	{
 		$args = new stdClass();
 		$args->user_id = $user_id;
@@ -456,7 +476,7 @@ class memberModel extends member
 	/**
 	 * @brief Get member_srl corresponding to EmailAddress
 	 */
-	function getMemberSrlByEmailAddress($email_address)
+	public static function getMemberSrlByEmailAddress($email_address)
 	{
 		$args = new stdClass();
 		$args->email_address = $email_address;
@@ -467,7 +487,7 @@ class memberModel extends member
 	/**
 	 * @brief Get member_srl corresponding to phone number
 	 */
-	function getMemberSrlByPhoneNumber($phone_number, $phone_country = null)
+	public static function getMemberSrlByPhoneNumber($phone_number, $phone_country = null)
 	{
 		$args = new stdClass();
 		$args->phone_number = $phone_number;
@@ -479,7 +499,7 @@ class memberModel extends member
 	/**
 	 * @brief Get member_srl corresponding to nickname
 	 */
-	function getMemberSrlByNickName($nick_name)
+	public static function getMemberSrlByNickName($nick_name)
 	{
 		$args = new stdClass();
 		$args->nick_name = $nick_name;
@@ -490,7 +510,7 @@ class memberModel extends member
 	/**
 	 * @brief Return member_srl of the current logged-in user
 	 */
-	function getLoggedMemberSrl()
+	public static function getLoggedMemberSrl()
 	{
 		return Rhymix\Framework\Session::getMemberSrl();
 	}
@@ -498,17 +518,17 @@ class memberModel extends member
 	/**
 	 * @brief Return user_id of the current logged-in user
 	 */
-	function getLoggedUserID()
+	public static function getLoggedUserID()
 	{
-		if(!$this->isLogged()) return;
 		$logged_info = Context::get('logged_info');
+		if (!$logged_info || !$logged_info->member_srl) return;
 		return $logged_info->user_id;
 	}
 
 	/**
 	 * @brief Get a list of groups which the member_srl belongs to
 	 */
-	function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
+	public static function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
 		static $member_groups = array();
 
@@ -527,8 +547,8 @@ class memberModel extends member
 				$group_list = $output->data;
 				if (!count($group_list))
 				{
-					$default_group = $this->getDefaultGroup($site_srl);
-					getController('member')->addMemberToGroup($member_srl, $default_group->group_srl, $site_srl);
+					$default_group = self::getDefaultGroup($site_srl);
+					MemberController::getInstance()->addMemberToGroup($member_srl, $default_group->group_srl, $site_srl);
 					$group_list[$default_group->group_srl] = $default_group->title;
 				}
 				//insert in cache
@@ -551,7 +571,7 @@ class memberModel extends member
 	/**
 	 * @brief Get a list of groups which member_srls belong to
 	 */
-	function getMembersGroups($member_srls, $site_srl = 0)
+	public static function getMembersGroups($member_srls, $site_srl = 0)
 	{
 		$args = new stdClass;
 		$args->member_srls = implode(',',$member_srls);
@@ -571,7 +591,7 @@ class memberModel extends member
 	/**
 	 * @brief Get a default group
 	 */
-	function getDefaultGroup($site_srl = 0)
+	public static function getDefaultGroup($site_srl = 0)
 	{
 		$cache_key = sprintf('member:default_group:site:%d', $site_srl);
 		$default_group = Rhymix\Framework\Cache::get($cache_key);
@@ -594,7 +614,7 @@ class memberModel extends member
 	/**
 	 * @brief Get an admin group
 	 */
-	function getAdminGroup($columnList = array())
+	public static function getAdminGroup($columnList = array())
 	{
 		$args = new stdClass;
 		$output = executeQuery('member.getAdminGroup', $args, $columnList);
@@ -604,7 +624,7 @@ class memberModel extends member
 	/**
 	 * @brief Get group info corresponding to group_srl
 	 */
-	function getGroup($group_srl, $columnList = array())
+	public static function getGroup($group_srl, $columnList = array())
 	{
 		$args = new stdClass;
 		$args->group_srl = $group_srl;
@@ -615,7 +635,7 @@ class memberModel extends member
 	/**
 	 * @brief Get a list of groups
 	 */
-	function getGroups($site_srl = 0)
+	public static function getGroups($site_srl = 0)
 	{
 		if(!$GLOBALS['__group_info__'][$site_srl])
 		{
@@ -657,12 +677,14 @@ class memberModel extends member
 		return $GLOBALS['__group_info__'][$site_srl];
 	}
 
-	public function getApiGroups()
+	/**
+	 * @deprecated
+	 */
+	public static function getApiGroups()
 	{
 		$siteSrl = Context::get('siteSrl');
-		$groupInfo = $this->getGroups($siteSrl);
-
-		$this->add($groupInfo);
+		$groupInfo = self::getGroups($siteSrl);
+		//$this->add($groupInfo);
 	}
 
 	/**
@@ -672,18 +694,18 @@ class memberModel extends member
 	 * To use as extend_filter, the argument should be boolean.
 	 * When the argument is true, it returns object result in type of filter.
 	 */
-	function getJoinFormList($filter_response = false)
+	public static function getJoinFormList($filter_response = false)
 	{
 		global $lang;
 		// Set to ignore if a super administrator.
 		$logged_info = Context::get('logged_info');
 
-		if(!$this->join_form_list)
+		if(!self::$_join_form_list)
 		{
 			// Argument setting to sort list_order column
 			$args = new stdClass();
 			$args->sort_index = "list_order";
-			$output = executeQuery('member.getJoinFormList', $args);
+			$output = executeQueryArray('member.getJoinFormList', $args);
 			// NULL if output data deosn't exist
 			$join_form_list = $output->data;
 			if(!$join_form_list) return NULL;
@@ -715,15 +737,15 @@ class memberModel extends member
 
 				$list[$member_join_form_srl] = $join_form_list[$i];
 			}
-			$this->join_form_list = $list;
+			self::$_join_form_list = $list;
 		}
 		// Get object style if the filter_response is true
-		if($filter_response && count($this->join_form_list))
+		if($filter_response && count(self::$_join_form_list))
 		{
-			foreach($this->join_form_list as $key => $val)
+			foreach(self::$_join_form_list as $key => $val)
 			{
 				if($val->is_active != 'Y') continue;
-				unset($obj);
+				$obj = new stdClass;
 				$obj->type = $val->column_type;
 				$obj->name = $val->column_name;
 				$obj->lang = $val->column_title;
@@ -731,7 +753,7 @@ class memberModel extends member
 				else $obj->required = false;
 				$filter_output[] = $obj;
 
-				unset($open_obj);
+				$open_obj = new stdClass;
 				$open_obj->name = 'open_'.$val->column_name;
 				$open_obj->required = false;
 				$filter_output[] = $open_obj;
@@ -740,7 +762,7 @@ class memberModel extends member
 			return $filter_output;
 		}
 		// Return the result
-		return $this->join_form_list;
+		return self::$_join_form_list;
 	}
 
 	/**
@@ -748,7 +770,7 @@ class memberModel extends member
 	 *
 	 * @return array $joinFormList
 	 */
-	function getUsedJoinFormList()
+	public static function getUsedJoinFormList()
 	{
 		$args = new stdClass();
 		$args->sort_index = "list_order";
@@ -776,9 +798,9 @@ class memberModel extends member
 	/**
 	 * @brief Combine extend join form and member information (used to modify member information)
 	 */
-	function getCombineJoinForm($member_info)
+	public static function getCombineJoinForm($member_info)
 	{
-		$extend_form_list = $this->getJoinFormlist();
+		$extend_form_list = self::getJoinFormlist();
 		if(!$extend_form_list) return;
 		// Member info is open only to an administrator and him/herself when is_private is true.
 		$logged_info = Context::get('logged_info');
@@ -815,7 +837,7 @@ class memberModel extends member
 	/**
 	 * @brief Get a join form
 	 */
-	function getJoinForm($member_join_form_srl)
+	public static function getJoinForm($member_join_form_srl)
 	{
 		$args = new stdClass();
 		$args->member_join_form_srl = $member_join_form_srl;
@@ -841,9 +863,9 @@ class memberModel extends member
 	/**
 	 * @brief Get a list of denied IDs
 	 */
-	function getDeniedIDList()
+	public static function getDeniedIDList()
 	{
-		if(!$this->denied_id_list)
+		if(!isset(self::$_denied_id_list))
 		{
 			$args = new stdClass();
 			$args->sort_index = "list_order";
@@ -851,20 +873,20 @@ class memberModel extends member
 			$args->list_count = 40;
 			$args->page_count = 10;
 
-			$output = executeQuery('member.getDeniedIDList', $args);
-			$this->denied_id_list = $output;
+			$output = executeQueryArray('member.getDeniedIDList', $args);
+			self::$_denied_id_list = $output;
 		}
-		return $this->denied_id_list;
+		return self::$_denied_id_list;
 	}
 
-	function getDeniedIDs()
+	public static function getDeniedIDs()
 	{
 		$output = executeQueryArray('member.getDeniedIDs');
 		if(!$output->toBool()) return array();
 		return $output->data;
 	}
 
-	function getDeniedNickNames()
+	public static function getDeniedNickNames()
 	{
 		$output = executeQueryArray('member.getDeniedNickNames');
 		if(!$output->toBool())
@@ -875,24 +897,24 @@ class memberModel extends member
 		return $output->data;
 	}
 
-	function getManagedEmailHosts()
+	public static function getManagedEmailHosts()
 	{
-		static $output;
-		if(isset($output->data)) return $output->data;
+		if(isset(self::$_managed_email_hosts)) {
+			return self::$_managed_email_hosts;
+		}
 		$output = executeQueryArray('member.getManagedEmailHosts');
 		if(!$output->toBool())
 		{
-			$output->data = array();
-			return array();
+			return self::$_managed_email_hosts = array();
 		}
 
-		return $output->data;
+		return self::$_managed_email_hosts = $output->data;
 	}
 
 	/**
 	 * @brief Verify if ID is denied
 	 */
-	function isDeniedID($user_id)
+	public static function isDeniedID($user_id)
 	{
 		$args = new stdClass();
 		$args->user_id = $user_id;
@@ -904,7 +926,7 @@ class memberModel extends member
 	/**
 	 * @brief Verify if nick name is denied
 	 */
-	function isDeniedNickName($nickName)
+	public static function isDeniedNickName($nickName)
 	{
 		$args = new stdClass();
 		$args->nick_name = $nickName;
@@ -920,13 +942,12 @@ class memberModel extends member
 	/**
 	 * @brief Verify if email_host from email_address is denied
 	 */
-	function isDeniedEmailHost($email_address)
+	public static function isDeniedEmailHost($email_address)
 	{
 		$email_address = trim($email_address);
-		$oMemberModel = &getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = self::getMemberConfig();
 		$emailhost_check = $config->emailhost_check;
-		$managedHosts = $oMemberModel->getManagedEmailHosts();
+		$managedHosts = self::getManagedEmailHosts();
 		if(count($managedHosts) < 1) return FALSE;
 
 		static $return;
@@ -962,7 +983,7 @@ class memberModel extends member
 	/**
 	 * @brief Get information of the profile image
 	 */
-	function getProfileImage($member_srl)
+	public static function getProfileImage($member_srl)
 	{
 		if(!isset($GLOBALS['__member_info__']['profile_image'][$member_srl]))
 		{
@@ -991,7 +1012,7 @@ class memberModel extends member
 	/**
 	 * @brief Get the image name
 	 */
-	function getImageName($member_srl)
+	public static function getImageName($member_srl)
 	{
 		if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl]))
 		{
@@ -1014,7 +1035,7 @@ class memberModel extends member
 	/**
 	 * @brief Get the image mark
 	 */
-	function getImageMark($member_srl)
+	public static function getImageMark($member_srl)
 	{
 		if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl]))
 		{
@@ -1039,18 +1060,17 @@ class memberModel extends member
 	/**
 	 * @brief Get the image mark of the group
 	 */
-	function getGroupImageMark($member_srl,$site_srl=0)
+	public static function getGroupImageMark($member_srl,$site_srl=0)
 	{
 		if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]))
 		{
-			$oModuleModel = getModel('module');
-			$config = $oModuleModel->getModuleConfig('member');
+			$config = ModuleModel::getModuleConfig('member');
 			if($config->group_image_mark!='Y')
 			{
 				return null;
 			}
-			$member_group = $this->getMemberGroups($member_srl,$site_srl);
-			$groups_info = $this->getGroups($site_srl);
+			$member_group = self::getMemberGroups($member_srl, $site_srl);
+			$groups_info = self::getGroups($site_srl);
 			if(count($member_group) > 0 && is_array($member_group))
 			{
 				$memberGroups = array_keys($member_group);
@@ -1089,7 +1109,7 @@ class memberModel extends member
 	/**
 	 * @brief Get user's signature
 	 */
-	function getSignature($member_srl)
+	public static function getSignature($member_srl)
 	{
 		if(!isset($GLOBALS['__member_info__']['signature'][$member_srl]))
 		{
@@ -1099,11 +1119,11 @@ class memberModel extends member
 				$signature = preg_replace('/<\?.*\?>/', '', FileHandler::readFile($filename));
 				
 				// retroact
-				$config = getModel('member')->getMemberConfig();
+				$config = self::getMemberConfig();
 				if($config->signature_html_retroact == 'Y' && $config->signature_html == 'N' && preg_match('/<[^br]+>/i', $signature))
 				{
 					$signature = preg_replace('/(\r?\n)+/', "\n", $signature);
-					return getController('member')->putSignature($member_srl, $signature);
+					return MemberController::getInstance()->putSignature($member_srl, $signature);
 				}
 				
 				$GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
@@ -1124,7 +1144,7 @@ class memberModel extends member
 	 * @param int $member_srl Set this to member_srl when comparing a member's password (optional)
 	 * @return bool
 	 */
-	function isValidPassword($hashed_password, $password_text, $member_srl=null)
+	public static function isValidPassword($hashed_password, $password_text, $member_srl=null)
 	{
 		// False if no password in entered
 		if(!$password_text)
@@ -1151,7 +1171,7 @@ class memberModel extends member
 		}
 		
 		// Update the encryption method if necessary
-		$config = $this->getMemberConfig();
+		$config = self::getMemberConfig();
 		if($member_srl > 0 && $config->password_hashing_auto_upgrade != 'N')
 		{
 			$required_algorithm = Rhymix\Framework\Password::getDefaultAlgorithm();
@@ -1177,9 +1197,8 @@ class memberModel extends member
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
-				$args->hashed_password = $this->hashPassword($password_text, $required_algorithm);
-				$oMemberController = getController('member');
-				$oMemberController->updateMemberPassword($args);
+				$args->hashed_password = self::hashPassword($password_text, $required_algorithm);
+				MemberController::getInstance()->updateMemberPassword($args);
 			}
 		}
 		
@@ -1192,19 +1211,19 @@ class memberModel extends member
 	 * @param string $algorithm The algorithm to use (optional, only set this when you want to use a non-default algorithm)
 	 * @return string
 	 */
-	function hashPassword($password_text, $algorithm = null)
+	public static function hashPassword($password_text, $algorithm = null)
 	{
 		return Rhymix\Framework\Password::hashPassword($password_text, $algorithm);
 	}
 	
-	function checkPasswordStrength($password, $strength)
+	public static function checkPasswordStrength($password, $strength)
 	{
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin == 'Y') return true;
 		
 		if($strength == NULL)
 		{
-			$config = $this->getMemberConfig();
+			$config = self::getMemberConfig();
 			$strength = $config->password_strength?$config->password_strength:'normal';
 		}
 		
@@ -1227,10 +1246,10 @@ class memberModel extends member
 		return true;
 	}
 	
-	function getAdminGroupSrl($site_srl = 0)
+	public static function getAdminGroupSrl($site_srl = 0)
 	{
 		$groupSrl = 0;
-		$output = $this->getGroups($site_srl);
+		$output = self::getGroups($site_srl);
 		if(is_array($output))
 		{
 			foreach($output AS $key=>$value)
@@ -1245,7 +1264,7 @@ class memberModel extends member
 		return $groupSrl;
 	}
 	
-	function getMemberModifyNicknameLog($page = 1, $member_srl = null)
+	public static function getMemberModifyNicknameLog($page = 1, $member_srl = null)
 	{
 		$search_keyword = Context::get('search_keyword');
 		$search_target = Context::get('search_target');

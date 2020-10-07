@@ -31,7 +31,8 @@ class Advanced_MailerController extends Advanced_Mailer
 		
 		if (!$mail->getFrom())
 		{
-			$mail->setFrom(config('mail.default_from'), config('mail.default_name'));
+			list($default_from, $default_name) = $this->getDefaultEmailIdentity();
+			$mail->setFrom($default_from, $default_name);
 			if ($replyTo = config('mail.default_reply_to'))
 			{
 				$mail->setReplyTo($replyTo);
@@ -48,9 +49,10 @@ class Advanced_MailerController extends Advanced_Mailer
 				$sender = $mail->message->getFrom();
 				$original_sender_email = $sender ? array_first_key($sender) : null;
 				$original_sender_name = $sender ? array_first($sender) : null;
-				if ($original_sender_email !== config('mail.default_from'))
+				list($default_from, $default_name) = $this->getDefaultEmailIdentity();
+				if ($original_sender_email !== $default_from)
 				{
-					$mail->setFrom(config('mail.default_from'), $original_sender_name ?: config('mail.default_name'));
+					$mail->setFrom($default_from, $original_sender_name ?: $default_name);
 					$mail->setReplyTo($original_sender_email);
 				}
 			}
@@ -115,6 +117,25 @@ class Advanced_MailerController extends Advanced_Mailer
 				return $output;
 			}
 		}
+	}
+	
+	/**
+	 * Get the default identity for sending email.
+	 * 
+	 * @return array
+	 */
+	public function getDefaultEmailIdentity()
+	{
+		$email = config('mail.default_from');
+		$name = config('mail.default_name');
+		if (!$email)
+		{
+			$member_config = getModel('module')->getModuleConfig('member');
+			$email = $member_config->webmaster_email;
+			$name = $member_config->webmaster_name ?: 'webmaster';
+		}
+		
+		return [$email, $name];
 	}
 	
 	/**
@@ -184,6 +205,54 @@ class Advanced_MailerController extends Advanced_Mailer
 			$obj->status = !count($sms->getErrors()) ? 'success' : 'error';
 			$obj->errors = count($sms->getErrors()) ? implode("\n", $sms->getErrors()) : null;
 			$output = executeQuery('advanced_mailer.insertSMSLog', $obj);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+	}
+	
+	/**
+	 * After Push send trigger.
+	 */
+	public function triggerAfterPushSend($push)
+	{
+		$config = $this->getConfig();
+		
+		if (toBool($config->log_sent_push) || (toBool($config->log_push_errors) && count($push->getErrors())))
+		{
+			$obj = new \stdClass();
+			$obj->push_from = $push->getFrom();
+			$token_count = count($push->getSuccessTokens()) + count($push->getDeletedTokens()) + count($push->getUpdatedTokens());
+			$obj->push_to = sprintf('%d members, %d devices', count($push->getRecipients()), $token_count);
+			$obj->push_to .= "\n\n" . 'members: ' . implode(', ', $push->getRecipients());
+			if (count($push->getSuccessTokens()))
+			{
+				$obj->push_to .= "\n\n" . 'success: ' . "\n";
+				$obj->push_to .= implode("\n", array_keys($push->getSuccessTokens()));
+			}
+			if (count($push->getDeletedTokens()))
+			{
+				$obj->push_to .= "\n\n" . 'deleted: ' . "\n";
+				$obj->push_to .= implode("\n", array_keys($push->getDeletedTokens()));
+			}
+			if (count($push->getUpdatedTokens()))
+			{
+				$obj->push_to .= "\n\n" . 'updated: ' . "\n";
+				foreach ($push->getUpdatedTokens() as $from => $to)
+				{
+					$obj->push_to .= $from . ' => ' . $to . "\n";
+				}
+			}
+			$obj->subject = trim($push->getSubject());
+			$obj->content = trim($push->getContent());
+			$obj->calling_script = $push->getCaller();
+			$obj->success_count = count($push->getSuccessTokens());
+			$obj->deleted_count = count($push->getDeletedTokens());
+			$obj->updated_count = count($push->getUpdatedTokens());
+			$obj->status = $push->isSent() ? 'success' : 'error';
+			$obj->errors = count($push->getErrors()) ? implode("\n", $push->getErrors()) : null;
+			$output = executeQuery('advanced_mailer.insertPushLog', $obj);
 			if (!$output->toBool())
 			{
 				return $output;

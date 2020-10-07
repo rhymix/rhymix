@@ -39,7 +39,6 @@ $lang->xe_license = 'Rhymix遵循 GPL協議';
 $lang->yesterday = '昨天';
 $lang->today = '今天';
 $lang->ssl_options['none'] = '關閉';
-$lang->ssl_options['optional'] = '可選（不推薦）';
 $lang->ssl_options['always'] = '始終（推薦）';
 $lang->about_use_ssl = '<p>選擇“可選”是為指定的操作（例如註冊和更改信息）使用SSL。 <br />選擇“總是”是為Rhymix生成的整個頁面使用SSL。 </p><p>請小心！在安裝SSL證書之前，您可能無法訪問該網站。</p>';
 $lang->server_ports = '主機埠口';

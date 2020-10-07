@@ -23,14 +23,15 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="eid">{$lang->eid}</label>
 				<div class="x_controls">
-					<input type="text" name="eid" id="eid" value="{$selected_var->eid}" placeholder="Ex) extra_vars_1" />
-					<p class="x_help-inline">{$lang->about_extra_vars_eid_value}</p>
+					<input type="text" name="eid" id="eid" value="{$selected_var->eid}" />
+					<p class="x_help-block">{$lang->about_extra_vars_eid_value}</p>
 				</div>
 			</div>
 			<div class="x_control-group">
 				<label class="x_control-label" for="lang_name">{$lang->column_name}</label>
 				<div class="x_controls">
-					<input type="text" name="name" id="name" value="<!--@if(strpos($selected_var->name, '$user_lang->') === false)-->{$selected_var->name}<!--@else-->{escape($selected_var->name, false)}<!--@end-->" class="lang_code" placeholder="Ex) Your favorite color." />
+					<input type="text" name="name" id="name" value="<!--@if(strpos($selected_var->name, '$user_lang->') === false)-->{$selected_var->name}<!--@else-->{escape($selected_var->name, false)}<!--@end-->" class="lang_code" />
+					<p class="x_help-block">{$lang->about_extra_vars_column_name}</p>
 				</div>
 			</div>
 			<div class="x_control-group">
@@ -51,14 +52,15 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="default">{$lang->default_value}</label>
 				<div class="x_controls">
-					<input type="text" name="default" id="default" value="{$selected_var->default}" placeholder="Ex) Red, Green, Blue" />
-					<p class="x_help-inline">{$lang->about_extra_vars_default_value}</p>
+					<input type="text" name="default" id="default" value="{$selected_var->default}" />
+					<p class="x_help-block">{$lang->about_extra_vars_default_value}</p>
 				</div>
 			</div>
 			<div class="x_control-group">
 				<label class="x_control-label" for="lang_desc">{$lang->description}</label>
 				<div class="x_controls">
-					<input type="text" name="desc" id="desc" value="{$selected_var->desc}" class="lang_code" placeholder="Ex) Displayed as your choice." />
+					<input type="text" name="desc" id="desc" value="{$selected_var->desc}" class="lang_code" />
+					<p class="x_help-block">{$lang->about_extra_vars_description}</p>
 				</div>
 			</div>
 			<div class="x_control-group">

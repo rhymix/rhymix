@@ -36,15 +36,15 @@ class DisplayHandler extends Handler
 		{
 			$handler = new VirtualXMLDisplayHandler();
 		}
-		elseif(Context::getRequestMethod() == 'JSON' || isset($_POST['_rx_ajax_compat']))
+		elseif(Context::getResponseMethod() == 'JSON' || isset($_POST['_rx_ajax_compat']))
 		{
 			$handler = new JSONDisplayHandler();
 		}
-		elseif(Context::getRequestMethod() == 'JS_CALLBACK')
+		elseif(Context::getResponseMethod() == 'JS_CALLBACK')
 		{
 			$handler = new JSCallbackDisplayHandler();
 		}
-		elseif(Context::getRequestMethod() == 'XMLRPC')
+		elseif(Context::getResponseMethod() == 'XMLRPC')
 		{
 			$handler = new XMLDisplayHandler();
 			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
@@ -82,7 +82,7 @@ class DisplayHandler extends Handler
 
 		// execute add-on
 		$called_position = 'before_display_content';
-		$oAddonController = getController('addon');
+		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
 		if(file_exists($addon_file)) include($addon_file);
 		if($output === false || $output === null || $output instanceof BaseObject)

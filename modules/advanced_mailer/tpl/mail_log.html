@@ -4,7 +4,15 @@
 
 <table id="advanced_mailer_log" class="x_table x_table-striped x_table-hover">
 	<caption>
-		<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
+		<div style="float: left">
+			<a href="{getUrl('status', null)}" class="active"|cond="!$status">{$lang->all}</a> <i>|</i>
+			<a href="{getUrl('status', 'success')}" class="active"|cond="$status == 'success'">{$lang->cmd_advanced_mailer_status_success}</a> <i>|</i>
+			<a href="{getUrl('status', 'error')}" class="active"|cond="$status == 'error'">{$lang->cmd_advanced_mailer_status_error}</a>
+		</div>
+		<div style="float: right">
+			<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
+		</div>
+		<div class="clear: both"></div>
 	</caption>
 	<thead>
 		<tr>

@@ -25,7 +25,7 @@
 		<ul>
 			<li loop="$latestDocumentList => $key,$value">
 				{@$document = $value->variables}
-				<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()) !== '')-->{$value->getTitle()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
+				<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()) !== '')-->{$value->getTitleText()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a> 
 				<span class="side">{$value->getNickName()}</span>
 				<form class="action" method="POST">
 					<input type="hidden" name="module" value="admin" />

@@ -9,12 +9,6 @@
 class Context
 {
 	/**
-	 * Allow rewrite
-	 * @var bool TRUE: using rewrite mod, FALSE: otherwise
-	 */
-	public $allow_rewrite = FALSE;
-
-	/**
 	 * Request method
 	 * @var string GET|POST|XMLRPC|JSON
 	 */
@@ -134,21 +128,15 @@ class Context
 	private static $_init_called = false;
 
 	/**
+	 * Current route information
+	 */
+	private static $_route_info = null;
+
+	/**
 	 * object oFrontEndFileHandler()
 	 * @var object
 	 */
 	private static $_oFrontEndFileHandler = null;
-
-	/**
-	 * SSL action cache file
-	 * @var array
-	 */
-	private static $_ssl_actions_cache_file = 'files/cache/common/ssl_actions.php';
-
-	/**
-	 * SSL action cache
-	 */
-	private static $_ssl_actions = array();
 
 	/**
 	 * Plugin blacklist cache
@@ -205,13 +193,6 @@ class Context
 			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = new FrontEndFileHandler();
 			self::$_get_vars = self::$_get_vars ?: new stdClass;
 			self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
-
-			// Include SSL action cache file.
-			self::$_ssl_actions_cache_file = RX_BASEDIR . self::$_ssl_actions_cache_file;
-			if(Rhymix\Framework\Storage::exists(self::$_ssl_actions_cache_file))
-			{
-				self::$_ssl_actions = (include self::$_ssl_actions_cache_file) ?: array();
-			}
 		}
 		return self::$_instance;
 	}
@@ -246,14 +227,25 @@ class Context
 			self::$_instance = self::getInstance();
 		}
 		
+		// Load system configuration.
+		self::loadDBInfo();
+		
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
-		self::setRequestArguments();
+		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
+		{
+			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
+			$url = $_SERVER['REQUEST_URI'];
+			$route_info = Rhymix\Framework\Router::parseURL($method, $url, Rhymix\Framework\Router::getRewriteLevel());
+			self::setRequestArguments($route_info->args);
+			self::$_route_info = $route_info;
+		}
+		else
+		{
+			self::setRequestArguments();
+		}
 		self::setUploadInfo();
-		
-		// Load system configuration.
-		self::loadDBInfo();
 		
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -266,14 +258,13 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
-			$oModuleModel = getModel('module');
-			$site_module_info = $oModuleModel->getDefaultMid() ?: new stdClass;
+			$site_module_info = ModuleModel::getDefaultMid() ?: new stdClass;
 			self::set('site_module_info', $site_module_info);
 			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
 			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
-			self::set('_use_ssl', self::$_instance->db_info->use_ssl = $site_module_info->security ?: 'none');
+			self::set('_use_ssl', self::$_instance->db_info->use_ssl = ($site_module_info->security === 'none' ? 'none' : 'always'));
 		}
 		else
 		{
@@ -285,15 +276,15 @@ class Context
 			self::set('site_module_info', $site_module_info);
 		}
 		
-		// Redirect to SSL if the current domain always uses SSL.
-		if ($site_module_info->security === 'always' && !RX_SSL && PHP_SAPI !== 'cli' && !$site_module_info->is_default_replaced)
+		// Redirect to SSL if the current domain requires SSL.
+		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && !$site_module_info->is_default_replaced)
 		{
-			$ssl_url = self::getDefaultUrl($site_module_info) . RX_REQUEST_URL;
+			$ssl_url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
 			self::setCacheControl(0);
 			header('Location: ' . $ssl_url, true, 301);
 			exit;
 		}
-
+		
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
 		$set_lang_cookie = false;
@@ -310,18 +301,17 @@ class Context
 		{
 			$lang_type = $_COOKIE['lang_type'];
 		}
-		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1)
+		elseif(config('locale.auto_select_lang') && count($enabled_langs) > 1 && isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
 		{
-			if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+			$ua_locale = Rhymix\Framework\UA::getLocale();
+			if (substr($ua_locale, 0, 2) !== 'zh')
 			{
-				foreach($enabled_langs as $lang_code => $lang_name)
-				{
-					if(!strncasecmp($lang_code, $_SERVER['HTTP_ACCEPT_LANGUAGE'], strlen($lang_code)))
-					{
-						$lang_type = $lang_code;
-						$set_lang_cookie = true;
-					}
-				}
+				$ua_locale = substr($ua_locale, 0, 2);
+			}
+			if (isset($enabled_langs[$ua_locale]))
+			{
+				$lang_type = $ua_locale;
+				$set_lang_cookie = true;
 			}
 		}
 		
@@ -358,8 +348,8 @@ class Context
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
 		{
-			$oSessionModel = getModel('session');
-			$oSessionController = getController('session');
+			$oSessionModel = SessionModel::getInstance();
+			$oSessionController = SessionController::getInstance();
 			ini_set('session.serialize_handler', 'php');
 			session_set_save_handler(
 					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
@@ -380,12 +370,9 @@ class Context
 		// set authentication information in Context and session
 		if (self::isInstalled())
 		{
-			$oModuleModel = getModel('module');
-			$oModuleModel->loadModuleExtends();
-
 			if (Rhymix\Framework\Session::getMemberSrl())
 			{
-				getController('member')->setSessionInfo();
+				MemberController::getInstance()->setSessionInfo();
 			}
 			else
 			{
@@ -500,90 +487,22 @@ class Context
 		{
 			$config = Rhymix\Framework\Config::getAll();
 		}
-		if (!is_array($config) || !count($config))
-		{
-			self::$_instance->db_info = self::$_instance->db_info ?: new stdClass;
-			return;
-		}
-
+		
 		// Copy to old format for backward compatibility.
-		self::$_instance->db_info = self::convertDBInfo($config);
-		self::$_instance->allow_rewrite = self::$_instance->db_info->use_rewrite === 'Y';
-	}
-
-	/**
-	 * Convert Rhymix configuration to XE DBInfo format
-	 * 
-	 * @param array $config
-	 * @return object
-	 */
-	public static function convertDBInfo($config)
-	{
-		$db_info = new stdClass;
-		$db_info->master_db = array(
-			'db_type' => $config['db']['master']['type'] . ($config['db']['master']['engine'] === 'innodb' ? '_innodb' : ''),
-			'db_hostname' => $config['db']['master']['host'],
-			'db_port' => $config['db']['master']['port'],
-			'db_userid' => $config['db']['master']['user'],
-			'db_password' => $config['db']['master']['pass'],
-			'db_database' => $config['db']['master']['database'],
-			'db_table_prefix' => $config['db']['master']['prefix'],
-			'db_charset' => $config['db']['master']['charset'],
-		);
-		$db_info->slave_db = array();
-		foreach ($config['db'] as $key => $dbconfig)
+		self::$_instance->db_info = new stdClass;
+		if (is_array($config) && count($config))
 		{
-			if ($key !== 'master')
-			{
-				$db_info->slave_db[] = array(
-					'db_type' => $dbconfig['type'] . ($dbconfig['engine'] === 'innodb' ? '_innodb' : ''),
-					'db_hostname' => $dbconfig['host'],
-					'db_port' => $dbconfig['port'],
-					'db_userid' => $dbconfig['user'],
-					'db_password' => $dbconfig['pass'],
-					'db_database' => $dbconfig['database'],
-					'db_table_prefix' => $dbconfig['prefix'],
-					'db_charset' => $dbconfig['charset'],
-				);
-			}
+			self::$_instance->db_info->master_db = array(
+				'db_type' => $config['db']['master']['type'],
+				'db_hostname' => $config['db']['master']['host'],
+				'db_port' => $config['db']['master']['port'],
+				'db_userid' => $config['db']['master']['user'],
+				'db_password' => $config['db']['master']['pass'],
+				'db_database' => $config['db']['master']['database'],
+				'db_table_prefix' => $config['db']['master']['prefix'],
+				'db_charset' => $config['db']['master']['charset'],
+			);
 		}
-		if (!count($db_info->slave_db))
-		{
-			$db_info->slave_db = array($db_info->master_db);
-		}
-		$db_info->use_object_cache = $config['cache']['type'] ?: null;
-		$db_info->ftp_info = new stdClass;
-		$db_info->ftp_info->ftp_host = $config['ftp']['host'];
-		$db_info->ftp_info->ftp_port = $config['ftp']['port'];
-		$db_info->ftp_info->ftp_user = $config['ftp']['user'];
-		$db_info->ftp_info->ftp_pasv = $config['ftp']['pasv'] ? 'Y' : 'N';
-		$db_info->ftp_info->ftp_root_path = $config['ftp']['path'];
-		$db_info->ftp_info->sftp = $config['ftp']['sftp'] ? 'Y' : 'N';
-		$db_info->lang_type = $config['locale']['default_lang'];
-		$db_info->time_zone = $config['locale']['internal_timezone'];
-		$db_info->time_zone = sprintf('%s%02d%02d', $db_info->time_zone >= 0 ? '+' : '-', abs($db_info->time_zone) / 3600, (abs($db_info->time_zone) % 3600 / 60));
-		$db_info->delay_session = $config['session']['delay'] ? 'Y' : 'N';
-		$db_info->use_db_session = $config['session']['use_db'] ? 'Y' : 'N';
-		$db_info->minify_scripts = $config['view']['minify_scripts'] ? 'Y' : 'N';
-		$db_info->admin_ip_list = count($config['admin']['allow']) ? $config['admin']['allow'] : null;
-		$db_info->use_sitelock = $config['lock']['locked'] ? 'Y' : 'N';
-		$db_info->sitelock_title = $config['lock']['title'];
-		$db_info->sitelock_message = $config['lock']['message'];
-		$db_info->sitelock_whitelist = count($config['lock']['allow']) ? $config['lock']['allow'] : array('127.0.0.1');
-		$db_info->embed_white_iframe = $config['mediafilter']['iframe'] ?: $config['embedfilter']['iframe'];
-		$db_info->embed_white_object = $config['mediafilter']['object'] ?: $config['embedfilter']['object'];
-		$db_info->use_mobile_view = (isset($config['mobile']['enabled']) ? $config['mobile']['enabled'] : $config['use_mobile_view']) ? 'Y' : 'N';
-		$db_info->use_prepared_statements = $config['use_prepared_statements'] ? 'Y' : 'N';
-		$db_info->use_rewrite = $config['use_rewrite'] ? 'Y' : 'N';
-		$db_info->use_sso = $config['use_sso'] ? 'Y' : 'N';
-		if (is_array($config['other']))
-		{
-			foreach ($config['other'] as $key => $value)
-			{
-				$db_info->{$key} = $value;
-			}
-		}
-		return $db_info;
 	}
 
 	/**
@@ -618,11 +537,21 @@ class Context
 	}
 
 	/**
+	 * Get current route information
+	 *
+	 * @return object
+	 */
+	public static function getRouteInfo()
+	{
+		return self::$_route_info;
+	}
+
+	/**
 	 * Return ssl status
 	 *
-	 * @return object SSL status (Optional - none|always|optional)
+	 * @return object SSL status (none or always)
 	 */
-	public static function getSslStatus()
+	public static function getSSLStatus()
 	{
 		return self::get('_use_ssl');
 	}
@@ -631,9 +560,10 @@ class Context
 	 * Return default URL
 	 *
 	 * @param object $site_module_info (optional)
+	 * @param bool $use_ssl (optional)
 	 * @return string Default URL
 	 */
-	public static function getDefaultUrl($site_module_info = null)
+	public static function getDefaultUrl($site_module_info = null, $use_ssl = null)
 	{
 		if ($site_module_info === null && ($default_url = self::get('_default_url')))
 		{
@@ -645,9 +575,9 @@ class Context
 			$site_module_info = self::get('site_module_info');
 		}
 		
-		$prefix = $site_module_info->security === 'always' ? 'https://' : 'http://';
+		$prefix = ($site_module_info->security !== 'none' || $use_ssl) ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
-		$port = $site_module_info->security === 'always' ? $site_module_info->https_port : $site_module_info->http_port;
+		$port = ($prefix === 'https://') ? $site_module_info->https_port : $site_module_info->http_port;
 		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
 		return $result;
 	}
@@ -803,7 +733,7 @@ class Context
 		{
 			return '';
 		}
-		getController('module')->replaceDefinedLangCode(self::$_instance->browser_title);
+		ModuleController::getInstance()->replaceDefinedLangCode(self::$_instance->browser_title);
 		return htmlspecialchars(self::$_instance->browser_title, ENT_QUOTES, 'UTF-8', FALSE);
 	}
 
@@ -818,7 +748,7 @@ class Context
 		if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 		{
 			$title = trim($domain_info->settings->title);
-			getController('module')->replaceDefinedLangCode($title);
+			ModuleController::getInstance()->replaceDefinedLangCode($title);
 			return $title;
 		}
 		else
@@ -838,7 +768,7 @@ class Context
 		if ($domain_info && $domain_info->settings && $domain_info->settings->subtitle)
 		{
 			$subtitle = trim($domain_info->settings->subtitle);
-			getController('module')->replaceDefinedLangCode($subtitle);
+			ModuleController::getInstance()->replaceDefinedLangCode($subtitle);
 			return $subtitle;
 		}
 		else
@@ -1039,11 +969,11 @@ class Context
 	 */
 	public static function convertEncodingStr($str)
 	{
-        if (!$str || utf8_check($str))
-        {
-        	return $str;
-        }
-        
+		if (!$str || utf8_check($str))
+		{
+			return $str;
+		}
+
 		$obj = new stdClass;
 		$obj->str = $str;
 		$obj = self::convertEncoding($obj);
@@ -1146,37 +1076,38 @@ class Context
 			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'];
 		}
 		
-		// Check POST data
-		if(self::$_instance->request_method === 'POST')
+		if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		{
-			// Set HTTP_RAW_POST_DATA for compatibility with XE third-party programs.
-			if(!isset($GLOBALS['HTTP_RAW_POST_DATA']))
+			// Set variables for XE compatibility.
+			if (isset($_POST['_rx_ajax_compat']) && in_array($_POST['_rx_ajax_compat'], array('JSON', 'XMLRPC')))
 			{
-				$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents("php://input");
-			}
-			
-			// Pretend that this request is XMLRPC for compatibility with XE third-party.
-			if(isset($_POST['_rx_ajax_compat']) && $_POST['_rx_ajax_compat'] === 'XMLRPC')
-			{
-				self::$_instance->request_method = 'XMLRPC';
+				self::$_instance->request_method = $_POST['_rx_ajax_compat'];
 				return;
 			}
-			
-			// Check JSON
-			foreach(array($_SERVER['HTTP_ACCEPT'], $_SERVER['HTTP_CONTENT_TYPE'], $_SERVER['CONTENT_TYPE']) as $header)
+			else
 			{
-				if(strpos($header, 'json') !== false)
+				// Set HTTP_RAW_POST_DATA for third-party apps that look for it.
+				if (!$_POST && !isset($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
-					self::$_instance->request_method = 'JSON';
+					$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
+				}
+				
+				// Check the Content-Type header for a hint of JSON.
+				foreach (array('HTTP_ACCEPT', 'HTTP_CONTENT_TYPE', 'CONTENT_TYPE') as $header)
+				{
+					if (isset($_SERVER[$header]) && strpos($_SERVER[$header], 'json') !== false)
+					{
+						self::$_instance->request_method = 'JSON';
+						return;
+					}
+				}
+				
+				// Decide whether it's JSON or XMLRPC by looking at the first character of the POST data.
+				if (!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+				{
+					self::$_instance->request_method = substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '<' ? 'XMLRPC' : 'JSON';
 					return;
 				}
-			}
-			
-			// Check XMLRPC
-			if(!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
-			{
-				self::$_instance->request_method = 'XMLRPC';
-				return;
 			}
 		}
 	}
@@ -1184,69 +1115,66 @@ class Context
 	/**
 	 * handle request arguments for GET/POST
 	 *
+	 * @param array $router_args
 	 * @return void
 	 */
-	public static function setRequestArguments()
+	public static function setRequestArguments(array $router_args = [])
 	{
-		foreach($_REQUEST as $key => $val)
+		// Arguments detected by the router have precedence over GET/POST parameters.
+		$request_args = $_SERVER['REQUEST_METHOD'] === 'GET' ? $_GET : $_POST;
+		if (count($router_args))
 		{
-			if($val === '' || isset(self::$_reserved_keys[$key]) || self::get($key))
+			foreach ($router_args as $key => $val)
 			{
-				continue;
+				$request_args[$key] = $val;
 			}
-			
-			$key = escape($key);
-			$val = self::_filterRequestVar($key, $val);
-			$set_to_vars = false;
-			
-			if($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET[$key]))
-			{
-				$set_to_vars = true;
-			}
-			elseif($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST[$key]))
-			{
-				$set_to_vars = true;
-			}
-			
-			self::set($key, $val, $set_to_vars);
 		}
 		
-		// Set deprecated request parameters.
-		if(!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+		// Set JSON and XMLRPC arguments.
+		if($_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
-			if(self::getRequestMethod() === 'XMLRPC')
+			$params = array();
+			$request_method = self::getRequestMethod();
+			if($request_method === 'XMLRPC')
 			{
 				if(!Rhymix\Framework\Security::checkXXE($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
-					header("HTTP/1.0 400 Bad Request");
-					exit;
+					self::$_instance->security_check = 'DENY ALL';
+					$GLOBALS['HTTP_RAW_POST_DATA'] = '';
+					return;
 				}
-				if(function_exists('libxml_disable_entity_loader'))
+				libxml_disable_entity_loader(true);
+				$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($GLOBALS['HTTP_RAW_POST_DATA']);
+			}
+			elseif($request_method === 'JSON')
+			{
+				if(substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '{')
 				{
-					libxml_disable_entity_loader(true);
+					$params = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
 				}
-				
-				$oXml = new XmlParser();
-				$params = $oXml->parse($GLOBALS['HTTP_RAW_POST_DATA'])->methodcall->params;
-				unset($params->node_name, $params->attrs, $params->body);
-				
-				foreach((array)$params as $key => $val)
+				else
 				{
-					$key = escape($key);
-					$val = self::_filterXmlVars($key, $val);
-					self::set($key, $val, true);
+					parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
 				}
 			}
-			elseif(self::getRequestMethod() === 'JSON')
+			
+			foreach($params as $key => $val)
 			{
-				$params = array();
-				parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);	
-				foreach($params as $key => $val)
+				if ($val !== '' && !isset($request_args[$key]))
 				{
-					$key = escape($key);
-					$val = self::_filterRequestVar($key, $val);
-					self::set($key, $val, true);
+					$request_args[$key] = $val;
 				}
+			}
+		}
+		
+		// Filter all arguments and set them to Context.
+		foreach($request_args as $key => $val)
+		{
+			if($val !== '' && !isset(self::$_reserved_keys[$key]) && !self::get($key))
+			{
+				$key = escape($key);
+				$val = self::_filterRequestVar($key, $val);
+				self::set($key, $val, true);
 			}
 		}
 	}
@@ -1435,7 +1363,15 @@ class Context
 				{
 					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'vid', 'search_target', 'search_keyword', 'xe_validator_id')) || $_SERVER['REQUEST_METHOD'] === 'GET')
+				elseif(in_array($key, array('mid', 'vid', 'act', 'module')))
+				{
+					$_val = preg_match('/^[a-zA-Z0-9_-]*$/', $_val) ? $_val : null;
+					if($_val === null)
+					{
+						self::$_instance->security_check = 'DENY ALL';
+					}
+				}
+				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || $_SERVER['REQUEST_METHOD'] === 'GET')
 				{
 					$_val = escape($_val, false);
 					if(ends_with('url', $key, false))
@@ -1553,7 +1489,7 @@ class Context
 			}
 		}
 		
-		if (in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
+		if (in_array(self::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			$oMessageObject->setMessage(trim($title . "\n\n" . $message));
 		}
@@ -1614,6 +1550,12 @@ class Context
 	{
 		static $current_domain = null;
 		static $site_module_info = null;
+		static $rewrite_level = null;
+		if ($rewrite_level === null)
+		{
+			$rewrite_level = Rhymix\Framework\Router::getRewriteLevel();
+		}
+		
 		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
@@ -1723,39 +1665,11 @@ class Context
 		$query = '';
 		if(count($get_vars) > 0)
 		{
-			// if using rewrite mod
-			if(self::$_instance->allow_rewrite)
-			{
-				$var_keys = array_keys($get_vars);
-				sort($var_keys);
-				$target = join('.', $var_keys);
-				$act = $get_vars['act'];
-				$mid = $get_vars['mid'];
-				$key = $get_vars['key'];
-				$srl = $get_vars['document_srl'];
-				$tmpArray = array('rss' => 1, 'atom' => 1, 'api' => 1);
-				$is_feed = isset($tmpArray[$act]);
-				$target_map = array(
-					'mid' => $mid,
-					'category.mid' => "$mid/category/" . $get_vars['category'],
-					'entry.mid' => "$mid/entry/" . $get_vars['entry'],
-					'document_srl' => $srl,
-					'document_srl.mid' => "$mid/$srl",
-					'act' => ($is_feed && $act !== 'api') ? $act : '',
-					'act.mid' => $is_feed ? "$mid/$act" : '',
-					'act.document_srl.key' => ($act == 'trackback') ? "$srl/$key/$act" : '',
-					'act.document_srl.key.mid' => ($act == 'trackback') ? "$mid/$srl/$key/$act" : '',
-				);
-				$query = $target_map[$target];
-			}
-			if(!$query && count($get_vars) > 0)
-			{
-				$query = 'index.php?' . http_build_query($get_vars);
-			}
+			$query = Rhymix\Framework\Router::getURL($get_vars, $rewrite_level);
 		}
 		
 		// If using SSL always
-		if($site_module_info->security == 'always')
+		if($site_module_info->security !== 'none')
 		{
 			if(!$domain && RX_SSL)
 			{
@@ -1766,20 +1680,6 @@ class Context
 				$query = self::getRequestUri(ENFORCE_SSL, $domain) . $query;
 			}
 		}
-		// optional SSL use
-		elseif($site_module_info->security == 'optional')
-		{
-			$ssl_mode = ((self::get('module') === 'admin') || ($get_vars['module'] === 'admin') || (isset($get_vars['act']) && self::isExistsSSLAction($get_vars['act']))) ? ENFORCE_SSL : RELEASE_SSL;
-			if(!$domain && (RX_SSL && ENFORCE_SSL) || (!RX_SSL && RELEASE_SSL))
-			{
-				$query = RX_BASEURL . $query;
-			}
-			else
-			{
-				$query = self::getRequestUri($ssl_mode, $domain) . $query;
-			}
-		}
-		// no SSL
 		else
 		{
 			// currently on SSL but target is not based on SSL
@@ -1845,7 +1745,7 @@ class Context
 		}
 
 		$site_module_info = self::get('site_module_info');
-		if ($site_module_info->security === 'always')
+		if ($site_module_info->security !== 'none')
 		{
 			$ssl_mode = ENFORCE_SSL;
 		}
@@ -1864,7 +1764,7 @@ class Context
 		{
 			if (!isset($domain_infos[$domain]))
 			{
-				$domain_infos[$domain] = getModel('module')->getSiteInfoByDomain($domain);
+				$domain_infos[$domain] = ModuleModel::getInstance()->getSiteInfoByDomain($domain);
 			}
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}
@@ -2005,91 +1905,60 @@ class Context
 	/**
 	 * Register if an action is to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
+	 * @deprecated
 	 * @param string $action act name
 	 * @return void
 	 */
 	public static function addSSLAction($action)
 	{
-		if(isset(self::$_ssl_actions[$action]))
-		{
-			return;
-		}
 		
-		self::$_ssl_actions[$action] = 1;
-		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
-		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
 	 * Register if actions are to be encrypted by SSL. Those actions are sent to https in common/js/xml_handler.js
 	 *
-	 * @param string $action act name
+	 * @deprecated
+	 * @param array $action_array
 	 * @return void
 	 */
 	public static function addSSLActions($action_array)
 	{
-		$changed = false;
-		foreach($action_array as $action)
-		{
-			if(!isset(self::$_ssl_actions[$action]))
-			{
-				self::$_ssl_actions[$action] = 1;
-				$changed = true;
-			}
-		}
-		if(!$changed)
-		{
-			return;
-		}
 		
-		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
-		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
 	 * Delete if action is registerd to be encrypted by SSL.
 	 *
+	 * @deprecated
 	 * @param string $action act name
 	 * @return void
 	 */
 	public static function subtractSSLAction($action)
 	{
-		if(!isset(self::$_ssl_actions[$action]))
-		{
-			return;
-		}
 		
-		unset(self::$_ssl_actions[$action]);
-		$buff = '<?php return ' . var_export(self::$_ssl_actions, true) . ';';
-		Rhymix\Framework\Storage::write(self::$_ssl_actions_cache_file, $buff);
 	}
 
 	/**
 	 * Get SSL Action
 	 *
+	 * @deprecated
 	 * @return string acts in array
 	 */
 	public static function getSSLActions()
 	{
-		if(self::getSslStatus() == 'optional')
-		{
-			return self::$_ssl_actions;
-		}
-		else
-		{
-			return array();
-		}
+		return array();
 	}
 
 	/**
 	 * Check SSL action are existed
 	 *
+	 * @deprecated
 	 * @param string $action act name
-	 * @return bool If SSL exists, return TRUE.
+	 * @return bool
 	 */
 	public static function isExistsSSLAction($action)
 	{
-		return isset(self::$_ssl_actions[$action]);
+		return false;
 	}
 
 	/**
@@ -2609,11 +2478,11 @@ class Context
 	/**
 	 * Check whether it is allowed to use rewrite mod
 	 *
-	 * @return bool True if it is allowed to use rewrite mod, otherwise FALSE
+	 * @return int The currently configured rewrite level
 	 */
 	public static function isAllowRewrite()
 	{
-		return self::$_instance->allow_rewrite;
+		return Rhymix\Framework\Router::getRewriteLevel();
 	}
 
 	/**
@@ -2745,7 +2614,7 @@ class Context
 	 */
 	public static function addMetaTag($name, $content, $is_http_equiv = false)
 	{
-		getController('module')->replaceDefinedLangCode($content);
+		ModuleController::getInstance()->replaceDefinedLangCode($content);
 		self::$_instance->meta_tags[$name] = array('is_http_equiv' => (bool)$is_http_equiv, 'content' => $content);
 	}
 	

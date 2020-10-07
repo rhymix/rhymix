@@ -6,6 +6,14 @@
 
 jQuery(function($){
 
+$('#point_module_config_form').on('submit', function() {
+	var level_step = [];
+	$(this).find('.level_step').each(function() {
+		level_step.push(parseInt($(this).val(), 10));
+	});
+	$('#level_step').val(level_step.join(','));
+});
+
 $('button.calc_point').click(function(){
 	var $this, form, elems, reset, el, fn, i=0;
 	

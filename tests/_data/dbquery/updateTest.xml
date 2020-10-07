@@ -1,0 +1,13 @@
+<query id="updateTest" action="update">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="voted_count" operation="plus" var="voted_count" filter="number" />
+		<column name="blamed_count" operation="minus" var="blamed_count" filter="number" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="document_srl" var="document_srl" notnull="notnull" />
+    </conditions>
+</query>

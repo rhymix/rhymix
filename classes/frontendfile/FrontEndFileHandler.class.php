@@ -229,11 +229,11 @@ class FrontEndFileHandler extends Handler
 			{
 				$file->media = 'all';
 			}
-			$file->key = $file->filePath . $file->keyName . "\t" . $file->targetIe . "\t" . $file->media;
+			$file->key = sprintf('%s/%s:%s:%s', $file->filePath, $file->keyName, $file->targetIe, $file->media);
 		}
 		else if($file->fileExtension == 'js')
 		{
-			$file->key = $file->filePath . $file->keyName . "\t" . $file->targetIe;
+			$file->key = sprintf('%s/%s:%s', $file->filePath, $file->keyName, $file->targetIe);
 		}
 
 		return $file;
@@ -290,7 +290,7 @@ class FrontEndFileHandler extends Handler
 			return;
 		}
 		
-		$default_font_config = Context::get('default_font_config') ?: getController('editor')->default_font_config;
+		$default_font_config = Context::get('default_font_config') ?: EditorModel::$default_font_config;
 		$file->vars['enable_xe_btn_styles'] = (defined('DISABLE_XE_BTN_STYLES') && DISABLE_XE_BTN_STYLES) ? 'false' : 'true';
 		$file->vars['enable_xe_msg_styles'] = (defined('DISABLE_XE_MSG_STYLES') && DISABLE_XE_MSG_STYLES) ? 'false' : 'true';
 		$file->vars = array_merge($file->vars, $default_font_config);
@@ -675,7 +675,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	protected function _arrangeCssIndex($dirname, $file)
 	{
-		if ($file->index !== 0)
+		if ($file->index < -100000)
 		{
 			return;
 		}
@@ -688,7 +688,7 @@ class FrontEndFileHandler extends Handler
 		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
 
 		$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
-		$file->index = $cssSortList[$tmp[0]];
+		$file->index += $cssSortList[$tmp];
 	}
 	
 	/**

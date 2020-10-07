@@ -131,6 +131,7 @@ class ncenterliteAdminController extends ncenterlite
 			$args->member_srl = $logged_info->member_srl;
 			$args->srl = 1;
 			$args->target_srl = 1;
+			$args->target_p_srl = 1;
 			$args->type = $this->_TYPE_TEST;
 			$args->target_type = $this->_TYPE_TEST;
 			$args->target_url = getUrl('');
@@ -169,6 +170,7 @@ class ncenterliteAdminController extends ncenterlite
 		$args->member_srl = $logged_info->member_srl;
 		$args->srl = 1;
 		$args->target_srl = 1;
+		$args->target_p_srl = 1;
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_COMMENT;
 		$args->target_url = getUrl('');

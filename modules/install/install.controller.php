@@ -40,7 +40,7 @@ class installController extends install
 			'user' => $config->db_user,
 			'pass' => $config->db_pass,
 			'database' => $config->db_database,
-			'prefix' => rtrim($config->db_prefix, '_') . '_',
+			'prefix' => $config->db_prefix ? (rtrim($config->db_prefix, '_') . '_') : '',
 		));
 		
 		// Check connection to the DB.
@@ -107,7 +107,7 @@ class installController extends install
 		if ($install_config)
 		{
 			$install_config = (array)$install_config;
-			$config['db']['master']['type'] = str_replace('_innodb', '', $install_config['db_type']);
+			$config['db']['master']['type'] = 'mysql';
 			$config['db']['master']['host'] = $install_config['db_hostname'];
 			$config['db']['master']['port'] = $install_config['db_port'];
 			$config['db']['master']['user'] = $install_config['db_userid'];
@@ -115,7 +115,7 @@ class installController extends install
 			$config['db']['master']['database'] = $install_config['db_database'];
 			$config['db']['master']['prefix'] = $install_config['db_table_prefix'];
 			$config['db']['master']['charset'] = $install_config['db_charset'];
-			$config['db']['master']['engine'] = strpos($install_config['db_type'], 'innodb') !== false ? 'innodb' : (strpos($install_config['db_type'], 'mysql') !== false ? 'myisam' : null);
+			$config['db']['master']['engine'] = strpos($install_config['db_type'], 'innodb') !== false ? 'innodb' : 'myisam';
 			$config['use_rewrite'] = $install_config['use_rewrite'] === 'Y' ? true : false;
 			$config['url']['ssl'] = $install_config['use_ssl'] ?: 'none';
 			$time_zone = $install_config['time_zone'];
@@ -127,7 +127,7 @@ class installController extends install
 		}
 		else
 		{
-			$config['db']['master']['type'] = str_replace('_innodb', '', $_SESSION['db_config']->db_type);
+			$config['db']['master']['type'] = 'mysql';
 			$config['db']['master']['host'] = $_SESSION['db_config']->db_host;
 			$config['db']['master']['port'] = $_SESSION['db_config']->db_port;
 			$config['db']['master']['user'] = $_SESSION['db_config']->db_user;
@@ -135,7 +135,7 @@ class installController extends install
 			$config['db']['master']['database'] = $_SESSION['db_config']->db_database;
 			$config['db']['master']['prefix'] = $_SESSION['db_config']->db_prefix;
 			$config['db']['master']['charset'] = $_SESSION['db_config']->db_charset;
-			$config['db']['master']['engine'] = strpos($_SESSION['db_config']->db_type, 'innodb') !== false ? 'innodb' : (strpos($_SESSION['db_config']->db_type, 'mysql') !== false ? 'myisam' : null);
+			$config['db']['master']['engine'] = strpos($_SESSION['db_config']->db_type, 'innodb') !== false ? 'innodb' : 'myisam';
 			$config['use_rewrite'] = $_SESSION['use_rewrite'] === 'Y' ? true : false;
 			$config['url']['ssl'] = Context::get('use_ssl') ?: 'none';
 			$time_zone = Context::get('time_zone');
@@ -227,6 +227,7 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
+			var_dump($e);exit;
 			throw new Rhymix\Framework\Exception($e->getMessage());
 		}
 		
@@ -243,13 +244,18 @@ class installController extends install
 		}
 		
 		// Apply site lock.
-
 		if (Context::get('use_sitelock') === 'Y')
 		{
 			$user_ip_range = getView('install')->detectUserIPRange();
 			Rhymix\Framework\Config::set('lock.locked', true);
 			Rhymix\Framework\Config::set('lock.message', 'This site is locked.');
 			Rhymix\Framework\Config::set('lock.allow', array('127.0.0.1', $user_ip_range));
+		}
+		
+		// Use APC cache if available.
+		if (function_exists('apcu_exists'))
+		{
+			Rhymix\Framework\Config::set('cache.type', 'apc');
 		}
 		
 		// Save the new configuration.
@@ -286,7 +292,7 @@ class installController extends install
 		}
 
 		// Check DB
-		if(DB::getEnableList())
+		if(extension_loaded('pdo_mysql'))
 		{
 			$checklist['db_support'] = true;
 		}
@@ -523,10 +529,12 @@ class installController extends install
 		{
 			$file = trim($schema_files[$i]);
 			if(!$file || substr($file,-4)!='.xml') continue;
+			$table_name = substr(basename($file), 0, -4);
+			if($oDB->isTableExists($table_name)) continue;
 			$output = $oDB->createTableByXmlFile($file);
 			if($output === false)
 			{
-				throw new Exception(lang('msg_create_table_failed') . ': ' . $oDB->getError()->getMessage());
+				throw new Exception(lang('msg_create_table_failed') . ': ' . basename($file) . ': ' . $oDB->getError()->getMessage());
 			}
 		}
 		// Create a table and module instance and then execute install() method

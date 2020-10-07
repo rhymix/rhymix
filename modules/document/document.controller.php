@@ -33,7 +33,7 @@ class documentController extends document
 		$module_info = $this->module_info;
 		if(!$module_info->module_srl)
 		{
-			$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+			$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		}
 		
 		if($module_info->non_login_vote !== 'Y')
@@ -44,13 +44,11 @@ class documentController extends document
 			}
 		}
 		
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
 		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oModuleModel = getModel('module');
-		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
 		if($document_config->use_vote_up=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 
 		$point = 1;
@@ -74,7 +72,7 @@ class documentController extends document
 		$module_info = $this->module_info;
 		if(!$module_info->module_srl)
 		{
-			$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
+			$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		}
 
 		if($module_info->non_login_vote !== 'Y')
@@ -90,8 +88,7 @@ class documentController extends document
 			throw new Rhymix\Framework\Exception('failed_voted_cancel');
 		}
 
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if($oDocument->get('voted_count') <= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
@@ -144,13 +141,11 @@ class documentController extends document
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		$module_srl = $oDocument->get('module_srl');
 		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oModuleModel = getModel('module');
-		$document_config = $oModuleModel->getModulePartConfig('document',$module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
 		if($document_config->use_vote_down=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 
 		$point = -1;
@@ -181,8 +176,7 @@ class documentController extends document
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if($oDocument->get('blamed_count') >= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
@@ -328,16 +322,14 @@ class documentController extends document
 		}
 		
 		$document_srl = intval(Context::get('target_srl'));
-		
-		$oDocument = getModel('document')->getDocument($document_srl);
-		
+
+		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
-		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
-		
+		$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		if($module_info->cancel_vote !== 'Y')
 		{
 			throw new Rhymix\Framework\Exception('failed_declared_cancel');
@@ -427,7 +419,7 @@ class documentController extends document
 	 */
 	function addGrant($document_srl)
 	{
-		$oDocument = getModel('document')->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		if ($oDocument->isExists())
 		{
 			$oDocument->setGrant();
@@ -526,10 +518,9 @@ class documentController extends document
 		}
 
 		// Set to 0 if the category_srl doesn't exist
-		$oDocumentModel = getModel('document');
 		if($obj->category_srl)
 		{
-			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
+			$category_list = DocumentModel::getCategoryList($obj->module_srl);
 			if(count($category_list) > 0 && !$category_list[$obj->category_srl]->grant)
 			{
 				return new BaseObject(-1, 'msg_not_permitted');
@@ -545,7 +536,7 @@ class documentController extends document
 		// Check the status of password hash for manually inserting. Apply hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed)
 		{
-			$obj->password = getModel('member')->hashPassword($obj->password);
+			$obj->password = MemberModel::hashPassword($obj->password);
 		}
 
 		// Insert member's information only if the member is logged-in and not manually registered.
@@ -613,7 +604,7 @@ class documentController extends document
 
 		// Insert extra variables if the document successfully inserted.
 		$extra_vars = array();
-		$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
+		$extra_keys = DocumentModel::getExtraKeys($obj->module_srl);
 		if(count($extra_keys))
 		{
 			foreach($extra_keys as $idx => $extra_item)
@@ -731,8 +722,7 @@ class documentController extends document
 		
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
 		
-		$oModuleModel = getModel('module');
-		$document_config = $oModuleModel->getModulePartConfig('document', $obj->module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document', $obj->module_srl);
 		if(!$document_config)
 		{
 			$document_config = new stdClass();
@@ -793,10 +783,9 @@ class documentController extends document
 		unset($obj->_saved_doc_message);
 
 		// Set the category_srl to 0 if the changed category is not exsiting.
-		$oDocumentModel = getModel('document');
 		if($source_obj->get('category_srl')!=$obj->category_srl)
 		{
-			$category_list = $oDocumentModel->getCategoryList($obj->module_srl);
+			$category_list = DocumentModel::getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
 
@@ -806,7 +795,7 @@ class documentController extends document
 		// Hash the password if it exists
 		if($obj->password)
 		{
-			$obj->password = getModel('member')->hashPassword($obj->password);
+			$obj->password = MemberModel::hashPassword($obj->password);
 		}
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.
@@ -910,7 +899,7 @@ class documentController extends document
 		{
 			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
 			// Insert extra variables if the document successfully inserted.
-			$extra_keys = $oDocumentModel->getExtraKeys($obj->module_srl);
+			$extra_keys = DocumentModel::getExtraKeys($obj->module_srl);
 			if(count($extra_keys))
 			{
 				foreach($extra_keys as $idx => $extra_item)
@@ -971,6 +960,7 @@ class documentController extends document
 		//remove from cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($obj->document_srl) . $obj->document_srl);
 		Rhymix\Framework\Cache::delete('seo:document_images:' . $obj->document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $obj->document_srl);
 		return $output;
 	}
 
@@ -1035,28 +1025,30 @@ class documentController extends document
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 
+		// Check if the document exists
 		if(!$isEmptyTrash)
 		{
-			// get model object of the document
-			$oDocumentModel = getModel('document');
-			// Check if the documnet exists
-			$oDocument = $oDocumentModel->getDocument($document_srl, $is_admin);
+			$oDocument = DocumentModel::getDocument($document_srl, $is_admin);
 		}
-		else if($isEmptyTrash && $oDocument == null) return new BaseObject(-1, 'document is not exists');
+		else if($isEmptyTrash && $oDocument == null)
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
 
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-		$logged_info = Context::get('logged_info');
-
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		// Check permission
+		if(!$oDocument->isExists())
+		{
+			return new BaseObject(-1, 'msg_invalid_document');
+		}
+		if(!$oDocument->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+		if($member_info->is_admin === 'Y' && $this->user->is_admin !== 'Y')
 		{
 			return new BaseObject(-1, 'msg_document_is_admin_not_permitted');
 		}
-
-
-		if(!$oDocument->isExists() || $oDocument->document_srl != $document_srl) return new BaseObject(-1, 'msg_invalid_document');
-		// Check if a permossion is granted
-		if(!$oDocument->isGranted()) return new BaseObject(-1, 'msg_not_permitted');
 
 		//if empty trash, document already deleted, therefore document not delete
 		$args = new stdClass();
@@ -1102,6 +1094,7 @@ class documentController extends document
 		//remove from cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 		Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
 		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
 		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
 		return $output;
@@ -1150,20 +1143,27 @@ class documentController extends document
 	 */
 	function moveDocumentToTrash($obj)
 	{
-		$logged_info = Context::get('logged_info');
 		$trash_args = new stdClass();
 		// Get trash_srl if a given trash_srl doesn't exist
 		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
 		else $trash_args->trash_srl = $obj->trash_srl;
 		// Get its module_srl which the document belongs to
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
-
-		$oMemberModel = getModel('member');
-		$member_info = $oMemberModel->getMemberInfoByMemberSrl($oDocument->get('member_srl'));
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
+		if(!$oDocument->isExists())
 		{
-			return new BaseObject(-1, 'msg_admin_document_no_move_to_trash');
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		if(!$oDocument->isGranted())
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		if($this->user->is_admin !== 'Y')
+		{
+			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+			if($member_info->is_admin === 'Y')
+			{
+				return new BaseObject(-1, 'msg_admin_document_no_move_to_trash');
+			}
 		}
 
 		$trash_args->module_srl = $oDocument->get('module_srl');
@@ -1177,15 +1177,12 @@ class documentController extends document
 		$trash_args->document_srl = $obj->document_srl;
 		$trash_args->description = $obj->description;
 		// Insert member's information only if the member is logged-in and not manually registered.
-		if(Context::get('is_logged'))
+		if($this->user->isMember())
 		{
-			$logged_info = Context::get('logged_info');
-			$trash_args->member_srl = $logged_info->member_srl;
-
-			// user_id, user_name and nick_name already encoded
-			$trash_args->user_id = htmlspecialchars_decode($logged_info->user_id);
-			$trash_args->user_name = htmlspecialchars_decode($logged_info->user_name);
-			$trash_args->nick_name = htmlspecialchars_decode($logged_info->nick_name);
+			$trash_args->member_srl = $this->user->member_srl;
+			$trash_args->user_id = htmlspecialchars_decode($this->user->user_id);
+			$trash_args->user_name = htmlspecialchars_decode($this->user->user_name);
+			$trash_args->nick_name = htmlspecialchars_decode($this->user->nick_name);
 		}
 		// Date setting for updating documents
 		$document_args = new stdClass;
@@ -1259,6 +1256,7 @@ class documentController extends document
 		// Clear cache
 		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($oDocument->document_srl) . $oDocument->document_srl);
 		Rhymix\Framework\Cache::delete('seo:document_images:' . $oDocument->document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $oDocument->document_srl);
 		return $output;
 	}
 
@@ -1283,8 +1281,7 @@ class documentController extends document
 			'none' => true,
 		);
 		
-		$oDocumentModel = getModel('document');
-		$config = $oDocumentModel->getDocumentConfig();
+		$config = DocumentModel::getDocumentConfig();
 		if (!$config->view_count_option || !isset($valid_options[$config->view_count_option]))
 		{
 			$config->view_count_option = 'once';
@@ -1524,8 +1521,7 @@ class documentController extends document
 		}
 
 		// Get the original document
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
@@ -1534,9 +1530,8 @@ class documentController extends document
 			return new BaseObject(-1, $failed_voted);
 		}
 
-		// Create a member model object
-		$oMemberModel = getModel('member');
-		$member_srl = $oMemberModel->getLoggedMemberSrl();
+		// Get current member_srl
+		$member_srl = MemberModel::getLoggedMemberSrl();
 
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
@@ -1673,8 +1668,7 @@ class documentController extends document
 		}
 
 		// Get the original document
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
@@ -1753,8 +1747,7 @@ class documentController extends document
 		// Send message to admin
 		$message_targets = array();
 		$module_srl = $oDocument->get('module_srl');
-		$oModuleModel = getModel('module');
-		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
 		if ($document_config->declared_message && in_array('admin', $document_config->declared_message))
 		{
 			$output = executeQueryArray('member.getAdmins', new stdClass);
@@ -1809,8 +1802,7 @@ class documentController extends document
 		}
 		
 		// Get the original document
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl, false, false);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1872,8 +1864,7 @@ class documentController extends document
 		
 		$message_targets = array();
 		$module_srl = $oDocument->get('module_srl');
-		$oModuleModel = getModel('module');
-		$document_config = $oModuleModel->getModulePartConfig('document', $module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
 		if ($document_config->declared_message && in_array('admin', $document_config->declared_message))
 		{
 			$output = executeQueryArray('member.getAdmins', new stdClass);
@@ -1968,8 +1959,7 @@ class documentController extends document
 		if($obj->parent_srl)
 		{
 			// Get its parent category
-			$oDocumentModel = getModel('document');
-			$parent_category = $oDocumentModel->getCategory($obj->parent_srl);
+			$parent_category = DocumentModel::getCategory($obj->parent_srl);
 			$obj->list_order = $parent_category->list_order;
 			$this->updateCategoryListOrder($parent_category->module_srl, $parent_category->list_order+1);
 			if(!$obj->category_srl) $obj->category_srl = getNextSequence();
@@ -2013,8 +2003,10 @@ class documentController extends document
 	function updateCategoryCount($module_srl, $category_srl, $document_count = 0)
 	{
 		// Create a document model object
-		$oDocumentModel = getModel('document');
-		if(!$document_count) $document_count = $oDocumentModel->getCategoryDocumentCount($module_srl,$category_srl);
+		if(!$document_count)
+		{
+			$document_count = DocumentModel::getCategoryDocumentCount($module_srl,$category_srl);
+		}
 
 		$args = new stdClass;
 		$args->category_srl = $category_srl;
@@ -2046,8 +2038,7 @@ class documentController extends document
 	{
 		$args = new stdClass();
 		$args->category_srl = $category_srl;
-		$oDocumentModel = getModel('document');
-		$category_info = $oDocumentModel->getCategory($category_srl);
+		$category_info = DocumentModel::getCategory($category_srl);
 		// Display an error that the category cannot be deleted if it has a child
 		$output = executeQuery('document.getChildCategoryCount', $args);
 		if(!$output->toBool()) return $output;
@@ -2108,7 +2099,6 @@ class documentController extends document
 	 */
 	function moveCategoryUp($category_srl)
 	{
-		$oDocumentModel = getModel('document');
 		// Get information of the selected category
 		$args = new stdClass;
 		$args->category_srl = $category_srl;
@@ -2118,7 +2108,7 @@ class documentController extends document
 		$list_order = $category->list_order;
 		$module_srl = $category->module_srl;
 		// Seek a full list of categories
-		$category_list = $oDocumentModel->getCategoryList($module_srl);
+		$category_list = DocumentModel::getCategoryList($module_srl);
 		$category_srl_list = array_keys($category_list);
 		if(count($category_srl_list)<2) return new BaseObject();
 
@@ -2155,7 +2145,6 @@ class documentController extends document
 	 */
 	function moveCategoryDown($category_srl)
 	{
-		$oDocumentModel = getModel('document');
 		// Get information of the selected category
 		$args = new stdClass;
 		$args->category_srl = $category_srl;
@@ -2165,7 +2154,7 @@ class documentController extends document
 		$list_order = $category->list_order;
 		$module_srl = $category->module_srl;
 		// Seek a full list of categories
-		$category_list = $oDocumentModel->getCategoryList($module_srl);
+		$category_list = DocumentModel::getCategoryList($module_srl);
 		$category_srl_list = array_keys($category_list);
 		if(count($category_srl_list)<2) return new BaseObject();
 
@@ -2200,8 +2189,7 @@ class documentController extends document
 	 */
 	function addXmlJsFilter($module_srl)
 	{
-		$oDocumentModel = getModel('document');
-		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
+		$extra_keys = DocumentModel::getExtraKeys($module_srl);
 		if(!count($extra_keys)) return;
 
 		$js_code = array();
@@ -2251,10 +2239,9 @@ class documentController extends document
 			$args->module_srl = $this->module_srl;
 		}
 		// Check permissions
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
-		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl, $columnList);
+		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
 
 		if($args->expand !="Y") $args->expand = "N";
@@ -2262,14 +2249,12 @@ class documentController extends document
 		else $args->group_srls = implode(',', $args->group_srls);
 		$args->parent_srl = (int)$args->parent_srl;
 
-		$oDocumentModel = getModel('document');
-
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Check if already exists
 		if($args->category_srl)
 		{
-			$category_info = $oDocumentModel->getCategory($args->category_srl);
+			$category_info = DocumentModel::getCategory($args->category_srl);
 			if($category_info->category_srl != $args->category_srl) $args->category_srl = null;
 		}
 		// Update if exists
@@ -2318,20 +2303,18 @@ class documentController extends document
 		// If target_srl exists, be a sibling
 		$target_category_srl = Context::get('target_srl');
 
-		$oDocumentModel = getModel('document');
-		$source_category = $oDocumentModel->getCategory($source_category_srl);
+		$source_category = DocumentModel::getCategory($source_category_srl);
 		// Check permissions
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($source_category->module_srl, $columnList);
-		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($source_category->module_srl, $columnList);
+		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
 
 		// First child of the parent_category_srl
 		$source_args = new stdClass;
 		if($parent_category_srl > 0 || ($parent_category_srl == 0 && $target_category_srl == 0))
 		{
-			$parent_category = $oDocumentModel->getCategory($parent_category_srl);
+			$parent_category = DocumentModel::getCategory($parent_category_srl);
 
 			$args = new stdClass;
 			$args->module_srl = $source_category->module_srl;
@@ -2352,7 +2335,7 @@ class documentController extends document
 		}
 		else if($target_category_srl > 0)
 		{
-			$target_category = $oDocumentModel->getCategory($target_category_srl);
+			$target_category = DocumentModel::getCategory($target_category_srl);
 			// Move all siblings of the $target_category down
 			$output = $this->updateCategoryListOrder($target_category->module_srl, $target_category->list_order+1);
 			if(!$output->toBool()) return $output;
@@ -2382,18 +2365,16 @@ class documentController extends document
 		$oDB = &DB::getInstance();
 		$oDB->begin();
 		// Check permissions
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
-		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl, $columnList);
+		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
 
-		$oDocumentModel = getModel('document');
 		// Get original information
-		$category_info = $oDocumentModel->getCategory($args->category_srl);
+		$category_info = DocumentModel::getCategory($args->category_srl);
 		if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
 		// Display an error that the category cannot be deleted if it has a child node
-		if($oDocumentModel->getCategoryChlidCount($args->category_srl)) return new BaseObject(-1, 'msg_cannot_delete_for_child');
+		if(DocumentModel::getCategoryChlidCount($args->category_srl)) return new BaseObject(-1, 'msg_cannot_delete_for_child');
 		// Remove from the DB
 		$output = $this->deleteCategory($args->category_srl);
 		if(!$output->toBool())
@@ -2423,10 +2404,9 @@ class documentController extends document
 		// Check input values
 		$module_srl = Context::get('module_srl');
 		// Check permissions
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		$grant = $oModuleModel->getGrant($module_info, Context::get('logged_info'));
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
+		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
 
 		$xml_file = $this->makeCategoryFile($module_srl);
@@ -2445,10 +2425,7 @@ class documentController extends document
 		$module_srl = intval($module_srl);
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
-		$oModuleModel = getModel('module');
-		$columnList = array('module_srl', 'mid', 'site_srl');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		$mid = $module_info->mid;
+		$mid = ModuleModel::getMidByModuleSrl($module_srl);
 
 		if(!is_dir('./files/cache/document_category')) FileHandler::makeDir('./files/cache/document_category');
 		// Cache file's name
@@ -2504,7 +2481,7 @@ class documentController extends document
 
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_header_buff = '';
-		$xml_body_buff = $this->getXmlTree($tree[0], $tree, $module_info->site_srl, $xml_header_buff);
+		$xml_body_buff = $this->getXmlTree($tree[0], $tree, 0, $xml_header_buff);
 		$xml_buff = sprintf(
 			'<?php '.
 			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
@@ -2527,7 +2504,7 @@ class documentController extends document
 		// Create php cache file
 		$php_header_buff = '$_titles = array();';
 		$php_header_buff .= '$_descriptions = array();';
-		$php_output = $this->getPhpCacheCode($tree[0], $tree, $module_info->site_srl, $php_header_buff);
+		$php_output = $this->getPhpCacheCode($tree[0], $tree, 0, $php_header_buff);
 		$php_buff = sprintf(
 			'<?php '.
 			'if(!defined("__XE__")) exit(); '.
@@ -2784,12 +2761,11 @@ class documentController extends document
 		if(!$document_srls || !count($document_srls)) return new BaseObject();
 
 		// Check if each of module administrators exists. Top-level administator will have a permission to modify every document of all modules.(Even to modify temporarily saved or trashed documents)
-		$oModuleModel = getModel('module');
 		$module_srls = array_keys($document_srls);
 		for($i=0;$i<count($module_srls);$i++)
 		{
 			$module_srl = $module_srls[$i];
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
@@ -2798,7 +2774,7 @@ class documentController extends document
 					unset($document_srls[$module_srl]);
 					continue;
 				}
-				$grant = $oModuleModel->getGrant($module_info, $logged_info);
+				$grant = ModuleModel::getGrant($module_info, $logged_info);
 				if(!$grant->manager)
 				{
 					unset($document_srls[$module_srl]);
@@ -2843,12 +2819,12 @@ class documentController extends document
 		// Check permission of target module
 		if($obj->target_module_srl)
 		{
-			$module_info = getModel('module')->getModuleInfoByModuleSrl($obj->target_module_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($obj->target_module_srl);
 			if (!$module_info->module_srl)
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
-			$module_grant = getModel('module')->getGrant($module_info, $logged_info);
+			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -2864,7 +2840,7 @@ class documentController extends document
 		$obj->document_srl_list = array_unique(array_map('intval', $cart));
 		
 		// Set document list
-		$obj->document_list = getModel('document')->getDocuments($obj->document_srl_list, false, false);
+		$obj->document_list = DocumentModel::getDocuments($obj->document_srl_list, false, false);
 		if(empty($obj->document_list))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -3015,18 +2991,17 @@ Content;
 		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
 		$logged_info = Context::get('logged_info');
 		$module_srl = array();
-		$oModuleModel = getModel('module');
 		foreach ($target_module_srl as $srl)
 		{
 			if (!$srl) continue;
 			
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			
-			$module_grant = $oModuleModel->getGrant($module_info, $logged_info);
+			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -3085,8 +3060,7 @@ Content;
 			unset($obj->title_bold);
 		}
 		
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		
 		// Update if already exists
 		if($oDocument->isExists())
@@ -3108,7 +3082,7 @@ Content;
 		{
 			$output = $this->insertDocument($obj);
 			
-			$oDocument = $oDocumentModel->getDocument($output->get('document_srl'));
+			$oDocument = DocumentModel::getDocument($output->get('document_srl'));
 		}
 		
 		// Set the attachment to be invalid state
@@ -3140,15 +3114,13 @@ Content;
 
 		if(count($documentSrlList) > 0)
 		{
-			$oDocumentModel = getModel('document');
 			$columnList = array('document_srl', 'title', 'nick_name', 'status');
-			$documentList = $oDocumentModel->getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
+			$documentList = DocumentModel::getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
 		}
 		else
 		{
-			global $lang;
 			$documentList = array();
-			$this->setMessage($lang->no_documents);
+			$this->setMessage(lang(no_documents));
 		}
 		$oSecurity = new Security($documentList);
 		$oSecurity->encodeHTML('..variables.');
@@ -3201,7 +3173,6 @@ Content;
 			return;
 		}
 		
-		$oFileModel = getModel('file');
 		$document_srl_list = array_unique($document_srl_list);
 		
 		foreach($document_srl_list as $document_srl)
@@ -3213,14 +3184,14 @@ Content;
 			
 			$args = new stdClass;
 			$args->document_srl = $document_srl;
-			$args->uploaded_count = $oFileModel->getFilesCount($document_srl);
+			$args->uploaded_count = FileModel::getFilesCount($document_srl);
 			executeQuery('document.updateUploadedCount', $args);
 		}
 	}
 	
 	function triggerAfterDeleteFile($file)
 	{
-		$oDocument = getModel('document')->getDocument($file->upload_target_srl, false, false);
+		$oDocument = DocumentModel::getDocument($file->upload_target_srl, false, false);
 		if(!$oDocument->isExists())
 		{
 			return;
@@ -3236,8 +3207,7 @@ Content;
 	 */
 	function triggerCopyModuleExtraKeys(&$obj)
 	{
-		$oDocumentModel = getModel('document');
-		$documentExtraKeys = $oDocumentModel->getExtraKeys($obj->originModuleSrl);
+		$documentExtraKeys = DocumentModel::getExtraKeys($obj->originModuleSrl);
 
 		if(is_array($documentExtraKeys) && is_array($obj->moduleSrlList))
 		{
@@ -3254,8 +3224,7 @@ Content;
 
 	function triggerCopyModule(&$obj)
 	{
-		$oModuleModel = getModel('module');
-		$documentConfig = $oModuleModel->getModulePartConfig('document', $obj->originModuleSrl);
+		$documentConfig = ModuleModel::getModulePartConfig('document', $obj->originModuleSrl);
 
 		$oModuleController = getController('module');
 		if(is_array($obj->moduleSrlList))

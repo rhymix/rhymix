@@ -1,0 +1,18 @@
+<query id="insertPushLog" action="insert">
+    <tables>
+        <table name="advanced_mailer_push_log" />
+    </tables>
+    <columns>
+        <column name="push_from" var="push_from" notnull="notnull" />
+        <column name="push_to" var="push_to" notnull="notnull" />
+		<column name="subject" var="subject" notnull="notnull" />
+        <column name="content" var="content" notnull="notnull" />
+        <column name="calling_script" var="calling_script" notnull="notnull" />
+        <column name="success_count" var="success_count" notnull="notnull" />
+		<column name="deleted_count" var="deleted_count" notnull="notnull" />
+		<column name="updated_count" var="updated_count" notnull="notnull" />
+        <column name="regdate" var="regdate" notnull="notnull" default="curdate()" />
+        <column name="status" var="status" notnull="notnull" default="success" />
+        <column name="errors" var="errors" />
+    </columns>
+</query>

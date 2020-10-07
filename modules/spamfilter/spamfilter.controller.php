@@ -8,6 +8,17 @@
 class spamfilterController extends spamfilter
 {
 	/**
+	 * List of actions to use CAPTCHA.
+	 */
+	protected static $_captcha_actions = array(
+		'signup' => '/^(?:disp|proc)Member(?:SignUp|Insert)/i',
+		'login' => '/^(?:disp|proc)MemberLogin(?:Form)?/i',
+		'recovery' => '/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i',
+		'document' => '/^(?:disp|proc)Board(Write|InsertDocument)/i',
+		'comment' => '/^(?:disp|proc)Board(Content|InsertComment)/i',
+	);
+
+	/**
 	 * @brief Initialization
 	 */
 	function init()
@@ -231,7 +242,62 @@ class spamfilterController extends spamfilter
 	{
 		$this->setAvoidLog();
 	}
-	
+
+	/**
+	 * Trigger to check CAPTCHA.
+	 */
+	function triggerCheckCaptcha(&$obj)
+	{
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		if (!isset($config) || !isset($config->captcha) || $config->captcha->type !== 'recaptcha')
+		{
+			return;
+		}
+		if ($this->user->is_admin === 'Y')
+		{
+			return;
+		}
+		if ($config->captcha->target_users !== 'everyone' && $this->user->member_srl)
+		{
+			return;
+		}
+		if ($config->captcha->target_frequency !== 'every_time' && isset($_SESSION['recaptcha_authenticated']) && $_SESSION['recaptcha_authenticated'])
+		{
+			return;
+		}
+		if (!$config->captcha->target_devices[Mobile::isFromMobilePhone() ? 'mobile' : 'pc'])
+		{
+			return;
+		}
+		
+		$enable = false;
+		foreach (['signup', 'login', 'recovery', 'document', 'comment'] as $action)
+		{
+			if ($config->captcha->target_actions[$action])
+			{
+				if (preg_match(self::$_captcha_actions[$action], $obj->act) || ($action === 'comment' && !$obj->act && Context::get('document_srl')))
+				{
+					$enable = true;
+				}
+			}
+		}
+		
+		if ($enable)
+		{
+			include_once __DIR__ . '/spamfilter.lib.php';
+			spamfilter_reCAPTCHA::init($config->captcha);
+			
+			if (strncasecmp('proc', $obj->act, 4) === 0)
+			{
+				spamfilter_reCAPTCHA::check();
+			}
+			else
+			{
+				Context::set('captcha', new spamfilter_reCAPTCHA());
+			}
+		}
+	}
+
 	/**
 	 * @brief Log registration
 	 * Register the newly accessed IP address in the log. In case the log interval is withing a certain time,

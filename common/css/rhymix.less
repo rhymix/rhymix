@@ -234,6 +234,12 @@ a img {
 	border-bottom-right-radius: 4px;
 	box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.18), 0 0 6px 0 rgba(0, 0, 0, 0.12);
 	z-index: 1073741824;
+	&.visible {
+		display: block;
+		@media print {
+			display: none;
+		}
+	}
 	&:hover {
 		background: #dddddd;
 		background: linear-gradient(to bottom, #e8e8e8 0%, #d9d9d9 100%);

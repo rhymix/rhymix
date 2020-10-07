@@ -43,13 +43,11 @@ class commentView extends comment
 		}
 
 		// get the comment configuration
-		$oCommentModel = getModel('comment');
-		$comment_config = $oCommentModel->getCommentConfig($current_module_srl);
+		$comment_config = CommentModel::getCommentConfig($current_module_srl);
 		Context::set('comment_config', $comment_config);
 
 		// get a group list
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups();
+		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
 
 		// Set a template file
@@ -69,17 +67,14 @@ class commentView extends comment
 		$this->setLayoutFile('popup_layout');
 		$comment_srl = Context::get('target_srl');
 
-		$oMemberModel = getModel('member');
 		// A message appears if the user is not logged-in
-		if(!$oMemberModel->isLogged())
+		if(!$this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		// Create the comment object.
-		$oCommentModel = getModel('comment');
 		// Creates an object for displaying the selected comment
-		$oComment = $oCommentModel->getComment($comment_srl);
+		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;

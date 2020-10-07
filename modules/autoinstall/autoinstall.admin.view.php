@@ -27,9 +27,13 @@ class autoinstallAdminView extends autoinstall
 	 */
 	function init()
 	{
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+		Context::set('config', $config);
+		
 		$template_path = sprintf("%stpl/", $this->module_path);
-		Context::set('original_site', _XE_LOCATION_SITE_);
-		Context::set('uri', _XE_DOWNLOAD_SERVER_);
+		Context::set('original_site', $config->location_site);
+		Context::set('uri', $config->download_server);
 		$this->setTemplatePath($template_path);
 
 		$ftp_info = Context::getFTPInfo();
@@ -192,17 +196,30 @@ class autoinstallAdminView extends autoinstall
 
 		$depto = array();
 
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
 		foreach($items as $item)
 		{
 			$v = $this->rearrange($item, $targets);
-			$v->item_screenshot_url = str_replace('./', _XE_DOWNLOAD_SERVER_, $v->item_screenshot_url);
+			$v->item_screenshot_url = str_replace('./', $config->download_server, $v->item_screenshot_url);
 			$v->category = $this->categories[$v->category_srl]->title;
-			$v->url = _XE_LOCATION_SITE_ . '?mid=download&package_srl=' . $v->package_srl;
+			$v->url = $config->location_site . '?mid=download&package_srl=' . $v->package_srl;
 
 			if($packages[$v->package_srl])
 			{
 				$v->current_version = $packages[$v->package_srl]->current_version;
-				$v->need_update = $packages[$v->package_srl]->need_update;
+				// if version is up
+				// insert Y
+				if(version_compare($v->item_version, $v->current_version, '>'))
+				{
+					$v->need_update = 'Y';
+				}
+				else
+				{
+					$v->need_update = 'N';
+				}
+				//$v->need_update = $packages[$v->package_srl]->need_update;
 				$v->type = $oModel->getTypeFromPath($packages[$v->package_srl]->path);
 
 				if($this->ftp_set && $v->depfrom)
@@ -314,7 +331,11 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
@@ -366,6 +387,7 @@ class autoinstallAdminView extends autoinstall
 
 		Context::set("package", $package);
 		Context::set('contain_core', $package->contain_core);
+		Context::set('module_config', $oAdminModel->getAutoInstallAdminModuleConfig());
 
 		if(!$_SESSION['ftp_password'])
 		{
@@ -407,14 +429,19 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
 
 		if(!$updateDate)
 		{
-			throw new Rhymix\Framework\Exception('msg_connection_fail');
+			Context::set('isNotUpdate', true);
+			return;
 		}
 
 		$oModel = getModel('autoinstall');
@@ -558,7 +585,11 @@ class autoinstallAdminView extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
@@ -583,6 +614,14 @@ class autoinstallAdminView extends autoinstall
 		}
 	}
 
+	/**
+	 * Display config
+	 * 
+	 */
+	function dispAutoinstallAdminConfig()
+	{
+		$this->setTemplateFile('config');
+	}
 }
 /* End of file autoinstall.admin.view.php */
 /* Location: ./modules/autoinstall/autoinstall.admin.view.php */

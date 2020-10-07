@@ -1,7 +1,0 @@
-<table name="tbl">
-    <column name="col_name" type="text" />
-
-    <!-- type="tinytext" only supported by CUBRID -->
-    <column name="col_name2" type="tinytext" />
-</table>
-

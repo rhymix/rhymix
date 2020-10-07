@@ -16,8 +16,11 @@ class spamfilterAdminController extends spamfilter
 
 	function procSpamfilterAdminInsertConfig()
 	{
+		// Get current config
+		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
+		
 		// Get the default information
-		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range', 'display_keyword', 'custom_message');
+		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range', 'custom_message');
 
 		// Set default values
 		if($args->limits != 'Y')
@@ -38,10 +41,15 @@ class spamfilterAdminController extends spamfilter
 		}
 		$args->limits_interval = intval($args->limits_interval);
 		$args->limits_count = intval($args->limits_count);
+		$args->custom_message = escape(utf8_trim($args->custom_message));
+		foreach ($args as $key => $val)
+		{
+			$config->$key = $val;
+		}
 
 		// Create and insert the module Controller object
 		$oModuleController = getController('module');
-		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter', $args);
+		$moduleConfigOutput = $oModuleController->insertModuleConfig('spamfilter', $config);
 		if(!$moduleConfigOutput->toBool())
 		{
 			return $moduleConfigOutput;
@@ -52,6 +60,50 @@ class spamfilterAdminController extends spamfilter
 		$this->setRedirectUrl($returnUrl);
 	}
 
+	function procSpamfilterAdminInsertConfigCaptcha()
+	{
+		// Get current config
+		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
+		
+		// Get updated values
+		$vars = Context::getRequestVars();
+		
+		// Check values
+		if (!isset($config->captcha))
+		{
+			$config->captcha = new stdClass;
+		}
+		$config->captcha->type = $vars->captcha_type === 'recaptcha' ? 'recaptcha' : 'none';
+		$config->captcha->site_key = escape(utf8_trim($vars->site_key));
+		$config->captcha->secret_key = escape(utf8_trim($vars->secret_key));
+		$config->captcha->theme = escape(utf8_trim($vars->captcha_theme));
+		$config->captcha->size = escape(utf8_trim($vars->captcha_size));
+		$config->captcha->target_devices = [
+			'pc' => in_array('pc', $vars->target_devices) ? true : false,
+			'mobile' => in_array('mobile', $vars->target_devices) ? true : false,
+		];
+		$config->captcha->target_actions = [
+			'signup' => in_array('signup', $vars->target_actions) ? true : false,
+			'login' => in_array('login', $vars->target_actions) ? true : false,
+			'recovery' => in_array('recovery', $vars->target_actions) ? true : false,
+			'document' => in_array('document', $vars->target_actions) ? true : false,
+			'comment' => in_array('comment', $vars->target_actions) ? true : false,
+		];
+		$config->captcha->target_users = escape(utf8_trim($vars->target_users)) ?: 'non_members';
+		$config->captcha->target_frequency = escape(utf8_trim($vars->target_frequency)) ?: 'first_time_only';
+		
+		// Insert new config
+		$output = getController('module')->insertModuleConfig('spamfilter', $config);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_updated');
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfigCaptcha');
+		$this->setRedirectUrl($returnUrl);
+	}
+	
 	function procSpamfilterAdminInsertDeniedIP()
 	{
 		//스팸IP  추가

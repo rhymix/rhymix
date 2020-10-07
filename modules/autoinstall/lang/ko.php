@@ -39,6 +39,7 @@ $lang->msg_delete_file_failed = '파일 삭제에 실패했습니다. %s.';
 $lang->msg_delete_dir_failed = '디렉터리 삭제에 실패했습니다. %s';
 $lang->msg_ftp_password_input = '입력된 비밀번호가 없습니다.';
 $lang->msg_sftp_not_supported = 'SFTP를 지원하지 않는 환경입니다.';
+$lang->msg_no_permission_to_install = '설치 경로에 쓰기 권한이 없습니다. 퍼미션을 확인해 주십시오.';
 $lang->msg_direct_install_not_supported = '아래 목록에 나열된 디렉터리에 쓰기 권한이 없기 때문에 FTP를 사용합니다.';
 $lang->msg_does_not_support_delete = '이 패키지가 삭제를 지원하지 않습니다(모듈 클래스에 moduleUninstall()이 없음).';
 $lang->msg_update_core_title = 'Rhymix core가 업데이트 됩니다.';
@@ -55,3 +56,9 @@ $lang->typename['m.skin'] = '모바일 스킨';
 $lang->typename['skin'] = '스킨';
 $lang->typename['widgetstyle'] = '위젯스타일';
 $lang->typename['style'] = '문서스타일';
+
+$lang->location_site = '다운로드 홈페이지';
+$lang->about_location_site = '다운로드 홈페이지를 입력해 주세요. 예)https://xe1.xpressengine.com/';
+$lang->download_server = '다운로드 서버';
+$lang->about_download_server = '다운로드 서버를 입력해 주세요. 예)https://download.xpressengine.com/';
+

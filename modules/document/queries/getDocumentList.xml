@@ -17,8 +17,8 @@
             <condition operation="below" column="list_order" var="last_division" pipe="and" />
         </group>
         <group pipe="and">
-            <condition operation="like" column="title" var="s_title" />
-            <condition operation="like" column="content" var="s_content" pipe="or" />
+            <condition operation="search" column="title" var="s_title" />
+            <condition operation="search" column="content" var="s_content" pipe="or" />
             <condition operation="like_prefix" column="user_name" var="s_user_name" pipe="or" />
             <condition operation="like_prefix" column="user_id" var="s_user_id" pipe="or" />
             <condition operation="like_prefix" column="nick_name" var="s_nick_name" pipe="or" />

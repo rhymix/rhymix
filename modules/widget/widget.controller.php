@@ -517,7 +517,7 @@ class widgetController extends widget
 					$oEditorController = getController('editor');
 					$body = $oEditorController->transComponent($body);
 
-					$widget_content_header = sprintf('<div class="xe_content xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="rhymix_content xe_content xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
 					$widget_content_body = $body;
 					$widget_content_footer = '</div></div>';
 
@@ -568,7 +568,7 @@ class widgetController extends widget
 					$oWidgetController = getController('widget');
 
 					$widget_content_header = sprintf(
-						'<div class="xe_content widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
+						'<div class="rhymix_content xe_content widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
 						'<div class="widgetResize"></div>'.
 						'<div class="widgetResizeLeft"></div>'.
 						'<div class="widgetBorder">'.

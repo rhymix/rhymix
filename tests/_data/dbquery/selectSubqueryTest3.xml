@@ -1,0 +1,22 @@
+<query id="selectSubqueryTest3" action="select">
+	<tables>
+		<table name="member" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="notequal" column="is_admin" var="is_admin" default="N" />
+		<query operation="equal" column="regdate" alias="document_max_regdate" pipe="or">
+			<tables>
+				<table name="documents" />
+			</tables>
+			<columns>
+				<column name="MAX(regdate)" alias="max_regdate" />
+			</columns>
+			<conditions>
+				<condition operation="equal" column="member.member_srl" default="documents.member_srl" />
+			</conditions>
+		</query>
+	</conditions>
+</query>

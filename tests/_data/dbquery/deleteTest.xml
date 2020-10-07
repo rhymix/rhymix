@@ -1,0 +1,8 @@
+<query id="deleteTest" action="delete">
+    <tables>
+        <table name="documents" alias="alias" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="document_srl" var="document_srl_list" notnull="notnull" />
+    </conditions>
+</query>

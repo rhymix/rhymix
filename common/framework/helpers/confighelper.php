@@ -68,7 +68,7 @@ class ConfigHelper
 			{
 				if (!isset(self::$_config_cache[$option[0]]))
 				{
-					self::$_config_cache[$option[0]] = getModel('module')->getModuleConfig($option[0]) ?: new stdClass;
+					self::$_config_cache[$option[0]] = \ModuleModel::getInstance()->getModuleConfig($option[0]) ?: new \stdClass;
 				}
 				$options = explode('.', $option[1]);
 				$temp = self::$_config_cache[$option[0]];

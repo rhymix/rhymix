@@ -489,6 +489,7 @@ class documentAdminController extends document
 		foreach($obj->document_list as $document)
 		{
 			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document->document_srl) . $document->document_srl);
+			Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document->document_srl);
 		}
 		
 		return new BaseObject();
@@ -617,6 +618,7 @@ class documentAdminController extends document
 		foreach ($document_list as $document)
 		{
 			Rhymix\Framework\Cache::delete('document_item:'. getNumberingPath($document->document_srl) . $document->document_srl);
+			Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document->document_srl);
 		}
 		
 		return new BaseObject();

@@ -39,6 +39,7 @@ $lang->msg_delete_file_failed = 'Failed to delete the file. %s.';
 $lang->msg_delete_dir_failed = 'Failed to delete the directory. %s';
 $lang->msg_ftp_password_input = 'No password entered.';
 $lang->msg_sftp_not_supported = 'SFTP is not supported.';
+$lang->msg_no_permission_to_install = 'Your web server does not have permission to update the installation path. Please check server permissions.';
 $lang->msg_direct_install_not_supported = 'Use FTP because there is no write permission to the directories listed in the list below.';
 $lang->msg_does_not_support_delete = 'Cannot delete this package (no moduleUninstall() in the module class).';
 $lang->installed = 'Installed';
@@ -53,3 +54,8 @@ $lang->typename['m.skin'] = 'Mobile Skin';
 $lang->typename['skin'] = 'Skin';
 $lang->typename['widgetstyle'] = 'Widget style';
 $lang->typename['style'] = 'Document style';
+
+$lang->location_site = 'Download Homepage';
+$lang->about_location_site = 'Please type your download homepage. ex)https://xe1.xpressengine.com/';
+$lang->download_server = 'Download Server';
+$lang->about_download_server = 'Please type your download server. ex)https://download.xpressengine.com/';

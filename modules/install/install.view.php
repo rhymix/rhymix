@@ -101,21 +101,7 @@ class installView extends install
 			Context::set('use_rewrite', $_SESSION['use_rewrite'] = 'Y');
 		}
 		
-		$defaultDatabase = 'mysqli';
-		$disableList = DB::getDisableList();
-		if(is_array($disableList))
-		{
-			foreach($disableList as $key => $value)
-			{
-				if($value->db_type == $defaultDatabase)
-				{
-					$defaultDatabase = 'mysql';
-					break;
-				}
-			}
-		}
-		Context::set('defaultDatabase', $defaultDatabase);
-		Context::set('error_return_url', getNotEncodedUrl('', 'act', Context::get('act'), 'db_type', Context::get('db_type')));
+		Context::set('error_return_url', getNotEncodedUrl('', 'act', Context::get('act')));
 		$this->setTemplateFile('db_config');
 	}
 

@@ -47,6 +47,15 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko'));
 	}
 	
+	public function testGetLocale()
+	{
+		$locale = Rhymix\Framework\UA::getLocale('en-US,en;q=0.8,ko-KR;q=0.5,ko;q=0.3');
+		$this->assertEquals('en-US', $locale);
+		
+		$locale = Rhymix\Framework\UA::getLocale('ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3');
+		$this->assertEquals('ko-KR', $locale);
+	}
+	
 	public function testGetBrowserInfo()
 	{
 		// Android default browser
@@ -54,6 +63,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Android', $browser->browser);
 		$this->assertEquals('4.0', $browser->version);
 		$this->assertEquals('Android', $browser->os);
+		$this->assertEquals('4.0.3', $browser->os_version);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertTrue($browser->is_tablet);
 		$this->assertFalse($browser->is_webview);
@@ -63,6 +73,8 @@ class UATest extends \Codeception\TestCase\Test
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Linux; Android 4.4.4; One Build/KTU84L.H4) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36');
 		$this->assertEquals('Android', $browser->browser);
 		$this->assertEquals('4.4', $browser->version);
+		$this->assertEquals('4.4.4', $browser->os_version);
+		$this->assertEquals('One', $browser->device);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertFalse($browser->is_tablet);
 		$this->assertFalse($browser->is_webview);
@@ -72,6 +84,7 @@ class UATest extends \Codeception\TestCase\Test
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Linux; Android 5.1.1; Nexus 5 Build/LMY48B; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36');
 		$this->assertEquals('Android', $browser->browser);
 		$this->assertEquals('5.1', $browser->version);
+		$this->assertEquals('Nexus 5', $browser->device);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertFalse($browser->is_tablet);
 		$this->assertTrue($browser->is_webview);
@@ -91,6 +104,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Chrome', $browser->browser);
 		$this->assertEquals('51.0', $browser->version);
 		$this->assertEquals('Windows', $browser->os);
+		$this->assertEquals('10.0', $browser->os_version);
 		$this->assertFalse($browser->is_mobile);
 		
 		// Linux Chrome
@@ -125,27 +139,36 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('IE', $browser->browser);
 		$this->assertEquals('11.0', $browser->version);
 		$this->assertEquals('Windows', $browser->os);
+		$this->assertEquals('10.0', $browser->os_version);
 		
 		// IE 10 in compatibility mode
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/4.0 (Compatible; MSIE 8.0; Windows NT 5.2; Trident/6.0)');
 		$this->assertEquals('IE', $browser->browser);
 		$this->assertEquals('10.0', $browser->version);
+		$this->assertEquals('Windows', $browser->os);
+		$this->assertEquals('XP', $browser->os_version);
 		
 		// IE 9
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; .NET CLR 3.5.30729; .NET CLR 3.0.30729; .NET CLR 2.0.50727; Media Center PC 6.0)');
 		$this->assertEquals('IE', $browser->browser);
 		$this->assertEquals('9.0', $browser->version);
+		$this->assertEquals('Windows', $browser->os);
+		$this->assertEquals('7', $browser->os_version);
 		
 		// IE 8 in compatibility mode
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0)');
 		$this->assertEquals('IE', $browser->browser);
 		$this->assertEquals('8.0', $browser->version);
+		$this->assertEquals('Windows', $browser->os);
+		$this->assertEquals('Vista', $browser->os_version);
 		
 		// iOS Safari
 		$browser = Rhymix\Framework\UA::getBrowserInfo('iPad: Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko) Version/5.1 Mobile/9B176 Safari/7534.48.3');
 		$this->assertEquals('Safari', $browser->browser);
 		$this->assertEquals('5.1', $browser->version);
 		$this->assertEquals('iOS', $browser->os);
+		$this->assertEquals('5.1', $browser->os_version);
+		$this->assertEquals('iPad', $browser->device);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertTrue($browser->is_tablet);
 		
@@ -154,6 +177,8 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Chrome', $browser->browser);
 		$this->assertEquals('19.0', $browser->version);
 		$this->assertEquals('iOS', $browser->os);
+		$this->assertEquals('5.1.1', $browser->os_version);
+		$this->assertEquals('iPhone', $browser->device);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertFalse($browser->is_tablet);
 		
@@ -162,6 +187,8 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Firefox', $browser->browser);
 		$this->assertEquals('1.0', $browser->version);
 		$this->assertEquals('iOS', $browser->os);
+		$this->assertEquals('8.3', $browser->os_version);
+		$this->assertEquals('iPad', $browser->device);
 		$this->assertTrue($browser->is_mobile);
 		$this->assertTrue($browser->is_tablet);
 		
@@ -170,6 +197,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Safari', $browser->browser);
 		$this->assertEquals('8.0', $browser->version);
 		$this->assertEquals('macOS', $browser->os);
+		$this->assertEquals('10.10.2', $browser->os_version);
 		$this->assertFalse($browser->is_mobile);
 		
 		// macOS (OS X) Chrome
@@ -177,6 +205,7 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('Chrome', $browser->browser);
 		$this->assertEquals('41.0', $browser->version);
 		$this->assertEquals('macOS', $browser->os);
+		$this->assertEquals('10.10.1', $browser->os_version);
 		$this->assertFalse($browser->is_mobile);
 		
 		// macOS (OS X) Firefox

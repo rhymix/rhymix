@@ -1,0 +1,120 @@
+<config autoescape="on" />
+<include target="./header.html" />
+<section class="section">
+	<form action="./" method="post" id="spamfilterConfig" class="x_form-horizontal">	
+		<input type="hidden" name="act" value="procSpamfilterAdminInsertConfigCaptcha" />
+		<input type="hidden" name="module" value="spamfilter" />
+		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/2" />
+		<div class="x_control-group">
+			<label class="x_control-label" for="captcha_type">{$lang->use_captcha}</label>
+			<div class="x_controls">
+				<select id="captcha_type" name="captcha_type">
+					<option value="none" selected="selected"|cond="$config->captcha->type === 'none'">{$lang->notuse}</option>
+					<option value="recaptcha" selected="selected"|cond="$config->captcha->type === 'recaptcha'">reCAPTCHA</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="site_key">Site Key</label>
+			<div class="x_controls">
+				<input type="text" id="site_key" name="site_key" value="{$config->captcha->site_key}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="secret_key">Secret Key</label>
+			<div class="x_controls">
+				<input type="text" id="secret_key" name="secret_key" value="{$config->captcha->secret_key}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="captcha_theme">{$lang->recaptcha_theme}</label>
+			<div class="x_controls">
+				<select id="captcha_theme" name="captcha_theme">
+					<option value="light" selected="selected"|cond="$config->captcha->theme === 'light'">{$lang->recaptcha_theme_light}</option>
+					<option value="dark" selected="selected"|cond="$config->captcha->theme === 'dark'">{$lang->recaptcha_theme_dark}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="captcha_size">{$lang->recaptcha_size}</label>
+			<div class="x_controls">
+				<select id="captcha_size" name="captcha_size">
+					<option value="normal" selected="selected"|cond="$config->captcha->size === 'normal'">{$lang->recaptcha_size_normal}</option>
+					<option value="compact" selected="selected"|cond="$config->captcha->size === 'compact'">{$lang->recaptcha_size_compact}</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->recaptcha_target_devices}</label>
+			<div class="x_controls">
+				<label for="target_devices_pc" class="x_inline">
+					<input type="checkbox" id="target_devices_pc" name="target_devices[]" value="pc" checked="checked"|cond="$config->captcha->target_devices['pc']" />
+					{$lang->pc}
+				</label>
+				<label for="target_devices_mobile" class="x_inline">
+					<input type="checkbox" id="target_devices_mobile" name="target_devices[]" value="mobile" checked="checked"|cond="$config->captcha->target_devices['mobile']" />
+					{$lang->mobile}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->recaptcha_target_actions}</label>
+			<div class="x_controls">
+				<label for="target_actions_signup" class="x_inline">
+					<input type="checkbox" id="target_actions_signup" name="target_actions[]" value="signup" checked="checked"|cond="$config->captcha->target_actions['signup']" />
+					{$lang->cmd_signup}
+				</label>
+				<label for="target_actions_login" class="x_inline">
+					<input type="checkbox" id="target_actions_login" name="target_actions[]" value="login" checked="checked"|cond="$config->captcha->target_actions['login']" />
+					{$lang->cmd_login}
+				</label>
+				<label for="target_actions_recovery" class="x_inline">
+					<input type="checkbox" id="target_actions_recovery" name="target_actions[]" value="recovery" checked="checked"|cond="$config->captcha->target_actions['recovery']" />
+					{$lang->cmd_find_member_account}
+				</label>
+				<label for="target_actions_document" class="x_inline">
+					<input type="checkbox" id="target_actions_document" name="target_actions[]" value="document" checked="checked"|cond="$config->captcha->target_actions['document']" />
+					{$lang->recaptcha_target_document}
+				</label>
+				<label for="target_actions_comment" class="x_inline">
+					<input type="checkbox" id="target_actions_comment" name="target_actions[]" value="comment" checked="checked"|cond="$config->captcha->target_actions['comment']" />
+					{$lang->recaptcha_target_comment}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->recaptcha_target_users}</label>
+			<div class="x_controls">
+				<label for="target_users_1" class="x_inline">
+					<input type="radio" id="target_users_1" name="target_users" value="non_members" checked="checked"|cond="$config->captcha->target_users === 'non_members'" />
+					{$lang->recaptcha_target_guest}
+				</label>
+				<label for="target_users_2" class="x_inline">
+					<input type="radio" id="target_users_2" name="target_users" value="everyone" checked="checked"|cond="$config->captcha->target_users === 'everyone'" />
+					{$lang->recaptcha_target_everyone}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->recaptcha_target_frequency}</label>
+			<div class="x_controls">
+				<label for="target_frequency_1" class="x_inline">
+					<input type="radio" id="target_frequency_1" name="target_frequency" value="first_time_only" checked="checked"|cond="$config->captcha->target_frequency === 'first_time_only'" />
+					{$lang->recaptcha_target_first_time_only}
+				</label>
+				<label for="target_frequency_2" class="x_inline">
+					<input type="radio" id="target_frequency_2" name="target_frequency" value="every_time" checked="checked"|cond="$config->captcha->target_frequency === 'every_time'" />
+					{$lang->recaptcha_target_every_time}
+				</label>
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+<include target="./footer.html" />
+
+

@@ -32,7 +32,7 @@ class pointController extends point
 			return;
 		}
 		
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 		$this->setPoint($member_srl, $cur_point + $point, 'signup');
 	}
 
@@ -60,7 +60,7 @@ class pointController extends point
 			return;
 		}
 		
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 		$this->setPoint($member_srl, $cur_point + $point);
 	}
 
@@ -97,13 +97,13 @@ class pointController extends point
 		{
 			return;
 		}
-		if ($obj->status === getModel('document')->getConfigStatus('temp'))
+		if ($obj->status === DocumentModel::getConfigStatus('temp'))
 		{
 			return;
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 
 		// Add points for the document.
 		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
@@ -126,8 +126,7 @@ class pointController extends point
 	 */
 	public function triggerUpdateDocument($obj)
 	{
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		
 		$module_srl = $oDocument->get('module_srl');
 		$member_srl = abs($oDocument->get('member_srl'));
@@ -137,11 +136,11 @@ class pointController extends point
 		}
 		
 		// Only give points if the document is being updated from TEMP to another status such as PUBLIC.
-		if ($obj->status === $oDocumentModel->getConfigStatus('temp') || $oDocument->get('status') !== $oDocumentModel->getConfigStatus('temp'))
+		if ($obj->status === DocumentModel::getConfigStatus('temp') || $oDocument->get('status') !== DocumentModel::getConfigStatus('temp'))
 		{
 			if ($obj->uploaded_count > $oDocument->get('uploaded_count'))
 			{
-				$cur_point = getModel('point')->getPoint($member_srl);
+				$cur_point = PointModel::getPoint($member_srl);
 				$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
 				$cur_point += $attached_files_point * ($obj->uploaded_count - $oDocument->get('uploaded_count'));
 				$this->setPoint($member_srl, $cur_point);
@@ -150,7 +149,7 @@ class pointController extends point
 		}
 
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 
 		// Add points for the document.
 		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
@@ -203,13 +202,13 @@ class pointController extends point
 		{
 			return;
 		}
-		if ($obj->status === getModel('document')->getConfigStatus('temp'))
+		if ($obj->status === DocumentModel::getConfigStatus('temp'))
 		{
 			return;
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 
 		// Subtract points for the document.
 		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
@@ -243,7 +242,7 @@ class pointController extends point
 		}
 		
 		// Abort if the comment and the document have the same author.
-		$oDocument = getModel('document')->getDocument($obj->document_srl);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
 		{
 			return;
@@ -258,7 +257,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 
 		// Add points for the comment.
 		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
@@ -307,7 +306,7 @@ class pointController extends point
 		}
 		
 		// Abort if the comment and the document have the same author.
-		$oDocument = getModel('document')->getDocument($obj->document_srl);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
 		{
 			return;
@@ -324,7 +323,7 @@ class pointController extends point
 		$module_srl = $oDocument->get('module_srl');
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 
 		// Add points for the comment.
 		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
@@ -372,7 +371,7 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = getModel('point')->getPoint($member_srl);
+		$cur_point = PointModel::getPoint($member_srl);
 
 		// Subtract points for the file.
 		$file_point = $this->_getModulePointConfig($module_srl, 'upload_file');
@@ -403,7 +402,7 @@ class pointController extends point
 		}
 		
 		// Get current points.
-		$cur_point = $logged_member_srl ? getModel('point')->getPoint($logged_member_srl) : 0;
+		$cur_point = $logged_member_srl ? PointModel::getPoint($logged_member_srl) : 0;
 		
 		// If the user (member or guest) does not have enough points, deny access.
 		$config = $this->getConfig();
@@ -435,7 +434,7 @@ class pointController extends point
 			$point = $this->_getModulePointConfig($module_srl, 'download_file');
 			if ($point)
 			{
-				$cur_point = getModel('point')->getPoint($logged_member_srl);
+				$cur_point = PointModel::getPoint($logged_member_srl);
 				$this->setPoint($logged_member_srl, $cur_point + $point);
 			}
 		}
@@ -446,7 +445,7 @@ class pointController extends point
 			$point = $this->_getModulePointConfig($module_srl, 'download_file_author');
 			if ($point)
 			{
-				$cur_point = getModel('point')->getPoint($author_member_srl);
+				$cur_point = PointModel::getPoint($author_member_srl);
 				$this->setPoint($author_member_srl, $cur_point + $point);
 			}
 		}
@@ -517,7 +516,7 @@ class pointController extends point
 		if ($reader_point)
 		{
 			// Get current points.
-			$cur_point = $logged_member_srl ? getModel('point')->getPoint($logged_member_srl) : 0;
+			$cur_point = $logged_member_srl ? PointModel::getPoint($logged_member_srl) : 0;
 			
 			// If the reader does not have enough points, deny access.
 			if ($cur_point + $reader_point < 0 && $config->disable_read_document == 'Y')
@@ -554,7 +553,7 @@ class pointController extends point
 		// Adjust points of the person who wrote the document.
 		if ($author_point && $author_member_srl)
 		{
-			$cur_point = getModel('point')->getPoint($author_member_srl);
+			$cur_point = PointModel::getPoint($author_member_srl);
 			$this->setPoint($author_member_srl, $cur_point + $author_point);
 		}
 	}
@@ -579,13 +578,13 @@ class pointController extends point
 		$config = $this->getConfig();
 		if ($is_comment)
 		{
-			$regdate = ztime(getModel('comment')->getComment($obj->comment_srl)->get('regdate'));
+			$regdate = ztime(CommentModel::getComment($obj->comment_srl)->get('regdate'));
 			$logged_config_key = ($obj->point > 0) ? 'voter_comment_limit' : 'blamer_comment_limit';
 			$target_config_key = ($obj->point > 0) ? 'voted_comment_limit' : 'blamed_comment_limit';
 		}
 		else
 		{
-			$regdate = ztime(getModel('document')->getDocument($obj->document_srl)->get('regdate'));
+			$regdate = ztime(DocumentModel::getDocument($obj->document_srl)->get('regdate'));
 			$logged_config_key = ($obj->point > 0) ? 'voter_limit' : 'blamer_limit';
 			$target_config_key = ($obj->point > 0) ? 'voted_limit' : 'blamed_limit';
 		}
@@ -603,7 +602,7 @@ class pointController extends point
 				{
 					$point = -1 * $point;
 				}
-				$cur_point = getModel('point')->getPoint($logged_member_srl);
+				$cur_point = PointModel::getPoint($logged_member_srl);
 				$this->setPoint($logged_member_srl, $cur_point + $point);
 			}
 		}
@@ -619,7 +618,7 @@ class pointController extends point
 				{
 					$point = -1 * $point;
 				}
-				$cur_point = getModel('point')->getPoint($target_member_srl);
+				$cur_point = PointModel::getPoint($target_member_srl);
 				$this->setPoint($target_member_srl, $cur_point + $point);
 			}
 		}
@@ -630,8 +629,7 @@ class pointController extends point
 	 */
 	public function triggerCopyModule($obj)
 	{
-		$oModuleModel = getModel('module');
-		$pointConfig = $oModuleModel->getModulePartConfig('point', $obj->originModuleSrl);
+		$pointConfig = ModuleModel::getModulePartConfig('point', $obj->originModuleSrl);
 		if (is_object($pointConfig))
 		{
 			$pointConfig = get_object_vars($pointConfig);
@@ -657,14 +655,11 @@ class pointController extends point
 		if(!$mode || !in_array($mode,$mode_arr)) $mode = 'update';
 
 		// Get configuration information
-		$oMemberModel = getModel('member');
-		$oModuleModel = getModel('module');
-		$oPointModel = getModel('point');
-		$config = $oModuleModel->getModuleConfig('point');
+		$config = ModuleModel::getModuleConfig('point');
 
 		// Get the default configuration information
-		$current_point = $oPointModel->getPoint($member_srl, false, $exists);
-		$current_level = $oPointModel->getLevel($current_point, $config->level_step);
+		$current_point = PointModel::getPoint($member_srl, false, $exists);
+		$current_level = PointModel::getLevel($current_point, $config->level_step);
 
 		// Change points
 		$args = new stdClass();
@@ -726,7 +721,7 @@ class pointController extends point
 		}
 
 		// Get a new level
-		$level = $oPointModel->getLevel($point, $config->level_step);
+		$level = PointModel::getLevel($point, $config->level_step);
 
 		// If existing level and a new one are different attempt to set a point group
 		$new_group_list = array();
@@ -748,7 +743,7 @@ class pointController extends point
 			if($point_group && is_array($point_group) && count($point_group) )
 			{
 				// Get the default group
-				$default_group = $oMemberModel->getDefaultGroup();
+				$default_group = MemberModel::getDefaultGroup();
 				asort($point_group);
 				
 				// Reset group after initialization
@@ -832,8 +827,8 @@ class pointController extends point
 
 		// Cache Settings
 		$cache_key = sprintf('member:point:%d', $member_srl);
-		$cache_path = sprintf('./files/member_extra_info/point/%s/', getNumberingPath($member_srl));
-		$cache_filename = sprintf('%s%d.cache.txt', $cache_path, $member_srl);
+		$cache_path = sprintf(RX_BASEDIR . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
+		$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
 			Rhymix\Framework\Cache::set($cache_key, $point);
@@ -845,7 +840,7 @@ class pointController extends point
 		}
 
 		getController('member')->_clearMemberCache($member_srl);
-		unset(self::$_member_point_cache[$member_srl]);
+		unset(parent::$_member_point_cache[$member_srl]);
 
 		return $output;
 	}
@@ -866,13 +861,11 @@ class pointController extends point
 			return 0;
 		}
 		
-		$oModuleModel = getModel('module');
-		
 		if ($module_srl)
 		{
 			if (!isset(self::$_module_config_cache[$module_srl]))
 			{
-				self::$_module_config_cache[$module_srl] = $oModuleModel->getModulePartConfig('point', $module_srl);
+				self::$_module_config_cache[$module_srl] = ModuleModel::getModulePartConfig('point', $module_srl);
 				if (is_object(self::$_module_config_cache[$module_srl]))
 				{
 					self::$_module_config_cache[$module_srl] = get_object_vars(self::$_module_config_cache[$module_srl]);

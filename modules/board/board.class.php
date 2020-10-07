@@ -25,17 +25,7 @@ class board extends ModuleObject
 	 */
 	function __construct()
 	{
-		if(!Context::isInstalled()) return;
-
-		if(!Context::isExistsSSLAction('dispBoardWrite') && Context::getSslStatus() == 'optional')
-		{
-			$ssl_actions = array('dispBoardWrite', 'dispBoardWriteComment', 'dispBoardReplyComment', 'dispBoardModifyComment', 'dispBoardDelete', 'dispBoardDeleteComment', 'procBoardInsertDocument', 'procBoardDeleteDocument', 'procBoardInsertComment', 'procBoardDeleteComment', 'procBoardVerificationPassword');
-			Context::addSSLActions($ssl_actions);
-		}
-		if(!Context::isExistsSSLAction('dispTempSavedList') && Context::getSslStatus() == 'optional')
-		{
-			Context::addSSLAction('dispTempSavedList');
-		}
+		parent::__construct();
 	}
 
 	/**

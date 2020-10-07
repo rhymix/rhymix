@@ -6,9 +6,12 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srl" filter="number" />
-        <condition operation="equal" column="is_notice" default="Y" pipe="and" />
-        <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+        <group>
+            <condition operation="in" column="module_srl" var="module_srl" filter="number" />
+            <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+            <condition operation="equal" column="is_notice" default="Y" pipe="and" />
+        </group>
+        <condition operation="equal" column="is_notice" default="A" pipe="or" />
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="asc" />

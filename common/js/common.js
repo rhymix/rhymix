@@ -340,7 +340,7 @@ jQuery(function($) {
 	});
 	
 	/* Editor preview replacement */
-	$(".editable_preview").addClass("xe_content").attr("tabindex", 0);
+	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);
 	$(".editable_preview").on("click", function() {
 		var input = $(this).siblings(".editable_preview_content");
 		if (input.size()) {
@@ -1185,7 +1185,6 @@ jQuery(function($){
 		evt.preventDefault();
 		evt.stopPropagation();
 
-		if(is_def(window.xeVid)) params.vid = xeVid;
 		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params);
 
 		show_waiting_message = false;

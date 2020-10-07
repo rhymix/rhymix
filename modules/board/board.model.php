@@ -18,20 +18,17 @@ class boardModel extends module
 	/**
 	 * @brief get the list configuration
 	 **/
-	function getListConfig($module_srl)
+	public static function getListConfig($module_srl)
 	{
-		$oModuleModel = getModel('module');
-		$oDocumentModel = getModel('document');
-
 		// get the list config value, if it is not exitsted then setup the default value
-		$list_config = $oModuleModel->getModulePartConfig('board', $module_srl);
+		$list_config = ModuleModel::getModulePartConfig('board', $module_srl);
 		if(!is_array($list_config) || count($list_config) <= 0)
 		{
 			$list_config = array('no', 'title', 'nick_name','regdate','readed_count');
 		}
 
 		// get the extra variables
-		$inserted_extra_vars = $oDocumentModel->getExtraKeys($module_srl);
+		$inserted_extra_vars = DocumentModel::getExtraKeys($module_srl);
 
 		foreach($list_config as $key)
 		{
@@ -57,7 +54,7 @@ class boardModel extends module
 	/**
 	 * @brief return the default list configration value
 	 **/
-	function getDefaultListConfig($module_srl)
+	public static function getDefaultListConfig($module_srl)
 	{
 		// add virtual srl, title, registered date, update date, nickname, ID, name, readed count, voted count etc.
 		$virtual_vars = array( 'no', 'title', 'regdate', 'last_update', 'last_post', 'nick_name',
@@ -68,9 +65,7 @@ class boardModel extends module
 		}
 
 		// get the extra variables from the document model
-		$oDocumentModel = getModel('document');
-		$inserted_extra_vars = $oDocumentModel->getExtraKeys($module_srl);
-
+		$inserted_extra_vars = DocumentModel::getExtraKeys($module_srl);
 		if(count($inserted_extra_vars))
 		{
 			foreach($inserted_extra_vars as $obj)
@@ -86,7 +81,7 @@ class boardModel extends module
 	/**
 	 * @brief return module name in sitemap
 	 **/
-	function triggerModuleListInSitemap(&$obj)
+	public function triggerModuleListInSitemap(&$obj)
 	{
 		array_push($obj, 'board');
 	}

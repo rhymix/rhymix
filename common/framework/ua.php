@@ -15,6 +15,18 @@ class UA
 	protected static $_robot_cache = array();
 	
 	/**
+	 * Windows version lookup table.
+	 */
+	protected static $_windows_versions = array(
+		'5.1' => 'XP',
+		'5.2' => 'XP',
+		'6.0' => 'Vista',
+		'6.1' => '7',
+		'6.2' => '8',
+		'6.3' => '8.1',
+	);
+	 
+	/**
 	 * Check whether the current visitor is using a mobile device.
 	 * 
 	 * @param string $ua (optional)
@@ -166,6 +178,21 @@ class UA
 	}
 	
 	/**
+	 * This method parses the Accept-Language header to guess the browser's default locale.
+	 * 
+	 * @param string $header (optional)
+	 * @return string
+	 */
+	public static function getLocale($header = null)
+	{
+		// Get the Accept-Language header if the caller did not specify $header.
+		$header = $header ?: (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en-US');
+		
+		// Return the first locale name found.
+		return preg_match('/^([a-z0-9_-]+)/i', $header, $matches) ? $matches[1] : 'en-US';
+	}
+	
+	/**
 	 * This method parses the User-Agent string to guess what kind of browser it is.
 	 * 
 	 * @param string $ua (optional)
@@ -181,6 +208,8 @@ class UA
 			'browser' => null,
 			'version' => null,
 			'os' => null,
+			'os_version' => null,
+			'device' => null,
 			'is_mobile' => null,
 			'is_tablet' => null,
 			'is_webview' => null,
@@ -197,18 +226,36 @@ class UA
 			if ($matches[1] === 'Linux' && strpos($ua, 'Android') !== false)
 			{
 				$result->os = 'Android';
+				if (preg_match('#Android ([0-9\.]+);(?: ([^;]+) Build/)?#', $ua, $matches))
+				{
+					$result->os_version = $matches[1];
+					$result->device = $matches[2] ?: null;
+				}
 			}
 			elseif ($matches[1] === 'iPhone' || $matches[1] === 'iPad' || $matches[1] === 'iPod')
 			{
 				$result->os = 'iOS';
+				if (preg_match('#(i(?:Phone|P[ao]d)); (?:.+?) OS ([0-9_\.]+)#s', $ua, $matches))
+				{
+					$result->os_version = str_replace('_', '.', $matches[2]);
+					$result->device = $matches[1];
+				}
 			}
 			elseif ($matches[1] === 'Macintosh' || $matches[1] === 'OS X')
 			{
 				$result->os = 'macOS';
+				if (preg_match('#OS X ([0-9_\.]+)#', $ua, $matches))
+				{
+					$result->os_version = str_replace('_', '.', $matches[1]);
+				}
 			}
 			else
 			{
 				$result->os = $matches[1];
+				if (preg_match('#Windows NT ([0-9\.]+)#', $ua, $matches))
+				{
+					$result->os_version = isset(self::$_windows_versions[$matches[1]]) ? self::$_windows_versions[$matches[1]] : $matches[1];
+				}
 			}
 		}
 		

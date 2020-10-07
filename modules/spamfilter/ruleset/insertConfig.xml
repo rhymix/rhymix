@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ruleset version="1.5.0">
-    <fields>
-   		<field name="limits" required="true" />
- 		<field name="check_trackback" required="true" />
-	</fields>
-</ruleset>

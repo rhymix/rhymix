@@ -107,7 +107,7 @@ function doInsertAdmin() {
     sel_obj.options[sel_obj.options.length] = opt;
 
     fo_obj.admin_id.value = '';
-    sel_obj.size = sel_obj.options.length;
+    sel_obj.size = Math.max(3, sel_obj.options.length);
     sel_obj.selectedIndex = -1;
 
     var members = new Array();
@@ -125,7 +125,7 @@ function doDeleteAdmin() {
     var sel_obj = fo_obj._admin_member;
     sel_obj.remove(sel_obj.selectedIndex);
 
-    sel_obj.size = sel_obj.options.length;
+    sel_obj.size = Math.max(3, sel_obj.options.length);
     sel_obj.selectedIndex = -1;
 
     var members = new Array();

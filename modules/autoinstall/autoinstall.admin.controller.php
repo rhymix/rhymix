@@ -16,7 +16,6 @@ class autoinstallAdminController extends autoinstall
 	 */
 	function init()
 	{
-
 	}
 
 	/**
@@ -75,7 +74,11 @@ class autoinstallAdminController extends autoinstall
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
 		);
-		$buff = FileHandler::getRemoteResource(_XE_DOWNLOAD_SERVER_, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
+
+		$oAdminModel = getAdminModel('autoinstall');
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml = new XmlParser();
 		$xmlDoc = $xml->parse($buff);
 		$this->updateCategory($xmlDoc);
@@ -187,17 +190,7 @@ class autoinstallAdminController extends autoinstall
 		$oModel = getModel('autoinstall');
 		$oAdminModel = getAdminModel('autoinstall');
 		$packages = explode(',', $package_srls);
-		$ftp_info = Context::getFTPInfo();
-		if(!$_SESSION['ftp_password'])
-		{
-			$ftp_password = Context::get('ftp_password');
-		}
-		else
-		{
-			$ftp_password = $_SESSION['ftp_password'];
-		}
 
-		$isSftpSupported = function_exists(ssh2_sftp);
 		foreach($packages as $package_srl)
 		{
 			$package = $oModel->getPackage($package_srl);
@@ -207,25 +200,16 @@ class autoinstallAdminController extends autoinstall
 				continue;
 			}
 			
-			if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
+			if(!$oAdminModel->checkUseDirectModuleInstall($package)->toBool())
 			{
-				$oModuleInstaller = new DirectModuleInstaller($package);
-			}
-			else if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
-			{
-				$oModuleInstaller = new SFTPModuleInstaller($package);
-			}
-			else if(function_exists(ftp_connect))
-			{
-				$oModuleInstaller = new PHPFTPModuleInstaller($package);
-			}
-			else
-			{
-				$oModuleInstaller = new FTPModuleInstaller($package);
+				return new BaseObject(-1, 'msg_no_permission_to_install');
 			}
 
-			$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
-			$oModuleInstaller->setPassword($ftp_password);
+			$config = $oAdminModel->getAutoInstallAdminModuleConfig();
+
+			$oModuleInstaller = new DirectModuleInstaller($package);
+			$oModuleInstaller->setServerUrl($config->download_server);
+			//$oModuleInstaller->setPassword($ftp_password);
 			$output = $oModuleInstaller->install();
 			if(!$output->toBool())
 			{
@@ -365,41 +349,17 @@ class autoinstallAdminController extends autoinstall
 
 	private function _uninstallPackage($package)
 	{
-		$path = $package->path;
-
 		$oAdminModel = getAdminModel('autoinstall');
-
-		if(!$_SESSION['ftp_password'])
+		if(!$oAdminModel->checkUseDirectModuleInstall($package)->toBool())
 		{
-			$ftp_password = Context::get('ftp_password');
-		}
-		else
-		{
-			$ftp_password = $_SESSION['ftp_password'];
-		}
-		$ftp_info = Context::getFTPInfo();
-
-		$isSftpSupported = function_exists(ssh2_sftp);
-		if($oAdminModel->checkUseDirectModuleInstall($package)->toBool())
-		{
-			$oModuleInstaller = new DirectModuleInstaller($package);
-		}
-		else if($ftp_info->sftp && $ftp_info->sftp == 'Y' && $isSftpSupported)
-		{
-			$oModuleInstaller = new SFTPModuleInstaller($package);
-		}
-		else if(function_exists('ftp_connect'))
-		{
-			$oModuleInstaller = new PHPFTPModuleInstaller($package);
-		}
-		else
-		{
-			$oModuleInstaller = new FTPModuleInstaller($package);
+			return new BaseObject(-1, 'msg_no_permission_to_install');
 		}
 
-		$oModuleInstaller->setServerUrl(_XE_DOWNLOAD_SERVER_);
+		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
-		$oModuleInstaller->setPassword($ftp_password);
+		$oModuleInstaller = new DirectModuleInstaller($package);
+		$oModuleInstaller->setServerUrl($config->download_server);
+		//$oModuleInstaller->setPassword($ftp_password);
 		$output = $oModuleInstaller->uninstall();
 		if(!$output->toBool())
 		{
@@ -411,6 +371,39 @@ class autoinstallAdminController extends autoinstall
 		$this->setMessage('success_deleted', 'update');
 
 		return new BaseObject();
+	}
+
+	function procAutoinstallAdminInsertConfig()
+	{
+		// if end of string does not have a slash, add it
+		$_location_site = Context::get('location_site');
+		if(substr($_location_site, -1) != '/' && strlen($_location_site) > 0)
+		{
+			$_location_site .= '/';
+		}
+		$_download_server = Context::get('download_server');
+		if(substr($_download_server, -1) != '/' && strlen($_download_server) > 0)
+		{
+			$_download_server .= '/';
+		}
+		
+		$args = new stdClass();
+		$args->location_site = $_location_site;
+		$args->download_server = $_download_server;
+
+		$oModuleController = getController('module');
+		$output = $oModuleController->updateModuleConfig('autoinstall', $args);
+	
+		// init. DB tables
+		executeQuery("autoinstall.deletePackages");
+		executeQuery("autoinstall.deleteCategory");
+		executeQuery("autoinstall.deleteInstalledPackage");
+		
+		// default setting end
+		$this->setMessage('success_updated');
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminConfig');
+		$this->setRedirectUrl($returnUrl);
 	}
 
 }
