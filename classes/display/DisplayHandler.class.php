@@ -100,7 +100,7 @@ class DisplayHandler extends Handler
 
 		// header output
 		$httpStatusCode = $oModule->getHttpStatusCode();
-		if($httpStatusCode !== 200 && !in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
+		if($httpStatusCode !== 200 && !in_array(Context::getResponseMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			self::_printHttpStatusCode($httpStatusCode);
 		}
@@ -108,10 +108,7 @@ class DisplayHandler extends Handler
 		{
 			if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK' || isset($_POST['_rx_ajax_compat']))
 			{
-				if(strpos($_SERVER['HTTP_ACCEPT'], 'json') !== false)
-				{
-					self::_printJSONHeader();
-				}
+				self::_printJSONHeader();
 			}
 			elseif(Context::getResponseMethod() == 'XMLRPC')
 			{
