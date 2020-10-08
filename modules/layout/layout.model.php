@@ -544,6 +544,7 @@ class layoutModel extends layout
 		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
 		{
 			// Layout title, version and other information
+			$date_obj = new stdClass;
 			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$buff[] = sprintf('$layout_info->layout = %s;', var_export($layout, true));
@@ -660,6 +661,7 @@ class layoutModel extends layout
 		else
 		{
 			// Layout title, version and other information
+			$date_obj = new stdClass;
 			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$buff[] = sprintf('$layout_info->layout = %s;', var_export($layout, true));
