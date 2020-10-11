@@ -104,9 +104,6 @@ jQuery(function($){
 		var $xGnb = $xBody.find('>.gnb');
 		var $xGnb_li = $xGnb.find('>ul>li:not(.active_clone)');
 
-		var d365 = new Date();
-		d365.setTime(d365.getTime() + 60*60*24*356);
-
 		// Add icon
 		$xGnb_li.find('>a').prepend('<i />');
 		$xGnb_li.find('>ul').prev('a').append('<b />');
@@ -129,12 +126,12 @@ jQuery(function($){
 			if(!hasOpen && !hasActive && hasList){ // Down to open
 				$parent.addClass('open').find('>ul').slideDown(100);
 				openGNB();
-				setCookie('__xe_admin_gnb_tx_' + $this.data('href'), 'open', d365);
+				XE.cookie.set('__xe_admin_gnb_tx_' + $this.data('href'), 'open', { expires: 365 });
 				return false;
 			} else if(hasOpen && !hasActive && hasList && !hasWide){ // Up to close
 				$parent.removeClass('open').find('>ul').slideUp(100);
 				openGNB();
-				setCookie('__xe_admin_gnb_tx_' + $this.data('href'), 'close', d365);
+				XE.cookie.remove('__xe_admin_gnb_tx_' + $this.data('href'));
 				return false;
 			} else if(hasWide && !hasList || hasActive || hasWide && hasOpen){ // Right to open
 				openGNB();
@@ -145,9 +142,9 @@ jQuery(function($){
 		$("a.mobile_menu_open").click(function(){
 			$xGnb.toggleClass('open');
 			if($(this).parent('.gnb').hasClass('open')){
-				setCookie('__xe_admin_gnb_status', 'open', d365);
+				XE.cookie.set('__xe_admin_gnb_status', 'open', { expires: 365 });
 			}else{
-				setCookie('__xe_admin_gnb_status', 'close', d365);
+				XE.cookie.remove('__xe_admin_gnb_status');
 			}
 			return false;
 		});
@@ -161,9 +158,9 @@ jQuery(function($){
 
 			// remember status
 			if($(this).parent('.gnb').hasClass('open')){
-				setCookie('__xe_admin_gnb_status', 'open', d365);
+				XE.cookie.set('__xe_admin_gnb_status', 'open', { expires: 365 });
 			}else{
-				setCookie('__xe_admin_gnb_status', 'close', d365);
+				XE.cookie.remove('__xe_admin_gnb_status');
 			}
 			return false;
 		});
@@ -175,26 +172,28 @@ jQuery(function($){
 
 			// remember status
 			if($('#gnbNav').hasClass('ex')){
-				setCookie('__xe_admin_gnb_ex_status', 'open', d365);
+				XE.cookie.set('__xe_admin_gnb_ex_status', 'open', { expires: 365 });
 			}else{
-				setCookie('__xe_admin_gnb_ex_status', 'close', d365);
+				XE.cookie.remove('__xe_admin_gnb_ex_status');
 			}
 		});
 
 		// re-create cookie
 		var gnb_status = getCookie('__xe_admin_gnb_status');
 		if(gnb_status){
-			setCookie('__xe_admin_gnb_status', gnb_status, d365);
+			XE.cookie.set('__xe_admin_gnb_status', gnb_status, { expires: 365 });
 		}
 		var gnb_ex_status = getCookie('__xe_admin_gnb_ex_status');
 		if(gnb_ex_status){
-			setCookie('__xe_admin_gnb_xe_status', gnb_ex_status, d365);
+			XE.cookie.set('__xe_admin_gnb_xe_status', gnb_ex_status, { expires: 365 });
 		}
 		if(typeof __xe_admin_gnb_txs != 'undefined'){
 			for(var i in  __xe_admin_gnb_txs){
 				var item = __xe_admin_gnb_txs[i];
 				var status = getCookie(item);
-				setCookie(item, status, d365);
+				if (status === 'open') {
+					XE.cookie.set(item, status, { expires: 365 });
+				}
 			}
 		}
 	};

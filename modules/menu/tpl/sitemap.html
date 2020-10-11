@@ -981,7 +981,13 @@ function setJSTreeOpenIds(){
 	jQuery("#siteMapTree").find("li.jstree-open").each(function() {
 		jstree_open_srls.push(this.id);
 	});
-	setCookie("__xe_admin_jstree_open_srls", jstree_open_srls.join(","));
+
+	var cookieValue = jstree_open_srls.join(',');
+	if(!cookieValue) {
+		XE.cookie.remove('__xe_admin_jstree_open_srls');
+	} else {
+		XE.cookie.set('__xe_admin_jstree_open_srls', cookieValue);
+	}
 }
 
 function issetJSTreeOpenIds(id) {
