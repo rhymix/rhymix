@@ -167,7 +167,7 @@ class ncenterliteModel extends ncenterlite
 		return $output;
 	}
 
-	function getMyNotifyList($member_srl=null, $page=1, $readed='N')
+	function getMyNotifyList($member_srl = null, $page = 1, $readed = 'N', $disp = false)
 	{
 		if(!$member_srl && !Context::get('is_logged'))
 		{
@@ -179,8 +179,7 @@ class ncenterliteModel extends ncenterlite
 			$member_srl = Context::get('logged_info')->member_srl;
 		}
 
-		$act = Context::get('act');
-		if($act=='dispNcenterliteNotifyList')
+		if($disp)
 		{
 			$output = $this->getMyDispNotifyList($member_srl);
 		}
@@ -241,7 +240,7 @@ class ncenterliteModel extends ncenterlite
 		$this->add('useProfileImage', $memberConfig->profile_image);
 	}
 
-	function _getMyNotifyList($member_srl=null, $page=1, $readed='N')
+	function _getMyNotifyList($member_srl = null, $page = 1, $readed = 'N')
 	{
 		$oNcenterliteController = getController('ncenterlite');
 
@@ -257,7 +256,7 @@ class ncenterliteModel extends ncenterlite
 
 		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
 
-		if ($page <= 1)
+		if ($page <= 1 && $readed == 'N')
 		{
 			$output = Rhymix\Framework\Cache::get($cache_key);
 			if($output !== null)
@@ -267,7 +266,7 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
-		if(FileHandler::exists($flag_path) && $page <= 1)
+		if($page <= 1 && $readed == 'N' && FileHandler::exists($flag_path))
 		{
 			$deleteFlagPath = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/delete_date.php';
 
@@ -307,14 +306,14 @@ class ncenterliteModel extends ncenterlite
 
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
-			if($page <= 1)
+			if($page <= 1 && $readed == 'N')
 			{
 				Rhymix\Framework\Cache::set($cache_key, $output);
 			}
 		}
 		else
 		{
-			if($page <= 1)
+			if($page <= 1 && $readed == 'N')
 			{
 				$oNcenterliteController->updateFlagFile($member_srl, $output);
 			}
@@ -332,7 +331,7 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		$args = new stdClass();
-		$args->page = Context::get('page');
+		$args->page = max(1, intval(Context::get('page')));
 		$args->list_count = '20';
 		$args->page_count = '10';
 		$args->member_srl = $member_srl;
@@ -390,7 +389,6 @@ class ncenterliteModel extends ncenterlite
 		elseif (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
 			$output = $this->_getMyNotifyList($member_srl);
-			Rhymix\Framework\Cache::set($cache_key, $output);
 			return $output->total_count;
 		}
 		

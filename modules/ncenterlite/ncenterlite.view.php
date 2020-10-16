@@ -28,7 +28,7 @@ class ncenterliteView extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
-		$output = $oNcenterliteModel->getMyNotifyList();
+		$output = $oNcenterliteModel->getMyNotifyList($this->user->member_srl, 1, null, true);
 
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);
