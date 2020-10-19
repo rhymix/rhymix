@@ -92,11 +92,11 @@ class ModuleActionParser extends BaseParser
 			// Parse routes.
 			$route_attr = trim($action['route']);
 			$route_tags = $action->route ?: [];
-			$method = trim($action['method']);
+			$method_attr = trim($action['method']);
+			$methods = $method_attr ? explode('|', strtoupper($method_attr)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET']);
 			$route_arg = [];
 			if ($route_attr || count($route_tags))
 			{
-				$methods = $method ? explode('|', strtoupper($method)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET']);
 				$routes = $route_attr ? array_map(function($route) {
 					return ['route' => trim($route), 'priority' => 0];
 				}, explode_with_escape('|', $route_attr)) : array();
@@ -121,7 +121,7 @@ class ModuleActionParser extends BaseParser
 			$action_info->grant = trim($action['grant']) ?: 'guest';
 			$action_info->permission = $permission_info;
 			$action_info->ruleset = trim($action['ruleset']);
-			$action_info->method = $method;
+			$action_info->method = implode('|', $methods);
 			$action_info->route = $route_arg;
 			$action_info->standalone = trim($action['standalone']) === 'false' ? 'false' : 'true';
 			$action_info->check_csrf = (trim($action['check_csrf']) ?: trim($action['check-csrf'])) === 'false' ? 'false' : 'true';
