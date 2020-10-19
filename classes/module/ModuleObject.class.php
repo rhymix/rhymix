@@ -493,12 +493,10 @@ class ModuleObject extends BaseObject
 	public function setTemplatePath($path)
 	{
 		if(!$path) return $this;
-
-		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
+		if (!preg_match('!^(?:\\.?/|[A-Z]:[\\\\/]|\\\\\\\\)!i', $path))
 		{
 			$path = './' . $path;
 		}
-
 		if(substr_compare($path, '/', -1) !== 0)
 		{
 			$path .= '/';
@@ -580,8 +578,7 @@ class ModuleObject extends BaseObject
 	public function setLayoutPath($path)
 	{
 		if(!$path) return;
-
-		if((strlen($path) >= 1 && substr_compare($path, '/', 0, 1) !== 0) && (strlen($path) >= 2 && substr_compare($path, './', 0, 2) !== 0))
+		if (!preg_match('!^(?:\\.?/|[A-Z]:[\\\\/]|\\\\\\\\)!i', $path))
 		{
 			$path = './' . $path;
 		}
