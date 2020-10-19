@@ -30,7 +30,7 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('true', $info->action->dispTestWrite->global_route);
 		$this->assertEquals('controller', $info->action->procTestSubmitData->type);
 		$this->assertEquals('submitData', $info->action->procTestSubmitData->ruleset);
-		$this->assertEquals('', $info->action->procTestSubmitData->method);
+		$this->assertEquals('POST', $info->action->procTestSubmitData->method);
 		$this->assertEquals('true', $info->action->dispTestAdminIndex->standalone);
 		$this->assertEquals('GET|POST', $info->action->procTestAdminSubmitData->method);
 		$this->assertEquals([], $info->action->procTestAdminSubmitData->route);
