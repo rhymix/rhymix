@@ -506,8 +506,8 @@ class widgetController extends widget
 					if($args->document_srl)
 					{
 						$oDocumentModel = getModel('document');
-						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, false, false);
-						$body = $oDocument->getContent(false,false,false, false);
+						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, true);
+						$body = $oDocument->getContent(false, false, false, false);
 					}
 					else
 					{
@@ -546,8 +546,8 @@ class widgetController extends widget
 					if($args->document_srl)
 					{
 						$oDocumentModel = getModel('document');
-						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, false, false);
-						$body = $oDocument->getContent(false,false,false);
+						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, true);
+						$body = $oDocument->getContent(false, false, false, false);
 					}
 					else
 					{
