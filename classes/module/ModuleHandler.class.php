@@ -175,7 +175,7 @@ class ModuleHandler extends Handler
 		}
 
 		// Get module info from document_srl.
-		if($this->document_srl)
+		if($this->document_srl && !$this->module)
 		{
 			$module_info = $this->_checkDocumentSrl();
 			if ($module_info === false)

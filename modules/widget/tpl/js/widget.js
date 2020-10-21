@@ -424,8 +424,16 @@ function doCheckWidget(e) {
 		var widgetstyle = p_obj.getAttribute("widgetstyle");
 		if(!widget) return;
 		selectedWidget = p_obj;
-		if(widget == 'widgetContent') popopen(request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl"), "addContent");
-		else popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
+		var url, name;
+		if(widget == 'widgetContent') {
+			url = request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl");
+			name = 'addContent';
+		} else {
+			url = request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle;
+			name = 'GenerateCodeInPage';
+		}
+		console.log(url, name);
+		popopen(url, name);
 		return;
 
 	// 위젯 스타일

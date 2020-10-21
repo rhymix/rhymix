@@ -122,6 +122,7 @@ class Router
 		{
 			@parse_str(substr($url, $argstart + 1), $args);
 			$url = substr($url, 0, $argstart);
+			$result->args = $args;
 		}
 		
 		// Decode the URL into plain UTF-8.
