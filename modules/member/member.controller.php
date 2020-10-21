@@ -1255,7 +1255,11 @@ class memberController extends member
 		// Save Signature
 		$signature = Context::get('signature');
 		$this->putSignature($args->member_srl, $signature);
-
+		if($config->member_allow_fileupload === 'Y')
+		{
+			getController('file')->setFilesValid($args->member_srl, 'sig');
+		}
+		
 		// Get user_id information
 		$member_info = MemberModel::getMemberInfoByMemberSrl($args->member_srl);
 

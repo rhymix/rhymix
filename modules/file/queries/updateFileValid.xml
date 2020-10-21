@@ -8,5 +8,6 @@
     </columns>
     <conditions>
         <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
+        <condition operation="equal" column="isvalid" var="old_isvalid" pipe="and" />
     </conditions>
 </query>

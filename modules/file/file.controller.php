@@ -782,6 +782,7 @@ class fileController extends file
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
+		$args->old_isvalid = 'N';
 		if($upload_target_type)
 		{
 			$args->upload_target_type = substr($upload_target_type, 0, 3);

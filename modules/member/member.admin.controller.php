@@ -155,6 +155,10 @@ class memberAdminController extends member
 		// Save Signature
 		$signature = Context::get('signature');
 		$oMemberController->putSignature($args->member_srl, $signature);
+		if($config->member_allow_fileupload === 'Y')
+		{
+			getController('file')->setFilesValid($args->member_srl, 'sig');
+		}
 
 		$profile_image = Context::get('profile_image');
 		if(is_uploaded_file($profile_image['tmp_name']))
