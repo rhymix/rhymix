@@ -328,7 +328,7 @@ class VariableBase
 		{
 			return [true, Query::quoteName($this->default)];
 		}
-		elseif (isset($column) && preg_match('/_srl$/', $column) && !is_numeric($this->default))
+		elseif (isset($column) && preg_match('/_srl$/', $column) && !is_numeric($this->default) && !preg_match('/^[a-z0-9_]+\([0-9]*\)$/', $this->default))
 		{
 			return [true, Query::quoteName($this->default)];
 		}
