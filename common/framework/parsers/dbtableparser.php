@@ -218,7 +218,8 @@ class DBTableParser extends BaseParser
 		}
 		else
 		{
-			$xetype = $type;
+			$xetype = 'none';
+			$type = ltrim($type, '\\');
 		}
 		
 		// Extract and normalize the size.

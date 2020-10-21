@@ -18,6 +18,10 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($table->columns['module_srl']->is_indexed);
 		$this->assertTrue($table->columns['list_order']->is_unique);
 		$this->assertFalse($table->columns['geometry']->is_unique);
+		$this->assertEquals('date', $table->columns['custom_date']->type);
+		$this->assertEquals('none', $table->columns['custom_date']->xetype);
+		$this->assertEquals('char', $table->columns['regdate']->type);
+		$this->assertEquals('date', $table->columns['regdate']->xetype);
 		
 		$this->assertEquals(8, count($table->indexes));
 		$this->assertEquals(['module_srl' => 0, 'document_srl' => 0], $table->indexes['idx_module_document_srl']->columns);

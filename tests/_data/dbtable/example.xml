@@ -6,6 +6,8 @@
 	<column name="description" type="bigtext" />
 	<column name="geometry" type="multipolygon" />
 	<column name="status" type="varchar" size="20" default="PUBLIC" />
+	<column name="custom_date" type="\date" notnull="notnull" />
+	<column name="regdate" type="date" notnull="notnull" />
 	<column name="list_order" type="number" notnull="notnull" />
 	<index name="idx_module_document_srl" columns="module_srl,document_srl" />
 	<index name="idx_status" columns="status(6)" />
