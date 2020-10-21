@@ -1153,6 +1153,7 @@ class boardView extends board
 		// if the comment is not granted, then back to the password input form
 		if(!$oComment->isGranted())
 		{
+			Context::set('document_srl', $oComment->get('document_srl'));
 			return $this->setTemplateFile('input_password_form');
 		}
 
