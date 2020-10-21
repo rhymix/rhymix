@@ -610,7 +610,7 @@ class memberView extends member
 			Context::set('XE_VALIDATOR_MESSAGE', $XE_VALIDATOR_MESSAGE . $config->limit_day_description);
 		}
 
-		if(strpos(Context::get('referer_url'), 'procMember') || ($XE_VALIDATOR_ERROR < -10 && $XE_VALIDATOR_ERROR > -21))
+		if(strpos(Context::get('referer_url'), 'procMember') !== false || ($XE_VALIDATOR_ERROR < -10 && $XE_VALIDATOR_ERROR > -21))
 		{
 			Context::set('referer_url', getUrl(''));
 		}
