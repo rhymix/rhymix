@@ -81,6 +81,43 @@ class DBTest extends \Codeception\TestCase\Test
 		$this->assertTrue($stmt->closeCursor());
 	}
 	
+	public function testAddPrefixes()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+		$prefix = Rhymix\Framework\Config::get('db.master.prefix');
+		
+		$source = 'SELECT a, b, c FROM documents JOIN comments ON documents.document_srl = comment.document_srl WHERE documents.member_srl = ?';
+		$target = 'SELECT a, b, c FROM `' . $prefix . 'documents` AS `documents` JOIN `' . $prefix . 'comments` AS `comments` ' .
+			'ON documents.document_srl = comment.document_srl WHERE documents.member_srl = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+		
+		$source = 'SELECT a AS aa FROM documents as foo JOIN bar ON documents.a = bar.a';
+		$target = 'SELECT a AS aa FROM `' . $prefix . 'documents` AS `foo` JOIN `' . $prefix . 'bar` AS `bar` ON documents.a = bar.a';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+		
+		$source = 'INSERT INTO documents (a, b, c) VALUES (?, ?, ?)';
+		$target = 'INSERT INTO `' . $prefix . 'documents` (a, b, c) VALUES (?, ?, ?)';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+		
+		$source = 'INSERT INTO documents (a, b, c) SELECT d, e, f FROM old_documents WHERE g = ?';
+		$target = 'INSERT INTO `' . $prefix . 'documents` (a, b, c) SELECT d, e, f FROM `' . $prefix . 'old_documents` AS `old_documents` WHERE g = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+		
+		$source = 'UPDATE documents SET a = ?, b = ? WHERE c = ?';
+		$target = 'UPDATE `' . $prefix . 'documents` SET a = ?, b = ? WHERE c = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+		
+		$source = 'DELETE FROM documents WHERE d = ?';
+		$target = 'DELETE FROM `' . $prefix . 'documents` WHERE d = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+		
+		$source = 'update documents set a = ?, b = ? where c = ?';
+		$this->assertEquals($source, $oDB->addPrefixes($source));
+		
+		$source = 'delete from documents where d = ?';
+		$this->assertEquals($source, $oDB->addPrefixes($source));
+	}
+	
 	public function testIsTableColumnIndexExists()
 	{
 		$oDB = Rhymix\Framework\DB::getInstance();

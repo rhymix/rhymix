@@ -933,10 +933,18 @@ class DB
 		}
 		else
 		{
-			return preg_replace_callback('/(FROM|JOIN)\s+((?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/i', function($m) {
-				$tables = array_map(function($str) {
-					return preg_replace_callback('/`?(\w+)`?(?:\s+AS\s+`?(\w+)`?)?/i', function($m) {
-						return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[1]);
+			return preg_replace_callback('/((?:DELETE\s+)?FROM|JOIN|INTO|UPDATE)(?i)\s+((?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/', function($m) {
+				$type = strtoupper($m[1]);
+				$tables = array_map(function($str) use($type) {
+					return preg_replace_callback('/`?(\w+)`?(?:\s+AS\s+`?(\w+)`?)?/i', function($m) use($type) {
+						if ($type === 'FROM' || $type === 'JOIN')
+						{
+							return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[1]);
+						}
+						else
+						{
+							return sprintf('`%s%s`', $this->_prefix, $m[1]);	
+						}
 					}, trim($str));
 				}, explode(',', $m[2]));
 				return $m[1] . ' ' . implode(', ', $tables);
