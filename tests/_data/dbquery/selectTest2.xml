@@ -1,0 +1,12 @@
+<query id="selectTest2" action="select">
+	<tables>
+		<table name="documents" />
+	</tables>
+	<columns>
+		<column name="readed_count + trackback_count" alias="count" />
+	</columns>
+	<conditions>
+		<condition operation="more" column="voted_count + blamed_count" var="voted_count" notnull="notnull" />
+		<condition operation="equal" column="LEFT(regdate, 8)" var="date" notnull="notnull" />
+	</conditions>
+</query>

@@ -581,11 +581,13 @@ class Query extends VariableBase
 	 */
 	public static function quoteName(string $column_name): string
 	{
-		$columns = explode('.', $column_name);
-		$columns = array_map(function($str) {
-			return $str === '*' ? $str : ('`' . $str . '`');
-		}, $columns);
-		return implode('.', $columns);
+		return preg_replace_callback('/[a-z][a-z0-9_.*]*(?!\\()\b/i', function($m) {
+			$columns = explode('.', $m[0]);
+			$columns = array_map(function($str) {
+				return $str === '*' ? $str : ('`' . $str . '`');
+			}, $columns);
+			return implode('.', $columns);
+		}, $column_name);
 	}
 	
 	/**

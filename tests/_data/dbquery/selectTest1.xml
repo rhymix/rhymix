@@ -1,4 +1,4 @@
-<query id="selectTest" action="select">
+<query id="selectTest1" action="select">
 	<tables>
 		<table name="documents" />
 	</tables>

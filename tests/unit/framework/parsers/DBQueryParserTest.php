@@ -4,9 +4,9 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 {
 	public function testLoadXML()
 	{
-		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest.xml');
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest1.xml');
 		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
-		$this->assertEquals('selectTest', $query->name);
+		$this->assertEquals('selectTest1', $query->name);
 		$this->assertEquals('SELECT', $query->type);
 		$this->assertTrue($query->select_distinct);
 		
@@ -47,7 +47,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 	
 	public function testSimpleSelect()
 	{
-		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest.xml');
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest1.xml');
 		$args = array('member_srl' => 1234, 'regdate_more' => '20200707120000', 'page' => 3);
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
@@ -56,6 +56,18 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
 			'ORDER BY `list_order` ASC LIMIT 40, 20', $sql);
 		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
+	}
+	
+	public function testSelectWithExpressions()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest2.xml');
+		$args = array('voted_count' => 20, 'date' => '20201021');
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT readed_count + trackback_count AS `count` ' .
+			'FROM `rx_documents` AS `documents` WHERE `voted_count` + `blamed_count` >= ? AND LEFT(`regdate`, 8) = ?', $sql);
+		$this->assertEquals([20, '20201021'], $params);
 	}
 	
 	public function testJoin1()
