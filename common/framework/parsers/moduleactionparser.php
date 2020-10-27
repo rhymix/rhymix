@@ -90,9 +90,7 @@ class ModuleActionParser extends BaseParser
 				$permission_info->check_type = trim($action['check_type']) ?: trim($action['check-type']);
 			}
 			
-			// Parse routes.
-			$route_attr = trim($action['route']);
-			$route_tags = $action->route ?: [];
+			// Parse the list of allowed HTTP methods.
 			$method_attr = trim($action['method']);
 			if ($method_attr)
 			{
@@ -110,6 +108,10 @@ class ModuleActionParser extends BaseParser
 			{
 				$methods = ['GET', 'POST'];
 			}
+			
+			// Parse routes.
+			$route_attr = trim($action['route']);
+			$route_tags = $action->route ?: [];
 			$route_arg = [];
 			if ($route_attr || count($route_tags))
 			{
