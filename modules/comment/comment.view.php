@@ -53,7 +53,7 @@ class commentView extends comment
 		// Set a template file
 		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path . 'tpl', 'comment_module_config');
-		$obj .= $tpl;
+		$obj = $tpl . $obj;
 
 		return new BaseObject();
 	}

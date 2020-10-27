@@ -150,7 +150,7 @@ class documentView extends document
 
 		$oTemplate = &TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'document_module_config');
-		$obj .= $tpl;
+		$obj = $tpl . $obj;
 
 		return new BaseObject();
 	}
