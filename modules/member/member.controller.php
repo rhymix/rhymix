@@ -3619,6 +3619,35 @@ class memberController extends member
 		$_SESSION['verify_by_sms']['status'] = true;
 		return new BaseObject(0, 'verify_by_sms_code_confirmed');
 	}
+	
+	/**
+	 * Delete a registered device.
+	 */
+	public function procMemberDeleteDevice()
+	{
+		$device_srl = intval(Context::get('device_srl'));
+		$logged_info = Context::get('logged_info');
+		
+		$args = new stdClass;
+		$args->device_srl = $device_srl;
+		$output = executeQuery('member.getMemberDevice', $args);
+		if (!$output->data || !is_object($output->data))
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$output->data->member_srl || $output->data->member_srl != $logged_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		
+		$args = new stdClass;
+		$args->device_token = $output->data->device_token;
+		$output = executeQuery('member.deleteMemberDevice', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+	}
 
 	/**
 	 * trigger for document.getDocumentMenu. Append to popup menu a button for procMemberSpammerManage()

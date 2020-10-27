@@ -51,6 +51,7 @@
 		<action name="procMemberModifyInfo" type="controller" permission="member" ruleset="@insertMember" />
 		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />
 		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" />
+		<action name="procMemberDeleteDevice" type="controller" permission="member" />
 		<action name="procMemberLeave" type="controller" permission="member" ruleset="leaveMember" />
 		<action name="procMemberInsertProfileImage" type="controller" permission="member" ruleset="insertProfileImage" />
 		<action name="procMemberDeleteProfileImage" type="controller" permission="member" />
