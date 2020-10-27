@@ -6,8 +6,8 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" />
+        <condition operation="equal" column="member_srl" var="member_srl" />
         <condition operation="equal" column="device_token" var="device_token" notnull="notnull" pipe="and" />
-        <condition operation="equal" column="device_key" var="device_key" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="device_key" var="device_key" pipe="and" />
     </conditions>
 </query>

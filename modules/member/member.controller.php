@@ -69,6 +69,21 @@ class memberController extends member
 		$args->member_srl = $member_info->member_srl;
 		executeQuery('member.deleteAuthMail', $args);
 		
+		// If a device token is supplied, attempt to register it.
+		$device_token = Context::get('device_token');
+		if ($device_token)
+		{
+			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
+			if (!$output->data || $output->data->member_srl != $member_info->member_srl)
+			{
+				$output = $this->procMemberRegisterDevice($member_info->member_srl);
+				if ($output instanceof BaseObject && !$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+		
 		if(!$config->after_login_url)
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -83,7 +98,7 @@ class memberController extends member
 	/**
 	 * Register device
 	 */
-	function procMemberRegisterDevice()
+	function procMemberRegisterDevice($member_srl = null)
 	{
 		Context::setResponseMethod('JSON');
 
@@ -95,8 +110,8 @@ class memberController extends member
 		$device_model = escape(Context::get('device_model'));
 
 		// Return an error when id and password doesn't exist
-		if(!$user_id && !$allow_guest_device) return new BaseObject(-1, 'NULL_USER_ID');
-		if(!$password && !$allow_guest_device) return new BaseObject(-1, 'NULL_PASSWORD');
+		if(!$member_srl && !$user_id && !$allow_guest_device) return new BaseObject(-1, 'NULL_USER_ID');
+		if(!$member_srl && !$password && !$allow_guest_device) return new BaseObject(-1, 'NULL_PASSWORD');
 		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
 
 		// Get device information
@@ -122,7 +137,11 @@ class memberController extends member
 			return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 		}
 		
-		if($user_id && $password)
+		if ($member_srl)
+		{
+			$member_srl = intval($member_srl);
+		}
+		elseif ($user_id && $password)
 		{
 			$output = $this->procMemberLogin($user_id, $password);
 			if(!$output->toBool())
@@ -959,19 +978,6 @@ class memberController extends member
 		$signature = Context::get('signature');
 		$this->putSignature($args->member_srl, $signature);
 
-		// If a virtual site, join the site
-		$site_module_info = Context::get('site_module_info');
-		if($site_module_info->site_srl > 0)
-		{
-			$columnList = array('site_srl', 'group_srl');
-			$default_group = MemberModel::getDefaultGroup($site_module_info->site_srl, $columnList);
-			if($default_group->group_srl)
-			{
-				$this->addMemberToGroup($args->member_srl, $default_group->group_srl, $site_module_info->site_srl);
-			}
-
-		}
-
 		// Log-in
 		if($config->enable_confirm != 'Y')
 		{
@@ -980,6 +986,17 @@ class memberController extends member
 				if($output->error == -9)
 					$output->error = -11;
 				return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), $output);
+			}
+		}
+		
+		// Register device
+		$device_token = Context::get('device_token');
+		if ($device_token)
+		{
+			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
+			if (!$output->data || $output->data->member_srl != $args->member_srl)
+			{
+				$this->procMemberRegisterDevice($args->member_srl);
 			}
 		}
 
