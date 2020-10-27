@@ -7,7 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" />
-        <condition operation="equal" column="device_token" var="device_token" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="device_token" var="device_token" pipe="and" />
         <condition operation="equal" column="device_key" var="device_key" pipe="and" />
     </conditions>
 </query>

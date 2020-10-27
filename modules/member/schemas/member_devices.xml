@@ -9,5 +9,6 @@
 	<column name="device_model" type="varchar" size="40" notnull="notnull" />
 	<column name="device_description" type="varchar" size="200" />
 	<column name="regdate" type="date" notnull="notnull" index="idx_regdate" />
+	<column name="last_active_date" type="date" notnull="notnull" index="idx_last_active_date" />
 	<column name="ipaddress" type="varchar" size="120" notnull="notnull" />
 </table>

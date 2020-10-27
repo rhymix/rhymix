@@ -82,6 +82,10 @@ class memberController extends member
 					return $output;
 				}
 			}
+			else
+			{
+				executeQuery('member.updateMemberDeviceLastActiveDate', ['device_token' => $device_token]);
+			}
 		}
 		
 		if(!$config->after_login_url)
@@ -116,7 +120,7 @@ class memberController extends member
 
 		// Get device information
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
-		$device_type = strtolower($browserInfo->os);
+		$device_type = escape(strtolower($browserInfo->os));
 		$device_version = $browserInfo->os_version;
 		if(!$device_model)
 		{
@@ -251,6 +255,9 @@ class memberController extends member
 		{
 			$member_info = null;
 		}
+		
+		// Update last active date
+		executeQuery('member.updateMemberDeviceLastActiveDate', ['device_token' => $device_token]);
 		
 		$this->add('member_srl', $member_srl);
 		$this->add('user_id', $member_info ? $member_info->user_id : null);

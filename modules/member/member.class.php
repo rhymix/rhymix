@@ -200,7 +200,9 @@ class member extends ModuleObject {
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
 		
+		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
+		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
 		
 		$config = ModuleModel::getModuleConfig('member');
 		
@@ -374,13 +376,19 @@ class member extends ModuleObject {
 			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
 		}
 		
-		// Add device token type 2020.10.28
+		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type'))
 		{
 			$oDB->addColumn('member_devices', 'device_token_type', 'varchar', '20', '', true, 'device_token');
 			$oDB->addIndex('member_devices', 'idx_device_token_type', array('device_token_type'));
 			$oDB->query("UPDATE member_devices SET device_token_type = 'fcm' WHERE device_type = 'android' OR LENGTH(device_token) > 64");
 			$oDB->query("UPDATE member_devices SET device_token_type = 'apns' WHERE device_type = 'ios' AND LENGTH(device_token) = 64");
+		}
+		if(!$oDB->isColumnExists('member_devices', 'last_active_date'))
+		{
+			$oDB->addColumn('member_devices', 'last_active_date', 'date', '', '', true, 'regdate');
+			$oDB->addIndex('member_devices', 'idx_last_active_date', array('last_active_date'));
+			$oDB->query("UPDATE member_devices SET last_active_date = regdate WHERE last_active_date = ''");
 		}
 		
 		$config = ModuleModel::getModuleConfig('member');

@@ -14,5 +14,6 @@
 		<column name="device_description" var="device_description" />
 		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 		<column name="regdate" var="regdate" default="curdate()" />
+		<column name="last_active_date" var="last_active_date" default="curdate()" />
 	</columns>
 </query>
