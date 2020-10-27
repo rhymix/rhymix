@@ -277,11 +277,6 @@ class documentModel extends document
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
 			}
-			if($is_admin)
-			{
-				$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]->setGrant();
-			}
-			
 			$output->data[$key] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
 		
