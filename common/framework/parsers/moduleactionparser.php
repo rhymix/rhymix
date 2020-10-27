@@ -93,7 +93,7 @@ class ModuleActionParser extends BaseParser
 			$route_attr = trim($action['route']);
 			$route_tags = $action->route ?: [];
 			$method_attr = trim($action['method']);
-			$methods = $method_attr ? explode('|', strtoupper($method_attr)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET']);
+			$methods = $method_attr ? explode('|', strtoupper($method_attr)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET', 'POST']);
 			$route_arg = [];
 			if ($route_attr || count($route_tags))
 			{
