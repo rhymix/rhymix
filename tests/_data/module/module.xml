@@ -12,7 +12,7 @@
 			<route route="$document_srl:int/comment/$comment_srl:int" priority="70" />
 			<route route="$document_srl:int/tag/$tag:word" priority="50" />
 		</action>
-		<action name="dispTestWrite" type="view" permission="view" standalone="false" meta-noindex="true" route="write" global_route="true" />
+		<action name="dispTestWrite" type="view" permission="view" method="GET" standalone="false" meta-noindex="true" route="write" global_route="true" />
 		<action name="procTestSubmitData" type="controller" standalone="false" check-csrf="false" ruleset="submitData" />
 		<action name="dispTestAdminIndex" type="view" admin_index="true" menu_name="test" menu_index="true" />
 		<action name="procTestAdminSubmitData" type="controller" permission="manager" check_var="module_srl" check_type="thisisatest" method="GET|POST" />

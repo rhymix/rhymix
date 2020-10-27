@@ -80,6 +80,7 @@ class ModuleActionParser extends BaseParser
 		{
 			// Parse permissions.
 			$action_name = trim($action['name']);
+			$action_type = trim($action['type']);
 			$permission = trim($action['permission']);
 			$permission_info = (object)['target' => '', 'check_var' => '', 'check_type' => ''];
 			if ($permission)
@@ -93,7 +94,22 @@ class ModuleActionParser extends BaseParser
 			$route_attr = trim($action['route']);
 			$route_tags = $action->route ?: [];
 			$method_attr = trim($action['method']);
-			$methods = $method_attr ? explode('|', strtoupper($method_attr)) : (starts_with('proc', $action_name) ? ['POST'] : ['GET', 'POST']);
+			if ($method_attr)
+			{
+				$methods = explode('|', strtoupper($method_attr));
+			}
+			elseif ($action_type === 'controller' || starts_with('proc', $action_name))
+			{
+				$methods = ['POST'];
+			}
+			elseif ($action_type === 'view' || starts_with('disp', $action_name))
+			{
+				$methods = ['GET'];
+			}
+			else
+			{
+				$methods = ['GET', 'POST'];
+			}
 			$route_arg = [];
 			if ($route_attr || count($route_tags))
 			{
@@ -117,7 +133,7 @@ class ModuleActionParser extends BaseParser
 			
 			// Parse other information about this action.
 			$action_info = new \stdClass;
-			$action_info->type = trim($action['type']);
+			$action_info->type = $action_type;
 			$action_info->grant = trim($action['grant']) ?: 'guest';
 			$action_info->permission = $permission_info;
 			$action_info->ruleset = trim($action['ruleset']);
