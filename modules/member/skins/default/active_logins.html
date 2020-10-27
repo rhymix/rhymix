@@ -1,5 +1,7 @@
 <include target="./common_header.html" />
+
 <h1>{$member_title = $lang->cmd_view_active_logins }</h1>
+
 <table class="table table-striped table-hover">
 	<thead>
 		<tr>
@@ -33,6 +35,34 @@
 		<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &raquo;</a></li>
 	</ul>
 </div>
+
+<h1>{$lang->cmd_view_registered_devices }</h1>
+
+<table class="table table-striped table-hover">
+	<thead>
+		<tr>
+			<th>{$lang->no}</th>
+			<th class="title">{$lang->cmd_login_device_info}</th>
+			<th>{$lang->cmd_initial_registration}</th>
+			<th>{$lang->cmd_recent_connection}</th>
+			<th>{$lang->cmd_delete}</th>
+		</tr>
+	</thead>
+	<tbody>
+		{@ $no = count($registered_devices)}
+		<tr loop="$registered_devices => $device_info">
+			<td>{$no--}</td>
+			<td class="title">
+				{$device_info->device_type} {$device_info->device_version}
+				({$device_info->device_model ?: 'no model'})
+			</td>
+			<td>{zdate($device_info->regdate, 'Y-m-d H:i')}</td>
+			<td>{zdate($device_info->last_active_date, 'Y-m-d H:i')}</td>
+			<td><button class="delete_device" data-device-srl="{$device_info->device_srl}">{$lang->cmd_delete}</button></td>
+		</tr>
+	</tbody>
+</table>
+
 <script>
 	jQuery(function($) {
 		$("button.delete_autologin").on("click", function(event) {
@@ -41,6 +71,13 @@
 				window.location.reload();
 			});
 		});
+		$("button.delete_device").on("click", function(event) {
+			event.preventDefault();
+			exec_json('member.procMemberDeleteDevice', { device_srl: $(this).data("device-srl") }, function(data) {
+				window.location.reload();
+			});
+		});
 	});
 </script>
+
 <include target="./common_footer.html" />

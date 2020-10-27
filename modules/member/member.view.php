@@ -584,6 +584,11 @@ class memberView extends member
 		Context::set('page', $output->page);
 		Context::set('active_logins', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+		
+		$args = new stdClass();
+		$args->member_srl = $logged_info->member_srl;
+		$output = executeQueryArray('member.getMemberDevice', $args);
+		Context::set('registered_devices', $output->data);
 
 		$this->setTemplateFile('active_logins');
 	}
