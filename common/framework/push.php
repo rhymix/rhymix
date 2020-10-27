@@ -290,10 +290,10 @@ class Push
 			$output = null;
 			
 			// Android FCM
-			if(count($tokens->android))
+			if(count($tokens->fcm))
 			{
 				$fcm_driver = $this->getDriver('fcm');
-				$output = $fcm_driver->send($this, $tokens->android);
+				$output = $fcm_driver->send($this, $tokens->fcm);
 				$this->sent = count($output->success) ? true : false;
 				$this->success_tokens = $output ? $output->success : [];
 				$this->deleted_tokens = $output ? $output->invalid : [];
@@ -303,10 +303,10 @@ class Push
 			}
 
 			// iOS APNs
-			if(count($tokens->ios))
+			if(count($tokens->apns))
 			{
 				$apns_driver =$this->getDriver('apns');
-				$output = $apns_driver->send($this, $tokens->ios);
+				$output = $apns_driver->send($this, $tokens->apns);
 				$this->sent = count($output->success) ? true : false;
 				$this->success_tokens += $output ? $output->success : [];
 				$this->deleted_tokens += $output ? $output->invalid : [];
@@ -339,26 +339,25 @@ class Push
 	 */
 	protected function _getDeviceTokens()
 	{
-		$member_srl_list = $this->getRecipients();
 		$result = new \stdClass;
-		$result->android = [];
-		$result->ios = [];
+		$result->fcm = [];
+		$result->apns = [];
 
 		$args = new \stdClass;
-		$args->member_srl = $member_srl_list;
-		$args->device_type = [];
+		$args->member_srl = $this->getRecipients();
+		$args->device_token_type = [];
 		$driver_types = config('push.types') ?: array();
-		if(!count($driver_types))
-		{
-			return $result;
-		}
 		if(isset($driver_types['fcm']))
 		{
-			$args->device_type[] = 'android';
+			$args->device_token_type[] = 'fcm';
 		}
 		if(isset($driver_types['apns']))
 		{
-			$args->device_type[] = 'ios';
+			$args->device_token_type[] = 'apns';
+		}
+		if(!count($args->device_token_type))
+		{
+			return $result;
 		}
 
 		$output = executeQueryArray('member.getMemberDeviceTokensByMemberSrl', $args);
@@ -369,7 +368,7 @@ class Push
 
 		foreach($output->data as $row)
 		{
-			$result->{$row->device_type}[] = $row->device_token;
+			$result->{$row->device_token_type}[] = $row->device_token;
 		}
 
 		return $result;

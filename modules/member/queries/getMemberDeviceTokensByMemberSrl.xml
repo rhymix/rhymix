@@ -4,10 +4,10 @@
     </tables>
     <columns>
         <column name="device_token" />
-        <column name="device_type" />
+        <column name="device_token_type" />
     </columns>
     <conditions>
         <condition operation="in" column="member_srl" var="member_srl" notnull="notnull" />
-        <condition operation="in" column="device_type" var="device_type" pipe="and" />
+        <condition operation="in" column="device_token_type" var="device_token_type" pipe="and" />
     </conditions>
 </query>

@@ -68,7 +68,7 @@ class memberController extends member
 		$args = new stdClass();
 		$args->member_srl = $member_info->member_srl;
 		executeQuery('member.deleteAuthMail', $args);
-
+		
 		if(!$config->after_login_url)
 		{
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -99,6 +99,7 @@ class memberController extends member
 		if(!$password && !$allow_guest_device) return new BaseObject(-1, 'NULL_PASSWORD');
 		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
 
+		// Get device information
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
 		$device_type = strtolower($browserInfo->os);
 		$device_version = $browserInfo->os_version;
@@ -107,23 +108,18 @@ class memberController extends member
 			$device_model = escape($browserInfo->device);
 		}
 
-		if('ios' === $device_type)
+		// Detect device token type
+		if (preg_match('/^[0-9a-z]{64}$/', $device_token))
 		{
-			if(!preg_match("/^[0-9a-z]{64}$/", $device_token))
-			{
-				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
-			}
+			$device_token_type = 'apns';
 		}
-		elseif('android' === $device_type)
+		elseif (preg_match('/^[0-9a-zA-Z:_-]+$/', $device_token) && strlen($device_token) > 64)
 		{
-			if(!preg_match("/^[0-9a-zA-Z:_-]+$/", $device_token))
-			{
-				return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
-			}
+			$device_token_type = 'fcm';
 		}
 		else
 		{
-			return new BaseObject(-1, 'NOT_SUPPORTED_OS');
+			return new BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 		}
 		
 		if($user_id && $password)
@@ -151,6 +147,7 @@ class memberController extends member
 		$args->device_srl = getNextSequence();
 		$args->member_srl = $member_srl;
 		$args->device_token = $device_token;
+		$args->device_token_type = $device_token_type;
 		$args->device_key = $device_key;
 		$args->device_type = $device_type;
 		$args->device_version = $device_version;

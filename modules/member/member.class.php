@@ -200,6 +200,8 @@ class member extends ModuleObject {
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
 		
+		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
+		
 		$config = ModuleModel::getModuleConfig('member');
 		
 		// Check members with phone country in old format
@@ -370,6 +372,15 @@ class member extends ModuleObject {
 			$oDB->addIndex('member_nickname_log', 'idx_before_nick_name', array('before_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_after_nick_name', array('after_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
+		}
+		
+		// Add device token type 2020.10.28
+		if(!$oDB->isColumnExists('member_devices', 'device_token_type'))
+		{
+			$oDB->addColumn('member_devices', 'device_token_type', 'varchar', '20', '', true, 'device_token');
+			$oDB->addIndex('member_devices', 'idx_device_token_type', array('device_token_type'));
+			$oDB->query("UPDATE member_devices SET device_token_type = 'fcm' WHERE device_type = 'android' OR LENGTH(device_token) > 64");
+			$oDB->query("UPDATE member_devices SET device_token_type = 'apns' WHERE device_type = 'ios' AND LENGTH(device_token) = 64");
 		}
 		
 		$config = ModuleModel::getModuleConfig('member');

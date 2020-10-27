@@ -6,6 +6,7 @@
 		<column name="device_srl" var="device_srl" notnull="notnull" />
 		<column name="member_srl" var="member_srl" notnull="notnull" />
 		<column name="device_token" var="device_token" notnull="notnull" />
+		<column name="device_token_type" var="device_token_type" notnull="notnull" />
 		<column name="device_key" var="device_key" notnull="notnull" />
 		<column name="device_type" var="device_type" notnull="notnull" />
 		<column name="device_version" var="device_version" notnull="notnull" />
