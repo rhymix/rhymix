@@ -1040,7 +1040,10 @@ class documentItem extends BaseObject
 		if(!$this->allowTrackback() || !$this->get('trackback_count')) return;
 
 		$oTrackbackModel = getModel('trackback');
-		return $oTrackbackModel->getTrackbackList($this->document_srl, $is_admin);
+		if ($oTrackbackModel)
+		{
+			return $oTrackbackModel->getTrackbackList($this->document_srl);
+		}
 	}
 
 	function thumbnailExists($width = 80, $height = 0, $type = '')

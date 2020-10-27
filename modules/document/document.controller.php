@@ -3120,7 +3120,7 @@ Content;
 		else
 		{
 			$documentList = array();
-			$this->setMessage(lang(no_documents));
+			$this->setMessage(lang('no_documents'));
 		}
 		$oSecurity = new Security($documentList);
 		$oSecurity->encodeHTML('..variables.');
