@@ -61,8 +61,8 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{lang('document.cmd_declared_message')}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="declared_message_admin"><input type="checkbox" name="declared_message[]" id="declared_message_admin" value="admin" checked="checked"|cond="$comment_config->declared_message && in_array('admin', $comment_config->declared_message)" /> {$lang->cmd_declared_message_admin}</label>
-				<label class="x_inline" for="declared_message_manager"><input type="checkbox" name="declared_message[]" id="declared_message_manager" value="manager" checked="checked"|cond="$comment_config->declared_message && in_array('manager', $comment_config->declared_message)" /> {$lang->cmd_declared_message_manager}</label>
+				<label class="x_inline" for="comment_declared_message_admin"><input type="checkbox" name="declared_message[]" id="comment_declared_message_admin" value="admin" checked="checked"|cond="$comment_config->declared_message && in_array('admin', $comment_config->declared_message)" /> {$lang->cmd_declared_message_admin}</label>
+				<label class="x_inline" for="comment_declared_message_manager"><input type="checkbox" name="declared_message[]" id="comment_declared_message_manager" value="manager" checked="checked"|cond="$comment_config->declared_message && in_array('manager', $comment_config->declared_message)" /> {$lang->cmd_declared_message_manager}</label>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
