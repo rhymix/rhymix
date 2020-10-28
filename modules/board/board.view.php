@@ -36,6 +36,11 @@ class boardView extends board
 			$this->page_count = $this->module_info->page_count;
 		}
 		$this->except_notice = $this->module_info->except_notice == 'N' ? FALSE : TRUE;
+		$this->include_modules = $this->module_info->include_modules ? explode(',', $this->module_info->include_modules) : [];
+		if (count($this->include_modules) && !in_array($this->module_info->module_srl, $this->include_modules))
+		{
+			$this->include_modules[] = $this->module_info->module_srl;
+		}
 
 		// $this->_getStatusNameListecret option backward compatibility
 		$statusList = $this->_getStatusNameList();
@@ -244,7 +249,10 @@ class boardView extends board
 				// if the module srl is not consistent
 				if($oDocument->get('module_srl') != $this->module_info->module_srl && $oDocument->get('is_notice') !== 'A')
 				{
-					throw new Rhymix\Framework\Exceptions\TargetNotFound;
+					if (!in_array($oDocument->get('module_srl'), $this->include_modules))
+					{
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
+					}
 				}
 
 				// check the manage grant
@@ -466,7 +474,7 @@ class boardView extends board
 
 		// setup module_srl/page number/ list number/ page count
 		$args = new stdClass();
-		$args->module_srl = $this->module_srl;
+		$args->module_srl = $this->include_modules ?: $this->module_srl;
 		$args->page = intval(Context::get('page')) ?: null;
 		$args->list_count = $this->list_count;
 		$args->page_count = $this->page_count;

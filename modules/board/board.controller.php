@@ -167,6 +167,13 @@ class boardController extends board
 					}
 				}
 				
+				// Preserve module_srl if the document belongs to a module that is included in this board
+				if ($oDocument->get('module_srl') != $obj->module_srl && in_array($oDocument->get('module_srl'), explode(',', $this->module_info->include_modules ?: '')))
+				{
+					$obj->module_srl = $oDocument->get('module_srl');
+					$obj->category_srl = $oDocument->get('category_srl');
+				}
+				
 				// notice & document style same as before if not manager
 				if(!$this->grant->manager)
 				{

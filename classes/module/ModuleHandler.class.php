@@ -693,6 +693,11 @@ class ModuleHandler extends Handler
 				{
 					return null;
 				}
+				// If the requested mid is set to include documents from other modules, preserve the current mid.
+				elseif($this->mid && ($mid_info = ModuleModel::getModuleInfoByMid($this->mid)) && $mid_info->include_modules && in_array($module_info->module_srl, explode(',', $mid_info->include_modules)))
+				{
+					return $mid_info;
+				}
 				// If this is a GET request, redirect to the correct mid.
 				elseif(Context::getRequestMethod() === 'GET')
 				{
