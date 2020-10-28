@@ -3,4 +3,32 @@
 <div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+
+<!--@if($logged_info->is_admin === 'Y')-->
+<section class="section">
+	<h1>{$lang->cmd_board_combined_board}</h1>
+	<form action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="document" />
+		<input type="hidden" name="act" value="procBoardAdminInsertCombinedConfig" />
+		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl}" />
+		{@ $include_modules = explode(',', $module_info->include_modules ?? '')}
+		<div class="x_control-group">
+			<label for="use_history" class="x_control-label">{$lang->cmd_board_include_modules}</label>
+			<div class="x_controls">
+				<select name="include_modules[]" size="8" multiple="multiple">
+					<!--@foreach($board_list as $board_info)-->
+						<option value="{$board_info->module_srl}" selected="selected"|cond="in_array($board_info->module_srl, $include_modules)">{$board_info->browser_title}</option>
+					<!--@endforeach-->
+				</select>
+				<p class="x_help-block">{$lang->about_board_combined_board}</p>
+			</div>
+		</div>
+		<div class="btnArea">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</form>
+</section>
+<!--@endif-->
+
 {$setup_content}

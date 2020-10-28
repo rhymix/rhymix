@@ -205,6 +205,12 @@ class boardAdminView extends board {
 		ModuleHandler::triggerCall('module.dispAdditionSetup', 'after', $content);
 		Context::set('setup_content', $content);
 
+		// Get the list of boards to combine.
+		$args = new stdClass;
+		$args->list_count = 1000;
+		$output = executeQueryArray('board.getBoardList', $args, ['module_srl', 'mid', 'browser_title']);
+		Context::set('board_list', $output->data);
+		
 		// setup the template file
 		$this->setTemplateFile('addition_setup');
 	}
