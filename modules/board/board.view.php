@@ -452,7 +452,7 @@ class boardView extends board
 		}
 
 		$args = new stdClass();
-		$args->module_srl = $this->module_srl;
+		$args->module_srl = $this->include_modules ?: $this->module_srl;
 		$notice_output = DocumentModel::getNoticeList($args, $this->columnList);
 		Context::set('notice_list', $notice_output->data);
 	}
