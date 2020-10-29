@@ -15,6 +15,7 @@
 			<tr>
 				<block loop="$list_config=>$key,$val">
 				<th scope="col" cond="$val->type=='no' && $val->idx==-1"><span>{$lang->no}</span></th>
+				<th scope="col" cond="$val->type=='module_title' && $val->idx==-1"><span>{$lang->module_title}</span></th>
 				<th scope="col" class="title" cond="$val->type=='title' && $val->idx==-1"><span>{$lang->title}</span></th>
 				<th scope="col" cond="$val->type=='nick_name' && $val->idx==-1"><span>{$lang->writer}</span></th>
 				<th scope="col" cond="$val->type=='user_id' && $val->idx==-1"><span>{$lang->user_id}</span></th>
@@ -45,6 +46,9 @@
 				<td class="notice" cond="$val->type=='no' && $val->idx==-1">
 					<block cond="$document_srl==$document->document_srl">&raquo;</block>
 					<block cond="$document_srl!=$document->document_srl">{$lang->notice}</block>
+				</td>
+				<td class="module_title" cond="$val->type=='module_title' && $val->idx==-1">
+					<a href="{getUrl('', 'mid', $document->get('mid'))}">{$document->get('module_title')}</a>
 				</td>
 				<td class="title" cond="$val->type=='title' && $val->idx==-1">
 					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">
@@ -88,6 +92,9 @@
 				<td class="no" cond="$val->type=='no' && $val->idx==-1">
 					<block cond="$document_srl==$document->document_srl">&raquo;</block>
 					<block cond="$document_srl!=$document->document_srl">{$no}</block>
+				</td>
+				<td class="module_title" cond="$val->type=='module_title' && $val->idx==-1">
+					<a href="{getUrl('', 'mid', $document->get('mid'))}">{$document->get('module_title')}</a>
 				</td>
 				<td class="title" cond="$val->type=='title' && $val->idx==-1">
 					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle()}</a>

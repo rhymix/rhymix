@@ -169,6 +169,7 @@ $lang->regdate = '등록일';
 $lang->anonymous = '익명';
 $lang->last_update = '최근 수정일';
 $lang->last_post = '마지막 댓글';
+$lang->module_title = '게시판 이름';
 $lang->signup_date = '가입일';
 $lang->last_login = '최근 로그인';
 $lang->first_page = '첫 페이지';
