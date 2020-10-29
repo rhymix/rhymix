@@ -38,6 +38,9 @@
 					<block cond="$document_srl==$document->document_srl">&raquo;</block>
 					<block cond="$document_srl!=$document->document_srl">{$lang->notice}</block>
 				</td>
+				<td class="module_title" cond="$val->type=='module_title' && $val->idx==-1">
+					<a href="{getUrl('', 'mid', $document->get('mid'))}">{$document->get('module_title')}</a>
+				</td>
 				<td class="title" cond="$val->type=='title' && $val->idx==-1">
 					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">
 						{$document->getTitle()}
@@ -80,6 +83,9 @@
 				<td class="no" cond="$val->type=='no' && $val->idx==-1">
 					<block cond="$document_srl==$document->document_srl">&raquo;</block>
 					<block cond="$document_srl!=$document->document_srl">{$no}</block>
+				</td>
+				<td class="module_title" cond="$val->type=='module_title' && $val->idx==-1">
+					<a href="{getUrl('', 'mid', $document->get('mid'))}">{$document->get('module_title')}</a>
 				</td>
 				<td class="title" cond="$val->type=='title' && $val->idx==-1">
 					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle()}</a>
