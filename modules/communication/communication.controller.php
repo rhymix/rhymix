@@ -43,7 +43,7 @@ class communicationController extends communication
 			return $output;
 		}
 		
-		getController('member')->_clearMemberCache($args->member_srl);
+		MemberController::clearMemberCache($args->member_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
 

@@ -839,7 +839,7 @@ class pointController extends point
 			Rhymix\Framework\Storage::write($cache_filename, $point);
 		}
 
-		getController('member')->_clearMemberCache($member_srl);
+		MemberController::clearMemberCache($member_srl);
 		unset(parent::$_member_point_cache[$member_srl]);
 
 		return $output;

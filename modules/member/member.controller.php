@@ -279,7 +279,7 @@ class memberController extends member
 		
 		// Destroy session information
 		Rhymix\Framework\Session::logout();
-		$this->_clearMemberCache($logged_info->member_srl);
+		self::clearMemberCache($logged_info->member_srl);
 		
 		// Call a trigger after log-out (after)
 		ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
@@ -1038,7 +1038,7 @@ class memberController extends member
 			}
 		}
 
-		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
 
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -1293,7 +1293,7 @@ class memberController extends member
 		$this->setMessage('success_updated');
 
 		$site_module_info = Context::get('site_module_info');
-		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
 		$this->setRedirectUrl($returnUrl);
@@ -1596,7 +1596,7 @@ class memberController extends member
 			$profile_image = MemberModel::getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
-			$this->_clearMemberCache($member_srl);
+			self::clearMemberCache($member_srl);
 		}
 		return new BaseObject(0,'success');
 	}
@@ -1921,7 +1921,7 @@ class memberController extends member
 		// https://github.com/rhymix/rhymix/issues/1232
 		// executeQuery('member.deleteAuthMail', $args);
 
-		$this->_clearMemberCache($args->member_srl);
+		self::clearMemberCache($args->member_srl);
 
 		// Call a trigger (after)
 		$trigger_obj->is_register = $is_register;
@@ -2126,7 +2126,7 @@ class memberController extends member
 		$output = executeQuery('member.deleteMembersGroup', $args);
 		if(!$output->toBool()) return $output;
 		$this->setMessage('success_deleted');
-		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
 	}
 
 	/**
@@ -2232,7 +2232,7 @@ class memberController extends member
 		$output = executeQuery('member.addMemberToGroup',$args);
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
-		$this->_clearMemberCache($member_srl, $site_srl);
+		self::clearMemberCache($member_srl, $site_srl);
 
 		return $output;
 	}
@@ -2272,7 +2272,7 @@ class memberController extends member
 			$output = executeQuery('member.addMemberToGroup', $obj);
 			if(!$output->toBool()) return $output;
 
-			$this->_clearMemberCache($obj->member_srl, $args->site_srl);
+			self::clearMemberCache($obj->member_srl, $args->site_srl);
 		}
 
 		return new BaseObject();
@@ -2336,7 +2336,7 @@ class memberController extends member
 		
 		// Update the last login time.
 		executeQuery('member.updateLastLogin', (object)['member_srl' => $output->data->member_srl]);
-		$this->_clearMemberCache($output->data->member_srl);
+		self::clearMemberCache($output->data->member_srl);
 		
 		// Return the member_srl.
 		return intval($output->data->member_srl);
@@ -2487,7 +2487,7 @@ class memberController extends member
 		$output = executeQuery('member.updateLastLogin', $args);
 
 		$site_module_info = Context::get('site_module_info');
-		$this->_clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
 
 		// Check if there is recoding table.
 		$oDB = &DB::getInstance();
@@ -3215,7 +3215,7 @@ class memberController extends member
 
 		// Remove from cache
 		unset($GLOBALS['__member_info__'][$args->member_srl]);
-		$this->_clearMemberCache($args->member_srl, $args->site_srl);
+		self::clearMemberCache($args->member_srl, $args->site_srl);
 
 		$output->add('member_srl', $args->member_srl);
 		return $output;
@@ -3250,7 +3250,7 @@ class memberController extends member
 		}
 		
 		unset($GLOBALS['__member_info__'][$member_srl]);
-		$this->_clearMemberCache($member_srl);
+		self::clearMemberCache($member_srl);
 
 		return $output;
 	}
@@ -3285,7 +3285,7 @@ class memberController extends member
 		}
 
 		unset($GLOBALS['__member_info__'][$args->member_srl]);
-		$this->_clearMemberCache($args->member_srl);
+		self::clearMemberCache($args->member_srl);
 
 		return $output;
 	}
@@ -3363,7 +3363,7 @@ class memberController extends member
 		$this->procMemberDeleteImageMark($member_srl);
 		$this->procMemberDeleteProfileImage($member_srl);
 		$this->delSignature($member_srl);
-		$this->_clearMemberCache($member_srl);
+		self::clearMemberCache($member_srl);
 		
 		// Delete all remaining extra info
 		$dirs = Rhymix\Framework\Storage::readDirectory(RX_BASEDIR . 'files/member_extra_info', true, true, false);
@@ -3524,7 +3524,7 @@ class memberController extends member
 		// Remove all values having the member_srl and new_password equal to 'XE_change_emaill_address' from authentication table
 		executeQuery('member.deleteAuthChangeEmailAddress',$args);
 
-		$this->_clearMemberCache($args->member_srl);
+		self::clearMemberCache($args->member_srl);
 
 		// Call a trigger (after)
 		$trigger_obj = new stdClass;
@@ -3795,7 +3795,7 @@ class memberController extends member
 
 		$output = $this->updateMember($args, true);
 
-		$this->_clearMemberCache($args->member_srl);
+		self::clearMemberCache($args->member_srl);
 
 		return $output;
 	}
@@ -3842,16 +3842,18 @@ class memberController extends member
 		return array();
 	}
 
-	function _clearMemberCache($member_srl, $site_srl = 0)
+	public static function _clearMemberCache($member_srl)
+	{
+		return self::clearMemberCache($member_srl);
+	}
+	
+	public static function clearMemberCache($member_srl)
 	{
 		$member_srl = intval($member_srl);
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
-		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:$site_srl");
+		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");
 		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");
-		if ($site_srl != 0)
-		{
-			Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");
-		}
+		unset($GLOBALS['__member_info__'][$member_srl]);
 	}
 }
 /* End of file member.controller.php */

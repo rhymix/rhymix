@@ -182,7 +182,7 @@ class memberAdminController extends member
 		}
 
 		// Clear cache
-		$oMemberController->_clearMemberCache($args->member_srl);
+		MemberController::clearMemberCache($args->member_srl);
 		
 		// Return result
 		$this->add('member_srl', $args->member_srl);
@@ -1029,7 +1029,7 @@ class memberAdminController extends member
 						$this->setMessage('success_deleted');
 					}
 			}
-			$oMemberController->_clearMemberCache($args->member_srl);
+			MemberController::clearMemberCache($args->member_srl);
 		}
 
 		$message = $var->message;
