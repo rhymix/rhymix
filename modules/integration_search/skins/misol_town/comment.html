@@ -8,7 +8,7 @@
 		<h1 class="subTitle"><span><i class="xi-comments" title="{$lang->comment}"></i> {$lang->comment} <span>({number_format($output->total_count)})</span></span></h1>
 	</div>
 
-	<!--@if(!count($output->data))-->
+	<!--@if(!$output->data)-->
 		<span class="noResult">{$lang->msg_no_result}</span>
 	<!--@else-->
 		<ul class="misolSearch_list">
