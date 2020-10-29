@@ -33,6 +33,12 @@ class boardAdminController extends board {
 		if(is_array($args->use_status)) $args->use_status = implode('|@|', $args->use_status);
 		unset($args->board_name);
 
+		// Get existing module info
+		if($args->module_srl)
+		{
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		}
+		
 		// setup extra_order_target
 		$extra_order_target = array();
 		if($args->module_srl)
@@ -62,9 +68,15 @@ class boardAdminController extends board {
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
 
 		// if there is an existed module
-		if($args->module_srl) {
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
-			if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
+		if ($args->module_srl && $module_info->module_srl != $args->module_srl)
+		{
+			unset($args->module_srl);
+		}
+		
+		// preserve existing config
+		if ($args->module_srl)
+		{
+			$args->include_modules = $module_info->include_modules;
 		}
 
 		// insert/update the board module based on module_srl
