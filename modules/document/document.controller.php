@@ -958,9 +958,7 @@ class documentController extends document
 		$output->add('document_srl',$obj->document_srl);
 		
 		//remove from cache
-		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($obj->document_srl) . $obj->document_srl);
-		Rhymix\Framework\Cache::delete('seo:document_images:' . $obj->document_srl);
-		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $obj->document_srl);
+		self::clearDocumentCache($obj->document_srl);
 		return $output;
 	}
 
@@ -1092,11 +1090,7 @@ class documentController extends document
 		$oDB->commit();
 
 		//remove from cache
-		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
-		Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
-		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
-		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
-		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
+		self::clearDocumentCache($document_srl);
 		return $output;
 	}
 
@@ -1254,9 +1248,7 @@ class documentController extends document
 		$oDB->commit();
 
 		// Clear cache
-		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($oDocument->document_srl) . $oDocument->document_srl);
-		Rhymix\Framework\Cache::delete('seo:document_images:' . $oDocument->document_srl);
-		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $oDocument->document_srl);
+		self::clearDocumentCache($oDocument->document_srl);
 		return $output;
 	}
 
@@ -2066,7 +2058,7 @@ class documentController extends document
 
 			foreach($output->data as $val)
 			{
-				Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($val->document_srl) . $val->document_srl);
+				self::clearDocumentCache($val->document_srl);
 			}
 		}
 
@@ -3127,6 +3119,19 @@ Content;
 		$this->add('document_list', array_values($documentList));
 	}
 
+	/**
+	 * Clear document cache
+	 */
+	public static function clearDocumentCache($document_srl)
+	{
+		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
+		Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
+		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
+		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
+		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
+		unset($GLOBALS['RX_DOCUMENT_LANG'][$document_srl]);
+	}
+	
 	/**
 	 * For old version, comment allow status check.
 	 * @param object $obj
