@@ -1353,8 +1353,8 @@ class moduleModel extends module
 
 			if(!isset($info)) continue;
 			$info->module = $module_name;
-			$info->created_table_count = $created_table_count;
-			$info->table_count = $table_count;
+			$info->created_table_count = null; //$created_table_count;
+			$info->table_count = null; //$table_count;
 			$info->path = $path;
 			$info->admin_index_act = $info->admin_index_act;
 			$list[] = $info;

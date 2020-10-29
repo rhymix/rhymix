@@ -35,9 +35,10 @@ class moduleAdminModel extends module
 			$list[$val->module_srl] = array('module_srl'=>$val->module_srl,'mid'=>$val->mid,'browser_title'=>$val->browser_title, 'module_name' => $info_xml->title);
 		}
 		$modules = explode(',',$args->module_srls);
-		for($i=0;$i<count($modules);$i++)
+		$module_list = [];
+		foreach ($modules as $module_srl)
 		{
-			$module_list[$modules[$i]] = $list[$modules[$i]];
+			$module_list[$module_srl] = $list[$module_srl];
 		}
 
 		$this->add('id', Context::get('id'));
@@ -154,7 +155,7 @@ class moduleAdminModel extends module
 		$grant_list->access = new stdClass();
 		$grant_list->access->title = lang('grant_access');
 		$grant_list->access->default = 'guest';
-		if(count($source_grant_list))
+		if($source_grant_list)
 		{
 			foreach($source_grant_list as $key => $val)
 			{
@@ -191,11 +192,10 @@ class moduleAdminModel extends module
 		Context::set('default_grant', $default_grant);
 		Context::set('module_srl', $module_srl);
 		// Extract admin ID set in the current module
-		$admin_member = $oModuleModel->getAdminId($module_srl);
+		$admin_member = ModuleModel::getAdminId($module_srl) ?: [];
 		Context::set('admin_member', $admin_member);
 		// Get a list of groups
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups($module_info->site_srl);
+		$group_list = MemberModel::getGroups($module_info->site_srl);
 		Context::set('group_list', $group_list);
 
 		//Security			
@@ -223,15 +223,14 @@ class moduleAdminModel extends module
 			return new BaseObject();
 		}
 
-		$oModuleModel = getModel('module');
-		$xmlInfo = $oModuleModel->getModuleActionXml($targetModule);
+		$xmlInfo = ModuleModel::getModuleActionXml($targetModule);
 
 		// Grant virtual permission for access and manager
 		$grantList = new stdClass();
 		$grantList->access = new stdClass();
 		$grantList->access->title = lang('grant_access');
 		$grantList->access->default = 'guest';
-		if(count($xmlInfo->grant))
+		if($xmlInfo->grant)
 		{
 			foreach($xmlInfo->grant as $key => $val)
 			{
@@ -245,6 +244,7 @@ class moduleAdminModel extends module
 		$grantList->manager->default = 'manager';
 
 		// Get a permission group granted to the current module
+		$selectedGroup = new stdClass();
 		$defaultGrant = new stdClass();
 		$args = new stdClass();
 		$args->module_srl = $moduleSrl;
@@ -355,7 +355,7 @@ class moduleAdminModel extends module
 			$skin_vars = $oModuleModel->getModuleMobileSkinVars($module_srl);
 		}
 
-		if(count($skin_info->extra_vars)) 
+		if($skin_info->extra_vars)
 		{
 			foreach($skin_info->extra_vars as $key => $val) 
 			{
