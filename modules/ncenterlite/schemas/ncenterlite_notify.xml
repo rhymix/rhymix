@@ -1,20 +1,17 @@
 <table name="ncenterlite_notify">
-	<column name="notify" type="char" size="32" notnull="notnull" primary_key="primary_key" brief="메시지 ID" />
-
+	<column name="id" type="bignumber" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" brief="Separate PK column for performance optimization" />
+	<column name="notify" type="char" size="32" notnull="notnull" unique="unique_notify" brief="메시지 ID" />
 	<column name="srl" type="number" size="11" notnull="notnull" index="idx_srl" brief="이벤트 대상의 상위 srl" />
 	<column name="target_srl" type="number" size="11" notnull="notnull" index="idx_target_srl" brief="이벤트 대상 srl(문서/댓글)" />
 	<column name="target_p_srl" type="number" size="11" notnull="notnull" index="idx_target_p_srl" brief="이벤트 대상 srl(문서/댓글) 대댓글의 경우 앞전 댓글" />
 	<column name="type" type="char" size="1" notnull="notnull" brief="이벤트 대상 타입" />
 	<column name="target_type" type="char" size="1" notnull="notnull" brief="이벤트 타입" />
     <column name="notify_type" type="number" brief="이벤트 타입 SRL" />
-
 	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" brief="receiver" />
-
 	<column name="target_member_srl" type="number" size="11" notnull="notnull" index="idx_target_member_srl" brief="sender" />
 	<column name="target_nick_name" type="varchar" size="50" notnull="notnull" brief="sender" />
 	<column name="target_user_id" type="varchar" size="50" notnull="notnull" brief="sender" />
 	<column name="target_email_address" type="varchar" size="50" notnull="notnull" brief="sender" />
-
 	<column name="target_browser" type="varchar" size="50" brief="브라우저 제목" />
 	<column name="target_summary" type="varchar" size="50" brief="메시지 요약문" />
 	<column name="target_body" type="varchar" size="255" brief="커스텀 알림 제목" />
