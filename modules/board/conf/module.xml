@@ -128,6 +128,7 @@
 		<action name="procBoardAdminInsertBoard" type="controller" permission="manager" check_var="module_srl" ruleset="insertBoard" />
 		<action name="procBoardAdminDeleteBoard" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procBoardAdminUpdateBoardFroBasic" type="controller" ruleset="insertBoardForBasic" />
+		<action name="procBoardAdminInsertCombinedConfig" type="controller" />
 		<action name="procBoardAdminSaveCategorySettings" type="controller" permission="manager" check_var="module_srl" ruleset="saveCategorySettings" />
 	</actions>
 	<menus>

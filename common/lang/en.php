@@ -167,6 +167,7 @@ $lang->regdate = 'Registered Date';
 $lang->anonymous = 'Anonymous';
 $lang->last_update = 'Last Update';
 $lang->last_post = 'Last Comment';
+$lang->module_title = 'Board Name';
 $lang->signup_date = 'Signup Date';
 $lang->last_login = 'Last Signin';
 $lang->first_page = 'First Page';

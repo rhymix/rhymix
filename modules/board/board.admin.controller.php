@@ -12,13 +12,16 @@ class boardAdminController extends board {
 	/**
 	 * @brief initialization
 	 **/
-	function init() {
+	function init()
+	{
+		
 	}
 
 	/**
 	 * @brief insert borad module
 	 **/
-	function procBoardAdminInsertBoard($args = null) {
+	function procBoardAdminInsertBoard($args = null)
+	{
 		// generate module model/controller object
 		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
@@ -30,6 +33,12 @@ class boardAdminController extends board {
 		if(is_array($args->use_status)) $args->use_status = implode('|@|', $args->use_status);
 		unset($args->board_name);
 
+		// Get existing module info
+		if($args->module_srl)
+		{
+			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+		}
+		
 		// setup extra_order_target
 		$extra_order_target = array();
 		if($args->module_srl)
@@ -59,9 +68,15 @@ class boardAdminController extends board {
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
 
 		// if there is an existed module
-		if($args->module_srl) {
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
-			if($module_info->module_srl != $args->module_srl) unset($args->module_srl);
+		if ($args->module_srl && $module_info->module_srl != $args->module_srl)
+		{
+			unset($args->module_srl);
+		}
+		
+		// preserve existing config
+		if ($args->module_srl)
+		{
+			$args->include_modules = $module_info->include_modules;
 		}
 
 		// insert/update the board module based on module_srl
@@ -161,6 +176,42 @@ class boardAdminController extends board {
 		$this->add('module','board');
 		$this->add('page',Context::get('page'));
 		$this->setMessage('success_deleted');
+	}
+
+	/**
+	 * Save settings for combined board.
+	 */
+	public function procBoardAdminInsertCombinedConfig()
+	{
+		$vars = Context::getRequestVars();
+		$module_srl = intval($vars->target_module_srl);
+		$include_modules = array_map('intval', $vars->include_modules ?: []);
+		
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$module_info)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		
+		$module_info->include_modules = implode(',', array_filter($include_modules, function($item) {
+			return $item > 0;
+		}));
+		
+		$output = getController('module')->updateModule($module_info);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		$this->setMessage('success_updated');
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminBoardAdditionSetup', 'module_srl', $module_srl));
+		}
 	}
 
 	function procBoardAdminSaveCategorySettings()

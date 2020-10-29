@@ -463,12 +463,33 @@ class moduleModel extends module
 	 */
 	public static function getModulesInfo($module_srls, $columnList = array())
 	{
-		if(is_array($module_srls)) $module_srls = implode(',',$module_srls);
+		if (!is_array($module_srls))
+		{
+			$module_srls = explode(',', $module_srls);
+		}
+		if (!count($module_srls))
+		{
+			return [];
+		}
+		
+		$cache_key = 'site_and_module:modules_info:' . implode(',', $module_srls) . ':' . implode(',', $columnList ?: []);
+		$result = Rhymix\Framework\Cache::get($cache_key);
+		if ($result !== null)
+		{
+			return $result;
+		}
+		
 		$args = new stdClass();
 		$args->module_srls = $module_srls;
 		$output = executeQueryArray('module.getModulesInfo', $args, $columnList);
-		if(!$output->toBool()) return;
-		return self::addModuleExtraVars($output->data);
+		$result = $output->data ?: [];
+		if (!$columnList)
+		{
+			$result = self::addModuleExtraVars($result);
+		}
+		
+		Rhymix\Framework\Cache::set($cache_key, $result, 0, true);
+		return $result;
 	}
 
 	/**
