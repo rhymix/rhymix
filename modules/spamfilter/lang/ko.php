@@ -44,6 +44,7 @@ $lang->msg_invalid_ip = 'IP 주소 형식이 올바르지 않습니다.';
 $lang->msg_invalid_word = '스팸 키워드는 2~180자 사이여야 합니다.';
 $lang->msg_faillist = '<br />실패 (이미 차단되어 있습니다)<br /> %s ';
 $lang->use_captcha = '캡챠 사용';
+$lang->about_captcha_position = '로그인 폼, 글쓰기 폼 등의 스킨에서 캡챠를 표시할 위치에 <code>{$captcha}</code> 코드가 들어 있어야 합니다.<br />코드가 없는 경우 임의의 위치에 캡챠가 삽입되므로 디자인이 틀어질 수 있습니다.';
 $lang->recaptcha_theme = '색상 테마';
 $lang->recaptcha_theme_light = '밝은 색상';
 $lang->recaptcha_theme_dark = '어두운 색상';
