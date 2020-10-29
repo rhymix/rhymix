@@ -231,7 +231,7 @@ class Session
 		}
 		elseif ($must_refresh)
 		{
-			return self::refresh();
+			return self::refresh(true);
 		}
 		elseif ($must_resend_keys)
 		{
@@ -453,9 +453,10 @@ class Session
 	 * This method can be used to invalidate old session cookies.
 	 * It is called automatically when someone logs in or out.
 	 *
+	 * @param bool $set_session_cookie
 	 * @return bool
 	 */
-	public static function refresh()
+	public static function refresh($set_session_cookie = false)
 	{
 		// Get session parameters.
 		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
@@ -492,7 +493,7 @@ class Session
 		}
 		
 		// Pass control to _setKeys() to send the keys to the client.
-		return self::_setKeys();
+		return self::_setKeys($set_session_cookie);
 	}
 	
 	/**
@@ -1100,9 +1101,10 @@ class Session
 	/**
 	 * Set session keys.
 	 * 
+	 * @param bool $set_session_cookie
 	 * @return bool
 	 */
-	protected static function _setKeys()
+	protected static function _setKeys($set_session_cookie = false)
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
@@ -1116,6 +1118,12 @@ class Session
 			'httponly' => true,
 			'samesite' => $samesite,
 		);
+		
+		// Refresh the main session cookie.
+		if ($set_session_cookie)
+		{
+			self::_setCookie(session_name(), session_id(), $options);
+		}
 
 		// Set or destroy the HTTP-only key.
 		if (isset($_SESSION['RHYMIX']['keys'][$alt_domain]['key1']))
