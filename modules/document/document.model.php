@@ -169,12 +169,11 @@ class documentModel extends document
 				return $oDocument;
 			}
 		}
-		/*
 		if($is_admin)
 		{
+			trigger_error('Called DocumentModel::getDocument() with $is_admin = true', \E_USER_WARNING);
 			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 		}
-		*/
 		
 		return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 	}
@@ -212,12 +211,11 @@ class documentModel extends document
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
 			}
-			/*
 			if($is_admin)
 			{
+				trigger_error('Called DocumentModel::getDocuments() with $is_admin = true', \E_USER_WARNING);
 				$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]->setGrant();
 			}
-			*/
 			
 			$documents[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}

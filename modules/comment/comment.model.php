@@ -157,12 +157,11 @@ class commentModel extends comment
 	public static function getComment($comment_srl = 0, $is_admin = FALSE, $columnList = array())
 	{
 		$oComment = new commentItem($comment_srl, $columnList);
-		/*
 		if($is_admin)
 		{
+			trigger_error('Called CommentModel::getComment() with $is_admin = true', \E_USER_WARNING);
 			$oComment->setGrant();
 		}
-		*/
 
 		return $oComment;
 	}
