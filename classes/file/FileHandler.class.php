@@ -333,6 +333,10 @@ class FileHandler
 			$start_time = microtime(true);
 			$response = Requests::request($url, $request_headers, $body ?: $post_data, $method, $request_options);
 			$elapsed_time = microtime(true) - $start_time;
+			if (!isset($GLOBALS['__remote_request_elapsed__']))
+			{
+				$GLOBALS['__remote_request_elapsed__'] = 0;
+			}
 			$GLOBALS['__remote_request_elapsed__'] += $elapsed_time;
 			
 			$log = array();

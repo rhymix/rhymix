@@ -647,6 +647,10 @@ class widgetController extends widget
 
 		// Debug widget creation time information added to the results
 		$elapsed_time = microtime(true) - $start;
+		if (!isset($GLOBALS['__widget_excute_elapsed__']))
+		{
+			$GLOBALS['__widget_excute_elapsed__'] = 0;
+		}
 		$GLOBALS['__widget_excute_elapsed__'] += $elapsed_time;
 		Rhymix\Framework\Debug::addWidget(array(
 			'name' => $widget,

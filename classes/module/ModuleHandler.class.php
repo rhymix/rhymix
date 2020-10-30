@@ -19,6 +19,7 @@ class ModuleHandler extends Handler
 	var $act = null;
 	var $mid = null;
 	var $document_srl = null;
+	var $entry = null;
 	var $route = null;
 	var $error = null;
 	var $is_mobile = false;

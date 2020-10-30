@@ -141,7 +141,7 @@ class DisplayHandler extends Handler
 		ModuleHandler::triggerCall('display', 'after', $output);
 
 		// Output the page content and debug data.
-		$debug = $this->getDebugInfo($output);
+		$debug = self::getDebugInfo($output);
 		print $output;
 		print $debug;
 	}
@@ -151,7 +151,7 @@ class DisplayHandler extends Handler
 	 * 
 	 * @return string
 	 */
-	public function getDebugInfo(&$output = null)
+	public static function getDebugInfo(&$output = null)
 	{
 		// Check if debugging information has already been printed.
 		

@@ -50,8 +50,8 @@ class DBQueryParser extends BaseParser
 		
 		// Load attributes that only apply to subqueries in the <conditions> block.
 		$query->operation = $attribs['operation'] ?? null;
-		$query->column = preg_replace('/[^a-z0-9_\.]/i', '', $attribs['column']) ?: null;
-		$query->pipe = strtoupper($attribs['pipe']) ?: 'AND';
+		$query->column = preg_replace('/[^a-z0-9_\.]/i', '', $attribs['column'] ?? null) ?: null;
+		$query->pipe = strtoupper($attribs['pipe'] ?? null) ?: 'AND';
 		
 		// Load tables.
 		foreach ($xml->tables ? $xml->tables->children() : [] as $tag)
@@ -108,13 +108,13 @@ class DBQueryParser extends BaseParser
 				$attribs = self::_getAttributes($tag);
 				$column = new DBQuery\ColumnWrite;
 				$column->name = $attribs['name'];
-				$column->operation = $attribs['operation'] ?: 'equal';
+				$column->operation = ($attribs['operation'] ?? null) ?: 'equal';
 				$column->var = $attribs['var'] ?? null;
 				$column->default = $attribs['default'] ?? null;
-				$column->not_null = $attribs['notnull'] ? true : false;
+				$column->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$column->filter = $attribs['filter'] ?? null;
-				$column->minlength = intval($attribs['minlength'], 10);
-				$column->maxlength = intval($attribs['maxlength'], 10);
+				$column->minlength = intval($attribs['minlength'] ?? 0, 10);
+				$column->maxlength = intval($attribs['maxlength'] ?? 0, 10);
 				$query->columns[] = $column;
 			}
 		}
@@ -225,18 +225,18 @@ class DBQueryParser extends BaseParser
 					$cond->var = $attribs['var'] ?? null;
 					$cond->default = $attribs['default'] ?? null;
 				}
-				$cond->not_null = $attribs['notnull'] ? true : false;
+				$cond->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$cond->filter = $attribs['filter'] ?? null;
-				$cond->minlength = intval($attribs['minlength'], 10);
-				$cond->maxlength = intval($attribs['maxlength'], 10);
-				$cond->pipe = strtoupper($attribs['pipe']) ?: 'AND';
+				$cond->minlength = intval($attribs['minlength'] ?? 0, 10);
+				$cond->maxlength = intval($attribs['maxlength'] ?? 0, 10);
+				$cond->pipe = strtoupper($attribs['pipe'] ?? null) ?: 'AND';
 				$result[] = $cond;
 			}
 			elseif ($name === 'group')
 			{
 				$group = new DBQuery\ConditionGroup;
 				$group->conditions = self::_parseConditions($tag);
-				$group->pipe = strtoupper($attribs['pipe']) ?: 'AND';
+				$group->pipe = strtoupper($attribs['pipe'] ?? null) ?: 'AND';
 				$result[] = $group;
 			}
 			elseif ($name === 'query')

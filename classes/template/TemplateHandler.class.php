@@ -167,6 +167,10 @@ class TemplateHandler
 		}
 
 		// store the ending time for debug information
+		if (!isset($GLOBALS['__template_elapsed__']))
+		{
+			$GLOBALS['__template_elapsed__'] = 0;
+		}
 		$GLOBALS['__template_elapsed__'] += microtime(true) - $start;
 
 		return $output;

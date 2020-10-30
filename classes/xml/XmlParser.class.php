@@ -138,6 +138,10 @@ class XeXmlParser
 
 		$output = array_shift($this->output);
 		// Save compile starting time for debugging
+		if (!isset($GLOBALS['__xmlparse_elapsed__']))
+		{
+			$GLOBALS['__xmlparse_elapsed__'] = 0;
+		}
 		$GLOBALS['__xmlparse_elapsed__'] += microtime(true) - $start;
 
 		return $output;

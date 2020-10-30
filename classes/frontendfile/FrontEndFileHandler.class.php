@@ -99,7 +99,7 @@ class FrontEndFileHandler extends Handler
 		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
 		
 		// Prevent overwriting common scripts.
-		if(intval($args[3]) > -1500000000)
+		if(isset($args[3]) && intval($args[3]) > -1500000000)
 		{
 			if($isCommon)
 			{
@@ -114,8 +114,8 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 		
-		$file = $this->getFileInfo($args[0], $args[2], $args[1], $args[4], $isCommon);
-		$file->index = (int)$args[3];
+		$file = $this->getFileInfo($args[0], $args[2] ?? '', $args[1] ?? 'all', $args[4] ?? [], $isCommon);
+		$file->index = (int)($args[3] ?? 0);
 
 		$availableExtension = array('css' => 1, 'js' => 1, 'less' => 1, 'scss' => 1);
 		if(!isset($availableExtension[$file->fileExtension]))
@@ -132,7 +132,7 @@ class FrontEndFileHandler extends Handler
 		}
 		else if($file->fileExtension == 'js')
 		{
-			if($args[1] == 'body')
+			if(isset($args[1]) && $args[1] == 'body')
 			{
 				$map = &$this->jsBodyMap;
 				$mapIndex = &$this->jsBodyMapIndex;
@@ -164,12 +164,6 @@ class FrontEndFileHandler extends Handler
 	 */
 	protected function getFileInfo($fileName, $targetIe = '', $media = 'all', $vars = array(), $isCommon = false)
 	{
-		static $existsInfo = array();
-		if(isset($existsInfo[$existsKey]))
-		{
-			return $existsInfo[$existsKey];
-		}
-		
 		$pathInfo = pathinfo($fileName);
 		
 		$file = new stdClass();
