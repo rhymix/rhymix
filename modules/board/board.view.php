@@ -854,7 +854,7 @@ class boardView extends board
 			$point_config = ModuleModel::getModulePartConfig('point',$this->module_srl);
 			if ($point_config)
 			{
-				$pointForInsert = is_object($point_config) ? $point_config->insert_document : $point_config["insert_document"];
+				$pointForInsert = intval(is_object($point_config) ? $point_config->insert_document : $point_config["insert_document"]);
 			}
 			else
 			{
