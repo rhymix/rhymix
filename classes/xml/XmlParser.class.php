@@ -240,7 +240,7 @@ class XeXmlParser
 /**
  * Alias to XmlParser for backward compatibility.
  */
-if (!class_exists('XmlParser'))
+if (!class_exists('XmlParser', false))
 {
 	class_alias('XeXmlParser', 'XmlParser');
 }
