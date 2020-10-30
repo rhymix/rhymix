@@ -111,11 +111,13 @@ class Session
 		}
 		
 		// Start the PHP native session.
+		$session_start_time = microtime(true);
 		if (!session_start())
 		{
 			trigger_error('Session cannot be started', \E_USER_WARNING);
 			return false;
 		}
+		Debug::addSessionStartTime(microtime(true) - $session_start_time);
 		
 		// Mark the session as started.
 		self::$_started = true;

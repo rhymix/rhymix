@@ -22,6 +22,8 @@ class Debug
 	protected static $_slow_widgets = array();
 	protected static $_remote_requests = array();
 	protected static $_slow_remote_requests = array();
+	protected static $_session_time = 0;
+	protected static $_query_time = 0;
 	
 	/**
 	 * Enable log collection.
@@ -224,6 +226,8 @@ class Debug
 		self::$_slow_widgets = array();
 		self::$_remote_requests = array();
 		self::$_slow_remote_requests = array();
+		self::$_session_time = 0;
+		self::$_query_time = 0;
 	}
 	
 	/**
@@ -236,6 +240,17 @@ class Debug
 	public static function addFilenameAlias($display_filename, $real_filename)
 	{
 		self::$_aliases[$real_filename] = $display_filename;
+	}
+	
+	/**
+	 * Add session start time.
+	 * 
+	 * @param float $session_start_time
+	 * @return void
+	 */
+	public static function addSessionStartTime($session_start_time)
+	{
+		self::$_session_time += $session_start_time;
 	}
 	
 	/**
@@ -363,6 +378,7 @@ class Debug
 		);
 		
 		self::$_queries[] = $query_object;
+		self::$_query_time += $query_object->query_time;
 		
 		// Add the entry to the error log if the result wasn't successful.
 		if ($query['result'] === 'error')
@@ -762,8 +778,9 @@ class Debug
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
 				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'], $GLOBALS['__TemplateHandlerCalled__']),
 				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__']),
-				'db_query' => sprintf('%0.4f sec (count: %d)', $db->getQueryElapsedTime(), count(self::$_queries)),
-				'db_class' => sprintf('%0.4f sec', $db->getTotalElapsedTime() - $db->getQueryElapsedTime()),
+				'db_query' => sprintf('%0.4f sec (count: %d)', self::$_query_time, count(self::$_queries)),
+				'db_class' => sprintf('%0.4f sec', max(0, $db->getTotalElapsedTime() - self::$_query_time)),
+				'session' => sprintf('%0.4f sec', self::$_session_time),
 				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__']),
 				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__']),
 				'remote' => sprintf('%0.4f sec', $GLOBALS['__remote_request_elapsed__']),
