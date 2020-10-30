@@ -31,7 +31,7 @@
 		<div class="x_control-group">
 			<label for="file" class="x_control-label">{$lang->file}</label>
 			<div class="x_controls">
-				<input type="file" name="addfile" id="file" />
+				<input type="file" name="addfile" id="file" data-max-filesize="{$max_filesize}" data-max-filesize-error="{lang('file.allowed_filesize_exceeded')|escape}" />
 			</div>
 		</div>
 		<div class="btnArea">

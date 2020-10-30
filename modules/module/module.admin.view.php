@@ -306,6 +306,9 @@ class moduleAdminView extends module
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('page', $page);
 		
+		$max_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+		Context::set('max_filesize', $max_filesize);
+		
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 		$this->setTemplateFile('adminFileBox');
