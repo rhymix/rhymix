@@ -202,7 +202,7 @@ class autoinstallAdminModel extends autoinstall
 		}
 
 		$result = array();
-		$xml = new XmlParser();
+		$xml = new XeXmlParser();
 		foreach($output->data as $package)
 		{
 			$packageSrl = $package->package_srl;

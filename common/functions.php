@@ -34,7 +34,7 @@ function config($key, $value = null)
  */
 function lang($code, $value = null)
 {
-	if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+	if (!isset($GLOBALS['lang']) || !$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 	{
 		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(Context::getLangType() ?: config('locale.default_lang') ?: 'ko');
 		$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
@@ -554,7 +554,7 @@ function tobool($input)
  */
 function countobj($array_or_object)
 {
-	if (is_array($array_or_object))
+	if (is_array($array_or_object) || $array_or_object instanceof Countable)
 	{
 		return count($array_or_object);
 	}
@@ -564,7 +564,7 @@ function countobj($array_or_object)
 	}
 	else
 	{
-		return @count($array_or_object);
+		return $array_or_object ? 1 : 0;
 	}
 }
 

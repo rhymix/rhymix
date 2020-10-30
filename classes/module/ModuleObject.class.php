@@ -196,11 +196,11 @@ class ModuleObject extends BaseObject
 	{
 		// Set default variables
 		$this->mid = $module_info->mid;
-		$this->module_srl = $module_info->module_srl;
+		$this->module_srl = $module_info->module_srl ?? null;
 		$this->module_info = $module_info;
 		$this->origin_module_info = $module_info;
 		$this->xml_info = $xml_info;
-		$this->skin_vars = $module_info->skin_vars;
+		$this->skin_vars = $module_info->skin_vars ?? null;
 		$this->module_config = ModuleModel::getInstance()->getModuleConfig($this->module, $module_info->site_srl);
 		
 		// Set privileges(granted) information

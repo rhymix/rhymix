@@ -35,7 +35,7 @@ class Xml_Node_
  * @package /classes/xml
  * @version 0.1
  */
-class XmlParser
+class XeXmlParser
 {
 
 	/**
@@ -75,7 +75,7 @@ class XmlParser
 		}
 		$buff = FileHandler::readFile($filename);
 
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new self();
 		return $oXmlParser->parse($buff);
 	}
 
@@ -232,5 +232,14 @@ class XmlParser
 	}
 
 }
+
+/**
+ * Alias to XmlParser for backward compatibility.
+ */
+if (!class_exists('XmlParser'))
+{
+	class_alias('XeXmlParser', 'XmlParser');
+}
+
 /* End of file XmlParser.class.php */
 /* Location: ./classes/xml/XmlParser.class.php */

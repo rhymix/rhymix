@@ -27,7 +27,7 @@ class ExtraVar
 	 * @param int $module_srl Sequence of module
 	 * @return ExtraVar
 	 */
-	function &getInstance($module_srl)
+	public static function getInstance($module_srl)
 	{
 		return new ExtraVar($module_srl);
 	}

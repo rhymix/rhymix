@@ -425,7 +425,7 @@ class adminAdminModel extends admin
 			return;
 		}
 
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$_xml_obj = $oXmlParser->loadXmlFile($info_file);
 		if(!$_xml_obj->theme)
 		{

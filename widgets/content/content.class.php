@@ -496,7 +496,7 @@ class content extends WidgetHandler
 
 		$buff = preg_replace("/<\?xml.*\?>/i", "", $buff);
 
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$xml_doc = $oXmlParser->parse($buff);
 		if($xml_doc->rss)
 		{

@@ -169,7 +169,7 @@ class addonAdminModel extends addon
 			return;
 		}
 
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
 		$xml_obj = $tmp_xml_obj->addon;
 

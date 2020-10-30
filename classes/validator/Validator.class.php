@@ -124,7 +124,7 @@ class Validator
 			return FALSE;
 		}
 
-		$parser = new XmlParser();
+		$parser = new XeXmlParser();
 		$xml = $parser->loadXmlFile($xml_path);
 		if(!isset($xml->ruleset) || !isset($xml->ruleset->fields) || !isset($xml->ruleset->fields->field))
 		{

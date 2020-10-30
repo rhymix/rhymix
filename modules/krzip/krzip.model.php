@@ -160,7 +160,7 @@ class krzipModel extends krzip
 			$request_config
 		);
 
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$result = $oXmlParser->parse($buff);
 		if($result->error)
 		{

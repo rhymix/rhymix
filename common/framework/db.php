@@ -836,6 +836,10 @@ class DB
 			$dbtype = $matches[1];
 			$size = $matches[2];
 		}
+		else
+		{
+			$size = '';
+		}
 		$xetype = Parsers\DBTableParser::getXEType($dbtype, $size ?: '');
 		
 		// Return the result as an object.

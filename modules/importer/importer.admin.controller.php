@@ -347,7 +347,7 @@ class importerAdminController extends importer
 	{
 		if(!$cur) $cur = 0;
 		// Create the xmlParser object
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		// Create objects for importing member information
 		$this->oMemberController = getController('member');
 		$this->oMemberModel = getModel('member');
@@ -534,7 +534,7 @@ class importerAdminController extends importer
 	{
 		if(!$cur) $cur = 0;
 		// Create the xmlParser object
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		// Open an index file
 		$f = fopen($index_file,"r");
 		// Pass if already read
@@ -633,7 +633,7 @@ class importerAdminController extends importer
 	function importModule($key, $cur, $index_file, $module_srl)
 	{
 		// Pre-create the objects needed
-		$this->oXmlParser = new XmlParser();
+		$this->oXmlParser = new XeXmlParser();
 		// Get category information of the target module
 		$oDocumentController = getController('document');
 		$oDocumentModel = getModel('document');
@@ -1245,7 +1245,7 @@ class importerAdminController extends importer
 		if(!$buff) return array();
 
 		$buff = '<extra_vars>'.$buff;
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$xmlDoc = $this->oXmlParser->parse($buff);
 		if(!count($xmlDoc->extra_vars->key)) return array();
 

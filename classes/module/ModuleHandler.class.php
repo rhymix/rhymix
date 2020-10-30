@@ -118,7 +118,7 @@ class ModuleHandler extends Handler
 		$site_module_info = Context::get('site_module_info');
 		
 		// Check unregistered domain action.
-		if (!$site_module_info || !isset($site_module_info->domain_srl) || $site_module_info->is_default_replaced)
+		if (!$site_module_info || !isset($site_module_info->domain_srl) || ($site_module_info->is_default_replaced ?? false))
 		{
 			$site_module_info = ModuleModel::getDefaultDomainInfo();
 			if ($site_module_info)
@@ -182,6 +182,10 @@ class ModuleHandler extends Handler
 			{
 				return false;
 			}
+		}
+		else
+		{
+			$module_info = null;
 		}
 		
 		// Get module info from mid.
@@ -373,7 +377,11 @@ class ModuleHandler extends Handler
 			}
 		}
 		
-		if($this->module_info->use_mobile != "Y")
+		if(!isset($this->module_info->use_mobile))
+		{
+			$this->module_info->use_mobile = 'N';
+		}
+		if($this->module_info->use_mobile !== 'Y')
 		{
 			Mobile::setMobile(FALSE);
 		}
@@ -815,27 +823,27 @@ class ModuleHandler extends Handler
 	 */
 	protected static function _setInputErrorToContext()
 	{
-		if($_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR'))
+		if(isset($_SESSION['XE_VALIDATOR_ERROR']) && $_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR'))
 		{
 			Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
 		}
-		if($_SESSION['XE_VALIDATOR_MESSAGE'] && !Context::get('XE_VALIDATOR_MESSAGE'))
+		if(isset($_SESSION['XE_VALIDATOR_MESSAGE']) && $_SESSION['XE_VALIDATOR_MESSAGE'] && !Context::get('XE_VALIDATOR_MESSAGE'))
 		{
 			Context::set('XE_VALIDATOR_MESSAGE', $_SESSION['XE_VALIDATOR_MESSAGE']);
 		}
-		if($_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] && !Context::get('XE_VALIDATOR_MESSAGE_TYPE'))
+		if(isset($_SESSION['XE_VALIDATOR_MESSAGE_TYPE']) && $_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] && !Context::get('XE_VALIDATOR_MESSAGE_TYPE'))
 		{
 			Context::set('XE_VALIDATOR_MESSAGE_TYPE', $_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
 		}
-		if($_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL'))
+		if(isset($_SESSION['XE_VALIDATOR_RETURN_URL']) && $_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL'))
 		{
 			Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
 		}
-		if($_SESSION['XE_VALIDATOR_ID'] && !Context::get('XE_VALIDATOR_ID'))
+		if(isset($_SESSION['XE_VALIDATOR_ID']) && $_SESSION['XE_VALIDATOR_ID'] && !Context::get('XE_VALIDATOR_ID'))
 		{
 			Context::set('XE_VALIDATOR_ID', $_SESSION['XE_VALIDATOR_ID']);
 		}
-		if(countobj($_SESSION['INPUT_ERROR']))
+		if(isset($_SESSION['INPUT_ERROR']) && countobj($_SESSION['INPUT_ERROR']))
 		{
 			Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
 		}

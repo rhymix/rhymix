@@ -39,7 +39,7 @@ class VariableBase
 			$value = '(' . $this->getQueryString($prefix, $args) . ')';
 			$params = $this->getQueryParams();
 		}
-		elseif ($this->var && Query::isValidVariable($args[$this->var], $this instanceof ColumnWrite))
+		elseif ($this->var && Query::isValidVariable($args[$this->var] ?? null, $this instanceof ColumnWrite))
 		{
 			if ($args[$this->var] instanceof EmptyString || $args[$this->var] instanceof NullValue)
 			{
@@ -285,7 +285,7 @@ class VariableBase
 	 */
 	public function getValue(array $args)
 	{
-		if ($this->var && Query::isValidVariable($args[$this->var], $this instanceof ColumnWrite))
+		if ($this->var && Query::isValidVariable($args[$this->var] ?? null, $this instanceof ColumnWrite))
 		{
 			if ($args[$this->var] === '')
 			{
@@ -321,7 +321,7 @@ class VariableBase
 	public function getDefaultValue()
 	{
 		// Get the current column name.
-		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
+		$column = $this instanceof ColumnWrite ? $this->name : ($this->column ?? null);
 		
 		// If the default value is a column name, escape it.
 		if (strpos($this->default, '.') !== false && Query::isValidColumnName($this->default))
@@ -382,7 +382,7 @@ class VariableBase
 		// Don't apply a filter if there is no variable.
 		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
 		$filter = isset($this->filter) ? $this->filter : '';
-		if (strval($value) === '')
+		if (!is_array($value) && strval($value) === '')
 		{
 			$filter = '';
 		}

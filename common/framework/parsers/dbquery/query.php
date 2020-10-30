@@ -528,6 +528,8 @@ class Query extends VariableBase
 		{
 			return '';
 		}
+		$page = 0;
+		$offset = 0;
 		
 		// Get the offset from the page or offset variable.
 		if ($navigation->page)

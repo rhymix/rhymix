@@ -146,7 +146,8 @@ class Router
 			$prefix_type = 'mid';
 			
 			// Find the module associated with this prefix.
-			$action_info = self::_getActionInfoByPrefix($prefix, $module_name = '');
+			$module_name = '';
+			$action_info = self::_getActionInfoByPrefix($prefix, $module_name);
 			if ($action_info === false)
 			{
 				$action_info = self::_getActionInfoByModule($prefix);

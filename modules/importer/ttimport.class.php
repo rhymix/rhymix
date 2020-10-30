@@ -34,7 +34,7 @@ class ttimport
 	function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id, $module_name=null)
 	{
 		// Pre-create the objects needed
-		$this->oXmlParser = new XmlParser();
+		$this->oXmlParser = new XeXmlParser();
 		// Get category information of the target module
 		$oDocumentController = getController('document');
 		$oDocumentModel = getModel('document');

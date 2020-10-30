@@ -342,7 +342,7 @@ class Context
 		// Set global variables for backward compatibility.
 		$GLOBALS['oContext'] = self::$_instance;
 		$GLOBALS['__Context__'] = &self::$_tpl_vars;
-		$GLOBALS['_time_zone'] = self::$_instance->db_info->time_zone;
+		$GLOBALS['_time_zone'] = config('locale.default_timezone');
 		$GLOBALS['lang'] = &$lang;
 		
 		// set session handler
@@ -357,7 +357,7 @@ class Context
 		}
 		
 		// start session
-		$relax_key_checks = (self::$_get_vars->act === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		$relax_key_checks = ((self::$_get_vars->act ?? null) === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
 		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
 
@@ -1528,11 +1528,11 @@ class Context
 	 */
 	public static function getJSCallbackFunc()
 	{
-		$js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : $_POST['xe_js_callback'];
+		$js_callback_func = isset($_GET['xe_js_callback']) ? $_GET['xe_js_callback'] : ($_POST['xe_js_callback'] ?? null);
 
 		if(!preg_match('/^[a-z0-9\.]+$/i', $js_callback_func))
 		{
-			unset($js_callback_func);
+			$js_callback_func = null;
 			unset($_GET['xe_js_callback']);
 			unset($_POST['xe_js_callback']);
 		}
@@ -1602,7 +1602,7 @@ class Context
 		}
 
 		// If the first argument is '', reset existing parameters.
-		if (strval($args_list[0]) === '')
+		if (!is_array($args_list[0]) && strval($args_list[0]) === '')
 		{
 			array_shift($args_list);
 			$get_vars = array();

@@ -89,7 +89,7 @@ class memberModel extends member
 		if(!$config->member_allow_fileupload) $config->member_allow_fileupload = 'N';
 		if(!$config->member_profile_view) $config->member_profile_view = 'N';
 
-		if($config->redirect_mid)
+		if(isset($config->redirect_mid) && $config->redirect_mid)
 		{
 			$config->redirect_url = getNotEncodedFullUrl('','mid',$config->redirect_mid);
 		}
@@ -344,7 +344,7 @@ class memberModel extends member
 	{
 		if(!$member_srl) return new stdClass;
 
-		if(!$GLOBALS['__member_info__'][$member_srl])
+		if(!isset($GLOBALS['__member_info__'][$member_srl]))
 		{
 			$cache_key = sprintf('member:member_info:%d', $member_srl);
 			$GLOBALS['__member_info__'][$member_srl] = Rhymix\Framework\Cache::get($cache_key);
@@ -385,7 +385,7 @@ class memberModel extends member
 	 */
 	public static function arrangeMemberInfo($info, $site_srl = 0)
 	{
-		if(!$GLOBALS['__member_info__'][$info->member_srl])
+		if(!isset($GLOBALS['__member_info__'][$info->member_srl]))
 		{
 			$config = self::getMemberConfig();
 
@@ -530,13 +530,11 @@ class memberModel extends member
 	 */
 	public static function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
-		static $member_groups = array();
-
 		// cache controll
 		$cache_key = sprintf('member:member_groups:%d:site:%d', $member_srl, $site_srl);
 		$group_list = Rhymix\Framework\Cache::get($cache_key);
 
-		if(!$member_groups[$member_srl][$site_srl] || $force_reload)
+		if(!isset($GLOBALS['__member_groups__'][$member_srl]) || $force_reload)
 		{
 			if(!$group_list)
 			{
@@ -563,9 +561,9 @@ class memberModel extends member
 			{
 				$result[$group->group_srl] = $group->title;
 			}
-			$member_groups[$member_srl][$site_srl] = $result;
+			$GLOBALS['__member_groups__'][$member_srl] = $result;
 		}
-		return $member_groups[$member_srl][$site_srl];
+		return $GLOBALS['__member_groups__'][$member_srl];
 	}
 
 	/**
@@ -637,7 +635,7 @@ class memberModel extends member
 	 */
 	public static function getGroups($site_srl = 0)
 	{
-		if(!$GLOBALS['__group_info__'][$site_srl])
+		if(!isset($GLOBALS['__group_info__'][$site_srl]))
 		{
 			$result = array();
 

@@ -7,7 +7,8 @@
  */
 class addonController extends addon
 {
-
+	public $addon_file_called = false;
+	
 	/**
 	 * Initialization
 	 *

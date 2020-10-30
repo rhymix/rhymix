@@ -137,7 +137,7 @@ class widgetModel extends widget
 			return $widget_info;
 		}
 		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
 		$xml_obj = $tmp_xml_obj->widget;
 		if(!$xml_obj) return;
@@ -207,6 +207,7 @@ class widgetModel extends widget
 				$extra_var_count = count($extra_vars);
 
 				$buff .= sprintf('$widget_info->extra_var_count = %d;', $extra_var_count);
+				$buff .= '$widget_info->extra_var = new stdClass;';
 				for($i=0;$i<$extra_var_count;$i++)
 				{
 					unset($var);
@@ -279,7 +280,7 @@ class widgetModel extends widget
 			return $widgetStyle_info;
 		}
 		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
 		$xml_obj = $tmp_xml_obj->widgetstyle;
 		if(!$xml_obj) return;

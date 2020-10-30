@@ -963,7 +963,7 @@ class Session
 	public static function getValidityInfo($member_srl)
 	{
 		$member_srl = intval($member_srl);
-		$validity_info = Cache::get(sprintf('session:validity_info:%d', $member_srl), $invalid_before);
+		$validity_info = Cache::get(sprintf('session:validity_info:%d', $member_srl));
 		if ($validity_info)
 		{
 			return $validity_info;

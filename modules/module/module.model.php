@@ -255,6 +255,10 @@ class moduleModel extends module
 				Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $module_info->module_srl, 0, true);
 				Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $module_info->module_srl, $module_info, 0, true);
 			}
+			else
+			{
+				return;
+			}
 		}
 
 		self::_applyDefaultSkin($module_info);
@@ -517,7 +521,10 @@ class moduleModel extends module
 			if(!$extra_vars[$val->module_srl] || !count(get_object_vars($extra_vars[$val->module_srl]))) continue;
 			foreach($extra_vars[$val->module_srl] as $k => $v)
 			{
-				if($target_module_info[$key]->{$k}) continue;
+				if(isset($target_module_info[$key]->{$k}) && $target_module_info[$key]->{$k})
+				{
+					continue;
+				}
 				$target_module_info[$key]->{$k} = $v;
 			}
 		}
@@ -706,7 +713,7 @@ class moduleModel extends module
 	 */
 	public static function getTriggers($trigger_name, $called_position)
 	{
-		if(is_null($GLOBALS['__triggers__']))
+		if(!isset($GLOBALS['__triggers__']))
 		{
 			$triggers = Rhymix\Framework\Cache::get('triggers');
 			if($triggers === null)
@@ -726,7 +733,7 @@ class moduleModel extends module
 			}
 		}
 
-		return $GLOBALS['__triggers__'][$trigger_name][$called_position];
+		return $GLOBALS['__triggers__'][$trigger_name][$called_position] ?? [];
 	}
 
 	/**
@@ -893,7 +900,7 @@ class moduleModel extends module
 				$skinInfos = $info->skin_infos;
 				if(isset($skinInfos[$module]) && $skinInfos[$module]->is_theme)
 				{
-					$themeSkinInfo = $GLOBALS['__ThemeModuleSkin__'][$module]['skins'][$skinInfos[$module]->name];
+					$themeSkinInfo = $GLOBALS['__ThemeModuleSkin__'][$module]['skins'][$skinInfos[$module]->name] ?? null;
 					$skin_list[$skinInfos[$module]->name] = $themeSkinInfo;
 				}
 			}
@@ -942,7 +949,7 @@ class moduleModel extends module
 		$skin_xml_file = sprintf("%s%s/%s/skin.xml", $path, $dir, $skin);
 		if(!file_exists($skin_xml_file)) return;
 		// Create XmlParser object
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$_xml_obj = $oXmlParser->loadXmlFile($skin_xml_file);
 		// Return if no skin information is
 		if(!$_xml_obj->skin) return;
@@ -1871,10 +1878,13 @@ class moduleModel extends module
 			$module_info->module = $module_info->module_srl = 0;
 		}
 		
-		$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl)][intval($member_info->member_srl)];
-		if (is_object($__cache) && !$xml_info)
+		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl)]))
 		{
-			return $__cache;
+			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl)];
+			if (is_object($__cache) && !$xml_info)
+			{
+				return $__cache;
+			}
 		}
 		
 		$grant = new stdClass;

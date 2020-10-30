@@ -38,7 +38,7 @@ class Mobile
 		}
 		
 		// Not mobile if disabled explicitly.
-		if (!self::isMobileEnabled() || Context::get('full_browse') || $_COOKIE["FullBrowse"])
+		if (!self::isMobileEnabled() || Context::get('full_browse') || ($_COOKIE['FullBrowse'] ?? 0))
 		{
 			return self::$_ismobile = false;
 		}

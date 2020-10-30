@@ -46,7 +46,7 @@
  * @package /classes/xml
  * @version 0.2
  */
-class XmlJsFilter extends XmlParser
+class XmlJsFilter extends XeXmlParser
 {
 
 	/**

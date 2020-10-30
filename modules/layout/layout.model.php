@@ -529,7 +529,7 @@ class layoutModel extends layout
 			return $layout_info;
 		}
 		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XmlParser();
+		$oXmlParser = new XeXmlParser();
 		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
 
 		if($tmp_xml_obj->layout) $xml_obj = $tmp_xml_obj->layout;

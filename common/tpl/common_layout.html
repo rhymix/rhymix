@@ -30,10 +30,10 @@
 </block>
 
 <!-- RSS -->
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" cond="$rss_url" />
-<link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" cond="$general_rss_url" />
-<link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" cond="$rss_url" />
-<link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="$general_rss_url" />
+<link rel="alternate" type="application/rss+xml" title="RSS" href="{$rss_url}" cond="isset($rss_url) && $rss_url" />
+<link rel="alternate" type="application/rss+xml" title="Site RSS" href="{$general_rss_url}" cond="isset($general_rss_url) && $general_rss_url" />
+<link rel="alternate" type="application/atom+xml" title="Atom" href="{$atom_url}" cond="isset($atom_url) && $atom_url" />
+<link rel="alternate" type="application/atom+xml" title="Site Atom" href="{$general_atom_url}" cond="isset($general_atom_url) && $general_atom_url" />
 
 <!-- ICONS AND OTHER LINKS -->
 <link cond="Context::getCanonicalURL()" rel="canonical" href="{Context::getCanonicalURL()}" />
@@ -52,7 +52,7 @@
 	var current_url = "{\Rhymix\Framework\URL::encodeIdna($current_url)}";
 	var request_uri = "{\Rhymix\Framework\URL::encodeIdna($request_uri)}";
 	var current_lang = xe.current_lang = "{$lang_type}";
-	var current_mid = {json_encode($mid ?: null)};
+	var current_mid = {json_encode((isset($mid) && $mid) ?: null)};
 	var http_port = {Context::get("_http_port") ?: 'null'};
 	var https_port = {Context::get("_https_port") ?: 'null'};
 	var enforce_ssl = {$site_module_info->security === 'always' ? 'true' : 'false'};

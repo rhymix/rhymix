@@ -8,7 +8,7 @@
  * @package /classes/xml
  * @version 0.1
  */
-class XmlLangParser extends XmlParser
+class XmlLangParser extends XeXmlParser
 {
 
 	/**

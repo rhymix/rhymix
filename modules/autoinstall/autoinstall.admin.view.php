@@ -266,7 +266,7 @@ class autoinstallAdminView extends autoinstall
 					continue;
 				}
 
-				$xml = new XmlParser();
+				$xml = new XeXmlParser();
 				$xmlDoc = $xml->loadXmlFile(FileHandler::getRealPath($path) . $config_file);
 				if(!$xmlDoc)
 				{
@@ -336,7 +336,7 @@ class autoinstallAdminView extends autoinstall
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
-		$xml_lUpdate = new XmlParser();
+		$xml_lUpdate = new XeXmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
 		{
@@ -434,7 +434,7 @@ class autoinstallAdminView extends autoinstall
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
-		$xml_lUpdate = new XmlParser();
+		$xml_lUpdate = new XeXmlParser();
 		$lUpdateDoc = $xml_lUpdate->parse($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
 
@@ -590,7 +590,7 @@ class autoinstallAdminView extends autoinstall
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
-		$xml_lUpdate = new XmlParser();
+		$xml_lUpdate = new XeXmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
 		{
