@@ -575,9 +575,19 @@ class memberAdminView extends member
 					{
 						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
 					}
-					$inputTag .= sprintf('<input type="file" name="%s" id="%s" value="" accept="image/*" /><p class="help-block">%s: %dpx, %s: %dpx</p>',
+					
+					$max_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
+					if (isset($member_config->{$formInfo->name.'_max_filesize'}))
+					{
+						$max_filesize = min($max_filesize, $member_config->{$formInfo->name.'_max_filesize'} * 1024);
+					}
+					$inputTag .= sprintf('<input type="file" name="%s" id="%s" value="" accept="image/*" data-max-filesize="%d" data-max-filesize-error="%s" /><p class="help-block">%s: %s, %s: %dpx, %s: %dpx</p>',
 						$formInfo->name,
 						$formInfo->name,
+						$max_filesize,
+						escape(lang('file.allowed_filesize_exceeded')),
+						lang('file.allowed_filesize'),
+						FileHandler::filesize($max_filesize),
 						$lang->{$formInfo->name.'_max_width'},
 						$member_config->{$formInfo->name.'_max_width'},
 						$lang->{$formInfo->name.'_max_height'},

@@ -16,6 +16,7 @@ $lang->allow_outlink = '다운로드 링크 외부 접근 허용';
 $lang->allow_outlink_site = '외부 접근 허용 사이트';
 $lang->allow_outlink_format = '외부 접근 허용 확장자';
 $lang->allowed_filesize = '파일 용량 제한';
+$lang->allowed_filesize_exceeded = '파일이 너무 큽니다. 용량 제한은 %sMB입니다.';
 $lang->allowed_attach_size = '문서 첨부 제한';
 $lang->allowed_filetypes = '허용 확장자';
 $lang->allow_multimedia_direct_download = '멀티미디어 파일 직접 접근 허용';

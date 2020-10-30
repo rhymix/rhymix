@@ -17,6 +17,7 @@ $lang->allow_outlink_site = 'Allowed Websites';
 $lang->allow_outlink_format = 'Allowed Formats';
 $lang->allow_multimedia_direct_download = 'Allow Direct Link to Multimedia Attachments';
 $lang->allowed_filesize = 'Maximum File Size';
+$lang->allowed_filesize_exceeded = 'The file is too large. The maximum allowed filesize is %sMB.';
 $lang->allowed_attach_size = 'Maximum Attachments';
 $lang->allowed_filetypes = 'Allowed extentsions';
 $lang->download_short_url = 'Use short URL';
