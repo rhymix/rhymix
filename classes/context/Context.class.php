@@ -1200,8 +1200,9 @@ class Context
 			$tmp_name = $val['tmp_name'];
 			if(!is_array($tmp_name))
 			{
-				if($val['name'] === '' && $val['size'] == 0)
+				if(($val['name'] === '' || !$val['tmp_name']) && intval($val['size']) == 0)
 				{
+					unset($_FILES[$key]);
 					continue;
 				}
 				if(!UploadFileFilter::check($tmp_name, $val['name']))
@@ -1220,8 +1221,11 @@ class Context
 				$files = array();
 				foreach ($tmp_name as $i => $j)
 				{
-					if($val['name'][$i] === '' && $val['size'][$i] == 0)
+					if(($val['name'][$i] === '' || !$val['tmp_name'][$i]) && intval($val['size'][$i]) == 0)
 					{
+						unset($_FILES[$key]['name'][$i]);
+						unset($_FILES[$key]['tmp_name'][$i]);
+						unset($_FILES[$key]['size'][$i]);
 						continue;
 					}
 					if(!UploadFileFilter::check($val['tmp_name'][$i], $val['name'][$i]))
