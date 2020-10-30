@@ -1814,41 +1814,40 @@ class menuAdminController extends menu
 		}
 		// A common header to set permissions of the cache file and groups
 		$header_script =
-			'$lang_type = Context::getLangType(); '.
-			'$is_logged = Context::get(\'is_logged\'); '.
-			'$logged_info = Context::get(\'logged_info\'); '.
-			'$site_srl = '.$site_srl.';'.
-			'$site_admin = false;'.
-			'if($site_srl) { '.
-			'$oModuleModel = getModel(\'module\');'.
-			'$site_module_info = $oModuleModel->getSiteInfo($site_srl); '.
-			'if($site_module_info) Context::set(\'site_module_info\',$site_module_info);'.
-			'else $site_module_info = Context::get(\'site_module_info\');'.
-			'$grant = $oModuleModel->getGrant($site_module_info, $logged_info); '.
-			'if($grant->manager ==1) $site_admin = true;'.
-			'}'.
-			'if($is_logged) {'.
-			'if($logged_info->is_admin=="Y") $is_admin = true; '.
-			'else $is_admin = false; '.
-			'$group_srls = array_keys($logged_info->group_list); '.
-			'} else { '.
-			'$is_admin = false; '.
-			'$group_srls = array(); '.
+			'$lang_type = Context::getLangType();' . PHP_EOL .
+			'$is_logged = Context::get(\'is_logged\');' . PHP_EOL .
+			'$logged_info = Context::get(\'logged_info\');' . PHP_EOL .
+			'$site_srl = '.$site_srl.';' . PHP_EOL .
+			'$site_admin = false;' . PHP_EOL .
+			'if($site_srl) {' . PHP_EOL .
+			'  $oModuleModel = getModel(\'module\');' . PHP_EOL .
+			'  $site_module_info = $oModuleModel->getSiteInfo($site_srl);' . PHP_EOL .
+			'  if($site_module_info) Context::set(\'site_module_info\',$site_module_info);' . PHP_EOL .
+			'  else $site_module_info = Context::get(\'site_module_info\');' . PHP_EOL .
+			'  $grant = $oModuleModel->getGrant($site_module_info, $logged_info);' . PHP_EOL .
+			'  if($grant->manager ==1) $site_admin = true;' . PHP_EOL .
+			'}' . PHP_EOL .
+			'if($is_logged) {' . PHP_EOL .
+			'  if($logged_info->is_admin=="Y") $is_admin = true;' . PHP_EOL .
+			'  else $is_admin = false;' . PHP_EOL .
+			'  $group_srls = array_keys($logged_info->group_list);' . PHP_EOL .
+			'} else {' . PHP_EOL .
+			'  $is_admin = false;' . PHP_EOL .
+			'  $group_srls = array();' . PHP_EOL .
 			'}';
 		// Create the xml cache file (a separate session is needed for xml cache)
 		$xml_buff = sprintf(
-			'<?php '.
-			'require_once(\''.FileHandler::getRealPath('./common/autoload.php').'\'); '.
-			'Context::init(); '.
-			'header("Content-Type: text/xml; charset=UTF-8"); '.
-			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); '.
-			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT"); '.
-			'header("Cache-Control: no-store, no-cache, must-revalidate"); '.
-			'header("Cache-Control: post-check=0, pre-check=0", false); '.
-			'header("Pragma: no-cache"); '.
-			'%s '.
-			'$oContext->close(); '.
-			'?>'.
+			'<?php ' . PHP_EOL .
+			'require_once('.var_export(FileHandler::getRealPath('./common/autoload.php'), true) . ');' . PHP_EOL .
+			'Context::init(); ' . PHP_EOL .
+			'header("Content-Type: text/xml; charset=UTF-8");' . PHP_EOL .
+			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");' . PHP_EOL .
+			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");' . PHP_EOL .
+			'header("Cache-Control: no-store, no-cache, must-revalidate");' . PHP_EOL .
+			'header("Cache-Control: post-check=0, pre-check=0", false);' . PHP_EOL .
+			'header("Pragma: no-cache");' . PHP_EOL .
+			'%s' . PHP_EOL .
+			'$oContext->close();' . PHP_EOL .
 			'<root>%s</root>',
 			$header_script,
 			$this->getXmlTree($tree[0], $tree, $site_srl, $domain)
@@ -1856,15 +1855,15 @@ class menuAdminController extends menu
 		// Create php cache file
 		$php_output = $this->getPhpCacheCode($tree[0], $tree, $site_srl, $domain);
 		$php_buff = sprintf(
-			'<?php '.
-			'if(!defined("__XE__")) exit(); '.
-			'$menu = new stdClass();' .
-			'%s; '.
-			'%s; '.
-			'$menu->list = array(%s); '.
-			'if(!$is_admin) { recurciveExposureCheck($menu->list); }'.
-			'Context::set("included_menu", $menu); '.
-			'?>',
+			'<?php ' . PHP_EOL .
+			'if(!defined("__XE__")) exit();' . PHP_EOL .
+			'$menu = new stdClass();' . PHP_EOL .
+			'$_menu_names = $_menu_names ?? [];' . PHP_EOL .
+			'%s; ' . PHP_EOL .
+			'%s; ' . PHP_EOL .
+			'$menu->list = array(%s); ' . PHP_EOL .
+			'if(!$is_admin) { recurciveExposureCheck($menu->list); }' . PHP_EOL .
+			'Context::set("included_menu", $menu); ' . PHP_EOL,
 			$header_script,
 			$php_output['name'],
 			$php_output['buff']
@@ -2081,8 +2080,24 @@ class menuAdminController extends menu
 				$link_active = $link = sprintf('$_menu_names[%d][$lang_type]', $node->menu_item_srl);
 			}
 			// Create properties (check if it belongs to the menu node by url_list. It looks a trick but fast and powerful)
-			$attribute = sprintf(
-				'"node_srl" => %d, "parent_srl" => %d, "menu_name_key" => %s, "isShow" => (%s ? true : false), "text" => (%s ? $_menu_names[%d][$lang_type] : ""), "href" => (%s ? %s : ""), "url" => (%s ? %s : ""), "is_shortcut" => %s, "desc" => %s, "open_window" => %s, "normal_btn" => %s, "hover_btn" => %s, "active_btn" => %s, "selected" => (array(%s) && in_array(Context::get("mid"), array(%s)) ? 1 : 0), "expand" => %s, "list" => array(%s), "link" => (%s ? (array(%s) && in_array(Context::get("mid"), array(%s)) ? %s : %s) : ""),',
+			$attribute = sprintf('
+				"node_srl" => %d,
+				"parent_srl" => %d,
+				"menu_name_key" => %s,
+				"isShow" => (%s ? true : false),
+				"text" => (%s ? $_menu_names[%d][$lang_type] : ""),
+				"href" => (%s ? %s : ""),
+				"url" => (%s ? %s : ""),
+				"is_shortcut" => %s,
+				"desc" => %s,
+				"open_window" => %s,
+				"normal_btn" => %s,
+				"hover_btn" => %s,
+				"active_btn" => %s,
+				"selected" => (array(%s) && in_array(Context::get("mid"), array(%s)) ? 1 : 0),
+				"expand" => %s,
+				"list" => array(%s),
+				"link" => (%s ? (array(%s) && in_array(Context::get("mid"), array(%s)) ? %s : %s) : "")' . PHP_EOL,
 				$node->menu_item_srl,
 				$node->parent_srl,
 				var_export(strip_tags($node->name), true),
@@ -2111,7 +2126,7 @@ class menuAdminController extends menu
 			);
 
 			// Generate buff data
-			$output['buff'] .=  sprintf('%d=>array(%s),', $node->menu_item_srl, $attribute);
+			$output['buff'] .= sprintf('%d => array(%s),', $node->menu_item_srl, $attribute) . PHP_EOL;
 			$output['name'] .= $name_str;
 		}
 		return $output;

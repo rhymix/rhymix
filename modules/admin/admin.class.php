@@ -138,7 +138,7 @@ class admin extends ModuleObject
 			$args->name = '{$lang->menu_gnb[\'' . $value . '\']}';
 			if($value == 'dashboard')
 			{
-				$args->url = 'index.php?module=admin';
+				$args->url = getUrl('', 'module', 'admin');
 			}
 			else
 			{
@@ -228,7 +228,7 @@ class admin extends ModuleObject
 				$args->menu_item_srl = getNextSequence();
 				$args->parent_srl = $gnbDBList["'" . $key . "'"];
 				$args->name = '{$lang->menu_gnb_sub[\'' . $menu_name . '\']}';
-				$args->url = 'index.php?module=admin&act=' . $moduleActionInfo[$module_name]->menu->{$menu_name}->index;
+				$args->url = getUrl('', 'module', 'admin', 'act', $moduleActionInfo[$module_name]->menu->{$menu_name}->index);
 				$args->listorder = -1 * $args->menu_item_srl;
 				$output = executeQuery('menu.insertMenuItem', $args);
 			}
