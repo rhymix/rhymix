@@ -284,6 +284,16 @@
 			catch(err) {
 				return false;
 			}
+		},
+		
+		/* Format file size */
+		filesizeFormat: function(size) {
+			if (size < 2) return size + 'Byte';
+			if (size < 1024) return size + 'Bytes';
+			if (size < 1048576) return (size / 1024).toFixed(1) + 'KB';
+			if (size < 1073741824) return (size / 1048576).toFixed(2) + 'MB';
+			if (size < 1099511627776) return (size / 1073741824).toFixed(2) + 'GB';
+			return (size / 1099511627776).toFixed(2) + 'TB';
 		}
 	};
 	
@@ -396,6 +406,20 @@ jQuery(function($) {
 		});
 	}
 
+	/* enforce max filesize on file uploaeds */
+	$(document).on('change', 'input[type=file]', function() {
+		var max_filesize = $(this).data('max-filesize');
+		if (!max_filesize) return;
+		var files = $(this).get(0).files;
+		if (!files || !files[0]) return;
+		if (files[0].size > max_filesize) {
+			var max_filesize_error = String($(this).data('max-filesize-error'));
+			max_filesize_error = max_filesize_error.replace('%s', XE.filesizeFormat(max_filesize));
+			this.value = '';
+			alert(max_filesize_error);
+		}
+	});
+	
 	jQuery('input[type="submit"],button[type="submit"]').click(function(ev){
 		var $el = jQuery(ev.currentTarget);
 
