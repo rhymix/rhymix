@@ -304,7 +304,7 @@ class Debug
 	 * @param array $errcontext
 	 * @return void
 	 */
-	public static function addError($errno, $errstr, $errfile, $errline, $errcontext)
+	public static function addError($errno, $errstr, $errfile, $errline, $errcontext = [])
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -597,10 +597,10 @@ class Debug
 		foreach ($backtrace as $step)
 		{
 			$stepstr = '#' . count($result) . ' ';
-			$stepstr .= $step['file'] . '(' . $step['line'] . ')';
+			$stepstr .= ($step['file'] ?? 'unknown') . '(' . ($step['line'] ?? 0) . ')';
 			if ($step['function'])
 			{
-				$stepstr .= ': ' . ($step['type'] ? ($step['class'] . $step['type'] . $step['function']) : $step['function']) . '()';
+				$stepstr .= ': ' . ((isset($step['type']) && $step['type']) ? ($step['class'] . $step['type'] . $step['function']) : $step['function']) . '()';
 			}
 			$result[] = strtr($stepstr, "\0\r\n\t\v\e\f", '       ');
 		}

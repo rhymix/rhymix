@@ -83,7 +83,7 @@ class DBHelper extends \PDO
 	 * @param string $statement
 	 * @return PDOStatement|DBStmtHelper
 	 */
-	public function query($statement)
+	public function query($statement, $fetch_mode = \PDO::FETCH_OBJ, ...$fetch_mode_args)
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
@@ -98,7 +98,7 @@ class DBHelper extends \PDO
 			 * and send query logs to the appropriate place.
 			 */
 			$stmt = parent::query($statement, ...$args);
-			$stmt->setFetchMode(\PDO::FETCH_OBJ);
+			$stmt->setFetchMode($fetch_mode);
 			$stmt->setType($this->_type);
 			$db_class->clearError();
 		}
