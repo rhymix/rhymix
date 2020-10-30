@@ -583,6 +583,11 @@ class boardView extends board
 	{
 		static $map = null;
 		
+		if (!$document_list)
+		{
+			return;
+		}
+		
 		if ($this->include_modules)
 		{
 			if ($map === null)
