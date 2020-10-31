@@ -69,7 +69,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		}
 		var font_list = [];
 		<!--@foreach($lang->edit->fontlist as $fontname)-->
-			font_list.push({json_encode($fontname)});
+			font_list.push({json_encode(strval($fontname))});
 		<!--@endforeach-->
 		if (default_font_fullname !== null && !$.inArray(default_font_fullname, font_list)) {
 			font_list.push(default_font_fullname);
@@ -79,7 +79,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		}).join(";");
 		
 		// Get default font size and list of other supported sizes.
-		var default_font_size = {json_encode($content_font_size ?: '13')};
+		var default_font_size = {json_encode(strval($content_font_size ?: '13'))};
 		default_font_size = parseInt(default_font_size.replace(/\D/, ''), 10);
 		var font_sizes = [8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 20, 24, 28, 32, 36, 40, 48];
 		if (!$.inArray(default_font_size, font_sizes)) {
