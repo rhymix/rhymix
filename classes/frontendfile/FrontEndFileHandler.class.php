@@ -99,7 +99,7 @@ class FrontEndFileHandler extends Handler
 		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
 		
 		// Prevent overwriting common scripts.
-		if(isset($args[3]) && intval($args[3]) > -1500000000)
+		if(!isset($args[3]) || intval($args[3]) > -1500000000)
 		{
 			if($isCommon)
 			{

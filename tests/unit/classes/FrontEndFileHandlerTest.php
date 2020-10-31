@@ -11,7 +11,6 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 
 	public function testFrontEndFileHandler()
 	{
-		$handler = new FrontEndFileHandler();
 		$reservedCSS = HTMLDisplayHandler::$reservedCSS;
 		$reservedJS = HTMLDisplayHandler::$reservedJS;
 		HTMLDisplayHandler::$reservedCSS = '/xxx$/';
