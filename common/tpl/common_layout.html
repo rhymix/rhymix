@@ -52,7 +52,7 @@
 	var current_url = "{\Rhymix\Framework\URL::encodeIdna($current_url)}";
 	var request_uri = "{\Rhymix\Framework\URL::encodeIdna($request_uri)}";
 	var current_lang = xe.current_lang = "{$lang_type}";
-	var current_mid = {json_encode((isset($mid) && $mid) ?: null)};
+	var current_mid = {json_encode(isset($mid) ? $mid : null)};
 	var http_port = {Context::get("_http_port") ?: 'null'};
 	var https_port = {Context::get("_https_port") ?: 'null'};
 	var enforce_ssl = {$site_module_info->security === 'always' ? 'true' : 'false'};
