@@ -394,6 +394,8 @@ class commentController extends comment
 		$obj->module_srl = intval($obj->module_srl);
 		$obj->document_srl = intval($obj->document_srl);
 		$obj->parent_srl = intval($obj->parent_srl);
+
+		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
@@ -596,6 +598,16 @@ class commentController extends comment
 			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, $update_document);
 		}
 
+		if($obj->uploaded_count)
+		{
+			$attachOutput = getController('file')->setFilesValid($obj->comment_srl, 'com');
+			if(!$attachOutput->toBool())
+			{
+				$oDB->rollback();
+				return $attachOutput;
+			}
+		}
+		
 		// call a trigger(after)
 		ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
 
@@ -754,6 +766,8 @@ class commentController extends comment
 		$obj->module_srl = intval($obj->module_srl);
 		$obj->document_srl = intval($obj->document_srl);
 		$obj->parent_srl = intval($obj->parent_srl);
+
+		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 		
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
@@ -853,6 +867,16 @@ class commentController extends comment
 		{
 			$oDB->rollback();
 			return $output;
+		}
+
+		if($obj->uploaded_count)
+		{
+			$attachOutput = getController('file')->setFilesValid($obj->comment_srl, 'com');
+			if(!$attachOutput->toBool())
+			{
+				$oDB->rollback();
+				return $attachOutput;
+			}
 		}
 
 		// call a trigger (after)

@@ -633,36 +633,6 @@ class fileController extends file
 		$this->add('file_size_total', $fileSizeTotal);
 		$this->add('file_size_total_human', FileHandler::filesize($fileSizeTotal));
 	}
-	/**
-	 * A trigger to return numbers of attachments in the upload_target_srl (document_srl)
-	 *
-	 * @param object $obj Trigger object
-	 * @return Object
-	 */
-	function triggerCheckAttached(&$obj)
-	{
-		$document_srl = $obj->document_srl;
-		if(!$document_srl) return;
-		
-		// Get numbers of attachments
-		$obj->uploaded_count = FileModel::getFilesCount($document_srl);
-		// TODO: WTF are we doing with uploaded_count anyway?
-	}
-
-	/**
-	 * A trigger to link the attachment with the upload_target_srl (document_srl)
-	 *
-	 * @param object $obj Trigger object
-	 * @return Object
-	 */
-	function triggerAttachFiles(&$obj)
-	{
-		$document_srl = $obj->document_srl;
-		if(!$document_srl) return;
-
-		$output = $this->setFilesValid($document_srl, 'doc');
-		if(!$output->toBool()) return $output;
-	}
 
 	/**
 	 * A trigger to delete the attachment in the upload_target_srl (document_srl)
@@ -677,36 +647,6 @@ class fileController extends file
 
 		$output = $this->deleteFiles($document_srl);
 		return $output;
-	}
-
-	/**
-	 * A trigger to return numbers of attachments in the upload_target_srl (comment_srl)
-	 *
-	 * @param object $obj Trigger object
-	 * @return Object
-	 */
-	function triggerCommentCheckAttached(&$obj)
-	{
-		$comment_srl = $obj->comment_srl;
-		if(!$comment_srl) return;
-		// Get numbers of attachments
-		$obj->uploaded_count = FileModel::getFilesCount($comment_srl);
-	}
-
-	/**
-	 * A trigger to link the attachment with the upload_target_srl (comment_srl)
-	 *
-	 * @param object $obj Trigger object
-	 * @return Object
-	 */
-	function triggerCommentAttachFiles(&$obj)
-	{
-		$comment_srl = $obj->comment_srl;
-		$uploaded_count = $obj->uploaded_count;
-		if(!$comment_srl || !$uploaded_count) return;
-
-		$output = $this->setFilesValid($comment_srl, 'com');
-		if(!$output->toBool()) return $output;
 	}
 
 	/**
