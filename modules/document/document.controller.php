@@ -500,6 +500,8 @@ class documentController extends document
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
 
+		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
+		
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
 		if(!$output->toBool())
@@ -647,6 +649,14 @@ class documentController extends document
 				return $update_output;
 			}
 		}
+
+		$attachOutput = getController('file')->setFilesValid($obj->document_srl, 'doc');
+		if(!$attachOutput->toBool())
+		{
+			$oDB->rollback();
+			return $attachOutput;
+		}
+		
 		ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 
 		// commit
@@ -708,6 +718,8 @@ class documentController extends document
 		
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
+
+		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
 		
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
@@ -947,6 +959,14 @@ class documentController extends document
 				return $update_output;
 			}
 		}
+
+		$attachOutput = getController('file')->setFilesValid($obj->document_srl, 'doc');
+		if(!$attachOutput->toBool())
+		{
+			$oDB->rollback();
+			return $attachOutput;
+		}
+		
 		ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 
 		// commit
