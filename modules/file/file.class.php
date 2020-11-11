@@ -124,7 +124,6 @@ class file extends ModuleObject
 	{
 		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
-		/** @var moduleController $oModuleController */
 		$oModuleController = getController('module');
 
 		if($oModuleModel->getTrigger('document.insertDocument', 'file', 'controller', 'triggerCheckAttached', 'before'))
