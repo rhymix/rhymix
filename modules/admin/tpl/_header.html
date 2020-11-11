@@ -83,9 +83,9 @@
 					<script>
 						__xe_admin_gnb_txs.push('{'__xe_admin_gnb_tx_' . md5($value['href'])}');
 					</script>
-					<a href="{getFullUrl('')}{$value['href']}" data-href="{md5($value['href'])}" title="{$value['text']}"><span class="tx">{$value['text']}</span></a>
+					<a href="{$value['href']}" data-href="{md5($value['href'])}" title="{$value['text']}"><span class="tx">{$value['text']}</span></a>
 					<ul cond="count($value['list'])" style="display:block"|cond="$_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open'">
-						<li loop="$value['list']=>$key2,$value2" cond="$value2['text']!=''" class="active_"|cond="$value2['text'] == $subMenuTitle" ><a href="{getFullUrl('')}{$value2['href']}" title="{$value2['text']}">{$value2['text']}</a></li>
+						<li loop="$value['list']=>$key2,$value2" cond="$value2['text']!=''" class="active_"|cond="$value2['text'] == $subMenuTitle" ><a href="{$value2['href']}" title="{$value2['text']}">{$value2['text']}</a></li>
 					</ul>
 				</li>
 			<!--@end-->

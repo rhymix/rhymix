@@ -2027,8 +2027,8 @@ class menuAdminController extends menu
 			else $group_check_code = "true";
 
 			// List variables
-			$href = escape($node->href);
-			$url = escape($node->url);
+			$href = escape($node->href, false);
+			$url = escape($node->url, false);
 			$desc = escape($node->desc, false);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
