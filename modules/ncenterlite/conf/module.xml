@@ -4,8 +4,8 @@
 	<actions>
 		<action name="dispNcenterliteNotifyList" type="view" permission="member" route="notifications" />
 		<action name="dispNcenterliteUserConfig" type="view" permission="member" route="notififcations/config" />
-		<action name="dispNcenterliteUnsubscribeList" type="view" route="notififcations/unsubscribe" />
-		<action name="dispNcenterliteInsertUnsubscribe" type="view" route="notififcations/unsubscribe/add" />
+		<action name="dispNcenterliteUnsubscribeList" type="view" permission="member" route="notififcations/unsubscribe" />
+		<action name="dispNcenterliteInsertUnsubscribe" type="view" permission="member" route="notififcations/unsubscribe/add" />
 		
 		<action name="getColorsetList" type="model" permission="root" />
 		<action name="getMyNotifyListTpl" type="model" permission="member" />
