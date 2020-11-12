@@ -374,10 +374,10 @@ class ncenterliteController extends ncenterlite
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		// 댓글을 남긴 이력이 있는 회원들에게만 알림을 전송
-		if($config->comment_all == 'Y' && $obj->member_srl == $oDocument->get('member_srl') && !$obj->parent_srl && (is_array($config->comment_all_notify_module_srls) && in_array($module_info->module_srl, $config->comment_all_notify_module_srls)))
+		if($config->comment_all == 'Y' && abs($obj->member_srl) == abs($oDocument->get('member_srl')) && !$obj->parent_srl && (is_array($config->comment_all_notify_module_srls) && in_array($module_info->module_srl, $config->comment_all_notify_module_srls)))
 		{
 			$comment_args = new stdClass();
-			$comment_args->member_srl = $obj->member_srl;
+			$comment_args->member_srl = [$obj->member_srl, abs($obj->member_srl)];
 			$comment_args->document_srl = $obj->document_srl;
 			$other_comment = executeQueryArray('ncenterlite.getOtherCommentByMemberSrl', $comment_args);
 			foreach ($other_comment->data as $value)
@@ -389,7 +389,7 @@ class ncenterliteController extends ncenterlite
 				
 				$args = new stdClass();
 				$args->config_type = 'comment_all';
-				$args->member_srl = $value->member_srl;
+				$args->member_srl = abs($value->member_srl);
 				$args->target_p_srl = $obj->comment_srl;
 				$args->srl = $obj->document_srl;
 				$args->target_srl = $obj->comment_srl;
@@ -637,7 +637,7 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		
-		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->target_member_srl)->data->scrap_notify == 'N')
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig(abs($obj->target_member_srl))->data->scrap_notify == 'N')
 		{
 			return;
 		}
@@ -647,7 +647,7 @@ class ncenterliteController extends ncenterlite
 		
 		$args = new stdClass();
 		$args->config_type = 'scrap';
-		$args->target_member_srl = $obj->member_srl;
+		$args->target_member_srl = abs($obj->member_srl);
 		$args->member_srl = $obj->target_member_srl;
 		$args->srl = $obj->document_srl;
 		$args->target_p_srl = '1';
@@ -677,7 +677,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig(abs($obj->member_srl))->data->vote_notify == 'N')
 		{
 			return;
 		}
@@ -688,7 +688,7 @@ class ncenterliteController extends ncenterlite
 
 		$args = new stdClass();
 		$args->config_type = 'vote';
-		$args->member_srl = $obj->member_srl;
+		$args->member_srl = abs($obj->member_srl);
 		$args->srl = $obj->document_srl;
 		$args->target_p_srl = '1';
 		$args->target_srl = $obj->document_srl;
@@ -727,7 +727,7 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
 		if($output->toBool())
 		{
-			$this->removeFlagFile($obj->member_srl);
+			$this->removeFlagFile(abs($obj->member_srl));
 		}
 	}
 	
@@ -743,7 +743,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig($obj->member_srl)->data->vote_notify == 'N')
+		if($config->user_notify_setting == 'Y' && $oNcenterliteModel->getUserConfig(abs($obj->member_srl))->data->vote_notify == 'N')
 		{
 			return;
 		}
@@ -757,7 +757,7 @@ class ncenterliteController extends ncenterlite
 		
 		$args = new stdClass();
 		$args->config_type = 'vote';
-		$args->member_srl = $obj->member_srl;
+		$args->member_srl = abs($obj->member_srl);
 		$args->srl = $document_srl;
 		$args->target_p_srl = $obj->comment_srl;
 		$args->target_srl = $obj->comment_srl;
@@ -796,7 +796,7 @@ class ncenterliteController extends ncenterlite
 		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
 		if($output->toBool())
 		{
-			$this->removeFlagFile($obj->member_srl);
+			$this->removeFlagFile(abs($obj->member_srl));
 		}
 	}
 
@@ -1320,7 +1320,7 @@ class ncenterliteController extends ncenterlite
 		// 발신자 회원번호(target_member_srl)가 지정된 경우 그대로 사용
 		elseif($args->target_member_srl)
 		{
-			$member_info = getModel('member')->getMemberInfoByMemberSrl($args->target_member_srl);
+			$member_info = getModel('member')->getMemberInfoByMemberSrl(abs($args->target_member_srl));
 			$args->target_member_srl = intval($member_info->member_srl);
 			$args->target_nick_name = strval($member_info->nick_name);
 			$args->target_user_id = strval($member_info->user_id);

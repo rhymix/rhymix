@@ -15,7 +15,7 @@
 
 	<conditions>
 		<condition operation="equal" column="comments.document_srl" var="document_srl" notnull="notnull" />
-		<condition operation="notequal" column="comments.member_srl" var="member_srl" notnull="notnull" pipe="and" />
+		<condition operation="notin" column="comments.member_srl" var="member_srl" notnull="notnull" pipe="and" />
 	</conditions>
 	<groups>
 		<group column="member_srl" />
