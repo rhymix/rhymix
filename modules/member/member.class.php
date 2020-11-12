@@ -391,7 +391,7 @@ class member extends ModuleObject {
 			$oDB->query("UPDATE member_devices SET last_active_date = regdate WHERE last_active_date = ''");
 		}
 		
-		$config = ModuleModel::getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
 		$changed = false;
 		
 		// Check members with phone country in old format

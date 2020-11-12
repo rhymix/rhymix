@@ -95,10 +95,10 @@ class pointModel extends point
 	 */
 	public static function getLevel($point, $level_step)
 	{
-		$level_count = count($level_step);
+		$level_count = count($level_step ?: []);
 		for ($level = 0; $level <= $level_count; $level++)
 		{
-			if ($point < $level_step[$level])
+			if ($point < $level_step[$level] ?? 0)
 			{
 				break;
 			}

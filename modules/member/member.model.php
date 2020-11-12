@@ -34,9 +34,9 @@ class memberModel extends member
 		}
 
 		// Get member configuration stored in the DB
-		$config = ModuleModel::getModuleConfig('member');
+		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
 
-		if(!$config->signupForm || !is_array($config->signupForm))
+		if(!isset($config->signupForm) || !is_array($config->signupForm))
 		{
 			$oMemberAdminController = getAdminController('member');
 			$identifier = ($config->identifier) ? $config->identifier : 'email_address';
