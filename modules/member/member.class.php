@@ -560,7 +560,7 @@ class member extends ModuleObject {
 		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
 
 		$args = new stdClass();
-		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$args->ipaddress = \RX_CLIENT_IP;
 
 		$output = executeQuery('member.getLoginCountByIp', $args);
 		if($output->data && $output->data->count)
@@ -609,14 +609,14 @@ class member extends ModuleObject {
 		{
 			//update
 			$content = unserialize($output->data->content);
-			$content[] = array($_SERVER['REMOTE_ADDR'],lang($message),$_SERVER['REQUEST_TIME']);
+			$content[] = array(\RX_CLIENT_IP, lang($message), \RX_TIME);
 			$args->content = serialize($content);
 			$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
 		}
 		else
 		{
 			//insert
-			$content[0] = array($_SERVER['REMOTE_ADDR'],lang($message),$_SERVER['REQUEST_TIME']);
+			$content[0] = array(\RX_CLIENT_IP, lang($message), \RX_TIME);
 			$args->content = serialize($content);
 			$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
 		}

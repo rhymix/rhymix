@@ -508,7 +508,7 @@ class documentItem extends BaseObject
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentVotedLog', $args);

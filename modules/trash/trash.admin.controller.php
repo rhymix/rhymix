@@ -24,7 +24,7 @@ class trashAdminController extends trash
 
 		if(!$oTrashVO->getTrashSrl()) $oTrashVO->setTrashSrl(getNextSequence());
 		if(!is_string($oTrashVO->getSerializedObject())) $oTrashVO->setSerializedObject(serialize($oTrashVO->getSerializedObject()));
-		$oTrashVO->setIpaddress($_SERVER['REMOTE_ADDR']);
+		$oTrashVO->setIpaddress(\RX_CLIENT_IP);
 		$oTrashVO->setRemoverSrl($logged_info->member_srl);
 		$oTrashVO->setRegdate(date('YmdHis'));
 

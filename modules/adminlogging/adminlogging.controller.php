@@ -41,7 +41,7 @@ class adminloggingController extends adminlogging
 		$args = new stdClass();
 		$args->module = $module;
 		$args->act = $act;
-		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$args->ipaddress = \RX_CLIENT_IP;
 		$args->regdate = date('YmdHis');
 		$args->requestVars = print_r(Context::getRequestVars(), TRUE);
 

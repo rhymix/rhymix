@@ -2365,7 +2365,7 @@ class memberController extends member
 		// check IP access count.
 		$config = MemberModel::getMemberConfig();
 		$args = new stdClass();
-		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$args->ipaddress = \RX_CLIENT_IP;
 
 		// check identifier
 		if((!$config->identifiers || in_array('email_address', $config->identifiers)) && strpos($user_id, '@') !== false)
@@ -2440,7 +2440,7 @@ class memberController extends member
 			}
 			else
 			{
-				$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+				$args->ipaddress = \RX_CLIENT_IP;
 				$output = executeQuery('member.deleteLoginCountByIp', $args);
 			}
 		}

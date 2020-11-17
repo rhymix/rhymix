@@ -335,7 +335,7 @@ class pollController extends poll
 		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
 
 		$log_args->member_srl = $member_srl;
-		$log_args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$log_args->ipaddress = \RX_CLIENT_IP;
 		$output = executeQuery('poll.insertPollLog', $log_args);
 
 		if(!$output->toBool())

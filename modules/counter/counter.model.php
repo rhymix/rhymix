@@ -33,7 +33,7 @@ class counterModel extends counter
 		
 		$args = new stdClass();
 		$args->regdate = $date;
-		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+		$args->ipaddress = \RX_CLIENT_IP;
 		$args->site_srl = $site_srl;
 		$output = executeQuery('counter.getCounterLog', $args);
 		$iplogged = $output->data->count ? true : false;

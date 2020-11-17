@@ -34,15 +34,7 @@ class sessionController extends session
 		$output = executeQuery('session.getSession', $args);
 		$session_info = $output->data;
 
-		//if ip has changed delete the session from db
-		if($session_info->session_key == $session_key && $session_info->ipaddress != $_SERVER['REMOTE_ADDR'])
-		{
-			executeQuery('session.deleteSession', $args);
-
-			return true;
-		}
-
-		$args->expired = date("YmdHis", $_SERVER['REQUEST_TIME'] + $this->lifetime);
+		$args->expired = date("YmdHis", time() + $this->lifetime);
 		$args->val = $val;
 		$args->cur_mid = Context::get('mid');
 
@@ -61,8 +53,8 @@ class sessionController extends session
 		{
 			$args->member_srl = 0;
 		}
-		$args->ipaddress = $_SERVER['REMOTE_ADDR'];
-		$args->last_update = date("YmdHis", $_SERVER['REQUEST_TIME']);
+		$args->ipaddress = \RX_CLIENT_IP;
+		$args->last_update = date('YmdHis');
 
 		//put session into db
 		if($session_info->session_key)

@@ -216,7 +216,7 @@ class documentController extends document
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
 		
@@ -460,7 +460,7 @@ class documentController extends document
 		
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$obj->email_address) $obj->email_address = '';
-		if(!$isRestore) $obj->ipaddress = $_SERVER['REMOTE_ADDR'];
+		if(!$isRestore) $obj->ipaddress = \RX_CLIENT_IP;
 		$obj->isRestore = $isRestore ? true : false;
 		
 		// Sanitize variables
@@ -1320,7 +1320,7 @@ class documentController extends document
 		if ($config->view_count_option == 'once')
 		{
 			// Pass if the author's IP address is as same as visitor's.
-			if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+			if($oDocument->get('ipaddress') == \RX_CLIENT_IP)
 			{
 				if (Context::getSessionStatus())
 				{
@@ -1536,7 +1536,7 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oDocument->get('ipaddress') == \RX_CLIENT_IP)
 		{
 			$_SESSION['voted_document'][$document_srl] = false;
 			return new BaseObject(-1, $failed_voted);
@@ -1564,7 +1564,7 @@ class documentController extends document
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
@@ -1683,7 +1683,7 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oDocument->get('ipaddress') == \RX_CLIENT_IP)
 		{
 			$_SESSION['declared_document'][$document_srl] = true;
 			return new BaseObject(-1, 'failed_declared');

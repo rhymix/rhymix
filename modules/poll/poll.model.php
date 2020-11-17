@@ -199,7 +199,7 @@ class pollModel extends poll
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('poll.getPollLog', $args);
 		if($output->data->count) return true;

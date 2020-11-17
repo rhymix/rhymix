@@ -171,7 +171,7 @@ class commentController extends comment
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
 		if(!$output->data->count)
@@ -1439,7 +1439,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oComment->get('ipaddress') == \RX_CLIENT_IP)
 		{
 			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new BaseObject(-1, $failed_voted);
@@ -1467,7 +1467,7 @@ class commentController extends comment
 		}
 		else
 		{
-			$args->ipaddress = $_SERVER['REMOTE_ADDR'];
+			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$args->comment_srl = $comment_srl;
 		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
@@ -1582,7 +1582,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
 
 		// failed if both ip addresses between author's and the current user are same.
-		if($oComment->get('ipaddress') == $_SERVER['REMOTE_ADDR'])
+		if($oComment->get('ipaddress') == \RX_CLIENT_IP)
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
 			return new BaseObject(-1, 'failed_declared');
