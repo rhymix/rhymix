@@ -14,7 +14,7 @@ class XmlGenerater
 	 * @param array $params The data
 	 * @return string Returns xml string
 	 */
-	function generate(&$params)
+	public static function generate(&$params)
 	{
 		$xmlDoc = '<?xml version="1.0" encoding="utf-8" ?><methodCall><params>';
 		if(!is_array($params))
@@ -37,9 +37,9 @@ class XmlGenerater
 	 * @param array $params Request data
 	 * @return object
 	 */
-	function getXmlDoc(&$params)
+	public static function getXmlDoc(&$params)
 	{
-		$body = XmlGenerater::generate($params);
+		$body = self::generate($params);
 		$request_config = array(
 			'ssl_verify_peer' => FALSE,
 			'ssl_verify_host' => FALSE
