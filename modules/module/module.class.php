@@ -66,9 +66,6 @@ class module extends ModuleObject
 		// check fix mskin
 		if(!$oDB->isColumnExists("modules", "is_mskin_fix")) return true;
 
-		$moduleConfig = ModuleModel::getModuleConfig('module');
-		if(!$moduleConfig->isUpdateFixedValue) return true;
-		
 		// check unique index on module_part_config
 		if($oDB->isIndexExists('module_part_config', 'idx_module_part_config')) return true;
 		if(!$oDB->isIndexExists('module_part_config', 'unique_module_part_config')) return true;
