@@ -34,25 +34,13 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	margin: 0;
 }
 .x #header h1 {
-	font: bold 54px/100% Cambria, Georgia, serif;
 	color: #444;
 	text-align: center;
 	text-shadow: 2px 2px 3px rgba(128, 128, 128, 0.4);
 	margin: 0 0 24px 0;
 }
-.x #header h1 span.green {
-	color: #55a72f;
-}
-.x #header h1 span.brown {
-	color: #905a29;
-}
-.x #header h1 span.red {
-	color: #ef5350;
-}
-.x #header h1 span.colon {
-	color: #888888;
-	position: relative;
-	top: -4px;
+.x #header img {
+	width: 180px;
 }
 .x #header h2 {
 	font: normal 16px/110% Arial, sans-serif;
