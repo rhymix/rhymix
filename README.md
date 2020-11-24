@@ -1,5 +1,6 @@
+[![Rhymix](./common/img/logo.png)](https://rhymix.org)
+
 # 한국어
-[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
 자신을 표현하고 커뮤니티를 키워나갈 수 있도록 돕기 위한 CMS(content management system)입니다.
@@ -78,7 +79,6 @@ Rhymix의 소스코드를 수정하거나 확장 기능을 직접 개발하여 �
 이러한 소스코드는 모두 GPL 라이선스의 적용을 받습니다.
 
 # English
-[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
 Rhymix is a content management system (CMS) for everyone who wants to create independent homepages to express themselves and build their communities easily and freely.
 
