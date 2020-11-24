@@ -127,8 +127,8 @@
 			<label class="x_control-label">{$lang->allow_use_favicon}</label>
 			<div class="x_controls">
 				<p id="faviconPreview">
-					<img src="{$favicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/faviconSample.png')}" alt="Favicon" class="fn1" style="width:16px;height:16px">
-					<img src="{$favicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/faviconSample.png')}" alt="Favicon" class="fn2" style="width:16px;height:16px">
+					<img src="{$favicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Favicon" class="fn1" style="width:16px;height:16px">
+					<img src="{$favicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Favicon" class="fn2" style="width:16px;height:16px">
 				</p>
 				<label for="delete_favicon" cond="$favicon_url">
 					<input type="checkbox" name="delete_favicon" id="delete_favicon" value="1" /> {$lang->cmd_delete}
@@ -142,7 +142,7 @@
 			<label class="x_control-label">{$lang->allow_use_mobile_icon}</label>
 			<div class="x_controls">
 				<p id="mobiconPreview">
-					<img src="{$mobicon_url ?: (\RX_BASEURL . 'modules/admin/tpl/img/mobiconSample.png')}" alt="Mobile Home Icon" width="32" height="32" />
+					<img src="{$mobicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>Rhymix</span>
 				</p>
 				<label for="delete_mobicon" cond="$mobicon_url">
