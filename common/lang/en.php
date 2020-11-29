@@ -302,6 +302,7 @@ $lang->column_type_list['text'] = 'one-line text';
 $lang->column_type_list['homepage'] = 'URL';
 $lang->column_type_list['email_address'] = 'e-mail address';
 $lang->column_type_list['tel'] = 'phone number';
+$lang->column_type_list['tel_intl'] = 'Phone number (overseas number)';
 $lang->column_type_list['textarea'] = 'multi-line textarea';
 $lang->column_type_list['password'] = 'password';
 $lang->column_type_list['radio'] = 'radio button(radio)';

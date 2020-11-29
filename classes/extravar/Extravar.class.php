@@ -236,6 +236,30 @@ class ExtraItem
 				}
 				return $values;
 
+			case 'tel_intl' :
+				if(is_array($value))
+				{
+					$values = $value;
+				}
+				elseif(strpos($value, '|@|') !== FALSE)
+				{
+					$values = explode('|@|', $value);
+				}
+				elseif(strpos($value, ',') !== FALSE)
+				{
+					$values = explode(',', $value);
+				}
+				else
+				{
+					$values = array($value);
+				}
+
+				$values = array_values($values);
+				for($i = 0, $c = count($values); $i < $c; $i++)
+				{
+					$values[$i] = trim(escape($values[$i], false));
+				}
+				return $values;
 			case 'checkbox' :
 			case 'radio' :
 			case 'select' :
@@ -323,7 +347,11 @@ class ExtraItem
 
 			case 'tel' :
 				return $value ? implode('-', $value) : '';
-				
+			case 'tel_intl' :
+				$country_number = $value[0];
+				$array_slice = array_slice($value, 1);
+				$phone_number = implode('-', $array_slice);
+				return $value ? "+{$country_number}){$phone_number}": '';
 			case 'textarea' :
 				return nl2br($value);
 				
@@ -385,6 +413,28 @@ class ExtraItem
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />';
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				break;
+			// Select Country Number
+			case 'tel_intl' :
+				$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach($country_list as $country_info)
+				{
+					if($country_info->calling_code)
+					{
+						$selected = '';
+						if(strval($value[0]) !== '' && $country_info->calling_code == $value[0])
+						{
+							$selected = ' selected="selected"';
+						}
+						$string = "{$country_info->name_english} (+{$country_info->calling_code})";
+						$buff[] = '  <option value="' . $country_info->calling_code . '" ' . $selected . '>' . $string . '</option>';
+					}
+				}
+				$buff[] = '</select>';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel" />';
 				break;
 			// textarea
 			case 'textarea' :

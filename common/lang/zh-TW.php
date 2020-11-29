@@ -248,6 +248,7 @@ $lang->column_type_list['text'] = '單行文字';
 $lang->column_type_list['homepage'] = '網址格式';
 $lang->column_type_list['email_address'] = '電子郵件';
 $lang->column_type_list['tel'] = '電話號碼格式(phone)';
+$lang->column_type_list['tel_intl'] = '電話號碼格式 (海外號碼)';
 $lang->column_type_list['textarea'] = '文字區域(textarea)';
 $lang->column_type_list['password'] = '密碼輸入(password)';
 $lang->column_type_list['radio'] = '選項按紐(radio)';

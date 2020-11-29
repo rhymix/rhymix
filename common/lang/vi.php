@@ -207,6 +207,7 @@ $lang->column_type_list['text'] = 'Ô nhập liệu';
 $lang->column_type_list['homepage'] = 'URL';
 $lang->column_type_list['email_address'] = 'Email';
 $lang->column_type_list['tel'] = 'Số điện thoại';
+$lang->column_type_list['tel_intl'] = 'Số điện thoại (số nước ngoài)';
 $lang->column_type_list['textarea'] = 'Khu vực nội dung';
 $lang->column_type_list['select'] = 'Ô chọn(Một lựa chọn)';
 $lang->column_type_list['checkbox'] = 'Ô chọn(Nhiều lựa chọn)';

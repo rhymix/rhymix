@@ -249,6 +249,7 @@ $lang->column_type_list['text'] = '单行文本输入区(text)';
 $lang->column_type_list['homepage'] = '网址格式(url)';
 $lang->column_type_list['email_address'] = '邮件格式(email)';
 $lang->column_type_list['tel'] = '电话号码格式(phone)';
+$lang->column_type_list['tel_intl'] = '电话号码格式 (海外号码)';
 $lang->column_type_list['textarea'] = '多行文本框(textarea)';
 $lang->column_type_list['password'] = '密码输入(password)';
 $lang->column_type_list['radio'] = '单选框(radio)';
