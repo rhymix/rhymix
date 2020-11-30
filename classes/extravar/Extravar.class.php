@@ -416,7 +416,8 @@ class ExtraItem
 				break;
 			// Select Country Number
 			case 'tel_intl' :
-				$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+				$lang_type = Context::get('lang_type');
+				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
 				$buff[] = '<select name="' . $column_name . '" class="select">';
 				foreach($country_list as $country_info)
 				{
@@ -427,7 +428,9 @@ class ExtraItem
 						{
 							$selected = ' selected="selected"';
 						}
-						$string = "{$country_info->name_english} (+{$country_info->calling_code})";
+						// 3항식 사용시 따로 변수로 뽑아야 뒤의 스트링 만드는것의 중복된 코드가 줄어듬
+						$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+						$string = $country_name  . "(+{$country_info->calling_code})";
 						$buff[] = '  <option value="' . $country_info->calling_code . '" ' . $selected . '>' . $string . '</option>';
 					}
 				}
