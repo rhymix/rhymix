@@ -765,7 +765,8 @@ class documentItem extends BaseObject
 	function getSummary($str_size = 50, $tail = '...')
 	{
 		// Remove tags
-		$content = strip_tags($this->getContent(false, false));
+		$content = $this->getContent(false, false);
+		$content = strip_tags(preg_replace('!<(style|script)\b.+?</\\1>!is', '', $content));
 		
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);
