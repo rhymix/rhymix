@@ -305,6 +305,9 @@ class ncenterlite extends ModuleObject
 		static $oSmsHandler = null;
 		$config = getModel('ncenterlite')->getConfig();
 
+		/** @var ncenterliteModel $oNcenterliteModel */
+		$oNcenterliteModel = ncenterliteModel::getInstance();
+		
 		if($oSmsHandler === null)
 		{
 			$oSmsHandler = new Rhymix\Framework\SMS;
@@ -321,19 +324,23 @@ class ncenterlite extends ModuleObject
 			}
 			
 			$variable_name = array();
-			$member_config = getModel('member')->getMemberConfig();
-			foreach($member_config->signupForm as $value)
+			
+			if(!isset($oNcenterliteModel->getConfig()->extra_comment_sms_module_srls))
 			{
-				if($value->type == 'tel')
+				$member_config = getModel('member')->getMemberConfig();
+				foreach ($member_config->signupForm as $value)
 				{
-					$variable_name[] = $value->name;
+					if ($value->type == 'tel')
+					{
+						$variable_name[] = $value->name;
+					}
 				}
-			}
 
-			if(empty($variable_name))
-			{
-				$oSmsHandler = false;
-				return $oSmsHandler;
+				if (empty($variable_name))
+				{
+					$oSmsHandler = false;
+					return $oSmsHandler;
+				}
 			}
 		}
 

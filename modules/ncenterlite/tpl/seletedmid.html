@@ -33,6 +33,20 @@
 				</div>
 			</div>
 		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">댓글 알림을 확장변수의 전화번호로 문자 전송 할 게시판</label>
+			<div class="x_controls">
+				<p class="x_help-block">선택한 게시판에서는 확장변수의 전화번호로 문자를 전송하게 됩니다. 단 전화번호 타입의 확장변수는 한개의 확장변수만 사용하셔야 합니다.</p>
+				<div loop="$mid_list => $mid, $item">
+					<label>
+						<input type="checkbox" value="{$item->module_srl}" name="extra_comment_sms_module_srls[]" checked="checked"|cond="is_array($config->extra_comment_sms_module_srls) && in_array($item->module_srl, $config->extra_comment_sms_module_srls)" />
+						<strong>{$item->browser_title}</strong> ({$item->mid} / {strtoupper($item->module)})
+					</label>
+				</div>
+			</div>
+		</div>
+
 	</section>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">

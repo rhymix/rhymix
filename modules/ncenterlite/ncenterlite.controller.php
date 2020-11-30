@@ -371,6 +371,7 @@ class ncenterliteController extends ncenterlite
 		// 익명 노티 체크
 		$is_anonymous = $this->_isAnonymous($this->_TYPE_COMMENT, $obj);
 
+		/** @var documentModel $oDocumentModel */
 		$oDocumentModel = getModel('document');
 		$oDocument = $oDocumentModel->getDocument($document_srl);
 		// 댓글을 남긴 이력이 있는 회원들에게만 알림을 전송
@@ -450,7 +451,7 @@ class ncenterliteController extends ncenterlite
 				}
 			}
 		}
-
+		
 		$notify_member_srls = array();
 		if(isset($config->use['mention']))
 		{
@@ -577,6 +578,35 @@ class ncenterliteController extends ncenterlite
 				if(!$output->toBool())
 				{
 					return $output;
+				}
+				else
+				{
+					if(is_array($config->extra_comment_sms_module_srls) && in_array($module_info->module_srl, $config->extra_comment_sms_module_srls))
+					{
+						$extra_vars = $oDocument->getExtraVars();
+						foreach ($extra_vars as $extra_var)
+						{
+							if($extra_var->type == 'tel' || $extra_var->type == 'tel_intl')
+							{
+								$countryNumber = null;
+								$getExtraValue = $oDocument->getExtraValue($extra_var->idx);
+								if($extra_var->type == 'tel')
+								{
+									$telNumber = $getExtraValue[0].$getExtraValue[1].$getExtraValue[2];
+								}
+								else
+								{
+									$countryNumber = $getExtraValue[0];
+									$telNumber = $getExtraValue[1].$getExtraValue[2].$getExtraValue[3];
+								}
+								if(isset($telNumber))
+								{
+									$this->sendSMSMessageForExtraVars($args, $telNumber, $countryNumber);
+									break;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -1584,6 +1614,27 @@ class ncenterliteController extends ncenterlite
 		$output = $sms->send();
 
 		return $output;
+	}
+	
+	function sendSMSMessageForExtraVars($args, $phone_number, $country_number)
+	{
+		$oNcenterliteModel = getModel('ncenterlite');
+
+		$config = $oNcenterliteModel->getConfig();
+
+		$sms = $this->getSmsHandler();
+		if($sms === false)
+		{
+			return false;
+		}
+		
+		$content = $oNcenterliteModel->getNotificationText($args);
+		$content = htmlspecialchars_decode(preg_replace('/<\/?(strong|)[^>]*>/', '', $content));
+
+		$phone_number = preg_replace('/\+/','', $phone_number);
+		$sms->addTo($phone_number, $country_number);
+		$sms->setContent($content);
+		return $sms->send();
 	}
 
 	function sendMailMessage($args)

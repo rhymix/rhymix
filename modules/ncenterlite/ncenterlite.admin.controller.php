@@ -18,6 +18,7 @@ class ncenterliteAdminController extends ncenterlite
 			'mention_limit',
 			'hide_module_srls',
 			'admin_notify_module_srls',
+			'extra_comment_sms_module_srls',
 			'skin',
 			'mskin',
 			'mcolorset',
@@ -84,6 +85,10 @@ class ncenterliteAdminController extends ncenterlite
 			if (!$obj->admin_notify_module_srls)
 			{
 				$config->admin_notify_module_srls = array();
+			}
+			if(!$obj->extra_comment_sms_module_srls)
+			{
+				$config->extra_comment_sms_module_srls = array();
 			}
 		}
 		
