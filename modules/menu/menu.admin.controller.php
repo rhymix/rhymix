@@ -128,7 +128,7 @@ class menuAdminController extends menu
 	{
 		// 'unlinked' menu 존재여부 확인
 		$oModuleModel = getModel('module');
-		$moduleConfig = $oModuleModel->getModuleConfig('menu');
+		$moduleConfig = $oModuleModel->getModuleConfig('menu') ?: new stdClass;
 
 		if($moduleConfig->unlinked_menu_srl)
 		{
@@ -1745,7 +1745,7 @@ class menuAdminController extends menu
 			}
 		}
 
-		if(count($grant))
+		if(countobj($grant))
 		{
 			$oModuleController = getController('module');
 			$oModuleController->insertModuleGrants($moduleInfo->module_srl, $grant);

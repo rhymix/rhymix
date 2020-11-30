@@ -348,20 +348,16 @@ class XmlJsFilter extends XeXmlParser
 		}
 
 		// generates the response script
-		$response_count = count($response_tag);
 		$responses = array();
-		for($i = 0; $i < $response_count; $i++)
+		foreach ($response_tag ?: [] as $val)
 		{
-			$attrs = $response_tag[$i]->attrs;
-			$name = $attrs->name;
+			$name = $val->attrs->name;
 			$responses[] = "'{$name}'";
 		}
 
 		// writes lang values of the form field
-		$target_count = count($target_list);
-		for($i = 0; $i < $target_count; $i++)
+		foreach ($target_list ?: [] as $target)
 		{
-			$target = $target_list[$i];
 			if(!$lang->{$target})
 			{
 				$lang->{$target} = $target;

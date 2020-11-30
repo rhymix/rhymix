@@ -838,7 +838,7 @@ class adminAdminController extends admin
 		
 		// Languages and time zone
 		$enabled_lang = $vars->enabled_lang;
-		if (!in_array($vars->default_lang, $enabled_lang))
+		if (!in_array($vars->default_lang, $enabled_lang ?: []))
 		{
 			$enabled_lang[] = $vars->default_lang;
 		}
