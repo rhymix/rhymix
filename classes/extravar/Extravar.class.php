@@ -370,8 +370,7 @@ class ExtraItem
 				return Rhymix\Framework\Lang::getSupportedList()[$value[0]]['name'];
 				
 			case 'timezone':
-				
-				return '';
+				return Rhymix\Framework\DateTime::getTimezoneList()[$value[0]];
 			case 'checkbox' :
 			case 'select' :
 			case 'radio' :
@@ -491,6 +490,17 @@ class ExtraItem
 				break;
 			// Select timezone
 			case 'timezone':
+				$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach ($timezone_list as $key => $time_name)
+				{
+					$selected = '';
+					if (strval($value[0]) !== '' && $key == $value[0])
+					{
+						$selected = ' selected="selected"';
+					}
+					$buff[] = '  <option value="' . $key . '" ' . $selected . '>' . $time_name . '</option>';
+				}
 				break;
 			// textarea
 			case 'textarea' :
