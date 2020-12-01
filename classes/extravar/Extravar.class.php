@@ -260,6 +260,9 @@ class ExtraItem
 					$values[$i] = trim(escape($values[$i], false));
 				}
 				return $values;
+			case 'contry':
+			case 'language':
+			case 'timezone':
 			case 'checkbox' :
 			case 'radio' :
 			case 'select' :
@@ -324,7 +327,7 @@ class ExtraItem
 	 * @return string Returns filtered value
 	 */
 	function getValue()
-	{	
+	{
 		return $this->_getTypeValue($this->type, $this->value);
 	}
 
@@ -352,6 +355,13 @@ class ExtraItem
 				$array_slice = array_slice($value, 1);
 				$phone_number = implode('-', $array_slice);
 				return $value ? "+{$country_number}){$phone_number}": '';
+			case 'contry':
+				$country_info = Rhymix\Framework\i18n::listCountries()[$value[0]];
+				$lang_type = Context::get('lang_type');
+				$contry_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+				return $contry_name;
+			case 'language':
+			case 'timezone':
 			case 'textarea' :
 				return nl2br($value);
 				
@@ -439,6 +449,29 @@ class ExtraItem
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel" />';
 				break;
+			// Select Country
+			case 'contry':
+				$lang_type = Context::get('lang_type');
+				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach($country_list as $country_info)
+				{
+					$selected = '';
+					if (strval($value[0]) !== '' && $country_info->iso_3166_1_alpha3 == $value[0])
+					{
+						$selected = ' selected="selected"';
+					}
+					// 3항식 사용시 따로 변수로 뽑아야 뒤의 스트링 만드는것의 중복된 코드가 줄어듬
+					$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+					$string = $country_name;
+					$buff[] = '  <option value="' . $country_info->iso_3166_1_alpha3 . '" ' . $selected . '>' . $string . '</option>';
+				}
+				$buff[] = '</select>';
+				break;
+			// Select language
+			case 'language':
+			// Select timezone
+			case 'timezone':
 			// textarea
 			case 'textarea' :
 				$buff[] = '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
