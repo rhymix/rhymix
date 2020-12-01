@@ -360,14 +360,18 @@ class ExtraItem
 				$lang_type = Context::get('lang_type');
 				$contry_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
 				return $contry_name;
-			case 'language':
-			case 'timezone':
 			case 'textarea' :
 				return nl2br($value);
 				
 			case 'date' :
 				return zdate($value, "Y-m-d");
 
+			case 'language':
+				return Rhymix\Framework\Lang::getSupportedList()[$value[0]]['name'];
+				
+			case 'timezone':
+				
+				return '';
 			case 'checkbox' :
 			case 'select' :
 			case 'radio' :
@@ -470,8 +474,24 @@ class ExtraItem
 				break;
 			// Select language
 			case 'language':
+				$enable_language = Rhymix\Framework\Config::get('locale.enabled_lang');
+				$supported_lang = Rhymix\Framework\Lang::getSupportedList();
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach ($enable_language as $lang_type)
+				{
+					$selected = '';
+					if (strval($value[0]) !== '' && $lang_type == $value[0])
+					{
+						$selected = ' selected="selected"';
+					}
+					
+					$buff[] = '  <option value="' . $lang_type . '" ' . $selected . '>' . $supported_lang[$lang_type]['name'] . '</option>';
+				}
+				$buff[] = '</select>';
+				break;
 			// Select timezone
 			case 'timezone':
+				break;
 			// textarea
 			case 'textarea' :
 				$buff[] = '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
