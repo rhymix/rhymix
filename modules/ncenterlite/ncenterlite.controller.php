@@ -579,35 +579,6 @@ class ncenterliteController extends ncenterlite
 				{
 					return $output;
 				}
-				else
-				{
-					if(is_array($config->extra_comment_sms_module_srls) && in_array($module_info->module_srl, $config->extra_comment_sms_module_srls))
-					{
-						$extra_vars = $oDocument->getExtraVars();
-						foreach ($extra_vars as $extra_var)
-						{
-							if($extra_var->type == 'tel' || $extra_var->type == 'tel_intl')
-							{
-								$countryNumber = null;
-								$getExtraValue = $oDocument->getExtraValue($extra_var->idx);
-								if($extra_var->type == 'tel')
-								{
-									$telNumber = $getExtraValue[0].$getExtraValue[1].$getExtraValue[2];
-								}
-								else
-								{
-									$countryNumber = $getExtraValue[0];
-									$telNumber = $getExtraValue[1].$getExtraValue[2].$getExtraValue[3];
-								}
-								if(isset($telNumber))
-								{
-									$this->sendSMSMessageForExtraVars($args, $telNumber, $countryNumber);
-									break;
-								}
-							}
-						}
-					}
-				}
 			}
 		}
 	}
@@ -1616,27 +1587,6 @@ class ncenterliteController extends ncenterlite
 		return $output;
 	}
 	
-	function sendSMSMessageForExtraVars($args, $phone_number, $country_number)
-	{
-		$oNcenterliteModel = getModel('ncenterlite');
-
-		$config = $oNcenterliteModel->getConfig();
-
-		$sms = $this->getSmsHandler();
-		if($sms === false)
-		{
-			return false;
-		}
-		
-		$content = $oNcenterliteModel->getNotificationText($args);
-		$content = htmlspecialchars_decode(preg_replace('/<\/?(strong|)[^>]*>/', '', $content));
-
-		$phone_number = preg_replace('/\+/','', $phone_number);
-		$sms->addTo($phone_number, $country_number);
-		$sms->setContent($content);
-		return $sms->send();
-	}
-
 	function sendMailMessage($args)
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
