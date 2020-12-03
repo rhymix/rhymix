@@ -331,6 +331,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_board_send_sms_extra_var}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" id="send_sms_extra_var_y" name="send_sms_extra_var" value="Y" checked="checked"|cond="$module_info->send_sms_extra_var !== 'N'" /> {$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" id="send_sms_extra_var_n" name="send_sms_extra_var" value="N" checked="checked"|cond="$module_info->send_sms_extra_var === 'N'" /> {$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_board_send_sms_extra_var}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->filter_specialchars}</label>
 			<div class="x_controls">
 				<label class="x_inline">

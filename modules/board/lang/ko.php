@@ -108,3 +108,5 @@ $lang->cmd_board_combined_board = '통합 게시판';
 $lang->about_board_combined_board = '다른 게시판의 글을 모아서 볼 수 있습니다. 여러 게시판을 선택하려면 Ctrl 키를 누르고 클릭하세요.';
 $lang->cmd_board_include_modules = '포함할 게시판 선택';
 $lang->cmd_board_include_modules_none = '(포함하지 않음)';
+$lang->cmd_board_send_sms_extra_var = '확장변수의 전화번호로 문자 전송';
+$lang->about_board_send_sms_extra_var = '댓글작성이 된다면 글쓴이가 입력한 확장변수의 전화번호로 문자를 전송합니다. 모든회원이 남긴 댓글에 반응하게 되니 권한 옵션 설정을 잘 다룰 필요가 있습니다.';
