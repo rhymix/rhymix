@@ -260,7 +260,7 @@ class ExtraItem
 					$values[$i] = trim(escape($values[$i], false));
 				}
 				return $values;
-			case 'contry':
+			case 'country':
 			case 'language':
 			case 'timezone':
 			case 'checkbox' :
@@ -355,11 +355,11 @@ class ExtraItem
 				$array_slice = array_slice($value, 1);
 				$phone_number = implode('-', $array_slice);
 				return $value ? "+{$country_number}){$phone_number}": '';
-			case 'contry':
+			case 'country':
 				$country_info = Rhymix\Framework\i18n::listCountries()[$value[0]];
 				$lang_type = Context::get('lang_type');
-				$contry_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
-				return $contry_name;
+				$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+				return $country_name;
 			case 'textarea' :
 				return nl2br($value);
 				
@@ -453,7 +453,7 @@ class ExtraItem
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel" />';
 				break;
 			// Select Country
-			case 'contry':
+			case 'country':
 				$lang_type = Context::get('lang_type');
 				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
 				$buff[] = '<select name="' . $column_name . '" class="select">';

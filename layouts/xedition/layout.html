@@ -371,6 +371,7 @@
 		<!-- /LNB -->
 		<!-- CONTENT -->
 			<div class="content" id="content">
+				<h1>{getModel('point')->getPoint($logged_info->member_srl)}</h1>
 				{$content|noescape}
 			</div>
 			<!--@if($layout_info->use_demo === 'Y')-->
