@@ -110,3 +110,4 @@ $lang->cmd_board_include_modules = '포함할 게시판 선택';
 $lang->cmd_board_include_modules_none = '(포함하지 않음)';
 $lang->cmd_board_send_sms_extra_var = '확장변수의 전화번호로 문자 전송';
 $lang->about_board_send_sms_extra_var = '댓글작성이 된다면 글쓴이가 입력한 확장변수의 전화번호로 문자를 전송합니다. 모든회원이 남긴 댓글에 반응하게 되니 권한 옵션 설정을 잘 다룰 필요가 있습니다.';
+$lang->msg_commented = '%1$s님이 회원님의 %2$s에 "%3$s"라고 댓글을 남겼습니다.';

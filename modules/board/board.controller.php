@@ -221,7 +221,7 @@ class boardController extends board
 					getController('module')->replaceDefinedLangCode($browser_title);
 					$mail_title = sprintf(lang('msg_document_notify_mail'), $browser_title, cut_str($obj->title, 20, '...'));
 					$mail_content = sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('', 'document_srl', $output->get('document_srl')), getFullUrl('', 'document_srl', $output->get('document_srl')), $obj->content);
-					
+
 					$oMail = new \Rhymix\Framework\Mail();
 					$oMail->setSubject($mail_title);
 					$oMail->setBody($mail_content);
@@ -233,6 +233,39 @@ class boardController extends board
 						}
 					}
 					$oMail->send();
+				}
+				
+				if($this->module_info->send_sms_extra_var === 'Y' && config('sms.type') !== 'dummy')
+				{
+					$extra_vars = $oDocument->getExtraVars();
+					
+					foreach ($extra_vars as $extra_var)
+					{
+						if($extra_var->type == 'tel' || $extra_var->type == 'tel_intl')
+						{
+							$countryNumber = 0;
+							$getExtraValue = $oDocument->getExtraValue($extra_var->idx);
+							if($extra_var->type == 'tel')
+							{
+								$telNumber = $getExtraValue[0] . $getExtraValue[1] . $getExtraValue[2];
+							}
+							else
+							{
+								$countryNumber = $getExtraValue[0];
+								$telNumber = $getExtraValue[1] . $getExtraValue[2] . $getExtraValue[3];
+							}
+							
+							if(isset($telNumber))
+							{
+								$phone_number = preg_replace('/\+/','', $telNumber);
+								$send_message = sprintf(lang('msg_commented'), $obj->nick_name, lang('document'), $oDocument->getContentText(50));
+								$sms = new Rhymix\Framework\SMS;
+								$sms->addTo($phone_number, $countryNumber);
+								$sms->setContent($send_message);
+								$sms->send();
+							}
+						}
+					}
 				}
 			}
 			
