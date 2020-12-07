@@ -260,9 +260,6 @@ class ExtraItem
 					$values[$i] = trim(escape($values[$i], false));
 				}
 				return $values;
-			case 'country':
-			case 'language':
-			case 'timezone':
 			case 'checkbox' :
 			case 'radio' :
 			case 'select' :
@@ -356,7 +353,7 @@ class ExtraItem
 				$phone_number = implode('-', $array_slice);
 				return $value ? "+{$country_number}){$phone_number}": '';
 			case 'country':
-				$country_info = Rhymix\Framework\i18n::listCountries()[$value[0]];
+				$country_info = Rhymix\Framework\i18n::listCountries()[$value];
 				$lang_type = Context::get('lang_type');
 				$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
 				return $country_name;
@@ -367,10 +364,10 @@ class ExtraItem
 				return zdate($value, "Y-m-d");
 
 			case 'language':
-				return Rhymix\Framework\Lang::getSupportedList()[$value[0]]['name'];
+				return Rhymix\Framework\Lang::getSupportedList()[$value]['name'];
 				
 			case 'timezone':
-				return Rhymix\Framework\DateTime::getTimezoneList()[$value[0]];
+				return Rhymix\Framework\DateTime::getTimezoneList()[$value];
 			case 'checkbox' :
 			case 'select' :
 			case 'radio' :
@@ -460,7 +457,7 @@ class ExtraItem
 				foreach($country_list as $country_info)
 				{
 					$selected = '';
-					if (strval($value[0]) !== '' && $country_info->iso_3166_1_alpha3 == $value[0])
+					if (strval($value[0]) !== '' && $country_info->iso_3166_1_alpha3 == $value)
 					{
 						$selected = ' selected="selected"';
 					}
@@ -479,7 +476,7 @@ class ExtraItem
 				foreach ($enable_language as $lang_type)
 				{
 					$selected = '';
-					if (strval($value[0]) !== '' && $lang_type == $value[0])
+					if (strval($value) !== '' && $lang_type == $value)
 					{
 						$selected = ' selected="selected"';
 					}
@@ -495,7 +492,7 @@ class ExtraItem
 				foreach ($timezone_list as $key => $time_name)
 				{
 					$selected = '';
-					if (strval($value[0]) !== '' && $key == $value[0])
+					if (strval($value) !== '' && $key == $value)
 					{
 						$selected = ' selected="selected"';
 					}
