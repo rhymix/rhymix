@@ -236,6 +236,33 @@ class ExtraItem
 				}
 				return $values;
 
+			case 'tel_intl' :
+				if(is_array($value))
+				{
+					$values = $value;
+				}
+				elseif(strpos($value, '|@|') !== FALSE)
+				{
+					$values = explode('|@|', $value);
+				}
+				elseif(strpos($value, ',') !== FALSE)
+				{
+					$values = explode(',', $value);
+				}
+				else
+				{
+					$values = array($value);
+				}
+
+				$values = array_values($values);
+				for($i = 0, $c = count($values); $i < $c; $i++)
+				{
+					$values[$i] = trim(escape($values[$i], false));
+				}
+				return $values;
+			case 'country':
+			case 'language':
+			case 'timezone':
 			case 'checkbox' :
 			case 'radio' :
 			case 'select' :
@@ -300,7 +327,7 @@ class ExtraItem
 	 * @return string Returns filtered value
 	 */
 	function getValue()
-	{	
+	{
 		return $this->_getTypeValue($this->type, $this->value);
 	}
 
@@ -323,13 +350,27 @@ class ExtraItem
 
 			case 'tel' :
 				return $value ? implode('-', $value) : '';
-				
+			case 'tel_intl' :
+				$country_number = $value[0];
+				$array_slice = array_slice($value, 1);
+				$phone_number = implode('-', $array_slice);
+				return $value ? "+{$country_number}){$phone_number}": '';
+			case 'country':
+				$country_info = Rhymix\Framework\i18n::listCountries()[$value[0]];
+				$lang_type = Context::get('lang_type');
+				$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+				return $country_name;
 			case 'textarea' :
 				return nl2br($value);
 				
 			case 'date' :
 				return zdate($value, "Y-m-d");
 
+			case 'language':
+				return Rhymix\Framework\Lang::getSupportedList()[$value[0]]['name'];
+				
+			case 'timezone':
+				return Rhymix\Framework\DateTime::getTimezoneList()[$value[0]];
 			case 'checkbox' :
 			case 'select' :
 			case 'radio' :
@@ -385,6 +426,81 @@ class ExtraItem
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />';
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
 				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				break;
+			// Select Country Number
+			case 'tel_intl' :
+				$lang_type = Context::get('lang_type');
+				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach($country_list as $country_info)
+				{
+					if($country_info->calling_code)
+					{
+						$selected = '';
+						if(strval($value[0]) !== '' && $country_info->calling_code == $value[0])
+						{
+							$selected = ' selected="selected"';
+						}
+						// 3항식 사용시 따로 변수로 뽑아야 뒤의 스트링 만드는것의 중복된 코드가 줄어듬
+						$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+						$string = $country_name  . "(+{$country_info->calling_code})";
+						$buff[] = '  <option value="' . $country_info->calling_code . '" ' . $selected . '>' . $string . '</option>';
+					}
+				}
+				$buff[] = '</select>';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel" />';
+				break;
+			// Select Country
+			case 'country':
+				$lang_type = Context::get('lang_type');
+				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach($country_list as $country_info)
+				{
+					$selected = '';
+					if (strval($value[0]) !== '' && $country_info->iso_3166_1_alpha3 == $value[0])
+					{
+						$selected = ' selected="selected"';
+					}
+					// 3항식 사용시 따로 변수로 뽑아야 뒤의 스트링 만드는것의 중복된 코드가 줄어듬
+					$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+					$string = $country_name;
+					$buff[] = '  <option value="' . $country_info->iso_3166_1_alpha3 . '" ' . $selected . '>' . $string . '</option>';
+				}
+				$buff[] = '</select>';
+				break;
+			// Select language
+			case 'language':
+				$enable_language = Rhymix\Framework\Config::get('locale.enabled_lang');
+				$supported_lang = Rhymix\Framework\Lang::getSupportedList();
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach ($enable_language as $lang_type)
+				{
+					$selected = '';
+					if (strval($value[0]) !== '' && $lang_type == $value[0])
+					{
+						$selected = ' selected="selected"';
+					}
+					
+					$buff[] = '  <option value="' . $lang_type . '" ' . $selected . '>' . $supported_lang[$lang_type]['name'] . '</option>';
+				}
+				$buff[] = '</select>';
+				break;
+			// Select timezone
+			case 'timezone':
+				$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
+				$buff[] = '<select name="' . $column_name . '" class="select">';
+				foreach ($timezone_list as $key => $time_name)
+				{
+					$selected = '';
+					if (strval($value[0]) !== '' && $key == $value[0])
+					{
+						$selected = ' selected="selected"';
+					}
+					$buff[] = '  <option value="' . $key . '" ' . $selected . '>' . $time_name . '</option>';
+				}
 				break;
 			// textarea
 			case 'textarea' :
