@@ -349,6 +349,16 @@ jQuery(function($) {
 		}
 	});
 	
+	/* Detect color scheme */
+	var color_scheme_cookie = XE.cookie.get('rx_color_scheme');
+	var color_scheme_check = $('#rhymix_color_scheme').is(':visible') ? 'dark' : 'light';
+	if (color_scheme_cookie && color_scheme_cookie !== color_scheme_check) {
+		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
+	} else if (color_scheme_check === 'dark') {
+		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
+		$('#rhymix_color_scheme').hide();
+	}
+	
 	/* Editor preview replacement */
 	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);
 	$(".editable_preview").on("click", function() {
