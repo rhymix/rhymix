@@ -132,7 +132,7 @@ class fileAdminController extends file
 		$config->allow_outlink_site = Context::get('allow_outlink_site');
 		$config->allow_multimedia_direct_download = Context::get('allow_multimedia_direct_download') === 'Y' ? 'Y' : 'N';
 		$config->download_short_url = Context::get('download_short_url') === 'Y' ? 'Y' : 'N';
-		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format'));
+		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format') ?: []);
 		
 		// Save and redirect
 		$output = getController('module')->insertModuleConfig('file', $config);

@@ -173,7 +173,7 @@
 		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 		</ul>
 	</form>
-	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true" cond="$act!=dispAutoinstallAdminInstalledPackages">
+	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true" cond="$act !== 'dispAutoinstallAdminInstalledPackages'">
 		<input type="hidden" name="module" value="admin" />
 		<input type="hidden" name="act" value="{$act}" />
 		<input type="hidden" name="order_target" value="{$order_target}" />
