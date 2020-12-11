@@ -2,8 +2,6 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
-use stdClass;
-
 /**
  * The base class for other Push drivers.
  */
@@ -32,9 +30,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * Create a new instance of the current Push driver, using the given settings.
 	 * 
 	 * @param array $config
-	 * @return object
+	 * @return Base
 	 */
-	public static function getInstance(array $config): object
+	public static function getInstance(array $config): Base
 	{
 		return new static($config);
 	}
@@ -88,9 +86,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * 
 	 * @param object $message
 	 * @param array $tokens
-	 * @return object
+	 * @return \stdClass
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens)
+	public function send(\Rhymix\Framework\Push $message, array $tokens): \stdClass
 	{
 		return new \stdClass;
 	}

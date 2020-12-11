@@ -42,9 +42,9 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * 
 	 * @param object $message
 	 * @param array $tokens
-	 * @return object
+	 * @return \stdClass
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens)
+	public function send(\Rhymix\Framework\Push $message, array $tokens): \stdClass
 	{
 		$output = new \stdClass;
 		$output->success = [];
