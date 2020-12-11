@@ -2715,6 +2715,7 @@ class Context
 	{
 		if (in_array($color_scheme, ['light', 'dark']))
 		{
+			$_COOKIE['rx_color_scheme'] = $color_scheme;
 			setcookie('rx_color_scheme', $color_scheme, time() + 86400 * 365, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
 		}
 		else
