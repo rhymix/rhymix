@@ -69,7 +69,7 @@ class Push
 	 * 
 	 * @return array
 	 */
-	public static function getSupportedDrivers()
+	public static function getSupportedDrivers(): array
 	{
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/push', false) as $filename)
@@ -334,10 +334,10 @@ class Push
 	/**
 	 * Get the device token
 	 * 
-	 * @return object
+	 * @return \stdClass
 	 * 
 	 */
-	protected function _getDeviceTokens()
+	protected function _getDeviceTokens(): \stdClass
 	{
 		$result = new \stdClass;
 		$result->fcm = [];
