@@ -13,7 +13,7 @@ interface PushInterface
 	 * @param array $config
 	 * @return void
 	 */
-	public static function getInstance(array $config): object;
+	public static function getInstance(array $config): PushInterface;
 	
 	/**
 	 * Get the human-readable name of this Push driver.

@@ -2,10 +2,12 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
+use Rhymix\Framework\Drivers\PushInterface;
+
 /**
  * The base class for other Push drivers.
  */
-abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
+abstract class Base implements PushInterface
 {
 	/**
 	 * The configuration is stored here.
@@ -30,9 +32,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * Create a new instance of the current Push driver, using the given settings.
 	 * 
 	 * @param array $config
-	 * @return Base
+	 * @return PushInterface
 	 */
-	public static function getInstance(array $config): Base
+	public static function getInstance(array $config): PushInterface
 	{
 		return new static($config);
 	}
