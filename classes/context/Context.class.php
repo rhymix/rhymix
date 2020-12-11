@@ -2367,9 +2367,13 @@ class Context
 	 */
 	public static function getBodyClass()
 	{
-		self::$_instance->body_class = array_unique(self::$_instance->body_class);
+		$class_list = self::$_instance->body_class;
+		if (($color_scheme = self::getColorScheme()) !== 'none')
+		{
+			$class_list[] = 'color_scheme_' . $color_scheme;
+		}
 
-		return (count(self::$_instance->body_class) > 0) ? sprintf(' class="%s"', join(' ', self::$_instance->body_class)) : '';
+		return (count($class_list) > 0) ? sprintf(' class="%s"', implode(' ', array_unique($class_list))) : '';
 	}
 
 	/**

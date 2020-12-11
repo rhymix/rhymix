@@ -354,8 +354,10 @@ jQuery(function($) {
 	var color_scheme_check = $('#rhymix_color_scheme').is(':visible') ? 'dark' : 'light';
 	if (color_scheme_cookie && color_scheme_cookie !== color_scheme_check) {
 		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
+		$('body').addClass('color_scheme_' + color_scheme_check);
 	} else if (color_scheme_check === 'dark') {
 		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
+		$('body').addClass('color_scheme_' + color_scheme_check);
 		$('#rhymix_color_scheme').hide();
 	}
 	
