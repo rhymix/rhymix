@@ -1103,7 +1103,6 @@ class memberController extends member
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		unset($_SESSION['rechecked_password_step']);
 		
 		// Get current module config and user info
 		$config = MemberModel::getMemberConfig();
@@ -1286,6 +1285,7 @@ class memberController extends member
 
 		// Call a trigger after successfully modified (after)
 		ModuleHandler::triggerCall('member.procMemberModifyInfo', 'after', $member_info);
+		unset($_SESSION['rechecked_password_step']);
 		$this->setSessionInfo();
 		
 		// Return result
