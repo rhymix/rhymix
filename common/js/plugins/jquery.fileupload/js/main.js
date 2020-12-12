@@ -159,7 +159,7 @@
 						}
 						else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename) && opt.autoinsertTypes.video) {
 							if(result.original_type === 'image/gif') {
-								temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
+								temp_code += '<video src="' + result.download_url + '" autoplay loop muted playsinline data-file-srl="' + result.file_srl + '" />';
 							} else {
 								temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 							}
@@ -332,7 +332,7 @@
 				}
 				else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
 					if(result.original_type === 'image/gif') {
-						temp_code += '<video src="' + result.download_url + '" autoplay loop muted data-file-srl="' + result.file_srl + '" />';
+						temp_code += '<video src="' + result.download_url + '" autoplay loop muted playsinline data-file-srl="' + result.file_srl + '" />';
 					} else {
 						temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 					}
