@@ -16,14 +16,14 @@ class Router
 			'vars' => ['document_srl' => 'int'],
 			'priority' => 0,
 		),
-		'$mid' => array(
-			'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
-			'vars' => ['mid' => 'any'],
-			'priority' => 0,
-		),
 		'$act' => array(
 			'regexp' => '#^(?<act>rss|atom)$#',
 			'vars' => ['act' => 'word'],
+			'priority' => 0,
+		),
+		'$mid' => array(
+			'regexp' => '#^(?<mid>[a-zA-Z0-9_-]+)/?$#',
+			'vars' => ['mid' => 'any'],
 			'priority' => 0,
 		),
 		'$mid/$document_srl' => array(
@@ -52,6 +52,14 @@ class Router
 			'extra_vars' => ['act' => 'procFileOutput'],
 			'priority' => 0,
 		),
+	);
+	
+	/**
+	 * List of legacy URLs that should not be treated as prefixes.
+	 */
+	protected static $_except_prefixes = array(
+		'rss' => true,
+		'atom' => true,
 	);
 	
 	/**
@@ -138,7 +146,7 @@ class Router
 		}
 		
 		// Try to detect the prefix. This might be $mid.
-		if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?$#s', $url, $matches))
+		if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?$#s', $url, $matches) && !isset(self::$_except_prefixes[$matches[1]]))
 		{
 			// Separate the prefix and the internal part of the URL.
 			$prefix = $matches[1];
@@ -162,11 +170,11 @@ class Router
 			if ($action_info)
 			{
 				// Try the index action.
-				if ($internal_url === '' && !isset($args['act']) && $action_info->default_index_act)
+				if ($prefix_type === 'mid' && $internal_url === '' && !isset($args['act']) && $action_info->default_index_act)
 				{
 					$allargs = array_merge($args, [$prefix_type => $prefix]);
 					$result->module = $module_name;
-					$result->mid = $prefix_type === 'mid' ? $prefix : '';
+					$result->mid = $prefix;
 					$result->args = $allargs;
 					return $result;
 				}
@@ -247,7 +255,7 @@ class Router
 					$result->forwarded = true;
 					$result->args = $allargs;
 					return $result;
-			}
+				}
 			}
 		}
 		
