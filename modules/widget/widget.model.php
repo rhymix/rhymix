@@ -207,7 +207,7 @@ class widgetModel extends widget
 				$extra_var_count = count($extra_vars);
 
 				$buff .= sprintf('$widget_info->extra_var_count = %d;', $extra_var_count);
-				$buff .= '$widget_info->extra_var = new stdClass;';
+				$buff .= '$widget_info->extra_var = $widget_info->extra_var ?? new stdClass;';
 				for($i=0;$i<$extra_var_count;$i++)
 				{
 					unset($var);
@@ -326,7 +326,7 @@ class widgetModel extends widget
 		if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
 
 		$extra_var_count = 0;
-		$buff[] = sprintf('$widgetStyle_info->extra_var = new stdClass();', $extra_var_count);
+		$buff[] = '$widgetStyle_info->extra_var = $widgetStyle_info->extra_var ?? new stdClass();';
 		foreach($extra_var_groups as $group)
 		{
 			$extra_vars = (!is_array($group->var)) ? array($group->var) : $group->var;
