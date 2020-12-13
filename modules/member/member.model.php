@@ -1067,12 +1067,13 @@ class memberModel extends member
 			{
 				return null;
 			}
+			
+			$info = null;
 			$member_group = self::getMemberGroups($member_srl, $site_srl);
 			$groups_info = self::getGroups($site_srl);
 			if(count($member_group) > 0 && is_array($member_group))
 			{
 				$memberGroups = array_keys($member_group);
-
 				foreach($groups_info as $group_srl=>$group_info)
 				{
 					if(in_array($group_srl, $memberGroups))
@@ -1097,11 +1098,20 @@ class memberModel extends member
 					}
 				}
 			}
-			if (!$info) $GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';
+			if (!$info)
+			{
+				$GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';
+			}
 		}
-		if ($GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N') return null;
-
-		return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
+		
+		if (isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]) && $GLOBALS['__member_info__']['group_image_mark'][$member_srl] !== 'N')
+		{
+			return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**

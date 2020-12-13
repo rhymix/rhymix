@@ -86,7 +86,12 @@ class widgetView extends widget
 		// module_category and module combination
 		if($module_categories)
 		{
-			foreach($mid_list as $module_srl => $module) {
+			foreach($mid_list as $module_srl => $module)
+			{
+				if(!isset($module_categories[$module->module_category_srl]))
+				{
+					$module_categories[$module->module_category_srl] = new stdClass();
+				}
 				$module_categories[$module->module_category_srl]->list[$module_srl] = $module;
 			}
 		}

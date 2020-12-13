@@ -374,7 +374,7 @@ class Router
 			}
 			
 			// Try the generic mid/act pattern.
-			if ($prefix_type !== 'module' || !isset(self::$_except_modules[$args[$prefix_type]]))
+			if (($prefix_type !== 'module' || !isset(self::$_except_modules[$args[$prefix_type]])) && isset($args['act']))
 			{
 				self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/$act';
 				$internal_url = $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');

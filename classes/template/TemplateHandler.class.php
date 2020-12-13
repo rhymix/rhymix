@@ -161,7 +161,7 @@ class TemplateHandler
 			Rhymix\Framework\Storage::delete($tmpfilename);
 		}
 
-		if($__templatehandler_root_tpl == $this->file)
+		if(isset($__templatehandler_root_tpl) && $__templatehandler_root_tpl == $this->file)
 		{
 			$__templatehandler_root_tpl = null;
 		}
@@ -816,13 +816,18 @@ class TemplateHandler
 						case 'scss':
 							if($doUnload)
 							{
-								$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}','{$attr['media']}');";
+								$result = vsprintf("Context::unloadFile('%s', '%s', '%s';", [
+									$attr['target'] ?? '', $attr['targetie'] ?? '', $attr['media'] ?? '',
+								]);
 							}
 							else
 							{
-								$metafile = $attr['target'];
-								$metavars = ($attr['vars'] ? self::_replaceVar($attr['vars']) : '');
-								$result = "\$__tmp=array('{$attr['target']}','{$attr['media']}','{$attr['targetie']}','{$attr['index']}'," . ($attr['vars'] ? self::_replaceVar($attr['vars']) : 'array()') . ");Context::loadFile(\$__tmp);unset(\$__tmp);";
+								$metafile = isset($attr['target']) ? $attr['target'] : '';
+								$metavars = isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '') : '';
+								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s', %s]);", [
+									$attr['target'] ?? '', $attr['media'] ?? '', $attr['targetie'] ?? '', $attr['index'] ?? '',
+									isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '[]') : '[]',
+								]);
 							}
 							break;
 					}

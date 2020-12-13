@@ -248,11 +248,11 @@ class BaseObject
 	 * Method to retrieve a corresponding value to a given key
 	 *
 	 * @param string $key
-	 * @return string Returns value to a given key
+	 * @return mixed Returns value to a given key
 	 */
 	public function get($key)
 	{
-		return $this->variables[$key];
+		return $this->variables[$key] ?? null;
 	}
 
 	/**

@@ -1616,7 +1616,7 @@ class Context
 		}
 
 		// If $args_list contains one array, reset existing parameters and use keys & values from $args_list.
-		if (is_array($args_list[0]) && count($args_list) == 1)
+		if (count($args_list) == 1 && is_array($args_list[0]))
 		{
 			$get_vars = array();
 			foreach ($args_list[0] as $key => $val)
@@ -1653,14 +1653,14 @@ class Context
 		unset($get_vars['vid']);
 		
 		// for compatibility to lower versions
-		$act = $get_vars['act'];
+		$act = $get_vars['act'] ?? null;
 		$act_alias = array(
 			'dispMemberFriend' => 'dispCommunicationFriend',
 			'dispMemberMessages' => 'dispCommunicationMessages',
 			'dispDocumentAdminManageDocument' => 'dispDocumentManageDocument',
 			'dispModuleAdminSelectList' => 'dispModuleSelectList'
 		);
-		if(isset($act_alias[$act]))
+		if($act && isset($act_alias[$act]))
 		{
 			$get_vars['act'] = $act_alias[$act];
 		}
