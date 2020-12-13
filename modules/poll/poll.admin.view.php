@@ -50,6 +50,10 @@ class pollAdminView extends poll
 		// Get the list
 		$oPollAdminModel = getAdminModel('poll');
 		$output = $oPollAdminModel->getPollListWithMember($args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		// check poll type. document or comment
 		if(is_array($output->data) && count($output->data))
@@ -88,7 +92,6 @@ class pollAdminView extends poll
 		Context::set('page', $output->page);
 		Context::set('poll_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
-		Context::set('module_list', $module_list);
 
 		$security = new Security();
 		$security->encodeHTML('poll_list..title', 'poll_list..nick_name');

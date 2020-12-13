@@ -771,7 +771,11 @@ function doChangeLangType(obj) {
 	}
 }
 function setLangType(lang_type) {
-	XE.cookie.set("lang_type", lang_type, { path: "/", expires: 3650 });
+	var baseurl = XE.URI(default_url).pathname();
+	if (baseurl !== '/') {
+		XE.cookie.remove('lang_type', { path: '/' });
+	}
+	XE.cookie.set('lang_type', lang_type, { path: baseurl, expires: 365 });
 }
 
 /* 미리보기 */

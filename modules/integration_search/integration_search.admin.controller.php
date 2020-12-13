@@ -25,7 +25,7 @@ class integration_searchAdminController extends integration_search
 	{
 		// Get configurations (using module model object)
 		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('integration_search');
+		$config = $oModuleModel->getModuleConfig('integration_search') ?: new stdClass;
 		$config = (object)get_object_vars($config);
 
 		$config->skin = Context::get('skin');

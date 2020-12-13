@@ -341,10 +341,8 @@ class Validator
 					continue;
 				}
 
-				$func_body = preg_replace('/\\$(\w+)/', '$c[\'$1\']', $cond['test']);
-				$func = create_function('$c', "return !!({$func_body});");
-
-				if($func($fields))
+				$expr = '!!(' . preg_replace('/\\$(\w+)/', '$value[\'$1\']', $cond['test']) . ')';
+				if(self::_execExpression($fields, $expr))
 				{
 					$filter[$cond['attr']] = $cond['value'];
 				}
@@ -621,11 +619,15 @@ class Validator
 			case 'enum':
 				return in_array($value, $rule['test']);
 			case 'expr':
-				if(!$rule['func_test'])
+				if(is_callable($rule['func_test']))
 				{
-					$rule['func_test'] = create_function('$a', 'return (' . preg_replace('/\$\$/', '$a', html_entity_decode($rule['test'])) . ');');
+					return $rule['func_test']($value);
 				}
-				return $rule['func_test']($value);
+				else
+				{
+					$expr = '(' . preg_replace('/\$\$/', '$value', html_entity_decode($rule['test'])) . ')';
+					return self::_execExpression($value, $expr);
+				}
 		}
 
 		return TRUE;
@@ -828,6 +830,25 @@ class Validator
 		$messages = implode("\n", $messages);
 
 		return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n{$messages}\n})(jQuery);";
+	}
+	
+	/**
+	 * Polyfill for create_function()
+	 * 
+	 * @param mixed $value
+	 * @param string $expression
+	 * @return mixed
+	 */
+	protected static function _execExpression($value, $expression)
+	{
+		$hash_key = sha1($expression);
+		$filename = RX_BASEDIR . 'files/cache/validator/' . $hash_key . '.php';
+		if (!Rhymix\Framework\Storage::exists($filename))
+		{
+			$buff = '<?php if(!defined(\'RX_VERSION\')) return;' . "\n" . 'return ' . $expression . ';' . "\n";
+			Rhymix\Framework\Storage::write($filename, $buff);
+		}
+		return (include $filename);
 	}
 
 }

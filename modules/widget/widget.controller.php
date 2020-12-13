@@ -31,10 +31,10 @@ class widgetController extends widget
 		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($path, $skin);
 
-		for($i=0;$i<count($skin_info->colorset);$i++)
+		$colorset_list = [];
+		foreach($skin_info->colorset ?: [] as $colorset)
 		{
-			$colorset = sprintf('%s|@|%s', $skin_info->colorset[$i]->name, $skin_info->colorset[$i]->title);
-			$colorset_list[] = $colorset;
+			$colorset_list[] = sprintf('%s|@|%s', $colorset->name, $colorset->title);
 		}
 
 		if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);

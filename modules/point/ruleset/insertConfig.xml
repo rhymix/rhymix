@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ruleset version="1.5.0">
     <customrules>
-		<rule name="less_than_1000" type="expr" test="$$ &lt; 1000" />
+		<rule name="less_than_10000" type="expr" test="$$ &lt; 10000" />
     </customrules>
     <fields>
-		<field name="max_level" required="true" rule="number,less_than_1000" />
+		<field name="max_level" required="true" rule="number,less_than_10000" />
 		<field name="point_name" required="true" />
 		<field name="level_icon" required="true" default="default" />
     </fields>

@@ -8,15 +8,15 @@
 		<p class="x_control-label">{$lang->identifier}</p>
 		<div class="x_controls">
 			<label class="x_inline" for="identifiers_user_id">
-				<input type="checkbox" name="identifiers[]" id="identifiers_user_id" value="user_id" checked="checked"|cond="$config->identifier === 'user_id' || in_array('user_id', $config->identifiers)" />
+				<input type="checkbox" name="identifiers[]" id="identifiers_user_id" value="user_id" checked="checked"|cond="$config->identifier === 'user_id' || (is_array($config->identifiers) && in_array('user_id', $config->identifiers))" />
 				{$lang->user_id}
 			</label>
 			<label class="x_inline" for="identifiers_email_address">
-				<input type="checkbox" name="identifiers[]" id="identifiers_email_address" value="email_address" checked="checked"|cond="$config->identifier === 'email_address' || in_array('email_address', $config->identifiers)" />
+				<input type="checkbox" name="identifiers[]" id="identifiers_email_address" value="email_address" checked="checked"|cond="$config->identifier === 'email_address' || (is_array($config->identifiers) && in_array('email_address', $config->identifiers))" />
 				{$lang->email_address}
 			</label>
 			<label class="x_inline" for="identifiers_phone_number">
-				<input type="checkbox" name="identifiers[]" id="identifiers_phone_number" value="phone_number" checked="checked"|cond="$config->identifier === 'phone_number' || in_array('phone_number', $config->identifiers)" />
+				<input type="checkbox" name="identifiers[]" id="identifiers_phone_number" value="phone_number" checked="checked"|cond="$config->identifier === 'phone_number' || (is_array($config->identifiers) && in_array('phone_number', $config->identifiers))" />
 				{$lang->phone_number}
 			</label>
 			<p class="x_help-block">{$lang->about_identifier}</p>
