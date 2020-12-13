@@ -31,20 +31,21 @@ class DisplayHandler extends Handler
 			$this->gz_enabled = TRUE;
 		}
 
-		// Extract contents to display by the request method
+		// Extract contents to display by the response method
+		$responseMethod = Context::getResponseMethod();
 		if(Context::get('xeVirtualRequestMethod') == 'xml')
 		{
 			$handler = new VirtualXMLDisplayHandler();
 		}
-		elseif(Context::getResponseMethod() == 'JSON' || isset($_POST['_rx_ajax_compat']))
+		elseif($responseMethod == 'JSON' || isset($_POST['_rx_ajax_compat']))
 		{
 			$handler = new JSONDisplayHandler();
 		}
-		elseif(Context::getResponseMethod() == 'JS_CALLBACK')
+		elseif($responseMethod == 'JS_CALLBACK')
 		{
 			$handler = new JSCallbackDisplayHandler();
 		}
-		elseif(Context::getResponseMethod() == 'XMLRPC')
+		elseif($responseMethod == 'XMLRPC')
 		{
 			$handler = new XMLDisplayHandler();
 			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
@@ -52,7 +53,7 @@ class DisplayHandler extends Handler
 				$this->gz_enabled = FALSE;
 			}
 		}
-		elseif(Context::getResponseMethod() == 'RAW')
+		elseif($responseMethod == 'RAW')
 		{
 			$handler = new RawDisplayHandler();
 		}
@@ -104,21 +105,22 @@ class DisplayHandler extends Handler
 
 		// header output
 		$httpStatusCode = $oModule->getHttpStatusCode();
-		if($httpStatusCode !== 200 && !in_array(Context::getResponseMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
+		$responseMethod = Context::getResponseMethod();
+		if($httpStatusCode !== 200 && !in_array($responseMethod, array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			self::_printHttpStatusCode($httpStatusCode);
 		}
 		else
 		{
-			if(Context::getResponseMethod() == 'JSON' || Context::getResponseMethod() == 'JS_CALLBACK' || isset($_POST['_rx_ajax_compat']))
+			if($responseMethod == 'JSON' || $responseMethod == 'JS_CALLBACK' || isset($_POST['_rx_ajax_compat']))
 			{
 				self::_printJSONHeader();
 			}
-			elseif(Context::getResponseMethod() == 'XMLRPC')
+			elseif($responseMethod == 'XMLRPC')
 			{
 				self::_printXMLHeader();
 			}
-			elseif(Context::getResponseMethod() == 'RAW' && $content_type = Context::get('response_content_type'))
+			elseif($responseMethod == 'RAW' && $content_type = Context::get('response_content_type'))
 			{
 				self::_printCustomContentTypeHeader($content_type);
 			}
@@ -191,6 +193,7 @@ class DisplayHandler extends Handler
 		
 		// Print debug information.
 		$debug_output = '';
+		$response_type = Context::getResponseMethod();
 		foreach ($display_types as $display_type)
 		{
 			if ($display_type === 'panel')
@@ -235,7 +238,8 @@ class DisplayHandler extends Handler
 						}
 					}
 				}
-				switch (Context::getResponseMethod())
+				
+				switch ($response_type)
 				{
 					case 'HTML':
 						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
@@ -271,7 +275,7 @@ class DisplayHandler extends Handler
 			}
 			else
 			{
-				if ($display_type === 'comment' && Context::getResponseMethod() !== 'HTML')
+				if ($display_type === 'comment' && $response_type !== 'HTML')
 				{
 					continue;
 				}
