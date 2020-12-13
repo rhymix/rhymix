@@ -351,7 +351,8 @@ jQuery(function($) {
 	
 	/* Detect color scheme */
 	var color_scheme_cookie = XE.cookie.get('rx_color_scheme');
-	var color_scheme_check = $('#rhymix_color_scheme').is(':visible') ? 'dark' : 'light';
+	var color_scheme_check = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+	console.log(color_scheme_check);
 	if (color_scheme_cookie && color_scheme_cookie !== color_scheme_check) {
 		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
 		$('body').addClass('color_scheme_' + color_scheme_check).removeClass('color_scheme_' + (color_scheme_check === 'dark' ? 'light' : 'dark'));

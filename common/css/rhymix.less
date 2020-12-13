@@ -368,17 +368,6 @@ a img {
 	}
 }
 
-/* Color scheme detection */
-#rhymix_color_scheme {
-	display: none;
-	@media (prefers-color-scheme: dark) {
-		display: block;
-		position: absolute;
-		bottom: 0; right: 0;
-		width: 1px; height: 1px;
-	}
-}
-
 /* Button (for XE compatibility) */
 .btnArea_mixin(@enabled) when (@enabled = true) {
 	clear: both;
