@@ -350,16 +350,11 @@ jQuery(function($) {
 	});
 	
 	/* Detect color scheme */
+	var body_element = $('body');
 	var color_scheme_cookie = XE.cookie.get('rx_color_scheme');
-	var color_scheme_check = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
-	console.log(color_scheme_check);
-	if (color_scheme_cookie && color_scheme_cookie !== color_scheme_check) {
-		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
-		$('body').addClass('color_scheme_' + color_scheme_check).removeClass('color_scheme_' + (color_scheme_check === 'dark' ? 'light' : 'dark'));
-	} else if (color_scheme_check === 'dark') {
-		XE.cookie.set('rx_color_scheme', color_scheme_check, { path: window.XE.URI(default_url).pathname(), expires: 365 });
-		$('body').addClass('color_scheme_' + color_scheme_check).removeClass('color_scheme_' + (color_scheme_check === 'dark' ? 'light' : 'dark'));
-		$('#rhymix_color_scheme').hide();
+	var color_scheme_detected = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+	if (!color_scheme_cookie || (!body_element.hasClass('color_scheme_light') && !body_element.hasClass('color_scheme_dark'))) {
+		body_element.addClass('color_scheme_' + color_scheme_detected).removeClass('color_scheme_' + (color_scheme_detected === 'dark' ? 'light' : 'dark'));
 	}
 	
 	/* Editor preview replacement */
@@ -777,6 +772,22 @@ function setLangType(lang_type) {
 		XE.cookie.remove('lang_type', { path: '/' });
 	}
 	XE.cookie.set('lang_type', lang_type, { path: baseurl, expires: 365 });
+}
+
+/* 색상 테마 변경 */
+function getColorScheme() {
+	if ($('body').hasClass('color_scheme_light')) {
+		return 'light';
+	} else {
+		return 'dark';
+	}
+}
+function setColorScheme(color_scheme) {
+	if (color_scheme !== 'dark') {
+		color_scheme = 'light';
+	}
+	$('body').addClass('color_scheme_' + color_scheme).removeClass('color_scheme_' + (color_scheme === 'dark' ? 'light' : 'dark'));
+	XE.cookie.set('rx_color_scheme', color_scheme, { path: window.XE.URI(default_url).pathname(), expires: 365 });
 }
 
 /* 미리보기 */
