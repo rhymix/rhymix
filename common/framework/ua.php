@@ -439,4 +439,40 @@ class UA
 				return 'filename="' . preg_replace('/\./', '%2e', $filename, substr_count($filename, '.') - 1) . '"';
 		}
 	}
+	
+	/**
+	 * Get the current color scheme (auto, light, dark)
+	 * 
+	 * @return string
+	 */
+	public static function getColorScheme(): string
+	{
+		if (isset($_COOKIE['rx_color_scheme']) && in_array($_COOKIE['rx_color_scheme'], ['light', 'dark']))
+		{
+			return strval($_COOKIE['rx_color_scheme']);
+		}
+		else
+		{
+			return 'auto';
+		}
+	}
+	
+	/**
+	 * Set the color scheme (auto, light, dark)
+	 * 
+	 * @param string $color_scheme
+	 * @return void
+	 */
+	public static function setColorScheme(string $color_scheme)
+	{
+		if (in_array($color_scheme, ['light', 'dark']))
+		{
+			$_COOKIE['rx_color_scheme'] = $color_scheme;
+			setcookie('rx_color_scheme', $color_scheme, time() + 86400 * 365, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
+		}
+		else
+		{
+			setcookie('rx_color_scheme', 'deleted', time() - 86400, \RX_BASEURL, null);
+		}
+	}
 }

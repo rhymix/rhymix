@@ -2368,7 +2368,7 @@ class Context
 	public static function getBodyClass()
 	{
 		$class_list = self::$_instance->body_class;
-		if (($color_scheme = self::getColorScheme()) !== 'none')
+		if (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'none')
 		{
 			$class_list[] = 'color_scheme_' . $color_scheme;
 		}
@@ -2686,42 +2686,6 @@ class Context
 	public static function getCanonicalURL()
 	{
 		return self::$_instance->canonical_url;
-	}
-	
-	/**
-	 * Get the current color scheme (none, light, dark)
-	 * 
-	 * @return string
-	 */
-	public static function getColorScheme(): string
-	{
-		if (isset($_COOKIE['rx_color_scheme']) && in_array($_COOKIE['rx_color_scheme'], ['light', 'dark']))
-		{
-			return strval($_COOKIE['rx_color_scheme']);
-		}
-		else
-		{
-			return 'none';
-		}
-	}
-	
-	/**
-	 * Set the color scheme (none, light, dark)
-	 * 
-	 * @param string $color_scheme
-	 * @return void
-	 */
-	public static function setColorScheme(string $color_scheme)
-	{
-		if (in_array($color_scheme, ['light', 'dark']))
-		{
-			$_COOKIE['rx_color_scheme'] = $color_scheme;
-			setcookie('rx_color_scheme', $color_scheme, time() + 86400 * 365, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
-		}
-		else
-		{
-			setcookie('rx_color_scheme', 'deleted', time() - 86400, \RX_BASEURL, null);
-		}
 	}
 }
 /* End of file Context.class.php */
