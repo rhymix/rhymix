@@ -347,4 +347,25 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Safari/5.0 Version/5.0'));
 		$this->assertEquals('filename="한글 filename.jpg"', Rhymix\Framework\UA::encodeFilenameForDownload('한글 filename.jpg', 'Linux; Android 5.1.1; Version/4.0 Chrome/43.0.2357.65 Mobile Safari/537.36'));
 	}
+	
+	public function testGetSetColorScheme()
+	{
+		$_COOKIE['rx_color_scheme'] = 'light';
+		$this->assertEquals('light', Rhymix\Framework\UA::getColorScheme());
+		$_COOKIE['rx_color_scheme'] = 'dark';
+		$this->assertEquals('dark', Rhymix\Framework\UA::getColorScheme());
+		$_COOKIE['rx_color_scheme'] = 'none';
+		$this->assertEquals('auto', Rhymix\Framework\UA::getColorScheme());
+		$_COOKIE['rx_color_scheme'] = 'invalid';
+		$this->assertEquals('auto', Rhymix\Framework\UA::getColorScheme());
+		
+		Rhymix\Framework\UA::setColorScheme('light');
+		$this->assertEquals('light', $_COOKIE['rx_color_scheme']);
+		Rhymix\Framework\UA::setColorScheme('dark');
+		$this->assertEquals('dark', $_COOKIE['rx_color_scheme']);
+		Rhymix\Framework\UA::setColorScheme('auto');
+		$this->assertNull($_COOKIE['rx_color_scheme'] ?? null);
+		Rhymix\Framework\UA::setColorScheme('invalid');
+		$this->assertNull($_COOKIE['rx_color_scheme'] ?? null);
+	}
 }
