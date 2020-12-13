@@ -1021,10 +1021,14 @@ class Context
 	 * @param string $method Response method. [HTML|XMLRPC|JSON]
 	 * @return void
 	 */
-	public static function setResponseMethod($method = 'HTML')
+	public static function setResponseMethod($method = 'HTML', $content_type = null)
 	{
-		$methods = array('HTML' => 1, 'XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
+		$methods = array('HTML' => 1, 'XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1, 'RAW' => 1);
 		self::$_instance->response_method = isset($methods[$method]) ? $method : 'HTML';
+		if ($content_type)
+		{
+			self::$_instance->response_content_type = $content_type;
+		}
 	}
 
 	/**
@@ -1040,7 +1044,7 @@ class Context
 		}
 
 		$method = self::getRequestMethod();
-		$methods = array('HTML' => 1, 'XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
+		$methods = array('HTML' => 1, 'XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1, 'RAW' => 1);
 
 		return isset($methods[$method]) ? $method : 'HTML';
 	}

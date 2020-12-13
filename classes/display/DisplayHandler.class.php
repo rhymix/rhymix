@@ -52,6 +52,10 @@ class DisplayHandler extends Handler
 				$this->gz_enabled = FALSE;
 			}
 		}
+		elseif(Context::getResponseMethod() == 'RAW')
+		{
+			$handler = new RawDisplayHandler();
+		}
 		else
 		{
 			$handler = new HTMLDisplayHandler();
@@ -113,6 +117,10 @@ class DisplayHandler extends Handler
 			elseif(Context::getResponseMethod() == 'XMLRPC')
 			{
 				self::_printXMLHeader();
+			}
+			elseif(Context::getResponseMethod() == 'RAW' && $content_type = Context::get('response_content_type'))
+			{
+				self::_printCustomContentTypeHeader($content_type);
 			}
 			else
 			{
@@ -328,6 +336,18 @@ class DisplayHandler extends Handler
 	public static function _printJSONHeader()
 	{
 		header("Content-Type: application/json; charset=UTF-8");
+	}
+	
+	/**
+	 * print a custom Content-Type header.
+	 * 
+	 * @param string $content_type
+	 * @return void
+	 */
+	public static function _printCustomContentTypeHeader($content_type)
+	{
+		$charset = (strpos($content_type, 'text/') === 0) ? '; charset=UTF-8' : '';
+		header('Content-Type: ' . $content_type . $charset);
 	}
 
 	/**

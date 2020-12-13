@@ -53,6 +53,7 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
 	'HTMLDisplayHandler' => 'classes/display/HTMLDisplayHandler.php',
 	'JSCallbackDisplayHandler' => 'classes/display/JSCallbackDisplayHandler.php',
 	'JSONDisplayHandler' => 'classes/display/JSONDisplayHandler.php',
+	'RawDisplayHandler' => 'classes/display/RawDisplayHandler.php',
 	'VirtualXMLDisplayHandler' => 'classes/display/VirtualXMLDisplayHandler.php',
 	'XMLDisplayHandler' => 'classes/display/XMLDisplayHandler.php',
 	'EditorHandler' => 'classes/editor/EditorHandler.class.php',

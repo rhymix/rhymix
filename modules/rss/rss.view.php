@@ -187,7 +187,7 @@ class rssView extends rss
 		Context::set('info', $info);
 		
 		// Set XML Output
-		Context::setResponseMethod('XMLRPC');
+		Context::setResponseMethod('RAW', 'text/xml');
 		$this->setTemplatePath($this->module_path . 'tpl/format');
 		$this->setTemplateFile($template);
 	}
