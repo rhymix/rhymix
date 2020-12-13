@@ -472,6 +472,7 @@ class UA
 		}
 		else
 		{
+			unset($_COOKIE['rx_color_scheme']);
 			setcookie('rx_color_scheme', 'deleted', time() - 86400, \RX_BASEURL, null);
 		}
 	}
