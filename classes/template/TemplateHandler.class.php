@@ -816,7 +816,7 @@ class TemplateHandler
 						case 'scss':
 							if($doUnload)
 							{
-								$result = vsprintf("Context::unloadFile('%s', '%s', '%s';", [
+								$result = vsprintf("Context::unloadFile('%s', '%s', '%s');", [
 									$attr['target'] ?? '', $attr['targetie'] ?? '', $attr['media'] ?? '',
 								]);
 							}
