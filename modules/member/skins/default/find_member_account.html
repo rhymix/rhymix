@@ -29,7 +29,7 @@
 	<form ruleset="resendAuthMail" action="{getUrl('', 'act', 'procMemberResendAuthMail')}" method="post">
 		<input type="hidden" name="module" value="member" />
 		<input type="hidden" name="act" value="procMemberResendAuthMail" />
-		<input type="hidden" name="success_return_url" value="{getUrl(act, $act)}" />
+		<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" />
 		<input type="hidden" name="xe_validator_id" value="modules/member/skin/default/find_member_account/3" />
 		<div>
 			<input type="email" id="email_address" name="email_address" value="" required placeholder="{$lang->email_address}" title="{$lang->email_address}" /><br />
