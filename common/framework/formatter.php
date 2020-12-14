@@ -256,6 +256,8 @@ class Formatter
 	public static function minifyCSS($source_filename, $target_filename)
 	{
 		$minifier = new \MatthiasMullie\Minify\CSS();
+		$minifier->setMaxImportSize(5);
+		$minifier->setImportExtensions(['svg' => 'data:image/svg+xml']);
 		if (is_array($source_filename))
 		{
 			foreach ($source_filename as $filename)
