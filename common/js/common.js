@@ -788,6 +788,8 @@ function setColorScheme(color_scheme) {
 		XE.cookie.set('rx_color_scheme', color_scheme, { path: window.XE.URI(default_url).pathname(), expires: 365 });
 	} else {
 		XE.cookie.remove('rx_color_scheme', { path: window.XE.URI(default_url).pathname() });
+		color_scheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+		$('body').addClass('color_scheme_' + color_scheme).removeClass('color_scheme_' + (color_scheme === 'dark' ? 'light' : 'dark'));
 	}
 }
 
