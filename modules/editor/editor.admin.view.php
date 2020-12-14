@@ -58,7 +58,7 @@ class editorAdminView extends editor
 		// Get editor component info
 		$oAutoinstallModel = getModel('autoinstall');
 		$component_list = $oEditorModel->getComponentList(false, 0, true);
-		$component_count = count($component_list);
+		$component_count = countobj($component_list);
 		$targetpackages = array();
 		foreach ($component_list as $xml_info)
 		{

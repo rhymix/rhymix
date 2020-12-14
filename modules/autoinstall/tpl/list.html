@@ -16,11 +16,11 @@
 		<!--@else-->
 			{@$_popular_order_type = 'desc'}
 		<!--@end-->
-		<a href="{getUrl('order_target','newest','order_type',$_newest_order_type,page,'')}" class="active"|cond="$order_target == 'newest'">{$lang->order_newest} <i cond="$order_target == 'newest'" class="x_icon-circle-arrow-down"|cond="$_newest_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_newest_order_type == 'desc'">{$_newest_order_type}</i></a>
+		<a href="{getUrl('order_target','newest','order_type',$_newest_order_type,'page','')}" class="active"|cond="$order_target == 'newest'">{$lang->order_newest} <i cond="$order_target == 'newest'" class="x_icon-circle-arrow-down"|cond="$_newest_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_newest_order_type == 'desc'">{$_newest_order_type}</i></a>
 		<i>|</i>
-		<a href="{getUrl('order_target','download','order_type',$_download_order_type,page,'')}" class="active"|cond="$order_target == 'download'">{$lang->order_download} <i cond="$order_target == 'download'" class="x_icon-circle-arrow-down"|cond="$_download_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_download_order_type == 'desc'">{$_download_order_type}</i></a>
+		<a href="{getUrl('order_target','download','order_type',$_download_order_type,'page','')}" class="active"|cond="$order_target == 'download'">{$lang->order_download} <i cond="$order_target == 'download'" class="x_icon-circle-arrow-down"|cond="$_download_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_download_order_type == 'desc'">{$_download_order_type}</i></a>
 		<i>|</i>
-		<a href="{getUrl('order_target','popular','order_type',$_popular_order_type,page,'')}" class="active"|cond="$order_target == 'popular'">{$lang->order_popular} <i cond="$order_target == 'popular'" class="x_icon-circle-arrow-down"|cond="$_popular_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_popular_order_type == 'desc'">{$_popular_order_type}</i></a></li>
+		<a href="{getUrl('order_target','popular','order_type',$_popular_order_type,'page','')}" class="active"|cond="$order_target == 'popular'">{$lang->order_popular} <i cond="$order_target == 'popular'" class="x_icon-circle-arrow-down"|cond="$_popular_order_type == 'asc'" class="x_icon-circle-arrow-up"|cond="$_popular_order_type == 'desc'">{$_popular_order_type}</i></a></li>
 	</div>
 </div>
 
