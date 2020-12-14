@@ -335,9 +335,9 @@ class ModuleHandler extends Handler
 		}
 
 		// get type, kind
-		$type = $xml_info->action->{$this->act}->type;
-		$ruleset = $xml_info->action->{$this->act}->ruleset;
-		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
+		$type = $xml_info->action->{$this->act}->type ?? null;
+		$ruleset = $xml_info->action->{$this->act}->ruleset ?? null;
+		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? null;
 		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
 		if ($meta_noindex === 'true')
 		{
@@ -995,16 +995,16 @@ class ModuleHandler extends Handler
 			$viewType = $this->is_mobile ? 'M' : 'P';
 			if($viewType === 'M')
 			{
-				$layout_srl = $oModule->module_info->mlayout_srl;
+				$layout_srl = $oModule->module_info->mlayout_srl ?? 0;
 				if($layout_srl == -2)
 				{
-					$layout_srl = $oModule->module_info->layout_srl;
+					$layout_srl = $oModule->module_info->layout_srl ?? 0;
 					$viewType = 'P';
 				}
 			}
 			else
 			{
-				$layout_srl = $oModule->module_info->layout_srl;
+				$layout_srl = $oModule->module_info->layout_srl ?? 0;
 			}
 
 			// if layout_srl is rollback by module, set default layout

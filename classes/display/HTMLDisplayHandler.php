@@ -123,7 +123,7 @@ class HTMLDisplayHandler
 				// get the layout information currently requested
 				$oLayoutModel = getModel('layout');
 				$layout_info = Context::get('layout_info');
-				$layout_srl = $layout_info->layout_srl;
+				$layout_srl = $layout_info->layout_srl ?? 0;
 
 				// compile if connected to the layout
 				if($layout_srl > 0)
@@ -403,7 +403,7 @@ class HTMLDisplayHandler
 		{
 			return '';
 		}
-		if($matches[3])
+		if($matches[3] ?? false)
 		{
 			$vars = Context::get(str_replace('?$__Context->', '', $matches[3]));
 			Context::loadFile(array($matches[2], null, null, null, $vars));

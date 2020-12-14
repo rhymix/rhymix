@@ -477,11 +477,20 @@ class layoutModel extends layout
 		}
 
 		// Get a path of the requested module. Return if not exists.
-		if(!$layout_path) $layout_path = $this->getLayoutPath($layout, $layout_type);
-		if(!is_dir($layout_path)) return;
+		if(!isset($layout_path))
+		{
+			$layout_path = $this->getLayoutPath($layout, $layout_type);
+		}
+		if(!is_dir($layout_path))
+		{
+			return;
+		}
 
 		// Read the xml file for module skin information
-		if(!$xml_file) $xml_file = sprintf("%sconf/info.xml", $layout_path);
+		if(!isset($xml_file))
+		{
+			$xml_file = sprintf("%sconf/info.xml", $layout_path);
+		}
 		if(!file_exists($xml_file))
 		{
 			$layout_info = new stdClass;

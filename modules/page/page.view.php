@@ -24,13 +24,13 @@ class pageView extends page
 			case 'WIDGET' :
 				{
 					$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
-					$this->interval = (int)($this->module_info->page_caching_interval);
+					$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
 					break;
 				}
 			case 'OUTSIDE' :
 				{
 					$this->cache_file = sprintf("%sfiles/cache/opage/%d.%s.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getSslStatus());
-					$this->interval = (int)($this->module_info->page_caching_interval);
+					$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
 					$this->path = $this->module_info->path;
 					break;
 				}

@@ -16,7 +16,8 @@ class rssController extends rss
 	 */
 	function triggerRssUrlInsert($obj)
 	{
-		if(!$current_module_srl = Context::get('current_module_info')->module_srl)
+		$current_module_srl = Context::get('current_module_info')->module_srl ?? null;
+		if (!$current_module_srl)
 		{
 			return;
 		}

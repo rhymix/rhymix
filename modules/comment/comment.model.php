@@ -371,25 +371,25 @@ class commentModel extends comment
 			$obj = new stdClass();
 		}
 
-		if($obj->mid)
+		if(isset($obj->mid) && $obj->mid)
 		{
 			$obj->module_srl = ModuleModel::getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
 
 		// check if module_srl is an arrary.
-		if(is_array($obj->module_srl))
+		if(isset($obj->module_srl) && is_array($obj->module_srl))
 		{
 			$args->module_srl = implode(',', $obj->module_srl);
 		}
 		else
 		{
-			$args->module_srl = $obj->module_srl;
+			$args->module_srl = $obj->module_srl ?? null;
 		}
 		
-		$args->is_secret = $obj->is_secret;
-		$args->document_srl = $obj->document_srl;
-		$args->list_count = $obj->list_count;
+		$args->is_secret = $obj->is_secret ?? null;
+		$args->document_srl = $obj->document_srl ?? null;
+		$args->list_count = $obj->list_count ?? null;
 
 		if(strpos($args->module_srl, ",") === false)
 		{

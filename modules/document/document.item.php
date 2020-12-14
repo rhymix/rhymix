@@ -142,7 +142,7 @@ class documentItem extends BaseObject
 		}
 		
 		$this->document_srl = $attribute->document_srl;
-		$this->lang_code = $attribute->lang_code;
+		$this->lang_code = $attribute->lang_code ?? null;
 		$this->adds($attribute);
 		
 		// set XE_DOCUMENT_LIST
@@ -696,8 +696,7 @@ class documentItem extends BaseObject
 		}
 		
 		// Define a link if using a rewrite module
-		$oContext = Context::getInstance();
-		if($oContext->allow_rewrite)
+		if(Context::isAllowRewrite())
 		{
 			$content = preg_replace('/<a([ \t]+)href=("|\')\.\/\?/i',"<a href=\\2". Context::getRequestUri() ."?", $content);
 		}
@@ -1326,11 +1325,11 @@ class documentItem extends BaseObject
 
 		if(Mobile::isFromMobilePhone())
 		{
-			$iconSkin = $documentConfig->micons;
+			$iconSkin = $documentConfig->micons ?? null;
 		}
 		else
 		{
-			$iconSkin = $documentConfig->icons;
+			$iconSkin = $documentConfig->icons ?? null;
 		}
 		if($iconSkin == null)
 		{

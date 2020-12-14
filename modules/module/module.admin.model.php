@@ -442,7 +442,9 @@ class moduleAdminModel extends module
 		if(is_array($lang_supported))
 		{
 			foreach($lang_supported as $key => $val)
-				$output[$key] = $selected_lang[$key]?$selected_lang[$key]:$name;
+			{
+				$output[$key] = (isset($selected_lang[$key]) && $selected_lang[$key]) ? $selected_lang[$key] : $name;
+			}
 		}
 		return $output;
 	}

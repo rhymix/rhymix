@@ -1778,15 +1778,9 @@ class menuAdminController extends menu
 			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
 			return $xml_file;
 		}		
-		$site_srl = (int)$output->data->site_srl;
+		$site_srl = 0;
+		$domain = null;
 
-		if($site_srl)
-		{
-			$oModuleModel = getModel('module');
-			$columnList = array('sites.domain');
-			$site_info = $oModuleModel->getSiteInfo($site_srl, $columnList);
-			$domain = $site_info->domain;
-		}
 		// Get a list of menu items corresponding to menu_srl by listorder
 		$args->menu_srl = $menu_srl;
 		$args->sort_index = 'listorder';
@@ -1889,14 +1883,20 @@ class menuAdminController extends menu
 		if(!$source_node) return;
 
 		$oMenuAdminModel = getAdminModel('menu');
+		$buff = '';
 
 		foreach($source_node as $menu_item_srl => $node)
 		{
 			$child_buff = "";
 			// Get data of the child nodes
-			if($menu_item_srl&&$tree[$menu_item_srl]) $child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree, $site_srl, $domain);
+			if($menu_item_srl && isset($tree[$menu_item_srl]))
+			{
+				$child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree, $site_srl, $domain);
+			}
+			
 			// List variables
 			$names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
+			$name_arr_str = '';
 			foreach($names as $key => $val)
 			{
 				$name_arr_str .= sprintf('%s => %s, ', var_export($key, true), var_export($val, true));
@@ -1973,8 +1973,14 @@ class menuAdminController extends menu
 				$link
 			);
 
-			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
-			else $buff .=  sprintf('<node %s />', $attribute);
+			if($child_buff)
+			{
+				$buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
+			}
+			else
+			{
+				$buff .=  sprintf('<node %s />', $attribute);
+			}
 		}
 		return $buff;
 	}
@@ -1992,7 +1998,7 @@ class menuAdminController extends menu
 	 */
 	function getPhpCacheCode($source_node, $tree, $site_srl, $domain)
 	{
-		$output = array("buff"=>"", "url_list"=>array());
+		$output = array('buff' => '', 'url_list' => array(), 'name' => null);
 		if(!$source_node) return $output;
 
 		$oMenuAdminModel = getAdminModel('menu');
@@ -2000,8 +2006,14 @@ class menuAdminController extends menu
 		foreach($source_node as $menu_item_srl => $node)
 		{
 			// Get data from child nodes if exist.
-			if($menu_item_srl&&$tree[$menu_item_srl]) $child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree, $site_srl, $domain);
-			else $child_output = array("buff"=>"", "url_list"=>array());
+			if($menu_item_srl && isset($tree[$menu_item_srl]))
+			{
+				$child_output = $this->getPhpCacheCode($tree[$menu_item_srl], $tree, $site_srl, $domain);
+			}
+			else
+			{
+				$child_output = array('buff' => '', 'url_list' => array(), 'name' => null);
+			}
 
 			// List variables
 			$names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
@@ -2027,9 +2039,9 @@ class menuAdminController extends menu
 			else $group_check_code = "true";
 
 			// List variables
-			$href = escape($node->href, false);
-			$url = escape($node->url, false);
-			$desc = escape($node->desc, false);
+			$href = escape($node->href ?? '', false);
+			$url = escape($node->url ?? '', false);
+			$desc = escape($node->desc ?? '', false);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";

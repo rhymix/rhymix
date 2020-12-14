@@ -34,15 +34,15 @@ class login_info extends WidgetHandler
 			{
 				$logged_info = Context::get('logged_info');
 				$ncenter_list = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
-				$_latest_notify_id = array_slice($ncenter_list->data, 0, 1);
-				$_latest_notify_id = $_latest_notify_id[0]->notify;
+				$_latest_notify_id = $ncenter_list->data ? array_slice($ncenter_list->data, 0, 1) : [];
+				$_latest_notify_id = isset($_latest_notify_id[0]) ? $_latest_notify_id[0]->notify : null;
 				if($memberConfig->profile_image == 'Y')
 				{
 					$profileImage = $oMemberModel->getProfileImage($logged_info->member_srl);
 					Context::set('profileImage', $profileImage);
 				}
 				Context::set('ncenterlite_latest_notify_id', $_latest_notify_id);
-				if($_COOKIE['_ncenterlite_hide_id'] && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
+				if(isset($_COOKIE['_ncenterlite_hide_id']) && $_COOKIE['_ncenterlite_hide_id'] === $_latest_notify_id)
 				{
 					return;
 				}

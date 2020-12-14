@@ -20,7 +20,7 @@
 			<a class="default_header" href="javascript:void()"><i class="xi xi-cog"></i></a>
 		</h1>
 		<p class="site" cond="$this->user->isAdmin()">
-			<a href="{getUrl(['module' => 'admin', 'act' => $act, 'module_srl' => $module_info->module_srl])}">{lang('admin.view_in_manager_layout')}</a>
+			<a href="{getUrl(['module' => 'admin', 'act' => $act ?? null, 'module_srl' => $module_info->module_srl])}">{lang('admin.view_in_manager_layout')}</a>
 		</p>
 		<!--@else-->
 		<h1>
@@ -47,9 +47,9 @@
 		</div>
 	</header>
 	<!-- BODY -->
-	<div class="body <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$module_manager">
+	<div class="body <!--@if(isset($_COOKIE['__xe_admin_gnb_status']) && $_COOKIE['__xe_admin_gnb_status'] == 'close')-->wide<!--@end-->" style="padding-left:0"|cond="$module_manager">
 		<!-- GNB -->
-		<nav class="gnb <!--@if($_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="!$module_manager">
+		<nav class="gnb <!--@if(isset($_COOKIE['__xe_admin_gnb_status']) && $_COOKIE['__xe_admin_gnb_status'] == 'open')-->open<!--@end-->" id="gnb" cond="!$module_manager">
 			<a href="#gnbNav"><i class="x_icon-align-justify x_icon-white"></i><b></b> Menu Open/Close</a>
 			<ul id="gnbNav" class="ex">
 			<script>
@@ -57,19 +57,18 @@
 			</script>
 			<!--@foreach($gnbUrlList as $key=>$value)-->
 				<!--@if(strstr($value['menu_name_key'], 'configuration'))-->
-				<li class="open"|cond="$_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
+				<li class="open"|cond="isset($_COOKIE['__xe_admin_gnb_tx_favorite']) && $_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
 					<script>
 						__xe_admin_gnb_txs.push('__xe_admin_gnb_tx_favorite');
 					</script>
 					<a href="#favorite" data-href="favorite" title="{$lang->favorite}"><span class="tx">{$lang->favorite}</span></a>
-					<ul id="favorite" style="display:block"|cond="$_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
+					<ul id="favorite" style="display:block"|cond="isset($_COOKIE['__xe_admin_gnb_tx_favorite']) && $_COOKIE['__xe_admin_gnb_tx_favorite'] == 'open'">
 						<li loop="$favorite_list => $favorite">
 							<a cond="$favorite->title" href="{getUrl(['module' => 'admin', 'act' => $favorite->admin_index_act])}" title="{$favorite->title}">{$favorite->title}</a>
 							<a cond="!$favorite->title">{$lang->msg_not_founded}</a>
 							<form class="remove" action="./" method="post">
 								<input type="hidden" name="module" value="admin" />
-								<input type="hidden" name="act" value="procAdminToggleFavorite" />
-								<input type="hidden" name="site_srl" value="0" />
+								<input type="hidden" name="act" value="" />
 								<input type="hidden" name="module_name" value="{$favorite->module}" />
 								<input type="hidden" name="success_return_url" value="{getUrl(['module' => 'admin'])}" />
 								<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
@@ -79,12 +78,12 @@
 					</ul>
 				</li>
 				<!--@end-->
-				<li class="<!--@if(($parentSrl==$key || $value['href']=='index.php?module=admin') && !$mid && !$act)-->active open<!--@elseif($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open')-->open<!--@end-->">
+				<li class="<!--@if(($parentSrl==$key || $value['href']=='index.php?module=admin') && !isset($mid) && !isset($act))-->active open<!--@elseif(isset($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])]) && $_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open')-->open<!--@end-->">
 					<script>
 						__xe_admin_gnb_txs.push('{'__xe_admin_gnb_tx_' . md5($value['href'])}');
 					</script>
 					<a href="{str_replace('//', '/', \RX_BASEURL . $value['href'])}" data-href="{md5($value['href'])}" title="{$value['text']}"><span class="tx">{$value['text']}</span></a>
-					<ul cond="count($value['list'])" style="display:block"|cond="$_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open'">
+					<ul cond="count($value['list'])" style="display:block"|cond="isset($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])]) && $_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open'">
 						<li loop="$value['list']=>$key2,$value2" cond="$value2['text']!=''" class="active_"|cond="$value2['text'] == $subMenuTitle" ><a href="{str_replace('//', '/', \RX_BASEURL . $value2['href'])}" title="{$value2['text']}">{$value2['text']}</a></li>
 					</ul>
 				</li>

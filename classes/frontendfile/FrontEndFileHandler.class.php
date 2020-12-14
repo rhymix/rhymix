@@ -168,22 +168,22 @@ class FrontEndFileHandler extends Handler
 		
 		$file = new stdClass();
 		$file->fileName = $pathInfo['basename'];
-		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname']);
-		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname']);
-		$file->fileFullPath = $file->fileRealPath . '/' . $pathInfo['basename'];
-		$file->fileExtension = strtolower($pathInfo['extension']);
+		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname'] ?? '');
+		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname'] ?? '');
+		$file->fileFullPath = $file->fileRealPath . '/' . ($pathInfo['basename'] ?? '');
+		$file->fileExtension = strtolower($pathInfo['extension'] ?? '');
 		if (($pos = strpos($file->fileExtension, '?')) !== false)
 		{
 			$file->fileExtension = substr($file->fileExtension, 0, $pos);
 		}
-		if (preg_match('/^(.+)\.min$/', $pathInfo['filename'], $matches))
+		if (preg_match('/^(.+)\.min$/', $pathInfo['filename'] ?? '', $matches))
 		{
 			$file->fileNameNoExt = $matches[1];
 			$file->isMinified = true;
 		}
 		else
 		{
-			$file->fileNameNoExt = $pathInfo['filename'];
+			$file->fileNameNoExt = $pathInfo['filename'] ?? '';
 			$file->isMinified = false;
 		}
 		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
@@ -194,7 +194,7 @@ class FrontEndFileHandler extends Handler
 		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
 		$file->isCommon = $isCommon;
 		$file->keyName = $file->fileNameNoExt . '.' . $file->fileExtension;
-		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname']);
+		$file->cdnPath = $this->_normalizeFilePath($pathInfo['dirname'] ?? '');
 		$file->vars = (array)$vars;
 
 		// Fix incorrectly minified URL
@@ -625,7 +625,8 @@ class FrontEndFileHandler extends Handler
 	 */
 	protected function _normalizeFilePath($path)
 	{
-		if(strpos($path, '://') === FALSE && $path[0] != '/' && $path[0] != '.')
+		$path = strval($path);
+		if(!preg_match('!://!', $path) && !preg_match('!^[/.]!', $path))
 		{
 			$path = './' . $path;
 		}
@@ -635,7 +636,6 @@ class FrontEndFileHandler extends Handler
 		}
 
 		$path = preg_replace('@/\./|(?<!:)\/\/@', '/', $path);
-
 		while(strpos($path, '/../'))
 		{
 			$path = preg_replace('/\/([^\/]+)\/\.\.\//s', '/', $path, 1);

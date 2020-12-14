@@ -253,7 +253,7 @@ class adminAdminView extends admin
 		Context::set('subMenuTitle', $subMenuTitle);
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
-		Context::set('gnb_title_info', $gnbTitleInfo);
+		Context::set('gnb_title_info', $gnbTitleInfo ?? null);
 		Context::addBrowserTitle($subMenuTitle ? $subMenuTitle : 'Dashboard');
 	}
 
@@ -368,7 +368,7 @@ class adminAdminView extends admin
 		}
 
 		Context::set('module_list', $module_list);
-		Context::set('needUpdate', $isUpdated);
+		Context::set('needUpdate', false);
 		Context::set('addTables', $addTables);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);

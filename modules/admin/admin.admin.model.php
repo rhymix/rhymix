@@ -638,7 +638,7 @@ class adminAdminModel extends admin
 			foreach($installed_module_list as $key => $value)
 			{
 				$moduleActionInfo = $oModuleModel->getModuleActionXml($value->module);
-				if(is_object($moduleActionInfo->menu))
+				if(isset($moduleActionInfo->menu) && is_object($moduleActionInfo->menu))
 				{
 					foreach($moduleActionInfo->menu as $key2 => $value2)
 					{

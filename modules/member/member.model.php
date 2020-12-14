@@ -344,6 +344,10 @@ class memberModel extends member
 	{
 		if(!$member_srl) return new stdClass;
 
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
 		if(!isset($GLOBALS['__member_info__'][$member_srl]))
 		{
 			$cache_key = sprintf('member:member_info:%d', $member_srl);
@@ -385,6 +389,10 @@ class memberModel extends member
 	 */
 	public static function arrangeMemberInfo($info, $site_srl = 0)
 	{
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
 		if(!isset($GLOBALS['__member_info__'][$info->member_srl]))
 		{
 			$config = self::getMemberConfig();
@@ -983,13 +991,20 @@ class memberModel extends member
 	 */
 	public static function getProfileImage($member_srl)
 	{
-		if(!isset($GLOBALS['__member_info__']['profile_image'][$member_srl]))
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
+		if(!isset($GLOBALS['__member_info__']['profile_image']))
+		{
+			$GLOBALS['__member_info__']['profile_image'] = [];
+		}
+		if(!array_key_exists($member_srl, $GLOBALS['__member_info__']['profile_image']))
 		{
 			$GLOBALS['__member_info__']['profile_image'][$member_srl] = null;
-			$exts = array('gif','jpg','png');
-			for($i=0;$i<3;$i++)
+			foreach(['jpg', 'jpeg', 'gif', 'png'] as $ext)
 			{
-				$image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $exts[$i]);
+				$image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext);
 				if(file_exists($image_name_file))
 				{
 					list($width, $height, $type, $attrs) = getimagesize($image_name_file);
@@ -1012,6 +1027,14 @@ class memberModel extends member
 	 */
 	public static function getImageName($member_srl)
 	{
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
+		if(!isset($GLOBALS['__member_info__']['image_name']))
+		{
+			$GLOBALS['__member_info__']['image_name'] = [];
+		}
 		if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl]))
 		{
 			$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
@@ -1025,7 +1048,10 @@ class memberModel extends member
 				$info->file = './'.$image_name_file;
 				$GLOBALS['__member_info__']['image_name'][$member_srl] = $info;
 			}
-			else $GLOBALS['__member_info__']['image_name'][$member_srl] = null;
+			else
+			{
+				$GLOBALS['__member_info__']['image_name'][$member_srl] = '';
+			}
 		}
 		return $GLOBALS['__member_info__']['image_name'][$member_srl];
 	}
@@ -1035,6 +1061,14 @@ class memberModel extends member
 	 */
 	public static function getImageMark($member_srl)
 	{
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
+		if(!isset($GLOBALS['__member_info__']['image_mark']))
+		{
+			$GLOBALS['__member_info__']['image_mark'] = [];
+		}
 		if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl]))
 		{
 			$image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
@@ -1048,7 +1082,10 @@ class memberModel extends member
 				$info->file = './'.$image_mark_file;
 				$GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
 			}
-			else $GLOBALS['__member_info__']['image_mark'][$member_srl] = null;
+			else
+			{
+				$GLOBALS['__member_info__']['image_mark'][$member_srl] = '';
+			}
 		}
 
 		return $GLOBALS['__member_info__']['image_mark'][$member_srl];
@@ -1060,6 +1097,14 @@ class memberModel extends member
 	 */
 	public static function getGroupImageMark($member_srl,$site_srl=0)
 	{
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
+		if(!isset($GLOBALS['__member_info__']['group_image_mark']))
+		{
+			$GLOBALS['__member_info__']['group_image_mark'] = [];
+		}
 		if(!isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]))
 		{
 			$config = ModuleModel::getModuleConfig('member');
@@ -1100,18 +1145,11 @@ class memberModel extends member
 			}
 			if (!$info)
 			{
-				$GLOBALS['__member_info__']['group_image_mark'][$member_srl] == 'N';
+				$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = '';
 			}
 		}
 		
-		if (isset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]) && $GLOBALS['__member_info__']['group_image_mark'][$member_srl] !== 'N')
-		{
-			return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
-		}
-		else
-		{
-			return null;
-		}
+		return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
 	}
 
 	/**
@@ -1119,6 +1157,14 @@ class memberModel extends member
 	 */
 	public static function getSignature($member_srl)
 	{
+		if(!isset($GLOBALS['__member_info__']))
+		{
+			$GLOBALS['__member_info__'] = [];
+		}
+		if(!isset($GLOBALS['__member_info__']['signature']))
+		{
+			$GLOBALS['__member_info__']['signature'] = [];
+		}
 		if(!isset($GLOBALS['__member_info__']['signature'][$member_srl]))
 		{
 			$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);

@@ -267,7 +267,7 @@ class TemplateHandler
 	 * preg_replace_callback handler
 	 * 1. remove ruleset from form tag
 	 * 2. add hidden tag with ruleset value
-	 * 3. if empty default hidden tag, generate hidden tag (ex:mid, vid, act...)
+	 * 3. if empty default hidden tag, generate hidden tag (ex:mid, act...)
 	 * 4. generate return url, return url use in server side validator
 	 * @param array $matches
 	 * @return string
@@ -278,7 +278,7 @@ class TemplateHandler
 		if($matches[1])
 		{
 			preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
-			if($m[0])
+			if(isset($m[0]) && $m[0])
 			{
 				$matches[1] = preg_replace('/' . addcslashes($m[0], '?$') . '/i', '', $matches[1]);
 
@@ -286,6 +286,7 @@ class TemplateHandler
 				{
 					$path = str_replace('@', '', $m[1]);
 					$path = './files/ruleset/' . $path . '.xml';
+					$autoPath = '';
 				}
 				else if(strpos($m[1], '#') !== FALSE)
 				{
@@ -304,6 +305,7 @@ class TemplateHandler
 				{
 					$module_path = $mm[1];
 					$path = $module_path . '/ruleset/' . $m[1] . '.xml';
+					$autoPath = '';
 				}
 
 				$matches[2] = '<input type="hidden" name="ruleset" value="' . $m[1] . '" />' . $matches[2];
@@ -313,15 +315,15 @@ class TemplateHandler
 		}
 
 		// if not exists default hidden tag, generate hidden tag
-		preg_match_all('/<input[^>]* name="(act|mid|vid)"/is', $matches[2], $m2);
-		$checkVar = array('act', 'mid', 'vid');
+		preg_match_all('/<input[^>]* name="(act|mid)"/is', $matches[2], $m2);
+		$checkVar = array('act', 'mid');
 		$resultArray = array_diff($checkVar, $m2[1]);
 		if(is_array($resultArray))
 		{
 			$generatedHidden = '';
 			foreach($resultArray AS $key => $value)
 			{
-				$generatedHidden .= '<input type="hidden" name="' . $value . '" value="<?php echo $__Context->' . $value . ' ?>" />';
+				$generatedHidden .= '<input type="hidden" name="' . $value . '" value="<?php echo $__Context->' . $value . ' ?? \'\'; ?>" />';
 			}
 			$matches[2] = $generatedHidden . $matches[2];
 		}
@@ -330,7 +332,7 @@ class TemplateHandler
 		if(!preg_match('/no-error-return-url="true"/i', $matches[1]))
 		{
 			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
-			if(!$m3[0])
+			if(!isset($m3[0]) || !$m3[0])
 				$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo escape(getRequestUriByServerEnviroment(), false); ?>" />' . $matches[2];
 		}
 		else
@@ -466,17 +468,17 @@ class TemplateHandler
 							{
 								$expr_m[1] = trim($expr_m[1]);
 								$expr_m[2] = trim($expr_m[2]);
-								if($expr_m[3])
+								if(isset($expr_m[3]) && $expr_m[3])
 								{
 									$expr_m[2] .= '=>' . trim($expr_m[3]);
 								}
 								$nodes[$idx - 1] .= sprintf('<?php if(%1$s)foreach(%1$s as %2$s){ ?>', $expr_m[1], $expr_m[2]);
 							}
-							elseif($expr_m[4])
+							elseif(isset($expr_m[4]) && $expr_m[4])
 							{
 								$nodes[$idx - 1] .= "<?php for({$expr_m[4]}){ ?>";
 							}
-							elseif($expr_m[5])
+							elseif(isset($expr_m[5]) && $expr_m[5])
 							{
 								$nodes[$idx - 1] .= "<?php while({$expr_m[5]}={$expr_m[6]}){ ?>";
 							}
@@ -759,6 +761,7 @@ class TemplateHandler
 				case 'load':
 				case 'unload':
 					$metafile = '';
+					$metavars = '';
 					$replacements = HTMLDisplayHandler::$replacements;
 					$attr['target'] = preg_replace(array_keys($replacements), array_values($replacements), $attr['target']);
 					$pathinfo = pathinfo($attr['target']);
@@ -807,8 +810,10 @@ class TemplateHandler
 							}
 							else
 							{
-								$metafile = $attr['target'];
-								$result = "\$__tmp=array('{$attr['target']}','{$attr['type']}','{$attr['targetie']}','{$attr['index']}');Context::loadFile(\$__tmp);unset(\$__tmp);";
+								$metafile = isset($attr['target']) ? $attr['target'] : '';
+								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s']);", [
+									$attr['target'] ?? '', $attr['type'] ?? '', $attr['targetie'] ?? '', $attr['index'] ?? '',
+								]);
 							}
 							break;
 						case 'css':

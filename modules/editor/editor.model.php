@@ -31,7 +31,7 @@ class editorModel extends editor
 		// Load editor config for current module.
 		if ($module_srl)
 		{
-			if (!self::$_module_config[$module_srl])
+			if (!isset(self::$_module_config[$module_srl]))
 			{
 				self::$_module_config[$module_srl] = ModuleModel::getModulePartConfig('editor', $module_srl);
 				if (!is_object(self::$_module_config[$module_srl]))
@@ -47,24 +47,36 @@ class editorModel extends editor
 		}
 		
 		// Fill in some other values.
-		if(!is_array($editor_config->enable_html_grant)) $editor_config->enable_html_grant = array();
-		if(!is_array($editor_config->enable_comment_html_grant)) $editor_config->enable_comment_html_grant = array();
-		if(!is_array($editor_config->upload_file_grant)) $editor_config->upload_file_grant = array();
-		if(!is_array($editor_config->comment_upload_file_grant)) $editor_config->comment_upload_file_grant = array();
-		if(!is_array($editor_config->enable_default_component_grant)) $editor_config->enable_default_component_grant = array();
-		if(!is_array($editor_config->enable_comment_default_component_grant)) $editor_config->enable_comment_default_component_grant = array();
-		if(!is_array($editor_config->enable_component_grant)) $editor_config->enable_component_grant = array();
-		if(!is_array($editor_config->enable_comment_component_grant)) $editor_config->enable_comment_component_grant= array();
+		$grant_vars = array(
+			'enable_html_grant',
+			'enable_comment_html_grant',
+			'upload_file_grant',
+			'comment_upload_file_grant',
+			'enable_default_component_grant',
+			'enable_comment_default_component_grant',
+			'enable_component_grant',
+			'enable_comment_component_grant',
+		);
+		foreach ($grant_vars as $var)
+		{
+			if (!isset($editor_config->{$var}) || !is_array($editor_config->{$var}))
+			{
+				$editor_config->{$var} = [];
+			}
+		}
 		
 		// Load the default config for editor module.
 		$editor_default_config = ModuleModel::getModuleConfig('editor') ?: new stdClass;
 		
 		// Check whether we should use the default config.
-		if($editor_config->default_editor_settings !== 'Y' && $editor_default_config->editor_skin && $editor_config->editor_skin && $editor_default_config->editor_skin !== $editor_config->editor_skin)
+		if(!isset($editor_config->default_editor_settings) || $editor_config->default_editor_settings !== 'Y')
 		{
-			$editor_config->default_editor_settings = 'N';
+			if(isset($editor_config->editor_skin) && isset($editor_default_config->editor_skin) && $editor_default_config->editor_skin !== $editor_config->editor_skin)
+			{
+				$editor_config->default_editor_settings = 'N';
+			}
 		}
-		if(!$editor_config->default_editor_settings)
+		if(!isset($editor_config->default_editor_settings))
 		{
 			$editor_config->default_editor_settings = 'Y';
 		}

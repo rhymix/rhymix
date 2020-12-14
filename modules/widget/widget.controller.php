@@ -671,7 +671,7 @@ class widgetController extends widget
 			return lang('msg_invalid_request');
 		}
 
-		if(!$GLOBALS['_xe_loaded_widgets_'][$widget])
+		if(!isset($GLOBALS['_xe_loaded_widgets_'][$widget]))
 		{
 			// Finding the location of a widget
 			$oWidgetModel = getModel('widget');

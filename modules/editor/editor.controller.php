@@ -207,7 +207,7 @@ class editorController extends editor
 	function procLoadEditorStyle()
 	{
 		$module_info = Context::get('module_info');
-		$module_srl = $module_info->module_srl;
+		$module_srl = $module_info->module_srl ?? 0;
 		if($module_srl)
 		{
 			$editor_config = getModel('editor')->getEditorConfig($module_srl);

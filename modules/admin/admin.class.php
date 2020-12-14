@@ -310,7 +310,7 @@ class admin extends ModuleObject
 
 		// old admin menu
 		$output = $oMenuAdminModel->getMenuByTitle('__XE_ADMIN__');
-		$menuSrl = $output->menu_srl;
+		$menuSrl = $output->menu_srl ?? 0;
 
 		$oMenuAdminController = getAdminController('menu');
 		if($menuSrl)

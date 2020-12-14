@@ -125,7 +125,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // <!--%import("../script.js",type="body")-->
             array(
                 '<dummy /><!--%import("../script.js",type="body")--><dummy />',
-                '?><dummy /><!--#Meta:tests/unit/classes/script.js--><?php $__tmp=array(\'tests/unit/classes/script.js\',\'body\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?><dummy />'
+                '?><dummy /><!--#Meta:tests/unit/classes/script.js--><?php Context::loadFile([\'tests/unit/classes/script.js\', \'body\', \'\', \'\']); ?><dummy />'
             ),
             // <!--%unload("../script.js",type="body")-->
             array(
@@ -175,7 +175,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 103
             array(
                 '<load target="http://aaa.com/aaa.js" />',
-                '?><!--#Meta:http://aaa.com/aaa.js--><?php $__tmp=array(\'http://aaa.com/aaa.js\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?>'
+                '?><!--#Meta:http://aaa.com/aaa.js--><?php Context::loadFile([\'http://aaa.com/aaa.js\', \'\', \'\', \'\']); ?>'
             ),
             // issue 135
             array(
@@ -494,7 +494,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
         $result = $tmpl->compileDirect(__DIR__ . '/template', 'sample.html');
         $result = trim($result);
 
-        $this->assertEquals($result, $this->prefix.PHP_EOL.'if($__Context->has_blog){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php $__tmp=array(\'//external.host/js.js\',\'\',\'\',\'\');Context::loadFile($__tmp);unset($__tmp); ?>');
+        $this->assertEquals($result, $this->prefix.PHP_EOL.'if($__Context->has_blog){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'\', \'\']); ?>');
     }
 }
 

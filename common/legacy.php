@@ -435,7 +435,7 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 		return $string;
 	}
 
-	if($GLOBALS['use_mb_strimwidth'] || function_exists('mb_strimwidth'))
+	if(isset($GLOBALS['use_mb_strimwidth']) || function_exists('mb_strimwidth'))
 	{
 		$GLOBALS['use_mb_strimwidth'] = TRUE;
 		return mb_strimwidth($string, 0, $cut_size + 4, $tail, 'utf-8');

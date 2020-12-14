@@ -18,11 +18,11 @@
 		<h2>{$lang->checkBrowserIE8}</h2>
 	</div>
 
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<div cond="isset($XE_VALIDATOR_MESSAGE) && ($XE_VALIDATOR_ID ?? '') == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
-	<div class="message error" cond="$db_info->use_sitelock == 'Y'">
+	<div class="message error" cond="config('lock.locked')">
 		<h2>{$lang->sitelock_in_use}</h2>
 		<p>{$lang->about_sitelock_in_use} <a href="{getUrl(['module' => 'admin', 'act' => 'dispAdminConfigSitelock'])}">{$lang->cmd_configure}</a></p>
 	</div>

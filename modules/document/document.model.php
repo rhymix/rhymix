@@ -96,7 +96,7 @@ class documentModel extends document
 			$oDocument = $_document_list[$document_srl];
 			$module_srl = $oDocument->get('module_srl');
 			$document_lang_code = $oDocument->get('lang_code');
-			$document_extra_values = $extra_values[$document_srl];
+			$document_extra_values = $extra_values[$document_srl] ?? [];
 			
 			// set XE_EXTRA_VARS
 			if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl]))
@@ -303,7 +303,7 @@ class documentModel extends document
 	{
 		$args = new stdClass();
 		$args->module_srl = $obj->module_srl;
-		$args->category_srl = $obj->category_srl;
+		$args->category_srl = $obj->category_srl ?? null;
 		$output = executeQueryArray('document.getNoticeList', $args, $columnList);
 		if(!$output->toBool() || !$result = $output->data)
 		{
@@ -1217,7 +1217,7 @@ class documentModel extends document
 	public static function _setSortIndex($obj, $load_extra_vars = true)
 	{
 		$args = new stdClass;
-		$args->sort_index = $obj->sort_index;
+		$args->sort_index = $obj->sort_index ?? null;
 		$args->isExtraVars = false;
 		
 		// check it's default sort
@@ -1264,29 +1264,29 @@ class documentModel extends document
 	public static function _setSearchOption($searchOpt, &$args, &$query_id, &$use_division)
 	{
 		$args = new stdClass;
-		$args->module_srl = $searchOpt->module_srl;
-		$args->exclude_module_srl = $searchOpt->exclude_module_srl;
-		$args->category_srl = $searchOpt->category_srl ?: null;
-		$args->member_srl = $searchOpt->member_srl ?: ($searchOpt->member_srls ?: null);
-		$args->order_type = $searchOpt->order_type === 'desc' ? 'desc' : 'asc';
+		$args->module_srl = $searchOpt->module_srl ?? null;
+		$args->exclude_module_srl = $searchOpt->exclude_module_srl ?? null;
+		$args->category_srl = $searchOpt->category_srl ?? null;
+		$args->member_srl = $searchOpt->member_srl ?? ($searchOpt->member_srls ?? null);
+		$args->order_type = (isset($searchOpt->order_type) && $searchOpt->order_type === 'desc') ? 'desc' : 'asc';
 		$args->sort_index = $searchOpt->sort_index;
-		$args->page = $searchOpt->page ?: 1;
-		$args->list_count = $searchOpt->list_count ?: 20;
-		$args->page_count = $searchOpt->page_count ?: 10;
-		$args->start_date = $searchOpt->start_date ?: null;
-		$args->end_date = $searchOpt->end_date ?: null;
+		$args->page = $searchOpt->page ?? 1;
+		$args->list_count = $searchOpt->list_count ?? 20;
+		$args->page_count = $searchOpt->page_count ?? 10;
+		$args->start_date = $searchOpt->start_date ?? null;
+		$args->end_date = $searchOpt->end_date ?? null;
 		$args->s_is_notice = $searchOpt->except_notice ? 'N' : null;
-		$args->statusList = $searchOpt->statusList ?: array(self::getConfigStatus('public'), self::getConfigStatus('secret'));
-		$args->columnList = $searchOpt->columnList ?: array();
+		$args->statusList = $searchOpt->statusList ?? array(self::getConfigStatus('public'), self::getConfigStatus('secret'));
+		$args->columnList = $searchOpt->columnList ?? array();
 		
 		// get directly module_srl by mid
-		if($searchOpt->mid)
+		if(isset($searchOpt->mid) && $searchOpt->mid)
 		{
 			$args->module_srl = ModuleModel::getModuleSrlByMid($searchOpt->mid);
 		}
 		
 		// add subcategories
-		if($args->category_srl)
+		if(isset($args->category_srl) && $args->category_srl)
 		{
 			$category_list = self::getCategoryList($args->module_srl);
 			if(isset($category_list[$args->category_srl]))
@@ -1300,8 +1300,8 @@ class documentModel extends document
 		// default
 		$query_id = null;
 		$use_division = false;
-		$search_target = $searchOpt->search_target;
-		$search_keyword = trim($searchOpt->search_keyword);
+		$search_target = $searchOpt->search_target ?? null;
+		$search_keyword = trim($searchOpt->search_keyword ?? null) ?: null;
 		
 		// search
 		if($search_target && $search_keyword)

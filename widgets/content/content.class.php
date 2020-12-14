@@ -251,9 +251,9 @@ class content extends WidgetHandler
 			}
 		}
 		// Get a list of documents
-		$obj->module_srl = $args->module_srl;
-		$obj->category_srl = $args->category_srl;
-		$obj->sort_index = $args->order_target;
+		$obj->module_srl = $args->module_srl ?? null;
+		$obj->category_srl = $args->category_srl ?? null;
+		$obj->sort_index = $args->order_target ?? null;
 		if($args->order_target == 'list_order' || $args->order_target == 'update_order')
 		{
 			$obj->order_type = $args->order_type=="desc"?"asc":"desc";
@@ -302,8 +302,14 @@ class content extends WidgetHandler
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->add('original_content', $oDocument->get('content'));
 				$content_item->setTitle($oDocument->getTitleText());
-				$content_item->setCategory($category_lists[$module_srl][$category_srl]->title);
-				$content_item->setDomain($args->module_srls_info[$module_srl]->domain);
+				if(isset($category_lists[$module_srl]) && isset($category_lists[$module_srl][$category_srl]))
+				{
+					$content_item->setCategory($category_lists[$module_srl][$category_srl]->title);
+				}
+				if(isset($args->module_srls_info[$module_srl]))
+				{
+					$content_item->setDomain($args->module_srls_info[$module_srl]->domain);
+				}
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
 				$content_item->setLink($oDocument->getPermanentUrl());
 				$content_item->setThumbnail($thumbnail);
@@ -741,7 +747,7 @@ class content extends WidgetHandler
 		$widget_info->subject_cut_size = $args->subject_cut_size;
 		$widget_info->content_cut_size = $args->content_cut_size;
 		$widget_info->nickname_cut_size = $args->nickname_cut_size;
-		$widget_info->new_window = $args->new_window;
+		$widget_info->new_window = $args->new_window ?? null;
 
 		$widget_info->duration_new = $args->duration_new * 60*60;
 		$widget_info->thumbnail_type = $args->thumbnail_type;
@@ -786,7 +792,7 @@ class content extends WidgetHandler
 		unset($args->option_view_arr);
 		unset($args->modules_info);
 
-		Context::set('colorset', $args->colorset);
+		Context::set('colorset', $args->colorset ?? null);
 		Context::set('widget_info', $widget_info);
 
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
@@ -812,7 +818,7 @@ class contentItem extends BaseObject
 	}
 	function setFirstThumbnailIdx($first_thumbnail_idx)
 	{
-		if(is_null($this->first_thumbnail) && $first_thumbnail_idx>-1)
+		if(!isset($this->first_thumbnail) && $first_thumbnail_idx>-1)
 		{
 			$this->has_first_thumbnail_idx = true;
 			$this->first_thumbnail_idx= $first_thumbnail_idx;

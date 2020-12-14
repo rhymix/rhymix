@@ -79,7 +79,7 @@
 		'dispAjaxboardNotificationConfig',
 		'IS'
 	)}
-	<block cond="in_array($act, $_fixed_width_act)">
+	<block cond="isset($act) && in_array($act, $_fixed_width_act)">
 		{@ $_body_class[] = 'fixed-width'}
 		{@ $layout_info->sidebar_position = 'none'}
 		{@ $sub_header_title = 'Membership'}
@@ -137,7 +137,7 @@
 	<!--// 사이트 인덱스에서만 데모기능 사용 -->
 	<block cond="!$_is_indexmodule">{@ $layout_info->use_demo = 'N'}</block>
 	<!--// 페이지 수정 모드에서 감춤 -->
-	<block cond="$act === 'dispPageAdminContentModify'">{@ $layout_info->use_demo = 'N'}</block>
+	<block cond="isset($act) && $act === 'dispPageAdminContentModify'">{@ $layout_info->use_demo = 'N'}</block>
 
 
 {@ $_body_class = join(' ', $_body_class)}
@@ -162,7 +162,7 @@
 
 <!--// BODY -->
 <p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
-<div class="container {$_container_class}  {$menutype_class}">
+<div class="container {$_container_class} {$menutype_class ?? ''}">
 
 	<!-- HEADER -->
 	<div class="header_wrap xe-clearfix">
@@ -170,10 +170,9 @@
 			<div class="search_area">
 				<!-- SEARCH -->
 				<form action="{getUrl()}" method="get" class="search" no-error-return-url="true">
-					<input type="hidden" name="vid" value="{$vid}" />
 					<input type="hidden" name="mid" value="{$mid}" />
 					<input type="hidden" name="act" value="IS" />
-					<input type="text" name="is_keyword" value="{$is_keyword}" required="required" title="{$lang->cmd_search}" placeholder="Search" />
+					<input type="text" name="is_keyword" value="{$is_keyword ?? ''}" required="required" title="{$lang->cmd_search}" placeholder="Search" />
 				</form>
 				<!-- /SEARCH -->
 				<a href="#" class="btn_close" title="{$lang->cmd_xedition_search_close}" onclick="return false"><i class="xi-close"></i><span class="blind">{$lang->cmd_xedition_search_close}</span></a>
@@ -446,7 +445,7 @@
 <!--@end-->
 
 <!-- Login widget -->
-<section cond="$layout_info->use_login_widget != 'N'" class="login_widget" style="display:none"|cond="$XE_VALIDATOR_ID != 'layouts/xedition/layout/1' || !$XE_VALIDATOR_MESSAGE">
+<section cond="$layout_info->use_login_widget != 'N'" class="login_widget" style="display:none"|cond="isset($XE_VALIDATOR_ID) && $XE_VALIDATOR_ID != 'layouts/xedition/layout/1' || !isset($XE_VALIDATOR_MESSAGE)">
 	<load target="./css/widget.login.css" />
 	<div class="ly_dimmed"></div>
 	<div class="signin">
@@ -474,7 +473,7 @@
 							<label class="info_label" for="upw">{$lang->password}</label>
 						</div>
 					</div>
-					<div cond="$XE_VALIDATOR_ID == 'layouts/xedition/layout/1' && $XE_VALIDATOR_MESSAGE" class="control-group">
+					<div cond="isset($XE_VALIDATOR_ID) && $XE_VALIDATOR_ID == 'layouts/xedition/layout/1' && isset($XE_VALIDATOR_MESSAGE)" class="control-group">
 						<p class="error">{$XE_VALIDATOR_MESSAGE}</p>
 					</div>
 					<div class="control-group">

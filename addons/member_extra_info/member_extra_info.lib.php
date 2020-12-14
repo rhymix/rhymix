@@ -29,7 +29,7 @@ function memberTransImageName($matches)
 	$_tmp = &$GLOBALS['_transImageNameList'][$member_srl];
 	
 	// If pre-defined data in the global variables, return it
-	if(!$_tmp->cached)
+	if(!isset($_tmp->cached) || !$_tmp->cached)
 	{
 		$_tmp->cached = true;
 		$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
@@ -42,6 +42,7 @@ function memberTransImageName($matches)
 		}
 		else
 		{
+			$_tmp->image_name_file = '';
 			$image_name_file = '';
 		}
 
@@ -52,6 +53,7 @@ function memberTransImageName($matches)
 		}
 		else
 		{
+			$_tmp->image_mark_file = '';
 			$image_mark_file = '';
 		}
 

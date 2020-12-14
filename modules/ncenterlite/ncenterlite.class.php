@@ -141,7 +141,7 @@ class ncenterlite extends ModuleObject
 		$variable_name = array();
 		foreach($member_config->signupForm as $value)
 		{
-			if($value->type == 'tel')
+			if(isset($value->type) && $value->type == 'tel')
 			{
 				$variable_name[] = $value->name;
 			}

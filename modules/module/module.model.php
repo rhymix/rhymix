@@ -1209,7 +1209,7 @@ class moduleModel extends module
 				$output = executeQuery('module.getModuleConfig', $args);
 				
 				// Only object type
-				if($output->data->config)
+				if(isset($output->data->config) && $output->data->config)
 				{
 					$config = unserialize($output->data->config);
 				}
@@ -1363,7 +1363,7 @@ class moduleModel extends module
 			$info->created_table_count = null; //$created_table_count;
 			$info->table_count = null; //$table_count;
 			$info->path = $path;
-			$info->admin_index_act = $info->admin_index_act;
+			$info->admin_index_act = $info->admin_index_act ?? null;
 			$list[] = $info;
 		}
 		return $list;
@@ -1466,7 +1466,7 @@ class moduleModel extends module
 			$info->created_table_count = $created_table_count;
 			$info->table_count = $table_count;
 			$info->path = $path;
-			$info->admin_index_act = $info->admin_index_act;
+			$info->admin_index_act = $info->admin_index_act ?? null;
 			
 			if(!Context::isBlacklistedPlugin($module_name))
 			{
@@ -1491,7 +1491,7 @@ class moduleModel extends module
 				// Check if all action-forwardable routes are registered
 				$module_action_info = self::getModuleActionXml($module_name);
 				$forwardable_routes = array();
-				foreach ($module_action_info->action ?: [] as $action_name => $action_info)
+				foreach ($module_action_info->action ?? [] as $action_name => $action_info)
 				{
 					if (count($action_info->route) && $action_info->standalone !== 'false')
 					{
@@ -1501,14 +1501,14 @@ class moduleModel extends module
 						);
 					}
 				}
-				foreach ($module_action_info->route->GET ?: [] as $regexp => $action_name)
+				foreach ($module_action_info->route->GET ?? [] as $regexp => $action_name)
 				{
 					if (isset($forwardable_routes[$action_name]))
 					{
 						$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
 					}
 				}
-				foreach ($module_action_info->route->POST ?: [] as $regexp => $action_name)
+				foreach ($module_action_info->route->POST ?? [] as $regexp => $action_name)
 				{
 					if (isset($forwardable_routes[$action_name]))
 					{

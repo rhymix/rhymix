@@ -92,7 +92,7 @@ class addonController extends addon
 				$extra_vars = new stdClass;
 			}
 			
-			$mid_list = $extra_vars->mid_list;
+			$mid_list = $extra_vars->mid_list ?? [];
 			if(!is_array($mid_list))
 			{
 				$mid_list = array();
@@ -102,7 +102,7 @@ class addonController extends addon
 			$buff[] = '$before_time = microtime(true);';
 			
 			// Run method and mid list
-			$run_method = $extra_vars->xe_run_method ?: 'run_selected';
+			$run_method = ($extra_vars->xe_run_method ?? null) ?: 'run_selected';
 			$buff[] = '$rm = \'' . $run_method . "';";
 			$buff[] = '$ml = ' . var_export(array_fill_keys($mid_list, true), true) . ';';
 			

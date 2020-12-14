@@ -63,7 +63,7 @@ class Security
 			}
 			elseif($varName0)
 			{
-				$var = $is_object ? $this->_targetVar->{$varName0} : $this->_targetVar[$varName0];
+				$var = $is_object ? ($this->_targetVar->{$varName0} ?? null) : ($this->_targetVar[$varName0] ?? null);
 			}
 			else
 			{
@@ -131,7 +131,7 @@ class Security
 
 		if(strlen($name0))
 		{
-			$target = $is_object ? $var->{$name0} : $var[$name0];
+			$target = $is_object ? ($var->{$name0} ?? null) : ($var[$name0] ?? null);
 			$target = $this->_encodeHTML($target, $name);
 
 			if($target === false)

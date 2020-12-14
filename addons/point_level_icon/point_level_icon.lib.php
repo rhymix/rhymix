@@ -13,7 +13,7 @@ function pointLevelIconTrans($matches, $addon_info)
 		return $matches[0];
 	}
 
-	if($addon_info->icon_duplication != 'N')
+	if(!isset($addon_info->icon_duplication) || $addon_info->icon_duplication !== 'N')
 	{
 		// Check Group Image Mark
 		$oMemberModel = getModel('member');
@@ -28,21 +28,21 @@ function pointLevelIconTrans($matches, $addon_info)
 	if(!isset($GLOBALS['_pointLevelIcon'][$member_srl]))
 	{
 		// Get point configuration
-		if(!$GLOBALS['_pointConfig'])
+		if(!isset($GLOBALS['_pointConfig']))
 		{
-			$oModuleModel = getModel('module');
-			$GLOBALS['_pointConfig'] = $oModuleModel->getModuleConfig('point');
+			$GLOBALS['_pointConfig'] = getModel('module')->getModuleConfig('point') ?? new stdClass;
 		}
 		$config = $GLOBALS['_pointConfig'];
 
 		// Get point model
-		if(!$GLOBALS['_pointModel'])
+		if(!isset($GLOBALS['_pointModel']))
 		{
 			$GLOBALS['_pointModel'] = getModel('point');
 		}
-		$oPointModel = &$GLOBALS['_pointModel'];
+		$oPointModel = $GLOBALS['_pointModel'];
 
 		// Get points
+		$exists = false;
 		$point = $oPointModel->getPoint($member_srl, false, $exists);
 		if(!$exists)
 		{
@@ -61,7 +61,7 @@ function pointLevelIconTrans($matches, $addon_info)
 		if($level < $config->max_level)
 		{
 			$next_point = $config->level_step[$level + 1];
-			$present_point = $config->level_step[$level];
+			$present_point = $config->level_step[$level] ?? 0;
 			if($next_point > 0)
 			{
 				$per = (int) (($point - $present_point) / ($next_point - $present_point) * 100);
