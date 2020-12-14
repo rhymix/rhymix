@@ -111,9 +111,11 @@ class CacheTest extends \Codeception\TestCase\Test
 		$prefix = Rhymix\Framework\Cache::getPrefix();
 		
 		$this->assertEquals(1, Rhymix\Framework\Cache::getDriverInstance()->incr($prefix . 'foo', 1));
+		$this->assertEquals(8, Rhymix\Framework\Cache::getDriverInstance()->incr($prefix . 'foo', 7));
+		$this->assertEquals(-7, Rhymix\Framework\Cache::decr('foo', 15));
 		$this->assertEquals(45, Rhymix\Framework\Cache::getDriverInstance()->incr($prefix . 'bar', 3));
-		$this->assertEquals(-1, Rhymix\Framework\Cache::getDriverInstance()->decr($prefix . 'foo', 2));
-		$this->assertEquals(49, Rhymix\Framework\Cache::getDriverInstance()->decr($prefix . 'bar', -4));
+		$this->assertEquals(60, Rhymix\Framework\Cache::incr('bar', 15));
+		$this->assertEquals(20, Rhymix\Framework\Cache::getDriverInstance()->incr($prefix . 'bar', -40));
 	}
 	
 	public function testClearAll()

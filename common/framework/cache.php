@@ -236,7 +236,7 @@ class Cache
 	 * @param string $key
 	 * @return bool
 	 */
-	public static function delete($key)
+	public static function delete(string $key): bool
 	{
 		if (self::$_driver !== null)
 		{
@@ -256,7 +256,7 @@ class Cache
 	 * @param string $key
 	 * @return bool
 	 */
-	public static function exists($key)
+	public static function exists(string $key): bool
 	{
 		if (self::$_driver !== null)
 		{
@@ -269,6 +269,50 @@ class Cache
 	}
 	
 	/**
+	 * Increase the value of a key by $amount.
+	 * 
+	 * If the key does not exist, this method assumes that the current value is zero.
+	 * This method returns the new value, or -1 on failure.
+	 * 
+	 * @param string $key
+	 * @param int $amount (optional)
+	 * @return int
+	 */
+	public static function incr(string $key, int $amount = 1): int
+	{
+		if (self::$_driver !== null)
+		{
+			return self::$_driver->incr(self::getRealKey($key), $amount);
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	
+	/**
+	 * Decrease the value of a key by $amount.
+	 * 
+	 * If the key does not exist, this method assumes that the current value is zero.
+	 * This method returns the new value, or -1 on failure.
+	 * 
+	 * @param string $key
+	 * @param int $amount (optional)
+	 * @return int
+	 */
+	public static function decr(string $key, int $amount = 1): int
+	{
+		if (self::$_driver !== null)
+		{
+			return self::$_driver->decr(self::getRealKey($key), $amount);
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	
+	/**
 	 * Clear a group of keys from the cache.
 	 * 
 	 * This method returns true on success and false on failure.
@@ -276,7 +320,7 @@ class Cache
 	 * @param string $group_name
 	 * @return bool
 	 */
-	public static function clearGroup($group_name)
+	public static function clearGroup(string $group_name): bool
 	{
 		if (self::$_driver !== null)
 		{
@@ -297,7 +341,7 @@ class Cache
 	 * 
 	 * @return bool
 	 */
-	public static function clearAll()
+	public static function clearAll(): bool
 	{
 		if (self::$_driver !== null)
 		{
@@ -315,7 +359,7 @@ class Cache
 	 * @param string $group_name
 	 * @return int
 	 */
-	public static function getGroupVersion($group_name)
+	public static function getGroupVersion(string $group_name): int
 	{
 		if (isset(self::$_group_versions[$group_name]))
 		{
@@ -340,7 +384,7 @@ class Cache
 	 * @param string $key
 	 * @return string
 	 */
-	public static function getRealKey($key)
+	public static function getRealKey(string $key): string
 	{
 		if (preg_match('/^([^:]+):(.+)$/i', $key, $matches))
 		{
