@@ -28,13 +28,15 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 
 {@ $css_content = "" }
 
-<!--@if($enable_autosave)-->
+<!--@if($enable_autosave && isset($saved_doc) && $saved_doc)-->
 <input type="hidden" name="_saved_doc_title" value="{escape($saved_doc->title)}" />
 <input type="hidden" name="_saved_doc_content" value="{escape($saved_doc->content)}" />
 <input type="hidden" name="_saved_doc_document_srl" value="{$saved_doc->document_srl}" />
 <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 <!--@end-->
 
+{@ $ckeditor_main_filemtime = filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/ckeditor.js')}
+{@ $ckeditor_config_filemtime = file_exists(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') ? filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') : 0}
 {@ $editor_height_fixed = $editor_height + ($editor_toolbar_hide ? 58 : ($editor_toolbar === 'simple' ? 74 : 140))}
 
 <div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height_fixed}px;"></div>
@@ -48,7 +50,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 <script>
 	jQuery(function($){
 		"use strict";
-		<!--@if(!FileHandler::exists('common/js/plugins/ckeditor/ckeditor/config.js'))-->CKEDITOR.config.customConfig = '';<!--@endif-->
+		<!--@if(!$ckeditor_config_filemtime)-->CKEDITOR.config.customConfig = '';<!--@endif-->
 		
 		// Import CSS content from PHP.
 		var css_content = {json_encode($css_content)};
@@ -117,12 +119,15 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 				settings.ckeconfig.contentsCss.push($(this).attr('href'));
 			}
 		});
-	
-		
+
 		// Prevent removal of icon fonts and Google code.
 		CKEDITOR.dtd.$removeEmpty.i = 0;
 		CKEDITOR.dtd.$removeEmpty.ins = 0;
+		
+		// Set the timestamp for plugins.
+		CKEDITOR.timestamp = '{strtoupper(dechex(max($ckeditor_main_filemtime, $ckeditor_config_filemtime)))}';
 
+		// Add editor components.
 		<!--@if($enable_component)-->
 			{@ $xe_component = array(); }
 			<!--@foreach($component_list as $component_name => $component)-->
@@ -142,8 +147,10 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			settings.loadXeComponent = false;
 		<!--@endif-->
 
+		// Set default toolbar status.
 		settings.ckeconfig.toolbarStartupExpanded = {$editor_toolbar_hide ? 'false' : 'true'};
 
+		// Add or remove plugins based on Rhymix configuration.
 		<!--@if($editor_additional_plugins)-->
 			settings.ckeconfig.extraPlugins = {json_encode(implode(',', $editor_additional_plugins))};
 		<!--@endif-->
@@ -162,6 +169,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			$('head').append('<st' + 'yle>' + additional_styles + String(css_content).replace(/\.rhymix_content\.editable/g, '.cke_wysiwyg_div') + '</st' + 'yle>');
 		}
 
+		// Define the simple toolbar.
 		<!--@if($editor_toolbar === 'simple')-->
 			settings.ckeconfig.toolbar = [
 				{ name: 'styles', items: [ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', 'TextColor', 'BGColor' ] },
