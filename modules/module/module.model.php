@@ -1252,7 +1252,7 @@ class moduleModel extends module
 				$output = executeQuery('module.getModulePartConfig', $args);
 				
 				// Object or Array(compatibility) type
-				if($output->data->config)
+				if($output->data && isset($output->data->config))
 				{
 					$config = unserialize($output->data->config);
 				}
