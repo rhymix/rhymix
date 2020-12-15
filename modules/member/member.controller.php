@@ -1922,6 +1922,11 @@ class memberController extends member
 		// https://github.com/rhymix/rhymix/issues/1232
 		// executeQuery('member.deleteAuthMail', $args);
 
+		// Clear login failure log
+		// https://github.com/rhymix/rhymix/issues/1429
+		executeQuery('member.deleteLoginCountByIp', ['ipaddress' => \RX_CLIENT_IP]);
+
+		// Clear member cache
 		self::clearMemberCache($args->member_srl);
 
 		// Call a trigger (after)
