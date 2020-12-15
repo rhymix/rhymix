@@ -1267,7 +1267,14 @@ class documentModel extends document
 		$args->module_srl = $searchOpt->module_srl ?? null;
 		$args->exclude_module_srl = $searchOpt->exclude_module_srl ?? null;
 		$args->category_srl = $searchOpt->category_srl ?? null;
-		$args->member_srl = $searchOpt->member_srl ?? ($searchOpt->member_srls ?? null);
+		if (isset($searchOpt->member_srl) && $searchOpt->member_srl)
+		{
+			$args->member_srl = $searchOpt->member_srl;
+		}
+		elseif (isset($searchOpt->member_srls) && $searchOpt->member_srls)
+		{
+			$args->member_srl = $searchOpt->member_srls;
+		}
 		$args->order_type = (isset($searchOpt->order_type) && $searchOpt->order_type === 'desc') ? 'desc' : 'asc';
 		$args->sort_index = $searchOpt->sort_index;
 		$args->page = $searchOpt->page ?? 1;
