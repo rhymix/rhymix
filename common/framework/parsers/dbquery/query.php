@@ -13,6 +13,7 @@ class Query extends VariableBase
 	public $name;
 	public $type;
 	public $tables = array();
+	public $index_hints = array();
 	public $columns = array();
 	public $conditions = array();
 	public $groupby = null;
@@ -165,6 +166,14 @@ class Query extends VariableBase
 			if ($tables !== '')
 			{
 				$result .= ' FROM ' . $tables;
+			}
+		}
+		if (count($this->index_hints))
+		{
+			$index_hints = $this->_arrangeIndexHints($this->index_hints);
+			if ($index_hints !== '')
+			{
+				$result .= ' ' . $index_hints;
 			}
 		}
 		
@@ -416,6 +425,37 @@ class Query extends VariableBase
 		
 		// Combine the result and return as a string.
 		return implode('', $result);
+	}
+	
+	/**
+	 * Generate index hints.
+	 * 
+	 * @param array $index_hints
+	 * @return string
+	 */
+	protected function _arrangeIndexHints(array $index_hints): string
+	{
+		// Initialize the index list by type.
+		$index_list = [];
+		
+		// Group each index hint by type.
+		foreach ($index_hints as $index_hint)
+		{
+			if (!count($index_hint->target_db) || isset($index_hint->target_db['mysql']))
+			{
+				$key = $index_hint->hint_type ?: 'USE';
+				$index_list[$key] = $index_list[$key] ?? [];
+				$index_list[$key][] = $index_hint->index_name;
+			}
+		}
+		
+		// Generate a list of indexes for each group.
+		$result = [];
+		foreach ($index_list as $key => $val)
+		{
+			$result[] = sprintf('%s INDEX (%s)', $key, implode(', ', $val));
+		}
+		return implode(' ', $result);
 	}
 	
 	/**

@@ -80,6 +80,34 @@ class DBQueryParser extends BaseParser
 			$query->tables[$table->alias] = $table;
 		}
 		
+		// Load index hints.
+		foreach ($xml->index_hint ?: [] as $index_hint_group)
+		{
+			$index_hint_target_db = strtolower(trim($index_hint_group['for']));
+			if ($index_hint_target_db !== '' && $index_hint_target_db !== 'all')
+			{
+				$index_hint_target_db = explode(',', $index_hint_target_db);
+				$index_hint_target_db = array_combine($index_hint_target_db, array_fill(0, count($index_hint_target_db), true));
+			}
+			else
+			{
+				$index_hint_target_db = [];
+			}
+			
+			foreach ($index_hint_group->children() ?: [] as $tag)
+			{
+				$index_hint = new DBQuery\IndexHint;
+				$index_hint->target_db = $index_hint_target_db;
+				$index_hint->hint_type = strtoupper(trim($tag['type'])) ?: 'USE';
+				$index_hint->index_name = trim($tag['name']) ?: '';
+				$index_hint->table_name = trim($tag['table']) ?: '';
+				if ($index_hint->index_name)
+				{
+					$query->index_hints[] = $index_hint;
+				}
+			}
+		}
+		
 		// Load columns.
 		foreach ($xml->columns ? $xml->columns->children() : [] as $tag)
 		{
