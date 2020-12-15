@@ -86,6 +86,7 @@ $lang->success_installed = '설치가 되었습니다.';
 $lang->msg_cannot_proc = '설치 환경이 갖춰지지 않아 요청을 실행할 수가 없습니다.';
 $lang->msg_db_checking = '확인 중입니다...';
 $lang->msg_installing = '설치 중입니다...';
+$lang->msg_dbroot_disallowed = 'DB root 계정으로 설치하는 것은 허용되지 않습니다. root가 아닌 일반 DB 계정을 생성하여 사용하시기 바랍니다.';
 $lang->msg_already_installed = '이미 설치가 되어 있습니다.';
 $lang->msg_dbconnect_failed = 'DB접속 오류가 발생하였습니다. DB정보를 다시 확인해주세요.';
 $lang->msg_table_is_exists = '이미 DB에 테이블이 생성되어 있습니다. config 파일을 재생성하였습니다.';

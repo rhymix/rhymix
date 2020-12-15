@@ -32,6 +32,12 @@ class installController extends install
 		// Get DB config variables.
 		$config = Context::gets('db_type', 'db_host', 'db_port', 'db_user', 'db_pass', 'db_database', 'db_prefix');
 		
+		// Disallow installation using the root account.
+		if (trim($config->db_user) === 'root')
+		{
+			return new BaseObject(-1, 'msg_dbroot_disallowed');
+		}
+		
 		// Create a temporary setting object.
 		Rhymix\Framework\Config::set('db.master', array(
 			'type' => $config->db_type,

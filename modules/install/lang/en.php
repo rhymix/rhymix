@@ -87,6 +87,7 @@ $lang->msg_db_checking = 'Checking...';
 $lang->msg_installing = 'Installing...';
 $lang->msg_cannot_proc = 'Installation environment is not proper to proceed.';
 $lang->msg_already_installed = 'Rhymix is already installed.';
+$lang->msg_dbroot_disallowed = 'Installing with the DB root account is not permitted. Please create a non-root account and use it.';
 $lang->msg_dbconnect_failed = 'An error has occurred while connecting to DB. Please check DB information again.';
 $lang->msg_table_is_exists = 'Table is already created in the DB. Config file is recreated.';
 $lang->msg_install_completed = 'Installation has been completed. Thank you for choosing Rhymix.';
