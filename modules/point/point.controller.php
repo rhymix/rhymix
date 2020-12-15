@@ -158,6 +158,7 @@ class pointController extends point
 		
 		if (!$module_srl || !$member_srl)
 		{
+			$this->_original = null;
 			return;
 		}
 		
@@ -250,7 +251,7 @@ class pointController extends point
 	/**
 	 * @brief A trigger which gives points for entering a comment
 	 */
-	public function triggerInsertComment($obj)
+	public function triggerInsertComment($obj, $mode = 'insert')
 	{
 		$module_srl = $obj->module_srl;
 		$member_srl = abs($obj->member_srl);
@@ -274,22 +275,24 @@ class pointController extends point
 			return;
 		}
 		
-		// Get the points of the member
-		$cur_point = PointModel::getPoint($member_srl);
-
+		$diff = 0;
+		
 		// Add points for the comment.
-		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
-		$cur_point += $comment_point;
+		if ($mode === 'insert')
+		{
+			$diff += $this->_getModulePointConfig($module_srl, 'insert_comment');
+		}
 		
 		// Add points for attached files.
-		if ($obj->uploaded_count > 0)
+		if ($obj->updated_file_count > 0)
 		{
-			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
-			$cur_point += $attached_files_point * $obj->uploaded_count;
+			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$diff += $upload_point * $obj->updated_file_count;
 		}
 		
 		// Increase the point.
-		$this->setPoint($member_srl, $cur_point);
+		$cur_point = PointModel::getPoint($member_srl);
+		$this->setPoint($member_srl, $cur_point + $diff);
 	}
 
 	/**
@@ -297,7 +300,7 @@ class pointController extends point
 	 */
 	public function triggerUpdateComment($obj)
 	{
-		
+		$this->triggerInsertComment($obj, 'update');
 	}
 	
 	/**

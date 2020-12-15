@@ -598,7 +598,7 @@ class commentController extends comment
 			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, $obj->nick_name, $update_document);
 		}
 
-		if($obj->uploaded_count)
+		if($obj->uploaded_count > 0)
 		{
 			$attachOutput = getController('file')->setFilesValid($obj->comment_srl, 'com');
 			if(!$attachOutput->toBool())
@@ -606,6 +606,11 @@ class commentController extends comment
 				$oDB->rollback();
 				return $attachOutput;
 			}
+			$obj->updated_file_count = $attachOutput->get('updated_file_count');
+		}
+		else
+		{
+			$obj->updated_file_count = 0;
 		}
 		
 		// call a trigger(after)
@@ -869,7 +874,7 @@ class commentController extends comment
 			return $output;
 		}
 
-		if($obj->uploaded_count)
+		if($obj->uploaded_count > 0)
 		{
 			$attachOutput = getController('file')->setFilesValid($obj->comment_srl, 'com');
 			if(!$attachOutput->toBool())
@@ -877,6 +882,11 @@ class commentController extends comment
 				$oDB->rollback();
 				return $attachOutput;
 			}
+			$obj->updated_file_count = $attachOutput->get('updated_file_count');
+		}
+		else
+		{
+			$obj->updated_file_count = 0;
 		}
 
 		// call a trigger (after)
