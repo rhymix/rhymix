@@ -657,6 +657,7 @@ class documentController extends document
 			return $attachOutput;
 		}
 		
+		$obj->updated_file_count = $attachOutput->get('updated_file_count');
 		ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 
 		// commit
@@ -967,6 +968,7 @@ class documentController extends document
 			return $attachOutput;
 		}
 		
+		$obj->updated_file_count = $attachOutput->get('updated_file_count');
 		ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 
 		// commit

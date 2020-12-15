@@ -30,7 +30,8 @@ class point extends ModuleObject
 		array('member.doLogin', 'after', 'controller', 'triggerAfterLogin'),
 		array('member.deleteGroup', 'after', 'controller', 'triggerDeleteGroup'),
 		array('document.insertDocument', 'after', 'controller', 'triggerInsertDocument'),
-		array('document.updateDocument', 'before', 'controller', 'triggerUpdateDocument'),
+		array('document.updateDocument', 'before', 'controller', 'triggerBeforeUpdateDocument'),
+		array('document.updateDocument', 'after', 'controller', 'triggerAfterUpdateDocument'),
 		array('document.deleteDocument', 'after', 'controller', 'triggerDeleteDocument'),
 		array('document.moveDocumentToTrash', 'after', 'controller', 'triggerTrashDocument'),
 		array('comment.insertComment', 'after', 'controller', 'triggerInsertComment'),
@@ -53,6 +54,7 @@ class point extends ModuleObject
 	 * Triggers to delete.
 	 */
 	protected static $_delete_triggers = array(
+		array('document.updateDocument', 'before', 'controller', 'triggerUpdateDocument'),
 		array('document.deleteDocument', 'before', 'controller', 'triggerBeforeDeleteDocument'),
 		array('file.insertFile', 'after', 'controller', 'triggerInsertFile'),
 	);

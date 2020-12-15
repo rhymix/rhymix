@@ -727,7 +727,9 @@ class fileController extends file
 		{
 			$args->upload_target_type = substr($upload_target_type, 0, 3);
 		}
-		return executeQuery('file.updateFileValid', $args);
+		$output = executeQuery('file.updateFileValid', $args);
+		$output->add('updated_file_count', intval(DB::getInstance()->getAffectedRows()));
+		return $output;
 	}
 
 	/**

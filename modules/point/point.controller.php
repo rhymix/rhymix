@@ -8,6 +8,11 @@
 class pointController extends point
 {
 	/**
+	 * Variables for internal reference.
+	 */
+	protected $_original;
+	
+	/**
 	 * @brief Initialization
 	 */
 	public function init()
@@ -102,68 +107,81 @@ class pointController extends point
 			return;
 		}
 		
-		// Get the points of the member
-		$cur_point = PointModel::getPoint($member_srl);
+		$diff = 0;
 
 		// Add points for the document.
-		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
-		$cur_point += $document_point;
+		$diff += $this->_getModulePointConfig($module_srl, 'insert_document');
 		
 		// Add points for attached files.
-		if ($obj->uploaded_count > 0)
+		if ($obj->updated_file_count > 0)
 		{
-			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
-			$cur_point += $attached_files_point * $obj->uploaded_count;
+			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$diff += $upload_point * $obj->updated_file_count;
 		}
 		
 		// Increase the point.
-		$this->setPoint($member_srl, $cur_point);
+		$cur_point = PointModel::getPoint($member_srl);
+		$this->setPoint($member_srl, $cur_point + $diff);
 	}
 
+	/**
+	 * Save information about the original document before updating.
+	 */
+	public function triggerBeforeUpdateDocument($obj)
+	{
+		if ($obj->document_srl)
+		{
+			$this->_original = DocumentModel::getDocument($obj->document_srl);
+			if (!$this->_original->isExists())
+			{
+				$this->_original = null;
+			}
+		}
+	}
+	
 	/**
 	 * @brief The trigger to give points for normal saving the temporarily saved document
 	 * Temporary storage at the point in 1.2.3 changed to avoid payment
 	 */
-	public function triggerUpdateDocument($obj)
+	public function triggerAfterUpdateDocument($obj)
 	{
-		$oDocument = DocumentModel::getDocument($obj->document_srl);
+		if ($this->_original)
+		{
+			$module_srl = $this->_original->get('module_srl');
+			$member_srl = abs($this->_original->get('member_srl'));
+		}
+		else
+		{
+			$module_srl = $obj->module_srl;
+			$member_srl = $obj->member_srl;
+		}
 		
-		$module_srl = $oDocument->get('module_srl');
-		$member_srl = abs($oDocument->get('member_srl'));
 		if (!$module_srl || !$member_srl)
 		{
 			return;
 		}
 		
-		// Only give points if the document is being updated from TEMP to another status such as PUBLIC.
-		if ($obj->status === DocumentModel::getConfigStatus('temp') || $oDocument->get('status') !== DocumentModel::getConfigStatus('temp'))
+		$diff = 0;
+		
+		// Add points for the document, only if the document is being updated from TEMP to another status such as PUBLIC.
+		if ($obj->status !== DocumentModel::getConfigStatus('temp') && $this->_original->get('status') === DocumentModel::getConfigStatus('temp'))
 		{
-			if ($obj->uploaded_count > $oDocument->get('uploaded_count'))
-			{
-				$cur_point = PointModel::getPoint($member_srl);
-				$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
-				$cur_point += $attached_files_point * ($obj->uploaded_count - $oDocument->get('uploaded_count'));
-				$this->setPoint($member_srl, $cur_point);
-			}
-			return;
+			$diff += $this->_getModulePointConfig($module_srl, 'insert_document');
 		}
 
-		// Get the points of the member
-		$cur_point = PointModel::getPoint($member_srl);
-
-		// Add points for the document.
-		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
-		$cur_point += $document_point;
-		
 		// Add points for attached files.
-		if ($obj->uploaded_count > 0)
+		if ($obj->updated_file_count > 0)
 		{
-			$attached_files_point = $this->_getModulePointConfig($module_srl, 'upload_file');
-			$cur_point += $attached_files_point * $obj->uploaded_count;
+			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$diff += $upload_point * $obj->updated_file_count;
 		}
 		
 		// Increase the point.
-		$this->setPoint($member_srl, $cur_point);
+		$cur_point = PointModel::getPoint($member_srl);
+		$this->setPoint($member_srl, $cur_point + $diff);
+		
+		// Remove the reference to the original document.
+		$this->_original = null;
 	}
 
 	/**
