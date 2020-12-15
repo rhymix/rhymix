@@ -60,7 +60,8 @@ class memberController extends member
 			if($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
 				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
-				return $this->setRedirectUrl(getNotEncodedUrl('','vid',Context::get('vid'),'mid',Context::get('mid'),'act','dispMemberModifyPassword'), new BaseObject(-1, $msg));
+				$change_password_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyPassword');
+				return $this->setRedirectUrl($change_password_url, new BaseObject(-1, $msg));
 			}
 		}
 
