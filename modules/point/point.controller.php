@@ -31,14 +31,12 @@ class pointController extends point
 		}
 		
 		$config = $this->getConfig();
-		$point = intval($config->signup_point);
-		if (!$point)
+		$diff = intval($config->signup_point);
+		if ($diff != 0)
 		{
-			return;
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point + $diff, 'signup');
 		}
-		
-		$cur_point = PointModel::getPoint($member_srl);
-		$this->setPoint($member_srl, $cur_point + $point, 'signup');
 	}
 
 	/**
@@ -59,14 +57,12 @@ class pointController extends point
 		}
 		
 		$config = $this->getConfig();
-		$point = intval($config->login_point);
-		if (!$point)
+		$diff = intval($config->login_point);
+		if ($diff != 0)
 		{
-			return;
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point + $diff);
 		}
-		
-		$cur_point = PointModel::getPoint($member_srl);
-		$this->setPoint($member_srl, $cur_point + $point);
 	}
 
 	/**
@@ -120,8 +116,11 @@ class pointController extends point
 		}
 		
 		// Increase the point.
-		$cur_point = PointModel::getPoint($member_srl);
-		$this->setPoint($member_srl, $cur_point + $diff);
+		if ($diff != 0)
+		{
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point + $diff);
+		}
 	}
 
 	/**
@@ -178,8 +177,11 @@ class pointController extends point
 		}
 		
 		// Increase the point.
-		$cur_point = PointModel::getPoint($member_srl);
-		$this->setPoint($member_srl, $cur_point + $diff);
+		if ($diff != 0)
+		{
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point + $diff);
+		}
 		
 		// Remove the reference to the original document.
 		$this->_original = null;
@@ -226,18 +228,15 @@ class pointController extends point
 			return;
 		}
 		
-		// Get the points of the member
-		$cur_point = PointModel::getPoint($member_srl);
-
 		// Subtract points for the document.
-		$document_point = $this->_getModulePointConfig($module_srl, 'insert_document');
-		if ($document_point > 0)
-		{
-			$cur_point -= $document_point;
-		}
+		$diff = $this->_getModulePointConfig($module_srl, 'insert_document');
 		
 		// Increase the point.
-		$this->setPoint($member_srl, $cur_point);
+		if ($diff != 0)
+		{
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point - $diff);
+		}
 	}
 
 	/**
@@ -291,8 +290,11 @@ class pointController extends point
 		}
 		
 		// Increase the point.
-		$cur_point = PointModel::getPoint($member_srl);
-		$this->setPoint($member_srl, $cur_point + $diff);
+		if ($diff != 0)
+		{
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point + $diff);
+		}
 	}
 
 	/**
@@ -340,18 +342,16 @@ class pointController extends point
 			return;
 		}
 		
-		// Get the module_srl of the document to which this comment belongs
+		// Calculate points based on the module_srl of the document to which this comment belongs
 		$module_srl = $oDocument->get('module_srl');
+		$diff = $this->_getModulePointConfig($module_srl, 'insert_comment');
 		
-		// Get the points of the member
-		$cur_point = PointModel::getPoint($member_srl);
-
-		// Add points for the comment.
-		$comment_point = $this->_getModulePointConfig($module_srl, 'insert_comment');
-		$cur_point -= $comment_point;
-		
-		// Increase the point.
-		$this->setPoint($member_srl, $cur_point);
+		// Decrease the point.
+		if ($diff != 0)
+		{
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point - $diff);
+		}
 	}
 
 	/**
@@ -392,14 +392,16 @@ class pointController extends point
 		}
 		
 		// Get the points of the member
-		$cur_point = PointModel::getPoint($member_srl);
 
 		// Subtract points for the file.
-		$file_point = $this->_getModulePointConfig($module_srl, 'upload_file');
-		$cur_point -= $file_point;
+		$diff = $this->_getModulePointConfig($module_srl, 'upload_file');
 		
 		// Update the point.
-		$this->setPoint($member_srl, $cur_point);
+		if ($diff != 0)
+		{
+			$cur_point = PointModel::getPoint($member_srl);
+			$this->setPoint($member_srl, $cur_point - $diff);
+		}
 	}
 
 	/**
