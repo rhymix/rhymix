@@ -2,8 +2,7 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispMessage" type="view" index="true" meta-noindex="true" />
-		
+		<action name="dispMessage" type="view" meta-noindex="true" />
 		<action name="dispMessageAdminConfig" type="view" admin_index="true" />
 		<action name="procMessageAdminInsertConfig" type="controller" />
 		<action name="getMessageAdminColorset" type="model" />

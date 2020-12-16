@@ -73,7 +73,7 @@
 		<action name="procMemberLogout" type="controller" permission="member" />
 		<action name="procMemberSpammerManage" type="controller" permission="manager" check_var="module_srl" />
 		
-		<action name="dispMemberAdminList" type="view" index="true" admin_index="true" menu_name="userList" menu_index="true"/>
+		<action name="dispMemberAdminList" type="view" admin_index="true" menu_name="userList" menu_index="true"/>
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
 		<action name="dispMemberAdminInsert" type="view" menu_name="userList" />
 		<action name="dispMemberAdminConfig" type="view" menu_name="userSetting" menu_index="true" />

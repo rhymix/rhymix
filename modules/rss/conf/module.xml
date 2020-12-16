@@ -5,7 +5,7 @@
 		<action name="rss" type="view" />
 		<action name="atom" type="view" />
 		
-		<action name="dispRssAdminIndex" type="view" index="true" admin_index="true" menu_name="rss" menu_index="true" />
+		<action name="dispRssAdminIndex" type="view" admin_index="true" menu_name="rss" menu_index="true" />
 		<action name="procRssAdminInsertConfig" type="controller" ruleset="insertRssConfig" />
 		<action name="procRssAdminInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
 		<action name="procRssAdminDeleteFeedImage" type="controller" />
