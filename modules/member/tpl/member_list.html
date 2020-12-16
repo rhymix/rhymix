@@ -34,7 +34,11 @@
 		<thead>
 			<tr>
 				<th scope="col" class="nowr rx_detail_marks" cond="$profileImageConfig == 'Y' && $config->member_profile_view == 'Y'">{$lang->profile_image}</th>
-				<th scope="col" class="nowr" loop="$usedIdentifiers=>$name,$title">{$title}</th>
+				<!--@foreach($usedIdentifiers as $name => $title)-->
+					<th scope="col" class="nowr">
+						<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', $name, 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$title}<block cond="$sort_index == $name"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a>
+					</th>
+				<!--@endforeach-->
 				<th scope="col" class="nowr">{$lang->status}</th>
 				<th scope="col" class="nowr rx_detail_marks"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'regdate', 'sort_order', ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->signup_date}<block cond="$sort_index == 'regdate'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>
 				<th scope="col" class="nowr rx_detail_marks"><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList', 'sort_index', 'last_login', 'sort_order',  ($sort_order == 'asc') ? 'desc' : 'asc', 'selected_group_srl', $selected_group_srl)}">{$lang->last_login}<block cond="$sort_index == 'last_login'"> <em cond="$sort_order=='asc'">▲</em><em cond="$sort_order != 'asc'">▼</em></block></a></th>

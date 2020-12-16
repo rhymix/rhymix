@@ -120,7 +120,7 @@ class memberAdminModel extends member
 		// Change the query id if selected_group_srl exists (for table join)
 		$sort_order = Context::get('sort_order');
 		$sort_index = Context::get('sort_index');
-		if(!$sort_index)
+		if(!$sort_index || !in_array($sort_index, ['user_id', 'email_address', 'phone_number', 'user_name', 'nick_name', 'regdate', 'last_login']))
 		{
 			$sort_index = "list_order";
 		}
