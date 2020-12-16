@@ -152,6 +152,7 @@ class moduleAdminController extends module
 
 		if($tmpModuleSkinVars)
 		{
+			$moduleSkinVars = new stdClass;
 			foreach($tmpModuleSkinVars as $key=>$value)
 			{
 				$moduleSkinVars->{$key} = $value->value;
@@ -160,6 +161,7 @@ class moduleAdminController extends module
 
 		if($tmpModuleMobileSkinVars)
 		{
+			$moduleMobileSkinVars = new stdClass;
 			foreach($tmpModuleMobileSkinVars as $key=>$value)
 			{
 				$moduleMobileSkinVars->{$key} = $value->value;
@@ -221,8 +223,8 @@ class moduleAdminController extends module
 			if(count($grant) > 0) $oModuleController->insertModuleGrants($module_srl, $grant);
 			if($extra_vars) $oModuleController->insertModuleExtraVars($module_srl, $extra_vars);
 
-			if($moduleSkinVars) $oModuleController->insertModuleSkinVars($module_srl, $moduleSkinVars);
-			if($moduleMobileSkinVars) $oModuleController->insertModuleMobileSkinVars($module_srl, $moduleMobileSkinVars);
+			if(isset($moduleSkinVars)) $oModuleController->insertModuleSkinVars($module_srl, $moduleSkinVars);
+			if(isset($moduleMobileSkinVars)) $oModuleController->insertModuleMobileSkinVars($module_srl, $moduleMobileSkinVars);
 
 			$triggerObj->moduleSrlList[] = $module_srl;
 		}
