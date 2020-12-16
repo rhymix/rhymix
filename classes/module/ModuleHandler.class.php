@@ -372,12 +372,18 @@ class ModuleHandler extends Handler
 		// check CSRF for non-GET (POST, PUT, etc.) actions
 		if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 		{
-			if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
+			if(isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 			{
 				return self::_createErrorMessage(-1, 'msg_security_violation');
 			}
 		}
 		
+		// check if the current action allows standalone access (without mid)
+		if(!$this->mid && isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->standalone === 'false')
+		{
+			return self::_createErrorMessage(-1, 'msg_invalid_request');
+		}
+	
 		if(!isset($this->module_info->use_mobile))
 		{
 			$this->module_info->use_mobile = 'N';
