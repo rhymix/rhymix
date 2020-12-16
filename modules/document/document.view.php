@@ -84,8 +84,8 @@ class documentView extends document
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Taken from a list of selected sessions
 		$document_srl_list = array();
-		$flag_list = $_SESSION['document_management'];
-		if(count($flag_list))
+		$flag_list = $_SESSION['document_management'] ?? [];
+		if(is_array($flag_list) && count($flag_list))
 		{
 			foreach($flag_list as $key => $val)
 			{
