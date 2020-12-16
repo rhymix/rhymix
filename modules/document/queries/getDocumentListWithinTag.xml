@@ -7,7 +7,7 @@
 		<column name="documents.*" />
 	</columns>
 	<conditions>
-		<condition operation="like" column="tags.tag" var="s_tag" notnull="notnull" />
+		<condition operation="equal" column="tags.tag" var="s_tag" notnull="notnull" />
 		<condition operation="equal" column="documents.document_srl" default="tags.document_srl" pipe="and" />
 		<condition operation="in" column="documents.module_srl" var="module_srl" filter="number" pipe="and" />
 		<condition operation="notin" column="documents.module_srl" var="exclude_module_srl" filter="number" pipe="and" />
