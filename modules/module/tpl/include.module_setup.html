@@ -70,7 +70,8 @@
 		<label class="x_control-label" for="description">{$lang->description}</label>
 		<div class="x_controls">
 			<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
-			<p class="x_help-inline">{$lang->about_description}</p>
+			<label class="x_inline" for="description_delete"><input name="description_delete" id="description_delete" type="checkbox" value="Y" /> {$lang->cmd_delete}</label>
+			<p class="x_help-block">{$lang->about_description}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -78,14 +79,16 @@
 		<div class="x_controls">
 			{@$use_multilang_textarea=true}
 			<textarea id="header_text" name="header_text" class="lang_code" rows="8" cols="42"></textarea>
-			<p class="x_help-inline" style="vertical-align:top">{$lang->about_header_text}</p>
+			<label class="x_inline" for="header_text_delete"><input name="header_text_delete" id="header_text_delete" type="checkbox" value="Y" /> {$lang->cmd_delete}</label>
+			<p class="x_help-block" style="vertical-align:top">{$lang->about_header_text}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="lang_footer_text">{$lang->footer_text}</label>
 		<div class="x_controls">
 			<textarea id="footer_text" name="footer_text" class="lang_code" rows="8" cols="42"></textarea>
-			<p class="x_help-inline" style="vertical-align:top">{$lang->about_footer_text}</p>
+			<label class="x_inline" for="footer_text_delete"><input name="footer_text_delete" id="footer_text_delete" type="checkbox" value="Y" /> {$lang->cmd_delete}</label>
+			<p class="x_help-block" style="vertical-align:top">{$lang->about_footer_text}</p>
 		</div>
 	</div>
 	<div class="btnArea">

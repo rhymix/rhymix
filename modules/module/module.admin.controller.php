@@ -523,9 +523,13 @@ class moduleAdminController extends module
 		$oModuleController= getController('module');
 		$columnList = array('module_srl', 'module', 'menu_srl', 'site_srl', 'mid', 'browser_title', 'is_default', 'content', 'mcontent', 'open_rss', 'regdate');
 		$updateList = array('module_category_srl','layout_srl','skin','mlayout_srl','mskin','description','header_text','footer_text', 'use_mobile');
-		foreach($updateList as $key=>$val)
+		foreach($updateList as $key => $val)
 		{
-			if(!strlen($vars->{$val}))
+			if(isset($vars->{$val . '_delete'}) && $vars->{$val . '_delete'} === 'Y')
+			{
+				$vars->{$val} = '';
+			}
+			elseif(!strlen($vars->{$val}))
 			{
 				unset($updateList[$key]);
 				$columnList[] = $val;
