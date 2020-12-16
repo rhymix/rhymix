@@ -44,7 +44,7 @@
 	<input type="hidden" name="addon_name" value="{$addon_info->addon_name}" />
 	<input type="hidden" name="xe_validator_id" value="modules/addon/tpl/setup_addon/1" />
 
-	<block cond="count($addon_info->extra_vars)">
+	<block cond="count($addon_info->extra_vars ?: [])">
 		<block loop="$addon_info->extra_vars => $id, $var">
 			<block cond="$group != $var->group">
 				<h2 style="margin-top:50px;">{$var->group}</h2>
@@ -65,7 +65,7 @@
 			</div>
 		</block>
 	</block>
-	<div cond="!count($addon_info->extra_vars)" class="message info">
+	<div cond="!count($addon_info->extra_vars ?: [])" class="message info">
 		<p>{$lang->msg_not_exist_option}</p>
 	</div>
 </section>
