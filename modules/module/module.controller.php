@@ -1414,6 +1414,23 @@ class moduleController extends module
 			}
 		}
 		
+		// Clean up any action-forward routes that are no longer needed.
+		foreach ($forwardable_routes as $action_name => $route_info)
+		{
+			unset($action_forward[$action_name]);
+		}
+		foreach ($action_forward as $action_name => $forward_info)
+		{
+			if ($forward_info->module === $module_name && $forward_info->route_regexp !== null)
+			{
+				$output = $this->deleteActionForward($module_name, null, $action_name);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+		
 		return new BaseObject();
 	}
 }
