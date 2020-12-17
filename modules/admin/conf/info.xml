@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Этот модуль показывает список возможностей каждого модуля, и позволяет Вам использовать несколько менеджеров, применяя лейаут для администратора.</description>
 	<description xml:lang="zh-TW">列出各模組的功能及使用管理員版面，並可使用管理功能的模組。</description>
 	<description xml:lang="tr">Bu modül size, her modülün özelliklerini barındıran bir liste gösterir ve yöneticiler için yerleşim düzeni uygulayarak, yöneticilerin birkaçını kullanma imkanı sunar.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>system</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

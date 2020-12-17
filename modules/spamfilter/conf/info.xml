@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Стандартный фильтр спама XE.</description>
 	<description xml:lang="zh-TW">XE的基本垃圾過濾模組。</description>
 	<description xml:lang="tr">XE\'nin varsayılan spam filtreleyicisidir.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>accessory</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

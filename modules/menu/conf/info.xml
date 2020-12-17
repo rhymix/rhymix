@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Этот модуль служит для создания/управления меню, соединяюще лейауты и модули.</description>
 	<description xml:lang="zh-TW">可建立並管理連結版面和模組的選單。</description>
 	<description xml:lang="tr">Bu modül, yerleşim düzenlerine ya da modüllere bağlı menüleri oluşturmak/yönetmek içindir.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>construction</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

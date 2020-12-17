@@ -18,8 +18,8 @@
     <description xml:lang="ru">Этот виджет отображает форму для выбора пользовательского языка.</description>
     <description xml:lang="zh-TW">可選擇其他語言。</description>
     <description xml:lang="tr">Bu görsel bileşen, kullanıcı dili değişikliğindeki mevcut şekli görüntüler.</description>
-    <version>1.7</version>
-    <date>2013-11-27</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

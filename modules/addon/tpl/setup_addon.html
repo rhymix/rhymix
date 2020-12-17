@@ -7,7 +7,10 @@
 	<tbody>
 		<tr>
 			<th class="nowr">{$lang->version}</th>
-			<td>{$addon_info->version} ({zdate($addon_info->date, 'Y-m-d')})</td>
+			<td>
+				{$addon_info->version === 'RX_VERSION' ? 'CORE' : $addon_info->version}
+				<!--@if($addon_info->date)-->({zdate($addon_info->date, 'Y-m-d')})<!--@endif-->
+			</td>
 		</tr>
 		<tr>
 			<th class="nowr">{$lang->author}</th>

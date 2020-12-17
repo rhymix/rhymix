@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Модуль для отображения WYSIWYG-редактора и управления/смены записей редактора.</description>
 	<description xml:lang="zh-TW">顯示網頁編輯器或管理/傳遞編輯器組件的模組。</description>
 	<description xml:lang="tr">WYSIWYG editörünü görüntüleme ve editör bileşenlerini düzenleme/aktarma için kullanılan modüldür. </description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>utility</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

@@ -39,7 +39,7 @@ class ModuleInfoParser extends BaseParser
 			$info->version = trim($xml->version);
 			$info->homepage = trim($xml->homepage);
 			$info->category = trim($xml->category) ?: 'service';
-			$info->date = date('Ymd', strtotime($xml->date . 'T12:00:00Z'));
+			$info->date = ($xml->date === 'RX_CORE') ? '' : date('Ymd', strtotime($xml->date . 'T12:00:00Z'));
 			$info->license = trim($xml->license);
 			$info->license_link = trim($xml->license['link']);
 			$info->author = array();

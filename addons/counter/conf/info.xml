@@ -45,8 +45,8 @@
         使用XE的網站訪問統計模組記錄網站訪問資料。
         將狀態設置成"使用"時，才會紀錄網站訪問資料。
     </description>
-    <version>1.7</version>
-    <date>2013-11-27</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

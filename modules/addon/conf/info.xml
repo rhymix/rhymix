@@ -20,8 +20,8 @@
 	<description xml:lang="ru">Этот модуль служит для управления аддонами, использование которых Вы можете включать и выключать.</description>
 	<description xml:lang="zh-TW">設定附加元件「登錄、啟用、禁用」的管理模組。</description>
 	<description xml:lang="tr">Bu modül, kullanımı değişebilecek veya kullanım dışı kalabilecek eklentileri korumak içindir.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>utility</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

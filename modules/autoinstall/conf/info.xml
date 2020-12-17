@@ -15,8 +15,8 @@
 	<description xml:lang="zh-CN">很方便的在线安装/更新XE相关模块(模块/皮肤/布局/控件/控件样式等)。</description>
 	<description xml:lang="jp">管理者モードにてクリックすることだけでモジュール/スキン/レイアウト/ウィジェット/ウィジェットスタイルのインストールを可能にするモジュールです。</description>
 	<description xml:lang="tr">Bu modülle; modüller, dış görünümler, yerleşim düzenleri vs. gibi programlarınızı www.xpressengine.com adresinden tek tıkla kurabilir ve sürümlerini yükseltebilirsiniz. </description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>system</category>
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
 		<name xml:lang="ko">NAVER</name>

@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Базовая программа статистики подключений.</description>
 	<description xml:lang="zh-TW">預設的統計程式。</description>
 	<description xml:lang="tr">Temel bağlantı istatistik programı.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>statistics</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

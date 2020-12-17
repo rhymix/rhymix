@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Модуль для управления тегами.</description>
 	<description xml:lang="zh-TW">標籤管理模組。</description>
 	<description xml:lang="tr">Etiketleri yönetme modülü.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>content</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

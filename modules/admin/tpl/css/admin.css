@@ -2316,6 +2316,12 @@ html[lang="id"] .x .g11n.active>[disabled],
 	white-space: pre-wrap;
 	font-family: Consolas, Courier New, monospace;
 }
+.core_symbol {
+	display: inline-block;
+	margin: 0 2px;
+	width: 14px;
+	height: 14px;
+}
 
 /* language specific styles */
 /* English admin_en.css */

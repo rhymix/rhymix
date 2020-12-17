@@ -35,8 +35,8 @@
 		管理線上會員SESSION功能的模組。
 		提供最基本的SESSION設置和使用，且還可以獲得此功能的線上會員資料。
 	</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>system</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

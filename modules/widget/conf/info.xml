@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Модуль для управления виджетами.</description>
 	<description xml:lang="zh-TW">Widget 管理模組。</description>
 	<description xml:lang="tr">Widgetları yönetmek için kullanılan modüldür.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>construction</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
