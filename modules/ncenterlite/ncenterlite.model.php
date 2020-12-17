@@ -1,13 +1,14 @@
 <?php
 class ncenterliteModel extends ncenterlite
 {
-	private static $config = NULL;
-	var $notify_args;
-	var $notify_arguments;
+	protected static $_config = NULL;
+	protected static $_user_config = [];
+	public $notify_args;
+	public $notify_arguments;
 
-	function getConfig()
+	public static function getConfig()
 	{
-		if(self::$config === NULL)
+		if(self::$_config === NULL)
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('ncenterlite');
@@ -21,14 +22,11 @@ class ncenterliteModel extends ncenterlite
 			{
 				if($config->use == 'Y')
 				{
-					$config->use = array(
-						'mention' => array('web' => 1),
-						'comment' => array('web' => 1),
-						'comment_comment' => array('web' => 1),
-						'vote' => array('web' => 1),
-						'message' => array('web' => 1),
-						'admin_content' => array('web' => 1),
-					);
+					$config->use = array();
+					foreach (self::getNotifyTypes() as $type => $srl)
+					{
+						$config->use[$type] = array('web' => 1);
+					}
 				}
 				else
 				{
@@ -78,10 +76,43 @@ class ncenterliteModel extends ncenterlite
 				$config->highlight_effect = 'Y';
 			}
 
-			self::$config = $config;
+			self::$_config = $config;
 		}
 
-		return self::$config;
+		return self::$_config;
+	}
+	
+	public static function getNotifyTypes()
+	{
+		$default = array(
+			'comment' => 0,
+			'comment_comment' => 0,
+			'mention' => 0,
+			'vote' => 0,
+			'scrap' => 0,
+			'message' => 0,
+		);
+		if (Context::get('logged_info')->is_admin === 'Y')
+		{
+			$default['admin_content'] = 0;
+		}
+		
+		$custom_types = Rhymix\Framework\Cache::get('ncenterlite:notify_types');
+		if (!$custom_types)
+		{
+			$custom_types = executeQueryArray('ncenterlite.getNotifyType', [])->data;
+			Rhymix\Framework\Cache::set('ncenterlite:notify_types', $custom_types, 0, true);
+		}
+		foreach ($custom_types as $type)
+		{
+			if (!isset($default[$type->notify_type_id]))
+			{
+				$default[$type->notify_type_id] = $type->notify_type_srl;
+			}
+		}
+		
+		$default['custom'] = 0;
+		return $default;
 	}
 
 	function getNotifyTypebySrl($notify_srl)
@@ -133,7 +164,9 @@ class ncenterliteModel extends ncenterlite
 
 	function insertNotifyType($args)
 	{
-		return executeQuery('ncenterlite.insertNotifyType',$args);
+		$output = executeQuery('ncenterlite.insertNotifyType', $args);
+		Rhymix\Framework\Cache::delete('ncenterlite:notify_types');
+		return $output;
 	}
 
 	/**
@@ -141,23 +174,63 @@ class ncenterliteModel extends ncenterlite
 	 * @param null $member_srl
 	 * @return object|bool
 	 */
-	function getUserConfig($member_srl = null)
+	public static function getUserConfig($member_srl = null)
 	{
 		if(!$member_srl)
 		{
-			if(!Context::get('is_logged'))
+			$logged_info = Context::get('logged_info');
+			$member_srl = $logged_info->member_srl ?? 0;
+			if (!$member_srl)
 			{
 				return false;
 			}
-			$logged_info = Context::get('logged_info');
-			$member_srl = $logged_info->member_srl;
 		}
-
+		
+		$member_srl = intval($member_srl);
+		$config = self::$_user_config[$member_srl] ?? null;
+		if ($config !== null)
+		{
+			return $config;
+		}
+		
+		$config = Rhymix\Framework\Cache::get('ncenterlite:user_config:' . $member_srl);
+		if ($config !== null)
+		{
+			return $config;
+		}
+		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getUserConfig', $args);
-
-		return $output;
+		if (!$output->data)
+		{
+			$config = false;
+		}
+		else
+		{
+			$config = new stdClass;
+			foreach (self::getNotifyTypes() as $type => $srl)
+			{
+				$disabled_list = $output->data->{$type . '_notify'} ?? '';
+				if ($disabled_list === 'N' || strlen($disabled_list) === 1)
+				{
+					$config->{$type} = [];
+				}
+				elseif ($disabled_list === '')
+				{
+					$config->{$type} = ['web', 'mail', 'sms', 'push'];
+				}
+				else
+				{
+					$disabled_list = array_map(function($str) { return substr($str, 1); }, explode(',', $disabled_list));
+					$config->{$type} = array_diff(['web', 'mail', 'sms', 'push'], $disabled_list);
+				}
+			}
+		}
+		
+		self::$_user_config[$member_srl] = $config;
+		Rhymix\Framework\Cache::set('ncenterlite:user_config:' . $member_srl, $config);
+		return $config;
 	}
 
 	function getAllMemberConfig()
@@ -463,7 +536,7 @@ class ncenterliteModel extends ncenterlite
 
 			// Message.
 			case 'E':
-				$type = lang('ncenterlite_type_message');
+				$type = lang('member_message');
 				break;
 
 			// Test.

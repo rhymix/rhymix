@@ -17,7 +17,8 @@
 		<column name="target_summary" var="target_summary" />
 		<column name="target_browser" var="target_browser" />
 		<column name="target_url" var="target_url" notnull="notnull" />
-		<column name="regdate" var="regdate" />
+		<column name="readed" var="readed" default="N" />
+		<column name="regdate" var="regdate" default="curdate()" />
 		<column name="target_p_srl" var="target_p_srl" filter="number" />
 		<column name="notify_type" var="notify_type" />
 	</columns>

@@ -11,28 +11,11 @@ class ncenterliteAdminView extends ncenterlite
 	{
 		$oNcenterliteModel = getModel('ncenterlite');
 
-		if(Rhymix\Framework\SMS::getDefaultDriver()->getName() === 'Dummy')
-		{
-			$sms_available = false;
-		}
-		else
-		{
-			$sms_available = true;
-		}
-		
-		if(count(Rhymix\Framework\Config::get('push.types')))
-		{
-			$push_avaliable = true;
-		}
-		else
-		{
-			$push_avaliable = false;
-		}
-		
 		$config = $oNcenterliteModel->getConfig();
 		Context::set('config', $config);
-		Context::set('sms_available', $sms_available);
-		Context::set('push_available', $push_avaliable);
+		Context::set('notify_types', NcenterliteModel::getNotifyTypes());
+		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
+		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types')) > 0);
 	}
 
 	function dispNcenterliteAdminSeletedmid()

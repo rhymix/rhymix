@@ -2,12 +2,13 @@
 	<tables>
 		<table name="ncenterlite_notify_type" />
 	</tables>
-
 	<columns>
 		<column name="*" />
 	</columns>
-
 	<conditions>
-		<condition operation="equal" column="notify_type_srl" var="notify_type_srl" notnull="notnull" />
+		<condition operation="equal" column="notify_type_srl" var="notify_type_srl" />
 	</conditions>
+	<navigation>
+		<index var="list_order" default="notify_type_srl" order="asc" />
+	</navigation>
 </query>

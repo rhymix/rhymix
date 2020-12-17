@@ -1,10 +1,12 @@
 <table name="ncenterlite_user_set">
-	<column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" brief="member_srl 고유맴버 번호" />
-	<column name="comment_notify" type="char" size="1" notnull="notnull" />
-	<column name="comment_comment_notify" type="char" size="1" notnull="notnull" />
-	<column name="mention_notify" type="char" size="1" notnull="notnull" />
-	<column name="vote_notify" type="char" size="1" notnull="notnull" />
-	<column name="scrap_notify" type="char" size="1" notnull="notnull" />
-	<column name="message_notify" type="char" size="1" notnull="notnull" />
+	<column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+	<column name="comment_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="comment_comment_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="mention_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="vote_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="scrap_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="message_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="admin_content_notify" type="varchar" size="40" notnull="notnull" />
+	<column name="custom_notify" type="varchar" size="40" notnull="notnull" />
 	<column name="regdate" type="date" index="idx_regdate" />
 </table>
