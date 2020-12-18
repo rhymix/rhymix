@@ -1841,7 +1841,7 @@ class menuAdminController extends menu
 			'header("Cache-Control: post-check=0, pre-check=0", false);' . PHP_EOL .
 			'header("Pragma: no-cache");' . PHP_EOL .
 			'%s' . PHP_EOL .
-			'$oContext->close();' . PHP_EOL .
+			'$oContext->close(); ?' . '>' . PHP_EOL .
 			'<root>%s</root>',
 			$header_script,
 			$this->getXmlTree($tree[0], $tree, $site_srl, $domain)
@@ -1857,7 +1857,7 @@ class menuAdminController extends menu
 			'%s; ' . PHP_EOL .
 			'$menu->list = array(%s); ' . PHP_EOL .
 			'if(!$is_admin) { recurciveExposureCheck($menu->list); }' . PHP_EOL .
-			'Context::set("included_menu", $menu); ' . PHP_EOL,
+			'Context::set("included_menu", $menu); ?' . '>' . PHP_EOL,
 			$header_script,
 			$php_output['name'],
 			$php_output['buff']
