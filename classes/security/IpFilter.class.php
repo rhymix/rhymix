@@ -5,7 +5,7 @@ class IpFilter
 {
 	public function filter($ip_list, $ip = NULL)
 	{
-		if(!$ip) $ip = $_SERVER['REMOTE_ADDR'];
+		if(!$ip) $ip = \RX_CLIENT_IP;
 		return Rhymix\Framework\Filters\IpFilter::inRanges($ip, $ip_list);
 	}
 	
