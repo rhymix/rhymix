@@ -45,8 +45,8 @@
         使用點數系統時，可以在用戶名前顯示等級圖案。
         等級圖案可以在模組 &gt; 點數系統中進行選擇。
     </description>
-    <version>1.7</version>
-    <date>2013-11-27</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

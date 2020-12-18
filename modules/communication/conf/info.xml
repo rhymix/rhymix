@@ -16,8 +16,8 @@
 	<description xml:lang="ru">This module is for managing message, friend functions.</description>
 	<description xml:lang="zh-TW">管理線上會員間短訊及好友功能的模組。</description>
 	<description xml:lang="tr">Bu modül mesaj ve arkadaşlık özelliklerini yönetmek içindir.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>member</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

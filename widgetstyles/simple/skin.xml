@@ -14,8 +14,8 @@
     <description xml:lang="zh-TW">簡單的 Widget 線條樣式。</description>
     <description xml:lang="jp">線一つだけのウィジェットスタイルです。</description>
     <description xml:lang="tr">Tek bir basit sırayla düzenlenmiş görsel bileşen şekli.</description>
-    <version>1.7</version>
-    <date>2013-11-27</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
     <preview>preview.gif</preview>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

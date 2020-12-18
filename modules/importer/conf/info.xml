@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Запись информации пользователей или форума, используя XML-файл.</description>
 	<description xml:lang="zh-TW">利用 XML 檔案匯入會員或討論板資料。</description>
 	<description xml:lang="tr">Bu modül, XML dosyasından üye ve makale verilerinin içeri aktarımı içindir.</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>migration</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

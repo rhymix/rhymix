@@ -36,8 +36,8 @@
     <description xml:lang="zh-TW">
         是種可將文章及回覆內容中的 URL 網址字串自動轉換成連結的附加元件。
     </description>
-    <version>1.7</version>
-    <date>2013-11-27</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

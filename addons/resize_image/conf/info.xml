@@ -36,8 +36,8 @@
     <description xml:lang="zh-TW">
         自動調整文章内的圖片大小，點擊圖片後會顯示原始大小。
     </description>
-    <version>1.7</version>
-    <date>2013-11-27</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

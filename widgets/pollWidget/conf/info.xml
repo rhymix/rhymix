@@ -2,8 +2,8 @@
 <widget version="0.2">
     <title xml:lang="ko">설문조사 위젯</title>
     <description xml:lang="ko">설문조사를 표시하는 위젯입니다.</description>
-    <version>2.0</version>
-    <date>2015-06-09</date>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
 
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>

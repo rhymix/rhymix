@@ -10,8 +10,8 @@
 	<description xml:lang="ru">Этот модуль служит для печати RSS.</description>
 	<description xml:lang="zh-TW">負責輸出 RSS 的模組。</description>
 	<description xml:lang="tr">Bu modül RSS çıktısı almak içindir.</description>
-	<version>2.0</version>
-	<date>2017-09-01</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>utility</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

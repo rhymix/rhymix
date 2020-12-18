@@ -6,8 +6,8 @@
 	<description xml:lang="ko"></description>
 	<description xml:lang="en"></description>
 	<description xml:lang="jp"></description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>system</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

@@ -8,8 +8,8 @@
 	<description xml:lang="en">
 		Log and test e-mails, SMS, and push notifications sent from Rhymix.
 	</description>
-	<version>2.2.0</version>
-	<date>2020-06-25</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<author link="https://www.poesis.org">
 		<name xml:lang="ko">포에시스</name>
 		<name xml:lang="en">POESIS</name>

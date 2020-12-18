@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Этот модуль служит для управления опросами.</description>
 	<description xml:lang="zh-TW">管理投票調查的模組。</description>
 	<description xml:lang="tr">Oylamaları düzenlemek için kullanılan modüldür.</description>
-	<version>2.0</version>
-	<date>2015-06-09</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>content</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

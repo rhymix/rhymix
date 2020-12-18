@@ -4,9 +4,9 @@
 	<title xml:lang="en">Notification Center Lite</title>
 	<description xml:lang="ko">사이트 사용자간의 커뮤니케이션에 대한 정보를 알려주는 모듈입니다.</description>
 	<description xml:lang="en">This module notify users of information about new documents, comments and/or messages that call them. This module will enhance communication beween site users.</description>
-	<version>3.1</version>
-	<date>2016-09-10</date>
-	<category>content</category>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
+	<category>service</category>
 	<author link="http://github.com/xe-public">
 		<name xml:lang="ko">XE Public</name>
 		<name xml:lang="en">XE Public</name>

@@ -2,7 +2,7 @@
 <table class="x_table x_table-striped x_table-hover">
 	<tr>
 		<th scope="row">{$lang->title}</th>
-		<td>{$addon_info->title} ver. {$addon_info->version}</td>
+		<td>{$addon_info->title} ver. {$addon->version === 'RX_VERSION' ? 'CORE' : $addon->version}</td>
 	</tr>
 	<tr>
 		<th scope="row">{$lang->author}</th>

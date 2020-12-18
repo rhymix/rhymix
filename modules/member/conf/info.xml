@@ -18,8 +18,8 @@
 	<description xml:lang="ru">Этот модуль служит для управления и конфигурирования пользователей.</description>
 	<description xml:lang="zh-TW">對會員進行管理與相關設置的模組。</description>
 	<description xml:lang="tr">Bu modül üyeleri yönetmek/yapılandırmak için kullanılır</description>
-	<version>1.7</version>
-	<date>2013-11-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 	<category>member</category>
 
 	<author email_address="developers@xpressengine.com" link="http://xpressengine.com/">

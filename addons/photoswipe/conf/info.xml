@@ -9,8 +9,8 @@
 		Swipe your images of an document on your screens.
 	</description>
 	<license>MIT License (codes from http://photoswipe.com/), GPLv2 (other codes by Rhymix contributors)</license>
-	<version>1.0.1</version>
-	<date>2016-04-27</date>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
 
 	<author email_address="misol.kr@gmail.com" link="https://github.com/misol">
 		<name xml:lang="ko">misol</name>

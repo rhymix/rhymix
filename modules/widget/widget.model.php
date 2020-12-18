@@ -152,9 +152,16 @@ class widgetModel extends widget
 			$buff .= sprintf('$widget_info->title = %s;', var_export($xml_obj->title->body, true));
 			$buff .= sprintf('$widget_info->description = %s;', var_export($xml_obj->description->body, true));
 			$buff .= sprintf('$widget_info->version = %s;', var_export($xml_obj->version->body, true));
-			$date_obj = new stdClass;
-			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			if($xml_obj->date->body === 'RX_CORE')
+			{
+				$date = '';
+			}
+			else
+			{
+				$date_obj = new stdClass;
+				sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+				$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+			}
 			$buff .= sprintf('$widget_info->date = %s;', var_export($date, true));
 			$buff .= sprintf('$widget_info->homepage = %s;', var_export($xml_obj->link->body, true));
 			$buff .= sprintf('$widget_info->license = %s;', var_export($xml_obj->license->body, true));
@@ -295,9 +302,16 @@ class widgetModel extends widget
 		$buff[] = sprintf('$widgetStyle_info->title = %s;', var_export($xml_obj->title->body, true));
 		$buff[] = sprintf('$widgetStyle_info->description = %s;', var_export($xml_obj->description->body, true));
 		$buff[] = sprintf('$widgetStyle_info->version = %s;', var_export($xml_obj->version->body, true));
-		$date_obj = new stdClass;
-		sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-		$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+		if($xml_obj->date->body === 'RX_CORE')
+		{
+			$date = '';
+		}
+		else
+		{
+			$date_obj = new stdClass;
+			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+		}
 		$buff[] = sprintf('$widgetStyle_info->date = %s;', var_export($date, true));
 		$buff[] = sprintf('$widgetStyle_info->homepage = %s;', var_export($xml_obj->link->body, true));
 		$buff[] = sprintf('$widgetStyle_info->license = %s;', var_export($xml_obj->license->body, true));

@@ -40,7 +40,13 @@
 				<p cond="$val->need_update" class="x_alert x_alert-info">{$lang->msg_avail_update} <button class="text" type="button" onclick="doUpdateModule('{$val->module}')">{$lang->msg_do_you_like_update}</button></p>
 				<p cond="$val->need_autoinstall_update == 'Y'" class="x_alert x_alert-info">{$lang->msg_avail_easy_update} <a href="{$val->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a></p>
 			</td>
-			<td>{$val->version}</td>
+			<td>
+				<!--@if($val->version === 'RX_VERSION')-->
+					<img src="{\RX_BASEURL}common/img/icon.png" class="core_symbol" alt="Rhymix Core" title="Rhymix Core" />
+				<!--@else-->
+					<span style="color:#aaa"|cond="Context::isBlacklistedPlugin($val->module)">{$val->version}</span>
+				<!--@endif-->
+			</td>
 			<td class="nowr rx_detail_marks">
 				<!--@foreach($val->author as $author)-->
 					<!--@if($author->homepage)-->
@@ -52,7 +58,7 @@
 			</td>
 			<td class="rx_detail_marks">{$val->path}</td>
 			<td class="rx_detail_marks">
-				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url">{$lang->cmd_delete}</a>
+				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url && $val->version !== 'RX_VERSION'">{$lang->cmd_delete}</a>
 			</td>
 		</tr>
 	</tbody>
