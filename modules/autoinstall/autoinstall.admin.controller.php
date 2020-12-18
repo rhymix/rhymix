@@ -165,7 +165,7 @@ class autoinstallAdminController extends autoinstall
 			$args->package_srl = $package->package_srl;
 			$args->version = $package->version;
 			$args->current_version = $version;
-			if(version_compare($args->version, $args->current_version, ">"))
+			if($version !== 'RX_VERSION' && version_compare($args->version, $args->current_version, ">"))
 			{
 				$args->need_update = "Y";
 			}

@@ -211,7 +211,11 @@ class autoinstallAdminView extends autoinstall
 				$v->current_version = $packages[$v->package_srl]->current_version;
 				// if version is up
 				// insert Y
-				if(version_compare($v->item_version, $v->current_version, '>'))
+				if($v->current_version === 'RX_VERSION')
+				{
+					$v->need_update = 'N';
+				}
+				elseif(version_compare($v->item_version, $v->current_version, '>'))
 				{
 					$v->need_update = 'Y';
 				}

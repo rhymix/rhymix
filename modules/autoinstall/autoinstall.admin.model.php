@@ -314,7 +314,11 @@ class autoinstallAdminModel extends autoinstall
 					{
 						$package->depends[$key]->installed = TRUE;
 						$package->depends[$key]->cur_version = $packages[$dep->package_srl]->current_version;
-						if(version_compare($dep->version, $packages[$dep->package_srl]->current_version, ">"))
+						if($packages[$dep->package_srl]->current_version === 'RX_VERSION')
+						{
+							$package->need_update = FALSE;
+						}
+						elseif(version_compare($dep->version, $packages[$dep->package_srl]->current_version, ">"))
 						{
 							$package->depends[$key]->need_update = TRUE;
 							$package->package_srl .= "," . $dep->package_srl;
@@ -332,7 +336,7 @@ class autoinstallAdminModel extends autoinstall
 			{
 				$package->installed = TRUE;
 				$package->cur_version = $installedPackage->current_version;
-				$package->need_update = version_compare($package->version, $installedPackage->current_version, ">");
+				$package->need_update = $installedPackage->current_version !== 'RX_VERSION' && version_compare($package->version, $installedPackage->current_version, ">");
 			}
 
 			if($package->path === '.')
