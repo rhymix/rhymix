@@ -233,7 +233,7 @@ $lang->about_column_name = '템플릿에서 사용할 수 있는 영문으로 �
 $lang->about_column_title = '가입 또는 정보 수정/조회시에 표시될 제목입니다.';
 $lang->about_default_value = '기본으로 입력될 값을 정할 수 있습니다.';
 $lang->about_active = '활성 항목에 체크를 해야 가입시 정상적으로 노출됩니다.';
-$lang->about_emailhost_check = '입력한 호스트네임이 없으면, 이 기능을 사용하지 않습니다. 가입자의 이메일 주소 제공자를 설정할 수 있습니다.<br />특정 이메일 제공자(hostname, 예: naver.com, gmail.com)만 허용하거나, 특정 이메일 제공자의 사용을 제한할 수 있습니다.';
+$lang->about_emailhost_check = '특정 도메인에 소속된 이메일 주소로만 가입할 수 있도록 하거나, 특정 도메인을 금지할 수 있습니다. (예: naver.com, gmail.com)<br />아무 것도 입력하지 않으면 이메일 주소를 제한하지 않습니다.';
 $lang->about_form_description = '설명란에 입력을 하면 가입시 표시가 됩니다.';
 $lang->about_required = '체크하면 회원가입시 필수항목으로 입력하도록 됩니다.';
 $lang->about_enable_join = '체크하면 회원가입을 할 수 있습니다.';
@@ -312,7 +312,6 @@ $lang->cmd_input_extend_form = '회원 정의 입력';
 $lang->about_multi_type = '다중 또는 단일 항목의 선택 값을 입력하세요.(줄 바꿈으로 구분)';
 $lang->msg_delete_extend_form = '선택한 항목을 삭제합니다.';
 $lang->set_manage_id = '줄 바꿈으로 구분';
-$lang->count_manage_email_host = '다음 <span class="_managededEmailHostCount">%s</span>개의 이메일 주소 제공자를 <span id="managededEmailHostType">%s</span> 합니다.';
 $lang->count_manage_id = '<span class="_deniedIDCount">%s</span>개의 금지 아이디가 있습니다.';
 $lang->count_manage_nick_name = '<span class="_deniedNickNameCount">%s</span>개의 금지 닉네임이 있습니다.';
 $lang->user_list = '회원 목록';

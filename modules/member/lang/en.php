@@ -226,7 +226,7 @@ $lang->about_column_name = 'Please enter English name that can be used in the te
 $lang->about_column_title = 'This will be displayed on signup or modifying/viewing member info form.';
 $lang->about_default_value = 'You can set the values to enter by default.';
 $lang->about_active = 'You have to check on active items to show on signup form.';
-$lang->about_emailhost_check = 'Empty value will allow almost all email account providers.<br />You can set new member\'s e-mail address providers. You can allow or prohibit some e-mail hosts(eg.: naver.com, gmail.com).';
+$lang->about_emailhost_check = 'You can limit new member\'s e-mail address providers. You can allow or prohibit some e-mail hosts (eg.: naver.com, gmail.com).<br />If the list is empty, all e-mail hosts will be allowed.';
 $lang->about_form_description = 'If you enter description in this form, it will be displayed on join form.';
 $lang->about_required = 'Check this to make it mandatory item when signing up.';
 $lang->about_enable_join = 'Please check this if you want to allow new members to sign up your site.';
@@ -298,7 +298,6 @@ $lang->cmd_input_extend_form = 'User Defined Input';
 $lang->about_multi_type = 'Enter the value of multi-or single-item selection.(separated by line breaks)';
 $lang->msg_delete_extend_form = 'Delete the selected item.';
 $lang->set_manage_id = 'Separated by line breaks.';
-$lang->count_manage_email_host = 'There are <span class="_managededEmailHostCount">%s</span> <span id="managededEmailHostType">%s</span> e-mail address providers below.';
 $lang->count_manage_id = 'There are <span class="_deniedIDCount">%s</span> prohibited ID.';
 $lang->count_manage_nick_name = 'There are <span class="_deniedNickNameCount">%s</span> prohibited nick name.';
 $lang->user_list = 'Member List';
