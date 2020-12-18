@@ -23,7 +23,7 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 개발자 위주, 서비스 제공자 위주로 나아가는 현대의 IT 동향을 무차별적으로 받아들이기보다는
 사용자의 주권과 열린 인터넷 환경을 보호하는 기술을 집중적으로 발굴하며,
 우리나라 인터넷 커뮤니티의 성장을 이끌었던 90년대 제로보드와 2000년대 XE의 정신을 이어받아
-2010년대 후반 현재 위기에 처한 오픈 웹을 지키고 회복시키는 일에 앞장서고자 합니다.
+2020년대 현재 위기에 처한 오픈 웹을 지키고 회복시키는 일에 앞장서고자 합니다.
 
 그러기 위해서는 다른 어떤 CMS보다도 일반 사용자를 위한 편리성이 가장 뛰어나야 합니다.
 
@@ -94,8 +94,7 @@ a world where everyone can speak their voice without relying on a centralized SN
 a future where ordinary bloggers, students, the disabled and others as well as developers of startups can build a home in cyberspace and communicate with each other.
 
 Rather than indiscriminately accepting modern IT trends that are centered on developers and service providers, 
-we focused on technologies that protect users' sovereignty and open Internet environment. Taking the spirit of ZeroBoard and XpressEngine, which led the growth of the Korean Internet communities in the 1990s and 2000s respectively, Rhymix wants to take the lead in recovering and restoring the open web in the crisis of late 2010s.
-
+we focused on technologies that protect users' sovereignty and open Internet environment. Taking the spirit of ZeroBoard and XpressEngine, which led the growth of the Korean Internet communities in the 1990s and 2000s respectively, Rhymix wants to take the lead in recovering and restoring the open web in the crisis of the 2020s.
 
 This requires the most convenience for the average user over any other CMS.
 
