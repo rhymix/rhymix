@@ -35,9 +35,9 @@ function memberTransImageName($matches)
 		$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 		$image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 
-		if(file_exists(_XE_PATH_ . $image_name_file))
+		if(file_exists(RX_BASEDIR . $image_name_file))
 		{
-			$_tmp->image_name_file = $image_name_file . '?' . date('YmdHis', filemtime(_XE_PATH_ . $image_name_file));
+			$_tmp->image_name_file = $image_name_file . '?' . date('YmdHis', filemtime(RX_BASEDIR . $image_name_file));
 			$image_name_file = $_tmp->image_name_file;
 		}
 		else
@@ -46,9 +46,9 @@ function memberTransImageName($matches)
 			$image_name_file = '';
 		}
 
-		if(file_exists(_XE_PATH_ . $image_mark_file))
+		if(file_exists(RX_BASEDIR . $image_mark_file))
 		{
-			$_tmp->image_mark_file = $image_mark_file . '?' . date('YmdHis', filemtime(_XE_PATH_ . $image_mark_file));
+			$_tmp->image_mark_file = $image_mark_file . '?' . date('YmdHis', filemtime(RX_BASEDIR . $image_mark_file));
 			$image_mark_file = $_tmp->image_mark_file;
 		}
 		else

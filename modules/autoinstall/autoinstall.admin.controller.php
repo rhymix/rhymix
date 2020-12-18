@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-require_once(_XE_PATH_ . 'modules/autoinstall/autoinstall.lib.php');
+require_once(RX_BASEDIR . 'modules/autoinstall/autoinstall.lib.php');
 
 /**
  * autoinstall module admin controller class
@@ -110,7 +110,7 @@ class autoinstallAdminController extends autoinstall
 			$type = $oModel->getTypeFromPath($package->path);
 			if($type == "core")
 			{
-				$version = __XE_VERSION__;
+				$version = \RX_VERSION;
 			}
 			else
 			{

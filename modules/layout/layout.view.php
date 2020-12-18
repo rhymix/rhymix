@@ -87,12 +87,12 @@ class layoutView extends layout
 
 				if ($skinType == 'M')
 				{
-					$templatePath = _XE_PATH_ . 'modules/page/m.skins/' . $skin;
+					$templatePath = RX_BASEDIR . 'modules/page/m.skins/' . $skin;
 					$templateFile = 'mobile';
 				}
 				else
 				{
-					$templatePath = _XE_PATH_ . 'modules/page/skins/' . $skin;
+					$templatePath = RX_BASEDIR . 'modules/page/skins/' . $skin;
 					$templateFile = 'content';
 				}
 
@@ -113,7 +113,7 @@ class layoutView extends layout
 				if($layoutSrl == -1)
 				{
 					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
-					$designInfoFile = sprintf(_XE_PATH_ . 'files/site_design/design_%d.php', $site_srl);
+					$designInfoFile = sprintf(RX_BASEDIR . 'files/site_design/design_%d.php', $site_srl);
 					include($designInfoFile);
 
 					if($skinType == 'M')
@@ -305,7 +305,7 @@ class layoutView extends layout
 		}
 
 		// get module html
-		require_once(_XE_PATH_ . "classes/display/HTMLDisplayHandler.php");
+		require_once(RX_BASEDIR . "classes/display/HTMLDisplayHandler.php");
 		$handler = new HTMLDisplayHandler();
 		return $handler->toDoc($oModule);
 	}
@@ -362,7 +362,7 @@ class layoutView extends layout
 		Context::set('layout_info', $layout_info);
 		Context::set('content', lang('layout_preview_content'));
 		// Temporary save the codes
-		$edited_layout_file = _XE_PATH_ . 'files/cache/layout/tmp.tpl';
+		$edited_layout_file = RX_BASEDIR . 'files/cache/layout/tmp.tpl';
 		FileHandler::writeFile($edited_layout_file, $code);
 
 		// Compile

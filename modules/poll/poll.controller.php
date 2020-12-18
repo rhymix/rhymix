@@ -347,7 +347,7 @@ class pollController extends poll
 		$oDB->commit();
 
 		//$skin = Context::get('skin');
-		//if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
+		//if(!$skin || !is_dir(RX_BASEDIR . 'modules/poll/skins/'.$skin)) $skin = 'default';
 		// Get tpl
 		//$tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
 
@@ -368,7 +368,7 @@ class pollController extends poll
 		$poll_srl = Context::get('poll_srl');
 
 		$skin = Context::get('skin');
-		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
+		if(!$skin || !is_dir(RX_BASEDIR . 'modules/poll/skins/'.$skin)) $skin = 'default';
 
 		$oPollModel = getModel('poll');
 		$tpl = $oPollModel->getPollResultHtml($poll_srl, $skin);

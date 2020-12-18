@@ -213,7 +213,7 @@ class adminAdminView extends admin
 		// move from index method, because use in admin footer
 		/*
 		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __XE_VERSION__, _XE_PACKAGE_);
-		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", _XE_PATH_, _XE_LOCATION_);
+		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", RX_BASEDIR, _XE_LOCATION_);
 		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < $_SERVER['REQUEST_TIME'])
 		{
 			// Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page

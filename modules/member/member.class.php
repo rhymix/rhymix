@@ -503,8 +503,8 @@ class member extends ModuleObject {
 
 		if(is_readable('./files/member_extra_info/agreement.txt'))
 		{
-			$source_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
-			$target_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+			$source_file = RX_BASEDIR.'files/member_extra_info/agreement.txt';
+			$target_file = RX_BASEDIR.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 
 			FileHandler::rename($source_file, $target_file);
 		}

@@ -303,7 +303,7 @@ class importerAdminController extends importer
 				$columnList = array('module_srl', 'module');
 				$target_module_info = $oModuleModel->getModuleInfoByModuleSrl($target_module, $columnList);
 
-				$ttimporter = FileHandler::exists(_XE_PATH_ . 'modules/importer/ttimport.class.php');
+				$ttimporter = FileHandler::exists(RX_BASEDIR . 'modules/importer/ttimport.class.php');
 				if($ttimporter) require_once($ttimporter);
 
 				$oTT = new ttimport();

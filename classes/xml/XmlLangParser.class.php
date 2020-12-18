@@ -42,7 +42,6 @@ class XmlLangParser extends XeXmlParser
 
 	/**
 	 * language type
-	 * @see _XE_PATH_.'/common/lang/lang.info'
 	 * @var string
 	 */
 	var $lang_type;

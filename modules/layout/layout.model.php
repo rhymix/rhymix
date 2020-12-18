@@ -239,13 +239,13 @@ class layoutModel extends layout
 		//TODO If remove a support themes, remove this codes also.
 		if($layoutType == 'P')
 		{
-			$pathPrefix = _XE_PATH_ . 'layouts/';
-			$themePathFormat = _XE_PATH_ . 'themes/%s/layouts/%s';
+			$pathPrefix = RX_BASEDIR . 'layouts/';
+			$themePathFormat = RX_BASEDIR . 'themes/%s/layouts/%s';
 		}
 		else
 		{
-			$pathPrefix = _XE_PATH_ . 'm.layouts/';
-			$themePathFormat = _XE_PATH_ . 'themes/%s/m.layouts/%s';
+			$pathPrefix = RX_BASEDIR . 'm.layouts/';
+			$themePathFormat = RX_BASEDIR . 'themes/%s/m.layouts/%s';
 		}
 
 		if(strpos($layout, '|@|') !== FALSE)
@@ -932,11 +932,11 @@ class layoutModel extends layout
 	{
 		if($layout_type=='P')
 		{
-			return sprintf("%sfiles/cache/layout/%s.%s.cache.php", _XE_PATH_, $layout_name,$lang_type);
+			return sprintf("%sfiles/cache/layout/%s.%s.cache.php", RX_BASEDIR, $layout_name,$lang_type);
 		}
 		else
 		{
-			return sprintf("%sfiles/cache/layout/m.%s.%s.cache.php", _XE_PATH_, $layout_name,$lang_type);
+			return sprintf("%sfiles/cache/layout/m.%s.%s.cache.php", RX_BASEDIR, $layout_name,$lang_type);
 		}
 	}
 

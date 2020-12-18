@@ -476,7 +476,7 @@ class menuAdminModel extends menu
 		{
 			$isMenuFixed = false;
 			$output = $this->getMenu($menuSrl);
-			$php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%d.php',$output->menu_srl);
+			$php_file = sprintf(RX_BASEDIR . 'files/cache/menu/%d.php',$output->menu_srl);
 			if(file_exists($php_file))
 			{
 				include($php_file);
@@ -528,7 +528,7 @@ class menuAdminModel extends menu
 					{
 						unset($menu);
 						unset($menuItems);
-						$value->php_file = sprintf(_XE_PATH_ . 'files/cache/menu/%d.php',$value->menu_srl);
+						$value->php_file = sprintf(RX_BASEDIR . 'files/cache/menu/%d.php',$value->menu_srl);
 						if(!file_exists($value->php_file))
 						{
 							$oMenuAdminController->makeXmlFile($value->menu_srl);

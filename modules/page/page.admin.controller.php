@@ -269,7 +269,7 @@ class pageAdminController extends page
 
 		if($module_info->page_type == 'WIDGET')
 		{
-			$path = _XE_PATH_ . 'files/cache/page/';
+			$path = RX_BASEDIR . 'files/cache/page/';
 			$cache_files = FileHandler::readDir($path, '/^' . $module_info->module_srl . '\./');
 			foreach($cache_files as $file_name)
 			{
@@ -278,7 +278,7 @@ class pageAdminController extends page
 		}
 		else if($module_info->page_type == 'OUTSIDE')
 		{
-			$path = _XE_PATH_ . 'files/cache/page/';
+			$path = RX_BASEDIR . 'files/cache/page/';
 			$cache_files = FileHandler::readDir($path, '/^' . $module_info->module_srl . './');
 			foreach($cache_files as $file_name)
 			{

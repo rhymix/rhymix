@@ -2546,7 +2546,7 @@ class Context
 	 */
 	public static function pathToUrl($path)
 	{
-		$xe = _XE_PATH_;
+		$xe = RX_BASEDIR;
 		$path = strtr($path, "\\", "/");
 
 		$base_url = preg_replace('@^https?://[^/]+/?@', '', self::getRequestUri());

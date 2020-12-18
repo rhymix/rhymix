@@ -695,7 +695,7 @@ class documentModel extends document
 	{
 		// Category of the target module file swollen
 		$module_srl = intval($module_srl);
-		$filename = sprintf("%sfiles/cache/document_category/%d.php", _XE_PATH_, $module_srl);
+		$filename = sprintf("%sfiles/cache/document_category/%d.php", RX_BASEDIR, $module_srl);
 		// If the target file to the cache file regeneration category
 		if(!file_exists($filename))
 		{

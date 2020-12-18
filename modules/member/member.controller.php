@@ -1420,7 +1420,7 @@ class memberController extends member
 		$max_height = $config->profile_image_max_height;
 		$max_filesize = $config->profile_image_max_filesize;
 
-		Context::loadLang(_XE_PATH_ . 'modules/file/lang');
+		Context::loadLang(RX_BASEDIR . 'modules/file/lang');
 
 		// Get file information
 		FileHandler::clearStatCache($target_file);
@@ -1526,7 +1526,7 @@ class memberController extends member
 		$max_height = $config->image_name_max_height;
 		$max_filesize = $config->image_name_max_filesize;
 
-		Context::loadLang(_XE_PATH_ . 'modules/file/lang');
+		Context::loadLang(RX_BASEDIR . 'modules/file/lang');
 
 		// Get a target path to save
 		$target_path = sprintf('files/member_extra_info/image_name/%s/', getNumberingPath($member_srl));
@@ -1670,7 +1670,7 @@ class memberController extends member
 		$max_height = $config->image_mark_max_height;
 		$max_filesize = $config->image_mark_max_filesize;
 
-		Context::loadLang(_XE_PATH_ . 'modules/file/lang');
+		Context::loadLang(RX_BASEDIR . 'modules/file/lang');
 
 		$target_path = sprintf('files/member_extra_info/image_mark/%s/', getNumberingPath($member_srl));
 		FileHandler::makeDir($target_path);
@@ -2164,7 +2164,7 @@ class memberController extends member
 		$output = $oModuleController->insertModuleConfig('member',$args);
 		if(!$output->toBool()) return $output;
 
-		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement.txt';
+		$agreement_file = RX_BASEDIR.'files/member_extra_info/agreement.txt';
 		FileHandler::writeFile($agreement_file, $agreement);
 
 		return new BaseObject();

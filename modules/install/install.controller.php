@@ -238,7 +238,7 @@ class installController extends install
 		}
 		
 		// Execute the install script.
-		$scripts = FileHandler::readDir(_XE_PATH_ . 'modules/install/script', '/(\.php)$/');
+		$scripts = FileHandler::readDir(RX_BASEDIR . 'modules/install/script', '/(\.php)$/');
 		if(count($scripts))
 		{
 			sort($scripts);

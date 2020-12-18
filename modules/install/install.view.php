@@ -74,7 +74,7 @@ class installView extends install
 	{
 		// Create a temporary file for mod_rewrite check.
 		self::$rewriteCheckString = Rhymix\Framework\Security::getRandom(32);
-		FileHandler::writeFile(_XE_PATH_ . self::$rewriteCheckFilePath, self::$rewriteCheckString);;
+		FileHandler::writeFile(RX_BASEDIR . self::$rewriteCheckFilePath, self::$rewriteCheckString);;
 		
 		// Check if the web server is nginx.
 		Context::set('use_nginx', stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false);
@@ -93,7 +93,7 @@ class installView extends install
 		}
 		
 		// Delete mod_rewrite check file
-		FileHandler::removeFile(_XE_PATH_ . self::$rewriteCheckFilePath);
+		FileHandler::removeFile(RX_BASEDIR . self::$rewriteCheckFilePath);
 		
 		// Save mod_rewrite check status.
 		if(Context::get('rewrite') === 'Y')

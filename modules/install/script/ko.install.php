@@ -214,7 +214,7 @@ $output = $oLayoutAdminController->updateLayout($args);
 if(!$output->toBool()) return $output;
 
 
-$siteDesignPath = _XE_PATH_.'files/site_design/';
+$siteDesignPath = RX_BASEDIR.'files/site_design/';
 FileHandler::makeDir($siteDesignPath);
 
 
@@ -268,10 +268,10 @@ $obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
 $obj->email_address = $logged_info->email_address;
 
 $obj->module_srl = $module_srl;
-Context::set('version', __XE_VERSION__);
+Context::set('version', RX_VERSION);
 $obj->title = 'Welcome to Rhymix';
 
-$obj->content = $oTemplateHandler->compile(_XE_PATH_ . 'modules/install/script/welcome_content', 'welcome_content');
+$obj->content = $oTemplateHandler->compile(RX_BASEDIR . 'modules/install/script/welcome_content', 'welcome_content');
 
 $output = $oDocumentController->insertDocument($obj, true);
 if(!$output->toBool()) return $output;
@@ -307,7 +307,7 @@ for($i = 1; $i <=4; $i++)
 {
 	unset($obj->document_srl);
 	$obj->title = "XEIcon ({$i})";
-	$obj->content = $oTemplateHandler->compile(_XE_PATH_ . 'modules/install/script/xeicon_content', 'xeicon_content_ko_' . $i);
+	$obj->content = $oTemplateHandler->compile(RX_BASEDIR . 'modules/install/script/xeicon_content', 'xeicon_content_ko_' . $i);
 
 	$output = $oDocumentController->insertDocument($obj, true);
 	if(!$output->toBool()) return $output;

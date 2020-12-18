@@ -404,7 +404,7 @@ class moduleAdminController extends module
 			}
 
 			// Get skin information (to check extra_vars)
-			$module_path = _XE_PATH_ . 'modules/'.$module_info->module;
+			$module_path = RX_BASEDIR . 'modules/'.$module_info->module;
 
 			if($mode === 'M')
 			{

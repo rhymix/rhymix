@@ -129,7 +129,7 @@ class widgetModel extends widget
 		$xml_file = sprintf("%sconf/info.xml", $widget_path);
 		if(!file_exists($xml_file)) return;
 		// If the problem by comparing the cache file and include the return variable $widget_info
-		$cache_file = sprintf(_XE_PATH_ . 'files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
+		$cache_file = sprintf(RX_BASEDIR . 'files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
 
 		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
 		{
@@ -279,7 +279,7 @@ class widgetModel extends widget
 		$xml_file = sprintf("%sskin.xml", $widgetStyle_path);
 		if(!file_exists($xml_file)) return;
 		// If the problem by comparing the cache file and include the return variable $widgetStyle_info
-		$cache_file = sprintf(_XE_PATH_ . 'files/cache/widgetstyles/%s.%s.cache.php', $widgetStyle, Context::getLangType());
+		$cache_file = sprintf(RX_BASEDIR . 'files/cache/widgetstyles/%s.%s.cache.php', $widgetStyle, Context::getLangType());
 
 		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
 		{

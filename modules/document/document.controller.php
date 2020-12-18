@@ -1216,7 +1216,7 @@ class documentController extends document
 		  }*/
 
 		// new trash module
-		require_once(_XE_PATH_.'modules/trash/model/TrashVO.php');
+		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
 		$oTrashVO->setTitle($oDocument->variables['title']);

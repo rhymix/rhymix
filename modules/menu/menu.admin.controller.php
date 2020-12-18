@@ -56,7 +56,7 @@ class menuAdminController extends menu
 	}
 
 	function __construct() {
-		$this->homeMenuCacheFile = _XE_PATH_ . $this->homeMenuCacheFile;
+		$this->homeMenuCacheFile = RX_BASEDIR . $this->homeMenuCacheFile;
 		parent::__construct();
 	}
 
@@ -1028,7 +1028,7 @@ class menuAdminController extends menu
 		}
 
 		// get menu properies with child menu
-		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%d.php", $originalItemInfo->menu_srl);
+		$phpFile = sprintf(RX_BASEDIR . "files/cache/menu/%d.php", $originalItemInfo->menu_srl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -1127,7 +1127,7 @@ class menuAdminController extends menu
 		$menuSrl = $itemInfo->menu_srl;
 
 		// get menu properies with child menu
-		$phpFile = sprintf(_XE_PATH_ . "files/cache/menu/%s.php", $menuSrl);
+		$phpFile = sprintf(RX_BASEDIR . "files/cache/menu/%s.php", $menuSrl);
 		$originMenu = NULL;
 
 		if(is_readable(FileHandler::getRealPath($phpFile)))
@@ -1765,8 +1765,8 @@ class menuAdminController extends menu
 		// Return if there is no information when creating the xml file
 		if(!$menu_srl) return;
 		// Specify the name of the cache file
-		$xml_file = sprintf(_XE_PATH_ . "files/cache/menu/%d.xml.php", $menu_srl);
-		$php_file = sprintf(_XE_PATH_ . "files/cache/menu/%d.php", $menu_srl);
+		$xml_file = sprintf(RX_BASEDIR . "files/cache/menu/%d.xml.php", $menu_srl);
+		$php_file = sprintf(RX_BASEDIR . "files/cache/menu/%d.php", $menu_srl);
 		// Get menu informaton
 		$args = new stdClass();
 		$args->menu_srl = $menu_srl;

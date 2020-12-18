@@ -9,7 +9,7 @@ class pageMobile extends pageView
 		{
 			case 'WIDGET' :
 				{
-					$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
+					$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.m.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
 					$this->interval = (int)($this->module_info->page_caching_interval);
 					break;
 				}
@@ -51,7 +51,7 @@ class pageMobile extends pageView
 		// Arrange a widget ryeolro
 		if($this->module_info->mcontent)
 		{
-			$cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", _XE_PATH_, $this->module_info->module_srl, Context::getLangType());
+			$cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getLangType());
 			$interval = (int)($this->module_info->page_caching_interval);
 			if($interval>0)
 			{

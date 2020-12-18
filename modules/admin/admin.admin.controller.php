@@ -181,7 +181,7 @@ class adminAdminController extends admin
 
 	public function updateDefaultDesignInfo($vars)
 	{
-		$siteDesignPath = _XE_PATH_ . 'files/site_design/';
+		$siteDesignPath = RX_BASEDIR . 'files/site_design/';
 
 		$vars->module_skin = json_decode($vars->module_skin);
 
@@ -190,7 +190,7 @@ class adminAdminController extends admin
 			FileHandler::makeDir($siteDesignPath);
 		}
 
-		$siteDesignFile = _XE_PATH_ . 'files/site_design/design_' . $vars->site_srl . '.php';
+		$siteDesignFile = RX_BASEDIR . 'files/site_design/design_' . $vars->site_srl . '.php';
 
 		$layoutTarget = 'layout_srl';
 		$skinTarget = 'skin';
@@ -255,7 +255,7 @@ class adminAdminController extends admin
 			}
 		}
 
-		$siteDesignFile = _XE_PATH_ . 'files/site_design/design_' . $site_srl . '.php';
+		$siteDesignFile = RX_BASEDIR . 'files/site_design/design_' . $site_srl . '.php';
 		FileHandler::writeFile($siteDesignFile, implode(PHP_EOL, $buff));
 	}
 
@@ -324,7 +324,7 @@ class adminAdminController extends admin
 		{
 			if($favorite->type == 'module')
 			{
-				$modulePath = _XE_PATH_ . 'modules/' . $favorite->module;
+				$modulePath = RX_BASEDIR . 'modules/' . $favorite->module;
 				if(!is_dir($modulePath))
 				{
 					$deleteTargets[] = $favorite->admin_favorite_srl;
@@ -396,7 +396,7 @@ class adminAdminController extends admin
 		$oModuleModel = getModel('module');
 		$oAdminConfig = $oModuleModel->getModuleConfig('admin');
 
-		Rhymix\Framework\Storage::delete(_XE_PATH_ . $oAdminConfig->adminLogo);
+		Rhymix\Framework\Storage::delete(RX_BASEDIR . $oAdminConfig->adminLogo);
 		unset($oAdminConfig->adminLogo);
 
 		$oModuleController = getController('module');
@@ -460,10 +460,10 @@ class adminAdminController extends admin
 		}
 
 		$iconname = Context::get('iconname');
-		$file_exist = FileHandler::readFile(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
+		$file_exist = FileHandler::readFile(RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		if($file_exist)
 		{
-			@Rhymix\Framework\Storage::delete(_XE_PATH_ . 'files/attach/xeicon/' . $virtual_site . $iconname);
+			@Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . $iconname);
 		}
 		else
 		{

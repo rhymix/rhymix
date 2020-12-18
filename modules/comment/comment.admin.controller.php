@@ -288,7 +288,7 @@ class commentAdminController extends comment
 	 */
 	function _moveCommentToTrash($commentSrlList, &$oCommentController, &$oDB, $message_content = NULL)
 	{
-		require_once(_XE_PATH_ . 'modules/trash/model/TrashVO.php');
+		require_once(RX_BASEDIR . 'modules/trash/model/TrashVO.php');
 
 		if(is_array($commentSrlList))
 		{

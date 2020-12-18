@@ -52,8 +52,8 @@ class adminAdminModel extends admin
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate
-		$xe_path = _XE_PATH_;
-		$path_info = array_reverse(explode('/', _XE_PATH_));
+		$xe_path = RX_BASEDIR;
+		$path_info = array_reverse(explode('/', RX_BASEDIR));
 		array_pop($path_info); // remove last '/'
 		$path_candidate = array();
 
@@ -127,8 +127,8 @@ class adminAdminModel extends admin
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate
-		$xe_path = _XE_PATH_;
-		$path_info = array_reverse(explode('/', _XE_PATH_));
+		$xe_path = RX_BASEDIR;
+		$path_info = array_reverse(explode('/', RX_BASEDIR));
 		array_pop($path_info); // remove last '/'
 		$path_candidate = array();
 
@@ -175,7 +175,7 @@ class adminAdminModel extends admin
 	 */
 	function getAdminFTPPath()
 	{
-		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
+		Context::loadLang(RX_BASEDIR . 'modules/autoinstall/lang');
 		@set_time_limit(5);
 
 		$ftp_info = Context::getRequestVars();
@@ -229,8 +229,8 @@ class adminAdminModel extends admin
 		FileHandler::writeFile('./files/cache/ftp_check', $pin);
 
 		// create path candidate
-		$xe_path = _XE_PATH_;
-		$path_info = array_reverse(explode('/', _XE_PATH_));
+		$xe_path = RX_BASEDIR;
+		$path_info = array_reverse(explode('/', RX_BASEDIR));
 		array_pop($path_info); // remove last '/'
 		$path_candidate = array();
 
@@ -319,7 +319,7 @@ class adminAdminModel extends admin
 	 */
 	function getAdminFTPList()
 	{
-		Context::loadLang(_XE_PATH_ . 'modules/autoinstall/lang');
+		Context::loadLang(RX_BASEDIR . 'modules/autoinstall/lang');
 		@set_time_limit(5);
 
 		$ftp_info = Context::getRequestVars();
@@ -391,7 +391,7 @@ class adminAdminModel extends admin
 	 */
 	function getThemeList()
 	{
-		$path = _XE_PATH_ . 'themes';
+		$path = RX_BASEDIR . 'themes';
 		$list = FileHandler::readDir($path);
 
 		$theme_info = array();
@@ -419,7 +419,7 @@ class adminAdminModel extends admin
 			return $GLOBALS['__ThemeInfo__'][$theme_name];
 		}
 
-		$info_file = _XE_PATH_ . 'themes/' . $theme_name . '/conf/info.xml';
+		$info_file = RX_BASEDIR . 'themes/' . $theme_name . '/conf/info.xml';
 		if(!file_exists($info_file))
 		{
 			return;
@@ -599,7 +599,7 @@ class adminAdminModel extends admin
 		$oModuleModel = getModel('module');
 		foreach($searched_list as $val)
 		{
-			$skin_list = $oModuleModel->getSkins(_XE_PATH_ . 'modules/' . $val);
+			$skin_list = $oModuleModel->getSkins(RX_BASEDIR . 'modules/' . $val);
 
 			if(is_array($skin_list) && count($skin_list) > 0 && !in_array($val, $exceptionModule))
 			{
@@ -769,7 +769,7 @@ class adminAdminModel extends admin
 
 			foreach($list as $k => $v)
 			{
-				if(!is_dir(_XE_PATH_ . 'modules/' . $v->module))
+				if(!is_dir(RX_BASEDIR . 'modules/' . $v->module))
 				{
 					unset($list[$k]);
 				}

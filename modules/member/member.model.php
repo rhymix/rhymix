@@ -102,13 +102,13 @@ class memberModel extends member
 	 */
 	protected static function _getAgreement()
 	{
-		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
+		$agreement_file = RX_BASEDIR.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
 		if(is_readable($agreement_file))
 		{
 			return FileHandler::readFile($agreement_file);
 		}
 
-		$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . config('locale.default_lang') . '.txt';
+		$agreement_file = RX_BASEDIR.'files/member_extra_info/agreement_' . config('locale.default_lang') . '.txt';
 		if(is_readable($agreement_file))
 		{
 			return FileHandler::readFile($agreement_file);
@@ -117,7 +117,7 @@ class memberModel extends member
 		$lang_selected = Context::loadLangSelected();
 		foreach($lang_selected as $key => $val)
 		{
-			$agreement_file = _XE_PATH_.'files/member_extra_info/agreement_' . $key . '.txt';
+			$agreement_file = RX_BASEDIR.'files/member_extra_info/agreement_' . $key . '.txt';
 			if(is_readable($agreement_file))
 			{
 				return FileHandler::readFile($agreement_file);

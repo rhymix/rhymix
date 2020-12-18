@@ -28,9 +28,9 @@ class menuAdminView extends menu
 	 */
 	function dispMenuAdminSiteMap()
 	{
-		Context::loadLang(_XE_PATH_.'modules/document/lang/');
-		Context::loadLang(_XE_PATH_.'modules/layout/lang/');
-		Context::loadLang(_XE_PATH_.'modules/autoinstall/lang/');
+		Context::loadLang(RX_BASEDIR.'modules/document/lang/');
+		Context::loadLang(RX_BASEDIR.'modules/layout/lang/');
+		Context::loadLang(RX_BASEDIR.'modules/autoinstall/lang/');
 		$site_srl = Context::get('site_srl');
 		$site_module_info = Context::get('site_module_info');
 
@@ -58,7 +58,7 @@ class menuAdminView extends menu
 		Context::set('layout_list', $layoutList);
 
 		// choice theme file
-		$theme_file = _XE_PATH_.'files/theme/theme_info.php';
+		$theme_file = RX_BASEDIR.'files/theme/theme_info.php';
 		if(is_readable($theme_file))
 		{
 			include($theme_file);

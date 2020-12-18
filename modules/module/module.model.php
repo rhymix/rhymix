@@ -34,7 +34,7 @@ class moduleModel extends module
 			return true;
 		}
 		
-		$dirs = array_map('strtolower', FileHandler::readDir(_XE_PATH_));
+		$dirs = array_map('strtolower', FileHandler::readDir(RX_BASEDIR));
 		$dirs[] = 'rss';
 		$dirs[] = 'atom';
 		$dirs[] = 'api';
@@ -1754,7 +1754,7 @@ class moduleModel extends module
 		$target = ($skin_type == 'M') ? 'mskin' : 'skin';
 		$site_srl = 0;
 
-		$designInfoFile = sprintf(_XE_PATH_.'files/site_design/design_%s.php', $site_srl);
+		$designInfoFile = sprintf(RX_BASEDIR.'files/site_design/design_%s.php', $site_srl);
 		if(is_readable($designInfoFile))
 		{
 			include($designInfoFile);
@@ -2251,7 +2251,7 @@ class moduleModel extends module
 		$security->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 
 		$oTemplate = &TemplateHandler::getInstance();
-		$html = $oTemplate->compile(_XE_PATH_ . 'modules/module/tpl/', 'filebox_list_html');
+		$html = $oTemplate->compile(RX_BASEDIR . 'modules/module/tpl/', 'filebox_list_html');
 
 		$this->add('html', $html);
 	}

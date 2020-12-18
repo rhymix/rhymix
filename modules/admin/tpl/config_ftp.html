@@ -48,9 +48,9 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="ftp_path">{$lang->msg_ftp_installed_ftp_realpath}</label>
 			<div class="x_controls">
-				<input type="text" name="ftp_path" id="ftp_path" style="min-width:90%" value="{$ftp_info['path'] ?: _XE_PATH_}" />
+				<input type="text" name="ftp_path" id="ftp_path" style="min-width:90%" value="{$ftp_info['path'] ?: \RX_BASEDIR}" />
 				<br />
-				<p class="x_help-block">{$lang->msg_ftp_autodetected_ftp_realpath} : {_XE_PATH_}</p>
+				<p class="x_help-block">{$lang->msg_ftp_autodetected_ftp_realpath} : {\RX_BASEDIR}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

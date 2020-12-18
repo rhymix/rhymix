@@ -466,7 +466,7 @@ class widgetController extends widget
 		$widget_content = '';
 		if($widget != 'widgetContent' && $widget != 'widgetBox')
 		{
-			if(!is_dir(sprintf(_XE_PATH_.'widgets/%s/',$widget))) return;
+			if(!is_dir(sprintf(RX_BASEDIR.'widgets/%s/',$widget))) return;
 			// Hold the contents of the widget parameter
 			$widget_content = $this->getCache($widget, $args);
 		}
