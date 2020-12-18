@@ -350,7 +350,7 @@ class memberAdminController extends member
 			'limit_day',
 			'limit_day_description',
 			'emailhost_check',
-			'redirect_url',
+			'special_phone_number', 'special_phone_code', 'redirect_url',
 			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate', 'phone_number_verify_by_sms',
 			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
@@ -365,6 +365,12 @@ class memberAdminController extends member
 		$args->limit_day = (int)$args->limit_day;
 		if($args->emailhost_check != 'allowed' && $args->emailhost_check != 'prohibited') $args->emailhost_check == 'allowed';
 
+		$args->special_phone_number = preg_replace('/[^0-9]/', '', $args->special_phone_number);
+		$args->special_phone_code = preg_replace('/[^0-9]/', '', $args->special_phone_code);
+		if ($args->special_phone_code !== '' && strlen($args->special_phone_code) !== 6)
+		{
+			return new BaseObject('-1', 'msg_special_code_incorrect_format');
+		}
 		if($args->redirect_url)
 		{
 			$oModuleModel = getModel('module');

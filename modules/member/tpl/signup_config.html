@@ -65,6 +65,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label" for="redirect_url">{$lang->cmd_special_phone_number}</label>
+		<div class="x_controls">
+			<input type="text" name="special_phone_number" value="{$config->special_phone_number}" placeholder="{$lang->phone_number}" />
+			<input type="text" name="special_phone_code" value="{$config->special_phone_code}" placeholder="{$lang->verify_by_sms_code}" />
+			<p class="x_help-block">{$lang->about_special_phone_number}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="redirect_url">{$lang->redirect_url}</label>
 		<div class="x_controls">
 			<input class="module_search" type="text" name="redirect_url" value="{$config->redirect_url}" />

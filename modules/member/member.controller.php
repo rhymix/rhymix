@@ -3579,13 +3579,19 @@ class memberController extends member
 			return new BaseObject(-1, 'msg_invalid_phone_number');
 		}
 		
+		$is_special = ($config->special_phone_number && $config->special_phone_number === preg_replace('/[^0-9]/', '', $phone_number));
 		$code = intval(mt_rand(100000, 999999));
 		$_SESSION['verify_by_sms'] = array(
 			'country' => $phone_country,
 			'number' => $phone_number,
-			'code' => $code,
+			'code' => $is_special ? intval($config->special_phone_code) : $code,
 			'status' => false,
 		);
+		
+		if ($is_special)
+		{
+			return new BaseObject(0, 'verify_by_sms_code_sent');
+		}
 		
 		$sms = new Rhymix\Framework\SMS;
 		$sms->addTo($phone_number, $phone_country_calling_code);
