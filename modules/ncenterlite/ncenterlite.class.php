@@ -63,72 +63,37 @@ class ncenterlite extends ModuleObject
 			}
 		}
 
-		if(!$oDB->isColumnExists('ncenterlite_notify', 'readed'))
+		foreach(['notify_type', 'readed', 'target_body', 'target_browser', 'target_p_srl'] as $column_name)
 		{
-			return true;
+			if(!$oDB->isColumnExists('ncenterlite_notify', $column_name))
+			{
+				return true;
+			}
+		}
+		foreach(['idx_srl', 'idx_member_srl', 'idx_regdate', 'idx_readed', 'idx_target_srl', 'idx_target_p_srl', 'idx_target_member_srl', 'idx_member_srl_and_readed'] as $index_name)
+		{
+			if(!$oDB->isIndexExists('ncenterlite_notify', $index_name))
+			{
+				return true;
+			}
 		}
 
-		if(!$oDB->isColumnExists('ncenterlite_notify', 'target_body'))
+		foreach(NcenterliteModel::getNotifyTypes() as $type => $srl)
 		{
-			return true;
+			if(!$oDB->isColumnExists('ncenterlite_user_set', $type . '_notify'))
+			{
+				return true;
+			}
+			else
+			{
+				$column_info = $oDB->getColumnInfo('ncenterlite_user_set', $type . '_notify');
+				if (strtolower($column_info->dbtype) !== 'varchar' || $column_info->size < 40)
+				{
+					return true;
+				}
+			}
 		}
-
-		if(!$oDB->isColumnExists('ncenterlite_notify', 'notify_type'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_notify', 'target_browser'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_notify', 'target_p_srl'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_srl'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_srl'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_p_srl'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_member_srl'))
-		{
-			return true;
-		}
-
-		// Composite index to speed up getNotifyList
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_member_srl_and_readed'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_user_set', 'comment_comment_notify'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_user_set', 'vote_notify'))
-		{
-			return true;
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_user_set', 'scrap_notify'))
-		{
-			return true;
-		}
-
+		
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
@@ -177,54 +142,53 @@ class ncenterlite extends ModuleObject
 			}
 		}
 
-		if(!$oDB->isColumnExists('ncenterlite_notify','readed'))
-		{
-			$oDB->addColumn('ncenterlite_notify', 'readed', 'char', 1, 'N', true);
-			$oDB->addIndex('ncenterlite_notify', 'idx_readed', array('readed'));
-			$oDB->addIndex('ncenterlite_notify', 'idx_member_srl', array('member_srl'));
-			$oDB->addIndex('ncenterlite_notify', 'idx_regdate', array('regdate'));
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_notify','target_browser'))
-		{
-			$oDB->addColumn('ncenterlite_notify', 'target_browser', 'varchar', 50, true);
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_notify','target_body'))
-		{
-			$oDB->addColumn('ncenterlite_notify', 'target_body', 'varchar', 255, true);
-		}
-
 		if(!$oDB->isColumnExists('ncenterlite_notify','notify_type'))
 		{
 			$oDB->addColumn('ncenterlite_notify', 'notify_type', 'number', 11, 0);
 		}
-
+		if(!$oDB->isColumnExists('ncenterlite_notify','readed'))
+		{
+			$oDB->addColumn('ncenterlite_notify', 'readed', 'char', 1, 'N', true);
+		}
+		if(!$oDB->isColumnExists('ncenterlite_notify','target_body'))
+		{
+			$oDB->addColumn('ncenterlite_notify', 'target_body', 'varchar', 255, true);
+		}
+		if(!$oDB->isColumnExists('ncenterlite_notify','target_browser'))
+		{
+			$oDB->addColumn('ncenterlite_notify', 'target_browser', 'varchar', 50, true);
+		}
 		if(!$oDB->isColumnExists('ncenterlite_notify','target_p_srl'))
 		{
 			$oDB->addColumn('ncenterlite_notify', 'target_p_srl', 'number', 10, true);
 		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_srl'))
+		
+		foreach(['idx_srl', 'idx_member_srl', 'idx_regdate', 'idx_readed', 'idx_target_srl', 'idx_target_p_srl', 'idx_target_member_srl'] as $index_name)
 		{
-			$oDB->addIndex('ncenterlite_notify', 'idx_srl', array('srl'));
+			if(!$oDB->isIndexExists('ncenterlite_notify', $index_name))
+			{
+				$oDB->addIndex('ncenterlite_notify', $index_name, array(substr($index_name, 4)));
+			}
 		}
 
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_srl'))
+		$prev_type = '';
+		foreach(NcenterliteModel::getNotifyTypes() as $type => $srl)
 		{
-			$oDB->addIndex('ncenterlite_notify', 'idx_target_srl', array('target_srl'));
+			if(!$oDB->isColumnExists('ncenterlite_user_set', $type . '_notify'))
+			{
+				$oDB->addColumn('ncenterlite_user_set', $type . '_notify', 'varchar', 40, null, true, $prev_type ? ($prev_type . '_notify') : 'member_srl');
+			}
+			else
+			{
+				$column_info = $oDB->getColumnInfo('ncenterlite_user_set', $type . '_notify');
+				if (strtolower($column_info->dbtype) !== 'varchar' || $column_info->size < 40)
+				{
+					$oDB->modifyColumn('ncenterlite_user_set', $type . '_notify', 'varchar', 40, null, true, $prev_type ? ($prev_type . '_notify') : 'member_srl');
+				}
+			}
+			$prev_type = $type;
 		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_p_srl'))
-		{
-			$oDB->addIndex('ncenterlite_notify', 'idx_target_p_srl', array('target_p_srl'));
-		}
-
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_target_member_srl'))
-		{
-			$oDB->addIndex('ncenterlite_notify', 'idx_target_member_srl', array('target_member_srl'));
-		}
-
+		
 		// Composite index to speed up getNotifyList
 		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_member_srl_and_readed'))
 		{
@@ -235,21 +199,6 @@ class ncenterlite extends ModuleObject
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
 			$oDB->dropIndex('ncenterlite_notify', 'idx_notify');
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_user_set','comment_comment_notify'))
-		{
-			$oDB->addColumn('ncenterlite_user_set', 'comment_comment_notify', 'char', 1, null, true, 'comment_notify');
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_user_set','vote_notify'))
-		{
-			$oDB->addColumn('ncenterlite_user_set', 'vote_notify', 'char', 1, null, true, 'mention_notify');
-		}
-
-		if(!$oDB->isColumnExists('ncenterlite_user_set','scrap_notify'))
-		{
-			$oDB->addColumn('ncenterlite_user_set', 'scrap_notify', 'char', 1, null, true, 'vote_notify');
 		}
 
 		$config = getModel('ncenterlite')->getConfig();

@@ -18,6 +18,7 @@
 .xm select,
 .xm textarea{font-weight:normal;line-height:20px}
 .xm label{display:block;margin-bottom:5px}
+.xm label.x_inline{display:inline-block;margin-right:12px}
 .xm select,
 .xm textarea,
 .xm input[type="text"],

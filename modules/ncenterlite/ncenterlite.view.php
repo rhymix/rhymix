@@ -48,27 +48,30 @@ class ncenterliteView extends ncenterlite
 			throw new Rhymix\Framework\Exception('msg_not_use_user_setting');
 		}
 
-		$oMemberModel = getModel('member');
-		$member_srl = Context::get('member_srl');
-		$logged_info = Context::get('logged_info');
-		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exception('ncenterlite_stop_login_required');
-
-		if($logged_info->is_admin == 'Y' && $member_srl)
+		if(!Rhymix\Framework\Session::getMemberSrl())
 		{
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		if($logged_info->is_admin != 'Y' && $member_srl)
+		$member_srl = Context::get('member_srl');
+		if($this->user->isAdmin() && $member_srl)
 		{
-			if($member_srl != $logged_info->member_srl)
+			$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		}
+		if(!$this->user->isAdmin() && $member_srl)
+		{
+			if($member_srl != $this->user->member_srl)
 			{
-				throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user');
+				throw new Rhymix\Framework\Exceptions\NotPermitted('ncenterlite_stop_no_permission_other_user');
 			}
 		}
-		$output = $oNcenterliteModel->getUserConfig($member_srl);
-
+		
 		Context::set('member_info', $member_info);
-		Context::set('user_config', $output->data);
+		Context::set('user_config', NcenterliteModel::getUserConfig($member_srl));
+		Context::set('module_config', NcenterliteModel::getConfig());
+		Context::set('notify_types', NcenterliteModel::getNotifyTypes());
+		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
+		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types')) > 0);
 		$this->setTemplateFile('userconfig');
 	}
 
@@ -89,19 +92,17 @@ class ncenterliteView extends ncenterlite
 		
 		if(!Rhymix\Framework\Session::getMemberSrl())
 		{
-			throw new Rhymix\Framework\Exception('ncenterlite_stop_login_required');
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$member_srl = Context::get('member_srl');
-		
 		if(!$member_srl)
 		{
 			$member_srl = $this->user->member_srl;
 		}
-		
-		if($this->user->is_admin !== 'Y' && intval($this->user->member_srl) !== intval($member_srl))
+		if(!$this->user->isAdmin() && intval($this->user->member_srl) !== intval($member_srl))
 		{
-			throw new \Rhymix\Framework\Exception('msg_unsubscribe_not_permission');
+			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_unsubscribe_not_permission');
 		}
 		
 		$args = new stdClass();
