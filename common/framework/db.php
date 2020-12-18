@@ -290,6 +290,7 @@ class DB
 			if (!$output->toBool())
 			{
 				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$output->data = null;
 				$this->_query_id = '';
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
@@ -300,7 +301,7 @@ class DB
 			{
 				$output->add('_query', $query_string);
 				$output->add('_elapsed_time', '0.00000');
-				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$output->data = ($result_type === 'array') ? [] : null;
 				$this->_query_id = '';
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
@@ -331,6 +332,7 @@ class DB
 				$output->add('_query', $query_string);
 				$output->add('_elapsed_time', '0.00000');
 				$output->page_navigation = new \PageHandler(0, 0, 0);
+				$output->data = null;
 				$this->_query_id = '';
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
@@ -350,6 +352,7 @@ class DB
 			$output->add('_query', $query_string);
 			$output->add('_elapsed_time', '0.00000');
 			$output->page_navigation = new \PageHandler(0, 0, 0);
+			$output->data = null;
 			$this->_query_id = '';
 			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
