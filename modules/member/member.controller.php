@@ -2837,10 +2837,13 @@ class memberController extends member
 		// Check if phone number is duplicate
 		if ($config->phone_number_allow_duplicate !== 'Y' && $args->phone_number)
 		{
-			$member_srl = MemberModel::getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
-			if($member_srl)
+			if (!$config->special_phone_number || $config->special_phone_number !== preg_replace('/[^0-9]/', '', $args->phone_number))
 			{
-				return new BaseObject(-1, 'msg_exists_phone_number');
+				$member_srl = MemberModel::getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
+				if($member_srl)
+				{
+					return new BaseObject(-1, 'msg_exists_phone_number');
+				}
 			}
 		}
 		
@@ -3095,10 +3098,13 @@ class memberController extends member
 		// Check if phone number is duplicate
 		if ($config->phone_number_allow_duplicate !== 'Y' && $args->phone_number)
 		{
-			$member_srl = MemberModel::getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
-			if ($member_srl && $args->member_srl != $member_srl)
+			if (!$config->special_phone_number || $config->special_phone_number !== preg_replace('/[^0-9]/', '', $args->phone_number))
 			{
-				return new BaseObject(-1, 'msg_exists_phone_number');
+				$member_srl = MemberModel::getMemberSrlByPhoneNumber($args->phone_number, $args->phone_country);
+				if ($member_srl && $args->member_srl != $member_srl)
+				{
+					return new BaseObject(-1, 'msg_exists_phone_number');
+				}
 			}
 		}
 		
