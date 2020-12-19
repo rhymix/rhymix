@@ -1044,11 +1044,11 @@ class moduleController extends module
 	function insertModuleGrants($module_srl, $obj)
 	{
 		$this->deleteModuleGrants($module_srl);
-		if(!$obj || !count($obj)) return;
+		if(!$obj || !countobj($obj)) return;
 
 		foreach($obj as $name => $val)
 		{
-			if(!$val || !count($val)) continue;
+			if(!$val || !countobj($val)) continue;
 
 			foreach($val as $group_srl)
 			{
