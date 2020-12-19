@@ -337,9 +337,9 @@ class widgetController extends widget
 				$sequence = sha1(json_encode($args));
 			}
 
-			if(count($args))
+			foreach($args as $k => $v)
 			{
-				foreach($args as $k => $v) $args->{$k} = urldecode($v);
+				$args->{$k} = urldecode($v);
 			}
 			
 			foreach($lang_list as $lang_type => $val)
