@@ -770,7 +770,7 @@ class widgetController extends widget
 		$vars->widget_padding_bottom = trim($request_vars->widget_padding_bottom);
 		$vars->document_srl= trim($request_vars->document_srl);
 
-		if(count($widget_info->extra_var))
+		if(countobj($widget_info->extra_var))
 		{
 			foreach($widget_info->extra_var as $key=>$val)
 			{
@@ -781,7 +781,7 @@ class widgetController extends widget
 		if($request_vars->widgetstyle)
 		{
 			$widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
-			if(count($widgetStyle_info->extra_var))
+			if(countobj($widgetStyle_info->extra_var))
 			{
 				foreach($widgetStyle_info->extra_var as $key=>$val)
 				{
