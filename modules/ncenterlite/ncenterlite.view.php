@@ -66,10 +66,16 @@ class ncenterliteView extends ncenterlite
 			}
 		}
 		
+		$user_config = NcenterliteModel::getUserConfig($member_srl);
+		$notify_types = NcenterliteModel::getNotifyTypes();
+		foreach ($notify_types as $type => $srl)
+		{
+			$user_config->{$type . '_notify'} = $user_config->{$type} ? 'Y' : 'N';
+		}
 		Context::set('member_info', $member_info);
-		Context::set('user_config', NcenterliteModel::getUserConfig($member_srl));
+		Context::set('notify_types', $notify_types);
+		Context::set('user_config', $user_config);
 		Context::set('module_config', NcenterliteModel::getConfig());
-		Context::set('notify_types', NcenterliteModel::getNotifyTypes());
 		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
 		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types')) > 0);
 		$this->setTemplateFile('userconfig');
