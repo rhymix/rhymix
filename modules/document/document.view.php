@@ -173,7 +173,7 @@ class documentView extends document
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->statusList = array($this->getConfigStatus('temp'));
-		$args->page = (int)Context::get('page');
+		$args->page = (int)Context::get('page') ?: 1;
 		$args->list_count = 10;
 
 		$output = DocumentModel::getDocumentList($args, true);
