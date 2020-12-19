@@ -16,6 +16,10 @@ class trashAdminView extends trash
 	 */
 	function init()
 	{
+		// 문서 및 댓글 모듈 lang 파일 로딩
+		Context::loadLang('./modules/document/lang');
+		Context::loadLang('./modules/comment/lang');
+		
 		// 템플릿 경로 지정 (board의 경우 tpl에 관리자용 템플릿 모아놓음)
 		$template_path = sprintf("%stpl/",$this->module_path);
 		$this->setTemplatePath($template_path);
