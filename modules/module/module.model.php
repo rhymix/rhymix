@@ -1314,7 +1314,7 @@ class moduleModel extends module
 		$output = executeQuery('module.getModuleCategories', $args);
 		if(!$output->toBool()) return $output;
 		$list = $output->data;
-		if(!$list) return;
+		if(!$list) return array();
 		if(!is_array($list)) $list = array($list);
 
 		foreach($list as $val)

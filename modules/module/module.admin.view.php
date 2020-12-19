@@ -125,6 +125,10 @@ class moduleAdminView extends module
 		else
 		{
 			$category_list = $oModuleModel->getModuleCategories();
+			if (!is_array($category_list))
+			{
+				return $category_list;
+			}
 			Context::set('category_list', $category_list);
 
 			//Security
