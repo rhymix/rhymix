@@ -212,11 +212,11 @@ class ncenterliteModel extends ncenterlite
 			foreach (self::getNotifyTypes() as $type => $srl)
 			{
 				$disabled_list = $output->data->{$type . '_notify'} ?? '';
-				if ($disabled_list === 'N' || strlen($disabled_list) === 1)
+				if ($disabled_list === 'N')
 				{
 					$config->{$type} = [];
 				}
-				elseif ($disabled_list === '')
+				elseif ($disabled_list === 'Y' || $disabled_list === '')
 				{
 					$config->{$type} = ['web', 'mail', 'sms', 'push'];
 				}
