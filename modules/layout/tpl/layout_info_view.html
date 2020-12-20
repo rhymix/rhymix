@@ -111,7 +111,7 @@
 
 					<block cond="$var->type == 'checkbox'">
 						<block loop="$var->options => $key, $val">
-							<label class="x_inline"><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="@in_array($key, $var->value)" /> {$val->val}</label>
+							<label class="x_inline"><input type="checkbox" name="{$name}[]" value="{$key}" checked="checked"|cond="in_array($key, $var->value ?: [])" /> {$val->val}</label>
 						</block>
 					</block>
 
