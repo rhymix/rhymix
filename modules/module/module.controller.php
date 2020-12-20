@@ -203,7 +203,7 @@ class moduleController extends module
 
 	function updateModulePartConfig($module, $module_srl, $config)
 	{
-		$origin_config = ModuleModel::getModulePartConfig($module, $module_srl);
+		$origin_config = ModuleModel::getModulePartConfig($module, $module_srl) ?: new stdClass;
 		
 		foreach($config as $key => $val)
 		{
