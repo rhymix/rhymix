@@ -67,6 +67,14 @@ class spamfilterAdminController extends spamfilter
 		
 		// Get updated values
 		$vars = Context::getRequestVars();
+		if (!isset($vars->target_devices) || !is_array($vars->target_devices))
+		{
+			$vars->target_devices = [];
+		}
+		if (!isset($vars->target_actions) || !is_array($vars->target_actions))
+		{
+			$vars->target_actions = [];
+		}
 		
 		// Check values
 		if (!isset($config->captcha))

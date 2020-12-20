@@ -60,7 +60,7 @@ class fileAdminController extends file
 	function procFileAdminInsertUploadConfig()
 	{
 		// Update configuration
-		$config = getModel('module')->getModuleConfig('file');
+		$config = getModel('module')->getModuleConfig('file') ?: new stdClass;
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
 		$config->allowed_filetypes = Context::get('allowed_filetypes');
@@ -126,7 +126,7 @@ class fileAdminController extends file
 	function procFileAdminInsertDownloadConfig()
 	{
 		// Update configuration
-		$config = getModel('module')->getModuleConfig('file');
+		$config = getModel('module')->getModuleConfig('file') ?: new stdClass;
 		$config->allow_outlink = Context::get('allow_outlink') === 'N' ? 'N' : 'Y';
 		$config->allow_outlink_format = Context::get('allow_outlink_format');
 		$config->allow_outlink_site = Context::get('allow_outlink_site');
@@ -148,7 +148,7 @@ class fileAdminController extends file
 	function procFileAdminInsertOtherConfig()
 	{
 		// Update configuration
-		$config = getModel('module')->getModuleConfig('file');
+		$config = getModel('module')->getModuleConfig('file') ?: new stdClass;
 		$config->save_changelog = Context::get('save_changelog') === 'Y' ? 'Y' : 'N';
 		
 		// Save and redirect

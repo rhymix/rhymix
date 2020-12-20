@@ -1323,7 +1323,7 @@ class menuAdminController extends menu
 					$target->node = $srl;
 					$target->child= array();
 
-					while(count($this->map[$srl]))
+					while(count($this->map[$srl] ?? []))
 					{
 						$this->_setParent($srl, array_shift($this->map[$srl]), $target);
 					}

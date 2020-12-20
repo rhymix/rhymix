@@ -93,7 +93,7 @@ class rssAdminController extends rss
 		}
 		else
 		{
-			$target_module_srls = array_keys($vars->open_rss);
+			$target_module_srls = array_keys($vars->open_rss ?: []);
 		}
 		
 		if(!count($target_module_srls))
@@ -117,7 +117,7 @@ class rssAdminController extends rss
 			}
 			else
 			{
-				$config->open_rss = $vars->open_rss;
+				$config->open_rss = $vars->open_rss ?: [];
 				$config->open_total_feed = $vars->open_total_feed;
 				$config->feed_description = $vars->feed_description;
 				$config->feed_copyright = $vars->feed_copyright;
