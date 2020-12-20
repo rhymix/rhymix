@@ -422,7 +422,7 @@ class memberAdminController extends member
 		foreach($list_order as $key)
 		{
 			$signupItem = new stdClass();
-			$signupItem->isIdentifier = ($key == $config->identifier || in_array($key, $config->identifiers));
+			$signupItem->isIdentifier = ($key == $config->identifier || in_array($key, $config->identifiers ?: []));
 			$signupItem->isDefaultForm = in_array($key, $items);
 			$signupItem->name = $key;
 			$signupItem->title = (!in_array($key, $items)) ? $key : $lang->{$key};
