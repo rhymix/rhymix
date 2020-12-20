@@ -66,7 +66,7 @@ class ncenterliteView extends ncenterlite
 			}
 		}
 		
-		$user_config = NcenterliteModel::getUserConfig($member_srl);
+		$user_config = NcenterliteModel::getUserConfig($member_srl) ?: new stdClass;
 		$notify_types = NcenterliteModel::getNotifyTypes();
 		foreach ($notify_types as $type => $srl)
 		{
