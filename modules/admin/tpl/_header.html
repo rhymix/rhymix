@@ -82,9 +82,13 @@
 					<script>
 						__xe_admin_gnb_txs.push('{'__xe_admin_gnb_tx_' . md5($value['href'])}');
 					</script>
-					<a href="{str_replace('//', '/', \RX_BASEURL . $value['href'])}" data-href="{md5($value['href'])}" title="{$value['text']}"><span class="tx">{$value['text']}</span></a>
+					{@ $href = starts_with(\RX_BASEURL, $value['href']) ? $value['href'] : str_replace('//', '/', \RX_BASEURL . $value['href'])}
+					<a href="{$href}" data-href="{md5($value['href'])}" title="{$value['text']}"><span class="tx">{$value['text']}</span></a>
 					<ul cond="count($value['list'])" style="display:block"|cond="isset($_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])]) && $_COOKIE['__xe_admin_gnb_tx_' . md5($value['href'])] == 'open'">
-						<li loop="$value['list']=>$key2,$value2" cond="$value2['text']!=''" class="active_"|cond="$value2['text'] == $subMenuTitle" ><a href="{str_replace('//', '/', \RX_BASEURL . $value2['href'])}" title="{$value2['text']}">{$value2['text']}</a></li>
+						<!--@foreach($value['list'] as $key2 => $value2)-->
+							{@ $href = starts_with(\RX_BASEURL, $value2['href']) ? $value2['href'] : str_replace('//', '/', \RX_BASEURL . $value2['href'])}
+							<li cond="$value2['text']!=''" class="active_"|cond="$value2['text'] == $subMenuTitle" ><a href="{$href}">{$value2['text']}</a></li>
+						<!--@endforeach-->
 					</ul>
 				</li>
 			<!--@end-->
