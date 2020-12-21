@@ -62,6 +62,16 @@
 				</select>
 				<p class="x_help-block">
 					{$lang->about_max_image_size}
+				</p>
+				<p class="x_help-block">
+					<label class="x_inline" for="max_image_size_same_format_Y">
+						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_Y" value="Y" checked="checked"|cond="$config->max_image_size_same_format === 'Y'" />
+						{$lang->max_image_size_same_format_Y}
+					</label>
+					<label class="x_inline" for="max_image_size_same_format_N">
+						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_N" value="N" checked="checked"|cond="$config->max_image_size_same_format !== 'Y'" />
+						{$lang->max_image_size_same_format_N}
+					</label>
 					<label for="max_image_size_admin">
 						<input type="checkbox" name="max_image_size_admin" id="max_image_size_admin" value="Y" checked="checked"|cond="$config->max_image_size_admin === 'Y'" />
 						{$lang->max_image_size_admin}

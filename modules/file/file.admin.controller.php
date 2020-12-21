@@ -71,6 +71,7 @@ class fileAdminController extends file
 		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
 		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
 		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+		$config->max_image_size_same_format = Context::get('max_image_size_same_format') === 'Y' ? 'Y' : 'N';
 		$config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
 		$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
@@ -210,6 +211,7 @@ class fileAdminController extends file
 			$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
 			$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
 			$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
+			$config->max_image_size_same_format = Context::get('max_image_size_same_format') === 'Y' ? 'Y' : 'N';
 			$config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
 			$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
 			$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
