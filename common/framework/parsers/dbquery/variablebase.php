@@ -436,7 +436,7 @@ class VariableBase
 	 * @param string $value
 	 * @return object
 	 */
-	private function _parseSearchKeywords() ($value)
+	private function _parseSearchKeywords($value)
 	{
 		// parse the value (text)
 		$keywords = preg_split('/("[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
