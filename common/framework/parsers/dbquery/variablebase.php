@@ -237,23 +237,56 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				$keywords = preg_split('/[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY);
+				$keywords = preg_split('/("[^"]*")|[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY);
 				$conditions = array();
+				$operators = array('AND', 'OR', '|');
 				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
 				foreach ($keywords as $item)
 				{
-					if (substr($item, 0, 1) === '-')
+					// trim quotation mark
+					if (strlen($item) > 2 && (substr($item, 0, 1) === substr($item, -1)) && substr($item, -1) === '"')
 					{
-						$conditions[] = sprintf('%s NOT LIKE ?', $column);
-						$item = substr($item, 1);
+						$item = substr($item, 1, -1);
+					}
+					elseif (strlen($item) > 3 && (substr($item, 0, 1) === '-') && (substr($item, 1, 1) === substr($item, -1)) && substr($item, -1) === '"')
+					{
+						$item = '-' . substr($item, 2, -1);
+					}
+					
+					// pass blank text
+					if (trim($item) === "")
+					{
+						continue;
+					}
+					
+					// process 'AND' or 'OR' operator
+					if (in_array($item, $operators) 
+					{
+						if ($item === '|')
+						{
+							$item = 'OR';
+						}
+						$conditions[] = sprintf('%s', $item);
 					}
 					else
 					{
-						$conditions[] = sprintf('%s LIKE ?', $column);
+						if (substr($item, 0, 1) === '-')
+						{
+							$conditions[] = sprintf('%s NOT LIKE ?', $column);
+							$item = substr($item, 1);
+						}
+						else
+						{
+							$conditions[] = sprintf('%s LIKE ?', $column);
+						}
+						$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
+						// if there is no operator, assume 'AND'
+						$conditions[] = 'AND';
 					}
-					$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
 				}
-				$conditions = implode(' AND ', $conditions);
+				// remove the last point (would be an operator)
+				array_pop($conditions)
+				$conditions = implode(' ', $conditions);
 				$where = count($keywords) === 1 ? $conditions : "($conditions)";
 				break;
 			case 'plus':
