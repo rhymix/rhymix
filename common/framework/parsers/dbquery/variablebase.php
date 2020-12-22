@@ -242,6 +242,10 @@ class VariableBase
 				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
 				foreach ($keywords as $item)
 				{
+					if (trim($item) !== "" || count($conditions) > 10)
+					{
+						continue;
+					}
 					if (substr($item, 0, 1) === '-')
 					{
 						$conditions[] = sprintf('%s NOT LIKE ?', $column);
