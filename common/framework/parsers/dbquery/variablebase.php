@@ -246,6 +246,10 @@ class VariableBase
 					{
 						$item = substr($item, 1, -1);
 					}
+					if (trim($item) === "")
+					{
+						continue;
+					}
 					if (substr($item, 0, 1) === '-')
 					{
 						$conditions[] = sprintf('%s NOT LIKE ?', $column);
