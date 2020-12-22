@@ -1687,7 +1687,6 @@ class documentController extends document
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == \RX_CLIENT_IP)
 		{
-			$_SESSION['declared_document'][$document_srl] = true;
 			return new BaseObject(-1, 'failed_declared');
 		}
 
@@ -1700,7 +1699,6 @@ class documentController extends document
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
-				$_SESSION['declared_document'][$document_srl] = true;
 				return new BaseObject(-1, 'failed_declared');
 			}
 		}
@@ -1719,7 +1717,6 @@ class documentController extends document
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
 		if($output->data->count)
 		{
-			$_SESSION['declared_document'][$document_srl] = true;
 			return new BaseObject(-1, 'failed_declared');
 		}
 		
