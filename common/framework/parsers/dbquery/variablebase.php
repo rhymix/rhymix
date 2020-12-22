@@ -237,7 +237,7 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				$keywords = preg_split('/[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY);
+				$keywords = str_getcsv(preg_replace('/[\s,]+/', ' ', $value), ' ');
 				$conditions = array();
 				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
 				foreach ($keywords as $item)
