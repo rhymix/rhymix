@@ -58,7 +58,7 @@ class ExtraVar
 
 		foreach($extra_keys as $val)
 		{
-			$obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value, $val->eid);
+			$obj = new ExtraItem($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value ?? null, $val->eid);
 			$this->keys[$val->idx] = $obj;
 		}
 	}
