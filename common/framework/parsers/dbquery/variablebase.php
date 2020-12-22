@@ -237,7 +237,7 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				$keywords = preg_split('/("[^"]*")|[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY);
+				$keywords = preg_split('/("[^"]*")|[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 				$conditions = array();
 				$operators = array('AND', 'OR', '|');
 				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
