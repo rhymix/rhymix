@@ -239,7 +239,7 @@ class VariableBase
 			case 'search':
 				$parsed_keywords = $this->_parseSearchKeywords($value);
 				$where = $parsed_keywords[0];
-				$params = $parsed_keywords[1];
+				$params = array_merge($params, $parsed_keywords[1]);
 				break;
 			case 'plus':
 				$where = sprintf('%s = %s + %s', $column, $column, $is_expression ? $value : '?');
@@ -438,13 +438,27 @@ class VariableBase
 	 */
 	private function _parseSearchKeywords($value)
 	{
-		// parse the value (text)
-		$keywords = preg_split('/("[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
-		$conditions = array();
+		// Initialze the return values.
+		$where = '';
+		$params = array();
 		
+		// parse the value (text)
+		$keywords = preg_split('/(\([^\)]*\))|("[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		$conditions = array();
+		$operators = array('AND', 'OR', '|');
 		// loop the parsed keywords or operators
 		foreach ($keywords as $item)
 		{
+			// treat parenthesis
+			if (strlen($item) > 2 && substr($item, 0, 1) === '(' && substr($item, -1) === ')')
+			{
+				$parsed_keywords = $this->_parseSearchKeywords(substr($item, 1, -1));
+				$conditions[] = "(". $parsed_keywords[0] . ")";
+				$conditions[] = 'AND';
+				$params = array_merge($params, $parsed_keywords[1]);
+				continue;
+			}
+			
 			// trim quotation mark
 			if (strlen($item) > 2 && (substr($item, 0, 1) === substr($item, -1)) && substr($item, -1) === '"')
 			{
@@ -467,6 +481,13 @@ class VariableBase
 				if ($item === '|')
 				{
 					$item = 'OR';
+				}
+				// remove the last point (would be an operator)
+				$last_condition = array_pop($conditions);
+				// the last condition might not be an operator.
+				if (!in_array($last_condition, $operators))
+				{
+					$conditions[] = $last_condition;
 				}
 				$conditions[] = sprintf('%s', $item);
 			}
