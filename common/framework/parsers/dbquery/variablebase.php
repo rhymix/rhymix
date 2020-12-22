@@ -237,15 +237,11 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				$keywords = str_getcsv(preg_replace('/[\s,]+/', ' ', $value), ' ');
+				$keywords = preg_split('/(\'[^\']*\')|("[^"]*")|[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 				$conditions = array();
 				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
 				foreach ($keywords as $item)
 				{
-					if (trim($item) !== "" || count($conditions) > 10)
-					{
-						continue;
-					}
 					if (substr($item, 0, 1) === '-')
 					{
 						$conditions[] = sprintf('%s NOT LIKE ?', $column);
