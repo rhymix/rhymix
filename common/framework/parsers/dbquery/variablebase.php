@@ -238,8 +238,8 @@ class VariableBase
 				break;
 			case 'search':
 				$parsed_keywords = $this->_parseSearchKeywords($value);
-				$where = $parsed_keywords->where;
-				$params = $parsed_keywords->params;
+				$where = $parsed_keywords[0];
+				$params = $parsed_keywords[1];
 				break;
 			case 'plus':
 				$where = sprintf('%s = %s + %s', $column, $column, $is_expression ? $value : '?');
@@ -436,7 +436,7 @@ class VariableBase
 	 * @param string $value
 	 * @return object
 	 */
-	private function _parseSearchKeywords($value)
+	private function _parseSearchKeywords() ($value)
 	{
 		// parse the value (text)
 		$keywords = preg_split('/("[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
@@ -491,9 +491,6 @@ class VariableBase
 		$conditions = implode(' ', $conditions);
 		$where = count($keywords) === 1 ? $conditions : "($conditions)";
 		
-		return (object) array (
-			'where' => $where,
-			'params' => $params
-		);
+		return [$where, $params];
 	}
 }
