@@ -237,7 +237,7 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				$parsed_keywords = $this->_parseSearchKeywords($value)
+				$parsed_keywords = $this->_parseSearchKeywords($value);
 				$where = $parsed_keywords->where;
 				$params = $parsed_keywords->params;
 				break;
