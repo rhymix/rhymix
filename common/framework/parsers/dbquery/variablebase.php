@@ -260,7 +260,7 @@ class VariableBase
 					}
 					
 					// process 'AND' or 'OR' operator
-					if (in_array($item, $operators) 
+					if (in_array($item, $operators))
 					{
 						if ($item === '|')
 						{
