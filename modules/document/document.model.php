@@ -707,7 +707,10 @@ class documentModel extends document
 
 		// Cleanup of category
 		$document_category = array();
-		self::_arrangeCategory($document_category, $menu->list, 0);
+		if (isset($menu) && isset($menu->list))
+		{
+			self::_arrangeCategory($document_category, $menu->list, 0);
+		}
 		return $document_category;
 	}
 

@@ -309,6 +309,11 @@ class VariableBase
 		{
 			list($is_expression, $value) = $this->getDefaultValue();
 		}
+		else
+		{
+			$is_expression = null;
+			$value = null;
+		}
 		
 		return [$is_expression, $value];
 	}
