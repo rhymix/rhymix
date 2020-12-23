@@ -2463,7 +2463,7 @@ class documentController extends document
 			$list[$category_srl] = $category_list[$i];
 		}
 		// Create the xml file without node data if no data is obtained
-		if(!$list)
+		if(!isset($list) || !$list)
 		{
 			$xml_buff = "<root />";
 			FileHandler::writeFile($xml_file, $xml_buff);
