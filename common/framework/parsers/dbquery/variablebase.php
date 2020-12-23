@@ -433,8 +433,9 @@ class VariableBase
 	/**
 	 * Parse the search text.
 	 * 
+	 * @param string $column
 	 * @param string $value
-	 * @return object
+	 * @return array
 	 */
 	protected function _parseSearchKeywords($column, $value)
 	{
