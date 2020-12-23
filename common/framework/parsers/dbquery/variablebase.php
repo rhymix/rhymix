@@ -459,7 +459,7 @@ class VariableBase
 			// treat parenthesis
 			if (strlen($item) > 2 && substr($item, 0, 1) === '(' && substr($item, -1) === ')')
 			{
-				$parsed_keywords = $this->_parseSearchKeywords(substr($item, 1, -1));
+				$parsed_keywords = $this->_parseSearchKeywords($column, substr($item, 1, -1));
 				$conditions[] = "(". $parsed_keywords[0] . ")";
 				$conditions[] = 'AND';
 				$params = array_merge($params, $parsed_keywords[1]);
