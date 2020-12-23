@@ -442,7 +442,14 @@ class VariableBase
 		$where = '';
 		$params = array();
 		
-		// parse the value (text)
+		// flag to mark transformed quotation mark.
+		$escaped_quot = false;
+		// parse the value (text);
+		if (strpos ($value, '&quot;'))
+		{
+			$escaped_quot = true;
+			$value = str_replace('&quot;', '"', $value);
+		}
 		$keywords = preg_split('/(\([^\)]*\))|("[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
 		$operators = array('AND', 'OR', '|');
@@ -473,6 +480,12 @@ class VariableBase
 			if (trim($item) === "")
 			{
 				continue;
+			}
+			
+			if($escaped_quot === true)
+			{
+				$value = str_replace('"', '&quot;', $value);
+				$escaped_quot = false;
 			}
 			
 			// process 'AND' or 'OR' operator
