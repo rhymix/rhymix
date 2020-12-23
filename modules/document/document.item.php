@@ -558,7 +558,7 @@ class documentItem extends BaseObject
 			return $_SESSION['declared_document'][$this->document_srl] = $declaredCount;
 		}
 		
-		return $_SESSION['declared_document'][$this->document_srl] = false;
+		return false;
 	}
 
 	function getTitle($cut_size = 0, $tail = '...')
