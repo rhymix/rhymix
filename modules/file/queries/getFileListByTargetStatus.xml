@@ -1,4 +1,4 @@
-<query id="getFileList" action="select">
+<query id="getFileListByTargetStatus" action="select">
     <tables>
         <table name="files" alias="files" />
         <table name="member" type="left join">
@@ -35,15 +35,15 @@
 			<condition operation="null" column="comments.is_secret" pipe="or" />
 		</group>
         <group pipe="and">
-            <condition operation="like" column="files.source_filename" var="s_filename" pipe="or" />
+            <condition operation="search" column="files.source_filename" var="s_filename" pipe="or" />
             <condition operation="more" column="files.file_size" var="s_filesize_more" pipe="or" />
             <condition operation="less" column="files.file_size" var="s_filesize_less" pipe="or" />
             <condition operation="more" column="files.download_count" var="s_download_count" pipe="or" />
             <condition operation="like_prefix" column="files.regdate" var="s_regdate" pipe="or" />
             <condition operation="like_prefix" column="files.ipaddress" var="s_ipaddress" pipe="or" />
-            <condition operation="like" column="member.user_id" var="s_user_id" pipe="or" />
-            <condition operation="like" column="member.user_name" var="s_user_name" pipe="or" />
-            <condition operation="like" column="member.nick_name" var="s_nick_name" pipe="or" />
+            <condition operation="search" column="member.user_id" var="s_user_id" pipe="or" />
+            <condition operation="search" column="member.user_name" var="s_user_name" pipe="or" />
+            <condition operation="search" column="member.nick_name" var="s_nick_name" pipe="or" />
         </group>
     </conditions>
     <navigation>
