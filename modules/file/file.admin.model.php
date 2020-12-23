@@ -75,9 +75,9 @@ class fileAdminModel extends file
 		elseif($obj->direct_download == 'N') $args->direct_download= 'N';
 		// Set variables
 		$args->sort_index = $obj->sort_index;
-		$args->page = $obj->page?? 1;
-		$args->list_count = $obj->list_count?? 20;
-		$args->page_count = $obj->page_count?? 10;
+		$args->page = $obj->page?$obj->page:1;
+		$args->list_count = $obj->list_count?$obj->list_count:20;
+		$args->page_count = $obj->page_count?$obj->page_count:10;
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
 		if(toBool($obj->exclude_secret))
@@ -165,8 +165,8 @@ class fileAdminModel extends file
 	protected function _makeSearchParam(&$obj, &$args)
 	{
 		// Search options
-		$search_target = $obj->search_target ?? trim(Context::get('search_target'));
-		$search_keyword = $obj->search_keyword ?? trim(Context::get('search_keyword'));
+		$search_target = $obj->search_target?$obj->search_target:trim(Context::get('search_target'));
+		$search_keyword = $obj->search_keyword?$obj->search_keyword:trim(Context::get('search_keyword'));
 
 		if($search_target && $search_keyword)
 		{
