@@ -173,7 +173,6 @@ class fileAdminModel extends file
 			switch($search_target)
 			{
 				case 'filename' :
-					if($search_keyword) $search_keyword = str_replace(' ','%',$search_keyword);
 					$args->s_filename = $search_keyword;
 					break;
 				case 'filesize_more' :
