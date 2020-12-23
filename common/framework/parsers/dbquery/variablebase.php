@@ -445,7 +445,7 @@ class VariableBase
 		// flag to mark transformed quotation mark.
 		$escaped_quot = false;
 		// parse the value (text);
-		if (strpos ($value, '&quot;'))
+		if (strpos ($value, '&quot;') !== false)
 		{
 			$escaped_quot = true;
 			$value = str_replace('&quot;', '"', $value);
