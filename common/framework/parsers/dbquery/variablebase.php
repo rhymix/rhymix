@@ -237,7 +237,7 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				list($where, $params) = $this->_parseSearchKeywords($value);
+				list($where, $params[]) = $this->_parseSearchKeywords($value);
 				break;
 			case 'plus':
 				$where = sprintf('%s = %s + %s', $column, $column, $is_expression ? $value : '?');
