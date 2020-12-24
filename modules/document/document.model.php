@@ -307,17 +307,17 @@ class documentModel extends document
 
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
-		unset($obj->use_alternate_output);
-		$output = ModuleHandler::triggerCall('document.getNoticeList', 'before', $obj);
+		unset($args->use_alternate_output);
+		$output = ModuleHandler::triggerCall('document.getNoticeList', 'before', $args);
 		if ($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
 
 		// If an alternate output is set, use it instead of running the default queries
-		if (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof BaseObject)
+		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
 		{
-			$output = $obj->use_alternate_output;
+			$output = $args->use_alternate_output;
 		}
 		else
 		{
