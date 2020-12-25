@@ -524,7 +524,7 @@ class VariableBase
 				{
 					$conditions[] = sprintf('%s LIKE ?', $column);
 				}
-				$params[] = '%' . str_replace(['\\', '_', '%', '-'], ['\\\\', '\_', '\%', '\-'], $item) . '%';
+				$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
 				// if there is no operator, assume 'AND'
 				$conditions[] = 'AND';
 			}
