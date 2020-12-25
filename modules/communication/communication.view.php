@@ -118,7 +118,7 @@ class communicationView extends communication
 				Context::set('message', $message);
 				Context::set('message_files', CommunicationModel::getMessageFiles($message));
 				
-				if(Mobile::isFromMobilePhone())
+				if(Mobile::isFromMobilePhone() && file_exists($this->getTemplatePath() . 'read_message.html'))
 				{
 					$template_filename = 'read_message';
 				}
