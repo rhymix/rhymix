@@ -450,6 +450,10 @@ class VariableBase
 		
 		// flag to mark transformed quotation mark.
 		$escaped_quot = false;
+		
+		// flag to mark escaped hypen in the quotation block
+		$escaped_hyphen = false;
+		
 		// parse the value (text);
 		if (strpos ($value, '&quot;') !== false)
 		{
@@ -476,6 +480,10 @@ class VariableBase
 			if (strlen($item) > 2 && (substr($item, 0, 1) === substr($item, -1)) && substr($item, -1) === '"')
 			{
 				$item = substr($item, 1, -1);
+				if (substr($item, 0, 1) === '-')
+				{
+					$escaped_hyphen = true;
+				}
 			}
 			elseif (strlen($item) > 3 && (substr($item, 0, 1) === '-') && (substr($item, 1, 1) === substr($item, -1)) && substr($item, -1) === '"')
 			{
@@ -512,7 +520,7 @@ class VariableBase
 			}
 			else
 			{
-				if (substr($item, 0, 1) === '-')
+				if (substr($item, 0, 1) === '-' && $escaped_hyphen !== true)
 				{
 					$conditions[] = sprintf('%s NOT LIKE ?', $column);
 					$item = substr($item, 1);
