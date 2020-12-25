@@ -602,15 +602,10 @@ class boardView extends board
 			foreach ($document_list as $document)
 			{
 				$module_srl = $document->get('module_srl');
-				if (isset($map[$module_srl]))
+				if ($document->get('mid') === null)
 				{
-					$document->add('module_title', $map[$module_srl]->browser_title);
-					$document->add('mid', $map[$module_srl]->mid);
-				}
-				else
-				{
-					$document->add('module_title', $this->module_info->browser_title);
-					$document->add('mid', $this->module_info->mid);
+					$document->add('module_title', isset($map[$module_srl]) ? $map[$module_srl]->browser_title : $this->module_info->browser_title);
+					$document->add('mid', isset($map[$module_srl]) ? $map[$module_srl]->mid : $this->module_info->mid);
 				}
 			}
 		}
@@ -618,8 +613,11 @@ class boardView extends board
 		{
 			foreach ($document_list as $document)
 			{
-				$document->add('module_title', $this->module_info->browser_title);
-				$document->add('mid', $this->module_info->mid);
+				if ($document->get('mid') === null)
+				{
+					$document->add('module_title', $this->module_info->browser_title);
+					$document->add('mid', $this->module_info->mid);
+				}
 			}
 		}
 	}
