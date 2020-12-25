@@ -1651,8 +1651,8 @@ class documentController extends document
 	 */
 	function declaredDocument($document_srl, $declare_message = '')
 	{
-		// Fail if session information already has a reported document
-		if($_SESSION['declared_document'][$document_srl])
+		// Fail if session already tried to report the document
+		if(isset($_SESSION['declared_document'][$document_srl]))
 		{
 			return new BaseObject(-1, 'failed_declared');
 		}
@@ -1687,7 +1687,7 @@ class documentController extends document
 		// Pass if the author's IP address is as same as visitor's.
 		if($oDocument->get('ipaddress') == \RX_CLIENT_IP)
 		{
-			$_SESSION['declared_document'][$document_srl] = true;
+			$_SESSION['declared_document'][$document_srl] = false;
 			return new BaseObject(-1, 'failed_declared');
 		}
 
@@ -1700,7 +1700,7 @@ class documentController extends document
 			// Pass after registering a session if author's information is same as the currently logged-in user's.
 			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
-				$_SESSION['declared_document'][$document_srl] = true;
+				$_SESSION['declared_document'][$document_srl] = false;
 				return new BaseObject(-1, 'failed_declared');
 			}
 		}
@@ -1719,7 +1719,7 @@ class documentController extends document
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
 		if($output->data->count)
 		{
-			$_SESSION['declared_document'][$document_srl] = true;
+			$_SESSION['declared_document'][$document_srl] = false;
 			return new BaseObject(-1, 'failed_declared');
 		}
 		
@@ -1835,7 +1835,7 @@ class documentController extends document
 		
 		if($output->data->count <= 0 || !isset($output->data->count))
 		{
-			$_SESSION['declared_document'][$document_srl] = false;
+			unset($_SESSION['declared_document'][$document_srl]);
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
 		
@@ -1911,7 +1911,7 @@ class documentController extends document
 		$trigger_obj->declared_count = $declared_count - 1;
 		ModuleHandler::triggerCall('document.declaredDocumentCancel', 'after', $trigger_obj);
 
-		$_SESSION['declared_document'][$document_srl] = false;
+		unset($_SESSION['declared_document'][$document_srl]);
 
 		$this->setMessage('success_declared_cancel');
 	}
