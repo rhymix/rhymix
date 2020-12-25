@@ -40,7 +40,7 @@
 			<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 			<!--@end-->
 		</select>
-		<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" />
+		<input type="search" name="search_keyword" value="{escape($search_keyword, false)}" title="{$lang->cmd_search}" />
 		<button type="submit" class="shbn" title="{$lang->cmd_search}"></button>
 	</form>
 </div>
