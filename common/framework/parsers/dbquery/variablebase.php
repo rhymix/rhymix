@@ -455,7 +455,7 @@ class VariableBase
 			$escaped_quot = true;
 			$value = str_replace('&quot;', '"', $value);
 		}
-		$keywords = preg_split('/(\([^\)]*\))|("[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		$keywords = preg_split('/(\([^\)]*\))|(\-?"[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
 		$operators = array('AND', 'OR', '|');
 		// loop the parsed keywords or operators
