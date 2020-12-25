@@ -571,7 +571,10 @@ class boardView extends board
 
 		// setup document list variables on context
 		$output = DocumentModel::getDocumentList($args, $this->except_notice, TRUE, $this->columnList);
-		$this->_fillModuleTitles($output->data);
+		if(!$output->use_third_module_title)
+		{
+			$this->_fillModuleTitles($output->data);
+		}
 		Context::set('document_list', $output->data);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
