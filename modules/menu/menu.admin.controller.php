@@ -1929,8 +1929,6 @@ class menuAdminController extends menu
 			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = escape($active_btn);
 			else $active_btn = '';
 
-			$group_srls = ($node->group_srls) ? $node->group_srls : '';
-
 			if($normal_btn)
 			{
 				if($hover_btn) $hover_str = sprintf('onmouseover=&quot;this.src=\'%s\'&quot;', $hover_btn); else $hover_str = '';
@@ -1943,6 +1941,7 @@ class menuAdminController extends menu
 			}
 
 			// If the value of node->group_srls exists
+			$group_srls = ($node->group_srls) ? (is_array($node->group_srls) ? implode(',', $node->group_srls) : $node->group_srls) : '';
 			if($group_srls) {
 				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
 			}
@@ -2035,8 +2034,15 @@ class menuAdminController extends menu
 			if($node->url) $child_output['url_list'][] = $node->url;
 			$output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 			// If node->group_srls value exists
-			if($node->group_srls)$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))',$node->group_srls,$node->group_srls == -1?1:0);
-			else $group_check_code = "true";
+			$group_srls = ($node->group_srls) ? (is_array($node->group_srls) ? implode(',', $node->group_srls) : $node->group_srls) : '';
+			if($group_srls)
+			{
+				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))', $group_srls, $group_srls == -1 ? 1 : 0);
+			}
+			else
+			{
+				$group_check_code = 'true';
+			}
 
 			// List variables
 			$href = escape($node->href ?? '', false);
