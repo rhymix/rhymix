@@ -1659,7 +1659,7 @@ class menuAdminController extends menu
 	public function procMenuAdminUpdateAuth()
 	{
 		$menuItemSrl = Context::get('menu_item_srl');
-		$exposure = Context::get('exposure');
+		$exposure = strval(Context::get('exposure'));
 		$htPerm = Context::get('htPerm');
 
 		$oMenuModel = getAdminModel('menu');
@@ -1674,13 +1674,14 @@ class menuAdminController extends menu
 		}
 		else
 		{
-			$exposure = explode(',', $exposure);
 			if(in_array($exposure, array('-1','-3')))
 			{
 				$args->group_srls = $exposure;
 			}
-
-			if($exposure) $args->group_srls = implode(',', $exposure);
+			else
+			{
+				$args->group_srls = implode(',', $exposure);
+			}
 		}
 
 		$output = $this->_updateMenuItem($args);
@@ -1941,9 +1942,9 @@ class menuAdminController extends menu
 			}
 
 			// If the value of node->group_srls exists
-			$group_srls = ($node->group_srls) ? (is_array($node->group_srls) ? implode(',', $node->group_srls) : $node->group_srls) : '';
-			if($group_srls) {
-				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged&&%s))',$group_srls,$group_srls == -1?1:0);
+			if($node->group_srls) {
+				$group_srls_exported = json_encode(array_values(is_array($node->group_srls) ? $node->group_srls : array_map('intval', explode(',', $node->group_srls))));
+				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, %s)))||($is_logged&&%s))', $group_srls_exported, $node->group_srls == '-1' ? 1 : 0);
 			}
 			else
 			{
@@ -2034,10 +2035,10 @@ class menuAdminController extends menu
 			if($node->url) $child_output['url_list'][] = $node->url;
 			$output['url_list'] = array_merge($output['url_list'], $child_output['url_list']);
 			// If node->group_srls value exists
-			$group_srls = ($node->group_srls) ? (is_array($node->group_srls) ? implode(',', $node->group_srls) : $node->group_srls) : '';
-			if($group_srls)
+			if($node->group_srls)
 			{
-				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, array(%s))))||($is_logged && %s))', $group_srls, $group_srls == -1 ? 1 : 0);
+				$group_srls_exported = json_encode(array_values(is_array($node->group_srls) ? $node->group_srls : array_map('intval', explode(',', $node->group_srls))));
+				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, %s)))||($is_logged && %s))', $group_srls_exported, $node->group_srls == '-1' ? 1 : 0);
 			}
 			else
 			{
