@@ -420,6 +420,11 @@ class DB
 			$output = $this->setError(-1, $e->getMessage());
 			return $output;
 		}
+		catch (\PDOException $e)
+		{
+			$output = $this->setError(-1, $e->getMessage());
+			return $output;
+		}
 		
 		// Collect various counts used in the page calculation.
 		list($is_expression, $list_count) = $query->navigation->list_count->getValue($args);
