@@ -477,17 +477,24 @@ class DB
 			return $stmt;
 		}
 		
-		$result = array();
-		$index = $last_index;
-		$step = $last_index !== 0 ? -1 : 1;
-		
-		while ($row = $stmt->fetchObject())
+		try
 		{
-			$result[$index] = $row;
-			$index += $step;
+			$result = array();
+			$index = $last_index;
+			$step = $last_index !== 0 ? -1 : 1;
+			
+			while ($row = $stmt->fetchObject())
+			{
+				$result[$index] = $row;
+				$index += $step;
+			}
+			
+			$stmt->closeCursor();
 		}
-		
-		$stmt->closeCursor();
+		catch (\PDOException $e)
+		{
+			throw new Exceptions\DBError($e->getMessage(), 0, $e);
+		}
 		
 		if ($result_type === 'auto' && $last_index === 0 && count($result) === 1)
 		{
