@@ -1659,7 +1659,7 @@ class menuAdminController extends menu
 	public function procMenuAdminUpdateAuth()
 	{
 		$menuItemSrl = Context::get('menu_item_srl');
-		$exposure = strval(Context::get('exposure'));
+		$exposure = Context::get('exposure');
 		$htPerm = Context::get('htPerm');
 
 		$oMenuModel = getAdminModel('menu');
@@ -1674,13 +1674,18 @@ class menuAdminController extends menu
 		}
 		else
 		{
+			if(is_array($exposure))
+			{
+				$exposure = implode(',', $exposure);
+			}
+			
 			if(in_array($exposure, array('-1','-3')))
 			{
 				$args->group_srls = $exposure;
 			}
 			else
 			{
-				$args->group_srls = implode(',', $exposure);
+				$args->group_srls = implode(',', array_map('intval', explode(',', $exposure)));
 			}
 		}
 
