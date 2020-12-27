@@ -81,7 +81,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'WHERE (`list_order` >= ? AND `list_order` < ?) AND ' .
 			'((`title` LIKE ? AND `title` NOT LIKE ?) OR (`content` LIKE ? AND `content` NOT LIKE ?)) ' .
 			'ORDER BY `list_order` ASC LIMIT 40, 20', $sql);
-		$this->assertEquals(['1234', '4567', 'I love you', 'I hate you', 'I love you', 'I hate you'], $params);
+		$this->assertEquals(['1234', '4567', '%I love you%', '%I hate you%', '%I love you%', '%I hate you%'], $params);
 	}
 	
 	public function testJoin1()
