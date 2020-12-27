@@ -450,11 +450,7 @@ class VariableBase
 		$escaped_hyphen = false;
 		
 		// parse the value (text);
-		if (strpos ($value, '&quot;') !== false)
-		{
-			$escaped_quot = true;
-			$value = str_replace('&quot;', '"', $value);
-		}
+		$value = str_replace('&quot;', '"', $value);
 		$keywords = preg_split('/(\([^\)]*\))|(\-?"[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
 		$operators = array('AND', 'OR', '|');
@@ -462,39 +458,17 @@ class VariableBase
 		foreach ($keywords as $item)
 		{
 			// treat parenthesis
-			if (strlen($item) > 2 && substr($item, 0, 1) === '(' && substr($item, -1) === ')')
+			if (substr($item, 0, 1) === '(' && substr($item, -1) === ')')
 			{
-				$parsed_keywords = $this->_parseSearchKeywords($column, substr($item, 1, -1));
-				$conditions[] = $parsed_keywords[0];
-				$conditions[] = 'AND';
-				$params = array_merge($params, $parsed_keywords[1]);
-				continue;
-			}
-			
-			// trim quotation mark
-			if (strlen($item) > 2 && (substr($item, 0, 1) === substr($item, -1)) && substr($item, -1) === '"')
-			{
-				$item = substr($item, 1, -1);
-				if (substr($item, 0, 1) === '-')
+				$item = trim(substr($item, 1, -1));
+				if ( $item !== "" )
 				{
-					$escaped_hyphen = true;
+					$parsed_keywords = $this->_parseSearchKeywords($column, substr($item, 1, -1));
+					$conditions[] = $parsed_keywords[0];
+					$conditions[] = 'AND';
+					$params = array_merge($params, $parsed_keywords[1]);
 				}
-			}
-			elseif (strlen($item) > 3 && (substr($item, 0, 1) === '-') && (substr($item, 1, 1) === substr($item, -1)) && substr($item, -1) === '"')
-			{
-				$item = '-' . substr($item, 2, -1);
-			}
-			
-			// pass blank text
-			if (trim($item) === "")
-			{
 				continue;
-			}
-			
-			if($escaped_quot === true)
-			{
-				$value = str_replace('"', '&quot;', $value);
-				$escaped_quot = false;
 			}
 			
 			// process 'AND' or 'OR' operator
@@ -505,16 +479,13 @@ class VariableBase
 					$item = 'OR';
 				}
 				// remove the last point (would be an operator)
-				$last_condition = array_pop($conditions);
-				// the last condition might not be an operator.
-				if (!in_array($last_condition, $operators))
-				{
-					$conditions[] = $last_condition;
-				}
+				array_pop($conditions);
 				$conditions[] = $item;
 			}
 			else
 			{
+				$value = str_replace('"', '&quot;', $value);
+				
 				if (substr($item, 0, 1) === '-' && $escaped_hyphen !== true)
 				{
 					$conditions[] = sprintf('%s NOT LIKE ?', $column);
@@ -524,6 +495,21 @@ class VariableBase
 				{
 					$conditions[] = sprintf('%s LIKE ?', $column);
 				}
+				
+				// trim quotation mark
+				if (substr($item, 0, 6) === substr($item, -6) && substr($item, -6) === '&quot;')
+				{
+					$item = substr($item, 6, -6);
+					
+				}
+				
+				// pass blank text
+				if (trim($item) === "")
+				{
+					array_pop($conditions);
+					continue;
+				}
+				
 				$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
 				// if there is no operator, assume 'AND'
 				$conditions[] = 'AND';
