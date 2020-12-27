@@ -857,7 +857,7 @@ class fileController extends file
 		$args->module_srl = $module_srl;
 		$args->upload_target_srl = $upload_target_srl;
 		$args->download_count = $download_count;
-		$args->member_srl = Rhymix\Framework\Session::getMemberSrl();
+		$args->member_srl = Rhymix\Framework\Session::getMemberSrl() ?: 0;
 		$args->source_filename = $file_info['name'];
 		$args->sid = Rhymix\Framework\Security::getRandom(32, 'hex');
 		$args->mime_type = $file_info['type'];
