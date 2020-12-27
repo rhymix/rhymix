@@ -448,12 +448,6 @@ class VariableBase
 		$where = '';
 		$params = array();
 		
-		// flag to mark transformed quotation mark.
-		$escaped_quot = false;
-		
-		// flag to mark escaped hypen in the quotation block
-		$escaped_hyphen = false;
-		
 		// parse the value (text);
 		$value = str_replace('&quot;', '"', $value);
 		$keywords = preg_split('/(\([^\)]*\))|(\-?\"[^\"]*\")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
