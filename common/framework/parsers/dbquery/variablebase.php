@@ -451,7 +451,7 @@ class VariableBase
 		
 		// parse the value (text);
 		$value = str_replace('&quot;', '"', $value);
-		$keywords = preg_split('/(\([^\)]*\))|(\-?"[^"]*")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		$keywords = preg_split('/(\([^\)]*\))|(\-?\"[^\"]*\")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
 		$operators = array('AND', 'OR', '|');
 		// loop the parsed keywords or operators
@@ -484,9 +484,9 @@ class VariableBase
 			}
 			else
 			{
-				$value = str_replace('"', '&quot;', $value);
+				$item = str_replace('"', '&quot;', $item);
 				
-				if (substr($item, 0, 1) === '-' && $escaped_hyphen !== true)
+				if (substr($item, 0, 1) === '-')
 				{
 					$conditions[] = sprintf('%s NOT LIKE ?', $column);
 					$item = substr($item, 1);
@@ -500,7 +500,6 @@ class VariableBase
 				if (substr($item, 0, 6) === substr($item, -6) && substr($item, -6) === '&quot;')
 				{
 					$item = substr($item, 6, -6);
-					
 				}
 				
 				// pass blank text
