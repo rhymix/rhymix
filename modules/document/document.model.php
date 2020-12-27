@@ -304,7 +304,26 @@ class documentModel extends document
 		$args = new stdClass();
 		$args->module_srl = $obj->module_srl;
 		$args->category_srl = $obj->category_srl ?? null;
-		$output = executeQueryArray('document.getNoticeList', $args, $columnList);
+
+		// Call trigger (before)
+		// This trigger can be used to set an alternative output using a different search method
+		unset($args->use_alternate_output);
+		$output = ModuleHandler::triggerCall('document.getNoticeList', 'before', $args);
+		if ($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+
+		// If an alternate output is set, use it instead of running the default queries
+		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
+		{
+			$output = $args->use_alternate_output;
+		}
+		else
+		{
+			$output = executeQueryArray('document.getNoticeList', $args, $columnList);
+		}
+		
 		if(!$output->toBool() || !$result = $output->data)
 		{
 			return;
@@ -322,7 +341,10 @@ class documentModel extends document
 			$output->data[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
 		self::setToAllDocumentExtraVars();
-		
+
+		// Call trigger (after)
+		// This trigger can be used to modify search results
+		ModuleHandler::triggerCall('document.getNoticeList', 'after', $output);
 		return $output;
 	}
 
@@ -707,7 +729,10 @@ class documentModel extends document
 
 		// Cleanup of category
 		$document_category = array();
-		self::_arrangeCategory($document_category, $menu->list, 0);
+		if (isset($menu) && isset($menu->list))
+		{
+			self::_arrangeCategory($document_category, $menu->list, 0);
+		}
 		return $document_category;
 	}
 

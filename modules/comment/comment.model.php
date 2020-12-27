@@ -728,7 +728,7 @@ class commentModel extends comment
 	 */
 	public static function _arrangeComment(&$comment_list, $list, $depth, $parent = NULL)
 	{
-		if(!count($list))
+		if(!is_array($list) || !count($list))
 		{
 			return;
 		}

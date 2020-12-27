@@ -420,6 +420,11 @@ class DB
 			$output = $this->setError(-1, $e->getMessage());
 			return $output;
 		}
+		catch (\PDOException $e)
+		{
+			$output = $this->setError(-1, $e->getMessage());
+			return $output;
+		}
 		
 		// Collect various counts used in the page calculation.
 		list($is_expression, $list_count) = $query->navigation->list_count->getValue($args);
@@ -477,17 +482,24 @@ class DB
 			return $stmt;
 		}
 		
-		$result = array();
-		$index = $last_index;
-		$step = $last_index !== 0 ? -1 : 1;
-		
-		while ($row = $stmt->fetchObject())
+		try
 		{
-			$result[$index] = $row;
-			$index += $step;
+			$result = array();
+			$index = $last_index;
+			$step = $last_index !== 0 ? -1 : 1;
+			
+			while ($row = $stmt->fetchObject())
+			{
+				$result[$index] = $row;
+				$index += $step;
+			}
+			
+			$stmt->closeCursor();
 		}
-		
-		$stmt->closeCursor();
+		catch (\PDOException $e)
+		{
+			throw new Exceptions\DBError($e->getMessage(), 0, $e);
+		}
 		
 		if ($result_type === 'auto' && $last_index === 0 && count($result) === 1)
 		{

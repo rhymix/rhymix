@@ -233,7 +233,6 @@ class installController extends install
 		catch(Exception $e)
 		{
 			$oDB->rollback();
-			var_dump($e);exit;
 			throw new Rhymix\Framework\Exception($e->getMessage());
 		}
 		

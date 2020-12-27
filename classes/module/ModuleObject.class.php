@@ -754,7 +754,7 @@ class ModuleObject extends BaseObject
 			if(Context::getResponseMethod() == 'XMLRPC' || Context::getResponseMethod() == 'JSON')
 			{
 				$oAPI = getAPI($this->module_info->module);
-				if(method_exists($oAPI, $this->act))
+				if($oAPI instanceof ModuleObject && method_exists($oAPI, $this->act))
 				{
 					$oAPI->{$this->act}($this);
 				}

@@ -28,10 +28,10 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 
 {@ $css_content = "" }
 
-<!--@if($enable_autosave && isset($saved_doc) && $saved_doc)-->
-<input type="hidden" name="_saved_doc_title" value="{escape($saved_doc->title)}" />
-<input type="hidden" name="_saved_doc_content" value="{escape($saved_doc->content)}" />
-<input type="hidden" name="_saved_doc_document_srl" value="{$saved_doc->document_srl}" />
+<!--@if($enable_autosave)-->
+<input type="hidden" name="_saved_doc_title" value="{(isset($saved_doc) && $saved_doc) ? escape($saved_doc->title) : ''}" />
+<input type="hidden" name="_saved_doc_content" value="{(isset($saved_doc) && $saved_doc) ? escape($saved_doc->content) : ''}" />
+<input type="hidden" name="_saved_doc_document_srl" value="{(isset($saved_doc) && $saved_doc) ? $saved_doc->document_srl : ''}" />
 <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 <!--@end-->
 

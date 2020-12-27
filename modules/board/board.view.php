@@ -35,8 +35,8 @@ class boardView extends board
 		{
 			$this->page_count = $this->module_info->page_count;
 		}
-		$this->except_notice = $this->module_info->except_notice == 'N' ? FALSE : TRUE;
-		$this->include_modules = $this->module_info->include_modules ? explode(',', $this->module_info->include_modules) : [];
+		$this->except_notice = ($this->module_info->except_notice ?? '') == 'N' ? FALSE : TRUE;
+		$this->include_modules = ($this->module_info->include_modules ?? []) ? explode(',', $this->module_info->include_modules) : [];
 		if (count($this->include_modules) && !in_array($this->module_info->module_srl, $this->include_modules))
 		{
 			$this->include_modules[] = $this->module_info->module_srl;
@@ -546,7 +546,7 @@ class boardView extends board
 		}
 
 		// setup the list count to be serach list count, if the category or search keyword has been set
-		if($args->category_srl || $args->search_keyword)
+		if($args->category_srl ?? null || $args->search_keyword ?? null)
 		{
 			$args->list_count = $this->search_list_count;
 		}
@@ -602,15 +602,10 @@ class boardView extends board
 			foreach ($document_list as $document)
 			{
 				$module_srl = $document->get('module_srl');
-				if (isset($map[$module_srl]))
+				if ($document->get('mid') === null)
 				{
-					$document->add('module_title', $map[$module_srl]->browser_title);
-					$document->add('mid', $map[$module_srl]->mid);
-				}
-				else
-				{
-					$document->add('module_title', $this->module_info->browser_title);
-					$document->add('mid', $this->module_info->mid);
+					$document->add('module_title', isset($map[$module_srl]) ? $map[$module_srl]->browser_title : $this->module_info->browser_title);
+					$document->add('mid', isset($map[$module_srl]) ? $map[$module_srl]->mid : $this->module_info->mid);
 				}
 			}
 		}
@@ -618,8 +613,11 @@ class boardView extends board
 		{
 			foreach ($document_list as $document)
 			{
-				$document->add('module_title', $this->module_info->browser_title);
-				$document->add('mid', $this->module_info->mid);
+				if ($document->get('mid') === null)
+				{
+					$document->add('module_title', $this->module_info->browser_title);
+					$document->add('mid', $this->module_info->mid);
+				}
 			}
 		}
 	}
