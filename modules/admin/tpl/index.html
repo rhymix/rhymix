@@ -27,16 +27,26 @@
 		<p>{$lang->about_sitelock_in_use} <a href="{getUrl(['module' => 'admin', 'act' => 'dispAdminConfigSitelock'])}">{$lang->cmd_configure}</a></p>
 	</div>
 
+	<div class="message error" cond="$wrongPaths">
+		<h2>{$lang->module_exists_in_wrong_path}</h2>
+		<p>{$lang->about_module_exists_in_wrong_path}</p>
+		<ul>
+			<block loop="$wrongPaths => $value">
+				<li>{$value}</li>
+			</block>
+		</ul>
+	</div>
+
 	<div class="message update" cond="$addTables || $needUpdate">
 		<h2>{$lang->need_complete_configuration}</h2>
 		<p>{$lang->need_complete_configuration_details}</p>
 		<ul>
 			<block loop="$module_list => $key,$value">
-				<li style="margin:0 0 4px 0" cond="$value->need_install">
+				<li style="margin:0 0 4px 0" cond="$value->need_install && !in_array($value->module, $wrongPaths)">
 					{$value->title} ({$value->module})
 					&nbsp; <button type="button" onclick="doInstallModule('{$value->module}')" class="x_btn x_btn-small">{$lang->need_table}</button>
 				</li>
-				<li style="margin:0 0 4px 0" cond="$value->need_update">
+				<li style="margin:0 0 4px 0" cond="$value->need_update && !in_array($value->module, $wrongPaths)">
 					{$value->title} ({$value->module})
 					&nbsp; <button type="button" onclick="doUpdateModule('{$value->module}')" class="x_btn x_btn-small">{$lang->need_update}</button>
 				</li>

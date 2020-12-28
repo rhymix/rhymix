@@ -311,10 +311,11 @@ class adminAdminView extends admin
 		// Get list of modules
 		$oModuleModel = getModel('module');
 		$module_list = $oModuleModel->getModuleList();
+		$addTables = false;
+		$wrongPaths = [];
+		$needUpdate = false;
 		if(is_array($module_list))
 		{
-			$needUpdate = FALSE;
-			$addTables = FALSE;
 			$priority = array(
 				'module' => 1000000,
 				'member' => 100000,
@@ -344,6 +345,10 @@ class adminAdminView extends admin
 				{
 					$needUpdate = TRUE;
 				}
+				if (!preg_match('/^[a-z0-9_]+$/i', $value->module))
+				{
+					$wrongPaths[] = $value->module;
+				}
 			}
 		}
 
@@ -370,6 +375,7 @@ class adminAdminView extends admin
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', false);
 		Context::set('addTables', $addTables);
+		Context::set('wrongPaths', $wrongPaths);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);
 		Context::set('counterAddonActivated', $counterAddonActivated);

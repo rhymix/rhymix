@@ -382,3 +382,5 @@ $lang->sitelock_message_help = 'HTML 태그를 사용할 수 있습니다.';
 $lang->your_ip = '접속하신 IP';
 $lang->sitelock_in_use = '사이트 잠금 상태입니다.';
 $lang->about_sitelock_in_use = '관리자 및 접속이 허용된 IP에서만 사이트 이용이 가능합니다.';
+$lang->module_exists_in_wrong_path = '잘못된 경로에 설치된 모듈이 있습니다.';
+$lang->about_module_exists_in_wrong_path = '아래의 모듈이 잘못된 경로에 설치된 것으로 보입니다. 설치 경로를 다시 확인하시기 바랍니다.<br />테스트나 오류 수정을 위해 임시로 모듈을 다른 경로에 옮겨놓으신 경우 이 메시지는 무시하셔도 됩니다.';
