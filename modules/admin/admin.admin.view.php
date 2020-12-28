@@ -770,11 +770,11 @@ class adminAdminView extends admin
 		$info = array();
 		$skip = array(
 			'phpext' => array('core', 'session', 'spl', 'standard', 'date', 'ctype', 'tokenizer', 'apache2handler', 'filter', 'reflection'),
-			'module' => array('addon', 'admin', 'autoinstall', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'layout', 'member', 'menu', 'message', 'module', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget'),
-			'addon' => array('autolink', 'blogapi', 'captcha', 'counter', 'member_communication', 'member_extra_info', 'mobile', 'openid_delegation_id', 'point_level_icon', 'resize_image'),
-			'layout' => array('default'),
-			'widget' => array('content', 'language_select', 'login_info', 'mcontent'),
-			'widgetstyle' => array(),
+			'module' => array('addon', 'admin', 'adminlogging', 'advanced_mailer', 'autoinstall', 'board', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'krzip', 'layout', 'member', 'menu', 'message', 'module', 'ncenterlite', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget'),
+			'addon' => array('adminlogging', 'autolink', 'counter', 'member_extra_info', 'point_level_icon', 'photoswipe', 'resize_image'),
+			'layout' => array('default', 'user_layout', 'xedition'),
+			'widget' => array('content', 'counter_status', 'language_select', 'login_info', 'mcontent', 'pollWidget'),
+			'widgetstyle' => array('simple'),
 		);
 		
 		// Basic environment
@@ -863,7 +863,14 @@ class adminAdminView extends admin
 			if (!in_array($module->module, $skip['module']))
 			{
 				$moduleInfo = $oModuleModel->getModuleInfoXml($module->module);
-				$info['module'][] = sprintf('%s (%s)', $module->module, $moduleInfo->version);
+				if ($moduleInfo->version === 'RX_VERSION')
+				{
+					$info['module'][] = $module->module;
+				}
+				else
+				{
+					$info['module'][] = sprintf('%s (%s)', $module->module, $moduleInfo->version);
+				}
 			}
 		}
 		natcasesort($info['module']);
@@ -879,7 +886,14 @@ class adminAdminView extends admin
 			if (!in_array($addon->addon, $skip['addon']))
 			{
 				$addonInfo = $oAddonAdminModel->getAddonInfoXml($addon->addon);
-				$info['addon'][] = sprintf('%s (%s)', $addon->addon, $addonInfo->version);
+				if ($addonInfo->version === 'RX_VERSION')
+				{
+					$info['addon'][] = $addon->addon;
+				}
+				else
+				{
+					$info['addon'][] = sprintf('%s (%s)', $addon->addon, $addonInfo->version);
+				}
 			}
 		}
 		natcasesort($info['addon']);
@@ -895,7 +909,14 @@ class adminAdminView extends admin
 			if (!in_array($layout->layout, $skip['layout']))
 			{
 				$layoutInfo = $oLayoutModel->getLayoutInfo($layout->layout);
-				$info['layout'][] = sprintf('%s (%s)', $layout->layout, $layoutInfo->version);
+				if ($layoutInfo->version === 'RX_VERSION')
+				{
+					$info['layout'][] = $layout->layout;
+				}
+				else
+				{
+					$info['layout'][] = sprintf('%s (%s)', $layout->layout, $layoutInfo->version);
+				}
 			}
 		}
 		natcasesort($info['layout']);
@@ -911,7 +932,14 @@ class adminAdminView extends admin
 			if (!in_array($widget->widget, $skip['widget']))
 			{
 				$widgetInfo = $oWidgetModel->getWidgetInfo($widget->widget);
-				$info['widget'][] = sprintf('%s (%s)', $widget->widget, $widgetInfo->version);
+				if ($widgetInfo->version === 'RX_VERSION')
+				{
+					$info['widget'][] = $widget->widget;
+				}
+				else
+				{
+					$info['widget'][] = sprintf('%s (%s)', $widget->widget, $widgetInfo->version);
+				}
 			}
 		}
 		natcasesort($info['widget']);
@@ -927,7 +955,14 @@ class adminAdminView extends admin
 			if (!in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
 			{
 				$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyle->widgetStyle);
-				$info['widgetstyle'][] = sprintf('%s (%s)', $widgetstyle->widgetStyle, $widgetstyleInfo->version);
+				if ($widgetstyleInfo->version === 'RX_VERSION')
+				{
+					$info['widgetstyle'][] = $widgetstyle->widgetStyle;
+				}
+				else
+				{
+					$info['widgetstyle'][] = sprintf('%s (%s)', $widgetstyle->widgetStyle, $widgetstyleInfo->version);
+				}
 			}
 		}
 		natcasesort($info['widgetstyle']);
@@ -938,7 +973,7 @@ class adminAdminView extends admin
 		{
 			if (is_array($value))
 			{
-				$value = implode(', ', $value);
+				$value = implode(', ', $value) ?: "no additional ${key}s";
 			}
 			
 			if (is_int($key) || ctype_digit($key))
