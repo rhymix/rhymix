@@ -753,12 +753,12 @@
 .x .x_table-hover tbody tr.x_info:hover td{background-color:#c4e3f3}
 @font-face {
 	font-family: 'xeicon';
-	src:url('../../../../../common/css/xeicon/fonts/xeicon.eot?v=1.0.4');
-	src:url('../../../../../common/css/xeicon/fonts/xeicon.eot?#iefix&v=1.0.4') format('embedded-opentype'),
-		url('../../../../../common/css/xeicon/fonts/xeicon.woff2?v=1.0.4') format('woff2'),
-		url('../../../../../common/css/xeicon/fonts/xeicon.woff?v=1.0.4') format('woff'),
-		url('../../../../../common/css/xeicon/fonts/xeicon.ttf?v=1.0.4') format('truetype'),
-		url('../../../../../common/css/xeicon/fonts/xeicon.svg?v=1.0.4#xeicon') format('svg');
+	src:url('../../../../common/css/xeicon/fonts/xeicon.eot?v=1.0.4');
+	src:url('../../../../common/css/xeicon/fonts/xeicon.eot?#iefix&v=1.0.4') format('embedded-opentype'),
+		url('../../../../common/css/xeicon/fonts/xeicon.woff2?v=1.0.4') format('woff2'),
+		url('../../../../common/css/xeicon/fonts/xeicon.woff?v=1.0.4') format('woff'),
+		url('../../../../common/css/xeicon/fonts/xeicon.ttf?v=1.0.4') format('truetype'),
+		url('../../../../common/css/xeicon/fonts/xeicon.svg?v=1.0.4#xeicon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
