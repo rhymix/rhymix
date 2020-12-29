@@ -73,6 +73,7 @@ class Context
 	 * @var array
 	 */
 	public $meta_tags = array();
+	public $meta_images = array();
 
 	/**
 	 * OpenGraph metadata
@@ -2629,6 +2630,42 @@ class Context
 	{
 		ModuleController::getInstance()->replaceDefinedLangCode($content);
 		self::$_instance->meta_tags[$name] = array('is_http_equiv' => (bool)$is_http_equiv, 'content' => $content);
+	}
+	
+	/**
+	 * Get meta images
+	 * 
+	 * @return array
+	 */
+	public static function getMetaImages()
+	{
+		return self::$_instance->meta_images;
+	}
+	
+	/**
+	 * Add meta image
+	 *
+	 * @param string $filename
+	 * @param int $width
+	 * @param int $height
+	 * @return void
+	 */
+	public static function addMetaImage($filename, $width = 0, $height = 0)
+	{
+		$filename = preg_replace('/^[.\\\\\\/]+/', '', $filename);
+		if (!file_exists(\RX_BASEDIR . $filename))
+		{
+			return;
+		}
+		if ($width == 0 || $height == 0)
+		{
+			list($width, $height) = getimagesize(\RX_BASEDIR . $filename);
+		}
+		self::$_instance->meta_images[] = array(
+			'filepath' => $filename . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $filename)),
+			'width' => $width,
+			'height' => $height,
+		);
 	}
 	
 	/**

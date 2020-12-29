@@ -500,7 +500,11 @@ class HTMLDisplayHandler
 		}
 		
 		// Add image.
-		if ($page_type === 'article' && $permitted && config('seo.og_extract_images'))
+		if ($document_images = Context::getMetaImages())
+		{
+			// pass
+		}
+		elseif ($page_type === 'article' && $permitted && config('seo.og_extract_images'))
 		{
 			if (($document_images = Rhymix\Framework\Cache::get("seo:document_images:$document_srl")) === null)
 			{
