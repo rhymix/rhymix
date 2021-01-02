@@ -92,11 +92,23 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE (`content` LIKE ? AND `content` LIKE ? AND `content` NOT LIKE ?)', $sql);
 		$this->assertEquals(['%revenue%', '%+3.5\\%%', '%apos\'tro\\_phe%'], $params);
 		
+		$args = array('s_content' => '(search keyword\\Z) -"-42"');
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE ((`content` LIKE ? AND `content` LIKE ?) AND `content` NOT LIKE ?)', $sql);
+		$this->assertEquals(['%search%', '%keyword\\\\Z%', '%-42%'], $params);
+		
 		$args = array('s_content' => '한글 AND -검색 (-키워드 OR 라이믹스)');
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE (`content` LIKE ? AND `content` NOT LIKE ? AND (`content` NOT LIKE ? OR `content` LIKE ?))', $sql);
 		$this->assertEquals(['%한글%', '%검색%', '%키워드%', '%라이믹스%'], $params);
+		
+		$args = array('s_content' => '검색 OR (키워드 AND -"라이믹스 유닛테스트")');
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE (`content` LIKE ? OR (`content` LIKE ? AND `content` NOT LIKE ?))', $sql);
+		$this->assertEquals(['%검색%', '%키워드%', '%라이믹스 유닛테스트%'], $params);
 	}
 	
 	public function testJoin1()
