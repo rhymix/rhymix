@@ -1,0 +1,50 @@
+name: PHP Lint & Run codeception
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: [ ubuntu-16.04 ]
+        php: [ '7.0', '7.1', '7.2', '7.3', '7.4', '8.0' ]
+    
+    name: PHP ${{ matrix.php }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      if: matrix.php != '7.4'
+      with:
+        php-version: ${{ matrix.php }}
+    
+    - name: Start MySQL
+      if: matrix.php != '8.0'
+      run: sudo systemctl start mysql.service
+    
+    - name: Create database
+      if: matrix.php != '8.0'
+      run: mysql -uroot -proot -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
+    
+    - name: Create user and set privileges
+      if: matrix.php != '8.0'
+      run: mysql -uroot -proot -e "create user 'travis'@'localhost' identified by 'travis'; FLUSH PRIVILEGES" && mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON rhymix.* TO travis@localhost"
+    
+    - name: Download codeception
+      if: matrix.php != '8.0'
+      run: wget https://codeception.com/releases/2.3.9/codecept.phar
+    
+    - name: Run PHP development server
+      if: matrix.php != '8.0'
+      run: php -S localhost:8000 &
+
+    - name: PHP Lint
+      run: if find . -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
+    
+    - name: Build and run codeception
+      if: matrix.php != '8.0'
+      run: php codecept.phar build && php codecept.phar run --debug --fail-fast --env travis
