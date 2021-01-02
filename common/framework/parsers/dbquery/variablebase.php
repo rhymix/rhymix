@@ -452,10 +452,18 @@ class VariableBase
 		$value = str_replace('&quot;', '"', $value);
 		$keywords = preg_split('/(\([^\)]*?\))|(\-?\"[^\"]*?\")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
-		$operators = array('AND', 'OR', '|');
+		$operators = array('AND' => 'AND', 'OR' => 'OR', '|' => 'OR');
+		
 		// loop the parsed keywords or operators
 		foreach ($keywords as $item)
 		{
+			// Skip empty items
+			$item = trim($item);
+			if ($item === '')
+			{
+				continue;
+			}
+			
 			// treat parenthesis
 			if (substr($item, 0, 1) === '(' && substr($item, -1) === ')')
 			{
@@ -471,20 +479,14 @@ class VariableBase
 			}
 			
 			// process 'AND' or 'OR' operator
-			if (in_array($item, $operators))
+			if (isset($operators[$item]))
 			{
-				if ($item === '|')
-				{
-					$item = 'OR';
-				}
 				// remove the last point (would be an operator)
 				array_pop($conditions);
-				$conditions[] = $item;
+				$conditions[] = $operators[$item];
 			}
 			else
 			{
-				$item = str_replace('"', '&quot;', $item);
-				
 				if (substr($item, 0, 1) === '-')
 				{
 					$conditions[] = sprintf('%s NOT LIKE ?', $column);
@@ -496,23 +498,19 @@ class VariableBase
 				}
 				
 				// trim quotation mark
-				if (substr($item, 0, 6) === substr($item, -6) && substr($item, -6) === '&quot;')
+				if (preg_match('/^"(.*)"$/', $item, $matches))
 				{
-					$item = substr($item, 6, -6);
+					$item = $matches[1];
 				}
 				
-				// pass blank text
-				if (trim($item) === "")
-				{
-					array_pop($conditions);
-					continue;
-				}
+				// Escape and add to parameter list
+				$params[] = '%' . str_replace(['"', '\\', '_', '%'], ['&quot;', '\\\\', '\_', '\%'], $item) . '%';
 				
-				$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
 				// if there is no operator, assume 'AND'
 				$conditions[] = 'AND';
 			}
 		}
+		
 		// remove the last point (would be an operator)
 		array_pop($conditions);
 		$conditions = implode(' ', $conditions);
