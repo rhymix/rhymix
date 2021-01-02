@@ -116,9 +116,9 @@ class integration_searchView extends integration_search
 		$is_keyword = Context::get('is_keyword');
 		// As the variables from GET or POST will be escaped by setRequestArguments method at Context class, the double_escape variable should be "FALSE", and also the escape function might be useful when this method was called from the other way (for not escaped keyword).
 		$is_keyword = escape(trim(utf8_normalize_spaces($is_keyword)), false);
-		if (mb_strlen($is_keyword, 'UTF-8') > 40)
+		if (mb_strlen($is_keyword, 'UTF-8') > 250)
 		{
-			$is_keyword = mb_substr($is_keyword, 0, 40);
+			$is_keyword = mb_substr($is_keyword, 0, 250);
 		}
 
 		// Set page variables

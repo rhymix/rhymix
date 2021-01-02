@@ -237,24 +237,9 @@ class VariableBase
 				}
 				break;
 			case 'search':
-				$keywords = preg_split('/[\s,]+/', $value, 10, \PREG_SPLIT_NO_EMPTY);
-				$conditions = array();
-				$placeholders = implode(', ', array_fill(0, count($keywords), '?'));
-				foreach ($keywords as $item)
-				{
-					if (substr($item, 0, 1) === '-')
-					{
-						$conditions[] = sprintf('%s NOT LIKE ?', $column);
-						$item = substr($item, 1);
-					}
-					else
-					{
-						$conditions[] = sprintf('%s LIKE ?', $column);
-					}
-					$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
-				}
-				$conditions = implode(' AND ', $conditions);
-				$where = count($keywords) === 1 ? $conditions : "($conditions)";
+				$parsed_keywords = $this->_parseSearchKeywords($column, $value);
+				$where = $parsed_keywords[0];
+				$params = array_merge($params, $parsed_keywords[1]);
 				break;
 			case 'plus':
 				$where = sprintf('%s = %s + %s', $column, $column, $is_expression ? $value : '?');
@@ -448,5 +433,91 @@ class VariableBase
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->minlength . ' characters');
 		}
+	}
+	
+	/**
+	 * Parse the search text.
+	 * 
+	 * @param string $column
+	 * @param string $value
+	 * @return array
+	 */
+	protected function _parseSearchKeywords($column, $value)
+	{
+		// Initialze the return values.
+		$where = '';
+		$params = array();
+		
+		// parse the value (text);
+		$value = str_replace('&quot;', '"', $value);
+		$keywords = preg_split('/(\([^\)]*?\))|(\-?\"[^\"]*?\")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		$conditions = array();
+		$operators = array('AND', 'OR', '|');
+		// loop the parsed keywords or operators
+		foreach ($keywords as $item)
+		{
+			// treat parenthesis
+			if (substr($item, 0, 1) === '(' && substr($item, -1) === ')')
+			{
+				$item = trim(substr($item, 1, -1));
+				if ( $item !== "" )
+				{
+					$parsed_keywords = $this->_parseSearchKeywords($column, substr($item, 1, -1));
+					$conditions[] = $parsed_keywords[0];
+					$conditions[] = 'AND';
+					$params = array_merge($params, $parsed_keywords[1]);
+				}
+				continue;
+			}
+			
+			// process 'AND' or 'OR' operator
+			if (in_array($item, $operators))
+			{
+				if ($item === '|')
+				{
+					$item = 'OR';
+				}
+				// remove the last point (would be an operator)
+				array_pop($conditions);
+				$conditions[] = $item;
+			}
+			else
+			{
+				$item = str_replace('"', '&quot;', $item);
+				
+				if (substr($item, 0, 1) === '-')
+				{
+					$conditions[] = sprintf('%s NOT LIKE ?', $column);
+					$item = substr($item, 1);
+				}
+				else
+				{
+					$conditions[] = sprintf('%s LIKE ?', $column);
+				}
+				
+				// trim quotation mark
+				if (substr($item, 0, 6) === substr($item, -6) && substr($item, -6) === '&quot;')
+				{
+					$item = substr($item, 6, -6);
+				}
+				
+				// pass blank text
+				if (trim($item) === "")
+				{
+					array_pop($conditions);
+					continue;
+				}
+				
+				$params[] = '%' . str_replace(['\\', '_', '%'], ['\\\\', '\_', '\%'], $item) . '%';
+				// if there is no operator, assume 'AND'
+				$conditions[] = 'AND';
+			}
+		}
+		// remove the last point (would be an operator)
+		array_pop($conditions);
+		$conditions = implode(' ', $conditions);
+		$where = count($keywords) === 1 ? $conditions : "($conditions)";
+		
+		return [$where, $params];
 	}
 }

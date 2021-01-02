@@ -1,0 +1,24 @@
+<query id="selectTest3" action="select">
+	<tables>
+		<table name="documents" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<group pipe="and">
+			<condition operation="more" column="list_order" var="division" pipe="and" />
+			<condition operation="below" column="list_order" var="last_division" pipe="and" />
+		</group>
+		<group pipe="and">
+			<condition operation="search" column="title" var="s_title" />
+			<condition operation="search" column="content" var="s_content" pipe="or" />
+		</group>
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="list_order" order="order_type" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

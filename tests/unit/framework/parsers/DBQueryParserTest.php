@@ -70,6 +70,20 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals([20, '20201021'], $params);
 	}
 	
+	public function testSelectWithSearch()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest3.xml');
+		$args = array('division' => 1234, 'last_division' => 4567, 's_title' => '"I love you" -"I hate you"', 's_content' => '"I love you" -"I hate you"', 'page' => 3);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` ' .
+			'WHERE (`list_order` >= ? AND `list_order` < ?) AND ' .
+			'((`title` LIKE ? AND `title` NOT LIKE ?) OR (`content` LIKE ? AND `content` NOT LIKE ?)) ' .
+			'ORDER BY `list_order` ASC LIMIT 40, 20', $sql);
+		$this->assertEquals(['1234', '4567', '%I love you%', '%I hate you%', '%I love you%', '%I hate you%'], $params);
+	}
+	
 	public function testJoin1()
 	{
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectJoinTest1.xml');
