@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <lang>
 	<item name="sociallogin">
-		<value xml:lang="ko"><![CDATA[소셜XE]]></value>
+		<value xml:lang="ko"><![CDATA[소셜로그인]]></value>
 	</item>	
 	<item name="about_sociallogin">
 		<value xml:lang="ko"><![CDATA[SNS 로그인과 연동을 지원하는 모듈입니다.]]></value>
