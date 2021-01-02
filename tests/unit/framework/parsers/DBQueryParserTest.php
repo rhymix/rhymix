@@ -98,7 +98,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE ((`content` LIKE ? AND `content` LIKE ?) AND `content` NOT LIKE ?)', $sql);
 		$this->assertEquals(['%search%', '%keyword\\\\Z%', '%-42%'], $params);
 		
-		$args = array('s_content' => '한글 AND -검색 (-키워드 OR 라이믹스)');
+		$args = array('s_content' => '"한글" AND -&quot;검색&quot; (-키워드 OR 라이믹스)');
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE (`content` LIKE ? AND `content` NOT LIKE ? AND (`content` NOT LIKE ? OR `content` LIKE ?))', $sql);
