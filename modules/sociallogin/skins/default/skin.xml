@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">소셜XE 기본스킨</title>
+	<description xml:lang="ko">소셜XE 기본스킨입니다.</description>
+    <version>0.1</version>
+    <date>2015-03-01</date>
+	
+    <author email_address="webmaster@conory.com" link="http://www.conory.com">
+        <name xml:lang="ko">CONORY</name>
+    </author>
+</skin>

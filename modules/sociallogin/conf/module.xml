@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <actions>
+		<action name="dispSocialloginSnsManage" type="view" standalone="true" />
+		<action name="dispSocialloginConfirmMail" type="view" standalone="true" />
+		<action name="dispSocialloginInputAddInfo" type="view" standalone="true" />
+		<action name="dispSocialloginConnectSns" type="view" standalone="true" />
+		<action name="dispSocialloginSnsProfile" type="view" standalone="true" />
+		
+		<action name="procSocialloginConfirmMail" type="controller" ruleset="confirmEmailAddress" standalone="true" />
+		<action name="procSocialloginInputAddInfo" type="controller" ruleset="@insertAddInfoSociallogin" standalone="true" />
+        <action name="procSocialloginSnsClear" type="controller" standalone="true" />
+		<action name="procSocialloginSnsLinkage" type="controller" standalone="true" />
+        <action name="procSocialloginCallback" type="controller" standalone="false" method="GET|POST" />
+		
+        <action name="dispSocialloginAdminSettingApi" type="view" menu_name="sociallogin" />
+        <action name="dispSocialloginAdminSetting" type="view" menu_name="sociallogin" />
+        <action name="dispSocialloginAdminLogRecord" type="view" menu_name="sociallogin" />
+        <action name="dispSocialloginAdminSnsList" type="view" admin_index="true" menu_name="sociallogin" menu_index="true" />
+		
+        <action name="procSocialloginAdminSettingApi" type="controller" />
+        <action name="procSocialloginAdminSetting" type="controller" />
+        <action name="procSocialloginAdminDeleteLogRecord" type="controller" />
+    </actions>
+	<menus>
+		<menu name="sociallogin">
+			<title xml:lang="ko">소셜XE</title>
+		</menu>
+	</menus>
+</module>

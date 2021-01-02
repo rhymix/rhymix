@@ -1,0 +1,22 @@
+<include target="../../../member/skins/default/common_header.html" />
+<h1>{$lang->delete_member_info}</h1>
+<div class="message error">
+	<p>{$lang->about_delete_member_info}</p>
+</div>
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == ''" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form action="./" method="post">
+	<input type="hidden" name="module" value="member" />
+	<input type="hidden" name="act" value="procMemberLeave" />
+    <input type="hidden" name="mid" value="{$mid}" />
+    <input type="hidden" name="password" value="{$logged_info->member_srl}" />
+	<div>
+		<span class="input-append">
+			<input type="text" value="{$logged_info->nick_name}" readonly title="{$lang->nick_name}" />
+			<input type="submit" value="{$lang->cmd_delete}" class="btn btn-inverse" />
+		</span>
+	</div>
+</form>
+<include target="../../../member/skins/default/common_footer.html" />

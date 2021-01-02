@@ -1,0 +1,71 @@
+<include target="_header.html" />
+<table class="x_table x_table-striped x_table-hover">
+	<caption>
+		<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col" class="nowr">{$lang->no}</th>
+			<th scope="col" class="nowr">{$lang->member}</th>
+			<th scope="col" class="nowr" loop="$sns_services => $no,$val">{$val}</th>
+			<th scope="col" class="nowr">{$lang->regdate}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr loop="$sns_list => $no,$val">
+			<td class="nowr">{$no}</td>
+			<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl} author" onclick="return false">{$val->nick_name}</a></td>
+			<td class="nowr" loop="$sns_services => $no2,$val2">{$val->service[$val2]}</td>
+			<td class="nowr">{zdate($val->regdate,"Y-m-d")}</td>
+		</tr>
+		<tr cond="!$sns_list">
+			<td>{$lang->msg_not_exist_data}</td>
+		</tr>
+	</tbody>
+</table>
+<div class="x_clearfix">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin-top:0">
+		{@
+			$urlInfo = parse_url(getRequestUriByServerEnviroment());
+			parse_str($urlInfo['query'], $param);
+		}
+		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+</div>
+<form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
+	<input type="hidden" name="module" value="{$module}" />
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
+		<option loop="$search_option=> $key, $val" value="{$val}" selected="selected"|cond="$search_target==$val">{Context::getLang($val)}</option>
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	<a class="x_btn" href="{getUrl('', 'module', $module, 'act', $act)}">{$lang->cmd_cancel}</a>
+</form>
