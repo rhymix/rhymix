@@ -9,15 +9,15 @@
 	<title xml:lang="ru">Фильтр спама</title>
 	<title xml:lang="tr">Spam Filtreleyici</title>
 	<title xml:lang="zh-TW">垃圾過濾</title>
-	<description xml:lang="ko">XE의 기본 스팸필터입니다.</description>
-	<description xml:lang="zh-CN">XE的基本垃圾过滤模块。</description>
-	<description xml:lang="en">The default spam filter of XE.</description>
-	<description xml:lang="vi">Bộ lọc Spam mặc định của XE.</description>
-	<description xml:lang="es">Filtro de Span predefinido de XE.</description>
-	<description xml:lang="jp">XEのスパムフィルターです。</description>
-	<description xml:lang="ru">Стандартный фильтр спама XE.</description>
-	<description xml:lang="zh-TW">XE的基本垃圾過濾模組。</description>
-	<description xml:lang="tr">XE\'nin varsayılan spam filtreleyicisidir.</description>
+	<description xml:lang="ko">기본 스팸필터 모듈입니다.</description>
+	<description xml:lang="zh-CN">Rhymix的基本垃圾过滤模块。</description>
+	<description xml:lang="en">The default spam filter module.</description>
+	<description xml:lang="vi">Bộ lọc Spam mặc định của Rhymix.</description>
+	<description xml:lang="es">Filtro de Span predefinido de Rhymix.</description>
+	<description xml:lang="jp">スパムフィルターです。</description>
+	<description xml:lang="ru">Стандартный фильтр спама Rhymix.</description>
+	<description xml:lang="zh-TW">Rhymix的基本垃圾過濾模組。</description>
+	<description xml:lang="tr">Rhymix\'nin varsayılan spam filtreleyicisidir.</description>
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>
 	<category>accessory</category>
