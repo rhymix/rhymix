@@ -667,7 +667,7 @@
 .x .x_table{width:100%;margin-bottom:20px}
 .x .x_table th,
 .x .x_table td{padding:8px;line-height:20px;text-align:left;vertical-align:top;border-top:1px solid #dddddd}
-.x .x_table th{font-weight:bold}
+.x .x_table th{font-weight:bold;word-break:keep-all}
 .x .x_table thead th{vertical-align:bottom}
 .x .x_table caption+thead tr:first-child th,
 .x .x_table caption+thead tr:first-child td,
