@@ -111,7 +111,7 @@ class menuAdminController extends menu
 		$args = new stdClass;
 		$args->site_srl = 0;
 		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
-		if($output->toBool() && $output->data && count($output->data) > 0)
+		if($output->toBool() && $output->data)
 		{
 			$unlinked_modules = $output->data;
 		}
@@ -1323,7 +1323,7 @@ class menuAdminController extends menu
 					$target->node = $srl;
 					$target->child= array();
 
-					while(count($this->map[$srl] ?? []))
+					while($this->map[$srl])
 					{
 						$this->_setParent($srl, array_shift($this->map[$srl]), $target);
 					}
@@ -1367,7 +1367,7 @@ class menuAdminController extends menu
 		$child_node->child = array();
 		$target->child[] = $child_node;
 
-		while(count($this->map[$child_srl]))
+		while($this->map[$child_srl])
 		{
 			$this->_setParent($child_srl, array_shift($this->map[$child_srl]), $child_node);
 		}
@@ -1382,7 +1382,7 @@ class menuAdminController extends menu
 	function _recursiveMoveMenuItem($result)
 	{
 		$i = 0;
-		while(count($result->child))
+		while($result->child)
 		{
 			unset($node);
 			$node = array_shift($result->child);
@@ -1803,10 +1803,8 @@ class menuAdminController extends menu
 		// Change to an array if only a single data is obtained
 		if(!is_array($list)) $list = array($list);
 		// Create a tree for loop
-		$list_count = count($list);
-		for($i=0;$i<$list_count;$i++)
+		foreach ($list as $node)
 		{
-			$node = $list[$i];
 			$menu_item_srl = $node->menu_item_srl;
 			$parent_srl = $node->parent_srl;
 
@@ -2164,7 +2162,7 @@ class menuAdminController extends menu
 	 */
 	function updateMenuLayout($layout_srl, $menu_srl_list)
 	{
-		if(!count($menu_srl_list)) return;
+		if(!$menu_srl_list) return;
 		// Delete the value of menu_srls
 		$args = new stdClass();
 		$args->menu_srls = implode(',',$menu_srl_list);
@@ -2173,9 +2171,9 @@ class menuAdminController extends menu
 
 		$args->layout_srl = $layout_srl;
 		// Mapping menu_srls, layout_srl
-		for($i=0;$i<count($menu_srl_list);$i++)
+		foreach($menu_srl_list as $menu_srl)
 		{
-			$args->menu_srl = $menu_srl_list[$i];
+			$args->menu_srl = $menu_srl;
 			$output = executeQuery('menu.insertMenuLayout', $args);
 			if(!$output->toBool()) return $output;
 		}
@@ -2294,9 +2292,7 @@ class menuAdminController extends menu
 
 	public function makeHomemenuCacheFile($menuSrl)
 	{
-		$cacheBuff .= sprintf('<?php if(!defined("__XE__")) exit();');
-		$cacheBuff .= sprintf('$homeMenuSrl = %d;', $menuSrl);
-
+		$cacheBuff = '<?php if(!defined("__XE__")) exit(); $homeMenuSrl = ' . intval($menuSrl) . ';';
 		FileHandler::writeFile($this->homeMenuCacheFile, $cacheBuff);
 	}
 
