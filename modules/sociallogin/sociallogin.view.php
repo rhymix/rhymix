@@ -11,7 +11,7 @@ class SocialloginView extends Sociallogin
 
 		$this->setTemplatePath(sprintf('%sskins/%s/', $this->module_path, $this->config->skin));
 
-		//TODO(BJRambo):check again.
+		//HACK: 현재는 AddJsFile을 유지시킨다. 추후 loadFile이나 해당 메서드가 변경되면 그때 수정.
 		Context::addJsFile($this->module_path . 'tpl/js/sociallogin.js');
 
 		// 사용자 레이아웃
