@@ -227,6 +227,7 @@
 					null,
 					3,
 					empty($post) ? 'GET' : 'POST',
+					// 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청
 					null,
 					array(),
 					array(),
