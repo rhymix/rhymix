@@ -1,5 +1,7 @@
 [![Rhymix](./common/img/logo.png)](https://rhymix.org)
 
+![PHP Lint & Codeception](https://github.com/rhymix/rhymix/workflows/PHP%20Lint%20&%20Codeception/badge.svg)
+
 # 한국어
 
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어

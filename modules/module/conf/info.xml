@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="ko">모듈</title>
+	<title xml:lang="ko">모듈 관리</title>
 	<title xml:lang="zh-CN">模块列表</title>
-	<title xml:lang="jp">モジュール</title>
-	<title xml:lang="en">Module</title>
+	<title xml:lang="jp">モジュール管理</title>
+	<title xml:lang="en">Module Management</title>
 	<title xml:lang="vi">Module</title>
 	<title xml:lang="es">Módulo</title>
 	<title xml:lang="ru">Модули</title>

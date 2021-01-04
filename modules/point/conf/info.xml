@@ -1,58 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="ko">포인트 시스템</title>
-	<title xml:lang="zh-CN">积分系统</title>
-	<title xml:lang="jp">ポイントシステム</title>
-	<title xml:lang="en">Point System</title>
+	<title xml:lang="ko">포인트</title>
+	<title xml:lang="zh-CN">积分</title>
+	<title xml:lang="jp">ポイント</title>
+	<title xml:lang="en">Point</title>
 	<title xml:lang="vi">Hệ thống điểm</title>
-	<title xml:lang="es">Sistema de Punto</title>
+	<title xml:lang="es">Punto</title>
 	<title xml:lang="ru">Система поитов</title>
-	<title xml:lang="zh-TW">點數系統</title>
-	<title xml:lang="tr">Puanlama Sistemi</title>
+	<title xml:lang="zh-TW">點數</title>
+	<title xml:lang="tr">Puanlama</title>
 	<description xml:lang="ko">
 		글작성/삭제/댓글작성/삭제시에 포인트를 부여할 수 있습니다.
 		포인트마다 레벨을 지정하여 사용자 이름 앞에 아이콘을 표시할 수도 있습니다.
-		단 포인트 관련 애드온을 활성화 시켜야 됩니다.
 	</description>
 	<description xml:lang="zh-CN">
 		可以在发表/删除新帖，发表/删除评论时，付与相应积分。
 		也可以以积分设置级别，并在用户名前显示级别图标。
-		必须是先激活积分系统才可以使用。
 	</description>
 	<description xml:lang="jp">
 		書き込み作成・削除/コメント作成・削除の活動に対するポイントを計算するシステムです。
 		ポイントごとレベルを指定してユーザ名の前にアイコンを表示させることが出来ます。
-		但し、ポイントシステムアドオンを「使用」に設定しないと作動しません。
 	</description>
 	<description xml:lang="en">
 		You can grant points for writing/deleting/adding contents or comments.
 		You can also display point icon in front of a user name by selecting level for each point.
-		But to enable these functions, you need to activate point related addons.
 	</description>
 	<description xml:lang="tr">
 		Yazmaya/silmeye, yorum eklemeye/yorum silmeye puan atayabilirsiniz.
 		Her puanın seviyesini seçerek, kullanıcı isimlerinin başında puan simgesi gösterebilirsiniz.
-		Bu özellikleri mümkün kılmak için, puanlamayla alakalı eklentileri etkinleştirmeniz gerekmektedir.
 	</description>
 	<description xml:lang="vi">
 		Bạn có thể cho hay trừ điểm của các thành viên khi Gửi bài, Xóa bài, Thêm bình luận, Xóa bình luận.
 		bạn cũng có thể cho phép hiển thị Icon của cấp độ điểm trước tên sử dụng bằng việc lụa chọn Icon cấp độ điểm.
-		Để kích hoạt chức năng này, bạn phải kích hoạt Addon Hệ thống điểm.
 	</description>
 	<description xml:lang="es">
 		Usted puede entregar puntos a las acciones de escribir/eliminar/agregar comentarios/eliminar comentarios.
 		Usted también puede mostrar el ícono de punto delande del nombre del usuario seleccionando el nivel sobre cada puntos.
-		Pero para activar esas funciones, Usted necesita activar addon relacionado a los puntos.
 	</description>
 	<description xml:lang="ru">
 		Вы можете назначать поинты за написание/удаление/добавление комментариев/удаление комментариев.
 		Вы также можете отображать икнку поинтов напротив имени пользователя, установив уровени для поинтов.
-		Но чтобы включить эти функции, Вам надо активировать аддоны, относящиеся к поинтам.
 	</description>
 	<description xml:lang="zh-TW">
 		可在發表、刪除文章及回覆時，付出相對應的點數。
 		也能以點數設置等級，並在用戶名稱前顯示等級圖示。
-		但是必須先啟用點數系統才能使用。
 	</description>
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>

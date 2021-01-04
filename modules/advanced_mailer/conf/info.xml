@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="ko">메일, SMS 및 푸시 알림 관리 모듈</title>
+	<title xml:lang="ko">메일, SMS 및 푸시 알림 관리</title>
 	<title xml:lang="en">Mail, SMS and Push Notification Manager</title>
 	<description xml:lang="ko">
 		라이믹스에서 발송하는 메일, SMS, 푸시 알림 등을 기록하고 테스트하는 기능을 제공합니다.
