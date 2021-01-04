@@ -216,7 +216,7 @@ class SocialloginLibrary extends Sociallogin
 		return $this->profile['etc'];
 	}
 
-	function set($value)
+	function setSocial($value)
 	{
 		if ($value['token'])
 		{
@@ -229,7 +229,7 @@ class SocialloginLibrary extends Sociallogin
 		}
 	}
 
-	function get()
+	function getSocial()
 	{
 		return array(
 			'service' => $this->service,
