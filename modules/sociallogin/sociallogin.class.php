@@ -154,6 +154,11 @@ class Sociallogin extends ModuleObject
 		{
 			$config->sns_services = $this->default_services;
 		}
+		
+		if (!$config->sns_input_add_info)
+		{
+			$config->sns_input_add_info = [];
+		}
 
 		return $config;
 	}

@@ -330,24 +330,20 @@ class SocialloginController extends Sociallogin
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
 		// 라이브러리 체크
 		if (!$oLibrary = $this->getLibrary($service))
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
 		// 인증 세션 체크
 		if (!$_SESSION['sociallogin_auth']['state'])
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
 		if (!$type = $_SESSION['sociallogin_auth']['type'])
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
 		$_SESSION['sociallogin_current']['mid'] = $_SESSION['sociallogin_auth']['mid'];
 		$redirect_url = $_SESSION['sociallogin_auth']['redirect'];
 		$redirect_url = $redirect_url ? Context::getRequestUri() . '?' . $redirect_url : Context::getRequestUri();
@@ -369,7 +365,6 @@ class SocialloginController extends Sociallogin
 			if ($output instanceof Object && !$output->toBool())
 			{
 				$error = $output->getMessage();
-
 				// 오류시 토큰 파기 (롤백)
 				$oLibrary->revokeToken();
 			}
