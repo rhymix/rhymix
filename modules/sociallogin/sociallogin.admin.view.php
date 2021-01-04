@@ -1,4 +1,5 @@
 <?php
+
 class SocialloginAdminView extends Sociallogin
 {
 	function init()

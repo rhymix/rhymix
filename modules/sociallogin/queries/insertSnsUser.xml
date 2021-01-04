@@ -1,10 +1,10 @@
 <query id="insertSnsUser" action="insert">
-    <tables>
-        <table name="sociallogin_user" />
-    </tables>
-    <columns>
-		<column name="id" var="id" notnull="notnull" />	
-        <column name="service" var="service" notnull="notnull" />
-        <column name="regdate" var="regdate" default="curdate()" />	
-    </columns>
+	<tables>
+		<table name="sociallogin_user" />
+	</tables>
+	<columns>
+		<column name="id" var="id" notnull="notnull" />
+		<column name="service" var="service" notnull="notnull" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
 </query>

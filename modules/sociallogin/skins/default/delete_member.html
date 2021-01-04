@@ -10,8 +10,8 @@
 <form action="./" method="post">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberLeave" />
-    <input type="hidden" name="mid" value="{$mid}" />
-    <input type="hidden" name="password" value="{$logged_info->member_srl}" />
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="password" value="{$logged_info->member_srl}" />
 	<div>
 		<span class="input-append">
 			<input type="text" value="{$logged_info->nick_name}" readonly title="{$lang->nick_name}" />

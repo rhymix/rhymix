@@ -1,4 +1,5 @@
 <?php
+
 class SocialloginController extends Sociallogin
 {
 	function init()

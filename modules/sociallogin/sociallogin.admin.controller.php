@@ -1,4 +1,5 @@
 <?php
+
 class SocialloginAdminController extends Sociallogin
 {
 	/**

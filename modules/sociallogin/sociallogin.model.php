@@ -1,4 +1,5 @@
 <?php
+
 class SocialloginModel extends Sociallogin
 {
 	/**

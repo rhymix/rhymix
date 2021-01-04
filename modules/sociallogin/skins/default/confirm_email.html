@@ -1,7 +1,11 @@
 <include target="../../../member/skins/default/common_header.html" />
 <h1>{$lang->confirm_email_address}</h1>
 <div class="message">
-	<p>{sprintf($lang->msg_not_confirm_email_sns, ucwords($service))}<block cond="$config->mail_auth_valid_hour"><br>({sprintf($lang->msg_mail_auth_valid_hour, $config->mail_auth_valid_hour)})</block></p>
+	<p>{sprintf($lang->msg_not_confirm_email_sns, ucwords($service))}
+		<block cond="$config->mail_auth_valid_hour">
+			<br>({sprintf($lang->msg_mail_auth_valid_hour, $config->mail_auth_valid_hour)})
+		</block>
+	</p>
 </div>
 
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/sociallogin/confirm_email/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">

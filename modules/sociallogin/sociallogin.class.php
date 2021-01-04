@@ -1,4 +1,5 @@
 <?php
+
 class Sociallogin extends ModuleObject
 {
 	public $config;
@@ -61,7 +62,7 @@ class Sociallogin extends ModuleObject
 			}
 		}
 
-		if(!$oDB->isColumnExists('sociallogin', 'socialnumber'))
+		if (!$oDB->isColumnExists('sociallogin', 'socialnumber'))
 		{
 			return true;
 		}
@@ -75,7 +76,7 @@ class Sociallogin extends ModuleObject
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
-		if(!$oDB->isColumnExists('sociallogin', 'socialnumber'))
+		if (!$oDB->isColumnExists('sociallogin', 'socialnumber'))
 		{
 			$oDB->addColumn('sociallogin', 'socialnumber', 'number', 11, null, false);
 		}
@@ -119,11 +120,11 @@ class Sociallogin extends ModuleObject
 	{
 		$config = getModel('module')->getModuleConfig('sociallogin');
 
-		if(!$config)
+		if (!$config)
 		{
 			$config = new stdClass();
 		}
-		
+
 		if (!$config->delete_auto_log_record)
 		{
 			$config->delete_auto_log_record = 0;
