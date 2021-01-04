@@ -11,9 +11,8 @@
 		{
 			// API 권한
 			$scope = array(
-				'profile',
-				'email',
-				'https://www.googleapis.com/auth/plus.login',
+				'https://www.googleapis.com/auth/userinfo.email',
+				'https://www.googleapis.com/auth/userinfo.profile',
 			);
 			
 			// 요청 파라미터
@@ -68,7 +67,8 @@
 			}
 			
 			// API 요청 : 프로필
-			$profile = $this->requestAPI(GOOGLE_PEOPLE_URI . 'me?' . http_build_query(array(
+			$url = "https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses&access_token={$this->getAccessToken()}";
+			$profile = $this->requestAPI('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses&' . http_build_query(array(
 				'access_token' => $this->getAccessToken(),
 			), '', '&'));
 			
@@ -78,44 +78,25 @@
 				return new BaseObject(-1, 'msg_errer_api_connect');
 			}
 			
-			// Google Plus 사용자만.
-			if(!$profile['isPlusUser'])
-			{
-				$this->revokeToken();
-				
-				return new BaseObject(-1, 'msg_not_google_plus_user');
-			}
-			
-			// 팔로워 수 제한
-			if($this->config->sns_follower_count)
-			{
-				if($this->config->sns_follower_count > $profile['circledByCount'])
-				{
-					$this->revokeToken();
-					
-					return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
-				}
-			}
-			
 			// 이메일 주소
-			if($profile['emails'])
+			if($profile['emailAddresses'])
 			{
-				foreach($profile['emails'] as $key => $val)
+				foreach($profile['emailAddresses'] as $key => $val)
 				{
-					if($val['type'] == 'account' && $val['value'])
+					if($val['metadata']['source']['type'] === 'ACCOUNT' && $val['value'])
 					{
 						$this->setEmail($val['value']);
-						
+
+						$profileArgs = $val;
 						break;
 					}
 				}
 			}
-			
 			// ID, 이름, 프로필 이미지, 프로필 URL
-			$this->setId($profile['id']);
-			$this->setName($profile['displayName']);
-			$this->setProfileImage($profile['image']['url']);
-			$this->setProfileUrl($profile['url']);
+			$this->setId($profileArgs['metadata']['source']['id']);
+			$this->setName($profile['names'][0]['displayName']);
+			$this->setProfileImage(null);
+			$this->setProfileUrl(null);
 			
 			// 프로필 인증
 			$this->setVerified(true);
@@ -246,7 +227,7 @@
 					null,
 					3,
 					empty($post) ? 'GET' : 'POST',
-					'application/x-www-form-urlencoded',
+					null,
 					array(),
 					array(),
 					$post,
