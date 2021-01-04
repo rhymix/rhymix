@@ -24,7 +24,7 @@
 	</actions>
 	<menus>
 		<menu name="sociallogin">
-			<title xml:lang="ko">소셜XE</title>
+			<title xml:lang="ko">소셜로그인</title>
 		</menu>
 	</menus>
 </module>
