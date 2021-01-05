@@ -128,7 +128,6 @@ return array(
 		'tablets' => false,
 		'viewport' => 'width=device-width, initial-scale=1.0, user-scalable=yes',
 	),
-	'use_prepared_statements' => true,
 	'use_rewrite' => true,
 	'use_sso' => false,
 	'other' => array(),
