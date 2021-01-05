@@ -1899,7 +1899,7 @@ class documentController extends document
 		{
 			$oCommunicationController = getController('communication');
 			$message_title = lang('document.declared_cancel_message_title');
-			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText());
+			$message_content = sprintf('<p><a href="%s">%s</a></p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText());
 			foreach ($message_targets as $target_member_srl => $val)
 			{
 				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
