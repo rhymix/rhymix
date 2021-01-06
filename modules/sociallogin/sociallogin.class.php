@@ -31,16 +31,6 @@ class Sociallogin extends ModuleObject
 	function __construct()
 	{
 		$this->config = $this->getConfig();
-
-		if (!Context::isExistsSSLAction('procSocialloginCallback') && Context::getSslStatus() == 'optional')
-		{
-			Context::addSSLActions(array(
-				'dispSocialloginConfirmMail',
-				'procSocialloginConfirmMail',
-				'procSocialloginCallback',
-				'dispSocialloginConnectSns',
-			));
-		}
 	}
 
 	function moduleInstall()
