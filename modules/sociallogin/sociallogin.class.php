@@ -153,22 +153,30 @@ class Sociallogin extends ModuleObject
 		return $config;
 	}
 
+	/**
+	 * Get Library for sns 
+	 * @param $library_name
+	 * @return mixed|bool
+	 */
 	function getLibrary($library_name)
 	{
 		require_once RX_BASEDIR . '/modules/sociallogin/sociallogin.library.php';
 
 		if (!isset($this->library[$library_name]))
 		{
-			if (($library_file = sprintf(RX_BASEDIR . '/modules/sociallogin/libs/%s.lib.php', $library_name)) && !file_exists($library_file))
+			
+			$library_file = RX_BASEDIR . "/modules/sociallogin/libs/{$library_name}.lib.php";
+			if ($library_file && !FileHandler::exists($library_file))
 			{
-				return;
+				return false;
 			}
 
 			require_once($library_file);
-
-			if (($instance_name = sprintf('library%s', ucwords($library_name))) && !class_exists($instance_name, false))
+			$ucword_name = ucwords($library_name);
+			$instance_name = "library{$ucword_name}";
+			if ($instance_name && !class_exists($instance_name, false))
 			{
-				return;
+				return false;
 			}
 
 			$this->library[$library_name] = new $instance_name($library_name);

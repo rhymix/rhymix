@@ -3,15 +3,15 @@
 //TODO(BJRambo): it will be update to Rhymix Framework
 class SocialloginLibrary extends Sociallogin
 {
-	private $service;
-	private $profile;
-	private $token;
+	private static $service;
+	private static $profile;
+	private static $token;
 
-	function __construct($service)
+	public function __construct($service)
 	{
-		$this->service = $service;
+		self::$service = $service;
 
-		$this->profile = array(
+		self::$profile = array(
 			'id'       => '',
 			'email'    => '',
 			'name'     => '',
@@ -21,7 +21,7 @@ class SocialloginLibrary extends Sociallogin
 			'etc'      => '',
 		);
 
-		$this->token = array(
+		self::$token = array(
 			'access'  => '',
 			'refresh' => '',
 		);
@@ -32,14 +32,14 @@ class SocialloginLibrary extends Sociallogin
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */
-	function createAuthUrl($type)
+	public function createAuthUrl($type)
 	{
 	}
 
 	/**
 	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
 	 */
-	function authenticate()
+	public function authenticate()
 	{
 		return new BaseObject();
 	}
@@ -47,7 +47,7 @@ class SocialloginLibrary extends Sociallogin
 	/**
 	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
 	 */
-	function loading()
+	public function loading()
 	{
 		return new BaseObject();
 	}
@@ -55,21 +55,21 @@ class SocialloginLibrary extends Sociallogin
 	/**
 	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
 	 */
-	function revokeToken()
+	public function revokeToken()
 	{
 	}
 
 	/**
 	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
 	 */
-	function refreshToken()
+	public function refreshToken()
 	{
 	}
 
 	/**
 	 * @brief 연동 체크 (SNS 연동 설정 전 연동 가능 여부를 체크)
 	 */
-	function checkLinkage()
+	public function checkLinkage()
 	{
 		// 기본적으로는 연동 불가 메세지
 		return new BaseObject(-1, sprintf(Context::getLang('msg_not_support_linkage_setting'), ucwords($this->service)));
@@ -78,14 +78,14 @@ class SocialloginLibrary extends Sociallogin
 	/**
 	 * @brief SNS로 전송 (연동)
 	 */
-	function post($args)
+	public function post($args)
 	{
 	}
 
 	/**
 	 * @brief 프로필 확장 (가입시 추가 기입)
 	 */
-	function getProfileExtend()
+	public function getProfileExtend()
 	{
 		$extend = new stdClass;
 		$extend->signature = '';
@@ -98,143 +98,143 @@ class SocialloginLibrary extends Sociallogin
 		return $extend;
 	}
 
-	function setToken($token)
+	public function setToken($token)
 	{
-		$this->token = $token;
+		self::$token = $token;
 	}
 
-	function setAccessToken($access_token)
+	public function setAccessToken($access_token)
 	{
-		$this->token['access'] = $access_token;
+		self::$token['access'] = $access_token;
 	}
 
-	function setRefreshToken($refresh_token)
+	public function setRefreshToken($refresh_token)
 	{
-		$this->token['refresh'] = $refresh_token;
+		self::$token['refresh'] = $refresh_token;
 	}
 
-	function setProfile($profile)
+	public function setProfile($profile)
 	{
-		$this->profile = $profile;
+		self::$profile = $profile;
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
-		$this->profile['id'] = $id;
+		self::$profile['id'] = $id;
 	}
 
-	function setEmail($email)
+	public function setEmail($email)
 	{
-		$this->profile['email'] = $email;
+		self::$profile['email'] = $email;
 	}
 
-	function setName($name)
+	public function setName($name)
 	{
-		$this->profile['name'] = $name;
+		self::$profile['name'] = $name;
 	}
 
-	function setProfileImage($image)
+	public function setProfileImage($image)
 	{
-		$this->profile['image'] = $image;
+		self::$profile['image'] = $image;
 	}
 
-	function setProfileUrl($url)
+	public function setProfileUrl($url)
 	{
-		$this->profile['url'] = $url;
+		self::$profile['url'] = $url;
 	}
 
-	function setVerified($verified)
+	public function setVerified($verified)
 	{
-		$this->profile['verified'] = $verified ? true : false;
+		self::$profile['verified'] = $verified ? true : false;
 	}
 
-	function setProfileEtc($value)
+	public function setProfileEtc($value)
 	{
-		$this->profile['etc'] = $value;
+		self::$profile['etc'] = $value;
 	}
 
-	function getService()
+	public function getService()
 	{
-		return $this->service;
+		return self::$service;
 	}
 
-	function getToken()
+	public function getToken()
 	{
-		return $this->token;
+		return self::$token;
 	}
 
 	/**
 	 * @return array
 	 */
-	function getAccessToken()
+	public function getAccessToken()
 	{
-		return $this->token['access'];
+		return self::$token['access'];
 	}
 
-	function getRefreshToken()
+	public function getRefreshToken()
 	{
-		return $this->token['refresh'];
+		return self::$token['refresh'];
 	}
 
-	function getProfile()
+	public function getProfile()
 	{
-		return $this->profile;
+		return self::$profile;
 	}
 
-	function getId()
+	public function getId()
 	{
-		return $this->profile['id'];
+		return self::$profile['id'];
 	}
 
-	function getEmail()
+	public function getEmail()
 	{
-		return $this->profile['email'];
+		return self::$profile['email'];
 	}
 
-	function getName()
+	public function getName()
 	{
-		return $this->profile['name'];
+		return self::$profile['name'];
 	}
 
-	function getProfileImage()
+	public function getProfileImage()
 	{
-		return $this->profile['image'];
+		return self::$profile['image'];
 	}
 
-	function getProfileUrl()
+	public function getProfileUrl()
 	{
-		return $this->profile['url'];
+		return self::$profile['url'];
 	}
 
-	function getVerified()
+	public function getVerified()
 	{
-		return $this->profile['verified'];
+		return self::$profile['verified'];
 	}
 
-	function getProfileEtc()
+	public function getProfileEtc()
 	{
-		return $this->profile['etc'];
+		return self::$profile['etc'];
 	}
 
-	function setSocial($value)
+	public function setSocial($value)
 	{
 		if ($value['token'])
 		{
-			$this->token = $value['token'];
+			self::$token = $value['token'];
 		}
 
 		if ($value['profile'])
 		{
-			$this->profile = $value['profile'];
+			self::$profile = $value['profile'];
 		}
 	}
 
-	function getSocial()
+	public function getSocial()
 	{
 		return array(
-			'service' => $this->service,
-			'token'   => $this->token,
-			'profile' => $this->profile,
+			'service' => self::$service,
+			'token'   => self::$token,
+			'profile' => self::$profile,
 		);
 	}
 }
