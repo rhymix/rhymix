@@ -259,6 +259,20 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals(['Y'], $params);
 	}
 	
+	public function testCountQuery()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectCountTest1.xml');
+		$sql = $query->getQueryString('rx_', ['exclude_member_srl' => 4], [], true);
+		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT 1 FROM `rx_documents` AS `documents`, `rx_member` AS `member` ' .
+			'WHERE `documents`.`member_srl` = `member`.`member_srl` GROUP BY `member`.`member_srl` HAVING `member`.`member_srl` != ?) ' .
+			'AS `subquery`', $sql);
+		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectCountTest2.xml');
+		$sql = $query->getQueryString('rx_', ['document_srl_list' => [100, 110, 120]], [], true);
+		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT DISTINCT `module_srl` FROM `rx_documents` AS `documents` ' .
+			'WHERE `document_srl` IN (?, ?, ?)) AS `subquery`', $sql);
+		}
+	
 	public function testInsertQuery()
 	{
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/insertTest.xml');
