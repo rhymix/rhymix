@@ -153,6 +153,7 @@
 <load target="./css/webfont.css" />
 <load target="./css/xeicon.css" cond="$mid === 'xeicon'" />
 <load target="../../common/xeicon/xeicon.min.css" />
+<load target="../../modules/sociallogin/skins/default/css/default.css" />
 <!--// JS -->
 <load cond="$_enable_slide" target="./js/idangerous.swiper.min.js" />
 <load target="./js/layout.js" />
@@ -491,6 +492,18 @@
 				</fieldset>
 			</form>
 		</div>
+		<ul class="sns_login">
+			<!--@foreach($login_sns_services as $key => $val)-->
+			<li>
+				<div id="sns_{$val->name}">
+					<a class="loginBtn" href="{$val->auth_url}">
+						<span class="icon"></span>
+						<span class="buttonText">{$val->name} Login</span>
+					</a>
+				</div>
+			</li>
+			<!--@end-->
+		</ul>
 		<div class="login-footer">
 			<a href="{getUrl('act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			<span class="f_bar">|</span>
