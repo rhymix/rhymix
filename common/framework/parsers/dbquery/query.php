@@ -115,6 +115,9 @@ class Query extends VariableBase
 	 */
 	protected function _getSelectQueryString(bool $count_only = false): string
 	{
+		// Initialize the query string.
+		$result = 'SELECT';
+		
 		// Compose the column list.
 		if ($this->_column_list)
 		{
@@ -152,19 +155,26 @@ class Query extends VariableBase
 		if ($count_only)
 		{
 			$count_wrap = ($this->groupby || $this->select_distinct || preg_match('/\bDISTINCT\b/i', $column_list));
-			if ($count_wrap && ($column_list === '*' || preg_match('/\\.\\*/', $column_list)))
+			if ($count_wrap)
 			{
-				$result = 'SELECT 1';
+				if ($column_list === '*' || preg_match('/\\.\\*/', $column_list))
+				{
+					$result .= ' 1';
+				}
+				else
+				{
+					$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
+				}
 			}
 			else
 			{
-				$result = 'SELECT COUNT(*) AS `count`';
+				$result .= ' COUNT(*) AS `count`';
 			}
 		}
 		else
 		{
 			$count_wrap = false;
-			$result = 'SELECT ' . ($this->select_distinct ? 'DISTINCT ' : '') . $column_list;
+			$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
 		}
 		
 		// Compose the FROM clause.
