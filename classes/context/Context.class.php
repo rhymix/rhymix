@@ -2018,7 +2018,7 @@ class Context
 	/**
 	 * Load front end file
 	 *
-	 * @param array $args array
+	 * @param array|string $args
 	 * case js :
 	 * 		$args[0]: file name,
 	 * 		$args[1]: type (head | body),
@@ -2033,6 +2033,11 @@ class Context
 	 */
 	public static function loadFile($args)
 	{
+		if (!is_array($args))
+		{
+			$args = func_get_args();
+		}
+		
 		self::$_oFrontEndFileHandler->loadFile($args);
 	}
 
