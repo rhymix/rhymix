@@ -8,7 +8,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="twitter_consumer_key">Consumer Key</label>
 			<div class="x_controls">
-				<input type="text" name="twitter_consumer_key" id="twitter_consumer_key" value="{$config->twitter_consumer_key}" />
+				<input type="text" name="twitter_consumer_key" id="twitter_consumer_key" value="{$config->twitter_consumer_key}" disabled="disabled"|cond="!$can_be_use_twitter" />
 				<a href="#twitter_consumer_key_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="twitter_consumer_key_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_key}</p>
 			</div>
@@ -16,9 +16,12 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="twitter_consumer_secret">Consumer Secret</label>
 			<div class="x_controls">
-				<input type="text" name="twitter_consumer_secret" id="twitter_consumer_secret" value="{$config->twitter_consumer_secret}" />
+				<input type="text" name="twitter_consumer_secret" id="twitter_consumer_secret" value="{$config->twitter_consumer_secret}" disabled="disabled"|cond="!$can_be_use_twitter" />
 				<a href="#twitter_consumer_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="twitter_consumer_secret_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_secret}</p>
+				<!--@if(!$can_be_use_twitter)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->can_be_not_use_twitter}</p>
+				<!--@end-->
 			</div>
 		</div>
 		<div class="x_control-group">

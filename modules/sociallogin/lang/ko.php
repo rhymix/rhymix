@@ -87,3 +87,4 @@ $lang->about_sns_input_add_info = 'SNS 첫 로그인시 약관, 닉네임, 아�
 $lang->require_add_info = '필수 추가정보';
 $lang->msg_sns_input_add_info = '사이트 회원가입을 완료하려면 아래의 추가정보를 입력해야 합니다.';
 $lang->about_kakao_client_id = 'Kakao Developers (https://developers.kakao.com/)에서 발급받은 Client ID를 입력해주세요.';
+$lang->can_be_not_use_twitter = 'PHP버전이 낮아 트위터 라이브러리를 사용할 수 없습니다. 트위터 로그인은 PHP7.3 이상 지원합니다.';

@@ -21,6 +21,7 @@ class SocialloginAdminView extends Sociallogin
 
 	function dispSocialloginAdminSettingApi()
 	{
+		Context::set('can_be_use_twitter', version_compare(PHP_VERSION, '7.3.0', '>='));
 		$this->setTemplateFile('api_setting');
 	}
 
@@ -33,6 +34,7 @@ class SocialloginAdminView extends Sociallogin
 		Context::set('mskin_list', getModel('module')->getSkins($this->module_path, 'm.skins'));
 
 		Context::set('default_services', $this->default_services);
+		Context::set('can_be_use_twitter', version_compare(PHP_VERSION, '7.3.0', '>='));
 
 		Context::set('input_add_info', array('agreement', 'user_id', 'nick_name', 'require_add_info'));
 
