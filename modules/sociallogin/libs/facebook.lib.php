@@ -112,7 +112,6 @@
 					return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
 				}
 			}
-			
 			// 이메일 주소
 			if($profile['email'])
 			{
@@ -126,7 +125,7 @@
 			$this->setProfileUrl($profile['link']);
 			
 			// 프로필 인증
-			$this->setVerified($profile['verified']);
+			$this->setVerified(true);
 			
 			// 전체 데이터
 			$this->setProfileEtc($profile);
