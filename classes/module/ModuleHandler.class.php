@@ -1229,12 +1229,15 @@ class ModuleHandler extends Handler
 			{
 				$trigger_target = $module . ($type === 'class' ? '' : $type) . '.' . $called_method;
 				
-				Rhymix\Framework\Debug::addTrigger(array(
-					'name' => $trigger_name . '.' . $called_position,
-					'target' => $trigger_target,
-					'target_plugin' => $module,
-					'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
-				));
+				if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
+				{
+					Rhymix\Framework\Debug::addTrigger(array(
+						'name' => $trigger_name . '.' . $called_position,
+						'target' => $trigger_target,
+						'target_plugin' => $module,
+						'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
+					));
+				}
 			}
 
 			if($output instanceof BaseObject && !$output->toBool())
@@ -1280,12 +1283,15 @@ class ModuleHandler extends Handler
 					$trigger_target = 'closure';
 				}
 				
-				Rhymix\Framework\Debug::addTrigger(array(
-					'name' => $trigger_name . '.' . $called_position,
-					'target' => $trigger_target,
-					'target_plugin' => null,
-					'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
-				));
+				if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
+				{
+					Rhymix\Framework\Debug::addTrigger(array(
+						'name' => $trigger_name . '.' . $called_position,
+						'target' => $trigger_target,
+						'target_plugin' => null,
+						'elapsed_time' => $after_each_trigger_time - $before_each_trigger_time,
+					));
+				}
 			}
 
 			if(is_object($output) && method_exists($output, 'toBool') && !$output->toBool())

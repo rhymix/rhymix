@@ -130,7 +130,7 @@ class addonController extends addon
 			$buff[] = 'if ($run && file_exists($addon_file)):';
 			$buff[] = '  include($addon_file);';
 			$buff[] = '  $after_time = microtime(true);';
-			$buff[] = '  if (class_exists("Rhymix\\\\Framework\\\\Debug")):';
+			$buff[] = '  if (class_exists("Rhymix\\\\Framework\\\\Debug") && Rhymix\\Framework\\Debug::isEnabledForCurrentUser()):';
 			$buff[] = '    Rhymix\\Framework\\Debug::addTrigger(array(';
 			$buff[] = '      "name" => "addon." . $called_position,';
 			$buff[] = '      "target" => "' . $addon . '",';

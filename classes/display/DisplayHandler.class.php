@@ -175,7 +175,7 @@ class DisplayHandler extends Handler
 		}
 		
 		// Check if debugging is enabled for this request.
-		if (!config('debug.enabled') || !Rhymix\Framework\Debug::isEnabledForCurrentUser())
+		if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			return;
 		}

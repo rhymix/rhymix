@@ -6,6 +6,7 @@ class DebugTest extends \Codeception\TestCase\Test
 	
 	public function _before()
 	{
+		Rhymix\Framework\Debug::enable();
 		$this->error_log = ini_get('error_log');
 		ini_set('error_log', '/dev/null');
 	}

@@ -652,11 +652,14 @@ class widgetController extends widget
 			$GLOBALS['__widget_excute_elapsed__'] = 0;
 		}
 		$GLOBALS['__widget_excute_elapsed__'] += $elapsed_time;
-		Rhymix\Framework\Debug::addWidget(array(
-			'name' => $widget,
-			'elapsed_time' => $elapsed_time,
-		));
-
+		if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
+		{
+			Rhymix\Framework\Debug::addWidget(array(
+				'name' => $widget,
+				'elapsed_time' => $elapsed_time,
+			));
+		}
+		
 		// Return result
 		return $output;
 	}
