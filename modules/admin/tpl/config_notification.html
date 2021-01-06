@@ -58,7 +58,7 @@
 			<div class="x_controls">
 				<select name="mail_driver" id="mail_driver">
 					<!--@foreach($mail_drivers as $driver_name => $driver_definition)-->
-						<option value="{$driver_name}" selected="selected"|cond="$mail_driver === $driver_name">{$driver_definition['name']}</option>
+						<option value="{$driver_name}" selected="selected"|cond="$mail_driver === $driver_name">{$driver_name === 'dummy' ? $lang->notuse : $driver_definition['name']}</option>
 					<!--@end-->
 				</select>
 				<p class="x_help-block hidden-by-default show-for-dummy" style="margin-top:10px">
@@ -228,7 +228,7 @@
 			<div class="x_controls">
 				<select name="sms_driver" id="sms_driver">
 					<!--@foreach($sms_drivers as $driver_name => $driver_definition)-->
-						<option value="{$driver_name}" selected="selected"|cond="$sms_driver === $driver_name">{$driver_definition['name']}</option>
+						<option value="{$driver_name}" selected="selected"|cond="$sms_driver === $driver_name">{$driver_name === 'dummy' ? $lang->notuse : $driver_definition['name']}</option>
 					<!--@end-->
 				</select>
 				<p class="x_help-block hidden-by-default show-for-dummy" style="margin-top:10px">

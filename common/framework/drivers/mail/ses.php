@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The Amazon SES mail driver.
  */
-class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class SES extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * Cache the message here for debug access.
@@ -17,10 +17,20 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	protected function __construct(array $config)
 	{
-		$transport = new \Swift_AWSTransport($config['api_key'] ?: $config['api_user'], $config['api_secret'] ?: $config['api_pass']);
-		$transport->setDebug(array($this, 'debugCallback'));
-		$transport->setEndpoint('https://email.' . strtolower($config['api_type']) . '.amazonaws.com/');
-		$this->mailer = new \Swift_Mailer($transport);
+		$config['smtp_host'] = sprintf('email-smtp.%s.amazonaws.com', $config['api_type']);
+		$config['smtp_port'] = 587;
+		$config['smtp_security'] = 'tls';
+		parent::__construct($config);
+	}
+	
+	/**
+	 * Get the human-readable name of this mail driver.
+	 * 
+	 * @return string
+	 */
+	public static function getName()
+	{
+		return 'Amazon SES (SMTP)';
 	}
 	
 	/**
@@ -30,7 +40,7 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function getRequiredConfig()
 	{
-		return array('api_key', 'api_secret', 'api_type');
+		return array('smtp_user', 'smtp_pass', 'api_type');
 	}
 	
 	/**
@@ -40,7 +50,12 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function getAPITypes()
 	{
-		return array('us-east-1', 'us-west-2', 'eu-west-1');
+		return array(
+			'us-east-1', 'us-east-2', 'us-west-2', 'us-gov-west-1',
+			'eu-west-1', 'eu-west-2', 'eu-central-1', 'ca-central-1', 'sa-east-1',
+			'ap-northeast-1', 'ap-northeast-2',
+			'ap-southeast-1', 'ap-southeast-2', 'ap-south-1',
+		);
 	}
 	
 	/**
@@ -50,7 +65,7 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function getSPFHint()
 	{
-		return '';
+		return 'include:amazonses.com';
 	}
 	
 	/**
@@ -61,60 +76,5 @@ class SES extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	public static function getDKIMHint()
 	{
 		return '********._domainkey';
-	}
-	
-	/**
-	 * Check if the current mail driver is supported on this server.
-	 * 
-	 * This method returns true on success and false on failure.
-	 * 
-	 * @return bool
-	 */
-	public static function isSupported()
-	{
-		return true;
-	}
-	
-	/**
-	 * Send a message.
-	 * 
-	 * This method returns true on success and false on failure.
-	 * 
-	 * @param object $message
-	 * @return bool
-	 */
-	public function send(\Rhymix\Framework\Mail $message)
-	{
-		$this->_message = $message;
-		
-		try
-		{
-			$result = $this->mailer->send($message->message, $errors);
-		}
-		catch(\Exception $e)
-		{
-			$message->errors[] = $e->getMessage();
-			return false;
-		}
-		
-		foreach ($errors as $error)
-		{
-			$message->errors[] = $error;
-		}
-		return (bool)$result;
-	}
-	
-	/**
-	 * Debug callback function for SES transport.
-	 * 
-	 * @param string $msg
-	 * @return void
-	 */
-	public function debugCallback($msg)
-	{
-		if ($this->_message)
-		{
-			$this->_message->errors[] = $msg;
-		}
 	}
 }

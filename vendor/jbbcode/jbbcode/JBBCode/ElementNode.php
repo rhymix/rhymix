@@ -185,7 +185,7 @@ class ElementNode extends Node
     public function removeChild(Node $child)
     {
         foreach ($this->children as $key => $value) {
-            if ($value == $child) {
+            if ($value === $child) {
                 unset($this->children[$key]);
             }
         }

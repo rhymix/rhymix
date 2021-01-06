@@ -437,6 +437,7 @@ class DB
 		
 		// Compose the output object.
 		$output = new \BaseObject;
+		$output->add('_count', $query_string);
 		$output->total_count = $total_count;
 		$output->total_page = $total_page;
 		$output->page = $page;

@@ -1,0 +1,19 @@
+<query id="selectCountTest1" action="select">
+	<tables>
+		<table name="documents" />
+		<table name="member" />
+	</tables>
+	<columns>
+		<column name="member.*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="documents.member_srl" default="member.member_srl" />
+		<condition operation="in" column="documents.document_srl" var="document_srl_list" pipe="and" />
+	</conditions>
+	<groups>
+		<group column="member.member_srl" />
+		<having>
+			<condition operation="notequal" column="member.member_srl" var="exclude_member_srl" notnull="notnull" />
+		</having>
+	</groups>
+</query>

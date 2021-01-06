@@ -22,7 +22,7 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 */
 	public static function getName()
 	{
-		return 'PHP mail()';
+		return 'mail() Function';
 	}
 	
 	/**
