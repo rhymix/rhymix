@@ -420,10 +420,19 @@ class SocialloginController extends Sociallogin
 			$this->setMessage($msg);
 		}
 
-		if (!$this->getRedirectUrl())
+		if ($type == 'register')
 		{
-			$this->setRedirectUrl($redirect_url);
+			$this->setRedirectUrl(getNotEncodedUrl('', 'mid', $_SESSION['sociallogin_current']['mid'], 'act', 'dispSocialloginSnsManage'));
 		}
+		else
+		{
+			//TODO: Check again later.
+			if (!$this->getRedirectUrl())
+			{
+				$this->setRedirectUrl($redirect_url);
+			}
+		}
+
 	}
 
 	/**
