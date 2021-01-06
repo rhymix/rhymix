@@ -203,6 +203,7 @@ class editorModel extends editor
 		// Set allow html and focus
 		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
 		Context::set('editor_focus', toBool($option->editor_focus));
+		Context::set('editor_auto_dark_mode', $option->auto_dark_mode !== 'N');
 		
 		// Load editor components.
 		if($option->enable_component)

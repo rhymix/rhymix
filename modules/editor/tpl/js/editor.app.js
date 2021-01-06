@@ -21,7 +21,7 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 (function($){
 	"use strict";
 	var default_ckeconfig = {
-		bodyClass: 'rhymix_content xe_content editable',
+		bodyClass: 'rhymix_content xe_content editable color_scheme_' + getColorScheme(),
 		toolbarCanCollapse: true,
 		toolbarGroups: [
 			{ name: 'clipboard',   groups: [ 'undo', 'clipboard' ] },

@@ -33,18 +33,23 @@
 }
 
 .light_dark(@cs) when (@cs = moono-dark) {
-	background-color: #494949;
+	background-color: #333;
 	color: #fff;
 }
 .light_dark(@cs) when not (@cs = moono-dark) {
 	background-color: #fff;
 	color: #000;
+	&.color_scheme_dark {
+		background-color: #333;
+		color: #fff;
+	}
 }
 
 .light_dark_top(@cs) when (@cs = moono-dark) {
 	border-bottom-color: #1b1b1b;
 }
 .light_dark_top(@cs) when not (@cs = moono-dark) {
+	border-bottom-color: #555;
 }
 
 html {

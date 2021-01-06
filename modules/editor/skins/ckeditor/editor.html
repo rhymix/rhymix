@@ -92,11 +92,19 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			return val + "/" + val + "px";
 		}).join(";");
 		
+		// Apply auto dark mode.
+		var editor_skin = '{$colorset}';
+		<!--@if($editor_auto_dark_mode)-->
+			if (getColorScheme() === 'dark') {
+				editor_skin = 'moono-dark';
+			}
+		<!--@endif-->
+		
 		// Initialize CKEditor settings.
 		var settings = {
 			ckeconfig: {
 				height: '{$editor_height}',
-				skin: '{$colorset}',
+				skin: editor_skin,
 				contentsCss: {json_encode($css_file_list)},
 				xe_editor_sequence: {$editor_sequence},
 	            font_defaultLabel: default_font_name,
