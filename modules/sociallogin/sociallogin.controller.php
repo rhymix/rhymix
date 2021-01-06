@@ -37,7 +37,7 @@ class SocialloginController extends Sociallogin
 				return new BaseObject(-1, 'msg_invalid_request');
 			}
 
-			$oLibrary->set($saved);
+			$oLibrary->setSocial($saved);
 			$oLibrary->setEmail($email_address);
 
 			$output = $this->LoginSns($oLibrary);
@@ -160,7 +160,7 @@ class SocialloginController extends Sociallogin
 
 			$_SESSION['sociallogin_input_add_info_data'] = $add_data;
 
-			$oLibrary->set($saved);
+			$oLibrary->setSocial($saved);
 			$output = $this->LoginSns($oLibrary);
 
 			if (!$output->toBool())
@@ -948,7 +948,7 @@ class SocialloginController extends Sociallogin
 			// 추가 정보 받음
 			if ($this->config->sns_input_add_info[0] && !$_SESSION['sociallogin_input_add_info_data'])
 			{
-				$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->get();
+				$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
 				$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
 
 				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispSocialloginInputAddInfo'), new BaseObject(-1, 'sns_input_add_info'));
@@ -957,7 +957,7 @@ class SocialloginController extends Sociallogin
 			// 메일 주소를 가져올 수 없다면 수동 입력
 			if (!$email)
 			{
-				$_SESSION['tmp_sociallogin_confirm_email'] = $oLibrary->get();
+				$_SESSION['tmp_sociallogin_confirm_email'] = $oLibrary->getSocial();
 
 				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispSocialloginConfirmMail'), new BaseObject(-1, 'need_confirm_email_address'));
 			}
