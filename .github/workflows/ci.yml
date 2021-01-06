@@ -43,4 +43,6 @@ jobs:
       
     - name: Build and run codeception
       if: matrix.php != '8.0'
-      run: php codecept.phar build && php codecept.phar run --debug --fail-fast --env travis
+      run: |
+        php codecept.phar build
+        php codecept.phar run --debug --fail-fast --env travis
