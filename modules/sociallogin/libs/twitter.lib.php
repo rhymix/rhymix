@@ -1,5 +1,5 @@
 <?php
-require_once RX_BASEDIR . '/modules/sociallogin/libs/twitter/vendor/autoload.php';
+require_once RX_BASEDIR . '/vendor/autoload.php';
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
