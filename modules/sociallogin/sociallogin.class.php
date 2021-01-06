@@ -165,11 +165,11 @@ class Sociallogin extends ModuleObject
 
 	function getLibrary($library_name)
 	{
-		require_once _XE_PATH_ . '/modules/sociallogin/sociallogin.library.php';
+		require_once RX_BASEDIR . '/modules/sociallogin/sociallogin.library.php';
 
 		if (!isset($this->library[$library_name]))
 		{
-			if (($library_file = sprintf(_XE_PATH_ . '/modules/sociallogin/libs/%s.lib.php', $library_name)) && !file_exists($library_file))
+			if (($library_file = sprintf(RX_BASEDIR . '/modules/sociallogin/libs/%s.lib.php', $library_name)) && !file_exists($library_file))
 			{
 				return;
 			}
