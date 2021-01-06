@@ -49,7 +49,9 @@
 	border-bottom-color: #1b1b1b;
 }
 .light_dark_top(@cs) when not (@cs = moono-dark) {
-	border-bottom-color: #555;
+	.color_scheme_dark & {
+		border-bottom-color: #555;
+	}
 }
 
 html {
