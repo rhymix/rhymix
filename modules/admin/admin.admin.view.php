@@ -444,11 +444,21 @@ class adminAdminView extends admin
 
 		// Load mail drivers.
 		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
+		uasort($mail_drivers, function($a, $b) {
+			if ($a['name'] === 'Dummy') return -1;
+			if ($b['name'] === 'Dummy') return 1;
+			return strnatcasecmp($a['name'], $b['name']);
+		});
 		Context::set('mail_drivers', $mail_drivers);
 		Context::set('mail_driver', config('mail.type') ?: 'mailfunction');
 		
 		// Load SMS drivers.
 		$sms_drivers = Rhymix\Framework\SMS::getSupportedDrivers();
+		uasort($sms_drivers, function($a, $b) {
+			if ($a['name'] === 'Dummy') return -1;
+			if ($b['name'] === 'Dummy') return 1;
+			return strnatcasecmp($a['name'], $b['name']);
+		});
 		Context::set('sms_drivers', $sms_drivers);
 		Context::set('sms_driver', config('sms.type') ?: 'dummy');
 		
