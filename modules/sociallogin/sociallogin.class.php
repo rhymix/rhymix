@@ -82,15 +82,11 @@ class Sociallogin extends ModuleObject
 		return new BaseObject(0, 'success_updated');
 	}
 
-	/**
-	 * @brief ��� ����
-	 */
 	function moduleUninstall()
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 
-		// Ʈ���� ����
 		foreach ($this->triggers as $trigger)
 		{
 			if ($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
