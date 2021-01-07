@@ -84,6 +84,7 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 			var fo_obj = getCkFormInstance(editor_sequence);
 
 			this.ckeconfig = $.extend({}, default_ckeconfig, opts.ckeconfig || {});
+			this.ckeconfig.bodyClass = this.ckeconfig.bodyClass + ' color_scheme_' + getColorScheme();
 
 			this.editor_sequence = data.editorSequence;
 			$form.attr('editor_sequence', data.editorSequence);
