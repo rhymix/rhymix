@@ -67,11 +67,13 @@
 }
 
 .light_dark_top(@cs) when (@cs = moono-dark) {
-	border-color: #555;
-	&.cke_bottom {
-		background: #333;
-		.cke_button_icon, .cke_combo_button, .cke_button_arrow, .cke_button_label {
-			filter: invert(1);
+	body & {
+		border-color: #555;
+		&.cke_bottom {
+			background: #333;
+			.cke_button_icon, .cke_combo_button, .cke_button_arrow, .cke_button_label {
+				filter: invert(1);
+			}
 		}
 	}
 }
