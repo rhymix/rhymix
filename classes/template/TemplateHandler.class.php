@@ -384,7 +384,7 @@ class TemplateHandler
 	}
 
 	/**
-	 * preg_replace_callback hanlder
+	 * preg_replace_callback handler
 	 *
 	 * replace image path
 	 * @param array $match
@@ -434,7 +434,7 @@ class TemplateHandler
 	}
 
 	/**
-	 * preg_replace_callback hanlder
+	 * preg_replace_callback handler
 	 *
 	 * replace srcset string with multiple paths
 	 * @param array $match
@@ -577,7 +577,7 @@ class TemplateHandler
 	}
 
 	/**
-	 * preg_replace_callback hanlder
+	 * preg_replace_callback handler
 	 * replace php code.
 	 * @param array $m
 	 * @return string changed result
