@@ -163,10 +163,7 @@ class SocialloginLibrary extends Sociallogin
 	{
 		return self::$token;
 	}
-
-	/**
-	 * @return array
-	 */
+	
 	public function getAccessToken()
 	{
 		return self::$token['access'];

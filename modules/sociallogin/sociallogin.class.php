@@ -35,7 +35,6 @@ class Sociallogin extends ModuleObject
 		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 
-		// Ʈ���� ��ġ
 		foreach ($this->triggers as $trigger)
 		{
 			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
