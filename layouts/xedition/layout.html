@@ -492,6 +492,7 @@
 				</fieldset>
 			</form>
 		</div>
+		<!--@if(!$is_logged)-->
 		<ul class="sns_login">
 			<!--@foreach(SocialloginModel::getUseSNSList() as $key => $val)-->
 			<li>
@@ -504,6 +505,7 @@
 			</li>
 			<!--@end-->
 		</ul>
+		<!--@end-->
 		<div class="login-footer">
 			<a href="{getUrl('act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			<span class="f_bar">|</span>
