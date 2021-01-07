@@ -33,16 +33,16 @@
 }
 
 /* if editor_auto_dark_mode == 'Y' load darkmode style */
-.auto_dark(@cs) when not (@cs = moono-dark) {
+.auto_dark(@cs, @adm) when (@adm = Y) and not (@cs = moono-dark)  {
 	html {
 		body.cke_editable {
-			if((@auto_dark_mode = Y), .light_dark(moono-dark), .light_dark(default));
+			.light_dark(moono-dark);
 		}
 	}
 	.cke_reset {
 		span {
 			&.cke_top {
-				if((@auto_dark_mode = Y), .light_dark_top(moono-dark), .light_dark_top(default));
+				.light_dark_top(moono-dark);
 			}
 		}
 	}
@@ -50,7 +50,7 @@
 		filter: invert(1);
 	}
 }
-.auto_dark(@cs) when (@cs = moono-dark) {
+.auto_dark(@cs, @adm) when not (@adm = Y) or (@cs = moono-dark) {
 }
 
 .light_dark(@cs) when (@cs = moono-dark) {
@@ -155,5 +155,5 @@ p.editor_autosaved_message.autosave_message {
 }
 
 @media (prefers-color-scheme: dark) {
-	.auto_dark(@colorset)
+	.auto_dark(@colorset, @auto_dark_mode)
 }
