@@ -26,6 +26,12 @@
 		</div>
 	</div>
 	<div class="control-group" cond="in_array('user_id',$config->sns_input_add_info)">
+		<label for="email_address" class="control-label"><em style="color:red">*</em> {$lang->email_address}</label>
+		<div class="controls">
+			<input type="email" id="email_address" name="email_address" value="{$email_address}" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
+		</div>
+	</div>
+	<div class="control-group" cond="in_array('user_id',$config->sns_input_add_info)">
 		<label for="user_id" class="control-label"><em style="color:red">*</em> {$lang->user_id}</label>
 		<div class="controls">
 			<input type="text" name="user_id" id="user_id" value="" required />

@@ -7,86 +7,6 @@ class SocialloginController extends Sociallogin
 	}
 
 	/**
-	 * @brief 이메일 확인
-	 */
-	function procSocialloginConfirmMail()
-	{
-		if (!$_SESSION['sociallogin_confirm_email'])
-		{
-			return new BaseObject(-1, 'msg_invalid_request');
-		}
-
-		if (!$email_address = Context::get('email_address'))
-		{
-			return new BaseObject(-1, 'msg_invalid_request');
-		}
-
-		if (getModel('member')->getMemberSrlByEmailAddress($email_address))
-		{
-			$error = 'msg_exists_email_address';
-		}
-
-		$saved = $_SESSION['sociallogin_confirm_email'];
-		$mid = $_SESSION['sociallogin_current']['mid'];
-		$redirect_url = getNotEncodedUrl('', 'mid', $mid, 'act', '');
-
-		if (!$error)
-		{
-			if (!$oLibrary = $this->getLibrary($saved['service']))
-			{
-				return new BaseObject(-1, 'msg_invalid_request');
-			}
-
-			$oLibrary->setSocial($saved);
-			$oLibrary->setEmail($email_address);
-
-			$output = $this->LoginSns($oLibrary);
-			if (!$output->toBool())
-			{
-				$error = $output->getMessage();
-				$errorCode = $output->getError();
-			}
-		}
-
-		// 오류
-		if ($error)
-		{
-			$msg = $error;
-
-			if ($errorCode == -12)
-			{
-				Context::set('xe_validator_id', '');
-				$redirect_url = getNotEncodedUrl('', 'mid', $mid, 'act', 'dispMemberLoginForm');
-			}
-			else
-			{
-				$_SESSION['tmp_sociallogin_confirm_email'] = $_SESSION['sociallogin_confirm_email'];
-
-				$this->setError(-1);
-				$redirect_url = getNotEncodedUrl('', 'mid', $mid, 'act', 'dispSocialloginConfirmMail');
-			}
-		}
-
-		unset($_SESSION['sociallogin_confirm_email']);
-
-		// 로그 기록
-		$info = new stdClass;
-		$info->msg = $msg;
-		$info->sns = $saved['service'];
-		getModel('sociallogin')->logRecord($this->act, $info);
-
-		if ($msg)
-		{
-			$this->setMessage($msg);
-		}
-
-		if (!$this->getRedirectUrl())
-		{
-			$this->setRedirectUrl($redirect_url);
-		}
-	}
-
-	/**
 	 * @brief 추가정보 입력
 	 */
 	function procSocialloginInputAddInfo()
@@ -95,7 +15,17 @@ class SocialloginController extends Sociallogin
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
+		
+		if (!$email_address = Context::get('email_address'))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		if (getModel('member')->getMemberSrlByEmailAddress($email_address))
+		{
+			$error = 'msg_exists_email_address';
+		}
+		
 		$saved = $_SESSION['sociallogin_input_add_info'];
 		$mid = $_SESSION['sociallogin_current']['mid'];
 		$redirect_url = getNotEncodedUrl('', 'mid', $mid, 'act', '');
@@ -150,7 +80,7 @@ class SocialloginController extends Sociallogin
 		{
 			$add_data[$val] = Context::get($val);
 		}
-
+		
 		if (!$error)
 		{
 			if (!$oLibrary = $this->getLibrary($saved['service']))
@@ -800,25 +730,6 @@ class SocialloginController extends Sociallogin
 	}
 
 	/**
-	 * @brief 회원등록 트리거
-	 **/
-	function triggerInsertMember(&$config)
-	{
-		// 이메일 주소 확인
-		if (Context::get('act') == 'procSocialloginConfirmMail')
-		{
-			$config->enable_confirm = 'Y';
-		}
-		// SNS 로그인시에는 메일인증을 사용안함
-		else if (Context::get('act') == 'procSocialloginCallback' || Context::get('act') == 'procSocialloginInputAddInfo')
-		{
-			$config->enable_confirm = 'N';
-		}
-
-		return new BaseObject();
-	}
-
-	/**
 	 * @brief 회원메뉴 팝업 트리거
 	 **/
 	function triggerMemberMenu()
@@ -946,49 +857,47 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 추가 정보 받음
-			if (self::getConfig()->sns_input_add_info[0] && !$_SESSION['sociallogin_input_add_info_data'])
+			if (self::getConfig()->sns_input_add_info[0] && !$_SESSION['sociallogin_input_add_info_data'] || (!$email && !$_SESSION['sociallogin_input_add_info_data']))
 			{
 				$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
 				$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
+				if($email)
+				{
+					$_SESSION['tmp_sociallogin_input_add_info']['email'] = $email;
+				}
 
 				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispSocialloginInputAddInfo'), new BaseObject(-1, 'sns_input_add_info'));
 			}
-
-			// 메일 주소를 가져올 수 없다면 수동 입력
-			if (!$email)
+			
+			if(!$email)
 			{
-				$_SESSION['tmp_sociallogin_confirm_email'] = $oLibrary->getSocial();
-
-				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispSocialloginConfirmMail'), new BaseObject(-1, 'need_confirm_email_address'));
+				$email = Context::get('email_address');
 			}
-			// 문제가 없다면 회원 정보 셋팅
-			else
+			
+			Context::setRequestMethod('POST');
+			Context::set('password', $password, true);
+			Context::set('nick_name', $nick_name, true);
+			Context::set('user_name', $oLibrary->getName(), true);
+			Context::set('email_address', $email, true);
+			Context::set('accept_agreement', 'Y', true);
+
+			$extend = $oLibrary->getProfileExtend();
+			Context::set('homepage', $extend->homepage, true);
+			Context::set('blog', $extend->blog, true);
+			Context::set('birthday', $extend->birthday, true);
+			Context::set('gender', $extend->gender, true);
+			Context::set('age', $extend->age, true);
+
+			// 사용자 추가 정보 셋팅
+			if ($add_data = $_SESSION['sociallogin_input_add_info_data'])
 			{
-				Context::setRequestMethod('POST');
-				Context::set('password', $password, true);
-				Context::set('nick_name', $nick_name, true);
-				Context::set('user_name', $oLibrary->getName(), true);
-				Context::set('email_address', $email, true);
-				Context::set('accept_agreement', 'Y', true);
-
-				$extend = $oLibrary->getProfileExtend();
-				Context::set('homepage', $extend->homepage, true);
-				Context::set('blog', $extend->blog, true);
-				Context::set('birthday', $extend->birthday, true);
-				Context::set('gender', $extend->gender, true);
-				Context::set('age', $extend->age, true);
-
-				// 사용자 추가 정보 셋팅
-				if ($add_data = $_SESSION['sociallogin_input_add_info_data'])
+				foreach ($add_data as $key => $val)
 				{
-					foreach ($add_data as $key => $val)
-					{
-						Context::set($key, $val, true);
-					}
+					Context::set($key, $val, true);
 				}
-
-				unset($_SESSION['sociallogin_input_add_info_data']);
 			}
+
+			unset($_SESSION['sociallogin_input_add_info_data']);
 
 			// 회원 모듈에 가입 요청
 			// TODO REPACK not use function, check again.

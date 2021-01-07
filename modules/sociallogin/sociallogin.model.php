@@ -154,11 +154,6 @@ class SocialloginModel extends Sociallogin
 
 		switch ($act)
 		{
-			case 'procSocialloginConfirmMail' :
-				$args->category = 'register';
-				$args->content = sprintf('첫 로그인 이메일 주소 등록 (SNS : %s, msg : %s)', $info->sns, Context::getLang($info->msg));
-				break;
-
 			case 'procSocialloginInputAddInfo' :
 				$args->category = 'register';
 				$info->msg = $info->msg ?: '로그인 성공';

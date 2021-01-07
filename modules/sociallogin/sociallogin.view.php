@@ -62,25 +62,6 @@ class SocialloginView extends Sociallogin
 	}
 
 	/**
-	 * @brief 이메일 확인
-	 */
-	function dispSocialloginConfirmMail()
-	{
-		if (!$_SESSION['tmp_sociallogin_confirm_email'])
-		{
-			return new BaseObject(-1, 'msg_invalid_request');
-		}
-
-		Context::set('service', $_SESSION['tmp_sociallogin_confirm_email']['service']);
-
-		$_SESSION['sociallogin_confirm_email'] = $_SESSION['tmp_sociallogin_confirm_email'];
-
-		unset($_SESSION['tmp_sociallogin_confirm_email']);
-
-		$this->setTemplateFile('confirm_email');
-	}
-
-	/**
 	 * @brief 추가정보 입력
 	 */
 	function dispSocialloginInputAddInfo()
@@ -98,6 +79,7 @@ class SocialloginView extends Sociallogin
 
 		Context::set('member_config', $member_config);
 		Context::set('nick_name', $_SESSION['sociallogin_input_add_info']['nick_name']);
+		Context::set('email_address', $_SESSION['sociallogin_input_add_info']['email']);
 
 		$signupForm = array();
 
