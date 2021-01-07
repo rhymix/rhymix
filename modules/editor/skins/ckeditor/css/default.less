@@ -32,6 +32,27 @@
 	margin: 0 0 @content_paragraph_spacing 0;
 }
 
+/* if editor_auto_dark_mode == 'Y' load darkmode style */
+.auto_dark(@cs) when not (@cs = moono-dark) {
+	html {
+		body.cke_editable {
+			if((@auto_dark_mode = Y), .light_dark(moono-dark), .light_dark(default));
+		}
+	}
+	.cke_reset {
+		span {
+			&.cke_top {
+				if((@auto_dark_mode = Y), .light_dark_top(moono-dark), .light_dark_top(default));
+			}
+		}
+	}
+	.cke_button_icon, .cke_combo_button, .cke_button_arrow, .cke_button_label {
+		filter: invert(1);
+	}
+}
+.auto_dark(@cs) when (@cs = moono-dark) {
+}
+
 .light_dark(@cs) when (@cs = moono-dark) {
 	background-color: #333;
 	color: #fff;
@@ -98,7 +119,6 @@ p.editor_autosaved_message.autosave_message {
 	}
 }
 
-
 .xe_content.editable, .rhymix_content.editable, .cke_wysiwyg_div {
 	.cont_font(@content_font);
 	.cont_fontsize(@content_font_size);
@@ -132,4 +152,8 @@ p.editor_autosaved_message.autosave_message {
 		
 		}
 	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.auto_dark(@colorset)
 }
