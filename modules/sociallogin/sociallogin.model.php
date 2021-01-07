@@ -228,4 +228,18 @@ class SocialloginModel extends Sociallogin
 
 		executeQuery('sociallogin.insertLogRecord', $args);
 	}
+
+	public static function getUseSNSList()
+	{
+		$config = self::getConfig();
+		$sns_auth_list = array();
+		foreach ($config->sns_services as $key => $sns_name)
+		{
+			$sns_auth_list[$key] = new stdClass();
+			$sns_auth_list[$key]->name = $sns_name;
+			$sns_auth_list[$key]->auth_url = self::snsAuthUrl($sns_name, 'login');
+		}
+		
+		return $sns_auth_list;
+	}
 }
