@@ -217,7 +217,7 @@
 	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
 	background-image: -webkit-gradient(top, #ffffff, #e6e6e6);
 	background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
-	background-image: linear-gradient(top, #ffffff, #e6e6e6);
+	background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
 	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
@@ -236,7 +236,7 @@ button.xefu-btn {
 	background-image: -webkit-linear-gradient(top, #e6e6e6, #c9c9c9);
 	background-image: -webkit-gradient(top, #e6e6e6, #c9c9c9);
 	background-image: -o-linear-gradient(top, #e6e6e6, #c9c9c9);
-	background-image: linear-gradient(top, #e6e6e6, #c9c9c9);
+	background-image: linear-gradient(to bottom, #e6e6e6, #c9c9c9);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#c9c9c9', GradientType=0);
 	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
@@ -324,7 +324,7 @@ body.color_scheme_dark .xefu-container .xefu-btn {
 	background-image: -webkit-linear-gradient(top, #333, #000);
 	background-image: -webkit-gradient(top, #333, #000);
 	background-image: -o-linear-gradient(top, #333, #000);
-	background-image: linear-gradient(top, #333, #000);
+	background-image: linear-gradient(to bottom, #333, #000);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333', endColorstr='#000', GradientType=0);
 	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
@@ -339,7 +339,7 @@ body.color_scheme_dark .xefu-container .xefu-btn[disabled] {
 	background-image: -webkit-linear-gradient(top, #555, #333);
 	background-image: -webkit-gradient(top, #555, #333);
 	background-image: -o-linear-gradient(top, #555, #333);
-	background-image: linear-gradient(top, #555, #333);
+	background-image: linear-gradient(to bottom, #555, #333);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555', endColorstr='#333', GradientType=0);
 	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
