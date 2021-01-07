@@ -129,9 +129,14 @@ html {
 p.editor_autosaved_message.autosave_message {
 	display:none;
 	background: #e0e0e0;
+	color: #000;
 	padding: 10px;
 	margin:0;
 	line-height:1.2;
+	.color_scheme_dark & {
+		background: #222;
+		color: #fff;
+	}
 }
 .cke_reset {
 	.cke_top, .cke_bottom {
