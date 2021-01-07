@@ -776,7 +776,7 @@ class boardView extends board
 				foreach($normal_category_list as $category_srl => $category)
 				{
 					$is_granted = TRUE;
-					if($category->group_srls)
+					if(isset($category->group_srls) && $category->group_srls)
 					{
 						$category_group_srls = explode(',',$category->group_srls);
 						$is_granted = FALSE;
@@ -814,12 +814,12 @@ class boardView extends board
 
 		$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
 
-		if($oDocument->get('module_srl') == $oDocument->get('member_srl')) $savedDoc = TRUE;
+		$savedDoc = ($oDocument->get('module_srl') == $oDocument->get('member_srl'));
 		$oDocument->add('module_srl', $this->module_srl);
 
 		if($oDocument->isExists())
 		{
-			if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
+			if(($this->module_info->protect_document_regdate ?? 0) > 0 && $this->grant->manager == false)
 			{
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
@@ -828,7 +828,7 @@ class boardView extends board
 					throw new Rhymix\Framework\Exception($massage);
 				}
 			}
-			if($this->module_info->protect_content == "Y" || $this->module_info->protect_update_content == 'Y')
+			if(($this->module_info->protect_content ?? 'N') === 'Y' || ($this->module_info->protect_update_content ?? 'N') == 'Y')
 			{
 				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
 				{
