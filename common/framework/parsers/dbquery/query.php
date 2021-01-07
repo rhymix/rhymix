@@ -116,26 +116,18 @@ class Query extends VariableBase
 	protected function _getSelectQueryString(bool $count_only = false): string
 	{
 		// Initialize the query string.
-		$result = 'SELECT ';
-		if ($this->select_distinct)
-		{
-			$result .= 'DISTINCT ';
-		}
+		$result = 'SELECT';
 		
 		// Compose the column list.
-		$columns = array();
-		if ($count_only)
+		if ($this->_column_list)
 		{
-			$result .= 'COUNT(*) AS `count`';
-		}
-		elseif ($this->_column_list)
-		{
-			$result .= implode(', ', array_map(function($str) {
+			$column_list = implode(', ', array_map(function($str) {
 				return self::quoteName($str);
 			}, $this->_column_list));
 		}
 		else
 		{
+			$columns = array();
 			foreach ($this->columns as $column)
 			{
 				if ($column instanceof self)
@@ -156,7 +148,33 @@ class Query extends VariableBase
 					$columns[] = self::quoteName($column->name) . ($column->alias ? (' AS ' . self::quoteName($column->alias)) : '');
 				}
 			}
-			$result .= implode(', ', $columns);
+			$column_list = implode(', ', $columns);
+		}
+		
+		// Replace the column list if this is a count-only query.
+		if ($count_only)
+		{
+			$count_wrap = ($this->groupby || $this->select_distinct || preg_match('/\bDISTINCT\b/i', $column_list));
+			if ($count_wrap)
+			{
+				if ($column_list === '*' || preg_match('/\\.\\*/', $column_list))
+				{
+					$result .= ' 1';
+				}
+				else
+				{
+					$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
+				}
+			}
+			else
+			{
+				$result .= ' COUNT(*) AS `count`';
+			}
+		}
+		else
+		{
+			$count_wrap = false;
+			$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
 		}
 		
 		// Compose the FROM clause.
@@ -223,6 +241,12 @@ class Query extends VariableBase
 		if ($this->navigation && $this->navigation->list_count && !$count_only)
 		{
 			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
+		}
+		
+		// Wrap in a subquery if necesary.
+		if ($count_wrap)
+		{
+			$result = 'SELECT COUNT(*) AS `count` FROM (' . $result . ') AS `subquery`';
 		}
 		
 		// Return the final query string.

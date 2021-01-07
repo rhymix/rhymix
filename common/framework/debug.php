@@ -10,7 +10,8 @@ class Debug
 	/**
 	 * Store log entries here.
 	 */
-	protected static $_enabled = true;
+	protected static $_enabled = null;
+	protected static $_config = array();
 	protected static $_aliases = array();
 	protected static $_entries = array();
 	protected static $_errors = array();
@@ -286,7 +287,7 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		if (config('debug.write_error_log') === 'all' && self::isEnabledForCurrentUser())
+		if (self::$_config['write_error_log'] === 'all')
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
 				var_export($message, true), $entry->file, $entry->line));
@@ -341,7 +342,7 @@ class Debug
 		);
 		
 		// Add the entry to the error log.
-		if (config('debug.write_error_log') === 'all')
+		if (self::$_config['write_error_log'] === 'all')
 		{
 			$log_entry = strtr(sprintf('PHP %s: %s in %s on line %d', $errinfo->type, $errstr, $errfile, intval($errline)), "\0\r\n\t\v\e\f", '       ');
 			error_log($log_entry . \PHP_EOL . self::formatBacktrace($backtrace));
@@ -394,7 +395,7 @@ class Debug
 			
 			self::$_errors[] = $error_object;
 			
-			if (config('debug.write_error_log') === 'all')
+			if (self::$_config['write_error_log'] === 'all')
 			{
 				$log_entry = strtr(sprintf('Query Error: %s in %s on line %d', $error_object->message, $error_object->file, intval($error_object->line)), "\0\r\n\t\v\e\f", '       ');
 				error_log($log_entry . \PHP_EOL . self::formatBacktrace($error_object->backtrace));
@@ -402,7 +403,7 @@ class Debug
 		}
 		
 		// Add the entry to the slow query log.
-		if ($query_object->query_time && $query_object->query_time >= config('debug.log_slow_queries'))
+		if ($query_object->query_time && $query_object->query_time >= self::$_config['log_slow_queries'])
 		{
 			self::$_slow_queries[] = $query_object;
 		}
@@ -436,7 +437,7 @@ class Debug
 		);
 		
 		self::$_triggers[] = $trigger_object;
-		if ($trigger_object->trigger_time && $trigger_object->trigger_time >= config('debug.log_slow_triggers'))
+		if ($trigger_object->trigger_time && $trigger_object->trigger_time >= self::$_config['log_slow_triggers'])
 		{
 			self::$_slow_triggers[] = $trigger_object;
 		}
@@ -468,7 +469,7 @@ class Debug
 		);
 		
 		self::$_widgets[] = $widget_object;
-		if ($widget_object->widget_time && $widget_object->widget_time >= config('debug.log_slow_widgets'))
+		if ($widget_object->widget_time && $widget_object->widget_time >= self::$_config['log_slow_widgets'])
 		{
 			self::$_slow_widgets[] = $widget_object;
 		}
@@ -502,7 +503,7 @@ class Debug
 		);
 		
 		self::$_remote_requests[] = $request_object;
-		if ($request_object->elapsed_time && $request_object->elapsed_time >= config('debug.log_slow_remote_requests'))
+		if ($request_object->elapsed_time && $request_object->elapsed_time >= self::$_config['log_slow_remote_requests'])
 		{
 			self::$_slow_remote_requests[] = $request_object;
 		}
@@ -549,7 +550,7 @@ class Debug
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d',
 				get_class($e), $e->getCode(), $e->getMessage(), $errfile, $e->getLine()));
 		}
-		if (config('debug.write_error_log') !== 'none')
+		if (self::$_config['write_error_log'] !== 'none')
 		{
 			error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
 		}
@@ -579,7 +580,7 @@ class Debug
 		// Add the entry to the error log.
 		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
 		$log_entry = str_replace("\0", '', 'PHP ' . self::getErrorType($errinfo['type']) . ': ' . $message);
-		if (config('debug.write_error_log') !== 'none')
+		if (self::$_config['write_error_log'] !== 'none')
 		{
 			error_log($log_entry);
 		}
@@ -633,6 +634,7 @@ class Debug
 	 */
 	public static function registerErrorHandlers($error_types)
 	{
+		self::$_config = config('debug');
 		set_error_handler('\\Rhymix\\Framework\\Debug::addError', $error_types);
 		set_exception_handler('\\Rhymix\\Framework\\Debug::exceptionHandler');
 		register_shutdown_function('\\Rhymix\\Framework\\Debug::shutdownHandler');
@@ -712,45 +714,43 @@ class Debug
 	 */
 	public static function isEnabledForCurrentUser()
 	{
-		static $cache = null;
-		if ($cache !== null)
+		if (self::$_enabled !== null)
 		{
-			return $cache;
+			return self::$_enabled;
 		}
-		if (!Config::get('debug.enabled'))
+		if (!self::$_config['enabled'])
 		{
-			return $cache = false;
+			return self::$_enabled = false;
 		}
 		
-		$display_to = Config::get('debug.display_to');
-		switch ($display_to)
+		switch (self::$_config['display_to'])
 		{
 			case 'everyone':
-				return $cache = true;
+				return self::$_enabled = true;
 			
 			case 'ip':
-				if (Filters\IpFilter::inRanges(\RX_CLIENT_IP, Config::get('debug.allow')))
+				if (Filters\IpFilter::inRanges(\RX_CLIENT_IP, self::$_config['allow']))
 				{
-					return $cache = true;
+					return self::$_enabled = true;
 				}
 				if (\RX_CLIENT_IP === '127.0.0.1' || \RX_CLIENT_IP === '::1')
 				{
-					return $cache = true;
+					return self::$_enabled = true;
 				}
 				if (\RX_CLIENT_IP === $_SERVER['SERVER_ADDR'] || \RX_CLIENT_IP === $_SERVER['LOCAL_ADDR'])
 				{
-					return $cache = true;
+					return self::$_enabled = true;
 				}
-				return $cache = false;
+				return self::$_enabled = false;
 			
 			case 'admin':
 			default:
 				$logged_info = \Context::get('logged_info');
 				if ($logged_info && $logged_info->is_admin === 'Y')
 				{
-					return $cache = true;
+					return self::$_enabled = true;
 				}
-				return $cache = false;
+				return self::$_enabled = false;
 		}
 	}
 	

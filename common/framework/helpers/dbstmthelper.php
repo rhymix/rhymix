@@ -57,7 +57,10 @@ class DBStmtHelper extends \PDOStatement
 		{
 			$elapsed_time = microtime(true) - $start_time;
 			$db_class->addElapsedTime($elapsed_time);
-			Debug::addQuery($db_class->getQueryLog($this->queryString, $elapsed_time));
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($db_class->getQueryLog($this->queryString, $elapsed_time));
+			}
 		}
 		
 		return $result;

@@ -273,10 +273,12 @@ class HTMLDisplayHandler
 		$oModuleController->replaceDefinedLangCode($output);
 		
 		// remove template path comment tag
+		/*
 		if(!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			$output = preg_replace('/\n<!-- Template (?:start|end) : .*? -->\r?\n/', "\n", $output);
 		}
+		*/
 	}
 
 	/**

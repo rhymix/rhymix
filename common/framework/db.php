@@ -437,6 +437,7 @@ class DB
 		
 		// Compose the output object.
 		$output = new \BaseObject;
+		$output->add('_count', $query_string);
 		$output->total_count = $total_count;
 		$output->total_page = $total_page;
 		$output->page = $page;
@@ -529,7 +530,11 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			Debug::addQuery($this->getQueryLog('START TRANSACTION', 0));
+			
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($this->getQueryLog('START TRANSACTION', 0));
+			}
 		}
 		$this->_transaction_level++;
 		return $this->_transaction_level;
@@ -553,7 +558,11 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			Debug::addQuery($this->getQueryLog('ROLLBACK', 0));
+			
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($this->getQueryLog('ROLLBACK', 0));
+			}
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -577,7 +586,11 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			Debug::addQuery($this->getQueryLog('COMMIT', 0));
+			
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($this->getQueryLog('COMMIT', 0));
+			}
 		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
@@ -1059,12 +1072,7 @@ class DB
 	public function getQueryLog(string $query, float $elapsed_time): array
 	{
 		// Cache the debug status to improve performance.
-		static $debug_enabled = null;
 		static $debug_queries = null;
-		if ($debug_enabled === null)
-		{
-			$debug_enabled = Config::get('debug.enabled');
-		}
 		if ($debug_queries === null)
 		{
 			$debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
@@ -1086,7 +1094,7 @@ class DB
 		);
 		
 		// Add debug information if enabled.
-		if ($debug_enabled && ($this->_errno || $debug_queries))
+		if ($this->_errno || $debug_queries)
 		{
 			$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 			foreach ($backtrace as $no => $call)
