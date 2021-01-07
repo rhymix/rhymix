@@ -71,6 +71,11 @@ class SocialloginAdminController extends Sociallogin
 			$config->{$val} = $args->{$val};
 		}
 
+		if(!$args->sns_services)
+		{
+			$config->sns_services = array();
+		}
+		
 		getController('module')->insertModuleConfig('sociallogin', $config);
 
 		$this->setMessage('success_updated');
