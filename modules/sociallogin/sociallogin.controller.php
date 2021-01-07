@@ -696,7 +696,7 @@ class SocialloginController extends Sociallogin
 				Context::set('formTags', $new_formTags);
 			}
 		}
-
+		
 		return new BaseObject();
 	}
 
@@ -1006,7 +1006,15 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 회원 모듈에 가입 요청
-			$output = getController('member')->procMemberInsert();
+			// TODO REPACK not use function, check again.
+			try
+			{
+				$output = getController('member')->procMemberInsert();
+			}
+			catch (\Rhymix\Framework\Exception $exception)
+			{
+				return new BaseObject(-1, $exception->getMessage());
+			}
 
 			// 가입 도중 오류가 있다면 즉시 출력
 			if (is_object($output) && method_exists($output, 'toBool') && !$output->toBool())

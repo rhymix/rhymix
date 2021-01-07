@@ -39,7 +39,7 @@ class SocialloginView extends Sociallogin
 		{
 			$args = new stdClass;
 			$sns_info = $oSocialloginModel->getMemberSns($val);
-
+			
 			if ($sns_info->name)
 			{
 				$args->register = true;
@@ -56,7 +56,6 @@ class SocialloginView extends Sociallogin
 
 			$sns_services[$key] = $args;
 		}
-
 		Context::set('sns_services', $sns_services);
 
 		$this->setTemplateFile('sns_manage');
