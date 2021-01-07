@@ -261,9 +261,9 @@ class widgetController extends widget
 		// Check whether to include information about editing
 		$this->javascript_mode = $javascript_mode;
 		// Widget code box change
-		$content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>((<img.*?>)*)!is', array($this,'transWidgetBox'), $content);
+		$content = preg_replace_callback('!<div([^>]*)widget=([^>]*?)><div><div>((<img.*?>)*)!is', array($this, 'transWidgetBox'), $content);
 		// Widget code information byeogyeong
-		$content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
+		$content = preg_replace_callback('!<img([^>]*)widget=([^>]*?)>!is', array($this, 'transWidget'), $content);
 
 		return $content;
 	}
@@ -273,16 +273,18 @@ class widgetController extends widget
 	 */
 	function transWidget($matches)
 	{
-		$buff = trim($matches[0]);
-
-		$oXmlParser = new XeXmlParser();
-		$xml_doc = $oXmlParser->parse(trim($buff));
-
-		if($xml_doc->img) $vars = $xml_doc->img->attrs;
-		else $vars = $xml_doc->attrs;
-
+		$vars = new stdClass;
+		$xml = simplexml_load_string(trim($matches[0]));
+		foreach ($xml->img ? $xml->img->attributes() : $xml->attributes() as $key => $val)
+		{
+			$vars->{$key} = strval($val);
+		}
+		
 		$widget = $vars->widget;
-		if(!$widget) return $matches[0];
+		if (!$widget)
+		{
+			return $matches[0];
+		}
 		unset($vars->widget);
 
 		return $this->execute($widget, $vars, $this->javascript_mode);
