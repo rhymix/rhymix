@@ -65,6 +65,46 @@
 		.cke_button_icon, .cke_combo_button, .cke_button_arrow, .cke_button_label {
 			filter: invert(1);
 		}
+		&.cke_dialog_body {
+			background: #555;
+		}
+		.cke_dialog_title {
+			background: #333;
+			color: #fff;
+			border-bottom-color: #555;
+			.cke_dialog_close_button {
+				color: #fff;
+			}
+		}
+		.cke_dialog_tabs {
+			background: #555;
+			.cke_dialog_tab {
+				background: #555;
+				color: #999;
+				border-color: #777;
+			}
+			.cke_dialog_tab_selected {
+				background: #777;
+				color: #fff;
+				border-color: #777;
+			}
+		}
+		.cke_dialog_contents {
+			background: #555;
+			border-top-color: #777;
+			label {
+				color: #fff;
+			}
+			select, input, .ImagePreviewBox td {
+				background: #333;
+				color: #fff;
+				border-color: #777;
+			}
+		}
+		.cke_dialog_footer {
+			background: #333;
+			border-top-color: #555;
+		}
 	}
 }
 
@@ -109,7 +149,9 @@ p.editor_autosaved_message.autosave_message {
 		}
 	}
 }
-
+.cke_dialog_body {
+	.light_dark_top(@colorset);
+}
 
 .xe_content.editable, .rhymix_content.editable, .cke_wysiwyg_div {
 	.cont_font(@content_font);
