@@ -492,7 +492,7 @@
 				</fieldset>
 			</form>
 		</div>
-		<!--@if(!$is_logged)-->
+		<!--@if(!$is_logged && SocialloginModel::getSocialLoginEnables())-->
 		<ul class="sns_login">
 			<!--@foreach(SocialloginModel::getUseSNSList() as $key => $val)-->
 			<li>

@@ -242,4 +242,27 @@ class SocialloginModel extends Sociallogin
 		
 		return $sns_auth_list;
 	}
+
+	/**
+	 * 소셜로그인을 사용하는지 검사
+	 * @return bool
+	 */
+	public static function getSocialLoginEnables()
+	{
+		$config = self::getConfig();
+		
+		if(!is_array($config->sns_services))
+		{
+			return false;
+		}
+		
+		if(count($config->sns_services) <= 0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }
