@@ -14,6 +14,7 @@
 	padding: 12px;
 	border: 0;
 	background-color: #f5f6f6;
+	color: #000;
 
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -229,6 +230,14 @@ button.xefu-btn {
 	color: #333;
 	background-color: #e6e6e6;
 	*background-color: #d9d9d9;
+	background-image: -moz-linear-gradient(top, #e6e6e6, #c9c9c9);
+	background-image: -webkit-linear-gradient(top, #e6e6e6, #c9c9c9);
+	background-image: -webkit-gradient(top, #e6e6e6, #c9c9c9);
+	background-image: -o-linear-gradient(top, #e6e6e6, #c9c9c9);
+	background-image: linear-gradient(top, #e6e6e6, #c9c9c9);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e6e6e6', endColorstr='#c9c9c9', GradientType=0);
+	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
 }
 .xefu-btn>a,
 .xefu-btn>button,
@@ -280,4 +289,52 @@ p.xefu-dropzone-message {
 	display: inline-block;
 	margin: 0;
 	margin-left: 5px;
+}
+
+/* darkmode colorset */
+.color_scheme_dark .xefu-container .xefu-dropzone {
+	background-color: #333;
+	color: #fff;
+}
+/* darkmode color: dragged contents on the layer */
+.color_scheme_dark .xefu-container .in .xefu-dropzone {
+	background-color: #66ab8e;
+}
+.color_scheme_dark .xefu-container .xefu-list-files li.selected {
+	background-color: #66ab8e;
+}
+.color_scheme_dark .xefu-container .xefu-btn {
+	color: #eeeeee;
+	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.2), 0 1px 2px rgba(255, 255, 255, 0.05);
+	background-color: #131313;
+	*background-color: #222222;
+	background-image: -moz-linear-gradient(top, #333, #000);
+	background-image: -webkit-linear-gradient(top, #333, #000);
+	background-image: -webkit-gradient(top, #333, #000);
+	background-image: -o-linear-gradient(top, #333, #000);
+	background-image: linear-gradient(top, #333, #000);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#333', endColorstr='#000', GradientType=0);
+	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.color_scheme_dark .xefu-container .xefu-btn:hover,
+.color_scheme_dark .xefu-container .xefu-btn:active,
+.color_scheme_dark .xefu-container .xefu-btn[disabled] {
+	color: #eee;
+	background-color: #555;
+	*background-color: #333;
+	background-image: -moz-linear-gradient(top, #555, #333);
+	background-image: -webkit-linear-gradient(top, #555, #333);
+	background-image: -webkit-gradient(top, #555, #333);
+	background-image: -o-linear-gradient(top, #555, #333);
+	background-image: linear-gradient(top, #555, #333);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#555', endColorstr='#333', GradientType=0);
+	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.color_scheme_dark .xefu-container .xefu-btn>a,
+.color_scheme_dark .xefu-container .xefu-btn>button,
+.color_scheme_dark .xefu-container .xefu-btn>input,
+.color_scheme_dark .xefu-container .xefu-btn>span {
+	color: #eee;
 }
