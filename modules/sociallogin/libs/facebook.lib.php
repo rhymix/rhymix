@@ -22,7 +22,7 @@
 			// 요청 파라미터
 			$params = array(
 				'scope' => implode(',', $scope),
-				'client_id' => $this->config->facebook_app_id,
+				'client_id' => self::getConfig()->facebook_app_id,
 				'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'facebook'),
 				'state' => $_SESSION['sociallogin_auth']['state'],
 			);
@@ -44,8 +44,8 @@
 			// API 요청 : 엑세스 토큰
 			$token = $this->requestAPI('/oauth/access_token', array(
 				'code' => Context::get('code'),
-				'client_id' => $this->config->facebook_app_id,
-				'client_secret' => $this->config->facebook_app_secret,
+				'client_id' => self::getConfig()->facebook_app_id,
+				'client_secret' => self::getConfig()->facebook_app_secret,
 				'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'facebook'),
 			));
 			
@@ -53,8 +53,8 @@
 			$token = $this->requestAPI('/oauth/access_token', array(
 				'fb_exchange_token' => $token['access_token'],
 				'grant_type' =>'fb_exchange_token',
-				'client_id' => $this->config->facebook_app_id,
-				'client_secret' => $this->config->facebook_app_secret,
+				'client_id' => self::getConfig()->facebook_app_id,
+				'client_secret' => self::getConfig()->facebook_app_secret,
 			));
 			
 			// 토큰 삽입
@@ -103,13 +103,13 @@
 			}
 			
 			// 팔로워 수 제한 (페이스북의 경우 '친구 수')
-			if($this->config->sns_follower_count)
+			if(self::getConfig()->sns_follower_count)
 			{
-				if($this->config->sns_follower_count > $profile['friends']['summary']['total_count'])
+				if(self::getConfig()->sns_follower_count > $profile['friends']['summary']['total_count'])
 				{
 					$this->revokeToken();
 					
-					return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
+					return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), self::getConfig()->sns_follower_count));
 				}
 			}
 			// 이메일 주소

@@ -18,7 +18,7 @@ class libraryKakao extends socialloginLibrary
 		// 요청 파라미터
 		$params = [
 			'response_type' => 'code',
-			'client_id'     => $this->config->kakao_client_id,
+			'client_id'     => self::getConfig()->kakao_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'kakao'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		];
@@ -41,7 +41,7 @@ class libraryKakao extends socialloginLibrary
 		$token = $this->requestAPI('token', [
 			'code'         => Context::get('code'),
 			'grant_type'   => 'authorization_code',
-			'client_id'    => $this->config->kakao_client_id,
+			'client_id'    => self::getConfig()->kakao_client_id,
 			'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'kakao'),
 		]);
 
@@ -130,7 +130,7 @@ class libraryKakao extends socialloginLibrary
 		$token = $this->requestAPI('token', [
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => $this->config->kakao_client_id,
+			'client_id'     => self::getConfig()->kakao_client_id,
 		]);
 
 		// 새로고침 된 토큰 삽입

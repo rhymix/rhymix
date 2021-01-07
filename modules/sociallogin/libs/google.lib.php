@@ -20,7 +20,7 @@
 				'scope' => implode(' ', $scope),
 				'access_type' => 'offline',
 				'response_type' => 'code',
-				'client_id' => $this->config->google_client_id,
+				'client_id' => self::getConfig()->google_client_id,
 				'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'google'),
 				'state' => $_SESSION['sociallogin_auth']['state'],
 			);
@@ -43,8 +43,8 @@
 			$token = $this->requestAPI('token', array(
 				'code' => Context::get('code'),
 				'grant_type' => 'authorization_code',
-				'client_id' => $this->config->google_client_id,
-				'client_secret' => $this->config->google_client_secret,
+				'client_id' => self::getConfig()->google_client_id,
+				'client_secret' => self::getConfig()->google_client_secret,
 				'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'google'),
 			));
 			
@@ -139,8 +139,8 @@
 			$token = $this->requestAPI('token', array(
 				'refresh_token' => $this->getRefreshToken(),
 				'grant_type' => 'refresh_token',
-				'client_id' => $this->config->google_client_id,
-				'client_secret' => $this->config->google_client_secret,
+				'client_id' => self::getConfig()->google_client_id,
+				'client_secret' => self::getConfig()->google_client_secret,
 			));
 			
 			// 새로고침 된 토큰 삽입

@@ -10,7 +10,7 @@ class libraryTwitter extends socialloginLibrary
 	 */
 	function createAuthUrl($type)
 	{
-		$connection = new TwitterOAuth($this->config->twitter_consumer_key, $this->config->twitter_consumer_secret);
+		$connection = new TwitterOAuth(self::getConfig()->twitter_consumer_key, self::getConfig()->twitter_consumer_secret);
 
 		// API 요청 : 요청 토큰
 		$request_token = $connection->oauth('oauth/request_token', array(
@@ -42,7 +42,7 @@ class libraryTwitter extends socialloginLibrary
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
-		$connection = new TwitterOAuth($this->config->twitter_consumer_key, $this->config->twitter_consumer_secret, $_SESSION['sociallogin_auth']['token'], $_SESSION['sociallogin_auth']['token_secret']);
+		$connection = new TwitterOAuth(self::getConfig()->twitter_consumer_key, self::getConfig()->twitter_consumer_secret, $_SESSION['sociallogin_auth']['token'], $_SESSION['sociallogin_auth']['token_secret']);
 
 		// API 요청 : 엑세스 토큰
 		$token = $connection->oauth('oauth/access_token', array('oauth_verifier' => Context::get('oauth_verifier')));
@@ -64,7 +64,7 @@ class libraryTwitter extends socialloginLibrary
 			return new BaseObject(-1, 'msg_errer_api_connect');
 		}
 
-		$connection = new TwitterOAuth($this->config->twitter_consumer_key, $this->config->twitter_consumer_secret, $token['token'], $token['token_secret']);
+		$connection = new TwitterOAuth(self::getConfig()->twitter_consumer_key, self::getConfig()->twitter_consumer_secret, $token['token'], $token['token_secret']);
 
 		// API 요청 : 프로필
 		if (!($profile = $connection->get('account/verify_credentials', array('include_email' => 'true'))) || empty($profile))
@@ -73,7 +73,7 @@ class libraryTwitter extends socialloginLibrary
 		}
 
 		// 계정 차단 확인
-		if ($this->config->sns_suspended_account == 'Y')
+		if (self::getConfig()->sns_suspended_account == 'Y')
 		{
 			// API 요청 : 사용자 정보
 			if (!($user = $connection->get('users/show', array('user_id' => $profile->id))) || !$user->id)
@@ -83,13 +83,13 @@ class libraryTwitter extends socialloginLibrary
 		}
 
 		// 팔로워 수 제한
-		if ($this->config->sns_follower_count)
+		if (self::getConfig()->sns_follower_count)
 		{
-			if ($this->config->sns_follower_count > $profile->followers_count)
+			if (self::getConfig()->sns_follower_count > $profile->followers_count)
 			{
 				$this->revokeToken();
 
-				return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
+				return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), self::getConfig()->sns_follower_count));
 			}
 		}
 

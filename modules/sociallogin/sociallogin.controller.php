@@ -103,7 +103,7 @@ class SocialloginController extends Sociallogin
 		$signupForm = array();
 
 		// 필수 추가 가입폼
-		if (in_array('require_add_info', $this->config->sns_input_add_info))
+		if (in_array('require_add_info', self::getConfig()->sns_input_add_info))
 		{
 			foreach (getModel('member')->getMemberConfig()->signupForm as $no => $formInfo)
 			{
@@ -117,7 +117,7 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 아이디 폼
-		if (in_array('user_id', $this->config->sns_input_add_info))
+		if (in_array('user_id', self::getConfig()->sns_input_add_info))
 		{
 			$signupForm[] = 'user_id';
 
@@ -128,7 +128,7 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 닉네임 폼
-		if (in_array('nick_name', $this->config->sns_input_add_info))
+		if (in_array('nick_name', self::getConfig()->sns_input_add_info))
 		{
 			$signupForm[] = 'nick_name';
 
@@ -139,7 +139,7 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 약관 동의
-		if (in_array('agreement', $this->config->sns_input_add_info))
+		if (in_array('agreement', self::getConfig()->sns_input_add_info))
 		{
 			$signupForm[] = 'accept_agreement';
 		}
@@ -223,7 +223,7 @@ class SocialloginController extends Sociallogin
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
-		if ($this->config->sns_login == 'Y' && $this->config->default_signup != 'Y')
+		if (self::getConfig()->sns_login == 'Y' && self::getConfig()->default_signup != 'Y')
 		{
 			$sns_list = getModel('sociallogin')->getMemberSns();
 
@@ -326,7 +326,7 @@ class SocialloginController extends Sociallogin
 	function procSocialloginCallback()
 	{
 		// 서비스 체크
-		if (!($service = Context::get('service')) || !in_array($service, $this->config->sns_services))
+		if (!($service = Context::get('service')) || !in_array($service, self::getConfig()->sns_services))
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
@@ -448,7 +448,7 @@ class SocialloginController extends Sociallogin
 			Context::set('logged_info', $logged_info);
 		}
 
-		if ($this->config->default_signup != 'Y' && $this->config->sns_login == 'Y' && (Context::get('act') != 'dispMemberLoginForm' || Context::get('mode') == 'default'))
+		if (self::getConfig()->default_signup != 'Y' && self::getConfig()->sns_login == 'Y' && (Context::get('act') != 'dispMemberLoginForm' || Context::get('mode') == 'default'))
 		{
 			if (Context::get('module') == 'admin')
 			{
@@ -488,7 +488,7 @@ class SocialloginController extends Sociallogin
 	 **/
 	function triggerModuleObjectBefore(&$obj)
 	{
-		if ($this->config->sns_login != 'Y')
+		if (self::getConfig()->sns_login != 'Y')
 		{
 			return new BaseObject();
 		}
@@ -501,12 +501,12 @@ class SocialloginController extends Sociallogin
 			'procMemberFindAccountByQuestion'
 		);
 
-		if ($this->config->default_signup != 'Y' && in_array($obj->act, $member_act))
+		if (self::getConfig()->default_signup != 'Y' && in_array($obj->act, $member_act))
 		{
 			return new BaseObject(-1, 'msg_use_sns_login');
 		}
 
-		if ($this->config->default_login != 'Y' && $obj->act == 'procMemberLogin')
+		if (self::getConfig()->default_login != 'Y' && $obj->act == 'procMemberLogin')
 		{
 			return new BaseObject(-1, 'msg_use_sns_login');
 		}
@@ -528,7 +528,7 @@ class SocialloginController extends Sociallogin
 
 		if (getModel('sociallogin')->memberUserSns())
 		{
-			if ((($obj->act == 'dispMemberModifyPassword' || $obj->act == 'procMemberModifyPassword') && (!getModel('sociallogin')->memberUserPrev() || $this->config->default_login != 'Y')) || ($this->config->delete_member_forbid == 'Y' && ($obj->act == 'procMemberLeave' || $obj->act == 'dispMemberLeave')))
+			if ((($obj->act == 'dispMemberModifyPassword' || $obj->act == 'procMemberModifyPassword') && (!getModel('sociallogin')->memberUserPrev() || self::getConfig()->default_login != 'Y')) || (self::getConfig()->delete_member_forbid == 'Y' && ($obj->act == 'procMemberLeave' || $obj->act == 'dispMemberLeave')))
 			{
 				if ($obj->act == 'dispMemberModifyPassword')
 				{
@@ -563,22 +563,22 @@ class SocialloginController extends Sociallogin
 	 **/
 	function triggerModuleObjectAfter(&$obj)
 	{
-		if ($this->config->sns_login != 'Y')
+		if (self::getConfig()->sns_login != 'Y')
 		{
 			return new BaseObject();
 		}
 		
 		if (Mobile::isFromMobilePhone())
 		{
-			$template_path = sprintf('%sm.skins/%s/', $this->module_path, $this->config->mskin);
+			$template_path = sprintf('%sm.skins/%s/', $this->module_path, self::getConfig()->mskin);
 		}
 		else
 		{
-			$template_path = sprintf('%sskins/%s/', $this->module_path, $this->config->skin);
+			$template_path = sprintf('%sskins/%s/', $this->module_path, self::getConfig()->skin);
 		}
 
 		// 로그인 페이지
-		if ($obj->act == 'dispMemberLoginForm' && (Context::get('mode') != 'default' || $this->config->default_login != 'Y'))
+		if ($obj->act == 'dispMemberLoginForm' && (Context::get('mode') != 'default' || self::getConfig()->default_login != 'Y'))
 		{
 			if (Context::get('is_logged'))
 			{
@@ -587,12 +587,12 @@ class SocialloginController extends Sociallogin
 				return new BaseObject();
 			}
 
-			Context::set('config', $this->config);
+			Context::set('config', self::getConfig());
 
 			$obj->setTemplatePath($template_path);
 			$obj->setTemplateFile('sns_login');
 
-			foreach ($this->config->sns_services as $key => $val)
+			foreach (self::getConfig()->sns_services as $key => $val)
 			{
 				$args = new stdClass;
 				$args->auth_url = getModel('sociallogin')->snsAuthUrl($val, 'login');
@@ -651,7 +651,7 @@ class SocialloginController extends Sociallogin
 			{
 				$snsTag = array();
 
-				foreach ($this->config->sns_services as $key => $val)
+				foreach (self::getConfig()->sns_services as $key => $val)
 				{
 					if (!($sns_info = getModel('sociallogin')->getMemberSns($val, $member_srl)) || !$sns_info->name)
 					{
@@ -690,7 +690,7 @@ class SocialloginController extends Sociallogin
 	 **/
 	function triggerDisplay(&$output)
 	{
-		if ($this->config->sns_login != 'Y')
+		if (self::getConfig()->sns_login != 'Y')
 		{
 			return new BaseObject();
 		}
@@ -709,12 +709,12 @@ class SocialloginController extends Sociallogin
 		{
 			if (Context::get('act') == 'dispMemberInfo')
 			{
-				if (!getModel('sociallogin')->memberUserPrev() || $this->config->default_login != 'Y')
+				if (!getModel('sociallogin')->memberUserPrev() || self::getConfig()->default_login != 'Y')
 				{
 					$output = preg_replace('/\<a[^\>]*?dispMemberModifyPassword[^\>]*?\>[^\<]*?\<\/a\>/is', '', $output);
 				}
 
-				if ($this->config->delete_member_forbid == 'Y')
+				if (self::getConfig()->delete_member_forbid == 'Y')
 				{
 					$output = preg_replace('/(\<a[^\>]*?dispMemberLeave[^\>]*?\>)[^\<]*?(\<\/a\>)/is', '', $output);
 				}
@@ -753,11 +753,11 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 설정된 모듈 제외
-		if ($this->config->linkage_module_srl)
+		if (self::getConfig()->linkage_module_srl)
 		{
-			$module_srl_list = explode(',', $this->config->linkage_module_srl);
+			$module_srl_list = explode(',', self::getConfig()->linkage_module_srl);
 
-			if ($this->config->linkage_module_target == 'exclude' && in_array($obj->module_srl, $module_srl_list) || $this->config->linkage_module_target != 'exclude' && !in_array($obj->module_srl, $module_srl_list))
+			if (self::getConfig()->linkage_module_target == 'exclude' && in_array($obj->module_srl, $module_srl_list) || self::getConfig()->linkage_module_target != 'exclude' && !in_array($obj->module_srl, $module_srl_list))
 			{
 				return new BaseObject();
 			}
@@ -768,7 +768,7 @@ class SocialloginController extends Sociallogin
 			return new BaseObject();
 		}
 
-		foreach ($this->config->sns_services as $key => $val)
+		foreach (self::getConfig()->sns_services as $key => $val)
 		{
 			if (!($sns_info = getModel('sociallogin')->getMemberSns($val)) || $sns_info->linkage != 'Y')
 			{
@@ -823,7 +823,7 @@ class SocialloginController extends Sociallogin
 	 **/
 	function triggerMemberMenu()
 	{
-		if (!($member_srl = Context::get('target_srl')) || $this->config->sns_profile != 'Y')
+		if (!($member_srl = Context::get('target_srl')) || self::getConfig()->sns_profile != 'Y')
 		{
 			return new BaseObject();
 		}
@@ -887,7 +887,7 @@ class SocialloginController extends Sociallogin
 			$member_srl = Context::get('logged_info')->member_srl;
 		}
 
-		if ($this->config->sns_login != 'Y' && !$member_srl)
+		if (self::getConfig()->sns_login != 'Y' && !$member_srl)
 		{
 			return new BaseObject(-1, 'msg_not_sns_login');
 		}
@@ -946,7 +946,7 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 추가 정보 받음
-			if ($this->config->sns_input_add_info[0] && !$_SESSION['sociallogin_input_add_info_data'])
+			if (self::getConfig()->sns_input_add_info[0] && !$_SESSION['sociallogin_input_add_info_data'])
 			{
 				$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
 				$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
@@ -1127,7 +1127,7 @@ class SocialloginController extends Sociallogin
 	 **/
 	function LoginSns($oLibrary)
 	{
-		if ($this->config->sns_login != 'Y')
+		if (self::getConfig()->sns_login != 'Y')
 		{
 			return new BaseObject(-1, 'msg_not_sns_login');
 		}
@@ -1194,7 +1194,7 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 회원 모듈에 로그인 요청
-			$output = getController('member')->doLogin($user_id, '', $this->config->sns_keep_signed == 'Y' ? true : false);
+			$output = getController('member')->doLogin($user_id, '', self::getConfig()->sns_keep_signed == 'Y' ? true : false);
 			if (!$output->toBool())
 			{
 				return $output;

@@ -11,7 +11,7 @@
 			// 요청 파라미터
 			$params = array(
 				'response_type' => 'code',
-				'client_id' => $this->config->naver_client_id,
+				'client_id' => self::getConfig()->naver_client_id,
 				'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'naver'),
 				'state' => $_SESSION['sociallogin_auth']['state'],
 			);
@@ -41,8 +41,8 @@
 				'code' => Context::get('code'),
 				'state' => Context::get('state'),
 				'grant_type' => 'authorization_code',
-				'client_id' => $this->config->naver_client_id,
-				'client_secret' => $this->config->naver_client_secret,
+				'client_id' => self::getConfig()->naver_client_id,
+				'client_secret' => self::getConfig()->naver_client_secret,
 			));
 			
 			// 토큰 삽입
@@ -128,8 +128,8 @@
 			$this->requestAPI('token', array(
 				'access_token' => $this->getAccessToken(),
 				'grant_type' => 'delete',
-				'client_id' => $this->config->naver_client_id,
-				'client_secret' => $this->config->naver_client_secret,
+				'client_id' => self::getConfig()->naver_client_id,
+				'client_secret' => self::getConfig()->naver_client_secret,
 				'service_provider' => 'NAVER',
 			));
 		}
@@ -149,8 +149,8 @@
 			$token = $this->requestAPI('token', array(
 				'refresh_token' => $this->getRefreshToken(),
 				'grant_type' => 'refresh_token',
-				'client_id' => $this->config->naver_client_id,
-				'client_secret' => $this->config->naver_client_secret,
+				'client_id' => self::getConfig()->naver_client_id,
+				'client_secret' => self::getConfig()->naver_client_secret,
 			));
 			
 			// 새로고침 된 토큰 삽입
