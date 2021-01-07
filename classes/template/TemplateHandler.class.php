@@ -235,6 +235,9 @@ class TemplateHandler
 		// replace value of src in img/input/script tag
 		$buff = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file):\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
+		// replace value of srcset in img/source/link tag
+		$buff = preg_replace_callback('/<(?:img|source|link)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* srcset="([^"]+)"/is', array($this, '_replaceSrcsetPath'), $buff);
+
 		// replace loop and cond template syntax
 		$buff = $this->_parseInline($buff);
 
@@ -381,7 +384,7 @@ class TemplateHandler
 	}
 
 	/**
-	 * preg_replace_callback hanlder
+	 * preg_replace_callback handler
 	 *
 	 * replace image path
 	 * @param array $match
@@ -390,7 +393,19 @@ class TemplateHandler
 	 */
 	private function _replacePath($match)
 	{
-		//return origin conde when src value started '${'.
+		$src = $this->_replaceRelativePath($match);
+		return substr($match[0], 0, -strlen($match[1]) - 6) . "src=\"{$src}\"";
+	}
+
+	/**
+	 * replace relative path
+	 * @param array $match
+	 *
+	 * @return string changed result
+	 */
+	private function _replaceRelativePath($match)
+	{
+		//return origin code when src value started '${'.
 		if(preg_match('@^\${@', $match[1]))
 		{
 			return $match[0];
@@ -415,7 +430,33 @@ class TemplateHandler
 			$src = $tmp;
 		}
 
-		return substr($match[0], 0, -strlen($match[1]) - 6) . "src=\"{$src}\"";
+		return $src;
+	}
+
+	/**
+	 * preg_replace_callback handler
+	 *
+	 * replace srcset string with multiple paths
+	 * @param array $match
+	 *
+	 * @return string changed result
+	 */
+	private function _replaceSrcsetPath($match)
+	{
+		// explode urls by comma
+		$url_list = explode(",", $match[1]);
+
+		foreach ($url_list as &$url) {
+			// replace if url is not starting with the pattern
+			$url = preg_replace_callback(
+				'/^(?!(?:https?|file):\/\/|[\/\{])(\S+)/i',
+				array($this, '_replaceRelativePath'),
+				trim($url)
+			);
+		}
+		$srcset = implode(", ", $url_list);
+
+		return substr($match[0], 0, -strlen($match[1]) - 9) . "srcset=\"{$srcset}\"";
 	}
 
 	/**
@@ -536,7 +577,7 @@ class TemplateHandler
 	}
 
 	/**
-	 * preg_replace_callback hanlder
+	 * preg_replace_callback handler
 	 * replace php code.
 	 * @param array $m
 	 * @return string changed result
