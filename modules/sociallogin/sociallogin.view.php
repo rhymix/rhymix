@@ -7,17 +7,17 @@ class SocialloginView extends Sociallogin
 	 */
 	function init()
 	{
-		Context::set('config', $this->config);
+		Context::set('config', self::getConfig());
 
-		$this->setTemplatePath(sprintf('%sskins/%s/', $this->module_path, $this->config->skin));
+		$this->setTemplatePath(sprintf('%sskins/%s/', $this->module_path, self::getConfig()->skin));
 
 		//HACK: 현재는 AddJsFile을 유지시킨다. 추후 loadFile이나 해당 메서드가 변경되면 그때 수정.
 		Context::addJsFile($this->module_path . 'tpl/js/sociallogin.js');
 
 		// 사용자 레이아웃
-		if ($this->config->layout_srl && $layout_path = getModel('layout')->getLayout($this->config->layout_srl)->path)
+		if (self::getConfig()->layout_srl && $layout_path = getModel('layout')->getLayout(self::getConfig()->layout_srl)->path)
 		{
-			$this->module_info->layout_srl = $this->config->layout_srl;
+			$this->module_info->layout_srl = self::getConfig()->layout_srl;
 
 			$this->setLayoutPath($layout_path);
 		}
@@ -35,7 +35,7 @@ class SocialloginView extends Sociallogin
 
 		$oSocialloginModel = getModel('sociallogin');
 
-		foreach ($this->config->sns_services as $key => $val)
+		foreach (self::getConfig()->sns_services as $key => $val)
 		{
 			$args = new stdClass;
 			$sns_info = $oSocialloginModel->getMemberSns($val);
@@ -102,7 +102,7 @@ class SocialloginView extends Sociallogin
 		$signupForm = array();
 
 		// 필수 추가 가입폼 출력
-		if (in_array('require_add_info', $this->config->sns_input_add_info))
+		if (in_array('require_add_info', self::getConfig()->sns_input_add_info))
 		{
 			foreach ($member_config->signupForm as $no => $formInfo)
 			{
@@ -125,7 +125,7 @@ class SocialloginView extends Sociallogin
 		}
 
 		// 아이디 폼
-		if (in_array('user_id', $this->config->sns_input_add_info))
+		if (in_array('user_id', self::getConfig()->sns_input_add_info))
 		{
 			$args = new stdClass;
 			$args->required = true;
@@ -134,7 +134,7 @@ class SocialloginView extends Sociallogin
 		}
 
 		// 닉네임 폼
-		if (in_array('nick_name', $this->config->sns_input_add_info))
+		if (in_array('nick_name', self::getConfig()->sns_input_add_info))
 		{
 			$args = new stdClass;
 			$args->required = true;
@@ -143,7 +143,7 @@ class SocialloginView extends Sociallogin
 		}
 
 		// 룰셋 생성
-		$this->_createAddInfoRuleset($signupForm, in_array('agreement', $this->config->sns_input_add_info));
+		$this->_createAddInfoRuleset($signupForm, in_array('agreement', self::getConfig()->sns_input_add_info));
 
 		$this->setTemplateFile('input_add_info');
 	}
@@ -158,7 +158,7 @@ class SocialloginView extends Sociallogin
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
-		if (!($service = Context::get('service')) || !in_array($service, $this->config->sns_services))
+		if (!($service = Context::get('service')) || !in_array($service, self::getConfig()->sns_services))
 		{
 			return new BaseObject(-1, 'msg_not_support_service_login');
 		}
@@ -183,11 +183,11 @@ class SocialloginView extends Sociallogin
 		}
 
 		// 인증 메일 유효 시간
-		if ($this->config->mail_auth_valid_hour)
+		if (self::getConfig()->mail_auth_valid_hour)
 		{
 			$args = new stdClass;
 			$args->list_count = 5;
-			$args->regdate_less = date('YmdHis', strtotime(sprintf('-%s hour', $this->config->mail_auth_valid_hour)));
+			$args->regdate_less = date('YmdHis', strtotime(sprintf('-%s hour', self::getConfig()->mail_auth_valid_hour)));
 			$output = executeQueryArray('sociallogin.getAuthMailLess', $args);
 
 			if ($output->toBool())
@@ -227,7 +227,7 @@ class SocialloginView extends Sociallogin
 	 */
 	function dispSocialloginSnsProfile()
 	{
-		if ($this->config->sns_profile != 'Y')
+		if (self::getConfig()->sns_profile != 'Y')
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
@@ -244,7 +244,7 @@ class SocialloginView extends Sociallogin
 
 		Context::set('member_info', $member_info);
 
-		foreach ($this->config->sns_services as $key => $val)
+		foreach (self::getConfig()->sns_services as $key => $val)
 		{
 			if (!($sns_info = getModel('sociallogin')->getMemberSns($val, $member_info->member_srl)) || !$sns_info->name)
 			{

@@ -4,7 +4,7 @@ class SocialloginAdminView extends Sociallogin
 {
 	function init()
 	{
-		Context::set('config', $this->config);
+		Context::set('config', self::getConfig());
 
 		if ($this->module_config->delete_auto_log_record)
 		{
@@ -84,7 +84,7 @@ class SocialloginAdminView extends Sociallogin
 
 	function dispSocialloginAdminSnsList()
 	{
-		Context::set('sns_services', $this->config->sns_services);
+		Context::set('sns_services', self::getConfig()->sns_services);
 
 		$search_option = array('nick_name', getModel('module')->getModuleConfig('member')->identifier);
 		Context::set('search_option', $search_option);
@@ -107,7 +107,7 @@ class SocialloginAdminView extends Sociallogin
 			{
 				$val->service = array();
 
-				foreach ($this->config->sns_services as $key2 => $val2)
+				foreach (self::getConfig()->sns_services as $key2 => $val2)
 				{
 					if (($sns_info = $oSocialloginModel->getMemberSns($val2, $val->member_srl)) && $sns_info->name)
 					{

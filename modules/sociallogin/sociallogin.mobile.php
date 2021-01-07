@@ -8,16 +8,16 @@ class SocialloginMobile extends SocialloginView
 	 */
 	function init()
 	{
-		Context::set('config', $this->config);
+		Context::set('config', self::getConfig());
 
-		$this->setTemplatePath(sprintf('%sm.skins/%s/', $this->module_path, $this->config->mskin));
+		$this->setTemplatePath(sprintf('%sm.skins/%s/', $this->module_path, self::getConfig()->mskin));
 
 		Context::addJsFile($this->module_path . 'tpl/js/sociallogin.js');
 
 		// 사용자 모바일 레이아웃
-		if ($this->config->mlayout_srl && $layout_path = getModel('layout')->getLayout($this->config->mlayout_srl)->path)
+		if (self::getConfig()->mlayout_srl && $layout_path = getModel('layout')->getLayout(self::getConfig()->mlayout_srl)->path)
 		{
-			$this->module_info->mlayout_srl = $this->config->mlayout_srl;
+			$this->module_info->mlayout_srl = self::getConfig()->mlayout_srl;
 
 			$this->setLayoutPath($layout_path);
 		}

@@ -568,21 +568,6 @@ class SocialloginController extends Sociallogin
 			return new BaseObject();
 		}
 		
-		/** @var SocialloginModel $oSocialloginModel */
-		$oSocialloginModel = SocialloginModel::getInstance();
-		if(!Rhymix\Framework\Session::getMemberSrl())
-		{
-			$sns_auth_list = array();
-			foreach ($this->config->sns_services as $key => $sns_name)
-			{
-				$sns_auth_list[$key] = new stdClass();
-				$sns_auth_list[$key]->name = $sns_name;
-				$sns_auth_list[$key]->auth_url = $oSocialloginModel->snsAuthUrl($sns_name, 'login');
-			}
-			Context::set('login_sns_services', $sns_auth_list);
-		}
-
-
 		if (Mobile::isFromMobilePhone())
 		{
 			$template_path = sprintf('%sm.skins/%s/', $this->module_path, $this->config->mskin);

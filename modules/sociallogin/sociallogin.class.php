@@ -2,9 +2,9 @@
 
 class Sociallogin extends ModuleObject
 {
-	public $config;
+	public static $config = null;
 
-	public $default_services = array(
+	public static $default_services = array(
 		'twitter',
 		'facebook',
 		'google',
@@ -24,14 +24,6 @@ class Sociallogin extends ModuleObject
 		array('member.getMemberMenu', 'sociallogin', 'controller', 'triggerMemberMenu', 'after'),
 		array('member.deleteMember', 'sociallogin', 'controller', 'triggerDeleteMember', 'after'),
 	);
-
-	/**
-	 * @brief Constructor
-	 */
-	function __construct()
-	{
-		$this->config = $this->getConfig();
-	}
 
 	function moduleInstall()
 	{
@@ -102,51 +94,50 @@ class Sociallogin extends ModuleObject
 	{
 	}
 
-	function getConfig()
+	public static function getConfig()
 	{
-		$config = getModel('module')->getModuleConfig('sociallogin');
-
-		if (!$config)
+		if(self::$config === null)
 		{
-			$config = new stdClass();
+			$config = getModel('module')->getModuleConfig('sociallogin') ?: new stdClass();
+			
+			if (!$config->delete_auto_log_record)
+			{
+				$config->delete_auto_log_record = 0;
+			}
+
+			if (!$config->skin)
+			{
+				$config->skin = 'default';
+			}
+
+			if (!$config->mskin)
+			{
+				$config->mskin = 'default';
+			}
+
+			if (!$config->sns_follower_count)
+			{
+				$config->sns_follower_count = 0;
+			}
+
+			if (!$config->mail_auth_valid_hour)
+			{
+				$config->mail_auth_valid_hour = 0;
+			}
+
+			if (!$config->sns_services)
+			{
+				$config->sns_services = self::$default_services;
+			}
+
+			if (!$config->sns_input_add_info)
+			{
+				$config->sns_input_add_info = [];
+			}
+			self::$config = $config;
 		}
 
-		if (!$config->delete_auto_log_record)
-		{
-			$config->delete_auto_log_record = 0;
-		}
-
-		if (!$config->skin)
-		{
-			$config->skin = 'default';
-		}
-
-		if (!$config->mskin)
-		{
-			$config->mskin = 'default';
-		}
-
-		if (!$config->sns_follower_count)
-		{
-			$config->sns_follower_count = 0;
-		}
-
-		if (!$config->mail_auth_valid_hour)
-		{
-			$config->mail_auth_valid_hour = 0;
-		}
-
-		if (!$config->sns_services)
-		{
-			$config->sns_services = $this->default_services;
-		}
-		
-		if (!$config->sns_input_add_info)
-		{
-			$config->sns_input_add_info = [];
-		}
-
-		return $config;
+		return self::$config;
 	}
 
 	/**

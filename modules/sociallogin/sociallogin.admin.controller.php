@@ -25,7 +25,7 @@ class SocialloginAdminController extends Sociallogin
 			'kakao_client_id',
 		);
 
-		$config = $this->config;
+		$config = self::getConfig();
 
 		foreach ($config_names as $val)
 		{
@@ -64,7 +64,7 @@ class SocialloginAdminController extends Sociallogin
 			'linkage_module_target',
 		);
 
-		$config = $this->config;
+		$config = self::getConfig();
 
 		foreach ($config_names as $val)
 		{

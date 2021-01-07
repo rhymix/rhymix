@@ -25,8 +25,9 @@ class SocialloginLibrary extends Sociallogin
 			'access'  => '',
 			'refresh' => '',
 		);
-
-		$this->config = $this->getConfig();
+		
+		//TODO Check later.
+		self::$config = self::getConfig();
 	}
 
 	/**
