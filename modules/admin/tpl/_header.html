@@ -68,9 +68,9 @@
 							<a cond="!$favorite->title">{$lang->msg_not_founded}</a>
 							<form class="remove" action="./" method="post">
 								<input type="hidden" name="module" value="admin" />
-								<input type="hidden" name="act" value="" />
+								<input type="hidden" name="act" value="procAdminToggleFavorite" />
 								<input type="hidden" name="module_name" value="{$favorite->module}" />
-								<input type="hidden" name="success_return_url" value="{getUrl(['module' => 'admin'])}" />
+								<input type="hidden" name="success_return_url" value="{getCurrentUrl()}" />
 								<button type="submit" class="x_close" title="{$lang->cmd_delete}">&times;</button>
 							</form>
 						</li>

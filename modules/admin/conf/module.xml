@@ -21,7 +21,7 @@
 		<action name="procAdminRecompileCacheFile" type="controller" />
 		<action name="procAdminLogout" type="controller" method="GET|POST" />
 		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
-		<action name="procAdminToggleFavorite" type="controller" ruleset="toggleFavorite" />
+		<action name="procAdminToggleFavorite" type="controller" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="procAdminUpdateConfig" type="controller" />
 		<action name="procAdminDeleteLogo" type="controller" />
