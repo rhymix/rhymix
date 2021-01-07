@@ -449,7 +449,7 @@ class TemplateHandler
 		foreach ($url_list as &$url) {
 			// replace if url is not starting with the pattern
 			$url = preg_replace_callback(
-				'/^(?!(?:https?|file):\/\/|[\/\{])([^"]+)/is',
+				'/^(?!(?:https?|file):\/\/|[\/\{])(\S+)/i',
 				array($this, '_replaceRelativePath'),
 				trim($url)
 			);
