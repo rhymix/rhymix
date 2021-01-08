@@ -531,20 +531,21 @@ class installController extends install
 
 		foreach ($schema_files as $filename)
 		{
-			if (!preg_match('/^([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
+			if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
 			{
 				continue;
 			}
-			if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($schema_dir . $filename)))
+			if (preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($filename)))
 			{
 				continue;
 			}
+			
 			$table_name = $matches[1];
 			if($oDB->isTableExists($table_name))
 			{
 				continue;
 			}
-			$output = $oDB->createTable($schema_dir . $filename);
+			$output = $oDB->createTable($filename);
 			if(!$output->toBool())
 			{
 				throw new Exception(lang('msg_create_table_failed') . ': ' . $table_name . ': ' . $oDB->getError()->getMessage());

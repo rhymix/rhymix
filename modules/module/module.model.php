@@ -1443,10 +1443,10 @@ class moduleModel extends module
 
 			// Get the number of xml files to create a table in schemas
 			$table_count = 0;
-			$schema_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/');
+			$schema_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/', false, true);
 			foreach ($schema_files as $filename)
 			{
-				if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($path . 'schemas/' . $filename)))
+				if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($filename)))
 				{
 					$table_count++;
 				}
@@ -1456,8 +1456,12 @@ class moduleModel extends module
 			$created_table_count = 0;
 			foreach ($schema_files as $filename)
 			{
-				list($table_name, $unused) = explode('.', $filename);
-				if($oDB->isTableExists($table_name))
+				if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
+				{
+					continue;
+				}
+				
+				if($oDB->isTableExists($matches[1]))
 				{
 					$created_table_count++;
 				}
