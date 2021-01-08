@@ -3761,7 +3761,7 @@ class memberController extends member
 	 *
 	 * @return object
 	**/
-	private function _spammerMember($member_srl) {
+	protected function _spammerMember($member_srl) {
 		$logged_info = Context::get('logged_info');
 		$spam_description = trim( Context::get('spam_description') );
 
@@ -3799,7 +3799,7 @@ class memberController extends member
 	 *
 	 * @return object
 	**/
-	private function _spammerDocuments($member_srl, $isMoveToTrash)
+	protected function _spammerDocuments($member_srl, $isMoveToTrash)
 	{
 		$oDocumentController = getController('document');
 		$oCommentController = getController('comment');
@@ -3941,11 +3941,20 @@ class memberController extends member
 		return new BaseObject;
 	}
 	
+	/**
+	 * @deprecated
+	 */
 	public static function _clearMemberCache($member_srl)
 	{
 		return self::clearMemberCache($member_srl);
 	}
 	
+	/**
+	 * Clear all cache entries about a member.
+	 * 
+	 * @param int $member_srl
+	 * @return void
+	 */
 	public static function clearMemberCache($member_srl)
 	{
 		$member_srl = intval($member_srl);
