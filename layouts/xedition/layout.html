@@ -445,7 +445,7 @@
 <!--@end-->
 
 <!-- Login widget -->
-<section cond="$layout_info->use_login_widget != 'N'" class="login_widget" style="display:none"|cond="isset($XE_VALIDATOR_ID) && $XE_VALIDATOR_ID != 'layouts/xedition/layout/1' || !isset($XE_VALIDATOR_MESSAGE)">
+<section cond="$layout_info->use_login_widget != 'N'" class="login_widget" style="display:none"|cond="($XE_VALIDATOR_ID ?? '') !== 'layouts/xedition/layout/1' || !isset($XE_VALIDATOR_MESSAGE)">
 	<load target="./css/widget.login.css" />
 	<div class="ly_dimmed"></div>
 	<div class="signin">
