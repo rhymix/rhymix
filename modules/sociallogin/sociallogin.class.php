@@ -20,6 +20,7 @@ class Sociallogin extends ModuleObject
 		array('moduleObject.proc', 'sociallogin', 'controller', 'triggerModuleObjectAfter', 'after'),
 		array('display', 'sociallogin', 'controller', 'triggerDisplay', 'before'),
 		array('document.insertDocument', 'sociallogin', 'controller', 'triggerInsertDocumentAfter', 'after'),
+		array('member.procMemberInsert', 'sociallogin', 'controller', 'triggerInsertMember', 'before'),
 		array('member.getMemberMenu', 'sociallogin', 'controller', 'triggerMemberMenu', 'after'),
 		array('member.deleteMember', 'sociallogin', 'controller', 'triggerDeleteMember', 'after'),
 	);

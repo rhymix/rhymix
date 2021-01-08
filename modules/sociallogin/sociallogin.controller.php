@@ -789,6 +789,20 @@ class SocialloginController extends Sociallogin
 	}
 
 	/**
+	 * @brief 회원등록 트리거
+	 **/
+	function triggerInsertMember(&$config)
+	{
+		// SNS 로그인시에는 메일인증을 사용안함
+		if (Context::get('act') == 'procSocialloginCallback' || Context::get('act') == 'procSocialloginInputAddInfo')
+		{
+			$config->enable_confirm = 'N';
+		}
+
+		return new BaseObject();
+	}
+	
+	/**
 	 * @brief SNS 등록
 	 **/
 	function registerSns($oLibrary, $member_srl = null, $login = false)
