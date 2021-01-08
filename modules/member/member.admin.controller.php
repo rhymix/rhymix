@@ -654,69 +654,9 @@ class memberAdminController extends member
 	 * @param object $signupForm (user define signup form)
 	 * @return void
 	 */
-	function _createSignupRuleset($signupForm){
-		$xml_file = './files/ruleset/insertMember.xml';
-		$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL.
-			'<ruleset version="1.5.0">' . PHP_EOL.
-			'<customrules>' . PHP_EOL.
-			'</customrules>' . PHP_EOL.
-			'<fields>' . PHP_EOL . '%s' . PHP_EOL . '</fields>' . PHP_EOL.
-			'</ruleset>';
-
-		$fields = array();
-
-		foreach($signupForm as $formInfo)
-		{
-			if($formInfo->required || $formInfo->mustRequired)
-			{
-				if($formInfo->type == 'tel' || $formInfo->type == 'kr_zip')
-				{
-					$fields[] = sprintf('<field name="%s[]" required="true" />', $formInfo->name);
-				}
-				else if($formInfo->name == 'password')
-				{
-					$fields[] = '<field name="password"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="length" value="4:60" /></field>';
-					$fields[] = '<field name="password2"><if test="$act == \'procMemberInsert\'" attr="required" value="true" /><if test="$act == \'procMemberInsert\'" attr="equalto" value="password" /></field>';
-				}
-				else if($formInfo->name == 'find_account_question')
-				{
-					$fields[] = '<field name="find_account_question"><if test="$modify_find_account_answer" attr="required" value="true" /></field>';
-					$fields[] = '<field name="find_account_answer" length=":250"><if test="$modify_find_account_answer" attr="required" value="true" /></field>';
-				}
-				else if($formInfo->name == 'email_address')
-				{
-					$fields[] = sprintf('<field name="%s" required="true" rule="email"/>', $formInfo->name);
-				}
-				else if($formInfo->name == 'user_id')
-				{
-					$fields[] = sprintf('<field name="%s" required="true" rule="userid" length="3:20" />', $formInfo->name);
-				}
-				else if($formInfo->name == 'nick_name')
-				{
-					$fields[] = sprintf('<field name="%s" required="true" length="2:20" />', $formInfo->name);
-				}
-				else if(strpos($formInfo->name, 'image') !== false)
-				{
-					$fields[] = sprintf('<field name="%s"><if test="$act != \'procMemberAdminInsert\' &amp;&amp; $__%s_exist != \'true\'" attr="required" value="true" /></field>', $formInfo->name, $formInfo->name);
-				}
-				else if($formInfo->name == 'signature')
-				{
-					$fields[] = '<field name="signature"><if test="$member_srl" attr="required" value="true" /></field>';
-				}
-				else
-				{
-					$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
-				}
-			}
-		}
-
-		$xml_buff = sprintf($buff, implode(PHP_EOL, $fields));
-		FileHandler::writeFile($xml_file, $xml_buff);
-		unset($xml_buff);
-
-		$validator   = new Validator($xml_file);
-		$validator->setCacheDir('files/cache');
-		$validator->getJsPath();
+	function _createSignupRuleset($signupForm)
+	{
+		
 	}
 
 	/**
@@ -726,25 +666,7 @@ class memberAdminController extends member
 	 */
 	function _createLoginRuleset($identifier)
 	{
-		$xml_file = './files/ruleset/login.xml';
-		$buff = '<?xml version="1.0" encoding="utf-8"?>'.
-			'<ruleset version="1.5.0">'.
-			'<customrules>'.
-			'</customrules>'.
-			'<fields>%s</fields>'.
-			'</ruleset>';
-
-		$fields = array();
-		$trans = array('email_address'=>'email', 'user_id'=> '');
-		$fields[] = sprintf('<field name="user_id" required="true" rule="%s"/>', $trans[$identifier]);
-		$fields[] = '<field name="password" required="true" />';
-
-		$xml_buff = sprintf($buff, implode('', $fields));
-		Filehandler::writeFile($xml_file, $xml_buff);
-
-		$validator   = new Validator($xml_file);
-		$validator->setCacheDir('files/cache');
-		$validator->getJsPath();
+		
 	}
 
 	/**

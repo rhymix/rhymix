@@ -239,6 +239,7 @@ $lang->msg_input_password = '비밀번호를 입력하세요.';
 $lang->msg_invalid_document = '잘못된 문서번호입니다.';
 $lang->msg_invalid_request = '잘못된 요청입니다.';
 $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다.';
+$lang->msg_password_match = '비밀번호가 서로 일치하지 않습니다. 오타 여부를 확인해 주십시오.';
 $lang->msg_security_violation = '보안정책상 허용되지 않습니다.';
 $lang->msg_method_not_allowed = '이 요청에 사용할 수 없는 HTTP 메소드입니다.';
 $lang->msg_feature_disabled = '사용할 수 없는 기능입니다.';

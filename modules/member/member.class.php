@@ -87,11 +87,6 @@ class member extends ModuleObject {
 			$identifier = 'user_id';
 			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
 			$config->identifier = $identifier;
-
-			// Create Ruleset File
-			FileHandler::makeDir('./files/ruleset');
-			$oMemberAdminController->_createSignupRuleset($config->signupForm);
-			$oMemberAdminController->_createLoginRuleset($config->identifier);
 		}
 		$oModuleController->insertModuleConfig('member',$config);
 
@@ -258,10 +253,9 @@ class member extends ModuleObject {
 		}
 
 		// supprot multilanguage agreement.
-		if(is_readable('./files/member_extra_info/agreement.txt')) return true;
-
-		if(!is_readable('./files/ruleset/insertMember.xml')) return true;
-		if(!is_readable('./files/ruleset/login.xml')) return true;
+		if(FileHandler::exists('./files/member_extra_info/agreement.txt')) return true;
+		if(FileHandler::exists('./files/ruleset/insertMember.xml')) return true;
+		if(FileHandler::exists('./files/ruleset/login.xml')) return true;
 
 		// 2013. 11. 22 add menu when popup document menu called
 		if(!ModuleModel::getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
@@ -501,7 +495,7 @@ class member extends ModuleObject {
 			}
 		}
 
-		if(is_readable('./files/member_extra_info/agreement.txt'))
+		if(file_exists('./files/member_extra_info/agreement.txt'))
 		{
 			$source_file = RX_BASEDIR.'files/member_extra_info/agreement.txt';
 			$target_file = RX_BASEDIR.'files/member_extra_info/agreement_' . Context::get('lang_type') . '.txt';
@@ -509,11 +503,14 @@ class member extends ModuleObject {
 			FileHandler::rename($source_file, $target_file);
 		}
 
-		FileHandler::makeDir('./files/ruleset');
-		if(!is_readable('./files/ruleset/insertMember.xml'))
-			$oMemberAdminController->_createSignupRuleset($config->signupForm);
-		if(!is_readable('./files/ruleset/login.xml'))
-			$oMemberAdminController->_createLoginRuleset($config->identifier);
+		if(FileHandler::exists('./files/ruleset/insertMember.xml'))
+		{
+			FileHandler::removeFile('./files/ruleset/insertMember.xml');
+		}
+		if(FileHandler::exists('./files/ruleset/login.xml'))
+		{
+			FileHandler::removeFile('./files/ruleset/login.xml');
+		}
 
 		// 2013. 11. 22 add menu when popup document menu called
 		if(!ModuleModel::getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))

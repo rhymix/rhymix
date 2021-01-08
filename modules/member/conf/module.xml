@@ -35,9 +35,9 @@
 		<action name="getMemberMenu" type="model" />
 		<action name="getApiGroups" type="model" permission="root" />
 		
-		<action name="procMemberInsert" type="controller" ruleset="@insertMember" route="signup" />
+		<action name="procMemberInsert" type="controller" route="signup" />
 		<action name="procMemberCheckValue" type="controller" />
-		<action name="procMemberLogin" type="controller" ruleset="@login" route="login" />
+		<action name="procMemberLogin" type="controller" route="login" />
 		<action name="procMemberRegisterDevice" type="controller" route="device/register" />
 		<action name="procMemberLoginWithDevice" type="controller" route="device/login" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" />
@@ -48,7 +48,7 @@
 		<action name="procMemberSendVerificationSMS" type="controller" />
 		<action name="procMemberConfirmVerificationSMS" type="controller" />
 		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" />
-		<action name="procMemberModifyInfo" type="controller" permission="member" ruleset="@insertMember" />
+		<action name="procMemberModifyInfo" type="controller" permission="member" />
 		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />
 		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" />
 		<action name="procMemberDeleteDevice" type="controller" permission="member" />
