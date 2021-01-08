@@ -791,10 +791,10 @@ class SocialloginController extends Sociallogin
 	/**
 	 * @brief 회원등록 트리거
 	 **/
-	function triggerInsertMember(&$config)
+	function triggerInsertMemberAction(&$config)
 	{
 		// SNS 로그인시에는 메일인증을 사용안함
-		if (Context::get('act') == 'procSocialloginCallback' || Context::get('act') == 'procSocialloginInputAddInfo')
+		if (Context::get('act') == 'procSocialloginCallback' || Context::get('act') == 'procSocialloginInputAddInfo' || $_SESSION['tmp_sociallogin_input_add_info'])
 		{
 			$config->enable_confirm = 'N';
 		}
@@ -1188,5 +1188,29 @@ class SocialloginController extends Sociallogin
 		}
 
 		return new BaseObject();
+	}
+
+	/**
+	 * replace to signup argument.
+	 * @param $args
+	 * @return object
+	 */
+	function replaceSignUpFormBySocial($args)
+	{
+		/** @var SocialloginModel $oSocialLoginModel */
+		$oSocialLoginModel = SocialloginModel::getInstance();
+		$socialLoginUserData = $oSocialLoginModel::getSocialSignUpUserData();
+
+		if($socialLoginUserData)
+		{
+			$args->nick_name = $args->user_name = $socialLoginUserData->nick_name;
+			$args->email_address = $socialLoginUserData->email_address;
+		}
+
+		unset($args->user_id);
+
+		$args->password = $args->password2 = cut_str(md5(date('YmdHis')), 13, '');
+		
+		return $args;
 	}
 }

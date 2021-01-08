@@ -268,6 +268,8 @@ class SocialloginModel extends Sociallogin
 			$return_object = new stdClass();
 			$return_object->nick_name = $_SESSION['tmp_sociallogin_input_add_info']['nick_name'];
 			$return_object->email_address = $_SESSION['tmp_sociallogin_input_add_info']['email'];
+			
+			return $return_object;
 		}
 		else
 		{

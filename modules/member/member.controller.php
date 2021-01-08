@@ -808,7 +808,7 @@ class memberController extends member
 		$use_phone = false;
 		if($config->signupForm)
 		{
-			foreach($config->signupForm as $formInfo)
+			foreach($config->signupForm as $key => $formInfo)
 			{
 				if($formInfo->name === 'phone_number' && $formInfo->isUse)
 				{
@@ -817,6 +817,11 @@ class memberController extends member
 				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
 				{
 					$getVars[] = $formInfo->name;
+				}
+				
+				if($formInfo->name == 'user_id')
+				{
+					unset($config->signupForm[$key]);
 				}
 			}
 		}
@@ -857,6 +862,13 @@ class memberController extends member
 		$args->allow_message = Context::get('allow_message');
 		if($args->password1) $args->password = $args->password1;
 		
+		$oSocialLoginController = SocialloginController::getInstance();
+		$args = $oSocialLoginController->replaceSignUpFormBySocial($args);
+		if(SocialloginModel::getSocialSignUpUserData())
+		{
+			Context::set('password2', $args->password);
+		}
+
 		// Check all required fields
 		$output = $this->_checkSignUpFields($config, $args, 'insert');
 		if (!$output->toBool())
