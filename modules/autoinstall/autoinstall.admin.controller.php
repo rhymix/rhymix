@@ -79,14 +79,19 @@ class autoinstallAdminController extends autoinstall
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
-		$xml = new XeXmlParser();
-		$xmlDoc = $xml->parse($buff);
-		$this->updateCategory($xmlDoc);
-		$this->updatePackages($xmlDoc);
-		$this->checkInstalled();
-
-		$oAdminController = getAdminController('admin');
-		$oAdminController->cleanFavorite();
+		if ($buff)
+		{
+			$xml = new XeXmlParser();
+			$xmlDoc = $xml->parse($buff);
+			if ($xmlDoc)
+			{
+				$this->updateCategory($xmlDoc);
+				$this->updatePackages($xmlDoc);
+				$this->checkInstalled();
+			}
+			$oAdminController = getAdminController('admin');
+			$oAdminController->cleanFavorite();
+		}
 	}
 
 	/**
