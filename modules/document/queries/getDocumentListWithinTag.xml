@@ -19,6 +19,8 @@
 		<condition operation="below" column="documents.list_order" var="last_division" pipe="and" />
 		<condition operation="more" column="documents.last_update" var="start_date" pipe="and" />
 		<condition operation="less" column="documents.last_update" var="end_date" pipe="and" />
+		<condition operation="more" column="documents.regdate" var="start_regdate" pipe="and" />
+		<condition operation="less" column="documents.regdate" var="end_regdate" pipe="and" />
 	</conditions>
 	<groups>
 		<group column="documents.document_srl" />

@@ -36,6 +36,8 @@
         <group pipe="and">
             <condition operation="more" column="last_update" var="start_date" pipe="and" />
             <condition operation="less" column="last_update" var="end_date" pipe="and" />
+            <condition operation="more" column="regdate" var="start_regdate" pipe="and" />
+            <condition operation="less" column="regdate" var="end_regdate" pipe="and" />
         </group>
     </conditions>
 	<groups>
