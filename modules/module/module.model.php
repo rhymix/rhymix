@@ -1442,14 +1442,25 @@ class moduleModel extends module
 			if(!is_dir(FileHandler::getRealPath($path))) continue;
 
 			// Get the number of xml files to create a table in schemas
-			$tmp_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/');
-			$table_count = count($tmp_files);
+			$table_count = 0;
+			$schema_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/');
+			foreach ($schema_files as $filename)
+			{
+				if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($path . 'schemas/' . $filename)))
+				{
+					$table_count++;
+				}
+			}
+			
 			// Check if the table is created
 			$created_table_count = 0;
-			for($j=0;$j<$table_count;$j++)
+			foreach ($schema_files as $filename)
 			{
-				list($table_name) = explode('.',$tmp_files[$j]);
-				if($oDB->isTableExists($table_name)) $created_table_count ++;
+				list($table_name, $unused) = explode('.', $filename);
+				if($oDB->isTableExists($table_name))
+				{
+					$created_table_count++;
+				}
 			}
 			// Get information of the module
 			$info = NULL;

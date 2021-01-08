@@ -686,6 +686,10 @@ class DB
 		{
 			return $this->setError(-1, 'Table creation failed.');
 		}
+		if ($table->deleted)
+		{
+			return new \BaseObject;
+		}
 		
 		// Generate the CREATE TABLE query and execute it.
 		$query_string = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
