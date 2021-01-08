@@ -20,13 +20,12 @@ class counterModel extends counter
 	/**
 	 * Verify logs
 	 *
-	 * @param integer $site_srl Site_srl
 	 * @return bool
 	 */
-	function isLogged($site_srl = 0)
+	public static function isLogged()
 	{
 		$date = date('Ymd');
-		if (isset($_SESSION['counter_logged'][$date]) && $_SESSION['counter_logged'][$date])
+		if (isset($_SESSION['counter_logged'][$date]))
 		{
 			return true;
 		}
@@ -34,7 +33,6 @@ class counterModel extends counter
 		$args = new stdClass();
 		$args->regdate = $date;
 		$args->ipaddress = \RX_CLIENT_IP;
-		$args->site_srl = $site_srl;
 		$output = executeQuery('counter.getCounterLog', $args);
 		$iplogged = $output->data->count ? true : false;
 		if ($iplogged)
@@ -48,63 +46,25 @@ class counterModel extends counter
 	/**
 	 * Check if a row of today's counter status exists 
 	 *
-	 * @param integer $site_srl Site_srl
-	 * @return bool
+	 * @deprecated
 	 */
-	function isInsertedTodayStatus($site_srl = 0)
+	public static function isInsertedTodayStatus()
 	{
-		$args = new stdClass;
-		$args->regdate = date('Ymd');
-
-		$cache_key = 'counter:insertedTodayStatus:' . $site_srl . '_' . $args->regdate;
-		$insertedTodayStatus = Rhymix\Framework\Cache::get($cache_key);
-
-		if(!$insertedTodayStatus)
-		{
-			if($site_srl)
-			{
-				$args->site_srl = $site_srl;
-				$output = executeQuery('counter.getSiteTodayStatus', $args);
-			}
-			else
-			{
-				$output = executeQuery('counter.getTodayStatus', $args);
-			}
-
-			$insertedTodayStatus = !!$output->data->count;
-
-			if($insertedTodayStatus)
-			{
-				Rhymix\Framework\Cache::set($cache_key, true, 0, true);
-				$_old_date = date('Ymd', strtotime('-1 day'));
-				Rhymix\Framework\Cache::delete('counter:insertedTodayStatus:' . $site_srl . '_' . $_old_date);
-			}
-		}
-
-		return $insertedTodayStatus;
+		
 	}
 
 	/**
 	 * Get access statistics for a given date
 	 *
 	 * @param mixed $selected_date Date(YYYYMMDD) list 
-	 * @param integer $site_srl Site_srl
 	 * @return Object
 	 */
-	function getStatus($selected_date, $site_srl = 0)
+	public static function getStatus($selected_date)
 	{
 		// If more than one date logs are selected
 		$args = new stdClass();
 		$args->regdate = is_array($selected_date) ? join(',', $selected_date) : $selected_date;
-		if($site_srl)
-		{
-			$args->site_srl = $site_srl;
-			$output = executeQuery('counter.getSiteCounterStatusDays', $args);
-		}
-		else
-		{
-			$output = executeQuery('counter.getCounterStatusDays', $args);
-		}
+		$output = executeQueryArray('counter.getCounterStatusDays', $args);
 		$status = $output->data;
 
 		if(!is_array($selected_date))
@@ -112,7 +72,6 @@ class counterModel extends counter
 			return $status;
 		}
 
-		if(!is_array($status)) $status = array($status);
 		$output = array();
 		foreach($status as $val)
 		{
@@ -127,10 +86,10 @@ class counterModel extends counter
 	 *
 	 * @param string $type Choice time interval (year, week, month, hour or DEFAULT)
 	 * @param integer $selected_date Date(YYYYMMDD)
-	 * @param integer $site_srl Site_srl
+	 * @param integer $site_srl unused
 	 * @return Object
 	 */
-	function getHourlyStatus($type = 'hour', $selected_date, $site_srl = 0, $isPageView = false)
+	public static function getHourlyStatus($type = 'hour', $selected_date, $site_srl = 0, $isPageView = false)
 	{
 		$max = 0;
 		$sum = 0;
@@ -140,17 +99,7 @@ class counterModel extends counter
 		{
 			case 'year' :
 				// Get a date to start counting
-				if($site_srl)
-				{
-					$args = new stdClass();
-					$args->site_srl = $site_srl;
-					$output = executeQuery('counter.getSiteStartLogDate', $args);
-				}
-				else
-				{
-					$output = executeQuery('counter.getStartLogDate');
-				}
-
+				$output = executeQuery('counter.getStartLogDate', new stdClass);
 				if(!($start_year = substr($output->data->regdate, 0, 4)))
 				{
 					$start_year = date("Y");
@@ -161,17 +110,7 @@ class counterModel extends counter
 					$args = new stdClass();
 					$args->start_date = sprintf('%04d0000', $i);
 					$args->end_date = sprintf('%04d1231', $i);
-
-					if($site_srl)
-					{
-						$args->site_srl = $site_srl;
-						$output = executeQuery('counter.getSiteCounterStatus', $args);
-					}
-					else
-					{
-						$output = executeQuery('counter.getCounterStatus', $args);
-					}
-
+					$output = executeQuery('counter.getCounterStatus', $args);
 					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
 					$status->list[$i] = $count;
 
@@ -207,17 +146,7 @@ class counterModel extends counter
 					$args = new stdClass();
 					$args->start_date = $day;
 					$args->end_date = $day;
-
-					if($site_srl)
-					{
-						$args->site_srl = $site_srl;
-						$output = executeQuery('counter.getSiteCounterStatus', $args);
-					}
-					else
-					{
-						$output = executeQuery('counter.getCounterStatus', $args);
-					}
-
+					$output = executeQuery('counter.getCounterStatus', $args);
 					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
 					$status->list[$day] = $count;
 
@@ -234,17 +163,7 @@ class counterModel extends counter
 					$args = new stdClass();
 					$args->start_date = sprintf('%04d%02d00', $year, $i);
 					$args->end_date = sprintf('%04d%02d31', $year, $i);
-
-					if($site_srl)
-					{
-						$args->site_srl = $site_srl;
-						$output = executeQuery('counter.getSiteCounterStatus', $args);
-					}
-					else
-					{
-						$output = executeQuery('counter.getCounterStatus', $args);
-					}
-
+					$output = executeQuery('counter.getCounterStatus', $args);
 					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
 					$status->list[$i] = $count;
 
@@ -260,18 +179,7 @@ class counterModel extends counter
 					$args = new stdClass();
 					$args->start_date = sprintf('%08d%02d0000', $selected_date, $i);
 					$args->end_date = sprintf('%08d%02d5959', $selected_date, $i);
-
-					if($site_srl)
-					{
-						$args->site_srl = $site_srl;
-						$output = executeQuery('counter.getSiteCounterLogStatus', $args);
-					}
-					else
-					{
-						$args->site_srl = 0;
-						$output = executeQuery('counter.getCounterLogStatus', $args);
-					}
-
+					$output = executeQuery('counter.getCounterLogStatus', $args);
 					$count = (int) $output->data->count;
 					$status->list[$i] = $count;
 
@@ -291,17 +199,7 @@ class counterModel extends counter
 					$args = new stdClass();
 					$args->start_date = sprintf('%04d%02d%02d', $year, $month, $i);
 					$args->end_date = sprintf('%04d%02d%02d', $year, $month, $i);
-
-					if($site_srl)
-					{
-						$args->site_srl = $site_srl;
-						$output = executeQuery('counter.getSiteCounterStatus', $args);
-					}
-					else
-					{
-						$output = executeQuery('counter.getCounterStatus', $args);
-					}
-
+					$output = executeQuery('counter.getCounterStatus', $args);
 					$count = (int)($isPageView ? $output->data->pageview : $output->data->unique_visitor);
 					$status->list[$i] = $count;
 
@@ -322,7 +220,7 @@ class counterModel extends counter
 	{
 		//for last week
 		$date1 = date('Ymd', strtotime('-1 week'));
-		$output1 = $this->getHourlyStatus('week', $date1);
+		$output1 = self::getHourlyStatus('week', $date1);
 
 		$tmp = array();
 		foreach($output1->list as $key => $value)
@@ -333,7 +231,7 @@ class counterModel extends counter
 
 		//for this week
 		$date2 = date('Ymd');
-		$output2 = $this->getHourlyStatus('week', $date2);
+		$output2 = self::getHourlyStatus('week', $date2);
 
 		$tmp = array();
 		foreach($output2->list as $key => $value)
@@ -350,7 +248,7 @@ class counterModel extends counter
 	{
 		//for last week
 		$date1 = date('Ymd', strtotime('-1 week'));
-		$output1 = $this->getHourlyStatus('week', $date1, 0, TRUE);
+		$output1 = self::getHourlyStatus('week', $date1, 0, TRUE);
 
 		$tmp = array();
 		foreach($output1->list as $key => $value)
@@ -361,7 +259,7 @@ class counterModel extends counter
 
 		//for this week
 		$date2 = date('Ymd');
-		$output2 = $this->getHourlyStatus('week', $date2, 0, TRUE);
+		$output2 = self::getHourlyStatus('week', $date2, 0, TRUE);
 
 		$tmp = array();
 		foreach($output2->list as $key => $value)
