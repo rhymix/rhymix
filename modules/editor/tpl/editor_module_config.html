@@ -168,6 +168,14 @@
 				</td>
 			</tr>
 			<tr class="editor_skin">
+				<th scope="row" style="text-align:right">{$lang->editor_auto_dark_mode}</th>
+				<td colspan="2">
+					<label class="x_inline"><input type="radio" name="auto_dark_mode" value="Y" checked="checked"|cond="$editor_config->auto_dark_mode != 'N'" /> {$lang->cmd_yes}</label>
+					<label class="x_inline"><input type="radio" name="auto_dark_mode" value="N" checked="checked"|cond="$editor_config->auto_dark_mode == 'N'" /> {$lang->cmd_no}</label>
+					<p class="x_help-inline">{$lang->about_editor_auto_dark_mode}</p>
+				</td>
+			</tr>
+			<tr class="editor_skin">
 				<th scope="row" style="text-align:right">{$lang->allow_html}</th>
 				<td colspan="2">
 					<label class="x_inline"><input type="radio" name="allow_html" value="Y" checked="checked"|cond="$editor_config->allow_html != 'N'" /> {$lang->cmd_yes}</label>
