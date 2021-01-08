@@ -213,8 +213,47 @@ class memberView extends member
 		if($member_config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 		
 		$formTags = getAdminView('member')->_getMemberInputTag();
-		Context::set('formTags', $formTags);
-		Context::set('email_confirmation_required', $member_config->enable_confirm);
+
+		$identifierFormUnset = false;
+		if($_SESSION['tmp_sociallogin_input_add_info'])
+		{
+			foreach ($formTags as $key => $formtag)
+			{
+				if($_SESSION['tmp_sociallogin_input_add_info']['nick_name'])
+				{
+					if($formtag->name == 'user_id')
+					{
+						unset($formTags[$key]);
+					}
+					
+					if($formtag->name == 'user_name')
+					{
+						unset($formTags[$key]);
+					}
+
+					if($formtag->name == 'nick_name')
+					{
+						unset($formTags[$key]);
+					}
+				}
+
+				if($_SESSION['tmp_sociallogin_input_add_info']['email'])
+				{
+					$identifierFormUnset = true;
+				}
+			}
+		}
+
+		if(!$identifierFormUnset && $member_config->identifier === 'email_address')
+		{
+			$identifierForm = new stdClass;
+			$identifierForm->title = lang($member_config->identifier);
+			$identifierForm->name = $member_config->identifier;
+		}
+		else
+		{
+			$identifierForm = null;
+		}
 		
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
@@ -240,12 +279,11 @@ class memberView extends member
 				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
-		
-		$identifierForm = new stdClass;
-		$identifierForm->title = lang($member_config->identifier);
-		$identifierForm->name = $member_config->identifier;
+
+		Context::set('formTags', $formTags);
+		Context::set('email_confirmation_required', $member_config->enable_confirm);
 		Context::set('identifierForm', $identifierForm);
-		
+
 		$this->addExtraFormValidatorMessage();
 		
 		// Set a template file

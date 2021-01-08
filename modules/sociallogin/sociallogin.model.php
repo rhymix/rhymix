@@ -260,4 +260,18 @@ class SocialloginModel extends Sociallogin
 			return true;
 		}
 	}
+	
+	public static function getSocialSignUpUserData()
+	{
+		if($_SESSION['tmp_sociallogin_input_add_info'])
+		{
+			$return_object = new stdClass();
+			$return_object->nick_name = $_SESSION['tmp_sociallogin_input_add_info']['nick_name'];
+			$return_object->email_address = $_SESSION['tmp_sociallogin_input_add_info']['email'];
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

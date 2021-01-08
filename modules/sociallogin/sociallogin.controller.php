@@ -839,7 +839,8 @@ class SocialloginController extends Sociallogin
 			return new BaseObject(-1, 'msg_already_registed_sns');
 		}
 
-		$oMemberModel = getModel('member');
+		/** @var memberModel $oMemberModel */
+		$oMemberModel = memberModel::getInstance();
 
 		// 중복 이메일 계정이 있으면 해당 계정으로 로그인
 		if (!$member_srl && ($email = $oLibrary->getEmail()) && !$_SESSION['sociallogin_confirm_email'])
@@ -870,8 +871,40 @@ class SocialloginController extends Sociallogin
 				$nick_name = $nick_name . date('is');
 			}
 
+			$member_config = $oMemberModel::getMemberConfig();
+			
+			$boolRequired = false;
+
+			foreach ($member_config->signupForm as $item)
+			{
+				if($item->name == 'user_id')
+				{
+					continue;
+				}
+				if($item->name == 'email_address')
+				{
+					continue;
+				}
+				if($item->name == 'password')
+				{
+					continue;
+				}
+				if($item->name == 'user_name')
+				{
+					continue;
+				}
+				if($item->name == 'nick_name')
+				{
+					continue;
+				}
+				if($item->required)
+				{
+					$boolRequired = true;
+				}
+			}
+			
 			// 추가 정보 받음
-			if (self::getConfig()->sns_input_add_info[0] && !$_SESSION['sociallogin_input_add_info_data'] || (!$email && !$_SESSION['sociallogin_input_add_info_data']))
+			if ($boolRequired || !$_SESSION['tmp_sociallogin_input_add_info'] || (!$email && !$_SESSION['sociallogin_input_add_info_data']))
 			{
 				$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
 				$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
@@ -880,7 +913,7 @@ class SocialloginController extends Sociallogin
 					$_SESSION['tmp_sociallogin_input_add_info']['email'] = $email;
 				}
 
-				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispSocialloginInputAddInfo'), new BaseObject(-1, 'sns_input_add_info'));
+				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'), new BaseObject(-1, 'sns_input_add_info'));
 			}
 			
 			if(!$email)
