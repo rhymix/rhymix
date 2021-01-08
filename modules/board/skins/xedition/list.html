@@ -1,10 +1,10 @@
 <include target="_header.html" />
 <include cond="$oDocument->isExists()" target="_read.html" />
 <ul class="cTab" cond="$module_info->use_category=='Y'">
-	<li class="on"|cond="!$category"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
-	<li loop="$cate_list=>$key,$val" class="on"|cond="$category==$val->category_srl"><a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
+	<li class="on"|cond="!isset($category) || !$category"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
+	<li loop="$cate_list=>$key,$val" class="on"|cond="isset($category) && $category == $val->category_srl"><a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
 		<ul cond="count($val->children)">
-			<li loop="$val->children=>$idx,$item" class="on_"|cond="$category==$item->category_srl"><a href="{getUrl('category',$item->category_srl,'document_srl','', 'page', '')}">{$item->title}<!--<em cond="$val->document_count">[{$item->document_count}]</em>--></a></li>
+			<li loop="$val->children=>$idx,$item" class="on_"|cond="isset($category) && $category == $item->category_srl"><a href="{getUrl('category',$item->category_srl,'document_srl','', 'page', '')}">{$item->title}<!--<em cond="$val->document_count">[{$item->document_count}]</em>--></a></li>
 		</ul>
 	</li>
 </ul>
@@ -44,14 +44,14 @@
 			<tr class="notice" loop="$notice_list=>$no,$document">
 				<block loop="$list_config=>$key,$val">
 				<td class="notice" cond="$val->type=='no' && $val->idx==-1">
-					<block cond="$document_srl==$document->document_srl">&raquo;</block>
-					<block cond="$document_srl!=$document->document_srl">{$lang->notice}</block>
+					<block cond="isset($document_srl) && $document_srl == $document->document_srl">&raquo;</block>
+					<block cond="!isset($document_srl) || $document_srl != $document->document_srl">{$lang->notice}</block>
 				</td>
 				<td class="module_title" cond="$val->type=='module_title' && $val->idx==-1">
 					<a href="{getUrl('', 'mid', $document->get('mid'))}">{$document->get('module_title')}</a>
 				</td>
 				<td class="title" cond="$val->type=='title' && $val->idx==-1">
-					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">
+					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle ?? '', 'cpage','')}">
 						{$document->getTitle()}
 					</a>
 					<a cond="$document->getCommentCount()" href="{getUrl('document_srl', $document->document_srl)}#comment" class="replyNum" title="Replies">
@@ -90,14 +90,14 @@
 			<tr loop="$document_list=>$no,$document">
 				<block loop="$list_config=>$key,$val">
 				<td class="no" cond="$val->type=='no' && $val->idx==-1">
-					<block cond="$document_srl==$document->document_srl">&raquo;</block>
-					<block cond="$document_srl!=$document->document_srl">{$no}</block>
+					<block cond="isset($document_srl) && $document_srl == $document->document_srl">&raquo;</block>
+					<block cond="!isset($document_srl) || $document_srl != $document->document_srl">{$no}</block>
 				</td>
 				<td class="module_title" cond="$val->type=='module_title' && $val->idx==-1">
 					<a href="{getUrl('', 'mid', $document->get('mid'))}">{$document->get('module_title')}</a>
 				</td>
 				<td class="title" cond="$val->type=='title' && $val->idx==-1">
-					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle()}</a>
+					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle ?? '', 'cpage','')}">{$document->getTitle()}</a>
 					<a cond="$document->getCommentCount()" href="{getUrl('document_srl', $document->document_srl)}#comment" class="replyNum" title="Replies">[{$document->getCommentCount()}]</a>
 					<a cond="$document->getTrackbackCount()" href="{getUrl('document_srl', $document->document_srl)}#trackback" class="trackbackNum" title="Trackbacks">[{$document->getTrackbackCount()}]</a>
 					{$document->printExtraImages(60*60*$module_info->duration_new)}
@@ -140,27 +140,26 @@
 	</div>
 
 	<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
-		<input type="hidden" name="vid" value="{$vid}" />
 		<input type="hidden" name="mid" value="{$mid}" />
-		<input type="hidden" name="category" value="{$category}" />
+		<input type="hidden" name="category" value="{$category ?? ''}" />
 		<select name="search_target">
-			<option loop="$search_option=>$key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+			<option loop="$search_option=>$key,$val" value="{$key}" selected="selected"|cond="isset($search_target) && $search_target == $key">{$val}</option>
 		</select>
 		<div class="search_input">
 			<i class="xi-magnifier"></i>
-			<input type="text" name="search_keyword" value="{escape($search_keyword, false)}" title="{$lang->cmd_search}" class="iText" />
+			<input type="text" name="search_keyword" value="{escape($search_keyword ?? '', false)}" title="{$lang->cmd_search}" class="iText" />
 		</div>
 		<button type="submit" class="btn" onclick="xGetElementById('board_search').submit();return false;">{$lang->cmd_search}</button>
-        <a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="btn">{$lang->cmd_search_next}</a>
+        <a cond="isset($last_division) && $last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="btn">{$lang->cmd_search_next}</a>
 	</form>
 
 	<div class="pagination" cond="$document_list || $notice_list">
-		<a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="direction prev"><i class="xi-angle-left"></i>&nbsp;{$lang->first_page}</a> 
+		<a href="{getUrl('page','','document_srl','','division',$division ?? '','last_division',$last_division ?? '')}" class="direction prev"><i class="xi-angle-left"></i>&nbsp;{$lang->first_page}</a> 
 		<block loop="$page_no=$page_navigation->getNextPage()">
 			<strong cond="$page==$page_no">{$page_no}</strong> 
-			<a cond="$page!=$page_no" href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
+			<a cond="$page!=$page_no" href="{getUrl('page',$page_no,'document_srl','','division',$division ?? '','last_division',$last_division ?? '')}">{$page_no}</a>
 		</block>
-		<a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="direction next">{$lang->last_page}&nbsp;<i class="xi-angle-right"></i></a>
+		<a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division ?? '','last_division',$last_division ?? '')}" class="direction next">{$lang->last_page}&nbsp;<i class="xi-angle-right"></i></a>
 	</div>
 
 </div>

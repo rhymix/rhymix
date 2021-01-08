@@ -2,7 +2,7 @@
 <load target="board.default.js" type="body" />
 <load target="../../../../common/xeicon/xeicon.min.css" />
 
-<!--@if($order_type == "desc")-->
+<!--@if(isset($order_type) && $order_type == "desc")-->
     {@ $order_type = "asc"; }
 <!--@else-->
     {@ $order_type = "desc"; }

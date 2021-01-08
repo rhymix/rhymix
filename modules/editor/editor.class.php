@@ -48,6 +48,7 @@ class editor extends ModuleObject
 		'content_paragraph_spacing' => '0px',
 		'content_word_break' => 'normal',
 		'enable_autosave' => 'Y',
+		'auto_dark_mode' => 'Y',
 		'allow_html' => 'Y',
 		'editor_focus' => 'N',
 		'autoinsert_types' => array('image' => true, 'audio' => true, 'video' => true),

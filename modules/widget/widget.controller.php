@@ -261,9 +261,9 @@ class widgetController extends widget
 		// Check whether to include information about editing
 		$this->javascript_mode = $javascript_mode;
 		// Widget code box change
-		$content = preg_replace_callback('!<div([^\>]*)widget=([^\>]*?)\><div><div>((<img.*?>)*)!is', array($this,'transWidgetBox'), $content);
+		$content = preg_replace_callback('!<div([^>]*)widget=([^>]*?)><div><div>((<img.*?>)*)!is', array($this, 'transWidgetBox'), $content);
 		// Widget code information byeogyeong
-		$content = preg_replace_callback('!<img([^\>]*)widget=([^\>]*?)\>!is', array($this,'transWidget'), $content);
+		$content = preg_replace_callback('!<img([^>]*)widget=([^>]*?)>!is', array($this, 'transWidget'), $content);
 
 		return $content;
 	}
@@ -273,16 +273,18 @@ class widgetController extends widget
 	 */
 	function transWidget($matches)
 	{
-		$buff = trim($matches[0]);
-
-		$oXmlParser = new XeXmlParser();
-		$xml_doc = $oXmlParser->parse(trim($buff));
-
-		if($xml_doc->img) $vars = $xml_doc->img->attrs;
-		else $vars = $xml_doc->attrs;
-
+		$vars = new stdClass;
+		$xml = simplexml_load_string(trim($matches[0]));
+		foreach ($xml->img ? $xml->img->attributes() : $xml->attributes() as $key => $val)
+		{
+			$vars->{$key} = strval($val);
+		}
+		
 		$widget = $vars->widget;
-		if(!$widget) return $matches[0];
+		if (!$widget)
+		{
+			return $matches[0];
+		}
 		unset($vars->widget);
 
 		return $this->execute($widget, $vars, $this->javascript_mode);
@@ -361,7 +363,7 @@ class widgetController extends widget
 		}
 		
 		// Fix the widget sequence if it is missing
-		$widget_sequence = $override_sequence ?: $args->widget_sequence;
+		$widget_sequence = $override_sequence ?: ($args->widget_sequence ?? 0);
 		if (!$widget_sequence)
 		{
 			$widget_sequence = sha1(json_encode($args));
@@ -480,12 +482,12 @@ class widgetController extends widget
 		 * Wanted specified by the administrator of the widget style
 		 */
 		// Sometimes the wrong code, background-image: url (none) can be heard but none in this case, the request for the url so unconditionally Removed
-		$style = preg_replace('/url\((.+)(\/?)none\)/is','', $args->style);
+		$style = preg_replace('/url\((.+)(\/?)none\)/is','', $args->style ?? '');
 		// Find a style statement that based on the internal margin dropping pre-change
-		$widget_padding_left = $args->widget_padding_left;
-		$widget_padding_right = $args->widget_padding_right;
-		$widget_padding_top = $args->widget_padding_top;
-		$widget_padding_bottom = $args->widget_padding_bottom;
+		$widget_padding_left = $args->widget_padding_left ?? 0;
+		$widget_padding_right = $args->widget_padding_right ?? 0;
+		$widget_padding_top = $args->widget_padding_top ?? 0;
+		$widget_padding_bottom = $args->widget_padding_bottom ?? 0;
 		$inner_style = sprintf("padding:%dpx %dpx %dpx %dpx !important;", $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left);
 
 		/**
@@ -498,7 +500,10 @@ class widgetController extends widget
 		// If general call is given on page styles should return immediately dreamin '
 		if(!$javascript_mode)
 		{
-			if($args->id) $args->id = ' id="'.$args->id.'" ';
+			if(isset($args->id) && $args->id)
+			{
+				$args->id = ' id="'.$args->id.'" ';
+			}
 			switch($widget)
 			{
 				// If a direct orthogonal addition information
@@ -517,20 +522,20 @@ class widgetController extends widget
 					$oEditorController = getController('editor');
 					$body = $oEditorController->transComponent($body);
 
-					$widget_content_header = sprintf('<div class="rhymix_content xe_content xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s"><div style="%s">', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="rhymix_content xe_content xe-widget-wrapper ' . ($args->css_class ?? '') . '" %sstyle="%s"><div style="%s">', $args->id ?? '', $style, $inner_style);
 					$widget_content_body = $body;
 					$widget_content_footer = '</div></div>';
 
 					break;
 					// If the widget box; it could
 				case 'widgetBox' :
-					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s;"><div style="%s"><div>', $args->id, $style,  $inner_style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . ($args->css_class ?? '') . '" %sstyle="%s;"><div style="%s"><div>', $args->id ?? '', $style, $inner_style);
 					$widget_content_body = $widgetbox_content;
 
 					break;
 					// If the General wijetil
 				default :
-					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . $args->css_class . '" %sstyle="%s">',$args->id,$style);
+					$widget_content_header = sprintf('<div class="xe-widget-wrapper ' . ($args->css_class ?? '') . '" %sstyle="%s">', $args->id ?? '', $style);
 					$widget_content_body = sprintf('<div style="*zoom:1;%s">%s</div>', $inner_style,$widget_content);
 					$widget_content_footer = '</div>';
 					break;
@@ -641,7 +646,10 @@ class widgetController extends widget
 			}
 		}
 		// Compile the widget style.
-		if($args->widgetstyle) $widget_content_body = $this->compileWidgetStyle($args->widgetstyle,$widget, $widget_content_body, $args, $javascript_mode);
+		if(isset($args->widgetstyle) && $args->widgetstyle)
+		{
+			$widget_content_body = $this->compileWidgetStyle($args->widgetstyle, $widget, $widget_content_body, $args, $javascript_mode);
+		}
 
 		$output = $widget_content_header . $widget_content_body . $widget_content_footer;
 

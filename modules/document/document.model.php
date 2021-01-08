@@ -1307,7 +1307,7 @@ class documentModel extends document
 		$args->page_count = $searchOpt->page_count ?? 10;
 		$args->start_date = $searchOpt->start_date ?? null;
 		$args->end_date = $searchOpt->end_date ?? null;
-		$args->s_is_notice = $searchOpt->except_notice ? 'N' : null;
+		$args->s_is_notice = ($searchOpt->except_notice ?? false) ? 'N' : null;
 		$args->statusList = $searchOpt->statusList ?? array(self::getConfigStatus('public'), self::getConfigStatus('secret'));
 		$args->columnList = $searchOpt->columnList ?? array();
 		

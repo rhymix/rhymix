@@ -1355,7 +1355,7 @@ class documentController extends document
 		$oDB->commit();
 
 		// Register session
-		if(!$_SESSION['banned_document'][$document_srl] && Context::getSessionStatus()) 
+		if(!isset($_SESSION['readed_document'][$document_srl]) && Context::getSessionStatus()) 
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}
