@@ -67,13 +67,11 @@ class widgetController extends widget
 
 		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
 
-		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
+		$this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
+		
 		// Wanted results
 		$widget_code = $this->execute($widget, $vars, true, false);
-
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode($widget_code);
-
+		$widget_code = Context::replaceUserLang($widget_code);
 		$this->add('widget_code', $widget_code);
 	}
 
@@ -256,8 +254,10 @@ class widgetController extends widget
 	function transWidgetCode($content, $javascript_mode = false, $isReplaceLangCode = true)
 	{
 		// Changing user-defined language
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode($content, $isReplaceLangCode);
+		if($isReplaceLangCode)
+		{
+			$content = Context::replaceUserLang($content);
+		}
 		// Check whether to include information about editing
 		$this->javascript_mode = $javascript_mode;
 		// Widget code box change
@@ -390,8 +390,7 @@ class widgetController extends widget
 			if(!$oWidget || !method_exists($oWidget, 'proc')) return;
 
 			$widget_content = $oWidget->proc($args);
-			$oModuleController = getController('module');
-			$oModuleController->replaceDefinedLangCode($widget_content);
+			$widget_content = Context::replaceUserLang($widget_content);
 			return $widget_content;
 		}
 
@@ -414,8 +413,7 @@ class widgetController extends widget
 		if(!$oWidget || !method_exists($oWidget,'proc')) return;
 
 		$widget_content = $oWidget->proc($args);
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode($widget_content);
+		$widget_content = Context::replaceUserLang($widget_content);
 
 		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
 

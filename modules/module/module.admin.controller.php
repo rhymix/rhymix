@@ -783,13 +783,10 @@ class moduleAdminController extends module
 				$module = trim($val->module);
 				if(!$module) continue;
 
-				// replace user defined lang.
-				$oModuleController->replaceDefinedLangCode($val->browser_title);
-
 				$obj = new stdClass();
 				$obj->module_srl = $val->module_srl;
 				$obj->layout_srl = $val->layout_srl;
-				$obj->browser_title = $val->browser_title;
+				$obj->browser_title = Context::replaceUserLang($val->browser_title);
 				$obj->mid = $val->mid;
 				$obj->module_category_srl = $val->module_category_srl;
 				if($val->module_category_srl > 0)

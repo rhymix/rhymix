@@ -322,7 +322,7 @@ class boardView extends board
 				// add the document title to the browser
 				Context::setCanonicalURL($oDocument->getPermanentUrl());
 				$seo_title = config('seo.document_title') ?: '$SITE_TITLE - $DOCUMENT_TITLE';
-				getController('module')->replaceDefinedLangCode($seo_title);
+				$seo_title = Context::replaceUserLang($seo_title);
 				Context::setBrowserTitle($seo_title, array(
 					'site_title' => Context::getSiteTitle(),
 					'site_subtitle' => Context::getSiteSubtitle(),

@@ -21,7 +21,6 @@ class moduleAdminModel extends module
 	 */
 	function getModuleAdminModuleList()
 	{
-		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
 		$args = new stdClass;
 		$args->module_srls = Context::get('module_srls');
@@ -31,8 +30,12 @@ class moduleAdminModel extends module
 		foreach($output->data as $key => $val)
 		{
 			$info_xml = $oModuleModel->getModuleInfoXml($val->module);
-			$oModuleController->replaceDefinedLangCode($val->browser_title);
-			$list[$val->module_srl] = array('module_srl'=>$val->module_srl,'mid'=>$val->mid,'browser_title'=>$val->browser_title, 'module_name' => $info_xml->title);
+			$list[$val->module_srl] = array(
+				'module_srl' => $val->module_srl,
+				'mid' => $val->mid,
+				'browser_title' => Context::replaceUserLang($val->browser_title),
+				'module_name' => $info_xml->title,
+			);
 		}
 		$modules = explode(',',$args->module_srls);
 		$module_list = [];

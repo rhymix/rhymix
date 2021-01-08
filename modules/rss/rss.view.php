@@ -175,14 +175,13 @@ class rssView extends rss
 		
 		$info->id = $channel_url;
 		$info->feed_title = $config->feed_title;
-		$info->title = $obj->title ?: $info->title;
+		$info->title = Context::replaceUserLang($obj->title ?: $info->title);
 		$info->description = $obj->description ?: $info->description;
 		$info->language = Context::getLangType();
 		$info->site_url = Context::getRequestUri();
 		$info->date_r = date('r');
 		$info->date_c = date('c');
 		$info->image = $config->image ? Context::getRequestUri() . $config->image : '';
-		getController('module')->replaceDefinedLangCode($info->title);
 		
 		Context::set('info', $info);
 		

@@ -596,9 +596,7 @@ class ExtraItem
 		}
 		if($this->desc)
 		{
-			$oModuleController = getController('module');
-			$oModuleController->replaceDefinedLangCode($this->desc);
-			$buff[] = '<p>' . escape($this->desc, false) . '</p>';
+			$buff[] = '<p>' . escape(Context::replaceUserLang($this->desc), false) . '</p>';
 		}
 		
 		return join("\n", $buff);

@@ -269,8 +269,7 @@ class HTMLDisplayHandler
 		$output = $oTemplate->compile('./common/tpl', 'common_layout');
 		
 		// replace the user-defined-language
-		$oModuleController = getController('module');
-		$oModuleController->replaceDefinedLangCode($output);
+		$output = Context::replaceUserLang($output);
 		
 		// remove template path comment tag
 		/*

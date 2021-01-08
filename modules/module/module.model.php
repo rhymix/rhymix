@@ -404,11 +404,6 @@ class moduleModel extends module
 			$module_info = $mid_info;
 		}
 
-		/*
-		$oModuleController = getController('module');
-		if(isset($module_info->browser_title)) $oModuleController->replaceDefinedLangCode($module_info->browser_title);
-		*/
-
 		self::_applyDefaultSkin($module_info);
 		return self::addModuleExtraVars($module_info);
 	}
@@ -2342,7 +2337,7 @@ class moduleModel extends module
 		$langCode = Context::get('langCode');
 		if (!$langCode) return;
 
-		ModuleController::getInstance()->replaceDefinedLangCode($langCode);
+		$langCode = Context::replaceUserLang($langCode);
 		$this->add('lang', $langCode);
 	}
 }

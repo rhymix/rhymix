@@ -217,8 +217,7 @@ class boardController extends board
 				// send an email to admin user
 				if ($this->module_info->admin_mail && config('mail.default_from'))
 				{
-					$browser_title = $this->module_info->browser_title;
-					getController('module')->replaceDefinedLangCode($browser_title);
+					$browser_title = Context::replaceUserLang($this->module_info->browser_title);
 					$mail_title = sprintf(lang('msg_document_notify_mail'), $browser_title, cut_str($obj->title, 20, '...'));
 					$mail_content = sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('', 'document_srl', $output->get('document_srl')), getFullUrl('', 'document_srl', $output->get('document_srl')), $obj->content);
 					

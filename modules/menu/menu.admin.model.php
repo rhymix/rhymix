@@ -222,10 +222,8 @@ class menuAdminModel extends menu
 			}
 		}
 		$menuItem->groupList = $groupList;
-
-		$oModuleController = getController('module');
 		$menuItem->name_key = $menuItem->name;
-		$oModuleController->replaceDefinedLangCode($menuItem->name);
+		$menuItem->name = Context::replaceUserLang($menuItem->name);
 
 		$this->add('menu_item', $menuItem);
 	}
