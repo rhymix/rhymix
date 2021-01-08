@@ -2293,7 +2293,7 @@ class Context
 			$plugin_name = 'ui';
 		}
 
-		if($loaded_plugins[$plugin_name])
+		if(isset($loaded_plugins[$plugin_name]))
 		{
 			return;
 		}

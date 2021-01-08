@@ -31,6 +31,11 @@ class documentItem extends BaseObject
 	 */
 	var $allow_trackback_status = null;
 	/**
+	 * Comment page navigation
+	 * @var object
+	 */
+	var $comment_page_navigation = null;
+	/**
 	 * column list
 	 * @var array
 	 */
@@ -1459,7 +1464,7 @@ class documentItem extends BaseObject
 		if(!isset($GLOBALS['__member_signature_max_height']))
 		{
 			$member_config = ModuleModel::getModuleConfig('member');
-			$GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height;
+			$GLOBALS['__member_signature_max_height'] = $member_config->signature_max_height ?? 100;
 		}
 		if($signature)
 		{

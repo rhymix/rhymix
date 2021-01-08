@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ruleset version="1.5.0">
-	<customrules />
-	<fields>
-		<field name="site_srl" required="true" rule="number" />
-		<field name="module_name" required="true" />		
-    </fields>
-</ruleset>

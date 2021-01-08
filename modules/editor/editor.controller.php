@@ -155,6 +155,7 @@ class editorController extends editor
 		
 		$config->content_font_size = trim($vars->content_font_size);
 		$config->enable_autosave = $vars->enable_autosave ?: 'Y';
+		$config->auto_dark_mode = $vars->auto_dark_mode ?: 'Y';
 		$config->allow_html = $vars->allow_html ?: 'Y';
 
 		// Apply module-specific permissions.

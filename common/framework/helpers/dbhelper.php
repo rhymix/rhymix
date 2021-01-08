@@ -61,7 +61,10 @@ class DBHelper extends \PDO
 			$elapsed_time = microtime(true) - $start_time;
 			$db_class->addElapsedTime($elapsed_time);
 			$db_class->setError(-1, $e->getMessage());
-			Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
+			}
 			
 			/**
 			 * This is a new feature in Rhymix 2.0 so we don't have to mess
@@ -110,7 +113,10 @@ class DBHelper extends \PDO
 		{
 			$elapsed_time = microtime(true) - $start_time;
 			$db_class->addElapsedTime($elapsed_time);
-			Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
+			}
 		}
 		
 		return $stmt;
@@ -140,7 +146,10 @@ class DBHelper extends \PDO
 		{
 			$elapsed_time = microtime(true) - $start_time;
 			$db_class->addElapsedTime($elapsed_time);
-			Debug::addQuery($db_class->getQueryLog($query, $elapsed_time));
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($db_class->getQueryLog($query, $elapsed_time));
+			}
 		}
 		
 		return $result;

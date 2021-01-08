@@ -231,6 +231,7 @@ class editorAdminController extends editor
 		$config->content_word_break = $configVars->content_word_break;
 		$config->content_word_break = in_array($config->content_word_break, array('normal', 'keep-all', 'break-all', 'none')) ? $config->content_word_break : 'normal';
 		$config->enable_autosave = $configVars->enable_autosave ?: 'Y';
+		$config->auto_dark_mode = $configVars->auto_dark_mode ?: 'Y';
 		$config->allow_html = $configVars->allow_html ?: 'Y';
 		$config->autoinsert_types = array();
 		foreach ($configVars->autoinsert_types as $type)

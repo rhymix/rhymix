@@ -7,9 +7,9 @@
 		</h1>
 		<p class="meta">
 			<span class="author">
-				<i class="xi-user"></i><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a>
-				<block cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block>
-				<a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
+				<i class="xi-user"></i><a cond="isset($module_info->display_author) && $module_info->display_author != 'N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a>
+				<block cond="isset($module_info->display_author) && $module_info->display_author != 'N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block>
+				<a cond="isset($module_info->display_author) && $module_info->display_author != 'N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
 			</span>
 			<span class="time">
 				<i class="xi-time"></i> {$oDocument->getRegdate('Y.m.d H:i')}
@@ -109,7 +109,7 @@
 			</span>
 			<a class="document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a>
 		</div>
-		<div class="sign" cond="$module_info->display_sign!='N'&&($oDocument->getProfileImage()||$oDocument->getSignature())">
+		<div class="sign" cond="isset($module_info->display_sign) && $module_info->display_sign != 'N' && ($oDocument->getProfileImage() || $oDocument->getSignature())">
 			<img cond="$oDocument->getProfileImage()" src="{$oDocument->getProfileImage()}" alt="Profile" class="pf" />
 			<div cond="$oDocument->getSignature()" class="tx">{$oDocument->getSignature()}</div>
 		</div>
