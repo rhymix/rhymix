@@ -1136,14 +1136,7 @@ class fileController extends file
 				$adjusted['height'] -= $adjusted['height'] % 2;
 				
 				// Convert using ffmpeg
-				if (RX_WINDOWS)
-				{
-					$command = escapeshellarg($config->ffmpeg_command);
-				}
-				else
-				{
-					$command = $config->ffmpeg_command;
-				}
+				$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
 				$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
 				$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
 				$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
@@ -1193,7 +1186,7 @@ class fileController extends file
 		}
 		
 		// Analyze video file
-		$command = $config->ffprobe_command;
+		$command = \RX_WINDOWS ? escapeshellarg($config->ffprobe_command) : $config->ffprobe_command;
 		$command .= ' -v quiet -print_format json -show_streams';
 		$command .= ' ' . escapeshellarg($file_info['tmp_name']);
 		@exec($command, $output, $return_var);
@@ -1232,9 +1225,9 @@ class fileController extends file
 		if ($config->video_thumbnail)
 		{
 			$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
-			$command = $config->ffmpeg_command;
+			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
 			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
-			$command .= ' ' . escapeshellarg($thumbnail_name);
+			$command .= ' -nostdin -i ' . escapeshellarg($thumbnail_name);
 			@exec($command, $output, $return_var);
 			if ($return_var === 0)
 			{
