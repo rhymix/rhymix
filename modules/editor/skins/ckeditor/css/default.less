@@ -39,7 +39,7 @@
 .light_dark(@cs) when not (@cs = moono-dark) {
 	background-color: #fff;
 	color: #000;
-	&.color_scheme_dark {
+	&.color_scheme_dark.cke_auto_dark_mode {
 		background-color: #333;
 		color: #fff;
 	}
@@ -57,7 +57,7 @@
 	}
 }
 .light_dark_top(@cs) when not (@cs = moono-dark) {
-	.color_scheme_dark & {
+	.color_scheme_dark.cke_auto_dark_mode & {
 		background: #333;
 		border-color: #555;
 		.cke_button_on {
