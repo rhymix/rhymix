@@ -22,6 +22,7 @@
 		"abraham/twitteroauth": "2.*",
 		"coolsms/php-sdk": "2.0.*",
 		"defuse/php-encryption": "1.2.1",
+		"doctrine/lexer": "1.0.*",
 		"egulias/email-validator": "2.1.*",
 		"ezyang/htmlpurifier": "4.13.*",
 		"guzzlehttp/guzzle": "6.5.*",
@@ -36,6 +37,11 @@
 		"rmccue/requests": "1.7.*",
 		"scssphp/scssphp": "1.4.*",
 		"swiftmailer/swiftmailer": "6.2.*",
+		"symfony/polyfill-iconv": "1.19.*",
+		"symfony/polyfill-intl-idn": "1.19.*",
+		"symfony/polyfill-intl-normalizer": "1.19.*",
+		"symfony/polyfill-mbstring": "1.19.*",
+		"symfony/polyfill-php72": "1.19.*",
 		"true/punycode": "2.*"
 	}
 }
