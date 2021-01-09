@@ -1,6 +1,6 @@
 <include target="_header.html" />
 <include cond="$oDocument->isExists()" target="_read.html" />
-<ul class="cTab" cond="$module_info->use_category=='Y'">
+<ul class="cTab" cond="$module_info->use_category=='Y' && isset($list_config)">
 	<li class="on"|cond="!isset($category) || !$category"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
 	<li loop="$cate_list=>$key,$val" class="on"|cond="isset($category) && $category == $val->category_srl"><a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
 		<ul cond="count($val->children)">
@@ -8,7 +8,7 @@
 		</ul>
 	</li>
 </ul>
-<div class="board_list" id="board_list">
+<div class="board_list" id="board_list" cond="isset($list_config)">
 	<table width="100%" border="1" cellspacing="0" summary="List of Articles">
 		<thead>
 			<!-- LIST HEADER -->
@@ -41,7 +41,7 @@
 		</tbody>
 		<tbody cond="$document_list || $notice_list">
 			<!-- NOTICE -->
-			<tr class="notice" loop="$notice_list=>$no,$document">
+			<tr class="notice" loop="$notice_list ?? [] => $no,$document">
 				<block loop="$list_config=>$key,$val">
 				<td class="notice" cond="$val->type=='no' && $val->idx==-1">
 					<block cond="isset($document_srl) && $document_srl == $document->document_srl">&raquo;</block>
@@ -87,7 +87,7 @@
 			</tr>
 			<!-- /NOTICE -->
 			<!-- LIST -->
-			<tr loop="$document_list=>$no,$document">
+			<tr loop="$document_list ?? [] => $no,$document">
 				<block loop="$list_config=>$key,$val">
 				<td class="no" cond="$val->type=='no' && $val->idx==-1">
 					<block cond="isset($document_srl) && $document_srl == $document->document_srl">&raquo;</block>
