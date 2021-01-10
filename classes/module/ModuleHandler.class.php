@@ -223,6 +223,7 @@ class ModuleHandler extends Handler
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
 			$this->_setModuleSEOInfo($module_info, $site_module_info);
+			$this->_setModuleColorScheme($site_module_info);
 			
 			// Check if the current request is from a mobile device.
 			$this->is_mobile = Mobile::isFromMobilePhone();
@@ -752,6 +753,29 @@ class ModuleHandler extends Handler
 		// Return the module info for further processing.
 		return $module_info;
 	}
+	
+	/**
+	 * Set color scheme.
+	 * 
+	 * @param object $site_module_info
+	 */
+	protected function _setModuleColorScheme($site_module_info)
+	{
+		$color_scheme = null;
+		
+		$color_scheme_array = array('off_light'=>'light', 'off_dark' => 'dark');
+		if (isset($color_scheme_array[$site_module_info->settings->color_scheme]))
+		{
+			Rhymix\Framework\UA::setColorScheme('auto');
+			$color_scheme = $color_scheme_array[$site_module_info->settings->color_scheme];
+			Context::addBodyClass('color_scheme_' . $color_scheme);
+		}
+		elseif (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto')
+		{
+			Context::addBodyClass('color_scheme_' . $color_scheme);
+		}
+	}
+	
 	
 	/**
 	 * Set SEO information to Context.

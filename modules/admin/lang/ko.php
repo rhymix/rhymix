@@ -295,6 +295,14 @@ $lang->allow_use_mobile_icon = '모바일 홈 화면 아이콘';
 $lang->detail_use_mobile_icon = '57x57 또는 114x114 크기의 png 파일을 권장합니다.';
 $lang->cmd_site_default_image = '사이트 대표 이미지';
 $lang->about_site_default_image = 'SNS 등에 이 사이트가 링크되었을 때 표시되는 이미지입니다. 200x200 크기의 jpg 또는 png 파일을 권장합니다.';
+$lang->cmd_site_default_color_scheme = '사이트 색상 조합';
+$lang->about_site_default_color_scheme = '다크모드를 사용하도록 설정할 수 있습니다. 사용하는 모듈 스킨, 레이아웃 등이 지원해야 합니다. 표준은 <a href="https://github.com/rhymix/rhymix/pull/1482" target="_blank">여기</a>를 참고하세요.<dl><dt>사용 안 함 (기본)</dt><dd>다크모드 설정을 사용하지 않습니다.</dd><dt>어두운 색상 (고정)</dt><dd>항상 다크모드의 어두운 색상을 표시합니다.</dd><dt>자동 (접속자의 브라우저 설정)</dt><dd>사이트 접속자의 운영체제 또는 브라우저 설정을 따릅니다.</dd><dt>수동 (쿠키 활용)</dt><dd>접속자가 별도의 클릭을 하여 설정하도록 합니다. 쿠키는 자동, 밝음, 어두움 세 가지 선택지를 가집니다.</dd></dl> ';
+$lang->site_default_color_scheme_options = array(
+		'off_light' => '사용 안 함 (기본)',
+		'off_dark' => '어두운 색상 (고정)',
+		'auto_light_dark' => '자동 (접속자의 브라우저 설정)',
+		'client_manual' => '수동 (쿠키 활용)'
+	);
 $lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> 사용';
 $lang->about_use_sso = '한 번만 로그인하면 모든 도메인에 로그인되도록 합니다.';
 $lang->about_arrange_session = '세션을 정리하시겠습니까?';
