@@ -900,25 +900,22 @@ class SocialloginController extends Sociallogin
 				if($item->required)
 				{
 					$boolRequired = true;
+					break;
 				}
 			}
-			
-			// 추가 정보 받음
-			if ($boolRequired || !$_SESSION['tmp_sociallogin_input_add_info'] || (!$email && !$_SESSION['sociallogin_input_add_info_data']))
-			{
-				$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
-				$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
-				if($email)
-				{
-					$_SESSION['tmp_sociallogin_input_add_info']['email'] = $email;
-				}
 
-				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'), new BaseObject(-1, 'sns_input_add_info'));
+			// 미리 소셜 내용 기록.
+			$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
+			$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
+			if($email)
+			{
+				$_SESSION['tmp_sociallogin_input_add_info']['email'] = $email;
 			}
 			
-			if(!$email)
+			// 회원 정보에서 추가 입력할 데이터가 있을경우 세션값에 소셜정보 입력 후 회원가입 항목으로 이동
+			if ($boolRequired || !$email)
 			{
-				$email = Context::get('email_address');
+				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'), new BaseObject(-1, 'sns_input_add_info'));
 			}
 			
 			Context::setRequestMethod('POST');
@@ -935,34 +932,28 @@ class SocialloginController extends Sociallogin
 			Context::set('gender', $extend->gender, true);
 			Context::set('age', $extend->age, true);
 
-			// 사용자 추가 정보 셋팅
-			if ($add_data = $_SESSION['sociallogin_input_add_info_data'])
-			{
-				foreach ($add_data as $key => $val)
-				{
-					Context::set($key, $val, true);
-				}
-			}
-
-			unset($_SESSION['sociallogin_input_add_info_data']);
-
 			// 회원 모듈에 가입 요청
-			// TODO REPACK not use function, check again.
+			// try 를 쓰는이유는 회원가입시 어떤 실패가 일어나는 경우 BaseObject으로 리턴하지 않기에 에러를 출력하기 위함입니다.
 			try
 			{
 				$output = getController('member')->procMemberInsert();
 			}
 			catch (\Rhymix\Framework\Exception $exception)
 			{
+				// 리턴시에도 세션값을 비워줘야함
+				unset($_SESSION['tmp_sociallogin_input_add_info']);
 				return new BaseObject(-1, $exception->getMessage());
 			}
-
+			
+			unset($_SESSION['tmp_sociallogin_input_add_info']);
+			
 			// 가입 도중 오류가 있다면 즉시 출력
 			if (is_object($output) && method_exists($output, 'toBool') && !$output->toBool())
 			{
 				if ($output->error != -1)
 				{
-					$s_output = $output;
+					// 리턴값을 따로 저장.
+					$return_output = $output;
 				}
 				else
 				{
@@ -1070,9 +1061,9 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 가입 완료 후 메세지 출력 (메일 인증 메세지)
-		if ($s_output)
+		if ($return_output)
 		{
-			return $s_output;
+			return $return_output;
 		}
 
 		return new BaseObject();
