@@ -911,6 +911,24 @@ class SocialloginController extends Sociallogin
 			{
 				$_SESSION['tmp_sociallogin_input_add_info']['email'] = $email;
 			}
+
+			// 프로필 이미지를 위한 임시 파일 생성
+			if ($oLibrary->getProfileImage())
+			{
+				if (($tmp_dir = 'files/cache/tmp/') && !is_dir($tmp_dir))
+				{
+					FileHandler::makeDir($tmp_dir);
+				}
+
+				$path_parts = pathinfo(parse_url($oLibrary->getProfileImage(), PHP_URL_PATH));
+				$randomString = Rhymix\Framework\Security::getRandom(32);
+				$tmp_file = "{$tmp_dir}{$randomString}profile.{$path_parts['extension']}";
+
+				if(FileHandler::getRemoteFile($oLibrary->getProfileImage(), $tmp_file, null, 3, 'GET', null, array(), array(), array(), array('ssl_verify_peer' => false)))
+				{
+					$_SESSION['tmp_sociallogin_input_add_info']['profile_dir'] = $tmp_file;
+				}
+			}
 			
 			// 회원 정보에서 추가 입력할 데이터가 있을경우 세션값에 소셜정보 입력 후 회원가입 항목으로 이동
 			if ($boolRequired || !$email)
@@ -931,7 +949,7 @@ class SocialloginController extends Sociallogin
 			Context::set('birthday', $extend->birthday, true);
 			Context::set('gender', $extend->gender, true);
 			Context::set('age', $extend->age, true);
-
+			
 			// 회원 모듈에 가입 요청
 			// try 를 쓰는이유는 회원가입시 어떤 실패가 일어나는 경우 BaseObject으로 리턴하지 않기에 에러를 출력하기 위함입니다.
 			try
@@ -979,25 +997,6 @@ class SocialloginController extends Sociallogin
 			if ($extend->signature)
 			{
 				getController('member')->putSignature($member_srl, $extend->signature);
-			}
-
-			// 프로필 이미지 등록
-			if ($oLibrary->getProfileImage())
-			{
-				if (($tmp_dir = 'files/cache/tmp/') && !is_dir($tmp_dir))
-				{
-					FileHandler::makeDir($tmp_dir);
-				}
-
-				$path_parts = pathinfo(parse_url($oLibrary->getProfileImage(), PHP_URL_PATH));
-				$tmp_file = sprintf('%s%s.%s', $tmp_dir, $password, $path_parts['extension']);
-
-				if (FileHandler::getRemoteFile($oLibrary->getProfileImage(), $tmp_file, null, 3, 'GET', null, array(), array(), array(), array('ssl_verify_peer' => false)))
-				{
-					getController('member')->insertProfileImage($member_srl, $tmp_file);
-
-					@unlink($tmp_file);
-				}
 			}
 		}
 		// 이미 가입되어 있었다면 SNS 등록만 진행

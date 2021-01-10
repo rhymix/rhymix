@@ -979,6 +979,13 @@ class memberController extends member
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
+		
+		if($_SESSION['tmp_sociallogin_input_add_info']['profile_dir'])
+		{
+			$this->insertProfileImage($args->member_srl, $_SESSION['tmp_sociallogin_input_add_info']['profile_dir']); 
+			
+			FileHandler::removeFile($_SESSION['tmp_sociallogin_input_add_info']['profile_dir']);
+		}
 
 		$image_mark = Context::get('image_mark');
 		if(is_uploaded_file($image_mark['tmp_name']))
