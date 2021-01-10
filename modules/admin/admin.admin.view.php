@@ -745,7 +745,7 @@ class adminAdminView extends admin
 			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
 			
 			// Get color scheme setting.
-			$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark', 'client_manual');
+			$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark');
 			if (!in_array($domain_info->settings->color_scheme, $valid_color_scheme_options))
 			{
 				$domain_info->settings->color_scheme = 'off_light';

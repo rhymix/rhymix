@@ -1114,7 +1114,7 @@ class adminAdminController extends admin
 		$vars->html_footer = utf8_trim($vars->html_footer);
 		
 		// Validate the color scheme setting.
-		$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark', 'client_manual');
+		$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark');
 		if (!in_array($vars->color_scheme, $valid_color_scheme_options))
 		{
 			$vars->color_scheme = 'off_light';
@@ -1130,7 +1130,7 @@ class adminAdminController extends admin
 			'meta_description' => $vars->meta_description,
 			'html_header' => $vars->html_header,
 			'html_footer' => $vars->html_footer,
-			'color_scheme' => $vars->color_scheme,
+			'color_scheme' => $vars->color_scheme
 		);
 		
 		// Get the DB object and begin a transaction.

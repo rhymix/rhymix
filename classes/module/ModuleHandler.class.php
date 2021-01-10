@@ -770,19 +770,9 @@ class ModuleHandler extends Handler
 			$color_scheme = $color_scheme_array[$site_module_info->settings->color_scheme];
 			Context::addBodyClass('color_scheme_' . $color_scheme);
 		}
-		elseif ($site_module_info->settings->color_scheme === 'auto_light_dark' && (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto'))
-		{
-			Rhymix\Framework\UA::setColorScheme('auto');
-		}
 		elseif (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto')
 		{
 			Context::addBodyClass('color_scheme_' . $color_scheme);
-		}
-		elseif ($site_module_info->settings->color_scheme === 'client_manual')
-		{
-			// When there was no cookie, and the color_scheme settings was 'client mannual', set a default cookie.
-			Rhymix\Framework\UA::setColorScheme('light');
-			Context::addBodyClass('color_scheme_light');
 		}
 	}
 	
