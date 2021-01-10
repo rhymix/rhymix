@@ -145,15 +145,14 @@ class Sociallogin extends ModuleObject
 	 * @param $library_name
 	 * @return mixed|bool
 	 */
-	//TODO Repack to Drive.
 	function getLibrary($library_name)
 	{
 		if (!isset($this->library[$library_name]))
 		{
 			if($library_name = 'twitter')
 			{
-				$oSocialLib = new \Rhymix\Framework\Social($library_name);
-				$this->library[$library_name] = $oSocialLib->getDriver();
+				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Twitter;
+				$this->library[$library_name] = $oSocialLib::getInstance(array());
 			}
 			
 		}

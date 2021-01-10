@@ -140,7 +140,8 @@ class SocialloginView extends Sociallogin
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
 		
-		if (!($service = Context::get('service')) || !in_array($service, self::getConfig()->sns_services))
+		$service = Context::get('service');
+		if (!$service || !in_array($service, self::getConfig()->sns_services))
 		{
 			return new BaseObject(-1, 'msg_not_support_service_login');
 		}

@@ -83,7 +83,8 @@ class SocialloginController extends Sociallogin
 		
 		if (!$error)
 		{
-			if (!$oLibrary = $this->getLibrary($saved['service']))
+			$oLibrary = $this->getLibrary($saved['service']);
+			if (!$oLibrary)
 			{
 				return new BaseObject(-1, 'msg_invalid_request');
 			}

@@ -6,7 +6,6 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 
 class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
-
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */
