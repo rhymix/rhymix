@@ -734,8 +734,7 @@ class Context
 		{
 			return '';
 		}
-		ModuleController::getInstance()->replaceDefinedLangCode(self::$_instance->browser_title);
-		return htmlspecialchars(self::$_instance->browser_title, ENT_QUOTES, 'UTF-8', FALSE);
+		return escape(self::replaceUserLang(self::$_instance->browser_title), false);
 	}
 
 	/**
@@ -748,9 +747,7 @@ class Context
 		$domain_info = self::get('site_module_info');
 		if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 		{
-			$title = trim($domain_info->settings->title);
-			ModuleController::getInstance()->replaceDefinedLangCode($title);
-			return $title;
+			return escape(self::replaceUserLang($domain_info->settings->title), false);
 		}
 		else
 		{
@@ -768,9 +765,7 @@ class Context
 		$domain_info = self::get('site_module_info');
 		if ($domain_info && $domain_info->settings && $domain_info->settings->subtitle)
 		{
-			$subtitle = trim($domain_info->settings->subtitle);
-			ModuleController::getInstance()->replaceDefinedLangCode($subtitle);
-			return $subtitle;
+			return escape(self::replaceUserLang($domain_info->settings->subtitle), false);
 		}
 		else
 		{
@@ -882,6 +877,33 @@ class Context
 		$GLOBALS['lang']->set($code, $val);
 	}
 
+	/**
+	 * @brief Replace user-defined language codes
+	 */
+	public static function replaceUserLang($output)
+	{
+		static $lang = null;
+		if($lang === null)
+		{
+			$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . self::getLangType());
+			if($lang === null)
+			{
+				ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
+			}
+		}
+		
+		return preg_replace_callback('/\$user_lang->([a-zA-Z0-9\_]+)/', function($matches) use($lang) {
+			if(isset($lang[$matches[1]]) && !self::get($matches[1]))
+			{
+				return $lang[$matches[1]];
+			}
+			else
+			{
+				return $matches[1];
+			}
+		}, $output);
+	}
+	
 	/**
 	 * Convert strings of variables in $source_object into UTF-8
 	 *
@@ -2633,8 +2655,10 @@ class Context
 	 */
 	public static function addMetaTag($name, $content, $is_http_equiv = false)
 	{
-		ModuleController::getInstance()->replaceDefinedLangCode($content);
-		self::$_instance->meta_tags[$name] = array('is_http_equiv' => (bool)$is_http_equiv, 'content' => $content);
+		self::$_instance->meta_tags[$name] = array(
+			'is_http_equiv' => (bool)$is_http_equiv,
+			'content' => self::replaceUserLang($content),
+		);
 	}
 	
 	/**

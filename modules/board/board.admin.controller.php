@@ -186,6 +186,7 @@ class boardAdminController extends board {
 		$vars = Context::getRequestVars();
 		$module_srl = intval($vars->target_module_srl);
 		$include_modules = array_map('intval', $vars->include_modules ?: []);
+		$include_days = max(0, floatval($vars->include_days));
 		
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		if (!$module_info)
@@ -196,6 +197,7 @@ class boardAdminController extends board {
 		$module_info->include_modules = implode(',', array_filter($include_modules, function($item) {
 			return $item > 0;
 		}));
+		$module_info->include_days = floatval(number_format($include_days, 2, '.', ''));
 		
 		$output = getController('module')->updateModule($module_info);
 		if (!$output->toBool())

@@ -1,6 +1,6 @@
 <include target="_header.html" />
 <include cond="$oDocument->isExists()" target="_read.html" />
-<div class="board_list" id="board_list">
+<div class="board_list" id="board_list" cond="isset($list_config)">
 	<table width="100%" border="1" cellspacing="0" summary="List of Articles">
 		<thead>
 			<!-- LIST HEADER -->

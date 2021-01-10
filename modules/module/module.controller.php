@@ -1080,35 +1080,14 @@ class moduleController extends module
 	/**
 	 * @brief Change user-defined language
 	 */
-	function replaceDefinedLangCode(&$output, $isReplaceLangCode = true)
+	public static function replaceDefinedLangCode(&$output, $replace = true)
 	{
-		static $lang = null;
-
-		if($isReplaceLangCode)
+		if ($replace)
 		{
-			if($lang === null)
-			{
-				$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . Context::getLangType());
-				if($lang === null)
-				{
-					$oModuleAdminController = getAdminController('module');
-					$lang = $oModuleAdminController->makeCacheDefinedLangCode(0);
-				}
-			}
-			
-			$output = preg_replace_callback('/\$user_lang->([a-z0-9\_]+)/is', function($matches) use($lang) {
-				if(isset($lang[$matches[1]]) && !Context::get($matches[1]))
-				{
-					return $lang[$matches[1]];
-				}
-				else
-				{
-					return str_replace('$user_lang->', '', $matches[0]);
-				}
-			}, $output);
+			$output = Context::replaceUserLang($output);
 		}
 	}
-
+	
 	/**
 	 * @brief Add and update a file into the file box
 	 */

@@ -207,7 +207,10 @@
 			<label class="x_control-label" for="font_size">{$lang->guide_remove_plugins}</label>
 			<div class="x_controls">
 				<input type="text" id="remove_plugins" name="remove_plugins" value="{implode(', ', $editor_config->remove_plugins)}" />
-				<p class="x_help-block">{$lang->about_remove_plugins}</p>
+				<p class="x_help-block">
+					{$lang->about_remove_plugins}
+					<a href="#" class="default_remove_plugins" data-default-list="{implode(', ', Editor::$default_editor_config['remove_plugins'])}">{lang('admin.restore_default_viewport')}</a>
+				</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -361,7 +364,15 @@
 </section>
 <script>
 jQuery(function($){
-// Editor Preview
+	
+	// Restore default list of editor plugins to remove
+	$('.default_remove_plugins').on('click', function(e) {
+		var default_list = $(this).data('default-list');
+		$('#remove_plugins').val(default_list);
+		e.preventDefault();
+	});
+		
+	// Editor Preview
 	function preview(){
 		$('._preview iframe').css({
 			width	: "100%",
@@ -371,13 +382,13 @@ jQuery(function($){
 	preview();
 	$('._preview li>a').click(preview);
 	
-//init
+	// init
 	var fontPreview = $('.fontPreview');
 	var fontSelector = $('.fontSelector');
 	var checkedFont = fontSelector.filter(':checked').css('fontFamily');
 	var changedSize = $('#font_size').val();
 
-//change event
+	// change event
 	fontSelector.change(function(){
 		var myFont = $(this).css('font-family');
 		if ($(this).val() === 'Y') {

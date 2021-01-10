@@ -1,4 +1,4 @@
-<query id="getSiteStartLogDate" action="select">
+<query id="getSiteLogDate" action="select">
     <tables>
         <table name="counter_status" />
     </tables>

@@ -55,9 +55,8 @@
 		</div>
 		<div class="tns">
 			{@ $tag_list = $oDocument->get('tag_list') }
-			<span class="tags" cond="count($tag_list)">
-				<!--@for($i=0;$i<count($tag_list);$i++)-->
-					{@ $tag = $tag_list[$i]; }
+			<span class="tags" cond="count($tag_list ?: [])">
+				<!--@foreach($tag_list as $tag)-->
 					<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag" rel="tag">{htmlspecialchars($tag)}</a><span>,</span>
 				<!--@end-->
 			</span>

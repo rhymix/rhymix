@@ -41,22 +41,19 @@ class counterAdminView extends counter
 		$oCounterModel = getModel('counter');
 
 		// get a total count and daily count
-		$site_module_info = Context::get('site_module_info');
-		$status = $oCounterModel->getStatus(array(0, $selected_date), $site_module_info->site_srl);
-
+		$status = $oCounterModel->getStatus(array(0, $selected_date));
 		Context::set('total_counter', $status[0]);
 		Context::set('selected_day_counter', $status[$selected_date]);
 
 		// get data by time, day, month, and year
 		$type = Context::get('type');
-
 		if(!$type)
 		{
 			$type = 'day';
 			Context::set('type', $type);
 		}
 
-		$detail_status = $oCounterModel->getHourlyStatus($type, $selected_date, $site_module_info->site_srl);
+		$detail_status = $oCounterModel->getHourlyStatus($type, $selected_date);
 		Context::set('detail_status', $detail_status);
 
 		// display

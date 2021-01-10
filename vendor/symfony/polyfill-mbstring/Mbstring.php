@@ -115,8 +115,10 @@ final class Mbstring
         return iconv($fromEncoding, $toEncoding.'//IGNORE', $s);
     }
 
-    public static function mb_convert_variables($toEncoding, $fromEncoding, &...$vars)
+    public static function mb_convert_variables($toEncoding, $fromEncoding, &$a = null, &$b = null, &$c = null, &$d = null, &$e = null, &$f = null)
     {
+        $vars = array(&$a, &$b, &$c, &$d, &$e, &$f);
+
         $ok = true;
         array_walk_recursive($vars, function (&$v) use (&$ok, $toEncoding, $fromEncoding) {
             if (false === $v = Mbstring::mb_convert_encoding($v, $toEncoding, $fromEncoding)) {

@@ -113,8 +113,7 @@ class spamfilterModel extends spamfilter
 				{
 					if(preg_match('/^\\$user_lang->[a-zA-Z0-9]+$/', $config->custom_message))
 					{
-						getController('module')->replaceDefinedLangCode($config->custom_message);
-						$custom_message = htmlspecialchars($config->custom_message);
+						$custom_message = escape(Context::replaceUserLang($config->custom_message), false);
 					}
 					else
 					{

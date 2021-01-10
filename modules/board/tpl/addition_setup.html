@@ -14,15 +14,22 @@
 		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl}" />
 		{@ $include_modules = explode(',', $module_info->include_modules ?? '')}
 		<div class="x_control-group">
-			<label for="use_history" class="x_control-label">{$lang->cmd_board_include_modules}</label>
+			<label for="include_modules" class="x_control-label">{$lang->cmd_board_include_modules}</label>
 			<div class="x_controls">
-				<select name="include_modules[]" size="8" multiple="multiple">
+				<select name="include_modules[]" id="include_modules" size="8" multiple="multiple">
 					<option value="">{$lang->cmd_board_include_modules_none}</option>
 					<!--@foreach($board_list as $board_info)-->
 						<option value="{$board_info->module_srl}" selected="selected"|cond="in_array($board_info->module_srl, $include_modules)">{$board_info->browser_title}</option>
 					<!--@endforeach-->
 				</select>
 				<p class="x_help-block">{$lang->about_board_combined_board}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="include_days" class="x_control-label">{$lang->cmd_board_include_days}</label>
+			<div class="x_controls">
+				<input name="include_days" id="include_days" type="number" min="0" step="0.01" value="{$module_info->include_days ?: 0}" /> {$lang->unit_day}
+				<p class="x_help-block">{$lang->about_board_include_days}</p>
 			</div>
 		</div>
 		<div class="btnArea">

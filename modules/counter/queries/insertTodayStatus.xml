@@ -4,7 +4,7 @@
     </tables>
     <columns>
         <column name="regdate" var="regdate" default="0" notnull="notnull" />
-        <column name="unique_visitor" default="0" />
-        <column name="pageview" default="0" />
+        <column name="unique_visitor" var="unique_visitor" default="1" />
+        <column name="pageview" var="pageview" default="1" />
     </columns>
 </query>

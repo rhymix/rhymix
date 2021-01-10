@@ -408,7 +408,7 @@ class TemplateHandler
 		//return origin code when src value started '${'.
 		if(preg_match('@^\${@', $match[1]))
 		{
-			return $match[0];
+			return $match[1];
 		}
 
 		//return origin code when src value include variable.

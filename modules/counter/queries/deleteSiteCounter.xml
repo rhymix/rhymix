@@ -1,8 +1,0 @@
-<query id="deleteSiteCounter" action="delete">
-    <tables>
-        <table name="counter_site_status" />
-    </tables>
-    <conditions>
-        <condition operation="equal" column="site_srl" var="site_srl" filter="number" notnull="notnull" pipe="and" />
-    </conditions>
-</query>

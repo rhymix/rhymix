@@ -96,6 +96,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		var editor_skin = '{$colorset}';
 		var editor_color = null;
 		<!--@if($editor_auto_dark_mode)-->
+			$('body').addClass('cke_auto_dark_mode');
 			if (getColorScheme() === 'dark') {
 				if (editor_skin !== 'moono-lisa' ) {
 					editor_skin = 'moono-dark';

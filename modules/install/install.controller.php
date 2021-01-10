@@ -529,17 +529,26 @@ class installController extends install
 		$schema_dir = sprintf('%s/schemas/', $module_path);
 		$schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
 
-		$file_cnt = count($schema_files);
-		for($i=0;$i<$file_cnt;$i++)
+		foreach ($schema_files as $filename)
 		{
-			$file = trim($schema_files[$i]);
-			if(!$file || substr($file,-4)!='.xml') continue;
-			$table_name = substr(basename($file), 0, -4);
-			if($oDB->isTableExists($table_name)) continue;
-			$output = $oDB->createTableByXmlFile($file);
-			if($output === false)
+			if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
 			{
-				throw new Exception(lang('msg_create_table_failed') . ': ' . basename($file) . ': ' . $oDB->getError()->getMessage());
+				continue;
+			}
+			if (preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($filename)))
+			{
+				continue;
+			}
+			
+			$table_name = $matches[1];
+			if($oDB->isTableExists($table_name))
+			{
+				continue;
+			}
+			$output = $oDB->createTable($filename);
+			if(!$output->toBool())
+			{
+				throw new Exception(lang('msg_create_table_failed') . ': ' . $table_name . ': ' . $oDB->getError()->getMessage());
 			}
 		}
 		// Create a table and module instance and then execute install() method

@@ -35,12 +35,6 @@ jobs:
       if: matrix.php != '8.0'
       run: php -S localhost:8000 &
     
-    - name: Remove incompatible dependencies from older PHP versions
-      if: matrix.php <= '7.2'
-      run: |
-        wget https://getcomposer.org/composer-2.phar
-        php composer-2.phar remove --ignore-platform-reqs abraham/twitteroauth
-      
     - name: Build and run codeception
       if: matrix.php != '8.0'
       run: |

@@ -703,9 +703,7 @@ final class Idn
             foreach ($iter as $codePoint) {
                 if ($codePoint < $n && 0 === ++$delta) {
                     throw new Exception('Integer overflow');
-                }
-
-                if ($codePoint === $n) {
+                } elseif ($codePoint === $n) {
                     $q = $delta;
 
                     for ($k = self::BASE; /* no condition */; $k += self::BASE) {

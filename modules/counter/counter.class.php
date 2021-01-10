@@ -25,7 +25,13 @@ class counter extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		return FALSE;
+		$oDB = DB::getInstance();
+		if ($oDB->isTableExists('counter_site_status'))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -35,7 +41,11 @@ class counter extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		
+		$oDB = DB::getInstance();
+		if ($oDB->isTableExists('counter_site_status'))
+		{
+			$oDB->dropTable('counter_site_status');
+		}
 	}
 
 	/**

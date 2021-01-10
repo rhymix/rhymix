@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'bb9a56bcac19618e0ae14cef214c2b0c2d3b4441',
+    'reference' => 'f4ad0dbb480ca125af4020782f9895b65e545cfb',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -72,12 +72,12 @@ private static $installed = array (
     ),
     'doctrine/lexer' => 
     array (
-      'pretty_version' => '1.2.1',
-      'version' => '1.2.1.0',
+      'pretty_version' => '1.0.2',
+      'version' => '1.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'e864bbf5904cb8f5bb334f99209b48018522f042',
+      'reference' => '1febd6c3ef84253d7c815bed85fc622ad207a9f8',
     ),
     'egulias/email-validator' => 
     array (
@@ -162,12 +162,12 @@ private static $installed = array (
     ),
     'matthiasmullie/minify' => 
     array (
-      'pretty_version' => '1.3.65',
-      'version' => '1.3.65.0',
+      'pretty_version' => '1.3.66',
+      'version' => '1.3.66.0',
       'aliases' => 
       array (
       ),
-      'reference' => '227f19062451c55a797e0cc667ef983834e6580c',
+      'reference' => '45fd3b0f1dfa2c965857c6d4a470bea52adc31a6',
     ),
     'matthiasmullie/path-converter' => 
     array (
@@ -228,7 +228,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'bb9a56bcac19618e0ae14cef214c2b0c2d3b4441',
+      'reference' => 'f4ad0dbb480ca125af4020782f9895b65e545cfb',
     ),
     'rmccue/requests' => 
     array (
@@ -259,48 +259,57 @@ private static $installed = array (
     ),
     'symfony/polyfill-iconv' => 
     array (
-      'pretty_version' => 'v1.20.0',
-      'version' => '1.20.0.0',
+      'pretty_version' => 'v1.19.0',
+      'version' => '1.19.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'c536646fdb4f29104dd26effc2fdcb9a5b085024',
+      'reference' => '085241787d52fa6f7a774fd034135fef0cfd5496',
     ),
     'symfony/polyfill-intl-idn' => 
     array (
-      'pretty_version' => 'v1.20.0',
-      'version' => '1.20.0.0',
+      'pretty_version' => 'v1.19.0',
+      'version' => '1.19.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '3b75acd829741c768bc8b1f84eb33265e7cc5117',
+      'reference' => '4ad5115c0f5d5172a9fe8147675ec6de266d8826',
     ),
     'symfony/polyfill-intl-normalizer' => 
     array (
-      'pretty_version' => 'v1.20.0',
-      'version' => '1.20.0.0',
+      'pretty_version' => 'v1.19.0',
+      'version' => '1.19.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '727d1096295d807c309fb01a851577302394c897',
+      'reference' => '8db0ae7936b42feb370840cf24de1a144fb0ef27',
     ),
     'symfony/polyfill-mbstring' => 
     array (
-      'pretty_version' => 'v1.20.0',
-      'version' => '1.20.0.0',
+      'pretty_version' => 'v1.19.0',
+      'version' => '1.19.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '39d483bdf39be819deabf04ec872eb0b2410b531',
+      'reference' => 'b5f7b932ee6fa802fc792eabd77c4c88084517ce',
     ),
-    'symfony/polyfill-php72' => 
+    'symfony/polyfill-php70' => 
     array (
       'pretty_version' => 'v1.20.0',
       'version' => '1.20.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'cede45fcdfabdd6043b3592e83678e42ec69e930',
+      'reference' => '5f03a781d984aae42cebd18e7912fa80f02ee644',
+    ),
+    'symfony/polyfill-php72' => 
+    array (
+      'pretty_version' => 'v1.19.0',
+      'version' => '1.19.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'beecef6b463b06954638f02378f52496cb84bacc',
     ),
     'true/punycode' => 
     array (

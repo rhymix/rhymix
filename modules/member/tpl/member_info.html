@@ -2,14 +2,6 @@
 	<h1>{$lang->member_info}</h1>
 </div>
 <table class="x_table x_table-striped x_table-hover">
-	<tr>
-		<th style="width:120px">{$lang->signup_date}</th>
-		<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
-	</tr>
-	<tr>
-		<th>{$lang->last_login}</th>
-		<td>{zdate($memberInfo[last_login],"Y-m-d H:i:s")}</td>
-	</tr>
 	<tr loop="$displayDatas => $item">
 		<th scope="row" ><em style="color:red" cond="$item->required || $item->mustRequired">*</em> {$item->title}</th>
 		<td class="text">{$item->value}</td>
@@ -25,6 +17,26 @@
 	<tr>
 		<th scope="row">{$lang->allow_message}</th>
 		<td class="text">{$lang->allow_message_type[$memberInfo['allow_message']]}</td>
+	</tr>
+	<tr>
+		<th scope="row">{$lang->status}</th>
+		<td class="text">{$memberInfo['denied'] === 'Y' ? $lang->denied : $lang->approval}</td>
+	</tr>
+	<tr cond="$memberInfo['denied'] === 'Y'">
+		<th scope="row">{$lang->refused_reason}</th>
+		<td class="text">{$memberInfo['refused_reason']|autoescape|nl2br}</td>
+	</tr>
+	<tr>
+		<th style="width:120px">{$lang->signup_date}</th>
+		<td>{zdate($memberInfo['regdate'], 'Y-m-d H:i:s')}</td>
+	</tr>
+	<tr>
+		<th>{$lang->last_login}</th>
+		<td>{zdate($memberInfo['last_login'], 'Y-m-d H:i:s')}</td>
+	</tr>
+	<tr cond="$memberInfo['limit_date']">
+		<th>{$lang->limit_date}</th>
+		<td>{zdate($memberInfo['limit_date'], 'Y-m-d')}</td>
 	</tr>
 	<tr cond="$memberInfo['is_admin'] == 'Y'">
 		<th scope="row">{$lang->is_admin}</th>

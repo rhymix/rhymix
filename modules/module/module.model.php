@@ -404,11 +404,6 @@ class moduleModel extends module
 			$module_info = $mid_info;
 		}
 
-		/*
-		$oModuleController = getController('module');
-		if(isset($module_info->browser_title)) $oModuleController->replaceDefinedLangCode($module_info->browser_title);
-		*/
-
 		self::_applyDefaultSkin($module_info);
 		return self::addModuleExtraVars($module_info);
 	}
@@ -1447,14 +1442,29 @@ class moduleModel extends module
 			if(!is_dir(FileHandler::getRealPath($path))) continue;
 
 			// Get the number of xml files to create a table in schemas
-			$tmp_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/');
-			$table_count = count($tmp_files);
+			$table_count = 0;
+			$schema_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/', false, true);
+			foreach ($schema_files as $filename)
+			{
+				if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($filename)))
+				{
+					$table_count++;
+				}
+			}
+			
 			// Check if the table is created
 			$created_table_count = 0;
-			for($j=0;$j<$table_count;$j++)
+			foreach ($schema_files as $filename)
 			{
-				list($table_name) = explode('.',$tmp_files[$j]);
-				if($oDB->isTableExists($table_name)) $created_table_count ++;
+				if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
+				{
+					continue;
+				}
+				
+				if($oDB->isTableExists($matches[1]))
+				{
+					$created_table_count++;
+				}
 			}
 			// Get information of the module
 			$info = NULL;
@@ -2342,7 +2352,7 @@ class moduleModel extends module
 		$langCode = Context::get('langCode');
 		if (!$langCode) return;
 
-		ModuleController::getInstance()->replaceDefinedLangCode($langCode);
+		$langCode = Context::replaceUserLang($langCode);
 		$this->add('lang', $langCode);
 	}
 }

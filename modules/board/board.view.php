@@ -182,7 +182,12 @@ class boardView extends board
 		}
 
 		// display the board content
-		$this->dispBoardContentView();
+		$output = $this->dispBoardContentView();
+		if ($output instanceof DocumentItem)
+		{
+			$this->setRedirectUrl($output->getPermanentUrl());
+			return;
+		}
 
 		// list config, columnList setting
 		$this->listConfig = BoardModel::getListConfig($this->module_info->module_srl);
@@ -251,7 +256,14 @@ class boardView extends board
 				{
 					if (!in_array($oDocument->get('module_srl'), $this->include_modules))
 					{
-						throw new Rhymix\Framework\Exceptions\TargetNotFound;
+						return $oDocument;
+					}
+					if (isset($this->module_info->include_days) && $this->module_info->include_days > 0)
+					{
+						if ($oDocument->get('regdate') < date('YmdHis', time() - ($this->module_info->include_days * 86400)))
+						{
+							return $oDocument;
+						}
 					}
 				}
 
@@ -310,7 +322,7 @@ class boardView extends board
 				// add the document title to the browser
 				Context::setCanonicalURL($oDocument->getPermanentUrl());
 				$seo_title = config('seo.document_title') ?: '$SITE_TITLE - $DOCUMENT_TITLE';
-				getController('module')->replaceDefinedLangCode($seo_title);
+				$seo_title = Context::replaceUserLang($seo_title);
 				Context::setBrowserTitle($seo_title, array(
 					'site_title' => Context::getSiteTitle(),
 					'site_subtitle' => Context::getSiteSubtitle(),
@@ -480,6 +492,10 @@ class boardView extends board
 		$args->page = intval(Context::get('page')) ?: null;
 		$args->list_count = $this->list_count;
 		$args->page_count = $this->page_count;
+		if (isset($this->module_info->include_days) && $this->module_info->include_days > 0)
+		{
+			$args->start_regdate = date('YmdHis', time() - ($this->module_info->include_days * 86400));
+		}
 
 		// get the search target and keyword
 		if ($this->grant->view)
