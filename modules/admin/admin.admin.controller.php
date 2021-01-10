@@ -1114,10 +1114,10 @@ class adminAdminController extends admin
 		$vars->html_footer = utf8_trim($vars->html_footer);
 		
 		// Validate the color scheme setting.
-		$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark');
+		$valid_color_scheme_options = array('auto', 'light', 'dark');
 		if (!in_array($vars->color_scheme, $valid_color_scheme_options))
 		{
-			$vars->color_scheme = 'off_light';
+			$vars->color_scheme = 'auto';
 		}
 		
 		// Merge all settings into an array.

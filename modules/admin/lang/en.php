@@ -300,12 +300,12 @@ $lang->detail_use_mobile_icon = 'The mobile icon should be 57x57 or 114x114, onl
 $lang->cmd_site_default_image = 'Default Image';
 $lang->about_site_default_image = 'This image will be shown when your site is linked to in various social networks. It should be 200x200, either jpg or png format.';
 $lang->cmd_site_default_color_scheme = 'Color scheme';
-$lang->about_site_default_color_scheme = 'You can enable dark mode. The module skins, layouts, etc. that you use should be supported. For the developers, the standard can be refer to <a href="https://github.com/rhymix/rhymix/pull/1482" target="_blank">this page</a>.<dl><dt>Disable (default)</dt><dd>Turn off the dark mode function.</dd><dt>Dark mode (fixed)</dt><dd>Enable the dark mode, but fixed to the dark theme.</dd><dt>Automatic (refer to the client browser settings)</dt><dd>Enable the dark mode, and the clients can switch on or off the dark theme refer to the brower settings or the cookies. The cookies can be modified.</dd></dl> ';
+$lang->about_site_default_color_scheme = 'Control how your site responds to dark mode settings in user devices.';
 $lang->site_default_color_scheme_options = array(
-		'off_light' => 'Disable (default)',
-		'off_dark' => 'Dark mode (fixed)',
-		'auto_light_dark' => 'Automatic (refer to the client settings)',
-	);
+	'auto' => 'Automatic detection',
+	'light' => 'Light mode only',
+	'dark' => 'Dark mode only',
+);
 $lang->use_sso = 'Use <abbr title="Single Sign On">SSO</abbr>?';
 $lang->about_use_sso = 'Logging into one domain will automatically log the user into all domains.';
 $lang->about_arrange_session = 'Do you want to clean up session?';
