@@ -167,6 +167,18 @@
 			</div>
 		</div>
 		
+		<div class="x_control-group">
+			<label class="x_control-label" for="color_scheme">{lang('admin.cmd_site_default_color_scheme')}</label>
+			<div class="x_controls">
+				<select id="color_scheme" name="color_scheme">
+					<!--@foreach(lang('admin.site_default_color_scheme_options') as $color_scheme_key => $color_scheme_val)-->
+						<option value="{$color_scheme_key}" selected="selected"|cond="$color_scheme === $color_scheme_key">{$color_scheme_val}</option>
+					<!--@end-->
+				</select>
+				<div class="x_help-block">{lang('admin.about_site_default_color_scheme')}</div>
+			</div>
+		</div>
+		
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>

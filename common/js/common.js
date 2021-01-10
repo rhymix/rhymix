@@ -351,10 +351,13 @@ jQuery(function($) {
 	
 	/* Detect color scheme */
 	var body_element = $('body');
-	var color_scheme_cookie = XE.cookie.get('rx_color_scheme');
-	var color_scheme_detected = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
-	if (!color_scheme_cookie || (!body_element.hasClass('color_scheme_light') && !body_element.hasClass('color_scheme_dark'))) {
-		body_element.addClass('color_scheme_' + color_scheme_detected).removeClass('color_scheme_' + (color_scheme_detected === 'dark' ? 'light' : 'dark'));
+	/* If there is color_scheme class in the body, color scheme settings were already applied. */
+	if(!body_element.hasClass('color_scheme_light') && !body_element.hasClass('color_scheme_dark')) {
+		var color_scheme_cookie = XE.cookie.get('rx_color_scheme');
+		var color_scheme_detected = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+		if (!color_scheme_cookie) {
+			body_element.addClass('color_scheme_' + color_scheme_detected).removeClass('color_scheme_' + (color_scheme_detected === 'dark' ? 'light' : 'dark'));
+		}
 	}
 	
 	/* Editor preview replacement */

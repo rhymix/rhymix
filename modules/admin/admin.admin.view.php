@@ -743,6 +743,14 @@ class adminAdminView extends admin
 			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
 			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
 			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
+			
+			// Get color scheme setting.
+			$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark');
+			if (!in_array($domain_info->settings->color_scheme, $valid_color_scheme_options))
+			{
+				$domain_info->settings->color_scheme = 'off_light';
+			}
+			Context::set('color_scheme', $domain_info->settings->color_scheme);
 		}
 		
 		$this->setTemplateFile('config_domains_edit');
