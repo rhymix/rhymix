@@ -819,9 +819,12 @@ class memberController extends member
 					$getVars[] = $formInfo->name;
 				}
 				
-				if($formInfo->name == 'user_id')
+				if(SocialloginModel::getSocialSignUpUserData())
 				{
-					unset($config->signupForm[$key]);
+					if($formInfo->name == 'user_id')
+					{
+						unset($config->signupForm[$key]);
+					}
 				}
 			}
 		}
