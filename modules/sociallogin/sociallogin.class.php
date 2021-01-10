@@ -145,28 +145,17 @@ class Sociallogin extends ModuleObject
 	 * @param $library_name
 	 * @return mixed|bool
 	 */
+	//TODO Repack to Drive.
 	function getLibrary($library_name)
 	{
-		require_once RX_BASEDIR . '/modules/sociallogin/sociallogin.library.php';
-
 		if (!isset($this->library[$library_name]))
 		{
+			if($library_name = 'twitter')
+			{
+				$oSocialLib = new \Rhymix\Framework\Social($library_name);
+				$this->library[$library_name] = $oSocialLib->getDriver();
+			}
 			
-			$library_file = RX_BASEDIR . "/modules/sociallogin/libs/{$library_name}.lib.php";
-			if ($library_file && !FileHandler::exists($library_file))
-			{
-				return false;
-			}
-
-			require_once($library_file);
-			$ucword_name = ucwords($library_name);
-			$instance_name = "library{$ucword_name}";
-			if ($instance_name && !class_exists($instance_name, false))
-			{
-				return false;
-			}
-
-			$this->library[$library_name] = new $instance_name($library_name);
 		}
 
 		return $this->library[$library_name];

@@ -5,10 +5,12 @@
  * @brief The kakao library of the sociallogin module
  */
 
+namespace Rhymix\Framework\Drivers\Social;
+
 const KAKAO_OAUTH2_URI = 'https://kauth.kakao.com/oauth/';
 const KAKAO_API_URI = 'https://kapi.kakao.com/';
 
-class libraryKakao extends socialloginLibrary
+class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)

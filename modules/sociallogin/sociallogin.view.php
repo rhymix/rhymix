@@ -139,17 +139,16 @@ class SocialloginView extends Sociallogin
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
+		
 		if (!($service = Context::get('service')) || !in_array($service, self::getConfig()->sns_services))
 		{
 			return new BaseObject(-1, 'msg_not_support_service_login');
 		}
-
 		if (!$oLibrary = $this->getLibrary($service))
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-
+		
 		if (!$type = Context::get('type'))
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
@@ -164,6 +163,7 @@ class SocialloginView extends Sociallogin
 			return new BaseObject(-1, 'already_logged');
 		}
 
+		
 		// 인증 메일 유효 시간
 		if (self::getConfig()->mail_auth_valid_hour)
 		{

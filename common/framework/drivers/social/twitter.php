@@ -1,16 +1,18 @@
 <?php
-require_once RX_BASEDIR . '/vendor/autoload.php';
+
+namespace Rhymix\Framework\Drivers\Social;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
-class libraryTwitter extends socialloginLibrary
+class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */
 	function createAuthUrl($type)
 	{
-		$connection = new TwitterOAuth(self::getConfig()->twitter_consumer_key, self::getConfig()->twitter_consumer_secret);
+		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret);
 
 		// API 요청 : 요청 토큰
 		$request_token = $connection->oauth('oauth/request_token', array(
@@ -31,26 +33,26 @@ class libraryTwitter extends socialloginLibrary
 	function authenticate()
 	{
 		// 토큰 세션 체크
-		if (!Context::get('oauth_verifier') || !$_SESSION['sociallogin_auth']['token'] || !$_SESSION['sociallogin_auth']['token_secret'])
+		if (!\Context::get('oauth_verifier') || !$_SESSION['sociallogin_auth']['token'] || !$_SESSION['sociallogin_auth']['token_secret'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// 위변조 체크
-		if (Context::get('oauth_token') !== $_SESSION['sociallogin_auth']['token'])
+		if (\Context::get('oauth_token') !== $_SESSION['sociallogin_auth']['token'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
-		$connection = new TwitterOAuth(self::getConfig()->twitter_consumer_key, self::getConfig()->twitter_consumer_secret, $_SESSION['sociallogin_auth']['token'], $_SESSION['sociallogin_auth']['token_secret']);
+		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret, $_SESSION['sociallogin_auth']['token'], $_SESSION['sociallogin_auth']['token_secret']);
 
 		// API 요청 : 엑세스 토큰
-		$token = $connection->oauth('oauth/access_token', array('oauth_verifier' => Context::get('oauth_verifier')));
+		$token = $connection->oauth('oauth/access_token', array('oauth_verifier' => \Context::get('oauth_verifier')));
 
 		// 토큰 삽입
 		$this->setAccessToken(array('token' => $token['oauth_token'], 'token_secret' => $token['oauth_token_secret']));
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -61,35 +63,35 @@ class libraryTwitter extends socialloginLibrary
 		// 토큰 체크
 		if (!$token = parent::getAccessToken())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
-		$connection = new TwitterOAuth(self::getConfig()->twitter_consumer_key, self::getConfig()->twitter_consumer_secret, $token['token'], $token['token_secret']);
+		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret, $token['token'], $token['token_secret']);
 
 		// API 요청 : 프로필
 		if (!($profile = $connection->get('account/verify_credentials', array('include_email' => 'true'))) || empty($profile))
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// 계정 차단 확인
-		if (self::getConfig()->sns_suspended_account == 'Y')
+		if (\Sociallogin::getConfig()->sns_suspended_account == 'Y')
 		{
 			// API 요청 : 사용자 정보
 			if (!($user = $connection->get('users/show', array('user_id' => $profile->id))) || !$user->id)
 			{
-				return new BaseObject(-1, 'msg_sns_suspended_account');
+				return new \BaseObject(-1, 'msg_sns_suspended_account');
 			}
 		}
 
 		// 팔로워 수 제한
-		if (self::getConfig()->sns_follower_count)
+		if (\Sociallogin::getConfig()->sns_follower_count)
 		{
-			if (self::getConfig()->sns_follower_count > $profile->followers_count)
+			if (\Sociallogin::getConfig()->sns_follower_count > $profile->followers_count)
 			{
 				$this->revokeToken();
 
-				return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), self::getConfig()->sns_follower_count));
+				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), \Sociallogin::getConfig()->sns_follower_count));
 			}
 		}
 
@@ -111,7 +113,7 @@ class libraryTwitter extends socialloginLibrary
 		// 전체 데이터
 		$this->setProfileEtc($profile);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -136,7 +138,7 @@ class libraryTwitter extends socialloginLibrary
 	function checkLinkage()
 	{
 		// 트위터는 연동 가능
-		return new BaseObject();
+		return new \BaseObject();
 	}
 	
 	/**
@@ -147,10 +149,10 @@ class libraryTwitter extends socialloginLibrary
 		// 프로필 체크
 		if (!$profile = $this->getProfileEtc())
 		{
-			return new stdClass;
+			return new \stdClass;
 		}
 
-		$extend = new stdClass;
+		$extend = new \stdClass;
 
 		// 서명 (자기 소개)
 		if ($profile->description)
@@ -194,5 +196,11 @@ class libraryTwitter extends socialloginLibrary
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
 		return str_replace('_normal', '', parent::getProfileImage());
+	}
+
+	// Dummy Method for SocialInserface.
+	function requestAPI($url, $type = array(), $authorization = null, $delete = null)
+	{
+		// TODO: Implement requestAPI() method.
 	}
 }

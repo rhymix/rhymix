@@ -1,17 +1,40 @@
 <?php
 
-//TODO(BJRambo): it will be update to Rhymix Framework
-class SocialloginLibrary extends Sociallogin
-{
-	private static $service;
-	private static $profile;
-	private static $token;
+namespace Rhymix\Framework;
 
+/**
+ * The social class.
+ */
+class Social
+{
+	public static $default_driver = null;
+	
+	private $service;
+	private $profile;
+	private $token;
+	private $config;
+	private $driver;
+
+	public static function getDefaultDriver($service)
+	{
+		if(!self::$default_driver)
+		{
+			$ucwordService = ucwords($service);
+			$default_driver_class = '\Rhymix\Framework\Drivers\Social\\' . $ucwordService;
+			if (class_exists($default_driver_class))
+			{
+				self::$default_driver = $default_driver_class::getInstance(array());
+			}
+		}
+		
+		return self::$default_driver;
+	}
+	
 	public function __construct($service)
 	{
-		self::$service = $service;
-
-		self::$profile = array(
+		$this->driver = self::getDefaultDriver($service);
+		$this->service = $service;
+		$this->profile = array(
 			'id'       => '',
 			'email'    => '',
 			'name'     => '',
@@ -21,13 +44,13 @@ class SocialloginLibrary extends Sociallogin
 			'etc'      => '',
 		);
 
-		self::$token = array(
+		$this->token = array(
 			'access'  => '',
 			'refresh' => '',
 		);
-		
+
 		//TODO Check later.
-		self::$config = self::getConfig();
+		$this->config = \Sociallogin::getConfig();
 	}
 
 	/**
@@ -42,7 +65,7 @@ class SocialloginLibrary extends Sociallogin
 	 */
 	public function authenticate()
 	{
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -50,7 +73,7 @@ class SocialloginLibrary extends Sociallogin
 	 */
 	public function loading()
 	{
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -73,7 +96,7 @@ class SocialloginLibrary extends Sociallogin
 	public function checkLinkage()
 	{
 		// 기본적으로는 연동 불가 메세지
-		return new BaseObject(-1, sprintf(Context::getLang('msg_not_support_linkage_setting'), ucwords($this->service)));
+		return new \BaseObject(-1, sprintf(Context::getLang('msg_not_support_linkage_setting'), ucwords($this->service)));
 	}
 
 	/**
@@ -88,7 +111,7 @@ class SocialloginLibrary extends Sociallogin
 	 */
 	public function getProfileExtend()
 	{
-		$extend = new stdClass;
+		$extend = new \stdClass();
 		$extend->signature = '';
 		$extend->homepage = '';
 		$extend->blog = '';
@@ -101,138 +124,143 @@ class SocialloginLibrary extends Sociallogin
 
 	public function setToken($token)
 	{
-		self::$token = $token;
+		$this->token = $token;
 	}
 
 	public function setAccessToken($access_token)
 	{
-		self::$token['access'] = $access_token;
+		$this->token['access'] = $access_token;
 	}
 
 	public function setRefreshToken($refresh_token)
 	{
-		self::$token['refresh'] = $refresh_token;
+		$this->token['refresh'] = $refresh_token;
 	}
 
 	public function setProfile($profile)
 	{
-		self::$profile = $profile;
+		$this->profile = $profile;
 	}
 
 	public function setId($id)
 	{
-		self::$profile['id'] = $id;
+		$this->profile['id'] = $id;
 	}
 
 	public function setEmail($email)
 	{
-		self::$profile['email'] = $email;
+		$this->profile['email'] = $email;
 	}
 
 	public function setName($name)
 	{
-		self::$profile['name'] = $name;
+		$this->profile['name'] = $name;
 	}
 
 	public function setProfileImage($image)
 	{
-		self::$profile['image'] = $image;
+		$this->profile['image'] = $image;
 	}
 
 	public function setProfileUrl($url)
 	{
-		self::$profile['url'] = $url;
+		$this->profile['url'] = $url;
 	}
 
 	public function setVerified($verified)
 	{
-		self::$profile['verified'] = $verified ? true : false;
+		$this->profile['verified'] = $verified ? true : false;
 	}
 
 	public function setProfileEtc($value)
 	{
-		self::$profile['etc'] = $value;
+		$this->profile['etc'] = $value;
 	}
 
 	public function getService()
 	{
-		return self::$service;
+		return $this->service;
 	}
 
 	public function getToken()
 	{
-		return self::$token;
+		return $this->token;
 	}
-	
+
 	public function getAccessToken()
 	{
-		return self::$token['access'];
+		return $this->token['access'];
 	}
 
 	public function getRefreshToken()
 	{
-		return self::$token['refresh'];
+		return $this->token['refresh'];
 	}
 
 	public function getProfile()
 	{
-		return self::$profile;
+		return $this->profile;
 	}
 
 	public function getId()
 	{
-		return self::$profile['id'];
+		return $this->profile['id'];
 	}
 
 	public function getEmail()
 	{
-		return self::$profile['email'];
+		return $this->profile['email'];
 	}
 
 	public function getName()
 	{
-		return self::$profile['name'];
+		return $this->profile['name'];
 	}
 
 	public function getProfileImage()
 	{
-		return self::$profile['image'];
+		return $this->profile['image'];
 	}
 
 	public function getProfileUrl()
 	{
-		return self::$profile['url'];
+		return $this->profile['url'];
 	}
 
 	public function getVerified()
 	{
-		return self::$profile['verified'];
+		return $this->profile['verified'];
 	}
 
 	public function getProfileEtc()
 	{
-		return self::$profile['etc'];
+		return $this->profile['etc'];
 	}
 
 	public function setSocial($value)
 	{
 		if ($value['token'])
 		{
-			self::$token = $value['token'];
+			$this->token = $value['token'];
 		}
 
 		if ($value['profile'])
 		{
-			self::$profile = $value['profile'];
+			$this->profile = $value['profile'];
 		}
 	}
 
 	public function getSocial()
 	{
 		return array(
-			'service' => self::$service,
-			'token'   => self::$token,
-			'profile' => self::$profile,
+			'service' => $this->service,
+			'token'   => $this->token,
+			'profile' => $this->profile,
 		);
+	}
+	
+	public function getDriver()
+	{
+		return $this->driver;
 	}
 }
