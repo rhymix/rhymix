@@ -63,7 +63,7 @@ class emoticon extends EditorHandler
 			$output[] = array(
 				'url' => $emoticon_url . $file_name,
 				'width' => $file_width,
-				'height' => file_height,
+				'height' => $file_height,
 				'svg' => file_exists(sprintf('%s/svg/%s', $emoticon_path, $svg_name)) ? ($emoticon_url . 'svg/' . $svg_name) : '',
 				'alt' => $file_name,
 			);
