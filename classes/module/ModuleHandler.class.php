@@ -770,6 +770,10 @@ class ModuleHandler extends Handler
 			$color_scheme = $color_scheme_array[$site_module_info->settings->color_scheme];
 			Context::addBodyClass('color_scheme_' . $color_scheme);
 		}
+		elseif ($color_scheme_array[$site_module_info->settings->color_scheme] === 'auto_light_dark' && (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto'))
+		{
+			Rhymix\Framework\UA::setColorScheme('auto');
+		}
 		elseif (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto')
 		{
 			Context::addBodyClass('color_scheme_' . $color_scheme);
