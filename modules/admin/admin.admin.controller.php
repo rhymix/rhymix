@@ -1115,7 +1115,7 @@ class adminAdminController extends admin
 		
 		// Validate the color scheme setting.
 		$valid_color_scheme_options = array('off_light', 'off_dark', 'auto_light_dark', 'client_manual');
-		if (!in_array($vars->color_scheme, $valid_security_options))
+		if (!in_array($vars->color_scheme, $valid_color_scheme_options))
 		{
 			$vars->color_scheme = 'off_light';
 		}

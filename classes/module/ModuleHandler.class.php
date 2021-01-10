@@ -774,6 +774,12 @@ class ModuleHandler extends Handler
 		{
 			Context::addBodyClass('color_scheme_' . $color_scheme);
 		}
+		elseif ($site_module_info->settings->color_scheme === 'client_manual')
+		{
+			// When there was no cookie, and the color_scheme settings was 'client mannual', set a default cookie.
+			Rhymix\Framework\UA::setColorScheme('light');
+			Context::addBodyClass('color_scheme_light');
+		}
 	}
 	
 	
