@@ -1772,6 +1772,10 @@ class moduleModel extends module
 
 			$skinName = $designInfo->module->{$module_name}->{$target};
 		}
+		if(!isset($designInfo))
+		{
+			$designInfo = new stdClass();
+		}
 		if(!$skinName)
 		{
 			$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins/';
@@ -1800,6 +1804,10 @@ class moduleModel extends module
 
 			if($updateCache && $skinName)
 			{
+				if(!isset($designInfo->module))
+				{
+					$designInfo->module = new stdClass();
+				}
 				if(!isset($designInfo->module->{$module_name})) $designInfo->module->{$module_name} = new stdClass();
 				$designInfo->module->{$module_name}->{$target} = $skinName;
 
