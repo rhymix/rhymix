@@ -2,9 +2,6 @@
 	<tables>
 		<table name="ncenterlite_notify" />
 	</tables>
-	<index_hint for="ALL">
-		<index table="ncenterlite_notify" name="idx_member_srl_and_readed" type="USE" />
-	</index_hint>
 	<columns>
 		<column name="*" />
 	</columns>

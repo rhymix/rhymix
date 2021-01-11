@@ -70,7 +70,7 @@ class ncenterlite extends ModuleObject
 				return true;
 			}
 		}
-		foreach(['idx_srl', 'idx_member_srl', 'idx_regdate', 'idx_readed', 'idx_target_srl', 'idx_target_p_srl', 'idx_target_member_srl', 'idx_member_srl_and_readed'] as $index_name)
+		foreach(['idx_srl', 'idx_member_srl', 'idx_regdate', 'idx_readed', 'idx_target_srl', 'idx_target_p_srl', 'idx_target_member_srl'] as $index_name)
 		{
 			if(!$oDB->isIndexExists('ncenterlite_notify', $index_name))
 			{
@@ -187,12 +187,6 @@ class ncenterlite extends ModuleObject
 				}
 			}
 			$prev_type = $type;
-		}
-		
-		// Composite index to speed up getNotifyList
-		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_member_srl_and_readed'))
-		{
-			$oDB->addIndex('ncenterlite_notify', 'idx_member_srl_and_readed', array('member_srl', 'readed'));
 		}
 
 		// PK duplicate
