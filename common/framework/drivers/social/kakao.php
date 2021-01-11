@@ -20,7 +20,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 요청 파라미터
 		$params = [
 			'response_type' => 'code',
-			'client_id'     => self::getConfig()->kakao_client_id,
+			'client_id'     => \Sociallogin::getConfig()->kakao_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'kakao'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		];
@@ -34,16 +34,16 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function authenticate()
 	{
 		// 위변조 체크
-		if (!Context::get('code') || Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
+		if (!\Context::get('code') || \Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// API 요청 : 엑세스 토큰
 		$token = $this->requestAPI('token', [
-			'code'         => Context::get('code'),
+			'code'         => \Context::get('code'),
 			'grant_type'   => 'authorization_code',
-			'client_id'    => self::getConfig()->kakao_client_id,
+			'client_id'    => \Sociallogin::getConfig()->kakao_client_id,
 			'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'kakao'),
 		]);
 
@@ -51,7 +51,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$this->setAccessToken($token['access_token']);
 		$this->setRefreshToken($token['refresh_token']);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 토큰 체크
 		if (!$this->getAccessToken())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
@@ -74,7 +74,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			// API 요청 : 프로필 (앱 가입 후 재요청)
 			if (!($profile = $this->requestAPI('v2/user/me', [], $this->getAccessToken())) || !$profile['id'])
 			{
-				return new BaseObject(-1, 'msg_errer_api_connect');
+				return new \BaseObject(-1, 'msg_errer_api_connect');
 			}
 		}
 
@@ -99,7 +99,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 전체 데이터
 		$this->setProfileEtc($profile);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', [
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => self::getConfig()->kakao_client_id,
+			'client_id'     => \Sociallogin::getConfig()->kakao_client_id,
 		]);
 
 		// 새로고침 된 토큰 삽입
@@ -153,16 +153,16 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// API 요청 : 카카오 스토리 사용자 여부
 		if (!$this->getAccessToken() || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], $this->getAccessToken()))
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// 카카오 스토리 사용자만 연동 가능
 		if ($user['isStoryUser'] !== true)
 		{
-			return new BaseObject(-1, 'msg_not_kakao_story_user');
+			return new \BaseObject(-1, 'msg_not_kakao_story_user');
 		}
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -208,7 +208,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		return preg_replace('/\?.*/', '', parent::getProfileImage());
 	}
 
-	function requestAPI($url, $post = [], $authorization = null)
+	function requestAPI($url, $post = [], $authorization = null, $delete = null)
 	{
 		if ($authorization)
 		{
@@ -217,6 +217,6 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			];
 		}
 
-		return json_decode(FileHandler::getRemoteResource(($url == 'token') ? KAKAO_OAUTH2_URI . 'token' : KAKAO_API_URI . $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, [], $post, ['ssl_verify_peer' => false]), true);
+		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? KAKAO_OAUTH2_URI . 'token' : KAKAO_API_URI . $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, [], $post, ['ssl_verify_peer' => false]), true);
 	}
 }

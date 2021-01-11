@@ -4,17 +4,41 @@ namespace Rhymix\Framework\Drivers\Social;
 
 abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+	
 	private $service;
 	private $profile;
 	private $token;
 	private $config;
 	private $driver;
 	
-	public static function getInstance(array $config)
+	public function getInstance(string $service)
 	{
-		return new static($config);
+		return new static($service);
 	}
 
+	public function __construct($service = null)
+	{
+		if($service)
+		{
+			$this->service = $service;
+
+			$this->profile = array(
+				'id'       => '',
+				'email'    => '',
+				'name'     => '',
+				'image'    => '',
+				'url'      => '',
+				'verified' => false,
+				'etc'      => '',
+			);
+			$this->token = array(
+				'access'  => '',
+				'refresh' => '',
+			);
+			$this->config = \Sociallogin::getConfig();
+		}
+	}
+	
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */

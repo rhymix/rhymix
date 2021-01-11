@@ -38,14 +38,14 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function authenticate()
 	{
 		// 위변조 체크
-		if (!Context::get('code') || Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
+		if (!\Context::get('code') || \Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// API 요청 : 엑세스 토큰
 		$token = $this->requestAPI('/oauth/access_token', array(
-			'code'          => Context::get('code'),
+			'code'          => \Context::get('code'),
 			'client_id'     => \Sociallogin::getConfig()->facebook_app_id,
 			'client_secret' => \Sociallogin::getConfig()->facebook_app_secret,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'facebook'),
@@ -62,7 +62,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 토큰 삽입
 		$this->setAccessToken($token['access_token']);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 토큰 체크
 		if (!$this->getAccessToken())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// 요청 필드
@@ -101,7 +101,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 데이터가 없다면 오류
 		if (empty($profile) || $profile['error']['message'])
 		{
-			return new BaseObject(-1, Context::getLang('msg_errer_api_connect') . $profile['error']['message']);
+			return new \BaseObject(-1, \Context::getLang('msg_errer_api_connect') . $profile['error']['message']);
 		}
 
 		// 팔로워 수 제한 (페이스북의 경우 '친구 수')
@@ -111,7 +111,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			{
 				$this->revokeToken();
 
-				return new BaseObject(-1, sprintf(Context::getLang('msg_not_sns_follower_count'), \Sociallogin::getConfig()->sns_follower_count));
+				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), \Sociallogin::getConfig()->sns_follower_count));
 			}
 		}
 		// 이메일 주소
@@ -132,7 +132,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 전체 데이터
 		$this->setProfileEtc($profile);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -169,10 +169,10 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 체크
 		if (!$profile = $this->getProfileEtc())
 		{
-			return new stdClass;
+			return new \stdClass;
 		}
 
-		$extend = new stdClass;
+		$extend = new \stdClass;
 
 		// 서명 (자기 소개)(별도의 검수 필요)
 		if ($profile['about'])
@@ -222,6 +222,6 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)
 	{
-		return json_decode(FileHandler::getRemoteResource(FACEBOOK_GRAPH_URL . FACEBOOK_GRAPH_API_VERSION . $url, null, 3, $delete ? 'DELETE' : (empty($post) ? 'GET' : 'POST'), 'application/x-www-form-urlencoded', array(), array(), $post, array('ssl_verify_peer' => false)), true);
+		return json_decode(\FileHandler::getRemoteResource(FACEBOOK_GRAPH_URL . FACEBOOK_GRAPH_API_VERSION . $url, null, 3, $delete ? 'DELETE' : (empty($post) ? 'GET' : 'POST'), 'application/x-www-form-urlencoded', array(), array(), $post, array('ssl_verify_peer' => false)), true);
 	}
 }

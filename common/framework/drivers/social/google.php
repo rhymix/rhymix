@@ -23,7 +23,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'scope'         => implode(' ', $scope),
 			'access_type'   => 'offline',
 			'response_type' => 'code',
-			'client_id'     => self::getConfig()->google_client_id,
+			'client_id'     => \Sociallogin::getConfig()->google_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'google'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		);
@@ -37,17 +37,17 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function authenticate()
 	{
 		// 위변조 체크
-		if (!Context::get('code') || Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
+		if (!\Context::get('code') || \Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// API 요청 : 엑세스 토큰
 		$token = $this->requestAPI('token', array(
-			'code'          => Context::get('code'),
+			'code'          => \Context::get('code'),
 			'grant_type'    => 'authorization_code',
-			'client_id'     => self::getConfig()->google_client_id,
-			'client_secret' => self::getConfig()->google_client_secret,
+			'client_id'     => \Sociallogin::getConfig()->google_client_id,
+			'client_secret' => \Sociallogin::getConfig()->google_client_secret,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'google'),
 		));
 
@@ -55,7 +55,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$this->setAccessToken($token['access_token']);
 		$this->setRefreshToken($token['refresh_token']);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -66,7 +66,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 토큰 체크
 		if (!$this->getAccessToken())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
@@ -78,7 +78,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 데이터가 없다면 오류
 		if (empty($profile))
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// 이메일 주소
@@ -107,7 +107,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 전체 데이터
 		$this->setProfileEtc($profile);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -142,8 +142,8 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', array(
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => self::getConfig()->google_client_id,
-			'client_secret' => self::getConfig()->google_client_secret,
+			'client_id'     => \Sociallogin::getConfig()->google_client_id,
+			'client_secret' => \Sociallogin::getConfig()->google_client_secret,
 		));
 
 		// 새로고침 된 토큰 삽입
@@ -158,10 +158,10 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 체크
 		if (!$profile = $this->getProfileEtc())
 		{
-			return new stdClass;
+			return new \stdClass;
 		}
 
-		$extend = new stdClass;
+		$extend = new \stdClass;
 
 		// 서명 (자기 소개)
 		if ($profile['aboutMe'] || $profile['tagline'])
@@ -223,9 +223,14 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		return preg_replace('/\?.*/', '', parent::getProfileImage());
 	}
 
-	function requestAPI($url, $post = array())
+	/**
+	 * @param $url
+	 * @param array $post
+	 * @return mixed
+	 */
+	function requestAPI($url, $post = array(), $authorization = null, $delete = null)
 	{
-		return json_decode(FileHandler::getRemoteResource(in_array($url, array(
+		return json_decode(\FileHandler::getRemoteResource(in_array($url, array(
 			'token',
 			'revoke'
 		)) ? GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', // 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청

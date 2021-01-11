@@ -220,6 +220,7 @@ class SocialloginController extends Sociallogin
 			return new BaseObject(-1, 'msg_not_linkage_sns_info');
 		}
 
+
 		// 토큰 넣기
 		getModel('sociallogin')->setAvailableAccessToken($oLibrary, $sns_info);
 
@@ -278,10 +279,9 @@ class SocialloginController extends Sociallogin
 		$_SESSION['sociallogin_current']['mid'] = $_SESSION['sociallogin_auth']['mid'];
 		$redirect_url = $_SESSION['sociallogin_auth']['redirect'];
 		$redirect_url = $redirect_url ? Context::getRequestUri() . '?' . $redirect_url : Context::getRequestUri();
-
 		// 인증
 		$output = $oLibrary->authenticate();
-		if ($output instanceof Object && !$output->toBool())
+		if ($output instanceof BaseObject && !$output->toBool())
 		{
 			$error = $output->getMessage();
 		}
@@ -293,7 +293,7 @@ class SocialloginController extends Sociallogin
 		if (!$error)
 		{
 			$output = $oLibrary->loading();
-			if ($output instanceof Object && !$output->toBool())
+			if ($output instanceof BaseObject && !$output->toBool())
 			{
 				$error = $output->getMessage();
 				// 오류시 토큰 파기 (롤백)

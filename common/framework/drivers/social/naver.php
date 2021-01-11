@@ -12,7 +12,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 요청 파라미터
 		$params = array(
 			'response_type' => 'code',
-			'client_id'     => self::getConfig()->naver_client_id,
+			'client_id'     => \Sociallogin::getConfig()->naver_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'naver'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		);
@@ -26,31 +26,31 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function authenticate()
 	{
 		// 오류가 있을 경우 메세지 출력
-		if (Context::get('error'))
+		if (\Context::get('error'))
 		{
-			return new BaseObject(-1, 'Error ' . Context::get('error') . ' : ' . Context::get('error_description'));
+			return new \BaseObject(-1, 'Error ' . \Context::get('error') . ' : ' . \Context::get('error_description'));
 		}
 
 		// 위변조 체크
-		if (!Context::get('code') || Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
+		if (!\Context::get('code') || \Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// API 요청 : 엑세스 토큰
 		$token = $this->requestAPI('token', array(
-			'code'          => Context::get('code'),
-			'state'         => Context::get('state'),
+			'code'          => \Context::get('code'),
+			'state'         => \Context::get('state'),
 			'grant_type'    => 'authorization_code',
-			'client_id'     => self::getConfig()->naver_client_id,
-			'client_secret' => self::getConfig()->naver_client_secret,
+			'client_id'     => \Sociallogin::getConfig()->naver_client_id,
+			'client_secret' => \Sociallogin::getConfig()->naver_client_secret,
 		));
 
 		// 토큰 삽입
 		$this->setAccessToken($token['access_token']);
 		$this->setRefreshToken($token['refresh_token']);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -61,7 +61,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 토큰 체크
 		if (!$this->getAccessToken())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
@@ -70,7 +70,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 데이터가 없다면 오류
 		if (!($profile = $profile['response']) || empty($profile))
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// 이메일 주소
@@ -111,7 +111,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 전체 데이터
 		$this->setProfileEtc($profile);
 
-		return new BaseObject();
+		return new \BaseObject();
 	}
 
 	/**
@@ -129,8 +129,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$this->requestAPI('token', array(
 			'access_token'     => $this->getAccessToken(),
 			'grant_type'       => 'delete',
-			'client_id'        => self::getConfig()->naver_client_id,
-			'client_secret'    => self::getConfig()->naver_client_secret,
+			'client_id'        => \Sociallogin::getConfig()->naver_client_id,
+			'client_secret'    => \Sociallogin::getConfig()->naver_client_secret,
 			'service_provider' => 'NAVER',
 		));
 	}
@@ -150,8 +150,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', array(
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => self::getConfig()->naver_client_id,
-			'client_secret' => self::getConfig()->naver_client_secret,
+			'client_id'     => \Sociallogin::getConfig()->naver_client_id,
+			'client_secret' => \Sociallogin::getConfig()->naver_client_secret,
 		));
 
 		// 새로고침 된 토큰 삽입
@@ -208,7 +208,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		return preg_replace('/\?.*/', '', parent::getProfileImage());
 	}
 
-	function requestAPI($url, $post = array(), $authorization = null)
+	function requestAPI($url, $post = array(), $authorization = null, $delete = null)
 	{
 		if ($authorization)
 		{
@@ -220,6 +220,6 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			);
 		}
 
-		return json_decode(FileHandler::getRemoteResource(($url == 'token') ? NAVER_OAUTH2_URI . 'token' : $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, array(), $post, array('ssl_verify_peer' => false)), true);
+		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? NAVER_OAUTH2_URI . 'token' : $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, array(), $post, array('ssl_verify_peer' => false)), true);
 	}
 }
