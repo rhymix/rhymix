@@ -149,12 +149,11 @@ class Sociallogin extends ModuleObject
 	{
 		if (!isset($this->library[$library_name]))
 		{
-			if($library_name = 'twitter')
+			if($library_name == 'twitter')
 			{
 				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Twitter;
 				$this->library[$library_name] = $oSocialLib::getInstance(array());
 			}
-			
 		}
 
 		return $this->library[$library_name];
