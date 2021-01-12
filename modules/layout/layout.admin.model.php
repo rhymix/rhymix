@@ -62,7 +62,7 @@ class layoutAdminModel extends layout
 
 		// Get layout information
 		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($layout_srl);
+		$layout_info = $oLayoutModel->getLayout($layout_srl, false);
 
 		// Error appears if there is no layout information is registered
 		if(!$layout_info)

@@ -265,13 +265,14 @@ class layoutModel extends layout
 	 * Get one of layout information created in the DB
 	 * Return DB info + XML info of the generated layout
 	 * @param int $layout_srl
+	 * @param bool $use_cache
 	 * @return object info of layout
 	 */
-	function getLayout($layout_srl)
+	function getLayout($layout_srl, $use_cache = true)
 	{
 		// Get information from cache
 		$layout_info = Rhymix\Framework\Cache::get("layout:$layout_srl");
-		if ($layout_info !== null)
+		if ($use_cache && $layout_info !== null)
 		{
 			return $layout_info;
 		}
