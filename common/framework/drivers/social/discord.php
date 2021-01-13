@@ -10,7 +10,7 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	const DISCORD_API_URL = 'https://discord.com/';
 	
-	function createAuthUrl($type)
+	function createAuthUrl(string $type = 'login'): string
 	{
 		$params = array(
 			'client_id'        => \Sociallogin::getConfig()->discord_client_id,
