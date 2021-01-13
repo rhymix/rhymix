@@ -8,7 +8,9 @@ const FACEBOOK_GRAPH_URL = 'https://graph.facebook.com/';
 class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	/**
-	 * @brief 인증 URL 생성 (SNS 로그인 URL)
+	 * @brief Auth 로그인 링크를 생성
+	 * @param string $type
+	 * @return string
 	 */
 	public function createAuthUrl(string $type = 'login'): string
 	{
@@ -24,7 +26,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 요청 파라미터
 		$params = array(
 			'scope'        => implode(',', $scope),
-			'client_id'    => \Sociallogin::getConfig()->facebook_app_id,
+			'client_id'    => $this->config->facebook_app_id,
 			'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'facebook'),
 			'state'        => $_SESSION['sociallogin_auth']['state'],
 		);
@@ -34,6 +36,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	/**
 	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @return \BaseObject|void
 	 */
 	function authenticate()
 	{
@@ -46,8 +49,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// API 요청 : 엑세스 토큰
 		$token = $this->requestAPI('/oauth/access_token', array(
 			'code'          => \Context::get('code'),
-			'client_id'     => \Sociallogin::getConfig()->facebook_app_id,
-			'client_secret' => \Sociallogin::getConfig()->facebook_app_secret,
+			'client_id'     => $this->config->facebook_app_id,
+			'client_secret' => $this->config->facebook_app_secret,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'facebook'),
 		));
 
@@ -55,8 +58,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('/oauth/access_token', array(
 			'fb_exchange_token' => $token['access_token'],
 			'grant_type'        => 'fb_exchange_token',
-			'client_id'         => \Sociallogin::getConfig()->facebook_app_id,
-			'client_secret'     => \Sociallogin::getConfig()->facebook_app_secret,
+			'client_id'         => $this->config->facebook_app_id,
+			'client_secret'     => $this->config->facebook_app_secret,
 		));
 
 		// 토큰 삽입
@@ -66,7 +69,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	}
 
 	/**
-	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @brief 인증 후 프로필을 가져옴.
+	 * @return \BaseObject
 	 */
 	function loading()
 	{
@@ -105,13 +109,13 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// 팔로워 수 제한 (페이스북의 경우 '친구 수')
-		if (\Sociallogin::getConfig()->sns_follower_count)
+		if ($this->config->sns_follower_count)
 		{
-			if (\Sociallogin::getConfig()->sns_follower_count > $profile['friends']['summary']['total_count'])
+			if ($this->config->sns_follower_count > $profile['friends']['summary']['total_count'])
 			{
 				$this->revokeToken();
 
-				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), \Sociallogin::getConfig()->sns_follower_count));
+				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
 			}
 		}
 		// 이메일 주소

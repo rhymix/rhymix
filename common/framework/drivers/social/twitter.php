@@ -7,11 +7,13 @@ use Abraham\TwitterOAuth\TwitterOAuth;
 class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	/**
-	 * @brief 인증 URL 생성 (SNS 로그인 URL)
+	 * @brief Auth 로그인 링크를 생성
+	 * @param string $type
+	 * @return string
 	 */
 	public function createAuthUrl(string $type = 'login'): string
 	{
-		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret);
+		$connection = new TwitterOAuth($this->config->twitter_consumer_key, $this->config->twitter_consumer_secret);
 
 		// API 요청 : 요청 토큰
 		$request_token = $connection->oauth('oauth/request_token', array(
@@ -28,6 +30,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	/**
 	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @return \BaseObject|void
 	 */
 	function authenticate()
 	{
@@ -43,7 +46,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
-		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret, $_SESSION['sociallogin_auth']['token'], $_SESSION['sociallogin_auth']['token_secret']);
+		$connection = new TwitterOAuth($this->config->twitter_consumer_key, $this->config->twitter_consumer_secret, $_SESSION['sociallogin_auth']['token'], $_SESSION['sociallogin_auth']['token_secret']);
 
 		// API 요청 : 엑세스 토큰
 		$token = $connection->oauth('oauth/access_token', array('oauth_verifier' => \Context::get('oauth_verifier')));
@@ -55,7 +58,8 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	}
 
 	/**
-	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @brief 인증 후 프로필을 가져옴.
+	 * @return \BaseObject
 	 */
 	function loading()
 	{
@@ -65,7 +69,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
-		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret, $token['token'], $token['token_secret']);
+		$connection = new TwitterOAuth($this->config->twitter_consumer_key, $this->config->twitter_consumer_secret, $token['token'], $token['token_secret']);
 
 		// API 요청 : 프로필
 		if (!($profile = $connection->get('account/verify_credentials', array('include_email' => 'true'))) || empty($profile))
@@ -74,7 +78,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// 계정 차단 확인
-		if (\Sociallogin::getConfig()->sns_suspended_account == 'Y')
+		if ($this->config->sns_suspended_account == 'Y')
 		{
 			// API 요청 : 사용자 정보
 			if (!($user = $connection->get('users/show', array('user_id' => $profile->id))) || !$user->id)
@@ -84,13 +88,13 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// 팔로워 수 제한
-		if (\Sociallogin::getConfig()->sns_follower_count)
+		if ($this->config->sns_follower_count)
 		{
-			if (\Sociallogin::getConfig()->sns_follower_count > $profile->followers_count)
+			if ($this->config->sns_follower_count > $profile->followers_count)
 			{
 				$this->revokeToken();
 
-				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), \Sociallogin::getConfig()->sns_follower_count));
+				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
 			}
 		}
 

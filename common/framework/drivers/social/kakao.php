@@ -13,14 +13,16 @@ const KAKAO_API_URI = 'https://kapi.kakao.com/';
 class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	/**
-	 * @brief 인증 URL 생성 (SNS 로그인 URL)
+	 * @brief Auth 로그인 링크를 생성
+	 * @param string $type
+	 * @return string
 	 */
 	public function createAuthUrl(string $type = 'login'): string
 	{
 		// 요청 파라미터
 		$params = [
 			'response_type' => 'code',
-			'client_id'     => \Sociallogin::getConfig()->kakao_client_id,
+			'client_id'     => $this->config->kakao_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'kakao'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		];
@@ -30,6 +32,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	/**
 	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @return \BaseObject|void
 	 */
 	function authenticate()
 	{
@@ -43,7 +46,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', [
 			'code'         => \Context::get('code'),
 			'grant_type'   => 'authorization_code',
-			'client_id'    => \Sociallogin::getConfig()->kakao_client_id,
+			'client_id'    => $this->config->kakao_client_id,
 			'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'kakao'),
 		]);
 
@@ -55,7 +58,8 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	}
 
 	/**
-	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @brief 인증 후 프로필을 가져옴.
+	 * @return \BaseObject
 	 */
 	function loading()
 	{
@@ -132,7 +136,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', [
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => \Sociallogin::getConfig()->kakao_client_id,
+			'client_id'     => $this->config->kakao_client_id,
 		]);
 
 		// 새로고침 된 토큰 삽입
@@ -188,10 +192,10 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 체크
 		if (!$profile = $this->getProfileEtc())
 		{
-			return new stdClass;
+			return new \stdClass;
 		}
 
-		$extend = new stdClass;
+		$extend = new \stdClass;
 
 		// 생일
 		if ($profile['story']['birthday'])

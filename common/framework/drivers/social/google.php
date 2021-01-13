@@ -8,7 +8,9 @@ const GOOGLE_PEOPLE_URI = 'https://www.googleapis.com/plus/v1/people/';
 class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	/**
-	 * @brief 인증 URL 생성 (SNS 로그인 URL)
+	 * @brief Auth 로그인 링크를 생성
+	 * @param string $type
+	 * @return string
 	 */
 	public function createAuthUrl(string $type = 'login'): string
 	{
@@ -23,7 +25,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'scope'         => implode(' ', $scope),
 			'access_type'   => 'offline',
 			'response_type' => 'code',
-			'client_id'     => \Sociallogin::getConfig()->google_client_id,
+			'client_id'     => $this->config->google_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'google'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		);
@@ -33,21 +35,22 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	/**
 	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @return \BaseObject|void
 	 */
 	function authenticate()
 	{
 		// 위변조 체크
 		if (!\Context::get('code') || \Context::get('state') !== $_SESSION['sociallogin_auth']['state'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 
 		// API 요청 : 엑세스 토큰
 		$token = $this->requestAPI('token', array(
 			'code'          => \Context::get('code'),
 			'grant_type'    => 'authorization_code',
-			'client_id'     => \Sociallogin::getConfig()->google_client_id,
-			'client_secret' => \Sociallogin::getConfig()->google_client_secret,
+			'client_id'     => $this->config->google_client_id,
+			'client_secret' => $this->config->google_client_secret,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'google'),
 		));
 
@@ -59,7 +62,8 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	}
 
 	/**
-	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @brief 인증 후 프로필을 가져옴.
+	 * @return \BaseObject
 	 */
 	function loading()
 	{
@@ -142,8 +146,8 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', array(
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => \Sociallogin::getConfig()->google_client_id,
-			'client_secret' => \Sociallogin::getConfig()->google_client_secret,
+			'client_id'     => $this->config->google_client_id,
+			'client_secret' => $this->config->google_client_secret,
 		));
 
 		// 새로고침 된 토큰 삽입

@@ -5,14 +5,16 @@ const NAVER_OAUTH2_URI = 'https://nid.naver.com/oauth2.0/';
 class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	/**
-	 * @brief 인증 URL 생성 (SNS 로그인 URL)
+	 * @brief Auth 로그인 링크를 생성
+	 * @param string $type
+	 * @return string
 	 */
 	public function createAuthUrl(string $type = 'login'): string
 	{
 		// 요청 파라미터
 		$params = array(
 			'response_type' => 'code',
-			'client_id'     => \Sociallogin::getConfig()->naver_client_id,
+			'client_id'     => $this->config->naver_client_id,
 			'redirect_uri'  => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'naver'),
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		);
@@ -22,6 +24,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	/**
 	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @return \BaseObject|void
 	 */
 	function authenticate()
 	{
@@ -42,8 +45,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'code'          => \Context::get('code'),
 			'state'         => \Context::get('state'),
 			'grant_type'    => 'authorization_code',
-			'client_id'     => \Sociallogin::getConfig()->naver_client_id,
-			'client_secret' => \Sociallogin::getConfig()->naver_client_secret,
+			'client_id'     => $this->config->naver_client_id,
+			'client_secret' => $this->config->naver_client_secret,
 		));
 
 		// 토큰 삽입
@@ -54,7 +57,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	}
 
 	/**
-	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @brief 인증 후 프로필을 가져옴.
+	 * @return \BaseObject
 	 */
 	function loading()
 	{
@@ -129,8 +133,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$this->requestAPI('token', array(
 			'access_token'     => $this->getAccessToken(),
 			'grant_type'       => 'delete',
-			'client_id'        => \Sociallogin::getConfig()->naver_client_id,
-			'client_secret'    => \Sociallogin::getConfig()->naver_client_secret,
+			'client_id'        => $this->config->naver_client_id,
+			'client_secret'    => $this->config->naver_client_secret,
 			'service_provider' => 'NAVER',
 		));
 	}
@@ -150,8 +154,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $this->requestAPI('token', array(
 			'refresh_token' => $this->getRefreshToken(),
 			'grant_type'    => 'refresh_token',
-			'client_id'     => \Sociallogin::getConfig()->naver_client_id,
-			'client_secret' => \Sociallogin::getConfig()->naver_client_secret,
+			'client_id'     => $this->config->naver_client_id,
+			'client_secret' => $this->config->naver_client_secret,
 		));
 
 		// 새로고침 된 토큰 삽입

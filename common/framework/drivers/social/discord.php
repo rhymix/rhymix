@@ -1,19 +1,23 @@
 <?php
 namespace Rhymix\Framework\Drivers\Social;
 
-
-
 /**
- * The dummy SMS driver.
+ * Class Discord
+ * @package Rhymix\Framework\Drivers\Social
  */
 class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	const DISCORD_API_URL = 'https://discord.com/';
-	
+
+	/**
+	 * @brief Auth 로그인 링크를 생성
+	 * @param string $type
+	 * @return string
+	 */
 	function createAuthUrl(string $type = 'login'): string
 	{
 		$params = array(
-			'client_id'        => \Sociallogin::getConfig()->discord_client_id,
+			'client_id'        => $this->config->discord_client_id,
 			'redirect_uri'    => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'discord'),
 			'response_type' => 'code',
 			'scope' => 'identify email',
@@ -22,12 +26,16 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 		return self::DISCORD_API_URL . 'oauth2/authorize?' . http_build_query($params, '', '&');
 	}
-	
+
+	/**
+	 * @brief 인증 단계 (로그인 후 callback 처리) [실행 중단 에러를 출력할 수 있음]
+	 * @return \BaseObject|void
+	 */
 	function authenticate()
 	{
 		$code = \Context::get('code');
 		
-		$config = \Sociallogin::getConfig();
+		$config = $this->config;
 		$post = [
 			"grant_type" => "authorization_code",
 			"client_id" => $config->discord_client_id,
@@ -41,6 +49,10 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$this->setRefreshToken($token['refresh_token']);
 	}
 
+	/**
+	 * @brief 인증 후 프로필을 가져옴.
+	 * @return \BaseObject
+	 */
 	function loading()
 	{
 		// 토큰 체크
