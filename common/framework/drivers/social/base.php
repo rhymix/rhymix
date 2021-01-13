@@ -4,39 +4,45 @@ namespace Rhymix\Framework\Drivers\Social;
 
 abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+	protected static $_instances = [];
+	protected $service;
+	protected $profile;
+	protected $token;
+	protected $config;
+	protected $driver;
 	
-	private $service;
-	private $profile;
-	private $token;
-	private $config;
-	private $driver;
-	
-	public function getInstance(string $service)
+	/**
+	 * Get a singleton instance of a driver class.
+	 */
+	public static function getInstance()
 	{
-		return new static($service);
-	}
-
-	public function __construct($service = null)
-	{
-		if($service)
+		if (!isset(self::$_instances[static::class]))
 		{
-			$this->service = $service;
-
-			$this->profile = array(
-				'id'       => '',
-				'email'    => '',
-				'name'     => '',
-				'image'    => '',
-				'url'      => '',
-				'verified' => false,
-				'etc'      => '',
-			);
-			$this->token = array(
-				'access'  => '',
-				'refresh' => '',
-			);
-			$this->config = \Sociallogin::getConfig();
+			self::$_instances[static::class] = new static;
 		}
+		return self::$_instances[static::class];
+	}
+	
+	/**
+	 * Create a singleton instance.
+	 */
+	protected function __construct()
+	{
+		$this->service = strtolower(class_basename($this));
+		$this->profile = array(
+			'id'       => '',
+			'email'    => '',
+			'name'     => '',
+			'image'    => '',
+			'url'      => '',
+			'verified' => false,
+			'etc'      => '',
+		);
+		$this->token = array(
+			'access'  => '',
+			'refresh' => '',
+		);
+		$this->config = \Sociallogin::getConfig();
 	}
 	
 	/**
@@ -44,6 +50,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	public function createAuthUrl($type)
 	{
+		
 	}
 
 	/**
@@ -67,6 +74,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	public function revokeToken()
 	{
+		
 	}
 
 	/**
@@ -74,6 +82,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	public function refreshToken()
 	{
+		
 	}
 
 	/**
@@ -90,6 +99,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	public function post($args)
 	{
+		
 	}
 
 	/**
@@ -243,13 +253,5 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'token'   => $this->token,
 			'profile' => $this->profile,
 		);
-	}
-
-	/**
-	 * @return Drivers\Social\Dummy|null
-	 */
-	public function getDriver()
-	{
-		return $this->driver;
 	}
 }
