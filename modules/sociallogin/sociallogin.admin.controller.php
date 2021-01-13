@@ -23,6 +23,8 @@ class SocialloginAdminController extends Sociallogin
 			'naver_client_id',
 			'naver_client_secret',
 			'kakao_client_id',
+			'discord_client_id',
+			'discord_client_secret',
 		);
 
 		$config = self::getConfig();

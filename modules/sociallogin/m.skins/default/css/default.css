@@ -6,6 +6,7 @@
 .sns_icon.google{background:url(../img/google.png) no-repeat;}
 .sns_icon.naver{background:url(../img/naver.png) no-repeat;}
 .sns_icon.kakao{background:url(../img/kakao.png) no-repeat;}
+.sns_icon.discord{background:url(../img/discord.png) no-repeat;}
 
 .sns_login{padding:0;margin:0;list-style:none; overflow:hidden;}
 .sns_login li{display:block;padding:0; margin-bottom:10px; text-align:center;}

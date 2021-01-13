@@ -1,5 +1,4 @@
 <?php
-
 namespace Rhymix\Framework\Drivers\Social;
 
 abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface

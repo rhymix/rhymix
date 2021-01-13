@@ -10,6 +10,7 @@ class Sociallogin extends ModuleObject
 		'google',
 		'naver',
 		'kakao',
+		'discord',
 	);
 
 	private $library = array();
@@ -172,6 +173,10 @@ class Sociallogin extends ModuleObject
 			if($library_name == 'kakao')
 			{
 				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Kakao;
+			}
+			if($library_name == 'discord')
+			{
+				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Discord;
 			}
 			$this->library[$library_name] = $oSocialLib->getInstance($library_name);
 		}
