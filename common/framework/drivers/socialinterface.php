@@ -4,7 +4,7 @@ namespace Rhymix\Framework\Drivers;
 interface SocialInterface
 {
 	public static function getInstance();
-	public function createAuthUrl($type);
+	public function createAuthUrl(string $type = 'login'): string;
 	public function authenticate();
 	public function loading();
 	public function revokeToken();

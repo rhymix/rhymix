@@ -48,9 +48,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */
-	public function createAuthUrl($type)
+	public function createAuthUrl(string $type = 'login'): string
 	{
-		
+		return '';
 	}
 
 	/**

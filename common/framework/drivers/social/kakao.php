@@ -15,7 +15,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */
-	function createAuthUrl($type)
+	public function createAuthUrl(string $type = 'login'): string
 	{
 		// 요청 파라미터
 		$params = [
