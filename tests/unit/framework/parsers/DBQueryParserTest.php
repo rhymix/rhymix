@@ -271,7 +271,30 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$sql = $query->getQueryString('rx_', ['document_srl_list' => [100, 110, 120]], [], true);
 		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT DISTINCT `module_srl` FROM `rx_documents` AS `documents` ' .
 			'WHERE `document_srl` IN (?, ?, ?)) AS `subquery`', $sql);
-		}
+	}
+	
+	public function testIndexHintQuery()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/indexHintTest1.xml');
+		$sql = $query->getQueryString('rx_', ['module_srl' => 82]);
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` USE INDEX (`idx_module_srl`) ' .
+			'WHERE `module_srl` = ? ORDER BY `list_order` DESC LIMIT 20', $sql);
+		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/indexHintTest2.xml');
+		$sql = $query->getQueryString('rx_', ['module_srl' => 82]);
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` USE INDEX (`idx_module_list_order`) ' .
+			'WHERE `module_srl` = ? ORDER BY `list_order` DESC LIMIT 20', $sql);
+		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/indexHintTest2.xml');
+		$sql = $query->getQueryString('rx_', ['module_srl' => 82, 'index_hint1' => 'idx_regdate']);
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` FORCE INDEX (`idx_regdate`) USE INDEX (`idx_module_list_order`) ' .
+			'WHERE `module_srl` = ? ORDER BY `list_order` DESC LIMIT 20', $sql);
+		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/indexHintTest2.xml');
+		$sql = $query->getQueryString('rx_', ['module_srl' => 82, 'index_hint1' => 'idx_regdate', 'index_hint2' => 'idx_member_srl']);
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` FORCE INDEX (`idx_regdate`) USE INDEX (`idx_member_srl`) ' .
+			'WHERE `module_srl` = ? ORDER BY `list_order` DESC LIMIT 20', $sql);
+	}
 	
 	public function testInsertQuery()
 	{

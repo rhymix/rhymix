@@ -1,0 +1,18 @@
+<query id="indexHintTest2" action="select">
+	<tables>
+		<table name="documents" />
+	</tables>
+	<index_hint for="ALL">
+		<index var="index_hint1" type="FORCE" />
+		<index var="index_hint2" default="idx_module_list_order" type="USE" />
+	</index_hint>
+	<conditions>
+		<condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="list_order" order="desc" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

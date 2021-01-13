@@ -11,4 +11,5 @@ class IndexHint
 	public $hint_type = '';
 	public $index_name = '';
 	public $table_name = '';
+	public $var;
 }

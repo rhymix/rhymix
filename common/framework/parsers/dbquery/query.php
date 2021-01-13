@@ -469,7 +469,14 @@ class Query extends VariableBase
 			{
 				$key = $index_hint->hint_type ?: 'USE';
 				$index_list[$key] = $index_list[$key] ?? [];
-				$index_list[$key][] = $index_hint->index_name;
+				if ($index_hint->var && isset($this->_args[$index_hint->var]))
+				{
+					$index_list[$key][] = self::quoteName($this->_args[$index_hint->var]);
+				}
+				elseif ($index_hint->index_name)
+				{
+					$index_list[$key][] = self::quoteName($index_hint->index_name);
+				}
 			}
 		}
 		
@@ -477,7 +484,10 @@ class Query extends VariableBase
 		$result = [];
 		foreach ($index_list as $key => $val)
 		{
-			$result[] = sprintf('%s INDEX (%s)', $key, implode(', ', $val));
+			if (count($val))
+			{
+				$result[] = sprintf('%s INDEX (%s)', $key, implode(', ', $val));
+			}
 		}
 		return implode(' ', $result);
 	}
