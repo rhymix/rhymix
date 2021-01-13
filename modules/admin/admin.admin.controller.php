@@ -880,6 +880,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('debug.log_slow_remote_requests', max(0, floatval($vars->debug_log_slow_remote_requests)));
 		Rhymix\Framework\Config::set('debug.display_type', $display_type);
 		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		Rhymix\Framework\Config::set('debug.query_comment', $vars->debug_query_comment === 'Y');
 		Rhymix\Framework\Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
 		
 		// Debug content
