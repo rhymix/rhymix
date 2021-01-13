@@ -15,12 +15,14 @@ class ncenterliteView extends ncenterlite
 		$this->setTemplatePath($template_path);
 
 		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($config->layout_srl);
-
-		if($layout_info)
+		if (isset($config->layout_srl) && $config->layout_srl)
 		{
-			$this->module_info->layout_srl = $config->layout_srl;
-			$this->setLayoutPath($layout_info->path);
+			$layout_info = $oLayoutModel->getLayout($config->layout_srl);
+			if ($layout_info)
+			{
+				$this->module_info->layout_srl = $config->layout_srl;
+				$this->setLayoutPath($layout_info->path);
+			}
 		}
 	}
 
