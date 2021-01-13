@@ -295,6 +295,13 @@ $lang->allow_use_mobile_icon = '모바일 홈 화면 아이콘';
 $lang->detail_use_mobile_icon = '57x57 또는 114x114 크기의 png 파일을 권장합니다.';
 $lang->cmd_site_default_image = '사이트 대표 이미지';
 $lang->about_site_default_image = 'SNS 등에 이 사이트가 링크되었을 때 표시되는 이미지입니다. 200x200 크기의 jpg 또는 png 파일을 권장합니다.';
+$lang->cmd_site_default_color_scheme = '사이트 색상 조합';
+$lang->about_site_default_color_scheme = '사용자 기기가 다크 모드로 지정된 경우 어떻게 반응할지 선택합니다.';
+$lang->site_default_color_scheme_options = array(
+	'auto' => '기기 상태 자동 감지',
+	'light' => '밝은 색상 고정',
+	'dark' => '어두운 색상 고정',
+);
 $lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> 사용';
 $lang->about_use_sso = '한 번만 로그인하면 모든 도메인에 로그인되도록 합니다.';
 $lang->about_arrange_session = '세션을 정리하시겠습니까?';

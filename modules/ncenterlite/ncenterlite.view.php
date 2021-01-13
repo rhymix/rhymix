@@ -77,7 +77,7 @@ class ncenterliteView extends ncenterlite
 		Context::set('user_config', $user_config);
 		Context::set('module_config', NcenterliteModel::getConfig());
 		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
-		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types')) > 0);
+		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types') ?? []) > 0);
 		$this->setTemplateFile('userconfig');
 	}
 

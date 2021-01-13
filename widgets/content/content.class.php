@@ -506,6 +506,7 @@ class content extends WidgetHandler
 		$xml_doc = $oXmlParser->parse($buff);
 		if($xml_doc->rss)
 		{
+			$rss = new stdClass;
 			$rss->title = $xml_doc->rss->channel->title->body;
 			$rss->link = $xml_doc->rss->channel->link->body;
 
@@ -519,7 +520,7 @@ class content extends WidgetHandler
 			foreach ($items as $key => $value)
 			{
 				if($key >= $args->list_count * $args->page_count) break;
-				unset($item);
+				$item = new stdClass;
 
 				foreach($value as $key2 => $value2)
 				{
@@ -545,6 +546,7 @@ class content extends WidgetHandler
 		else if($xml_doc->{'rdf:rdf'})
 		{
 			// rss1.0 supported (XE's XML is case-insensitive because XML parser converts all to small letters. Fixed by misol
+			$rss = new stdClass;
 			$rss->title = $xml_doc->{'rdf:rdf'}->channel->title->body;
 			$rss->link = $xml_doc->{'rdf:rdf'}->channel->link->body;
 
@@ -558,7 +560,7 @@ class content extends WidgetHandler
 			foreach ($items as $key => $value)
 			{
 				if($key >= $args->list_count * $args->page_count) break;
-				unset($item);
+				$item = new stdClass;
 
 				foreach($value as $key2 => $value2)
 				{
@@ -609,7 +611,7 @@ class content extends WidgetHandler
 			foreach ($items as $key => $value)
 			{
 				if($key >= $args->list_count * $args->page_count) break;
-				unset($item);
+				$item = new stdClass;
 
 				foreach($value as $key2 => $value2)
 				{

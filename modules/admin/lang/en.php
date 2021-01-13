@@ -299,6 +299,13 @@ $lang->allow_use_mobile_icon = 'Home Screen Icon';
 $lang->detail_use_mobile_icon = 'The mobile icon should be 57x57 or 114x114, only png format.';
 $lang->cmd_site_default_image = 'Default Image';
 $lang->about_site_default_image = 'This image will be shown when your site is linked to in various social networks. It should be 200x200, either jpg or png format.';
+$lang->cmd_site_default_color_scheme = 'Color scheme';
+$lang->about_site_default_color_scheme = 'Control how your site responds to dark mode settings in user devices.';
+$lang->site_default_color_scheme_options = array(
+	'auto' => 'Automatic detection',
+	'light' => 'Light mode only',
+	'dark' => 'Dark mode only',
+);
 $lang->use_sso = 'Use <abbr title="Single Sign On">SSO</abbr>?';
 $lang->about_use_sso = 'Logging into one domain will automatically log the user into all domains.';
 $lang->about_arrange_session = 'Do you want to clean up session?';

@@ -2401,11 +2401,7 @@ class Context
 	public static function getBodyClass()
 	{
 		$class_list = self::$_instance->body_class;
-		if (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto')
-		{
-			$class_list[] = 'color_scheme_' . $color_scheme;
-		}
-
+		
 		return (count($class_list) > 0) ? sprintf(' class="%s"', implode(' ', array_unique($class_list))) : '';
 	}
 

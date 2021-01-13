@@ -155,6 +155,7 @@ class moduleModel extends module
 				$domain_info = $output->data;
 				$domain_info->site_srl = 0;
 				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
+				if(!isset($domain_info->settings->color_scheme)) $domain_info->settings->color_scheme = 'off_light';
 				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
 				Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:' . $domain, $domain_info, 0, true);
 			}
@@ -1771,6 +1772,10 @@ class moduleModel extends module
 
 			$skinName = $designInfo->module->{$module_name}->{$target};
 		}
+		if(!isset($designInfo))
+		{
+			$designInfo = new stdClass();
+		}
 		if(!$skinName)
 		{
 			$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins/';
@@ -1799,6 +1804,10 @@ class moduleModel extends module
 
 			if($updateCache && $skinName)
 			{
+				if(!isset($designInfo->module))
+				{
+					$designInfo->module = new stdClass();
+				}
 				if(!isset($designInfo->module->{$module_name})) $designInfo->module->{$module_name} = new stdClass();
 				$designInfo->module->{$module_name}->{$target} = $skinName;
 
