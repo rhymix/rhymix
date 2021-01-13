@@ -495,10 +495,14 @@ class SocialloginController extends Sociallogin
 
 		return new BaseObject();
 	}
-	
+
 	/**
 	 * @brief SNS 등록
-	 **/
+	 * @param $oLibrary \Rhymix\Framework\Drivers\Social\Base
+	 * @param null $member_srl
+	 * @param false $login
+	 * @return BaseObject|object|SocialloginController
+	 */
 	function registerSns($oLibrary, $member_srl = null, $login = false)
 	{
 		if (!$member_srl)
@@ -764,7 +768,9 @@ class SocialloginController extends Sociallogin
 
 	/**
 	 * @brief SNS 로그인
-	 **/
+	 * @param $oLibrary \Rhymix\Framework\Drivers\Social\Base
+	 * @return BaseObject|object|SocialloginController
+	 */
 	function LoginSns($oLibrary)
 	{
 		if (self::getConfig()->sns_login != 'Y')
