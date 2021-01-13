@@ -420,8 +420,7 @@ class commentModel extends comment
 				$comment_list = array($comment_list);
 			}
 
-			$comment_count = count($comment_list);
-
+			$result = [];
 			foreach($comment_list as $key => $attribute)
 			{
 				if(!$attribute->comment_srl)
