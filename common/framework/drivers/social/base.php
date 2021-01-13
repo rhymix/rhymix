@@ -63,7 +63,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 로딩 단계 (인증 후 프로필 처리) [실행 중단 에러를 출력할 수 있음]
 	 */
-	public function loading()
+	public function getSNSUserInfo()
 	{
 		return new \BaseObject();
 	}

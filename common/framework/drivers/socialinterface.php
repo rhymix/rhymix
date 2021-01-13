@@ -6,7 +6,7 @@ interface SocialInterface
 	public static function getInstance();
 	public function createAuthUrl(string $type = 'login'): string;
 	public function authenticate();
-	public function loading();
+	public function getSNSUserInfo();
 	public function revokeToken();
 	public function refreshToken();
 	public function getProfileExtend();

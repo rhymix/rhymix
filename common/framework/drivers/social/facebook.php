@@ -72,7 +72,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 * @brief 인증 후 프로필을 가져옴.
 	 * @return \BaseObject
 	 */
-	function loading()
+	function getSNSUserInfo()
 	{
 		// 토큰 체크
 		if (!$this->getAccessToken())
