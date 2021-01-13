@@ -141,7 +141,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	public function setId($id)
 	{
-		$this->profile['id'] = $id;
+		$this->profile['sns_id'] = $id;
 	}
 
 	public function setEmail($email)
@@ -201,7 +201,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	public function getId()
 	{
-		return $this->profile['id'];
+		return $this->profile['sns_id'];
 	}
 
 	public function getEmail()
