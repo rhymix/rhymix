@@ -24,15 +24,17 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	
 	/**
 	 * Create a singleton instance.
+	 * 
+	 * sns_id 는 각 SNS 에서 넘어온 고유의 아이디.
 	 */
 	protected function __construct()
 	{
 		$this->service = strtolower(class_basename($this));
 		$this->profile = array(
-			'id'       => '',
-			'email'    => '',
-			'name'     => '',
-			'image'    => '',
+			'sns_id'       => '',
+			'email_address'    => '',
+			'user_name'     => '',
+			'profile_image'    => '',
 			'url'      => '',
 			'verified' => false,
 			'etc'      => '',
@@ -144,17 +146,17 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	public function setEmail($email)
 	{
-		$this->profile['email'] = $email;
+		$this->profile['email_address'] = $email;
 	}
 
 	public function setName($name)
 	{
-		$this->profile['name'] = $name;
+		$this->profile['user_name'] = $name;
 	}
 
 	public function setProfileImage($image)
 	{
-		$this->profile['image'] = $image;
+		$this->profile['profile_image'] = $image;
 	}
 
 	public function setProfileUrl($url)
@@ -204,17 +206,17 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	public function getEmail()
 	{
-		return $this->profile['email'];
+		return $this->profile['email_address'];
 	}
 
 	public function getName()
 	{
-		return $this->profile['name'];
+		return $this->profile['user_name'];
 	}
 
 	public function getProfileImage()
 	{
-		return $this->profile['image'];
+		return $this->profile['profile_image'];
 	}
 
 	public function getProfileUrl()
