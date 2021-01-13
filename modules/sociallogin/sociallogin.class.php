@@ -13,8 +13,6 @@ class Sociallogin extends ModuleObject
 		'discord',
 	);
 
-	private $library = array();
-
 	private $triggers = array(
 		array('moduleHandler.init', 'sociallogin', 'controller', 'triggerModuleHandler', 'after'),
 		array('moduleObject.proc', 'sociallogin', 'controller', 'triggerModuleObjectBefore', 'before'),
@@ -148,39 +146,7 @@ class Sociallogin extends ModuleObject
 	 */
 	function getLibrary($library_name)
 	{
-		if (!isset($this->library[$library_name]))
-		{
-			if($library_name == 'twitter')
-			{
-				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Twitter();
-			}
-			
-			if($library_name == 'google')
-			{
-				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Google();
-			}
-			
-			if($library_name == 'facebook')
-			{
-				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Facebook;
-			}
-			
-			if($library_name == 'naver')
-			{
-				$oSocialLib = new \Rhymix\Framework\Drivers\Social\naver;
-			}
-			
-			if($library_name == 'kakao')
-			{
-				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Kakao;
-			}
-			if($library_name == 'discord')
-			{
-				$oSocialLib = new \Rhymix\Framework\Drivers\Social\Discord;
-			}
-			$this->library[$library_name] = $oSocialLib->getInstance($library_name);
-		}
-
-		return $this->library[$library_name];
+		$class_name = '\\Rhymix\\Framework\\Drivers\\Social\\' . ucfirst($library_name);
+		return $class_name::getInstance();
 	}
 }

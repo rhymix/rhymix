@@ -9,7 +9,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 인증 URL 생성 (SNS 로그인 URL)
 	 */
-	function createAuthUrl($type)
+	public function createAuthUrl(string $type = 'login'): string
 	{
 		$connection = new TwitterOAuth(\Sociallogin::getConfig()->twitter_consumer_key, \Sociallogin::getConfig()->twitter_consumer_secret);
 
