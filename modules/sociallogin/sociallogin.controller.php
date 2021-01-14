@@ -904,13 +904,11 @@ class SocialloginController extends Sociallogin
 		return $args;
 	}
 	
-	function triggerModuleHandler()
+	function triggerModuleObjectAfter()
 	{
-		if(!Rhymix\Framework\Session::getMemberSrl())
+		if($this->user->isMember())
 		{
-			return new BaseObject();
+			memberController::getInstance()->addMemberMenu('dispSocialloginSnsManage', 'sns_manage');
 		}
-		
-		memberController::getInstance()->addMemberMenu('dispSocialloginSnsManage', 'sns_manage');
 	}
 }
