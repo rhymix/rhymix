@@ -83,16 +83,16 @@ class SocialloginController extends Sociallogin
 		
 		if (!$error)
 		{
-			$oLibrary = $this->getLibrary($saved['service']);
-			if (!$oLibrary)
+			$oDriver = $this->getDriver($saved['service']);
+			if (!$oDriver)
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest();
 			}
 
 			$_SESSION['sociallogin_input_add_info_data'] = $add_data;
 
-			$oLibrary->setSocial($saved);
-			$output = $this->LoginSns($oLibrary);
+			$oDriver->setSocial($saved);
+			$output = $this->LoginSns($oDriver);
 
 			if (!$output->toBool())
 			{
@@ -144,7 +144,7 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!$oLibrary = $this->getLibrary($service))
+		if (!$oDriver = $this->getDriver($service))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
@@ -180,10 +180,10 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 토큰 넣기
-		getModel('sociallogin')->setAvailableAccessToken($oLibrary, $sns_info, false);
+		getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info, false);
 
 		// 토큰 파기
-		$oLibrary->revokeToken();
+		$oDriver->revokeToken();
 
 		// 로그 기록
 		$info = new stdClass;
@@ -210,7 +210,7 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!$oLibrary = $this->getLibrary($service))
+		if (!$oDriver = $this->getDriver($service))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
@@ -222,10 +222,10 @@ class SocialloginController extends Sociallogin
 
 
 		// 토큰 넣기
-		getModel('sociallogin')->setAvailableAccessToken($oLibrary, $sns_info);
+		getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info);
 
 		// 연동 체크
-		if (($check = $oLibrary->checkLinkage()) && $check instanceof Object && !$check->toBool() && $sns_info->linkage != 'Y')
+		if (($check = $oDriver->checkLinkage()) && $check instanceof Object && !$check->toBool() && $sns_info->linkage != 'Y')
 		{
 			return $check;
 		}
@@ -263,7 +263,7 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		// 라이브러리 체크
-		if (!$oLibrary = $this->getLibrary($service))
+		if (!$oDriver = $this->getDriver($service))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
@@ -280,7 +280,7 @@ class SocialloginController extends Sociallogin
 		$redirect_url = $_SESSION['sociallogin_auth']['redirect'];
 		$redirect_url = $redirect_url ? Context::getRequestUri() . '?' . $redirect_url : Context::getRequestUri();
 		// 인증
-		$output = $oLibrary->authenticate();
+		$output = $oDriver->authenticate();
 		if ($output instanceof BaseObject && !$output->toBool())
 		{
 			$error = $output->getMessage();
@@ -292,12 +292,12 @@ class SocialloginController extends Sociallogin
 		// 로딩
 		if (!$error)
 		{
-			$output = $oLibrary->getSNSUserInfo();
+			$output = $oDriver->getSNSUserInfo();
 			if ($output instanceof BaseObject && !$output->toBool())
 			{
 				$error = $output->getMessage();
 				// 오류시 토큰 파기 (롤백)
-				$oLibrary->revokeToken();
+				$oDriver->revokeToken();
 			}
 		}
 
@@ -308,7 +308,7 @@ class SocialloginController extends Sociallogin
 			{
 				$msg = 'msg_success_sns_register';
 
-				$output = $this->registerSns($oLibrary);
+				$output = $this->registerSns($oDriver);
 				if (!$output->toBool())
 				{
 					$error = $output->getMessage();
@@ -316,7 +316,7 @@ class SocialloginController extends Sociallogin
 			}
 			else if ($type == 'login')
 			{
-				$output = $this->LoginSns($oLibrary);
+				$output = $this->LoginSns($oDriver);
 				if (!$output->toBool())
 				{
 					$error = $output->getMessage();
@@ -399,19 +399,19 @@ class SocialloginController extends Sociallogin
 				continue;
 			}
 
-			if (!$oLibrary = $this->getLibrary($val))
+			if (!$oDriver = $this->getDriver($val))
 			{
 				continue;
 			}
 
 			// 토큰 넣기
-			getModel('sociallogin')->setAvailableAccessToken($oLibrary, $sns_info);
+			getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info);
 
 			$args = new stdClass;
 			$args->title = $obj->title;
 			$args->content = $obj->content;
 			$args->url = getNotEncodedFullUrl('', 'document_srl', $obj->document_srl);
-			$oLibrary->post($args);
+			$oDriver->post($args);
 
 			// 로그 기록
 			$info = new stdClass;
@@ -458,16 +458,16 @@ class SocialloginController extends Sociallogin
 		{
 			$sns_id[] = '[' . $val->service . '] ' . $val->id;
 
-			if (!$oLibrary = $this->getLibrary($val->service))
+			if (!$oDriver = $this->getDriver($val->service))
 			{
 				continue;
 			}
 
 			// 토큰 넣기
-			getModel('sociallogin')->setAvailableAccessToken($oLibrary, $val, false);
+			getModel('sociallogin')->setAvailableAccessToken($oDriver, $val, false);
 
 			// 토큰 파기
-			$oLibrary->revokeToken();
+			$oDriver->revokeToken();
 		}
 
 		executeQuery('sociallogin.deleteMemberSns', $args);
@@ -498,12 +498,12 @@ class SocialloginController extends Sociallogin
 
 	/**
 	 * @brief SNS 등록
-	 * @param $oLibrary \Rhymix\Framework\Drivers\Social\Base
+	 * @param $oDriver \Rhymix\Framework\Drivers\Social\Base
 	 * @param null $member_srl
 	 * @param false $login
 	 * @return BaseObject|object|SocialloginController
 	 */
-	function registerSns($oLibrary, $member_srl = null, $login = false)
+	function registerSns($oDriver, $member_srl = null, $login = false)
 	{
 		if (!$member_srl)
 		{
@@ -515,24 +515,23 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exception('msg_not_sns_login');
 		}
 
-		if (!$oLibrary->getId())
+		if (!$oDriver->getId())
 		{
 			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
 
 		// SNS 계정 인증 상태 체크
-		if (!$oLibrary->getVerified())
+		if (!$oDriver->getVerified())
 		{
 			throw new Rhymix\Framework\Exception('msg_not_sns_verified');
 		}
 
-		$id = $oLibrary->getId();
-		$service = $oLibrary->getService();
+		$id = $oDriver->getId();
+		$service = $oDriver->getService();
 
-		$oSocialloginModel = getModel('sociallogin');
 
 		// SNS ID 조회
-		if (($sns_info = $oSocialloginModel->getMemberSnsById($id, $service)) && $sns_info->member_srl)
+		if (($sns_info = SocialloginModel::getMemberSnsById($id, $service)) && $sns_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_already_registed_sns');
 		}
@@ -541,7 +540,7 @@ class SocialloginController extends Sociallogin
 		$oMemberModel = memberModel::getInstance();
 
 		// 중복 이메일 계정이 있으면 해당 계정으로 로그인
-		if (!$member_srl && ($email = $oLibrary->getEmail()) && !$_SESSION['sociallogin_confirm_email'])
+		if (!$member_srl && ($email = $oDriver->getEmail()) && !$_SESSION['sociallogin_confirm_email'])
 		{
 			if ($member_srl = $oMemberModel->getMemberSrlByEmailAddress($email))
 			{
@@ -562,7 +561,7 @@ class SocialloginController extends Sociallogin
 		if (!$member_srl)
 		{
 			$password = cut_str(md5(date('YmdHis')), 13, '');
-			$nick_name = preg_replace('/[\pZ\pC]+/u', '', $oLibrary->getName());
+			$nick_name = preg_replace('/[\pZ\pC]+/u', '', $oDriver->getName());
 
 			if ($oMemberModel->getMemberSrlByNickName($nick_name))
 			{
@@ -603,26 +602,26 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 미리 소셜 내용 기록.
-			$_SESSION['tmp_sociallogin_input_add_info'] = $oLibrary->getSocial();
+			$_SESSION['tmp_sociallogin_input_add_info'] = $oDriver->getSocial();
 			$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
 			if($email)
 			{
-				$_SESSION['tmp_sociallogin_input_add_info']['email'] = $email;
+				$_SESSION['tmp_sociallogin_input_add_info']['email_address'] = $email;
 			}
 
 			// 프로필 이미지를 위한 임시 파일 생성
-			if ($oLibrary->getProfileImage())
+			if ($oDriver->getProfileImage())
 			{
 				if (($tmp_dir = 'files/cache/tmp/') && !is_dir($tmp_dir))
 				{
 					FileHandler::makeDir($tmp_dir);
 				}
 
-				$path_parts = pathinfo(parse_url($oLibrary->getProfileImage(), PHP_URL_PATH));
+				$path_parts = pathinfo(parse_url($oDriver->getProfileImage(), PHP_URL_PATH));
 				$randomString = Rhymix\Framework\Security::getRandom(32);
 				$tmp_file = "{$tmp_dir}{$randomString}profile.{$path_parts['extension']}";
 
-				if(FileHandler::getRemoteFile($oLibrary->getProfileImage(), $tmp_file, null, 3, 'GET', null, array(), array(), array(), array('ssl_verify_peer' => false)))
+				if(FileHandler::getRemoteFile($oDriver->getProfileImage(), $tmp_file, null, 3, 'GET', null, array(), array(), array(), array('ssl_verify_peer' => false)))
 				{
 					$_SESSION['tmp_sociallogin_input_add_info']['profile_dir'] = $tmp_file;
 				}
@@ -637,11 +636,11 @@ class SocialloginController extends Sociallogin
 			Context::setRequestMethod('POST');
 			Context::set('password', $password, true);
 			Context::set('nick_name', $nick_name, true);
-			Context::set('user_name', $oLibrary->getName(), true);
+			Context::set('user_name', $oDriver->getName(), true);
 			Context::set('email_address', $email, true);
 			Context::set('accept_agreement', 'Y', true);
 
-			$extend = $oLibrary->getProfileExtend();
+			$extend = $oDriver->getProfileExtend();
 			Context::set('homepage', $extend->homepage, true);
 			Context::set('blog', $extend->blog, true);
 			Context::set('birthday', $extend->birthday, true);
@@ -684,24 +683,24 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 이전 로그인 기록이 있으면 가입 포인트 제거
-			if ($oSocialloginModel->getSnsUser($id, $service))
+			if (SocialloginModel::getSnsUser($id, $service))
 			{
 				Context::set('__point_message__', Context::getLang('PHC_member_register_sns_login'));
 
-				getController('point')->setPoint($member_srl, 0, 'update');
+				pointController::getInstance()->setPoint($member_srl, 0, 'update');
 			}
 
 			// 서명 등록
 			if ($extend->signature)
 			{
-				getController('member')->putSignature($member_srl, $extend->signature);
+				memberController::getInstance()->putSignature($member_srl, $extend->signature);
 			}
 		}
 		// 이미 가입되어 있었다면 SNS 등록만 진행
 		else
 		{
 			// 등록하려는 서비스가 이미 등록되어 있을 경우
-			if (($sns_info = $oSocialloginModel->getMemberSns($service, $member_srl)) && $sns_info->member_srl)
+			if (($sns_info = SocialloginModel::getMemberSns($service, $member_srl)) && $sns_info->member_srl)
 			{
 				// 로그인에서 등록 요청이 온 경우 SNS 정보 삭제 후 재등록 (SNS ID가 달라졌다고 판단)
 				if ($login)
@@ -719,14 +718,14 @@ class SocialloginController extends Sociallogin
 		}
 
 		$args = new stdClass;
-		$args->refresh_token = $oLibrary->getRefreshToken();
-		$args->access_token = $oLibrary->getAccessToken();
-		$args->profile_info = serialize($oLibrary->getProfile());
-		$args->profile_url = $oLibrary->getProfileUrl();
-		$args->profile_image = $oLibrary->getProfileImage();
-		$args->email = $oLibrary->getEmail();
-		$args->name = $oLibrary->getName();
-		$args->id = $oLibrary->getId();
+		$args->refresh_token = $oDriver->getRefreshToken();
+		$args->access_token = $oDriver->getAccessToken();
+		$args->profile_info = serialize($oDriver->getProfile());
+		$args->profile_url = $oDriver->getProfileUrl();
+		$args->profile_image = $oDriver->getProfileImage();
+		$args->email = $oDriver->getEmail();
+		$args->name = $oDriver->getName();
+		$args->id = $oDriver->getId();
 		$args->service = $service;
 		$args->member_srl = $member_srl;
 
@@ -738,7 +737,7 @@ class SocialloginController extends Sociallogin
 		}
 
 		// SNS ID 기록 (SNS 정보가 삭제 되더라도 ID는 영구 보관)
-		if (!$oSocialloginModel->getSnsUser($id, $service))
+		if (!SocialloginModel::getSnsUser($id, $service))
 		{
 			$output = executeQuery('sociallogin.insertSnsUser', $args);
 			if (!$output->toBool())
@@ -750,7 +749,7 @@ class SocialloginController extends Sociallogin
 		// 로그인 요청
 		if ($do_login)
 		{
-			$output = $this->LoginSns($oLibrary);
+			$output = $this->LoginSns($oDriver);
 			if (!$output->toBool())
 			{
 				return $output;
@@ -768,37 +767,37 @@ class SocialloginController extends Sociallogin
 
 	/**
 	 * @brief SNS 로그인
-	 * @param $oLibrary \Rhymix\Framework\Drivers\Social\Base
+	 * @param $oDriver \Rhymix\Framework\Drivers\Social\Base
 	 * @return BaseObject|object|SocialloginController
 	 */
-	function LoginSns($oLibrary)
+	function LoginSns($oDriver)
 	{
 		if (self::getConfig()->sns_login != 'Y')
 		{
 			throw new Rhymix\Framework\Exception('msg_not_sns_login');
 		}
 
-		if (Context::get('is_logged'))
+		if ($this->user->isMember())
 		{
 			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
-		if (!$oLibrary->getId())
+		if (!$oDriver->getId())
 		{
 			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
 
 		// SNS 계정 인증 상태 체크
-		if (!$oLibrary->getVerified())
+		if (!$oDriver->getVerified())
 		{
 			throw new Rhymix\Framework\Exception('msg_not_sns_verified');
 		}
 
 		// SNS ID로 회원 검색
-		if (($sns_info = getModel('sociallogin')->getMemberSnsById($oLibrary->getId(), $oLibrary->getService())) && $sns_info->member_srl)
+		if (($sns_info = SocialloginModel::getMemberSnsById($oDriver->getId(), $oDriver->getService())) && $sns_info->member_srl)
 		{
 			// 탈퇴한 회원이면 삭제후 등록 시도
-			if (!($member_info = getModel('member')->getMemberInfoByMemberSrl($sns_info->member_srl)) || !$member_info->member_srl)
+			if (!($member_info = memberModel::getMemberInfoByMemberSrl($sns_info->member_srl)) || !$member_info->member_srl)
 			{
 				$args = new stdClass;
 				$args->member_srl = $sns_info->member_srl;
@@ -847,17 +846,17 @@ class SocialloginController extends Sociallogin
 			}
 
 			// SNS 세션 등록
-			$_SESSION['sns_login'] = $oLibrary->getService();
+			$_SESSION['sns_login'] = $oDriver->getService();
 
 			$args = new stdClass;
-			$args->refresh_token = $oLibrary->getRefreshToken();
-			$args->access_token = $oLibrary->getAccessToken();
-			$args->profile_info = serialize($oLibrary->getProfile());
-			$args->profile_url = $oLibrary->getProfileUrl();
-			$args->profile_image = $oLibrary->getProfileImage();
-			$args->email = $oLibrary->getEmail();
-			$args->name = $oLibrary->getName();
-			$args->service = $oLibrary->getService();
+			$args->refresh_token = $oDriver->getRefreshToken();
+			$args->access_token = $oDriver->getAccessToken();
+			$args->profile_info = serialize($oDriver->getProfile());
+			$args->profile_url = $oDriver->getProfileUrl();
+			$args->profile_image = $oDriver->getProfileImage();
+			$args->email = $oDriver->getEmail();
+			$args->name = $oDriver->getName();
+			$args->service = $oDriver->getService();
 			$args->member_srl = $member_info->member_srl;
 
 			// 로그인시마다 SNS 회원 정보 갱신
@@ -870,7 +869,7 @@ class SocialloginController extends Sociallogin
 		// 검색된 회원이 없을 경우 SNS 등록(가입) 요청
 		else
 		{
-			$output = $this->registerSns($oLibrary, null, true);
+			$output = $this->registerSns($oDriver, null, true);
 			if (!$output->toBool())
 			{
 				return $output;

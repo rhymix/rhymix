@@ -141,9 +141,9 @@ class Sociallogin extends ModuleObject
 	 * @param $library_name
 	 * @return \Rhymix\Framework\Drivers\Social\Base
 	 */
-	function getLibrary($library_name)
+	function getDriver($drvierName)
 	{
-		$class_name = '\\Rhymix\\Framework\\Drivers\\Social\\' . ucfirst($library_name);
+		$class_name = '\\Rhymix\\Framework\\Drivers\\Social\\' . ucfirst($drvierName);
 		return $class_name::getInstance();
 	}
 }

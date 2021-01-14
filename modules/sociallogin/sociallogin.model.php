@@ -5,32 +5,32 @@ class SocialloginModel extends Sociallogin
 	/**
 	 * @brief 사용 가능한 엑세스 토큰 넣기
 	 */
-	public static function setAvailableAccessToken($oLibrary, $sns_info, $db = true)
+	public static function setAvailableAccessToken($oDriver, $sns_info, $db = true)
 	{
 		// 새로고침 토큰이 없을 경우 그대로 넣기
 		if (!$sns_info->refresh_token)
 		{
-			$oLibrary->setAccessToken($sns_info->access_token);
+			$oDriver->setAccessToken($sns_info->access_token);
 
 			return;
 		}
 
 		// 토큰 새로고침
-		$oLibrary->setRefreshToken($sns_info->refresh_token);
-		$oLibrary->refreshToken();
+		$oDriver->setRefreshToken($sns_info->refresh_token);
+		$oDriver->refreshToken();
 
 		// [실패] 이전 토큰 그대로 넣기
-		if (!$oLibrary->getAccessToken())
+		if (!$oDriver->getAccessToken())
 		{
-			$oLibrary->setAccessToken($sns_info->access_token);
+			$oDriver->setAccessToken($sns_info->access_token);
 		}
 		// [성공] 새로고침된 토큰을 DB에 저장
 		else if ($db)
 		{
 			$args = new stdClass;
-			$args->refresh_token = $oLibrary->getRefreshToken();
-			$args->access_token = $oLibrary->getAccessToken();
-			$args->service = $oLibrary->getService();
+			$args->refresh_token = $oDriver->getRefreshToken();
+			$args->access_token = $oDriver->getAccessToken();
+			$args->service = $oDriver->getService();
 			$args->member_srl = $sns_info->member_srl;
 
 			executeQuery('sociallogin.updateMemberSns', $args);
@@ -267,7 +267,7 @@ class SocialloginModel extends Sociallogin
 		{
 			$return_object = new stdClass();
 			$return_object->nick_name = $_SESSION['tmp_sociallogin_input_add_info']['nick_name'];
-			$return_object->email_address = $_SESSION['tmp_sociallogin_input_add_info']['email'];
+			$return_object->email_address = $_SESSION['tmp_sociallogin_input_add_info']['email_address'];
 			
 			return $return_object;
 		}

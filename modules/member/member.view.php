@@ -237,7 +237,7 @@ class memberView extends member
 					}
 				}
 
-				if($_SESSION['tmp_sociallogin_input_add_info']['email'])
+				if($_SESSION['tmp_sociallogin_input_add_info']['email_address'])
 				{
 					$identifierFormUnset = true;
 				}

@@ -866,9 +866,9 @@ class memberController extends member
 		if($args->password1) $args->password = $args->password1;
 		
 		$oSocialLoginController = SocialloginController::getInstance();
-		$args = $oSocialLoginController->replaceSignUpFormBySocial($args);
 		if(SocialloginModel::getSocialSignUpUserData())
 		{
+			$args = $oSocialLoginController->replaceSignUpFormBySocial($args);
 			Context::set('password2', $args->password);
 		}
 

@@ -145,7 +145,7 @@ class SocialloginView extends Sociallogin
 		{
 			throw new Rhymix\Framework\Exception('msg_not_support_service_login');
 		}
-		if (!$oLibrary = $this->getLibrary($service))
+		if (!$oDriver = $this->getDriver($service))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
@@ -196,7 +196,7 @@ class SocialloginView extends Sociallogin
 		$_SESSION['sociallogin_auth']['redirect'] = Context::get('redirect');
 		$_SESSION['sociallogin_auth']['state'] = md5(microtime() . mt_rand());
 
-		$this->setRedirectUrl($oLibrary->createAuthUrl($type));
+		$this->setRedirectUrl($oDriver->createAuthUrl($type));
 
 		// 로그 기록
 		$info = new stdClass;
