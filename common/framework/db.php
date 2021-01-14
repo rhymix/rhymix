@@ -165,6 +165,7 @@ class DB
 		}
 		
 		// Create and return a prepared statement.
+		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->prepare($statement, $driver_options);
 		return $this->_last_stmt;
 	}
@@ -202,6 +203,7 @@ class DB
 		}
 		
 		// Execute either a prepared statement or a regular query depending on whether there are arguments.
+		$this->_last_stmt = null;
 		if (count($args))
 		{
 			$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -337,6 +339,7 @@ class DB
 			}
 			
 			$this->_query_id = $query_id;
+			$this->_last_stmt = null;
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -421,6 +424,7 @@ class DB
 				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
 			}
 			
+			$this->_last_stmt = null;
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -488,6 +492,7 @@ class DB
 			$query_string .= "\n" . sprintf('/* _query() %s */', \RX_CLIENT_IP);
 		}
 		
+		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->query($query_string);
 		return $this->_last_stmt;
 	}
