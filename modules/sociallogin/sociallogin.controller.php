@@ -13,12 +13,12 @@ class SocialloginController extends Sociallogin
 	{
 		if (!$_SESSION['sociallogin_input_add_info'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		
 		if (!$email_address = Context::get('email_address'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		
 		if (getModel('member')->getMemberSrlByEmailAddress($email_address))
@@ -86,7 +86,7 @@ class SocialloginController extends Sociallogin
 			$oLibrary = $this->getLibrary($saved['service']);
 			if (!$oLibrary)
 			{
-				return new BaseObject(-1, 'msg_invalid_request');
+				throw new Rhymix\Framework\Exceptions\InvalidRequest();
 			}
 
 			$_SESSION['sociallogin_input_add_info_data'] = $add_data;
@@ -136,22 +136,22 @@ class SocialloginController extends Sociallogin
 	{
 		if (!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_not_logged');
+			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
 
 		if (!$service = Context::get('service'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (!$oLibrary = $this->getLibrary($service))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (!($sns_info = getModel('sociallogin')->getMemberSns($service)) || !$sns_info->name)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (self::getConfig()->sns_login == 'Y' && self::getConfig()->default_signup != 'Y')
@@ -165,7 +165,7 @@ class SocialloginController extends Sociallogin
 
 			if (count($sns_list) < 2)
 			{
-				return new BaseObject(-1, 'msg_not_clear_sns_one');
+				throw new Rhymix\Framework\Exception('msg_not_clear_sns_one');
 			}
 		}
 
@@ -202,22 +202,22 @@ class SocialloginController extends Sociallogin
 	{
 		if (!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_not_logged');
+			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
 
 		if (!$service = Context::get('service'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (!$oLibrary = $this->getLibrary($service))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (!($sns_info = getModel('sociallogin')->getMemberSns($service)) || !$sns_info->name)
 		{
-			return new BaseObject(-1, 'msg_not_linkage_sns_info');
+			throw new Rhymix\Framework\Exception('msg_not_linkage_sns_info');
 		}
 
 
@@ -260,21 +260,21 @@ class SocialloginController extends Sociallogin
 		// 서비스 체크
 		if (!($service = Context::get('service')) || !in_array($service, self::getConfig()->sns_services))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		// 라이브러리 체크
 		if (!$oLibrary = $this->getLibrary($service))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		// 인증 세션 체크
 		if (!$_SESSION['sociallogin_auth']['state'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		if (!$type = $_SESSION['sociallogin_auth']['type'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		$_SESSION['sociallogin_current']['mid'] = $_SESSION['sociallogin_auth']['mid'];
 		$redirect_url = $_SESSION['sociallogin_auth']['redirect'];
@@ -512,18 +512,18 @@ class SocialloginController extends Sociallogin
 
 		if (self::getConfig()->sns_login != 'Y' && !$member_srl)
 		{
-			return new BaseObject(-1, 'msg_not_sns_login');
+			throw new Rhymix\Framework\Exception('msg_not_sns_login');
 		}
 
 		if (!$oLibrary->getId())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
 
 		// SNS 계정 인증 상태 체크
 		if (!$oLibrary->getVerified())
 		{
-			return new BaseObject(-1, 'msg_not_sns_verified');
+			throw new Rhymix\Framework\Exception('msg_not_sns_verified');
 		}
 
 		$id = $oLibrary->getId();
@@ -534,7 +534,7 @@ class SocialloginController extends Sociallogin
 		// SNS ID 조회
 		if (($sns_info = $oSocialloginModel->getMemberSnsById($id, $service)) && $sns_info->member_srl)
 		{
-			return new BaseObject(-1, 'msg_already_registed_sns');
+			throw new Rhymix\Framework\Exception('msg_already_registed_sns');
 		}
 
 		/** @var memberModel $oMemberModel */
@@ -548,7 +548,7 @@ class SocialloginController extends Sociallogin
 				// 관리자 계정일 경우 보안 문제로 자동으로 등록하지 않음
 				if ($oMemberModel->getMemberInfoByMemberSrl($member_srl)->is_admin == 'Y')
 				{
-					return new BaseObject(-1, 'msg_request_admin_sns_login');
+					throw new Rhymix\Framework\Exception('msg_request_admin_sns_login');
 				}
 				// 일반 계정이라면 SNS 등록 후 즉시 로그인 요청
 				else
@@ -658,7 +658,7 @@ class SocialloginController extends Sociallogin
 			{
 				// 리턴시에도 세션값을 비워줘야함
 				unset($_SESSION['tmp_sociallogin_input_add_info']);
-				return new BaseObject(-1, $exception->getMessage());
+				throw new Rhymix\Framework\Exception($exception->getMessage());
 			}
 			
 			unset($_SESSION['tmp_sociallogin_input_add_info']);
@@ -680,7 +680,7 @@ class SocialloginController extends Sociallogin
 			// 가입 완료 체크
 			if (!$member_srl = $oMemberModel->getMemberSrlByEmailAddress($email))
 			{
-				return new BaseObject(-1, 'msg_error_register_sns');
+				throw new Rhymix\Framework\Exception('msg_error_register_sns');
 			}
 
 			// 이전 로그인 기록이 있으면 가입 포인트 제거
@@ -713,7 +713,7 @@ class SocialloginController extends Sociallogin
 				}
 				else
 				{
-					return new BaseObject(-1, 'msg_invalid_request');
+					throw new Rhymix\Framework\Exceptions\InvalidRequest();
 				}
 			}
 		}
@@ -775,23 +775,23 @@ class SocialloginController extends Sociallogin
 	{
 		if (self::getConfig()->sns_login != 'Y')
 		{
-			return new BaseObject(-1, 'msg_not_sns_login');
+			throw new Rhymix\Framework\Exception('msg_not_sns_login');
 		}
 
 		if (Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'already_logged');
+			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
 		if (!$oLibrary->getId())
 		{
-			return new BaseObject(-1, 'msg_errer_api_connect');
+			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
 
 		// SNS 계정 인증 상태 체크
 		if (!$oLibrary->getVerified())
 		{
-			return new BaseObject(-1, 'msg_not_sns_verified');
+			throw new Rhymix\Framework\Exception('msg_not_sns_verified');
 		}
 
 		// SNS ID로 회원 검색

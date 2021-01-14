@@ -30,7 +30,7 @@ class SocialloginView extends Sociallogin
 	{
 		if (!Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_not_logged');
+			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
 
 		$oSocialloginModel = getModel('sociallogin');
@@ -68,7 +68,7 @@ class SocialloginView extends Sociallogin
 	{
 		if (!$_SESSION['tmp_sociallogin_input_add_info'])
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		$_SESSION['sociallogin_input_add_info'] = $_SESSION['tmp_sociallogin_input_add_info'];
@@ -137,31 +137,31 @@ class SocialloginView extends Sociallogin
 	{
 		if (isCrawler())
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		
 		$service = Context::get('service');
 		if (!$service || !in_array($service, self::getConfig()->sns_services))
 		{
-			return new BaseObject(-1, 'msg_not_support_service_login');
+			throw new Rhymix\Framework\Exception('msg_not_support_service_login');
 		}
 		if (!$oLibrary = $this->getLibrary($service))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 		
 		if (!$type = Context::get('type'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if ($type == 'register' && !Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'msg_not_logged');
+			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
 		else if ($type == 'login' && Context::get('is_logged'))
 		{
-			return new BaseObject(-1, 'already_logged');
+			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
 		
@@ -212,17 +212,17 @@ class SocialloginView extends Sociallogin
 	{
 		if (self::getConfig()->sns_profile != 'Y')
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (!Context::get('member_srl'))
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (!($member_info = getModel('member')->getMemberInfoByMemberSrl(Context::get('member_srl'))) || !$member_info->member_srl)
 		{
-			return new BaseObject(-1, 'msg_invalid_request');
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		Context::set('member_info', $member_info);
