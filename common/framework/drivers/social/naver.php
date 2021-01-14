@@ -1,9 +1,10 @@
 <?php
 namespace Rhymix\Framework\Drivers\Social;
-const NAVER_OAUTH2_URI = 'https://nid.naver.com/oauth2.0/';
 
 class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+	const NAVER_OAUTH2_URI = 'https://nid.naver.com/oauth2.0/';
+	
 	/**
 	 * @brief Auth 로그인 링크를 생성
 	 * @param string $type
@@ -19,7 +20,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		);
 
-		return NAVER_OAUTH2_URI . 'authorize?' . http_build_query($params, '', '&');
+		return self::NAVER_OAUTH2_URI . 'authorize?' . http_build_query($params, '', '&');
 	}
 
 	/**
@@ -224,6 +225,6 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			);
 		}
 
-		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? NAVER_OAUTH2_URI . 'token' : $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, array(), $post, array('ssl_verify_peer' => false)), true);
+		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? self::NAVER_OAUTH2_URI . 'token' : $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, array(), $post, array('ssl_verify_peer' => false)), true);
 	}
 }

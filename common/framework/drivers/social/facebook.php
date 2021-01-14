@@ -1,12 +1,12 @@
 <?php
 namespace Rhymix\Framework\Drivers\Social;
 
-const FACEBOOK_GRAPH_API_VERSION = 'v2.8';
-const FACEBOOK_URI = 'https://www.facebook.com/';
-const FACEBOOK_GRAPH_URL = 'https://graph.facebook.com/';
-
 class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+	const FACEBOOK_GRAPH_API_VERSION = 'v2.8';
+	const FACEBOOK_URI = 'https://www.facebook.com/';
+	const FACEBOOK_GRAPH_URL = 'https://graph.facebook.com/';
+	
 	/**
 	 * @brief Auth 로그인 링크를 생성
 	 * @param string $type
@@ -31,7 +31,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'state'        => $_SESSION['sociallogin_auth']['state'],
 		);
 
-		return FACEBOOK_URI . 'dialog/oauth?' . http_build_query($params, '', '&');
+		return self::FACEBOOK_URI . 'dialog/oauth?' . http_build_query($params, '', '&');
 	}
 
 	/**
@@ -226,6 +226,6 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)
 	{
-		return json_decode(\FileHandler::getRemoteResource(FACEBOOK_GRAPH_URL . FACEBOOK_GRAPH_API_VERSION . $url, null, 3, $delete ? 'DELETE' : (empty($post) ? 'GET' : 'POST'), 'application/x-www-form-urlencoded', array(), array(), $post, array('ssl_verify_peer' => false)), true);
+		return json_decode(\FileHandler::getRemoteResource(self::FACEBOOK_GRAPH_URL . self::FACEBOOK_GRAPH_API_VERSION . $url, null, 3, $delete ? 'DELETE' : (empty($post) ? 'GET' : 'POST'), 'application/x-www-form-urlencoded', array(), array(), $post, array('ssl_verify_peer' => false)), true);
 	}
 }

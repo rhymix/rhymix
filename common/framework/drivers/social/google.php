@@ -2,11 +2,12 @@
 
 namespace Rhymix\Framework\Drivers\Social;
 
-const GOOGLE_OAUTH2_URI = 'https://accounts.google.com/o/oauth2/';
-const GOOGLE_PEOPLE_URI = 'https://www.googleapis.com/plus/v1/people/';
 
 class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+	const GOOGLE_OAUTH2_URI = 'https://accounts.google.com/o/oauth2/';
+	const GOOGLE_PEOPLE_URI = 'https://people.googleapis.com/v1/people/';
+
 	/**
 	 * @brief Auth 로그인 링크를 생성
 	 * @param string $type
@@ -30,7 +31,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		);
 
-		return GOOGLE_OAUTH2_URI . 'auth?' . http_build_query($params, '', '&');
+		return self::GOOGLE_OAUTH2_URI . 'auth?' . http_build_query($params, '', '&');
 	}
 
 	/**
@@ -74,8 +75,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// API 요청 : 프로필
-		$url = "https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses&access_token={$this->getAccessToken()}";
-		$profile = $this->requestAPI('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses&' . http_build_query(array(
+		$profile = $this->requestAPI(self::GOOGLE_PEOPLE_URI . 'me?personFields=names,emailAddresses&' . http_build_query(array(
 				'access_token' => $this->getAccessToken(),
 			), '', '&'));
 
@@ -237,7 +237,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		return json_decode(\FileHandler::getRemoteResource(in_array($url, array(
 			'token',
 			'revoke'
-		)) ? GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', // 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청
+		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', // 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청
 			null, array(), array(), $post, array('ssl_verify_peer' => false)), true);
 	}
 }

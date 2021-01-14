@@ -7,11 +7,13 @@
 
 namespace Rhymix\Framework\Drivers\Social;
 
-const KAKAO_OAUTH2_URI = 'https://kauth.kakao.com/oauth/';
-const KAKAO_API_URI = 'https://kapi.kakao.com/';
+
 
 class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
+	const KAKAO_OAUTH2_URI = 'https://kauth.kakao.com/oauth/';
+	const KAKAO_API_URI = 'https://kapi.kakao.com/';
+	
 	/**
 	 * @brief Auth 로그인 링크를 생성
 	 * @param string $type
@@ -27,7 +29,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'state'         => $_SESSION['sociallogin_auth']['state'],
 		];
 
-		return KAKAO_OAUTH2_URI . 'authorize?' . http_build_query($params, '', '&');
+		return self::KAKAO_OAUTH2_URI . 'authorize?' . http_build_query($params, '', '&');
 	}
 
 	/**
@@ -221,6 +223,6 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			];
 		}
 
-		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? KAKAO_OAUTH2_URI . 'token' : KAKAO_API_URI . $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, [], $post, ['ssl_verify_peer' => false]), true);
+		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? self::KAKAO_OAUTH2_URI . 'token' : self::KAKAO_API_URI . $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, [], $post, ['ssl_verify_peer' => false]), true);
 	}
 }
