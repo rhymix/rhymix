@@ -154,12 +154,6 @@ class SocialloginModel extends Sociallogin
 
 		switch ($act)
 		{
-			case 'procSocialloginInputAddInfo' :
-				$args->category = 'register';
-				$info->msg = $info->msg ?: '로그인 성공';
-				$args->content = sprintf('추가정보 입력 (SNS : %s, msg : %s)', $info->sns, Context::getLang($info->msg));
-				break;
-
 			case 'procSocialloginSnsClear' :
 				$args->category = 'sns_clear';
 				$args->content = sprintf('SNS 연결 해제 (SNS : %s)', $info->sns);

@@ -2,11 +2,9 @@
 <module>
 	<actions>
 		<action name="dispSocialloginSnsManage" type="view" standalone="true"/>
-		<action name="dispSocialloginInputAddInfo" type="view" standalone="true"/>
 		<action name="dispSocialloginConnectSns" type="view" standalone="true"/>
 		<action name="dispSocialloginSnsProfile" type="view" standalone="true"/>
 
-		<action name="procSocialloginInputAddInfo" type="controller" ruleset="@insertAddInfoSociallogin" standalone="true"/>
 		<action name="procSocialloginSnsClear" type="controller" standalone="true"/>
 		<action name="procSocialloginSnsLinkage" type="controller" standalone="true"/>
 		<action name="procSocialloginCallback" type="controller" standalone="true" method="GET|POST"/>

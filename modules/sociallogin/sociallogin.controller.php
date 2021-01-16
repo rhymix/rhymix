@@ -7,129 +7,6 @@ class SocialloginController extends Sociallogin
 	}
 
 	/**
-	 * @brief 추가정보 입력
-	 */
-	function procSocialloginInputAddInfo()
-	{
-		if (!$_SESSION['sociallogin_input_add_info'])
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest();
-		}
-		
-		if (!$email_address = Context::get('email_address'))
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest();
-		}
-		
-		if (getModel('member')->getMemberSrlByEmailAddress($email_address))
-		{
-			$error = 'msg_exists_email_address';
-		}
-		
-		$saved = $_SESSION['sociallogin_input_add_info'];
-		$mid = $_SESSION['sociallogin_current']['mid'];
-		$redirect_url = getNotEncodedUrl('', 'mid', $mid, 'act', '');
-
-		$signupForm = array();
-
-		// 필수 추가 가입폼
-		if (in_array('require_add_info', self::getConfig()->sns_input_add_info))
-		{
-			foreach (getModel('member')->getMemberConfig()->signupForm as $no => $formInfo)
-			{
-				if (!$formInfo->required || $formInfo->isDefaultForm)
-				{
-					continue;
-				}
-
-				$signupForm[] = $formInfo->name;
-			}
-		}
-
-		// 아이디 폼
-		if (in_array('user_id', self::getConfig()->sns_input_add_info))
-		{
-			$signupForm[] = 'user_id';
-
-			if (getModel('member')->getMemberSrlByUserID(Context::get('user_id')))
-			{
-				$error = 'msg_exists_user_id';
-			}
-		}
-
-		// 닉네임 폼
-		if (in_array('nick_name', self::getConfig()->sns_input_add_info))
-		{
-			$signupForm[] = 'nick_name';
-
-			if (getModel('member')->getMemberSrlByNickName(Context::get('nick_name')))
-			{
-				$error = 'msg_exists_nick_name';
-			}
-		}
-
-		// 약관 동의
-		if (in_array('agreement', self::getConfig()->sns_input_add_info))
-		{
-			$signupForm[] = 'accept_agreement';
-		}
-
-		// 추가 정보 저장
-		$add_data = array();
-		foreach ($signupForm as $val)
-		{
-			$add_data[$val] = Context::get($val);
-		}
-		
-		if (!$error)
-		{
-			$oDriver = $this->getDriver($saved['service']);
-			if (!$oDriver)
-			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest();
-			}
-
-			$_SESSION['sociallogin_input_add_info_data'] = $add_data;
-
-			$oDriver->setSocial($saved);
-			$output = $this->LoginSns($oDriver);
-
-			if (!$output->toBool())
-			{
-				$error = $output->getMessage();
-			}
-		}
-
-		// 오류
-		if ($error)
-		{
-			$msg = $error;
-			$this->setError(-1);
-			$redirect_url = getNotEncodedUrl('', 'mid', $mid, 'act', 'dispSocialloginInputAddInfo');
-
-			$_SESSION['tmp_sociallogin_input_add_info'] = $_SESSION['sociallogin_input_add_info'];
-		}
-
-		unset($_SESSION['sociallogin_input_add_info']);
-
-		// 로그 기록
-		$info = new stdClass;
-		$info->msg = $msg;
-		$info->sns = $saved['service'];
-		getModel('sociallogin')->logRecord($this->act, $info);
-
-		if ($msg)
-		{
-			$this->setMessage($msg);
-		}
-
-		if (!$this->getRedirectUrl())
-		{
-			$this->setRedirectUrl($redirect_url);
-		}
-	}
-
-	/**
 	 * @brief SNS 해제
 	 **/
 	function procSocialloginSnsClear()
@@ -488,7 +365,7 @@ class SocialloginController extends Sociallogin
 	function triggerInsertMemberAction(&$config)
 	{
 		// SNS 로그인시에는 메일인증을 사용안함
-		if (Context::get('act') == 'procSocialloginCallback' || Context::get('act') == 'procSocialloginInputAddInfo' || $_SESSION['tmp_sociallogin_input_add_info'])
+		if (Context::get('act') == 'procSocialloginCallback' || $_SESSION['tmp_sociallogin_input_add_info'])
 		{
 			$config->enable_confirm = 'N';
 		}
@@ -539,20 +416,14 @@ class SocialloginController extends Sociallogin
 		/** @var memberModel $oMemberModel */
 		$oMemberModel = memberModel::getInstance();
 
-		// 중복 이메일 계정이 있으면 해당 계정으로 로그인
+		// 중복 이메일 계정이 있으면 소셜로그인 중단.
 		if (!$member_srl && ($email = $oDriver->getEmail()) && !$_SESSION['sociallogin_confirm_email'])
 		{
 			if ($member_srl = $oMemberModel->getMemberSrlByEmailAddress($email))
 			{
-				// 관리자 계정일 경우 보안 문제로 자동으로 등록하지 않음
-				if ($oMemberModel->getMemberInfoByMemberSrl($member_srl)->is_admin == 'Y')
+				if ($oMemberModel->getMemberInfoByMemberSrl($member_srl)->member_srl)
 				{
-					throw new Rhymix\Framework\Exception('msg_request_admin_sns_login');
-				}
-				// 일반 계정이라면 SNS 등록 후 즉시 로그인 요청
-				else
-				{
-					$do_login = true;
+					throw new Rhymix\Framework\Exception('msg_can_not_sns_login_by_email');
 				}
 			}
 		}

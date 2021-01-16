@@ -62,75 +62,6 @@ class SocialloginView extends Sociallogin
 	}
 
 	/**
-	 * @brief 추가정보 입력
-	 */
-	function dispSocialloginInputAddInfo()
-	{
-		if (!$_SESSION['tmp_sociallogin_input_add_info'])
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest();
-		}
-
-		$_SESSION['sociallogin_input_add_info'] = $_SESSION['tmp_sociallogin_input_add_info'];
-
-		unset($_SESSION['tmp_sociallogin_input_add_info']);
-
-		$member_config = getModel('member')->getMemberConfig();
-
-		Context::set('member_config', $member_config);
-		Context::set('nick_name', $_SESSION['sociallogin_input_add_info']['nick_name']);
-		Context::set('email_address', $_SESSION['sociallogin_input_add_info']['email']);
-
-		$signupForm = array();
-
-		// 필수 추가 가입폼 출력
-		if (in_array('require_add_info', self::getConfig()->sns_input_add_info))
-		{
-			foreach ($member_config->signupForm as $no => $formInfo)
-			{
-				if (!$formInfo->required || $formInfo->isDefaultForm)
-				{
-					continue;
-				}
-
-				$signupForm[] = $formInfo;
-			}
-
-			$member_config->signupForm = $signupForm;
-
-			$oMemberAdminView = getAdminView('member');
-			$oMemberAdminView->memberConfig = $member_config;
-
-			Context::set('formTags', $oMemberAdminView->_getMemberInputTag());
-
-			getView('member')->addExtraFormValidatorMessage();
-		}
-
-		// 아이디 폼
-		if (in_array('user_id', self::getConfig()->sns_input_add_info))
-		{
-			$args = new stdClass;
-			$args->required = true;
-			$args->name = 'user_id';
-			$signupForm[] = $args;
-		}
-
-		// 닉네임 폼
-		if (in_array('nick_name', self::getConfig()->sns_input_add_info))
-		{
-			$args = new stdClass;
-			$args->required = true;
-			$args->name = 'nick_name';
-			$signupForm[] = $args;
-		}
-
-		// 룰셋 생성
-		$this->_createAddInfoRuleset($signupForm, in_array('agreement', self::getConfig()->sns_input_add_info));
-
-		$this->setTemplateFile('input_add_info');
-	}
-
-	/**
 	 * @brief SNS 연결 진행
 	 */
 	function dispSocialloginConnectSns()
@@ -245,47 +176,5 @@ class SocialloginView extends Sociallogin
 		Context::set('sns_services', $sns_services);
 
 		$this->setTemplateFile('sns_profile');
-	}
-
-	/**
-	 * @brief 필수 추가폼 룰셋 파일 생성
-	 */
-	function _createAddInfoRuleset($signupForm, $agreement = false)
-	{
-		$xml_file = 'files/ruleset/insertAddInfoSociallogin.xml';
-
-		$buff = '<?xml version="1.0" encoding="utf-8"?>' . PHP_EOL . '<ruleset version="1.5.0">' . PHP_EOL . '<customrules>' . PHP_EOL . '</customrules>' . PHP_EOL . '<fields>' . PHP_EOL . '%s' . PHP_EOL . '</fields>' . PHP_EOL . '</ruleset>';
-
-		$fields = array();
-
-		if ($agreement)
-		{
-			$fields[] = '<field name="accept_agreement" required="true" />';
-		}
-
-		foreach ($signupForm as $formInfo)
-		{
-			if ($formInfo->required || $formInfo->mustRequired)
-			{
-				if ($formInfo->type == 'tel' || $formInfo->type == 'kr_zip')
-				{
-					$fields[] = sprintf('<field name="%s[]" required="true" />', $formInfo->name);
-				}
-				else if ($formInfo->name == 'nick_name')
-				{
-					$fields[] = sprintf('<field name="%s" required="true" length="2:20" />', $formInfo->name);
-				}
-				else
-				{
-					$fields[] = sprintf('<field name="%s" required="true" />', $formInfo->name);
-				}
-			}
-		}
-
-		FileHandler::writeFile($xml_file, sprintf($buff, implode(PHP_EOL, $fields)));
-
-		$validator = new Validator($xml_file);
-		$validator->setCacheDir('files/cache');
-		$validator->getJsPath();
 	}
 }

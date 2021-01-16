@@ -36,8 +36,6 @@ class SocialloginAdminView extends Sociallogin
 		Context::set('default_services', self::$default_services);
 		Context::set('can_be_use_twitter', version_compare(PHP_VERSION, '7.3.0', '>='));
 
-		Context::set('input_add_info', array('agreement', 'user_id', 'nick_name', 'require_add_info'));
-
 		$this->setTemplateFile('setting');
 	}
 
