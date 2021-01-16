@@ -806,6 +806,7 @@ class memberController extends member
 		// Extract the necessary information in advance
 		$getVars = array();
 		$use_phone = false;
+		$oSocialData = SocialloginModel::getSocialSignUpUserData();
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $key => $formInfo)
@@ -819,7 +820,7 @@ class memberController extends member
 					$getVars[] = $formInfo->name;
 				}
 				
-				if(SocialloginModel::getSocialSignUpUserData())
+				if($oSocialData)
 				{
 					if($formInfo->name == 'user_id')
 					{
@@ -865,8 +866,9 @@ class memberController extends member
 		$args->allow_message = Context::get('allow_message');
 		if($args->password1) $args->password = $args->password1;
 		
+		/** @var SocialloginController $oSocialLoginController */
 		$oSocialLoginController = SocialloginController::getInstance();
-		if(SocialloginModel::getSocialSignUpUserData())
+		if($oSocialData)
 		{
 			$args = $oSocialLoginController->replaceSignUpFormBySocial($args);
 			Context::set('password2', $args->password);
@@ -1039,6 +1041,14 @@ class memberController extends member
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
 
+		if($oSocialData)
+		{
+			$oSocialLoginController->insertMemberSns($args->member_srl, $_SESSION['oDriver']);
+			// 소셜로그인에 필요했던 세션데이터들을 모두 지움
+			unset($_SESSION['oDriver']);
+			unset($_SESSION['tmp_sociallogin_input_add_info']);
+		}
+		
 		if($config->redirect_url)
 		{
 			$returnUrl = $config->redirect_url;

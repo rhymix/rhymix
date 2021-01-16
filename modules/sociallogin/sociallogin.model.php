@@ -254,7 +254,11 @@ class SocialloginModel extends Sociallogin
 			return true;
 		}
 	}
-	
+
+	/**
+	 * 소셜 로그인에 필요한 정보를 세션에서 가져옴
+	 * @return false|stdClass
+	 */
 	public static function getSocialSignUpUserData()
 	{
 		if($_SESSION['tmp_sociallogin_input_add_info'])

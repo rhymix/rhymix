@@ -5,7 +5,7 @@ class SocialloginController extends Sociallogin
 	function init()
 	{
 	}
-
+	
 	/**
 	 * @brief SNS 해제
 	 **/
@@ -144,6 +144,7 @@ class SocialloginController extends Sociallogin
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
+		
 		// 인증 세션 체크
 		if (!$_SESSION['sociallogin_auth']['state'])
 		{
@@ -406,7 +407,6 @@ class SocialloginController extends Sociallogin
 		$id = $oDriver->getId();
 		$service = $oDriver->getService();
 
-
 		// SNS ID 조회
 		if (($sns_info = SocialloginModel::getMemberSnsById($id, $service)) && $sns_info->member_srl)
 		{
@@ -479,7 +479,6 @@ class SocialloginController extends Sociallogin
 			{
 				$_SESSION['tmp_sociallogin_input_add_info']['email_address'] = $email;
 			}
-
 			// 프로필 이미지를 위한 임시 파일 생성
 			if ($oDriver->getProfileImage())
 			{
@@ -501,7 +500,8 @@ class SocialloginController extends Sociallogin
 			// 회원 정보에서 추가 입력할 데이터가 있을경우 세션값에 소셜정보 입력 후 회원가입 항목으로 이동
 			if ($boolRequired || !$email)
 			{
-				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'), new BaseObject(-1, 'sns_input_add_info'));
+				$_SESSION['oDriver'] = $oDriver;
+				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'));
 			}
 			
 			Context::setRequestMethod('POST');
@@ -530,7 +530,6 @@ class SocialloginController extends Sociallogin
 				unset($_SESSION['tmp_sociallogin_input_add_info']);
 				throw new Rhymix\Framework\Exception($exception->getMessage());
 			}
-			
 			unset($_SESSION['tmp_sociallogin_input_add_info']);
 			
 			// 가입 도중 오류가 있다면 즉시 출력
@@ -599,8 +598,6 @@ class SocialloginController extends Sociallogin
 		$args->id = $oDriver->getId();
 		$args->service = $service;
 		$args->member_srl = $member_srl;
-
-		// SNS 회원 정보 등록
 		$output = executeQuery('sociallogin.insertMemberSns', $args);
 		if (!$output->toBool())
 		{
@@ -617,16 +614,6 @@ class SocialloginController extends Sociallogin
 			}
 		}
 
-		// 로그인 요청
-		if ($do_login)
-		{
-			$output = $this->LoginSns($oDriver);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-
 		// 가입 완료 후 메세지 출력 (메일 인증 메세지)
 		if ($return_output)
 		{
@@ -634,6 +621,33 @@ class SocialloginController extends Sociallogin
 		}
 
 		return new BaseObject();
+	}
+
+	/**
+	 * @param $member_srl
+	 * @param $oDriver \Rhymix\Framework\Drivers\Social\Base
+	 * @return void
+	 */
+	function insertMemberSns($member_srl, $oDriver)
+	{
+		$args = new stdClass;
+		$args->refresh_token = $oDriver->getRefreshToken();
+		$args->access_token = $oDriver->getAccessToken();
+		$args->profile_info = serialize($oDriver->getProfile());
+		$args->profile_url = $oDriver->getProfileUrl();
+		$args->profile_image = $oDriver->getProfileImage();
+		$args->email = $oDriver->getEmail();
+		$args->name = $oDriver->getName();
+		$args->id = $oDriver->getId();
+		$args->service = $oDriver->getService();
+		$args->member_srl = $member_srl;
+		$return_output = executeQuery('sociallogin.insertMemberSns', $args);
+
+		// SNS ID 기록 (SNS 정보가 삭제 되더라도 ID는 영구 보관)
+		if (!SocialloginModel::getSnsUser($args->id, $args->service))
+		{
+			$output = executeQuery('sociallogin.insertSnsUser', $args);
+		}
 	}
 
 	/**
