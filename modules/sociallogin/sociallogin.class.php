@@ -139,7 +139,7 @@ class Sociallogin extends ModuleObject
 	/**
 	 * Get Library for sns 
 	 * @param $library_name
-	 * @return \Rhymix\Framework\Drivers\Social\Base
+	 * @return \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	function getDriver($drvierName)
 	{

@@ -376,7 +376,7 @@ class SocialloginController extends Sociallogin
 
 	/**
 	 * @brief SNS 등록
-	 * @param $oDriver \Rhymix\Framework\Drivers\Social\Base
+	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
 	 * @param null $member_srl
 	 * @param false $login
 	 * @return BaseObject|object|SocialloginController
@@ -625,7 +625,7 @@ class SocialloginController extends Sociallogin
 
 	/**
 	 * @param $member_srl
-	 * @param $oDriver \Rhymix\Framework\Drivers\Social\Base
+	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
 	 * @return void
 	 */
 	function insertMemberSns($member_srl, $oDriver)
@@ -652,7 +652,7 @@ class SocialloginController extends Sociallogin
 
 	/**
 	 * @brief SNS 로그인
-	 * @param $oDriver \Rhymix\Framework\Drivers\Social\Base
+	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
 	 * @return BaseObject|object|SocialloginController
 	 */
 	function LoginSns($oDriver)
