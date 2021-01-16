@@ -1056,7 +1056,7 @@ class memberController extends member
 			}
 		}
 
-		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl);
 
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -1288,8 +1288,7 @@ class memberController extends member
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage('success_updated');
 
-		$site_module_info = Context::get('site_module_info');
-		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
 		$this->setRedirectUrl($returnUrl);
@@ -2127,7 +2126,7 @@ class memberController extends member
 		$output = executeQuery('member.deleteMembersGroup', $args);
 		if(!$output->toBool()) return $output;
 		$this->setMessage('success_deleted');
-		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl);
 	}
 
 	/**
@@ -2233,7 +2232,7 @@ class memberController extends member
 		$output = executeQuery('member.addMemberToGroup',$args);
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 
-		self::clearMemberCache($member_srl, $site_srl);
+		self::clearMemberCache($member_srl);
 
 		return $output;
 	}
@@ -2273,7 +2272,7 @@ class memberController extends member
 			$output = executeQuery('member.addMemberToGroup', $obj);
 			if(!$output->toBool()) return $output;
 
-			self::clearMemberCache($obj->member_srl, $args->site_srl);
+			self::clearMemberCache($obj->member_srl);
 		}
 
 		return new BaseObject();
@@ -2487,11 +2486,10 @@ class memberController extends member
 		$args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
 
-		$site_module_info = Context::get('site_module_info');
-		self::clearMemberCache($args->member_srl, $site_module_info->site_srl);
+		self::clearMemberCache($args->member_srl);
 
 		// Check if there is recoding table.
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
 		{
 			// check if there is login fail records.
@@ -3222,7 +3220,7 @@ class memberController extends member
 
 		// Remove from cache
 		unset($GLOBALS['__member_info__'][$args->member_srl]);
-		self::clearMemberCache($args->member_srl, $args->site_srl);
+		self::clearMemberCache($args->member_srl);
 
 		$output->add('member_srl', $args->member_srl);
 		return $output;
@@ -3965,10 +3963,11 @@ class memberController extends member
 	
 	/**
 	 * @deprecated
+	 * @return void
 	 */
-	public static function _clearMemberCache($member_srl)
+	public static function _clearMemberCache($member_srl, $site_srl = 0)
 	{
-		return self::clearMemberCache($member_srl);
+		self::clearMemberCache($member_srl);
 	}
 	
 	/**
