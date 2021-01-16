@@ -101,7 +101,7 @@
 					</select>
 
 					<!--// checkbox -->
-					<label cond="$val->type == 'checkbox'" loop="$val->options => $k, $v" for="ch_{$key}_{$k}" class="x_inline"><input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="@in_array($v->value, $val->value)" class="checkbox" /> {$v->title}</label>
+					<label cond="$val->type == 'checkbox'" loop="$val->options => $k, $v" for="ch_{$key}_{$k}" class="x_inline"><input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="is_array($val->value) && in_array($v->value, $val->value)" class="checkbox" /> {$v->title}</label>
 
 					<!--// radio -->
 					<label cond="$val->type == 'radio'" for="ch_{$key}_{$k}" loop="$val->options => $k, $v" class="x_inline"><input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" /> {$v->title}</label>

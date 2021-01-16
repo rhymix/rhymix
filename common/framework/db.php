@@ -42,6 +42,7 @@ class DB
 	protected $_query_id = '';
 	protected $_errno = 0;
 	protected $_errstr = '';
+	protected $_debug_comment = false;
 	
 	/**
 	 * Transaction level.
@@ -127,6 +128,9 @@ class DB
 		
 		// Get the DB version.
 		$this->db_version = $this->_handle->getAttribute(\PDO::ATTR_SERVER_VERSION);
+		
+		// Cache the debug comment setting.
+		$this->_debug_comment = config('debug.query_comment') ? true : false;
 	}
 	
 	/**
@@ -154,7 +158,14 @@ class DB
 		// Add table prefixes to the query string.
 		$statement = $this->addPrefixes($statement);
 		
+		// Add the debug comment.
+		if ($this->_debug_comment)
+		{
+			$statement .= "\n" . sprintf('/* prepare() %s */', \RX_CLIENT_IP);
+		}
+		
 		// Create and return a prepared statement.
+		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->prepare($statement, $driver_options);
 		return $this->_last_stmt;
 	}
@@ -185,7 +196,14 @@ class DB
 		// Add table prefixes to the query string.
 		$query_string = $this->addPrefixes($query_string);
 		
+		// Add the debug comment.
+		if ($this->_debug_comment)
+		{
+			$query_string .= "\n" . sprintf('/* query() %s */', \RX_CLIENT_IP);
+		}
+		
 		// Execute either a prepared statement or a regular query depending on whether there are arguments.
+		$this->_last_stmt = null;
 		if (count($args))
 		{
 			$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -315,7 +333,13 @@ class DB
 		// Prepare and execute the main query.
 		try
 		{
+			if ($this->_debug_comment)
+			{
+				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
+			}
+			
 			$this->_query_id = $query_id;
+			$this->_last_stmt = null;
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -395,6 +419,12 @@ class DB
 		// Prepare and execute the query.
 		try
 		{
+			if ($this->_debug_comment)
+			{
+				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
+			}
+			
+			$this->_last_stmt = null;
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -457,6 +487,12 @@ class DB
 	 */
 	public function _query($query_string)
 	{
+		if ($this->_debug_comment)
+		{
+			$query_string .= "\n" . sprintf('/* _query() %s */', \RX_CLIENT_IP);
+		}
+		
+		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->query($query_string);
 		return $this->_last_stmt;
 	}
@@ -1084,7 +1120,7 @@ class DB
 		
 		// Compose the basic structure of the log entry.
 		$result = array(
-			'query' => $query,
+			'query' => preg_replace('!\n/\* .+ \*/$!s', '', $query),
 			'query_id' => $this->_query_id,
 			'connection' => $this->_type,
 			'elapsed_time' => sprintf('%0.5f', $elapsed_time),

@@ -20,7 +20,7 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 */
 	public static function getName(): string
 	{
-		return 'iOS (APNs)';
+		return 'APNs';
 	}
 	
 	/**

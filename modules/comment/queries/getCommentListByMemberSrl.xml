@@ -1,7 +1,10 @@
-<query id="getCommentList" action="select">
+<query id="getCommentListByMemberSrl" action="select">
 	<tables>
 		<table name="comments" />
 	</tables>
+	<index_hint for="ALL">
+		<index var="index_hint" default="idx_member_srl" type="USE" />
+	</index_hint>
 	<columns>
 		<column name="comment_srl" />
 		<column name="parent_srl" />
@@ -11,7 +14,7 @@
 		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
 	</conditions>
 	<navigation>
-		<index var="list_order" default="list_order" order="asc" />
+		<index var="list_order" default="list_order" order="order_type" />
 		<list_count var="list_count" default="20" />
 		<page_count var="page_count" default="10" />
 		<page var="page" default="1" />

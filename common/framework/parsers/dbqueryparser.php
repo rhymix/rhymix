@@ -101,7 +101,15 @@ class DBQueryParser extends BaseParser
 				$index_hint->hint_type = strtoupper(trim($tag['type'])) ?: 'USE';
 				$index_hint->index_name = trim($tag['name']) ?: '';
 				$index_hint->table_name = trim($tag['table']) ?: '';
-				if ($index_hint->index_name)
+				if (isset($tag['var']) && trim($tag['var']))
+				{
+					$index_hint->var = trim($tag['var']);
+				}
+				if (isset($tag['default']) && trim($tag['default']))
+				{
+					$index_hint->index_name = trim($tag['default']);
+				}
+				if ($index_hint->index_name || $index_hint->var)
 				{
 					$query->index_hints[] = $index_hint;
 				}

@@ -6,10 +6,10 @@
 			<a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a>
 		</h1>
 		<p class="meta">
-			<span class="author">
-				<i class="xi-user"></i><a cond="isset($module_info->display_author) && $module_info->display_author != 'N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a>
-				<block cond="isset($module_info->display_author) && $module_info->display_author != 'N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block>
-				<a cond="isset($module_info->display_author) && $module_info->display_author != 'N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
+			<span class="author" cond="($module_info->display_author ?? 'Y') !== 'N'">
+				<i class="xi-user"></i> <a cond="$oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a>
+				<block cond="$oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block>
+				<a cond="$oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
 			</span>
 			<span class="time">
 				<i class="xi-time"></i> {$oDocument->getRegdate('Y.m.d H:i')}

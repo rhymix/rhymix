@@ -100,6 +100,7 @@ return array(
 		'display_type' => array('comment'),
 		'display_content' => array('request_info', 'entries', 'errors', 'queries'),
 		'display_to' => 'admin',
+		'query_comment' => false,
 		'write_error_log' => 'fatal',
 		'allow' => array(),
 	),

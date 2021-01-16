@@ -57,9 +57,9 @@ class content extends WidgetHandler
 		{
 			$args->rss_urls = array();
 			$rss_urls = array_unique(array($args->rss_url0,$args->rss_url1,$args->rss_url2,$args->rss_url3,$args->rss_url4));
-			for($i=0,$c=count($rss_urls);$i<$c;$i++)
+			foreach($rss_urls as $rss_url)
 			{
-				if($rss_urls[$i]) $args->rss_urls[] = $rss_urls[$i];
+				if($rss_url) $args->rss_urls[] = $rss_url;
 			}
 			// Get module information after listing module_srls if the module is not RSS
 		}
@@ -98,16 +98,15 @@ class content extends WidgetHandler
 						$module_srls[] = $val->module_srl;
 					}
 					$idx = explode(',',$args->module_srls);
-					for($i=0,$c=count($idx);$i<$c;$i++)
+					foreach($idx as $srl)
 					{
-						$srl = $idx[$i];
 						if(!$args->module_srls_info[$srl]) continue;
 						$args->mid_lists[$srl] = $args->module_srls_info[$srl]->mid;
 					}
 				}
 			}
 			// Exit if no module is found
-			if(!count($args->modules_info)) return Context::get('msg_not_founded');
+			if(!$args->modules_info) return Context::get('msg_not_founded');
 			$args->module_srl = implode(',',$module_srls);
 		}
 
@@ -200,11 +199,9 @@ class content extends WidgetHandler
 		// Get model object of the comment module and execute getCommentList() method
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
+		if(!is_array($output) || !count($output)) return;
 
 		$content_items = array();
-
-		if(!count($output)) return;
-
 		foreach($output as $key => $oComment)
 		{
 			$oDocument = getModel('document')->getDocument($oComment->get('document_srl'), false, false);
@@ -278,7 +275,7 @@ class content extends WidgetHandler
 		// If the result exists, make each document as an object
 		$content_items = array();
 		$first_thumbnail_idx = -1;
-		if(count($output->data))
+		if(is_array($output->data) && count($output->data))
 		{
 			foreach($output->data as $key => $attribute)
 			{
@@ -289,9 +286,9 @@ class content extends WidgetHandler
 			}
 			$oDocumentModel->setToAllDocumentExtraVars();
 
-			for($i=0,$c=count($document_srls);$i<$c;$i++)
+			foreach($document_srls as $document_srl)
 			{
-				$oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srls[$i]];
+				$oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 				$document_srl = $oDocument->document_srl;
 				$module_srl = $oDocument->get('module_srl');
 				$category_srl = $oDocument->get('category_srl');
@@ -349,7 +346,7 @@ class content extends WidgetHandler
 		// Get a file list in each document on the module
 		$obj->list_count = $args->list_count * $args->page_count;
 		$files_output = executeQueryArray("file.getOneFileInDocument", $obj);
-		$files_count = count($files_output->data);
+		$files_count = count($files_output->data ?: []);
 		if(!$files_count) return;
 
 		$content_items = array();
@@ -358,7 +355,7 @@ class content extends WidgetHandler
 
 		$tmp_document_list = $oDocumentModel->getDocuments($document_srl_list);
 
-		if(!count($tmp_document_list)) return;
+		if(!is_array($tmp_document_list) || !count($tmp_document_list)) return;
 
 		foreach($tmp_document_list as $oDocument)
 		{

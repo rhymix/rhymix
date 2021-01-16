@@ -20,7 +20,7 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 */
 	public static function getName(): string
 	{
-		return 'Android (FCM)';
+		return 'Google FCM';
 	}
 	
 	/**
