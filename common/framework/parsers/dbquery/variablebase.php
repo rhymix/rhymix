@@ -208,7 +208,7 @@ class VariableBase
 			case 'not_in':
 				if ($is_expression)
 				{
-					$where = sprintf('%s IN %s', $column, $value);
+					$where = sprintf('%s NOT IN %s', $column, $value);
 				}
 				else
 				{
