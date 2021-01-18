@@ -227,7 +227,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get module information by mid
 	 */
-	public static function getModuleInfoByMid($mid, $site_srl = 0, $columnList = array())
+	public static function getModuleInfoByMid($mid)
 	{
 		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_-]+$/i", $mid)))
 		{
@@ -537,9 +537,13 @@ class moduleModel extends module
 		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list');
 		if($list === null)
 		{
-			$argsCount = countobj($args);
+			if (is_object($args) && isset($args->site_srl))
+			{
+				unset($args->site_srl);
+			}
 			
-			if(!$argsCount || ($argsCount === 1 && isset($args->site_srl)))
+			$argsCount = countobj($args);
+			if(!$argsCount)
 			{
 				$columnList = array();
 			}
@@ -548,7 +552,7 @@ class moduleModel extends module
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
 
-			if((!$argsCount || ($argsCount === 1 && isset($args->site_srl))) && !$columnList)
+			if(!$argsCount && !$columnList)
 			{
 				Rhymix\Framework\Cache::set('site_and_module:module:mid_list', $list, 0, true);
 			}
@@ -1189,13 +1193,11 @@ class moduleModel extends module
 	 * Global configuration is used to manage board, member and others
 	 * 
 	 * @param string $module
-	 * @param int $site_srl @deprecated
 	 * @return mixed
 	 */
-	public static function getModuleConfig($module, $site_srl = 0)
+	public static function getModuleConfig($module)
 	{
-		$site_srl = 0;
-		if(!isset($GLOBALS['__ModuleConfig__'][$site_srl][$module]))
+		if(!isset($GLOBALS['__ModuleConfig__'][$module]))
 		{
 			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module);
 			if($config === null)
@@ -1220,10 +1222,10 @@ class moduleModel extends module
 					Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module, $config, 0, true);
 				}
 			}
-			$GLOBALS['__ModuleConfig__'][$site_srl][$module] = $config;
+			$GLOBALS['__ModuleConfig__'][$module] = $config;
 		}
 		
-		$config = $GLOBALS['__ModuleConfig__'][$site_srl][$module];
+		$config = $GLOBALS['__ModuleConfig__'][$module];
 		return $config === -1 ? null : $config;
 	}
 
@@ -1601,7 +1603,7 @@ class moduleModel extends module
 	/**
 	 * @brief Check if it is an administrator of site_module_info
 	 */
-	public static function isSiteAdmin($member_info, $site_srl = null)
+	public static function isSiteAdmin($member_info)
 	{
 		if ($member_info && $member_info->is_admin == 'Y')
 		{
@@ -1616,7 +1618,7 @@ class moduleModel extends module
 	/**
 	 * @brief Get admin information of the site
 	 */
-	public static function getSiteAdmin($site_srl)
+	public static function getSiteAdmin()
 	{
 		return array();
 	}
@@ -1763,9 +1765,7 @@ class moduleModel extends module
 	public static function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
 	{
 		$target = ($skin_type == 'M') ? 'mskin' : 'skin';
-		$site_srl = 0;
-
-		$designInfoFile = sprintf(RX_BASEDIR.'files/site_design/design_%s.php', $site_srl);
+		$designInfoFile = RX_BASEDIR.'files/site_design/design_0.php';
 		if(is_readable($designInfoFile))
 		{
 			include($designInfoFile);
@@ -1812,7 +1812,7 @@ class moduleModel extends module
 				$designInfo->module->{$module_name}->{$target} = $skinName;
 
 				$oAdminController = getAdminController('admin');
-				$oAdminController->makeDefaultDesignFile($designInfo, $site_srl);
+				$oAdminController->makeDefaultDesignFile($designInfo);
 			}
 		}
 
@@ -2317,19 +2317,13 @@ class moduleModel extends module
 
 	public function getLangListByLangcodeForAutoComplete()
 	{
-		$keyword = Context::get('search_keyword');
-
-		$requestVars = Context::getRequestVars();
-
 		$args = new stdClass;
-		$args->site_srl = (int)$requestVars->site_srl;
 		$args->page = 1; // /< Page
 		$args->list_count = 100; // /< the number of posts to display on a single page
 		$args->page_count = 5; // /< the number of pages that appear in the page navigation
 		$args->sort_index = 'name';
 		$args->order_type = 'asc';
 		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search*/
-
 		$output = executeQueryArray('module.getLangListByLangcode', $args);
 
 		$list = array();

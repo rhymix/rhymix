@@ -189,16 +189,16 @@ class moduleController extends module
 		return $output;
 	}
 
-	function updateModuleConfig($module, $config, $site_srl = 0)
+	function updateModuleConfig($module, $config)
 	{
-		$origin_config = ModuleModel::getModuleConfig($module, $site_srl) ?: new stdClass;
+		$origin_config = ModuleModel::getModuleConfig($module) ?: new stdClass;
 		
 		foreach($config as $key => $val)
 		{
 			$origin_config->{$key} = $val;
 		}
 		
-		return $this->insertModuleConfig($module, $origin_config, $site_srl);
+		return $this->insertModuleConfig($module, $origin_config);
 	}
 
 	function updateModulePartConfig($module, $module_srl, $config)
@@ -217,12 +217,11 @@ class moduleController extends module
 	 * @brief Enter a specific set of modules
 	 * In order to manage global configurations of modules such as board, member and so on
 	 */
-	function insertModuleConfig($module, $config, $site_srl = 0)
+	function insertModuleConfig($module, $config)
 	{
 		$args =new stdClass();
 		$args->module = $module;
 		$args->config = serialize($config);
-		$args->site_srl = $site_srl;
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -288,30 +287,7 @@ class moduleController extends module
 	 */
 	function insertSite($domain, $index_module_srl)
 	{
-		if(isSiteID($domain))
-		{
-			if(ModuleModel::isIDExists($domain, 0)) return new BaseObject(-1, 'msg_already_registed_vid');
-		}
-		else
-		{
-			$domain = strtolower($domain);
-		}
-
-		$args = new stdClass;
-		$args->site_srl = getNextSequence();
-		$args->domain = (substr_compare($domain, '/', -1) === 0) ? substr($domain, 0, -1) : $domain;
-		$args->index_module_srl = $index_module_srl;
-		$args->default_language = Context::getLangType();
-
-		$columnList = array('modules.site_srl');
-		$output = ModuleModel::getSiteInfoByDomain($args->domain, $columnList);
-		if($output) return new BaseObject(-1,'msg_already_registed_vid');
-
-		$output = executeQuery('module.insertSite', $args);
-		if(!$output->toBool()) return $output;
-
-		$output->add('site_srl', $args->site_srl);
-		return $output;
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 	}
 
 	/**
@@ -319,36 +295,7 @@ class moduleController extends module
 	 */
 	function updateSite($args)
 	{
-		$columnList = array('sites.site_srl', 'sites.domain');
-		$site_info = ModuleModel::getSiteInfo($args->site_srl, $columnList);
-
-		if(!$args->domain && $site_info->site_srl == $args->site_srl)
-		{
-			$args->domain = $site_info->domain;
-		}
-
-		if($site_info->domain != $args->domain)
-		{
-			$info = ModuleModel::getSiteInfoByDomain($args->domain, $columnList);
-			if($info->site_srl && $info->site_srl != $args->site_srl) return new BaseObject(-1, 'msg_already_registed_domain');
-			if(isSiteID($args->domain) && ModuleModel::isIDExists($args->domain)) return new BaseObject(-1, 'msg_already_registed_vid');
-
-			if($args->domain && !isSiteID($args->domain))
-			{
-				$args->domain = (strlen($args->domain) >= 1 && substr_compare($args->domain, '/', -1) === 0) ? substr($args->domain, 0, -1) : $args->domain;
-			}
-		}
-		$output = executeQuery('module.updateSite', $args);
-		//clear cache for default mid
-		if($args->site_srl == 0) $vid='';
-		else $vid=$args->domain;
-
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->index_module_srl);
-		$mid = $module_info->mid;
-
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
-		return $output;
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 	}
 
 	/**
@@ -360,6 +307,7 @@ class moduleController extends module
 		unset($args->body);
 		unset($args->act);
 		unset($args->page);
+		unset($args->site_srl);
 		// Test mid value
 		if(!preg_match("/^[a-z][a-z0-9_]+$/i", $args->mid)) return new BaseObject(-1, 'msg_limit_mid');
 		// Test variables (separate basic vars and other vars in modules)
@@ -407,8 +355,7 @@ class moduleController extends module
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
 		if(!$output->toBool()) return $output;
 		// Check whether the module name already exists
-		if(!$args->site_srl) $args->site_srl = 0;
-		if(ModuleModel::isIDExists($args->mid, $args->site_srl)) return new BaseObject(-1, 'msg_module_name_exists');
+		if(ModuleModel::isIDExists($args->mid)) return new BaseObject(-1, 'msg_module_name_exists');
 
 		// begin transaction
 		$oDB = &DB::getInstance();
@@ -465,7 +412,7 @@ class moduleController extends module
 			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
 
 			// if menu is not created, create menu also. and does not supported that in virtual site.
-			if(!$menuOutput->data && !$args->site_srl)
+			if(!$menuOutput->data)
 			{
 				$oMenuAdminController = getAdminController('menu');
 				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
@@ -533,10 +480,9 @@ class moduleController extends module
 
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 
-		if(!$args->site_srl || !$args->browser_title)
+		if(!$args->browser_title)
 		{
-			if(!$args->site_srl) $args->site_srl = (int)$module_info->site_srl;
-			if(!$args->browser_title) $args->browser_title = $module_info->browser_title;
+			$args->browser_title = $module_info->browser_title;
 		}
 
 		$args->browser_title = strip_tags($args->browser_title);
@@ -591,7 +537,6 @@ class moduleController extends module
 		{
 			$menuArgs = new stdClass;
 			$menuArgs->url = $module_info->mid;
-			$menuArgs->site_srl = $module_info->site_srl;
 			$menuOutput = executeQueryArray('menu.getMenuItemByUrl', $menuArgs);
 			if($menuOutput->data && count($menuOutput->data))
 			{
@@ -648,11 +593,10 @@ class moduleController extends module
 	/**
 	 * @brief Change the module's virtual site
 	 */
-	function updateModuleSite($module_srl, $site_srl, $layout_srl = 0)
+	function updateModuleSite($module_srl, $site_srl = 0, $layout_srl = 0)
 	{
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
-		$args->site_srl = $site_srl;
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery('module.updateModuleSite', $args);
 		if(!$output->toBool()) return $output;
@@ -668,7 +612,7 @@ class moduleController extends module
 	 * Attempt to delete all related information when deleting a module.
 	 * Origin method is changed. because menu validation check is needed
 	 */
-	function deleteModule($module_srl, $site_srl = 0)
+	function deleteModule($module_srl)
 	{
 		if(!$module_srl) return new BaseObject(-1,'msg_invalid_request');
 
@@ -679,15 +623,9 @@ class moduleController extends module
 		$args = new stdClass();
 		$args->url = $output->mid;
 		$args->is_shortcut = 'N';
-		if(!$site_srl) $args->site_srl = $site_module_info->site_srl;
-		else $args->site_srl = $site_srl;
-
-		unset($output);
 
 		$oMenuAdminModel = getAdminModel('menu');
 		$menuOutput = $oMenuAdminModel->getMenuList($args);
-
-		// get menu_srl by site_srl
 		if(is_array($menuOutput->data))
 		{
 			foreach($menuOutput->data AS $key=>$value)

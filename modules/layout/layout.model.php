@@ -33,13 +33,7 @@ class layoutModel extends layout
 	 */
 	function getLayoutList($site_srl = 0, $layout_type="P", $columnList = array())
 	{
-		if(!$site_srl)
-		{
-			$site_module_info = Context::get('site_module_info');
-			$site_srl = (int)$site_module_info->site_srl;
-		}
 		$args = new stdClass();
-		$args->site_srl = $site_srl;
 		$args->layout_type = $layout_type;
 		$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
 
@@ -52,7 +46,7 @@ class layoutModel extends layout
 		}
 		
 		$oLayoutAdminModel = getAdminModel('layout');
-		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type, $site_srl);
+		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type);
 		if($siteDefaultLayoutSrl)
 		{
 			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
@@ -81,10 +75,9 @@ class layoutModel extends layout
 	 */
 	public function getLayoutInstanceListForJSONP()
 	{
-		$siteSrl = Context::get('site_srl');
 		$layoutType = Context::get('layout_type');
 
-		$layoutList = $this->getLayoutInstanceList($siteSrl, $layoutType);
+		$layoutList = $this->getLayoutInstanceList(0, $layoutType);
 		$thumbs = array();
 
 		foreach($layoutList as $key => $val)
@@ -127,17 +120,11 @@ class layoutModel extends layout
 	 */
 	function getLayoutInstanceList($siteSrl = 0, $layoutType = 'P', $layout = null, $columnList = array())
 	{
-		if (!$siteSrl)
-		{
-			$siteModuleInfo = Context::get('site_module_info');
-			$siteSrl = (int)$siteModuleInfo->site_srl;
-		}
 		if ($columnList && !isset($columnList['layout_type']))
 		{
 			$columnList[] = 'layout_type';
 		}
 		$args = new stdClass();
-		$args->site_srl = $siteSrl;
 		$args->layout_type = $layoutType === 'P' ? 'P' : 'P,M';
 		$args->layout = $layout;
 		$output = executeQueryArray('layout.getLayoutList', $args, $columnList);
@@ -177,7 +164,6 @@ class layoutModel extends layout
 			if(count($instanceList) < 1 && $downloadedList[$layout])
 			{
 				$insertArgs = new stdClass();
-				$insertArgs->site_srl = $siteSrl;
 				$insertArgs->layout_srl = getNextSequence();
 				$insertArgs->layout = $layout;
 				$insertArgs->title = $titleList[$layout];
@@ -195,7 +181,6 @@ class layoutModel extends layout
 			foreach($noInstanceList as $layoutName)
 			{
 				$insertArgs = new stdClass();
-				$insertArgs->site_srl = $siteSrl;
 				$insertArgs->layout_srl = getNextSequence();
 				$insertArgs->layout = $layoutName;
 				$insertArgs->title = $titleList[$layoutName];

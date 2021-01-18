@@ -166,10 +166,8 @@ class layoutAdminModel extends layout
 
 	public function getLayoutAdminSiteDefaultLayout()
 	{
-		$siteSrl = Context::get('site_srl');
 		$type = Context::get('type');
-
-		$layoutSrl = $this->getSiteDefaultLayout($type, $siteSrl);
+		$layoutSrl = $this->getSiteDefaultLayout($type);
 
 		$oLayoutModel = getModel('layout');
 		$layoutInfo = $oLayoutModel->getLayoutRawData($layoutSrl, array('title'));
@@ -178,10 +176,10 @@ class layoutAdminModel extends layout
 		$this->add('title', $layoutInfo->title);
 	}
 
-	public function getSiteDefaultLayout($viewType = 'P', $siteSrl = 0)
+	public function getSiteDefaultLayout($viewType = 'P')
 	{
 		$target = ($viewType == 'M') ? 'mlayout_srl' : 'layout_srl';
-		$designInfoFile = sprintf(RX_BASEDIR . 'files/site_design/design_%s.php', $siteSrl);
+		$designInfoFile = RX_BASEDIR . 'files/site_design/design_0.php';
 		if(FileHandler::exists($designInfoFile)) include($designInfoFile);
 
 		if(!$designInfo || !$designInfo->{$target})

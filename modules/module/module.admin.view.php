@@ -231,11 +231,14 @@ class moduleAdminView extends module
 		if(!count($modules)) if(!$module_srls) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oModuleModel = getModel('module');
-		$columnList = array('module_srl', 'module', 'site_srl');
+		$columnList = array('module_srl', 'module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
 		$xml_info = $oModuleModel->getModuleActionXml($module_info->module);
 		$source_grant_list = $xml_info->grant;
 		// Grant virtual permissions for access and manager
+		$grant_list = new stdClass;
+		$grant_list->manager = new stdClass;
+		$grant_list->access = new stdClass;
 		$grant_list->access->title = lang('grant_access');
 		$grant_list->access->default = 'guest';
 		if(count($source_grant_list))
@@ -252,7 +255,7 @@ class moduleAdminView extends module
 		Context::set('grant_list', $grant_list);
 		// Get a list of groups
 		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups($module_info->site_srl);
+		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $group_list);
 		$security = new Security();				
 		$security->encodeHTML('group_list..title');
@@ -270,9 +273,7 @@ class moduleAdminView extends module
 	function dispModuleAdminLangcode()
 	{
 		// Get the language file of the current site
-		$site_module_info = Context::get('site_module_info');
 		$args = new stdClass();
-		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->langCode = Context::get('lang_type');
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page

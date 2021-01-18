@@ -3,7 +3,7 @@
         <table name="modules" />
     </tables>
     <columns>
-        <column name="site_srl" var="site_srl" notnull="notnull" />
+        <column name="site_srl" var="site_srl" default="0" />
         <column name="layout_srl" var="layout_srl" notnull="notnull" default="0" />
     </columns>
     <conditions>

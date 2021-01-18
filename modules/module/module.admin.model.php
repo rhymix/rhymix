@@ -151,7 +151,7 @@ class moduleAdminModel extends module
 		Context::set('member_config', $member_config);
 
 		$oModuleModel = getModel('module');
-		$columnList = array('module_srl', 'site_srl');
+		$columnList = array('module_srl');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		// Grant virtual permission for access and manager
 		$grant_list = new stdClass();
@@ -198,7 +198,7 @@ class moduleAdminModel extends module
 		$admin_member = ModuleModel::getAdminId($module_srl) ?: [];
 		Context::set('admin_member', $admin_member);
 		// Get a list of groups
-		$group_list = MemberModel::getGroups($module_info->site_srl);
+		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
 
 		//Security			
@@ -317,14 +317,14 @@ class moduleAdminModel extends module
 		$mode = $mode === 'P' ? 'P' : 'M';
 
 		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		if(!$module_info) return;
 
 		if($mode === 'P')
 		{
 			if($module_info->is_skin_fix == 'N')
 			{
-				$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, 'P', $module_info->site_srl);
+				$skin = ModuleModel::getModuleDefaultSkin($module_info->module, 'P');
 			}
 			else
 			{
@@ -336,7 +336,7 @@ class moduleAdminModel extends module
 			if($module_info->is_mskin_fix == 'N')
 			{
 				$skin_type = $module_info->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M';
-				$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, $skin_type, $module_info->site_srl);
+				$skin = ModuleModel::getModuleDefaultSkin($module_info->module, $skin_type);
 			}
 			else
 			{
@@ -414,7 +414,6 @@ class moduleAdminModel extends module
 		if(substr($name,0,12)=='$user_lang->')
 		{
 			$args = new stdClass();
-			$args->site_srl = (int)$site_srl;
 			$args->name = substr($name,12);
 			$output = executeQueryArray('module.getLang', $args);
 			if($output->data)
@@ -459,9 +458,8 @@ class moduleAdminModel extends module
 	{
 		$name = Context::get('name');
 		if(!$name) return $this->setError('msg_invalid_request');
-		$site_module_info = Context::get('site_module_info');
 		$this->add('name', $name);
-		$output = $this->getLangCode($site_module_info->site_srl, '$user_lang->'.$name);
+		$output = $this->getLangCode(0, '$user_lang->'.$name);
 		$this->add('langs', $output);
 	}
 
@@ -471,8 +469,6 @@ class moduleAdminModel extends module
 	function getModuleAdminLangListByName()
 	{
 		$args = Context::getRequestVars();
-		if(!$args->site_srl) $args->site_srl = 0;
-
 		$columnList = array('lang_code', 'name', 'value');
 
 		$langList = array();
@@ -491,8 +487,6 @@ class moduleAdminModel extends module
 	function getModuleAdminLangListByValue()
 	{
 		$args = Context::getRequestVars();
-		if(!$args->site_srl) $args->site_srl = 0;
-
 		$langList = array();
 
 		// search value
@@ -546,7 +540,6 @@ class moduleAdminModel extends module
 	{
 		$site_module_info = Context::get('site_module_info');
 		$args = new stdClass();
-		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->langCode = Context::get('lang_code');
 		$args->page = Context::get('page');
 		$args->sort_index = 'name';

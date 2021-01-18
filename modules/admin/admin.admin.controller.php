@@ -169,10 +169,6 @@ class adminAdminController extends admin
 	public function procAdminInsertDefaultDesignInfo()
 	{
 		$vars = Context::getRequestVars();
-		if(!$vars->site_srl)
-		{
-			$vars->site_srl = 0;
-		}
 
 		// create a DesignInfo file
 		$this->updateDefaultDesignInfo($vars);
@@ -190,7 +186,7 @@ class adminAdminController extends admin
 			FileHandler::makeDir($siteDesignPath);
 		}
 
-		$siteDesignFile = RX_BASEDIR . 'files/site_design/design_' . $vars->site_srl . '.php';
+		$siteDesignFile = RX_BASEDIR . 'files/site_design/design_0.php';
 
 		$layoutTarget = 'layout_srl';
 		$skinTarget = 'skin';
@@ -225,10 +221,10 @@ class adminAdminController extends admin
 			$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
 		}
 
-		$this->makeDefaultDesignFile($designInfo, $vars->site_srl);
+		$this->makeDefaultDesignFile($designInfo);
 	}
 
-	function makeDefaultDesignFile($designInfo, $site_srl = 0)
+	function makeDefaultDesignFile($designInfo)
 	{
 		$buff = array();
 		$buff[] = '<?php if(!defined("__XE__")) exit();';
@@ -255,7 +251,7 @@ class adminAdminController extends admin
 			}
 		}
 
-		$siteDesignFile = RX_BASEDIR . 'files/site_design/design_' . $site_srl . '.php';
+		$siteDesignFile = RX_BASEDIR . 'files/site_design/design_0.php';
 		FileHandler::writeFile($siteDesignFile, implode(PHP_EOL, $buff));
 	}
 
@@ -265,7 +261,6 @@ class adminAdminController extends admin
 	 */
 	function procAdminToggleFavorite()
 	{
-		$siteSrl = Context::get('site_srl');
 		$moduleName = Context::get('module_name');
 
 		// check favorite exists
@@ -286,7 +281,7 @@ class adminAdminController extends admin
 		// if not exists, insert favorite
 		else
 		{
-			$output = $this->_insertFavorite($siteSrl, $moduleName);
+			$output = $this->_insertFavorite(0, $moduleName);
 			$result = 'on';
 		}
 
@@ -412,11 +407,10 @@ class adminAdminController extends admin
 	 * Insert favorite
 	 * @return object query result
 	 */
-	function _insertFavorite($siteSrl, $module, $type = 'module')
+	function _insertFavorite($site_srl, $module, $type = 'module')
 	{
 		$args = new stdClass();
 		$args->adminFavoriteSrl = getNextSequence();
-		$args->site_srl = $siteSrl;
 		$args->module = $module;
 		$args->type = $type;
 		$output = executeQuery('admin.insertFavorite', $args);
