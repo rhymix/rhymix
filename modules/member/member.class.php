@@ -32,11 +32,6 @@ class member extends ModuleObject {
 	{
 		// Register action forward (to use in administrator mode)
 		$oModuleController = getController('module');
-
-		$oDB = DB::getInstance();
-		$oDB->addIndex("member_group","idx_site_title", array("site_srl","title"),true);
-
-		$oModuleModel = getModel('module');
 		$config = ModuleModel::getModuleConfig('member');
 
 		if(empty($config))

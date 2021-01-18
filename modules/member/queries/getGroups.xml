@@ -6,6 +6,6 @@
         <index var="sort_index" default="list_order" order="order_type" />
     </navigation>
     <conditions>
-        <condition operation="equal" column="site_srl" var="site_srl" />
+        <condition operation="equal" column="site_srl" var="site_srl" default="0" />
     </conditions>
 </query>
