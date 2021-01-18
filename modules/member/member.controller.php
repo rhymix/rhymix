@@ -2072,39 +2072,23 @@ class memberController extends member
 	/**
 	 * Join a virtual site
 	 *
-	 * @return void|Object (void : success, Object : fail)
+	 * @deprecated
+	 * @return void
 	 */
 	function procMemberSiteSignUp()
 	{
-		$site_module_info = Context::get('site_module_info');
-		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$columnList = array('site_srl', 'group_srl', 'title');
-		$default_group = MemberModel::getDefaultGroup($site_module_info->site_srl, $columnList);
-		$this->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
-		$groups[$default_group->group_srl] = $default_group->title;
-		$logged_info->group_list = $groups;
+		
 	}
 
 	/**
 	 * Leave the virtual site
 	 *
-	 * @return void|Object (void : success, Object : fail)
+	 * @deprecated
+	 * @return void
 	 */
 	function procMemberSiteLeave()
 	{
-		$site_module_info = Context::get('site_module_info');
-		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$args = new stdClass;
-		$args->site_srl= $site_module_info->site_srl;
-		$args->member_srl = $logged_info->member_srl;
-		$output = executeQuery('member.deleteMembersGroup', $args);
-		if(!$output->toBool()) return $output;
-		$this->setMessage('success_deleted');
-		self::clearMemberCache($args->member_srl);
+		
 	}
 
 	/**
