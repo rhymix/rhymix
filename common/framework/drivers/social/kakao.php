@@ -89,10 +89,16 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		{
 			$profile['story'] = $story;
 		}
-
-		// 이메일 주소 : 카카오 API에서 제공하지 않음
-		$this->setEmail('');
-
+		
+		if(isset($profile['kakao_account']['email']))
+		{
+			$this->setEmail($profile['kakao_account']['email']);
+		}
+		else
+		{
+			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
+		}
+		
 		// ID, 이름, 프로필 이미지, 프로필 URL
 		$this->setId($profile['id']);
 		$this->setName($profile['properties']['nickname'] ?: $profile['story']['nickName']);

@@ -83,6 +83,10 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		{
 			$this->setEmail($profile['email']);
 		}
+		else
+		{
+			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
+		}
 
 		// ID
 		$this->setId($profile['id']);

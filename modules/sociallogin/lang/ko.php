@@ -70,6 +70,7 @@ $lang->msg_not_kakao_story_user = '카카오 스토리 사용자만 이용할 �
 $lang->msg_not_google_plus_user = 'Google Plus 사용자만 이용할 수 있습니다. Google Plus에 가입후 이용해주세요.';
 $lang->msg_not_support_service_login = '지원하지 않는 서비스입니다.';
 $lang->msg_errer_api_connect = 'API 통신 오류입니다. 재시도 해주세요.';
+$lang->msg_not_confirm_email_sns_for_sns = '이메일을 찾을 수 없습니다. 소셜로그인 사용시 소셜계정의 이메일 정보값은 필수입니다.';
 $lang->sns_linkage_module = 'SNS 연동모듈';
 $lang->include_linkage_module = '선택한 모듈에서만 연동';
 $lang->exclude_linkage_module = '선택한 모듈은 연동제외';
