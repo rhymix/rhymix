@@ -360,7 +360,7 @@ class adminAdminView extends admin
 		// Check counter addon
 		$site_module_info = Context::get('site_module_info');
 		$oAddonAdminModel = getAdminModel('addon');
-		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter', $site_module_info->site_srl );
+		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter');
 		if(!$counterAddonActivated)
 		{
 			$columnList = array('member_srl', 'nick_name', 'user_name', 'user_id', 'email_address');

@@ -4,7 +4,7 @@
 	</tables>
 	<columns>
 		<column name="admin_favorite_srl" var="adminFavoriteSrl" filter="number" notnull="notnull" />
-		<column name="site_srl" var="site_srl" filter="number" notnull="notnull" />
+		<column name="site_srl" var="site_srl" default="0" />
 		<column name="module" var="module" notnull="notnull" />
 		<column name="type" var="favoriteType" default="module" />
 	</columns>

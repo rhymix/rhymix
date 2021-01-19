@@ -490,7 +490,7 @@ class adminAdminModel extends admin
 		$is_new_layout = TRUE;
 		$oLayoutModel = getModel('layout');
 		$layout_info_list = array();
-		$layout_list = $oLayoutModel->getLayoutList($site_info->site_srl);
+		$layout_list = $oLayoutModel->getLayoutList();
 		if($layout_list)
 		{
 			foreach($layout_list as $val)
@@ -508,7 +508,6 @@ class adminAdminModel extends admin
 		{
 			$site_module_info = Context::get('site_module_info');
 			$args = new stdClass();
-			$args->site_srl = (int) $site_module_info->site_srl;
 			$args->layout_srl = getNextSequence();
 			$args->layout = $layout_info->name;
 			$args->title = $layout_info->title;
@@ -655,14 +654,13 @@ class adminAdminModel extends admin
 
 	/**
 	 * Get admin favorite list
-	 * @param int $siteSrl if default site, siteSrl is zero
+	 * @param int $site_srl @deprecated
 	 * @param bool $isGetModuleInfo
 	 * @return object
 	 */
-	function getFavoriteList($siteSrl = 0, $isGetModuleInfo = FALSE)
+	function getFavoriteList($site_srl = 0, $isGetModuleInfo = FALSE)
 	{
 		$args = new stdClass();
-		$args->site_srl = $siteSrl;
 		$output = executeQueryArray('admin.getFavoriteList', $args);
 		if(!$output->toBool())
 		{
@@ -691,14 +689,13 @@ class adminAdminModel extends admin
 
 	/**
 	 * Check available insert favorite
-	 * @param int $siteSrl if default site, siteSrl is zero
+	 * @param int $site_srl @deprecated
 	 * @param string $module
 	 * @return object
 	 */
-	function isExistsFavorite($siteSrl, $module)
+	function isExistsFavorite($site_srl, $module)
 	{
 		$args = new stdClass();
-		$args->site_srl = $siteSrl;
 		$args->module = $module;
 		$output = executeQuery('admin.getFavorite', $args);
 		if(!$output->toBool())

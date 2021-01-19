@@ -679,7 +679,6 @@ class moduleAdminController extends module
 		$target = Context::get('target');
 		$module = Context::get('module');
 		$args = new stdClass();
-		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->name = str_replace(' ','_',Context::get('lang_code'));
 		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
 		if(!empty($args->lang_name)) $args->name = $args->lang_name;
@@ -700,20 +699,13 @@ class moduleAdminController extends module
 		{
 			$args->lang_code = $key;
 			$args->value = trim(Context::get($key));
-
-			// if request method is json, strip slashes
-			if(Context::getRequestMethod() == 'JSON' && version_compare(PHP_VERSION, "5.4.0", "<") && get_magic_quotes_gpc())
-			{
-				$args->value = stripslashes($args->value);
-			}
-
 			if($args->value)
 			{
 				$output = executeQuery('module.insertLang', $args);
 				if(!$output->toBool()) return $output;
 			}
 		}
-		$this->makeCacheDefinedLangCode($args->site_srl);
+		$this->makeCacheDefinedLangCode();
 
 		$this->add('name', $args->name);
 		$this->setMessage("success_saved", 'info');
@@ -730,7 +722,6 @@ class moduleAdminController extends module
 		// Get language code
 		$site_module_info = Context::get('site_module_info');
 		$args = new stdClass();
-		$args->site_srl = (int)$site_module_info->site_srl;
 		$args->name = str_replace(' ','_',Context::get('name'));
 		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
 		if(!empty($args->lang_name)) $args->name = $args->lang_name;
@@ -738,7 +729,7 @@ class moduleAdminController extends module
 
 		$output = executeQuery('module.deleteLang', $args);
 		if(!$output->toBool()) return $output;
-		$this->makeCacheDefinedLangCode($args->site_srl);
+		$this->makeCacheDefinedLangCode();
 
 		$this->setMessage("success_deleted", 'info');
 
@@ -750,27 +741,14 @@ class moduleAdminController extends module
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
 
-		$oModuleController = getController('module');
 		$oModuleModel = getModel('module');
 		// Variable setting for site keyword
 		$site_keyword = Context::get('site_keyword');
-		$site_srl = Context::get('site_srl');
 		$vid = Context::get('vid');
 
 		// If there is no site keyword, use as information of the current virtual site
 		$args = new stdClass;
-		$logged_info = Context::get('logged_info');
-		$site_module_info = Context::get('site_module_info');
 		if($site_keyword) $args->site_keyword = $site_keyword;
-
-		if(!$site_srl)
-		{
-			if($logged_info->is_admin == 'Y' && !$site_keyword && !$vid) $args->site_srl = 0;
-			else $args->site_srl = (int)$site_module_info->site_srl;
-		}
-		else $args->site_srl = $site_srl;
-
-		$args->sort_index1 = 'sites.domain';
 
 		$moduleCategorySrl = array();
 		// Get a list of modules at the site
@@ -856,20 +834,9 @@ class moduleAdminController extends module
 	/**
 	 * @brief Save the file of user-defined language code
 	 */
-	function makeCacheDefinedLangCode($site_srl = 0)
+	function makeCacheDefinedLangCode()
 	{
 		$args = new stdClass();
-
-		// Get the language file of the current site
-		if(!$site_srl)
-		{
-			$site_module_info = Context::get('site_module_info');
-			$args->site_srl = (int)$site_module_info->site_srl;
-		}
-		else
-		{
-			$args->site_srl = $site_srl;
-		}
 		$output = executeQueryArray('module.getLang', $args);
 		if(!$output->toBool()) return;
 
@@ -910,7 +877,7 @@ class moduleAdminController extends module
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
 			
-			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:' . $args->site_srl . ':' . $langCode, $langMap[$langCode], 0, true);
+			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:0:' . $langCode, $langMap[$langCode], 0, true);
 		}
 		
 		$currentLang = Context::getLangType();

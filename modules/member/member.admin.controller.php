@@ -706,7 +706,6 @@ class memberAdminController extends member
 		$group_srl = Context::get('group_srl');
 
 		$args = Context::gets('group_srl','title','description','is_default','image_mark');
-		$args->site_srl = 0;
 		$output = $this->updateGroup($args);
 		if(!$output->toBool()) return $output;
 
@@ -913,7 +912,6 @@ class memberAdminController extends member
 					{
 						if(count($groups) > 0)
 						{
-							$args->site_srl = 0;
 							// One of its members to delete all the group
 							$output = executeQuery('member.deleteMemberGroupMember', $args);
 							if(!$output->toBool())
@@ -1231,7 +1229,7 @@ class memberAdminController extends member
 		$args->target_group_srl = $target_group_srl;
 
 		$output = executeQuery('member.changeGroup', $args);
-		$this->_deleteMemberGroupCache($site_srl);
+		$this->_deleteMemberGroupCache();
 
 		return $output;
 	}
@@ -1243,8 +1241,6 @@ class memberAdminController extends member
 	 */
 	function insertGroup($args)
 	{
-		if(!$args->site_srl) $args->site_srl = 0;
-
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.insertGroup', 'before', $args);
 		if(!$trigger_output->toBool())
@@ -1271,7 +1267,7 @@ class memberAdminController extends member
 		if(!$args->group_srl) $args->group_srl = getNextSequence();
 		$args->list_order = $args->group_srl;
 		$output = executeQuery('member.insertGroup', $args);
-		$this->_deleteMemberGroupCache($args->site_srl);
+		$this->_deleteMemberGroupCache();
 
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.insertGroup', 'after', $args);
@@ -1286,7 +1282,6 @@ class memberAdminController extends member
 	 */
 	function updateGroup($args)
 	{
-		if(!$args->site_srl) $args->site_srl = 0;
 		if(!$args->group_srl) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		
 		// Call trigger (before)
@@ -1308,7 +1303,7 @@ class memberAdminController extends member
 		}
 
 		$output = executeQuery('member.updateGroup', $args);
-		$this->_deleteMemberGroupCache($args->site_srl);
+		$this->_deleteMemberGroupCache();
 		
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.updateGroup', 'after', $args);
@@ -1319,10 +1314,9 @@ class memberAdminController extends member
 	/**
 	 * Delete a Group
 	 * @param int $group_srl
-	 * @param int $site_srl
 	 * @return Object
 	 */
-	function deleteGroup($group_srl, $site_srl = 0)
+	function deleteGroup($group_srl)
 	{
 		// Create a member model object
 		$oMemberModel = getModel('member');
@@ -1342,8 +1336,7 @@ class memberAdminController extends member
 		}
 
 		// Get groups where is_default == 'Y'
-		$columnList = array('site_srl', 'group_srl');
-		$default_group = $oMemberModel->getDefaultGroup($site_srl, $columnList);
+		$default_group = $oMemberModel->getDefaultGroup();
 		$default_group_srl = $default_group->group_srl;
 
 		// Change to default_group_srl
@@ -1352,7 +1345,7 @@ class memberAdminController extends member
 		$args = new stdClass;
 		$args->group_srl = $group_srl;
 		$output = executeQuery('member.deleteGroup', $args);
-		$this->_deleteMemberGroupCache($site_srl);
+		$this->_deleteMemberGroupCache();
 		if (!$output->toBool())
 		{
 			return $output;
@@ -1438,7 +1431,7 @@ class memberAdminController extends member
 			executeQuery('member.updateMemberGroupListOrder', $args);
 		}
 
-		$this->_deleteMemberGroupCache($vars->site_srl);
+		$this->_deleteMemberGroupCache();
 
 		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminGroupList'));
 	}
@@ -1447,7 +1440,7 @@ class memberAdminController extends member
 	 * Delete cached group data
 	 * @return void
 	*/
-	function _deleteMemberGroupCache($site_srl = 0)
+	function _deleteMemberGroupCache()
 	{
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('member');

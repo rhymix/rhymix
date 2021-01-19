@@ -597,7 +597,6 @@ class FileHandler
 
 		if(!$source)
 		{
-			imagedestroy($thumb);
 			return FALSE;
 		}
 
@@ -633,22 +632,13 @@ class FileHandler
 			}
 
 			// create temporary image with target size
-			$thumb = NULL;
-			if(function_exists('imagecreateTRUEcolor'))
-			{
-				$thumb = imagecreateTRUEcolor($resize_width, $resize_height);
-			}
-			else if(function_exists('imagecreate'))
-			{
-				$thumb = imagecreate($resize_width, $resize_height);
-			}
-
+			$thumb = imagecreatetruecolor($resize_width, $resize_height);
 			if(!$thumb)
 			{
 				return FALSE;
 			}
 
-			if($target_type == 'png' && function_exists('imagecolorallocatealpha') && function_exists('imagesavealpha') && function_exists('imagealphablending'))
+			if($target_type == 'png')
 			{
 				imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
 				imagesavealpha($thumb, TRUE);
@@ -671,14 +661,7 @@ class FileHandler
 				$y = (int) ($resize_height / 2 - $new_height / 2);
 			}
 
-			if(function_exists('imagecopyresampled'))
-			{
-				imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-			}
-			else
-			{
-				imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-			}
+			imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
 		}
 		
 		// create directory

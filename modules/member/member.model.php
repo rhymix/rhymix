@@ -340,7 +340,7 @@ class memberModel extends member
 	 * 
 	 * @return object
 	 */
-	public static function getMemberInfoByMemberSrl($member_srl, $site_srl = 0)
+	public static function getMemberInfoByMemberSrl($member_srl)
 	{
 		if(!$member_srl) return new stdClass;
 
@@ -362,7 +362,7 @@ class memberModel extends member
 					return new stdClass;
 				}
 				
-				$member_info = self::arrangeMemberInfo($output->data, $site_srl);
+				$member_info = self::arrangeMemberInfo($output->data);
 				if($output->toBool())
 				{
 					Rhymix\Framework\Cache::set($cache_key, $member_info);
@@ -387,7 +387,7 @@ class memberModel extends member
 	/**
 	 * @brief Add member info from extra_vars and other information
 	 */
-	public static function arrangeMemberInfo($info, $site_srl = 0)
+	public static function arrangeMemberInfo($info)
 	{
 		if(!isset($GLOBALS['__member_info__']))
 		{
@@ -402,10 +402,10 @@ class memberModel extends member
 			$info->image_mark = self::getImageMark($info->member_srl);
 			if($config->group_image_mark=='Y')
 			{
-				$info->group_mark = self::getGroupImageMark($info->member_srl,$site_srl);
+				$info->group_mark = self::getGroupImageMark($info->member_srl);
 			}
 			$info->signature = self::getSignature($info->member_srl);
-			$info->group_list = self::getMemberGroups($info->member_srl, $site_srl);
+			$info->group_list = self::getMemberGroups($info->member_srl);
 			$info->is_site_admin = ModuleModel::isSiteAdmin($info) ? true : false;
 
 			$extra_vars = unserialize($info->extra_vars);
@@ -539,7 +539,7 @@ class memberModel extends member
 	public static function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
 		// cache controll
-		$cache_key = sprintf('member:member_groups:%d:site:%d', $member_srl, $site_srl);
+		$cache_key = sprintf('member:member_groups:%d', $member_srl);
 		$group_list = Rhymix\Framework\Cache::get($cache_key);
 
 		if(!isset($GLOBALS['__member_groups__'][$member_srl]) || $force_reload)
@@ -548,13 +548,12 @@ class memberModel extends member
 			{
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
-				$args->site_srl = $site_srl;
 				$output = executeQueryArray('member.getMemberGroups', $args);
 				$group_list = $output->data;
 				if (!count($group_list))
 				{
-					$default_group = self::getDefaultGroup($site_srl);
-					MemberController::getInstance()->addMemberToGroup($member_srl, $default_group->group_srl, $site_srl);
+					$default_group = self::getDefaultGroup(0);
+					MemberController::getInstance()->addMemberToGroup($member_srl, $default_group->group_srl);
 					$group_list[$default_group->group_srl] = $default_group->title;
 				}
 				//insert in cache
@@ -577,17 +576,16 @@ class memberModel extends member
 	/**
 	 * @brief Get a list of groups which member_srls belong to
 	 */
-	public static function getMembersGroups($member_srls, $site_srl = 0)
+	public static function getMembersGroups($member_srls)
 	{
 		$args = new stdClass;
 		$args->member_srls = implode(',',$member_srls);
-		$args->site_srl = $site_srl;
 		$args->sort_index = 'list_order';
 		$output = executeQueryArray('member.getMembersGroups', $args);
 		if(!$output->data) return array();
 
 		$result = array();
-		foreach($output->data as $key=>$val)
+		foreach($output->data as $key => $val)
 		{
 			$result[$val->member_srl][] = $val->title;
 		}
@@ -597,15 +595,14 @@ class memberModel extends member
 	/**
 	 * @brief Get a default group
 	 */
-	public static function getDefaultGroup($site_srl = 0)
+	public static function getDefaultGroup()
 	{
-		$cache_key = sprintf('member:default_group:site:%d', $site_srl);
+		$cache_key = sprintf('member:default_group');
 		$default_group = Rhymix\Framework\Cache::get($cache_key);
 
 		if(!$default_group)
 		{
 			$args = new stdClass();
-			$args->site_srl = $site_srl;
 			$output = executeQuery('member.getDefaultGroup', $args);
 			$default_group = $output->data;
 			if($output->toBool())
@@ -641,30 +638,23 @@ class memberModel extends member
 	/**
 	 * @brief Get a list of groups
 	 */
-	public static function getGroups($site_srl = 0)
+	public static function getGroups()
 	{
-		if(!isset($GLOBALS['__group_info__'][$site_srl]))
+		if(!isset($GLOBALS['__group_info__'][0]))
 		{
 			$result = array();
-
-			if(!isset($site_srl))
-			{
-				$site_srl = 0;
-			}
-
-			$group_list = Rhymix\Framework\Cache::get("member:member_groups:site:$site_srl");
+			$group_list = Rhymix\Framework\Cache::get('member:member_group');
 
 			if(!$group_list)
 			{
 				$args = new stdClass();
-				$args->site_srl = $site_srl;
 				$args->sort_index = 'list_order';
 				$args->order_type = 'asc';
 				$output = executeQueryArray('member.getGroups', $args);
 				$group_list = $output->data;
 				if($output->toBool())
 				{
-					Rhymix\Framework\Cache::set("member:member_groups:site:$site_srl", $group_list, 0, true);
+					Rhymix\Framework\Cache::set('member:member_groups', $group_list, 0, true);
 				}
 			}
 
@@ -678,9 +668,9 @@ class memberModel extends member
 				$result[$val->group_srl] = $val;
 			}
 
-			$GLOBALS['__group_info__'][$site_srl] = $result;
+			$GLOBALS['__group_info__'][0] = $result;
 		}
-		return $GLOBALS['__group_info__'][$site_srl];
+		return $GLOBALS['__group_info__'][0];
 	}
 
 	/**
@@ -1095,7 +1085,7 @@ class memberModel extends member
 	/**
 	 * @brief Get the image mark of the group
 	 */
-	public static function getGroupImageMark($member_srl,$site_srl=0)
+	public static function getGroupImageMark($member_srl)
 	{
 		if(!isset($GLOBALS['__member_info__']))
 		{
@@ -1114,12 +1104,12 @@ class memberModel extends member
 			}
 			
 			$info = null;
-			$member_group = self::getMemberGroups($member_srl, $site_srl);
-			$groups_info = self::getGroups($site_srl);
+			$member_group = self::getMemberGroups($member_srl);
+			$groups_info = self::getGroups();
 			if(count($member_group) > 0 && is_array($member_group))
 			{
 				$memberGroups = array_keys($member_group);
-				foreach($groups_info as $group_srl=>$group_info)
+				foreach($groups_info as $group_srl => $group_info)
 				{
 					if(in_array($group_srl, $memberGroups))
 					{
@@ -1300,13 +1290,13 @@ class memberModel extends member
 		return true;
 	}
 	
-	public static function getAdminGroupSrl($site_srl = 0)
+	public static function getAdminGroupSrl()
 	{
 		$groupSrl = 0;
-		$output = self::getGroups($site_srl);
+		$output = self::getGroups();
 		if(is_array($output))
 		{
-			foreach($output AS $key=>$value)
+			foreach($output AS $value)
 			{
 				if($value->is_admin == 'Y')
 				{

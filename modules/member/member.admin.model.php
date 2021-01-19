@@ -165,10 +165,9 @@ class memberAdminModel extends member
 	 *
 	 * @return array
 	 */
-	function getSiteMemberList($site_srl, $page = 1)
+	function getSiteMemberList($site_srl = 0, $page = 1)
 	{
 		$args = new stdClass();
-		$args->site_srl = $site_srl;
 		$args->page = $page;
 		$args->list_count = 40;
 		$args->page_count = 10;

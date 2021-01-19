@@ -2104,39 +2104,23 @@ class memberController extends member
 	/**
 	 * Join a virtual site
 	 *
-	 * @return void|Object (void : success, Object : fail)
+	 * @deprecated
+	 * @return void
 	 */
 	function procMemberSiteSignUp()
 	{
-		$site_module_info = Context::get('site_module_info');
-		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$columnList = array('site_srl', 'group_srl', 'title');
-		$default_group = MemberModel::getDefaultGroup($site_module_info->site_srl, $columnList);
-		$this->addMemberToGroup($logged_info->member_srl, $default_group->group_srl, $site_module_info->site_srl);
-		$groups[$default_group->group_srl] = $default_group->title;
-		$logged_info->group_list = $groups;
+		
 	}
 
 	/**
 	 * Leave the virtual site
 	 *
-	 * @return void|Object (void : success, Object : fail)
+	 * @deprecated
+	 * @return void
 	 */
 	function procMemberSiteLeave()
 	{
-		$site_module_info = Context::get('site_module_info');
-		$logged_info = Context::get('logged_info');
-		if(!$site_module_info->site_srl || !Context::get('is_logged') || count($logged_info->group_srl_list) ) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$args = new stdClass;
-		$args->site_srl= $site_module_info->site_srl;
-		$args->member_srl = $logged_info->member_srl;
-		$output = executeQuery('member.deleteMembersGroup', $args);
-		if(!$output->toBool()) return $output;
-		$this->setMessage('success_deleted');
-		self::clearMemberCache($args->member_srl);
+		
 	}
 
 	/**
@@ -2227,21 +2211,17 @@ class memberController extends member
 	 *
 	 * @param int $member_srl
 	 * @param int $group_srl
-	 * @param int $site_srl
 	 *
 	 * @return Object
 	 */
-	function addMemberToGroup($member_srl, $group_srl, $site_srl=0)
+	function addMemberToGroup($member_srl, $group_srl)
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->group_srl = $group_srl;
-		if($site_srl) $args->site_srl = $site_srl;
-
-		// Add
-		$output = executeQuery('member.addMemberToGroup',$args);
+		$output = executeQuery('member.addMemberToGroup', $args);
+		
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
-
 		self::clearMemberCache($member_srl);
 
 		return $output;
@@ -2258,11 +2238,16 @@ class memberController extends member
 	function replaceMemberGroup($args)
 	{
 		$obj = new stdClass;
-		$obj->site_srl = $args->site_srl;
-		$obj->member_srl = implode(',',$args->member_srl);
+		$obj->member_srl = $args->member_srl;
 
 		$output = executeQueryArray('member.getMembersGroup', $obj);
-		if($output->data) foreach($output->data as $key => $val) $date[$val->member_srl] = $val->regdate;
+		if($output->data)
+		{
+			foreach($output->data as $key => $val)
+			{
+				$date[$val->member_srl] = $val->regdate;
+			}
+		}
 
 		$output = executeQuery('member.deleteMembersGroup', $obj);
 		if(!$output->toBool()) return $output;
@@ -2277,7 +2262,6 @@ class memberController extends member
 			$obj = new stdClass;
 			$obj->member_srl = $val;
 			$obj->group_srl = $args->group_srl;
-			$obj->site_srl = $args->site_srl;
 			$obj->regdate = $date[$obj->member_srl];
 			$output = executeQuery('member.addMemberToGroup', $obj);
 			if(!$output->toBool()) return $output;
@@ -2871,8 +2855,7 @@ class memberController extends member
 		// If no value is entered the default group, the value of group registration
 		if(!$args->group_srl_list)
 		{
-			$columnList = array('site_srl', 'group_srl');
-			$default_group = MemberModel::getDefaultGroup(0, $columnList);
+			$default_group = MemberModel::getDefaultGroup(0);
 			if($default_group)
 			{
 				// Add to the default group
@@ -3199,7 +3182,6 @@ class memberController extends member
 			// If the group information, group information changes
 			if(count($group_srl_list) > 0)
 			{
-				$args->site_srl = 0;
 				// One of its members to delete all the group
 				$output = executeQuery('member.deleteMemberGroupMember', $args);
 				if(!$output->toBool())
@@ -3975,7 +3957,7 @@ class memberController extends member
 	 * @deprecated
 	 * @return void
 	 */
-	public static function _clearMemberCache($member_srl, $site_srl = 0)
+	public static function _clearMemberCache($member_srl)
 	{
 		self::clearMemberCache($member_srl);
 	}
