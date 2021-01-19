@@ -632,16 +632,7 @@ class FileHandler
 			}
 
 			// create temporary image with target size
-			$thumb = NULL;
-			if(function_exists('imagecreateTRUEcolor'))
-			{
-				$thumb = imagecreateTRUEcolor($resize_width, $resize_height);
-			}
-			else if(function_exists('imagecreate'))
-			{
-				$thumb = imagecreate($resize_width, $resize_height);
-			}
-
+			$thumb = imagecreatetruecolor($resize_width, $resize_height);
 			if(!$thumb)
 			{
 				return FALSE;
