@@ -1043,9 +1043,9 @@ class memberController extends member
 
 		if($oSocialData)
 		{
-			$oSocialLoginController->insertMemberSns($args->member_srl, $_SESSION['oDriver']);
+			$oSocialLoginController->insertMemberSns($args->member_srl, $_SESSION['sociallogin_access_data']);
 			// 소셜로그인에 필요했던 세션데이터들을 모두 지움
-			unset($_SESSION['oDriver']);
+			unset($_SESSION['sociallogin_access_data']);
 			unset($_SESSION['tmp_sociallogin_input_add_info']);
 		}
 		

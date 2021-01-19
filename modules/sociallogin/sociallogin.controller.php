@@ -506,7 +506,17 @@ class SocialloginController extends Sociallogin
 			// 회원 정보에서 추가 입력할 데이터가 있을경우 세션값에 소셜정보 입력 후 회원가입 항목으로 이동
 			if ($boolRequired)
 			{
-				$_SESSION['oDriver'] = $oDriver;
+				$args = new stdClass;
+				$args->refresh_token = $oDriver->getRefreshToken();
+				$args->access_token = $oDriver->getAccessToken();
+				$args->profile_info = serialize($oDriver->getProfile());
+				$args->profile_url = $oDriver->getProfileUrl();
+				$args->profile_image = $oDriver->getProfileImage();
+				$args->email = $oDriver->getEmail();
+				$args->name = $oDriver->getName();
+				$args->id = $oDriver->getId();
+				$args->service = $service;
+				$_SESSION['sociallogin_access_data'] = $args;
 				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'));
 			}
 			
@@ -634,25 +644,15 @@ class SocialloginController extends Sociallogin
 	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
 	 * @return void
 	 */
-	function insertMemberSns($member_srl, $oDriver)
+	function insertMemberSns($member_srl, $oAuthArgs)
 	{
-		$args = new stdClass;
-		$args->refresh_token = $oDriver->getRefreshToken();
-		$args->access_token = $oDriver->getAccessToken();
-		$args->profile_info = serialize($oDriver->getProfile());
-		$args->profile_url = $oDriver->getProfileUrl();
-		$args->profile_image = $oDriver->getProfileImage();
-		$args->email = $oDriver->getEmail();
-		$args->name = $oDriver->getName();
-		$args->id = $oDriver->getId();
-		$args->service = $oDriver->getService();
-		$args->member_srl = $member_srl;
-		$return_output = executeQuery('sociallogin.insertMemberSns', $args);
+		$oAuthArgs->member_srl = $member_srl;
+		$return_output = executeQuery('sociallogin.insertMemberSns', $oAuthArgs);
 
 		// SNS ID 기록 (SNS 정보가 삭제 되더라도 ID는 영구 보관)
-		if (!SocialloginModel::getSnsUser($args->id, $args->service))
+		if (!SocialloginModel::getSnsUser($oAuthArgs->id, $oAuthArgs->service))
 		{
-			$output = executeQuery('sociallogin.insertSnsUser', $args);
+			$output = executeQuery('sociallogin.insertSnsUser', $oAuthArgs);
 		}
 	}
 
