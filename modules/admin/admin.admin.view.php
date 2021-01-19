@@ -1007,7 +1007,16 @@ class adminAdminView extends admin
 		Context::set('str_info', $str_info);
 		$this->setTemplateFile('server_env.html');
 	}
-
+	
+	/**
+	 * Rewrite test
+	 */
+	public function dispAdminRewriteTest()
+	{
+		$test = intval(Context::get('test'));
+		Context::setResponseMethod('JSON');
+		$this->add('result', $test * 42);
+	}
 }
 /* End of file admin.admin.view.php */
 /* Location: ./modules/admin/admin.admin.view.php */

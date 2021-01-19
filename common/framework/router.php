@@ -52,6 +52,12 @@ class Router
 			'extra_vars' => ['act' => 'procFileOutput'],
 			'priority' => 0,
 		),
+		'common/rewrite/test/$test' => array(
+			'regexp' => '#^common/rewrite/test/(?<test>[0-9]+)$#',
+			'vars' => ['test' => 'int'],
+			'extra_vars' => ['act' => 'dispAdminRewriteTest'],
+			'priority' => 0,
+		),
 	);
 	
 	/**
