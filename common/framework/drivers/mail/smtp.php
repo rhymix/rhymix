@@ -12,7 +12,8 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	protected function __construct(array $config)
 	{
-		$transport = new \Swift_SmtpTransport($config['smtp_host'], $config['smtp_port'], $config['smtp_security']);
+		$security = in_array($config['smtp_security'], ['ssl', 'tls']) ? $config['smtp_security'] : null;
+		$transport = new \Swift_SmtpTransport($config['smtp_host'], $config['smtp_port'], $security);
 		$transport->setUsername($config['smtp_user']);
 		$transport->setPassword($config['smtp_pass']);
 		$local_domain = $transport->getLocalDomain();
