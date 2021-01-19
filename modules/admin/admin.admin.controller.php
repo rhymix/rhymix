@@ -808,7 +808,7 @@ class adminAdminController extends admin
 		$oDocumentModel = getModel('document');
 		$document_config = $oDocumentModel->getDocumentConfig();
 		$document_config->thumbnail_target = $vars->thumbnail_target ?: 'all';
-		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'crop';
+		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'fill';
 		$document_config->thumbnail_quality = intval($vars->thumbnail_quality) ?: 75;
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);

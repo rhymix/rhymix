@@ -490,7 +490,7 @@ class FileHandler
 	 * @param int $rotate Rotation degrees (0~360)
 	 * @return bool TRUE: success, FALSE: failed
 	 */
-	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop', $quality = 100, $rotate = 0)
+	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'fill', $quality = 100, $rotate = 0)
 	{
 		// check params
 		if (($source_file = self::exists($source_file)) === FALSE)
