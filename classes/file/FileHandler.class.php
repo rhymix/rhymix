@@ -638,7 +638,7 @@ class FileHandler
 				return FALSE;
 			}
 
-			if($target_type == 'png' && function_exists('imagecolorallocatealpha') && function_exists('imagesavealpha') && function_exists('imagealphablending'))
+			if($target_type == 'png')
 			{
 				imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
 				imagesavealpha($thumb, TRUE);
@@ -661,14 +661,7 @@ class FileHandler
 				$y = (int) ($resize_height / 2 - $new_height / 2);
 			}
 
-			if(function_exists('imagecopyresampled'))
-			{
-				imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-			}
-			else
-			{
-				imagecopyresized($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
-			}
+			imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
 		}
 		
 		// create directory
