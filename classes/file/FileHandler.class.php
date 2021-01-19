@@ -597,7 +597,6 @@ class FileHandler
 
 		if(!$source)
 		{
-			imagedestroy($thumb);
 			return FALSE;
 		}
 
