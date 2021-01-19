@@ -485,7 +485,7 @@ class FileHandler
 	 * @param int $resize_width Width to resize
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
-	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
+	 * @param string $thumbnail_type Thumbnail type(crop, ratio, stretch, fill, center)
 	 * @param int $quality Compression ratio (0~100)
 	 * @param int $rotate Rotation degrees (0~360)
 	 * @return bool TRUE: success, FALSE: failed
@@ -611,34 +611,19 @@ class FileHandler
 		// If resize not needed, skip thumbnail generation
 		if ($width == $resize_width && $height == $resize_height)
 		{
+			$resize_needed = false;
 			$thumb = &$source;
 		}
 		else
 		{
-			// if original image is larger than specified size to resize, calculate the ratio
-			$width_per = ($resize_width > 0 && $width >= $resize_width) ? $resize_width / $width : 1;
-			$height_per = ($resize_height > 0 && $height >= $resize_height) ? $resize_height / $height : 1;
-
-			$per = NULL;
-			if($thumbnail_type == 'ratio')
-			{
-				$per = ($width_per > $height_per) ? $height_per : $width_per;
-				$resize_width = $width * $per;
-				$resize_height = $height * $per;
-			}
-			else
-			{
-				$per = ($width_per < $height_per) ? $height_per : $width_per;
-			}
-
-			// create temporary image with target size
+			$resize_needed = true;
 			$thumb = imagecreatetruecolor($resize_width, $resize_height);
-			if(!$thumb)
+			if (!$thumb)
 			{
-				return FALSE;
+				return false;
 			}
 
-			if($target_type == 'png')
+			if ($target_type == 'png')
 			{
 				imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
 				imagesavealpha($thumb, TRUE);
@@ -648,20 +633,52 @@ class FileHandler
 			{
 				imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
 			}
-
-			// resize original image and put it into temporary image
-			$new_width = (int) ($width * $per);
-			$new_height = (int) ($height * $per);
-
-			$x = 0;
-			$y = 0;
-			if($thumbnail_type == 'crop')
+		}
+		
+		// Resize the original image and copy it to a temporary image
+		if ($resize_needed)
+		{
+			// Calculate the size ratio
+			$ratio_x = ($resize_width > 0 && $width > 0) ? $resize_width / $width : 1;
+			$ratio_y = ($resize_height > 0 && $height > 0) ? $resize_height / $height : 1;
+			$ratio_max = max($ratio_x, $ratio_y);
+			$ratio_min = min($ratio_x, $ratio_y);
+			
+			// Determine the X-Y coordinates to copy
+			switch ($thumbnail_type)
 			{
-				$x = (int) ($resize_width / 2 - $new_width / 2);
-				$y = (int) ($resize_height / 2 - $new_height / 2);
+				case 'stretch':
+					$dst_width = $resize_width;
+					$dst_height = $resize_height;
+					break;
+					
+				case 'fill':
+					$dst_width = round($width * $ratio_max);
+					$dst_height = round($height * $ratio_max);
+					break;
+					
+				case 'center':
+					$dst_width = $width;
+					$dst_height = $height;
+					break;
+						
+				case 'ratio':
+					$dst_width = round($width * $ratio_min);
+					$dst_height = round($height * $ratio_min);
+					break;
+					
+				case 'crop':
+				default:
+					$dst_width = round($width * min(1, $ratio_max));
+					$dst_height = round($height * min(1, $ratio_max));
 			}
-
-			imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+			
+			if (abs($resize_width - $dst_width) < ($resize_width * 0.02)) $dst_width = $resize_width;
+			if (abs($resize_height - $dst_height) < ($resize_height * 0.02)) $dst_height = $resize_height;
+			$dst_x = round(($resize_width - $dst_width) / 2);
+			$dst_y = round(($resize_height - $dst_height) / 2);
+			
+			imagecopyresampled($thumb, $source, $dst_x, $dst_y, 0, 0, $dst_width, $dst_height, $width, $height);
 		}
 		
 		// create directory
