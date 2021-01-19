@@ -113,12 +113,6 @@ class Router
 	 */
 	public static function parseURL(string $method, string $url, int $rewrite_level)
 	{
-		// Get the local part of the current URL.
-		if (starts_with(\RX_BASEURL, $url))
-		{
-			$url = substr($url, strlen(\RX_BASEURL));
-		}
-		
 		// Prepare the return object.
 		$result = new \stdClass;
 		$result->status = 200;

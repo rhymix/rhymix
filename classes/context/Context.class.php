@@ -237,8 +237,7 @@ class Context
 		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
-			$url = $_SERVER['REQUEST_URI'];
-			$route_info = Rhymix\Framework\Router::parseURL($method, $url, Rhymix\Framework\Router::getRewriteLevel());
+			$route_info = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());
 			self::setRequestArguments($route_info->args);
 			self::$_route_info = $route_info;
 		}
