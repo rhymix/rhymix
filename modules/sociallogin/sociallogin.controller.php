@@ -387,8 +387,8 @@ class SocialloginController extends Sociallogin
 		{
 			$member_srl = Context::get('logged_info')->member_srl;
 		}
-
-		if (self::getConfig()->sns_login != 'Y' && !$member_srl)
+		$config = self::getConfig();
+		if ($config->sns_login != 'Y' && !$member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_sns_login');
 		}
@@ -440,6 +440,7 @@ class SocialloginController extends Sociallogin
 			}
 
 			$member_config = $oMemberModel::getMemberConfig();
+			debugPRint($member_config);
 			
 			$boolRequired = false;
 
@@ -471,6 +472,11 @@ class SocialloginController extends Sociallogin
 					break;
 				}
 			}
+			
+			if(!$boolRequired && ($member_config->phone_number_verify_by_sms && $config->use_for_phone_auth))
+			{
+				$boolRequired = true;
+			}
 
 			// 미리 소셜 내용 기록.
 			$_SESSION['tmp_sociallogin_input_add_info'] = $oDriver->getSocial();
@@ -498,7 +504,7 @@ class SocialloginController extends Sociallogin
 			}
 			
 			// 회원 정보에서 추가 입력할 데이터가 있을경우 세션값에 소셜정보 입력 후 회원가입 항목으로 이동
-			if ($boolRequired || !$email)
+			if ($boolRequired)
 			{
 				$_SESSION['oDriver'] = $oDriver;
 				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'));

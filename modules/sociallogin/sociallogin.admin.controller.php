@@ -61,7 +61,7 @@ class SocialloginAdminController extends Sociallogin
 			'mail_auth_valid_hour',
 			'sns_suspended_account',
 			'sns_keep_signed',
-			'sns_input_add_info',
+			'use_for_phone_auth',
 			'linkage_module_srl',
 			'linkage_module_target',
 		);

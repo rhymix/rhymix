@@ -140,13 +140,11 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="sns_input_add_info">{$lang->sns_input_add_info}</label>
+			<label class="x_control-label" for="use_for_phone_auth">{$lang->use_for_phone_auth}</label>
 			<div class="x_controls">
-				<label loop="$input_add_info => $key, $val" class="x_inline" for="sns_input_add_info_{$key}">
-					<input type="checkbox" name="sns_input_add_info[]" id="sns_input_add_info_{$key}" value="{$val}" checked="checked"|cond="in_array($val,$config->sns_input_add_info)" /> {Context::getLang($val)}
+				<label class="x_inline" for="use_for_phone_auth">
+					<input type="checkbox" name="use_for_phone_auth" id="use_for_phone_auth" value="Y" checked="checked"|cond="$config->use_for_phone_auth=='Y'" /> {$lang->about_use_for_phone_auth}
 				</label>
-				<a href="#sns_input_add_info_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="sns_input_add_info_help" class="x_help-block" hidden>{$lang->about_sns_input_add_info}</p>
 			</div>
 		</div>
 	</section>
