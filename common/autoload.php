@@ -22,10 +22,6 @@ date_default_timezone_set(@date_default_timezone_get());
  * Set the default character encoding.
  */
 ini_set('default_charset', 'UTF-8');
-if (function_exists('iconv_set_encoding') && version_compare(PHP_VERSION, '5.6', '<'))
-{
-	iconv_set_encoding('internal_encoding', 'UTF-8');
-}
 if (function_exists('mb_internal_encoding'))
 {
 	mb_internal_encoding('UTF-8');
