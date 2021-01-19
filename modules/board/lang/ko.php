@@ -110,3 +110,4 @@ $lang->cmd_board_include_modules = '포함할 게시판 선택';
 $lang->cmd_board_include_modules_none = '(포함하지 않음)';
 $lang->cmd_board_include_days = '포함할 기간';
 $lang->about_board_include_days = '최근 글만 모으도록 설정할 수 있습니다. 0을 입력하면 위에서 선택한 게시판의 모든 글을 모아서 보여 줍니다.<br />1일 미만의 기간은 소수로 표현할 수 있습니다. 예: 0.25일 = 6시간';
+$lang->cmd_board_include_notice = '공지글 포함';

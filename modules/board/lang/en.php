@@ -98,3 +98,4 @@ $lang->cmd_board_include_modules = 'Include Boards';
 $lang->cmd_board_include_modules_none = '(None)';
 $lang->cmd_board_include_days = 'Include Duration';
 $lang->about_board_include_days = 'Only combine recent documents. If this value is set to 0, all documents from selected boards will be combined.<br />Durations shorter than 1 day can be set as fractions of a day, e.g. 0.25 days = 6 hours.';
+$lang->cmd_board_include_notice = 'Include Notices';

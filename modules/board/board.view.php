@@ -464,7 +464,14 @@ class boardView extends board
 		}
 
 		$args = new stdClass();
-		$args->module_srl = $this->include_modules ?: $this->module_srl;
+		if (isset($this->module_info->include_notice) && $this->module_info->include_notice === 'N')
+		{
+			$args->module_srl = $this->module_srl;
+		}
+		else
+		{
+			$args->module_srl = $this->include_modules ?: $this->module_srl;
+		}
 		$output = DocumentModel::getNoticeList($args, $this->columnList);
 		$notice_list = $output->data;
 		$this->_fillModuleTitles($notice_list);
