@@ -45,8 +45,14 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		];
 		$token = $this->requestAPI('api/oauth2/token', $post);
 
-		$this->setAccessToken($token['access_token']);
-		$this->setRefreshToken($token['refresh_token']);
+		if(!isset($token))
+		{
+			return new \BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
 	}
 
 	/**
@@ -56,7 +62,7 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		$token = $this->getAccessToken();
+		$token = $_SESSION['sociallogin_driver_auth']->token['access'];
 		if (!$token)
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
@@ -68,14 +74,10 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$user_info = $this->requestAPI('api/users/@me', [], $headers);
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$this->setEmail($user_info['email']);
-		$this->setId($user_info['id']);
-		$this->setName($user_info['username']);
-		// 프로필 인증
-		$this->setVerified(true);
-
-		// 전체 데이터
-		$this->setProfileEtc($user_info);
+		$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $user_info['email'];
+		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $user_info['id'];
+		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $user_info['username'];
+		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $user_info;
 	}
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)

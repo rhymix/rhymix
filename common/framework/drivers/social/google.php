@@ -56,8 +56,9 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$this->setAccessToken($token['access_token']);
-		$this->setRefreshToken($token['refresh_token']);
+		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
 
 		return new \BaseObject();
 	}
@@ -69,14 +70,14 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
 		$profile = $this->requestAPI(self::GOOGLE_PEOPLE_URI . 'me?personFields=names,emailAddresses&' . http_build_query(array(
-				'access_token' => $this->getAccessToken(),
+				'access_token' => $_SESSION['sociallogin_driver_auth']->token['access'],
 			), '', '&'));
 
 		// 프로필 데이터가 없다면 오류
@@ -92,7 +93,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			{
 				if ($val['metadata']['source']['type'] === 'ACCOUNT' && $val['value'])
 				{
-					$this->setEmail($val['value']);
+					$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $val['value'];
 
 					$profileArgs = $val;
 					break;
@@ -100,64 +101,64 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			}
 		}
 		
-		if(!$this->getEmail())
+		if(!$_SESSION['sociallogin_driver_auth']->profile['email_address'])
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 		
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$this->setId($profileArgs['metadata']['source']['id']);
-		$this->setName($profile['names'][0]['displayName']);
-		$this->setProfileImage(null);
-		$this->setProfileUrl(null);
-
-		// 프로필 인증
-		$this->setVerified(true);
-
-		// 전체 데이터
-		$this->setProfileEtc($profile);
-
+		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profileArgs['metadata']['source']['id'];
+		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['names'][0]['displayName'];
+		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		
 		return new \BaseObject();
 	}
 
 	/**
 	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
 	 */
-	function revokeToken()
+	function revokeToken(string $access_token = '')
 	{
 		// 토큰 체크
-		if (!($token = $this->getRefreshToken() ?: $this->getAccessToken()))
+		//TODO (BJRambo): is that access token empty?
+		if (!($token = $access_token ?: $_SESSION['sociallogin_driver_auth']->token['refresh']))
 		{
 			return;
 		}
 
-		// API 요청 : 토큰 파기
-		$this->requestAPI('revoke', array(
-			'token' => $token,
-		));
+		if(isset($token))
+		{
+			// API 요청 : 토큰 파기
+			$this->requestAPI('revoke', array(
+				'token' => $token,
+			));
+		}
 	}
 
 	/**
 	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
 	 */
-	function refreshToken()
+	function refreshToken(string $refresh_token = ''): array
 	{
 		// 토큰 체크
-		if (!$this->getRefreshToken())
+		if (!$refresh_token)
 		{
-			return;
+			return[];
 		}
 
 		// API 요청 : 토큰 새로고침
 		$token = $this->requestAPI('token', array(
-			'refresh_token' => $this->getRefreshToken(),
+			'refresh_token' => $_SESSION['sociallogin_driver_auth']->token['refresh'],
 			'grant_type'    => 'refresh_token',
 			'client_id'     => $this->config->google_client_id,
 			'client_secret' => $this->config->google_client_secret,
 		));
 
 		// 새로고침 된 토큰 삽입
-		$this->setAccessToken($token['access_token']);
+		$returnTokenData = [];
+		$returnTokenData['access'] = $token['access_token'];
+		
+		return $returnTokenData;
 	}
 
 	/**
@@ -166,7 +167,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $this->getProfileEtc())
+		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -225,12 +226,6 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		return $extend;
-	}
-
-	function getProfileImage()
-	{
-		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', parent::getProfileImage());
 	}
 
 	/**

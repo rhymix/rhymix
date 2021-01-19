@@ -73,7 +73,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
 	 */
-	public function revokeToken()
+	public function revokeToken(string $access_token = '')
 	{
 		
 	}
@@ -81,9 +81,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
 	 */
-	public function refreshToken()
+	public function refreshToken(string $refresh_token = ''): array
 	{
-		
+		return [];
 	}
 
 	/**
@@ -119,6 +119,21 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 		return $extend;
 	}
 
+	public function getService()
+	{
+		return $this->service;
+	}
+
+	public function getSocial()
+	{
+		return array(
+			'service' => $this->service,
+			'token'   => $_SESSION['sociallogin_driver_auth']->token,
+			'profile' => $_SESSION['sociallogin_driver_auth']->profile,
+		);
+	}
+	
+	/*
 	public function setToken($token)
 	{
 		$this->token = $token;
@@ -134,10 +149,7 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$this->token['refresh'] = $refresh_token;
 	}
 
-	public function setProfile($profile)
-	{
-		$this->profile = $profile;
-	}
+
 
 	public function setId($id)
 	{
@@ -172,11 +184,6 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	public function setProfileEtc($value)
 	{
 		$this->profile['etc'] = $value;
-	}
-
-	public function getService()
-	{
-		return $this->service;
 	}
 
 	public function getToken()
@@ -247,12 +254,6 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 	}
 
-	public function getSocial()
-	{
-		return array(
-			'service' => $this->service,
-			'token'   => $this->token,
-			'profile' => $this->profile,
-		);
-	}
+	
+	*/
 }

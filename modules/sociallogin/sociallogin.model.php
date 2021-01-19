@@ -5,36 +5,44 @@ class SocialloginModel extends Sociallogin
 	/**
 	 * @brief 사용 가능한 엑세스 토큰 넣기
 	 */
+
+	/**
+	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
+	 * @param $sns_info
+	 * @param bool $db
+	 */
 	public static function setAvailableAccessToken($oDriver, $sns_info, $db = true)
 	{
 		// 새로고침 토큰이 없을 경우 그대로 넣기
 		if (!$sns_info->refresh_token)
 		{
-			$oDriver->setAccessToken($sns_info->access_token);
+			$tokenData = [];
+			$tokenData['access']($sns_info->access_token);
 
-			return;
+			return $tokenData;
 		}
 
 		// 토큰 새로고침
-		$oDriver->setRefreshToken($sns_info->refresh_token);
-		$oDriver->refreshToken();
+		$tokenData = $oDriver->refreshToken($sns_info->refresh_token);
 
 		// [실패] 이전 토큰 그대로 넣기
-		if (!$oDriver->getAccessToken())
+		if (!$tokenData['access'])
 		{
-			$oDriver->setAccessToken($sns_info->access_token);
+			$tokenData['access'] = $sns_info->access_token;
 		}
 		// [성공] 새로고침된 토큰을 DB에 저장
 		else if ($db)
 		{
 			$args = new stdClass;
-			$args->refresh_token = $oDriver->getRefreshToken();
-			$args->access_token = $oDriver->getAccessToken();
+			$args->refresh_token = $tokenData['access'];
+			$args->access_token = $tokenData['refresh'];
 			$args->service = $oDriver->getService();
 			$args->member_srl = $sns_info->member_srl;
 
 			executeQuery('sociallogin.updateMemberSns', $args);
 		}
+		
+		return $tokenData;
 	}
 
 	/**

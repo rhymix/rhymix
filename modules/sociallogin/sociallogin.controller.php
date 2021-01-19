@@ -97,7 +97,6 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exception('msg_not_linkage_sns_info');
 		}
 
-
 		// 토큰 넣기
 		getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info);
 
@@ -342,10 +341,10 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 토큰 넣기
-			getModel('sociallogin')->setAvailableAccessToken($oDriver, $val, false);
+			$tokenData = SocialloginModel::setAvailableAccessToken($oDriver, $val, false);
 
 			// 토큰 파기
-			$oDriver->revokeToken();
+			$oDriver->revokeToken($tokenData['access']);
 		}
 
 		executeQuery('sociallogin.deleteMemberSns', $args);
@@ -393,18 +392,14 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exception('msg_not_sns_login');
 		}
 
-		if (!$oDriver->getId())
+		if (!$_SESSION['sociallogin_driver_auth']->profile['sns_id'])
 		{
 			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
 
 		// SNS 계정 인증 상태 체크
-		if (!$oDriver->getVerified())
-		{
-			throw new Rhymix\Framework\Exception('msg_not_sns_verified');
-		}
 
-		$id = $oDriver->getId();
+		$id = $_SESSION['sociallogin_driver_auth']->profile['user_name'];
 		$service = $oDriver->getService();
 
 		// SNS ID 조회
@@ -417,7 +412,7 @@ class SocialloginController extends Sociallogin
 		$oMemberModel = memberModel::getInstance();
 
 		// 중복 이메일 계정이 있으면 소셜로그인 중단.
-		if (!$member_srl && ($email = $oDriver->getEmail()) && !$_SESSION['sociallogin_confirm_email'])
+		if (!$member_srl && ($email = $_SESSION['sociallogin_driver_auth']->profile['email_address']) && !$_SESSION['sociallogin_confirm_email'])
 		{
 			if ($member_srl = $oMemberModel->getMemberSrlByEmailAddress($email))
 			{
@@ -432,7 +427,7 @@ class SocialloginController extends Sociallogin
 		if (!$member_srl)
 		{
 			$password = cut_str(md5(date('YmdHis')), 13, '');
-			$nick_name = preg_replace('/[\pZ\pC]+/u', '', $oDriver->getName());
+			$nick_name = preg_replace('/[\pZ\pC]+/u', '', $_SESSION['sociallogin_driver_auth']->profile['user_name']);
 
 			if ($oMemberModel->getMemberSrlByNickName($nick_name))
 			{
@@ -440,7 +435,6 @@ class SocialloginController extends Sociallogin
 			}
 
 			$member_config = $oMemberModel::getMemberConfig();
-			debugPRint($member_config);
 			
 			$boolRequired = false;
 
@@ -481,6 +475,7 @@ class SocialloginController extends Sociallogin
 			// 미리 소셜 내용 기록.
 			$_SESSION['tmp_sociallogin_input_add_info'] = $oDriver->getSocial();
 			$_SESSION['tmp_sociallogin_input_add_info']['nick_name'] = $nick_name;
+			
 			if($email)
 			{
 				$_SESSION['tmp_sociallogin_input_add_info']['email_address'] = $email;
@@ -507,14 +502,22 @@ class SocialloginController extends Sociallogin
 			if ($boolRequired)
 			{
 				$args = new stdClass;
-				$args->refresh_token = $oDriver->getRefreshToken();
-				$args->access_token = $oDriver->getAccessToken();
-				$args->profile_info = serialize($oDriver->getProfile());
-				$args->profile_url = $oDriver->getProfileUrl();
-				$args->profile_image = $oDriver->getProfileImage();
-				$args->email = $oDriver->getEmail();
-				$args->name = $oDriver->getName();
-				$args->id = $oDriver->getId();
+				$args->refresh_token = $_SESSION['sociallogin_driver_auth']->token['refresh'];
+				// 트위터의 경우 access token 자체가 다른방식으로 저장됨.
+				if($oDriver->getService() == 'twitter')
+				{
+					$args->access_token = $oDriver->getTwitterAccessToken();
+				}
+				else
+				{
+					$args->access_token = $_SESSION['sociallogin_driver_auth']->token['access'];
+				}
+				$args->profile_info = serialize($_SESSION['sociallogin_driver_auth']->profile['etc']);
+				$args->profile_url = $_SESSION['sociallogin_driver_auth']->profile['url'];
+				$args->profile_image = $_SESSION['sociallogin_driver_auth']->profile['profile_image'];
+				$args->email = $_SESSION['sociallogin_driver_auth']->profile['email_address'];
+				$args->name = $_SESSION['sociallogin_driver_auth']->profile['user_name'];
+				$args->id = $_SESSION['sociallogin_driver_auth']->profile['sns_id'];
 				$args->service = $service;
 				$_SESSION['sociallogin_access_data'] = $args;
 				return $this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberSignUpForm'));
@@ -523,7 +526,7 @@ class SocialloginController extends Sociallogin
 			Context::setRequestMethod('POST');
 			Context::set('password', $password, true);
 			Context::set('nick_name', $nick_name, true);
-			Context::set('user_name', $oDriver->getName(), true);
+			Context::set('user_name', $_SESSION['sociallogin_driver_auth']->profile['user_name'], true);
 			Context::set('email_address', $email, true);
 			Context::set('accept_agreement', 'Y', true);
 
@@ -604,14 +607,22 @@ class SocialloginController extends Sociallogin
 		}
 
 		$args = new stdClass;
-		$args->refresh_token = $oDriver->getRefreshToken();
-		$args->access_token = $oDriver->getAccessToken();
-		$args->profile_info = serialize($oDriver->getProfile());
-		$args->profile_url = $oDriver->getProfileUrl();
-		$args->profile_image = $oDriver->getProfileImage();
-		$args->email = $oDriver->getEmail();
-		$args->name = $oDriver->getName();
-		$args->id = $oDriver->getId();
+		$args->refresh_token = $_SESSION['sociallogin_driver_auth']->token['refresh'];
+		// 트위터의 경우 access token 자체가 다른방식으로 저장됨.
+		if($oDriver->getService() == 'twitter')
+		{
+			$args->access_token = $oDriver->getTwitterAccessToken();
+		}
+		else
+		{
+			$args->access_token = $_SESSION['sociallogin_driver_auth']->token['access'];
+		}
+		$args->profile_info = serialize($_SESSION['sociallogin_driver_auth']->profile['etc']);
+		$args->profile_url = $_SESSION['sociallogin_driver_auth']->profile['url'];
+		$args->profile_image = $_SESSION['sociallogin_driver_auth']->profile['profile_image'];
+		$args->email = $_SESSION['sociallogin_driver_auth']->profile['email_address'];
+		$args->name = $_SESSION['sociallogin_driver_auth']->profile['user_name'];
+		$args->id = $_SESSION['sociallogin_driver_auth']->profile['sns_id'];
 		$args->service = $service;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('sociallogin.insertMemberSns', $args);
@@ -673,19 +684,13 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
-		if (!$oDriver->getId())
+		if (!$_SESSION['sociallogin_driver_auth']->profile['sns_id'])
 		{
 			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
 
-		// SNS 계정 인증 상태 체크
-		if (!$oDriver->getVerified())
-		{
-			throw new Rhymix\Framework\Exception('msg_not_sns_verified');
-		}
-
 		// SNS ID로 회원 검색
-		if (($sns_info = SocialloginModel::getMemberSnsById($oDriver->getId(), $oDriver->getService())) && $sns_info->member_srl)
+		if (($sns_info = SocialloginModel::getMemberSnsById($_SESSION['sociallogin_driver_auth']->profile['sns_id'], $oDriver->getService())) && $sns_info->member_srl)
 		{
 			// 탈퇴한 회원이면 삭제후 등록 시도
 			if (!($member_info = memberModel::getMemberInfoByMemberSrl($sns_info->member_srl)) || !$member_info->member_srl)
@@ -739,18 +744,25 @@ class SocialloginController extends Sociallogin
 			// SNS 세션 등록
 			$_SESSION['sns_login'] = $oDriver->getService();
 
+			// 로그인시마다 SNS 회원 정보 갱신
 			$args = new stdClass;
-			$args->refresh_token = $oDriver->getRefreshToken();
-			$args->access_token = $oDriver->getAccessToken();
-			$args->profile_info = serialize($oDriver->getProfile());
-			$args->profile_url = $oDriver->getProfileUrl();
-			$args->profile_image = $oDriver->getProfileImage();
-			$args->email = $oDriver->getEmail();
-			$args->name = $oDriver->getName();
+			$args->refresh_token = $_SESSION['sociallogin_driver_auth']->token['refresh'];
+			// 트위터의 경우 access token 자체가 다른방식으로 저장됨.
+			if($oDriver->getService() == 'twitter')
+			{
+				$args->access_token = $oDriver->getTwitterAccessToken();
+			}
+			else
+			{
+				$args->access_token = $_SESSION['sociallogin_driver_auth']->token['access'];
+			}
+			$args->profile_info = serialize($_SESSION['sociallogin_driver_auth']->profile['etc']);
+			$args->profile_url = $_SESSION['sociallogin_driver_auth']->profile['url'];
+			$args->profile_image = $_SESSION['sociallogin_driver_auth']->profile['profile_image'];
+			$args->email = $_SESSION['sociallogin_driver_auth']->profile['email_address'];
+			$args->name = $_SESSION['sociallogin_driver_auth']->profile['user_name'];
 			$args->service = $oDriver->getService();
 			$args->member_srl = $member_info->member_srl;
-
-			// 로그인시마다 SNS 회원 정보 갱신
 			$output = executeQuery('sociallogin.updateMemberSns', $args);
 			if (!$output->toBool())
 			{

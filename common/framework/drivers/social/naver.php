@@ -51,8 +51,9 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$this->setAccessToken($token['access_token']);
-		$this->setRefreshToken($token['refresh_token']);
+		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
 
 		return new \BaseObject();
 	}
@@ -64,13 +65,13 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
-		$profile = $this->requestAPI('https://openapi.naver.com/v1/nid/me', array(), $this->getAccessToken());
+		$profile = $this->requestAPI('https://openapi.naver.com/v1/nid/me', array(), $_SESSION['sociallogin_driver_auth']->token['access']);
 
 		// 프로필 데이터가 없다면 오류
 		if (!($profile = $profile['response']) || empty($profile))
@@ -81,7 +82,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile['email'])
 		{
-			$this->setEmail($profile['email']);
+			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile['email'];
 		}
 		else
 		{
@@ -89,36 +90,32 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID
-		$this->setId($profile['id']);
+		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile['id'];
 
 		// 이름 (닉네임이 없다면 이름으로 설정)
 		if ($profile['name'] && preg_match('/\*$/', $profile['nickname']))
 		{
-			$this->setName($profile['name']);
+			$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['name'];
 		}
 		else
 		{
-			$this->setName($profile['nickname']);
+			$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['nickname'];
 		}
 
 		// 프로필 이미지
-		$this->setProfileImage($profile['profile_image']);
+		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile['profile_image'];
 
 		// 프로필 URL : 네이버는 따로 프로필 페이지가 없으므로 네이버 블로그로 설정
 		if ($profile['email'] && strpos($profile['email'], 'naver.com') !== false)
 		{
-			$this->setProfileUrl('http://blog.naver.com/' . str_replace('@naver.com', '', $profile['email']));
+			$_SESSION['sociallogin_driver_auth']->profile['url'] = 'http://blog.naver.com/' . str_replace('@naver.com', '', $profile['email']);
 		}
 		else
 		{
-			$this->setProfileUrl('http://www.naver.com/');
+			$_SESSION['sociallogin_driver_auth']->profile['url'] = 'http://www.naver.com/';
 		}
 
-		// 프로필 인증
-		$this->setVerified(true);
-
-		// 전체 데이터
-		$this->setProfileEtc($profile);
+		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
 
 		return new \BaseObject();
 	}
@@ -126,17 +123,17 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
 	 */
-	function revokeToken()
+	public function revokeToken(string $access_token = '')
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$access_token)
 		{
 			return;
 		}
 
 		// API 요청 : 토큰 파기
 		$this->requestAPI('token', array(
-			'access_token'     => $this->getAccessToken(),
+			'access_token'     => $access_token,
 			'grant_type'       => 'delete',
 			'client_id'        => $this->config->naver_client_id,
 			'client_secret'    => $this->config->naver_client_secret,
@@ -147,24 +144,28 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
 	 */
-	function refreshToken()
+	public function refreshToken(string $refresh_token = ''): array
 	{
 		// 토큰 체크
-		if (!$this->getRefreshToken())
+		if (!$refresh_token)
 		{
-			return;
+			return [];
 		}
 
 		// API 요청 : 토큰 새로고침
 		$token = $this->requestAPI('token', array(
-			'refresh_token' => $this->getRefreshToken(),
+			'refresh_token' => $refresh_token,
 			'grant_type'    => 'refresh_token',
 			'client_id'     => $this->config->naver_client_id,
 			'client_secret' => $this->config->naver_client_secret,
 		));
 
 		// 새로고침 된 토큰 삽입
-		$this->setAccessToken($token['access_token']);
+		$returnTokenData = [];
+		
+		$returnTokenData['access'] = $token['access_token'];
+		$returnTokenData['refresh'] = $refresh_token;
+		return $returnTokenData;
 	}
 
 	/**
@@ -173,12 +174,12 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $this->getProfileEtc())
+		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
 		{
-			return new stdClass;
+			return new \stdClass;
 		}
 
-		$extend = new stdClass;
+		$extend = new \stdClass;
 
 		// 블로그
 		if ($profile['email'] && strpos($profile['email'], 'naver.com') !== false)
@@ -214,7 +215,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', parent::getProfileImage());
+		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']->profile['profile_image']);
 	}
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = null)

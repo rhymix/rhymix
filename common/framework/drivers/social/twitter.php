@@ -52,7 +52,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$token = $connection->oauth('oauth/access_token', array('oauth_verifier' => \Context::get('oauth_verifier')));
 
 		// 토큰 삽입
-		$this->setAccessToken(array('token' => $token['oauth_token'], 'token_secret' => $token['oauth_token_secret']));
+		$this->setTwitterAccessToken(array('token' => $token['oauth_token'], 'token_secret' => $token['oauth_token_secret']));
 
 		return new \BaseObject();
 	}
@@ -64,7 +64,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$token = parent::getAccessToken())
+		if (!$token = $_SESSION['sociallogin_driver_auth']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -101,7 +101,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile->email)
 		{
-			$this->setEmail($profile->email);
+			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile->email;
 		}
 		else
 		{
@@ -109,34 +109,13 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$this->setId($profile->id);
-		$this->setName($profile->name);
-		$this->setProfileImage($profile->profile_image_url);
-		$this->setProfileUrl('https://twitter.com/' . $profile->screen_name);
-
-		// 프로필 인증
-		$this->setVerified(true);
-
-		// 전체 데이터
-		$this->setProfileEtc($profile);
+		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile->id;
+		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile->name;
+		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile->profile_image_url;
+		$_SESSION['sociallogin_driver_auth']->profile['url'] = 'https://twitter.com/' . $profile->screen_name;
+		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
 
 		return new \BaseObject();
-	}
-
-	/**
-	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
-	 */
-	function revokeToken()
-	{
-		// 트위터의 경우 따로 파기할 수 없음
-	}
-
-	/**
-	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
-	 */
-	function refreshToken()
-	{
-		// 트위터의 경우 유효기간이 없는 무제한 토큰므로 필요없음
 	}
 
 	/**
@@ -154,7 +133,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $this->getProfileEtc())
+		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -179,30 +158,33 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	/**
 	 * @brief 두개의 토큰에 대한 배열 처리
 	 */
-	function setAccessToken($access_token)
+	function setTwitterAccessToken($access_token)
 	{
 		// 배열이 아닌 json 가 삽입 되었을 경우 배열로 변환하여 처리
 		if (!is_array($access_token))
 		{
 			$access_token = json_decode($access_token, true);
 		}
-
-		parent::setAccessToken($access_token);
+		if(!$_SESSION['sociallogin_driver_auth'])
+		{
+			$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+		}
+		$_SESSION['sociallogin_driver_auth']->token['access'] = $access_token;
 	}
 
 	/**
 	 * @brief 두개의 토큰에 대한 배열 처리
 	 */
-	function getAccessToken()
+	function getTwitterAccessToken()
 	{
 		// 빼낼 경우 json 로 변환하여 반환
-		return json_encode(parent::getAccessToken());
+		return json_encode($_SESSION['sociallogin_driver_auth']->token['access']);
 	}
 
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return str_replace('_normal', '', parent::getProfileImage());
+		return str_replace('_normal', '', $_SESSION['sociallogin_driver_auth']->profile['profile_image']);
 	}
 
 	// Dummy Method for SocialInserface.

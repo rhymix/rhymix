@@ -53,8 +53,9 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		]);
 
 		// 토큰 삽입
-		$this->setAccessToken($token['access_token']);
-		$this->setRefreshToken($token['refresh_token']);
+		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
 
 		return new \BaseObject();
 	}
@@ -66,95 +67,92 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
-		if (!($profile = $this->requestAPI('v2/user/me', [], $this->getAccessToken())) || !$profile['id'])
+		if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']->token['access'])) || !$profile['id'])
 		{
 			// API 요청 : 앱 가입 (프로필을 불러올 수 없다면)
-			$this->requestAPI('v1/user/signup', [], $this->getAccessToken());
+			$this->requestAPI('v1/user/signup', [], $_SESSION['sociallogin_driver_auth']->token['access']);
 
 			// API 요청 : 프로필 (앱 가입 후 재요청)
-			if (!($profile = $this->requestAPI('v2/user/me', [], $this->getAccessToken())) || !$profile['id'])
+			if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']->token['access'])) || !$profile['id'])
 			{
 				return new \BaseObject(-1, 'msg_errer_api_connect');
 			}
 		}
 
 		// API 요청 : 카카오 스토리 프로필 (스토리에 가입되어 있을 경우 추가)
-		if (($story = $this->requestAPI('v1/api/story/profile', [], $this->getAccessToken())) && $story['nickName'])
+		if (($story = $this->requestAPI('v1/api/story/profile', [], $_SESSION['sociallogin_driver_auth']->token['access'])) && $story['nickName'])
 		{
 			$profile['story'] = $story;
 		}
 		
 		if(isset($profile['kakao_account']['email']))
 		{
-			$this->setEmail($profile['kakao_account']['email']);
+			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile['kakao_account']['email'];
 		}
 		else
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 		
-		// ID, 이름, 프로필 이미지, 프로필 URL
-		$this->setId($profile['id']);
-		$this->setName($profile['properties']['nickname'] ?: $profile['story']['nickName']);
-		$this->setProfileImage($profile['properties']['profile_image'] ?: $profile['story']['profileImageURL']);
-		$this->setProfileUrl($profile['story']['permalink'] ?: 'http://www.kakao.com/talk');
-
-		// 프로필 인증
-		$this->setVerified(true);
-
-		// 전체 데이터
-		$this->setProfileEtc($profile);
-
+		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile['id'];
+		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['properties']['nickname'] ?: $profile['story']['nickName'];
+		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile['properties']['profile_image'] ?: $profile['story']['profileImageURL'];
+		$_SESSION['sociallogin_driver_auth']->profile['url'] = $profile['story']['permalink'] ?: 'http://www.kakao.com/talk';
+		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		
 		return new \BaseObject();
 	}
 
 	/**
 	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
 	 */
-	function revokeToken()
+	function revokeToken(string $access_token = '')
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$access_token)
 		{
 			return;
 		}
 
 		// API 요청 : 토큰 파기
-		$this->requestAPI('v1/user/unlink', [], $this->getAccessToken());
+		$this->requestAPI('v1/user/unlink', [], $access_token);
 	}
 
 	/**
 	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
 	 */
-	function refreshToken()
+	public function refreshToken(string $refresh_token = ''): array
 	{
 		// 토큰 체크
-		if (!$this->getRefreshToken())
+		if (!$refresh_token)
 		{
-			return;
+			return [];
 		}
 
 		// API 요청 : 토큰 새로고침
 		$token = $this->requestAPI('token', [
-			'refresh_token' => $this->getRefreshToken(),
+			'refresh_token' => $_SESSION['sociallogin_driver_auth']->token['refresh'],
 			'grant_type'    => 'refresh_token',
 			'client_id'     => $this->config->kakao_client_id,
 		]);
 
 		// 새로고침 된 토큰 삽입
-		$this->setAccessToken($token['access_token']);
+		$returnTokenData = [];
+		$returnTokenData['access'] = $token['access_token'];
+		$returnTokenData['refresh'] = $token['refresh_token'];
 
 		// 새로고침 토큰도 새로고침 될 수 있음
 		if ($token['refresh_token'])
 		{
-			$this->setRefreshToken($token['refresh_token']);
+			$returnTokenData['refresh'] = $token['refresh_token'];
 		}
+		return $returnTokenData;
 	}
 
 	/**
@@ -163,7 +161,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function checkLinkage()
 	{
 		// API 요청 : 카카오 스토리 사용자 여부
-		if (!$this->getAccessToken() || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], $this->getAccessToken()))
+		if (!$_SESSION['sociallogin_driver_auth']->token['access'] || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], $_SESSION['sociallogin_driver_auth']->token['access']))
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -183,13 +181,13 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function post($args)
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
 		{
 			return;
 		}
 
 		// API 요청 : 스토리에 포스팅 (제목 + 게시물 URL)
-		$this->requestAPI('v1/api/story/post/note', ['content' => $args->title . ' ' . $args->url], $this->getAccessToken());
+		$this->requestAPI('v1/api/story/post/note', ['content' => $args->title . ' ' . $args->url], $_SESSION['sociallogin_driver_auth']->token['access']);
 	}
 
 	/**
@@ -198,7 +196,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $this->getProfileEtc())
+		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -217,7 +215,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', parent::getProfileImage());
+		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']->profile['profile_image']);
 	}
 
 	function requestAPI($url, $post = [], $authorization = null, $delete = null)

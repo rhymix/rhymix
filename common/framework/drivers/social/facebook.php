@@ -63,7 +63,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$this->setAccessToken($token['access_token']);
+		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
 
 		return new \BaseObject();
 	}
@@ -75,7 +76,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -99,7 +100,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// API 요청 : 프로필
 		$profile = $this->requestAPI('/me?' . http_build_query(array(
 				'fields'       => implode(',', $fields),
-				'access_token' => $this->getAccessToken(),
+				'access_token' => $_SESSION['sociallogin_driver_auth']->token['access'],
 			), '', '&'));
 
 		// 프로필 데이터가 없다면 오류
@@ -121,7 +122,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile['email'])
 		{
-			$this->setEmail($profile['email']);
+			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile['email'];
 		}
 		else
 		{
@@ -129,44 +130,30 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$this->setId($profile['id']);
-		$this->setName($profile['name']);
-		$this->setProfileImage($profile['picture']['data']['url']);
-		$this->setProfileUrl($profile['link']);
-
-		// 프로필 인증
-		$this->setVerified(true);
-
-		// 전체 데이터
-		$this->setProfileEtc($profile);
-
+		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile['picture']['data']['url'];
+		$_SESSION['sociallogin_driver_auth']->profile['url'] = $profile['link'];
+		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile['id'];
+		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['name'];
+		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		
 		return new \BaseObject();
 	}
 
 	/**
 	 * @brief 토큰 파기 (SNS 해제 또는 회원 삭제시 실행)
 	 */
-	function revokeToken()
+	public function revokeToken(string $access_token = '')
 	{
 		// 토큰 체크
-		if (!$this->getAccessToken())
+		if (!$access_token)
 		{
 			return;
 		}
 
 		// API 요청 : 권한 삭제
 		$this->requestAPI('/me/permissions', array(
-			'access_token' => $this->getAccessToken(),
+			'access_token' => $_SESSION['sociallogin_driver_auth']->token['access'],
 		), null, true);
-	}
-
-	/**
-	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
-	 */
-	function refreshToken()
-	{
-		// 페이스북은 따로 새로고침 토큰이 없음
-		// 대신 인증 단계에서 장기 실행 토큰(60일)으로 발급 받음
 	}
 
 	/**
@@ -175,7 +162,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $this->getProfileEtc())
+		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
 		{
 			return new \stdClass;
 		}
