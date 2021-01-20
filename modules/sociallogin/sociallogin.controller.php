@@ -465,7 +465,7 @@ class SocialloginController extends Sociallogin
 				}
 			}
 			
-			if(!$boolRequired && ($member_config->phone_number_verify_by_sms && $config->use_for_phone_auth))
+			if(!$boolRequired && ($member_config->phone_number_verify_by_sms == 'Y' && $config->use_for_phone_auth == 'Y'))
 			{
 				$boolRequired = true;
 			}
