@@ -106,7 +106,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 프로필 데이터가 없다면 오류
 		if (empty($profile) || $profile['error']['message'])
 		{
-			return new \BaseObject(-1, \Context::getLang('msg_errer_api_connect') . $profile['error']['message']);
+			return new \BaseObject(-1, lang('msg_errer_api_connect') . $profile['error']['message']);
 		}
 
 		// 팔로워 수 제한 (페이스북의 경우 '친구 수')
@@ -116,7 +116,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			{
 				$this->revokeToken();
 
-				return new \BaseObject(-1, sprintf(\Context::getLang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
+				return new \BaseObject(-1, sprintf(lang('msg_not_sns_follower_count'), $this->config->sns_follower_count));
 			}
 		}
 		// 이메일 주소
@@ -126,7 +126,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 		else
 		{
-			return new \BaseObject(-1, lang('msg_not_confirm_email_sns_for_sns'));
+			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
