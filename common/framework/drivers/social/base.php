@@ -128,8 +128,8 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 	{
 		return array(
 			'service' => $this->service,
-			'token'   => $_SESSION['sociallogin_driver_auth']->token,
-			'profile' => $_SESSION['sociallogin_driver_auth']->profile,
+			'token'   => $_SESSION['sociallogin_driver_auth'][$this->service]->token,
+			'profile' => $_SESSION['sociallogin_driver_auth'][$this->service]->profile,
 		);
 	}
 }

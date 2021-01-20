@@ -50,9 +50,9 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			return new \BaseObject(-1, 'msg_invalid_request');
 		}
 		
-		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
-		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
+		$_SESSION['sociallogin_driver_auth']['discord'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']['discord']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']['discord']->token['refresh'] = $token['refresh_token'];
 	}
 
 	/**
@@ -62,7 +62,7 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		$token = $_SESSION['sociallogin_driver_auth']->token['access'];
+		$token = $_SESSION['sociallogin_driver_auth']['discord']->token['access'];
 		if (!$token)
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
@@ -74,10 +74,10 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$user_info = $this->requestAPI('api/users/@me', [], $headers);
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $user_info['email'];
-		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $user_info['id'];
-		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $user_info['username'];
-		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $user_info;
+		$_SESSION['sociallogin_driver_auth']['discord']->profile['email_address'] = $user_info['email'];
+		$_SESSION['sociallogin_driver_auth']['discord']->profile['sns_id'] = $user_info['id'];
+		$_SESSION['sociallogin_driver_auth']['discord']->profile['user_name'] = $user_info['username'];
+		$_SESSION['sociallogin_driver_auth']['discord']->profile['etc'] = $user_info;
 	}
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)

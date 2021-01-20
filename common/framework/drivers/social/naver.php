@@ -51,9 +51,9 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
-		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
+		$_SESSION['sociallogin_driver_auth']['naver'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']['naver']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']['naver']->token['refresh'] = $token['refresh_token'];
 
 		return new \BaseObject();
 	}
@@ -65,13 +65,13 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
+		if (!$_SESSION['sociallogin_driver_auth']['naver']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
-		$profile = $this->requestAPI('https://openapi.naver.com/v1/nid/me', array(), $_SESSION['sociallogin_driver_auth']->token['access']);
+		$profile = $this->requestAPI('https://openapi.naver.com/v1/nid/me', array(), $_SESSION['sociallogin_driver_auth']['naver']->token['access']);
 
 		// 프로필 데이터가 없다면 오류
 		if (!($profile = $profile['response']) || empty($profile))
@@ -82,7 +82,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile['email'])
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile['email'];
+			$_SESSION['sociallogin_driver_auth']['naver']->profile['email_address'] = $profile['email'];
 		}
 		else
 		{
@@ -90,32 +90,32 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID
-		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile['id'];
+		$_SESSION['sociallogin_driver_auth']['naver']->profile['sns_id'] = $profile['id'];
 
 		// 이름 (닉네임이 없다면 이름으로 설정)
 		if ($profile['name'] && preg_match('/\*$/', $profile['nickname']))
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['name'];
+			$_SESSION['sociallogin_driver_auth']['naver']->profile['user_name'] = $profile['name'];
 		}
 		else
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['nickname'];
+			$_SESSION['sociallogin_driver_auth']['naver']->profile['user_name'] = $profile['nickname'];
 		}
 
 		// 프로필 이미지
-		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile['profile_image'];
+		$_SESSION['sociallogin_driver_auth']['naver']->profile['profile_image'] = $profile['profile_image'];
 
 		// 프로필 URL : 네이버는 따로 프로필 페이지가 없으므로 네이버 블로그로 설정
 		if ($profile['email'] && strpos($profile['email'], 'naver.com') !== false)
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['url'] = 'http://blog.naver.com/' . str_replace('@naver.com', '', $profile['email']);
+			$_SESSION['sociallogin_driver_auth']['naver']->profile['url'] = 'http://blog.naver.com/' . str_replace('@naver.com', '', $profile['email']);
 		}
 		else
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['url'] = 'http://www.naver.com/';
+			$_SESSION['sociallogin_driver_auth']['naver']->profile['url'] = 'http://www.naver.com/';
 		}
 
-		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		$_SESSION['sociallogin_driver_auth']['naver']->profile['etc'] = $profile;
 
 		return new \BaseObject();
 	}
@@ -174,7 +174,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
+		if (!$profile = $_SESSION['sociallogin_driver_auth']['naver']->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -215,7 +215,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']->profile['profile_image']);
+		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']['naver']->profile['profile_image']);
 	}
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = null)

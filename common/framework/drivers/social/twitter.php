@@ -64,7 +64,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$token = $_SESSION['sociallogin_driver_auth']->token['access'])
+		if (!$token = $_SESSION['sociallogin_driver_auth']['twitter']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -101,7 +101,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile->email)
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile->email;
+			$_SESSION['sociallogin_driver_auth']['twitter']->profile['email_address'] = $profile->email;
 		}
 		else
 		{
@@ -109,11 +109,11 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile->id;
-		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile->name;
-		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile->profile_image_url;
-		$_SESSION['sociallogin_driver_auth']->profile['url'] = 'https://twitter.com/' . $profile->screen_name;
-		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		$_SESSION['sociallogin_driver_auth']['twitter']->profile['sns_id'] = $profile->id;
+		$_SESSION['sociallogin_driver_auth']['twitter']->profile['user_name'] = $profile->name;
+		$_SESSION['sociallogin_driver_auth']['twitter']->profile['profile_image'] = $profile->profile_image_url;
+		$_SESSION['sociallogin_driver_auth']['twitter']->profile['url'] = 'https://twitter.com/' . $profile->screen_name;
+		$_SESSION['sociallogin_driver_auth']['twitter']->profile['etc'] = $profile;
 
 		return new \BaseObject();
 	}
@@ -133,7 +133,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
+		if (!$profile = $_SESSION['sociallogin_driver_auth']['twitter']->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -165,11 +165,11 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		{
 			$access_token = json_decode($access_token, true);
 		}
-		if(!$_SESSION['sociallogin_driver_auth'])
+		if(!$_SESSION['sociallogin_driver_auth']['twitter'])
 		{
-			$_SESSION['sociallogin_driver_auth'] = new \stdClass();
+			$_SESSION['sociallogin_driver_auth']['twitter'] = new \stdClass();
 		}
-		$_SESSION['sociallogin_driver_auth']->token['access'] = $access_token;
+		$_SESSION['sociallogin_driver_auth']['twitter']->token['access'] = $access_token;
 	}
 
 	/**
@@ -178,13 +178,13 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getTwitterAccessToken()
 	{
 		// 빼낼 경우 json 로 변환하여 반환
-		return json_encode($_SESSION['sociallogin_driver_auth']->token['access']);
+		return json_encode($_SESSION['sociallogin_driver_auth']['twitter']->token['access']);
 	}
 
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return str_replace('_normal', '', $_SESSION['sociallogin_driver_auth']->profile['profile_image']);
+		return str_replace('_normal', '', $_SESSION['sociallogin_driver_auth']['twitter']->profile['profile_image']);
 	}
 
 	// Dummy Method for SocialInserface.

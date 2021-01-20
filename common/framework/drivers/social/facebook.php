@@ -63,8 +63,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']['facebook'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']['facebook']->token['access'] = $token['access_token'];
 
 		return new \BaseObject();
 	}
@@ -76,7 +76,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
+		if (!$_SESSION['sociallogin_driver_auth']['facebook']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -100,7 +100,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// API 요청 : 프로필
 		$profile = $this->requestAPI('/me?' . http_build_query(array(
 				'fields'       => implode(',', $fields),
-				'access_token' => $_SESSION['sociallogin_driver_auth']->token['access'],
+				'access_token' => $_SESSION['sociallogin_driver_auth']['facebook']->token['access'],
 			), '', '&'));
 
 		// 프로필 데이터가 없다면 오류
@@ -122,7 +122,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile['email'])
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile['email'];
+			$_SESSION['sociallogin_driver_auth']['facebook']->profile['email_address'] = $profile['email'];
 		}
 		else
 		{
@@ -130,11 +130,11 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile['picture']['data']['url'];
-		$_SESSION['sociallogin_driver_auth']->profile['url'] = $profile['link'];
-		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile['id'];
-		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['name'];
-		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		$_SESSION['sociallogin_driver_auth']['facebook']->profile['profile_image'] = $profile['picture']['data']['url'];
+		$_SESSION['sociallogin_driver_auth']['facebook']->profile['url'] = $profile['link'];
+		$_SESSION['sociallogin_driver_auth']['facebook']->profile['sns_id'] = $profile['id'];
+		$_SESSION['sociallogin_driver_auth']['facebook']->profile['user_name'] = $profile['name'];
+		$_SESSION['sociallogin_driver_auth']['facebook']->profile['etc'] = $profile;
 		
 		return new \BaseObject();
 	}
@@ -152,7 +152,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 		// API 요청 : 권한 삭제
 		$this->requestAPI('/me/permissions', array(
-			'access_token' => $_SESSION['sociallogin_driver_auth']->token['access'],
+			'access_token' => $_SESSION['sociallogin_driver_auth']['facebook']->token['access'],
 		), null, true);
 	}
 
@@ -162,7 +162,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
+		if (!$profile = $_SESSION['sociallogin_driver_auth']['facebook']->profile['etc'])
 		{
 			return new \stdClass;
 		}

@@ -53,9 +53,9 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		]);
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']->token['access'] = $token['access_token'];
-		$_SESSION['sociallogin_driver_auth']->token['refresh'] = $token['refresh_token'];
+		$_SESSION['sociallogin_driver_auth']['kakao'] = new \stdClass();
+		$_SESSION['sociallogin_driver_auth']['kakao']->token['access'] = $token['access_token'];
+		$_SESSION['sociallogin_driver_auth']['kakao']->token['refresh'] = $token['refresh_token'];
 
 		return new \BaseObject();
 	}
@@ -67,44 +67,44 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
+		if (!$_SESSION['sociallogin_driver_auth']['kakao']->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
-		if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']->token['access'])) || !$profile['id'])
+		if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access'])) || !$profile['id'])
 		{
 			// API 요청 : 앱 가입 (프로필을 불러올 수 없다면)
-			$this->requestAPI('v1/user/signup', [], $_SESSION['sociallogin_driver_auth']->token['access']);
+			$this->requestAPI('v1/user/signup', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access']);
 
 			// API 요청 : 프로필 (앱 가입 후 재요청)
-			if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']->token['access'])) || !$profile['id'])
+			if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access'])) || !$profile['id'])
 			{
 				return new \BaseObject(-1, 'msg_errer_api_connect');
 			}
 		}
 
 		// API 요청 : 카카오 스토리 프로필 (스토리에 가입되어 있을 경우 추가)
-		if (($story = $this->requestAPI('v1/api/story/profile', [], $_SESSION['sociallogin_driver_auth']->token['access'])) && $story['nickName'])
+		if (($story = $this->requestAPI('v1/api/story/profile', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access'])) && $story['nickName'])
 		{
 			$profile['story'] = $story;
 		}
 		
 		if(isset($profile['kakao_account']['email']))
 		{
-			$_SESSION['sociallogin_driver_auth']->profile['email_address'] = $profile['kakao_account']['email'];
+			$_SESSION['sociallogin_driver_auth']['kakao']->profile['email_address'] = $profile['kakao_account']['email'];
 		}
 		else
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 		
-		$_SESSION['sociallogin_driver_auth']->profile['sns_id'] = $profile['id'];
-		$_SESSION['sociallogin_driver_auth']->profile['user_name'] = $profile['properties']['nickname'] ?: $profile['story']['nickName'];
-		$_SESSION['sociallogin_driver_auth']->profile['profile_image'] = $profile['properties']['profile_image'] ?: $profile['story']['profileImageURL'];
-		$_SESSION['sociallogin_driver_auth']->profile['url'] = $profile['story']['permalink'] ?: 'http://www.kakao.com/talk';
-		$_SESSION['sociallogin_driver_auth']->profile['etc'] = $profile;
+		$_SESSION['sociallogin_driver_auth']['kakao']->profile['sns_id'] = $profile['id'];
+		$_SESSION['sociallogin_driver_auth']['kakao']->profile['user_name'] = $profile['properties']['nickname'] ?: $profile['story']['nickName'];
+		$_SESSION['sociallogin_driver_auth']['kakao']->profile['profile_image'] = $profile['properties']['profile_image'] ?: $profile['story']['profileImageURL'];
+		$_SESSION['sociallogin_driver_auth']['kakao']->profile['url'] = $profile['story']['permalink'] ?: 'http://www.kakao.com/talk';
+		$_SESSION['sociallogin_driver_auth']['kakao']->profile['etc'] = $profile;
 		
 		return new \BaseObject();
 	}
@@ -137,7 +137,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 		// API 요청 : 토큰 새로고침
 		$token = $this->requestAPI('token', [
-			'refresh_token' => $_SESSION['sociallogin_driver_auth']->token['refresh'],
+			'refresh_token' => $_SESSION['sociallogin_driver_auth']['kakao']->token['refresh'],
 			'grant_type'    => 'refresh_token',
 			'client_id'     => $this->config->kakao_client_id,
 		]);
@@ -161,7 +161,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function checkLinkage()
 	{
 		// API 요청 : 카카오 스토리 사용자 여부
-		if (!$_SESSION['sociallogin_driver_auth']->token['access'] || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], $_SESSION['sociallogin_driver_auth']->token['access']))
+		if (!$_SESSION['sociallogin_driver_auth']['kakao']->token['access'] || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access']))
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -181,13 +181,13 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function post($args)
 	{
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']->token['access'])
+		if (!$_SESSION['sociallogin_driver_auth']['kakao']->token['access'])
 		{
 			return;
 		}
 
 		// API 요청 : 스토리에 포스팅 (제목 + 게시물 URL)
-		$this->requestAPI('v1/api/story/post/note', ['content' => $args->title . ' ' . $args->url], $_SESSION['sociallogin_driver_auth']->token['access']);
+		$this->requestAPI('v1/api/story/post/note', ['content' => $args->title . ' ' . $args->url], $_SESSION['sociallogin_driver_auth']['kakao']->token['access']);
 	}
 
 	/**
@@ -196,7 +196,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']->profile['etc'])
+		if (!$profile = $_SESSION['sociallogin_driver_auth']['kakao']->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -215,7 +215,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']->profile['profile_image']);
+		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']['kakao']->profile['profile_image']);
 	}
 
 	function requestAPI($url, $post = [], $authorization = null, $delete = null)
