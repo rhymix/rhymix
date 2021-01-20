@@ -17,7 +17,7 @@ class SocialloginModel extends Sociallogin
 		if (!$sns_info->refresh_token)
 		{
 			$tokenData = [];
-			$tokenData['access']($sns_info->access_token);
+			$tokenData['access'] = $sns_info->access_token;
 
 			return $tokenData;
 		}
