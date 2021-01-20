@@ -226,8 +226,6 @@ class SocialloginController extends Sociallogin
 		{
 			$this->setMessage($msg);
 		}
-		
-		
 
 		if ($type == 'register')
 		{
