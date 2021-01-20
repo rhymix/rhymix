@@ -8,6 +8,7 @@ $lang->collapsing = 'Collapse';
 $lang->expanding = 'Expand';
 $lang->edit_sitemap = 'Edit Sitemap';
 $lang->sitemap_name = 'Sitemap Name';
+$lang->sitemap_batch_design = 'Select Design';
 $lang->add_menu = 'Add Menu Item';
 $lang->edit_menu = 'Edit Menu';
 $lang->sitemap = 'Sitemap';

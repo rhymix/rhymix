@@ -239,6 +239,57 @@ class menuAdminController extends menu
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
 		$this->setRedirectUrl($returnUrl);
 	}
+	
+	/**
+	 * Change the menu design (layout)
+	 */
+	public function procMenuAdminUpdateDesign()
+	{
+		$vars = Context::getRequestVars();
+		$menu_srl = intval($vars->menu_srl);
+		$layout_P = intval($vars->layout_P);
+		$layout_M = intval($vars->layout_M);
+		if (!$layout_P && !$layout_M)
+		{
+			return;
+		}
+		
+		$args = new stdClass;
+		$args->menu_srl = $menu_srl;
+		$output = executeQueryArray('layout.getLayoutModules', $args);
+		if ($output->data)
+		{
+			$module_srls = array_map(function($item) { return $item->module_srl; }, $output->data);
+			if (count($module_srls))
+			{
+				$args = new stdClass;
+				$args->module_srls = $module_srls;
+				if ($layout_P)
+				{
+					$args->layout_srl = $layout_P;
+					$output = executeQuery('layout.updateModuleLayout', $args);
+					if (!$output->toBool())
+					{
+						Rhymix\Framework\Cache::clearGroup('site_and_module');
+						return $output;
+					}
+				}
+				if ($layout_M)
+				{
+					$args->layout_srl = $layout_M;
+					$args->use_mobile = 'Y';
+					$output = executeQuery('layout.updateModuleMLayout', $args);
+					if (!$output->toBool())
+					{
+						Rhymix\Framework\Cache::clearGroup('site_and_module');
+						return $output;
+					}
+				}
+				
+				Rhymix\Framework\Cache::clearGroup('site_and_module');
+			}
+		}
+	}
 
 	/**
 	 * Delete menu process method

@@ -8,6 +8,7 @@ $lang->collapsing = '접기';
 $lang->expanding = '펼치기';
 $lang->edit_sitemap = '사이트맵 편집';
 $lang->sitemap_name = '사이트맵 이름';
+$lang->sitemap_batch_design = '디자인 일괄 적용';
 $lang->add_menu = '메뉴 추가';
 $lang->edit_menu = '메뉴 편집';
 $lang->sitemap = '사이트맵';
