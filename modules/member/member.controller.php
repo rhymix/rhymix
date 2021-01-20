@@ -2827,20 +2827,20 @@ class memberController extends member
 			if($default_group)
 			{
 				// Add to the default group
-				$output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
+				$output = $this->addMemberToGroup($args->member_srl, $default_group->group_srl);
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
 					return $output;
 				}
 			}
-			// If the value is the value of the group entered the group registration
 		}
+		// If the value is the value of the group entered the group registration
 		else
 		{
-			for($i=0;$i<count($group_srl_list);$i++)
+			foreach($group_srl_list as $group_srl)
 			{
-				$output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+				$output = $this->addMemberToGroup($args->member_srl, $group_srl);
 
 				if(!$output->toBool())
 				{
@@ -3096,9 +3096,6 @@ class memberController extends member
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-
 		// Check password strength
 		if($args->password)
 		{
@@ -3123,6 +3120,9 @@ class memberController extends member
 		}
 		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
 		$output = executeQuery('member.updateMember', $args);
 
 		if(!$output->toBool())
@@ -3139,7 +3139,7 @@ class memberController extends member
 				$log_args->before_nick_name = $orgMemberInfo->nick_name;
 				$log_args->after_nick_name = $args->nick_name;
 				$log_args->user_id = $args->user_id;
-				$log_output = executeQuery('member.insertMemberModifyNickName', $log_args);
+				executeQuery('member.insertMemberModifyNickName', $log_args);
 			}
 		}
 
@@ -3158,9 +3158,9 @@ class memberController extends member
 					return $output;
 				}
 				// Enter one of the loop a
-				for($i=0;$i<count($group_srl_list);$i++)
+				foreach($group_srl_list as $group_srl)
 				{
-					$output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+					$output = $this->addMemberToGroup($args->member_srl, $group_srl);
 					if(!$output->toBool())
 					{
 						$oDB->rollback();
