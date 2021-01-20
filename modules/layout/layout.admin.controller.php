@@ -140,49 +140,6 @@ class layoutAdminController extends layout
 
 				$menu_srl_list[] = $menu_srl;
 				$menu_name_list[$menu_srl] = $output->title;
-
-				$apply_layout = Context::get('apply_layout');
-				$apply_mobile_view = Context::get('apply_mobile_view');
-
-				if($apply_layout=='Y' || $apply_mobile_view=='Y')
-				{
-					$menu_args = new stdClass();
-					$menu_args->menu_srl = $menu_srl;
-					$menu_args->site_srl = $layout_info->site_srl;
-					$output = executeQueryArray('layout.getLayoutModules', $menu_args);
-					if($output->data)
-					{
-						$modules = array();
-						for($i=0;$i<count($output->data);$i++)
-						{
-							$modules[] = $output->data[$i]->module_srl;
-						}
-
-						if(count($modules))
-						{
-							$update_args = new stdClass();
-							$update_args->module_srls = implode(',',$modules);
-							if($apply_layout == "Y")
-							{
-								$update_args->layout_srl = $args->layout_srl;
-							}
-							if($layout_info->layout_type == "M")
-							{
-								if(Context::get('apply_mobile_view') == "Y")
-								{
-									$update_args->use_mobile = "Y";
-								}
-								$output = executeQuery('layout.updateModuleMLayout', $update_args);
-							}
-							else
-							{
-								$output = executeQuery('layout.updateModuleLayout', $update_args);
-							}
-
-							Rhymix\Framework\Cache::clearGroup('site_and_module');
-						}
-					}
-				}
 			}
 		}
 
