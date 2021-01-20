@@ -493,7 +493,7 @@ class memberAdminController extends member
 			'max_error_count_time',
 			'login_invalidate_other_sessions',
 			'after_login_url',
-			'after_logout_url',
+			'after_logout_url'
 		);
 		
 		if(!count($args->identifiers))
