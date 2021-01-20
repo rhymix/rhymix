@@ -3348,8 +3348,7 @@ jQuery(function($){
 				var sUrl = $('#config_form').attr('action');
 				$.post( sUrl, $(this).serialize(),
 					function( strRes ) {
-						var htData = $.parseJSON(strRes);
-
+						var htData = typeof strRes === 'string' ? $.parseJSON(strRes) : strRes;
 						$('#layout').show();
 						//console.log(999, strRes, htData);
 					}
