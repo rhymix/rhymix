@@ -57,10 +57,10 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 토큰 넣기
-		getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info, false);
+		$tokenData = SocialloginModel::setAvailableAccessToken($oDriver, $sns_info, false);
 
 		// 토큰 파기
-		$oDriver->revokeToken();
+		$oDriver->revokeToken($tokenData['access']);
 
 		// 로그 기록
 		$info = new stdClass;
@@ -98,7 +98,7 @@ class SocialloginController extends Sociallogin
 		}
 
 		// 토큰 넣기
-		getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info);
+		$tokenData = SocialloginModel::setAvailableAccessToken($oDriver, $sns_info);
 
 		// 연동 체크
 		if (($check = $oDriver->checkLinkage()) && $check instanceof Object && !$check->toBool() && $sns_info->linkage != 'Y')
