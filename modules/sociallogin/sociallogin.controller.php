@@ -177,7 +177,6 @@ class SocialloginController extends Sociallogin
 				$oDriver->revokeToken();
 			}
 		}
-
 		// 등록 처리
 		if (!$error)
 		{
@@ -227,6 +226,8 @@ class SocialloginController extends Sociallogin
 		{
 			$this->setMessage($msg);
 		}
+		
+		
 
 		if ($type == 'register')
 		{
@@ -639,6 +640,7 @@ class SocialloginController extends Sociallogin
 			}
 		}
 
+		self::clearSession();
 		// 가입 완료 후 메세지 출력 (메일 인증 메세지)
 		if ($return_output)
 		{
@@ -811,5 +813,14 @@ class SocialloginController extends Sociallogin
 		{
 			memberController::getInstance()->addMemberMenu('dispSocialloginSnsManage', 'sns_manage');
 		}
+	}
+	
+	public static function clearSession()
+	{
+		unset($_SESSION['sociallogin_driver_auth']);
+		unset($_SESSION['sociallogin_auth']);
+		unset($_SESSION['sociallogin_access_data']);
+		unset($_SESSION['tmp_sociallogin_input_add_info']);
+		unset($_SESSION['sociallogin_current']);
 	}
 }

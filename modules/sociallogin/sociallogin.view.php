@@ -120,8 +120,6 @@ class SocialloginView extends Sociallogin
 			}
 		}
 
-		unset($_SESSION['sociallogin_input_add_info_data']);
-
 		$_SESSION['sociallogin_auth']['type'] = $type;
 		$_SESSION['sociallogin_auth']['mid'] = Context::get('mid');
 		$_SESSION['sociallogin_auth']['redirect'] = Context::get('redirect');

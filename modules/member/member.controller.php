@@ -1041,12 +1041,9 @@ class memberController extends member
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
 
-		if($oSocialData)
+		if($oSocialData && $_SESSION['sociallogin_access_data'])
 		{
 			$oSocialLoginController->insertMemberSns($args->member_srl, $_SESSION['sociallogin_access_data']);
-			// 소셜로그인에 필요했던 세션데이터들을 모두 지움
-			unset($_SESSION['sociallogin_access_data']);
-			unset($_SESSION['tmp_sociallogin_input_add_info']);
 		}
 		
 		if($config->redirect_url)
