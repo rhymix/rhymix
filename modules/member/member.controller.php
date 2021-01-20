@@ -2447,7 +2447,6 @@ class memberController extends member
 		// Update the latest login time
 		$args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
-
 		self::clearMemberCache($args->member_srl);
 
 		// Check if there is recoding table.
@@ -2507,9 +2506,17 @@ class memberController extends member
 				Rhymix\Framework\Session::setAutologinKeys(substr($random_key, 0, 24), substr($random_key, 24, 24));
 			}
 		}
-
+		
+		// Log in!
 		Rhymix\Framework\Session::login($member_info->member_srl);
 		$this->setSessionInfo();
+		
+		// Log out all other sessions if so configured.
+		if ($config->login_invalidate_other_sessions === 'Y')
+		{
+			Rhymix\Framework\Session::destroyOtherSessions($member_info->member_srl);
+		}
+		
 		return $output;
 	}
 
