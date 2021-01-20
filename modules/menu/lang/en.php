@@ -127,3 +127,6 @@ $lang->img_deleted = 'Button image is deleted.';
 $lang->do_not_display_again = 'Do not display again.';
 $lang->skin_settings = 'Skin settings';
 $lang->no_use_skin = 'Will not use any skin';
+$lang->menu_desc = 'Description';
+$lang->menu_icon = 'Icon';
+$lang->about_menu_icon = 'If and how the icon code is interpreted is up to the layout designer.';

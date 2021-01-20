@@ -191,6 +191,13 @@
 						</div>
 					</li>
 					<li>
+						<div class="x_input-append">
+							<label for="menuIcon2">{$lang->menu_icon}</label>
+							<input id="menuIcon2" class="_menuIcon" type="text" />
+						</div>
+						<p>{$lang->about_menu_icon}</p>
+					</li>
+					<li>
 						<div class="multilingual x_input-append">
 							<label for="lang_menuDesc2">{$lang->menu_desc}</label>
 							<input id="menuDesc2" class="_menuDesc lang_code" type="text" required>
@@ -252,6 +259,13 @@
 							<label for="lang_menuName">{$lang->menu_name}</label>
 							<input id="menuName" class="_menuName lang_code" type="text" required>
 						</div>
+					</li>
+					<li>
+						<div class="x_input-append">
+							<label for="menuIcon">{$lang->menu_icon}</label>
+							<input id="menuIcon" class="_menuIcon" type="text" />
+						</div>
+						<p style="width:220px;min-width:100%">{$lang->about_menu_icon}</p>
 					</li>
 					<li>
 						<div class="multilingual x_input-append">
@@ -1850,6 +1864,7 @@ jQuery(function($){
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
+		var sMenuIcon = $('#add_menu ._menuIcon').val();
 		var sMenuDesc = $('#add_menu ._menuDesc').val();
 		var sUrl = $('#add_menu ._mid').val();
 		var sTargetKey = "module_id";
@@ -1899,6 +1914,7 @@ jQuery(function($){
 		params['act'] = "procMenuAdminInsertItem";
 		params['menu_name_key'] = "";
 		params['menu_name'] = sMenuName;
+		params['menu_icon'] = sMenuIcon;
 		params['menu_desc'] = sMenuDesc;
 		params['module_type'] = sSelectedModuleName;
 		params['menu_open_window'] = "N";
@@ -1933,6 +1949,7 @@ jQuery(function($){
 		}
 
 		$(this).find('#menuName').val(htInfo.sMenuNameKey.match(/\$user_lang->/) ? htInfo.sMenuNameKey : htInfo.sText);
+		$(this).find('#menuIcon').val(htInfo.icon);
 		$(this).find('#menuDesc').val(htInfo.desc);
 		//menu_name_key
 
@@ -1987,6 +2004,7 @@ jQuery(function($){
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 
 		var sMenuName = $('#default ._menuName').val();
+		var sMenuIcon = $('#default ._menuIcon').val();
 		var sMenuDesc = $('#default ._menuDesc').val();
 		var sMID;
 
@@ -2013,6 +2031,7 @@ jQuery(function($){
 		}
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
+		params['menu_icon'] = sMenuIcon;
 		params['menu_desc'] = sMenuDesc;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;

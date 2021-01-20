@@ -145,3 +145,5 @@ $lang->skin_settings = '스킨 설정';
 $lang->no_skin = '스킨 없음';
 $lang->no_use_skin = '스킨 사용 안 함';
 $lang->menu_desc = '메뉴 설명';
+$lang->menu_icon = '메뉴 아이콘';
+$lang->about_menu_icon = '아이콘 코드를 어떻게 해석하는지는 레이아웃에 따라 다를 수 있습니다.';
