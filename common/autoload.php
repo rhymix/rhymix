@@ -104,6 +104,10 @@ spl_autoload_register(function($class_name)
 		case 'rhymix/plu':
 			$filename = RX_BASEDIR . 'plugins/' . substr($lc_class_name, 15) . '.php';
 			break;
+		// Rhymix Module classes.
+		case 'rhymix/mod':
+			$filename = RX_BASEDIR . 'modules/' . substr($lc_class_name, 15) . '.php';
+			break;
 		// XE compatible classes.
 		default:
 			if (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
