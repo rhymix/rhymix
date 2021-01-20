@@ -761,11 +761,12 @@ class ModuleHandler extends Handler
 	 */
 	protected function _setModuleColorScheme($site_module_info)
 	{
-		if (isset($site_module_info->settings->color_scheme) && $site_module_info->settings->color_scheme !== 'auto')
+		$color_scheme = $site_module_info->settings->color_scheme ?? Rhymix\Framework\UA::getColorScheme();
+		if (!in_array($color_scheme, ['auto', 'light', 'dark']))
 		{
-			Context::addBodyClass('color_scheme_' . $site_module_info->settings->color_scheme);
+			$color_scheme = 'auto';
 		}
-		elseif (($color_scheme = Rhymix\Framework\UA::getColorScheme()) !== 'auto')
+		if ($color_scheme !== 'auto')
 		{
 			Context::addBodyClass('color_scheme_' . $color_scheme);
 		}
