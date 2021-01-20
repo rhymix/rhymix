@@ -57,6 +57,7 @@
 	var https_port = {Context::get("_https_port") ?: 'null'};
 	var enforce_ssl = {$site_module_info->security === 'always' ? 'true' : 'false'};
 	var cookies_ssl = {config('session.use_ssl_cookies') ? 'true' : 'false'};
+	var rewrite_level = {intval(\Rhymix\Framework\Router::getRewriteLevel())};
 	var ssl_actions = [];
 </script>
 </head>
