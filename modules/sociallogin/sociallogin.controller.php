@@ -26,14 +26,15 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!($sns_info = getModel('sociallogin')->getMemberSns($service)) || !$sns_info->name)
+		if (!($sns_info = SocialloginModel::getMemberSns($service)) || !$sns_info->name)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
 		if (self::getConfig()->sns_login == 'Y' && self::getConfig()->default_signup != 'Y')
 		{
-			$sns_list = getModel('sociallogin')->getMemberSns();
+			// TODO(BJRambo) : check get to list;
+			$sns_list = SocialloginModel::getMemberSns();
 
 			if (!is_array($sns_list))
 			{
@@ -65,7 +66,7 @@ class SocialloginController extends Sociallogin
 		// 로그 기록
 		$info = new stdClass;
 		$info->sns = $service;
-		getModel('sociallogin')->logRecord($this->act, $info);
+		SocialloginModel::logRecord($this->act, $info);
 
 		$this->setMessage('msg_success_sns_register_clear');
 
@@ -92,7 +93,7 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!($sns_info = getModel('sociallogin')->getMemberSns($service)) || !$sns_info->name)
+		if (!($sns_info = SocialloginModel::getMemberSns($service)) || !$sns_info->name)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_linkage_sns_info');
 		}
@@ -121,7 +122,7 @@ class SocialloginController extends Sociallogin
 		$info = new stdClass;
 		$info->sns = $service;
 		$info->linkage = $args->linkage;
-		getModel('sociallogin')->logRecord($this->act, $info);
+		SocialloginModel::logRecord($this->act, $info);
 
 		$this->setMessage('msg_success_linkage_sns');
 
@@ -220,7 +221,7 @@ class SocialloginController extends Sociallogin
 		$info->msg = $msg;
 		$info->type = $type;
 		$info->sns = $service;
-		getModel('sociallogin')->logRecord($this->act, $info);
+		SocialloginModel::logRecord($this->act, $info);
 
 		if ($msg)
 		{
@@ -263,14 +264,14 @@ class SocialloginController extends Sociallogin
 			}
 		}
 
-		if (!getModel('sociallogin')->memberUserSns())
+		if (!SocialloginModel::memberUserSns())
 		{
 			return new BaseObject();
 		}
 
 		foreach (self::getConfig()->sns_services as $key => $val)
 		{
-			if (!($sns_info = getModel('sociallogin')->getMemberSns($val)) || $sns_info->linkage != 'Y')
+			if (!($sns_info = SocialloginModel::getMemberSns($val)) || $sns_info->linkage != 'Y')
 			{
 				continue;
 			}
@@ -281,7 +282,7 @@ class SocialloginController extends Sociallogin
 			}
 
 			// 토큰 넣기
-			getModel('sociallogin')->setAvailableAccessToken($oDriver, $sns_info);
+			SocialloginModel::setAvailableAccessToken($oDriver, $sns_info);
 
 			$args = new stdClass;
 			$args->title = $obj->title;
@@ -293,7 +294,7 @@ class SocialloginController extends Sociallogin
 			$info = new stdClass;
 			$info->sns = $val;
 			$info->title = $obj->title;
-			getModel('sociallogin')->logRecord('linkage', $info);
+			SocialloginModel::logRecord('linkage', $info);
 		}
 
 		return new BaseObject();
@@ -309,7 +310,7 @@ class SocialloginController extends Sociallogin
 			return new BaseObject();
 		}
 
-		if (!getModel('sociallogin')->memberUserSns($member_srl))
+		if (!SocialloginModel::memberUserSns($member_srl))
 		{
 			return new BaseObject();
 		}
@@ -353,7 +354,7 @@ class SocialloginController extends Sociallogin
 		$info->sns_id = implode(' | ', $sns_id);
 		$info->nick_name = Context::get('logged_info')->nick_name;
 		$info->member_srl = $obj->member_srl;
-		getModel('sociallogin')->logRecord('delete_member', $info);
+		SocialloginModel::logRecord('delete_member', $info);
 
 		return new BaseObject();
 	}
@@ -788,9 +789,7 @@ class SocialloginController extends Sociallogin
 	 */
 	function replaceSignUpFormBySocial($args)
 	{
-		/** @var SocialloginModel $oSocialLoginModel */
-		$oSocialLoginModel = SocialloginModel::getInstance();
-		$socialLoginUserData = $oSocialLoginModel::getSocialSignUpUserData();
+		$socialLoginUserData = SocialloginModel::getSocialSignUpUserData();
 
 		if($socialLoginUserData)
 		{

@@ -98,15 +98,13 @@ class SocialloginAdminView extends Sociallogin
 
 		if ($output->data)
 		{
-			$oSocialloginModel = getModel('sociallogin');
-
 			foreach ($output->data as $key => $val)
 			{
 				$val->service = array();
 
 				foreach (self::getConfig()->sns_services as $key2 => $val2)
 				{
-					if (($sns_info = $oSocialloginModel->getMemberSns($val2, $val->member_srl)) && $sns_info->name)
+					if (($sns_info = SocialloginModel::getMemberSns($val2, $val->member_srl)) && $sns_info->name)
 					{
 						$val->service[$val2] = sprintf('<a href="%s" target="_blank">%s</a>', $sns_info->profile_url, $sns_info->name);
 					}

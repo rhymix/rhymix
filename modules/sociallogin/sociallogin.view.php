@@ -33,12 +33,10 @@ class SocialloginView extends Sociallogin
 			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
 
-		$oSocialloginModel = getModel('sociallogin');
-
 		foreach (self::getConfig()->sns_services as $key => $val)
 		{
 			$args = new stdClass;
-			$sns_info = $oSocialloginModel->getMemberSns($val);
+			$sns_info = SocialloginModel::getMemberSns($val);
 			
 			if ($sns_info->name)
 			{
@@ -47,7 +45,7 @@ class SocialloginView extends Sociallogin
 			}
 			else
 			{
-				$args->auth_url = $oSocialloginModel->snsAuthUrl($val, 'register');
+				$args->auth_url = SocialloginModel::snsAuthUrl($val, 'register');
 				$args->sns_status = Context::getLang('status_sns_no_register');
 			}
 
@@ -131,7 +129,7 @@ class SocialloginView extends Sociallogin
 		$info = new stdClass;
 		$info->sns = $service;
 		$info->type = $type;
-		getModel('sociallogin')->logRecord($this->act, $info);
+		SocialloginModel::logRecord($this->act, $info);
 	}
 
 	/**
@@ -149,7 +147,7 @@ class SocialloginView extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!($member_info = getModel('member')->getMemberInfoByMemberSrl(Context::get('member_srl'))) || !$member_info->member_srl)
+		if (!($member_info = memberModel::getMemberInfoByMemberSrl(Context::get('member_srl'))) || !$member_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
@@ -158,7 +156,7 @@ class SocialloginView extends Sociallogin
 
 		foreach (self::getConfig()->sns_services as $key => $val)
 		{
-			if (!($sns_info = getModel('sociallogin')->getMemberSns($val, $member_info->member_srl)) || !$sns_info->name)
+			if (!($sns_info = SocialloginModel::getMemberSns($val, $member_info->member_srl)) || !$sns_info->name)
 			{
 				continue;
 			}
