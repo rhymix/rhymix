@@ -18,7 +18,6 @@ class addon extends ModuleObject
 		// Register to add a few
 		$oAddonController = getAdminController('addon');
 		$oAddonController->doInsert('autolink', 0, 'site', 'Y');
-		$oAddonController->doInsert('member_extra_info', 0, 'site', 'Y');
 		$oAddonController->doInsert('resize_image', 0, 'site', 'Y');
 		$oAddonController->makeCacheFile(0);
 	}
