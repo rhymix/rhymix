@@ -87,6 +87,10 @@ class DBTableParser extends BaseParser
 			{
 				$column->charset = toBool($attribs['utf8mb4']) ? 'utf8mb4' : 'utf8';
 			}
+			elseif ($column->xetype === 'date' || ($column->name === 'ipaddress' && $column->size >= 60))
+			{
+				$column->charset = 'latin1';
+			}
 			
 			// Get the default value.
 			if (isset($attribs['default']))
