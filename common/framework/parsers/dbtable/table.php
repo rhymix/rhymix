@@ -33,7 +33,7 @@ class Table
 		foreach ($this->columns as $column)
 		{
 			$columndef = '  `' . $column->name . '`' . ' ' . strtoupper($column->type);
-			$max_size = $column->utf8mb4 ? 191 : 255;
+			$max_size = ($column->charset === 'utf8mb4' && $charset === 'utf8mb4') ? 191 : 255;
 			if (preg_match('/char/i', $column->type) && $column->size > $max_size && ($column->is_unique || $column->is_primary_key))
 			{
 				$adjusted_sizes[$column->name] = $max_size;
@@ -42,9 +42,16 @@ class Table
 			{
 				$columndef .= '(' . (isset($adjusted_sizes[$column->name]) ? $adjusted_sizes[$column->name] : $column->size) . ')';
 			}
-			if ($column->utf8mb4 === false && $charset === 'utf8mb4')
+			if ($column->charset !== 'utf8mb4' && $column->charset !== $charset)
 			{
-				$columndef .= ' CHARACTER SET utf8 COLLATE utf8_unicode_ci';
+				if ($column->charset === 'utf8')
+				{
+					$columndef .= ' CHARACTER SET ' . $column->charset . ' COLLATE ' . $column->charset . '_unicode_ci';
+				}
+				else
+				{
+					$columndef .= ' CHARACTER SET ' . $column->charset . ' COLLATE ' . $column->charset . '_general_ci';
+				}
 			}
 			if ($column->not_null)
 			{
@@ -84,7 +91,7 @@ class Table
 			{
 				$column_info = $this->columns[$column_name];
 				$current_size = isset($adjusted_sizes[$column_name]) ? $adjusted_sizes[$column_name] : $column_info->size;
-				$max_size = $column_info->utf8mb4 ? 191 : 255;
+				$max_size = ($column_info->charset === 'utf8mb4' && $charset === 'utf8mb4') ? 191 : 255;
 				if (preg_match('/char/i', $column_info->type) && $current_size > $max_size)
 				{
 					$prefix_size = $max_size;

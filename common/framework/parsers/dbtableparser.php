@@ -78,10 +78,14 @@ class DBTableParser extends BaseParser
 			// Get all attributes.
 			$attribs = self::_getAttributes($column_info);
 			
-			// Get the utf8mb4 attribute.
-			if (isset($attribs['utf8mb4']))
+			// Get the charset/utf8mb4 attribute.
+			if (isset($attribs['charset']))
 			{
-				$column->utf8mb4 = toBool($attribs['utf8mb4']);
+				$column->charset = $attribs['charset'];
+			}
+			elseif (isset($attribs['utf8mb4']))
+			{
+				$column->charset = toBool($attribs['utf8mb4']) ? 'utf8mb4' : 'utf8';
 			}
 			
 			// Get the default value.
