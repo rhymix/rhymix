@@ -11,7 +11,7 @@ class SocialloginController extends Sociallogin
 	 **/
 	function procSocialloginSnsClear()
 	{
-		if (!Context::get('is_logged'))
+		if (!$this->user->isMember())
 		{
 			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
@@ -77,7 +77,7 @@ class SocialloginController extends Sociallogin
 	 **/
 	function procSocialloginSnsLinkage()
 	{
-		if (!Context::get('is_logged'))
+		if (!$this->user->isMember())
 		{
 			throw new Rhymix\Framework\Exception('msg_not_logged');
 		}
@@ -166,7 +166,7 @@ class SocialloginController extends Sociallogin
 		// 인증 세션 제거
 		unset($_SESSION['sociallogin_auth']);
 
-		// 로딩
+		// SNS정보를 가져옴
 		if (!$error)
 		{
 			$output = $oDriver->getSNSUserInfo();
@@ -174,7 +174,7 @@ class SocialloginController extends Sociallogin
 			{
 				$error = $output->getMessage();
 				// 오류시 토큰 파기 (롤백)
-				$oDriver->revokeToken();
+				$oDriver->revokeToken($_SESSION['sociallogin_driver_auth'][$service]->token['access']);
 			}
 		}
 		// 등록 처리

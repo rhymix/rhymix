@@ -15,7 +15,6 @@ class SocialloginAdminView extends Sociallogin
 
 		$this->setTemplatePath($this->module_path . 'tpl');
 
-		//TODO(BJRambo): check again.
 		Context::addJsFile($this->module_path . 'tpl/js/sociallogin_admin.js');
 	}
 
