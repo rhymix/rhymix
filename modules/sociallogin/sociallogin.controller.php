@@ -394,8 +394,8 @@ class SocialloginController extends Sociallogin
 
 		$service = $oDriver->getService();
 
-		$id = $_SESSION['sociallogin_driver_auth'][$service]->profile['user_name'];
-		if (!$_SESSION['sociallogin_driver_auth'][$service]->profile['sns_id'])
+		$id = $_SESSION['sociallogin_driver_auth'][$service]->profile['sns_id'];
+		if (!$id)
 		{
 			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
 		}
