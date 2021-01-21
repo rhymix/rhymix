@@ -81,43 +81,31 @@ class SocialloginAdminView extends Sociallogin
 
 	function dispSocialloginAdminSnsList()
 	{
-		Context::set('sns_services', self::getConfig()->sns_services);
-
 		$search_option = array('nick_name', getModel('module')->getModuleConfig('member')->identifier);
 		Context::set('search_option', $search_option);
 
+		
 		$args = new stdClass;
 
 		if (($search_target = trim(Context::get('search_target'))) && in_array($search_target, $search_option))
 		{
 			$args->$search_target = str_replace(' ', '%', trim(Context::get('search_keyword')));
 		}
-
-		$args->page = Context::get('page');
-		$output = executeQuery('sociallogin.getMemberSnsList', $args);
-
-		if ($output->data)
+		
+		if(Context::get('member_srl'))
 		{
-			foreach ($output->data as $key => $val)
-			{
-				$val->service = array();
-
-				foreach (self::getConfig()->sns_services as $key2 => $val2)
-				{
-					if (($sns_info = SocialloginModel::getMemberSns($val2, $val->member_srl)) && $sns_info->name)
-					{
-						$val->service[$val2] = sprintf('<a href="%s" target="_blank">%s</a>', $sns_info->profile_url, $sns_info->name);
-					}
-					else
-					{
-						$val->service[$val2] = Context::getLang('status_sns_no_register');
-					}
-				}
-
-				$output->data[$key] = $val;
-			}
+			$args->member_srl = Context::get('member_srl');
 		}
-
+		
+		if(Context::get('service'))
+		{
+			$args->service = Context::get('service');
+		}
+		
+		$args->page = Context::get('page');
+		
+		$output = executeQuery('sociallogin.getMemberSnsList', $args);
+		
 		Context::set('total_count', $output->page_navigation->total_count);
 		Context::set('total_page', $output->page_navigation->total_page);
 		Context::set('page', $output->page);

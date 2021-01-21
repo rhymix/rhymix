@@ -7,15 +7,17 @@
 		<tr>
 			<th scope="col" class="nowr">{$lang->no}</th>
 			<th scope="col" class="nowr">{$lang->member}</th>
-			<th scope="col" class="nowr" loop="$sns_services => $no,$val">{$val}</th>
+			<th scope="col" class="nowr">{$lang->sns_service}</th>
+			<th scope="col" class="nowr">{$lang->profile_name}</th>
 			<th scope="col" class="nowr">{$lang->regdate}</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr loop="$sns_list => $no,$val">
 			<td class="nowr">{$no}</td>
-			<td class="nowr"><a href="#popup_menu_area" class="member_{$val->member_srl} author" onclick="return false">{$val->nick_name}</a></td>
-			<td class="nowr" loop="$sns_services => $no2,$val2">{$val->service[$val2]}</td>
+			<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispSocialloginAdminSnsList', 'member_srl', $val->member_srl)}">{$val->nick_name}</a></td>
+			<td class="nowr"><a href="{getUrl('', 'module', 'admin', 'act', 'dispSocialloginAdminSnsList', 'service', $val->service)}">{$val->service}</a></td>
+			<td class="nowr"><a href="{$val->profile_url}">{$val->name}</a></td>
 			<td class="nowr">{zdate($val->regdate,"Y-m-d")}</td>
 		</tr>
 		<tr cond="!$sns_list">
