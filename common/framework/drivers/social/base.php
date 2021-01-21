@@ -103,6 +103,11 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 		
 	}
 
+	public function getProfileImage()
+	{
+		return false;
+	}
+	
 	/**
 	 * @brief 프로필 확장 (가입시 추가 기입)
 	 */
