@@ -191,8 +191,8 @@ class Formatter
 				$less_compiler->setVariables($variables);
 			}
 			
-			$charset = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n") : '';
-			$content = $charset . $less_compiler->compile($content) . "\n";
+			$content = $less_compiler->compile($content) . "\n";
+			$content = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n" . $content) : $content;
 			$result = true;
 		}
 		catch (\Exception $e)
@@ -231,8 +231,8 @@ class Formatter
 				$scss_compiler->setVariables($variables);
 			}
 			
-			$charset = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n") : '';
-			$content = $charset . $scss_compiler->compile($content) . "\n";
+			$content = $scss_compiler->compile($content) . "\n";
+			$content = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n" . $content) : $content;
 			$result = true;
 		}
 		catch (\Exception $e)
@@ -305,9 +305,10 @@ class Formatter
 	 * 
 	 * @param string|array $source_filename
 	 * @param string $target_filename
+	 * @param bool $add_comment
 	 * @return string
 	 */
-	public static function concatCSS($source_filename, $target_filename)
+	public static function concatCSS($source_filename, $target_filename, $add_comment = true)
 	{
 		$result = '';
 		
@@ -341,11 +342,21 @@ class Formatter
 					{
 						if (($dirpos = strrpos($str, '/')) !== false)
 						{
-							return dirname($filename) . '/' . substr($str, 0, $dirpos) . '/_' . substr($str, $dirpos + 1) . '.scss';
+							$basename = substr($str, $dirpos + 1);
+							if (!ends_with('.scss', $basename))
+							{
+								$basename = '_' . $basename . '.scss';
+							}
+							return dirname($filename) . '/' . substr($str, 0, $dirpos) . '/' . $basename;
 						}
 						else
 						{
-							return dirname($filename) . "/_$str.scss";
+							$basename = $str;
+							if (!ends_with('.scss', $basename))
+							{
+								$basename = '_' . $basename . '.scss';
+							}
+							return dirname($filename) . '/' . $basename;
 						}
 					}
 					else
@@ -357,7 +368,7 @@ class Formatter
 				{
 					if (file_exists($import_filename))
 					{
-						$import_content .= self::concatCSS($import_filename, $target_filename);
+						$import_content .= self::concatCSS($import_filename, $target_filename, false);
 					}
 				}
 				return trim($import_content);
@@ -386,7 +397,14 @@ class Formatter
 			
 			// Append to the result string.
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
-			$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
+			if ($add_comment)
+			{
+				$result .= '/* Original file: ' . $original_filename . ' */' . "\n\n" . trim($content) . "\n\n";
+			}
+			else
+			{
+				$result .= trim($content) . "\n\n";
+			}
 		}
 		
 		return $result;
