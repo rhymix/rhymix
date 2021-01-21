@@ -19,7 +19,6 @@ class addon extends ModuleObject
 		$oAddonController = getAdminController('addon');
 		$oAddonController->doInsert('autolink', 0, 'site', 'YY');
 		$oAddonController->doInsert('photoswipe', 0, 'site', 'YY');
-		$oAddonController->doInsert('resize_image', 0, 'site', 'YY');
 		$oAddonController->makeCacheFile(0);
 	}
 
