@@ -1,14 +1,11 @@
 <?php
-/**
- * @class  libraryGithub
- * @author YJSoft (http://yjsoft.pe.kr)
- * @brief The github library of the socialxe module
- */
 namespace Rhymix\Framework\Drivers\Social;
 
+// HECK: 임시 코드 라이브러리 추가되면 삭제 예정
 include dirname(__DIR__) . '/social/vendor/autoload.php';
 /**
- * Class Discord
+ * Class Github
+ * Base code by @YJSoft
  * @package Rhymix\Framework\Drivers\Social
  */
 class Github extends Base implements \Rhymix\Framework\Drivers\SocialInterface
@@ -18,7 +15,6 @@ class Github extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	
 	function getProvider()
 	{
-		
 		if(!$this->oProvider)
 		{
 			$provider = new \League\OAuth2\Client\Provider\Github([
