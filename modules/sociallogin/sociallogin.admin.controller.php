@@ -25,6 +25,8 @@ class SocialloginAdminController extends Sociallogin
 			'kakao_client_id',
 			'discord_client_id',
 			'discord_client_secret',
+			'github_client_id',
+			'github_client_secret',
 		);
 
 		$config = self::getConfig();

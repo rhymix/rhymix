@@ -148,6 +148,32 @@
 			</div>
 		</div>
 	</section>
+
+	<section class="section">
+		<h1>github API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="github_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="github_client_id" id="github_client_id" value="{$config->github_client_id}" />
+				<a href="#github_client_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="github_client_id_help" class="x_help-block" hidden>{$lang->about_github_client_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="github_client_secret">Client Secret</label>
+			<div class="x_controls">
+				<input type="text" name="github_client_secret" id="github_client_secret" value="{$config->github_client_secret}" />
+				<a href="#github_client_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="github_client_secret_help" class="x_help-block" hidden>{$lang->about_github_client_secret}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect Path</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','github')}
+			</div>
+		</div>
+	</section>
 	<div class="x_clearfix btnArea">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>

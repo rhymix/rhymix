@@ -11,6 +11,7 @@ class Sociallogin extends ModuleObject
 		'naver',
 		'kakao',
 		'discord',
+		'github',
 	);
 
 	private $triggers = array(
