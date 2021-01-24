@@ -77,7 +77,7 @@ class addonController extends addon
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
 		{
-			if(Context::isBlacklistedPlugin($addon)
+			if(Context::isBlacklistedPlugin($addon, 'addon')
 				|| ($type == "pc" && $val->is_used != 'Y') 
 				|| ($type == "mobile" && $val->is_used_m != 'Y') 
 				|| ($gtype == 'global' && $val->is_fixed != 'Y')

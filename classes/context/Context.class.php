@@ -2529,9 +2529,10 @@ class Context
 	 * Check whether an addon, module, or widget is blacklisted
 	 * 
 	 * @param string $plugin_name
+	 * @param string $type
 	 * @return bool
 	 */
-	public static function isBlacklistedPlugin($plugin_name)
+	public static function isBlacklistedPlugin($plugin_name, $type = '')
 	{
 		if (self::$_blacklist === null)
 		{
@@ -2542,7 +2543,21 @@ class Context
 			}
 		}
 		
-		return isset(self::$_blacklist[$plugin_name]);
+		if ($type)
+		{
+			return isset(self::$_blacklist[$type][$plugin_name]);
+		}
+		else
+		{
+			foreach (self::$_blacklist as $type => $blacklist)
+			{
+				if (isset(self::$_blacklist[$type][$plugin_name]))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	/**
