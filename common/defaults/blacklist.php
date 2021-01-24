@@ -17,6 +17,7 @@ return array(
 	'seo' => true,
 	'session_shield' => true,
 	'smartphone' => true,
+	'trackback' => true,
 	'zipperupper' => true,
 	'elkha_www' => true,
 	'autowww' => true,
