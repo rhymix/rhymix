@@ -117,6 +117,7 @@ class Query extends VariableBase
 	{
 		// Initialize the query string.
 		$result = 'SELECT';
+		$has_subquery_columns = false;
 		
 		// Compose the column list.
 		if ($this->_column_list)
@@ -138,6 +139,7 @@ class Query extends VariableBase
 						$this->_params[] = $param;
 					}
 					$columns[] = sprintf('(%s) AS %s', $subquery, self::quoteName($column->alias));
+					$has_subquery_columns = true;
 				}
 				elseif ($column->is_expression && !$column->is_wildcard)
 				{
@@ -154,7 +156,7 @@ class Query extends VariableBase
 		// Replace the column list if this is a count-only query.
 		if ($count_only)
 		{
-			$count_wrap = ($this->groupby || $this->select_distinct || preg_match('/\bDISTINCT\b/i', $column_list));
+			$count_wrap = ($this->groupby || $this->select_distinct || $has_subquery_columns || preg_match('/\bDISTINCT\b/i', $column_list));
 			if ($count_wrap)
 			{
 				if ($column_list === '*' || preg_match('/\\.\\*/', $column_list))
