@@ -102,7 +102,7 @@
 				<label for="debug_write_error_log_fatal" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_fatal" value="fatal" checked="checked"|cond="$debug_write_error_log=='fatal' || !$debug_write_error_log" /> {$lang->debug_write_error_log_fatal}</label>
 				<label for="debug_write_error_log_none" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_none" value="none" checked="checked"|cond="$debug_write_error_log=='none'" /> {$lang->debug_write_error_log_none}</label>
 				<p class="x_help-block">{$lang->about_debug_write_error_log}</p>
-				<p class="x_help-block">{sprintf($lang->about_debug_error_log_path, escape(ini_get('error_log')))}</p>
+				<p class="x_help-block">{sprintf($lang->about_debug_error_log_path, escape(ini_get('error_log')) ?: $lang->about_debug_error_log_path_empty)}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
