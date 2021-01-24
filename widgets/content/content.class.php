@@ -286,7 +286,7 @@ class content extends WidgetHandler
 			}
 			$oDocumentModel->setToAllDocumentExtraVars();
 
-			foreach($document_srls as $document_srl)
+			foreach($document_srls as $i => $document_srl)
 			{
 				$oDocument = $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 				$document_srl = $oDocument->document_srl;
