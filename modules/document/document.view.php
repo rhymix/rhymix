@@ -96,7 +96,7 @@ class documentView extends document
 
 		if(count($document_srl_list))
 		{
-			$document_list = DocumentModel::getDocuments($document_srl_list);
+			$document_list = DocumentModel::getDocuments($document_srl_list, $this->grant->is_admin);
 			Context::set('document_list', $document_list);
 		}
 		else
