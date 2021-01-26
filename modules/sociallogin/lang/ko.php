@@ -1,5 +1,6 @@
 <?php
 $lang->sociallogin = '소셜로그인';
+$lang->how_to_setting = '세팅 방법';
 $lang->about_sociallogin = 'SNS 로그인과 연동을 지원하는 모듈입니다.';
 $lang->api_setting = 'API설정';
 $lang->cmd_environment_setting = '환경설정';
@@ -70,6 +71,7 @@ $lang->about_discord_client_id = 'Discord Developer (https://discord.com/develop
 $lang->about_discord_client_secret = 'Discord Developer (https://discord.com/developers/) 에서 발급받은 Clinet Secret를 입력해주세요.';
 $lang->about_github_client_id = 'Github Developer (https://github.com/settings/developers) 에서 발급받은 Clinet ID를 입력해주세요.';
 $lang->about_github_client_secret = 'Github Developer (https://github.com/settings/developers) 에서 발급받은 Clinet Secret를 입력해주세요.';
+$lang->about_apple_setting = 'Apple Developer 에서 발급 받은 값을 위에 입력해주세요. 이 세팅 방법은 <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/plugin/social/apple.md">소셜로그인 애플 세팅</a> 문서를 참고하세요';
 $lang->msg_not_kakao_story_user = '카카오 스토리 사용자만 이용할 수 있습니다. 카카오 스토리에 가입후 이용해주세요.';
 $lang->msg_not_google_plus_user = 'Google Plus 사용자만 이용할 수 있습니다. Google Plus에 가입후 이용해주세요.';
 $lang->msg_not_support_service_login = '지원하지 않는 서비스입니다.';

@@ -1,5 +1,5 @@
 <include target="_header.html" />
-<form action="./" method="post" class="x_form-horizontal">
+<form action="./" method="post" class="x_form-horizontal" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="sociallogin" />
 	<input type="hidden" name="act" value="procSocialloginAdminSettingApi" />
 	<input type="hidden" name="xe_validator_id" value="modules/sociallogin/tpl/1" />
@@ -150,7 +150,7 @@
 	</section>
 
 	<section class="section">
-		<h1>github API</h1>
+		<h1>Github API</h1>
 		<div class="x_control-group">
 			<label class="x_control-label" for="github_client_id">Client ID</label>
 			<div class="x_controls">
@@ -174,6 +174,54 @@
 			</div>
 		</div>
 	</section>
+
+	<section class="section">
+		<h1>Apple API</h1>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="apple_client_id" id="apple_client_id" value="{$config->apple_client_id}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_team_id">Team ID</label>
+			<div class="x_controls">
+				<input type="text" name="apple_team_id" id="apple_team_id" value="{$config->apple_team_id}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_file_key">File key</label>
+			<div class="x_controls">
+				<input type="text" name="apple_file_key" id="apple_file_key" value="{$config->apple_file_key}" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_file">File Upload</label>
+			<div class="x_controls">
+				<input type="file" name="apple_file" id="apple_file" value="" title="{$lang->uploaded_file}" />
+				<!--@if($config->apple_file_path)-->
+				<p>현재 업로드된 파일 : {$config->apple_file_path}</p> <input type="checkbox" name="delete_apple_file" value="Y" /> 삭제
+				<!--@else-->
+				<p>파일이 업로드 되지 않았습니다.</p>
+				<!--@end-->
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect Path</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','apple')}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Apple {$lang->how_to_setting}</label>
+			<div class="x_controls">
+				<p class="x_help-block">{$lang->about_apple_setting}</p>
+			</div>
+		</div>
+	</section>
+	
 	<div class="x_clearfix btnArea">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>

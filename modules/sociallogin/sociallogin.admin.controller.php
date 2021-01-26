@@ -27,6 +27,9 @@ class SocialloginAdminController extends Sociallogin
 			'discord_client_secret',
 			'github_client_id',
 			'github_client_secret',
+			'apple_client_id',
+			'apple_team_id',
+			'apple_file_key',
 		);
 
 		$config = self::getConfig();
@@ -36,8 +39,46 @@ class SocialloginAdminController extends Sociallogin
 			$config->{$val} = $args->{$val};
 		}
 
-		getController('module')->insertModuleConfig('sociallogin', $config);
+		$securityFile = SocialloginAdminModel::getAppleSecurityFile();
+		
+		if(is_uploaded_file($args->apple_file['tmp_name']))
+		{
+			$random = Rhymix\Framework\Security::getRandom();
+			
+			$file_dir = RX_BASEDIR . 'files/social/apple/';
+			if(!FileHandler::isDir($file_dir))
+			{
+				FileHandler::makeDir($file_dir);
+			}
+			$fileName = $file_dir . $random . '.p8';
 
+			$uploadBool = move_uploaded_file($args->apple_file['tmp_name'], $fileName);
+			if($uploadBool)
+			{
+				// 이미 잇던 파일을 변경하는 경우 기존 파일을 삭제하고 새롭게 저장.
+				if($securityFile)
+				{
+					FileHandler::removeFile($config->apple_file_path);
+				}
+				
+				$config->apple_file_path = $fileName;
+			}
+		}
+
+		if($args->delete_apple_file == 'Y')
+		{
+			if($securityFile)
+			{
+				$deleteBool = FileHandler::removeFile($config->apple_file_path);
+				if($deleteBool)
+				{
+					$config->apple_file_path = null;
+				}
+			}
+		}
+		
+		getController('module')->insertModuleConfig('sociallogin', $config);
+		
 		$this->setMessage('success_updated');
 
 		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSocialloginAdminSettingApi'));
@@ -79,6 +120,7 @@ class SocialloginAdminController extends Sociallogin
 		{
 			$config->sns_services = array();
 		}
+		
 		
 		getController('module')->insertModuleConfig('sociallogin', $config);
 

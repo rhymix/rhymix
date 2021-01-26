@@ -12,6 +12,7 @@ class Sociallogin extends ModuleObject
 		'kakao',
 		'discord',
 		'github',
+		'apple',
 	);
 
 	private $triggers = array(

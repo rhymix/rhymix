@@ -7,7 +7,7 @@
 
 		<action name="procSocialloginSnsClear" type="controller" standalone="true"/>
 		<action name="procSocialloginSnsLinkage" type="controller" standalone="true"/>
-		<action name="procSocialloginCallback" type="controller" standalone="true" method="GET|POST"/>
+		<action name="procSocialloginCallback" type="controller" standalone="true" method="GET|POST" check_csrf="false" />
 
 		<action name="dispSocialloginAdminSettingApi" type="view" menu_name="sociallogin"/>
 		<action name="dispSocialloginAdminSetting" type="view" menu_name="sociallogin"/>
