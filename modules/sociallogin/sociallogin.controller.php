@@ -760,7 +760,10 @@ class SocialloginController extends Sociallogin
 			$args->profile_url = $_SESSION['sociallogin_driver_auth'][$service]->profile['url'];
 			$args->profile_image = $_SESSION['sociallogin_driver_auth'][$service]->profile['profile_image'];
 			$args->email = $_SESSION['sociallogin_driver_auth'][$service]->profile['email_address'];
-			$args->name = $_SESSION['sociallogin_driver_auth'][$service]->profile['user_name'];
+			if($service !== 'apple')
+			{
+				$args->name = $_SESSION['sociallogin_driver_auth'][$service]->profile['user_name'];
+			}
 			$args->service = $oDriver->getService();
 			$args->member_srl = $member_info->member_srl;
 			$output = executeQuery('sociallogin.updateMemberSns', $args);
