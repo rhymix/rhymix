@@ -10,6 +10,7 @@ class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	
 	function getProvider()
 	{
+		// need setting to 60.
 		if(\Firebase\JWT\JWT::$leeway === 0)
 		{
 			\Firebase\JWT\JWT::$leeway = 60;
@@ -75,8 +76,7 @@ class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 		
 		$provider = $this->getProvider();
-
-
+		
 		$user = $provider->getResourceOwner($this->token);
 		$profile = $user->toArray();
 
@@ -89,6 +89,7 @@ class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$_SESSION['sociallogin_driver_auth']['apple']->profile['email'] = $profile['email'];
 		$_SESSION['sociallogin_driver_auth']['apple']->profile['user_name'] = $user->getFirstName() . ' ' . $user->getLastName();
 		$_SESSION['sociallogin_driver_auth']['apple']->profile['etc'] = $profile;
+		
 		if ($profile['email'])
 		{
 			$_SESSION['sociallogin_driver_auth']['apple']->profile['email_address'] = $profile['email'];
