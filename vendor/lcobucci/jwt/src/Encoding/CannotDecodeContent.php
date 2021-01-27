@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Lcobucci\JWT\Encoding;
 
@@ -8,18 +9,12 @@ use RuntimeException;
 
 final class CannotDecodeContent extends RuntimeException implements Exception
 {
-    /**
-     * @param JsonException $previous
-     *
-     * @return self
-     */
-    public static function jsonIssues(JsonException $previous)
+    public static function jsonIssues(JsonException $previous): self
     {
         return new self('Error while decoding from JSON', 0, $previous);
     }
 
-    /** @return self */
-    public static function invalidBase64String()
+    public static function invalidBase64String(): self
     {
         return new self('Error while decoding from Base64Url, invalid base64 characters detected');
     }

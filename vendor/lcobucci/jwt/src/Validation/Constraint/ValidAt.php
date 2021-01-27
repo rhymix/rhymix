@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Lcobucci\JWT\Validation\Constraint;
 
@@ -11,20 +12,16 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 
 final class ValidAt implements Constraint
 {
-    /** @var Clock */
-    private $clock;
+    private Clock $clock;
+    private DateInterval $leeway;
 
-    /** @var DateInterval */
-    private $leeway;
-
-    public function __construct(Clock $clock, DateInterval $leeway = null)
+    public function __construct(Clock $clock, ?DateInterval $leeway = null)
     {
         $this->clock  = $clock;
         $this->leeway = $this->guardLeeway($leeway);
     }
 
-    /** @return DateInterval */
-    private function guardLeeway(DateInterval $leeway = null)
+    private function guardLeeway(?DateInterval $leeway): DateInterval
     {
         if ($leeway === null) {
             return new DateInterval('PT0S');
@@ -37,7 +34,7 @@ final class ValidAt implements Constraint
         return $leeway;
     }
 
-    public function assert(Token $token)
+    public function assert(Token $token): void
     {
         $now = $this->clock->now();
 
@@ -47,7 +44,7 @@ final class ValidAt implements Constraint
     }
 
     /** @throws ConstraintViolation */
-    private function assertExpiration(Token $token, DateTimeInterface $now)
+    private function assertExpiration(Token $token, DateTimeInterface $now): void
     {
         if ($token->isExpired($now)) {
             throw new ConstraintViolation('The token is expired');
@@ -55,7 +52,7 @@ final class ValidAt implements Constraint
     }
 
     /** @throws ConstraintViolation */
-    private function assertMinimumTime(Token $token, DateTimeInterface $now)
+    private function assertMinimumTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->isMinimumTimeBefore($now)) {
             throw new ConstraintViolation('The token cannot be used yet');
@@ -63,7 +60,7 @@ final class ValidAt implements Constraint
     }
 
     /** @throws ConstraintViolation */
-    private function assertIssueTime(Token $token, DateTimeInterface $now)
+    private function assertIssueTime(Token $token, DateTimeInterface $now): void
     {
         if (! $token->hasBeenIssuedBefore($now)) {
             throw new ConstraintViolation('The token was issued in the future');

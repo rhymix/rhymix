@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0db02281c90e4e3a8d2119c69b4b1eb569f6494f',
+    'reference' => 'ace831036d2419f87b3f02ea17ad4cfcb887457c',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -128,14 +128,23 @@
       ),
       'reference' => 'd9a132e7886a11cf997e3ec025a41bdf97899704',
     ),
-    'lcobucci/jwt' => 
+    'lcobucci/clock' => 
     array (
-      'pretty_version' => '3.4.2',
-      'version' => '3.4.2.0',
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => '17cb82dd625ccb17c74bf8f38563d3b260306483',
+      'reference' => '353d83fe2e6ae95745b16b3d911813df6a05bfb3',
+    ),
+    'lcobucci/jwt' => 
+    array (
+      'pretty_version' => '4.0.0',
+      'version' => '4.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '6d8665ccd924dc076a9b65d1ea8abe21d68f6958',
     ),
     'leafo/lessphp' => 
     array (
@@ -259,7 +268,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0db02281c90e4e3a8d2119c69b4b1eb569f6494f',
+      'reference' => 'ace831036d2419f87b3f02ea17ad4cfcb887457c',
     ),
     'rmccue/requests' => 
     array (
