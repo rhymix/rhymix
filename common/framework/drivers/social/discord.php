@@ -80,6 +80,44 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$_SESSION['sociallogin_driver_auth']['discord']->profile['etc'] = $user_info;
 	}
 
+	/**
+	 * @brief 토큰 새로고침 (로그인 지속이 되어 토큰 만료가 될 경우를 대비)
+	 */
+	function refreshToken(string $refresh_token = ''): array
+	{
+		// 토큰 체크
+		if (!$refresh_token)
+		{
+			return[];
+		}
+
+		// API 요청 : 토큰 새로고침
+		$token = $this->requestAPI('api/oauth2/token', array(
+			'refresh_token' => $_SESSION['sociallogin_driver_auth']['discord']->token['refresh'],
+			'grant_type'    => 'refresh_token',
+			'client_id'     => $this->config->discord_client_id,
+			'client_secret' => $this->config->discord_client_secret,
+			'scope' => 'identify email',
+			'redirect_uri' => getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback', 'service', 'discord'),
+		));
+
+		// 새로고침 된 토큰 삽입
+		$returnTokenData = [];
+		$returnTokenData['access'] = $token['access_token'];
+
+		return $returnTokenData;
+	}
+
+	/**
+	 * @brief 토큰파기
+	 * @notice 미구현
+	 */
+	function revokeToken(string $access_token = '')
+	{
+		return;
+	}
+
+
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)
 	{
 		return json_decode(\FileHandler::getRemoteResource(self::DISCORD_API_URL . $url, null, 3, empty($post) ? 'GET' : 'POST', null, $authorization, array(), $post, array()), true);
