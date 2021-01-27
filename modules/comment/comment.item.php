@@ -646,9 +646,9 @@ class commentItem extends BaseObject
 		{
 			return;
 		}
-		if(!in_array($thumbnail_type, array('crop', 'ratio')))
+		if(!in_array($thumbnail_type, array('crop', 'ratio', 'fill', 'stretch', 'center')))
 		{
-			$thumbnail_type = $config->thumbnail_type ?: 'crop';
+			$thumbnail_type = $config->thumbnail_type ?: 'fill';
 		}
 		if(!$config->thumbnail_quality)
 		{

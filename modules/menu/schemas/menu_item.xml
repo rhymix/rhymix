@@ -1,8 +1,9 @@
 <table name="menu_item">
-    <column name="menu_item_srl" type="number" size="12" notnull="notnull" primary_key="primary_key" />
-    <column name="parent_srl" type="number" size="12" notnull="notnull" default="0" />
-    <column name="menu_srl" type="number" size="12" notnull="notnull" index="idx_menu_srl" />
+    <column name="menu_item_srl" type="number" notnull="notnull" primary_key="primary_key" />
+    <column name="parent_srl" type="number" notnull="notnull" default="0" />
+    <column name="menu_srl" type="number" notnull="notnull" index="idx_menu_srl" />
     <column name="name" type="text" />
+    <column name="icon" type="varchar" size="250" />
     <column name="desc" type="varchar" size="250" />
     <column name="url" type="varchar" size="250" />
     <column name="is_shortcut" type="char" size="1" default="N" />
@@ -12,6 +13,6 @@
     <column name="hover_btn" type="varchar" size="255" />
     <column name="active_btn" type="varchar" size="255" />
     <column name="group_srls" type="text" />
-    <column name="listorder" type="number" size="11" default="0" index="idx_listorder" />
+    <column name="listorder" type="number" default="0" index="idx_listorder" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>

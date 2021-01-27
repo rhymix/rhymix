@@ -6,19 +6,33 @@
  * Copyright (c) Rhymix Developers and Contributors
  */
 return array(
-	'autolang' => true,
-	'auto_login' => true,
-	'errorlogger' => true,
-	'fix_mysql_utf8' => true,
-	'homepage' => true,
-	'jquerycdn' => true,
-	'member_communication' => true,
-	'multidomain' => true,
-	'seo' => true,
-	'session_shield' => true,
-	'smartphone' => true,
-	'zipperupper' => true,
-	'elkha_www' => true,
-	'autowww' => true,
-	'fix_domain' => true,
+	
+	// Addons
+	'addon' => array(
+		'autolang' => true,
+		'autowww' => true,
+		'elkha_www' => true,
+		'fix_domain' => true,
+		'fix_mysql_utf8' => true,
+		'jquerycdn' => true,
+		'member_communication' => true,
+		'session_shield' => true,
+		'smartphone' => true,
+		'zipperupper' => true,
+	),
+	
+	// Modules
+	'module' => array(
+		'auto_login' => true,
+		'errorlogger' => true,
+		'homepage' => true,
+		'multidomain' => true,
+		'seo' => true,
+		'trackback' => true,
+	),
+	
+	// Widgets
+	'widget' => array(
+		
+	),
 );

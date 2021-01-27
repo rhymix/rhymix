@@ -11,7 +11,7 @@ class Column
 	public $type;
 	public $xetype;
 	public $size;
-	public $utf8mb4 = true;
+	public $charset = 'utf8mb4';
 	public $default_value;
 	public $not_null = false;
 	public $is_indexed = false;

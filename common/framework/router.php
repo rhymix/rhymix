@@ -52,6 +52,12 @@ class Router
 			'extra_vars' => ['act' => 'procFileOutput'],
 			'priority' => 0,
 		),
+		'common/rewrite/test/$test' => array(
+			'regexp' => '#^common/rewrite/test/(?<test>[0-9]+)$#',
+			'vars' => ['test' => 'int'],
+			'extra_vars' => ['act' => 'dispAdminRewriteTest'],
+			'priority' => 0,
+		),
 	);
 	
 	/**
@@ -107,12 +113,6 @@ class Router
 	 */
 	public static function parseURL(string $method, string $url, int $rewrite_level)
 	{
-		// Get the local part of the current URL.
-		if (starts_with(\RX_BASEURL, $url))
-		{
-			$url = substr($url, strlen(\RX_BASEURL));
-		}
-		
 		// Prepare the return object.
 		$result = new \stdClass;
 		$result->status = 200;

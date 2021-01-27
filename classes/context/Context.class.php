@@ -237,8 +237,7 @@ class Context
 		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
-			$url = $_SERVER['REQUEST_URI'];
-			$route_info = Rhymix\Framework\Router::parseURL($method, $url, Rhymix\Framework\Router::getRewriteLevel());
+			$route_info = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());
 			self::setRequestArguments($route_info->args);
 			self::$_route_info = $route_info;
 		}
@@ -285,6 +284,10 @@ class Context
 			header('Location: ' . $ssl_url, true, 301);
 			exit;
 		}
+		
+		// Load certificate authorities for curl and openssl.
+		ini_set('curl.cainfo', RX_BASEDIR . 'common/libraries/cacert.pem');
+		ini_set('openssl.cafile', RX_BASEDIR . 'common/libraries/cacert.pem');
 		
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
@@ -2526,9 +2529,10 @@ class Context
 	 * Check whether an addon, module, or widget is blacklisted
 	 * 
 	 * @param string $plugin_name
+	 * @param string $type
 	 * @return bool
 	 */
-	public static function isBlacklistedPlugin($plugin_name)
+	public static function isBlacklistedPlugin($plugin_name, $type = '')
 	{
 		if (self::$_blacklist === null)
 		{
@@ -2539,7 +2543,21 @@ class Context
 			}
 		}
 		
-		return isset(self::$_blacklist[$plugin_name]);
+		if ($type)
+		{
+			return isset(self::$_blacklist[$type][$plugin_name]);
+		}
+		else
+		{
+			foreach (self::$_blacklist as $type => $blacklist)
+			{
+				if (isset(self::$_blacklist[$type][$plugin_name]))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	/**

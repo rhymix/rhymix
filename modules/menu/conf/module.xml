@@ -15,6 +15,7 @@
 		
 		<action name="procMenuAdminInsert" type="controller" ruleset="insertMenu" />
 		<action name="procMenuAdminUpdate" type="controller" ruleset="updateMenuTitle" />
+		<action name="procMenuAdminUpdateDesign" type="controller" ruleset="updateMenuDesign" />
 		<action name="procMenuAdminDelete" type="controller" />
 		<action name="procMenuAdminInsertItem" type="controller" ruleset="insertMenuItem" />
 		<action name="procMenuAdminUpdateItem" type="controller" ruleset="updateMenuItem" />

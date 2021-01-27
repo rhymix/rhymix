@@ -532,10 +532,6 @@ jQuery(function($) {
 			filename = '';
 		}
 		
-		if(protocol !== 'https' && queries.act && $.inArray(queries.act, window.ssl_actions) !== -1) {
-			protocol = 'https';
-		}
-
 		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
 	}
 	
@@ -1102,6 +1098,8 @@ var Base64 = {
  * DEPRECATED
  * 하위호환용으로 남겨 놓음
  * ------------------------------------------- */
+
+window.ssl_actions = [];
 
 if(typeof(resizeImageContents) == 'undefined') {
 	window.resizeImageContents = function() {};

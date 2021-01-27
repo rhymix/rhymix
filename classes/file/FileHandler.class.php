@@ -286,7 +286,10 @@ class FileHandler
 			$host = parse_url($url, PHP_URL_HOST);
 			$request_headers = array();
 			$request_cookies = array();
-			$request_options = array('timeout' => $timeout);
+			$request_options = array(
+				'verify' => \RX_BASEDIR . 'common/libraries/cacert.pem',
+				'timeout' => $timeout,
+			);
 			
 			foreach($headers as $key => $val)
 			{
@@ -485,17 +488,17 @@ class FileHandler
 	 * @param int $resize_width Width to resize
 	 * @param int $resize_height Height to resize
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
-	 * @param string $thumbnail_type Thumbnail type(crop, ratio)
+	 * @param string $thumbnail_type Thumbnail type(crop, ratio, stretch, fill, center)
 	 * @param int $quality Compression ratio (0~100)
 	 * @param int $rotate Rotation degrees (0~360)
 	 * @return bool TRUE: success, FALSE: failed
 	 */
-	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'crop', $quality = 100, $rotate = 0)
+	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'fill', $quality = 100, $rotate = 0)
 	{
 		// check params
 		if (($source_file = self::exists($source_file)) === FALSE)
 		{
-			return;
+			return false;
 		}
 
 		$target_file = self::getRealPath($target_file);
@@ -503,7 +506,6 @@ class FileHandler
 		{
 			$resize_width = 100;
 		}
-
 		if(!$resize_height)
 		{
 			$resize_height = $resize_width;
@@ -513,91 +515,59 @@ class FileHandler
 		$imageInfo = getimagesize($source_file);
 		if(!self::checkMemoryLoadImage($imageInfo))
 		{
-			return FALSE;
+			return false;
 		}
 
-		list($width, $height, $type, $attrs) = $imageInfo;
+		list($width, $height, $type) = $imageInfo;
 		if($width < 1 || $height < 1)
 		{
-			return;
+			return false;
 		}
 
-		switch($type)
+		$typemap = array(
+			1 => 'gif',
+			2 => 'jpg',
+			3 => 'png',
+			6 => 'bmp',
+			18 => 'webp',
+		);
+		
+		$type = isset($typemap[$type]) ? $typemap[$type] : null;
+		if (!$type)
 		{
-			case '1' :
-				$type = 'gif';
-				break;
-			case '2' :
-				$type = 'jpg';
-				break;
-			case '3' :
-				$type = 'png';
-				break;
-			case '6' :
-				$type = 'bmp';
-				break;
-			case '8' :
-				$type = 'wbmp';
-				break;
-			case '18' :
-				$type = 'webp';
-				break;
-			default :
-				return;
+			return false;
 		}
 
-		if(!$target_type)
+		$target_type = strtolower($target_type ?: $type);
+		if ($target_type === 'jpeg')
 		{
-			$target_type = $type;
+			$target_type = 'jpg';
 		}
-		$target_type = strtolower($target_type);
 
 		// create temporary image having original type
-		$source = NULL;
-		switch($type)
+		if ($type === 'gif' && function_exists('imagecreatefromgif'))
 		{
-			case 'gif' :
-				if(function_exists('imagecreatefromgif'))
-				{
-					$source = @imagecreatefromgif($source_file);
-				}
-				break;
-			case 'jpeg' :
-			case 'jpg' :
-				if(function_exists('imagecreatefromjpeg'))
-				{
-					$source = @imagecreatefromjpeg($source_file);
-				}
-				break;
-			case 'png' :
-				if(function_exists('imagecreatefrompng'))
-				{
-					$source = @imagecreatefrompng($source_file);
-				}
-				break;
-			case 'bmp' :
-				if(function_exists('imagecreatefrombmp'))
-				{
-					$source = @imagecreatefrombmp($source_file);
-				}
-				break;
-			case 'wbmp' :
-				if(function_exists('imagecreatefromwbmp'))
-				{
-					$source = @imagecreatefromwbmp($source_file);
-				}
-				break;
-			case 'webp' :
-				if(function_exists('imagecreatefromwebp'))
-				{
-					$source = @imagecreatefromwebp($source_file);
-				}
-				break;
+			$source = @imagecreatefromgif($source_file);
 		}
-
-		if(!$source)
+		elseif ($type === 'jpg' && function_exists('imagecreatefromjpeg'))
 		{
-			return FALSE;
+			$source = @imagecreatefromjpeg($source_file);
+		}
+		elseif ($type === 'png' && function_exists('imagecreatefrompng'))
+		{
+			$source = @imagecreatefrompng($source_file);
+		}
+		elseif ($type === 'bmp' && function_exists('imagecreatefrombmp'))
+		{
+			$source = @imagecreatefrombmp($source_file);
+		}
+		elseif ($type === 'webp' && function_exists('imagecreatefromwebp'))
+		{
+			$source = @imagecreatefromwebp($source_file);
+		}
+		else
+		{
+			return false;
 		}
 
 		// Rotate image
@@ -611,115 +581,108 @@ class FileHandler
 		// If resize not needed, skip thumbnail generation
 		if ($width == $resize_width && $height == $resize_height)
 		{
+			$resize_needed = false;
 			$thumb = &$source;
 		}
 		else
 		{
-			// if original image is larger than specified size to resize, calculate the ratio
-			$width_per = ($resize_width > 0 && $width >= $resize_width) ? $resize_width / $width : 1;
-			$height_per = ($resize_height > 0 && $height >= $resize_height) ? $resize_height / $height : 1;
-
-			$per = NULL;
-			if($thumbnail_type == 'ratio')
-			{
-				$per = ($width_per > $height_per) ? $height_per : $width_per;
-				$resize_width = $width * $per;
-				$resize_height = $height * $per;
-			}
-			else
-			{
-				$per = ($width_per < $height_per) ? $height_per : $width_per;
-			}
-
-			// create temporary image with target size
+			$resize_needed = true;
 			$thumb = imagecreatetruecolor($resize_width, $resize_height);
-			if(!$thumb)
+			if (!$thumb)
 			{
-				return FALSE;
+				return false;
 			}
 
-			if($target_type == 'png')
+			if ($target_type == 'png')
 			{
 				imagefill($thumb, 0, 0, imagecolorallocatealpha($thumb, 0, 0, 0, 127));
-				imagesavealpha($thumb, TRUE);
-				imagealphablending($thumb, TRUE);
+				imagealphablending($thumb, true);
+				imagesavealpha($thumb, true);
 			}
 			else
 			{
 				imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
 			}
-
-			// resize original image and put it into temporary image
-			$new_width = (int) ($width * $per);
-			$new_height = (int) ($height * $per);
-
-			$x = 0;
-			$y = 0;
-			if($thumbnail_type == 'crop')
+		}
+		
+		// Resize the original image and copy it to a temporary image
+		if ($resize_needed)
+		{
+			// Calculate the size ratio
+			$ratio_x = ($resize_width > 0 && $width > 0) ? $resize_width / $width : 1;
+			$ratio_y = ($resize_height > 0 && $height > 0) ? $resize_height / $height : 1;
+			$ratio_max = max($ratio_x, $ratio_y);
+			$ratio_min = min($ratio_x, $ratio_y);
+			
+			// Determine the X-Y coordinates to copy
+			if ($thumbnail_type === 'stretch')
 			{
-				$x = (int) ($resize_width / 2 - $new_width / 2);
-				$y = (int) ($resize_height / 2 - $new_height / 2);
+				$dst_width = $resize_width;
+				$dst_height = $resize_height;
 			}
-
-			imagecopyresampled($thumb, $source, $x, $y, 0, 0, $new_width, $new_height, $width, $height);
+			elseif ($thumbnail_type === 'fill')
+			{
+				$dst_width = round($width * $ratio_max);
+				$dst_height = round($height * $ratio_max);
+			}
+			elseif ($thumbnail_type === 'center')
+			{
+				$dst_width = $width;
+				$dst_height = $height;
+			}
+			elseif ($thumbnail_type === 'ratio')
+			{
+				$dst_width = round($width * $ratio_min);
+				$dst_height = round($height * $ratio_min);
+			}
+			else // crop
+			{
+				$dst_width = round($width * min(1, $ratio_max));
+				$dst_height = round($height * min(1, $ratio_max));
+			}
+			
+			// Adjust for small margins of error
+			if (abs($resize_width - $dst_width) < ($resize_width * 0.02)) $dst_width = $resize_width;
+			if (abs($resize_height - $dst_height) < ($resize_height * 0.02)) $dst_height = $resize_height;
+			$dst_x = round(($resize_width - $dst_width) / 2);
+			$dst_y = round(($resize_height - $dst_height) / 2);
+			
+			imagecopyresampled($thumb, $source, $dst_x, $dst_y, 0, 0, $dst_width, $dst_height, $width, $height);
 		}
 		
 		// create directory
 		self::makeDir(dirname($target_file));
 
 		// write into the file
-		$output = NULL;
-		switch($target_type)
+		if ($target_type === 'gif' && function_exists('imagegif'))
 		{
-			case 'gif' :
-				if(function_exists('imagegif'))
-				{
-					$output = imagegif($thumb, $target_file);
-				}
-				break;
-			case 'jpeg' :
-			case 'jpg' :
-				if(function_exists('imagejpeg'))
-				{
-					$output = imagejpeg($thumb, $target_file, $quality);
-				}
-				break;
-			case 'png' :
-				if(function_exists('imagepng'))
-				{
-					$output = imagepng($thumb, $target_file, 9);
-				}
-				break;
-			case 'bmp' :
-				if(function_exists('imagebmp'))
-				{
-					$output = imagebmp($thumb, $target_file);
-				}
-				break;
-			case 'wbmp' :
-				if(function_exists('imagewbmp'))
-				{
-					$output = imagewbmp($thumb, $target_file);
-				}
-				break;
-			case 'webp' :
-				if(function_exists('imagewebp'))
-				{
-					$output = imagewebp($thumb, $target_file);
-				}
-				break;
+			$output = imagegif($thumb, $target_file);
 		}
-
+		elseif ($target_type === 'jpg' && function_exists('imagejpeg'))
+		{
+			$output = imagejpeg($thumb, $target_file, $quality);
+		}
+		elseif ($target_type === 'png' && function_exists('imagepng'))
+		{
+			$output = imagepng($thumb, $target_file, 9);
+		}
+		elseif ($target_type === 'bmp' && function_exists('imagebmp'))
+		{
+			$output = imagebmp($thumb, $target_file);
+		}
+		elseif ($target_type === 'webp' && function_exists('imagewebp'))
+		{
+			$output = imagewebp($thumb, $target_file);
+		}
+		else
+		{
+			return false;
+		}
+		
 		imagedestroy($thumb);
 		imagedestroy($source);
-
-		if(!$output)
-		{
-			return FALSE;
-		}
-		@chmod($target_file, 0644);
-
-		return TRUE;
+		@chmod($target_file, 0666 & ~Rhymix\Framework\Storage::getUmask());
+		return $output;
 	}
 
 	/**

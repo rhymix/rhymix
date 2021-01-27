@@ -239,6 +239,57 @@ class menuAdminController extends menu
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
 		$this->setRedirectUrl($returnUrl);
 	}
+	
+	/**
+	 * Change the menu design (layout)
+	 */
+	public function procMenuAdminUpdateDesign()
+	{
+		$vars = Context::getRequestVars();
+		$menu_srl = intval($vars->menu_srl);
+		$layout_P = intval($vars->layout_P);
+		$layout_M = intval($vars->layout_M);
+		if (!$layout_P && !$layout_M)
+		{
+			return;
+		}
+		
+		$args = new stdClass;
+		$args->menu_srl = $menu_srl;
+		$output = executeQueryArray('layout.getLayoutModules', $args);
+		if ($output->data)
+		{
+			$module_srls = array_map(function($item) { return $item->module_srl; }, $output->data);
+			if (count($module_srls))
+			{
+				$args = new stdClass;
+				$args->module_srls = $module_srls;
+				if ($layout_P)
+				{
+					$args->layout_srl = $layout_P;
+					$output = executeQuery('layout.updateModuleLayout', $args);
+					if (!$output->toBool())
+					{
+						Rhymix\Framework\Cache::clearGroup('site_and_module');
+						return $output;
+					}
+				}
+				if ($layout_M)
+				{
+					$args->layout_srl = $layout_M;
+					$args->use_mobile = 'Y';
+					$output = executeQuery('layout.updateModuleMLayout', $args);
+					if (!$output->toBool())
+					{
+						Rhymix\Framework\Cache::clearGroup('site_and_module');
+						return $output;
+					}
+				}
+				
+				Rhymix\Framework\Cache::clearGroup('site_and_module');
+			}
+		}
+	}
 
 	/**
 	 * Delete menu process method
@@ -501,8 +552,8 @@ class menuAdminController extends menu
 			$args->url = '#';
 		}
 
-		if($request->menu_desc) $args->desc = $request->menu_desc;
-		else $args->desc = '';
+		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->desc = trim($request->menu_desc ?? '') ?: '';
 
 		$args->menu_item_srl = getNextSequence();
 		$args->listorder = -1*$args->menu_item_srl;
@@ -536,8 +587,8 @@ class menuAdminController extends menu
 		if($request->menu_name_key) $args->name = $request->menu_name_key;
 		else $args->name = $request->menu_name;
 
-		if($request->menu_desc) $args->desc = $request->menu_desc;
-		else $args->desc = '';
+		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->desc = trim($request->menu_desc ?? '') ?: '';
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
@@ -722,8 +773,8 @@ class menuAdminController extends menu
 			$args->name = $request->menu_name;
 		}
 
-		if($request->menu_desc) $args->desc = $request->menu_desc;
-		else $args->desc = '';
+		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->desc = trim($request->menu_desc ?? '') ?: '';
 
 		unset($args->group_srls);
 		$args->open_window = $request->menu_open_window;
@@ -1908,6 +1959,7 @@ class menuAdminController extends menu
 			$name_str = sprintf('$_names = array(%s); print $_names[$lang_type];', $name_arr_str);
 
 			$url = escape($node->url);
+			$icon = escape($node->icon, false);
 			$desc = escape($node->desc, false);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
 			{
@@ -1955,7 +2007,7 @@ class menuAdminController extends menu
 			}
 
 			$attribute = sprintf(
-				'node_srl="%d" parent_srl="%d" menu_name_key=%s text="<?php if(%s) { %s }?>" url="<?php print(%s?%s:"")?>" href="<?php print(%s?%s:"")?>" is_shortcut=%s desc=%s open_window=%s expand=%s normal_btn=%s hover_btn=%s active_btn=%s link="<?php if(%s) {?>%s<?php }?>"',
+				'node_srl="%d" parent_srl="%d" menu_name_key=%s text="<?php if(%s) { %s }?>" url="<?php print(%s?%s:"")?>" href="<?php print(%s?%s:"")?>" is_shortcut=%s icon=%s desc=%s open_window=%s expand=%s normal_btn=%s hover_btn=%s active_btn=%s link="<?php if(%s) {?>%s<?php }?>"',
 				$menu_item_srl,
 				($node->parent_srl) ? $node->parent_srl : '',
 				var_export(($node->name) ? $node->name : '', true),
@@ -1966,6 +2018,7 @@ class menuAdminController extends menu
 				$group_check_code,
 				$href,
 				var_export($is_shortcut, true),
+				var_export($icon, true),
 				var_export($desc, true),
 				var_export($open_window, true),
 				var_export($expand, true),
@@ -2051,7 +2104,8 @@ class menuAdminController extends menu
 			// List variables
 			$href = escape($node->href ?? '', false);
 			$url = escape($node->url ?? '', false);
-			$desc = escape($node->desc ?? '', false);
+			$icon = Rhymix\Framework\Filters\HTMLFilter::clean($node->icon ?? '', true);
+			$desc = Rhymix\Framework\Filters\HTMLFilter::clean($node->desc ?? '', true);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
@@ -2111,6 +2165,7 @@ class menuAdminController extends menu
 				"href" => (%s ? %s : ""),
 				"url" => (%s ? %s : ""),
 				"is_shortcut" => %s,
+				"icon" => %s,
 				"desc" => %s,
 				"open_window" => %s,
 				"normal_btn" => %s,
@@ -2131,6 +2186,7 @@ class menuAdminController extends menu
 				$group_check_code,
 				var_export($url, true),
 				var_export($is_shortcut, true),
+				var_export($icon, true),
 				var_export($desc, true),
 				var_export($open_window, true),
 				var_export($normal_btn, true),

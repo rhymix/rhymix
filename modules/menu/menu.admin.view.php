@@ -85,6 +85,13 @@ class menuAdminView extends menu
 			}
 		}
 		Context::set('group_list', $groupList);
+		
+		// Get layout instance list
+		$oLayoutModel = getModel('layout');
+		$layouts_P = $oLayoutModel->getLayoutList(0, 'P') ?: [];
+		$layouts_M = $oLayoutModel->getLayoutList(0, 'M') ?: [];
+		Context::set('layouts_P', $layouts_P);
+		Context::set('layouts_M', $layouts_M);
 
 		$this->setTemplateFile('sitemap');
 	}

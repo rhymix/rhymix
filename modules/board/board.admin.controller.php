@@ -77,6 +77,8 @@ class boardAdminController extends board {
 		if ($args->module_srl)
 		{
 			$args->include_modules = $module_info->include_modules;
+			$args->include_days = $module_info->include_days;
+			$args->include_notice = $module_info->include_notice;
 		}
 
 		// insert/update the board module based on module_srl
@@ -187,6 +189,7 @@ class boardAdminController extends board {
 		$module_srl = intval($vars->target_module_srl);
 		$include_modules = array_map('intval', $vars->include_modules ?: []);
 		$include_days = max(0, floatval($vars->include_days));
+		$include_notice = $vars->include_notice === 'Y' ? 'Y' : 'N';
 		
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		if (!$module_info)
@@ -198,6 +201,7 @@ class boardAdminController extends board {
 			return $item > 0;
 		}));
 		$module_info->include_days = floatval(number_format($include_days, 2, '.', ''));
+		$module_info->include_notice = $include_notice;
 		
 		$output = getController('module')->updateModule($module_info);
 		if (!$output->toBool())

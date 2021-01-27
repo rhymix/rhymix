@@ -128,21 +128,22 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->thumbnail_type}</label>
+			<label class="x_control-label" for="thumbnail_type">{$lang->thumbnail_type}</label>
 			<div class="x_controls">
-				<label for="thumbnail_type_crop" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_crop" value="crop" checked="checked"|cond="$thumbnail_type == 'crop' || !$thumbnail_type" />
-					{$lang->thumbnail_crop}
-				</label>
-				<label for="thumbnail_type_ratio" class="x_inline">
-					<input type="radio" name="thumbnail_type" id="thumbnail_type_ratio" value="ratio" checked="checked"|cond="$thumbnail_type == 'ratio'" />
-					{$lang->thumbnail_ratio}
-				</label>
-				<select name="thumbnail_quality" id="thumbnail_quality" style="min-width:120px">
-					<!--@for($q = 50; $q <= 100; $q += 5)-->
-						<option value="{$q}" selected="selected"|cond="$thumbnail_quality === $q">{$lang->image_quality} {$q}%<!--@if($q === 75)--> ({$lang->standard})<!--@end--></option>
-					<!--@endfor-->
+				<select name="thumbnail_type" id="thumbnail_type">
+					<option value="fill" selected="selected"|cond="$thumbnail_type == 'fill'">{$lang->thumbnail_fill}</option>
+					<option value="ratio" selected="selected"|cond="$thumbnail_type == 'ratio'">{$lang->thumbnail_ratio}</option>
+					<option value="crop" selected="selected"|cond="$thumbnail_type == 'crop'">{$lang->thumbnail_crop}</option>
+					<option value="stretch" selected="selected"|cond="$thumbnail_type == 'stretch'">{$lang->thumbnail_stretch}</option>
+					<option value="center" selected="selected"|cond="$thumbnail_type == 'center'">{$lang->thumbnail_center}</option>
 				</select>
+				<label class="x_inline" for="thumbnail_quality" style="margin-left:16px">{$lang->image_quality}:
+					<select name="thumbnail_quality" id="thumbnail_quality" style="min-width:120px">
+						<!--@for($q = 50; $q <= 100; $q += 5)-->
+							<option value="{$q}" selected="selected"|cond="$thumbnail_quality === $q">{$q}%<!--@if($q === 75)--> ({$lang->standard})<!--@end--></option>
+						<!--@endfor-->
+					</select>
+				</label>
 			</div>
 		</div>
 		<div class="x_control-group">

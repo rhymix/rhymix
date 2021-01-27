@@ -32,6 +32,13 @@
 				<p class="x_help-block">{$lang->about_board_include_days}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_board_include_notice}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input name="include_notice" type="radio" value="Y" checked="checked"|cond="$module_info->include_notice !== 'N'" /> {$lang->cmd_yes} </label>
+				<label class="x_inline"><input name="include_notice" type="radio" value="N" checked="checked"|cond="$module_info->include_notice === 'N'" /> {$lang->cmd_no} </label>
+			</div>
+		</div>
 		<div class="btnArea">
 			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 		</div>

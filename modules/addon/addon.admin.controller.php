@@ -236,7 +236,16 @@ class addonAdminController extends addonController
 	{
 		$args = new stdClass;
 		$args->addon = $addon;
-		$args->is_used = $isUsed;
+		if (strlen($isUsed) == 2)
+		{
+			$args->is_used = substr($isUsed, 0, 1) === 'Y' ? 'Y' : 'N';
+			$args->is_used_m = substr($isUsed, 1, 1) === 'Y' ? 'Y' : 'N';
+		}
+		else
+		{
+			$args->is_used = $isUsed === 'Y' ? 'Y' : 'N';
+		}
+		
 		if($gtype == 'global')
 		{
 			$output = executeQuery('addon.insertAddon', $args);

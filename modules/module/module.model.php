@@ -1481,7 +1481,7 @@ class moduleModel extends module
 			$info->path = $path;
 			$info->admin_index_act = $info->admin_index_act ?? null;
 			
-			if(!Context::isBlacklistedPlugin($module_name))
+			if(!Context::isBlacklistedPlugin($module_name, 'module'))
 			{
 				// Check if DB is installed
 				if($table_count > $created_table_count)

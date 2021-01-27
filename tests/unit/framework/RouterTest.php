@@ -73,8 +73,8 @@ class RouterTest extends \Codeception\TestCase\Test
         $args = array('mid' => 'board', 'document_srl' => '123');
         $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', 'board/123', 1)->args);
         $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', 'index.php?mid=board&document_srl=123', 0)->args);
-        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', \RX_BASEURL . 'board/123', 1)->args);
-        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', \RX_BASEURL . 'index.php?mid=board&document_srl=123', 0)->args);
+        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', 'board/123', 1)->args);
+        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', 'index.php?mid=board&document_srl=123', 0)->args);
         
         $args = array('mid' => 'board', 'act' => 'dispBoardModifyComment', 'comment_srl' => '456', 'extra_param' => 'foo bar');
         $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', 'board/comment/456/edit?extra_param=foo+bar', 2)->args);

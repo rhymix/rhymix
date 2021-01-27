@@ -42,16 +42,6 @@
 		
 		// Decide whether or not to use SSL.
 		var url = request_uri;
-		if ($.isArray(ssl_actions) && params.act && $.inArray(params.act, ssl_actions) >= 0) {
-			url = default_url || request_uri;
-			var port = window.https_port || 443;
-			var _ul = $("<a>").attr("href", url)[0];
-			var target = "https://" + _ul.hostname.replace(/:\d+$/, "");
-			if (port != 443) target += ":" + port;
-			if (_ul.pathname[0] != "/") target += "/";
-			target += _ul.pathname;
-			url = target.replace(/\/$/, "") + "/";
-		}
 		
 		// Check whether this is a cross-domain request. If so, use an alternative method.
 		if (!isSameOrigin(location.href, url)) return send_by_form(url, params);

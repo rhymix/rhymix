@@ -276,8 +276,10 @@ padding:0;list-style:none}
 /* Default */
 #default .menuType{border:1px solid #ddd;border-left:0;border-right:0}
 #default [for="lang_menuName"],
+#default [for="lang_menuDesc"],
 #default [for="lang_pageTitle"],
-#default [for="mid2"]{font-weight:bold}
+#default [for="menuIcon"],
+#default [for="mid2"]{font-weight:bold;}
 #default .btnBoth{position:relative;margin:5px 0;box-sizing:border-box;width:100%;}
 /* Auth */
 #auth li>label:first-child{font-weight:bold;line-height:30px;margin:0}

@@ -491,6 +491,7 @@ class memberAdminController extends member
 			'enable_login_fail_report',
 			'max_error_count',
 			'max_error_count_time',
+			'login_invalidate_other_sessions',
 			'after_login_url',
 			'after_logout_url'
 		);

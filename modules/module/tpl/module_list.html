@@ -32,7 +32,7 @@
 					<strong cond="!$val->admin_index_act">{$val->title}</strong>
 				</p>
 				<p cond="$val->description">{$val->description}</p>
-				<p cond="Context::isBlacklistedPlugin($val->module)" class="x_alert x_alert-error">
+				<p cond="Context::isBlacklistedPlugin($val->module, 'module')" class="x_alert x_alert-error">
 					{$lang->msg_blacklisted_module}<br />
 					{$lang->get('admin.msg_blacklisted_reason.'.$val->module)}
 				</p>
@@ -43,7 +43,7 @@
 				<!--@if($val->version === 'RX_VERSION')-->
 					<img src="{\RX_BASEURL}common/img/icon.png" class="core_symbol" alt="Rhymix Core" title="Rhymix Core" />
 				<!--@else-->
-					<span style="color:#aaa"|cond="Context::isBlacklistedPlugin($val->module)">{$val->version}</span>
+					<span style="color:#aaa"|cond="Context::isBlacklistedPlugin($val->module, 'module')">{$val->version}</span>
 				<!--@endif-->
 			</td>
 			<td class="nowr rx_detail_marks">

@@ -29,6 +29,24 @@ jQuery(function($){
 			}
 		}).triggerHandler("change");
 	}
+	
+	// Disable rewrite level 2 if test AJAX request fails.
+	if ($('#use_rewrite_2').size() && !$('#use_rewrite_2').is(':checked')) {
+		var testval = 1000 + Math.floor(Math.random() * 9000);
+		$.ajax({
+			url: request_uri + 'common/rewrite/test/' + testval,
+			type: 'GET',
+			dataType: 'json',
+			success: function(data) {
+				if (data.result != testval * 42) {
+					$('#use_rewrite_2').prop('disabled', true);
+				}
+			},
+			error: function() {
+				$('#use_rewrite_2').prop('disabled', true);
+			}
+		});
+	}
 });
 
 function setStartModule(){

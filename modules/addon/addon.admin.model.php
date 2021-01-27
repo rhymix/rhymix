@@ -47,7 +47,7 @@ class addonAdminModel extends addon
 		foreach($addonList as $key => $addon)
 		{
 			// check blacklist
-			$addonList[$key]->isBlacklisted = Context::isBlacklistedPlugin($addon->addon);
+			$addonList[$key]->isBlacklisted = Context::isBlacklistedPlugin($addon->addon, 'addon');
 			
 			// get easyinstall remove url
 			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($addon->path);

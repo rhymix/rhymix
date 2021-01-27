@@ -82,6 +82,7 @@
 				<ul class="nav">
 					<li><a href="#sitemap_general" data-admin-show="#sitemap_general">{$lang->edit_sitemap} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><a href="#add" data-admin-show="#add">{$lang->add_menu} <i class="x_icon-circle-arrow-right"></i></a></li>
+					<li><a href="#sitemap_batch_design" data-admin-show="#sitemap_batch_design">{$lang->sitemap_batch_design} <i class="x_icon-circle-arrow-right"></i></a></li>
 					<li><button type="button"  class="_edit_paste" disabled>{$lang->paste}</button></li>
 					<li><button class="_delSiteMap" type="button">{$lang->cmd_delete}</button></li>
 					<li><button class="_renameSiteMap" type="button">{$lang->change_name}</button></li>
@@ -131,6 +132,38 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#properties">&times;</button>
 	</div>
+	<div class="col" id="sitemap_batch_design" style="display:none">
+		<section>
+			<h1>{$lang->sitemap_batch_design}</h1>
+			<div class="cnt">
+				<ul class="_itemList">
+					<li>
+						<label for="layout_P">{$lang->pc} {$lang->layout}</label>
+						<select name="layout_P" id="layout_P">
+							<option value="0"></option>
+							<!--@foreach($layouts_P as $layout_i)-->
+								<option value="{$layout_i->layout_srl}">{$layout_i->title}</option>
+							<!--@endforeach-->
+						</select>
+					</li>
+					<li>
+						<label for="layout_M">{$lang->mobile} {$lang->layout}</label>
+						<select name="layout_M" id="layout_M">
+							<option value="0"></option>
+							<!--@foreach($layouts_M as $layout_i)-->
+								<option value="{$layout_i->layout_srl}">{$layout_i->title}</option>
+							<!--@endforeach-->
+						</select>
+					</li>
+				</ul>
+				<div class="btnBoth">
+					<button type="reset" class="x_btn x_pull-left" data-admin-hide="#sitemap_batch_design">{$lang->cmd_cancel}</button>
+					<button type="button" class="x_btn x_btn-primary x_pull-right _save">{$lang->cmd_confirm}</button>
+				</div>
+			</div>
+		</section>
+		<button type="button" class="x_close" data-admin-hide="#sitemap_batch_design">&times;</button>
+	</div>
 	<div class="col" id="add" style="display:none">
 		<section>
 			<h1>{$lang->add_menu}</h1>
@@ -156,6 +189,13 @@
 							<label for="lang_menuName2">{$lang->menu_name}</label>
 							<input id="menuName2" class="_menuName lang_code" type="text" required>
 						</div>
+					</li>
+					<li>
+						<div class="x_input-append">
+							<label for="menuIcon2">{$lang->menu_icon}</label>
+							<input id="menuIcon2" class="_menuIcon" type="text" />
+						</div>
+						<p>{$lang->about_menu_icon}</p>
 					</li>
 					<li>
 						<div class="multilingual x_input-append">
@@ -219,6 +259,13 @@
 							<label for="lang_menuName">{$lang->menu_name}</label>
 							<input id="menuName" class="_menuName lang_code" type="text" required>
 						</div>
+					</li>
+					<li>
+						<div class="x_input-append">
+							<label for="menuIcon">{$lang->menu_icon}</label>
+							<input id="menuIcon" class="_menuIcon" type="text" />
+						</div>
+						<p style="width:220px;min-width:100%">{$lang->about_menu_icon}</p>
 					</li>
 					<li>
 						<div class="multilingual x_input-append">
@@ -366,14 +413,14 @@
 						<div class="x_tab-content">
 							<div class="x_tab-pane x_active" id="pc">
 								<div class="shadow">
-									<iframe name="_pc_preview_ifr" src="about:_blank"></iframe><i class="mask"><span></span></i>
+									<iframe name="_pc_preview_ifr" src=""></iframe><i class="mask"><span></span></i>
 									<input type="submit" class="x_icon-zoom-in x_icon-white _pc_preview_open" value="{$lang->view_zoom}" />
 								</div>
 							</div>
 							<div class="x_tab-pane" id="mobile">
 								<label class="mvOption"><input type="checkbox" name="use_mobile" value="Y"> {$lang->use_mobile_view}</label>
 								<div class="shadow">
-									<iframe name="_mobile_preview_ifr" src="about:_blank"></iframe><i class="mask"><span></span></i>
+									<iframe name="_mobile_preview_ifr" src=""></iframe><i class="mask"><span></span></i>
 									<input type="submit" class="x_icon-zoom-in x_icon-white _mobile_preview_open" value="{$lang->view_zoom}" />
 								</div>
 							</div>
@@ -656,7 +703,7 @@
 	</div>
 </div>
 
-<iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+<iframe name="submitTarget" src="" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
 
 <script>
 	xe.lang.shortcut = '{$lang->shortcut}';
@@ -1546,7 +1593,16 @@ jQuery(function($){
 		});
 		*/
 	});
-
+	$('#sitemap_batch_design ._save').click(function(){
+		var params = {
+			menu_srl: $._xeAdminVar.sSelectedMenuSrl,
+			layout_P: $('#layout_P').val(),
+			layout_M: $('#layout_M').val()
+		};
+		$.exec_json('menu.procMenuAdminUpdateDesign', params, function(){
+			loadSiteMap();
+		});
+	});
 	$('#properties ._edit_copy').click(function(){
 		//console.log(2, $._xeAdminVar.sSelectedMenuSrl);
 
@@ -1808,6 +1864,7 @@ jQuery(function($){
 	});
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
+		var sMenuIcon = $('#add_menu ._menuIcon').val();
 		var sMenuDesc = $('#add_menu ._menuDesc').val();
 		var sUrl = $('#add_menu ._mid').val();
 		var sTargetKey = "module_id";
@@ -1857,6 +1914,7 @@ jQuery(function($){
 		params['act'] = "procMenuAdminInsertItem";
 		params['menu_name_key'] = "";
 		params['menu_name'] = sMenuName;
+		params['menu_icon'] = sMenuIcon;
 		params['menu_desc'] = sMenuDesc;
 		params['module_type'] = sSelectedModuleName;
 		params['menu_open_window'] = "N";
@@ -1891,6 +1949,7 @@ jQuery(function($){
 		}
 
 		$(this).find('#menuName').val(htInfo.sMenuNameKey.match(/\$user_lang->/) ? htInfo.sMenuNameKey : htInfo.sText);
+		$(this).find('#menuIcon').val(htInfo.icon);
 		$(this).find('#menuDesc').val(htInfo.desc);
 		//menu_name_key
 
@@ -1945,6 +2004,7 @@ jQuery(function($){
 		var htInfo = htNodeInfo[$._xeAdminVar.sSelectedMenuSrl];
 
 		var sMenuName = $('#default ._menuName').val();
+		var sMenuIcon = $('#default ._menuIcon').val();
 		var sMenuDesc = $('#default ._menuDesc').val();
 		var sMID;
 
@@ -1971,6 +2031,7 @@ jQuery(function($){
 		}
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
+		params['menu_icon'] = sMenuIcon;
 		params['menu_desc'] = sMenuDesc;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
@@ -3306,8 +3367,7 @@ jQuery(function($){
 				var sUrl = $('#config_form').attr('action');
 				$.post( sUrl, $(this).serialize(),
 					function( strRes ) {
-						var htData = $.parseJSON(strRes);
-
+						var htData = typeof strRes === 'string' ? $.parseJSON(strRes) : strRes;
 						$('#layout').show();
 						//console.log(999, strRes, htData);
 					}
@@ -3983,8 +4043,8 @@ top.fullSetupWinLoaded = function(){
 	var $body = $(oWin.document.body);
 
 	var $form = $body.find('form[enctype="multipart/form-data"]');
-	//<iframe name="submitTarget" src="about:_blank" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
-	var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', 'about:_blank').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
+	//<iframe name="submitTarget" src="" style="position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px"></iframe>
+	var $target = $("<iframe>").attr('name', 'submitTarget').attr('src', '').attr('style', 'position:absolute; top:-10000px; left:-10000px; width:1025px;height:769px');
 	$form.append($target);
 
 	$form.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.opener.top.fullSetupDone"));

@@ -77,13 +77,13 @@ class Lang
 		{
 			$this->loadDirectory(\RX_BASEDIR . 'common/lang', 'common');
 		}
-		elseif (file_exists(\RX_BASEDIR . "plugins/$name/lang"))
-		{
-			$this->loadDirectory(\RX_BASEDIR . "plugins/$name/lang", $name);
-		}
 		elseif (file_exists(\RX_BASEDIR . "modules/$name/lang"))
 		{
 			$this->loadDirectory(\RX_BASEDIR . "modules/$name/lang", $name);
+		}
+		elseif (file_exists(\RX_BASEDIR . "plugins/$name/lang"))
+		{
+			$this->loadDirectory(\RX_BASEDIR . "plugins/$name/lang", $name);
 		}
 		elseif (file_exists(\RX_BASEDIR . "addons/$name/lang"))
 		{

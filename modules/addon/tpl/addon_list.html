@@ -35,7 +35,7 @@
 			<tr loop="$addon_list => $addon">
 				<td class="title">
 					<p><strong style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->title}</strong></p>
-					<p>{$addon->description}</p>
+					<p style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->description}</p>
 					<p cond="$addon->need_update == 'Y'" class="update">
 						{$lang->msg_avail_easy_update} <a href="{$addon->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 					</p>

@@ -1,7 +1,7 @@
 <table name="poll_log">
-    <column name="poll_srl" type="number" size="11" notnull="notnull" index="idx_poll_srl" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
-    <column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
-    <column name="regdate" type="date" index="idx_regdate" />
-    <column name="poll_item" type="varchar" size="250" default="0" />
+	<column name="poll_srl" type="number" notnull="notnull" index="idx_poll_srl" />
+	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
+	<column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_ipaddress" />
+	<column name="regdate" type="date" index="idx_regdate" />
+	<column name="poll_item" type="varchar" size="250" default="0" />
 </table>

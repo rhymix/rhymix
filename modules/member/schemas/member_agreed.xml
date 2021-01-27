@@ -3,6 +3,6 @@
 	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
 	<column name="agreement_sequence" type="number" notnull="notnull" index="idx_agreement_sequence" />
 	<column name="agreed" type="char" size="1" notnull="notnull" index="idx_agreed" />
-	<column name="ipaddress" type="varchar" size="80" notnull="notnull" />
+	<column name="ipaddress" type="varchar" size="60" notnull="notnull" />
 	<column name="regdate" type="date" notnull="notnull" />
 </table>

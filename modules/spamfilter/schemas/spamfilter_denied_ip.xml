@@ -1,7 +1,7 @@
 <table name="spamfilter_denied_ip">
-    <column name="ipaddress" type="varchar" size="60" utf8mb4="false" notnull="notnull" primary_key="primary_key" />
+    <column name="ipaddress" type="varchar" size="60" notnull="notnull" primary_key="primary_key" />
     <column name="hit" type="number" notnull="notnull" default="0" index="idx_hit" />
     <column name="latest_hit" type="date" index="idx_latest_hit" />
-    <column name="description" type="varchar" size="255" />
+    <column name="description" type="varchar" size="191" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>

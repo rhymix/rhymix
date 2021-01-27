@@ -2476,7 +2476,6 @@ class memberController extends member
 		// Update the latest login time
 		$args->member_srl = $member_info->member_srl;
 		$output = executeQuery('member.updateLastLogin', $args);
-
 		self::clearMemberCache($args->member_srl);
 
 		// Check if there is recoding table.
@@ -2536,9 +2535,17 @@ class memberController extends member
 				Rhymix\Framework\Session::setAutologinKeys(substr($random_key, 0, 24), substr($random_key, 24, 24));
 			}
 		}
-
+		
+		// Log in!
 		Rhymix\Framework\Session::login($member_info->member_srl);
 		$this->setSessionInfo();
+		
+		// Log out all other sessions if so configured.
+		if ($config->login_invalidate_other_sessions === 'Y')
+		{
+			Rhymix\Framework\Session::destroyOtherSessions($member_info->member_srl);
+		}
+		
 		return $output;
 	}
 
@@ -2856,20 +2863,20 @@ class memberController extends member
 			if($default_group)
 			{
 				// Add to the default group
-				$output = $this->addMemberToGroup($args->member_srl,$default_group->group_srl);
+				$output = $this->addMemberToGroup($args->member_srl, $default_group->group_srl);
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
 					return $output;
 				}
 			}
-			// If the value is the value of the group entered the group registration
 		}
+		// If the value is the value of the group entered the group registration
 		else
 		{
-			for($i=0;$i<count($group_srl_list);$i++)
+			foreach($group_srl_list as $group_srl)
 			{
-				$output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+				$output = $this->addMemberToGroup($args->member_srl, $group_srl);
 
 				if(!$output->toBool())
 				{
@@ -3125,9 +3132,6 @@ class memberController extends member
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
 
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-
 		// Check password strength
 		if($args->password)
 		{
@@ -3152,6 +3156,9 @@ class memberController extends member
 		}
 		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
+		$oDB = &DB::getInstance();
+		$oDB->begin();
+
 		$output = executeQuery('member.updateMember', $args);
 
 		if(!$output->toBool())
@@ -3168,7 +3175,7 @@ class memberController extends member
 				$log_args->before_nick_name = $orgMemberInfo->nick_name;
 				$log_args->after_nick_name = $args->nick_name;
 				$log_args->user_id = $args->user_id;
-				$log_output = executeQuery('member.insertMemberModifyNickName', $log_args);
+				executeQuery('member.insertMemberModifyNickName', $log_args);
 			}
 		}
 
@@ -3187,9 +3194,9 @@ class memberController extends member
 					return $output;
 				}
 				// Enter one of the loop a
-				for($i=0;$i<count($group_srl_list);$i++)
+				foreach($group_srl_list as $group_srl)
 				{
-					$output = $this->addMemberToGroup($args->member_srl,$group_srl_list[$i]);
+					$output = $this->addMemberToGroup($args->member_srl, $group_srl);
 					if(!$output->toBool())
 					{
 						$oDB->rollback();
@@ -3969,7 +3976,7 @@ class memberController extends member
 	{
 		$member_srl = intval($member_srl);
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
-		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl:site:0");
+		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl");
 		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");
 		unset($GLOBALS['__member_info__'][$member_srl]);
 		unset($GLOBALS['__member_groups__'][$member_srl]);
