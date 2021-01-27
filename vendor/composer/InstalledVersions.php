@@ -24,12 +24,12 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => 'dev-develop',
-    'version' => 'dev-develop',
+    'pretty_version' => 'dev-next',
+    'version' => 'dev-next',
     'aliases' => 
     array (
     ),
-    'reference' => 'f4ad0dbb480ca125af4020782f9895b65e545cfb',
+    'reference' => '0db02281c90e4e3a8d2119c69b4b1eb569f6494f',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -45,12 +45,12 @@ private static $installed = array (
     ),
     'composer/ca-bundle' => 
     array (
-      'pretty_version' => '1.2.8',
-      'version' => '1.2.8.0',
+      'pretty_version' => '1.2.9',
+      'version' => '1.2.9.0',
       'aliases' => 
       array (
       ),
-      'reference' => '8a7ecad675253e4654ea05505233285377405215',
+      'reference' => '78a0e288fdcebf92aa2318a8d3656168da6ac1a5',
     ),
     'coolsms/php-sdk' => 
     array (
@@ -97,6 +97,15 @@ private static $installed = array (
       ),
       'reference' => '08e27c97e4c6ed02f37c5b2b20488046c8d90d75',
     ),
+    'firebase/php-jwt' => 
+    array (
+      'pretty_version' => 'v5.2.0',
+      'version' => '5.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'feb0e820b8436873675fd3aca04f3728eb2185cb',
+    ),
     'guzzlehttp/guzzle' => 
     array (
       'pretty_version' => '6.5.5',
@@ -142,6 +151,15 @@ private static $installed = array (
       ),
       'reference' => 'd9a132e7886a11cf997e3ec025a41bdf97899704',
     ),
+    'lcobucci/jwt' => 
+    array (
+      'pretty_version' => '3.4.2',
+      'version' => '3.4.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '17cb82dd625ccb17c74bf8f38563d3b260306483',
+    ),
     'leafo/lessphp' => 
     array (
       'pretty_version' => 'v0.5.0',
@@ -159,6 +177,24 @@ private static $installed = array (
       array (
       ),
       'reference' => '0868ae7a552e809e5cd8f93ba022071640408e88',
+    ),
+    'league/oauth2-client' => 
+    array (
+      'pretty_version' => '2.6.0',
+      'version' => '2.6.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'badb01e62383430706433191b82506b6df24ad98',
+    ),
+    'league/oauth2-github' => 
+    array (
+      'pretty_version' => '2.0.0',
+      'version' => '2.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e63d64f3ec167c09232d189c6b0c397458a99357',
     ),
     'matthiasmullie/minify' => 
     array (
@@ -196,6 +232,24 @@ private static $installed = array (
       ),
       'reference' => '47d17c90a4dfd0ccf1f87e25c65e6c8012415aad',
     ),
+    'paragonie/random_compat' => 
+    array (
+      'pretty_version' => 'v9.99.100',
+      'version' => '9.99.100.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '996434e5492cb4c3edcb9168db6fbb1359ef965a',
+    ),
+    'patrickbussmann/oauth2-apple' => 
+    array (
+      'pretty_version' => '0.2.4',
+      'version' => '0.2.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '95cc38cd0cc68ac2deda54cd6f0136ac0f563c74',
+    ),
     'psr/http-message' => 
     array (
       'pretty_version' => '1.0.1',
@@ -223,12 +277,12 @@ private static $installed = array (
     ),
     'rhymix/rhymix' => 
     array (
-      'pretty_version' => 'dev-develop',
-      'version' => 'dev-develop',
+      'pretty_version' => 'dev-next',
+      'version' => 'dev-next',
       'aliases' => 
       array (
       ),
-      'reference' => 'f4ad0dbb480ca125af4020782f9895b65e545cfb',
+      'reference' => '0db02281c90e4e3a8d2119c69b4b1eb569f6494f',
     ),
     'rmccue/requests' => 
     array (
@@ -250,12 +304,12 @@ private static $installed = array (
     ),
     'swiftmailer/swiftmailer' => 
     array (
-      'pretty_version' => 'v6.2.4',
-      'version' => '6.2.4.0',
+      'pretty_version' => 'v6.2.5',
+      'version' => '6.2.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => '56f0ab23f54c4ccbb0d5dcc67ff8552e0c98d59e',
+      'reference' => '698a6a9f54d7eb321274de3ad19863802c879fb7',
     ),
     'symfony/polyfill-iconv' => 
     array (
