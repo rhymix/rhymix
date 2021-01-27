@@ -28,7 +28,7 @@
 		"guzzlehttp/guzzle": "6.5.*",
 		"hautelook/phpass": "1.1.*",
 		"jbbcode/jbbcode": "1.4.*",
-		"lcobucci/jwt": "3.*",
+		"lcobucci/jwt": "4.0.*",
 		"leafo/lessphp": "0.5.*",
 		"league/html-to-markdown": "4.*",
 		"league/oauth2-github": "2.0.*",

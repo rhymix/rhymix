@@ -1,13 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Lcobucci\JWT;
 
-if (PHP_MAJOR_VERSION === 5) {
-    interface Exception
-    {
-    }
-} else {
-    interface Exception extends \Throwable
-    {
-    }
+use Throwable;
+
+interface Exception extends Throwable
+{
 }

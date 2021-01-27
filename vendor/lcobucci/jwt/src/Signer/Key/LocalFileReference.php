@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Lcobucci\JWT\Signer\Key;
 
@@ -8,19 +9,21 @@ use function file_exists;
 use function strpos;
 use function substr;
 
-final class LocalFileReference extends Key
+final class LocalFileReference implements Key
 {
-    const PATH_PREFIX = 'file://';
+    private const PATH_PREFIX = 'file://';
 
-    /**
-     * @param string $path
-     * @param string $passphrase
-     *
-     * @return self
-     *
-     * @throws FileCouldNotBeRead
-     */
-    public static function file($path, $passphrase = '')
+    private string $path;
+    private string $passphrase;
+
+    private function __construct(string $path, string $passphrase)
+    {
+        $this->path       = $path;
+        $this->passphrase = $passphrase;
+    }
+
+    /** @throws FileCouldNotBeRead */
+    public static function file(string $path, string $passphrase = ''): self
     {
         if (strpos($path, self::PATH_PREFIX) === 0) {
             $path = substr($path, 7);
@@ -30,9 +33,16 @@ final class LocalFileReference extends Key
             throw FileCouldNotBeRead::onPath($path);
         }
 
-        $key = new self('', $passphrase);
-        $key->content = self::PATH_PREFIX . $path;
+        return new self($path, $passphrase);
+    }
 
-        return $key;
+    public function contents(): string
+    {
+        return self::PATH_PREFIX . $this->path;
+    }
+
+    public function passphrase(): string
+    {
+        return $this->passphrase;
     }
 }
