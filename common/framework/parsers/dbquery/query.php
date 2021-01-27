@@ -150,7 +150,20 @@ class Query extends VariableBase
 					$columns[] = self::quoteName($column->name) . ($column->alias ? (' AS ' . self::quoteName($column->alias)) : '');
 				}
 			}
-			$column_list = implode(', ', $columns);
+			if ($count_only && $has_subquery_columns)
+			{
+				$column_list = implode(', ', array_map(function($str) {
+					if ($str === '*' || preg_match('/\\.\\*/', $str))
+					{
+						return '1';
+					}
+					return $str; 
+				}, $columns));
+			}
+			else
+			{
+				$column_list = implode(', ', $columns);
+			}
 		}
 		
 		// Replace the column list if this is a count-only query.
