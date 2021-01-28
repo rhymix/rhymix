@@ -209,7 +209,7 @@ class Session
 		}
 		
 		// If this is not a GET request, do not refresh now.
-		if ($_SERVER['REQUEST_METHOD'] !== 'GET')
+		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET')
 		{
 			$must_refresh = false;
 		}
