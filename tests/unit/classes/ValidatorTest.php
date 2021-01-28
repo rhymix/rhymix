@@ -5,8 +5,6 @@ class ValidatorTest extends \Codeception\TestCase\Test
     public function _before()
     {
         $ob_level = ob_get_level();
-        
-    	Context::init();
     	while (ob_get_level() > $ob_level)
     	{
     		ob_end_clean();

@@ -46,7 +46,9 @@ class ContextTest extends \Codeception\TestCase\Test
         $data->var2 = 'val2';
         $this->assertEquals(Context::gets('var1','var2'), $data);
         $data->var3 = 'val3';
-        $this->assertEquals(Context::getAll(), $data);
+        $this->assertEquals('val1', Context::getAll()->var1);
+        $this->assertEquals('val2', Context::getAll()->var2);
+        $this->assertEquals('val3', Context::getAll()->var3);
     }
 
     public function testAddGetBodyClass()
