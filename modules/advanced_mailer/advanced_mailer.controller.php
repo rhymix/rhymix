@@ -38,7 +38,7 @@ class Advanced_MailerController extends Advanced_Mailer
 				$mail->setReplyTo($replyTo);
 			}
 		}
-		elseif (toBool($config->force_sender))
+		elseif (toBool($config->force_sender ?? 'N'))
 		{
 			if (stripos($mail->driver->getName(), 'woorimail') !== false && config('mail.woorimail.api_type') === 'free')
 			{
@@ -66,7 +66,7 @@ class Advanced_MailerController extends Advanced_Mailer
 	{
 		$config = $this->getConfig();
 		
-		if (toBool($config->log_sent_mail) || (toBool($config->log_errors) && count($mail->errors)))
+		if (toBool($config->log_sent_mail ?? 'N') || (toBool($config->log_errors ?? 'N') && count($mail->errors)))
 		{
 			$obj = new \stdClass();
 			$obj->mail_from = '';
@@ -182,7 +182,7 @@ class Advanced_MailerController extends Advanced_Mailer
 	{
 		$config = $this->getConfig();
 		
-		if (toBool($config->log_sent_sms) || (toBool($config->log_sms_errors) && count($sms->errors)))
+		if (toBool($config->log_sent_sms ?? 'N') || (toBool($config->log_sms_errors ?? 'N') && count($sms->errors)))
 		{
 			$obj = new \stdClass();
 			$obj->sms_from = $sms->getFrom();
@@ -219,7 +219,7 @@ class Advanced_MailerController extends Advanced_Mailer
 	{
 		$config = $this->getConfig();
 		
-		if (toBool($config->log_sent_push) || (toBool($config->log_push_errors) && count($push->getErrors())))
+		if (toBool($config->log_sent_push ?? 'N') || (toBool($config->log_push_errors ?? 'N') && count($push->getErrors())))
 		{
 			$obj = new \stdClass();
 			$obj->push_from = $push->getFrom();

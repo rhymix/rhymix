@@ -6,7 +6,9 @@ class ConfigHelperTest extends \Codeception\TestCase\Test
 {
 	public function testConsolidate()
 	{
-		$member_config = getModel('module')->getModuleConfig('member');
+		$member_config = getModel('module')->getModuleConfig('member') ?: new stdClass;
+		$member_config->enable_join = 'Y';
+		$member_config->identifier = 'email_address';
 		$consolidated = ConfigHelper::consolidate(array(
 			'dbtype' => array('common:db.type', 'member:nosuchconfig'),
 			'member' => array('common:no.such.config', 'member:enable_join', 'tobool'),

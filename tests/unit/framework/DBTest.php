@@ -2,6 +2,12 @@
 
 class DBTest extends \Codeception\TestCase\Test
 {
+	public function _before()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+		$oDB->setDebugComment(false);
+	}
+	
 	public function testGetInstance()
 	{
 		$oDB = Rhymix\Framework\DB::getInstance();

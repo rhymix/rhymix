@@ -45,7 +45,7 @@ class memberModel extends member
 		//for multi language
 		foreach($config->signupForm AS $key=>$value)
 		{
-			$config->signupForm[$key]->title = ($value->isDefaultForm) ? lang($value->name) : $value->title;
+			$config->signupForm[$key]->title = ($value->isDefaultForm ?? false) ? lang($value->name) : $value->title;
 			if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
 			if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
 		}

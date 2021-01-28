@@ -4,6 +4,11 @@ class OldSecurityTest extends \Codeception\TestCase\Test
 {
     public function _before()
     {
+        $this->_reset();
+    }
+    
+    protected function _reset()
+    {
         /**
          * Setup mock data
          **/
@@ -40,13 +45,13 @@ class OldSecurityTest extends \Codeception\TestCase\Test
         $this->assertTrue(true);
 
         // normal string - one
-        $this->_before();
+        $this->_reset();
         $this->assertEquals('<strong>Hello, world</strong>', Context::get('content1'));
         $security->encodeHTML('content1');
         $this->assertEquals('&lt;strong&gt;Hello, world&lt;/strong&gt;', Context::get('content1'));
 
         // normal string - two
-        $this->_before();
+        $this->_reset();
         $this->assertEquals('<strong>Hello, world</strong>', Context::get('content1'));
         $this->assertEquals('Wow, >_< !', Context::get('content2'));
         $security->encodeHTML('content1','content2');
@@ -61,7 +66,7 @@ class OldSecurityTest extends \Codeception\TestCase\Test
         $this->assertEquals(Context::get('array1'), array('&lt;span class=&quot;first&quot;&gt;F&lt;/span&gt;irst','<u>S</u>econd','<b>T</b>hird'));
         $security->encodeHTML('array1.2'); // affects only third element
         $this->assertEquals(Context::get('array1'), array('&lt;span class=&quot;first&quot;&gt;F&lt;/span&gt;irst','<u>S</u>econd','&lt;b&gt;T&lt;/b&gt;hird'));
-        $this->_before(); // reset;
+        $this->_reset(); // reset;
         $this->assertEquals(Context::get('array1'), array('<span class="first">F</span>irst','<u>S</u>econd','<b>T</b>hird'));
         $security->encodeHTML('array1.'); // affects all items
         $this->assertEquals(Context::get('array1'), array('&lt;span class=&quot;first&quot;&gt;F&lt;/span&gt;irst','&lt;u&gt;S&lt;/u&gt;econd','&lt;b&gt;T&lt;/b&gt;hird'));
@@ -74,7 +79,7 @@ class OldSecurityTest extends \Codeception\TestCase\Test
         $this->assertEquals(Context::get('array2'), array('elem1'=>'One <ins>1</ins>','elem2'=>'Two <del>2</del>','elem3'=>'Three <addr>3</addr>'));
         $security->encodeHTML('array2.elem2'); // affects only 'elem2'
         $this->assertEquals(Context::get('array2'), array('elem1'=>'One <ins>1</ins>','elem2'=>'Two &lt;del&gt;2&lt;/del&gt;','elem3'=>'Three <addr>3</addr>'));
-        $this->_before(); // reset;
+        $this->_reset(); // reset;
         $this->assertEquals(Context::get('array2'), array('elem1'=>'One <ins>1</ins>','elem2'=>'Two <del>2</del>','elem3'=>'Three <addr>3</addr>'));
         $security->encodeHTML('array2.'); // affects all items
         $this->assertEquals(Context::get('array2'), array('elem1'=>'One &lt;ins&gt;1&lt;/ins&gt;','elem2'=>'Two &lt;del&gt;2&lt;/del&gt;','elem3'=>'Three &lt;addr&gt;3&lt;/addr&gt;'));
@@ -94,7 +99,7 @@ class OldSecurityTest extends \Codeception\TestCase\Test
         $security->encodeHTML('object1.prop3'); // affects only 'prop3' property
         $obj->prop3 = '&lt;strong&gt;Strong&lt;/strong&gt; Baby';
         $this->assertEquals(Context::get('object1'), $obj);
-        $this->_before(); // reset
+        $this->_reset(); // reset
         $obj->prop3 = '<strong>Strong</strong> Baby';
         $this->assertEquals(Context::get('object1'), $obj);
         $security->encodeHTML('object1.'); // affects all properties

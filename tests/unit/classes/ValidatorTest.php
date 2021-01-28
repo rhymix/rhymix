@@ -4,17 +4,23 @@ class ValidatorTest extends \Codeception\TestCase\Test
 {
     public function _before()
     {
-    	$ob_level = ob_get_level();
-    	
-    	//$oContext = Context::getInstance();
-    	//$oContext->init();
-    	
+        $ob_level = ob_get_level();
     	while (ob_get_level() > $ob_level)
     	{
     		ob_end_clean();
     	}
     }
 
+	public function _after()
+	{
+		Rhymix\Framework\Storage::deleteDirectory(__DIR__ . '/validator/ruleset', true);
+	}
+	
+	public function _failed()
+	{
+        Rhymix\Framework\Storage::deleteDirectory(__DIR__ . '/validator/ruleset', true);
+    }
+    
     public function testRequired()
     {
         $vd = new Validator();
@@ -186,21 +192,6 @@ class ValidatorTest extends \Codeception\TestCase\Test
         $vd->setCacheDir(__DIR__ . '/validator');
         $js = $vd->getJsPath();
         $this->assertEquals(trim(file_get_contents(__DIR__ . '/validator/condition.en.js')), trim(file_get_contents($js)));
-    }
-
-    protected function tearDown()
-    {
-        // remove cache directory
-        $cache_dir = __DIR__ . '/validator/ruleset';
-        if(is_dir($cache_dir))
-        {
-            $files = (array)glob($cache_dir.'/*');
-            foreach($files as $file)
-            {
-                unlink($file);
-            }
-            rmdir($cache_dir);
-        }
     }
 }
 

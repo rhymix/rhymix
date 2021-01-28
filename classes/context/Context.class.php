@@ -236,7 +236,7 @@ class Context
 		self::setRequestMethod();
 		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
 		{
-			$method = $_SERVER['REQUEST_METHOD'] ?: 'GET';
+			$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 			$route_info = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());
 			self::setRequestArguments($route_info->args);
 			self::$_route_info = $route_info;
@@ -301,7 +301,7 @@ class Context
 				$set_lang_cookie = true;
 			}
 		}
-		elseif($_COOKIE['lang_type'])
+		elseif(isset($_COOKIE['lang_type']) && $_COOKIE['lang_type'])
 		{
 			$lang_type = $_COOKIE['lang_type'];
 		}
@@ -333,7 +333,7 @@ class Context
 			}
 			else
 			{
-				$lang_type = self::$_instance->db_info->lang_type ?: 'ko';
+				$lang_type = self::$_instance->db_info->lang_type = self::$_instance->db_info->lang_type ?? 'ko';
 			}
 		}
 
@@ -361,7 +361,7 @@ class Context
 		}
 		
 		// start session
-		$relax_key_checks = ((self::$_get_vars->act ?? null) === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT']));
+		$relax_key_checks = ((self::$_get_vars->act ?? null) === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT'] ?? ''));
 		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
 
@@ -387,7 +387,7 @@ class Context
 		
 		// set locations for javascript use
 		$current_url = $request_uri = self::getRequestUri();
-		if ($_SERVER['REQUEST_METHOD'] == 'GET' && self::$_get_vars)
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET' && self::$_get_vars)
 		{
 			if ($query_string = http_build_query(self::$_get_vars))
 			{
@@ -803,7 +803,7 @@ class Context
 			$plugin_name = null;
 		}
 		
-		if (!$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
+		if (!(($GLOBALS['lang'] ?? null) instanceof Rhymix\Framework\Lang))
 		{
 			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
 			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
@@ -1104,10 +1104,10 @@ class Context
 		}
 		else
 		{
-			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'];
+			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 		}
 		
-		if ($_SERVER['REQUEST_METHOD'] === 'POST')
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST')
 		{
 			// Set variables for XE compatibility.
 			if (isset($_POST['_rx_ajax_compat']) && in_array($_POST['_rx_ajax_compat'], array('JSON', 'XMLRPC')))
@@ -1152,7 +1152,7 @@ class Context
 	public static function setRequestArguments(array $router_args = [])
 	{
 		// Arguments detected by the router have precedence over GET/POST parameters.
-		$request_args = $_SERVER['REQUEST_METHOD'] === 'GET' ? $_GET : $_POST;
+		$request_args = ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET' ? $_GET : $_POST;
 		if (count($router_args))
 		{
 			foreach ($router_args as $key => $val)
@@ -1162,7 +1162,7 @@ class Context
 		}
 		
 		// Set JSON and XMLRPC arguments.
-		if($_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
 			$params = array();
 			$request_method = self::getRequestMethod();
@@ -1217,7 +1217,7 @@ class Context
 	 */
 	private static function setUploadInfo()
 	{
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$_FILES)
+		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_FILES)
 		{
 			return;
 		}
@@ -1406,7 +1406,7 @@ class Context
 						self::$_instance->security_check = 'DENY ALL';
 					}
 				}
-				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || $_SERVER['REQUEST_METHOD'] === 'GET')
+				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
 				{
 					$_val = escape($_val, false);
 					if(ends_with('url', $key, false))
@@ -1639,7 +1639,7 @@ class Context
 			$get_vars = array();
 		}
 		// Otherwise, only keep existing parameters that are safe.
-		elseif ($_SERVER['REQUEST_METHOD'] !== 'GET')
+		elseif (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] !== 'GET')
 		{
 			$preserve_vars = array('module', 'mid', 'act', 'page', 'document_srl', 'search_target', 'search_keyword');
 			$preserve_keys = array_combine($preserve_vars, array_fill(0, count($preserve_vars), true));

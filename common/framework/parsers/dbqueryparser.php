@@ -41,7 +41,7 @@ class DBQueryParser extends BaseParser
 		$attribs = self::_getAttributes($xml);
 		$query = new DBQuery\Query;
 		$query->name = $name ?: null;
-		$query->type = strtoupper($attribs['action']) ?: 'SELECT';
+		$query->type = strtoupper($attribs['action'] ?? '') ?: 'SELECT';
 		$query->alias = $attribs['alias'] ?? null;
 		if ($query->alias && !$query->name)
 		{
