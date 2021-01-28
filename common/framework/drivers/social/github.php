@@ -1,13 +1,6 @@
 <?php
 namespace Rhymix\Framework\Drivers\Social;
 
-// HECK: 임시 코드 라이브러리 추가되면 삭제 예정
-include dirname(__DIR__) . '/social/vendor/autoload.php';
-/**
- * Class Github
- * Base code by @YJSoft
- * @package Rhymix\Framework\Drivers\Social
- */
 class Github extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	public $oProvider = null;

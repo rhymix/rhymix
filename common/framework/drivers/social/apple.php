@@ -1,8 +1,6 @@
 <?php
 namespace Rhymix\Framework\Drivers\Social;
 
-include dirname(__DIR__) . '/social/vendor/autoload.php';
-
 class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 {
 	public $oProvider = null;
