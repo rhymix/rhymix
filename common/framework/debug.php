@@ -718,7 +718,7 @@ class Debug
 		{
 			return self::$_enabled;
 		}
-		if (!self::$_config['enabled'])
+		if (!is_array(self::$_config) || !self::$_config['enabled'])
 		{
 			return self::$_enabled = false;
 		}
