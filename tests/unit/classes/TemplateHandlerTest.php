@@ -130,7 +130,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // <!--%unload("../script.js",type="body")-->
             array(
                 '<dummy /><!--%unload("../script.js",type="body")--><dummy />',
-                '?><dummy /><?php Context::unloadFile(\'tests/unit/classes/script.js\',\'\'); ?><dummy />'
+                '?><dummy /><?php Context::unloadFile(\'tests/unit/classes/script.js\', \'\'); ?><dummy />'
             ),
             // comment
             array(
@@ -488,7 +488,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
     {
         $tmpl = new TemplateHandlerWrapper;
         $tmpl->init(__DIR__ . '/template', 'no_file.html');
-        $result = $tmpl->parse($tpl);
+        $result = $tmpl->parse(null);
 
         $this->assertEquals('', $result);
     }

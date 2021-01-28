@@ -95,7 +95,7 @@ class ContextTest extends \Codeception\TestCase\Test
         Context::setRequestMethod();
 		Context::setRequestArguments();
 		$this->assertEquals('POST', Context::getRequestMethod());
-		$this->assertNull(Context::getRequestVars()->foo);
+		$this->assertNull(Context::getRequestVars()->foo ?? null);
 		$this->assertNull(Context::get('foo'));  // This is different from XE behavior
 		
 		$_SERVER['REQUEST_METHOD'] = 'POST';

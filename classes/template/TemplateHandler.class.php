@@ -847,7 +847,7 @@ class TemplateHandler
 						case 'js':
 							if($doUnload)
 							{
-								$result = "Context::unloadFile('{$attr['target']}','{$attr['targetie']}');";
+								$result = vsprintf("Context::unloadFile('%s', '%s');", [$attr['target'] ?? '', $attr['targetie'] ?? '']);
 							}
 							else
 							{

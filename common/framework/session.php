@@ -304,7 +304,7 @@ class Session
 	public static function checkSSO($site_module_info)
 	{
 		// Abort if SSO is disabled, the visitor is a robot, or this is not a typical GET request.
-		if ($_SERVER['REQUEST_METHOD'] !== 'GET' || !config('use_sso') || UA::isRobot() || in_array(\Context::get('act'), array('rss', 'atom')))
+		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET' || !config('use_sso') || UA::isRobot() || in_array(\Context::get('act'), array('rss', 'atom')))
 		{
 			return;
 		}
@@ -509,11 +509,11 @@ class Session
 	public static function close()
 	{
 		// Restore member_srl from XE-compatible variable if it has changed.
-		if ($_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['login'] !== intval($_SESSION['member_srl']))
+		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['login'] !== intval($_SESSION['member_srl']))
 		{
-			$_SESSION['RHYMIX']['login'] = intval($_SESSION['member_srl']);
+			$_SESSION['RHYMIX']['login'] = intval($_SESSION['member_srl'] ?? 0);
 			$_SESSION['RHYMIX']['last_login'] = time();
-			$_SESSION['is_logged'] = (bool)$member_srl;
+			$_SESSION['is_logged'] = (bool)($_SESSION['member_srl'] ?? 0);
 		}
 		
 		// Close the session and write it to disk.
@@ -725,7 +725,7 @@ class Session
 	 */
 	public static function getMemberSrl()
 	{
-		return $_SESSION['member_srl'] ?: ($_SESSION['RHYMIX']['login'] ?: false);
+		return ($_SESSION['member_srl'] ?? 0) ?: (($_SESSION['RHYMIX']['login'] ?? false) ?: false);
 	}
 	
 	/**
@@ -1016,7 +1016,7 @@ class Session
 	 */
 	public static function encrypt($plaintext)
 	{
-		$key = $_SESSION['RHYMIX']['secret'] . Config::get('crypto.encryption_key');
+		$key = ($_SESSION['RHYMIX']['secret'] ?? '') . Config::get('crypto.encryption_key');
 		return Security::encrypt($plaintext, $key);
 	}
 	
@@ -1031,7 +1031,7 @@ class Session
 	 */
 	public static function decrypt($ciphertext)
 	{
-		$key = $_SESSION['RHYMIX']['secret'] . Config::get('crypto.encryption_key');
+		$key = ($_SESSION['RHYMIX']['secret'] ?? '') . Config::get('crypto.encryption_key');
 		return Security::decrypt($ciphertext, $key);
 	}
 	

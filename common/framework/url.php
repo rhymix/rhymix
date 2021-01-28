@@ -120,7 +120,7 @@ class URL
 	public static function modifyURL($url, array $changes = array())
 	{
 		$url = parse_url(self::getCanonicalURL($url));
-		$prefix = sprintf('%s://%s%s%s', $url['scheme'], $url['host'], ($url['port'] ? (':' . $url['port']) : ''), $url['path']);
+		$prefix = sprintf('%s://%s%s%s', $url['scheme'], $url['host'], (($url['port'] ?? '') ? (':' . $url['port']) : ''), $url['path']);
 		parse_str($url['query'], $args);
 		$changes = array_merge($args, $changes);
 		$changes = array_filter($changes, function($val) { return $val !== null; });

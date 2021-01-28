@@ -188,7 +188,7 @@ class SMSTest extends \Codeception\TestCase\Test
 		$sms->send();
 		
 		$messages = $driver->getSentMessages();
-		$this->assertEquals('01099998888', $messages[0]->from);
+		$this->assertEquals('01099998888', count($messages) ? $messages[0]->from : '');
 		
 		config('sms.default_force', false);
 		

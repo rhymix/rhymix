@@ -342,7 +342,7 @@ class SessionTest extends \Codeception\TestCase\Test
 		
 		Rhymix\Framework\Session::destroy();
 		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token1));
-		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token, '/my/key'));
+		$this->assertFalse(Rhymix\Framework\Session::verifyToken($token1, '/my/key'));
 		$this->assertFalse(Rhymix\Framework\Session::getGenericToken());
 	}
 	

@@ -619,7 +619,7 @@ class Validator
 			case 'enum':
 				return in_array($value, $rule['test']);
 			case 'expr':
-				if(is_callable($rule['func_test']))
+				if(isset($rule['func_test']) && is_callable($rule['func_test']))
 				{
 					return $rule['func_test']($value);
 				}

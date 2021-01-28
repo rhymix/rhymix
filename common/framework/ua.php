@@ -229,7 +229,7 @@ class UA
 				if (preg_match('#Android ([0-9\.]+);(?: ([^;]+) Build/)?#', $ua, $matches))
 				{
 					$result->os_version = $matches[1];
-					$result->device = $matches[2] ?: null;
+					$result->device = isset($matches[2]) ? ($matches[2] ?: null) : null;
 				}
 			}
 			elseif ($matches[1] === 'iPhone' || $matches[1] === 'iPad' || $matches[1] === 'iPod')
@@ -358,7 +358,7 @@ class UA
 		if (preg_match('#^([a-zA-Z0-9_-]+)(?:/([0-9]+\\.[0-9]+))?#', $ua, $matches))
 		{
 			$result->browser = ucfirst($matches[1]);
-			$result->version = $matches[2] ?: null;
+			$result->version = isset($matches[2]) ? ($matches[2] ?: null) : null;
 			return $result;
 		}
 		

@@ -29,7 +29,7 @@ class SessionHelper
 		{
 			$oMemberModel = \MemberModel::getInstance();
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
-			if (intval($member_info->member_srl) === $member_srl)
+			if (isset($member_info->member_srl) && intval($member_info->member_srl) === $member_srl)
 			{
 				foreach (get_object_vars($member_info) as $key => $value)
 				{

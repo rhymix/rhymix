@@ -63,6 +63,6 @@ class LangParserTest extends \Codeception\TestCase\Test
 		include \RX_BASEDIR . $this->_dir . '/ja.php';
 		$this->assertEquals('テスト言語', $lang->testlang);
 		$this->assertEquals('<p>HTML&nbsp;コンテンツ</p>', $lang->testhtml);
-		$this->assertNull($lang->testarray);
+		$this->assertNull($lang->testarray ?? null);
 	}
 }
