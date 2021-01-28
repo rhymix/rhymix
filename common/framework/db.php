@@ -1197,6 +1197,16 @@ class DB
 	}
 	
 	/**
+	 * Enable or disable debug comments.
+	 * 
+	 * @param bool $enabled
+	 */
+	public function setDebugComment(bool $enabled)
+	{
+		$this->_debug_comment = $enabled;
+	}
+	
+	/**
 	 * ========================== DEPRECATED METHODS ==========================
 	 * ==================== KEPT FOR COMPATIBILITY WITH XE ====================
 	 */

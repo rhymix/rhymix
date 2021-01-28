@@ -95,7 +95,7 @@ class LegacyTest extends \Codeception\TestCase\Test
 	public function testGetEncodedEmailAddress()
 	{
 		$this->assertNotEquals('devops@rhymix.org', getEncodeEmailAddress('devops@rhymix.org'));
-		$this->assertContains('&#X', getEncodeEmailAddress('devops@rhymix.org'));
+		$this->assertStringContainsString('&#X', getEncodeEmailAddress('devops@rhymix.org'));
 	}
 	
 	public function testGetMicrotime()
