@@ -301,7 +301,7 @@ class Context
 				$set_lang_cookie = true;
 			}
 		}
-		elseif($_COOKIE['lang_type'])
+		elseif(isset($_COOKIE['lang_type']) && $_COOKIE['lang_type'])
 		{
 			$lang_type = $_COOKIE['lang_type'];
 		}
