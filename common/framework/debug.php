@@ -287,7 +287,7 @@ class Debug
 		self::$_entries[] = $entry;
 		
 		// Add the entry to the error log.
-		if (self::$_config['write_error_log'] === 'all')
+		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
 		{
 			$log_entry = str_replace("\0", '', sprintf('Rhymix Debug: %s in %s on line %d',
 				var_export($message, true), $entry->file, $entry->line));
@@ -342,7 +342,7 @@ class Debug
 		);
 		
 		// Add the entry to the error log.
-		if (self::$_config['write_error_log'] === 'all')
+		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
 		{
 			$log_entry = strtr(sprintf('PHP %s: %s in %s on line %d', $errinfo->type, $errstr, $errfile, intval($errline)), "\0\r\n\t\v\e\f", '       ');
 			error_log($log_entry . \PHP_EOL . self::formatBacktrace($backtrace));
@@ -403,7 +403,7 @@ class Debug
 		}
 		
 		// Add the entry to the slow query log.
-		if ($query_object->query_time && $query_object->query_time >= self::$_config['log_slow_queries'])
+		if ($query_object->query_time && $query_object->query_time >= (self::$_config['log_slow_queries'] ?? 1))
 		{
 			self::$_slow_queries[] = $query_object;
 		}
@@ -437,7 +437,7 @@ class Debug
 		);
 		
 		self::$_triggers[] = $trigger_object;
-		if ($trigger_object->trigger_time && $trigger_object->trigger_time >= self::$_config['log_slow_triggers'])
+		if ($trigger_object->trigger_time && $trigger_object->trigger_time >= (self::$_config['log_slow_triggers'] ?? 1))
 		{
 			self::$_slow_triggers[] = $trigger_object;
 		}
@@ -469,7 +469,7 @@ class Debug
 		);
 		
 		self::$_widgets[] = $widget_object;
-		if ($widget_object->widget_time && $widget_object->widget_time >= self::$_config['log_slow_widgets'])
+		if ($widget_object->widget_time && $widget_object->widget_time >= (self::$_config['log_slow_widgets'] ?? 1))
 		{
 			self::$_slow_widgets[] = $widget_object;
 		}
@@ -503,7 +503,7 @@ class Debug
 		);
 		
 		self::$_remote_requests[] = $request_object;
-		if ($request_object->elapsed_time && $request_object->elapsed_time >= self::$_config['log_slow_remote_requests'])
+		if ($request_object->elapsed_time && $request_object->elapsed_time >= (self::$_config['log_slow_remote_requests'] ?? 1))
 		{
 			self::$_slow_remote_requests[] = $request_object;
 		}
@@ -550,7 +550,7 @@ class Debug
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d',
 				get_class($e), $e->getCode(), $e->getMessage(), $errfile, $e->getLine()));
 		}
-		if (self::$_config['write_error_log'] !== 'none')
+		if (!isset(self::$_config['write_error_log']) || self::$_config['write_error_log'] !== 'none')
 		{
 			error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
 		}
@@ -580,7 +580,7 @@ class Debug
 		// Add the entry to the error log.
 		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
 		$log_entry = str_replace("\0", '', 'PHP ' . self::getErrorType($errinfo['type']) . ': ' . $message);
-		if (self::$_config['write_error_log'] !== 'none')
+		if (!isset(self::$_config['write_error_log']) || self::$_config['write_error_log'] !== 'none')
 		{
 			error_log($log_entry);
 		}
