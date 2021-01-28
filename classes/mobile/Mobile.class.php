@@ -46,7 +46,7 @@ class Mobile
 		// Try to detect from URL arguments and cookies, and finally fall back to user-agent detection.
 		$m = Context::get('m');
 		$cookie = isset($_COOKIE['rx_uatype']) ? $_COOKIE['rx_uatype'] : null;
-		$uahash = base64_encode_urlsafe(md5($_SERVER['HTTP_USER_AGENT'], true));
+		$uahash = base64_encode_urlsafe(md5($_SERVER['HTTP_USER_AGENT'] ?? '', true));
 		if (strncmp($cookie, $uahash . ':', strlen($uahash) + 1) !== 0)
 		{
 			$cookie = null;
