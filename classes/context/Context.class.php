@@ -333,7 +333,7 @@ class Context
 			}
 			else
 			{
-				$lang_type = self::$_instance->db_info->lang_type ?: 'ko';
+				$lang_type = self::$_instance->db_info->lang_type = self::$_instance->db_info->lang_type ?? 'ko';
 			}
 		}
 
