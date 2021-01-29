@@ -408,7 +408,7 @@ class DB
 		// Get the COUNT(*) query string and parameters.
 		try
 		{
-			$query_string = $query->getQueryString($this->_prefix, $args, [], true);
+			$query_string = $query->getQueryString($this->_prefix, $args, [], 1);
 			$query_params = $query->getQueryParams();
 		}
 		catch (Exceptions\QueryError $e)

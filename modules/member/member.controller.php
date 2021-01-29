@@ -814,7 +814,7 @@ class memberController extends member
 				{
 					$use_phone = true;
 				}
-				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
+				if($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)
 				{
 					$getVars[] = $formInfo->name;
 				}
@@ -2633,10 +2633,15 @@ class memberController extends member
 		$args->member_srl = getNextSequence();
 		$args->list_order = -1 * $args->member_srl;
 
-		// Execute insert or update depending on the value of member_srl
-		if(!$args->user_id) $args->user_id = 't'.$args->member_srl;
-		// Enter the user's identity changed to lowercase
-		else $args->user_id = strtolower($args->user_id);
+		// Set user_id if empty. Otherwise convert to lowercase.
+		if (trim($args->user_id ?? '') === '')
+		{
+			$args->user_id = 't' . $args->member_srl;
+		}
+		else
+		{
+			$args->user_id = strtolower($args->user_id);
+		}
 		if(!$args->user_name) $args->user_name = $args->member_srl;
 		if(!$args->nick_name) $args->nick_name = $args->member_srl;
 
@@ -2811,9 +2816,6 @@ class memberController extends member
 		
 		// Insert data into the DB
 		$args->list_order = -1 * $args->member_srl;
-
-		if(!$args->user_id) $args->user_id = 't'.$args->member_srl;
-		if(!$args->user_name) $args->user_name = $args->member_srl;
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -3830,19 +3832,24 @@ class memberController extends member
 	 */
 	protected function _checkSignUpFields($config, $args, $mode = 'insert')
 	{
+		$not_required_if_indirect_insert = ['user_id'];
 		$not_required_in_update = ['password'];
 		
 		foreach($config->signupForm as $formInfo)
 		{
-			if($formInfo->required || $formInfo->mustRequired)
+			if($formInfo->isUse && ($formInfo->required || $formInfo->mustRequired))
 			{
 				if ($mode === 'update' && in_array($formInfo->name, $not_required_in_update))
 				{
 					// pass
 				}
-				else
+				elseif (!isset($args->{$formInfo->name}) || trim($args->{$formInfo->name} ?? '') === '')
 				{
-					if (!isset($args->{$formInfo->name}) || !$args->{$formInfo->name})
+					if (in_array($formInfo->name, $not_required_if_indirect_insert) && !preg_match('/^procMember.+/i', Context::get('act')))
+					{
+						// pass
+					}
+					else
 					{
 						return new BaseObject(-1, sprintf(lang('common.filter.isnull'), $formInfo->title));
 					}
@@ -3856,9 +3863,13 @@ class memberController extends member
 			{
 				return new BaseObject(-1, sprintf(lang('common.filter.invalid_user_id'), $formInfo->title));
 			}
-			if ($formInfo->name === 'password' && $args->password && ($args->password !== Context::get('password2')))
+			if ($formInfo->name === 'password' && $args->{$formInfo->name})
 			{
-				return new BaseObject(-1, 'msg_password_mismatch');
+				$password_check = trim(Context::get('password2'));
+				if ($password_check !== '' && !hash_equals($args->password, $password_check))
+				{
+					return new BaseObject(-1, 'msg_password_mismatch');
+				}
 			}
 		}
 		

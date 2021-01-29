@@ -9,6 +9,8 @@
 				<table name="documents" />
 			</tables>
 			<columns>
+				<column name="documents.document_srl" />
+				<column name="documents.*" />
 				<column name="COUNT(*)" alias="count" />
 			</columns>
 			<conditions>

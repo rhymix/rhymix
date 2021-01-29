@@ -12,7 +12,7 @@
 		<column name="content" var="content" notnull="notnull" />
         <column name="voted_count" var="voted_count" default="0" />
         <column name="blamed_count" var="blamed_count" default="0" />
-		<column name="password" var="password" minlength="2" maxlength="60" />
+		<column name="password" var="password" maxlength="60" />
 		<column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
 		<column name="user_id" var="user_id" default="" />
 		<column name="user_name" var="user_name" default="" />

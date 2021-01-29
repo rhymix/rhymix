@@ -425,7 +425,20 @@ class memberAdminController extends member
 			$signupItem->isIdentifier = ($key == $config->identifier || in_array($key, $config->identifiers ?: []));
 			$signupItem->isDefaultForm = in_array($key, $items);
 			$signupItem->name = $key;
-			$signupItem->title = (!in_array($key, $items)) ? $key : $lang->{$key};
+			if (isset($all_args->{$key . '_title_edit'}) && $all_args->{$key . '_title_edit'} && $all_args->{$key . '_title_edit'} !== $lang->{$key})
+			{
+				$signupItem->isCustomTitle = true;
+				$signupItem->title = $all_args->{$key . '_title_edit'};
+				if (!preg_match('/^\\$user_lang->[a-z0-9_]+$/i', $signupItem->title))
+				{
+					$signupItem->title = escape($signupItem->title);
+				}
+			}
+			else
+			{
+				$signupItem->isCustomTitle = false;
+				$signupItem->title = (!in_array($key, $items)) ? $key : $lang->{$key};
+			}
 			$signupItem->mustRequired = in_array($key, $mustRequireds);
 			$signupItem->imageType = (strpos($key, 'image') !== false);
 			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
@@ -465,12 +478,7 @@ class memberAdminController extends member
 			$signupForm[$key] = $signupItem;
 		}
 		$args->signupForm = array_values($signupForm);
-
-		// create Ruleset
-		$this->_createSignupRuleset($signupForm);
-		$this->_createLoginRuleset($args->identifier);
-
-		$output = $oModuleController->updateModuleConfig('member', $args);
+		$oModuleController->updateModuleConfig('member', $args);
 
 		// default setting end
 		$this->setMessage('success_updated');

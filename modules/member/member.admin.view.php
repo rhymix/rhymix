@@ -524,7 +524,7 @@ class memberAdminView extends member
 			
 			$formTag = new stdClass();
 			$inputTag = '';
-			$formTag->title = ($formInfo->isDefaultForm) ? $lang->{$formInfo->name} : $formInfo->title;
+			$formTag->title = $formInfo->title;
 			if($isAdmin)
 			{
 				if($formInfo->mustRequired || $formInfo->required) $formTag->title = '<em style="color:red">*</em> '.$formTag->title;
