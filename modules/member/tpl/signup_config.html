@@ -113,7 +113,11 @@
 						<th scope="row">
 							<div class="wrap">
 								<button type="button" class="dragBtn">Move to</button>
-								<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
+								<!--@if(in_array($item->name, ['birthday', 'signature', 'profile_image', 'image_name', 'image_mark']))-->
+									<input class="_title_edit lang_code" type="text" name="{$item->name}_title_edit" value="{$item->title}" placeholder="{lang($item->name)}" />
+								<!--@else-->
+									<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
+								<!--@endif-->
 							</div>
 						</th>
 						<td style="text-align:center">
