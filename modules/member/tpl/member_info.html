@@ -3,7 +3,7 @@
 </div>
 <table class="x_table x_table-striped x_table-hover">
 	<tr loop="$displayDatas => $item">
-		<th scope="row" ><em style="color:red" cond="$item->required || $item->mustRequired">*</em> {$item->title}</th>
+		<th scope="row" >{$item->title} <em style="color:red" cond="$item->required || $item->mustRequired">*</em></th>
 		<td class="text">{$item->value}</td>
 	</tr>
 	<tr>
