@@ -40,7 +40,7 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 			{ name: 'others' }
 		],
 		allowedContent: true,
-		removePlugins: 'stylescombo,language,bidi,flash,pagebreak',
+		removePlugins: 'stylescombo,language,bidi,flash,pagebreak,exportpdf',
 		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste,Flash,NewPage,ExportPdf,Language',
 		uiColor: '#EFF0F0'
 	};
