@@ -32,7 +32,7 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 			{ name: 'document',    groups: [ 'mode' ] },
 			'/',
 			{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
-			{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+			{ name: 'paragraph',   groups: [ 'align', 'list', 'indent', 'blocks', 'bidi' ] },
 			'/',
 			{ name: 'styles' },
 			{ name: 'colors' },
@@ -41,7 +41,7 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 		],
 		allowedContent: true,
 		removePlugins: 'stylescombo,language,bidi,flash,pagebreak',
-		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste',
+		removeButtons: 'Save,Preview,Print,Cut,Copy,Paste,Flash,NewPage,ExportPdf,Language',
 		uiColor: '#EFF0F0'
 	};
 
