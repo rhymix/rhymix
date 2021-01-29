@@ -814,7 +814,7 @@ class memberController extends member
 				{
 					$use_phone = true;
 				}
-				if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
+				if($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)
 				{
 					$getVars[] = $formInfo->name;
 				}
@@ -3834,18 +3834,15 @@ class memberController extends member
 		
 		foreach($config->signupForm as $formInfo)
 		{
-			if($formInfo->required || $formInfo->mustRequired)
+			if($formInfo->isUse && ($formInfo->required || $formInfo->mustRequired))
 			{
 				if ($mode === 'update' && in_array($formInfo->name, $not_required_in_update))
 				{
 					// pass
 				}
-				else
+				elseif (!isset($args->{$formInfo->name}) || !$args->{$formInfo->name})
 				{
-					if (!isset($args->{$formInfo->name}) || !$args->{$formInfo->name})
-					{
-						return new BaseObject(-1, sprintf(lang('common.filter.isnull'), $formInfo->title));
-					}
+					return new BaseObject(-1, sprintf(lang('common.filter.isnull'), $formInfo->title));
 				}
 			}
 			if ($formInfo->name === 'email_address' && $args->{$formInfo->name} && !Mail::isVaildMailAddress($args->{$formInfo->name}))
@@ -3856,9 +3853,13 @@ class memberController extends member
 			{
 				return new BaseObject(-1, sprintf(lang('common.filter.invalid_user_id'), $formInfo->title));
 			}
-			if ($formInfo->name === 'password' && $args->password && ($args->password !== Context::get('password2')))
+			if ($formInfo->name === 'password' && $args->{$formInfo->name})
 			{
-				return new BaseObject(-1, 'msg_password_mismatch');
+				$password_check = trim(Context::get('password2'));
+				if ($password_check !== '' && !hash_equals($args->password, $password_check))
+				{
+					return new BaseObject(-1, 'msg_password_mismatch');
+				}
 			}
 		}
 		
