@@ -881,35 +881,21 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception($message[$config->password_strength]);
 		}
 
-		// Remove some unnecessary variables from all the vars
+		// Get list of extra vars
 		$all_args = Context::getRequestVars();
-		unset($all_args->xe_validator_id);
-		unset($all_args->module);
-		unset($all_args->act);
-		unset($all_args->is_admin);
-		unset($all_args->member_srl);
-		unset($all_args->description);
-		unset($all_args->group_srl_list);
-		unset($all_args->body);
-		unset($all_args->accept_agreement);
-		unset($all_args->signature);
-		unset($all_args->password);
-		unset($all_args->password2);
-		unset($all_args->mid);
-		unset($all_args->success_return_url);
-		unset($all_args->error_return_url);
-		unset($all_args->ruleset);
-		unset($all_args->captchaType);
-		unset($all_args->secret_text);
-		unset($all_args->use_editor);
-		unset($all_args->use_html);
+		$extra_vars = new stdClass;
+		foreach($config->signupForm as $formInfo)
+		{
+			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
+			{
+				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
+			}
+		}
+		$args->extra_vars = serialize($extra_vars);
 
 		// Set the user state as "denied" when using mail authentication
 		if($config->enable_confirm == 'Y') $args->denied = 'Y';
-		// Add extra vars after excluding necessary information from all the requested arguments
-		$extra_vars = delObjectVars($all_args, $args);
-		$args->extra_vars = serialize($extra_vars);
-
+		
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
 		foreach($checkInfos as $val)
@@ -1113,7 +1099,7 @@ class memberController extends member
 			{
 				$use_phone = true;
 			}
-			if($formInfo->isDefaultForm && ($formInfo->isUse || $formInfo->required || $formInfo->mustRequired))
+			if($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)
 			{
 				$getVars[] = $formInfo->name;
 			}
@@ -1171,30 +1157,16 @@ class memberController extends member
 		// Fill in member_srl
 		$args->member_srl = $logged_info->member_srl;
 
-		// Remove some unnecessary variables from all the vars
+		// Get list of extra vars
 		$all_args = Context::getRequestVars();
-		unset($all_args->xe_validator_id);
-		unset($all_args->module);
-		unset($all_args->act);
-		unset($all_args->is_admin);
-		unset($all_args->member_srl);
-		unset($all_args->description);
-		unset($all_args->group_srl_list);
-		unset($all_args->body);
-		unset($all_args->accept_agreement);
-		unset($all_args->signature);
-		unset($all_args->password);
-		unset($all_args->password2);
-		unset($all_args->mid);
-		unset($all_args->success_return_url);
-		unset($all_args->error_return_url);
-		unset($all_args->ruleset);
-		unset($all_args->captchaType);
-		unset($all_args->secret_text);
-		unset($all_args->use_editor);
-		unset($all_args->use_html);
-		unset($all_args->_filter);
-		$extra_vars = delObjectVars($all_args, $args);
+		$extra_vars = new stdClass;
+		foreach($config->signupForm as $formInfo)
+		{
+			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
+			{
+				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
+			}
+		}
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
