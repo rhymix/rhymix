@@ -562,6 +562,7 @@ class boardView extends board
 				}
 				else
 				{
+					$args->except_notice = $this->except_notice;
 					$args->page = DocumentModel::getDocumentPage($oDocument, $args);
 					Context::set('page', $args->page);
 				}
