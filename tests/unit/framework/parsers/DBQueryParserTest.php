@@ -61,8 +61,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$params = $query->getQueryParams();
 		
 		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
-			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
-			'ORDER BY `list_order` ASC LIMIT 40, 20) AS `subquery`', $sql);
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?)) AS `subquery`', $sql);
 		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
 	}
 	
