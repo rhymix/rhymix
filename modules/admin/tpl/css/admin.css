@@ -101,6 +101,9 @@ body>.x,
 .message.error h3 {
 	color: #943a38;
 }
+.message.core_update {
+	display: none;
+}
 .x h1 {
 	font-size: 22px;
 }
