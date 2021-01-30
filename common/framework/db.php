@@ -538,9 +538,9 @@ class DB
 			throw new Exceptions\DBError($e->getMessage(), 0, $e);
 		}
 		
-		if ($result_type === 'auto' && $last_index === 0 && count($result) === 1)
+		if ($result_type === 'auto' && $last_index === 0 && count($result) <= 1)
 		{
-			return $result[0];
+			return isset($result[0]) ? $result[0] : null;
 		}
 		else
 		{
