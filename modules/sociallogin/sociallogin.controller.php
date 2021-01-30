@@ -248,17 +248,24 @@ class SocialloginController extends Sociallogin
 	 **/
 	function triggerInsertDocumentAfter($obj)
 	{
-		if (!Context::get('is_logged'))
+		$config = self::getConfig();
+		
+		if($config->document_post !== 'Y')
+		{
+			return new BaseObject();
+		}
+		
+		if (!$this->user->isMember())
 		{
 			return new BaseObject();
 		}
 
 		// 설정된 모듈 제외
-		if (self::getConfig()->linkage_module_srl)
+		if ($config->linkage_module_srl)
 		{
-			$module_srl_list = explode(',', self::getConfig()->linkage_module_srl);
+			$module_srl_list = explode(',', $config->linkage_module_srl);
 
-			if (self::getConfig()->linkage_module_target == 'exclude' && in_array($obj->module_srl, $module_srl_list) || self::getConfig()->linkage_module_target != 'exclude' && !in_array($obj->module_srl, $module_srl_list))
+			if ($config->linkage_module_target == 'exclude' && in_array($obj->module_srl, $module_srl_list) || $config->linkage_module_target != 'exclude' && !in_array($obj->module_srl, $module_srl_list))
 			{
 				return new BaseObject();
 			}
@@ -269,7 +276,7 @@ class SocialloginController extends Sociallogin
 			return new BaseObject();
 		}
 
-		foreach (self::getConfig()->sns_services as $key => $val)
+		foreach ($config->sns_services as $key => $val)
 		{
 			if (!($sns_info = SocialloginModel::getMemberSns($val)) || $sns_info->linkage != 'Y')
 			{

@@ -105,6 +105,7 @@ class SocialloginAdminController extends Sociallogin
 			'sns_suspended_account',
 			'sns_keep_signed',
 			'use_for_phone_auth',
+			'document_post',
 			'linkage_module_srl',
 			'linkage_module_target',
 		);
@@ -120,7 +121,6 @@ class SocialloginAdminController extends Sociallogin
 		{
 			$config->sns_services = array();
 		}
-		
 		
 		getController('module')->insertModuleConfig('sociallogin', $config);
 

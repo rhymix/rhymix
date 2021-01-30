@@ -147,6 +147,14 @@
 				</label>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="document_post">{$lang->document_post}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="document_post">
+					<input type="checkbox" name="document_post" id="document_post" value="Y" checked="checked"|cond="$config->document_post=='Y'" /> {$lang->about_document_post}
+				</label>
+			</div>
+		</div>
 	</section>
 	<section class="section">
 		<h1>{$lang->sns_linkage}</h1>
