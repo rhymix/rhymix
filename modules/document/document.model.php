@@ -1440,9 +1440,9 @@ class documentModel extends document
 					$args->sort_index = 'extra_sort.value';
 				}
 				$query_id = 'document.getDocumentListWithExtraVars';
-				if($args->columnList)
+				if($args->columnList && !in_array($args->sort_index, $args->columnList))
 				{
-					$args->columnList[] = 'extra_sort.value';
+					$args->columnList[] = $args->sort_index;
 				}
 			}
 			else
