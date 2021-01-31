@@ -5,6 +5,7 @@
     </tables>
     <columns distinct="distinct">
         <column name="d.*" />
+        <column name="ev.value" />
     </columns>
     <index_hint name="idx_document_list_order" type="use" />
     <conditions>

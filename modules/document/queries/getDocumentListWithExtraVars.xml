@@ -6,6 +6,7 @@
 	</tables>
 	<columns distinct="distinct">
 		<column name="documents.*" />
+		<column name="extra_sort.value" />
 	</columns>
 	<conditions>
 		<condition operation="like" column="extra_vars.value" var="var_value" />
