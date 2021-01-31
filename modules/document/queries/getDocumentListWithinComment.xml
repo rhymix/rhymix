@@ -3,7 +3,7 @@
 		<table name="documents" />
 		<table name="comments" />
 	</tables>
-	<columns>
+	<columns distinct="distinct">
 		<column name="documents.*" />
 	</columns>
 	<conditions>
@@ -23,9 +23,6 @@
 		<condition operation="more" column="documents.regdate" var="start_regdate" pipe="and" />
 		<condition operation="less" column="documents.regdate" var="end_regdate" pipe="and" />
 	</conditions>
-	<groups>
-		<group column="documents.document_srl" />
-	</groups>
 	<navigation>
 		<index var="sort_index" default="documents.list_order" order="order_type" />
 		<list_count var="list_count" default="20" />

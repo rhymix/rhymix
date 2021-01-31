@@ -3,7 +3,7 @@
 		<table name="documents" />
 		<table name="document_extra_vars" alias="extra_vars" />
 	</tables>
-	<columns>
+	<columns distinct="distinct">
 		<column name="documents.*" />
 	</columns>
 	<conditions>
@@ -16,9 +16,6 @@
 		<condition operation="in" column="documents.status" var="statusList" pipe="and" />
 		<condition operation="like" column="extra_vars.value" var="var_value" notnull="notnull" pipe="and" />
 	</conditions>
-	<groups>
-		<group column="extra_vars.document_srl" />
-	</groups>
 	<navigation>
 		<index var="sort_index" default="documents.list_order" order="order_type" />
 		<list_count var="list_count" default="20" />
