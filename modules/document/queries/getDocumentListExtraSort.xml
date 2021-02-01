@@ -3,8 +3,9 @@
         <table name="documents" alias="d" />
         <table name="document_extra_vars" alias="ev" />
     </tables>
-    <columns>
+    <columns distinct="distinct">
         <column name="d.*" />
+        <column name="ev.value" />
     </columns>
     <index_hint name="idx_document_list_order" type="use" />
     <conditions>
@@ -48,9 +49,6 @@
             <condition operation="less" column="d.regdate" var="end_regdate" pipe="and" />
         </group>
     </conditions>
-    <groups>
-        <group column="d.document_srl" />
-    </groups>
     <navigation>
         <index var="ev.value" default="ev.value" order="order_type" />
         <list_count var="list_count" default="20" />

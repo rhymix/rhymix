@@ -4,8 +4,9 @@
 		<table name="document_extra_vars" alias="extra_vars" />
 		<table name="document_extra_vars" alias="extra_sort" />
 	</tables>
-	<columns>
+	<columns distinct="distinct">
 		<column name="documents.*" />
+		<column name="extra_sort.value" />
 	</columns>
 	<conditions>
 		<condition operation="like" column="extra_vars.value" var="var_value" />
@@ -45,9 +46,6 @@
 			<condition operation="like_prefix" column="documents.ipaddress" var="s_ipaddress" pipe="or" />
 		</group>
 	</conditions>
-	<groups>
-		<group column="documents.document_srl" />
-	</groups>
 	<navigation>
 		<index var="sort_index" default="documents.list_order" order="order_type" />
 		<list_count var="list_count" default="20" />

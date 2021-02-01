@@ -4,7 +4,7 @@
     <table name="document_extra_vars" alias="ev" />
     <table name="document_extra_vars" alias="es" />
   </tables>
-  <columns>
+  <columns distinct="distinct">
     <column name="d.*" />
   </columns>
   <index_hint name="idx_document_list_order" type="use" />
@@ -54,9 +54,6 @@
 			<condition operation="equal" column="es.document_srl" default="d.document_srl" pipe="and" />
 		</group>
   </conditions>
-    <groups>
-        <group column="d.document_srl" />
-    </groups>
   <navigation>
     <index var="ev.value" default="ev.value" order="order_type" />
     <list_count var="list_count" default="20" />

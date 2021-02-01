@@ -232,13 +232,13 @@ class Query extends VariableBase
 		}
 		
 		// Compose the ORDER BY clause.
-		if ($this->navigation && count($this->navigation->orderby) && ($count_only != 1 || $count_wrap))
+		if ($this->navigation && count($this->navigation->orderby) && !$count_only)
 		{
 			$result .= ' ORDER BY ' . $this->_arrangeOrderBy($this->navigation);
 		}
 		
 		// Compose the LIMIT/OFFSET clause.
-		if ($this->navigation && $this->navigation->list_count && ($count_only != 1 || $count_wrap))
+		if ($this->navigation && $this->navigation->list_count && !$count_only)
 		{
 			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
 		}
