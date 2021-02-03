@@ -68,27 +68,17 @@ class ncenterliteView extends ncenterlite
 			}
 		}
 		
+		$user_selected = [];
 		$user_config = NcenterliteModel::getUserConfig($member_srl) ?: new stdClass;
 		$notify_types = NcenterliteModel::getUserSetNotifyTypes();
-
-		$userConfigArray = get_object_vars($user_config);
-
-		$otherNotifyType = [
-			'web',
-			'mail',
-			'sms',
-			'push',
-		];
-
-		$user_selected = [];
 		foreach($notify_types as $notify_type => $notify_srl)
 		{
-			$user_config->{$notify_type . '_notify'} = $user_config->{$notify_type} ? 'Y' : 'N';
+			$user_config->{$notify_type . '_notify'} = (isset($user_config->{$notify_type}) && $user_config->{$notify_type}) ? 'Y' : 'N';
 			$user_selected[$notify_type] = [];
-			foreach ($otherNotifyType as $item)
+			foreach (['web', 'mail', 'sms', 'push'] as $item)
 			{
 				$available = isset($config->use[$notify_type][$item]) && $config->use[$notify_type][$item] !== 'N';
-				$selected = (is_array($userConfigArray[$notify_type]) && in_array($item, $userConfigArray[$notify_type]));
+				$selected = !is_array($user_config->{$notify_type} ?? []) || in_array($item, $user_config->{$notify_type});
 				$user_selected[$notify_type][$item] = new stdClass();
 				$user_selected[$notify_type][$item]->available = $available;
 				$user_selected[$notify_type][$item]->selected = $selected;
