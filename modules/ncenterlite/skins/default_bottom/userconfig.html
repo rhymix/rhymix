@@ -19,30 +19,21 @@
 		</h1>
 
 		<p>{$lang->ncenterlite_userconfig_about} <strong style="color:#ff0000" cond="$member_srl && $member_srl != $logged_info->member_srl">({$lang->ncenterlite_userconfig_about_warning})</strong></p>
-		{@ $uc = get_object_vars($user_config)}
 		<!--@foreach($notify_types as $notify_type => $notify_srl)-->
-			<div class="control-group">
-				<label class="x_control-label">{$lang->get('ncenterlite_type_' . $notify_type)}</label>
-				<div class="x_controls">
-					{@ $available = isset($module_config->use[$notify_type]['web']) && $module_config->use[$notify_type]['web'] !== 'N'}
-					{@ $selected = (is_array($uc[$notify_type]) && in_array('web', $uc[$notify_type]))}
-					<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][web]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_web_notify}</label>
-					{@ $available = isset($module_config->use[$notify_type]['mail']) && $module_config->use[$notify_type]['mail'] !== 'N'}
-					{@ $selected = (is_array($uc[$notify_type]) && in_array('mail', $uc[$notify_type]))}
-					<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][mail]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_mail_notify}</label>
-					<!--@if($sms_available)-->
-						{@ $available = isset($module_config->use[$notify_type]['sms']) && $module_config->use[$notify_type]['sms'] !== 'N'}
-						{@ $selected = (is_array($uc[$notify_type]) && in_array('sms', $uc[$notify_type]))}
-						<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][sms]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_sms_notify}</label>
-					<!--@endif-->
-					<!--@if($push_available)-->
-						{@ $available = isset($module_config->use[$notify_type]['push']) && $module_config->use[$notify_type]['push'] !== 'N'}
-						{@ $selected = (is_array($uc[$notify_type]) && in_array('push', $uc[$notify_type]))}
-						<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][push]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_push_notify}</label>
-					<!--@endif-->
-					<p class="help-block">{sprintf($lang->get('ncenterlite_' . $notify_type . '_noti_about'), $logged_info->nick_name)}</p>
-				</div>
+		<div class="control-group">
+			<label class="x_control-label">{$lang->get('ncenterlite_type_' . $notify_type)}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][web]" value="1" disabled="disabled"|cond="!$user_selected[$notify_type]['web']->available" checked="checked"|cond="$user_selected[$notify_type]['web']->available && $user_selected[$notify_type]['web']->selected" /> {$lang->cmd_web_notify}</label>
+				<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][mail]" value="1" disabled="disabled"|cond="!$user_selected[$notify_type]['mail']->available" checked="checked"|cond="$user_selected[$notify_type]['mail']->available && $user_selected[$notify_type]['mail']->selected" /> {$lang->cmd_mail_notify}</label>
+				<!--@if($sms_available)-->
+				<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][sms]" value="1" disabled="disabled"|cond="!$user_selected[$notify_type]['sms']->available" checked="checked"|cond="$user_selected[$notify_type]['sms']->available && $user_selected[$notify_type]['sms']->selected" /> {$lang->cmd_sms_notify}</label>
+				<!--@endif-->
+				<!--@if($push_available)-->
+				<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][push]" value="1" disabled="disabled"|cond="!$user_selected[$notify_type]['push']->available" checked="checked"|cond="$user_selected[$notify_type]['push']->available && $user_selected[$notify_type]['push']->selected" /> {$lang->cmd_push_notify}</label>
+				<!--@endif-->
+				<p class="help-block">{sprintf($lang->get('ncenterlite_' . $notify_type . '_noti_about'), $logged_info->nick_name)}</p>
 			</div>
+		</div>
 		<!--@endforeach-->
 	</section>
 	<div class="clearfix btnArea">
@@ -53,3 +44,5 @@
 </form>
 </div>
 <include target="../../../member/skins/default/common_footer.html" />
+
+

@@ -70,13 +70,35 @@ class ncenterliteView extends ncenterlite
 		
 		$user_config = NcenterliteModel::getUserConfig($member_srl) ?: new stdClass;
 		$notify_types = NcenterliteModel::getUserSetNotifyTypes();
-		foreach ($notify_types as $type => $srl)
+
+		$userConfigArray = get_object_vars($user_config);
+
+		$otherNotifyType = [
+			'web',
+			'mail',
+			'sms',
+			'push',
+		];
+
+		$user_selected = [];
+		foreach($notify_types as $notify_type => $notify_srl)
 		{
-			$user_config->{$type . '_notify'} = $user_config->{$type} ? 'Y' : 'N';
+			$user_config->{$notify_type . '_notify'} = $user_config->{$notify_type} ? 'Y' : 'N';
+			$user_selected[$notify_type] = [];
+			foreach ($otherNotifyType as $item)
+			{
+				$available = isset($config->use[$notify_type][$item]) && $config->use[$notify_type][$item] !== 'N';
+				$selected = (is_array($userConfigArray[$notify_type]) && in_array($item, $userConfigArray[$notify_type]));
+				$user_selected[$notify_type][$item] = new stdClass();
+				$user_selected[$notify_type][$item]->available = $available;
+				$user_selected[$notify_type][$item]->selected = $selected;
+			}
 		}
+		
 		Context::set('member_info', $member_info);
 		Context::set('notify_types', $notify_types);
 		Context::set('user_config', $user_config);
+		Context::set('user_selected', $user_selected);
 		Context::set('module_config', NcenterliteModel::getConfig());
 		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
 		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types') ?? []) > 0);
