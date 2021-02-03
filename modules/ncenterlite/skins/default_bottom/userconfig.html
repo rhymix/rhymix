@@ -6,7 +6,6 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-
 <form ruleset="insertConfig" action="./" method="post" class="form-horizontal" id="fo_ncenterlite">
 	<input type="hidden" name="module" value="ncenterlite" />
 	<input type="hidden" name="act" value="procNcenterliteUserConfig" />
@@ -27,19 +26,19 @@
 					<label class="x_control-label">{$lang->get('ncenterlite_type_' . $notify_type)}</label>
 					<div class="x_controls">
 						{@ $available = isset($module_config->use[$notify_type]['web']) && $module_config->use[$notify_type]['web'] !== 'N'}
-						{@ $selected = in_array('web', $uc[$notify_type])}
+						{@ $selected = (is_array($uc[$notify_type]) && in_array('web', $uc[$notify_type]))}
 						<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][web]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_web_notify}</label>
 						{@ $available = isset($module_config->use[$notify_type]['mail']) && $module_config->use[$notify_type]['mail'] !== 'N'}
-						{@ $selected = in_array('mail', $uc[$notify_type])}
+						{@ $selected = (is_array($uc[$notify_type]) && in_array('mail', $uc[$notify_type]))}
 						<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][mail]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_mail_notify}</label>
 						<!--@if($sms_available)-->
 							{@ $available = isset($module_config->use[$notify_type]['sms']) && $module_config->use[$notify_type]['sms'] !== 'N'}
-							{@ $selected = in_array('sms', $uc[$notify_type])}
+							{@ $selected = (is_array($uc[$notify_type]) && in_array('sms', $uc[$notify_type]))}
 							<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][sms]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_sms_notify}</label>
 						<!--@endif-->
 						<!--@if($push_available)-->
 							{@ $available = isset($module_config->use[$notify_type]['push']) && $module_config->use[$notify_type]['push'] !== 'N'}
-							{@ $selected = in_array('push', $uc[$notify_type])}
+							{@ $selected = (is_array($uc[$notify_type]) && in_array('push', $uc[$notify_type]))}
 							<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][push]" value="1" disabled="disabled"|cond="!$available" checked="checked"|cond="$available && $selected" /> {$lang->cmd_push_notify}</label>
 						<!--@endif-->
 						<p class="help-block">{sprintf($lang->get('ncenterlite_' . $notify_type . '_noti_about'), $logged_info->nick_name)}</p>
