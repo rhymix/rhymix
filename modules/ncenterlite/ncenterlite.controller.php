@@ -75,7 +75,7 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$vars = Context::getRequestVars();
-		$notify_types = NcenterliteModel::getNotifyTypes();
+		$notify_types = NcenterliteModel::getUserSetNotifyTypes();
 		$is_old_skin = false;
 		foreach ($notify_types as $type => $srl)
 		{
@@ -90,31 +90,28 @@ class ncenterliteController extends ncenterlite
 		$args->member_srl = $member_srl;
 		foreach ($notify_types as $type => $srl)
 		{
-			if ($type !== 'admin_content' && $type !== 'custom')
+			$disabled_list = array();
+			if ($is_old_skin)
 			{
-				$disabled_list = array();
-				if ($is_old_skin)
+				if (isset($vars->{$type . '_notify'}) && $vars->{$type . '_notify'} === 'N')
 				{
-					if (isset($vars->{$type . '_notify'}) && $vars->{$type . '_notify'} === 'N')
-					{
-						$disabled_list = ['!web', '!mail', '!sms', '!push'];
-					}
+					$disabled_list = ['!web', '!mail', '!sms', '!push'];
 				}
-				else
+			}
+			else
+			{
+				foreach (['web', 'mail', 'sms', 'push'] as $method)
 				{
-					foreach (['web', 'mail', 'sms', 'push'] as $method)
+					if (isset($config->use[$type][$method]) && $config->use[$type][$method])
 					{
-						if (isset($config->use[$type][$method]) && $config->use[$type][$method])
+						if (!isset($vars->use[$type][$method]) || !$vars->use[$type][$method])
 						{
-							if (!isset($vars->use[$type][$method]) || !$vars->use[$type][$method])
-							{
-								$disabled_list[] = '!' . $method;
-							}
+							$disabled_list[] = '!' . $method;
 						}
 					}
 				}
-				$args->{$type . '_notify'} = implode(',', $disabled_list);
 			}
+			$args->{$type . '_notify'} = implode(',', $disabled_list);
 		}
 
 		$user_config = NcenterliteModel::getUserConfig($member_srl);

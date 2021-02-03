@@ -19,7 +19,6 @@
 			<p>{$lang->ncenterlite_userconfig_about} <strong style="color:#ff0000" cond="$member_srl && $member_srl != $logged_info->member_srl">({$lang->ncenterlite_userconfig_about_warning})</strong></p>
 			{@ $uc = get_object_vars($user_config)}
 			<!--@foreach($notify_types as $notify_type => $notify_srl)-->
-			<!--@if($notify_type !== 'admin_content' && $notify_type !== 'custom')-->
 			<div class="control-group">
 				<label class="x_control-label">{$lang->get('ncenterlite_type_' . $notify_type)}</label>
 				<div class="x_controls">
@@ -42,7 +41,6 @@
 					<p class="help-block">{sprintf($lang->get('ncenterlite_' . $notify_type . '_noti_about'), $logged_info->nick_name)}</p>
 				</div>
 			</div>
-			<!--@endif-->
 			<!--@endforeach-->
 		</section>
 		<div class="clearfix btnArea">

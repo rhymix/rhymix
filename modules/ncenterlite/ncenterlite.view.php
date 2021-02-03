@@ -69,7 +69,7 @@ class ncenterliteView extends ncenterlite
 		}
 		
 		$user_config = NcenterliteModel::getUserConfig($member_srl) ?: new stdClass;
-		$notify_types = NcenterliteModel::getNotifyTypes();
+		$notify_types = NcenterliteModel::getUserSetNotifyTypes();
 		foreach ($notify_types as $type => $srl)
 		{
 			$user_config->{$type . '_notify'} = $user_config->{$type} ? 'Y' : 'N';
