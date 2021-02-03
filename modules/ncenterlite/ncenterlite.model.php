@@ -114,6 +114,18 @@ class ncenterliteModel extends ncenterlite
 		$default['custom'] = 0;
 		return $default;
 	}
+	
+	public static function getUserSetNotifyTypes()
+	{
+		return array(
+			'comment' => 0,
+			'comment_comment' => 0,
+			'mention' => 0,
+			'vote' => 0,
+			'scrap' => 0,
+			'message' => 0,
+		);
+	}
 
 	function getNotifyTypebySrl($notify_srl)
 	{

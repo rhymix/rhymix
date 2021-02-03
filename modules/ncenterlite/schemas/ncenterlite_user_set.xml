@@ -6,7 +6,5 @@
 	<column name="vote_notify" type="varchar" size="40" notnull="notnull" />
 	<column name="scrap_notify" type="varchar" size="40" notnull="notnull" />
 	<column name="message_notify" type="varchar" size="40" notnull="notnull" />
-	<column name="admin_content_notify" type="varchar" size="40" notnull="notnull" />
-	<column name="custom_notify" type="varchar" size="40" notnull="notnull" />
 	<column name="regdate" type="date" index="idx_regdate" />
 </table>
