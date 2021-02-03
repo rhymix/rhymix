@@ -177,7 +177,7 @@ function getWidgetCode(childObj, widget) {
  **/
 // 팝업 띄움
 function doAddContent(mid) {
-	var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetAdminAddContent').setQuery('module_srl',zoneModuleSrl).setQuery('mid',mid);
+	var url = request_uri.setQuery('mid', mid).setQuery('act', 'dispWidgetAdminAddContent').setQuery('module_srl', zoneModuleSrl);
 	popopen(url, "addContent");
 }
 
@@ -298,7 +298,7 @@ function doAddWidget(fo) {
 	var idx = sel.selectedIndex;
 	var val = sel.options[idx].value;
 	var module_srl = fo.module_srl.value;
-	var url = request_uri.setQuery('module','widget').setQuery('act','dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
+	var url = request_uri.setQuery('mid', current_mid).setQuery('act', 'dispWidgetGenerateCodeInPage').setQuery('selected_widget', val).setQuery('module_srl', module_srl);
 	popopen(url,'GenerateWidgetCode');
 }
 
@@ -413,6 +413,7 @@ function doCheckWidget(e) {
 	if(!e.target) return;
 	var obj = e.target;
 	var $obj = jQuery(obj);
+	var url, name;
 
 	selectedWidget = null;
 
@@ -424,12 +425,11 @@ function doCheckWidget(e) {
 		var widgetstyle = p_obj.getAttribute("widgetstyle");
 		if(!widget) return;
 		selectedWidget = p_obj;
-		var url, name;
 		if(widget == 'widgetContent') {
-			url = request_uri+"?module=widget&act=dispWidgetAdminAddContent&module_srl="+zoneModuleSrl+"&document_srl="+p_obj.getAttribute("document_srl");
+			url = request_uri.setQuery('mid', current_mid).setQuery('act', 'dispWidgetAdminAddContent').setQuery('module_srl', zoneModuleSrl).setQuery('document_srl', p_obj.getAttribute('document_srl'));
 			name = 'addContent';
 		} else {
-			url = request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle;
+			url = request_uri.setQuery('mid', current_mid).setQuery('act', 'dispWidgetGenerateCodeInPage').setQuery('selected_widget', widget).setQuery('widgetstyle', widgetstyle);
 			name = 'GenerateCodeInPage';
 		}
 		console.log(url, name);
@@ -444,7 +444,9 @@ function doCheckWidget(e) {
 		var widgetstyle = p_obj.getAttribute("widgetstyle");
 		if(!widget) return;
 		selectedWidget = p_obj;
-		popopen(request_uri+"?module=widget&act=dispWidgetStyleGenerateCodeInPage&selected_widget="+widget+"&widgetstyle="+widgetstyle,'GenerateCodeInPage');
+		url = request_uri.setQuery('mid', current_mid).setQuery('act', 'dispWidgetStyleGenerateCodeInPage').setQuery('selected_widget', widget).setQuery('widgetstyle', widgetstyle);
+		name = 'GenerateCodeInPage';
+		popopen(url, name);
 		return;
 
 	// 위젯 복사
