@@ -572,6 +572,10 @@ class DB
 				Debug::addQuery($this->getQueryLog('START TRANSACTION', 0));
 			}
 		}
+		else
+		{
+			$this->_handle->exec(sprintf('SAVEPOINT `%s%s%d`', $this->_prefix, 'savepoint', $this->_transaction_level));
+		}
 		$this->_transaction_level++;
 		return $this->_transaction_level;
 	}
@@ -600,6 +604,10 @@ class DB
 				Debug::addQuery($this->getQueryLog('ROLLBACK', 0));
 			}
 		}
+		else
+		{
+			$this->_handle->exec(sprintf('ROLLBACK TO SAVEPOINT `%s%s%d`', $this->_prefix, 'savepoint', $this->_transaction_level - 1));
+		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
 	}
@@ -626,6 +634,13 @@ class DB
 			if (Debug::isEnabledForCurrentUser())
 			{
 				Debug::addQuery($this->getQueryLog('COMMIT', 0));
+			}
+		}
+		else
+		{
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($this->getQueryLog('NESTED COMMIT IGNORED BY RHYMIX', 0));
 			}
 		}
 		$this->_transaction_level--;
