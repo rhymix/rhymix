@@ -78,7 +78,7 @@ class ncenterliteView extends ncenterlite
 			foreach (['web', 'mail', 'sms', 'push'] as $item)
 			{
 				$available = isset($config->use[$notify_type][$item]) && $config->use[$notify_type][$item] !== 'N';
-				$selected = !is_array($user_config->{$notify_type} ?? []) || in_array($item, $user_config->{$notify_type});
+				$selected = !is_array($user_config->{$notify_type} ?? null) || in_array($item, $user_config->{$notify_type});
 				$user_selected[$notify_type][$item] = new stdClass();
 				$user_selected[$notify_type][$item]->available = $available;
 				$user_selected[$notify_type][$item]->selected = $selected;
