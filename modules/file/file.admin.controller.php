@@ -102,7 +102,9 @@ class fileAdminController extends file
 		$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
 		if ($config->allowed_extensions)
 		{
-			$config->allowed_extensions = array_map('trim', explode(',', $config->allowed_filetypes));
+			$config->allowed_extensions = array_filter(array_map('trim', explode(',', $config->allowed_extensions)), function($str) {
+				return $str !== '*';
+			});
 			$config->allowed_filetypes = implode(';', array_map(function($ext) {
 				return '*.' . $ext;
 			}, $config->allowed_extensions));
@@ -188,7 +190,9 @@ class fileAdminController extends file
 			$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
 			if ($config->allowed_extensions)
 			{
-				$config->allowed_extensions = array_map('trim', explode(',', $config->allowed_filetypes));
+				$config->allowed_extensions = array_filter(array_map('trim', explode(',', $config->allowed_extensions)), function($str) {
+					return $str !== '*';
+				});
 				$config->allowed_filetypes = implode(';', array_map(function($ext) {
 					return '*.' . $ext;
 				}, $config->allowed_extensions));
