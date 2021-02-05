@@ -16,16 +16,17 @@ jQuery(function($){
 					if ($("#object_cache_port").val() == '6379') {
 						$("#object_cache_port").val('11211');
 					}
-					$("#object_cache_dbnum").parents("label").hide();
+					$("#object_cache_redis_config").hide();
 				}
 				if ($(this).val().match(/redis/)) {
 					if ($("#object_cache_port").val() == '11211') {
 						$("#object_cache_port").val('6379');
 					}
-					$("#object_cache_dbnum").parents("label").show();
+					$("#object_cache_redis_config").show();
 				}
 			} else {
 				$("#object_cache_additional_config").hide();
+				$("#object_cache_redis_config").hide();
 			}
 		}).triggerHandler("change");
 	}

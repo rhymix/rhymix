@@ -801,7 +801,15 @@ class adminAdminController extends admin
 				}
 				else
 				{
-					$cache_servers = array($vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+					if (trim($vars->object_cache_user) !== '' || trim($vars->object_cache_pass) !== '')
+					{
+						$auth = sprintf('%s:%s@', urlencode(trim($vars->object_cache_user)), urlencode(trim($vars->object_cache_pass)));
+					}
+					else
+					{
+						$auth = '';
+					}
+					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
 				}
 				
 				if ($vars->object_cache_type === 'redis')
