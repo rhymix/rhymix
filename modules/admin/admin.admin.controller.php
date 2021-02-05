@@ -153,6 +153,36 @@ class adminAdminController extends admin
 
 		$this->setMessage('success_updated');
 	}
+	
+	/**
+	 * Clear APCU cache
+	 */
+	public function procAdminClearApcu()
+	{
+		if (function_exists('apcu_clear_cache') && apcu_clear_cache())
+		{
+			return new BaseObject(0, 'success_updated');
+		}
+		else
+		{
+			return new BaseObject(-1, 'apcu_clear_cache_function_not_found');
+		}
+	}
+	
+	/**
+	 * Clear opcache
+	 */
+	public function procAdminClearOpcache()
+	{
+		if (function_exists('opcache_reset') && opcache_reset())
+		{
+			return new BaseObject(0, 'success_updated');
+		}
+		else
+		{
+			return new BaseObject(-1, 'opcache_reset_function_not_found');
+		}
+	}
 
 	/**
 	 * Logout
@@ -771,7 +801,15 @@ class adminAdminController extends admin
 				}
 				else
 				{
-					$cache_servers = array($vars->object_cache_type . '://' . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+					if (trim($vars->object_cache_user) !== '' || trim($vars->object_cache_pass) !== '')
+					{
+						$auth = sprintf('%s:%s@', urlencode(trim($vars->object_cache_user)), urlencode(trim($vars->object_cache_pass)));
+					}
+					else
+					{
+						$auth = '';
+					}
+					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
 				}
 				
 				if ($vars->object_cache_type === 'redis')

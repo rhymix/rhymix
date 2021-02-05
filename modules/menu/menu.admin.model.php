@@ -74,6 +74,30 @@ class menuAdminModel extends menu
 		$menu_info->php_file = sprintf('./files/cache/menu/%d.php',$menu_srl);
 		return $menu_info;
 	}
+	
+	/**
+	 * Get actual menu info data
+	 * 
+	 * @param int $menu_srl
+	 * @return object
+	 */
+	public static function getMenuInfo(int $menu_srl): \stdClass
+	{
+		$menu = new stdClass;
+		$menu->list = [];
+		
+		$filename = sprintf('./files/cache/menu/%d.php', $menu_srl);
+		if (!FileHandler::exists($filename))
+		{
+			getAdminController('menu')->makeXmlFile($menu_srl);
+		}
+		if (FileHandler::exists($filename))
+		{
+			include $filename;
+		}
+		
+		return $menu;
+	}
 
 	/**
 	 * Get information of a new menu from the DB, search condition is menu title

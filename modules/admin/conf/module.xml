@@ -20,6 +20,8 @@
 		
 		<action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminRecompileCacheFile" type="controller" />
+		<action name="procAdminClearApcu" type="controller" />
+		<action name="procAdminClearOpcache" type="controller" />
 		<action name="procAdminLogout" type="controller" method="GET|POST" />
 		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
 		<action name="procAdminToggleFavorite" type="controller" />

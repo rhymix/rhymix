@@ -559,6 +559,8 @@ class adminAdminView extends admin
 			{
 				Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
 				Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
+				Context::set('object_cache_user', parse_url(array_first($cache_servers), PHP_URL_USER) ?: null);
+				Context::set('object_cache_pass', parse_url(array_first($cache_servers), PHP_URL_PASS) ?: null);
 				$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_FRAGMENT) ?: parse_url(array_first($cache_servers), PHP_URL_PATH));
 				Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
 			}
@@ -985,6 +987,7 @@ class adminAdminView extends admin
 		}
 		natcasesort($info['widgetstyle']);
 		$info[] = '';
+		$str_info = '';
 		
 		// Convert to string.
 		foreach ($info as $key => $value)

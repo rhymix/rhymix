@@ -48,7 +48,10 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 						$this->_conn->connect($info['host'], $info['port'], 0.15);
 						if(isset($info['user']) || isset($info['pass']))
 						{
-							$this->_conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
+							$auth = [];
+							if (isset($info['user']) && $info['user']) $auth[] = $info['user'];
+							if (isset($info['pass']) && $info['pass']) $auth[] = $info['pass'];
+							$this->_conn->auth(count($auth) > 1 ? $auth : $auth[0]);
 						}
 						if(isset($info['fragment']) && $dbnum = intval($info['fragment']))
 						{

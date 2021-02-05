@@ -1039,7 +1039,7 @@ class TemplateHandler
 		}
 		
 		return preg_replace_callback('@(?<!::|\\\\|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', function($matches) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|__Context|this|lang)$/', $matches[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|_SESSION|__Context|this|lang)$/', $matches[1]))
 			{
 				return '$' . $matches[1];
 			}
