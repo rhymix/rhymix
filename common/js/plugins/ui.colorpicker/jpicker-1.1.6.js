@@ -1997,7 +1997,7 @@
         },
       images:
         {
-          clientPath: './common/js/plugins/ui.colorpicker/images/', /* Path to image files */
+          clientPath: request_uri + 'common/js/plugins/ui.colorpicker/images/', /* Path to image files */
           colorMap:
           {
             width: 256,
