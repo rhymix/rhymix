@@ -985,6 +985,7 @@ class adminAdminView extends admin
 		}
 		natcasesort($info['widgetstyle']);
 		$info[] = '';
+		$str_info = '';
 		
 		// Convert to string.
 		foreach ($info as $key => $value)

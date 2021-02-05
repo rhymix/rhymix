@@ -403,3 +403,5 @@ $lang->sitelock_in_use = 'This site is locked.';
 $lang->about_sitelock_in_use = 'Only the administrator and visitors from specified IP addresses can access this site.';
 $lang->module_exists_in_wrong_path = 'Module(s) installed in incorrect path';
 $lang->about_module_exists_in_wrong_path = 'The following module(s) appear to be installed in incorrect directories.<br />Please ignore this message if you have intentionally renamed a module for testing or debugging purposes.';
+$lang->apcu_clear_cache_function_not_found = 'apcu is disabled on this server.';
+$lang->opcache_reset_function_not_found = 'opcache is disabled on this server.';
