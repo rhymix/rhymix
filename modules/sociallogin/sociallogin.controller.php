@@ -208,7 +208,7 @@ class SocialloginController extends Sociallogin
 				$recheckBool = $this->reCheckSns($oDriver);
 				if(!$recheckBool)
 				{
-					$error = '인증한 계정이 일치하지 않습니다.';
+					$error = lang('sociallogin.do_not_match_sns_account');
 				}
 				$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
 			}

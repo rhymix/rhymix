@@ -98,3 +98,4 @@ $lang->msg_use_for_phone_auth = '전화번호 인증이 필요합니다. 전화�
 $lang->require_add_info = '필수 추가정보';
 $lang->about_kakao_client_id = 'Kakao Developers (https://developers.kakao.com/)에서 발급받은 Client ID를 입력해주세요.';
 $lang->can_be_not_use_twitter = 'PHP버전이 낮아 트위터 라이브러리를 사용할 수 없습니다. 트위터 로그인은 PHP7.3 이상 지원합니다.';
+$lang->do_not_match_sns_account = 'SNS로 로그인한 계정이 기존의 SNS게정과 일치하지 않습니다.';
