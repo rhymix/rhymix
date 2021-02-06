@@ -114,8 +114,8 @@ class Password
 	{
 		if (class_exists('\MemberModel'))
 		{
-			$config = \MemberModel::getInstance()->getMemberConfig();
-			$algorithm = $config->password_hashing_algorithm;
+			$config = @\MemberModel::getInstance()->getMemberConfig();
+			$algorithm = $config->password_hashing_algorithm ?? '';
 			if (strval($algorithm) === '')
 			{
 				$algorithm = 'md5';
@@ -137,8 +137,8 @@ class Password
 	{
 		if (class_exists('\MemberModel'))
 		{
-			$config = \MemberModel::getInstance()->getMemberConfig();
-			$work_factor = $config->password_hashing_work_factor;
+			$config = @\MemberModel::getInstance()->getMemberConfig();
+			$work_factor = $config->password_hashing_work_factor ?? 10;
 			if (!$work_factor || $work_factor < 4 || $work_factor > 31)
 			{
 				$work_factor = 10;

@@ -8,4 +8,18 @@
 
 <section class="section">
 	<div class="server_env">{$str_info}</div>
+	<div class="server_env">[Tasks]<br /><a href="javascript:apcu_clear_cache()">apcu_clear_cache()</a><br /><a href="javascript:opcache_reset()">opcache_reset()</a></div>
 </section>
+
+<script>
+	function apcu_clear_cache() {
+		exec_json('admin.procAdminClearApcu', { }, function(data) {
+			alert(data.message);
+		});
+	}
+	function opcache_reset() {
+		exec_json('admin.procAdminClearOpcache', { }, function(data) {
+			alert(data.message);
+		});
+	}
+</script>

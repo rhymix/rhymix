@@ -369,33 +369,35 @@
 	/**
 	 * Function for AJAX submission of arbitrary forms.
 	 */
-	$(document).on('submit', 'form.rx_ajax', function(event) {
+	XE.ajaxForm = function(form, callback_success, callback_error) {
 		// Abort if the form already has a 'target' attribute.
-		var form = $(this);
+		form = $(form);
 		if (form.attr('target')) {
 			return;
 		}
-		// Prevent page refresh.
-		event.preventDefault();
 		// Get success and error callback functions.
-		var callback_success = form.data('callback-success');
-		if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
-			callback_success = window[callback_success];
-		} else {
-			callback_success = function(data) {
-				if (data.message && data.message !== 'success') {
-					rhymix_alert(data.message, data.redirect_url);
-				}
-				if (data.redirect_url) {
-					redirect(data.redirect_url);
-				}
-			};
+		if (typeof callback_success === 'undefined') {
+			callback_success = form.data('callback-success');
+			if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
+				callback_success = window[callback_success];
+			} else {
+				callback_success = function(data) {
+					if (data.message && data.message !== 'success') {
+						rhymix_alert(data.message, data.redirect_url);
+					}
+					if (data.redirect_url) {
+						redirect(data.redirect_url);
+					}
+				};
+			}
 		}
-		var callback_error = form.data('callback-error');
-		if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
-			callback_error = window[callback_error];
-		} else {
-			callback_error = null;
+		if (typeof callback_error === 'undefined') {
+			callback_error = form.data('callback-error');
+			if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
+				callback_error = window[callback_error];
+			} else {
+				callback_error = null;
+			}
 		}
 		// Set _rx_ajax_form flag
 		if (!form.find('input[name=_rx_ajax_form]').size()) {
@@ -423,6 +425,10 @@
 		} else {
 			window.exec_json('raw', form.serialize(), callback_success, callback_error);
 		}
+	};
+	$(document).on('submit', 'form.rx_ajax', function(event) {
+		event.preventDefault();
+		XE.ajaxForm(this);
 	});
 	
 	/**

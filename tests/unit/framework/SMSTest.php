@@ -2,6 +2,11 @@
 
 class SMSTest extends \Codeception\TestCase\Test
 {
+	public function _before()
+	{
+		Context::init();
+	}
+	
 	public function testGetSetDefaultDriver()
 	{
 		$driver = Rhymix\Framework\SMS::getDefaultDriver();
@@ -329,7 +334,7 @@ class SMSTest extends \Codeception\TestCase\Test
 		
 		$messages = $driver->getSentMessages();
 		$this->assertEquals(2, count($messages));
-		$this->assertEquals($message[0]->to, $message[1]->to);
+		$this->assertEquals($messages[0]->to, $messages[1]->to);
 		$this->assertEquals('MMS', $messages[0]->type);
 		$this->assertEquals('MMS', $messages[1]->type);
 		$this->assertEquals('MMS 내용입니다.', $messages[0]->content);
@@ -394,8 +399,8 @@ class SMSTest extends \Codeception\TestCase\Test
 		$this->assertEquals(\RX_BASEDIR . 'tests/_data/images/rhymix.png', $messages[0]->image);
 		$this->assertEquals(\RX_BASEDIR . 'tests/_output/rhymix-copy-1.png', $messages[1]->image);
 		$this->assertEquals(\RX_BASEDIR . 'tests/_output/rhymix-copy-2.png', $messages[2]->image);
-		$this->assertNull($messages[3]->image);
-		$this->assertNull($messages[4]->image);
+		$this->assertNull($messages[3]->image ?? null);
+		$this->assertNull($messages[4]->image ?? null);
 		
 		// Test MMS with no text content.
 		$driver->resetSentMessages();

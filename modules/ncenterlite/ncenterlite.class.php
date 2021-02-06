@@ -78,7 +78,7 @@ class ncenterlite extends ModuleObject
 			}
 		}
 
-		foreach(NcenterliteModel::getNotifyTypes() as $type => $srl)
+		foreach(NcenterliteModel::getUserSetNotifyTypes() as $type => $srl)
 		{
 			if(!$oDB->isColumnExists('ncenterlite_user_set', $type . '_notify'))
 			{
@@ -96,6 +96,16 @@ class ncenterlite extends ModuleObject
 		
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
+		{
+			return true;
+		}
+
+		if($oDB->isColumnExists('ncenterlite_user_set','admin_content_notify'))
+		{
+			return true;
+		}
+		
+		if($oDB->isColumnExists('ncenterlite_user_set','custom_notify'))
 		{
 			return true;
 		}
@@ -172,7 +182,7 @@ class ncenterlite extends ModuleObject
 		}
 
 		$prev_type = '';
-		foreach(NcenterliteModel::getNotifyTypes() as $type => $srl)
+		foreach(NcenterliteModel::getUserSetNotifyTypes() as $type => $srl)
 		{
 			if(!$oDB->isColumnExists('ncenterlite_user_set', $type . '_notify'))
 			{
@@ -187,6 +197,17 @@ class ncenterlite extends ModuleObject
 				}
 			}
 			$prev_type = $type;
+		}
+
+		// Not use the column
+		if($oDB->isColumnExists('ncenterlite_user_set','admin_content_notify'))
+		{
+			$oDB->dropColumn('ncenterlite_user_set', 'admin_content_notify');
+		}
+
+		if($oDB->isColumnExists('ncenterlite_user_set','custom_notify'))
+		{
+			$oDB->dropColumn('ncenterlite_user_set', 'custom_notify');
 		}
 		
 		// Composite index to speed up getNotifyList

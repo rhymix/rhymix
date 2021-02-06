@@ -680,9 +680,11 @@ class FrontEndFileHandler extends Handler
 			$dirname = substr($dirname, strlen(self::$assetdir) + 1);
 		}
 		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
-
-		$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
-		$file->index += $cssSortList[$tmp];
+		if ($tmp)
+		{
+			$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
+			$file->index += isset($cssSortList[$tmp]) ? $cssSortList[$tmp] : 0;
+		}
 	}
 	
 	/**
@@ -696,7 +698,7 @@ class FrontEndFileHandler extends Handler
 		{
 			return false;
 		}
-		elseif (strncmp($_SERVER['SERVER_PROTOCOL'], 'HTTP/2', 6) === 0)
+		elseif (strncmp($_SERVER['SERVER_PROTOCOL'] ?? '', 'HTTP/2', 6) === 0)
 		{
 			return true;
 		}

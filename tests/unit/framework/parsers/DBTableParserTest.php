@@ -45,19 +45,19 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 	{
 		$table = Rhymix\Framework\Parsers\DBTableParser::loadXML(\RX_BASEDIR . 'tests/_data/dbtable/example.xml');
 		$sql = $table->getCreateQuery('rx_');
-		$this->assertContains('CREATE TABLE `rx_example` (', $sql);
-		$this->assertContains('`comment_srl` BIGINT NOT NULL,', $sql);
-		$this->assertContains('`status` VARCHAR(20) DEFAULT \'PUBLIC\',', $sql);
-		$this->assertContains('PRIMARY KEY (`example_srl`),', $sql);
-		$this->assertContains('INDEX `idx_document_srl` (`document_srl`),', $sql);
-		$this->assertContains('INDEX `idx_module_document_srl` (`module_srl`, `document_srl`),', $sql);
-		$this->assertContains('INDEX `idx_status` (`status`(6)),', $sql);
-		$this->assertContains('UNIQUE INDEX `unique_list_order` (`list_order`),', $sql);
-		$this->assertContains('SPATIAL INDEX `spatial_geometry` (`geometry`),', $sql);
-		$this->assertContains('FULLTEXT INDEX `fulltext_description` (`description`) WITH PARSER ngram,', $sql);
-		$this->assertContains('FOREIGN KEY (`module_srl`) REFERENCES `rx_module` (`module_srl`) ON DELETE CASCADE ON UPDATE RESTRICT', $sql);
-		$this->assertContains('CHECK (list_order < 0)', $sql);
-		$this->assertContains('CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', $sql);
-		$this->assertContains('ENGINE = InnoDB', $sql);
+		$this->assertStringContainsString('CREATE TABLE `rx_example` (', $sql);
+		$this->assertStringContainsString('`comment_srl` BIGINT NOT NULL,', $sql);
+		$this->assertStringContainsString('`status` VARCHAR(20) DEFAULT \'PUBLIC\',', $sql);
+		$this->assertStringContainsString('PRIMARY KEY (`example_srl`),', $sql);
+		$this->assertStringContainsString('INDEX `idx_document_srl` (`document_srl`),', $sql);
+		$this->assertStringContainsString('INDEX `idx_module_document_srl` (`module_srl`, `document_srl`),', $sql);
+		$this->assertStringContainsString('INDEX `idx_status` (`status`(6)),', $sql);
+		$this->assertStringContainsString('UNIQUE INDEX `unique_list_order` (`list_order`),', $sql);
+		$this->assertStringContainsString('SPATIAL INDEX `spatial_geometry` (`geometry`),', $sql);
+		$this->assertStringContainsString('FULLTEXT INDEX `fulltext_description` (`description`) WITH PARSER ngram,', $sql);
+		$this->assertStringContainsString('FOREIGN KEY (`module_srl`) REFERENCES `rx_module` (`module_srl`) ON DELETE CASCADE ON UPDATE RESTRICT', $sql);
+		$this->assertStringContainsString('CHECK (list_order < 0)', $sql);
+		$this->assertStringContainsString('CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', $sql);
+		$this->assertStringContainsString('ENGINE = InnoDB', $sql);
 	}
 }

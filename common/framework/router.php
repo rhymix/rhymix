@@ -267,8 +267,8 @@ class Router
 				$matches = array_filter($matches, 'is_string', \ARRAY_FILTER_USE_KEY);
 				$allargs = array_merge($args, $matches, $route_info['extra_vars'] ?? []);
 				$result->module = $allargs['module'] ?? '';
-				$result->mid = $allargs['mid'] ?: '';
-				$result->act = $allargs['act'] ?: '';
+				$result->mid = ($allargs['mid'] ?? '') ?: '';
+				$result->act = ($allargs['act'] ?? '') ?: '';
 				$result->forwarded = false;
 				$result->args = $allargs;
 				return $result;

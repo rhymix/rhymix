@@ -2,21 +2,29 @@
 
 class DateTimeTest extends \Codeception\TestCase\Test
 {
+	private $old_timezone;
+	
 	public function _before()
 	{
 		// Add some dummy data to system configuration. Asia/Seoul offset is 32400.
 		Rhymix\Framework\Config::set('locale.default_timezone', 'Asia/Seoul');
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		Context::set('_default_timezone', $GLOBALS['_time_zone'] = 'Asia/Seoul');
 		
 		// Set PHP time zone to the internal time zone.
-		$old_timezone = @date_default_timezone_get();
+		$this->old_timezone = @date_default_timezone_get();
 		date_default_timezone_set('Etc/GMT-3');
 	}
 	
 	public function _after()
 	{
+		// Restore the default and internal timezone.
+		Rhymix\Framework\Config::set('locale.default_timezone', 'Asia/Seoul');
+		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		Context::set('_default_timezone', $GLOBALS['_time_zone'] = 'Asia/Seoul');
+		
 		// Restore the old timezone.
-		date_default_timezone_set($old_timezone);
+		date_default_timezone_set($this->old_timezone);
 	}
 	
 	public function testZgap()

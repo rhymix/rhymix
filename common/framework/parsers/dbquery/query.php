@@ -50,10 +50,10 @@ class Query extends VariableBase
 	 * @param string $prefix
 	 * @param array $args
 	 * @param array $column_list
-	 * @param bool $count_only
+	 * @param int $count_only
 	 * @return string
 	 */
-	public function getQueryString(string $prefix = '', array $args, array $column_list = [], bool $count_only = false): string
+	public function getQueryString(string $prefix = '', array $args, array $column_list = [], int $count_only = 0): string
 	{
 		// Save the query information.
 		$this->_prefix = $prefix;
@@ -110,10 +110,10 @@ class Query extends VariableBase
 	/**
 	 * Generate a SELECT query string.
 	 * 
-	 * @param bool $count_only
+	 * @param int $count_only
 	 * @return string
 	 */
-	protected function _getSelectQueryString(bool $count_only = false): string
+	protected function _getSelectQueryString(int $count_only = 0): string
 	{
 		// Initialize the query string.
 		$result = 'SELECT';
@@ -133,17 +133,22 @@ class Query extends VariableBase
 			{
 				if ($column instanceof self)
 				{
-					$subquery = $column->getQueryString($this->_prefix, $this->_args);
+					$has_subquery_columns = true;
+					$subquery_count_only = $count_only ? $count_only + 1 : 0;
+					$subquery = $column->getQueryString($this->_prefix, $this->_args, [], $subquery_count_only);
 					foreach ($column->getQueryParams() as $param)
 					{
 						$this->_params[] = $param;
 					}
 					$columns[] = sprintf('(%s) AS %s', $subquery, self::quoteName($column->alias));
-					$has_subquery_columns = true;
 				}
 				elseif ($column->is_expression && !$column->is_wildcard)
 				{
 					$columns[] = $column->name . ($column->alias ? (' AS ' . self::quoteName($column->alias)) : '');
+				}
+				elseif ($column->is_wildcard && $count_only >= 1 && !$this->select_distinct)
+				{
+					$columns[] = '1';
 				}
 				else
 				{
@@ -154,19 +159,12 @@ class Query extends VariableBase
 		}
 		
 		// Replace the column list if this is a count-only query.
-		if ($count_only)
+		if ($count_only == 1)
 		{
 			$count_wrap = ($this->groupby || $this->select_distinct || $has_subquery_columns || preg_match('/\bDISTINCT\b/i', $column_list));
 			if ($count_wrap)
 			{
-				if ($column_list === '*' || preg_match('/\\.\\*/', $column_list))
-				{
-					$result .= ' 1';
-				}
-				else
-				{
-					$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
-				}
+				$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
 			}
 			else
 			{

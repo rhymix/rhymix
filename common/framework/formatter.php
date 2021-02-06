@@ -45,6 +45,7 @@ class Formatter
 		{
 			$lines = preg_replace('!(<br />)+\s*$!', '', nl2br(escape(trim($text))));
 			$lines = preg_split('!(<br />\s*)+<br />!', $lines);
+			$result = '';
 			foreach ($lines as $line)
 			{
 				$result .= "<p>\n" . trim($line) . "\n</p>\n";

@@ -46,7 +46,9 @@ class ContextTest extends \Codeception\TestCase\Test
         $data->var2 = 'val2';
         $this->assertEquals(Context::gets('var1','var2'), $data);
         $data->var3 = 'val3';
-        $this->assertEquals(Context::getAll(), $data);
+        $this->assertEquals('val1', Context::getAll()->var1);
+        $this->assertEquals('val2', Context::getAll()->var2);
+        $this->assertEquals('val3', Context::getAll()->var3);
     }
 
     public function testAddGetBodyClass()
@@ -95,7 +97,7 @@ class ContextTest extends \Codeception\TestCase\Test
         Context::setRequestMethod();
 		Context::setRequestArguments();
 		$this->assertEquals('POST', Context::getRequestMethod());
-		$this->assertNull(Context::getRequestVars()->foo);
+		$this->assertNull(Context::getRequestVars()->foo ?? null);
 		$this->assertNull(Context::get('foo'));  // This is different from XE behavior
 		
 		$_SERVER['REQUEST_METHOD'] = 'POST';

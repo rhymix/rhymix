@@ -1,4 +1,40 @@
 /* NAVER (developers@xpressengine.com) */
+
+// core update check
+jQuery(function($) {
+	var core_update = $('.core_update');
+	if (!core_update.size()) {
+		return;
+	}
+	var version_decode = function(str) {
+		var version_number = 0;
+		var extra_strings = '';
+		var parts = str.split(/[\.-]/);
+		$.each(parts, function(i, part) {
+			if (part.match(/^[0-9]+$/)) {
+				version_number += parseInt(part, 10) * Math.pow(1000, 3 - i);
+			} else {
+				extra_strings = extra_strings + part;
+			}
+		});
+		return String(version_number) + (extra_strings === '' ? 'z' : extra_strings);
+	};
+	var current_version = version_decode(core_update.data('current-version'));
+	$.ajax({
+		url: 'https://api.rhymix.org/version.json',
+		dataType: 'json',
+		cache: true,
+		success: function(data) {
+			var latest_version = version_decode(data.latest);
+			if (latest_version > current_version) {
+				var version_replace = core_update.find('p').first();
+				version_replace.html(version_replace.html().replace('$VERSION', data.latest));
+				core_update.show();
+			}
+		}
+	});
+});
+
 // install module
 function doInstallModule(module) {
 	var params = [];

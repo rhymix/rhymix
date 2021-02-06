@@ -674,7 +674,7 @@ function _displayMultimedia(src, width, height, options) {
 		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" class="thumb" />';
 	} else {
 		html = '<span style="position:relative;background:black;width:' + width + 'px;height:' + height + 'px" class="thumb">';
-		html += '<img style="width:24px;height:24px;position:absolute;left:50%;top:50%;border:0;margin:-12px 0 0 -12px;padding:0" src="./common/img/play.png" alt="" />';
+		html += '<img style="width:24px;height:24px;position:absolute;left:50%;top:50%;border:0;margin:-12px 0 0 -12px;padding:0" src="' + request_uri + 'common/img/play.png" alt="" />';
 		html += '</span>';
 	}
 	return html;

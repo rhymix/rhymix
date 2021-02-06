@@ -800,6 +800,11 @@ class documentController extends document
 		{
 			$category_list = DocumentModel::getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
+
+			if(!$category_list[$obj->category_srl]->grant)
+			{
+				return new BaseObject(-1, 'msg_not_permitted');
+			}
 		}
 
 		// Change the update order

@@ -690,12 +690,12 @@ class SMS
 				}
 				
 				// If message subject is not supported, prepend it to the content instead.
-				if ($item->subject && !$spec[strtolower($item->type) . '_subject_supported'])
+				if (isset($item->subject) && $item->subject && !$spec[strtolower($item->type) . '_subject_supported'])
 				{
 					$content = $item->subject . "\n" . $content;
 					unset($item->subject);
 				}
-				elseif ($item->subject && $this->_getLengthInCharset($item->subject, $spec[strtolower($item->type) . '_max_length_in_charset']) > $spec[strtolower($item->type) . '_subject_max_length'])
+				elseif (isset($item->subject) && $item->subject && $this->_getLengthInCharset($item->subject, $spec[strtolower($item->type) . '_max_length_in_charset']) > $spec[strtolower($item->type) . '_subject_max_length'])
 				{
 					$subject_parts = $this->_splitString($item->subject, $spec[strtolower($item->type) . '_subject_max_length'], $spec[strtolower($item->type) . '_max_length_in_charset']);
 					$subject_short = array_shift($subject_parts);
@@ -750,7 +750,7 @@ class SMS
 					$cloneitem = clone $item;
 					
 					// Determine the best message type for this part.
-					if ($cloneitem->type !== 'SMS' && !$cloneitem->subject)
+					if ($cloneitem->type !== 'SMS' && (!isset($cloneitem->subject) || !$cloneitem->subject))
 					{
 						$cloneitem->type = $attachment ? 'MMS' : ($this->_getLengthInCharset($content_part, $spec['sms_max_length_in_charset']) > $spec['sms_max_length'] ? 'LMS' : 'SMS');
 					}

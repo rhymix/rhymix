@@ -182,7 +182,7 @@ $.fn.simpleTree = function(opt){
 					$('body').append('<div id="drag_container"><ul></ul></div>');
 					$('#drag_container').hide().css({opacity:'0.8'});
 					$('#drag_container >ul').append(cloneNode);
-					$("<img>").attr({id	: "tree_plus",src	: "./common/js/plugins/ui.tree/images/plus.gif"}).css({width: "7px",display: "block",position: "absolute",left	: "5px",top: "5px", display:'none'}).appendTo("body");
+					$("<img>").attr({id: "tree_plus", src: request_uri + "common/js/plugins/ui.tree/images/plus.gif"}).css({width: "7px",display: "block",position: "absolute",left	: "5px",top: "5px", display:'none'}).appendTo("body");
 					$(document).bind("mousemove", {LI:LI}, TREE.dragStart).bind("mouseup",TREE.dragEnd);
 				}
 				return false;
@@ -258,19 +258,19 @@ $.fn.simpleTree = function(opt){
 
 					if(parent.className.indexOf('folder-close')>=0 && ajaxChildSize==0)
 					{
-						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src','./common/js/plugins/ui.tree/images/plus.gif');
+						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src', request_uri + 'common/js/plugins/ui.tree/images/plus.gif');
 						$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 						dragDropTimer = setTimeout(function(){
 							parent.className = parent.className.replace('close','open');
 							$('>ul',parent).show();
 						}, 700);
 					}else if(parent.className.indexOf('folder')>=0 && ajaxChildSize==0){
-						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src','./common/js/plugins/ui.tree/images/plus.gif');
+						if(isrc.indexOf('minus')!=-1)$("#tree_plus").attr('src', request_uri + 'common/js/plugins/ui.tree/images/plus.gif');
 						$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 					}else if(parent.className.indexOf('folder-close')>=0 && ajaxChildSize>0)
 					{
 						mouseMoved = false;
-						$("#tree_plus").attr('src','./common/js/plugins/ui.tree/images/minus.gif');
+						$("#tree_plus").attr('src', request_uri + 'common/js/plugins/ui.tree/images/minus.gif');
 						$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 
 						$('>ul',parent).show();
@@ -280,7 +280,7 @@ $.fn.simpleTree = function(opt){
 						TREE.setAjaxNodes(ajaxChild,parent.id, function(){
 							parent.className = parent.className.replace('close','open');
 							mouseMoved = true;
-							$("#tree_plus").attr('src','./common/js/plugins/ui.tree/images/plus.gif');
+							$("#tree_plus").attr('src', request_uri + 'common/js/plugins/ui.tree/images/plus.gif');
 							$("#tree_plus").css({"left": screenScroll.x, "top": screenScroll.y}).show();
 						});
 

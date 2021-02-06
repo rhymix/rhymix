@@ -45,12 +45,12 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		
 		// Grant
 		$this->assertEquals(['view'], array_keys(get_object_vars($info->grant)));
-		$this->assertEquals('View', $info->grant->view->title);
+		$this->assertContains($info->grant->view->title, ['View', '열람']);
 		$this->assertEquals('guest', $info->grant->view->default);
 		
 		// Menu
 		$this->assertEquals(['test'], array_keys(get_object_vars($info->menu)));
-		$this->assertEquals('Test Menu', $info->menu->test->title);
+		$this->assertContains($info->menu->test->title, ['Test Menu', '테스트 메뉴']);
 		$this->assertEquals('dispTestAdminIndex', $info->menu->test->index);
 		$this->assertEquals(['dispTestAdminIndex'], $info->menu->test->acts);
 		$this->assertEquals('all', $info->menu->test->type);

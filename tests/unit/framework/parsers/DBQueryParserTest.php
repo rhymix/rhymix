@@ -56,6 +56,13 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
 			'ORDER BY `list_order` ASC LIMIT 40, 20', $sql);
 		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
+		
+		$sql = $query->getQueryString('rx_', $args, [], 1);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?)) AS `subquery`', $sql);
+		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
 	}
 	
 	public function testSelectWithExpressions()
@@ -220,17 +227,33 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->tables['member'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
 		$this->assertEquals(2, count($query->columns));
 		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
+		$this->assertTrue($query->columns[0]->is_expression);
+		$this->assertTrue($query->columns[0]->is_wildcard);
 		$this->assertTrue($query->columns[1] instanceof Rhymix\Framework\Parsers\DBQuery\Query);
 		$this->assertTrue($query->columns[1]->tables['documents'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
 		$this->assertTrue($query->columns[1]->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnRead);
-		$this->assertTrue($query->columns[1]->columns[0]->is_expression);
+		$this->assertFalse($query->columns[1]->columns[0]->is_expression);
 		$this->assertFalse($query->columns[1]->columns[0]->is_wildcard);
+		$this->assertTrue($query->columns[1]->columns[1]->is_expression);
+		$this->assertTrue($query->columns[1]->columns[1]->is_wildcard);
+		$this->assertTrue($query->columns[1]->columns[2]->is_expression);
+		$this->assertFalse($query->columns[1]->columns[2]->is_wildcard);
 		
 		$sql = $query->getQueryString('rx_', []);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('SELECT `member`.*, (SELECT COUNT(*) AS `count` FROM `rx_documents` AS `documents` WHERE `member`.`member_srl` = `documents`.`member_srl`) AS `document_count` ' .
+		$this->assertEquals('SELECT `member`.*, (SELECT `documents`.`document_srl`, `documents`.*, COUNT(*) AS `count` FROM `rx_documents` AS `documents` ' .
+			'WHERE `member`.`member_srl` = `documents`.`member_srl`) AS `document_count` ' .
 			'FROM `rx_member` AS `member`', $sql);
+		$this->assertEquals([], $params);
+		
+		// Test count-only query (#1575)
+		$sql = $query->getQueryString('rx_', [], [], 1);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT 1, (SELECT `documents`.`document_srl`, 1, COUNT(*) AS `count` FROM `rx_documents` AS `documents` ' .
+			'WHERE `member`.`member_srl` = `documents`.`member_srl`) AS `document_count` ' .
+			'FROM `rx_member` AS `member`) AS `subquery`', $sql);
 		$this->assertEquals([], $params);
 	}
 	

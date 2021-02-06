@@ -464,6 +464,10 @@ class editorModel extends editor
 
 		// Return null if no result is auto-saved
 		if(!$saved_doc) return;
+		if(is_array($saved_doc))
+		{
+			$saved_doc = array_first($saved_doc);
+		}
 		
 		// Return null if certify key does not match
 		if($saved_doc->certify_key && !isset($auto_save_args->certify_key))

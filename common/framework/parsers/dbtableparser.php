@@ -175,7 +175,7 @@ class DBTableParser extends BaseParser
 			{
 				$index->type = strtoupper($index_info['type']);
 			}
-			elseif (toBool($index_info['unique']))
+			elseif (isset($index_info['unique']) && toBool($index_info['unique']))
 			{
 				$index->type = 'UNIQUE';
 			}
@@ -202,12 +202,12 @@ class DBTableParser extends BaseParser
 		{
 			$const_info = self::_getAttributes($const_info);
 			$constraint = new DBTable\Constraint;
-			$constraint->type = strtoupper($const_info['type']);
-			$constraint->column = $const_info['column'] ?: null;
-			$constraint->references = $const_info['references'] ?: null;
-			$constraint->condition = $const_info['condition'] ?: null;
-			$constraint->on_delete = $const_info['ondelete'] ?: $constraint->on_delete;
-			$constraint->on_update = $const_info['onupdate'] ?: $constraint->on_update;
+			$constraint->type = strtoupper($const_info['type'] ?? '');
+			$constraint->column = ($const_info['column'] ?? null) ?: null;
+			$constraint->references = ($const_info['references'] ?? null) ?: null;
+			$constraint->condition = ($const_info['condition'] ?? null) ?: null;
+			$constraint->on_delete = ($const_info['ondelete'] ?? null) ?: $constraint->on_delete;
+			$constraint->on_update = ($const_info['onupdate'] ?? null) ?: $constraint->on_update;
 			$table->constraints[] = $constraint;
 		}
 		

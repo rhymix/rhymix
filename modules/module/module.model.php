@@ -534,25 +534,29 @@ class moduleModel extends module
 	 */
 	public static function getMidList($args = null, $columnList = array())
 	{
-		$list = Rhymix\Framework\Cache::get('site_and_module:module:mid_list');
+		// Remove site_srl.
+		if (is_object($args) && isset($args->site_srl))
+		{
+			unset($args->site_srl);
+		}
+		
+		// Check if there are any arguments.
+		$argsCount = $args === null ? 0 : countobj($args);
+		if(!$argsCount)
+		{
+			$columnList = array();
+		}
+		
+		// Use cache only if there are no arguments. Otherwise, get data from DB.
+		$list = $argsCount ? null : Rhymix\Framework\Cache::get('site_and_module:module:mid_list');
 		if($list === null)
 		{
-			if (is_object($args) && isset($args->site_srl))
-			{
-				unset($args->site_srl);
-			}
-			
-			$argsCount = countobj($args);
-			if(!$argsCount)
-			{
-				$columnList = array();
-			}
-
-			$output = executeQuery('module.getMidList', $args, $columnList);
+			$output = executeQueryArray('module.getMidList', $args, $columnList);
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
-
-			if(!$argsCount && !$columnList)
+			
+			// Set cache only if there are no arguments.
+			if(!$argsCount)
 			{
 				Rhymix\Framework\Cache::set('site_and_module:module:mid_list', $list, 0, true);
 			}

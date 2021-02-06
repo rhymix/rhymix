@@ -131,6 +131,9 @@ class Validator
 			return FALSE;
 		}
 
+		$rules = array();
+		$messages = array();
+		
 		// custom rules
 		if(isset($xml->ruleset->customrules) && isset($xml->ruleset->customrules->rule))
 		{
@@ -140,8 +143,6 @@ class Validator
 				$customrules = array($customrules);
 			}
 
-			$rules = array();
-			$messages = array();
 			foreach($customrules as $rule)
 			{
 				if(!isset($rule->attrs) || !isset($rule->attrs->name))
@@ -370,7 +371,7 @@ class Validator
 			}
 
 			// attr : required
-			if($filter['required'] === 'true' && !$value_len)
+			if(isset($filter['required']) && $filter['required'] === 'true' && !$value_len)
 			{
 				return $this->error($key, 'isnull');
 			}
@@ -382,7 +383,7 @@ class Validator
 			}
 
 			// attr : length
-			if($length = $filter['length'])
+			if($length = $filter['length'] ?? '')
 			{
 				list($min, $max) = explode(':', trim($length));
 				$is_min_b = (substr($min, -1) === 'b');
@@ -402,7 +403,7 @@ class Validator
 			}
 
 			// equalto
-			if($equalto = $filter['equalto'])
+			if($equalto = $filter['equalto'] ?? '')
 			{
 				if(!array_key_exists($equalto, $fields) || trim($fields[$equalto]) !== $value)
 				{
@@ -411,7 +412,7 @@ class Validator
 			}
 
 			// rules
-			if($rules = $filter['rule'])
+			if($rules = $filter['rule'] ?? '')
 			{
 				$rules = explode(',', $rules);
 				foreach($rules as $rule)
@@ -619,7 +620,7 @@ class Validator
 			case 'enum':
 				return in_array($value, $rule['test']);
 			case 'expr':
-				if(is_callable($rule['func_test']))
+				if(isset($rule['func_test']) && is_callable($rule['func_test']))
 				{
 					return $rule['func_test']($value);
 				}
@@ -763,23 +764,23 @@ class Validator
 				$messages[] = "v.cast('ADD_MESSAGE',['{$name}','{$field_lang}']);";
 			}
 
-			if($filter['required'] == 'true')
+			if(isset($filter['required']) && $filter['required'] == 'true')
 			{
 				$field[] = 'required:true';
 			}
-			if($filter['rule'])
+			if(isset($filter['rule']) && $filter['rule'])
 			{
 				$field[] = "rule:'" . strtolower($filter['rule']) . "'";
 			}
-			if($filter['default'])
+			if(isset($filter['default']) && $filter['default'])
 			{
 				$field[] = "default:'{$filter['default']}'";
 			}
-			if($filter['modifier'])
+			if(isset($filter['modifier']) && $filter['modifier'])
 			{
 				$field[] = "modifier:'{$filter['modifier']}'";
 			}
-			if($filter['length'])
+			if(isset($filter['length']) && $filter['length'])
 			{
 				list($min, $max) = explode(':', $filter['length']);
 				if($min)
@@ -791,7 +792,7 @@ class Validator
 					$field[] = "maxlength:'{$max}'";
 				}
 			}
-			if($filter['if'])
+			if(isset($filter['if']) && $filter['if'])
 			{
 				$ifs = array();
 				if(!isset($filter['if'][0]))

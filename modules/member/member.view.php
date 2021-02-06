@@ -123,7 +123,7 @@ class memberView extends member
 
 			if($formInfo->isDefaultForm)
 			{
-				$item->title = lang($formInfo->name);
+				$item->title = $formInfo->title;
 				$item->value = $memberInfo->{$formInfo->name};
 
 				if($formInfo->name == 'profile_image' && $memberInfo->profile_image)

@@ -1416,7 +1416,7 @@ class documentModel extends document
 			}
 			
 			// exclude secret documents in searching if current user does not have privilege
-			if(!$args->member_srl || !Context::get('is_logged') || $args->member_srl !== Context::get('logged_info')->member_srl)
+			if(!isset($args->member_srl) || !$args->member_srl || !Context::get('is_logged') || $args->member_srl !== Context::get('logged_info')->member_srl)
 			{
 				$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 				if(!ModuleModel::getGrant($module_info, Context::get('logged_info'))->manager)
@@ -1440,6 +1440,10 @@ class documentModel extends document
 					$args->sort_index = 'extra_sort.value';
 				}
 				$query_id = 'document.getDocumentListWithExtraVars';
+				if($args->columnList && !in_array($args->sort_index, $args->columnList))
+				{
+					$args->columnList[] = $args->sort_index;
+				}
 			}
 			else
 			{
@@ -1467,7 +1471,8 @@ class documentModel extends document
 			// get start point of first division
 			if(Context::get('division') === null)
 			{
-				$args->division = (int)executeQuery('document.getDocumentDivision', $division_args)->data->list_order;
+				$division_output = executeQuery('document.getDocumentDivision', $division_args)->data;
+				$args->division = $division_output ? $division_output->list_order : 0;
 			}
 			
 			// get end point of the division
@@ -1475,7 +1480,8 @@ class documentModel extends document
 			{
 				$division_args->offset = 5000;
 				$division_args->list_order = $args->division;
-				$args->last_division = (int)executeQuery('document.getDocumentDivision', $division_args)->data->list_order;
+				$division_output = executeQuery('document.getDocumentDivision', $division_args)->data;
+				$args->last_division = $division_output ? $division_output->list_order : 0;
 			}
 			
 			Context::set('division', $args->division);

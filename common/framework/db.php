@@ -408,7 +408,7 @@ class DB
 		// Get the COUNT(*) query string and parameters.
 		try
 		{
-			$query_string = $query->getQueryString($this->_prefix, $args, [], true);
+			$query_string = $query->getQueryString($this->_prefix, $args, [], 1);
 			$query_params = $query->getQueryParams();
 		}
 		catch (Exceptions\QueryError $e)
@@ -538,9 +538,9 @@ class DB
 			throw new Exceptions\DBError($e->getMessage(), 0, $e);
 		}
 		
-		if ($result_type === 'auto' && $last_index === 0 && count($result) === 1)
+		if ($result_type === 'auto' && $last_index === 0 && count($result) <= 1)
 		{
-			return $result[0];
+			return isset($result[0]) ? $result[0] : null;
 		}
 		else
 		{
@@ -572,6 +572,10 @@ class DB
 				Debug::addQuery($this->getQueryLog('START TRANSACTION', 0));
 			}
 		}
+		else
+		{
+			$this->_handle->exec(sprintf('SAVEPOINT `%s%s%d`', $this->_prefix, 'savepoint', $this->_transaction_level));
+		}
 		$this->_transaction_level++;
 		return $this->_transaction_level;
 	}
@@ -600,6 +604,10 @@ class DB
 				Debug::addQuery($this->getQueryLog('ROLLBACK', 0));
 			}
 		}
+		else
+		{
+			$this->_handle->exec(sprintf('ROLLBACK TO SAVEPOINT `%s%s%d`', $this->_prefix, 'savepoint', $this->_transaction_level - 1));
+		}
 		$this->_transaction_level--;
 		return $this->_transaction_level;
 	}
@@ -626,6 +634,13 @@ class DB
 			if (Debug::isEnabledForCurrentUser())
 			{
 				Debug::addQuery($this->getQueryLog('COMMIT', 0));
+			}
+		}
+		else
+		{
+			if (Debug::isEnabledForCurrentUser())
+			{
+				Debug::addQuery($this->getQueryLog('NESTED COMMIT IGNORED BY RHYMIX', 0));
 			}
 		}
 		$this->_transaction_level--;
@@ -1194,6 +1209,16 @@ class DB
 	public function getTotalElapsedTime(): float
 	{
 		return $this->_total_time;
+	}
+	
+	/**
+	 * Enable or disable debug comments.
+	 * 
+	 * @param bool $enabled
+	 */
+	public function setDebugComment(bool $enabled)
+	{
+		$this->_debug_comment = $enabled;
 	}
 	
 	/**
