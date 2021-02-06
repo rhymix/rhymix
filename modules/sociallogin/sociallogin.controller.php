@@ -154,6 +154,7 @@ class SocialloginController extends Sociallogin
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
+		
 		$_SESSION['sociallogin_current']['mid'] = $_SESSION['sociallogin_auth']['mid'];
 		$redirect_url = $_SESSION['sociallogin_auth']['redirect'];
 		$redirect_url = $redirect_url ? Context::getRequestUri() . '?' . $redirect_url : Context::getRequestUri();
@@ -202,6 +203,15 @@ class SocialloginController extends Sociallogin
 				// 로그인 후 페이지 이동 (회원 설정 참조)
 				$redirect_url = getModel('module')->getModuleConfig('member')->after_login_url ?: getNotEncodedUrl('', 'mid', $_SESSION['sociallogin_current']['mid'], 'act', '');
 			}
+			else if ($type == 'recheck')
+			{
+				$recheckBool = $this->reCheckSns($oDriver);
+				if(!$recheckBool)
+				{
+					$error = '인증한 계정이 일치하지 않습니다.';
+				}
+				$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
+			}
 		}
 
 		// 오류
@@ -240,7 +250,6 @@ class SocialloginController extends Sociallogin
 				$this->setRedirectUrl($redirect_url);
 			}
 		}
-
 	}
 
 	/**
@@ -790,6 +799,45 @@ class SocialloginController extends Sociallogin
 		}
 
 		return new BaseObject();
+	}
+
+	/**
+	 * @brief SNS recheck
+	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
+	 * @return Bool
+	 */
+	function reCheckSns($oDriver)
+	{
+		if (!$this->user->isMember())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+
+		$service = $oDriver->getService();
+		if (!$_SESSION['sociallogin_driver_auth'][$service]->profile['sns_id'])
+		{
+			throw new Rhymix\Framework\Exception('msg_errer_api_connect');
+		}
+
+		// SNS ID로 회원 검색
+		$isCheck = false;
+		if (($sns_info = SocialloginModel::getMemberSnsById($_SESSION['sociallogin_driver_auth'][$service]->profile['sns_id'], $service)) && $sns_info->member_srl)
+		{
+			if($sns_info->id == $_SESSION['sociallogin_driver_auth'][$service]->profile['sns_id'])
+			{
+				$isCheck = true;
+			}
+		}
+		
+		if($isCheck)
+		{
+			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**

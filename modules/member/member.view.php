@@ -298,6 +298,20 @@ class memberView extends member
 
 		$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
 
+		$useSNSList = SocialloginModel::getUseSNSList('recheck');
+		
+		$memberSNSList = array();
+		if($useSNSList)
+		{
+			$memberSNSList = SocialloginModel::getMemberSns();
+
+			foreach ($memberSNSList as $key => $userSNSData)
+			{
+				$memberSNSList[$key]->auth_url = $useSNSList[$userSNSData->service]->auth_url;
+			}
+		}
+		Context::set('member_sns_list', $memberSNSList);
+		
 		$templateFile = $this->getTemplatePath().'rechecked_password.html';
 		if(!is_readable($templateFile))
 		{
