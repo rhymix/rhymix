@@ -303,7 +303,7 @@ class memberView extends member
 		$memberSNSList = array();
 		if($useSNSList)
 		{
-			$memberSNSList = SocialloginModel::getMemberSns();
+			$memberSNSList = SocialloginModel::getMemberSnsList();
 
 			foreach ($memberSNSList as $key => $userSNSData)
 			{

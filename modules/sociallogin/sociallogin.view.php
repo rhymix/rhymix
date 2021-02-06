@@ -36,7 +36,7 @@ class SocialloginView extends Sociallogin
 		foreach (self::getConfig()->sns_services as $key => $val)
 		{
 			$args = new stdClass;
-			$sns_info = SocialloginModel::getMemberSns($val);
+			$sns_info = SocialloginModel::getMemberSnsByService($val);
 			
 			if ($sns_info->name)
 			{
@@ -156,7 +156,7 @@ class SocialloginView extends Sociallogin
 
 		foreach (self::getConfig()->sns_services as $key => $val)
 		{
-			if (!($sns_info = SocialloginModel::getMemberSns($val, $member_info->member_srl)) || !$sns_info->name)
+			if (!($sns_info = SocialloginModel::getMemberSnsByService($val, $member_info->member_srl)) || !$sns_info->name)
 			{
 				continue;
 			}

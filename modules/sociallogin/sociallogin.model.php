@@ -48,22 +48,48 @@ class SocialloginModel extends Sociallogin
 	/**
 	 * @brief 회원 SNS
 	 */
-	public static function getMemberSns($service = null, $member_srl = null)
+	public static function getMemberSnsList($member_srl = null)
 	{
-		if (!$member_srl)
+		if(!$member_srl)
 		{
-			if (!Context::get('is_logged'))
+			if(!Rhymix\Framework\Session::getMemberSrl())
 			{
-				return;
+				return false;
 			}
-
-			$member_srl = Context::get('logged_info')->member_srl;
+			$member_srl = Rhymix\Framework\Session::getMemberSrl();
 		}
+		
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$output = executeQuery('sociallogin.getMemberSns', $args);
+		return $output->data;
+	}
 
+	/**
+	 * @param $service
+	 * @param null $member_srl
+	 * @return bool|object
+	 */
+	public static function getMemberSnsByService($service, $member_srl = null)
+	{
+		if(!$member_srl)
+		{
+			if (!Rhymix\Framework\Session::getMemberSrl())
+			{
+				return false;
+			}
+			$member_srl = Rhymix\Framework\Session::getMemberSrl();
+		}
+		if(!$service)
+		{
+			return false;
+		}
+		
 		$args = new stdClass();
 		$args->service = $service;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('sociallogin.getMemberSns', $args);
+		
 		return $output->data;
 	}
 
@@ -96,7 +122,7 @@ class SocialloginModel extends Sociallogin
 	 */
 	public static function memberUserSns($member_srl = null)
 	{
-		$sns_list = self::getMemberSns(null, $member_srl);
+		$sns_list = self::getMemberSnsList($member_srl);
 
 		if (!is_array($sns_list))
 		{

@@ -26,7 +26,7 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!($sns_info = SocialloginModel::getMemberSns($service)) || !$sns_info->name)
+		if (!($sns_info = SocialloginModel::getMemberSnsByService($service)) || !$sns_info->name)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
@@ -34,7 +34,7 @@ class SocialloginController extends Sociallogin
 		if (self::getConfig()->sns_login == 'Y' && self::getConfig()->default_signup != 'Y')
 		{
 			// TODO(BJRambo) : check get to list;
-			$sns_list = SocialloginModel::getMemberSns();
+			$sns_list = SocialloginModel::getMemberSnsList();
 
 			if (!is_array($sns_list))
 			{
@@ -49,7 +49,7 @@ class SocialloginController extends Sociallogin
 
 		$args = new stdClass;
 		$args->service = $service;
-		$args->member_srl = Context::get('logged_info')->member_srl;
+		$args->member_srl = Rhymix\Framework\Session::getMemberSrl();
 
 		$output = executeQuery('sociallogin.deleteMemberSns', $args);
 		if (!$output->toBool())
@@ -93,7 +93,7 @@ class SocialloginController extends Sociallogin
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
 
-		if (!($sns_info = SocialloginModel::getMemberSns($service)) || !$sns_info->name)
+		if (!($sns_info = SocialloginModel::getMemberSnsByService($service)) || !$sns_info->name)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_linkage_sns_info');
 		}
@@ -287,7 +287,7 @@ class SocialloginController extends Sociallogin
 
 		foreach ($config->sns_services as $key => $val)
 		{
-			if (!($sns_info = SocialloginModel::getMemberSns($val)) || $sns_info->linkage != 'Y')
+			if (!($sns_info = SocialloginModel::getMemberSnsByService($val)) || $sns_info->linkage != 'Y')
 			{
 				continue;
 			}
@@ -603,7 +603,7 @@ class SocialloginController extends Sociallogin
 		else
 		{
 			// 등록하려는 서비스가 이미 등록되어 있을 경우
-			if (($sns_info = SocialloginModel::getMemberSns($service, $member_srl)) && $sns_info->member_srl)
+			if (($sns_info = SocialloginModel::getMemberSnsByService($service, $member_srl)) && $sns_info->member_srl)
 			{
 				// 로그인에서 등록 요청이 온 경우 SNS 정보 삭제 후 재등록 (SNS ID가 달라졌다고 판단)
 				if ($login)
