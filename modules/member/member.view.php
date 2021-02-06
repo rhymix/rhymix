@@ -298,7 +298,7 @@ class memberView extends member
 
 		$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
 
-		$useSNSList = SocialloginModel::getUseSNSList('recheck');
+		$useSNSList = SocialloginModel::getUserRecheckList();
 		
 		$memberSNSList = array();
 		if($useSNSList)
