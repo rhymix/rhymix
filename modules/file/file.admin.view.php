@@ -48,7 +48,7 @@ class fileAdminView extends file
 
 			$doc_srls = array();
 			$com_srls = array();
-			$mod_srls= array();
+			$mod_srls = array();
 
 			foreach($output->data as $file)
 			{
@@ -60,15 +60,15 @@ class fileAdminView extends file
 				if(!$file->upload_target_type)
 				{
 					// Pass if upload_target_type is already found 
-					if($document_list[$target_srl])
+					if(isset($document_list[$target_srl]))
 					{
 						$file->upload_target_type = 'doc';
 					}
-					else if($comment_list[$target_srl])
+					elseif(isset($comment_list[$target_srl]))
 					{
 						$file->upload_target_type = 'com';
 					}
-					else if($module_list[$target_srl])
+					elseif(isset($module_list[$target_srl]))
 					{
 						$file->upload_target_type = 'mod';
 					}
@@ -106,27 +106,27 @@ class fileAdminView extends file
 								$module_list[$module->comment_srl] = $module;
 							}
 						}
-						if($file_update_args->upload_target_type)
+						if(isset($file_update_args->upload_target_type) && $file_update_args->upload_target_type)
 						{
 							executeQuery('file.updateFileTargetType', $file_update_args);
 						}
 					}
 					// Check if data is already obtained
-					for($i = 0; $i < $com_srls_count; ++$i)
+					foreach($com_srls as $i => $com_srl)
 					{
-						if($comment_list[$com_srls[$i]]) delete($com_srls[$i]);
+						if(isset($comment_list[$com_srl])) unset($com_srls[$i]);
 					}
-					for($i = 0; $i < $doc_srls_count; ++$i)
+					foreach($doc_srls as $i => $doc_srl)
 					{
-						if($document_list[$doc_srls[$i]]) delete($doc_srls[$i]);
+						if(isset($document_list[$doc_srl])) unset($doc_srls[$i]);
 					}
-					for($i = 0; $i < $mod_srls_count; ++$i)
+					foreach($mod_srls as $i => $mod_srl)
 					{
-						if($module_list[$mod_srls[$i]]) delete($mod_srls[$i]);
+						if(isset($module_list[$mod_srl])) unset($mod_srls[$i]);
 					}
 				}
 
-				if($file->upload_target_type && is_array(${$file->upload_target_type.'_srls'}))
+				if($file->upload_target_type && isset(${$file->upload_target_type.'_srls'}) && is_array(${$file->upload_target_type.'_srls'}))
 				{
 					if(!in_array($file->upload_target_srl, ${$file->upload_target_type.'_srls'}))
 					{

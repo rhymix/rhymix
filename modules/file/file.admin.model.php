@@ -68,39 +68,52 @@ class fileAdminModel extends file
 		$this->_makeSearchParam($obj, $args);
 
 		// Set valid/invalid state
-		if($obj->isvalid == 'Y') $args->isvalid = 'Y';
-		elseif($obj->isvalid == 'N') $args->isvalid = 'N';
+		if(isset($obj->isvalid) && in_array($obj->isvalid, ['Y', 'N']))
+		{
+			$args->isvalid = $obj->isvalid;
+		}
+		
 		// Set multimedia/common file
-		if($obj->direct_download == 'Y') $args->direct_download = 'Y';
-		elseif($obj->direct_download == 'N') $args->direct_download= 'N';
+		if(isset($obj->direct_download) && in_array($obj->direct_download, ['Y', 'N']))
+		{
+			$args->direct_download = $obj->direct_download;
+		}
+		
 		// Set variables
-		$args->sort_index = $obj->sort_index;
+		$args->sort_index = $obj->sort_index ?? null;
 		$args->page = isset($obj->page) ? ($obj->page ? $obj->page : 1) : 1;
 		$args->list_count = isset($obj->list_count) ? ($obj->list_count? $obj->list_count : 20) : 20;
 		$args->page_count = isset($obj->page_count) ? ($obj->page_count? $obj->page_count : 10) : 10;
-		$args->s_module_srl = $obj->module_srl;
-		$args->exclude_module_srl = $obj->exclude_module_srl;
-		if(toBool($obj->exclude_secret))
+		$args->s_module_srl = $obj->module_srl ?? null;
+		$args->exclude_module_srl = $obj->exclude_module_srl ?? null;
+		if(toBool($obj->exclude_secret ?? null))
 		{
 			$args->document_status = array('PUBLIC');
 			$args->comment_is_secret = array('N');
-			$output = executeQuery('file.getFileListByTargetStatus', $args, $columnList);
+			$output = executeQueryArray('file.getFileListByTargetStatus', $args, $columnList);
 		}
 		else
 		{
-			$output = executeQuery('file.getFileList', $args, $columnList);
+			$output = executeQueryArray('file.getFileList', $args, $columnList);
 		}
+		
 		// Return if no result or an error occurs
-		if(!$output->toBool()||!count($output->data)) return $output;
-
-		$oFileModel = getModel('file');
+		if(!$output->toBool() || !count($output->data))
+		{
+			return $output;
+		}
 
 		foreach($output->data as $key => $file)
 		{
-			if($_SESSION['file_management'][$file->file_srl]) $file->isCarted = true;
-			else $file->isCarted = false;
-
-			$file->download_url = $oFileModel->getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+			if(isset($_SESSION['file_management'][$file->file_srl]) && $_SESSION['file_management'][$file->file_srl])
+			{
+				$file->isCarted = true;
+			}
+			else
+			{
+				$file->isCarted = false;
+			}
+			$file->download_url = FileModel::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
 			$output->data[$key] = $file;
 		}
 
