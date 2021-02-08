@@ -5,14 +5,13 @@
  * @author NAVER (developers@xpressengine.com)
  * high class of the member module
  */
-class member extends ModuleObject {
+class member extends ModuleObject
+{
 	/**
-	 * Use sha1 encryption
-	 *
-	 * @var boolean
+	 * Extra vars for admin purposes
 	 */
-	var $useSha1 = false;
-
+	public $admin_extra_vars = ['refused_reason', 'limited_reason'];
+	
 	/**
 	 * constructor
 	 *

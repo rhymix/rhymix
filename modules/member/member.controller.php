@@ -1167,6 +1167,13 @@ class memberController extends member
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
 		}
+		foreach($this->admin_extra_vars as $key)
+		{
+			if (isset($logged_info->{$key}))
+			{
+				$extra_vars->{$key} = $logged_info->{$key};
+			}
+		}
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
