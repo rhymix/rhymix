@@ -71,7 +71,7 @@ class commentItem extends BaseObject
 	 */
 	function setAttribute($attribute)
 	{
-		if(!$attribute->comment_srl)
+		if(!is_object($attribute) || !$attribute->comment_srl)
 		{
 			$this->comment_srl = NULL;
 			return;
