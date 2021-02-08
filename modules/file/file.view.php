@@ -27,7 +27,7 @@ class fileView extends file
 		if(!$current_module_srl)
 		{
 			// Get information of the current module
-			$current_module_srl = Context::get('current_module_info')->module_srl;
+			$current_module_srl = Context::get('current_module_info')->module_srl ?? 0;
 			if(!$current_module_srl)
 			{
 				return;

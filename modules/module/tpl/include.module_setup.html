@@ -10,7 +10,7 @@
 			<select name="module_category_srl" id="module_category_srl">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl==$key">{$val->title}</option>
+				<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="isset($module_info) && $module_info && $module_info->module_category_srl==$key">{$val->title}</option>
 			</select>
 			<p class="x_help-inline">{$lang->about_module_category}</p>
 		</div>
@@ -21,7 +21,7 @@
 			<select name="layout_srl" id="layout_srl">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
+				<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="isset($module_info) && $module_info && $module_info->layout_srl==$val->layout_srl">{$val->title} ({$val->layout})</option>
 			</select>
 			<p class="x_help-inline">{$lang->about_layout}</p>
 		</div>
@@ -31,7 +31,7 @@
 		<div class="x_controls">
 			<select name="skin" id="skin">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
-				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="$module_info->skin==$key">{$val->title}</option>
+				<option loop="$skin_list => $key, $val" value="{$key}" selected="selected"|cond="isset($module_info) && $module_info && $module_info->skin==$key">{$val->title}</option>
 			</select>
 			<p class="x_help-inline">{$lang->about_skin}</p>
 		</div>
@@ -53,7 +53,7 @@
 			<select name="mlayout_srl" id="mlayout_srl">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
 				<option value="0">{$lang->notuse}</option>
-				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
+				<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="isset($module_info) && $module_info && $module_info->mlayout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
 			</select>
 		</div>
 	</div>
@@ -62,14 +62,14 @@
 		<div class="x_controls">
 			<select name="mskin" id="mskin">
 				<option value="" selected="selected">{$lang->keep_existing_value}</option>
-				<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key">{$val->title}</option>
+				<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="isset($module_info) && $module_info && $module_info->mskin== $key">{$val->title}</option>
 			</select>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="description">{$lang->description}</label>
 		<div class="x_controls">
-			<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($module_info->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
+			<textarea name="description" id="description" rows="8" cols="42">{htmlspecialchars($module_info->description ?? '', ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 			<label class="x_inline" for="description_delete"><input name="description_delete" id="description_delete" type="checkbox" value="Y" /> {$lang->cmd_delete}</label>
 			<p class="x_help-block">{$lang->about_description}</p>
 		</div>
