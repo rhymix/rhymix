@@ -161,14 +161,9 @@
 				dateFormat:'yy-mm-dd',
 				defaultDate: new Date("{date('Y-m-d',time())}"),
 				minDate: new Date("{date('Y-m-d',strtotime('-200 years'))}"),
-
 				onSelect:function(){
 					$(this).prev('input[type="hidden"]').val(this.value.replace(/-/g,""))
-					if($('#until').val()){
-						limited_reason_division.slideDown(200);
-					} else {
-						limited_reason_division.slideUp(200);
-					}
+					$('.div_limited_reason').slideDown(200);
 				}
 			};
 			$.extend($.datepicker.regional['{$lang_type}'],option);
@@ -177,10 +172,13 @@
 			$(".inputDate").datepicker(option);
 		} else {
 			$(".inputDate").prop('readonly', false);
+			$(".inputDate").on('change', function() {
+				$('.div_limited_reason').slideDown(200);
+			});
 		}
 		$(".dateRemover").click(function() {
 			$(this).prevAll('input').val('');
-			limited_reason_division.slideUp(200);
+			$('.div_limited_reason').slideUp(200);
 			return false;
 		});
     });
@@ -201,10 +199,9 @@
 		}
 	});
 	
-	var limited_reason_division = $('.div_limited_reason');
 	if(!$('#until').val())
 	{
-		limited_reason_division.hide();
+		$('.div_limited_reason').hide();
 	}
 })(jQuery);
 </script>
