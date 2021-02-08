@@ -18,7 +18,7 @@ class spamfilter_reCAPTCHA
 		$response = Context::get('g-recaptcha-response');
 		if (!$response)
 		{
-			throw new Rhymix\Framework\Exception('recaptcha.msg_recaptcha_invalid_response');
+			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
 		}
 		
 		try
@@ -31,17 +31,17 @@ class spamfilter_reCAPTCHA
 		}
 		catch (\Requests_Exception $e)
 		{
-			throw new Rhymix\Framework\Exception('recaptcha.msg_recaptcha_connection_error');
+			throw new Rhymix\Framework\Exception('msg_recaptcha_connection_error');
 		}
 		
         $verify = @json_decode($verify_request->body, true);
 		if (!$verify || !$verify['success'])
 		{
-			throw new Rhymix\Framework\Exception('recaptcha.msg_recaptcha_server_error');
+			throw new Rhymix\Framework\Exception('msg_recaptcha_server_error');
 		}
         if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
-			throw new Rhymix\Framework\Exception('recaptcha.msg_recaptcha_invalid_response');
+			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
         }
         
         $_SESSION['recaptcha_authenticated'] = true;
