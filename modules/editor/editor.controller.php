@@ -272,7 +272,7 @@ class editorController extends editor
 			if(!isset($xml_obj->attrs)) $xml_obj->attrs = new stdClass;
 			$xml_obj->attrs->{$m[1][$i]} = $m[2][$i];
 		}
-		$xml_obj->body = $match[4];
+		$xml_obj->body = $match[4] ?? null;
 
 		if(!$xml_obj->attrs->editor_component) return $match[0];
 
