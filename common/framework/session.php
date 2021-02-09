@@ -315,7 +315,7 @@ class Session
 		{
 			$current_domain = $site_module_info->domain;
 			$current_url = URL::getCurrentUrl();
-			$default_domain = \ModuleModel::getInstance()->getDefaultDomainInfo();
+			$default_domain = \ModuleModel::getDefaultDomainInfo();
 			$default_url = \Context::getDefaultUrl($default_domain);
 		}
 		
@@ -700,7 +700,7 @@ class Session
 		}
 		
 		// Check member information to see if denied or limited.
-		$member_info = \MemberModel::getInstance()->getMemberInfoByMemberSrl($member_srl);
+		$member_info = \MemberModel::getMemberInfo($member_srl);
 		if ($member_info->denied === 'Y')
 		{
 			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (denied)', \E_USER_WARNING);
