@@ -200,12 +200,6 @@ $(function() {
 		}
 	};
 	
-	// Add debug data from the previous request.
-	if (window.rhymix_debug_previous) {
-		window.rhymix_debug_previous.page_title = 'PREVIOUS POST : ' + window.rhymix_debug_previous.ajax_module + "." + window.rhymix_debug_previous.ajax_act;
-		rhymix_debug_add_data(window.rhymix_debug_previous, false);
-	}
-	
 	// Add debug data from the current request.
 	if (window.rhymix_debug_content) {
 		window.rhymix_debug_content.page_title = 'MAIN PAGE';
