@@ -249,6 +249,7 @@ class DisplayHandler extends Handler
 						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
 						break;
 					case 'JSON':
+						unset($_SESSION['_rx_debug_previous']);
 						if (preg_match('/^(.+)\}$/', $output, $matches))
 						{
 							$output = $matches[1] . ',"_rx_debug":' . json_encode($data) . '}';

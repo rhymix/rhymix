@@ -776,6 +776,7 @@ class Debug
 				'method' => \Context::getResponseMethod(),
 				'size' => \DisplayHandler::$response_size,
 			),
+			'memory' => memory_get_peak_usage(),
 			'timing' => (object)array(
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
 				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),
