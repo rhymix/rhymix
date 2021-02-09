@@ -11,6 +11,7 @@ class VariableBase
 	 * Instance properties.
 	 */
 	public $var;
+	public $ifvar;
 	public $default;
 	
 	/**
@@ -33,7 +34,11 @@ class VariableBase
 		$params = array();
 		
 		// Process the variable or default value.
-		if ($this instanceof Query)
+		if ($this->ifvar && !isset($args[$this->ifvar]))
+		{
+			return [$where, $params];
+		}
+		elseif ($this instanceof Query)
 		{
 			$is_expression = true;
 			$value = '(' . $this->getQueryString($prefix, $args) . ')';

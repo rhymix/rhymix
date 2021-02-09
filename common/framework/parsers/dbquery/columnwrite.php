@@ -10,6 +10,7 @@ class ColumnWrite extends VariableBase
 	public $name;
 	public $operation = 'equal';
 	public $var;
+	public $ifvar;
 	public $default;
 	public $not_null;
 	public $filter;
