@@ -140,7 +140,7 @@ class documentItem extends BaseObject
 
 	function setAttribute($attribute, $load_extra_vars = true)
 	{
-		if(!$attribute->document_srl)
+		if(!is_object($attribute) || !$attribute->document_srl)
 		{
 			$this->document_srl = null;
 			return;

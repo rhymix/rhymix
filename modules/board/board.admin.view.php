@@ -39,7 +39,7 @@ class boardAdminView extends board {
 			}
 		}
 
-		if($module_info && $module_info->module != 'board')
+		if(isset($module_info) && $module_info && $module_info->module != 'board')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}

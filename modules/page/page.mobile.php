@@ -121,6 +121,7 @@ class pageMobile extends pageView
 			{
 				$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
 			}
+			$page_content = $oTemplate->compile($template_path, 'content');
 		}
 		else
 		{
@@ -129,9 +130,8 @@ class pageMobile extends pageView
 			{
 				$template_path = sprintf("%sm.skins/%s/",$this->module_path, 'default');
 			}
+			$page_content = $oTemplate->compile($template_path, 'mobile');
 		}
-
-		$page_content = $oTemplate->compile($template_path, 'mobile');
 
 		return $page_content;
 	}

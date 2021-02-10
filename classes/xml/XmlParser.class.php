@@ -191,7 +191,7 @@ class XeXmlParser
 		{
 			return;
 		}
-		if($this->lang && $parent_obj->{$node_name}->attrs->{'xml:lang'} && $parent_obj->{$node_name}->attrs->{'xml:lang'} != $this->lang)
+		if($this->lang && ($parent_obj->{$node_name}->attrs->{'xml:lang'} ?? null) && $parent_obj->{$node_name}->attrs->{'xml:lang'} != $this->lang)
 		{
 			return;
 		}

@@ -928,7 +928,7 @@ class moduleModel extends module
 				$defaultSkinInfo = self::loadSkinInfo($path, $defaultSkinName, $dir);
 
 				$useDefault = new stdClass();
-				$useDefault->title = lang('use_site_default_skin') . ' (' . $defaultSkinInfo->title . ')';
+				$useDefault->title = lang('use_site_default_skin') . ' (' . ($defaultSkinInfo->title ?? null) . ')';
 
 				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
 			}
@@ -969,23 +969,23 @@ class moduleModel extends module
 		{
 			// skin format v0.2
 			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
-			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$skin_info->version = $xml_obj->version->body;
+			sscanf($xml_obj->date->body ?? null, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+			$skin_info->version = $xml_obj->version->body ?? null;
 			$skin_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$skin_info->homepage = $xml_obj->link->body;
-			$skin_info->license = $xml_obj->license->body;
-			$skin_info->license_link = $xml_obj->license->attrs->link;
-			$skin_info->description = $xml_obj->description->body;
+			$skin_info->homepage = $xml_obj->link->body ?? null;
+			$skin_info->license = $xml_obj->license->body ?? null;
+			$skin_info->license_link = $xml_obj->license->attrs->link ?? null;
+			$skin_info->description = $xml_obj->description->body ?? null;
 
-			if(!is_array($xml_obj->author)) $author_list = array($xml_obj->author);
+			if(!is_array($xml_obj->author ?? null)) $author_list = array($xml_obj->author);
 			else $author_list = $xml_obj->author;
 
 			foreach($author_list as $author)
 			{
 				$author_obj = new stdClass();
-				$author_obj->name = $author->name->body;
-				$author_obj->email_address = $author->attrs->email_address;
-				$author_obj->homepage = $author->attrs->link;
+				$author_obj->name = $author->name->body ?? null;
+				$author_obj->email_address = $author->attrs->email_address ?? null;
+				$author_obj->homepage = $author->attrs->link ?? null;
 				$skin_info->author[] = $author_obj;
 			}
 			// List extra vars
@@ -1011,13 +1011,13 @@ class moduleModel extends module
 					foreach($extra_vars as $key => $val)
 					{
 						$obj = new stdClass;
-						$obj->group = $group->title->body;
-						$obj->name = $val->attrs->name;
-						$obj->title = $val->title->body;
-						$obj->type = $val->attrs->type ?: 'text';
-						$obj->description = $val->description->body;
-						$obj->value = $val->attrs->value;
-						$obj->default = $val->attrs->default;
+						$obj->group = $group->title->body ?? null;
+						$obj->name = $val->attrs->name ?? null;
+						$obj->title = $val->title->body ?? null;
+						$obj->type = ($val->attrs->type ?? null) ?: 'text';
+						$obj->description = $val->description->body ?? null;
+						$obj->value = $val->attrs->value ?? null;
+						$obj->default = $val->attrs->default ?? null;
 						
 						if(preg_match('/,|\|@\|/', $obj->value, $delimiter) && $delimiter[0])
 						{
@@ -1036,15 +1036,15 @@ class moduleModel extends module
 							for($i = 0; $i < $option_count; $i++)
 							{
 								$obj->options[$i] = new stdClass();
-								$obj->options[$i]->title = $val->options[$i]->title->body;
-								$obj->options[$i]->value = $val->options[$i]->attrs->value;
+								$obj->options[$i]->title = $val->options[$i]->title->body ?? null;
+								$obj->options[$i]->value = $val->options[$i]->attrs->value ?? null;
 							}
 						}
 						else
 						{
 							$obj->options[0] = new stdClass();
-							$obj->options[0]->title = $val->options->title->body;
-							$obj->options[0]->value = $val->options->attrs->value;
+							$obj->options[0]->title = $val->options->title->body ?? null;
+							$obj->options[0]->value = $val->options->attrs->value ?? null;
 						}
 						
 						$skin_info->extra_vars[] = $obj;
@@ -1131,7 +1131,7 @@ class moduleModel extends module
 		}
 
 		// colorset
-		$colorset = $xml_obj->colorset->color;
+		$colorset = $xml_obj->colorset->color ?? null;
 		if($colorset)
 		{
 			if(!is_array($colorset)) $colorset = array($colorset);
@@ -1156,7 +1156,7 @@ class moduleModel extends module
 			}
 		}
 		// Menu type (settings for layout)
-		if($xml_obj->menus->menu)
+		if($xml_obj->menus->menu ?? null)
 		{
 			$menus = $xml_obj->menus->menu;
 			if(!is_array($menus)) $menus = array($menus);
@@ -1250,7 +1250,7 @@ class moduleModel extends module
 			{
 				$args = new stdClass;
 				$args->module = $module;
-				$args->module_srl = $module_srl;
+				$args->module_srl = $module_srl ?: 0;
 				$output = executeQuery('module.getModulePartConfig', $args);
 				
 				// Object or Array(compatibility) type
