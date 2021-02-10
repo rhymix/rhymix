@@ -1591,7 +1591,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
 
 		// failed if both ip addresses between author's and the current user are same.
-		if($oComment->get('ipaddress') == \RX_CLIENT_IP)
+		if($oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
 			return new BaseObject(-1, 'failed_declared');
