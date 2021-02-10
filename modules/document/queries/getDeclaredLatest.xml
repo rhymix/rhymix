@@ -4,7 +4,7 @@
 		<table name="document_declared" />
         <table name="document_declared_log" />
     </tables>
-    <columns distinct="distinct">
+    <columns>
         <column name="document_declared_log.document_srl" />
 		<column name="count(*)" alias="declared_count" />
 		<column name="max(document_declared_log.regdate)" alias="latest_declared" />
@@ -15,6 +15,9 @@
 		<condition operation="more" column="document_declared.declared_count" default="1" pipe="and" />
         <condition operation="in" column="document_declared_log.document_srl" var="document_srls" pipe="and" />
     </conditions>
+    <groups>
+        <group column="document_declared_log.document_srl" />
+    </groups>
     <navigation>
         <index var="sort_index" default="latest_declared" order="order_type" />
         <list_count var="list_count" default="20" />
