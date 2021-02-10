@@ -61,7 +61,7 @@ class SocialloginModel extends Sociallogin
 		
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-		$output = executeQuery('sociallogin.getMemberSns', $args);
+		$output = executeQueryArray('sociallogin.getMemberSns', $args);
 		return $output->data;
 	}
 
