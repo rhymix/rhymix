@@ -891,7 +891,7 @@ class Context
 			$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . self::getLangType());
 			if($lang === null)
 			{
-				ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
+				$lang = ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
 			}
 		}
 		
