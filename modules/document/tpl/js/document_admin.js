@@ -46,12 +46,6 @@ function completeCancelDeclare(ret_obj) {
     location.reload();
 }
 
-function insertSelectedModule(id, module_srl, mid, browser_title) {
-    jQuery('#_'+id).val(browser_title+' ('+mid+')');
-    jQuery('#'+id).val(module_srl);
-    doGetCategoryFromModule(module_srl);
-}
-
 function completeInsertExtraVar(ret_obj) {
     // alert(ret_obj['message']);
     location.href = current_url.setQuery('type','').setQuery('selected_var_idx','');
