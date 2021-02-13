@@ -212,6 +212,15 @@ class SocialloginController extends Sociallogin
 				}
 				$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
 			}
+			else if ($type == 'modify_password')
+			{
+				$recheckBool = $this->reCheckSns($oDriver);
+				if(!$recheckBool)
+				{
+					$error = lang('sociallogin.do_not_match_sns_account');
+				}
+				$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyPassword');
+			}
 		}
 
 		// 오류
@@ -806,7 +815,7 @@ class SocialloginController extends Sociallogin
 	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
 	 * @return Bool
 	 */
-	function reCheckSns($oDriver)
+	function reCheckSns($oDriver, $type = 'recheck')
 	{
 		if (!$this->user->isMember())
 		{
@@ -831,7 +840,14 @@ class SocialloginController extends Sociallogin
 		
 		if($isCheck)
 		{
-			$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
+			if($type == 'recheck')
+			{
+				$_SESSION['rechecked_password_step'] = 'VALIDATE_PASSWORD';
+			}
+			else
+			{
+				$_SESSION['rechecked_password_modify'] = 'VALIDATE_PASSWORD';
+			}
 			return true;
 		}
 		else

@@ -266,7 +266,7 @@ class SocialloginModel extends Sociallogin
 		return $sns_auth_list;
 	}
 	
-	public static function getUserRecheckList()
+	public static function getUserRecheckList($type = 'recheck')
 	{
 		$config = self::getConfig();
 		$sns_auth_list = array();
@@ -274,7 +274,7 @@ class SocialloginModel extends Sociallogin
 		{
 			$sns_auth_list[$sns_name] = new stdClass();
 			$sns_auth_list[$sns_name]->name = $sns_name;
-			$sns_auth_list[$sns_name]->auth_url = self::snsAuthUrl($sns_name, 'recheck');
+			$sns_auth_list[$sns_name]->auth_url = self::snsAuthUrl($sns_name, $type);
 		}
 		
 		return $sns_auth_list;

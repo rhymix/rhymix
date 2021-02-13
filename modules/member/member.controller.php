@@ -1298,9 +1298,16 @@ class memberController extends member
 		$columnList = array('member_srl', 'password');
 
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		
 		// Verify the cuttent password
-		if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
-
+		if($_SESSION['rechecked_password_modify'] != 'VALIDATE_PASSWORD')
+		{
+			if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
+			{
+				throw new Rhymix\Framework\Exception('invalid_password');
+			}
+		}
+		
 		// Check if a new password is as same as the previous password
 		if($current_password == $password) throw new Rhymix\Framework\Exception('invalid_new_password');
 
@@ -1310,6 +1317,8 @@ class memberController extends member
 		$args->password = $password;
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
+
+		unset($_SESSION['rechecked_password_modify']);
 		
 		// Log out all other sessions.
 		$member_config = ModuleModel::getModuleConfig('member');
