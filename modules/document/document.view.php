@@ -104,9 +104,40 @@ class documentView extends document
 			Context::set('document_list', array());
 		}
 
+		// Set target module info
+		$target_mid = Context::get('target_mid');
 		$module_srl = intval(Context::get('module_srl'));
+
+		if(!is_null($target_mid)) {
+			// if target_mid is provided
+			$module_info = ModuleModel::getModuleInfoByMid($target_mid);
+			if(!is_bool($module_info)) {
+				$module_srl = $module_info->module_srl;
+			}
+		}
+		else if($module_srl > 0) {
+			// if module_srl is provided instead of target_mid (legacy)
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		}
+		else
+		{
+			// if no module info is provided
+			$document_module_srl_list = array();
+			foreach($document_list as $key => $val) {
+				$document_module_srl = $val->variables['module_srl'];
+				if(!in_array($document_module_srl, $document_module_srl_list))
+				{
+					array_push($document_module_srl_list, $document_module_srl);
+				}
+			}
+			if(count($document_module_srl_list) == 1)
+			{
+				// set module_srl if all documents has one common module_srl
+				$module_srl = $document_module_srl;
+			}
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		}
 		Context::set('module_srl',$module_srl);
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		Context::set('mid',$module_info->mid);
 		Context::set('browser_title',$module_info->browser_title);
 
