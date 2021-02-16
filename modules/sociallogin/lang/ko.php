@@ -98,5 +98,5 @@ $lang->msg_use_for_phone_auth = '전화번호 인증이 필요합니다. 전화�
 $lang->require_add_info = '필수 추가정보';
 $lang->about_kakao_client_id = 'Kakao Developers (https://developers.kakao.com/)에서 발급받은 Client ID를 입력해주세요.';
 $lang->msg_cannot_use_twitter_apple = 'PHP 버전이 낮아 트위터 및 애플 로그인에 필요한 라이브러리를 사용할 수 없습니다. 애플 및 트위터 로그인은 PHP7.4 이상 지원합니다.';
-$lang->msg_invalid_sns_account = 'SNS로 로그인한 계정이 기존의 SNS게정과 일치하지 않습니다.';
+$lang->msg_invalid_sns_account = 'SNS로 로그인한 계정이 기존의 SNS 계정과 일치하지 않습니다.';
 $lang->php_version_seven_decimal_four = 'PHP7.4 이상';
