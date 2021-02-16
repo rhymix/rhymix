@@ -208,7 +208,7 @@ class SocialloginController extends Sociallogin
 				$recheckBool = $this->reCheckSns($oDriver);
 				if(!$recheckBool)
 				{
-					$error = lang('sociallogin.do_not_match_sns_account');
+					$error = lang('sociallogin.msg_invalid_sns_account');
 				}
 				$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyInfo');
 			}
@@ -217,7 +217,7 @@ class SocialloginController extends Sociallogin
 				$recheckBool = $this->reCheckSns($oDriver);
 				if(!$recheckBool)
 				{
-					$error = lang('sociallogin.do_not_match_sns_account');
+					$error = lang('sociallogin.msg_invalid_sns_account');
 				}
 				$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyPassword');
 			}
@@ -268,7 +268,7 @@ class SocialloginController extends Sociallogin
 	{
 		$config = self::getConfig();
 		
-		if($config->document_post !== 'Y')
+		if($config->sns_share_on_write !== 'Y')
 		{
 			return new BaseObject();
 		}

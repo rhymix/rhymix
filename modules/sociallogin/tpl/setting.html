@@ -15,15 +15,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="sns_services">{$lang->sns_services}</label>
+			<label class="x_control-label">{$lang->sns_services}</label>
 			<div class="x_controls">
 				<label loop="$default_services => $key, $val" class="x_inline" for="sns_services_{$key}">
-					<input type="checkbox" name="sns_services[]" id="sns_services_{$key}" value="{$val}" checked="checked"|cond="in_array($val,$config->sns_services)" disabled="disabled"|cond="$val == 'twitter' && !$can_be_use_twitter" /> {ucwords($val)}
+					<input type="checkbox" name="sns_services[]" id="sns_services_{$key}" value="{$val}" checked="checked"|cond="in_array($val,$config->sns_services)" disabled="disabled"|cond="$val == 'twitter' && !$sns_twitter_apple_cond" /> {ucwords($val)}
 				</label>
 				<a href="#sns_services_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="sns_services_help" class="x_help-block" hidden>{$lang->about_sns_services}</p>
-				<!--@if(!$can_be_use_twitter)-->
-				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->can_be_not_use_twitter}</p>
+				<!--@if(!$sns_twitter_apple_cond)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->msg_cannot_use_twitter_apple}</p>
 				<!--@end-->
 			</div>
 		</div>
@@ -148,10 +148,10 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label" for="document_post">{$lang->document_post}</label>
+			<label class="x_control-label" for="sns_share_on_write">{$lang->sns_share_on_write}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="document_post">
-					<input type="checkbox" name="document_post" id="document_post" value="Y" checked="checked"|cond="$config->document_post=='Y'" /> {$lang->about_document_post}
+				<label class="x_inline" for="sns_share_on_write">
+					<input type="checkbox" name="sns_share_on_write" id="sns_share_on_write" value="Y" checked="checked"|cond="$config->sns_share_on_write=='Y'" /> {$lang->about_sns_share_on_write}
 				</label>
 			</div>
 		</div>

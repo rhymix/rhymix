@@ -13,14 +13,14 @@ class SocialloginAdminView extends Sociallogin
 			executeQuery('sociallogin.deleteLogRecordLess', $args);
 		}
 
-		$this->setTemplatePath($this->module_path . 'tpl');
+		Context::set('sns_twitter_apple_cond', version_compare(PHP_VERSION, '7.4.0', '>='));
 
+		$this->setTemplatePath($this->module_path . 'tpl');
 		Context::addJsFile($this->module_path . 'tpl/js/sociallogin_admin.js');
 	}
 
 	function dispSocialloginAdminSettingApi()
 	{
-		Context::set('can_be_use_twitter', version_compare(PHP_VERSION, '7.3.0', '>='));
 		$this->setTemplateFile('api_setting');
 	}
 
@@ -28,12 +28,9 @@ class SocialloginAdminView extends Sociallogin
 	{
 		Context::set('layout_list', getModel('layout')->getLayoutList());
 		Context::set('mlayout_list', getModel('layout')->getLayoutList(0, 'M'));
-
 		Context::set('skin_list', getModel('module')->getSkins($this->module_path));
 		Context::set('mskin_list', getModel('module')->getSkins($this->module_path, 'm.skins'));
-
 		Context::set('default_services', self::$default_services);
-		Context::set('can_be_use_twitter', version_compare(PHP_VERSION, '7.3.0', '>='));
 
 		$this->setTemplateFile('setting');
 	}

@@ -105,7 +105,7 @@ class SocialloginAdminController extends Sociallogin
 			'sns_suspended_account',
 			'sns_keep_signed',
 			'use_for_phone_auth',
-			'document_post',
+			'sns_share_on_write',
 			'linkage_module_srl',
 			'linkage_module_target',
 		);

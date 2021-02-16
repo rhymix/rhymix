@@ -4,34 +4,6 @@
 	<input type="hidden" name="act" value="procSocialloginAdminSettingApi" />
 	<input type="hidden" name="xe_validator_id" value="modules/sociallogin/tpl/1" />
 	<section class="section">
-		<h1>Twitter API</h1>
-		<div class="x_control-group">
-			<label class="x_control-label" for="twitter_consumer_key">Consumer Key</label>
-			<div class="x_controls">
-				<input type="text" name="twitter_consumer_key" id="twitter_consumer_key" value="{$config->twitter_consumer_key}" disabled="disabled"|cond="!$can_be_use_twitter" />
-				<a href="#twitter_consumer_key_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="twitter_consumer_key_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_key}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="twitter_consumer_secret">Consumer Secret</label>
-			<div class="x_controls">
-				<input type="text" name="twitter_consumer_secret" id="twitter_consumer_secret" value="{$config->twitter_consumer_secret}" disabled="disabled"|cond="!$can_be_use_twitter" />
-				<a href="#twitter_consumer_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="twitter_consumer_secret_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_secret}</p>
-				<!--@if(!$can_be_use_twitter)-->
-				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->can_be_not_use_twitter}</p>
-				<!--@end-->
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">Callback URL</label>
-			<div class="x_controls">
-				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','twitter')}
-			</div>
-		</div>
-	</section>
-	<section class="section">
 		<h1>Facebook API</h1>
 		<div class="x_control-group">
 			<label class="x_control-label" for="facebook_app_id">App ID</label>
@@ -174,34 +146,64 @@
 			</div>
 		</div>
 	</section>
-
 	<section class="section">
-		<h1>Apple API</h1>
+		<h1>Twitter API / {$lang->php_version_seven_decimal_four}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="twitter_consumer_key">Consumer Key</label>
+			<div class="x_controls">
+				<input type="text" name="twitter_consumer_key" id="twitter_consumer_key" value="{$config->twitter_consumer_key}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<a href="#twitter_consumer_key_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="twitter_consumer_key_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_key}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="twitter_consumer_secret">Consumer Secret</label>
+			<div class="x_controls">
+				<input type="text" name="twitter_consumer_secret" id="twitter_consumer_secret" value="{$config->twitter_consumer_secret}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<a href="#twitter_consumer_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="twitter_consumer_secret_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_secret}</p>
+				<!--@if(!$sns_twitter_apple_cond)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->msg_cannot_use_twitter_apple}</p>
+				<!--@end-->
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Callback URL</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','twitter')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Apple API / {$lang->php_version_seven_decimal_four}</h1>
 		
 		<div class="x_control-group">
 			<label class="x_control-label" for="apple_client_id">Client ID</label>
 			<div class="x_controls">
-				<input type="text" name="apple_client_id" id="apple_client_id" value="{$config->apple_client_id}" />
+				<input type="text" name="apple_client_id" id="apple_client_id" value="{$config->apple_client_id}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="apple_team_id">Team ID</label>
 			<div class="x_controls">
-				<input type="text" name="apple_team_id" id="apple_team_id" value="{$config->apple_team_id}" />
+				<input type="text" name="apple_team_id" id="apple_team_id" value="{$config->apple_team_id}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="apple_file_key">File key</label>
 			<div class="x_controls">
-				<input type="text" name="apple_file_key" id="apple_file_key" value="{$config->apple_file_key}" />
+				<input type="text" name="apple_file_key" id="apple_file_key" value="{$config->apple_file_key}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<!--@if(!$sns_twitter_apple_cond)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->msg_cannot_use_twitter_apple}</p>
+				<!--@end-->
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="apple_file">File Upload</label>
 			<div class="x_controls">
-				<input type="file" name="apple_file" id="apple_file" value="" title="{$lang->uploaded_file}" />
+				<input type="file" name="apple_file" id="apple_file" value="" title="{$lang->uploaded_file}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
 				<!--@if($config->apple_file_path)-->
-				<p>현재 업로드된 파일 : {$config->apple_file_path}</p> <input type="checkbox" name="delete_apple_file" value="Y" /> 삭제
+				<p>현재 업로드된 파일 : {$config->apple_file_path}</p> <input type="checkbox" name="delete_apple_file" value="Y" disabled="disabled"|cond="!$sns_twitter_apple_cond" /> 삭제
 				<!--@else-->
 				<p>파일이 업로드 되지 않았습니다.</p>
 				<!--@end-->
@@ -221,7 +223,6 @@
 			</div>
 		</div>
 	</section>
-	
 	<div class="x_clearfix btnArea">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
