@@ -111,7 +111,7 @@ class documentView extends document
 		if(!is_null($target_mid)) {
 			// if target_mid is provided
 			$module_info = ModuleModel::getModuleInfoByMid($target_mid);
-			if(!is_bool($module_info)) {
+			if(!is_null($module_info)) {
 				$module_srl = $module_info->module_srl;
 			}
 		}
