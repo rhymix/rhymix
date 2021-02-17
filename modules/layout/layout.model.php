@@ -723,11 +723,11 @@ class layoutModel extends layout
 
 				$menu_count = count($menus);
 				$buff[] = sprintf('$layout_info->menu_count = %d;', $menu_count);
+				$buff[] = '$layout_info->menu = new stdClass();';
 				for($i=0;$i<$menu_count;$i++)
 				{
 					$name = $menus[$i]->attrs->name;
 					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = %s;', var_export($name, true));
-					$buff[] = '$layout_info->menu = new stdClass();';
 					$buff[] = sprintf('$layout_info->menu->%s = new stdClass();', $name);
 					$buff[] = sprintf('$layout_info->menu->%s->name = %s;', $name, var_export($name, true));
 					$buff[] = sprintf('$layout_info->menu->%s->title = %s;', $name, var_export($menus[$i]->title->body, true));
