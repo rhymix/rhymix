@@ -662,7 +662,7 @@ class layoutModel extends layout
 			$buff[] = sprintf('$layout_info->layout = %s;', var_export($layout, true));
 			$buff[] = sprintf('$layout_info->path = %s;', var_export($layout_path, true));
 			$buff[] = sprintf('$layout_info->title = %s;', var_export($xml_obj->title->body, true));
-			$buff[] = sprintf('$layout_info->description = %s;', var_export($xml_obj->description->body, true));
+			$buff[] = sprintf('$layout_info->description = %s;', var_export($xml_obj->author->description->body, true));
 			$buff[] = sprintf('$layout_info->version = %s;', var_export($xml_obj->attrs->version, true));
 			$buff[] = sprintf('$layout_info->date = %s;', var_export($date, true));
 			$buff[] = sprintf('$layout_info->layout_srl = $layout_srl;');
@@ -708,8 +708,8 @@ class layoutModel extends layout
 						$options_count = count($options);
 						for($j=0;$j<$options_count;$j++)
 						{
-							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s] = new stdClass;', $var->attrs->name, var_export($options[$j]->attrs->value, true));
-							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s]->val = %s;', $var->attrs->name, var_export($options[$j]->attrs->value, true), var_export($options[$j]->title->body, true));
+							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s] = new stdClass;', $var->attrs->name, var_export($options[$j]->value->body, true));
+							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s]->val = %s;', $var->attrs->name, var_export($options[$j]->value->body, true), var_export($options[$j]->title->body, true));
 						}
 					}
 				}
