@@ -542,6 +542,7 @@ class memberModel extends member
 	public static function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
 		// cache controll
+		$member_srl = intval($member_srl);
 		$cache_key = sprintf('member:member_groups:%d', $member_srl);
 		$group_list = Rhymix\Framework\Cache::get($cache_key);
 
@@ -552,7 +553,7 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$output = executeQueryArray('member.getMemberGroups', $args);
-				$group_list = $output->data;
+				$group_list = $output->data ?: [];
 				if (!count($group_list))
 				{
 					$default_group = self::getDefaultGroup(0);
