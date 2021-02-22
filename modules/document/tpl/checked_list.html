@@ -71,5 +71,8 @@ jQuery(function($){
 			message_content_area.prop("disabled", false);
 		}
 	});
+	<!--@if($module_srl > 0)-->
+	doGetCategoryFromModule({$module_srl});
+	<!--@end-->
 });
 </script>
