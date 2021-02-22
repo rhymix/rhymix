@@ -770,11 +770,8 @@ class adminAdminView extends admin
 	 */
 	function dispAdminSetup()
 	{
-		$oModuleModel = getModel('module');
-
-		$oAdmin = getClass('admin');
 		$oMenuAdminModel = getAdminModel('menu');
-		$output = $oMenuAdminModel->getMenuByTitle($oAdmin->getAdminMenuName());
+		$output = $oMenuAdminModel->getMenuByTitle($this->getAdminMenuName());
 
 		Context::set('menu_srl', $output->menu_srl);
 		Context::set('menu_title', $output->title);

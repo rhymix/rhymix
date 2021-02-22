@@ -12,7 +12,7 @@
 class admin extends ModuleObject
 {
 
-	private $adminMenuName = '__ADMINMENU_V17__';
+	protected $adminMenuName = '__ADMINMENU_V17__';
 	public function getAdminMenuName()
 	{
 		return $this->adminMenuName;

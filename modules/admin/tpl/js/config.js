@@ -83,20 +83,14 @@ function iconDeleteMessage(ret_obj){
 }
 function doRecompileCacheFile() {
 	if (!confirm(xe.lang.confirm_run)) return;
-	var params = [];
-	exec_xml("admin","procAdminRecompileCacheFile", params, completeCacheMessage);
-}
-function completeCacheMessage(ret_obj) {
-	alert(ret_obj.message);
+	exec_json('admin.procAdminRecompileCacheFile', {}, function(data) {
+		alert(data.message);
+	});
 }
 
 function doResetAdminMenu() {
 	if (!confirm(xe.lang.confirm_reset_admin_menu)) return;
-	var params = [];
-	params.menu_srl = admin_menu_srl;
-	exec_xml("admin","procAdminMenuReset", params, completeResetAdminMenu);
+	exec_json('admin.procAdminMenuReset', {}, function() {
+		window.location.reload();
+	});
 }
-function completeResetAdminMenu(ret_obj) {
-	document.location.reload();
-}
-
