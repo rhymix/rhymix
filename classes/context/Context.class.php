@@ -365,6 +365,9 @@ class Context
 		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
 
+		// start debugging
+		Rhymix\Framework\Debug::isEnabledForCurrentUser();
+		
 		// start output buffer
 		if (\PHP_SAPI !== 'cli')
 		{
