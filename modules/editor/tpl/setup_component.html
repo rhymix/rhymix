@@ -32,7 +32,7 @@
 				<a href="#" onclick="winopen('{$component->link}');return false;">{$component->link}</a>
 			</div>
 		</div>
-		<block cond="count($component->extra_vars)">
+		<block cond="$component->extra_vars">
 			<block loop="$component->extra_vars => $id, $var">
 				<block cond="$group != $var->group">
 					<h2>{$var->group}</h2>
