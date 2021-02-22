@@ -105,41 +105,39 @@ class documentView extends document
 		}
 
 		// Set target module info
-		$target_mid = Context::get('target_mid');
+		$target_mid = Context::getRequestVars()->mid ?? '';
 		$module_srl = intval(Context::get('module_srl'));
-
-		if(!is_null($target_mid)) {
-			// if target_mid is provided
+		
+		// if target mid is provided
+		if($target_mid && $target_mid === Context::get('mid'))
+		{
 			$module_info = ModuleModel::getModuleInfoByMid($target_mid);
-			if(!is_null($module_info)) {
-				$module_srl = $module_info->module_srl;
-			}
+			$module_srl = $module_info ? $module_info->module_srl : 0;
 		}
-		else if($module_srl > 0) {
-			// if module_srl is provided instead of target_mid (legacy)
+		// if module_srl is provided instead of target_mid (legacy)
+		elseif($module_srl > 0)
+		{
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+			$module_srl = $module_info ? $module_info->module_srl : 0;
 		}
+		// if no module info is provided
 		else
 		{
-			// if no module info is provided
-			$document_module_srl_list = array();
-			foreach($document_list as $key => $val) {
-				$document_module_srl = $val->variables['module_srl'];
-				if(!in_array($document_module_srl, $document_module_srl_list))
-				{
-					array_push($document_module_srl_list, $document_module_srl);
-				}
-			}
+			// set module_srl if all documents has one common module_srl
+			$document_module_srl_list = array_unique(array_map(function($document) {
+				return $document->get('module_srl');
+			}, $document_list));
 			if(count($document_module_srl_list) == 1)
 			{
-				// set module_srl if all documents has one common module_srl
-				$module_srl = $document_module_srl;
+				$module_srl = array_first($document_module_srl_list);
 			}
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+			$module_srl = $module_info ? $module_info->module_srl : 0;
 		}
-		Context::set('module_srl',$module_srl);
-		Context::set('mid',$module_info->mid);
-		Context::set('browser_title',$module_info->browser_title);
+		
+		Context::set('module_srl', $module_srl);
+		Context::set('mid', $module_info ? $module_info->mid : '');
+		Context::set('browser_title', $module_info ? $module_info->browser_title : '');
 
 		// Select Pop-up layout
 		$this->setLayoutPath('./common/tpl');
