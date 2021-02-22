@@ -1266,17 +1266,21 @@ class commentController extends comment
 
 		if($updateComment !== true)
 		{
-			$output = executeQuery('comment.deleteComment', $trash_args);
+			$args = new stdClass;
+			$args->comment_srl = $obj->comment_srl;
+			$output = executeQuery('comment.deleteComment', $args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+			$output = executeQuery('comment.deleteCommentList', $args);
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
 				return $output;
 			}
 		}
-
-		$args = new stdClass();
-		$args->comment_srl = $obj->comment_srl;
-		$output = executeQuery('comment.deleteCommentList', $args);
 
 		// update the number of comments
 		$comment_count = CommentModel::getCommentCount($obj->document_srl);
