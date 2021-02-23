@@ -178,7 +178,7 @@
 				</div>
 				<div style="display:inline-block">
 					<select class="multiorder_selected" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:8px">
-						<option loop="$list_config => $key, $val" value="{$key}">{$val->name}</option>
+						<option loop="$list_config => $key, $val" value="{$key}">{Context::replaceUserLang($val->name)}</option>
 					</select><br />
 					<span class="x_btn-group">
 						<button type="button" class="x_btn multiorder_up" style="vertical-align:top">{$lang->cmd_move_up}</button>
