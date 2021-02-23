@@ -123,41 +123,6 @@ class spamfilterController extends spamfilter
 	}
 
 	/**
-	 * @brief Inspect the trackback creation time and IP
-	 */
-	function triggerInsertTrackback(&$obj)
-	{
-		if($_SESSION['avoid_log']) return;
-
-		$oFilterModel = getModel('spamfilter');
-		// Confirm if the trackbacks have been added more than once to your document
-		$output = $oFilterModel->isInsertedTrackback($obj->document_srl);
-		if(!$output->toBool()) return $output;
-
-		// Check if the IP is prohibited
-		$output = $oFilterModel->isDeniedIP();
-		if(!$output->toBool()) return $output;
-		
-		// Check if there is a ban on the word
-		$text = $obj->blog_name . ' ' . $obj->title . ' ' . $obj->excerpt . ' ' . $obj->url;
-		$output = $oFilterModel->isDeniedWord($text);
-		if(!$output->toBool()) return $output;
-		
-		// Start Filtering
-		$oTrackbackController = getController('trackback');
-		if (is_object($oTrackbackController) && method_exists($oTrackbackController, 'deleteTrackbackSender'))
-		{
-			// In case the title and the blog name are indentical, investigate the IP address of the last 6 hours, delete and ban it.
-			if($obj->title == $obj->excerpt)
-			{
-				$oTrackbackController->deleteTrackbackSender(60*60*6, \RX_CLIENT_IP, $obj->url, $obj->blog_name, $obj->title, $obj->excerpt);
-				$this->insertIP(\RX_CLIENT_IP, 'AUTO-DENIED : trackback.insertTrackback');
-				return new BaseObject(-1, 'msg_alert_trackback_denied');
-			}
-		}
-	}
-
-	/**
 	 * @brief IP registration
 	 * The registered IP address is considered as a spammer
 	 */
