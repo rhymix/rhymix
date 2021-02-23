@@ -2450,7 +2450,7 @@ class memberController extends member
 
 					//send message
 					$oCommunicationController = getController('communication');
-					$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true);
+					$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true, null, false);
 
 					if($member_info->email_address && $member_info->allow_mailing == 'Y')
 					{

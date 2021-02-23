@@ -278,7 +278,7 @@ class commentAdminController extends comment
 
 			$content = sprintf("<div>%s</div><hr /><div style=\"font-weight:bold\">%s</div>", $message_content, $oComment->getContentText(20));
 
-			$oCommunicationController->sendMessage($sender_member_srl, $oComment->get('member_srl'), $title, $content, FALSE);
+			$oCommunicationController->sendMessage($sender_member_srl, $oComment->get('member_srl'), $title, $content, false, null, false);
 		}
 	}
 

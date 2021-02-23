@@ -158,11 +158,12 @@ class communicationController extends communication
 	 * @param int $receiver_srl member_srl of receiver_srl
 	 * @param string $title
 	 * @param string $content
-	 * @param boolean $sender_log (default true)
+	 * @param bool $sender_log (default true)
 	 * @param int|null $temp_srl (default null)
+	 * @param bool $use_spamfilter (default true)
 	 * @return Object
 	 */
-	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true, $temp_srl = null)
+	function sendMessage($sender_srl, $receiver_srl, $title, $content, $sender_log = true, $temp_srl = null, $use_spamfilter = true)
 	{
 		// Encode the title and content.
 		$title = escape($title, false);
@@ -212,6 +213,7 @@ class communicationController extends communication
 		$trigger_obj->title = $title;
 		$trigger_obj->content = $content;
 		$trigger_obj->sender_log = $sender_log;
+		$trigger_obj->use_spamfilter = $use_spamfilter;
 		$trigger_output = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
 		{

@@ -1695,7 +1695,7 @@ class commentController extends comment
 			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oComment->getPermanentUrl(), $oComment->getContentText(50), $declare_message);
 			foreach ($message_targets as $target_member_srl => $val)
 			{
-				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false, null, false);
 			}
 		}
 

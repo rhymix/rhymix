@@ -1790,7 +1790,7 @@ class documentController extends document
 			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText(), $declare_message);
 			foreach ($message_targets as $target_member_srl => $val)
 			{
-				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false, null, false);
 			}
 		}
 
@@ -1907,7 +1907,7 @@ class documentController extends document
 			$message_content = sprintf('<p><a href="%s">%s</a></p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText());
 			foreach ($message_targets as $target_member_srl => $val)
 			{
-				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false. null, false);
 			}
 		}
 		
@@ -2990,7 +2990,7 @@ Content;
 			$oCommunicationController = getController('communication');
 			foreach ($recipients as $member_srl => $items)
 			{
-				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, sprintf($content, implode('', $items)));
+				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, sprintf($content, implode('', $items)), true, null, false);
 			}
 		}
 		

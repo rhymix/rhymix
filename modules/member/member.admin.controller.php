@@ -973,7 +973,7 @@ class memberAdminController extends member
 
 			foreach($members as $member_srl)
 			{
-				$oCommunicationController->sendMessage($sender_member_srl, $member_srl, $title, $message, false);
+				$oCommunicationController->sendMessage($sender_member_srl, $member_srl, $title, $message, true, null, false);
 			}
 		}
 

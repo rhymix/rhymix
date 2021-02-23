@@ -181,6 +181,10 @@ class spamfilterController extends spamfilter
 	function triggerSendMessage(&$obj)
 	{
 		if($_SESSION['avoid_log']) return;
+		if(isset($obj->use_spamfilter) && $obj->use_spamfilter === false)
+		{
+			return;
+		}
 
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin == 'Y') return;
