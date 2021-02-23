@@ -695,7 +695,7 @@ class adminAdminView extends admin
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
-			$domain_info = getModel('module')->getSiteInfo($domain_srl);
+			$domain_info = ModuleModel::getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
