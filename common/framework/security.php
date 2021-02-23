@@ -350,8 +350,11 @@ class Security
 				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
 			}
 			
-			$referer = strval($referer ?: $_SERVER['HTTP_REFERER']);
-			if ($referer !== '' && (!config('security.check_csrf_token') || !$is_logged))
+			if (!$referer)
+			{
+				$referer = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
+			}
+			if ($referer !== '' && $referer !== 'null' && (!config('security.check_csrf_token') || !$is_logged))
 			{
 				return URL::isInternalURL($referer);
 			}
