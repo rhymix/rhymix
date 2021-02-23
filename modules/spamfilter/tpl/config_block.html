@@ -7,14 +7,20 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_interval}</label>
 			<div class="x_controls">
-				<label for="spamCond1_yes" class="x_inline">
-					<input type="radio" name="limits" id="spamCond1_yes" value="Y" checked="checked"|cond="$config->limits=='Y' || $config->limits ==''" />
-					{$lang->cmd_yes}
-				</label>
-				<label for="spamCond1_no" class="x_inline">
-					<input type="radio" name="limits" id="spamCond1_no" value="N" checked="checked"|cond="$config->limits!='Y' && $config->limits !=''" /> 
-					{$lang->cmd_no}
-				</label>
+				<p>
+					<label for="spamCond1_yes" class="x_inline">
+						<input type="radio" name="limits" id="spamCond1_yes" value="Y" checked="checked"|cond="$config->limits=='Y' || $config->limits ==''" />
+						{$lang->cmd_yes}
+					</label>
+					<label for="spamCond1_no" class="x_inline">
+						<input type="radio" name="limits" id="spamCond1_no" value="N" checked="checked"|cond="$config->limits!='Y' && $config->limits !=''" /> 
+						{$lang->cmd_no}
+					</label>
+				</p>
+				<p>
+					<input type="number" name="limits_interval" id="limits_interval" value="{intval($config->limits_interval) ?: 10}" /> {$lang->unit_sec} &nbsp;
+					<input type="number" name="limits_count" id="limits_count" value="{intval($config->limits_count) ?: 3}" /> {$lang->unit_write_count}
+				</p>
 				<p class="x_help-block">{$lang->cmd_interval_help}</p>
 			</div>
 		</div>
@@ -23,20 +29,6 @@
 			<div class="x_controls">
 				<textarea name="custom_message" id="custom_message" class="lang_code">{escape($config->custom_message, false)}</textarea>
 				<p class="x_help-block">{$lang->about_custom_message}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label for="limits_interval" class="x_control-label">{$lang->cmd_limits_interval}</label>
-			<div class="x_controls">
-				<input type="number" name="limits_interval" id="limits_interval" value="{intval($config->limits_interval) ?: 10}" /> {$lang->unit_sec}
-				<p class="x_help-block">{$lang->cmd_limits_interval_help}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label for="limits_count" class="x_control-label">{$lang->cmd_limits_count}</label>
-			<div class="x_controls">
-				<input type="number" name="limits_count" id="limits_count" value="{intval($config->limits_count) ?: 3}" /> {$lang->unit_write_count}
-				<p class="x_help-block">{$lang->cmd_limits_count_help}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
