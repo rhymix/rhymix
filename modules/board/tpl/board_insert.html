@@ -172,7 +172,7 @@
 				<p style="padding:3px 0 0 0">{$lang->about_list_config}</p>
 				<div style="display:inline-block">
 					<select class="multiorder_show" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:8px">
-						<option loop="$extra_vars => $key, $val" cond="!$list_config[$key]" value="{$key}">{$val->name}</option>
+						<option loop="$extra_vars => $key, $val" cond="!$list_config[$key]" value="{$key}">{Context::replaceUserLang($val->name)}</option>
 					</select><br />
 					<button type="button" class="x_btn multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				</div>
