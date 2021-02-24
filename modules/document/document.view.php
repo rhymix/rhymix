@@ -97,12 +97,12 @@ class documentView extends document
 		if(count($document_srl_list))
 		{
 			$document_list = DocumentModel::getDocuments($document_srl_list);
-			Context::set('document_list', $document_list);
 		}
 		else
 		{
-			Context::set('document_list', array());
+			$document_list = array();
 		}
+		Context::set('document_list', $document_list);
 
 		// Set target module info
 		$target_mid = Context::getRequestVars()->mid ?? '';
