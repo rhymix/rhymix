@@ -244,7 +244,11 @@ class Query extends VariableBase
 		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count && !$count_only)
 		{
-			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
+			$limit_offset = $this->_arrangeLimitOffset($this->navigation);
+			if ($limit_offset !== '')
+			{
+				$result .= ' LIMIT ' . $limit_offset;
+			}
 		}
 		
 		// Wrap in a subquery if necesary.
@@ -399,7 +403,11 @@ class Query extends VariableBase
 		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count)
 		{
-			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
+			$limit_offset = $this->_arrangeLimitOffset($this->navigation);
+			if ($limit_offset !== '')
+			{
+				$result .= ' LIMIT ' . $limit_offset;
+			}
 		}
 		
 		// Return the final query string.
