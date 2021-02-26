@@ -206,9 +206,8 @@ function doGetCategoryFromModule(module_srl) {
 }
 
 function completeGetCategoryFromModules(ret_obj, response_tags) {
-    var obj = jQuery('#target_category').get(0);
-    var length = obj.options.length;
-    for(var i=0;i<length;i++) obj.remove(0);
+    var obj = $('#target_category');
+	obj.find('option').remove();
 
     var categories = ret_obj['categories'];
     if(!categories) return;
@@ -231,9 +230,8 @@ function completeGetCategoryFromModules(ret_obj, response_tags) {
         if(!category_srl || !category_title) continue;
 
 		if (depth > 0) category_title = depth_str.substr(0, depth) + ' ' + category_title;
-        var opt = new Option(category_title, category_srl, false, false);
-        obj.options[obj.options.length] = opt;
-    }
+		obj.append('<option value="' + category_srl + '">' + category_title.escape(false) + '</option>');
+   }
 }
 
 function checkSearch(form)
