@@ -63,6 +63,18 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
 			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?)) AS `subquery`', $sql);
 		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
+		
+		unset($args['page']);
+		$sql = $query->getQueryString('rx_', $args);
+		$this->assertEquals('SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
+			'ORDER BY `list_order` ASC LIMIT 20', $sql);
+	
+		$args['list_count'] = 0;
+		$sql = $query->getQueryString('rx_', $args);
+		$this->assertEquals('SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
+			'ORDER BY `list_order` ASC', $sql);
 	}
 	
 	public function testSelectWithExpressions()
