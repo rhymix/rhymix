@@ -238,6 +238,12 @@ $domain_args->domain_srl = 0;
 $domain_args->index_module_srl = $module_srl;
 executeQuery('module.updateDomain', $domain_args);
 
+// insert admin favorites
+foreach(['advanced_mailer', 'ncenterlite'] as $module_name)
+{
+	$oAdminController->_insertFavorite(0, $module_name);
+}
+
 // create menu cache
 $oMenuAdminController->makeXmlFile($menuSrl);
 

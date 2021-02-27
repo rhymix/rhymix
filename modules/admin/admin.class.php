@@ -174,12 +174,12 @@ class admin extends ModuleObject
 			),
 			'content' => array(
 				'board.board',
+				'page.page',
 				'document.document',
 				'comment.comment',
 				'file.file',
 				'poll.poll',
 				'editor.editor',
-				'importer.importer',
 				'spamfilter.spamFilter',
 				'trash.trash',
 			),
@@ -195,6 +195,7 @@ class admin extends ModuleObject
 				'addon.installedAddon',
 				'widget.installedWidget',
 				'module.multilingual',
+				'importer.importer',
 				'rss.rss',
 			),
 		);
