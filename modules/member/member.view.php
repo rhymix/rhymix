@@ -241,17 +241,9 @@ class memberView extends member
 				}
 			}
 		}
-
-		if(!$identifierFormUnset && $member_config->identifier === 'email_address')
-		{
-			$identifierForm = new stdClass;
-			$identifierForm->title = lang($member_config->identifier);
-			$identifierForm->name = $member_config->identifier;
-		}
-		else
-		{
-			$identifierForm = null;
-		}
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
+		$identifierForm->name = $member_config->identifier;
 		
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
@@ -281,6 +273,7 @@ class memberView extends member
 		Context::set('formTags', $formTags);
 		Context::set('email_confirmation_required', $member_config->enable_confirm);
 		Context::set('identifierForm', $identifierForm);
+		Context::set('identifierFormUnset', $identifierFormUnset);
 
 		$this->addExtraFormValidatorMessage();
 		
