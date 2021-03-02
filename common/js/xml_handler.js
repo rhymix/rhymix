@@ -372,9 +372,6 @@
 	XE.ajaxForm = function(form, callback_success, callback_error) {
 		// Abort if the form already has a 'target' attribute.
 		form = $(form);
-		if (form.attr('target')) {
-			return;
-		}
 		// Get success and error callback functions.
 		if (typeof callback_success === 'undefined') {
 			callback_success = form.data('callback-success');
@@ -427,8 +424,10 @@
 		}
 	};
 	$(document).on('submit', 'form.rx_ajax', function(event) {
-		event.preventDefault();
-		XE.ajaxForm(this);
+		if (!$(this).attr('target')) {
+			event.preventDefault();
+			XE.ajaxForm(this);
+		}
 	});
 	
 	/**

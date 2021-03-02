@@ -66,6 +66,7 @@ class DBQueryParser extends BaseParser
 				$table = new DBQuery\Table;
 				$table->name = trim($tag['name']);
 				$table->alias = trim($tag['alias']) ?: $table->name;
+				$table->ifvar = trim($tag['if']) ?: null;
 			}
 			
 			$table_type = trim($tag['type']);
@@ -101,6 +102,7 @@ class DBQueryParser extends BaseParser
 				$index_hint->hint_type = strtoupper(trim($tag['type'])) ?: 'USE';
 				$index_hint->index_name = trim($tag['name']) ?: '';
 				$index_hint->table_name = trim($tag['table']) ?: '';
+				$index_hint->ifvar = trim($tag['if']) ?: null;
 				if (isset($tag['var']) && trim($tag['var']))
 				{
 					$index_hint->var = trim($tag['var']);
@@ -129,6 +131,7 @@ class DBQueryParser extends BaseParser
 				$column = new DBQuery\ColumnRead;
 				$column->name = trim($tag['name']);
 				$column->alias = trim($tag['alias']) ?: null;
+				$column->ifvar = trim($tag['if']) ?: null;
 				if ($column->name === '*' || preg_match('/\.\*$/', $column->name))
 				{
 					$column->is_wildcard = true;
@@ -146,6 +149,7 @@ class DBQueryParser extends BaseParser
 				$column->name = $attribs['name'];
 				$column->operation = ($attribs['operation'] ?? null) ?: 'equal';
 				$column->var = $attribs['var'] ?? null;
+				$column->ifvar = $attribs['if'] ?? null;
 				$column->default = $attribs['default'] ?? null;
 				$column->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$column->filter = $attribs['filter'] ?? null;
@@ -165,6 +169,7 @@ class DBQueryParser extends BaseParser
 		if ($xml->groups)
 		{
 			$query->groupby = new DBQuery\GroupBy;
+			$query->groupby->ifvar = trim($xml->groups['if']) ?: null;
 			foreach ($xml->groups->children() as $tag)
 			{
 				$name = $tag->getName();
@@ -261,6 +266,7 @@ class DBQueryParser extends BaseParser
 					$cond->var = $attribs['var'] ?? null;
 					$cond->default = $attribs['default'] ?? null;
 				}
+				$cond->ifvar = $attribs['if'] ?? null;
 				$cond->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$cond->filter = $attribs['filter'] ?? null;
 				$cond->minlength = intval($attribs['minlength'] ?? 0, 10);
@@ -273,6 +279,7 @@ class DBQueryParser extends BaseParser
 				$group = new DBQuery\ConditionGroup;
 				$group->conditions = self::_parseConditions($tag);
 				$group->pipe = strtoupper($attribs['pipe'] ?? null) ?: 'AND';
+				$group->ifvar = $attribs['if'] ?? null;
 				$result[] = $group;
 			}
 			elseif ($name === 'query')

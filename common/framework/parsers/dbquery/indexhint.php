@@ -12,4 +12,5 @@ class IndexHint
 	public $index_name = '';
 	public $table_name = '';
 	public $var;
+	public $ifvar;
 }

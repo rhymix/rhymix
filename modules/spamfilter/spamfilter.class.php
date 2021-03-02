@@ -13,12 +13,13 @@ class spamfilter extends ModuleObject
 		array('document.manage', 'before', 'controller', 'triggerManageDocument'),
 		array('comment.insertComment', 'before', 'controller', 'triggerInsertComment'),
 		array('comment.updateComment', 'before', 'controller', 'triggerInsertComment'),
-		array('trackback.insertTrackback', 'before', 'controller', 'triggerInsertTrackback'),
 		array('communication.sendMessage', 'before', 'controller', 'triggerSendMessage'),
 		array('moduleObject.proc', 'before', 'controller', 'triggerCheckCaptcha'),
 	);
 	
-	protected static $_delete_triggers = array();
+	protected static $_delete_triggers = array(
+		array('trackback.insertTrackback', 'before', 'controller', 'triggerInsertTrackback'),
+	);
 	
 	/**
 	 * Register all triggers.

@@ -16,12 +16,12 @@
 			</tr>
 			<tr>
 				<th>{$lang->signup_date}</th>
-				<td>{zdate($memberInfo[regdate],"Y-m-d")}</td>
+				<td>{zdate($memberInfo['regdate'], "Y-m-d")}</td>
 			</tr>
-			<!--@if($memberInfo[member_srl] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
+			<!--@if($memberInfo['member_srl'] == $logged_info->member_srl || $logged_info->is_admin == 'Y' )-->
 			<tr>
 				<th>{$lang->last_login}</th>
-				<td>{zdate($memberInfo[last_login],"Y-m-d")}</td>
+				<td>{zdate($memberInfo['last_login'], "Y-m-d")}</td>
 			</tr>
 			<!--@end-->
 		</table>

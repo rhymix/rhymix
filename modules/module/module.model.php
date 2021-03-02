@@ -590,8 +590,12 @@ class moduleModel extends module
 
 	/**
 	 * @brief Return an array of module_srl corresponding to a mid list
+	 * 
+	 * @param int|string|array $mid
+	 * @param bool $assoc
+	 * @return array
 	 */
-	public static function getModuleSrlByMid($mid)
+	public static function getModuleSrlByMid($mid, $assoc = false)
 	{
 		if ($mid && !is_array($mid))
 		{
@@ -614,11 +618,14 @@ class moduleModel extends module
 			self::$_mid_map[$row->mid] = $row->module_srl;
 		}
 
-		return $module_srl_list;
+		return $assoc ? $module_srl_list : array_values($module_srl_list);
 	}
 
 	/**
 	 * @brief Return mid corresponding to a module_srl list
+	 * 
+	 * @param int|array $module_srl
+	 * @return string|array
 	 */
 	public static function getMidByModuleSrl($module_srl)
 	{
@@ -1313,13 +1320,10 @@ class moduleModel extends module
 		$args = new stdClass();
 		$args->moduleCategorySrl = $moduleCategorySrl;
 		// Get data from the DB
-		$output = executeQuery('module.getModuleCategories', $args);
+		$output = executeQueryArray('module.getModuleCategories', $args);
 		if(!$output->toBool()) return $output;
-		$list = $output->data;
-		if(!$list) return array();
-		if(!is_array($list)) $list = array($list);
-
-		foreach($list as $val)
+		$category_list = [];
+		foreach($output->data as $val)
 		{
 			$category_list[$val->module_category_srl] = $val;
 		}

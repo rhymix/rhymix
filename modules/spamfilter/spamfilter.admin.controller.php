@@ -20,16 +20,12 @@ class spamfilterAdminController extends spamfilter
 		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 		
 		// Get the default information
-		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'check_trackback', 'ipv4_block_range', 'ipv6_block_range', 'custom_message');
+		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'ipv4_block_range', 'ipv6_block_range', 'custom_message');
 
 		// Set default values
 		if($args->limits != 'Y')
 		{
 			$args->limits = 'N';
-		}
-		if($args->check_trackback != 'Y')
-		{
-			$args->check_trackback = 'N';
 		}
 		if(!preg_match('#^/(\d+)$#', $args->ipv4_block_range, $matches) || $matches[1] > 32 || $matches[1] < 16)
 		{

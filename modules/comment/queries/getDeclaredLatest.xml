@@ -4,7 +4,7 @@
 		<table name="comment_declared" />
         <table name="comment_declared_log" />
     </tables>
-    <columns distinct="distinct">
+    <columns>
         <column name="comment_declared_log.comment_srl" />
 		<column name="count(*)" alias="declared_count" />
 		<column name="max(comment_declared_log.regdate)" alias="latest_declared" />
@@ -15,6 +15,9 @@
 		<condition operation="more" column="comment_declared.declared_count" default="1" pipe="and" />
         <condition operation="in" column="comment_declared_log.comment_srl" var="comment_srls" pipe="and" />
     </conditions>
+    <groups>
+        <group column="comment_declared_log.comment_srl" />
+    </groups>
     <navigation>
         <index var="sort_index" default="latest_declared" order="order_type" />
         <list_count var="list_count" default="20" />

@@ -97,18 +97,47 @@ class documentView extends document
 		if(count($document_srl_list))
 		{
 			$document_list = DocumentModel::getDocuments($document_srl_list);
-			Context::set('document_list', $document_list);
 		}
 		else
 		{
-			Context::set('document_list', array());
+			$document_list = array();
 		}
+		Context::set('document_list', $document_list);
 
+		// Set target module info
+		$target_mid = Context::getRequestVars()->mid ?? '';
 		$module_srl = intval(Context::get('module_srl'));
-		Context::set('module_srl',$module_srl);
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
-		Context::set('mid',$module_info->mid);
-		Context::set('browser_title',$module_info->browser_title);
+		
+		// if target mid is provided
+		if($target_mid && $target_mid === Context::get('mid'))
+		{
+			$module_info = ModuleModel::getModuleInfoByMid($target_mid);
+			$module_srl = $module_info ? $module_info->module_srl : 0;
+		}
+		// if module_srl is provided instead of target_mid (legacy)
+		elseif($module_srl > 0)
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+			$module_srl = $module_info ? $module_info->module_srl : 0;
+		}
+		// if no module info is provided
+		else
+		{
+			// set module_srl if all documents has one common module_srl
+			$document_module_srl_list = array_unique(array_map(function($document) {
+				return $document->get('module_srl');
+			}, $document_list));
+			if(count($document_module_srl_list) == 1)
+			{
+				$module_srl = array_first($document_module_srl_list);
+			}
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+			$module_srl = $module_info ? $module_info->module_srl : 0;
+		}
+		
+		Context::set('module_srl', $module_srl);
+		Context::set('mid', $module_info ? $module_info->mid : '');
+		Context::set('browser_title', $module_info ? $module_info->browser_title : '');
 
 		// Select Pop-up layout
 		$this->setLayoutPath('./common/tpl');
