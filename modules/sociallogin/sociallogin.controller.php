@@ -387,7 +387,7 @@ class SocialloginController extends Sociallogin
 	/**
 	 * @brief 회원등록 트리거
 	 **/
-	function triggerInsertMemberAction(&$config)
+	function triggerInsertMemberBefore(&$config)
 	{
 		// SNS 로그인시에는 메일인증을 사용안함
 		if (Context::get('act') == 'procSocialloginCallback' || $_SESSION['tmp_sociallogin_input_add_info'])
@@ -396,6 +396,24 @@ class SocialloginController extends Sociallogin
 		}
 
 		return new BaseObject();
+	}
+	
+	function triggerInsertMemberAfter($obj)
+	{
+		$oMemberController = getController('member');
+		$oSocialData = SocialloginModel::getSocialSignUpUserData();
+		
+		if($_SESSION['tmp_sociallogin_input_add_info']['profile_dir'])
+		{
+			$oMemberController->insertProfileImage($obj->member_srl, $_SESSION['tmp_sociallogin_input_add_info']['profile_dir']);
+
+			FileHandler::removeFile($_SESSION['tmp_sociallogin_input_add_info']['profile_dir']);
+		}
+
+		if($oSocialData && $_SESSION['sociallogin_access_data'])
+		{
+			$this->insertMemberSns($obj->member_srl, $_SESSION['sociallogin_access_data']);
+		}
 	}
 
 	/**

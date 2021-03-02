@@ -18,7 +18,8 @@ class Sociallogin extends ModuleObject
 	private $triggers = array(
 		array('moduleObject.proc', 'sociallogin', 'controller', 'triggerModuleObjectAfter', 'after'),
 		array('document.insertDocument', 'sociallogin', 'controller', 'triggerInsertDocumentAfter', 'after'),
-		array('member.procMemberInsert', 'sociallogin', 'controller', 'triggerInsertMemberAction', 'before'),
+		array('member.procMemberInsert', 'sociallogin', 'controller', 'triggerProcInsertMemberBefore', 'before'),
+		array('member.insertMember', 'sociallogin', 'controller', 'triggerInsertMemberAfter', 'after'),
 		array('member.getMemberMenu', 'sociallogin', 'controller', 'triggerMemberMenu', 'after'),
 		array('member.deleteMember', 'sociallogin', 'controller', 'triggerDeleteMember', 'after'),
 	);
