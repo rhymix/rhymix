@@ -30,17 +30,24 @@ class adminAdminController extends admin
 	 */
 	function procAdminMenuReset()
 	{
-		$menuSrl = Context::get('menu_srl');
-		if(!$menuSrl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
+		$oMenuAdminModel = getAdminModel('menu');
 		$oMenuAdminController = getAdminController('menu');
-		$output = $oMenuAdminController->deleteMenu($menuSrl);
-		if(!$output->toBool())
+		for ($i = 0; $i < 100; $i++)
 		{
-			return $output;
+			$output = $oMenuAdminModel->getMenuByTitle($this->getAdminMenuName());
+			$admin_menu_srl = $output->menu_srl ?? 0;
+			if ($admin_menu_srl)
+			{
+				$output = $oMenuAdminController->deleteMenu($admin_menu_srl);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+			else
+			{
+				break;
+			}
 		}
 
 		Rhymix\Framework\Cache::delete('admin_menu_langs:' . Context::getLangType());

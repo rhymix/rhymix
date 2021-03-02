@@ -254,7 +254,7 @@ class commentItem extends BaseObject
 
 		// send a message
 		$oCommunicationController = getController('communication');
-		$oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, FALSE);
+		$oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false, null, false);
 	}
 
 	function getIpAddress()

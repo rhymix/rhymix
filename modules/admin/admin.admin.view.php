@@ -695,7 +695,7 @@ class adminAdminView extends admin
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
-			$domain_info = getModel('module')->getSiteInfo($domain_srl);
+			$domain_info = ModuleModel::getSiteInfo($domain_srl);
 			if ($domain_info->domain_srl != $domain_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
@@ -770,11 +770,8 @@ class adminAdminView extends admin
 	 */
 	function dispAdminSetup()
 	{
-		$oModuleModel = getModel('module');
-
-		$oAdmin = getClass('admin');
 		$oMenuAdminModel = getAdminModel('menu');
-		$output = $oMenuAdminModel->getMenuByTitle($oAdmin->getAdminMenuName());
+		$output = $oMenuAdminModel->getMenuByTitle($this->getAdminMenuName());
 
 		Context::set('menu_srl', $output->menu_srl);
 		Context::set('menu_title', $output->title);

@@ -9,119 +9,59 @@ $oMenuAdminController = getAdminController('menu');
 // sitemap
 $sitemap = array(
 	'GNB' => array(
-		'title' => 'Main menu',
+		'title' => 'Main Menu',
 		'list' => array(
 			array(
-				'menu_name' => 'Welcome Page',
+				'menu_name' => 'Welcome',
 				'module_type' => 'WIDGET',
 				'module_id' => 'index',
 			),
 			array(
-				'menu_name' => 'Board',
+				'menu_name' => 'Free Board',
 				'module_type' => 'board',
 				'module_id' => 'board',
-				'list' => array(
-					array(
-						'menu_name' => 'SAMPLE 1',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#',
-						'list' => array(
-							array(
-								'menu_name' => 'SAMPLE 1-1',
-								'is_shortcut' => 'Y',
-								'shortcut_target' => '#'
-							),
-						)
-					),
-					array(
-						'menu_name' => 'SAMPLE 2',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-					array(
-						'menu_name' => 'SAMPLE 3',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-				)
 			),
 			array(
-				'menu_name' => 'XEIcon',
-				'module_type' => 'WIDGET',
-				'module_id' => 'xeicon',
+				'menu_name' => 'Q&A',
+				'module_type' => 'board',
+				'module_id' => 'qna',
 			),
-		)
+			array(
+				'menu_name' => 'Notice',
+				'module_type' => 'board',
+				'module_id' => 'notice',
+			),
+		),
 	),
 	'UNB' => array(
-		'title' => 'Utility menu',
+		'title' => 'Utility Menu',
 		'list' => array(
 			array(
 				'menu_name' => 'Rhymix Official Site',
 				'is_shortcut' => 'Y',
 				'open_window' => 'Y',
-				'shortcut_target' => 'https://www.rhymix.org/'
+				'shortcut_target' => 'https://rhymix.org/',
 			),
 			array(
-				'menu_name' => 'GitHub',
+				'menu_name' => 'Rhymix GitHub',
 				'is_shortcut' => 'Y',
 				'open_window' => 'Y',
-				'shortcut_target' => 'https://github.com/rhymix'
+				'shortcut_target' => 'https://github.com/rhymix',
 			),
-		)
+		),
 	),
 	'FNB' => array(
 		'title' => 'Footer Menu',
 		'list' => array(
 			array(
-				'menu_name' => 'Welcome Page',
-				'is_shortcut' => 'Y',
-				'shortcut_target' => 'index',
-				'list' => array(
-					array(
-						'menu_name' => 'SAMPLE 1',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-					array(
-						'menu_name' => 'SAMPLE 2',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-					array(
-						'menu_name' => 'SAMPLE 3',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					)
-				),
+				'menu_name' => 'Terms of Service',
+				'module_type' => 'ARTICLE',
+				'module_id' => 'terms',
 			),
 			array(
-				'menu_name' => 'Board',
-				'is_shortcut' => 'Y',
-				'shortcut_target' => 'board',
-				'list' => array(
-					array(
-						'menu_name' => 'SAMPLE 1',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					),
-					array(
-						'menu_name' => 'SAMPLE 2',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					)
-				)
-			),
-			array(
-				'menu_name' => 'XEIcon',
-				'is_shortcut' => 'Y',
-				'shortcut_target' => 'xeicon',
-				'list' => array(
-					array(
-						'menu_name' => 'SAMPLE 1',
-						'is_shortcut' => 'Y',
-						'shortcut_target' => '#'
-					)
-				)
+				'menu_name' => 'Privacy Policy',
+				'module_type' => 'ARTICLE',
+				'module_id' => 'privacy',
 			),
 		),
 	),
@@ -178,6 +118,9 @@ foreach($sitemap as $id => &$val)
 // create Layout
 //extra_vars init
 $extra_vars = new stdClass();
+$extra_vars->use_demo = 'Y';
+$extra_vars->use_ncenter_widget = 'Y';
+$extra_vars->content_fixed_width = 'Y';
 $extra_vars->GNB = $sitemap['GNB']['menu_srl'];
 $extra_vars->UNB = $sitemap['UNB']['menu_srl'];
 $extra_vars->FNB = $sitemap['FNB']['menu_srl'];
@@ -188,7 +131,6 @@ $args->site_srl = 0;
 $args->layout = 'xedition';
 $args->title = 'XEDITION';
 $args->layout_type = 'P';
-
 $oLayoutAdminController = getAdminController('layout');
 $output = $oLayoutAdminController->insertLayout($args);
 if(!$output->toBool()) return $output;
@@ -213,10 +155,8 @@ $args->extra_vars = serialize($extra_vars);
 $output = $oLayoutAdminController->updateLayout($args);
 if(!$output->toBool()) return $output;
 
-
 $siteDesignPath = RX_BASEDIR.'files/site_design/';
 FileHandler::makeDir($siteDesignPath);
-
 
 $designInfo = new stdClass();
 $designInfo->layout_srl = $layout_srl;
@@ -298,30 +238,11 @@ $domain_args->domain_srl = 0;
 $domain_args->index_module_srl = $module_srl;
 executeQuery('module.updateDomain', $domain_args);
 
-// XEIcon page
-$moduleInfo = $oModuleModel->getModuleInfoByMenuItemSrl($sitemap['GNB']['list'][2]['menu_srl']);
-$xeicon_module_srl = $moduleInfo->module_srl;
-
-$xeicon_document_srl = array();
-for($i = 1; $i <=4; $i++)
+// insert admin favorites
+foreach(['advanced_mailer', 'ncenterlite'] as $module_name)
 {
-	unset($obj->document_srl);
-	$obj->title = "XEIcon ({$i})";
-	$obj->content = $oTemplateHandler->compile(RX_BASEDIR . 'modules/install/script/xeicon_content', 'xeicon_content_ko_' . $i);
-
-	$output = $oDocumentController->insertDocument($obj, true);
-	if(!$output->toBool()) return $output;
-
-	$xeicon_document_srl[$i] = $output->get('document_srl');
+	$oAdminController->_insertFavorite(0, $module_name);
 }
-
-// save PageWidget
-$oModuleController = getController('module'); /* @var $oModuleController moduleController */
-$module_info = $oModuleModel->getModuleInfoByModuleSrl($xeicon_module_srl);
-$module_info->content = '<div widget="widgetBox" style="float:left;width:100%;" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0" css_class="XEicon" ><div><div><img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="float:left;padding:none;margin:none;width:100%;" document_srl="'.$xeicon_document_srl[1].'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0" /><img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="float:left;padding:none;margin:none;width:100%;" document_srl="'.$xeicon_document_srl[2].'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0" /><img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="float:left;padding:none;margin:none;width:100%;" document_srl="'.$xeicon_document_srl[3].'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0" /><img hasContent="true" class="zbxe_widget_output" widget="widgetContent" style="float:left;padding:none;margin:none;width:100%;" document_srl="'.$xeicon_document_srl[4].'" widget_padding_left="0" widget_padding_right="0" widget_padding_top="0" widget_padding_bottom="0" /></div></div></div>';
-$output = $oModuleController->updateModule($module_info);
-if(!$output->toBool()) return $output;
-
 
 // create menu cache
 $oMenuAdminController->makeXmlFile($menuSrl);

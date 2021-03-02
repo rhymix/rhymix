@@ -507,12 +507,12 @@ class documentModel extends document
 			// Adding Report
 			if($oDocument->getDeclared())
 			{
-				$url = getUrl('', 'act', 'dispDocumentDeclare', 'target_srl', $document_srl, 'type', 'cancel');
+				$url = getUrl('', 'mid', $oDocument->getDocumentMid(), 'act', 'dispDocumentDeclare', 'target_srl', $document_srl, 'type', 'cancel');
 				$oDocumentController->addDocumentPopupMenu($url,'cmd_cancel_declare','','popup');
 			}
 			else
 			{
-				$url = getUrl('', 'act', 'dispDocumentDeclare', 'target_srl', $document_srl);
+				$url = getUrl('', 'mid', $oDocument->getDocumentMid(), 'act', 'dispDocumentDeclare', 'target_srl', $document_srl);
 				$oDocumentController->addDocumentPopupMenu($url,'cmd_declare','','popup');
 			}
 

@@ -10,6 +10,7 @@ class Condition extends VariableBase
 	public $operation;
 	public $column;
 	public $var;
+	public $ifvar;
 	public $default;
 	public $not_null;
 	public $filter;

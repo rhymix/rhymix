@@ -43,17 +43,17 @@ class image_link extends EditorHandler
 	 */
 	function transHTML($xml_obj)
 	{
-		$src = $xml_obj->attrs->src;
-		$width = $xml_obj->attrs->width;
-		$height = $xml_obj->attrs->height;
-		$align = $xml_obj->attrs->align;
-		$alt = $xml_obj->attrs->alt;
-		$title = $xml_obj->attrs->title;
-		$border = (int)$xml_obj->attrs->border;
-		$link_url = $xml_obj->attrs->link_url;
-		$open_window = $xml_obj->attrs->open_window;
-		$style = $xml_obj->attrs->style;
-		$margin = (int)$xml_obj->attrs->margin;
+		$src = $xml_obj->attrs->src ?? null;
+		$width = $xml_obj->attrs->width ?? null;
+		$height = $xml_obj->attrs->height ?? null;
+		$align = $xml_obj->attrs->align ?? null;
+		$alt = $xml_obj->attrs->alt ?? null;
+		$title = $xml_obj->attrs->title ?? null;
+		$border = intval($xml_obj->attrs->border ?? 0);
+		$link_url = $xml_obj->attrs->link_url ?? null;
+		$open_window = $xml_obj->attrs->open_window ?? null;
+		$style = $xml_obj->attrs->style ?? null;
+		$margin = intval($xml_obj->attrs->margin ?? 0);
 
 		$src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
 		$src = str_replace('&amp;amp;', '&amp;', $src);

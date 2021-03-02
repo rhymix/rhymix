@@ -306,9 +306,7 @@ class communicationView extends communication
 		$columnList = array('friend_srl', 'friend_group_srl', 'target_srl', 'member.nick_name', 'friend.regdate');
 
 		$output = $oCommunicationModel->getFriends($friend_group_srl, $columnList);
-		$friend_count = count($output->data);
-
-		if($friend_count)
+		if($output->data)
 		{
 			foreach($output->data as $key => $val)
 			{
@@ -320,6 +318,10 @@ class communicationView extends communication
 				}
 				$output->data[$key]->group_title = $group_title;
 			}
+		}
+		else
+		{
+			$output->data = [];
 		}
 
 		// set a template file

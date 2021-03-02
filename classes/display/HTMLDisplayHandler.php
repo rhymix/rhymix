@@ -239,9 +239,9 @@ class HTMLDisplayHandler
 		// prevent the 2nd request due to url(none) of the background-image
 		$output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
 		
-		if(is_array(Context::get('INPUT_ERROR')))
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		if(is_array($INPUT_ERROR) && count($INPUT_ERROR))
 		{
-			$INPUT_ERROR = Context::get('INPUT_ERROR');
 			$keys = array_map(function($str) { return preg_quote($str, '@'); }, array_keys($INPUT_ERROR));
 			$keys = '(' . implode('|', $keys) . ')';
 
@@ -288,6 +288,10 @@ class HTMLDisplayHandler
 	function _preserveValue($match)
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		if (!is_scalar($INPUT_ERROR[$match[3]]))
+		{
+			return $match[0];
+		}
 
 		$str = $match[1] . $match[2] . ' name="' . $match[3] . '"' . $match[4];
 

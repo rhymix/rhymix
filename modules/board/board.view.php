@@ -23,18 +23,10 @@ class boardView extends board
 		/**
 		 * setup the module general information
 		 **/
-		if($this->module_info->list_count)
-		{
-			$this->list_count = $this->module_info->list_count;
-		}
-		if($this->module_info->search_list_count)
-		{
-			$this->search_list_count = $this->module_info->search_list_count;
-		}
-		if($this->module_info->page_count)
-		{
-			$this->page_count = $this->module_info->page_count;
-		}
+		$m = Context::get('m');
+		$this->list_count = $m ? ($this->module_info->mobile_list_count ?? 20) : ($this->module_info->list_count ?? 20);
+		$this->search_list_count = $m ? ($this->module_info->mobile_search_list_count ?? 20) : ($this->module_info->search_list_count ?? 20);
+		$this->page_count = $m ? ($this->module_info->mobile_page_count ?? 5) : ($this->module_info->page_count ?? 10);
 		$this->except_notice = ($this->module_info->except_notice ?? '') == 'N' ? FALSE : TRUE;
 		$this->include_modules = ($this->module_info->include_modules ?? []) ? explode(',', $this->module_info->include_modules) : [];
 		if (count($this->include_modules) && !in_array($this->module_info->module_srl, $this->include_modules))

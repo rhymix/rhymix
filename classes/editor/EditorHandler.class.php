@@ -20,7 +20,7 @@ class EditorHandler extends BaseObject
 	{
 		Context::set('component_info', $info);
 
-		if(!$info->extra_vars)
+		if(!isset($info->extra_vars) || !$info->extra_vars)
 		{
 			return;
 		}

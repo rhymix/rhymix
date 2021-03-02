@@ -406,7 +406,7 @@ class documentItem extends BaseObject
 		
 		// Send a message
 		$sender_member_srl = $logged_info->member_srl ?: $this->get('member_srl');
-		getController('communication')->sendMessage($sender_member_srl, $this->get('member_srl'), $title, $content, false);
+		getController('communication')->sendMessage($sender_member_srl, $this->get('member_srl'), $title, $content, false, null, false);
 	}
 
 	function getLangCode()
@@ -1385,7 +1385,7 @@ class documentItem extends BaseObject
 			return;
 		} 
 		
-		if(!$this->uploadedFiles[$sortIndex])
+		if(!isset($this->uploadedFiles[$sortIndex]))
 		{
 			$this->uploadedFiles[$sortIndex] = FileModel::getFiles($this->document_srl, array(), $sortIndex, true);
 		}

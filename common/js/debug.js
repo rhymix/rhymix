@@ -82,6 +82,7 @@ $(function() {
 		var metadata = $('<ul class="debug_metadata"></ul>').appendTo(entry);
 		metadata.append($('<li></li>').text('Request: ' + data.request.method + (data.request.method !== "GET" ? (' - ' + data.request.size + ' bytes') : "")));
 		metadata.append($('<li></li>').text('Response: ' + data.response.method + ' - ' + data.response.size + ' bytes'));
+		metadata.append($('<li></li>').text('Memory Usage: ' + (data.memory ? XE.filesizeFormat(data.memory) : 'unknown')));
 		metadata.append($('<li></li>').text('Total Time: ' + data.timing.total));
 		metadata.append($('<li></li>').text('Query Time: ' + data.timing.db_query));
 		
@@ -199,12 +200,6 @@ $(function() {
 			button_link.addClass("has_errors");
 		}
 	};
-	
-	// Add debug data from the previous request.
-	if (window.rhymix_debug_previous) {
-		window.rhymix_debug_previous.page_title = 'PREVIOUS POST : ' + window.rhymix_debug_previous.ajax_module + "." + window.rhymix_debug_previous.ajax_act;
-		rhymix_debug_add_data(window.rhymix_debug_previous, false);
-	}
 	
 	// Add debug data from the current request.
 	if (window.rhymix_debug_content) {

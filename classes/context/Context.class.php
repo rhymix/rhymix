@@ -365,6 +365,9 @@ class Context
 		Rhymix\Framework\Session::checkSSO($site_module_info);
 		Rhymix\Framework\Session::start(false, $relax_key_checks);
 
+		// start debugging
+		Rhymix\Framework\Debug::isEnabledForCurrentUser();
+		
 		// start output buffer
 		if (\PHP_SAPI !== 'cli')
 		{
@@ -891,7 +894,7 @@ class Context
 			$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . self::getLangType());
 			if($lang === null)
 			{
-				ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
+				$lang = ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
 			}
 		}
 		

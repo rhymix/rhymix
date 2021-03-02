@@ -10,7 +10,6 @@
     <conditions>
         <condition operation="equal" column="b.member_srl" var="member_srl" filter="number" notnull="notnull" />
         <condition operation="equal" column="b.group_srl" default="a.group_srl" pipe="and" />
-        <condition operation="equal" column="a.site_srl" var="site_srl" default="0" pipe="and" />
     </conditions>
 	<navigation>
 		<index var="sort_index" default="a.list_order" order="asc" />
