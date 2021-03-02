@@ -212,7 +212,6 @@ class memberView extends member
 		
 		$formTags = getAdminView('member')->_getMemberInputTag();
 
-		$identifierFormUnset = false;
 		if($_SESSION['tmp_sociallogin_input_add_info'])
 		{
 			foreach ($formTags as $key => $formtag)
@@ -234,17 +233,18 @@ class memberView extends member
 						unset($formTags[$key]);
 					}
 				}
-
-				if($_SESSION['tmp_sociallogin_input_add_info']['email_address'])
-				{
-					$identifierFormUnset = true;
-				}
 			}
 		}
+
 		$identifierForm = new stdClass;
 		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
-		
+		$identifierForm->show = true;
+		if(isset($_SESSION['tmp_sociallogin_input_add_info']['email_address']))
+		{
+			$identifierForm->show = false;
+		}
+
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
 		{
@@ -265,7 +265,7 @@ class memberView extends member
 				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
-				
+
 				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
@@ -273,7 +273,6 @@ class memberView extends member
 		Context::set('formTags', $formTags);
 		Context::set('email_confirmation_required', $member_config->enable_confirm);
 		Context::set('identifierForm', $identifierForm);
-		Context::set('identifierFormUnset', $identifierFormUnset);
 
 		$this->addExtraFormValidatorMessage();
 		
