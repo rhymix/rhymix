@@ -3,10 +3,6 @@
 class SocialloginModel extends Sociallogin
 {
 	/**
-	 * @brief 사용 가능한 엑세스 토큰 넣기
-	 */
-
-	/**
 	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
 	 * @param $sns_info
 	 * @param bool $db
