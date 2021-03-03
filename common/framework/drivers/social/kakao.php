@@ -53,10 +53,11 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		]);
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth']['kakao'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']['kakao']->token['access'] = $token['access_token'];
-		$_SESSION['sociallogin_driver_auth']['kakao']->token['refresh'] = $token['refresh_token'];
+		$accessValue['access'] = $token['access_token'];
+		$accessValue['refresh'] = $token['refresh_token'];
 
+		\SocialloginController::getInstance()->setDriverAuthData('kakao', 'token', $accessValue);
+		
 		return new \BaseObject();
 	}
 
@@ -93,18 +94,20 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		
 		if(isset($profile['kakao_account']['email']))
 		{
-			$_SESSION['sociallogin_driver_auth']['kakao']->profile['email_address'] = $profile['kakao_account']['email'];
+			$profileValue['email_address'] = $profile['kakao_account']['email'];
 		}
 		else
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 		
-		$_SESSION['sociallogin_driver_auth']['kakao']->profile['sns_id'] = $profile['id'];
-		$_SESSION['sociallogin_driver_auth']['kakao']->profile['user_name'] = $profile['properties']['nickname'] ?: $profile['story']['nickName'];
-		$_SESSION['sociallogin_driver_auth']['kakao']->profile['profile_image'] = $profile['properties']['profile_image'] ?: $profile['story']['profileImageURL'];
-		$_SESSION['sociallogin_driver_auth']['kakao']->profile['url'] = $profile['story']['permalink'] ?: 'http://www.kakao.com/talk';
-		$_SESSION['sociallogin_driver_auth']['kakao']->profile['etc'] = $profile;
+		$profileValue['sns_id'] = $profile['id'];
+		$profileValue['user_name'] = $profile['properties']['nickname'] ?: $profile['story']['nickName'];
+		$profileValue['profile_image'] = $profile['properties']['profile_image'] ?: $profile['story']['profileImageURL'];
+		$profileValue['url'] = $profile['story']['permalink'] ?: 'http://www.kakao.com/talk';
+		$profileValue['etc'] = $profile;
+
+		\SocialloginController::getInstance()->setDriverAuthData('kakao', 'profile', $profileValue);
 		
 		return new \BaseObject();
 	}

@@ -56,9 +56,10 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth']['google'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']['google']->token['access'] = $token['access_token'];
-		$_SESSION['sociallogin_driver_auth']['google']->token['refresh'] = $token['refresh_token'];
+		$accessValue['access'] = $token['access_token'];
+		$accessValue['refresh'] = $token['refresh_token'];
+
+		\SocialloginController::getInstance()->setDriverAuthData('google', 'token', $accessValue);
 
 		return new \BaseObject();
 	}
@@ -93,7 +94,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			{
 				if ($val['metadata']['source']['type'] === 'ACCOUNT' && $val['value'])
 				{
-					$_SESSION['sociallogin_driver_auth']['google']->profile['email_address'] = $val['value'];
+					$profileValue['email_address'] = $val['value'];
 
 					$profileArgs = $val;
 					break;
@@ -101,15 +102,17 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			}
 		}
 		
-		if(!$_SESSION['sociallogin_driver_auth']['google']->profile['email_address'])
+		if(!$profileValue['email_address'])
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 		
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$_SESSION['sociallogin_driver_auth']['google']->profile['sns_id'] = $profileArgs['metadata']['source']['id'];
-		$_SESSION['sociallogin_driver_auth']['google']->profile['user_name'] = $profile['names'][0]['displayName'];
-		$_SESSION['sociallogin_driver_auth']['google']->profile['etc'] = $profile;
+		$profileValue['sns_id'] = $profileArgs['metadata']['source']['id'];
+		$profileValue['user_name'] = $profile['names'][0]['displayName'];
+		$profileValue['etc'] = $profile;
+
+		\SocialloginController::getInstance()->setDriverAuthData('google', 'profile', $profileValue);
 		
 		return new \BaseObject();
 	}

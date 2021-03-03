@@ -63,8 +63,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth']['facebook'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']['facebook']->token['access'] = $token['access_token'];
+		$accessValue['access'] = $token['access_token'];
+		\SocialloginController::getInstance()->setDriverAuthData('facebook', 'token', $accessValue);
 
 		return new \BaseObject();
 	}
@@ -122,7 +122,7 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile['email'])
 		{
-			$_SESSION['sociallogin_driver_auth']['facebook']->profile['email_address'] = $profile['email'];
+			$profileValue['email_address'] = $profile['email'];
 		}
 		else
 		{
@@ -130,11 +130,12 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$_SESSION['sociallogin_driver_auth']['facebook']->profile['profile_image'] = $profile['picture']['data']['url'];
-		$_SESSION['sociallogin_driver_auth']['facebook']->profile['url'] = $profile['link'];
-		$_SESSION['sociallogin_driver_auth']['facebook']->profile['sns_id'] = $profile['id'];
-		$_SESSION['sociallogin_driver_auth']['facebook']->profile['user_name'] = $profile['name'];
-		$_SESSION['sociallogin_driver_auth']['facebook']->profile['etc'] = $profile;
+		$profileValue['profile_image'] = $profile['picture']['data']['url'];
+		$profileValue['url'] = $profile['link'];
+		$profileValue['sns_id'] = $profile['id'];
+		$profileValue['user_name'] = $profile['name'];
+		$profileValue['etc'] = $profile;
+		\SocialloginController::getInstance()->setDriverAuthData('facebook', 'profile', $profileValue);
 		
 		return new \BaseObject();
 	}

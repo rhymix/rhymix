@@ -101,7 +101,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile->email)
 		{
-			$_SESSION['sociallogin_driver_auth']['twitter']->profile['email_address'] = $profile->email;
+			$profileValue['email_address'] = $profile->email;
 		}
 		else
 		{
@@ -109,11 +109,13 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID, 이름, 프로필 이미지, 프로필 URL
-		$_SESSION['sociallogin_driver_auth']['twitter']->profile['sns_id'] = $profile->id;
-		$_SESSION['sociallogin_driver_auth']['twitter']->profile['user_name'] = $profile->name;
-		$_SESSION['sociallogin_driver_auth']['twitter']->profile['profile_image'] = $profile->profile_image_url;
-		$_SESSION['sociallogin_driver_auth']['twitter']->profile['url'] = 'https://twitter.com/' . $profile->screen_name;
-		$_SESSION['sociallogin_driver_auth']['twitter']->profile['etc'] = $profile;
+		$profileValue['sns_id'] = $profile->id;
+		$profileValue['user_name'] = $profile->name;
+		$profileValue['profile_image'] = $profile->profile_image_url;
+		$profileValue['url'] = 'https://twitter.com/' . $profile->screen_name;
+		$profileValue['etc'] = $profile;
+		
+		\SocialloginController::getInstance()->setDriverAuthData('twitter', 'profile', $profileValue);
 
 		return new \BaseObject();
 	}
@@ -156,7 +158,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	}
 
 	/**
-	 * @brief 두개의 토큰에 대한 배열 처리
+	 * @brief 두개의 토큰에 대한 배열 처리 (트위터는 추가 API를 이용하는 과정에서 필수로 데이터를 같이 저장할 필요가 있습니다.)
 	 */
 	function setTwitterAccessToken($access_token)
 	{
@@ -165,11 +167,9 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		{
 			$access_token = json_decode($access_token, true);
 		}
-		if(!$_SESSION['sociallogin_driver_auth']['twitter'])
-		{
-			$_SESSION['sociallogin_driver_auth']['twitter'] = new \stdClass();
-		}
-		$_SESSION['sociallogin_driver_auth']['twitter']->token['access'] = $access_token;
+		$accessValue['access'] = $access_token;
+
+		\SocialloginController::getInstance()->setDriverAuthData('twitter', 'token', $accessValue);
 	}
 
 	/**

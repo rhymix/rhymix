@@ -60,8 +60,8 @@ class Github extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth']['github'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']['github']->token['access'] = $token->getToken();
+		$accessValue['access'] = $token->getToken();
+		\SocialloginController::getInstance()->setDriverAuthData('github', 'token', $accessValue);
 		
 		unset($_SESSION['socialxe_auth_state']);
 
@@ -92,18 +92,20 @@ class Github extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 		if($profile['email'])
 		{
-			$_SESSION['sociallogin_driver_auth']['github']->profile['email_address'] = $profile['email'];
+			$profileValue['email_address'] = $profile['email'];
 		}
 		else
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
 		
-		$_SESSION['sociallogin_driver_auth']['github']->profile['sns_id'] = $profile['id'];
-		$_SESSION['sociallogin_driver_auth']['github']->profile['user_name'] = $profile['login'];
-		$_SESSION['sociallogin_driver_auth']['github']->profile['profile_image'] = $profile['avatar_url'];
-		$_SESSION['sociallogin_driver_auth']['github']->profile['url'] = $profile['html_url'];
-		$_SESSION['sociallogin_driver_auth']['github']->profile['etc'] = $profile;
+		$profileValue['sns_id'] = $profile['id'];
+		$profileValue['user_name'] = $profile['login'];
+		$profileValue['profile_image'] = $profile['avatar_url'];
+		$profileValue['url'] = $profile['html_url'];
+		$profileValue['etc'] = $profile;
+
+		\SocialloginController::getInstance()->setDriverAuthData('github', 'profile', $profileValue);
 		
 		return new \BaseObject();
 	}

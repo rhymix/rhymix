@@ -58,8 +58,10 @@ class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'code' => \Context::get('code'),
 		]);
 		
-		$_SESSION['sociallogin_driver_auth']['apple'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']['apple']->token['access'] = $token->getToken();
+		$accessValue['access'] = $token->getToken();
+		
+		\SocialloginController::getInstance()->setDriverAuthData('apple', 'token', $accessValue);
+		
 		$this->token = $token;
 		
 		return new \BaseObject();
@@ -91,10 +93,10 @@ class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			$userName = $user->getFirstName() . ' ' . $user->getLastName();
 		}
 		
-		$_SESSION['sociallogin_driver_auth']['apple']->profile['sns_id'] = $user->getId();
-		$_SESSION['sociallogin_driver_auth']['apple']->profile['email'] = $profile['email'];
-		$_SESSION['sociallogin_driver_auth']['apple']->profile['user_name'] = $userName;
-		$_SESSION['sociallogin_driver_auth']['apple']->profile['etc'] = $profile;
+		$profileValue['sns_id'] = $user->getId();
+		$profileValue['email'] = $profile['email'];
+		$profileValue['user_name'] = $userName;
+		$profileValue['etc'] = $profile;
 
 		$_SESSION['social_apple_name'] = [
 			$user->getEmail() => $userName
@@ -102,12 +104,14 @@ class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		
 		if ($profile['email'])
 		{
-			$_SESSION['sociallogin_driver_auth']['apple']->profile['email_address'] = $profile['email'];
+			$profileValue['email_address'] = $profile['email'];
 		}
 		else
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
+		
+		\SocialloginController::getInstance()->setDriverAuthData('apple', 'profile', $profileValue);
 
 		return new \BaseObject();
 	}

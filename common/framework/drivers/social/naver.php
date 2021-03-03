@@ -51,9 +51,10 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		));
 
 		// 토큰 삽입
-		$_SESSION['sociallogin_driver_auth']['naver'] = new \stdClass();
-		$_SESSION['sociallogin_driver_auth']['naver']->token['access'] = $token['access_token'];
-		$_SESSION['sociallogin_driver_auth']['naver']->token['refresh'] = $token['refresh_token'];
+		$accessValue['access'] = $token['access_token'];
+		$accessValue['refresh'] = $token['refresh_token'];
+
+		\SocialloginController::getInstance()->setDriverAuthData('naver', 'token', $accessValue);
 
 		return new \BaseObject();
 	}
@@ -82,7 +83,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 이메일 주소
 		if ($profile['email'])
 		{
-			$_SESSION['sociallogin_driver_auth']['naver']->profile['email_address'] = $profile['email'];
+			$profileValue['email_address'] = $profile['email'];
 		}
 		else
 		{
@@ -90,32 +91,34 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		}
 
 		// ID
-		$_SESSION['sociallogin_driver_auth']['naver']->profile['sns_id'] = $profile['id'];
+		$profileValue['sns_id'] = $profile['id'];
 
 		// 이름 (닉네임이 없다면 이름으로 설정)
 		if ($profile['name'] && preg_match('/\*$/', $profile['nickname']))
 		{
-			$_SESSION['sociallogin_driver_auth']['naver']->profile['user_name'] = $profile['name'];
+			$profileValue['user_name'] = $profile['name'];
 		}
 		else
 		{
-			$_SESSION['sociallogin_driver_auth']['naver']->profile['user_name'] = $profile['nickname'];
+			$profileValue['user_name'] = $profile['nickname'];
 		}
 
 		// 프로필 이미지
-		$_SESSION['sociallogin_driver_auth']['naver']->profile['profile_image'] = $profile['profile_image'];
+		$profileValue['profile_image'] = $profile['profile_image'];
 
 		// 프로필 URL : 네이버는 따로 프로필 페이지가 없으므로 네이버 블로그로 설정
 		if ($profile['email'] && strpos($profile['email'], 'naver.com') !== false)
 		{
-			$_SESSION['sociallogin_driver_auth']['naver']->profile['url'] = 'http://blog.naver.com/' . str_replace('@naver.com', '', $profile['email']);
+			$profileValue['url'] = 'http://blog.naver.com/' . str_replace('@naver.com', '', $profile['email']);
 		}
 		else
 		{
-			$_SESSION['sociallogin_driver_auth']['naver']->profile['url'] = 'http://www.naver.com/';
+			$profileValue['url'] = 'http://www.naver.com/';
 		}
 
-		$_SESSION['sociallogin_driver_auth']['naver']->profile['etc'] = $profile;
+		$profileValue['etc'] = $profile;
+
+		\SocialloginController::getInstance()->setDriverAuthData('naver', 'profile', $profileValue);
 
 		return new \BaseObject();
 	}
