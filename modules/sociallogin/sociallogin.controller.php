@@ -205,7 +205,7 @@ class SocialloginController extends Sociallogin
 			}
 			else if ($type == 'recheck')
 			{
-				$recheckBool = $this->reCheckSns($oDriver);
+				$recheckBool = $this->reCheckSns($oDriver, $type);
 				if(!$recheckBool)
 				{
 					$error = lang('sociallogin.msg_invalid_sns_account');
@@ -214,7 +214,7 @@ class SocialloginController extends Sociallogin
 			}
 			else if ($type == 'modify_password')
 			{
-				$recheckBool = $this->reCheckSns($oDriver);
+				$recheckBool = $this->reCheckSns($oDriver, $type);
 				if(!$recheckBool)
 				{
 					$error = lang('sociallogin.msg_invalid_sns_account');

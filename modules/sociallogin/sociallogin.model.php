@@ -48,7 +48,7 @@ class SocialloginModel extends Sociallogin
 	/**
 	 * @brief 회원 SNS
 	 */
-	public static function getMemberSnsList($member_srl = null)
+	public static function getMemberSnsList($member_srl = null, $type = 'login')
 	{
 		if(!$member_srl)
 		{
@@ -62,6 +62,14 @@ class SocialloginModel extends Sociallogin
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQueryArray('sociallogin.getMemberSns', $args);
+		$memberSNSList = $output->data;
+
+		$useSNSList = SocialloginModel::getUseSNSList($type);
+		foreach ($memberSNSList as $key => $userSNSData)
+		{
+			$memberSNSList[$key]->auth_url = $useSNSList[$userSNSData->service]->auth_url;
+		}
+		
 		return $output->data;
 	}
 
@@ -252,21 +260,7 @@ class SocialloginModel extends Sociallogin
 		executeQuery('sociallogin.insertLogRecord', $args);
 	}
 
-	public static function getUseSNSList()
-	{
-		$config = self::getConfig();
-		$sns_auth_list = array();
-		foreach ($config->sns_services as $key => $sns_name)
-		{
-			$sns_auth_list[$sns_name] = new stdClass();
-			$sns_auth_list[$sns_name]->name = $sns_name;
-			$sns_auth_list[$sns_name]->auth_url = self::snsAuthUrl($sns_name, 'login');
-		}
-		
-		return $sns_auth_list;
-	}
-	
-	public static function getUserRecheckList($type = 'recheck')
+	public static function getUseSNSList($type = 'login')
 	{
 		$config = self::getConfig();
 		$sns_auth_list = array();

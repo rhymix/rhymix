@@ -290,19 +290,7 @@ class memberView extends member
 
 		$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
 
-		$useSNSList = SocialloginModel::getUserRecheckList();
-		
-		$memberSNSList = array();
-		if($useSNSList)
-		{
-			$memberSNSList = SocialloginModel::getMemberSnsList();
-
-			foreach ($memberSNSList as $key => $userSNSData)
-			{
-				$memberSNSList[$key]->auth_url = $useSNSList[$userSNSData->service]->auth_url;
-			}
-		}
-		Context::set('member_sns_list', $memberSNSList);
+		Context::set('member_sns_list', SocialloginModel::getMemberSnsList(\Rhymix\Framework\Session::getMemberSrl(), 'recheck'));
 		
 		$templateFile = $this->getTemplatePath().'rechecked_password.html';
 		if(!is_readable($templateFile))
@@ -687,19 +675,7 @@ class memberView extends member
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		Context::set('member_info',$member_info);
 
-		$useSNSList = SocialloginModel::getUserRecheckList('modify_password');
-		
-		$memberSNSList = array();
-		if($useSNSList)
-		{
-			$memberSNSList = SocialloginModel::getMemberSnsList();
-
-			foreach ($memberSNSList as $key => $userSNSData)
-			{
-				$memberSNSList[$key]->auth_url = $useSNSList[$userSNSData->service]->auth_url;
-			}
-		}
-		Context::set('member_sns_list', $memberSNSList);
+		Context::set('member_sns_list', SocialloginModel::getMemberSnsList(Rhymix\Framework\Session::getMemberSrl(), 'modify_password'));
 		
 		if($memberConfig->identifier == 'user_id')
 		{

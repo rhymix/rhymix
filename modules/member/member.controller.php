@@ -1278,18 +1278,32 @@ class memberController extends member
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Extract the necessary information in advance
 		$current_password = trim(Context::get('current_password'));
+		
 		$password = trim(Context::get('password1'));
+		$password2 = trim(Context::get('password2'));
+		
+		if($password === '' || $password2 === '')
+		{
+			throw new \Rhymix\Framework\Exception('msg_need_input_password');
+		}
+		
+		if($password !== $password2)
+		{
+			throw new \Rhymix\Framework\Exception('msg_not_equal_password');
+		}
+		
 		// Get information of logged-in user
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
-		// Get information of member_srl
-		$columnList = array('member_srl', 'password');
-
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_srl = Context::get('logged_info')->member_srl;
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		
 		// Verify the cuttent password
 		if($_SESSION['rechecked_password_modify'] != 'VALIDATE_PASSWORD')
 		{
+			if($current_password === '')
+			{
+				throw new \Rhymix\Framework\Exception('msg_need_current_password');
+			}
+			
 			if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
 			{
 				throw new Rhymix\Framework\Exception('invalid_password');
@@ -1297,7 +1311,7 @@ class memberController extends member
 		}
 		
 		// Check if a new password is as same as the previous password
-		if($current_password == $password) throw new Rhymix\Framework\Exception('invalid_new_password');
+		if($current_password === $password) throw new Rhymix\Framework\Exception('invalid_new_password');
 
 		// Execute insert or update depending on the value of member_srl
 		$args = new stdClass;
