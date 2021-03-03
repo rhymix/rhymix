@@ -194,38 +194,43 @@ class SocialloginModel extends Sociallogin
 		{
 			case 'procSocialloginSnsClear' :
 				$args->category = 'sns_clear';
-				$args->content = sprintf('SNS 연결 해제 (SNS : %s)', $info->sns);
+				$args->content = sprintf(lang('sns_connect_clear'), $info->sns);
 				break;
 
 			case 'procSocialloginSnsLinkage' :
 				$args->category = 'linkage';
-				$args->content = sprintf('SNS 연동설정 변경 (SNS : %s, 변경값 : %s)', $info->sns, $info->linkage);
+				$args->content = sprintf(lang('sns_connect_linkage'), $info->sns, $info->linkage);
 				break;
 
 			case 'dispSocialloginConnectSns' :
 				$args->category = 'auth_request';
-				$args->content = sprintf('SNS 인증 요청 (SNS : %s)', $info->sns);
+				$args->content = sprintf(lang('sns_connect_auth_request'), $info->sns);
 				break;
 
 			case 'procSocialloginCallback' :
 				$args->category = $info->type;
 
+				
 				if ($info->type == 'register')
 				{
-					$info->msg = $info->msg ?: '등록 성공';
-					$args->content = sprintf('SNS 등록 실행 (SNS : %s, msg : %s)', $info->sns, Context::getLang($info->msg));
+					$info->msg = $info->msg ?: lang('sns_connect_register_success');
+					$args->content = sprintf(lang('sns_connect_exec_register'), $info->sns, Context::getLang($info->msg));
 				}
 				else if ($info->type == 'login')
 				{
-					$info->msg = $info->msg ?: '로그인 성공';
-					$args->content = sprintf('SNS 로그인 실행 (SNS : %s, msg : %s)', $info->sns, Context::getLang($info->msg));
+					$info->msg = $info->msg ?: lang('sns_connect_login_success');
+					$args->content = sprintf(lang('sns_connect_exec_login'), $info->sns, Context::getLang($info->msg));
+				}
+				else
+				{
+					//TODO(BJRambo): Add to log for recheck
 				}
 
 				break;
-
+				
 			case 'linkage' :
 				$args->category = 'linkage';
-				$args->content = sprintf('SNS 연동 (게시물 전송) (SNS : %s, Title : %s)', $info->sns, $info->title);
+				$args->content = sprintf(lang('sns_connect_document'), $info->sns, $info->title);
 				break;
 
 			case 'delete_member' :
@@ -233,11 +238,11 @@ class SocialloginModel extends Sociallogin
 
 				if ($info->nick_name)
 				{
-					$args->content = sprintf('회원정보 삭제 (탈퇴) (회원번호 : %s, 닉네임 : %s, SNS ID : %s)', $info->member_srl, $info->nick_name, $info->sns_id);
+					$args->content = sprintf(lang('sns_connect_delete_member'), $info->member_srl, $info->nick_name, $info->sns_id);
 				}
 				else
 				{
-					$args->content = sprintf('[자동실행] 인증메일 유효시간이 지나 회원정보 삭제 (탈퇴) (회원번호 : %s, SNS ID : %s)', $info->member_srl, $info->nick_name, $info->sns_id);
+					$args->content = sprintf(lang('sns_connect_auto_delete_member'), $info->member_srl, $info->nick_name, $info->sns_id);
 				}
 
 				break;

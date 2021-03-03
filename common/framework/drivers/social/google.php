@@ -207,11 +207,11 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 성별
 		if ($profile['gender'] == 'male')
 		{
-			$extend->gender = '남성';
+			$extend->gender = lang('sociallogin.sns_gender_male');
 		}
 		else if ($profile['gender'] == 'female')
 		{
-			$extend->gender = '여성';
+			$extend->gender = lang('sociallogin.sns_gender_female');
 		}
 
 		// 연령대
