@@ -68,26 +68,27 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']['kakao']->token['access'])
+		$serviceAccessData = \SocialloginModel::getAccessData('kakao');
+		if (!$serviceAccessData->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
-		if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access'])) || !$profile['id'])
+		if (!($profile = $this->requestAPI('v2/user/me', [], $serviceAccessData->token['access'])) || !$profile['id'])
 		{
 			// API 요청 : 앱 가입 (프로필을 불러올 수 없다면)
-			$this->requestAPI('v1/user/signup', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access']);
+			$this->requestAPI('v1/user/signup', [], $serviceAccessData->token['access']);
 
 			// API 요청 : 프로필 (앱 가입 후 재요청)
-			if (!($profile = $this->requestAPI('v2/user/me', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access'])) || !$profile['id'])
+			if (!($profile = $this->requestAPI('v2/user/me', [], $serviceAccessData->token['access'])) || !$profile['id'])
 			{
 				return new \BaseObject(-1, 'msg_errer_api_connect');
 			}
 		}
 
 		// API 요청 : 카카오 스토리 프로필 (스토리에 가입되어 있을 경우 추가)
-		if (($story = $this->requestAPI('v1/api/story/profile', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access'])) && $story['nickName'])
+		if (($story = $this->requestAPI('v1/api/story/profile', [], $serviceAccessData->token['access'])) && $story['nickName'])
 		{
 			$profile['story'] = $story;
 		}
@@ -140,7 +141,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 		// API 요청 : 토큰 새로고침
 		$token = $this->requestAPI('token', [
-			'refresh_token' => $_SESSION['sociallogin_driver_auth']['kakao']->token['refresh'],
+			'refresh_token' => \SocialloginModel::getAccessData('kakao')->token['refresh'],
 			'grant_type'    => 'refresh_token',
 			'client_id'     => $this->config->kakao_client_id,
 		]);
@@ -164,7 +165,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function checkLinkage()
 	{
 		// API 요청 : 카카오 스토리 사용자 여부
-		if (!$_SESSION['sociallogin_driver_auth']['kakao']->token['access'] || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], $_SESSION['sociallogin_driver_auth']['kakao']->token['access']))
+		if (!\SocialloginModel::getAccessData('kakao')->token['access'] || !$user = $this->requestAPI('v1/api/story/isstoryuser', [], \SocialloginModel::getAccessData('kakao')->token['access']))
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -183,14 +184,16 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	function post($args)
 	{
+		$serviceAccessData = \SocialloginModel::getAccessData('kakao');
+		
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']['kakao']->token['access'])
+		if (!\SocialloginModel::getAccessData('kakao')->token['access'])
 		{
 			return;
 		}
 
 		// API 요청 : 스토리에 포스팅 (제목 + 게시물 URL)
-		$this->requestAPI('v1/api/story/post/note', ['content' => $args->title . ' ' . $args->url], $_SESSION['sociallogin_driver_auth']['kakao']->token['access']);
+		$this->requestAPI('v1/api/story/post/note', ['content' => $args->title . ' ' . $args->url], \SocialloginModel::getAccessData('kakao')->token['access']);
 	}
 
 	/**
@@ -199,7 +202,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']['kakao']->profile['etc'])
+		if (!$profile = \SocialloginModel::getAccessData('kakao')->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -218,7 +221,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']['kakao']->profile['profile_image']);
+		return preg_replace('/\?.*/', '', \SocialloginModel::getAccessData('kakao')->profile['profile_image']);
 	}
 
 	function requestAPI($url, $post = [], $authorization = null, $delete = null)

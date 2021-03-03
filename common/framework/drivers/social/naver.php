@@ -65,14 +65,16 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	function getSNSUserInfo()
 	{
+		$serviceAccessData = \SocialloginModel::getAccessData('naver');
+		
 		// 토큰 체크
-		if (!$_SESSION['sociallogin_driver_auth']['naver']->token['access'])
+		if (!$serviceAccessData->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
 
 		// API 요청 : 프로필
-		$profile = $this->requestAPI('https://openapi.naver.com/v1/nid/me', array(), $_SESSION['sociallogin_driver_auth']['naver']->token['access']);
+		$profile = $this->requestAPI('https://openapi.naver.com/v1/nid/me', array(), $serviceAccessData->token['access']);
 
 		// 프로필 데이터가 없다면 오류
 		if (!($profile = $profile['response']) || empty($profile))
@@ -177,7 +179,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']['naver']->profile['etc'])
+		if (!$profile = \SocialloginModel::getAccessData('naver')->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -218,7 +220,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return preg_replace('/\?.*/', '', $_SESSION['sociallogin_driver_auth']['naver']->profile['profile_image']);
+		return preg_replace('/\?.*/', '', \SocialloginModel::getAccessData('naver')->profile['profile_image']);
 	}
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = null)

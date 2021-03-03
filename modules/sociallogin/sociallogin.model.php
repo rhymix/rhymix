@@ -322,4 +322,9 @@ class SocialloginModel extends Sociallogin
 			return false;
 		}
 	}
+	
+	public static function getAccessData($service)
+	{
+		return $_SESSION['sociallogin_driver_auth'][$service];
+	}
 }

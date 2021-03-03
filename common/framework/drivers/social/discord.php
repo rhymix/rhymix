@@ -63,7 +63,8 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		$token = $_SESSION['sociallogin_driver_auth']['discord']->token['access'];
+		$token = \SocialloginModel::getAccessData('discord')->token['access'];
+		
 		if (!$token)
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
@@ -96,7 +97,7 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 		// API 요청 : 토큰 새로고침
 		$token = $this->requestAPI('api/oauth2/token', array(
-			'refresh_token' => $_SESSION['sociallogin_driver_auth']['discord']->token['refresh'],
+			'refresh_token' => \SocialloginModel::getAccessData('discord')->token['refresh'],
 			'grant_type'    => 'refresh_token',
 			'client_id'     => $this->config->discord_client_id,
 			'client_secret' => $this->config->discord_client_secret,

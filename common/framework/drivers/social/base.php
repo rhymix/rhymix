@@ -131,10 +131,12 @@ abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	public function getSocial()
 	{
+		$serviceAccessData = \SocialloginModel::getAccessData($this->service);
+		
 		return array(
 			'service' => $this->service,
-			'token'   => $_SESSION['sociallogin_driver_auth'][$this->service]->token,
-			'profile' => $_SESSION['sociallogin_driver_auth'][$this->service]->profile,
+			'token'   => $serviceAccessData->token,
+			'profile' => $serviceAccessData->profile,
 		);
 	}
 }

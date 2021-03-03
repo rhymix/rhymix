@@ -64,7 +64,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getSNSUserInfo()
 	{
 		// 토큰 체크
-		if (!$token = $_SESSION['sociallogin_driver_auth']['twitter']->token['access'])
+		if (!$token = \SocialloginModel::getAccessData('twitter')->token['access'])
 		{
 			return new \BaseObject(-1, 'msg_errer_api_connect');
 		}
@@ -135,7 +135,7 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getProfileExtend()
 	{
 		// 프로필 체크
-		if (!$profile = $_SESSION['sociallogin_driver_auth']['twitter']->profile['etc'])
+		if (!$profile = \SocialloginModel::getAccessData('twitter')->profile['etc'])
 		{
 			return new \stdClass;
 		}
@@ -178,13 +178,13 @@ class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function getTwitterAccessToken()
 	{
 		// 빼낼 경우 json 로 변환하여 반환
-		return json_encode($_SESSION['sociallogin_driver_auth']['twitter']->token['access']);
+		return json_encode(\SocialloginModel::getAccessData('twitter')->token['access']);
 	}
 
 	function getProfileImage()
 	{
 		// 최대한 큰 사이즈의 프로필 이미지를 반환하기 위하여
-		return str_replace('_normal', '', $_SESSION['sociallogin_driver_auth']['twitter']->profile['profile_image']);
+		return str_replace('_normal', '', \SocialloginModel::getAccessData('twitter')->profile['profile_image']);
 	}
 
 	// Dummy Method for SocialInserface.
