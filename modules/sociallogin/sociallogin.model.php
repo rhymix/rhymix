@@ -279,7 +279,7 @@ class SocialloginModel extends Sociallogin
 	 * 소셜로그인을 사용하는지 검사
 	 * @return bool
 	 */
-	public static function getSocialLoginEnables()
+	public static function isEnabled()
 	{
 		$config = self::getConfig();
 		
