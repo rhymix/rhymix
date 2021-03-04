@@ -1,5 +1,5 @@
 <?php
-$lang->sociallogin = 'SNS 로그인';
+$lang->sociallogin = '소셜 로그인';
 $lang->how_to_setting = '세팅 방법';
 $lang->about_sociallogin = 'SNS 로그인과 연동을 지원하는 모듈입니다.';
 $lang->api_setting = 'API설정';
