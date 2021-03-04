@@ -340,6 +340,6 @@ class SocialloginModel extends Sociallogin
 	
 	public static function getAccessData($service)
 	{
-		return $_SESSION['sociallogin_driver_auth'][$service];
+		return $_SESSION['sociallogin_driver_auth'][$service] ?? null;
 	}
 }
