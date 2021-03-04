@@ -243,7 +243,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$resource = \FileHandler::getRemoteResource(in_array($url, array(
 			'token',
 			'revoke'
-		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', null, array(), array(), $post, array('ssl_verify_peer' => false));
+		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', null, array(), array(), $post);
 		
 		return json_decode($resource, true);
 	}

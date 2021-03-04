@@ -124,7 +124,7 @@ class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)
 	{
-		$resource = \FileHandler::getRemoteResource(self::DISCORD_API_URL . $url, null, 3, empty($post) ? 'GET' : 'POST', null, $authorization, array(), $post, array());
+		$resource = \FileHandler::getRemoteResource(self::DISCORD_API_URL . $url, null, 3, empty($post) ? 'GET' : 'POST', null, $authorization, array(), $post);
 		
 		return json_decode($resource, true);
 	}

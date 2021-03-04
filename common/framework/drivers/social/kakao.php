@@ -233,7 +233,7 @@ class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			];
 		}
 
-		$resource = \FileHandler::getRemoteResource(($url == 'token') ? self::KAKAO_OAUTH2_URI . 'token' : self::KAKAO_API_URI . $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, [], $post, ['ssl_verify_peer' => false]);
+		$resource = \FileHandler::getRemoteResource(($url == 'token') ? self::KAKAO_OAUTH2_URI . 'token' : self::KAKAO_API_URI . $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, [], $post);
 		
 		return json_decode($resource, true);
 	}
