@@ -240,9 +240,11 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	function requestAPI($url, $post = array(), $authorization = null, $delete = null)
 	{
 		// 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청
-		return json_decode(\FileHandler::getRemoteResource(in_array($url, array(
+		$resource = \FileHandler::getRemoteResource(in_array($url, array(
 			'token',
 			'revoke'
-		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', null, array(), array(), $post, array('ssl_verify_peer' => false)), true);
+		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', null, array(), array(), $post, array('ssl_verify_peer' => false));
+		
+		return json_decode($resource, true);
 	}
 }

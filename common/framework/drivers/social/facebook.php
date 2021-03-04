@@ -219,6 +219,8 @@ class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 
 	function requestAPI($url, $post = array(), $authorization = null, $delete = false)
 	{
-		return json_decode(\FileHandler::getRemoteResource(self::FACEBOOK_GRAPH_URL . self::FACEBOOK_GRAPH_API_VERSION . $url, null, 3, $delete ? 'DELETE' : (empty($post) ? 'GET' : 'POST'), 'application/x-www-form-urlencoded', array(), array(), $post, array('ssl_verify_peer' => false)), true);
+		$resource = \FileHandler::getRemoteResource(self::FACEBOOK_GRAPH_URL . self::FACEBOOK_GRAPH_API_VERSION . $url, null, 3, $delete ? 'DELETE' : (empty($post) ? 'GET' : 'POST'), 'application/x-www-form-urlencoded', array(), array(), $post, array('ssl_verify_peer' => false));
+		
+		return json_decode($resource, true);
 	}
 }

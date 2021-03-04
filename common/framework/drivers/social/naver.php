@@ -235,6 +235,8 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			);
 		}
 
-		return json_decode(\FileHandler::getRemoteResource(($url == 'token') ? self::NAVER_OAUTH2_URI . 'token' : $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, array(), $post, array('ssl_verify_peer' => false)), true);
+		$resource = \FileHandler::getRemoteResource(($url == 'token') ? self::NAVER_OAUTH2_URI . 'token' : $url, null, 3, empty($post) ? 'GET' : 'POST', 'application/x-www-form-urlencoded', $headers, array(), $post, array('ssl_verify_peer' => false));
+		
+		return json_decode($resource, true);
 	}
 }
