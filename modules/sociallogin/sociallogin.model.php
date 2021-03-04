@@ -318,19 +318,19 @@ class SocialloginModel extends Sociallogin
 		}
 	}
 	
-	public static function getSocialloginButtons()
+	public static function getSocialloginButtons($type = 'login')
 	{
 		$snsList = self::getUseSNSList();
 		
 		$buff = [];
-		
 		$buff[] = '<ul class="sns_login">';
+		$signString = ($type === 'signup') ? 'Sign up' : 'Sign in';
 		foreach ($snsList as $key => $sns)
 		{
 			$ucfirstName = ucfirst($sns->name);
 			$buff[] = "<li><div class=\"sns_{$sns->name}\">";
 			$buff[] = "<a class=\"loginBtn\" href=\"{$sns->auth_url}\"><span class=\"icon\"></span>";
-			$buff[] = "<span class=\"buttonText\"> Sign in with {$ucfirstName}</span>";
+			$buff[] = "<span class=\"buttonText\"> {$signString} with {$ucfirstName}</span>";
 			$buff[] = '</a></div></li>';
 		}
 		$buff[] = '</ul>';
