@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="ko">소셜로그인</title>
+	<title xml:lang="ko">SNS 로그인</title>
 	<description xml:lang="ko">SNS 로그인과 연동을 지원하는 모듈입니다.</description>
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>
