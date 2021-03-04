@@ -10,13 +10,13 @@
 .sns_icon.kakao{background:url(../img/kakao.png) no-repeat;}
 .sns_icon.discord{background:url(../img/discord.png) no-repeat;}
 
-.sociallogin_login{padding:0;margin:0;list-style:none; overflow:hidden;}
+.sociallogin_login{padding:0;margin:20px 0 0 0;list-style:none; overflow:hidden;}
 .sociallogin_login li{display:block;padding:0; margin-bottom:10px; text-align:center;}
 .sociallogin_login li a {
 	box-shadow: 0 1px 2px 0 grey;
 }
 
-.rechecked_sns_login{padding:0;margin:0;list-style:none; overflow:hidden;}
+.rechecked_sns_login{padding:0;margin:20px 0 0 0;list-style:none; overflow:hidden;}
 .rechecked_sns_login li{display:block;padding:0; margin-bottom:10px;}
 
 .sociallogin_twitter .loginBtn {display:inline-block;background: #2596E9;color: white; width: 200px; border-radius:5px;text-align:left;}
