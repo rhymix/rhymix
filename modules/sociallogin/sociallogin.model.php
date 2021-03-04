@@ -325,7 +325,6 @@ class SocialloginModel extends Sociallogin
 		$snsList = self::getUseSNSList();
 		
 		$buff = [];
-		
 		$pathDir = sprintf('%s%s',getUrl(), "modules/sociallogin/skins/{$config->skin}/img/");
 		
 		$buff[] = '<ul class="sns_list">';
@@ -338,7 +337,7 @@ class SocialloginModel extends Sociallogin
 			$buff[] = '</a></li>';
 		}
 		$buff[] = '</ul>';
-		debugPrint($buff);
+		
 		return implode('', $buff);
 	}
 	
