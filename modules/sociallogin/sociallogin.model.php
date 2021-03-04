@@ -318,6 +318,30 @@ class SocialloginModel extends Sociallogin
 		}
 	}
 	
+	public static function getSocialloginIcons()
+	{
+		$config = self::getConfig();
+		
+		$snsList = self::getUseSNSList();
+		
+		$buff = [];
+		
+		$pathDir = sprintf('%s%s',getUrl(), "modules/sociallogin/skins/{$config->skin}/img/");
+		
+		$buff[] = '<ul class="sns_list">';
+		foreach ($snsList as $key => $sns)
+		{
+			$imgFilePath = $pathDir . "{$sns->name}.png";
+			$buff[] = '<li>';
+			$buff[] = "<a href='{$sns->auth_url}'>";
+			$buff[] = "<img src='{$imgFilePath}' title='{$key}' />";
+			$buff[] = '</a></li>';
+		}
+		$buff[] = '</ul>';
+		debugPrint($buff);
+		return implode('', $buff);
+	}
+	
 	public static function getAccessData($service)
 	{
 		return $_SESSION['sociallogin_driver_auth'][$service];
