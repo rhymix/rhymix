@@ -318,23 +318,20 @@ class SocialloginModel extends Sociallogin
 		}
 	}
 	
-	public static function getSocialloginIcons()
+	public static function getSocialloginButtons()
 	{
-		$config = self::getConfig();
-		
 		$snsList = self::getUseSNSList();
 		
 		$buff = [];
-		$pathDir = sprintf('%s%s',getUrl(), "modules/sociallogin/skins/{$config->skin}/img/");
 		
-		$buff[] = '<ul class="sns_list">';
+		$buff[] = '<ul class="sns_login">';
 		foreach ($snsList as $key => $sns)
 		{
-			$imgFilePath = $pathDir . "{$sns->name}.png";
-			$buff[] = '<li>';
-			$buff[] = "<a href='{$sns->auth_url}'>";
-			$buff[] = "<img src='{$imgFilePath}' title='{$key}' />";
-			$buff[] = '</a></li>';
+			$ucfirstName = ucfirst($sns->name);
+			$buff[] = "<li><div class=\"sns_{$sns->name}\">";
+			$buff[] = "<a class=\"loginBtn\" href=\"{$sns->auth_url}\"><span class=\"icon\"></span>";
+			$buff[] = "<span class=\"buttonText\"> Sign in with {$ucfirstName}</span>";
+			$buff[] = '</a></div></li>';
 		}
 		$buff[] = '</ul>';
 		

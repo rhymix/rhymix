@@ -493,18 +493,7 @@
 			</form>
 		</div>
 		<!--@if(!$is_logged && SocialloginModel::isEnabled())-->
-		<ul class="sns_login">
-			<!--@foreach(SocialloginModel::getUseSNSList() as $key => $val)-->
-			<li>
-				<div id="sns_{$val->name}">
-					<a class="loginBtn" href="{$val->auth_url}">
-						<span class="icon"></span>
-						<span class="buttonText">{$val->name} Login</span>
-					</a>
-				</div>
-			</li>
-			<!--@end-->
-		</ul>
+		{SocialloginModel::getSocialloginButtons()}
 		<!--@end-->
 		<div class="login-footer">
 			<a href="{getUrl('act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
