@@ -39,28 +39,10 @@
 	<section class="section">
 		<h1>{$lang->cmd_set_design_info}</h1>
 		<div class="x_control-group">
-			<label class="x_control-label" for="layout">{$lang->layout}</label>
-			<div class="x_controls">
-				<select id="layout" name="layout_srl">
-					<option value="0">{$lang->notuse}</option>
-					<option loop="$layout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->layout_srl">{$val->title} ({$val->layout})</option>
-				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label" for="skin">{$lang->skin}</label>
 			<div class="x_controls">
 				<select id="skin" name="skin">
 					<option loop="$skin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->skin==$key">{$val->title} ({$key})</option>
-				</select>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label" for="mlayout">{$lang->mobile_layout}</label>
-			<div class="x_controls">
-				<select id="mlayout" name="mlayout_srl">
-					<option value="0">{$lang->notuse}</option>
-					<option loop="$mlayout_list => $key,$val" value="{$val->layout_srl}" selected="selected"|cond="$val->layout_srl == $config->mlayout_srl">{$val->title} ({$val->layout})</option>
 				</select>
 			</div>
 		</div>
