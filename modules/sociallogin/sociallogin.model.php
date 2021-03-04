@@ -304,7 +304,7 @@ class SocialloginModel extends Sociallogin
 	 */
 	public static function getSocialSignUpUserData()
 	{
-		if($_SESSION['tmp_sociallogin_input_add_info'])
+		if(isset($_SESSION['tmp_sociallogin_input_add_info']))
 		{
 			$return_object = new stdClass();
 			$return_object->nick_name = $_SESSION['tmp_sociallogin_input_add_info']['nick_name'];

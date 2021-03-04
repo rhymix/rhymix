@@ -403,14 +403,14 @@ class SocialloginController extends Sociallogin
 		$oMemberController = getController('member');
 		$oSocialData = SocialloginModel::getSocialSignUpUserData();
 		
-		if($_SESSION['tmp_sociallogin_input_add_info']['profile_dir'])
+		if(isset($_SESSION['tmp_sociallogin_input_add_info']['profile_dir']))
 		{
 			$oMemberController->insertProfileImage($obj->member_srl, $_SESSION['tmp_sociallogin_input_add_info']['profile_dir']);
 
 			FileHandler::removeFile($_SESSION['tmp_sociallogin_input_add_info']['profile_dir']);
 		}
 
-		if($oSocialData && $_SESSION['sociallogin_access_data'])
+		if($oSocialData && isset($_SESSION['sociallogin_access_data']))
 		{
 			$this->insertMemberSns($obj->member_srl, $_SESSION['sociallogin_access_data']);
 		}
