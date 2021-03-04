@@ -36,7 +36,7 @@
 .sociallogin_google .loginBtn {display:inline-block;background: #ffffff; font-family: 'Roboto-Medium'; color:#333333; width: 200px; border-radius:5px;text-align:left;}
 .sociallogin_google a.loginBtn {text-decoration:none;}
 .sociallogin_google span.label {font-weight:bold;}
-.sociallogin_google span.icon {background: url('../img/btn_google.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_google span.icon {background: url('../img/btn_google.png') transparent 10px 50% no-repeat; background-size: 32px 32px;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
 .sociallogin_google span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px; font-size: 14px;}
 
 .sociallogin_naver .loginBtn {display:inline-block;background: #1ec800;color: white; width: 200px; border-radius:5px;text-align:left;}
