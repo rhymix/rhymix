@@ -102,19 +102,19 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 				}
 			}
 		}
-		
-		if(!$profileValue['email_address'])
+
+		if (!$profileValue['email_address'])
 		{
 			return new \BaseObject(-1, 'msg_not_confirm_email_sns_for_sns');
 		}
-		
+
 		// ID, 이름, 프로필 이미지, 프로필 URL
 		$profileValue['sns_id'] = $profileArgs['metadata']['source']['id'];
 		$profileValue['user_name'] = $profile['names'][0]['displayName'];
 		$profileValue['etc'] = $profile;
 
 		\SocialloginController::getInstance()->setDriverAuthData('google', 'profile', $profileValue);
-		
+
 		return new \BaseObject();
 	}
 
@@ -130,7 +130,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			return;
 		}
 
-		if(isset($token))
+		if (isset($token))
 		{
 			// API 요청 : 토큰 파기
 			$this->requestAPI('revoke', array(
@@ -147,7 +147,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 토큰 체크
 		if (!$refresh_token)
 		{
-			return[];
+			return [];
 		}
 
 		// API 요청 : 토큰 새로고침
@@ -161,7 +161,7 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		// 새로고침 된 토큰 삽입
 		$returnTokenData = [];
 		$returnTokenData['access'] = $token['access_token'];
-		
+
 		return $returnTokenData;
 	}
 
@@ -239,10 +239,10 @@ class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 	 */
 	function requestAPI($url, $post = array(), $authorization = null, $delete = null)
 	{
+		// 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청
 		return json_decode(\FileHandler::getRemoteResource(in_array($url, array(
 			'token',
 			'revoke'
-		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', // 콘텐츠 타입이 설정되어 있을 경우 정상적으로 api통신이 되지 않아 null 로 요청
-			null, array(), array(), $post, array('ssl_verify_peer' => false)), true);
+		)) ? self::GOOGLE_OAUTH2_URI . $url : $url, null, 3, empty($post) ? 'GET' : 'POST', null, array(), array(), $post, array('ssl_verify_peer' => false)), true);
 	}
 }
