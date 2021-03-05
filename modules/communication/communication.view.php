@@ -272,6 +272,10 @@ class communicationView extends communication
 		$option->editor_skin = $this->config->editor_skin;
 		$option->sel_editor_colorset = $this->config->editor_colorset;
 		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
+		if(Context::get('m'))
+		{
+			$option->editor_toolbar_hide = 'Y';
+		}
 		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
 		Context::set('editor', $editor);
