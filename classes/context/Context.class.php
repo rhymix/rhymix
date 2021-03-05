@@ -2698,7 +2698,7 @@ class Context
 	 */
 	public static function addMetaImage($filename, $width = 0, $height = 0)
 	{
-		$filename = preg_replace('/^[.\\\\\\/]+/', '', $filename);
+		$filename = preg_replace(['/^[.\\\\\\/]+/', '/\\?[0-9]+$/'], ['', ''], $filename);
 		if (!file_exists(\RX_BASEDIR . $filename))
 		{
 			return;
