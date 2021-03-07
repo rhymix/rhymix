@@ -362,8 +362,11 @@ class Context
 		
 		// start session
 		$relax_key_checks = ((self::$_get_vars->act ?? null) === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT'] ?? ''));
-		Rhymix\Framework\Session::checkSSO($site_module_info);
-		Rhymix\Framework\Session::start(false, $relax_key_checks);
+		if (\PHP_SAPI !== 'cli')
+		{
+			Rhymix\Framework\Session::checkSSO($site_module_info);
+			Rhymix\Framework\Session::start(false, $relax_key_checks);
+		}
 
 		// start debugging
 		Rhymix\Framework\Debug::isEnabledForCurrentUser();
