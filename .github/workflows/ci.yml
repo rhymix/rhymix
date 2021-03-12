@@ -2,7 +2,7 @@ name: PHP Lint & Codeception
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     strategy:
       fail-fast: false
       matrix:
@@ -22,7 +22,7 @@ jobs:
     - name: Create MySQL database and user
       run: |
         sudo mysql -uroot -proot -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
-        sudo mysql -uroot -proot -e "CREATE USER 'travis'@'localhost' IDENTIFIED WITH mysql_native_password BY 'travis'"
+        sudo mysql -uroot -proot -e "CREATE USER travis@localhost IDENTIFIED WITH mysql_native_password BY 'travis'"
         sudo mysql -uroot -proot -e "GRANT ALL PRIVILEGES ON rhymix.* TO travis@localhost; FLUSH PRIVILEGES"
 
     - name: PHP Lint
