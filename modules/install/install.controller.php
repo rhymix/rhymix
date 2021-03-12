@@ -33,7 +33,7 @@ class installController extends install
 		$config = Context::gets('db_type', 'db_host', 'db_port', 'db_user', 'db_pass', 'db_database', 'db_prefix');
 		
 		// Disallow installation using the root account.
-		if (trim($config->db_user) === 'root')
+		if (trim($config->db_user) === 'root' && !preg_match('/Development Server$/', $_SERVER['SERVER_SOFTWARE']))
 		{
 			return new BaseObject(-1, 'msg_dbroot_disallowed');
 		}
