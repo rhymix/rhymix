@@ -12,4 +12,5 @@
 	<column name="refresh_token" type="text" />
 	<column name="linkage" type="char" size="1" notnull="notnull" index="idx_linkage" />
 	<column name="regdate" type="date" index="idx_regdate" />
+	<index name="idx_member_srl_service" columns="member_srl,service" type="unique" />
 </table>

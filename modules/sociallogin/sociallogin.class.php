@@ -42,11 +42,10 @@ class Sociallogin extends ModuleObject
 			}
 		}
 
-		if (!$oDB->isColumnExists('sociallogin', 'socialnumber'))
+		if (!$oDB->isIndexExists('sociallogin', 'idx_member_srl_service'))
 		{
 			return true;
 		}
-
 		return false;
 	}
 
@@ -67,6 +66,11 @@ class Sociallogin extends ModuleObject
 			{
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
+		}
+
+		if (!$oDB->isIndexExists('sociallogin', 'idx_member_srl_service'))
+		{
+			$oDB->addIndex('sociallogin', 'idx_member_srl_service', array('member_srl', 'service'), 'UNIQUE');
 		}
 		
 		return new BaseObject(0, 'success_updated');
