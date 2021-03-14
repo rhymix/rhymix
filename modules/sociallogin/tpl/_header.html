@@ -9,8 +9,9 @@
 	<li class="x_active"|cond="$act=='dispSocialloginAdminSetting'"><a href="{getUrl('','module','admin','act','dispSocialloginAdminSetting')}">{$lang->cmd_environment_setting}</a></li>
 	<li class="x_active"|cond="$act=='dispSocialloginAdminLogRecord'"><a href="{getUrl('','module','admin','act','dispSocialloginAdminLogRecord')}">{$lang->cmd_log_record}</a></li>
 	<li class="x_active"|cond="$act=='dispSocialloginAdminSnsList'"><a href="{getUrl('','module','admin','act','dispSocialloginAdminSnsList')}">{$lang->sns_list}</a></li>
+	<li class="x_active"|cond="$act=='dispSocialloginAdminMigration'"><a href="{getUrl('','module','admin','act','dispSocialloginAdminMigration')}">{$lang->cmd_social_migration}</a></li>
 </ul>	
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/sociallogin/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>

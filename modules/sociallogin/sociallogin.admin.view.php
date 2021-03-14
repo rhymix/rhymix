@@ -111,4 +111,13 @@ class SocialloginAdminView extends Sociallogin
 
 		$this->setTemplateFile('sns_list');
 	}
+	
+	function dispSocialloginAdminMigration()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+
+		Context::set('exists_sociallogin', $oDB->isTableExists('sociallogin'));
+		Context::set('exists_socialxe', $oDB->isTableExists('socialxe'));
+		$this->setTemplateFile('migration');
+	}
 }

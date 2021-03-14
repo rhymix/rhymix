@@ -13,10 +13,12 @@
 		<action name="dispSocialloginAdminSetting" type="view" menu_name="sociallogin"/>
 		<action name="dispSocialloginAdminLogRecord" type="view" menu_name="sociallogin"/>
 		<action name="dispSocialloginAdminSnsList" type="view" admin_index="true" menu_name="sociallogin" menu_index="true"/>
+		<action name="dispSocialloginAdminMigration" type="view" menu_index="sociallogin" />
 
 		<action name="procSocialloginAdminSettingApi" type="controller"/>
 		<action name="procSocialloginAdminSetting" type="controller"/>
 		<action name="procSocialloginAdminDeleteLogRecord" type="controller"/>
+		<action name="procSocialloginAdminMigration" type="controller" />
 	</actions>
 	<menus>
 		<menu name="sociallogin">

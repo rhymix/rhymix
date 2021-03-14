@@ -148,4 +148,25 @@ class SocialloginAdminController extends Sociallogin
 
 		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSocialloginAdminLogRecord'));
 	}
+	
+	function procSocialloginAdminMigration()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+
+		if(!$oDB->isTableExists('sociallogin'))
+		{
+			throw new \Rhymix\Framework\Exception('msg_not_exists_table_sociallogin');
+		}
+
+		if(!$oDB->isTableExists('socialxe'))
+		{
+			throw new \Rhymix\Framework\Exception('msg_not_exists_table_socialxe');
+		}
+
+		$source = 'INSERT INTO sociallogin (`member_srl`, `service`, `id`, `name`, `email`,`profile_image`, `profile_url`, `profile_info`, `access_token`, `refresh_token`, `linkage`, `regdate`) SELECT `member_srl`, `service`, `id`, `name`, `email`,`profile_image`, `profile_url`, `profile_info`, `access_token`, `refresh_token`, `linkage`, `regdate` FROM socialxe';
+		$oDB->query($source);
+		
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSocialloginAdminMigration'));
+	}
 }
