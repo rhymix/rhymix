@@ -31,7 +31,6 @@ class Sociallogin extends ModuleObject
 
 	function checkUpdate()
 	{
-		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 
 		foreach ($this->triggers as $trigger)
@@ -42,23 +41,13 @@ class Sociallogin extends ModuleObject
 			}
 		}
 
-		if (!$oDB->isIndexExists('sociallogin', 'idx_member_srl_service'))
-		{
-			return true;
-		}
 		return false;
 	}
 
 	function moduleUpdate()
 	{
-		$oDB = DB::getInstance();
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-
-		if (!$oDB->isColumnExists('sociallogin', 'socialnumber'))
-		{
-			$oDB->addColumn('sociallogin', 'socialnumber', 'number', 11, null, false);
-		}
 
 		foreach ($this->triggers as $trigger)
 		{
@@ -68,11 +57,6 @@ class Sociallogin extends ModuleObject
 			}
 		}
 
-		if (!$oDB->isIndexExists('sociallogin', 'idx_member_srl_service'))
-		{
-			$oDB->addIndex('sociallogin', 'idx_member_srl_service', array('member_srl', 'service'), 'UNIQUE');
-		}
-		
 		return new BaseObject(0, 'success_updated');
 	}
 
