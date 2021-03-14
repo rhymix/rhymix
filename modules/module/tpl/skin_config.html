@@ -56,7 +56,7 @@
 		</div>
 	</section>
 
-	<!--@if(count($skin_info->extra_vars) > 0)-->
+	<!--@if(isset($skin_info->extra_vars) && is_array($skin_info->extra_vars) && count($skin_info->extra_vars))-->
 	<section class="section">
 		<h1>{$lang->extra_vars}</h1>
 		<div class="x_control-group" cond="$skin_info->colorset">

@@ -94,33 +94,20 @@ spl_autoload_register(function($class_name)
 {
 	$filename = false;
 	$lc_class_name = str_replace('\\', '/', strtolower($class_name));
-	switch (substr($lc_class_name, 0, 10))
+	if (preg_match('!^rhymix/(framework|addons|modules|plugins)/(.+)$!', $lc_class_name, $matches))
 	{
-		// Rhymix Framework classes.
-		case 'rhymix/fra':
-			$filename = RX_BASEDIR . 'common/framework/' . substr($lc_class_name, 17) . '.php';
-			break;
-		// Rhymix Plugin classes.
-		case 'rhymix/plu':
-			$filename = RX_BASEDIR . 'plugins/' . substr($lc_class_name, 15) . '.php';
-			break;
-		// Rhymix Module classes.
-		case 'rhymix/mod':
-			$filename = RX_BASEDIR . 'modules/' . substr($lc_class_name, 15) . '.php';
-			break;
-		// XE compatible classes.
-		default:
-			if (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
-			{
-				$filename = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
-			}
-			elseif (preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Item|Api|Wap|Mobile)?$/', $class_name, $matches))
-			{
-				$filename = RX_BASEDIR . 'modules/' . strtolower($matches[1] . '/' . $matches[1]);
-				if (isset($matches[2]) && $matches[2]) $filename .= '.admin';
-				$filename .= (isset($matches[3]) && $matches[3]) ? ('.' . strtolower($matches[3])) : '.class';
-				$filename .= '.php';
-			}
+		$filename = RX_BASEDIR . ($matches[1] === 'framework' ? 'common/framework' : $matches[1]) . '/' . $matches[2] . '.php';
+	}
+	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
+	{
+		$filename = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
+	}
+	elseif (preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Item|Api|Wap|Mobile)?$/', $class_name, $matches))
+	{
+		$filename = RX_BASEDIR . 'modules/' . strtolower($matches[1] . '/' . $matches[1]);
+		if (isset($matches[2]) && $matches[2]) $filename .= '.admin';
+		$filename .= (isset($matches[3]) && $matches[3]) ? ('.' . strtolower($matches[3])) : '.class';
+		$filename .= '.php';
 	}
 	if ($filename && file_exists($filename))
 	{

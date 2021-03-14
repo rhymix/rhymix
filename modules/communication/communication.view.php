@@ -272,6 +272,10 @@ class communicationView extends communication
 		$option->editor_skin = $this->config->editor_skin;
 		$option->sel_editor_colorset = $this->config->editor_colorset;
 		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
+		if(Context::get('m'))
+		{
+			$option->editor_toolbar_hide = 'Y';
+		}
 		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
 		Context::set('editor', $editor);
@@ -306,9 +310,7 @@ class communicationView extends communication
 		$columnList = array('friend_srl', 'friend_group_srl', 'target_srl', 'member.nick_name', 'friend.regdate');
 
 		$output = $oCommunicationModel->getFriends($friend_group_srl, $columnList);
-		$friend_count = count($output->data);
-
-		if($friend_count)
+		if($output->data)
 		{
 			foreach($output->data as $key => $val)
 			{
@@ -320,6 +322,10 @@ class communicationView extends communication
 				}
 				$output->data[$key]->group_title = $group_title;
 			}
+		}
+		else
+		{
+			$output->data = [];
 		}
 
 		// set a template file

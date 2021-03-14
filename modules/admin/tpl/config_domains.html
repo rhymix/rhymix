@@ -34,7 +34,7 @@
 				<td class="nowr rx_detail_marks">{preg_replace('/\\(.+$/', '', $lang->ssl_options[$domain->security ?: 'none'])}</td>
 				<td class="nowr rx_detail_marks">
 					<a href="{getSiteUrl($domain->domain, '', 'mid', $module_list[$domain->index_module_srl]->mid)}" cond="$domain->index_module_srl && $module_list[$domain->index_module_srl]" target="_blank">
-						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''}
+						{($domain->index_module_srl && $module_list[$domain->index_module_srl]) ? $module_list[$domain->index_module_srl]->browser_title : ''|noescape}
 					</a>
 				</td>
 				<td class="nowr rx_detail_marks">

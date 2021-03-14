@@ -6,11 +6,12 @@
 	<columns>
 		<column name="domains.*" />
 		<column name="modules.*" />
+		<column name="domains.domain_srl" alias="domain_srl" />
 	</columns>
-    <conditions>
+	<conditions>
 		<condition operation="equal" column="modules.module_srl" default="domains.index_module_srl" notnull="notnull" />
-		<condition operation="equal" column="domain_srl" var="domain_srl" pipe="and" />
-        <condition operation="equal" column="domain" var="domain" pipe="and" />
-		<condition operation="equal" column="is_default_domain" var="is_default_domain" pipe="and" />
+		<condition operation="equal" column="domains.domain_srl" var="domain_srl" pipe="and" />
+		<condition operation="equal" column="domains.domain" var="domain" pipe="and" />
+		<condition operation="equal" column="domains.is_default_domain" var="is_default_domain" pipe="and" />
 	</conditions>
 </query>

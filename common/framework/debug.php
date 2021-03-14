@@ -745,12 +745,14 @@ class Debug
 			
 			case 'admin':
 			default:
-				$logged_info = \Context::get('logged_info');
-				if ($logged_info && $logged_info->is_admin === 'Y')
+				if ($logged_info = \Context::get('logged_info'))
 				{
-					return self::$_enabled = true;
+					return self::$_enabled = $logged_info->isAdmin();
 				}
-				return self::$_enabled = false;
+				else
+				{
+					return true;
+				}
 		}
 	}
 	
@@ -774,6 +776,7 @@ class Debug
 				'method' => \Context::getResponseMethod(),
 				'size' => \DisplayHandler::$response_size,
 			),
+			'memory' => memory_get_peak_usage(),
 			'timing' => (object)array(
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
 				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),

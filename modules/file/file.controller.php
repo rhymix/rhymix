@@ -1227,7 +1227,7 @@ class fileController extends file
 			$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
 			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
 			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
-			$command .= ' -nostdin -i ' . escapeshellarg($thumbnail_name);
+			$command .= ' -nostdin ' . escapeshellarg($thumbnail_name);
 			@exec($command, $output, $return_var);
 			if ($return_var === 0)
 			{

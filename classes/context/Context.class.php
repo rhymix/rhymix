@@ -356,15 +356,21 @@ class Context
 			$oSessionController = SessionController::getInstance();
 			ini_set('session.serialize_handler', 'php');
 			session_set_save_handler(
-					array(&$oSessionController, 'open'), array(&$oSessionController, 'close'), array(&$oSessionModel, 'read'), array(&$oSessionController, 'write'), array(&$oSessionController, 'destroy'), array(&$oSessionController, 'gc')
+					array($oSessionController, 'open'), array($oSessionController, 'close'), array($oSessionModel, 'read'), array($oSessionController, 'write'), array($oSessionController, 'destroy'), array($oSessionController, 'gc')
 			);
 		}
 		
 		// start session
 		$relax_key_checks = ((self::$_get_vars->act ?? null) === 'procFileUpload' && preg_match('/shockwave\s?flash/i', $_SERVER['HTTP_USER_AGENT'] ?? ''));
-		Rhymix\Framework\Session::checkSSO($site_module_info);
-		Rhymix\Framework\Session::start(false, $relax_key_checks);
+		if (\PHP_SAPI !== 'cli')
+		{
+			Rhymix\Framework\Session::checkSSO($site_module_info);
+			Rhymix\Framework\Session::start(false, $relax_key_checks);
+		}
 
+		// start debugging
+		Rhymix\Framework\Debug::isEnabledForCurrentUser();
+		
 		// start output buffer
 		if (\PHP_SAPI !== 'cli')
 		{
@@ -891,7 +897,7 @@ class Context
 			$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . self::getLangType());
 			if($lang === null)
 			{
-				ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
+				$lang = ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
 			}
 		}
 		
@@ -2695,7 +2701,7 @@ class Context
 	 */
 	public static function addMetaImage($filename, $width = 0, $height = 0)
 	{
-		$filename = preg_replace('/^[.\\\\\\/]+/', '', $filename);
+		$filename = preg_replace(['/^[.\\\\\\/]+/', '/\\?[0-9]+$/'], ['', ''], $filename);
 		if (!file_exists(\RX_BASEDIR . $filename))
 		{
 			return;
@@ -2761,6 +2767,7 @@ class Context
 	public static function setCanonicalURL($url)
 	{
 		self::$_instance->canonical_url = escape($url, false);
+		self::addOpenGraphData('og:url', self::$_instance->canonical_url);
 	}
 	
 	/**

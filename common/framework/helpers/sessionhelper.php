@@ -27,8 +27,7 @@ class SessionHelper
 		$member_srl = intval($member_srl);
 		if ($member_srl)
 		{
-			$oMemberModel = \MemberModel::getInstance();
-			$member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+			$member_info = \MemberModel::getMemberInfo($member_srl);
 			if (isset($member_info->member_srl) && intval($member_info->member_srl) === $member_srl)
 			{
 				foreach (get_object_vars($member_info) as $key => $value)
@@ -36,7 +35,7 @@ class SessionHelper
 					$this->{$key} = $value;
 				}
 				$this->member_srl = $member_srl;
-				$this->group_list = $oMemberModel->getMemberGroups($member_srl);
+				$this->group_list = \MemberModel::getMemberGroups($member_srl);
 			}
 		}
 	}
@@ -69,7 +68,7 @@ class SessionHelper
 	 */
 	public function isModuleAdmin($module_srl = null)
 	{
-		return $this->is_admin === 'Y' || \ModuleModel::getInstance()->isModuleAdmin($this, $module_srl);
+		return $this->is_admin === 'Y' || \ModuleModel::isModuleAdmin($this, $module_srl);
 	}
 	
 	/**

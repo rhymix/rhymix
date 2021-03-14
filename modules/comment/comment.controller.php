@@ -1266,17 +1266,21 @@ class commentController extends comment
 
 		if($updateComment !== true)
 		{
-			$output = executeQuery('comment.deleteComment', $trash_args);
+			$args = new stdClass;
+			$args->comment_srl = $obj->comment_srl;
+			$output = executeQuery('comment.deleteComment', $args);
+			if(!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+			$output = executeQuery('comment.deleteCommentList', $args);
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
 				return $output;
 			}
 		}
-
-		$args = new stdClass();
-		$args->comment_srl = $obj->comment_srl;
-		$output = executeQuery('comment.deleteCommentList', $args);
 
 		// update the number of comments
 		$comment_count = CommentModel::getCommentCount($obj->document_srl);
@@ -1591,7 +1595,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
 
 		// failed if both ip addresses between author's and the current user are same.
-		if($oComment->get('ipaddress') == \RX_CLIENT_IP)
+		if($oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
 			$_SESSION['declared_comment'][$comment_srl] = TRUE;
 			return new BaseObject(-1, 'failed_declared');
@@ -1691,7 +1695,7 @@ class commentController extends comment
 			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oComment->getPermanentUrl(), $oComment->getContentText(50), $declare_message);
 			foreach ($message_targets as $target_member_srl => $val)
 			{
-				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false);
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false, null, false);
 			}
 		}
 

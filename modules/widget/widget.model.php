@@ -318,7 +318,8 @@ class widgetModel extends widget
 		$buff[] = sprintf('$widgetStyle_info->license_link = %s;', var_export($xml_obj->license->attrs->link, true));
 
 		// preview
-		if(!$xml_obj->preview->body) $xml_obj->preview->body = 'preview.jpg';
+		if(!isset($xml_obj->preview)) $xml_obj->preview = new stdClass;
+		if(!isset($xml_obj->preview->body) || !$xml_obj->preview->body) $xml_obj->preview->body = 'preview.jpg';
 		$preview_file = sprintf("%s%s", $widgetStyle_path,$xml_obj->preview->body);
 		if(file_exists($preview_file)) $buff[] = sprintf('$widgetStyle_info->preview = %s;', var_export($preview_file, true));
 

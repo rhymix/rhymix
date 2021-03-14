@@ -63,6 +63,18 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('SELECT COUNT(*) AS `count` FROM (SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
 			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?)) AS `subquery`', $sql);
 		$this->assertEquals(['1234', '20200707120000', 'PUBLIC'], $params);
+		
+		unset($args['page']);
+		$sql = $query->getQueryString('rx_', $args);
+		$this->assertEquals('SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
+			'ORDER BY `list_order` ASC LIMIT 20', $sql);
+	
+		$args['list_count'] = 0;
+		$sql = $query->getQueryString('rx_', $args);
+		$this->assertEquals('SELECT DISTINCT * FROM `rx_documents` AS `documents` ' .
+			'WHERE `member_srl` IN (?) AND (`regdate` >= ? OR `status` = ?) ' .
+			'ORDER BY `list_order` ASC', $sql);
 	}
 	
 	public function testSelectWithExpressions()
@@ -137,7 +149,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->columns[1]->is_expression);
 		$this->assertFalse($query->columns[1]->is_wildcard);
 		
-		$this->assertEquals(3, count($query->conditions));
+		$this->assertEquals(4, count($query->conditions));
 		$this->assertEquals('documents.member_srl', $query->conditions[0]->column);
 		$this->assertEquals('member.member_srl', $query->conditions[0]->default);
 		$this->assertNull($query->conditions[0]->var);
@@ -153,7 +165,10 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('member.member_srl', $query->groupby->having[0]->column);
 		$this->assertEquals('notequal', $query->groupby->having[0]->operation);
 		
-		$args = array('document_srl_list' => [12, 34, 56], 'exclude_member_srl' => 4);
+		$args = array(
+			'document_srl_list' => [12, 34, 56], 'exclude_member_srl' => 4,
+			'if_table' => true, 'if_column' => true, 'if_condition1' => true, 'if_groupby' => true,
+		);
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
@@ -161,6 +176,28 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'WHERE `documents`.`member_srl` = `member`.`member_srl` AND `documents`.`member_srl` = `member`.`member_srl` ' .
 			'AND `documents`.`document_srl` IN (?, ?, ?) GROUP BY `member`.`member_srl` HAVING `member`.`member_srl` != ?', $sql);
 		$this->assertEquals(['12', '34', '56', '4'], $params);
+		
+		$args = array(
+			'document_srl_list' => [12, 34, 56], 'exclude_member_srl' => 4, 'exclude_document_srl_list' => '78,90',
+			'if_table' => true, 'if_column' => true, 'if_condition2' => true,
+		);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT `member`.`member_srl`, COUNT(*) AS `count` FROM `rx_documents` AS `documents`, `rx_member` AS `member` ' .
+			'WHERE `documents`.`member_srl` = `member`.`member_srl` AND `documents`.`document_srl` IN (?, ?, ?) ' .
+			'AND `documents`.`document_srl` NOT IN (?, ?)', $sql);
+		$this->assertEquals(['12', '34', '56', '78', '90'], $params);
+		
+		$args = array(
+			'document_srl_list' => [12, 34, 56], 'exclude_member_srl' => 4,
+		);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('SELECT `member`.`member_srl` FROM `rx_documents` AS `documents` ' .
+			'WHERE `documents`.`member_srl` = `member`.`member_srl` AND `documents`.`document_srl` IN (?, ?, ?)', $sql);
+		$this->assertEquals(['12', '34', '56'], $params);
 	}
 	
 	public function testJoin2()

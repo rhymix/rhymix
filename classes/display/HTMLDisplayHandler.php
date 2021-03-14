@@ -239,9 +239,9 @@ class HTMLDisplayHandler
 		// prevent the 2nd request due to url(none) of the background-image
 		$output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
 		
-		if(is_array(Context::get('INPUT_ERROR')))
+		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		if(is_array($INPUT_ERROR) && count($INPUT_ERROR))
 		{
-			$INPUT_ERROR = Context::get('INPUT_ERROR');
 			$keys = array_map(function($str) { return preg_quote($str, '@'); }, array_keys($INPUT_ERROR));
 			$keys = '(' . implode('|', $keys) . ')';
 
@@ -288,6 +288,10 @@ class HTMLDisplayHandler
 	function _preserveValue($match)
 	{
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
+		if (!is_scalar($INPUT_ERROR[$match[3]]))
+		{
+			return $match[0];
+		}
 
 		$str = $match[1] . $match[2] . ' name="' . $match[3] . '"' . $match[4];
 
@@ -453,40 +457,56 @@ class HTMLDisplayHandler
 			}
 		}
 		
+		// Get existing metadata.
+		$og_data = array();
+		foreach (Context::getOpenGraphData() as $val)
+		{
+			$og_data[$val['property']] = $val['content'];
+		}
+		
 		// Add basic metadata.
 		Context::addOpenGraphData('og:title', $permitted ? Context::getBrowserTitle() : lang('msg_not_permitted'));
 		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
-		if ($page_type === 'article' && $permitted && config('seo.og_extract_description'))
+		if (!isset($og_data['og:description']) || !Context::getMetaTag('description'))
 		{
-			$description = trim(utf8_normalize_spaces($oDocument->getContentText(200)));
+			if ($page_type === 'article' && $permitted && config('seo.og_extract_description'))
+			{
+				$description = trim(utf8_normalize_spaces($oDocument->getContentText(200)));
+			}
+			else
+			{
+				$description = Context::getMetaTag('description');
+			}
+			Context::addOpenGraphData('og:description', $description);
+			Context::addMetaTag('description', $description);
 		}
-		else
-		{
-			$description = Context::getMetaTag('description');
-		}
-		Context::addOpenGraphData('og:description', $description);
-		Context::addMetaTag('description', $description);
 		
 		// Add metadata about this page.
-		Context::addOpenGraphData('og:type', $page_type);
-		if ($page_type === 'article')
+		if (!isset($og_data['og:type']))
 		{
-			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
+			Context::addOpenGraphData('og:type', $page_type);
 		}
-		elseif (($page = Context::get('page')) > 1)
+		if (!isset($og_data['og:url']) || !Context::getCanonicalURL())
 		{
-			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
+			if ($page_type === 'article')
+			{
+				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
+			}
+			elseif (($page = Context::get('page')) > 1)
+			{
+				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
+			}
+			elseif ($current_module_info->module_srl == $site_module_info->module_srl)
+			{
+				$canonical_url = getFullUrl('');
+			}
+			else
+			{
+				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid);
+			}
+			Context::addOpenGraphData('og:url', $canonical_url);
+			Context::setCanonicalURL($canonical_url);
 		}
-		elseif ($current_module_info->module_srl == $site_module_info->module_srl)
-		{
-			$canonical_url = getFullUrl('');
-		}
-		else
-		{
-			$canonical_url = getFullUrl('', 'mid', $current_module_info->mid);
-		}
-		Context::addOpenGraphData('og:url', $canonical_url);
-		Context::setCanonicalURL($canonical_url);
 		
 		// Add metadata about the locale.
 		$lang_type = Context::getLangType();

@@ -138,6 +138,17 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = 'invalid value';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
 		
+		$_SERVER['HTTP_ORIGIN'] = 'http://www.rhymix.org';
+		$_SERVER['HTTP_REFERER'] = 'http://www.foobar.com';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+		$_SERVER['HTTP_REFERER'] = '';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+		$_SERVER['HTTP_ORIGIN'] = 'http://www.foobar.com';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+		$_SERVER['HTTP_ORIGIN'] = 'null';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+		
 		$_SERVER['HTTP_REFERER'] = '';
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF('http://www.rhymix.org/'));

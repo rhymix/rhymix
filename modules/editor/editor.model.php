@@ -518,7 +518,7 @@ class editorModel extends editor
 			return new BaseObject(-1, 'msg_component_is_not_founded', $component);
 		}
 
-		if(!self::$_loaded_component_list[$component][$editor_sequence])
+		if(!isset(self::$_loaded_component_list[$component][$editor_sequence]))
 		{
 			// Create an object of the component and execute
 			$class_path = sprintf('./modules/editor/components/%s/', $component);

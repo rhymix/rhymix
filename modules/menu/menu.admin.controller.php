@@ -1841,7 +1841,7 @@ class menuAdminController extends menu
 		// Get a list of menu items corresponding to menu_srl by listorder
 		$args->menu_srl = $menu_srl;
 		$args->sort_index = 'listorder';
-		$output = executeQuery('menu.getMenuItems', $args);
+		$output = executeQueryArray('menu.getMenuItems', $args);
 		if(!$output->toBool()) return $output;
 		// If no data found, generate an XML file without node data
 		$list = $output->data;
@@ -1851,8 +1851,6 @@ class menuAdminController extends menu
 			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
 			return $xml_file;
 		}
-		// Change to an array if only a single data is obtained
-		if(!is_array($list)) $list = array($list);
 		// Create a tree for loop
 		foreach ($list as $node)
 		{

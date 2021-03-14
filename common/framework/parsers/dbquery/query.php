@@ -131,7 +131,11 @@ class Query extends VariableBase
 			$columns = array();
 			foreach ($this->columns as $column)
 			{
-				if ($column instanceof self)
+				if ($column->ifvar && !isset($this->_args[$column->ifvar]))
+				{
+					continue;
+				}
+				elseif ($column instanceof self)
 				{
 					$has_subquery_columns = true;
 					$subquery_count_only = $count_only ? $count_only + 1 : 0;
@@ -206,7 +210,7 @@ class Query extends VariableBase
 		}
 		
 		// Compose the GROUP BY clause.
-		if ($this->groupby && count($this->groupby->columns))
+		if ($this->groupby && count($this->groupby->columns) && (!$this->groupby->ifvar || isset($this->_args[$this->groupby->ifvar])))
 		{
 			$columns = array();
 			foreach ($this->groupby->columns as $column_name)
@@ -222,7 +226,7 @@ class Query extends VariableBase
 			}
 			$result .= ' GROUP BY ' . implode(', ', $columns);
 		}
-		if ($this->groupby && count($this->groupby->having))
+		if ($this->groupby && count($this->groupby->having) && (!$this->groupby->ifvar || isset($this->_args[$this->groupby->ifvar])))
 		{
 			$having = $this->_arrangeConditions($this->groupby->having);
 			if ($having !== '')
@@ -240,7 +244,11 @@ class Query extends VariableBase
 		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count && !$count_only)
 		{
-			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
+			$limit_offset = $this->_arrangeLimitOffset($this->navigation);
+			if ($limit_offset !== '')
+			{
+				$result .= ' LIMIT ' . $limit_offset;
+			}
 		}
 		
 		// Wrap in a subquery if necesary.
@@ -277,6 +285,11 @@ class Query extends VariableBase
 		$columns = array();
 		foreach ($this->columns as $column)
 		{
+			if ($column->ifvar && !isset($this->_args[$column->ifvar]))
+			{
+				continue;
+			}
+			
 			$setval_string = $this->_parseCondition($column);
 			if ($setval_string !== '')
 			{
@@ -324,6 +337,11 @@ class Query extends VariableBase
 		$columns = array();
 		foreach ($this->columns as $column)
 		{
+			if ($column->ifvar && !isset($this->_args[$column->ifvar]))
+			{
+				continue;
+			}
+			
 			$setval_string = $this->_parseCondition($column);
 			if ($setval_string !== '')
 			{
@@ -385,7 +403,11 @@ class Query extends VariableBase
 		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count)
 		{
-			$result .= ' LIMIT ' . $this->_arrangeLimitOffset($this->navigation);
+			$limit_offset = $this->_arrangeLimitOffset($this->navigation);
+			if ($limit_offset !== '')
+			{
+				$result .= ' LIMIT ' . $limit_offset;
+			}
 		}
 		
 		// Return the final query string.
@@ -407,6 +429,12 @@ class Query extends VariableBase
 		// Process each table definition.
 		foreach ($tables as $table)
 		{
+			// Skip
+			if ($table->ifvar && !isset($this->_args[$table->ifvar]))
+			{
+				continue;
+			}
+			
 			// Subquery
 			if ($table instanceof self)
 			{
@@ -465,6 +493,12 @@ class Query extends VariableBase
 		// Group each index hint by type.
 		foreach ($index_hints as $index_hint)
 		{
+			// Skip
+			if ($index_hint->ifvar && !isset($this->_args[$index_hint->ifvar]))
+			{
+				continue;
+			}
+			
 			if (!count($index_hint->target_db) || isset($index_hint->target_db['mysql']))
 			{
 				$key = $index_hint->hint_type ?: 'USE';
@@ -506,6 +540,12 @@ class Query extends VariableBase
 		// Process each condition.
 		foreach ($conditions as $condition)
 		{
+			// Skip
+			if ($condition->ifvar && !isset($this->_args[$condition->ifvar]))
+			{
+				continue;
+			}
+			
 			// Subquery
 			if ($condition instanceof self)
 			{

@@ -1,18 +1,19 @@
 <query id="selectJoinTest1" action="select">
 	<tables>
 		<table name="documents" />
-		<table name="member" />
+		<table name="member" if="if_table" />
 	</tables>
 	<columns>
 		<column name="member.member_srl" />
-		<column name="COUNT(*)" alias="count" />
+		<column name="COUNT(*)" alias="count" if="if_column" />
 	</columns>
 	<conditions>
 		<condition operation="equal" column="documents.member_srl" var="member.member_srl" />
-		<condition operation="equal" column="documents.member_srl" default="member.member_srl" />
-		<condition operation="in" column="documents.document_srl" var="document_srl_list" pipe="and" />
+		<condition operation="equal" column="documents.member_srl" default="member.member_srl" if="if_condition1" />
+		<condition operation="in" column="documents.document_srl" var="document_srl_list" />
+		<condition operation="notin" column="documents.document_srl" var="exclude_document_srl_list" if="if_condition2" />
 	</conditions>
-	<groups>
+	<groups if="if_groupby">
 		<group column="member.member_srl" />
 		<having>
 			<condition operation="notequal" column="member.member_srl" var="exclude_member_srl" notnull="notnull" />
