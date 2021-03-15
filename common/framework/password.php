@@ -229,7 +229,8 @@ class Password
 						$iterations = intval($parts[1], 10);
 						$key_length = strlen(base64_decode($parts[3]));
 					}
-					return self::pbkdf2($hashchain, $salt, $hash_algorithm, $iterations, $key_length);
+					$iterations_padding = ($salt === null || !isset($parts[1])) ? 7 : strlen($parts[1]);
+					return self::pbkdf2($hashchain, $salt, $hash_algorithm, $iterations, $key_length, $iterations_padding);
 				
 				// phpass portable algorithm (must be used last)
 				case 'portable':
@@ -407,9 +408,10 @@ class Password
 	 * @param string $algorithm (optional)
 	 * @param int $iterations (optional)
 	 * @param int $length (optional)
+	 * @param int $iterations_padding (optional)
 	 * @return string
 	 */
-	public static function pbkdf2($password, $salt = null, $algorithm = 'sha512', $iterations = 16384, $length = 24)
+	public static function pbkdf2($password, $salt = null, $algorithm = 'sha512', $iterations = 16384, $length = 24, $iterations_padding = 7)
 	{
 		if ($salt === null)
 		{
@@ -437,7 +439,7 @@ class Password
 			$hash = substr($output, 0, $length);
 		}
 		
-		return $algorithm . ':' . sprintf('%07d', $iterations) . ':' . $salt . ':' . base64_encode($hash);
+		return $algorithm . ':' . str_pad($iterations, $iterations_padding, '0', STR_PAD_LEFT) . ':' . $salt . ':' . base64_encode($hash);
 	}
 	
 	/**

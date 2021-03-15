@@ -128,6 +128,13 @@ class PasswordTest extends \Codeception\TestCase\Test
 		$salt = 'rtmIxdEUoWUk';
 		$hash = 'sha512:0016384:rtmIxdEUoWUk:1hrwGP3ScWvxslnqNFqyhM6Ddn4iYrwf';
 		$this->assertEquals($hash, Rhymix\Framework\Password::pbkdf2($password, $salt, 'sha512', 16384, 24));
+		
+		$hash = 'sha512:16384:rtmIxdEUoWUk:1hrwGP3ScWvxslnqNFqyhM6Ddn4iYrwf';
+		$this->assertEquals($hash, Rhymix\Framework\Password::pbkdf2($password, $salt, 'sha512', 16384, 24, 5));
+		
+		$salt = 'KpnA8ZAxvig32n7p2PnEjx4NN7gPpUQm';
+		$hash = 'sha1:12000:KpnA8ZAxvig32n7p2PnEjx4NN7gPpUQm:TeILMSF8ao/NVJ4wdk7lXDKQre9TUCht';
+		$this->assertEquals($hash, Rhymix\Framework\Password::pbkdf2($password, $salt, 'sha1', 12000, 24, 5));
 	}
 	
 	public function testCountEntropyBits()

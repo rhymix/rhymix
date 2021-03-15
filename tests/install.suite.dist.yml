@@ -8,23 +8,10 @@ modules:
                 CURLOPT_TIMEOUT: 180
         DbDropTablesHelper:
             dsn: 'mysql:host=localhost;dbname=rhymix'
-            user: 'travis'
-            password: 'travis'
+            user: 'root'
+            password: 'root'
         Db:
             dsn: 'mysql:host=localhost;dbname=rhymix'
-            user: 'travis'
-            password: 'travis'
+            user: 'root'
+            password: 'root'
             cleanup: true
-env:
-    travis:
-        modules:
-            config:
-                Db:
-                    dsn: 'mysql:host=localhost;dbname=rhymix'
-                    user: 'travis'
-                    password: 'travis'
-                    cleanup: true
-                DbDropTablesHelper:
-                    dsn: 'mysql:host=localhost;dbname=rhymix'
-                    user: 'travis'
-                    password: 'travis'
