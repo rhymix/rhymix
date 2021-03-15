@@ -6,7 +6,7 @@
 		<column name="*" />
 	</columns>
 	<conditions>
-		<condition operation="equal" column="id" var="id" notnull="notnull" />
+		<condition operation="equal" column="service_id" var="service_id" notnull="notnull" />
 		<condition operation="equal" column="service" var="service" pipe="and" />
 	</conditions>
 </query>

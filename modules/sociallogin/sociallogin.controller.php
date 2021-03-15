@@ -358,7 +358,7 @@ class SocialloginController extends Sociallogin
 
 		foreach ($output->data as $key => $val)
 		{
-			$sns_id[] = '[' . $val->service . '] ' . $val->id;
+			$sns_id[] = '[' . $val->service . '] ' . $val->service_id;
 
 			if (!$oDriver = $this->getDriver($val->service))
 			{
@@ -376,7 +376,7 @@ class SocialloginController extends Sociallogin
 
 		// 로그 기록
 		$info = new stdClass;
-		$info->sns_id = implode(' | ', $sns_id);
+		$info->service_id = implode(' | ', $sns_id);
 		$info->nick_name = Context::get('logged_info')->nick_name;
 		$info->member_srl = $obj->member_srl;
 		SocialloginModel::logRecord('delete_member', $info);
@@ -559,7 +559,7 @@ class SocialloginController extends Sociallogin
 				$args->profile_image = $serviceAccessData->profile['profile_image'];
 				$args->email = $serviceAccessData->profile['email_address'];
 				$args->name = $serviceAccessData->profile['user_name'];
-				$args->id = $serviceAccessData->profile['sns_id'];
+				$args->service_id = $serviceAccessData->profile['sns_id'];
 				$args->service = $service;
 				
 				//TODO (BjRambo) :check again, why save to sessionData?
@@ -666,7 +666,7 @@ class SocialloginController extends Sociallogin
 		$args->profile_image = $serviceAccessData->profile['profile_image'];
 		$args->email = $serviceAccessData->profile['email_address'];
 		$args->name = $serviceAccessData->profile['user_name'];
-		$args->id = $serviceAccessData->profile['sns_id'];
+		$args->service_id = $serviceAccessData->profile['sns_id'];
 		$args->service = $service;
 		$args->member_srl = $member_srl;
 		$output = executeQuery('sociallogin.insertMemberSns', $args);
@@ -706,7 +706,7 @@ class SocialloginController extends Sociallogin
 		$return_output = executeQuery('sociallogin.insertMemberSns', $oAuthArgs);
 
 		// SNS ID 기록 (SNS 정보가 삭제 되더라도 ID는 영구 보관)
-		if (!SocialloginModel::getSnsUser($oAuthArgs->id, $oAuthArgs->service))
+		if (!SocialloginModel::getSnsUser($oAuthArgs->service_id, $oAuthArgs->service))
 		{
 			$output = executeQuery('sociallogin.insertSnsUser', $oAuthArgs);
 		}
@@ -855,7 +855,7 @@ class SocialloginController extends Sociallogin
 		$isCheck = false;
 		if (($sns_info = SocialloginModel::getMemberSnsById($serviceAccessData->profile['sns_id'], $service)) && $sns_info->member_srl)
 		{
-			if($sns_info->id == $serviceAccessData->profile['sns_id'])
+			if($sns_info->service_id == $serviceAccessData->profile['sns_id'])
 			{
 				$isCheck = true;
 			}

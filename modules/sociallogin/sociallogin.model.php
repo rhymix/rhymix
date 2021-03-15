@@ -103,7 +103,7 @@ class SocialloginModel extends Sociallogin
 	public static function getMemberSnsById($id, $service = null)
 	{
 		$args = new stdClass;
-		$args->id = $id;
+		$args->service_id = $id;
 		$args->service = $service;
 
 		return executeQuery('sociallogin.getMemberSns', $args)->data;
@@ -115,7 +115,7 @@ class SocialloginModel extends Sociallogin
 	public static function getSnsUser($id, $service = null)
 	{
 		$args = new stdClass;
-		$args->id = $id;
+		$args->service_id = $id;
 		$args->service = $service;
 
 		return executeQuery('sociallogin.getSnsUser', $args)->data;
@@ -238,11 +238,11 @@ class SocialloginModel extends Sociallogin
 
 				if ($info->nick_name)
 				{
-					$args->content = sprintf(lang('sns_connect_delete_member'), $info->member_srl, $info->nick_name, $info->sns_id);
+					$args->content = sprintf(lang('sns_connect_delete_member'), $info->member_srl, $info->nick_name, $info->service_id);
 				}
 				else
 				{
-					$args->content = sprintf(lang('sns_connect_auto_delete_member'), $info->member_srl, $info->nick_name, $info->sns_id);
+					$args->content = sprintf(lang('sns_connect_auto_delete_member'), $info->member_srl, $info->nick_name, $info->service_id);
 				}
 
 				break;

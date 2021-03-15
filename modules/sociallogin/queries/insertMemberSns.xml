@@ -5,7 +5,7 @@
 	<columns>
 		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
 		<column name="service" var="service" notnull="notnull" />
-		<column name="id" var="id" notnull="notnull" />
+		<column name="service_id" var="service_id" notnull="notnull" />
 		<column name="name" var="name" notnull="notnull" />
 		<column name="email" var="email" />
 		<column name="profile_image" var="profile_image" />
