@@ -1,0 +1,19 @@
+<query id="insertMemberSns" action="insert">
+	<tables>
+		<table name="sociallogin" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<column name="service" var="service" notnull="notnull" />
+		<column name="service_id" var="service_id" notnull="notnull" />
+		<column name="name" var="name" notnull="notnull" />
+		<column name="email" var="email" />
+		<column name="profile_image" var="profile_image" />
+		<column name="profile_url" var="profile_url" />
+		<column name="profile_info" var="profile_info" />
+		<column name="access_token" var="access_token" />
+		<column name="refresh_token" var="refresh_token" />
+		<column name="linkage" var="linkage" default="N" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
+</query>

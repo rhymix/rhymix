@@ -1,0 +1,17 @@
+<load target="css/default.css" />
+<include target="../../../member/skins/default/common_header.html" />
+<h1>{$lang->sns_profile}</h1>
+
+<dl class="dl-horizontal">
+	<dt>{$lang->nick_name}</dt>
+	<dd>{$member_info->nick_name}</dd>
+	<block loop="$sns_services => $val">
+		<dt><i class="sns_icon {$val->service}" style="height:22px; display:inline-block;">{ucwords($val->service)}</i>
+		</dt>
+		<dd>
+			<a href="{$val->profile_url}" target="_blank" style="height:22px; display:inline-block;">{$val->profile_name}</a>
+		</dd>
+	</block>
+</dl>
+
+<include target="../../../member/skins/default/common_footer.html" />

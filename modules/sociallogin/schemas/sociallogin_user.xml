@@ -1,0 +1,5 @@
+<table name="sociallogin_user">
+	<column name="service_id" type="varchar" size="100" notnull="notnull" />
+	<column name="service" type="varchar" size="20" notnull="notnull" />
+	<column name="regdate" type="date" index="idx_regdate" />
+</table>

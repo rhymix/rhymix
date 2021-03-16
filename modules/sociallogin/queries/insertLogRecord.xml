@@ -1,0 +1,14 @@
+<query id="insertLogRecord" action="insert">
+	<tables>
+		<table name="sociallogin_log" />
+	</tables>
+	<columns>
+		<column name="member_srl" var="member_srl" filter="number" />
+		<column name="category" var="category" minlength="1" maxlength="40" notnull="notnull" />
+		<column name="content" var="content" notnull="notnull" />
+		<column name="act" var="act" notnull="notnull" />
+		<column name="micro_time" var="micro_time" notnull="notnull" />
+		<column name="ipaddress" default="ipaddress()" />
+		<column name="regdate" default="curdate()" />
+	</columns>
+</query>

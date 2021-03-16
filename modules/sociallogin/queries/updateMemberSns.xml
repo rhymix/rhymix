@@ -1,0 +1,19 @@
+<query id="updateMemberSns" action="update">
+	<tables>
+		<table name="sociallogin" />
+	</tables>
+	<columns>
+		<column name="name" var="name" />
+		<column name="email" var="email" />
+		<column name="profile_image" var="profile_image" />
+		<column name="profile_url" var="profile_url" />
+		<column name="profile_info" var="profile_info" />
+		<column name="access_token" var="access_token" />
+		<column name="refresh_token" var="refresh_token" />
+		<column name="linkage" var="linkage" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="service" var="service" pipe="and" />
+	</conditions>
+</query>

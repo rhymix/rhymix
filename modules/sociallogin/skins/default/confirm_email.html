@@ -1,0 +1,23 @@
+<include target="../../../member/skins/default/common_header.html" />
+<h1>{$lang->confirm_email_address}</h1>
+<div class="message">
+	<p>{sprintf($lang->msg_not_confirm_email_sns, ucwords($service))}
+		<block cond="$config->mail_auth_valid_hour">
+			<br>({sprintf($lang->msg_mail_auth_valid_hour, $config->mail_auth_valid_hour)})
+		</block>
+	</p>
+</div>
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/sociallogin/confirm_email/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<form ruleset="confirmEmailAddress" action="./" method="post">
+	<input type="hidden" name="module" value="sociallogin" />
+	<input type="hidden" name="act" value="procSocialloginConfirmMail" />
+	<input type="hidden" name="xe_validator_id" value="modules/sociallogin/confirm_email/1" />
+	<span class="input-append">
+		<input type="email" id="email_address" name="email_address" value="" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
+		<input type="submit" value="{$lang->cmd_confirm}" class="btn btn-inverse" />
+	</span>
+</form>
+<include target="../../../member/skins/default/common_footer.html" />

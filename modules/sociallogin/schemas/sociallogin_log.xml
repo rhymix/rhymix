@@ -1,0 +1,9 @@
+<table name="sociallogin_log">
+	<column name="member_srl" type="number" size="11" notnull="notnull" default="0" index="idx_member_srl" />
+	<column name="category" type="varchar" size="40" notnull="notnull" index="idx_category" />
+	<column name="content" type="text" notnull="notnull" />
+	<column name="act" type="varchar" size="250" />
+	<column name="micro_time" type="varchar" size="40" notnull="notnull" />
+	<column name="ipaddress" type="varchar" size="128" notnull="notnull" index="idx_ipaddress" />
+	<column name="regdate" type="date" index="idx_regdate" />
+</table>

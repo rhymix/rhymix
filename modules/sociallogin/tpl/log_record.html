@@ -1,0 +1,92 @@
+<include target="_header.html" />
+<form id="deleteForm" action="./" method="POST" style="margin:0">
+	<input type="hidden" name="module" value="sociallogin" />
+	<input type="hidden" name="act" value="procSocialloginAdminDeleteLogRecord" />
+	<input type="hidden" name="date_srl" id="date_srl" value="" />
+	<input type="hidden" name="xe_validator_id" value="modules/sociallogin/tpl/1" />
+</form>
+
+<table class="x_table x_table-striped x_table-hover">
+	<caption>
+		<strong>Total: {number_format($total_count)}, Page: {number_format($page)}/{number_format($total_page)}</strong>
+	</caption>
+	<thead>
+		<tr>
+			<th scope="col" class="nowr">{$lang->no}</th>
+			<th scope="col" class="nowr">{$lang->member}</th>
+			<th scope="col" class="nowr">{$lang->category}</th>
+			<th scope="col" class="title">{$lang->content}</th>
+			<th scope="col" class="nowr">{$lang->record_day}</th>
+			<th scope="col" class="nowr">{$lang->ipaddress}</th>
+			<th scope="col" class="nowr">{$lang->cmd_delete}</th>
+			
+		</tr>
+	</thead>
+	<tbody>
+		<tr loop="$log_record_list => $no,$val">
+			<td class="nowr">{$no}</td>
+			<td class="nowr" cond="$val->nick_name"><a href="#popup_menu_area" class="member_{$val->member_srl} author" onclick="return false">{$val->nick_name}</a></td>
+			<td class="nowr" cond="!$val->nick_name && $val->member_srl">{$lang->leave_member}</td>
+			<td class="nowr" cond="!$val->nick_name && !$val->member_srl">{$lang->not_exists}</td>
+			<td class="nowr">{Context::getLang($val->category)}</td>
+			<td class="title">{$val->content}</td>
+			<td class="nowr">{zdate($val->regdate,"Y-m-d H:i:s")}</td>
+			<td class="nowr">{$val->ipaddress}</td>
+			<td class="nowr"><a href="#" onclick="if(confirm('{$lang->confirm_delete}'))deleteDate('{$val->regdate}');return false;" title="{$lang->cmd_delete}">{$lang->cmd_delete}</a></td>
+		</tr>
+		<tr cond="!$log_record_list">
+			<td>{$lang->msg_not_exist_data}</td>
+		</tr>
+	</tbody>
+</table>
+<div class="x_clearfix">
+	<form cond="$page_navigation" action="./" class="x_pagination x_pull-left" no-error-return-url="true" style="margin-top:0">
+		{@
+			$urlInfo = parse_url(getRequestUriByServerEnviroment());
+			parse_str($urlInfo['query'], $param);
+		}
+		<input loop="$param => $key, $val" cond="!in_array($key, array('mid', 'vid', 'act'))" type="hidden" name="{$key}" value="{$val}" />
+		<ul>
+			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+			{@$last_page = $page_no}
+			<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
+			{@$isGoTo = true}
+			<li>
+				<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
+				<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
+					<button type="submit" class="x_add-on">Go</button>
+				</span>
+			</li>
+			</block>
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</form>
+	<a class="x_pull-right x_btn" href="#" onclick="if(confirm('{$lang->confirm_delete}'))deleteDate('all');return false;">{$lang->all_delete_log_record}</a>
+</div>
+<form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
+	<input type="hidden" name="module" value="{$module}" />	
+	<select name="search_category" title="{$lang->category}" style="margin-right:4px">
+		<option value="">{$lang->category}</option>
+		<option loop="$category_list=> $key, $val" value="{$val}" selected="selected"|cond="$search_category==$val">{Context::getLang($val)}</option>
+	</select>
+	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
+		<option loop="$search_option=> $key, $val" value="{$val}" selected="selected"|cond="$search_target==$val">{Context::getLang($val)}</option>
+	</select>
+	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword)}" />
+	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	<a class="x_btn" href="{getUrl('', 'module', $module, 'act', $act)}">{$lang->cmd_cancel}</a>
+</form>

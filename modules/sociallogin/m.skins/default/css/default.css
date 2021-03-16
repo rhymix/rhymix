@@ -1,0 +1,75 @@
+@charset "utf-8";
+
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700");
+
+.sns_icon{padding:0 0 3px 28px;}
+.sns_icon.twitter{background:url(../img/twitter.png) no-repeat;}
+.sns_icon.facebook{background:url(../img/facebook.png) no-repeat;}
+.sns_icon.google{background:url(../img/google.png) no-repeat;}
+.sns_icon.naver{background:url(../img/naver.png) no-repeat;}
+.sns_icon.kakao{background:url(../img/kakao.png) no-repeat;}
+.sns_icon.discord{background:url(../img/discord.png) no-repeat;}
+
+.sociallogin_login{padding:0;margin:0;list-style:none; overflow:hidden;}
+.sociallogin_login li{display:block;padding:0; margin-bottom:10px; text-align:center;}
+.sociallogin_login li a {
+	box-shadow: 0 1px 2px 0 grey;
+}
+
+.rechecked_sns_login{padding:0;margin:0;list-style:none; overflow:hidden;}
+.rechecked_sns_login li{display:block;padding:0; margin-bottom:10px;}
+
+.sociallogin_twitter .loginBtn {display:inline-block;background: #2596E9;color: white; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_twitter a.loginBtn {text-decoration:none;}
+.sociallogin_twitter .loginBtn:hover {background: #55ACEE;cursor:hand;}
+.sociallogin_twitter span.label {font-weight:bold;}
+.sociallogin_twitter span.icon {background: url('../img/btn_twitter.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_twitter span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}
+
+.sociallogin_facebook .loginBtn {display:inline-block;background: #3B5998;color: white; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_facebook a.loginBtn {text-decoration:none;}
+.sociallogin_facebook .loginBtn:hover {background: #5577BD;cursor:hand;}
+.sociallogin_facebook span.label {font-weight:bold;}
+.sociallogin_facebook span.icon {background: url('../img/btn_facebook.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_facebook span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}
+
+.sociallogin_google .loginBtn {display:inline-block;background: #ffffff; font-family: 'Roboto-Medium'; color:#333333; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_google a.loginBtn {text-decoration:none;}
+.sociallogin_google span.label {font-weight:bold;}
+.sociallogin_google span.icon {background: url('../img/btn_google.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_google span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px; font-size: 14px;}
+
+.sociallogin_naver .loginBtn {display:inline-block;background: #1ec800;color: white; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_naver a.loginBtn {text-decoration:none;}
+.sociallogin_naver .loginBtn:hover {background: #25d805;cursor:hand;}
+.sociallogin_naver span.label {font-weight:bold;}
+.sociallogin_naver span.icon {background: url('../img/btn_naver.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_naver span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}
+
+.sociallogin_kakao .loginBtn {display:inline-block;background: #FEE500;color:#000000; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_kakao a.loginBtn {text-decoration:none;}
+.sociallogin_kakao .loginBtn:hover {background: #FFDE00;cursor:hand;}
+.sociallogin_kakao span.label {font-weight:bold;}
+.sociallogin_kakao span.icon {background: url('../img/btn_kakao.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_kakao span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}
+
+.sociallogin_discord .loginBtn {display:inline-block;background: #7289da;color:white; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_discord a.loginBtn {text-decoration:none;}
+.sociallogin_discord .loginBtn:hover {background: #839dfb;cursor:hand;}
+.sociallogin_discord span.label {font-weight:bold;}
+.sociallogin_discord span.icon {background: url('../img/btn_discord.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_discord span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}
+
+.sociallogin_github .loginBtn {display:inline-block;background: white;color:#3c1e1e; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_github a.loginBtn {text-decoration:none;}
+.sociallogin_github .loginBtn:hover {background: #d8d8d8;cursor:hand;}
+.sociallogin_github span.label {font-weight:bold;}
+.sociallogin_github span.icon {background: url('../img/btn_github.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_github span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}
+
+.sociallogin_apple .loginBtn {display:inline-block;background: white;color:#3c1e1e; width: 200px; border-radius:5px;text-align:left;}
+.sociallogin_apple a.loginBtn {text-decoration:none;}
+.sociallogin_apple .loginBtn:hover {background: #d8d8d8;cursor:hand;}
+.sociallogin_apple span.label {font-weight:bold;}
+.sociallogin_apple span.icon {background: url('../img/btn_apple.png') transparent 10px 50% no-repeat;display: inline-block;vertical-align: middle;width: 43px;height:40px;}
+.sociallogin_apple span.buttonText {display:inline-block;vertical-align:middle;padding-left:10px;}

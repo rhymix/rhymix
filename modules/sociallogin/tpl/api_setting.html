@@ -1,0 +1,229 @@
+<include target="_header.html" />
+<form action="./" method="post" class="x_form-horizontal" enctype="multipart/form-data">
+	<input type="hidden" name="module" value="sociallogin" />
+	<input type="hidden" name="act" value="procSocialloginAdminSettingApi" />
+	<input type="hidden" name="xe_validator_id" value="modules/sociallogin/tpl/1" />
+	<section class="section">
+		<h1>Facebook API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="facebook_app_id">App ID</label>
+			<div class="x_controls">
+				<input type="text" name="facebook_app_id" id="facebook_app_id" value="{$config->facebook_app_id}" />
+				<a href="#facebook_app_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="facebook_app_id_help" class="x_help-block" hidden>{$lang->about_facebook_app_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="facebook_app_secret">App Secret</label>
+			<div class="x_controls">
+				<input type="text" name="facebook_app_secret" id="facebook_app_secret" value="{$config->facebook_app_secret}" />
+				<a href="#facebook_app_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="facebook_app_secret_help" class="x_help-block" hidden>{$lang->about_facebook_app_secret}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect URL</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','facebook')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Google API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="google_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="google_client_id" id="google_client_id" value="{$config->google_client_id}" />
+				<a href="#google_client_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="google_client_id_help" class="x_help-block" hidden>{$lang->about_google_client_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="google_client_secret">Client Secret</label>
+			<div class="x_controls">
+				<input type="text" name="google_client_secret" id="google_client_secret" value="{$config->google_client_secret}" />
+				<a href="#google_client_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="google_client_secret_help" class="x_help-block" hidden>{$lang->about_google_client_secret}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect URL</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','google')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Naver API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="naver_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="naver_client_id" id="naver_client_id" value="{$config->naver_client_id}" />
+				<a href="#naver_client_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="naver_client_id_help" class="x_help-block" hidden>{$lang->about_naver_client_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="naver_client_secret">Client Secret</label>
+			<div class="x_controls">
+				<input type="text" name="naver_client_secret" id="naver_client_secret" value="{$config->naver_client_secret}" />
+				<a href="#naver_client_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="naver_client_secret_help" class="x_help-block" hidden>{$lang->about_naver_client_secret}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Callback URL</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','naver')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Kakao API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="kakao_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="kakao_client_id" id="kakao_client_id" value="{$config->kakao_client_id}" />
+				<a href="#kakao_client_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="kakao_client_id_help" class="x_help-block" hidden>{$lang->about_kakao_client_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect Path</label>
+			<div class="x_controls">
+				{getNotEncodedUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','kakao')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Discord API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="naver_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="discord_client_id" id="discord_client_id" value="{$config->discord_client_id}" />
+				<a href="#discord_client_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="discord_client_id_help" class="x_help-block" hidden>{$lang->about_discord_client_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="discord_client_secret">Client Secret</label>
+			<div class="x_controls">
+				<input type="text" name="discord_client_secret" id="discord_client_secret" value="{$config->discord_client_secret}" />
+				<a href="#discord_client_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="discord_client_secret_help" class="x_help-block" hidden>{$lang->about_discord_client_secret}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Callback URL</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','discord')}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<h1>Github API</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="github_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="github_client_id" id="github_client_id" value="{$config->github_client_id}" />
+				<a href="#github_client_id_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="github_client_id_help" class="x_help-block" hidden>{$lang->about_github_client_id}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="github_client_secret">Client Secret</label>
+			<div class="x_controls">
+				<input type="text" name="github_client_secret" id="github_client_secret" value="{$config->github_client_secret}" />
+				<a href="#github_client_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="github_client_secret_help" class="x_help-block" hidden>{$lang->about_github_client_secret}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect Path</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','github')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Twitter API / {$lang->php_version_seven_decimal_four}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="twitter_consumer_key">Consumer Key</label>
+			<div class="x_controls">
+				<input type="text" name="twitter_consumer_key" id="twitter_consumer_key" value="{$config->twitter_consumer_key}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<a href="#twitter_consumer_key_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="twitter_consumer_key_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_key}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="twitter_consumer_secret">Consumer Secret</label>
+			<div class="x_controls">
+				<input type="text" name="twitter_consumer_secret" id="twitter_consumer_secret" value="{$config->twitter_consumer_secret}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<a href="#twitter_consumer_secret_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="twitter_consumer_secret_help" class="x_help-block" hidden>{$lang->about_twitter_consumer_secret}</p>
+				<!--@if(!$sns_twitter_apple_cond)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->msg_cannot_use_twitter_apple}</p>
+				<!--@end-->
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Callback URL</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','twitter')}
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>Apple API / {$lang->php_version_seven_decimal_four}</h1>
+		
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_client_id">Client ID</label>
+			<div class="x_controls">
+				<input type="text" name="apple_client_id" id="apple_client_id" value="{$config->apple_client_id}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_team_id">Team ID</label>
+			<div class="x_controls">
+				<input type="text" name="apple_team_id" id="apple_team_id" value="{$config->apple_team_id}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_file_key">File key</label>
+			<div class="x_controls">
+				<input type="text" name="apple_file_key" id="apple_file_key" value="{$config->apple_file_key}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<!--@if(!$sns_twitter_apple_cond)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->msg_cannot_use_twitter_apple}</p>
+				<!--@end-->
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="apple_file">File Upload</label>
+			<div class="x_controls">
+				<input type="file" name="apple_file" id="apple_file" value="" title="{$lang->uploaded_file}" disabled="disabled"|cond="!$sns_twitter_apple_cond" />
+				<!--@if($config->apple_file_path)-->
+				<p>현재 업로드된 파일 : {$config->apple_file_path}</p> <input type="checkbox" name="delete_apple_file" value="Y" disabled="disabled"|cond="!$sns_twitter_apple_cond" /> 삭제
+				<!--@else-->
+				<p>파일이 업로드 되지 않았습니다.</p>
+				<!--@end-->
+			</div>
+		</div>
+		
+		<div class="x_control-group">
+			<label class="x_control-label">Redirect Path</label>
+			<div class="x_controls">
+				{getNotEncodedFullUrl('', 'module', 'sociallogin', 'act', 'procSocialloginCallback','service','apple')}
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">Apple {$lang->how_to_setting}</label>
+			<div class="x_controls">
+				<p class="x_help-block">{$lang->about_apple_setting}</p>
+			</div>
+		</div>
+	</section>
+	<div class="x_clearfix btnArea">
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>

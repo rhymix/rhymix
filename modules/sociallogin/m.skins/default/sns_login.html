@@ -1,0 +1,27 @@
+<load target="css/default.css" />
+<include target="../../../member/skins/default/common_header.html" />
+<div cond="$XE_VALIDATOR_MESSAGE" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<div class="signin">
+	<div class="login-header">
+		<h1><i class="icon-user"></i>{$lang->sns_login}</h1>
+	</div>
+	<div class="login-body">
+		<ul class="sns_login">
+			<li loop="$sns_services=> $key, $val">
+				<div id="sns_{$val->service}">
+					<a href="{$val->auth_url}" class="loginBtn">
+						<span class="icon"></span>
+						<span class="buttonText">{ucwords($val->service)} Login</span>
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+
+	<div class="login-footer" cond="$config->default_login=='Y'">
+		<a href="{getUrl('act','dispMemberLoginForm','mode','default')}">{$lang->sns_default_login}</a>
+	</div>
+</div>
+<include target="../../../member/skins/default/common_footer.html" />

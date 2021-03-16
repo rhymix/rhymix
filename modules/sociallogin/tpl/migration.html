@@ -1,0 +1,25 @@
+<include target="_header.html" />
+
+<div class="x_form-horizontal" id="fo_sociallogin">
+	<section class="section">
+		<h1>{$lang->cmd_social_migration}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->sociallogin} {$lang->cmd_social_migration}</label>
+			<div class="x_controls">
+				<form action="./" method="post">
+					<!--@if(!$exists_sociallogin)-->
+					<p><span class="x_label x_label-important">{$lang->msg_not_exists_table_sociallogin}</span></p>
+					<!--@elseif(!$exists_socialxe)-->
+					<p><span class="x_label x_label-important">{$lang->msg_not_exists_table_socialxe}</span></p>
+					<!--@end-->
+					<fieldset>
+						<input type="hidden" name="module" value="sociallogin" />
+						<input type="hidden" name="act" value="procSocialloginAdminMigration" />
+						<button type="submit" class="x_btn" disabled="disabled"|cond="!$exists_sociallogin || !$exists_socialxe">{$lang->cmd_do_social_migration}</button>
+					</fieldset>
+				</form>
+				<p>{$lang->about_social_migration}</p>
+			</div>
+		</div>
+	</section>
+</div>

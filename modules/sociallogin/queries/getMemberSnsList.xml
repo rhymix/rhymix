@@ -1,0 +1,27 @@
+<query id="getMemberSnsList" action="select">
+	<tables>
+		<table name="member" alias="member" />
+		<table name="sociallogin" alias="sociallogin" />
+	</tables>
+	<columns>
+		<column name="member.member_srl" />
+		<column name="member.list_order" />
+		<column name="member.nick_name" />
+		<column name="sociallogin.*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member.member_srl" var="sociallogin.member_srl" notnull="notnull" />
+		<condition operation="equal" column="member.member_srl" var="member_srl" pipe="and"/>
+		<condition operation="equal" column="sociallogin.service" var="service" pipe="and"/>
+		<group pipe="and">
+			<condition operation="like" column="member.nick_name" var="nick_name" pipe="or" />
+			<condition operation="like" column="member.email_address" var="email" pipe="or" />
+		</group>
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="sociallogin.regdate" order="desc" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

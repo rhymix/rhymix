@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">소셜 로그인</title>
+	<description xml:lang="ko">SNS 로그인과 연동을 지원하는 모듈입니다.</description>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
+	<category>service</category>
+	<author email_address="conorycom@gmail.com" link="https://xe.conory.com">
+		<name xml:lang="ko">CONORY</name>
+	</author>
+	<author email_address="support@bjrambo.com" link="https://bjrambo.com">
+		<name xml:lang="ko">Johnny</name>
+	</author>
+</module>

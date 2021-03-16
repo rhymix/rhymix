@@ -1,0 +1,8 @@
+<query id="deleteLogRecordLess" action="delete">
+	<tables>
+		<table name="sociallogin_log" />
+	</tables>
+	<conditions>
+		<condition operation="less" column="regdate" var="regdate_less" notnull="notnull" />
+	</conditions>
+</query>

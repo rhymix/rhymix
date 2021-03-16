@@ -1,0 +1,16 @@
+<table name="sociallogin">
+	<column name="id" type="number" size="11" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+	<column name="service" type="varchar" size="20" notnull="notnull" />
+	<column name="service_id" type="varchar" size="100" notnull="notnull" />
+	<column name="name" type="varchar" size="40" notnull="notnull" />
+	<column name="email" type="varchar" size="250" />
+	<column name="profile_image" type="varchar" size="250" />
+	<column name="profile_url" type="varchar" size="250" />
+	<column name="profile_info" type="text" />
+	<column name="access_token" type="text" />
+	<column name="refresh_token" type="text" />
+	<column name="linkage" type="char" size="1" notnull="notnull" index="idx_linkage" />
+	<column name="regdate" type="date" index="idx_regdate" />
+	<index name="idx_member_srl_service" columns="member_srl,service" type="unique" />
+</table>

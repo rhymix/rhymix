@@ -1,0 +1,14 @@
+<query id="getMemberSns" action="select">
+	<tables>
+		<table name="sociallogin" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" />
+		<condition operation="equal" column="service" var="service" pipe="and" />
+		<condition operation="equal" column="service_id" var="service_id" pipe="and" />
+		<condition operation="less" column="regdate" var="regdate_less" pipe="and" />
+	</conditions>
+</query>

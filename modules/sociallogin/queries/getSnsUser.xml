@@ -1,0 +1,12 @@
+<query id="getSnsUser" action="select">
+	<tables>
+		<table name="sociallogin_user" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="service_id" var="service_id" notnull="notnull" />
+		<condition operation="equal" column="service" var="service" pipe="and" />
+	</conditions>
+</query>

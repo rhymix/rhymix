@@ -806,9 +806,10 @@ class memberController extends member
 		// Extract the necessary information in advance
 		$getVars = array();
 		$use_phone = false;
+		$oSocialData = SocialloginModel::getSocialSignUpUserData();
 		if($config->signupForm)
 		{
-			foreach($config->signupForm as $formInfo)
+			foreach($config->signupForm as $key => $formInfo)
 			{
 				if($formInfo->name === 'phone_number' && $formInfo->isUse)
 				{
@@ -817,6 +818,14 @@ class memberController extends member
 				if($formInfo->isUse || $formInfo->required || $formInfo->mustRequired)
 				{
 					$getVars[] = $formInfo->name;
+				}
+				
+				if($oSocialData)
+				{
+					if($formInfo->name == 'user_id')
+					{
+						unset($config->signupForm[$key]);
+					}
 				}
 			}
 		}
@@ -857,6 +866,14 @@ class memberController extends member
 		$args->allow_message = Context::get('allow_message');
 		if($args->password1) $args->password = $args->password1;
 		
+		/** @var SocialloginController $oSocialLoginController */
+		$oSocialLoginController = SocialloginController::getInstance();
+		if($oSocialData)
+		{
+			$args = $oSocialLoginController->replaceSignUpFormBySocial($args);
+			Context::set('password2', $args->password);
+		}
+
 		// Check all required fields
 		$output = $this->_checkSignUpFields($config, $args, 'insert');
 		if (!$output->toBool())
@@ -1261,19 +1278,40 @@ class memberController extends member
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Extract the necessary information in advance
 		$current_password = trim(Context::get('current_password'));
+		
 		$password = trim(Context::get('password1'));
+		$password2 = trim(Context::get('password2'));
+		
+		if($password === '' || $password2 === '')
+		{
+			throw new \Rhymix\Framework\Exception('msg_need_input_password');
+		}
+		
+		if($password !== $password2)
+		{
+			throw new \Rhymix\Framework\Exception('msg_not_equal_password');
+		}
+		
 		// Get information of logged-in user
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
-		// Get information of member_srl
-		$columnList = array('member_srl', 'password');
-
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_srl = Context::get('logged_info')->member_srl;
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		
 		// Verify the cuttent password
-		if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
-
+		if($_SESSION['rechecked_password_modify'] != 'VALIDATE_PASSWORD')
+		{
+			if($current_password === '')
+			{
+				throw new \Rhymix\Framework\Exception('msg_need_current_password');
+			}
+			
+			if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
+			{
+				throw new Rhymix\Framework\Exception('invalid_password');
+			}
+		}
+		
 		// Check if a new password is as same as the previous password
-		if($current_password == $password) throw new Rhymix\Framework\Exception('invalid_new_password');
+		if($current_password === $password) throw new Rhymix\Framework\Exception('invalid_new_password');
 
 		// Execute insert or update depending on the value of member_srl
 		$args = new stdClass;
@@ -1281,6 +1319,8 @@ class memberController extends member
 		$args->password = $password;
 		$output = $this->updateMemberPassword($args);
 		if(!$output->toBool()) return $output;
+
+		unset($_SESSION['rechecked_password_modify']);
 		
 		// Log out all other sessions.
 		$member_config = ModuleModel::getModuleConfig('member');

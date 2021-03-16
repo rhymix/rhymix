@@ -1,0 +1,26 @@
+<query id="getLogRecordList" action="select">
+	<tables>
+		<table name="member" alias="member" />
+		<table name="sociallogin_log" alias="log" />
+	</tables>
+	<columns>
+		<column name="member.nick_name" />
+		<column name="log.*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member.member_srl" var="log.member_srl" notnull="notnull" />
+		<condition operation="equal" column="log.category" var="category" pipe="and" />
+		<group pipe="and">
+			<condition operation="like" column="member.email_address" var="email_address" />
+			<condition operation="like" column="member.nick_name" var="nick_name" pipe="or" />
+			<condition operation="like" column="log.content" var="content" pipe="or" />
+			<condition operation="like" column="log.ipaddress" var="ipaddress" pipe="or" />
+		</group>
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="micro_time" order="desc" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" default="1" />
+	</navigation>
+</query>

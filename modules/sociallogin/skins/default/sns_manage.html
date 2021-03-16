@@ -1,0 +1,45 @@
+<load target="css/default.css" />
+<load target="/modules/admin/tpl/js/admin.min.js" />
+<load target="/modules/admin/tpl/js/jquery.tmpl.js" />
+<include target="../../../member/skins/default/common_header.html" />
+<h1>{$lang->sns_manage}</h1>
+
+<form id="clearForm" action="./" method="POST" style="margin:0">
+	<input type="hidden" name="module" value="sociallogin" />
+	<input type="hidden" name="act" value="procSocialloginSnsClear" />
+	<input type="hidden" name="service" id="service1" value="" />
+</form>
+<form id="linkageForm" action="./" method="POST" style="margin:0">
+	<input type="hidden" name="module" value="sociallogin" />
+	<input type="hidden" name="act" value="procSocialloginSnsLinkage" />
+	<input type="hidden" name="service" id="service2" value="" />
+</form>
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == ''" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+<table class="table table-striped table-hover">
+	<thead>
+	<tr>
+		<th>SNS</th>
+		<th>{$lang->profile}</th>
+		<th>{$lang->connection}</th>
+		<th>{$lang->linkage}</th>
+	</tr>
+	</thead>
+	<tbody>
+		<tr loop="$sns_services=> $key, $val">
+			<td>
+				<div class="sns_icon {$val->service}">{ucwords($val->service)}</div>
+			</td>
+			<td>{$val->sns_status}</td>
+			<td>
+				<a href="{$val->auth_url}" cond="!$val->register">{$lang->cmd_submit}</a><a href="#" onclick="if(confirm('{$lang->confirm_clear_sns_service}'))clearSns('{$val->service}');return false;" cond="$val->register">{$lang->sns_clear}</a>
+			</td>
+			<td>
+				<input type="checkbox" name="linkage" value="{$val->service}" onclick="linkageSns('{$val->service}');return false;" title="{$lang->about_linkage_sns}" checked="checked"|cond="$val->linkage=='Y'" />
+			</td>
+		</tr>
+	</tbody>
+</table>
+<include target="../../../member/skins/default/common_footer.html" />

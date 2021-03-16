@@ -381,3 +381,6 @@ $lang->scrap_folder_rename = '이름 변경';
 $lang->scrap_folder_delete = '삭제';
 $lang->member_unauthenticated = '미인증';
 $lang->member_number = '회원 번호';
+$lang->msg_need_current_password = '현재 비밀번호 값은 필수 입니다.';
+$lang->msg_need_input_password = '변경을 위한 비밀번호 데이터가 누락되었습니다.';
+$lang->msg_not_equal_password = '변경할 비밀번호의 값이 일치하지 않습니다.';

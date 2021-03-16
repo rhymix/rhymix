@@ -211,9 +211,40 @@ class memberView extends member
 		if($member_config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 		
 		$formTags = getAdminView('member')->_getMemberInputTag();
-		Context::set('formTags', $formTags);
-		Context::set('email_confirmation_required', $member_config->enable_confirm);
-		
+
+		if($_SESSION['tmp_sociallogin_input_add_info'])
+		{
+			foreach ($formTags as $key => $formtag)
+			{
+				if($_SESSION['tmp_sociallogin_input_add_info']['nick_name'])
+				{
+					if($formtag->name == 'user_id')
+					{
+						unset($formTags[$key]);
+					}
+					
+					if($formtag->name == 'user_name')
+					{
+						unset($formTags[$key]);
+					}
+
+					if($formtag->name == 'nick_name')
+					{
+						unset($formTags[$key]);
+					}
+				}
+			}
+		}
+
+		$identifierForm = new stdClass;
+		$identifierForm->title = lang($member_config->identifier);
+		$identifierForm->name = $member_config->identifier;
+		$identifierForm->show = true;
+		if(isset($_SESSION['tmp_sociallogin_input_add_info']['email_address']))
+		{
+			$identifierForm->show = false;
+		}
+
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
 		{
@@ -234,16 +265,15 @@ class memberView extends member
 				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
-				
+
 				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
-		
-		$identifierForm = new stdClass;
-		$identifierForm->title = lang($member_config->identifier);
-		$identifierForm->name = $member_config->identifier;
+
+		Context::set('formTags', $formTags);
+		Context::set('email_confirmation_required', $member_config->enable_confirm);
 		Context::set('identifierForm', $identifierForm);
-		
+
 		$this->addExtraFormValidatorMessage();
 		
 		// Set a template file
@@ -260,6 +290,8 @@ class memberView extends member
 
 		$_SESSION['rechecked_password_step'] = 'INPUT_PASSWORD';
 
+		Context::set('member_sns_list', SocialloginModel::getMemberSnsList(\Rhymix\Framework\Session::getMemberSrl(), 'recheck'));
+		
 		$templateFile = $this->getTemplatePath().'rechecked_password.html';
 		if(!is_readable($templateFile))
 		{
@@ -643,6 +675,8 @@ class memberView extends member
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		Context::set('member_info',$member_info);
 
+		Context::set('member_sns_list', SocialloginModel::getMemberSnsList(Rhymix\Framework\Session::getMemberSrl(), 'modify_password'));
+		
 		if($memberConfig->identifier == 'user_id')
 		{
 			Context::set('identifier', 'user_id');

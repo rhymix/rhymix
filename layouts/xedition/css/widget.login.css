@@ -296,6 +296,10 @@
     -webkit-animation: checkboxRippleOff 0.5s;
     animation: checkboxRippleOff 0.5s
 }
+
+.login_widget .sns_login {
+	margin-top:20px;
+}
 /* Animations */
 @-webkit-keyframes inputHighlighter {
     from {

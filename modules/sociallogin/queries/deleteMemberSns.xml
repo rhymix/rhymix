@@ -1,0 +1,9 @@
+<query id="deleteMemberSns" action="delete">
+	<tables>
+		<table name="sociallogin" />
+	</tables>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="service" var="service" pipe="and" />
+	</conditions>
+</query>

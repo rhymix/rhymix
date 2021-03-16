@@ -1,0 +1,8 @@
+<query id="deleteLogRecord" action="delete">
+	<tables>
+		<table name="sociallogin_log" />
+	</tables>
+	<conditions>
+		<condition operation="equal" column="regdate" var="regdate" filter="number" />
+	</conditions>
+</query>

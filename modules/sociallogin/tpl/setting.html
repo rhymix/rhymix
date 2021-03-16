@@ -1,0 +1,165 @@
+<include target="_header.html" />
+<load target="../../module/tpl/js/module_list.js" />
+
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="sociallogin" />
+	<input type="hidden" name="act" value="procSocialloginAdminSetting" />
+	<input type="hidden" name="xe_validator_id" value="modules/sociallogin/tpl/1" />
+	<section class="section">
+		<h1>{$lang->is_default}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="delete_auto_log_record">{$lang->delete_auto_log_record}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="delete_auto_log_record" id="delete_auto_log_record" value="{$config->delete_auto_log_record?$config->delete_auto_log_record:0}" style="width:50px" /> {$lang->unit_day}
+				<p class="x_help-inline">{$lang->about_delete_auto_log_record}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->sns_services}</label>
+			<div class="x_controls">
+				<label loop="$default_services => $key, $val" class="x_inline" for="sns_services_{$key}">
+					<input type="checkbox" name="sns_services[]" id="sns_services_{$key}" value="{$val}" checked="checked"|cond="in_array($val,$config->sns_services)" disabled="disabled"|cond="$val == 'twitter' && !$sns_twitter_apple_cond" /> {ucwords($val)}
+				</label>
+				<a href="#sns_services_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="sns_services_help" class="x_help-block" hidden>{$lang->about_sns_services}</p>
+				<!--@if(!$sns_twitter_apple_cond)-->
+				<p class="x_help-block"><span class="x_label x_label-important">{$lang->ncenterlite_warning}</span> {$lang->msg_cannot_use_twitter_apple}</p>
+				<!--@end-->
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_profile">{$lang->sns_profile}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="sns_profile">
+					<input type="checkbox" name="sns_profile" id="sns_profile" value="Y" checked="checked"|cond="$config->sns_profile=='Y'" /> {$lang->about_sns_profile}
+				</label>
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>{$lang->cmd_set_design_info}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="skin">{$lang->skin}</label>
+			<div class="x_controls">
+				<select id="skin" name="skin">
+					<option loop="$skin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->skin==$key">{$val->title} ({$key})</option>
+				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
+			<div class="x_controls">
+				<select id="mskin" name="mskin">
+					<option loop="$mskin_list=>$key,$val" value="{$key}" selected="selected"|cond="$config->mskin==$key">{$val->title} ({$key})</option>
+				</select>
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>{$lang->sns_login}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_login">{$lang->sns_login}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="sns_login">
+					<input type="checkbox" name="sns_login" id="sns_login" value="Y" checked="checked"|cond="$config->sns_login=='Y'" /> {$lang->about_sns_login}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="default_login">{$lang->sns_default_login}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="default_login">
+					<input type="checkbox" name="default_login" id="default_login" value="Y" checked="checked"|cond="$config->default_login=='Y'" /> {$lang->about_sns_default_login}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="default_signup">{$lang->cmd_signup}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="default_signup">
+					<input type="checkbox" name="default_signup" id="default_signup" value="Y" checked="checked"|cond="$config->default_signup=='Y'" /> {$lang->about_sns_default_signup}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="delete_member_forbid">{$lang->delete_member_forbid}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="delete_member_forbid">
+					<input type="checkbox" name="delete_member_forbid" id="delete_member_forbid" value="Y" checked="checked"|cond="$config->delete_member_forbid=='Y'" /> {$lang->about_delete_member_forbid}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_follower_count">{$lang->sns_follower_count}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="sns_follower_count" id="sns_follower_count" value="{$config->sns_follower_count?$config->sns_follower_count:0}" style="width:60px" />
+				<a href="#sns_follower_count_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="sns_follower_count_help" class="x_help-block" hidden>{$lang->about_sns_follower_count}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="mail_auth_valid_hour">{$lang->mail_auth_valid_hour}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="mail_auth_valid_hour" id="mail_auth_valid_hour" value="{$config->mail_auth_valid_hour?$config->mail_auth_valid_hour:0}" style="width:60px" />
+				<a href="#mail_auth_valid_hour_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
+				<p id="mail_auth_valid_hour_help" class="x_help-block" hidden>{$lang->about_mail_auth_valid_hour}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_suspended_account">{$lang->sns_suspended_account}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="sns_suspended_account">
+					<input type="checkbox" name="sns_suspended_account" id="sns_suspended_account" value="Y" checked="checked"|cond="$config->sns_suspended_account=='Y'" /> {$lang->about_sns_suspended_account}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_keep_signed">{$lang->keep_signed}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="sns_keep_signed">
+					<input type="checkbox" name="sns_keep_signed" id="sns_keep_signed" value="Y" checked="checked"|cond="$config->sns_keep_signed=='Y'" /> {$lang->about_sns_keep_signed}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="use_for_phone_auth">{$lang->use_for_phone_auth}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="use_for_phone_auth">
+					<input type="checkbox" name="use_for_phone_auth" id="use_for_phone_auth" value="Y" checked="checked"|cond="$config->use_for_phone_auth=='Y'" /> {$lang->about_use_for_phone_auth}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_share_on_write">{$lang->sns_share_on_write}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="sns_share_on_write">
+					<input type="checkbox" name="sns_share_on_write" id="sns_share_on_write" value="Y" checked="checked"|cond="$config->sns_share_on_write=='Y'" /> {$lang->about_sns_share_on_write}
+				</label>
+			</div>
+		</div>
+	</section>
+	<section class="section">
+		<h1>{$lang->sns_linkage}</h1>
+		<div class="x_control-group">
+			<label class="x_control-label" for="sns_linkage_module">{$lang->sns_linkage_module}</label>
+			<div class="x_controls">
+				<select name="linkage_module_target">
+					<option value="include">{$lang->include_linkage_module}</option>
+					<option value="exclude" selected="selected"|cond="$config->linkage_module_target=='exclude'">{$lang->exclude_linkage_module}</option>
+				</select>
+				
+				<input type="hidden" name="linkage_module_srl" id="linkage_module_srl" value="{$config->linkage_module_srl}" />
+				<select class="modulelist_selected" size="8" multiple="multiple" style="display:block;vertical-align:top;margin:5px 0"></select>
+				<a href="#" id="__module_srl_list_target_module_srl" class="x_btn moduleTrigger" data-multiple="true" style="margin:0 -5px 0 0;border-radius:2px 0 0 0px">{$lang->cmd_add}</a>
+				<button type="button" class="x_btn modulelist_del" style="border-radius:0 2px 2px 0">{$lang->cmd_delete}</button>
+				<script>
+					xe.registerApp(new xe.ModuleListManager('linkage_module_srl'));
+				</script>
+			</div>
+		</div>
+	</section>
+	
+	<div class="x_clearfix btnArea">
+		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
+	</div>
+</form>
