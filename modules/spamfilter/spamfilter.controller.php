@@ -218,7 +218,7 @@ class spamfilterController extends spamfilter
 	function triggerCheckCaptcha(&$obj)
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!isset($config) || !isset($config->captcha) || $config->captcha->type !== 'recaptcha')
+		if (!isset($config) || !isset($config->captcha) || $config->captcha->type !== 'recaptcha' || !$config->captcha->site_key || !$config->captcha->secret_key)
 		{
 			return;
 		}

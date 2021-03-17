@@ -353,11 +353,11 @@ jQuery(function($) {
 	var body_element = $('body');
 	/* If there is color_scheme class in the body, color scheme settings were already applied. */
 	if(!body_element.hasClass('color_scheme_light') && !body_element.hasClass('color_scheme_dark')) {
-		var color_scheme_cookie = XE.cookie.get('rx_color_scheme');
-		var color_scheme_detected = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
-		if (!color_scheme_cookie) {
-			body_element.addClass('color_scheme_' + color_scheme_detected).removeClass('color_scheme_' + (color_scheme_detected === 'dark' ? 'light' : 'dark'));
+		var color_scheme = XE.cookie.get('rx_color_scheme');
+		if (color_scheme !== 'light' && color_scheme !== 'dark') {
+			color_scheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
 		}
+		body_element.addClass('color_scheme_' + color_scheme);
 	}
 	
 	/* Editor preview replacement */
@@ -775,10 +775,10 @@ function setLangType(lang_type) {
 
 /* 색상 테마 변경 */
 function getColorScheme() {
-	if ($('body').hasClass('color_scheme_light')) {
-		return 'light';
-	} else {
+	if ($('body').hasClass('color_scheme_dark')) {
 		return 'dark';
+	} else {
+		return 'light';
 	}
 }
 function setColorScheme(color_scheme) {

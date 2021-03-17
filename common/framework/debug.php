@@ -668,7 +668,7 @@ class Debug
 		}
 		
 		// Localize the error message.
-		$display_error_message = ini_get('display_errors') || !\Context::isInstalled() || Session::isAdmin();
+		$display_error_message = ini_get('display_errors') || !\Context::isInstalled() || Session::isAdmin() || self::isEnabledForCurrentUser();
 		$message = $display_error_message ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
@@ -745,13 +745,17 @@ class Debug
 			
 			case 'admin':
 			default:
-				if ($logged_info = \Context::get('logged_info'))
+				if (!Session::isStarted())
+				{
+					return true;
+				}
+				elseif ($logged_info = \Context::get('logged_info'))
 				{
 					return self::$_enabled = $logged_info->isAdmin();
 				}
 				else
 				{
-					return true;
+					return self::$_enabled = false;
 				}
 		}
 	}

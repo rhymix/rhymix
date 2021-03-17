@@ -1702,6 +1702,12 @@ class Context
 			$get_vars['act'] = $act_alias[$act];
 		}
 		
+		// Don't use full short URL for admin pages #1643
+		if (isset($get_vars['module']) && $get_vars['module'] === 'admin' && $rewrite_level > 1)
+		{
+			$rewrite_level = 1;
+		}
+		
 		// organize URL
 		$query = '';
 		if(count($get_vars) > 0)

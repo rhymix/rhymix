@@ -80,6 +80,11 @@ class spamfilterAdminController extends spamfilter
 		$config->captcha->type = $vars->captcha_type === 'recaptcha' ? 'recaptcha' : 'none';
 		$config->captcha->site_key = escape(utf8_trim($vars->site_key));
 		$config->captcha->secret_key = escape(utf8_trim($vars->secret_key));
+		if ($config->captcha->type !== 'none' && (!$config->captcha->site_key || !$config->captcha->secret_key))
+		{
+			return new BaseObject(-1, 'msg_recaptcha_keys_not_set');
+		}
+		
 		$config->captcha->theme = escape(utf8_trim($vars->captcha_theme));
 		$config->captcha->size = escape(utf8_trim($vars->captcha_size));
 		$config->captcha->target_devices = [
