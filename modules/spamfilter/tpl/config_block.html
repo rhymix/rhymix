@@ -4,6 +4,9 @@
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig" />
 		<input type="hidden" name="module" value="spamfilter" />
 		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/1" />
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/spamfilter/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_interval}</label>
 			<div class="x_controls">
