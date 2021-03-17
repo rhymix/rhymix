@@ -3813,7 +3813,6 @@ class memberController extends member
 	{
 		$not_required_if_indirect_insert = ['user_id'];
 		$not_required_in_update = ['password'];
-		
 		foreach($config->signupForm as $formInfo)
 		{
 			if($formInfo->isUse && ($formInfo->required || $formInfo->mustRequired))
@@ -3822,7 +3821,7 @@ class memberController extends member
 				{
 					// pass
 				}
-				elseif (!isset($args->{$formInfo->name}) || $this->_checkEmpty($args->{$formInfo->name} ?? ''))
+				elseif (!isset($args->{$formInfo->name}) || $this->_checkEmpty($args->{$formInfo->name} ?? '', $formInfo->type ?? ''))
 				{
 					if (in_array($formInfo->name, $not_required_if_indirect_insert) && !preg_match('/^procMember.+/i', Context::get('act')))
 					{
@@ -3922,11 +3921,17 @@ class memberController extends member
 	 * Check if a variable is empty.
 	 * 
 	 * @param mixed $var
+	 * @param string $type
 	 * @return bool
 	 */
-	protected function _checkEmpty($var)
+	protected function _checkEmpty($var, $type = '')
 	{
-		if (is_array($var))
+		if ($type === 'tel' || $type === 'kr_zip')
+		{
+			$condition = (is_array($var) && count($var) >= 3 && trim($var[0]) !== '' && trim($var[1]) !== '' && trim($var[2]) !== '');
+			return !$condition;
+		}
+		elseif (is_array($var))
 		{
 			return implode('', array_map('trim', $var)) === '';
 		}
