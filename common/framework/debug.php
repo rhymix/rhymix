@@ -668,7 +668,7 @@ class Debug
 		}
 		
 		// Localize the error message.
-		$display_error_message = ini_get('display_errors') || !\Context::isInstalled() || Session::isAdmin();
+		$display_error_message = ini_get('display_errors') || !\Context::isInstalled() || Session::isAdmin() || self::isEnabledForCurrentUser();
 		$message = $display_error_message ? $message : lang('msg_server_error_see_log');
 		if ($message === 'msg_server_error_see_log')
 		{
