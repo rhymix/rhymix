@@ -7,10 +7,10 @@
 		<action name="getCommentMenu" type="model" />
 		<action name="getCommentVotedMemberList" type="model" permission="root" />
 		
-		<action name="procCommentVoteUp" type="controller" permission="member" />
-		<action name="procCommentVoteUpCancel" type="controller" permission="member" />
-		<action name="procCommentVoteDown" type="controller" permission="member" />
-		<action name="procCommentVoteDownCancel" type="controller" permission="member" />
+		<action name="procCommentVoteUp" type="controller" />
+		<action name="procCommentVoteUpCancel" type="controller" />
+		<action name="procCommentVoteDown" type="controller" />
+		<action name="procCommentVoteDownCancel" type="controller" />
 		<action name="procCommentDeclare" type="controller" permission="member" />
 		<action name="procCommentGetList" type="controller" permission="manager" check_type="comment" check_var="comment_srls" />
 		<action name="procCommentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" ruleset="insertCommentModuleConfig" />
