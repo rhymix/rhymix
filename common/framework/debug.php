@@ -749,7 +749,7 @@ class Debug
 				{
 					return true;
 				}
-				elseif ($logged_info = Session::getMemberInfo())
+				elseif ($logged_info = \Context::get('logged_info'))
 				{
 					return self::$_enabled = $logged_info->isAdmin();
 				}
