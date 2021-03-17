@@ -745,13 +745,17 @@ class Debug
 			
 			case 'admin':
 			default:
-				if ($logged_info = \Context::get('logged_info'))
+				if (!Session::isStarted())
+				{
+					return true;
+				}
+				elseif ($logged_info = Session::getMemberInfo())
 				{
 					return self::$_enabled = $logged_info->isAdmin();
 				}
 				else
 				{
-					return true;
+					return self::$_enabled = false;
 				}
 		}
 	}
