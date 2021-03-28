@@ -320,9 +320,9 @@ class installController extends install
 		$license_agreement_time = intval(trim(FileHandler::readFile($this->flagLicenseAgreement)));
 		if(isset($_SESSION['license_agreement']) && (!$license_agreement_time || ($license_agreement_time == $_SESSION['license_agreement'])))
 		{
-			$sess_autostart = ini_get('session.auto_start');
+			$sess_autostart = intval(ini_get('session.auto_start'));
 			
-			if($sess_autostart === 0 || $sess_autostart === "")
+			if($sess_autostart === 0)
 			{
 				$checklist['session'] = true;
 			}
