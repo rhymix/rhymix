@@ -521,19 +521,26 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exception('msg_already_friend');
 		}
 
+		// Call trigger (before)
+		$args->friend_group_srl = intval(Context::get('friend_group_srl'));
+		$trigger_output = ModuleHandler::triggerCall('communication.addFriend', 'before', $args);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
 		// Variable
-		$args = new stdClass();
 		$args->friend_srl = getNextSequence();
 		$args->list_order = $args->friend_srl * -1;
-		$args->friend_group_srl = Context::get('friend_group_srl');
-		$args->member_srl = $logged_info->member_srl;
-		$args->target_srl = $target_srl;
 		$output = executeQuery('communication.addFriend', $args);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
 
+		// Call trigger (after)
+		$trigger_output = ModuleHandler::triggerCall('communication.addFriend', 'after', $args);
+		
 		$this->add('member_srl', $target_srl);
 		$this->setMessage('success_registed');
 
@@ -629,50 +636,42 @@ class communicationController extends communication
 		}
 
 		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
 
 		// Check variables
 		$friend_srl_list = Context::get('friend_srl_list');
-
 		if(!is_array($friend_srl_list))
 		{
 			$friend_srl_list = explode('|@|', $friend_srl_list);
 		}
-
+		$friend_srl_list = array_map(function($str) { return intval(trim($str)); }, $friend_srl_list);
+		$friend_srl_list = array_filter($friend_srl_list, function($friend_srl) { return $friend_srl > 0; });
 		if(!count($friend_srl_list))
 		{
 			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
 
-		$friend_count = count($friend_srl_list);
-		$target = array();
-
-		for($i = 0; $i < $friend_count; $i++)
-		{
-			$friend_srl = (int) trim($friend_srl_list[$i]);
-			if(!$friend_srl)
-			{
-				continue;
-			}
-
-			$target[] = $friend_srl;
-		}
-
-		if(!count($target))
-		{
-			throw new Rhymix\Framework\Exception('msg_cart_is_null');
-		}
-
-		// Delete
+		// Prepare arguments
 		$args = new stdClass();
-		$args->friend_srls = implode(',', $target);
 		$args->member_srl = $logged_info->member_srl;
+		$args->friend_srl_list = $friend_srl_list;
+		
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('communication.deleteFriend', 'before', $args);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
+		// Delete
 		$output = executeQuery('communication.deleteFriend', $args);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
 
+		// Call trigger (after)
+		$trigger_output = ModuleHandler::triggerCall('communication.deleteFriend', 'after', $args);
+		
 		$this->setMessage('success_deleted');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
