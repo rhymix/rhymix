@@ -17,7 +17,7 @@ class pageMobile extends pageView
 				{
 					$this->cache_file = sprintf("./files/cache/opage/%d.%s.m.cache.php", $this->module_info->module_srl, Context::getSslStatus()); 
 					$this->interval = (int)($this->module_info->page_caching_interval);
-					$this->path = $this->module_info->mpath;
+					$this->path = $this->module_info->mpath ?: $this->module_info->path;
 					break;
 				}
 		}
