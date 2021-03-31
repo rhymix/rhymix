@@ -761,7 +761,11 @@ class ModuleHandler extends Handler
 	 */
 	protected function _setModuleColorScheme($site_module_info)
 	{
-		$color_scheme = $site_module_info->settings->color_scheme ?? Rhymix\Framework\UA::getColorScheme();
+		$color_scheme = ($site_module_info->settings->color_scheme ?? '') ?: 'auto';
+		if ($color_scheme === 'auto')
+		{
+			$color_scheme = Rhymix\Framework\UA::getColorScheme();
+		}
 		if (!in_array($color_scheme, ['auto', 'light', 'dark']))
 		{
 			$color_scheme = 'auto';

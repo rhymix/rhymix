@@ -609,6 +609,15 @@ class HTMLDisplayHandler
 					}
 				}
 			}
+			
+			Context::addOpenGraphData('og:article:section', Context::replaceUserLang($current_module_info->browser_title));
+		}
+		
+		// Add author name for articles.
+		if ($page_type === 'article' && $permitted && config('seo.og_use_nick_name'))
+		{
+			Context::addMetaTag('author', $oDocument->getNickName());
+			Context::addOpenGraphData('og:article:author', $oDocument->getNickName());
 		}
 		
 		// Add datetime for articles.
