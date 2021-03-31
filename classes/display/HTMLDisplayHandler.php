@@ -609,6 +609,8 @@ class HTMLDisplayHandler
 					}
 				}
 			}
+			
+			Context::addOpenGraphData('og:article:section', Context::replaceUserLang($current_module_info->browser_title));
 		}
 		
 		// Add author name for articles.
