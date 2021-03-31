@@ -112,6 +112,7 @@ return array(
 		'og_extract_description' => false,
 		'og_extract_images' => false,
 		'og_extract_hashtags' => false,
+		'og_use_nick_name' => false,
 		'og_use_timestamps' => false,
 	),
 	'mediafilter' => array(

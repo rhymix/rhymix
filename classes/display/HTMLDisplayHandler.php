@@ -611,6 +611,13 @@ class HTMLDisplayHandler
 			}
 		}
 		
+		// Add author name for articles.
+		if ($page_type === 'article' && $permitted && config('seo.og_use_nick_name'))
+		{
+			Context::addMetaTag('author', $oDocument->getNickName());
+			Context::addOpenGraphData('og:article:author', $oDocument->getNickName());
+		}
+		
 		// Add datetime for articles.
 		if ($page_type === 'article' && $permitted && config('seo.og_use_timestamps'))
 		{

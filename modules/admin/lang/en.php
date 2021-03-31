@@ -249,6 +249,7 @@ $lang->og_extract_description_fallback = 'Use general description only';
 $lang->og_extract_images = 'Extract Images from Document';
 $lang->og_extract_images_fallback = 'Use site default image only';
 $lang->og_extract_hashtags = 'Extract Hashtags from Document';
+$lang->og_use_nick_name = 'Include Author Name';
 $lang->og_use_timestamps = 'Include Timestamps';
 $lang->autoinstall = 'EasyInstall';
 $lang->last_week = 'Last Week';

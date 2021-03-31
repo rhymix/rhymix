@@ -661,6 +661,7 @@ class adminAdminView extends admin
 		Context::set('og_extract_description', Rhymix\Framework\Config::get('seo.og_extract_description'));
 		Context::set('og_extract_images', Rhymix\Framework\Config::get('seo.og_extract_images'));
 		Context::set('og_extract_hashtags', Rhymix\Framework\Config::get('seo.og_extract_hashtags'));
+		Context::set('og_use_nick_name', Rhymix\Framework\Config::get('seo.og_use_nick_name'));
 		Context::set('og_use_timestamps', Rhymix\Framework\Config::get('seo.og_use_timestamps'));
 		Context::set('twitter_enabled', Rhymix\Framework\Config::get('seo.twitter_enabled'));
 		
