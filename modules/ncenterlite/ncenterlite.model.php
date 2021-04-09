@@ -231,6 +231,9 @@ class ncenterliteModel extends ncenterlite
 		$tmp = $this->getMyNotifyList($member_srl, $page);
 		foreach($tmp->data as $key => $obj)
 		{
+			unset($tmp->data[$key]->target_email_address);
+			unset($tmp->data[$key]->target_user_id);
+			unset($tmp->data[$key]->target_member_srl);
 			$tmp->data[$key]->url = str_replace('&amp;', '&', $obj->url);
 		}
 
