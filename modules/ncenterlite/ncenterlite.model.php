@@ -282,13 +282,13 @@ class ncenterliteModel extends ncenterlite
 			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
 			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify);
-			if($v->target_type === $this->_TYPE_VOTED && $config->anonymous_voter === 'Y')
+			if(($v->target_type === $this->_TYPE_VOTED && $config->anonymous_voter === 'Y') || ($v->target_type === $this->_TYPE_SCRAPPED && $config->anonymous_scrap === 'Y'))
 			{
 				$v->target_member_srl = $member_srl;
 				$v->target_nick_name = lang('anonymous');
 				$v->target_user_id = $v->target_email_address = 'anonymous';
 			}
-			if($v->target_member_srl)
+			if($v->target_member_srl && ($v->target_type !== $this->_TYPE_VOTED || $v->target_type !== $this->_TYPE_SCRAPPED))
 			{
 				$profileImage = $oMemberModel->getProfileImage($v->target_member_srl);
 				$v->profileImage = $profileImage->src;
