@@ -143,6 +143,8 @@ class ncenterliteView extends ncenterlite
 	
 	function dispNcenterliteInsertUnsubscribe()
 	{
+		$this->setLayoutFile('popup_layout');
+		
 		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$target_srl = Context::get('target_srl');
