@@ -803,7 +803,7 @@ class ModuleHandler extends Handler
 		
 		// Set meta keywords.
 		$module_config = ModuleModel::getModuleConfig('module');
-		if ($module_info->meta_keywords)
+		if ($module_info->meta_keywords ?? '')
 		{
 			Context::addMetaTag('keywords', $module_info->meta_keywords);
 		}
@@ -817,7 +817,7 @@ class ModuleHandler extends Handler
 		}
 		
 		// Set meta description.
-		if ($module_info->meta_description)
+		if ($module_info->meta_description ?? '')
 		{
 			Context::addMetaTag('description', $module_info->meta_description);
 		}
