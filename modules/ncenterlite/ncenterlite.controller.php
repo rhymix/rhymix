@@ -1162,7 +1162,6 @@ class ncenterliteController extends ncenterlite
 			Context::loadFile(array($this->template_path . 'ncenterlite.css', '', '', 100));
 		}
 
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!Mobile::isFromMobilePhone())
 		{
