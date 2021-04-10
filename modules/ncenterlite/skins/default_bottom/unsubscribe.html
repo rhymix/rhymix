@@ -17,7 +17,8 @@
 		<input type="hidden" name="unsubscribe_srl" value="{$unsubscribe_srl}" />
 		<input type="hidden" name="unsubscribe_type" value="{$unsubscribe_type}" />
 		<!--@end-->
-		
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'act', $act, 'target_srl', $target_srl, 'unsubscribe_type', $unsubscribe_type)}" />
+		<input type="hidden" name="is_popup" value="Y" />
 		<div class="x_modal-header">
 			<h1>{$lang->ncenterlite_cmd_unsubscribe_settings}</h1>
 		</div>
@@ -59,3 +60,7 @@
 		</div>
 	</form>
 </div>
+<script cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default_bottom/unsubscribe/1'">
+	alert("{$XE_VALIDATOR_MESSAGE}");
+	window.close();
+</script>

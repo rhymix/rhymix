@@ -274,15 +274,30 @@ class ncenterliteController extends ncenterlite
 				return $output;
 			}
 		}
+
 		$this->setMessage('success_updated');
 
-		if (Context::get('success_return_url'))
+		if(Context::get('is_popup') != 'Y')
 		{
-			$this->setRedirectUrl(Context::get('success_return_url'));
+			if (Context::get('success_return_url'))
+			{
+				$this->setRedirectUrl(Context::get('success_return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
+			}
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
+			if (Context::get('success_return_url'))
+			{
+				$this->setRedirectUrl(Context::get('success_return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'target_srl', $obj->target_srl, 'unsubscribe_type', $obj->unsubscribe_type));
+			}
 		}
 	}
 
