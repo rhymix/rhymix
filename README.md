@@ -109,12 +109,13 @@ This requires the most convenience for the average user over any other CMS.
 ### Installation Environment
 
 Rhymix requires PHP 7.0 or higher, and MySQL 5.0.7 or higher.
-Please see the online manual for more information on server requirements.
+Please see the [online manual](https://rhymix.org/manual/introduction/requirements) for more information on server requirements.
 
 ### Participation in Development
 
 Rhymix welcomes developers, designers, translators, and bugs to the public.
-If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
+If you would like to participate, please read [Issue and PR Submission Guide](https://rhymix.org/manual/contrib/github)
+and [Coding Standards](https://rhymix.org/manual/contrib/coding-standards) first to ensure efficient and orderly project management.
 
 If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can make a patch before it is exploited.
 
