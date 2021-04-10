@@ -1132,7 +1132,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAddMemberMenu()
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$oMemberController = getController('member');
 
 		$config = NcenterliteModel::getConfig();
