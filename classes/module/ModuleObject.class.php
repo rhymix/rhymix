@@ -54,7 +54,7 @@ class ModuleObject extends BaseObject
 	 * Singleton
 	 * 
 	 * @param string $module_hint (optional)
-	 * @return self
+	 * @return static
 	 */
 	public static function getInstance($module_hint = null)
 	{
