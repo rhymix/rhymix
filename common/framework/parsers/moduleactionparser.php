@@ -101,10 +101,12 @@ class ModuleActionParser extends BaseParser
 			{
 				$methods = ['POST'];
 			}
+			/*
 			elseif ($action_type === 'view' || starts_with('disp', $action_name))
 			{
 				$methods = ['GET'];
 			}
+			*/
 			else
 			{
 				$methods = ['GET', 'POST'];
