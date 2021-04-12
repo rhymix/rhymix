@@ -3377,10 +3377,17 @@ class memberController extends member
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 
+		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
 		$member_info = Context::get('logged_info');
 		$newEmail = Context::get('email_address');
-
-		if(!$newEmail) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!$newEmail)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Check managed Email Host
 		if(MemberModel::isDeniedEmailHost($newEmail))
@@ -3402,24 +3409,15 @@ class memberController extends member
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) throw new Rhymix\Framework\Exception('msg_exists_email_address');
 
-		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		unset($_SESSION['rechecked_password_step']);
-
 		$auth_args = new stdClass();
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
 		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
 
-		$oDB = &DB::getInstance();
-		$oDB->begin();
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
-			$oDB->rollback();
 			return $output;
 		}
 
@@ -3428,14 +3426,11 @@ class memberController extends member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		global $lang;
-
 		$memberInfo = array();
-		$memberInfo[$lang->email_address] = $member_info->email_address;
-		$memberInfo[$lang->nick_name] = $member_info->nick_name;
+		$memberInfo[lang('email_address')] = $member_info->email_address;
+		$memberInfo[lang('nick_name')] = $member_info->nick_name;
 
 		Context::set('memberInfo', $memberInfo);
-
 		Context::set('newEmail', $newEmail);
 
 		$auth_url = getFullUrl('','module','member','act','procMemberAuthEmailAddress','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
@@ -3449,6 +3444,8 @@ class memberController extends member
 		$oMail->setBody($content);
 		$oMail->addTo($newEmail, $member_info->nick_name);
 		$oMail->send();
+
+		unset($_SESSION['rechecked_password_step']);
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);
