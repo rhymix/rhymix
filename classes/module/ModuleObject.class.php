@@ -74,7 +74,7 @@ class ModuleObject extends BaseObject
 		else
 		{
 			$class_filename = (new ReflectionClass($class_name))->getFileName();
-			preg_match('!^(.+[/\\\\]([^/\\\\]+)[/\\\\])[^/\\\\]+$!', $class_filename, $matches);
+			preg_match('!^(.+[/\\\\]modules[/\\\\]([^/\\\\]+)[/\\\\])!', $class_filename, $matches);
 			$module_path = $matches[1];
 			$module = $matches[2];
 		}
