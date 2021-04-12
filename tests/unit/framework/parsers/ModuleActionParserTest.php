@@ -15,7 +15,7 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('view', $info->action->dispTestView->type);
 		$this->assertEquals('guest', $info->action->dispTestView->grant);
 		$this->assertEquals((object)['target' => 'view', 'check_var' => '', 'check_type' => ''], $info->action->dispTestView->permission);
-		$this->assertEquals('GET', $info->action->dispTestView->method);
+		$this->assertEquals('GET|POST', $info->action->dispTestView->method);
 		$this->assertEquals('false', $info->action->dispTestView->standalone);
 		$this->assertEquals('true', $info->action->dispTestView->check_csrf);
 		$this->assertEquals(3, count($info->action->dispTestView->route));
@@ -41,7 +41,7 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)/comment/(?P<comment_srl>[0-9]+)$#u']);
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)/tag/(?P<tag>[a-zA-Z0-9_]+)$#u']);
 		$this->assertEquals('dispTestWrite', $info->route->GET['#^write$#u']);
-		$this->assertEquals(0, count($info->route->POST));
+		$this->assertEquals(3, count($info->route->POST));
 		
 		// Grant
 		$this->assertEquals(['view'], array_keys(get_object_vars($info->grant)));
