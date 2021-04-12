@@ -489,7 +489,14 @@ class documentController extends document
 		}
 		
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
-		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
+		if (!isset($obj->extra_vars))
+		{
+			$obj->extra_vars = new stdClass;
+		}
+		if (!is_string($obj->extra_vars))
+		{
+			$obj->extra_vars = serialize($obj->extra_vars);
+		}
 
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
@@ -787,7 +794,10 @@ class documentController extends document
 		}
 		
 		// Serialize the $extra_vars
-		if(!is_string($obj->extra_vars)) $obj->extra_vars = serialize($obj->extra_vars);
+		if (isset($obj->extra_vars) && !is_string($obj->extra_vars))
+		{
+			$obj->extra_vars = serialize($obj->extra_vars);
+		}
 
 		// Remove the columns for automatic saving
 		unset($obj->_saved_doc_srl);
