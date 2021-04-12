@@ -337,6 +337,7 @@ class ModuleHandler extends Handler
 
 		// get type, kind
 		$type = $xml_info->action->{$this->act}->type ?? null;
+		$class_name = $xml_info->action->{$this->act}->class_name ?? null;
 		$ruleset = $xml_info->action->{$this->act}->ruleset ?? null;
 		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? null;
 		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
@@ -386,12 +387,19 @@ class ModuleHandler extends Handler
 
 		$logged_info = Context::get('logged_info');
 
-		// if(type == view, and case for using mobilephone)
-		if($type == "view" && $this->is_mobile && Context::isInstalled())
+		// Create an instance of the requested module and class
+		if($class_name)
+		{
+			$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $this->module, $class_name);
+			if (class_exists($class_fullname))
+			{
+				$oModule = $class_fullname::getInstance();
+			}
+		}
+		elseif($type == "view" && $this->is_mobile && Context::isInstalled())
 		{
 			$orig_type = "view";
 			$type = "mobile";
-			// create a module instance
 			$oModule = self::getModuleInstance($this->module, $type, $kind);
 			if(!is_object($oModule) || !method_exists($oModule, $this->act))
 			{
@@ -402,7 +410,6 @@ class ModuleHandler extends Handler
 		}
 		else
 		{
-			// create a module instance
 			$oModule = self::getModuleInstance($this->module, $type, $kind);
 		}
 
@@ -430,6 +437,7 @@ class ModuleHandler extends Handler
 					$forward = new stdClass();
 					$forward->module = $module;
 					$forward->type = $xml_info->action->{$this->act}->type;
+					$forward->class_name = $xml_info->action->{$this->act}->class_name;
 					$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
 					$forward->meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 					$forward->act = $this->act;
@@ -484,7 +492,15 @@ class ModuleHandler extends Handler
 					}
 				}
 				
-				if($type == "view" && $this->is_mobile)
+				if($forward->class_name)
+				{
+					$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $forward->module, $forward->class_name);
+					if (class_exists($class_fullname))
+					{
+						$oModule = $class_fullname::getInstance();
+					}
+				}
+				elseif($type == "view" && $this->is_mobile)
 				{
 					$orig_type = "view";
 					$type = "mobile";
@@ -501,7 +517,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule = self::getModuleInstance($forward->module, $type, $kind);
 				}
-				
+						
 				if(!is_object($oModule))
 				{
 					return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404);
