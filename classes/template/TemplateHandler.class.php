@@ -64,6 +64,24 @@ class TemplateHandler
 	}
 
 	/**
+	 * Reset all instance properties to the default state.
+	 * 
+	 * @return void
+	 */
+	protected function resetState()
+	{
+		$this->path = null;
+		$this->web_path = null;
+		$this->filename = null;
+		$this->file = null;
+		$this->compiled_file = null;
+		$this->config = new stdClass;
+		$this->skipTags = null;
+		$this->compiled_file = null;
+		self::$rootTpl = null;
+	}
+
+	/**
 	 * set variables for template compile
 	 * @param string $tpl_path
 	 * @param string $tpl_filename
@@ -76,6 +94,7 @@ class TemplateHandler
 		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
 		if($tpl_path === '/' || !is_dir($tpl_path))
 		{
+			$this->resetState();
 			return;
 		}
 		if(!file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename) && file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename . '.html'))
@@ -122,8 +141,8 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
-			$tpl_path = str_replace('\\', '/', $tpl_path);
-			$error_message = "Template not found: ${tpl_path}${tpl_filename}" . ($tpl_file ? " (${tpl_file})" : '');
+			$tpl_path = rtrim(str_replace('\\', '/', $tpl_path), '/') . '/';
+			$error_message = "Template not found: ${tpl_path}${tpl_filename}.html" . ($tpl_file ? " (${tpl_file})" : '');
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);
 		}
@@ -145,7 +164,9 @@ class TemplateHandler
 				$tmpfilename = tempnam(sys_get_temp_dir(), 'rx-compiled');
 				if($tmpfilename === false || Rhymix\Framework\Storage::write($tmpfilename, $buff) === false)
 				{
-					return 'Fatal Error : Cannot create temporary file. Please check permissions.';
+					$error_message = 'Template compile failed: Cannot create temporary file. Please check permissions.';
+					trigger_error($error_message, \E_USER_WARNING);
+					return escape($error_message);
 				}
 				
 				$this->compiled_file = $tmpfilename;
@@ -189,8 +210,8 @@ class TemplateHandler
 		// if target file does not exist exit
 		if(!$this->file || !file_exists($this->file))
 		{
-			$tpl_path = str_replace('\\', '/', $tpl_path);
-			$error_message = "Template not found: ${tpl_path}${tpl_filename}";
+			$tpl_path = rtrim(str_replace('\\', '/', $tpl_path), '/') . '/';
+			$error_message = "Template not found: ${tpl_path}${tpl_filename}.html";
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);
 		}

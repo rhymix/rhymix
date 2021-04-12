@@ -736,7 +736,7 @@ class content extends WidgetHandler
 
 	function _compile($args,$content_items)
 	{
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		// Set variables for widget
 		$widget_info = new stdClass();
 		$widget_info->modules_info = $args->modules_info;
