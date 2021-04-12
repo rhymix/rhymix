@@ -75,10 +75,23 @@ class memberAdminController extends member
 			}
 		}
 
-		// Remove some unnecessary variables from all the vars
+		// Get existing extra vars
+		if($args->member_srl)
+		{
+			$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
+			$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
+			foreach($this->nouse_extra_vars as $key)
+			{
+				unset($extra_vars->$key);
+			}
+		}
+		else
+		{
+			$extra_vars = new stdClass;
+		}
+		
 		// Get list of extra vars
 		$all_args = Context::getRequestVars();
-		$extra_vars = new stdClass;
 		foreach($config->signupForm as $formInfo)
 		{
 			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))

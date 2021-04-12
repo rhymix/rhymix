@@ -1157,9 +1157,16 @@ class memberController extends member
 		// Fill in member_srl
 		$args->member_srl = $logged_info->member_srl;
 
-		// Get list of extra vars
+		// Get existing extra vars
+		$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
+		$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
+		foreach($this->nouse_extra_vars as $key)
+		{
+			unset($extra_vars->$key);
+		}
+		
+		// Update extra vars
 		$all_args = Context::getRequestVars();
-		$extra_vars = new stdClass;
 		foreach($config->signupForm as $formInfo)
 		{
 			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
@@ -1169,9 +1176,9 @@ class memberController extends member
 		}
 		foreach($this->admin_extra_vars as $key)
 		{
-			if (isset($logged_info->{$key}))
+			if (isset($all_args->{$key}))
 			{
-				$extra_vars->{$key} = $logged_info->{$key};
+				$extra_vars->{$key} = escape(utf8_clean($all_args->{$key}));
 			}
 		}
 		$args->extra_vars = serialize($extra_vars);

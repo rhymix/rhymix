@@ -11,6 +11,7 @@ class member extends ModuleObject
 	 * Extra vars for admin purposes
 	 */
 	public $admin_extra_vars = ['refused_reason', 'limited_reason'];
+	public $nouse_extra_vars = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
 	
 	/**
 	 * constructor
