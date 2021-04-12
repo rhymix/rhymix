@@ -1,0 +1,41 @@
+name: PHP Lint & Codeception
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ '7.0', '7.1', '7.2', '7.3', '7.4' ]
+    
+    name: PHP ${{ matrix.php }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup PHP
+      uses: nanasess/setup-php@master
+      with:
+        php-version: ${{ matrix.php }}
+    
+    - name: Start MySQL and create database
+      run: |
+        sudo systemctl start mysql.service
+        sudo mysql -uroot -proot -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
+
+    - name: PHP Lint
+      run: if find . -name "*.php" ! -path "./vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
+    
+    - name: Download codeception (PHP 7.2 and above)
+      if: matrix.php >= '7.2'
+      run: wget https://codeception.com/codecept.phar
+    
+    - name: Download codeception (PHP 7.1 and below)
+      if: matrix.php <= '7.1'
+      run: wget https://codeception.com/php56/codecept.phar
+    
+    - name: Run PHP development server
+      run: php -S localhost:8000 &
+    
+    - name: Build and run codeception
+      run: |
+        php codecept.phar build
+        php codecept.phar run --debug --fail-fast

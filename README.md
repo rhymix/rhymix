@@ -1,5 +1,8 @@
+[![Rhymix](./common/img/logo.png)](https://rhymix.org)
+
+![PHP Lint & Codeception](https://github.com/rhymix/rhymix/workflows/PHP%20Lint%20&%20Codeception/badge.svg)
+
 # 한국어
-[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
 Rhymix(라이믹스)는 누구든지 쉽고 자유롭게 독립적인 홈페이지를 만들어
 자신을 표현하고 커뮤니티를 키워나갈 수 있도록 돕기 위한 CMS(content management system)입니다.
@@ -22,7 +25,7 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 개발자 위주, 서비스 제공자 위주로 나아가는 현대의 IT 동향을 무차별적으로 받아들이기보다는
 사용자의 주권과 열린 인터넷 환경을 보호하는 기술을 집중적으로 발굴하며,
 우리나라 인터넷 커뮤니티의 성장을 이끌었던 90년대 제로보드와 2000년대 XE의 정신을 이어받아
-2010년대 후반 현재 위기에 처한 오픈 웹을 지키고 회복시키는 일에 앞장서고자 합니다.
+2020년대 현재 위기에 처한 오픈 웹을 지키고 회복시키는 일에 앞장서고자 합니다.
 
 그러기 위해서는 다른 어떤 CMS보다도 일반 사용자를 위한 편리성이 가장 뛰어나야 합니다.
 
@@ -34,13 +37,14 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 ### 설치 환경
 
 Rhymix를 사용하려면 PHP 7.0 이상, MySQL 5.0.7 이상 버전이 필요합니다.
-자세한 설치 환경은 [매뉴얼](https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/requirements.md)을 참고하십시오.
+자세한 설치 환경은 [매뉴얼](https://rhymix.org/manual/introduction/requirements)을 참고하십시오.
 
 ### 개발 참여
 
 Rhymix는 개발자, 디자이너, 번역가 등의 도움과 일반 사용자들의 버그 신고를 환영합니다.
 참여를 원하시는 분은 질서있고 효율적인 프로젝트 운영을 위해
-[CONTRIBUTING.md](./CONTRIBUTING.md)를 먼저 읽어 주시기 바랍니다.
+[이슈 및 PR 작성 방법](https://rhymix.org/manual/contrib/github)과
+[코딩 규칙](https://rhymix.org/manual/contrib/coding-standards)을 먼저 읽어 주시기 바랍니다.
 
 보안 취약점을 발견하셨다면 해커들에게 알려지기 전에 먼저 패치를 작성할 수 있도록
 devops@rhymix.org로 알려 주시면 감사하겠습니다.
@@ -78,7 +82,6 @@ Rhymix의 소스코드를 수정하거나 확장 기능을 직접 개발하여 �
 이러한 소스코드는 모두 GPL 라이선스의 적용을 받습니다.
 
 # English
-[![Rhymix](https://cloud.githubusercontent.com/assets/8565457/12881857/7c3e69d6-ce90-11e5-94dc-8a592cf9ab7d.png)](https://www.rhymix.org)
 
 Rhymix is a content management system (CMS) for everyone who wants to create independent homepages to express themselves and build their communities easily and freely.
 
@@ -94,8 +97,7 @@ a world where everyone can speak their voice without relying on a centralized SN
 a future where ordinary bloggers, students, the disabled and others as well as developers of startups can build a home in cyberspace and communicate with each other.
 
 Rather than indiscriminately accepting modern IT trends that are centered on developers and service providers, 
-we focused on technologies that protect users' sovereignty and open Internet environment. Taking the spirit of ZeroBoard and XpressEngine, which led the growth of the Korean Internet communities in the 1990s and 2000s respectively, Rhymix wants to take the lead in recovering and restoring the open web in the crisis of late 2010s.
-
+we focused on technologies that protect users' sovereignty and open Internet environment. Taking the spirit of ZeroBoard and XpressEngine, which led the growth of the Korean Internet communities in the 1990s and 2000s respectively, Rhymix wants to take the lead in recovering and restoring the open web in the crisis of the 2020s.
 
 This requires the most convenience for the average user over any other CMS.
 
@@ -107,12 +109,13 @@ This requires the most convenience for the average user over any other CMS.
 ### Installation Environment
 
 Rhymix requires PHP 7.0 or higher, and MySQL 5.0.7 or higher.
-Please see the online manual for more information on server requirements.
+Please see the [online manual](https://rhymix.org/manual/introduction/requirements) for more information on server requirements.
 
 ### Participation in Development
 
 Rhymix welcomes developers, designers, translators, and bugs to the public.
-If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
+If you would like to participate, please read [Issue and PR Submission Guide](https://rhymix.org/manual/contrib/github)
+and [Coding Standards](https://rhymix.org/manual/contrib/coding-standards) first to ensure efficient and orderly project management.
 
 If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can make a patch before it is exploited.
 

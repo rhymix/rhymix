@@ -40,7 +40,7 @@ class DebugTest extends \Codeception\TestCase\Test
 		$errors = Rhymix\Framework\Debug::getErrors();
 		$this->assertGreaterThanOrEqual(1, count($errors));
 		$error = array_pop($errors);
-		$this->assertContains('Rhymix', $error->message);
+		$this->assertStringContainsString('Rhymix', $error->message);
 		$this->assertEquals($file, $error->file);
 		$this->assertEquals($line, $error->line);
 		Rhymix\Framework\Debug::clearErrors();
