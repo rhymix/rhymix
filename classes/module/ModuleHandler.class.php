@@ -350,26 +350,16 @@ class ModuleHandler extends Handler
 			$kind = 'admin';
 		}
 
-		// check REQUEST_METHOD in controller
-		if($type == 'controller')
+		// check REQUEST_METHOD
+		if(isset($xml_info->action->{$this->act}))
 		{
-			$allowedMethod = $xml_info->action->{$this->act}->method;
-
-			if(!$allowedMethod)
-			{
-				$allowedMethodList[0] = 'POST';
-			}
-			else
-			{
-				$allowedMethodList = explode('|', strtoupper($allowedMethod));
-			}
-
-			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
+			$allowedMethodList = explode('|', $xml_info->action->{$this->act}->method);
+			if(!in_array($_SERVER['REQUEST_METHOD'], $allowedMethodList))
 			{
 				return self::_createErrorMessage(-1, 'msg_method_not_allowed', 405);
 			}
 		}
-		
+
 		// check CSRF for non-GET (POST, PUT, etc.) actions
 		if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 		{
@@ -430,9 +420,9 @@ class ModuleHandler extends Handler
 			}
 			
 			// 1. Look for the module with action name
-			if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches))
+			if(preg_match('/^[a-z]+([A-Z][a-z0-9\_]+).*$/', $this->act, $matches))
 			{
-				$module = strtolower($matches[2] . $matches[3]);
+				$module = strtolower($matches[1]);
 				$xml_info = ModuleModel::getModuleActionXml($module);
 
 				if($xml_info->action->{$this->act} && ($this->module == 'admin' || $xml_info->action->{$this->act}->standalone != 'false'))
@@ -478,27 +468,13 @@ class ModuleHandler extends Handler
 					}
 				}
 				
-				// SECISSUE also check foward act method
-				// check REQUEST_METHOD in controller
-				if($type == 'controller')
+				// SECISSUE also check REQUEST_METHOD for forwarded actions
+				$allowedMethodList = explode('|', $xml_info->action->{$this->act}->method);
+				if(!in_array($_SERVER['REQUEST_METHOD'], $allowedMethodList))
 				{
-					$allowedMethod = $xml_info->action->{$forward->act}->method;
-
-					if(!$allowedMethod)
-					{
-						$allowedMethodList[0] = 'POST';
-					}
-					else
-					{
-						$allowedMethodList = explode('|', strtoupper($allowedMethod));
-					}
-
-					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
-					{
-						return self::_createErrorMessage(-1, 'msg_method_not_allowed', 405);
-					}
+					return self::_createErrorMessage(-1, 'msg_method_not_allowed', 405);
 				}
-				
+
 				// check CSRF for non-GET (POST, PUT, etc.) actions
 				if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 				{
