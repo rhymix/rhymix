@@ -695,7 +695,7 @@ class ncenterliteController extends ncenterlite
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $obj->document_srl);
-		$output = $this->_insertNotify($args);
+		$output = $this->_insertNotify($args, $config->anonymous_scrap !== 'N');
 		if(!$output->toBool())
 		{
 			return $output;
@@ -740,7 +740,7 @@ class ncenterliteController extends ncenterlite
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $obj->document_srl);
 		$args->module_srl = $obj->module_srl;
-		$this->_insertNotify($args);
+		$this->_insertNotify($args, $config->anonymous_voter !== 'N');
 	}
 	
 	function triggerAfterDocumentVotedCancel($obj)
@@ -813,7 +813,7 @@ class ncenterliteController extends ncenterlite
 		$args->module_srl = $obj->module_srl;
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $document_srl, 'comment_srl', $obj->comment_srl) . '#comment_' . $obj->comment_srl;
-		$this->_insertNotify($args);
+		$this->_insertNotify($args, $config->anonymous_voter !== 'N');
 	}
 
 	function triggerAfterCommentVotedCancel($obj)
