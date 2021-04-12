@@ -1,10 +1,5 @@
 <load target="../../../member/skins/default/css/member.css" />
-<include target="../../../member/skins/default/common_header.html" />
 <div class="xm">
-
-	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default/unsubscribe/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-		<p>{$XE_VALIDATOR_MESSAGE}</p>
-	</div>
 	<form ruleset="insertConfig" action="./" method="post" class="form-horizontal" id="fo_ncenterlite">
 		<input type="hidden" name="module" value="ncenterlite" />
 		<input type="hidden" name="act" value="procNcenterliteInsertUnsubscribe" />
@@ -18,46 +13,50 @@
 		<input type="hidden" name="unsubscribe_srl" value="{$unsubscribe_srl}" />
 		<input type="hidden" name="unsubscribe_type" value="{$unsubscribe_type}" />
 		<!--@end-->
-		<section class="section">
-			<div class="control-group">
-				<label class="control-label">{lang('ncenterlite_content_type')}</label>
+		<input type="hidden" name="success_return_url" value="{getUrl('', 'act', $act, 'target_srl', $target_srl, 'unsubscribe_type', $unsubscribe_type)}" />
+		<input type="hidden" name="is_popup" value="Y" />
+		<div class="x_modal-header">
+			<h1>{$lang->ncenterlite_cmd_unsubscribe_settings}</h1>
+		</div>
+
+		<blockquote>
+			<section class="target_article">
+				<h1>
+					{$type}
+				</h1>
+				<p>
+					<!--@if($unsubscribeData)-->
+					{escape($unsubscribeData->text, false)}
+					<!--@else-->
+					{escape($text, false)}
+					<!--@end-->
+				</p>
+			</section>
+		</blockquote>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->this_message_unsubscribe}</label>
+			<div class="x_controls">
 				<div class="controls">
-					<p>
-						{$type}
-					</p>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label">{lang('content')}</label>
-				<div class="controls">
-					<p>
-						<!--@if($unsubscribeData)-->
-						{escape($unsubscribeData->text, false)}
-						<!--@else-->
-						{escape($text, false)}
-						<!--@end-->
-					</p>
-				</div>
-			</div>
-			
-			<div class="control-group">
-				<label class="control-label">{$lang->this_message_unsubscribe}</label>
-				<div class="controls">
-					<label class="inline">
-						<input type="radio" name="value" value="Y" checked="checked"|cond="$unsubscribeData->value != 'N'" /> {$lang->ncenterlite_to_unsubscribe}
+					<label class="inline" for="unsubscribe_value_y">
+						<input type="radio" name="value" id="unsubscribe_value_y" value="Y" checked="checked"|cond="$unsubscribeData->value != 'N'" /> {$lang->ncenterlite_to_unsubscribe}
 					</label>
-					<label class="inline">
-						<input type="radio" name="value" value="N" checked="checked"|cond="$unsubscribeData->value == 'N'" /> {$lang->ncenterlite_subscribe}
+					<label class="inline" for="unsubscribe_value_n">
+						<input type="radio" name="value" id="unsubscribe_value_n" value="N" checked="checked"|cond="$unsubscribeData->value == 'N'" /> {$lang->ncenterlite_subscribe}
 					</label>
 					<p>{$lang->about_this_message_unsubscribe}</p>
 				</div>
 			</div>
-		</section>
-		<div class="clearfix btnArea">
-			<div class="pull-right">
-				<button class="btn btn-primary" type="submit">{$lang->cmd_registration}</button>
-			</div>
+		</div>
+
+		<div class="x_modal-footer">
+			<span class="x_btn-group x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_registration}</button>
+			</span>
 		</div>
 	</form>
 </div>
-<include target="../../../member/skins/default/common_footer.html" />
+<script cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/ncenterlite/skins/default/unsubscribe/1'">
+	alert("{$XE_VALIDATOR_MESSAGE}");
+	window.close();
+</script>

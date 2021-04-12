@@ -274,15 +274,30 @@ class ncenterliteController extends ncenterlite
 				return $output;
 			}
 		}
+
 		$this->setMessage('success_updated');
 
-		if (Context::get('success_return_url'))
+		if(Context::get('is_popup') != 'Y')
 		{
-			$this->setRedirectUrl(Context::get('success_return_url'));
+			if (Context::get('success_return_url'))
+			{
+				$this->setRedirectUrl(Context::get('success_return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
+			}
 		}
 		else
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
+			if (Context::get('success_return_url'))
+			{
+				$this->setRedirectUrl(Context::get('success_return_url'));
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'target_srl', $obj->target_srl, 'unsubscribe_type', $obj->unsubscribe_type));
+			}
 		}
 	}
 
@@ -1083,10 +1098,20 @@ class ncenterliteController extends ncenterlite
 		if(Mobile::isFromMobilePhone())
 		{
 			$this->template_path = sprintf('%sm.skins/%s/', $this->module_path, $config->mskin);
-			if(!is_dir($this->template_path) || !$config->mskin)
+			if(!$config->mskin)
 			{
 				$config->mskin = 'default';
 				$this->template_path = sprintf('%sm.skins/%s/', $this->module_path, $config->mskin);
+			}
+			// If use to same PC skin set.
+			else if ($config->mskin === '/USE_RESPONSIVE/')
+			{
+				$this->template_path = sprintf('%sskins/%s/', $this->module_path, $config->skin);
+				if(!$config->skin)
+				{
+					$config->skin = 'default';
+					$this->template_path = sprintf('%sskins/%s/', $this->module_path, $config->skin);
+				}
 			}
 		}
 		else
@@ -1099,14 +1124,14 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
+		$oTemplateHandler = TemplateHandler::getInstance();
+		$result = $oTemplateHandler->compile($this->template_path, 'ncenterlite.html');
 		$this->_addFile();
-		$html = $this->_getTemplate();
-		$output_display = $html . $output_display;
+		$output_display = $result . $output_display;
 	}
 
 	function triggerAddMemberMenu()
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$oMemberController = getController('member');
 
 		$config = NcenterliteModel::getConfig();
@@ -1147,16 +1172,9 @@ class ncenterliteController extends ncenterlite
 			Context::loadFile(array($this->template_path . 'ncenterlite.css', '', '', 100));
 		}
 
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
-		if(!Mobile::isFromMobilePhone())
-		{
-			if($config->colorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->colorset . '.css')))
-			{
-				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100));
-			}
-		}
-		elseif(Mobile::isFromMobilePhone())
+
+		if(Mobile::isFromMobilePhone() && $config->mskin !== '/USE_RESPONSIVE/')
 		{
 			if($config->mcolorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->mcolorset . '.css')))
 			{
@@ -1167,30 +1185,18 @@ class ncenterliteController extends ncenterlite
 			Context::loadFile(array('./common/js/xe.min.js', 'head', '', -100000));
 			Context::loadFile(array($this->template_path . 'ncenterlite.mobile.css', '', '', 100));
 		}
+		else
+		{
+			if($config->colorset && file_exists(FileHandler::getRealPath($this->template_path . 'ncenterlite.' . $config->colorset . '.css')))
+			{
+				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100));
+			}
+		}
+		
 		if($config->zindex)
 		{
 			Context::set('ncenterlite_zindex', ' style="z-index:' . $config->zindex . ';" ');
 		}
-	}
-
-	function _getTemplate()
-	{
-		$oNcenterModel = getModel('ncenterlite');
-		$config = $oNcenterModel->getConfig();
-
-		$oTemplateHandler = TemplateHandler::getInstance();
-
-		if(Mobile::isFromMobilePhone())
-		{
-			$path = sprintf('%sm.skins/%s/', $this->module_path, $config->mskin);
-		}
-		else
-		{
-			$path = sprintf('%sskins/%s/', $this->module_path, $config->skin);
-		}
-		$result = $oTemplateHandler->compile($path, 'ncenterlite.html');
-
-		return $result;
 	}
 
 	function updateNotifyRead($notify, $member_srl)
