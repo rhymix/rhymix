@@ -2867,7 +2867,7 @@ class memberController extends member
 		
 		ModuleHandler::triggerCall('member.insertMember', 'after', $args);
 
-		$oDB->commit(true);
+		$oDB->commit();
 
 		$output->add('member_srl', $args->member_srl);
 		return $output;
