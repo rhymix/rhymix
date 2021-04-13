@@ -37,13 +37,14 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 ### 설치 환경
 
 Rhymix를 사용하려면 PHP 7.0 이상, MySQL 5.0.7 이상 버전이 필요합니다.
-자세한 설치 환경은 [매뉴얼](https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/requirements.md)을 참고하십시오.
+자세한 설치 환경은 [매뉴얼](https://rhymix.org/manual/introduction/requirements)을 참고하십시오.
 
 ### 개발 참여
 
 Rhymix는 개발자, 디자이너, 번역가 등의 도움과 일반 사용자들의 버그 신고를 환영합니다.
 참여를 원하시는 분은 질서있고 효율적인 프로젝트 운영을 위해
-[CONTRIBUTING.md](./CONTRIBUTING.md)를 먼저 읽어 주시기 바랍니다.
+[이슈 및 PR 작성 방법](https://rhymix.org/manual/contrib/github)과
+[코딩 규칙](https://rhymix.org/manual/contrib/coding-standards)을 먼저 읽어 주시기 바랍니다.
 
 보안 취약점을 발견하셨다면 해커들에게 알려지기 전에 먼저 패치를 작성할 수 있도록
 devops@rhymix.org로 알려 주시면 감사하겠습니다.
@@ -108,12 +109,13 @@ This requires the most convenience for the average user over any other CMS.
 ### Installation Environment
 
 Rhymix requires PHP 7.0 or higher, and MySQL 5.0.7 or higher.
-Please see the online manual for more information on server requirements.
+Please see the [online manual](https://rhymix.org/manual/introduction/requirements) for more information on server requirements.
 
 ### Participation in Development
 
 Rhymix welcomes developers, designers, translators, and bugs to the public.
-If you would like to participate, please read [CONTRIBUTING.md](./CONTRIBUTING.md) first to ensure efficient and orderly project management.
+If you would like to participate, please read [Issue and PR Submission Guide](https://rhymix.org/manual/contrib/github)
+and [Coding Standards](https://rhymix.org/manual/contrib/coding-standards) first to ensure efficient and orderly project management.
 
 If you have found a security vulnerability, please let us know at devops@rhymix.org so that we can make a patch before it is exploited.
 

@@ -81,6 +81,7 @@ class ModuleActionParser extends BaseParser
 			// Parse permissions.
 			$action_name = trim($action['name']);
 			$action_type = trim($action['type']);
+			$action_class = trim($action['class']);
 			$permission = trim($action['permission']);
 			$permission_info = (object)['target' => '', 'check_var' => '', 'check_type' => ''];
 			if ($permission)
@@ -100,10 +101,12 @@ class ModuleActionParser extends BaseParser
 			{
 				$methods = ['POST'];
 			}
+			/*
 			elseif ($action_type === 'view' || starts_with('disp', $action_name))
 			{
 				$methods = ['GET'];
 			}
+			*/
 			else
 			{
 				$methods = ['GET', 'POST'];
@@ -133,9 +136,27 @@ class ModuleActionParser extends BaseParser
 				}
 			}
 			
+			// Automatically determine the type for custom classes.
+			if ($action_class && !$action_type)
+			{
+				if (starts_with('disp', $action_name))
+				{
+					$action_type = 'view';
+				}
+				elseif (starts_with('proc', $action_name))
+				{
+					$action_type = 'controller';
+				}
+				else
+				{
+					$action_type = 'auto';
+				}
+			}
+			
 			// Parse other information about this action.
 			$action_info = new \stdClass;
 			$action_info->type = $action_type;
+			$action_info->class_name = preg_replace('/\\\\+/', '\\\\', $action_class);
 			$action_info->grant = trim($action['grant']) ?: 'guest';
 			$action_info->permission = $permission_info;
 			$action_info->ruleset = trim($action['ruleset']);

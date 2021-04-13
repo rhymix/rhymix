@@ -38,7 +38,7 @@ class ncenterliteView extends ncenterlite
 		Context::set('ncenterlite_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
-		$this->setTemplateFile('NotifyList');
+		$this->setTemplateFileOrDefault('NotifyList');
 	}
 
 	function dispNcenterliteUserConfig()
@@ -92,7 +92,8 @@ class ncenterliteView extends ncenterlite
 		Context::set('module_config', NcenterliteModel::getConfig());
 		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
 		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types') ?? []) > 0);
-		$this->setTemplateFile('userconfig');
+
+		$this->setTemplateFileOrDefault('userconfig');
 	}
 
 	/**
@@ -138,11 +139,13 @@ class ncenterliteView extends ncenterlite
 		Context::set('unsubscribe_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 		
-		$this->setTemplateFile('unsubscribeList');
+		$this->setTemplateFileOrDefault('unsubscribeList');
 	}
 	
 	function dispNcenterliteInsertUnsubscribe()
 	{
+		$this->setLayoutFile('popup_layout');
+		
 		/** @var ncenterliteModel $oNcenterliteModel */
 		$oNcenterliteModel = getModel('ncenterlite');
 		$target_srl = Context::get('target_srl');
@@ -217,6 +220,16 @@ class ncenterliteView extends ncenterlite
 		Context::set('text', $text);
 		Context::set('type', $type);
 		
-		$this->setTemplateFile('unsubscribe');
+		$this->setTemplateFileOrDefault('unsubscribe');
+	}
+
+	public function setTemplateFileOrDefault($filename)
+	{
+		$path = $this->getTemplatePath();
+		if (!file_exists($path . $filename . '.html'))
+		{
+			$this->setTemplatePath(dirname($path) . '/default/');
+		}
+		$this->setTemplateFile($filename);
 	}
 }

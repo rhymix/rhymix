@@ -71,6 +71,10 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->anonymous_voter = 'N';
 			}
+			if(!$config->anonymous_scrap)
+			{
+				$config->anonymous_scrap = 'N';
+			}
 			if(!$config->highlight_effect)
 			{
 				$config->highlight_effect = 'Y';
@@ -282,9 +286,9 @@ class ncenterliteModel extends ncenterlite
 			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
 			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify);
-			if($v->target_type === $this->_TYPE_VOTED && $config->anonymous_voter === 'Y')
+			if(($v->target_type === $this->_TYPE_VOTED && $config->anonymous_voter === 'Y') || ($v->target_type === $this->_TYPE_SCRAPPED && $config->anonymous_scrap === 'Y'))
 			{
-				$v->target_member_srl = $member_srl;
+				$v->target_member_srl = 0;
 				$v->target_nick_name = lang('anonymous');
 				$v->target_user_id = $v->target_email_address = 'anonymous';
 			}
@@ -315,6 +319,9 @@ class ncenterliteModel extends ncenterlite
 		$tmp = $this->getMyNotifyList($member_srl, $page);
 		foreach($tmp->data as $key => $obj)
 		{
+			unset($tmp->data[$key]->target_email_address);
+			unset($tmp->data[$key]->target_user_id);
+			unset($tmp->data[$key]->target_member_srl);
 			$tmp->data[$key]->url = str_replace('&amp;', '&', $obj->url);
 		}
 
@@ -636,7 +643,7 @@ class ncenterliteModel extends ncenterlite
 
 			// Voted.
 			case 'V':
-				if($config->anonymous_voter !== 'N')
+				if($config->anonymous_voter !== 'N' || $notification->target_member_srl == 0)
 				{
 					$str = sprintf(lang('ncenterlite_vote_anonymous'), $notification->target_summary, $type);
 				}
@@ -648,7 +655,7 @@ class ncenterliteModel extends ncenterlite
 
 			// Scrapped.
 			case 'R':
-				if($config->anonymous_scrap !== 'N')
+				if($config->anonymous_scrap !== 'N' || $notification->target_member_srl == 0)
 				{
 					$str = sprintf(lang('ncenterlite_scrap_anonymous'), $notification->target_summary, $type);
 				}

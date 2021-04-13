@@ -1174,9 +1174,16 @@ class memberController extends member
 		// Fill in member_srl
 		$args->member_srl = $logged_info->member_srl;
 
-		// Get list of extra vars
+		// Get existing extra vars
+		$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
+		$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
+		foreach($this->nouse_extra_vars as $key)
+		{
+			unset($extra_vars->$key);
+		}
+		
+		// Update extra vars
 		$all_args = Context::getRequestVars();
-		$extra_vars = new stdClass;
 		foreach($config->signupForm as $formInfo)
 		{
 			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
@@ -1186,9 +1193,9 @@ class memberController extends member
 		}
 		foreach($this->admin_extra_vars as $key)
 		{
-			if (isset($logged_info->{$key}))
+			if (isset($all_args->{$key}))
 			{
-				$extra_vars->{$key} = $logged_info->{$key};
+				$extra_vars->{$key} = escape(utf8_clean($all_args->{$key}));
 			}
 		}
 		$args->extra_vars = serialize($extra_vars);
@@ -2900,7 +2907,7 @@ class memberController extends member
 		
 		ModuleHandler::triggerCall('member.insertMember', 'after', $args);
 
-		$oDB->commit(true);
+		$oDB->commit();
 
 		$output->add('member_srl', $args->member_srl);
 		return $output;
@@ -3410,10 +3417,17 @@ class memberController extends member
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 
+		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
 		$member_info = Context::get('logged_info');
 		$newEmail = Context::get('email_address');
-
-		if(!$newEmail) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!$newEmail)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Check managed Email Host
 		if(MemberModel::isDeniedEmailHost($newEmail))
@@ -3435,24 +3449,15 @@ class memberController extends member
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($newEmail);
 		if($member_srl) throw new Rhymix\Framework\Exception('msg_exists_email_address');
 
-		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		unset($_SESSION['rechecked_password_step']);
-
 		$auth_args = new stdClass();
 		$auth_args->user_id = $newEmail;
 		$auth_args->member_srl = $member_info->member_srl;
 		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
 
-		$oDB = &DB::getInstance();
-		$oDB->begin();
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
-			$oDB->rollback();
 			return $output;
 		}
 
@@ -3461,14 +3466,11 @@ class memberController extends member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		global $lang;
-
 		$memberInfo = array();
-		$memberInfo[$lang->email_address] = $member_info->email_address;
-		$memberInfo[$lang->nick_name] = $member_info->nick_name;
+		$memberInfo[lang('email_address')] = $member_info->email_address;
+		$memberInfo[lang('nick_name')] = $member_info->nick_name;
 
 		Context::set('memberInfo', $memberInfo);
-
 		Context::set('newEmail', $newEmail);
 
 		$auth_url = getFullUrl('','module','member','act','procMemberAuthEmailAddress','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
@@ -3482,6 +3484,8 @@ class memberController extends member
 		$oMail->setBody($content);
 		$oMail->addTo($newEmail, $member_info->nick_name);
 		$oMail->send();
+
+		unset($_SESSION['rechecked_password_step']);
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $newEmail);
 		$this->setMessage($msg);

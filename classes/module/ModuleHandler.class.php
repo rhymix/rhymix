@@ -337,6 +337,7 @@ class ModuleHandler extends Handler
 
 		// get type, kind
 		$type = $xml_info->action->{$this->act}->type ?? null;
+		$class_name = $xml_info->action->{$this->act}->class_name ?? null;
 		$ruleset = $xml_info->action->{$this->act}->ruleset ?? null;
 		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? null;
 		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
@@ -350,26 +351,16 @@ class ModuleHandler extends Handler
 			$kind = 'admin';
 		}
 
-		// check REQUEST_METHOD in controller
-		if($type == 'controller')
+		// check REQUEST_METHOD
+		if(isset($xml_info->action->{$this->act}))
 		{
-			$allowedMethod = $xml_info->action->{$this->act}->method;
-
-			if(!$allowedMethod)
-			{
-				$allowedMethodList[0] = 'POST';
-			}
-			else
-			{
-				$allowedMethodList = explode('|', strtoupper($allowedMethod));
-			}
-
-			if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
+			$allowedMethodList = explode('|', $xml_info->action->{$this->act}->method);
+			if(!in_array($_SERVER['REQUEST_METHOD'], $allowedMethodList))
 			{
 				return self::_createErrorMessage(-1, 'msg_method_not_allowed', 405);
 			}
 		}
-		
+
 		// check CSRF for non-GET (POST, PUT, etc.) actions
 		if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 		{
@@ -396,12 +387,19 @@ class ModuleHandler extends Handler
 
 		$logged_info = Context::get('logged_info');
 
-		// if(type == view, and case for using mobilephone)
-		if($type == "view" && $this->is_mobile && Context::isInstalled())
+		// Create an instance of the requested module and class
+		if($class_name)
+		{
+			$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $this->module, $class_name);
+			if (class_exists($class_fullname))
+			{
+				$oModule = $class_fullname::getInstance();
+			}
+		}
+		elseif($type == "view" && $this->is_mobile && Context::isInstalled())
 		{
 			$orig_type = "view";
 			$type = "mobile";
-			// create a module instance
 			$oModule = self::getModuleInstance($this->module, $type, $kind);
 			if(!is_object($oModule) || !method_exists($oModule, $this->act))
 			{
@@ -412,7 +410,6 @@ class ModuleHandler extends Handler
 		}
 		else
 		{
-			// create a module instance
 			$oModule = self::getModuleInstance($this->module, $type, $kind);
 		}
 
@@ -430,9 +427,9 @@ class ModuleHandler extends Handler
 			}
 			
 			// 1. Look for the module with action name
-			if(preg_match('/^([a-z]+)([A-Z])([a-z0-9\_]+)(.*)$/', $this->act, $matches))
+			if(preg_match('/^[a-z]+([A-Z][a-z0-9\_]+).*$/', $this->act, $matches))
 			{
-				$module = strtolower($matches[2] . $matches[3]);
+				$module = strtolower($matches[1]);
 				$xml_info = ModuleModel::getModuleActionXml($module);
 
 				if($xml_info->action->{$this->act} && ($this->module == 'admin' || $xml_info->action->{$this->act}->standalone != 'false'))
@@ -440,6 +437,7 @@ class ModuleHandler extends Handler
 					$forward = new stdClass();
 					$forward->module = $module;
 					$forward->type = $xml_info->action->{$this->act}->type;
+					$forward->class_name = $xml_info->action->{$this->act}->class_name;
 					$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
 					$forward->meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 					$forward->act = $this->act;
@@ -478,27 +476,13 @@ class ModuleHandler extends Handler
 					}
 				}
 				
-				// SECISSUE also check foward act method
-				// check REQUEST_METHOD in controller
-				if($type == 'controller')
+				// SECISSUE also check REQUEST_METHOD for forwarded actions
+				$allowedMethodList = explode('|', $xml_info->action->{$this->act}->method);
+				if(!in_array($_SERVER['REQUEST_METHOD'], $allowedMethodList))
 				{
-					$allowedMethod = $xml_info->action->{$forward->act}->method;
-
-					if(!$allowedMethod)
-					{
-						$allowedMethodList[0] = 'POST';
-					}
-					else
-					{
-						$allowedMethodList = explode('|', strtoupper($allowedMethod));
-					}
-
-					if(!in_array(strtoupper($_SERVER['REQUEST_METHOD']), $allowedMethodList))
-					{
-						return self::_createErrorMessage(-1, 'msg_method_not_allowed', 405);
-					}
+					return self::_createErrorMessage(-1, 'msg_method_not_allowed', 405);
 				}
-				
+
 				// check CSRF for non-GET (POST, PUT, etc.) actions
 				if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
 				{
@@ -508,7 +492,15 @@ class ModuleHandler extends Handler
 					}
 				}
 				
-				if($type == "view" && $this->is_mobile)
+				if($forward->class_name)
+				{
+					$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $forward->module, $forward->class_name);
+					if (class_exists($class_fullname))
+					{
+						$oModule = $class_fullname::getInstance();
+					}
+				}
+				elseif($type == "view" && $this->is_mobile)
 				{
 					$orig_type = "view";
 					$type = "mobile";
@@ -525,7 +517,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule = self::getModuleInstance($forward->module, $type, $kind);
 				}
-				
+						
 				if(!is_object($oModule))
 				{
 					return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404);
@@ -803,7 +795,7 @@ class ModuleHandler extends Handler
 		
 		// Set meta keywords.
 		$module_config = ModuleModel::getModuleConfig('module');
-		if ($module_info->meta_keywords)
+		if ($module_info->meta_keywords ?? '')
 		{
 			Context::addMetaTag('keywords', $module_info->meta_keywords);
 		}
@@ -817,7 +809,7 @@ class ModuleHandler extends Handler
 		}
 		
 		// Set meta description.
-		if ($module_info->meta_description)
+		if ($module_info->meta_description ?? '')
 		{
 			Context::addMetaTag('description', $module_info->meta_description);
 		}
