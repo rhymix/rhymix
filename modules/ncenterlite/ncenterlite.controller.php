@@ -1124,8 +1124,12 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		$oTemplateHandler = TemplateHandler::getInstance();
-		$result = $oTemplateHandler->compile($this->template_path, 'ncenterlite.html');
+		if($config->zindex)
+		{
+			Context::set('ncenterlite_zindex', ' style="z-index:' . $config->zindex . ';" ');
+		}
+		
+		$result = TemplateHandler::getInstance()->compile($this->template_path, 'ncenterlite.html');
 		$this->_addFile();
 		$output_display = $result . $output_display;
 	}
@@ -1191,11 +1195,6 @@ class ncenterliteController extends ncenterlite
 			{
 				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100));
 			}
-		}
-		
-		if($config->zindex)
-		{
-			Context::set('ncenterlite_zindex', ' style="z-index:' . $config->zindex . ';" ');
 		}
 	}
 
