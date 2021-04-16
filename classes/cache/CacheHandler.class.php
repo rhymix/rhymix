@@ -151,7 +151,7 @@ class CacheHandler extends Handler
 	 * Make invalid group key (like delete group key)
 	 *
 	 * @param string $keyGroupName Group name
-	 * @return void
+	 * @return bool
 	 */
 	public function invalidateGroupKey($keyGroupName)
 	{
