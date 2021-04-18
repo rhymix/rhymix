@@ -577,12 +577,12 @@ class adminAdminView extends admin
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
 		Context::set('thumbnail_target', $config->thumbnail_target ?: 'all');
-		Context::set('thumbnail_type', $config->thumbnail_type ?: 'crop');
+		Context::set('thumbnail_type', $config->thumbnail_type ?: 'fill');
 		Context::set('thumbnail_quality', $config->thumbnail_quality ?: 75);
 		if ($config->thumbnail_type === 'none')
 		{
 			Context::set('thumbnail_target', 'none');
-			Context::set('thumbnail_type', 'crop');
+			Context::set('thumbnail_type', 'fill');
 		}
 		
 		// Default and enabled languages
