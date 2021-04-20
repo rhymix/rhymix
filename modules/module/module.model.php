@@ -1514,7 +1514,7 @@ class moduleModel extends module
 				$forwardable_routes = array();
 				foreach ($module_action_info->action ?? [] as $action_name => $action_info)
 				{
-					if (count($action_info->route) && $action_info->standalone !== 'false')
+					if (count($action_info->route) && $action_info->standalone === 'true')
 					{
 						$forwardable_routes[$action_name] = array(
 							'regexp' => array(),

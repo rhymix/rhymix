@@ -371,11 +371,18 @@ class ModuleHandler extends Handler
 		}
 		
 		// check if the current action allows standalone access (without mid)
-		if(!$this->mid && isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->standalone === 'false')
+		if(isset($xml_info->action->{$this->act}))
 		{
-			return self::_createErrorMessage(-1, 'msg_invalid_request');
+			if($xml_info->action->{$this->act}->standalone === 'auto' && (!$this->module && !$this->mid))
+			{
+				return self::_createErrorMessage(-1, 'msg_invalid_request');
+			}
+			if($xml_info->action->{$this->act}->standalone === 'false' && !$this->mid)
+			{
+				return self::_createErrorMessage(-1, 'msg_invalid_request');
+			}
 		}
-	
+
 		if(!isset($this->module_info->use_mobile))
 		{
 			$this->module_info->use_mobile = 'N';
@@ -432,7 +439,19 @@ class ModuleHandler extends Handler
 				$module = strtolower($matches[1]);
 				$xml_info = ModuleModel::getModuleActionXml($module);
 
-				if($xml_info->action->{$this->act} && ($this->module == 'admin' || $xml_info->action->{$this->act}->standalone != 'false'))
+				if(!isset($xml_info->action->{$this->act}))
+				{
+					return self::_createErrorMessage(-1, 'msg_invalid_request');
+				}
+				elseif ($xml_info->action->{$this->act}->standalone === 'auto' && $this->module !== 'admin' && $this->module !== $module)
+				{
+					return self::_createErrorMessage(-1, 'msg_invalid_request');
+				}
+				elseif ($xml_info->action->{$this->act}->standalone === 'false' && $this->module !== 'admin')
+				{
+					return self::_createErrorMessage(-1, 'msg_invalid_request');
+				}
+				else
 				{
 					$forward = new stdClass();
 					$forward->module = $module;
@@ -441,10 +460,6 @@ class ModuleHandler extends Handler
 					$forward->ruleset = $xml_info->action->{$this->act}->ruleset;
 					$forward->meta_noindex = $xml_info->action->{$this->act}->meta_noindex;
 					$forward->act = $this->act;
-				}
-				else
-				{
-					return self::_createErrorMessage(-1, 'msg_invalid_request');
 				}
 			}
 			
