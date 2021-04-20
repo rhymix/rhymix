@@ -35,8 +35,13 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('GET|POST', $info->action->procTestAdminSubmitData->method);
 		$this->assertEquals([], $info->action->procTestAdminSubmitData->route);
 		
+		// Standalone attribute
+		$this->assertEquals('auto', $info->action->dispTestStandalone1->standalone);
+		$this->assertEquals('false', $info->action->dispTestStandalone2->standalone);
+		$this->assertEquals('true', $info->action->dispTestStandalone3->standalone);
+		
 		// Routes
-		$this->assertEquals(4, count($info->route->GET));
+		$this->assertEquals(7, count($info->route->GET));
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)$#u']);
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)/comment/(?P<comment_srl>[0-9]+)$#u']);
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)/tag/(?P<tag>[a-zA-Z0-9_]+)$#u']);

@@ -16,6 +16,9 @@
 		<action name="procTestSubmitData" type="controller" standalone="false" check-csrf="false" ruleset="submitData" />
 		<action name="dispTestAdminIndex" type="view" admin_index="true" menu_name="test" menu_index="true" />
 		<action name="procTestAdminSubmitData" type="controller" permission="manager" check_var="module_srl" check_type="thisisatest" method="GET|POST" />
+		<action name="dispTestStandalone1" class="Namespace\ClassName" route="test/standalone1" method="GET" />
+		<action name="dispTestStandalone2" class="Namespace\ClassName" route="test/standalone2" method="GET" standalone="false" />
+		<action name="dispTestStandalone3" type="view" route="test/standalone3" method="GET" global-route="true" />
 		<action name="dispTestErrorHandler" type="view" standalone="true" error-handlers="404" />
 	</actions>
 	<menus>
