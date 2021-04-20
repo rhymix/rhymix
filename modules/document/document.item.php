@@ -1308,10 +1308,34 @@ class documentItem extends BaseObject
 		return $buffs;
 	}
 
+	/**
+	 * Return the status code.
+	 * 
+	 * @return string
+	 */
 	function getStatus()
 	{
-		if(!$this->get('status')) return getClass('document')->getDefaultStatus();
-		return $this->get('status');
+		$status = $this->get('status');
+		return $status ?: Document::getDefaultStatus();
+	}
+
+	/**
+	 * Return the status in human-readable text.
+	 * 
+	 * @return string
+	 */
+	function getStatusText()
+	{
+		$status = $this->get('status');
+		$statusList = lang('document.status_name_list');
+		if ($status && isset($statusList[$status]))
+		{
+			return $statusList[$status];
+		}
+		else
+		{
+			return $statusList[Document::getDefaultStatus()];
+		}
 	}
 
 	/**

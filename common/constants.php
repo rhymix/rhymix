@@ -144,6 +144,7 @@ define('_XE_PATH_', RX_BASEDIR);
  * Status constants for various content types.
  */
 define('RX_STATUS_TEMP', 0);
+define('RX_STATUS_PRIVATE', 10);
 define('RX_STATUS_PUBLIC', 1);
 define('RX_STATUS_SECRET', 2);
 define('RX_STATUS_EMBARGO', 3);

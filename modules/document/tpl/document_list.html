@@ -68,7 +68,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<span class="rx_simple_marks">{$oDocument->getRegdate($oDocument->getRegdateTime() > time() - 86400 ? 'H:i' : 'm-d')}</span>
 				</td>
 				<td class="nowr rx_detail_marks"><a href="{getUrl('search_target','ipaddress','search_keyword',$oDocument->get('ipaddress'))}">{$oDocument->get('ipaddress')}</a></td>
-				<td class="nowr rx_detail_marks">{$status_name_list[$oDocument->get('status')]}</td>
+				<td class="nowr rx_detail_marks">{$oDocument->getStatusText()}</td>
 				<td><input type="checkbox" name="cart" value="{$oDocument->document_srl}" /></td>
 			</tr>
 		</tbody>

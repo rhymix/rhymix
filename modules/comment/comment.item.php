@@ -146,6 +146,48 @@ class commentItem extends BaseObject
 		$this->setGrant();
 	}
 	
+	/**
+	 * Return the status code.
+	 * 
+	 * @return string
+	 */
+	public function getStatus()
+	{
+		switch ($this->get('status'))
+		{
+			case RX_STATUS_TEMP: return 'TEMP';
+			case RX_STATUS_PUBLIC: return $this->get('is_secret') !== 'Y' ? 'PUBLIC' : 'SECRET';
+			case RX_STATUS_SECRET: return 'SECRET';
+			case RX_STATUS_EMBARGO: return 'EMBARGO';
+			case RX_STATUS_TRASH: return 'TRASH';
+			case RX_STATUS_CENSORED: return 'CENSORED';
+			case RX_STATUS_CENSORED_BY_ADMIN: return 'CENSORED_BY_ADMIN';
+			case RX_STATUS_DELETED: return 'DELETED';
+			case RX_STATUS_DELETED_BY_ADMIN: return 'DELETED_BY_ADMIN';
+			case RX_STATUS_OTHER: return 'OTHER';
+			default: return 'OTHER';
+		}
+	}
+
+	/**
+	 * Return the status in human-readable text.
+	 * 
+	 * @return string
+	 */
+	public function getStatusText()
+	{
+		$status = $this->getStatus();
+		$statusList = lang('document.status_name_list');
+		if ($status && isset($statusList[$status]))
+		{
+			return $statusList[$status];
+		}
+		else
+		{
+			return $statusList['OTHER'];
+		}
+	}
+
 	function isAccessible()
 	{
 		if(!$this->isExists())
@@ -195,7 +237,7 @@ class commentItem extends BaseObject
 	
 	function isSecret()
 	{
-		return $this->get('is_secret') == 'Y';
+		return $this->get('status') == RX_STATUS_SECRET || $this->get('is_secret') == 'Y';
 	}
 	
 	function isDeleted()
