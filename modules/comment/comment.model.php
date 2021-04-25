@@ -130,7 +130,7 @@ class commentModel extends comment
 	{
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
-		$output = executeQuery('comment.getChildCommentCount', $args, NULL, 'master');
+		$output = executeQuery('comment.getChildCommentCount', $args);
 		return (int) $output->data->count;
 	}
 
@@ -143,7 +143,7 @@ class commentModel extends comment
 	{
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
-		$output = executeQueryArray('comment.getChildComments', $args, NULL, 'master');
+		$output = executeQueryArray('comment.getChildComments', $args);
 		return $output->data;
 	}
 
