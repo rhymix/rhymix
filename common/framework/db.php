@@ -223,9 +223,10 @@ class DB
 	 * @param array $args
 	 * @param array $columns
 	 * @param string $result_type
+	 * @param string $result_class
 	 * @return \BaseObject
 	 */
-	public function executeQuery(string $query_id, $args = [], $column_list = [], $result_type = 'auto'): \BaseObject
+	public function executeQuery(string $query_id, $args = [], $column_list = [], $result_type = 'auto', $result_class = ''): \BaseObject
 	{
 		// Validate the args.
 		if (is_object($args))
@@ -363,7 +364,7 @@ class DB
 			}
 			elseif ($query->type === 'SELECT')
 			{
-				$result = $this->_fetch($this->_last_stmt, $last_index, $result_type);
+				$result = $this->_fetch($this->_last_stmt, $last_index, $result_type, $result_class);
 			}
 			else
 			{
@@ -506,9 +507,10 @@ class DB
 	 * @param \PDOStatement $stmt
 	 * @param int $last_index
 	 * @param string $result_type
+	 * @param string $result_class
 	 * @return mixed
 	 */
-	public function _fetch($stmt, $last_index = 0, $result_type = 'auto')
+	public function _fetch($stmt, $last_index = 0, $result_type = 'auto', $result_class = '')
 	{
 		if (!($stmt instanceof \PDOStatement))
 		{
@@ -525,7 +527,7 @@ class DB
 			$index = $last_index;
 			$step = $last_index !== 0 ? -1 : 1;
 			
-			while ($row = $stmt->fetchObject())
+			while ($row = $stmt->fetchObject($result_class ?: 'stdClass'))
 			{
 				$result[$index] = $row;
 				$index += $step;

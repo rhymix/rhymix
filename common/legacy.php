@@ -137,12 +137,13 @@ function getClass($module_name)
  * @param array|object $args Arguments
  * @param array $column_list Column list
  * @param string $result_type 'auto', 'array' or 'raw'
+ * @param string $result_class Name of class to use instead of stdClass
  * @return object Query result data
  */
-function executeQuery($query_id, $args = [], $column_list = [], $result_type = 'auto')
+function executeQuery($query_id, $args = [], $column_list = [], $result_type = 'auto', $result_class = 'stdClass')
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
-	return $oDB->executeQuery($query_id, $args, $column_list, $result_type);
+	return $oDB->executeQuery($query_id, $args, $column_list, $result_type, $result_class);
 }
 
 /**
@@ -152,12 +153,13 @@ function executeQuery($query_id, $args = [], $column_list = [], $result_type = '
  * @param string $query_id (module name.query XML file)
  * @param array|object $args Arguments
  * @param array $column_list Column list
+ * @param string $result_class Name of class to use instead of stdClass
  * @return object Query result data
  */
-function executeQueryArray($query_id, $args = [], $column_list = [])
+function executeQueryArray($query_id, $args = [], $column_list = [], $result_class = 'stdClass')
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
-	return $oDB->executeQuery($query_id, $args, $column_list, 'array');
+	return $oDB->executeQuery($query_id, $args, $column_list, 'array', $result_class);
 }
 
 /**
