@@ -402,6 +402,10 @@ class ModuleHandler extends Handler
 			{
 				$oModule = $class_fullname::getInstance();
 			}
+			else
+			{
+				return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
+			}
 		}
 		elseif($type == "view" && $this->is_mobile && Context::isInstalled())
 		{
@@ -513,6 +517,10 @@ class ModuleHandler extends Handler
 					if (class_exists($class_fullname))
 					{
 						$oModule = $class_fullname::getInstance();
+					}
+					else
+					{
+						return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 					}
 				}
 				elseif($type == "view" && $this->is_mobile)

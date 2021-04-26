@@ -249,6 +249,7 @@ $lang->msg_invalid_format = 'Invalid Format';
 $lang->msg_not_permitted_act = 'You do not have permission to execute requested action.';
 $lang->msg_module_is_not_exists = 'Cannot find the page you requested. Ask your Site Admin to check the page.';
 $lang->msg_module_is_not_standalone = 'Requested page cannot be executed independently.';
+$lang->msg_module_class_not_found = 'Cannot find class to handle the requested action.';
 $lang->msg_empty_search_target = 'Cannot find the Search target.';
 $lang->msg_empty_search_keyword = 'Cannot find the Keyword.';
 $lang->msg_empty_content = 'The content is empty.';
