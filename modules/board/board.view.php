@@ -640,32 +640,48 @@ class boardView extends board
 
 	function _makeListColumnList()
 	{
-		$configColumList = array_keys($this->listConfig);
-		$tableColumnList = array('document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice',
-				'title', 'title_bold', 'title_color', 'content', 'readed_count', 'voted_count',
-				'blamed_count', 'comment_count', 'trackback_count', 'uploaded_count', 'password', 'user_id',
-				'user_name', 'nick_name', 'member_srl', 'email_address', 'homepage', 'tags', 'extra_vars',
-				'regdate', 'last_update', 'last_updater', 'ipaddress', 'list_order', 'update_order',
-				'allow_trackback', 'notify_message', 'status', 'comment_status');
-		$this->columnList = array_intersect($configColumList, $tableColumnList);
-
-		if(in_array('summary', $configColumList)) array_push($this->columnList, 'content');
-
-		// default column list add
-		$defaultColumn = array('document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice', 'member_srl', 'last_update', 'comment_count', 'trackback_count', 'uploaded_count', 'status', 'regdate', 'title_bold', 'title_color');
-
-		//TODO guestbook, blog style supports legacy codes.
+		// List of all available columns
+		$allColumnList = array(
+			'document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice',
+			'title', 'title_bold', 'title_color', 'content',
+			'readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count', 'uploaded_count',
+			'password', 'user_id', 'user_name', 'nick_name', 'member_srl', 'email_address', 'homepage', 'tags', 'extra_vars',
+			'regdate', 'last_update', 'last_updater', 'ipaddress', 'list_order', 'update_order',
+			'allow_trackback', 'notify_message', 'status', 'comment_status',
+		);
+		
+		// List of columns that should always be selected
+		$defaultColumnList = array(
+			'document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice',
+			'title', 'title_bold', 'title_color', 'member_srl', 'nick_name', 'extra_vars',
+			'comment_count', 'trackback_count', 'uploaded_count', 'status', 'regdate', 'last_update',
+		);
+		
+		// List of columns selected by the user
+		$selectedColumnList = array_keys($this->listConfig);
+		
+		// Return all columns for some legacy skins
 		if($this->module_info->skin == 'xe_guestbook' || $this->module_info->default_style == 'blog')
 		{
-			$defaultColumn = $tableColumnList;
+			$this->columnList = $allColumnList;
 		}
-
-		if (in_array('last_post', $configColumList)){
-			array_push($this->columnList, 'last_updater');
+		else
+		{
+			// Convert some special names to corresponding column names
+			if(in_array('summary', $selectedColumnList))
+			{
+				$selectedColumnList[] = 'content';
+			}
+			if(in_array('last_post', $selectedColumnList))
+			{
+				$selectedColumnList[] = 'last_updater';
+			}
+			
+			// Remove duplicates and/or invalid column names
+			$selectedColumnList = array_intersect($selectedColumnList, $allColumnList);
+			$this->columnList = array_unique(array_merge($defaultColumnList, $selectedColumnList));
 		}
-
-		$this->columnList = array_unique(array_merge($this->columnList, $defaultColumn));
-
+		
 		// add table name
 		foreach($this->columnList as $no => $value)
 		{
