@@ -526,8 +526,12 @@ class DB
 			$result = array();
 			$index = $last_index;
 			$step = $last_index !== 0 ? -1 : 1;
-			
-			while ($row = $stmt->fetchObject($result_class ?: 'stdClass'))
+			$result_class = ($result_class && $result_class !== 'master') ? $result_class : 'stdClass';
+			if (!class_exists($result_class))
+			{
+				throw new Exceptions\DBError('Class not found: ' . $result_class);
+			}
+			while ($row = $stmt->fetchObject($result_class))
 			{
 				$result[$index] = $row;
 				$index += $step;
