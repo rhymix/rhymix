@@ -79,8 +79,7 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->highlight_effect = 'Y';
 			}
-
-			if(!$config->notify_count)
+			if(!isset($config->notify_count) || !$config->notify_count)
 			{
 				$config->notify_count = 5;
 			}
