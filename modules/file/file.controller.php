@@ -198,6 +198,7 @@ class fileController extends file
 		if(is_uploaded_file($file_info['tmp_name'])) {
 			$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
 			Context::set('uploaded_fileinfo',$output);
+			Context::set('module_srl', $module_srl);
 		}
 
 		Context::set('layout','none');
