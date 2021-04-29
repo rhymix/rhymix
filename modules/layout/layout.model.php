@@ -93,9 +93,13 @@ class layoutModel extends layout
 			{
 				$thumbnailPath = sprintf('./themes/%s/layouts/%s/thumbnail.png' , $token[0], $token[1]);
 			}
-			else
+			else if($layoutType == 'P')
 			{
 				$thumbnailPath = sprintf('./layouts/%s/thumbnail.png' , $val->layout);
+			}
+			else if($layoutType == 'M')
+			{
+				$thumbnailPath = sprintf('./m.layouts/%s/thumbnail.png' , $val->layout);
 			}
 			if(is_readable($thumbnailPath))
 			{
