@@ -32,7 +32,7 @@
 		"matthiasmullie/path-converter": "1.*",
 		"michelf/php-markdown": "1.9.*",
 		"michelf/php-smartypants": "1.8.*",
-		"rmccue/requests": "1.7.*",
+		"rmccue/requests": "1.8.*",
 		"scssphp/scssphp": "1.0.*",
 		"sunra/php-simple-html-dom-parser": "1.5.*",
 		"swiftmailer/swiftmailer": "6.2.*",
