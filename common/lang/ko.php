@@ -251,6 +251,7 @@ $lang->msg_invalid_format = '잘못된 형식입니다.';
 $lang->msg_not_permitted_act = '요청한 기능을 실행할 수 있는 권한이 없습니다.';
 $lang->msg_module_is_not_exists = '요청한 페이지를 찾을 수 없습니다. 사이트 관리자에게 문의해 주세요.';
 $lang->msg_module_is_not_standalone = '요청한 페이지는 독립적으로 동작할 수 없습니다.';
+$lang->msg_module_class_not_found = '요청한 페이지를 처리할 클래스를 찾을 수 없습니다.';
 $lang->msg_empty_search_target = '검색대상이 없습니다.';
 $lang->msg_empty_search_keyword = '검색어가 없습니다.';
 $lang->msg_empty_content = '내용이 없습니다.';

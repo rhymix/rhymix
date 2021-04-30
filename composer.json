@@ -1,7 +1,7 @@
 {
 	"name": "rhymix/rhymix",
 	"description": "Rhymix",
-	"homepage": "https://www.rhymix.org",
+	"homepage": "https://rhymix.org",
 	"license": "GPL-2.0+",
 	"type": "project",
 	"authors": [
@@ -37,7 +37,7 @@
 		"michelf/php-markdown": "1.9.*",
 		"michelf/php-smartypants": "1.8.*",
 		"patrickbussmann/oauth2-apple": "0.2.*",
-		"rmccue/requests": "1.7.*",
+		"rmccue/requests": "1.8.*",
 		"scssphp/scssphp": "1.4.*",
 		"swiftmailer/swiftmailer": "6.2.*",
 		"symfony/polyfill-iconv": "1.19.*",

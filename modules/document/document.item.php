@@ -517,7 +517,7 @@ class documentItem extends BaseObject
 		}
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentVotedLog', $args);
-		if($output->data->point)
+		if(isset($output->data) && $output->data->point)
 		{
 			return $_SESSION['voted_document'][$this->document_srl] = $output->data->point;
 		}
@@ -557,7 +557,7 @@ class documentItem extends BaseObject
 		}
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
-		$declaredCount = intval($output->data->count);
+		$declaredCount = isset($output->data) ? intval($output->data->count) : 0;
 		if($declaredCount > 0)
 		{
 			return $_SESSION['declared_document'][$this->document_srl] = $declaredCount;
@@ -1004,11 +1004,11 @@ class documentItem extends BaseObject
 			}
 			if (count($comment_srls))
 			{
-				$v_output = executeQuery('comment.getCommentVotedLogMulti', (object)array(
+				$v_output = executeQueryArray('comment.getCommentVotedLogMulti', array(
 					'comment_srls' => $comment_srls,
 					'member_srl' => $logged_info->member_srl,
 				));
-				foreach ($v_output->data as $data)
+				foreach ($v_output->data ?: [] as $data)
 				{
 					$_SESSION['voted_comment'][$data->comment_srl] = $data->point;
 				}
@@ -1308,10 +1308,34 @@ class documentItem extends BaseObject
 		return $buffs;
 	}
 
+	/**
+	 * Return the status code.
+	 * 
+	 * @return string
+	 */
 	function getStatus()
 	{
-		if(!$this->get('status')) return getClass('document')->getDefaultStatus();
-		return $this->get('status');
+		$status = $this->get('status');
+		return $status ?: Document::getDefaultStatus();
+	}
+
+	/**
+	 * Return the status in human-readable text.
+	 * 
+	 * @return string
+	 */
+	function getStatusText()
+	{
+		$status = $this->get('status');
+		$statusList = lang('document.status_name_list');
+		if ($status && isset($statusList[$status]))
+		{
+			return $statusList[$status];
+		}
+		else
+		{
+			return $statusList[Document::getDefaultStatus()];
+		}
 	}
 
 	/**

@@ -23,7 +23,7 @@
 				</select>
 				<select name="search_target" style="width:auto;margin:0" title="{$lang->search_target}">
 					<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{lang($identifier)}</option>
-					<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+					<option loop="lang('point.search_target_list') => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 				</select>
 				<span class="x_input-append">
 					<input type="search" required name="search_keyword" required value="{escape($search_keyword, false)}" title="{$lang->cmd_search}" style="width:100px" />
@@ -126,7 +126,7 @@
 			</select>
 			<select name="search_target" style="width:auto;margin:0" title="{$lang->search_target}">
 				<option value="{$identifier}" selected="selected"|cond="$search_target == $identifier">{lang($identifier)}</option>
-				<option loop="$lang->search_target_list => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+				<option loop="lang('point.search_target_list') => $key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 			</select>
 			<span class="x_input-append">
 				<input type="search" name="search_keyword" required value="{escape($search_keyword, false)}" title="{$lang->cmd_search}" style="width:100px" />

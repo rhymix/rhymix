@@ -79,7 +79,11 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->highlight_effect = 'Y';
 			}
-
+			if(!isset($config->notify_count) || !$config->notify_count)
+			{
+				$config->notify_count = 5;
+			}
+			
 			self::$_config = $config;
 		}
 
@@ -385,11 +389,19 @@ class ncenterliteModel extends ncenterlite
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
+		
 		$args->page = $page ? $page : 1;
 		if ($readed)
 		{
 			$args->readed = $readed;
 		}
+		
+		$notify_count = intval(self::getConfig()->notify_count);
+		if($notify_count)
+		{
+			$args->list_count = $notify_count;
+		}
+		
 		$output = executeQueryArray('ncenterlite.getNotifyList', $args);
 		if (!$output->data)
 		{

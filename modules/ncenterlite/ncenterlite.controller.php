@@ -3,6 +3,14 @@
 class ncenterliteController extends ncenterlite
 {
 	/**
+	 * List of acts to skip.
+	 */
+	public static $_skip_acts = array(
+		'dispNcenterliteNotifyList' => true,
+		'dispEditorFrame' => true,
+	);
+	
+	/**
 	 * Send any message to a member.
 	 * 
 	 * @param int $from_member_srl Sender
@@ -1003,30 +1011,23 @@ class ncenterliteController extends ncenterlite
 
 	function triggerBeforeDisplay(&$output_display)
 	{
-		// 팝업창이면 중지
+		// Don't show notification panel in popups, iframes, admin dashboard, etc.
 		if(Context::get('ncenterlite_is_popup'))
 		{
 			return;
 		}
-
-		// 자신의 알림목록을 보고 있을 경우엔 알림센터창을 띄우지 않는다.
-		if(Context::get('act') == 'dispNcenterliteNotifyList')
-		{
-			return;
-		}
-
 		if(Context::isLocked())
 		{
 			return;
 		}
-
-		// HTML 모드가 아니면 중지 + admin 모듈이면 중지
+		if(isset(self::$_skip_acts[Context::get('act')]))
+		{
+			return;
+		}
 		if(Context::getResponseMethod() != 'HTML' || Context::get('module') == 'admin')
 		{
 			return;
 		}
-
-		// 로그인 상태가 아니면 중지
 		if(!Context::get('is_logged'))
 		{
 			return;
@@ -1124,8 +1125,12 @@ class ncenterliteController extends ncenterlite
 			}
 		}
 
-		$oTemplateHandler = TemplateHandler::getInstance();
-		$result = $oTemplateHandler->compile($this->template_path, 'ncenterlite.html');
+		if($config->zindex)
+		{
+			Context::set('ncenterlite_zindex', ' style="z-index:' . $config->zindex . ';" ');
+		}
+		
+		$result = TemplateHandler::getInstance()->compile($this->template_path, 'ncenterlite.html');
 		$this->_addFile();
 		$output_display = $result . $output_display;
 	}
@@ -1191,11 +1196,6 @@ class ncenterliteController extends ncenterlite
 			{
 				Context::loadFile(array($this->template_path . 'ncenterlite.' . $config->colorset . '.css', '', '', 100));
 			}
-		}
-		
-		if($config->zindex)
-		{
-			Context::set('ncenterlite_zindex', ' style="z-index:' . $config->zindex . ';" ');
 		}
 	}
 

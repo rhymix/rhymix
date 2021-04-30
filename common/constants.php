@@ -3,7 +3,7 @@
 /**
  * RX_VERSION is the version number of the Rhymix CMS.
  */
-define('RX_VERSION', '2.0.10');
+define('RX_VERSION', '2.0.11');
 
 /**
  * RX_MICROTIME is the startup time of the current script, in microseconds since the Unix epoch.
@@ -144,6 +144,7 @@ define('_XE_PATH_', RX_BASEDIR);
  * Status constants for various content types.
  */
 define('RX_STATUS_TEMP', 0);
+define('RX_STATUS_PRIVATE', 10);
 define('RX_STATUS_PUBLIC', 1);
 define('RX_STATUS_SECRET', 2);
 define('RX_STATUS_EMBARGO', 3);

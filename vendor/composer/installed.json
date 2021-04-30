@@ -198,6 +198,10 @@
                 "phone",
                 "sms"
             ],
+            "support": {
+                "issues": "https://github.com/coolsms/php-sdk/issues",
+                "source": "https://github.com/coolsms/php-sdk/tree/master"
+            },
             "install-path": "../coolsms/php-sdk"
         },
         {
@@ -246,6 +250,10 @@
                 "mcrypt",
                 "security"
             ],
+            "support": {
+                "issues": "https://github.com/defuse/php-encryption/issues",
+                "source": "https://github.com/defuse/php-encryption/tree/master"
+            },
             "install-path": "../defuse/php-encryption"
         },
         {
@@ -445,17 +453,17 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v5.2.0",
-            "version_normalized": "5.2.0.0",
+            "version": "v5.2.1",
+            "version_normalized": "5.2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb"
+                "reference": "f42c9110abe98dd6cfe9053c49bc86acc70b2d23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/feb0e820b8436873675fd3aca04f3728eb2185cb",
-                "reference": "feb0e820b8436873675fd3aca04f3728eb2185cb",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/f42c9110abe98dd6cfe9053c49bc86acc70b2d23",
+                "reference": "f42c9110abe98dd6cfe9053c49bc86acc70b2d23",
                 "shasum": ""
             },
             "require": {
@@ -464,7 +472,7 @@
             "require-dev": {
                 "phpunit/phpunit": ">=4.8 <=9"
             },
-            "time": "2020-03-25T18:49:23+00:00",
+            "time": "2021-02-12T00:02:00+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -496,7 +504,7 @@
             ],
             "support": {
                 "issues": "https://github.com/firebase/php-jwt/issues",
-                "source": "https://github.com/firebase/php-jwt/tree/master"
+                "source": "https://github.com/firebase/php-jwt/tree/v5.2.1"
             },
             "install-path": "../firebase/php-jwt"
         },
@@ -576,17 +584,17 @@
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "1.4.0",
-            "version_normalized": "1.4.0.0",
+            "version": "1.4.1",
+            "version_normalized": "1.4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "60d379c243457e073cff02bc323a2a86cb355631"
+                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/60d379c243457e073cff02bc323a2a86cb355631",
-                "reference": "60d379c243457e073cff02bc323a2a86cb355631",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/8e7d04f1f6450fef59366c399cfad4b9383aa30d",
+                "reference": "8e7d04f1f6450fef59366c399cfad4b9383aa30d",
                 "shasum": ""
             },
             "require": {
@@ -595,7 +603,7 @@
             "require-dev": {
                 "symfony/phpunit-bridge": "^4.4 || ^5.1"
             },
-            "time": "2020-09-30T07:37:28+00:00",
+            "time": "2021-03-07T09:25:29+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -628,23 +636,23 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/1.4.0"
+                "source": "https://github.com/guzzle/promises/tree/1.4.1"
             },
             "install-path": "../guzzlehttp/promises"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.7.0",
-            "version_normalized": "1.7.0.0",
+            "version": "1.8.2",
+            "version_normalized": "1.8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3"
+                "reference": "dc960a912984efb74d0a90222870c72c87f10c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/53330f47520498c0ae1f61f7e2c90f55690c06a3",
-                "reference": "53330f47520498c0ae1f61f7e2c90f55690c06a3",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/dc960a912984efb74d0a90222870c72c87f10c91",
+                "reference": "dc960a912984efb74d0a90222870c72c87f10c91",
                 "shasum": ""
             },
             "require": {
@@ -662,7 +670,7 @@
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
             },
-            "time": "2020-09-30T07:37:11+00:00",
+            "time": "2021-04-26T09:17:50+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -706,7 +714,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/1.7.0"
+                "source": "https://github.com/guzzle/psr7/tree/1.8.2"
             },
             "install-path": "../guzzlehttp/psr7"
         },
@@ -755,6 +763,10 @@
                 "password",
                 "security"
             ],
+            "support": {
+                "issues": "https://github.com/hautelook/phpass/issues",
+                "source": "https://github.com/hautelook/phpass/tree/master"
+            },
             "install-path": "../hautelook/phpass"
         },
         {
@@ -878,17 +890,17 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "4.0.0",
-            "version_normalized": "4.0.0.0",
+            "version": "4.0.3",
+            "version_normalized": "4.0.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "6d8665ccd924dc076a9b65d1ea8abe21d68f6958"
+                "reference": "ae4165a76848e070fdac691e773243d10cd06ce1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/6d8665ccd924dc076a9b65d1ea8abe21d68f6958",
-                "reference": "6d8665ccd924dc076a9b65d1ea8abe21d68f6958",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/ae4165a76848e070fdac691e773243d10cd06ce1",
+                "reference": "ae4165a76848e070fdac691e773243d10cd06ce1",
                 "shasum": ""
             },
             "require": {
@@ -910,7 +922,7 @@
                 "phpunit/php-invoker": "^3.1",
                 "phpunit/phpunit": "^9.4"
             },
-            "time": "2020-11-25T02:06:12+00:00",
+            "time": "2021-03-23T23:47:22+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -941,7 +953,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
-                "source": "https://github.com/lcobucci/jwt/tree/4.0.0"
+                "source": "https://github.com/lcobucci/jwt/tree/4.0.3"
             },
             "funding": [
                 {
@@ -997,6 +1009,10 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
+            "support": {
+                "issues": "https://github.com/leafo/lessphp/issues",
+                "source": "https://github.com/leafo/lessphp/tree/v0.5.0"
+            },
             "install-path": "../leafo/lessphp"
         },
         {
@@ -1354,6 +1370,10 @@
                 "paths",
                 "relative"
             ],
+            "support": {
+                "issues": "https://github.com/matthiasmullie/path-converter/issues",
+                "source": "https://github.com/matthiasmullie/path-converter/tree/1.1.3"
+            },
             "install-path": "../matthiasmullie/path-converter"
         },
         {
@@ -1406,6 +1426,10 @@
             "keywords": [
                 "markdown"
             ],
+            "support": {
+                "issues": "https://github.com/michelf/php-markdown/issues",
+                "source": "https://github.com/michelf/php-markdown/tree/1.9.0"
+            },
             "install-path": "../michelf/php-markdown"
         },
         {
@@ -1459,6 +1483,10 @@
                 "typographer",
                 "typography"
             ],
+            "support": {
+                "issues": "https://github.com/michelf/php-smartypants/issues",
+                "source": "https://github.com/michelf/php-smartypants/tree/1.8.1"
+            },
             "install-path": "../michelf/php-smartypants"
         },
         {
@@ -1516,17 +1544,17 @@
         },
         {
             "name": "patrickbussmann/oauth2-apple",
-            "version": "0.2.4",
-            "version_normalized": "0.2.4.0",
+            "version": "0.2.5",
+            "version_normalized": "0.2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/patrickbussmann/oauth2-apple.git",
-                "reference": "95cc38cd0cc68ac2deda54cd6f0136ac0f563c74"
+                "reference": "f6fe8c0b1b57646b1a7b852471307b9d9c2a8ddb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/patrickbussmann/oauth2-apple/zipball/95cc38cd0cc68ac2deda54cd6f0136ac0f563c74",
-                "reference": "95cc38cd0cc68ac2deda54cd6f0136ac0f563c74",
+                "url": "https://api.github.com/repos/patrickbussmann/oauth2-apple/zipball/f6fe8c0b1b57646b1a7b852471307b9d9c2a8ddb",
+                "reference": "f6fe8c0b1b57646b1a7b852471307b9d9c2a8ddb",
                 "shasum": ""
             },
             "require": {
@@ -1541,7 +1569,7 @@
                 "phpunit/phpunit": "^5.7 || ^6.0 || ^9.3",
                 "squizlabs/php_codesniffer": "^2.3 || ^3.0"
             },
-            "time": "2021-01-17T22:19:45+00:00",
+            "time": "2021-03-14T22:14:36+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1577,7 +1605,7 @@
             ],
             "support": {
                 "issues": "https://github.com/patrickbussmann/oauth2-apple/issues",
-                "source": "https://github.com/patrickbussmann/oauth2-apple/tree/0.2.4"
+                "source": "https://github.com/patrickbussmann/oauth2-apple/tree/0.2.5"
             },
             "install-path": "../patrickbussmann/oauth2-apple"
         },
@@ -1686,26 +1714,33 @@
         },
         {
             "name": "rmccue/requests",
-            "version": "v1.7.0",
-            "version_normalized": "1.7.0.0",
+            "version": "v1.8.0",
+            "version_normalized": "1.8.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/rmccue/Requests.git",
-                "reference": "87932f52ffad70504d93f04f15690cf16a089546"
+                "url": "https://github.com/WordPress/Requests.git",
+                "reference": "afbe4790e4def03581c4a0963a1e8aa01f6030f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rmccue/Requests/zipball/87932f52ffad70504d93f04f15690cf16a089546",
-                "reference": "87932f52ffad70504d93f04f15690cf16a089546",
+                "url": "https://api.github.com/repos/WordPress/Requests/zipball/afbe4790e4def03581c4a0963a1e8aa01f6030f1",
+                "reference": "afbe4790e4def03581c4a0963a1e8aa01f6030f1",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2"
             },
             "require-dev": {
-                "requests/test-server": "dev-master"
+                "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+                "php-parallel-lint/php-console-highlighter": "^0.5.0",
+                "php-parallel-lint/php-parallel-lint": "^1.3",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "phpunit/phpunit": "^4.8 || ^5.7 || ^6.5 || ^7.5",
+                "requests/test-server": "dev-master",
+                "squizlabs/php_codesniffer": "^3.5",
+                "wp-coding-standards/wpcs": "^2.0"
             },
-            "time": "2016-10-13T00:11:37+00:00",
+            "time": "2021-04-27T11:05:25+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1724,7 +1759,7 @@
                 }
             ],
             "description": "A HTTP library written in PHP, for human beings.",
-            "homepage": "http://github.com/rmccue/Requests",
+            "homepage": "http://github.com/WordPress/Requests",
             "keywords": [
                 "curl",
                 "fsockopen",
@@ -1734,6 +1769,10 @@
                 "iri",
                 "sockets"
             ],
+            "support": {
+                "issues": "https://github.com/WordPress/Requests/issues",
+                "source": "https://github.com/WordPress/Requests/tree/v1.8.0"
+            },
             "install-path": "../rmccue/requests"
         },
         {
@@ -1808,21 +1847,21 @@
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v6.2.5",
-            "version_normalized": "6.2.5.0",
+            "version": "v6.2.7",
+            "version_normalized": "6.2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7"
+                "reference": "15f7faf8508e04471f666633addacf54c0ab5933"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/698a6a9f54d7eb321274de3ad19863802c879fb7",
-                "reference": "698a6a9f54d7eb321274de3ad19863802c879fb7",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/15f7faf8508e04471f666633addacf54c0ab5933",
+                "reference": "15f7faf8508e04471f666633addacf54c0ab5933",
                 "shasum": ""
             },
             "require": {
-                "egulias/email-validator": "^2.0",
+                "egulias/email-validator": "^2.0|^3.1",
                 "php": ">=7.0.0",
                 "symfony/polyfill-iconv": "^1.0",
                 "symfony/polyfill-intl-idn": "^1.10",
@@ -1835,7 +1874,7 @@
             "suggest": {
                 "ext-intl": "Needed to support internationalized email addresses"
             },
-            "time": "2021-01-12T09:35:59+00:00",
+            "time": "2021-03-09T12:30:35+00:00",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1870,7 +1909,7 @@
             ],
             "support": {
                 "issues": "https://github.com/swiftmailer/swiftmailer/issues",
-                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.5"
+                "source": "https://github.com/swiftmailer/swiftmailer/tree/v6.2.7"
             },
             "funding": [
                 {
@@ -2424,6 +2463,10 @@
                 "idna",
                 "punycode"
             ],
+            "support": {
+                "issues": "https://github.com/true/php-punycode/issues",
+                "source": "https://github.com/true/php-punycode/tree/master"
+            },
             "install-path": "../true/punycode"
         }
     ],

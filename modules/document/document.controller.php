@@ -1024,12 +1024,12 @@ class documentController extends document
 		}
 
 		$update_args->document_srl = $obj->document_srl;
-		$update_args->update_member_srl = $logged_info->member_srl;
+		$update_args->update_member_srl = intval($logged_info->member_srl ?? 0);
 		$update_args->title = $obj->title;
 		$update_args->title_bold = $obj->title_bold;
 		$update_args->title_color = $obj->title_color;
 		$update_args->content = $obj->content;
-		$update_args->update_nick_name = $logged_info->nick_name;
+		$update_args->update_nick_name = strval($logged_info->nick_name ?? $obj->nick_name);
 		$update_args->tags = $obj->tags;
 		$update_args->extra_vars = $obj->extra_vars;
 		$update_args->reason_update = $obj->reason_update;

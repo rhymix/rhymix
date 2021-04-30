@@ -198,6 +198,7 @@ class fileController extends file
 		if(is_uploaded_file($file_info['tmp_name'])) {
 			$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
 			Context::set('uploaded_fileinfo',$output);
+			Context::set('module_srl', $module_srl);
 		}
 
 		Context::set('layout','none');
@@ -1148,7 +1149,7 @@ class fileController extends file
 				if ($result)
 				{
 					$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpg';
-					if (FileHandler::createImageFile($file_info['tmp_name'], $thumbnail_name, $adjusted['width'], $adjusted['height'], 'jpg', 'crop', $adjusted['quality']))
+					if (FileHandler::createImageFile($file_info['tmp_name'], $thumbnail_name, $adjusted['width'], $adjusted['height'], 'jpg', 'fill', $adjusted['quality']))
 					{
 						$file_info['thumbnail'] = $thumbnail_name;
 					}
@@ -1156,7 +1157,7 @@ class fileController extends file
 			}
 			else
 			{
-				$result = FileHandler::createImageFile($file_info['tmp_name'], $output_name, $adjusted['width'], $adjusted['height'], $adjusted['type'], 'crop', $adjusted['quality'], $adjusted['rotate']);
+				$result = FileHandler::createImageFile($file_info['tmp_name'], $output_name, $adjusted['width'], $adjusted['height'], $adjusted['type'], 'fill', $adjusted['quality'], $adjusted['rotate']);
 			}
 			
 			// Change to information in the output file

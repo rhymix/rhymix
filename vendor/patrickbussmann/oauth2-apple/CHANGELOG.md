@@ -18,6 +18,11 @@ All Notable changes to `oauth2-apple` will be documented in this file
 ### Security
 - Nothing
 
+## 0.2.5 - 2021-03-10
+
+### Fixed
+- Fix BC-break for combination of PHP 7.4 and lcobucci/jwt 3.4 [#25](https://github.com/patrickbussmann/oauth2-apple/pull/25) (thanks to [tjveldhuizen](https://github.com/tjveldhuizen))
+
 ## 0.2.4 - 2021-01-17
 
 ### Added

@@ -19,10 +19,26 @@ class document extends ModuleObject
 	public $search_option = array('title', 'content', 'title_content', 'user_name');
 
 	/**
-	 * Status list
+	 * List of status texts supported by Rhymix.
+	 * 
+	 * Also see status constants in common/constants.php
+	 * and integer status codes used in the comment module.
+	 * 
 	 * @var array
 	 */
-	public static $statusList = array('private' => 'PRIVATE', 'public' => 'PUBLIC', 'secret' => 'SECRET', 'temp' => 'TEMP');
+	public static $statusList = array(
+		'temp' => 'TEMP',
+		'private' => 'PRIVATE',
+		'public' => 'PUBLIC',
+		'secret' => 'SECRET',
+		'embargo' => 'EMBARGO',
+		'trash' => 'TRASH',
+		'censored' => 'CENSORED',
+		'censored_by_admin' => 'CENSORED_BY_ADMIN',
+		'deleted' => 'DELETED',
+		'deleted_by_admin' => 'DELETED_BY_ADMIN',
+		'other' => 'OTHER',
+	);
 
 	/**
 	 * Implement if additional tasks are necessary when installing

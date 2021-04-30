@@ -5,6 +5,7 @@ namespace League\OAuth2\Client\Test\Provider;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Response;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer\Key;
 use League\OAuth2\Client\Provider\Apple;
 use League\OAuth2\Client\Provider\AppleResourceOwner;
 use League\OAuth2\Client\Token\AccessToken;
@@ -244,5 +245,13 @@ class AppleTest extends TestCase
         $this->assertEquals('123.4.567', $data->getId());
         $this->assertFalse($data->isPrivateEmail());
         $this->assertArrayHasKey('name', $data->toArray());
+    }
+
+    public function testGetConfiguration()
+    {
+        $provider = m::mock(Apple::class)->makePartial();
+        $provider->shouldReceive('getLocalKey')->andReturn(m::mock(Key::class));
+
+        $this->assertInstanceOf(Configuration::class, $provider->getConfiguration());
     }
 }

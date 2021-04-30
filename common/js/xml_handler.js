@@ -301,68 +301,9 @@
 	/**
 	 * Function for compatibility with XE's exec_html()
 	 */
-	window.exec_html = $.fn.exec_html = function(action, params, type, callback_func, callback_args) {
-		
-		// Convert params to object and fill in the module and act.
-		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
-		action = action.split(".");
-		//if (action.length != 2) return;
-		params.module = action[0];
-		params.act = action[1];
-		params._rx_csrf_token = getCSRFToken();
-		
-		// Determine the request type.
-		if($.inArray(type, ["html", "append", "prepend"]) < 0) type = "html";
-		var self = $(this);
-		
-		// Delay the waiting message for 1 second to prevent rapid blinking.
-		waiting_obj.css("opacity", 0.0);
-		var wfsr_timeout = setTimeout(function() {
-			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").show();
-			}
-		}, 1000);
-		
-		// Define the success handler.
-		var successHandler = function(data, textStatus, xhr) {
-			clearTimeout(wfsr_timeout);
-			waiting_obj.hide().trigger("cancel_confirm");
-			if (self && self[type]) {
-				self[type](html);
-			}
-			if ($.isFunction(callback_func)) {
-				callback_func(callback_args);
-			}
-		};
-		
-		// Define the error handler.
-		var errorHandler = function(xhr, textStatus) {
-
-			// If the user is navigating away, don't do anything.
-			if (xhr.status == 0 && page_unloading) {
-				return;
-			}
-			
-			// Hide the waiting message and display an error notice.
-			clearTimeout(wfsr_timeout);
-			waiting_obj.hide().trigger("cancel_confirm");
-			var error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")";
-			alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
-		};
-		
-		// Send the AJAX request.
-		try {
-			$.ajax({
-				type: "POST",
-				dataType: "html",
-				url: request_uri,
-				data: params,
-				success: successHandler,
-				error: errorHandler
-			});
-		} catch(e) {
-			alert(e);
-			return;
+	window.exec_html = $.fn.exec_html = function() {
+		if (typeof console == "object" && typeof console.log == "function") {
+			console.log("DEPRECATED : send_by_form() is deprecated in Rhymix.");
 		}
 	};
 

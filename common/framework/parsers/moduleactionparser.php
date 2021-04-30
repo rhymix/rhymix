@@ -80,9 +80,9 @@ class ModuleActionParser extends BaseParser
 		{
 			// Parse permissions.
 			$action_name = trim($action['name']);
-			$action_type = trim($action['type']);
-			$action_class = trim($action['class']);
-			$permission = trim($action['permission']);
+			$action_type = trim($action['type'] ?? '');
+			$action_class = trim($action['class'] ?? '');
+			$permission = trim($action['permission'] ?? '');
 			$permission_info = (object)['target' => '', 'check_var' => '', 'check_type' => ''];
 			if ($permission)
 			{
@@ -101,18 +101,17 @@ class ModuleActionParser extends BaseParser
 			{
 				$methods = ['POST'];
 			}
-			/*
-			elseif ($action_type === 'view' || starts_with('disp', $action_name))
+			elseif ($action_class && starts_with('disp', $action_name))
 			{
 				$methods = ['GET'];
 			}
-			*/
 			else
 			{
 				$methods = ['GET', 'POST'];
 			}
 			
 			// Parse routes.
+			$global_route = (trim($action['global_route']) ?: trim($action['global-route'])) === 'true' ? 'true' : 'false';
 			$route_attr = trim($action['route']);
 			$route_tags = $action->route ?: [];
 			$route_arg = [];
@@ -136,6 +135,28 @@ class ModuleActionParser extends BaseParser
 				}
 			}
 			
+			// Parse the standalone attribute.
+			if ($global_route === 'true')
+			{
+				$standalone = 'true';
+			}
+			elseif ($action_class)
+			{
+				$standalone = trim($action['standalone']);
+				if (!$standalone || !in_array($standalone, ['true', 'false', 'auto']))
+				{
+					$standalone = 'auto';
+				}
+			}
+			else
+			{
+				$standalone = trim($action['standalone']);
+				if (!$standalone || !in_array($standalone, ['true', 'false', 'auto']))
+				{
+					$standalone = 'true';
+				}
+			}
+
 			// Automatically determine the type for custom classes.
 			if ($action_class && !$action_type)
 			{
@@ -162,10 +183,10 @@ class ModuleActionParser extends BaseParser
 			$action_info->ruleset = trim($action['ruleset']);
 			$action_info->method = implode('|', $methods);
 			$action_info->route = $route_arg;
-			$action_info->standalone = trim($action['standalone']) === 'false' ? 'false' : 'true';
+			$action_info->standalone = $standalone;
 			$action_info->check_csrf = (trim($action['check_csrf']) ?: trim($action['check-csrf'])) === 'false' ? 'false' : 'true';
 			$action_info->meta_noindex = (trim($action['meta_noindex']) ?: trim($action['meta-noindex'])) === 'true' ? 'true' : 'false';
-			$action_info->global_route = (trim($action['global_route']) ?: trim($action['global-route'])) === 'true' ? 'true' : 'false';
+			$action_info->global_route = $global_route;
 			$info->action->{$action_name} = $action_info;
 			
 			// Set the menu name and index settings.

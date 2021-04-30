@@ -44,7 +44,6 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<th scope="col" class="nowr">{$lang->date}</th>
 				<th scope="col" class="nowr rx_detail_marks">{$lang->ipaddress}</th>
 				<th scope="col" class="nowr rx_detail_marks">{$lang->status}</th>
-				<th scope="col" class="nowr rx_detail_marks">{$lang->published}</th>
 				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 			</tr>
 		</thead>
@@ -68,8 +67,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<span class="rx_simple_marks">{$val->getRegdate($val->getRegdateTime() > time() - 86400 ? 'H:i' : 'm-d')}</span>
 				</td>
 				<td class="nowr rx_detail_marks"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
-				<td class="nowr rx_detail_marks">{$secret_name_list[$val->isSecret() ? 'Y' : 'N']}</td>
-				<td class="nowr rx_detail_marks">{$lang->published_name_list[$val->status]}</td>
+				<td class="nowr rx_detail_marks">{$val->getStatusText()}</td>
 				<td><input type="checkbox" name="cart" value="{$val->comment_srl}" /></td>
 			</tr>
 			<tr cond="!$comment_list">
@@ -132,7 +130,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="module_srl" value="{$module_srl}" />
 	<input type="hidden" name="error_return_url" value="" />
 	<select name="search_target" title="{$lang->search_target}" style="margin-right:4px">
-		<!--@foreach($lang->search_target_list as $key => $val)-->
+		<!--@foreach(lang('comment.search_target_list') as $key => $val)-->
 		<option value="{$key}" <!--@if($search_target==$key)-->selected="selected"<!--@end-->>{$val}</option>
 		<!--@end-->
 	</select>
