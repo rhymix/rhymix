@@ -34,7 +34,7 @@
 		"matthiasmullie/path-converter": "1.*",
 		"michelf/php-markdown": "1.9.*",
 		"michelf/php-smartypants": "1.8.*",
-		"rmccue/requests": "1.7.*",
+		"rmccue/requests": "1.8.*",
 		"scssphp/scssphp": "1.4.*",
 		"swiftmailer/swiftmailer": "6.2.*",
 		"symfony/polyfill-iconv": "1.19.*",
