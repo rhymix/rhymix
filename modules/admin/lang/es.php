@@ -36,7 +36,6 @@ $lang->about_lang_env = 'Para aplicar idioma seleccionado conjunto de los usuari
 $lang->xe_license = 'Rhymix está bajo la Licencia de GPL';
 $lang->ssl_options['none'] = 'Desactivar';
 $lang->ssl_options['always'] = 'Utilice siempre el (recomendado)';
-$lang->about_use_ssl = 'Opcionalmente, la composición de suscripción / editar la información y el uso de SSL especificada en la acción es siempre el uso de SSL para todos los servicios que se utilizarán.';
 $lang->server_ports = 'Especifique el puerto del servidor';
 $lang->about_server_ports = '80 de HTTP, HTTPS al puerto 443 si se utiliza otro que se especifique lo contrario, el puerto va a necesitar.';
 $lang->about_db_session = 'This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.';

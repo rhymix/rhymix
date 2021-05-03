@@ -35,7 +35,6 @@ $lang->about_lang_env = 'Vous pouvez fixer la Langue Par Défaut par cliquer le 
 $lang->xe_license = 'Rhymix s\'applique la GPL';
 $lang->ssl_options['none'] = 'Ne Pas utiliser';
 $lang->ssl_options['always'] = 'Toujours (recommandé)';
-$lang->about_use_ssl = 'Si l\'on choisit \'Optionnel\' , on utilise protocole SSL seulement dans quelques services comme inscription ou modification. Si l\'on choisit \'Toujours\', on utilise protocole SSL dans tous les services.';
 $lang->server_ports = 'déclarer le port de serveur';
 $lang->about_server_ports = 'Si l\'on ne veut pas utiliser le port 80 pour HTTP mais un autre port, ou bien, si l\'on ne veut pas utiliser le port 443 pour HTTPS mais un autre port, on doit déclarer les ports.';
 $lang->about_db_session = 'This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.';

@@ -58,7 +58,7 @@ $lang->confirm_run = '此过程可能需要耗费一段时间，是否继续?';
 $lang->use_ssl = '是否使用<abbr title="Secure Sockets Layer">SSL</abbr>安全连接?';
 $lang->ssl_options['none'] = '不使用';
 $lang->ssl_options['always'] = '始终（推荐）';
-$lang->about_use_ssl = '<p>选择“可选”是为指定的操作（例如注册和更改信息）使用SSL。<br />选择“总是”是为Rhymix生成的整个页面使用SSL。</p><p>请小心！ 在安装SSL证书之前，您可能无法访问该网站。</p>';
+$lang->about_use_ssl = '请小心！ 在安装SSL证书之前，您可能无法访问该网站。';
 $lang->server_ports = '指定服务器端口';
 $lang->about_server_ports = '使用除HTTP（80）, HTTPS（443）以外的端口时，必须得指定该服务器端口号。';
 $lang->use_db_session = 'DB储存认证会话';

@@ -63,7 +63,6 @@ $lang->confirm_run = 'Bu işlem biraz uzun sürebilir. Başlatmak istiyor musunu
 $lang->use_ssl = '<abbr title="Secure Sockets Layer">SSL</abbr>\'i kullanmak istiyor musunuz?';
 $lang->ssl_options['none'] = 'Hiçbir zaman';
 $lang->ssl_options['always'] = 'Her zaman';
-$lang->about_use_ssl = '\'İsteği Bağlı\' seçiminde; SSL, kayıt olma/bilgi değiştirme gibi eylemler için kullanılacaktır. \'Her zaman\' seçiminde, siteniz sadece http yoluyla hizmet verecektir.';
 $lang->server_ports = 'Sunucu Bağlantı Noktası (port)';
 $lang->about_server_ports = 'Eğer web sunucunuz, HTTP bağlantı noktaları için 80 ya da HTTPS 443 portunu kullanmıyorsa, sunucu bağlantı noktalarını belirtmeniz gerekmektedir.';
 $lang->use_db_session = 'Oturum Veritabanı Kullanımı';
