@@ -228,7 +228,7 @@ class HTMLFilter
 		$time = $def->addElement('time', 'Inline', 'Inline', 'Common', array('datetime' => 'Text', 'pubdate' => 'Bool'));
 		$time->excludes = array('time' => true);
 		
-		// Suppport <audio> and <video> tags. DO NOT ALLOW AUTOPLAY.
+		// Suppport <audio> and <video> tags.
 		$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
 			'src' => 'URI',
 			'type' => 'Text',
