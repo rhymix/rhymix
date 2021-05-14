@@ -2383,19 +2383,24 @@ class Context
 		self::$_instance->html_header .= (self::$_instance->html_header ? "\n" : '') . $header;
 	}
 
-	public static function clearHtmlHeader()
-	{
-		self::$_instance->html_header = '';
-	}
-
 	/**
 	 * Returns added html code by addHtmlHeader()
 	 *
 	 * @return string Added html code before </head>
 	 */
-	public static function getHtmlHeader()
+	public static function getHtmlHeader(): string
 	{
 		return self::$_instance->html_header;
+	}
+
+	/**
+	 * Remove all content added by addHtmlHeader()
+	 * 
+	 * @return void
+	 */
+	public static function clearHtmlHeader()
+	{
+		self::$_instance->html_header = '';
 	}
 
 	/**
@@ -2405,19 +2410,52 @@ class Context
 	 */
 	public static function addBodyClass($class_name)
 	{
-		self::$_instance->body_class[] = $class_name;
+		$class_name = strval($class_name);
+		if (!in_array($class_name, self::$_instance->body_class))
+		{
+			self::$_instance->body_class[] = $class_name;
+		}
+	}
+
+	/**
+	 * Remove css class from Html Body
+	 *
+	 * @param string $class_name class name
+	 */
+	public static function removeBodyClass($class_name)
+	{
+		$class_name = strval($class_name);
+		self::$_instance->body_class = array_values(array_filter(self::$_instance->body_class, function($str) use($class_name) {
+			return $str !== $class_name;
+		}));
 	}
 
 	/**
 	 * Return css class to Html Body
 	 *
-	 * @return string Return class to html body
+	 * @return array
 	 */
-	public static function getBodyClass()
+	public static function getBodyClassList(): array
 	{
-		$class_list = self::$_instance->body_class;
-		
-		return (count($class_list) > 0) ? sprintf(' class="%s"', implode(' ', array_unique($class_list))) : '';
+		return self::$_instance->body_class;
+	}
+
+	/**
+	 * Return css class to Html Body
+	 *
+	 * @deprecated
+	 * @return string
+	 */
+	public static function getBodyClass(): string
+	{
+		if (count(self::$_instance->body_class))
+		{
+			return sprintf(' class="%s"', implode(' ', self::$_instance->body_class));
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**

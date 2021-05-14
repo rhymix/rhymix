@@ -60,10 +60,17 @@ class ContextTest extends \Codeception\TestCase\Test
         $this->assertEquals(Context::getBodyClass(), ' class="red green"');
         Context::addBodyClass('blue');
         $this->assertEquals(Context::getBodyClass(), ' class="red green blue"');
-
+        Context::addBodyClass('yellow');
+        $this->assertEquals(Context::getBodyClassList(), ['red', 'green', 'blue', 'yellow']);
+        
+        // remove class manually
+        Context::removeBodyClass('yellow');
+        $this->assertEquals(Context::getBodyClassList(), ['red', 'green', 'blue']);
+        
         // remove duplicated class
         Context::addBodyClass('red');
         $this->assertEquals(Context::getBodyClass(), ' class="red green blue"');
+        $this->assertEquals(Context::getBodyClassList(), ['red', 'green', 'blue']);
     }
 
 	public function testSetRequestMethod()
