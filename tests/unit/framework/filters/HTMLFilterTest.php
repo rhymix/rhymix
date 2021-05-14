@@ -79,6 +79,10 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$source = '<nav>123</nav><section>456</section><article>789</article><aside>0</aside>';
 		$target = '<nav>123</nav><section>456</section><article>789</article><aside>0</aside>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<div contenteditable="true"><div contenteditable="false"><p contenteditable="false"></p></div></div>';
+		$target = '<div><div contenteditable="false"><p></p></div></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
 	public function testHTMLFilterCSS3()

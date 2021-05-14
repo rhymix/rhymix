@@ -270,6 +270,9 @@ class HTMLFilter
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+		
+		// Support contenteditable="false" (#1710)
+		$def->addAttribute('div', 'contenteditable', 'Enum#false');
 	}
 	
 	/**
