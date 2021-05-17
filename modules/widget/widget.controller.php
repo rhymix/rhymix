@@ -273,8 +273,13 @@ class widgetController extends widget
 	 */
 	function transWidget($matches)
 	{
-		$vars = new stdClass;
 		$xml = simplexml_load_string(trim($matches[0]));
+		if ($xml === false)
+		{
+			return '<div>Invalid XML in widget code.</div>';
+		}
+		
+		$vars = new stdClass;
 		foreach ($xml->img ? $xml->img->attributes() : $xml->attributes() as $key => $val)
 		{
 			$vars->{$key} = strval($val);
