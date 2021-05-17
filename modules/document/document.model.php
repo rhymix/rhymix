@@ -1229,7 +1229,12 @@ class documentModel extends document
 		}
 		else
 		{
-			return $lang->status_name_list;
+			$list = $lang->status_name_list;
+			if ($list instanceof ArrayObject)
+			{
+				$list = $list->getArrayCopy();
+			}
+			return $list;
 		}
 	}
 	
