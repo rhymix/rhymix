@@ -468,7 +468,7 @@ class SocialloginController extends Sociallogin
 		// 회원 가입 진행
 		if (!$member_srl)
 		{
-			$password = cut_str(md5(date('YmdHis')), 13, '');
+			$password = Rhymix\Framework\Password::getRandomPassword(13);
 			$nick_name = preg_replace('/[\pZ\pC]+/u', '', $serviceAccessData->profile['user_name']);
 
 			if ($oMemberModel->getMemberSrlByNickName($nick_name))
@@ -896,7 +896,7 @@ class SocialloginController extends Sociallogin
 
 		unset($args->user_id);
 
-		$args->password = $args->password2 = cut_str(md5(date('YmdHis')), 13, '');
+		$args->password = $args->password2 = Rhymix\Framework\Password::getRandomPassword(13);
 		
 		return $args;
 	}
