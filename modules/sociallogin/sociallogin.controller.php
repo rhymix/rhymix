@@ -896,7 +896,16 @@ class SocialloginController extends Sociallogin
 
 		unset($args->user_id);
 
-		$args->password = $args->password2 = Rhymix\Framework\Password::getRandomPassword(13);
+		// 원래 설정한 비밀번호가 없을 경우 또는 회원가입창으로 넘어가서 정보를 입력 한 경우 해당 password을 새롭게 생성
+		if(!$args->password || !$args->password2)
+		{
+			$args->password = $args->password2 = Rhymix\Framework\Password::getRandomPassword(13);
+		}
+		// 원래 설정한 비밀번호가 잇다면 그 비밀번호를 그대로 사용
+		else
+		{
+			$args->password2 = $args->password;
+		}
 		
 		return $args;
 	}
