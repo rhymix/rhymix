@@ -99,7 +99,7 @@ class adminAdminController extends admin
 		{
 			$oModule = NULL;
 			$oModule = getClass($module->module);
-			if(method_exists($oModule, 'recompileCache'))
+			if($oModule && method_exists($oModule, 'recompileCache'))
 			{
 				$oModule->recompileCache();
 			}
