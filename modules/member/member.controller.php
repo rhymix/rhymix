@@ -886,7 +886,7 @@ class memberController extends member
 		$extra_vars = new stdClass;
 		foreach($config->signupForm as $formInfo)
 		{
-			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
+			if (!$formInfo->isDefaultForm)
 			{
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}

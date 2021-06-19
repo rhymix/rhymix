@@ -94,7 +94,7 @@ class memberAdminController extends member
 		$all_args = Context::getRequestVars();
 		foreach($config->signupForm as $formInfo)
 		{
-			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
+			if (!$formInfo->isDefaultForm)
 			{
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
