@@ -1082,7 +1082,7 @@ class documentItem extends BaseObject
 		}
 		
 		// If not specify its height, create a square
-		if(!$height)
+		if(!$height || (!ctype_digit($height) && $height !== 'auto'))
 		{
 			$height = $width;
 		}
@@ -1091,7 +1091,7 @@ class documentItem extends BaseObject
 		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_lockfile = sprintf('%s%dx%d.%s.lock', $thumbnail_path, $width, $height, $thumbnail_type);
-		$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
+		$thumbnail_url = RX_BASEURL . $thumbnail_file;
 		$thumbnail_file = RX_BASEDIR . $thumbnail_file;
 
 		// Return false if thumbnail file exists and its size is 0. Otherwise, return its path
@@ -1166,7 +1166,7 @@ class documentItem extends BaseObject
 				}
 				if($file->cover_image === 'Y')
 				{
-					$source_file = $file->uploaded_filename;
+					$source_file = FileHandler::getRealPath($file->uploaded_filename);
 					break;
 				}
 				if(!$first_image)
@@ -1176,7 +1176,7 @@ class documentItem extends BaseObject
 			}
 			if(!$source_file && $first_image)
 			{
-				$source_file = $first_image;
+				$source_file = FileHandler::getRealPath($first_image);
 			}
 		}
 
@@ -1229,7 +1229,7 @@ class documentItem extends BaseObject
 				}
 			}
 		}
-
+		
 		if($source_file)
 		{
 			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);

@@ -543,7 +543,13 @@ class FileHandler
 		{
 			$target_type = 'jpg';
 		}
-
+		
+		// Automatically set resize_height if it is 'auto'
+		if ($resize_height === 'auto')
+		{
+			$resize_height = round($resize_width / ($width / $height));
+		}
+		
 		// create temporary image having original type
 		if ($type === 'gif' && function_exists('imagecreatefromgif'))
 		{
