@@ -1720,7 +1720,7 @@ class commentController extends comment
 	 * @param strgin $target
 	 * @return void
 	 */
-	function addCommentPopupMenu($url, $str, $icon = '', $target = 'self')
+	function addCommentPopupMenu($url, $str, $icon = '', $target = '_blank')
 	{
 		$comment_popup_menu_list = Context::get('comment_popup_menu_list');
 		if(!is_array($comment_popup_menu_list))

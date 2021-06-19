@@ -2736,7 +2736,7 @@ class documentController extends document
 	 * @param string $target
 	 * @return void
 	 */
-	function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self')
+	function addDocumentPopupMenu($url, $str, $icon = '', $target = '_blank')
 	{
 		$document_popup_menu_list = Context::get('document_popup_menu_list');
 		if(!is_array($document_popup_menu_list)) $document_popup_menu_list = array();

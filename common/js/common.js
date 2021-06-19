@@ -215,20 +215,23 @@
 							var classText = 'class="' + (classname ? classname : (act ? (act + ' ') : ''));
 							var styleText = "";
 							var click_str = "";
+							var matches = [];
 							/* if(icon) styleText = " style=\"background-image:url('"+icon+"')\" "; */
-							switch(target) {
-								case "popup" :
-										click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
-										classText += 'popup ';
-									break;
-								case "javascript" :
-										click_str = 'onclick="'+url+'; return false; "';
-										classText += 'script ';
-										url='#';
-									break;
-								default :
-										click_str = 'target="_blank"';
-									break;
+							if (target === 'popup') {
+								click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
+								classText += 'popup ';
+							} else if (target === 'javascript') {
+								click_str = 'onclick="'+url+'; return false; "';
+								classText += 'javascript ';
+								url = '#';
+							} else if (target.match(/^_(self|blank|parent|top)$/)) {
+								click_str = 'target="' + target + '"';
+								classText += 'frame_' + target + ' ';
+							} else if (matches = target.match(/^i?frame:([a-zA-Z0-9_]+)$/)) {
+								click_str = 'target="' + matches[1] + '"';
+								classText += 'frame_' + matches[1] + ' ';
+							} else {
+								click_str = 'target="_blank"';
 							}
 							classText = classText.trim() + '" ';
 

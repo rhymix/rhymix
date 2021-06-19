@@ -161,7 +161,7 @@ class memberModel extends member
 		if($logged_info->member_srl)
 		{
 			$url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
-			$oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path,'self');
+			$oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path);
 		}
 
 		// When click other's nickname
@@ -215,13 +215,13 @@ class memberModel extends member
 		// View homepage info
 		if($member_info->homepage && $homepage_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', 'blank', 'homepage');
+			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', '_blank', 'homepage');
 		}
 		
 		// View blog info
 		if($member_info->blog && $blog_is_public)
 		{
-			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', 'blank', 'blog');
+			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', '_blank', 'blog');
 		}
 		
 		// Call a trigger (after)

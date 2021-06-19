@@ -2585,7 +2585,7 @@ class memberController extends member
 	/**
 	 * Nickname and click Log In to add a pop-up menu that appears when the method
 	 */
-	function addMemberPopupMenu($url, $str, $icon = '', $target = 'self', $class = '')
+	function addMemberPopupMenu($url, $str, $icon = '', $target = '_blank', $class = '')
 	{
 		$member_popup_menu_list = Context::get('member_popup_menu_list');
 		if(!is_array($member_popup_menu_list)) $member_popup_menu_list = array();
