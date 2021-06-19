@@ -135,16 +135,34 @@ class Config
 			self::setAll($config);
 		}
 		
+		// Backup the main config file.
+		$config_filename = \RX_BASEDIR . self::$config_filename;
+		$backup_filename = \RX_BASEDIR . self::$config_filename . '.backup.' . time() . '.php';
+		$result = Storage::copy($config_filename, $backup_filename);
+		clearstatcache(true, $backup_filename);
+		if (!$result || filesize($config_filename) !== filesize($backup_filename))
+		{
+			return false;
+		}
+		
 		// Save the main config file.
 		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize(self::$_config) . ';' . "\n";
-		$result = Storage::write(\RX_BASEDIR . self::$config_filename, $buff) ? true : false;
+		$result = Storage::write($config_filename, $buff) ? true : false;
+		clearstatcache(true, $config_filename);
+		if (!$result || filesize($config_filename) !== strlen($buff))
+		{
+			return false;
+		}
+		
+		// Remove the backup file.
+		Storage::delete($backup_filename);
 		
 		// Save XE-compatible config files.
 		$warning = '// THIS FILE IS NOT USED IN RHYMIX.' . "\n" . '// TO MODIFY SYSTEM CONFIGURATION, EDIT config.php INSTEAD.';
 		$buff = '<?php' . "\n" . $warning . "\n";
 		Storage::write(\RX_BASEDIR . self::$old_db_config_filename, $buff);
 		Storage::write(\RX_BASEDIR . self::$old_ftp_config_filename, $buff);
-		return $result;
+		return true;
 	}
 	
 	/**

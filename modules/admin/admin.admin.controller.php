@@ -1257,7 +1257,10 @@ class adminAdminController extends admin
 			Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
 			Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
 			Rhymix\Framework\Config::set('url.ssl', $vars->domain_security);
-			Rhymix\Framework\Config::save();
+			if (!Rhymix\Framework\Config::save())
+			{
+				throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
+			}
 		}
 		
 		// Commit.

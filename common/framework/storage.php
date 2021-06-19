@@ -303,7 +303,7 @@ class Storage
 			flock($fp, \LOCK_UN);
 			fclose($fp);
 			
-			if ($result === false)
+			if ($result === false || (is_string($content) && strlen($content) !== $result))
 			{
 				trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 				return false;
