@@ -161,7 +161,7 @@ class HTMLFilter
 			$config->set('HTML.SafeEmbed', true);
 			$config->set('HTML.SafeIframe', true);
 			$config->set('HTML.SafeObject', true);
-			$config->set('URI.SafeIframeRegexp', MediaFilter::getIframeWhitelistRegex());
+			$config->set('URI.SafeIframeRegexp', MediaFilter::getWhitelistRegex());
 			
 			// Set the serializer path.
 			$config->set('Cache.SerializerPath', \RX_BASEDIR . 'files/cache/htmlpurifier');
@@ -457,7 +457,7 @@ class HTMLFilter
 		}, $content);
 		
 		// Remove object and embed URLs that are not allowed.
-		$whitelist = MediaFilter::getObjectWhitelistRegex();
+		$whitelist = MediaFilter::getWhitelistRegex();
 		$content = preg_replace_callback('!<(object|embed|param|audio|video|source|track)([^>]+)>!i', function($matches) use($whitelist) {
 			return preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($whitelist) {
 				if (in_array($attr[1], array('data', 'src', 'href', 'url', 'movie', 'source')))

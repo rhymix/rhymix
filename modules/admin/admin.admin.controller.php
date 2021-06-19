@@ -702,27 +702,18 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
-		// iframe filter
-		$iframe_whitelist = $vars->mediafilter_iframe;
-		$iframe_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $iframe_whitelist)), function($item) {
+		// Media Filter iframe/embed whitelist
+		$whitelist = $vars->mediafilter_whitelist;
+		$whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $whitelist)), function($item) {
 			return $item !== '';
 		});
-		$iframe_whitelist = array_unique(array_map(function($item) {
+		$whitelist = array_unique(array_map(function($item) {
 			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
-		}, $iframe_whitelist));
-		natcasesort($iframe_whitelist);
-		Rhymix\Framework\Config::set('mediafilter.iframe', array_values($iframe_whitelist));
-		
-		// object filter
-		$object_whitelist = $vars->mediafilter_object;
-		$object_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $object_whitelist)), function($item) {
-			return $item !== '';
-		});
-		$object_whitelist = array_unique(array_map(function($item) {
-			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
-		}, $object_whitelist));
-		natcasesort($object_whitelist);
-		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
+		}, $whitelist));
+		natcasesort($whitelist);
+		Rhymix\Framework\Config::set('mediafilter.whitelist', array_values($whitelist));
+		Rhymix\Framework\Config::set('mediafilter.iframe', []);
+		Rhymix\Framework\Config::set('mediafilter.object', []);
 		
 		// HTML classes
 		$classes = $vars->mediafilter_classes;

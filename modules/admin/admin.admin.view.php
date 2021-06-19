@@ -488,8 +488,7 @@ class adminAdminView extends admin
 	function dispAdminConfigSecurity()
 	{
 		// Load embed filter.
-		context::set('mediafilter_iframe', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getIframeWhitelist()));
-		context::set('mediafilter_object', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getObjectWhitelist()));
+		context::set('mediafilter_whitelist', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getWhitelist()));
 		context::set('mediafilter_classes', implode(PHP_EOL, Rhymix\Framework\Config::get('mediafilter.classes') ?: array()));
 		
 		// Load robot user agents.
