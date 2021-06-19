@@ -37,7 +37,7 @@
 /**
  * Include the autoloader.
  */
-require dirname(__FILE__) . '/common/autoload.php';
+require __DIR__ . '/common/autoload.php';
 
 /**
  * @brief Initialize by creating Context object
