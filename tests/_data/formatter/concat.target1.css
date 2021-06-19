@@ -12,6 +12,8 @@
 	background-image: url("../_data/_data/formatter/test.jpg");
 	font-family: sans-serif;
 }
+@import url("//fonts.googleapis.com/earlyaccess/nanumgothic.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 .wordpress {
 	border-radius: 4px;
 }

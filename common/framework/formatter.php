@@ -339,6 +339,10 @@ class Formatter
 				$import_content = '';
 				$import_files = array_map(function($str) use($filename, $import_type) {
 					$str = trim(trim(trim(preg_replace('/^url\\(([^()]+)\\)$/', '$1', trim($str))), '"\''));
+					if (preg_match('!^(https?:)?//!i', $str))
+					{
+						return $str;
+					}
 					if ($import_type === 'scss')
 					{
 						if (($dirpos = strrpos($str, '/')) !== false)
@@ -367,9 +371,13 @@ class Formatter
 				}, explode(',', $matches[1]));
 				foreach ($import_files as $import_filename)
 				{
-					if (file_exists($import_filename))
+					if (!preg_match('!^(https?:)?//!i', $import_filename) && file_exists($import_filename))
 					{
 						$import_content .= self::concatCSS($import_filename, $target_filename, false);
+					}
+					else
+					{
+						$import_content .= '@import url("' . escape_dqstr($import_filename) . '");';
 					}
 				}
 				return trim($import_content);
