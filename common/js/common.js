@@ -352,17 +352,6 @@ jQuery(function($) {
 		}
 	});
 	
-	/* Detect color scheme */
-	var body_element = $('body');
-	/* If there is color_scheme class in the body, color scheme settings were already applied. */
-	if(!body_element.hasClass('color_scheme_light') && !body_element.hasClass('color_scheme_dark')) {
-		var color_scheme = XE.cookie.get('rx_color_scheme');
-		if (color_scheme !== 'light' && color_scheme !== 'dark') {
-			color_scheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
-		}
-		body_element.addClass('color_scheme_' + color_scheme);
-	}
-	
 	/* Editor preview replacement */
 	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);
 	$(".editable_preview").on("click", function() {
@@ -793,6 +782,30 @@ function setColorScheme(color_scheme) {
 		color_scheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
 		$('body').addClass('color_scheme_' + color_scheme).removeClass('color_scheme_' + (color_scheme === 'dark' ? 'light' : 'dark'));
 	}
+}
+function detectColorScheme() {
+	// Return if a color scheme is already selected.
+	var body_element = $('body');
+	if(body_element.hasClass('color_scheme_light') || body_element.hasClass('color_scheme_dark')) {
+		return;
+	}
+	// Detect the cookie.
+	var color_scheme = XE.cookie.get('rx_color_scheme');
+	// Detect the device color scheme.
+	var match_media = window.matchMedia ? window.matchMedia('(prefers-color-scheme:dark)') : null;
+	if (color_scheme !== 'light' && color_scheme !== 'dark') {
+		color_scheme = (match_media && match_media.matches) ? 'dark' : 'light';
+	}
+	// Set the body class according to the detected color scheme.
+	body_element.addClass('color_scheme_' + color_scheme);
+	// Add an event listener to detect changes to the device color scheme.
+	match_media && match_media.addListener && match_media.addListener(function(e) {
+		if (e.matches) {
+			body_element.removeClass('color_scheme_light').addClass('color_scheme_dark');
+		} else {
+			body_element.removeClass('color_scheme_dark').addClass('color_scheme_light');
+		}
+	});
 }
 
 /* 미리보기 */
