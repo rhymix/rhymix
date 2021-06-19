@@ -258,7 +258,7 @@ class boardAdminView extends board {
 	 * @brief display the grant information
 	 **/
 	function dispBoardAdminGrantInfo() {
-		// get the grant infotmation from admin module
+		// Get grant information from admin module
 		$oModuleAdminModel = getAdminModel('module');
 		$grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
 		Context::set('grant_content', $grant_content);
