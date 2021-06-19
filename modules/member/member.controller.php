@@ -103,7 +103,7 @@ class memberController extends member
 	/**
 	 * Register device
 	 */
-	function procMemberRegisterDevice($member_srl = null)
+	function procMemberRegisterDevice($member_srl = null, $device_token = null)
 	{
 		Context::setResponseMethod('JSON');
 
@@ -111,13 +111,26 @@ class memberController extends member
 		$allow_guest_device = config('push.allow_guest_device');
 		$user_id = Context::get('user_id');
 		$password = Context::get('password');
-		$device_token = Context::get('device_token');
+		$device_token = $device_token ?? Context::get('device_token');
 		$device_model = escape(Context::get('device_model'));
 
 		// Return an error when id and password doesn't exist
-		if(!$member_srl && !$user_id && !$allow_guest_device) return new BaseObject(-1, 'NULL_USER_ID');
-		if(!$member_srl && !$password && !$allow_guest_device) return new BaseObject(-1, 'NULL_PASSWORD');
-		if(!$device_token) return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
+		if(!$member_srl && $this->user->member_srl)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		if(!$member_srl && !$user_id && !$allow_guest_device)
+		{
+			return new BaseObject(-1, 'NULL_USER_ID');
+		}
+		if(!$member_srl && !$password && !$allow_guest_device)
+		{
+			return new BaseObject(-1, 'NULL_PASSWORD');
+		}
+		if(!$device_token)
+		{
+			return new BaseObject(-1, 'NULL_DEVICE_TOKEN');
+		}
 
 		// Get device information
 		$browserInfo = Rhymix\Framework\UA::getBrowserInfo();
