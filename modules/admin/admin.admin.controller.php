@@ -1125,7 +1125,7 @@ class adminAdminController extends admin
 		
 		// Validate the default language.
 		$enabled_lang = Rhymix\Framework\Config::get('locale.enabled_lang');
-		if (!in_array($vars->default_lang, $enabled_lang))
+		if ($vars->default_lang !== 'default' && !in_array($vars->default_lang, $enabled_lang))
 		{
 			throw new Rhymix\Framework\Exception('msg_lang_is_not_enabled');
 		}

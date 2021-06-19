@@ -92,6 +92,7 @@ $lang->cmd_admin_sms_sender_key_help = 'The sender key is used for Alimtalk. Ple
 $lang->cmd_admin_allow_split_sms_help = 'Split long texts into multiple SMS in order to prevent clipping.<br>This only applies to gateways that cannot send LMS/MMS. Otherwise, long texts will be automatically converted to LMS/MMS.';
 $lang->cmd_admin_allow_split_lms_help = 'Split very long texts into multiple LMS/MMS in order to prevent clipping.<br>This may increase your LMS/MMS cost significantly.';
 $lang->default_lang = 'Default Language';
+$lang->follow_default_lang = 'System Default';
 $lang->lang_select = 'Supported Languages';
 $lang->auto_select_lang = 'Auto-select Language';
 $lang->about_auto_select_lang = 'Automatically select the language based on the language of each visitor\'s browser.';

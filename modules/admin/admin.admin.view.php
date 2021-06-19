@@ -723,7 +723,7 @@ class adminAdminView extends admin
 		}
 		else
 		{
-			$domain_lang = Rhymix\Framework\Config::get('locale.default_lang');
+			$domain_lang = 'default';
 		}
 		Context::set('domain_lang', $domain_lang);
 		

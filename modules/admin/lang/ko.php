@@ -91,6 +91,7 @@ $lang->cmd_admin_sms_sender_key_help = '알림톡 발송에 필요한 Sender Key
 $lang->cmd_admin_allow_split_sms_help = '긴 내용을 SMS로 발송할 때 잘리지 않도록 2개 이상의 SMS로 분할 발송합니다.<br>LMS/MMS를 사용할 수 있는 경우 자동 변경되므로, LMS/MMS 사용이 불가능한 서비스에만 해당됩니다.';
 $lang->cmd_admin_allow_split_lms_help = '매우 긴 내용을 LMS 또는 MMS로 발송할 때 잘리지 않도록 2개 이상의 LMS 또는 MMS로 분할 발송합니다.<br>내용이 지나치게 긴 경우 비용이 많이 발생할 수 있으니 주의하십시오.';
 $lang->default_lang = '기본 언어 선택';
+$lang->follow_default_lang = '시스템 기본값';
 $lang->lang_select = '지원 언어 선택';
 $lang->auto_select_lang = '언어 자동 선택';
 $lang->about_auto_select_lang = '방문자의 브라우저 언어에 따라 자동으로 언어를 선택하는 기능입니다.';

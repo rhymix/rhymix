@@ -327,14 +327,18 @@ class Context
 		
 		if(!$lang_type || !isset($enabled_langs[$lang_type]))
 		{
-			if($site_module_info->settings->language)
+			if(isset($site_module_info->settings->language) && $site_module_info->settings->language !== 'default')
 			{
 				$lang_type = self::$_instance->db_info->lang_type = $site_module_info->settings->language;
 			}
 			else
 			{
-				$lang_type = self::$_instance->db_info->lang_type = self::$_instance->db_info->lang_type ?? 'ko';
+				$lang_type = self::$_instance->db_info->lang_type = config('locale.default_lang');
 			}
+		}
+		if(!$lang_type || !isset($enabled_langs[$lang_type]))
+		{
+			$lang_type = self::$_instance->db_info->lang_type = 'ko';
 		}
 
 		$lang = Rhymix\Framework\Lang::getInstance($lang_type);
