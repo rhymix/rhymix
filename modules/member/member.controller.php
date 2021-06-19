@@ -3750,13 +3750,10 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		$spam_description = trim( Context::get('spam_description') );
 
-		$columnList = array('member_srl', 'email_address', 'user_id', 'nick_name', 'description');
 		// get member current infomation
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		$cnt_comment = CommentModel::getCommentCountByMemberSrl($member_srl);
 		$cnt_document = DocumentModel::getDocumentCountByMemberSrl($member_srl);
-		$total_count = $cnt_comment + $cnt_document;
 
 		$args = new stdClass();
 		$args->member_srl = $member_info->member_srl;
@@ -3764,10 +3761,15 @@ class memberController extends member
 		$args->user_id = $member_info->user_id;
 		$args->nick_name = $member_info->nick_name;
 		$args->denied = "Y";
-		$args->description = trim( $member_info->description );
-		if( $args->description != "" ) $args->description .= "\n";	// add new line
-
-		$args->description .= lang('cmd_spammer') . "[" . date("Y-m-d H:i:s") . " from:" . $logged_info->user_id . " info:" . $spam_description . " docuemnts count:" . $total_count . "]";
+		$args->description = trim(vsprintf("%s\n%s [%s %s]\ninfo: %s\ndocuments: %d\ncomments: %d]", [
+			trim($member_info->description),
+			lang('cmd_spammer'),
+			date("Y-m-d H:i:s"),
+			$logged_info->nick_name,
+			$spam_description,
+			$cnt_document,
+			$cnt_comment,
+		]));
 
 		$output = $this->updateMember($args, true);
 
