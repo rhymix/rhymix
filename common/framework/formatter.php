@@ -198,7 +198,9 @@ class Formatter
 		}
 		catch (\Exception $e)
 		{
-			$content = '/*' . "\n" . 'Error while compiling LESS:' . "\n" . $e->getMessage() . "\n" . '*/' . "\n";
+			$filename = starts_with(\RX_BASEDIR, $source_filename) ? substr($source_filename, strlen(\RX_BASEDIR)) : $source_filename;
+			$message = $e->getMessage();
+			$content = sprintf("/*\n  Error while compiling %s\n\n  %s\n*/\n", $filename, $message);
 			$result = false;
 		}
 		
@@ -238,7 +240,9 @@ class Formatter
 		}
 		catch (\Exception $e)
 		{
-			$content = '/*' . "\n" . 'Error while compiling SCSS:' . "\n" . $e->getMessage() . "\n" . '*/' . "\n";
+			$filename = starts_with(\RX_BASEDIR, $source_filename) ? substr($source_filename, strlen(\RX_BASEDIR)) : $source_filename;
+			$message = preg_replace('/\(stdin\)\s/', '', $e->getMessage());
+			$content = sprintf("/*\n  Error while compiling %s\n\n  %s\n*/\n", $filename, $message);
 			$result = false;
 		}
 		
