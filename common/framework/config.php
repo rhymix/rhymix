@@ -137,12 +137,15 @@ class Config
 		
 		// Backup the main config file.
 		$config_filename = \RX_BASEDIR . self::$config_filename;
-		$backup_filename = \RX_BASEDIR . self::$config_filename . '.backup.' . time() . '.php';
-		$result = Storage::copy($config_filename, $backup_filename);
-		clearstatcache(true, $backup_filename);
-		if (!$result || filesize($config_filename) !== filesize($backup_filename))
+		if (Storage::exists($config_filename))
 		{
-			return false;
+			$backup_filename = \RX_BASEDIR . self::$config_filename . '.backup.' . time() . '.php';
+			$result = Storage::copy($config_filename, $backup_filename);
+			clearstatcache(true, $backup_filename);
+			if (!$result || filesize($config_filename) !== filesize($backup_filename))
+			{
+				return false;
+			}
 		}
 		
 		// Save the main config file.
