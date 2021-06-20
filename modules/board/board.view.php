@@ -839,8 +839,6 @@ class boardView extends board
 		$oDocument = DocumentModel::getDocument(0, $this->grant->manager);
 		$oDocument->setDocument($document_srl);
 
-		$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
-
 		$savedDoc = ($oDocument->get('module_srl') == $oDocument->get('member_srl'));
 		$oDocument->add('module_srl', $this->module_srl);
 
@@ -862,10 +860,12 @@ class boardView extends board
 					throw new Rhymix\Framework\Exception('msg_protect_update_content');
 				}
 			}
-		}
-		if($member_info->is_admin == 'Y' && $this->user->is_admin != 'Y')
-		{
-			throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
+			
+			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+			if($member_info->is_admin == 'Y' && $this->user->is_admin != 'Y')
+			{
+				throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
+			}
 		}
 
 		// if the document is not granted, then back to the password input form
@@ -1138,7 +1138,18 @@ class boardView extends board
 		// get comment information
 		$oComment = CommentModel::getComment($comment_srl, $this->grant->manager);
 
-		$member_info = MemberModel::getMemberInfo($oComment->member_srl);
+		// if the comment is not exited, alert an error message
+		if(!$oComment->isExists())
+		{
+			return $this->dispBoardMessage('msg_not_founded');
+		}
+
+		// if the comment is not granted, then back to the password input form
+		if(!$oComment->isGranted())
+		{
+			return $this->setTemplateFile('input_password_form');
+		}
+
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
 			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
@@ -1157,21 +1168,10 @@ class boardView extends board
 			}
 		}
 
+		$member_info = MemberModel::getMemberInfo($oComment->member_srl);
 		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
 		{
 			throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
-		}
-
-		// if the comment is not exited, alert an error message
-		if(!$oComment->isExists())
-		{
-			return $this->dispBoardMessage('msg_not_founded');
-		}
-
-		// if the comment is not granted, then back to the password input form
-		if(!$oComment->isGranted())
-		{
-			return $this->setTemplateFile('input_password_form');
 		}
 
 		// setup the comment variables on context

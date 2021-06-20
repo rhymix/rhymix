@@ -25,7 +25,7 @@
 	<form action="{Context::getRequestUri()}" method="get" no-error-return-url="true" style="float:left">
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="act" value="{$act}" />
-		<input type="text" name="search_keyword" value="{escape($search_keyword, false)}">
+		<input type="text" name="search_keyword" value="{escape($search_keyword ?? '', false)}">
 		<button type="submit" class="btn">{$lang->cmd_search}</button>
 	</form>
 	<ul style="float:right;margin:0;padding:0">

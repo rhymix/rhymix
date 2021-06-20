@@ -2569,7 +2569,10 @@ class documentController extends document
 		{
 			$child_buff = "";
 			// Get data of the child nodes
-			if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
+			if($category_srl && isset($tree[$category_srl]) && $tree[$category_srl])
+			{
+				$child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
+			}
 			// List variables
 			$expand = ($node->expand) ? $node->expand : 'N';
 			$group_srls = ($node->group_srls) ? $node->group_srls : '';
@@ -2620,8 +2623,8 @@ class documentController extends document
 				$node->document_count
 			);
 
-			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
-			else $buff .=  sprintf('<node %s />', $attribute);
+			if($child_buff) $buff = sprintf('<node %s>%s</node>', $attribute, $child_buff);
+			else $buff = sprintf('<node %s />', $attribute);
 		}
 		return $buff;
 	}
@@ -2646,9 +2649,12 @@ class documentController extends document
 		foreach($source_node as $category_srl => $node)
 		{
 			// Get data from child nodes first if exist.
-			if($category_srl && $tree[$category_srl]){
+			if($category_srl && isset($tree[$category_srl]) && $tree[$category_srl])
+			{
 				$child_output = $this->getPhpCacheCode($tree[$category_srl], $tree, $site_srl, $php_header_buff);
-			} else {
+			}
+			else
+			{
 				$child_output = array("buff"=>"", "category_srl_list"=>array());
 			}
 

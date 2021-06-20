@@ -430,7 +430,7 @@ class widgetController extends widget
 			$cache_content->variables = new stdClass();
 			foreach($widget_var_matches as $matches)
 			{
-				if($matches[2])
+				if(isset($matches[2]) && $matches[2])
 				{
 					$key = str_replace('?$__Context->', '', $matches[2]);
 					$cache_content->variables->{$key} = Context::get($key);
