@@ -298,11 +298,47 @@ class FrontEndFileHandler extends Handler
 		$compiledFileName = $file->fileName . ($minify ? '.min' : '') . '.css';
 		$compiledFileHash = sha1($file->fileRealPath . ':' . serialize($file->vars));
 		$compiledFilePath = \RX_BASEDIR . self::$assetdir . '/compiled/' . $compiledFileHash . '.' . $compiledFileName;
+
+		$importedFileName = $file->fileName . ($minify ? '.min' : '') . '.imports.php';
+		$importedFilePath = \RX_BASEDIR . self::$assetdir . '/compiled/' . $compiledFileHash . '.' . $importedFileName;
 		
-		if (!file_exists($compiledFilePath) || filemtime($compiledFilePath) < filemtime($file->fileFullPath))
+		if (!file_exists($compiledFilePath))
+		{
+			$recompile = 1;
+		}
+		else
+		{
+			$compiledTime = filemtime($compiledFilePath);
+			if ($compiledTime < filemtime($file->fileFullPath))
+			{
+				$recompile = 2;
+			}
+			else
+			{
+				$checklist = Rhymix\Framework\Storage::readPHPData($importedFilePath);
+				if (is_array($checklist))
+				{
+					$recompile = 0;
+					foreach ($checklist as $filename)
+					{
+						if (!file_exists($filename) || filemtime($filename) > $compiledTime)
+						{
+							$recompile = 3;
+							break;
+						}
+					}
+				}
+				else
+				{
+					$recompile = 4;
+				}
+			}
+		}
+		
+		if ($recompile)
 		{
 			$method_name = 'compile' . $file->fileExtension;
-			$success = Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify);
+			Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify);
 		}
 		
 		$file->fileName = $compiledFileHash . '.' . $compiledFileName;

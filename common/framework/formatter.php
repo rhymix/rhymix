@@ -179,7 +179,8 @@ class Formatter
 	public static function compileLESS($source_filename, $target_filename, $variables = array(), $minify = false)
 	{
 		// Get the cleaned and concatenated content.
-		$content = self::concatCSS($source_filename, $target_filename);
+		$imported_list = [];
+		$content = self::concatCSS($source_filename, $target_filename, true, $imported_list);
 		
 		// Compile!
 		try
@@ -206,6 +207,11 @@ class Formatter
 		
 		// Save the result to the target file.
 		Storage::write($target_filename, $content);
+		
+		// Save the list of imported files.
+		Storage::writePHPData(preg_replace('/\.css$/', '.imports.php', $target_filename), $imported_list, null, false);
+		
+		// Also return the compiled CSS content.
 		return $result;
 	}
 	
@@ -221,7 +227,8 @@ class Formatter
 	public static function compileSCSS($source_filename, $target_filename, $variables = array(), $minify = false)
 	{
 		// Get the cleaned and concatenated content.
-		$content = self::concatCSS($source_filename, $target_filename);
+		$imported_list = [];
+		$content = self::concatCSS($source_filename, $target_filename, true, $imported_list);
 		
 		// Compile!
 		try
@@ -248,6 +255,11 @@ class Formatter
 		
 		// Save the result to the target file.
 		Storage::write($target_filename, $content);
+		
+		// Save the list of imported files.
+		Storage::writePHPData(preg_replace('/\.css$/', '.imports.php', $target_filename), $imported_list, null, false);
+		
+		// Also return the compiled CSS content.
 		return $result;
 	}
 	
@@ -311,9 +323,10 @@ class Formatter
 	 * @param string|array $source_filename
 	 * @param string $target_filename
 	 * @param bool $add_comment
+	 * @param array &$imported_list
 	 * @return string
 	 */
-	public static function concatCSS($source_filename, $target_filename, $add_comment = true)
+	public static function concatCSS($source_filename, $target_filename, $add_comment = true, &$imported_list = [])
 	{
 		$result = '';
 		
@@ -339,7 +352,7 @@ class Formatter
 			
 			// Convert all paths in LESS and SCSS imports, too.
 			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
-			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type) {
+			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type, &$imported_list) {
 				$import_content = '';
 				$import_files = array_map(function($str) use($filename, $import_type) {
 					$str = trim(trim(trim(preg_replace('/^url\\(([^()]+)\\)$/', '$1', trim($str))), '"\''));
@@ -377,7 +390,8 @@ class Formatter
 				{
 					if (!preg_match('!^(https?:)?//!i', $import_filename) && file_exists($import_filename))
 					{
-						$import_content .= self::concatCSS($import_filename, $target_filename, false);
+						$imported_list[] = $import_filename;
+						$import_content .= self::concatCSS($import_filename, $target_filename, false, $imported_list);
 					}
 					else
 					{
