@@ -702,6 +702,7 @@ class adminAdminView extends admin
 			}
 		}
 		Context::set('domain_info', $domain_info);
+		Context::set('domain_copy', false);
 		
 		// Get modules.
 		if ($domain_info && $domain_info->index_module_srl)
@@ -746,6 +747,75 @@ class adminAdminView extends admin
 			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
 			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
 			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
+			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
+		}
+		
+		$this->setTemplateFile('config_domains_edit');
+	}
+	
+	/**
+	 * Display domain copy screen
+	 * @return void
+	 */
+	function dispAdminCopyDomain()
+	{
+		// Get selected domain.
+		$domain_srl = strval(Context::get('domain_srl'));
+		$domain_info = ModuleModel::getSiteInfo($domain_srl);
+		if ($domain_info->domain_srl != $domain_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_domain_not_found');
+		}
+		
+		// Adjust some properties for copying.
+		$domain_info->domain_srl = null;
+		$domain_info->is_default_domain = 'N';
+		Context::set('domain_info', $domain_info);
+		Context::set('domain_copy', true);
+		
+		// Get modules.
+		if ($domain_info && $domain_info->index_module_srl)
+		{
+			$index_module_srl = $domain_info->index_module_srl;
+		}
+		else
+		{
+			$index_module_srl = '';
+		}
+		Context::set('index_module_srl', $index_module_srl);
+		
+		// Get language list.
+		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
+		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
+		if ($domain_info && $domain_info->settings->language)
+		{
+			$domain_lang = $domain_info->settings->language;
+		}
+		else
+		{
+			$domain_lang = 'default';
+		}
+		Context::set('domain_lang', $domain_lang);
+		
+		// Get timezone list.
+		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
+		if ($domain_info && $domain_info->settings->timezone)
+		{
+			$domain_timezone = $domain_info->settings->timezone;
+		}
+		else
+		{
+			$domain_timezone = Rhymix\Framework\Config::get('locale.default_timezone');
+		}
+		Context::set('domain_timezone', $domain_timezone);
+		
+		// Get favicon and images.
+		if ($domain_info)
+		{
+			$oAdminAdminModel = getAdminModel('admin');
+			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_srl));
+			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_srl));
+			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
 		}
 		

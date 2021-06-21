@@ -1035,11 +1035,25 @@ class adminAdminController extends admin
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
-			$domain_info = getModel('module')->getSiteInfo($domain_srl);
-			if ($domain_info->domain_srl != $domain_srl)
+			$domain_info = ModuleModel::getSiteInfo(intval($domain_srl));
+			if ($domain_info->domain_srl !== intval($domain_srl))
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
+		}
+		
+		// Copying?
+		if (!$domain_info && intval($vars->copy_domain_srl) > -1)
+		{
+			$copy_domain_info = ModuleModel::getSiteInfo(intval($vars->copy_domain_srl));
+			if (!$copy_domain_info || $copy_domain_info->domain_srl !== intval($vars->copy_domain_srl))
+			{
+				throw new Rhymix\Framework\Exception('msg_domain_not_found');
+			}
+		}
+		else
+		{
+			$copy_domain_info = null;
 		}
 		
 		// Validate the title and subtitle.
@@ -1223,18 +1237,57 @@ class adminAdminController extends admin
 			}
 		}
 		
-		// Save the favicon, mobicon, and default image.
+		// Save or copy the favicon.
 		if ($vars->favicon || $vars->delete_favicon)
 		{
 			$this->_saveFavicon($domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
 		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'favicon.ico';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'favicon.ico';
+			Rhymix\Framework\Storage::copy($source_filename, $target_filename);
+		}
+		
+		// Save or copy the mobile icon.
 		if ($vars->mobicon || $vars->delete_mobicon)
 		{
 			$this->_saveFavicon($domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
 		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'mobicon.png';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'mobicon.png';
+			Rhymix\Framework\Storage::copy($source_filename, $target_filename);
+		}
+		
+		// Save or copy the site default image.
 		if ($vars->default_image || $vars->delete_default_image)
 		{
 			$this->_saveDefaultImage($domain_srl, $vars->default_image, $vars->delete_default_image);
+		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'default_image.php';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'default_image.php';
+			if (Rhymix\Framework\Storage::copy($source_filename, $target_filename))
+			{
+				$info = Rhymix\Framework\Storage::readPHPData($target_filename);
+				if ($info && $info['filename'])
+				{
+					$source_image = \RX_BASEDIR . $info['filename'];
+					$target_image = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . basename($info['filename']);
+					if (Rhymix\Framework\Storage::copy($source_image, $target_image))
+					{
+						$info['filename'] = substr($target_image, strlen(\RX_BASEDIR));
+						$info = Rhymix\Framework\Storage::writePHPData($target_filename, $info);
+					}
+				}
+				else
+				{
+					Rhymix\Framework\Storage::delete($target_filename);
+				}
+			}
 		}
 		
 		// Update system configuration to match the default domain.

@@ -11,6 +11,7 @@
 		<input type="hidden" name="act" value="procAdminInsertDomain" />
 		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_domains_edit/1" />
 		<input type="hidden" name="domain_srl" value="{$domain_info ? $domain_info->domain_srl : ''}" />
+		<input type="hidden" name="copy_domain_srl" value="{$domain_copy ? $domain_srl : -1}" />
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->site_title}</label>
 			<div class="x_controls">
