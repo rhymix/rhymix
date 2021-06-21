@@ -1482,26 +1482,116 @@ class documentController extends document
 	 * Insert extra vaiable to the documents table
 	 * @param int $module_srl
 	 * @param int $document_srl
-	 * @param int $var_idx
+	 * @param int|string $idx_or_eid
 	 * @param mixed $value
 	 * @param int $eid
 	 * @param string $lang_code
 	 * @return Object|void
 	 */
-	function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '')
+	public static function insertDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid = null, $lang_code = null)
 	{
-		if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new BaseObject(-1, 'msg_invalid_request');
-		if(!$lang_code) $lang_code = Context::getLangType();
-
+		if(!$module_srl || !$document_srl || !$idx_or_eid || !isset($value))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		if (is_int($idx_or_eid) || ctype_digit($idx_or_eid))
+		{
+			if (!$eid)
+			{
+				$eid = DocumentModel::getExtraVarEidByIdx($module_srl, $idx_or_eid);
+				if (!$eid)
+				{
+					return new BaseObject(-1, 'Invalid idx: ' . $idx_or_eid);
+				}
+			}
+		}
+		else
+		{
+			$eid = $idx_or_eid;
+			$idx_or_eid = DocumentModel::getExtraVarIdxByEid($module_srl, $eid);
+			if (!$idx_or_eid)
+			{
+				return new BaseObject(-1, 'Invalid eid: ' . $eid);
+			}
+		}
+		
 		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
-		$obj->var_idx = $var_idx;
+		$obj->var_idx = $idx_or_eid;
 		$obj->value = $value;
-		$obj->lang_code = $lang_code;
+		$obj->lang_code = $lang_code ?: Context::getLangType();
 		$obj->eid = $eid;
 
-		executeQuery('document.insertDocumentExtraVar', $obj);
+		return executeQuery('document.insertDocumentExtraVar', $obj);
+	}
+
+	/**
+	 * Update extra vaiable in the documents table
+	 * @param int $module_srl
+	 * @param int $document_srl
+	 * @param int|string $idx_or_eid
+	 * @param mixed $value
+	 * @param int $eid
+	 * @param string $lang_code
+	 * @return Object|void
+	 */
+	public static function updateDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid = null, $lang_code = null)
+	{
+		if(!$module_srl || !$document_srl || !$idx_or_eid || !isset($value))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		if (is_int($idx_or_eid) || ctype_digit($idx_or_eid))
+		{
+			if (!$eid)
+			{
+				$eid = DocumentModel::getExtraVarEidByIdx($module_srl, $idx_or_eid);
+				if (!$eid)
+				{
+					return new BaseObject(-1, 'Invalid idx: ' . $idx_or_eid);
+				}
+			}
+		}
+		else
+		{
+			$eid = $idx_or_eid;
+			$idx_or_eid = DocumentModel::getExtraVarIdxByEid($module_srl, $eid);
+			if (!$idx_or_eid)
+			{
+				return new BaseObject(-1, 'Invalid eid: ' . $eid);
+			}
+		}
+		
+		$obj = new stdClass;
+		$obj->module_srl = $module_srl;
+		$obj->document_srl = $document_srl;
+		$obj->var_idx = $idx_or_eid;
+		$obj->value = $value;
+		$obj->lang_code = $lang_code ?: Context::getLangType();
+		$obj->eid = $eid;
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		$output = self::deleteDocumentExtraVars($module_srl, $document_srl, $idx_or_eid, $lang_code, $eid);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$output = self::insertDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid, $lang_code);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$oDB->commit();
+		return $output;
 	}
 
 	/**
@@ -1513,7 +1603,7 @@ class documentController extends document
 	 * @param int $eid
 	 * @return $output
 	 */
-	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null)
+	public static function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null)
 	{
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
