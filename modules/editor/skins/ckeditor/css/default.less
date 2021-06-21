@@ -114,16 +114,23 @@ html {
 	&.cke_panel_container, &.cke_panel_container body {
 		.light_dark(default);
 	}
-	body.cke_editable {
-		width: unset;
-		height: unset;
-		min-width: unset;
-		min-height: 100vh;
-		box-sizing: border-box;
-		margin: 0;
-		padding: 10px;
-		.light_dark(@colorset);
-	}
+	width: unset;
+	height: unset;
+	min-width: unset;
+	min-height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body.cke_editable {
+	width: unset;
+	height: unset;
+	min-width: unset;
+	min-height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 10px;
+	.light_dark(@colorset);
 }
 body.color_scheme_dark.cke_auto_dark_mode .cke_wysiwyg_div {
 	background-color: #333;
