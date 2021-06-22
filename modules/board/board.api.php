@@ -122,6 +122,11 @@ class boardAPI extends board {
 			if(!$content->isAccessible())
 			{
 				$output->content = Context::getLang('msg_is_secret');
+				$output->member_srl = 0;
+			}
+			if($output->member_srl < 0)
+			{
+				$output->member_srl = 0;
 			}
 
 			$t_width  = Context::get('thumbnail_width');
