@@ -2713,8 +2713,8 @@ class documentController extends document
 				$node->document_count
 			);
 
-			if($child_buff) $buff = sprintf('<node %s>%s</node>', $attribute, $child_buff);
-			else $buff = sprintf('<node %s />', $attribute);
+			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
+			else $buff .= sprintf('<node %s />', $attribute);
 		}
 		return $buff;
 	}
