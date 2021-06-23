@@ -2655,6 +2655,7 @@ class documentController extends document
 	{
 		if(!$source_node) return;
 
+		$buff = "";
 		foreach($source_node as $category_srl => $node)
 		{
 			$child_buff = "";
