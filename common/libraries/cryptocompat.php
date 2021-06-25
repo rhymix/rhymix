@@ -26,9 +26,21 @@ class CryptoCompat
         $iv = self::_createIV();
         
         // Encrypt the plaintext
-        $mcrypt_method = str_replace('aes', 'rijndael', self::ENCRYPTION_ALGO);
-        $plaintext = self::_applyPKCS7Padding($plaintext, self::ENCRYPTION_BLOCK_SIZE);
-        $ciphertext = mcrypt_encrypt($mcrypt_method, $enc_key, $plaintext, self::ENCRYPTION_MODE, $iv);
+        if (function_exists('openssl_encrypt'))
+        {
+            $openssl_method = strtoupper(self::ENCRYPTION_ALGO . '-' . self::ENCRYPTION_MODE);
+            $ciphertext = openssl_encrypt($plaintext, $openssl_method, $enc_key, OPENSSL_RAW_DATA, $iv);
+        }
+        elseif (function_exists('mcrypt_encrypt'))
+        {
+            $plaintext = self::_applyPKCS7Padding($plaintext, self::ENCRYPTION_BLOCK_SIZE);
+            $mcrypt_method = str_replace('aes', 'rijndael', self::ENCRYPTION_ALGO);
+            $ciphertext = mcrypt_encrypt($mcrypt_method, $enc_key, $plaintext, self::ENCRYPTION_MODE, $iv);
+        }
+        else
+        {
+            throw new Rhymix\Framework\Exception('msg_crypto_not_available');
+        }
         
         // Generate MAC
         $mac_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_MAC_INFO);
@@ -58,13 +70,25 @@ class CryptoCompat
         $enc_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_KEY_INFO);
         
         // Decrypt the ciphertext
-        $mcrypt_method = str_replace('aes', 'rijndael', self::ENCRYPTION_ALGO);
-        $plaintext = @mcrypt_decrypt($mcrypt_method, $enc_key, $ciphertext, self::ENCRYPTION_MODE, $iv);
-        if ($plaintext === false)
+        if (function_exists('openssl_decrypt'))
         {
-            return false;
+            $openssl_method = strtoupper(self::ENCRYPTION_ALGO . '-' . self::ENCRYPTION_MODE);
+            $plaintext = openssl_decrypt($ciphertext, $openssl_method, $enc_key, OPENSSL_RAW_DATA, $iv);
         }
-        $plaintext = self::_stripPKCS7Padding($plaintext, self::ENCRYPTION_BLOCK_SIZE);
+        elseif (function_exists('mcrypt_decrypt'))
+        {
+            $mcrypt_method = str_replace('aes', 'rijndael', self::ENCRYPTION_ALGO);
+            $plaintext = mcrypt_decrypt($mcrypt_method, $enc_key, $ciphertext, self::ENCRYPTION_MODE, $iv);
+            if ($plaintext !== false)
+            {
+                $plaintext = self::_stripPKCS7Padding($plaintext, self::ENCRYPTION_BLOCK_SIZE);
+            }
+        }
+        else
+        {
+            throw new Rhymix\Framework\Exception('msg_crypto_not_available');
+        }
+        
         if ($plaintext === false)
         {
             return false;
