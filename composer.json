@@ -21,7 +21,6 @@
 		"ext-xml": "*",
 		"abraham/twitteroauth": "2.*",
 		"coolsms/php-sdk": "2.0.*",
-		"defuse/php-encryption": "1.2.1",
 		"doctrine/lexer": "1.0.*",
 		"egulias/email-validator": "2.1.*",
 		"ezyang/htmlpurifier": "4.13.*",

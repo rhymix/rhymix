@@ -29,28 +29,28 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '3f64e02a38d3ddf5feac06fc77030779011db32e',
+    'reference' => 'e77d48f22860c99162fd18f021ec6a4769f42b91',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
   array (
     'abraham/twitteroauth' => 
     array (
-      'pretty_version' => '2.0.1',
-      'version' => '2.0.1.0',
+      'pretty_version' => '2.0.2',
+      'version' => '2.0.2.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'af6d0ba772731d4f83524fccb24281fe6149ef43',
+      'reference' => '5a424e80a1200674451844fbaae8a0098a316a01',
     ),
     'composer/ca-bundle' => 
     array (
-      'pretty_version' => '1.2.9',
-      'version' => '1.2.9.0',
+      'pretty_version' => '1.2.10',
+      'version' => '1.2.10.0',
       'aliases' => 
       array (
       ),
-      'reference' => '78a0e288fdcebf92aa2318a8d3656168da6ac1a5',
+      'reference' => '9fdb22c2e97a614657716178093cd1da90a64aa8',
     ),
     'coolsms/php-sdk' => 
     array (
@@ -60,15 +60,6 @@ private static $installed = array (
       array (
       ),
       'reference' => 'ce00fea155169dcf2a3759abd41ad20ff80ca0b1',
-    ),
-    'defuse/php-encryption' => 
-    array (
-      'pretty_version' => 'v1.2.1',
-      'version' => '1.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'b87737b2eec06b13f025cabea847338fa203d1b4',
     ),
     'doctrine/lexer' => 
     array (
@@ -99,12 +90,12 @@ private static $installed = array (
     ),
     'firebase/php-jwt' => 
     array (
-      'pretty_version' => 'v5.2.1',
-      'version' => '5.2.1.0',
+      'pretty_version' => 'v5.4.0',
+      'version' => '5.4.0.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
+      'reference' => 'd2113d9b2e0e349796e72d2a63cf9319100382d2',
     ),
     'guzzlehttp/guzzle' => 
     array (
@@ -291,16 +282,16 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '3f64e02a38d3ddf5feac06fc77030779011db32e',
+      'reference' => 'e77d48f22860c99162fd18f021ec6a4769f42b91',
     ),
     'rmccue/requests' => 
     array (
-      'pretty_version' => 'v1.8.0',
-      'version' => '1.8.0.0',
+      'pretty_version' => 'v1.8.1',
+      'version' => '1.8.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'afbe4790e4def03581c4a0963a1e8aa01f6030f1',
+      'reference' => '82e6936366eac3af4d836c18b9d8c31028fe4cd5',
     ),
     'scssphp/scssphp' => 
     array (
