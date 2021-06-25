@@ -125,7 +125,7 @@ class boardAdminController extends board {
 	 * Board info update in basic setup page
 	 * @return void
 	 */
-	public function procBoardAdminUpdateBoardFroBasic()
+	public function procBoardAdminUpdateBoard()
 	{
 		$args = Context::getRequestVars();
 

@@ -155,7 +155,7 @@ class moduleModel extends module
 				$domain_info = $output->data;
 				$domain_info->site_srl = 0;
 				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-				if(!isset($domain_info->settings->color_scheme)) $domain_info->settings->color_scheme = 'off_light';
+				if(!isset($domain_info->settings->color_scheme)) $domain_info->settings->color_scheme = 'auto';
 				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
 				Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:' . $domain, $domain_info, 0, true);
 			}

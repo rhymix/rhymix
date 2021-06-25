@@ -467,8 +467,13 @@ class FileHandler
 			$channels = 6; //for png
 		}
 		$memoryNeeded = round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR);
-		$memoryLimit = self::returnBytes(ini_get('memory_limit'));
-		if($memoryLimit < 0)
+		$memoryLimit = ini_get('memory_limit');
+		if($memoryLimit <= 0)
+		{
+			return true;
+		}
+		$memoryLimit = self::returnBytes($memoryLimit);
+		if($memoryLimit <= 0)
 		{
 			return true;
 		}
@@ -543,7 +548,13 @@ class FileHandler
 		{
 			$target_type = 'jpg';
 		}
-
+		
+		// Automatically set resize_height if it is 'auto'
+		if ($resize_height === 'auto')
+		{
+			$resize_height = round($resize_width / ($width / $height));
+		}
+		
 		// create temporary image having original type
 		if ($type === 'gif' && function_exists('imagecreatefromgif'))
 		{

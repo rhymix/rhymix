@@ -45,7 +45,11 @@
 <meta property="{$og_metadata['property']}" content="{$og_metadata['content']}" />
 </block>
 {Context::getHtmlHeader()|noescape}
+</head>
 
+<!-- BODY START -->
+<body{Context::getBodyClass()|noescape}>
+	
 <!-- COMMON JS VARIABLES -->
 <script>
 	var default_url = "{\Rhymix\Framework\URL::encodeIdna(Context::getDefaultUrl())}";
@@ -58,11 +62,8 @@
 	var enforce_ssl = {$site_module_info->security === 'always' ? 'true' : 'false'};
 	var cookies_ssl = {config('session.use_ssl_cookies') ? 'true' : 'false'};
 	var rewrite_level = {intval(\Rhymix\Framework\Router::getRewriteLevel())};
+	if (detectColorScheme) detectColorScheme();
 </script>
-</head>
-
-<!-- BODY START -->
-<body{Context::getBodyClass()|noescape}>
 
 <!-- PAGE CONTENT -->
 {Context::getBodyHeader()|noescape}

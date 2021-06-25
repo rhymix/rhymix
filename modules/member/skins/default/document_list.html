@@ -33,11 +33,11 @@
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="act" value="{$act}" />
 		<select name="search_target" title="{$lang->search_target}">
-			<option value="title" selected="selected"|cond="$search_target == 'title'">{$lang->title}</option>
-			<option value="title_content" selected="selected"|cond="$search_target == 'title_content'">{$lang->title_content}</option>
-			<option value="content" selected="selected"|cond="$search_target == 'content'">{$lang->content}</option>
+			<option value="title" selected="selected"|cond="isset($search_target) && $search_target == 'title'">{$lang->title}</option>
+			<option value="title_content" selected="selected"|cond="isset($search_target) && $search_target == 'title_content'">{$lang->title_content}</option>
+			<option value="content" selected="selected"|cond="isset($search_target) && $search_target == 'content'">{$lang->content}</option>
 		</select>
-		<input type="text" name="search_keyword" value="{escape($search_keyword, false)}">
+		<input type="text" name="search_keyword" value="{escape($search_keyword ?? '', false)}">
 		<button type="submit" class="btn">{$lang->cmd_search}</button>
 	</form>
 	<ul style="float:right;margin:0;padding:0">

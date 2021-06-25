@@ -161,7 +161,7 @@ class HTMLFilter
 			$config->set('HTML.SafeEmbed', true);
 			$config->set('HTML.SafeIframe', true);
 			$config->set('HTML.SafeObject', true);
-			$config->set('URI.SafeIframeRegexp', MediaFilter::getIframeWhitelistRegex());
+			$config->set('URI.SafeIframeRegexp', MediaFilter::getWhitelistRegex());
 			
 			// Set the serializer path.
 			$config->set('Cache.SerializerPath', \RX_BASEDIR . 'files/cache/htmlpurifier');
@@ -228,7 +228,7 @@ class HTMLFilter
 		$time = $def->addElement('time', 'Inline', 'Inline', 'Common', array('datetime' => 'Text', 'pubdate' => 'Bool'));
 		$time->excludes = array('time' => true);
 		
-		// Suppport <audio> and <video> tags. DO NOT ALLOW AUTOPLAY.
+		// Suppport <audio> and <video> tags.
 		$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
 			'src' => 'URI',
 			'type' => 'Text',
@@ -270,6 +270,9 @@ class HTMLFilter
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+		
+		// Support contenteditable="false" (#1710)
+		$def->addAttribute('div', 'contenteditable', 'Enum#false');
 	}
 	
 	/**
@@ -454,7 +457,7 @@ class HTMLFilter
 		}, $content);
 		
 		// Remove object and embed URLs that are not allowed.
-		$whitelist = MediaFilter::getObjectWhitelistRegex();
+		$whitelist = MediaFilter::getWhitelistRegex();
 		$content = preg_replace_callback('!<(object|embed|param|audio|video|source|track)([^>]+)>!i', function($matches) use($whitelist) {
 			return preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($whitelist) {
 				if (in_array($attr[1], array('data', 'src', 'href', 'url', 'movie', 'source')))

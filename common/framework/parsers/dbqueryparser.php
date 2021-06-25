@@ -285,6 +285,7 @@ class DBQueryParser extends BaseParser
 			elseif ($name === 'query')
 			{
 				$subquery = self::_parseQuery($tag);
+				$subquery->ifvar = $attribs['if'] ?? null;
 				$result[] = $subquery;
 			}
 		}

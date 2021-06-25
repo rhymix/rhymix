@@ -116,8 +116,7 @@ return array(
 		'og_use_timestamps' => false,
 	),
 	'mediafilter' => array(
-		'iframe' => array(),
-		'object' => array(),
+		'whitelist' => array(),
 		'classes' => array(),
 	),
 	'security' => array(

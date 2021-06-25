@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="nick_name" var="nick_name" notnull="notnull" default="null" />
         <column name="voted_count" operation="plus" var="voted_count" filter="number" />
 		<column name="blamed_count" operation="minus" var="blamed_count" filter="number" />
     </columns>

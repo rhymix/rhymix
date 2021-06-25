@@ -690,12 +690,11 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$logged_info = Context::get('logged_info');
+		$friend_group_srl = intval(trim(Context::get('friend_group_srl')));
 
 		// Variables
 		$args = new stdClass();
-		$args->friend_group_srl = trim(Context::get('friend_group_srl'));
-		$args->member_srl = $logged_info->member_srl;
+		$args->member_srl = $this->user->member_srl;
 		$args->title = escape(Context::get('title'));
 
 		if(!$args->title)
@@ -704,12 +703,13 @@ class communicationController extends communication
 		}
 
 		// modify if friend_group_srl exists.
-		if($args->friend_group_srl)
+		if($friend_group_srl)
 		{
+			$args->friend_group_srl = $friend_group_srl;
 			$output = executeQuery('communication.renameFriendGroup', $args);
 			$msg_code = 'success_updated';
-			// add if not exists
 		}
+		// add if not exists
 		else
 		{
 			$output = executeQuery('communication.addFriendGroup', $args);

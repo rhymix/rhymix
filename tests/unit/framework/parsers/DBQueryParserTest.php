@@ -394,12 +394,17 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('UPDATE', $query->type);
 		$this->assertEquals(1, count($query->tables));
 		$this->assertEquals('documents', $query->tables['documents']->name);
-		$this->assertEquals(3, count($query->columns));
+		$this->assertEquals(4, count($query->columns));
 		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
 		$this->assertEquals('member_srl', $query->columns[0]->name);
 		$this->assertEquals('member_srl', $query->columns[0]->var);
 		$this->assertEquals('number', $query->columns[0]->filter);
 		$this->assertEquals('0', $query->columns[0]->default);
+		$this->assertTrue($query->columns[1] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
+		$this->assertEquals('nick_name', $query->columns[1]->name);
+		$this->assertEquals('nick_name', $query->columns[1]->var);
+		$this->assertNull($query->columns[1]->filter);
+		$this->assertEquals('null', $query->columns[1]->default);
 		$this->assertEquals(1, count($query->conditions));
 		$this->assertTrue($query->conditions[0] instanceof Rhymix\Framework\Parsers\DBQuery\Condition);
 		$this->assertEquals('equal', $query->conditions[0]->operation);
@@ -407,11 +412,18 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertNull($query->groupby);
 		$this->assertNull($query->navigation);
 		
+		$args = array('document_srl' => 123, 'nick_name' => '닉네임', 'member_srl' => 456, 'voted_count' => 5);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		
+		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['456', '닉네임', '5', '123'], $params);
+		
 		$args = array('document_srl' => 123, 'member_srl' => 456, 'voted_count' => 5);
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['456', '5', '123'], $params);
 	}
 	

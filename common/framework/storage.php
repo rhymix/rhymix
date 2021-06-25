@@ -303,7 +303,7 @@ class Storage
 			flock($fp, \LOCK_UN);
 			fclose($fp);
 			
-			if ($result === false)
+			if ($result === false || (is_string($content) && strlen($content) !== $result))
 			{
 				trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 				return false;
@@ -356,15 +356,24 @@ class Storage
 	 * @param string $filename
 	 * @param mixed $data
 	 * @param string $comment (optional)
+	 * @param bool $serialize (optional)
 	 * @return string|false
 	 */
-	public static function writePHPData($filename, $data, $comment = null)
+	public static function writePHPData($filename, $data, $comment = null, $serialize = true)
 	{
 		if ($comment !== null)
 		{
 			$comment = "/* $comment */\n";
 		}
-		return self::write($filename, '<' . '?php ' . $comment . 'return unserialize(' . var_export(serialize($data), true) . ');');
+		if ($serialize)
+		{
+			$content = '<' . '?php ' . $comment . 'return unserialize(' . var_export(serialize($data), true) . ');';
+		}
+		else
+		{
+			$content = '<' . '?php ' . $comment . 'return ' . var_export($data, true) . ';';
+		}
+		return self::write($filename, $content);
 	}
 	
 	/**

@@ -811,7 +811,7 @@ class documentController extends document
 			$category_list = DocumentModel::getCategoryList($obj->module_srl);
 			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
 
-			if(!$category_list[$obj->category_srl]->grant)
+			if($obj->category_srl > 0 && !$category_list[$obj->category_srl]->grant)
 			{
 				return new BaseObject(-1, 'msg_not_permitted');
 			}
@@ -1482,26 +1482,116 @@ class documentController extends document
 	 * Insert extra vaiable to the documents table
 	 * @param int $module_srl
 	 * @param int $document_srl
-	 * @param int $var_idx
+	 * @param int|string $idx_or_eid
 	 * @param mixed $value
 	 * @param int $eid
 	 * @param string $lang_code
 	 * @return Object|void
 	 */
-	function insertDocumentExtraVar($module_srl, $document_srl, $var_idx, $value, $eid = null, $lang_code = '')
+	public static function insertDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid = null, $lang_code = null)
 	{
-		if(!$module_srl || !$document_srl || !$var_idx || !isset($value)) return new BaseObject(-1, 'msg_invalid_request');
-		if(!$lang_code) $lang_code = Context::getLangType();
-
+		if(!$module_srl || !$document_srl || !$idx_or_eid || !isset($value))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		if (is_int($idx_or_eid) || ctype_digit($idx_or_eid))
+		{
+			if (!$eid)
+			{
+				$eid = DocumentModel::getExtraVarEidByIdx($module_srl, $idx_or_eid);
+				if (!$eid)
+				{
+					return new BaseObject(-1, 'Invalid idx: ' . $idx_or_eid);
+				}
+			}
+		}
+		else
+		{
+			$eid = $idx_or_eid;
+			$idx_or_eid = DocumentModel::getExtraVarIdxByEid($module_srl, $eid);
+			if (!$idx_or_eid)
+			{
+				return new BaseObject(-1, 'Invalid eid: ' . $eid);
+			}
+		}
+		
 		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
-		$obj->var_idx = $var_idx;
+		$obj->var_idx = $idx_or_eid;
 		$obj->value = $value;
-		$obj->lang_code = $lang_code;
+		$obj->lang_code = $lang_code ?: Context::getLangType();
 		$obj->eid = $eid;
 
-		executeQuery('document.insertDocumentExtraVar', $obj);
+		return executeQuery('document.insertDocumentExtraVar', $obj);
+	}
+
+	/**
+	 * Update extra vaiable in the documents table
+	 * @param int $module_srl
+	 * @param int $document_srl
+	 * @param int|string $idx_or_eid
+	 * @param mixed $value
+	 * @param int $eid
+	 * @param string $lang_code
+	 * @return Object|void
+	 */
+	public static function updateDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid = null, $lang_code = null)
+	{
+		if(!$module_srl || !$document_srl || !$idx_or_eid || !isset($value))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		
+		if (is_int($idx_or_eid) || ctype_digit($idx_or_eid))
+		{
+			if (!$eid)
+			{
+				$eid = DocumentModel::getExtraVarEidByIdx($module_srl, $idx_or_eid);
+				if (!$eid)
+				{
+					return new BaseObject(-1, 'Invalid idx: ' . $idx_or_eid);
+				}
+			}
+		}
+		else
+		{
+			$eid = $idx_or_eid;
+			$idx_or_eid = DocumentModel::getExtraVarIdxByEid($module_srl, $eid);
+			if (!$idx_or_eid)
+			{
+				return new BaseObject(-1, 'Invalid eid: ' . $eid);
+			}
+		}
+		
+		$obj = new stdClass;
+		$obj->module_srl = $module_srl;
+		$obj->document_srl = $document_srl;
+		$obj->var_idx = $idx_or_eid;
+		$obj->value = $value;
+		$obj->lang_code = $lang_code ?: Context::getLangType();
+		$obj->eid = $eid;
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		
+		$output = self::deleteDocumentExtraVars($module_srl, $document_srl, $idx_or_eid, $lang_code, $eid);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$output = self::insertDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid, $lang_code);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$oDB->commit();
+		return $output;
 	}
 
 	/**
@@ -1513,7 +1603,7 @@ class documentController extends document
 	 * @param int $eid
 	 * @return $output
 	 */
-	function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null)
+	public static function deleteDocumentExtraVars($module_srl, $document_srl = null, $var_idx = null, $lang_code = null, $eid = null)
 	{
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
@@ -2569,7 +2659,10 @@ class documentController extends document
 		{
 			$child_buff = "";
 			// Get data of the child nodes
-			if($category_srl && $tree[$category_srl]) $child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
+			if($category_srl && isset($tree[$category_srl]) && $tree[$category_srl])
+			{
+				$child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
+			}
 			// List variables
 			$expand = ($node->expand) ? $node->expand : 'N';
 			$group_srls = ($node->group_srls) ? $node->group_srls : '';
@@ -2620,8 +2713,8 @@ class documentController extends document
 				$node->document_count
 			);
 
-			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
-			else $buff .=  sprintf('<node %s />', $attribute);
+			if($child_buff) $buff = sprintf('<node %s>%s</node>', $attribute, $child_buff);
+			else $buff = sprintf('<node %s />', $attribute);
 		}
 		return $buff;
 	}
@@ -2646,9 +2739,12 @@ class documentController extends document
 		foreach($source_node as $category_srl => $node)
 		{
 			// Get data from child nodes first if exist.
-			if($category_srl && $tree[$category_srl]){
+			if($category_srl && isset($tree[$category_srl]) && $tree[$category_srl])
+			{
 				$child_output = $this->getPhpCacheCode($tree[$category_srl], $tree, $site_srl, $php_header_buff);
-			} else {
+			}
+			else
+			{
 				$child_output = array("buff"=>"", "category_srl_list"=>array());
 			}
 
@@ -2736,7 +2832,7 @@ class documentController extends document
 	 * @param string $target
 	 * @return void
 	 */
-	function addDocumentPopupMenu($url, $str, $icon = '', $target = 'self')
+	function addDocumentPopupMenu($url, $str, $icon = '', $target = '_blank')
 	{
 		$document_popup_menu_list = Context::get('document_popup_menu_list');
 		if(!is_array($document_popup_menu_list)) $document_popup_menu_list = array();

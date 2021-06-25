@@ -99,7 +99,7 @@ class adminAdminController extends admin
 		{
 			$oModule = NULL;
 			$oModule = getClass($module->module);
-			if(method_exists($oModule, 'recompileCache'))
+			if($oModule && method_exists($oModule, 'recompileCache'))
 			{
 				$oModule->recompileCache();
 			}
@@ -702,27 +702,18 @@ class adminAdminController extends admin
 	{
 		$vars = Context::getRequestVars();
 		
-		// iframe filter
-		$iframe_whitelist = $vars->mediafilter_iframe;
-		$iframe_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $iframe_whitelist)), function($item) {
+		// Media Filter iframe/embed whitelist
+		$whitelist = $vars->mediafilter_whitelist;
+		$whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $whitelist)), function($item) {
 			return $item !== '';
 		});
-		$iframe_whitelist = array_unique(array_map(function($item) {
+		$whitelist = array_unique(array_map(function($item) {
 			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
-		}, $iframe_whitelist));
-		natcasesort($iframe_whitelist);
-		Rhymix\Framework\Config::set('mediafilter.iframe', array_values($iframe_whitelist));
-		
-		// object filter
-		$object_whitelist = $vars->mediafilter_object;
-		$object_whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $object_whitelist)), function($item) {
-			return $item !== '';
-		});
-		$object_whitelist = array_unique(array_map(function($item) {
-			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
-		}, $object_whitelist));
-		natcasesort($object_whitelist);
-		Rhymix\Framework\Config::set('mediafilter.object', array_values($object_whitelist));
+		}, $whitelist));
+		natcasesort($whitelist);
+		Rhymix\Framework\Config::set('mediafilter.whitelist', array_values($whitelist));
+		Rhymix\Framework\Config::set('mediafilter.iframe', []);
+		Rhymix\Framework\Config::set('mediafilter.object', []);
 		
 		// HTML classes
 		$classes = $vars->mediafilter_classes;
@@ -1044,11 +1035,25 @@ class adminAdminController extends admin
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
-			$domain_info = getModel('module')->getSiteInfo($domain_srl);
-			if ($domain_info->domain_srl != $domain_srl)
+			$domain_info = ModuleModel::getSiteInfo(intval($domain_srl));
+			if ($domain_info->domain_srl !== intval($domain_srl))
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
+		}
+		
+		// Copying?
+		if (!$domain_info && intval($vars->copy_domain_srl) > -1)
+		{
+			$copy_domain_info = ModuleModel::getSiteInfo(intval($vars->copy_domain_srl));
+			if (!$copy_domain_info || $copy_domain_info->domain_srl !== intval($vars->copy_domain_srl))
+			{
+				throw new Rhymix\Framework\Exception('msg_domain_not_found');
+			}
+		}
+		else
+		{
+			$copy_domain_info = null;
 		}
 		
 		// Validate the title and subtitle.
@@ -1134,7 +1139,7 @@ class adminAdminController extends admin
 		
 		// Validate the default language.
 		$enabled_lang = Rhymix\Framework\Config::get('locale.enabled_lang');
-		if (!in_array($vars->default_lang, $enabled_lang))
+		if ($vars->default_lang !== 'default' && !in_array($vars->default_lang, $enabled_lang))
 		{
 			throw new Rhymix\Framework\Exception('msg_lang_is_not_enabled');
 		}
@@ -1232,18 +1237,57 @@ class adminAdminController extends admin
 			}
 		}
 		
-		// Save the favicon, mobicon, and default image.
+		// Save or copy the favicon.
 		if ($vars->favicon || $vars->delete_favicon)
 		{
 			$this->_saveFavicon($domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
 		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'favicon.ico';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'favicon.ico';
+			Rhymix\Framework\Storage::copy($source_filename, $target_filename);
+		}
+		
+		// Save or copy the mobile icon.
 		if ($vars->mobicon || $vars->delete_mobicon)
 		{
 			$this->_saveFavicon($domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
 		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'mobicon.png';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'mobicon.png';
+			Rhymix\Framework\Storage::copy($source_filename, $target_filename);
+		}
+		
+		// Save or copy the site default image.
 		if ($vars->default_image || $vars->delete_default_image)
 		{
 			$this->_saveDefaultImage($domain_srl, $vars->default_image, $vars->delete_default_image);
+		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'default_image.php';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'default_image.php';
+			if (Rhymix\Framework\Storage::copy($source_filename, $target_filename))
+			{
+				$info = Rhymix\Framework\Storage::readPHPData($target_filename);
+				if ($info && $info['filename'])
+				{
+					$source_image = \RX_BASEDIR . $info['filename'];
+					$target_image = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . basename($info['filename']);
+					if (Rhymix\Framework\Storage::copy($source_image, $target_image))
+					{
+						$info['filename'] = substr($target_image, strlen(\RX_BASEDIR));
+						$info = Rhymix\Framework\Storage::writePHPData($target_filename, $info);
+					}
+				}
+				else
+				{
+					Rhymix\Framework\Storage::delete($target_filename);
+				}
+			}
 		}
 		
 		// Update system configuration to match the default domain.
@@ -1257,7 +1301,10 @@ class adminAdminController extends admin
 			Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
 			Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
 			Rhymix\Framework\Config::set('url.ssl', $vars->domain_security);
-			Rhymix\Framework\Config::save();
+			if (!Rhymix\Framework\Config::save())
+			{
+				throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
+			}
 		}
 		
 		// Commit.

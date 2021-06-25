@@ -776,12 +776,12 @@ class commentModel extends comment
 		$args->page = $obj->page ? $obj->page : 1;
 		$args->list_count = $obj->list_count ? $obj->list_count : 20;
 		$args->page_count = $obj->page_count ? $obj->page_count : 10;
-		$args->s_member_srl = $obj->member_srl;
-		$args->s_module_srl = $obj->module_srl;
-		$args->exclude_module_srl = $obj->exclude_module_srl;
-		$args->statusList = $obj->statusList;
-		$args->document_statusList = $obj->document_statusList;
-		if ($obj->is_secret)
+		$args->s_member_srl = $obj->member_srl ?? null;
+		$args->s_module_srl = $obj->module_srl ?? null;
+		$args->exclude_module_srl = $obj->exclude_module_srl ?? null;
+		$args->statusList = $obj->statusList ?? null;
+		$args->document_statusList = $obj->document_statusList ?? null;
+		if (isset($obj->is_secret) && $obj->is_secret)
 		{
 			$args->s_is_secret = $obj->is_secret;
 		}
@@ -795,8 +795,8 @@ class commentModel extends comment
 		}
 
 		// Search options
-		$search_target = $obj->search_target ? $obj->search_target : trim(Context::get('search_target'));
-		$search_keyword = $obj->search_keyword ? $obj->search_keyword : trim(Context::get('search_keyword'));
+		$search_target = (isset($obj->search_target) && $obj->search_target) ? $obj->search_target : trim(Context::get('search_target'));
+		$search_keyword = (isset($obj->search_keyword) && $obj->search_keyword) ? $obj->search_keyword : trim(Context::get('search_keyword'));
 		if($search_target && $search_keyword)
 		{
 			switch($search_target)

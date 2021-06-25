@@ -698,7 +698,7 @@ class commentItem extends BaseObject
 		}
 		
 		// If signiture height setting is omitted, create a square
-		if(!$height)
+		if(!$height || (!is_int($height) && !ctype_digit(strval($height)) && $height !== 'auto'))
 		{
 			$height = $width;
 		}
@@ -707,7 +707,7 @@ class commentItem extends BaseObject
 		$thumbnail_path = sprintf('files/thumbnails/%s', getNumberingPath($this->comment_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
 		$thumbnail_lockfile = sprintf('%s%dx%d.%s.lock', $thumbnail_path, $width, $height, $thumbnail_type);
-		$thumbnail_url = Context::getRequestUri() . $thumbnail_file;
+		$thumbnail_url = RX_BASEURL . $thumbnail_file;
 		$thumbnail_file = RX_BASEDIR . $thumbnail_file;
 
 		// return false if a size of existing thumbnail file is 0. otherwise return the file path
@@ -762,7 +762,7 @@ class commentItem extends BaseObject
 
 				if($file->cover_image === 'Y' && file_exists($file->uploaded_filename))
 				{
-					$source_file = $file->uploaded_filename;
+					$source_file = FileHandler::getRealPath($file->uploaded_filename);
 					break;
 				}
 
@@ -779,7 +779,7 @@ class commentItem extends BaseObject
 
 			if(!$source_file && $first_image)
 			{
-				$source_file = $first_image;
+				$source_file = FileHandler::getRealPath($first_image);
 			}
 		}
 

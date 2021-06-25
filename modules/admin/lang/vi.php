@@ -44,7 +44,6 @@ $lang->yesterday = 'Hôm qua';
 $lang->today = 'Hôm nay';
 $lang->ssl_options['none'] = 'Không sử dụng';
 $lang->ssl_options['always'] = 'Luôn luôn';
-$lang->about_use_ssl = 'Nếu bạn chọn \'Tùy chỉnh\', SSL sẽ sử dụng và những công việc như đăng kí, sửa thông tin thành viên, . Chỉ chọn \'Luôn luôn\' khi Website của bạn đang chạy trên Server có hỗ trợ https. SSL 환경이 갖춰지지 않은 상태에서 SSL을 사용할 경우 접속이 되지 않을 수 있으니 주의 바랍니다.';
 $lang->server_ports = 'Cổng kết nối';
 $lang->about_server_ports = 'Nếu Host của bạn sử dụng cổng khác cổng mặc định 80 cho HTTP, 443 cho HTTPS, bạn nên xác định và nhập chính xác cổng kết nối.';
 $lang->use_db_session = 'Xác nhận Database';

@@ -4,8 +4,8 @@
     </tables>
     <columns>
         <column name="password" var="password" notnull="notnull" />
-        <column name="user_name" var="user_name" notnull="notnull" minlength="2" maxlength="40" />
-        <column name="nick_name" var="nick_name" notnull="notnull" minlength="2" maxlength="40" />
+        <column name="user_name" var="user_name" notnull="notnull" minlength="1" maxlength="40" />
+        <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
         <column name="user_id" var="user_id" notnull="notnull" />
 		<column name="email_address" var="email_address" notnull="notnull" />
 		<column name="email_id" var="email_id" />

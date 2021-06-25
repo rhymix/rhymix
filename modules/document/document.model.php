@@ -451,6 +451,48 @@ class documentModel extends document
 	}
 
 	/**
+	 * Get var_idx of extra variable from its eid
+	 * 
+	 * @param int $module_srl
+	 * @param string $eid
+	 * @return int|false
+	 */
+	public static function getExtraVarIdxByEid($module_srl, $eid)
+	{
+		$keys = self::getExtraKeys($module_srl);
+		$keys = array_filter($keys, function($item) use($eid) { return $item->eid == $eid; });
+		if (count($keys))
+		{
+			return array_first($keys)->idx;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Get eid of extra variable from its var_idx
+	 * 
+	 * @param int $module_srl
+	 * @param int $idx
+	 * @return string|false
+	 */
+	public static function getExtraVarEidByIdx($module_srl, $var_idx)
+	{
+		$keys = self::getExtraKeys($module_srl);
+		$keys = array_filter($keys, function($item) use($var_idx) { return $item->idx == $var_idx; });
+		if (count($keys))
+		{
+			return array_first($keys)->eid;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
 	 * Show pop-up menu of the selected posts
 	 * Printing, scrap, recommendations and negative, reported the Add Features
 	 * @return void
@@ -1229,7 +1271,12 @@ class documentModel extends document
 		}
 		else
 		{
-			return $lang->status_name_list;
+			$list = $lang->status_name_list;
+			if ($list instanceof ArrayObject)
+			{
+				$list = $list->getArrayCopy();
+			}
+			return $list;
 		}
 	}
 	

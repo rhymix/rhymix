@@ -119,10 +119,6 @@ a:hover, a:active, a:focus {
 .content > :first-child {
     margin-top: 0
 }
-.content img {
-    max-width: 100%;
-    height: auto
-}
 /* Header */
 .header > h1 {
     float: left;

@@ -165,7 +165,10 @@ class boardAdminView extends board {
 
 		// get document status list
 		$oDocumentModel = getModel('document');
-		$documentStatusList = $oDocumentModel->getStatusNameList();
+		$documentStatusList = array_intersect_key($oDocumentModel->getStatusNameList(), [
+			'PUBLIC' => true,
+			'SECRET' => true,
+		]);
 		Context::set('document_status_list', $documentStatusList);
 
 		// setup the extra vaiables
@@ -255,7 +258,7 @@ class boardAdminView extends board {
 	 * @brief display the grant information
 	 **/
 	function dispBoardAdminGrantInfo() {
-		// get the grant infotmation from admin module
+		// Get grant information from admin module
 		$oModuleAdminModel = getAdminModel('module');
 		$grant_content = $oModuleAdminModel->getModuleGrantHTML($this->module_info->module_srl, $this->xml_info->grant);
 		Context::set('grant_content', $grant_content);

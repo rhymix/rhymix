@@ -346,6 +346,8 @@ class VariableBase
 				return [false, intval(\Rhymix\Framework\Session::getMemberSrl())];
 			case 'sequence()':
 				return [false, getNextSequence()];
+			case 'null':
+				return [true, 'NULL'];
 		}
 		
 		// If the default value is a calculation based on the current value, return a query string.

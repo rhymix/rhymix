@@ -13,6 +13,7 @@
 		<action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminInsertDomain" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminCopyDomain" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
 		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
 		<action name="dispAdminViewServerEnv" type="view" />
