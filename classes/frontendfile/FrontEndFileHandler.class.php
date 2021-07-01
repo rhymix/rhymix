@@ -123,6 +123,10 @@ class FrontEndFileHandler extends Handler
 			$source_hint = $args[2];
 			$args[2] = '';
 		}
+		else
+		{
+			$source_hint = '';
+		}
 		
 		$file = $this->getFileInfo($args[0], $args[2] ?? '', $args[1] ?? 'all', $args[4] ?? [], $isCommon);
 		$file->index = (int)($args[3] ?? 0);
