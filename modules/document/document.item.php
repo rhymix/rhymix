@@ -1350,29 +1350,35 @@ class documentItem extends BaseObject
 			return;
 		}
 
+		$icons = $this->getExtraImages($time_check);
+		if(!count($icons))
+		{
+			return;
+		}
+
 		$documentConfig = DocumentModel::getDocumentConfig();
 
 		if(Mobile::isFromMobilePhone())
 		{
 			$iconSkin = $documentConfig->micons ?? null;
+			$iconType = $documentConfig->micons_type ?? 'gif';
 		}
 		else
 		{
 			$iconSkin = $documentConfig->icons ?? null;
+			$iconType = $documentConfig->icons_type ?? 'gif';
 		}
 		if($iconSkin == null)
 		{
 			$iconSkin = 'default';
+			$iconType = 'gif';
 		}
-		$path = sprintf('%s%s',getUrl(), "modules/document/tpl/icons/$iconSkin/");
-
-		$buffs = $this->getExtraImages($time_check);
-		if(!count($buffs)) return;
-
+		
+		$path = sprintf('%s%s', \RX_BASEURL, "modules/document/tpl/icons/$iconSkin/");
 		$buff = array();
-		foreach($buffs as $key => $val)
+		foreach($icons as $icon)
 		{
-			$buff[] = sprintf('<img src="%s%s.gif" alt="%s" title="%s" style="margin-right:2px;" />', $path, $val, $val, $val);
+			$buff[] = sprintf('<img src="%s%s.%s" alt="%s" title="%s" style="margin-right:2px;" />', $path, $icon, $iconType, $icon, $icon);
 		}
 		return implode('', $buff);
 	}

@@ -102,6 +102,27 @@ class pointAdminController extends point
 
 		// Set the level icon
 		$config->level_icon = $args->level_icon;
+		$config->level_icon_type = 'gif';
+		$level_icon_dir = $this->module_path . '/icons/' . $config->level_icon;
+		if (!file_exists($level_icon_dir))
+		{
+			return new BaseObject(-1, 'msg_level_icon_not_found');
+		}
+		if (!file_exists($level_icon_dir . '/1.gif'))
+		{
+			if (file_exists($level_icon_dir . '/1.png'))
+			{
+				$config->level_icon_type = 'png';
+			}
+			elseif (file_exists($level_icon_dir . '/1.svg'))
+			{
+				$config->level_icon_type = 'svg';
+			}
+			else
+			{
+				return new BaseObject(-1, 'msg_level_icon_not_found');
+			}
+		}
 
 		// Check if downloads are not allowed
 		$config->disable_download = ($args->disable_download === 'Y') ? 'Y' : 'N';

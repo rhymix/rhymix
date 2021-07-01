@@ -2655,6 +2655,7 @@ class documentController extends document
 	{
 		if(!$source_node) return;
 
+		$buff = "";
 		foreach($source_node as $category_srl => $node)
 		{
 			$child_buff = "";
@@ -2713,8 +2714,8 @@ class documentController extends document
 				$node->document_count
 			);
 
-			if($child_buff) $buff = sprintf('<node %s>%s</node>', $attribute, $child_buff);
-			else $buff = sprintf('<node %s />', $attribute);
+			if($child_buff) $buff .= sprintf('<node %s>%s</node>', $attribute, $child_buff);
+			else $buff .= sprintf('<node %s />', $attribute);
 		}
 		return $buff;
 	}
