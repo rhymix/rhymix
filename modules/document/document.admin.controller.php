@@ -56,6 +56,34 @@ class documentAdminController extends document
 		$config->view_count_option = Context::get('view_count_option');
 		$config->icons = Context::get('icons');
 		$config->micons = Context::get('micons');
+		
+		// Get icon skin type
+		$config->icons_type = 'gif';
+		$config->micons_type = 'gif';
+		$icons_path = rtrim($this->module_path . 'tpl/icons/' . $config->icons, '/');
+		if (!file_exists($icons_path . '/new.gif'))
+		{
+			if (file_exists($icons_path . '/new.png'))
+			{
+				$config->icons_type = 'png';
+			}
+			elseif (file_exists($icons_path . '/new.svg'))
+			{
+				$config->icons_type = 'svg';
+			}
+		}
+		$micons_path = rtrim($this->module_path . 'tpl/icons/' . $config->micons, '/');
+		if (!file_exists($micons_path . '/new.gif'))
+		{
+			if (file_exists($micons_path . '/new.png'))
+			{
+				$config->micons_type = 'png';
+			}
+			elseif (file_exists($micons_path . '/new.svg'))
+			{
+				$config->micons_type = 'svg';
+			}
+		}
 
 		// Insert by creating the module Controller object
 		$oModuleController = getController('module');
