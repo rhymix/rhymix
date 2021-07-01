@@ -114,11 +114,11 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 		
-		if (preg_match('/IE/i', $args[2]))
+		if (isset($args[2]) && preg_match('/IE/i', $args[2]))
 		{
 			$source_hint = '';
 		}
-		else
+		elseif (isset($args[2]) && $args[2] !== '')
 		{
 			$source_hint = $args[2];
 			$args[2] = '';
