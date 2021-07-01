@@ -1036,7 +1036,7 @@ class adminAdminController extends admin
 		if ($domain_srl !== '')
 		{
 			$domain_info = ModuleModel::getSiteInfo(intval($domain_srl));
-			if ($domain_info->domain_srl !== intval($domain_srl))
+			if (!$domain_info || $domain_info->domain_srl !== intval($domain_srl))
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
