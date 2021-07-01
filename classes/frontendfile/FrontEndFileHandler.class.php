@@ -79,7 +79,7 @@ class FrontEndFileHandler extends Handler
 	 * case css
 	 * 		$args[0]: file name
 	 * 		$args[1]: media
-	 * 		$args[2]: target IE
+	 * 		$args[2]: target IE / source type hint
 	 * 		$args[3]: index
 	 * 		$args[4]: vars for LESS and SCSS
 	 * </pre>
@@ -114,6 +114,16 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 		
+		if (preg_match('/IE/i', $args[2]))
+		{
+			$source_hint = '';
+		}
+		else
+		{
+			$source_hint = $args[2];
+			$args[2] = '';
+		}
+		
 		$file = $this->getFileInfo($args[0], $args[2] ?? '', $args[1] ?? 'all', $args[4] ?? [], $isCommon);
 		$file->index = (int)($args[3] ?? 0);
 
@@ -128,7 +138,7 @@ class FrontEndFileHandler extends Handler
 			$map = &$this->cssMap;
 			$mapIndex = &$this->cssMapIndex;
 
-			$this->_arrangeCssIndex($file->fileRealPath, $file);
+			$this->_arrangeCssIndex($file->fileRealPath, $file, $source_hint);
 		}
 		else if($file->fileExtension == 'js')
 		{
@@ -701,24 +711,32 @@ class FrontEndFileHandler extends Handler
 	 *
 	 * @param string $dirname
 	 * @param object $file
+	 * @param string $hint
 	 * @return void
 	 */
-	protected function _arrangeCssIndex($dirname, $file)
+	protected function _arrangeCssIndex($dirname, $file, $hint = '')
 	{
 		if ($file->index < -100000)
 		{
 			return;
 		}
 		
-		$dirname = substr($dirname, strlen(\RX_BASEDIR));
-		if (strncmp($dirname, self::$assetdir . '/', strlen(self::$assetdir) + 1) === 0)
+		if ($hint)
 		{
-			$dirname = substr($dirname, strlen(self::$assetdir) + 1);
+			$tmp = $hint;
 		}
-		$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
+		else
+		{
+			$dirname = substr($dirname, strlen(\RX_BASEDIR));
+			if (strncmp($dirname, self::$assetdir . '/', strlen(self::$assetdir) + 1) === 0)
+			{
+				$dirname = substr($dirname, strlen(self::$assetdir) + 1);
+			}
+			$tmp = array_first(explode('/', strtr($dirname, '\\.', '//')));
+		}
 		if ($tmp)
 		{
-			$cssSortList = array('common' => -100000, 'layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
+			$cssSortList = array('common' => -100000, 'layouts' => -90000, 'm.layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
 			$file->index += isset($cssSortList[$tmp]) ? $cssSortList[$tmp] : 0;
 		}
 	}

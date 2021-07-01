@@ -175,7 +175,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 103
             array(
                 '<load target="http://aaa.com/aaa.js" />',
-                '?><!--#Meta:http://aaa.com/aaa.js--><?php Context::loadFile([\'http://aaa.com/aaa.js\', \'\', \'\', \'\']); ?>'
+                '?><!--#Meta:http://aaa.com/aaa.js--><?php Context::loadFile([\'http://aaa.com/aaa.js\', \'\', \'tests\', \'\']); ?>'
             ),
             // issue 135
             array(
@@ -499,7 +499,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
         $result = $tmpl->compileDirect(__DIR__ . '/template', 'sample.html');
         $result = trim($result);
 
-        $this->assertEquals($result, $this->prefix.PHP_EOL.'if($__Context->has_blog){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'\', \'\']); ?>');
+        $this->assertEquals($result, $this->prefix.PHP_EOL.'if($__Context->has_blog){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'tests\', \'\']); ?>');
     }
 }
 

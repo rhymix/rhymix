@@ -16,6 +16,7 @@ class TemplateHandler
 	private $file = NULL; ///< target file (fullpath)
 	private $web_path = NULL; ///< tpl file web path
 	private $compiled_file = NULL; ///< tpl file web path
+	private $source_type = NULL;
 	private $config = NULL;
 	private $skipTags = NULL;
 	private $handler_mtime = 0;
@@ -75,9 +76,9 @@ class TemplateHandler
 		$this->filename = null;
 		$this->file = null;
 		$this->compiled_file = null;
+		$this->source_type = null;
 		$this->config = new stdClass;
 		$this->skipTags = null;
-		$this->compiled_file = null;
 		self::$rootTpl = null;
 	}
 
@@ -121,6 +122,7 @@ class TemplateHandler
 		// set compiled file name
 		$converted_path = ltrim(str_replace(array('\\', '..'), array('/', 'dotdot'), $tpl_file), '/');
 		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php';
+		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $tpl_path, $matches) ? $matches[1] : null;
 	}
 
 	/**
@@ -874,7 +876,7 @@ class TemplateHandler
 							{
 								$metafile = isset($attr['target']) ? $attr['target'] : '';
 								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s']);", [
-									$attr['target'] ?? '', $attr['type'] ?? '', $attr['targetie'] ?? '', $attr['index'] ?? '',
+									$attr['target'] ?? '', $attr['type'] ?? '', $attr['targetie'] ?? ($isRemote ? $this->source_type : ''), $attr['index'] ?? '',
 								]);
 							}
 							break;
@@ -892,7 +894,7 @@ class TemplateHandler
 								$metafile = isset($attr['target']) ? $attr['target'] : '';
 								$metavars = isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '') : '';
 								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s', %s]);", [
-									$attr['target'] ?? '', $attr['media'] ?? '', $attr['targetie'] ?? '', $attr['index'] ?? '',
+									$attr['target'] ?? '', $attr['media'] ?? '', $attr['targetie'] ?? ($isRemote ? $this->source_type : ''), $attr['index'] ?? '',
 									isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '[]') : '[]',
 								]);
 							}
