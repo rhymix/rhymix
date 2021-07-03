@@ -509,7 +509,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$obj->admin_list = $admin_list;
 			}
-			$notify_member_srls = $this->insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $this->_TYPE_COMMENT);
+			$notify_member_srls = $this->insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $this->_TYPE_COMMENT) ?: [];
 		}
 
 		if(!isset($config->use['comment']))
