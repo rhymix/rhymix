@@ -509,7 +509,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$obj->admin_list = $admin_list;
 			}
-			$notify_member_srls = $this->insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $this->_TYPE_COMMENT) ?: [];
+			$notify_member_srls = $this->insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $this->_TYPE_COMMENT);
 		}
 
 		if(!isset($config->use['comment']))
@@ -1697,21 +1697,20 @@ class ncenterliteController extends ncenterlite
 	 * @param $module_info
 	 * @param $is_anonymous
 	 * @param string $type
-	 * @return Object|Bool|array
+	 * @return array
 	 */
 	function insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $type = 'D')
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 
 		if(!is_array($mention_targets))
 		{
-			return false;
+			return array();
 		}
 
 		if(!$module_info)
 		{
-			return false;
+			return array();
 		}
 
 		$notify_member_srls = array();
@@ -1763,7 +1762,8 @@ class ncenterliteController extends ncenterlite
 			$output = $this->_insertNotify($args, $is_anonymous);
 			if(!$output->toBool())
 			{
-				return $output;
+				// 실패시 지금까지 성공한 데이터를 리턴
+				return $notify_member_srls;
 			}
 			$notify_member_srls[] = $mention_member_srl;
 		}
