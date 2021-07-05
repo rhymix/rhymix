@@ -18,6 +18,8 @@ class login_info extends WidgetHandler
 	 */
 	function proc($args)
 	{
+		$args->ncenter_use = $args->ncenter_use ?? 'no';
+		
 		// Set a path of the template skin (values of skin, colorset settings)
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
 		Context::set('colorset', $args->colorset);
@@ -47,6 +49,9 @@ class login_info extends WidgetHandler
 					return;
 				}
 				setcookie('_ncenterlite_hide_id', '', 0, '/');
+				Context::set('ncenterlite_list', $ncenter_list->data);
+				Context::set('ncenterlite_page_navigation', $ncenter_list->page_navigation);
+				Context::set('_ncenterlite_num', $ncenter_list->page_navigation->total_count);
 			}
 			$tpl_file = 'login_info';
 		}
@@ -62,9 +67,6 @@ class login_info extends WidgetHandler
 			Context::set('ncenterlite_zindex', ' style="z-index:' . $ncenter_config->zindex . ';" ');
 		}
 		Context::set('useProfileImage', ($memberConfig->profile_image == 'Y') ? true : false);
-		Context::set('ncenterlite_list', $ncenter_list->data);
-		Context::set('ncenterlite_page_navigation', $ncenter_list->page_navigation);
-		Context::set('_ncenterlite_num', $ncenter_list->page_navigation->total_count);
 		Context::set('member_config', $this->member_config);
 
 		// Set a flag to check if the https connection is made when using SSL and create https url 

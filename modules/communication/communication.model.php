@@ -30,42 +30,19 @@ class communicationModel extends communication
 		{
 			$config = new stdClass();
 		}
-
-		if(!$config->skin)
-		{
-			$config->skin = 'default';
-		}
-
-		if(!$config->colorset)
-		{
-			$config->colorset = 'white';
-		}
-
-		if(!$config->editor_skin)
-		{
-			$config->editor_skin = 'ckeditor';
-		}
-
-		if(!$config->mskin)
-		{
-			$config->mskin = 'default';
-		}
 		
-		if(!$config->grant_send)
-		{
-			$config->grant_send = array('default' => 'member');
-		}
-
-		if(!$config->enable_message)
-		{
-			$config->enable_message = 'Y';
-		}
+		$config->enable_message = $config->enable_message ?? 'Y';
+		$config->enable_friend = $config->enable_friend ?? 'Y';
+		$config->enable_attachment = $config->enable_attachment ?? 'N';
+		$config->editor_skin = $config->editor_skin ?? 'ckeditor';
+		$config->layout_srl = $config->layout_srl ?? 0;
+		$config->skin = $config->skin ?? 'default';
+		$config->colorset = $config->colorset ?? 'white';
+		$config->mlayout_srl = $config->mlayout_srl ?? 0;
+		$config->mskin = $config->mskin ?? 'default';
+		$config->mcolorset = $config->mcolorset ?? 'white';
+		$config->grant_send = $config->grant_send ?? array('default' => 'member');
 		
-		if(!$config->enable_friend)
-		{
-			$config->enable_friend = 'Y';
-		}
-
 		return $config;
 	}
 

@@ -52,7 +52,10 @@ Debug Entries
 		echo sprintf('%02d. %s', ++$entry_count, $entry->message) . "\n";
 		foreach ($entry->backtrace as $key => $backtrace)
 		{
-			echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+			if (isset($backtrace['file']) && isset($backtrace['line']))
+			{
+				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+			}
 		}
 	}
 ?>
@@ -72,7 +75,10 @@ PHP Errors and Warnings
 		echo sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message) . "\n";
 		foreach ($error->backtrace as $key => $backtrace)
 		{
-			echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+			if (isset($backtrace['file']) && isset($backtrace['line']))
+			{
+				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+			}
 		}
 	}
 ?>

@@ -18,71 +18,62 @@ class ncenterliteModel extends ncenterlite
 				$config = new stdClass();
 			}
 			
-			if(!is_array($config->use))
+			$config->use = $config->use ?? array('message' => array('web' => 1));
+			$config->display_use = $config->display_use ?? 'all';
+			$config->always_display = $config->always_display ?? 'N';
+			$config->user_config_list = $config->user_config_list ?? 'N';
+			$config->user_notify_setting = $config->user_notify_setting ?? 'N';
+			$config->document_read = $config->document_read ?? 'Y';
+			$config->variable_name = $config->variable_name ?? 0;
+			$config->mention_names = $config->mention_names ?? 'nick_name';
+			$config->mention_suffixes = $config->mention_suffixes ?? array('님', '様', 'さん', 'ちゃん');
+			$config->mention_suffix_always_cut = $config->mention_suffix_always_cut ?? 'N';
+			$config->mention_limit = $config->mention_limit ?? 20;
+			$config->anonymous_voter = $config->anonymous_voter ?? 'N';
+			$config->anonymous_scrap = $config->anonymous_scrap ?? 'N';
+			$config->highlight_effect = $config->highlight_effect ?? 'Y';
+			$config->unsubscribe = $config->unsubscribe ?? 'N';
+			$config->comment_all = $config->comment_all ?? 'N';
+			$config->comment_all_notify_module_srls = $config->comment_all_notify_module_srls ?? array();
+			$config->hide_module_srls = $config->hide_module_srls ?? array();
+			$config->admin_notify_module_srls = $config->admin_notify_module_srls ?? array();
+			$config->layout_srl = $config->layout_srl ?? 0;
+			$config->mlayout_srl = $config->mlayout_srl ?? 0;
+			$config->skin = $config->skin ?? 'default';
+			$config->colorset = $config->colorset ?? 'black';
+			$config->mskin = $config->mskin ?? 'default';
+			$config->mcolorset = $config->mcolorset ?? 'black';
+			$config->zindex = $config->zindex ?? '9999';
+			$config->notify_count = $config->notify_count ?? 5;
+			
+			if(!isset($config->hide_module_srls))
 			{
-				if($config->use == 'Y')
-				{
-					$config->use = array();
-					foreach (self::getNotifyTypes() as $type => $srl)
-					{
-						$config->use[$type] = array('web' => 1);
-					}
-				}
-				else
-				{
-					$config->use = array('message' => array('web' => 1));
-				}
+				$config->hide_module_srls = array();
 			}
-			else
+			elseif(!is_array($config->hide_module_srls))
 			{
-				if(count($config->use) && !is_array(array_first($config->use)))
-				{
-					foreach($config->use as $key => $value)
-					{
-						$config->use[$key] = array();
-						$config->use[$key]['web'] = $value;
-					}
-					getController('module')->insertModuleConfig('ncenterlite', $config);
-				}
+				$config->hide_module_srls = explode('|@|', $config->hide_module_srls);
 			}
 			
-			if(!$config->display_use) $config->display_use = 'all';
-			if(!$config->mention_names) $config->mention_names = 'nick_name';
-			if(!$config->mention_suffixes)
+			// Convert old config format
+			if($config->use === 'Y')
 			{
-				$config->mention_suffixes = array('님', '様', 'さん', 'ちゃん');
+				$config->use = array();
+				foreach (self::getNotifyTypes() as $type => $srl)
+				{
+					$config->use[$type] = array('web' => 1);
+				}
+			}
+			elseif(is_array($config->use) && !is_array(array_first($config->use)))
+			{
+				foreach($config->use as $key => $value)
+				{
+					$config->use[$key] = array();
+					$config->use[$key]['web'] = $value;
+				}
+				getController('module')->insertModuleConfig('ncenterlite', $config);
 			}
 			unset($config->mention_format);
-			if(!isset($config->mention_limit))
-			{
-				$config->mention_limit = 20;
-			}
-			if(!$config->hide_module_srls) $config->hide_module_srls = array();
-			if(!is_array($config->hide_module_srls)) $config->hide_module_srls = explode('|@|', $config->hide_module_srls);
-			if(!$config->document_read) $config->document_read = 'Y';
-			if(!$config->skin) $config->skin = 'default';
-			if(!$config->colorset) $config->colorset = 'black';
-			if(!$config->zindex) $config->zindex = '9999';
-			if(!$config->user_notify_setting)
-			{
-				$config->user_notify_setting = 'N';
-			}
-			if(!$config->anonymous_voter)
-			{
-				$config->anonymous_voter = 'N';
-			}
-			if(!$config->anonymous_scrap)
-			{
-				$config->anonymous_scrap = 'N';
-			}
-			if(!$config->highlight_effect)
-			{
-				$config->highlight_effect = 'Y';
-			}
-			if(!isset($config->notify_count) || !$config->notify_count)
-			{
-				$config->notify_count = 5;
-			}
 			
 			self::$_config = $config;
 		}
