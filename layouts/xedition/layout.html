@@ -355,7 +355,7 @@
 	<!-- BODY -->
 	<div class="body {$_body_class}">
 		<!-- LNB -->
-		<nav cond="$_selected_menu['list'] && $layout_info->layout_type === 'sub' && $layout_info->sidebar_position !== 'none'" class="lnb">
+		<nav cond="isset($_selected_menu['list']) && $_selected_menu['list'] && $layout_info->layout_type === 'sub' && $layout_info->sidebar_position !== 'none'" class="lnb">
 			<ul>
 				<li loop="$_selected_menu['list'] => $key1, $val1">
 					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
