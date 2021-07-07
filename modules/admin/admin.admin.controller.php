@@ -1044,7 +1044,7 @@ class adminAdminController extends admin
 		
 		// Copying?
 		$copy_domain_srl = intval($vars->copy_domain_srl);
-		if (!$domain_info && intval($vars->copy_domain_srl) > -1)
+		if (!$domain_info && $copy_domain_srl > -1)
 		{
 			$copy_domain_info = ModuleModel::getSiteInfo($copy_domain_srl);
 			if (!$copy_domain_info || intval($copy_domain_info->domain_srl) !== $copy_domain_srl)
