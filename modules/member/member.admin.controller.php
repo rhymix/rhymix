@@ -359,9 +359,9 @@ class memberAdminController extends member
 			'emailhost_check',
 			'special_phone_number', 'special_phone_code', 'redirect_url',
 			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate', 'phone_number_verify_by_sms',
-			'profile_image', 'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
-			'image_name', 'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
-			'image_mark', 'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
+			'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
+			'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
+			'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
 			'signature_editor_skin', 'sel_editor_colorset', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload'
 		);
 
@@ -405,14 +405,8 @@ class memberAdminController extends member
 			return new BaseObject('-1', 'msg_need_default_country');
 		}
 		
-		$args->profile_image = $args->profile_image ? 'Y' : 'N';
-		$args->image_name = $args->image_name ? 'Y' : 'N';
-		$args->image_mark = $args->image_mark ? 'Y' : 'N';
-		$args->signature  = $args->signature != 'Y' ? 'N' : 'Y';
-
 		// set default
 		$all_args->is_nick_name_public = 'Y';
-		$all_args->is_find_account_question_public = 'N';
 
 		// signupForm
 		global $lang;
@@ -451,7 +445,11 @@ class memberAdminController extends member
 			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
 			$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 			$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
-
+			
+			if(in_array($key, ['signature', 'profile_image', 'image_name', 'image_mark']))
+			{
+				$args->$key = $signupItem->isPublic;
+			}
 			if($signupItem->imageType)
 			{
 				$signupItem->max_width = $all_args->{$key.'_max_width'};

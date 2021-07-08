@@ -30,61 +30,19 @@ class member extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		// Register action forward (to use in administrator mode)
 		$oModuleController = getController('module');
 		$config = ModuleModel::getModuleConfig('member');
-
-		if(empty($config))
-		{
-			$isNotInstall = true;
-			$config = new stdClass;
-		}
-
-		// Set the basic information
-		$config->enable_join = 'Y';
-		$config->enable_openid = 'N';
-		if(!$config->enable_auth_mail) $config->enable_auth_mail = 'N';
-		if(!$config->image_name) $config->image_name = 'Y';
-		if(!$config->image_mark) $config->image_mark = 'Y';
-		if(!$config->profile_image) $config->profile_image = 'Y';
-		if(!$config->image_name_max_width) $config->image_name_max_width = '90';
-		if(!$config->image_name_max_height) $config->image_name_max_height = '20';
-		if(!$config->image_mark_max_width) $config->image_mark_max_width = '20';
-		if(!$config->image_mark_max_height) $config->image_mark_max_height = '20';
-		if(!$config->profile_image_max_width) $config->profile_image_max_width = '90';
-		if(!$config->profile_image_max_height) $config->profile_image_max_height = '90';
-		if($config->group_image_mark!='Y') $config->group_image_mark = 'N';
-		if(!$config->authmail_expires) $config->authmail_expires = 3;
-		if(!$config->authmail_expires_unit) $config->authmail_expires_unit = 86400;
-		if(!$config->password_strength) $config->password_strength = 'normal';
 		
-		if(!$config->password_hashing_algorithm)
+		// Set default config
+		if(!$config)
 		{
-			$config->password_hashing_algorithm = Rhymix\Framework\Password::getBestSupportedAlgorithm();
-		}
-		if(!$config->password_hashing_work_factor)
-		{
-			$config->password_hashing_work_factor = 10;
-		}
-		if(!$config->password_hashing_auto_upgrade)
-		{
-			$config->password_hashing_auto_upgrade = 'Y';
+			$config = MemberModel::getMemberConfig();
+			$oModuleController->insertModuleConfig('member', $config);
 		}
 		
-		global $lang;
 		$oMemberModel = getModel('member');
-		// Create a member controller object
 		$oMemberController = getController('member');
 		$oMemberAdminController = getAdminController('member');
-
-		if(!$config->signupForm || !is_array($config->signupForm))
-		{
-			$identifier = 'user_id';
-			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
-			$config->identifier = $identifier;
-		}
-		$oModuleController->insertModuleConfig('member',$config);
-
 		$groups = $oMemberModel->getGroups();
 		if(!count($groups))
 		{

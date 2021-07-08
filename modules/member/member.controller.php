@@ -2093,36 +2093,12 @@ class memberController extends member
 	/**
 	 * Save the member configurations
 	 *
-	 * @param object $args
-	 *
+	 * @deprecated
 	 * @return void
 	 */
 	function setMemberConfig($args)
 	{
-		if(!$args->skin) $args->skin = "default";
-		if(!$args->colorset) $args->colorset = "white";
-		if(!$args->editor_skin) $args->editor_skin= "ckeditor";
-		if(!$args->editor_colorset) $args->editor_colorset = "moono-lisa";
-		if($args->enable_join!='Y') $args->enable_join = 'N';
-		$args->enable_openid= 'N';
-		if($args->profile_image !='Y') $args->profile_image = 'N';
-		if($args->image_name!='Y') $args->image_name = 'N';
-		if($args->image_mark!='Y') $args->image_mark = 'N';
-		if($args->group_image_mark!='Y') $args->group_image_mark = 'N';
-		if(!trim(strip_tags($args->agreement))) $args->agreement = null;
-		$args->limit_day = (int)$args->limit_day;
-
-		$agreement = trim($args->agreement);
-		unset($args->agreement);
-
-		$oModuleController = getController('module');
-		$output = $oModuleController->insertModuleConfig('member',$args);
-		if(!$output->toBool()) return $output;
-
-		$agreement_file = RX_BASEDIR.'files/member_extra_info/agreement.txt';
-		FileHandler::writeFile($agreement_file, $agreement);
-
-		return new BaseObject();
+		return getController('module')->updateModuleConfig('member', $args);
 	}
 
 	/**

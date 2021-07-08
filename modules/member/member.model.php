@@ -32,71 +32,113 @@ class memberModel extends member
 		{
 			return self::$_member_config;
 		}
-
-		// Get member configuration stored in the DB
+		
 		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
-
-		if(!isset($config->signupForm) || !is_array($config->signupForm))
+		
+		// Set default config
+		$config->enable_join = $config->enable_join ?? 'Y';
+		$config->enable_confirm = $config->enable_confirm ?? 'N';
+		$config->authmail_expires = $config->authmail_expires ?? 1;
+		$config->authmail_expires_unit = $config->authmail_expires_unit ?? 86400;
+		$config->member_profile_view = $config->member_profile_view ?? 'N';
+		$config->update_nickname_log = $config->update_nickname_log ?? 'N';
+		$config->nickname_symbols = $config->nickname_symbols ?? 'Y';
+		$config->nickname_symbols_allowed_list = $config->nickname_symbols_allowed_list ?? '';
+		$config->password_strength = $config->password_strength ?? 'normal';
+		$config->password_hashing_algorithm = $config->password_hashing_algorithm ?? Rhymix\Framework\Password::getBestSupportedAlgorithm();
+		$config->password_hashing_work_factor = $config->password_hashing_work_factor ?? 10;
+		$config->password_hashing_auto_upgrade = $config->password_hashing_auto_upgrade ?? 'Y';
+		$config->password_change_invalidate_other_sessions = $config->password_change_invalidate_other_sessions ?? 'N';
+		
+		// Set features config
+		$config->features = array();
+		$config->features['scrapped_documents'] = $config->features['scrapped_documents'] ?? true;
+		$config->features['saved_documents'] = $config->features['saved_documents'] ?? true;
+		$config->features['my_documents'] = $config->features['my_documents'] ?? true;
+		$config->features['my_comments'] = $config->features['my_comments'] ?? true;
+		$config->features['active_logins'] = $config->features['active_logins'] ?? true;
+		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
+		
+		// Set agreements config
+		$config->agreement = self::_getAgreement();
+		if(!isset($config->agreements))
 		{
-			$oMemberAdminController = getAdminController('member');
-			$identifier = ($config->identifier) ? $config->identifier : 'email_address';
-			$config->signupForm = $oMemberAdminController->createSignupForm($identifier);
-		}
-		//for multi language
-		foreach($config->signupForm AS $key=>$value)
-		{
-			if(!isset($value->isCustomTitle) || !$value->isCustomTitle)
-			{
-				$config->signupForm[$key]->title = ($value->isDefaultForm ?? false) ? lang($value->name) : $value->title;
-			}
-			if($config->signupForm[$key]->isPublic != 'N') $config->signupForm[$key]->isPublic = 'Y';
-			if($value->name == 'find_account_question') $config->signupForm[$key]->isPublic = 'N';
-		}
-
-		// Get terms of user
-		if(!$config->agreements)
-		{
-			$config->agreement = self::_getAgreement();
+			$config->agreements = array();
 			$config->agreements[1] = new stdClass;
 			$config->agreements[1]->title = lang('agreement');
 			$config->agreements[1]->content = $config->agreement;
 			$config->agreements[1]->type = $config->agreement ? 'required' : 'disabled';
 		}
-
-		if(!$config->webmaster_name) $config->webmaster_name = 'webmaster';
-
-		if(!$config->image_name_max_width) $config->image_name_max_width = 90;
-		if(!$config->image_name_max_height) $config->image_name_max_height = 20;
-		if(!$config->image_name_max_filesize) $config->image_name_max_filesize = null;
-		if(!$config->image_mark_max_width) $config->image_mark_max_width = 20;
-		if(!$config->image_mark_max_height) $config->image_mark_max_height = 20;
-		if(!$config->image_mark_max_filesize) $config->image_mark_max_filesize = null;
-		if(!$config->profile_image_max_width) $config->profile_image_max_width = 90;
-		if(!$config->profile_image_max_height) $config->profile_image_max_height = 90;
-		if(!$config->profile_image_max_filesize) $config->profile_image_max_filesize = null;
-
-		if(!$config->skin) $config->skin = 'default';
-		if(!$config->colorset) $config->colorset = 'white';
-		if(!$config->editor_skin || $config->editor_skin == 'default') $config->editor_skin = 'ckeditor';
-		if(!$config->group_image_mark) $config->group_image_mark = "N";
-
-		if(!$config->identifier) $config->identifier = 'user_id';
-
-		if(!$config->emailhost_check) $config->emailhost_check = 'allowed';
-
-		if(!$config->max_error_count) $config->max_error_count = 10;
-		if(!$config->max_error_count_time) $config->max_error_count_time = 300;
-
-		if(!$config->signature_editor_skin || $config->signature_editor_skin == 'default') $config->signature_editor_skin = 'ckeditor';
-		if(!$config->sel_editor_colorset) $config->sel_editor_colorset = 'moono-lisa';
-		if(!$config->member_allow_fileupload) $config->member_allow_fileupload = 'N';
-		if(!$config->member_profile_view) $config->member_profile_view = 'N';
-
-		if(isset($config->redirect_mid) && $config->redirect_mid)
+		
+		// Set signup config
+		$config->limit_day = $config->limit_day ?? 0;
+		$config->emailhost_check = $config->emailhost_check ?? 'allowed';
+		$config->special_phone_number = $config->special_phone_number ?? null;
+		$config->special_phone_code = $config->special_phone_code ?? null;
+		$config->redirect_mid = $config->redirect_mid ?? null;
+		$config->redirect_url = $config->redirect_mid ? getNotEncodedFullUrl('', 'mid', $config->redirect_mid) : null;
+		$config->phone_number_default_country = $config->phone_number_default_country ?? (Context::get('lang_type') === 'ko' ? 'KOR' : null);
+		$config->phone_number_hide_country = $config->phone_number_hide_country ?? 'N';
+		$config->phone_number_allow_duplicate = $config->phone_number_allow_duplicate ?? 'N';
+		$config->phone_number_verify_by_sms = $config->phone_number_verify_by_sms ?? 'N';
+		$config->signature_editor_skin = $config->signature_editor_skin ?? 'ckeditor';
+		$config->sel_editor_colorset = $config->sel_editor_colorset ?? 'moono-lisa';
+		$config->signature = $config->signature ?? 'N';
+		$config->signature_html = $config->signature_html ?? 'Y';
+		$config->signature_html_retroact = $config->signature_html_retroact ?? 'N';
+		$config->member_allow_fileupload = $config->member_allow_fileupload ?? 'N';
+		$config->profile_image = $config->profile_image ?? 'N';
+		$config->profile_image_max_width = $config->profile_image_max_width ?? 90;
+		$config->profile_image_max_height = $config->profile_image_max_height ?? 90;
+		$config->profile_image_max_filesize = $config->profile_image_max_filesize ?? null;
+		$config->image_name = $config->image_name ?? 'N';
+		$config->image_name_max_width = $config->image_name_max_width ?? 90;
+		$config->image_name_max_height = $config->image_name_max_height ?? 20;
+		$config->image_name_max_filesize = $config->image_name_max_filesize ?? null;
+		$config->image_mark = $config->image_mark ?? 'N';
+		$config->image_mark_max_width = $config->image_mark_max_width ?? 20;
+		$config->image_mark_max_height = $config->image_mark_max_height ?? 20;
+		$config->image_mark_max_filesize = $config->image_mark_max_filesize ?? null;
+		if($config->signature_editor_skin === 'default')
 		{
-			$config->redirect_url = getNotEncodedFullUrl('','mid',$config->redirect_mid);
+			$config->signature_editor_skin = 'ckeditor';
 		}
-
+		
+		// Set login config
+		$config->identifier = $config->identifier ?? 'user_id';
+		$config->identifiers = $config->identifiers ?? array('user_id');
+		$config->change_password_date = $config->change_password_date ?? 0;
+		$config->enable_login_fail_report = $config->enable_login_fail_report ?? 'Y';
+		$config->max_error_count = $config->max_error_count ?? 10;
+		$config->max_error_count_time = $config->max_error_count_time ?? 300;
+		$config->login_invalidate_other_sessions = $config->login_invalidate_other_sessions ?? 'N';
+		$config->after_login_url = $config->after_login_url ?? null;
+		$config->after_logout_url = $config->after_logout_url ?? null;
+		
+		// Set design config
+		$config->layout_srl = $config->layout_srl ?? 0;
+		$config->skin = $config->skin ?? 'default';
+		$config->colorset = $config->colorset ?? 'white';
+		$config->mlayout_srl = $config->mlayout_srl ?? 0;
+		$config->mskin = $config->mskin ?? 'default';
+		
+		// Set group image config
+		$config->group_image_mark = $config->group_image_mark ?? 'N';
+		
+		// Set signup form
+		if(!isset($config->signupForm) || !is_array($config->signupForm))
+		{
+			$config->signupForm = getAdminController('member')->createSignupForm($config->identifier);
+		}
+		foreach($config->signupForm as $key => $value)
+		{
+			if($value->isDefaultForm && empty($value->isCustomTitle))
+			{
+				$config->signupForm[$key]->title = lang($value->name);
+			}
+			$config->signupForm[$key]->isPublic = $config->signupForm[$key]->isPublic ?? 'Y';
+		}
+		
 		return self::$_member_config = $config;
 	}
 
