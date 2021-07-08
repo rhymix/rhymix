@@ -106,7 +106,7 @@ class memberModel extends member
 		
 		// Set login config
 		$config->identifier = $config->identifier ?? 'user_id';
-		$config->identifiers = $config->identifiers ?? array('user_id');
+		$config->identifiers = $config->identifiers ?? array('user_id', 'email_address');
 		$config->change_password_date = $config->change_password_date ?? 0;
 		$config->enable_login_fail_report = $config->enable_login_fail_report ?? 'Y';
 		$config->max_error_count = $config->max_error_count ?? 10;
