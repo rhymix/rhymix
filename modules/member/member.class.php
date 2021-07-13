@@ -148,6 +148,9 @@ class member extends ModuleObject
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
 		
+		// Check individual indexes for member_group_member table
+		if(!$oDB->isIndexExists('member_group_member', 'idx_member_srl')) return true;
+		
 		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
 		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
@@ -321,6 +324,12 @@ class member extends ModuleObject
 			$oDB->addIndex('member_nickname_log', 'idx_before_nick_name', array('before_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_after_nick_name', array('after_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
+		}
+		
+		// Check index for member_group_member table
+		if(!$oDB->isIndexExists('member_group_member', 'idx_member_srl'))
+		{
+			$oDB->addIndex('member_group_member', 'idx_member_srl', array('member_srl'));
 		}
 		
 		// Add device token type and last active date 2020.10.28
