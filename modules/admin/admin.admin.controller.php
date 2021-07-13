@@ -1033,7 +1033,7 @@ class adminAdminController extends admin
 		$vars = Context::getRequestVars();
 		$domain_srl = intval($vars->domain_srl);
 		$domain_info = null;
-		if ($domain_srl !== '')
+		if (strval($vars->domain_srl) !== '')
 		{
 			$domain_info = ModuleModel::getSiteInfo($domain_srl);
 			if (!$domain_info || intval($domain_info->domain_srl) !== $domain_srl)
