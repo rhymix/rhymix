@@ -626,7 +626,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterSendMessage($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		$communication_config = getModel('communication')->getConfig();
 
@@ -671,7 +670,6 @@ class ncenterliteController extends ncenterlite
 	
 	function triggerAfterScrap($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!isset($config->use['scrap']))
 		{
@@ -712,7 +710,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterDocumentVotedUpdate(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!isset($config->use['vote']))
 		{
@@ -753,7 +750,6 @@ class ncenterliteController extends ncenterlite
 	
 	function triggerAfterDocumentVotedCancel($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
@@ -782,7 +778,6 @@ class ncenterliteController extends ncenterlite
 	
 	function triggerAfterCommentVotedCount($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!isset($config->use['vote']))
 		{
@@ -826,7 +821,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterCommentVotedCancel($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
@@ -855,14 +849,13 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterDeleteComment(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
 			return;
 		}
 
-		$notify_list = $oNcenterliteModel->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
+		$notify_list = ncenterliteModel::getInstance()->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
 
 		// 대댓글의 대댓글일 경우 혹은 중복적으로 받는 경우 comment_srl 당 2개이상 notify가 생성될 수 있다.
 		$member_srls = array();
@@ -888,7 +881,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterDeleteDocument(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
@@ -906,8 +898,7 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterMoveToTrash(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
-		$notify_list = $oNcenterliteModel->getNotifyListByDocumentSrl($obj->document_srl);
+		$notify_list = ncenterliteModel::getInstance()->getNotifyListByDocumentSrl($obj->document_srl);
 
 		$member_srls = array();
 		foreach($notify_list as $value)
@@ -940,8 +931,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
-		$vars = Context::getRequestVars();
-		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
 
 		if($oModule->getLayoutFile() == 'popup_layout.html')
@@ -949,7 +938,6 @@ class ncenterliteController extends ncenterlite
 			Context::set('ncenterlite_is_popup', TRUE);
 		}
 
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		// if the array is empty, lets return.
 		if(empty($config->use))
@@ -976,7 +964,6 @@ class ncenterliteController extends ncenterlite
 		elseif(preg_match('/^disp[A-Z][a-z0-9_]+Content$/', $oModule->act))
 		{
 			$document_srl = Context::get('document_srl');
-			$oDocument = Context::get('oDocument');
 			$logged_info = Context::get('logged_info');
 
 			if($document_srl && $config->document_read == 'Y' && $logged_info->member_srl)
@@ -1463,7 +1450,6 @@ class ncenterliteController extends ncenterlite
 	 **/
 	function _getMentionTarget($content)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$oMemberModel =  getModel('member');
 		$config = NcenterliteModel::getConfig();
 		$logged_info = Context::get('logged_info');
@@ -1783,8 +1769,6 @@ class ncenterliteController extends ncenterlite
 
 		$document_srl = Context::get('target_srl');
 
-		/** @var ncenterliteModel $oNcenterliteModel */
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		
 		if($config->unsubscribe !== 'Y') return;
@@ -1807,8 +1791,6 @@ class ncenterliteController extends ncenterlite
 
 		$comment_srl = Context::get('target_srl');
 
-		/** @var ncenterliteModel $oNcenterliteModel */
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		
 		if($config->unsubscribe !== 'Y') return;
