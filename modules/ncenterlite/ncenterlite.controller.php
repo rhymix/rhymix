@@ -766,14 +766,18 @@ class ncenterliteController extends ncenterlite
 		
 		if($config->anonymous_voter === 'Y')
 		{
-			return;
+			$member_srl = -1 * $this->user->member_srl;
+		}
+		else
+		{
+			$member_srl = $this->user->member_srl;
 		}
 		
 		$args = new stdClass();
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_VOTED;
 		$args->target_srl = $obj->document_srl;
-		$args->target_member_srl = $this->user->member_srl;
+		$args->target_member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
 		if($output->toBool())
 		{
@@ -1340,7 +1344,7 @@ class ncenterliteController extends ncenterlite
 		// 익명인 경우 발신자 정보를 제거
 		if($anonymous == TRUE)
 		{
-			$args->target_member_srl = 0;
+			$args->target_member_srl = -1 * $this->user->member_srl;
 			$args->target_nick_name = strval($args->target_nick_name);
 			$args->target_user_id = $args->target_nick_name;
 			$args->target_email_address = $args->target_nick_name;
