@@ -270,7 +270,7 @@ class Debug
 		
 		// Get the backtrace.
 		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
-		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && !$backtrace[1]['class'])
+		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && !isset($backtrace[1]['class']))
 		{
 			array_shift($backtrace);
 		}

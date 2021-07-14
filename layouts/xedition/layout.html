@@ -219,7 +219,7 @@
 						<!--@if($is_logged)-->
 							<!-- after_login -->
 							<a href="{getUrl('act', 'dispMemberInfo')}" class="login_after">
-								<!--@if($logged_info->profile_image->src)-->
+								<!--@if(isset($logged_info->profile_image->src))-->
 									<img src="{$logged_info->profile_image->src}" alt="{$logged_info->nick_name}" />
 								<!--@else-->
 									<img src="./img/ico_default.jpg" alt="{$logged_info->nick_name}" />
