@@ -764,6 +764,11 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		
+		if($config->anonymous_voter === 'Y')
+		{
+			return;
+		}
+		
 		$args = new stdClass();
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_VOTED;
@@ -1337,8 +1342,8 @@ class ncenterliteController extends ncenterlite
 		{
 			$args->target_member_srl = 0;
 			$args->target_nick_name = strval($args->target_nick_name);
-			$args->target_user_id = strval($args->target_nick_name);
-			$args->target_email_address = strval($args->target_nick_name);
+			$args->target_user_id = $args->target_nick_name;
+			$args->target_email_address = $args->target_nick_name;
 		}
 		// 발신자 회원번호(target_member_srl)가 지정된 경우 그대로 사용
 		elseif($args->target_member_srl)
