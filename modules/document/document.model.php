@@ -326,7 +326,7 @@ class documentModel extends document
 		
 		if(!$output->toBool() || !$result = $output->data)
 		{
-			return;
+			return $output;
 		}
 		
 		$output->data = array();
@@ -340,8 +340,11 @@ class documentModel extends document
 			
 			$output->data[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
+		
 		self::setToAllDocumentExtraVars();
 
+		
+		
 		// Call trigger (after)
 		// This trigger can be used to modify search results
 		ModuleHandler::triggerCall('document.getNoticeList', 'after', $output);
