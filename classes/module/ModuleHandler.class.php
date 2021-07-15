@@ -390,6 +390,7 @@ class ModuleHandler extends Handler
 		if($this->module_info->use_mobile !== 'Y')
 		{
 			Mobile::setMobile(FALSE);
+			$this->is_mobile = Mobile::isFromMobilePhone();
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -407,7 +408,7 @@ class ModuleHandler extends Handler
 				return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 			}
 		}
-		elseif($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
+		elseif($type == "view" && $this->is_mobile && Context::isInstalled())
 		{
 			$orig_type = "view";
 			$type = "mobile";
@@ -416,6 +417,7 @@ class ModuleHandler extends Handler
 			{
 				$type = $orig_type;
 				Mobile::setMobile(FALSE);
+				$this->is_mobile = Mobile::isFromMobilePhone();
 				$oModule = self::getModuleInstance($this->module, $type, $kind);
 			}
 		}
@@ -533,6 +535,7 @@ class ModuleHandler extends Handler
 					{
 						$type = $orig_type;
 						Mobile::setMobile(FALSE);
+						$this->is_mobile = Mobile::isFromMobilePhone();
 						$oModule = self::getModuleInstance($forward->module, $type, $kind);
 					}
 				}
