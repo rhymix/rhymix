@@ -407,7 +407,7 @@ class ModuleHandler extends Handler
 				return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 			}
 		}
-		elseif($type == "view" && $this->is_mobile && Context::isInstalled())
+		elseif($type == "view" && Mobile::isFromMobilePhone() && Context::isInstalled())
 		{
 			$orig_type = "view";
 			$type = "mobile";
