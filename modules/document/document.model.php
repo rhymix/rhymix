@@ -343,8 +343,6 @@ class documentModel extends document
 		
 		self::setToAllDocumentExtraVars();
 
-		
-		
 		// Call trigger (after)
 		// This trigger can be used to modify search results
 		ModuleHandler::triggerCall('document.getNoticeList', 'after', $output);

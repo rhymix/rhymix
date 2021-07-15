@@ -465,7 +465,7 @@ class boardView extends board
 			$args->module_srl = $this->include_modules ?: $this->module_srl;
 		}
 		$output = DocumentModel::getNoticeList($args, $this->columnList);
-		$notice_list = $output->data;
+		$notice_list = $output->data ?? [];
 		
 		$this->_fillModuleTitles($notice_list);
 		Context::set('notice_list', $notice_list);
