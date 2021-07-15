@@ -1073,7 +1073,7 @@ class ncenterliteController extends ncenterlite
 		$_latest_notify_id = count($_latest_notify_id) > 0 ? $_latest_notify_id[0]->notify : "";
 		Context::set('ncenterlite_latest_notify_id', $_latest_notify_id);
 
-		if(isset($_COOKIE['_ncenterlite_hide_id']) && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
+		if(!empty($_COOKIE['_ncenterlite_hide_id']) && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
 		{
 			return;
 		}
