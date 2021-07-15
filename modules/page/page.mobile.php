@@ -15,7 +15,7 @@ class pageMobile extends pageView
 				}
 			case 'OUTSIDE' :
 				{
-					$this->cache_file = sprintf("./files/cache/opage/%d.%s.m.cache.php", $this->module_info->module_srl, Context::getSslStatus());
+					$this->cache_file = sprintf("./files/cache/opage/%d.%s.m.cache.php", $this->module_info->module_srl, Context::getSslStatus()); 
 					$this->interval = (int)($this->module_info->page_caching_interval);
 					$this->path = $this->module_info->mpath ?: $this->module_info->path;
 					break;
@@ -41,7 +41,7 @@ class pageMobile extends pageView
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
-
+		
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('mobile');
 	}
@@ -49,7 +49,7 @@ class pageMobile extends pageView
 	function _getWidgetContent()
 	{
 		// Arrange a widget ryeolro
-		if($this->module_info->mcontent && $this->module_info->use_mobile === 'Y')
+		if($this->module_info->mcontent)
 		{
 			$cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getLangType());
 			$interval = (int)($this->module_info->page_caching_interval);
@@ -64,19 +64,19 @@ class pageMobile extends pageView
 					$mtime = filemtime($cache_file);
 				}
 
-				if($mtime + $interval*60 > $_SERVER['REQUEST_TIME'])
+				if($mtime + $interval*60 > $_SERVER['REQUEST_TIME']) 
 				{
-					$page_content = FileHandler::readFile($cache_file);
+					$page_content = FileHandler::readFile($cache_file); 
 					$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
-				}
-				else
+				} 
+				else 
 				{
 					$oWidgetController = getController('widget');
 					$page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
 					FileHandler::writeFile($cache_file, $page_content);
 				}
-			}
-			else
+			} 
+			else 
 			{
 				if(file_exists($cache_file))
 				{
