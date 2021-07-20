@@ -346,6 +346,8 @@ class boardView extends board
 		 * add javascript filters
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'insert_comment.xml');
+		
+		ModuleHandler::triggerCall('board.contentView', 'after', $oDocument);
 	}
 
 	/**
