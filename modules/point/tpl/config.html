@@ -162,11 +162,13 @@
 				</select>
 			</div>
 		</div>
-		<div class="x_control-group" loop="$group_list => $key,$val">
+		<div class="x_control-group" loop="$group_list => $key,$val" cond="$val->is_admin != 'Y'">
 			<label class="x_control-label" for="point_group_{$key}">{$val->title}</label>
 			<div class="x_controls">
-				<input cond="$val->is_default != 'Y'" type="number" min="0" max="1000" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:50px" />
+				<!--@if($val->is_default != 'Y')-->
+				<input type="number" min="0" max="1000" value="{$config->point_group[$key]}" name="point_group_{$key}" id="point_group_{$key}" style="width:50px" />
 				&nbsp;{$lang->level}
+				<!--@end-->
 				<span cond="$val->is_default == 'Y'" style="display:inline-block;padding-top:3px">{$lang->default_group}</span>
 			</div>
 		</div>
