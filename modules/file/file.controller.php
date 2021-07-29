@@ -391,7 +391,7 @@ class fileController extends file
 		}
 		else
 		{
-			$url = getNotEncodedUrl('', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null);
+			$url = getNotEncodedUrl('', 'module', 'file', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null);
 		}
 		header('Location: ' . $url);
 		Context::close();
