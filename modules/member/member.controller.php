@@ -2159,9 +2159,21 @@ class memberController extends member
 	 */
 	function addMemberToGroup($member_srl, $group_srl)
 	{
+		// Return if member already belongs to group
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->group_srl = $group_srl;
+		$output = executeQueryArray('member.getMemberGroupMember', $args);
+		if ($output->data && count($output->data) == 1)
+		{
+			return;
+		}
+		if ($output->data && count($output->data) > 1)
+		{
+			executeQuery('member.deleteMemberGroupMember', $args);
+		}
+		
+		// Add member to group
 		$output = executeQuery('member.addMemberToGroup', $args);
 		
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
