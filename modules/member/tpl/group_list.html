@@ -55,7 +55,7 @@
 						<input type="text" name="group_titles[]" value="{htmlspecialchars($group_info->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" class="lang_code" title="{$lang->group_title}" />
 					</div>
 				</td>
-				<td><input type="text" name="descriptions[]" value="{$group_info->description}" title="{$lang->description}" /></td>
+				<td><input type="text" name="descriptions[]" value="{$group_info->description}" title="{$lang->description}" /> <span class="x_help-inline">#{$group_srl}</span></td>
 				<td><input type="radio" name="defaultGroup" value="{$group_info->group_srl}" title="Default" checked="checked"|cond="$group_info->is_default=='Y'" /></td>
 				<td class="_imageMarkButton">
 					<input type="hidden" name="image_marks[]" value="{$group_info->image_mark}" class="_imgMarkHidden" />
