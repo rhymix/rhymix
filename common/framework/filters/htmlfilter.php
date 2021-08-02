@@ -139,7 +139,7 @@ class HTMLFilter
 			
 			// Customize the default configuration.
 			$config->set('Attr.AllowedClasses', $allowed_classes);
-			$config->set('Attr.AllowedFrameTargets', array('_blank'));
+			$config->set('Attr.AllowedFrameTargets', array('_blank', '_self'));
 			$config->set('Attr.DefaultImageAlt', '');
 			$config->set('Attr.EnableID', true);
 			$config->set('Attr.IDPrefix', 'user_content_');
