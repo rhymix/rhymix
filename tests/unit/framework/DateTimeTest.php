@@ -9,6 +9,7 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		// Add some dummy data to system configuration. Asia/Seoul offset is 32400.
 		Rhymix\Framework\Config::set('locale.default_timezone', 'Asia/Seoul');
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		Context::getInstance();
 		Context::set('_default_timezone', $GLOBALS['_time_zone'] = 'Asia/Seoul');
 		
 		// Set PHP time zone to the internal time zone.
@@ -54,6 +55,22 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
 	}
 	
+	public function testZtimeDateOnly()
+	{
+		$timestamp = -271641600;
+		
+		// Test ztime() when the internal time zone is different from the default time zone.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		$this->assertEquals($timestamp, ztime('19610524'));
+		
+		// Test ztime() when the internal time zone is the same as the default time zone.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
+		$this->assertEquals($timestamp, ztime('19610524'));
+		
+		// Restore the internal timezone.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+	}
+	
 	public function testZdate()
 	{
 		$expected = '2016-01-29 01:53:20';
@@ -65,6 +82,22 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		// Test zdate() when the internal time zone is the same as the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
 		$this->assertEquals($expected, zdate('20160129015320'));
+		
+		// Restore the internal timezone.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+	}
+	
+	public function testZdateDateOnly()
+	{
+		$expected = '1961-05-24';
+		
+		// Test zdate() when the internal time zone is different from the default time zone.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		$this->assertEquals($expected, zdate('19610524', 'Y-m-d'));
+		
+		// Test zdate() when the internal time zone is the same as the default time zone.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
+		$this->assertEquals($expected, zdate('19610524', 'Y-m-d'));
 		
 		// Restore the internal timezone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
