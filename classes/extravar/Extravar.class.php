@@ -498,6 +498,7 @@ class ExtraItem
 					}
 					$buff[] = '  <option value="' . $key . '" ' . $selected . '>' . $time_name . '</option>';
 				}
+				$buff[] = '</select>';
 				break;
 			// textarea
 			case 'textarea' :
