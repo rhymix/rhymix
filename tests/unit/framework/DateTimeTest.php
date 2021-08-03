@@ -89,15 +89,16 @@ class DateTimeTest extends \Codeception\TestCase\Test
 	
 	public function testZdateDateOnly()
 	{
-		$expected = '1961-05-24';
+		// Korea Standard Time was UTC+08:30 until 1961
+		$expected = '1960-04-19 08:30:00';
 		
 		// Test zdate() when the internal time zone is different from the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
-		$this->assertEquals($expected, zdate('19610524', 'Y-m-d'));
+		$this->assertEquals($expected, zdate('19600419', 'Y-m-d H:i:s'));
 		
 		// Test zdate() when the internal time zone is the same as the default time zone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
-		$this->assertEquals($expected, zdate('19610524', 'Y-m-d'));
+		$this->assertEquals($expected, zdate('19600419', 'Y-m-d H:i:s'));
 		
 		// Restore the internal timezone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
