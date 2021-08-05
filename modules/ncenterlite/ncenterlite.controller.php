@@ -626,7 +626,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterSendMessage($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		$communication_config = getModel('communication')->getConfig();
 
@@ -671,7 +670,6 @@ class ncenterliteController extends ncenterlite
 	
 	function triggerAfterScrap($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!isset($config->use['scrap']))
 		{
@@ -712,7 +710,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterDocumentVotedUpdate(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!isset($config->use['vote']))
 		{
@@ -753,7 +750,6 @@ class ncenterliteController extends ncenterlite
 	
 	function triggerAfterDocumentVotedCancel($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
@@ -768,11 +764,20 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		
+		if($config->anonymous_voter === 'Y')
+		{
+			$member_srl = -1 * $this->user->member_srl;
+		}
+		else
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		
 		$args = new stdClass();
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_VOTED;
 		$args->target_srl = $obj->document_srl;
-		$args->target_member_srl = $this->user->member_srl;
+		$args->target_member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyByTargetType', $args);
 		if($output->toBool())
 		{
@@ -782,7 +787,6 @@ class ncenterliteController extends ncenterlite
 	
 	function triggerAfterCommentVotedCount($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(!isset($config->use['vote']))
 		{
@@ -826,7 +830,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterCommentVotedCancel($obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
@@ -855,14 +858,13 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterDeleteComment(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
 			return;
 		}
 
-		$notify_list = $oNcenterliteModel->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
+		$notify_list = ncenterliteModel::getInstance()->getNotifyMemberSrlByCommentSrl($obj->comment_srl);
 
 		// 대댓글의 대댓글일 경우 혹은 중복적으로 받는 경우 comment_srl 당 2개이상 notify가 생성될 수 있다.
 		$member_srls = array();
@@ -888,7 +890,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterDeleteDocument(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		if(empty($config->use))
 		{
@@ -906,8 +907,7 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterMoveToTrash(&$obj)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
-		$notify_list = $oNcenterliteModel->getNotifyListByDocumentSrl($obj->document_srl);
+		$notify_list = ncenterliteModel::getInstance()->getNotifyListByDocumentSrl($obj->document_srl);
 
 		$member_srls = array();
 		foreach($notify_list as $value)
@@ -940,8 +940,6 @@ class ncenterliteController extends ncenterlite
 
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
-		$vars = Context::getRequestVars();
-		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
 
 		if($oModule->getLayoutFile() == 'popup_layout.html')
@@ -949,7 +947,6 @@ class ncenterliteController extends ncenterlite
 			Context::set('ncenterlite_is_popup', TRUE);
 		}
 
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		// if the array is empty, lets return.
 		if(empty($config->use))
@@ -976,7 +973,6 @@ class ncenterliteController extends ncenterlite
 		elseif(preg_match('/^disp[A-Z][a-z0-9_]+Content$/', $oModule->act))
 		{
 			$document_srl = Context::get('document_srl');
-			$oDocument = Context::get('oDocument');
 			$logged_info = Context::get('logged_info');
 
 			if($document_srl && $config->document_read == 'Y' && $logged_info->member_srl)
@@ -1074,10 +1070,10 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$_latest_notify_id = array_slice($_output->data, 0, 1);
-		$_latest_notify_id = $_latest_notify_id[0]->notify;
+		$_latest_notify_id = count($_latest_notify_id) > 0 ? $_latest_notify_id[0]->notify : "";
 		Context::set('ncenterlite_latest_notify_id', $_latest_notify_id);
 
-		if($_COOKIE['_ncenterlite_hide_id'] && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
+		if(!empty($_COOKIE['_ncenterlite_hide_id']) && $_COOKIE['_ncenterlite_hide_id'] == $_latest_notify_id)
 		{
 			return;
 		}
@@ -1348,10 +1344,10 @@ class ncenterliteController extends ncenterlite
 		// 익명인 경우 발신자 정보를 제거
 		if($anonymous == TRUE)
 		{
-			$args->target_member_srl = 0;
+			$args->target_member_srl = -1 * $this->user->member_srl;
 			$args->target_nick_name = strval($args->target_nick_name);
-			$args->target_user_id = strval($args->target_nick_name);
-			$args->target_email_address = strval($args->target_nick_name);
+			$args->target_user_id = $args->target_nick_name;
+			$args->target_email_address = $args->target_nick_name;
 		}
 		// 발신자 회원번호(target_member_srl)가 지정된 경우 그대로 사용
 		elseif($args->target_member_srl)
@@ -1463,7 +1459,6 @@ class ncenterliteController extends ncenterlite
 	 **/
 	function _getMentionTarget($content)
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$oMemberModel =  getModel('member');
 		$config = NcenterliteModel::getConfig();
 		$logged_info = Context::get('logged_info');
@@ -1697,21 +1692,20 @@ class ncenterliteController extends ncenterlite
 	 * @param $module_info
 	 * @param $is_anonymous
 	 * @param string $type
-	 * @return Object|Bool|array
+	 * @return array
 	 */
 	function insertMentionByTargets($mention_targets, $obj, $module_info, $is_anonymous, $type = 'D')
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 
 		if(!is_array($mention_targets))
 		{
-			return false;
+			return array();
 		}
 
 		if(!$module_info)
 		{
-			return false;
+			return array();
 		}
 
 		$notify_member_srls = array();
@@ -1763,7 +1757,8 @@ class ncenterliteController extends ncenterlite
 			$output = $this->_insertNotify($args, $is_anonymous);
 			if(!$output->toBool())
 			{
-				return $output;
+				// 실패시 지금까지 성공한 데이터를 리턴
+				return $notify_member_srls;
 			}
 			$notify_member_srls[] = $mention_member_srl;
 		}
@@ -1783,8 +1778,6 @@ class ncenterliteController extends ncenterlite
 
 		$document_srl = Context::get('target_srl');
 
-		/** @var ncenterliteModel $oNcenterliteModel */
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		
 		if($config->unsubscribe !== 'Y') return;
@@ -1807,8 +1800,6 @@ class ncenterliteController extends ncenterlite
 
 		$comment_srl = Context::get('target_srl');
 
-		/** @var ncenterliteModel $oNcenterliteModel */
-		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 		
 		if($config->unsubscribe !== 'Y') return;

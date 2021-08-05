@@ -191,7 +191,7 @@ class ModuleActionParser extends BaseParser
 			
 			// Set the menu name and index settings.
 			$menu_name = trim($action['menu_name']);
-			if ($menu_name)
+			if ($menu_name && isset($info->menu->{$menu_name}))
 			{
 				$info->menu->{$menu_name}->acts[] = $action_name;
 				if (toBool($action['menu_index']))

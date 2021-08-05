@@ -1031,22 +1031,23 @@ class adminAdminController extends admin
 	function procAdminInsertDomain()
 	{
 		$vars = Context::getRequestVars();
-		$domain_srl = strval($vars->domain_srl);
+		$domain_srl = intval($vars->domain_srl);
 		$domain_info = null;
-		if ($domain_srl !== '')
+		if (strval($vars->domain_srl) !== '')
 		{
-			$domain_info = ModuleModel::getSiteInfo(intval($domain_srl));
-			if (!$domain_info || $domain_info->domain_srl !== intval($domain_srl))
+			$domain_info = ModuleModel::getSiteInfo($domain_srl);
+			if (!$domain_info || intval($domain_info->domain_srl) !== $domain_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
 		}
 		
 		// Copying?
-		if (!$domain_info && intval($vars->copy_domain_srl) > -1)
+		$copy_domain_srl = intval($vars->copy_domain_srl);
+		if (!$domain_info && $copy_domain_srl > -1)
 		{
-			$copy_domain_info = ModuleModel::getSiteInfo(intval($vars->copy_domain_srl));
-			if (!$copy_domain_info || $copy_domain_info->domain_srl !== intval($vars->copy_domain_srl))
+			$copy_domain_info = ModuleModel::getSiteInfo($copy_domain_srl);
+			if (!$copy_domain_info || intval($copy_domain_info->domain_srl) !== $copy_domain_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}

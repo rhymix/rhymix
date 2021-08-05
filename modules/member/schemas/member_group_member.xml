@@ -1,6 +1,7 @@
 <table name="member_group_member">
-    <column name="site_srl" type="number" size="11" notnull="notnull" index="idx_site_srl" default="0" />
-    <column name="group_srl" type="number" size="11" notnull="notnull" index="idx_group_member" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_group_member" />
+    <column name="site_srl" type="number" notnull="notnull" default="0" />
+    <column name="group_srl" type="number" notnull="notnull" />
+    <column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
     <column name="regdate" type="date" />
+    <index name="idx_group_member" columns="group_srl,member_srl" />
 </table>

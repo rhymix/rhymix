@@ -390,6 +390,7 @@ class ModuleHandler extends Handler
 		if($this->module_info->use_mobile !== 'Y')
 		{
 			Mobile::setMobile(FALSE);
+			$this->is_mobile = Mobile::isFromMobilePhone();
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -416,6 +417,7 @@ class ModuleHandler extends Handler
 			{
 				$type = $orig_type;
 				Mobile::setMobile(FALSE);
+				$this->is_mobile = Mobile::isFromMobilePhone();
 				$oModule = self::getModuleInstance($this->module, $type, $kind);
 			}
 		}
@@ -533,6 +535,7 @@ class ModuleHandler extends Handler
 					{
 						$type = $orig_type;
 						Mobile::setMobile(FALSE);
+						$this->is_mobile = Mobile::isFromMobilePhone();
 						$oModule = self::getModuleInstance($forward->module, $type, $kind);
 					}
 				}
@@ -818,29 +821,29 @@ class ModuleHandler extends Handler
 		
 		// Set meta keywords.
 		$module_config = ModuleModel::getModuleConfig('module');
-		if ($module_info->meta_keywords ?? '')
+		if (!empty($module_info->meta_keywords))
 		{
 			Context::addMetaTag('keywords', $module_info->meta_keywords);
 		}
-		elseif ($site_module_info->settings->meta_keywords)
+		elseif (!empty($site_module_info->settings->meta_keywords))
 		{
 			Context::addMetaTag('keywords', $site_module_info->settings->meta_keywords);
 		}
-		elseif ($module_config->meta_keywords)
+		elseif (!empty($module_config->meta_keywords))
 		{
 			Context::addMetaTag('keywords', $module_config->meta_keywords);
 		}
 		
 		// Set meta description.
-		if ($module_info->meta_description ?? '')
+		if (!empty($module_info->meta_description))
 		{
 			Context::addMetaTag('description', $module_info->meta_description);
 		}
-		elseif ($site_module_info->settings->meta_description)
+		elseif (!empty($site_module_info->settings->meta_description))
 		{
 			Context::addMetaTag('description', $site_module_info->settings->meta_description);
 		}
-		elseif($module_config->meta_description)
+		elseif (!empty($module_config->meta_description))
 		{
 			Context::addMetaTag('description', $module_config->meta_description);
 		}

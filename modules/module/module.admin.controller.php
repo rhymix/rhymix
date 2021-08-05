@@ -849,14 +849,14 @@ class moduleAdminController extends module
 		$lang_supported = Context::loadLangSelected();
 		$defaultLang = config('locale.default_lang');
 
-		if(!isset($langMap[$defaultLang]) || !is_array($langMap[$defaultLang]))
+		if(!isset($langMap[$defaultLang]))
 		{
 			$langMap[$defaultLang] = array();
 		}
 
 		foreach($lang_supported as $langCode => $langName)
 		{
-			if(!is_array($langMap[$langCode]))
+			if(!isset($langMap[$langCode]))
 			{
 				$langMap[$langCode] = array();
 			}
@@ -869,7 +869,7 @@ class moduleAdminController extends module
 					continue;
 				}
 
-				if(!isset($langMap[$targetLangCode]) || !is_array($langMap[$targetLangCode]))
+				if(!isset($langMap[$targetLangCode]))
 				{
 					$langMap[$targetLangCode] = array();
 				}

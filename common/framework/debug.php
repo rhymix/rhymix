@@ -270,7 +270,7 @@ class Debug
 		
 		// Get the backtrace.
 		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
-		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && !$backtrace[1]['class'])
+		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && empty($backtrace[1]['class']))
 		{
 			array_shift($backtrace);
 		}
@@ -805,7 +805,7 @@ class Debug
 		// Clean up the backtrace.
 		foreach (array('entries', 'errors', 'queries', 'slow_queries', 'remote_requests', 'slow_remote_requests') as $key)
 		{
-			if (!$data->$key)
+			if (!isset($data->$key) || !is_array($data->$key))
 			{
 				continue;
 			}
@@ -819,7 +819,10 @@ class Debug
 				{
 					foreach ($entry->backtrace as &$backtrace)
 					{
-						$backtrace['file'] = self::translateFilename($backtrace['file']);
+						if (isset($backtrace['file']))
+						{
+							$backtrace['file'] = self::translateFilename($backtrace['file']);
+						}
 						unset($backtrace['object'], $backtrace['args']);
 					}
 				}

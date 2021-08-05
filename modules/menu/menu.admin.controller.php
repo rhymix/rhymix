@@ -1312,7 +1312,7 @@ class menuAdminController extends menu
 
 		// if have a child menu, copy child menu also
 		$childMenu = array_shift($originMenu['list']);
-		if(count($childMenu) > 0)
+		if($childMenu)
 		{
 			$this->_copyMenu($menuSrl, $insertedMenuItemSrl, $childMenu);
 		}
