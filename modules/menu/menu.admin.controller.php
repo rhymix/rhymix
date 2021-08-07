@@ -1460,6 +1460,7 @@ class menuAdminController extends menu
 
 		$target_item = $oMenuAdminModel->getMenuItemInfo($target_srl);
 		if($target_item->menu_item_srl != $target_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if($target_srl == $parent_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		// Move the menu location(change the order menu appears)
 		if($mode == 'move')
 		{
