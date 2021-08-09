@@ -1709,14 +1709,18 @@ class Context
 		// Don't use full short URL for admin pages #1643
 		if (isset($get_vars['module']) && $get_vars['module'] === 'admin' && $rewrite_level > 1)
 		{
-			$rewrite_level = 1;
+			$force_rewrite_level = 1;
+		}
+		else
+		{
+			$force_rewrite_level = 0;
 		}
 		
 		// organize URL
 		$query = '';
 		if(count($get_vars) > 0)
 		{
-			$query = Rhymix\Framework\Router::getURL($get_vars, $rewrite_level);
+			$query = Rhymix\Framework\Router::getURL($get_vars, $force_rewrite_level ?: $rewrite_level);
 		}
 		
 		// If using SSL always
