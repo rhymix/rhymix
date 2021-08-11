@@ -51,7 +51,7 @@ class memberModel extends member
 		$config->password_change_invalidate_other_sessions = $config->password_change_invalidate_other_sessions ?? 'N';
 		
 		// Set features config
-		$config->features = array();
+		if(!isset($config->features)) $config->features = array();
 		$config->features['scrapped_documents'] = $config->features['scrapped_documents'] ?? true;
 		$config->features['saved_documents'] = $config->features['saved_documents'] ?? true;
 		$config->features['my_documents'] = $config->features['my_documents'] ?? true;
