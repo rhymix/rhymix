@@ -1005,7 +1005,17 @@ class ModuleHandler extends Handler
 				else
 				{
 					ob_end_clean();
-					header('location: ' . $oModule->getRedirectUrl());
+					if (in_array($oModule->getHttpStatusCode(), [301, 303, 307, 308]))
+					{
+						self::_setHttpStatusMessage($oModule->getHttpStatusCode());
+					}
+					else
+					{
+						self::_setHttpStatusMessage(302);
+					}
+					header(sprintf('HTTP/1.1 %d %s', Context::get('http_status_code'), Context::get('http_status_message')));
+					header(sprintf('Location: %s', $oModule->getRedirectUrl()));
+					Context::setCacheControl(0);
 					return;
 				}
 			}
