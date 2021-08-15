@@ -96,13 +96,17 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		$profileValue['sns_id'] = $profile['id'];
 
 		// 이름 (닉네임이 없다면 이름으로 설정)
-		if ($profile['name'] && preg_match('/\*$/', $profile['nickname']))
+		if (!empty($profile['nickname']))
+		{
+			$profileValue['user_name'] = $profile['nickname'];
+		}
+		else if (!empty($profile['name']))
 		{
 			$profileValue['user_name'] = $profile['name'];
 		}
 		else
 		{
-			$profileValue['user_name'] = $profile['nickname'];
+			$profileValue['user_name'] = "noname";
 		}
 
 		// 프로필 이미지
