@@ -23,9 +23,11 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('char', $table->columns['regdate']->type);
 		$this->assertEquals('date', $table->columns['regdate']->xetype);
 		
-		$this->assertEquals(8, count($table->indexes));
+		$this->assertEquals(9, count($table->indexes));
 		$this->assertEquals(['module_srl' => 0, 'document_srl' => 0], $table->indexes['idx_module_document_srl']->columns);
 		$this->assertEquals(['status' => 6], $table->indexes['idx_status']->columns);
+		$this->assertEquals('UNIQUE', $table->indexes['unique_dates']->type);
+		$this->assertEquals(['custom_date' => 0, 'regdate' => 0], $table->indexes['unique_dates']->columns);
 		$this->assertEquals('UNIQUE', $table->indexes['unique_list_order']->type);
 		$this->assertEquals('SPATIAL', $table->indexes['spatial_geometry']->type);
 		$this->assertEquals('FULLTEXT', $table->indexes['fulltext_description']->type);
@@ -52,6 +54,7 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertStringContainsString('INDEX `idx_document_srl` (`document_srl`),', $sql);
 		$this->assertStringContainsString('INDEX `idx_module_document_srl` (`module_srl`, `document_srl`),', $sql);
 		$this->assertStringContainsString('INDEX `idx_status` (`status`(6)),', $sql);
+		$this->assertStringContainsString('UNIQUE INDEX `unique_dates` (`custom_date`, `regdate`),', $sql);
 		$this->assertStringContainsString('UNIQUE INDEX `unique_list_order` (`list_order`),', $sql);
 		$this->assertStringContainsString('SPATIAL INDEX `spatial_geometry` (`geometry`),', $sql);
 		$this->assertStringContainsString('FULLTEXT INDEX `fulltext_description` (`description`) WITH PARSER ngram,', $sql);

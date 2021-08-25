@@ -123,7 +123,7 @@ class DBTableParser extends BaseParser
 				{
 					$table->indexes[$index_name] = new DBTable\Index;
 					$table->indexes[$index_name]->name = $index_name;
-					$table->indexes[$index_name]->is_unique = true;
+					$table->indexes[$index_name]->type = 'UNIQUE';
 				}
 				$table->indexes[$index_name]->columns[$column->name] = 0;
 				$column->is_indexed = true;
