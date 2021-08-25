@@ -300,8 +300,19 @@ class TemplateHandler
 	 */
 	private function _compileFormAuthGeneration($matches)
 	{
+		// check rx-autoform attribute
+		if (preg_match('/\srx-autoform="([^">]*?)"/', $matches[1], $m1))
+		{
+			$autoform = toBool($m1[1]);
+			$matches[1] = preg_replace('/\srx-autoform="([^">]*?)"/', '', $matches[1]);
+		}
+		else
+		{
+			$autoform = true;
+		}
+		
 		// form ruleset attribute move to hidden tag
-		if($matches[1])
+		if ($autoform && $matches[1])
 		{
 			preg_match('/ruleset="([^"]*?)"/is', $matches[1], $m);
 			if(isset($m[0]) && $m[0])
@@ -341,33 +352,40 @@ class TemplateHandler
 		}
 
 		// if not exists default hidden tag, generate hidden tag
-		preg_match_all('/<input[^>]* name="(act|mid)"/is', $matches[2], $m2);
-		$checkVar = array('act', 'mid');
-		$resultArray = array_diff($checkVar, $m2[1]);
-		if(is_array($resultArray))
+		if ($autoform)
 		{
-			$generatedHidden = '';
-			foreach($resultArray AS $key => $value)
+			preg_match_all('/<input[^>]* name="(act|mid)"/is', $matches[2], $m2);
+			$missing_inputs = array_diff(['act', 'mid'], $m2[1]);
+			if(is_array($missing_inputs))
 			{
-				$generatedHidden .= '<input type="hidden" name="' . $value . '" value="<?php echo $__Context->' . $value . ' ?? \'\'; ?>" />';
+				$generatedHidden = '';
+				foreach($missing_inputs as $key)
+				{
+					$generatedHidden .= '<input type="hidden" name="' . $key . '" value="<?php echo $__Context->' . $key . ' ?? \'\'; ?>" />';
+				}
+				$matches[2] = $generatedHidden . $matches[2];
 			}
-			$matches[2] = $generatedHidden . $matches[2];
 		}
 
 		// return url generate
-		if(!preg_match('/no-error-return-url="true"/i', $matches[1]))
+		if ($autoform)
 		{
-			preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
-			if(!isset($m3[0]) || !$m3[0])
-				$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo escape(getRequestUriByServerEnviroment(), false); ?>" />' . $matches[2];
+			if (!preg_match('/no-(?:error-)?return-url="true"/i', $matches[1]))
+			{
+				preg_match('/<input[^>]*name="error_return_url"[^>]*>/is', $matches[2], $m3);
+				if(!isset($m3[0]) || !$m3[0])
+				{
+					$matches[2] = '<input type="hidden" name="error_return_url" value="<?php echo escape(getRequestUriByServerEnviroment(), false); ?>" />' . $matches[2];
+				}
+			}
+			else
+			{
+				$matches[1] = preg_replace('/no-(?:error-)?return-url="true"/i', '', $matches[1]);
+			}
 		}
-		else
-		{
-			$matches[1] = preg_replace('/no-error-return-url="true"/i', '', $matches[1]);
-		}
-
-		$matches[0] = '';
-		return implode($matches);
+		
+		array_shift($matches);
+		return implode('', $matches);
 	}
 
 	/**
