@@ -149,6 +149,10 @@ class documentItem extends BaseObject
 		$this->document_srl = $attribute->document_srl;
 		$this->lang_code = $attribute->lang_code ?? null;
 		$this->adds($attribute);
+		if(isset($attribute->module_srl))
+		{
+			$this->add('origin_module_srl', $attribute->module_srl);
+		}
 		
 		// set XE_DOCUMENT_LIST
 		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
@@ -873,16 +877,24 @@ class documentItem extends BaseObject
 
 	function isExtraVarsExists()
 	{
-		if(!$this->get('module_srl')) return false;
-		$extra_keys = DocumentModel::getExtraKeys($this->get('module_srl'));
-		return count($extra_keys)?true:false;
+		$module_srl = $this->get('origin_module_srl') ?: $this->get('module_srl');
+		if(!$module_srl)
+		{
+			return false;
+		}
+		$extra_keys = DocumentModel::getExtraKeys($module_srl);
+		return $extra_keys ? true : false;
 	}
 
 	function getExtraVars()
 	{
-		if(!$this->get('module_srl') || !$this->document_srl) return null;
+		$module_srl = $this->get('origin_module_srl') ?: $this->get('module_srl');
+		if(!$module_srl || !$this->document_srl)
+		{
+			return null;
+		}
 
-		return DocumentModel::getExtraVars($this->get('module_srl'), $this->document_srl);
+		return DocumentModel::getExtraVars($module_srl, $this->document_srl);
 	}
 	
 	function getExtraEids()
@@ -1429,9 +1441,7 @@ class documentItem extends BaseObject
 	 */
 	function getEditor()
 	{
-		$module_srl = $this->get('module_srl');
-		if(!$module_srl) $module_srl = Context::get('module_srl');
-
+		$module_srl = $this->get('module_srl') ?: Context::get('module_srl');
 		return EditorModel::getModuleEditor('document', $module_srl, $this->document_srl, 'document_srl', 'content');
 	}
 
@@ -1463,8 +1473,8 @@ class documentItem extends BaseObject
 	function getCommentEditor()
 	{
 		if(!$this->isEnableComment()) return;
-
-		return EditorModel::getModuleEditor('comment', $this->get('module_srl'), 0, 'comment_srl', 'content');
+		$module_srl = $this->get('module_srl') ?: Context::get('module_srl');
+		return EditorModel::getModuleEditor('comment', $module_srl, 0, 'comment_srl', 'content');
 	}
 
 	/**
@@ -1578,7 +1588,8 @@ class documentItem extends BaseObject
 	 */
 	function getModuleName()
 	{
-		return ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'))->browser_title;
+		$module_srl = $this->get('origin_module_srl') ?: $this->get('module_srl');
+		return ModuleModel::getModuleInfoByModuleSrl($module_srl)->browser_title;
 	}
 
 	function getBrowserTitle()
