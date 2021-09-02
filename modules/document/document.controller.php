@@ -2030,7 +2030,7 @@ class documentController extends document
 	 * @param bool $update_order
 	 * @return object
 	 */
-	function updateCommentCount($document_srl, $comment_count, $last_updater, $update_order = false)
+	function updateCommentCount($document_srl, $comment_count, $last_updater = null, $update_order = false)
 	{
 		$args = new stdClass();
 		$args->document_srl = $document_srl;

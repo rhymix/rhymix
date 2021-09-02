@@ -301,7 +301,7 @@ class commentAdminController extends comment
 			{
 				$oTrashVO = new TrashVO();
 				$oTrashVO->setTrashSrl(getNextSequence());
-				$oTrashVO->setTitle(trim(strip_tags($oComment->variables['content'])));
+				$oTrashVO->setTitle($oComment->getContentText(200));
 				$oTrashVO->setOriginModule('comment');
 				$oTrashVO->setSerializedObject(serialize($oComment->variables));
 				$oTrashVO->setDescription($message_content);
