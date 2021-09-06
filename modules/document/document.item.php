@@ -1225,7 +1225,7 @@ class documentItem extends BaseObject
 						if($is_img = @getimagesize($tmp_file))
 						{
 							list($_w, $_h, $_t, $_a) = $is_img;
-							if($_w < ($width * 0.3) && $_h < ($height * 0.3))
+							if($_w < ($width * 0.3) && ($height === 'auto' || $_h < ($height * 0.3)))
 							{
 								continue;
 							}
