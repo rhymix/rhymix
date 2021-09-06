@@ -338,6 +338,20 @@ class memberAdminController extends member
 		
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $config);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		// Delete old agreement files.
+		foreach (Context::loadLangSupported() as $key => $val)
+		{
+			$agreement_file = RX_BASEDIR . 'files/member_extra_info/agreement_' . $key . '.txt';
+			if (Rhymix\Framework\Storage::exists($agreement_file))
+			{
+				Rhymix\Framework\Storage::delete($agreement_file);
+			}
+		}
 
 		// default setting end
 		$this->setMessage('success_updated');

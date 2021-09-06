@@ -60,9 +60,13 @@ class memberModel extends member
 		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
 		
 		// Set agreements config
-		$config->agreement = self::_getAgreement();
-		if(!isset($config->agreements))
+		if(isset($config->agreements) && is_array($config->agreements))
 		{
+			$config->agreement = $config->agreements[1]->content;
+		}
+		else
+		{
+			$config->agreement = self::_getAgreement();
 			$config->agreements = array();
 			$config->agreements[1] = new stdClass;
 			$config->agreements[1]->title = lang('agreement');
@@ -143,6 +147,8 @@ class memberModel extends member
 	}
 
 	/**
+	 * Get member agreement from old version
+	 * 
 	 * @deprecated
 	 */
 	protected static function _getAgreement()
