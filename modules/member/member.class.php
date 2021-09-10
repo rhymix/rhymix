@@ -432,6 +432,7 @@ class member extends ModuleObject
 			$agreement->use_editor = 'Y';
 			$agreement->type = 'required';
 			$config->agreements[] = $agreement;
+			$config->agreement = null;
 			$changed = true;
 		}
 
