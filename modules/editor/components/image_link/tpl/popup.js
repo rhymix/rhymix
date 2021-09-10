@@ -86,8 +86,8 @@
         else if($form.find('#align_middle').attr('checked') == 'checked') align = 'middle';
         else if($form.find('#align_right').attr('checked') == 'checked') align = 'right';
 
-        var width = $form.find('#width').val();
-        var height = $form.find('#height').val();
+        var width = parseInt($form.find('#width').val(), 10);
+        var height = parseInt($form.find('#height').val(), 10);
 
         if(!url) {
           window.close();
@@ -101,11 +101,11 @@
 
         img_attrs.src = url;
         if(alt) img_attrs.alt = alt;
-        if(width) {
+        if(width > 0) {
             img_attrs.width = width;
             img_style.width = width;
         }
-        if(height) {
+        if(height > 0) {
             img_attrs.height = height;
             img_style.height = height;
         }
