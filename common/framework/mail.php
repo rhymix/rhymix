@@ -635,7 +635,17 @@ class Mail
 	 */
 	protected function convertImageURLs(array $matches)
 	{
-		return preg_replace('/src=(["\']?)files/i', 'src=$1' . URL::getCurrentDomainURL(\RX_BASEURL) . 'files', $matches[0]);
+		$patterns = [
+			'!\b(?i:src)=(["\']?)(?:\./|' . preg_quote(\RX_BASEURL, '!') . '|)files/!',
+			'!\b(?:data-file-srl|editor_component|widget|id)="[^"]*"\s?!',
+			'!\b(?:class="zbxe_widget_output")\s?!',
+		];
+		$replacements = [
+			'src=$1' . URL::getCurrentDomainURL(\RX_BASEURL) . 'files/',
+			'',
+			'',
+		];
+		return preg_replace($patterns, $replacements, $matches[0]);
 	}
 	
 	/**
