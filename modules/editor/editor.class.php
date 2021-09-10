@@ -68,16 +68,10 @@ class editor extends ModuleObject
 		$oModuleController = getController('module');
 		// Add the default editor component
 		$oEditorController = getAdminController('editor');
-		$oEditorController->insertComponent('colorpicker_text',true);
-		$oEditorController->insertComponent('colorpicker_bg',true);
-		$oEditorController->insertComponent('emoticon',true);
-		$oEditorController->insertComponent('url_link',true);
-		$oEditorController->insertComponent('image_link',true);
-		$oEditorController->insertComponent('multimedia_link',true);
-		$oEditorController->insertComponent('quotation',true);
-		$oEditorController->insertComponent('table_maker',true);
-		$oEditorController->insertComponent('poll_maker',true);
-		$oEditorController->insertComponent('image_gallery',true);
+		$oEditorController->insertComponent('emoticon', false);
+		$oEditorController->insertComponent('image_link', false);
+		$oEditorController->insertComponent('image_gallery', false);
+		$oEditorController->insertComponent('poll_maker', true);
 		// Create a directory to use in the editor module
 		FileHandler::makeDir('./files/cache/editor');
 		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
