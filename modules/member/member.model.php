@@ -60,19 +60,15 @@ class memberModel extends member
 		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
 		
 		// Set agreements config
-		if(isset($config->agreements) && is_array($config->agreements))
+		if(!isset($config->agreements) || !is_array($config->agreements))
 		{
-			$config->agreement = $config->agreements[1]->content;
-		}
-		else
-		{
-			$config->agreement = self::_getAgreement();
 			$config->agreements = array();
 			$config->agreements[1] = new stdClass;
 			$config->agreements[1]->title = lang('agreement');
-			$config->agreements[1]->content = $config->agreement;
-			$config->agreements[1]->type = $config->agreement ? 'required' : 'disabled';
+			$config->agreements[1]->content = self::_getAgreement() ?: ($config->agreement ?? '');
+			$config->agreements[1]->type = !empty($config->agreements[1]->content) ? 'required' : 'disabled';
 		}
+		unset($config->agreement);
 		
 		// Set signup config
 		$config->limit_day = $config->limit_day ?? 0;

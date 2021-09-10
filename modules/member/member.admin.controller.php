@@ -313,6 +313,7 @@ class memberAdminController extends member
 	{
 		$config = new stdClass;
 		$config->agreements = array();
+		$config->agreement = null;
 		
 		$args = Context::getRequestVars();
 		for ($i = 1; $i < 20; $i++)
@@ -332,9 +333,6 @@ class memberAdminController extends member
 				$config->agreements[$i] = $agreement;
 			}
 		}
-		
-		// for compatibility with older versions
-		$config->agreement = $config->agreements[1]->content;
 		
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $config);
@@ -834,7 +832,6 @@ class memberAdminController extends member
 
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		unset($config->agreement);
 
 		if($isInsert)
 		{
@@ -870,7 +867,6 @@ class memberAdminController extends member
 
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		unset($config->agreement);
 
 		foreach($config->signupForm as $key=>$val)
 		{
@@ -1399,7 +1395,6 @@ class memberAdminController extends member
 		// group image mark option
 		$config = $oMemberModel->getMemberConfig();
 		$config->group_image_mark = $vars->group_image_mark;
-		unset($config->agreement);
 		$output = $oModuleController->updateModuleConfig('member', $config);
 
 		$defaultGroup = $oMemberModel->getDefaultGroup(0);
