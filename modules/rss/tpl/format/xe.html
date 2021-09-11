@@ -15,7 +15,7 @@
 			<author>{$oDocument->getNickName()}</author>
 			<link>{$oDocument->getPermanentUrl()}</link>
 			<!--@if($target_modules[$oDocument->get('module_srl')] == 'Y')-->
-			<description>{utf8_trim(utf8_normalize_spaces($oDocument->get('content')))|escape}</description>
+			<description>{\Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls(utf8_trim(utf8_normalize_spaces($oDocument->get('content'))))|escape}</description>
 			<!--@else-->
 			<description>{$oDocument->getSummary(400)|escape}</description>
 			<!--@end-->
