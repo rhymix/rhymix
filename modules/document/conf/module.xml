@@ -20,6 +20,7 @@
 		<action name="procDocumentTempSave" type="controller" permission="member" />
 		<action name="procDocumentDeclare" type="controller" permission="member" />
 		<action name="procDocumentDeclareCancel" type="controller" permission="member" />
+		<action name="procDocumentDeleteTempSaved" type="controller" permission="member" />
 		<action name="procDocumentGetList" type="controller" permission="manager" check_type="document" check_var="document_srls" />
 		<action name="procDocumentAddCart" type="controller" permission="manager" check_type="document" check_var="srls" />
 		<action name="procDocumentManageCheckedDocument" type="controller" permission="manager" check_type="document" check_var="cart" />
