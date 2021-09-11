@@ -406,7 +406,7 @@ class Mail
 		
 		if (strpos($this->content_type, 'html') !== false)
 		{
-			$content = preg_replace_callback('/<img([^>]+)>/i', array($this, 'convertImageURLs'), $content);
+			$content = Filters\HTMLFilter::fixRelativeUrls($content);
 		}
 		
 		$this->message->setBody($content, $this->content_type);
@@ -635,17 +635,7 @@ class Mail
 	 */
 	protected function convertImageURLs(array $matches)
 	{
-		$patterns = [
-			'!\b(?i:src)=(["\']?)(?:\./|' . preg_quote(\RX_BASEURL, '!') . '|)files/!',
-			'!\b(?:data-file-srl|editor_component|widget|id)="[^"]*"\s?!',
-			'!\b(?:class="zbxe_widget_output")\s?!',
-		];
-		$replacements = [
-			'src=$1' . URL::getCurrentDomainURL(\RX_BASEURL) . 'files/',
-			'',
-			'',
-		];
-		return preg_replace($patterns, $replacements, $matches[0]);
+		return Filters\HTMLFilter::fixRelativeUrls($matches[0]);
 	}
 	
 	/**

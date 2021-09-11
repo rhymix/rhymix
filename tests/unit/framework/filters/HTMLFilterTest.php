@@ -241,4 +241,16 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<p><img src="foo.jpg" alt="foobar" /></p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
+	
+	public function testHTMLFilterFixMediaUrls()
+	{
+		$content = Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls('<img src="files/attach/foobar.jpg" alt="TEST" />');
+		$this->assertEquals('<img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" />', $content);
+		$content = Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls('<img src="./files/attach/foobar.jpg" editor_component="foobar" />');
+		$this->assertEquals('<img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" />', $content);
+		$content = Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls('<img src="/rhymix/files/attach/foobar.jpg" id="foobar" data-file-srl="2345" />');
+		$this->assertEquals('<img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" />', $content);
+		$content = Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls('<img src="//external.site/files/attach/foobar.jpg" alt="TEST" class="zbxe_widget_output" widget="baz" />');
+		$this->assertEquals('<img src="//external.site/files/attach/foobar.jpg" alt="TEST" />', $content);
+	}
 }

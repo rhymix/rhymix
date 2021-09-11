@@ -5,6 +5,7 @@ namespace Rhymix\Framework\Filters;
 use Rhymix\Framework\Config;
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Storage;
+use Rhymix\Framework\URL;
 
 /**
  * The HTML filter class.
@@ -113,6 +114,37 @@ class HTMLFilter
 		}
 		
 		return $output;
+	}
+	
+	/**
+	 * Convert relative URLs to absolute URLs in HTML content.
+	 * 
+	 * This is useful when sending content outside of the website,
+	 * such as e-mail and RSS, where relative URLs might not mean the same.
+	 * 
+	 * This method also removes attributes that don't mean anything
+	 * when sent outside of the website, such as editor component names.
+	 * 
+	 * This method DOES NOT check HTML content for XSS or other attacks.
+	 * 
+	 * @param string $content
+	 * @return string
+	 */
+	public static function fixRelativeUrls(string $content): string
+	{
+		$patterns = [
+			'!\b(?i:src)=(["\']?)(?:\./|' . preg_quote(\RX_BASEURL, '!') . '|)files/!',
+			'!\b(?:data-file-srl|editor_component|widget|id)="[^"]*"\s?!',
+			'!\b(?:class="zbxe_widget_output")\s?!',
+		];
+		$replacements = [
+			'src=$1' . URL::getCurrentDomainURL(\RX_BASEURL) . 'files/',
+			'',
+			'',
+		];
+		return preg_replace_callback('/<(img|video|audio|source)\b([^>]+)>/i', function($match) use($patterns, $replacements) {
+			return preg_replace($patterns, $replacements, $match[0]);
+		}, $content);
 	}
 	
 	/**
