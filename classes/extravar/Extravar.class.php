@@ -412,23 +412,23 @@ class ExtraItem
 		{
 			// Homepage
 			case 'homepage' :
-				$buff[] = '<input type="text" name="' . $column_name . '" value="' . $value . '" class="homepage" />';
+				$buff[] = '<input type="url" name="' . $column_name . '" value="' . $value . '" class="homepage rx_ev_url" />';
 				break;
 			// Email Address
 			case 'email_address' :
-				$buff[] = '<input type="text" name="' . $column_name . '" value="' . $value . '" class="email_address" />';
+				$buff[] = '<input type="email" name="' . $column_name . '" value="' . $value . '" class="email_addresse rx_ev_email" />';
 				break;
 			// Phone Number
 			case 'tel' :
-				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel" />';
-				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
-				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
 				break;
 			// Select Country Number
 			case 'tel_intl' :
 				$lang_type = Context::get('lang_type');
 				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
-				$buff[] = '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select rx_ev_select_country">';
 				foreach($country_list as $country_info)
 				{
 					if($country_info->calling_code)
@@ -445,15 +445,15 @@ class ExtraItem
 					}
 				}
 				$buff[] = '</select>';
-				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel" />';
-				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel" />';
-				$buff[] = '<input type="text" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
 				break;
 			// Select Country
 			case 'country':
 				$lang_type = Context::get('lang_type');
 				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
-				$buff[] = '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select rx_ev_select_country">';
 				foreach($country_list as $country_info)
 				{
 					$selected = '';
@@ -472,7 +472,7 @@ class ExtraItem
 			case 'language':
 				$enable_language = Rhymix\Framework\Config::get('locale.enabled_lang');
 				$supported_lang = Rhymix\Framework\Lang::getSupportedList();
-				$buff[] = '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select rx_ev_select_language">';
 				foreach ($enable_language as $lang_type)
 				{
 					$selected = '';
@@ -488,7 +488,7 @@ class ExtraItem
 			// Select timezone
 			case 'timezone':
 				$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
-				$buff[] = '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select rx_ev_select_timezone">';
 				foreach ($timezone_list as $key => $time_name)
 				{
 					$selected = '';
@@ -502,11 +502,11 @@ class ExtraItem
 				break;
 			// textarea
 			case 'textarea' :
-				$buff[] = '<textarea name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
+				$buff[] = '<textarea class="rx_ev_textarea" name="' . $column_name . '" rows="8" cols="42">' . $value . '</textarea>';
 				break;
 			// multiple choice
 			case 'checkbox' :
-				$buff[] = '<ul>';
+				$buff[] = '<ul class="rx_ev_checkbox">';
 				foreach($default as $v)
 				{
 					$checked = '';
@@ -524,7 +524,7 @@ class ExtraItem
 				break;
 			// single choice
 			case 'select' :
-				$buff[] = '<select name="' . $column_name . '" class="select">';
+				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select">';
 				foreach($default as $v)
 				{
 					$selected = '';
@@ -538,7 +538,7 @@ class ExtraItem
 				break;
 			// radio
 			case 'radio' :
-				$buff[] = '<ul>';
+				$buff[] = '<ul class="rx_ev_radio">';
 				foreach($default as $v)
 				{
 					$checked = '';
@@ -559,7 +559,7 @@ class ExtraItem
 				// datepicker javascript plugin load
 				Context::loadJavascriptPlugin('ui.datepicker');
 
-				$buff[] = '<input type="hidden" name="' . $column_name . '" value="' . $value . '" />'; 
+				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />'; 
 				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" />';
 				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
 				$buff[] =	'<script type="text/javascript">';
@@ -589,11 +589,11 @@ class ExtraItem
 				break;
 			// Password
 			case "password" :
-				$buff[] =' <input type="password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="password" />';
+				$buff[] =' <input type="password" class="rx_ev_password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="password" />';
 				break;
 			// General text
 			default :
-				$buff[] =' <input type="text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
+				$buff[] =' <input type="text" class="rx_ev_text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
 		}
 		if($this->desc)
 		{

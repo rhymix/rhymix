@@ -693,37 +693,37 @@ class memberAdminView extends member
 					$formTag->type = $extendForm->column_type;
 					if($extendForm->column_type == 'text')
 					{
-						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
+						$template = '<input type="text" class="rx_ev_text" name="%column_name%" id="%column_name%" value="%value%" />';
 					}
 					else if($extendForm->column_type == 'homepage')
 					{
-						$template = '<input type="url" name="%column_name%" id="%column_name%" value="%value%" />';
+						$template = '<input type="url" class="rx_ev_url" name="%column_name%" id="%column_name%" value="%value%" />';
 					}
 					else if($extendForm->column_type == 'email_address')
 					{
-						$template = '<input type="email" name="%column_name%" id="%column_name%" value="%value%" />';
+						$template = '<input type="email" class="rx_ev_email" name="%column_name%" id="%column_name%" value="%value%" />';
 					}
 					else if($extendForm->column_type == 'tel')
 					{
 						$extentionReplace = array('tel_0' => $extendForm->value[0],
 							'tel_1' => $extendForm->value[1],
 							'tel_2' => $extendForm->value[2]);
-						$template = '<input type="tel" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
+						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" class="rx_ev_tel2" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" class="rx_ev_tel3" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
 					}
 					else if($extendForm->column_type == 'textarea')
 					{
-						$template = '<textarea name="%column_name%" id="%column_name%" rows="4" cols="42">%value%</textarea>';
+						$template = '<textarea class="rx_ev_textarea" name="%column_name%" id="%column_name%" rows="4" cols="42">%value%</textarea>';
 					}
 					else if($extendForm->column_type == 'password')
 					{
-						$template = '<input type="password" name="%column_name%" id="%column_name%" value="%value%" />';
+						$template = '<input type="password" class="rx_ev_password" name="%column_name%" id="%column_name%" value="%value%" />';
 					}
 					else if($extendForm->column_type == 'checkbox')
 					{
 						$template = '';
 						if($extendForm->default_value)
 						{
-							$template = '<div style="padding-top:5px">%s</div>';
+							$template = '<div class="rx_ev_checkbox" style="padding-top:5px">%s</div>';
 							$__i = 0;
 							$optionTag = array();
 							foreach($extendForm->default_value as $v)
@@ -741,7 +741,7 @@ class memberAdminView extends member
 						$template = '';
 						if($extendForm->default_value)
 						{
-							$template = '<div style="padding-top:5px">%s</div>';
+							$template = '<div class="rx_ev_radio" style="padding-top:5px">%s</div>';
 							$optionTag = array();
 							foreach($extendForm->default_value as $v)
 							{
@@ -754,7 +754,7 @@ class memberAdminView extends member
 					}
 					else if($extendForm->column_type == 'select')
 					{
-						$template = '<select name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
+						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
 						$optionTag = array();
 						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
 						if($extendForm->default_value)
@@ -783,7 +783,7 @@ class memberAdminView extends member
 					else if($extendForm->column_type == 'date')
 					{
 						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'), 'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="hidden" name="%column_name%" id="date_%column_name%" value="%value%" />' .
+						$template = '<input type="hidden" class="rx_ev_date" name="%column_name%" id="date_%column_name%" value="%value%" />' .
 							'<input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" ' .
 							'onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> ' .
 							'<input type="button" value="%cmd_delete%" class="btn dateRemover" />';
