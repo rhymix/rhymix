@@ -3,7 +3,7 @@
 	<div class="read_header">
 		<h1>
 			<a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}" class="category" cond="$module_info->use_category=='Y' && $oDocument->get('category_srl')">{$category_list[$oDocument->get('category_srl')]->title}</a>
-			<a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a>
+			<a href="{$oDocument->getUrl()}">{$oDocument->getTitle()}</a>
 		</h1>
 		<p class="meta">
 			<span class="author" cond="($module_info->display_author ?? 'Y') !== 'N'">
