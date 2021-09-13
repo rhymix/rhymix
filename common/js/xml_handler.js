@@ -351,7 +351,16 @@
 			$('<iframe id="' + iframe_id + '" name="' + iframe_id + '" style="display:none"></iframe>').appendTo($(document.body));
 			form.attr('method', 'POST').attr('enctype', 'multipart/form-data').attr('target', iframe_id);
 			form.find('input[name=_rx_ajax_form]').val(iframe_id);
-			window.remove_iframe = function(iframe_id) {
+			window.XE.handleIframeResponse = function(iframe_id, data) {
+				if (data.error) {
+					if (callback_error) {
+						callback_error(data);
+					} else {
+						alert(data.message);
+					}
+				} else {
+					callback_success(data);
+				}
 				if (iframe_id.match(/^_rx_temp_iframe_[0-9]+$/)) {
 					$('iframe#' + iframe_id).remove();
 				}
