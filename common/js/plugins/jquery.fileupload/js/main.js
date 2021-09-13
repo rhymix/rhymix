@@ -191,6 +191,9 @@
 							} else {
 								temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
 							}
+							if(result.thumbnail_filename) {
+								temp_code = temp_code.replace('controls', 'poster="' + result.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
+							}
 						}
 						
 						if(temp_code !== '') {
@@ -368,6 +371,9 @@
 						temp_code += '<video src="' + result.download_url + '" controls preload="none" data-file-srl="' + result.file_srl + '" />';
 					} else {
 						temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+					}
+					if(result.thumbnail_filename) {
+						temp_code = temp_code.replace('controls', 'poster="' + result.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
 					}
 				}
 				

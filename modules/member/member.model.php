@@ -51,7 +51,7 @@ class memberModel extends member
 		$config->password_change_invalidate_other_sessions = $config->password_change_invalidate_other_sessions ?? 'N';
 		
 		// Set features config
-		$config->features = array();
+		if(!isset($config->features)) $config->features = array();
 		$config->features['scrapped_documents'] = $config->features['scrapped_documents'] ?? true;
 		$config->features['saved_documents'] = $config->features['saved_documents'] ?? true;
 		$config->features['my_documents'] = $config->features['my_documents'] ?? true;
@@ -60,15 +60,15 @@ class memberModel extends member
 		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
 		
 		// Set agreements config
-		$config->agreement = self::_getAgreement();
-		if(!isset($config->agreements))
+		if(!isset($config->agreements) || !is_array($config->agreements))
 		{
 			$config->agreements = array();
 			$config->agreements[1] = new stdClass;
 			$config->agreements[1]->title = lang('agreement');
-			$config->agreements[1]->content = $config->agreement;
-			$config->agreements[1]->type = $config->agreement ? 'required' : 'disabled';
+			$config->agreements[1]->content = self::_getAgreement() ?: ($config->agreement ?? '');
+			$config->agreements[1]->type = !empty($config->agreements[1]->content) ? 'required' : 'disabled';
 		}
+		unset($config->agreement);
 		
 		// Set signup config
 		$config->limit_day = $config->limit_day ?? 0;
@@ -143,6 +143,8 @@ class memberModel extends member
 	}
 
 	/**
+	 * Get member agreement from old version
+	 * 
 	 * @deprecated
 	 */
 	protected static function _getAgreement()

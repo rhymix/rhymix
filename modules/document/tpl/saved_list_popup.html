@@ -11,16 +11,19 @@
 				<th class="title">{$lang->date}</th>
 				<th class="title">{$lang->title}</th>
 				<th class="title">{$lang->cmd_select}</th>
+				<th class="title">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
 			<!--@foreach($document_list as $no => $val)-->
 			<tr>
 				<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
-				<td > <a href="#" onclick="jQuery('#saved_document_{$val->document_srl}').toggle(); setFixedPopupSize(); return false;">{$val->getTitle()}</a>
+				<td>
+					<a href="#" class="toggle_content">{$val->getTitle()}</a>
 					<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
 				</td>
-				<td><a href="#" onclick="doDocumentSelect('{$val->document_srl}', '{$val->getDocumentType()}'); return false;" class="buttonSet buttonActive"><span>{$lang->cmd_select}</span></a></td>
+				<td><a href="#" class="btn btn_select_temp_saved" data-document-srl="{$val->document_srl}" data-document-type="{$val->getDocumentType()}">{$lang->cmd_select}</a></td>
+				<td><a href="#" class="btn btn_delete_temp_saved" data-document-srl="{$val->document_srl}">{$lang->cmd_delete}</a></td>
 			</tr>
 			<!--@end-->
 		</tbody>
@@ -38,3 +41,29 @@
 		<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$('.toggle_content').on('click', function(event) {
+			event.preventDefault();
+			$(this).next('.saved_content').toggle();
+			setFixedPopupSize();
+		});
+		$('.btn_select_temp_saved').on('click', function(event) {
+			event.preventDefault();
+			var document_srl = $(this).data('documentSrl');
+			var document_type = $(this).data('documentType');
+			doDocumentSelect(document_srl, document_type);
+		});
+		$('.btn_delete_temp_saved').on('click', function(event) {
+			event.preventDefault();
+			var document_srl = $(this).data('documentSrl');
+			var msg = '{$lang->confirm_delete|escapejs}';
+			if (confirm(msg)) {
+				exec_json('document.procDocumentDeleteTempSaved', { document_srl: document_srl }, function(data) {
+					window.location.reload();
+				});
+			}
+		});
+	});
+</script>

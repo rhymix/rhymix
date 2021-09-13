@@ -276,6 +276,9 @@ class memberView extends member
 
 		$this->addExtraFormValidatorMessage();
 		
+		// Set a copy of the agreement for compatibility with old skins
+		$member_config->agreement = $member_config->agreements[1]->content ?? '';
+		
 		// Set a template file
 		$this->setTemplateFile('signup_form');
 	}

@@ -21,8 +21,8 @@
 			<name>{$oDocument->getNickName()}</name>
 		</author>
 		<summary type="text">{$oDocument->getSummary(400)}</summary>
-		<content type="html" cond="$target_modules[$oDocument->get('module_srl')] == 'Y'">{utf8_trim(utf8_normalize_spaces($oDocument->get('content')))|escape}</content>
-		<category cond="$oDocument->get('category_srl') && $category_name = $category_list[$oDocument->get('module_srl')][$oDocument->get('category_srl')]->title" term="{$oDocument->get('category_srl')}" label="{$category_name}"/>
+		<content type="html" cond="$target_modules[$oDocument->get('module_srl')] == 'Y'">{\Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls(utf8_trim(utf8_normalize_spaces($oDocument->get('content'))))|escape}</content>
+		<category cond="$oDocument->get('category_srl') && $category_name = $category_list[$oDocument->get('module_srl')][$oDocument->get('category_srl')]->title" term="{$oDocument->get('category_srl')}" label="{Context::replaceUserLang($category_name)}" />
 		<category loop="$oDocument->get('tag_list')=>$tag" term="{$tag}"/>
 	</entry>
 </feed> 

@@ -1198,17 +1198,6 @@ class commentController extends comment
 	 */
 	function moveCommentToTrash($obj, $updateComment = false)
 	{
-		// Initialize trash arguments
-		$trash_args = new stdClass();
-		if(!$obj->trash_srl)
-		{
-			$trash_args->trash_srl = getNextSequence();
-		}
-		else
-		{
-			$trash_args->trash_srl = $obj->trash_srl;
-		}
-
 		// check if comment exists and permission is granted
 		$oComment = CommentModel::getComment($obj->comment_srl);
 		if(!$oComment->isExists())
@@ -1227,33 +1216,16 @@ class commentController extends comment
 				return new BaseObject(-1, 'msg_admin_comment_no_move_to_trash');
 			}
 		}
-		
-		$obj->module_srl = $oComment->get('module_srl');
-		$trash_args->module_srl = $obj->module_srl;
-		if($trash_args->module_srl === 0)
-		{
-			return new BaseObject(-1, 'msg_module_srl_not_exists');
-		}
-		$trash_args->document_srl = $obj->document_srl;
-		$trash_args->comment_srl = $obj->comment_srl;
-		$trash_args->description = $obj->description;
-		if($this->user->isMember())
-		{
-			$trash_args->member_srl = $this->user->member_srl;
-			$trash_args->user_id = htmlspecialchars_decode($this->user->user_id);
-			$trash_args->user_name = htmlspecialchars_decode($this->user->user_name);
-			$trash_args->nick_name = htmlspecialchars_decode($this->user->nick_name);
-		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
-		$oTrashVO->setTitle(trim(strip_tags($obj->variables['content'])));
+		$oTrashVO->setTitle($oComment->getContentText(200));
 		$oTrashVO->setOriginModule('comment');
-		$oTrashVO->setSerializedObject(serialize($obj->variables));
+		$oTrashVO->setSerializedObject(serialize($oComment->variables));
 		$oTrashVO->setDescription($obj->description);
 
 		$oTrashAdminController = getAdminController('trash');
@@ -1264,7 +1236,7 @@ class commentController extends comment
 			return $output;
 		}
 
-		if($updateComment !== true)
+		if(!$updateComment)
 		{
 			$args = new stdClass;
 			$args->comment_srl = $obj->comment_srl;
@@ -1283,16 +1255,10 @@ class commentController extends comment
 		}
 
 		// update the number of comments
-		$comment_count = CommentModel::getCommentCount($obj->document_srl);
-
-		// only document is exists
-		if(isset($comment_count))
+		$comment_count = CommentModel::getCommentCount($oComment->document_srl);
+		if($comment_count)
 		{
-			// create the controller object of the document
-			$oDocumentController = getController('document');
-
-			// update comment count of the article posting
-			$output = $oDocumentController->updateCommentCount($obj->document_srl, $comment_count, NULL, FALSE);
+			$output = getController('document')->updateCommentCount($oComment->document_srl, $comment_count);
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
@@ -1308,6 +1274,7 @@ class commentController extends comment
 			executeQuery('file.updateFileValid', $args);
 		}
 
+		$obj->module_srl = $oComment->get('module_srl');
 		$obj->document_srl = $oComment->get('document_srl');
 		$obj->parent_srl = $oComment->get('parent_srl');
 		$obj->member_srl = $oComment->get('member_srl');
@@ -1317,9 +1284,10 @@ class commentController extends comment
 
 		$oDB->commit();
 
+		// Remove the thumbnail file
+		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->comment_srl, 3)), true);
 
-		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)), true);
-		$output->add('document_srl', $obj->document_srl);
+		$output->add('document_srl', $oComment->document_srl);
 
 		return $output;
 	}

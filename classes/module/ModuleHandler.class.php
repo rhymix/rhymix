@@ -972,24 +972,21 @@ class ModuleHandler extends Handler
 			// Handle iframe form submissions.
 			if(isset($_POST['_rx_ajax_form']) && starts_with('_rx_temp_iframe_', $_POST['_rx_ajax_form']))
 			{
-				$script = '';
-				if(!$oModule->toBool())
+				$data = [];
+				if ($this->error)
 				{
-					$script .= sprintf('window.parent.alert(%s);', json_encode($oModule->getMessage()));
+					$data['error'] = -1;
+					$data['message'] = lang($this->error);
 				}
 				else
 				{
-					if($oModule->getMessage() && $oModule->getMessage() !== 'success')
-					{
-						$script .= sprintf('window.parent.rhymix_alert(%s, %s);', json_encode($oModule->getMessage()), json_encode($oModule->getRedirectUrl()));
-					}
-					if($oModule->getRedirectUrl())
-					{
-						$script .= sprintf('window.parent.redirect(%s);', json_encode($oModule->getRedirectUrl()));
-					}
+					$data['error'] = $oModule->error;
+					$data['message'] = lang($oModule->message);
 				}
+				$data = array_merge($data, $oModule->getVariables());
+				
 				ob_end_clean();
-				echo sprintf('<html><head></head><body><script>%s window.parent.remove_iframe(%s);</script></body></html>', $script, json_encode($_POST['_rx_ajax_form']));
+				echo sprintf('<html><head></head><body><script>parent.XE.handleIframeResponse(%s, %s);</script></body></html>', json_encode(strval($_POST['_rx_ajax_form'])), json_encode($data));
 				return;
 			}
 			
@@ -1005,7 +1002,17 @@ class ModuleHandler extends Handler
 				else
 				{
 					ob_end_clean();
-					header('location: ' . $oModule->getRedirectUrl());
+					if (in_array($oModule->getHttpStatusCode(), [301, 303, 307, 308]))
+					{
+						self::_setHttpStatusMessage($oModule->getHttpStatusCode());
+					}
+					else
+					{
+						self::_setHttpStatusMessage(302);
+					}
+					header(sprintf('HTTP/1.1 %d %s', Context::get('http_status_code'), Context::get('http_status_message')));
+					header(sprintf('Location: %s', $oModule->getRedirectUrl()));
+					Context::setCacheControl(0);
 					return;
 				}
 			}

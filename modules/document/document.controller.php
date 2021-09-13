@@ -344,6 +344,34 @@ class documentController extends document
 	}
 
 	/**
+	 * Delete temporarily saved document
+	 */
+	public function procDocumentDeleteTempSaved()
+	{
+		$document_srl = Context::get('document_srl');
+		if ($document_srl <= 0)
+		{
+		throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$oDocument = DocumentModel::getDocument($document_srl);
+		if (!$oDocument || !$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if ($oDocument->get('member_srl') !== $this->user->member_srl || $oDocument->getStatus() !== 'TEMP' || !$oDocument->isGranted())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		
+		$output = $this->deleteDocument($document_srl);
+		if ($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+	}
+	
+	/**
 	 * Delete alias when module deleted
 	 * @param int $module_srl
 	 * @return void
@@ -2030,7 +2058,7 @@ class documentController extends document
 	 * @param bool $update_order
 	 * @return object
 	 */
-	function updateCommentCount($document_srl, $comment_count, $last_updater, $update_order = false)
+	function updateCommentCount($document_srl, $comment_count, $last_updater = null, $update_order = false)
 	{
 		$args = new stdClass();
 		$args->document_srl = $document_srl;

@@ -20,12 +20,12 @@
 			<title>{$oDocument->getTitleText()}</title>
 			<link>{$oDocument->getPermanentUrl()}</link>
 			<!--@if($target_modules[$oDocument->get('module_srl')] == 'Y')-->
-			<description>{utf8_trim(utf8_normalize_spaces($oDocument->get('content')))|escape}</description>
+			<description>{\Rhymix\Framework\Filters\HTMLFilter::fixRelativeUrls(utf8_trim(utf8_normalize_spaces($oDocument->get('content'))))|escape}</description>
 			<!--@else-->
 			<description>{$oDocument->getSummary(400)|escape}</description>
 			<!--@end-->
-			<category cond="$oDocument->getModuleName()">{$oDocument->getModuleName()}</category>
-			<category cond="$oDocument->get('category_srl') && $category_name = $category_list[$oDocument->get('module_srl')][$oDocument->get('category_srl')]->title">{$category_name}</category>
+			<category cond="$oDocument->getModuleName()">{Context::replaceUserLang($oDocument->getModuleName())}</category>
+			<category cond="$oDocument->get('category_srl') && $category_name = $category_list[$oDocument->get('module_srl')][$oDocument->get('category_srl')]->title">{Context::replaceUserLang($category_name)}</category>
 			<category loop="$oDocument->get('tag_list')=>$tag">{$tag}</category>
 			<dc:creator>{$oDocument->getNickName()}</dc:creator>
 			<guid isPermaLink="true">{$oDocument->getPermanentUrl()}</guid>

@@ -261,7 +261,7 @@ class Context
 			$site_module_info = ModuleModel::getDefaultMid() ?: new stdClass;
 			self::set('site_module_info', $site_module_info);
 			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
-			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info));
+			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info, RX_SSL));
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);
 			self::set('_use_ssl', self::$_instance->db_info->use_ssl = ($site_module_info->security === 'none' ? 'none' : 'always'));
@@ -1709,14 +1709,18 @@ class Context
 		// Don't use full short URL for admin pages #1643
 		if (isset($get_vars['module']) && $get_vars['module'] === 'admin' && $rewrite_level > 1)
 		{
-			$rewrite_level = 1;
+			$force_rewrite_level = 1;
+		}
+		else
+		{
+			$force_rewrite_level = 0;
 		}
 		
 		// organize URL
 		$query = '';
 		if(count($get_vars) > 0)
 		{
-			$query = Rhymix\Framework\Router::getURL($get_vars, $rewrite_level);
+			$query = Rhymix\Framework\Router::getURL($get_vars, $force_rewrite_level ?: $rewrite_level);
 		}
 		
 		// If using SSL always
@@ -1820,9 +1824,9 @@ class Context
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}
 		
-		$prefix = ($use_ssl && $site_module_info->security !== 'none') ? 'https://' : 'http://';
+		$prefix = ($use_ssl || $site_module_info->security !== 'none') ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
-		$port = ($use_ssl && $site_module_info->security !== 'none') ? $site_module_info->https_port : $site_module_info->http_port;
+		$port = ($use_ssl || $site_module_info->security !== 'none') ? $site_module_info->https_port : $site_module_info->http_port;
 		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
 		return $result;
 	}

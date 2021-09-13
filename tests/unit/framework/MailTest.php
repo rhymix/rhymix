@@ -97,6 +97,15 @@ class MailTest extends \Codeception\TestCase\Test
 		$this->assertEquals('<p>Hello foobar...</p>', $mail->getContent());
 		$this->assertEquals('text/plain', $mail->getContentType());
 		
+		$mail->setBody('<p><img src="files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
+		$this->assertEquals('<p><img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		$mail->setBody('<p><img src="./files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
+		$this->assertEquals('<p><img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		$mail->setBody('<p><img src="/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
+		$this->assertEquals('<p><img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		$mail->setBody('<p><img src="./files/attach/foobar.jpg" alt="TEST" /></p>', 'text/plain');
+		$this->assertEquals('<p><img src="./files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		
 		$mail->setContentType('html');
 		$this->assertEquals('text/html', $mail->getContentType());
 		$mail->setContentType('invalid');

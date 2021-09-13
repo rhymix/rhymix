@@ -3721,9 +3721,7 @@ class memberController extends member
 		$module_srl = Context::get('module_srl');
 		$cnt_loop = Context::get('cnt_loop');
 		$proc_type = Context::get('proc_type');
-		$isMoveToTrash = true;
-		if($proc_type == "delete")
-			$isMoveToTrash = false;
+		$isMoveToTrash = ($proc_type !== 'delete') ? true : false;
 
 		// check grant
 		$columnList = array('module_srl', 'module');
@@ -3731,8 +3729,6 @@ class memberController extends member
 		$grant = ModuleModel::getGrant($module_info, $logged_info);
 
 		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
-
-		$proc_msg = "";
 
 		// delete or trash destination
 		// proc member
@@ -3814,7 +3810,7 @@ class memberController extends member
 	 *
 	 * @return object
 	**/
-	protected function _spammerDocuments($member_srl, $isMoveToTrash)
+	protected function _spammerDocuments($member_srl, $isMoveToTrash = true)
 	{
 		$oDocumentController = getController('document');
 		$oCommentController = getController('comment');
@@ -3831,7 +3827,14 @@ class memberController extends member
 			$commentList = CommentModel::getCommentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
 			if($commentList) {
 				foreach($commentList as $v) {
-					$oCommentController->deleteComment($v->comment_srl, true, $isMoveToTrash);
+					if($isMoveToTrash)
+					{
+						$oCommentController->moveCommentToTrash($v);
+					}
+					else
+					{
+						$oCommentController->deleteComment($v->comment_srl, true);
+					}
 				}
 			}
 		} elseif($cnt_document > 0) {
@@ -3839,8 +3842,14 @@ class memberController extends member
 			$documentList = DocumentModel::getDocumentListByMemberSrl($member_srl, $columnList, 0, false, $getContentsCount);
 			if($documentList) {
 				foreach($documentList as $v) {
-					if($isMoveToTrash) $oDocumentController->moveDocumentToTrash($v);
-					else $oDocumentController->deleteDocument($v->document_srl);
+					if($isMoveToTrash)
+					{
+						$oDocumentController->moveDocumentToTrash($v);
+					}
+					else
+					{
+						$oDocumentController->deleteDocument($v->document_srl, true);
+					}
 				}
 			}
 		}
