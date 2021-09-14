@@ -151,6 +151,7 @@ class documentItem extends BaseObject
 		$this->adds($attribute);
 		if(isset($attribute->module_srl))
 		{
+			$this->add('apparent_module_srl', $attribute->module_srl);
 			$this->add('origin_module_srl', $attribute->module_srl);
 		}
 		
@@ -833,18 +834,17 @@ class documentItem extends BaseObject
 		return getFullUrl('', 'mid', $this->getDocumentMid(), 'document_srl', $this->get('document_srl'));
 	}
 
-	function getTrackbackUrl()
+	/**
+	 * @deprecated
+	 */
+	public function getTrackbackUrl()
 	{
-		if(!$this->isExists())
-		{
-			return;
-		}
 		
-		// Generate a key to prevent spams
-		if($oTrackbackModel = getModel('trackback'))
-		{
-			return $oTrackbackModel->getTrackbackUrl($this->document_srl, $this->getDocumentMid());
-		}
+	}
+	
+	public function getUrl()
+	{
+		return getFullUrl('', 'mid', $this->getApparentMid(), 'document_srl', $this->get('document_srl'));
 	}
 
 	public function getTags()
@@ -877,7 +877,7 @@ class documentItem extends BaseObject
 
 	function isExtraVarsExists()
 	{
-		$module_srl = $this->get('origin_module_srl') ?: $this->get('module_srl');
+		$module_srl = $this->get('module_srl');
 		if(!$module_srl)
 		{
 			return false;
@@ -888,7 +888,7 @@ class documentItem extends BaseObject
 
 	function getExtraVars()
 	{
-		$module_srl = $this->get('origin_module_srl') ?: $this->get('module_srl');
+		$module_srl = $this->get('module_srl');
 		if(!$module_srl || !$this->document_srl)
 		{
 			return null;
@@ -1554,9 +1554,19 @@ class documentItem extends BaseObject
 		return $output->data;
 	}
 
+	/**
+	 * Returns the apparent mid.
+	 * 
+	 * @return string
+	 */
+	function getApparentMid()
+	{
+		return ModuleModel::getMidByModuleSrl($this->get('apparent_module_srl') ?: $this->get('module_srl'));
+	}
 
 	/**
-	 * Returns the document's mid in order to construct SEO friendly URLs
+	 * Returns the true mid.
+	 * 
 	 * @return string
 	 */
 	function getDocumentMid()
@@ -1588,8 +1598,7 @@ class documentItem extends BaseObject
 	 */
 	function getModuleName()
 	{
-		$module_srl = $this->get('origin_module_srl') ?: $this->get('module_srl');
-		return ModuleModel::getModuleInfoByModuleSrl($module_srl)->browser_title;
+		return ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'))->browser_title;
 	}
 
 	function getBrowserTitle()

@@ -68,7 +68,7 @@
 				<td class="time" cond="$val->type=='last_update' && $val->idx==-1">{zdate($document->get('last_update'),'Y.m.d')}</td>
 				<td class="lastReply" cond="$val->type=='last_post' && $val->idx==-1">
 					<block cond="(int)($document->get('comment_count'))>0">
-						<a href="{$document->getPermanentUrl()}#comment" title="Last Reply">
+						<a href="{$document->getUrl()}#comment" title="Last Reply">
 							{zdate($document->get('last_update'),'Y.m.d')}
 						</a>
 						<span cond="$document->getLastUpdater()">
@@ -109,7 +109,7 @@
 				<td class="time" cond="$val->type=='last_update' && $val->idx==-1">{zdate($document->get('last_update'),'Y.m.d')}</td>
 				<td class="lastReply" cond="$val->type=='last_post' && $val->idx==-1">
 					<block cond="(int)($document->get('comment_count'))>0">
-						<a href="{$document->getPermanentUrl()}#comment" title="Last Reply">
+						<a href="{$document->getUrl()}#comment" title="Last Reply">
 							{zdate($document->get('last_update'),'Y.m.d')}
 						</a>
 						<span cond="$document->getLastUpdater()">
