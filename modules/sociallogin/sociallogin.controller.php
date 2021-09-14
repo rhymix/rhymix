@@ -150,6 +150,8 @@ class SocialloginController extends Sociallogin
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
+		
+		// 타입 세션 체크
 		if (!$type = $_SESSION['sociallogin_auth']['type'])
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
@@ -158,6 +160,7 @@ class SocialloginController extends Sociallogin
 		$_SESSION['sociallogin_current']['mid'] = $_SESSION['sociallogin_auth']['mid'];
 		$redirect_url = $_SESSION['sociallogin_auth']['redirect'];
 		$redirect_url = $redirect_url ? Context::getRequestUri() . '?' . $redirect_url : Context::getRequestUri();
+		
 		// 인증
 		$output = $oDriver->authenticate();
 		if ($output instanceof BaseObject && !$output->toBool())
@@ -167,7 +170,7 @@ class SocialloginController extends Sociallogin
 
 		// 인증 세션 제거
 		unset($_SESSION['sociallogin_auth']);
-
+		
 		// SNS정보를 가져옴
 		if (!$error)
 		{
@@ -179,6 +182,7 @@ class SocialloginController extends Sociallogin
 				$oDriver->revokeToken(SocialloginModel::getAccessData($service)->token['access']);
 			}
 		}
+		
 		// 등록 처리
 		if (!$error)
 		{
@@ -223,24 +227,18 @@ class SocialloginController extends Sociallogin
 			}
 		}
 
-		// 오류
-		if ($error)
-		{
-			$msg = $error;
-			$this->setError(-1);
-
-			if ($type == 'login')
-			{
-				$redirect_url = getNotEncodedUrl('', 'mid', $_SESSION['sociallogin_current']['mid'], 'act', 'dispMemberLoginForm');
-			}
-		}
-
 		// 로그 기록
 		$info = new stdClass;
 		$info->msg = $msg;
 		$info->type = $type;
 		$info->sns = $service;
 		SocialloginModel::logRecord($this->act, $info);
+		
+		// 오류
+		if ($error)
+		{
+			throw new Rhymix\Framework\Exception($error);
+		}
 
 		if ($msg)
 		{
@@ -253,7 +251,6 @@ class SocialloginController extends Sociallogin
 		}
 		else
 		{
-			//TODO: Check again later.
 			if (!$this->getRedirectUrl())
 			{
 				$this->setRedirectUrl($redirect_url);
@@ -728,7 +725,7 @@ class SocialloginController extends Sociallogin
 		{
 			throw new Rhymix\Framework\Exception('already_logged');
 		}
-
+		
 		$service = $oDriver->getService();
 		$serviceAccessData = SocialloginModel::getAccessData($service);
 		if (!$serviceAccessData->profile['sns_id'])
@@ -737,6 +734,7 @@ class SocialloginController extends Sociallogin
 		}
 
 		// SNS ID로 회원 검색
+		$do_login = false;
 		if (($sns_info = SocialloginModel::getMemberSnsById($serviceAccessData->profile['sns_id'], $service)) && $sns_info->member_srl)
 		{
 			// 탈퇴한 회원이면 삭제후 등록 시도
@@ -752,7 +750,7 @@ class SocialloginController extends Sociallogin
 				$do_login = true;
 			}
 		}
-
+		
 		// 검색된 회원으로 로그인 진행
 		if ($do_login)
 		{
