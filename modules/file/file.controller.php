@@ -947,7 +947,7 @@ class fileController extends file
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
-			$this->deleteFile($args);
+			$this->deleteFile(array($args));
 			return $output;
 		}
 		
@@ -964,7 +964,7 @@ class fileController extends file
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
-				$this->deleteFile($args);
+				$this->deleteFile(array($args));
 				return $output;
 			}
 		}
