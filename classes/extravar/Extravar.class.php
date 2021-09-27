@@ -416,7 +416,7 @@ class ExtraItem
 				break;
 			// Email Address
 			case 'email_address' :
-				$buff[] = '<input type="email" name="' . $column_name . '" value="' . $value . '" class="email_addresse rx_ev_email" />';
+				$buff[] = '<input type="email" name="' . $column_name . '" value="' . $value . '" class="email_address rx_ev_email" />';
 				break;
 			// Phone Number
 			case 'tel' :
