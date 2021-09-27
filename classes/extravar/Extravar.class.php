@@ -589,11 +589,11 @@ class ExtraItem
 				break;
 			// Password
 			case "password" :
-				$buff[] =' <input type="password" class="rx_ev_password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="password" />';
+				$buff[] =' <input type="password" class="password rx_ev_password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" />';
 				break;
 			// General text
 			default :
-				$buff[] =' <input type="text" class="rx_ev_text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
+				$buff[] =' <input type="text" class="text rx_ev_text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" />';
 		}
 		if($this->desc)
 		{
