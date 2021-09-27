@@ -1428,7 +1428,6 @@ class memberController extends member
 
 			FileHandler::removeFilesInDir($target_path);
 			FileHandler::moveFile($temp_filename, $target_filename);
-			FileHandler::clearStatCache($target_filename);
 		}
 		else
 		{
@@ -1444,9 +1443,14 @@ class memberController extends member
 
 			FileHandler::removeFilesInDir($target_path);
 			@copy($target_file, $target_filename);
-			FileHandler::clearStatCache($target_filename);
 		}
 
+		// Clear cache
+		foreach (['jpg', 'jpeg', 'gif', 'png'] as $ext)
+		{
+			clearstatcache(true, \RX_BASEDIR . sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext));
+		}
+		self::clearMemberCache($member_srl);
 		return new BaseObject(0, 'success');
 	}
 
@@ -1526,7 +1530,6 @@ class memberController extends member
 
 			FileHandler::removeFilesInDir($target_path);
 			FileHandler::moveFile($temp_filename, $target_filename);
-			FileHandler::clearStatCache($target_filename);
 		}
 		else
 		{
@@ -1542,9 +1545,11 @@ class memberController extends member
 
 			FileHandler::removeFilesInDir($target_path);
 			@copy($target_file, $target_filename);
-			FileHandler::clearStatCache($target_filename);
+			
 		}
 
+		clearstatcache(true, $target_filename);
+		self::clearMemberCache($member_srl);
 		return new BaseObject(0, 'success');
 	}
 
@@ -1568,6 +1573,7 @@ class memberController extends member
 			$profile_image = MemberModel::getProfileImage($member_srl);
 			FileHandler::removeFile($profile_image->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
+			FileHandler::clearStatCache($profile_image->file);
 			self::clearMemberCache($member_srl);
 		}
 		return new BaseObject(0,'success');
@@ -1593,6 +1599,8 @@ class memberController extends member
 			$image_name = MemberModel::getImageName($member_srl);
 			FileHandler::removeFile($image_name->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
+			FileHandler::clearStatCache($profile_image->file);
+			self::clearMemberCache($member_srl);
 		}
 		return new BaseObject(0,'success');
 	}
@@ -1669,7 +1677,6 @@ class memberController extends member
 
 			FileHandler::removeFilesInDir($target_path);
 			FileHandler::moveFile($temp_filename, $target_filename);
-			FileHandler::clearStatCache($target_filename);
 		}
 		else
 		{
@@ -1685,9 +1692,10 @@ class memberController extends member
 
 			FileHandler::removeFilesInDir($target_path);
 			@copy($target_file, $target_filename);
-			FileHandler::clearStatCache($target_filename);
 		}
 
+		clearstatcache(true, $target_filename);
+		self::clearMemberCache($member_srl);
 		return new BaseObject(0, 'success');
 	}
 
@@ -1711,6 +1719,8 @@ class memberController extends member
 			$image_mark = MemberModel::getImageMark($member_srl);
 			FileHandler::removeFile($image_mark->file);
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
+			FileHandler::clearStatCache($profile_image->file);
+			self::clearMemberCache($member_srl);
 		}
 		return new BaseObject(0,'success');
 	}
@@ -2128,10 +2138,12 @@ class memberController extends member
 		$obj->editor_skin = $config->signature_editor_skin;
 		$signature = getModel('editor')->converter($obj);
 		
-		$filename = sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
+		$filename = RX_BASEDIR . sprintf('files/member_extra_info/signature/%s%d.signature.php', getNumberingPath($member_srl), $member_srl);
 		$buff = sprintf('<?php if(!defined("__XE__")) exit();?>%s', $signature);
 		Rhymix\Framework\Storage::write($filename, $buff);
+		clearstatcache(true, $filename);
 		
+		self::clearMemberCache($member_srl);
 		return $signature;
 	}
 
@@ -2145,8 +2157,11 @@ class memberController extends member
 	function delSignature($member_srl)
 	{
 		$dirname = RX_BASEDIR . sprintf('files/member_extra_info/signature/%s', getNumberingPath($member_srl));
-		Rhymix\Framework\Storage::deleteDirectory($dirname, false);
+		$filename = sprintf('%s%d.signature.php', $dirname, $member_srl);
+		Rhymix\Framework\Storage::delete($filename);
 		Rhymix\Framework\Storage::deleteEmptyDirectory($dirname, true);
+		clearstatcache(true, $filename);
+		self::clearMemberCache($member_srl);
 	}
 
 	/**
@@ -3980,6 +3995,11 @@ class memberController extends member
 		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");
 		unset($GLOBALS['__member_info__'][$member_srl]);
 		unset($GLOBALS['__member_groups__'][$member_srl]);
+		unset($GLOBALS['__member_info__']['profile_image'][$member_srl]);
+		unset($GLOBALS['__member_info__']['image_name'][$member_srl]);
+		unset($GLOBALS['__member_info__']['image_mark'][$member_srl]);
+		unset($GLOBALS['__member_info__']['group_image_mark'][$member_srl]);
+		unset($GLOBALS['__member_info__']['signature'][$member_srl]);
 	}
 }
 /* End of file member.controller.php */
