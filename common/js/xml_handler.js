@@ -303,7 +303,7 @@
 	 */
 	window.exec_html = $.fn.exec_html = function() {
 		if (typeof console == "object" && typeof console.log == "function") {
-			console.log("DEPRECATED : send_by_form() is deprecated in Rhymix.");
+			console.log("DEPRECATED : exec_html() is deprecated in Rhymix.");
 		}
 	};
 
