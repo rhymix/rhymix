@@ -76,7 +76,7 @@ class Korea
 		{
 			return true;
 		}
-		if (preg_match('/^02[2-9][0-9]{6,7}$/', $num))
+		if (preg_match('/^02(?:[2-9][0-9]{6,7}|1[0-9]{7})$/', $num))
 		{
 			return true;
 		}
