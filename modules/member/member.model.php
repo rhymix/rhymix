@@ -1042,7 +1042,7 @@ class memberModel extends member
 			$GLOBALS['__member_info__']['profile_image'][$member_srl] = null;
 			foreach(['jpg', 'jpeg', 'gif', 'png'] as $ext)
 			{
-				$image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext);
+				$image_name_file = RX_BASEDIR . sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext);
 				if(file_exists($image_name_file))
 				{
 					list($width, $height, $type, $attrs) = getimagesize($image_name_file);
@@ -1075,7 +1075,7 @@ class memberModel extends member
 		}
 		if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl]))
 		{
-			$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+			$image_name_file = RX_BASEDIR . sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 			if(file_exists($image_name_file))
 			{
 				list($width, $height, $type, $attrs) = getimagesize($image_name_file);
@@ -1109,7 +1109,7 @@ class memberModel extends member
 		}
 		if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl]))
 		{
-			$image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
+			$image_mark_file = RX_BASEDIR . sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
 			if(file_exists($image_mark_file))
 			{
 				list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
