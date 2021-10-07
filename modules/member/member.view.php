@@ -175,11 +175,11 @@ class memberView extends member
 				}
 				elseif($formInfo->type=='date')
 				{
-					$item->value = zdate($orgValue, "Y-m-d");
+					$item->value = zdate(is_array($orgValue) ? array_first($orgValue) : $orgValue, 'Y-m-d');
 				}
 				else
 				{
-					$item->value = nl2br($orgValue);
+					$item->value = nl2br(is_array($orgValue) ? array_first($orgValue) : $orgValue);
 				}
 			}
 
