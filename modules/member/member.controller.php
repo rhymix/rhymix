@@ -1182,7 +1182,7 @@ class memberController extends member
 		$all_args = Context::getRequestVars();
 		foreach($config->signupForm as $formInfo)
 		{
-			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
+			if (!$formInfo->isDefaultForm)
 			{
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
@@ -1194,6 +1194,7 @@ class memberController extends member
 				$extra_vars->{$key} = escape(utf8_clean($all_args->{$key}));
 			}
 		}
+
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
