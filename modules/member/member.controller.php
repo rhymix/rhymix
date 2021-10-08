@@ -721,6 +721,8 @@ class memberController extends member
 		unset($all_args->signature);
 		unset($all_args->password);
 		unset($all_args->password2);
+		unset($all_args->refused_reason);
+		unset($all_args->limited_reason);
 		unset($all_args->mid);
 		unset($all_args->success_return_url);
 		unset($all_args->error_return_url);
@@ -1039,6 +1041,8 @@ class memberController extends member
 		unset($all_args->signature);
 		unset($all_args->password);
 		unset($all_args->password2);
+		unset($all_args->refused_reason);
+		unset($all_args->limited_reason);
 		unset($all_args->mid);
 		unset($all_args->success_return_url);
 		unset($all_args->error_return_url);
@@ -1049,6 +1053,17 @@ class memberController extends member
 		unset($all_args->use_html);
 		unset($all_args->_filter);
 		$extra_vars = delObjectVars($all_args, $args);
+		
+		// Update existing extra vars
+		$output = executeQuery('member.getMemberInfoByMemberSrl', (object)['member_srl' => $args->member_srl], ['extra_vars']);
+		$prev_extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
+		foreach (['refused_reason', 'limited_reason'] as $key)
+		{
+			if (!empty($prev_extra_vars->{$key}))
+			{
+				$extra_vars->{$key} = $prev_extra_vars->{$key};
+			}
+		}
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
