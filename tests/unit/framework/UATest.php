@@ -120,6 +120,27 @@ class UATest extends \Codeception\TestCase\Test
 		$this->assertEquals('4.9', $browser->version);
 		$this->assertEquals('Linux', $browser->os);
 		
+		// Edge 94 on Windows
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36 Edg/94.0.992.47');
+		$this->assertEquals('Edge', $browser->browser);
+		$this->assertEquals('94.0', $browser->version);
+		$this->assertEquals('Windows', $browser->os);
+		$this->assertFalse($browser->is_mobile);
+		
+		// Edge 93 on Android
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Linux; Android 10; SM-G965N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Mobile Safari/537.36 EdgA/93.0.961.69');
+		$this->assertEquals('Edge', $browser->browser);
+		$this->assertEquals('93.0', $browser->version);
+		$this->assertEquals('Android', $browser->os);
+		$this->assertTrue($browser->is_mobile);
+		
+		// Edge 93 on iOS
+		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (iPhone; CPU iPhone OS 15_0_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 EdgiOS/93.961.64 Mobile/15E148 Safari/605.1.15');
+		$this->assertEquals('Edge', $browser->browser);
+		$this->assertEquals('93.0', $browser->version);
+		$this->assertEquals('iOS', $browser->os);
+		$this->assertTrue($browser->is_mobile);
+		
 		// Edge 13
 		$browser = Rhymix\Framework\UA::getBrowserInfo('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586');
 		$this->assertEquals('Edge', $browser->browser);
