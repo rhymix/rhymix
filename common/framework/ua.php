@@ -275,7 +275,7 @@ class UA
 				return $result;
 			}
 		}
-		if (preg_match('#Edge/([0-9]+\\.)#', $ua, $matches))
+		if (preg_match('#Edg(?:e|A|iOS)?/([0-9]+\\.)#', $ua, $matches))
 		{
 			$result->browser = 'Edge';
 			$result->version = $matches[1] . '0';
