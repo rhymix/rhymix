@@ -2,7 +2,6 @@
 
 namespace League\OAuth2\Client\Test\Token;
 
-use GuzzleHttp\Psr7\Response;
 use League\OAuth2\Client\Token\AppleAccessToken;
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
@@ -20,15 +19,13 @@ class AppleAccessTokenTest extends TestCase
             ->with('something', 'examplekey', ['RS256'])
             ->once()
             ->andReturn([
-                'sub' => '123.abc.123'
+                'sub' => '123.abc.123',
+                'email_verified' => true,
+                'email' => 'john@doe.com',
+                'is_private_email' => true
             ]);
 
-        $externalJWKMock = m::mock('overload:Firebase\JWT\JWK');
-        $externalJWKMock->shouldReceive('parseKeySet')
-            ->once()
-            ->andReturn(['examplekey']);
-
-        $accessToken = new AppleAccessToken($this->getClient(1), [
+        $accessToken = new AppleAccessToken(['examplekey'], [
             'access_token' => 'access_token',
             'token_type' => 'Bearer',
             'expires_in' => 3600,
@@ -38,11 +35,26 @@ class AppleAccessTokenTest extends TestCase
         $this->assertEquals('something', $accessToken->getIdToken());
         $this->assertEquals('123.abc.123', $accessToken->getResourceOwnerId());
         $this->assertEquals('access_token', $accessToken->getToken());
+        $this->assertEquals('john@doe.com', $accessToken->getEmail());
+        $this->assertTrue($accessToken->isPrivateEmail());
+    }
+
+    public function testCreateFailsBecauseNoIdTokenIsSet()
+    {
+        $this->expectException('\InvalidArgumentException');
+        $this->expectExceptionMessage('Required option not passed: "id_token"');
+
+        new AppleAccessToken(['examplekey'], [
+            'access_token' => 'access_token',
+            'token_type' => 'Bearer',
+            'expires_in' => 3600,
+            'refresh_token' => 'abc.0.def'
+        ]);
     }
 
     public function testCreatingRefreshToken()
     {
-        $refreshToken = new AppleAccessToken($this->getClient(0), [
+        $refreshToken = new AppleAccessToken([], [
             'access_token' => 'access_token',
             'token_type' => 'Bearer',
             'expires_in' => 3600
@@ -50,17 +62,27 @@ class AppleAccessTokenTest extends TestCase
         $this->assertEquals('access_token', $refreshToken->getToken());
     }
 
-    private function getClient($times)
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function testCreatingAccessTokenFailsBecauseNoDecodingIsPossible()
     {
-        $client = m::mock('GuzzleHttp\ClientInterface');
-        if ($times > 0) {
-            $client->shouldReceive('request')
-                ->times($times)
-                ->withArgs(['GET', 'https://appleid.apple.com/auth/keys'])
-                ->andReturn(new Response())
-            ;
-        }
+        $this->expectException('\Exception');
+        $this->expectExceptionMessage('Got no data within "id_token"!');
 
-        return $client;
+        $externalJWTMock = m::mock('overload:Firebase\JWT\JWT');
+        $externalJWTMock->shouldReceive('decode')
+            ->with('something', 'examplekey', ['RS256'])
+            ->once()
+            ->andReturnNull();
+
+        new AppleAccessToken(['examplekey'], [
+            'access_token' => 'access_token',
+            'token_type' => 'Bearer',
+            'expires_in' => 3600,
+            'refresh_token' => 'abc.0.def',
+            'id_token' => 'something'
+        ]);
     }
 }

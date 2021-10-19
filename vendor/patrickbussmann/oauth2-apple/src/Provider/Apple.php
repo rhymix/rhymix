@@ -3,6 +3,7 @@
 namespace League\OAuth2\Client\Provider;
 
 use Exception;
+use Firebase\JWT\JWK;
 use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\LocalFileReference;
@@ -77,7 +78,21 @@ class Apple extends AbstractProvider
      */
     protected function createAccessToken(array $response, AbstractGrant $grant)
     {
-        return new AppleAccessToken($this->getHttpClient(), $response);
+        return new AppleAccessToken($this->getAppleKeys(), $response);
+    }
+
+    /**
+     * @return string[] Apple's JSON Web Keys
+     */
+    private function getAppleKeys()
+    {
+        $response = $this->httpClient->request('GET', 'https://appleid.apple.com/auth/keys');
+
+        if ($response && $response->getStatusCode() === 200) {
+            return JWK::parseKeySet(json_decode($response->getBody()->getContents(), true));
+        }
+
+        return [];
     }
 
     /**

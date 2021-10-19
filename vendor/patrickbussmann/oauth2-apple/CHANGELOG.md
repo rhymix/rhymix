@@ -18,6 +18,17 @@ All Notable changes to `oauth2-apple` will be documented in this file
 ### Security
 - Nothing
 
+## 0.2.6 - 2021-08-25
+
+### Added
+- GitHub Actions CI
+
+### Removed
+- Travis CI
+
+### Fixed
+- Fixed bug with serialization of AppleAccessToken [#29](https://github.com/patrickbussmann/oauth2-apple/pull/29) (thanks to [tjveldhuizen](https://github.com/tjveldhuizen))
+
 ## 0.2.5 - 2021-03-10
 
 ### Fixed
