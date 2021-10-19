@@ -238,15 +238,17 @@ class Formatter
 			$scss_compiler->setImportPaths(array(dirname(is_array($source_filename) ? array_first($source_filename) : $source_filename)));
 			if ($variables)
 			{
-				$scss_compiler->setVariables($variables);
+				$scss_compiler->replaceVariables(array_map('\\ScssPhp\\ScssPhp\\ValueConverter::parseValue', $variables));
 			}
 			
-			$content = $scss_compiler->compile($content) . "\n";
+			$compilation_result = $scss_compiler->compileString($content);
+			$content = $compilation_result->getCss() . "\n";
 			$content = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n" . $content) : $content;
 			$result = true;
 		}
 		catch (\Exception $e)
 		{
+			throw $e;
 			$filename = starts_with(\RX_BASEDIR, $source_filename) ? substr($source_filename, strlen(\RX_BASEDIR)) : $source_filename;
 			$message = preg_replace('/\(stdin\)\s/', '', $e->getMessage());
 			$content = sprintf("/*\n  Error while compiling %s\n\n  %s\n*/\n", $filename, $message);
