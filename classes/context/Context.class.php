@@ -286,8 +286,8 @@ class Context
 		}
 		
 		// Load certificate authorities for curl and openssl.
-		ini_set('curl.cainfo', RX_BASEDIR . 'common/libraries/cacert.pem');
-		ini_set('openssl.cafile', RX_BASEDIR . 'common/libraries/cacert.pem');
+		ini_set('curl.cainfo', RX_BASEDIR . 'vendor/composer/ca-bundle/res/cacert.pem');
+		ini_set('openssl.cafile', RX_BASEDIR . 'vendor/composer/ca-bundle/res/cacert.pem');
 		
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
