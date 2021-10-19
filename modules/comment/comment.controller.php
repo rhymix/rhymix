@@ -1530,7 +1530,7 @@ class commentController extends comment
 	function declaredComment($comment_srl, $declare_message)
 	{
 		// Fail if session information already has a reported document
-		if($_SESSION['declared_comment'][$comment_srl])
+		if(isset($_SESSION['declared_comment'][$comment_srl]))
 		{
 			return new BaseObject(-1, 'failed_declared');
 		}
@@ -1565,7 +1565,7 @@ class commentController extends comment
 		// failed if both ip addresses between author's and the current user are same.
 		if($oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
-			$_SESSION['declared_comment'][$comment_srl] = TRUE;
+			$_SESSION['declared_comment'][$comment_srl] = FALSE;
 			return new BaseObject(-1, 'failed_declared');
 		}
 
@@ -1578,7 +1578,7 @@ class commentController extends comment
 			// session registered if the author information matches to the current logged-in user's.
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
-				$_SESSION['declared_comment'][$comment_srl] = TRUE;
+				$_SESSION['declared_comment'][$comment_srl] = FALSE;
 				return new BaseObject(-1, 'failed_declared');
 			}
 		}
@@ -1597,7 +1597,7 @@ class commentController extends comment
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
 		if($log_output->data->count)
 		{
-			$_SESSION['declared_comment'][$comment_srl] = TRUE;
+			$_SESSION['declared_comment'][$comment_srl] = FALSE;
 			return new BaseObject(-1, 'failed_declared');
 		}
 		
