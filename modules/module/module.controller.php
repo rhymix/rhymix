@@ -1070,6 +1070,10 @@ class moduleController extends module
 				throw new Rhymix\Framework\Exception('msg_error_occured');
 			}
 		}
+		if (in_array($ext, ['php', 'js']))
+		{
+			throw new Rhymix\Framework\Exception(sprintf(lang('msg_filebox_invalid_extension'), $ext));
+		}
 
 		$vars->member_srl = $logged_info->member_srl;
 
