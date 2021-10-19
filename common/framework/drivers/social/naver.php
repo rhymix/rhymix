@@ -49,7 +49,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 			'client_id'     => $this->config->naver_client_id,
 			'client_secret' => $this->config->naver_client_secret,
 		));
-
+		
 		// 토큰 삽입
 		$accessValue['access'] = $token['access_token'];
 		$accessValue['refresh'] = $token['refresh_token'];
@@ -117,7 +117,7 @@ class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
 		{
 			$profileValue['url'] = 'http://www.naver.com/';
 		}
-
+		
 		$profileValue['etc'] = $profile;
 
 		\SocialloginController::getInstance()->setDriverAuthData('naver', 'profile', $profileValue);
