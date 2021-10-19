@@ -416,7 +416,7 @@ class ExtraItem
 				break;
 			// Email Address
 			case 'email_address' :
-				$buff[] = '<input type="email" name="' . $column_name . '" value="' . $value . '" class="email_addresse rx_ev_email" />';
+				$buff[] = '<input type="email" name="' . $column_name . '" value="' . $value . '" class="email_address rx_ev_email" />';
 				break;
 			// Phone Number
 			case 'tel' :
@@ -589,11 +589,11 @@ class ExtraItem
 				break;
 			// Password
 			case "password" :
-				$buff[] =' <input type="password" class="rx_ev_password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="password" />';
+				$buff[] =' <input type="password" class="password rx_ev_password" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" />';
 				break;
 			// General text
 			default :
-				$buff[] =' <input type="text" class="rx_ev_text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" class="text" />';
+				$buff[] =' <input type="text" class="text rx_ev_text" name="' . $column_name . '" value="' . ($value ? $value : $default) . '" />';
 		}
 		if($this->desc)
 		{

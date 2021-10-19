@@ -427,7 +427,9 @@ input[type=radio] {
 .ff label+input[type=text],
 .ff label+input[type=email],
 .ff label+input[type=url],
+.ff label+input[type=tel],
 .ff label+input[type=password],
+.ff label+input[type=search],
 .ff label+textarea,
 .ff label+select {
 	display: block;
@@ -438,7 +440,9 @@ input[type=radio] {
 .ff label+input[type=text],
 .ff label+input[type=email],
 .ff label+input[type=url],
+.ff label+input[type=tel],
 .ff label+input[type=password],
+.ff label+input[type=search],
 .ff label+textarea {
 	padding: 5px;
 }

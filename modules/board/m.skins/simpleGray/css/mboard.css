@@ -486,6 +486,8 @@ select {
 .exvar input[type=text],
 .exvar input[type=email],
 .exvar input[type=url],
+.exvar input[type=tel],
+.exvar input[type=password],
 .exvar input[type=search] {
 	border: 1px solid #ccc;
 	font-size: 20px;

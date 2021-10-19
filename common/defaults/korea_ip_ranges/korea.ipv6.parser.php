@@ -11,8 +11,8 @@ if (PHP_SAPI !== 'cli')
 /**
  * Download the latest IPv6 data from KISA.
  */
-$download_url = 'https://xn--3e0bx5euxnjje69i70af08bea817g.xn--3e0b707e/jsp/infoboard/stats/ipv6AddrListExcel.jsp';
-$referer_url = 'https://xn--3e0bx5euxnjje69i70af08bea817g.xn--3e0b707e/jsp/infoboard/stats/inProCurIpv6Add.jsp';
+$download_url = 'https://krnic.or.kr/jsp/statboard/IPAS/inter/sec/ipv6AddrListExcel.jsp';
+$referer_url = 'https://krnic.or.kr/jsp/statboard/IPAS/inter/sec/currentV6Addr.jsp';
 $content = file_get_contents($download_url, false, stream_context_create(array(
     'http' => array(
         'user_agent' => 'Mozilla/5.0 (compatible; IP range generator)',

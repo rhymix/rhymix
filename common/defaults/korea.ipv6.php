@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Source: https://xn--3e0bx5euxnjje69i70af08bea817g.xn--3e0b707e/jsp/infoboard/stats/inProCurIpv6Add.jsp
- * Last Updated: 2021-01-08
+ * Source: https://krnic.or.kr/jsp/statboard/IPAS/inter/sec/currentV6Addr.jsp
+ * Last Updated: 2021-10-08
  */
 return array (
   0 => 

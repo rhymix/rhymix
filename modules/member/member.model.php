@@ -1043,13 +1043,13 @@ class memberModel extends member
 			foreach(['jpg', 'jpeg', 'gif', 'png'] as $ext)
 			{
 				$image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext);
-				if(file_exists($image_name_file))
+				if(file_exists(\RX_BASEDIR . $image_name_file))
 				{
-					list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+					list($width, $height, $type, $attrs) = getimagesize(\RX_BASEDIR . $image_name_file);
 					$info = new stdClass();
 					$info->width = $width;
 					$info->height = $height;
-					$info->src = \RX_BASEURL . $image_name_file . '?' . date('YmdHis', filemtime($image_name_file));
+					$info->src = \RX_BASEURL . $image_name_file . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $image_name_file));
 					$info->file = './'.$image_name_file;
 					$GLOBALS['__member_info__']['profile_image'][$member_srl] = $info;
 					break;
@@ -1076,13 +1076,13 @@ class memberModel extends member
 		if(!isset($GLOBALS['__member_info__']['image_name'][$member_srl]))
 		{
 			$image_name_file = sprintf('files/member_extra_info/image_name/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-			if(file_exists($image_name_file))
+			if(file_exists(\RX_BASEDIR . $image_name_file))
 			{
-				list($width, $height, $type, $attrs) = getimagesize($image_name_file);
+				list($width, $height, $type, $attrs) = getimagesize(\RX_BASEDIR . $image_name_file);
 				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
-				$info->src = \RX_BASEURL . $image_name_file. '?' . date('YmdHis', filemtime($image_name_file));
+				$info->src = \RX_BASEURL . $image_name_file. '?' . date('YmdHis', filemtime(\RX_BASEDIR . $image_name_file));
 				$info->file = './'.$image_name_file;
 				$GLOBALS['__member_info__']['image_name'][$member_srl] = $info;
 			}
@@ -1110,13 +1110,13 @@ class memberModel extends member
 		if(!isset($GLOBALS['__member_info__']['image_mark'][$member_srl]))
 		{
 			$image_mark_file = sprintf('files/member_extra_info/image_mark/%s%d.gif', getNumberingPath($member_srl), $member_srl);
-			if(file_exists($image_mark_file))
+			if(file_exists(\RX_BASEDIR . $image_mark_file))
 			{
-				list($width, $height, $type, $attrs) = getimagesize($image_mark_file);
+				list($width, $height, $type, $attrs) = getimagesize(\RX_BASEDIR . $image_mark_file);
 				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
-				$info->src = \RX_BASEURL . $image_mark_file . '?' . date('YmdHis', filemtime($image_mark_file));
+				$info->src = \RX_BASEURL . $image_mark_file . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $image_mark_file));
 				$info->file = './'.$image_mark_file;
 				$GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
 			}

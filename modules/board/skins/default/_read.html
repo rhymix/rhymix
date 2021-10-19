@@ -3,7 +3,7 @@
 	<div class="read_header">
 		<h1>
 			<a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}" class="category" cond="$module_info->use_category=='Y'">{$category_list[$oDocument->get('category_srl')]->title}</a>
-			<a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a>
+			<a href="{$oDocument->getUrl()}">{$oDocument->getTitle()}</a>
 		</h1>
 		<p class="time">
 			{$oDocument->getRegdate('Y.m.d H:i')}
