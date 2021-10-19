@@ -1530,7 +1530,7 @@ class commentController extends comment
 	function declaredComment($comment_srl, $declare_message)
 	{
 		// Fail if session information already has a reported document
-		if($_SESSION['declared_comment'][$comment_srl])
+		if(isset($_SESSION['declared_comment'][$comment_srl]))
 		{
 			return new BaseObject(-1, 'failed_declared');
 		}
