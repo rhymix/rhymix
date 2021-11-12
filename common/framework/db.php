@@ -678,7 +678,7 @@ class DB
 	 */
 	public function getNextSequence()
 	{
-		$this->_handle->exec(sprintf('INSERT INTO `%s` (seq) VALUES (0)', $this->addQuotes($this->_prefix . 'sequence')));
+		$this->_handle->exec(sprintf('INSERT INTO `%s` (seq) VALUES (NULL)', $this->addQuotes($this->_prefix . 'sequence')));
 		$sequence = $this->getInsertID();
 		if ($this->isError())
 		{
