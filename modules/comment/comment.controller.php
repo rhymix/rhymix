@@ -967,7 +967,7 @@ class commentController extends comment
 		}
 
 		// call a trigger (after)
-		ModuleHandler::triggerCall('comment.deleteComment', 'after', $obj);
+		ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 
 		// update the number of comments
 		$comment_count = CommentModel::getCommentCount($obj->document_srl);
