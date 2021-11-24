@@ -71,7 +71,7 @@ class memberController extends member
 		executeQuery('member.deleteAuthMail', $args);
 		
 		// If a device token is supplied, attempt to register it.
-		$device_token = Context::get('device_token');
+		$device_token = Context::get('device_token') ?? ($_SERVER['HTTP_X_DEVICE_TOKEN'] ?? null);
 		if ($device_token)
 		{
 			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
@@ -81,6 +81,12 @@ class memberController extends member
 				if ($output instanceof BaseObject && !$output->toBool())
 				{
 					return $output;
+				}
+				$device_key = $this->get('device_key');
+				if ($device_key)
+				{
+					header('X-Registered-Member-Srl: ' . $member_info->member_srl);
+					header('X-Registered-Device-Key: ' . $device_key);
 				}
 			}
 			else
@@ -995,13 +1001,23 @@ class memberController extends member
 		}
 		
 		// Register device
-		$device_token = Context::get('device_token');
+		$device_token = Context::get('device_token') ?? ($_SERVER['HTTP_X_DEVICE_TOKEN'] ?? null);
 		if ($device_token)
 		{
 			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
 			if (!$output->data || $output->data->member_srl != $args->member_srl)
 			{
-				$this->procMemberRegisterDevice($args->member_srl);
+				$output = $this->procMemberRegisterDevice($args->member_srl);
+				if ($output instanceof BaseObject && !$output->toBool())
+				{
+					return $output;
+				}
+				$device_key = $this->get('device_key');
+				if ($device_key)
+				{
+					header('X-Registered-Member-Srl: ' . $args->member_srl);
+					header('X-Registered-Device-Key: ' . $device_key);
+				}
 			}
 		}
 
