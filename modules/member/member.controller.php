@@ -105,7 +105,10 @@ class memberController extends member
 	 */
 	function procMemberRegisterDevice($member_srl = null, $device_token = null)
 	{
-		Context::setResponseMethod('JSON');
+		if (Context::get('act') === 'procMemberRegisterDevice')
+		{
+			Context::setResponseMethod('JSON');
+		}
 
 		// Check user_id, password, device_token
 		$allow_guest_device = config('push.allow_guest_device');
