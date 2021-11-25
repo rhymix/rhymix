@@ -118,7 +118,7 @@ class boardController extends board
 		}
 		
 		// Update if the document already exists.
-		$oDocument = DocumentModel::getDocument($obj->document_srl, $this->grant->manager);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if($oDocument->isExists())
 		{
 			if(!$oDocument->isGranted())
@@ -462,7 +462,7 @@ class boardController extends board
 		}
 		else
 		{
-			$comment = CommentModel::getComment($obj->comment_srl, $this->grant->manager);
+			$comment = CommentModel::getComment($obj->comment_srl);
 			if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 			{
 				$childs = CommentModel::getChildComments($obj->comment_srl);
@@ -562,7 +562,7 @@ class boardController extends board
 			$instant_delete = Context::get('instant_delete');
 		}
 
-		$comment = CommentModel::getComment($comment_srl, $this->grant->manager);
+		$comment = CommentModel::getComment($comment_srl);
 		if (!$comment || !$comment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
