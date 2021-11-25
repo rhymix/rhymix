@@ -71,23 +71,18 @@ class memberController extends member
 		executeQuery('member.deleteAuthMail', $args);
 		
 		// If a device token is supplied, attempt to register it.
-		$device_token = Context::get('device_token') ?? ($_SERVER['HTTP_X_DEVICE_TOKEN'] ?? null);
+		$device_token = $this->_getDeviceToken();
 		if ($device_token)
 		{
 			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
 			if (!$output->data || $output->data->member_srl != $member_info->member_srl)
 			{
-				$output = $this->procMemberRegisterDevice($member_info->member_srl);
+				$output = $this->procMemberRegisterDevice($member_info->member_srl, $device_token);
 				if ($output instanceof BaseObject && !$output->toBool())
 				{
 					return $output;
 				}
-				$device_key = $this->get('device_key');
-				if ($device_key)
-				{
-					header('X-Registered-Member-Srl: ' . $member_info->member_srl);
-					header('X-Registered-Device-Key: ' . $device_key);
-				}
+				$this->_setDeviceKey();
 			}
 			else
 			{
@@ -286,6 +281,60 @@ class memberController extends member
 		$this->add('user_id', $member_info ? $member_info->user_id : null);
 		$this->add('user_name', $member_info ? $member_info->user_name : null);
 		$this->add('nick_name', $member_info ? $member_info->nick_name : null);
+	}
+	
+	/**
+	 * Get device token from POST parameter, HTTP header or cookie
+	 * 
+	 * @return string|null
+	 */
+	protected function _getDeviceToken()
+	{
+		// POST parameter named device_token
+		$device_token = Context::get('device_token');
+		if ($device_token && $_SERVER['REQUEST_METHOD'] === 'POST')
+		{
+			return $device_token;
+		}
+		
+		// HTTP header named X-Device-Token
+		$device_token = $_SERVER['HTTP_X_DEVICE_TOKEN'] ?? null;
+		if ($device_token)
+		{
+			return $device_token;
+		}
+		
+		// Cookie named device_token
+		$device_token = $_COOKIE['device_token'] ?? null;
+		if ($device_token)
+		{
+			return $device_token;
+		}
+	}
+	
+	/**
+	 * Set device key via header or cookie
+	 * 
+	 * @return void
+	 */
+	protected function _setDeviceKey()
+	{
+		$member_srl = $this->get('member_srl');
+		$device_key = $this->get('device_key');
+		if (!$member_srl || !$device_key)
+		{
+			return;
+		}
+		
+		// Set header if header was given, or cookie otherwise
+		if (isset($_SERVER['HTTP_X_DEVICE_TOKEN']))
+		{
+			header('X-Device-Key: ' . urlencode($member_srl . ':' . $device_key));
+		}
+		else
+		{
+			setcookie('device_key', $member_srl . ':' . $device_key, time() + 60, \RX_BASEURL, null, !!config('session.use_ssl_cookies'), true);
+		}
 	}
 
 	/**
@@ -1001,24 +1050,15 @@ class memberController extends member
 		}
 		
 		// Register device
-		$device_token = Context::get('device_token') ?? ($_SERVER['HTTP_X_DEVICE_TOKEN'] ?? null);
+		$device_token = $this->_getDeviceToken();
 		if ($device_token)
 		{
-			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
-			if (!$output->data || $output->data->member_srl != $args->member_srl)
+			$output = $this->procMemberRegisterDevice($args->member_srl, $device_token);
+			if ($output instanceof BaseObject && !$output->toBool())
 			{
-				$output = $this->procMemberRegisterDevice($args->member_srl);
-				if ($output instanceof BaseObject && !$output->toBool())
-				{
-					return $output;
-				}
-				$device_key = $this->get('device_key');
-				if ($device_key)
-				{
-					header('X-Registered-Member-Srl: ' . $args->member_srl);
-					header('X-Registered-Device-Key: ' . $device_key);
-				}
+				return $output;
 			}
+			$this->_setDeviceKey();
 		}
 
 		// Results
