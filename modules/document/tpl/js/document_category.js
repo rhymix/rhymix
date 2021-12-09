@@ -192,7 +192,7 @@ function modifyNode(node,e){
 
 		$w.find('input[name="parent_srl"]').val(data.category_info.parent_srl);
 		$w.find('input[name="category_title"]').val(data.category_info.title).trigger('reload-multilingual');
-		$w.find('input[name="category_color"]').val(data.category_info.color).trigger('keyup');
+		$w.find('input[name="category_color"]').val(data.category_info.color).trigger('keyup').spectrum('set', data.category_info.color);
 		$w.find('textarea[name="category_description"]').val(data.category_info.description).trigger('reload-multilingual');
 		for(var i in data.category_info.group_srls){
 			var group_srl = data.category_info.group_srls[i];
