@@ -909,7 +909,7 @@ class contentItem extends BaseObject
 
 		$attrs = array();
 		if($this->get('title_bold') == 'Y') $attrs[] = 'font-weight:bold';
-		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = 'color:#'.$this->get('title_color');
+		if($this->get('title_color') && $this->get('title_color') != 'N') $attrs[] = 'color:#' . ltrim($this->get('title_color'), '#');
 
 		if(count($attrs)) $title = sprintf("<span style=\"%s\">%s</span>", implode(';', $attrs), $title);
 
