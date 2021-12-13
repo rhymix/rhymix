@@ -1,7 +1,7 @@
 <table name="module_trigger">
-    <column name="trigger_name" type="varchar" size="80" notnull="notnull" unique="idx_trigger" charset="latin1" />
-    <column name="called_position" type="varchar" size="20" notnull="notnull" unique="idx_trigger" charset="latin1" />
-    <column name="module" type="varchar" size="80" notnull="notnull" unique="idx_trigger" charset="latin1" />
-    <column name="type" type="varchar" size="80" notnull="notnull" unique="idx_trigger" charset="latin1" />
-    <column name="called_method" type="varchar" size="80" notnull="notnull" unique="idx_trigger" charset="latin1" />
+    <column name="trigger_name" type="varchar" size="80" notnull="notnull" index="idx_trigger_name" charset="latin1" />
+    <column name="called_position" type="varchar" size="20" notnull="notnull" index="idx_trigger_name" charset="latin1" />
+    <column name="module" type="varchar" size="80" notnull="notnull" index="idx_trigger_target" charset="latin1" />
+    <column name="type" type="varchar" size="120" notnull="notnull" index="idx_trigger_target" charset="latin1" />
+    <column name="called_method" type="varchar" size="80" notnull="notnull" index="idx_trigger_target" charset="latin1" />
 </table>

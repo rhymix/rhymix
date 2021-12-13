@@ -107,6 +107,21 @@ class module extends ModuleObject
 		if(!$oDB->isIndexExists('lang', 'idx_name')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_lang_code')) return true;
 		
+		// check module_trigger table
+		if($oDB->isIndexExists('module_trigger', 'idx_trigger'))
+		{
+			return true;
+		}
+		if(!$oDB->isIndexExists('module_trigger', 'idx_trigger_name'))
+		{
+			return true;
+		}
+		$column_info = $oDB->getColumnInfo('module_trigger', 'type');
+		if($column_info->size < 120)
+		{
+			return true;
+		}
+		
 		// check deprecated lang code
 		$output = executeQuery('module.getLangCount', ['site_srl' => 0, 'lang_code' => 'jp']);
 		if ($output->data->count > 0)
@@ -195,6 +210,26 @@ class module extends ModuleObject
 		if(!$oDB->isIndexExists('lang', 'idx_lang_code'))
 		{
 			$oDB->addIndex('lang', 'idx_lang_code', array('lang_code'), false);
+		}
+		
+		// check module_trigger table
+		if($oDB->isIndexExists('module_trigger', 'idx_trigger'))
+		{
+			$oDB->dropIndex('module_trigger', 'idx_trigger');
+		}
+		$column_info = $oDB->getColumnInfo('module_trigger', 'type');
+		if($column_info->size < 120)
+		{
+			$oDB->modifyColumn('module_trigger', 'trigger_name', 'varchar', 80, null, true, null, null, 'latin1');
+			$oDB->modifyColumn('module_trigger', 'called_position', 'varchar', 20, null, true, null, null, 'latin1');
+			$oDB->modifyColumn('module_trigger', 'module', 'varchar', 80, null, true, null, null, 'latin1');
+			$oDB->modifyColumn('module_trigger', 'type', 'varchar', 120, null, true, null, null, 'latin1');
+			$oDB->modifyColumn('module_trigger', 'called_method', 'varchar', 80, null, true, null, null, 'latin1');
+		}
+		if(!$oDB->isIndexExists('module_trigger', 'idx_trigger_name'))
+		{
+			$oDB->addIndex('module_trigger', 'idx_trigger_name', array('trigger_name', 'called_position'));
+			$oDB->addIndex('module_trigger', 'idx_trigger_target', array('module', 'type', 'called_method'));
 		}
 		
 		// check deprecated lang code
