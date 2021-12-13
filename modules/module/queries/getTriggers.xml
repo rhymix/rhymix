@@ -2,7 +2,7 @@
     <tables>
         <table name="module_trigger" />
     </tables>
-    <columns>
+    <columns distinct="distinct">
         <column name="*" />
     </columns>
     <conditions>

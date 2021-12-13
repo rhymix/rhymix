@@ -81,6 +81,7 @@ class moduleController extends module
 		$args->called_method = $called_method;
 		$args->called_position = $called_position;
 
+		$output = executeQuery('module.deleteTrigger', $args);
 		$output = executeQuery('module.insertTrigger', $args);
 		if($output->toBool())
 		{
