@@ -841,9 +841,10 @@ class DB
 	 * @param bool $notnull
 	 * @param string $after_column
 	 * @param string $new_name
+	 * @param string $new_charset
 	 * @return BaseObject
 	 */
-	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null): \BaseObject
+	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): \BaseObject
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
@@ -858,6 +859,15 @@ class DB
 			$query = sprintf("ALTER TABLE `%s` MODIFY `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
 		}
 		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
+		
+		// Add the character set information.
+		if (isset($new_charset))
+		{
+			$new_collation = preg_match('/^utf8/i', $new_charset) ? ($new_charset . '_unicode_ci') : ($new_charset . '_general_ci');
+			$query .= ' CHARACTER SET ' . $new_charset . ' COLLATE ' . $new_collation;
+		}
+		
+		// Add the NOT NULL constraint.
 		$query .= $notnull ? ' NOT NULL' : '';
 		
 		// Add the default value according to the type.
