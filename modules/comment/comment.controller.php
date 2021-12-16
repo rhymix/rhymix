@@ -967,12 +967,12 @@ class commentController extends comment
 		}
 
 		// call a trigger (after)
-		ModuleHandler::triggerCall('comment.deleteComment', 'after', $obj);
+		ModuleHandler::triggerCall('comment.deleteComment', 'after', $comment);
 
 		// update the number of comments
 		$comment_count = CommentModel::getCommentCount($obj->document_srl);
 		// only document is exists
-		if(isset($comment_count))
+		if(is_int($comment_count))
 		{
 			// create the controller object of the document
 			$oDocumentController = getController('document');
@@ -1016,7 +1016,7 @@ class commentController extends comment
 		// update the number of comments
 		$comment_count = CommentModel::getCommentCount($obj->document_srl);
 		// only document is exists
-		if(isset($comment_count))
+		if(is_int($comment_count))
 		{
 			// create the controller object of the document
 			$oDocumentController = getController('document');
@@ -1149,7 +1149,7 @@ class commentController extends comment
 		$comment_count = CommentModel::getCommentCount($document_srl);
 
 		// only document is exists
-		if(isset($comment_count))
+		if(is_int($comment_count))
 		{
 			// create the controller object of the document
 			$oDocumentController = getController('document');
@@ -1256,7 +1256,7 @@ class commentController extends comment
 
 		// update the number of comments
 		$comment_count = CommentModel::getCommentCount($oComment->document_srl);
-		if($comment_count)
+		if(is_int($comment_count))
 		{
 			$output = getController('document')->updateCommentCount($oComment->document_srl, $comment_count);
 			if(!$output->toBool())

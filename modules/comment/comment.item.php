@@ -698,6 +698,10 @@ class commentItem extends BaseObject
 		}
 		
 		// If signiture height setting is omitted, create a square
+		if(!is_int($width))
+		{
+			$width = intval($width);
+		}
 		if(!$height || (!is_int($height) && !ctype_digit(strval($height)) && $height !== 'auto'))
 		{
 			$height = $width;

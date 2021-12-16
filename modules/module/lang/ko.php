@@ -129,3 +129,4 @@ $lang->cmd_set_multilingual_text = '다국어 텍스트 설정';
 $lang->cmd_remove_multilingual_text = '다국어 텍스트 해제';
 $lang->use_site_default_skin = '사이트 기본 스킨 사용';
 $lang->use_responsive_pc_skin = 'PC와 동일한 반응형 스킨 사용';
+$lang->msg_filebox_invalid_extension = '파일박스에 업로드할 수 없는 유형(%s)의 파일입니다.';

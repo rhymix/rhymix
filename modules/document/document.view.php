@@ -29,7 +29,7 @@ class documentView extends document
 		$document_srl = Context::get('document_srl');
 
 		// Creates an object for displaying the selected document
-		$oDocument = DocumentModel::getDocument($document_srl, $this->grant->manager);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		// Check permissions
 		if(!$oDocument->isAccessible()) throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -232,7 +232,7 @@ class documentView extends document
 		}
 
 		// Creates an object for displaying the selected document
-		$oDocument = DocumentModel::getDocument($document_srl, $this->grant->manager, FALSE);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;

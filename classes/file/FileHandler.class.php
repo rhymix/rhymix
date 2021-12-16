@@ -506,7 +506,10 @@ class FileHandler
 			return false;
 		}
 
+		// sanitize params
 		$target_file = self::getRealPath($target_file);
+		$resize_width = intval($resize_width);
+		$resize_height = $resize_height === 'auto' ? 'auto' : intval($resize_height);
 		if(!$resize_width)
 		{
 			$resize_width = 100;

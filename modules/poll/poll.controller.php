@@ -81,7 +81,7 @@ class pollController extends poll
 					$tmp_args[$poll_index]->title = $val;
 					break;
 				case 'checkcount':
-					$tmp_args[$poll_index]->checkcount = $val;
+					$tmp_args[$poll_index]->checkcount = max(1, intval($val));
 					break;
 				case 'item':
 					$tmp_args[$poll_index]->item[] = $val;

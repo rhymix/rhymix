@@ -16,7 +16,7 @@ class rssModel extends rss
 	{
 		$config = getModel('module')->getModuleConfig('rss') ?: new stdClass;
 		$config->use_total_feed = $config->use_total_feed ?? 'Y';
-		$config->feed_document_count = $config->feed_document_count ?? 15;
+		$config->feed_document_count = intval($config->feed_document_count ?? 15) ?: 15;
 		if (isset($config->image) && $config->image)
 		{
 			$config->image_url = $config->image . '?' . date('YmdHis', filemtime($config->image));

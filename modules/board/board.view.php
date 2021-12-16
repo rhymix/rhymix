@@ -838,7 +838,7 @@ class boardView extends board
 
 		// GET parameter document_srl from request
 		$document_srl = Context::get('document_srl');
-		$oDocument = DocumentModel::getDocument(0, $this->grant->manager);
+		$oDocument = DocumentModel::getDocument(0);
 		$oDocument->setDocument($document_srl);
 
 		$savedDoc = ($oDocument->get('module_srl') == $oDocument->get('member_srl'));
@@ -1078,7 +1078,7 @@ class boardView extends board
 		}
 
 		// get the comment
-		$oSourceComment = CommentModel::getComment($parent_srl, $this->grant->manager);
+		$oSourceComment = CommentModel::getComment($parent_srl);
 
 		// if the comment is not existed, opoup an error message
 		if(!$oSourceComment->isExists())
@@ -1098,7 +1098,7 @@ class boardView extends board
 		}
 
 		// get the comment information
-		$oComment = CommentModel::getComment();
+		$oComment = CommentModel::getComment(0);
 		$oComment->add('parent_srl', $parent_srl);
 		$oComment->add('document_srl', $oSourceComment->get('document_srl'));
 
@@ -1138,7 +1138,7 @@ class boardView extends board
 		}
 
 		// get comment information
-		$oComment = CommentModel::getComment($comment_srl, $this->grant->manager);
+		$oComment = CommentModel::getComment($comment_srl);
 
 		// if the comment is not exited, alert an error message
 		if(!$oComment->isExists())
@@ -1205,7 +1205,7 @@ class boardView extends board
 		// if the comment exists, then get the comment information
 		if($comment_srl)
 		{
-			$oComment = CommentModel::getComment($comment_srl, $this->grant->manager);
+			$oComment = CommentModel::getComment($comment_srl);
 		}
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)

@@ -131,3 +131,4 @@ $lang->cmd_set_multilingual_text = 'Set multilingual text';
 $lang->cmd_remove_multilingual_text = 'Remove multilingual text';
 $lang->use_site_default_skin = 'Use site default skin';
 $lang->use_responsive_pc_skin = 'Use responsive PC skin';
+$lang->msg_filebox_invalid_extension = 'This file format (%s) cannot be uploaded using the Filebox.';
