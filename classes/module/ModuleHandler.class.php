@@ -423,7 +423,7 @@ class ModuleHandler extends Handler
 		}
 		else
 		{
-			$oModule = self::getModuleInstance($this->module, $type, $kind);
+			$oModule = self::getModuleInstance($this->module, $type ?: 'class', $kind);
 		}
 
 		if(!is_object($oModule))
