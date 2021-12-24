@@ -583,6 +583,10 @@ class FileHandler
 		{
 			return false;
 		}
+		if (!$source)
+		{
+			return false;
+		}
 
 		// Rotate image
 		if ($rotate)
