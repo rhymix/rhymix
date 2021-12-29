@@ -14,7 +14,7 @@ class Push
 	protected $to = array();
 	protected $subject = '';
 	protected $content = '';
-	protected $notification = [];
+	protected $metadata = [];
 	protected $data = [];
 	protected $errors = array();
 	protected $success_tokens = array();
@@ -205,8 +205,18 @@ class Push
 	 */
 	public function setClickAction(string $click_action): bool
 	{
-		$this->notification['click_action'] = utf8_trim(utf8_clean($click_action));
+		$this->metadata['click_action'] = utf8_trim(utf8_clean($click_action));
 		return true;
+	}
+
+	/**
+	 * Get the click-action associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getClickAction(): string
+	{
+		return $this->metadata['click_action'];
 	}
 	
 	/**
@@ -217,7 +227,7 @@ class Push
 	 */
 	public function setSound(string $sound): bool
 	{
-		$this->notification['sound'] = utf8_trim(utf8_clean($sound));
+		$this->metadata['sound'] = utf8_trim(utf8_clean($sound));
 		return true;
 	}
 	
@@ -229,7 +239,7 @@ class Push
 	 */
 	public function setBadge(string $badge): bool
 	{
-		$this->notification['badge'] = utf8_trim(utf8_clean($badge));
+		$this->metadata['badge'] = utf8_trim(utf8_clean($badge));
 		return true;
 	}
 
@@ -241,7 +251,7 @@ class Push
 	 */
 	public function setIcon(string $icon): bool
 	{
-		$this->notification['icon'] = utf8_trim(utf8_clean($icon));
+		$this->metadata['icon'] = utf8_trim(utf8_clean($icon));
 		return true;
 	}
 
@@ -253,7 +263,7 @@ class Push
 	 */
 	public function setTag(string $tag): bool
 	{
-		$this->notification['tag'] = utf8_trim(utf8_clean($tag));
+		$this->metadata['tag'] = utf8_trim(utf8_clean($tag));
 		return true;
 	}
 	
@@ -265,7 +275,7 @@ class Push
 	 */
 	public function setColor(string $color): bool
 	{
-		$this->notification['color'] = utf8_trim(utf8_clean($color));
+		$this->metadata['color'] = utf8_trim(utf8_clean($color));
 		return true;
 	}
 	
@@ -277,7 +287,7 @@ class Push
 	 */
 	public function setAndroidChannelId(string $android_channel_id): bool
 	{
-		$this->notification['android_channel_id'] = utf8_trim(utf8_clean($android_channel_id));
+		$this->metadata['android_channel_id'] = utf8_trim(utf8_clean($android_channel_id));
 		return true;
 	}
 	
@@ -288,7 +298,7 @@ class Push
 	 */
 	public function getNotifications(): array
 	{
-		return $this->notification;
+		return $this->metadata;
 	}
 
 	/**
