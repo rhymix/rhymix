@@ -296,9 +296,11 @@ class Push
 	 * 
 	 * @return array
 	 */
-	public function getNotifications(): array
+	public function getMetadata(): array
 	{
-		return $this->metadata;
+		return array_filter($this->metadata, function($val) {
+			return $val !== '';
+		});
 	}
 
 	/**

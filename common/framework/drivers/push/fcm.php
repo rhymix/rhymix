@@ -59,7 +59,7 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		);
 
 		// Set notification
-		$notification = $message->getNotifications() ?? [];
+		$notification = $message->getMetadata();
 		$notification['title'] = $message->getSubject();
 		$notification['body'] = $message->getContent();
 
