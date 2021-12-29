@@ -15,6 +15,12 @@ class Push
 	protected $subject = '';
 	protected $content = '';
 	protected $click_action = '';
+	protected $sound = '';
+	protected $badge = '';
+	protected $icon = '';
+	protected $tag = '';
+	protected $color = '';
+	protected $android_channel_id = '';
 	protected $data = [];
 	protected $errors = array();
 	protected $success_tokens = array();
@@ -217,6 +223,138 @@ class Push
 	public function getClickAction(): string
 	{
 		return $this->click_action;
+	}
+	
+	/**
+	 * Set a sound to associate with this push notification.
+	 *
+	 * @param string $sound
+	 * @return bool
+	 */
+	public function setSound(string $sound): bool
+	{
+		$this->sound = utf8_trim(utf8_clean($sound));
+		return true;
+	}
+	
+	/**
+	 * Get the sound associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getSound(): string
+	{
+		return $this->sound;
+	}
+
+	/**
+	 * Set a badge to associate with this push notification.
+	 *
+	 * @param string $badge
+	 * @return bool
+	 */
+	public function setBadge(string $badge): bool
+	{
+		$this->badge = utf8_trim(utf8_clean($badge));
+		return true;
+	}
+	
+	/**
+	 * Get the badge associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getBadge(): string
+	{
+		return $this->badge;
+	}
+
+	/**
+	 * Set an icon to associate with this push notification.
+	 *
+	 * @param string $icon
+	 * @return bool
+	 */
+	public function setIcon(string $icon): bool
+	{
+		$this->icon = utf8_trim(utf8_clean($icon));
+		return true;
+	}
+	
+	/**
+	 * Get the icon associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getIcon(): string
+	{
+		return $this->icon;
+	}
+
+	/**
+	 * Set a tag to associate with this push notification.
+	 *
+	 * @param string $tag
+	 * @return bool
+	 */
+	public function setTag(string $tag): bool
+	{
+		$this->tag = utf8_trim(utf8_clean($tag));
+		return true;
+	}
+	
+	/**
+	 * Get the tag associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getTag(): string
+	{
+		return $this->tag;
+	}
+
+	/**
+	 * Set a color to associate with this push notification.
+	 *
+	 * @param string $color
+	 * @return bool
+	 */
+	public function setColor(string $color): bool
+	{
+		$this->color = utf8_trim(utf8_clean($color));
+		return true;
+	}
+	
+	/**
+	 * Get the color associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getColor(): string
+	{
+		return $this->color;
+	}
+
+	/**
+	 * Set an android-channel-id to associate with this push notification.
+	 *
+	 * @param string $android_channel_id
+	 * @return bool
+	 */
+	public function setAndroidChannelId(string $android_channel_id): bool
+	{
+		$this->android_channel_id = utf8_trim(utf8_clean($android_channel_id));
+		return true;
+	}
+	
+	/**
+	 * Get the android-channel-id associated with this push notification.
+	 * 
+	 * @return string
+	 */
+	public function getAndroidChannelId(): string
+	{
+		return $this->android_channel_id;
 	}
 
 	/**

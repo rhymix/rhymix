@@ -66,6 +66,30 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		{
 			$notification['click_action'] = $message->getClickAction();
 		}
+		if($message->getSound())
+		{
+			$notification['sound'] = $message->getSound();
+		}
+		if($message->getBadge())
+		{
+			$notification['badge'] = $message->getBadge();
+		}
+		if($message->getIcon())
+		{
+			$notification['icon'] = $message->getIcon();
+		}
+		if($message->getTag())
+		{
+			$notification['tag'] = $message->getTag();
+		}
+		if($message->getColor())
+		{
+			$notification['color'] = $message->getColor();
+		}
+		if($message->getAndroidChannelId())
+		{
+			$notification['android_channel_id'] = $message->getAndroidChannelId();
+		}
 
 		$chunked_token = array_chunk($tokens, 1000);
 		foreach($chunked_token as $token_unit)
