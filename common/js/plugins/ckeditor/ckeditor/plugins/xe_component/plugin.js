@@ -41,7 +41,7 @@ CKEDITOR.plugins.add('xe_component', {
 			}
 
 			if(!element) element = evt.data.element;
-			if(!editor_component && element && element.is('img')) {
+			if(!editor_component && element && element.is('img') && typeof config.xe_component_arrays.image_link !== 'undefined') {
 				editor_component = 'image_link';
 			}
 

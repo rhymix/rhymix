@@ -148,6 +148,8 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			{@ $xe_component = implode(',', $xe_component); }
 
 			settings.ckeconfig.xe_component_arrays = {{$xe_component}};
+		<!--@else-->
+			settings.ckeconfig.xe_component_arrays = {};
 		<!--@endif-->
 
 		<!--@if(!$enable_default_component)-->
