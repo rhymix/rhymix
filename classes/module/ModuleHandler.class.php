@@ -340,7 +340,7 @@ class ModuleHandler extends Handler
 		$class_name = $xml_info->action->{$this->act}->class_name ?? null;
 		$ruleset = $xml_info->action->{$this->act}->ruleset ?? null;
 		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? null;
-		$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
+		$kind = (stripos($this->act, 'admin') !== false || stripos($class_name, 'admin') !== false) ? 'admin' : '';
 		if ($meta_noindex === 'true')
 		{
 			Context::addMetaTag('robots', 'noindex');
@@ -476,7 +476,7 @@ class ModuleHandler extends Handler
 			
 			if(!empty($forward->module))
 			{
-				$kind = stripos($forward->act, 'admin') !== FALSE ? 'admin' : '';
+				$kind = (stripos($forward->act, 'admin') !== false || stripos($forward->class_name, 'admin') !== false) ? 'admin' : '';
 				$type = $forward->type;
 				$ruleset = $forward->ruleset;
 				$tpl_path = $oModule->getTemplatePath();
