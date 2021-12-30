@@ -457,7 +457,7 @@ class memberController extends member
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.procMemberScrapDocument', 'after', $args);
 		
-		$this->setError(-1);
+		//$this->setError(-1);
 		$this->setMessage('success_registed');
 	}
 
