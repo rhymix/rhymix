@@ -59,7 +59,11 @@ class communication extends ModuleObject
 
 		if(!is_dir("./files/member_extra_info/new_message_flags"))
 		{
-			return TRUE;
+			FileHandler::makeDir('./files/member_extra_info/new_message_flags');
+			if(!is_dir("./files/member_extra_info/new_message_flags"))
+			{
+				return TRUE;
+			}
 		}
 		
 		return FALSE;
