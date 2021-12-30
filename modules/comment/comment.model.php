@@ -137,7 +137,7 @@ class commentModel extends comment
 	/**
 	 * Returns the number of child comments
 	 * @param int $comment_srl
-	 * @return int
+	 * @return array
 	 */
 	public static function getChildComments($comment_srl)
 	{

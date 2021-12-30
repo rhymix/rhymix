@@ -1107,11 +1107,6 @@ class documentController extends document
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
-		$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
-		if($member_info->is_admin === 'Y' && $this->user->is_admin !== 'Y')
-		{
-			return new BaseObject(-1, 'msg_document_is_admin_not_permitted');
-		}
 
 		//if empty trash, document already deleted, therefore document not delete
 		$args = new stdClass();

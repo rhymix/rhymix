@@ -359,6 +359,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->protect_admin_content}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="protect_admin_content_delete"><input type="checkbox" name="protect_admin_content_delete" id="protect_admin_content_delete" value="Y" checked="checked"|cond="$module_info->protect_admin_content_delete !== 'N'" /> {$lang->cmd_delete}</label>
+				<label class="x_inline" for="protect_admin_content_update"><input type="checkbox" name="protect_admin_content_update" id="protect_admin_content_update" value="Y" checked="checked"|cond="$module_info->protect_admin_content_update !== 'N'" /> {$lang->cmd_modify}</label>
+				<p>{$lang->about_protect_admin_content}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_regdate}</label>
 			<div class="x_controls">
 				{$lang->document} : <input type="number" name="protect_document_regdate" id="protect_document_regdate" value="{$module_info->protect_document_regdate}" />

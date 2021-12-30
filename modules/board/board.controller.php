@@ -127,10 +127,13 @@ class boardController extends board
 			}
 			
 			// Protect admin document
-			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
-			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+			if ($this->module_info->protect_admin_content_update !== 'N')
 			{
-				throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
+				$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+				if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+				{
+					throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
+				}
 			}
 			
 			// if document status is temp
@@ -327,6 +330,15 @@ class boardController extends board
 			}
 		}
 
+		if ($this->module_info->protect_admin_content_delete !== 'N' && $this->user->is_admin !== 'Y')
+		{
+			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+			if($member_info->is_admin === 'Y')
+			{
+				return new BaseObject(-1, 'document.msg_document_is_admin_not_permitted');
+			}
+		}
+
 		if($this->module_info->protect_document_regdate > 0 && $this->grant->manager == false)
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
@@ -473,10 +485,13 @@ class boardController extends board
 			}
 		}
 
-		$member_info = MemberModel::getMemberInfo($comment->member_srl);
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		if ($this->module_info->protect_admin_content_update !== 'N')
 		{
-			throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
+			$member_info = MemberModel::getMemberInfo($comment->member_srl);
+			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+			{
+				throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
+			}
 		}
 
 		// INSERT if comment_srl does not exist.
@@ -582,6 +597,15 @@ class boardController extends board
 			}
 		}
 		
+		if ($this->module_info->protect_admin_content_delete !== 'N' && $this->user->is_admin !== 'Y')
+		{
+			$member_info = MemberModel::getMemberInfo($comment->get('member_srl'));
+			if($member_info->is_admin === 'Y')
+			{
+				return new BaseObject(-1, 'comment.msg_admin_comment_no_delete');
+			}
+		}
+
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
 			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
