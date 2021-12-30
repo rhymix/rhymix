@@ -59,7 +59,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="feed_document_count">{$lang->feed_document_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" max="100" name="feed_document_count" value="{$config->feed_document_count}" id="feed_document_count" />
+				<input type="number" min="1" max="1000" name="feed_document_count" value="{$config->feed_document_count ?: 20}" id="feed_document_count" />
 			</div>
 		</div>
 		<div class="btnArea x_clearfix">

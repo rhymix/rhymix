@@ -64,7 +64,11 @@ class rssAdminController extends rss
 		{
 			$vars->open_rss = 'Y';
 		}
-		$vars->feed_document_count = (int) $vars->feed_document_count;
+		$vars->feed_document_count = intval($vars->feed_document_count);
+		if ($vars->feed_document_count < 1 || $vars->feed_document_count > 1000)
+		{
+			$vars->feed_document_count = 20;
+		}
 		
 		getController('module')->updateModuleConfig('rss', $vars);
 		

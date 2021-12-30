@@ -140,7 +140,7 @@ class rssView extends rss
 				$args->search_keyword = 'N';
 				$args->page = $page > 0 ? $page : 1;
 				$args->module_srl = array_keys($target_modules);
-				$args->list_count = $config->feed_document_count;
+				$args->list_count = $config->feed_document_count > 0 ? $config->feed_document_count : 20;
 				$args->sort_index = 'regdate';
 				$args->order_type = 'desc';
 				$document_list = getModel('document')->getDocumentList($args)->data;
