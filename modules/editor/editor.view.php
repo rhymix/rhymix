@@ -66,7 +66,8 @@ class editorView extends editor
 		$oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence, $site_srl);
 		if(!$oComponent->toBool())
 		{
-			Context::set('message', sprintf(lang('msg_component_is_not_founded'), $component));
+			Context::set('message', sprintf($oComponent->getMessage(), $component));
+			$this->setLayoutFile('popup_layout');
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('component_not_founded');
 		}

@@ -532,6 +532,10 @@ class editorModel extends editor
 
 			// Add configuration information
 			$component_info = self::getComponent($component, $site_srl);
+			if ($component_info->enabled !== 'Y')
+			{
+				return new BaseObject(-1, 'msg_component_is_disabled', $component);
+			}
 			$oComponent->setInfo($component_info);
 			self::$_loaded_component_list[$component][$editor_sequence] = $oComponent;
 		}
