@@ -3600,6 +3600,18 @@ class memberController extends member
 		}
 		
 		$is_special = ($config->special_phone_number && $config->special_phone_number === preg_replace('/[^0-9]/', '', $phone_number));
+		
+		// Check if phone number is duplicate
+		if (!$is_special && $config->phone_number_allow_duplicate !== 'Y')
+		{
+			$member_srl = MemberModel::getMemberSrlByPhoneNumber($phone_number, $phone_country);
+			if($member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_phone_number');
+			}
+		}
+		
+		// Generate code and store in session
 		$code = intval(mt_rand(100000, 999999));
 		$_SESSION['verify_by_sms'] = array(
 			'country' => $phone_country,
