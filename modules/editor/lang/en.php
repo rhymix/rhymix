@@ -61,6 +61,7 @@ $lang->content_font_size = 'Content Font Size';
 $lang->about_component = 'About component';
 $lang->about_component_mid = 'Editor components can select targets.(All targets will be selected when nothing is selected.)';
 $lang->msg_component_is_not_founded = 'Cannot find editor component %s.';
+$lang->msg_component_is_disabled = 'Editor component %s is disabled.';
 $lang->msg_component_is_inserted = 'Selected component is already inserted.';
 $lang->msg_component_is_first_order = 'Selected component is located at the first position.';
 $lang->msg_component_is_last_order = 'Selected component is located at the last position.';

@@ -457,7 +457,7 @@ class memberController extends member
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.procMemberScrapDocument', 'after', $args);
 		
-		$this->setError(-1);
+		//$this->setError(-1);
 		$this->setMessage('success_registed');
 	}
 
@@ -3640,6 +3640,33 @@ class memberController extends member
 		}
 		
 		$is_special = ($config->special_phone_number && $config->special_phone_number === preg_replace('/[^0-9]/', '', $phone_number));
+		
+		// Check if SMS has already been sent
+		if (!$is_special)
+		{
+			$args = new stdClass;
+			$args->phone_number = $phone_number;
+			$args->phone_country = $phone_country;
+			$args->ipaddress = \RX_CLIENT_IP;
+			$args->regdate_since = date('YmdHis', time() - ($config->max_auth_sms_count_time ?: 600));
+			$output = executeQuery('member.chkAuthSms', $args);
+			if ($output->data->count >= ($config->max_auth_sms_count ?: 5))
+			{
+				return new BaseObject(-1, 'msg_auth_sms_rate_limited');
+			}
+		}
+		
+		// Check if phone number is duplicate
+		if (!$is_special && $config->phone_number_allow_duplicate !== 'Y')
+		{
+			$member_srl = MemberModel::getMemberSrlByPhoneNumber($phone_number, $phone_country);
+			if($member_srl)
+			{
+				return new BaseObject(-1, 'msg_exists_phone_number');
+			}
+		}
+		
+		// Generate code and store in session
 		$code = intval(mt_rand(100000, 999999));
 		$_SESSION['verify_by_sms'] = array(
 			'country' => $phone_country,
@@ -3647,6 +3674,14 @@ class memberController extends member
 			'code' => $is_special ? intval($config->special_phone_code) : $code,
 			'status' => false,
 		);
+		
+		// Store in DB
+		$args = new stdClass;
+		$args->member_srl = $this->user->member_srl ?: 0;
+		$args->phone_number = $phone_number;
+		$args->phone_country = $phone_country;
+		$args->code = $is_special ? intval($config->special_phone_code) : $code;
+		executeQuery('member.insertAuthSms', $args);
 		
 		if ($is_special)
 		{

@@ -712,7 +712,7 @@ class ncenterliteModel extends ncenterlite
 
 		$date = getdate(strtotime(zdate($datetime, 'Y-m-d H:i:s')));
 
-		$current = getdate();
+		$current = getdate(time() + zgap());
 		$p = array('year', 'mon', 'mday', 'hours', 'minutes', 'seconds');
 		$factor = array(0, 12, 30, 24, 60, 60);
 

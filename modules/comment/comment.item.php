@@ -790,6 +790,8 @@ class commentItem extends BaseObject
 		// get an image file from the doc content if no file attached. 
 		if(!$source_file && $config->thumbnail_target !== 'attachment')
 		{
+			$external_image_min_width = min(100, round($trigger_obj->width * 0.3));
+			$external_image_min_height = min(100, round($trigger_obj->height * 0.3));
 			preg_match_all("!<img\s[^>]*?src=(\"|')([^\"' ]*?)(\"|')!is", $this->get('content'), $matches, PREG_SET_ORDER);
 			foreach($matches as $match)
 			{
@@ -820,7 +822,7 @@ class commentItem extends BaseObject
 						if($is_img = @getimagesize($tmp_file))
 						{
 							list($_w, $_h, $_t, $_a) = $is_img;
-							if($_w < ($width * 0.3) && ($height === 'auto' || $_h < ($height * 0.3)))
+							if($_w < ($external_image_min_width) && ($height === 'auto' || $_h < ($external_image_min_height)))
 							{
 								continue;
 							}

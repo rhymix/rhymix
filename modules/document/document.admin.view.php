@@ -226,7 +226,7 @@ class documentAdminView extends document
 			if ($declared_output->data && count($declared_output->data))
 			{
 				$args->document_srls = array_map(function($item) { return $item->document_srl; }, $declared_output->data);
-				unset($args->page);
+				$args->list_count = 0; unset($args->page);
 				$declared_latest = executeQueryArray('document.getDeclaredLatest', $args);
 				$document_list = array();
 				foreach ($declared_output->data as $key => $document)

@@ -42,10 +42,14 @@
 		if (url1.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i) || url2.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
 			return false;
 		}
-			
-		url1 = window.XE.URI(url1).normalizePort().normalizeHostname().normalizePathname().origin();
-		url2 = window.XE.URI(url2).normalizePort().normalizeHostname().normalizePathname().origin();
-		return (url1 === url2) ? true : false;
+		
+		try {
+			url1 = window.XE.URI(url1).normalizePort().normalizeHostname().normalizePathname().origin();
+			url2 = window.XE.URI(url2).normalizePort().normalizeHostname().normalizePathname().origin();
+			return (url1 === url2) ? true : false;
+		} catch (err) {
+			return false;
+		}
 	};
 
 	/**

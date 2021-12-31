@@ -59,6 +59,7 @@ $lang->content_font_size = '문서 폰트 크기';
 $lang->about_component = '컴포넌트 소개';
 $lang->about_component_mid = '에디터 컴포넌트가 사용될 대상을 지정할 수 있습니다.(모두 해제 시 모든 대상에서 사용 가능합니다)';
 $lang->msg_component_is_not_founded = '%s 에디터 컴포넌트를 찾을 수 없습니다.';
+$lang->msg_component_is_disabled = '%s 에디터 컴포넌트는 사용하지 않도록 설정되어 있습니다.';
 $lang->msg_component_is_inserted = '선택한 컴포넌트는 이미 입력되어 있습니다.';
 $lang->msg_component_is_first_order = '선택한 컴포넌트는 첫 번째에 위치하고 있습니다.';
 $lang->msg_component_is_last_order = '선택한 컴포넌트는 마지막에 위치하고 있습니다.';

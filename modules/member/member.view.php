@@ -254,7 +254,7 @@ class memberView extends member
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
 				$option->allow_html = $member_config->signature_html !== 'N';
-				$option->allow_fileupload = false;
+				$option->allow_fileupload = $member_config->member_allow_fileupload === 'Y';
 				$option->enable_autosave = false;
 				$option->enable_default_component = true;
 				$option->enable_component = false;
@@ -265,7 +265,11 @@ class memberView extends member
 				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
-
+				if (!$option->allow_html)
+				{
+					$option->editor_skin = 'textarea';
+				}
+				
 				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
@@ -365,6 +369,10 @@ class memberView extends member
 				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
+				if (!$option->allow_html)
+				{
+					$option->editor_skin = 'textarea';
+				}
 				
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
 			}

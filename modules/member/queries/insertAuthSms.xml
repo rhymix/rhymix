@@ -1,0 +1,13 @@
+<query id="insertAuthSms" action="insert">
+    <tables>
+        <table name="member_auth_sms" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" filter="number" default="0" />
+        <column name="phone_number" var="phone_number" notnull="notnull" />
+        <column name="phone_country" var="phone_country" notnull="notnull" />
+        <column name="code" var="code" notnull="notnull" />
+        <column name="regdate" var="regdate" default="curdate()" />
+		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
+    </columns>
+</query>

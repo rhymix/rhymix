@@ -1,0 +1,9 @@
+<table name="member_auth_sms">
+	<column name="id" type="bignumber" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
+	<column name="phone_number" type="varchar" size="80" index="idx_phone_number" />
+	<column name="phone_country" type="varchar" size="10" index="idx_phone_country" />
+	<column name="code" type="varchar" size="20" notnull="notnull" />
+	<column name="regdate" type="date" index="idx_regdate" />
+	<column name="ipaddress" type="varchar" size="60" index="idx_ipaddress" />
+</table>

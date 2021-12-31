@@ -14,7 +14,7 @@ class Push
 	protected $to = array();
 	protected $subject = '';
 	protected $content = '';
-	protected $click_action = '';
+	protected $metadata = [];
 	protected $data = [];
 	protected $errors = array();
 	protected $success_tokens = array();
@@ -205,10 +205,10 @@ class Push
 	 */
 	public function setClickAction(string $click_action): bool
 	{
-		$this->click_action = utf8_trim(utf8_clean($click_action));
+		$this->metadata['click_action'] = utf8_trim(utf8_clean($click_action));
 		return true;
 	}
-	
+
 	/**
 	 * Get the click-action associated with this push notification.
 	 * 
@@ -216,7 +216,91 @@ class Push
 	 */
 	public function getClickAction(): string
 	{
-		return $this->click_action;
+		return $this->metadata['click_action'];
+	}
+	
+	/**
+	 * Set a sound to associate with this push notification.
+	 *
+	 * @param string $sound
+	 * @return bool
+	 */
+	public function setSound(string $sound): bool
+	{
+		$this->metadata['sound'] = utf8_trim(utf8_clean($sound));
+		return true;
+	}
+	
+	/**
+	 * Set a badge to associate with this push notification.
+	 *
+	 * @param string $badge
+	 * @return bool
+	 */
+	public function setBadge(string $badge): bool
+	{
+		$this->metadata['badge'] = utf8_trim(utf8_clean($badge));
+		return true;
+	}
+
+	/**
+	 * Set an icon to associate with this push notification.
+	 *
+	 * @param string $icon
+	 * @return bool
+	 */
+	public function setIcon(string $icon): bool
+	{
+		$this->metadata['icon'] = utf8_trim(utf8_clean($icon));
+		return true;
+	}
+
+	/**
+	 * Set a tag to associate with this push notification.
+	 *
+	 * @param string $tag
+	 * @return bool
+	 */
+	public function setTag(string $tag): bool
+	{
+		$this->metadata['tag'] = utf8_trim(utf8_clean($tag));
+		return true;
+	}
+	
+	/**
+	 * Set a color to associate with this push notification.
+	 *
+	 * @param string $color
+	 * @return bool
+	 */
+	public function setColor(string $color): bool
+	{
+		$this->metadata['color'] = utf8_trim(utf8_clean($color));
+		return true;
+	}
+	
+	/**
+	 * Set an android-channel-id to associate with this push notification.
+	 *
+	 * @param string $android_channel_id
+	 * @return bool
+	 */
+	public function setAndroidChannelId(string $android_channel_id): bool
+	{
+		$this->metadata['android_channel_id'] = utf8_trim(utf8_clean($android_channel_id));
+		return true;
+	}
+	
+	/**
+	 * Get notification array
+	 * 
+	 * @return array
+	 */
+	public function getMetadata(): array
+	{
+		return array_filter($this->metadata, function($val) {
+			return $val !== '';
+		});
 	}
 
 	/**

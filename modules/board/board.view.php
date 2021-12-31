@@ -863,10 +863,13 @@ class boardView extends board
 				}
 			}
 			
-			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
-			if($member_info->is_admin == 'Y' && $this->user->is_admin != 'Y')
+			if ($this->module_info->protect_admin_content_update !== 'N')
 			{
-				throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
+				$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+				if($member_info->is_admin == 'Y' && $this->user->is_admin != 'Y')
+				{
+					throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
+				}
 			}
 		}
 
@@ -1003,6 +1006,15 @@ class boardView extends board
 			}
 		}
 
+		if ($this->module_info->protect_admin_content_delete !== 'N')
+		{
+			$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
+			if($member_info->is_admin == 'Y' && $this->user->is_admin != 'Y')
+			{
+				throw new Rhymix\Framework\Exception('document.msg_document_is_admin_not_permitted');
+			}
+		}
+
 		Context::set('oDocument',$oDocument);
 
 		/**
@@ -1120,7 +1132,6 @@ class boardView extends board
 	 **/
 	function dispBoardModifyComment()
 	{
-		$logged_info = Context::get('logged_info');
 		// check grant
 		if(!$this->grant->write_comment)
 		{
@@ -1170,12 +1181,16 @@ class boardView extends board
 			}
 		}
 
-		$member_info = MemberModel::getMemberInfo($oComment->member_srl);
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+		$logged_info = Context::get('logged_info');
+		if ($this->module_info->protect_admin_content_update !== 'N' && $logged_info->is_admin !== 'Y' && $logged_info->member_srl !== $oComment->member_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
+			$member_info = MemberModel::getMemberInfo($oComment->member_srl);
+			if($member_info->is_admin === 'Y')
+			{
+				throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
+			}
 		}
-
+		
 		// setup the comment variables on context
 		Context::set('oSourceComment', CommentModel::getComment());
 		Context::set('oComment', $oComment);
@@ -1227,6 +1242,16 @@ class boardView extends board
 			}
 		}
 
+		$logged_info = Context::get('logged_info');
+		if ($this->module_info->protect_admin_content_delete !== 'N' && $logged_info->is_admin !== 'Y' && $logged_info->member_srl !== $oComment->member_srl)
+		{
+			$member_info = MemberModel::getMemberInfo($oComment->member_srl);
+			if($member_info->is_admin === 'Y')
+			{
+				throw new Rhymix\Framework\Exception('msg_admin_comment_no_delete');
+			}
+		}
+		
 		// if the comment is not existed, then back to the board content page
 		if(!$oComment->isExists() )
 		{

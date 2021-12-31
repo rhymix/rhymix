@@ -58,7 +58,9 @@ class boardAdminController extends board {
 		if($args->skip_bottom_list_for_robot != 'Y') $args->skip_bottom_list_for_robot = 'N';
 		if($args->use_anonymous != 'Y') $args->use_anonymous = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
-		if($args->protect_content!= 'Y') $args->protect_content = 'N';
+		if($args->protect_content != 'Y') $args->protect_content = 'N';
+		if($args->protect_admin_content_update != 'Y') $args->protect_admin_content_update = 'N';
+		if($args->protect_admin_content_delete != 'Y') $args->protect_admin_content_delete = 'N';
 		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
 		

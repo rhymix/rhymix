@@ -1045,8 +1045,6 @@ class commentController extends comment
 	 */
 	function deleteComment($comment_srl, $is_admin = FALSE, $isMoveToTrash = FALSE, $childs = null)
 	{
-		$logged_info = Context::get('logged_info');
-
 		// check if comment already exists
 		$comment = CommentModel::getComment($comment_srl);
 		if(!$comment->isExists())
@@ -1058,8 +1056,10 @@ class commentController extends comment
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
-		$member_info = MemberModel::getMemberInfo($comment->member_srl);
-		$document_srl = $comment->document_srl;
+		$logged_info = Context::get('logged_info');
+		$member_info = MemberModel::getMemberInfo($comment->get('member_srl'));
+		$module_info = ModuleModel::getModuleInfo($comment->get('module_srl'));
+		$document_srl = $comment->get('document_srl');
 
 		// call a trigger (before)
 		$comment->isMoveToTrash = $isMoveToTrash ? true : false;
@@ -1080,7 +1080,6 @@ class commentController extends comment
 			$deleteAdminComment = TRUE;
 			if(!$is_admin)
 			{
-				$logged_info = Context::get('logged_info');
 				foreach($childs as $val)
 				{
 					if($val->member_srl != $logged_info->member_srl)
@@ -1092,14 +1091,16 @@ class commentController extends comment
 			}
 			else if($is_admin)
 			{
-				$logged_info = Context::get('logged_info');
 				foreach($childs as $val)
 				{
-					$c_member_info = MemberModel::getMemberInfoByMemberSrl($val->member_srl);
-					if($c_member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+					if ($module_info->protect_admin_content_delete !== 'N' && $logged_info->is_admin !== 'Y')
 					{
-						$deleteAdminComment = FALSE;
-						break;
+						$c_member_info = MemberModel::getMemberInfoByMemberSrl($val->member_srl);
+						if($c_member_info->is_admin == 'Y')
+						{
+							$deleteAdminComment = FALSE;
+							break;
+						}
 					}
 				}
 			}
@@ -1125,10 +1126,6 @@ class commentController extends comment
 			}
 		}
 
-		if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
-		{
-			return new BaseObject(-1, 'msg_admin_comment_no_delete');
-		}
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1208,7 +1205,11 @@ class commentController extends comment
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
-		if($this->user->is_admin !== 'Y')
+		
+		$logged_info = Context::get('logged_info');
+		$module_info = ModuleModel::getModuleInfo($oComment->get('module_srl'));
+		
+		if ($module_info->protect_admin_content_delete !== 'N' && $logged_info->is_admin !== 'Y')
 		{
 			$member_info = MemberModel::getMemberInfo($oComment->get('member_srl'));
 			if($member_info->is_admin === 'Y')

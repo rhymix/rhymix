@@ -184,6 +184,7 @@ class commentAdminView extends comment
 			if ($declared_output->data && count($declared_output->data))
 			{
 				$args->comment_srls = array_map(function($item) { return $item->comment_srl; }, $declared_output->data);
+				$args->list_count = 0; unset($args->page);
 				$declared_latest = executeQueryArray('comment.getDeclaredLatest', $args);
 				$comment_list = array();
 				foreach ($declared_output->data as $key => $comment)
