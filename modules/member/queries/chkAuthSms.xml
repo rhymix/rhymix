@@ -1,0 +1,14 @@
+<query id="chkAuthSms" action="select">
+    <tables>
+        <table name="member_auth_sms" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="phone_number" var="phone_number" notnull="notnull" />
+		<condition operation="equal" column="phone_country" var="phone_country" notnull="notnull" />
+		<condition operation="equal" column="ipaddress" var="ipaddress" />
+		<condition operation="more" column="regdate" var="regdate_since" />
+    </conditions>
+</query>

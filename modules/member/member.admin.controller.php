@@ -369,7 +369,7 @@ class memberAdminController extends member
 			'limit_day',
 			'limit_day_description',
 			'emailhost_check',
-			'special_phone_number', 'special_phone_code', 'redirect_url',
+			'special_phone_number', 'special_phone_code', 'max_auth_sms_count', 'max_auth_sms_count_time', 'redirect_url',
 			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate', 'phone_number_verify_by_sms',
 			'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
 			'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
@@ -390,6 +390,8 @@ class memberAdminController extends member
 		{
 			return new BaseObject('-1', 'msg_special_code_incorrect_format');
 		}
+		$args->max_auth_sms_count = max(0, intval($args->max_auth_sms_count));
+		$args->max_auth_sms_count_time = max(0, intval($args->max_auth_sms_count_time));
 		if($args->redirect_url)
 		{
 			$oModuleModel = getModel('module');
