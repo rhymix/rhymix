@@ -3620,6 +3620,14 @@ class memberController extends member
 			'status' => false,
 		);
 		
+		// Store in DB
+		$args = new stdClass;
+		$args->member_srl = $this->user->member_srl ?: 0;
+		$args->phone_number = $phone_number;
+		$args->phone_country = $phone_country;
+		$args->code = $is_special ? intval($config->special_phone_code) : $code;
+		executeQuery('member.insertAuthSms', $args);
+		
 		if ($is_special)
 		{
 			return new BaseObject(0, 'verify_by_sms_code_sent');
