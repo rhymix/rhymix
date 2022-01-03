@@ -153,12 +153,8 @@ class ModuleInstaller
 	{
 		$path_array = explode("/", $this->package->path);
 		$target_name = array_pop($path_array);
-		$oModule = getModule($target_name, "class");
-		if(!$oModule)
-		{
-			return new BaseObject(-1, 'msg_invalid_request');
-		}
-		if(!method_exists($oModule, "moduleUninstall"))
+		$oModule = ModuleModel::getModuleInstallClass($target_name);
+		if(!$oModule || !method_exists($oModule, 'moduleUninstall'))
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
@@ -203,16 +199,15 @@ class ModuleInstaller
 
 		if($type == "module")
 		{
-			$oModuleModel = getModel('module');
 			$oInstallController = getController('install');
 			$module_path = ModuleHandler::getModulePath($target_name);
-			if($oModuleModel->checkNeedInstall($target_name))
+			if(ModuleModel::checkNeedInstall($target_name))
 			{
 				$oInstallController->installModule($target_name, $module_path);
 			}
-			if($oModuleModel->checkNeedUpdate($target_name))
+			if(ModuleModel::checkNeedUpdate($target_name))
 			{
-				$oModule = getModule($target_name, 'class');
+				$oModule = ModuleModel::getModuleInstallClass($target_name);
 				if(method_exists($oModule, 'moduleUpdate'))
 				{
 					$oModule->moduleUpdate();
