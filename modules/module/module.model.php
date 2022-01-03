@@ -1375,6 +1375,27 @@ class moduleModel extends module
 		return $list;
 	}
 
+	/**
+	 * Get module install class
+	 * 
+	 * This method supports namespaced modules as well as XE-compatible modules.
+	 * 
+	 * @param string $module_name
+	 * @return ModuleObject|null
+	 */
+	public static function getModuleInstallClass(string $module_name)
+	{
+		$class_name = 'Rhymix\\Modules\\' . ucfirst($module_name) . '\\Install';
+		if (class_exists($class_name))
+		{
+			return $class_name::getInstance();
+		}
+		elseif ($oModule = getModule($module_name, 'class'))
+		{
+			return $oModule;
+		}
+	}
+
 	public static function checkNeedInstall($module_name)
 	{
 		$oDB = &DB::getInstance();
@@ -1402,7 +1423,7 @@ class moduleModel extends module
 	public static function checkNeedUpdate($module_name)
 	{
 		// Check if it is upgraded to module.class.php on each module
-		$oDummy = getModule($module_name, 'class');
+		$oDummy = self::getModuleInstallClass($module_name);
 		if($oDummy && method_exists($oDummy, "checkUpdate"))
 		{
 			return $oDummy->checkUpdate();
@@ -1502,7 +1523,7 @@ class moduleModel extends module
 				}
 				
 				// Check if it is upgraded to module.class.php on each module
-				$oDummy = getModule($module_name, 'class');
+				$oDummy = self::getModuleInstallClass($module_name);
 				if($oDummy && method_exists($oDummy, "checkUpdate"))
 				{
 					$info->need_update = $oDummy->checkUpdate();

@@ -316,7 +316,7 @@ class autoinstallModel extends autoinstall
 	{
 		$path_array = explode("/", $path);
 		$target_name = array_pop($path_array);
-		$oModule = getModule($target_name, "class");
+		$oModule = ModuleModel::getModuleInstallClass($target_name);
 		if(!$oModule)
 		{
 			return FALSE;

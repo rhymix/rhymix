@@ -38,8 +38,11 @@ class installAdminController extends install
 		$module_name = Context::get('module_name');
 		if(!$module_name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		$oModule = getModule($module_name, 'class');
-		if(!$oModule) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$oModule = ModuleModel::getModuleInstallClass($module_name);
+		if(!$oModule || !method_exists($oModule, 'moduleUpdate'))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		
 		Rhymix\Framework\Session::close();
 		

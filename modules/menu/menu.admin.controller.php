@@ -1569,7 +1569,7 @@ class menuAdminController extends menu
 			Context::set('error_messge', lang('msg_invalid_request'));
 
 		}
-		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(gif|jpeg|jpg|png)$/i',$target_file['name']))
+		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(jpe?g|gif|png|svg|webp)$/i',$target_file['name']))
 		{
 			Context::set('error_messge', lang('msg_invalid_request'));
 		}
@@ -2262,7 +2262,7 @@ class menuAdminController extends menu
 		$date = date('YmdHis');
 
 		// normal button
-		if($args->menu_normal_btn)
+		if($args->menu_normal_btn && preg_match('/\.(jpe?g|gif|png|svg|webp)$/i', $args->menu_normal_btn['name']))
 		{
 			$tmp_arr = explode('.',$args->menu_normal_btn['name']);
 			$ext = $tmp_arr[count($tmp_arr)-1];
@@ -2272,7 +2272,7 @@ class menuAdminController extends menu
 		}
 
 		// hover button
-		if($args->menu_hover_btn)
+		if($args->menu_hover_btn && preg_match('/\.(jpe?g|gif|png|svg|webp)$/i', $args->menu_hover_btn['name']))
 		{
 			$tmp_arr = explode('.',$args->menu_hover_btn['name']);
 			$ext = $tmp_arr[count($tmp_arr)-1];
@@ -2282,7 +2282,7 @@ class menuAdminController extends menu
 		}
 
 		// active button
-		if($args->menu_active_btn)
+		if($args->menu_active_btn && preg_match('/\.(jpe?g|gif|png|svg|webp)$/i', $args->menu_active_btn['name']))
 		{
 			$tmp_arr = explode('.',$args->menu_active_btn['name']);
 			$ext = $tmp_arr[count($tmp_arr)-1];
