@@ -388,10 +388,18 @@ class Formatter
 				}, explode(',', $matches[1]));
 				foreach ($import_files as $import_filename)
 				{
-					if (!preg_match('!^(https?:)?//!i', $import_filename) && file_exists($import_filename))
+					if (!preg_match('!^(https?:)?//!i', $import_filename))
 					{
-						$imported_list[] = $import_filename;
-						$import_content .= self::concatCSS($import_filename, $target_filename, false, $imported_list);
+						if (file_exists($import_filename))
+						{
+							$imported_list[] = $import_filename;
+							$import_content .= self::concatCSS($import_filename, $target_filename, false, $imported_list);
+						}
+						else
+						{
+							$error_filename = substr($import_filename, strlen(\RX_BASEDIR));
+							trigger_error('Imported file not found: ' . $error_filename, \E_USER_WARNING);
+						}
 					}
 					else
 					{
