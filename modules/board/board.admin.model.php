@@ -42,7 +42,10 @@ class boardAdminModel extends board
 
 		// get document status list
 		$oDocumentModel = getModel('document');
-		$documentStatusList = $oDocumentModel->getStatusNameList();
+		$documentStatusList = array_intersect_key($oDocumentModel->getStatusNameList(), [
+			'PUBLIC' => true,
+			'SECRET' => true,
+		]);
 		Context::set('document_status_list', $documentStatusList);
 
 		// set order target list
