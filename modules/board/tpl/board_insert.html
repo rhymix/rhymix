@@ -249,6 +249,12 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->anonymous_except_admin}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="anonymous_except_admin"><input type="checkbox" name="anonymous_except_admin" id="anonymous_except_admin" value="Y" checked="checked"|cond="$module_info->anonymous_except_admin == 'Y'" /> {$lang->about_anonymous_except_admin}</label>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->anonymous_name}</label>
 			<div class="x_controls">
 				<input type="text" name="anonymous_name" id="anonymous_name" value="{$module_info->anonymous_name ?: 'anonymous'}" />

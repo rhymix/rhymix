@@ -2,6 +2,7 @@
 $lang->board = '掲示板';
 $lang->except_notice = 'お知らせの非表示';
 $lang->use_anonymous = '匿名機能を使う';
+$lang->anonymous_except_admin = '管理者匿名除く';
 $lang->cmd_manage_menu = 'メニュー管理';
 $lang->list_target_item = '対象項目';
 $lang->list_display_item = '表示項目';
@@ -24,6 +25,7 @@ $lang->about_layout_setup = 'ブログのレイアウトのコードを直接修
 $lang->about_board_category = 'ブログのカテゴリを作成します。 ブログのカテゴリが誤作動する場合、「キャッシュファイルの再生性」を手動で行うことで解決できます。';
 $lang->about_except_notice = 'リストの上段に常に表示されるお知らせの書き込みを一般リストの場合、表示されないようにします。';
 $lang->about_use_anonymous = '匿名掲示板として活用できます。スキン設定で「登録者の情報を表示しない」の設定をおすすめします。追加設定でのドキュメントヒストリー使用機能がオフにされていない場合、書き込みを修正した際に作成者が表示されます。';
+$lang->about_anonymous_except_admin = '管理者のニックネームは非表示になりません。';
 $lang->about_board = '掲示板の作成、および管理するモジュールです。';
 $lang->about_consultation = '相談機能とは、管理権限のない会員に本人の書き込みだけを表示する機能です。ただし、相談機能を使用する際は、非会員の書き込みは自動的に禁止されます。';
 $lang->about_secret = '掲示板およびコメントの非公開機能が使用できるようになります。';
