@@ -423,7 +423,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` IS NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['456', '5', '123'], $params);
 	}
 	

@@ -105,12 +105,12 @@ class VariableBase
 		switch ($this->operation)
 		{
 			case 'equal':
-				$where = sprintf('%s = %s', $column, $is_expression ? $value : '?');
+				$where = sprintf('%s %s %s', $column, ($is_expression && $value === 'NULL') ? 'IS' : '=', $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
 			case 'notequal':
 			case 'not_equal':
-				$where = sprintf('%s != %s', $column, $is_expression ? $value : '?');
+				$where = sprintf('%s %s %s', $column, ($is_expression && $value === 'NULL') ? 'IS NOT' : '!=', $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
 			case 'more':
