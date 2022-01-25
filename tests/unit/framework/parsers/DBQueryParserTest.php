@@ -446,4 +446,104 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('DELETE FROM `rx_documents` WHERE `document_srl` IN (?, ?, ?)', $sql);
 		$this->assertEquals(['12', '34', '56'], $params);
 	}
+	
+	public function testEmptyString()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/emptyStringTest1.xml');
+		
+		$sql = $query->getQueryString('rx_', array(
+			'nick_name' => '',
+			'document_srl' => 1234,
+		));
+		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['', 1234], $query->getQueryParams());
+		
+		$sql = $query->getQueryString('rx_', array(
+			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
+			'document_srl' => 1234,
+		));
+		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = \'\' WHERE `document_srl` = ?', $sql);
+		$this->assertEquals([1234], $query->getQueryParams());
+		
+		$sql = $query->getQueryString('rx_', array(
+			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
+			'document_srl' => '',
+		));
+		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = \'\'', $sql);
+		$this->assertEquals([], $query->getQueryParams());
+		
+		$sql = $query->getQueryString('rx_', array(
+			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
+			'document_srl' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
+		));
+		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = \'\' WHERE `document_srl` = \'\'', $sql);
+		$this->assertEquals([], $query->getQueryParams());
+		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/emptyStringTest2.xml');
+		
+		$sql = $query->getQueryString('rx_', array(
+			'category_srl' => 77,
+			'nick_name' => '',
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `category_srl` = ?', $sql);
+		$this->assertEquals([77], $query->getQueryParams());
+		
+		$sql = $query->getQueryString('rx_', array(
+			'category_srl' => 88,
+			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `category_srl` = ? AND `nick_name` = \'\'', $sql);
+		$this->assertEquals([88], $query->getQueryParams());
+	}
+	
+	public function testNullValue()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/nullValueTest1.xml');
+		
+		$sql = $query->getQueryString('rx_', array(
+			'user_name' => null,
+			'nick_name' => 'TEST',
+			'document_srl' => 1234,
+		));
+		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
+		
+		$sql = $query->getQueryString('rx_', array(
+			'user_name' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
+			'nick_name' => 'TEST',
+			'document_srl' => 1234,
+		));
+		$this->assertEquals('UPDATE `rx_documents` SET `user_name` = NULL, `nick_name` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
+		
+		$this->tester->expectThrowable(\Rhymix\Framework\Exceptions\QueryError::class, function() use($query) {
+			$query->getQueryString('rx_', array(
+				'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
+				'document_srl' => 1234,
+			));
+		});
+		
+		$this->tester->expectThrowable(\Rhymix\Framework\Exceptions\QueryError::class, function() use($query) {
+			$query->getQueryString('rx_', array(
+				'nick_name' => null,
+				'document_srl' => 1234,
+			));
+		});
+		
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/nullValueTest2.xml');
+		
+		$sql = $query->getQueryString('rx_', array(
+			'member_srl' => null,
+			'module_srl' => 456,
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `module_srl` = ?', $sql);
+		$this->assertEquals([456], $query->getQueryParams());
+		
+		$sql = $query->getQueryString('rx_', array(
+			'member_srl' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
+			'module_srl' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `module_srl` IS NULL AND `member_srl` IS NOT NULL', $sql);
+		$this->assertEquals([], $query->getQueryParams());
+	}
 }
