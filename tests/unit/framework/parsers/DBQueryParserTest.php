@@ -516,14 +516,14 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('UPDATE `rx_documents` SET `user_name` = NULL, `nick_name` = ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
 		
-		$this->tester->expectThrowable(\Rhymix\Framework\Exceptions\QueryError::class, function() use($query) {
+		$this->tester->expectThrowable('Exception', function() use($query) {
 			$query->getQueryString('rx_', array(
 				'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
 				'document_srl' => 1234,
 			));
 		});
 		
-		$this->tester->expectThrowable(\Rhymix\Framework\Exceptions\QueryError::class, function() use($query) {
+		$this->tester->expectThrowable('Exception', function() use($query) {
 			$query->getQueryString('rx_', array(
 				'nick_name' => null,
 				'document_srl' => 1234,
