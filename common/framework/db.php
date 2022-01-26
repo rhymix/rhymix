@@ -1046,7 +1046,7 @@ class DB
 						}
 						else
 						{
-							return sprintf('`%s%s`', $this->_prefix, $m[1]);	
+							return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s`', $this->_prefix, $m[1]);
 						}
 					}, trim($str));
 				}, explode(',', $m[2]));
