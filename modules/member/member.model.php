@@ -481,8 +481,17 @@ class memberModel extends member
 			$oSecurity = new Security($info);
 			$oSecurity->encodeHTML('user_id', 'user_name', 'nick_name', 'find_account_answer', 'description', 'address.', 'group_list..');
 
-			$info->homepage = strip_tags($info->homepage);
-			$info->blog = strip_tags($info->blog);
+			// Validate URLs
+			$info->homepage = escape(strip_tags($info->homepage));
+			if ($info->homepage !== '' && !preg_match('!^https?://[^\\\\/]+!', $info->homepage))
+			{
+				$info->homepage = '';
+			}
+			$info->blog = escape(strip_tags($info->blog));
+			if ($info->blog !== '' && !preg_match('!^https?://[^\\\\/]+!', $info->blog))
+			{
+				$info->blog = '';
+			}
 
 			if($extra_vars)
 			{
@@ -497,18 +506,6 @@ class memberModel extends member
 						$oSecurity->encodeHTML($key);
 					}
 				}
-			}
-
-			// Check format.
-			$oValidator = new Validator();
-			if(!$oValidator->applyRule('url', $info->homepage))
-			{
-				$info->homepage = '';
-			}
-
-			if(!$oValidator->applyRule('url', $info->blog))
-			{
-				$info->blog = '';
 			}
 
 			$GLOBALS['__member_info__'][$info->member_srl] = $info;
