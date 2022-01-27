@@ -127,7 +127,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_smtp_pass">{$lang->cmd_advanced_mailer_smtp_pass}</label>
 					<div class="x_controls">
-						<input type="password" name="mail_{$driver_name}_smtp_pass" id="mail_{$driver_name}_smtp_pass" value="{$conf_value}" />
+						<input type="password" name="mail_{$driver_name}_smtp_pass" id="mail_{$driver_name}_smtp_pass" value="{$conf_value}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
@@ -167,7 +167,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
 					<div class="x_controls full-width">
-						<input type="password" name="mail_{$driver_name}_api_pass" id="mail_{$driver_name}_api_pass" value="{$conf_value}" />
+						<input type="password" name="mail_{$driver_name}_api_pass" id="mail_{$driver_name}_api_pass" value="{$conf_value}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
@@ -194,7 +194,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_secret">{$lang->cmd_advanced_mailer_api_secret}</label>
 					<div class="x_controls">
-						<input type="password" name="mail_{$driver_name}_api_secret" id="mail_{$driver_name}_api_secret" value="{$conf_value}" />
+						<input type="password" name="mail_{$driver_name}_api_secret" id="mail_{$driver_name}_api_secret" value="{$conf_value}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
@@ -258,7 +258,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
 					<div class="x_controls full-width">
-						<input type="password" name="sms_{$driver_name}_api_pass" id="sms_{$driver_name}_api_pass" value="{$conf_value}" />
+						<input type="password" name="sms_{$driver_name}_api_pass" id="sms_{$driver_name}_api_pass" value="{$conf_value}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
@@ -285,7 +285,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_secret">{$lang->cmd_advanced_mailer_api_secret}</label>
 					<div class="x_controls">
-						<input type="password" name="sms_{$driver_name}_api_secret" id="sms_{$driver_name}_api_secret" value="{$conf_value}" />
+						<input type="password" name="sms_{$driver_name}_api_secret" id="sms_{$driver_name}_api_secret" value="{$conf_value}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
@@ -294,7 +294,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_sender_key">{$lang->cmd_advanced_mailer_sender_key}</label>
 					<div class="x_controls">
-						<input type="password" name="sms_{$driver_name}_sender_key" id="sms_{$driver_name}_sender_key" value="{$conf_value}" />
+						<input type="password" name="sms_{$driver_name}_sender_key" id="sms_{$driver_name}_sender_key" value="{$conf_value}" autocomplete="new-password" />
 						<p class="x_help-block">{$lang->cmd_admin_sms_sender_key_help}</p>
 					</div>
 				</div>
@@ -363,7 +363,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_fcm_api_key}</label>
 					<div class="x_controls">
-						<input type="password" name="push_{$driver_name}_api_key" id="push_{$driver_name}_api_key" value="{$conf_value|escape}" />
+						<input type="password" name="push_{$driver_name}_api_key" id="push_{$driver_name}_api_key" value="{$conf_value|escape}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
@@ -381,7 +381,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_passphrase">{$lang->cmd_advanced_mailer_apns_passphrase}</label>
 					<div class="x_controls">
-						<input type="password" name="push_{$driver_name}_passphrase" id="push_{$driver_name}_passphrase" value="{$conf_value|escape}" />
+						<input type="password" name="push_{$driver_name}_passphrase" id="push_{$driver_name}_passphrase" value="{$conf_value|escape}" autocomplete="new-password" />
 					</div>
 				</div>
 				<!--@end-->
