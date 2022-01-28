@@ -371,7 +371,7 @@ class memberAdminController extends member
 			'emailhost_check',
 			'special_phone_number', 'special_phone_code', 'max_auth_sms_count', 'max_auth_sms_count_time', 'redirect_url',
 			'phone_number_default_country', 'phone_number_hide_country', 'phone_number_allow_duplicate', 'phone_number_verify_by_sms',
-			'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize',
+			'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize', 'profile_image_force_ratio',
 			'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
 			'signature_editor_skin', 'sel_editor_colorset', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload'
@@ -469,6 +469,7 @@ class memberAdminController extends member
 				$signupItem->max_width = $all_args->{$key.'_max_width'};
 				$signupItem->max_height = $all_args->{$key.'_max_height'};
 				$signupItem->max_filesize = $all_args->{$key.'_max_filesize'};
+				$signupItem->force_ratio = $all_args->{$key.'_force_ratio'} === 'N' ? 'N' : 'Y';
 			}
 
 			// set extends form

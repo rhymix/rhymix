@@ -1431,7 +1431,7 @@ class memberController extends member
 	 * Insert a profile image
 	 *
 	 * @param int $member_srl
-	 * @param object $target_file
+	 * @param string $target_file
 	 *
 	 * @return void
 	 */
@@ -1458,14 +1458,27 @@ class memberController extends member
 		}
 
 		$target_path = sprintf('files/member_extra_info/profile_image/%s', getNumberingPath($member_srl));
+		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 		FileHandler::makeDir($target_path);
 
-		$target_filename = sprintf('%s%d.%s', $target_path, $member_srl, $ext);
 		// Convert if the image size is larger than a given size
-		if($width > $max_width || $height > $max_height)
+		if ($width > $max_width || $height > $max_height)
+		{
+			$resize = true;
+		}
+		elseif ($config->profile_image_force_ratio !== 'N' && ($width / $height !== $max_width / $max_height))
+		{
+			$resize = true;
+		}
+		else
+		{
+			$resize = false;
+		}
+		
+		if ($resize)
 		{
 			$temp_filename = sprintf('files/cache/tmp/profile_image_%d.%s', $member_srl, $ext);
-			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, $ext);
+			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, $ext, 'fill', 75);
 
 			// 파일 용량 제한
 			FileHandler::clearStatCache($temp_filename);
