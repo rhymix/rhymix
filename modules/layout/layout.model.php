@@ -513,7 +513,7 @@ class layoutModel extends layout
 			{
 				foreach($vars as $key => $value)
 				{
-					if(!$layout_info->extra_var->{$key} && !$layout_info->{$key})
+					if(!($layout_info->extra_var->{$key} ?? '') && !($layout_info->{$key} ?? ''))
 					{
 						$layout_info->{$key} = $value;
 					}

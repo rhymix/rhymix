@@ -45,11 +45,11 @@ class boardView extends board
 		$count_category = count(DocumentModel::getCategoryList($this->module_info->module_srl));
 		if($count_category)
 		{
-			if($this->module_info->hide_category)
+			if($this->module_info->hide_category ?? '')
 			{
 				$this->module_info->use_category = ($this->module_info->hide_category == 'Y') ? 'N' : 'Y';
 			}
-			else if($this->module_info->use_category)
+			else if($this->module_info->use_category ?? '')
 			{
 				$this->module_info->hide_category = ($this->module_info->use_category == 'Y') ? 'N' : 'Y';
 			}

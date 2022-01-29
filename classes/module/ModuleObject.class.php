@@ -248,7 +248,8 @@ class ModuleObject extends BaseObject
 	 */
 	public function setPrivileges()
 	{
-		if(Context::get('logged_info')->is_admin !== 'Y')
+		$logged_info = Context::get('logged_info');
+		if(($logged_info->is_admin ?? '') !== 'Y')
 		{
 			// Get privileges(granted) information for target module by <permission check> of module.xml
 			if(($permission = $this->xml_info->action->{$this->act}->permission) && $permission->check_var)
@@ -347,7 +348,7 @@ class ModuleObject extends BaseObject
 		}
 		
 		// Get permission types(guest, member, manager, root) of the currently requested action
-		$permission = $this->xml_info->action->{$this->act}->permission->target ?: $this->xml_info->permission->{$this->act};
+		$permission = $this->xml_info->action->{$this->act}->permission->target ? : ($this->xml_info->permission->{$this->act} ?? '');
 		
 		// If admin action, set default permission
 		if(empty($permission) && stripos($this->act, 'admin') !== false)

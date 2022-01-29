@@ -1939,9 +1939,9 @@ class moduleModel extends module
 			$module_info->module = $module_info->module_srl = 0;
 		}
 		
-		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl)]))
+		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)]))
 		{
-			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl)];
+			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)];
 			if (is_object($__cache) && !$xml_info)
 			{
 				return $__cache;
@@ -1975,7 +1975,7 @@ class moduleModel extends module
 		foreach($privilege_list as $val)
 		{
 			// If an administrator, grant all
-			if($member_info->is_admin == 'Y')
+			if(($member_info->is_admin ?? '') == 'Y')
 			{
 				$grant->{$val} = true;
 			}
@@ -2018,7 +2018,7 @@ class moduleModel extends module
 				}
 				
 				// Log-in member only
-				if($member_info->member_srl)
+				if($member_info->member_srl ?? '')
 				{
 					if($val->group_srl == -1 || $val->group_srl == -2)
 					{
@@ -2063,7 +2063,7 @@ class moduleModel extends module
 				}
 				
 				// Log-in member only
-				if($member_info->member_srl)
+				if($member_info->member_srl ?? '')
 				{
 					if($item->default == 'member' || $item->default == 'site')
 					{
