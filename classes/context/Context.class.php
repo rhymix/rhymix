@@ -388,7 +388,14 @@ class Context
 			else
 			{
 				self::set('is_logged', false);
-				self::set('logged_info', Rhymix\Framework\Session::getMemberInfo());
+				$logged_info = Rhymix\Framework\Session::getMemberInfo();
+				if (!$logged_info)
+				{
+					$logged_info = new stdClass;
+				}
+				$logged_info->member_srl = $logged_info->member_srl ?? 0;
+				$logged_info->is_admin = $logged_info->is_admin ?? '';
+				self::set('logged_info', $logged_info );
 			}
 		}
 		
