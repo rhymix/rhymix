@@ -410,7 +410,7 @@ class pointController extends point
 	public function triggerBeforeDownloadFile($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$logged_member_srl = $logged_info->member_srl;
+		$logged_member_srl = $logged_info->member_srl ?? 0;
 		$author_member_srl = abs($obj->member_srl);
 		$module_srl = $obj->module_srl;
 		if ($logged_member_srl && $logged_member_srl == $author_member_srl)
@@ -443,7 +443,7 @@ class pointController extends point
 	public function triggerDownloadFile($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$logged_member_srl = $logged_info->member_srl;
+		$logged_member_srl = $logged_info->member_srl ?? 0;
 		$author_member_srl = abs($obj->member_srl);
 		$module_srl = $obj->module_srl;
 		if ($logged_member_srl && $logged_member_srl == $author_member_srl)
@@ -481,7 +481,7 @@ class pointController extends point
 	public function triggerUpdateReadedCount($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$logged_member_srl = $logged_info->member_srl ?? '';
+		$logged_member_srl = $logged_info->member_srl ?? 0;
 		$author_member_srl = abs($obj->get('member_srl'));
 		$module_srl = $obj->get('module_srl');
 		if ($logged_member_srl && $logged_member_srl == $author_member_srl)
@@ -587,7 +587,7 @@ class pointController extends point
 	public function triggerUpdateVotedCount($obj)
 	{
 		$logged_info = Context::get('logged_info');
-		$logged_member_srl = $logged_info->member_srl;
+		$logged_member_srl = $logged_info->member_srl ?? 0;
 		$target_member_srl = abs($obj->member_srl);
 		if ($logged_member_srl && $logged_member_srl == $target_member_srl)
 		{

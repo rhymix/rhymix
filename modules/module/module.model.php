@@ -2018,7 +2018,7 @@ class moduleModel extends module
 				}
 				
 				// Log-in member only
-				if($member_info->member_srl ?? '')
+				if($member_info->member_srl ?? 0)
 				{
 					if($val->group_srl == -1 || $val->group_srl == -2)
 					{
@@ -2063,7 +2063,7 @@ class moduleModel extends module
 				}
 				
 				// Log-in member only
-				if($member_info->member_srl ?? '')
+				if($member_info->member_srl ?? 0)
 				{
 					if($item->default == 'member' || $item->default == 'site')
 					{

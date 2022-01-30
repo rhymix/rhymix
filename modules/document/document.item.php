@@ -204,7 +204,7 @@ class documentItem extends BaseObject
 		}
 		
 		$logged_info = Context::get('logged_info');
-		if (!($logged_info->member_srl ?? ''))
+		if (!($logged_info->member_srl ?? 0))
 		{
 			return $this->grant_cache = false;
 		}

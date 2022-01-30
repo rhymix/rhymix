@@ -1370,7 +1370,7 @@ class documentController extends document
 			}
 			
 			// Pass if the author's member_srl is the same as the visitor's.
-			if($member_srl && ($logged_info->member_srl ?? '') && $logged_info->member_srl == $member_srl)
+			if($member_srl && ($logged_info->member_srl ?? 0) && $logged_info->member_srl == $member_srl)
 			{
 				$_SESSION['readed_document'][$document_srl] = true;
 				return false;

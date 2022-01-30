@@ -181,7 +181,7 @@ class pollController extends poll
 		if($poll_item_title=='') throw new Rhymix\Framework\Exception('msg_item_title_cannot_empty');
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		if(!($logged_info->member_srl ?? 0)) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
 
 		if(!$poll_srl || !$poll_index_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -227,7 +227,7 @@ class pollController extends poll
 		$poll_item_srl = Context::get('item_srl');
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info)  throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		if(!($logged_info->member_srl ?? 0))  throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
 
 		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -332,7 +332,7 @@ class pollController extends poll
 		$log_args->poll_item = $args->poll_item_srl;
 
 		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
+		$member_srl = $logged_info->member_srl ?? 0;
 
 		$log_args->member_srl = $member_srl;
 		$log_args->ipaddress = \RX_CLIENT_IP;
