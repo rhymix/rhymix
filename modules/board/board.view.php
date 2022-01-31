@@ -655,7 +655,7 @@ class boardView extends board
 		// List of columns that should always be selected
 		$defaultColumnList = array(
 			'document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice',
-			'title', 'title_bold', 'title_color', 'member_srl', 'nick_name', 'extra_vars',
+			'title', 'title_bold', 'title_color', 'member_srl', 'nick_name', 'tags', 'extra_vars',
 			'comment_count', 'trackback_count', 'uploaded_count', 'status', 'regdate', 'last_update',
 		);
 		
