@@ -351,12 +351,17 @@ class Formatter
 			$content = utf8_clean(file_get_contents($filename));
 			
 			// Convert all paths in LESS and SCSS imports, too.
+			$dirname = dirname($filename);
 			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
-			$content = preg_replace_callback('/@import\s+(?:\\([^()]+\\))?([^;]+);/', function($matches) use($filename, $target_filename, $import_type, &$imported_list) {
+			$content = preg_replace_callback('/@import\s+([^\r\n]+);(?=[\r\n$])/', function($matches) use($dirname, $filename, $target_filename, $import_type, &$imported_list) {
+				if (preg_match('!^url\([\'"]?((?:https?:)?//[^()\'"]+)!i', $matches[1], $urlmatches))
+				{
+					return '@import url("' . escape_dqstr($urlmatches[1]) . '");';
+				}
 				$import_content = '';
-				$import_files = array_map(function($str) use($filename, $import_type) {
-					$str = trim(trim(trim(preg_replace('/^url\\(([^()]+)\\)$/', '$1', trim($str))), '"\''));
-					if (preg_match('!^(https?:)?//!i', $str))
+				$import_files = array_map(function($str) use($dirname, $filename, $import_type) {
+					$str = trim(trim(trim(preg_replace('!^url\([\'"]?([^()\'"]+)[\'"]?\)!i', '$1', $str)), '"\''));
+					if (preg_match('!^(?:https?:)?//!i', $str))
 					{
 						return $str;
 					}
@@ -369,7 +374,7 @@ class Formatter
 							{
 								$basename = '_' . $basename . '.scss';
 							}
-							return dirname($filename) . '/' . substr($str, 0, $dirpos) . '/' . $basename;
+							return $dirname . '/' . substr($str, 0, $dirpos) . '/' . $basename;
 						}
 						else
 						{
@@ -378,7 +383,7 @@ class Formatter
 							{
 								$basename = '_' . $basename . '.scss';
 							}
-							return dirname($filename) . '/' . $basename;
+							return $dirname . '/' . $basename;
 						}
 					}
 					else
@@ -388,22 +393,19 @@ class Formatter
 				}, explode(',', $matches[1]));
 				foreach ($import_files as $import_filename)
 				{
-					if (!preg_match('!^(https?:)?//!i', $import_filename))
+					if (preg_match('!^(https?:)?//!i', $import_filename))
 					{
-						if (file_exists($import_filename))
-						{
-							$imported_list[] = $import_filename;
-							$import_content .= self::concatCSS($import_filename, $target_filename, false, $imported_list);
-						}
-						else
-						{
-							$error_filename = substr($import_filename, strlen(\RX_BASEDIR));
-							trigger_error('Imported file not found: ' . $error_filename, \E_USER_WARNING);
-						}
+						$import_content .= '@import url("' . escape_dqstr($import_filename) . '");';
+					}
+					elseif (file_exists($import_filename))
+					{
+						$imported_list[] = $import_filename;
+						$import_content .= self::concatCSS($import_filename, $target_filename, false, $imported_list);
 					}
 					else
 					{
-						$import_content .= '@import url("' . escape_dqstr($import_filename) . '");';
+						$error_filename = substr($import_filename, strlen(\RX_BASEDIR));
+						trigger_error('Imported file not found: ' . $error_filename, \E_USER_WARNING);
 					}
 				}
 				return trim($import_content);

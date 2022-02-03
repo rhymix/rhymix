@@ -1,6 +1,20 @@
 @charset "UTF-8";
 /* Original file: tests/_data/formatter/scss.source1.scss */
+@import url("//fonts.googleapis.com/css?family=Raleway:700,400");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 /* Original file: tests/_data/formatter/scss.source2.scss */
+.inc1 {
+  margin: 5px;
+}
+.inc2 {
+  padding-left: 10px;
+}
+.partial1 {
+  display: flex;
+}
+.partial2 {
+  display: none;
+}
 .rhymix {
   color: #123456;
   background: url("../_data/formatter/foo/bar.jpg");
