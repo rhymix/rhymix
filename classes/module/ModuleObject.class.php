@@ -85,7 +85,7 @@ class ModuleObject extends BaseObject
 		// Populate default properties.
 		$obj->setModulePath($module_path);
 		$obj->setModule($module);
-		$obj->user = Context::get('logged_info') ?: new Rhymix\Framework\Helpers\SessionHelper;
+		$obj->user = Context::get('logged_info');
 		if(!($obj->user instanceof Rhymix\Framework\Helpers\SessionHelper))
 		{
 			$obj->user = Rhymix\Framework\Session::getMemberInfo();
@@ -248,7 +248,7 @@ class ModuleObject extends BaseObject
 	 */
 	public function setPrivileges()
 	{
-		if(Context::get('logged_info')->is_admin !== 'Y')
+		if(!$this->user->isAdmin())
 		{
 			// Get privileges(granted) information for target module by <permission check> of module.xml
 			if(($permission = $this->xml_info->action->{$this->act}->permission) && $permission->check_var)
@@ -296,7 +296,7 @@ class ModuleObject extends BaseObject
 		if(!isset($grant))
 		{
 			// Get privileges(granted) information of current user for current module
-			$grant = ModuleModel::getInstance()->getGrant($this->module_info, Context::get('logged_info'), $this->xml_info);
+			$grant = ModuleModel::getInstance()->getGrant($this->module_info, $this->user, $this->xml_info);
 			
 			// Check permission
 			if($this->checkPermission($grant) !== true)
@@ -331,7 +331,7 @@ class ModuleObject extends BaseObject
 		// Get logged-in member information
 		if(!$member_info)
 		{
-			$member_info = Context::get('logged_info');
+			$member_info = $this->user;
 		}
 		
 		// Get privileges(granted) information of the member for current module

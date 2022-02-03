@@ -21,7 +21,7 @@ class SessionHelper
 	 * @param int $member_srl (optional)
 	 * @return void
 	 */
-	public function __construct($member_srl = null)
+	public function __construct($member_srl = 0)
 	{
 		// Load member information.
 		$member_srl = intval($member_srl);
