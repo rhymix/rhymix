@@ -958,7 +958,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$comment_srl = Context::get('comment_srl');
 			$logged_info = Context::get('logged_info');
-			if($comment_srl && $logged_info)
+			if($comment_srl && $logged_info && $logged_info->member_srl)
 			{
 				$args->target_srl = $comment_srl;
 				$args->member_srl = $logged_info->member_srl;
@@ -975,7 +975,7 @@ class ncenterliteController extends ncenterlite
 			$document_srl = Context::get('document_srl');
 			$logged_info = Context::get('logged_info');
 
-			if($document_srl && $config->document_read == 'Y' && $logged_info->member_srl)
+			if($document_srl && $config->document_read == 'Y' && $logged_info && $logged_info->member_srl)
 			{
 				$args->srl = $document_srl;
 				$args->member_srl = $logged_info->member_srl;

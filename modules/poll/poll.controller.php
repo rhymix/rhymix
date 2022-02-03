@@ -30,9 +30,7 @@ class pollController extends poll
 			$stop_date = date('YmdHis', $_SERVER['REQUEST_TIME']+60*60*24*30);
 		}
 
-		$logged_info = Context::get('logged_info');
 		$vars = Context::getRequestVars();
-
 		$args = new stdClass;
 		$tmp_args = array();
 
@@ -70,9 +68,9 @@ class pollController extends poll
 				$tmp_args[$poll_index]->item = array();
 			}
 
-			if($logged_info->is_admin != 'Y')
+			if(!$this->user->isAdmin())
 			{
-				$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+				$val = escape($val, false);
 			}
 
 			switch($tmp_arr[0])
@@ -108,15 +106,14 @@ class pollController extends poll
 
 		// Configure the variables
 		$poll_srl = getNextSequence();
-		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// Register the poll
 		$poll_args = new stdClass;
 		$poll_args->poll_srl = $poll_srl;
-		$poll_args->member_srl = $member_srl;
+		$poll_args->member_srl = $this->user->member_srl;
 		$poll_args->list_order = $poll_srl*-1;
 		$poll_args->stop_date = $args->stop_date;
 		$poll_args->poll_count = 0;
@@ -180,8 +177,10 @@ class pollController extends poll
 
 		if($poll_item_title=='') throw new Rhymix\Framework\Exception('msg_item_title_cannot_empty');
 
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		if(!$this->user->member_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		}
 
 		if(!$poll_srl || !$poll_index_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -196,12 +195,12 @@ class pollController extends poll
 
 		if(!$this->isAbletoAddItem($type)) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
 
-		if($logged_info->is_admin != 'Y')
+		if(!$this->user->isAdmin())
 		{
-			$poll_item_title = htmlspecialchars($poll_item_title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+			$poll_item_title = escape($poll_item_title, false);
 		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$item_args = new stdClass;
@@ -210,7 +209,7 @@ class pollController extends poll
 		$item_args->title = $poll_item_title;
 		$item_args->poll_count = 0;
 		$item_args->upload_target_srl = 0;
-		$item_args->add_user_srl = $logged_info->member_srl;
+		$item_args->add_user_srl = $this->user->member_srl;
 		$output = executeQuery('poll.insertPollItem', $item_args);
 		if(!$output->toBool())
 		{
@@ -226,8 +225,10 @@ class pollController extends poll
 		$poll_index_srl = (int) Context::get('index_srl');
 		$poll_item_srl = Context::get('item_srl');
 
-		$logged_info = Context::get('logged_info');
-		if(!$logged_info)  throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		if(!$this->user->member_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		}
 
 		if(!$poll_srl || !$poll_index_srl || !$poll_item_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -248,8 +249,14 @@ class pollController extends poll
 		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
 		$poll_member_srl = $output->data->member_srl;
 
-		if($add_user_srl!=$logged_info->member_srl && $poll_member_srl!=$logged_info->member_srl) throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
-		if($poll_count>0) throw new Rhymix\Framework\Exception('msg_cannot_delete_item_poll_exist');
+		if($add_user_srl != $this->user->member_srl && $poll_member_srl != $this->user->member_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		}
+		if($poll_count > 0)
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_item_poll_exist');
+		}
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
@@ -330,11 +337,7 @@ class pollController extends poll
 		$log_args = new stdClass;
 		$log_args->poll_srl = $poll_srl;
 		$log_args->poll_item = $args->poll_item_srl;
-
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl?$logged_info->member_srl:0;
-
-		$log_args->member_srl = $member_srl;
+		$log_args->member_srl = $this->user->member_srl;
 		$log_args->ipaddress = \RX_CLIENT_IP;
 		$output = executeQuery('poll.insertPollLog', $log_args);
 

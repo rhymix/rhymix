@@ -129,31 +129,31 @@ class XmlJsFilter extends XeXmlParser
 
 		// XmlJsFilter handles three data; filter_name, field, and parameter
 		$filter_name = $attrs->name;
-		$confirm_msg_code = $attrs->confirm_msg_code;
+		$confirm_msg_code = $attrs->confirm_msg_code ?? null;
 		$module = $attrs->module;
 		$act = $attrs->act;
-		$extend_filter = $attrs->extend_filter;
+		$extend_filter = $attrs->extend_filter ?? null;
 
-
-		$field_node = $xml_obj->filter->form->node;
+		$field_node = $xml_obj->filter->form->node ?? null;
 		if($field_node && !is_array($field_node))
 		{
 			$field_node = array($field_node);
 		}
 
-		$parameter_param = $xml_obj->filter->parameter->param;
+		$parameter_param = $xml_obj->filter->parameter->param ?? null;
 		if($parameter_param && !is_array($parameter_param))
 		{
 			$parameter_param = array($parameter_param);
 		}
 
-		$response_tag = $xml_obj->filter->response->tag;
+		$response_tag = $xml_obj->filter->response->tag ?? null;
 		if($response_tag && !is_array($response_tag))
 		{
 			$response_tag = array($response_tag);
 		}
 
 		// If extend_filter exists, result returned by calling the method
+		$extend_filter_count = 0;
 		if($extend_filter)
 		{
 			// If extend_filter exists, it changes the name of cache not to use cache
@@ -261,9 +261,9 @@ class XmlJsFilter extends XeXmlParser
 				{
 					$target_list[] = $target;
 				}
-				if(!$target_type_list[$target])
+				if(!isset($target_type_list[$target]))
 				{
-					$target_type_list[$target] = $filter;
+					$target_type_list[$target] = $filter ?? null;
 				}
 			}
 		}

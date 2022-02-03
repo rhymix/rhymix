@@ -347,7 +347,7 @@ class ModuleObject extends BaseObject
 		}
 		
 		// Get permission types(guest, member, manager, root) of the currently requested action
-		$permission = $this->xml_info->action->{$this->act}->permission->target ?: $this->xml_info->permission->{$this->act};
+		$permission = $this->xml_info->action->{$this->act}->permission->target ?: ($this->xml_info->permission->{$this->act} ?? null);
 		
 		// If admin action, set default permission
 		if(empty($permission) && stripos($this->act, 'admin') !== false)
