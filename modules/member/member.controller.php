@@ -33,22 +33,50 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('null_user_id');
 		}
 
-		// Variables
-		if(!$user_id) $user_id = Context::get('user_id');
-		$user_id = trim($user_id);
+		$config = MemberModel::getMemberConfig();
 
-		if(!$password) $password = Context::get('password');
-		$password = trim($password);
+		// User ID, email address or phone number
+		if (!$user_id)
+		{
+			$user_id = trim(Context::get('user_id'));
+		}
+		if (!$user_id && $config->identifiers && in_array('email_address', $config->identifiers))
+		{
+			$user_id = trim(Context::get('email_address'));
+		}
+		if (!$user_id && $config->identifiers && in_array('phone_number', $config->identifiers))
+		{
+			$user_id = trim(Context::get('phone_number'));
+		}
+		if (!$user_id)
+		{
+			throw new Rhymix\Framework\Exception('null_user_id');
+		}
 
-		if(!$keep_signed) $keep_signed = Context::get('keep_signed');
-		// Return an error when id and password doesn't exist
-		if(!$user_id) throw new Rhymix\Framework\Exception('null_user_id');
-		if(!$password) throw new Rhymix\Framework\Exception('null_password');
+		// Password
+		if (!$password)
+		{
+			$password = trim(Context::get('password'));
+		}
+		if (!$password)
+		{
+			throw new Rhymix\Framework\Exception('null_password');
+		}
 
-		$output = $this->doLogin($user_id, $password, $keep_signed=='Y'?true:false);
-		if (!$output->toBool()) return $output;
+		// Autologin option
+		if (!$keep_signed)
+		{
+			$keep_signed = Context::get('keep_signed');
+		}
 
-		$config = ModuleModel::getModuleConfig('member');
+		// Attempt login
+		$output = $this->doLogin($user_id, $password, $keep_signed === 'Y' ? true : false);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Get info of member who just logged in
 		$member_info = Context::get('logged_info');
 
 		// Check change_password_date
