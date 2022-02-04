@@ -156,7 +156,13 @@ class memberAdminController extends member
 			$validity_info = Rhymix\Framework\Session::getValidityInfo($args->member_srl);
 			$validity_info->invalid_before = time();
 			Rhymix\Framework\Session::setValidityInfo($args->member_srl, $validity_info);
-			executeQuery('member.deleteAutologin', (object)array('member_srl' => $args->member_srl));
+			executeQuery('member.deleteAutologin', ['member_srl' => $args->member_srl]);
+		}
+		
+		// Invalidate auth mail if denied or limited
+		if ($args->denied === 'Y' || $args->limited >= date('Ymd'))
+		{
+			executeQuery('member.deleteAuthMail', ['member_srl' => $args->member_srl]);
 		}
 		
 		// Save Signature
