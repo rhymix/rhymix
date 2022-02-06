@@ -938,8 +938,16 @@ class documentController extends document
 		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
 
 		// Fix encoding of non-BMP UTF-8 characters.
-		$obj->title = utf8_mbencode($obj->title);
-		$obj->content = utf8_mbencode($obj->content);
+		if (isset($extra_content))
+		{
+			$extra_content->title = utf8_mbencode($extra_content->title);
+			$extra_content->content = utf8_mbencode($extra_content->content);
+		}
+		else
+		{
+			$obj->title = utf8_mbencode($obj->title);
+			$obj->content = utf8_mbencode($obj->content);
+		}
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
@@ -977,8 +985,11 @@ class documentController extends document
 			}
 
 			// Inert extra vars for multi-language support of title and contents.
-			if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
-			if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
+			if (isset($extra_content))
+			{
+				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
+				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
+			}
 		}
 		
 		// Update the category if the category_srl exists.
