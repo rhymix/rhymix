@@ -1,9 +1,15 @@
 <load target="css/mboard.css" />
 
 <div class="bd">
+<!--@if(isset($module_info->mobile_header_text) && $module_info->mobile_header_text)-->
+	<div class="bd_header_text">{$module_info->mobile_header_text}</div>
+<!--@endif-->
 <!--@if($oDocument->isExists())-->
 	<include target="read.html" />
 <!--@else-->
 	<include target="_list.html" />
 <!--@end-->
+<!--@if(isset($module_info->mobile_footer_text) && $module_info->mobile_footer_text)-->
+	<div class="bd_footer_text">{$module_info->mobile_footer_text}</div>
+<!--@endif-->
 </div>
