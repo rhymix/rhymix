@@ -903,6 +903,12 @@ class documentController extends document
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
 		
+		// Remove iframe and script if not a top adminisrator in the session.
+		if($logged_info->is_admin != 'Y')
+		{
+			$obj->content = removeHackTag($obj->content);
+		}
+
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
 		{
@@ -926,12 +932,6 @@ class documentController extends document
 				$obj->title = $document_output->data->title;
 				$obj->content = $document_output->data->content;
 			}
-		}
-
-		// Remove iframe and script if not a top adminisrator in the session.
-		if($logged_info->is_admin != 'Y')
-		{
-			$obj->content = removeHackTag($obj->content);
 		}
 
 		// if temporary document, regdate is now setting
