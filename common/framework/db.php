@@ -224,9 +224,9 @@ class DB
 	 * @param array $columns
 	 * @param string $result_type
 	 * @param string $result_class
-	 * @return \BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function executeQuery(string $query_id, $args = [], $column_list = [], $result_type = 'auto', $result_class = ''): \BaseObject
+	public function executeQuery(string $query_id, $args = [], $column_list = [], $result_type = 'auto', $result_class = ''): Helpers\DBResultHelper
 	{
 		// Validate the args.
 		if (is_object($args))
@@ -328,7 +328,7 @@ class DB
 		}
 		else
 		{
-			$output = new \BaseObject;
+			$output = new Helpers\DBResultHelper;
 		}
 		
 		// Prepare and execute the main query.
@@ -402,9 +402,9 @@ class DB
 	 * @param Parsers\DBQuery\Query $query
 	 * @param array $args
 	 * @param int $last_index
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	protected function _executeCountQuery(string $query_id, Parsers\DBQuery\Query $query, array $args, int &$last_index): \BaseObject
+	protected function _executeCountQuery(string $query_id, Parsers\DBQuery\Query $query, array $args, int &$last_index): Helpers\DBResultHelper
 	{
 		// Get the COUNT(*) query string and parameters.
 		try
@@ -467,7 +467,7 @@ class DB
 		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count);
 		
 		// Compose the output object.
-		$output = new \BaseObject;
+		$output = new Helpers\DBResultHelper;
 		$output->add('_count', $query_string);
 		$output->total_count = $total_count;
 		$output->total_page = $total_page;
@@ -733,9 +733,9 @@ class DB
 	 * 
 	 * @param string $filename
 	 * @param string $content
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function createTable(string $filename = '', string $content = ''): \BaseObject
+	public function createTable(string $filename = '', string $content = ''): Helpers\DBResultHelper
 	{
 		// Get the table definition from DBTableParser.
 		$table = Parsers\DBTableParser::loadXML($filename, $content);
@@ -745,25 +745,25 @@ class DB
 		}
 		if ($table->deleted)
 		{
-			return new \BaseObject;
+			return new Helpers\DBResultHelper;
 		}
 		
 		// Generate the CREATE TABLE query and execute it.
 		$query_string = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
 		$result = $this->_handle->exec($query_string);
-		return $result ? new \BaseObject : $this->getError();
+		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
 	 * Drop a table.
 	 * 
 	 * @param string $table_name
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function dropTable(string $table_name): \BaseObject
+	public function dropTable(string $table_name): Helpers\DBResultHelper
 	{
 		$stmt = $this->_handle->exec(sprintf("DROP TABLE `%s`", $this->addQuotes($this->_prefix . $table_name)));
-		return $stmt ? new \BaseObject : $this->getError();
+		return $stmt ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
@@ -790,9 +790,9 @@ class DB
 	 * @param mixed $default
 	 * @param bool $notnull
 	 * @param string $after_column
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): \BaseObject
+	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): Helpers\DBResultHelper
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
@@ -827,7 +827,7 @@ class DB
 		
 		// Execute the query and return the result.
 		$result = $this->_handle->exec($query);
-		return $result ? new \BaseObject : $this->getError();
+		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
@@ -842,9 +842,9 @@ class DB
 	 * @param string $after_column
 	 * @param string $new_name
 	 * @param string $new_charset
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): \BaseObject
+	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): Helpers\DBResultHelper
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
@@ -895,7 +895,7 @@ class DB
 		
 		// Execute the query and return the result.
 		$result = $this->_handle->exec($query);
-		return $result ? new \BaseObject : $this->getError();
+		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
@@ -903,12 +903,12 @@ class DB
 	 * 
 	 * @param string $table_name
 	 * @param string $column_name
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function dropColumn(string $table_name, string $column_name): \BaseObject
+	public function dropColumn(string $table_name, string $column_name): Helpers\DBResultHelper
 	{
 		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		return $result ? new \BaseObject : $this->getError();
+		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
@@ -974,9 +974,9 @@ class DB
 	 * @param array $columns
 	 * @param string $type
 	 * @param string $options
-	 * @return \BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function addIndex(string $table_name, string $index_name, $columns, $type = '', $options = ''): \BaseObject
+	public function addIndex(string $table_name, string $index_name, $columns, $type = '', $options = ''): Helpers\DBResultHelper
 	{
 		if (!is_array($columns))
 		{
@@ -1006,7 +1006,7 @@ class DB
 		));
 		
 		$result = $this->_handle->exec($query);
-		return $result ? new \BaseObject : $this->getError();
+		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
@@ -1014,12 +1014,12 @@ class DB
 	 * 
 	 * @param string $table_name
 	 * @param string $index_name
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function dropIndex(string $table_name, string $index_name): \BaseObject
+	public function dropIndex(string $table_name, string $index_name): Helpers\DBResultHelper
 	{
 		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
-		return $result ? new \BaseObject : $this->getError();
+		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
 	
 	/**
@@ -1100,11 +1100,11 @@ class DB
 	/**
 	 * Get the last error information.
 	 * 
-	 * @return \BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function getError(): \BaseObject
+	public function getError(): Helpers\DBResultHelper
 	{
-		return new \BaseObject($this->_errno, $this->_errstr);
+		return new Helpers\DBResultHelper($this->_errno, $this->_errstr);
 	}
 	
 	/**
@@ -1112,13 +1112,13 @@ class DB
 	 * 
 	 * @param int $errno
 	 * @param string $errstr
-	 * @return BaseObject
+	 * @return Helpers\DBResultHelper
 	 */
-	public function setError(int $errno = 0, string $errstr = 'success'): \BaseObject
+	public function setError(int $errno = 0, string $errstr = 'success'): Helpers\DBResultHelper
 	{
 		$this->_errno = $errno;
 		$this->_errstr = $errstr;
-		$output = new \BaseObject($errno, $errstr);
+		$output = new Helpers\DBResultHelper($errno, $errstr);
 		return $output;
 	}
 	
