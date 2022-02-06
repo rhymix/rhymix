@@ -909,6 +909,10 @@ class documentController extends document
 			$obj->content = removeHackTag($obj->content);
 		}
 
+		// Fix encoding of non-BMP UTF-8 characters.
+		$obj->title = utf8_mbencode($obj->title);
+		$obj->content = utf8_mbencode($obj->content);
+
 		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
 		if($source_obj->get('lang_code') != Context::getLangType())
 		{
@@ -936,18 +940,6 @@ class documentController extends document
 
 		// if temporary document, regdate is now setting
 		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
-
-		// Fix encoding of non-BMP UTF-8 characters.
-		if (isset($extra_content))
-		{
-			$extra_content->title = utf8_mbencode($extra_content->title);
-			$extra_content->content = utf8_mbencode($extra_content->content);
-		}
-		else
-		{
-			$obj->title = utf8_mbencode($obj->title);
-			$obj->content = utf8_mbencode($obj->content);
-		}
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
