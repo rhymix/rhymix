@@ -486,6 +486,9 @@
 							<p>{str_replace('\n\n', '<br />', $lang->about_keep_signed)}</p>
 							<div class="edge"></div>
 						</div>
+						<div class="captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('login')">
+							{$captcha}
+						</div>
 						<button type="submit" class="btn_submit">{$lang->cmd_login}</button>
 					</div>
 				</fieldset>

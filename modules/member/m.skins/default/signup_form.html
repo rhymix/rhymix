@@ -60,9 +60,12 @@
 				</block>
 			</li>
 		</ul>
-	<div class="bna">
-		<input type="submit" class="bn dark" value="{$lang->cmd_registration}" />
-	</div>
+		<div class="captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('signup')">
+			{$captcha}
+		</div>
+		<div class="bna">
+			<input type="submit" class="bn dark" value="{$lang->cmd_registration}" />
+		</div>
 	</form>
 </div>
 <script>

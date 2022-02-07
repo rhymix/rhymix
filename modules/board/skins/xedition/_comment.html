@@ -86,6 +86,9 @@
 			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck" />
 			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
 		</div>
+		<div class="write_captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('comment')">
+			{$captcha}
+		</div>
 		<div style="float:right">
 			<button type="submit" class="btn_insert"><i class="xi-message"></i> {$lang->cmd_comment_registration}</button>
 		</div>
