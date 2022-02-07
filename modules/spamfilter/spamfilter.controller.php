@@ -264,6 +264,7 @@ class spamfilterController extends spamfilter
 			{
 				$captcha = new spamfilter_reCAPTCHA();
 				$captcha->setTargetActions($target_actions);
+				$captcha->addScripts();
 				Context::set('captcha', $captcha);
 			}
 		}
