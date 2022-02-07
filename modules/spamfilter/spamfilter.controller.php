@@ -244,7 +244,7 @@ class spamfilterController extends spamfilter
 		{
 			if ($config->captcha->target_actions[$action])
 			{
-				if (preg_match(self::$_captcha_actions[$action], $obj->act) || ($action === 'comment' && !$obj->act && Context::get('document_srl')))
+				if (preg_match(self::$_captcha_actions[$action], $obj->act) || ($action === 'comment' && (!$obj->act || $obj->act === 'dispBoardContent') && Context::get('document_srl')))
 				{
 					$enable = true;
 				}
