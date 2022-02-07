@@ -7,6 +7,7 @@ class spamfilter_reCAPTCHA
 	protected static $scripts_added = false;
 	protected static $instances_inserted = 0;
 	protected static $sequence = 1;
+	protected $_target_actions = [];
 	
 	public static function init($config)
 	{
@@ -58,6 +59,16 @@ class spamfilter_reCAPTCHA
 			$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'light', self::$config->size ?: 'normal');
 			Context::addHtmlFooter($html);
 		}
+	}
+	
+	public function setTargetActions(array $target_actions)
+	{
+		$this->_target_actions = $target_actions;
+	}
+	
+	public function isTargetAction(string $action): bool
+	{
+		return isset($this->_target_actions[$action]);
 	}
 	
 	public function __toString()

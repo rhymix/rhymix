@@ -239,19 +239,19 @@ class spamfilterController extends spamfilter
 			return;
 		}
 		
-		$enable = false;
+		$target_actions = [];
 		foreach (['signup', 'login', 'recovery', 'document', 'comment'] as $action)
 		{
 			if ($config->captcha->target_actions[$action])
 			{
 				if (preg_match(self::$_captcha_actions[$action], $obj->act) || ($action === 'comment' && (!$obj->act || $obj->act === 'dispBoardContent') && Context::get('document_srl')))
 				{
-					$enable = true;
+					$target_actions[$action] = true;
 				}
 			}
 		}
 		
-		if ($enable)
+		if (count($target_actions))
 		{
 			include_once __DIR__ . '/spamfilter.lib.php';
 			spamfilter_reCAPTCHA::init($config->captcha);
@@ -262,7 +262,9 @@ class spamfilterController extends spamfilter
 			}
 			else
 			{
-				Context::set('captcha', new spamfilter_reCAPTCHA());
+				$captcha = new spamfilter_reCAPTCHA();
+				$captcha->setTargetActions($target_actions);
+				Context::set('captcha', $captcha);
 			}
 		}
 	}
