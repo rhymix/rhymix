@@ -1334,7 +1334,7 @@ class documentController extends document
 		);
 		
 		$config = DocumentModel::getDocumentConfig();
-		if (!$config->view_count_option || !isset($valid_options[$config->view_count_option]))
+		if (!isset($config->view_count_option) || !isset($valid_options[$config->view_count_option]))
 		{
 			$config->view_count_option = 'once';
 		}
@@ -1351,7 +1351,7 @@ class documentController extends document
 		$logged_info = Context::get('logged_info');
 		
 		// Option 'some': only count once per session.
-		if ($config->view_count_option != 'all' && $_SESSION['readed_document'][$document_srl])
+		if ($config->view_count_option != 'all' && isset($_SESSION['readed_document'][$document_srl]))
 		{
 			return false;
 		}
@@ -1370,7 +1370,7 @@ class documentController extends document
 			}
 			
 			// Pass if the author's member_srl is the same as the visitor's.
-			if($member_srl && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
+			if($member_srl && $logged_info && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
 			{
 				$_SESSION['readed_document'][$document_srl] = true;
 				return false;

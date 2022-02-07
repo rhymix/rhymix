@@ -15,7 +15,7 @@
 			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="<!--@if($identifier == 'user_id')-->text<!--@else-->email<!--@end-->" id="id" value="" /></li>
 			<li><label for="pw">{$lang->password}</label><input name="password" type="password" id="pw" value="" /></li>
 		</ul>
-		<div class="captcha" cond="$captcha">
+		<div class="captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('login')">
 			{$captcha}
 		</div>
 		<div class="hp" id="keep_msg" style="display:none;">

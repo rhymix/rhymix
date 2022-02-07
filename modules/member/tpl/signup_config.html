@@ -152,6 +152,13 @@
 								<p class="x_help-block">
 									<label class="x_inline" for="{$item->name}_max_filesize">{$lang->allowed_filesize}</label> <input type="number" min="1" name="{$item->name}_max_filesize" id="{$item->name}_max_filesize" value="{$item->max_filesize}" /> KB
 								</p>
+								<!--@if($item->name === 'profile_image')-->
+									<p class="x_help-block">
+										<label class="x_inline">{$lang->cmd_image_force_ratio}</label> 
+										<label class="x_inline"><input type="radio" name="profile_image_force_ratio" value="Y" checked="checked"|cond="$config->profile_image_force_ratio !== 'N'" /> {$lang->cmd_yes}</label>
+										<label class="x_inline"><input type="radio" name="profile_image_force_ratio" value="N" checked="checked"|cond="$config->profile_image_force_ratio === 'N'" /> {$lang->cmd_no}</label>
+									</p>
+								<!--@endif-->
 							</div>
 
 							<div cond="$item->name == 'phone_number'" class="_subItem" style="display:none"|cond="!$item->isUse">

@@ -734,7 +734,7 @@ class Session
 	 * This method returns an object, or false if nobody is logged in.
 	 *
 	 * @param bool $refresh
-	 * @return object|false
+	 * @return Helpers\SessionHelper
 	 */
 	public static function getMemberInfo($refresh = false)
 	{
@@ -742,7 +742,7 @@ class Session
 		$member_srl = self::getMemberSrl();
 		if (!$member_srl)
 		{
-			return false;
+			return new Helpers\SessionHelper(0);
 		}
 		
 		// Create a member info object.
@@ -752,7 +752,7 @@ class Session
 		}
 		
 		// Return the member info object.
-		return self::$_member_info->member_srl ? self::$_member_info : false;
+		return self::$_member_info;
 	}
 	
 	/**

@@ -45,11 +45,11 @@ class boardView extends board
 		$count_category = count(DocumentModel::getCategoryList($this->module_info->module_srl));
 		if($count_category)
 		{
-			if($this->module_info->hide_category)
+			if(isset($this->module_info->hide_category))
 			{
 				$this->module_info->use_category = ($this->module_info->hide_category == 'Y') ? 'N' : 'Y';
 			}
-			else if($this->module_info->use_category)
+			elseif(isset($this->module_info->use_category))
 			{
 				$this->module_info->hide_category = ($this->module_info->use_category == 'Y') ? 'N' : 'Y';
 			}
@@ -655,7 +655,7 @@ class boardView extends board
 		// List of columns that should always be selected
 		$defaultColumnList = array(
 			'document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice',
-			'title', 'title_bold', 'title_color', 'member_srl', 'nick_name', 'extra_vars',
+			'title', 'title_bold', 'title_color', 'member_srl', 'nick_name', 'tags', 'extra_vars',
 			'comment_count', 'trackback_count', 'uploaded_count', 'status', 'regdate', 'last_update',
 		);
 		

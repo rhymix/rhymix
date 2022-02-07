@@ -1,0 +1,12 @@
+<query id="nullValueTest2" action="select">
+    <tables>
+        <table name="documents" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" />
+		<condition operation="notequal" column="member_srl" var="member_srl" />
+    </conditions>
+</query>

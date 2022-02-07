@@ -36,7 +36,7 @@ class TemplateHandler
 		ini_set('pcre.jit', false);
 		$this->config = new stdClass;
 		$this->handler_mtime = filemtime(__FILE__);
-		$this->user = Rhymix\Framework\Session::getMemberInfo() ?: new Rhymix\Framework\Helpers\SessionHelper;
+		$this->user = Rhymix\Framework\Session::getMemberInfo();
 	}
 
 	/**

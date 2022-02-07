@@ -282,16 +282,16 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function testGetMemberInfo()
 	{
 		@Rhymix\Framework\Session::start();
-		$this->assertEquals(false, Rhymix\Framework\Session::getMemberInfo());
+		$this->assertEquals(new Rhymix\Framework\Helpers\SessionHelper(), Rhymix\Framework\Session::getMemberInfo());
 		
 		Rhymix\Framework\Session::login(42);
-		$this->assertEquals(false, Rhymix\Framework\Session::getMemberInfo());
+		$this->assertEquals(new Rhymix\Framework\Helpers\SessionHelper(), Rhymix\Framework\Session::getMemberInfo());
 		
 		Rhymix\Framework\Session::setMemberInfo((object)array('member_srl' => 42));
 		$this->assertEquals((object)array('member_srl' => 42), Rhymix\Framework\Session::getMemberInfo());
 		
 		Rhymix\Framework\Session::setMemberInfo((object)array('member_srl' => 99, 'is_admin' => 'Y'));
-		$this->assertEquals(false, Rhymix\Framework\Session::getMemberInfo());
+		$this->assertEquals(new Rhymix\Framework\Helpers\SessionHelper(), Rhymix\Framework\Session::getMemberInfo());
 		
 		Rhymix\Framework\Session::close();
 	}

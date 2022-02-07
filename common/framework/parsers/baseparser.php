@@ -82,7 +82,7 @@ abstract class BaseParser
 			$item = new \stdClass;
 			$item->group = $group_name;
 			$item->name = trim($var['name']);
-			$item->type = trim($var['type']);
+			$item->type = trim($var['type']) ?: 'text';
 			$item->title = self::_getChildrenByLang($var, 'title', $lang);
 			$item->description = str_replace('\\n', "\n", self::_getChildrenByLang($var, 'description', $lang));
 			$item->default = trim($var['default']) ?: null;

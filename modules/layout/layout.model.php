@@ -505,7 +505,7 @@ class layoutModel extends layout
 			$cache_file = $this->getUserLayoutCache($layout_srl, Context::getLangType());
 		}
 
-		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
+		if(file_exists($cache_file) && filemtime($cache_file) > filemtime($xml_file))
 		{
 			include($cache_file);
 
@@ -513,7 +513,7 @@ class layoutModel extends layout
 			{
 				foreach($vars as $key => $value)
 				{
-					if(!$layout_info->extra_var->{$key} && !$layout_info->{$key})
+					if(!isset($layout_info->extra_var->{$key}) && !isset($layout_info->{$key}))
 					{
 						$layout_info->{$key} = $value;
 					}

@@ -89,18 +89,18 @@
 				<tr>
 					<th class="nowr">{$lang->cmd_signup}</td>
 					<td class="nowr">
-						&nbsp;{$lang->point_given_prefix}
+						{strtr($lang->point_given_prefix, ['$'.'point' => $config->point_name])}
 						<input type="number" value="{$config->signup_point ?: '0'}" name="signup_point" id="signup_point" />
-						&nbsp;{$lang->point_given_suffix}
+						&nbsp;{strtr($lang->point_given_suffix, ['$'.'point' => $config->point_name])}
 					</td>
 					<td class="nowr"></td>
 				</tr>
 				<tr>
 					<th class="nowr">{$lang->cmd_login}</td>
 					<td class="nowr">
-						&nbsp;{$lang->point_given_prefix}
+						{strtr($lang->point_given_prefix, ['$'.'point' => $config->point_name])}
 						<input type="number" value="{$config->login_point ?: '0'}" name="login_point" id="login_point" />
-						&nbsp;{$lang->point_given_suffix}
+						&nbsp;{strtr($lang->point_given_suffix, ['$'.'point' => $config->point_name])}
 					</td>
 					<td class="nowr"></td>
 				</tr>
@@ -108,9 +108,9 @@
 					<tr>
 						<th class="nowr">{lang('point_' . $action_type)}</td>
 						<td class="nowr">
-							&nbsp;{$lang->point_given_prefix}
+							{strtr($lang->point_given_prefix, ['$'.'point' => $config->point_name])}
 							<input type="number" value="{$config_array[$action_type] ?: '0'}" name="{$action_type}" id="{$action_type}" />
-							&nbsp;{$lang->point_given_suffix}
+							&nbsp;{strtr($lang->point_given_suffix, ['$'.'point' => $config->point_name])}
 							<block cond="$action_config['except_notice']">
 								<label class="x_inline" for="{$action_type}_except_notice" style="margin-left:10px">
 									<input type="checkbox" value="Y" name="{$action_type}_except_notice" id="{$action_type}_except_notice" checked="checked"|cond="$config_array[$action_type . '_except_notice']" />

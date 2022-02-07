@@ -530,7 +530,7 @@ class installController extends install
 		// Create a table if the schema xml exists in the "schemas" directory of the module
 		$schema_dir = sprintf('%s/schemas/', $module_path);
 		$schema_files = FileHandler::readDir($schema_dir, NULL, false, true);
-
+		$schema_sorted = [];
 		foreach ($schema_files as $filename)
 		{
 			if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
@@ -543,16 +543,24 @@ class installController extends install
 			}
 			
 			$table_name = $matches[1];
-			if($oDB->isTableExists($table_name))
+			if(isset($schema_sorted[$table_name]) || $oDB->isTableExists($table_name))
 			{
 				continue;
 			}
+			
+			$schema_sorted[$table_name] = $filename;
+		}
+		
+		$schema_sorted = Rhymix\Framework\Parsers\DBTableParser::resolveDependency($schema_sorted);
+		foreach ($schema_sorted as $table_name => $filename)
+		{
 			$output = $oDB->createTable($filename);
 			if(!$output->toBool())
 			{
 				throw new Exception(lang('msg_create_table_failed') . ': ' . $table_name . ': ' . $oDB->getError()->getMessage());
 			}
 		}
+		
 		// Create a table and module instance and then execute install() method
 		unset($oModule);
 		$oModule = ModuleModel::getModuleInstallClass($module);

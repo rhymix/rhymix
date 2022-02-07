@@ -76,7 +76,7 @@
 				<input type="text" name="reason_update" id="reason_update" value="" class="iText" style="width:300px" title="reason update" />
 			</span>
 		</div>
-		<div class="write_captcha" cond="isset($captcha) && $captcha">
+		<div class="write_captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('document')">
 			{$captcha}
 		</div>
 		<div style="float:right">

@@ -14,7 +14,9 @@
 		<input type="hidden" name="xe_validator_id" value="modules/member/skin/default/find_member_account/1" />
 		<div>
 			<input type="email" name="email_address" required placeholder="{$lang->email_address}" title="{$lang->email_address}" /><br />
-			<block cond="$captcha">{$captcha}<br /></block>
+			<block cond="isset($captcha) && $captcha && $captcha->isTargetAction('recovery')">
+				{$captcha}<br />
+			</block>
 			<input type="submit" class="btn btn-inverse" value="{$lang->cmd_find_member_account}" />
 		</div>
 	</form>
@@ -33,7 +35,9 @@
 		<input type="hidden" name="xe_validator_id" value="modules/member/skin/default/find_member_account/3" />
 		<div>
 			<input type="email" id="email_address" name="email_address" value="" required placeholder="{$lang->email_address}" title="{$lang->email_address}" /><br />
-			<block cond="$captcha">{$captcha}<br /></block>
+			<block cond="isset($captcha) && $captcha && $captcha->isTargetAction('recovery')">
+				{$captcha}<br />
+			</block>
 			<input type="submit" value="{$lang->cmd_resend_auth_mail}" class="btn btn-inverse" />
 		</div>
 	</form>

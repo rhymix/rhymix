@@ -317,6 +317,7 @@ $lang->cmd_optional = '선택';
 $lang->cmd_disabled = '사용 안 함';
 $lang->cmd_image_max_width = '너비 제한';
 $lang->cmd_image_max_height = '높이 제한';
+$lang->cmd_image_force_ratio = '가로세로 비율 고정';
 $lang->cmd_input_extend_form = '회원가입 추가 항목 생성';
 $lang->about_multi_type = '다중 또는 단일 항목의 선택 값을 입력하세요.(줄 바꿈으로 구분)';
 $lang->msg_delete_extend_form = '선택한 항목을 삭제합니다.';
