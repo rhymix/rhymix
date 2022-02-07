@@ -748,7 +748,7 @@ class boardController extends board
 	/**
 	 * @brief the trigger for displaying 'view document' link when click the user ID
 	 **/
-	function triggerMemberMenu(&$obj)
+	function triggerMemberMenu($obj)
 	{
 		if(!$mid = Context::get('cur_mid'))
 		{
@@ -757,9 +757,16 @@ class boardController extends board
 		
 		// get the module information
 		$module_info = ModuleModel::getModuleInfoByMid($mid);
-		if(empty($module_info->module) || $module_info->module !== 'board' || $module_info->use_anonymous === 'Y')
+		if (!$module_info || !isset($module_info->module) || $module_info->module !== 'board')
 		{
 			return;
+		}
+		if (($module_info->use_anonymous ?? 'N') === 'Y')
+		{
+			if (($module_info->anonymous_except_admin ?? 'N') !== 'Y' || !ModuleModel::isModuleAdmin($obj, $module_info->module_srl))
+			{
+				return;
+			}
 		}
 		
 		$url = getUrl('', 'mid', $mid, 'member_srl', $obj->member_srl);
