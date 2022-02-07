@@ -181,26 +181,37 @@ class memberModel extends member
 	{
 		// Get member_srl of he target member and logged info of the current user
 		$member_srl = Context::get('target_srl');
+		if ($member_srl <= 0)
+		{
+			return;
+		}
+		
 		$mid = Context::get('cur_mid');
 		$logged_info = Context::get('logged_info');
 		$module_config = self::getMemberConfig();
-		$act = Context::get('cur_act');
-		// When click user's own nickname
-		if($member_srl == $logged_info->member_srl) $member_info = $logged_info;
-		// When click other's nickname
-		else $member_info = self::getMemberInfoByMemberSrl($member_srl);
-
-		$member_srl = $member_info->member_srl;
-		if(!$member_srl) return;
-
-		// List variables
-		$user_id = $member_info->user_id;
-		$user_name = $member_info->user_name;
 		$icon_path = '';
+		
+		// Get requested member info
+		if($member_srl == $logged_info->member_srl)
+		{
+			$member_info = $logged_info;
+		}
+		else
+		{
+			$member_info = self::getMemberInfoByMemberSrl($member_srl);
+		}
+
+		// Check if member_info is valid
+		$member_srl = $member_info->member_srl;
+		if (!$member_srl)
+		{
+			return;
+		}
 
 		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $member_info);
 
 		$oMemberController = MemberController::getInstance();
+		
 		// Display member information (Don't display to non-logged user)
 		if($logged_info->member_srl)
 		{
