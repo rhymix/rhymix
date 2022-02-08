@@ -253,7 +253,7 @@ class fileModel extends file
 	 */
 	public static function getDownloadUrl($file_srl, $sid, $module_srl = 0)
 	{
-		return getUrl('', 'module', 'file', 'act', 'procFileDownload', 'file_srl', intval($file_srl), 'sid', strval($sid), 'module_srl', intval($module_srl));
+		return '.'.getUrl('', 'module', 'file', 'act', 'procFileDownload', 'file_srl', intval($file_srl), 'sid', strval($sid), 'module_srl', intval($module_srl));
 	}
 	
 	/**
