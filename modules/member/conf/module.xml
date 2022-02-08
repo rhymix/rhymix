@@ -70,10 +70,10 @@
 		<action name="procMemberLogout" type="controller" permission="member" />
 		<action name="procMemberSpammerManage" type="controller" permission="manager" check_var="module_srl" />
 		
-		<action name="procMemberRegisterDevice" class="Controllers\Device" route="device/register" />
-		<action name="procMemberLoginWithDevice" class="Controllers\Device" route="device/login" />
-		<action name="procMemberUnregisterDevice" class="Controllers\Device" route="device/unregister" />
-		<action name="procMemberDeleteDevice" class="Controllers\Device" permission="member" />
+		<action name="procMemberRegisterDevice" class="Controllers\Device" route="device/register" standalone="true" />
+		<action name="procMemberLoginWithDevice" class="Controllers\Device" route="device/login" standalone="true" />
+		<action name="procMemberUnregisterDevice" class="Controllers\Device" route="device/unregister" standalone="true" />
+		<action name="procMemberDeleteDevice" class="Controllers\Device" permission="member" standalone="true" />
 		
 		<action name="dispMemberAdminList" type="view" admin_index="true" menu_name="userList" menu_index="true"/>
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
