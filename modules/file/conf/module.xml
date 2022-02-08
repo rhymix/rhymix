@@ -10,7 +10,7 @@
 		<action name="procFileDelete" type="controller" />
 		<action name="procFileSetCoverImage" type="controller" />
 		<action name="procFileDownload" type="controller" method="GET|POST">
-			<route route="download/$file_srl:int/$sid:word@$module_srl:int" priority="50" />
+			<route route="procFileDownload/$file_srl:int/$sid:word/$module_srl:int" priority="50" />
 		</action>
 		<action name="procFileOutput" type="controller" method="GET|POST" />
 		<action name="procFileGetList" type="controller" permission="root" />
