@@ -253,7 +253,14 @@ class fileModel extends file
 	 */
 	public static function getDownloadUrl($file_srl, $sid, $module_srl = 0)
 	{
-		return '.'.getUrl('', 'module', 'file', 'act', 'procFileDownload', 'file_srl', intval($file_srl), 'sid', strval($sid), 'module_srl', intval($module_srl));
+		if (Rhymix\Framework\Router::getRewriteLevel() === 2)
+		{
+			return '.'.getUrl('', 'module', 'file', 'act', 'procFileDownload', 'file_srl', intval($file_srl), 'sid', strval($sid), 'module_srl', intval($module_srl));
+		}
+		else
+		{
+			return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%d', 'file', 'procFileDownload', $file_srl, $sid, $module_srl);
+		}
 	}
 	
 	/**
