@@ -255,7 +255,7 @@ class fileModel extends file
 	{
 		if (Rhymix\Framework\Router::getRewriteLevel() === 2)
 		{
-			return '.'.getUrl('', 'module', 'file', 'act', 'procFileDownload', 'file_srl', intval($file_srl), 'sid', strval($sid), 'module_srl', intval($module_srl));
+			return sprintf('file/download/%d/%s@%d', $file_srl, $sid, $module_srl);
 		}
 		else
 		{
