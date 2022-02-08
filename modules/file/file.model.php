@@ -253,9 +253,10 @@ class fileModel extends file
 	 */
 	public static function getDownloadUrl($file_srl, $sid, $module_srl = 0)
 	{
-		if (Rhymix\Framework\Router::getRewriteLevel() === 2)
+		$mid = ModuleModel::getMidByModuleSrl($module_srl);
+		if (Rhymix\Framework\Router::getRewriteLevel() === 2 && !is_null($mid))
 		{
-			return sprintf('file/procFileDownload/%d/%s/%d', $file_srl, $sid, $module_srl);
+			return sprintf('%s/download/%d/%s', $mid, $file_srl, $sid);
 		}
 		else
 		{
