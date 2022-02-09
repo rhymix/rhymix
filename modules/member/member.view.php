@@ -639,9 +639,18 @@ class memberView extends member
 	 */
 	function dispMemberLoginForm()
 	{
+		// Get referer URL
+		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
+		if (!$referer_url || !Rhymix\Framework\URL::isInternalURL($referer_url) || contains('procMember', $referer_url))
+		{
+			$referer_url = getNotEncodedUrl('act', '');
+		}
+		Context::set('referer_url', $referer_url);
+		
+		// Return to previous screen if already logged in.
 		if(Context::get('is_logged'))
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act',''));
+			$this->setRedirectUrl($referer_url);
 			return;
 		}
 
@@ -649,20 +658,12 @@ class memberView extends member
 		$config = $this->member_config;
 		Context::set('identifier', $config->identifier);
 
+		// Get validator status
 		$XE_VALIDATOR_MESSAGE = Context::get('XE_VALIDATOR_MESSAGE');
 		$XE_VALIDATOR_ERROR = Context::get('XE_VALIDATOR_ERROR');
 		if($XE_VALIDATOR_ERROR == -11)
 		{
 			Context::set('XE_VALIDATOR_MESSAGE', $XE_VALIDATOR_MESSAGE . $config->limit_day_description);
-		}
-
-		if(strpos(Context::get('referer_url'), 'procMember') !== false || ($XE_VALIDATOR_ERROR < -10 && $XE_VALIDATOR_ERROR > -21))
-		{
-			Context::set('referer_url', getUrl(''));
-		}
-		else
-		{
-			Context::set('referer_url', escape($_SERVER['HTTP_REFERER']));
 		}
 
 		// Set a template file

@@ -79,7 +79,7 @@
 				<label for="allow_{$key}" loop="$lang->allow_message_type=>$key,$val"><input type="radio" name="allow_message" value="{$key}" checked="checked"|cond="$member_info->allow_message == $key || (!$member_info && $key == 'Y')" id="allow_{$key}" /> {$val}</label>
 			</div>
 		</div>
-		<div class="control-group" cond="$captcha">
+		<div class="control-group captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('signup')">
 			<div class="control-label">{$lang->captcha}</div>
 			<div class="controls">{$captcha}</div>
 		</div>

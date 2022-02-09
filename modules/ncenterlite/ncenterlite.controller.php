@@ -35,6 +35,7 @@ class ncenterliteController extends ncenterlite
 		$args->target_url = $url;
 		$args->target_browser = '';
 		$args->target_summary = '';
+		$args->target_content = null;
 		
 		if (is_object($message))
 		{
@@ -388,6 +389,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_type = $this->_TYPE_ADMIN_DOCUMENT;
 				$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $obj->document_srl);
 				$args->target_summary = cut_str(strip_tags($obj->title), 50);
+				$args->target_content = mb_substr(trim(utf8_normalize_spaces(strip_tags($obj->content))), 0, 200, 'UTF-8') ?: (strpos($obj->content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
 				$args->regdate = date('YmdHis');
 				$args->target_browser = $module_info->browser_title;
 				$args->module_srl = $obj->module_srl;
@@ -446,6 +448,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_type = $this->_TYPE_COMMENT_ALL;
 				$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $document_srl, 'comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
+				$args->target_content = null;
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = date('YmdHis');
@@ -482,6 +485,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_type = $this->_TYPE_ADMIN_COMMENT;
 				$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $document_srl, 'comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
+				$args->target_content = null;
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = date('YmdHis');
@@ -560,6 +564,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_type = $this->_TYPE_COMMENT;
 				$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $document_srl, 'comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
+				$args->target_content = null;
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = $regdate;
@@ -609,6 +614,7 @@ class ncenterliteController extends ncenterlite
 				$args->target_type = $this->_TYPE_COMMENT;
 				$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $document_srl, 'comment_srl', $comment_srl) . '#comment_' . $comment_srl;
 				$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50) ?: (strpos($content, '<img') !== false ? lang('ncenterlite_content_image') : lang('ncenterlite_content_empty'));
+				$args->target_content = null;
 				$args->target_nick_name = $obj->nick_name;
 				$args->target_email_address = $obj->email_address;
 				$args->regdate = $regdate;
@@ -658,6 +664,7 @@ class ncenterliteController extends ncenterlite
 		$args->type = $this->_TYPE_MESSAGE;
 		$args->target_type = $this->_TYPE_MESSAGE;
 		$args->target_summary = $obj->title;
+		$args->target_content = mb_substr(trim(utf8_normalize_spaces(strip_tags($obj->content))), 0, 200, 'UTF-8');
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
@@ -698,6 +705,7 @@ class ncenterliteController extends ncenterlite
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_SCRAPPED;
 		$args->target_summary = $obj->title;
+		$args->target_content = null;
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $obj->document_srl);
@@ -741,6 +749,7 @@ class ncenterliteController extends ncenterlite
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_VOTED;
 		$args->target_summary = $oDocument->get('title');
+		$args->target_content = null;
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 		$args->target_url = getNotEncodedUrl('', 'mid', $module_info->mid, 'document_srl', $obj->document_srl);
@@ -821,6 +830,7 @@ class ncenterliteController extends ncenterlite
 		$args->type = $this->_TYPE_COMMENT;
 		$args->target_type = $this->_TYPE_VOTED;
 		$args->target_summary = cut_str(trim(utf8_normalize_spaces(strip_tags($content))), 50);
+		$args->target_content = null;
 		$args->regdate = date('YmdHis');
 		$args->module_srl = $obj->module_srl;
 		$args->notify = $this->_getNotifyId($args);
@@ -958,7 +968,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$comment_srl = Context::get('comment_srl');
 			$logged_info = Context::get('logged_info');
-			if($comment_srl && $logged_info)
+			if($comment_srl && $logged_info && $logged_info->member_srl)
 			{
 				$args->target_srl = $comment_srl;
 				$args->member_srl = $logged_info->member_srl;
@@ -975,7 +985,7 @@ class ncenterliteController extends ncenterlite
 			$document_srl = Context::get('document_srl');
 			$logged_info = Context::get('logged_info');
 
-			if($document_srl && $config->document_read == 'Y' && $logged_info->member_srl)
+			if($document_srl && $config->document_read == 'Y' && $logged_info && $logged_info->member_srl)
 			{
 				$args->srl = $document_srl;
 				$args->member_srl = $logged_info->member_srl;
@@ -1562,10 +1572,28 @@ class ncenterliteController extends ncenterlite
 			$target_url = Rhymix\Framework\URL::getCurrentDomainUrl($target_url);
 		}
 
+		if (!isset($args->extra_data) || !$args->extra_data)
+		{
+			$args->extra_data = [];
+			$args->extra_data['sender'] = strval($args->target_nick_name);
+			$args->extra_data['profile_image'] = '';
+			if ($args->target_member_srl > 0)
+			{
+				$profile_image = MemberModel::getProfileImage($args->target_member_srl);
+				if ($profile_image && $profile_image->src)
+				{
+					$args->extra_data['profile_image'] = Rhymix\Framework\URL::getCurrentDomainUrl($profile_image->src);
+				}
+			}
+			$args->extra_data['type'] = strval($args->target_type);
+			$args->extra_data['subject'] = strval($args->target_summary);
+			$args->extra_data['content'] = isset($args->target_content) ? mb_substr($args->target_content, 0, 200, 'UTF-8') : '';
+		}
+
 		$oPush = new \Rhymix\Framework\Push();
 		$oPush->setSubject($content);
 		$oPush->setContent(strval($args->extra_content));
-		$oPush->setData($args->extra_data ?: []);
+		$oPush->setData($args->extra_data);
 		$oPush->setURL(strval($target_url));
 		$oPush->addTo(intval($args->member_srl));
 		$oPush->send();

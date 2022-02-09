@@ -1,3 +1,7 @@
+@import 'scss/include1.scss';
+@import url('scss/include2.scss');
+@import 'scss/partial1', 'scss/partial2';
+
 .rhymix {
 	color: $foo;
 	background: url('foo/bar.jpg');

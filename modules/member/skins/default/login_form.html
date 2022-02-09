@@ -18,7 +18,7 @@
 					<input type="email" cond="$identifier != 'user_id'" name="user_id" id="uid" required placeholder="{$lang->email_address}" title="{$lang->email_address}" />
 					<input type="password" name="password" id="upw" required placeholder="{$lang->password}" title="{$lang->password}" />
 				</div>
-				<div class="control-group captcha" cond="$captcha">
+				<div class="control-group captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('login')">
 					{$captcha}
 				</div>
 				<div class="control-group">

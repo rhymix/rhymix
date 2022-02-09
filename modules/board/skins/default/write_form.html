@@ -73,6 +73,9 @@
 				<input type="text" name="tags" id="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="iText" style="width:300px" title="Tag" />
 			</span>		
 		</div>
+		<div class="write_captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('document')">
+			{$captcha}
+		</div>
 		<div class="btnArea">
 			<input type="submit" value="{$lang->cmd_registration}" class="btn" />
 			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">

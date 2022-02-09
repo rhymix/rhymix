@@ -2,7 +2,10 @@
 <load target="css/mboard.css" />
 
 <div class="bd">
-<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a> &rsaquo; {$lang->cmd_write}</h2>
+	<!--@if(isset($module_info->mobile_header_text) && $module_info->mobile_header_text)-->
+		<div class="bd_header_text">{$module_info->mobile_header_text}</div>
+	<!--@endif-->
+	<h2 class="h2"><a href="{getUrl('','vid',$vid,'mid',$mid)}">{$module_info->browser_title}</a> &rsaquo; {$lang->cmd_write}</h2>
 	<form action="./" method="POST" onsubmit="return procFilter(this, insert)">
 	<input type="hidden" name="mid" value="{$mid}" />
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
@@ -81,4 +84,7 @@
 			<button type="submit" class="bn">{$lang->cmd_registration}</button>
 		</div>
 	</form>
+	<!--@if(isset($module_info->mobile_footer_text) && $module_info->mobile_footer_text)-->
+		<div class="bd_footer_text">{$module_info->mobile_footer_text}</div>
+	<!--@endif-->
 </div>

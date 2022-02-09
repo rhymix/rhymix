@@ -388,7 +388,7 @@ class Context
 			else
 			{
 				self::set('is_logged', false);
-				self::set('logged_info', Rhymix\Framework\Session::getMemberInfo());
+				self::set('logged_info', false);
 			}
 		}
 		

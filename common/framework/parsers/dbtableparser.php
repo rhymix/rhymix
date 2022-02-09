@@ -281,4 +281,71 @@ class DBTableParser extends BaseParser
 				return $type;
 		}
 	}
+	
+	/**
+	 * Order tables according to foreign key relations.
+	 * 
+	 * @param array $tables [$table_name => $filename]
+	 * @return array
+	 */
+	public static function resolveDependency(array $tables): array
+	{
+		// Compile the list of each table's dependency.
+		$ref_list = [];
+		$i = 0;
+		foreach ($tables as $table_name => $filename)
+		{
+			$table = self::loadXML($filename);
+			if ($table)
+			{
+				$info = (object)['name' => $table_name, 'refs' => [], 'index' => $i++];
+				foreach ($table->constraints as $constraint)
+				{
+					if ($constraint->references)
+					{
+						$ref = explode('.', $constraint->references);
+						$info->refs[] = $ref[0];
+					}
+				}
+				$ref_list[$table_name] = $info;
+			}
+		}
+		
+		// Sort each table after the ones they are dependent on.
+		for ($j = 0; $j < count($ref_list); $j++)
+		{
+			$changed = false;
+			foreach ($ref_list as $table_name => $info)
+			{
+				if (count($info->refs))
+				{
+					foreach ($info->refs as $ref_name)
+					{
+						if (isset($ref_list[$ref_name]) && $info->index <= $ref_list[$ref_name]->index)
+						{
+							$info->index = $ref_list[$ref_name]->index + 1;
+							$changed = true;
+						}
+					}
+				}
+				$k++;
+			}
+			if (!$changed)
+			{
+				break;
+			}
+		}
+		
+		uasort($ref_list, function($a, $b) {
+			return $a->index - $b->index;
+		});
+		
+		// Produce a result in the same format as the input.
+		$result = [];
+		foreach ($ref_list as $table_name => $info)
+		{
+			$result[$table_name] = $tables[$table_name];
+		}
+		return $result;
+	}
 }

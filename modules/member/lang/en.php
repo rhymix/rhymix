@@ -303,6 +303,7 @@ $lang->cmd_optional = 'Optional';
 $lang->cmd_disabled = 'Disabled';
 $lang->cmd_image_max_width = 'Max Width';
 $lang->cmd_image_max_height = 'Max Height';
+$lang->cmd_image_force_ratio = 'Fixed Aspect Ratio';
 $lang->cmd_input_extend_form = 'Add Signup Form Field';
 $lang->about_multi_type = 'Enter the value of multi-or single-item selection.(separated by line breaks)';
 $lang->msg_delete_extend_form = 'Delete the selected item.';

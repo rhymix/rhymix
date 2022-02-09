@@ -903,43 +903,44 @@ class documentController extends document
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
 		
-		// Change not extra vars but language code of the original document if document's lang_code is different from author's setting.
-		if($source_obj->get('lang_code') != Context::getLangType())
-		{
-			// Change not extra vars but language code of the original document if document's lang_code doesn't exist.
-			if(!$source_obj->get('lang_code'))
-			{
-				$lang_code_args = new stdClass();
-				$lang_code_args->document_srl = $source_obj->get('document_srl');
-				$lang_code_args->lang_code = Context::getLangType();
-				$output = executeQuery('document.updateDocumentsLangCode', $lang_code_args);
-			}
-			else
-			{
-				$extra_content = new stdClass;
-				$extra_content->title = $obj->title;
-				$extra_content->content = $obj->content;
-
-				$document_args = new stdClass;
-				$document_args->document_srl = $source_obj->get('document_srl');
-				$document_output = executeQuery('document.getDocument', $document_args);
-				$obj->title = $document_output->data->title;
-				$obj->content = $document_output->data->content;
-			}
-		}
-
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y')
 		{
 			$obj->content = removeHackTag($obj->content);
 		}
 
-		// if temporary document, regdate is now setting
-		if($source_obj->get('status') == $this->getConfigStatus('temp')) $obj->regdate = date('YmdHis');
-
 		// Fix encoding of non-BMP UTF-8 characters.
 		$obj->title = utf8_mbencode($obj->title);
 		$obj->content = utf8_mbencode($obj->content);
+
+		// Set lang_code if the original document doesn't have it.
+		if (!$source_obj->get('lang_code'))
+		{
+			$output = executeQuery('document.updateDocumentsLangCode', [
+				'document_srl' => $source_obj->get('document_srl'),
+				'lang_code' => Context::getLangType(),
+			]);
+		}
+		// Move content to extra vars if the current language is different from the original document's lang_code.
+		elseif ($source_obj->get('lang_code') !== Context::getLangType())
+		{
+			$extra_content = new stdClass;
+			$extra_content->title = $obj->title;
+			$extra_content->content = $obj->content;
+
+			$document_output = executeQuery('document.getDocument', ['document_srl' => $source_obj->get('document_srl')], ['title', 'content']);
+			if (isset($document_output->data->title))
+			{
+				$obj->title = $document_output->data->title;
+				$obj->content = $document_output->data->content;
+			}
+		}
+
+		// if temporary document, regdate is now setting
+		if ($source_obj->get('status') == $this->getConfigStatus('temp'))
+		{
+			$obj->regdate = date('YmdHis');
+		}
 
 		// Insert data into the DB
 		$output = executeQuery('document.updateDocument', $obj);
@@ -977,8 +978,11 @@ class documentController extends document
 			}
 
 			// Inert extra vars for multi-language support of title and contents.
-			if($extra_content->title) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
-			if($extra_content->content) $this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
+			if (isset($extra_content))
+			{
+				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
+				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
+			}
 		}
 		
 		// Update the category if the category_srl exists.
@@ -1334,7 +1338,7 @@ class documentController extends document
 		);
 		
 		$config = DocumentModel::getDocumentConfig();
-		if (!$config->view_count_option || !isset($valid_options[$config->view_count_option]))
+		if (!isset($config->view_count_option) || !isset($valid_options[$config->view_count_option]))
 		{
 			$config->view_count_option = 'once';
 		}
@@ -1351,7 +1355,7 @@ class documentController extends document
 		$logged_info = Context::get('logged_info');
 		
 		// Option 'some': only count once per session.
-		if ($config->view_count_option != 'all' && $_SESSION['readed_document'][$document_srl])
+		if ($config->view_count_option != 'all' && isset($_SESSION['readed_document'][$document_srl]))
 		{
 			return false;
 		}
@@ -1370,7 +1374,7 @@ class documentController extends document
 			}
 			
 			// Pass if the author's member_srl is the same as the visitor's.
-			if($member_srl && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
+			if($member_srl && $logged_info && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
 			{
 				$_SESSION['readed_document'][$document_srl] = true;
 				return false;

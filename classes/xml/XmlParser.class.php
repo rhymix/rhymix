@@ -65,7 +65,7 @@ class XeXmlParser
 	/**
 	 * Load a xml file specified by a filename and parse it to Return the resultant data object
 	 * @param string $filename a file path of file
-	 * @return array Returns a data object containing data extracted from a xml file or NULL if a specified file does not exist
+	 * @return object|null Returns a data object containing data extracted from a xml file or NULL if a specified file does not exist
 	 */
 	function loadXmlFile($filename)
 	{
@@ -84,7 +84,7 @@ class XeXmlParser
 	 * @param string $input a data buffer containing xml data
 	 * @param mixed $arg1 ???
 	 * @param mixed $arg2 ???
-	 * @return array Returns a resultant data object or NULL in case of error
+	 * @return object|null Returns a resultant data object or NULL in case of error
 	 */
 	function parse($input = '', $arg1 = NULL, $arg2 = NULL)
 	{

@@ -57,6 +57,7 @@ class boardAdminController extends board {
 		if($args->skip_bottom_list_for_olddoc != 'Y') $args->skip_bottom_list_for_olddoc = 'N';
 		if($args->skip_bottom_list_for_robot != 'Y') $args->skip_bottom_list_for_robot = 'N';
 		if($args->use_anonymous != 'Y') $args->use_anonymous = 'N';
+		if($args->anonymous_except_admin != 'Y') $args->anonymous_except_admin = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
 		if($args->protect_content != 'Y') $args->protect_content = 'N';
 		if($args->protect_admin_content_update != 'Y') $args->protect_admin_content_update = 'N';

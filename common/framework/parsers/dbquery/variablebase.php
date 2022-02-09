@@ -51,6 +51,17 @@ class VariableBase
 				$this->filterValue('');
 				$value = strval($args[$this->var]);
 				$is_expression = true;
+				if ($args[$this->var] instanceof NullValue)
+				{
+					if ($this->not_null)
+					{
+						throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must not be null');
+					}
+					if ($this instanceof Condition && in_array($this->operation, ['equal', 'notequal', 'not_equal']))
+					{
+						$this->operation = ($this->operation === 'equal') ? 'null' : 'notnull';
+					}
+				}
 			}
 			elseif ($args[$this->var] === '')
 			{
