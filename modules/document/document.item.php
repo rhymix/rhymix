@@ -891,7 +891,7 @@ class documentItem extends BaseObject
 		$module_srl = $this->get('module_srl');
 		if(!$module_srl || !$this->document_srl)
 		{
-			return null;
+			return array();
 		}
 
 		return DocumentModel::getExtraVars($module_srl, $this->document_srl);
