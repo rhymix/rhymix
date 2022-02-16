@@ -635,7 +635,7 @@ class TemplateHandler
 		// {@ ... } or {$var} or {func(...)}
 		if($m[1])
 		{
-			if(preg_match('@^(\w+)\(@', $m[1], $mm) && !function_exists($mm[1]))
+			if(preg_match('@^(\w+)\(@', $m[1], $mm) && (!function_exists($mm[1]) && !in_array($mm[1], ['isset', 'unset', 'empty'])))
 			{
 				return $m[0];
 			}
