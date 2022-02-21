@@ -88,7 +88,7 @@ class Validator
 		$this->addRule(array(
 			'email' => '/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/',
 			'userid' => '/^[a-z]+[\w-]*[a-z0-9_]+$/i',
-			'url' => '/^https?:\/\/[^\\\\/]+!',
+			'url' => '/^https?:\/\//i',
 			'alpha' => '/^[a-z]*$/i',
 			'alpha_number' => '/^[a-z][a-z0-9_]*$/i',
 			'number' => '/^(?:[1-9]\\d*|0)$/',
