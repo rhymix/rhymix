@@ -183,7 +183,7 @@ class FrontEndFileHandler extends Handler
 		$file = new stdClass();
 		$file->fileName = $pathInfo['basename'];
 		$file->filePath = $this->_getAbsFileUrl($pathInfo['dirname'] ?? '');
-		$file->fileRealPath = FileHandler::getRealPath($pathInfo['dirname'] ?? '');
+		$file->fileRealPath = FileHandler::getRealPath(ltrim($file->filePath, '/'));
 		$file->fileFullPath = $file->fileRealPath . '/' . ($pathInfo['basename'] ?? '');
 		$file->fileExtension = strtolower($pathInfo['extension'] ?? '');
 		if (($pos = strpos($file->fileExtension, '?')) !== false)

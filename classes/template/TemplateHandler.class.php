@@ -854,6 +854,7 @@ class TemplateHandler
 					$replacements = HTMLDisplayHandler::$replacements;
 					$attr['target'] = preg_replace(array_keys($replacements), array_values($replacements), $attr['target']);
 					$pathinfo = pathinfo($attr['target']);
+					$pathinfo['extension'] = preg_replace('/\?.*/', '', $pathinfo['extension']);
 					$doUnload = ($m[3] === 'unload');
 					$isRemote = !!preg_match('@^(https?:)?//@i', $attr['target']);
 

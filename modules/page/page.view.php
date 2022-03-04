@@ -236,16 +236,13 @@ class pageView extends page
 		// /=absolute path, #=hash in a page, {=Template syntax
 		if(strpos($val, '.') === FALSE || preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val))
 		{
-				return $matches[0];
-			// In case of  .. , get a path
-		}
-		else if(strncasecmp('..', $val, 2) === 0)
-		{
-			$p = Context::pathToUrl($this->path);
-			return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
+			return $matches[0];
 		}
 
-		if(strncasecmp('..', $val, 2) === 0) $val = substr($val,2);
+		if (strncasecmp('./', $val, 2) === 0)
+		{
+			$val = substr($val, 2);
+		}
 		$p = Context::pathToUrl($this->path);
 		$path = sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
 
