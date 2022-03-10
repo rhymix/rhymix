@@ -418,7 +418,7 @@ class fileController extends file
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		$file_key_timestamp = hexdec(substr($file_key, 0, 8));
-		if ($file_key_timestamp < \RX_TIME - 3600)
+		if ($file_key_timestamp < \RX_TIME - 300)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest('msg_file_key_expired');
 		}
