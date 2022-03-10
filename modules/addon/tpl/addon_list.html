@@ -5,7 +5,6 @@
 <form action="./" method="post">
 	<input type="hidden" name="module" value="addon" />
 	<input type="hidden" name="act" value="procAddonAdminSaveActivate" />
-	<input type="hidden" name="sccess_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input type="hidden" name="xe_validator_id" value="modules/addon/tpl/addon_list/1" />
 
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/addon/tpl/addon_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
