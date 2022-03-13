@@ -30,7 +30,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // foreach loop
             array(
                 '<ul><li loop="$arr=>$key,$val" class="sample"><a>Link</a><ul><li loop="$arr2=>$key2,$val2"></li></ul></li></ul>',
-                '?><ul><?php if($__Context->arr)foreach($__Context->arr as $__Context->key=>$__Context->val){ ?><li class="sample"><a>Link</a><ul><?php if($__Context->arr2)foreach($__Context->arr2 as $__Context->key2=>$__Context->val2){ ?><li></li><?php } ?></ul></li><?php } ?></ul>'
+                '?><ul><?php $__loop_tmp=$__Context->arr;if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><li class="sample"><a>Link</a><ul><?php $__loop_tmp=$__Context->arr2;if($__loop_tmp)foreach($__loop_tmp as $__Context->key2=>$__Context->val2){ ?><li></li><?php } ?></ul></li><?php } ?></ul>'
             ),
             // while loop
             array(
@@ -180,7 +180,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 135
             array(
                 '<block loop="$_m_list_all=>$key,$val"><p>{$key}</p><div>Loop block {$val}</div></block>',
-                PHP_EOL . 'if($__Context->_m_list_all)foreach($__Context->_m_list_all as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
+                PHP_EOL . '$__loop_tmp=$__Context->_m_list_all;if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?></p><div>Loop block <?php echo $__Context->val ?></div><?php } ?>'
             ),
             // issue 136
             array(
@@ -190,17 +190,17 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 188
             array(
                 '<div cond="$ii < $nn" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if($__Context->ii < $__Context->nn){;' . PHP_EOL . 'if($__Context->dummy)foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                PHP_EOL . 'if($__Context->ii < $__Context->nn){;' . PHP_EOL . '$__loop_tmp=$__Context->dummy;if($__loop_tmp)foreach($__loop_tmp as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 190
             array(
                 '<div cond="!($i >= $n)" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;' . PHP_EOL . 'if($__Context->dummy)foreach($__Context->dummy as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;' . PHP_EOL . '$__loop_tmp=$__Context->dummy;if($__loop_tmp)foreach($__loop_tmp as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 183
             array(
                 '<table><thead><tr><th loop="$vvvls => $vvv">{$vvv}</th></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>',
-                '?><table><thead><tr><?php if($__Context->vvvls)foreach($__Context->vvvls as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
+                '?><table><thead><tr><?php $__loop_tmp=$__Context->vvvls;if($__loop_tmp)foreach($__loop_tmp as $__Context->vvv){ ?><th><?php echo $__Context->vvv ?></th><?php } ?></tr></thead>'."\n".'<tbody><tr><td>C</td><td>D</td></tr></tbody></table>'
             ),
             // issue 512 - ignores <marquee>
             array(
