@@ -188,6 +188,7 @@ class pageView extends page
 		$filename = $tmp_path[count($tmp_path)-1];
 		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
 		$cache_file = FileHandler::getRealPath($cache_file);
+		$compile_template = false;
 
 		// Verify cache
 		if ($caching_interval < 1 || !file_exists($cache_file) || filemtime($cache_file) + ($caching_interval * 60) <= \RX_TIME || filemtime($cache_file) < filemtime($real_target_file))
@@ -209,14 +210,26 @@ class pageView extends page
 			}
 			
 			// Attempt to compile
-			$oTemplate = &TemplateHandler::getInstance();
-			$script = $oTemplate->compileDirect($filepath, $filename);
-
-			FileHandler::writeFile($cache_file, $script);
+			if ($compile_template)
+			{
+				$oTemplate = TemplateHandler::getInstance();
+				$script = $oTemplate->compileDirect($filepath, $filename);
+				FileHandler::writeFile($cache_file, $script);
+			}
+			else
+			{
+				return $content;
+			}
 		}
 
+		// Return content if not compiling as template.
+		if (!$compile_template)
+		{
+			return file_get_contents($cache_file);
+		}
+		
 		// Import Context and lang as local variables.
-		$__Context = &$GLOBALS['__Context__'];
+		$__Context = Context::getAll();
 		$__Context->tpl_path = $filepath;
 		global $lang;
 
