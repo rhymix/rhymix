@@ -177,7 +177,11 @@ class pageView extends page
 	function executeFile($target_file, $caching_interval, $cache_file)
 	{
 		// Cancel if the file doesn't exist
-		if(!file_exists(FileHandler::getRealPath($target_file))) return;
+		$real_target_file = FileHandler::getRealPath($target_file);
+		if (!file_exists($real_target_file))
+		{
+			return;
+		}
 
 		// Get a path and filename
 		$tmp_path = explode('/',$cache_file);
@@ -186,13 +190,11 @@ class pageView extends page
 		$cache_file = FileHandler::getRealPath($cache_file);
 
 		// Verify cache
-		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= $_SERVER['REQUEST_TIME'] || filemtime($cache_file)<filemtime($target_file))
+		if ($caching_interval < 1 || !file_exists($cache_file) || filemtime($cache_file) + ($caching_interval * 60) <= \RX_TIME || filemtime($cache_file) < filemtime($real_target_file))
 		{
-			if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
-
 			// Read a target file and get content
 			ob_start();
-			include(FileHandler::getRealPath($target_file));
+			include $real_target_file;
 			$content = ob_get_clean();
 			
 			// Replace relative path to the absolute path 
@@ -201,7 +203,10 @@ class pageView extends page
 			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
 			FileHandler::writeFile($cache_file, $content);
-			if(!file_exists($cache_file)) return;
+			if (!file_exists($cache_file))
+			{
+				return '';
+			}
 			
 			// Attempt to compile
 			$oTemplate = &TemplateHandler::getInstance();
