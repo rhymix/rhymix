@@ -885,8 +885,7 @@ class memberController extends member
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
-		$columnList = array('member_srl', 'password');
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		
 		// Verify the current password
 		if(!MemberModel::isValidPassword($member_info->password, $password))
@@ -1104,10 +1103,7 @@ class memberController extends member
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
-		// Get information of member_srl
-		$columnList = array('member_srl', 'password');
-
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		// Verify the cuttent password
 		if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
 
@@ -1148,9 +1144,7 @@ class memberController extends member
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
-		// Get information of member_srl
-		$columnList = array('member_srl', 'password');
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		// Verify the cuttent password
 		if(!MemberModel::isValidPassword($member_info->password, $password)) throw new Rhymix\Framework\Exception('invalid_password');
 
@@ -1572,8 +1566,11 @@ class memberController extends member
 		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_email_not_exists');
 
 		// Get information of the member
-		$columnList = array('denied', 'member_srl', 'user_id', 'user_name', 'email_address', 'nick_name');
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if(!$member_info || !$member_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exception('msg_not_exists_member');
+		}
 
 		// Check if possible to find member's ID and password
 		if($member_info->denied == 'Y')
@@ -1771,8 +1768,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}
 
-		$columnList = array('member_srl', 'user_id', 'user_name', 'nick_name', 'email_address');
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		if(!$member_info || !$member_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
@@ -2167,7 +2163,7 @@ class memberController extends member
 		if((!$config->identifiers || in_array('email_address', $config->identifiers)) && strpos($user_id, '@') !== false)
 		{
 			$member_info = MemberModel::getMemberInfoByEmailAddress($user_id);
-			if(!$user_id || strtolower($member_info->email_address) !== strtolower($user_id))
+			if(!$member_info || strtolower($member_info->email_address) !== strtolower($user_id))
 			{
 				return $this->recordLoginError(-1, 'invalid_email_address');
 			}
@@ -2200,7 +2196,7 @@ class memberController extends member
 			
 			$user_id = preg_replace('/[^0-9]/', '', $user_id);
 			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_id, $phone_country);
-			if(!$user_id || strtolower($member_info->phone_number) !== $user_id)
+			if(!$member_info || strtolower($member_info->phone_number) !== $user_id)
 			{
 				return $this->recordLoginError(-1, 'invalid_user_id');
 			}
@@ -2208,7 +2204,7 @@ class memberController extends member
 		elseif(!$config->identifiers || in_array('user_id', $config->identifiers))
 		{
 			$member_info = MemberModel::getMemberInfoByUserID($user_id);
-			if(!$user_id || strtolower($member_info->user_id) !== strtolower($user_id))
+			if(!$member_info || strtolower($member_info->user_id) !== strtolower($user_id))
 			{
 				return $this->recordLoginError(-1, 'invalid_user_id');
 			}
@@ -3107,15 +3103,25 @@ class memberController extends member
 		$trigger_obj = new stdClass();
 		$trigger_obj->member_srl = $member_srl;
 		$output = ModuleHandler::triggerCall('member.deleteMember', 'before', $trigger_obj);
-		if(!$output->toBool()) return $output;
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
 		// Bringing the user's information
-		$columnList = array('member_srl', 'is_admin');
-		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
-		if(!$member_info) return new BaseObject(-1, 'msg_not_exists_member');
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if (!$member_info || !$member_info->member_srl)
+		{
+			return new BaseObject(-1, 'msg_not_exists_member');
+		}
+		
 		// If managers can not be deleted
-		if($member_info->is_admin == 'Y') return new BaseObject(-1, 'msg_cannot_delete_admin');
+		if ($member_info->is_admin == 'Y')
+		{
+			return new BaseObject(-1, 'msg_cannot_delete_admin');
+		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$args = new stdClass();
