@@ -2,8 +2,14 @@
 
 class TemplateHandlerTest extends \Codeception\TestCase\Test
 {
-    var $prefix = '<?php if(!defined("__XE__"))exit;';
+	private $baseurl;
+    private $prefix = '<?php if(!defined("__XE__"))exit;';
 
+	public function _before()
+	{
+		$this->baseurl = '/' . basename(dirname(dirname(dirname(__DIR__)))) . '/';
+	}
+	
     public function testParse()
     {
         $tests = array(
@@ -145,12 +151,12 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // relative path1
             array(
                 '<img src="http://naver.com/naver.gif"><input type="image" src="../local.gif" />',
-                '?><img src="http://naver.com/naver.gif"><input type="image" src="/rhymix/tests/unit/classes/local.gif" />'
+                '?><img src="http://naver.com/naver.gif"><input type="image" src="' . $this->baseurl . 'tests/unit/classes/local.gif" />'
             ),
             // relative path2
             array(
                 '<img src="http://naver.com/naver.gif"><input type="image" src="../../../dir/local.gif" />',
-                '?><img src="http://naver.com/naver.gif"><input type="image" src="/rhymix/tests/dir/local.gif" />'
+                '?><img src="http://naver.com/naver.gif"><input type="image" src="' . $this->baseurl . 'tests/dir/local.gif" />'
             ),
             // error case
             array(
@@ -210,7 +216,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 584
             array(
                 '<img cond="$oBodex->display_extra_images[\'mobile\'] && $arr_extra && $arr_extra->bodex->mobile" src="./images/common/mobile.gif" title="mobile" alt="mobile" />',
-                PHP_EOL . 'if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="/rhymix/tests/unit/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
+                PHP_EOL . 'if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="' . $this->baseurl . 'tests/unit/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
             ),
             // issue 831
             array(
@@ -220,7 +226,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 746
             array(
                 '<img src="../whatever/img.png" />',
-                '?><img src="/rhymix/tests/unit/classes/whatever/img.png" />'
+                '?><img src="' . $this->baseurl . 'tests/unit/classes/whatever/img.png" />'
             ),
             // issue 696
             array(
@@ -230,35 +236,35 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img cond="$foo->bar" src="../common/mobile.gif" />',
-                PHP_EOL . 'if($__Context->foo->bar){ ?><img src="/rhymix/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                PHP_EOL . 'if($__Context->foo->bar){ ?><img src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img cond="$foo->bar > 100" alt="a!@#$%^&*()_-=[]{}?/" src="../common/mobile.gif" />',
-                PHP_EOL . 'if($__Context->foo->bar > 100){ ?><img alt="a!@#$%^&*()_-=[]{}?/" src="/rhymix/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                PHP_EOL . 'if($__Context->foo->bar > 100){ ?><img alt="a!@#$%^&*()_-=[]{}?/" src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img src="../common/mobile.gif" cond="$foo->bar" />',
-                PHP_EOL . 'if($__Context->foo->bar){ ?><img src="/rhymix/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                PHP_EOL . 'if($__Context->foo->bar){ ?><img src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img class="tmp_class" cond="!$module_info->title" src="../img/common/blank.gif" />',
-                PHP_EOL . 'if(!$__Context->module_info->title){ ?><img class="tmp_class" src="/rhymix/tests/unit/classes/img/common/blank.gif" /><?php } ?>'
+                PHP_EOL . 'if(!$__Context->module_info->title){ ?><img class="tmp_class" src="' . $this->baseurl . 'tests/unit/classes/img/common/blank.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img cond="$mi->title" class="tmp_class"|cond="$mi->use" src="../img/common/blank.gif" />',
-                PHP_EOL . 'if($__Context->mi->title){ ?><img<?php if($__Context->mi->use){ ?> class="tmp_class"<?php } ?> src="/rhymix/tests/unit/classes/img/common/blank.gif" /><?php } ?>'
+                PHP_EOL . 'if($__Context->mi->title){ ?><img<?php if($__Context->mi->use){ ?> class="tmp_class"<?php } ?> src="' . $this->baseurl . 'tests/unit/classes/img/common/blank.gif" /><?php } ?>'
             ),
             array(
                 '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
-                '?><input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="/rhymix/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                '?><input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             array(
                 '<input foo="bar" />' . "\n" . '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
-                '?><input foo="bar" />' . PHP_EOL . '<input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="/rhymix/tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                '?><input foo="bar" />' . PHP_EOL . '<input foo="bar" /> <?php if($__Context->foo->bar){ ?><img alt="alt"   src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             array(
                 'asf <img src="{$foo->bar}" />',
@@ -266,11 +272,11 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             ),
             array(
                 '<img alt="" '.PHP_EOL.' src="../whatever/img.png" />',
-                '?><img alt="" '.PHP_EOL.' src="/rhymix/tests/unit/classes/whatever/img.png" />'
+                '?><img alt="" '.PHP_EOL.' src="' . $this->baseurl . 'tests/unit/classes/whatever/img.png" />'
             ),
             array(
                 '<input>asdf src="../img/img.gif" asdf</input> <img alt="src" src="../whatever/img.png" /> <input>asdf src="../img/img.gif" asdf</input>',
-                '?><input>asdf src="../img/img.gif" asdf</input> <img alt="src" src="/rhymix/tests/unit/classes/whatever/img.png" /> <input>asdf src="../img/img.gif" asdf</input>'
+                '?><input>asdf src="../img/img.gif" asdf</input> <img alt="src" src="' . $this->baseurl . 'tests/unit/classes/whatever/img.png" /> <input>asdf src="../img/img.gif" asdf</input>'
             ),
             array(
                 '<input>asdf src="../img/img.gif" asdf</input>',
@@ -279,7 +285,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // srcset (PR #1544)
             array(
                 '<img src="./img/sticker_banner_960w.png" alt="this is a test image." srcset="https://abc.com/static/img/test@2x.png 2x,  http://abc.com/static/test@2.5x.png 2.5x,../img/test@3x.png 3x, ../img/test_960w.png  960w, {$mid}/image.png 480w">',
-                '?><img src="/rhymix/tests/unit/classes/template/img/sticker_banner_960w.png" alt="this is a test image." srcset="https://abc.com/static/img/test@2x.png 2x, http://abc.com/static/test@2.5x.png 2.5x, /rhymix/tests/unit/classes/img/test@3x.png 3x, /rhymix/tests/unit/classes/img/test_960w.png  960w, <?php echo $__Context->mid ?>/image.png 480w">'
+                '?><img src="' . $this->baseurl . 'tests/unit/classes/template/img/sticker_banner_960w.png" alt="this is a test image." srcset="https://abc.com/static/img/test@2x.png 2x, http://abc.com/static/test@2.5x.png 2.5x, ' . $this->baseurl . 'tests/unit/classes/img/test@3x.png 3x, ' . $this->baseurl . 'tests/unit/classes/img/test_960w.png  960w, <?php echo $__Context->mid ?>/image.png 480w">'
             ),
 			// Rhymix improvements (PR #604)
             array(
