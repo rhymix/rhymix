@@ -3,26 +3,6 @@
 
 class pageMobile extends pageView
 {
-	function init()
-	{
-		switch($this->module_info->page_type)
-		{
-			case 'WIDGET' :
-				{
-					$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.m.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
-					$this->interval = (int)($this->module_info->page_caching_interval);
-					break;
-				}
-			case 'OUTSIDE' :
-				{
-					$this->cache_file = sprintf("./files/cache/opage/%d.%s.m.cache.php", $this->module_info->module_srl, Context::getSslStatus()); 
-					$this->interval = (int)($this->module_info->page_caching_interval);
-					$this->path = $this->module_info->mpath ?: $this->module_info->path;
-					break;
-				}
-		}
-	}
-
 	function dispPageIndex()
 	{
 		// Variables used in the template Context:: set()
@@ -51,36 +31,34 @@ class pageMobile extends pageView
 		// Arrange a widget ryeolro
 		if($this->module_info->mcontent)
 		{
-			$cache_file = sprintf("%sfiles/cache/page/%d.%s.m.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getLangType());
-			$interval = (int)($this->module_info->page_caching_interval);
-			if($interval>0)
+			if($this->interval>0)
 			{
-				if(!file_exists($cache_file) || filesize($cache_file) < 1)
+				if(!file_exists($this->cache_file) || filesize($this->cache_file) < 1)
 				{
 					$mtime = 0;
 				}
 				else
 				{
-					$mtime = filemtime($cache_file);
+					$mtime = filemtime($this->cache_file);
 				}
 
-				if($mtime + $interval*60 > $_SERVER['REQUEST_TIME']) 
+				if($mtime + $this->interval*60 > $_SERVER['REQUEST_TIME']) 
 				{
-					$page_content = FileHandler::readFile($cache_file); 
+					$page_content = FileHandler::readFile($this->cache_file); 
 					$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
 				} 
 				else 
 				{
 					$oWidgetController = getController('widget');
 					$page_content = $oWidgetController->transWidgetCode($this->module_info->mcontent);
-					FileHandler::writeFile($cache_file, $page_content);
+					FileHandler::writeFile($this->cache_file, $page_content);
 				}
 			} 
 			else 
 			{
-				if(file_exists($cache_file))
+				if(file_exists($this->cache_file))
 				{
-					FileHandler::removeFile($cache_file);
+					FileHandler::removeFile($this->cache_file);
 				}
 				$page_content = $this->module_info->mcontent;
 			}
@@ -134,18 +112,6 @@ class pageMobile extends pageView
 		}
 
 		return $page_content;
-	}
-
-	function _getOutsideContent()
-	{
-		// check if it is http or internal file
-		if($this->path)
-		{
-			if(preg_match("/^([a-z]+):\/\//i",$this->path)) $content = $this->getHtmlPage($this->path, $this->interval, $this->cache_file);
-			else $content = $this->executeFile($this->path, $this->interval, $this->cache_file);
-		}
-
-		return $content;
 	}
 }
 /* End of file page.mobile.php */

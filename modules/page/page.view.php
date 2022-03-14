@@ -7,29 +7,43 @@
  */
 class pageView extends page
 {
-	var $module_srl = 0;
-	var $list_count = 20;
-	var $page_count = 10;
-	var $cache_file;
-	var $interval;
-	var $path;
+	const COMPILE_TEMPLATE = false;
+	
+	public $module_srl = 0;
+	public $list_count = 20;
+	public $page_count = 10;
+	public $cache_file = null;
+	public $interval = 0;
+	public $path = '';
 
 	/**
 	 * @brief Initialization
 	 */
 	function init()
 	{
-		switch($this->module_info->page_type)
+		if ($this->module_info->page_type === 'WIDGET')
 		{
-			case 'WIDGET':
-				$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.cache.php", \RX_BASEDIR, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
-				$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
-				break;
-			case 'OUTSIDE':
-				$this->cache_file = sprintf("%sfiles/cache/opage/%d.%s.cache.php", \RX_BASEDIR, $this->module_info->module_srl, Context::getSslStatus());
-				$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
-				$this->path = $this->module_info->path ?? '';
-				break;
+			$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
+			$this->cache_file = vsprintf('%sfiles/cache/page/%d.%s.%s.%s.cache.php', [
+				\RX_BASEDIR,
+				$this->module_info->module_srl,
+				Context::getLangType(),
+				Context::getSslStatus(),
+				$this instanceof pageMobile ? 'm' : 'pc',
+			]);
+		}
+		
+		if ($this->module_info->page_type === 'OUTSIDE')
+		{
+			$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
+			$this->path = $this->module_info->path ?? '';
+			$this->cache_file = vsprintf('%sfiles/cache/opage/%d.%s.%s.%s.cache.php', [
+				\RX_BASEDIR,
+				$this->module_info->module_srl,
+				Context::getSslStatus(),
+				self::COMPILE_TEMPLATE ? 'ct' : 'nt',
+				$this instanceof pageMobile ? 'm' : 'pc',
+			]);
 		}
 	}
 
@@ -188,7 +202,6 @@ class pageView extends page
 		$filename = $tmp_path[count($tmp_path)-1];
 		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
 		$cache_file = FileHandler::getRealPath($cache_file);
-		$compile_template = false;
 
 		// Verify cache
 		if ($caching_interval < 1 || !file_exists($cache_file) || filemtime($cache_file) + ($caching_interval * 60) <= \RX_TIME || filemtime($cache_file) < filemtime($real_target_file))
@@ -210,7 +223,7 @@ class pageView extends page
 			}
 			
 			// Attempt to compile
-			if ($compile_template)
+			if (self::COMPILE_TEMPLATE)
 			{
 				$oTemplate = TemplateHandler::getInstance();
 				$script = $oTemplate->compileDirect($filepath, $filename);
@@ -223,7 +236,7 @@ class pageView extends page
 		}
 
 		// Return content if not compiling as template.
-		if (!$compile_template)
+		if (!self::COMPILE_TEMPLATE)
 		{
 			return file_get_contents($cache_file);
 		}
