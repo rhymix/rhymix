@@ -79,33 +79,51 @@ class pageView extends page
 		Context::set('page_content', $page_content);
 		
 		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile('content');
+		$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
 	}
 
 	function _getWidgetContent()
 	{
-		if($this->interval>0)
+		if ($this instanceof pageMobile)
 		{
-			if(!file_exists($this->cache_file)) $mtime = 0;
-			else $mtime = filemtime($this->cache_file);
+			$page_content = $this->module_info->mcontent ?: $this->module_info->content;
+		}
+		else
+		{
+			$page_content = $this->module_info->content;
+		}
+		
+		if ($this->interval > 0)
+		{
+			if (!file_exists($this->cache_file) || !filesize($this->cache_file))
+			{
+				$mtime = 0;
+			}
+			else
+			{
+				$mtime = filemtime($this->cache_file);
+			}
 
-			if($mtime + $this->interval*60 > $_SERVER['REQUEST_TIME'])
+			if($mtime && $mtime + ($this->interval * 60) > \RX_TIME)
 			{
 				$page_content = FileHandler::readFile($this->cache_file); 
 				$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
 			}
 			else
 			{
-				$oWidgetController = getController('widget');
-				$page_content = $oWidgetController->transWidgetCode($this->module_info->content);
+				$oWidgetController = WidgetController::getInstance();
+				$page_content = $oWidgetController->transWidgetCode($page_content);
 				FileHandler::writeFile($this->cache_file, $page_content);
 			}
 		}
 		else
 		{
-			if(file_exists($this->cache_file)) FileHandler::removeFile($this->cache_file);
-			$page_content = $this->module_info->content;
+			if (file_exists($this->cache_file))
+			{
+				FileHandler::removeFile($this->cache_file);
+			}
 		}
+		
 		return $page_content;
 	}
 
