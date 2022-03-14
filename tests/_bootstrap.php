@@ -7,8 +7,8 @@ $_SERVER['SERVER_NAME'] = 'www.rhymix.org';
 $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 $_SERVER['DOCUMENT_ROOT'] = dirname(dirname(__DIR__));
 $_SERVER['SCRIPT_FILENAME'] = dirname(__DIR__) . '/index.php';
-$_SERVER['SCRIPT_NAME'] = '/rhymix/index.php';
-$_SERVER['REQUEST_URI'] = '/rhymix/index.php';
+$_SERVER['SCRIPT_NAME'] = '/' . basename(dirname(__DIR__)) . '/index.php';
+$_SERVER['REQUEST_URI'] = '/' . basename(dirname(__DIR__)) . '/index.php';
 
 // Include the autoloader.
 require_once dirname(__DIR__) . '/common/autoload.php';

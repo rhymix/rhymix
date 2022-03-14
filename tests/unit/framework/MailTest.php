@@ -83,6 +83,7 @@ class MailTest extends \Codeception\TestCase\Test
 	
 	public function testMailBody()
 	{
+		$baseurl = '/' . basename(dirname(dirname(dirname(__DIR__)))) . '/';
 		$mail = new Rhymix\Framework\Mail;
 		
 		$mail->setBody('<p>Hello world!</p>', 'text/html');
@@ -98,11 +99,11 @@ class MailTest extends \Codeception\TestCase\Test
 		$this->assertEquals('text/plain', $mail->getContentType());
 		
 		$mail->setBody('<p><img src="files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
-		$this->assertEquals('<p><img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		$this->assertEquals('<p><img src="https://www.rhymix.org' . $baseurl . 'files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
 		$mail->setBody('<p><img src="./files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
-		$this->assertEquals('<p><img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
-		$mail->setBody('<p><img src="/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
-		$this->assertEquals('<p><img src="https://www.rhymix.org/rhymix/files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		$this->assertEquals('<p><img src="https://www.rhymix.org' . $baseurl . 'files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
+		$mail->setBody('<p><img src="' . $baseurl . 'files/attach/foobar.jpg" alt="TEST" /></p>', 'text/html');
+		$this->assertEquals('<p><img src="https://www.rhymix.org' . $baseurl . 'files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
 		$mail->setBody('<p><img src="./files/attach/foobar.jpg" alt="TEST" /></p>', 'text/plain');
 		$this->assertEquals('<p><img src="./files/attach/foobar.jpg" alt="TEST" /></p>', $mail->getBody());
 		
