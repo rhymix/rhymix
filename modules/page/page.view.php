@@ -54,6 +54,15 @@ class pageView extends page
 	{
 		// Variables used in the template Context:: set()
 		if($this->module_srl) Context::set('module_srl',$this->module_srl);
+		
+		// Kick out anyone who tries to exploit RVE-2022-2.
+		foreach (Context::getRequestVars() as $key => $val)
+		{
+			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key) || preg_match('/[\{\}\(\)<>\$\'"]/', $val))
+			{
+				throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			}
+		}
 
 		$page_type_name = strtolower($this->module_info->page_type);
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
