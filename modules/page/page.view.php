@@ -53,7 +53,10 @@ class pageView extends page
 	function dispPageIndex()
 	{
 		// Variables used in the template Context:: set()
-		if($this->module_srl) Context::set('module_srl',$this->module_srl);
+		if ($this->module_srl)
+		{
+			Context::set('module_srl', $this->module_srl);
+		}
 		
 		// Kick out anyone who tries to exploit RVE-2022-2.
 		foreach (Context::getRequestVars() as $key => $val)
@@ -64,16 +67,14 @@ class pageView extends page
 			}
 		}
 
+		// Get page content according to page type.
 		$page_type_name = strtolower($this->module_info->page_type);
+		if (!in_array($page_type_name, ['widget', 'article', 'outside']))
+		{
+			$page_type_name = 'widget';
+		}
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
-		if(method_exists($this, $method))
-		{
-			$page_content = $this->{$method}();
-		}
-		else
-		{
-			throw new Rhymix\Framework\Exception(sprintf('%s method is not exists', $method));
-		}
+		$page_content = $this->{$method}();
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
