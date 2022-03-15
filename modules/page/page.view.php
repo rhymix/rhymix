@@ -240,8 +240,9 @@ class pageView extends page
 			// Store compiled template in a temporary file.
 			$oTemplate = TemplateHandler::getInstance();
 			$real_target_dir = dirname($real_target_file);
+			$tmp_cache_file = preg_replace('/\.cache\.php$/', '.compiled.php', $cache_file);
 			$content = $oTemplate->compileDirect($real_target_dir, basename($real_target_file));
-			$success = Rhymix\Framework\Storage::write($cache_file . '.tmp.php', $content);
+			$success = Rhymix\Framework\Storage::write($tmp_cache_file, $content);
 			if (!$success)
 			{
 				return '';
@@ -252,12 +253,12 @@ class pageView extends page
 			$include_path = get_include_path();
 			$ob_level = ob_get_level();
 			ob_start();
-			call_user_func(function() use($real_target_dir, $cache_file, $include_path) {
-				set_include_path($real_target_dir . PATH_SEPARATOR . $include_path);
+			set_include_path($real_target_dir . PATH_SEPARATOR . $include_path);
+			call_user_func(function() use($real_target_dir, $tmp_cache_file) {
 				$__Context = Context::getAll();
 				$__Context->tpl_path = $real_target_dir;
 				global $lang;
-				include $cache_file . '.tmp.php';
+				include $tmp_cache_file;
 			});
 			set_include_path($include_path);
 			while (ob_get_level() > $ob_level)
