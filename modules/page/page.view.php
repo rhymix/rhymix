@@ -7,14 +7,14 @@
  */
 class pageView extends page
 {
-	const COMPILE_TEMPLATE = false;
-	
 	public $module_srl = 0;
 	public $list_count = 20;
 	public $page_count = 10;
 	public $cache_file = null;
 	public $interval = 0;
 	public $path = '';
+	public $proc_php = false;
+	public $proc_tpl = false;
 
 	/**
 	 * @brief Initialization
@@ -37,11 +37,14 @@ class pageView extends page
 		{
 			$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
 			$this->path = $this->module_info->path ?? '';
-			$this->cache_file = vsprintf('%sfiles/cache/opage/%d.%s.%s.%s.cache.php', [
+			$this->proc_php = (isset($this->module_info->opage_proc_php) && $this->module_info->opage_proc_php === 'N') ? false : true;
+			$this->proc_tpl = (isset($this->module_info->opage_proc_tpl) && $this->module_info->opage_proc_tpl === 'Y') ? true : false;
+			$this->cache_file = vsprintf('%sfiles/cache/opage/%d.%s.%s.%s.%s.cache.php', [
 				\RX_BASEDIR,
 				$this->module_info->module_srl,
 				Context::getSslStatus(),
-				self::COMPILE_TEMPLATE ? 'ct' : 'nt',
+				$this->proc_php ? 'php' : 'nophp',
+				$this->proc_tpl ? 'tpl' : 'notpl',
 				$this instanceof pageMobile ? 'm' : 'pc',
 			]);
 		}
@@ -235,23 +238,33 @@ class pageView extends page
 		if ($caching_interval < 1 || !file_exists($cache_file) || filemtime($cache_file) + ($caching_interval * 60) <= \RX_TIME || filemtime($cache_file) < filemtime($real_target_file))
 		{
 			// Read a target file and get content
-			ob_start();
-			include $real_target_file;
-			$content = ob_get_clean();
+			if ($this->proc_php)
+			{
+				ob_start();
+				call_user_func(function() use($real_target_file) {
+					include $real_target_file;
+				});
+				$content = ob_get_clean();
+			}
+			else
+			{
+				$content = file_get_contents($real_target_file);
+			}
 			
 			// Replace relative path to the absolute path 
 			$this->path = str_replace('\\', '/', realpath(dirname($target_file))) . '/';
 			$content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
 			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
-			FileHandler::writeFile($cache_file, $content);
-			if (!file_exists($cache_file))
+			// Write cache file
+			$success = Rhymix\Framework\Storage::write($cache_file, $content);
+			if (!$success)
 			{
 				return '';
 			}
 			
 			// Attempt to compile
-			if (self::COMPILE_TEMPLATE)
+			if ($this->proc_tpl)
 			{
 				$oTemplate = TemplateHandler::getInstance();
 				$script = $oTemplate->compileDirect($filepath, $filename);
@@ -264,7 +277,7 @@ class pageView extends page
 		}
 
 		// Return content if not compiling as template.
-		if (!self::COMPILE_TEMPLATE)
+		if (!$this->proc_tpl)
 		{
 			return file_get_contents($cache_file);
 		}
