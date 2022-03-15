@@ -297,11 +297,6 @@ class pageView extends page
 
 		// Write cache file.
 		$success = Rhymix\Framework\Storage::write($cache_file, $content);
-		if (!$success)
-		{
-			return '';
-		}
-		
 		return $content;
 	}
 
