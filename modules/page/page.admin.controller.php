@@ -30,6 +30,10 @@ class pageAdminController extends page
 		$args->mpath = (!$args->mpath) ? '' : $args->mpath;
 		$args->opage_proc_php = $args->opage_proc_php ?? 'N';
 		$args->opage_proc_tpl = $args->opage_proc_tpl ?? 'N';
+		if ($args->opage_proc_tpl === 'Y')
+		{
+			$args->opage_proc_php = 'Y';
+		}
 		unset($args->page_name);
 
 		if($args->use_mobile != 'Y') $args->use_mobile = '';
