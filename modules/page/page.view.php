@@ -228,87 +228,80 @@ class pageView extends page
 			return;
 		}
 
-		// Get a path and filename
-		$tmp_path = explode('/',$cache_file);
-		$filename = $tmp_path[count($tmp_path)-1];
-		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
-		$cache_file = FileHandler::getRealPath($cache_file);
-
-		// Verify cache
-		if ($caching_interval < 1 || !file_exists($cache_file) || filemtime($cache_file) + ($caching_interval * 60) <= \RX_TIME || filemtime($cache_file) < filemtime($real_target_file))
+		// Return content from cache if available.
+		if ($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + ($caching_interval * 60) > \RX_TIME && filemtime($cache_file) > filemtime($real_target_file))
 		{
-			// Read a target file and get content
-			if ($this->proc_php)
-			{
-				ob_start();
-				call_user_func(function() use($real_target_file) {
-					include $real_target_file;
-				});
-				$content = ob_get_clean();
-			}
-			else
-			{
-				$content = file_get_contents($real_target_file);
-			}
-			
-			// Replace relative path to the absolute path 
-			$this->path = str_replace('\\', '/', realpath(dirname($target_file))) . '/';
-			$content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
-			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
-
-			// Write cache file
-			$success = Rhymix\Framework\Storage::write($cache_file, $content);
+			return file_get_contents($cache_file);
+		}
+		
+		// Parse as template if enabled.
+		if ($this->proc_tpl)
+		{
+			// Store compiled template in a temporary file.
+			$oTemplate = TemplateHandler::getInstance();
+			$real_target_dir = dirname($real_target_file);
+			$content = $oTemplate->compileDirect($real_target_dir, basename($real_target_file));
+			$success = Rhymix\Framework\Storage::write($cache_file . '.tmp.php', $content);
 			if (!$success)
 			{
 				return '';
 			}
 			
-			// Attempt to compile
-			if ($this->proc_tpl)
+			// Include template file in an isolated scope.
+			$content = '';
+			$include_path = get_include_path();
+			$ob_level = ob_get_level();
+			ob_start();
+			call_user_func(function() use($real_target_dir, $cache_file, $include_path) {
+				set_include_path($real_target_dir . PATH_SEPARATOR . $include_path);
+				$__Context = Context::getAll();
+				$__Context->tpl_path = $real_target_dir;
+				global $lang;
+				include $cache_file . '.tmp.php';
+			});
+			set_include_path($include_path);
+			while (ob_get_level() > $ob_level)
 			{
-				$oTemplate = TemplateHandler::getInstance();
-				$script = $oTemplate->compileDirect($filepath, $filename);
-				FileHandler::writeFile($cache_file, $script);
+				$content .= ob_get_clean();
 			}
-			else
+			
+			// Insert comments for debugging.
+			if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $content) && !starts_with('<?xml', $content))
 			{
-				return $content;
+				$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
+				$content = sprintf($sign, 'start') . $content . sprintf($sign, 'end');
 			}
 		}
-
-		// Return content if not compiling as template.
-		if (!$this->proc_tpl)
+		
+		// Parse as PHP if enabled.
+		elseif ($this->proc_php)
 		{
-			return file_get_contents($cache_file);
+			ob_start();
+			call_user_func(function() use($real_target_file) {
+				include $real_target_file;
+			});
+			$content = ob_get_clean();
 		}
 		
-		// Import Context and lang as local variables.
-		$__Context = Context::getAll();
-		$__Context->tpl_path = $filepath;
-		global $lang;
-
-		// Start the output buffer.
-		$__ob_level_before_fetch = ob_get_level();
-		ob_start();
-		
-		// Include the compiled template.
-		include $cache_file;
-
-		// Fetch contents of the output buffer until the buffer level is the same as before.
-		$contents = '';
-		while (ob_get_level() > $__ob_level_before_fetch)
+		// Otherwise, get the raw content of the file.
+		else
 		{
-			$contents .= ob_get_clean();
+			$content = file_get_contents($real_target_file);
 		}
 		
-		// Insert template path comment tag.
-		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
+		// Convert relative paths to absolute paths.
+		$this->path = str_replace('\\', '/', dirname($real_target_file)) . '/';
+		$content = preg_replace_callback('/\b(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is', array($this, '_replacePath'), $content);
+		$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is', array($this, '_replacePath'), $content);
+
+		// Write cache file.
+		$success = Rhymix\Framework\Storage::write($cache_file, $content);
+		if (!$success)
 		{
-			$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
-			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
+			return '';
 		}
 		
-		return $contents;
+		return $content;
 	}
 
 	function _replacePath($matches)
