@@ -93,11 +93,16 @@ class TemplateHandler
 	{
 		// verify arguments
 		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
-		if($tpl_path === '/' || !is_dir($tpl_path))
+		if($tpl_path === '/')
+		{
+			$tpl_path = '';
+		}
+		elseif(!is_dir(\RX_BASEDIR . $tpl_path))
 		{
 			$this->resetState();
 			return;
 		}
+
 		if(!file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename) && file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename . '.html'))
 		{
 			$tpl_filename .= '.html';

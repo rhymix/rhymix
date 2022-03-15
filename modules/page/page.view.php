@@ -241,7 +241,7 @@ class pageView extends page
 			$oTemplate = TemplateHandler::getInstance();
 			$real_target_dir = dirname($real_target_file);
 			$tmp_cache_file = preg_replace('/\.cache\.php$/', '.compiled.php', $cache_file);
-			$content = $oTemplate->compileDirect($real_target_dir, basename($real_target_file));
+			$content = $oTemplate->compileDirect($real_target_dir . '/', basename($real_target_file));
 			$success = Rhymix\Framework\Storage::write($tmp_cache_file, $content);
 			if (!$success)
 			{
