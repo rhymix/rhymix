@@ -99,6 +99,20 @@
 			<p class="x_help-block" id="aboutOpageMobilePath">{$lang->about_opage_mobile_path}<b>{realpath("./")}</b></p>
 		</div>
 	</div>
+	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
+		<label class="x_control-label">{$lang->opage_postprocessing}</label>
+		<div class="x_controls">
+			<label for="opage_proc_php" class="x_inline">
+				<input type="checkbox" name="opage_proc_php" id="opage_proc_php" value="Y" checked="checked"|cond="($module_info->opage_proc_php ?? 'Y') === 'Y'" />
+				{$lang->opage_proc_php}
+			</label>
+			<label for="opage_proc_tpl" class="x_inline">
+				<input type="checkbox" name="opage_proc_tpl" id="opage_proc_tpl" value="Y" checked="checked"|cond="($module_info->opage_proc_tpl ?? 'N') === 'Y'" />
+				{$lang->opage_proc_tpl}
+			</label>
+			<p class="x_help-block">{$lang->about_opage_postprocessing}</p>
+		</div>
+	</div>
 	<div class="x_control-group" cond="$module_info->page_type == 'ARTICLE'">
 		<label class="x_control-label" for="skin">{$lang->skin}</label>
 		<div class="x_controls">
