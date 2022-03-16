@@ -121,4 +121,14 @@ function doCartSetup(url) {
 
 jQuery(function($){
 	$('#pageBtnArea').delay(1000).show(1);
+	$('#opage_proc_php').on('change', function() {
+		if (!$(this).prop('checked')) {
+			$('#opage_proc_tpl').prop('checked', false);
+		}
+	});
+	$('#opage_proc_tpl').on('change', function() {
+		if ($(this).prop('checked')) {
+			$('#opage_proc_php').prop('checked', true);
+		}
+	});
 });
