@@ -750,7 +750,7 @@ class Debug
 				{
 					return true;
 				}
-				elseif (method_exists($logged_info, 'isAdmin'))
+				elseif (is_object($logged_info) && method_exists($logged_info, 'isAdmin'))
 				{
 					return self::$_enabled = $logged_info->isAdmin();
 				}
