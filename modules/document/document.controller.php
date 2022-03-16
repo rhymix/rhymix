@@ -216,6 +216,7 @@ class documentController extends document
 		}
 		else
 		{
+			$args->member_srl = 0;
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
@@ -1698,6 +1699,7 @@ class documentController extends document
 		}
 		else
 		{
+			$args->member_srl = 0;
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$args->document_srl = $document_srl;

@@ -171,6 +171,7 @@ class commentController extends comment
 		}
 		else
 		{
+			$args->member_srl = 0;
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
@@ -1449,6 +1450,7 @@ class commentController extends comment
 		}
 		else
 		{
+			$args->member_srl = 0;
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$args->comment_srl = $comment_srl;

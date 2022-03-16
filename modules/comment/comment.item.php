@@ -372,7 +372,15 @@ class commentItem extends BaseObject
 		if(!$logged_info->member_srl) return false;
 
 		$args = new stdClass();
-		$args->member_srl = $logged_info->member_srl;
+		if($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->member_srl = 0;
+			$args->ipaddress = \RX_CLIENT_IP;
+		}
 		$args->comment_srl = $this->comment_srl;
 		$output = executeQuery('comment.getCommentVotedLog', $args);
 
