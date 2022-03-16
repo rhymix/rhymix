@@ -45,6 +45,15 @@ class pageView extends page
 		// Variables used in the template Context:: set()
 		if($this->module_srl) Context::set('module_srl',$this->module_srl);
 
+		// Firt line of defense against RVE-2022-2.
+		foreach (Context::getRequestVars() as $key => $val)
+		{
+			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key) || preg_match('/[\{\}\(\)<>\$\'"]/', $val))
+			{
+				throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			}
+		}
+
 		$page_type_name = strtolower($this->module_info->page_type);
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
 		if(method_exists($this, $method))
@@ -191,42 +200,10 @@ class pageView extends page
 			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
 
 			FileHandler::writeFile($cache_file, $content);
-			// Include and then Return the result
-			if(!file_exists($cache_file)) return;
-			// Attempt to compile
-			$oTemplate = &TemplateHandler::getInstance();
-			$script = $oTemplate->compileDirect($filepath, $filename);
-
-			FileHandler::writeFile($cache_file, $script);
 		}
 
-		// Import Context and lang as local variables.
-		$__Context = &$GLOBALS['__Context__'];
-		$__Context->tpl_path = $filepath;
-		global $lang;
-
-		// Start the output buffer.
-		$__ob_level_before_fetch = ob_get_level();
-		ob_start();
-		
-		// Include the compiled template.
-		include $cache_file;
-
-		// Fetch contents of the output buffer until the buffer level is the same as before.
-		$contents = '';
-		while (ob_get_level() > $__ob_level_before_fetch)
-		{
-			$contents .= ob_get_clean();
-		}
-		
-		// Insert template path comment tag.
-		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
-		{
-			$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
-			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
-		}
-		
-		return $contents;
+		// Don't compile, just return to prevent RVE-2022-2.
+		return file_get_contents($cache_file);
 	}
 
 	function _replacePath($matches)
