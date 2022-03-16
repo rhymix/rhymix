@@ -249,7 +249,7 @@ class communicationView extends communication
 		}
 
 		$receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
-		if(!$receiver_info)
+		if(!$receiver_info || !$receiver_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -374,8 +374,7 @@ class communicationView extends communication
 		$oMemberModel = getModel('member');
 		$oCommunicationModel = getModel('communication');
 		$communication_info = $oMemberModel->getMemberInfoByMemberSrl($target_srl);
-
-		if($communication_info->member_srl != $target_srl)
+		if(!$communication_info || !$communication_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}

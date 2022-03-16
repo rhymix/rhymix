@@ -136,7 +136,7 @@ class pollController extends poll
 			$title_args->checkcount = $val->checkcount;
 			$title_args->poll_count = 0;
 			$title_args->list_order = $title_args->poll_index_srl * -1;
-			$title_args->member_srl = $member_srl;
+			$title_args->member_srl = $poll_args->member_srl;
 			$title_args->upload_target_srl = $vars->upload_target_srl;
 			$output = executeQuery('poll.insertPollTitle', $title_args);
 			if(!$output->toBool())

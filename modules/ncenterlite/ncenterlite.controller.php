@@ -1061,6 +1061,12 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		
+		// 레이아웃에서 알림센터 사용중이라면 중지
+		if(Context::get('layout_info')->use_ncenter_widget == 'Y')
+		{
+			return;
+		}
+		
 		Context::set('ncenterlite_config', $config);
 		
 		if($config->highlight_effect === 'Y')
@@ -1078,7 +1084,7 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 		}
-
+		
 		$_latest_notify_id = array_slice($_output->data, 0, 1);
 		$_latest_notify_id = count($_latest_notify_id) > 0 ? $_latest_notify_id[0]->notify : "";
 		Context::set('ncenterlite_latest_notify_id', $_latest_notify_id);

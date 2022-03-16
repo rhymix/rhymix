@@ -93,11 +93,16 @@ class TemplateHandler
 	{
 		// verify arguments
 		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
-		if($tpl_path === '/' || !is_dir($tpl_path))
+		if($tpl_path === '/')
+		{
+			$tpl_path = '';
+		}
+		elseif(!is_dir(\RX_BASEDIR . $tpl_path))
 		{
 			$this->resetState();
 			return;
 		}
+
 		if(!file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename) && file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename . '.html'))
 		{
 			$tpl_filename .= '.html';
@@ -561,7 +566,7 @@ class TemplateHandler
 								{
 									$expr_m[2] .= '=>' . trim($expr_m[3]);
 								}
-								$nodes[$idx - 1] .= sprintf('<?php if(%1$s)foreach(%1$s as %2$s){ ?>', $expr_m[1], $expr_m[2]);
+								$nodes[$idx - 1] .= sprintf('<?php $__loop_tmp=%1$s;if($__loop_tmp)foreach($__loop_tmp as %2$s){ ?>', $expr_m[1], $expr_m[2]);
 							}
 							elseif(isset($expr_m[4]) && $expr_m[4])
 							{
@@ -635,7 +640,7 @@ class TemplateHandler
 		// {@ ... } or {$var} or {func(...)}
 		if($m[1])
 		{
-			if(preg_match('@^(\w+)\(@', $m[1], $mm) && !function_exists($mm[1]))
+			if(preg_match('@^(\w+)\(@', $m[1], $mm) && (!function_exists($mm[1]) && !in_array($mm[1], ['isset', 'unset', 'empty'])))
 			{
 				return $m[0];
 			}

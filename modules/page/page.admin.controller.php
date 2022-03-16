@@ -28,6 +28,12 @@ class pageAdminController extends page
 		$args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
 		$args->path = (!$args->path) ? '' : $args->path;
 		$args->mpath = (!$args->mpath) ? '' : $args->mpath;
+		$args->opage_proc_php = $args->opage_proc_php ?? 'N';
+		$args->opage_proc_tpl = $args->opage_proc_tpl ?? 'N';
+		if ($args->opage_proc_tpl === 'Y')
+		{
+			$args->opage_proc_php = 'Y';
+		}
 		unset($args->page_name);
 
 		if($args->use_mobile != 'Y') $args->use_mobile = '';

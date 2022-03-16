@@ -100,7 +100,7 @@ class communicationController extends communication
 		}
 
 		$receiver_member_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
-		if($receiver_member_info->member_srl != $receiver_srl)
+		if(!$receiver_member_info->member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}

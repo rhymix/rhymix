@@ -699,7 +699,7 @@ class memberModel extends member
 		if(!isset($GLOBALS['__group_info__'][0]))
 		{
 			$result = array();
-			$group_list = Rhymix\Framework\Cache::get('member:member_group');
+			$group_list = Rhymix\Framework\Cache::get('member:member_groups');
 
 			if(!$group_list)
 			{

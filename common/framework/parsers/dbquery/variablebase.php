@@ -449,7 +449,7 @@ class VariableBase
 		}
 		if (isset($this->maxlength) && $this->maxlength > 0 && $length > $this->maxlength)
 		{
-			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->minlength . ' characters');
+			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->maxlength . ' characters');
 		}
 	}
 	

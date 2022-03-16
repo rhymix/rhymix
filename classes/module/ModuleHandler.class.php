@@ -424,11 +424,28 @@ class ModuleHandler extends Handler
 		else
 		{
 			$oModule = self::getModuleInstance($this->module, $type ?: 'class', $kind);
+			if (!$oModule)
+			{
+				$base_class_fullname = sprintf('Rhymix\\Modules\\%s\\Base', $this->module);
+				if (class_exists($base_class_fullname))
+				{
+					$oModule = $base_class_fullname::getInstance();
+				}
+				else
+				{
+					$base_class_fullname = sprintf('Rhymix\\Modules\\%s\\Controllers\\Base', $this->module);
+					if (class_exists($base_class_fullname))
+					{
+						$oModule = $base_class_fullname::getInstance();
+					}
+				}
+			}
 		}
 
-		if(!is_object($oModule))
+		// If the base module is not found, return an error now.
+		if (!isset($oModule) || !is_object($oModule))
 		{
-			return self::_createErrorMessage(-1, $this->error, $this->httpStatusCode);
+			return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404);
 		}
 
 		// If there is no such action in the module object

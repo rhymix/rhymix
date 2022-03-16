@@ -518,6 +518,7 @@ class documentItem extends BaseObject
 		}
 		else
 		{
+			$args->member_srl = 0;
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$args->document_srl = $this->document_srl;
@@ -891,7 +892,7 @@ class documentItem extends BaseObject
 		$module_srl = $this->get('module_srl');
 		if(!$module_srl || !$this->document_srl)
 		{
-			return null;
+			return array();
 		}
 
 		return DocumentModel::getExtraVars($module_srl, $this->document_srl);

@@ -7,33 +7,46 @@
  */
 class pageView extends page
 {
-	var $module_srl = 0;
-	var $list_count = 20;
-	var $page_count = 10;
-	var $cache_file;
-	var $interval;
-	var $path;
+	public $module_srl = 0;
+	public $list_count = 20;
+	public $page_count = 10;
+	public $cache_file = null;
+	public $interval = 0;
+	public $path = '';
+	public $proc_php = false;
+	public $proc_tpl = false;
 
 	/**
 	 * @brief Initialization
 	 */
 	function init()
 	{
-		switch($this->module_info->page_type)
+		if ($this->module_info->page_type === 'WIDGET')
 		{
-			case 'WIDGET' :
-				{
-					$this->cache_file = sprintf("%sfiles/cache/page/%d.%s.%s.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getLangType(), Context::getSslStatus());
-					$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
-					break;
-				}
-			case 'OUTSIDE' :
-				{
-					$this->cache_file = sprintf("%sfiles/cache/opage/%d.%s.cache.php", RX_BASEDIR, $this->module_info->module_srl, Context::getSslStatus());
-					$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
-					$this->path = $this->module_info->path;
-					break;
-				}
+			$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
+			$this->cache_file = vsprintf('%sfiles/cache/page/%d.%s.%s.%s.cache.php', [
+				\RX_BASEDIR,
+				$this->module_info->module_srl,
+				Context::getLangType(),
+				Context::getSslStatus(),
+				$this instanceof pageMobile ? 'm' : 'pc',
+			]);
+		}
+		
+		if ($this->module_info->page_type === 'OUTSIDE')
+		{
+			$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
+			$this->path = $this->module_info->path ?? '';
+			$this->proc_php = (isset($this->module_info->opage_proc_php) && $this->module_info->opage_proc_php === 'N') ? false : true;
+			$this->proc_tpl = (isset($this->module_info->opage_proc_tpl) && $this->module_info->opage_proc_tpl === 'Y') ? true : false;
+			$this->cache_file = vsprintf('%sfiles/cache/opage/%d.%s.%s.%s.%s.cache.php', [
+				\RX_BASEDIR,
+				$this->module_info->module_srl,
+				Context::getSslStatus(),
+				$this->proc_php ? 'php' : 'nophp',
+				$this->proc_tpl ? 'tpl' : 'notpl',
+				$this instanceof pageMobile ? 'm' : 'pc',
+			]);
 		}
 	}
 
@@ -43,50 +56,78 @@ class pageView extends page
 	function dispPageIndex()
 	{
 		// Variables used in the template Context:: set()
-		if($this->module_srl) Context::set('module_srl',$this->module_srl);
+		if ($this->module_srl)
+		{
+			Context::set('module_srl', $this->module_srl);
+		}
+		
+		// Kick out anyone who tries to exploit RVE-2022-2.
+		foreach (Context::getRequestVars() as $key => $val)
+		{
+			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key) || preg_match('/[\{\}\(\)<>\$\'"]/', $val))
+			{
+				throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			}
+		}
 
+		// Get page content according to page type.
 		$page_type_name = strtolower($this->module_info->page_type);
+		if (!in_array($page_type_name, ['widget', 'article', 'outside']))
+		{
+			$page_type_name = 'widget';
+		}
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
-		if(method_exists($this, $method))
-		{
-			$page_content = $this->{$method}();
-		}
-		else
-		{
-			throw new Rhymix\Framework\Exception(sprintf('%s method is not exists', $method));
-		}
+		$page_content = $this->{$method}();
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
 		
 		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile('content');
+		$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
 	}
 
 	function _getWidgetContent()
 	{
-		if($this->interval>0)
+		if ($this instanceof pageMobile)
 		{
-			if(!file_exists($this->cache_file)) $mtime = 0;
-			else $mtime = filemtime($this->cache_file);
+			$page_content = $this->module_info->mcontent ?: $this->module_info->content;
+		}
+		else
+		{
+			$page_content = $this->module_info->content;
+		}
+		
+		if ($this->interval > 0)
+		{
+			if (!file_exists($this->cache_file) || !filesize($this->cache_file))
+			{
+				$mtime = 0;
+			}
+			else
+			{
+				$mtime = filemtime($this->cache_file);
+			}
 
-			if($mtime + $this->interval*60 > $_SERVER['REQUEST_TIME'])
+			if($mtime && $mtime + ($this->interval * 60) > \RX_TIME)
 			{
 				$page_content = FileHandler::readFile($this->cache_file); 
 				$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
 			}
 			else
 			{
-				$oWidgetController = getController('widget');
-				$page_content = $oWidgetController->transWidgetCode($this->module_info->content);
+				$oWidgetController = WidgetController::getInstance();
+				$page_content = $oWidgetController->transWidgetCode($page_content);
 				FileHandler::writeFile($this->cache_file, $page_content);
 			}
 		}
 		else
 		{
-			if(file_exists($this->cache_file)) FileHandler::removeFile($this->cache_file);
-			$page_content = $this->module_info->content;
+			if (file_exists($this->cache_file))
+			{
+				FileHandler::removeFile($this->cache_file);
+			}
 		}
+		
 		return $page_content;
 	}
 
@@ -113,14 +154,23 @@ class pageView extends page
 
 	function _getOutsideContent()
 	{
-		// check if it is http or internal file
-		if($this->path)
+		// Stop if the path is not set.
+		if (!$this->path)
 		{
-			if(preg_match("/^([a-z]+):\/\//i",$this->path)) $content = $this->getHtmlPage($this->path, $this->interval, $this->cache_file);
-			else $content = $this->executeFile($this->path, $this->interval, $this->cache_file);
+			return;
 		}
-
-		return $content;
+		
+		// External URL
+		if (preg_match('!^[a-z]+://!i', $this->path))
+		{
+			return $this->getHtmlPage($this->path, $this->interval, $this->cache_file);
+		}
+		
+		// Internal PHP document
+		else
+		{
+			return $this->executeFile($this->path, $this->interval, $this->cache_file);
+		}
 	}
 
 	/**
@@ -138,8 +188,10 @@ class pageView extends page
 			FileHandler::getRemoteFile($path, $cache_file);
 			$content = FileHandler::readFile($cache_file);
 		}
+		
 		// Create opage controller
 		$oPageController = getController('page');
+		
 		// change url of image, css, javascript and so on if the page is from external server
 		$content = $oPageController->replaceSrc($content, $path);
 
@@ -148,12 +200,15 @@ class pageView extends page
 		$buff->content = $content;
 		$buff = Context::convertEncoding($buff);
 		$content = $buff->content;
+		
 		// Extract a title
 		$title = $oPageController->getTitle($content);
 		if($title) Context::setBrowserTitle($title);
+		
 		// Extract header script
 		$head_script = $oPageController->getHeadScript($content);
 		if($head_script) Context::addHtmlHeader($head_script);
+		
 		// Extract content from the body
 		$body_script = $oPageController->getBodyScript($content);
 		if(!$body_script) $body_script = $content;
@@ -167,79 +222,96 @@ class pageView extends page
 	function executeFile($target_file, $caching_interval, $cache_file)
 	{
 		// Cancel if the file doesn't exist
-		if(!file_exists(FileHandler::getRealPath($target_file))) return;
-
-		// Get a path and filename
-		$tmp_path = explode('/',$cache_file);
-		$filename = $tmp_path[count($tmp_path)-1];
-		$filepath = preg_replace('/'.$filename."$/i","",$cache_file);
-		$cache_file = FileHandler::getRealPath($cache_file);
-
-		$level = ob_get_level();
-		// Verify cache
-		if($caching_interval <1 || !file_exists($cache_file) || filemtime($cache_file) + $caching_interval*60 <= $_SERVER['REQUEST_TIME'] || filemtime($cache_file)<filemtime($target_file))
+		$real_target_file = FileHandler::getRealPath($target_file);
+		if (!file_exists($real_target_file))
 		{
-			if(file_exists($cache_file)) FileHandler::removeFile($cache_file);
+			return;
+		}
 
-			// Read a target file and get content
+		// Return content from cache if available.
+		if ($caching_interval > 0 && file_exists($cache_file) && filemtime($cache_file) + ($caching_interval * 60) > \RX_TIME && filemtime($cache_file) > filemtime($real_target_file))
+		{
+			return file_get_contents($cache_file);
+		}
+		
+		// Parse as template if enabled.
+		if ($this->proc_tpl)
+		{
+			// Store compiled template in a temporary file.
+			$oTemplate = TemplateHandler::getInstance();
+			$real_target_dir = dirname($real_target_file);
+			$tmp_cache_file = preg_replace('/\.cache\.php$/', '.compiled.php', $cache_file);
+			$content = $oTemplate->compileDirect($real_target_dir . '/', basename($real_target_file));
+			$success = Rhymix\Framework\Storage::write($tmp_cache_file, $content);
+			if (!$success)
+			{
+				return '';
+			}
+			
+			// Include template file in an isolated scope.
+			$content = '';
+			$include_path = get_include_path();
+			$ob_level = ob_get_level();
 			ob_start();
-			include(FileHandler::getRealPath($target_file));
+			set_include_path($real_target_dir . PATH_SEPARATOR . $include_path);
+			call_user_func(function() use($real_target_dir, $tmp_cache_file) {
+				$__Context = Context::getAll();
+				$__Context->tpl_path = $real_target_dir;
+				global $lang;
+				include $tmp_cache_file;
+			});
+			set_include_path($include_path);
+			while (ob_get_level() > $ob_level)
+			{
+				$content .= ob_get_clean();
+			}
+			
+			// Insert comments for debugging.
+			if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $content) && !starts_with('<?xml', $content))
+			{
+				$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
+				$content = sprintf($sign, 'start') . $content . sprintf($sign, 'end');
+			}
+		}
+		
+		// Parse as PHP if enabled.
+		elseif ($this->proc_php)
+		{
+			ob_start();
+			call_user_func(function() use($real_target_file) {
+				include $real_target_file;
+			});
 			$content = ob_get_clean();
-			// Replace relative path to the absolute path 
-			$this->path = str_replace('\\', '/', realpath(dirname($target_file))) . '/';
-			$content = preg_replace_callback('/(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is',array($this,'_replacePath'),$content);
-			$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is',array($this,'_replacePath'),$content);
-
-			FileHandler::writeFile($cache_file, $content);
-			// Include and then Return the result
-			if(!file_exists($cache_file)) return;
-			// Attempt to compile
-			$oTemplate = &TemplateHandler::getInstance();
-			$script = $oTemplate->compileDirect($filepath, $filename);
-
-			FileHandler::writeFile($cache_file, $script);
 		}
-
-		// Import Context and lang as local variables.
-		$__Context = &$GLOBALS['__Context__'];
-		$__Context->tpl_path = $filepath;
-		global $lang;
-
-		// Start the output buffer.
-		$__ob_level_before_fetch = ob_get_level();
-		ob_start();
 		
-		// Include the compiled template.
-		include $cache_file;
-
-		// Fetch contents of the output buffer until the buffer level is the same as before.
-		$contents = '';
-		while (ob_get_level() > $__ob_level_before_fetch)
+		// Otherwise, get the raw content of the file.
+		else
 		{
-			$contents .= ob_get_clean();
+			$content = file_get_contents($real_target_file);
 		}
 		
-		// Insert template path comment tag.
-		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
-		{
-			$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
-			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
-		}
-		
-		return $contents;
+		// Convert relative paths to absolute paths.
+		$this->path = str_replace('\\', '/', dirname($real_target_file)) . '/';
+		$content = preg_replace_callback('/\b(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is', array($this, '_replacePath'), $content);
+		$content = preg_replace_callback('/(<!--%import\()(\")([^"]+)(\")/is', array($this, '_replacePath'), $content);
+
+		// Write cache file.
+		$success = Rhymix\Framework\Storage::write($cache_file, $content);
+		return $content;
 	}
 
 	function _replacePath($matches)
 	{
 		$val = trim($matches[3]);
+		
 		// Pass if the path is external or starts with /, #, { characters
 		// /=absolute path, #=hash in a page, {=Template syntax
 		if(strpos($val, '.') === FALSE || preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val))
 		{
-				return $matches[0];
-			// In case of  .. , get a path
+			return $matches[0];
 		}
-		else if(strncasecmp('..', $val, 2) === 0)
+		// In case of  .. , get a path
+		elseif(strncasecmp('..', $val, 2) === 0)
 		{
 			$p = Context::pathToUrl($this->path);
 			return sprintf("%s%s%s%s",$matches[1],$matches[2],$p.$val,$matches[4]);
