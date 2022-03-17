@@ -297,6 +297,12 @@ class layoutView extends layout
 			$oModuleHandler->module_info->skin = $skin;
 		}
 
+		// Remove unnecessary variables
+		Context::set('success_return_url', null);
+		Context::set('error_return_url', null);
+		Context::set('skin_type', null);
+		Context::set('skin_vars', null);
+
 		// Proc module
 		$oModule = $oModuleHandler->procModule();
 		if(!$oModule->toBool())
