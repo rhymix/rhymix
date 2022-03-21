@@ -1179,7 +1179,7 @@ class commentController extends comment
 		}
 
 		// Remove the thumbnail file
-		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)), true);
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)));
 
 		// commit
 		$oDB->commit();
@@ -1287,7 +1287,7 @@ class commentController extends comment
 		$oDB->commit();
 
 		// Remove the thumbnail file
-		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->comment_srl, 3)), true);
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->comment_srl, 3)));
 
 		$output->add('document_srl', $oComment->document_srl);
 
