@@ -16,7 +16,10 @@
 			<th class="nowr">{$lang->author}</th>
 			<td>
 				<block loop="$addon_info->author => $author">
-					{$author->name} (<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->homepage}</a>, <a cond="$author->email_address" href="mailto:{$author->email_address}">{$author->email_address}</a>) <br />
+					{$author->name}&nbsp;
+					<a cond="$author->homepage" href="{$author->homepage}" target="_blank">{$author->homepage}</a>
+					<a cond="$author->email_address" href="mailto:{$author->email_address}">{$author->email_address}</a>
+					<br />
 				</block>
 			</td>
 		</tr>
