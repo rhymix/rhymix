@@ -17,12 +17,23 @@ class rssAdminView extends rss
 	function dispRssAdminIndex()
 	{
 		$oRssModel = getModel('rss');
-		$oModuleModel = getModel('module');
 		
 		$rss_list = array();
-		foreach($oModuleModel->getModulePartConfigs('rss') as $module_srl => $module_config)
+		foreach (ModuleModel::getMidList((object)['module' => 'board']) as $module_info)
 		{
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$args = new stdClass;
+			$args->mid = $module_info->mid;
+			$args->url = $oRssModel->getRssURL('rss', $module_info->mid);
+			$args->open_feed = 'N';
+			$args->open_total_feed = 'N';
+			$args->feed_description = '';
+			
+			$rss_list[$module_info->module_srl] = $args;
+		}
+		
+		foreach (ModuleModel::getModulePartConfigs('rss') as $module_srl => $module_config)
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 			
 			$args = new stdClass;
 			$args->mid = $module_info->mid;
