@@ -299,7 +299,7 @@ class ncenterliteModel extends ncenterlite
 			if($v->target_member_srl)
 			{
 				$profileImage = $oMemberModel->getProfileImage($v->target_member_srl);
-				$v->profileImage = $profileImage->src;
+				$v->profileImage = $profileImage ? $profileImage->src : null;
 			}
 			$list[$k] = $v;
 		}

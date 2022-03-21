@@ -80,7 +80,9 @@
 		<label class="x_control-label">{$lang->cmd_password_hashing_algorithm}</label>
 		<div class="x_controls">
 			<select name="password_hashing_algorithm" id="password_hashing_algorithm" style="width:auto">
-				<option value="{$key}" selected="selected"|cond="$config->password_hashing_algorithm==$key" loop="$password_hashing_algos=>$key,$val">{$val}</option>
+				<!--@foreach($password_hashing_algos as $key => $val)-->
+					<option value="{$key}" selected="selected"|cond="$config->password_hashing_algorithm === $key" disabled="disabled"|cond="$val === false">{$val ?: $key}</option>
+				<!--@endforeach-->
 			</select>
 			<p class="x_help-block">{$lang->about_password_hashing_algorithm}</p>
 		</div>

@@ -164,7 +164,20 @@ class memberAdminView extends member
 	 */
 	public function dispMemberAdminConfig()
 	{
-		Context::set('password_hashing_algos', Rhymix\Framework\Password::getSupportedAlgorithms());
+		// Get supported password algorithms.
+		$oDB = DB::getInstance();
+		$column_info = $oDB->getColumnInfo('member', 'password');
+		$password_maxlength = intval($column_info->size);
+		$password_algos = Rhymix\Framework\Password::getSupportedAlgorithms();
+		if ($password_maxlength < 128 && isset($password_algos['sha512']))
+		{
+			$password_algos['sha512'] = false;
+		}
+		if ($password_maxlength < 64 && isset($password_algos['sha256']))
+		{
+			$password_algos['sha256'] = false;
+		}
+		Context::set('password_hashing_algos', $password_algos);
 		
 		$this->setTemplateFile('default_config');
 	}

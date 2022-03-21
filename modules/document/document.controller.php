@@ -1023,7 +1023,7 @@ class documentController extends document
 		$oDB->commit();
 
 		// Remove the thumbnail file
-		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->document_srl, 3)));
 
 		$output->add('document_srl',$obj->document_srl);
 		
@@ -1149,7 +1149,7 @@ class documentController extends document
 		$this->_deleteDocumentUpdateLog($args);
 
 		// Remove the thumbnail file
-		Rhymix\Framework\Storage::deleteEmptyDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($document_srl, 3)), true);
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($document_srl, 3)));
 
 		// commit
 		$oDB->commit();
@@ -1292,7 +1292,8 @@ class documentController extends document
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
 
 		// remove thumbnails
-		FileHandler::removeDir(sprintf('files/thumbnails/%s',getNumberingPath($obj->document_srl, 3)));
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->document_srl, 3)));
+
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
 		{
