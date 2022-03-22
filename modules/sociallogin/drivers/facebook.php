@@ -1,7 +1,8 @@
 <?php
-namespace Rhymix\Framework\Drivers\Social;
 
-class Facebook extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+namespace Rhymix\Modules\Sociallogin\Drivers;
+
+class Facebook extends Base
 {
 	const FACEBOOK_GRAPH_API_VERSION = 'v2.8';
 	const FACEBOOK_URI = 'https://www.facebook.com/';

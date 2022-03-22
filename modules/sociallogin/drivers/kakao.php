@@ -1,15 +1,8 @@
 <?php
-/**
- * @class  libraryKakao
- * @author CONORY (https://xe.conory.com)
- * @brief The kakao library of the sociallogin module
- */
 
-namespace Rhymix\Framework\Drivers\Social;
+namespace Rhymix\Modules\Sociallogin\Drivers;
 
-
-
-class Kakao extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+class Kakao extends Base
 {
 	const KAKAO_OAUTH2_URI = 'https://kauth.kakao.com/oauth/';
 	const KAKAO_API_URI = 'https://kapi.kakao.com/';

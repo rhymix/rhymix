@@ -3,7 +3,7 @@
 class SocialloginModel extends Sociallogin
 {
 	/**
-	 * @param $oDriver \Rhymix\Framework\Drivers\SocialInterface
+	 * @param $oDriver \Rhymix\Modules\Sociallogin\Drivers\Base
 	 * @param $sns_info
 	 * @param bool $db
 	 */

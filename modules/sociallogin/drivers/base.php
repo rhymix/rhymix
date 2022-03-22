@@ -1,7 +1,8 @@
 <?php
-namespace Rhymix\Framework\Drivers\Social;
 
-abstract class Base implements \Rhymix\Framework\Drivers\SocialInterface
+namespace Rhymix\Modules\Sociallogin\Drivers;
+
+abstract class Base
 {
 	protected static $_instances = [];
 	protected $service;

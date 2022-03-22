@@ -1,7 +1,8 @@
 <?php
-namespace Rhymix\Framework\Drivers\Social;
 
-class Github extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+namespace Rhymix\Modules\Sociallogin\Drivers;
+
+class Github extends Base
 {
 	public $oProvider = null;
 	public $token = null;

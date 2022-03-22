@@ -1,10 +1,10 @@
 <?php
 
-namespace Rhymix\Framework\Drivers\Social;
+namespace Rhymix\Modules\Sociallogin\Drivers;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
 
-class Twitter extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+class Twitter extends Base
 {
 	/**
 	 * @brief Auth 로그인 링크를 생성

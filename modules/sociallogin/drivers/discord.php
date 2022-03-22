@@ -1,11 +1,8 @@
 <?php
-namespace Rhymix\Framework\Drivers\Social;
 
-/**
- * Class Discord
- * @package Rhymix\Framework\Drivers\Social
- */
-class Discord extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+namespace Rhymix\Modules\Sociallogin\Drivers;
+
+class Discord extends Base
 {
 	const DISCORD_API_URL = 'https://discord.com/';
 

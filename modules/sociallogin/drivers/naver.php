@@ -1,7 +1,8 @@
 <?php
-namespace Rhymix\Framework\Drivers\Social;
 
-class Naver extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+namespace Rhymix\Modules\Sociallogin\Drivers;
+
+class Naver extends Base
 {
 	const NAVER_OAUTH2_URI = 'https://nid.naver.com/oauth2.0/';
 	

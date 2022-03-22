@@ -1,7 +1,8 @@
 <?php
-namespace Rhymix\Framework\Drivers\Social;
 
-class Apple extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+namespace Rhymix\Modules\Sociallogin\Drivers;
+
+class Apple extends Base
 {
 	public $oProvider = null;
 	public $token = null;

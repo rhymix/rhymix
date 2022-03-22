@@ -1,9 +1,8 @@
 <?php
 
-namespace Rhymix\Framework\Drivers\Social;
+namespace Rhymix\Modules\Sociallogin\Drivers;
 
-
-class Google extends Base implements \Rhymix\Framework\Drivers\SocialInterface
+class Google extends Base
 {
 	const GOOGLE_OAUTH2_URI = 'https://accounts.google.com/o/oauth2/';
 	const GOOGLE_PEOPLE_URI = 'https://people.googleapis.com/v1/people/';
