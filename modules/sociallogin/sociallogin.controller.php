@@ -1,6 +1,6 @@
 <?php
 
-class SocialloginController extends Sociallogin
+class SocialloginController extends \Rhymix\Modules\Sociallogin\Base
 {
 	function init()
 	{

@@ -1,5 +1,4 @@
 <?php
-require_once(RX_BASEDIR . 'modules/sociallogin/sociallogin.view.php');
 
 class SocialloginMobile extends SocialloginView
 {

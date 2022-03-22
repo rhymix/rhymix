@@ -1,6 +1,6 @@
 <?php
 
-class SocialloginModel extends Sociallogin
+class SocialloginModel extends \Rhymix\Modules\Sociallogin\Base
 {
 	/**
 	 * @param $oDriver \Rhymix\Modules\Sociallogin\Drivers\Base

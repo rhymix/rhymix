@@ -1,6 +1,6 @@
 <?php
 
-class SocialloginView extends Sociallogin
+class SocialloginView extends \Rhymix\Modules\Sociallogin\Base
 {
 	/**
 	 * @brief Initialization

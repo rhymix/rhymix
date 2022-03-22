@@ -9,16 +9,16 @@
 		<action name="procSocialloginSnsLinkage" type="controller" standalone="true"/>
 		<action name="procSocialloginCallback" type="controller" standalone="true" method="GET|POST" check_csrf="false" />
 
-		<action name="dispSocialloginAdminSettingApi" type="view" menu_name="sociallogin"/>
-		<action name="dispSocialloginAdminSetting" type="view" menu_name="sociallogin"/>
-		<action name="dispSocialloginAdminLogRecord" type="view" menu_name="sociallogin"/>
-		<action name="dispSocialloginAdminSnsList" type="view" admin_index="true" menu_name="sociallogin" menu_index="true"/>
-		<action name="dispSocialloginAdminMigration" type="view" menu_index="sociallogin" />
+		<action name="dispSocialloginAdminSettingApi" class="Controllers\Admin" menu_name="sociallogin"/>
+		<action name="dispSocialloginAdminSetting" class="Controllers\Admin" menu_name="sociallogin"/>
+		<action name="dispSocialloginAdminLogRecord" class="Controllers\Admin" menu_name="sociallogin"/>
+		<action name="dispSocialloginAdminSnsList" class="Controllers\Admin" admin_index="true" menu_name="sociallogin" menu_index="true"/>
+		<action name="dispSocialloginAdminMigration" class="Controllers\Admin" menu_index="sociallogin" />
 
-		<action name="procSocialloginAdminSettingApi" type="controller"/>
-		<action name="procSocialloginAdminSetting" type="controller"/>
-		<action name="procSocialloginAdminDeleteLogRecord" type="controller"/>
-		<action name="procSocialloginAdminMigration" type="controller" />
+		<action name="procSocialloginAdminSettingApi" class="Controllers\Admin" />
+		<action name="procSocialloginAdminSetting" class="Controllers\Admin" />
+		<action name="procSocialloginAdminDeleteLogRecord" class="Controllers\Admin" />
+		<action name="procSocialloginAdminMigration" class="Controllers\Admin" />
 	</actions>
 	<menus>
 		<menu name="sociallogin">
