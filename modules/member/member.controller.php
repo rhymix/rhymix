@@ -2009,7 +2009,7 @@ class memberController extends member
 		$output = executeQueryArray('member.getMemberGroupMember', $args);
 		if ($output->data && count($output->data) == 1)
 		{
-			return;
+			return $output;
 		}
 		if ($output->data && count($output->data) > 1)
 		{
