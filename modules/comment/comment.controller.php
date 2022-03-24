@@ -11,8 +11,6 @@
  */
 class commentController extends comment
 {
-	private $deleteCommentSrls = array();
-	
 	/**
 	 * Initialization
 	 * @return void
@@ -1050,15 +1048,9 @@ class commentController extends comment
 		// check if comment already exists
 		$comment = CommentModel::getComment($comment_srl);
 		
-		// 이미 삭제한 댓글을 다시 삭제를 실행할 의무는 없으므로 넘겨버림.
-		if($this->deleteCommentSrls[$comment_srl])
-		{
-			return new BaseObject();
-		}
-		
 		if(!$comment->isExists())
 		{
-			return new BaseObject(-1, 'msg_not_founded');
+			return new BaseObject(-2, 'msg_not_founded');
 		}
 		if(!$is_admin && !$comment->isGranted())
 		{
@@ -1189,8 +1181,6 @@ class commentController extends comment
 		// Remove the thumbnail file
 		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($comment_srl, 3)));
 
-		$this->deleteCommentSrls[$comment_srl] = true;
-		
 		// commit
 		$oDB->commit();
 
