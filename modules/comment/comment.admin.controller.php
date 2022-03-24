@@ -223,13 +223,10 @@ class commentAdminController extends comment
 			}
 
 			$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
-			if($output->error !== -2)
+			if(!$output->toBool() && $output->error !== -2)
 			{
-				if(!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
+				$oDB->rollback();
+				return $output;
 			}
 			$deleted_count++;
 		}
