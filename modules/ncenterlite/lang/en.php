@@ -1,5 +1,6 @@
 <?php
 $lang->ncenterlite = 'Notification Center Lite';
+$lang->ncenterlite_notify = 'notification';
 $lang->ncenterlite_install_version = 'Installed version';
 $lang->ncenterlite_advenced_config = 'Advenced Setting';
 $lang->ncenterlite_document = 'post';

@@ -10,7 +10,13 @@
 	<section class="section">
 		<div class="x_control-group">
 			<!--@foreach($notify_types as $notify_type => $notify_srl)-->
+			<!--@if($notify_srl > 0)-->
+			<label class="x_control-label">
+				{$notify_type} {$lang->ncenterlite_notify}
+			</label>
+			<!--@else-->
 				<label class="x_control-label">{$lang->get('ncenterlite_type_' . $notify_type)}</label>
+			<!--@end-->
 				<div class="x_controls">
 					<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][web]" value="1" checked="checked"|cond="isset($config->use[$notify_type]['web'])" /> {$lang->cmd_web_notify}</label>
 					<label class="x_inline"><input type="checkbox" name="use[{$notify_type}][mail]" value="1" checked="checked"|cond="isset($config->use[$notify_type]['mail'])" /> {$lang->cmd_mail_notify}</label>
