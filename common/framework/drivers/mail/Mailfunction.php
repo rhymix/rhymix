@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The mail() function mail driver.
  */
-class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Mailfunction extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * Direct invocation of the constructor is not permitted.

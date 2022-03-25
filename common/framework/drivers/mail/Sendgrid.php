@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The SendGrid mail driver.
  */
-class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Sendgrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * The API URL.

@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The Mandrill mail driver.
  */
-class Mandrill extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
+class Mandrill extends Smtp implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * Direct invocation of the constructor is not permitted.

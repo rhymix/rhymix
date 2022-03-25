@@ -18,7 +18,7 @@ class MailTest extends \Codeception\TestCase\Test
 		$this->assertTrue(isset($drivers['dummy']));
 		$this->assertTrue(isset($drivers['mailfunction']));
 		$this->assertTrue(isset($drivers['smtp']));
-		$this->assertEquals('SMTP', $drivers['smtp']['name']);
+		$this->assertEquals('Smtp', $drivers['smtp']['name']);
 		$this->assertEquals(array('api_token'), $drivers['sparkpost']['required']);
 		$this->assertNotEmpty($drivers['woorimail']['spf_hint']);
 	}

@@ -1185,7 +1185,7 @@ class Context
 					return;
 				}
 				libxml_disable_entity_loader(true);
-				$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($GLOBALS['HTTP_RAW_POST_DATA']);
+				$params = Rhymix\Framework\Parsers\XmlrpcParser::parse($GLOBALS['HTTP_RAW_POST_DATA']);
 			}
 			elseif($request_method === 'JSON')
 			{

@@ -52,7 +52,7 @@ class SMS
 		if (!self::$default_driver)
 		{
 			$default_driver = config('sms.type');
-			$default_driver_class = '\Rhymix\Framework\Drivers\SMS\\' . $default_driver;
+			$default_driver_class = '\Rhymix\Framework\Drivers\SMS\\' . ucfirst($default_driver);
 			if (class_exists($default_driver_class))
 			{
 				$default_driver_config = config('sms.' . $default_driver) ?: array();
@@ -84,8 +84,8 @@ class SMS
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/sms', false) as $filename)
 		{
-			$driver_name = substr($filename, 0, -4);
-			$class_name = '\Rhymix\Framework\Drivers\SMS\\' . $driver_name;
+			$driver_name = strtolower(substr($filename, 0, -4));
+			$class_name = '\Rhymix\Framework\Drivers\SMS\\' . ucfirst($driver_name);
 			if ($class_name::isSupported())
 			{
 				$result[$driver_name] = array(

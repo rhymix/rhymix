@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The Amazon SES mail driver.
  */
-class SES extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
+class Ses extends Smtp implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * Cache the message here for debug access.

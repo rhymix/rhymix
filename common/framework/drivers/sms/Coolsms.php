@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\SMS;
 /**
  * The CoolSMS SMS driver.
  */
-class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
+class Coolsms extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
 	/**
 	 * API specifications.

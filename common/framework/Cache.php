@@ -44,7 +44,7 @@ class Cache
 		if (isset($config['type']))
 		{
 			$driver_name = $config['type'];
-			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $config['type'];
+			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . ucfirst($config['type']);
 			if (isset($config['ttl']))
 			{
 				self::$_ttl = intval($config['ttl']);
@@ -54,7 +54,7 @@ class Cache
 		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
 		{
 			$driver_name = $matches[1] . ($matches[1] === 'memcache' ? 'd' : '');
-			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $driver_name;
+			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . ucfirst($driver_name);
 		}
 		else
 		{
@@ -95,8 +95,8 @@ class Cache
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/cache', false) as $filename)
 		{
-			$driver_name = substr($filename, 0, -4);
-			$class_name = '\Rhymix\Framework\Drivers\Cache\\' . $driver_name;
+			$driver_name = strtolower(substr($filename, 0, -4));
+			$class_name = '\Rhymix\Framework\Drivers\Cache\\' . ucfirst($driver_name);
 			if ($class_name::isSupported())
 			{
 				$result[] = $driver_name;

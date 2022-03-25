@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\Mail;
 /**
  * The SMTP mail driver.
  */
-class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Smtp extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * Direct invocation of the constructor is not permitted.

@@ -3,9 +3,9 @@
 namespace Rhymix\Framework\Drivers\Cache;
 
 /**
- * The APC cache driver.
+ * The WinCache cache driver.
  */
-class APC implements \Rhymix\Framework\Drivers\CacheInterface
+class Wincache implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
 	 * Set this flag to false to disable cache prefixes.
@@ -49,7 +49,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('apcu_exists');
+		return function_exists('wincache_ucache_get');
 	}
 	
 	/**
@@ -75,8 +75,8 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function get($key)
 	{
-		$value = apcu_fetch($key);
-		return $value === false ? null : $value;
+		$value = wincache_ucache_get($key, $success);
+		return $success ? $value : null;
 	}
 	
 	/**
@@ -93,7 +93,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function set($key, $value, $ttl = 0, $force = false)
 	{
-		return apcu_store($key, $value, $ttl);
+		return wincache_ucache_set($key, $value, $ttl);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function delete($key)
 	{
-		return apcu_delete($key);
+		return wincache_ucache_delete($key);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function exists($key)
 	{
-		return apcu_exists($key);
+		return wincache_ucache_exists($key);
 	}
 	
 	/**
@@ -135,10 +135,10 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
-		$result = apcu_inc($key, $amount);
+		$result = wincache_ucache_inc($key, $amount);
 		if ($result === false)
 		{
-			apcu_store($key, $amount);
+			wincache_ucache_set($key, $amount);
 			$result = $amount;
 		}
 		return $result;
@@ -156,10 +156,10 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function decr($key, $amount)
 	{
-		$result = apcu_dec($key, $amount);
+		$result = wincache_ucache_dec($key, $amount);
 		if ($result === false)
 		{
-			apcu_store($key, 0 - $amount);
+			wincache_ucache_set($key, 0 - $amount);
 			$result = 0 - $amount;
 		}
 		return $result;
@@ -174,6 +174,6 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
-		return apcu_clear_cache();
+		return wincache_ucache_clear();
 	}
 }

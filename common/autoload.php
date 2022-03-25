@@ -92,13 +92,16 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
  */
 spl_autoload_register(function($class_name)
 {
-	$filename = false;
-	$lc_class_name = str_replace('\\', '/', strtolower($class_name));
-	if (preg_match('!^rhymix/(framework|addons|modules|plugins)/(.+)$!', $lc_class_name, $matches))
+	$filename = null;
+	$compat_filename = null;
+	$class_name = str_replace('\\', '/', $class_name);
+	if (preg_match('!^Rhymix/(Framework|Addons|Modules|Plugins|Themes|Widgets)/((?:\w+/)*)(\w+)$!', $class_name, $matches))
 	{
-		$filename = RX_BASEDIR . ($matches[1] === 'framework' ? 'common/framework' : $matches[1]) . '/' . $matches[2] . '.php';
+		$dir = RX_BASEDIR . ($matches[1] === 'Framework' ? 'common/framework' : strtolower($matches[1])) . '/' . strtolower($matches[2]) . '/';
+		$filename = $dir . $matches[3] . '.php';
+		$compat_filename = $dir . strtolower($matches[3]) . '.php';
 	}
-	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
+	elseif (($lc_class_name = strtolower($class_name)) && isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
 	{
 		$filename = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
 	}
@@ -112,6 +115,10 @@ spl_autoload_register(function($class_name)
 	if ($filename && file_exists($filename))
 	{
 		include $filename;
+	}
+	elseif ($compat_filename && file_exists($compat_filename))
+	{
+		include $compat_filename;
 	}
 });
 

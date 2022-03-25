@@ -7,7 +7,7 @@ use Rhymix\Framework\Storage;
 /**
  * The SQLite cache driver.
  */
-class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
+class Sqlite implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
 	 * Set this flag to false to disable cache prefixes.

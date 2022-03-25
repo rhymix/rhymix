@@ -5,7 +5,7 @@ namespace Rhymix\Framework\Drivers\SMS;
 /**
  * The ApiStore SMS driver.
  */
-class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
+class Apistore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
 	/**
 	 * API specifications.

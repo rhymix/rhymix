@@ -45,7 +45,7 @@ class Mail
 		if (!self::$default_driver)
 		{
 			$default_driver = config('mail.type');
-			$default_driver_class = '\\Rhymix\\Framework\\Drivers\Mail\\' . $default_driver;
+			$default_driver_class = '\\Rhymix\\Framework\\Drivers\Mail\\' . ucfirst($default_driver);
 			if (class_exists($default_driver_class))
 			{
 				$default_driver_config = config('mail.' . $default_driver) ?: array();
@@ -53,7 +53,7 @@ class Mail
 			}
 			else
 			{
-				self::$default_driver = Drivers\Mail\MailFunction::getInstance(array());
+				self::$default_driver = Drivers\Mail\Mailfunction::getInstance(array());
 			}
 		}
 		return self::$default_driver;
@@ -77,8 +77,8 @@ class Mail
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/mail', false) as $filename)
 		{
-			$driver_name = substr($filename, 0, -4);
-			$class_name = '\Rhymix\Framework\Drivers\Mail\\' . $driver_name;
+			$driver_name = strtolower(substr($filename, 0, -4));
+			$class_name = '\Rhymix\Framework\Drivers\Mail\\' . ucfirst($driver_name);
 			if ($class_name::isSupported())
 			{
 				$result[$driver_name] = array(

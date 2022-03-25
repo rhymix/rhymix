@@ -3,9 +3,9 @@
 namespace Rhymix\Framework\Drivers\Cache;
 
 /**
- * The WinCache cache driver.
+ * The XCache cache driver.
  */
-class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
+class Xcache implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
 	 * Set this flag to false to disable cache prefixes.
@@ -49,7 +49,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('wincache_ucache_get');
+		return function_exists('xcache_get');
 	}
 	
 	/**
@@ -75,8 +75,8 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function get($key)
 	{
-		$value = wincache_ucache_get($key, $success);
-		return $success ? $value : null;
+		$value = xcache_get($key);
+		return $value === false ? null : $value;
 	}
 	
 	/**
@@ -93,7 +93,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function set($key, $value, $ttl = 0, $force = false)
 	{
-		return wincache_ucache_set($key, $value, $ttl);
+		return xcache_set($key, $value, $ttl);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function delete($key)
 	{
-		return wincache_ucache_delete($key);
+		return xcache_unset($key);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function exists($key)
 	{
-		return wincache_ucache_exists($key);
+		return xcache_isset($key);
 	}
 	
 	/**
@@ -135,13 +135,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
-		$result = wincache_ucache_inc($key, $amount);
-		if ($result === false)
-		{
-			wincache_ucache_set($key, $amount);
-			$result = $amount;
-		}
-		return $result;
+		return xcache_inc($key, $amount);
 	}
 	
 	/**
@@ -156,13 +150,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function decr($key, $amount)
 	{
-		$result = wincache_ucache_dec($key, $amount);
-		if ($result === false)
-		{
-			wincache_ucache_set($key, 0 - $amount);
-			$result = 0 - $amount;
-		}
-		return $result;
+		return xcache_dec($key, $amount);
 	}
 	
 	/**
@@ -174,6 +162,7 @@ class WinCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
-		return wincache_ucache_clear();
+		xcache_clear_cache(XC_TYPE_VAR);
+		return true;
 	}
 }

@@ -3,9 +3,9 @@
 namespace Rhymix\Framework\Drivers\Cache;
 
 /**
- * The XCache cache driver.
+ * The APC cache driver.
  */
-class XCache implements \Rhymix\Framework\Drivers\CacheInterface
+class Apc implements \Rhymix\Framework\Drivers\CacheInterface
 {
 	/**
 	 * Set this flag to false to disable cache prefixes.
@@ -49,7 +49,7 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('xcache_get');
+		return function_exists('apcu_exists');
 	}
 	
 	/**
@@ -75,7 +75,7 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function get($key)
 	{
-		$value = xcache_get($key);
+		$value = apcu_fetch($key);
 		return $value === false ? null : $value;
 	}
 	
@@ -93,7 +93,7 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function set($key, $value, $ttl = 0, $force = false)
 	{
-		return xcache_set($key, $value, $ttl);
+		return apcu_store($key, $value, $ttl);
 	}
 	
 	/**
@@ -107,7 +107,7 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function delete($key)
 	{
-		return xcache_unset($key);
+		return apcu_delete($key);
 	}
 	
 	/**
@@ -120,7 +120,7 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function exists($key)
 	{
-		return xcache_isset($key);
+		return apcu_exists($key);
 	}
 	
 	/**
@@ -135,7 +135,13 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
-		return xcache_inc($key, $amount);
+		$result = apcu_inc($key, $amount);
+		if ($result === false)
+		{
+			apcu_store($key, $amount);
+			$result = $amount;
+		}
+		return $result;
 	}
 	
 	/**
@@ -150,7 +156,13 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function decr($key, $amount)
 	{
-		return xcache_dec($key, $amount);
+		$result = apcu_dec($key, $amount);
+		if ($result === false)
+		{
+			apcu_store($key, 0 - $amount);
+			$result = 0 - $amount;
+		}
+		return $result;
 	}
 	
 	/**
@@ -162,7 +174,6 @@ class XCache implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function clear()
 	{
-		xcache_clear_cache(XC_TYPE_VAR);
-		return true;
+		return apcu_clear_cache();
 	}
 }
