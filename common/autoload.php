@@ -118,7 +118,7 @@ spl_autoload_register(function($class_name)
 /**
  * Also include the Composer autoloader.
  */
-require_once RX_BASEDIR . 'vendor/autoload.php';
+require_once RX_BASEDIR . 'common/vendor/autoload.php';
 
 /**
  * Load essential classes.
