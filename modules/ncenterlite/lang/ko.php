@@ -1,5 +1,6 @@
 <?php
 $lang->ncenterlite = '알림센터 Lite';
+$lang->ncenterlite_notify = '알림';
 $lang->ncenterlite_install_version = '설치된 버전';
 $lang->ncenterlite_advenced_config = '고급 설정';
 $lang->ncenterlite_document = '글';

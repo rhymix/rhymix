@@ -72,7 +72,7 @@ class addonController extends addon
 	function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site')
 	{
 		// Add-on module for use in creating the cache file
-		$buff = array('<?php if(!defined("__XE__")) exit();', '$_m = Context::get(\'mid\');');
+		$buff = array('<?php if(!defined("__XE__")) exit();');
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
@@ -105,6 +105,7 @@ class addonController extends addon
 			$run_method = ($extra_vars->xe_run_method ?? null) ?: 'run_selected';
 			$buff[] = '$rm = \'' . $run_method . "';";
 			$buff[] = '$ml = ' . var_export(array_fill_keys($mid_list, true), true) . ';';
+			$buff[] = '$_m = Context::get(\'mid\');';
 			
 			// Addon filename
 			$buff[] = sprintf('$addon_file = RX_BASEDIR . \'addons/%s/%s.addon.php\';', $addon, $addon);

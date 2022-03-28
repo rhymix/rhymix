@@ -11,7 +11,6 @@
  */
 class commentController extends comment
 {
-
 	/**
 	 * Initialization
 	 * @return void
@@ -1048,9 +1047,10 @@ class commentController extends comment
 	{
 		// check if comment already exists
 		$comment = CommentModel::getComment($comment_srl);
+		
 		if(!$comment->isExists())
 		{
-			return new BaseObject(-1, 'msg_not_founded');
+			return new BaseObject(-2, 'msg_not_founded');
 		}
 		if(!$is_admin && !$comment->isGranted())
 		{
