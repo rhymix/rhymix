@@ -1191,7 +1191,7 @@ class Context
 			{
 				if(substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '{')
 				{
-					$params = json_decode($GLOBALS['HTTP_RAW_POST_DATA']);
+					$params = json_decode($GLOBALS['HTTP_RAW_POST_DATA'], true);
 				}
 				else
 				{
