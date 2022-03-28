@@ -101,10 +101,7 @@ class memberAdminController extends member
 		}
 		foreach($this->admin_extra_vars as $key)
 		{
-			if (isset($all_args->{$key}))
-			{
-				$extra_vars->{$key} = escape(utf8_clean($all_args->{$key}));
-			}
+			$extra_vars->{$key} = escape(utf8_clean($all_args->{$key} ?? ''));
 		}
 		$args->extra_vars = serialize($extra_vars);
 
