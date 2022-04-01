@@ -44,7 +44,7 @@ abstract class Base
 			'access'  => '',
 			'refresh' => '',
 		);
-		$this->config = \Sociallogin::getConfig();
+		$this->config = \Rhymix\Modules\Sociallogin\Base::getConfig();
 	}
 	
 	/**
