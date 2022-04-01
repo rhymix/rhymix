@@ -246,14 +246,26 @@ class fileModel extends file
 	/**
 	 * Get a download path
 	 *
-	 * @param int $file_srl The sequence of file to get url
-	 * @param string $sid
-	 * @param int $module_srl
+	 * @param object|int $file or $file_srl
+	 * @param null $unused This parameter has been deprecated
+	 * @param null $unused2 This parameter has been deprecated
 	 * @return string Returns a url
 	 */
-	public static function getDownloadUrl($file_srl, $sid, $module_srl = 0)
+	public static function getDownloadUrl($file, $unused = null, $unused2 = null)
 	{
-		return sprintf('?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%d', 'file', 'procFileDownload', $file_srl, $sid, $module_srl);
+		if (!is_object($file))
+		{
+			$file = self::getFile($file);
+		}
+		$config = self::getFileConfig();
+		if ($config->download_short_url === 'Y' && config('use_rewrite'))
+		{
+			return sprintf('files/download/0/%d/%s/%s', $file->file_srl, $file->sid, rawurlencode(preg_replace('/\.\.+/', '.', $file->source_filename)));
+		}
+		else
+		{
+			return sprintf('?module=file&amp;act=procFileDownload&amp;file_srl=%s&amp;sid=%s&amp;module_srl=%d', $file->file_srl, $file->sid, $file->module_srl);
+		}
 	}
 	
 	/**
@@ -342,7 +354,7 @@ class fileModel extends file
 		if(count($output->data) == 1)
 		{
 			$file = $output->data[0];
-			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+			$file->download_url = self::getDownloadUrl($file);
 
 			return $file;
 		}
@@ -355,7 +367,7 @@ class fileModel extends file
 				foreach($output->data as $key=>$value)
 				{
 					$file = $value;
-					$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+					$file->download_url = self::getDownloadUrl($file);
 					$fileList[] = $file;
 				}
 			}
@@ -387,7 +399,7 @@ class fileModel extends file
 		foreach ($output->data as $file)
 		{
 			$file->source_filename = escape($file->source_filename, false);
-			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+			$file->download_url = self::getDownloadUrl($file);
 			$fileList[] = $file;
 		}
 		return $fileList;

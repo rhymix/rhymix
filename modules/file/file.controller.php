@@ -387,7 +387,7 @@ class fileController extends file
 		// Use short URL or long URL
 		if ($file_module_config->download_short_url === 'Y' && config('use_rewrite'))
 		{
-			$url = RX_BASEURL . sprintf('files/download/%d/%s/%s', $file_srl, $file_key, rawurlencode(preg_replace('/\.\.+/', '.', $filename)));
+			$url = RX_BASEURL . sprintf('files/download/1/%d/%s/%s', $file_srl, $file_key, rawurlencode(preg_replace('/\.\.+/', '.', $filename)));
 		}
 		else
 		{
