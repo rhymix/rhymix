@@ -113,7 +113,7 @@ class fileAdminModel extends file
 			{
 				$file->isCarted = false;
 			}
-			$file->download_url = FileModel::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl);
+			$file->download_url = FileModel::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl, $file->source_filename);
 			$output->data[$key] = $file;
 		}
 

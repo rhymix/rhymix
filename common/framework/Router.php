@@ -46,6 +46,12 @@ class Router
 			'vars' => ['mid' => 'any', 'act' => 'word'],
 			'priority' => 20,
 		),
+		'files/download/link/$file_srl/$sid/$filename' => array(
+			'regexp' => '#^files/download/link/(?<file_srl>[0-9]+)/(?<sid>[0-9a-f]+)/(?<filename>[^/]+)$#',
+			'vars' => ['file_srl' => 'int', 'sid' => 'hex', 'filename' => 'any'],
+			'extra_vars' => ['act' => 'procFileDownload'],
+			'priority' => 0,
+		),
 		'files/download/$file_srl/$file_key/$filename' => array(
 			'regexp' => '#^files/download/(?<file_srl>[0-9]+)/(?<file_key>[a-zA-Z0-9_-]+)/(?<filename>[^/]+)$#',
 			'vars' => ['file_srl' => 'int', 'file_key' => 'any', 'filename' => 'any'],
