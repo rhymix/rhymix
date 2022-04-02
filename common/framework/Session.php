@@ -61,10 +61,9 @@ class Session
 	 * There is usually no need to call it manually.
 	 * 
 	 * @param bool $force (optional)
-	 * @param bool $relax_key_checks (optional)
 	 * @return bool
 	 */
-	public static function start($force = false, $relax_key_checks = false)
+	public static function start($force = false)
 	{
 		// Do not start the session if it is already started.
 		if (self::$_started)
@@ -94,12 +93,6 @@ class Session
 		session_set_cookie_params($lifetime, $path, $domain, $secure, $secure);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 		
-		// Get session ID from POST parameter if using relaxed key checks.
-		if ($relax_key_checks && isset($_POST[$session_name]))
-		{
-			session_id($_POST[$session_name]);
-		}
-		
 		// Check if the session cookie already exists.
 		$cookie_exists = isset($_COOKIE[$session_name]);
 		
@@ -125,10 +118,7 @@ class Session
 		// Fetch session keys.
 		list($key1, $key2, self::$_autologin_key) = self::_getKeys();
 		$must_create = $must_refresh = $must_resend_keys = false;
-		if (config('session.use_keys') === false)
-		{
-			$relax_key_checks = true;
-		}
+		$check_keys = config('session.use_keys');
 		
 		// Check whether the visitor uses Android webview.
 		if (!isset($_SESSION['is_webview']))
@@ -151,7 +141,7 @@ class Session
 			{
 				$must_resend_keys = true;
 			}
-			elseif (!$relax_key_checks && !$_SESSION['is_webview'])
+			elseif ($check_keys && !$_SESSION['is_webview'])
 			{
 				// Hacked session! Destroy everything.
 				trigger_error('Session is invalid (missing key 1)', \E_USER_WARNING);
@@ -180,7 +170,7 @@ class Session
 			{
 				$must_resend_keys = true;
 			}
-			elseif (!$relax_key_checks && !$_SESSION['is_webview'])
+			elseif ($check_keys && !$_SESSION['is_webview'])
 			{
 				// Hacked session! Destroy everything.
 				trigger_error('Session is invalid (missing key 2)', \E_USER_WARNING);
@@ -191,11 +181,11 @@ class Session
 		}
 		
 		// Check the refresh interval.
-		if (!$must_create && $_SESSION['RHYMIX']['keys'][$alt_domain]['key1_time'] < time() - $refresh_interval && !$relax_key_checks)
+		if (!$must_create && $_SESSION['RHYMIX']['keys'][$alt_domain]['key1_time'] < time() - $refresh_interval && $check_keys)
 		{
 			$must_refresh = true;
 		}
-		elseif (!$must_create && \RX_SSL && $_SESSION['RHYMIX']['keys'][$alt_domain]['key2_time'] < time() - $refresh_interval && !$relax_key_checks)
+		elseif (!$must_create && \RX_SSL && $_SESSION['RHYMIX']['keys'][$alt_domain]['key2_time'] < time() - $refresh_interval && $check_keys)
 		{
 			$must_refresh = true;
 		}
