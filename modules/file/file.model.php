@@ -251,11 +251,11 @@ class fileModel extends file
 	 *
 	 * @param int $file_srl The sequence of file to get url
 	 * @param string $sid
-	 * @param int $module_srl (unused)
+	 * @param int $unused (unused)
 	 * @param string $source_filename
 	 * @return string Returns a url
 	 */
-	public static function getDownloadUrl($file_srl, $sid, $module_srl = 0, $source_filename = null)
+	public static function getDownloadUrl($file_srl, $sid, $unused = 0, $source_filename = null)
 	{
 		if ($source_filename && config('use_rewrite') && self::getFileConfig()->download_short_url === 'Y')
 		{
@@ -348,7 +348,7 @@ class fileModel extends file
 		if(count($output->data) == 1)
 		{
 			$file = $output->data[0];
-			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl, $file->source_filename);
+			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, 0, $file->source_filename);
 
 			return $file;
 		}
@@ -361,7 +361,7 @@ class fileModel extends file
 				foreach($output->data as $key=>$value)
 				{
 					$file = $value;
-					$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl, $file->source_filename);
+					$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, 0, $file->source_filename);
 					$fileList[] = $file;
 				}
 			}
@@ -393,7 +393,7 @@ class fileModel extends file
 		foreach ($output->data as $file)
 		{
 			$file->source_filename = escape($file->source_filename, false);
-			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, $file->module_srl, $file->source_filename);
+			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, 0, $file->source_filename);
 			$fileList[] = $file;
 		}
 		return $fileList;
@@ -452,6 +452,8 @@ class fileModel extends file
 
 	/**
 	 * method for compatibility
+	 * 
+	 * @deprecated
 	 */
 	public static function getFileModuleConfig($module_srl)
 	{
@@ -460,6 +462,8 @@ class fileModel extends file
 
 	/**
 	 * method for compatibility
+	 * 
+	 * @deprecated
 	 */
 	public static function getFileGrant($file_info, $member_info)
 	{

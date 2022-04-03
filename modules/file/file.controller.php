@@ -158,7 +158,7 @@ class fileController extends file
 		}
 		else
 		{
-			$this->add('download_url', FileModel::getDownloadUrl($output->get('file_srl'), $output->get('sid'), $module_srl, $output->get('source_filename')));
+			$this->add('download_url', FileModel::getDownloadUrl($output->get('file_srl'), $output->get('sid'), 0, $output->get('source_filename')));
 		}
 	}
 
@@ -305,7 +305,7 @@ class fileController extends file
 		}
 		
 		// Not allow the file outlink
-		$file_module_config = FileModel::getFileModuleConfig($file_obj->module_srl);
+		$file_module_config = FileModel::getFileConfig($file_obj->module_srl);
 		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
 		{
 			// Handles extension to allow outlink
