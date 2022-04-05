@@ -2,15 +2,27 @@
 
 namespace Rhymix\Modules\Sociallogin;
 
+use ModuleController;
+use ModuleModel;
+
 class Install extends Base
 {
-	protected $_triggers = array(
-		array('moduleObject.proc', 'sociallogin', 'controller', 'triggerModuleObjectAfter', 'after'),
-		array('document.insertDocument', 'sociallogin', 'controller', 'triggerInsertDocumentAfter', 'after'),
-		array('member.procMemberInsert', 'sociallogin', 'controller', 'triggerProcInsertMemberBefore', 'before'),
-		array('member.insertMember', 'sociallogin', 'controller', 'triggerInsertMemberAfter', 'after'),
-		array('member.getMemberMenu', 'sociallogin', 'controller', 'triggerMemberMenu', 'after'),
-		array('member.deleteMember', 'sociallogin', 'controller', 'triggerDeleteMember', 'after'),
+	protected static $_insert_triggers = array(
+		array('moduleObject.proc', 'after', 'Controllers\EventHandlers', 'triggerAfterModuleObject'),
+		array('member.procMemberInsert', 'before', 'Controllers\EventHandlers', 'triggerBeforeInsertMember'),
+		array('member.insertMember', 'after', 'Controllers\EventHandlers', 'triggerAfterInsertMember'),
+		array('member.deleteMember', 'after', 'Controllers\EventHandlers', 'triggerAfterDeleteMember'),
+		array('member.getMemberMenu', 'after', 'Controllers\EventHandlers', 'triggerMemberMenu'),
+		array('document.insertDocument', 'after', 'Controllers\EventHandlers', 'triggerAfterInsertDocument'),
+	);
+
+	protected static $_delete_triggers = array(
+		array('moduleObject.proc', 'after', 'controller', 'triggerModuleObjectAfter'),
+		array('member.procMemberInsert', 'before', 'controller', 'triggerProcInsertMemberBefore'),
+		array('member.insertMember', 'after', 'controller', 'triggerInsertMemberAfter'),
+		array('member.deleteMember', 'after', 'controller', 'triggerDeleteMember'),
+		array('member.getMemberMenu', 'after', 'controller', 'triggerMemberMenu'),
+		array('document.insertDocument', 'after', 'controller', 'triggerInsertDocumentAfter'),
 	);
 
 	public function moduleInstall()
@@ -20,29 +32,38 @@ class Install extends Base
 
 	public function checkUpdate()
 	{
-		$oModuleModel = getModel('module');
-
-		foreach ($this->_triggers as $trigger)
+		foreach (self::$_insert_triggers as $trigger)
 		{
-			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			if (!ModuleModel::getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
 			{
 				return true;
 			}
 		}
-
+		foreach (self::$_delete_triggers as $trigger)
+		{
+			if (ModuleModel::getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
 	public function moduleUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-
-		foreach ($this->_triggers as $trigger)
+		$oModuleController = ModuleController::getInstance();
+		foreach (self::$_insert_triggers as $trigger)
 		{
-			if (!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
+			if (!ModuleModel::getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
 			{
-				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
+				$oModuleController->insertTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]);
+			}
+		}
+		foreach (self::$_delete_triggers as $trigger)
+		{
+			if (ModuleModel::getTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]))
+			{
+				$oModuleController->deleteTrigger($trigger[0], $this->module, $trigger[2], $trigger[3], $trigger[1]);
 			}
 		}
 
