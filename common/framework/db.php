@@ -614,7 +614,11 @@ class DB
 		{
 			$this->_handle->exec(sprintf('ROLLBACK TO SAVEPOINT `%s%s%d`', $this->_prefix, 'savepoint', $this->_transaction_level - 1));
 		}
-		$this->_transaction_level--;
+		
+		if ($this->_transaction_level > 0)
+		{
+			$this->_transaction_level--;
+		}
 		return $this->_transaction_level;
 	}
 	
@@ -649,7 +653,21 @@ class DB
 				Debug::addQuery($this->getQueryLog('NESTED COMMIT IGNORED BY RHYMIX', 0));
 			}
 		}
-		$this->_transaction_level--;
+		
+		if ($this->_transaction_level > 0)
+		{
+			$this->_transaction_level--;
+		}
+		return $this->_transaction_level;
+	}
+	
+	/**
+	 * Get the current transaction level.
+	 * 
+	 * @return int
+	 */
+	public function getTransactionLevel(): int
+	{
 		return $this->_transaction_level;
 	}
 	
