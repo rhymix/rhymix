@@ -415,12 +415,14 @@ class memberModel extends member
 				$args = new stdClass();
 				$args->member_srl = $member_srl;
 				$output = executeQuery('member.getMemberInfoByMemberSrl', $args);
-				if(!$output->data)
+				if($output->data)
 				{
-					return new stdClass;
+					$member_info = self::arrangeMemberInfo($output->data);
 				}
-				
-				$member_info = self::arrangeMemberInfo($output->data);
+				else
+				{
+					$member_info = new stdClass;
+				}
 				if($output->toBool())
 				{
 					Rhymix\Framework\Cache::set($cache_key, $member_info);

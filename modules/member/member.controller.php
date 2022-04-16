@@ -2712,7 +2712,10 @@ class memberController extends member
 		ModuleHandler::triggerCall('member.insertMember', 'after', $args);
 
 		$oDB->commit();
-
+		
+		// Remove from cache
+		self::clearMemberCache($args->member_srl);
+		
 		$output->add('member_srl', $args->member_srl);
 		return $output;
 	}
@@ -3018,7 +3021,6 @@ class memberController extends member
 		$oDB->commit();
 
 		// Remove from cache
-		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		self::clearMemberCache($args->member_srl);
 
 		$output->add('member_srl', $args->member_srl);
@@ -3053,7 +3055,6 @@ class memberController extends member
 			return $output;
 		}
 		
-		unset($GLOBALS['__member_info__'][$member_srl]);
 		self::clearMemberCache($member_srl);
 
 		return $output;
@@ -3088,7 +3089,6 @@ class memberController extends member
 			$result = executeQuery('member.updateChangePasswordDate', $args);
 		}
 
-		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		self::clearMemberCache($args->member_srl);
 
 		return $output;
