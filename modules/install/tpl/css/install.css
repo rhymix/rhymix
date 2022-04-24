@@ -60,7 +60,7 @@ img, form, fieldset { border: 0; margin:0; padding: 0; }
 	background-color: #fff;
 	border-radius: 2px;
 	margin-bottom: 32px;
-	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.18), 0px 2px 8px 0px rgba(0, 0, 0, 0.12);
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.18), 0 2px 8px 0 rgba(0, 0, 0, 0.12);
 }
 
 .x #progress {
@@ -118,7 +118,7 @@ table tr td.error_description { text-align: center; color: #666; }
 }
 button, a.button {
     display: inline-block;
-    margin: 0px 4px;
+    margin: 0 4px;
     padding: 9px 18px 9px 18px;
     font-weight: bold !important;
     line-height: 15px;
@@ -129,7 +129,7 @@ button, a.button {
     color: #fff;
     background-color: #1976d2;
 	border-radius: 2px;
-	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12), 0px 2px 8px 0px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.12), 0 2px 8px 0 rgba(0, 0, 0, 0.08);
 }
 button.grey, a.button.grey {
 	background-color: #aaa;
@@ -144,7 +144,7 @@ button.grey:hover, a.button.grey:hover {
 
 /* Content */
 .x #content { clear: both; padding: 16px 16px 4px 16px; }
-.x #content a { }
+
 .x #content h2 {
 	font-size: 20px;
 	line-height: 140%;
