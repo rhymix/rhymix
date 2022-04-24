@@ -34,6 +34,7 @@
 			<label class="x_control-label" for="captcha_theme">{$lang->recaptcha_theme}</label>
 			<div class="x_controls">
 				<select id="captcha_theme" name="captcha_theme">
+					<option value="auto" selected="selected"|cond="$config->captcha->theme === 'auto'">{$lang->recaptcha_theme_auto}</option>
 					<option value="light" selected="selected"|cond="$config->captcha->theme === 'light'">{$lang->recaptcha_theme_light}</option>
 					<option value="dark" selected="selected"|cond="$config->captcha->theme === 'dark'">{$lang->recaptcha_theme_dark}</option>
 				</select>

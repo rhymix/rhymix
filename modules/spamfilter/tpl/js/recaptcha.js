@@ -47,10 +47,14 @@ function reCaptchaCallback() {
 	
 	recaptcha_instances.each(function() {
 		var instance = $(this);
+		var theme = recaptcha_config.data("theme");
+		if (theme === 'auto') {
+			theme = getColorScheme();
+		}
 		grecaptcha.render(instance.attr("id"), {
 			sitekey: recaptcha_config.data("sitekey"),
 			size: recaptcha_config.data("size"),
-			theme: recaptcha_config.data("theme")
+			theme: theme
 		});
 	});
 }
