@@ -15,7 +15,7 @@ class spamfilterController extends spamfilter
 		'login' => '/^(?:disp|proc)MemberLogin(?:Form)?/i',
 		'recovery' => '/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i',
 		'document' => '/^(?:disp|proc)Board(Write|InsertDocument)/i',
-		'comment' => '/^(?:disp|proc)Board(Content|InsertComment)/i',
+		'comment' => '/^(?:disp|proc)Board(Content|InsertComment|ModifyComment|ReplyComment)/i',
 	);
 
 	/**
