@@ -192,7 +192,7 @@ class ExtraItem
 	 *
 	 * @param string $type Type of variable
 	 * @param string $value Value
-	 * @return string Returns a converted value
+	 * @return string|array Returns a converted value
 	 */
 	function _getTypeValue($type, $value)
 	{
@@ -321,7 +321,7 @@ class ExtraItem
 	/**
 	 * Returns a value for HTML
 	 *
-	 * @return string Returns filtered value
+	 * @return string|array Returns filtered value
 	 */
 	function getValue()
 	{
@@ -510,7 +510,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$checked = '';
-					if(strval($value) !== '' && in_array(trim($v), $value))
+					if(is_array($value) && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
 					}
@@ -528,7 +528,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$selected = '';
-					if(strval($value) !== '' && in_array(trim($v), $value))
+					if(is_array($value) && in_array(trim($v), $value))
 					{
 						$selected = ' selected="selected"';
 					}
@@ -542,7 +542,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$checked = '';
-					if(strval($value) !== '' && in_array(trim($v), $value))
+					if(is_array($value) && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
 					}
