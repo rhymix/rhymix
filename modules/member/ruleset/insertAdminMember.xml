@@ -3,6 +3,7 @@
     <customrules>
     </customrules>
     <fields>
+		<field name="user_id" rule="userid" />
 		<field name="email_address" required="true" rule="email" />
 		<field name="password">
 			<if test="!$member_srl" attr="required" value="true" />
