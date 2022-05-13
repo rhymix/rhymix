@@ -114,7 +114,7 @@ padding:0;list-style:none}
 .mapi>ul>li>ul{margin:0 0 0 18px}
 .mapi>ul>li>ul>li{margin-left:0}
 	/* li>a */
-.mapi li>a{border:0;padding:0 8px;margin:0 0 1px 0;border-radius:3px;position:relative;z-index:2;height:23px;line-height:23px;max-width:160px;overflow:hidden;text-overflow:ellipsis;}
+.mapi li>a{border:0;padding:0 8px;margin:0 0 0 0;border-radius:3px;position:relative;z-index:2;height:28px;line-height:28px;max-width:160px;overflow:hidden;text-overflow:ellipsis;vertical-align:top;}
 .mapi li>a>i{opacity:.5;filter:alpha(opacity=50)}
 	/* Plugin style override */
 .mapi a>.jstree-icon{display:none}
