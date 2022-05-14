@@ -107,8 +107,8 @@
 			setTimeout(rhymix_alert_close, delay);
 		}
 		else if(isSameOrigin(location.href, redirect_url)) {
-			Cookies.set('rhymix_alert_message', message, { expires: 1 / 1440, path: '' });
-			Cookies.set('rhymix_alert_delay', delay, { expires: 1 / 1440, path: '' });
+			Cookies.set('rhymix_alert_message', message, { expires: 1 / 1440, path: '/' });
+			Cookies.set('rhymix_alert_delay', delay, { expires: 1 / 1440, path: '/' });
 		}
 		else {
 			alert(message);
@@ -118,8 +118,8 @@
 	$(document).ready(function() {
 		if(Cookies.get('rhymix_alert_message')) {
 			rhymix_alert(Cookies.get('rhymix_alert_message'), null, Cookies.get('rhymix_alert_delay'));
-			Cookies.remove('rhymix_alert_message', { path: '' });
-			Cookies.remove('rhymix_alert_delay', { path: '' });
+			Cookies.remove('rhymix_alert_message', { path: '/' });
+			Cookies.remove('rhymix_alert_delay', { path: '/' });
 		}
 		$('#rhymix_alert').click(rhymix_alert_close);
 	});
