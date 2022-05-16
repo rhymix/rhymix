@@ -11,7 +11,7 @@ function Tree(url){
     $('#menu > ul > li > ul').remove();
 
     if($("ul.simpleTree > li > a").size() == 0){
-		$('<a href="#__category_info" class="add modalAnchor"><img src="' + default_url + 'common/js/plugins/ui.tree/images/iconAdd.gif" /></a>')
+		$('<a href="#__category_info" class="add modalAnchor"><i class="xi-plus simpletree_icon_plus" /></a>')
 			.bind('before-open.mw', function(e){
 				addNode(0,e);
 			})
@@ -41,7 +41,7 @@ function Tree(url){
             }
 
             // button
-            $('<a href="#__category_info" class="add modalAnchor"><img src="' + default_url + 'common/js/plugins/ui.tree/images/iconAdd.gif" /></a>').bind("click",function(e){
+            $('<a href="#__category_info" class="add modalAnchor"><i class="xi-plus simpletree_icon_plus" /></a>').bind("click",function(e){
                 $("#tree_"+node_srl+" > span").click();
 			})
 			.bind('before-open.mw', function(e){
@@ -50,7 +50,7 @@ function Tree(url){
             .appendTo(node)
 			.xeModalWindow();
 
-            $('<a href="#__category_info" class="modify modalAnchor"><img src="' + default_url + 'common/js/plugins/ui.tree/images/iconModify.gif" /></a>').bind("click",function(e){
+            $('<a href="#__category_info" class="modify modalAnchor"><i class="xi-cog simpletree_icon_cog" /></a>').bind("click",function(e){
                 $("#tree_"+node_srl+" > span").click();
 			})
 			.bind('before-open.mw', function(e){
@@ -59,7 +59,7 @@ function Tree(url){
 			.appendTo(node)
 			.xeModalWindow();
 
-            $('<a href="#" class="delete"><img src="' + default_url + 'common/js/plugins/ui.tree/images/iconDel.gif" /></a>').bind("click",function(e){
+            $('<a href="#" class="delete"><i class="xi-cross simpletree_icon_cross" /></a>').bind("click",function(e){
                 deleteNode(node_srl);
                 return false;
             }).appendTo(node);

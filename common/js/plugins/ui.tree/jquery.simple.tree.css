@@ -17,14 +17,19 @@
 	white-space: nowrap;
 	list-style: none;
 	margin:0;
-	padding:0 0 0 34px;
+	padding:0 0 0 16px;
 	line-height: 14px;
+}
+.simpleTree li a:focus
+{
+	outline:none;
 }
 .simpleTree li span
 {
 	display:inline;
 	clear: left;
 	white-space: nowrap;
+	padding: 0 10px 0 5px;
 }
 
 .simpleTree li a img
@@ -39,74 +44,111 @@
 }
 .simpleTree .root
 {
-	margin-left:-16px;
-	background: url(./images/root.gif) no-repeat 16px 0 #ffffff;
+	padding: 0;
+}
+.simpleTree .root:before
+{
+	font-family: 'xeicon';
+	color: #777;
+	content: "\e606";
+	padding: 0 2px 0 1px;
+	vertical-align: top;
 }
 .simpleTree .line
 {
-	margin:0 0 0 -16px;
+	margin:0;
 	padding:0;
-	line-height: 3px;
-	height:3px;
-	font-size:3px;
-	background: url(./images/line_bg.gif) 0 0 no-repeat transparent;
+	line-height: 5px;
+	height:5px;
+	font-size:5px;
+	background: url(./images/line_bg.png) 0 -1px no-repeat transparent;
+	background-size:80px;
 }
 .simpleTree .line-last
 {
-	margin:0 0 0 -16px;
+	margin:0;
 	padding:0;
-	line-height: 3px;
-	height:3px;
-	font-size:3px;
-	background: url(./images/spacer.gif) 0 0 no-repeat transparent;
+	line-height: 5px;
+	height:5px;
+	font-size:5px;
+	background: url(./images/spacer.gif) 0 -1px no-repeat transparent;
 }
 .simpleTree .line-over
 {
-	margin:0 0 0 -16px;
+	margin:0;
 	padding:0;
-	line-height: 3px;
-	height:3px;
-	font-size:3px;
-	background: url(./images/line_bg_over.gif) 0 0 no-repeat transparent;
+	line-height: 5px;
+	height:5px;
+	font-size:5px;
+	background: url(./images/line_bg_over.png) 0 -1px no-repeat transparent;
+	background-size:80px;
 }
 .simpleTree .line-over-last
 {
-	margin:0 0 0 -16px;
+	margin:0;
 	padding:0;
-	line-height: 3px;
-	height:3px;
-	font-size:3px;
-	background: url(./images/line_bg_over_last.gif) 0 0 no-repeat transparent;
+	line-height: 5px;
+	height:5px;
+	font-size:5px;
+	background: url(./images/line_bg_over_last.png) 0 -1px no-repeat transparent;
+	background-size:80px;
 }
 .simpleTree .folder-open
 {
-	margin-left:-16px;
-	background: url(./images/collapsable.gif) 0 -2px no-repeat #fff;
+	background: url(./images/collapsable.png) 0 -1px no-repeat #fff;
+	background-size:34px;
 }
 .simpleTree .folder-open-last
 {
-	margin-left:-16px;
-	background: url(./images/collapsable-last.gif) 0 -2px no-repeat #fff;
+	background: url(./images/collapsable-last.png) 0 -1px no-repeat #fff;
+	background-size:34px;
+}
+.simpleTree .folder-open:before,
+.simpleTree .folder-open-last:before
+{
+	font-family: 'xeicon';
+	color: #777;
+	content: "\e7c3";
+	padding: 0 2px 0 1px;
+	vertical-align: top;
 }
 .simpleTree .folder-close
 {
-	margin-left:-16px;
-	background: url(./images/expandable.gif) 0 -2px no-repeat #fff;
+	background: url(./images/expandable.png) 0 -1px no-repeat #fff;
+	background-size:34px;
 }
 .simpleTree .folder-close-last
 {
-	margin-left:-16px;
-	background: url(./images/expandable-last.gif) 0 -2px no-repeat #fff;
+	background: url(./images/expandable-last.png) 0 -1px no-repeat #fff;
+	background-size:34px;
+}
+.simpleTree .folder-close:before,
+.simpleTree .folder-close-last:before
+{
+	font-family: 'xeicon';
+	color: #777;
+	content: "\e7c2";
+	padding: 0 2px 0 1px;
+	vertical-align: top;
 }
 .simpleTree .doc
 {
-	margin-left:-16px;
-	background: url(./images/leaf.gif) 0 -1px no-repeat #fff;
+	background: url(./images/leaf.png) 0 -2px no-repeat #fff;
+	background-size:32px;
 }
 .simpleTree .doc-last
 {
-	margin-left:-16px;
-	background: url(./images/leaf-last.gif) 0 -1px no-repeat #fff;
+	background: url(./images/leaf-last.png) 0 -2px no-repeat #fff;
+	background-size:32px;
+}
+.simpleTree .doc:before,
+.simpleTree .doc-last:before
+{
+	font-family: 'xeicon';
+	color: #777;
+	content: "\e7b1";
+	padding: 0 2px 0 1px;
+	vertical-align: top;
 }
 .simpleTree .ajax
 {
@@ -123,9 +165,9 @@
 .simpleTree .trigger
 {
 	display:inline;
-	margin-left:-32px;
-	width: 28px;
-	height: 11px;
+	margin-left:-18px;
+	width: 18px;
+	height: 18px;
 	cursor:pointer;
 }
 .simpleTree .text
@@ -135,16 +177,44 @@
 .simpleTree .active
 {
 	cursor: default;
-	background-color:#F7BE77;
-	padding:0px 2px;
+	background-color:#fef8e2;
+	padding: 0 9px 0 4px;
 	border: 1px dashed #444;
 }
+
+#drag_container .simpletree_icon_plus,
+.simpleTree .simpletree_icon_plus
+{
+	color: #30A0F0;
+	margin-left: 3px;
+}
+#drag_container .simpletree_icon_cog,
+.simpleTree .simpletree_icon_cog
+{
+	color: #999;
+	margin-left: 3px;
+}
+#drag_container .simpletree_icon_cross,
+.simpleTree .simpletree_icon_cross
+{
+	color: #F06060;
+	margin-left: 3px;
+}
+/* .xi-close can't be used because of [class*=close] */
+#drag_container .xi-cross:before,
+.simpleTree .xi-cross:before
+{
+	font-family: 'xeicon';
+	content: "\e616";
+}
+
 #drag_container
 {
 	background:#ffffff;
 	color:#000;
-	font: normal 11px arial, tahoma, helvetica, sans-serif;
+	font: normal 13px arial, tahoma, helvetica, sans-serif;
 	border: 1px dashed #767676;
+	z-index:99;
 }
 #drag_container ul
 {
@@ -164,21 +234,42 @@
 }
 #drag_container li span
 {
-	padding:0;
+	padding: 1px 10px 1px 5px;
 }
 
 #drag_container li.doc, #drag_container li.doc-last
 {
-	background: url(./images/leaf.gif) no-repeat -17px 0 #ffffff;
+	padding: 0 5px;
+}
+#drag_container li.doc:before,
+#drag_container li.doc-last:before
+{
+	font-family: 'xeicon';
+	color: #4080C0;
+	content: "\e7b1";
 }
 #drag_container .folder-close, #drag_container .folder-close-last
 {
-	background: url(./images/expandable.gif) no-repeat -17px 0 #ffffff;
+	padding: 0 5px;
+}
+#drag_container .folder-close:before,
+#drag_container .folder-close-last:before
+{
+	font-family: 'xeicon';
+	color: #4080C0;
+	content: "\e7c2";
 }
 
 #drag_container .folder-open, #drag_container .folder-open-last
 {
-	background: url(./images/collapsable.gif) no-repeat -17px 0 #ffffff;
+	padding: 0 5px;
+}
+#drag_container .folder-open:before,
+#drag_container .folder-open-last:before
+{
+	font-family: 'xeicon';
+	color: #4080C0;
+	content: "\e7c3";
 }
 .contextMenu
 {
