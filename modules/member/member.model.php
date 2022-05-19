@@ -880,8 +880,14 @@ class memberModel extends member
 
 			$extend_form_list[$srl]->value = $value;
 
-			if($member_info->{'open_'.$column_name}=='Y') $extend_form_list[$srl]->is_opened = true;
-			else $extend_form_list[$srl]->is_opened = false;
+			if(isset($member_info->{'open_'.$column_name}) && $member_info->{'open_'.$column_name} === 'Y')
+			{
+				$extend_form_list[$srl]->is_opened = true;
+			}
+			else
+			{
+				$extend_form_list[$srl]->is_opened = false;
+			}
 		}
 		return $extend_form_list;
 	}

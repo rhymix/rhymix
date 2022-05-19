@@ -159,8 +159,8 @@ class memberView extends member
 			}
 			else
 			{
-				$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title;
-				$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value;
+				$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title ?? null;
+				$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value ?? null;
 				if($formInfo->type=='tel' && is_array($orgValue))
 				{
 					$item->value = implode('-', $orgValue);
