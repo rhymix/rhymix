@@ -14,7 +14,9 @@ class Push
 	protected $to = array();
 	protected $subject = '';
 	protected $content = '';
-	protected $metadata = [];
+	protected $metadata = [
+		"sound" => "default",
+	];
 	protected $data = [];
 	protected $errors = array();
 	protected $success_tokens = array();
