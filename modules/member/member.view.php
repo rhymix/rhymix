@@ -609,7 +609,7 @@ class memberView extends member
 	{
 		// Get referer URL
 		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
-		if (!$referer_url || !Rhymix\Framework\URL::isInternalURL($referer_url) || contains('procMember', $referer_url))
+		if (!$referer_url || !Rhymix\Framework\URL::isInternalURL($referer_url) || contains('procMember', $referer_url) || contains('dispMemberLoginForm', $referer_url))
 		{
 			$referer_url = getNotEncodedUrl('act', '');
 		}
