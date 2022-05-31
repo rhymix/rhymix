@@ -416,14 +416,14 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['456', '닉네임', '5', '123'], $params);
 		
 		$args = array('document_srl' => 123, 'member_srl' => 456, 'voted_count' => 5);
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['456', '5', '123'], $params);
 	}
 	
@@ -455,28 +455,28 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'nick_name' => '',
 			'document_srl' => 1234,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['', 1234], $query->getQueryParams());
 		
 		$sql = $query->getQueryString('rx_', array(
 			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
 			'document_srl' => 1234,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = \'\' WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `nick_name` = \'\' WHERE `document_srl` = ?', $sql);
 		$this->assertEquals([1234], $query->getQueryParams());
 		
 		$sql = $query->getQueryString('rx_', array(
 			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
 			'document_srl' => '',
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = \'\'', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `nick_name` = \'\'', $sql);
 		$this->assertEquals([], $query->getQueryParams());
 		
 		$sql = $query->getQueryString('rx_', array(
 			'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
 			'document_srl' => new \Rhymix\Framework\Parsers\DBQuery\EmptyString,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = \'\' WHERE `document_srl` = \'\'', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `nick_name` = \'\' WHERE `document_srl` = \'\'', $sql);
 		$this->assertEquals([], $query->getQueryParams());
 		
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/emptyStringTest2.xml');
@@ -505,7 +505,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'nick_name' => 'TEST',
 			'document_srl' => 1234,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
 		
 		$sql = $query->getQueryString('rx_', array(
@@ -513,7 +513,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 			'nick_name' => 'TEST',
 			'document_srl' => 1234,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `user_name` = NULL, `nick_name` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents` AS `documents` SET `user_name` = NULL, `nick_name` = ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
 		
 		$this->tester->expectThrowable('Exception', function() use($query) {
