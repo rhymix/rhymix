@@ -326,7 +326,7 @@ class Query extends VariableBase
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables, false);
+			$tables = $this->_arrangeTables($this->tables);
 			if ($tables !== '')
 			{
 				$result .= $tables;
