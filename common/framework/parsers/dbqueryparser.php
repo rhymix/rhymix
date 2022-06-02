@@ -65,7 +65,7 @@ class DBQueryParser extends BaseParser
 			{
 				$table = new DBQuery\Table;
 				$table->name = trim($tag['name']);
-				$table->alias = trim($tag['alias']) ?: $table->name;
+				$table->alias = trim($tag['alias']) ?: null;
 				$table->ifvar = trim($tag['if']) ?: null;
 			}
 			
@@ -78,7 +78,7 @@ class DBQueryParser extends BaseParser
 					$table->join_conditions = self::_parseConditions($tag->conditions);
 				}
 			}
-			$query->tables[$table->alias] = $table;
+			$query->tables[$table->alias ?: $table->name] = $table;
 		}
 		
 		// Load index hints.

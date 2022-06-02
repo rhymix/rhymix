@@ -326,7 +326,7 @@ class Query extends VariableBase
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables);
+			$tables = $this->_arrangeTables($this->tables, true, false);
 			if ($tables !== '')
 			{
 				$result .= $tables;
@@ -419,9 +419,10 @@ class Query extends VariableBase
 	 * 
 	 * @param array $tables
 	 * @param bool $use_aliases
+	 * @param bool $use_default_aliases
 	 * @return string
 	 */
-	protected function _arrangeTables(array $tables, bool $use_aliases = true): string
+	protected function _arrangeTables(array $tables, bool $use_aliases = true, bool $use_default_aliases = true): string
 	{
 		// Initialize the result.
 		$result = array();
@@ -439,6 +440,7 @@ class Query extends VariableBase
 			if ($table instanceof self)
 			{
 				$tabledef = '(' . $table->getQueryString($this->_prefix, $this->_args) . ')';
+				$table->alias = $table->alias ?: $table->name;
 				if ($table->alias)
 				{
 					$tabledef .= ' AS `' . $table->alias . '`';
@@ -453,6 +455,10 @@ class Query extends VariableBase
 			else
 			{
 				$tabledef = self::quoteName($this->_prefix . $table->name);
+				if ($use_default_aliases) 
+				{
+					$table->alias = $table->alias ?: $table->name;
+				}
 				if ($use_aliases && $table->alias && $table->alias !== ($this->_prefix . $table->name))
 				{
 					$tabledef .= ' AS `' . $table->alias . '`';
