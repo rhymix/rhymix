@@ -67,15 +67,6 @@ class pageView extends page
 		{
 			Context::set('module_srl', $this->module_srl);
 		}
-		
-		// Kick out anyone who tries to exploit RVE-2022-2.
-		foreach (Context::getRequestVars() as $key => $val)
-		{
-			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key) || preg_match('/[\{\}\(\)<>\$\'"]/', $val))
-			{
-				throw new Rhymix\Framework\Exceptions\SecurityViolation();
-			}
-		}
 
 		// Get page content according to page type.
 		$page_type_name = strtolower($this->module_info->page_type);
@@ -165,6 +156,15 @@ class pageView extends page
 		if (!$this->path)
 		{
 			return;
+		}
+		
+		// Kick out anyone who tries to exploit RVE-2022-2.
+		foreach (Context::getRequestVars() as $key => $val)
+		{
+			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key) || preg_match('/[\{\}\(\)<>\$\'"]/', $val))
+			{
+				throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			}
 		}
 		
 		// External URL
