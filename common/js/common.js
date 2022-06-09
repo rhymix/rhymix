@@ -519,7 +519,7 @@ jQuery(function($) {
 	 * @return URI
 	 */
 	function normailzeUri(uri) {
-		var protocol = window.enforce_ssl ? 'https' : 'http';
+		var protocol = window.enforce_ssl ? 'https' : uri.protocol();
 		var port = (protocol === 'http') ? window.http_port : window.https_port;
 		var filename = uri.filename() || 'index.php';
 		var queries = uri.search(true);
