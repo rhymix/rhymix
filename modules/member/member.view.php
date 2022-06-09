@@ -704,13 +704,15 @@ class memberView extends member
 	 */
 	function dispMemberLogout()
 	{
-		$output = MemberController::getInstance()->procMemberLogout();
-		if(!$output->redirect_url)
+		// Redirect if not logged in.
+		if(!Context::get('is_logged'))
+		{
 			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
-		else
-			$this->setRedirectUrl($output->redirect_url);
-
-		return;
+			return;
+		}
+		
+		$output = MemberController::getInstance()->procMemberLogout();
+		$this->setRedirectUrl(isset($output->redirect_url) ? $output->redirect_url : getNotEncodedUrl('act', ''));
 	}
 
 	/**
