@@ -54,12 +54,17 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 		// Set parameters
 		$local_cert = $this->_config['certificate'];
 		$passphrase = $this->_config['passphrase'];
-		$alert = [];
-		$alert['title'] = $message->getSubject();
-		$alert['body'] = $message->getContent();
+		$metadata = $message->getMetadata();
 
-		$body['aps'] = array('alert' => $alert);
-		$payload = json_encode($body);
+		$payload = json_encode([
+			'aps' => [
+				'alert' => [
+					'title' => $message->getSubject(),
+					'body' => $message->getContent(),
+				],
+				'sound' => isset($metadata['sound']) ? $metadata['sound'] : 'default',
+			],
+		]);
 
 		foreach($tokens as $token)
 		{
