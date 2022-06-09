@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'f99b38192ba8724d4b58a645423b035ab7a02493',
+    'reference' => 'd0cdcb5d2a4d741a4ba25512e9a9e5168b374729',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -99,12 +99,12 @@ private static $installed = array (
     ),
     'guzzlehttp/guzzle' => 
     array (
-      'pretty_version' => '6.5.5',
-      'version' => '6.5.5.0',
+      'pretty_version' => '6.5.6',
+      'version' => '6.5.6.0',
       'aliases' => 
       array (
       ),
-      'reference' => '9d4290de1cfd701f38099ef7e183b64b4b7b0c5e',
+      'reference' => 'f092dd734083473658de3ee4bef093ed77d2689c',
     ),
     'guzzlehttp/promises' => 
     array (
@@ -117,12 +117,12 @@ private static $installed = array (
     ),
     'guzzlehttp/psr7' => 
     array (
-      'pretty_version' => '1.8.2',
-      'version' => '1.8.2.0',
+      'pretty_version' => '1.8.5',
+      'version' => '1.8.5.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'dc960a912984efb74d0a90222870c72c87f10c91',
+      'reference' => '337e3ad8e5716c15f9657bd214d16cc5e69df268',
     ),
     'hautelook/phpass' => 
     array (
@@ -228,7 +228,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'f99b38192ba8724d4b58a645423b035ab7a02493',
+      'reference' => 'd0cdcb5d2a4d741a4ba25512e9a9e5168b374729',
     ),
     'rmccue/requests' => 
     array (
