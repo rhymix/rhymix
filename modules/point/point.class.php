@@ -159,9 +159,6 @@ class point extends ModuleObject
 		
 		// Create a directory to store points information.
 		FileHandler::makeDir('./files/member_extra_info/point');
-		
-		// Register triggers.
-		$this->registerTriggers();
 	}
 
 	/**
