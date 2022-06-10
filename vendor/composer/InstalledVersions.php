@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'd0cdcb5d2a4d741a4ba25512e9a9e5168b374729',
+    'reference' => 'd4ffe761c58924530ae083ba84e2daf5b709c2a6',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -99,12 +99,12 @@ private static $installed = array (
     ),
     'guzzlehttp/guzzle' => 
     array (
-      'pretty_version' => '6.5.6',
-      'version' => '6.5.6.0',
+      'pretty_version' => '6.5.7',
+      'version' => '6.5.7.0',
       'aliases' => 
       array (
       ),
-      'reference' => 'f092dd734083473658de3ee4bef093ed77d2689c',
+      'reference' => '724562fa861e21a4071c652c8a159934e4f05592',
     ),
     'guzzlehttp/promises' => 
     array (
@@ -228,7 +228,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'd0cdcb5d2a4d741a4ba25512e9a9e5168b374729',
+      'reference' => 'd4ffe761c58924530ae083ba84e2daf5b709c2a6',
     ),
     'rmccue/requests' => 
     array (
