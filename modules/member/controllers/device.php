@@ -74,7 +74,7 @@ class Device extends \member
 		// Get device information
 		$browserInfo = \Rhymix\Framework\UA::getBrowserInfo();
 		$device_type = escape(strtolower($browserInfo->os));
-		$device_version = $browserInfo->os_version;
+		$device_version = escape(strval($browserInfo->os_version));
 		if (!$device_model)
 		{
 			$device_model = escape($browserInfo->device);
