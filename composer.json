@@ -25,7 +25,7 @@
 		"doctrine/lexer": "1.0.*",
 		"egulias/email-validator": "2.1.*",
 		"ezyang/htmlpurifier": "4.13.*",
-		"guzzlehttp/guzzle": "6.5.*",
+		"guzzlehttp/guzzle": "7.4.*",
 		"hautelook/phpass": "1.1.*",
 		"jbbcode/jbbcode": "1.4.*",
 		"leafo/lessphp": "0.5.*",
