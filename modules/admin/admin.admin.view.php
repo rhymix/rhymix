@@ -435,13 +435,13 @@ class adminAdminView extends admin
 		// Load member config.
 		$member_config = getModel('module')->getModuleConfig('member');
 		Context::set('member_config', $member_config);
-		Context::set('webmaster_name', $member_config->webmaster_name ? $member_config->webmaster_name : 'webmaster');
-		Context::set('webmaster_email', $member_config->webmaster_email);
+		Context::set('webmaster_name', !empty($member_config->webmaster_name) ? $member_config->webmaster_name : 'webmaster');
+		Context::set('webmaster_email', $member_config->webmaster_email ?? '');
 		
 		// Load module config.
 		$module_config = getModel('module')->getModuleConfig('module');
 		Context::set('module_config', $module_config);
-
+		
 		// Load mail drivers.
 		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
 		uasort($mail_drivers, function($a, $b) {
@@ -647,8 +647,8 @@ class adminAdminView extends admin
 		// Meta keywords and description
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('site_meta_keywords', escape($config->meta_keywords));
-		Context::set('site_meta_description', escape($config->meta_description));
+		Context::set('site_meta_keywords', escape($config->meta_keywords ?? ''));
+		Context::set('site_meta_description', escape($config->meta_description ?? ''));
 		
 		// Titles
 		Context::set('seo_main_title', escape(Rhymix\Framework\Config::get('seo.main_title') ?: '$SITE_TITLE - $SITE_SUBTITLE'));

@@ -2,7 +2,7 @@
 
 <include target="config_header.html" />
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_advanced/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_advanced/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
@@ -157,8 +157,8 @@
 					<label for="object_cache_port" class="x_inline">{$lang->cache_port}: <input type="number" name="object_cache_port" id="object_cache_port" size="5" style="min-width:70px" value="{$object_cache_port}" /></label>
 				</div>
 				<div id="object_cache_redis_config" style="display:none">
-					<label for="object_cache_user" class="x_inline">{$lang->cache_user}: <input type="text" name="object_cache_user" id="object_cache_user" value="{$object_cache_user}" /></label>
-					<label for="object_cache_pass" class="x_inline">{$lang->cache_pass}: <input type="password" name="object_cache_pass" id="object_cache_pass" value="{$object_cache_pass}" autocomplete="new-password" /></label>
+					<label for="object_cache_user" class="x_inline">{$lang->cache_user}: <input type="text" name="object_cache_user" id="object_cache_user" value="{$object_cache_user ?? ''}" /></label>
+					<label for="object_cache_pass" class="x_inline">{$lang->cache_pass}: <input type="password" name="object_cache_pass" id="object_cache_pass" value="{$object_cache_pass ?? ''}" autocomplete="new-password" /></label>
 					<label for="object_cache_dbnum" class="x_inline">{$lang->cache_dbnum}: <input type="number" name="object_cache_dbnum" id="object_cache_dbnum" size="3" style="min-width:70px" value="{$object_cache_dbnum}" /></label>
 				</div>
 			</div>
