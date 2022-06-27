@@ -3,7 +3,7 @@
 <include target="config_header.html" />
 <load target="js/notification_config.js" />
 
-<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_notification/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+<div cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_notification/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
@@ -24,7 +24,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_default_name">{$lang->cmd_admin_default_from_name}</label>
 			<div class="x_controls">
-				<input type="text" name="mail_default_name" id="mail_default_name" value="{escape($member_config->webmaster_name) ?: $module_config->siteTitle}" />
+				<input type="text" name="mail_default_name" id="mail_default_name" value="{escape($webmaster_name)}" />
 				<br />
 				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_name_help}</p>
 			</div>
@@ -33,7 +33,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_default_from">{$lang->cmd_admin_default_from_email}</label>
 			<div class="x_controls">
-				<input type="text" name="mail_default_from" id="mail_default_from" value="{escape($member_config->webmaster_email)}" />
+				<input type="text" name="mail_default_from" id="mail_default_from" value="{escape($webmaster_email)}" />
 				&nbsp;
 				<label for="mail_force_default_sender" class="x_inline">
 					<input type="checkbox" name="mail_force_default_sender" id="mail_force_default_sender" value="Y" checked="checked"|cond="toBool($advanced_mailer_config->force_sender)" />
@@ -47,7 +47,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_default_reply_to">{$lang->cmd_admin_default_reply_to}</label>
 			<div class="x_controls">
-				<input type="text" name="mail_default_reply_to" id="mail_default_reply_to" value="{escape($advanced_mailer_config->reply_to ?: config('mail.default_reply_to'))}" />
+				<input type="text" name="mail_default_reply_to" id="mail_default_reply_to" value="{escape($advanced_mailer_config->reply_to ?? config('mail.default_reply_to'))}" />
 				<br />
 				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_reply_to_help}</p>
 			</div>
