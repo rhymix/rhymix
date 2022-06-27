@@ -6,6 +6,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
+#[AllowDynamicProperties]
 class BaseObject
 {
 	/**
