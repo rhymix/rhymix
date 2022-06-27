@@ -111,7 +111,7 @@ class layoutAdminController extends layout
 		if($layout_info->menu)
 		{
 			$menus = get_object_vars($layout_info->menu);
-			foreach($menus ?: [] as $menu_id => $val)
+			foreach($menus ?? [] as $menu_id => $val)
 			{
 				$menu_srl = Context::get($menu_id);
 				if(!$menu_srl) continue;
