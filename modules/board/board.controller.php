@@ -448,6 +448,20 @@ class boardController extends board
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 
+		if(isset($module_info->include_modules))
+		{
+			if(intval($oDocument->get('module_srl')) !== intval($obj->module_srl))
+			{
+				$module_info = moduleModel::getModuleInfoByModuleSrl($obj->module_srl);
+				$include_modules = explode(',', $module_info->include_modules);
+				
+				if(in_array($obj->module_srl, $include_modules))
+				{
+					$obj->module_srl = $oDocument->get('module_srl');
+				}
+			}
+		}
+		
 		// For anonymous use, remove writer's information and notifying information
 		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
 		{
