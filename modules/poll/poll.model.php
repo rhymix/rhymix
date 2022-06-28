@@ -320,7 +320,15 @@ class pollModel extends poll
 	 */
 	public function getPollGetColorsetList()
 	{
-		$skin = Context::get('skin');
+		$skin = Context::get('skin') ?: 'default';
+		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+		if (!Rhymix\Framework\Storage::isDirectory(RX_BASEDIR . 'modules/poll/skins/' . $skin))
+		{
+			$skin = 'default';
+		}
 
 		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);

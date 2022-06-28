@@ -349,18 +349,9 @@ class pollController extends poll
 
 		$oDB->commit();
 
-		//$skin = Context::get('skin');
-		//if(!$skin || !is_dir(RX_BASEDIR . 'modules/poll/skins/'.$skin)) $skin = 'default';
-		// Get tpl
-		//$tpl = $oPollModel->getPollHtml($poll_srl, '', $skin);
-
 		$this->add('poll_srl', $poll_srl);
 		$this->add('poll_item_srl',$item_srls);
-		//$this->add('tpl',$tpl);
 		$this->setMessage('success_poll');
-
-		//$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispPollAdminConfig');
-		//$this->setRedirectUrl($returnUrl);
 	}
 
 	/**
@@ -370,8 +361,15 @@ class pollController extends poll
 	{
 		$poll_srl = Context::get('poll_srl');
 
-		$skin = Context::get('skin');
-		if(!$skin || !is_dir(RX_BASEDIR . 'modules/poll/skins/'.$skin)) $skin = 'default';
+		$skin = Context::get('skin') ?: 'default';
+		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+		if (!Rhymix\Framework\Storage::isDirectory(RX_BASEDIR . 'modules/poll/skins/' . $skin))
+		{
+			$skin = 'default';
+		}
 
 		$oPollModel = getModel('poll');
 		$tpl = $oPollModel->getPollResultHtml($poll_srl, $skin);
