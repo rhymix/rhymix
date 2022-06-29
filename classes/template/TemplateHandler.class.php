@@ -93,6 +93,7 @@ class TemplateHandler
 	{
 		// verify arguments
 		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
+		$tpl_path = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $tpl_path);
 		if($tpl_path === '/')
 		{
 			$tpl_path = '';
