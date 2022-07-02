@@ -33,7 +33,10 @@ class module extends ModuleObject
 			$domain->https_port = RX_SSL ? $current_port : null;
 			$domain->security = config('url.ssl') ?: 'none';
 			$domain->description = '';
-			$domain->settings = json_encode(array('language' => null, 'timezone' => null));
+			$domain->settings = json_encode(array(
+				'language' => 'default',
+				'timezone' => 'default',
+			));
 			$output = executeQuery('module.insertDomain', $domain);
 			if (!$output->toBool())
 			{
@@ -288,8 +291,8 @@ class module extends ModuleObject
 				$domain->settings = json_encode(array(
 					'title' => $config->siteTitle,
 					'subtitle' => $config->siteSubtitle,
-					'language' => $site_info->default_language,
-					'timezone' => config('locale.default_timezone'),
+					'language' => 'default',
+					'timezone' => 'default',
 					'html_footer' => $config->htmlFooter,
 				));
 				$domain->regdate = $site_info->regdate;
@@ -318,8 +321,8 @@ class module extends ModuleObject
 			$domain->settings = json_encode(array(
 				'title' => $config->siteTitle,
 				'subtitle' => $config->siteSubtitle,
-				'language' => $site_info->default_language,
-				'timezone' => config('locale.default_timezone'),
+				'language' => 'default',
+				'timezone' => 'default',
 				'html_footer' => $config->htmlFooter,
 			));
 			$domains[$domain->domain] = $domain;
@@ -353,8 +356,8 @@ class module extends ModuleObject
 					$domain->settings = json_encode(array(
 						'title' => $config->siteTitle,
 						'subtitle' => $config->siteSubtitle,
-						'language' => $site_info->default_language,
-						'timezone' => config('locale.default_timezone'),
+						'language' => 'default',
+						'timezone' => 'default',
 						'html_footer' => $config->htmlFooter,
 					));
 					$domain->regdate = $site_info->regdate;

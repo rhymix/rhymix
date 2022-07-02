@@ -260,8 +260,9 @@ class Context
 				}
 			}
 			$site_module_info = ModuleModel::getDefaultMid() ?: new stdClass;
+			$site_timezone = (isset($site_module_info->settings->timezone) && $site_module_info->settings->timezone !== 'default') ? $site_module_info->settings->timezone : null;
 			self::set('site_module_info', $site_module_info);
-			self::set('_default_timezone', ($site_module_info->settings && $site_module_info->settings->timezone) ? $site_module_info->settings->timezone : null);
+			self::set('_default_timezone', $site_timezone);
 			self::set('_default_url', self::$_instance->db_info->default_url = self::getDefaultUrl($site_module_info, RX_SSL));
 			self::set('_http_port', self::$_instance->db_info->http_port = $site_module_info->http_port ?: null);
 			self::set('_https_port', self::$_instance->db_info->https_port = $site_module_info->https_port ?: null);

@@ -90,6 +90,7 @@
 			<label class="x_control-label" for="default_timezone">{$lang->timezone}</label>
 			<div class="x_controls">
 				<select name="default_timezone">
+					<option value="default" selected="selected"|cond="$domain_timezone === 'default'">{$lang->follow_default_lang}</option>
 					<option loop="$timezones => $key,$val" value="{$key}" selected="selected"|cond="$key == $domain_timezone">{$val}</option>
 				</select>
 			</div>
