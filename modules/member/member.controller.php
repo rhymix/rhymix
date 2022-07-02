@@ -1563,7 +1563,7 @@ class memberController extends member
 
 		// Check if a member having the same email address exists
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
-		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_email_not_exists');
+		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_not_exists_member');
 
 		// Get information of the member
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
