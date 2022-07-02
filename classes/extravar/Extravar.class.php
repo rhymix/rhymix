@@ -361,7 +361,7 @@ class ExtraItem
 				return nl2br($value);
 				
 			case 'date' :
-				return zdate($value, "Y-m-d");
+				return sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2));
 
 			case 'language':
 				return Rhymix\Framework\Lang::getSupportedList()[$value]['name'];
@@ -559,8 +559,9 @@ class ExtraItem
 				// datepicker javascript plugin load
 				Context::loadJavascriptPlugin('ui.datepicker');
 
+				$formattedValue = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />'; 
-				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" autocomplete="off" />';
+				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . $formattedValue . '" class="date" autocomplete="off" />';
 				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
 				$buff[] =	'<script type="text/javascript">';
 				$buff[] = '//<![CDATA[';

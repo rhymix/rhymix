@@ -141,9 +141,9 @@ class memberView extends member
 					$target = $memberInfo->image_mark;
 					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.image_mark') . '" />';
 				}
-				elseif($formInfo->name == 'birthday' && $memberInfo->birthday)
+				elseif($formInfo->name == 'birthday' && $memberInfo->birthday && preg_match('/^[0-9]{8}/', $item->value))
 				{
-					$item->value = zdate($item->value, 'Y-m-d');
+					$item->value = sprintf('%s-%s-%s', substr($item->value, 0, 4), substr($item->value, 4, 2), substr($item->value, 6, 2));
 				}
 				elseif($formInfo->name == 'phone_number' && $memberInfo->phone_number)
 				{
@@ -175,7 +175,11 @@ class memberView extends member
 				}
 				elseif($formInfo->type=='date')
 				{
-					$item->value = zdate(is_array($orgValue) ? array_first($orgValue) : $orgValue, 'Y-m-d');
+					$item->value = is_array($orgValue) ? array_first($orgValue) : $orgValue;
+					if (preg_match('/^[0-9]{8}/', $item->value))
+					{
+						$item->value = sprintf('%s-%s-%s', substr($item->value, 0, 4), substr($item->value, 4, 2), substr($item->value, 6, 2));
+					}
 				}
 				else
 				{
