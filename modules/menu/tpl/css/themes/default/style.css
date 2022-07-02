@@ -48,6 +48,29 @@
 #vakata-dragged.jstree-default .jstree-ok{background:url("d.png") -2px -53px no-repeat !important}
 #vakata-dragged.jstree-default .jstree-invalid{background:url("d.png") -18px -53px no-repeat !important}
 #jstree-marker.jstree-default{background:url("d.png") -41px -57px no-repeat !important; text-indent:-100px}
+#jstree-marker-line.jstree-default {
+	padding: 0;
+	margin: 0;
+	line-height: 0%;
+	font-size: 0px;
+	overflow: hidden;
+	height: 0px;
+	width: 100px;
+	position: absolute;
+	top: -30px;
+	z-index: 10000;
+	background-repeat: no-repeat;
+	display: none;
+	cursor: not-allowed;
+	border-top: 1px dashed #456c43;
+	border-left: 0;
+	-moz-box-shadow: 0px 0px 2px #666;
+	-webkit-box-shadow: 0px 0px 2px #666;
+	box-shadow: 0px 0px 2px #666;
+	-moz-border-radius: 1px;
+	border-radius: 1px;
+	-webkit-border-radius: 1px;
+}
 
 .jstree-default a.jstree-search{color:aqua}
 .jstree-default .jstree-locked a{color:silver; cursor:default}
