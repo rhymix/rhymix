@@ -546,20 +546,15 @@ class pointController extends point
 			{
 				if (!$logged_member_srl && $config->disable_read_document_except_robots == 'Y' && isCrawler())
 				{
-					$_SESSION['banned_document'][$obj->document_srl] = false;
+					// pass
 				}
 				else
 				{
 					$message = sprintf(lang('msg_disallow_by_point'), abs($reader_point), $cur_point);
 					$obj->add('content', $message);
 					$GLOBALS['XE_EXTRA_VARS'][$obj->document_srl] = array();
-					$_SESSION['banned_document'][$obj->document_srl] = true;
 					return new BaseObject(-1, $message);
 				}
-			}
-			else
-			{
-				$_SESSION['banned_document'][$obj->document_srl] = false;
 			}
 			
 			// Record the fact that this member has already read this document.
