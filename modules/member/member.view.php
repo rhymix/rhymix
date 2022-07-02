@@ -219,7 +219,7 @@ class memberView extends member
 		{
 			if($formTag->name == 'signature')
 			{
-				$option = new stdClass;
+				$option = ModuleModel::getModuleConfig('editor') ?: new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
 				$option->allow_html = $member_config->signature_html !== 'N';
@@ -322,7 +322,7 @@ class memberView extends member
 		{
 			if($formTag->name == 'signature')
 			{
-				$option = new stdClass;
+				$option = ModuleModel::getModuleConfig('editor') ?: new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
 				$option->allow_html = $member_config->signature_html !== 'N';
