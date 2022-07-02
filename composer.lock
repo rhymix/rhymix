@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24cc938f5e56d40d6c7d2e484b77c5ad",
+    "content-hash": "35b577c08cb08cdd0fc2ed06977a8617",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -818,24 +818,28 @@
         },
         {
             "name": "leafo/lessphp",
-            "version": "v0.5.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/lessphp.git",
-                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283"
+                "reference": "1fdc40e77824a692d7f4811ba86ed89669a66135"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
-                "reference": "0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283",
+                "url": "https://api.github.com/repos/leafo/lessphp/zipball/1fdc40e77824a692d7f4811ba86ed89669a66135",
+                "reference": "1fdc40e77824a692d7f4811ba86ed89669a66135",
                 "shasum": ""
             },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.4.x-dev"
-                }
+            "require-dev": {
+                "phpunit/phpunit": "^5.7.27",
+                "squizlabs/php_codesniffer": "3.3.2"
             },
+            "default-branch": true,
+            "bin": [
+                "plessc",
+                "lessify"
+            ],
+            "type": "library",
             "autoload": {
                 "classmap": [
                     "lessc.inc.php"
@@ -857,9 +861,9 @@
             "homepage": "http://leafo.net/lessphp/",
             "support": {
                 "issues": "https://github.com/leafo/lessphp/issues",
-                "source": "https://github.com/leafo/lessphp/tree/v0.5.0"
+                "source": "https://github.com/leafo/lessphp/tree/master"
             },
-            "time": "2014-11-24T18:39:20+00:00"
+            "time": "2018-10-16T19:24:03+00:00"
         },
         {
             "name": "league/html-to-markdown",
@@ -2014,7 +2018,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "leafo/lessphp": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

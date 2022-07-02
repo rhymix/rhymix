@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'd4ffe761c58924530ae083ba84e2daf5b709c2a6',
+    'reference' => 'e258cf75257ea48ab849d13f6e7b22a137abf489',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -144,12 +144,13 @@ private static $installed = array (
     ),
     'leafo/lessphp' => 
     array (
-      'pretty_version' => 'v0.5.0',
-      'version' => '0.5.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
+        0 => '9999999-dev',
       ),
-      'reference' => '0f5a7f5545d2bcf4e9fad9a228c8ad89cc9aa283',
+      'reference' => '1fdc40e77824a692d7f4811ba86ed89669a66135',
     ),
     'league/html-to-markdown' => 
     array (
@@ -228,7 +229,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'd4ffe761c58924530ae083ba84e2daf5b709c2a6',
+      'reference' => 'e258cf75257ea48ab849d13f6e7b22a137abf489',
     ),
     'rmccue/requests' => 
     array (
