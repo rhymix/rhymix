@@ -485,7 +485,9 @@ class FrontEndFileHandler extends Handler
 					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.css';
 					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
 					{
-						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatCSS($concat_files, $concat_filename));
+						$concat_content = Rhymix\Framework\Formatter::concatCSS($concat_files, $concat_filename);
+						$concat_content = '@charset "UTF-8";' . "\n\n" . preg_replace('/@charset\s*[\'"][a-z0-9-]+[\'"];\s*/i', '', $concat_content);
+						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, $concat_content);
 					}
 					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
 					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'media' => 'all', 'targetie' => '');
