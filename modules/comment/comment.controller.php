@@ -911,7 +911,9 @@ class commentController extends comment
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		$comment = getModel('comment')->getComment($obj->comment_srl);
+		
+		// check if comment exists and permission is granted
+		$comment = CommentModel::getComment($obj->comment_srl);
 		if(!$comment->isExists())
 		{
 			return new BaseObject(-1, 'msg_not_founded');
@@ -926,17 +928,6 @@ class commentController extends comment
 		if(!$output->toBool())
 		{
 			return $output;
-		}
-
-		// check if comment exists and permission is granted
-		$comment = CommentModel::getComment($obj->comment_srl);
-		if(!$comment->isExists())
-		{
-			return new BaseObject(-1, 'msg_not_founded');
-		}
-		if(!$is_admin && !$comment->isGranted())
-		{
-			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
@@ -1197,7 +1188,7 @@ class commentController extends comment
 	function moveCommentToTrash($obj, $updateComment = false)
 	{
 		// check if comment exists and permission is granted
-		$oComment = CommentModel::getComment($obj->comment_srl);
+		$oComment = ($obj instanceof commentItem) ? $obj : CommentModel::getComment($obj->comment_srl);
 		if(!$oComment->isExists())
 		{
 			return new BaseObject(-1, 'msg_not_founded');
