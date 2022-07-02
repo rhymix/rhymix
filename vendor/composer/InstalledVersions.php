@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'e258cf75257ea48ab849d13f6e7b22a137abf489',
+    'reference' => '60a48004ef13156ef231effc3abd7789e79c9528',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -229,7 +229,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'e258cf75257ea48ab849d13f6e7b22a137abf489',
+      'reference' => '60a48004ef13156ef231effc3abd7789e79c9528',
     ),
     'rmccue/requests' => 
     array (
