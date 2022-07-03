@@ -1,6 +1,7 @@
 <query id="updateTest" action="update">
     <tables>
         <table name="documents" />
+		<table name="comments" alias="c" />
     </tables>
     <columns>
         <column name="member_srl" var="member_srl" filter="number" default="0" />

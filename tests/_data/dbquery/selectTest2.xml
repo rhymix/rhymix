@@ -1,6 +1,6 @@
 <query id="selectTest2" action="select">
 	<tables>
-		<table name="documents" />
+		<table name="documents" alias="d" />
 	</tables>
 	<columns>
 		<column name="readed_count + trackback_count" alias="count" />
