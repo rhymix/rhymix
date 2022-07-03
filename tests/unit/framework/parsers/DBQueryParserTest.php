@@ -11,7 +11,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->select_distinct);
 		
 		$this->assertTrue($query->tables['documents'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
-		$this->assertEquals('documents', $query->tables['documents']->alias);
+		$this->assertEquals('documents', $query->tables['documents']->name);
 		
 		$this->assertEquals(1, count($query->columns));
 		$this->assertEquals('*', $query->columns[0]->name);
