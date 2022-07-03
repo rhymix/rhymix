@@ -45,6 +45,13 @@ class Query extends VariableBase
 	protected $_params = array();
 	
 	/**
+	 * Constants for alias handling.
+	 */
+	const ALIAS_NONE = 0;
+	const ALIAS_SPECIFIED = 1;
+	const ALIAS_ALWAYS = 2;
+	
+	/**
 	 * Generate the query string for this query.
 	 * 
 	 * @param string $prefix
@@ -184,7 +191,7 @@ class Query extends VariableBase
 		// Compose the FROM clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables);
+			$tables = $this->_arrangeTables($this->tables, self::ALIAS_ALWAYS);
 			if ($tables !== '')
 			{
 				$result .= ' FROM ' . $tables;
@@ -274,7 +281,7 @@ class Query extends VariableBase
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables, false);
+			$tables = $this->_arrangeTables($this->tables, self::ALIAS_NONE);
 			if ($tables !== '')
 			{
 				$result .= ' INTO ' . $tables;
@@ -326,7 +333,7 @@ class Query extends VariableBase
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables, true, false);
+			$tables = $this->_arrangeTables($this->tables, self::ALIAS_SPECIFIED);
 			if ($tables !== '')
 			{
 				$result .= $tables;
@@ -377,7 +384,7 @@ class Query extends VariableBase
 		// Compose the FROM clause.
 		if (count($this->tables))
 		{
-			$tables = $this->_arrangeTables($this->tables, false);
+			$tables = $this->_arrangeTables($this->tables, self::ALIAS_NONE);
 			if ($tables !== '')
 			{
 				$result .= ' FROM ' . $tables;
@@ -418,11 +425,10 @@ class Query extends VariableBase
 	 * Generate a FROM clause from a list of tables.
 	 * 
 	 * @param array $tables
-	 * @param bool $use_aliases
-	 * @param bool $use_default_aliases
+	 * @param int $use_aliases
 	 * @return string
 	 */
-	protected function _arrangeTables(array $tables, bool $use_aliases = true, bool $use_default_aliases = true): string
+	protected function _arrangeTables(array $tables, int $use_aliases = self::ALIAS_SPECIFIED): string
 	{
 		// Initialize the result.
 		$result = array();
@@ -455,11 +461,11 @@ class Query extends VariableBase
 			else
 			{
 				$tabledef = self::quoteName($this->_prefix . $table->name);
-				if ($use_default_aliases) 
+				if ($use_aliases === self::ALIAS_ALWAYS)
 				{
 					$table->alias = $table->alias ?: $table->name;
 				}
-				if ($use_aliases && $table->alias && $table->alias !== ($this->_prefix . $table->name))
+				if ($use_aliases !== self::ALIAS_NONE && $table->alias && $table->alias !== ($this->_prefix . $table->name))
 				{
 					$tabledef .= ' AS `' . $table->alias . '`';
 				}
