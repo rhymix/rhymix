@@ -6,8 +6,8 @@ var getPSImageSize = function(el) {
 	if (!size[0] || !size[1]) {
 		var test = new Image();
 		test.src = el.src;
-		size[0] = test.naturalWidth ? test.naturalWidth : (test.width ? test.width : 0);
-		size[1] = test.naturalHeight ? test.naturalHeight : (test.height ? test.height : 0);
+		size[0] = test.naturalWidth ? test.naturalWidth : (test.width ? test.width : 1000);
+		size[1] = test.naturalHeight ? test.naturalHeight : (test.height ? test.height : 1000);
 	}
 	return size;
 }
