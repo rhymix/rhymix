@@ -367,8 +367,15 @@ class pollController extends poll
 	{
 		$poll_srl = Context::get('poll_srl');
 
-		$skin = Context::get('skin');
-		if(!$skin || !is_dir(_XE_PATH_ . 'modules/poll/skins/'.$skin)) $skin = 'default';
+		$skin = Context::get('skin') ?: 'default';
+		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+		if (!Rhymix\Framework\Storage::isDirectory(RX_BASEDIR . 'modules/poll/skins/' . $skin))
+		{
+			$skin = 'default';
+		}
 
 		$oPollModel = getModel('poll');
 		$tpl = $oPollModel->getPollResultHtml($poll_srl, $skin);

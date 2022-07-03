@@ -1145,6 +1145,10 @@ class moduleModel extends module
 	{
 		// Read xml file having skin information
 		if(substr($path,-1)!='/') $path .= '/';
+		if(!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			return;
+		}
 		$skin_xml_file = sprintf("%s%s/%s/skin.xml", $path, $dir, $skin);
 		if(!file_exists($skin_xml_file)) return;
 		// Create XmlParser object

@@ -193,6 +193,10 @@ class editorView extends editor
 	function dispEditorSkinColorset()
 	{
 		$skin = Context::get('skin');
+		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
 		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path,$skin);
 		$colorset = $skin_info->colorset;
