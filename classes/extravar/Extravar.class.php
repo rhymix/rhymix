@@ -361,7 +361,7 @@ class ExtraItem
 				return nl2br($value);
 				
 			case 'date' :
-				return sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2));
+				return $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 
 			case 'language':
 				return Rhymix\Framework\Lang::getSupportedList()[$value]['name'];
