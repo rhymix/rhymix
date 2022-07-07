@@ -24,7 +24,6 @@ class boardAdminController extends board {
 	{
 		// generate module model/controller object
 		$oModuleController = getController('module');
-		$oModuleModel = getModel('module');
 
 		// setup the board module infortmation
 		$args = Context::getRequestVars();
@@ -36,7 +35,7 @@ class boardAdminController extends board {
 		// Get existing module info
 		if($args->module_srl)
 		{
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 		}
 		
 		// setup extra_order_target
@@ -60,8 +59,25 @@ class boardAdminController extends board {
 		if($args->anonymous_except_admin != 'Y') $args->anonymous_except_admin = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
 		if($args->protect_content != 'Y') $args->protect_content = 'N';
-		if($args->protect_admin_content_update != 'Y') $args->protect_admin_content_update = 'N';
-		if($args->protect_admin_content_delete != 'Y') $args->protect_admin_content_delete = 'N';
+		if($this->user->isAdmin())
+		{
+			if($args->protect_admin_content_update != 'Y') $args->protect_admin_content_update = 'N';
+			if($args->protect_admin_content_delete != 'Y') $args->protect_admin_content_delete = 'N';
+		}
+		else
+		{
+			if($module_info)
+			{
+				$args->protect_admin_content_update = $module_info->protect_admin_content_update;
+				$args->protect_admin_content_delete = $module_info->protect_admin_content_delete;
+			}
+			else
+			{
+				$args->protect_admin_content_update = 'N';
+				$args->protect_admin_content_delete = 'N';
+			}
+		}
+		
 		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
 		

@@ -364,6 +364,7 @@
 				<p>{$lang->about_protect_comment}</p>
 			</div>
 		</div>
+		<!--@if($this->user->isAdmin())-->
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_admin_content}</label>
 			<div class="x_controls">
@@ -372,6 +373,7 @@
 				<p>{$lang->about_protect_admin_content}</p>
 			</div>
 		</div>
+		<!--@end-->
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_regdate}</label>
 			<div class="x_controls">
