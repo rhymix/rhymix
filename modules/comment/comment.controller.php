@@ -931,8 +931,7 @@ class commentController extends comment
 		}
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
-		$logged_info = Context::get('logged_info');
-		if($is_admin === true && $obj->member_srl !== $logged_info->member_srl)
+		if($is_admin === true && $obj->member_srl !== $this->user->member_srl)
 		{
 			$obj->content = lang('msg_admin_deleted_comment');
 			$obj->status = RX_STATUS_DELETED_BY_ADMIN;

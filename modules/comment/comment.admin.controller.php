@@ -206,8 +206,11 @@ class commentAdminController extends comment
 			$this->_sendMessageForComment($message_content, $comment_srl_list);
 		}
 		// for message send - end
-		
-		
+		// comment into trash
+		if($isTrash == 'true')
+		{
+			$this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB, $message_content);
+		}
 
 		$deleted_count = 0;
 		// Delete the comment posting
@@ -225,38 +228,40 @@ class commentAdminController extends comment
 			if($module_info->comment_delete_message === 'yes')
 			{
 				$output = $oCommentController->updateCommentByDelete($comment, true);
-				if(!$output->toBool())
+				if(!$output->toBool() && $output->error !== -2)
 				{
+					$oDB->rollback();
 					return $output;
 				}
-				if($isTrash == 'true')
+			}
+			elseif(starts_with('only_comm', $module_info->comment_delete_message))
+			{
+				$childs = CommentModel::getChildComments($comment_srl);
+				
+				if(count($childs) > 0)
 				{
-					$output = $oCommentController->moveCommentToTrash($comment, true);
-					if(!$output->toBool())
+					$output = $oCommentController->updateCommentByDelete($comment, true);
+					if(!$output->toBool() && $output->error !== -2)
 					{
+						$oDB->rollback();
 						return $output;
 					}
-					unset($comment_srl_list[$i]);
 				}
 			}
 			else
 			{
 				$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
+				}
 			}
-			
-			if(!$output->toBool() && $output->error !== -2)
-			{
-				$oDB->rollback();
-				return $output;
-			}
+
 			$deleted_count++;
 		}
 
-		// comment into trash
-		if($isTrash == 'true')
-		{
-			$this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB, $message_content);
-		}
+
 		
 		$oDB->commit();
 
