@@ -206,11 +206,8 @@ class commentAdminController extends comment
 			$this->_sendMessageForComment($message_content, $comment_srl_list);
 		}
 		// for message send - end
-		// comment into trash
-		if($isTrash == 'true')
-		{
-			$this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB, $message_content);
-		}
+		
+		
 
 		$deleted_count = 0;
 		// Delete the comment posting
@@ -222,7 +219,31 @@ class commentAdminController extends comment
 				continue;
 			}
 
-			$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
+			$comment = CommentModel::getComment($comment_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($comment->get('module_srl'));
+			
+			if($module_info->comment_delete_message === 'yes')
+			{
+				$output = $oCommentController->updateCommentByDelete($comment, true);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+				if($isTrash == 'true')
+				{
+					$output = $oCommentController->moveCommentToTrash($comment, true);
+					if(!$output->toBool())
+					{
+						return $output;
+					}
+					unset($comment_srl_list[$i]);
+				}
+			}
+			else
+			{
+				$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
+			}
+			
 			if(!$output->toBool() && $output->error !== -2)
 			{
 				$oDB->rollback();
@@ -231,6 +252,12 @@ class commentAdminController extends comment
 			$deleted_count++;
 		}
 
+		// comment into trash
+		if($isTrash == 'true')
+		{
+			$this->_moveCommentToTrash($comment_srl_list, $oCommentController, $oDB, $message_content);
+		}
+		
 		$oDB->commit();
 
 		$msgCode = '';
