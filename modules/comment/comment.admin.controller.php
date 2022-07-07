@@ -260,8 +260,6 @@ class commentAdminController extends comment
 
 			$deleted_count++;
 		}
-
-
 		
 		$oDB->commit();
 
