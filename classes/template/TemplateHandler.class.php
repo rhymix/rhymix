@@ -269,7 +269,7 @@ class TemplateHandler
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file):\/\/|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
+		$buff = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file|data):|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
 
 		// replace value of srcset in img/source/link tag
 		$buff = preg_replace_callback('/<(?:img|source|link)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* srcset="([^"]+)"/is', array($this, '_replaceSrcsetPath'), $buff);
@@ -503,7 +503,7 @@ class TemplateHandler
 		foreach ($url_list as &$url) {
 			// replace if url is not starting with the pattern
 			$url = preg_replace_callback(
-				'/^(?!(?:https?|file):\/\/|[\/\{])(\S+)/i',
+				'/^(?!(?:https?|file|data):|[\/\{])(\S+)/i',
 				array($this, '_replaceRelativePath'),
 				trim($url)
 			);
