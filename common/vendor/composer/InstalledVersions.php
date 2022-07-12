@@ -29,7 +29,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '9d77291351dbaf3cb9dd546eb59aff662c2ba1af',
+    'reference' => 'b3d4a38b9955a59022bb9a1860115223d9a984ab',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -42,6 +42,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '5a424e80a1200674451844fbaae8a0098a316a01',
+    ),
+    'bordoni/phpass' => 
+    array (
+      'pretty_version' => '0.3.6',
+      'version' => '0.3.6.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '12f8f5cc03ebb7efd69554f104afe9aa1aa46e1a',
     ),
     'composer/ca-bundle' => 
     array (
@@ -132,6 +141,13 @@ private static $installed = array (
       array (
       ),
       'reference' => '13388f00956b1503577598873fffb5ae994b5737',
+    ),
+    'hautelook/phpass' => 
+    array (
+      'replaced' => 
+      array (
+        0 => '0.3.*',
+      ),
     ),
     'jbbcode/jbbcode' => 
     array (
@@ -314,7 +330,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '9d77291351dbaf3cb9dd546eb59aff662c2ba1af',
+      'reference' => 'b3d4a38b9955a59022bb9a1860115223d9a984ab',
     ),
     'rmccue/requests' => 
     array (

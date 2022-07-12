@@ -8,8 +8,8 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
@@ -148,9 +148,9 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         ),
         'League\\OAuth2\\Client\\' => 
         array (
-            0 => __DIR__ . '/..' . '/patrickbussmann/oauth2-apple/src',
-            1 => __DIR__ . '/..' . '/league/oauth2-client/src',
-            2 => __DIR__ . '/..' . '/league/oauth2-github/src',
+            0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-github/src',
+            2 => __DIR__ . '/..' . '/patrickbussmann/oauth2-apple/src',
         ),
         'League\\HTMLToMarkdown\\' => 
         array (
@@ -222,6 +222,10 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         ),
         'H' => 
         array (
+            'Hautelook' => 
+            array (
+                0 => __DIR__ . '/..' . '/bordoni/phpass/src',
+            ),
             'HTMLPurifier' => 
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
@@ -652,6 +656,7 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         'HTMLPurifier_VarParser_Flexible' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Flexible.php',
         'HTMLPurifier_VarParser_Native' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Native.php',
         'HTMLPurifier_Zipper' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier/Zipper.php',
+        'Hautelook\\Phpass\\PasswordHash' => __DIR__ . '/..' . '/bordoni/phpass/src/Hautelook/Phpass/PasswordHash.php',
         'JBBCode\\CodeDefinition' => __DIR__ . '/..' . '/jbbcode/jbbcode/JBBCode/CodeDefinition.php',
         'JBBCode\\CodeDefinitionBuilder' => __DIR__ . '/..' . '/jbbcode/jbbcode/JBBCode/CodeDefinitionBuilder.php',
         'JBBCode\\CodeDefinitionSet' => __DIR__ . '/..' . '/jbbcode/jbbcode/JBBCode/CodeDefinitionSet.php',

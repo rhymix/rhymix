@@ -19,6 +19,7 @@
 		"ext-pcre": "*",
 		"ext-xml": "*",
 		"abraham/twitteroauth": "2.*",
+    "bordoni/phpass": "0.3.*",
 		"coolsms/php-sdk": "2.0.*",
 		"doctrine/lexer": "1.2.*",
 		"egulias/email-validator": "3.1.*",

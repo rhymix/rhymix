@@ -428,6 +428,7 @@ return array(
     'HTMLPurifier_VarParser_Flexible' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Flexible.php',
     'HTMLPurifier_VarParser_Native' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/VarParser/Native.php',
     'HTMLPurifier_Zipper' => $vendorDir . '/ezyang/htmlpurifier/library/HTMLPurifier/Zipper.php',
+    'Hautelook\\Phpass\\PasswordHash' => $vendorDir . '/bordoni/phpass/src/Hautelook/Phpass/PasswordHash.php',
     'JBBCode\\CodeDefinition' => $vendorDir . '/jbbcode/jbbcode/JBBCode/CodeDefinition.php',
     'JBBCode\\CodeDefinitionBuilder' => $vendorDir . '/jbbcode/jbbcode/JBBCode/CodeDefinitionBuilder.php',
     'JBBCode\\CodeDefinitionSet' => $vendorDir . '/jbbcode/jbbcode/JBBCode/CodeDefinitionSet.php',

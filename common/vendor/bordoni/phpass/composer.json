@@ -1,0 +1,37 @@
+{
+  "name": "bordoni/phpass",
+  "type": "library",
+  "time": "2012-08-31",
+  "license": "Public Domain",
+  "description": "Portable PHP password hashing framework",
+  "keywords": [
+    "Blowfish",
+    "crypt",
+    "password",
+    "security"
+  ],
+  "homepage": "http://github.com/bordoni/phpass/",
+  "authors": [
+    {
+      "name": "Solar Designer",
+      "email": "solar@openwall.com",
+      "homepage": "http://openwall.com/phpass/"
+    },
+    {
+      "name": "Gustavo Bordoni",
+      "email": "gustavo@bordoni.me",
+      "homepage": "https://bordoni.me"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.3"
+  },
+  "autoload": {
+    "psr-0": {
+      "Hautelook": "src/"
+    }
+  },
+  "replace": {
+    "hautelook/phpass": "0.3.*"
+  }
+}
