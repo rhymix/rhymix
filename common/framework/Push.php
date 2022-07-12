@@ -74,8 +74,8 @@ class Push
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/push', false) as $filename)
 		{
-			$driver_name = substr($filename, 0, -4);
-			$class_name = '\Rhymix\Framework\Drivers\Push\\' . $driver_name;
+			$driver_name = strtolower(substr($filename, 0, -4));
+			$class_name = '\Rhymix\Framework\Drivers\Push\\' . ucfirst($driver_name);
 			if ($class_name::isSupported())
 			{
 				$result[$driver_name] = array(
