@@ -435,13 +435,13 @@ class adminAdminView extends admin
 		// Load member config.
 		$member_config = getModel('module')->getModuleConfig('member');
 		Context::set('member_config', $member_config);
-		Context::set('webmaster_name', $member_config->webmaster_name ? $member_config->webmaster_name : 'webmaster');
-		Context::set('webmaster_email', $member_config->webmaster_email);
+		Context::set('webmaster_name', !empty($member_config->webmaster_name) ? $member_config->webmaster_name : 'webmaster');
+		Context::set('webmaster_email', $member_config->webmaster_email ?? '');
 		
 		// Load module config.
 		$module_config = getModel('module')->getModuleConfig('module');
 		Context::set('module_config', $module_config);
-
+		
 		// Load mail drivers.
 		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
 		uasort($mail_drivers, function($a, $b) {
@@ -558,8 +558,8 @@ class adminAdminView extends admin
 			{
 				Context::set('object_cache_host', parse_url(array_first($cache_servers), PHP_URL_HOST) ?: null);
 				Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
-				Context::set('object_cache_user', parse_url(array_first($cache_servers), PHP_URL_USER) ?: null);
-				Context::set('object_cache_pass', parse_url(array_first($cache_servers), PHP_URL_PASS) ?: null);
+				Context::set('object_cache_user', parse_url(array_first($cache_servers), PHP_URL_USER) ?? '');
+				Context::set('object_cache_pass', parse_url(array_first($cache_servers), PHP_URL_PASS) ?? '');
 				$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_FRAGMENT) ?: parse_url(array_first($cache_servers), PHP_URL_PATH));
 				Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
 			}
@@ -647,8 +647,8 @@ class adminAdminView extends admin
 		// Meta keywords and description
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('module');
-		Context::set('site_meta_keywords', escape($config->meta_keywords));
-		Context::set('site_meta_description', escape($config->meta_description));
+		Context::set('site_meta_keywords', escape($config->meta_keywords ?? ''));
+		Context::set('site_meta_description', escape($config->meta_description ?? ''));
 		
 		// Titles
 		Context::set('seo_main_title', escape(Rhymix\Framework\Config::get('seo.main_title') ?: '$SITE_TITLE - $SITE_SUBTITLE'));

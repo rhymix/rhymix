@@ -432,9 +432,9 @@ class pointAdminController extends point
 		{
 			FileHandler::removeFile('./files/cache/pointRecal.txt');
 			$idx = $total;
-
+			
+			Rhymix\Framework\Cache::clearGroup('member');
 			FileHandler::rename('./files/member_extra_info/point','./files/member_extra_info/point.old');
-
 			FileHandler::removeDir('./files/member_extra_info/point.old');
 		}
 		fclose($f);

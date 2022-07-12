@@ -88,6 +88,34 @@ if (!isset($_POST['code'])) {
 }
 ```
 
+### Revoke Code Flow
+
+```php
+// $leeway is needed for clock skew
+Firebase\JWT\JWT::$leeway = 60;
+
+$provider = new League\OAuth2\Client\Provider\Apple([
+    'clientId'          => '{apple-client-id}',
+    'teamId'            => '{apple-team-id}', // 1A234BFK46 https://developer.apple.com/account/#/membership/ (Team ID)
+    'keyFileId'         => '{apple-key-file-id}', // 1ABC6523AA https://developer.apple.com/account/resources/authkeys/list (Key ID)
+    'keyFilePath'       => '{apple-key-file-path}', // __DIR__ . '/AuthKey_1ABC6523AA.p8' -> Download key above
+    'redirectUri'       => 'https://example.com/callback-url',
+]);
+
+$token = $token->getToken(); // Use the token of "Authorization Code Flow" which you saved somewhere for the user
+
+
+try {
+    $provider->revokeAccessToken($token /*, 'access_token' or 'refresh_token' */);
+    // Successfully revoked the token!
+
+} catch (Exception $e) {
+
+    // Failed to revoke
+    exit(':-(');
+}
+```
+
 ### Managing Scopes
 
 When creating your Apple authorization URL, you can specify the state and scopes your application may authorize.

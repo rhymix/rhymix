@@ -192,7 +192,7 @@ class ExtraItem
 	 *
 	 * @param string $type Type of variable
 	 * @param string $value Value
-	 * @return string Returns a converted value
+	 * @return string|array Returns a converted value
 	 */
 	function _getTypeValue($type, $value)
 	{
@@ -321,7 +321,7 @@ class ExtraItem
 	/**
 	 * Returns a value for HTML
 	 *
-	 * @return string Returns filtered value
+	 * @return string|array Returns filtered value
 	 */
 	function getValue()
 	{
@@ -361,7 +361,7 @@ class ExtraItem
 				return nl2br($value);
 				
 			case 'date' :
-				return zdate($value, "Y-m-d");
+				return $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 
 			case 'language':
 				return Rhymix\Framework\Lang::getSupportedList()[$value]['name'];
@@ -510,7 +510,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$checked = '';
-					if(strval($value) !== '' && in_array(trim($v), $value))
+					if(is_array($value) && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
 					}
@@ -528,7 +528,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$selected = '';
-					if(strval($value) !== '' && in_array(trim($v), $value))
+					if(is_array($value) && in_array(trim($v), $value))
 					{
 						$selected = ' selected="selected"';
 					}
@@ -542,7 +542,7 @@ class ExtraItem
 				foreach($default as $v)
 				{
 					$checked = '';
-					if(strval($value) !== '' && in_array(trim($v), $value))
+					if(is_array($value) && in_array(trim($v), $value))
 					{
 						$checked = ' checked="checked"';
 					}
@@ -559,8 +559,9 @@ class ExtraItem
 				// datepicker javascript plugin load
 				Context::loadJavascriptPlugin('ui.datepicker');
 
+				$formattedValue = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />'; 
-				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . zdate($value, 'Y-m-d') . '" class="date" />';
+				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . $formattedValue . '" class="date" autocomplete="off" />';
 				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
 				$buff[] =	'<script type="text/javascript">';
 				$buff[] = '//<![CDATA[';

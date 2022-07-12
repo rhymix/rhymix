@@ -6,7 +6,7 @@ use Exception;
 use Firebase\JWT\JWK;
 use InvalidArgumentException;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\Key\LocalFileReference;
+use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Signer;
 use Lcobucci\JWT\Signer\Key;
 use League\OAuth2\Client\Grant\AbstractGrant;
@@ -153,6 +153,16 @@ class Apple extends AbstractProvider
     }
 
     /**
+     * Get revoke token url to revoke token
+     *
+     * @return string
+     */
+    public function getBaseRevokeTokenUrl(array $params)
+    {
+        return 'https://appleid.apple.com/auth/revoke';
+    }
+
+    /**
      * Get provider url to fetch user details
      *
      * @param AccessToken $token
@@ -248,6 +258,54 @@ class Apple extends AbstractProvider
     }
 
     /**
+     * Revokes an access or refresh token using a specified token.
+     *
+     * @param string $token
+     * @param string|null $tokenTypeHint
+     * @return \Psr\Http\Message\RequestInterface
+     */
+    public function revokeAccessToken($token, $tokenTypeHint = null)
+    {
+        $configuration = $this->getConfiguration();
+        $time = new \DateTimeImmutable();
+        $time = $time->setTime($time->format('H'), $time->format('i'), $time->format('s'));
+        $expiresAt = $time->modify('+1 Hour');
+        $expiresAt = $expiresAt->setTime($expiresAt->format('H'), $expiresAt->format('i'), $expiresAt->format('s'));
+
+        $clientSecret = $configuration->builder()
+            ->issuedBy($this->teamId)
+            ->permittedFor('https://appleid.apple.com')
+            ->issuedAt($time)
+            ->expiresAt($expiresAt)
+            ->relatedTo($this->clientId)
+            ->withHeader('alg', 'ES256')
+            ->withHeader('kid', $this->keyFileId)
+            ->getToken($configuration->signer(), $configuration->signingKey());
+
+        $params = [
+            'client_id'     => $this->clientId,
+            'client_secret' => $clientSecret->toString(),
+            'token'         => $token
+        ];
+        if ($tokenTypeHint !== null) {
+            $params += [
+                'token_type_hint' => $tokenTypeHint
+            ];
+        }
+
+        $method  = $this->getAccessTokenMethod();
+        $url     = $this->getBaseRevokeTokenUrl($params);
+        if (property_exists($this, 'optionProvider')) {
+            $options = $this->optionProvider->getAccessTokenOptions(self::METHOD_POST, $params);
+        } else {
+            $options = $this->getAccessTokenOptions($params);
+        }
+        $request = $this->getRequest($method, $url, $options);
+
+        return $this->getParsedResponse($request);
+    }
+
+    /**
      * @return Configuration
      */
     public function getConfiguration()
@@ -270,6 +328,6 @@ class Apple extends AbstractProvider
      */
     public function getLocalKey()
     {
-        return LocalFileReference::file($this->keyFilePath);
+        return InMemory::file($this->keyFilePath);
     }
 }

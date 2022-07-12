@@ -528,6 +528,7 @@ class moduleAdminModel extends module
 	function getModuleAdminMultilingualHtml()
 	{
 		$oTemplate = TemplateHandler::getInstance();
+		Context::set('use_in_page', false);
 		$tpl = $oTemplate->compile(RX_BASEDIR . 'modules/module/tpl', 'multilingual_v17.html');
 
 		$this->add('html', $tpl);

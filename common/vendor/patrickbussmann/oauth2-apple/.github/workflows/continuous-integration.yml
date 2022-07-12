@@ -55,6 +55,9 @@ jobs:
           - '7.3'
           - '7.4'
           - '8.0'
+        dependencies:
+          - 'lowest'
+          - 'highest'
         experimental:
           - false
         include:
@@ -73,6 +76,7 @@ jobs:
         run: 'mkdir -p build/logs'
       - uses: 'ramsey/composer-install@v1'
         with:
+          dependency-versions: '${{ matrix.dependencies }}'
           composer-options: '${{ matrix.composer-options }}'
       - name: 'Run unit tests'
         run: './vendor/bin/phpunit --colors=always --coverage-clover build/logs/clover.xml'

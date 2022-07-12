@@ -221,9 +221,10 @@ class pollModel extends poll
 		if(!$output->data) return '';
 
 		$poll = new stdClass;
-		$poll->style = $style;
+		$poll->style = preg_replace('/[^a-zA-Z0-9_-]/', '', $style);
 		$poll->poll_count = (int)$output->data->poll_count;
 		$poll->stop_date = $output->data->stop_date;
+		$skin = preg_replace('/[^a-zA-Z0-9_-]/', '', $skin);
 
 		$columnList = array('poll_index_srl', 'title', 'checkcount', 'poll_count');
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
@@ -279,7 +280,7 @@ class pollModel extends poll
 		if(!$output->data) return '';
 
 		$poll = new stdClass;
-		$poll->style = $skin;
+		$poll->style = preg_replace('/[^a-zA-Z0-9_-]/', '', $skin);
 		$poll->poll_count = (int)$output->data->poll_count;
 		$poll->stop_date = $output->data->stop_date;
 
@@ -320,7 +321,15 @@ class pollModel extends poll
 	 */
 	public function getPollGetColorsetList()
 	{
-		$skin = Context::get('skin');
+		$skin = Context::get('skin') ?: 'default';
+		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+		if (!Rhymix\Framework\Storage::isDirectory(RX_BASEDIR . 'modules/poll/skins/' . $skin))
+		{
+			$skin = 'default';
+		}
 
 		$oModuleModel = getModel('module');
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);

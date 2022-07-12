@@ -46,6 +46,7 @@ $lang->msg_faillist = '<br />Error (already blocked)<br /> %s ';
 $lang->use_captcha = 'Use CAPTCHA';
 $lang->about_captcha_position = 'The skin file for your login form, write form, etc. should indicate the CAPTCHA position with the following code: <code>{$captcha}</code><br />The CAPTCHA may be inserted in an unexpected position if the form does not contain the code.';
 $lang->recaptcha_theme = 'Color Theme';
+$lang->recaptcha_theme_auto = 'Auto';
 $lang->recaptcha_theme_light = 'Light';
 $lang->recaptcha_theme_dark = 'Dark';
 $lang->recaptcha_size = 'Display Size';

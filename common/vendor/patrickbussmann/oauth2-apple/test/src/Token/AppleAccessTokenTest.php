@@ -2,6 +2,7 @@
 
 namespace League\OAuth2\Client\Test\Token;
 
+use Firebase\JWT\Key;
 use League\OAuth2\Client\Token\AppleAccessToken;
 use PHPUnit\Framework\TestCase;
 use Mockery as m;
@@ -16,7 +17,7 @@ class AppleAccessTokenTest extends TestCase
     {
         $externalJWTMock = m::mock('overload:Firebase\JWT\JWT');
         $externalJWTMock->shouldReceive('decode')
-            ->with('something', 'examplekey', ['RS256'])
+            ->with('something', 'examplekey')
             ->once()
             ->andReturn([
                 'sub' => '123.abc.123',
@@ -37,6 +38,8 @@ class AppleAccessTokenTest extends TestCase
         $this->assertEquals('access_token', $accessToken->getToken());
         $this->assertEquals('john@doe.com', $accessToken->getEmail());
         $this->assertTrue($accessToken->isPrivateEmail());
+
+        $this->assertTrue(true);
     }
 
     public function testCreateFailsBecauseNoIdTokenIsSet()
@@ -73,7 +76,7 @@ class AppleAccessTokenTest extends TestCase
 
         $externalJWTMock = m::mock('overload:Firebase\JWT\JWT');
         $externalJWTMock->shouldReceive('decode')
-            ->with('something', 'examplekey', ['RS256'])
+            ->with('something', 'examplekey')
             ->once()
             ->andReturnNull();
 

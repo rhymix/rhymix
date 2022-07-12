@@ -2,9 +2,8 @@
 
 namespace League\OAuth2\Client\Token;
 
-use Firebase\JWT\JWK;
 use Firebase\JWT\JWT;
-use GuzzleHttp\ClientInterface;
+use Firebase\JWT\Key;
 use InvalidArgumentException;
 
 class AppleAccessToken extends AccessToken
@@ -27,7 +26,7 @@ class AppleAccessToken extends AccessToken
     /**
      * Constructs an access token.
      *
-     * @param string[] $keys Valid Apple JWT keys
+     * @param Key[] $keys Valid Apple JWT keys
      * @param array $options An array of options returned by the service provider
      *     in the access token request. The `access_token` option is required.
      * @throws InvalidArgumentException if `access_token` is not provided in `$options`.
@@ -45,7 +44,11 @@ class AppleAccessToken extends AccessToken
             $last = end($keys);
             foreach ($keys as $key) {
                 try {
-                    $decoded = JWT::decode($options['id_token'], $key, ['RS256']);
+                    try {
+                        $decoded = JWT::decode($options['id_token'], $key);
+                    } catch (\UnexpectedValueException $e) {
+                        $decoded = JWT::decode($options['id_token'], $key, ['RS256']);
+                    }
                     break;
                 } catch (\Exception $exception) {
                     if ($last === $key) {

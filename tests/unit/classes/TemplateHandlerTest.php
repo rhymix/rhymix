@@ -282,6 +282,10 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<input>asdf src="../img/img.gif" asdf</input>',
                 '?><input>asdf src="../img/img.gif" asdf</input>'
             ),
+			array(
+				'<img src="data:image/png;base64,AAAAAAAAAAA=" />',
+				'?><img src="data:image/png;base64,AAAAAAAAAAA=" />'
+			),
             // srcset (PR #1544)
             array(
                 '<img src="./img/sticker_banner_960w.png" alt="this is a test image." srcset="https://abc.com/static/img/test@2x.png 2x,  http://abc.com/static/test@2.5x.png 2.5x,../img/test@3x.png 3x, ../img/test_960w.png  960w, {$mid}/image.png 480w">',

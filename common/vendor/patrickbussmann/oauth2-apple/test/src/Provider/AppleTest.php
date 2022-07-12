@@ -199,6 +199,49 @@ class AppleTest extends TestCase
         ]);
     }
 
+    public function testRevokeAccessToken()
+    {
+        $provider = new TestApple([
+            'clientId' => 'mock.example',
+            'teamId' => 'mock.team.id',
+            'keyFileId' => 'mock.file.id',
+            'keyFilePath' => __DIR__ . '/../../resources/p256-private-key.p8',
+            'redirectUri' => 'none'
+        ]);
+        $provider = m::mock($provider);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')
+            ->times(1)
+            ->andReturn(new Response(200, [], json_encode([])));
+        $provider->setHttpClient($client);
+
+        $this->assertEmpty($provider->revokeAccessToken('hello-world', 'access_token'));
+    }
+
+    public function testRevokeAccessTokenFailedBecauseAppleHasError()
+    {
+        $this->expectException('Exception');
+        $this->expectExceptionMessage('invalid_request');
+
+        $provider = new TestApple([
+            'clientId' => 'mock.example',
+            'teamId' => 'mock.team.id',
+            'keyFileId' => 'mock.file.id',
+            'keyFilePath' => __DIR__ . '/../../resources/p256-private-key.p8',
+            'redirectUri' => 'none'
+        ]);
+        $provider = m::mock($provider);
+
+        $client = m::mock(ClientInterface::class);
+        $client->shouldReceive('send')
+            ->times(1)
+            ->andReturn(new Response(400, [], json_encode(['error' => 'invalid_request'])));
+        $provider->setHttpClient($client);
+
+        $provider->revokeAccessToken('hello-world');
+    }
+
     public function testFetchingOwnerDetails()
     {
         $provider = $this->getProvider();

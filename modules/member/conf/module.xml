@@ -29,7 +29,7 @@
 		<action name="dispMemberOwnComment" type="view" permission="member" meta-noindex="true" route="my_comments" />
 		<action name="dispMemberActiveLogins" type="view" permission="member" meta-noindex="true" route="active_logins" />
 		<action name="dispMemberModifyNicknameLog" type="view" permission="member" meta-noindex="true" />
-		<action name="dispMemberLogout" type="view" permission="member" meta-noindex="true" />
+		<action name="dispMemberLogout" type="view" meta-noindex="true" />
 		<action name="dispMemberSpammer" type="view" permission="manager" check_var="module_srl" meta-noindex="true" />
 		
 		<action name="getMemberMenu" type="model" />

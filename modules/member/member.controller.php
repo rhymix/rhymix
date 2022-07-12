@@ -1606,7 +1606,7 @@ class memberController extends member
 
 		// Check if a member having the same email address exists
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
-		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_email_not_exists');
+		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_not_exists_member');
 
 		// Get information of the member
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
@@ -2755,7 +2755,10 @@ class memberController extends member
 		ModuleHandler::triggerCall('member.insertMember', 'after', $args);
 
 		$oDB->commit();
-
+		
+		// Remove from cache
+		self::clearMemberCache($args->member_srl);
+		
 		$output->add('member_srl', $args->member_srl);
 		return $output;
 	}
@@ -3061,7 +3064,6 @@ class memberController extends member
 		$oDB->commit();
 
 		// Remove from cache
-		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		self::clearMemberCache($args->member_srl);
 
 		$output->add('member_srl', $args->member_srl);
@@ -3096,7 +3098,6 @@ class memberController extends member
 			return $output;
 		}
 		
-		unset($GLOBALS['__member_info__'][$member_srl]);
 		self::clearMemberCache($member_srl);
 
 		return $output;
@@ -3131,7 +3132,6 @@ class memberController extends member
 			$result = executeQuery('member.updateChangePasswordDate', $args);
 		}
 
-		unset($GLOBALS['__member_info__'][$args->member_srl]);
 		self::clearMemberCache($args->member_srl);
 
 		return $output;

@@ -1,12 +1,14 @@
 /* Modified version of a http://photoswipe.com/documentation/getting-started.html example. Modified by misol for rhymix */
-var getPSImageSize = function(src) {
-	var testImg = new Image();
-	testImg.src = src;
-
+var getPSImageSize = function(el) {
 	var size = new Array();
-	size[0] = testImg.width;
-	size[1] = testImg.height;
-
+	size[0] = el.naturalWidth ? el.naturalWidth : (el.width ? el.width : 0);
+	size[1] = el.naturalHeight ? el.naturalHeight : (el.height ? el.height : 0);
+	if (!size[0] || !size[1]) {
+		var test = new Image();
+		test.src = el.src;
+		size[0] = test.naturalWidth ? test.naturalWidth : (test.width ? test.width : 1000);
+		size[1] = test.naturalHeight ? test.naturalHeight : (test.height ? test.height : 1000);
+	}
 	return size;
 }
 
@@ -38,11 +40,11 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 			imgEl = imgElements.get(i); // <img> element
 
 			// include only element nodes 
-			if(imgEl.nodeType !== 1 || !$(imgEl).attr('data-pswp-pid')) {
+			if (imgEl.nodeType !== 1 || !imgEl.src || !$(imgEl).attr('data-pswp-pid')) {
 				continue;
 			}
 
-			size = getPSImageSize($(imgEl).attr('src'));
+			size = getPSImageSize(imgEl);
 
 			// create slide object
 			item = {

@@ -141,9 +141,9 @@ class memberView extends member
 					$target = $memberInfo->image_mark;
 					$item->value = '<img src="'.$target->src.'" alt="' . lang('member.image_mark') . '" />';
 				}
-				elseif($formInfo->name == 'birthday' && $memberInfo->birthday)
+				elseif($formInfo->name == 'birthday' && $memberInfo->birthday && preg_match('/^[0-9]{8}/', $item->value))
 				{
-					$item->value = zdate($item->value, 'Y-m-d');
+					$item->value = sprintf('%s-%s-%s', substr($item->value, 0, 4), substr($item->value, 4, 2), substr($item->value, 6, 2));
 				}
 				elseif($formInfo->name == 'phone_number' && $memberInfo->phone_number)
 				{
@@ -159,8 +159,8 @@ class memberView extends member
 			}
 			else
 			{
-				$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title;
-				$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value;
+				$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title ?? null;
+				$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value ?? null;
 				if($formInfo->type=='tel' && is_array($orgValue))
 				{
 					$item->value = implode('-', $orgValue);
@@ -175,7 +175,11 @@ class memberView extends member
 				}
 				elseif($formInfo->type=='date')
 				{
-					$item->value = zdate(is_array($orgValue) ? array_first($orgValue) : $orgValue, 'Y-m-d');
+					$item->value = is_array($orgValue) ? array_first($orgValue) : $orgValue;
+					if (preg_match('/^[0-9]{8}/', $item->value))
+					{
+						$item->value = sprintf('%s-%s-%s', substr($item->value, 0, 4), substr($item->value, 4, 2), substr($item->value, 6, 2));
+					}
 				}
 				else
 				{
@@ -250,7 +254,7 @@ class memberView extends member
 		{
 			if($formTag->name == 'signature')
 			{
-				$option = new stdClass;
+				$option = ModuleModel::getModuleConfig('editor') ?: new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
 				$option->allow_html = $member_config->signature_html !== 'N';
@@ -354,7 +358,7 @@ class memberView extends member
 		{
 			if($formTag->name == 'signature')
 			{
-				$option = new stdClass;
+				$option = ModuleModel::getModuleConfig('editor') ?: new stdClass;
 				$option->primary_key_name = 'member_srl';
 				$option->content_key_name = 'signature';
 				$option->allow_html = $member_config->signature_html !== 'N';
@@ -641,7 +645,7 @@ class memberView extends member
 	{
 		// Get referer URL
 		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
-		if (!$referer_url || !Rhymix\Framework\URL::isInternalURL($referer_url) || contains('procMember', $referer_url))
+		if (!$referer_url || !Rhymix\Framework\URL::isInternalURL($referer_url) || contains('procMember', $referer_url) || contains('dispMemberLoginForm', $referer_url))
 		{
 			$referer_url = getNotEncodedUrl('act', '');
 		}
@@ -738,13 +742,15 @@ class memberView extends member
 	 */
 	function dispMemberLogout()
 	{
-		$output = MemberController::getInstance()->procMemberLogout();
-		if(!$output->redirect_url)
+		// Redirect if not logged in.
+		if(!Context::get('is_logged'))
+		{
 			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
-		else
-			$this->setRedirectUrl($output->redirect_url);
-
-		return;
+			return;
+		}
+		
+		$output = MemberController::getInstance()->procMemberLogout();
+		$this->setRedirectUrl(isset($output->redirect_url) ? $output->redirect_url : getNotEncodedUrl('act', ''));
 	}
 
 	/**

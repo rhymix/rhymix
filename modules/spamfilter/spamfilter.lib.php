@@ -56,7 +56,7 @@ class spamfilter_reCAPTCHA
 			Context::loadFile(array('./modules/spamfilter/tpl/js/recaptcha.js', 'body'));
 			Context::addHtmlFooter('<script src="https://www.google.com/recaptcha/api.js?render=explicit&amp;onload=reCaptchaCallback" async defer></script>');
 			$html = '<div id="recaptcha-config" data-sitekey="%s" data-theme="%s" data-size="%s" data-targets="%s"></div>';
-			$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'light', self::$config->size ?: 'normal', implode(',', array_keys($this->_target_actions)));
+			$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'auto', self::$config->size ?: 'normal', implode(',', array_keys($this->_target_actions)));
 			Context::addHtmlFooter($html);
 		}
 	}

@@ -295,13 +295,14 @@ class Security
 	 */
 	public static function checkCSRF($referer = null)
 	{
-		if ($token = $_SERVER['HTTP_X_CSRF_TOKEN'])
+		$check_csrf_token = config('security.check_csrf_token') ? true : false;
+		if ($token = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : null)
 		{
-			return Session::verifyToken($token);
+			return Session::verifyToken($token, '', $check_csrf_token);
 		}
-		elseif ($token = $_REQUEST['_rx_csrf_token'])
+		elseif ($token = isset($_REQUEST['_rx_csrf_token']) ? $_REQUEST['_rx_csrf_token'] : null)
 		{
-			return Session::verifyToken($token);
+			return Session::verifyToken($token, '', $check_csrf_token);
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
@@ -319,7 +320,7 @@ class Security
 			{
 				$referer = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
 			}
-			if ($referer !== '' && $referer !== 'null' && (!config('security.check_csrf_token') || !$is_logged))
+			if ($referer !== '' && $referer !== 'null' && (!$check_csrf_token || !$is_logged))
 			{
 				return URL::isInternalURL($referer);
 			}

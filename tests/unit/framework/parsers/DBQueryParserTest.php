@@ -11,7 +11,8 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue($query->select_distinct);
 		
 		$this->assertTrue($query->tables['documents'] instanceof Rhymix\Framework\Parsers\DBQuery\Table);
-		$this->assertEquals('documents', $query->tables['documents']->alias);
+		$this->assertNull($query->tables['documents']->alias);
+		$this->assertEquals('documents', $query->tables['documents']->name);
 		
 		$this->assertEquals(1, count($query->columns));
 		$this->assertEquals('*', $query->columns[0]->name);
@@ -84,8 +85,9 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
+		$this->assertEquals('documents', $query->tables['d']->name);
 		$this->assertEquals('SELECT readed_count + trackback_count AS `count` ' .
-			'FROM `rx_documents` AS `documents` WHERE `voted_count` + `blamed_count` >= ? AND LEFT(`regdate`, 8) = ?', $sql);
+			'FROM `rx_documents` AS `d` WHERE `voted_count` + `blamed_count` >= ? AND LEFT(`regdate`, 8) = ?', $sql);
 		$this->assertEquals([20, '20201021'], $params);
 	}
 	
@@ -392,8 +394,11 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/updateTest.xml');
 		$this->assertTrue($query instanceof Rhymix\Framework\Parsers\DBQuery\Query);
 		$this->assertEquals('UPDATE', $query->type);
-		$this->assertEquals(1, count($query->tables));
+		$this->assertEquals(2, count($query->tables));
 		$this->assertEquals('documents', $query->tables['documents']->name);
+		$this->assertNull($query->tables['documents']->alias);
+		$this->assertEquals('comments', $query->tables['c']->name);
+		$this->assertEquals('c', $query->tables['c']->alias);
 		$this->assertEquals(4, count($query->columns));
 		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
 		$this->assertEquals('member_srl', $query->columns[0]->name);
@@ -416,14 +421,14 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents`, `rx_comments` AS `c` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['456', '닉네임', '5', '123'], $params);
 		
 		$args = array('document_srl' => 123, 'member_srl' => 456, 'voted_count' => 5);
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals('UPDATE `rx_documents`, `rx_comments` AS `c` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
 		$this->assertEquals(['456', '5', '123'], $params);
 	}
 	

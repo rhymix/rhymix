@@ -9,6 +9,5 @@ return array(
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'Michelf' => array($vendorDir . '/michelf/php-smartypants'),
     'JBBCode' => array($vendorDir . '/jbbcode/jbbcode'),
-    'Hautelook' => array($vendorDir . '/hautelook/phpass/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );

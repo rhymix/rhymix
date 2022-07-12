@@ -107,8 +107,8 @@
 			setTimeout(rhymix_alert_close, delay);
 		}
 		else if(isSameOrigin(location.href, redirect_url)) {
-			Cookies.set('rhymix_alert_message', message, { expires: 1 / 1440, path: '' });
-			Cookies.set('rhymix_alert_delay', delay, { expires: 1 / 1440, path: '' });
+			Cookies.set('rhymix_alert_message', message, { expires: 1 / 1440, path: '/' });
+			Cookies.set('rhymix_alert_delay', delay, { expires: 1 / 1440, path: '/' });
 		}
 		else {
 			alert(message);
@@ -118,8 +118,8 @@
 	$(document).ready(function() {
 		if(Cookies.get('rhymix_alert_message')) {
 			rhymix_alert(Cookies.get('rhymix_alert_message'), null, Cookies.get('rhymix_alert_delay'));
-			Cookies.remove('rhymix_alert_message', { path: '' });
-			Cookies.remove('rhymix_alert_delay', { path: '' });
+			Cookies.remove('rhymix_alert_message', { path: '/' });
+			Cookies.remove('rhymix_alert_delay', { path: '/' });
 		}
 		$('#rhymix_alert').click(rhymix_alert_close);
 	});
@@ -519,7 +519,7 @@ jQuery(function($) {
 	 * @return URI
 	 */
 	function normailzeUri(uri) {
-		var protocol = window.enforce_ssl ? 'https' : 'http';
+		var protocol = window.enforce_ssl ? 'https' : uri.protocol();
 		var port = (protocol === 'http') ? window.http_port : window.https_port;
 		var filename = uri.filename() || 'index.php';
 		var queries = uri.search(true);

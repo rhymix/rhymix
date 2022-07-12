@@ -611,7 +611,7 @@ class memberAdminView extends member
 							'onchange="jQuery(\'#date_birthday\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> ' .
 							'<input type="button" value="%s" class="btn dateRemover" />',
 							$memberInfo['birthday'],
-							zdate($memberInfo['birthday'], 'Y-m-d', false),
+							$memberInfo['birthday'] ? sprintf('%s-%s-%s', substr($memberInfo['birthday'], 0, 4), substr($memberInfo['birthday'], 4, 2), substr($memberInfo['birthday'], 6, 2)) : '',
 							$lang->cmd_delete);
 					}
 					else if($formInfo->name == 'find_account_question')
@@ -795,7 +795,8 @@ class memberAdminView extends member
 					}
 					else if($extendForm->column_type == 'date')
 					{
-						$extentionReplace = array('date' => zdate($extendForm->value, 'Y-m-d'), 'cmd_delete' => $lang->cmd_delete);
+						$formattedValue = $extendForm->value ? sprintf('%s-%s-%s', substr($extendForm->value, 0, 4), substr($extendForm->value, 4, 2), substr($extendForm->value, 6, 2)) : '';
+						$extentionReplace = array('date' => $formattedValue, 'cmd_delete' => $lang->cmd_delete);
 						$template = '<input type="hidden" class="rx_ev_date" name="%column_name%" id="date_%column_name%" value="%value%" />' .
 							'<input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" ' .
 							'onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> ' .

@@ -1154,7 +1154,7 @@ class adminAdminController extends admin
 		
 		// Validate the default time zone.
 		$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
-		if (!isset($timezone_list[$vars->default_timezone]))
+		if ($vars->default_timezone !== 'default' && !isset($timezone_list[$vars->default_timezone]))
 		{
 			throw new Rhymix\Framework\Exception('msg_invalid_timezone');
 		}

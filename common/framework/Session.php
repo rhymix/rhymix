@@ -908,13 +908,21 @@ class Session
 	 * 
 	 * This method returns true if the token is valid, and false otherwise.
 	 * 
+	 * Strict checking can be disabled if the user is not logged in
+	 * and no tokens have been issued in the current session.
+	 * 
 	 * @param string $token
 	 * @param string $key (optional)
+	 * @param bool $strict (optional)
 	 * @return bool
 	 */
-	public static function verifyToken($token, $key = null)
+	public static function verifyToken($token, $key = '', $strict = true)
 	{
 		if (isset($_SESSION['RHYMIX']['tokens'][$token]) && $_SESSION['RHYMIX']['tokens'][$token] === strval($key))
+		{
+			return true;
+		}
+		elseif (!$strict && empty($_SESSION['RHYMIX']['tokens']) && !self::getMemberSrl())
 		{
 			return true;
 		}

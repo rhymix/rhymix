@@ -18,6 +18,21 @@ All Notable changes to `oauth2-apple` will be documented in this file
 ### Security
 - Nothing
 
+## 0.2.9 - 2022-07-09
+
+### Added
+- Method for revoking access and refresh tokens [#37](https://github.com/patrickbussmann/oauth2-apple/issues/37)
+
+## 0.2.8 - 2022-05-10
+
+### Fixed
+- Issue with firebase/php-jwt v5 [#34](https://github.com/patrickbussmann/oauth2-apple/issues/34) (thanks to [tjveldhuizen](https://github.com/tjveldhuizen))
+
+## 0.2.7 - 2022-04-29
+
+### Added
+- Support for firebase/php-jwt v6 [#31](https://github.com/patrickbussmann/oauth2-apple/pull/31) (thanks to [bashgeek](https://github.com/bashgeek))
+
 ## 0.2.6 - 2021-08-25
 
 ### Added
