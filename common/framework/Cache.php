@@ -130,7 +130,7 @@ class Cache
 		}
 		else
 		{
-			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $name;
+			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . ucfirst($name);
 			if (class_exists($class_name) && $class_name::isSupported() && $class_name::validateSettings($config))
 			{
 				return $class_name::getInstance($config);
