@@ -216,6 +216,9 @@ class Session
 		}
 		*/
 		
+		// Check the login status cookie.
+		self::checkLoginStatusCookie();
+		
 		// Create or refresh the session if needed.
 		if ($must_create)
 		{
@@ -280,6 +283,42 @@ class Session
 		
 		// Return false if nothing needed to be done.
 		return false;
+	}
+	
+	/**
+	 * Check the login status cookie.
+	 * 
+	 * This cookie encodes information about whether the user is logged in,
+	 * and helps client software distinguish between different users.
+	 * 
+	 * @return void
+	 */
+	public static function checkLoginStatusCookie()
+	{
+		// Members are identified by a hash of member_srl. Guests are identified as 'none'.
+		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX']['login'])
+		{
+			$data = sprintf('%s:%s:%d:%s', $_SERVER['HTTP_HOST'] ?? '', RX_BASEDIR, $_SESSION['RHYMIX']['login'], config('crypto.session_key'));
+			$value = base64_encode_urlsafe(substr(hash('sha256', $data, true), 0, 18));
+		}
+		else
+		{
+			$value = 'none';
+		}
+		
+		// If the cookie value is different from the current value, overwrite it.
+		if (!isset($_COOKIE['rx_login_status']) || $_COOKIE['rx_login_status'] !== $value)
+		{
+			list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+			self::_setCookie('rx_login_status', $value, array(
+				'expires' => 0,
+				'path' => $path,
+				'domain' => $domain,
+				'secure' => $secure,
+				'httponly' => true,
+				'samesite' => $samesite,
+			));
+		}
 	}
 	
 	/**
@@ -529,9 +568,10 @@ class Session
 		self::destroyAutologinKeys();
 		self::_unsetCookie(session_name(), $path, $domain);
 		self::_unsetCookie('xe_logged', $path, $domain);
+		self::_unsetCookie('rx_login_status', $path, $domain);
 		self::_unsetCookie('xeak', $path, $domain);
 		self::_unsetCookie('sso', $path, $domain);
-		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'xeak', 'sso'));
+		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'rx_login_status', 'xeak', 'sso'));
 		
 		// Clear session data.
 		$_SESSION = array();
@@ -580,6 +620,7 @@ class Session
 		// Refresh the session keys.
 		if ($refresh)
 		{
+			self::checkLoginStatusCookie();
 			return self::refresh();
 		}
 		else
@@ -1146,7 +1187,7 @@ class Session
 		}
 		
 		// Delete conflicting domain cookies.
-		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'));
+		self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_login_status', 'rx_sesskey1', 'rx_sesskey2'));
 		return true;
 	}
 	

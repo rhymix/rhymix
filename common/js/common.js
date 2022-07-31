@@ -316,45 +316,62 @@ jQuery(function($) {
 		$(this).parents("form[method]").filter(function() { return String($(this).attr("method")).toUpperCase() == "POST"; }).addCSRFTokenToForm();
 	});
 	
-	/* Tabnapping protection, step 1 */
-	$('a[target]').each(function() {
-		var $this = $(this);
-		var href = String($this.attr('href')).trim();
-		var target = String($this.attr('target')).trim();
-		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
-			return;
+	/**
+	 * Reverse tabnapping protection
+	 * 
+	 * Automatically add rel="noopener" to any external link with target="_blank"
+	 * This is not required in most modern browsers.
+	 * https://caniuse.com/mdn-html_elements_a_implicit_noopener
+	 */
+	var noopenerRequired = (function() {
+		var isChromeBased = navigator.userAgent.match(/Chrome\/([0-9]+)/);
+		if (isChromeBased && parseInt(isChromeBased[1], 10) >= 72) {
+			return false;
 		}
-		if (!window.XE.isSameHost(href)) {
-			var rel = $this.attr('rel');
-			rel = (typeof rel === 'undefined') ? '' : String(rel);
-			if (!rel.match(/\bnoopener\b/)) {
-				$this.attr('rel', $.trim(rel + ' noopener'));
-			}
+		var isAppleWebKit = navigator.userAgent.match(/AppleWebKit\/([0-9]+)/);
+		if (isAppleWebKit && parseInt(isAppleWebKit[1], 10) >= 605) {
+			return false;
 		}
-	});
-
-	/* Tabnapping protection, step 2 */
-	$('body').on('click', 'a[target]', function(event) {
-		var $this = $(this);
-		var href = String($this.attr('href')).trim();
-		var target = String($this.attr('target')).trim();
-		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
-			return;
+		var isFirefox = navigator.userAgent.match(/Firefox\/([0-9]+)/);
+		if (isFirefox && parseInt(isFirefox[1], 10) >= 79) {
+			return false;
 		}
-		if (!window.XE.isSameHost(href)) {
-			var rel = $this.attr('rel');
-			rel = (typeof rel === 'undefined') ? '' : String(rel);
-			if (!rel.match(/\bnoopener\b/)) {
-				$this.attr('rel', $.trim(rel + ' noopener'));
-			}
-			var isChrome = navigator.userAgent.match(/Chrome\/([0-9]+)/);
-			if (isChrome && parseInt(isChrome[1], 10) >= 72) {
+		return true;
+	})();
+	if (noopenerRequired) {
+		$('a[target]').each(function() {
+			var $this = $(this);
+			var href = String($this.attr('href')).trim();
+			var target = String($this.attr('target')).trim();
+			if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
 				return;
 			}
-			event.preventDefault();
-			blankshield.open(href);
-		}
-	});
+			if (!window.XE.isSameHost(href)) {
+				var rel = $this.attr('rel');
+				rel = (typeof rel === 'undefined') ? '' : String(rel);
+				if (!rel.match(/\bnoopener\b/)) {
+					$this.attr('rel', $.trim(rel + ' noopener'));
+				}
+			}
+		});
+		$('body').on('click', 'a[target]', function(event) {
+			var $this = $(this);
+			var href = String($this.attr('href')).trim();
+			var target = String($this.attr('target')).trim();
+			if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
+				return;
+			}
+			if (!window.XE.isSameHost(href)) {
+				var rel = $this.attr('rel');
+				rel = (typeof rel === 'undefined') ? '' : String(rel);
+				if (!rel.match(/\bnoopener\b/)) {
+					$this.attr('rel', $.trim(rel + ' noopener'));
+				}
+				event.preventDefault();
+				blankshield.open(href);
+			}
+		});
+	}
 	
 	/* Editor preview replacement */
 	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);

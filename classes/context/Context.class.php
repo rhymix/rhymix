@@ -1202,10 +1202,15 @@ class Context
 			
 			foreach($params as $key => $val)
 			{
-				if ($val !== '' && !isset($request_args[$key]))
+				if ($val !== '' && $val !== null && !isset($request_args[$key]))
 				{
 					$request_args[$key] = $val;
 				}
+			}
+			
+			if (!empty($params['_rx_csrf_token']) && !isset($_REQUEST['_rx_csrf_token']))
+			{
+				$_REQUEST['_rx_csrf_token'] = $params['_rx_csrf_token'];
 			}
 		}
 		
