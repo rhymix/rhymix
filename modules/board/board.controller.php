@@ -176,6 +176,10 @@ class boardController extends board
 					$obj->module_srl = $oDocument->get('module_srl');
 					$obj->category_srl = $oDocument->get('category_srl');
 				}
+				else
+				{
+					$obj->module_srl = $oDocument->get('module_srl');
+				}
 				
 				// notice & document style same as before if not manager
 				if(!$this->grant->manager)
