@@ -238,7 +238,7 @@ class documentView extends document
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
-		if(!$oDocument->isAccessible())
+		if(!$oDocument->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}

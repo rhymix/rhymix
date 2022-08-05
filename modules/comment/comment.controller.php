@@ -39,16 +39,22 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
-		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+		if(!$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if(!$oComment->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
 		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
-		if($comment_config->use_vote_up == 'N')
+		if($comment_config->use_vote_up === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
@@ -70,13 +76,24 @@ class commentController extends comment
 		}
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
+		if(!$comment_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+		if(!$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if(!$oComment->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		if($oComment->get('voted_count') <= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
+		
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
@@ -106,16 +123,22 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
-		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+		if(!$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if(!$oComment->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
 		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
-		if($comment_config->use_vote_down == 'N')
+		if($comment_config->use_vote_down === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
@@ -137,13 +160,24 @@ class commentController extends comment
 		}
 
 		$comment_srl = Context::get('target_srl');
-		if(!$comment_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
+		if(!$comment_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+		if(!$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if(!$oComment->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		if($oComment->get('blamed_count') >= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
+		
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
@@ -243,7 +277,16 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+		if(!$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if(!$oComment->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		
 		// if an user select message from options, message would be the option.
 		$message_option = strval(Context::get('message_option'));
 		$improper_comment_reasons = lang('improper_comment_reasons');
