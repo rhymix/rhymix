@@ -246,7 +246,12 @@ class documentItem extends BaseObject
 		
 		if ($strict)
 		{
-			$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), Context::get('logged_info'));
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
+			if (!$module_info)
+			{
+				return false;
+			}
+			$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 			if (isset($grant->list) && isset($grant->view) && ($grant->list !== true || $grant->view !== true))
 			{
 				return false;

@@ -42,18 +42,13 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, false, false);
 		if(!$oComment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oComment->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_srl = $oComment->get('module_srl');
-		if(!$module_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
+		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
 		if($comment_config->use_vote_up === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -83,7 +78,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, false, false);
 		if(!$oComment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oComment->isAccessible(true))
 		{
@@ -126,18 +121,13 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, false, false);
 		if(!$oComment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oComment->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_srl = $oComment->get('module_srl');
-		if(!$module_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
+		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
 		if($comment_config->use_vote_down === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -167,7 +157,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, false, false);
 		if(!$oComment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oComment->isAccessible(true))
 		{
@@ -280,7 +270,7 @@ class commentController extends comment
 		$oComment = CommentModel::getComment($comment_srl, false, false);
 		if(!$oComment->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oComment->isAccessible(true))
 		{

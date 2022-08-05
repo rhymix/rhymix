@@ -46,18 +46,13 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oDocument->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
 		if($document_config->use_vote_up === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -101,7 +96,7 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oDocument->isAccessible(true))
 		{
@@ -165,18 +160,13 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oDocument->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
 		if($document_config->use_vote_down === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
@@ -214,7 +204,7 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oDocument->isAccessible(true))
 		{
@@ -341,7 +331,7 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oDocument->isAccessible(true))
 		{
@@ -383,7 +373,7 @@ class documentController extends document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if(!$oDocument->isAccessible(true))
 		{
