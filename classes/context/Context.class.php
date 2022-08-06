@@ -141,8 +141,9 @@ class Context
 	private static $_oFrontEndFileHandler = null;
 
 	/**
-	 * Plugin blacklist cache
+	 * Plugin default and blacklist cache
 	 */
+	private static $_default_plugins = null;
 	private static $_blacklist = null;
 
 	/**
@@ -2590,6 +2591,27 @@ class Context
 		return Rhymix\Framework\Router::getRewriteLevel();
 	}
 
+	/**
+	 * Check whether an addon, layout, module, or widget is distributed with Rhymix core.
+	 * 
+	 * @param string $plugin_name
+	 * @param string $type
+	 * @return bool
+	 */
+	public static function isDefaultPlugin($plugin_name, $type)
+	{
+		if (self::$_default_plugins === null)
+		{
+			self::$_default_plugins = (include RX_BASEDIR . 'common/defaults/plugins.php');
+			if (!is_array(self::$_default_plugins))
+			{
+				self::$_default_plugins = array();
+			}
+		}
+		
+		return isset(self::$_default_plugins[$type][$plugin_name]);
+	}
+	
 	/**
 	 * Check whether an addon, module, or widget is blacklisted
 	 * 
