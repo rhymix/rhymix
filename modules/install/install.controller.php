@@ -473,7 +473,10 @@ class installController extends install
 		// Install "module" module in advance
 		$this->installModule('module','./modules/module');
 		$oModule = ModuleModel::getModuleInstallClass($module);
-		if($oModule->checkUpdate()) $oModule->moduleUpdate();
+		if($oModule && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate') && $oModule->checkUpdate())
+		{
+			$oModule->moduleUpdate();
+		}
 		// Determine the order of module installation depending on category
 		$install_step = array('system','content','member');
 		// Install all the remaining modules
@@ -562,9 +565,11 @@ class installController extends install
 		}
 		
 		// Create a table and module instance and then execute install() method
-		unset($oModule);
 		$oModule = ModuleModel::getModuleInstallClass($module);
-		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
+		if($oModule && method_exists($oModule, 'moduleInstall'))
+		{
+			$oModule->moduleInstall();
+		}
 		return new BaseObject();
 	}
 	
