@@ -223,7 +223,6 @@ class ModuleHandler extends Handler
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
 			$this->_setModuleSEOInfo($module_info, $site_module_info);
-			$this->_setModuleColorScheme($site_module_info);
 			
 			// Check if the current request is from a mobile device.
 			$this->is_mobile = Mobile::isFromMobilePhone();
@@ -265,6 +264,8 @@ class ModuleHandler extends Handler
 			$this->module_info->mid = $this->mid;
 		}
 
+		$this->_setModuleColorScheme($site_module_info);
+		
 		// Always overwrite site_srl (deprecated)
 		$this->module_info->site_srl = $site_module_info->site_srl;
 
