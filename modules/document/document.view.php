@@ -32,7 +32,7 @@ class documentView extends document
 		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		// Check permissions
-		if(!$oDocument->isAccessible()) throw new Rhymix\Framework\Exceptions\NotPermitted;
+		if(!$oDocument->isAccessible(true)) throw new Rhymix\Framework\Exceptions\NotPermitted;
 		// Information setting module
 		//Context::set('module_info', $module_info);	//module_info not use in UI
 		// Browser title settings
@@ -238,7 +238,7 @@ class documentView extends document
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
-		if(!$oDocument->isAccessible())
+		if(!$oDocument->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
