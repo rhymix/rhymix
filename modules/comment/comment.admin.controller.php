@@ -222,15 +222,45 @@ class commentAdminController extends comment
 				continue;
 			}
 
-			$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
-			if(!$output->toBool() && $output->error !== -2)
+			$comment = CommentModel::getComment($comment_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($comment->get('module_srl'));
+			
+			if($module_info->comment_delete_message === 'yes')
 			{
-				$oDB->rollback();
-				return $output;
+				$output = $oCommentController->updateCommentByDelete($comment, true);
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
+				}
 			}
+			elseif(starts_with('only_comm', $module_info->comment_delete_message))
+			{
+				$childs = CommentModel::getChildComments($comment_srl);
+				
+				if(count($childs) > 0)
+				{
+					$output = $oCommentController->updateCommentByDelete($comment, true);
+					if(!$output->toBool() && $output->error !== -2)
+					{
+						$oDB->rollback();
+						return $output;
+					}
+				}
+			}
+			else
+			{
+				$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
+
 			$deleted_count++;
 		}
-
+		
 		$oDB->commit();
 
 		$msgCode = '';
