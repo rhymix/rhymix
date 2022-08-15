@@ -557,6 +557,7 @@ function tobool($input)
 /**
  * Counts members of an array or an object.
  * 
+ * @deprecated
  * @param mixed $array_or_object
  * @return int
  */
