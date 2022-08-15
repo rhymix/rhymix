@@ -252,11 +252,16 @@ class commentAdminController extends comment
 				if(count($childs) > 0)
 				{
 					$output = $oCommentController->updateCommentByDelete($comment, true);
-					if(!$output->toBool() && $output->error !== -2)
-					{
-						$oDB->rollback();
-						return $output;
-					}
+				}
+				else
+				{
+					$output = $oCommentController->deleteComment($comment_srl, true, toBool($isTrash));
+				}
+				
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
 				}
 			}
 			else
