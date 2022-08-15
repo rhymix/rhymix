@@ -76,6 +76,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ncenterlite_push_before_sms}</label>
+			<div class="x_controls">
+				<label class="x_inline"><input type="radio" name="push_before_sms" value="Y" checked="checked"|cond="$config->push_before_sms == 'Y'" /> {$lang->use}</label>
+				<label class="x_inline"><input type="radio" name="push_before_sms" value="N" checked="checked"|cond="$config->push_before_sms != 'Y'" /> {$lang->notuse}</label>
+				<p class="x_help-block">{$lang->ncenterlite_push_before_sms_about}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ncenterlite_document_event_read}</label>
 			<div class="x_controls">
 				<label class="x_inline"><input type="radio" name="document_read" value="Y" checked="checked"|cond="$config->document_read == 'Y'" /> {$lang->ncenterlite_document_event_read_delete}</label>

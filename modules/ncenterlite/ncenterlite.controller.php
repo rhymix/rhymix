@@ -1331,7 +1331,7 @@ class ncenterliteController extends ncenterlite
 
 	function _insertNotify($args, $anonymous = FALSE)
 	{
-		$config = getModel('ncenterlite')->getConfig();
+		$config = NcenterliteModel::getConfig();
 		
 		if(is_array($config->hide_module_srls) && in_array($args->module_srl, $config->hide_module_srls))
 		{
@@ -1411,8 +1411,11 @@ class ncenterliteController extends ncenterlite
 		if($output->toBool())
 		{
 			ModuleHandler::triggerCall('ncenterlite._insertNotify', 'after', $args);
-			$this->sendPushMessage($args);
-			$this->sendSmsMessage($args);
+			$push_success = $this->sendPushMessage($args);
+			if (!$push_success || !isset($config->push_before_sms) || $config->push_before_sms !== 'Y')
+			{
+				$this->sendSmsMessage($args);
+			}
 			$this->sendMailMessage($args);
 			$this->removeFlagFile($args->member_srl);
 		}
@@ -1601,7 +1604,9 @@ class ncenterliteController extends ncenterlite
 		$oPush->setData($args->extra_data);
 		$oPush->setURL(strval($target_url));
 		$oPush->addTo(intval($args->member_srl));
-		$oPush->send();
+		$output = $oPush->send();
+		
+		return $output;
 	}
 	
 	function sendSmsMessage($args)

@@ -24,6 +24,7 @@ class ncenterliteAdminController extends ncenterlite
 			'colorset',
 			'zindex',
 			'anonymous_name',
+			'push_before_sms',
 			'document_read',
 			'layout_srl',
 			'mlayout_srl',
