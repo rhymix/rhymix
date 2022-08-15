@@ -39,6 +39,9 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals('&lt;foo&gt;invalid'. "\xEF\xBF\xBD" . 'unicode&lt;/foo&gt;', escape('<foo>invalid' . "\xE4\xA8" . 'unicode</foo>'));
 		$this->assertEquals('&lt;foo&gt;invalid'. "\xEF\xBF\xBD" . 'unicode&lt;/foo&gt;', escape('<foo>invalid' . "\xE4\xA8" . 'unicode&lt;/foo&gt;', false));
 		
+		$this->assertEquals('$user_lang-&gt;userLang1234567890', escape('$user_lang->userLang1234567890', true, false));
+		$this->assertEquals('$user_lang->userLang1234567890', escape('$user_lang->userLang1234567890', true, true));
+		
 		$this->assertEquals('expressionalertXSS', escape_css('expression:alert("XSS")'));
 		$this->assertEquals('#123456', escape_css('#123456'));
 		
