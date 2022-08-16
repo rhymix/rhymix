@@ -508,15 +508,15 @@ class documentModel extends document
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'before', $menu_list);
 
 		$oDocumentController = getController('document');
+		$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
+		$oDocument = self::getDocument($document_srl, false, false, $columnList);
+		$module_srl = $oDocument->get('module_srl');
+		$member_srl = abs($oDocument->get('member_srl'));
+		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+
 		// Members must be a possible feature
 		if($this->user->member_srl)
 		{
-			$columnList = array('document_srl', 'module_srl', 'member_srl', 'ipaddress');
-			$oDocument = self::getDocument($document_srl, false, false, $columnList);
-			$module_srl = $oDocument->get('module_srl');
-			$member_srl = abs($oDocument->get('member_srl'));
-			if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
 			$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
 			$oDocumentisVoted = $oDocument->getMyVote();
 			if($document_config->use_vote_up!='N' && $member_srl!=$this->user->member_srl)
@@ -564,7 +564,7 @@ class documentModel extends document
 			$oDocumentController->addDocumentPopupMenu($url,'cmd_scrap','','javascript');
 		}
 		// Add print button
-		$url = getUrl('','module','document','act','dispDocumentPrint','document_srl',$document_srl);
+		$url = getUrl('', 'mid', $oDocument->getDocumentMid(), 'module', 'document', 'act', 'dispDocumentPrint', 'document_srl', $document_srl);
 		$oDocumentController->addDocumentPopupMenu($url,'cmd_print','','printDocument');
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.getDocumentMenu', 'after', $menu_list);
