@@ -338,40 +338,40 @@ jQuery(function($) {
 		}
 		return true;
 	})();
-	if (noopenerRequired) {
-		$('a[target]').each(function() {
-			var $this = $(this);
-			var href = String($this.attr('href')).trim();
-			var target = String($this.attr('target')).trim();
-			if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
-				return;
+	$('a[target]').each(function() {
+		var $this = $(this);
+		var href = String($this.attr('href')).trim();
+		var target = String($this.attr('target')).trim();
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
+			return;
+		}
+		if (!window.XE.isSameHost(href)) {
+			var rel = $this.attr('rel');
+			rel = (typeof rel === 'undefined') ? '' : String(rel);
+			if (!rel.match(/\bnoopener\b/)) {
+				$this.attr('rel', $.trim(rel + ' noopener'));
 			}
-			if (!window.XE.isSameHost(href)) {
-				var rel = $this.attr('rel');
-				rel = (typeof rel === 'undefined') ? '' : String(rel);
-				if (!rel.match(/\bnoopener\b/)) {
-					$this.attr('rel', $.trim(rel + ' noopener'));
-				}
+		}
+	});
+	$('body').on('click', 'a[target]', function(event) {
+		var $this = $(this);
+		var href = String($this.attr('href')).trim();
+		var target = String($this.attr('target')).trim();
+		if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
+			return;
+		}
+		if (!window.XE.isSameHost(href)) {
+			var rel = $this.attr('rel');
+			rel = (typeof rel === 'undefined') ? '' : String(rel);
+			if (!rel.match(/\bnoopener\b/)) {
+				$this.attr('rel', $.trim(rel + ' noopener'));
 			}
-		});
-		$('body').on('click', 'a[target]', function(event) {
-			var $this = $(this);
-			var href = String($this.attr('href')).trim();
-			var target = String($this.attr('target')).trim();
-			if (!href || !target || target === '_top' || target === '_self' || target === '_parent') {
-				return;
-			}
-			if (!window.XE.isSameHost(href)) {
-				var rel = $this.attr('rel');
-				rel = (typeof rel === 'undefined') ? '' : String(rel);
-				if (!rel.match(/\bnoopener\b/)) {
-					$this.attr('rel', $.trim(rel + ' noopener'));
-				}
+			if (noopenerRequired) {
 				event.preventDefault();
 				blankshield.open(href);
 			}
-		});
-	}
+		}
+	});
 	
 	/* Editor preview replacement */
 	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);

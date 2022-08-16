@@ -295,18 +295,8 @@ class Session
 	 */
 	public static function checkLoginStatusCookie()
 	{
-		// Members are identified by a hash of member_srl. Guests are identified as 'none'.
-		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX']['login'])
-		{
-			$data = sprintf('%s:%s:%d:%s', $_SERVER['HTTP_HOST'] ?? '', RX_BASEDIR, $_SESSION['RHYMIX']['login'], config('crypto.session_key'));
-			$value = base64_encode_urlsafe(substr(hash('sha256', $data, true), 0, 18));
-		}
-		else
-		{
-			$value = 'none';
-		}
-		
-		// If the cookie value is different from the current value, overwrite it.
+		// If the cookie value is different from the current login status, overwrite it.
+		$value = self::getLoginStatus();
 		if (!isset($_COOKIE['rx_login_status']) || $_COOKIE['rx_login_status'] !== $value)
 		{
 			list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
@@ -990,6 +980,27 @@ class Session
 		else
 		{
 			return false;
+		}
+	}
+	
+	/**
+	 * Get a string that identifies login status.
+	 * 
+	 * Members are identified by a hash that is unique to each member.
+	 * Guests are identified as 'none'.
+	 * 
+	 * @return string
+	 */
+	public static function getLoginStatus()
+	{
+		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX']['login'])
+		{
+			$data = sprintf('%s:%s:%d:%s', $_SERVER['HTTP_HOST'] ?? '', RX_BASEDIR, $_SESSION['RHYMIX']['login'], config('crypto.session_key'));
+			return base64_encode_urlsafe(substr(hash('sha256', $data, true), 0, 18));
+		}
+		else
+		{
+			return 'none';
 		}
 	}
 	

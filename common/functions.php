@@ -180,12 +180,20 @@ function clean_path($path)
  * 
  * @param string $str The string to escape
  * @param bool $double_escape Set this to false to skip symbols that are already escaped (default: true)
+ * @param bool $except_lang_code Set this to true to skip user lang codes (default: false)
  * @return string
  */
-function escape($str, $double_escape = true)
+function escape($str, $double_escape = true, $except_lang_code = false)
 {
-	$flags = ENT_QUOTES | ENT_SUBSTITUTE;
-	return htmlspecialchars($str, $flags, 'UTF-8', $double_escape);
+	if ($except_lang_code && preg_match('/^\$user_lang->userLang[0-9]+$/', $str))
+	{
+		return $str;
+	}
+	else
+	{
+		$flags = ENT_QUOTES | ENT_SUBSTITUTE;
+		return htmlspecialchars($str, $flags, 'UTF-8', $double_escape);
+	}
 }
 
 /**
@@ -549,6 +557,7 @@ function tobool($input)
 /**
  * Counts members of an array or an object.
  * 
+ * @deprecated
  * @param mixed $array_or_object
  * @return int
  */

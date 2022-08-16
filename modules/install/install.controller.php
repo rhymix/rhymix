@@ -458,7 +458,6 @@ class installController extends install
 	 */
 	function installDownloadedModule()
 	{
-		$oModuleModel = getModel('module');
 		// Create a table ny finding schemas/*.xml file in each module
 		$module_list = FileHandler::readDir('./modules/', NULL, false, true);
 		$modules = array();
@@ -466,16 +465,29 @@ class installController extends install
 		{
 			// Get module name
 			$module = basename($module_path);
-			$xml_info = $oModuleModel->getModuleInfoXml($module);
-			if(!$xml_info) continue;
-			$modules[$xml_info->category][] = $module;
+			
+			// Only install default modules at this time
+			if (!Context::isDefaultPlugin($module, 'module'))
+			{
+				continue;
+			}
+			
+			// Try to group modules by category
+			$xml_info = ModuleModel::getModuleInfoXml($module);
+			if (!$xml_info)
+			{
+				continue;
+			}
+			$modules[$xml_info->category ?: 'other'][] = $module;
 		}
+		
 		// Install "module" module in advance
 		$this->installModule('module','./modules/module');
-		$oModule = ModuleModel::getModuleInstallClass($module);
-		if($oModule->checkUpdate()) $oModule->moduleUpdate();
+		$this->updateModule('module');
+		
 		// Determine the order of module installation depending on category
 		$install_step = array('system','content','member');
+		
 		// Install all the remaining modules
 		foreach($install_step as $category)
 		{
@@ -485,16 +497,12 @@ class installController extends install
 				{
 					if($module == 'module') continue;
 					$this->installModule($module, sprintf('./modules/%s', $module));
-
-					$oModule = ModuleModel::getModuleInstallClass($module);
-					if(is_object($oModule) && method_exists($oModule, 'checkUpdate'))
-					{
-						if($oModule->checkUpdate()) $oModule->moduleUpdate();
-					}
+					$this->updateModule($module);
 				}
 				unset($modules[$category]);
 			}
 		}
+		
 		// Install all the remaining modules
 		if(count($modules))
 		{
@@ -506,12 +514,7 @@ class installController extends install
 					{
 						if($module == 'module') continue;
 						$this->installModule($module, sprintf('./modules/%s', $module));
-
-						$oModule = ModuleModel::getModuleInstallClass($module);
-						if($oModule && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
-						{
-							if($oModule->checkUpdate()) $oModule->moduleUpdate();
-						}
+						$this->updateModule($module);
 					}
 				}
 			}
@@ -562,10 +565,30 @@ class installController extends install
 		}
 		
 		// Create a table and module instance and then execute install() method
-		unset($oModule);
 		$oModule = ModuleModel::getModuleInstallClass($module);
-		if(method_exists($oModule, 'moduleInstall')) $oModule->moduleInstall();
+		if($oModule && method_exists($oModule, 'moduleInstall'))
+		{
+			$oModule->moduleInstall();
+		}
 		return new BaseObject();
+	}
+	
+	/**
+	 * Update a module if necessary.
+	 * 
+	 * @param string $module
+	 * @return mixed
+	 */
+	public function updateModule($module)
+	{
+		$oModule = ModuleModel::getModuleInstallClass($module);
+		if (is_object($oModule) && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
+		{
+			if ($oModule->checkUpdate())
+			{
+				return $oModule->moduleUpdate();
+			}
+		}
 	}
 	
 	/**

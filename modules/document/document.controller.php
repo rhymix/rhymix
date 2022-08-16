@@ -35,7 +35,6 @@ class documentController extends document
 		{
 			$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		}
-		
 		if($module_info->non_login_vote !== 'Y')
 		{
 			if(!Context::get('is_logged'))
@@ -45,11 +44,19 @@ class documentController extends document
 		}
 		
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
-		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_up=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
+		if($document_config->use_vote_up === 'N')
+		{
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
 
 		$point = 1;
 		$output = $this->updateVotedCount($document_srl, $point);
@@ -74,7 +81,6 @@ class documentController extends document
 		{
 			$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		}
-
 		if($module_info->non_login_vote !== 'Y')
 		{
 			if(!Context::get('is_logged'))
@@ -82,17 +88,25 @@ class documentController extends document
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-		
 		if($module_info->cancel_vote !== 'Y')
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_cancel');
 		}
 
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		if($oDocument->get('voted_count') <= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
+		
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
 		if(!$output->toBool())
@@ -139,15 +153,25 @@ class documentController extends document
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
-		$module_srl = $oDocument->get('module_srl');
-		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$document_config = ModuleModel::getModulePartConfig('document',$module_srl);
-		if($document_config->use_vote_down=='N') throw new Rhymix\Framework\Exceptions\FeatureDisabled;
-
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
+		if($document_config->use_vote_down === 'N')
+		{
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+		
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
 		if(!$output->toBool())
@@ -167,20 +191,30 @@ class documentController extends document
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-
 		if($this->module_info->cancel_vote !== 'Y')
 		{
 			return new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
 
 		$document_srl = Context::get('target_srl');
-		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		if($oDocument->get('blamed_count') >= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
+		
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
 		if(!$output->toBool())
@@ -289,10 +323,19 @@ class documentController extends document
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$document_srl = intval(Context::get('target_srl'));
+		$document_srl = Context::get('target_srl');
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		// if an user select message from options, message would be the option.
@@ -321,15 +364,21 @@ class documentController extends document
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
-		
-		$document_srl = intval(Context::get('target_srl'));
 
-		$oDocument = DocumentModel::getDocument($document_srl);
-		if(!$oDocument->isExists())
+		$document_srl = Context::get('target_srl');
+		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		if($module_info->cancel_vote !== 'Y')
 		{

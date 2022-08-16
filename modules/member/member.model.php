@@ -175,6 +175,15 @@ class memberModel extends member
 	}
 
 	/**
+	 * Display login status as JSON API
+	 */
+	public function getLoginStatus()
+	{
+		Context::setResponseMethod('JSON');
+		$this->add('status', Rhymix\Framework\Session::getLoginStatus());
+	}
+
+	/**
 	 * @brief Display menus of the member
 	 */
 	public function getMemberMenu()

@@ -190,6 +190,7 @@ class commentAdminController extends comment
 		}
 
 		$oCommentController = getController('comment');
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -213,6 +214,8 @@ class commentAdminController extends comment
 		}
 
 		$deleted_count = 0;
+		$module_infos = [];
+		
 		// Delete the comment posting
 		for($i = 0; $i < $comment_count; $i++)
 		{
@@ -222,15 +225,58 @@ class commentAdminController extends comment
 				continue;
 			}
 
-			$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
-			if(!$output->toBool() && $output->error !== -2)
+			$comment = CommentModel::getComment($comment_srl);
+			if(!$comment->isExists())
 			{
-				$oDB->rollback();
-				return $output;
+				continue;
 			}
+			
+			$module_srl = $comment->get('module_srl');
+			if (!isset($module_infos[$module_srl]))
+			{
+				$module_infos[$module_srl] = ModuleModel::getModuleInfoByModuleSrl($module_srl)->comment_delete_message ?? '';
+			}
+			
+			if($module_infos[$module_srl] === 'yes')
+			{
+				$output = $oCommentController->updateCommentByDelete($comment, true);
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
+			elseif(starts_with('only_comm', $module_infos[$module_srl]))
+			{
+				$childs = CommentModel::getChildComments($comment_srl);
+				if(count($childs) > 0)
+				{
+					$output = $oCommentController->updateCommentByDelete($comment, true);
+				}
+				else
+				{
+					$output = $oCommentController->deleteComment($comment_srl, true, toBool($isTrash));
+				}
+				
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
+			else
+			{
+				$output = $oCommentController->deleteComment($comment_srl, TRUE, toBool($isTrash));
+				if(!$output->toBool() && $output->error !== -2)
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
+
 			$deleted_count++;
 		}
-
+		
 		$oDB->commit();
 
 		$msgCode = '';

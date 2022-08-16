@@ -237,11 +237,25 @@ class documentItem extends BaseObject
 		$this->setGrant();
 	}
 	
-	function isAccessible()
+	function isAccessible($strict = false)
 	{
 		if(!$this->isExists())
 		{
 			return false;
+		}
+		
+		if ($strict)
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
+			if (!$module_info)
+			{
+				return false;
+			}
+			$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
+			if (isset($grant->list) && isset($grant->view) && ($grant->list !== true || $grant->view !== true))
+			{
+				return false;
+			}
 		}
 		
 		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))

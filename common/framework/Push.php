@@ -20,7 +20,7 @@ class Push
 	protected $success_tokens = array();
 	protected $deleted_tokens = array();
 	protected $updated_tokens = array();
-	protected $sent = false;
+	protected $sent = 0;
 
 	/**
 	 * Static properties.
@@ -378,7 +378,7 @@ class Push
 			{
 				$fcm_driver = $this->getDriver('fcm');
 				$output = $fcm_driver->send($this, $tokens->fcm);
-				$this->sent = count($output->success) ? true : false;
+				$this->sent += count($output->success);
 				$this->success_tokens = $output ? $output->success : [];
 				$this->deleted_tokens = $output ? $output->invalid : [];
 				$this->updated_tokens = $output ? $output->needUpdate : [];
@@ -391,7 +391,7 @@ class Push
 			{
 				$apns_driver =$this->getDriver('apns');
 				$output = $apns_driver->send($this, $tokens->apns);
-				$this->sent = count($output->success) ? true : false;
+				$this->sent += count($output->success);
 				$this->success_tokens += $output ? $output->success : [];
 				$this->deleted_tokens += $output ? $output->invalid : [];
 				$this->updated_tokens += $output ? $output->needUpdate : [];
@@ -412,7 +412,7 @@ class Push
 			$this->errors[] = $output->getMessage();
 		}
 		
-		return $this->sent;
+		return $this->sent > 0 ? true : false;
 	}
 
 	/**
@@ -500,7 +500,7 @@ class Push
 	 */
 	public function isSent(): bool
 	{
-		return $this->sent;
+		return $this->sent > 0 ? true : false;
 	}
 	
 	/**

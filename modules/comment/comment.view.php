@@ -80,7 +80,7 @@ class commentView extends comment
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		// Check permissions
-		if(!$oComment->isAccessible())
+		if(!$oComment->isAccessible(true))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
