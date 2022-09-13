@@ -1651,7 +1651,7 @@ class Context
 		}
 
 		// If the first argument is '', reset existing parameters.
-		if (isset($args_list[0]) && !is_array($args_list[0]) && strval($args_list[0]) === '')
+		if (!is_array($args_list[0]) && strval($args_list[0]) === '')
 		{
 			array_shift($args_list);
 			$get_vars = array();
