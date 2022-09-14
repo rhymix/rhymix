@@ -304,6 +304,20 @@
 		}
 	};
 	
+	/**
+	 * Shim for Modernizr if it is not loaded
+	 */
+	window.Modernizr = {
+		audio: true,
+		video: true,
+		canvas: true,
+		history: true,
+		postmessage: true,
+		geolocation: ('geolocation' in navigator),
+		touch: ('ontouchstart' in window) || (navigator.maxTouchPoints > 0),
+		webgl: !!window.WebGLRenderingContext
+	};
+	
 })(jQuery);
 
 /* jQuery(document).ready() */
