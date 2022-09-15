@@ -114,6 +114,7 @@ class memberModel extends member
 		$config->login_invalidate_other_sessions = $config->login_invalidate_other_sessions ?? 'N';
 		$config->after_login_url = $config->after_login_url ?? null;
 		$config->after_logout_url = $config->after_logout_url ?? null;
+		$config->login_ip_range_by_group = $config->login_ip_range_by_group ?? [];
 		
 		// Set design config
 		$config->layout_srl = $config->layout_srl ?? 0;
@@ -1421,6 +1422,53 @@ class memberModel extends member
 		$output = executeQuery('member.getMemberModifyNickName', $args);
 		
 		return $output;
+	}
+
+	/**
+	 * check allowed target ip address by member group when login.
+	 *
+	 * @return boolean (true : allowed, false : refuse)
+	 */
+	public static function checkMemberAllowedIpRangeByGroup($member_srl = null, $allow_range_by_group = null)
+	{
+		if ($member_srl)
+		{
+			$member_info = self::getMemberInfoByMemberSrl($member_srl);
+		}
+		else
+		{
+			$member_info = Context::get('logged_info');
+		}
+
+		if (!$member_info)
+		{
+			return false;
+		}
+
+		if ($allow_range_by_group === null)
+		{
+			$config = self::getMemberConfig();
+			$allow_range_by_group = $config->login_ip_range_by_group;
+		}
+
+		$member_group_srl = array_keys($member_info->group_list);
+
+		foreach ($member_group_srl as $group_srl)
+		{
+			$allow_list = $allow_range_by_group[$group_srl] ?? [];
+			if (count($allow_list) === 0)
+			{
+				continue;
+			}
+
+			$inrange = Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allow_list);
+			if(!$inrange)
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
 /* End of file member.model.php */

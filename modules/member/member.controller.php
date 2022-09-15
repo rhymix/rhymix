@@ -2316,6 +2316,11 @@ class memberController extends member
 				return new BaseObject(-1, 'msg_admin_ip_not_allowed');
 			}
 		}
+
+		if(!MemberModel::checkMemberAllowedIpRangeByGroup($member_info->member_srl))
+		{
+			return new BaseObject(-1, 'msg_not_allowed_ip');
+		}
 		
 		// Update the latest login time
 		$args->member_srl = $member_info->member_srl;

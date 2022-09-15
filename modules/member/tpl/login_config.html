@@ -65,6 +65,20 @@
 			<p class="x_help-block">{$lang->about_after_logout_url}</p>
 		</div>
 	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->login_ip_range}</label>
+		<div class="x_controls">
+			<table class="x_table">
+				<!--@foreach($group_list as $group_srl => $group_info)-->
+				<tr>
+					<td><span>{$group_info->title}</span></td>
+					<td><textarea name="login_ip_range_by_group[{$group_srl}]" placeholder="0.0.0.0/0">{implode(PHP_EOL, $config->login_ip_range_by_group[$group_srl])}</textarea></td>
+				</tr>
+				<!--@endforeach-->
+			</table>
+			<p class="x_help-block">{$lang->about_login_ip_range}</p>
+		</div>
+	</div>
 	<div class="x_clearfix btnArea">
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>

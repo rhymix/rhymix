@@ -524,7 +524,8 @@ class memberAdminController extends member
 			'max_error_count_time',
 			'login_invalidate_other_sessions',
 			'after_login_url',
-			'after_logout_url'
+			'after_logout_url',
+			'login_ip_range_by_group',
 		);
 		
 		if(!count($args->identifiers))
@@ -567,6 +568,28 @@ class memberAdminController extends member
 		{
 			$args->after_logout_url = NULL;
 		}
+
+		$group_list = $oMemberModel->getGroups();
+		$login_ip_range_group = array();
+		foreach($group_list as $group_srl => $group_info)
+		{
+			$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $args->login_ip_range_by_group[$group_srl]));
+			$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
+				return $item !== '';
+			}));
+			if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
+				throw new Rhymix\Framework\Exception('msg_invalid_ip');
+			}
+
+			$login_ip_range_group[$group_srl] = $allowed_ip;
+		}
+
+		if (!MemberModel::checkMemberAllowedIpRangeByGroup(null, $login_ip_range_group))
+		{
+			throw new Rhymix\Framework\Exception('msg_current_ip_will_be_denied');
+		}
+
+		$args->login_ip_range_by_group = $login_ip_range_group;
 
 		$output = $oModuleController->updateModuleConfig('member', $args);
 
