@@ -1438,6 +1438,7 @@ class memberModel extends member
 		else
 		{
 			$member_info = Context::get('logged_info');
+			if ($member_info && !$member_info->member_srl) $member_info = null;
 		}
 
 		if (!$member_info)
