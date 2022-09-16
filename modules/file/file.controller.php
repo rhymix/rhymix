@@ -820,7 +820,7 @@ class fileController extends file
 		if(!$manual_insert)
 		{
 			// image
-			if(in_array($file_info['extension'], ['gif', 'jpg', 'jpeg', 'png', 'webp', 'bmp']))
+			if(in_array($file_info['extension'], ['gif', 'jpg', 'jpeg', 'jfif', 'png', 'webp', 'bmp']))
 			{
 				$file_info = $this->adjustUploadedImage($file_info, $config);
 			}

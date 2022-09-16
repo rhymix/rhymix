@@ -131,6 +131,7 @@ class MIME
 		'jpg' => ['image/jpeg'],
 		'jpeg' => ['image/jpeg'],
 		'jpe' => ['image/jpeg'],
+		'jfif' => ['image/jpeg'],
 		'png' => ['image/png'],
 		'webp' => ['image/webp'],
 		'svg' => ['image/svg+xml'],
