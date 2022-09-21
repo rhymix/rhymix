@@ -1173,7 +1173,7 @@ class DB
 			'query_id' => $this->_query_id,
 			'connection' => $this->_type,
 			'elapsed_time' => sprintf('%0.5f', $elapsed_time),
-			'result' => 'success',
+			'result' => $this->_errno ? 'error' : 'success',
 			'errno' => $this->_errno,
 			'errstr' => $this->_errstr,
 			'called_file' => null,
