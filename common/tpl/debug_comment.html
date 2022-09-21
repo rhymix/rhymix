@@ -96,7 +96,7 @@ Database Queries
 	foreach ($data->queries as $query)
 	{
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
-		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
+		$query_result = ($query->message === 'success') ? 'success' : $query->message;
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";

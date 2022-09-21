@@ -132,7 +132,7 @@ $(function() {
 					description.append($('<li></li>').text("Query ID: " + data.queries[i].query_id));
 					description.append($('<li></li>').text("Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "")));
 				}
-				description.append($('<li></li>').text("Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : ("error " + data.queries[i].error_code + " " + data.queries[i].message))));
+				description.append($('<li></li>').text("Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : data.queries[i].message)));
 			}
 		}
 		
