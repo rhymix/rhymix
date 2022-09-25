@@ -153,6 +153,7 @@
 <load target="./css/webfont.css" />
 <load target="./css/xeicon.css" cond="$mid === 'xeicon'" />
 <load target="../../common/xeicon/xeicon.min.css" />
+<load target="../../modules/sociallogin/skins/default/css/default.css" />
 <!--// JS -->
 <load cond="$_enable_slide" target="./js/idangerous.swiper.min.js" />
 <load target="./js/layout.js" />
@@ -494,6 +495,11 @@
 				</fieldset>
 			</form>
 		</div>
+		<!--@if(class_exists('SocialloginModel'))-->
+		<!--@if(!$is_logged && SocialloginModel::isEnabled())-->
+		{SocialloginModel::getSocialloginButtons()}
+		<!--@end-->
+		<!--@end-->
 		<div class="login-footer">
 			<a href="{getUrl('act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			<span class="f_bar">|</span>
