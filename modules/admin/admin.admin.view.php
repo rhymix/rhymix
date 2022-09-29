@@ -924,6 +924,8 @@ class adminAdminView extends admin
 		$ini_info = ini_get_all();
 		$info[] = '[PHP Settings]';
 		$info['session.auto_start'] = $ini_info['session.auto_start']['local_value'];
+		$info['session.gc_maxlifetime'] = $ini_info['session.gc_maxlifetime']['local_value'];
+		$info['session.save_handler'] = $ini_info['session.save_handler']['local_value'];
 		$info['max_file_uploads'] = $ini_info['max_file_uploads']['local_value'];
 		$info['memory_limit'] = $ini_info['memory_limit']['local_value'];
 		$info['post_max_size'] = $ini_info['post_max_size']['local_value'];
