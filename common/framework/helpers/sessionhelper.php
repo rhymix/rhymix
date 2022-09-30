@@ -24,11 +24,11 @@ class SessionHelper
 	public function __construct($member_srl = 0)
 	{
 		// Load member information.
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		if ($member_srl)
 		{
 			$member_info = \MemberModel::getMemberInfo($member_srl);
-			if (isset($member_info->member_srl) && intval($member_info->member_srl) === $member_srl)
+			if (isset($member_info->member_srl) && (int)$member_info->member_srl === $member_srl)
 			{
 				foreach (get_object_vars($member_info) as $key => $value)
 				{

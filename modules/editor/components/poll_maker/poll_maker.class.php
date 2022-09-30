@@ -47,7 +47,7 @@ class poll_maker extends EditorHandler
 	{
 		$args = new stdClass();
 
-		$args->poll_srl = intval($xml_obj->attrs->poll_srl);
+		$args->poll_srl = (int)$xml_obj->attrs->poll_srl;
 		$skin = $xml_obj->attrs->skin;
 		if(!$skin) $skin = 'default';
 		$args->skin = $skin;

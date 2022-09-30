@@ -158,7 +158,7 @@ class SMS
 	{
 		$this->to[] = (object)array(
 			'number' => preg_replace('/[^0-9]/', '', $number),
-			'country' => intval(preg_replace('/[^0-9]/', '', $country)),
+			'country' => (int)preg_replace('/[^0-9]/', '', $country),
 		);
 		return true;
 	}
@@ -391,7 +391,7 @@ class SMS
 			$when = 0;
 		}
 		
-		$this->delay_timestamp = intval($when);
+		$this->delay_timestamp = (int)$when;
 		return true;
 	}
 	

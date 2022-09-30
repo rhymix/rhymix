@@ -41,13 +41,13 @@ class XMLRPCParser
 		foreach ($parent->children() ?: [] as $tag)
 		{
 			$key = $tag->getName();
-			if (strval($tag['type']) === 'array')
+			if ((string)$tag['type'] === 'array')
 			{
 				$result[$key] = self::_parseArray($tag);
 			}
 			else
 			{
-				$result[$key] = strval($tag);
+				$result[$key] = (string)$tag;
 			}
 		}
 		return $result;

@@ -20,7 +20,7 @@ class pollModel extends poll
 	public function _getPollinfo($poll_srl)
 	{
 		$args = new stdClass;
-		$args->poll_srl = intval($poll_srl);
+		$args->poll_srl = (int)$poll_srl;
 		$logged_info = Context::get('logged_info');
 
 		if(!$args->poll_srl || $args->poll_srl === 0) return $this->setError("poll_no_poll_srl");

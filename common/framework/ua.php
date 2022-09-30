@@ -449,7 +449,7 @@ class UA
 	{
 		if (isset($_COOKIE['rx_color_scheme']) && in_array($_COOKIE['rx_color_scheme'], ['light', 'dark']))
 		{
-			return strval($_COOKIE['rx_color_scheme']);
+			return (string)$_COOKIE['rx_color_scheme'];
 		}
 		else
 		{

@@ -1004,7 +1004,9 @@ class ModuleHandler extends Handler
 				$data = array_merge($data, $oModule->getVariables());
 				
 				ob_end_clean();
-				echo sprintf('<html><head></head><body><script>parent.XE.handleIframeResponse(%s, %s);</script></body></html>', json_encode(strval($_POST['_rx_ajax_form'])), json_encode($data));
+				echo sprintf('<html><head></head><body><script>parent.XE.handleIframeResponse(%s, %s);</script></body></html>', json_encode(
+					(string)$_POST['_rx_ajax_form']
+				), json_encode($data));
 				return;
 			}
 			
@@ -1349,7 +1351,7 @@ class ModuleHandler extends Handler
 				{
 					if (is_object($item[0]))
 					{
-						$trigger_target = get_class($item[0]) . '.' . strval($item[1]);
+						$trigger_target = get_class($item[0]) . '.' . (string)$item[1];
 					}
 					else
 					{
@@ -1457,7 +1459,7 @@ class ModuleHandler extends Handler
 			'510' => 'Not Extended',
 			'511' => 'Network Authentication Required',
 		);
-		$statusMessage = $statusMessageList[strval($code)];
+		$statusMessage = $statusMessageList[(string)$code];
 		if(!$statusMessage)
 		{
 			$statusMessage = 'OK';

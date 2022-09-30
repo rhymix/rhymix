@@ -19,7 +19,7 @@ class pollController extends poll
 	 */
 	function procPollInsert()
 	{
-		$stop_date = intval(Context::get('stop_date'));
+		$stop_date = (int)Context::get('stop_date');
 		// mobile input date format can be different
 		if($stop_date != Context::get('stop_date'))
 		{
@@ -79,7 +79,7 @@ class pollController extends poll
 					$tmp_args[$poll_index]->title = $val;
 					break;
 				case 'checkcount':
-					$tmp_args[$poll_index]->checkcount = max(1, intval($val));
+					$tmp_args[$poll_index]->checkcount = max(1, (int)$val);
 					break;
 				case 'item':
 					$tmp_args[$poll_index]->item[] = $val;

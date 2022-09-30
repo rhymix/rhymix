@@ -344,7 +344,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		
 		// Get new folder name
-		$folder_srl = intval(Context::get('folder_srl'));
+		$folder_srl = (int)Context::get('folder_srl');
 		$folder_name = Context::get('name');
 		$folder_name = escape(trim(utf8_normalize_spaces($folder_name)));
 		if(!$folder_srl || !$folder_name)
@@ -396,7 +396,7 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 		
 		// Get folder_srl to delete
-		$folder_srl = intval(Context::get('folder_srl'));
+		$folder_srl = (int)Context::get('folder_srl');
 		if(!$folder_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -506,7 +506,7 @@ class memberController extends member
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 		
-		$autologin_id = intval(Context::get('autologin_id'));
+		$autologin_id = (int)Context::get('autologin_id');
 		$autologin_key = Context::get('autologin_key');
 		if (!$autologin_id || !$autologin_key)
 		{
@@ -684,19 +684,19 @@ class memberController extends member
 		// mobile input date format can be different
 		if($args->birthday)
 		{
-			if($args->birthday !== intval($args->birthday))
+			if($args->birthday !== (int)$args->birthday)
 			{
 				$args->birthday = date('Ymd', strtotime($args->birthday));
 			}
 			else
 			{
-				$args->birthday = intval($args->birthday);
+				$args->birthday = (int)$args->birthday;
 			}
 		}
 		
 		if(!$args->birthday && $args->birthday_ui)
 		{
-			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+			$args->birthday = (int)strtr($args->birthday_ui, array('-' => '', '/' => '', '.' => '', ' ' => ''));
 		}
 		
 		$args->allow_mailing = Context::get('allow_mailing');
@@ -959,19 +959,19 @@ class memberController extends member
 		// mobile input date format can be different
 		if($args->birthday)
 		{
-			if($args->birthday !== intval($args->birthday))
+			if($args->birthday !== (int)$args->birthday)
 			{
 				$args->birthday = date('Ymd', strtotime($args->birthday));
 			}
 			else
 			{
-				$args->birthday = intval($args->birthday);
+				$args->birthday = (int)$args->birthday;
 			}
 		}
 		
 		if(!$args->birthday && $args->birthday_ui)
 		{
-			$args->birthday = intval(strtr($args->birthday_ui, array('-'=>'', '/'=>'', '.'=>'', ' '=>'')));
+			$args->birthday = (int)strtr($args->birthday_ui, array('-' => '', '/' => '', '.' => '', ' ' => ''));
 		}
 		
 		// Check all required fields
@@ -1702,7 +1702,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
 		}
 
-		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
+		$expires = ((int)$config->authmail_expires * (int)$config->authmail_expires_unit) ?: 86400;
 		if(ztime($output->data->regdate) < time() - $expires)
 		{
 			executeQuery('member.deleteAuthMail', $args);
@@ -2131,7 +2131,7 @@ class memberController extends member
 		self::clearMemberCache($output->data->member_srl);
 		
 		// Return the member_srl.
-		return intval($output->data->member_srl);
+		return (int)$output->data->member_srl;
 	}
 
 	/**
@@ -2219,14 +2219,14 @@ class memberController extends member
 		if($errorCount >= $config->max_error_count)
 		{
 			$last_update = strtotime($output->data->last_update);
-			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
+			$term = (int)($_SERVER['REQUEST_TIME'] - $last_update);
 			if($term < $config->max_error_count_time)
 			{
 				$term = $config->max_error_count_time - $term;
-				if($term < 60) $term = intval($term).lang('unit_sec');
-				elseif(60 <= $term && $term < 3600) $term = intval($term/60).lang('unit_min');
-				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
-				else $term = intval($term/86400).lang('unit_day');
+				if($term < 60) $term = (int)$term .lang('unit_sec');
+				elseif(60 <= $term && $term < 3600) $term = (int)($term / 60) .lang('unit_min');
+				elseif(3600 <= $term && $term < 86400) $term = (int)($term / 3600) .lang('unit_hour');
+				else $term = (int)($term / 86400) .lang('unit_day');
 
 				return new BaseObject(-1, sprintf(lang('excess_ip_access_count'), $term));
 			}
@@ -2448,13 +2448,13 @@ class memberController extends member
 		if($args->limit_date)
 		{
 			// mobile input date format can be different
-			if($args->limit_date !== intval($args->limit_date))
+			if($args->limit_date !== (int)$args->limit_date)
 			{
 				$args->limit_date = date('Ymd', strtotime($args->limit_date));
 			}
 			else
 			{
-				$args->limit_date = intval($args->limit_date);
+				$args->limit_date = (int)$args->limit_date;
 			}
 		}
 		// If the date of the temporary restrictions limit further information on the date of
@@ -2514,13 +2514,13 @@ class memberController extends member
 					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
 					{
 						// mobile input date format can be different
-						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						if($args->{$formInfo->name} !== (int)$args->{$formInfo->name})
 						{
 							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
 						}
 						else
 						{
-							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+							$args->{$formInfo->name} = (int)$args->{$formInfo->name};
 						}
 					}
 				}
@@ -2530,13 +2530,13 @@ class memberController extends member
 					// date format is YYYYMMDD
 					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
 					{
-						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						if($args->{$formInfo->name} !== (int)$args->{$formInfo->name})
 						{
 							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
 						}
 						else
 						{
-							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+							$args->{$formInfo->name} = (int)$args->{$formInfo->name};
 						}
 					}
 				}
@@ -2599,7 +2599,7 @@ class memberController extends member
 		}
 		
 		// Format phone number
-		if (strval($args->phone_number) !== '')
+		if ((string)$args->phone_number !== '')
 		{
 			$args->phone_country = trim(preg_replace('/[^A-Z]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
@@ -2777,13 +2777,13 @@ class memberController extends member
 		if($args->limit_date)
 		{
 			// mobile input date format can be different
-			if($args->limit_date !== intval($args->limit_date))
+			if($args->limit_date !== (int)$args->limit_date)
 			{
 				$args->limit_date = date('Ymd', strtotime($args->limit_date));
 			}
 			else
 			{
-				$args->limit_date = intval($args->limit_date);
+				$args->limit_date = (int)$args->limit_date;
 			}
 		}
 
@@ -2800,13 +2800,13 @@ class memberController extends member
 					// birthday format is YYYYMMDD
 					if($formInfo->name === 'birthday' && $args->{$formInfo->name})
 					{
-						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						if($args->{$formInfo->name} !== (int)$args->{$formInfo->name})
 						{
 							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
 						}
 						else
 						{
-							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+							$args->{$formInfo->name} = (int)$args->{$formInfo->name};
 						}
 					}
 				}
@@ -2816,13 +2816,13 @@ class memberController extends member
 					// date format is YYYYMMDD
 					if($extendForm->column_type == 'date' && $args->{$formInfo->name})
 					{
-						if($args->{$formInfo->name} !== intval($args->{$formInfo->name}))
+						if($args->{$formInfo->name} !== (int)$args->{$formInfo->name})
 						{
 							$args->{$formInfo->name} = date('Ymd', strtotime($args->{$formInfo->name}));
 						}
 						else
 						{
-							$args->{$formInfo->name} = intval($args->{$formInfo->name});
+							$args->{$formInfo->name} = (int)$args->{$formInfo->name};
 						}
 					}
 				}
@@ -2830,7 +2830,7 @@ class memberController extends member
 		}
 		
 		// Format phone number
-		if (strval($args->phone_number) !== '')
+		if ((string)$args->phone_number !== '')
 		{
 			$args->phone_country = trim(preg_replace('/[^A-Z]/', '', $args->phone_country), '-');
 			$args->phone_number = preg_replace('/[^0-9]/', '', $args->phone_number);
@@ -3412,11 +3412,11 @@ class memberController extends member
 		}
 		
 		// Generate code and store in session
-		$code = intval(mt_rand(100000, 999999));
+		$code = mt_rand(100000, 999999);
 		$_SESSION['verify_by_sms'] = array(
 			'country' => $phone_country,
 			'number' => $phone_number,
-			'code' => $is_special ? intval($config->special_phone_code) : $code,
+			'code' => $is_special ? (int)$config->special_phone_code : $code,
 			'status' => false,
 		);
 		
@@ -3425,7 +3425,7 @@ class memberController extends member
 		$args->member_srl = $this->user->member_srl ?: 0;
 		$args->phone_number = $phone_number;
 		$args->phone_country = $phone_country;
-		$args->code = $is_special ? intval($config->special_phone_code) : $code;
+		$args->code = $is_special ? (int)$config->special_phone_code : $code;
 		executeQuery('member.insertAuthSms', $args);
 		
 		if ($is_special)
@@ -3462,7 +3462,7 @@ class memberController extends member
 			throw new Rhymix\Framework\Exception('verify_by_sms_code_incorrect');
 		}
 		
-		$code = intval($code);
+		$code = (int)$code;
 		if(!isset($_SESSION['verify_by_sms']) || $_SESSION['verify_by_sms']['code'] !== $code)
 		{
 			throw new Rhymix\Framework\Exception('verify_by_sms_code_incorrect');
@@ -3567,7 +3567,7 @@ class memberController extends member
 
 		// get progress percent
 		if($total_count > 0)
-			$progress = intval( ( ( $total_count - $remain_count ) / $total_count ) * 100 );
+			$progress = (int)((($total_count - $remain_count) / $total_count) * 100);
 		else
 			$progress = 100;
 
@@ -3812,7 +3812,7 @@ class memberController extends member
 		}
 		else
 		{
-			return trim(strval($var)) === '';
+			return trim((string)$var) === '';
 		}
 	}
 	
@@ -3833,7 +3833,7 @@ class memberController extends member
 	 */
 	public static function clearMemberCache($member_srl)
 	{
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
 		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl");
 		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");

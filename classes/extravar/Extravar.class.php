@@ -434,7 +434,7 @@ class ExtraItem
 					if($country_info->calling_code)
 					{
 						$selected = '';
-						if(strval($value[0]) !== '' && $country_info->calling_code == $value[0])
+						if((string)$value[0] !== '' && $country_info->calling_code == $value[0])
 						{
 							$selected = ' selected="selected"';
 						}
@@ -457,7 +457,7 @@ class ExtraItem
 				foreach($country_list as $country_info)
 				{
 					$selected = '';
-					if (strval($value[0]) !== '' && $country_info->iso_3166_1_alpha3 == $value)
+					if ((string)$value[0] !== '' && $country_info->iso_3166_1_alpha3 == $value)
 					{
 						$selected = ' selected="selected"';
 					}
@@ -476,7 +476,7 @@ class ExtraItem
 				foreach ($enable_language as $lang_type)
 				{
 					$selected = '';
-					if (strval($value) !== '' && $lang_type == $value)
+					if ((string)$value !== '' && $lang_type == $value)
 					{
 						$selected = ' selected="selected"';
 					}
@@ -492,7 +492,7 @@ class ExtraItem
 				foreach ($timezone_list as $key => $time_name)
 				{
 					$selected = '';
-					if (strval($value) !== '' && $key == $value)
+					if ((string)$value !== '' && $key == $value)
 					{
 						$selected = ' selected="selected"';
 					}

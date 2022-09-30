@@ -82,7 +82,7 @@ class Ppurio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			// Send!
 			$url = 'https://www.ppurio.com/api/send_utf8_json.php';
 			$result = \FileHandler::getRemoteResource($url, $data, 5, 'POST');
-			if(strval($result) === '')
+			if((string)$result === '')
 			{
 				$original->addError('Unknown API error while sending message ' . ($i + 1) . ' of ' . count($messages));
 				$status = false;

@@ -22,7 +22,7 @@ class module extends ModuleObject
 		if(!getModel('module')->getDefaultDomainInfo())
 		{
 			$current_url = Rhymix\Framework\Url::getCurrentUrl();
-			$current_port = intval(parse_url($current_url, PHP_URL_PORT)) ?: null;
+			$current_port = (int)parse_url($current_url, PHP_URL_PORT) ?: null;
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = Rhymix\Framework\URL::getDomainFromURL($current_url);
@@ -314,7 +314,7 @@ class module extends ModuleObject
 			$domain->is_default_domain = 'Y';
 			$domain->index_module_srl = $output->data ? $output->data->module_srl : 0;
 			$domain->index_document_srl = 0;
-			$domain->http_port = isset($default_hostinfo['port']) ? intval($default_hostinfo['port']) : null;
+			$domain->http_port = isset($default_hostinfo['port']) ? (int)$default_hostinfo['port'] : null;
 			$domain->https_port = null;
 			$domain->security = config('url.ssl') ?: 'none';
 			$domain->description = '';
@@ -347,8 +347,8 @@ class module extends ModuleObject
 					$domain->domain_srl = $site_info->multidomain_srl;
 					$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
 					$domain->is_default_domain = isset($domains[$domain->domain]) ? $domains[$domain->domain]->is_default_domain : 'N';
-					$domain->index_module_srl = intval($site_info->module_srl);
-					$domain->index_document_srl = intval($site_info->document_srl);
+					$domain->index_module_srl = (int)$site_info->module_srl;
+					$domain->index_document_srl = (int)$site_info->document_srl;
 					$domain->http_port = config('url.http_port') ?: null;
 					$domain->https_port = config('url.https_port') ?: null;
 					$domain->security = config('url.ssl') ?: 'none';

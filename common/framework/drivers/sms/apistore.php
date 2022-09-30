@@ -64,7 +64,7 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$data = array();
 			$data['send_phone'] = $message->from;
 			$data['dest_phone'] = implode(',', $message->to);
-			$data['msg_body'] = strval($message->content);
+			$data['msg_body'] = (string)$message->content;
 			if ($message->type !== 'SMS' && $message->subject)
 			{
 				$data['subject'] = $message->subject;

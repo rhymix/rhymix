@@ -230,7 +230,7 @@ class commentAdminView extends comment
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation
-		$args->comment_srl = intval(Context::get('target_srl'));
+		$args->comment_srl = (int)Context::get('target_srl');
 
 
 		// get Status name list

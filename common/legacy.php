@@ -187,7 +187,7 @@ function setUserSequence($seq)
 	{
 		$_SESSION['seq'] = array();
 	}
-	$seq = intval($seq);
+	$seq = (int)$seq;
 	$_SESSION['seq'][$seq] = $seq;
 }
 
@@ -199,7 +199,7 @@ function setUserSequence($seq)
  */
 function checkUserSequence($seq)
 {
-	$seq = intval($seq);
+	$seq = (int)$seq;
 	return isset($_SESSION['seq']) && in_array($seq, $_SESSION['seq']);
 }
 
@@ -518,7 +518,7 @@ function ztime($str)
 	}
 	if (strlen($str) === 9 || (strlen($str) === 10 && $str <= 2147483647))
 	{
-		return intval($str);
+		return (int)$str;
 	}
 	
 	$year = (int)substr($str, 0, 4);
@@ -1307,7 +1307,7 @@ function alertScript($msg)
 {
 	if($msg)
 	{
-		echo sprintf('<script> alert(%s); </script>', json_encode(@strval($msg)));
+		echo sprintf('<script> alert(%s); </script>', json_encode(@(string)$msg));
 	}
 }
 

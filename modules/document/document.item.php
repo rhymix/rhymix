@@ -577,7 +577,7 @@ class documentItem extends BaseObject
 		}
 		$args->document_srl = $this->document_srl;
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
-		$declaredCount = isset($output->data) ? intval($output->data->count) : 0;
+		$declaredCount = isset($output->data) ? (int)$output->data->count : 0;
 		if($declaredCount > 0)
 		{
 			return $_SESSION['declared_document'][$this->document_srl] = $declaredCount;
@@ -1111,9 +1111,9 @@ class documentItem extends BaseObject
 		// If not specify its height, create a square
 		if(!is_int($width))
 		{
-			$width = intval($width);
+			$width = (int)$width;
 		}
-		if(!$height || (!is_int($height) && !ctype_digit(strval($height)) && $height !== 'auto'))
+		if(!$height || (!is_int($height) && !ctype_digit((string)$height) && $height !== 'auto'))
 		{
 			$height = $width;
 		}

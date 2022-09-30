@@ -64,7 +64,7 @@ class rssAdminController extends rss
 		{
 			$vars->open_rss = 'Y';
 		}
-		$vars->feed_document_count = intval($vars->feed_document_count);
+		$vars->feed_document_count = (int)$vars->feed_document_count;
 		if ($vars->feed_document_count < 1 || $vars->feed_document_count > 1000)
 		{
 			$vars->feed_document_count = 20;
@@ -107,7 +107,7 @@ class rssAdminController extends rss
 		
 		foreach($target_module_srls as $module_srl)
 		{
-			if(!$module_srl = intval($module_srl))
+			if(!$module_srl = (int)$module_srl)
 			{
 				continue;
 			}

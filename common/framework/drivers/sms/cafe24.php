@@ -95,7 +95,7 @@ class Cafe24 extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			// Send!
 			$url = 'https://sslsms.cafe24.com/sms_sender.php';
 			$result = \FileHandler::getRemoteResource($url, $data, 5, 'POST');
-			if(strval($result) === '')
+			if((string)$result === '')
 			{
 				$original->addError('Unknown API error while sending message ' . ($i + 1) . ' of ' . count($messages));
 				$status = false;

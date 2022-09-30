@@ -81,7 +81,7 @@ class boardAdminController extends board {
 		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
 		
-		$args->skip_bottom_list_days = max(0, intval($args->skip_bottom_list_days));
+		$args->skip_bottom_list_days = max(0, (int)$args->skip_bottom_list_days);
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
@@ -205,9 +205,9 @@ class boardAdminController extends board {
 	public function procBoardAdminInsertCombinedConfig()
 	{
 		$vars = Context::getRequestVars();
-		$module_srl = intval($vars->target_module_srl);
+		$module_srl = (int)$vars->target_module_srl;
 		$include_modules = array_map('intval', $vars->include_modules ?: []);
-		$include_days = max(0, floatval($vars->include_days));
+		$include_days = max(0, (float)$vars->include_days);
 		$include_notice = $vars->include_notice === 'Y' ? 'Y' : 'N';
 		
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
@@ -219,7 +219,7 @@ class boardAdminController extends board {
 		$module_info->include_modules = implode(',', array_filter($include_modules, function($item) {
 			return $item > 0;
 		}));
-		$module_info->include_days = floatval(number_format($include_days, 2, '.', ''));
+		$module_info->include_days = (float)number_format($include_days, 2, '.', '');
 		$module_info->include_notice = $include_notice;
 		
 		$output = getController('module')->updateModule($module_info);

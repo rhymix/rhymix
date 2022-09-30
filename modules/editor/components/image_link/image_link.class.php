@@ -49,11 +49,11 @@ class image_link extends EditorHandler
 		$align = $xml_obj->attrs->align ?? null;
 		$alt = $xml_obj->attrs->alt ?? null;
 		$title = $xml_obj->attrs->title ?? null;
-		$border = intval($xml_obj->attrs->border ?? 0);
+		$border = (int)($xml_obj->attrs->border ?? 0);
 		$link_url = $xml_obj->attrs->link_url ?? null;
 		$open_window = $xml_obj->attrs->open_window ?? null;
 		$style = $xml_obj->attrs->style ?? null;
-		$margin = intval($xml_obj->attrs->margin ?? 0);
+		$margin = (int)($xml_obj->attrs->margin ?? 0);
 
 		$src = str_replace(array('&','"'), array('&amp;','&qout;'), $src);
 		$src = str_replace('&amp;amp;', '&amp;', $src);

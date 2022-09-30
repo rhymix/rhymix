@@ -106,7 +106,7 @@ class documentView extends document
 
 		// Set target module info
 		$target_mid = Context::getRequestVars()->mid ?? '';
-		$module_srl = intval(Context::get('module_srl'));
+		$module_srl = (int)Context::get('module_srl');
 		
 		// if target mid is provided
 		if($target_mid && $target_mid === Context::get('mid'))

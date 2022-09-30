@@ -682,7 +682,7 @@ class Query extends VariableBase
 		}
 		
 		// Return the LIMIT/OFFSET clause.
-		return ($offset > 0 ? (intval($offset) . ', ') : '') . intval($list_count);
+		return ($offset > 0 ? ((int)$offset . ', ') : '') . (int)$list_count;
 	}
 	
 	/**

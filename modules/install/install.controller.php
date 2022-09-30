@@ -172,7 +172,9 @@ class installController extends install
 		}
 		else
 		{
-			$user_timezone = intval(Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($time_zone ?: '+0900') / 3600);
+			$user_timezone = (int)(Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat(
+					$time_zone ?: '+0900'
+				) / 3600);
 			switch ($user_timezone)
 			{
 				case 9:
@@ -317,10 +319,10 @@ class installController extends install
 		}
 		
 		// Check session availability
-		$license_agreement_time = intval(trim(FileHandler::readFile($this->flagLicenseAgreement)));
+		$license_agreement_time = (int)trim(FileHandler::readFile($this->flagLicenseAgreement));
 		if(isset($_SESSION['license_agreement']) && (!$license_agreement_time || ($license_agreement_time == $_SESSION['license_agreement'])))
 		{
-			$sess_autostart = intval(ini_get('session.auto_start'));
+			$sess_autostart = (int)ini_get('session.auto_start');
 			
 			if($sess_autostart === 0)
 			{

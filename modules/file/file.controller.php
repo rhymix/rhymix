@@ -42,7 +42,7 @@ class fileController extends file
 		}
 		
 		// Get upload_target_srl
-		$upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
+		$upload_target_srl = (int)Context::get('uploadTargetSrl') ?: (int)Context::get('upload_target_srl');
 		if (!$upload_target_srl)
 		{
 			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
@@ -57,9 +57,9 @@ class fileController extends file
 		if (preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE'], $matches))
 		{
 			// Check basic sanity
-			$chunk_start = intval($matches[1]);
+			$chunk_start = (int)$matches[1];
 			$chunk_size = ($matches[2] - $matches[1]) + 1;
-			$total_size = intval($matches[3]);
+			$total_size = (int)$matches[3];
 			if ($chunk_start < 0 || $chunk_size < 0 || $total_size < 0 || $chunk_start + $chunk_size > $total_size || $chunk_size != $file_info['size'])
 			{
 				throw new Rhymix\Framework\Exception('msg_upload_invalid_chunk');
@@ -96,7 +96,7 @@ class fileController extends file
 					throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 				}
 				$output = executeQuery('file.getAttachedFileSize', (object)array('upload_target_srl' => $upload_target_srl));
-				if (intval($output->data->attached_size) + $total_size > $allowed_attach_size)
+				if ((int)$output->data->attached_size + $total_size > $allowed_attach_size)
 				{
 					$this->add('chunk_status', 22);
 					throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
@@ -173,8 +173,8 @@ class fileController extends file
 		$editor_sequence = Context::get('editor_sequence');
 		$callback = Context::get('callback');
 		$module_srl = $this->module_srl;
-		$upload_target_srl = intval(Context::get('uploadTargetSrl'));
-		if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
+		$upload_target_srl = (int)Context::get('uploadTargetSrl');
+		if(!$upload_target_srl) $upload_target_srl = (int)Context::get('upload_target_srl');
 
 		// Exit a session if there is neither upload permission nor information
 		if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
@@ -732,7 +732,7 @@ class fileController extends file
 			$args->upload_target_type = substr($upload_target_type, 0, 3);
 		}
 		$output = executeQuery('file.updateFileValid', $args);
-		$output->add('updated_file_count', intval(DB::getInstance()->getAffectedRows()));
+		$output->add('updated_file_count', (int)DB::getInstance()->getAffectedRows());
 		return $output;
 	}
 
@@ -849,7 +849,7 @@ class fileController extends file
 			$size_args = new stdClass;
 			$size_args->upload_target_srl = $upload_target_srl;
 			$output = executeQuery('file.getAttachedFileSize', $size_args);
-			if($allowed_attach_size < intval($output->data->attached_size) + $file_size)
+			if($allowed_attach_size < (int)$output->data->attached_size + $file_size)
 			{
 				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 			}
@@ -1578,8 +1578,8 @@ class fileController extends file
 	public static function getStoragePath($file_type, $file_srl, $module_srl = 0, $upload_target_srl = 0, $regdate = '', $absolute_path = true)
 	{
 		// 변수 확인 및 넘어오지 않은 변수 기본값 지정
-		$file_srl = intval($file_srl);
-		$module_srl = intval($module_srl);
+		$file_srl = (int)$file_srl;
+		$module_srl = (int)$module_srl;
 		$upload_target_srl = $upload_target_srl ?: $file_srl;
 		$regdate = $regdate ?: date('YmdHis');
 		

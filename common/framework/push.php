@@ -127,7 +127,7 @@ class Push
 	 */
 	public function getFrom(): int
 	{
-		return intval($this->from);
+		return (int)$this->from;
 	}
 	
 	/**

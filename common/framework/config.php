@@ -187,7 +187,7 @@ class Config
 			$value = preg_replace('/=>\s+array\(\n/', "=> array(\n", $value);
 			$value = preg_replace('/array\(\s*\n\s*\)/', 'array()', $value);
 			$value = preg_replace_callback('/\n(\x20+)/', function($m) {
-				return "\n" . str_repeat("\t", intval(strlen($m[1]) / 2));
+				return "\n" . str_repeat("\t", (int)(strlen($m[1]) / 2));
 			}, $value);
 			$value = preg_replace('/\n(\t+)[0-9]+ => /', "\n\$1", $value);
 			return $value;

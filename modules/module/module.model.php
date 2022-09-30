@@ -101,7 +101,7 @@ class moduleModel extends module
 	 */
 	public static function getSiteInfo($domain_srl)
 	{
-		$domain_srl = intval($domain_srl);
+		$domain_srl = (int)$domain_srl;
 		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:srl:' . $domain_srl);
 		if ($domain_info === null)
 		{
@@ -138,7 +138,7 @@ class moduleModel extends module
 		{
 			$domain = Rhymix\Framework\URL::decodeIdna($domain);
 		}
-		if (strval($domain) === '')
+		if ((string)$domain === '')
 		{
 			return false;
 		}
@@ -174,7 +174,7 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfoByDocumentSrl($document_srl)
 	{
-		$document_srl = intval($document_srl);
+		$document_srl = (int)$document_srl;
 		$module_info = Rhymix\Framework\Cache::get('site_and_module:document_srl:' . $document_srl);
 		if (!$module_info)
 		{
@@ -369,7 +369,7 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfoByModuleSrl($module_srl, $columnList = array())
 	{
-		if(intval($module_srl) == 0)
+		if((int)$module_srl == 0)
 		{
 			return false;
 		}
@@ -417,7 +417,7 @@ class moduleModel extends module
 	 */
 	public static function getModuleInfo($module_srl)
 	{
-		return self::getModuleInfoByModuleSrl(intval($module_srl));
+		return self::getModuleInfoByModuleSrl((int)$module_srl);
 	}
 
 	/**
@@ -634,12 +634,12 @@ class moduleModel extends module
 			$result = array();
 			foreach ($module_srl as $item)
 			{
-				$result[intval($item)] = self::getMidByModuleSrl($item);
+				$result[(int)$item] = self::getMidByModuleSrl($item);
 			}
 			return $result;
 		}
 		
-		$module_srl = intval($module_srl);
+		$module_srl = (int)$module_srl;
 		if (isset(self::$_module_srl_map[$module_srl]))
 		{
 			return self::$_module_srl_map[$module_srl];
@@ -1947,9 +1947,9 @@ class moduleModel extends module
 			$module_info->module = $module_info->module_srl = 0;
 		}
 		
-		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)]))
+		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][(int)($module_info->module_srl ?? 0)][(int)($member_info->member_srl ?? 0)]))
 		{
-			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)];
+			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][(int)($module_info->module_srl ?? 0)][(int)($member_info->member_srl ?? 0)];
 			if (is_object($__cache) && !$xml_info)
 			{
 				return $__cache;

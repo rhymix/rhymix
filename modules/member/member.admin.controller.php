@@ -238,12 +238,12 @@ class memberAdminController extends member
 			'member_profile_view'
 		);
 		
-		$args->authmail_expires = max(0, intval($args->authmail_expires));
+		$args->authmail_expires = max(0, (int)$args->authmail_expires);
 		if(!$args->authmail_expires)
 		{
 			$args->authmail_expires = 1;
 		}
-		$args->authmail_expires_unit = intval($args->authmail_expires_unit);
+		$args->authmail_expires_unit = (int)$args->authmail_expires_unit;
 		if(!in_array($args->authmail_expires_unit, [1, 60, 3600, 86400]))
 		{
 			$args->authmail_expires_unit = 86400;
@@ -254,7 +254,7 @@ class memberAdminController extends member
 			$args->password_hashing_algorithm = 'md5';
 		}
 		
-		$args->password_hashing_work_factor = intval($args->password_hashing_work_factor, 10);
+		$args->password_hashing_work_factor = (int)$args->password_hashing_work_factor;
 		if($args->password_hashing_work_factor < 4)
 		{
 			$args->password_hashing_work_factor = 4;
@@ -393,8 +393,8 @@ class memberAdminController extends member
 		{
 			return new BaseObject('-1', 'msg_special_code_incorrect_format');
 		}
-		$args->max_auth_sms_count = max(0, intval($args->max_auth_sms_count));
-		$args->max_auth_sms_count_time = max(0, intval($args->max_auth_sms_count_time));
+		$args->max_auth_sms_count = max(0, (int)$args->max_auth_sms_count);
+		$args->max_auth_sms_count_time = max(0, (int)$args->max_auth_sms_count_time);
 		if($args->redirect_url)
 		{
 			$oModuleModel = getModel('module');

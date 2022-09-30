@@ -197,7 +197,7 @@ class ncenterliteModel extends ncenterlite
 			}
 		}
 		
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		$config = self::$_user_config[$member_srl] ?? null;
 		if ($config !== null)
 		{
@@ -396,7 +396,7 @@ class ncenterliteModel extends ncenterlite
 			$args->readed = $readed;
 		}
 		
-		$notify_count = intval(self::getConfig()->notify_count);
+		$notify_count = (int)self::getConfig()->notify_count;
 		if($notify_count)
 		{
 			$args->list_count = $notify_count;
@@ -435,7 +435,7 @@ class ncenterliteModel extends ncenterlite
 		}
 
 		$args = new stdClass();
-		$args->page = max(1, intval(Context::get('page')));
+		$args->page = max(1, (int)Context::get('page'));
 		$args->list_count = '20';
 		$args->page_count = '10';
 		$args->member_srl = $member_srl;

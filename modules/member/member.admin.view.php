@@ -167,7 +167,7 @@ class memberAdminView extends member
 		// Get supported password algorithms.
 		$oDB = DB::getInstance();
 		$column_info = $oDB->getColumnInfo('member', 'password');
-		$password_maxlength = intval($column_info->size);
+		$password_maxlength = (int)$column_info->size;
 		$password_algos = Rhymix\Framework\Password::getSupportedAlgorithms();
 		if ($password_maxlength < 128 && isset($password_algos['sha512']))
 		{

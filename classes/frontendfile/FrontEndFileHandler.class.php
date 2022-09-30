@@ -99,7 +99,7 @@ class FrontEndFileHandler extends Handler
 		$isCommon = preg_match(HTMLDisplayHandler::$reservedCSS, $args[0]) || preg_match(HTMLDisplayHandler::$reservedJS, $args[0]);
 		
 		// Prevent overwriting common scripts.
-		if(!isset($args[3]) || intval($args[3]) > -1500000000)
+		if(!isset($args[3]) || (int)$args[3] > -1500000000)
 		{
 			if($isCommon)
 			{
@@ -677,7 +677,7 @@ class FrontEndFileHandler extends Handler
 	 */
 	protected function _normalizeFilePath($path)
 	{
-		$path = strval($path);
+		$path = (string)$path;
 		if(!preg_match('!://!', $path) && !preg_match('!^[/.]!', $path))
 		{
 			$path = './' . $path;

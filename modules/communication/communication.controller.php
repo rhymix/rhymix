@@ -83,7 +83,7 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exception('msg_content_is_null');
 		}
 		
-		$temp_srl = intval(Context::get('temp_srl')) ?: null;
+		$temp_srl = (int)Context::get('temp_srl') ?: null;
 		if($temp_srl && !$_SESSION['upload_info'][$temp_srl]->enabled)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -522,7 +522,7 @@ class communicationController extends communication
 		}
 
 		// Call trigger (before)
-		$args->friend_group_srl = intval(Context::get('friend_group_srl'));
+		$args->friend_group_srl = (int)Context::get('friend_group_srl');
 		$trigger_output = ModuleHandler::triggerCall('communication.addFriend', 'before', $args);
 		if(!$trigger_output->toBool())
 		{
@@ -643,7 +643,7 @@ class communicationController extends communication
 		{
 			$friend_srl_list = explode('|@|', $friend_srl_list);
 		}
-		$friend_srl_list = array_map(function($str) { return intval(trim($str)); }, $friend_srl_list);
+		$friend_srl_list = array_map(function($str) { return (int)trim($str); }, $friend_srl_list);
 		$friend_srl_list = array_filter($friend_srl_list, function($friend_srl) { return $friend_srl > 0; });
 		if(!count($friend_srl_list))
 		{
@@ -690,7 +690,7 @@ class communicationController extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$friend_group_srl = intval(trim(Context::get('friend_group_srl')));
+		$friend_group_srl = (int)trim(Context::get('friend_group_srl'));
 
 		// Variables
 		$args = new stdClass();

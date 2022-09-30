@@ -1249,7 +1249,7 @@ class Context
 			$tmp_name = $val['tmp_name'];
 			if(!is_array($tmp_name))
 			{
-				if(($val['name'] === '' || !$val['tmp_name']) && intval($val['size']) == 0)
+				if(($val['name'] === '' || !$val['tmp_name']) && (int)$val['size'] == 0)
 				{
 					unset($_FILES[$key]);
 					continue;
@@ -1270,7 +1270,7 @@ class Context
 				$files = array();
 				foreach ($tmp_name as $i => $j)
 				{
-					if(($val['name'][$i] === '' || !$val['tmp_name'][$i]) && intval($val['size'][$i]) == 0)
+					if(($val['name'][$i] === '' || !$val['tmp_name'][$i]) && (int)$val['size'][$i] == 0)
 					{
 						unset($_FILES[$key]['name'][$i]);
 						unset($_FILES[$key]['tmp_name'][$i]);
@@ -1651,7 +1651,7 @@ class Context
 		}
 
 		// If the first argument is '', reset existing parameters.
-		if (!is_array($args_list[0]) && strval($args_list[0]) === '')
+		if (!is_array($args_list[0]) && (string)$args_list[0] === '')
 		{
 			array_shift($args_list);
 			$get_vars = array();
@@ -2426,7 +2426,7 @@ class Context
 	 */
 	public static function addBodyClass($class_name)
 	{
-		$class_name = strval($class_name);
+		$class_name = (string)$class_name;
 		if (!in_array($class_name, self::$_instance->body_class))
 		{
 			self::$_instance->body_class[] = $class_name;
@@ -2440,7 +2440,7 @@ class Context
 	 */
 	public static function removeBodyClass($class_name)
 	{
-		$class_name = strval($class_name);
+		$class_name = (string)$class_name;
 		self::$_instance->body_class = array_values(array_filter(self::$_instance->body_class, function($str) use($class_name) {
 			return $str !== $class_name;
 		}));

@@ -10,7 +10,7 @@ class VendorPass
     
     public static function mysql_old_password($password)
     {
-        $password = strval($password);
+        $password = (string)$password;
         $length = strlen($password);
         $nr1 = 0x50305735; $nr2 = 0x12345671; $add = 7; $tmp = null;
         for ($i = 0; $i < $length; $i++) {
@@ -55,7 +55,7 @@ class VendorPass
         $itoa64 = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         if ($salt !== null && strlen($salt) > 12)
         {
-            $iterations = intval(strpos($itoa64, substr($salt, 3, 1)));
+            $iterations = (int)strpos($itoa64, substr($salt, 3, 1));
             $salt = substr($salt, 4, 8);
         }
         else

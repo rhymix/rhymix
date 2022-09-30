@@ -100,7 +100,7 @@ class Router
 		{
 			$level = Config::get('use_rewrite') ? 1 : 0;
 		}
-		return intval($level);
+		return (int)$level;
 	}
 	
 	/**

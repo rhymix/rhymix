@@ -53,11 +53,11 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 							if (isset($info['pass']) && $info['pass']) $auth[] = $info['pass'];
 							$this->_conn->auth(count($auth) > 1 ? $auth : $auth[0]);
 						}
-						if(isset($info['fragment']) && $dbnum = intval($info['fragment']))
+						if(isset($info['fragment']) && $dbnum = (int)$info['fragment'])
 						{
 							$this->_conn->select($dbnum);
 						}
-						elseif(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
+						elseif(isset($info['path']) && $dbnum = (int)substr($info['path'], 1))
 						{
 							$this->_conn->select($dbnum);
 						}
@@ -131,11 +131,11 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 						{
 							$conn->auth(isset($info['user']) ? $info['user'] : $info['pass']);
 						}
-						if(isset($info['fragment']) && $dbnum = intval($info['fragment']))
+						if(isset($info['fragment']) && $dbnum = (int)$info['fragment'])
 						{
 							$conn->select($dbnum);
 						}
-						elseif(isset($info['path']) && $dbnum = intval(substr($info['path'], 1)))
+						elseif(isset($info['path']) && $dbnum = (int)substr($info['path'], 1))
 						{
 							$conn->select($dbnum);
 						}

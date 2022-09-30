@@ -184,8 +184,8 @@ class IpFilter
 		{
 			if (strpos($range, '/') === false) $range .= '/128';
 			list($range, $mask) = explode('/', $range);
-			$ip = substr(bin2hex(inet_pton($ip)), 0, intval($mask / 4));
-			$range = substr(bin2hex(inet_pton($range)), 0, intval($mask / 4));
+			$ip = substr(bin2hex(inet_pton($ip)), 0, (int)($mask / 4));
+			$range = substr(bin2hex(inet_pton($range)), 0, (int)($mask / 4));
 			return $ip === $range;
 		}
 		else

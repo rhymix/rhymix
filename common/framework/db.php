@@ -461,8 +461,8 @@ class DB
 		list($is_expression, $list_count) = $query->navigation->list_count->getValue($args);
 		list($is_expression, $page_count) = $query->navigation->page_count->getValue($args);
 		list($is_expression, $page) = $query->navigation->page->getValue($args);
-		$total_count = intval($count);
-		$total_page = max(1, intval(ceil($total_count / $list_count)));
+		$total_count = (int)$count;
+		$total_page = max(1, (int)ceil($total_count / $list_count));
 		$last_index = $total_count - (($page - 1) * $list_count);
 		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count);
 		
@@ -678,7 +678,7 @@ class DB
 	 */
 	public function getAffectedRows(): int
 	{
-		return $this->_last_stmt ? intval($this->_last_stmt->rowCount()) : 0;
+		return $this->_last_stmt ? (int)$this->_last_stmt->rowCount() : 0;
 	}
 	
 	/**
@@ -688,7 +688,7 @@ class DB
 	 */
 	public function getInsertID(): int
 	{
-		return intval($this->_handle->lastInsertId());
+		return (int)$this->_handle->lastInsertId();
 	}
 	
 	/**
@@ -813,7 +813,7 @@ class DB
 	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): Helpers\DBResultHelper
 	{
 		// Normalize the type and size.
-		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
+		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, (string)$size);
 		
 		// Compose the ADD COLUMN query.
 		$query = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
@@ -865,7 +865,7 @@ class DB
 	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): Helpers\DBResultHelper
 	{
 		// Normalize the type and size.
-		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
+		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, (string)$size);
 		
 		// Compose the MODIFY COLUMN query.
 		if ($new_name && $new_name !== $column_name)
@@ -1083,7 +1083,7 @@ class DB
 	{
 		if (is_numeric($str))
 		{
-			return strval($str);
+			return (string)$str;
 		}
 		else
 		{

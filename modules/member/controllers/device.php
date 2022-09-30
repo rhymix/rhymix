@@ -74,7 +74,7 @@ class Device extends \member
 		// Get device information
 		$browserInfo = \Rhymix\Framework\UA::getBrowserInfo();
 		$device_type = escape(strtolower($browserInfo->os));
-		$device_version = escape(strval($browserInfo->os_version));
+		$device_version = escape((string)$browserInfo->os_version);
 		if (!$device_model)
 		{
 			$device_model = escape($browserInfo->device);
@@ -96,7 +96,7 @@ class Device extends \member
 		
 		if ($member_srl)
 		{
-			$member_srl = intval($member_srl);
+			$member_srl = (int)$member_srl;
 		}
 		elseif ($user_id && $password)
 		{
@@ -106,7 +106,7 @@ class Device extends \member
 				return new \BaseObject(-1, 'LOGIN_FAILED');
 			}
 			$logged_info = \Context::get('logged_info');
-			$member_srl = intval($logged_info->member_srl);
+			$member_srl = (int)$logged_info->member_srl;
 		}
 		else
 		{
@@ -171,8 +171,8 @@ class Device extends \member
 		// Check member_srl, device_token, device_key
 		$allow_guest_device = config('push.allow_guest_device');
 		$member_srl = abs(\Context::get('member_srl'));
-		$device_token = strval(\Context::get('device_token'));
-		$random_key = strval(\Context::get('device_key'));
+		$device_token = (string)\Context::get('device_token');
+		$random_key = (string)\Context::get('device_key');
 
 		// Return an error when id, password and device_key doesn't exist
 		if (!$member_srl && !$allow_guest_device)
@@ -240,8 +240,8 @@ class Device extends \member
 		// Check member_srl, device_token, device_key
 		$allow_guest_device = config('push.allow_guest_device');
 		$member_srl = abs(\Context::get('member_srl'));
-		$device_token = strval(\Context::get('device_token'));
-		$random_key = strval(\Context::get('device_key'));
+		$device_token = (string)\Context::get('device_token');
+		$random_key = (string)\Context::get('device_key');
 
 		// Return an error when id, password and device_key doesn't exist
 		if (!$member_srl && !$allow_guest_device)
@@ -291,7 +291,7 @@ class Device extends \member
 	public function procMemberDeleteDevice()
 	{
 		// Check the device_srl and member_srl of the currently logged in member.
-		$device_srl = intval(\Context::get('device_srl'));
+		$device_srl = (int)\Context::get('device_srl');
 		if (!$device_srl)
 		{
 			throw new \Rhymix\Framework\Exceptions\InvalidRequest;

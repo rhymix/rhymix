@@ -436,7 +436,7 @@ class SMSTest extends \Codeception\TestCase\Test
 	{
 		$sms = new Rhymix\Framework\SMS;
 		$sms->send();
-		$line = strval(__LINE__ - 1);
+		$line = (string)(__LINE__ - 1);
 		
 		$caller = $sms->getCaller();
 		$this->assertRegexp('/^.+ line \d+$/', $caller);

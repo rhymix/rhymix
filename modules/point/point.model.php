@@ -58,7 +58,9 @@ class pointModel extends point
 		if (!$from_db && file_exists($cache_filename))
 		{
 			$exists = true;
-			return parent::$_member_point_cache[$member_srl] = intval(trim(Rhymix\Framework\Storage::read($cache_filename)));
+			return parent::$_member_point_cache[$member_srl] = (int)trim(
+				Rhymix\Framework\Storage::read($cache_filename)
+			);
 		}
 
 		// Get from the DB
@@ -68,7 +70,7 @@ class pointModel extends point
 		if (isset($output->data->member_srl))
 		{
 			$exists = true;
-			$point = intval($output->data->point);
+			$point = (int)$output->data->point;
 		}
 		else
 		{

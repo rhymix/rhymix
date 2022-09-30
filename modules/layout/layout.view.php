@@ -41,7 +41,7 @@ class layoutView extends layout
 	public function dispLayoutPreviewWithModule()
 	{
 		$content = '';
-		$layoutSrl = intval(Context::get('layout_srl'));
+		$layoutSrl = (int)Context::get('layout_srl');
 		$module = preg_replace('/[^a-zA-Z0-9_]/', '', Context::get('module_name'));
 		$mid = preg_replace('/[^a-zA-Z0-9\/_-]/', '', Context::get('target_mid'));
 		$skin = preg_replace('/[^a-zA-Z0-9_-]/', '', Context::get('skin'));

@@ -175,7 +175,7 @@ class DateTime
 			case 30600: return 'Asia/Pyongyang';      // +08:30
 			case 31500: return 'Australia/Eucla';     // +08:45
 			case 34200: return 'Australia/Darwin';    // +09:30
-			default: return 'Etc/GMT' . ($offset > 0 ? '-' : '+') . intval(abs($offset / 3600));
+			default: return 'Etc/GMT' . ($offset > 0 ? '-' : '+') . (int)abs($offset / 3600);
 		}
 	}
 	

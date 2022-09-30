@@ -344,7 +344,7 @@ class Debug
 		// Add the entry to the error log.
 		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
 		{
-			$log_entry = strtr(sprintf('PHP %s: %s in %s on line %d', $errinfo->type, $errstr, $errfile, intval($errline)), "\0\r\n\t\v\e\f", '       ');
+			$log_entry = strtr(sprintf('PHP %s: %s in %s on line %d', $errinfo->type, $errstr, $errfile, (int)$errline), "\0\r\n\t\v\e\f", '       ');
 			error_log($log_entry . \PHP_EOL . self::formatBacktrace($backtrace));
 		}
 	}
@@ -371,7 +371,7 @@ class Debug
 			'query_id' => $query['query_id'],
 			'query_connection' => $query['connection'],
 			'query_string' => $query['query'],
-			'query_time' => floatval($query['elapsed_time']),
+			'query_time' => (float)$query['elapsed_time'],
 			'file' => $query['called_file'],
 			'line' => $query['called_line'],
 			'method' => $query['called_method'],
@@ -387,7 +387,7 @@ class Debug
 			$error_object = (object)array(
 				'type' => 'Query Error',
 				'time' => $query_object->time,
-				'message' => $query['errstr'] . ' (code ' . intval($query['errno']) . ')',
+				'message' => $query['errstr'] . ' (code ' . (int)$query['errno'] . ')',
 				'file' => $query_object->file,
 				'line' => $query_object->line,
 				'backtrace' => $query_object->backtrace ?: array(),
@@ -397,7 +397,9 @@ class Debug
 			
 			if (self::$_config['write_error_log'] === 'all')
 			{
-				$log_entry = strtr(sprintf('Query Error: %s in %s on line %d', $error_object->message, $error_object->file, intval($error_object->line)), "\0\r\n\t\v\e\f", '       ');
+				$log_entry = strtr(sprintf('Query Error: %s in %s on line %d', $error_object->message, $error_object->file,
+					(int)$error_object->line
+				), "\0\r\n\t\v\e\f", '       ');
 				error_log($log_entry . \PHP_EOL . self::formatBacktrace($error_object->backtrace));
 			}
 		}
@@ -578,7 +580,7 @@ class Debug
 		$errinfo['file'] = self::translateFilename($errinfo['file']);
 		
 		// Add the entry to the error log.
-		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
+		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], (int)$errinfo['line']);
 		$log_entry = str_replace("\0", '', 'PHP ' . self::getErrorType($errinfo['type']) . ': ' . $message);
 		if (!isset(self::$_config['write_error_log']) || self::$_config['write_error_log'] !== 'none')
 		{
@@ -775,7 +777,7 @@ class Debug
 			'url' => getCurrentPageUrl(),
 			'request' => (object)array(
 				'method' => $_SERVER['REQUEST_METHOD'] . ($_SERVER['REQUEST_METHOD'] !== \Context::getRequestMethod() ? (' (' . \Context::getRequestMethod() . ')') : ''),
-				'size' => intval($_SERVER['CONTENT_LENGTH'] ?? 0),
+				'size' => (int)($_SERVER['CONTENT_LENGTH'] ?? 0),
 			),
 			'response' => (object)array(
 				'method' => \Context::getResponseMethod(),

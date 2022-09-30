@@ -173,7 +173,7 @@ class i18n
 		}
 		else
 		{
-			if (!in_array(strval($phone_country), array('39', '378', '379')))
+			if (!in_array((string)$phone_country, array('39', '378', '379')))
 			{
 				$phone_number = preg_replace('/^0/', '', $phone_number);
 			}

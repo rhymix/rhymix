@@ -203,7 +203,7 @@ class Session
 		// If a member is logged in, check if the current session is valid for the member_srl.
 		if (isset($_SESSION['RHYMIX']['login']) && $_SESSION['RHYMIX']['login'] && !self::isValid($_SESSION['RHYMIX']['login']))
 		{
-			trigger_error('Session failed validation checks for member_srl=' . intval($_SESSION['RHYMIX']['login']), \E_USER_WARNING);
+			trigger_error('Session failed validation checks for member_srl=' . (int)$_SESSION['RHYMIX']['login'], \E_USER_WARNING);
 			$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
 			$must_create = true;
 		}
@@ -538,9 +538,9 @@ class Session
 	public static function close()
 	{
 		// Restore member_srl from XE-compatible variable if it has changed.
-		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['login'] !== intval($_SESSION['member_srl']))
+		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['login'] !== (int)$_SESSION['member_srl'])
 		{
-			$_SESSION['RHYMIX']['login'] = intval($_SESSION['member_srl'] ?? 0);
+			$_SESSION['RHYMIX']['login'] = (int)($_SESSION['member_srl'] ?? 0);
 			$_SESSION['RHYMIX']['last_login'] = time();
 			$_SESSION['is_logged'] = (bool)($_SESSION['member_srl'] ?? 0);
 		}
@@ -716,7 +716,7 @@ class Session
 	public static function isValid($member_srl = 0)
 	{
 		// If no member_srl is given, the session is always valid.
-		$member_srl = intval($member_srl) ?: (isset($_SESSION['RHYMIX']['login']) ? $_SESSION['RHYMIX']['login'] : 0);
+		$member_srl = (int)$member_srl ?: (isset($_SESSION['RHYMIX']['login']) ? $_SESSION['RHYMIX']['login'] : 0);
 		if (!$member_srl)
 		{
 			return false;
@@ -726,7 +726,7 @@ class Session
 		$validity_info = self::getValidityInfo($member_srl);
 		if ($validity_info->invalid_before && self::isStarted() && $_SESSION['RHYMIX']['last_login'] && $_SESSION['RHYMIX']['last_login'] < $validity_info->invalid_before)
 		{
-			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (expired timestamp)', \E_USER_WARNING);
+			trigger_error('Session is invalid for member_srl=' . (int)$_SESSION['RHYMIX']['login'] . ' (expired timestamp)', \E_USER_WARNING);
 			return false;
 		}
 		
@@ -734,12 +734,12 @@ class Session
 		$member_info = \MemberModel::getMemberInfo($member_srl);
 		if ($member_info->denied === 'Y')
 		{
-			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (denied)', \E_USER_WARNING);
+			trigger_error('Session is invalid for member_srl=' . (int)$_SESSION['RHYMIX']['login'] . ' (denied)', \E_USER_WARNING);
 			return false;
 		}
 		if ($member_info->limit_date && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
 		{
-			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (limited)', \E_USER_WARNING);
+			trigger_error('Session is invalid for member_srl=' . (int)$_SESSION['RHYMIX']['login'] . ' (limited)', \E_USER_WARNING);
 			return false;
 		}
 		
@@ -940,7 +940,7 @@ class Session
 	public static function createToken($key = null)
 	{
 		$token = Security::getRandom(16, 'alnum');
-		$_SESSION['RHYMIX']['tokens'][$token] = strval($key);
+		$_SESSION['RHYMIX']['tokens'][$token] = (string)$key;
 		return $token;
 	}
 	
@@ -959,7 +959,7 @@ class Session
 	 */
 	public static function verifyToken($token, $key = '', $strict = true)
 	{
-		if (isset($_SESSION['RHYMIX']['tokens'][$token]) && $_SESSION['RHYMIX']['tokens'][$token] === strval($key))
+		if (isset($_SESSION['RHYMIX']['tokens'][$token]) && $_SESSION['RHYMIX']['tokens'][$token] === (string)$key)
 		{
 			return true;
 		}
@@ -1022,7 +1022,7 @@ class Session
 	 */
 	public static function getValidityInfo($member_srl)
 	{
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		$validity_info = Cache::get(sprintf('session:validity_info:%d', $member_srl));
 		if ($validity_info)
 		{
@@ -1053,7 +1053,7 @@ class Session
 	 */
 	public static function setValidityInfo($member_srl, $validity_info)
 	{
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		if (!$member_srl)
 		{
 			return false;
@@ -1222,8 +1222,8 @@ class Session
 	 */
 	protected static function _setCookie($name, $value, array $options = [])
 	{
-		$name = strval($name);
-		$value = strval($value);
+		$name = (string)$name;
+		$value = (string)$value;
 
 		if (version_compare(PHP_VERSION, '7.3', '>='))
 		{
@@ -1342,7 +1342,7 @@ class Session
 	public static function destroyOtherSessions($member_srl)
 	{
 		// Check the validity of member_srl.
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		if (!$member_srl)
 		{
 			return false;

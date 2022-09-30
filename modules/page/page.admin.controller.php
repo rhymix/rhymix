@@ -314,7 +314,7 @@ class pageAdminController extends page
 		$obj->module_srl = $this->module_info->module_srl;
 		$obj->is_notice = 'N';
 
-		settype($obj->title, "string");
+		$obj->title = (string)$obj->title;
 		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
 		//그래도 없으면 Untitled
 		if($obj->title == '') $obj->title = 'Untitled';

@@ -35,8 +35,8 @@ class spamfilterAdminController extends spamfilter
 		{
 			$args->ipv6_block_range = '';
 		}
-		$args->limits_interval = intval($args->limits_interval);
-		$args->limits_count = intval($args->limits_count);
+		$args->limits_interval = (int)$args->limits_interval;
+		$args->limits_count = (int)$args->limits_count;
 		$args->custom_message = escape(utf8_trim($args->custom_message));
 		foreach ($args as $key => $val)
 		{

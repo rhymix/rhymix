@@ -85,9 +85,9 @@ class BaseObject
 	{
 		// If the first argument is an integer, treat it as an error code. Otherwise, treat it as an error message.
 		$args = func_get_args();
-		if(strval(intval($error)) === strval($error))
+		if((string)(int)$error === (string)$error)
 		{
-			$this->error = intval($error);
+			$this->error = (int)$error;
 			array_shift($args);
 		}
 		else
@@ -174,7 +174,7 @@ class BaseObject
 	 * */
 	public function setMessageType($type)
 	{
-		$this->variables['message_type'] = strval($type);
+		$this->variables['message_type'] = (string)$type;
 		return $this;
 	}
 

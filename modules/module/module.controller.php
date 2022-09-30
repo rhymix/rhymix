@@ -784,11 +784,11 @@ class moduleController extends module
 		}
 		
 		$args = new stdClass();
-		$args->module_srl = intval($module_srl);
+		$args->module_srl = (int)$module_srl;
 		$args->member_srl = $member_info->member_srl;
 		$output = executeQuery('module.insertAdminId', $args);
 		
-		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));
+		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . (int)$module_srl);
 		return $output;
 	}
 
@@ -798,7 +798,7 @@ class moduleController extends module
 	function deleteAdminId($module_srl, $admin_id = '')
 	{
 		$args = new stdClass();
-		$args->module_srl = intval($module_srl);
+		$args->module_srl = (int)$module_srl;
 
 		if($admin_id)
 		{
@@ -817,7 +817,7 @@ class moduleController extends module
 		}
 		
 		$output = executeQuery('module.deleteAdminId', $args);
-		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));
+		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . (int)$module_srl);
 		return $output;
 	}
 

@@ -68,16 +68,16 @@ class fileAdminController extends file
 		$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
-		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
-		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+		$config->max_image_width = (int)Context::get('max_image_width') ?: '';
+		$config->max_image_height = (int)Context::get('max_image_height') ?: '';
 		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
 		$config->max_image_size_same_format = Context::get('max_image_size_same_format') === 'Y' ? 'Y' : 'N';
 		$config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
-		$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
+		$config->image_quality_adjustment = max(50, min(100, (int)Context::get('image_quality_adjustment')));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
-		$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
+		$config->video_mp4_gif_time = (int)Context::get('video_mp4_gif_time');
 		if (RX_WINDOWS)
 		{
 			$config->ffmpeg_command = escape(Context::get('ffmpeg_command')) ?: 'C:\Program Files\ffmpeg\bin\ffmpeg.exe';
@@ -212,12 +212,12 @@ class fileAdminController extends file
 			$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 			$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
 			$config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
-			$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
-			$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
+			$config->max_image_width = (int)Context::get('max_image_width') ?: '';
+			$config->max_image_height = (int)Context::get('max_image_height') ?: '';
 			$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
 			$config->max_image_size_same_format = Context::get('max_image_size_same_format') === 'Y' ? 'Y' : 'N';
 			$config->max_image_size_admin = Context::get('max_image_size_admin') === 'Y' ? 'Y' : 'N';
-			$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
+			$config->image_quality_adjustment = max(50, min(100, (int)Context::get('image_quality_adjustment')));
 			$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 			$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
 		}
@@ -227,7 +227,7 @@ class fileAdminController extends file
 		{
 			$config->use_video_default_file_config = 'N';
 			$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
-			$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
+			$config->video_mp4_gif_time = (int)Context::get('video_mp4_gif_time');
 		}
 		
 		// Set download groups

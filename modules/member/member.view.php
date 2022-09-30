@@ -381,14 +381,14 @@ class memberView extends member
 		$args = new stdClass;
 		$args->list_count = 20;
 		$args->page_count = 5;
-		$args->page = intval(Context::get('page')) ?: 1;
+		$args->page = (int)Context::get('page') ?: 1;
 		if(in_array(Context::get('search_target'), array('title', 'title_content', 'content')))
 		{
 			$args->search_target = Context::get('search_target');
 			$args->search_keyword = escape(trim(utf8_normalize_spaces(Context::get('search_keyword'))));
 		}
 		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
-		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
+		$args->module_srl = (int)Context::get('selected_module_srl') ?: null;
 		$args->sort_index = 'list_order';
 		$args->statusList = array('PUBLIC', 'SECRET');
 		
@@ -425,14 +425,14 @@ class memberView extends member
 		$args = new stdClass;
 		$args->list_count = 20;
 		$args->page_count = 5;
-		$args->page = intval(Context::get('page')) ?: 1;
+		$args->page = (int)Context::get('page') ?: 1;
 		if(Context::get('search_keyword'))
 		{
 			$args->search_target = 'content';
 			$args->search_keyword = escape(trim(utf8_normalize_spaces(Context::get('search_keyword'))));
 		}
 		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
-		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
+		$args->module_srl = (int)Context::get('selected_module_srl') ?: null;
 		$args->sort_index = 'list_order';
 		
 		$output = CommentModel::getTotalCommentList($args);

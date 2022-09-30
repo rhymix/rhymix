@@ -58,10 +58,10 @@ class DBTableParser extends BaseParser
 		}
 		else
 		{
-			$table->name = strval($xml['name']);
+			$table->name = (string)$xml['name'];
 		}
 		
-		$deleted = strval($xml['deleted']);
+		$deleted = (string)$xml['deleted'];
 		if ($deleted !== '')
 		{
 			$table->deleted = toBool($deleted);
@@ -72,8 +72,10 @@ class DBTableParser extends BaseParser
 		{
 			// Get the column name and type.
 			$column = new DBTable\Column;
-			$column->name = strval($column_info['name']);
-			list($column->type, $column->xetype, $column->size) = self::getTypeAndSize(strval($column_info['type']), strval($column_info['size']));
+			$column->name = (string)$column_info['name'];
+			list($column->type, $column->xetype, $column->size) = self::getTypeAndSize((string)$column_info['type'],
+				(string)$column_info['size']
+			);
 			
 			// Get all attributes.
 			$attribs = self::_getAttributes($column_info);
@@ -161,7 +163,7 @@ class DBTableParser extends BaseParser
 			{
 				if (preg_match('/^(\S+)\s*\(([0-9]+)\)$/', $idxcolumn, $matches))
 				{
-					$index->columns[$matches[1]] = intval($matches[2]);
+					$index->columns[$matches[1]] = (int)$matches[2];
 					$idxcolumn = $matches[1];
 				}
 				else

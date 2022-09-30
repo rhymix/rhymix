@@ -526,7 +526,7 @@ class member extends ModuleObject
 		if($output->data && $output->data->count)
 		{
 			$last_update = strtotime($output->data->last_update);
-			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
+			$term = (int)($_SERVER['REQUEST_TIME'] - $last_update);
 			//update, if IP address access in a short time, update count. If not, make count 1.
 			if($term < $config->max_error_count_time)
 			{

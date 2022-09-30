@@ -878,7 +878,7 @@ class Storage
 	 */
 	public static function setUmask($umask)
 	{
-		self::$_umask = intval($umask);
+		self::$_umask = (int)$umask;
 	}
 	
 	/**

@@ -349,7 +349,7 @@ class Mail
 	{
 		try
 		{
-			$this->message->setSubject(strval($subject));
+			$this->message->setSubject((string)$subject);
 			return true;
 		}
 		catch (\Exception $e)
@@ -655,7 +655,7 @@ class Mail
 		
 		foreach($addresses as $email => $name)
 		{
-			if(strval($name) === '')
+			if((string)$name === '')
 			{
 				$result[] = $email;
 			}

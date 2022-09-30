@@ -110,7 +110,7 @@ class LangParser
 	{
 		foreach ($items as $item)
 		{
-			$name = strval($item['name']);
+			$name = (string)$item['name'];
 			if (@count($item->item))
 			{
 				$lang[$name] = array();
@@ -121,9 +121,9 @@ class LangParser
 				foreach ($item->value as $value)
 				{
 					$attribs = $value->attributes('xml', true);
-					if (strval($attribs['lang']) === $language)
+					if ((string)$attribs['lang'] === $language)
 					{
-						$lang[$name] = strval($value);
+						$lang[$name] = (string)$value;
 						break;
 					}
 				}

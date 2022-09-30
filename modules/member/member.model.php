@@ -448,7 +448,7 @@ class memberModel extends member
 	 */
 	public static function getMemberInfo($member_srl)
 	{
-		return self::getMemberInfoByMemberSrl(intval($member_srl));
+		return self::getMemberInfoByMemberSrl((int)$member_srl);
 	}
 
 	/**
@@ -603,7 +603,7 @@ class memberModel extends member
 	public static function getMemberGroups($member_srl, $site_srl = 0, $force_reload = false)
 	{
 		// cache controll
-		$member_srl = intval($member_srl);
+		$member_srl = (int)$member_srl;
 		$cache_key = sprintf('member:member_groups:%d', $member_srl);
 		$group_list = Rhymix\Framework\Cache::get($cache_key);
 
@@ -1406,7 +1406,7 @@ class memberModel extends member
 						$args->user_id = $search_keyword;
 						break;
 					case "member_srl":
-						$args->member_srl = intval($search_keyword);
+						$args->member_srl = (int)$search_keyword;
 						break;
 					default:
 						break;

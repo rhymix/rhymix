@@ -57,7 +57,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$exceptions = array();
 		for ($i = 1; $i <= 3; $i++)
 		{
-			$method = strval(Context::get('exception_' . $i . '_method'));
+			$method = (string)Context::get('exception_' . $i . '_method');
 			$domains = trim(Context::get('exception_' . $i . '_domains'));
 			if ($method !== '' && $domains !== '')
 			{
@@ -154,7 +154,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	public function procAdvanced_mailerAdminClearSentMail()
 	{
 		$status = Context::get('status');
-		$clear_before_days = intval(Context::get('clear_before_days'));
+		$clear_before_days = (int)Context::get('clear_before_days');
 		if (!in_array($status, array('success', 'error')))
 		{
 			$status = null;
@@ -178,7 +178,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	public function procAdvanced_mailerAdminClearSentSMS()
 	{
 		$status = Context::get('status');
-		$clear_before_days = intval(Context::get('clear_before_days'));
+		$clear_before_days = (int)Context::get('clear_before_days');
 		if (!in_array($status, array('success', 'error')))
 		{
 			$status = null;
@@ -202,7 +202,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	public function procAdvanced_mailerAdminClearSentPush()
 	{
 		$status = Context::get('status');
-		$clear_before_days = intval(Context::get('clear_before_days'));
+		$clear_before_days = (int)Context::get('clear_before_days');
 		if (!in_array($status, array('success', 'error')))
 		{
 			$status = null;
@@ -301,7 +301,7 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 	public function procAdvanced_MailerAdminTestSendSMS()
 	{
 		$recipient_number = Context::get('recipient_number');
-		$country_code = intval(Context::get('country_code'));
+		$country_code = (int)Context::get('country_code');
 		$content = trim(Context::get('content'));
 		
 		if (!$recipient_number)

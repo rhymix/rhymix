@@ -278,7 +278,7 @@ class commentController extends comment
 		}
 		
 		// if an user select message from options, message would be the option.
-		$message_option = strval(Context::get('message_option'));
+		$message_option = (string)Context::get('message_option');
 		$improper_comment_reasons = lang('improper_comment_reasons');
 		$declare_message = ($message_option !== 'others' && isset($improper_comment_reasons[$message_option]))?
 			$improper_comment_reasons[$message_option] : trim(Context::get('declare_message'));
@@ -423,10 +423,10 @@ class commentController extends comment
 		unset($obj->manual_member_info);
 		
 		// Sanitize variables
-		$obj->comment_srl = intval($obj->comment_srl);
-		$obj->module_srl = intval($obj->module_srl);
-		$obj->document_srl = intval($obj->document_srl);
-		$obj->parent_srl = intval($obj->parent_srl);
+		$obj->comment_srl = (int)$obj->comment_srl;
+		$obj->module_srl = (int)$obj->module_srl;
+		$obj->document_srl = (int)$obj->document_srl;
+		$obj->parent_srl = (int)$obj->parent_srl;
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 		
@@ -799,10 +799,10 @@ class commentController extends comment
 		unset($obj->manual_member_info);
 		
 		// Sanitize variables
-		$obj->comment_srl = intval($obj->comment_srl);
-		$obj->module_srl = intval($obj->module_srl);
-		$obj->document_srl = intval($obj->document_srl);
-		$obj->parent_srl = intval($obj->parent_srl);
+		$obj->comment_srl = (int)$obj->comment_srl;
+		$obj->module_srl = (int)$obj->module_srl;
+		$obj->document_srl = (int)$obj->document_srl;
+		$obj->parent_srl = (int)$obj->parent_srl;
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 		
@@ -1596,7 +1596,7 @@ class commentController extends comment
 		}
 
 		// Get currently logged in user.
-		$member_srl = intval($this->user->member_srl);
+		$member_srl = (int)$this->user->member_srl;
 		
 		// if the comment author is a member
 		if($oComment->get('member_srl'))

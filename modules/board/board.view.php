@@ -489,7 +489,7 @@ class boardView extends board
 		// setup module_srl/page number/ list number/ page count
 		$args = new stdClass();
 		$args->module_srl = $this->include_modules ?: $this->module_srl;
-		$args->page = intval(Context::get('page')) ?: null;
+		$args->page = (int)Context::get('page') ?: null;
 		$args->list_count = $this->list_count;
 		$args->page_count = $this->page_count;
 		if (isset($this->module_info->include_days) && $this->module_info->include_days > 0)
@@ -884,7 +884,9 @@ class boardView extends board
 			$point_config = ModuleModel::getModulePartConfig('point',$this->module_srl);
 			if ($point_config)
 			{
-				$pointForInsert = intval(is_object($point_config) ? $point_config->insert_document : $point_config["insert_document"]);
+				$pointForInsert = (int)(is_object(
+					$point_config
+				) ? $point_config->insert_document : $point_config["insert_document"]);
 			}
 			else
 			{

@@ -127,7 +127,7 @@ class adminAdminController extends admin
 		{
 			foreach($tmp_cache_list as $tmp_dir)
 			{
-				if(strval($tmp_dir) !== '')
+				if((string)$tmp_dir !== '')
 				{
 					$tmp_dir = $tmp_cache_prefix . $tmp_dir;
 					if (!Rhymix\Framework\Storage::isDirectory($tmp_dir))
@@ -269,22 +269,23 @@ class adminAdminController extends admin
 
 		if($designInfo->layout_srl)
 		{
-			$buff[] = sprintf('$designInfo->layout_srl = %s; ', var_export(intval($designInfo->layout_srl), true));
+			$buff[] = sprintf('$designInfo->layout_srl = %s; ', var_export((int)$designInfo->layout_srl, true));
 		}
 
 		if($designInfo->mlayout_srl)
 		{
-			$buff[] = sprintf('$designInfo->mlayout_srl = %s;', var_export(intval($designInfo->mlayout_srl), true));
+			$buff[] = sprintf('$designInfo->mlayout_srl = %s;', var_export((int)$designInfo->mlayout_srl, true));
 		}
 
 		$buff[] = '$designInfo->module = new stdClass;';
 
 		foreach($designInfo->module as $moduleName => $skinInfo)
 		{
-			$buff[] = sprintf('$designInfo->module->{%s} = new stdClass;', var_export(strval($moduleName), true));
+			$buff[] = sprintf('$designInfo->module->{%s} = new stdClass;', var_export((string)$moduleName, true));
 			foreach($skinInfo as $target => $skinName)
 			{
-				$buff[] = sprintf('$designInfo->module->{%s}->{%s} = %s;', var_export(strval($moduleName), true), var_export(strval($target), true), var_export(strval($skinName), true));
+				$buff[] = sprintf('$designInfo->module->{%s}->{%s} = %s;', var_export((string)$moduleName, true), var_export(
+					(string)$target, true), var_export((string)$skinName, true));
 			}
 		}
 
@@ -814,12 +815,12 @@ class adminAdminController extends admin
 					{
 						$auth = '';
 					}
-					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . (int)$vars->object_cache_port);
 				}
 				
 				if ($vars->object_cache_type === 'redis')
 				{
-					$cache_servers[0] .= '#' . intval($vars->object_cache_dbnum);
+					$cache_servers[0] .= '#' . (int)$vars->object_cache_dbnum;
 				}
 			}
 			else
@@ -832,7 +833,7 @@ class adminAdminController extends admin
 			}
 			Rhymix\Framework\Config::set('cache', array(
 				'type' => $vars->object_cache_type,
-				'ttl' => intval($vars->cache_default_ttl ?: 86400),
+				'ttl' => (int)($vars->cache_default_ttl ?: 86400),
 				'servers' => $cache_servers,
 			));
 		}
@@ -852,7 +853,7 @@ class adminAdminController extends admin
 		$document_config = $oDocumentModel->getDocumentConfig();
 		$document_config->thumbnail_target = $vars->thumbnail_target ?: 'all';
 		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'fill';
-		$document_config->thumbnail_quality = intval($vars->thumbnail_quality) ?: 75;
+		$document_config->thumbnail_quality = (int)$vars->thumbnail_quality ?: 75;
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);
 		
@@ -877,7 +878,7 @@ class adminAdminController extends admin
 		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
 		
 		// Other settings
-		Rhymix\Framework\Config::set('url.rewrite', intval($vars->use_rewrite));
+		Rhymix\Framework\Config::set('url.rewrite', (int)$vars->use_rewrite);
 		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite > 0);
 		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
 		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
@@ -911,21 +912,23 @@ class adminAdminController extends admin
 		
 		// Debug settings
 		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
-		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
-		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
-		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
-		Rhymix\Framework\Config::set('debug.log_slow_remote_requests', max(0, floatval($vars->debug_log_slow_remote_requests)));
+		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, (float)$vars->debug_log_slow_queries));
+		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, (float)$vars->debug_log_slow_triggers));
+		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, (float)$vars->debug_log_slow_widgets));
+		Rhymix\Framework\Config::set('debug.log_slow_remote_requests', max(0,
+			(float)$vars->debug_log_slow_remote_requests
+		));
 		Rhymix\Framework\Config::set('debug.display_type', $display_type);
-		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
+		Rhymix\Framework\Config::set('debug.display_to', (string)$vars->debug_display_to ?: 'admin');
 		Rhymix\Framework\Config::set('debug.query_comment', $vars->debug_query_comment === 'Y');
-		Rhymix\Framework\Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
+		Rhymix\Framework\Config::set('debug.write_error_log', (string)$vars->debug_write_error_log ?: 'fatal');
 		
 		// Debug content
 		$debug_content = array_values($vars->debug_display_content ?: array());
 		Rhymix\Framework\Config::set('debug.display_content', $debug_content);
 		
 		// Log filename
-		$log_filename = strval($vars->debug_log_filename);
+		$log_filename = (string)$vars->debug_log_filename;
 		$log_filename_today = str_replace(array('YYYY', 'YY', 'MM', 'DD'), array(
 			getInternalDateTime(RX_TIME, 'Y'),
 			getInternalDateTime(RX_TIME, 'y'),
@@ -1038,23 +1041,23 @@ class adminAdminController extends admin
 	function procAdminInsertDomain()
 	{
 		$vars = Context::getRequestVars();
-		$domain_srl = intval($vars->domain_srl);
+		$domain_srl = (int)$vars->domain_srl;
 		$domain_info = null;
-		if (strval($vars->domain_srl) !== '')
+		if ((string)$vars->domain_srl !== '')
 		{
 			$domain_info = ModuleModel::getSiteInfo($domain_srl);
-			if (!$domain_info || intval($domain_info->domain_srl) !== $domain_srl)
+			if (!$domain_info || (int)$domain_info->domain_srl !== $domain_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
 		}
 		
 		// Copying?
-		$copy_domain_srl = intval($vars->copy_domain_srl);
+		$copy_domain_srl = (int)$vars->copy_domain_srl;
 		if (!$domain_info && $copy_domain_srl > -1)
 		{
 			$copy_domain_info = ModuleModel::getSiteInfo($copy_domain_srl);
-			if (!$copy_domain_info || intval($copy_domain_info->domain_srl) !== $copy_domain_srl)
+			if (!$copy_domain_info || (int)$copy_domain_info->domain_srl !== $copy_domain_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_domain_not_found');
 			}
@@ -1121,7 +1124,7 @@ class adminAdminController extends admin
 		}
 		
 		// Validate the index module setting.
-		$module_info = getModel('module')->getModuleInfoByModuleSrl(intval($vars->index_module_srl));
+		$module_info = getModel('module')->getModuleInfoByModuleSrl((int)$vars->index_module_srl);
 		if (!$module_info || $module_info->module_srl != $vars->index_module_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_invalid_index_module_srl');
@@ -1135,7 +1138,7 @@ class adminAdminController extends admin
 			{
 				throw new Rhymix\Framework\Exception('msg_invalid_index_document_srl');
 			}
-			if (intval($oDocument->get('module_srl')) !== intval($vars->index_module_srl))
+			if ((int)$oDocument->get('module_srl') !== (int)$vars->index_module_srl)
 			{
 				throw new Rhymix\Framework\Exception('msg_invalid_index_document_srl_module_srl');
 			}
@@ -1332,7 +1335,7 @@ class adminAdminController extends admin
 	function procAdminDeleteDomain()
 	{
 		// Get selected domain.
-		$domain_srl = strval(Context::get('domain_srl'));
+		$domain_srl = (string)Context::get('domain_srl');
 		if ($domain_srl === '')
 		{
 			throw new Rhymix\Framework\Exception('msg_domain_not_found');
@@ -1460,7 +1463,7 @@ class adminAdminController extends admin
 		$image_filepath = 'files/attach/xeicon/';
 		if ($domain_srl)
 		{
-			$image_filepath .= intval($domain_srl) . '/';
+			$image_filepath .= (int)$domain_srl . '/';
 		}
 		
 		if ($deleteIcon)
@@ -1482,7 +1485,7 @@ class adminAdminController extends admin
 		$image_filepath = 'files/attach/xeicon/';
 		if ($domain_srl)
 		{
-			$image_filepath .= ($virtual_site = intval($domain_srl) . '/');
+			$image_filepath .= ($virtual_site = (int)$domain_srl . '/');
 		}
 		
 		if ($deleteIcon)

@@ -395,7 +395,7 @@ class adminAdminView extends admin
 	{
 		// Get domain list.
 		$oModuleModel = getModel('module');
-		$page = intval(Context::get('page')) ?: 1;
+		$page = (int)Context::get('page') ?: 1;
 		$domain_list = $oModuleModel->getAllDomains(20, $page);
 		Context::set('domain_list', $domain_list);
 		Context::set('page_navigation', $domain_list->page_navigation);
@@ -561,7 +561,7 @@ class adminAdminView extends admin
 				Context::set('object_cache_user', parse_url(array_first($cache_servers), PHP_URL_USER) ?? '');
 				Context::set('object_cache_pass', parse_url(array_first($cache_servers), PHP_URL_PASS) ?? '');
 				$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_FRAGMENT) ?: parse_url(array_first($cache_servers), PHP_URL_PATH));
-				Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
+				Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : (int)$cache_dbnum);
 			}
 		}
 		else
@@ -691,7 +691,7 @@ class adminAdminView extends admin
 	function dispAdminInsertDomain()
 	{
 		// Get selected domain.
-		$domain_srl = strval(Context::get('domain_srl'));
+		$domain_srl = (string)Context::get('domain_srl');
 		$domain_info = null;
 		if ($domain_srl !== '')
 		{
@@ -760,7 +760,7 @@ class adminAdminView extends admin
 	function dispAdminCopyDomain()
 	{
 		// Get selected domain.
-		$domain_srl = strval(Context::get('domain_srl'));
+		$domain_srl = (string)Context::get('domain_srl');
 		$domain_info = ModuleModel::getSiteInfo($domain_srl);
 		if ($domain_info->domain_srl != $domain_srl)
 		{
@@ -1085,7 +1085,7 @@ class adminAdminView extends admin
 	 */
 	public function dispAdminRewriteTest()
 	{
-		$test = intval(Context::get('test'));
+		$test = (int)Context::get('test');
 		Context::setResponseMethod('JSON');
 		$this->add('result', $test * 42);
 	}

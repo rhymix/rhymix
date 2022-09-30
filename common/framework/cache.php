@@ -47,11 +47,12 @@ class Cache
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $config['type'];
 			if (isset($config['ttl']))
 			{
-				self::$_ttl = intval($config['ttl']);
+				self::$_ttl = (int)$config['ttl'];
 			}
 			$config = isset($config['servers']) ? $config['servers'] : array();
 		}
-		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
+		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/',
+			(string)array_first($config), $matches))
 		{
 			$driver_name = $matches[1] . ($matches[1] === 'memcache' ? 'd' : '');
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $driver_name;
@@ -210,7 +211,7 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
-			$ttl = intval($ttl);
+			$ttl = (int)$ttl;
 			if ($ttl >= (3600 * 24 * 30))
 			{
 				$ttl = min(3600 * 24 * 30, max(0, $ttl - time()));
@@ -369,7 +370,9 @@ class Cache
 		{
 			if (self::$_driver !== null)
 			{
-				return self::$_group_versions[$group_name] = intval(self::$_driver->get(self::$_prefix . $group_name . '#version'));
+				return self::$_group_versions[$group_name] = (int)self::$_driver->get(
+					self::$_prefix . $group_name . '#version'
+				);
 			}
 			else
 			{

@@ -815,7 +815,7 @@ class adminAdminModel extends admin
 	
 	function getSiteDefaultImageUrl($domain_srl = 0, &$width = 0, &$height = 0)
 	{
-		$domain_srl = intval($domain_srl);
+		$domain_srl = (int)$domain_srl;
 		if ($domain_srl)
 		{
 			$virtual_site = $domain_srl . '/';
@@ -840,7 +840,7 @@ class adminAdminModel extends admin
 
 	function iconUrlCheck($iconname, $default_icon_name, $domain_srl)
 	{
-		$domain_srl = intval($domain_srl);
+		$domain_srl = (int)$domain_srl;
 		if ($domain_srl)
 		{
 			$virtual_site = $domain_srl . '/';

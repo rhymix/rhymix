@@ -101,7 +101,7 @@ class krzipModel extends krzip
 			$query = Context::get('query');
 		}
 
-		$query = trim(strval($query));
+		$query = trim((string)$query);
 		if($query === '')
 		{
 			return $this->setError('msg_krzip_no_query');
@@ -167,7 +167,7 @@ class krzipModel extends krzip
 			$err_msg = trim($result->error->message->body);
 			if(!$err_msg)
 			{
-				$err_code = intval(str_replace('ERR-', '', $result->error->error_code->body));
+				$err_code = (int)str_replace('ERR-', '', $result->error->error_code->body);
 				switch($err_code)
 				{
 					case 1:
@@ -231,7 +231,7 @@ class krzipModel extends krzip
 		$template_config->values = $this->getMigratedPostcode($values);
 		Context::set('template_config', $template_config);
 
-		$api_name = strval(self::$api_list[$template_config->api_handler]);
+		$api_name = (string)self::$api_list[$template_config->api_handler];
 		$oTemplate = TemplateHandler::getInstance();
 		$output = $oTemplate->compile($this->module_path . 'tpl', 'template.' . $api_name);
 

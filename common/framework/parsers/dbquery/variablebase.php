@@ -49,7 +49,7 @@ class VariableBase
 			if ($args[$this->var] instanceof EmptyString || $args[$this->var] instanceof NullValue)
 			{
 				$this->filterValue('');
-				$value = strval($args[$this->var]);
+				$value = (string)$args[$this->var];
 				$is_expression = true;
 				if ($args[$this->var] instanceof NullValue)
 				{
@@ -354,7 +354,7 @@ class VariableBase
 			case 'time()':
 				return [false, date('His')];
 			case 'member_srl()':
-				return [false, intval(\Rhymix\Framework\Session::getMemberSrl())];
+				return [false, (int)\Rhymix\Framework\Session::getMemberSrl()];
 			case 'sequence()':
 				return [false, getNextSequence()];
 			case 'null':
@@ -390,7 +390,7 @@ class VariableBase
 		// Don't apply a filter if there is no variable.
 		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
 		$filter = isset($this->filter) ? $this->filter : '';
-		if (!is_array($value) && strval($value) === '')
+		if (!is_array($value) && (string)$value === '')
 		{
 			$filter = '';
 		}

@@ -76,7 +76,7 @@ class Advanced_MailerController extends Advanced_Mailer
 			{
 				foreach($real_sender as $email => $name)
 				{
-					$obj->mail_from .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
+					$obj->mail_from .= ((string)$name !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
 			
@@ -84,7 +84,7 @@ class Advanced_MailerController extends Advanced_Mailer
 			{
 				foreach($real_to as $email => $name)
 				{
-					$obj->mail_to .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
+					$obj->mail_to .= ((string)$name !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
 			
@@ -92,7 +92,7 @@ class Advanced_MailerController extends Advanced_Mailer
 			{
 				foreach($real_cc as $email => $name)
 				{
-					$obj->mail_to .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
+					$obj->mail_to .= ((string)$name !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
 			
@@ -100,7 +100,7 @@ class Advanced_MailerController extends Advanced_Mailer
 			{
 				foreach($real_bcc as $email => $name)
 				{
-					$obj->mail_to .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
+					$obj->mail_to .= ((string)$name !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
 			

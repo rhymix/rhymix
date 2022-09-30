@@ -13,7 +13,7 @@ define('RX_MICROTIME', microtime(true));
 /**
  * RX_TIME is the startup time of the current script, in seconds since the Unix epoch.
  */
-define('RX_TIME', intval(RX_MICROTIME));
+define('RX_TIME', (int)RX_MICROTIME);
 
 /**
  * RX_BASEDIR is the SERVER-SIDE absolute path of Rhymix (with trailing slash).

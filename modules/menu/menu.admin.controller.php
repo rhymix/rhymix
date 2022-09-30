@@ -246,9 +246,9 @@ class menuAdminController extends menu
 	public function procMenuAdminUpdateDesign()
 	{
 		$vars = Context::getRequestVars();
-		$menu_srl = intval($vars->menu_srl);
-		$layout_P = intval($vars->layout_P);
-		$layout_M = intval($vars->layout_M);
+		$menu_srl = (int)$vars->menu_srl;
+		$layout_P = (int)$vars->layout_P;
+		$layout_M = (int)$vars->layout_M;
 		if (!$layout_P && !$layout_M)
 		{
 			return;
@@ -1969,19 +1969,19 @@ class menuAdminController extends menu
 			{
 				$href = var_export($url, true);
 			}
-			$is_shortcut = strval($node->is_shortcut);
-			$open_window = strval($node->open_window);
-			$expand = strval($node->expand);
+			$is_shortcut = (string)$node->is_shortcut;
+			$open_window = (string)$node->open_window;
+			$expand = (string)$node->expand;
 
-			$normal_btn = strval($node->normal_btn);
+			$normal_btn = (string)$node->normal_btn;
 			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = escape($normal_btn);
 			else $normal_btn = '';
 			
-			$hover_btn = strval($node->hover_btn);
+			$hover_btn = (string)$node->hover_btn;
 			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = escape($hover_btn);
 			else $hover_btn = '';
 			
-			$active_btn = strval($node->active_btn);
+			$active_btn = (string)$node->active_btn;
 			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = escape($active_btn);
 			else $active_btn = '';
 
@@ -2349,7 +2349,7 @@ class menuAdminController extends menu
 
 	public function makeHomemenuCacheFile($menuSrl)
 	{
-		$cacheBuff = '<?php if(!defined("__XE__")) exit(); $homeMenuSrl = ' . intval($menuSrl) . ';';
+		$cacheBuff = '<?php if(!defined("__XE__")) exit(); $homeMenuSrl = ' . (int)$menuSrl . ';';
 		FileHandler::writeFile($this->homeMenuCacheFile, $cacheBuff);
 	}
 

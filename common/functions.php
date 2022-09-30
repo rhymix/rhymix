@@ -398,10 +398,10 @@ function base64_decode_urlsafe($str)
  */
 function number_shorten($number, $significant_digits = 2)
 {
-	$length = strlen(abs(intval($number)));
+	$length = strlen(abs((int)$number));
 	switch ($length)
 	{
-		case 0: case 1: case 2: case 3: return strval(intval($number));
+		case 0: case 1: case 2: case 3: return (string)(int)$number;
 		case 4: return number_format($number / 1000, max(0, $significant_digits - 1)) . 'K';
 		case 5: return number_format($number / 1000, max(0, $significant_digits - 2)) . 'K';
 		case 6: return number_format($number / 1000, max(0, $significant_digits - 3)) . 'K';

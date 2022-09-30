@@ -248,7 +248,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		$this->_dbh->exec('BEGIN');
 		$current_value = $this->get($key);
-		$new_value = intval($current_value) + $amount;
+		$new_value = (int)$current_value + $amount;
 		if ($this->set($key, $new_value))
 		{
 			$this->_dbh->exec('COMMIT');

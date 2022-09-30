@@ -282,7 +282,7 @@ class widgetController extends widget
 		$vars = new stdClass;
 		foreach ($xml->img ? $xml->img->attributes() : $xml->attributes() as $key => $val)
 		{
-			$vars->{$key} = strval($val);
+			$vars->{$key} = (string)$val;
 		}
 		
 		$widget = $vars->widget;
@@ -376,11 +376,11 @@ class widgetController extends widget
 		if (preg_match('/^([0-9\.]+)([smhd])$/i', $widget_cache, $matches))
 		{
 			$multipliers = array('s' => 1, 'm' => 60, 'h' => 3600, 'd' => 86400);
-			$widget_cache = intval(floatval($matches[1]) * $multipliers[strtolower($matches[2])]);
+			$widget_cache = (int)((float)$matches[1] * $multipliers[strtolower($matches[2])]);
 		}
 		else
 		{
-			$widget_cache = intval(floatval($widget_cache) * 60);
+			$widget_cache = (int)((float)$widget_cache * 60);
 		}
 
 		/**

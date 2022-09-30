@@ -187,7 +187,7 @@ class ConfigParser
 			default:
 				$config['locale']['default_timezone'] = DateTime::getTimezoneNameByOffset($old_timezone);
 		}
-		$config['locale']['internal_timezone'] = intval(date('Z'));
+		$config['locale']['internal_timezone'] = (int)date('Z');
 		
 		// Convert URL configuration.
 		$default_url = $db_info->default_url;
@@ -216,8 +216,8 @@ class ConfigParser
 		
 		// Convert sitelock configuration.
 		$config['lock']['locked'] = $db_info->use_sitelock === 'Y' ? true : false;
-		$config['lock']['title'] = strval($db_info->sitelock_title);
-		$config['lock']['message'] = strval($db_info->sitelock_message);
+		$config['lock']['title'] = (string)$db_info->sitelock_title;
+		$config['lock']['message'] = (string)$db_info->sitelock_message;
 		if (!is_array($db_info->sitelock_whitelist))
 		{
 			$db_info->sitelock_whitelist = $db_info->sitelock_whitelist ? array_map('trim', explode(',', trim($db_info->sitelock_whitelist))) : array();

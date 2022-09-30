@@ -16,7 +16,7 @@ class pollWidget extends WidgetHandler
 	 */
 	function proc($args)
 	{
-		$args->poll_srl = intval($args->poll_srl);
+		$args->poll_srl = (int)$args->poll_srl;
 
 		// Get the information related to the survey
 		$oPollModel = getModel('poll');

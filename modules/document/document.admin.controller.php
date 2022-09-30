@@ -631,7 +631,7 @@ class documentAdminController extends document
 	{
 		$args = new stdClass;
 		$args->list_count = 0;
-		$args->module_srl = intval($module_srl);
+		$args->module_srl = (int)$module_srl;
 		$document_list = executeQueryArray('document.getDocumentList', $args, array('document_srl'))->data;
 		
 		// delete documents

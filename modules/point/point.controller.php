@@ -31,7 +31,7 @@ class pointController extends point
 		}
 		
 		$config = $this->getConfig();
-		$diff = intval($config->signup_point);
+		$diff = (int)$config->signup_point;
 		if ($diff != 0)
 		{
 			$cur_point = PointModel::getPoint($member_srl);
@@ -57,7 +57,7 @@ class pointController extends point
 		}
 		
 		$config = $this->getConfig();
-		$diff = intval($config->login_point);
+		$diff = (int)$config->login_point;
 		if ($diff != 0)
 		{
 			$cur_point = PointModel::getPoint($member_srl);
@@ -872,8 +872,8 @@ class pointController extends point
 	 */
 	protected function _getModulePointConfig($module_srl, $config_key)
 	{
-		$module_srl = intval($module_srl);
-		$config_key = strval($config_key);
+		$module_srl = (int)$module_srl;
+		$config_key = (string)$config_key;
 		if (!$config_key)
 		{
 			return 0;
@@ -906,7 +906,7 @@ class pointController extends point
 			$point = $default_config->{$config_key};
 		}
 		
-		return intval($point);
+		return (int)$point;
 	}
 }
 /* End of file point.controller.php */

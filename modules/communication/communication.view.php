@@ -64,7 +64,7 @@ class communicationView extends communication
 		$logged_info = Context::get('logged_info');
 
 		// Set the variables
-		$message_srl = intval(Context::get('message_srl'));
+		$message_srl = (int)Context::get('message_srl');
 		$message_type = Context::get('message_type');
 
 		if(!in_array($message_type, array('R', 'S', 'T', 'N')))

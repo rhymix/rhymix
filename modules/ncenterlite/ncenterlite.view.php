@@ -121,7 +121,7 @@ class ncenterliteView extends ncenterlite
 		{
 			$member_srl = $this->user->member_srl;
 		}
-		if(!$this->user->isAdmin() && intval($this->user->member_srl) !== intval($member_srl))
+		if(!$this->user->isAdmin() && (int)$this->user->member_srl !== (int)$member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_unsubscribe_not_permission');
 		}
@@ -159,7 +159,7 @@ class ncenterliteView extends ncenterlite
 			$member_srl = $this->user->member_srl;
 		}
 		
-		if($this->user->is_admin !== 'Y' && intval($member_srl) !== intval($this->user->member_srl))
+		if($this->user->is_admin !== 'Y' && (int)$member_srl !== (int)$this->user->member_srl)
 		{
 			throw new \Rhymix\Framework\Exception('msg_invalid_request');
 		}

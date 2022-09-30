@@ -126,7 +126,7 @@ class Korea
 		$code = str_replace('-', '', $code);
 		
 		// Return false if the date of birth is in the future.
-		if (in_array((int)($code[6]), array(3, 4, 7, 8)) && intval(substr($code, 0, 6), 10) > date('ymd'))
+		if (in_array((int)($code[6]), array(3, 4, 7, 8)) && (int)substr($code, 0, 6) > date('ymd'))
 		{
 			return false;
 		}
@@ -382,7 +382,7 @@ class Korea
 		{
 			if (isset($record['pri']) && isset($record['target']))
 			{
-				$result[intval($record['pri'])] = $record['target'];
+				$result[(int)$record['pri']] = $record['target'];
 			}
 			elseif (isset($record['target']))
 			{

@@ -42,7 +42,7 @@ class ncenterliteAdminController extends ncenterlite
 
 		if($obj->disp_act == 'dispNcenterliteAdminSkinsetting')
 		{
-			if(intval($obj->notify_count) !== intval($config->notify_count))
+			if((int)$obj->notify_count !== (int)$config->notify_count)
 			{
 				Rhymix\Framework\Cache::clearGroup($this->module);
 			}

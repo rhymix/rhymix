@@ -339,7 +339,7 @@ class documentController extends document
 		}
 
 		// if an user select message from options, message would be the option.
-		$message_option = strval(Context::get('message_option'));
+		$message_option = (string)Context::get('message_option');
 		$improper_document_reasons = lang('improper_document_reasons');
 		$declare_message = ($message_option !== 'others' && isset($improper_document_reasons[$message_option])) ? $improper_document_reasons[$message_option] : trim(Context::get('declare_message'));
 
@@ -542,9 +542,9 @@ class documentController extends document
 		$obj->isRestore = $isRestore ? true : false;
 		
 		// Sanitize variables
-		$obj->document_srl = intval($obj->document_srl);
-		$obj->category_srl = intval($obj->category_srl);
-		$obj->module_srl = intval($obj->module_srl);
+		$obj->document_srl = (int)$obj->document_srl;
+		$obj->category_srl = (int)$obj->category_srl;
+		$obj->module_srl = (int)$obj->module_srl;
 		
 		// Default Status
 		if($obj->status)
@@ -779,9 +779,9 @@ class documentController extends document
 		}
 		
 		// Sanitize variables
-		$obj->document_srl = intval($obj->document_srl);
-		$obj->category_srl = intval($obj->category_srl);
-		$obj->module_srl = intval($obj->module_srl);
+		$obj->document_srl = (int)$obj->document_srl;
+		$obj->category_srl = (int)$obj->category_srl;
+		$obj->module_srl = (int)$obj->module_srl;
 		
 		// Default Status
 		if($obj->status)
@@ -1106,12 +1106,12 @@ class documentController extends document
 		}
 
 		$update_args->document_srl = $obj->document_srl;
-		$update_args->update_member_srl = intval($logged_info->member_srl ?? 0);
+		$update_args->update_member_srl = (int)($logged_info->member_srl ?? 0);
 		$update_args->title = $obj->title;
 		$update_args->title_bold = $obj->title_bold;
 		$update_args->title_color = $obj->title_color;
 		$update_args->content = $obj->content;
-		$update_args->update_nick_name = strval($logged_info->nick_name ?? $obj->nick_name);
+		$update_args->update_nick_name = (string)($logged_info->nick_name ?? $obj->nick_name);
 		$update_args->tags = $obj->tags;
 		$update_args->extra_vars = $obj->extra_vars;
 		$update_args->reason_update = $obj->reason_update;
@@ -2620,7 +2620,7 @@ class documentController extends document
 	function makeCategoryFile($module_srl)
 	{
 		// Return if there is no information you need for creating a cache file
-		$module_srl = intval($module_srl);
+		$module_srl = (int)$module_srl;
 		if(!$module_srl) return false;
 		// Get module information (to obtain mid)
 		$mid = ModuleModel::getMidByModuleSrl($module_srl);
@@ -3015,8 +3015,8 @@ class documentController extends document
 		$obj->type = Context::get('type');
 		$obj->document_list = array();
 		$obj->document_srl_list = array();
-		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module_srl'));
-		$obj->target_category_srl = intval(Context::get('target_category_srl'));
+		$obj->target_module_srl = (int)(Context::get('module_srl') ?: Context::get('target_module_srl'));
+		$obj->target_category_srl = (int)Context::get('target_category_srl');
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
 		$obj->return_message = '';

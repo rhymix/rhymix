@@ -484,7 +484,7 @@ class menuAdminModel extends menu
 
 	public function getMenuAdminSiteMap()
 	{
-		$menuSrl = intval(Context::get('menu_srl'));
+		$menuSrl = (int)Context::get('menu_srl');
 
 		$oModuleModel = getModel('module');
 		$oMenuAdminController = getAdminController('menu');

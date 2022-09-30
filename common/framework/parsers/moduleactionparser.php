@@ -122,12 +122,12 @@ class ModuleActionParser extends BaseParser
 				}, explode_with_escape('|', $route_attr)) : array();
 				foreach ($route_tags as $route_tag)
 				{
-					$routes[] = ['route' => trim($route_tag['route']), 'priority' => intval($route_tag['priority'] ?: 0)];
+					$routes[] = ['route' => trim($route_tag['route']), 'priority' => (int)($route_tag['priority'] ?: 0)];
 				}
 				foreach ($routes as $route)
 				{
 					$route_info = self::analyzeRoute($route);
-					$route_arg[$route_info->route] = ['priority' => intval($route_info->priority), 'vars' => $route_info->vars];
+					$route_arg[$route_info->route] = ['priority' => (int)$route_info->priority, 'vars' => $route_info->vars];
 					foreach ($methods as $method)
 					{
 						$info->route->{$method}[$route_info->regexp] = $action_name;
@@ -220,9 +220,9 @@ class ModuleActionParser extends BaseParser
 			$error_handlers = explode(',', trim($action['error_handlers']) ?: trim($action['error-handlers']));
 			foreach ($error_handlers as $error_handler)
 			{
-				if (intval($error_handler) > 200)
+				if ((int)$error_handler > 200)
 				{
-					$info->error_handlers[intval($error_handler)] = $action_name;
+					$info->error_handlers[(int)$error_handler] = $action_name;
 				}
 			}
 		}

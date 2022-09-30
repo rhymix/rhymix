@@ -81,7 +81,7 @@ class documentModel extends document
 		$output = self::getDocumentExtraVarsFromDB($document_srls);
 		foreach($output->data as $key => $val)
 		{
-			if(strval($val->value) === '')
+			if((string)$val->value === '')
 			{
 				continue;
 			}
@@ -759,7 +759,7 @@ class documentModel extends document
 	public static function getCategoryList($module_srl, $columnList = array())
 	{
 		// Category of the target module file swollen
-		$module_srl = intval($module_srl);
+		$module_srl = (int)$module_srl;
 		$filename = sprintf("%sfiles/cache/document_category/%d.php", RX_BASEDIR, $module_srl);
 		// If the target file to the cache file regeneration category
 		if(!file_exists($filename))
@@ -863,7 +863,7 @@ class documentModel extends document
 	 */
 	public static function getCategoryXmlFile($module_srl)
 	{
-		$module_srl = intval($module_srl);
+		$module_srl = (int)$module_srl;
 		$xml_file = sprintf('files/cache/document_category/%d.xml.php',$module_srl);
 		if(!file_exists($xml_file))
 		{
@@ -880,7 +880,7 @@ class documentModel extends document
 	 */
 	public static function getCategoryPhpFile($module_srl)
 	{
-		$module_srl = intval($module_srl);
+		$module_srl = (int)$module_srl;
 		$php_file = sprintf('files/cache/document_category/%d.php',$module_srl);
 		if(!file_exists($php_file))
 		{
@@ -948,7 +948,7 @@ class documentModel extends document
 	public function getDocumentCategories()
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
-		$module_srl = intval(Context::get('module_srl'));
+		$module_srl = (int)Context::get('module_srl');
 		$categories= self::getCategoryList($module_srl);
 		$lang = Context::get('lang');
 		// No additional category

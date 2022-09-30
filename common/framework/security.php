@@ -279,7 +279,7 @@ class Security
 			$bytes_required = min(4, ceil(log($max - $min, 2) / 8) + 1);
 			$bytes = self::getRandom($bytes_required, 'binary');
 			$offset = abs(hexdec(bin2hex($bytes)) % ($max - $min + 1));
-			return intval($min + $offset);
+			return (int)($min + $offset);
 		}
 	}
 	
@@ -353,7 +353,7 @@ class Security
 			
 			if (!$referer)
 			{
-				$referer = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
+				$referer = ($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? '');
 			}
 			if ($referer !== '' && $referer !== 'null' && (!$check_csrf_token || !$is_logged))
 			{

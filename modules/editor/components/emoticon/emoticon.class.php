@@ -110,8 +110,8 @@ class emoticon extends EditorHandler
 	{
 		$src = $xml_obj->attrs->src;
 		$alt = $xml_obj->attrs->alt;
-		$width = intval($xml_obj->attrs->width);
-		$height = intval($xml_obj->attrs->height);
+		$width = (int)$xml_obj->attrs->width;
+		$height = (int)$xml_obj->attrs->height;
 
 		if(!$alt)
 		{

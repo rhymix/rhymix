@@ -46,9 +46,9 @@ class documentAdminView extends document
 		if ($args->search_target === 'member_srl')
 		{
 			$logged_info = Context::get('logged_info');
-			if ($logged_info->is_admin === 'Y' || intval($logged_info->member_srl) === intval($args->search_keyword))
+			if ($logged_info->is_admin === 'Y' || (int)$logged_info->member_srl === (int)$args->search_keyword)
 			{
-				$args->member_srl = array(intval($args->search_keyword), intval($args->search_keyword) * -1);
+				$args->member_srl = array((int)$args->search_keyword, (int)$args->search_keyword * -1);
 				unset($args->search_target, $args->search_keyword);
 			}
 		}
@@ -172,7 +172,7 @@ class documentAdminView extends document
 
 		// option for a list
 		$args = new stdClass();
-		$args->page = intval(Context::get('page')) ?: 1; // /< Page
+		$args->page = (int)Context::get('page') ?: 1; // /< Page
 		$args->list_count = 20; // /< the number of posts to display on a single page
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation
 		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
@@ -269,7 +269,7 @@ class documentAdminView extends document
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation
-		$args->document_srl = intval(Context::get('target_srl'));
+		$args->document_srl = (int)Context::get('target_srl');
 
 
 		// get Status name list

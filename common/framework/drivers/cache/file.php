@@ -160,7 +160,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	public function incr($key, $amount)
 	{
-		$value = intval($this->get($key));
+		$value = (int)$this->get($key);
 		$success = $this->set($key, $value + $amount, 0, true);
 		return $success ? ($value + $amount) : false;
 	}

@@ -25,12 +25,12 @@ class ncenterliteController extends ncenterlite
 		$args = new stdClass();
 		$args->config_type = 'custom';
 		$args->module_srl = 0;
-		$args->member_srl = intval($to_member_srl);
+		$args->member_srl = (int)$to_member_srl;
 		$args->type = 'X';
 		$args->srl = 0;
 		$args->target_p_srl = 0;
-		$args->target_srl = intval($target_srl);
-		$args->target_member_srl = intval($from_member_srl ?: $to_member_srl);
+		$args->target_srl = (int)$target_srl;
+		$args->target_member_srl = (int)($from_member_srl ?: $to_member_srl);
 		$args->target_type = $this->_TYPE_CUSTOM;
 		$args->target_url = $url;
 		$args->target_browser = '';
@@ -167,7 +167,7 @@ class ncenterliteController extends ncenterlite
 		
 		$obj = Context::getRequestVars();
 		
-		if(!$this->user->member_srl || (!intval($obj->unsubscribe_srl) && !intval($obj->target_srl)))
+		if(!$this->user->member_srl || (!(int)$obj->unsubscribe_srl && !(int)$obj->target_srl))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -180,12 +180,12 @@ class ncenterliteController extends ncenterlite
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
 			if($userBlockData)
 			{
-				if (!intval($obj->unsubscribe_srl))
+				if (!(int)$obj->unsubscribe_srl)
 				{
 					$obj->unsubscribe_srl = $userBlockData->unsubscribe_srl;
 				}
 				
-				if (intval($obj->unsubscribe_srl) != intval($userBlockData->unsubscribe_srl))
+				if ((int)$obj->unsubscribe_srl != (int)$userBlockData->unsubscribe_srl)
 				{
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
@@ -197,7 +197,7 @@ class ncenterliteController extends ncenterlite
 			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
 			
 			// The input member_srl from the POST or GET might not equal to the member_srl from the record of unsubscribe_srl.
-			if(intval($this->user->member_srl) != intval($userBlockData->member_srl))
+			if((int)$this->user->member_srl != (int)$userBlockData->member_srl)
 			{
 				throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
 			}
@@ -205,12 +205,12 @@ class ncenterliteController extends ncenterlite
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
 			if($userBlockData)
 			{
-				if (!intval($obj->target_srl))
+				if (!(int)$obj->target_srl)
 				{
 					$obj->target_srl = $userBlockData->target_srl;
 				}
 				
-				if (intval($obj->target_srl) != intval($userBlockData->target_srl))
+				if ((int)$obj->target_srl != (int)$userBlockData->target_srl)
 				{
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
@@ -1360,7 +1360,7 @@ class ncenterliteController extends ncenterlite
 		if($anonymous == TRUE)
 		{
 			$args->target_member_srl = -1 * $this->user->member_srl;
-			$args->target_nick_name = strval($args->target_nick_name);
+			$args->target_nick_name = (string)$args->target_nick_name;
 			$args->target_user_id = $args->target_nick_name;
 			$args->target_email_address = $args->target_nick_name;
 		}
@@ -1368,25 +1368,25 @@ class ncenterliteController extends ncenterlite
 		elseif($args->target_member_srl)
 		{
 			$member_info = getModel('member')->getMemberInfoByMemberSrl(abs($args->target_member_srl));
-			$args->target_member_srl = intval($member_info->member_srl);
-			$args->target_nick_name = strval($member_info->nick_name);
-			$args->target_user_id = strval($member_info->user_id);
-			$args->target_email_address = strval($member_info->email_address);
+			$args->target_member_srl = (int)$member_info->member_srl;
+			$args->target_nick_name = (string)$member_info->nick_name;
+			$args->target_user_id = (string)$member_info->user_id;
+			$args->target_email_address = (string)$member_info->email_address;
 		}
 		// 발신자 회원번호가 없는 경우 현재 로그인한 사용자 정보를 사용
 		elseif(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
-			$args->target_member_srl = intval($logged_info->member_srl);
-			$args->target_nick_name = strval($logged_info->nick_name);
-			$args->target_user_id = strval($logged_info->user_id);
-			$args->target_email_address = strval($logged_info->email_address);
+			$args->target_member_srl = (int)$logged_info->member_srl;
+			$args->target_nick_name = (string)$logged_info->nick_name;
+			$args->target_user_id = (string)$logged_info->user_id;
+			$args->target_email_address = (string)$logged_info->email_address;
 		}
 		// 비회원인 경우
 		else
 		{
 			$args->target_member_srl = 0;
-			$args->target_nick_name = strval($args->target_nick_name);
+			$args->target_nick_name = (string)$args->target_nick_name;
 			$args->target_user_id = '';
 			$args->target_email_address = '';
 		}
@@ -1583,7 +1583,7 @@ class ncenterliteController extends ncenterlite
 		if (!isset($args->extra_data) || !$args->extra_data)
 		{
 			$args->extra_data = [];
-			$args->extra_data['sender'] = strval($args->target_nick_name);
+			$args->extra_data['sender'] = (string)$args->target_nick_name;
 			$args->extra_data['profile_image'] = '';
 			if ($args->target_member_srl > 0)
 			{
@@ -1593,17 +1593,17 @@ class ncenterliteController extends ncenterlite
 					$args->extra_data['profile_image'] = Rhymix\Framework\URL::getCurrentDomainUrl($profile_image->src);
 				}
 			}
-			$args->extra_data['type'] = strval($args->target_type);
-			$args->extra_data['subject'] = strval($args->target_summary);
+			$args->extra_data['type'] = (string)$args->target_type;
+			$args->extra_data['subject'] = (string)$args->target_summary;
 			$args->extra_data['content'] = isset($args->target_content) ? mb_substr($args->target_content, 0, 200, 'UTF-8') : '';
 		}
 
 		$oPush = new \Rhymix\Framework\Push();
 		$oPush->setSubject($content);
-		$oPush->setContent(strval($args->extra_content));
+		$oPush->setContent((string)$args->extra_content);
 		$oPush->setData($args->extra_data);
-		$oPush->setURL(strval($target_url));
-		$oPush->addTo(intval($args->member_srl));
+		$oPush->setURL((string)$target_url);
+		$oPush->addTo((int)$args->member_srl);
 		$output = $oPush->send();
 		
 		return $output;

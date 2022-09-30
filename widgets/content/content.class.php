@@ -958,13 +958,13 @@ class contentItem extends BaseObject
 	}
 	function getThumbnail($source_size = 1)
 	{
-		if(intval($source_size) === 1)
+		if((int)$source_size === 1)
 		{
 			return $this->get('thumbnail');
 		}
 		else
 		{
-			return $this->get('thumbnail_x' . intval($source_size));
+			return $this->get('thumbnail_x' . (int)$source_size);
 		}
 	}
 	function getMemberSrl() 

@@ -29,7 +29,7 @@ class ModuleInfoParser extends BaseParser
 		$info = new \stdClass;
 		
 		// Get the XML schema version.
-		$version = strval($xml['version']) ?: '0.1';
+		$version = (string)$xml['version'] ?: '0.1';
 		
 		// Parse version 0.2
 		if ($version === '0.2')

@@ -116,7 +116,7 @@ class Password
 		{
 			$config = @\MemberModel::getInstance()->getMemberConfig();
 			$algorithm = $config->password_hashing_algorithm ?? '';
-			if (strval($algorithm) === '')
+			if ((string)$algorithm === '')
 			{
 				$algorithm = 'md5';
 			}
@@ -218,7 +218,7 @@ class Password
 					{
 						$salt = Security::getRandom(12, 'alnum');
 						$hash_algorithm = 'sha512';
-						$iterations = intval(pow(2, self::getWorkFactor() + 5)) ?: 16384;
+						$iterations = (int)pow(2, self::getWorkFactor() + 5) ?: 16384;
 						$key_length = 24;
 					}
 					else

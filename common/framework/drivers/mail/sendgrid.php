@@ -123,7 +123,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		}
 		
 		// Set the subject.
-		$data['subject'] = strval($message->getSubject()) ?: 'Title';
+		$data['subject'] = (string)$message->getSubject() ?: 'Title';
 		
 		// Set the body.
 		$data['content'][0]['type'] = $message->getContentType();
@@ -155,7 +155,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		
 		// Send the API request.
 		$request = \Requests::post(self::$_url, $headers, json_encode($data), $options);
-		$response_code = intval($request->status_code);;
+		$response_code = (int)$request->status_code;
 		
 		// Parse the result.
 		if (!$response_code)

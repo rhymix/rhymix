@@ -42,7 +42,7 @@ abstract class BaseParser
 		foreach ($parent->{$tag_name} as $child)
 		{
 			$attribs = $child->attributes('xml', true);
-			if (strval($attribs['lang']) === $lang)
+			if ((string)$attribs['lang'] === $lang)
 			{
 				return trim($child);
 			}
