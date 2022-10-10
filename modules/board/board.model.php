@@ -58,7 +58,8 @@ class boardModel extends module
 	{
 		// add virtual srl, title, registered date, update date, nickname, ID, name, readed count, voted count etc.
 		$virtual_vars = array( 'no', 'title', 'regdate', 'last_update', 'last_post', 'module_title', 'nick_name',
-				'user_id', 'user_name', 'readed_count', 'voted_count', 'blamed_count', 'thumbnail', 'summary', 'comment_status');
+				'user_id', 'user_name', 'readed_count', 'voted_count', 'blamed_count', 'comment_count',
+				'thumbnail', 'summary', 'comment_status');
 		foreach($virtual_vars as $key)
 		{
 			$extra_vars[$key] = new ExtraItem($module_srl, -1, lang($key), $key, 'N', 'N', 'N', null);
