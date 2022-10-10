@@ -2600,8 +2600,8 @@ class documentController extends document
 
 	/**
 	 * Xml files updated
-	 * Occasionally the xml file is not generated after menu is configued on the admin page \n
-	 * The administrator can manually update the file in this case \n
+	 * Occasionally the xml file is not generated after menu is configued on the admin page
+	 * The administrator can manually update the file in this case
 	 * Although the issue is not currently reproduced, it is unnecessay to remove.
 	 * @return void
 	 */
@@ -2730,7 +2730,7 @@ class documentController extends document
 
 	/**
 	 * Create the xml data recursively referring to parent_srl
-	 * In the menu xml file, node tag is nested and xml doc enables the admin page to have a menu\n
+	 * In the menu xml file, node tag is nested and xml doc enables the admin page to have a menu
 	 * (tree menu is implemented by reading xml file from the tree_menu.js)
 	 * @param array $source_node
 	 * @param array $tree
