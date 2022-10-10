@@ -16,7 +16,7 @@ class Calendar
 	 */
 	public static function getMonthName($month_number, $long_format = true)
 	{
-		$month_number = intval($month_number, 10);
+		$month_number = (int)$month_number;
 		if (!is_between($month_number, 1, 12))
 		{
 			return false;
@@ -37,7 +37,7 @@ class Calendar
 	 */
 	public static function getMonthStartDayOfWeek($month_number, $year = null)
 	{
-		$month_number = intval($month_number, 10);
+		$month_number = (int)$month_number;
 		if (!is_between($month_number, 1, 12))
 		{
 			return false;
@@ -58,7 +58,7 @@ class Calendar
 	 */
 	public static function getMonthDays($month_number, $year = null)
 	{
-		$month_number = intval($month_number, 10);
+		$month_number = (int)$month_number;
 		if (!is_between($month_number, 1, 12))
 		{
 			return false;
@@ -83,7 +83,7 @@ class Calendar
 	 */
 	public static function getMonthCalendar($month_number, $year = null, $start_dow = 0)
 	{
-		$month_number = intval($month_number, 10);
+		$month_number = (int)$month_number;
 		if (!is_between($month_number, 1, 12))
 		{
 			return false;

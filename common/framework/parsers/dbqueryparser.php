@@ -153,8 +153,8 @@ class DBQueryParser extends BaseParser
 				$column->default = $attribs['default'] ?? null;
 				$column->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$column->filter = $attribs['filter'] ?? null;
-				$column->minlength = intval($attribs['minlength'] ?? 0, 10);
-				$column->maxlength = intval($attribs['maxlength'] ?? 0, 10);
+				$column->minlength = (int)($attribs['minlength'] ?? 0);
+				$column->maxlength = (int)($attribs['maxlength'] ?? 0);
 				$query->columns[] = $column;
 			}
 		}
@@ -269,8 +269,8 @@ class DBQueryParser extends BaseParser
 				$cond->ifvar = $attribs['if'] ?? null;
 				$cond->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$cond->filter = $attribs['filter'] ?? null;
-				$cond->minlength = intval($attribs['minlength'] ?? 0, 10);
-				$cond->maxlength = intval($attribs['maxlength'] ?? 0, 10);
+				$cond->minlength = (int)($attribs['minlength'] ?? 0);
+				$cond->maxlength = (int)($attribs['maxlength'] ?? 0);
 				$cond->pipe = strtoupper($attribs['pipe'] ?? null) ?: 'AND';
 				$result[] = $cond;
 			}

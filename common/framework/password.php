@@ -226,7 +226,7 @@ class Password
 						$parts = explode(':', $salt);
 						$salt = $parts[2];
 						$hash_algorithm = $parts[0];
-						$iterations = intval($parts[1], 10);
+						$iterations = (int)$parts[1];
 						$key_length = strlen(base64_decode($parts[3]));
 					}
 					$iterations_padding = ($salt === null || !isset($parts[1])) ? 7 : strlen($parts[1]);
@@ -370,7 +370,7 @@ class Password
 	{
 		if(preg_match('/^\$2[axy]\$([0-9]{2})\$/', $hash, $matches))
 		{
-			return intval($matches[1], 10);
+			return (int)$matches[1];
 		}
 		elseif(preg_match('/^sha[0-9]+:([0-9]+):/', $hash, $matches))
 		{
