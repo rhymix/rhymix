@@ -501,7 +501,7 @@ class menuAdminController extends menu
 		$oDB->begin();
 
 		// type is url
-		if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
+		if (preg_match('!^([a-z]+:(//|[a-z0-9_-])|\.{0,2}/)!i', $request->shortcut_target))
 		{
 			// set menu variable
 			$args = new stdClass();
@@ -712,7 +712,7 @@ class menuAdminController extends menu
 		if($itemInfo->is_shortcut == 'Y')
 		{
 			// type is url
-			if(strncasecmp('http', $request->shortcut_target, 4) === 0 || preg_match('/^(\.\/|\.\.\/|\/).*$/', $request->shortcut_target))
+			if (preg_match('!^([a-z]+:(//|[a-z0-9_-])|\.{0,2}/)!i', $request->shortcut_target))
 			{
 				$args->url = $request->shortcut_target;
 			}
