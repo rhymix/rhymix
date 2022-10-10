@@ -35,6 +35,28 @@ class Device extends \member
 	}
 	
 	/**
+	 * Automatically recognize device token from header or cookie and unregister it.
+	 * 
+	 * @return \BaseObject
+	 */
+	public function autoUnregisterDevice(int $member_srl): \BaseObject
+	{
+		$device_token = $this->_getDeviceToken();
+		if ($device_token)
+		{
+			$output = executeQuery('member.getMemberDevice', ['device_token' => $device_token]);
+			if ($output->data && $output->data->member_srl == $member_srl)
+			{
+				$args = new \stdClass;
+				$args->device_token = $output->data->device_token;
+				$output = executeQuery('member.deleteMemberDevice', $args);
+				return $output;
+			}
+		}
+		return new \BaseObject;
+	}
+
+	/**
 	 * Register device
 	 */
 	public function procMemberRegisterDevice($member_srl = null, $device_token = null)

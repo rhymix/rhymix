@@ -131,14 +131,15 @@ class memberController extends member
 		// Call a trigger after log-out (after)
 		ModuleHandler::triggerCall('member.doLogout', 'after', $logged_info);
 
-		$output = new BaseObject();
+		// If a device key is present, unregister it.
+		Rhymix\Modules\Member\Controllers\Device::getInstance()->autoUnregisterDevice($logged_info->member_srl);
 
+		$output = new BaseObject();
 		$config = ModuleModel::getModuleConfig('member');
 		if($config->after_logout_url)
 		{
 			$output->redirect_url = $config->after_logout_url;
 		}
-
 		return $output;
 	}
 
