@@ -1793,7 +1793,11 @@ class documentController extends document
 			$args->voted_count = $trigger_obj->after_point;
 			$output = executeQuery('document.updateVotedCount', $args);
 		}
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// Leave in the session information
 		$_SESSION['voted_document'][$document_srl] = $trigger_obj->point;
@@ -1801,7 +1805,11 @@ class documentController extends document
 		// Leave logs
 		$args->point = $trigger_obj->point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 		
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $trigger_obj);
