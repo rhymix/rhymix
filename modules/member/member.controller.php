@@ -625,9 +625,12 @@ class memberController extends member
 		if(!$trigger_output->toBool ()) return $trigger_output;
 		
 		// Check if an administrator allows a membership
-		if($config->enable_join !== 'Y' || !$config->signupForm)
+		if ($config->enable_join !== 'Y' || !$config->signupForm)
 		{
-			throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
+			if (empty($config->enable_join_key) || !isset($_SESSION['signup_allowed']) || !$_SESSION['signup_allowed'])
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
+			}
 		}
 		
 		// Check if the user accept the license terms (only if terms exist)

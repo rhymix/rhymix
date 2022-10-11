@@ -223,6 +223,7 @@ class memberAdminController extends member
 	{
 		$args = Context::gets(
 			'enable_join',
+			'enable_join_key',
 			'enable_confirm',
 			'authmail_expires',
 			'authmail_expires_unit',
@@ -238,6 +239,16 @@ class memberAdminController extends member
 			'member_profile_view'
 		);
 		
+		if ($args->enable_join === 'KEY')
+		{
+			$args->enable_join = 'N';
+			$args->enable_join_key = escape(trim(utf8_normalize_spaces(rawurldecode($args->enable_join_key))));
+		}
+		else
+		{
+			$args->enable_join_key = null;
+		}
+
 		$args->authmail_expires = max(0, intval($args->authmail_expires));
 		if(!$args->authmail_expires)
 		{

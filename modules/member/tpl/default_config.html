@@ -9,7 +9,10 @@
 		<div class="x_control-label">{$lang->enable_join}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="enable_join_yes"><input type="radio" name="enable_join" id="enable_join_yes" value="Y" checked="checked"|cond="$config->enable_join == 'Y'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline" for="enable_join_no"><input type="radio" name="enable_join" id="enable_join_no" value="N" checked="checked"|cond="$config->enable_join != 'Y'" /> {$lang->cmd_no}</label>
+			<label class="x_inline" for="enable_join_no"><input type="radio" name="enable_join" id="enable_join_no" value="N" checked="checked"|cond="$config->enable_join != 'Y' && empty($config->enable_join_key)" /> {$lang->cmd_no}</label>
+			<label class="x_inline" for="enable_join_only_with_key"><input type="radio" name="enable_join" id="enable_join_only_with_key" value="KEY" checked="checked"|cond="$config->enable_join != 'Y' && !empty($config->enable_join_key)" /> {$lang->enable_join_only_with_url_key}</label>
+			<input type="text" name="enable_join_key" id="enable_join_key" value="{$config->enable_join_key ?? ''}" placeholder="{$lang->enable_join_url_key}" style="display:none"|cond="empty($config->enable_join_key)" />
+			<p class="x_help-block">{$lang->about_enable_join}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

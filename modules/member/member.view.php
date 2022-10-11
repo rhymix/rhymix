@@ -211,8 +211,28 @@ class memberView extends member
 		// call a trigger (before) 
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
+
 		// Error appears if the member is not allowed to join
-		if($member_config->enable_join != 'Y') throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
+		if ($member_config->enable_join !== 'Y')
+		{
+			if (!empty($member_config->enable_join_key))
+			{
+				if (strpos(escape(rawurldecode(\RX_REQUEST_URL)), $member_config->enable_join_key) !== false)
+				{
+					$_SESSION['signup_allowed'] = true;
+				}
+				else
+				{
+					$_SESSION['signup_allowed'] = false;
+					throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
+				}
+			}
+			else
+			{
+				$_SESSION['signup_allowed'] = false;
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
+			}
+		}
 		
 		$formTags = getAdminView('member')->_getMemberInputTag();
 		Context::set('formTags', $formTags);
