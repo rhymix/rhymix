@@ -107,6 +107,7 @@ class documentAdminView extends document
 		
 		// Get anonymous nicknames
 		$anonymous_member_srls = array();
+		$member_nick_name = array();
 		foreach($output->data as $oDocument)
 		{
 			if($oDocument->get('member_srl') < 0)
@@ -121,7 +122,6 @@ class documentAdminView extends document
 			$member_output = executeQueryArray('member.getMembers', $member_args);
 			if($member_output)
 			{
-				$member_nick_name = array();
 				foreach($member_output->data as $member)
 				{
 					$member_nick_name[$member->member_srl] = $member->nick_name;
