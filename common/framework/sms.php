@@ -92,6 +92,7 @@ class SMS
 					'name' => $class_name::getName(),
 					'required' => $class_name::getRequiredConfig(),
 					'optional' => $class_name::getOptionalConfig(),
+					'api_urls' => method_exists($class_name, 'getApiUrls') ? $class_name::getApiUrls() : [],
 					'api_types' => $class_name::getAPITypes(),
 					'api_spec' => $class_name::getAPISpec(),
 				);

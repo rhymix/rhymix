@@ -8,9 +8,9 @@ namespace Rhymix\Framework\Drivers\SMS;
 class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
 	/**
-	 * API endpoint URL.
+	 * API endpoint URL (fallback if URL is not explicitly configured)
 	 */
-	const API_URL = 'https://sms.service.iwinv.kr/send/';
+	const LEGACY_API_URL = 'https://sms.service.iwinv.kr/send/';
 	
 	/**
 	 * API specifications.
@@ -40,7 +40,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
-	protected static $_required_config = array('api_key', 'api_secret');
+	protected static $_required_config = array('api_url', 'api_key', 'api_secret');
 	protected static $_optional_config = array();
 
 	/**
@@ -53,6 +53,19 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	public static function isSupported()
 	{
 		return true;
+	}
+	
+	/**
+	 * Get the list of API URLs supported by this driver.
+	 * 
+	 * @return array
+	 */
+	public static function getApiUrls()
+	{
+		return array(
+			'https://sms.bizservice.iwinv.kr/api/send/' => 'sms.bizservice.iwinv.kr',
+			'https://sms.service.iwinv.kr/send/' => 'sms.service.iwinv.kr',
+		);
 	}
 
 	/**
@@ -107,12 +120,22 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$data['date'] = gmdate('Y-m-d H:i:s', $message->delay + (3600 * 9));
 			}
 			
+			// Set API URL
+			if (!empty($this->_config['api_url']))
+			{
+				$api_url = $this->_config['api_url'];
+			}
+			else
+			{
+				$api_url = self::LEGACY_API_URL;
+			}
+			
 			// We need to use curl because Filehandler::getRemoteResource() doesn't work with this API for some reason.
 			if (!$curl)
 			{
 				$curl = curl_init();
 			}
-			curl_setopt($curl, \CURLOPT_URL, self::API_URL);
+			curl_setopt($curl, \CURLOPT_URL, $api_url);
 			curl_setopt($curl, \CURLOPT_TIMEOUT, 5);
 			curl_setopt($curl, \CURLOPT_POST, 1);
 			curl_setopt($curl, \CURLOPT_RETURNTRANSFER, 1);

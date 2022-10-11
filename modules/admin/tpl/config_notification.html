@@ -245,6 +245,20 @@
 			
 				{@ $conf_value = escape(config("sms.$driver_name.$conf_name"))}
 				
+				<!--@if($conf_name === 'api_url')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_url}</label>
+					<div class="x_controls">
+						{@ $conf_exists = config("sms.$driver_name.api_key")}
+						<select type="select" name="sms_{$driver_name}_api_url" id="sms_{$driver_name}_api_url">
+							<!--@foreach($driver_definition['api_urls'] as $api_url => $api_url_name)-->
+								<option value="{$api_url}" selected="selected"|cond="$conf_value === $api_url || (!$conf_value && $conf_exists && $api_url === array_last_key($driver_definition['api_urls']))">{$api_url_name}</option>
+							<!--@endforeach-->
+						</select>
+					</div>
+				</div>
+				<!--@end-->
+				
 				<!--@if($conf_name === 'api_user')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
