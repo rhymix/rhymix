@@ -121,14 +121,14 @@ class documentAdminView extends document
 			$member_output = executeQueryArray('member.getMembers', $member_args);
 			if($member_output)
 			{
-				$member_nick_neme = array();
+				$member_nick_name = array();
 				foreach($member_output->data as $member)
 				{
-					$member_nick_neme[$member->member_srl] = $member->nick_name;
+					$member_nick_name[$member->member_srl] = $member->nick_name;
 				}
 			}
 		}
-		Context::set('member_nick_name', $member_nick_neme);
+		Context::set('member_nick_name', $member_nick_name);
 
 		$security = new Security();
 		$security->encodeHTML('search_target', 'search_keyword');
