@@ -374,12 +374,12 @@ class Session
 			$sso_request = Security::decrypt(\Context::get('sso_request'));
 			if (!$sso_request || !preg_match('!^https?://!', $sso_request))
 			{
-				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_REQUEST', 400);
 				exit;
 			}
 			if (!URL::isInternalUrl($sso_request) || !URL::isInternalURL($_SERVER['HTTP_REFERER']))
 			{
-				\Context::displayErrorPage('SSO Error', 'Invalid SSO Request', 400);
+				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_REQUEST', 400);
 				exit;
 			}
 			
@@ -400,14 +400,14 @@ class Session
 			$sso_response = Security::decrypt(\Context::get('sso_response'));
 			if ($sso_response === false)
 			{
-				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
+				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_RESPONSE', 400);
 				exit;
 			}
 			
 			// Check that the response was given by the default site (to prevent session fixation CSRF).
 			if(isset($_SERVER['HTTP_REFERER']) && !URL::isInternalURL($_SERVER['HTTP_REFERER']))
 			{
-				\Context::displayErrorPage('SSO Error', 'Invalid SSO Response', 400);
+				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_RESPONSE', 400);
 				exit;
 			}
 			

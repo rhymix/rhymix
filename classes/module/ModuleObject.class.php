@@ -444,11 +444,10 @@ class ModuleObject extends BaseObject
 			$location = $caller['file'] . ':' . $caller['line'];
 			
 			// Error message display by message module
-			$type = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
-			$oMessageObject = ModuleHandler::getModuleInstance('message', $type);
+			$oMessageObject = MessageView::getInstance();
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($msg_code);
-			$oMessageObject->dispMessage(null, $location);
+			$oMessageObject->dispMessage('', $location);
 			
 			$this->setTemplatePath($oMessageObject->getTemplatePath());
 			$this->setTemplateFile($oMessageObject->getTemplateFile());

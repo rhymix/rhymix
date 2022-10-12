@@ -22,6 +22,7 @@ class ModuleHandler extends Handler
 	var $entry = null;
 	var $route = null;
 	var $error = null;
+	var $error_detail = null;
 	var $is_mobile = false;
 	var $httpStatusCode = 200;
 
@@ -161,6 +162,7 @@ class ModuleHandler extends Handler
 		if($this->route && $this->route->status > 200)
 		{
 			$this->error = 'msg_module_is_not_exists';
+			$this->error_detail = 'ERR_ROUTE_NOT_FOUND';
 			$this->httpStatusCode = 404;
 			return true;
 		}
@@ -273,6 +275,7 @@ class ModuleHandler extends Handler
 		if(!$this->module)
 		{
 			$this->error = 'msg_module_is_not_exists';
+			$this->error_detail = 'ERR_MODULE_NOT_FOUND';
 			$this->httpStatusCode = 404;
 			return true;
 		}
@@ -309,7 +312,7 @@ class ModuleHandler extends Handler
 		// If error occurred while preparation, return a message instance
 		if($this->error)
 		{
-			return self::_createErrorMessage(-1, $this->error, $this->httpStatusCode);
+			return self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, $this->error_detail);
 		}
 
 		// Get action information with conf/module.xml
@@ -333,7 +336,7 @@ class ModuleHandler extends Handler
 		// still no act means error
 		if(!$this->act)
 		{
-			return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404);
+			return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404, 'ERR_NO_DEFAULT_ACT');
 		}
 
 		// get type, kind
@@ -367,7 +370,7 @@ class ModuleHandler extends Handler
 		{
 			if(isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 			{
-				return self::_createErrorMessage(-1, 'msg_security_violation');
+				return self::_createErrorMessage(-1, 'msg_security_violation', 403, 'ERR_CSRF_CHECK_FAILED');
 			}
 		}
 		
@@ -376,11 +379,11 @@ class ModuleHandler extends Handler
 		{
 			if($xml_info->action->{$this->act}->standalone === 'auto' && (!$this->module && !$this->mid))
 			{
-				return self::_createErrorMessage(-1, 'msg_invalid_request');
+				return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_ACT_IS_NOT_STANDALONE');
 			}
 			if($xml_info->action->{$this->act}->standalone === 'false' && !$this->mid)
 			{
-				return self::_createErrorMessage(-1, 'msg_invalid_request');
+				return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_ACT_IS_NOT_STANDALONE');
 			}
 		}
 
@@ -446,7 +449,7 @@ class ModuleHandler extends Handler
 		// If the base module is not found, return an error now.
 		if (!isset($oModule) || !is_object($oModule))
 		{
-			return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404);
+			return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 		}
 
 		// If there is no such action in the module object
@@ -454,7 +457,7 @@ class ModuleHandler extends Handler
 		{
 			if(!Context::isInstalled())
 			{
-				return self::_createErrorMessage(-1, 'msg_invalid_request');
+				return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_NOT_FORWARDABLE');
 			}
 			
 			// 1. Look for the module with action name
@@ -465,15 +468,15 @@ class ModuleHandler extends Handler
 
 				if(!isset($xml_info->action->{$this->act}))
 				{
-					return self::_createErrorMessage(-1, 'msg_invalid_request');
+					return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_ACT_NOT_FOUND');
 				}
 				elseif ($xml_info->action->{$this->act}->standalone === 'auto' && $this->module !== 'admin' && $this->module !== $module)
 				{
-					return self::_createErrorMessage(-1, 'msg_invalid_request');
+					return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_ACT_IS_NOT_STANDALONE');
 				}
 				elseif ($xml_info->action->{$this->act}->standalone === 'false' && $this->module !== 'admin')
 				{
-					return self::_createErrorMessage(-1, 'msg_invalid_request');
+					return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_ACT_IS_NOT_STANDALONE');
 				}
 				else
 				{
@@ -527,7 +530,7 @@ class ModuleHandler extends Handler
 				{
 					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 					{
-						return self::_createErrorMessage(-1, 'msg_security_violation');
+						return self::_createErrorMessage(-1, 'msg_security_violation', 403, 'ERR_CSRF_CHECK_FAILED');
 					}
 				}
 				
@@ -564,7 +567,7 @@ class ModuleHandler extends Handler
 						
 				if(!is_object($oModule))
 				{
-					return self::_createErrorMessage(-1, 'msg_module_is_not_exists', 404);
+					return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 				}
 				
 				// Admin page layout
@@ -934,9 +937,8 @@ class ModuleHandler extends Handler
 	/**
 	 * Create a message module instance with an error message.
 	 */
-	protected static function _createErrorMessage($error, $message, $status_code = 403, $location = null)
+	protected static function _createErrorMessage($error, $message, $status_code = 403, $detail = '', $location = null)
 	{
-		$display_mode = Mobile::isFromMobilePhone() ? 'mobile' : 'view';
 		if (!$location)
 		{
 			$backtrace = debug_backtrace(false);
@@ -945,11 +947,11 @@ class ModuleHandler extends Handler
 		}
 		
 		self::_setInputErrorToContext();
-		$oMessageObject = self::getModuleInstance('message', $display_mode);
+		$oMessageObject = MessageView::getInstance();
 		$oMessageObject->setError($error);
 		$oMessageObject->setMessage($message);
 		$oMessageObject->setHttpStatusCode($status_code ?: 403);
-		$oMessageObject->dispMessage('', $location);
+		$oMessageObject->dispMessage($detail, $location);
 		return $oMessageObject;
 	}
 
@@ -1039,7 +1041,7 @@ class ModuleHandler extends Handler
 			if($this->error)
 			{
 				// display content with message module instance
-				$oMessageObject = self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, $oModule->get('rx_error_location'));
+				$oMessageObject = self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, '', $oModule->get('rx_error_location'));
 
 				// display Error Page
 				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
