@@ -3742,9 +3742,20 @@ class memberController extends member
 	 * @param object $original
 	 * @return object
 	 */
-	protected function _checkPhoneNumber($config, $args, $mode = 'insert', $original = null)
+	protected function _checkPhoneNumber($config, &$args, $mode = 'insert', $original = null)
 	{
-		if ($config->phone_number_verify_by_sms === 'Y')
+		$required = false;
+		$verify = $config->phone_number_verify_by_sms === 'Y';
+		foreach ($config->signupForm as $formInfo)
+		{
+			if ($formInfo->name === 'phone_number' && $formInfo->isUse && $formInfo->required)
+			{
+				$required = true;
+				break;
+			}
+		}
+		
+		if ($verify)
 		{
 			// Attempt to fill in the country code.
 			if ($config->phone_number_default_country && (!$args->phone_country || $config->phone_number_hide_country === 'Y'))
@@ -3757,7 +3768,15 @@ class memberController extends member
 			}
 			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
-				return new BaseObject(-1, 'msg_invalid_phone_number');
+				if ($required)
+				{
+					return new BaseObject(-1, 'msg_invalid_phone_number');
+				}
+				else
+				{
+					$args->phone_number = '';
+					return new BaseObject;
+				}
 			}
 			
 			// If updating, check if the new info is the same as the old info.
