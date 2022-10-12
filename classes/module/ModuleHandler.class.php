@@ -73,12 +73,14 @@ class ModuleHandler extends Handler
 				if(!Context::get('logged_info')->isAdmin())
 				{
 					$this->error = 'msg_security_violation';
+					$this->error_detail = $oContext->security_check_detail;
 					return;
 				}
 				break;
 			case 'DENY ALL':
 			default:
 				$this->error = 'msg_security_violation';
+				$this->error_detail = $oContext->security_check_detail;
 				return;
 		}
 
@@ -138,6 +140,7 @@ class ModuleHandler extends Handler
 					
 					case 'block':
 						$this->error = 'The site does not exist';
+						$this->error_detail = 'ERR_DOMAIN_NOT_FOUND';
 						$this->httpStatusCode = 404;
 						return true;
 						
@@ -1041,7 +1044,7 @@ class ModuleHandler extends Handler
 			if($this->error)
 			{
 				// display content with message module instance
-				$oMessageObject = self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, '', $oModule->get('rx_error_location'));
+				$oMessageObject = self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, $this->error_detail, $oModule->get('rx_error_location'));
 
 				// display Error Page
 				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))

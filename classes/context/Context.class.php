@@ -117,6 +117,7 @@ class Context
 	 * @var string|bool
 	 */
 	public $security_check = 'OK';
+	public $security_check_detail = '';
 
 	/**
 	 * Singleton instance
@@ -1051,6 +1052,7 @@ class Context
 		if (!self::_recursiveCheckVar($_SERVER['HTTP_HOST']) || preg_match("/[\,\"\'\{\}\[\]\(\);$]/", $_SERVER['HTTP_HOST']))
 		{
 			self::$_instance->security_check = 'DENY ALL';
+			self::$_instance->security_check_detail = 'ERR_UNSAFE_ENV';
 		}
 	}
 
@@ -1184,6 +1186,7 @@ class Context
 				if(!Rhymix\Framework\Security::checkXXE($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
 					self::$_instance->security_check = 'DENY ALL';
+					self::$_instance->security_check_detail = 'ERR_UNSAFE_XML';
 					$GLOBALS['HTTP_RAW_POST_DATA'] = '';
 					return;
 				}
@@ -1257,6 +1260,7 @@ class Context
 				if(!UploadFileFilter::check($tmp_name, $val['name']))
 				{
 					self::$_instance->security_check = 'DENY ALL';
+					self::$_instance->security_check_detail = 'ERR_UNSAFE_FILE';
 					unset($_FILES[$key]);
 					continue;
 				}
@@ -1280,6 +1284,7 @@ class Context
 					if(!UploadFileFilter::check($val['tmp_name'][$i], $val['name'][$i]))
 					{
 						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_FILE';
 						$files = array();
 						unset($_FILES[$key]);
 						break;
@@ -1315,6 +1320,7 @@ class Context
 				if(preg_match($pattern, $val))
 				{
 					self::$_instance->security_check = $status;
+					self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
 					if($status === 'DENY ALL')
 					{
 						return false;
@@ -1422,6 +1428,7 @@ class Context
 					if($_val === null)
 					{
 						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
 					}
 				}
 				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
