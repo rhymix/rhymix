@@ -831,8 +831,16 @@ class TemplateHandler
 						return '';
 					}
 
-					$pathinfo = pathinfo($attr['target']);
-					$fileDir = $this->_getRelativeDir($pathinfo['dirname']);
+					if (preg_match('!^\\^/(.+)!', $attr['target'], $tmatches))
+					{
+						$pathinfo = pathinfo(\RX_BASEDIR . $tmatches[1]);
+						$fileDir = $pathinfo['dirname'];
+					}
+					else
+					{
+						$pathinfo = pathinfo($attr['target']);
+						$fileDir = $this->_getRelativeDir($pathinfo['dirname']);
+					}
 
 					if(!$fileDir)
 					{
@@ -865,20 +873,28 @@ class TemplateHandler
 
 					if(!$isRemote)
 					{
-						if(!preg_match('@^\.?/@', $attr['target']))
+						if (preg_match('!^\\^/(.+)!', $attr['target'], $tmatches))
 						{
-							$attr['target'] = './' . $attr['target'];
+							$pathinfo = pathinfo($tmatches[1]);
+							$relativeDir = $pathinfo['dirname'];
+							$attr['target'] = $relativeDir . '/' . $pathinfo['basename'];
 						}
+						else
+						{
+							if(!preg_match('@^\.?/@', $attr['target']))
+							{
+								$attr['target'] = './' . $attr['target'];
+							}
+							$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
+							$attr['target'] = $relativeDir . '/' . $pathinfo['basename'];
+						}
+						
 						if(substr($attr['target'], -5) == '/lang')
 						{
 							$pathinfo['dirname'] .= '/lang';
 							$pathinfo['basename'] = '';
 							$pathinfo['extension'] = 'xml';
 						}
-
-						$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
-
-						$attr['target'] = $relativeDir . '/' . $pathinfo['basename'];
 					}
 
 					switch($pathinfo['extension'])

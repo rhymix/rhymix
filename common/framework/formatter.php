@@ -374,7 +374,15 @@ class Formatter
 							{
 								$basename = '_' . $basename . '.scss';
 							}
-							return $dirname . '/' . substr($str, 0, $dirpos) . '/' . $basename;
+							$basepath = substr($str, 0, $dirpos);
+							if (preg_match('!^\\^/(.+)!', $basepath, $bpmatches))
+							{
+								return \RX_BASEDIR . $bpmatches[1] . '/' . $basename;
+							}
+							else
+							{
+								return $dirname . '/' . $basepath . '/' . $basename;
+							}
 						}
 						else
 						{
@@ -388,7 +396,7 @@ class Formatter
 					}
 					else
 					{
-						return dirname($filename) . '/' . $str;
+						return $dirname . '/' . $str;
 					}
 				}, explode(',', $matches[1]));
 				foreach ($import_files as $import_filename)
