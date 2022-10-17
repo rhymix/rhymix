@@ -2198,11 +2198,15 @@ class memberController extends member
 				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
 			}
 			
-			$user_id = preg_replace('/[^0-9]/', '', $user_id);
-			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_id, $phone_country);
+			$user_phone_number_id = preg_replace('/[^0-9]/', '', $user_id);
+			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_phone_number_id, $phone_country);
 			if(!$member_info || strtolower($member_info->phone_number) !== $user_id)
 			{
-				return $this->recordLoginError(-1, 'invalid_user_id');
+				$member_info = MemberModel::getMemberInfoByUserID($user_id);
+				if(!$member_info || strtolower($member_info->user_id) !== strtolower($user_id))
+				{
+					return $this->recordLoginError(-1, 'invalid_user_id');
+				}
 			}
 		}
 		elseif(!$config->identifiers || in_array('user_id', $config->identifiers))
