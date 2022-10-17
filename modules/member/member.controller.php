@@ -2202,8 +2202,15 @@ class memberController extends member
 			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_phone_number_id, $phone_country);
 			if(!$member_info || strtolower($member_info->phone_number) !== $user_id)
 			{
-				$member_info = MemberModel::getMemberInfoByUserID($user_id);
-				if(!$member_info || strtolower($member_info->user_id) !== strtolower($user_id))
+				if(in_array('user_id', $config->identifiers))
+				{
+					$member_info = MemberModel::getMemberInfoByUserID($user_id);
+					if(!$member_info || strtolower($member_info->user_id) !== strtolower($user_id))
+					{
+						return $this->recordLoginError(-1, 'invalid_user_id');
+					}
+				}
+				else
 				{
 					return $this->recordLoginError(-1, 'invalid_user_id');
 				}
