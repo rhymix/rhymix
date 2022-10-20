@@ -90,7 +90,11 @@
 				}
 				// Display the error message, or a generic stub if there is no error message.
 				if (data.message) {
-					alert(data.message.replace(/\\n/g, "\n"));
+					var full_message = data.message.replace(/\\n/g, "\n");
+					if (data.errorDetail) {
+						full_message += "\n\n" + data.errorDetail;
+					}
+					alert(full_message);
 				} else {
 					alert("AJAX communication error while requesting " + params.module + "." + params.act);
 				}
@@ -237,7 +241,11 @@
 					return;
 				} else {
 					if (data.message) {
-						alert(data.message.replace(/\\n/g, "\n"));
+						var full_message = data.message.replace(/\\n/g, "\n");
+						if (data.errorDetail) {
+							full_message += "\n\n" + data.errorDetail;
+						}
+						alert(full_message);
 					} else {
 						alert("AJAX communication error while requesting " + request_info);
 					}

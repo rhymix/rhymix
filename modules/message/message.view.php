@@ -80,6 +80,18 @@ class messageView extends message
 		Context::set('system_message', nl2br($this->getMessage()));
 		Context::set('system_message_detail', nl2br($detail));
 		Context::set('system_message_location', escape($location));
+		
+		if ($this->getError())
+		{
+			if ($detail)
+			{
+				$this->add('errorDetail', $detail);
+			}
+			if ($location)
+			{
+				$this->add('errorLocation', $location);
+			}
+		}
 
 		$this->setTemplateFile('system_message');
 		
