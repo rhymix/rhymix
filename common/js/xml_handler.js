@@ -191,15 +191,15 @@
 	window.exec_json = $.exec_json = function(action, params, callback_success, callback_error) {
 		
 		// Convert params to object and fill in the module and act.
+		var action_parts = action.split('.');
 		var request_info;
 		if (action === 'raw') {
 			request_info = 'RAW FORM SUBMISSION';
 		} else {
 			params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
-			action = action.split(".");
-			//if (action.length != 2) return;
-			params.module = action[0];
-			params.act = action[1];
+			//if (action_parts.length != 2) return;
+			params.module = action_parts[0];
+			params.act = action_parts[1];
 			params._rx_ajax_compat = 'JSON';
 			params._rx_csrf_token = getCSRFToken();
 			request_info = params.module + "." + params.act;
@@ -232,6 +232,15 @@
 			
 			// If the response contains an error, display the error message.
 			if(data.error != "0" && data.error > -1000) {
+				// If this is a temporary CSRF error, retry with a new token.
+				if (data.errorDetail === 'ERR_CSRF_CHECK_FAILED' && action !== 'member.getLoginStatus') {
+					return window.exec_json('member.getLoginStatus', {}, function(data) {
+						if (data.csrf_token) {
+							setCSRFToken(data.csrf_token);
+							window.exec_json(action, params, callback_success, callback_error);
+						}
+					});
+				}
 				// Should not display the error message when the callback function returns false.
 				if ($.isFunction(callback_error) && callback_error(data) === false) {
 					return;

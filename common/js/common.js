@@ -53,10 +53,17 @@
 	};
 
 	/**
-	 * @brief Get CSRF token for the document
+	 * Get CSRF token for the document
 	 */
 	window.getCSRFToken = function() {
 		return $("meta[name='csrf-token']").attr("content");
+	};
+
+	/**
+	 * Set CSRF token for the document
+	 */
+	window.setCSRFToken = function(token) {
+		$("meta[name='csrf-token']").attr("content", token);
 	};
 
 	/* Intercept jQuery AJAX calls to add CSRF headers */
