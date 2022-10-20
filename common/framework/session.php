@@ -1015,6 +1015,18 @@ class Session
 	}
 	
 	/**
+	 * Get the last login time.
+	 * 
+	 * If the user is not logged in, this method returns 0.
+	 * 
+	 * @return int
+	 */
+	public static function getLastLoginTime()
+	{
+		return $_SESSION['RHYMIX']['last_login'] ?? 0;
+	}
+	
+	/**
 	 * Get validity information.
 	 * 
 	 * @param int $member_srl
