@@ -179,8 +179,22 @@ class memberModel extends member
 	 */
 	public function getLoginStatus()
 	{
+		// Check origin
+		$origin = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
+		if ($origin !== '' && $origin !== 'null' && !Rhymix\Framework\URL::isInternalURL($origin))
+		{
+			throw new Rhymix\Framework\Exceptions\SecurityViolation();
+		}
+		
+		// Add CORS restriction
+		header('Access-Control-Allow-Origin: ' . rtrim(Rhymix\Framework\Url::getCurrentDomainURL(), '/'));
+		header('Cross-Origin-Resource-Policy: same-origin');
+		
+		// Return login status and CSRF token
 		Context::setResponseMethod('JSON');
 		$this->add('status', Rhymix\Framework\Session::getLoginStatus());
+		$this->add('csrf_token', Rhymix\Framework\Session::getGenericToken());
+		$this->add('last_login', Rhymix\Framework\Session::getLastLoginTime());
 	}
 
 	/**
