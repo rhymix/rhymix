@@ -183,7 +183,10 @@ class memberModel extends member
 		$origin = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
 		if ($origin !== '' && $origin !== 'null' && !Rhymix\Framework\URL::isInternalURL($origin))
 		{
-			throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			$this->setError(-1);
+			$this->setMessage('msg_security_violation');
+			$this->add('errorDetail', 'ERR_CSRF_INVALID_ORIGIN');
+			return;
 		}
 		
 		// Add CORS restriction
