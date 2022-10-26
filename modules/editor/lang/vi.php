@@ -93,6 +93,7 @@ $lang->edit['emoticon'] = 'Diễn tả cảm xúc';
 $lang->edit['upload'] = 'Đính kèm';
 $lang->edit['upload_file'] = 'Đính kèm';
 $lang->edit['link_file'] = 'Chèn vào bài viết';
+$lang->edit['delete_selected'] = 'Xóa';
 $lang->edit['icon_align_article'] = 'Vị trí trong bài viết';
 $lang->edit['icon_align_left'] = 'Trái';
 $lang->edit['icon_align_middle'] = 'Giữa';
