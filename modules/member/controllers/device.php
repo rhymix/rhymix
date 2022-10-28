@@ -228,8 +228,21 @@ class Device extends \member
 		// Log-in
 		if($member_srl)
 		{
+			$config = \MemberModel::getMemberConfig();
 			$member_info = \MemberModel::getMemberInfoByMemberSrl($member_srl);
-			$output = \memberController::getInstance()->doLogin($member_info->user_id);
+			if (in_array('email_address', $config->identifiers))
+			{
+				$user_id = $member_info->email_address;
+			}
+			elseif (in_array('phone_number', $config->identifiers))
+			{
+				$user_id = $member_info->phone_number;
+			}
+			else
+			{
+				$user_id = $member_info->user_id;
+			}
+			$output = \memberController::getInstance()->doLogin($user_id);
 			if(!$output->toBool())
 			{
 				return new \BaseObject(-1, 'LOGIN_FAILED');
