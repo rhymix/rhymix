@@ -230,17 +230,17 @@ class Device extends \member
 		{
 			$config = \MemberModel::getMemberConfig();
 			$member_info = \MemberModel::getMemberInfoByMemberSrl($member_srl);
-			if (in_array('email_address', $config->identifiers))
+			if (in_array('user_id', $config->identifiers))
+			{
+				$user_id = $member_info->user_id;
+			}
+			elseif (in_array('email_address', $config->identifiers))
 			{
 				$user_id = $member_info->email_address;
 			}
-			elseif (in_array('phone_number', $config->identifiers))
-			{
-				$user_id = $member_info->phone_number;
-			}
 			else
 			{
-				$user_id = $member_info->user_id;
+				$user_id = $member_info->phone_number;
 			}
 			$output = \memberController::getInstance()->doLogin($user_id);
 			if(!$output->toBool())
