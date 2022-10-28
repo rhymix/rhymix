@@ -240,7 +240,14 @@ class Device extends \member
 			}
 			else
 			{
-				$user_id = $member_info->phone_number;
+				if(isset($member_info->phone_number))
+				{
+					$user_id = $member_info->phone_number;	
+				}
+				else
+				{
+					return new \BaseObject(-1, 'LOGIN_FAILED');
+				}
 			}
 			$output = \memberController::getInstance()->doLogin($user_id);
 			if(!$output->toBool())
