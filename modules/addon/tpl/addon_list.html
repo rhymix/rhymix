@@ -33,14 +33,17 @@
 		<tbody>
 			<tr loop="$addon_list => $addon">
 				<td class="title">
-					<p><strong style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->title}</strong></p>
+					<p>
+						<a cond="!$addon->isBlacklisted" href="{getUrl('act', 'dispAddonAdminSetup', 'selected_addon', $addon->addon_name)}">{$addon->title}</a>
+						<strong cond="$addon->isBlacklisted" style="color:#aaa">{$addon->title}</strong>
+					</p>
 					<p style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->description}</p>
 					<p cond="$addon->need_update == 'Y'" class="update">
 						{$lang->msg_avail_easy_update} <a href="{$addon->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 					</p>
 				</td>
 				<td>
-					<!--@if($addon->version === 'RX_VERSION')-->
+					<!--@if($addon->version === 'RX_VERSION' && Context::isDefaultPlugin($addon->addon_name, 'addon'))-->
 						<img src="{\RX_BASEURL}common/img/icon.png" class="core_symbol" alt="Rhymix Core" title="Rhymix Core" />
 					<!--@else-->
 						<span style="color:#aaa"|cond="$addon->isBlacklisted">{$addon->version}</span>
