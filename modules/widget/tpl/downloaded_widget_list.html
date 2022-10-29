@@ -27,7 +27,7 @@
 				</p>
 			</td>
 			<td>
-				<!--@if($widget->version === 'RX_VERSION')-->
+				<!--@if($widget->version === 'RX_VERSION' && Context::isDefaultPlugin($widget->widget, 'widget'))-->
 					<img src="{\RX_BASEURL}common/img/icon.png" class="core_symbol" alt="Rhymix Core" title="Rhymix Core" />
 				<!--@else-->
 					<span style="color:#aaa"|cond="$widget->isBlacklisted">{$widget->version}</span>

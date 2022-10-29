@@ -39,7 +39,7 @@
 				<p cond="$val->need_update" class="x_alert x_alert-info">{$lang->msg_avail_update} <button class="text" type="button" onclick="doUpdateModule('{$val->module}')">{$lang->msg_do_you_like_update}</button></p>
 			</td>
 			<td>
-				<!--@if($val->version === 'RX_VERSION')-->
+				<!--@if($val->version === 'RX_VERSION' && Context::isDefaultPlugin($val->module, 'module'))-->
 					<img src="{\RX_BASEURL}common/img/icon.png" class="core_symbol" alt="Rhymix Core" title="Rhymix Core" />
 				<!--@else-->
 					<span style="color:#aaa"|cond="Context::isBlacklistedPlugin($val->module, 'module')">{$val->version}</span>

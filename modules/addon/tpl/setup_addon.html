@@ -8,8 +8,14 @@
 		<tr>
 			<th class="nowr">{$lang->version}</th>
 			<td>
-				{$addon_info->version === 'RX_VERSION' ? 'CORE' : $addon_info->version}
-				<!--@if($addon_info->date)-->({zdate($addon_info->date, 'Y-m-d')})<!--@endif-->
+				<!--@if($addon_info->version === 'RX_VERSION' && Context::isDefaultPlugin($addon_info->addon_name, 'addon'))-->
+					CORE
+				<!--@else-->
+					{$addon_info->version}
+					<!--@if($addon_info->date)-->
+						({zdate($addon_info->date, 'Y-m-d')})
+					<!--@endif-->
+				<!--@endif-->
 			</td>
 		</tr>
 		<tr>
