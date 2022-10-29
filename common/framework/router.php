@@ -363,6 +363,11 @@ class Router
 					$internal_url = self::_insertRouteVars($result, $args2);
 					return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
 				}
+				elseif ($args['act'] === $action_info->default_index_act && !count($args2))
+				{
+					self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '$act:delete';
+					return $args[$prefix_type];
+				}
 			}
 			
 			// Check other modules for $act.

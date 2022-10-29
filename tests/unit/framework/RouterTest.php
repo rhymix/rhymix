@@ -31,6 +31,16 @@ class RouterTest extends \Codeception\TestCase\Test
         
         getController('module')->registerActionForwardRoutes('member');
         
+        $args = array('mid' => 'board', 'act' => 'dispBoardContent');
+        $this->assertEquals('board', Rhymix\Framework\Router::getURL($args, 2));
+        $this->assertEquals('index.php?mid=board&act=dispBoardContent', Rhymix\Framework\Router::getURL($args, 1));
+        $this->assertEquals('index.php?mid=board&act=dispBoardContent', Rhymix\Framework\Router::getURL($args, 0));
+        
+        $args = array('mid' => 'board', 'page' => 3);
+        $this->assertEquals('board/page/3', Rhymix\Framework\Router::getURL($args, 2));
+        $this->assertEquals('board?page=3', Rhymix\Framework\Router::getURL($args, 1));
+        $this->assertEquals('index.php?mid=board&page=3', Rhymix\Framework\Router::getURL($args, 0));
+        
         $args = array('mid' => 'board', 'document_srl' => 123);
         $this->assertEquals('board/123', Rhymix\Framework\Router::getURL($args, 2));
         $this->assertEquals('board/123', Rhymix\Framework\Router::getURL($args, 1));
