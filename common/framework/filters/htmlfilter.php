@@ -441,6 +441,14 @@ class HTMLFilter
 		$info['resize'] = new \HTMLPurifier_AttrDef_Enum(array(
 			'none', 'both', 'horizontal', 'vertical', 'initial', 'inherit',
 		));
+		$info['aspect-ratio'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
+			new \HTMLPurifier_AttrDef_CSS_Number(),
+			new \HTMLPurifier_AttrDef_Enum(array('2/1', '16/9', '4/3', '1/1', '3/4', '9/16', '1/2')),
+			new \HTMLPurifier_AttrDef_Enum(array('auto', 'initial', 'inherit')),
+		));
+		$info['object-fit'] = new \HTMLPurifier_AttrDef_Enum(array(
+			'contain', 'cover', 'fill', 'none', 'scale-down', 'initial', 'inherit',
+		));
 		
 		// Wrap all new properties with a decorator that handles !important.
 		$allow_important = $config->get('CSS.AllowImportant');

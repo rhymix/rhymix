@@ -98,6 +98,14 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$source = '<div style="overflow-x:auto;overflow-y:scroll;left:-500px;"></div>';
 		$target = '<div style="overflow-x:auto;overflow-y:scroll;"></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<div style="aspect-ratio:9/16;object-fit:cover;"></div>';
+		$target = '<div style="aspect-ratio:9/16;object-fit:cover;"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+		
+		$source = '<div style="aspect-ratio:3;"></div>';
+		$target = '<div style="aspect-ratio:3;"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
 	public function testHTMLFilterEmbeddedMedia()
