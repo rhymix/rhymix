@@ -121,10 +121,9 @@
 			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
 	
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
-				{@$isGoTo = true}
 				<li>
 					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
-					<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<span id="goTo" class="x_input-append">
 						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 						<button type="submit" class="x_add-on">Go</button>
 					</span>
@@ -137,10 +136,9 @@
 			<!--@end-->
 	
 			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
-				{@$isGoTo = true}
 				<li>
 					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
-					<span cond="$isGoTo" id="goTo" class="x_input-append">
+					<span id="goTo" class="x_input-append">
 						<input type="number" min="1" max="{$page_navigation->last_page}" required name="page" title="{$lang->cmd_go_to_page}" />
 						<button type="submit" class="x_add-on">Go</button>
 					</span>
