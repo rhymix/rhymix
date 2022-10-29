@@ -99,8 +99,10 @@ class boardController extends board
 		$manual = false;
 		$logged_info = Context::get('logged_info');
 		
-		// Set anonymous information
-		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
+
+		// Set anonymous information when insert mode or status is temp
+		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y') && (!$oDocument->isExists() || $oDocument->get('status') == DocumentModel::getConfigStatus('temp')))
 		{
 			if(!$obj->document_srl)
 			{
@@ -118,7 +120,6 @@ class boardController extends board
 		}
 		
 		// Update if the document already exists.
-		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if($oDocument->isExists())
 		{
 			if(!$oDocument->isGranted())
