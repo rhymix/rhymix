@@ -316,6 +316,15 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<span>{\RX_BASEDIR}</span>',
                 '?><span><?php echo \RX_BASEDIR ?></span>'
             ),
+			// Rhymix improvements: object attributes enclosed in curly braces
+            array(
+                '<div>{$foo->$bar[$bazz]}</div>',
+                '?><div><?php echo $__Context->foo->{$__Context->bar}[$__Context->bazz] ?></div>'
+            ),
+            array(
+                '<!--@if($foo->$bar)--><div></div><!--@endif-->',
+                "\n" . 'if($__Context->foo->{$__Context->bar}){ ?><div></div><?php } ?>'
+            ),
 			// Rhymix autoescape
             array(
                 '<config autoescape="on" />{$foo}',
