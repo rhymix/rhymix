@@ -904,29 +904,13 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		$args = new stdClass();
 		$args->srl = $obj->document_srl;
-		$output = executeQueryArray('ncenterlite.getNotifyBySrl', $args);
-		$removeFlagMemberSrls = array();
-		if($output->data)
-		{
-			$notifyList = $output->data;
-			foreach ($notifyList as $key => $val)
-			{
-				$removeFlagMemberSrls[] = $val->member_srl;	
-			}
-		}
-		
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
 		if(!$output->toBool())
 		{
 			return $output;
-		}
-		
-		foreach ($removeFlagMemberSrls as $memberSrl)
-		{
-			$this->removeFlagFile($memberSrl);
 		}
 	}
 
