@@ -325,6 +325,14 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '<!--@if($foo->$bar)--><div></div><!--@endif-->',
                 "\n" . 'if($__Context->foo->{$__Context->bar}){ ?><div></div><?php } ?>'
             ),
+            array(
+                '<aside cond="$foo->$bar"><img src="" /></aside>',
+                "\n" . 'if($__Context->foo->{$__Context->bar}){ ?><aside><img src="" /></aside><?php } ?>'
+            ),
+            array(
+                '<ul loop="$foo->$bar => $key, $val" class="test"|cond="$foo->$key"><li>{$val}</li></ul>',
+                "\n" . '$__loop_tmp=$__Context->foo->{$__Context->bar};if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><ul<?php if($__Context->foo->{$__Context->key}){ ?> class="test"<?php } ?>><li><?php echo $__Context->val ?></li></ul><?php } ?>'
+            ),
 			// Rhymix autoescape
             array(
                 '<config autoescape="on" />{$foo}',

@@ -293,6 +293,9 @@ class TemplateHandler
 		// prevent from calling directly before writing into file
 		$buff = '<?php if(!defined("__XE__"))exit;?>' . $buff;
 
+		// restore curly braces from temporary entities
+		$buff = self::_replaceTempEntities($buff);
+
 		// remove php script reopening
 		$buff = preg_replace(array('/(\n|\r\n)+/', '/(;)?( )*\?\>\<\?php([\n\t ]+)?/'), array("\n", ";\n"), $buff);
 
@@ -1100,7 +1103,7 @@ class TemplateHandler
 	 * Replace PHP variables of $ character
 	 * 
 	 * @param string $php
-	 * @return string $__Context->varname
+	 * @return string
 	 */
 	private static function _replaceVar($php)
 	{
@@ -1109,9 +1112,9 @@ class TemplateHandler
 			return '';
 		}
 		
-		// Replace some variables that need to be enclosed in curly braces.
+		// Replace variables that need to be enclosed in curly braces, using temporary entities to prevent double-replacement.
 		$php = preg_replace_callback('@(?<!\$__Context)->\$([a-z_][a-z0-9_]*)@i', function($matches) {
-			return '->{$__Context->' . $matches[1] . '}';
+			return '->' . self::_getTempEntityForChar('{') . '$__Context->' . $matches[1] . self::_getTempEntityForChar('}');
 		}, $php);
 		
 		// Replace all other variables with Context attributes.
@@ -1128,7 +1131,31 @@ class TemplateHandler
 		
 		return $php;
 	}
-
+	
+	/**
+	 * Replace temporary entities to curly braces.
+	 * 
+	 * @param string $str
+	 * @return string
+	 */
+	private static function _replaceTempEntities($str)
+	{
+		return strtr($str, [
+			'&#x1B;&#x7B;' => '{',
+			'&#x1B;&#x7D;' => '}',
+		]);
+	}
+	
+	/**
+	 * Get the temporary entity for a character.
+	 * 
+	 * @param string $char
+	 * @return string
+	 */
+	private static function _getTempEntityForChar($char)
+	{
+		return '&#x1B;&#x' . strtoupper(bin2hex($char)) . ';';
+	}
 }
 /* End of File: TemplateHandler.class.php */
 /* Location: ./classes/template/TemplateHandler.class.php */
