@@ -755,7 +755,7 @@ class ncenterliteModel extends ncenterlite
 		return $output->data;
 	}
 
-	function getNotifyMemberSrlByCommentSrl($comment_srl)
+	function getNotifyMemberSrlBySrl($comment_srl)
 	{
 		if(!$comment_srl === null)
 		{
@@ -763,7 +763,7 @@ class ncenterliteModel extends ncenterlite
 		}
 		$args = new stdClass();
 		$args->srl = $comment_srl;
-		$output = executeQueryArray('ncenterlite.getNotifyMemberSrlByCommentSrl', $args);
+		$output = executeQueryArray('ncenterlite.getNotifyMemberSrlBySrl', $args);
 		if(!$output->toBool())
 		{
 			return $output;
