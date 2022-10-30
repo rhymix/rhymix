@@ -99,12 +99,12 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<div style="overflow-x:auto;overflow-y:scroll;"></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
-		$source = '<div style="aspect-ratio:9/16;object-fit:cover;"></div>';
-		$target = '<div style="aspect-ratio:9/16;object-fit:cover;"></div>';
+		$source = '<div style="aspect-ratio:9/16;"></div><div style="aspect-ratio:0.5825;"></div>';
+		$target = '<div style="aspect-ratio:9/16;"></div><div style="aspect-ratio:0.5825;"></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
-		$source = '<div style="aspect-ratio:3;"></div>';
-		$target = '<div style="aspect-ratio:3;"></div>';
+		$source = '<div style="object-fit:cover;"><span style="object-fit:invalid-value;">foobar</span></div>';
+		$target = '<div style="object-fit:cover;"><span>foobar</span></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
