@@ -1100,26 +1100,41 @@ class memberController extends member
 	 */
 	function procMemberModifyPassword()
 	{
-		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
+		if (!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
 		// Extract the necessary information in advance
 		$current_password = trim(Context::get('current_password'));
 		$password = trim(Context::get('password1'));
+
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+
 		// Verify the cuttent password
-		if(!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl)) throw new Rhymix\Framework\Exception('invalid_password');
+		if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
+		{
+			throw new Rhymix\Framework\Exception('invalid_current_password');
+		}
 
 		// Check if a new password is as same as the previous password
-		if($current_password == $password) throw new Rhymix\Framework\Exception('invalid_new_password');
+		if ($current_password === $password)
+		{
+			throw new Rhymix\Framework\Exception('invalid_new_password');
+		}
 
 		// Execute insert or update depending on the value of member_srl
 		$args = new stdClass;
 		$args->member_srl = $member_srl;
 		$args->password = $password;
 		$output = $this->updateMemberPassword($args);
-		if(!$output->toBool()) return $output;
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 		
 		// Log out all other sessions.
 		$member_config = ModuleModel::getModuleConfig('member');
@@ -1150,7 +1165,10 @@ class memberController extends member
 		$member_srl = $logged_info->member_srl;
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		// Verify the cuttent password
-		if(!MemberModel::isValidPassword($member_info->password, $password)) throw new Rhymix\Framework\Exception('invalid_password');
+		if (!MemberModel::isValidPassword($member_info->password, $password))
+		{
+			throw new Rhymix\Framework\Exception('invalid_password');
+		}
 
 		$output = $this->deleteMember($member_srl);
 		if(!$output->toBool()) return $output;
@@ -2162,11 +2180,13 @@ class memberController extends member
 		$config = MemberModel::getMemberConfig();
 		$args = new stdClass();
 		$args->ipaddress = \RX_CLIENT_IP;
+		$used_identifier = null;
 
 		// check identifier
 		if((!$config->identifiers || in_array('email_address', $config->identifiers)) && strpos($user_id, '@') !== false)
 		{
 			$member_info = MemberModel::getMemberInfoByEmailAddress($user_id);
+			$used_identifier = 'email_address';
 			if(!$member_info || strtolower($member_info->email_address) !== strtolower($user_id))
 			{
 				return $this->recordLoginError(-1, 'invalid_email_address');
@@ -2200,11 +2220,13 @@ class memberController extends member
 			
 			$user_phone_number_id = preg_replace('/[^0-9]/', '', $user_id);
 			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_phone_number_id, $phone_country);
+			$used_identifier = 'phone_number';
 			if(!$member_info || strtolower($member_info->phone_number) !== $user_id)
 			{
 				if(in_array('user_id', $config->identifiers))
 				{
 					$member_info = MemberModel::getMemberInfoByUserID($user_id);
+					$used_identifier = 'user_id';
 					if(!$member_info || strtolower($member_info->user_id) !== strtolower($user_id))
 					{
 						return $this->recordLoginError(-1, 'invalid_user_id');
@@ -2219,6 +2241,7 @@ class memberController extends member
 		elseif(!$config->identifiers || in_array('user_id', $config->identifiers))
 		{
 			$member_info = MemberModel::getMemberInfoByUserID($user_id);
+			$used_identifier = 'user_id';
 			if(!$member_info || strtolower($member_info->user_id) !== strtolower($user_id))
 			{
 				return $this->recordLoginError(-1, 'invalid_user_id');
@@ -2255,7 +2278,8 @@ class memberController extends member
 		// Password Check
 		if($password && !MemberModel::isValidPassword($member_info->password, $password, $member_info->member_srl))
 		{
-			return $this->recordMemberLoginError(-1, 'invalid_password', $member_info);
+			$msg = ($used_identifier === 'email_address') ? 'invalid_email_address' : 'invalid_user_id';
+			return $this->recordMemberLoginError(-1, $msg, $member_info);
 		}
 
 		// If denied == 'Y', notify
