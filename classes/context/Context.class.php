@@ -2286,19 +2286,19 @@ class Context
 
 	/**
 	 * Returns javascript plugin file info
-	 * @param string $pluginName
+	 * @param string $plugin_name
 	 * @return stdClass
 	 */
-	public static function getJavascriptPluginInfo($pluginName)
+	public static function getJavascriptPluginInfo($plugin_name)
 	{
 		if($plugin_name == 'ui.datepicker')
 		{
 			$plugin_name = 'ui';
 		}
 
-		$plugin_path = './common/js/plugins/' . $pluginName . '/';
+		$plugin_path = './common/js/plugins/' . $plugin_name . '/';
 		$info_file = $plugin_path . 'plugin.load';
-		if(!is_readable($info_file))
+		if(!file_exists($info_file) || !is_readable($info_file))
 		{
 			return;
 		}
@@ -2320,6 +2320,10 @@ class Context
 			{
 				$filename = substr($filename, 2);
 			}
+			$filename = strtr($filename, [
+				'{$device_type}' => self::get('m') ? 'mobile' : 'pc',
+				'{$lang_type}' => self::getLangType(),
+			]);
 
 			if(substr_compare($filename, '.js', -3) === 0)
 			{
@@ -2361,7 +2365,7 @@ class Context
 
 		$plugin_path = './common/js/plugins/' . $plugin_name . '/';
 		$info_file = $plugin_path . 'plugin.load';
-		if(!is_readable($info_file))
+		if(!file_exists($info_file) || !is_readable($info_file))
 		{
 			return;
 		}
@@ -2379,6 +2383,11 @@ class Context
 			{
 				$filename = substr($filename, 2);
 			}
+			$filename = strtr($filename, [
+				'{$device_type}' => self::get('m') ? 'mobile' : 'pc',
+				'{$lang_type}' => self::getLangType(),
+			]);
+
 			if(substr_compare($filename, '.js', -3) === 0)
 			{
 				self::loadFile(array($plugin_path . $filename, 'body', '', 0), TRUE);
