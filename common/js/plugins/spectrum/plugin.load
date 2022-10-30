@@ -1,3 +1,4 @@
 spectrum.css
 spectrum.js
+i18n/jquery.spectrum-{$lang_type}.js
 rx_spectrum.js

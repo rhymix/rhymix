@@ -8,8 +8,8 @@ jQuery(function($){
 	}
 
 	// 컬러 피커가 내장된 브라우저에서는 내장된 컬러피커 이용
-	if ( $("input.rx-spectrum").prop('type') != 'color' ) {
-		$.getScript(request_uri + "common/js/plugins/spectrum/i18n/jquery.spectrum-"+ xe.current_lang.replace("jp", "ja").toLowerCase() +".js", function() {
+	if ($('input.rx-spectrum').prop('type') !== 'color') {
+		(function() {
 			var settings = {
 				showInput: true,
 				allowEmpty:true,
@@ -44,6 +44,6 @@ jQuery(function($){
 				]
 			}
 			$('input.rx-spectrum').rx_spectrum(settings);
-		});
+		})();
 	}
 });
