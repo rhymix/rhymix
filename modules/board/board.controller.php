@@ -789,33 +789,29 @@ class boardController extends board
 	 */
 	public function createAnonymousName($format, $member_srl, $document_srl)
 	{
-		if (strpos($format, '$NUM') !== false)
-		{
-			$num = hash_hmac('sha256', $member_srl ?: \RX_CLIENT_IP, config('crypto.authentication_key'));
-			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
-			return strtr($format, array('$NUM' => $num));
-		}
-		elseif (strpos($format, '$DAILYNUM') !== false)
-		{
-			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':date:' . date('Y-m-d'), config('crypto.authentication_key'));
-			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
-			return strtr($format, array('$DAILYNUM' => $num));
-		}
-		elseif (strpos($format, '$DOCNUM') !== false)
-		{
-			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, config('crypto.authentication_key'));
-			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
-			return strtr($format, array('$DOCNUM' => $num));
-		}
-		elseif (strpos($format, '$DOCDAILYNUM') !== false)
-		{
-			$num = hash_hmac('sha256', ($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), config('crypto.authentication_key'));
-			$num = sprintf('%08d', hexdec(substr($num, 0, 8)) % 100000000);
-			return strtr($format, array('$DOCDAILYNUM' => $num));
-		}
-		else
-		{
-			return $format;
-		}
+		return preg_replace_callback('/\$((?:DAILY|DOC|DOCDAILY|)NUM)(?::([0-9]))?/', function($matches) use($member_srl, $document_srl) {
+			$digits = empty($matches[2]) ? 8 : max(1, min(8, intval($matches[2])));
+			switch ($matches[1])
+			{
+				case 'NUM': return self::_createHash($member_srl ?: \RX_CLIENT_IP, $digits);
+				case 'DAILYNUM': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':date:' . date('Y-m-d'), $digits);
+				case 'DOCNUM': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, $digits);
+				case 'DOCDAILYNUM': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), $digits);
+			}
+		}, $format);
+	}
+	
+	/**
+	 * Subroutine for hashing anonymous nickname.
+	 * 
+	 * @param string $content
+	 * @param int $digits
+	 * @return string
+	 */
+	protected static function _createHash(string $content, int $digits = 8): string
+	{
+		$hash = hash_hmac('sha256', $content, config('crypto.authentication_key'));
+		$num = sprintf('%0' . $digits . 'd', hexdec(substr($hash, 0, 8)) % pow(10, $digits));
+		return $num;
 	}
 }
