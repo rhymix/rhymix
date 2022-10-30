@@ -424,8 +424,8 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '?><p><?php echo number_format($__Context->foo, \'2\') ?></p>'
             ),
             array(
-                '<p>{$foo|shorten}</p>',
-                '?><p><?php echo number_shorten($__Context->foo) ?></p>'
+                '<p>{$foo->$bar|shorten}</p>',
+                '?><p><?php echo number_shorten($__Context->foo->{$__Context->bar}) ?></p>'
             ),
             array(
                 '<p>{$foo|shorten:2}</p>',
@@ -436,8 +436,8 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '?><p><?php echo getDisplayDateTime(ztime($__Context->foo), \'His\') ?></p>'
             ),
             array(
-                '<p>{$foo|link}</p>',
-                '?><p><?php echo \'<a href="\' . $__Context->foo . \'">\' . $__Context->foo . \'</a>\' ?></p>'
+                '<p>{$foo[$bar]|link}</p>',
+                '?><p><?php echo \'<a href="\' . $__Context->foo[$__Context->bar] . \'">\' . $__Context->foo[$__Context->bar] . \'</a>\' ?></p>'
             ),
             array(
                 '<p>{$foo|link:http://www.rhymix.org}</p>',
