@@ -1,3 +1,4 @@
 jquery-ui.min.js
 jquery-ui.min.css
+i18n/datepicker-{$lang_type}.js
 rx_datepicker.js
