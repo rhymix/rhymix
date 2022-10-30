@@ -1034,15 +1034,18 @@ class documentController extends document
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 			}
 		}
-		
+
+		// Clear extra_vars cache (#1969)
+		self::clearDocumentCache($obj->document_srl, 'extra_vars');
+
 		// Update the category if the category_srl exists.
 		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl)
 		{
 			if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
 			if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
 		}
-		
-		// Call a trigger (after)
+
+		// Update log
 		if($obj->update_log_setting === 'Y')
 		{
 			$obj->extra_vars = serialize($extra_vars);
@@ -1058,14 +1061,16 @@ class documentController extends document
 			}
 		}
 
+		// Update attached file count
 		$attachOutput = getController('file')->setFilesValid($obj->document_srl, 'doc');
 		if(!$attachOutput->toBool())
 		{
 			$oDB->rollback();
 			return $attachOutput;
 		}
-		
 		$obj->updated_file_count = $attachOutput->get('updated_file_count');
+		
+		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 
 		// commit
@@ -3342,15 +3347,24 @@ Content;
 
 	/**
 	 * Clear document cache
+	 * 
+	 * @param int $document_srl
+	 * @param string $type
 	 */
-	public static function clearDocumentCache($document_srl)
+	public static function clearDocumentCache($document_srl, $type = 'all')
 	{
-		Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
-		Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
-		Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
-		unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
-		unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
-		unset($GLOBALS['RX_DOCUMENT_LANG'][$document_srl]);
+		if ($type === 'all')
+		{
+			Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
+			Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
+			Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
+			unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
+		}
+		if ($type === 'all' || $type === 'extra_vars')
+		{
+			unset($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
+			unset($GLOBALS['RX_DOCUMENT_LANG'][$document_srl]);
+		}
 	}
 	
 	/**
