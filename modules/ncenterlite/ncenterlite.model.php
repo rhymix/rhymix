@@ -754,22 +754,33 @@ class ncenterliteModel extends ncenterlite
 
 		return $output->data;
 	}
-
-	function getNotifyMemberSrlBySrl($comment_srl)
+	
+	/**
+	 * 알림에서 member_srl 만 정리해서 보내준다.
+	 * @param int $srl
+	 * @return array
+	 */
+	function getNotifyMemberSrlBySrl(int $srl) : array
 	{
-		if(!$comment_srl === null)
+		if(!$srl)
 		{
-			return false;
+			return [];
 		}
 		$args = new stdClass();
-		$args->srl = $comment_srl;
+		$args->srl = $srl;
 		$output = executeQueryArray('ncenterlite.getNotifyMemberSrlBySrl', $args);
 		if(!$output->toBool())
 		{
-			return $output;
+			return [];
+		}
+		
+		$member_srls = array();
+		foreach($output->data ?? [] as $value)
+		{
+			$member_srls[] = $value->member_srl;
 		}
 
-		return $output->data;
+		return $member_srls;
 	}
 
 	function getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl = 0)

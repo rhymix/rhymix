@@ -9,4 +9,7 @@
 		<condition operation="equal" column="srl" var="srl" filter="number" notnull="notnull" />
 		<condition operation="equal" column="target_srl" var="srl" filter="number" notnull="notnull" pipe="or" />
 	</conditions>
+	<groups>
+		<group column="member_srl" />
+	</groups>
 </query>

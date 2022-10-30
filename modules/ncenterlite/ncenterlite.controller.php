@@ -872,18 +872,8 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-
-		$notify_list = ncenterliteModel::getInstance()->getNotifyMemberSrlBySrl($obj->comment_srl);
-
-		// 대댓글의 대댓글일 경우 혹은 중복적으로 받는 경우 comment_srl 당 2개이상 notify가 생성될 수 있다.
-		$member_srls = array();
-		foreach($notify_list as $value)
-		{
-			if(!in_array($value->member_srl, $member_srls))
-			{
-				$member_srls[] = $value->member_srl;
-			}
-		}
+		
+		$member_srls = ncenterliteModel::getInstance()->getNotifyMemberSrlBySrl($obj->comment_srl);
 
 		$args = new stdClass();
 		$args->srl = $obj->comment_srl;
@@ -905,26 +895,11 @@ class ncenterliteController extends ncenterlite
 			return;
 		}
 		
-		$notify_list = ncenterliteModel::getInstance()->getNotifyMemberSrlBySrl($obj->document_srl);
-		
-		// 대댓글의 대댓글일 경우 혹은 중복적으로 받는 경우 comment_srl 당 2개이상 notify가 생성될 수 있다.
-		$member_srls = array();
-		foreach($notify_list as $value)
-		{
-			if(!in_array($value->member_srl, $member_srls))
-			{
-				$member_srls[] = $value->member_srl;
-			}
-		}
-		
+		$member_srls = ncenterliteModel::getInstance()->getNotifyMemberSrlBySrl($obj->document_srl);
+
 		$args = new stdClass();
 		$args->srl = $obj->document_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
-		if(!$output->toBool())
-		{
-			return $output;
-		}
-		
 		if($output->toBool())
 		{
 			foreach($member_srls as $member_srl)
