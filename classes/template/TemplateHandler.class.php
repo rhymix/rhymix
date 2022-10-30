@@ -263,7 +263,7 @@ class TemplateHandler
 		$this->config = new stdClass();
 
 		// detect existence of autoescape config
-		$this->config->autoescape = (strpos($buff, ' autoescape="') === FALSE) ? NULL : 'off';
+		$this->config->autoescape = (strpos($buff, ' autoescape="') === false) ? null : false;
 
 		// replace comments
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
@@ -970,7 +970,8 @@ class TemplateHandler
 					{
 						foreach($config_matches as $config_match)
 						{
-							$result .= "\$this->config->{$config_match[1]} = '" . trim(strtolower($config_match[2])) . "';";
+							$config_value = toBool(trim(strtolower($config_match[2]))) ? 'true' : 'false';
+							$result .= "\$this->config->{$config_match[1]} = $config_value;";
 						}
 					}
 					return "<?php {$result} ?>";
@@ -1042,7 +1043,7 @@ class TemplateHandler
 				return "(preg_match('/^\\$(?:user_)?lang->[a-zA-Z0-9\_]+$/', {$str}) ? ({$str}) : htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false))";
 			case 'auto':
 			default:
-				return "(\$this->config->autoescape === 'on' ? htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false) : ({$str}))";
+				return "(\$this->config->autoescape ? htmlspecialchars({$str}, ENT_QUOTES, 'UTF-8', false) : ({$str}))";
 		}
 	}
 
