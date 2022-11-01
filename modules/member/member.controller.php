@@ -2218,10 +2218,10 @@ class memberController extends member
 				$phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country);
 			}
 			
-			$user_phone_number_id = preg_replace('/[^0-9]/', '', $user_id);
-			$member_info = MemberModel::getMemberInfoByPhoneNumber($user_phone_number_id, $phone_country);
+			$numbers_only = preg_replace('/[^0-9]/', '', $user_id);
+			$member_info = MemberModel::getMemberInfoByPhoneNumber($numbers_only, $phone_country);
 			$used_identifier = 'phone_number';
-			if(!$member_info || strtolower($member_info->phone_number) !== $user_id)
+			if(!$member_info || preg_replace('/[^0-9]/', '', $member_info->phone_number) !== $numbers_only)
 			{
 				if(in_array('user_id', $config->identifiers))
 				{
