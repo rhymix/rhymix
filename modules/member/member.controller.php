@@ -2168,7 +2168,11 @@ class memberController extends member
 	function doLogin($user_id, $password = '', $keep_signed = false)
 	{
 		$user_id = strtolower($user_id);
-		if(!$user_id) return new BaseObject(-1, 'null_user_id');
+		if (!$user_id)
+		{
+			return new BaseObject(-1, 'null_user_id');
+		}
+		
 		// Call a trigger before log-in (before)
 		$trigger_obj = new stdClass();
 		$trigger_obj->user_id = $user_id;
@@ -2219,6 +2223,11 @@ class memberController extends member
 			}
 			
 			$numbers_only = preg_replace('/[^0-9]/', '', $user_id);
+			if (!$numbers_only)
+			{
+				return $this->recordLoginError(-1, 'null_user_id');
+			}
+			
 			$member_info = MemberModel::getMemberInfoByPhoneNumber($numbers_only, $phone_country);
 			$used_identifier = 'phone_number';
 			if(!$member_info || preg_replace('/[^0-9]/', '', $member_info->phone_number) !== $numbers_only)
