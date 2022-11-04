@@ -876,6 +876,13 @@ class TemplateHandler
 
 					if(!$isRemote)
 					{
+						if(substr($attr['target'], -5) == '/lang')
+						{
+							$pathinfo['dirname'] .= '/lang';
+							$pathinfo['basename'] = '';
+							$pathinfo['extension'] = 'xml';
+						}
+                        
 						if (preg_match('!^\\^/(.+)!', $attr['target'], $tmatches))
 						{
 							$pathinfo = pathinfo($tmatches[1]);
@@ -890,13 +897,6 @@ class TemplateHandler
 							}
 							$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
 							$attr['target'] = $relativeDir . '/' . $pathinfo['basename'];
-						}
-						
-						if(substr($attr['target'], -5) == '/lang')
-						{
-							$pathinfo['dirname'] .= '/lang';
-							$pathinfo['basename'] = '';
-							$pathinfo['extension'] = 'xml';
 						}
 					}
 
