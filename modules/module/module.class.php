@@ -106,9 +106,15 @@ class module extends ModuleObject
 		if(!$oDB->isColumnExists('action_forward', 'global_route')) return true;
 		
 		// check additional indexes on lang table
+		$column_info = $oDB->getColumnInfo('lang', 'name');
+		if($column_info->size > 100)
+		{
+			return true;
+		}
 		if(!$oDB->isIndexExists('lang', 'idx_site_srl')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_name')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_lang_code')) return true;
+		if(!$oDB->isIndexExists('lang', 'idx_lang')) return true;
 		
 		// check module_trigger table
 		if($oDB->isIndexExists('module_trigger', 'idx_trigger'))
@@ -202,6 +208,11 @@ class module extends ModuleObject
 		}
 		
 		// check additional indexes on lang table
+		$column_info = $oDB->getColumnInfo('lang', 'name');
+		if($column_info->size > 100)
+		{
+			$oDB->modifyColumn('lang', 'name', 'varchar', 100, null, true);
+		}
 		if(!$oDB->isIndexExists('lang', 'idx_site_srl'))
 		{
 			$oDB->addIndex('lang', 'idx_site_srl', array('site_srl'), false);
@@ -213,6 +224,10 @@ class module extends ModuleObject
 		if(!$oDB->isIndexExists('lang', 'idx_lang_code'))
 		{
 			$oDB->addIndex('lang', 'idx_lang_code', array('lang_code'), false);
+		}
+		if(!$oDB->isIndexExists('lang', 'idx_lang'))
+		{
+			$oDB->addIndex('lang', 'idx_lang', array('site_srl', 'name', 'lang_code'), false);
 		}
 		
 		// check module_trigger table
