@@ -42,7 +42,7 @@
 <script cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/1'">
 	alert("{$XE_VALIDATOR_MESSAGE}");
 	if (opener) {
-		opener.location.href = opener.location.href;
+		opener.location.reload();
 		window.close();
 	}
 </script>
