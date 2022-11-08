@@ -891,13 +891,6 @@ class TemplateHandler
 							$relativeDir = $this->_getRelativeDir($pathinfo['dirname']);
 							$attr['target'] = $relativeDir . '/' . $pathinfo['basename'];
 						}
-						
-						if(substr($attr['target'], -5) == '/lang')
-						{
-							$pathinfo['dirname'] .= '/lang';
-							$pathinfo['basename'] = '';
-							$pathinfo['extension'] = 'xml';
-						}
 					}
 
 					switch($pathinfo['extension'])

@@ -123,7 +123,7 @@ class DB
 		}
 		catch (\PDOException $e)
 		{
-			throw new Exceptions\DBError($e->getMessage(), 0, $e);
+			throw new Exceptions\DBError($e->getMessage());
 		}
 		
 		// Get the DB version.
@@ -541,7 +541,7 @@ class DB
 		}
 		catch (\PDOException $e)
 		{
-			throw new Exceptions\DBError($e->getMessage(), 0, $e);
+			throw new Exceptions\DBError($e->getMessage());
 		}
 		
 		if ($result_type === 'auto' && $last_index === 0 && count($result) <= 1)
