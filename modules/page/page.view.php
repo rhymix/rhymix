@@ -82,7 +82,15 @@ class pageView extends page
 		
 		if (intval(Context::get('document_srl')) > 0)
 		{
-			$returnUrl = getUrl('document_srl','');
+			// if the page type is the widget or outside, there might be usable GET entities.
+			if(in_array($page_type_name, ['widget', 'outside'])) 
+			{
+				$returnUrl = getUrl('document_srl','');
+			}
+			else
+			{
+				$returnUrl = getUrl(['mid' => Context::get('mid')]);
+			}
 			$this->setRedirectUrl($returnUrl);
 		}
 		else
