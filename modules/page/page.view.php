@@ -81,7 +81,7 @@ class pageView extends page
 		Context::set('page_content', $page_content);
 		
 		$request_vars = Context::getRequestVars();
-		if (isset($request_vars['document_srl']) && intval($request_vars['document_srl']) > 0)
+		if (isset($request_vars->document_srl) && intval($request_vars->document_srl) > 0)
 		{
 			// if the page type is the widget or outside, there might be usable GET entities.
 			if(in_array($page_type_name, ['widget', 'outside'])) 
