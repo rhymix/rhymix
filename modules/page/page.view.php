@@ -80,8 +80,16 @@ class pageView extends page
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
 		
-		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
+        if (intval(Context::get('document_srl')) > 0)
+        {
+            $returnUrl = getUrl('document_srl','');
+            $this->setRedirectUrl($returnUrl);
+        }
+        else
+        {
+            $this->setTemplatePath($this->module_path . 'tpl');
+            $this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
+        }
 	}
 
 	function _getWidgetContent()
