@@ -1419,10 +1419,13 @@ class memberController extends member
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
 			$profile_image = MemberModel::getProfileImage($member_srl);
-			FileHandler::removeFile($profile_image->file);
-			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
-			FileHandler::clearStatCache($profile_image->file);
-			self::clearMemberCache($member_srl);
+			if(!empty($profile_image->file))
+			{
+				FileHandler::removeFile($profile_image->file);
+				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($profile_image->file)), true);
+				FileHandler::clearStatCache($profile_image->file);
+				self::clearMemberCache($member_srl);
+			}
 		}
 		return new BaseObject(0,'success');
 	}
@@ -1445,10 +1448,13 @@ class memberController extends member
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
 			$image_name = MemberModel::getImageName($member_srl);
-			FileHandler::removeFile($image_name->file);
-			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
-			FileHandler::clearStatCache($profile_image->file);
-			self::clearMemberCache($member_srl);
+			if(!empty($image_name->file))
+			{
+				FileHandler::removeFile($image_name->file);
+				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
+				FileHandler::clearStatCache($profile_image->file);
+				self::clearMemberCache($member_srl);
+			}
 		}
 		return new BaseObject(0,'success');
 	}
@@ -1565,10 +1571,13 @@ class memberController extends member
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
 			$image_mark = MemberModel::getImageMark($member_srl);
-			FileHandler::removeFile($image_mark->file);
-			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
-			FileHandler::clearStatCache($profile_image->file);
-			self::clearMemberCache($member_srl);
+			if(!empty($image_mark->file))
+			{
+				FileHandler::removeFile($image_mark->file);
+				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
+				FileHandler::clearStatCache($profile_image->file);
+				self::clearMemberCache($member_srl);
+			}
 		}
 		return new BaseObject(0,'success');
 	}
