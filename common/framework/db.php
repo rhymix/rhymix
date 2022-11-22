@@ -1193,8 +1193,16 @@ class DB
 					$result['called_file'] = $backtrace[$no]['file'];
 					$result['called_line'] = $backtrace[$no]['line'];
 					$no++;
-					$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
-					$result['backtrace'] = array_slice($backtrace, $no, 1);
+					if (isset($backtrace[$no]))
+					{
+						$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
+						$result['backtrace'] = array_slice($backtrace, $no, 1);
+					}
+					else
+					{
+						$result['called_method'] = '';
+						$result['backtrace'] = [];
+					}
 					break;
 				}
 			}
