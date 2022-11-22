@@ -94,6 +94,16 @@ class ncenterlite extends ModuleObject
 			}
 		}
 		
+		// #1903 #1906
+		foreach(['target_browser', 'target_summary'] as $column_name)
+		{
+			$column_info = $oDB->getColumnInfo('ncenterlite_notify', $column_name);
+			if ($column_info->size < 80)
+			{
+				return true;
+			}
+		}
+		
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
@@ -166,7 +176,7 @@ class ncenterlite extends ModuleObject
 		}
 		if(!$oDB->isColumnExists('ncenterlite_notify','target_browser'))
 		{
-			$oDB->addColumn('ncenterlite_notify', 'target_browser', 'varchar', 50, true);
+			$oDB->addColumn('ncenterlite_notify', 'target_browser', 'varchar', 80, true);
 		}
 		if(!$oDB->isColumnExists('ncenterlite_notify','target_p_srl'))
 		{
@@ -215,7 +225,17 @@ class ncenterlite extends ModuleObject
 		{
 			$oDB->addIndex('ncenterlite_notify', 'idx_member_srl_and_readed', array('member_srl', 'readed'));
 		}
-
+		
+		// #1903 #1906
+		foreach(['target_browser', 'target_summary'] as $column_name)
+		{
+			$column_info = $oDB->getColumnInfo('ncenterlite_notify', $column_name);
+			if ($column_info->size < 80)
+			{
+				$oDB->modifyColumn('ncenterlite_notify', $column_name, 'varchar', 80, null, false);
+			}
+		}
+		
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{

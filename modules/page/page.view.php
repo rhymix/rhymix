@@ -80,8 +80,18 @@ class pageView extends page
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
 		
-		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
+		// if the page type is the widget or outside, there might be usable GET entities.
+		$request_vars = Context::getRequestVars();
+		if (isset($request_vars->document_srl) && intval($request_vars->document_srl) > 0 && $page_type_name == 'article')
+		{
+			$returnUrl = getUrl(['mid' => Context::get('mid')]);
+			$this->setRedirectUrl($returnUrl);
+		}
+		else
+		{
+			$this->setTemplatePath($this->module_path . 'tpl');
+			$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
+		}
 	}
 
 	function _getWidgetContent()
