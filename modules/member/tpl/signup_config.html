@@ -21,7 +21,7 @@
 		<label class="x_control-label" for="limit_day">{$lang->limit_day}</label>
 		<div class="x_controls">
 			<input type="number" min="0" id="limit_day" name="limit_day" value="{$config->limit_day}" /> {$lang->unit_day}
-			<input type="text" name="limit_day_description" value="{$config->limit_day_description}" placeholder="{$lang->limit_day_description}" style="width:90%" class="lang_code" />
+			<input type="text" name="limit_day_description" value="{escape($config->limit_day_description)}" placeholder="{$lang->limit_day_description}" style="width:90%" class="lang_code" />
 			<p class="x_help-block">{$lang->about_limit_day}</p>
 		</div>
 	</div>
@@ -122,7 +122,7 @@
 							<div class="wrap">
 								<button type="button" class="dragBtn">Move to</button>
 								<!--@if(in_array($item->name, ['birthday', 'signature', 'profile_image', 'image_name', 'image_mark']))-->
-									<input class="_title_edit lang_code" type="text" name="{$item->name}_title_edit" value="{$item->title}" placeholder="{lang($item->name)}" />
+									<input class="_title_edit lang_code" type="text" name="{$item->name}_title_edit" value="{escape($item->title)}" placeholder="{lang($item->name)}" />
 								<!--@else-->
 									<span class="_title" style="display:inline-block;white-space:pre-line;overflow:inherit;width:120px;text-overflow:ellipsis" title="{$item->title}">{$item->title}</span>
 								<!--@endif-->
