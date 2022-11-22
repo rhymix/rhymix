@@ -328,6 +328,10 @@ class memberAdminController extends member
 		$config = new stdClass;
 		$config->agreements = array();
 		$config->agreement = null;
+
+		$config_agreements = memberModel::getMemberConfig()->agreements;
+		$lang_type = Context::get('lang_type');
+		$default_lang = config('locale.default_lang') ?: 'ko';
 		
 		$args = Context::getRequestVars();
 		for ($i = 1; $i < 20; $i++)
@@ -335,8 +339,15 @@ class memberAdminController extends member
 			if (isset($args->{'agreement_' . $i . '_type'}))
 			{
 				$agreement = new stdClass;
-				$agreement->title = escape(utf8_trim($args->{'agreement_' . $i . '_title'}));
-				$agreement->content = $args->{'agreement_' . $i . '_content'};
+				$agreement->title = escape(utf8_trim($args->{'agreement_' . $i . '_title'}), true, true);
+				$agreement_content = $args->{'agreement_' . $i . '_content'};
+				if ($agreement_content)
+				{
+					$agreement->multilingual = $config_agreements[$i]->multilingual ?? array();
+					$agreement->multilingual[$lang_type] = new stdClass;
+					$agreement->multilingual[$lang_type]->content = $agreement_content;
+				}
+				$agreement->content = $agreement->multilingual[$default_lang]->content ?: $agreement_content;
 				$agreement->use_editor = $args->use_editor;
 				getModel('editor')->converter($agreement, 'document');
 				$agreement->type = $args->{'agreement_' . $i . '_type'};

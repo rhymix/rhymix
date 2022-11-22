@@ -12,7 +12,7 @@
 		<div class="x_control-group">
 			<div class="x_control-label" for="agreement_{$i}_title">{$lang->cmd_agreement_title}</div>
 			<div class="x_controls">
-				<input type="text" name="agreement_{$i}_title" id="agreement_{$i}_title" value="{$config->agreements[$i]->title}" />
+				<input type="text" name="agreement_{$i}_title" id="agreement_{$i}_title" value="{escape($config->agreements[$i]->title)}" class="lang_code" />
 			</div>
 		</div>
 		<div class="x_control-group">

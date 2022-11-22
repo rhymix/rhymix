@@ -69,6 +69,13 @@ class memberModel extends member
 			$config->agreements[1]->type = !empty($config->agreements[1]->content) ? 'required' : 'disabled';
 		}
 		unset($config->agreement);
+		foreach($config->agreements as $key => $val)
+		{
+			if (isset($val->multilingual[Context::get('lang_type')]->content))
+			{
+				$config->agreements[$key]->content = $val->multilingual[Context::get('lang_type')]->content;
+			}
+		}
 		
 		// Set signup config
 		$config->limit_day = $config->limit_day ?? 0;
