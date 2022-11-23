@@ -28,11 +28,9 @@ class commentModel extends comment
 	 */
 	public function getCommentMenu()
 	{
-		// get the post's id number and the current login information
+		// get the post's id number
 		$comment_srl = Context::get('target_srl');
 		$mid = Context::get('cur_mid');
-		$logged_info = Context::get('logged_info');
-		$act = Context::get('cur_act');
 
 		// array values for menu_list, "comment post, target, url"
 		$menu_list = array();
@@ -43,7 +41,7 @@ class commentModel extends comment
 		$oCommentController = getController('comment');
 
 		// feature that only member can do
-		if($logged_info->member_srl)
+		if($this->user->member_srl)
 		{
 			$columnList = array('comment_srl', 'module_srl', 'member_srl', 'ipaddress');
 			$oComment = self::getComment($comment_srl, FALSE, $columnList);
@@ -52,14 +50,14 @@ class commentModel extends comment
 
 			$comment_config = ModuleModel::getModulePartConfig('document', $module_srl);
 
-			if($comment_config->use_vote_up != 'N' && $member_srl != $logged_info->member_srl)
+			if($comment_config->use_vote_up != 'N' && $member_srl != $this->user->member_srl)
 			{
 				// Add a vote-up button for positive feedback
 				$url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
 				$oCommentController->addCommentPopupMenu($url, 'cmd_vote', '', 'javascript');
 			}
 
-			if($comment_config->use_vote_down != 'N' && $member_srl != $logged_info->member_srl)
+			if($comment_config->use_vote_down != 'N' && $member_srl != $this->user->member_srl)
 			{
 				// Add a vote-down button for negative feedback
 				$url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
@@ -67,8 +65,16 @@ class commentModel extends comment
 			}
 
 			// Add the report feature against abused posts
-			$url = getUrl('', 'act', 'dispCommentDeclare', 'target_srl', $comment_srl);
-			$oCommentController->addCommentPopupMenu($url, 'cmd_declare', '', 'popup');
+			if($oComment->getDeclared())
+			{
+				$url = getUrl('', 'mid', $mid, 'act', 'dispCommentDeclare', 'target_srl', $comment_srl, 'type', 'cancel');
+				$oCommentController->addCommentPopupMenu($url,'cmd_cancel_declare','','popup');
+			}
+			else
+			{
+				$url = getUrl('', 'mid', $mid, 'act', 'dispCommentDeclare', 'target_srl', $comment_srl);
+				$oCommentController->addCommentPopupMenu($url,'cmd_declare','','popup');
+			}
 		}
 
 		// call a trigger (after)
@@ -82,7 +88,7 @@ class commentModel extends comment
 		}
 
 		// find a comment by IP matching if an administrator.
-		if($logged_info->is_admin == 'Y')
+		if($this->user->is_admin == 'Y')
 		{
 			$oComment = self::getComment($comment_srl);
 
@@ -90,7 +96,7 @@ class commentModel extends comment
 			{
 				// Find a post of the corresponding ip address
 				$url = getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList', 'search_target', 'ipaddress', 'search_keyword', $oComment->getIpAddress());
-				$oCommentController->addCommentPopupMenu($url, 'cmd_search_by_ipaddress', $icon_path, 'TraceByIpaddress');
+				$oCommentController->addCommentPopupMenu($url, 'cmd_search_by_ipaddress', '', 'TraceByIpaddress');
 
 				$url = sprintf("var params = new Array(); params['ipaddress_list']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oComment->getIpAddress());
 				$oCommentController->addCommentPopupMenu($url, 'cmd_add_ip_to_spamfilter', '', 'javascript');

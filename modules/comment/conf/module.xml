@@ -12,6 +12,7 @@
 		<action name="procCommentVoteDown" type="controller" />
 		<action name="procCommentVoteDownCancel" type="controller" />
 		<action name="procCommentDeclare" type="controller" permission="member" />
+		<action name="procCommentDeclareCancel" type="controller" permission="member" />
 		<action name="procCommentGetList" type="controller" permission="manager" check_type="comment" check_var="comment_srls" />
 		<action name="procCommentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" ruleset="insertCommentModuleConfig" />
 		

@@ -406,6 +406,44 @@ class commentItem extends BaseObject
 		return $_SESSION['voted_comment'][$this->comment_srl] = false;
 	}
 
+	function getDeclared()
+	{
+		if (!$this->isExists())
+		{
+			return false;
+		}
+
+		$logged_info = Context::get('logged_info');
+		if (!$logged_info->member_srl)
+		{
+			return false;
+		}
+
+		if (isset($_SESSION['declared_comment'][$this->comment_srl]))
+		{
+			return $_SESSION['declared_comment'][$this->comment_srl];
+		}
+		
+		$args = new stdClass();
+		if ($logged_info->member_srl)
+		{
+			$args->member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			$args->ipaddress = \RX_CLIENT_IP;
+		}
+		$args->comment_srl = $this->comment_srl;
+		$output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
+		$declared_count = isset($output->data) ? intval($output->data->count) : 0;
+		if ($declared_count > 0)
+		{
+			return $_SESSION['declared_comment'][$this->comment_srl] = $declared_count;
+		}
+		
+		return false;
+	}
+
 	function getContentPlainText($strlen = 0)
 	{
 		if($this->isDeletedByAdmin())

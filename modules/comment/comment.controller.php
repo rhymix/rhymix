@@ -293,6 +293,44 @@ class commentController extends comment
 	}
 
 	/**
+	 * Action to be called when cancel reporting a comment
+	 * @return void|Object
+	 */
+	function procCommentDeclareCancel()
+	{
+		if (!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		$comment_srl = Context::get('target_srl');
+		if (!$comment_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+		if (!$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$oComment->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		if ($this->module_info->cancel_vote !== 'Y')
+		{
+			throw new Rhymix\Framework\Exception('failed_declared_cancel');
+		}
+
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+
+		return $this->declaredCommentCancel($comment_srl);
+	}
+
+	/**
 	 * Trigger to delete its comments together with document deleted
 	 * @return Object
 	 */
@@ -1704,6 +1742,119 @@ class commentController extends comment
 		$_SESSION['declared_comment'][$comment_srl] = TRUE;
 
 		$this->setMessage('success_declared');
+	}
+
+	/**
+	 * Cancel a report
+	 * @param $comment_srl
+	 * @return BaseObject|object|void
+	 */
+	function declaredCommentCancel($comment_srl)
+	{
+		$member_srl = $this->user->member_srl;
+		if (!$_SESSION['declared_comment'][$comment_srl] && !$member_srl)
+		{
+			return new BaseObject(-1, 'failed_declared_cancel');
+		}
+		
+		// Get the original document
+		$oComment = CommentModel::getComment($comment_srl, false, false);
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		$args = new stdClass;
+		$args->comment_srl = $comment_srl;
+		if ($member_srl)
+		{
+			$args->member_srl = $member_srl;
+		}
+		else
+		{
+			$args->ipaddress = \RX_CLIENT_IP;
+		}
+		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
+		if ($log_output->data->count <= 0 || !isset($log_output->data->count))
+		{
+			unset($_SESSION['declared_comment'][$comment_srl]);
+			return new BaseObject(-1, 'failed_declared_cancel');
+		}
+
+		$args = new stdClass();
+		$args->comment_srl = $comment_srl;
+		$output = executeQuery('comment.getDeclaredComment', $args);
+
+		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
+
+		$trigger_obj = new stdClass();
+		$trigger_obj->document_srl = $comment_srl;
+		$trigger_obj->declared_count = $declared_count;
+		// Call a trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('comment.declaredCommentCancel', 'before', $trigger_obj);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
+		if ($declared_count > 1)
+		{
+			$output = executeQuery('comment.updateDeclaredCommentCancel', $args);
+		}
+		else
+		{
+			$output = executeQuery('comment.deleteDeclaredComments', $args);
+		}
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$output = executeQuery('comment.deleteCommentDeclaredLog', $args);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+		
+		$message_targets = array();
+		$module_srl = $oComment->get('module_srl');
+		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
+		if ($comment_config->declared_message && in_array('admin', $comment_config->declared_message))
+		{
+			$output = executeQueryArray('member.getAdmins', new stdClass);
+			foreach ($output->data as $admin)
+			{
+				$message_targets[$admin->member_srl] = true;
+			}
+		}
+		if ($comment_config->declared_message && in_array('manager', $comment_config->declared_message))
+		{
+			$output = executeQueryArray('module.getModuleAdmin', (object)['module_srl' => $module_srl]);
+			foreach ($output->data as $manager)
+			{
+				$message_targets[$manager->member_srl] = true;
+			}
+		}
+		if ($message_targets)
+		{
+			$oCommunicationController = getController('communication');
+			$message_title = lang('document.declared_cancel_message_title');
+			$message_content = sprintf('<p><a href="%s">%s</a></p>', $oComment->getPermanentUrl(), $oComment->getContentText(50));
+			foreach ($message_targets as $target_member_srl => $val)
+			{
+				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false, null, false);
+			}
+		}
+
+		$oDB->commit();
+
+		$trigger_obj->declared_count = $declared_count - 1;
+		ModuleHandler::triggerCall('comment.declaredCommentCancel', 'after', $trigger_obj);
+
+		unset($_SESSION['declared_comment'][$comment_srl]);
+
+		$this->setMessage('success_declared_cancel');
 	}
 
 	/**
