@@ -47,21 +47,36 @@ class commentModel extends comment
 			$oComment = self::getComment($comment_srl, FALSE, $columnList);
 			$module_srl = $oComment->get('module_srl');
 			$member_srl = abs($oComment->get('member_srl'));
+			if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-			$comment_config = ModuleModel::getModulePartConfig('document', $module_srl);
-
+			$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
+			$oCommentisVoted = $oComment->getMyVote();
 			if($comment_config->use_vote_up != 'N' && $member_srl != $this->user->member_srl)
 			{
-				// Add a vote-up button for positive feedback
-				$url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
-				$oCommentController->addCommentPopupMenu($url, 'cmd_vote', '', 'javascript');
+				if($oCommentisVoted === false || $oCommentisVoted < 0)
+				{
+					$url = sprintf("doCallModuleAction('comment','procCommentVoteUp','%s')", $comment_srl);
+					$oCommentController->addCommentPopupMenu($url, 'cmd_vote', '', 'javascript');
+				}
+				elseif($oCommentisVoted > 0)
+				{
+					$url = sprintf("doCallModuleAction('comment','procCommentVoteUpCancel','%s')", $comment_srl);
+					$oCommentController->addCommentPopupMenu($url, 'cmd_cancel_vote', '', 'javascript');
+				}
 			}
 
 			if($comment_config->use_vote_down != 'N' && $member_srl != $this->user->member_srl)
 			{
-				// Add a vote-down button for negative feedback
-				$url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
-				$oCommentController->addCommentPopupMenu($url, 'cmd_vote_down', '', 'javascript');
+				if($oCommentisVoted === false || $oCommentisVoted > 0)
+				{
+					$url = sprintf("doCallModuleAction('comment','procCommentVoteDown','%s')", $comment_srl);
+					$oCommentController->addCommentPopupMenu($url, 'cmd_vote_down', '', 'javascript');
+				}
+				else if($oCommentisVoted < 0)
+				{
+					$url = sprintf("doCallModuleAction('comment','procCommentVoteDownCancel','%s')", $comment_srl);
+					$oCommentController->addCommentPopupMenu($url,'cmd_cancel_vote_down','','javascript');
+				}
 			}
 
 			// Add the report feature against abused posts
