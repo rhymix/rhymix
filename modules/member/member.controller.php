@@ -203,9 +203,9 @@ class memberController extends member
 		
 		// Variables
 		$args = new stdClass();
-		$args->document_srl = $document_srl;
-		$args->member_srl = $logged_info->member_srl;
-		$args->folder_srl = $default_folder_srl;
+		$args->document_srl = intval($document_srl);
+		$args->member_srl = intval($logged_info->member_srl);
+		$args->folder_srl = intval($default_folder_srl);
 		$args->user_id = $oDocument->get('user_id');
 		$args->user_name = $oDocument->get('user_name');
 		$args->nick_name = $oDocument->get('nick_name');
