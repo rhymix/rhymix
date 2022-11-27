@@ -304,6 +304,7 @@ class documentModel extends document
 		$args = new stdClass();
 		$args->module_srl = $obj->module_srl;
 		$args->category_srl = $obj->category_srl ?? null;
+		$args->statusList = isset($obj->statusList) ? $obj->statusList : array(self::getConfigStatus('public'), self::getConfigStatus('secret'));
 
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method

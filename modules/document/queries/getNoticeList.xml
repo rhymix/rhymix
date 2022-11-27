@@ -6,12 +6,15 @@
         <column name="*" />
     </columns>
     <conditions>
-        <group>
-            <condition operation="in" column="module_srl" var="module_srl" filter="number" />
-            <condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
-            <condition operation="equal" column="is_notice" default="Y" pipe="and" />
-        </group>
-        <condition operation="equal" column="is_notice" default="A" pipe="or" />
+		<group>
+			<group>
+				<condition operation="in" column="module_srl" var="module_srl" filter="number" />
+				<condition operation="equal" column="category_srl" var="category_srl" pipe="and" />
+				<condition operation="equal" column="is_notice" default="Y" pipe="and" />
+			</group>
+			<condition operation="equal" column="is_notice" default="A" pipe="or" />
+		</group>
+		<condition operation="in" column="status" var="statusList" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="asc" />
