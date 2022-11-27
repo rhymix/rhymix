@@ -1978,7 +1978,7 @@ class memberController extends member
 	 *
 	 * @return void
 	 */
-	function putSignature($member_srl, $signature)
+	public static function putSignature($member_srl, $signature)
 	{
 		if((!$signature = utf8_trim(removeHackTag($signature))) || is_empty_html_content($signature))
 		{
@@ -2013,7 +2013,7 @@ class memberController extends member
 	 *
 	 * @return void
 	 */
-	function delSignature($member_srl)
+	public static function delSignature($member_srl)
 	{
 		$dirname = RX_BASEDIR . sprintf('files/member_extra_info/signature/%s', getNumberingPath($member_srl));
 		$filename = sprintf('%s%d.signature.php', $dirname, $member_srl);
@@ -2031,7 +2031,7 @@ class memberController extends member
 	 *
 	 * @return Object
 	 */
-	function addMemberToGroup($member_srl, $group_srl)
+	public static function addMemberToGroup($member_srl, $group_srl)
 	{
 		// Return if member already belongs to group
 		$args = new stdClass();
@@ -2064,7 +2064,7 @@ class memberController extends member
 	 *
 	 * @return Object
 	 */
-	function replaceMemberGroup($args)
+	public static function replaceMemberGroup($args)
 	{
 		$obj = new stdClass;
 		$obj->member_srl = $args->member_srl;

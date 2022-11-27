@@ -635,7 +635,7 @@ class memberModel extends member
 				if (!count($group_list))
 				{
 					$default_group = self::getDefaultGroup(0);
-					MemberController::getInstance()->addMemberToGroup($member_srl, $default_group->group_srl);
+					MemberController::addMemberToGroup($member_srl, $default_group->group_srl);
 					$group_list[$default_group->group_srl] = $default_group->title;
 				}
 				//insert in cache
