@@ -334,11 +334,11 @@ function contains($needle, $haystack, $case_sensitive = true)
 	}
 	elseif ($case_sensitive)
 	{
-		return (strpos($haystack, $needle) !== false);
+		return $needle === '' || strpos($haystack, $needle) !== false;
 	}
 	else
 	{
-		return (stripos($haystack, $needle) !== false);
+		return $needle === '' || stripos($haystack, $needle) !== false;
 	}
 }
 
