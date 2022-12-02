@@ -280,8 +280,11 @@ function explode_with_escape($delimiter, $str, $limit = 0, $escape_char = '\\')
  */
 function starts_with($needle, $haystack, $case_sensitive = true)
 {
-	if (strlen($needle) > strlen($haystack)) return false;
-	if ($case_sensitive)
+	if (strlen($needle) > strlen($haystack))
+	{
+		return false;
+	}
+	elseif ($case_sensitive)
 	{
 		return !strncmp($needle, $haystack, strlen($needle));
 	}
@@ -301,14 +304,17 @@ function starts_with($needle, $haystack, $case_sensitive = true)
  */
 function ends_with($needle, $haystack, $case_sensitive = true)
 {
-	if (strlen($needle) > strlen($haystack)) return false;
-	if ($case_sensitive)
+	if (strlen($needle) > strlen($haystack))
 	{
-		return (substr($haystack, -strlen($needle)) === $needle);
+		return false;
+	}
+	elseif ($case_sensitive)
+	{
+		return strval($needle) === '' || substr($haystack, -strlen($needle)) === $needle;
 	}
 	else
 	{
-		return (strtolower(substr($haystack, -strlen($needle))) === strtolower($needle));
+		return strval($needle) === '' || strtolower(substr($haystack, -strlen($needle))) === strtolower($needle);
 	}
 }
 
@@ -322,7 +328,18 @@ function ends_with($needle, $haystack, $case_sensitive = true)
  */
 function contains($needle, $haystack, $case_sensitive = true)
 {
-	return $case_sensitive ? (strpos($haystack, $needle) !== false) : (stripos($haystack, $needle) !== false);
+	if (strlen($needle) > strlen($haystack))
+	{
+		return false;
+	}
+	elseif ($case_sensitive)
+	{
+		return (strpos($haystack, $needle) !== false);
+	}
+	else
+	{
+		return (stripos($haystack, $needle) !== false);
+	}
 }
 
 /**
@@ -714,12 +731,9 @@ function is_empty_html_content($str)
 }
 
 /**
- * Check if there is 'is_countable' function (PHP 7.3)
- * If there is no 'is_countable' function, define it to check for Countable objects.
+ * Polyfill for is_countable() in PHP < 7.3
  * 
- * cf. https://wiki.php.net/rfc/is-countable
- * 
- * @param string $str The input string
+ * @param mixed $var
  * @return bool
 **/
 if (!function_exists('is_countable'))
@@ -728,4 +742,49 @@ if (!function_exists('is_countable'))
 	{
         return is_array($var) || $var instanceof Countable;
     }
+}
+
+/**
+ * Polyfill for str_starts_with() in PHP < 8.0
+ * 
+ * @param string $haystack
+ * @param string $needle
+ * @return bool
+ */
+if (!function_exists('str_starts_with'))
+{
+	function str_starts_with($haystack, $needle)
+	{
+		return strval($needle) === '' || strncmp($haystack, $needle, strlen($needle)) === 0;
+	}
+}
+
+/**
+ * Polyfill for str_starts_with() in PHP < 8.0
+ * 
+ * @param string $haystack
+ * @param string $needle
+ * @return bool
+ */
+if (!function_exists('str_ends_with'))
+{
+	function str_ends_with($haystack, $needle)
+	{
+		return strval($needle) === '' || @substr_compare($haystack, $needle, -strlen($needle), strlen($needle)) === 0;
+	}
+}
+
+/**
+ * Polyfill for str_starts_with() in PHP < 8.0
+ * 
+ * @param string $haystack
+ * @param string $needle
+ * @return bool
+ */
+if (!function_exists('str_contains'))
+{
+	function str_contains($haystack, $needle)
+	{
+		return strval($needle) === '' || strpos($haystack, $needle) !== false;
+	}
 }

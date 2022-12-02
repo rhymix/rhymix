@@ -1,5 +1,13 @@
 <?php
 
+class CountableTest implements Countable
+{
+	public function count(): int
+	{
+		return 42;
+	}
+}
+
 class FunctionsTest extends \Codeception\TestCase\Test
 {
 	public function testArrayFunctions()
@@ -74,16 +82,22 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertFalse(starts_with('FOO', 'foobar'));
 		$this->assertTrue(starts_with('FOO', 'foobar', false));
 		$this->assertFalse(starts_with('bar', 'foobar'));
+		$this->assertFalse(starts_with('foobar', 'foo'));
+		$this->assertTrue(starts_with('', 'foobar'));
 		
 		$this->assertTrue(ends_with('bar', 'foobar'));
 		$this->assertFalse(ends_with('BAR', 'foobar'));
 		$this->assertTrue(ends_with('BAR', 'foobar', false));
 		$this->assertFalse(ends_with('foo', 'foobar'));
+		$this->assertFalse(ends_with('foobar', 'bar'));
+		$this->assertTrue(ends_with('', 'foobar'));
 		
 		$this->assertTrue(contains('foo', 'foo bar baz rhymix rocks'));
 		$this->assertFalse(contains('barbaz', 'foo bar baz rhymix rocks'));
 		$this->assertTrue(contains('RHYMIX', 'foo bar baz rhymix rocks', false));
 		$this->assertFalse(contains('ROCKS', 'foo bar baz rhymix rocks'));
+		$this->assertFalse(contains('foobar', 'bar'));
+		$this->assertTrue(contains('', 'foobar'));
 	}
 	
 	public function testRangeFunctions()
@@ -188,6 +202,8 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertEquals(3, countobj(array('foo' => 1, 'bar' => 2, 'baz' => 3)));
 		$this->assertEquals(3, countobj((object)array('foo' => 1, 'bar' => 2, 'baz' => 3)));
 		$this->assertEquals(1, countobj('foobar'));
+		$this->assertEquals(42, countobj(new CountableTest));
+		$this->assertEquals(0, countobj(new stdClass));
 	}
 	
 	public function testUTF8Functions()
@@ -242,5 +258,32 @@ class FunctionsTest extends \Codeception\TestCase\Test
 		$this->assertFalse(is_empty_html_content('<p><iframe src="http://www.youtube.com/" /></p>'));
 		$this->assertFalse(is_empty_html_content('<p><video src="rickroll.webm" /></p>'));
 		$this->assertFalse(is_empty_html_content('<p><object></object></p>'));
+	}
+	
+	public function testPolyfillFunctions()
+	{
+		$this->assertTrue(function_exists('is_countable'));
+		$this->assertTrue(is_countable(['foo', 'bar']));
+		$this->assertFalse(is_countable('hello world'));
+		$this->assertTrue(is_countable(new CountableTest));
+		$this->assertFalse(is_countable(new stdClass));
+		
+		$this->assertTrue(function_exists('str_starts_with'));
+		$this->assertTrue(str_starts_with('foobar', 'foo'));
+		$this->assertFalse(str_starts_with('Foobar', 'FOO'));
+		$this->assertFalse(str_starts_with('', 'bar'));
+		$this->assertTrue(str_starts_with('foobar', ''));
+		
+		$this->assertTrue(function_exists('str_ends_with'));
+		$this->assertTrue(str_ends_with('foobar', 'bar'));
+		$this->assertFalse(str_ends_with('Foobar', 'BAR'));
+		$this->assertFalse(str_ends_with('', 'bar'));
+		$this->assertTrue(str_ends_with('foobar', ''));
+		
+		$this->assertTrue(function_exists('str_contains'));
+		$this->assertTrue(str_contains('foobarbazz', 'bar'));
+		$this->assertFalse(str_contains('foobarbazz', 'BAR'));
+		$this->assertFalse(str_contains('', 'foobar'));
+		$this->assertTrue(str_contains('foobar', ''));
 	}
 }
