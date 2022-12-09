@@ -10,16 +10,28 @@
  * @remarks Getting total counts, number of pages, current page number, number of items per page, 
  *          this class implements methods and contains variables for page navigation
  */
-class PageHandler extends Handler
+class PageHandler extends Handler implements Iterator
 {
-
-	var $total_count = 0; ///< number of total items
-	var $total_page = 0; ///< number of total pages
-	var $cur_page = 0; ///< current page number
-	var $page_count = 10; ///< number of page links displayed at one time
-	var $first_page = 1; ///< first page number
-	var $last_page = 1; ///< last page number
-	var $point = 0; ///< increments per getNextPage() 
+	/** @var int Number of total items */
+	public $total_count = 0;
+	
+	/** @var int Number of total pages */
+	public $total_page = 0;
+	
+	/** @var int Current page number */
+	public $cur_page = 0;
+	
+	/** @var int Number of page links displayed at one time. */
+	public $page_count = 10;
+	
+	/** @var int First page number */
+	public $first_page = 1;
+	
+	/** @var int Last page number, same as $total_page */
+	public $last_page = 1;
+	
+	/** @var int Iterator stepper */
+	var $point = 0;
 
 	/**
 	 * constructor
@@ -30,7 +42,7 @@ class PageHandler extends Handler
 	 * @return void
 	 */
 
-	function __construct($total_count, $total_page, $cur_page, $page_count = 10)
+	public function __construct(int $total_count, int $total_page, int $cur_page, int $page_count = 10)
 	{
 		$this->total_count = $total_count;
 		$this->total_page = $total_page;
@@ -49,14 +61,8 @@ class PageHandler extends Handler
 			$first_page -= $first_page + $page_count - 1 - $total_page;
 		}
 
-		$last_page = $total_page;
-		if($last_page > $total_page)
-		{
-			$last_page = $total_page;
-		}
-
 		$this->first_page = $first_page;
-		$this->last_page = $last_page;
+		$this->last_page = $total_page;
 
 		if($total_page < $this->page_count)
 		{
@@ -68,7 +74,7 @@ class PageHandler extends Handler
 	 * request next page
 	 * @return int next page number
 	 */
-	function getNextPage()
+	public function getNextPage(): int
 	{
 		$page = $this->first_page + $this->point++;
 		if($this->point > $this->page_count || $page > $this->last_page)
@@ -83,11 +89,56 @@ class PageHandler extends Handler
 	 * @param int $offset
 	 * @return int
 	 */
-	function getPage($offset)
+	public function getPage(int $offset): int
 	{
 		return max(min($this->cur_page + $offset, $this->total_page), '');
 	}
 
+	/**
+	 * Rewind iterator stepper.
+	 * @return void
+	 */
+	public function rewind ()
+	{
+		$this->point = 0;
+	}
+
+	/**
+	 * Determine if a current iterated item is valid.
+	 * @return bool
+	 */
+	public function valid (): bool
+	{
+		$page = $this->first_page + $this->point;
+		return $this->point <= $this->page_count && $page <= $this->last_page;
+	}
+
+	/**
+	 * Get a current iterated page number.
+	 * @return int
+	 */
+	public function current (): int
+	{
+		return $this->first_page + $this->point;
+	}
+
+	/**
+	 * Get a current iterator stepper.
+	 * @return int
+	 */
+	public function key (): int
+	{
+		return $this->point;
+	}
+
+	/**
+	 * Step up the iterator.
+	 * @return void
+	 */
+	public function next ()
+	{
+		$this->point++;
+	}
 }
 /* End of file PageHandler.class.php */
 /* Location: ./classes/page/PageHandler.class.php */
