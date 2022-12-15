@@ -12,36 +12,35 @@
  */
 class PageHandler extends Handler implements Iterator
 {
-	/** @var int Number of total items */
+	// Number of total items
 	public $total_count = 0;
 	
-	/** @var int Number of total pages */
+	// Number of total pages
 	public $total_page = 0;
 	
-	/** @var int Current page number */
+	// Current page number
 	public $cur_page = 0;
 	
-	/** @var int Number of page links displayed at one time. */
+	// Number of page links displayed at one time.
 	public $page_count = 10;
 	
-	/** @var int First page number */
+	// First page number
 	public $first_page = 1;
 	
-	/** @var int Last page number, same as $total_page */
+	// Last page number
 	public $last_page = 1;
 	
-	/** @var int Iterator stepper */
-	var $point = 0;
+	// Stepper
+	public $point = 0;
 
 	/**
-	 * constructor
+	 * Constructor
+	 * 
 	 * @param int $total_count number of total items
 	 * @param int $total_page number of total pages
 	 * @param int $cur_page current page number
-	 * @param int $page_count number of page links displayed at one time 
-	 * @return void
+	 * @param int $page_count number of page links displayed at one time
 	 */
-
 	public function __construct(int $total_count, int $total_page, int $cur_page, int $page_count = 10)
 	{
 		$this->total_count = $total_count;
@@ -71,8 +70,9 @@ class PageHandler extends Handler implements Iterator
 	}
 
 	/**
-	 * request next page
-	 * @return int next page number
+	 * Request next page
+	 * 
+	 * @return int
 	 */
 	public function getNextPage(): int
 	{
@@ -85,7 +85,8 @@ class PageHandler extends Handler implements Iterator
 	}
 
 	/**
-	 * return number of page that added offset.
+	 * Return number of page that added offset.
+	 * 
 	 * @param int $offset
 	 * @return int
 	 */
@@ -96,18 +97,20 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Rewind iterator stepper.
+	 * 
 	 * @return void
 	 */
-	public function rewind ()
+	public function rewind()
 	{
 		$this->point = 0;
 	}
 
 	/**
 	 * Determine if a current iterated item is valid.
+	 * 
 	 * @return bool
 	 */
-	public function valid (): bool
+	public function valid(): bool
 	{
 		$page = $this->first_page + $this->point;
 		return $this->point <= $this->page_count && $page <= $this->last_page;
@@ -115,27 +118,30 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Get a current iterated page number.
+	 * 
 	 * @return int
 	 */
-	public function current (): int
+	public function current(): int
 	{
 		return $this->first_page + $this->point;
 	}
 
 	/**
 	 * Get a current iterator stepper.
+	 * 
 	 * @return int
 	 */
-	public function key (): int
+	public function key(): int
 	{
 		return $this->point;
 	}
 
 	/**
 	 * Step up the iterator.
+	 * 
 	 * @return void
 	 */
-	public function next ()
+	public function next()
 	{
 		$this->point++;
 	}
