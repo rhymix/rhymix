@@ -344,33 +344,26 @@ class moduleController extends module
 	 */
 	function insertModule($args)
 	{
-		if(isset($args->isMenuCreate))
-		{
-			$isMenuCreate = $args->isMenuCreate;
-		}
-		else
-		{
-			$isMenuCreate = TRUE;
-		}
-
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		
 		// Check whether the module name already exists
-		if(ModuleModel::isIDExists($args->mid)) return new BaseObject(-1, 'msg_module_name_exists');
+		if(ModuleModel::isIDExists($args->mid))
+		{
+			return new BaseObject(-1, 'msg_module_name_exists');
+		}
 
-		// begin transaction
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-		// Get colorset from the skin information
-		$module_path = ModuleHandler::getModulePath($args->module);
-		$skin_info = ModuleModel::loadSkinInfo($module_path, $args->skin);
-		$skin_vars = new stdClass();
-		$skin_vars->colorset = $skin_info->colorset[0]->name;
-		// Arrange variables and then execute a query
-		if(!$args->module_srl) $args->module_srl = getNextSequence();
-
-		// default value
-		if($args->skin == '/USE_DEFAULT/')
+		// Fill default values
+		if (empty($args->module_srl))
+		{
+			$args->module_srl = getNextSequence();
+		}
+		$args->browser_title = escape(strip_tags($args->browser_title ?? ''), false);
+		$args->description = isset($args->description) ? escape($args->description, false) : null;
+		if(!isset($args->skin) || $args->skin == '/USE_DEFAULT/')
 		{
 			$args->is_skin_fix = 'N';
 		}
@@ -385,8 +378,7 @@ class moduleController extends module
 				$args->is_skin_fix = 'Y';
 			}
 		}
-
-		if($args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
+		if(!isset($args->mskin) || $args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
@@ -402,11 +394,12 @@ class moduleController extends module
 			}
 		}
 
-		unset($output);
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
-		$args->browser_title = strip_tags($args->browser_title);
-
-		if($isMenuCreate === TRUE)
+		$isMenuCreate = $args->isMenuCreate ?? true;
+		if($isMenuCreate)
 		{
 			$menuArgs = new stdClass;
 			$menuArgs->menu_srl = $args->menu_srl;
