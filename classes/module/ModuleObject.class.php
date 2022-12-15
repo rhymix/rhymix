@@ -91,12 +91,6 @@ class ModuleObject extends BaseObject
 			$obj->user = Rhymix\Framework\Session::getMemberInfo();
 		}
 
-		// Load language files.
-		if($module !== 'module')
-		{
-			Context::loadLang($module_path . 'lang');
-		}
-
 		// Return the instance.
 		return $GLOBALS['_module_instances_'][$class_name] = $obj;
 	}

@@ -134,8 +134,7 @@ class memberModel extends member
 		{
 			if($value->isDefaultForm && empty($value->isCustomTitle))
 			{
-				$title = in_array($value->name, ['signature', 'profile_image', 'image_name', 'image_mark']) ? 'member.' . $value->name : $value->name;
-				$config->signupForm[$key]->title = lang($title);
+				$config->signupForm[$key]->title = lang($value->name);
 			}
 			$config->signupForm[$key]->isPublic = $config->signupForm[$key]->isPublic ?? 'Y';
 		}

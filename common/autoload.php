@@ -93,10 +93,15 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
 spl_autoload_register(function($class_name)
 {
 	$filename = false;
+	$langpath = false;
 	$lc_class_name = str_replace('\\', '/', strtolower($class_name));
 	if (preg_match('!^rhymix/(framework|addons|modules|plugins)/(.+)$!', $lc_class_name, $matches))
 	{
 		$filename = RX_BASEDIR . ($matches[1] === 'framework' ? 'common/framework' : $matches[1]) . '/' . $matches[2] . '.php';
+		if ($matches[1] !== 'framework')
+		{
+			$langpath = RX_BASEDIR . $matches[1] . '/lang';
+		}
 	}
 	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
 	{
@@ -104,14 +109,22 @@ spl_autoload_register(function($class_name)
 	}
 	elseif (preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Item|Api|Wap|Mobile)?$/', $class_name, $matches))
 	{
-		$filename = RX_BASEDIR . 'modules/' . strtolower($matches[1] . '/' . $matches[1]);
-		if (isset($matches[2]) && $matches[2]) $filename .= '.admin';
-		$filename .= (isset($matches[3]) && $matches[3]) ? ('.' . strtolower($matches[3])) : '.class';
-		$filename .= '.php';
+		$module = strtolower($matches[1]);
+		$filename = RX_BASEDIR . 'modules/' . $module . '/' . $module .
+			(!empty($matches[2]) ? '.admin' : '') .
+			(!empty($matches[3]) ? ('.' . strtolower($matches[3])) : '.class') . '.php';
+		if ($module !== 'module')
+		{
+			$langpath = RX_BASEDIR . 'modules/' . $module . '/lang';
+		}
 	}
 	if ($filename && file_exists($filename))
 	{
 		include $filename;
+		if ($langpath)
+		{
+			Context::loadLang($langpath);
+		}
 	}
 });
 
