@@ -400,7 +400,12 @@ class ModuleHandler extends Handler
 			$this->is_mobile = Mobile::isFromMobilePhone();
 		}
 
+		// Replace lang codes in member menu
 		$logged_info = Context::get('logged_info');
+		if ($logged_info)
+		{
+			MemberController::replaceLangForMemberMenu($logged_info);
+		}
 
 		// Create an instance of the requested module and class
 		if($class_name)

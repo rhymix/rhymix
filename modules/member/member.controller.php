@@ -2478,18 +2478,28 @@ class memberController extends member
 	 * Logged method for providing a personalized menu
 	 * Login information is used in the output widget, or personalized page
 	 */
-	function addMemberMenu($act, $str)
+	public static function addMemberMenu($act, $str)
 	{
 		$logged_info = Context::get('logged_info');
-		
-		if(!is_object($logged_info))
+		if(is_object($logged_info))
 		{
-			return;
+			$logged_info->menu_list[$act] = $str;
+			Context::set('logged_info', $logged_info);
 		}
-		
-		$logged_info->menu_list[$act] = lang($str);
-		
-		Context::set('logged_info', $logged_info);
+	}
+	
+	/**
+	 * Replace lang codes in member menu
+	 * 
+	 * @param $logged_info
+	 * @return void
+	 */
+	public static function replaceLangForMemberMenu(&$logged_info)
+	{
+		if(is_object($logged_info) && !empty($logged_info->menu_list))
+		{
+			$logged_info->menu_list = array_map('lang', $logged_info->menu_list);
+		}
 	}
 
 	/**
