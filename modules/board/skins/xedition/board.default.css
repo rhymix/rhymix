@@ -510,6 +510,9 @@
 .read_body .xe_content {
 	color: #333;
 }
+.read_body .xe_content table {
+	font: inherit;
+}
 .read_footer {
 	overflow: hidden;
 }
