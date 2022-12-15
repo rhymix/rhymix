@@ -728,7 +728,6 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		unset($logged_info);
 		return $oModule;
 	}
 
