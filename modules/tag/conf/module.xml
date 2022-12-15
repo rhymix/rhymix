@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<permissions />
+	<actions>
+		<action name="dispTagAdminConfig" type="view" admin_index="true" menu_name="tag" />
+		<action name="procTagAdminInsertConfig" type="controller" />
+	</actions>
+	<menus>
+		<menu name="tag" type="all">
+			<title xml:lang="ko">태그</title>
+			<title xml:lang="en">Tag</title>
+			<title xml:lang="zh-CN">标签</title>
+			<title xml:lang="zh-TW">標籤</title>
+			<title xml:lang="jp">タグ</title>
+			<title xml:lang="vi">Tag</title>
+			<title xml:lang="es">Etiqueta</title>
+			<title xml:lang="ru">Теги</title>
+			<title xml:lang="tr">Etiket</title>
+		</menu>
+	</menus>
+</module>

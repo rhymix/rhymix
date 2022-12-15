@@ -1,0 +1,50 @@
+<config autoescape="on" />
+
+<div class="x_page-header">
+	<h1>{$lang->tag}</h1>
+</div>
+
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act === 'dispTagAdminConfig'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispTagAdminConfig')}">{$lang->tag_default_config}</a>
+	</li>
+</ul>
+
+<form class="x_form-horizontal" action="./" method="post" enctype="multipart/form-data" id="eventpayment">
+	<input type="hidden" name="module" value="tag" />
+	<input type="hidden" name="act" value="procTagAdminInsertConfig" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispTagAdminConfig')}" />
+	<input type="hidden" name="xe_validator_id" value="modules/tag/tpl/config/1" />
+	
+	<div class="message {$XE_VALIDATOR_MESSAGE_TYPE ?? ''}" cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/tag/tpl/config/1'">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+	</div>
+	
+	<section class="section">
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->tag_separators}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="separators1">
+					<input type="checkbox" name="separators[]" id="separators1" value="comma" checked="checked"|cond="empty($tag_config->separators) || in_array('comma', $tag_config->separators)" />
+					{$lang->tag_separator_comma}
+				</label>
+				<label class="x_inline" for="separators2">
+					<input type="checkbox" name="separators[]" id="separators2" value="hash" checked="checked"|cond="empty($tag_config->separators) || in_array('hash', $tag_config->separators)" />
+					{$lang->tag_separator_hash}
+				</label>
+				<label class="x_inline" for="separators3">
+					<input type="checkbox" name="separators[]" id="separators3" value="space" checked="checked"|cond="!empty($tag_config->separators) && in_array('space', $tag_config->separators)" />
+					{$lang->tag_separator_space}
+				</label>
+				<p class="x_help-block">
+					{$lang->tag_separator_help}
+				</p>
+			</div>
+        </div>
+	</section>
+
+	<div class="btnArea x_clearfix">
+		<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_registration}</button>
+	</div>
+	
+</form>

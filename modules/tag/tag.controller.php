@@ -8,78 +8,78 @@
 class tagController extends tag
 {
 	/**
-	 * @brief Initialization
-	 */
-	function init()
-	{
-	}
-
-	/**
-	 * @brief , (Comma) to clean up the tags attached to the trigger
+	 * Parse tags.
 	 */
 	function triggerArrangeTag(&$obj)
 	{
-		if(!$obj->tags) return;
-		// tags by variable
-		$arranged_tag_list = array();
-		$tag_list = explode(',', $obj->tags);
-		foreach($tag_list as $tag)
+		if (empty($obj->tags))
 		{
-			$tag = utf8_trim(utf8_normalize_spaces($tag));
-			if($tag)
-			{
-				$arranged_tag_list[$tag] = $tag;
-			}
+			return;
 		}
-		if(!count($arranged_tag_list))
+		
+		$tag_list = tagModel::splitString($obj->tags ?? '');
+		if (count($tag_list))
 		{
-			$obj->tags = null;
+			$obj->tags = implode(', ', $tag_list);
 		}
 		else
 		{
-			$obj->tags = implode(',', $arranged_tag_list);
+			$obj->tags = null;
 		}
 	}
 
 	/**
-	 * @brief Input trigger tag
-	 * Enter a Tag to delete that article and then re-enter all the tags using a method
+	 * Replace all tags belonging to a document with a new list of tags.
+	 * 
+	 * @param object $obj
+	 * @return BaseObject
 	 */
 	function triggerInsertTag(&$obj)
 	{
-		$module_srl = $obj->module_srl;
-		$document_srl = $obj->document_srl;
-		$tags = $obj->tags;
-		if(!$document_srl) return;
-		// Remove all tags that article
+		if (!$obj->document_srl)
+		{
+			return new BaseObject;
+		}
+
+		// Remove all existing tags.
 		$output = $this->triggerDeleteTag($obj);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
 		// Re-enter the tag
 		$args = new stdClass();
-		$args->module_srl = $module_srl;
-		$args->document_srl = $document_srl;
+		$args->module_srl = $obj->module_srl;
+		$args->document_srl = $obj->document_srl;
 
-		$tag_list = explode(',', $tags);
-		foreach($tag_list as $tag)
+		$tag_list = tagModel::splitString($obj->tags ?? '');
+		foreach ($tag_list as $tag)
 		{
-			$args->tag = utf8_trim(utf8_normalize_spaces($tag));
-			if(!$args->tag) continue;
+			$args->tag = $tag;
 			$output = executeQuery('tag.insertTag', $args);
-			if(!$output->toBool()) return $output;
+			if(!$output->toBool())
+			{
+				return $output;
+			}
 		}
 	}
 
 	/**
-	 * @brief Delete the tag trigger a specific article
-	 * document_srl delete tag belongs to
+	 * Delete all tags belonging to a document.
+	 * 
+	 * @param object $obj
+	 * @return BaseObject
 	 */
 	function triggerDeleteTag(&$obj)
 	{
-		$document_srl = $obj->document_srl;
-		if(!$document_srl) return;
+		if (!$obj->document_srl)
+		{
+			return new BaseObject;
+		}
 
 		$args = new stdClass();
-		$args->document_srl = $document_srl;
+		$args->document_srl = $obj->document_srl;
 		return executeQuery('tag.deleteTag', $args);
 	}
 
@@ -88,11 +88,13 @@ class tagController extends tag
 	 */
 	function triggerDeleteModuleTags(&$obj)
 	{
-		$module_srl = $obj->module_srl;
-		if(!$module_srl) return;
+		if (!$obj->module_srl)
+		{
+			return;
+		}
 
 		$oTagController = getAdminController('tag');
-		return $oTagController->deleteModuleTags($module_srl);
+		return $oTagController->deleteModuleTags($obj->module_srl);
 	}
 	
 	function triggerMoveDocument($obj)

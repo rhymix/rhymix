@@ -8,12 +8,77 @@
 class tagModel extends tag
 {
 	/**
-	 * @brief Initialization
+	 * Separator regexp cache
 	 */
-	function init()
+	protected static $_separator_list = null;
+	protected static $_separator_regexp = null;
+	
+	/**
+	 * Generate and cache separator list and regexp.
+	 */
+	protected static function _generateSeparatorConfig()
 	{
+		$config = ModuleModel::getModuleConfig('tag');
+		if (isset($config->separators) && count($config->separators))
+		{
+			self::$_separator_list = $config->separators;
+		}
+		else
+		{
+			self::$_separator_list = ['comma', 'hash'];
+		}
+		
+		$regexp = '/[';
+		$regexp_map = [
+			'comma' => ',',
+			'hash' => '#',
+			'space' => '\\s',
+		];
+		foreach (self::$_separator_list as $separator)
+		{
+			$regexp .= $regexp_map[$separator];
+		}
+		$regexp .= ']+/';
+		
+		self::$_separator_regexp = $regexp;
 	}
-
+	
+	/**
+	 * Split a string of tags into an array.
+	 * 
+	 * @param string $str
+	 * @return array
+	 */
+	public static function splitString(string $str): array
+	{
+		if (!isset(self::$_separator_list))
+		{
+			self::_generateSeparatorConfig();
+		}
+		
+		// Clean up the input string.
+		$str = trim(utf8_normalize_spaces(utf8_clean($str)));
+		if ($str === '')
+		{
+			return [];
+		}
+		
+		// Split the input string and collect non-empty fragments.
+		$fragments = preg_split(self::$_separator_regexp, $str, -1, PREG_SPLIT_NO_EMPTY);
+		$tags = [];
+		foreach ($fragments as $fragment)
+		{
+			$fragment = trim($fragment);
+			if ($fragment !== '')
+			{
+				$tags[strtolower($fragment)] = $fragment;
+			}
+		}
+		
+		// Return a list of valid fragments with no duplicates.
+		return array_values(array_unique($tags));
+	}
+	
 	/**
 	 * @brief Imported Tag List
 	 * Many of the specified module in order to extract the number of tags
