@@ -228,7 +228,10 @@ class memberController extends member
 		
 		// Insert
 		$output = executeQuery('member.addScrapDocument', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 		
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.procMemberScrapDocument', 'after', $args);
@@ -249,13 +252,32 @@ class memberController extends member
 		$logged_info = Context::get('logged_info');
 
 		$document_srl = (int)Context::get('document_srl');
-		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if(!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Variables
 		$args = new stdClass;
 		$args->member_srl = $logged_info->member_srl;
 		$args->document_srl = $document_srl;
-		return executeQuery('member.deleteScrapDocument', $args);
+		
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.deleteScrapDocument', 'before', $args);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+		
+		// Delete
+		$output = executeQuery('member.deleteScrapDocument', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.deleteScrapDocument', 'after', $args);
 	}
 
 	/**
