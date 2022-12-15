@@ -396,6 +396,7 @@ class memberAdminController extends member
 		$all_args = Context::getRequestVars();
 
 		$args->limit_day = (int)$args->limit_day;
+		$args->limit_day_description = escape(trim(utf8_clean($args->limit_day_description)));
 		if($args->emailhost_check != 'allowed' && $args->emailhost_check != 'prohibited') $args->emailhost_check == 'allowed';
 
 		$args->special_phone_number = preg_replace('/[^0-9]/', '', $args->special_phone_number);
