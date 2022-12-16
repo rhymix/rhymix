@@ -1,0 +1,14 @@
+{
+	"name": "Rhymix with Nginx",
+	"image": "mcr.microsoft.com/devcontainers/base:focal",
+	"features": {
+		"ghcr.io/rocker-org/devcontainer-features/apt-packages:1": {
+			"packages": "nginx, mariadb-client, mariadb-server, php7.4-fpm, php7.4-curl, php7.4-gd, php7.4-mbstring, php7.4-json, php7.4-mysql, php7.4-xml, php7.4-opcache, php7.4-apcu, php7.4-intl, php7.4-zip",
+			"upgradePackages": false
+		}
+	},
+	"forwardPorts": [80],
+	"postCreateCommand": "sudo bash $PWD/.devcontainer/init.sh && sudo bash $PWD/.devcontainer/nginx/init.sh",
+	"postStartCommand": "sudo bash $PWD/.devcontainer/nginx/start.sh",
+	"waitFor": "postStartCommand"
+}
