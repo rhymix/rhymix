@@ -190,7 +190,7 @@ class content extends WidgetHandler
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
-		
+		$obj->statusList = [1];
 		if($args->show_secret != 'Y')
 		{
 			$obj->is_secret = 'N';
