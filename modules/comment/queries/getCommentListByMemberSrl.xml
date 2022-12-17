@@ -12,6 +12,7 @@
 	</columns>
 	<conditions>
 		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="in" column="status" var="statusList" pipe="and" />
 	</conditions>
 	<navigation>
 		<index var="list_order" default="list_order" order="order_type" />
