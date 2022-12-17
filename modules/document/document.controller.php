@@ -2007,7 +2007,7 @@ class documentController extends document
 	function declaredDocumentCancel($document_srl)
 	{
 		$member_srl = $this->user->member_srl;
-		if(!$_SESSION['declared_document'][$document_srl] && $member_srl)
+		if(!$_SESSION['declared_document'][$document_srl] && !$member_srl)
 		{
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
@@ -2029,23 +2029,22 @@ class documentController extends document
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('document.getDocumentDeclaredLogInfo', $args);
-		
-		if($output->data->count <= 0 || !isset($output->data->count))
+		if(!isset($output->data->count) || !$output->data->count)
 		{
 			unset($_SESSION['declared_document'][$document_srl]);
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
 		
+		// Get current declared count
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$output = executeQuery('document.getDeclaredDocument', $args);
-
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 
+		// Call a trigger (before)
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
 		$trigger_obj->declared_count = $declared_count;
-		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('document.declaredDocumentCancel', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
 		{
