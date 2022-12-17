@@ -1109,7 +1109,7 @@ class commentModel extends comment
 			$point = 1;
 		}
 
-		$oComment = self::getComment($comment_srl, FALSE, FALSE);
+		$oComment = self::getComment($comment_srl);
 		$module_srl = $oComment->get('module_srl');
 		if(!$module_srl)
 		{

@@ -314,7 +314,7 @@ class commentAdminController extends comment
 		for($i = 0; $i < $comment_count; $i++)
 		{
 			$comment_srl = $comment_srl_list[$i];
-			$oComment = $oCommentModel->getComment($comment_srl, TRUE);
+			$oComment = $oCommentModel->getComment($comment_srl);
 
 			if(!$oComment->get('member_srl') || $oComment->get('member_srl') == $sender_member_srl)
 			{
@@ -384,7 +384,7 @@ class commentAdminController extends comment
 		$comment_srl = Context::get('comment_srl');
 		$oCommentModel = getModel('comment');
 		$oCommentController = getController('comment');
-		$oComment = $oCommentModel->getComment($comment_srl, false);
+		$oComment = $oCommentModel->getComment($comment_srl);
 
 		if(!$oComment->isGranted()) throw new Rhymix\Framework\Exceptions\NotPermitted;
 

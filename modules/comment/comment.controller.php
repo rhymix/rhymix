@@ -39,7 +39,7 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -75,7 +75,7 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -118,7 +118,7 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -154,7 +154,7 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -267,7 +267,7 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -1481,7 +1481,7 @@ class commentController extends comment
 		}
 
 		// Get the original comment
-		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
+		$oComment = CommentModel::getComment($comment_srl);
 
 		// Pass if the author's IP address is as same as visitor's.
 		if($oComment->get('ipaddress') == \RX_CLIENT_IP)
@@ -1625,7 +1625,7 @@ class commentController extends comment
 		}
 
 		// get the original comment
-		$oComment = CommentModel::getComment($comment_srl, FALSE, FALSE);
+		$oComment = CommentModel::getComment($comment_srl);
 
 		// failed if both ip addresses between author's and the current user are same.
 		if($oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
