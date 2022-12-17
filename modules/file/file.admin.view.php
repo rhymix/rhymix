@@ -27,7 +27,8 @@ class fileAdminView extends file
 		$args->list_count = 30; // /< Number of documents that appear on a single page
 		$args->page_count = 10; // /< Number of pages that appear in the page navigation
 
-		$args->sort_index = 'file_srl'; // /< Sorting values
+		$args->sort_index = Context::get('sort_index') ?? 'file_srl'; // /< Sorting values
+		$args->order_type = Context::get('order_type') ?? null;
 		$args->isvalid = Context::get('isvalid');
 		$args->module_srl = Context::get('module_srl');
 		// Get a list
