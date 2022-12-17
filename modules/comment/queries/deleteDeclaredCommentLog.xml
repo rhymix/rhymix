@@ -1,4 +1,4 @@
-<query id="deleteCommentDeclaredLog" action="delete">
+<query id="deleteDeclaredCommentLog" action="delete">
     <tables>
         <table name="comment_declared_log" />
     </tables>

@@ -300,7 +300,7 @@ class commentController extends comment
 	{
 		if (!Context::get('is_logged'))
 		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$comment_srl = Context::get('target_srl');
@@ -308,7 +308,7 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 		if (!$oComment->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
@@ -317,7 +317,8 @@ class commentController extends comment
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		if ($this->module_info->cancel_vote !== 'Y')
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
+		if ($module_info->cancel_vote !== 'Y')
 		{
 			throw new Rhymix\Framework\Exception('failed_declared_cancel');
 		}
@@ -1758,7 +1759,7 @@ class commentController extends comment
 		}
 		
 		// Get the original document
-		$oComment = CommentModel::getComment($comment_srl, false, false);
+		$oComment = CommentModel::getComment($comment_srl);
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1774,22 +1775,22 @@ class commentController extends comment
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$log_output = executeQuery('comment.getCommentDeclaredLogInfo', $args);
-		if ($log_output->data->count <= 0 || !isset($log_output->data->count))
+		if (!isset($log_output->data->count) || !$log_output->data->count)
 		{
 			unset($_SESSION['declared_comment'][$comment_srl]);
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
 
+		// Get current declared count
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
 		$output = executeQuery('comment.getDeclaredComment', $args);
-
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 
+		// Call a trigger (before)
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $comment_srl;
 		$trigger_obj->declared_count = $declared_count;
-		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('comment.declaredCommentCancel', 'before', $trigger_obj);
 		if (!$trigger_output->toBool())
 		{
@@ -1810,7 +1811,7 @@ class commentController extends comment
 			return $output;
 		}
 		
-		$output = executeQuery('comment.deleteCommentDeclaredLog', $args);
+		$output = executeQuery('comment.deleteDeclaredCommentLog', $args);
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
