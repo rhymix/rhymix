@@ -37,6 +37,7 @@ $lang->file_search_target_list['filesize_mega_more'] = 'ファイルサイズ(Mb
 $lang->file_search_target_list['filesize_less'] = 'ファイルサイズ(byte, 以下)';
 $lang->file_search_target_list['filesize_mega_less'] = 'ファイルサイズ(Mb, 以下)';
 $lang->file_search_target_list['download_count'] = 'ダウンロード数（以上）';
+$lang->file_search_target_list['download_count_less'] = 'ダウンロード数(以下)';
 $lang->file_search_target_list['user_id'] = 'ユーザーＩＤ';
 $lang->file_search_target_list['user_name'] = '名前';
 $lang->file_search_target_list['nick_name'] = 'ニックネーム';

@@ -24,6 +24,7 @@ $lang->msg_exceeds_limit_size = 'La mesure de l\'(des) Annexe(s) est plus grande
 $lang->file_search_target_list['filename'] = 'Nom de Fichier';
 $lang->file_search_target_list['filesize_more'] = 'Mesure de Fichier(octet, surplus)';
 $lang->file_search_target_list['download_count'] = 'Telecharges(surplus)';
+$lang->file_search_target_list['download_count_less'] = 'Telecharges(less)';
 $lang->file_search_target_list['regdate'] = 'Enrgistre';
 $lang->file_search_target_list['ipaddress'] = 'Adresse IP';
 $lang->msg_not_allowed_outlink = 'It is not allowed to download files not from this site.';

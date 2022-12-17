@@ -204,6 +204,9 @@ class fileAdminModel extends file
 				case 'download_count' :
 					$args->s_download_count = (int)$search_keyword;
 					break;
+				case 'download_count_less' :
+					$args->s_download_count_less = (int)$search_keyword;
+					break;
 				case 'regdate' :
 					$args->s_regdate = $search_keyword;
 					break;

@@ -30,6 +30,7 @@ $lang->file_search_target_list['filesize_mega_more'] = 'Размер файла(
 $lang->file_search_target_list['filesize_less'] = 'Размер файла(Байт, ниже)';
 $lang->file_search_target_list['filesize_mega_less'] = 'Размер файла(Мегабайт, ниже)';
 $lang->file_search_target_list['download_count'] = 'Скачано(свыше)';
+$lang->file_search_target_list['download_count_less'] = 'Скачано(ниже)';
 $lang->file_search_target_list['user_id'] = 'ID';
 $lang->file_search_target_list['user_name'] = 'Имя';
 $lang->file_search_target_list['nick_name'] = 'Ник';
