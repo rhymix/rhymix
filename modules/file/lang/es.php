@@ -29,6 +29,7 @@ $lang->file_search_target_list['filename'] = 'Nombre del archivo';
 $lang->file_search_target_list['filesize_more'] = 'Tamaño del archivo(Byte, sobre)';
 $lang->file_search_target_list['filesize_mega_more'] = 'Tamaño del archivo(Mb, o mb)';
 $lang->file_search_target_list['download_count'] = 'Descargados(Sobre)';
+$lang->file_search_target_list['download_count_less'] = 'Descargados(less)';
 $lang->file_search_target_list['user_id'] = 'ID';
 $lang->file_search_target_list['user_name'] = 'Nombre';
 $lang->file_search_target_list['nick_name'] = 'Apodo';

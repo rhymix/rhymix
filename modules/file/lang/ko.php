@@ -63,6 +63,7 @@ $lang->file_search_target_list['filesize_mega_more'] = '파일 크기(MB, 이상
 $lang->file_search_target_list['filesize_less'] = '파일 크기(byte, 이하)';
 $lang->file_search_target_list['filesize_mega_less'] = '파일 크기(MB, 이하)';
 $lang->file_search_target_list['download_count'] = '다운로드 횟수(이상)';
+$lang->file_search_target_list['download_count_less'] = '다운로드 횟수(이하)';
 $lang->file_search_target_list['user_id'] = '아이디';
 $lang->file_search_target_list['user_name'] = '이름';
 $lang->file_search_target_list['nick_name'] = '닉네임';

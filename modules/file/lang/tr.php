@@ -34,6 +34,7 @@ $lang->file_search_target_list['filesize_mega_more'] = 'Dosya Boyutu(mbyte, üst
 $lang->file_search_target_list['filesize_less'] = 'Dosya Boyutu(byte, düşük)';
 $lang->file_search_target_list['filesize_mega_less'] = 'Dosya Boyutu(Mb, düşük)';
 $lang->file_search_target_list['download_count'] = 'İndirmeler(daha fazla)';
+$lang->file_search_target_list['download_count_less'] = 'İndirmeler(düşük)';
 $lang->file_search_target_list['user_id'] = 'Kullanıcı Kimliği';
 $lang->file_search_target_list['user_name'] = 'Kullanıcı İsmi';
 $lang->file_search_target_list['nick_name'] = 'Rumuz';

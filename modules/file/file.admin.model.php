@@ -81,6 +81,7 @@ class fileAdminModel extends file
 		
 		// Set variables
 		$args->sort_index = $obj->sort_index ?? null;
+		$args->order_type = $obj->order_type ?? 'desc';
 		$args->page = isset($obj->page) ? ($obj->page ? $obj->page : 1) : 1;
 		$args->list_count = isset($obj->list_count) ? ($obj->list_count? $obj->list_count : 20) : 20;
 		$args->page_count = isset($obj->page_count) ? ($obj->page_count? $obj->page_count : 10) : 10;
@@ -202,6 +203,9 @@ class fileAdminModel extends file
 					break;
 				case 'download_count' :
 					$args->s_download_count = (int)$search_keyword;
+					break;
+				case 'download_count_less' :
+					$args->s_download_count_less = (int)$search_keyword;
 					break;
 				case 'regdate' :
 					$args->s_regdate = $search_keyword;

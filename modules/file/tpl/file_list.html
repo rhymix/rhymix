@@ -23,10 +23,31 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<thead>
 			<tr>
 				<th scope="col">{$lang->file}</th>
-				<th scope="col" class="nowr">{$lang->file_size}</th>
-				<th scope="col" class="nowr">{$lang->cmd_download}</th>
+				<th scope="col" class="nowr">
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList', 'sort_index', 'file_size', 'order_type',  ($order_type == 'asc') ? 'desc' : 'asc')}">
+						{$lang->file_size}
+						<block cond="$sort_index == 'file_size'">
+							<em cond="$order_type=='asc'">▲</em><em cond="$order_type != 'asc'">▼</em>
+						</block>
+					</a>
+				</th>
+				<th scope="col" class="nowr">
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList', 'sort_index', 'download_count', 'order_type',  ($order_type == 'asc') ? 'desc' : 'asc')}">
+						{$lang->cmd_download}
+						<block cond="$sort_index == 'download_count'">
+							<em cond="$order_type=='asc'">▲</em><em cond="$order_type != 'asc'">▼</em>
+						</block>
+					</a>
+				</th>
 				<th scope="col" class="nowr">{$lang->author}</th>
-				<th scope="col" class="nowr">{$lang->date}</th>
+				<th scope="col" class="nowr">
+					<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList', 'sort_index', 'regdate', 'order_type',  ($order_type == 'asc') ? 'desc' : 'asc')}">
+						{$lang->date}
+						<block cond="$sort_index == 'regdate'">
+							<em cond="$order_type=='asc'">▲</em><em cond="$order_type != 'asc'">▼</em>
+						</block>
+					</a>
+				</th>
 				<th scope="col" class="nowr">{$lang->ipaddress}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
 				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>

@@ -62,6 +62,7 @@ $lang->file_search_target_list['filesize_mega_more'] = 'File Size(mbyte, more)';
 $lang->file_search_target_list['filesize_less'] = 'File Size(byte, less)';
 $lang->file_search_target_list['filesize_mega_less'] = 'File Size(Mb, less)';
 $lang->file_search_target_list['download_count'] = 'Downloads(more)';
+$lang->file_search_target_list['download_count_less'] = 'Downloads(less)';
 $lang->file_search_target_list['user_id'] = 'User UD';
 $lang->file_search_target_list['user_name'] = 'User Name';
 $lang->file_search_target_list['nick_name'] = 'Nickname';

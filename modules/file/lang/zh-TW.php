@@ -34,6 +34,7 @@ $lang->file_search_target_list['filesize_mega_more'] = '檔案大小(Mb, 以上)
 $lang->file_search_target_list['filesize_less'] = '檔案大小(byte, 以下)';
 $lang->file_search_target_list['filesize_mega_less'] = '檔案大小(Mb, 以下)';
 $lang->file_search_target_list['download_count'] = '下載次數(以上)';
+$lang->file_search_target_list['download_count_less'] = '下載次數(以下)';
 $lang->file_search_target_list['user_id'] = '帳號';
 $lang->file_search_target_list['user_name'] = '姓名';
 $lang->file_search_target_list['nick_name'] = '暱稱';

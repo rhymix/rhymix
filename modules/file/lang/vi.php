@@ -33,6 +33,7 @@ $lang->file_search_target_list['filesize_mega_more'] = 'Dung lượng(Tối thi�
 $lang->file_search_target_list['filesize_less'] = 'Dung lượng(Tối đa Byte)';
 $lang->file_search_target_list['filesize_mega_less'] = 'Dung lượng(Tối đa MB)';
 $lang->file_search_target_list['download_count'] = 'Lượt Download';
+$lang->file_search_target_list['download_count_less'] = 'Lượt Download(Tối đa Lượt)';
 $lang->file_search_target_list['user_id'] = 'ID đăng nhập';
 $lang->file_search_target_list['user_name'] = 'Tên Sử dụng';
 $lang->file_search_target_list['regdate'] = 'Ngày gửi';
