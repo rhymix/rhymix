@@ -145,12 +145,17 @@ class commentModel extends comment
 	/**
 	 * Returns the number of child comments
 	 * @param int $comment_srl
+	 * @param array $statusList
 	 * @return int
 	 */
-	public static function getChildCommentCount($comment_srl)
+	public static function getChildCommentCount($comment_srl, $statusList = [])
 	{
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 		$output = executeQuery('comment.getChildCommentCount', $args);
 		return (int) $output->data->count;
 	}
@@ -158,12 +163,17 @@ class commentModel extends comment
 	/**
 	 * Returns the number of child comments
 	 * @param int $comment_srl
+	 * @param array $statusList
 	 * @return array
 	 */
-	public static function getChildComments($comment_srl)
+	public static function getChildComments($comment_srl, $statusList = [])
 	{
 		$args = new stdClass();
 		$args->comment_srl = $comment_srl;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 		$output = executeQueryArray('comment.getChildComments', $args);
 		return $output->data;
 	}
@@ -241,9 +251,10 @@ class commentModel extends comment
 	/**
 	 * Get the total number of comments in corresponding with document_srl.
 	 * @param int $document_srl
+	 * @param array $statusList
 	 * @return int
 	 */
-	public static function getCommentCount($document_srl)
+	public static function getCommentCount($document_srl, $statusList = [])
 	{
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -275,6 +286,10 @@ class commentModel extends comment
 		{
 			$args->status = 1;
 		}
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 
 		$output = executeQuery('comment.getCommentCount', $args, NULL);
 		$total_count = $output->data->count;
@@ -285,10 +300,11 @@ class commentModel extends comment
 	/**
 	 * Get the total number of comments in corresponding with document_srl.
 	 * @param string $date
-	 * @param array $moduleSrlList
+	 * @param array $moduleList
+	 * @param array $statusList
 	 * @return int
 	 */
-	public static function getCommentCountByDate($date = '', $moduleSrlList = array())
+	public static function getCommentCountByDate($date = '', $moduleList = [], $statusList = [])
 	{
 		$args = new stdClass();
 		if($date)
@@ -296,9 +312,13 @@ class commentModel extends comment
 			$args->regDate = date('Ymd', strtotime($date));
 		}
 
-		if(count($moduleSrlList) > 0)
+		if($moduleList)
 		{
-			$args->module_srl = $moduleSrlList;
+			$args->module_srl = $moduleList;
+		}
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
 		}
 
 		$output = executeQuery('comment.getCommentCount', $args);
@@ -313,15 +333,15 @@ class commentModel extends comment
 	/**
 	 * Get the total number of comments in corresponding with module_srl.
 	 * @param int $module_srl
-	 * @param bool $published
+	 * @param array|bool|null $statusList (Previously $published)
 	 * @return int
 	 */
-	public static function getCommentAllCount($module_srl, $published = false)
+	public static function getCommentAllCount($module_srl, $statusList = false)
 	{
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 
-		if(is_null($published))
+		if ($statusList === null)
 		{
 			// check if module is using comment validation system
 			$oCommentController = getController("comment");
@@ -331,9 +351,13 @@ class commentModel extends comment
 				$args->status = 1;
 			}
 		}
+		elseif (is_array($statusList) && count($statusList))
+		{
+			$args->statusList = $statusList;
+		}
 		else
 		{
-			if($published)
+			if($statusList === 1 || $statusList === true)
 			{
 				$args->status = 1;
 			}
@@ -383,7 +407,7 @@ class commentModel extends comment
 	 * @param array $columnList
 	 * @return array
 	 */
-	public static function getNewestCommentList($obj, $columnList = array())
+	public static function getNewestCommentList($obj, $columnList = [])
 	{
 		$args = new stdClass();
 
@@ -407,12 +431,15 @@ class commentModel extends comment
 		{
 			$args->module_srl = $obj->module_srl ?? null;
 		}
-		
+		if (isset($obj->statusList) && is_array($obj->statusList) && count($obj->statusList))
+		{
+			$args->statusList = $obj->statusList;
+		}
 		$args->is_secret = $obj->is_secret ?? null;
 		$args->document_srl = $obj->document_srl ?? null;
 		$args->list_count = $obj->list_count ?? null;
 
-		if(strpos($args->module_srl, ",") === false)
+		if(is_scalar($args->module_srl) && strpos($args->module_srl, ",") === false)
 		{
 			if($args->module_srl)
 			{
@@ -465,11 +492,12 @@ class commentModel extends comment
 	 * Get a comment list of the doc in corresponding woth document_srl.
 	 * @param int $document_srl
 	 * @param int $page
-	 * @param bool $is_admin
+	 * @param int $unused (Previously $is_admin)
 	 * @param int $count
+	 * @param array $statusList
 	 * @return object
 	 */
-	public static function getCommentList($document_srl, $page = 0, $is_admin = FALSE, $count = 0)
+	public static function getCommentList($document_srl, $page = 0, $unused = 0, $count = 0, $statusList = [])
 	{
 		if(!$document_srl)
 		{
@@ -532,6 +560,10 @@ class commentModel extends comment
 		{
 			$args->status = 1;
 		}
+		if($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
@@ -579,9 +611,10 @@ class commentModel extends comment
 	 * @param int $document_srl
 	 * @param int $comment_srl
 	 * @param int $count
+	 * @param array $statusList
 	 * @return int
 	 */
-	public static function getCommentPage($document_srl, $comment_srl, $count = 0)
+	public static function getCommentPage($document_srl, $comment_srl, $count = 0, $statusList = [])
 	{
 		// Check the document
 		$columnList = array('document_srl', 'module_srl', 'comment_count');
@@ -621,6 +654,10 @@ class commentModel extends comment
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$args->comment_srl = $comment_srl;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 		$output = executeQuery('comment.getCommentPageItem', $args);
 		if (is_object($output->data))
 		{
@@ -969,6 +1006,11 @@ class commentModel extends comment
 		$args = new stdClass();
 		$args->s_module_srl = $obj->module_srl;
 		$args->exclude_module_srl = $obj->exclude_module_srl;
+		$args->statusList = $obj->statusList ?? null;
+		if (isset($obj->is_secret) && $obj->is_secret)
+		{
+			$args->s_is_secret = $obj->is_secret;
+		}
 
 		// Search options
 		$search_target = $obj->search_target ? $obj->search_target : trim(Context::get('search_target'));
@@ -1179,12 +1221,17 @@ class commentModel extends comment
 	/**
 	 * Get the total number of comments in corresponding with member_srl.
 	 * @param int $member_srl
+	 * @param array $statusList
 	 * @return int
 	 */
-	public static function getCommentCountByMemberSrl($member_srl)
+	public static function getCommentCountByMemberSrl($member_srl, $statusList = [])
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 		$output = executeQuery('comment.getCommentCountByMemberSrl', $args);
 		return (int) $output->data->count;
 	}
@@ -1194,16 +1241,21 @@ class commentModel extends comment
 	 * Get comment list of the doc in corresponding woth member_srl.
 	 * @param int $member_srl
 	 * @param array $columnList
-	 * @param int $page
-	 * @param bool $is_admin
+	 * @param int $unused1 (Previously $page)
+	 * @param int $unused2 (Previously $is_admin)
 	 * @param int $count
+	 * @param array $statusList
 	 * @return object
 	 */
-	public static function getCommentListByMemberSrl($member_srl, $columnList = array(), $page = 0, $is_admin = FALSE, $count = 0)
+	public static function getCommentListByMemberSrl($member_srl, $columnList = [], $unused1 = 0, $unused2 = 0, $count = 0, $statusList = [])
 	{
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$args->list_count = $count;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
 		$output = executeQuery('comment.getCommentListByMemberSrl', $args, $columnList);
 		$comment_list = $output->data;
 
