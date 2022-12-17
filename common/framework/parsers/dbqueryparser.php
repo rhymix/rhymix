@@ -190,10 +190,12 @@ class DBQueryParser extends BaseParser
 			$query->navigation = new DBQuery\Navigation;
 			foreach ($xml->navigation->index ?: [] as $tag)
 			{
+				$attribs = self::_getAttributes($tag, true);
 				$orderby = new DBQuery\OrderBy;
-				$orderby->var = trim($tag['var']) ?: null;
-				$orderby->default = trim($tag['default']) ?: null;
-				$orderby->order_var = trim($tag['order']) ?: null;
+				$orderby->var = ($attribs['var'] ?? null) ?: null;
+				$orderby->default = ($attribs['default'] ?? null) ?: null;
+				$orderby->order_var = ($attribs['order'] ?? null) ?: null;
+				$orderby->order_default = strtoupper($attribs['orderdefault'] ?? '') === 'DESC' ? 'DESC' : 'ASC';
 				$query->navigation->orderby[] = $orderby;
 			}
 			foreach (['list_count', 'page_count', 'page', 'offset'] as $key)

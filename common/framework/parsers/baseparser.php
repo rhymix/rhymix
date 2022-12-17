@@ -11,17 +11,17 @@ abstract class BaseParser
 	 * Get all attributes of an element as an associative array.
 	 * 
 	 * @param SimpleXMLElement $element
-	 * @param bool $remove_symbols
+	 * @param bool $normalize
 	 * @return array
 	 */
-	protected static function _getAttributes(\SimpleXMLElement $element, $remove_symbols = true): array
+	protected static function _getAttributes(\SimpleXMLElement $element, $normalize = true): array
 	{
 		$result = array();
 		foreach ($element->attributes() as $key => $val)
 		{
-			if ($remove_symbols)
+			if ($normalize)
 			{
-				$key = preg_replace('/[^a-z]/', '', $key);
+				$key = strtolower(preg_replace('/[^a-zA-Z]/', '', $key));
 			}
 			$result[trim($key)] = trim($val);
 		}

@@ -37,7 +37,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('sort_index', $query->navigation->orderby[0]->var);
 		$this->assertEquals('list_order', $query->navigation->orderby[0]->default);
 		$this->assertEquals('order_type', $query->navigation->orderby[0]->order_var);
-		$this->assertEquals('ASC', $query->navigation->orderby[0]->order_default);
+		$this->assertEquals('DESC', $query->navigation->orderby[0]->order_default);
 		$this->assertTrue($query->navigation->list_count instanceof Rhymix\Framework\Parsers\DBQuery\VariableBase);
 		$this->assertEquals('list_count', $query->navigation->list_count->var);
 		$this->assertEquals('20', $query->navigation->list_count->default);
@@ -49,7 +49,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 	public function testSimpleSelect()
 	{
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest1.xml');
-		$args = array('member_srl' => 1234, 'regdate_more' => '20200707120000', 'page' => 3);
+		$args = array('member_srl' => 1234, 'regdate_more' => '20200707120000', 'page' => 3, 'order_type' => 'asc');
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
