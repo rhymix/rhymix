@@ -389,7 +389,6 @@ $lang->thu = 'Thu';
 $lang->fri = 'Fri';
 $lang->sat = 'Sat';
 $lang->sun = 'Sun';
-$lang->checkBrowserIE8 = 'If you use a browser under IE8, admin page will not function normally.';
 $lang->subtitle_sitelock = 'Site Lock';
 $lang->use_sitelock = 'Use Site Lock';
 $lang->sitelock_whitelist = 'IPs allowed to access';

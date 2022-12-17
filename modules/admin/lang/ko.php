@@ -385,7 +385,6 @@ $lang->thu = '목';
 $lang->fri = '금';
 $lang->sat = '토';
 $lang->sun = '일';
-$lang->checkBrowserIE8 = 'IE8 이하의 브라우저 사용시 관리자페이지가 정상동작 하지 않을 수 있습니다.';
 $lang->subtitle_sitelock = '사이트 잠금';
 $lang->use_sitelock = '사이트 잠금 사용';
 $lang->sitelock_whitelist = '접근 허용 IP';
