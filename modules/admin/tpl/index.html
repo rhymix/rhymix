@@ -14,10 +14,6 @@
 		<h1>{$lang->control_panel}</h1>
 	</div>
 
-	<div id="checkBrowserMessage" class="message error" style="display:none;">
-		<h2>{$lang->checkBrowserIE8}</h2>
-	</div>
-
 	<div cond="isset($XE_VALIDATOR_MESSAGE) && ($XE_VALIDATOR_ID ?? '') == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
@@ -87,14 +83,6 @@
 		<ul>{$lang->msg_php_warning_notice_explain}</ul>
 	</div>
 </div>
-
-<!--[if lt IE 9]>
-<script>
-jQuery(function($) {
-	$('#checkBrowserMessage').show();
-});
-</script>
-<![endif]-->
 
 <include target="./_footer.html" />
 

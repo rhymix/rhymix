@@ -206,7 +206,6 @@ $lang->thu = '木';
 $lang->fri = '金';
 $lang->sat = '土';
 $lang->sun = '日';
-$lang->checkBrowserIE8 = 'IE8以下のブラウザは管理者ベージが正常に動作できない場合があります。';
 $lang->subtitle_sitelock = 'サイトロック';
 $lang->use_sitelock = 'サイトロック使用';
 $lang->sitelock_whitelist = '接近許可IP';
