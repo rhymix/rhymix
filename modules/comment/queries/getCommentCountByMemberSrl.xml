@@ -7,6 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="status" var="status" pipe="and" />
         <condition operation="in" column="status" var="statusList" pipe="and" />
     </conditions>
 </query>
