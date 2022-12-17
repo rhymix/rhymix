@@ -402,3 +402,6 @@ $lang->module_exists_in_wrong_path = 'Module(s) installed in incorrect path';
 $lang->about_module_exists_in_wrong_path = 'The following module(s) appear to be installed in incorrect directories.<br />Please ignore this message if you have intentionally renamed a module for testing or debugging purposes.';
 $lang->apcu_clear_cache_function_not_found = 'apcu is disabled on this server.';
 $lang->opcache_reset_function_not_found = 'opcache is disabled on this server.';
+$lang->unsupported_php_version_notice = 'The minimum PHP version for using Rhymix will change in 2023. Please upgrade your PHP version, and check if all the modules and widgets you added are compatible with the new version.';
+$lang->unsupported_php_version_required = 'Requirement: minimum PHP 7.2 or higher, recommended PHP 7.4 or higher';
+$lang->unsupported_php_version_current = 'Your version: PHP %s';

@@ -18,6 +18,14 @@
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
+	<div class="message error" cond="version_compare(PHP_VERSION, '7.2', '<')">
+		<p>{$lang->unsupported_php_version_notice}</p>
+		<ul>
+			<li>{$lang->unsupported_php_version_required}</li>
+			<li>{sprintf($lang->unsupported_php_version_current, PHP_VERSION)}</li>
+		</ul>
+	</div>
+
 	<div class="message error" cond="config('lock.locked')">
 		<h2>{$lang->sitelock_in_use}</h2>
 		<p>{$lang->about_sitelock_in_use} <a href="{getUrl(['module' => 'admin', 'act' => 'dispAdminConfigSitelock'])}">{$lang->cmd_configure}</a></p>
