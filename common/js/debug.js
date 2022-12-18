@@ -131,6 +131,14 @@ $(function() {
 					description.append($('<li></li>').text("Connection: " + data.queries[i].query_connection));
 					description.append($('<li></li>').text("Query ID: " + data.queries[i].query_id));
 					description.append($('<li></li>').text("Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "")));
+					if (data.queries[i].backtrace && data.queries[i].backtrace.length) {
+						backtrace = $('<ul></ul>').appendTo(description.find('li:first-child'));
+						for (j in data.queries[i].backtrace) {
+							if (data.queries[i].backtrace[j].file) {
+								backtrace.append($('<li></li>').text(data.queries[i].backtrace[j].file + ":" + data.queries[i].backtrace[j].line));
+							}
+						}
+					}
 				}
 				description.append($('<li></li>').text("Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : data.queries[i].message)));
 			}
@@ -149,6 +157,14 @@ $(function() {
 					description.append($('<li></li>').text("Connection: " + data.slow_queries[i].query_connection));
 					description.append($('<li></li>').text("Query ID: " + data.slow_queries[i].query_id));
 					description.append($('<li></li>').text("Query Time: " + (data.slow_queries[i].query_time ? (data.slow_queries[i].query_time.toFixed(4) + " sec") : "")));
+					if (data.queries[i].backtrace && data.queries[i].backtrace.length) {
+						backtrace = $('<ul></ul>').appendTo(description.find('li:first-child'));
+						for (j in data.queries[i].backtrace) {
+							if (data.queries[i].backtrace[j].file) {
+								backtrace.append($('<li></li>').text(data.queries[i].backtrace[j].file + ":" + data.queries[i].backtrace[j].line));
+							}
+						}
+					}
 				}
 				description.append($('<li></li>').text("Result: " + ((data.slow_queries[i].message === "success" || !data.slow_queries[i].message) ? "success" : ("error " + data.slow_queries[i].error_code + " " + data.slow_queries[i].message))));
 			}

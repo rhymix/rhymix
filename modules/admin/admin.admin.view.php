@@ -628,6 +628,7 @@ class adminAdminView extends admin
 		Context::set('debug_display_content', Rhymix\Framework\Config::get('debug.display_content'));
 		Context::set('debug_display_to', Rhymix\Framework\Config::get('debug.display_to'));
 		Context::set('debug_query_comment', Rhymix\Framework\Config::get('debug.query_comment'));
+		Context::set('debug_query_full_stack', Rhymix\Framework\Config::get('debug.query_full_stack'));
 		Context::set('debug_write_error_log', Rhymix\Framework\Config::get('debug.write_error_log'));
 		
 		// IP access control

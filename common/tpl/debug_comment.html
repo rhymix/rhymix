@@ -99,6 +99,13 @@ Database Queries
 		$query_result = ($query->message === 'success') ? 'success' : $query->message;
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
+		foreach ($query->backtrace ?? [] as $key => $backtrace)
+		{
+			if (isset($backtrace['file']) && isset($backtrace['line']))
+			{
+				echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+			}
+		}
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
 		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
 		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";
@@ -122,6 +129,13 @@ Slow Queries
 		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
+		foreach ($query->backtrace ?? [] as $key => $backtrace)
+		{
+			if (isset($backtrace['file']) && isset($backtrace['line']))
+			{
+				echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+			}
+		}
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
 		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
 		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";

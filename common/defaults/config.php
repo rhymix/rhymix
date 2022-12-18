@@ -101,6 +101,7 @@ return array(
 		'display_content' => array('request_info', 'entries', 'errors', 'queries'),
 		'display_to' => 'admin',
 		'query_comment' => false,
+		'query_full_stack' => false,
 		'write_error_log' => 'fatal',
 		'allow' => array(),
 	),

@@ -42,8 +42,10 @@ class DB
 	protected $_query_id = '';
 	protected $_errno = 0;
 	protected $_errstr = '';
+	protected $_debug_queries = false;
 	protected $_debug_comment = false;
-	
+	protected $_debug_full_stack = false;
+
 	/**
 	 * Transaction level.
 	 */
@@ -130,7 +132,9 @@ class DB
 		$this->db_version = $this->_handle->getAttribute(\PDO::ATTR_SERVER_VERSION);
 		
 		// Cache the debug comment setting.
-		$this->_debug_comment = config('debug.query_comment') ? true : false;
+		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
+		$this->_debug_comment = !!config('debug.query_comment');
+		$this->_debug_full_stack = !!Config::get('debug.query_full_stack');
 	}
 	
 	/**
@@ -1160,13 +1164,6 @@ class DB
 	 */
 	public function getQueryLog(string $query, float $elapsed_time): array
 	{
-		// Cache the debug status to improve performance.
-		static $debug_queries = null;
-		if ($debug_queries === null)
-		{
-			$debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
-		}
-		
 		// Compose the basic structure of the log entry.
 		$result = array(
 			'query' => preg_replace('!\n/\* .+ \*/$!s', '', $query),
@@ -1183,7 +1180,7 @@ class DB
 		);
 		
 		// Add debug information if enabled.
-		if ($this->_errno || $debug_queries)
+		if ($this->_errno || $this->_debug_queries)
 		{
 			$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 			foreach ($backtrace as $no => $call)
@@ -1196,7 +1193,7 @@ class DB
 					if (isset($backtrace[$no]))
 					{
 						$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
-						$result['backtrace'] = array_slice($backtrace, $no, 1);
+						$result['backtrace'] = $this->_debug_full_stack ? array_slice($backtrace, $no) : [];
 					}
 					else
 					{
