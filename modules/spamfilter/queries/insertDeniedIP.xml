@@ -1,10 +1,12 @@
 <query id="insertDeniedIP" action="insert">
-    <tables>
-        <table name="spamfilter_denied_ip" />
-    </tables>
-    <columns>
-        <column name="ipaddress" var="ipaddress" notnull="notnull" />
-        <column name="description" var="description" />
-        <column name="regdate" var="regdate" default="curdate()" />
-    </columns>
+	<tables>
+		<table name="spamfilter_denied_ip" />
+	</tables>
+	<columns>
+		<column name="ipaddress" var="ipaddress" notnull="notnull" />
+		<column name="hit" default="0" />
+		<column name="except_member" var="except_member" />
+		<column name="description" var="description" />
+		<column name="regdate" var="regdate" default="curdate()" />
+	</columns>
 </query>

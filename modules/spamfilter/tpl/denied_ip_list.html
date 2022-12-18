@@ -13,6 +13,7 @@
 				<tr>
 					<th scope="col">IP</th>
 					<th scope="col">{$lang->description}</th>
+					<th scope="col">{$lang->cmd_spamfilter_except_member}</th>
 					<th scope="col"><a href="{getUrl('sort_index', 'latest_hit')}">{$lang->latest_hit} <!--@if($sort_index === 'latest_hit')-->▼<!--@endif--></a></th>
 					<th scope="col"><a href="{getUrl('sort_index', 'hit')}">{$lang->hit} <!--@if($sort_index === 'hit')-->▼<!--@endif--></a></th>
 					<th scope="col"><a href="{getUrl('sort_index', 'regdate')}">{$lang->regdate} <!--@if($sort_index === 'regdate' || !$sort_index)-->▼<!--@endif--></a></th>
@@ -23,6 +24,7 @@
 				<tr loop="$ip_list => $ip_info">
 					<td>{$ip_info->ipaddress}</td>
 					<td>{$ip_info->description}</td>
+					<td>{$ip_info->except_member}</td>
 					<td><!--@if($ip_info->latest_hit)-->{zdate($ip_info->latest_hit,'Y-m-d H:i')}<!--@else-->-<!--@end--></td>
 					<td>{$ip_info->hit}</td>
 					<td>{zdate($ip_info->regdate,'Y-m-d')}</td>

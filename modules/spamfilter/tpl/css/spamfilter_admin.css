@@ -1,5 +1,10 @@
 span.is_regexp {
 	display: inline-block;
 	margin-left: 4px;
-	color: red;
+	background: #888;
+	color: #fff;
+	font-size: 10px;
+	line-height: 12px;
+	padding: 2px 4px;
+	border-radius: 2px;
 }

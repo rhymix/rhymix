@@ -2,5 +2,8 @@
     <column name="word" type="varchar" size="100" notnull="notnull" primary_key="primary_key" />
     <column name="hit" type="number" notnull="notnull" default="0" index="idx_hit" />
     <column name="latest_hit" type="date" index="idx_latest_hit" />
+    <column name="except_member" type="char" size="1" default="N" />
+    <column name="filter_html" type="char" size="1" default="N" />
+    <column name="is_regexp" type="char" size="1" default="N" />
     <column name="regdate" type="date" index="idx_regdate" />
 </table>

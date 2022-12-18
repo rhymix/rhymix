@@ -211,6 +211,15 @@ class spamfilterAdminController extends spamfilter
 			{
 				continue;
 			}
+			if (preg_match('/^(.+?)#(.+)$/', $word, $matches))
+			{
+				$word = trim($matches[1]);
+				$description = trim($matches[2]);
+			}
+			else
+			{
+				$description = null;
+			}
 			
 			if (mb_strlen($word, 'UTF-8') < 2 || mb_strlen($word, 'UTF-8') > 180)
 			{
@@ -219,6 +228,8 @@ class spamfilterAdminController extends spamfilter
 			
 			$args = new stdClass;
 			$args->word = $word;
+			$args->description = $description;
+			$args->is_regexp = preg_match('#^/.+/$#', $word) ? 'Y' : 'N';
 			$output = executeQuery('spamfilter.insertDeniedWord', $args);
 			if (!$output->toBool())
 			{
