@@ -46,11 +46,19 @@ class spamfilterModel extends spamfilter
 			$ip_list = $this->getDeniedIPList();
 			Rhymix\Framework\Cache::set('spamfilter:denied_ip_list', $ip_list);
 		}
-		if(!count($ip_list)) return new BaseObject();
-		
-		$ip_ranges = array();
+		if (!count($ip_list))
+		{
+			return new BaseObject();
+		}
+
+		$is_logged = Context::get('is_logged');
 		foreach ($ip_list as $ip_range)
 		{
+			if (!empty($ip_range->except_member) && $ip_range->except_member === 'Y' && $is_logged)
+			{
+				continue;
+			}
+
 			if (Rhymix\Framework\Filters\IpFilter::inRange(\RX_CLIENT_IP, $ip_range->ipaddress))
 			{
 				$args = new stdClass();
@@ -84,22 +92,35 @@ class spamfilterModel extends spamfilter
 		if ($word_list === null)
 		{
 			$word_list = $this->getDeniedWordList();
-			Rhymix\Framework\Cache::set('spamfilter:denied_word_list', $ip_list);
+			Rhymix\Framework\Cache::set('spamfilter:denied_word_list', $word_list);
 		}
-		if(!count($word_list)) return new BaseObject();
+		if (!count($word_list))
+		{
+			return new BaseObject();
+		}
 
-		$text = strtolower(utf8_trim(utf8_normalize_spaces(htmlspecialchars_decode(strip_tags($text, '<a><img>')))));
+		$is_logged = Context::get('is_logged');
+		$fulltext = strtolower(utf8_trim(utf8_normalize_spaces($text)));
+		$plaintext = htmlspecialchars_decode(strip_tags($fulltext, '<a><img>'));
+		
 		foreach ($word_list as $word_item)
 		{
+			if (!empty($word_item->except_member) && $word_item->except_member === 'Y' && $is_logged)
+			{
+				continue;
+			}
+
+			$target = (!empty($word_item->filter_html) && $word_item->filter_html === 'Y') ? 'fulltext' : 'plaintext';
 			$word = $word_item->word;
 			$hit = false;
+
 			if (preg_match('#^/.+/$#', $word))
 			{
-				$hit = preg_match($word . 'iu', $text, $matches) ? $matches[0] : false;
+				$hit = preg_match($word . 'iu', $$target, $matches) ? $matches[0] : false;
 			}
 			if ($hit === false)
 			{
-				$hit = (strpos($text, strtolower($word)) !== false) ? $word : false;
+				$hit = (strpos($$target, strtolower($word)) !== false) ? $word : false;
 			}
 			if ($hit !== false)
 			{
