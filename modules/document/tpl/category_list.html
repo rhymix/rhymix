@@ -75,6 +75,7 @@
 				<label class="x_control-label">{$lang->category_group_srls}</label>
 				<div class="x_controls">
 					<label loop="$group_list => $key, $val" class="x_inline" for="group_{$key}"><input type="checkbox" name="group_srls[]" value="{$key}" id="group_{$key}" /> {$val->title}</label>
+					<p class="x_help-block">{$lang->about_category_group_srls}</p>
 				</div>
 			</div>
 			<div class="x_control-group">
