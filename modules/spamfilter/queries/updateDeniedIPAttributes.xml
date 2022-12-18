@@ -1,0 +1,11 @@
+<query id="updateDeniedIPAttributes" action="update">
+	<tables>
+		<table name="spamfilter_denied_ip" />
+	</tables>
+	<columns>
+		<column name="except_member" var="except_member" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="ipaddress" var="ipaddress" notnull="notnull" />
+	</conditions>
+</query>

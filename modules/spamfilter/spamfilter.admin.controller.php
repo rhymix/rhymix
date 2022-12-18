@@ -10,11 +10,11 @@ class spamfilterAdminController extends spamfilter
 	/**
 	 * @brief Initialization
 	 */
-	function init()
+	public function init()
 	{
 	}
 
-	function procSpamfilterAdminInsertConfig()
+	public function procSpamfilterAdminInsertConfig()
 	{
 		// Get current config
 		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
@@ -56,7 +56,7 @@ class spamfilterAdminController extends spamfilter
 		$this->setRedirectUrl($returnUrl);
 	}
 
-	function procSpamfilterAdminInsertConfigCaptcha()
+	public function procSpamfilterAdminInsertConfigCaptcha()
 	{
 		// Get current config
 		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
@@ -113,7 +113,7 @@ class spamfilterAdminController extends spamfilter
 		$this->setRedirectUrl($returnUrl);
 	}
 	
-	function procSpamfilterAdminInsertDeniedIP()
+	public function procSpamfilterAdminInsertDeniedIP()
 	{
 		//스팸IP  추가
 		$ipaddress_list = Context::get('ipaddress_list');
@@ -130,8 +130,49 @@ class spamfilterAdminController extends spamfilter
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
 		$this->setRedirectUrl($returnUrl);
 	}
+	
+	public function procSpamfilterAdminUpdateDeniedIP()
+	{
+		$ipaddress = Context::get('ipaddress');
+		if (!$ipaddress)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$args = new \stdClass;
+		$args->ipaddress = $ipaddress;
+		
+		$except_member = Context::get('except_member');
+		if (!empty($except_member))
+		{
+			$args->except_member = $except_member === 'Y' ? 'Y' : 'N';
+		}
+		else
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$output = executeQuery('spamfilter.updateDeniedIPAttributes', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		Rhymix\Framework\Cache::delete('spamfilter:denied_ip_list');
+	}
 
-	function procSpamfilterAdminInsertDeniedWord()
+	public function procSpamfilterAdminDeleteDeniedIP()
+	{
+		$ipAddressList = Context::get('ipaddress');
+		if($ipAddressList) $this->deleteIP($ipAddressList);
+
+		$this->setMessage(lang('success_deleted'));
+
+		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
+		return $this->setRedirectUrl($returnUrl);
+	}
+
+	public function procSpamfilterAdminInsertDeniedWord()
 	{
 		//스팸 키워드 추가
 		$word_list = Context::get('word_list');
@@ -148,24 +189,44 @@ class spamfilterAdminController extends spamfilter
 		$this->setRedirectUrl($returnUrl);
 	}
 
-	/**
-	 * @brief Delete the banned IP
-	 */
-	function procSpamfilterAdminDeleteDeniedIP()
+	public function procSpamfilterAdminUpdateDeniedWord()
 	{
-		$ipAddressList = Context::get('ipaddress');
-		if($ipAddressList) $this->deleteIP($ipAddressList);
-
-		$this->setMessage(lang('success_deleted'));
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminDeniedIPList');
-		return $this->setRedirectUrl($returnUrl);
+		$word = Context::get('word');
+		if (!$word)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$args = new \stdClass;
+		$args->word = $word;
+		
+		$except_member = Context::get('except_member');
+		if (!empty($except_member))
+		{
+			$args->except_member = $except_member === 'Y' ? 'Y' : 'N';
+		}
+		
+		$filter_html = Context::get('filter_html');
+		if (!empty($filter_html))
+		{
+			$args->filter_html = $filter_html === 'Y' ? 'Y' : 'N';
+		}
+		
+		if (!isset($args->except_member) && !isset($args->filter_html))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		
+		$output = executeQuery('spamfilter.updateDeniedWordAttributes', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		
+		Rhymix\Framework\Cache::delete('spamfilter:denied_word_list');
 	}
-
-	/**
-	 * @brief Delete the prohibited Word
-	 */
-	function procSpamfilterAdminDeleteDeniedWord()
+	
+	public function procSpamfilterAdminDeleteDeniedWord()
 	{
 		$wordList = Context::get('word');
 		$this->deleteWord($wordList);
@@ -180,7 +241,7 @@ class spamfilterAdminController extends spamfilter
 	 * @brief Delete IP
 	 * Remove the IP address which was previously registered as a spammers
 	 */
-	function deleteIP($ipaddress)
+	public function deleteIP($ipaddress)
 	{
 		if(!$ipaddress) return;
 
@@ -196,7 +257,7 @@ class spamfilterAdminController extends spamfilter
 	 * @brief Register the spam word
 	 * The post, which contains the newly registered spam word, should be considered as a spam
 	 */
-	function insertWord($word_list)
+	public function insertWord($word_list)
 	{
 		if (!is_array($word_list))
 		{
@@ -250,7 +311,7 @@ class spamfilterAdminController extends spamfilter
 	 * @brief Remove the spam word
 	 * Remove the word which was previously registered as a spam word
 	 */
-	function deleteWord($word)
+	public function deleteWord($word)
 	{
 		if(!$word) return;
 		$args = new stdClass;

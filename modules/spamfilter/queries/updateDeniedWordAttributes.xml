@@ -1,0 +1,12 @@
+<query id="updateDeniedWordAttributes" action="update">
+	<tables>
+		<table name="spamfilter_denied_word" />
+	</tables>
+	<columns>
+		<column name="except_member" var="except_member" />
+		<column name="filter_html" var="filter_html" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="word" var="word" notnull="notnull" />
+	</conditions>
+</query>

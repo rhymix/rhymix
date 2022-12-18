@@ -24,7 +24,7 @@
 				<tr loop="$ip_list => $ip_info">
 					<td>{$ip_info->ipaddress}</td>
 					<td>{$ip_info->description}</td>
-					<td>{$ip_info->except_member}</td>
+					<td><a class="denied_ip_toggle_except_member" href="#" data-ipaddress="{$ip_info->ipaddress}">{$ip_info->except_member}</a></td>
 					<td><!--@if($ip_info->latest_hit)-->{zdate($ip_info->latest_hit,'Y-m-d H:i')}<!--@else-->-<!--@end--></td>
 					<td>{$ip_info->hit}</td>
 					<td>{zdate($ip_info->regdate,'Y-m-d')}</td>

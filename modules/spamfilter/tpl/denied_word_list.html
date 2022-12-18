@@ -25,8 +25,8 @@
 				<tr loop="$word_list => $word_info">
 					<td>{$word_info->word} <!--@if(preg_match('#^/.+/$#', $word_info->word))--><span class="is_regexp">{$lang->cmd_spamfilter_is_regexp}</span><!--@end--></td>
 					<td>{$word_info->description}</td>
-					<td>{$word_info->except_member}</td>
-					<td>{$word_info->filter_html}</td>
+					<td><a class="denied_word_toggle_except_member" href="#" data-word="{$word_info->word}">{$word_info->except_member}</a></td>
+					<td><a class="denied_word_toggle_filter_html" href="#" data-word="{$word_info->word}">{$word_info->filter_html}</a></td>
 					<td><!--@if($word_info->latest_hit)-->{zdate($word_info->latest_hit,'Y-m-d H:i')}<!--@else-->-<!--@end--></td>
 					<td>{$word_info->hit}</td>
 					<td>{zdate($word_info->regdate,'Y-m-d')}</td>
