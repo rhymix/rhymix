@@ -49,7 +49,13 @@ class fileAdminController extends file
 		}
 		
 		$this->setMessage(sprintf(lang('msg_checked_file_is_deleted'), $file_count));
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList'));
+		
+		$redirect_url = $_SERVER['HTTP_REFERER'] ?? '';
+		if (!$redirect_url || !Rhymix\Framework\URL::isInternalURL($redirect_url))
+		{
+			$redirect_url = Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminList');
+		}
+		$this->setRedirectUrl($redirect_url);
 	}
 
 	/**
