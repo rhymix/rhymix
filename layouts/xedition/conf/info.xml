@@ -118,7 +118,7 @@
 			</var>
 
 			<var name="enable_intergration_search" type="select">
-				<title xml:lang="ko">통함 검색</title>
+				<title xml:lang="ko">통합 검색</title>
 				<options value="Y">
 					<title xml:lang="ko">사용</title>
 				</options>
