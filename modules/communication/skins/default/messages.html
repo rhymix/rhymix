@@ -47,6 +47,7 @@
 <div class="btnArea btn-group" cond="$message" style="margin-bottom:20px">
 	<button class="btn" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
 	<button class="btn" cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>
+	<button class="btn" cond="$message->message_type == 'T'" type="button" onclick="doRestoreMessage('{$message->message_srl}');">{$lang->cmd_restore_to_inbox}</button>
 	<button class="btn" type="button" onclick="doDeleteMessage('{$message->message_srl}');">{$lang->cmd_delete}</button>
 </div>
 

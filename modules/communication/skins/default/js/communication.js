@@ -27,10 +27,20 @@ function completeDeleteMessage(ret_obj) {
 /* 개별 쪽지 보관 */
 function doStoreMessage(message_srl) {
     if(!message_srl) return;
+    var params = { message_srl: message_srl };
+    exec_json('communication.procCommunicationStoreMessage', params, function(data) {
+		alert(data.message);
+		location.href = current_url.setQuery('message_type', 'T');
+	});
+}
 
-    var params = new Array();
-    params['message_srl'] = message_srl;
-    exec_xml('communication', 'procCommunicationStoreMessage', params, completeStoreMessage);
+function doRestoreMessage(message_srl) {
+    if(!message_srl) return;
+    var params = { message_srl: message_srl };
+    exec_json('communication.procCommunicationRestoreMessage', params, function(data) {
+		alert(data.message);
+		location.href = current_url.setQuery('message_type', 'R');
+	});
 }
 
 function completeStoreMessage(ret_obj) {

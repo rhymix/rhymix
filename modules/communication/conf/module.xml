@@ -13,6 +13,7 @@
 		<action name="procCommunicationUpdateAllowMessage" type="controller" permission="member" />
 		<action name="procCommunicationSendMessage" type="controller" permission="member" ruleset="sendMessage" />
 		<action name="procCommunicationStoreMessage" type="controller" permission="member" />
+		<action name="procCommunicationRestoreMessage" type="controller" permission="member" />
 		<action name="procCommunicationDeleteMessage" type="controller" permission="member" />
 		<action name="procCommunicationDeleteMessages" type="controller" permission="member" />
 		<action name="procCommunicationAddFriend" type="controller" permission="member" ruleset="addFriend" />

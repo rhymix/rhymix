@@ -261,8 +261,7 @@ class communicationController extends communication
 	}
 
 	/**
-	 * store a specific message into the archive
-	 * @return void|Object (success : void, fail : Object)
+	 * Move a message to the archive.
 	 */
 	function procCommunicationStoreMessage()
 	{
@@ -283,7 +282,7 @@ class communicationController extends communication
 		// get the message
 		$oCommunicationModel = getModel('communication');
 		$message = $oCommunicationModel->getSelectedMessage($message_srl);
-		if(!$message || $message->message_type != 'R')
+		if(!$message || $message->receiver_srl !== $logged_info->member_srl || $message->message_type != 'R')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -297,7 +296,47 @@ class communicationController extends communication
 			return $output;
 		}
 		$this->updateFlagFile($logged_info->member_srl);
-		$this->setMessage('success_registed');
+		$this->setMessage('msg_success_moved');
+	}
+
+	/**
+	 * Restore an archived message to the inbox.
+	 */
+	function procCommunicationRestoreMessage()
+	{
+		// Check login information
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+		$logged_info = Context::get('logged_info');
+
+		// Check variable
+		$message_srl = Context::get('message_srl');
+		if(!$message_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		// get the message
+		$oCommunicationModel = getModel('communication');
+		$message = $oCommunicationModel->getSelectedMessage($message_srl);
+		if(!$message || $message->receiver_srl !== $logged_info->member_srl || $message->message_type != 'T')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$args = new stdClass();
+		$args->message_srl = $message_srl;
+		$args->receiver_srl = $logged_info->member_srl;
+		$args->message_type = 'R';
+		$output = executeQuery('communication.setMessageStored', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+		$this->updateFlagFile($logged_info->member_srl);
+		$this->setMessage('msg_success_moved');
 	}
 
 	/**
