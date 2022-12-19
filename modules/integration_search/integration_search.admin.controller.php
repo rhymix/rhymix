@@ -30,6 +30,7 @@ class integration_searchAdminController extends integration_search
 
 		$config->skin = Context::get('skin');
 		$config->mskin = Context::get('mskin');
+		$config->block_robots = Context::get('block_robots') === 'N' ? false : true;
 		$config->target = Context::get('target');
 		$config->target_module_srl = Context::get('target_module_srl');
 		if(!$config->target_module_srl) $config->target_module_srl = '';

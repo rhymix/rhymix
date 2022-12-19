@@ -54,8 +54,17 @@ class integration_searchView extends integration_search
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 		
-		// Set skin path
+		// Block robots
 		$config = $oModuleModel->getModuleConfig('integration_search') ?: new stdClass;
+		if (!isset($config->block_robots) || $config->block_robots !== false)
+		{
+			if (isCrawler())
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+		}
+		
+		// Set skin path
 		if(ends_with('Mobile', get_class($this), false))
 		{
 			if(!$config->mskin || $config->mskin === '/USE_RESPONSIVE/')

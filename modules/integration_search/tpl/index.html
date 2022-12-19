@@ -34,6 +34,15 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label for="block_robots" class="x_control-label">{$lang->integration_search_block_robots}</label>
+		<div class="x_controls">
+			<select name="block_robots" id="block_robots">
+				<option value="Y" selected="selected"|cond="!isset($config->block_robots) || $config->block_robots">{$lang->cmd_yes}</option>
+				<option value="N" selected="selected"|cond="isset($config->block_robots) && !$config->block_robots">{$lang->cmd_no}</option>
+			</select>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label">{$lang->target}</label>
 		<div class="x_controls">
 			<select name="target">

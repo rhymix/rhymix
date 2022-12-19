@@ -9,6 +9,7 @@ $lang->msg_not_enabled = '통합 검색을 사용할 수 없습니다.';
 $lang->msg_admin_not_enabled = '통합 검색을 사용할 수 없습니다. 통합검색 설정에서 대상 모듈을 선택하세요.';
 $lang->is_result_text = '<strong>\'%s\'</strong>에 대한 검색결과 <strong>%d</strong>건';
 $lang->multimedia = '이미지/동영상';
+$lang->integration_search_block_robots = '로봇 접근 차단';
 $lang->include_search_target = '선택된 대상만 검색';
 $lang->exclude_search_target = '선택된 대상을 검색에서 제외';
 $lang->is_search_option['document']['title_content'] = '제목+내용';
