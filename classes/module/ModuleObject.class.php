@@ -277,9 +277,9 @@ class ModuleObject extends BaseObject
 					}
 					
 					// Check permission
-					if($this->checkPermission($grant) !== true)
+					if(!$this->checkPermission($grant, $this->user))
 					{
-						$this->stop('msg_not_permitted_act');
+						$this->stop($this->user->isMember() ? 'msg_not_permitted_act' : 'msg_not_logged');
 						return false;
 					}
 				}
@@ -293,9 +293,9 @@ class ModuleObject extends BaseObject
 			$grant = ModuleModel::getInstance()->getGrant($this->module_info, $this->user, $this->xml_info);
 			
 			// Check permission
-			if($this->checkPermission($grant) !== true)
+			if(!$this->checkPermission($grant, $this->user))
 			{
-				$this->stop('msg_not_permitted_act');
+				$this->stop($this->user->isMember() ? 'msg_not_permitted_act' : 'msg_not_logged');
 				return false;
 			}
 		}
@@ -357,7 +357,7 @@ class ModuleObject extends BaseObject
 		// If permission is 'member', check logged-in
 		else if($permission == 'member')
 		{
-			if(Context::get('is_logged'))
+			if($member_info->member_srl)
 			{
 				return true;
 			}

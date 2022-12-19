@@ -131,7 +131,7 @@ class boardView extends board
 		 **/
 		if(!$this->grant->access || !$this->grant->list)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			$this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		/**
@@ -178,6 +178,10 @@ class boardView extends board
 		if ($output instanceof DocumentItem)
 		{
 			$this->setRedirectUrl($output->getPermanentUrl());
+			return;
+		}
+		if ($this->getHttpStatusCode() > 200)
+		{
 			return;
 		}
 
@@ -285,8 +289,8 @@ class boardView extends board
 			else
 			{
 				// if the document is not existed, then alert a warning message
-				Context::set('document_srl','',true);
-				$this->alertMessage('msg_not_founded', 404);
+				Context::set('document_srl', null, true);
+				$this->dispBoardMessage('msg_not_founded', 404);
 			}
 
 		/**
@@ -306,8 +310,8 @@ class boardView extends board
 			if(!$this->grant->view && !$oDocument->isGranted())
 			{
 				$oDocument = DocumentModel::getDocument(0);
-				Context::set('document_srl','',true);
-				$this->alertMessage('msg_not_permitted', 403);
+				Context::set('document_srl', null, true);
+				$this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 			}
 			else
 			{
@@ -778,7 +782,7 @@ class boardView extends board
 		// check grant
 		if(!$this->grant->write_document)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		/**
@@ -964,7 +968,7 @@ class boardView extends board
 		// check grant
 		if(!$this->grant->write_document)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		// get the document_srl from request
@@ -1035,14 +1039,14 @@ class boardView extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		// get the document information
 		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
-			return $this->dispBoardMessage('msg_not_founded');
+			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
 
 		// Check allow comment
@@ -1077,7 +1081,7 @@ class boardView extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		// get the parent comment ID
@@ -1095,11 +1099,11 @@ class boardView extends board
 		// if the comment is not existed, opoup an error message
 		if(!$oSourceComment->isExists())
 		{
-			return $this->dispBoardMessage('msg_not_founded');
+			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
 		if(Context::get('document_srl') && $oSourceComment->get('document_srl') != Context::get('document_srl'))
 		{
-			return $this->dispBoardMessage('msg_not_founded');
+			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
 
 		// Check allow comment
@@ -1135,7 +1139,7 @@ class boardView extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		// get the document_srl and comment_srl
@@ -1212,7 +1216,7 @@ class boardView extends board
 		// check grant
 		if(!$this->grant->write_comment)
 		{
-			return $this->dispBoardMessage('msg_not_permitted');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		// get the comment_srl to be deleted
@@ -1309,17 +1313,6 @@ class boardView extends board
 		Context::addJsFilter($this->module_path.'tpl/filter', 'delete_trackback.xml');
 
 		$this->setTemplateFile('delete_trackback_form');
-	}
-
-	/**
-	 * @brief display board message
-	 **/
-	function dispBoardMessage($msg_code)
-	{
-		Context::set('message', lang($msg_code));
-		
-		$this->setHttpStatusCode(403);
-		$this->setTemplateFile('message');
 	}
 
 	function dispBoardUpdateLog()
@@ -1448,21 +1441,47 @@ class boardView extends board
 		$this->setTemplateFile('vote_log');
 	}
 	
+	/**
+	 * Default 404 Handler.
+	 */
 	function dispBoardNotFound()
 	{
-		$this->alertMessage('msg_not_founded', 404);
+		$this->dispBoardMessage('msg_not_founded', 404);
 	}
 
 	/**
-	 * @brief the method for displaying the warning messages
-	 * display an error message if it has not  a special design
-	 **/
-	function alertMessage($message, $code = 403)
+	 * Display an error page.
+	 * 
+	 * @param string $msg_code
+	 * @param int $http_code
+	 * @return void
+	 */
+	function dispBoardMessage($msg_code, $http_code = 403)
 	{
-		$script =  sprintf('<script> jQuery(function(){ alert("%s"); } );</script>', lang($message));
+		//Context::set('message', lang($msg_code));
+		//$this->setTemplateFile('message');
+		$oMessageObject = MessageView::getInstance();
+		$oMessageObject->setMessage($msg_code);
+		$oMessageObject->dispMessage();
+		$this->setTemplatePath($oMessageObject->getTemplatePath());
+		$this->setTemplateFile($oMessageObject->getTemplateFile());
+		$this->setHttpStatusCode($http_code);
+	}
+
+	/**
+	 * Display an alert window on top of the page.
+	 * 
+	 * @deprecated
+	 * 
+	 * @param string $msg_code
+	 * @param int $http_code
+	 * @return void
+	 */
+	function alertMessage($msg_code, $http_code = 403)
+	{
+		$script = sprintf('<script> jQuery(function(){ alert(%s); } );</script>', json_encode(lang($msg_code)));
 		Context::addHtmlFooter($script);
-		
-		$this->setHttpStatusCode($code);
+		$this->setHttpStatusCode($http_code);
 	}
 
 }
