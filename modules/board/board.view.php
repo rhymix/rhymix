@@ -1460,7 +1460,7 @@ class boardView extends board
 	{
 		//Context::set('message', lang($msg_code));
 		//$this->setTemplateFile('message');
-		$oMessageObject = MessageView::getInstance();
+		$oMessageObject = $this instanceof BoardMobile ? MessageMobile::getInstance() : MessageView::getInstance();
 		$oMessageObject->setMessage($msg_code);
 		$oMessageObject->dispMessage();
 		$this->setTemplatePath($oMessageObject->getTemplatePath());
