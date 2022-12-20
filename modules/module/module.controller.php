@@ -190,10 +190,9 @@ class moduleController extends module
 		return $output;
 	}
 
-	function updateModuleConfig($module, $config)
+	public function updateModuleConfig($module, $config)
 	{
 		$origin_config = ModuleModel::getModuleConfig($module) ?: new stdClass;
-		
 		foreach($config as $key => $val)
 		{
 			$origin_config->{$key} = $val;
@@ -201,11 +200,21 @@ class moduleController extends module
 		
 		return $this->insertModuleConfig($module, $origin_config);
 	}
+	
+	public function updateModuleSectionConfig($module, $section, $config)
+	{
+		$origin_config = ModuleModel::getModuleSectionConfig($module, $section) ?: new stdClass;
+		foreach($config as $key => $val)
+		{
+			$origin_config->{$key} = $val;
+		}
+		
+		return $this->insertModuleSectionConfig($module, $section, $origin_config);
+	}
 
-	function updateModulePartConfig($module, $module_srl, $config)
+	public function updateModulePartConfig($module, $module_srl, $config)
 	{
 		$origin_config = ModuleModel::getModulePartConfig($module, $module_srl) ?: new stdClass;
-		
 		foreach($config as $key => $val)
 		{
 			$origin_config->{$key} = $val;
@@ -215,10 +224,13 @@ class moduleController extends module
 	}
 
 	/**
-	 * @brief Enter a specific set of modules
-	 * In order to manage global configurations of modules such as board, member and so on
+	 * Save global config for a module.
+	 * 
+	 * @param string $module
+	 * @param object $config
+	 * @return BaseObject
 	 */
-	function insertModuleConfig($module, $config)
+	public function insertModuleConfig($module, $config)
 	{
 		$args =new stdClass();
 		$args->module = $module;
@@ -249,10 +261,27 @@ class moduleController extends module
 	}
 
 	/**
-	 * @brief Save module configurations of the mid
-	 * Manage mid configurations depending on module
+	 * Save an independent section of module config.
+	 * 
+	 * @param string $module
+	 * @param string $section
+	 * @param object $config
+	 * @return BaseObject
 	 */
-	function insertModulePartConfig($module, $module_srl, $config)
+	public function insertModuleSectionConfig($module, $section, $config)
+	{
+		return $this->insertModuleConfig("$module:$section", $config);
+	}
+
+	/**
+	 * Save module config for a specific module_srl.
+	 * 
+	 * @param string $module
+	 * @param int $module_srl
+	 * @param object $config
+	 * @return BaseObject
+	 */
+	public function insertModulePartConfig($module, $module_srl, $config)
 	{
 		$args = new stdClass();
 		$args->module = $module;

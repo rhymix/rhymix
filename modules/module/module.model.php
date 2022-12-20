@@ -1208,8 +1208,7 @@ class moduleModel extends module
 	}
 
 	/**
-	 * @brief Return module configurations
-	 * Global configuration is used to manage board, member and others
+	 * Get global config for a module.
 	 * 
 	 * @param string $module
 	 * @return mixed
@@ -1249,8 +1248,19 @@ class moduleModel extends module
 	}
 
 	/**
-	 * @brief Return the module configuration of mid
-	 * Manage mid configurations which depend on module
+	 * Get an independent section of module config.
+	 * 
+	 * @param string $module
+	 * @param string $section
+	 * @return mixed
+	 */
+	public static function getModuleSectionConfig($module, $section)
+	{
+		return self::getModuleConfig("$module:$section");
+	}
+
+	/**
+	 * Get config for a specific module_srl.
 	 * 
 	 * @param string module
 	 * @param int $module_srl
