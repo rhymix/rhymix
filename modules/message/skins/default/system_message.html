@@ -1,5 +1,5 @@
 <load target="../../../../common/js/jquery.min.js" index="-1000000" />
-<block cond="!$is_logged && $module == 'admin'">
+<block cond="!$is_logged">
 <load target="../../../../common/css/bootstrap.min.css" index="1" />
 </block>
 <load target="./filter/openid_login.xml" />
@@ -15,11 +15,11 @@
 			{$system_message_location}
 		</div>
 	</div>
-	<div class="login-body">
+	<div class="login-body" cond="!$is_logged">
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/message/skins/default/system_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
-		<form cond="!$is_logged && $module == 'admin'" ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post">
+		<form ruleset="@login" action="{getUrl('','act','procMemberLogin')}" method="post">
 			<input type="hidden" name="module" value="member" />
 			<input type="hidden" name="act" value="procMemberLogin" />
 			<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
@@ -42,9 +42,6 @@
 		</form>
 		<p cond="$is_logged" style="text-align:center">
 			<a href="{getUrl('','act','dispMemberLogout','module','')}" class="btn">{$lang->cmd_logout}</a>
-		</p>
-		<p cond="!$is_logged && $module != 'admin'" style="text-align:center">
-			<a href="{getUrl('','act','dispMemberLoginForm','module','', 'mid', '')}" class="btn">{$lang->cmd_login}</a>
 		</p>
 	</div>
 	<div class="login-footer" cond="!$is_logged">
