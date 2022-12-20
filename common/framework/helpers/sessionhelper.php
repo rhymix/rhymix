@@ -5,6 +5,7 @@ namespace Rhymix\Framework\Helpers;
 /**
  * Session helper class.
  */
+#[AllowDynamicProperties]
 class SessionHelper
 {
 	/**
