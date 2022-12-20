@@ -277,12 +277,12 @@ class Debug
 		
 		// Create a log entry.
 		$entry = (object)array(
-			'type' => 'Debug',
-			'time' => microtime(true),
 			'message' => unserialize(serialize($message)),
 			'file' => isset($backtrace[0]['file']) ? $backtrace[0]['file'] : null,
 			'line' => isset($backtrace[0]['line']) ? $backtrace[0]['line'] : 0,
 			'backtrace' => $backtrace,
+			'time' => microtime(true),
+			'type' => 'Debug',
 		);
 		self::$_entries[] = $entry;
 		
@@ -333,12 +333,12 @@ class Debug
 		
 		// Prepare the error entry.
 		self::$_errors[] = $errinfo = (object)array(
-			'type' => self::getErrorType($errno),
-			'time' => microtime(true),
 			'message' => $message,
 			'file' => $errfile,
 			'line' => $errline,
 			'backtrace' => $backtrace,
+			'time' => microtime(true),
+			'type' => self::getErrorType($errno),
 		);
 		
 		// Add the entry to the error log.
@@ -364,18 +364,18 @@ class Debug
 		
 		// Prepare the log entry.
 		$query_object = (object)array(
-			'type' => 'Query',
-			'time' => microtime(true),
+			'query_id' => $query['query_id'],
+			'query_time' => floatval($query['elapsed_time']),
+			'query_string' => $query['query'],
+			'query_connection' => $query['connection'],
 			'message' => $query['result'] === 'success' ? 'success' : $query['errstr'],
 			'error_code' => $query['result'] === 'success' ? 0 : $query['errno'],
-			'query_id' => $query['query_id'],
-			'query_connection' => $query['connection'],
-			'query_string' => $query['query'],
-			'query_time' => floatval($query['elapsed_time']),
 			'file' => $query['called_file'],
 			'line' => $query['called_line'],
 			'method' => $query['called_method'],
 			'backtrace' => $query['backtrace'] ?: array(),
+			'time' => microtime(true),
+			'type' => 'Query',
 		);
 		
 		self::$_queries[] = $query_object;
@@ -385,12 +385,12 @@ class Debug
 		if ($query['result'] === 'error')
 		{
 			$error_object = (object)array(
-				'type' => 'Query Error',
-				'time' => $query_object->time,
 				'message' => $query['errstr'] . ' (code ' . intval($query['errno']) . ')',
 				'file' => $query_object->file,
 				'line' => $query_object->line,
 				'backtrace' => $query_object->backtrace ?: array(),
+				'time' => $query_object->time,
+				'type' => 'Query Error',
 			);
 			
 			self::$_errors[] = $error_object;
@@ -424,16 +424,16 @@ class Debug
 		
 		// Prepare the log entry.
 		$trigger_object = (object)array(
-			'type' => 'Trigger',
-			'time' => microtime(true),
-			'message' => null,
-			'file' => null,
-			'line' => null,
-			'backtrace' => array(),
 			'trigger_name' => $trigger['name'],
 			'trigger_target' => $trigger['target'],
 			'trigger_plugin' => $trigger['target_plugin'],
 			'trigger_time' => $trigger['elapsed_time'],
+			'message' => null,
+			'file' => null,
+			'line' => null,
+			'backtrace' => array(),
+			'time' => microtime(true),
+			'type' => 'Trigger',
 		);
 		
 		self::$_triggers[] = $trigger_object;
@@ -458,14 +458,14 @@ class Debug
 		
 		// Prepare the log entry.
 		$widget_object = (object)array(
-			'type' => 'Widget',
-			'time' => microtime(true),
+			'widget_name' => $widget['name'],
+			'widget_time' => $widget['elapsed_time'],
 			'message' => null,
 			'file' => null,
 			'line' => null,
 			'backtrace' => array(),
-			'widget_name' => $widget['name'],
-			'widget_time' => $widget['elapsed_time'],
+			'time' => microtime(true),
+			'type' => 'Widget',
 		);
 		
 		self::$_widgets[] = $widget_object;
@@ -490,16 +490,16 @@ class Debug
 		
 		// Prepare the log entry.
 		$request_object = (object)array(
-			'type' => 'Remote Request',
-			'time' => microtime(true),
-			'message' => null,
 			'url' => $request['url'],
 			'status' => $request['status'],
+			'elapsed_time' => $request['elapsed_time'],
+			'message' => null,
 			'file' => $request['called_file'],
 			'line' => $request['called_line'],
 			'method' => $request['called_method'],
 			'backtrace' => $request['backtrace'],
-			'elapsed_time' => $request['elapsed_time'],
+			'time' => microtime(true),
+			'type' => 'Remote Request',
 		);
 		
 		self::$_remote_requests[] = $request_object;
@@ -784,14 +784,14 @@ class Debug
 			'memory' => memory_get_peak_usage(),
 			'timing' => (object)array(
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
-				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),
-				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__'] ?? 0),
 				'db_query' => sprintf('%0.4f sec (count: %d)', self::$_query_time, count(self::$_queries)),
 				'db_class' => sprintf('%0.4f sec', max(0, $db->getTotalElapsedTime() - self::$_query_time)),
-				'session' => sprintf('%0.4f sec', self::$_session_time),
 				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__'] ?? 0),
 				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__'] ?? 0),
 				'remote' => sprintf('%0.4f sec', $GLOBALS['__remote_request_elapsed__'] ?? 0),
+				'session' => sprintf('%0.4f sec', self::$_session_time),
+				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__'] ?? 0),
+				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),
 				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__'] ?? 0),
 			),
 			'entries' => self::$_entries,
@@ -802,6 +802,15 @@ class Debug
 			'slow_widgets' => self::$_slow_widgets,
 			'slow_remote_requests' => self::$_slow_remote_requests,
 		);
+		
+		// Clean up the querystring.
+		if (isset($data->queries))
+		{
+			foreach ($data->queries as $query)
+			{
+				$query->query_string = trim(utf8_normalize_spaces($query->query_string, true));
+			}
+		}
 		
 		// Clean up the backtrace.
 		foreach (array('entries', 'errors', 'queries', 'slow_queries', 'remote_requests', 'slow_remote_requests') as $key)

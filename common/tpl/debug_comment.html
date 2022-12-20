@@ -15,13 +15,14 @@ Response Body Size:  <?php echo $data->response->size . "\n"; ?>
 Page Generation Time
 ====================
 Total Time:              <?php echo $data->timing->total . "\n"; ?>
-Template Compile Time:   <?php echo $data->timing->template . "\n"; ?>
-XML Parsing Time:        <?php echo $data->timing->xmlparse . "\n"; ?>
 DB Query Time:           <?php echo $data->timing->db_query . "\n"; ?>
 DB Processing Time:      <?php echo $data->timing->db_class . "\n"; ?>
 Layout Processing Time:  <?php echo $data->timing->layout . "\n"; ?>
 Widget Processing Time:  <?php echo $data->timing->widget . "\n"; ?>
 Remote Request Time:     <?php echo $data->timing->remote . "\n"; ?>
+Session Lock Wait Time:  <?php echo $data->timing->session . "\n"; ?>
+XML Parsing Time:        <?php echo $data->timing->xmlparse . "\n"; ?>
+Template Compile Time:   <?php echo $data->timing->template . "\n"; ?>
 Content Transform Time:  <?php echo $data->timing->trans . "\n"; ?>
 
 Resource Usage
@@ -98,18 +99,25 @@ Database Queries
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
 		$query_result = ($query->message === 'success') ? 'success' : $query->message;
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
-		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
-		foreach ($query->backtrace ?? [] as $key => $backtrace)
+		if (empty($query->backtrace))
 		{
-			if (isset($backtrace['file']) && isset($backtrace['line']))
-			{
-				echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
-			}
+			echo sprintf('    - Caller:      %s', $query_caller) . "\n";
 		}
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
 		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
 		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
+		if (!empty($query->backtrace))
+		{
+			echo sprintf('    - Call Stack:  %s', $query_caller) . "\n";
+			foreach ($query->backtrace ?? [] as $key => $backtrace)
+			{
+				if (isset($backtrace['file']) && isset($backtrace['line']))
+				{
+					echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+				}
+			}
+		}
 	}
 ?>
 <?php endif; ?>
@@ -128,18 +136,25 @@ Slow Queries
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
 		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
-		echo sprintf('    - Caller:      %s', $query_caller) . "\n";
-		foreach ($query->backtrace ?? [] as $key => $backtrace)
+		if (empty($query->backtrace))
 		{
-			if (isset($backtrace['file']) && isset($backtrace['line']))
-			{
-				echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
-			}
+			echo sprintf('    - Caller:      %s', $query_caller) . "\n";
 		}
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
 		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
 		echo sprintf('    - Query Time:  %0.4f sec', $query->query_time) . "\n";
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
+		if (!empty($query->backtrace))
+		{
+			echo sprintf('    - Call Stack:  %s', $query_caller) . "\n";
+			foreach ($query->backtrace as $key => $backtrace)
+			{
+				if (isset($backtrace['file']) && isset($backtrace['line']))
+				{
+					echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+				}
+			}
+		}
 	}
 ?>
 <?php endif; ?>
