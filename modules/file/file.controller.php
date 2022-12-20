@@ -1037,27 +1037,17 @@ class fileController extends file
 		}
 		
 		// Adjust image rotation
-		if ($config->image_autorotate && $image_info['type'] === 'jpg' && function_exists('exif_read_data'))
+		if ($config->image_autorotate && $image_info['type'] === 'jpg')
 		{
-			$exif = @exif_read_data($file_info['tmp_name']);
-			if($exif && isset($exif['Orientation']))
+			$rotate = FileHandler::checkImageRotation($file_info['tmp_name']);
+			if ($rotate)
 			{
-				switch ($exif['Orientation'])
+				if ($rotate === 90 || $rotate === 270)
 				{
-					case 3: $rotate = 180; break;
-					case 6: $rotate = 270; break;
-					case 8: $rotate = 90; break;
-					default: $rotate = 0;
+					$adjusted['width'] = $image_info['height'];
+					$adjusted['height'] = $image_info['width'];
 				}
-				if ($rotate)
-				{
-					if ($rotate === 90 || $rotate === 270)
-					{
-						$adjusted['width'] = $image_info['height'];
-						$adjusted['height'] = $image_info['width'];
-					}
-					$adjusted['rotate'] = $rotate;
-				}
+				$adjusted['rotate'] = $rotate;
 			}
 		}
 		

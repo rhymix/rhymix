@@ -486,6 +486,38 @@ class FileHandler
 	}
 
 	/**
+	 * Check if image needs rotation
+	 * 
+	 * @param string $filename
+	 * @return int|bool 0, 90, 180, 360, or false
+	 */
+	public static function checkImageRotation(string $filename)
+	{
+		if (function_exists('exif_read_data'))
+		{
+			$exif = @exif_read_data($filename);
+			if($exif && isset($exif['Orientation']))
+			{
+				switch ($exif['Orientation'])
+				{
+					case 3: return 180;
+					case 6: return 270;
+					case 8: return 90;
+					default: return 0;
+				}
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Moves an image file (resizing is possible)
 	 *
 	 * @param string $source_file Path of the source file
