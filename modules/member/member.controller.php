@@ -1251,7 +1251,7 @@ class memberController extends member
 		Context::loadLang(RX_BASEDIR . 'modules/file/lang');
 
 		// Get file information
-		FileHandler::clearStatCache($target_file);
+		clearstatcache($target_file);
 		list($width, $height, $type) = @getimagesize($target_file);
 		if(IMAGETYPE_PNG == $type) $ext = 'png';
 		elseif(IMAGETYPE_JPEG == $type) $ext = 'jpg';
@@ -1278,14 +1278,18 @@ class memberController extends member
 		{
 			$resize = false;
 		}
-		
-		if ($resize)
+
+		// Check image rotation
+		$rotate = $ext === 'jpg' ? FileHandler::checkImageRotation($target_file) : 0;
+
+		// Resize or rotate if necessary
+		if ($resize || $rotate)
 		{
 			$temp_filename = sprintf('files/cache/tmp/profile_image_%d.%s', $member_srl, $ext);
-			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, $ext, 'fill', 75);
+			FileHandler::createImageFile($target_file, $temp_filename, $max_width, $max_height, $ext, 'fill', 75, $rotate);
 
 			// 파일 용량 제한
-			FileHandler::clearStatCache($temp_filename);
+			clearstatcache($temp_filename);
 			$filesize = filesize($temp_filename);
 			if($max_filesize && $filesize > ($max_filesize * 1024))
 			{
