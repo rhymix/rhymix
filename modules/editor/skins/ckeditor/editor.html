@@ -185,6 +185,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 
 		// Define the simple toolbar.
 		<!--@if($editor_toolbar === 'simple')-->
+			CKEDITOR.toolbarMode = 'simple';
 			settings.ckeconfig.toolbar = [
 				{ name: 'styles', items: [ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', 'Strike', 'TextColor', 'BGColor' ] },
 				{ name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight' ] },
@@ -192,6 +193,8 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 				{ name: 'insert', items: [ 'Link', 'Image', 'Table' ] },
 				{ name: 'tools', items: [ 'Maximize', '-', 'Source' ] }
 			];
+		<!--@else-->
+			CKEDITOR.toolbarMode = 'default';
 		<!--@endif-->
 
 		<!--@if(!$html_mode)-->
