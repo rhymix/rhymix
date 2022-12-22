@@ -9,6 +9,16 @@ if (defined('RX_VERSION'))
 }
 
 /**
+ * Check PHP version.
+ */
+if (version_compare(PHP_VERSION, '7.2', '<'))
+{
+	header('HTTP/1.1 500 Internal Server Error');
+	echo 'Rhymix requires PHP 7.2 or higher.';
+	exit(1);
+}
+
+/**
  * Set error reporting rules.
  */
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
