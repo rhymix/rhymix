@@ -55,16 +55,23 @@ class spamfilterController extends spamfilter
 		$output = $oFilterModel->isDeniedIP();
 		if(!$output->toBool()) return $output;
 		// Check if there is a ban on the word
-		$text = '';
-		if($is_logged)
+		$filter_targets = [$obj->title, $obj->content, $obj->tags ?? ''];
+		if(!$is_logged)
 		{
-			$text = $obj->title . ' ' . $obj->content . ' ' . $obj->tags;
+			$filter_targets[] = $obj->nick_name;
+			$filter_targets[] = $obj->homepage;
 		}
-		else
+		foreach ($obj as $key => $val)
 		{
-			$text = $obj->title . ' ' . $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage . ' ' . $obj->tags;	
+			if (preg_match('/^extra_vars\d+$/', $key) && !empty($val))
+			{
+				foreach (is_array($val) ? $val : explode('|@|', $val) as $fragment)
+				{
+					$filter_targets[] = $fragment;
+				}
+			}
 		}
-		$output = $oFilterModel->isDeniedWord($text);
+		$output = $oFilterModel->isDeniedWord(implode("\n", $filter_targets));
 		if(!$output->toBool())
 		{
 			return $output;
