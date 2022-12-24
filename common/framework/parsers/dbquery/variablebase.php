@@ -346,6 +346,9 @@ class VariableBase
 				return [false, \RX_CLIENT_IP];
 			case 'unixtime()':
 				return [false, time()];
+			case 'timestamp()':
+			case 'now()':
+				return [false, date('Y-m-d H:i:s')];
 			case 'curdate()':
 			case 'datetime()':
 				return [false, date('YmdHis')];
@@ -362,7 +365,7 @@ class VariableBase
 		}
 		
 		// If the default value is a calculation based on the current value, return a query string.
-		if (isset($column) && preg_match('/^(plus|minus|multiply)\(([0-9]+)\)$/', $this->default, $matches))
+		if (isset($column) && preg_match('/^(plus|minus|multiply|divide|timestamp)\(([^)]+)\)$/', $this->default, $matches))
 		{
 			switch ($matches[1])
 			{
@@ -372,6 +375,8 @@ class VariableBase
 					return [true, sprintf('%s - %d', Query::quoteName($column), $matches[2])];
 				case 'multiply':
 					return [true, sprintf('%s * %d', Query::quoteName($column), $matches[2])];
+				case 'timestamp':
+					return [false, date($matches[2])];
 			}
 		}
 		

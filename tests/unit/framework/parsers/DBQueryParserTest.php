@@ -399,7 +399,7 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$this->assertNull($query->tables['documents']->alias);
 		$this->assertEquals('comments', $query->tables['c']->name);
 		$this->assertEquals('c', $query->tables['c']->alias);
-		$this->assertEquals(4, count($query->columns));
+		$this->assertEquals(6, count($query->columns));
 		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
 		$this->assertEquals('member_srl', $query->columns[0]->name);
 		$this->assertEquals('member_srl', $query->columns[0]->var);
@@ -421,15 +421,17 @@ class DBQueryParserTest extends \Codeception\TestCase\Test
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents`, `rx_comments` AS `c` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
-		$this->assertEquals(['456', '닉네임', '5', '123'], $params);
+		$this->assertEquals('UPDATE `rx_documents`, `rx_comments` AS `c` SET `member_srl` = ?, `nick_name` = ?, `voted_count` = `voted_count` + ?, `regdate` = ?, `last_update` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['456', '닉네임', '5'], array_slice($params, 0, 3));
+		$this->assertRegexp('/^20[0-9]{2}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$/', $params[3]);
+		$this->assertRegexp('/^[0-9]{2}.[0-9]{2}.[0-9]{2}$/', $params[4]);
 		
-		$args = array('document_srl' => 123, 'member_srl' => 456, 'voted_count' => 5);
+		$args = array('document_srl' => 123, 'member_srl' => 456, 'voted_count' => 5, 'regdate' => 'foo', 'last_update' => 'bar');
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 		
-		$this->assertEquals('UPDATE `rx_documents`, `rx_comments` AS `c` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ? WHERE `document_srl` = ?', $sql);
-		$this->assertEquals(['456', '5', '123'], $params);
+		$this->assertEquals('UPDATE `rx_documents`, `rx_comments` AS `c` SET `member_srl` = ?, `nick_name` = NULL, `voted_count` = `voted_count` + ?, `regdate` = ?, `last_update` = ? WHERE `document_srl` = ?', $sql);
+		$this->assertEquals(['456', '5', 'foo', 'bar', '123'], $params);
 	}
 	
 	public function testDeleteQuery()
