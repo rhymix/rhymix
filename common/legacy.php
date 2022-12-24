@@ -504,55 +504,94 @@ function zgap($timestamp = null)
 }
 
 /**
- * Convert YYYYMMDDHHIISS format to Unix timestamp.
+ * Convert timestamp string to Unix timestamp.
  * This function assumes the internal timezone.
- *
- * @param string $str Time in YYYYMMDDHHIISS format
+ * 
+ * Supported formats:
+ *   - YYYYMMDDHHMMSS
+ *   - YYYYMMDD
+ *   - YYYY-MM-DD HH:MM:SS
+ *   - YYYY-MM-DDTHH:MM:SS+xx:xx (ISO 8601)
+ * 
+ * @param string $str Timestamp in one of the supported formats
  * @return int
  */
 function ztime($str)
 {
-	if(!$str)
+	$len = strlen($str);
+	if (!$len)
 	{
 		return null;
 	}
-	if (strlen($str) === 9 || (strlen($str) === 10 && $str <= 2147483647))
+	elseif ($len === 9 || ($len === 10 && $str <= 2147483647))
 	{
 		return intval($str);
 	}
-	
-	$year = (int)substr($str, 0, 4);
-	$month = (int)substr($str, 4, 2) ?: 1;
-	$day = (int)substr($str, 6, 2) ?: 1;
-	if(strlen($str) > 8)
+	elseif ($len >= 19 && preg_match('/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})(?:[+-](\d{2}):(\d{2}))?/', $str, $matches))
 	{
 		$has_time = true;
-		$hour = (int)substr($str, 8, 2);
-		$min = (int)substr($str, 10, 2);
-		$sec = (int)substr($str, 12, 2);
+		$year = intval($matches[1], 10);
+		$month = intval($matches[2], 10);
+		$day = intval($matches[3], 10);
+		$hour = intval($matches[4], 10);
+		$min = intval($matches[5], 10);
+		$sec = intval($matches[6], 10);
+		if (isset($matches[7]))
+		{
+			$has_offset = true;
+			$offset = (intval($matches[7], 10) * 3600) + (intval($matches[8], 10) * 60);
+		}
+		else
+		{
+			$has_offset = false;
+			$offset = 0;
+		}
+	}
+	elseif (preg_match('/^(\d{4})(\d{2})(\d{2})(?:(\d{2})(\d{2})(\d{2}))?$/', $str, $matches))
+	{
+		$year = intval($matches[1], 10);
+		$month = intval($matches[2], 10);
+		$day = intval($matches[3], 10);
+		if (isset($matches[4]))
+		{
+			$has_time = true;
+			$hour = intval($matches[4], 10);
+			$min = intval($matches[5], 10);
+			$sec = intval($matches[6], 10);
+			}
+		else
+		{
+			$has_time = false;
+			$hour = $min = $sec = 0;
+		}
+		$has_offset = false;
 	}
 	else
 	{
-		$has_time = false;
-		$hour = $min = $sec = 0;
+		return null;
 	}
+	
 	$timestamp = gmmktime($hour, $min, $sec, $month, $day, $year);
-	if ($has_time)
+	if (!$has_offset)
 	{
-		$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
-	}
-	else
-	{
-		$offset = 0;
+		if ($has_time)
+		{
+			$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
+		}
+		else
+		{
+			$offset = 0;
+		}
 	}
 	return $timestamp - $offset;
 }
 
 /**
- * Convert YYYYMMDDHHIISS format to user-defined format.
+ * Convert timestamp to user-defined format.
  * This function assumes the internal timezone.
+ * See ztime() for the list of supported formats.
  *
- * @param string $str Time in YYYYMMDDHHIISS format
+ * @param string $str Timestamp in one of the supported formats
  * @param string $format Time format for date() function
  * @param bool $conversion If true, convert automatically for the current language.
  * @return string
