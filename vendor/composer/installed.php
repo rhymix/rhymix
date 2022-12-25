@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '35a93f3928d626386609cb278a6a1ed70886096f',
+    'reference' => '735d3dd97cb734f22b76ffef1857523b7e918d6a',
     'name' => 'rhymix/rhymix',
   ),
   'versions' => 
@@ -19,6 +19,15 @@
       array (
       ),
       'reference' => '12f8f5cc03ebb7efd69554f104afe9aa1aa46e1a',
+    ),
+    'composer/ca-bundle' => 
+    array (
+      'pretty_version' => '1.3.4',
+      'version' => '1.3.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '69098eca243998b53eed7a48d82dedd28b447cd5',
     ),
     'coolsms/php-sdk' => 
     array (
@@ -46,6 +55,15 @@
       array (
       ),
       'reference' => 'f88dcf4b14af14a98ad96b14b2b317969eab6715',
+    ),
+    'enshrined/svg-sanitize' => 
+    array (
+      'pretty_version' => '0.15.4',
+      'version' => '0.15.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e50b83a2f1f296ca61394fe88fbfe3e896a84cf4',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -218,7 +236,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '35a93f3928d626386609cb278a6a1ed70886096f',
+      'reference' => '735d3dd97cb734f22b76ffef1857523b7e918d6a',
     ),
     'rmccue/requests' => 
     array (

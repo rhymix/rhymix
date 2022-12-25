@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Composer\\CaBundle\\CaBundle' => $vendorDir . '/composer/ca-bundle/src/CaBundle.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'Doctrine\\Common\\Lexer\\AbstractLexer' => $vendorDir . '/doctrine/lexer/lib/Doctrine/Common/Lexer/AbstractLexer.php',
     'Egulias\\EmailValidator\\EmailLexer' => $vendorDir . '/egulias/email-validator/src/EmailLexer.php',
@@ -620,6 +621,17 @@ return array(
     'TrueBV\\Exception\\LabelOutOfBoundsException' => $vendorDir . '/true/punycode/src/Exception/LabelOutOfBoundsException.php',
     'TrueBV\\Exception\\OutOfBoundsException' => $vendorDir . '/true/punycode/src/Exception/OutOfBoundsException.php',
     'TrueBV\\Punycode' => $vendorDir . '/true/punycode/src/Punycode.php',
+    'enshrined\\svgSanitize\\ElementReference\\Resolver' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
+    'enshrined\\svgSanitize\\ElementReference\\Subject' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
+    'enshrined\\svgSanitize\\ElementReference\\Usage' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',
+    'enshrined\\svgSanitize\\Exceptions\\NestingException' => $vendorDir . '/enshrined/svg-sanitize/src/Exceptions/NestingException.php',
+    'enshrined\\svgSanitize\\Helper' => $vendorDir . '/enshrined/svg-sanitize/src/Helper.php',
+    'enshrined\\svgSanitize\\Sanitizer' => $vendorDir . '/enshrined/svg-sanitize/src/Sanitizer.php',
+    'enshrined\\svgSanitize\\data\\AllowedAttributes' => $vendorDir . '/enshrined/svg-sanitize/src/data/AllowedAttributes.php',
+    'enshrined\\svgSanitize\\data\\AllowedTags' => $vendorDir . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
+    'enshrined\\svgSanitize\\data\\AttributeInterface' => $vendorDir . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
+    'enshrined\\svgSanitize\\data\\TagInterface' => $vendorDir . '/enshrined/svg-sanitize/src/data/TagInterface.php',
+    'enshrined\\svgSanitize\\data\\XPath' => $vendorDir . '/enshrined/svg-sanitize/src/data/XPath.php',
     'lessc' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_classic' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
     'lessc_formatter_compressed' => $vendorDir . '/leafo/lessphp/lessc.inc.php',
