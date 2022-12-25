@@ -287,7 +287,7 @@ class FileHandler
 			$request_headers = array();
 			$request_cookies = array();
 			$request_options = array(
-				'verify' => \RX_BASEDIR . 'common/libraries/cacert.pem',
+				'verify' => \RX_BASEDIR . 'vendor/composer/ca-bundle/res/cacert.pem',
 				'timeout' => $timeout,
 			);
 			
