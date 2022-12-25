@@ -238,10 +238,10 @@ class Formatter
 			$scss_compiler->setImportPaths(array(dirname(is_array($source_filename) ? array_first($source_filename) : $source_filename)));
 			if ($variables)
 			{
-				$scss_compiler->setVariables($variables);
+				$scss_compiler->addVariables(array_map('\ScssPhp\ScssPhp\ValueConverter::parseValue', $variables));
 			}
 			
-			$content = $scss_compiler->compile($content) . "\n";
+			$content = $scss_compiler->compileString($content)->getCss() . "\n";
 			$content = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n" . $content) : $content;
 			$result = true;
 		}
