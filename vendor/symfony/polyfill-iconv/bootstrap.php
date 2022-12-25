@@ -15,6 +15,10 @@ if (extension_loaded('iconv')) {
     return;
 }
 
+if (\PHP_VERSION_ID >= 80000) {
+    return require __DIR__.'/bootstrap80.php';
+}
+
 if (!defined('ICONV_IMPL')) {
     define('ICONV_IMPL', 'Symfony');
 }
@@ -38,7 +42,7 @@ if (!function_exists('iconv_set_encoding')) {
     function iconv_set_encoding($type, $encoding) { return p\Iconv::iconv_set_encoding($type, $encoding); }
 }
 if (!function_exists('iconv_mime_encode')) {
-    function iconv_mime_encode($field_name, $field_value, $options = null) { return p\Iconv::iconv_mime_encode($field_name, $field_value, $options); }
+    function iconv_mime_encode($field_name, $field_value, $options = []) { return p\Iconv::iconv_mime_encode($field_name, $field_value, $options); }
 }
 if (!function_exists('iconv_mime_decode_headers')) {
     function iconv_mime_decode_headers($headers, $mode = 0, $encoding = null) { return p\Iconv::iconv_mime_decode_headers($headers, $mode, $encoding); }
@@ -58,7 +62,7 @@ if (extension_loaded('mbstring')) {
         function iconv_substr($string, $offset, $length = 2147483647, $encoding = null) { null === $encoding && $encoding = p\Iconv::$internalEncoding; return mb_substr($string, $offset, $length, $encoding); }
     }
     if (!function_exists('iconv_mime_decode')) {
-        function iconv_mime_decode($string, $mode = 0, $encoding = null) { null === $encoding && $encoding = p\Iconv::$internalEncoding; return mb_decode_mimeheader($string, $mode, $encoding); }
+        function iconv_mime_decode($string, $mode = 0, $encoding = null) { $currentMbEncoding = mb_internal_encoding(); null === $encoding && $encoding = p\Iconv::$internalEncoding; mb_internal_encoding($encoding); $decoded = mb_decode_mimeheader($string); mb_internal_encoding($currentMbEncoding); return $decoded; }
     }
 } else {
     if (!function_exists('iconv_strlen')) {
