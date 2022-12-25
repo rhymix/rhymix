@@ -35,24 +35,6 @@ class SecurityTest extends \Codeception\TestCase\Test
 		$decrypted = Rhymix\Framework\Security::decrypt($encrypted, $key);
 		$this->assertEquals($plaintext, $decrypted);
 		
-		// Encryption with defuse/php-encryption and decryption with CryptoCompat.
-		if (function_exists('mcrypt_decrypt'))
-		{
-			$encrypted = Rhymix\Framework\Security::encrypt($plaintext);
-			$this->assertNotEquals(false, $encrypted);
-			$decrypted = Rhymix\Framework\Security::decrypt($encrypted, null, true);
-			$this->assertEquals($plaintext, $decrypted);
-		}
-		
-		// Encryption with CryptoCompat and decryption with defuse/php-encryption.
-		if (function_exists('mcrypt_encrypt'))
-		{
-			$encrypted = Rhymix\Framework\Security::encrypt($plaintext, null, true);
-			$this->assertNotEquals(false, $encrypted);
-			$decrypted = Rhymix\Framework\Security::decrypt($encrypted);
-			$this->assertEquals($plaintext, $decrypted);
-		}
-		
 		// Test invalid ciphertext.
 		$decrypted = Rhymix\Framework\Security::decrypt('1234' . substr($encrypted, 4));
 		$this->assertEquals(false, $decrypted);

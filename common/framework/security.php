@@ -48,30 +48,16 @@ class Security
 	 * 
 	 * @param string $plaintext
 	 * @param string $key (optional)
-	 * @param bool $force_compat (optional)
 	 * @return string|false
 	 */
-	public static function encrypt($plaintext, $key = null, $force_compat = false)
+	public static function encrypt($plaintext, $key = null)
 	{
 		// Get the encryption key.
 		$key = $key ?: config('crypto.encryption_key');
 		$key = substr(hash('sha256', $key, true), 0, 16);
 		
-		// Use defuse/php-encryption if possible.
-		if (!$force_compat && function_exists('openssl_encrypt'))
-		{
-			return base64_encode(\Crypto::Encrypt($plaintext, $key));
-		}
-		
-		// Otherwise, use the CryptoCompat class.
-		if (function_exists('mcrypt_encrypt'))
-		{
-			return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
-		}
-		else
-		{
-			throw new Exception('msg_crypto_not_available');
-		}
+		// Encrypt in a format that is compatible with defuse/php-encryption 1.2.x.
+		return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
 	}
 	
 	/**
@@ -79,10 +65,9 @@ class Security
 	 * 
 	 * @param string $plaintext
 	 * @param string $key (optional)
-	 * @param bool $force_compat (optional)
 	 * @return string|false
 	 */
-	public static function decrypt($ciphertext, $key = null, $force_compat = false)
+	public static function decrypt($ciphertext, $key = null)
 	{
 		// Get the encryption key.
 		$key = $key ?: config('crypto.encryption_key');
@@ -95,28 +80,8 @@ class Security
 			return false;
 		}
 		
-		// Use defuse/php-encryption if possible.
-		if (!$force_compat && function_exists('openssl_decrypt'))
-		{
-			try
-			{
-				return \Crypto::Decrypt($ciphertext, $key);
-			}
-			catch (\InvalidCiphertextException $e)
-			{
-				return false;
-			}
-		}
-		
-		// Otherwise, use the CryptoCompat class.
-		if (function_exists('mcrypt_decrypt'))
-		{
-			return \CryptoCompat::decrypt($ciphertext, $key);
-		}
-		else
-		{
-			throw new Exception('msg_crypto_not_available');
-		}
+		// Decrypt in a format that is compatible with defuse/php-encryption 1.2.x.
+		return \CryptoCompat::decrypt($ciphertext, $key);
 	}
 	
 	/**
