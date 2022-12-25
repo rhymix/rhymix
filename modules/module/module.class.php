@@ -21,7 +21,7 @@ class module extends ModuleObject
 		// Insert new domain
 		if(!getModel('module')->getDefaultDomainInfo())
 		{
-			$current_url = Rhymix\Framework\Url::getCurrentUrl();
+			$current_url = Rhymix\Framework\URL::getCurrentUrl();
 			$current_port = intval(parse_url($current_url, PHP_URL_PORT)) ?: null;
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
