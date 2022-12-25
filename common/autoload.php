@@ -102,39 +102,55 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
  */
 spl_autoload_register(function($class_name)
 {
-	$filename = false;
-	$langpath = false;
-	$lc_class_name = str_replace('\\', '/', strtolower($class_name));
-	if (preg_match('!^rhymix/(framework|addons|modules|plugins)/(.+)$!', $lc_class_name, $matches))
+	$class_name = str_replace('\\', '/', $class_name);
+	$filename1 = null;
+	$filename2 = null;
+	$lang_plugin = null;
+	$lang_path = null;
+	
+	// Try namespaced classes, legacy classes, and module classes.
+	if (preg_match('!^Rhymix/(Framework|Addons|Modules|Plugins|Themes|Widgets)/((\w+)/(?:\w+/)*)?(\w+)$!', $class_name, $matches))
 	{
-		$filename = RX_BASEDIR . ($matches[1] === 'framework' ? 'common/framework' : $matches[1]) . '/' . $matches[2] . '.php';
-		if ($matches[1] !== 'framework')
+		$dir = RX_BASEDIR . ($matches[1] === 'Framework' ? 'common/framework' : strtolower($matches[1])) . '/' . strtolower($matches[2]);
+		$filename1 = $dir . $matches[4] . '.php';
+		$filename2 = $dir . strtolower($matches[4]) . '.php';
+		if ($matches[1] !== 'Framework' && !empty($matches[3]))
 		{
-			$langpath = RX_BASEDIR . $matches[1] . '/lang';
+			$lang_plugin = strtolower($matches[3]);
+			$lang_path = RX_BASEDIR . strtolower($matches[1]) . '/' . $lang_plugin . '/lang';
 		}
 	}
-	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name]))
+	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name = strtolower($class_name)]))
 	{
-		$filename = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
+		$filename1 = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
 	}
 	elseif (preg_match('/^([a-zA-Z0-9_]+?)(Admin)?(View|Controller|Model|Item|Api|Wap|Mobile)?$/', $class_name, $matches))
 	{
 		$module = strtolower($matches[1]);
-		$filename = RX_BASEDIR . 'modules/' . $module . '/' . $module .
+		$filename1 = RX_BASEDIR . 'modules/' . $module . '/' . $module .
 			(!empty($matches[2]) ? '.admin' : '') .
 			(!empty($matches[3]) ? ('.' . strtolower($matches[3])) : '.class') . '.php';
 		if ($module !== 'module')
 		{
-			$langpath = RX_BASEDIR . 'modules/' . $module . '/lang';
+			$lang_plugin = $module;
+			$lang_path = RX_BASEDIR . 'modules/' . $module . '/lang';
 		}
 	}
-	if ($filename && file_exists($filename))
+	
+	// Load the PHP file.
+	if ($filename1 && file_exists($filename1))
 	{
-		include $filename;
-		if ($langpath)
-		{
-			Context::loadLang($langpath);
-		}
+		include $filename1;
+	}
+	elseif ($filename2 && file_exists($filename2))
+	{
+		include $filename2;
+	}
+	
+	// Load the lang file for the plugin.
+	if ($lang_plugin)
+	{
+		Context::loadLang($lang_path, $lang_plugin);
 	}
 });
 

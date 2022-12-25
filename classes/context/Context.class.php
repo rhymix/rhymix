@@ -802,18 +802,15 @@ class Context
 	 * Load language file according to language type
 	 *
 	 * @param string $path Path of the language file
+	 * @param string $plugin_name
 	 * @return void
 	 */
-	public static function loadLang($path)
+	public static function loadLang($path, $plugin_name = null)
 	{
-		if (preg_match('@/(modules|addons|plugins|widgets)/([a-zA-Z0-9_-]+)/lang/?(?:lang\.xml)?$@', str_replace('\\', '/', $path), $matches))
+		if ($plugin_name === null && preg_match('@/(modules|addons|plugins|widgets)/([a-zA-Z0-9_-]+)/lang/?(?:lang\.xml)?$@', str_replace('\\', '/', $path), $matches))
 		{
 			$path = \RX_BASEDIR . $matches[1] . '/' . $matches[2] . '/lang';
 			$plugin_name = $matches[2];
-		}
-		else
-		{
-			$plugin_name = null;
 		}
 		
 		if (!(($GLOBALS['lang'] ?? null) instanceof Rhymix\Framework\Lang))
