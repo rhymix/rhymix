@@ -162,7 +162,13 @@ require_once RX_BASEDIR . 'vendor/autoload.php';
 /**
  * Load essential classes.
  */
+require_once RX_BASEDIR . 'classes/context/Context.class.php';
 require_once RX_BASEDIR . 'classes/object/Object.class.php';
+require_once RX_BASEDIR . 'common/framework/cache.php';
+require_once RX_BASEDIR . 'common/framework/config.php';
+require_once RX_BASEDIR . 'common/framework/datetime.php';
+require_once RX_BASEDIR . 'common/framework/debug.php';
+require_once RX_BASEDIR . 'common/framework/lang.php';
 
 /**
  * Load user configuration.
