@@ -81,7 +81,7 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 		
 		$source = '<div contenteditable="true"><div contenteditable="false"><p contenteditable="false"></p></div></div>';
-		$target = '<div><div contenteditable="false"><p></p></div></div>';
+		$target = '<div><div contenteditable="false"><p contenteditable="false"></p></div></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 	
