@@ -54,12 +54,12 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$this->assertEquals($expected, $handler->getJsFileList('body'));
 	}
 	
-	public function testCssLess()
+	public function testDefaultScss()
 	{
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/rhymix.less'));
+		$handler->loadFile(array('./common/css/rhymix.scss'));
 		$result = $handler->getCssFileList(true);
-		$this->assertRegexp('/\.rhymix\.less\.css\?\d+$/', $result[0]['file']);
+		$this->assertRegexp('/\.rhymix\.scss\.css\?\d+$/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
 		$this->assertEmpty($result[0]['targetie']);
 	}
@@ -214,9 +214,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		FrontEndFileHandler::$minify = 'all';
 		
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/rhymix.less'));
+		$handler->loadFile(array('./common/css/rhymix.scss'));
 		$result = $handler->getCssFileList(true);
-		$this->assertRegexp('/\.rhymix\.less\.min\.css\b/', $result[0]['file']);
+		$this->assertRegexp('/\.rhymix\.scss\.min\.css\b/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
 		$this->assertEmpty($result[0]['targetie']);
 		
@@ -234,7 +234,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		FrontEndFileHandler::$concat = 'css';
 		
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/rhymix.less'));
+		$handler->loadFile(array('./common/css/rhymix.scss'));
 		$handler->loadFile(array('./common/css/bootstrap-responsive.css'));
 		$handler->loadFile(array('http://external.host/style.css'));
 		$handler->loadFile(array('./common/css/bootstrap.css', null, 'IE'));

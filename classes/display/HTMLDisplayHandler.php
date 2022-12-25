@@ -678,7 +678,7 @@ class HTMLDisplayHandler
 	 */
 	private function _loadCommonJSCSS()
 	{
-		Context::loadFile(array('./common/css/rhymix.less', '', '', -1600000000), true);
+		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-1.4.1.min.js',
 			'plugins/cookie/js.cookie.min.js',
