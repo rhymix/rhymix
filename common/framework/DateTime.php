@@ -93,7 +93,7 @@ class DateTime
 		{
 			if (!preg_match('/^(?:A|Europe|Indian|Pacific)/', $tzid)) continue;
 			$name = str_replace('_', ' ', $tzid);
-			$datetime = new \DateTime(null, new \DateTimeZone($tzid));
+			$datetime = new \DateTime('now', new \DateTimeZone($tzid));
 			$offset = $datetime->getOffset();
 			$offset = ($offset >= 0 ? '+' : '-') . sprintf('%02d', floor(abs($offset) / 3600)) . ':' . sprintf('%02d', (abs($offset) % 3600) / 60);
 			unset($datetime);
