@@ -1,5 +1,6 @@
 .gitattributes export-ignore
 .github export-ignore
 .gitignore export-ignore
+codeception.dist.yml export-ignore
 /tests/ export-ignore
-/vendor/bin/ export-ignore
+/common/vendor/bin/ export-ignore
