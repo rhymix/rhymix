@@ -441,12 +441,17 @@ margin-bottom: 10px;
 	width: 90px;
 }
 .x select {
-	padding: 0;
-	height: 26px;
+	padding: 0 2px;
+	-moz-padding-start: 6px;
+	font-size: 14px;
 	line-height: 26px;
+	height: 26px;
 }
 .x select[multiple] {
+	padding: 2px 2px;
+	-moz-padding-start: 2px;
 	height: auto;
+	font-size: 13px;
 }
 .x textarea {
 	vertical-align: top;
