@@ -158,7 +158,7 @@ class fileController extends file
 		}
 		else
 		{
-			$this->add('download_url', FileModel::getDownloadUrl($output->get('file_srl'), $output->get('sid'), $module_srl));
+			$this->add('download_url', FileModel::getDownloadUrl($output->get('file_srl'), $output->get('sid'), $module_srl, $output->get('source_filename')));
 		}
 	}
 
@@ -288,18 +288,24 @@ class fileController extends file
 
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
-		$logged_info = Context::get('logged_info');
+		$filename_arg = Context::get('filename');
+
 		// Get file information from the DB
 		$file_obj = FileModel::getFile($file_srl);
+		$filename = preg_replace('/\.\.+/', '.', $file_obj->source_filename);
+
 		// If the requested file information is incorrect, an error that file cannot be found appears
 		if($file_obj->file_srl != $file_srl || $file_obj->sid !== $sid)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
-		// File name
-		$filename = $file_obj->source_filename;
-		$file_module_config = FileModel::getFileModuleConfig($file_obj->module_srl);
+		if ($filename_arg !== null && $filename_arg !== $filename)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
+		}
+		
 		// Not allow the file outlink
+		$file_module_config = FileModel::getFileModuleConfig($file_obj->module_srl);
 		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
 		{
 			// Handles extension to allow outlink
@@ -430,6 +436,12 @@ class fileController extends file
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		
+		// Check filename if given
+		if ($filename_arg !== null && $filename_arg !== $filename)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
+		}
+		
 		// Check if file exists
 		$uploaded_filename = $file_obj->uploaded_filename;
 		if(!file_exists($uploaded_filename))
@@ -452,7 +464,7 @@ class fileController extends file
 		}
 
 		// Encode the filename.
-		if ($filename_arg && $filename_arg === $filename)
+		if ($filename_arg !== null && $filename_arg === $filename)
 		{
 			$filename_param = '';
 		}
