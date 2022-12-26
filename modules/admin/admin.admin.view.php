@@ -9,7 +9,7 @@
  * @package /modules/admin
  * @version 0.1
  */
-class adminAdminView extends admin
+class AdminAdminView extends Admin
 {
 
 	/**
@@ -158,10 +158,8 @@ class adminAdminView extends admin
 			return;
 		}
 
-		$oAdminAdminModel = getAdminModel('admin');
-		$lang->menu_gnb_sub = $oAdminAdminModel->getAdminMenuLang();
-
-		$result = $oAdminAdminModel->checkAdminMenu();
+		$lang->menu_gnb_sub = Rhymix\Modules\Admin\Models\AdminMenu::getAdminMenuLang();
+		$result = Rhymix\Modules\Admin\Models\AdminMenu::checkAdminMenu();
 		include $result->php_file;
 
 		$oModuleModel = getModel('module');
@@ -182,7 +180,6 @@ class adminAdminView extends admin
 		
 		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
-		$oMenuAdminConroller = getAdminController('menu');
 		foreach((array) $menu->list as $parentKey => $parentMenu)
 		{
 			if(!is_array($parentMenu['list']) || !count($parentMenu['list']))
@@ -205,50 +202,8 @@ class adminAdminView extends admin
 		}
 
 		// Get list of favorite
-		$oAdminAdminModel = getAdminModel('admin');
-		$output = $oAdminAdminModel->getFavoriteList(0, true);
+		$output = Rhymix\Modules\Admin\Models\Favorite::getFavorites(true);
 		Context::set('favorite_list', $output->get('favoriteList'));
-
-		// Retrieve recent news and set them into context,
-		// move from index method, because use in admin footer
-		/*
-		$newest_news_url = sprintf("http://news.xpressengine.com/%s/news.php?version=%s&package=%s", _XE_LOCATION_, __XE_VERSION__, _XE_PACKAGE_);
-		$cache_file = sprintf("%sfiles/cache/newest_news.%s.cache.php", RX_BASEDIR, _XE_LOCATION_);
-		if(!file_exists($cache_file) || filemtime($cache_file) + 60 * 60 < $_SERVER['REQUEST_TIME'])
-		{
-			// Considering if data cannot be retrieved due to network problem, modify filemtime to prevent trying to reload again when refreshing administration page
-			// Ensure to access the administration page even though news cannot be displayed
-			FileHandler::writeFile($cache_file, '');
-			FileHandler::getRemoteFile($newest_news_url, $cache_file, null, 1, 'GET', 'text/html', array('REQUESTURL' => getFullUrl('')));
-		}
-
-		if(file_exists($cache_file))
-		{
-			$oXml = new XeXmlParser();
-			$buff = $oXml->parse(FileHandler::readFile($cache_file));
-
-			$item = $buff->zbxe_news->item;
-			if($item)
-			{
-				if(!is_array($item))
-				{
-					$item = array($item);
-				}
-
-				foreach($item as $key => $val)
-				{
-					$obj = new stdClass();
-					$obj->title = $val->body;
-					$obj->date = $val->attrs->date;
-					$obj->url = $val->attrs->url;
-					$news[] = $obj;
-				}
-				Context::set('news', $news);
-			}
-			Context::set('released_version', $buff->zbxe_news->attrs->released_version);
-			Context::set('download_link', $buff->zbxe_news->attrs->download_link);
-		}
-		*/
 
 		Context::set('subMenuTitle', $subMenuTitle);
 		Context::set('gnbUrlList', $menu->list);
@@ -744,10 +699,9 @@ class adminAdminView extends admin
 		// Get favicon and images.
 		if ($domain_info)
 		{
-			$oAdminAdminModel = getAdminModel('admin');
-			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_info->domain_srl));
-			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_info->domain_srl));
-			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_info->domain_srl));
+			Context::set('favicon_url', Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain_info->domain_srl));
+			Context::set('mobicon_url', Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($domain_info->domain_srl));
+			Context::set('default_image_url', Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl($domain_info->domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
 		}
 		
@@ -813,10 +767,9 @@ class adminAdminView extends admin
 		// Get favicon and images.
 		if ($domain_info)
 		{
-			$oAdminAdminModel = getAdminModel('admin');
-			Context::set('favicon_url', $oAdminAdminModel->getFaviconUrl($domain_srl));
-			Context::set('mobicon_url', $oAdminAdminModel->getMobileIconUrl($domain_srl));
-			Context::set('default_image_url', $oAdminAdminModel->getSiteDefaultImageUrl($domain_srl));
+			Context::set('favicon_url', Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain_info->domain_srl));
+			Context::set('mobicon_url', Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($domain_info->domain_srl));
+			Context::set('default_image_url', Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl($domain_info->domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
 		}
 		

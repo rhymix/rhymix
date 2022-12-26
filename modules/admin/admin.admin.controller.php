@@ -8,7 +8,7 @@
  * @package /modules/admin
  * @version 0.1
  */
-class adminAdminController extends admin
+class AdminAdminController extends Admin
 {
 
 	/**
@@ -301,8 +301,7 @@ class adminAdminController extends admin
 		$moduleName = Context::get('module_name');
 
 		// check favorite exists
-		$oModel = getAdminModel('admin');
-		$output = $oModel->isExistsFavorite($siteSrl, $moduleName);
+		$output = Rhymix\Modules\Admin\Models\Favorite::isFavorite($moduleName);
 		if(!$output->toBool())
 		{
 			return $output;
@@ -338,8 +337,7 @@ class adminAdminController extends admin
 	 */
 	function cleanFavorite()
 	{
-		$oModel = getAdminModel('admin');
-		$output = $oModel->getFavoriteList();
+		$output = Rhymix\Modules\Admin\Models\Favorite::getFavorites();
 		if(!$output->toBool())
 		{
 			return $output;
@@ -446,12 +444,7 @@ class adminAdminController extends admin
 	 */
 	function _insertFavorite($site_srl, $module, $type = 'module')
 	{
-		$args = new stdClass();
-		$args->adminFavoriteSrl = getNextSequence();
-		$args->module = $module;
-		$args->type = $type;
-		$output = executeQuery('admin.insertFavorite', $args);
-		return $output;
+		return Rhymix\Modules\Admin\Models\Favorite::insertFavorite($module, $type);
 	}
 
 	/**
@@ -460,10 +453,7 @@ class adminAdminController extends admin
 	 */
 	function _deleteFavorite($favoriteSrl)
 	{
-		$args = new stdClass();
-		$args->admin_favorite_srl = $favoriteSrl;
-		$output = executeQuery('admin.deleteFavorite', $args);
-		return $output;
+		return Rhymix\Modules\Admin\Models\Favorite::deleteFavorite($favoriteSrl);
 	}
 
 	/**
@@ -472,9 +462,7 @@ class adminAdminController extends admin
 	 */
 	function _deleteAllFavorite()
 	{
-		$args = new stdClass;
-		$output = executeQuery('admin.deleteAllFavorite', $args);
-		return $output;
+		return Rhymix\Modules\Admin\Models\Favorite::deleteAllFavorites();
 	}
 
 	/**
