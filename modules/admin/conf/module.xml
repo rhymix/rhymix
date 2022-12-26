@@ -2,8 +2,6 @@
 <module>
 	<grants />
 	<actions>
-		<action name="getSiteAllList" type="model" permission="root" />
-		
 		<action name="dispAdminIndex" class="Controllers\Dashboard" index="true" />
 		<action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
 		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
@@ -16,13 +14,14 @@
 		<action name="dispAdminCopyDomain" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
 		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
-		<action name="dispAdminViewServerEnv" type="view" />
-		<action name="dispAdminRewriteTest" type="view" />
+		
+		<action name="dispAdminViewServerEnv" class="Controllers\ServerEnv" />
+		<action name="dispAdminRewriteTest" class="Controllers\ServerEnv" standalone="true" />
+		<action name="procAdminClearApcu" class="Controllers\ServerEnv" />
+		<action name="procAdminClearOpcache" class="Controllers\ServerEnv" />
 		
 		<action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminRecompileCacheFile" type="controller" />
-		<action name="procAdminClearApcu" type="controller" />
-		<action name="procAdminClearOpcache" type="controller" />
 		<action name="procAdminLogout" type="controller" method="GET|POST" />
 		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
 		<action name="procAdminToggleFavorite" type="controller" />
@@ -42,6 +41,8 @@
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
+		
+		<action name="getSiteAllList" type="model" permission="root" />
 	</actions>
 	<menus>
 		<menu name="adminConfigurationGeneral" type="all">

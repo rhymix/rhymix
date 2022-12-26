@@ -160,36 +160,6 @@ class AdminAdminController extends Admin
 
 		$this->setMessage('success_updated');
 	}
-	
-	/**
-	 * Clear APCU cache
-	 */
-	public function procAdminClearApcu()
-	{
-		if (function_exists('apcu_clear_cache') && apcu_clear_cache())
-		{
-			return new BaseObject(0, 'success_updated');
-		}
-		else
-		{
-			return new BaseObject(-1, 'apcu_clear_cache_function_not_found');
-		}
-	}
-	
-	/**
-	 * Clear opcache
-	 */
-	public function procAdminClearOpcache()
-	{
-		if (function_exists('opcache_reset') && opcache_reset())
-		{
-			return new BaseObject(0, 'success_updated');
-		}
-		else
-		{
-			return new BaseObject(-1, 'opcache_reset_function_not_found');
-		}
-	}
 
 	/**
 	 * Logout
