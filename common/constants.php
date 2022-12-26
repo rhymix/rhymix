@@ -53,7 +53,7 @@ else
  */
 if (isset($_SERVER['HTTP_CF_CONNECTING_IP']))
 {
-	include_once __DIR__ . '/framework/filters/ipfilter.php';
+	include_once __DIR__ . '/framework/filters/IpFilter.php';
 	Rhymix\Framework\Filters\IpFilter::getCloudFlareRealIP();
 }
 if (isset($_SERVER['REMOTE_ADDR']) && preg_match('/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/', $_SERVER['REMOTE_ADDR'], $matches))
