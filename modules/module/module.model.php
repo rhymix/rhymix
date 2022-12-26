@@ -1408,7 +1408,12 @@ class moduleModel extends module
 		{
 			return $class_name::getInstance();
 		}
-		elseif ($oModule = getModule($module_name, 'class'))
+		$class_name = 'Rhymix\\Modules\\' . ucfirst($module_name) . '\\Controllers\\Install';
+		if (class_exists($class_name))
+		{
+			return $class_name::getInstance();
+		}
+		if ($oModule = getModule($module_name, 'class'))
 		{
 			return $oModule;
 		}
