@@ -161,18 +161,6 @@ class AdminAdminController extends Admin
 		$this->setMessage('success_updated');
 	}
 
-	/**
-	 * Logout
-	 * @return void
-	 */
-	function procAdminLogout()
-	{
-		$oMemberController = getController('member');
-		$oMemberController->procMemberLogout();
-
-		header('Location: ' . getNotEncodedUrl(''));
-	}
-
 	public function procAdminInsertDefaultDesignInfo()
 	{
 		$vars = Context::getRequestVars();

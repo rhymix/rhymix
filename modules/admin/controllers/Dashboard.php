@@ -9,6 +9,7 @@ use DocumentAdminModel;
 use DocumentModel;
 use CommentModel;
 use MemberAdminModel;
+use MemberController;
 use ModuleModel;
 
 class Dashboard extends Base
@@ -16,12 +17,12 @@ class Dashboard extends Base
 	/**
 	 * Easy install flag file
 	 */
-	const EASYINSTALL_FLAG_FILE = 'files/env/easyinstall_last';
+	public const EASYINSTALL_FLAG_FILE = 'files/env/easyinstall_last';
 
 	/**
 	 * Display the dashboard.
 	 */
-	function dispAdminIndex()
+	public function dispAdminIndex()
 	{
 		// Get statistics
 		$args = new \stdClass;
@@ -144,6 +145,15 @@ class Dashboard extends Base
 
 		Context::set('layout', 'none');
 		$this->setTemplateFile('index');
+	}
+
+	/**
+	 * Admin logout action.
+	 */
+	public function procAdminLogout()
+	{
+		MemberController::getInstance()->procMemberLogout();
+		header('Location: ' . getNotEncodedUrl(''));
 	}
 	
 	/**

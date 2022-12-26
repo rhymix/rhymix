@@ -3,6 +3,8 @@
 	<grants />
 	<actions>
 		<action name="dispAdminIndex" class="Controllers\Dashboard" index="true" />
+		<action name="procAdminLogout" class="Controllers\Dashboard" method="GET|POST" />
+		
 		<action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
 		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
@@ -22,7 +24,6 @@
 		
 		<action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminRecompileCacheFile" type="controller" />
-		<action name="procAdminLogout" type="controller" method="GET|POST" />
 		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
 		<action name="procAdminToggleFavorite" type="controller" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
