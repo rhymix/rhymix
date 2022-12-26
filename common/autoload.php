@@ -164,11 +164,11 @@ require_once RX_BASEDIR . 'vendor/autoload.php';
  */
 require_once RX_BASEDIR . 'classes/context/Context.class.php';
 require_once RX_BASEDIR . 'classes/object/Object.class.php';
-require_once RX_BASEDIR . 'common/framework/cache.php';
-require_once RX_BASEDIR . 'common/framework/config.php';
-require_once RX_BASEDIR . 'common/framework/datetime.php';
-require_once RX_BASEDIR . 'common/framework/debug.php';
-require_once RX_BASEDIR . 'common/framework/lang.php';
+require_once RX_BASEDIR . 'common/framework/Cache.php';
+require_once RX_BASEDIR . 'common/framework/Config.php';
+require_once RX_BASEDIR . 'common/framework/DateTime.php';
+require_once RX_BASEDIR . 'common/framework/Debug.php';
+require_once RX_BASEDIR . 'common/framework/Lang.php';
 
 /**
  * Load user configuration.
