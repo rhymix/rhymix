@@ -1474,7 +1474,7 @@ class DocumentController extends Document
 	 * @param int $eid
 	 * @return object
 	 */
-	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid)
+	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid = 0)
 	{
 		if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new BaseObject(-1, 'msg_invalid_request');
 
