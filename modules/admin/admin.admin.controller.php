@@ -55,111 +55,6 @@ class AdminAdminController extends Admin
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
 
-	/**
-	 * Regenerate all cache files
-	 * @return void
-	 */
-	public function procAdminRecompileCacheFile()
-	{
-		// rename cache dir
-		$truncate_method = Rhymix\Framework\Config::get('cache.truncate_method');
-		if ($truncate_method === 'empty')
-		{
-			$tmp_basedir = \RX_BASEDIR . 'files/cache/truncate_' . time();
-			Rhymix\Framework\Storage::createDirectory($tmp_basedir);
-			$dirs = Rhymix\Framework\Storage::readDirectory(\RX_BASEDIR . 'files/cache', true, false, false);
-			if ($dirs)
-			{
-				foreach ($dirs as $dir)
-				{
-					Rhymix\Framework\Storage::moveDirectory($dir, $tmp_basedir . '/' . basename($dir));
-				}
-			}
-		}
-		else
-		{
-			Rhymix\Framework\Storage::move(\RX_BASEDIR . 'files/cache', \RX_BASEDIR . 'files/cache_' . time());
-			Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache');
-		}
-
-		// remove module extend cache
-		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/config/module_extend.php');
-
-		// remove debug files
-		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/_debug_message.php');
-		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/_debug_db_query.php');
-		Rhymix\Framework\Storage::delete(RX_BASEDIR . 'files/_db_slow_query.php');
-
-		$oModuleModel = getModel('module');
-		$module_list = $oModuleModel->getModuleList();
-
-		// call recompileCache for each module
-		foreach($module_list as $module)
-		{
-			$oModule = NULL;
-			$oModule = getClass($module->module);
-			if($oModule && method_exists($oModule, 'recompileCache'))
-			{
-				$oModule->recompileCache();
-			}
-		}
-
-		// remove object cache
-		if (!in_array(Rhymix\Framework\Cache::getDriverName(), array('file', 'sqlite', 'dummy')))
-		{
-			Rhymix\Framework\Cache::clearAll();
-		}
-
-		// remove old cache dir
-		if ($truncate_method === 'empty')
-		{
-			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files/cache', '/^(truncate_[0-9]+)/');
-			$tmp_cache_prefix = \RX_BASEDIR . 'files/cache/';
-		}
-		else
-		{
-			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
-			$tmp_cache_prefix = \RX_BASEDIR . 'files/';
-		}
-		
-		if($tmp_cache_list)
-		{
-			foreach($tmp_cache_list as $tmp_dir)
-			{
-				if(strval($tmp_dir) !== '')
-				{
-					$tmp_dir = $tmp_cache_prefix . $tmp_dir;
-					if (!Rhymix\Framework\Storage::isDirectory($tmp_dir))
-					{
-						continue;
-					}
-					
-					// If possible, use system command to speed up recursive deletion
-					if (function_exists('exec') && !preg_match('/(?<!_)exec/', ini_get('disable_functions')))
-					{
-						if (strncasecmp(\PHP_OS, 'win', 3) == 0)
-						{
-							@exec('rmdir /S /Q ' . escapeshellarg($tmp_dir));
-						}
-						else
-						{
-							@exec('rm -rf ' . escapeshellarg($tmp_dir));
-						}
-					}
-					
-					// If the directory still exists, delete using PHP.
-					Rhymix\Framework\Storage::deleteDirectory($tmp_dir);
-				}
-			}
-		}
-
-		// check autoinstall packages
-		$oAutoinstallAdminController = getAdminController('autoinstall');
-		$oAutoinstallAdminController->checkInstalled();
-
-		$this->setMessage('success_updated');
-	}
-
 	public function procAdminInsertDefaultDesignInfo()
 	{
 		$vars = Context::getRequestVars();
@@ -409,6 +304,16 @@ class AdminAdminController extends Admin
 	{
 		$redirectUrl = getNotEncodedUrl('', 'module', 'admin');
 		$this->setRedirectUrl($redirectUrl);
+	}
+	
+	/**
+	 * Reset cache
+	 * 
+	 * @deprecated
+	 */
+	public function procAdminRecompileCacheFile()
+	{
+		return Rhymix\Modules\Admin\Controllers\CacheReset::getInstance()->procAdminRecompileCacheFile();
 	}
 
 	/**

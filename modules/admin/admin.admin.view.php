@@ -13,6 +13,8 @@ class AdminAdminView extends Admin
 {
 	/**
 	 * Make the admin menu.
+	 * 
+	 * @deprecated
 	 */
 	public function makeGnbUrl($module = 'admin')
 	{
@@ -21,7 +23,8 @@ class AdminAdminView extends Admin
 	
 	/**
 	 * Display FTP Configuration(settings) page
-	 * @return void
+	 * 
+	 * @deprecated
 	 */
 	public function dispAdminConfigFtp()
 	{
@@ -30,7 +33,6 @@ class AdminAdminView extends Admin
 	
 	/**
 	 * Display Admin Menu Configuration(settings) page
-	 * @return void
 	 */
 	public function dispAdminSetup()
 	{
@@ -42,5 +44,3 @@ class AdminAdminView extends Admin
 		$this->setTemplateFile('admin_setup');
 	}
 }
-/* End of file admin.admin.view.php */
-/* Location: ./modules/admin/admin.admin.view.php */

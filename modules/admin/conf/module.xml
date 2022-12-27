@@ -5,6 +5,7 @@
 		<!-- Dashboard -->
 		<action name="dispAdminIndex" class="Controllers\Dashboard" index="true" />
 		<action name="procAdminLogout" class="Controllers\Dashboard" method="GET|POST" />
+		<action name="procAdminRecompileCacheFile" class="Controllers\CacheReset" />
 		<!-- Server Env -->
 		<action name="dispAdminViewServerEnv" class="Controllers\ServerEnv" />
 		<action name="dispAdminRewriteTest" class="Controllers\ServerEnv" standalone="true" />
