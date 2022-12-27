@@ -166,11 +166,6 @@ class HTMLDisplayHandler
 				$onlyLayoutFile = $pathInfo['filename'];
 
 				$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
-
-				if(stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE && (Context::get('_use_ssl') == 'optional' || Context::get('_use_ssl') == 'always'))
-				{
-					Context::addHtmlFooter('<iframe id="xeTmpIframe" name="xeTmpIframe" style="width:1px;height:1px;position:absolute;top:-2px;left:-2px;"></iframe>');
-				}
 			}
 		}
 		
@@ -690,7 +685,7 @@ class HTMLDisplayHandler
 			'xml_handler.js',
 			'xml_js_filter.js',
 		);
-		$jquery_version = preg_match('/MSIE [5-8]\./', $_SERVER['HTTP_USER_AGENT']) ? self::JQUERY_V1 : self::JQUERY_V2;
+		$jquery_version = self::JQUERY_V2;
 		
 		if(config('view.minify_scripts') === 'none')
 		{

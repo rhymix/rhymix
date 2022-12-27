@@ -48,10 +48,6 @@ class DisplayHandler extends Handler
 		elseif($responseMethod == 'XMLRPC')
 		{
 			$handler = new XMLDisplayHandler();
-			if(strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
-			{
-				$this->gz_enabled = FALSE;
-			}
 		}
 		elseif($responseMethod == 'RAW')
 		{
