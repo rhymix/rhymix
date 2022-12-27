@@ -675,10 +675,19 @@ class HTMLDisplayHandler
 	 */
 	private function _loadCommonJSCSS()
 	{
+		if (config('view.jquery_version') === 3)
+		{
+			$jquery_version = self::JQUERY_V3;
+			$jquery_migrate_version = self::JQUERY_V3_MIGRATE;
+		}
+		else
+		{
+			$jquery_version = self::JQUERY_V2;
+			$jquery_migrate_version = self::JQUERY_V2_MIGRATE;
+		}
+		
 		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
 		
-		$jquery_version = self::JQUERY_V2;
-		$jquery_migrate_version = self::JQUERY_V2_MIGRATE;
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-' . $jquery_migrate_version . '.min.js',
 			'plugins/cookie/js.cookie.min.js',

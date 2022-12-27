@@ -209,10 +209,21 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->jquery_version}</label>
+			<div class="x_controls">
+				<label for="jquery_version_2" class="x_inline"><input type="radio" name="jquery_version" id="jquery_version_2" value="2" checked="checked"|cond="$jquery_version !== 3" /> jQuery {HTMLDisplayHandler::JQUERY_V2}</label>
+				<label for="jquery_version_3" class="x_inline"><input type="radio" name="jquery_version" id="jquery_version_3" value="3" checked="checked"|cond="$jquery_version === 3" /> jQuery {HTMLDisplayHandler::JQUERY_V3}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_jquery_version}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_server_push}</label>
 			<div class="x_controls">
 				<label for="use_server_push_y" class="x_inline"><input type="radio" name="use_server_push" id="use_server_push_y" value="Y" checked="checked"|cond="$use_server_push" /> {$lang->cmd_yes}</label>
 				<label for="use_server_push_n" class="x_inline"><input type="radio" name="use_server_push" id="use_server_push_n" value="N" checked="checked"|cond="!$use_server_push" /> {$lang->cmd_no}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_use_server_push}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -220,6 +231,8 @@
 			<div class="x_controls">
 				<label for="use_gzip_y" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_y" value="Y" checked="checked"|cond="$use_gzip" /> {$lang->cmd_yes}</label>
 				<label for="use_gzip_n" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_n" value="N" checked="checked"|cond="!$use_gzip" /> {$lang->cmd_no}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_use_gzip}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

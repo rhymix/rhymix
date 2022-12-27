@@ -77,6 +77,7 @@ return array(
 		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
+		'jquery_version' => 2,
 		'server_push' => false,
 		'use_gzip' => false,
 	),

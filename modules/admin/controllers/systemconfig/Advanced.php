@@ -105,6 +105,7 @@ class Advanced extends Base
 		Context::set('manager_layout', Config::get('view.manager_layout'));
 		Context::set('minify_scripts', Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Config::get('view.concat_scripts'));
+		Context::set('jquery_version', Config::get('view.jquery_version'));
 		Context::set('use_server_push', Config::get('view.server_push'));
 		Context::set('use_gzip', Config::get('view.use_gzip'));
 		
@@ -211,6 +212,7 @@ class Advanced extends Base
 		Config::set('view.manager_layout', $vars->manager_layout ?: 'module');
 		Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
+		Config::set('view.jquery_version', $vars->jquery_version == 3 ? 3 : 2);
 		Config::set('view.server_push', $vars->use_server_push === 'Y');
 		Config::set('view.use_gzip', $vars->use_gzip === 'Y');
 		
