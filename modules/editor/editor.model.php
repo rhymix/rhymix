@@ -280,7 +280,7 @@ class editorModel extends editor
 	 * 2 types of editors supported; document and comment.
 	 * 2 types of editors can be used on a single module. For instance each for original post and reply port.
 	 */
-	public static function getModuleEditor($type = 'document', $module_srl, $upload_target_srl, $primary_key_name, $content_key_name)
+	public static function getModuleEditor($type, $module_srl, $upload_target_srl, $primary_key_name, $content_key_name)
 	{
 		// Get editor settings of the module
 		$editor_config = self::getEditorConfig($module_srl);
