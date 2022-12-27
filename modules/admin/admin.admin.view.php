@@ -1,13 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * adminAdminView class
- * Admin view class of admin module
- *
- * @author NAVER (developers@xpressengine.com)
- * @package /modules/admin
- * @version 0.1
+ * Preserved for backward compatibility
+ * 
+ * @deprecated
  */
 class AdminAdminView extends Admin
 {
@@ -29,18 +25,5 @@ class AdminAdminView extends Admin
 	public function dispAdminConfigFtp()
 	{
 		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
-	}
-	
-	/**
-	 * Display Admin Menu Configuration(settings) page
-	 */
-	public function dispAdminSetup()
-	{
-		$oMenuAdminModel = getAdminModel('menu');
-		$output = $oMenuAdminModel->getMenuByTitle($this->getAdminMenuName());
-
-		Context::set('menu_srl', $output->menu_srl);
-		Context::set('menu_title', $output->title);
-		$this->setTemplateFile('admin_setup');
 	}
 }

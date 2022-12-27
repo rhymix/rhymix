@@ -31,22 +31,19 @@
 		<action name="procAdminUpdateSEO" class="Controllers\SystemConfig\SEO" />
 		<action name="dispAdminConfigSitelock" class="Controllers\SystemConfig\SiteLock" menu_name="adminConfigurationGeneral" />
 		<action name="procAdminUpdateSitelock" class="Controllers\SystemConfig\SiteLock" />
-		
-		<action name="procAdminRemoveIcons" type="controller" />
-		<action name="procAdminRecompileCacheFile" type="controller" />
-		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
-		<action name="procAdminToggleFavorite" type="controller" />
-		<action name="procAdminFaviconUpload" type="controller" />
 		<!-- Admin Interface Config -->
-		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
-		<action name="procAdminDeleteLogo" type="controller" />
-		<action name="procAdminMenuReset" type="controller" />
+		<action name="dispAdminSetup" class="Controllers\AdminMenu" menu_name="adminMenuSetup" menu_index="true" />
+		<action name="procAdminMenuReset" class="Controllers\AdminMenu" />
+		<action name="procAdminToggleFavorite" class="Controllers\AdminMenu" />
+		<!-- Design Config -->
+		<action name="procAdminInsertDefaultDesignInfo" class="Controllers\Design" />
 		<!-- Legacy API -->
 		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
-		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="procAdminUpdateConfig" type="controller" />
+		<action name="procAdminRemoveIcons" type="controller" />
+		<action name="procAdminDeleteLogo" type="controller" />
 		<action name="getSiteAllList" type="model" permission="root" />
 	</actions>
 	<menus>

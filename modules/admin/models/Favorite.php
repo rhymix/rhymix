@@ -4,6 +4,7 @@ namespace Rhymix\Modules\Admin\Models;
 
 use BaseObject;
 use ModuleModel;
+use Rhymix\Framework\Storage;
 use Rhymix\Framework\Helpers\DBResultHelper;
 
 class Favorite
@@ -14,7 +15,7 @@ class Favorite
 	 * @param bool $add_module_info
 	 * @return BaseObject
 	 */
-	public static function getFavorites($add_module_info = false)
+	public static function getFavorites(bool $add_module_info = false): BaseObject
 	{
 		$output = executeQueryArray('admin.getFavoriteList', []);
 		if (!$output->toBool())
@@ -47,7 +48,7 @@ class Favorite
 	 * @param string $module
 	 * @return BaseObject
 	 */
-	public static function isFavorite($module)
+	public static function isFavorite(string $module): BaseObject
 	{
 		$output = executeQuery('admin.getFavorite', ['module' => $module]);
 		if(!$output->toBool())
@@ -111,4 +112,42 @@ class Favorite
 		return $output;
 	}
 
+	/**
+	 * Delete all favorites that don't point to an existing module.
+	 * 
+	 * @return BaseObject
+	 */
+	public static function deleteInvalidFavorites(): BaseObject
+	{
+		$output = self::getFavorites();
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$favorites = $output->get('favoriteList');
+		if (!$favorites)
+		{
+			return new BaseObject;
+		}
+
+		$delete_favorite_srls = array();
+		foreach ($favorites as $favorite)
+		{
+			if ($favorite->type === 'module' && !Storage::isDirectory(\RX_BASEDIR . 'modules/' . $favorite->module))
+			{
+				$delete_favorite_srls[] = $favorite->admin_favorite_srl;
+			}
+		}
+
+		if( !count($delete_favorite_srls))
+		{
+			return new BaseObject;
+		}
+
+		$args = new \stdClass;
+		$args->admin_favorite_srls = $delete_favorite_srls;
+		$output = executeQuery('admin.deleteFavorites', $args);
+		return $output;
+	}
 }
