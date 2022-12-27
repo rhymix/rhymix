@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * member module's admin view class
  */
-class memberAdminView extends member
+class MemberAdminView extends Member
 {
 	/**
 	 * Group list

@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * high class of the member module
  */
-class member extends ModuleObject
+class Member extends ModuleObject
 {
 	/**
 	 * Extra vars for admin purposes

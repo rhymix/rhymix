@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief Model class of the member module
  */
-class memberModel extends member
+class MemberModel extends Member
 {
 	/**
 	 * @brief Keep data internally which may be frequently called ...

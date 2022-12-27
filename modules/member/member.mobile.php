@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-class memberMobile extends memberView
+class MemberMobile extends MemberView
 {
 	/**
 	 * Support method are 

@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief View class of member module
  */
-class memberView extends member
+class MemberView extends Member
 {
 	var $group_list = NULL; // /< Group list information
 	var $member_info = NULL; // /< Member information of the user

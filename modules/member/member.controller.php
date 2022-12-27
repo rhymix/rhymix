@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * Controller class of member module
  */
-class memberController extends member
+class MemberController extends Member
 {
 	/**
 	 * Initialization

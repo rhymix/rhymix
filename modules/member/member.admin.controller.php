@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * member module of the admin controller class
  */
-class memberAdminController extends member
+class MemberAdminController extends Member
 {
 	/**
 	 * Initialization

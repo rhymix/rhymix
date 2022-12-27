@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * admin model class of member module
  */
-class memberAdminModel extends member
+class MemberAdminModel extends Member
 {
 	/**
 	 * info of member

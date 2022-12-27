@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * API Processing of View Action in the member module
  */
-class memberAPI extends member
+class MemberAPI extends Member
 {
 	/**
 	 * Content List
