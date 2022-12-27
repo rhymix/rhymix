@@ -140,32 +140,32 @@ class AdminAdminModel extends Admin
 	 */
 	public static function getFavoriteList($site_srl = 0, $add_module_info = false)
 	{
-		return Rhymix\Modules\Admin\Models\Favorite::getFavorites($add_module_info);
+		return Rhymix\Modules\Admin\Models\Favorite::getFavorites(!!$add_module_info);
 	}
 
 	public static function isExistsFavorite($site_srl, $module)
 	{
-		return Rhymix\Modules\Admin\Models\Favorite::isFavorite($module);
+		return Rhymix\Modules\Admin\Models\Favorite::isFavorite(strval($module));
 	}
 
 	public static function getFaviconUrl($domain_srl = 0)
 	{
-		return Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain_srl);
+		return Rhymix\Modules\Admin\Models\Icon::getFaviconUrl(intval($domain_srl));
 	}
 
 	public static function getMobileIconUrl($domain_srl = 0)
 	{
-		return Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($domain_srl);
+		return Rhymix\Modules\Admin\Models\Icon::getMobiconUrl(intval($domain_srl));
 	}
 
 	public static function getSiteDefaultImageUrl($domain_srl = 0, &$width = 0, &$height = 0)
 	{
-		return Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl($domain_srl, $width, $height);
+		return Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl(intval($domain_srl), $width, $height);
 	}
 
 	public static function iconUrlCheck($iconname, $default_icon_name, $domain_srl)
 	{
-		return Rhymix\Modules\Admin\Models\Icon::getIconUrl($domain_srl, $iconname);
+		return Rhymix\Modules\Admin\Models\Icon::getIconUrl(intval($domain_srl), $iconname);
 	}
 
 	public static function getSFTPPath()
