@@ -142,6 +142,15 @@ class ModuleView extends Module
 		$this->setLayoutFile('popup_layout');
 		$this->setTemplateFile('filebox_add');
 	}
+
+	/**
+	 * Moved from mobile class
+	 */
+	function dispModuleChangeLang()
+	{
+		$this->setTemplatePath(sprintf("%stpl/",$this->module_path));
+		$this->setTemplateFile('lang.html');
+	}
 }
 /* End of file module.view.php */
 /* Location: ./modules/module/module.view.php */
