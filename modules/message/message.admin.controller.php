@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief admin controller class of message module
  */
-class messageAdminController extends message
+class MessageAdminController extends Message
 {
 	/**
 	 * @brief Initialization

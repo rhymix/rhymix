@@ -1,6 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
-class messageAdminModel extends message{
+class MessageAdminModel extends Message
+{
 	public function getMessageAdminColorset()
 	{
 		$skin = Context::get('skin');

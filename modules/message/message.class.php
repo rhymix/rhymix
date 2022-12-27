@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief high class of message module
  */
-class message extends ModuleObject
+class Message extends ModuleObject
 {
 	/**
 	 * @brief Implement if additional tasks are necessary when installing

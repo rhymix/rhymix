@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-class messageMobile extends messageView
+class MessageMobile extends MessageView
 {
 	
 }
