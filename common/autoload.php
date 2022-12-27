@@ -21,7 +21,7 @@ if (version_compare(PHP_VERSION, '7.2.5', '<'))
 /**
  * Set error reporting rules.
  */
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 
 /**
  * Suppress date/time errors until the internal time zone is set (see below).
