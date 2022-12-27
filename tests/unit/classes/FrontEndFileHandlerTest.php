@@ -61,7 +61,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$result = $handler->getCssFileList(true);
 		$this->assertRegexp('/\.rhymix\.scss\.css\?\d+$/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
-		$this->assertEmpty($result[0]['targetie']);
+		$this->assertTrue(empty($result[0]['targetie']));
 	}
 
 	public function testDuplicateOrder()
@@ -168,7 +168,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$result = $handler->getCssFileList();
 		$this->assertEquals($this->baseurl . 'common/css/xeicon/xeicon.min.css' . $this->_filemtime('common/css/xeicon/xeicon.min.css'), $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
-		$this->assertEmpty($result[0]['targetie']);
+		$this->assertTrue(empty($result[0]['targetie']));
 	}
 
 	public function testTargetie1()
@@ -219,13 +219,13 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$result = $handler->getCssFileList(true);
 		$this->assertRegexp('/\.rhymix\.scss\.min\.css\b/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
-		$this->assertEmpty($result[0]['targetie']);
+		$this->assertTrue(empty($result[0]['targetie']));
 		
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/js/common.js', 'head'));
 		$result = $handler->getJsFileList('head', true);
 		$this->assertRegexp('/minified\/common\.js\.common\.min\.js\?\d+$/', $result[0]['file']);
-		$this->assertEmpty($result[0]['targetie']);
+		$this->assertTrue(empty($result[0]['targetie']));
 		
 		FrontEndFileHandler::$minify = 'none';
 	}
