@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief controller class of the module module
  */
-class moduleController extends module
+class ModuleController extends Module
 {
 	/**
 	 * @brief Initialization

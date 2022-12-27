@@ -6,7 +6,7 @@
  * @version 0.1
  * @brief AdminModel class of the "module" module
  */
-class moduleAdminModel extends module
+class ModuleAdminModel extends Module
 {
 	/**
 	 * @brief Initialization

@@ -1,6 +1,6 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
-class moduleMobile extends moduleObject
+class ModuleMobile extends ModuleObject
 {
 	function dispModuleChangeLang()
 	{

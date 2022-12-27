@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief Model class of module module
  */
-class moduleModel extends module
+class ModuleModel extends Module
 {
 	/**
 	 * Internal cache

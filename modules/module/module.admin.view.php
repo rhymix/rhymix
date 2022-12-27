@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief admin view class of the module module
  */
-class moduleAdminView extends module
+class ModuleAdminView extends Module
 {
 	/**
 	 * @brief Initialization
