@@ -2,47 +2,51 @@
 <module>
 	<grants />
 	<actions>
+		<!-- Dashboard -->
 		<action name="dispAdminIndex" class="Controllers\Dashboard" index="true" />
 		<action name="procAdminLogout" class="Controllers\Dashboard" method="GET|POST" />
-		
-		<action name="dispAdminConfigGeneral" type="view" menu_name="adminConfigurationGeneral" menu_index="true" />
+		<!-- Server Env -->
+		<action name="dispAdminViewServerEnv" class="Controllers\ServerEnv" />
+		<action name="dispAdminRewriteTest" class="Controllers\ServerEnv" standalone="true" />
+		<action name="procAdminClearApcu" class="Controllers\ServerEnv" />
+		<action name="procAdminClearOpcache" class="Controllers\ServerEnv" />
+		<!-- System Config: Domains -->
+		<action name="dispAdminConfigGeneral" class="Controllers\SystemConfig\Domains" menu_name="adminConfigurationGeneral" menu_index="true" />
+		<action name="dispAdminInsertDomain" class="Controllers\SystemConfig\Domains" menu_name="adminConfigurationGeneral" />
+		<action name="dispAdminCopyDomain" class="Controllers\SystemConfig\Domains" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateDomainConfig" class="Controllers\SystemConfig\Domains" />
+		<action name="procAdminInsertDomain" class="Controllers\SystemConfig\Domains" />
+		<action name="procAdminDeleteDomain" class="Controllers\SystemConfig\Domains" />
+		<!-- System Config:: Other -->
 		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
 		<action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminInsertDomain" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminCopyDomain" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
-		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
-		
-		<action name="dispAdminViewServerEnv" class="Controllers\ServerEnv" />
-		<action name="dispAdminRewriteTest" class="Controllers\ServerEnv" standalone="true" />
-		<action name="procAdminClearApcu" class="Controllers\ServerEnv" />
-		<action name="procAdminClearOpcache" class="Controllers\ServerEnv" />
-		
-		<action name="procAdminRemoveIcons" type="controller" />
-		<action name="procAdminRecompileCacheFile" type="controller" />
-		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
-		<action name="procAdminToggleFavorite" type="controller" />
-		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
-		<action name="procAdminUpdateConfig" type="controller" />
-		<action name="procAdminDeleteLogo" type="controller" />
-		<action name="procAdminMenuReset" type="controller" />
-		<action name="procAdminUpdateDomains" type="controller" />
 		<action name="procAdminUpdateNotification" type="controller" />
 		<action name="procAdminUpdateSecurity" type="controller" />
 		<action name="procAdminUpdateAdvanced" type="controller" />
 		<action name="procAdminUpdateDebug" type="controller" />
 		<action name="procAdminUpdateSEO" type="controller" />
 		<action name="procAdminUpdateSitelock" type="controller" />
-		<action name="procAdminInsertDomain" type="controller" />
-		<action name="procAdminDeleteDomain" type="controller" />
+		
+		<action name="procAdminRemoveIcons" type="controller" />
+		<action name="procAdminRecompileCacheFile" type="controller" />
+		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
+		<action name="procAdminToggleFavorite" type="controller" />
+		<action name="procAdminUpdateConfig" type="controller" />
+		
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
-		
+		<!-- Admin Interface Config -->
+		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
+		<action name="procAdminDeleteLogo" type="controller" />
+		<action name="procAdminMenuReset" type="controller" />
+		<!-- Legacy API -->
+		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
+		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
 		<action name="getSiteAllList" type="model" permission="root" />
 	</actions>
 	<menus>

@@ -20,42 +20,10 @@ class AdminAdminView extends Admin
 	}
 
 	/**
-	 * Display General Settings page
-	 * @return void
-	 */
-	function dispAdminConfigGeneral()
-	{
-		// Get domain list.
-		$oModuleModel = getModel('module');
-		$page = intval(Context::get('page')) ?: 1;
-		$domain_list = $oModuleModel->getAllDomains(20, $page);
-		Context::set('domain_list', $domain_list);
-		Context::set('page_navigation', $domain_list->page_navigation);
-		Context::set('page', $page);
-		
-		// Get index module info.
-		$module_list = array();
-		$oModuleModel = getModel('module');
-		foreach ($domain_list->data as $domain)
-		{
-			if ($domain->index_module_srl && !isset($module_list[$domain->index_module_srl]))
-			{
-				$module_list[$domain->index_module_srl] = $oModuleModel->getModuleInfoByModuleSrl($domain->index_module_srl);
-			}
-		}
-		Context::set('module_list', $module_list);
-		
-		// Get language list.
-		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
-		
-		$this->setTemplateFile('config_domains');
-	}
-	
-	/**
 	 * Display Notification Settings page
 	 * @return void
 	 */
-	function dispAdminConfigNotification()
+	public function dispAdminConfigNotification()
 	{
 		// Load advanced mailer module (for lang).
 		$oAdvancedMailerAdminView = getAdminView('advanced_mailer');
@@ -117,7 +85,7 @@ class AdminAdminView extends Admin
 	 * Display Security Settings page
 	 * @return void
 	 */
-	function dispAdminConfigSecurity()
+	public function dispAdminConfigSecurity()
 	{
 		// Load embed filter.
 		context::set('mediafilter_whitelist', implode(PHP_EOL, Rhymix\Framework\Filters\MediaFilter::getWhitelist()));
@@ -149,7 +117,7 @@ class AdminAdminView extends Admin
 	 * Display Advanced Settings page
 	 * @return void
 	 */
-	function dispAdminConfigAdvanced()
+	public function dispAdminConfigAdvanced()
 	{
 		// Object cache
 		$object_cache_types = Rhymix\Framework\Cache::getSupportedDrivers();
@@ -247,7 +215,7 @@ class AdminAdminView extends Admin
 	 * Display Debug Settings page
 	 * @return void
 	 */
-	function dispAdminConfigDebug()
+	public function dispAdminConfigDebug()
 	{
 		// Load debug settings.
 		Context::set('debug_enabled', Rhymix\Framework\Config::get('debug.enabled'));
@@ -275,7 +243,7 @@ class AdminAdminView extends Admin
 	 * Display Debug Settings page
 	 * @return void
 	 */
-	function dispAdminConfigSEO()
+	public function dispAdminConfigSEO()
 	{
 		// Meta keywords and description
 		$oModuleModel = getModel('module');
@@ -304,7 +272,7 @@ class AdminAdminView extends Admin
 	 * Display Sitelock Settings page
 	 * @return void
 	 */
-	function dispAdminConfigSitelock()
+	public function dispAdminConfigSitelock()
 	{
 		Context::set('sitelock_locked', Rhymix\Framework\Config::get('lock.locked'));
 		Context::set('sitelock_title', escape(Rhymix\Framework\Config::get('lock.title')));
@@ -312,152 +280,16 @@ class AdminAdminView extends Admin
 		
 		$allowed_ip = Rhymix\Framework\Config::get('lock.allow') ?: array();
 		Context::set('sitelock_allowed_ip', implode(PHP_EOL, $allowed_ip));
-		Context::set('remote_addr', RX_CLIENT_IP);
+		Context::set('remote_addr', \RX_CLIENT_IP);
 		
 		$this->setTemplateFile('config_sitelock');
-	}
-	
-	/**
-	 * Display domain edit screen
-	 * @return void
-	 */
-	function dispAdminInsertDomain()
-	{
-		// Get selected domain.
-		$domain_srl = strval(Context::get('domain_srl'));
-		$domain_info = null;
-		if ($domain_srl !== '')
-		{
-			$domain_info = ModuleModel::getSiteInfo($domain_srl);
-			if ($domain_info->domain_srl != $domain_srl)
-			{
-				throw new Rhymix\Framework\Exception('msg_domain_not_found');
-			}
-		}
-		Context::set('domain_info', $domain_info);
-		Context::set('domain_copy', false);
-		
-		// Get modules.
-		if ($domain_info && $domain_info->index_module_srl)
-		{
-			$index_module_srl = $domain_info->index_module_srl;
-		}
-		else
-		{
-			$index_module_srl = '';
-		}
-		Context::set('index_module_srl', $index_module_srl);
-		
-		// Get language list.
-		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
-		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
-		if ($domain_info && $domain_info->settings->language)
-		{
-			$domain_lang = $domain_info->settings->language;
-		}
-		else
-		{
-			$domain_lang = 'default';
-		}
-		Context::set('domain_lang', $domain_lang);
-		
-		// Get timezone list.
-		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
-		if ($domain_info && $domain_info->settings->timezone)
-		{
-			$domain_timezone = $domain_info->settings->timezone;
-		}
-		else
-		{
-			$domain_timezone = Rhymix\Framework\Config::get('locale.default_timezone');
-		}
-		Context::set('domain_timezone', $domain_timezone);
-		
-		// Get favicon and images.
-		if ($domain_info)
-		{
-			Context::set('favicon_url', Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain_info->domain_srl));
-			Context::set('mobicon_url', Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($domain_info->domain_srl));
-			Context::set('default_image_url', Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl($domain_info->domain_srl));
-			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
-		}
-		
-		$this->setTemplateFile('config_domains_edit');
-	}
-	
-	/**
-	 * Display domain copy screen
-	 * @return void
-	 */
-	function dispAdminCopyDomain()
-	{
-		// Get selected domain.
-		$domain_srl = strval(Context::get('domain_srl'));
-		$domain_info = ModuleModel::getSiteInfo($domain_srl);
-		if ($domain_info->domain_srl != $domain_srl)
-		{
-			throw new Rhymix\Framework\Exception('msg_domain_not_found');
-		}
-		
-		// Adjust some properties for copying.
-		$domain_info->domain_srl = null;
-		$domain_info->is_default_domain = 'N';
-		Context::set('domain_info', $domain_info);
-		Context::set('domain_copy', true);
-		
-		// Get modules.
-		if ($domain_info && $domain_info->index_module_srl)
-		{
-			$index_module_srl = $domain_info->index_module_srl;
-		}
-		else
-		{
-			$index_module_srl = '';
-		}
-		Context::set('index_module_srl', $index_module_srl);
-		
-		// Get language list.
-		Context::set('supported_lang', Rhymix\Framework\Lang::getSupportedList());
-		Context::set('enabled_lang', Rhymix\Framework\Config::get('locale.enabled_lang'));
-		if ($domain_info && $domain_info->settings->language)
-		{
-			$domain_lang = $domain_info->settings->language;
-		}
-		else
-		{
-			$domain_lang = 'default';
-		}
-		Context::set('domain_lang', $domain_lang);
-		
-		// Get timezone list.
-		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
-		if ($domain_info && $domain_info->settings->timezone)
-		{
-			$domain_timezone = $domain_info->settings->timezone;
-		}
-		else
-		{
-			$domain_timezone = Rhymix\Framework\Config::get('locale.default_timezone');
-		}
-		Context::set('domain_timezone', $domain_timezone);
-		
-		// Get favicon and images.
-		if ($domain_info)
-		{
-			Context::set('favicon_url', Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain_info->domain_srl));
-			Context::set('mobicon_url', Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($domain_info->domain_srl));
-			Context::set('default_image_url', Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl($domain_info->domain_srl));
-			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
-		}
-		
-		$this->setTemplateFile('config_domains_edit');
 	}
 	
 	/**
 	 * Display FTP Configuration(settings) page
 	 * @return void
 	 */
-	function dispAdminConfigFtp()
+	public function dispAdminConfigFtp()
 	{
 		Context::set('ftp_info', Rhymix\Framework\Config::get('ftp'));
 		Context::set('sftp_support', function_exists('ssh2_sftp'));
@@ -469,7 +301,7 @@ class AdminAdminView extends Admin
 	 * Display Admin Menu Configuration(settings) page
 	 * @return void
 	 */
-	function dispAdminSetup()
+	public function dispAdminSetup()
 	{
 		$oMenuAdminModel = getAdminModel('menu');
 		$output = $oMenuAdminModel->getMenuByTitle($this->getAdminMenuName());

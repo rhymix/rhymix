@@ -15,7 +15,7 @@ class AdminAdminController extends Admin
 	 * initialization
 	 * @return void
 	 */
-	function init()
+	public function init()
 	{
 		// forbit access if the user is not an administrator
 		if (!$this->user->isAdmin())
@@ -28,7 +28,7 @@ class AdminAdminController extends Admin
 	 * Admin menu reset
 	 * @return void
 	 */
-	function procAdminMenuReset()
+	public function procAdminMenuReset()
 	{
 		$oMenuAdminModel = getAdminModel('menu');
 		$oMenuAdminController = getAdminController('menu');
@@ -60,7 +60,7 @@ class AdminAdminController extends Admin
 	 * Regenerate all cache files
 	 * @return void
 	 */
-	function procAdminRecompileCacheFile()
+	public function procAdminRecompileCacheFile()
 	{
 		// rename cache dir
 		$truncate_method = Rhymix\Framework\Config::get('cache.truncate_method');
@@ -219,7 +219,7 @@ class AdminAdminController extends Admin
 		$this->makeDefaultDesignFile($designInfo);
 	}
 
-	function makeDefaultDesignFile($designInfo)
+	public function makeDefaultDesignFile($designInfo)
 	{
 		$buff = array();
 		$buff[] = '<?php if(!defined("__XE__")) exit();';
@@ -254,7 +254,7 @@ class AdminAdminController extends Admin
 	 * Toggle favorite
 	 * @return void
 	 */
-	function procAdminToggleFavorite()
+	public function procAdminToggleFavorite()
 	{
 		$moduleName = Context::get('module_name');
 
@@ -293,7 +293,7 @@ class AdminAdminController extends Admin
 	 * Cleanning favorite
 	 * @return object|void
 	 */
-	function cleanFavorite()
+	public function cleanFavorite()
 	{
 		$output = Rhymix\Modules\Admin\Models\Favorite::getFavorites();
 		if(!$output->toBool())
@@ -338,7 +338,7 @@ class AdminAdminController extends Admin
 	 * Enviroment gathering agreement
 	 * @return void
 	 */
-	function procAdminEnviromentGatheringAgreement()
+	public function procAdminEnviromentGatheringAgreement()
 	{
 		$isAgree = Context::get('is_agree');
 		if($isAgree == 'true')
@@ -358,7 +358,7 @@ class AdminAdminController extends Admin
 	 * Admin config update
 	 * @return void
 	 */
-	function procAdminUpdateConfig()
+	public function procAdminUpdateConfig()
 	{
 		$oModuleModel = getModel('module');
 		$oAdminConfig = $oModuleModel->getModuleConfig('admin');
@@ -379,7 +379,7 @@ class AdminAdminController extends Admin
 	 * Admin logo delete
 	 * @return void
 	 */
-	function procAdminDeleteLogo()
+	public function procAdminDeleteLogo()
 	{
 		$oModuleModel = getModel('module');
 		$oAdminConfig = $oModuleModel->getModuleConfig('admin');
@@ -400,7 +400,7 @@ class AdminAdminController extends Admin
 	 * Insert favorite
 	 * @return object query result
 	 */
-	function _insertFavorite($site_srl, $module, $type = 'module')
+	public function _insertFavorite($site_srl, $module, $type = 'module')
 	{
 		return Rhymix\Modules\Admin\Models\Favorite::insertFavorite($module, $type);
 	}
@@ -409,7 +409,7 @@ class AdminAdminController extends Admin
 	 * Delete favorite
 	 * @return object query result
 	 */
-	function _deleteFavorite($favoriteSrl)
+	public function _deleteFavorite($favoriteSrl)
 	{
 		return Rhymix\Modules\Admin\Models\Favorite::deleteFavorite($favoriteSrl);
 	}
@@ -418,7 +418,7 @@ class AdminAdminController extends Admin
 	 * Delete all favorite
 	 * @return object query result
 	 */
-	function _deleteAllFavorite()
+	public function _deleteAllFavorite()
 	{
 		return Rhymix\Modules\Admin\Models\Favorite::deleteAllFavorites();
 	}
@@ -427,7 +427,7 @@ class AdminAdminController extends Admin
 	 * Remove admin icon
 	 * @return object|void
 	 */
-	function procAdminRemoveIcons()
+	public function procAdminRemoveIcons()
 	{
 		$site_info = Context::get('site_module_info');
 		$virtual_site = '';
@@ -450,35 +450,9 @@ class AdminAdminController extends Admin
 	}
 	
 	/**
-	 * Update domains configuration.
-	 */
-	function procAdminUpdateDomains()
-	{
-		$vars = Context::getRequestVars();
-		
-		// Validate the unregistered domain action.
-		$valid_actions = array('redirect_301', 'redirect_302', 'display', 'block');
-		if (!in_array($vars->unregistered_domain_action, $valid_actions))
-		{
-			$vars->unregistered_domain_action = 'redirect_301';
-		}
-		
-		// Save system config.
-		Rhymix\Framework\Config::set('url.unregistered_domain_action', $vars->unregistered_domain_action);
-		Rhymix\Framework\Config::set('use_sso', $vars->use_sso === 'Y');
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));		
-	}
-	
-	/**
 	 * Update notification configuration.
 	 */
-	function procAdminUpdateNotification()
+	public function procAdminUpdateNotification()
 	{
 		$vars = Context::getRequestVars();
 		
@@ -644,7 +618,7 @@ class AdminAdminController extends Admin
 	/**
 	 * Update security configuration.
 	 */
-	function procAdminUpdateSecurity()
+	public function procAdminUpdateSecurity()
 	{
 		$vars = Context::getRequestVars();
 		
@@ -733,7 +707,7 @@ class AdminAdminController extends Admin
 	/**
 	 * Update advanced configuration.
 	 */
-	function procAdminUpdateAdvanced()
+	public function procAdminUpdateAdvanced()
 	{
 		$vars = Context::getRequestVars();
 		
@@ -846,7 +820,7 @@ class AdminAdminController extends Admin
 	/**
 	 * Update debug configuration.
 	 */
-	function procAdminUpdateDebug()
+	public function procAdminUpdateDebug()
 	{
 		$vars = Context::getRequestVars();
 		
@@ -916,7 +890,7 @@ class AdminAdminController extends Admin
 	/**
 	 * Update SEO configuration.
 	 */
-	function procAdminUpdateSEO()
+	public function procAdminUpdateSEO()
 	{
 		$vars = Context::getRequestVars();
 		
@@ -951,7 +925,7 @@ class AdminAdminController extends Admin
 	/**
 	 * Update sitelock configuration.
 	 */
-	function procAdminUpdateSitelock()
+	public function procAdminUpdateSitelock()
 	{
 		$vars = Context::gets('sitelock_locked', 'sitelock_allowed_ip', 'sitelock_title', 'sitelock_message');
 		
@@ -979,338 +953,9 @@ class AdminAdminController extends Admin
 	}
 	
 	/**
-	 * Insert or update domain info
-	 * @return void
-	 */
-	function procAdminInsertDomain()
-	{
-		$vars = Context::getRequestVars();
-		$domain_srl = intval($vars->domain_srl);
-		$domain_info = null;
-		if (strval($vars->domain_srl) !== '')
-		{
-			$domain_info = ModuleModel::getSiteInfo($domain_srl);
-			if (!$domain_info || intval($domain_info->domain_srl) !== $domain_srl)
-			{
-				throw new Rhymix\Framework\Exception('msg_domain_not_found');
-			}
-		}
-		
-		// Copying?
-		$copy_domain_srl = intval($vars->copy_domain_srl);
-		if (!$domain_info && $copy_domain_srl > -1)
-		{
-			$copy_domain_info = ModuleModel::getSiteInfo($copy_domain_srl);
-			if (!$copy_domain_info || intval($copy_domain_info->domain_srl) !== $copy_domain_srl)
-			{
-				throw new Rhymix\Framework\Exception('msg_domain_not_found');
-			}
-		}
-		else
-		{
-			$copy_domain_info = null;
-		}
-		
-		// Validate the title and subtitle.
-		$vars->title = utf8_trim($vars->title);
-		$vars->subtitle = utf8_trim($vars->subtitle);
-		if ($vars->title === '')
-		{
-			throw new Rhymix\Framework\Exception('msg_site_title_is_empty');
-		}
-		
-		// Validate the domain.
-		if (!preg_match('@^https?://@', $vars->domain))
-		{
-			$vars->domain = 'http://' . $vars->domain;
-		}
-		try
-		{
-			$vars->domain = Rhymix\Framework\URL::getDomainFromUrl(strtolower($vars->domain));
-		}
-		catch (Exception $e)
-		{
-			$vars->domain = '';
-		}
-		if (!$vars->domain)
-		{
-			throw new Rhymix\Framework\Exception('msg_invalid_domain');
-		}
-		$existing_domain = getModel('module')->getSiteInfoByDomain($vars->domain);
-		if ($existing_domain && $existing_domain->domain == $vars->domain && (!$domain_info || $existing_domain->domain_srl != $domain_info->domain_srl))
-		{
-			throw new Rhymix\Framework\Exception('msg_domain_already_exists');
-		}
-		
-		// Validate the ports.
-		if ($vars->http_port == 80 || !$vars->http_port)
-		{
-			$vars->http_port = 0;
-		}
-		if ($vars->https_port == 443 || !$vars->https_port)
-		{
-			$vars->https_port = 0;
-		}
-		if ($vars->http_port !== 0 && ($vars->http_port < 1 || $vars->http_port > 65535 || $vars->http_port == 443))
-		{
-			throw new Rhymix\Framework\Exception('msg_invalid_http_port');
-		}
-		if ($vars->https_port !== 0 && ($vars->https_port < 1 || $vars->https_port > 65535 || $vars->https_port == 80))
-		{
-			throw new Rhymix\Framework\Exception('msg_invalid_https_port');
-		}
-		
-		// Validate the security setting.
-		$valid_security_options = array('none', 'optional', 'always');
-		if (!in_array($vars->domain_security, $valid_security_options))
-		{
-			$vars->domain_security = 'none';
-		}
-		
-		// Validate the index module setting.
-		$module_info = getModel('module')->getModuleInfoByModuleSrl(intval($vars->index_module_srl));
-		if (!$module_info || $module_info->module_srl != $vars->index_module_srl)
-		{
-			throw new Rhymix\Framework\Exception('msg_invalid_index_module_srl');
-		}
-		
-		// Validate the index document setting.
-		if ($vars->index_document_srl)
-		{
-			$oDocument = getModel('document')->getDocument($vars->index_document_srl);
-			if (!$oDocument || !$oDocument->isExists())
-			{
-				throw new Rhymix\Framework\Exception('msg_invalid_index_document_srl');
-			}
-			if (intval($oDocument->get('module_srl')) !== intval($vars->index_module_srl))
-			{
-				throw new Rhymix\Framework\Exception('msg_invalid_index_document_srl_module_srl');
-			}
-		}
-		else
-		{
-			$vars->index_document_srl = 0;
-		}
-		
-		// Validate the default language.
-		$enabled_lang = Rhymix\Framework\Config::get('locale.enabled_lang');
-		if ($vars->default_lang !== 'default' && !in_array($vars->default_lang, $enabled_lang))
-		{
-			throw new Rhymix\Framework\Exception('msg_lang_is_not_enabled');
-		}
-		
-		// Validate the default time zone.
-		$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
-		if ($vars->default_timezone !== 'default' && !isset($timezone_list[$vars->default_timezone]))
-		{
-			throw new Rhymix\Framework\Exception('msg_invalid_timezone');
-		}
-		
-		// Clean up the meta keywords and description.
-		$vars->meta_keywords = utf8_trim($vars->meta_keywords);
-		$vars->meta_description = utf8_trim($vars->meta_description);
-		
-		// Clean up the header and footer scripts.
-		$vars->html_header = utf8_trim($vars->html_header);
-		$vars->html_footer = utf8_trim($vars->html_footer);
-		
-		// Validate the color scheme setting.
-		$valid_color_scheme_options = array('auto', 'light', 'dark');
-		if (!in_array($vars->color_scheme, $valid_color_scheme_options))
-		{
-			$vars->color_scheme = 'auto';
-		}
-		
-		// Merge all settings into an array.
-		$settings = array(
-			'title' => $vars->title,
-			'subtitle' => $vars->subtitle,
-			'language' => $vars->default_lang,
-			'timezone' => $vars->default_timezone,
-			'meta_keywords' => $vars->meta_keywords,
-			'meta_description' => $vars->meta_description,
-			'html_header' => $vars->html_header,
-			'html_footer' => $vars->html_footer,
-			'color_scheme' => $vars->color_scheme
-		);
-		
-		// Get the DB object and begin a transaction.
-		$oDB = DB::getInstance();
-		$oDB->begin();
-		
-		// Insert or update the domain.
-		if (!$domain_info)
-		{
-			$args = new stdClass();
-			$args->domain_srl = $domain_srl = getNextSequence();
-			$args->domain = $vars->domain;
-			$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
-			$args->index_module_srl = $vars->index_module_srl;
-			$args->index_document_srl = $vars->index_document_srl;
-			$args->http_port = $vars->http_port;
-			$args->https_port = $vars->https_port;
-			$args->security = $vars->domain_security;
-			$args->description = '';
-			$args->settings = json_encode($settings);
-			$output = executeQuery('module.insertDomain', $args);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-		else
-		{
-			$args = new stdClass();
-			$args->domain_srl = $domain_info->domain_srl;
-			$args->domain = $vars->domain;
-			if (isset($vars->is_default_domain))
-			{
-				$args->is_default_domain = $vars->is_default_domain === 'Y' ? 'Y' : 'N';
-			}
-			$args->index_module_srl = $vars->index_module_srl;
-			$args->index_document_srl = $vars->index_document_srl;
-			$args->http_port = $vars->http_port;
-			$args->https_port = $vars->https_port;
-			$args->security = $vars->domain_security;
-			$args->settings = json_encode(array_merge(get_object_vars($domain_info->settings), $settings));
-			$output = executeQuery('module.updateDomain', $args);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-		
-		// If changing the default domain, set all other domains as non-default.
-		if ($vars->is_default_domain === 'Y')
-		{
-			$args = new stdClass();
-			$args->not_domain_srl = $domain_srl;
-			$output = executeQuery('module.updateDefaultDomain', $args);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-		
-		// Save or copy the favicon.
-		if ($vars->favicon || $vars->delete_favicon)
-		{
-			$this->_saveFavicon($domain_srl, $vars->favicon, 'favicon.ico', $vars->delete_favicon);
-		}
-		elseif ($copy_domain_info)
-		{
-			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'favicon.ico';
-			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'favicon.ico';
-			Rhymix\Framework\Storage::copy($source_filename, $target_filename);
-		}
-		
-		// Save or copy the mobile icon.
-		if ($vars->mobicon || $vars->delete_mobicon)
-		{
-			$this->_saveFavicon($domain_srl, $vars->mobicon, 'mobicon.png', $vars->delete_mobicon);
-		}
-		elseif ($copy_domain_info)
-		{
-			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'mobicon.png';
-			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'mobicon.png';
-			Rhymix\Framework\Storage::copy($source_filename, $target_filename);
-		}
-		
-		// Save or copy the site default image.
-		if ($vars->default_image || $vars->delete_default_image)
-		{
-			$this->_saveDefaultImage($domain_srl, $vars->default_image, $vars->delete_default_image);
-		}
-		elseif ($copy_domain_info)
-		{
-			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'default_image.php';
-			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'default_image.php';
-			if (Rhymix\Framework\Storage::copy($source_filename, $target_filename))
-			{
-				$info = Rhymix\Framework\Storage::readPHPData($target_filename);
-				if ($info && $info['filename'])
-				{
-					$source_image = \RX_BASEDIR . $info['filename'];
-					$target_image = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . basename($info['filename']);
-					if (Rhymix\Framework\Storage::copy($source_image, $target_image))
-					{
-						$info['filename'] = substr($target_image, strlen(\RX_BASEDIR));
-						$info = Rhymix\Framework\Storage::writePHPData($target_filename, $info);
-					}
-				}
-				else
-				{
-					Rhymix\Framework\Storage::delete($target_filename);
-				}
-			}
-		}
-		
-		// Update system configuration to match the default domain.
-		if ($domain_info && $domain_info->is_default_domain === 'Y')
-		{
-			$domain_info->domain = $vars->domain;
-			$domain_info->http_port = $vars->http_port;
-			$domain_info->https_port = $vars->https_port;
-			$domain_info->security = $vars->domain_security;
-			Rhymix\Framework\Config::set('url.default', Context::getDefaultUrl($domain_info));
-			Rhymix\Framework\Config::set('url.http_port', $vars->http_port ?: null);
-			Rhymix\Framework\Config::set('url.https_port', $vars->https_port ?: null);
-			Rhymix\Framework\Config::set('url.ssl', $vars->domain_security);
-			if (!Rhymix\Framework\Config::save())
-			{
-				throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-			}
-		}
-		
-		// Commit.
-		$oDB->commit();
-		
-		// Clear cache.
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		
-		// Redirect to the domain list.
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
-	}
-	
-	/**
-	 * Delete domain
-	 * @return void
-	 */
-	function procAdminDeleteDomain()
-	{
-		// Get selected domain.
-		$domain_srl = strval(Context::get('domain_srl'));
-		if ($domain_srl === '')
-		{
-			throw new Rhymix\Framework\Exception('msg_domain_not_found');
-		}
-		$domain_info = getModel('module')->getSiteInfo($domain_srl);
-		if ($domain_info->domain_srl != $domain_srl)
-		{
-			throw new Rhymix\Framework\Exception('msg_domain_not_found');
-		}
-		if ($domain_info->is_default_domain === 'Y')
-		{
-			throw new Rhymix\Framework\Exception('msg_cannot_delete_default_domain');
-		}
-		
-		// Delete the domain.
-		$args = new stdClass();
-		$args->domain_srl = $domain_srl;
-		$output = executeQuery('module.deleteDomain', $args);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-		
-		// Clear cache.
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-	}
-	
-	/**
 	 * Update FTP configuration.
 	 */
-	function procAdminUpdateFTPInfo()
+	public function procAdminUpdateFTPInfo()
 	{
 		$vars = Context::getRequestVars();
 		$vars->ftp_path = str_replace('\\', '/', rtrim(trim($vars->ftp_path), '/\\')) . '/';
@@ -1385,7 +1030,7 @@ class AdminAdminController extends Admin
 	/**
 	 * Remove FTP configuration.
 	 */
-	function procAdminRemoveFTPInfo()
+	public function procAdminRemoveFTPInfo()
 	{
 		Rhymix\Framework\Config::set('ftp.host', null);
 		Rhymix\Framework\Config::set('ftp.port', null);
@@ -1400,64 +1045,6 @@ class AdminAdminController extends Admin
 		}
 		
 		$this->setMessage('success_deleted');
-	}
-	
-	protected function _saveFavicon($domain_srl, $uploaded_fileinfo, $iconname, $deleteIcon = false)
-	{
-		$image_filepath = 'files/attach/xeicon/';
-		if ($domain_srl)
-		{
-			$image_filepath .= intval($domain_srl) . '/';
-		}
-		
-		if ($deleteIcon)
-		{
-			Rhymix\Framework\Storage::delete(\RX_BASEDIR . $image_filepath . $iconname);
-			return;
-		}
-		
-		$original_filename = $uploaded_fileinfo['tmp_name'];
-		$icon_filepath = $image_filepath . $iconname;
-		if (is_uploaded_file($original_filename))
-		{
-			Rhymix\Framework\Storage::move($original_filename, \RX_BASEDIR . $icon_filepath);
-		}
-	}
-	
-	protected function _saveDefaultImage($domain_srl, $uploaded_fileinfo, $deleteIcon = false)
-	{
-		$image_filepath = 'files/attach/xeicon/';
-		if ($domain_srl)
-		{
-			$image_filepath .= ($virtual_site = intval($domain_srl) . '/');
-		}
-		
-		if ($deleteIcon)
-		{
-			$info = Rhymix\Framework\Storage::readPHPData($image_filepath . 'default_image.php');
-			if ($info['filename'])
-			{
-				Rhymix\Framework\Storage::delete(\RX_BASEDIR . $info['filename']);
-			}
-			Rhymix\Framework\Storage::delete($image_filepath . 'default_image.php');
-			return;
-		}
-		
-		$original_filename = $uploaded_fileinfo['tmp_name'];
-		if (is_uploaded_file($original_filename))
-		{
-			list($width, $height, $type) = @getimagesize($original_filename);
-			switch ($type)
-			{
-				case 'image/gif': $target_filename = $image_filepath . 'default_image.gif'; break;
-				case 'image/jpeg': $target_filename = $image_filepath . 'default_image.jpg'; break;
-				case 'image/png': default: $target_filename = $image_filepath . 'default_image.png';
-			}
-			Rhymix\Framework\Storage::move($original_filename, \RX_BASEDIR . $target_filename);
-			Rhymix\Framework\Storage::writePHPData(\RX_BASEDIR . 'files/attach/xeicon/' . $virtual_site . 'default_image.php', array(
-				'filename' => $target_filename, 'width' => $width, 'height' => $height,
-			));
-		}
 	}
 }
 /* End of file admin.admin.controller.php */

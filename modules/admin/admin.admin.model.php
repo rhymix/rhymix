@@ -138,16 +138,6 @@ class AdminAdminModel extends Admin
 	/**
 	 * Aliases for backward compatibility.
 	 */
-	public static function getAdminMenuName()
-	{
-		return Rhymix\Modules\Admin\Models\AdminMenu::getAdminMenuName();
-	}
-
-	public static function getAdminMenuLang()
-	{
-		return Rhymix\Modules\Admin\Models\AdminMenu::getAdminMenuLang();
-	}
-
 	public static function getFavoriteList($site_srl = 0, $add_module_info = false)
 	{
 		return Rhymix\Modules\Admin\Models\Favorite::getFavorites($add_module_info);
