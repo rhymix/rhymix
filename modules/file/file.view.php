@@ -4,7 +4,7 @@
  * The view class file module
  * @author NAVER (developers@xpressengine.com)
  */
-class fileView extends file
+class FileView extends File
 {
 	/**
 	 * Initialization

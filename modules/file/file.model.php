@@ -4,7 +4,7 @@
  * Model class of the file module
  * @author NAVER (developers@xpressengine.com)
  */
-class fileModel extends file
+class FileModel extends File
 {
 	/**
 	 * Initialization

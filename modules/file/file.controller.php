@@ -4,7 +4,7 @@
  * Controller class of the file module
  * @author NAVER (developers@xpressengine.com)
  */
-class fileController extends file
+class FileController extends File
 {
 	/**
 	 * Initialization

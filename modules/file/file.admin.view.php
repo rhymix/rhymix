@@ -4,7 +4,7 @@
  * Admin view of the module class file
  * @author NAVER (developers@xpressengine.com)
  */
-class fileAdminView extends file
+class FileAdminView extends File
 {
 	/**
 	 * Initialization

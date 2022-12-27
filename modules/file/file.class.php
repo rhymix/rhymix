@@ -4,7 +4,7 @@
  * High class of the file module
  * @author NAVER (developers@xpressengine.com)
  */
-class file extends ModuleObject
+class File extends ModuleObject
 {
 	/**
 	 * Implement if additional tasks are necessary when installing
