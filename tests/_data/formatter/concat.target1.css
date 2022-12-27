@@ -1,19 +1,20 @@
+@charset "UTF-8";
+@import url("//fonts.googleapis.com/earlyaccess/nanumgothic.css");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
 /* Original file: tests/_data/formatter/concat.source1.css */
 
-@charset "UTF-8";
 .rhymix {
 	background: url("../_data/formatter/foo/bar.jpg");
 }
 
 /* Original file: tests/_data/formatter/concat.source2.css */
 
-@charset "UTF-8";
 .imported {
 	background-image: url("../_data/_data/formatter/test.jpg");
 	font-family: sans-serif;
 }
-@import url("//fonts.googleapis.com/earlyaccess/nanumgothic.css");
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+
 .wordpress {
 	border-radius: 4px;
 }

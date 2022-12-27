@@ -328,6 +328,8 @@ class Formatter
 	 */
 	public static function concatCSS($source_filename, $target_filename, $add_comment = true, &$imported_list = [])
 	{
+		$charsets = [];
+		$imported_urls = [];
 		$result = '';
 		
 		if (!is_array($source_filename))
@@ -353,10 +355,11 @@ class Formatter
 			// Convert all paths in LESS and SCSS imports, too.
 			$dirname = dirname($filename);
 			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
-			$content = preg_replace_callback('/@import\s+([^\r\n]+);(?=[\r\n$])/', function($matches) use($dirname, $filename, $target_filename, $import_type, &$imported_list) {
+			$content = preg_replace_callback('/@import\s+([^\r\n]+);(?=[\r\n$])/', function($matches) use($dirname, $filename, $target_filename, $import_type, &$imported_list, &$imported_urls) {
 				if (preg_match('!^url\([\'"]?((?:https?:)?//[^()\'"]+)!i', $matches[1], $urlmatches))
 				{
-					return '@import url("' . escape_dqstr($urlmatches[1]) . '");';
+					$imported_urls[] = $urlmatches[1];
+					return '';
 				}
 				$import_content = '';
 				$import_files = array_map(function($str) use($dirname, $filename, $import_type) {
@@ -403,7 +406,7 @@ class Formatter
 				{
 					if (preg_match('!^(https?:)?//!i', $import_filename))
 					{
-						$import_content .= '@import url("' . escape_dqstr($import_filename) . '");';
+						$imported_urls[] = $import_filename;
 					}
 					elseif (file_exists($import_filename))
 					{
@@ -434,6 +437,12 @@ class Formatter
 			}, $content);
 			unset($path_converter);
 			
+			// Extract all @charset declarations.
+			$content = preg_replace_callback('/@charset\s+(["\'a-z0-9_-]+);[\r\n]*/i', function($matches) use (&$charsets) {
+				$charsets[] = trim($matches[1], '"\'');
+				return '';
+			}, $content);
+			
 			// Wrap the content in a media query if there is one.
 			if ($media !== null)
 			{
@@ -450,6 +459,20 @@ class Formatter
 			{
 				$result .= trim($content) . "\n\n";
 			}
+		}
+		
+		// Place all @charset and @import statements at the beginning.
+		if (count($imported_urls))
+		{
+			$imports = implode("\n", array_map(function($url) {
+				return '@import url("' . escape_dqstr($url) . '");';
+			}, $imported_urls));
+			$result = $imports . "\n" . $result;
+		}
+		if (count($charsets))
+		{
+			$charset = '@charset "' . escape_dqstr(array_first($charsets)) . '";';
+			$result = $charset . "\n" . $result;
 		}
 		
 		return $result;
