@@ -2,7 +2,7 @@
 
 namespace Rhymix\Modules\Member\Controllers;
 
-class Device extends \member
+class Device extends \Member
 {
 	/**
 	 * Automatically recognize device token from header or cookie and register it.
