@@ -581,8 +581,7 @@ class ModuleHandler extends Handler
 				// Admin page layout
 				if($this->module == 'admin' && $type == 'view' && $this->act != 'dispLayoutAdminLayoutModify')
 				{
-					$oAdminView = getAdminView('admin');
-					$oAdminView->makeGnbUrl($forward->module);
+					Rhymix\Modules\Admin\Controllers\Base::getInstance()->loadAdminMenu($forward->module);
 					$oModule->setLayoutPath("./modules/admin/tpl");
 					$oModule->setLayoutFile("layout.html");
 				}

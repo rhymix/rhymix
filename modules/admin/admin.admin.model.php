@@ -136,79 +136,79 @@ class AdminAdminModel extends Admin
 	}
 
 	/**
-	 * Deprecated aliases to model methods
+	 * Aliases for backward compatibility.
 	 */
-	public function getAdminMenuName()
+	public static function getAdminMenuName()
 	{
 		return Rhymix\Modules\Admin\Models\AdminMenu::getAdminMenuName();
 	}
 
-	public function getAdminMenuLang()
+	public static function getAdminMenuLang()
 	{
 		return Rhymix\Modules\Admin\Models\AdminMenu::getAdminMenuLang();
 	}
 
-	public function getFavoriteList($site_srl = 0, $add_module_info = false)
+	public static function getFavoriteList($site_srl = 0, $add_module_info = false)
 	{
 		return Rhymix\Modules\Admin\Models\Favorite::getFavorites($add_module_info);
 	}
 
-	public function isExistsFavorite($site_srl, $module)
+	public static function isExistsFavorite($site_srl, $module)
 	{
 		return Rhymix\Modules\Admin\Models\Favorite::isFavorite($module);
 	}
 
-	public function getFaviconUrl($domain_srl = 0)
+	public static function getFaviconUrl($domain_srl = 0)
 	{
 		return Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain_srl);
 	}
 
-	public function getMobileIconUrl($domain_srl = 0)
+	public static function getMobileIconUrl($domain_srl = 0)
 	{
 		return Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($domain_srl);
 	}
 
-	public function getSiteDefaultImageUrl($domain_srl = 0, &$width = 0, &$height = 0)
+	public static function getSiteDefaultImageUrl($domain_srl = 0, &$width = 0, &$height = 0)
 	{
 		return Rhymix\Modules\Admin\Models\Icon::getDefaultImageUrl($domain_srl, $width, $height);
 	}
 
-	public function iconUrlCheck($iconname, $default_icon_name, $domain_srl)
+	public static function iconUrlCheck($iconname, $default_icon_name, $domain_srl)
 	{
 		return Rhymix\Modules\Admin\Models\Icon::getIconUrl($domain_srl, $iconname);
 	}
 
-	public function getSFTPPath()
+	public static function getSFTPPath()
 	{
 		return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 	}
 
-	public function getFTPPath()
+	public static function getFTPPath()
 	{
 		return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 	}
 
-	public function getAdminFTPPath()
+	public static function getAdminFTPPath()
 	{
 		return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 	}
 
-	public function getSFTPList()
+	public static function getSFTPList()
 	{
 		return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 	}
 
-	public function getAdminFTPList()
+	public static function getAdminFTPList()
 	{
 		return new BaseObject(-1, 'msg_ftp_invalid_auth_info');
 	}
 
-	public function getThemeList()
+	public static function getThemeList()
 	{
 		return [];
 	}
 
-	public function getThemeInfo($theme_name, $layout_list = [])
+	public static function getThemeInfo($theme_name, $layout_list = [])
 	{
 		
 	}

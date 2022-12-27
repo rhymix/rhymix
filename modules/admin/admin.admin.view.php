@@ -12,6 +12,14 @@
 class AdminAdminView extends Admin
 {
 	/**
+	 * Make the admin menu.
+	 */
+	public function makeGnbUrl($module = 'admin')
+	{
+		Rhymix\Modules\Admin\Controllers\Base::getInstance()->loadAdminMenu($module);
+	}
+
+	/**
 	 * Display General Settings page
 	 * @return void
 	 */

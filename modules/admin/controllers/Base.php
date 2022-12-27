@@ -147,4 +147,24 @@ class Base extends \ModuleObject
 		Context::set('gnb_title_info', $gnbTitleInfo ?? null);
 		Context::addBrowserTitle($subMenuTitle ? $subMenuTitle : 'Dashboard');
 	}
+	
+	/**
+	 * Alias for backward compatibility.
+	 * 
+	 * @deprecated
+	 */
+	public static function getAdminMenuName()
+	{
+		return AdminMenuModel::getAdminMenuName();
+	}
+	
+	/**
+	 * Alias for backward compatibility.
+	 * 
+	 * @deprecated
+	 */
+	public static function getAdminMenuLang()
+	{
+		return AdminMenuModel::getAdminMenuLang();
+	}
 }
