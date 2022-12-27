@@ -158,6 +158,7 @@ class ModuleObject extends BaseObject
 	 * refresh.html is executed as a result of method execution
 	 * Tpl as the common run of the refresh.html ..
 	 * 
+	 * @deprecated
 	 * @return $this
 	 */
 	public function setRefreshPage()
@@ -755,7 +756,33 @@ class ModuleObject extends BaseObject
 		}
 		return TRUE;
 	}
-
+	
+	/**
+	 * Copy the response of another ModuleObject into this instance.
+	 * 
+	 * @param self $instance
+	 * @return void
+	 */
+	public function copyResponseFrom(self $instance)
+	{
+		// Copy error and status information.
+		$this->error = $instance->getError();
+		$this->message = $instance->getMessage();
+		$this->httpStatusCode = $instance->getHttpStatusCode();
+		
+		// Copy template settings.
+		$this->setTemplatePath($instance->getTemplatePath());
+		$this->setTemplateFile($instance->getTemplateFile());
+		$this->setLayoutPath($instance->getLayoutPath());
+		$this->setLayoutFile($instance->getLayoutFile());
+		$this->setEditedLayoutFile($instance->getEditedLayoutFile());
+		
+		// Copy all other variables: redirect URL, message type, etc.
+		foreach ($instance->getVariables() as $key => $val)
+		{
+			$this->variables[$key] = $val;
+		}
+	}
 }
 /* End of file ModuleObject.class.php */
 /* Location: ./classes/module/ModuleObject.class.php */
