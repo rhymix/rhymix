@@ -6,13 +6,15 @@ class HTMLDisplayHandler
 	/**
 	 * jQuery versions
 	 */
-	const JQUERY_V1 = '1.12.4';
-	const JQUERY_V2 = '2.2.4';
+	public const JQUERY_V2 = '2.2.4';
+	public const JQUERY_V2_MIGRATE = '1.4.1';
+	public const JQUERY_V3 = '3.6.3';
+	public const JQUERY_V3_MIGRATE = '3.4.0';
 	
 	/**
 	 * Default viewport setting
 	 */
-	const DEFAULT_VIEWPORT = 'width=device-width, initial-scale=1.0, user-scalable=yes';
+	public const DEFAULT_VIEWPORT = 'width=device-width, initial-scale=1.0, user-scalable=yes';
 	
 	/**
 	 * Reserved scripts
@@ -674,8 +676,11 @@ class HTMLDisplayHandler
 	private function _loadCommonJSCSS()
 	{
 		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
+		
+		$jquery_version = self::JQUERY_V2;
+		$jquery_migrate_version = self::JQUERY_V2_MIGRATE;
 		$original_file_list = array(
-			'plugins/jquery.migrate/jquery-migrate-1.4.1.min.js',
+			'plugins/jquery.migrate/jquery-migrate-' . $jquery_migrate_version . '.min.js',
 			'plugins/cookie/js.cookie.min.js',
 			'plugins/blankshield/blankshield.min.js',
 			'plugins/uri/URI.min.js',
@@ -685,7 +690,6 @@ class HTMLDisplayHandler
 			'xml_handler.js',
 			'xml_js_filter.js',
 		);
-		$jquery_version = self::JQUERY_V2;
 		
 		if(config('view.minify_scripts') === 'none')
 		{
