@@ -74,12 +74,12 @@ class FrontEndFileHandler extends Handler
 	 * case js
 	 * 		$args[0]: file name
 	 * 		$args[1]: type (head | body)
-	 * 		$args[2]: target IE
+	 * 		$args[2]: unused (previously targetIe)
 	 * 		$args[3]: index
 	 * case css
 	 * 		$args[0]: file name
 	 * 		$args[1]: media
-	 * 		$args[2]: target IE / source type hint
+	 * 		$args[2]: source type hint
 	 * 		$args[3]: index
 	 * 		$args[4]: vars for LESS and SCSS
 	 * </pre>
@@ -228,20 +228,18 @@ class FrontEndFileHandler extends Handler
 			$file->isMinified = true;
 		}
 		
-		// Process targetIe and media attributes
-		$file->targetIe = $targetIe;
+		// Since Rhymix 2.1, targetIe is always empty
+		$file->targetIe = '';
+		
+		// Process media attributes and generate the key
 		if($file->fileExtension == 'css' || $file->fileExtension == 'less' || $file->fileExtension == 'scss')
 		{
-			$file->media = $media;
-			if(!$file->media)
-			{
-				$file->media = 'all';
-			}
-			$file->key = sprintf('%s/%s:%s:%s', $file->filePath, $file->keyName, $file->targetIe, $file->media);
+			$file->media = $media ?: 'all';
+			$file->key = sprintf('%s/%s:%s', $file->filePath, $file->keyName, $file->media);
 		}
 		else if($file->fileExtension == 'js')
 		{
-			$file->key = sprintf('%s/%s:%s', $file->filePath, $file->keyName, $file->targetIe);
+			$file->key = sprintf('%s/%s', $file->filePath, $file->keyName);
 		}
 
 		return $file;
@@ -427,7 +425,7 @@ class FrontEndFileHandler extends Handler
 	 * Get css file list
 	 *
 	 * @param bool $finalize (optional)
-	 * @return array Returns css file list. Array contains file, media, targetie.
+	 * @return array Returns css file list.
 	 */
 	public function getCssFileList($finalize = false)
 	{
@@ -471,7 +469,7 @@ class FrontEndFileHandler extends Handler
 					{
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
 					}
-					$result[] = array('file' => $url, 'media' => $file->media, 'targetie' => $file->targetIe);
+					$result[] = array('file' => $url, 'media' => $file->media);
 				}
 				else
 				{
@@ -490,7 +488,7 @@ class FrontEndFileHandler extends Handler
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, $concat_content);
 					}
 					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
-					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'media' => 'all', 'targetie' => '');
+					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'media' => 'all');
 				}
 			}
 		}
@@ -505,7 +503,7 @@ class FrontEndFileHandler extends Handler
 					{
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
 					}
-					$result[] = array('file' => $url, 'media' => $file->media, 'targetie' => $file->targetIe);
+					$result[] = array('file' => $url, 'media' => $file->media);
 				}
 			}
 		}
@@ -529,7 +527,7 @@ class FrontEndFileHandler extends Handler
 	 *
 	 * @param string $type Type of javascript. head, body
 	 * @param bool $finalize (optional)
-	 * @return array Returns javascript file list. Array contains file, targetie.
+	 * @return array Returns javascript file list.
 	 */
 	public function getJsFileList($type = 'head', $finalize = false)
 	{
@@ -577,7 +575,7 @@ class FrontEndFileHandler extends Handler
 					{
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
 					}
-					$result[] = array('file' => $url, 'targetie' => $file->targetIe);
+					$result[] = array('file' => $url);
 				}
 				else
 				{
@@ -585,7 +583,7 @@ class FrontEndFileHandler extends Handler
 					$concat_max_timestamp = 0;
 					foreach ($concat_fileset as $file)
 					{
-						$concat_files[] = $file->targetIe ? array($file->fileFullPath, $file->targetIe) : $file->fileFullPath;
+						$concat_files[] = $file->fileFullPath;
 						$concat_max_timestamp = max($concat_max_timestamp, filemtime($file->fileFullPath));
 					}
 					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.js';
@@ -594,7 +592,7 @@ class FrontEndFileHandler extends Handler
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatJS($concat_files, $concat_filename));
 					}
 					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
-					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'targetie' => '');
+					$result[] = array('file' => \RX_BASEURL . $concat_filename);
 				}
 			}
 		}
@@ -609,7 +607,7 @@ class FrontEndFileHandler extends Handler
 					{
 						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
 					}
-					$result[] = array('file' => $url, 'targetie' => $file->targetIe);
+					$result[] = array('file' => $url);
 				}
 			}
 		}
@@ -642,7 +640,7 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach ($indexedMap as $file)
 			{
-				if ($file->isExternalURL || ($file->fileExtension === 'css' && $file->targetIe) || !is_readable($file->fileFullPath))
+				if ($file->isExternalURL || !is_readable($file->fileFullPath))
 				{
 					$concat_key++;
 					$concat_list[$concat_key][] = $file;

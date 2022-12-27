@@ -40,8 +40,8 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/js/common.js', 'body'));
 		$handler->loadFile(array('./common/js/common.js', 'head'));
 		$handler->loadFile(array('./common/js/xml_js_filter.js', 'body'));
-		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
+		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 	
@@ -50,7 +50,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/js/xml_handler.js', 'body'));
 		$handler->loadFile(array('./common/js/xml_js_filter.js', 'head'));
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'));
 		$this->assertEquals($expected, $handler->getJsFileList('body'));
 	}
 	
@@ -75,10 +75,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 		$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 		$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
+		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 	
@@ -89,10 +89,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/js/js_app.js', 'head', '', -100000));
 		$handler->loadFile(array('./common/js/common.js', 'head', '', -100000));
 		$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
-		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
+		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 	
@@ -104,9 +104,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/js/xml_handler.js', 'head', '', -100000));
 		$handler->loadFile(array('./common/js/xml_js_filter.js', 'head', '', -100000));
 		$handler->unloadFile('./common/js/js_app.js', '', 'all');
-		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'), 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'), 'targetie' => null);
+		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'));
+		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 
@@ -118,10 +118,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('//external.host/js/script1.js'));
 		$handler->loadFile(array('///external.host/js/script2.js'));
 
-		$expected[] = array('file' => 'http://external.host/js/script.js', 'targetie' => null);
-		$expected[] = array('file' => 'https://external.host/js/script.js', 'targetie' => null);
-		$expected[] = array('file' => '//external.host/js/script1.js', 'targetie' => null);
-		$expected[] = array('file' => '//external.host/js/script2.js', 'targetie' => null);
+		$expected[] = array('file' => 'http://external.host/js/script.js');
+		$expected[] = array('file' => 'https://external.host/js/script.js');
+		$expected[] = array('file' => '//external.host/js/script1.js');
+		$expected[] = array('file' => '//external.host/js/script2.js');
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 	
@@ -131,7 +131,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('//external.host/js/script.js'));
 		$handler->loadFile(array('///external.host/js/script.js'));
 
-		$expected[] = array('file' => '//external.host/js/script.js', 'targetie' => null);
+		$expected[] = array('file' => '//external.host/js/script.js');
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 	
@@ -142,9 +142,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('https://external.host/css/style2.css'));
 		$handler->loadFile(array('https://external.host/css/style3.css?foo=bar&t=123'));
 
-		$expected[] = array('file' => 'http://external.host/css/style1.css', 'media'=>'all', 'targetie' => null);
-		$expected[] = array('file' => 'https://external.host/css/style2.css', 'media'=>'all', 'targetie' => null);
-		$expected[] = array('file' => 'https://external.host/css/style3.css?foo=bar&t=123', 'media'=>'all', 'targetie' => null);
+		$expected[] = array('file' => 'http://external.host/css/style1.css', 'media'=>'all');
+		$expected[] = array('file' => 'https://external.host/css/style2.css', 'media'=>'all');
+		$expected[] = array('file' => 'https://external.host/css/style3.css?foo=bar&t=123', 'media'=>'all');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
 	
@@ -155,9 +155,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('///external.host/css2/style2.css'));
 		$handler->loadFile(array('//external.host/css/style3.css?foo=bar&t=123'));
 
-		$expected[] = array('file' => '//external.host/css/style.css', 'media'=>'all', 'targetie' => null);
-		$expected[] = array('file' => '//external.host/css2/style2.css', 'media'=>'all', 'targetie' => null);
-		$expected[] = array('file' => '//external.host/css/style3.css?foo=bar&t=123', 'media'=>'all', 'targetie' => null);
+		$expected[] = array('file' => '//external.host/css/style.css', 'media'=>'all');
+		$expected[] = array('file' => '//external.host/css2/style2.css', 'media'=>'all');
+		$expected[] = array('file' => '//external.host/css/style3.css?foo=bar&t=123', 'media'=>'all');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
 
@@ -177,9 +177,10 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie6'));
 		$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie7'));
 		$handler->loadFile(array('./common/js/js_app.js', 'head', 'ie8'));
-		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie6');
-		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie7');
-		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'), 'targetie' => 'ie8');
+
+		// All targetie attributes should be ignored since Rhymix 2.1
+		// Since the 3 loadFile() are otherwise the same, only 1 will remain.
+		$expected[] = array('file' => $this->baseurl . 'common/js/js_app.js' . $this->_filemtime('common/js/js_app.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
 
@@ -190,9 +191,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/css/common.css', null, 'ie7'));
 		$handler->loadFile(array('./common/css/common.css', null, 'ie8'));
 
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media' => 'all', 'targetie' => 'ie6');
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media' => 'all', 'targetie' => 'ie7');
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media' => 'all', 'targetie' => 'ie8');
+		// All targetie attributes should be ignored since Rhymix 2.1
+		// Since the 3 loadFile() are otherwise the same, only 1 will remain.
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media' => 'all');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
 	
@@ -203,9 +204,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./common/css/common.css', 'screen'));
 		$handler->loadFile(array('./common/css/common.css', 'handled'));
 
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'all', 'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css','media'=>'screen',  'targetie' => null);
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'handled', 'targetie' => null);
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'all');
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'screen');
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'handled');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
 
@@ -243,12 +244,12 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./tests/_data/formatter/concat.target1.css'));
 		$handler->loadFile(array('./tests/_data/formatter/concat.target2.css'));
 		$result = $handler->getCssFileList(true);
-		$this->assertEquals(4, count($result));
+		$this->assertEquals(3, count($result));
 		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[0]['file']);
-		$this->assertEquals($this->baseurl . 'common/css/bootstrap.css' . $this->_filemtime('common/css/bootstrap.css'), $result[1]['file']);
-		$this->assertEquals('IE', $result[1]['targetie']);
-		$this->assertEquals('http://external.host/style.css', $result[2]['file']);
-		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[3]['file']);
+		//$this->assertEquals($this->baseurl . 'common/css/bootstrap.css' . $this->_filemtime('common/css/bootstrap.css'), $result[1]['file']);
+		//$this->assertEquals('IE', $result[1]['targetie']);
+		$this->assertEquals('http://external.host/style.css', $result[1]['file']);
+		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[2]['file']);
 		
 		FrontEndFileHandler::$concat = 'js';
 		

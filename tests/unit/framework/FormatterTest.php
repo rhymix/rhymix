@@ -174,35 +174,6 @@ class FormatterTest extends \Codeception\TestCase\Test
 		$this->assertEquals(trim(file_get_contents($real_target2)), trim($test_with_targetie));
 	}
 	
-	public function testConvertIECondition()
-	{
-		$this->assertEquals('window.navigator.userAgent.match(/MSIE\s/)', Rhymix\Framework\Formatter::convertIECondition('IE'));
-		$this->assertEquals('!window.navigator.userAgent.match(/MSIE\s/)', Rhymix\Framework\Formatter::convertIECondition('!IE'));
-		$this->assertEquals('!window.navigator.userAgent.match(/MSIE\s/)', Rhymix\Framework\Formatter::convertIECondition('!(IE)'));
-		$this->assertEquals('true && false', Rhymix\Framework\Formatter::convertIECondition('true&false'));
-		$this->assertEquals('false', Rhymix\Framework\Formatter::convertIECondition('gobbledygook'));
-		
-		$source = 'gt IE 7';
-		$target = '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > 7)';
-		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
-		
-		$source = 'lte IE 8';
-		$target = '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] <= 8)';
-		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
-		
-		$source = '(gte IE 6) & (lt IE 8)';
-		$target = '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] >= 6) && (/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < 8)';
-		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
-		
-		$source = '!(gt IE 9)';
-		$target = '!(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > 9)';
-		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
-		
-		$source = '!lt IE 8|lt IE 6';
-		$target = '!(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < 8) || (/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < 6)';
-		$this->assertEquals($target, Rhymix\Framework\Formatter::convertIECondition($source));
-	}
-	
 	protected function _removeSpace($str)
 	{
 		return preg_replace('/\s+/', '', $str);

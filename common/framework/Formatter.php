@@ -496,24 +496,14 @@ class Formatter
 		
 		foreach ($source_filename as $filename)
 		{
-			// Get the IE condition.
-			if (is_array($filename) && count($filename) >= 2)
+			// Handle the array format, previously used for the targetIE attribute.
+			if (is_array($filename) && count($filename) >= 1)
 			{
-				list($filename, $targetie) = $filename;
-			}
-			else
-			{
-				$targetie = null;
+				$filename = reset($filename);
 			}
 			
 			// Clean the content.
 			$content = utf8_clean(file_get_contents($filename));
-			
-			// Wrap the content in an IE condition if there is one.
-			if ($targetie !== null)
-			{
-				$content = 'if (' . self::convertIECondition($targetie) . ') {' . "\n\n" . trim($content) . ";\n\n" . '}';
-			}
 			
 			// Append to the result string.
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
@@ -526,62 +516,12 @@ class Formatter
 	/**
 	 * Convert IE conditional comments to JS conditions.
 	 * 
+	 * @deprecated
 	 * @param string $condition
 	 * @return string
 	 */
 	public static function convertIECondition($condition)
 	{
-		$conversions = array(
-			'/^true$/i' => 'true',
-			'/^false$/i' => 'false',
-			'/^IE$/i' => 'window.navigator.userAgent.match(/MSIE\s/)',
-			'/^IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] == %d)',
-			'/^gt IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] > %d)',
-			'/^gte IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] >= %d)',
-			'/^lt IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] < %d)',
-			'/^lte IE\s*(\d+)$/i' => '(/MSIE (\d+)/.exec(window.navigator.userAgent) && /MSIE (\d+)/.exec(window.navigator.userAgent)[1] <= %d)',
-		);
-		
-		$result = array();
-		$conditions = preg_split('/([\&\|])/', $condition, -1, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
-		foreach ($conditions as $condition)
-		{
-			$condition = trim(preg_replace('/[\(\)]/', '', $condition));
-			if ($condition === '')
-			{
-				continue;
-			}
-			
-			if ($condition === '&' || $condition === '|')
-			{
-				$result[] = $condition . $condition;
-				continue;
-			}
-			
-			$negation = $condition[0] === '!';
-			if ($negation)
-			{
-				$condition = trim(substr($condition, 1));
-			}
-			
-			foreach ($conversions as $regexp => $replacement)
-			{
-				if (preg_match($regexp, $condition, $matches))
-				{
-					if (count($matches) > 1)
-					{
-						array_shift($matches);
-						$result[] = ($negation ? '!' : '') . vsprintf($replacement, $matches);
-					}
-					else
-					{
-						$result[] = ($negation ? '!' : '') . $replacement;
-					}
-					break;
-				}
-			}
-		}
-		
-		return count($result) ? implode(' ', $result) : 'false';
+		throw new Exceptions\FeatureDisabled;
 	}
 }

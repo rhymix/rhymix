@@ -913,13 +913,13 @@ class TemplateHandler
 						case 'js':
 							if($doUnload)
 							{
-								$result = vsprintf("Context::unloadFile('%s', '%s');", [$attr['target'] ?? '', $attr['targetie'] ?? '']);
+								$result = vsprintf("Context::unloadFile('%s', '');", [$attr['target'] ?? '']);
 							}
 							else
 							{
 								$metafile = isset($attr['target']) ? $attr['target'] : '';
 								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s']);", [
-									$attr['target'] ?? '', $attr['type'] ?? '', $attr['targetie'] ?? ($isRemote ? $this->source_type : ''), $attr['index'] ?? '',
+									$attr['target'] ?? '', $attr['type'] ?? '', $isRemote ? $this->source_type : '', $attr['index'] ?? '',
 								]);
 							}
 							break;
@@ -928,8 +928,8 @@ class TemplateHandler
 						case 'scss':
 							if($doUnload)
 							{
-								$result = vsprintf("Context::unloadFile('%s', '%s', '%s');", [
-									$attr['target'] ?? '', $attr['targetie'] ?? '', $attr['media'] ?? '',
+								$result = vsprintf("Context::unloadFile('%s', '', '%s');", [
+									$attr['target'] ?? '', $attr['media'] ?? '',
 								]);
 							}
 							else
@@ -937,7 +937,7 @@ class TemplateHandler
 								$metafile = isset($attr['target']) ? $attr['target'] : '';
 								$metavars = isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '') : '';
 								$result = vsprintf("Context::loadFile(['%s', '%s', '%s', '%s', %s]);", [
-									$attr['target'] ?? '', $attr['media'] ?? '', $attr['targetie'] ?? ($isRemote ? $this->source_type : ''), $attr['index'] ?? '',
+									$attr['target'] ?? '', $attr['media'] ?? '', $isRemote ? $this->source_type : '', $attr['index'] ?? '',
 									isset($attr['vars']) ? ($attr['vars'] ? self::_replaceVar($attr['vars']) : '[]') : '[]',
 								]);
 							}

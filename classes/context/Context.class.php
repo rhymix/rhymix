@@ -984,13 +984,16 @@ class Context
 	 * @see arrayConvWalkCallback will replaced array_walk_recursive in >=PHP5
 	 * @return object converted object
 	 */
-	public static function doConvertEncoding(&$val, $key = null, $charset)
+	public static function doConvertEncoding(&$val, $key = null, $charset = 'CP949')
 	{
 		if (is_array($val))
 		{
-			array_walk($val,'Context::doConvertEncoding',$charset);
+			array_walk($val,'Context::doConvertEncoding', $charset);
 		}
-		else $val = iconv($charset,'UTF-8',$val);
+		else
+		{
+			$val = iconv($charset, 'UTF-8', $val);
+		}
 	}
 
 	/**
@@ -2074,12 +2077,12 @@ class Context
 	 * case js :
 	 * 		$args[0]: file name,
 	 * 		$args[1]: type (head | body),
-	 * 		$args[2]: target IE,
+	 * 		$args[2]: unused,
 	 * 		$args[3]: index
 	 * case css :
 	 * 		$args[0]: file name,
 	 * 		$args[1]: media,
-	 * 		$args[2]: target IE,
+	 * 		$args[2]: source type hint,
 	 * 		$args[3]: index
 	 *
 	 */
@@ -2097,13 +2100,13 @@ class Context
 	 * Unload front end file
 	 *
 	 * @param string $file File name with path
-	 * @param string $targetIe Target IE
+	 * @param string $unused
 	 * @param string $media Media query
 	 * @return void
 	 */
-	public static function unloadFile($file, $targetIe = '', $media = 'all')
+	public static function unloadFile($file, $unused = '', $media = 'all')
 	{
-		self::$_oFrontEndFileHandler->unloadFile($file, $targetIe, $media);
+		self::$_oFrontEndFileHandler->unloadFile($file, '', $media);
 	}
 
 	/**
@@ -2122,15 +2125,15 @@ class Context
 	 *
 	 * @deprecated
 	 * @param string $file File name with path
-	 * @param string $optimized optimized (That seems to not use)
-	 * @param string $targetie target IE
+	 * @param string $unused1
+	 * @param string $unused2
 	 * @param string $index index
 	 * @param string $type Added position. (head:<head>..</head>, body:<body>..</body>)
 	 * @param bool $isRuleset Use ruleset
 	 * @param string $autoPath If path not readed, set the path automatically.
 	 * @return void
 	 */
-	public static function addJsFile($file, $optimized = FALSE, $targetie = '', $index = 0, $type = 'head', $isRuleset = FALSE, $autoPath = null)
+	public static function addJsFile($file, $unused1 = '', $unused2 = '', $index = 0, $type = 'head', $isRuleset = FALSE, $autoPath = null)
 	{
 		if($isRuleset)
 		{
@@ -2147,7 +2150,7 @@ class Context
 			$file = $validator->getJsPath();
 		}
 
-		self::$_oFrontEndFileHandler->loadFile(array($file, $type, $targetie, $index));
+		self::$_oFrontEndFileHandler->loadFile(array($file, $type, '', $index));
 	}
 
 	/**
@@ -2155,13 +2158,11 @@ class Context
 	 *
 	 * @deprecated
 	 * @param string $file File name with path
-	 * @param string $optimized optimized (That seems to not use)
-	 * @param string $targetie target IE
 	 * @return void
 	 */
-	public static function unloadJsFile($file, $optimized = FALSE, $targetie = '')
+	public static function unloadJsFile($file)
 	{
-		self::$_oFrontEndFileHandler->unloadFile($file, $targetie);
+		self::$_oFrontEndFileHandler->unloadFile($file);
 	}
 
 	/**
@@ -2216,7 +2217,7 @@ class Context
 	 *
 	 * @param string $type Added position. (head:<head>..</head>, body:<body>..</body>)
 	 * @param bool $finalize (optional)
-	 * @return array Returns javascript file list. Array contains file, targetie.
+	 * @return array Returns javascript file list.
 	 */
 	public static function getJsFile($type = 'head', $finalize = false)
 	{
@@ -2228,16 +2229,16 @@ class Context
 	 *
 	 * @deprecated
 	 * @param string $file File name with path
-	 * @param string $optimized optimized (That seems to not use)
+	 * @param string $unused1
 	 * @param string $media Media query
-	 * @param string $targetie target IE
+	 * @param string $unused2
 	 * @param string $index index
 	 * @return void
 	 *
 	 */
-	public static function addCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '', $index = 0)
+	public static function addCSSFile($file, $unused1 = '', $media = 'all', $unused2 = '', $index = 0)
 	{
-		self::$_oFrontEndFileHandler->loadFile(array($file, $media, $targetie, $index));
+		self::$_oFrontEndFileHandler->loadFile(array($file, $media, '', $index));
 	}
 
 	/**
@@ -2245,14 +2246,13 @@ class Context
 	 *
 	 * @deprecated
 	 * @param string $file File name with path
-	 * @param string $optimized optimized (That seems to not use)
+	 * @param string $unused
 	 * @param string $media Media query
-	 * @param string $targetie target IE
 	 * @return void
 	 */
-	public static function unloadCSSFile($file, $optimized = FALSE, $media = 'all', $targetie = '')
+	public static function unloadCSSFile($file, $unused = '', $media = 'all')
 	{
-		self::$_oFrontEndFileHandler->unloadFile($file, $targetie, $media);
+		self::$_oFrontEndFileHandler->unloadFile($file, '', $media);
 	}
 
 	/**
@@ -2269,7 +2269,7 @@ class Context
 	 * Return a list of css files
 	 *
 	 * @param bool $finalize (optional)
-	 * @return array Returns css file list. Array contains file, media, targetie.
+	 * @return array Returns css file list.
 	 */
 	public static function getCSSFile($finalize = false)
 	{
