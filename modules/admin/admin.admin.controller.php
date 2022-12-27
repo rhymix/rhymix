@@ -10,7 +10,6 @@
  */
 class AdminAdminController extends Admin
 {
-
 	/**
 	 * initialization
 	 * @return void
@@ -335,47 +334,6 @@ class AdminAdminController extends Admin
 	}
 
 	/**
-	 * Enviroment gathering agreement
-	 * @return void
-	 */
-	public function procAdminEnviromentGatheringAgreement()
-	{
-		$isAgree = Context::get('is_agree');
-		if($isAgree == 'true')
-		{
-			$_SESSION['enviroment_gather'] = 'Y';
-		}
-		else
-		{
-			$_SESSION['enviroment_gather'] = 'N';
-		}
-
-		$redirectUrl = getNotEncodedUrl('', 'module', 'admin');
-		$this->setRedirectUrl($redirectUrl);
-	}
-
-	/**
-	 * Admin config update
-	 * @return void
-	 */
-	public function procAdminUpdateConfig()
-	{
-		$oModuleModel = getModel('module');
-		$oAdminConfig = $oModuleModel->getModuleConfig('admin');
-		if(!is_object($oAdminConfig))
-		{
-			$oAdminConfig = new stdClass();
-		}
-
-		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('admin', $oAdminConfig);
-		$this->setMessage('success_updated', 'info');
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
 	 * Admin logo delete
 	 * @return void
 	 */
@@ -394,33 +352,6 @@ class AdminAdminController extends Admin
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminSetup');
 		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
-	 * Insert favorite
-	 * @return object query result
-	 */
-	public function _insertFavorite($site_srl, $module, $type = 'module')
-	{
-		return Rhymix\Modules\Admin\Models\Favorite::insertFavorite($module, $type);
-	}
-
-	/**
-	 * Delete favorite
-	 * @return object query result
-	 */
-	public function _deleteFavorite($favoriteSrl)
-	{
-		return Rhymix\Modules\Admin\Models\Favorite::deleteFavorite($favoriteSrl);
-	}
-
-	/**
-	 * Delete all favorite
-	 * @return object query result
-	 */
-	public function _deleteAllFavorite()
-	{
-		return Rhymix\Modules\Admin\Models\Favorite::deleteAllFavorites();
 	}
 
 	/**
@@ -444,608 +375,79 @@ class AdminAdminController extends Admin
 		}
 		else
 		{
-			throw new Rhymix\Framework\Exception('fail_to_delete');
+			throw new Exception('fail_to_delete');
 		}
 		$this->setMessage('success_deleted');
-	}
-	
-	/**
-	 * Update notification configuration.
-	 */
-	public function procAdminUpdateNotification()
-	{
-		$vars = Context::getRequestVars();
-		
-		// Load advanced mailer module (for lang).
-		$oAdvancedMailerAdminView = getAdminView('advanced_mailer');
-		
-		// Validate the mail sender's information.
-		if (!$vars->mail_default_name)
-		{
-			throw new Rhymix\Framework\Exception('msg_advanced_mailer_sender_name_is_empty');
-		}
-		if (!$vars->mail_default_from)
-		{
-			throw new Rhymix\Framework\Exception('msg_advanced_mailer_sender_email_is_empty');
-		}
-		if (!Mail::isVaildMailAddress($vars->mail_default_from))
-		{
-			throw new Rhymix\Framework\Exception('msg_advanced_mailer_sender_email_is_invalid');
-		}
-		if ($vars->mail_default_reply_to && !Mail::isVaildMailAddress($vars->mail_default_reply_to))
-		{
-			throw new Rhymix\Framework\Exception('msg_advanced_mailer_reply_to_is_invalid');
-		}
-		
-		// Validate the mail driver.
-		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
-		$mail_driver = $vars->mail_driver;
-		if (!array_key_exists($mail_driver, $mail_drivers))
-		{
-			throw new Rhymix\Framework\Exception('msg_advanced_mailer_sending_method_is_invalid');
-		}
-		
-		// Validate the mail driver settings.
-		$mail_driver_config = array();
-		foreach ($mail_drivers[$mail_driver]['required'] as $conf_name)
-		{
-			$conf_value = $vars->{'mail_' . $mail_driver . '_' . $conf_name} ?: null;
-			if (!$conf_value)
-			{
-				throw new Rhymix\Framework\Exception('msg_advanced_mailer_smtp_host_is_invalid');
-			}
-			$mail_driver_config[$conf_name] = $conf_value;
-		}
-		
-		// Validate the SMS driver.
-		$sms_drivers = Rhymix\Framework\SMS::getSupportedDrivers();
-		$sms_driver = $vars->sms_driver;
-		if (!array_key_exists($sms_driver, $sms_drivers))
-		{
-			throw new Rhymix\Framework\Exception('msg_advanced_mailer_sending_method_is_invalid');
-		}
-		
-		// Validate the SMS driver settings.
-		$sms_driver_config = array();
-		foreach ($sms_drivers[$sms_driver]['required'] as $conf_name)
-		{
-			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
-			if (!$conf_value)
-			{
-				throw new Rhymix\Framework\Exception('msg_advanced_mailer_sms_config_invalid');
-			}
-			$sms_driver_config[$conf_name] = $conf_value;
-		}
-		foreach ($sms_drivers[$sms_driver]['optional'] as $conf_name)
-		{
-			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
-			$sms_driver_config[$conf_name] = $conf_value;
-		}
-		
-		// Validate the selected Push drivers.
-		$push_config = array('types' => array());
-		$push_config['allow_guest_device'] = $vars->allow_guest_device === 'Y' ? true : false;
-		$push_drivers = Rhymix\Framework\Push::getSupportedDrivers();
-		$push_driver_list = $vars->push_driver ?: [];
-		foreach ($push_driver_list as $driver_name)
-		{
-			if (array_key_exists($driver_name, $push_drivers))
-			{
-				$push_config['types'][$driver_name] = true;
-			}
-			else
-			{
-				throw new Rhymix\Framework\Exception('msg_advanced_mailer_sending_method_is_invalid');
-			}
-		}
-		
-		// Validate the Push driver settings.
-		foreach ($push_drivers as $driver_name => $driver_definition)
-		{
-			foreach ($push_drivers[$driver_name]['required'] as $conf_name)
-			{
-				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name}) ?: null;
-				if (!$conf_value && in_array($driver_name, $push_driver_list))
-				{
-					throw new Rhymix\Framework\Exception('msg_advanced_mailer_push_config_invalid');
-				}
-				$push_config[$driver_name][$conf_name] = $conf_value;
-				
-				// Save certificates in a separate file and only store the filename in config.php.
-				if ($conf_name === 'certificate')
-				{
-					$filename = Rhymix\Framework\Config::get('push.' . $driver_name . '.certificate');
-					if (!$filename)
-					{
-						$filename = './files/config/' . $driver_name . '/cert-' . Rhymix\Framework\Security::getRandom(32) . '.pem';
-					}
-					
-					if ($conf_value !== null)
-					{
-						Rhymix\Framework\Storage::write($filename, $conf_value);
-						$push_config[$driver_name][$conf_name] = $filename;
-					}
-					elseif (Rhymix\Framework\Storage::exists($filename))
-					{
-						Rhymix\Framework\Storage::delete($filename);
-					}
-				}
-			}
-			foreach ($push_drivers[$driver_name]['optional'] as $conf_name)
-			{
-				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name}) ?: null;
-				$push_config[$driver_name][$conf_name] = $conf_value;
-			}
-		}
-		
-		// Save advanced mailer config.
-		getController('module')->updateModuleConfig('advanced_mailer', (object)array(
-			'sender_name' => trim($vars->mail_default_name),
-			'sender_email' => trim($vars->mail_default_from),
-			'force_sender' => toBool($vars->mail_force_default_sender),
-			'reply_to' => trim($vars->mail_default_reply_to),
-		));
-		
-		// Save member config.
-		getController('module')->updateModuleConfig('member', (object)array(
-			'webmaster_name' => trim($vars->mail_default_name),
-			'webmaster_email' => trim($vars->mail_default_from),
-		));
-		
-		// Save system config.
-		Rhymix\Framework\Config::set("mail.default_name", trim($vars->mail_default_name));
-		Rhymix\Framework\Config::set("mail.default_from", trim($vars->mail_default_from));
-		Rhymix\Framework\Config::set("mail.default_force", toBool($vars->mail_force_default_sender));
-		Rhymix\Framework\Config::set("mail.default_reply_to", trim($vars->mail_default_reply_to));
-		Rhymix\Framework\Config::set("mail.type", $mail_driver);
-		Rhymix\Framework\Config::set("mail.$mail_driver", $mail_driver_config);
-		Rhymix\Framework\Config::set("sms.default_from", trim($vars->sms_default_from));
-		Rhymix\Framework\Config::set("sms.default_force", toBool($vars->sms_force_default_sender));
-		Rhymix\Framework\Config::set("sms.type", $sms_driver);
-		Rhymix\Framework\Config::set("sms.$sms_driver", $sms_driver_config);
-		Rhymix\Framework\Config::set("sms.allow_split.sms", toBool($vars->allow_split_sms));
-		Rhymix\Framework\Config::set("sms.allow_split.lms", toBool($vars->allow_split_lms));
-		Rhymix\Framework\Config::set("push", $push_config);
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigNotification'));
-	}
-	
-	/**
-	 * Update security configuration.
-	 */
-	public function procAdminUpdateSecurity()
-	{
-		$vars = Context::getRequestVars();
-		
-		// Media Filter iframe/embed whitelist
-		$whitelist = $vars->mediafilter_whitelist;
-		$whitelist = array_filter(array_map('trim', preg_split('/[\r\n]/', $whitelist)), function($item) {
-			return $item !== '';
-		});
-		$whitelist = array_unique(array_map(function($item) {
-			return Rhymix\Framework\Filters\MediaFilter::formatPrefix($item);
-		}, $whitelist));
-		natcasesort($whitelist);
-		Rhymix\Framework\Config::set('mediafilter.whitelist', array_values($whitelist));
-		Rhymix\Framework\Config::set('mediafilter.iframe', []);
-		Rhymix\Framework\Config::set('mediafilter.object', []);
-		
-		// HTML classes
-		$classes = $vars->mediafilter_classes;
-		$classes = array_filter(array_map('trim', preg_split('/[\r\n]/', $classes)), function($item) {
-			return preg_match('/^[a-zA-Z0-9_-]+$/u', $item);
-		});
-		natcasesort($classes);
-		Rhymix\Framework\Config::set('mediafilter.classes', array_values($classes));
-		
-		// Robot user agents
-		$robot_user_agents = $vars->robot_user_agents;
-		$robot_user_agents = array_filter(array_map('trim', preg_split('/[\r\n]/', $robot_user_agents)), function($item) {
-			return $item !== '';
-		});
-		Rhymix\Framework\Config::set('security.robot_user_agents', array_values($robot_user_agents));
-		
-		// Remove old embed filter
-		$config = Rhymix\Framework\Config::getAll();
-		unset($config['embedfilter']);
-		Rhymix\Framework\Config::setAll($config);
-		
-		// Admin IP access control
-		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
-		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
-			return $item !== '';
-		}));
-		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
-			throw new Rhymix\Framework\Exception('msg_invalid_ip');
-		}
-		
-		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip));
-		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
-			return $item !== '';
-		}));
-		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($denied_ip)) {
-			throw new Rhymix\Framework\Exception('msg_invalid_ip');
-		}
-		
-		$oMemberAdminModel = getAdminModel('member');
-		if (!$oMemberAdminModel->getMemberAdminIPCheck($allowed_ip, $denied_ip))
-		{
-			throw new Rhymix\Framework\Exception('msg_current_ip_will_be_denied');
-		}
-		
-		$site_module_info = Context::get('site_module_info');
-		$vars->use_samesite = preg_replace('/[^a-zA-Z]/', '', $vars->use_samesite);
-		if ($vars->use_samesite === 'None' && ($vars->use_session_ssl !== 'Y' || $site_module_info->security !== 'always'))
-		{
-			$vars->use_samesite = '';
-		}
-		
-		Rhymix\Framework\Config::set('admin.allow', array_values($allowed_ip));
-		Rhymix\Framework\Config::set('admin.deny', array_values($denied_ip));
-		Rhymix\Framework\Config::set('session.samesite', $vars->use_samesite);
-		Rhymix\Framework\Config::set('session.use_keys', $vars->use_session_keys === 'Y');
-		Rhymix\Framework\Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');
-		Rhymix\Framework\Config::set('session.use_ssl_cookies', $vars->use_cookies_ssl === 'Y');
-		Rhymix\Framework\Config::set('security.check_csrf_token', $vars->check_csrf_token === 'Y');
-		Rhymix\Framework\Config::set('security.nofollow', $vars->use_nofollow === 'Y');
-		
-		// Save
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSecurity'));
-	}
-	
-	/**
-	 * Update advanced configuration.
-	 */
-	public function procAdminUpdateAdvanced()
-	{
-		$vars = Context::getRequestVars();
-		
-		// Object cache
-		if ($vars->object_cache_type)
-		{
-			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
-			{
-				if (starts_with('unix:/', $vars->object_cache_host))
-				{
-					$cache_servers = array(substr($vars->object_cache_host, 5));
-				}
-				elseif (starts_with('/', $vars->object_cache_host))
-				{
-					$cache_servers = array($vars->object_cache_host);
-				}
-				else
-				{
-					if (trim($vars->object_cache_user) !== '' || trim($vars->object_cache_pass) !== '')
-					{
-						$auth = sprintf('%s:%s@', urlencode(trim($vars->object_cache_user)), urlencode(trim($vars->object_cache_pass)));
-					}
-					else
-					{
-						$auth = '';
-					}
-					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
-				}
-				
-				if ($vars->object_cache_type === 'redis')
-				{
-					$cache_servers[0] .= '#' . intval($vars->object_cache_dbnum);
-				}
-			}
-			else
-			{
-				$cache_servers = array();
-			}
-			if (!Rhymix\Framework\Cache::getDriverInstance($vars->object_cache_type, $cache_servers))
-			{
-				throw new Rhymix\Framework\Exception('msg_cache_handler_not_supported');
-			}
-			Rhymix\Framework\Config::set('cache', array(
-				'type' => $vars->object_cache_type,
-				'ttl' => intval($vars->cache_default_ttl ?: 86400),
-				'servers' => $cache_servers,
-			));
-		}
-		else
-		{
-			Rhymix\Framework\Config::set('cache', array());
-		}
-		
-		// Cache truncate method
-		if (in_array($vars->cache_truncate_method, array('delete', 'empty')))
-		{
-			Rhymix\Framework\Config::set('cache.truncate_method', $vars->cache_truncate_method);
-		}
-		
-		// Thumbnail settings
-		$oDocumentModel = getModel('document');
-		$document_config = $oDocumentModel->getDocumentConfig();
-		$document_config->thumbnail_target = $vars->thumbnail_target ?: 'all';
-		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'fill';
-		$document_config->thumbnail_quality = intval($vars->thumbnail_quality) ?: 75;
-		$oModuleController = getController('module');
-		$oModuleController->insertModuleConfig('document', $document_config);
-		
-		// Mobile view
-		Rhymix\Framework\Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
-		Rhymix\Framework\Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
-		Rhymix\Framework\Config::set('mobile.viewport', utf8_trim($vars->mobile_viewport));
-		if (Rhymix\Framework\Config::get('use_mobile_view') !== null)
-		{
-			Rhymix\Framework\Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
-		}
-		
-		// Languages and time zone
-		$enabled_lang = $vars->enabled_lang;
-		if (!in_array($vars->default_lang, $enabled_lang ?: []))
-		{
-			$enabled_lang[] = $vars->default_lang;
-		}
-		Rhymix\Framework\Config::set('locale.default_lang', $vars->default_lang);
-		Rhymix\Framework\Config::set('locale.enabled_lang', array_values($enabled_lang));
-		Rhymix\Framework\Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
-		Rhymix\Framework\Config::set('locale.default_timezone', $vars->default_timezone);
-		
-		// Other settings
-		Rhymix\Framework\Config::set('url.rewrite', intval($vars->use_rewrite));
-		Rhymix\Framework\Config::set('use_rewrite', $vars->use_rewrite > 0);
-		Rhymix\Framework\Config::set('session.delay', $vars->delay_session === 'Y');
-		Rhymix\Framework\Config::set('session.use_db', $vars->use_db_session === 'Y');
-		Rhymix\Framework\Config::set('view.manager_layout', $vars->manager_layout ?: 'module');
-		Rhymix\Framework\Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
-		Rhymix\Framework\Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
-		Rhymix\Framework\Config::set('view.server_push', $vars->use_server_push === 'Y');
-		Rhymix\Framework\Config::set('view.use_gzip', $vars->use_gzip === 'Y');
-		
-		// Save
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigAdvanced'));
-	}
-	
-	/**
-	 * Update debug configuration.
-	 */
-	public function procAdminUpdateDebug()
-	{
-		$vars = Context::getRequestVars();
-		
-		// Save display type settings
-		$display_type = array_values(array_filter($vars->debug_display_type ?: [], function($str) {
-			return in_array($str, ['panel', 'comment', 'file']);
-		}));
-		
-		// Debug settings
-		Rhymix\Framework\Config::set('debug.enabled', $vars->debug_enabled === 'Y');
-		Rhymix\Framework\Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
-		Rhymix\Framework\Config::set('debug.log_slow_triggers', max(0, floatval($vars->debug_log_slow_triggers)));
-		Rhymix\Framework\Config::set('debug.log_slow_widgets', max(0, floatval($vars->debug_log_slow_widgets)));
-		Rhymix\Framework\Config::set('debug.log_slow_remote_requests', max(0, floatval($vars->debug_log_slow_remote_requests)));
-		Rhymix\Framework\Config::set('debug.display_type', $display_type);
-		Rhymix\Framework\Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
-		Rhymix\Framework\Config::set('debug.query_comment', $vars->debug_query_comment === 'Y');
-		Rhymix\Framework\Config::set('debug.query_full_stack', $vars->debug_query_full_stack === 'Y');
-		Rhymix\Framework\Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
-		
-		// Debug content
-		$debug_content = array_values($vars->debug_display_content ?: array());
-		Rhymix\Framework\Config::set('debug.display_content', $debug_content);
-		
-		// Log filename
-		$log_filename = strval($vars->debug_log_filename);
-		$log_filename_today = str_replace(array('YYYY', 'YY', 'MM', 'DD'), array(
-			getInternalDateTime(RX_TIME, 'Y'),
-			getInternalDateTime(RX_TIME, 'y'),
-			getInternalDateTime(RX_TIME, 'm'),
-			getInternalDateTime(RX_TIME, 'd'),
-		), $log_filename);
-		if (file_exists(RX_BASEDIR . $log_filename_today) && !is_writable(RX_BASEDIR . $log_filename_today))
-		{
-			throw new Rhymix\Framework\Exception('msg_debug_log_filename_not_writable');
-		}
-		if (!file_exists(dirname(RX_BASEDIR . $log_filename)) && !FileHandler::makeDir(dirname(RX_BASEDIR . $log_filename)))
-		{
-			throw new Rhymix\Framework\Exception('msg_debug_log_filename_not_writable');
-		}
-		if (!is_writable(dirname(RX_BASEDIR . $log_filename)))
-		{
-			throw new Rhymix\Framework\Exception('msg_debug_log_filename_not_writable');
-		}
-		Rhymix\Framework\Config::set('debug.log_filename', $log_filename);
-		
-		// IP access control
-		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->debug_allowed_ip));
-		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
-			return $item !== '';
-		}));
-		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip)) {
-			throw new Rhymix\Framework\Exception('msg_invalid_ip');
-		}
-		Rhymix\Framework\Config::set('debug.allow', array_values($allowed_ip));
-		
-		// Save
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDebug'));
-	}
-	
-	/**
-	 * Update SEO configuration.
-	 */
-	public function procAdminUpdateSEO()
-	{
-		$vars = Context::getRequestVars();
-		
-		$args = new stdClass;
-		$args->meta_keywords = $vars->site_meta_keywords ? implode(', ', array_map('trim', explode(',', $vars->site_meta_keywords))) : '';
-		$args->meta_description = trim(utf8_normalize_spaces($vars->site_meta_description));
-		$oModuleController = getController('module');
-		$oModuleController->updateModuleConfig('module', $args);
-		
-		Rhymix\Framework\Config::set('seo.main_title', trim(utf8_normalize_spaces($vars->seo_main_title)));
-		Rhymix\Framework\Config::set('seo.subpage_title', trim(utf8_normalize_spaces($vars->seo_subpage_title)));
-		Rhymix\Framework\Config::set('seo.document_title', trim(utf8_normalize_spaces($vars->seo_document_title)));
-		
-		Rhymix\Framework\Config::set('seo.og_enabled', $vars->og_enabled === 'Y');
-		Rhymix\Framework\Config::set('seo.og_extract_description', $vars->og_extract_description === 'Y');
-		Rhymix\Framework\Config::set('seo.og_extract_images', $vars->og_extract_images === 'Y');
-		Rhymix\Framework\Config::set('seo.og_extract_hashtags', $vars->og_extract_hashtags === 'Y');
-		Rhymix\Framework\Config::set('seo.og_use_nick_name', $vars->og_use_nick_name === 'Y');
-		Rhymix\Framework\Config::set('seo.og_use_timestamps', $vars->og_use_timestamps === 'Y');
-		Rhymix\Framework\Config::set('seo.twitter_enabled', $vars->twitter_enabled === 'Y');
-		
-		// Save
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSEO'));
-	}
-	
-	/**
-	 * Update sitelock configuration.
-	 */
-	public function procAdminUpdateSitelock()
-	{
-		$vars = Context::gets('sitelock_locked', 'sitelock_allowed_ip', 'sitelock_title', 'sitelock_message');
-		
-		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->sitelock_allowed_ip));
-		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
-			return $item !== '';
-		}));
-		
-		if (!Rhymix\Framework\Filters\IpFilter::validateRanges($allowed_ip))
-		{
-			throw new Rhymix\Framework\Exception('msg_invalid_ip');
-		}
-		
-		Rhymix\Framework\Config::set('lock.locked', $vars->sitelock_locked === 'Y');
-		Rhymix\Framework\Config::set('lock.title', trim($vars->sitelock_title));
-		Rhymix\Framework\Config::set('lock.message', trim($vars->sitelock_message));
-		Rhymix\Framework\Config::set('lock.allow', array_values($allowed_ip));
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigSitelock'));
 	}
 	
 	/**
 	 * Update FTP configuration.
+	 * 
+	 * @deprecated
 	 */
 	public function procAdminUpdateFTPInfo()
 	{
-		$vars = Context::getRequestVars();
-		$vars->ftp_path = str_replace('\\', '/', rtrim(trim($vars->ftp_path), '/\\')) . '/';
-		if (strlen($vars->ftp_pass) === 0)
-		{
-			$vars->ftp_pass = Rhymix\Framework\Config::get('ftp.pass');
-		}
-		
-		// Test FTP connection.
-		if ($vars->ftp_sftp !== 'Y')
-		{
-			if (!($conn = @ftp_connect($vars->ftp_host, $vars->ftp_port, 3)))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_not_connected');
-			}
-			if (!@ftp_login($conn, $vars->ftp_user, $vars->ftp_pass))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_invalid_auth_info');
-			}
-			if (!@ftp_pasv($conn, $vars->ftp_pasv === 'Y'))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_cannot_set_passive_mode');
-			}
-			if (!@ftp_chdir($conn, $vars->ftp_path))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_invalid_path');
-			}
-			ftp_close($conn);
-		}
-		else
-		{
-			if (!function_exists('ssh2_connect'))
-			{
-				throw new Rhymix\Framework\Exception('disable_sftp_support');
-			}
-			if (!($conn = ssh2_connect($vars->ftp_host, $vars->ftp_port)))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_not_connected');
-			}
-			if (!@ssh2_auth_password($conn, $vars->ftp_user, $vars->ftp_pass))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_invalid_auth_info');
-			}
-			if (!@($sftp = ssh2_sftp($conn)))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_sftp_error');
-			}
-			if (!@ssh2_sftp_stat($sftp, $vars->ftp_path . 'common/defaults/config.php'))
-			{
-				throw new Rhymix\Framework\Exception('msg_ftp_invalid_path');
-			}
-			unset($sftp, $conn);
-		}
-		
-		// Save settings.
-		Rhymix\Framework\Config::set('ftp.host', $vars->ftp_host);
-		Rhymix\Framework\Config::set('ftp.port', $vars->ftp_port);
-		Rhymix\Framework\Config::set('ftp.user', $vars->ftp_user);
-		Rhymix\Framework\Config::set('ftp.pass', $vars->ftp_pass);
-		Rhymix\Framework\Config::set('ftp.path', $vars->ftp_path);
-		Rhymix\Framework\Config::set('ftp.pasv', $vars->ftp_pasv === 'Y');
-		Rhymix\Framework\Config::set('ftp.sftp', $vars->ftp_sftp === 'Y');
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp'));
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 	}
 	
 	/**
 	 * Remove FTP configuration.
+	 * 
+	 * @deprecated
 	 */
 	public function procAdminRemoveFTPInfo()
 	{
-		Rhymix\Framework\Config::set('ftp.host', null);
-		Rhymix\Framework\Config::set('ftp.port', null);
-		Rhymix\Framework\Config::set('ftp.user', null);
-		Rhymix\Framework\Config::set('ftp.pass', null);
-		Rhymix\Framework\Config::set('ftp.path', null);
-		Rhymix\Framework\Config::set('ftp.pasv', true);
-		Rhymix\Framework\Config::set('ftp.sftp', false);
-		if (!Rhymix\Framework\Config::save())
-		{
-			throw new Rhymix\Framework\Exception('msg_failed_to_save_config');
-		}
-		
-		$this->setMessage('success_deleted');
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+	}
+
+	/**
+	 * Enviroment gathering agreement
+	 * 
+	 * @deprecated
+	 */
+	public function procAdminEnviromentGatheringAgreement()
+	{
+		$redirectUrl = getNotEncodedUrl('', 'module', 'admin');
+		$this->setRedirectUrl($redirectUrl);
+	}
+
+	/**
+	 * Update admin module config
+	 * 
+	 * @deprecated
+	 */
+	public function procAdminUpdateConfig()
+	{
+		return new BaseObject;
+	}
+
+	/**
+	 * Insert favorite.
+	 * 
+	 * @deprecated
+	 */
+	public function _insertFavorite($site_srl, $module, $type = 'module')
+	{
+		return Rhymix\Modules\Admin\Models\Favorite::insertFavorite($module, $type);
+	}
+
+	/**
+	 * Delete favorite.
+	 * 
+	 * @deprecated
+	 */
+	public function _deleteFavorite($favoriteSrl)
+	{
+		return Rhymix\Modules\Admin\Models\Favorite::deleteFavorite($favoriteSrl);
+	}
+
+	/**
+	 * Delete all favorites.
+	 * 
+	 * @deprecated
+	 */
+	public function _deleteAllFavorite()
+	{
+		return Rhymix\Modules\Admin\Models\Favorite::deleteAllFavorites();
 	}
 }
-/* End of file admin.admin.controller.php */
-/* Location: ./modules/admin/admin.admin.controller.php */

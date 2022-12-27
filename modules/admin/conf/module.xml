@@ -17,28 +17,24 @@
 		<action name="procAdminUpdateDomainConfig" class="Controllers\SystemConfig\Domains" />
 		<action name="procAdminInsertDomain" class="Controllers\SystemConfig\Domains" />
 		<action name="procAdminDeleteDomain" class="Controllers\SystemConfig\Domains" />
-		<!-- System Config:: Other -->
-		<action name="dispAdminConfigNotification" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminConfigSecurity" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminConfigAdvanced" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminConfigDebug" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminConfigSEO" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="dispAdminConfigSitelock" type="view" menu_name="adminConfigurationGeneral" />
-		<action name="procAdminUpdateNotification" type="controller" />
-		<action name="procAdminUpdateSecurity" type="controller" />
-		<action name="procAdminUpdateAdvanced" type="controller" />
-		<action name="procAdminUpdateDebug" type="controller" />
-		<action name="procAdminUpdateSEO" type="controller" />
-		<action name="procAdminUpdateSitelock" type="controller" />
+		<!-- System Config: Other -->
+		<action name="dispAdminConfigNotification" class="Controllers\SystemConfig\Notification" type="view" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateNotification" class="Controllers\SystemConfig\Notification" />
+		<action name="dispAdminConfigSecurity" class="Controllers\SystemConfig\Security" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateSecurity" class="Controllers\SystemConfig\Security" />
+		<action name="dispAdminConfigAdvanced" class="Controllers\SystemConfig\Advanced" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateAdvanced" class="Controllers\SystemConfig\Advanced" />
+		<action name="dispAdminConfigDebug" class="Controllers\SystemConfig\Debug" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateDebug" class="Controllers\SystemConfig\Debug" />
+		<action name="dispAdminConfigSEO" class="Controllers\SystemConfig\SEO" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateSEO" class="Controllers\SystemConfig\SEO" />
+		<action name="dispAdminConfigSitelock" class="Controllers\SystemConfig\SiteLock" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateSitelock" class="Controllers\SystemConfig\SiteLock" />
 		
 		<action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminRecompileCacheFile" type="controller" />
 		<action name="procAdminInsertDefaultDesignInfo" type="controller" />
 		<action name="procAdminToggleFavorite" type="controller" />
-		<action name="procAdminUpdateConfig" type="controller" />
-		
-		<action name="procAdminUpdateFTPInfo" type="controller" />
-		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminFaviconUpload" type="controller" />
 		<!-- Admin Interface Config -->
 		<action name="dispAdminSetup" type="view" menu_name="adminMenuSetup" menu_index="true" />
@@ -46,7 +42,10 @@
 		<action name="procAdminMenuReset" type="controller" />
 		<!-- Legacy API -->
 		<action name="dispAdminConfigFtp" type="view" menu_name="adminConfigurationFtp" menu_index="true" />
+		<action name="procAdminUpdateFTPInfo" type="controller" />
+		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminEnviromentGatheringAgreement" type="controller" />
+		<action name="procAdminUpdateConfig" type="controller" />
 		<action name="getSiteAllList" type="model" permission="root" />
 	</actions>
 	<menus>
