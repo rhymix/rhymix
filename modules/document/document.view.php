@@ -8,7 +8,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentView extends document
+class DocumentView extends Document
 {
 	/**
 	 * Initialization

@@ -9,7 +9,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentAdminModel extends document
+class DocumentAdminModel extends Document
 {
 	/**
 	 * Initialization

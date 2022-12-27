@@ -9,7 +9,7 @@
  * @package /modules/comment
  * @version 0.1
  */
-class commentController extends comment
+class CommentController extends Comment
 {
 	/**
 	 * Initialization

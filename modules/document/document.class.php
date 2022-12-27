@@ -10,7 +10,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class document extends ModuleObject
+class Document extends ModuleObject
 {
 	/**
 	 * Search option to use in admin page

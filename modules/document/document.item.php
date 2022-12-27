@@ -8,7 +8,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentItem extends BaseObject
+class DocumentItem extends BaseObject
 {
 	/**
 	 * Document number

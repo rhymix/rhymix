@@ -9,7 +9,7 @@
  * @package /modules/comment
  * @version 0.1
  */
-class comment extends ModuleObject
+class Comment extends ModuleObject
 {
 
 	/**

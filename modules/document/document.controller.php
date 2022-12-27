@@ -8,7 +8,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentController extends document
+class DocumentController extends Document
 {
 	/**
 	 * Initialization

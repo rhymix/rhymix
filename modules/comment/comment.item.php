@@ -9,9 +9,8 @@
  * @package /modules/comment
  * @version 0.1
  */
-class commentItem extends BaseObject
+class CommentItem extends BaseObject
 {
-
 	/**
 	 * comment number
 	 * @var int

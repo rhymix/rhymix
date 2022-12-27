@@ -9,7 +9,7 @@
  * @package /modules/comment
  * @version 0.1
  */
-class commentView extends comment
+class CommentView extends Comment
 {
 
 	/**

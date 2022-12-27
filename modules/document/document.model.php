@@ -8,7 +8,7 @@
  * @package /modules/document
  * @version 0.1
  */
-class documentModel extends document
+class DocumentModel extends Document
 {
 	protected static $_config;
 
