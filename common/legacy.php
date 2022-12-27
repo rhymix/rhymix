@@ -1069,6 +1069,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 	}
 	
 	$logged_info = Context::get('logged_info');
+	$writer_member_srl = abs($writer_member_srl);
 	if ($logged_info->member_srl == $writer_member_srl)
 	{
 		return;
