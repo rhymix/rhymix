@@ -27,7 +27,7 @@
 			<a class="default_header" href="{getUrl(['module' => 'admin'])}"><i class="xi xi-cog"></i></a>
 			<a class="mobile_menu_open" href="#gnbNav"><i class="xi xi-bars"></i></a>
 		</h1>
-		<p class="site"><a href="{$xe_default_url}">{$site_module_info->settings->title ?: $xe_default_url|autolang}</a></p>
+		<p class="site"><a href="{getUrl('')}">{$site_module_info->settings->title ?: $site_module_info->domain}</a></p>
 		<!--@end-->
 		<div class="account">
 			<ul>
