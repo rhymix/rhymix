@@ -153,7 +153,7 @@ class TemplateHandler
 			$error_message = vsprintf('Template not found: %s%s%s', array(
 				$tpl_path,
 				preg_replace('/\.html$/i', '', $tpl_filename) . '.html',
-				$tpl_file ? " (${tpl_file})" : '',
+				$tpl_file ? " ($tpl_file)" : '',
 			));
 			trigger_error($error_message, \E_USER_WARNING);
 			return escape($error_message);

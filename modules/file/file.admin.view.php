@@ -127,16 +127,20 @@ class FileAdminView extends File
 					}
 				}
 
-				if($file->upload_target_type && isset(${$file->upload_target_type.'_srls'}) && is_array(${$file->upload_target_type.'_srls'}))
+				if (in_array($file->upload_target_type, ['doc', 'com']))
 				{
-					if(!in_array($file->upload_target_srl, ${$file->upload_target_type.'_srls'}))
+					$var = $file->upload_target_type . '_srls';
+					if (!in_array($target_srl, $$var))
 					{
-						${$file->upload_target_type.'_srls'}[] = $target_srl;
+						$$var[] = $target_srl;
 					}
+				}
+				if (!in_array($file->module_srl, $mod_srls))
+				{
+					$mod_srls[] = $file->module_srl;
 				}
 
 				$file_list[$file_srl] = $file;
-				$mod_srls[] = $file->module_srl;
 			}
 			// Remove duplication
 			$doc_srls = array_unique($doc_srls);

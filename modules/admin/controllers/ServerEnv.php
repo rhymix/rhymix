@@ -225,7 +225,7 @@ class ServerEnv extends Base
 		{
 			if (is_array($value))
 			{
-				$value = implode(', ', $value) ?: "no additional ${key}s";
+				$value = implode(', ', $value) ?: "no additional {$key}s";
 			}
 			
 			if (is_int($key) || ctype_digit($key))
