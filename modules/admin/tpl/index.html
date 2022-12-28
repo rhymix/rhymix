@@ -10,14 +10,18 @@
 <load target="./css/jquery.jqplot.min.css" />
 
 <div class="content" id="content">
+
+	<!--// Page Title -->
 	<div class="x_page-header">
 		<h1>{$lang->control_panel}</h1>
 	</div>
 
+	<!--// Any message from previous POST action -->
 	<div cond="isset($XE_VALIDATOR_MESSAGE) && ($XE_VALIDATOR_ID ?? '') == 'modules/admin/tpl/index/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
 
+	<!--// Warning about the minimum PHP version -->
 	<div class="message error" cond="version_compare(PHP_VERSION, '7.2', '<')">
 		<p>{$lang->unsupported_php_version_notice}</p>
 		<ul>
@@ -26,11 +30,13 @@
 		</ul>
 	</div>
 
+	<!--// Warning about site lock status -->
 	<div class="message error" cond="config('lock.locked')">
 		<h2>{$lang->sitelock_in_use}</h2>
 		<p>{$lang->about_sitelock_in_use} <a href="{getUrl(['module' => 'admin', 'act' => 'dispAdminConfigSitelock'])}">{$lang->cmd_configure}</a></p>
 	</div>
 
+	<!--// Warning about modules installed in the wrong path, e.g. xe-example-master -->
 	<div class="message error" cond="$wrongPaths">
 		<h2>{$lang->module_exists_in_wrong_path}</h2>
 		<p>{$lang->about_module_exists_in_wrong_path}</p>
@@ -41,16 +47,19 @@
 		</ul>
 	</div>
 
-	<div class="message update cleanup_list" cond="$cleanup_list">
-		<h2>{$lang->msg_cleanup_notice_title}</h2>
-		<p>{sprintf($lang->msg_cleanup_notice_content, number_format(count($cleanup_list)), getUrl('', 'module', 'admin', 'act', 'dispAdminCleanupList'))|noescape}</p>
-	</div>
-	
+	<!--// Notice about new Rhymix core release -->
 	<div class="message update core_update" data-current-version="{\RX_VERSION}">
 		<h2>{$lang->update_available}</h2>
 		<p>{$lang->core_update_available} <a href="https://rhymix.org/" target="_blank">{$lang->core_update_link}</a></p>
 	</div>
 	
+	<!--// Notice about cleaning up unnecessary core files -->
+	<div class="message update cleanup_list" cond="$cleanup_list">
+		<h2>{$lang->msg_cleanup_notice_title}</h2>
+		<p>{sprintf($lang->msg_cleanup_notice_content, number_format(count($cleanup_list)), getUrl('', 'module', 'admin', 'act', 'dispAdminCleanupList'))|noescape}</p>
+	</div>
+
+	<!--// Notice about modules that need configuration -->
 	<div class="message update" cond="$addTables || $needUpdate">
 		<h2>{$lang->need_complete_configuration}</h2>
 		<p>{$lang->need_complete_configuration_details}</p>
@@ -68,6 +77,7 @@
 		</ul>
 	</div>
 
+	<!--// Notice about modules that can be updated -->
 	<div class="message update" cond="count($newVersionList)">
 		<h2>{$lang->available_new_version}</h2>
 		<p>{$lang->available_new_version_details}</p>
@@ -79,6 +89,7 @@
 		</ul>
 	</div>
 
+	<!--// Real dashboard begins here -->
 	<div class="dashboard">
 		<block cond="$counterAddonActivated">
 			<include target="./_dashboard_counter.html" />
@@ -86,14 +97,6 @@
 		<block cond="!$counterAddonActivated">
 			<include target="./_dashboard_default.html" />
 		</block>
-	</div>
-
-	<div class="message error" cond="version_compare(PHP_VERSION, __XE_MIN_PHP_VERSION__, '<')">
-		<h2>{$lang->msg_php_warning_title}</h2>
-		<p>{$lang->msg_php_warning_notice}</p>
-		<p>{$lang->msg_php_warning_now_version} : <strong>{phpversion()}</strong></p>
-		<p><a href="https://secure.php.net/downloads.php" target="_blank">{$lang->msg_php_warning_latest_version_check}</a></p>
-		<ul>{$lang->msg_php_warning_notice_explain}</ul>
 	</div>
 </div>
 
