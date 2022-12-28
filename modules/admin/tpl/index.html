@@ -41,6 +41,11 @@
 		</ul>
 	</div>
 
+	<div class="message update cleanup_list" cond="$cleanup_list">
+		<h2>{$lang->msg_cleanup_notice_title}</h2>
+		<p>{sprintf($lang->msg_cleanup_notice_content, number_format(count($cleanup_list)), getUrl('', 'module', 'admin', 'act', 'dispAdminCleanupList'))|noescape}</p>
+	</div>
+	
 	<div class="message update core_update" data-current-version="{\RX_VERSION}">
 		<h2>{$lang->update_available}</h2>
 		<p>{$lang->core_update_available} <a href="https://rhymix.org/" target="_blank">{$lang->core_update_link}</a></p>

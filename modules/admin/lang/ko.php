@@ -341,7 +341,7 @@ $lang->user_define = '사용자 정의 테마';
 $lang->by_you = '사용자 설정';
 $lang->update_available = '업데이트가 있습니다.';
 $lang->core_update_available = 'Rhymix $VERSION 버전이 릴리즈되었습니다.';
-$lang->core_update_link = '다운로드';
+$lang->core_update_link = '여기에서 다운로드하세요.';
 $lang->need_complete_configuration = '업데이트된 모듈의 설정을 완료해야 합니다.';
 $lang->need_complete_configuration_details = '설정을 완료하지 않으면 새 기능이 정상적으로 작동하지 않을 수 있습니다.';
 $lang->need_update_and_table = 'DB Table 생성과 모듈 업데이트 필요';
@@ -409,6 +409,8 @@ $lang->unsupported_php_version_required = '필요한 버전: 최소 PHP 7.2 이�
 $lang->unsupported_php_version_current = '사용중인 버전: PHP %s';
 $lang->admin_cleanup_unnecessary_core_files = '불필요한 코어 파일 삭제';
 $lang->about_cleanup_unnecessary_core_files = '오래된 버전의 라이믹스나 XE에서 업그레이드한 경우 불필요한 파일이 남아 있거나 파일명이 변경되었을 수 있습니다.<br>이 기능을 사용하면 불필요한 코어 파일을 일괄 삭제할 수 있습니다.<br>정상적인 방법으로 코어를 업그레이드하셨다면 아래의 파일과 디렉토리들은 모두 삭제해도 무방합니다.';
+$lang->msg_cleanup_notice_title = '불필요한 코어 파일이 있습니다.';
+$lang->msg_cleanup_notice_content = '불필요한 코어 파일이 %s개 발견되었습니다. <a href="%s">여기를 클릭하여 일괄 정리하세요.</a>';
 $lang->cmd_cleanup_filename = '삭제할 파일명';
 $lang->cmd_cleanup_filetype = '유형';
 $lang->cmd_cleanup_filetype_file = '파일';

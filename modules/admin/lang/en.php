@@ -345,7 +345,7 @@ $lang->user_define = 'User Defined';
 $lang->by_you = 'User setting';
 $lang->update_available = 'Update Available';
 $lang->core_update_available = 'Rhymix $VERSION has been released.';
-$lang->core_update_link = 'Download';
+$lang->core_update_link = 'Download here.';
 $lang->need_complete_configuration = 'Please complete configuration of recently updated modules.';
 $lang->need_complete_configuration_details = 'New features may not function properly until their configuration has been completed.';
 $lang->need_update_and_table = 'Need to Create DB Table and Update Module';
@@ -413,6 +413,8 @@ $lang->unsupported_php_version_required = 'Requirement: minimum PHP 7.2 or highe
 $lang->unsupported_php_version_current = 'Your version: PHP %s';
 $lang->admin_cleanup_unnecessary_core_files = 'Clean up unnecessary core files';
 $lang->about_cleanup_unnecessary_core_files = 'Your site map contain unnecessary files from older versions of Rhymix or XE.<br>This feature will help you clean them up.<br>All of the following files and directories are safe to delete if you have updated to the current version in the normal way.';
+$lang->msg_cleanup_notice_title = 'Unnecessary core files found';
+$lang->msg_cleanup_notice_content = 'Rhymix has found %s unnecessary core files. <a href="%s">Click here to clean them up.</a>';
 $lang->cmd_cleanup_filename = 'Filename to delete';
 $lang->cmd_cleanup_filetype = 'Type';
 $lang->cmd_cleanup_filetype_file = 'file';

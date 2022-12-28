@@ -131,7 +131,11 @@ class Dashboard extends Base
 			Context::set('latestMemberList', $output->data);
 			unset($args, $output, $columnList);
 		}
+		
+		// Check unnecessary files
+		$cleanup_list = Maintenance\Cleanup::getInstance()->checkFiles();
 
+		Context::set('cleanup_list', $cleanup_list);
 		Context::set('module_list', $module_list);
 		Context::set('needUpdate', false);
 		Context::set('addTables', $addTables);
