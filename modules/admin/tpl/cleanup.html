@@ -1,0 +1,68 @@
+<config autoescape="on" />
+
+<div class="x_page-header">
+	<h1>{$lang->admin_cleanup_unnecessary_core_files}</h1>
+</div>
+
+<div cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/admin/tpl/cleanup/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<section class="section">
+	<form action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="procAdminCleanupFiles" />
+		<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/cleanup/1" />
+		<p>{$lang->about_cleanup_unnecessary_core_files}</p>
+		<table class="x_table x_table-striped">
+			<thead>
+				<tr>
+					<th scope="col" class="nowr">{$lang->no}</th>
+					<th scope="col" class="nowr">{$lang->cmd_cleanup_filename}</th>
+					<th scope="col" class="nowr">{$lang->cmd_cleanup_filetype}</th>
+					<th scope="col" class="nowr">{$lang->cmd_cleanup_reason}</th>
+					<!--@if($cleanup_errors)-->
+						<th scope="col" class="nowr">{$lang->cmd_cleanup_error_reason}</th>
+					<!--@endif-->
+				</tr>
+			</thead>
+			<tbody>
+				{@ $no = 1}
+				<!--@foreach($cleanup_list as $file => $reason)-->
+					{@ $filetype = str_ends_with($file, '/') ? $lang->cmd_cleanup_filetype_directory : $lang->cmd_cleanup_filetype_file}
+					<tr>
+						<td class="nowr">{$no++}</td>
+						<td class="nowr">{rtrim($file, '/')}</td>
+						<td class="nowr">{$filetype}</td>
+						<td class="nowr">
+							<!--@if($reason === 'deleted')-->{$lang->cmd_cleanup_reason_deleted}<!--@endif-->
+							<!--@if($reason === 'deleted:xe')-->{sprintf($lang->cmd_cleanup_reason_deleted_xe, $filetype)}<!--@endif-->
+							<!--@if($reason === 'deleted:xmllang')-->{$lang->cmd_cleanup_reason_deleted_xmllang}<!--@endif-->
+							<!--@if($reason === 'case')-->{$lang->cmd_cleanup_reason_case}<!--@endif-->
+							<!--@if(preg_match('/^moved:(.+)$/', $reason, $matches))-->{$lang->cmd_cleanup_reason_moved}: {$matches[1]}<!--@endif-->
+						</td>
+						<!--@if($cleanup_errors)-->
+							<td scope="col" class="nowr" style="color:red">
+								<!--@if(isset($cleanup_errors[$file]))-->
+									<!--@if($cleanup_errors[$file] === 'PERMISSION')-->{$lang->cmd_cleanup_error_permission}<!--@endif-->
+									<!--@if($cleanup_errors[$file] === 'SYMLINK')-->{$lang->cmd_cleanup_error_symlink}<!--@endif-->
+									<!--@if($cleanup_errors[$file] === 'UNKNOWN')-->{$lang->cmd_cleanup_error_other}<!--@endif-->
+								<!--@endif-->
+							</th>
+						<!--@endif-->
+					</tr>
+				<!--@endforeach-->
+				<!--@if(!$cleanup_list)-->
+					<tr>
+						<td class="nowr" colspan="4">{$lang->msg_cleanup_list_empty}</td>
+					</tr>
+				<!--@endif-->
+			</tbody>
+		</table>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_delete}</button>
+			</div>
+		</div>
+	</form>
+</section>

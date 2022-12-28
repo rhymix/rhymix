@@ -1,6 +1,6 @@
 <?php
 
-namespace Rhymix\Modules\Admin\Controllers;
+namespace Rhymix\Modules\Admin\Controllers\Maintenance;
 
 use FileHandler;
 use ModuleModel;
@@ -8,6 +8,7 @@ use ModuleObject;
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Config;
 use Rhymix\Framework\Storage;
+use Rhymix\Modules\Admin\Controllers\Base;
 
 class CacheReset extends Base
 {

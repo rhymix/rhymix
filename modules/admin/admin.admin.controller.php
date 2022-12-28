@@ -95,7 +95,7 @@ class AdminAdminController extends Admin
 
 	public function procAdminRecompileCacheFile()
 	{
-		return Rhymix\Modules\Admin\Controllers\CacheReset::getInstance()->procAdminRecompileCacheFile();
+		return Rhymix\Modules\Admin\Controllers\Maintenance\CacheReset::getInstance()->procAdminRecompileCacheFile();
 	}
 
 	public function _insertFavorite($site_srl, $module, $type = 'module')
