@@ -3,6 +3,8 @@
 namespace Rhymix\Modules\Admin\Controllers\Maintenance;
 
 use Context;
+use Rhymix\Framework\Exceptions\InvalidRequest;
+use Rhymix\Framework\Exceptions\TargetNotFound;
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Storage;
 use Rhymix\Modules\Admin\Controllers\Base;
@@ -41,6 +43,7 @@ class Cleanup extends Base
 		// If there were errors, set information in session.
 		else
 		{
+			$this->setError(-1);
 			$this->setMessage('msg_cleanup_manually');
 			$_SESSION['admin_cleanup_errors'] = $result;
 		}
@@ -158,12 +161,17 @@ class Cleanup extends Base
 			}
 			else
 			{
-				return [$name => 'INVALID'];
+				throw new InvalidRequest;
 			}
 		}
 		else
 		{
 			$list = $this->checkFiles();
+		}
+		
+		if (!count($list))
+		{
+			throw new TargetNotFound('msg_cleanup_list_empty');
 		}
 		
 		// Delete each file or directory.
