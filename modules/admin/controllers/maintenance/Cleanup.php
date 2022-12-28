@@ -111,17 +111,27 @@ class Cleanup extends Base
 			return $cache;
 		}
 		
+		// Return default values for most common operating systems.
+		if (preg_match('/Linux/', \PHP_OS))
+		{
+			return $cache = true;
+		}
+		if (preg_match('/Win/i', \PHP_OS))
+		{
+			return $cache = false;
+		}
+		
 		// Create two files that differ only in case, and check if they overwrite each other.
 		$file1 = \RX_BASEDIR . 'files/cache/caseTest.php';
 		$file2 = \RX_BASEDIR . 'files/cache/caseTEST.php';
 		Storage::write($file1, '#1:' . Security::getRandom(36) . \PHP_EOL);
 		Storage::write($file2, '#2:' . Security::getRandom(36) . \PHP_EOL);
-		$result = (Storage::read($file1) !== Storage::read($file2));
+		$cache = (Storage::read($file1) !== Storage::read($file2));
 		
 		// Clean up test files and return the result.
 		Storage::delete($file1);
 		Storage::delete($file2);
-		return $result;
+		return $cache;
 	}
 	
 	/**
