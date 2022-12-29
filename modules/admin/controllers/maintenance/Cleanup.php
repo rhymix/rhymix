@@ -239,6 +239,8 @@ class Cleanup extends Base
 		'classes/object/BaseObject.class.php' => 'deleted:xe',
 		'classes/xml/XmlQueryParser.class.php' => 'deleted:xe',
 		'classes/xml/xmlquery/' => 'deleted:xe',
+		'common/framework/drivers/cache/wincache.php' => 'deleted',
+		'common/framework/drivers/cache/xcache.php' => 'deleted',
 		'common/img/flvplayer.swf' => 'deleted:xe',
 		'common/js/jquery-1.12.4.min.js' => 'deleted',
 		'common/js/jquery-1.12.4.js' => 'deleted',
