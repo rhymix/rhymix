@@ -9,7 +9,7 @@ class CacheTest extends \Codeception\TestCase\Test
 			Rhymix\Framework\Config::set('crypto.authentication_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
 		}
 		
-		$driver = Rhymix\Framework\Cache::init(array('file'));
+		$driver = Rhymix\Framework\Cache::init(array('dummy'));
 	}
 	
 	public function _after()
@@ -19,8 +19,8 @@ class CacheTest extends \Codeception\TestCase\Test
 	
 	public function testInit()
 	{
-		$driver = Rhymix\Framework\Cache::init(array('type' => 'file'));
-		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\File);
+		$driver = Rhymix\Framework\Cache::init(array('type' => 'dummy'));
+		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\Dummy);
 		
 		$driver = Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		$this->assertTrue($driver instanceof Rhymix\Framework\Drivers\Cache\SQLite);
@@ -34,7 +34,7 @@ class CacheTest extends \Codeception\TestCase\Test
 		$drivers = Rhymix\Framework\Cache::getSupportedDrivers();
 		$this->assertTrue(is_array($drivers));
 		$this->assertContains('dummy', $drivers);
-		$this->assertContains('file', $drivers);
+		$this->assertFalse(in_array('file', $drivers));
 		$this->assertContains('sqlite', $drivers);
 	}
 	
