@@ -52,15 +52,14 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	}
 	
 	/**
-	 * Check if the current cache driver is supported on this server.
-	 * 
-	 * This method returns true on success and false on failure.
+	 * Since Rhymix 2.1, This method always returns false.
+	 * The file cache driver can only be used through the dummy driver.
 	 * 
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
-		return true;
+		return false;
 	}
 	
 	/**
@@ -201,6 +200,6 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	protected function _getFilename($key)
 	{
 		$hash = sha1($key);
-		return $this->_dir . '/' . substr($hash, 0, 2) . '/' . substr($hash, 2, 2) . '/' . $hash . '.php';
+		return $this->_dir . '/' . substr($hash, 0, 2) . '/' . $hash . '.php';
 	}
 }

@@ -51,7 +51,7 @@ class Cache
 			}
 			$config = isset($config['servers']) ? $config['servers'] : array();
 		}
-		elseif (preg_match('/^(apc|dummy|file|memcache|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
+		elseif (preg_match('/^(apc|dummy|memcached?|redis|sqlite|wincache|xcache)/', strval(array_first($config)), $matches))
 		{
 			$driver_name = $matches[1] . ($matches[1] === 'memcache' ? 'd' : '');
 			$class_name = '\\Rhymix\\Framework\\Drivers\\Cache\\' . $driver_name;
@@ -62,7 +62,7 @@ class Cache
 			$class_name = null;
 		}
 		
-		if ($class_name && class_exists($class_name) && $class_name::isSupported())
+		if ($class_name !== null && $driver_name !== 'file' && class_exists($class_name) && $class_name::isSupported())
 		{
 			self::$_driver = $class_name::getInstance($config);
 			self::$_driver_name = strtolower($driver_name);

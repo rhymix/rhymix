@@ -23,6 +23,16 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 	public $data = array();
 	
 	/**
+	 * Override the isSupported() method of the file driver.
+	 * 
+	 * @return bool
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+	
+	/**
 	 * Get the value of a key.
 	 * 
 	 * This method returns null if the key was not found.
