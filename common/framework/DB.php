@@ -468,7 +468,7 @@ class DB
 		$total_count = intval($count);
 		$total_page = max(1, intval(ceil($total_count / $list_count)));
 		$last_index = $total_count - (($page - 1) * $list_count);
-		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count);
+		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count ?: 10);
 		
 		// Compose the output object.
 		$output = new Helpers\DBResultHelper;
