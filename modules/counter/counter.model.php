@@ -89,7 +89,7 @@ class counterModel extends counter
 	 * @param integer $site_srl unused
 	 * @return Object
 	 */
-	public static function getHourlyStatus($type = 'hour', $selected_date, $site_srl = 0, $isPageView = false)
+	public static function getHourlyStatus($type = 'hour', $selected_date = 'now', $site_srl = 0, $isPageView = false)
 	{
 		$max = 0;
 		$sum = 0;
