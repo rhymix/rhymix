@@ -60,7 +60,7 @@ class Query extends VariableBase
 	 * @param int $count_only
 	 * @return string
 	 */
-	public function getQueryString(string $prefix = '', array $args, array $column_list = [], int $count_only = 0): string
+	public function getQueryString(string $prefix = '', array $args = [], array $column_list = [], int $count_only = 0): string
 	{
 		// Save the query information.
 		$this->_prefix = $prefix;
