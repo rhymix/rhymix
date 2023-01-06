@@ -48,7 +48,7 @@ class pointModel extends point
 			if ($point !== null)
 			{
 				$exists = true;
-				return $point;
+				return parent::$_member_point_cache[$member_srl] = $point;
 			}
 		}
 		
@@ -57,8 +57,12 @@ class pointModel extends point
 		$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
 		if (!$from_db && file_exists($cache_filename))
 		{
-			$exists = true;
-			return parent::$_member_point_cache[$member_srl] = intval(trim(Rhymix\Framework\Storage::read($cache_filename)));
+			$point = trim(Rhymix\Framework\Storage::read($cache_filename));
+			if ($point !== '')
+			{
+				$exists = true;
+				return parent::$_member_point_cache[$member_srl] = intval($point);
+			}
 		}
 
 		// Get from the DB
