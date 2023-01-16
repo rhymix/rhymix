@@ -344,10 +344,10 @@ class ModuleHandler extends Handler
 
 		// get type, kind
 		$type = $xml_info->action->{$this->act}->type ?? null;
-		$class_name = $xml_info->action->{$this->act}->class_name ?? null;
-		$ruleset = $xml_info->action->{$this->act}->ruleset ?? null;
-		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? null;
-		$kind = (stripos($this->act, 'admin') !== false || stripos($class_name, 'admin') !== false) ? 'admin' : '';
+		$class_name = $xml_info->action->{$this->act}->class_name ?? '';
+		$ruleset = $xml_info->action->{$this->act}->ruleset ?? '';
+		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? '';
+		$kind = (stripos($this->act ?? '', 'admin') !== false || stripos($class_name, 'admin') !== false) ? 'admin' : '';
 		if ($meta_noindex === 'true')
 		{
 			Context::addMetaTag('robots', 'noindex');
@@ -898,27 +898,23 @@ class ModuleHandler extends Handler
 	 */
 	protected static function _setInputErrorToContext()
 	{
-		if(isset($_SESSION['XE_VALIDATOR_ERROR']) && $_SESSION['XE_VALIDATOR_ERROR'] && !Context::get('XE_VALIDATOR_ERROR'))
+		$keys = [
+			'XE_VALIDATOR_ID',
+			'XE_VALIDATOR_MESSAGE',
+			'XE_VALIDATOR_MESSAGE_TYPE',
+			'XE_VALIDATOR_ERROR',
+			'XE_VALIDATOR_RETURN_URL',
+		];
+		
+		foreach ($keys as $key)
 		{
-			Context::set('XE_VALIDATOR_ERROR', $_SESSION['XE_VALIDATOR_ERROR']);
+			if (!Context::get($key))
+			{
+				Context::set($key, empty($_SESSION[$key]) ? null : $_SESSION[$key]);
+			}
 		}
-		if(isset($_SESSION['XE_VALIDATOR_MESSAGE']) && $_SESSION['XE_VALIDATOR_MESSAGE'] && !Context::get('XE_VALIDATOR_MESSAGE'))
-		{
-			Context::set('XE_VALIDATOR_MESSAGE', $_SESSION['XE_VALIDATOR_MESSAGE']);
-		}
-		if(isset($_SESSION['XE_VALIDATOR_MESSAGE_TYPE']) && $_SESSION['XE_VALIDATOR_MESSAGE_TYPE'] && !Context::get('XE_VALIDATOR_MESSAGE_TYPE'))
-		{
-			Context::set('XE_VALIDATOR_MESSAGE_TYPE', $_SESSION['XE_VALIDATOR_MESSAGE_TYPE']);
-		}
-		if(isset($_SESSION['XE_VALIDATOR_RETURN_URL']) && $_SESSION['XE_VALIDATOR_RETURN_URL'] && !Context::get('XE_VALIDATOR_RETURN_URL'))
-		{
-			Context::set('XE_VALIDATOR_RETURN_URL', $_SESSION['XE_VALIDATOR_RETURN_URL']);
-		}
-		if(isset($_SESSION['XE_VALIDATOR_ID']) && $_SESSION['XE_VALIDATOR_ID'] && !Context::get('XE_VALIDATOR_ID'))
-		{
-			Context::set('XE_VALIDATOR_ID', $_SESSION['XE_VALIDATOR_ID']);
-		}
-		if(isset($_SESSION['INPUT_ERROR']) && countobj($_SESSION['INPUT_ERROR']))
+		
+		if (!empty($_SESSION['INPUT_ERROR']))
 		{
 			Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
 		}
