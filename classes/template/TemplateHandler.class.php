@@ -555,6 +555,10 @@ class TemplateHandler
 					switch($stmt)
 					{
 						case 'cond':
+							if (preg_match('/^\$[\\\\\w\[\]\'":>-]+$/i', $expr))
+							{
+								$expr = "$expr ?? false";
+							}
 							$nodes[$idx - 1] .= "<?php if({$expr}){ ?>";
 							break;
 						case 'loop':
@@ -779,11 +783,11 @@ class TemplateHandler
 							if ($filter_option)
 							{
 								$filter_option = $this->_applyEscapeOption($filter_option, $escape_option);
-								$var = "'<a href=\"' . {$filter_option} . '\">' . {$var} . '</a>'";
+								$var = "'<a href=\"' . ($filter_option) . '\">' . ($var) . '</a>'";
 							}
 							else
 							{
-								$var = "'<a href=\"' . {$var} . '\">' . {$var} . '</a>'";
+								$var = "'<a href=\"' . ($var) . '\">' . ($var) . '</a>'";
 							}
 							$escape_option = 'noescape';
 							break;
@@ -1027,6 +1031,11 @@ class TemplateHandler
 	 */
 	private function _applyEscapeOption($str, $escape_option)
 	{
+		if (preg_match('/^\$[\\\\\w\[\]\'":>-]+$/i', $str))
+		{
+			$str = "$str ?? ''";
+		}
+		
 		switch($escape_option)
 		{
 			case 'escape':
