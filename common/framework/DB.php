@@ -112,6 +112,7 @@ class DB
 		$dsn .= (isset($config['port']) && $config['port'] != 3306) ? (';port=' . $config['port']) : '';
 		$dsn .= ';dbname=' . $config['database'];
 		$dsn .= ';charset=' . $this->_charset;
+		class_exists('\Rhymix\Framework\Helpers\DBStmtHelper');
 		$options = array(
 			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_EMULATE_PREPARES => false,
