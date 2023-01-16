@@ -1,7 +1,7 @@
 <config autoescape="on" />
 
 <include target="./_admin_common.html" />
-{Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
+{@ Context::addMetaTag("viewport", "width=device-width, user-scalable=yes")}
 <script>
 	var admin_menu_srl = "{$admin_menu_srl}";
 	xe.cmd_find = "{$lang->cmd_find}";
