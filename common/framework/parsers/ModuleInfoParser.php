@@ -41,15 +41,15 @@ class ModuleInfoParser extends BaseParser
 			$info->category = trim($xml->category) ?: 'service';
 			$info->date = ($xml->date === 'RX_CORE') ? '' : date('Ymd', strtotime($xml->date . 'T12:00:00Z'));
 			$info->license = trim($xml->license);
-			$info->license_link = trim($xml->license['link']);
+			$info->license_link = trim($xml->license['link'] ?: '');
 			$info->author = array();
 			
 			foreach ($xml->author as $author)
 			{
 				$author_info = new \stdClass;
 				$author_info->name = self::_getChildrenByLang($author, 'name', $lang);
-				$author_info->email_address = trim($author['email_address']);
-				$author_info->homepage = trim($author['link']);
+				$author_info->email_address = trim($author['email_address'] ?: '');
+				$author_info->homepage = trim($author['link'] ?: '');
 				$info->author[] = $author_info;
 			}
 		}
@@ -59,12 +59,12 @@ class ModuleInfoParser extends BaseParser
 		{
 			$info->title = self::_getChildrenByLang($xml, 'title', $lang);
 			$info->description = self::_getChildrenByLang($xml->author, 'description', $lang);
-			$info->version = trim($xml['version']);
+			$info->version = trim($xml['version'] ?: '');
 			$info->homepage = trim($xml->homepage);
-			$info->category = trim($xml['category']) ?: 'service';
+			$info->category = trim($xml['category'] ?: '') ?: 'service';
 			$info->date = date('Ymd', strtotime($xml->author['date'] . 'T12:00:00Z'));
 			$info->license = trim($xml->license);
-			$info->license_link = trim($xml->license['link']);
+			$info->license_link = trim($xml->license['link'] ?: '');
 			$info->author = array();
 			
 			foreach ($xml->author as $author)
@@ -72,7 +72,7 @@ class ModuleInfoParser extends BaseParser
 				$author_info = new \stdClass;
 				$author_info->name = self::_getChildrenByLang($author, 'name', $lang);
 				$author_info->email_address = trim($author['email_address']);
-				$author_info->homepage = trim($author['link']);
+				$author_info->homepage = trim($author['link'] ?: '');
 				$info->author[] = $author_info;
 			}
 		}
