@@ -324,7 +324,7 @@ class CommentItem extends BaseObject
 
 	function isExistsHomepage()
 	{
-		if(trim($this->get('homepage')))
+		if(trim($this->get('homepage') ?? ''))
 		{
 			return TRUE;
 		}
@@ -334,7 +334,7 @@ class CommentItem extends BaseObject
 
 	function getHomepageUrl()
 	{
-		$url = trim($this->get('homepage'));
+		$url = trim($this->get('homepage') ?? '');
 		if(!$url)
 		{
 			return;

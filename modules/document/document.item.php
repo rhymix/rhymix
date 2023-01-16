@@ -440,17 +440,17 @@ class DocumentItem extends BaseObject
 			return $this->get('ipaddress');
 		}
 		
-		return '*' . strstr($this->get('ipaddress'), '.');
+		return '*' . strstr($this->get('ipaddress') ?? '', '.');
 	}
 
 	function isExistsHomepage()
 	{
-		return (bool) trim($this->get('homepage'));
+		return (bool) trim($this->get('homepage') ?? '');
 	}
 
 	function getHomepageUrl()
 	{
-		if(!$url = trim($this->get('homepage')))
+		if(!$url = trim($this->get('homepage') ?? ''))
 		{
 			return;
 		}
@@ -594,7 +594,7 @@ class DocumentItem extends BaseObject
 		}
 		
 		$title = escape($this->getTitleText($cut_size, $tail), false);
-		$this->add('title_color', trim($this->get('title_color')));
+		$this->add('title_color', trim($this->get('title_color') ?? ''));
 		
 		$attrs = array();
 		if($this->get('title_bold') == 'Y')
@@ -603,7 +603,7 @@ class DocumentItem extends BaseObject
 		}
 		if($this->get('title_color') && $this->get('title_color') != 'N')
 		{
-			$attrs[] = 'color:#' . ltrim($this->get('title_color'), '#');
+			$attrs[] = 'color:#' . ltrim($this->get('title_color') ?? '', '#');
 		}
 		if(count($attrs))
 		{
