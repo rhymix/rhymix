@@ -44,7 +44,7 @@ class Validator
 	 * custom message list
 	 * @var array
 	 */
-	var $_messages;
+	var $_message;
 
 	/**
 	 * custom field name list

@@ -8,6 +8,7 @@
  * @package /classes/xml
  * @version 0.1
  */
+#[AllowDynamicProperties]
 class Xml_Node_
 {
 

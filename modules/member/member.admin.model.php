@@ -55,8 +55,8 @@ class MemberAdminModel extends Member
 			case 'disable' : $args->is_denied = 'Y';break;
 		}
 
-		$search_target = trim(Context::get('search_target'));
-		$search_keyword = trim(Context::get('search_keyword'));
+		$search_target = trim(Context::get('search_target') ?? '');
+		$search_keyword = trim(Context::get('search_keyword') ?? '');
 
 		if($search_target && $search_keyword)
 		{

@@ -498,7 +498,7 @@ class MemberModel extends Member
 			{
 				foreach($extra_vars as $key => $val)
 				{
-					if(!is_array($val) && !is_object($val) && strpos($val, '|@|') !== FALSE)
+					if(!is_null($val) && !is_array($val) && !is_object($val) && strpos($val, '|@|') !== FALSE)
 					{
 						$val = explode('|@|', $val);
 					}
