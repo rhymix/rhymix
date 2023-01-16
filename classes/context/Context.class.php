@@ -1686,7 +1686,7 @@ class Context
 			for($i = 0; $i < $num_args; $i += 2)
 			{
 				$key = $args_list[$i];
-				$val = trim($args_list[$i + 1]);
+				$val = trim($args_list[$i + 1] ?? '');
 				if ($val === '')
 				{
 					unset($get_vars[$key]);

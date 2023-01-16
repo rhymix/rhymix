@@ -100,7 +100,7 @@ class PageHandler extends Handler implements Iterator
 	 * 
 	 * @return void
 	 */
-	public function rewind()
+	public function rewind(): void
 	{
 		$this->point = 0;
 	}
@@ -141,7 +141,7 @@ class PageHandler extends Handler implements Iterator
 	 * 
 	 * @return void
 	 */
-	public function next()
+	public function next(): void
 	{
 		$this->point++;
 	}

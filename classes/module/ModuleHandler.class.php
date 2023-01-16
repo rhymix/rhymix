@@ -1109,7 +1109,7 @@ class ModuleHandler extends Handler
 						{
 							if($val->type == 'image')
 							{
-								if(strncmp('./files/attach/images/', $val->value, 22) === 0)
+								if(strncmp('./files/attach/images/', $val->value ?? '', 22) === 0)
 								{
 									$val->value = Context::getRequestUri() . substr($val->value, 2);
 								}

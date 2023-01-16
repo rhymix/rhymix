@@ -107,7 +107,8 @@ class HTMLDisplayHandler
 				'dispPageAdminMobileContentModify' => true,
 				'dispPageAdminMobileContent' => true,
 			);
-			if(Context::get('module') != 'admin' && strpos(Context::get('act'), 'Admin') > 0 && !isset($x_exclude_actions[Context::get('act')]))
+			$current_act = Context::get('act') ?? '';
+			if(Context::get('module') != 'admin' && strpos($current_act, 'Admin') !== false && !isset($x_exclude_actions[$current_act]))
 			{
 				$output = '<div class="x">' . $output . '</div>';
 			}

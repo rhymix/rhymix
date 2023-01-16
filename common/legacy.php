@@ -835,10 +835,10 @@ function handleError($errno, $errstr, $file, $line, $context)
 function getNumberingPath($no, $size = 3)
 {
 	$mod = pow(10, $size);
-	$output = sprintf('%0' . $size . 'd/', $no % $mod);
+	$output = sprintf('%0' . $size . 'd/', intval($no % $mod));
 	if($no >= $mod)
 	{
-		$output .= getNumberingPath((int)$no / $mod, $size);
+		$output .= getNumberingPath(intval($no / $mod), $size);
 	}
 	return $output;
 }
