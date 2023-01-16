@@ -449,18 +449,17 @@ class editorController extends editor
 			if($component->extra_vars)
 			{
 				$extra_vars = unserialize($component->extra_vars);
-				if($extra_vars->target_group)
+				if(!empty($extra_vars->target_group))
 				{
 					$xml_info->target_group = $extra_vars->target_group;
 				}
-
-				if($extra_vars->mid_list && count($extra_vars->mid_list))
+				if(!empty($extra_vars->mid_list))
 				{
 					$xml_info->mid_list = $extra_vars->mid_list;
 				}
 				
 				// Check the configuration of the editor component
-				if($xml_info->extra_vars)
+				if(!empty($xml_info->extra_vars))
 				{
 					foreach($xml_info->extra_vars as $key => $val)
 					{

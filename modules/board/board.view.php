@@ -520,7 +520,7 @@ class boardView extends board
 		// set member_srl for view particular member's document
 		if($this->module_info->use_anonymous !== 'Y')
 		{
-			$args->member_srl = abs(Context::get('member_srl'));
+			$args->member_srl = abs(Context::get('member_srl') ?? 0) ?: null;
 		}
 		
 		// if the category is enabled, then get the category

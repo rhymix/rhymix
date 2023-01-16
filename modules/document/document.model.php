@@ -1384,7 +1384,7 @@ class DocumentModel extends Document
 		$query_id = null;
 		$use_division = false;
 		$search_target = $searchOpt->search_target ?? null;
-		$search_keyword = trim($searchOpt->search_keyword ?? null) ?: null;
+		$search_keyword = trim($searchOpt->search_keyword ?? '') ?: null;
 		
 		// search
 		if($search_target && $search_keyword)
@@ -1397,7 +1397,7 @@ class DocumentModel extends Document
 				case 'tag' :
 				case 'title_content' :
 					$use_division = true;
-					$search_keyword = trim(utf8_normalize_spaces($search_keyword));
+					$search_keyword = trim(utf8_normalize_spaces($search_keyword ?? ''));
 					if($search_target == 'title_content')
 					{
 						$args->s_title = $search_keyword;
