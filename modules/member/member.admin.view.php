@@ -77,9 +77,9 @@ class MemberAdminView extends Member
 		$oMemberModel = getModel('member');
 		$output = $oMemberAdminModel->getMemberList();
 
-		$filter = Context::get('filter_type');
+		$filter_type = Context::get('filter_type');
 		global $lang;
-		switch($filter)
+		switch($filter_type)
 		{
 			case 'super_admin' : Context::set('filter_type_title', $lang->cmd_show_super_admin_member);break;
 			case 'site_admin' : Context::set('filter_type_title', $lang->cmd_show_site_admin_member);break;
@@ -143,6 +143,9 @@ class MemberAdminView extends Member
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
+		Context::set('filter_type', $filter_type);
+		Context::set('selected_group_srl', Context::get('selected_group_srl'));
+		Context::set('sort_index', Context::get('sort_index'));
 		Context::set('member_config', $oMemberModel->getMemberConfig());
 		Context::set('member_list', $output->data);
 		Context::set('new_member_check_list', $check_list);
