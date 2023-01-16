@@ -56,7 +56,7 @@ class DBQueryParser extends BaseParser
 		// Load tables.
 		foreach ($xml->tables ? $xml->tables->children() : [] as $tag)
 		{
-			if (trim($tag['query'] ?: '') === 'true')
+			if (trim($tag['query'] ?? '') === 'true')
 			{
 				$table = self::_parseQuery($tag);
 				$query->tables[$table->alias] = $table;
@@ -65,11 +65,11 @@ class DBQueryParser extends BaseParser
 			{
 				$table = new DBQuery\Table;
 				$table->name = trim($tag['name']);
-				$table->alias = trim($tag['alias'] ?: '') ?: null;
-				$table->ifvar = trim($tag['if'] ?: '') ?: null;
+				$table->alias = trim($tag['alias'] ?? '') ?: null;
+				$table->ifvar = trim($tag['if'] ?? '') ?: null;
 			}
 			
-			$table_type = trim($tag['type'] ?: '');
+			$table_type = trim($tag['type'] ?? '');
 			if (stripos($table_type, 'join') !== false)
 			{
 				$table->join_type = strtoupper($table_type);
@@ -84,7 +84,7 @@ class DBQueryParser extends BaseParser
 		// Load index hints.
 		foreach ($xml->index_hint ?: [] as $index_hint_group)
 		{
-			$index_hint_target_db = strtolower(trim($index_hint_group['for'] ?: ''));
+			$index_hint_target_db = strtolower(trim($index_hint_group['for'] ?? ''));
 			if ($index_hint_target_db !== '' && $index_hint_target_db !== 'all')
 			{
 				$index_hint_target_db = explode(',', $index_hint_target_db);
@@ -99,17 +99,17 @@ class DBQueryParser extends BaseParser
 			{
 				$index_hint = new DBQuery\IndexHint;
 				$index_hint->target_db = $index_hint_target_db;
-				$index_hint->hint_type = strtoupper(trim($tag['type'] ?: '')) ?: 'USE';
-				$index_hint->index_name = trim($tag['name'] ?: '') ?: '';
-				$index_hint->table_name = trim($tag['table'] ?: '') ?: '';
-				$index_hint->ifvar = trim($tag['if'] ?: '') ?: null;
-				if (isset($tag['var']) && trim($tag['var'] ?: ''))
+				$index_hint->hint_type = strtoupper(trim($tag['type'] ?? '')) ?: 'USE';
+				$index_hint->index_name = trim($tag['name'] ?? '') ?: '';
+				$index_hint->table_name = trim($tag['table'] ?? '') ?: '';
+				$index_hint->ifvar = trim($tag['if'] ?? '') ?: null;
+				if (isset($tag['var']) && trim($tag['var'] ?? ''))
 				{
-					$index_hint->var = trim($tag['var'] ?: '');
+					$index_hint->var = trim($tag['var'] ?? '');
 				}
-				if (isset($tag['default']) && trim($tag['default'] ?: ''))
+				if (isset($tag['default']) && trim($tag['default'] ?? ''))
 				{
-					$index_hint->index_name = trim($tag['default'] ?: '');
+					$index_hint->index_name = trim($tag['default'] ?? '');
 				}
 				if ($index_hint->index_name || $index_hint->var)
 				{
@@ -123,15 +123,15 @@ class DBQueryParser extends BaseParser
 		{
 			if ($tag->getName() === 'query')
 			{
-				$subquery = self::_parseQuery($tag, trim($tag['id'] ?: ''));
+				$subquery = self::_parseQuery($tag, trim($tag['id'] ?? ''));
 				$query->columns[] = $subquery;
 			}
 			elseif ($query->type === 'SELECT')
 			{
 				$column = new DBQuery\ColumnRead;
 				$column->name = trim($tag['name']);
-				$column->alias = trim($tag['alias'] ?: '') ?: null;
-				$column->ifvar = trim($tag['if'] ?: '') ?: null;
+				$column->alias = trim($tag['alias'] ?? '') ?: null;
+				$column->ifvar = trim($tag['if'] ?? '') ?: null;
 				if ($column->name === '*' || preg_match('/\.\*$/', $column->name))
 				{
 					$column->is_wildcard = true;
@@ -169,13 +169,13 @@ class DBQueryParser extends BaseParser
 		if ($xml->groups)
 		{
 			$query->groupby = new DBQuery\GroupBy;
-			$query->groupby->ifvar = trim($xml->groups['if'] ?: '') ?: null;
+			$query->groupby->ifvar = trim($xml->groups['if'] ?? '') ?: null;
 			foreach ($xml->groups->children() as $tag)
 			{
 				$name = $tag->getName();
 				if ($name === 'group')
 				{
-					$query->groupby->columns[] = trim($tag['column'] ?: '');
+					$query->groupby->columns[] = trim($tag['column'] ?? '');
 				}
 				elseif ($name === 'having')
 				{
@@ -203,8 +203,8 @@ class DBQueryParser extends BaseParser
 				if ($tag = $xml->navigation->{$key})
 				{
 					$query->navigation->{$key} = new DBQuery\VariableBase;
-					$query->navigation->{$key}->var = trim($tag['var'] ?: '') ?: null;
-					$query->navigation->{$key}->default = trim($tag['default'] ?: '') ?: null;
+					$query->navigation->{$key}->var = trim($tag['var'] ?? '') ?: null;
+					$query->navigation->{$key}->default = trim($tag['default'] ?? '') ?: null;
 				}
 			}
 		}
@@ -220,7 +220,7 @@ class DBQueryParser extends BaseParser
 		}
 		
 		// Check the SELECT DISTINCT flag.
-		if ($xml->columns && $select_distinct = trim($xml->columns['distinct'] ?: ''))
+		if ($xml->columns && $select_distinct = trim($xml->columns['distinct'] ?? ''))
 		{
 			if ($select_distinct === 'distinct' || toBool($select_distinct))
 			{

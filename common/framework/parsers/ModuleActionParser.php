@@ -58,7 +58,7 @@ class ModuleActionParser extends BaseParser
 		{
 			$grant_info = new \stdClass;
 			$grant_info->title = self::_getChildrenByLang($grant, 'title', $lang);
-			$grant_info->default = trim($grant['default'] ?: '');
+			$grant_info->default = trim($grant['default'] ?? '');
 			$grant_name = trim($grant['name']);
 			$info->grant->{$grant_name} = $grant_info;
 		}
@@ -70,8 +70,8 @@ class ModuleActionParser extends BaseParser
 			$menu_info->title = self::_getChildrenByLang($menu, 'title', $lang);
 			$menu_info->index = null;
 			$menu_info->acts = array();
-			$menu_info->type = trim($menu['type'] ?: '');
-			$menu_name = trim($menu['name'] ?: '');
+			$menu_info->type = trim($menu['type'] ?? '');
+			$menu_name = trim($menu['name'] ?? '');
 			$info->menu->{$menu_name} = $menu_info;
 		}
 		
@@ -87,12 +87,12 @@ class ModuleActionParser extends BaseParser
 			if ($permission)
 			{
 				$permission_info->target = $permission;
-				$permission_info->check_var = trim($action['check_var'] ?: '') ?: trim($action['check-var'] ?: '');
-				$permission_info->check_type = trim($action['check_type'] ?: '') ?: trim($action['check-type'] ?: '');
+				$permission_info->check_var = trim($action['check_var'] ?? '') ?: trim($action['check-var'] ?? '');
+				$permission_info->check_type = trim($action['check_type'] ?? '') ?: trim($action['check-type'] ?? '');
 			}
 			
 			// Parse the list of allowed HTTP methods.
-			$method_attr = trim($action['method'] ?: '');
+			$method_attr = trim($action['method'] ?? '');
 			if ($method_attr)
 			{
 				$methods = explode('|', strtoupper($method_attr));
@@ -111,8 +111,8 @@ class ModuleActionParser extends BaseParser
 			}
 			
 			// Parse routes.
-			$global_route = (trim($action['global_route'] ?: '') ?: trim($action['global-route'] ?: '')) === 'true' ? 'true' : 'false';
-			$route_attr = trim($action['route'] ?: '');
+			$global_route = (trim($action['global_route'] ?? '') ?: trim($action['global-route'] ?? '')) === 'true' ? 'true' : 'false';
+			$route_attr = trim($action['route'] ?? '');
 			$route_tags = $action->route ?: [];
 			$route_arg = [];
 			if ($route_attr || count($route_tags))
@@ -142,7 +142,7 @@ class ModuleActionParser extends BaseParser
 			}
 			elseif ($action_class)
 			{
-				$standalone = trim($action['standalone'] ?: '');
+				$standalone = trim($action['standalone'] ?? '');
 				if (!$standalone || !in_array($standalone, ['true', 'false', 'auto']))
 				{
 					$standalone = 'auto';
@@ -150,7 +150,7 @@ class ModuleActionParser extends BaseParser
 			}
 			else
 			{
-				$standalone = trim($action['standalone'] ?: '');
+				$standalone = trim($action['standalone'] ?? '');
 				if (!$standalone || !in_array($standalone, ['true', 'false', 'auto']))
 				{
 					$standalone = 'true';
@@ -178,19 +178,19 @@ class ModuleActionParser extends BaseParser
 			$action_info = new \stdClass;
 			$action_info->type = $action_type;
 			$action_info->class_name = preg_replace('/\\\\+/', '\\\\', $action_class);
-			$action_info->grant = trim($action['grant'] ?: '') ?: 'guest';
+			$action_info->grant = trim($action['grant'] ?? '') ?: 'guest';
 			$action_info->permission = $permission_info;
-			$action_info->ruleset = trim($action['ruleset'] ?: '');
+			$action_info->ruleset = trim($action['ruleset'] ?? '');
 			$action_info->method = implode('|', $methods);
 			$action_info->route = $route_arg;
 			$action_info->standalone = $standalone;
-			$action_info->check_csrf = (trim($action['check_csrf'] ?: '') ?: trim($action['check-csrf'] ?: '')) === 'false' ? 'false' : 'true';
-			$action_info->meta_noindex = (trim($action['meta_noindex'] ?: '') ?: trim($action['meta-noindex'] ?: '')) === 'true' ? 'true' : 'false';
+			$action_info->check_csrf = (trim($action['check_csrf'] ?? '') ?: trim($action['check-csrf'] ?? '')) === 'false' ? 'false' : 'true';
+			$action_info->meta_noindex = (trim($action['meta_noindex'] ?? '') ?: trim($action['meta-noindex'] ?? '')) === 'true' ? 'true' : 'false';
 			$action_info->global_route = $global_route;
 			$info->action->{$action_name} = $action_info;
 			
 			// Set the menu name and index settings.
-			$menu_name = trim($action['menu_name'] ?: '');
+			$menu_name = trim($action['menu_name'] ?? '');
 			if ($menu_name && isset($info->menu->{$menu_name}))
 			{
 				$info->menu->{$menu_name}->acts[] = $action_name;
@@ -217,7 +217,7 @@ class ModuleActionParser extends BaseParser
 			}
 			
 			// Set error handler settings.
-			$error_handlers = explode(',', trim($action['error_handlers'] ?: '') ?: trim($action['error-handlers'] ?: ''));
+			$error_handlers = explode(',', trim($action['error_handlers'] ?? '') ?: trim($action['error-handlers'] ?? ''));
 			foreach ($error_handlers as $error_handler)
 			{
 				if (intval($error_handler) > 200)
@@ -233,9 +233,9 @@ class ModuleActionParser extends BaseParser
 			$action_name = trim($permission['action']);
 			if (isset($info->action->{$action_name}))
 			{
-				$info->action->{$action_name}->permission->target = trim($permission['target'] ?: '');
-				$info->action->{$action_name}->permission->check_var = trim($permission['check_var'] ?: '') ?: trim($permission['check-var'] ?: '');
-				$info->action->{$action_name}->permission->check_type = trim($permission['check_type'] ?: '') ?: trim($permission['check-type'] ?: '');
+				$info->action->{$action_name}->permission->target = trim($permission['target'] ?? '');
+				$info->action->{$action_name}->permission->check_var = trim($permission['check_var'] ?? '') ?: trim($permission['check-var'] ?? '');
+				$info->action->{$action_name}->permission->check_type = trim($permission['check_type'] ?? '') ?: trim($permission['check-type'] ?? '');
 			}
 		}
 		
