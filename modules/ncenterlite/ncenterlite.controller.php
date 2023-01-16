@@ -957,6 +957,10 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
+		if(empty($oModule->act))
+		{
+			return;
+		}
 
 		if($oModule->act == 'dispBoardReplyComment')
 		{
