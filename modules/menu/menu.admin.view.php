@@ -31,14 +31,8 @@ class menuAdminView extends menu
 		Context::loadLang(RX_BASEDIR.'modules/document/lang/');
 		Context::loadLang(RX_BASEDIR.'modules/layout/lang/');
 		Context::loadLang(RX_BASEDIR.'modules/autoinstall/lang/');
-		$site_srl = Context::get('site_srl');
 		$site_module_info = Context::get('site_module_info');
-
-		if(!$site_srl)
-		{
-			if($logged_info->is_admin == 'Y' && !$site_keyword) $site_srl = 0;
-			else $site_srl = (int)$site_module_info->site_srl;
-		}
+		$site_srl = $site_module_info->site_srl ?? 0;
 
 		// process for unlinked modules
 		if($site_srl == 0)

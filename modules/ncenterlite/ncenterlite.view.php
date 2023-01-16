@@ -85,7 +85,7 @@ class ncenterliteView extends ncenterlite
 			}
 		}
 		
-		Context::set('member_info', $member_info);
+		Context::set('member_info', $member_info ?? null);
 		Context::set('notify_types', $notify_types);
 		Context::set('user_config', $user_config);
 		Context::set('user_selected', $user_selected);

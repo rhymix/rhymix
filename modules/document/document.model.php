@@ -1302,7 +1302,7 @@ class DocumentModel extends Document
 		}
 		
 		// check it can use extra variable
-		if(!$load_extra_vars || !$extra_keys = self::getExtraKeys($obj->module_srl))
+		if(!$load_extra_vars || !$extra_keys = self::getExtraKeys($obj->module_srl ?? 0))
 		{
 			$args->sort_index = 'list_order';
 			return $args;

@@ -853,8 +853,8 @@ class CommentModel extends Comment
 		}
 
 		// Search options
-		$search_target = (isset($obj->search_target) && $obj->search_target) ? $obj->search_target : trim(Context::get('search_target'));
-		$search_keyword = (isset($obj->search_keyword) && $obj->search_keyword) ? $obj->search_keyword : trim(Context::get('search_keyword'));
+		$search_target = (isset($obj->search_target) && $obj->search_target) ? $obj->search_target : trim(Context::get('search_target') ?? '');
+		$search_keyword = (isset($obj->search_keyword) && $obj->search_keyword) ? $obj->search_keyword : trim(Context::get('search_keyword') ?? '');
 		if($search_target && $search_keyword)
 		{
 			switch($search_target)

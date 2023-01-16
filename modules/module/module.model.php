@@ -1034,7 +1034,7 @@ class ModuleModel extends Module
 						$obj->value = $val->attrs->value ?? null;
 						$obj->default = $val->attrs->default ?? null;
 						
-						if(preg_match('/,|\|@\|/', $obj->value, $delimiter) && $delimiter[0])
+						if(preg_match('/,|\|@\|/', $obj->value ?? '', $delimiter) && $delimiter[0])
 						{
 							$obj->value = explode($delimiter[0], $obj->value);
 						}

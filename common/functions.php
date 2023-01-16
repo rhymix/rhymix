@@ -606,11 +606,11 @@ function utf8_check($str)
 {
 	if (function_exists('mb_check_encoding'))
 	{
-		return mb_check_encoding($str, 'UTF-8');
+		return mb_check_encoding((string)$str, 'UTF-8');
 	}
 	else
 	{
-		return ($str === @iconv('UTF-8', 'UTF-8', $str));
+		return ($str === @iconv('UTF-8', 'UTF-8', (string)$str));
 	}
 }
 
@@ -659,7 +659,7 @@ function utf8_mbencode($str)
 		$bytes = array(ord($m[0][0]), ord($m[0][1]), ord($m[0][2]), ord($m[0][3]));
 		$codepoint = ((0x07 & $bytes[0]) << 18) + ((0x3F & $bytes[1]) << 12) + ((0x3F & $bytes[2]) << 6) + (0x3F & $bytes[3]);
 		return '&#x' . dechex($codepoint) . ';';
-	}, $str);
+	}, (string)$str);
 }
 
 /**
@@ -672,7 +672,7 @@ function utf8_mbencode($str)
  */
 function utf8_normalize_spaces($str, $multiline = false)
 {
-	return $multiline ? preg_replace('/((?!\x0A)[\pZ\pC])+/u', ' ', $str) : preg_replace('/[\pZ\pC]+/u', ' ', $str);
+	return $multiline ? preg_replace('/((?!\x0A)[\pZ\pC])+/u', ' ', (string)$str) : preg_replace('/[\pZ\pC]+/u', ' ', (string)$str);
 }
 
 /**
@@ -684,7 +684,7 @@ function utf8_normalize_spaces($str, $multiline = false)
  */
 function utf8_trim($str)
 {
-	return preg_replace('/^[\s\pZ\pC]+|[\s\pZ\pC]+$/u', '', $str);
+	return preg_replace('/^[\s\pZ\pC]+|[\s\pZ\pC]+$/u', '', (string)$str);
 }
 
 /**

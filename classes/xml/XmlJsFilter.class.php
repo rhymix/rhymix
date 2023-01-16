@@ -229,8 +229,8 @@ class XmlJsFilter extends XeXmlParser
 					continue;
 				}
 
-				$rule = trim($attrs->rule ? $attrs->rule : $attrs->filter);
-				$equalto = trim($attrs->equalto);
+				$rule = trim(strval($attrs->rule ? $attrs->rule : $attrs->filter));
+				$equalto = trim(strval($attrs->equalto));
 
 				$field = array();
 
@@ -387,7 +387,7 @@ class XmlJsFilter extends XeXmlParser
 			$js_messages[] = sprintf("v.cast('ADD_MESSAGE',['%s','%s']);", $key, $val);
 		}
 
-		$callback_func = $xml_obj->filter->response->attrs->callback_func;
+		$callback_func = $xml_obj->filter->response->attrs->callback_func ?? null;
 		if(!$callback_func)
 		{
 			$callback_func = "filterAlertMessage";
