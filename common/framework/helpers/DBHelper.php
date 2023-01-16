@@ -31,10 +31,11 @@ class DBHelper extends \PDO
 	 * Create a prepared statement.
 	 * 
 	 * @param string $statement
-	 * @param array $driver_options
-	 * @return PDOStatement|DBStmtHelper
+	 * @param array $options
+	 * @return DBStmtHelper
 	 */
-	public function prepare($statement, $driver_options = null)
+	#[\ReturnTypeWillChange]
+	public function prepare(string $statement, array $options = []): DBStmtHelper
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
@@ -46,7 +47,7 @@ class DBHelper extends \PDO
 			 * This allows it to track the parent database's type
 			 * and send query logs to the appropriate place.
 			 */
-			$stmt = $driver_options ? parent::prepare($statement, $driver_options) : parent::prepare($statement);
+			$stmt = $options ? parent::prepare($statement, $options) : parent::prepare($statement);
 			$stmt->setFetchMode(\PDO::FETCH_OBJ);
 			$stmt->setType($this->_type);
 			$db_class->clearError();
@@ -84,9 +85,11 @@ class DBHelper extends \PDO
 	 * various kinds of additional parameters, and we don't want to touch them.
 	 * 
 	 * @param string $statement
-	 * @return PDOStatement|DBStmtHelper
+	 * @param int $fetch_mode
+	 * @return DBStmtHelper
 	 */
-	public function query($statement, $fetch_mode = \PDO::FETCH_OBJ, ...$fetch_mode_args)
+	#[\ReturnTypeWillChange]
+	public function query(string $statement, ?int $fetch_mode = \PDO::FETCH_OBJ, ...$fetch_mode_args): DBStmtHelper
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
@@ -126,9 +129,10 @@ class DBHelper extends \PDO
 	 * Execute a query and return the number of affected rows.
 	 * 
 	 * @param string $statement
-	 * @return bool
+	 * @return int|false
 	 */
-	public function exec($query)
+	#[\ReturnTypeWillChange]
+	public function exec(string $query)
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);

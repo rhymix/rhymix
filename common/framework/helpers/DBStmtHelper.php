@@ -31,21 +31,17 @@ class DBStmtHelper extends \PDOStatement
 	/**
 	 * Execute a prepared statement.
 	 * 
-	 * We don't set a type for $input_parameters because the original
-	 * PDOStatement class accepts both arrays and null. Actually, the null
-	 * value must be omitted altogether or it will throw an error.
-	 * 
-	 * @param array $input_parameters
+	 * @param array $params
 	 * @return bool
 	 */
-	public function execute($input_parameters = null): bool
+	public function execute(?array $params = null): bool
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
 		
 		try
 		{
-			$result = parent::execute($input_parameters);
+			$result = parent::execute($params);
 			$db_class->clearError();
 		}
 		catch (\PDOException $e)
