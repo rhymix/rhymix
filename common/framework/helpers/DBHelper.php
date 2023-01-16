@@ -35,7 +35,7 @@ class DBHelper extends \PDO
 	 * @return DBStmtHelper
 	 */
 	#[\ReturnTypeWillChange]
-	public function prepare(string $statement, array $options = []): DBStmtHelper
+	public function prepare($statement, $options = null): DBStmtHelper
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
@@ -89,7 +89,7 @@ class DBHelper extends \PDO
 	 * @return DBStmtHelper|false
 	 */
 	#[\ReturnTypeWillChange]
-	public function query(string $statement, ?int $fetch_mode = \PDO::FETCH_OBJ, ...$fetch_mode_args)
+	public function query($statement, $fetch_mode = \PDO::FETCH_OBJ, ...$fetch_mode_args)
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
@@ -133,14 +133,14 @@ class DBHelper extends \PDO
 	 * @return int|false
 	 */
 	#[\ReturnTypeWillChange]
-	public function exec(string $query)
+	public function exec($statement)
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
 		
 		try
 		{
-			$result = parent::exec($query);
+			$result = parent::exec($statement);
 			$db_class->clearError();
 		}
 		catch (\PDOException $e)
@@ -153,7 +153,7 @@ class DBHelper extends \PDO
 			$db_class->addElapsedTime($elapsed_time);
 			if (Debug::isEnabledForCurrentUser())
 			{
-				Debug::addQuery($db_class->getQueryLog($query, $elapsed_time));
+				Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
 			}
 		}
 		
