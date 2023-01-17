@@ -201,7 +201,7 @@ class ModuleAdminModel extends Module
 		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
 
-		//Security			
+		//Security
 		$security = new Security();
 		$security->encodeHTML('group_list..title');
 		$security->encodeHTML('group_list..description');
@@ -360,12 +360,12 @@ class ModuleAdminModel extends Module
 
 		if($skin_info->extra_vars)
 		{
-			foreach($skin_info->extra_vars as $key => $val) 
+			foreach($skin_info->extra_vars as $key => $val)
 			{
 				$group = $val->group;
 				$name = $val->name;
 				$type = $val->type;
-				if($skin_vars[$name]) 
+				if($skin_vars[$name])
 				{
 					$value = $skin_vars[$name]->value;
 				}
@@ -387,7 +387,7 @@ class ModuleAdminModel extends Module
 		Context::set('mode', $mode);
 
 		//Security
-		$security = new Security(); 
+		$security = new Security();
 		$security->encodeHTML('mid');
 		$security->encodeHTML('module_info.browser_title');
 		$security->encodeHTML('skin_info...');
