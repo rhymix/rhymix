@@ -11,7 +11,7 @@ class Config
 	 * System configuration is stored here.
 	 */
 	protected static $_config = array();
-	
+
 	/**
 	 * Location of configuration files.
 	 */
@@ -20,10 +20,10 @@ class Config
 	public static $old_ftp_config_filename = 'files/config/ftp.config.php';
 	public static $old_lang_config_filename = 'files/config/lang_selected.info';
 	public static $default_config_filename = 'common/defaults/config.php';
-	
+
 	/**
 	 * Load system configuration.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function init()
@@ -43,30 +43,30 @@ class Config
 		}
 		return self::$_config;
 	}
-	
+
 	/**
 	 * Get all system configuration.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getAll()
 	{
 		return self::$_config;
 	}
-	
+
 	/**
 	 * Get default system configuration.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getDefaults()
 	{
 		return (include \RX_BASEDIR . self::$default_config_filename);
 	}
-	
+
 	/**
 	 * Get a system configuration value.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -88,10 +88,10 @@ class Config
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Set a system configuration value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @return void
@@ -110,10 +110,10 @@ class Config
 		}
 		$data = $value;
 	}
-	
+
 	/**
 	 * Set all system configuration.
-	 * 
+	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -121,10 +121,10 @@ class Config
 	{
 		self::$_config = $config;
 	}
-	
+
 	/**
 	 * Save the current system configuration.
-	 * 
+	 *
 	 * @param array $config (optional)
 	 * @return bool
 	 */
@@ -134,7 +134,7 @@ class Config
 		{
 			self::setAll($config);
 		}
-		
+
 		// Backup the main config file.
 		$config_filename = \RX_BASEDIR . self::$config_filename;
 		if (Storage::exists($config_filename))
@@ -147,7 +147,7 @@ class Config
 				return false;
 			}
 		}
-		
+
 		// Save the main config file.
 		$buff = '<?php' . "\n" . '// Rhymix System Configuration' . "\n" . 'return ' . self::serialize(self::$_config) . ';' . "\n";
 		$result = Storage::write($config_filename, $buff) ? true : false;
@@ -156,10 +156,10 @@ class Config
 		{
 			return false;
 		}
-		
+
 		// Remove the backup file.
 		Storage::delete($backup_filename);
-		
+
 		// Save XE-compatible config files.
 		$warning = '// THIS FILE IS NOT USED IN RHYMIX.' . "\n" . '// TO MODIFY SYSTEM CONFIGURATION, EDIT config.php INSTEAD.';
 		$buff = '<?php' . "\n" . $warning . "\n";
@@ -167,10 +167,10 @@ class Config
 		Storage::write(\RX_BASEDIR . self::$old_ftp_config_filename, $buff);
 		return true;
 	}
-	
+
 	/**
 	 * Serialize a value for insertion into a PHP-based configuration file.
-	 * 
+	 *
 	 * @param mixed $value
 	 * @return string
 	 */

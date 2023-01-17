@@ -23,29 +23,29 @@ class Ppurio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		'mms_supported' => false,
 		'delay_supported' => true,
 	);
-	
+
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
 	protected static $_required_config = array('api_user');
-	
+
 	/**
 	 * Check if the current SMS driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Send a message.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param array $messages
 	 * @param object $original
 	 * @return bool
@@ -59,26 +59,26 @@ class Ppurio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			// Authentication and basic information
 			$data = array();
 			$data['userid'] = $this->_config['api_user'];
-			
+
 			// Sender and recipient
 			$data['callback'] = preg_replace('/[^0-9]/', '', $message->from);
 			$data['phone'] = implode('|', array_map(function($num) {
 				return preg_replace('/[^0-9]/', '', $num);
 			}, $message->to));
-			
+
 			// Subject and content
 			if ($message->type === 'LMS' && $message->subject)
 			{
 				$data['subject'] = $message->subject;
 			}
 			$data['msg'] = $message->content;
-			
+
 			// Set delay
 			if ($message->delay && $message->delay > time() + 600)
 			{
 				$data['appdate'] = gmdate('YmdHis', $message->delay + (3600 * 9));
 			}
-			
+
 			// Send!
 			$url = 'https://www.ppurio.com/api/send_utf8_json.php';
 			$result = \FileHandler::getRemoteResource($url, $data, 5, 'POST');
@@ -97,7 +97,7 @@ class Ppurio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				}
 			}
 		}
-		
+
 		return $status;
 	}
 }

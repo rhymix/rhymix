@@ -15,10 +15,10 @@ class SessionHelper
 	public $is_admin = 'N';
 	public $group_list = array();
 	public $menu_list = array();
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param int $member_srl (optional)
 	 * @return void
 	 */
@@ -40,30 +40,30 @@ class SessionHelper
 			}
 		}
 	}
-	
+
 	/**
 	 * Check if this user is a member.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isMember()
 	{
 		return $this->member_srl > 0;
 	}
-	
+
 	/**
 	 * Check if this user is an administrator.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isAdmin()
 	{
 		return $this->is_admin === 'Y';
 	}
-	
+
 	/**
 	 * Check if this user is an administrator of a module.
-	 * 
+	 *
 	 * @param int $module_srl (optional)
 	 * @return bool
 	 */
@@ -71,10 +71,10 @@ class SessionHelper
 	{
 		return $this->is_admin === 'Y' || \ModuleModel::isModuleAdmin($this, $module_srl);
 	}
-	
+
 	/**
 	 * Check if this user is valid (not denied or limited).
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isValid()
@@ -88,10 +88,10 @@ class SessionHelper
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the list of groups that this user belongs to.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getGroups()

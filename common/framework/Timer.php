@@ -11,34 +11,34 @@ class Timer
 	 * Timestamps are stored here.
 	 */
 	protected static $_timestamps = array();
-	
+
 	/**
 	 * Start a timer.
-	 * 
+	 *
 	 * This method returns the current microtime.
-	 * 
+	 *
 	 * @param string $name (optional)
 	 * @return float
 	 */
 	public static function start($name = null)
 	{
 		$timestamp = microtime(true);
-		
+
 		if ($name === null)
 		{
 			$name = 'anon-timer-' . $timestamp;
 		}
-		
+
 		self::$_timestamps[$name] = $timestamp;
 		return $timestamp;
 	}
-	
+
 	/**
 	 * Stop a timer and return the elapsed time.
-	 * 
+	 *
 	 * If the name is not given, the most recently started timer will be stopped.
 	 * If no timer has been started, this method returns false.
-	 * 
+	 *
 	 * @param string $name (optional)
 	 * @return float|false
 	 */
@@ -46,7 +46,7 @@ class Timer
 	{
 		$timestamp = microtime(true);
 		$started_timestamp = 0;
-		
+
 		if ($name === null)
 		{
 			if (count(self::$_timestamps))
@@ -67,16 +67,16 @@ class Timer
 		{
 			return false;
 		}
-		
+
 		return $timestamp - $started_timestamp;
 	}
-	
+
 	/**
 	 * Stop a timer and return the elapsed time in a human-readable format.
-	 * 
+	 *
 	 * If the name is not given, the most recently started timer will be stopped.
 	 * If no timer has been started, this method returns false.
-	 * 
+	 *
 	 * @param string $name (optional)
 	 * @return string|false
 	 */
@@ -86,17 +86,17 @@ class Timer
 		if ($result === false) return $result;
 		return number_format($result * 1000, 1, '.', ',') . 'ms';
 	}
-	
+
 	/**
 	 * This method returns how much time has elapsed since Rhymix startup.
-	 * 
+	 *
 	 * @return float
 	 */
 	public static function sinceStartup()
 	{
 		return microtime(true) - \RX_MICROTIME;
 	}
-	
+
 	/**
 	 * This method returns how much time has elapsed since startup in a human-readable format.
 	 *

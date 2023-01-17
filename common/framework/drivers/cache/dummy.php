@@ -11,32 +11,32 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 	 * Set this flag to false to disable cache prefixes.
 	 */
 	public $prefix = false;
-	
+
 	/**
 	 * The singleton instance is stored here.
 	 */
 	protected static $_instance = null;
-	
+
 	/**
 	 * Dummy data is stored here.
 	 */
 	public $data = array();
-	
+
 	/**
 	 * Override the isSupported() method of the file driver.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Get the value of a key.
-	 * 
+	 *
 	 * This method returns null if the key was not found.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -61,13 +61,13 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Set the value to a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * $ttl is measured in seconds. If it is zero, the key should not expire.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
@@ -86,13 +86,13 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Delete a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * If the key does not exist, it should return false.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -112,12 +112,12 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Check if a key exists.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -125,12 +125,12 @@ class Dummy extends File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return parent::exists($key) || isset($this->data[$key]);
 	}
-	
+
 	/**
 	 * Clear all keys from the cache.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function clear()

@@ -24,16 +24,16 @@ class SMS
 	protected $allow_split_lms = true;
 	protected $errors = array();
 	protected $sent = false;
-	
+
 	/**
 	 * Static properties.
 	 */
 	public static $default_driver = null;
 	public static $custom_drivers = array();
-	
+
 	/**
 	 * Set the default driver.
-	 * 
+	 *
 	 * @param object $driver
 	 * @return void
 	 */
@@ -41,10 +41,10 @@ class SMS
 	{
 		self::$default_driver = $driver;
 	}
-	
+
 	/**
 	 * Get the default driver.
-	 * 
+	 *
 	 * @return object
 	 */
 	public static function getDefaultDriver()
@@ -65,7 +65,7 @@ class SMS
 		}
 		return self::$default_driver;
 	}
-	
+
 	/**
 	 * Add a custom mail driver.
 	 */
@@ -73,10 +73,10 @@ class SMS
 	{
 		self::$custom_drivers[] = $driver;
 	}
-	
+
 	/**
 	 * Get the list of supported mail drivers.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSupportedDrivers()
@@ -114,7 +114,7 @@ class SMS
 		ksort($result);
 		return $result;
 	}
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -125,7 +125,7 @@ class SMS
 		$this->allow_split_sms = (config('sms.allow_split.sms') !== false);
 		$this->allow_split_lms = (config('sms.allow_split.lms') !== false);
 	}
-	
+
 	/**
 	 * Set the sender's phone number.
 	 *
@@ -137,7 +137,7 @@ class SMS
 		$this->from = preg_replace('/[^0-9]/', '', $number);
 		return true;
 	}
-	
+
 	/**
 	 * Get the sender's phone number.
 	 *
@@ -147,7 +147,7 @@ class SMS
 	{
 		return $this->from;
 	}
-	
+
 	/**
 	 * Add a recipient.
 	 *
@@ -163,7 +163,7 @@ class SMS
 		);
 		return true;
 	}
-	
+
 	/**
 	 * Get the list of recipients without country codes.
 	 *
@@ -175,7 +175,7 @@ class SMS
 			return $recipient->number;
 		}, $this->to);
 	}
-	
+
 	/**
 	 * Get the list of recipients with country codes.
 	 *
@@ -185,7 +185,7 @@ class SMS
 	{
 		return $this->to;
 	}
-	
+
 	/**
 	 * Get the list of recipients grouped by country code.
 	 *
@@ -200,7 +200,7 @@ class SMS
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Set the subject.
 	 *
@@ -212,7 +212,7 @@ class SMS
 		$this->subject = utf8_trim(utf8_clean($subject));
 		return true;
 	}
-	
+
 	/**
 	 * Get the subject.
 	 *
@@ -222,7 +222,7 @@ class SMS
 	{
 		return $this->subject;
 	}
-	
+
 	/**
 	 * Set the subject (alias to setSubject).
 	 *
@@ -233,7 +233,7 @@ class SMS
 	{
 		return $this->setSubject($subject);
 	}
-	
+
 	/**
 	 * Get the subject (alias to getSubject).
 	 *
@@ -243,7 +243,7 @@ class SMS
 	{
 		return $this->getSubject();
 	}
-	
+
 	/**
 	 * Set the content.
 	 *
@@ -256,17 +256,17 @@ class SMS
 		$this->content = strtr($this->content, array("\r\n" => "\n"));
 		return true;
 	}
-	
+
 	/**
 	 * Get the content.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getBody()
 	{
 		return $this->content;
 	}
-	
+
 	/**
 	 * Set the content (alias to setBody).
 	 *
@@ -277,17 +277,17 @@ class SMS
 	{
 		return $this->setBody($content);
 	}
-	
+
 	/**
 	 * Get the content (alias to getBody).
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getContent()
 	{
 		return $this->getBody();
 	}
-	
+
 	/**
 	 * Attach a file.
 	 *
@@ -305,7 +305,7 @@ class SMS
 		{
 			return false;
 		}
-		
+
 		$this->attachments[] = (object)array(
 			'type' => 'mms',
 			'local_filename' => $local_filename,
@@ -314,20 +314,20 @@ class SMS
 		);
 		return true;
 	}
-	
+
 	/**
 	 * Get the list of attachments to this message.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getAttachments()
 	{
 		return $this->attachments;
 	}
-	
+
 	/**
 	 * Set an extra variable.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @return void
@@ -336,10 +336,10 @@ class SMS
 	{
 		$this->extra_vars[$key] = $value;
 	}
-	
+
 	/**
 	 * Get an extra variable.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -347,10 +347,10 @@ class SMS
 	{
 		return isset($this->extra_vars[$key]) ? $this->extra_vars[$key] : null;
 	}
-	
+
 	/**
 	 * Get all extra variables.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -358,10 +358,10 @@ class SMS
 	{
 		return $this->extra_vars;
 	}
-	
+
 	/**
 	 * Set all extra variables.
-	 * 
+	 *
 	 * @param array $vars
 	 * @return void
 	 */
@@ -369,15 +369,15 @@ class SMS
 	{
 		$this->extra_vars = $vars;
 	}
-	
+
 	/**
 	 * Delay sending the message.
-	 * 
+	 *
 	 * Delays (in seconds) less than 1 year will be treated as relative to the
 	 * current time. Greater values will be interpreted as a Unix timestamp.
-	 * 
+	 *
 	 * This feature may not be implemented by all drivers.
-	 * 
+	 *
 	 * @param int $when Unix timestamp
 	 * @return bool
 	 */
@@ -391,119 +391,119 @@ class SMS
 		{
 			$when = 0;
 		}
-		
+
 		$this->delay_timestamp = intval($when);
 		return true;
 	}
-	
+
 	/**
 	 * Get the Unix timestamp of when to send the message.
-	 * 
+	 *
 	 * This method always returns a Unix timestamp, even if the original value
 	 * was given as a relative delay.
-	 * 
+	 *
 	 * This feature may not be implemented by all drivers.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getDelay()
 	{
 		return $this->delay_timestamp;
 	}
-	
+
 	/**
 	 * Force this message to use SMS (not LMS or MMS).
-	 * 
+	 *
 	 * @return void
 	 */
 	public function forceSMS()
 	{
 		$this->force_sms = true;
 	}
-	
+
 	/**
 	 * Unforce this message to use SMS (not LMS or MMS).
-	 * 
+	 *
 	 * @return void
 	 */
 	public function unforceSMS()
 	{
 		$this->force_sms = false;
 	}
-	
+
 	/**
 	 * Check if this message is forced to use SMS.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isForceSMS()
 	{
 		return $this->force_sms;
 	}
-	
+
 	/**
 	 * Allow this message to be split into multiple SMS.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function allowSplitSMS()
 	{
 		$this->allow_split_sms = true;
 	}
-	
+
 	/**
 	 * Allow this message to be split into multiple LMS.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function allowSplitLMS()
 	{
 		$this->allow_split_lms = true;
 	}
-	
+
 	/**
 	 * Disallow this message to be split into multiple SMS.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function disallowSplitSMS()
 	{
 		$this->allow_split_sms = false;
 	}
-	
+
 	/**
 	 * Disallow this message to be split into multiple LMS.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function disallowSplitLMS()
 	{
 		$this->allow_split_lms = false;
 	}
-	
+
 	/**
 	 * Check if splitting this message into multiple SMS is allowed.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isSplitSMSAllowed()
 	{
 		return $this->allow_split_sms;
 	}
-	
+
 	/**
 	 * Check if splitting this message into multiple LMS is allowed.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isSplitLMSAllowed()
 	{
 		return $this->allow_split_lms;
 	}
-	
+
 	/**
 	 * Send the message.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function send()
@@ -514,19 +514,19 @@ class SMS
 		{
 			$this->caller = $backtrace[0]['file'] . ($backtrace[0]['line'] ? (' line ' . $backtrace[0]['line']) : '');
 		}
-		
+
 		$output = \ModuleHandler::triggerCall('sms.send', 'before', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 			return false;
 		}
-		
+
 		if (config('sms.default_force') && config('sms.default_from'))
 		{
 			$this->setFrom(config('sms.default_from'));
 		}
-		
+
 		try
 		{
 			if ($this->driver)
@@ -553,49 +553,49 @@ class SMS
 			$this->errors[] = class_basename($e) . ': ' . $e->getMessage();
 			$this->sent = false;
 		}
-		
+
 		$output = \ModuleHandler::triggerCall('sms.send', 'after', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 		}
-		
+
 		return $this->sent;
 	}
-	
+
 	/**
 	 * Check if the message was sent.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isSent()
 	{
 		return $this->sent;
 	}
-	
+
 	/**
 	 * Get caller information.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getCaller()
 	{
 		return $this->caller;
 	}
-	
+
 	/**
 	 * Get errors.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getErrors()
 	{
 		return $this->errors;
 	}
-	
+
 	/**
 	 * Add an error message.
-	 * 
+	 *
 	 * @param string $message
 	 * @return void
 	 */
@@ -603,10 +603,10 @@ class SMS
 	{
 		$this->errors[] = $message;
 	}
-	
+
 	/**
 	 * Format the current message according to an API spec.
-	 * 
+	 *
 	 * @param array $spec API specifications
 	 * @return array
 	 */
@@ -614,10 +614,10 @@ class SMS
 	{
 		// Initialize the return array.
 		$result = array();
-		
+
 		// Get the list of recipients.
 		$recipients = $this->getRecipientsGroupedByCountry();
-		
+
 		// Group the recipients by country code.
 		foreach ($recipients as $country_code => $country_recipients)
 		{
@@ -626,7 +626,7 @@ class SMS
 			{
 				$country_recipients = array_chunk($country_recipients, $spec['max_recipients']);
 			}
-			
+
 			// Send to each set of merged recipients.
 			foreach ($country_recipients as $recipient_numbers)
 			{
@@ -640,12 +640,12 @@ class SMS
 				{
 					$item->delay = $this->getDelay() ?: 0;
 				}
-				
+
 				// Get message content.
 				$subject = $this->getSubject();
 				$content = $this->getContent();
 				$attachments = $attachments = $this->getAttachments();
-				
+
 				// Determine the message type.
 				if (!$this->isForceSMS() && ($spec['lms_supported'] || $spec['mms_supported']))
 				{
@@ -667,7 +667,7 @@ class SMS
 					{
 						$item->type = 'SMS';
 					}
-					
+
 					// Check the country code.
 					if ($item->type === 'MMS' && $country_code && is_array($spec['mms_supported_country_codes']) && !in_array($country_code, $spec['mms_supported_country_codes']))
 					{
@@ -678,7 +678,7 @@ class SMS
 						$item->type = 'SMS';
 					}
 				}
-				
+
 				// Remove subject and attachments if the message type is SMS.
 				if ($item->type === 'SMS')
 				{
@@ -689,7 +689,7 @@ class SMS
 					}
 					$attachments = array();
 				}
-				
+
 				// If message subject is not supported, prepend it to the content instead.
 				if (isset($item->subject) && $item->subject && !$spec[strtolower($item->type) . '_subject_supported'])
 				{
@@ -704,7 +704,7 @@ class SMS
 					$item->subject = $subject_short;
 					$content = $subject_remainder . "\n" . $content;
 				}
-				
+
 				// Split the content if necessary.
 				if (($item->type === 'SMS' && $this->allow_split_sms) || ($item->type !== 'SMS' && $this->allow_split_lms))
 				{
@@ -721,7 +721,7 @@ class SMS
 				{
 					$content_parts = array($content);
 				}
-				
+
 				// Generate a message for each part of the content and attachments.
 				$message_count = max(count($content_parts), count($attachments));
 				$last_content = $item->type;
@@ -736,7 +736,7 @@ class SMS
 					{
 						$item->content = $last_content ?: $item->type;
 					}
-					
+
 					// Get the attachment.
 					if ($attachment = array_shift($attachments))
 					{
@@ -746,42 +746,42 @@ class SMS
 					{
 						unset($item->image);
 					}
-					
+
 					// Clone the item to make a part.
 					$cloneitem = clone $item;
-					
+
 					// Determine the best message type for this part.
 					if ($cloneitem->type !== 'SMS' && (!isset($cloneitem->subject) || !$cloneitem->subject))
 					{
 						$cloneitem->type = $attachment ? 'MMS' : ($this->_getLengthInCharset($content_part, $spec['sms_max_length_in_charset']) > $spec['sms_max_length'] ? 'LMS' : 'SMS');
 					}
-					
+
 					// Add the cloned part to the result array.
 					$result[] = $cloneitem;
 				}
 			}
 		}
-		
+
 		// Return the message parts.
 		return $result;
 	}
-	
+
 	/**
 	 * Get the length of a string in another character set.
-	 * 
+	 *
 	 * @param string $str String to measure
 	 * @param string $charset Character set to measure length
-	 * @return 
+	 * @return
 	 */
 	protected function _getLengthInCharset($str, $charset)
 	{
 		$str = @iconv('UTF-8', $charset . '//IGNORE', $str);
 		return strlen($str);
 	}
-	
+
 	/**
 	 * Split a string into several short chunks.
-	 * 
+	 *
 	 * @param string $str String to split
 	 * @param int $max_length Maximum length of a chunk
 	 * @param string $charset Character set to measure length
@@ -794,7 +794,7 @@ class SMS
 		$result = array();
 		$current_entry = '';
 		$current_length = 0;
-		
+
 		foreach ($chars as $char)
 		{
 			$char_length = strlen(@iconv('UTF-8', $charset . '//IGNORE', $char));
@@ -810,12 +810,12 @@ class SMS
 				$current_length += $char_length;
 			}
 		}
-		
+
 		if ($current_entry !== '')
 		{
 			$result[] = trim($current_entry);
 		}
-		
+
 		return $result;
 	}
 }

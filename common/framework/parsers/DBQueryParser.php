@@ -9,7 +9,7 @@ class DBQueryParser extends BaseParser
 {
 	/**
 	 * Load a query XML file.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return object|false
 	 */
@@ -21,16 +21,16 @@ class DBQueryParser extends BaseParser
 		{
 			return false;
 		}
-		
+
 		// Parse the query.
 		$query_name = preg_replace('/\.xml$/', '', basename($filename));
 		$query = self::_parseQuery($xml, $query_name);
 		return $query;
 	}
-	
+
 	/**
 	 * Parse a query.
-	 * 
+	 *
 	 * @param SimpleXMLElement $xml
 	 * @param string $name
 	 * @return object
@@ -47,12 +47,12 @@ class DBQueryParser extends BaseParser
 		{
 			$query->name = $query->alias;
 		}
-		
+
 		// Load attributes that only apply to subqueries in the <conditions> block.
 		$query->operation = $attribs['operation'] ?? null;
 		$query->column = preg_replace('/[^a-z0-9_\.]/i', '', $attribs['column'] ?? '') ?: null;
 		$query->pipe = strtoupper($attribs['pipe'] ?? '') ?: 'AND';
-		
+
 		// Load tables.
 		foreach ($xml->tables ? $xml->tables->children() : [] as $tag)
 		{
@@ -68,7 +68,7 @@ class DBQueryParser extends BaseParser
 				$table->alias = trim($tag['alias'] ?? '') ?: null;
 				$table->ifvar = trim($tag['if'] ?? '') ?: null;
 			}
-			
+
 			$table_type = trim($tag['type'] ?? '');
 			if (stripos($table_type, 'join') !== false)
 			{
@@ -80,7 +80,7 @@ class DBQueryParser extends BaseParser
 			}
 			$query->tables[$table->alias ?: $table->name] = $table;
 		}
-		
+
 		// Load index hints.
 		foreach ($xml->index_hint ?: [] as $index_hint_group)
 		{
@@ -94,7 +94,7 @@ class DBQueryParser extends BaseParser
 			{
 				$index_hint_target_db = [];
 			}
-			
+
 			foreach ($index_hint_group->children() ?: [] as $tag)
 			{
 				$index_hint = new DBQuery\IndexHint;
@@ -117,7 +117,7 @@ class DBQueryParser extends BaseParser
 				}
 			}
 		}
-		
+
 		// Load columns.
 		foreach ($xml->columns ? $xml->columns->children() : [] as $tag)
 		{
@@ -158,13 +158,13 @@ class DBQueryParser extends BaseParser
 				$query->columns[] = $column;
 			}
 		}
-		
+
 		// Load conditions.
 		if ($xml->conditions)
 		{
 			$query->conditions = self::_parseConditions($xml->conditions);
 		}
-		
+
 		// Load groups.
 		if ($xml->groups)
 		{
@@ -183,7 +183,7 @@ class DBQueryParser extends BaseParser
 				}
 			}
 		}
-		
+
 		// Load navigation settings.
 		if ($xml->navigation)
 		{
@@ -208,7 +208,7 @@ class DBQueryParser extends BaseParser
 				}
 			}
 		}
-		
+
 		// If a SELECT query has no columns, use * by default.
 		if ($query->type === 'SELECT' && !count($query->columns))
 		{
@@ -218,7 +218,7 @@ class DBQueryParser extends BaseParser
 			$column->is_expression = true;
 			$query->columns[] = $column;
 		}
-		
+
 		// Check the SELECT DISTINCT flag.
 		if ($xml->columns && $select_distinct = trim($xml->columns['distinct'] ?? ''))
 		{
@@ -227,7 +227,7 @@ class DBQueryParser extends BaseParser
 				$query->select_distinct = true;
 			}
 		}
-		
+
 		// Check the ON DUPLICATE KEY UPDATE (upsert) flag.
 		if ($query->type === 'INSERT' && $update_duplicate = self::_getAttributes($xml)['updateduplicate'] ?? false)
 		{
@@ -236,14 +236,14 @@ class DBQueryParser extends BaseParser
 				$query->update_duplicate = true;
 			}
 		}
-		
+
 		// Return the complete query definition.
 		return $query;
 	}
-	
+
 	/**
 	 * Parse conditions.
-	 * 
+	 *
 	 * @param SimpleXMLElement $parent
 	 * @return array
 	 */
@@ -291,7 +291,7 @@ class DBQueryParser extends BaseParser
 				$result[] = $subquery;
 			}
 		}
-		
+
 		return $result;
 	}
 }

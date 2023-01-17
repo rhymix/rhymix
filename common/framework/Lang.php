@@ -11,7 +11,7 @@ class Lang
 	 * Instances are stored here.
 	 */
 	protected static $_instances = array();
-	
+
 	/**
 	 * Configuration.
 	 */
@@ -19,10 +19,10 @@ class Lang
 	protected $_loaded_directories = array();
 	protected $_loaded_plugins = array();
 	protected $_search_priority = array();
-	
+
 	/**
 	 * This method returns the cached instance of a language.
-	 * 
+	 *
 	 * @param string $language
 	 * @return object
 	 */
@@ -38,10 +38,10 @@ class Lang
 		}
 		return self::$_instances[$language];
 	}
-	
+
 	/**
 	 * The constructor should not be called from outside.
-	 * 
+	 *
 	 * @param string $language
 	 */
 	protected function __construct($language)
@@ -49,20 +49,20 @@ class Lang
 		$this->_language = preg_replace('/[^a-z0-9_-]/i', '', $language);
 		$this->_loaded_plugins['_custom_'] = new \stdClass();
 	}
-	
+
 	/**
 	 * Return language type.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function langType()
 	{
 		return $this->_language;
 	}
-	
+
 	/**
 	 * Load translations from a plugin (module, addon).
-	 * 
+	 *
 	 * @param string $name
 	 * @return bool
 	 */
@@ -72,7 +72,7 @@ class Lang
 		{
 			return true;
 		}
-		
+
 		if ($name === 'common')
 		{
 			$this->loadDirectory(\RX_BASEDIR . 'common/lang', 'common');
@@ -90,10 +90,10 @@ class Lang
 			$this->loadDirectory(\RX_BASEDIR . "addons/$name/lang", $name);
 		}
 	}
-	
+
 	/**
 	 * Load translations from a directory.
-	 * 
+	 *
 	 * @param string $dir
 	 * @param string $plugin_name
 	 * @return bool
@@ -107,12 +107,12 @@ class Lang
 		{
 			return true;
 		}
-		
+
 		// Initialize variables.
 		$filename = null;
 		$lang = new \stdClass;
 		$result = true;
-		
+
 		// Find a suitable language file in the given directory.
 		if (file_exists($dir . '/' . $this->_language . '.php'))
 		{
@@ -130,7 +130,7 @@ class Lang
 		{
 			$filename = $dir . '/' . ($this->_language === 'ja' ? 'jp' : $this->_language) . '.lang.php';
 		}
-		
+
 		// Load the language file.
 		if ($filename)
 		{
@@ -142,23 +142,23 @@ class Lang
 		{
 			$result = false;
 		}
-		
+
 		// Mark this directory and plugin as loaded.
 		$this->_loaded_directories[$dir] = true;
 		$this->_loaded_plugins[$plugin_name] = $lang;
-		
+
 		// Load the same directory in the default language, too.
 		if ($this->_language !== 'en')
 		{
 			self::getInstance('en')->loadDirectory($dir, $plugin_name);
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get the list of supported languages.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSupportedList()
@@ -170,10 +170,10 @@ class Lang
 		}
 		return $list;
 	}
-	
+
 	/**
 	 * Generic getter.
-	 * 
+	 *
 	 * @param string $key
 	 * @return string
 	 */
@@ -185,20 +185,20 @@ class Lang
 		{
 			$args = $args[0];
 		}
-		
+
 		// Get the translation.
 		$translation = $this->__get($key);
-		
+
 		// If there are no arguments, return the translation.
 		if (!count($args)) return $translation;
-		
+
 		// If there are arguments, interpolate them into the translation and return the result.
 		return vsprintf($translation, $args);
 	}
-	
+
 	/**
 	 * Generic setter.
-	 * 
+	 *
 	 * @param string $key
 	 * @param string $value
 	 * @return void
@@ -207,10 +207,10 @@ class Lang
 	{
 		$this->__set($key, $value);
 	}
-	
+
 	/**
 	 * Fallback method for getting the default translation.
-	 * 
+	 *
 	 * @param string $key
 	 * @return string
 	 */
@@ -225,10 +225,10 @@ class Lang
 			return self::getInstance('en')->__get($key);
 		}
 	}
-	
+
 	/**
 	 * Magic method for translations without arguments.
-	 * 
+	 *
 	 * @param string $key
 	 * @return string
 	 */
@@ -247,7 +247,7 @@ class Lang
 			{
 				return $this->getFromDefaultLang($key);
 			}
-			
+
 			// Find the given key.
 			$lang = $this->_loaded_plugins[$plugin_name];
 			foreach ($keys as $subkey)
@@ -267,14 +267,14 @@ class Lang
 			}
 			return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 		}
-		
+
 		// Search custom translations first.
 		if (isset($this->_loaded_plugins['_custom_']->{$key}))
 		{
 			$lang = $this->_loaded_plugins['_custom_']->{$key};
 			return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 		}
-		
+
 		// Search other plugins.
 		foreach ($this->_search_priority as $plugin_name)
 		{
@@ -284,14 +284,14 @@ class Lang
 				return is_array($lang) ? new \ArrayObject($lang, 3) : $lang;
 			}
 		}
-		
+
 		// If no translation is found, return the default language.
 		return $this->getFromDefaultLang($key);
 	}
-	
+
 	/**
 	 * Magic method for setting a new custom translation.
-	 * 
+	 *
 	 * @param string $key
 	 * @param string $value
 	 * @return void
@@ -311,7 +311,7 @@ class Lang
 			{
 				return false;
 			}
-			
+
 			// Set the given key.
 			$count = count($keys);
 			$lang = $this->_loaded_plugins[$plugin_name];
@@ -363,14 +363,14 @@ class Lang
 				}
 			}
 		}
-		
+
 		// Set a regular key.
 		$this->_loaded_plugins['_custom_']->{$key} = $value;
 	}
-	
+
 	/**
 	 * Magic method for checking whether a translation exists.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -385,10 +385,10 @@ class Lang
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Magic method for unsetting a translation.
-	 * 
+	 *
 	 * @param string $key
 	 * @return void
 	 */
@@ -396,10 +396,10 @@ class Lang
 	{
 		$this->set($key, null);
 	}
-	
+
 	/**
 	 * Magic method for translations with arguments.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $args
 	 * @return string|null

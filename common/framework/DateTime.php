@@ -11,10 +11,10 @@ class DateTime
 	 * Time zone objects and settings are cached here.
 	 */
 	protected static $_timezones = array();
-	
+
 	/**
 	 * Format a Unix timestamp using the internal timezone.
-	 * 
+	 *
 	 * @param string $format Format used in PHP date() function
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return string
@@ -25,14 +25,14 @@ class DateTime
 		{
 			return self::getRelativeTimestamp($timestamp ?: time());
 		}
-		
+
 		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
 		return gmdate($format, ($timestamp ?: time()) + $offset);
 	}
-	
+
 	/**
 	 * Format a Unix timestamp for the current user's timezone.
-	 * 
+	 *
 	 * @param string $format Format used in PHP date() function
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return string
@@ -43,7 +43,7 @@ class DateTime
 		{
 			return self::getRelativeTimestamp($timestamp ?: time());
 		}
-		
+
 		$timezone = self::getTimezoneForCurrentUser();
 		if (!isset(self::$_timezones[$timezone]))
 		{
@@ -54,10 +54,10 @@ class DateTime
 		$datetime->setTimezone(self::$_timezones[$timezone]);
 		return $datetime->format($format);
 	}
-	
+
 	/**
 	 * Get the current user's timezone.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getTimezoneForCurrentUser()
@@ -79,10 +79,10 @@ class DateTime
 			return @date_default_timezone_get();
 		}
 	}
-	
+
 	/**
 	 * Get the list of time zones supported on this server.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getTimezoneList()
@@ -103,10 +103,10 @@ class DateTime
 		$result['Etc/UTC'] = 'GMT/UTC (+00:00)';
 		return $result;
 	}
-	
+
 	/**
 	 * Get the absolute (UTC) offset of a timezone.
-	 * 
+	 *
 	 * @param string $timezone Timezone identifier, e.g. Asia/Seoul
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return int
@@ -122,10 +122,10 @@ class DateTime
 		$datetime->setTimezone(self::$_timezones[$timezone]);
 		return $datetime->getOffset();
 	}
-	
+
 	/**
 	 * Get the relative offset between a timezone and Rhymix's internal timezone.
-	 * 
+	 *
 	 * @param string $timezone Timezone identifier, e.g. Asia/Seoul
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return int
@@ -134,10 +134,10 @@ class DateTime
 	{
 		return self::getTimezoneOffset($timezone, $timestamp) - Config::get('locale.internal_timezone');
 	}
-	
+
 	/**
 	 * Get the absolute (UTC) offset of a timezone written in XE legacy format ('+0900').
-	 * 
+	 *
 	 * @param string $timezone
 	 * @return int
 	 */
@@ -148,16 +148,16 @@ class DateTime
 		list($hours, $minutes) = str_split($timezone, 2);
 		return (((int)$hours * 60) + (int)$minutes) * $multiplier;
 	}
-	
+
 	/**
 	 * Get a PHP time zone by UTC offset.
-	 * 
+	 *
 	 * Time zones with both (a) fractional offsets and (b) daylight saving time
 	 * (such as Iran's +03:30/+04:30) cannot be converted in this way.
 	 * However, if Rhymix is installed for the first time in such a time zone,
 	 * the internal time zone will be automatically set to UTC,
 	 * so this should never be a problem in practice.
-	 * 
+	 *
 	 * @param int $offset
 	 * @return bool
 	 */
@@ -178,10 +178,10 @@ class DateTime
 			default: return 'Etc/GMT' . ($offset > 0 ? '-' : '+') . intval(abs($offset / 3600));
 		}
 	}
-	
+
 	/**
 	 * Get a relative timestamp (3 hours ago, etc.)
-	 * 
+	 *
 	 * @param int $timestamp
 	 * @return string
 	 */
@@ -189,7 +189,7 @@ class DateTime
 	{
 		$diff = \RX_TIME - $timestamp;
 		$langs = lang('common.time_gap');
-		
+
 		if ($diff < 3)
 		{
 			return $langs['now'];

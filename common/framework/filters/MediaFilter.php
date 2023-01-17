@@ -13,10 +13,10 @@ class MediaFilter
 	 * Whitelists are cached here.
 	 */
 	protected static $_whitelist = [];
-	
+
 	/**
 	 * Add a prefix to the iframe whitelist.
-	 * 
+	 *
 	 * @param string $prefix
 	 * @parsm bool $permanently
 	 * @return void
@@ -27,13 +27,13 @@ class MediaFilter
 		{
 			self::_loadWhitelists();
 		}
-		
+
 		$prefix = self::formatPrefix($prefix);
 		if (!in_array($prefix, self::$_whitelist))
 		{
 			self::$_whitelist[] = $prefix;
 			natcasesort(self::$_whitelist);
-			
+
 			if ($permanently)
 			{
 				Config::set('mediafilter.whitelist', self::$_whitelist);
@@ -43,30 +43,30 @@ class MediaFilter
 			}
 		}
 	}
-	
+
 	/**
 	 * Add a prefix to the object whitelist.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function addIframePrefix($prefix, $permanently = false)
 	{
 		self::addPrefix($prefix, $permanently);
 	}
-	
+
 	/**
 	 * Add a prefix to the object whitelist.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function addObjectPrefix()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Format a prefix for standardization.
-	 * 
+	 *
 	 * @param string $prefix
 	 * @return string
 	 */
@@ -79,10 +79,10 @@ class MediaFilter
 		}
 		return $prefix;
 	}
-	
+
 	/**
 	 * Get the iframe whitelist.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getWhitelist()
@@ -93,10 +93,10 @@ class MediaFilter
 		}
 		return self::$_whitelist;
 	}
-	
+
 	/**
 	 * Get the iframe whitelist as a regular expression.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getWhitelistRegex()
@@ -112,10 +112,10 @@ class MediaFilter
 		}
 		return '%^(?:https?:)?//(' . implode('|', $result) . ')%';
 	}
-	
+
 	/**
 	 * Check if a URL matches the iframe whitelist.
-	 * 
+	 *
 	 * @param string $url
 	 * @return bool
 	 */
@@ -123,10 +123,10 @@ class MediaFilter
 	{
 		return preg_match(self::getWhitelistRegex(), $url) ? true : false;
 	}
-	
+
 	/**
 	 * Remove embedded media from HTML content.
-	 * 
+	 *
 	 * @param string $input
 	 * @param string $replacement
 	 * @return string
@@ -138,10 +138,10 @@ class MediaFilter
 		$input = preg_replace('!<img[^>]*editor_component="multimedia_link"[^>]*>(.*?</img>)?!is', $replacement, $input);
 		return $input;
 	}
-	
+
 	/**
 	 * Load whitelists.
-	 * 
+	 *
 	 * @param array $custom_whitelist
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class MediaFilter
 	{
 		$default_whitelist = (include \RX_BASEDIR . 'common/defaults/whitelist.php');
 		self::$_whitelist = [];
-		
+
 		if($custom_whitelist)
 		{
 			if(!is_array($custom_whitelist) || !isset($custom_whitelist['iframe']) || !isset($custom_whitelist['object']))
@@ -199,19 +199,19 @@ class MediaFilter
 				}
 			}
 		}
-		
+
 		self::$_whitelist = array_unique(self::$_whitelist);
 		natcasesort(self::$_whitelist);
 	}
-	
+
 	/**
 	 * ========================== DEPRECATED METHODS ==========================
 	 * ============== KEPT FOR COMPATIBILITY WITH OLDER VERSIONS ==============
 	 */
-	
+
 	/**
 	 * Get the iframe whitelist.
-	 * 
+	 *
 	 * @deprecated
 	 * @return array
 	 */
@@ -219,10 +219,10 @@ class MediaFilter
 	{
 		return self::getWhitelist();
 	}
-	
+
 	/**
 	 * Get the iframe whitelist as a regular expression.
-	 * 
+	 *
 	 * @deprecated
 	 * @return string
 	 */
@@ -230,10 +230,10 @@ class MediaFilter
 	{
 		return self::getWhitelistRegex();
 	}
-	
+
 	/**
 	 * Check if a URL matches the iframe whitelist.
-	 * 
+	 *
 	 * @deprecated
 	 * @param string $url
 	 * @return bool
@@ -242,10 +242,10 @@ class MediaFilter
 	{
 		return self::matchWhitelist($url);
 	}
-	
+
 	/**
 	 * Get the object whitelist.
-	 * 
+	 *
 	 * @deprecated
 	 * @return array
 	 */
@@ -253,10 +253,10 @@ class MediaFilter
 	{
 		return self::getWhitelist();
 	}
-	
+
 	/**
 	 * Get the object whitelist as a regular expression.
-	 * 
+	 *
 	 * @deprecated
 	 * @return string
 	 */
@@ -264,10 +264,10 @@ class MediaFilter
 	{
 		return self::getWhitelistRegex();
 	}
-	
+
 	/**
 	 * Check if a URL matches the iframe whitelist.
-	 * 
+	 *
 	 * @deprecated
 	 * @param string $url
 	 * @return bool

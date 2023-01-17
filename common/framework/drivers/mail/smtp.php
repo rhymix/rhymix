@@ -23,34 +23,34 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		}
 		$this->mailer = new \Swift_Mailer($transport);
 	}
-	
+
 	/**
 	 * Get the list of configuration fields required by this mail driver.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getRequiredConfig()
 	{
 		return array('smtp_host', 'smtp_port', 'smtp_security', 'smtp_user', 'smtp_pass');
 	}
-	
+
 	/**
 	 * Check if the current mail driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return function_exists('proc_open');
 	}
-	
+
 	/**
 	 * Send a message.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param object $message
 	 * @return bool
 	 */
@@ -65,7 +65,7 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			$message->errors[] = $e->getMessage();
 			return false;
 		}
-		
+
 		foreach ($errors as $error)
 		{
 			$message->errors[] = 'Failed to send to ' . $error;

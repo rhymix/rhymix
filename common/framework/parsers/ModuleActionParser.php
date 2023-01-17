@@ -20,10 +20,10 @@ class ModuleActionParser extends BaseParser
 		'any' => '[^/]+',
 		'delete' => '[^/]+',
 	);
-	
+
 	/**
 	 * Load an XML file.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return object|false
 	 */
@@ -35,10 +35,10 @@ class ModuleActionParser extends BaseParser
 		{
 			return false;
 		}
-		
+
 		// Get the current language.
 		$lang = \Context::getLangType() ?: 'en';
-		
+
 		// Initialize the module definition.
 		$info = new \stdClass;
 		$info->admin_index_act = '';
@@ -52,7 +52,7 @@ class ModuleActionParser extends BaseParser
 		$info->grant = new \stdClass;
 		$info->menu = new \stdClass;
 		$info->error_handlers = [];
-		
+
 		// Parse grants.
 		foreach ($xml->grants->grant ?: [] as $grant)
 		{
@@ -62,7 +62,7 @@ class ModuleActionParser extends BaseParser
 			$grant_name = trim($grant['name']);
 			$info->grant->{$grant_name} = $grant_info;
 		}
-		
+
 		// Parse menus.
 		foreach ($xml->menus->menu ?: [] as $menu)
 		{
@@ -74,7 +74,7 @@ class ModuleActionParser extends BaseParser
 			$menu_name = trim($menu['name'] ?? '');
 			$info->menu->{$menu_name} = $menu_info;
 		}
-		
+
 		// Parse actions.
 		foreach ($xml->actions->action ?: [] as $action)
 		{
@@ -90,7 +90,7 @@ class ModuleActionParser extends BaseParser
 				$permission_info->check_var = trim($action['check_var'] ?? '') ?: trim($action['check-var'] ?? '');
 				$permission_info->check_type = trim($action['check_type'] ?? '') ?: trim($action['check-type'] ?? '');
 			}
-			
+
 			// Parse the list of allowed HTTP methods.
 			$method_attr = trim($action['method'] ?? '');
 			if ($method_attr)
@@ -109,7 +109,7 @@ class ModuleActionParser extends BaseParser
 			{
 				$methods = ['GET', 'POST'];
 			}
-			
+
 			// Parse routes.
 			$global_route = (trim($action['global_route'] ?? '') ?: trim($action['global-route'] ?? '')) === 'true' ? 'true' : 'false';
 			$route_attr = trim($action['route'] ?? '');
@@ -134,7 +134,7 @@ class ModuleActionParser extends BaseParser
 					}
 				}
 			}
-			
+
 			// Parse the standalone attribute.
 			if ($global_route === 'true')
 			{
@@ -173,7 +173,7 @@ class ModuleActionParser extends BaseParser
 					$action_type = 'auto';
 				}
 			}
-			
+
 			// Parse other information about this action.
 			$action_info = new \stdClass;
 			$action_info->type = $action_type;
@@ -188,7 +188,7 @@ class ModuleActionParser extends BaseParser
 			$action_info->meta_noindex = (trim($action['meta_noindex'] ?? '') ?: trim($action['meta-noindex'] ?? '')) === 'true' ? 'true' : 'false';
 			$action_info->global_route = $global_route;
 			$info->action->{$action_name} = $action_info;
-			
+
 			// Set the menu name and index settings.
 			$menu_name = trim($action['menu_name'] ?? '');
 			if ($menu_name && isset($info->menu->{$menu_name}))
@@ -215,7 +215,7 @@ class ModuleActionParser extends BaseParser
 			{
 				$info->simple_setup_index_act = $action_name;
 			}
-			
+
 			// Set error handler settings.
 			$error_handlers = explode(',', trim($action['error_handlers'] ?? '') ?: trim($action['error-handlers'] ?? ''));
 			foreach ($error_handlers as $error_handler)
@@ -226,7 +226,7 @@ class ModuleActionParser extends BaseParser
 				}
 			}
 		}
-		
+
 		// Parse permissions not defined in the <actions> section.
 		foreach ($xml->permissions->permission ?: [] as $permission)
 		{
@@ -238,14 +238,14 @@ class ModuleActionParser extends BaseParser
 				$info->action->{$action_name}->permission->check_type = trim($permission['check_type'] ?? '') ?: trim($permission['check-type'] ?? '');
 			}
 		}
-		
+
 		// Return the complete result.
 		return $info;
 	}
-	
+
 	/**
 	 * Convert route definition into a regular expression.
-	 * 
+	 *
 	 * @param array $route
 	 * @return object
 	 */
@@ -269,10 +269,10 @@ class ModuleActionParser extends BaseParser
 			$vars[$match[1]] = $var_type;
 			return $named_group;
 		}, $route['route']);
-		
+
 		// Anchor the regexp at both ends.
 		$regexp = '#^' . strtr($regexp, ['#' => '\\#']) . '$#u';
-		
+
 		// Return the regexp and variable list.
 		$result = new \stdClass;
 		$result->route = preg_replace_callback($var_regexp, function($match) {

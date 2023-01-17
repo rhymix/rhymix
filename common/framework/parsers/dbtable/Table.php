@@ -13,10 +13,10 @@ class Table
 	public $primary_key = array();
 	public $constraints = array();
 	public $deleted = false;
-	
+
 	/**
 	 * Generate the CREATE TABLE query for this table.
-	 * 
+	 *
 	 * @param string $prefix
 	 * @param string $charset
 	 * @param string $engine
@@ -26,7 +26,7 @@ class Table
 	{
 		// Initialize the query.
 		$result = 'CREATE TABLE `' . $prefix . $this->name . '` (';
-		
+
 		// Add columns.
 		$columns = array();
 		$adjusted_sizes = array();
@@ -74,7 +74,7 @@ class Table
 			}
 			$columns[] = $columndef;
 		}
-		
+
 		// Add indexes.
 		if (count($this->primary_key))
 		{
@@ -106,7 +106,7 @@ class Table
 			}
 			$columns[] = $idxdef;
 		}
-		
+
 		// Add constraints.
 		foreach ($this->constraints as $constraint)
 		{
@@ -125,7 +125,7 @@ class Table
 			}
 			$columns[] = $condef;
 		}
-		
+
 		// Finish the query.
 		$footer = '';
 		if ($engine)
@@ -138,7 +138,7 @@ class Table
 		}
 		$result .= "\n" . implode(",\n", $columns);
 		$result .= "\n" . ') ' . $footer . ';';
-		
+
 		return $result;
 	}
 }

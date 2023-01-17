@@ -12,7 +12,7 @@ class LangParser
 {
 	/**
 	 * Convert a directory of old language files to the Rhymix format.
-	 * 
+	 *
 	 * @param string $dir
 	 * @param array $xml_langs When converting XML to PHP, only convert these languages. (Optional)
 	 * @return void
@@ -37,10 +37,10 @@ class LangParser
 			}
 		}
 	}
-	
+
 	/**
 	 * Compile XE-compatible XML lang files into PHP.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param string $language
 	 * @return string|false
@@ -56,7 +56,7 @@ class LangParser
 				return $output_filename;
 			}
 		}
-		
+
 		// Load the XML lang file.
 		$xml = simplexml_load_string(Storage::read($filename));
 		if ($xml === false)
@@ -64,12 +64,12 @@ class LangParser
 			Storage::write($output_filename, '');
 			return false;
 		}
-		
+
 		// Convert XML to a PHP array.
 		$lang = array();
 		self::_toArray($xml, $lang, $language);
 		unset($xml);
-		
+
 		// Save the array as a cache file.
 		$buff = "<?php\n// $filename\n";
 		foreach ($lang as $key => $value)
@@ -99,10 +99,10 @@ class LangParser
 		Storage::write($output_filename, $buff);
 		return $output_filename;
 	}
-	
+
 	/**
 	 * XML to array conversion callback.
-	 * 
+	 *
 	 * @param array $items
 	 * @return void
 	 */

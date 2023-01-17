@@ -9,7 +9,7 @@ class Security
 {
 	/**
 	 * Sanitize a variable.
-	 * 
+	 *
 	 * @param string $input
 	 * @param string $type
 	 * @return string|false
@@ -22,30 +22,30 @@ class Security
 			case 'escape':
 				if (!utf8_check($input)) return false;
 				return escape($input);
-			
+
 			// Strip all HTML tags.
 			case 'strip':
 				if (!utf8_check($input)) return false;
 				return escape(strip_tags($input));
-			
+
 			// Clean up HTML content to prevent XSS attacks.
 			case 'html':
 				if (!utf8_check($input)) return false;
 				return Filters\HTMLFilter::clean($input);
-			
+
 			// Clean up the input to be used as a safe filename.
 			case 'filename':
 				if (!utf8_check($input)) return false;
 				return Filters\FilenameFilter::clean($input);
-			
+
 			// Unknown filters return false.
 			default: return false;
 		}
 	}
-	
+
 	/**
 	 * Encrypt a string using AES.
-	 * 
+	 *
 	 * @param string $plaintext
 	 * @param string $key (optional)
 	 * @return string|false
@@ -55,14 +55,14 @@ class Security
 		// Get the encryption key.
 		$key = $key ?: config('crypto.encryption_key');
 		$key = substr(hash('sha256', $key, true), 0, 16);
-		
+
 		// Encrypt in a format that is compatible with defuse/php-encryption 1.2.x.
 		return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
 	}
-	
+
 	/**
 	 * Decrypt a string using AES.
-	 * 
+	 *
 	 * @param string $plaintext
 	 * @param string $key (optional)
 	 * @return string|false
@@ -72,21 +72,21 @@ class Security
 		// Get the encryption key.
 		$key = $key ?: config('crypto.encryption_key');
 		$key = substr(hash('sha256', $key, true), 0, 16);
-		
+
 		// Check whether the ciphertext is valid.
 		$ciphertext = @base64_decode($ciphertext);
 		if (strlen($ciphertext) < 48)
 		{
 			return false;
 		}
-		
+
 		// Decrypt in a format that is compatible with defuse/php-encryption 1.2.x.
 		return \CryptoCompat::decrypt($ciphertext, $key);
 	}
-	
+
 	/**
 	 * Create a digital signature to verify the authenticity of a string.
-	 * 
+	 *
 	 * @param string $string
 	 * @return string
 	 */
@@ -97,10 +97,10 @@ class Security
 		$hash = substr(base64_encode(hash_hmac('sha256', hash_hmac('sha256', $string, $salt), $key, true)), 0, 32);
 		return $salt . strtr($hash, '+/', '-_');
 	}
-	
+
 	/**
 	 * Check whether a signature is valid.
-	 * 
+	 *
 	 * @param string $string
 	 * @param string $signature
 	 * @return bool
@@ -111,16 +111,16 @@ class Security
 		{
 			return false;
 		}
-		
+
 		$key = config('crypto.authentication_key');
 		$salt = substr($signature, 0, 8);
 		$hash = substr(base64_encode(hash_hmac('sha256', hash_hmac('sha256', $string, $salt), $key, true)), 0, 32);
 		return self::compareStrings(substr($signature, 8), strtr($hash, '+/', '-_'));
 	}
-	
+
 	/**
 	 * Generate a cryptographically secure random string.
-	 * 
+	 *
 	 * @param int $length
 	 * @param string $format
 	 * @return string
@@ -142,11 +142,11 @@ class Security
 				$entropy_required_bytes = ceil($length * 3 / 4);
 				break;
 		}
-		
+
 		// Cap entropy to 256 bits from any one source, because anything more is meaningless.
 		$entropy_capped_bytes = min(32, $entropy_required_bytes);
 		$entropy = false;
-		
+
 		// Find and use the most secure way to generate a random string.
 		if(function_exists('random_bytes'))
 		{
@@ -159,7 +159,7 @@ class Security
 				$entropy = false;
 			}
 		}
-		
+
 		// Use other good sources of entropy if random_bytes() is not available.
 		if ($entropy === false)
 		{
@@ -186,7 +186,7 @@ class Security
 				fclose($fp);
 			}
 		}
-		
+
 		// Use built-in source of entropy if an error occurs while using other functions.
 		if($entropy === false || strlen($entropy) < $entropy_capped_bytes)
 		{
@@ -196,14 +196,14 @@ class Security
 				$entropy .= pack('S', rand(0, 65536) ^ mt_rand(0, 65535));
 			}
 		}
-		
+
 		// Mixing (see RFC 4086 section 5)
 		$output = '';
 		for($i = 0; $i < $entropy_required_bytes; $i += 32)
 		{
 			$output .= hash('sha256', $entropy . $i . rand(), true);
 		}
-		
+
 		// Encode and return the random string.
 		switch($format)
 		{
@@ -225,10 +225,10 @@ class Security
 				return strtr($salt, '+/=', $replacements);
 		}
 	}
-	
+
 	/**
 	 * Generate a cryptographically secure random number between $min and $max.
-	 * 
+	 *
 	 * @param int $min
 	 * @param int $max
 	 * @return int
@@ -247,10 +247,10 @@ class Security
 			return intval($min + $offset);
 		}
 	}
-	
+
 	/**
 	 * Generate a random UUID.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getRandomUUID()
@@ -260,10 +260,10 @@ class Security
 		$randpool[8] = chr(ord($randpool[8]) & 0x3f | 0x80);
 		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($randpool), 4));
 	}
-	
+
 	/**
 	 * Compare two strings in constant time.
-	 * 
+	 *
 	 * @param string $a
 	 * @param string $b
 	 * @return bool
@@ -274,7 +274,7 @@ class Security
 		{
 			return hash_equals($a, $b);
 		}
-		
+
 		$diff = strlen($a) ^ strlen($b);
 		$maxlen = min(strlen($a), strlen($b));
 		for($i = 0; $i < $maxlen; $i++)
@@ -283,13 +283,13 @@ class Security
 		}
 		return $diff === 0;
 	}
-	
+
 	/**
 	 * Check if the current request seems to be a CSRF attack.
-	 * 
+	 *
 	 * This method returns true if the request seems to be innocent,
 	 * and false if it seems to be a CSRF attack.
-	 * 
+	 *
 	 * @param string $referer (optional)
 	 * @return bool
 	 */
@@ -315,7 +315,7 @@ class Security
 			{
 				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
 			}
-			
+
 			if (!$referer)
 			{
 				$referer = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
@@ -330,15 +330,15 @@ class Security
 			}
 		}
 	}
-	
+
 	/**
 	 * Check if the current request seems to be an XXE (XML external entity) attack.
-	 * 
+	 *
 	 * This method returns true if the request seems to be innocent,
 	 * and false if it seems to be an XXE attack.
 	 * This is the opposite of XE's Security::detectingXEE() method.
 	 * The name has also been changed to the more accurate acronym XXE.
-	 * 
+	 *
 	 * @param string $xml (optional)
 	 * @return bool
 	 */
@@ -349,33 +349,33 @@ class Security
 		{
 			return true;
 		}
-		
+
 		// Reject entity tags.
 		if (strpos($xml, '<!ENTITY') !== false)
 		{
 			return false;
 		}
-		
+
 		// Check if there is no content after the xml tag.
 		$header = preg_replace('/<\?xml.*?\?'.'>/s', '', substr($xml, 0, 100), 1);
 		if (($xml = trim(substr_replace($xml, $header, 0, 100))) === '')
 		{
 			return false;
 		}
-		
+
 		// Check if there is no content after the DTD.
 		$header = preg_replace('/^<!DOCTYPE[^>]*+>/i', '', substr($xml, 0, 200), 1);
 		if (($xml = trim(substr_replace($xml, $header, 0, 200))) === '')
 		{
 			return false;
 		}
-		
+
 		// Check that the root tag is valid.
 		if (!preg_match('/^<(methodCall|methodResponse|fault)/', $xml))
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 }

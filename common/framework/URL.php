@@ -9,10 +9,10 @@ class URL
 {
 	/**
 	 * Get the current URL.
-	 * 
+	 *
 	 * If $changes are given, they will be appended to the current URL as a query string.
 	 * To delete an existing query string, set its value to null.
-	 * 
+	 *
 	 * @param array $changes
 	 * @return string
 	 */
@@ -29,10 +29,10 @@ class URL
 			return self::getCanonicalURL($url);
 		}
 	}
-	
+
 	/**
 	 * Get the current domain.
-	 * 
+	 *
 	 * @param string $path
 	 * @return string
 	 */
@@ -42,10 +42,10 @@ class URL
 		$host = isset($_SERVER['HTTP_HOST']) ? self::decodeIdna($_SERVER['HTTP_HOST']) : 'localhost';
 		return $proto . $host . '/' . ltrim($path, '/');
 	}
-	
+
 	/**
 	 * Convert a URL to its canonical format.
-	 * 
+	 *
 	 * @param string $url
 	 * @return string
 	 */
@@ -60,10 +60,10 @@ class URL
 			return $matches[1] . '//' . self::decodeIdna($matches[2]);
 		}, $url);
 	}
-	
+
 	/**
 	 * Get the domain from a URL.
-	 * 
+	 *
 	 * @param string $url
 	 * @return string|false
 	 */
@@ -79,10 +79,10 @@ class URL
 			return self::decodeIdna($domain);
 		}
 	}
-	
+
 	/**
 	 * Check if a URL is internal to this site.
-	 * 
+	 *
 	 * @param string $url
 	 * @return bool
 	 */
@@ -93,26 +93,26 @@ class URL
 		{
 			return true;
 		}
-		
+
 		if ($domain === self::getDomainFromURL('http://' . $_SERVER['HTTP_HOST']))
 		{
 			return true;
 		}
-		
+
 		if (\ModuleModel::getInstance()->getSiteInfoByDomain($domain))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Modify a URL.
-	 * 
+	 *
 	 * If $changes are given, they will be appended to the current URL as a query string.
 	 * To delete an existing query string, set its value to null.
-	 * 
+	 *
 	 * @param string $url
 	 * @param array $changes
 	 * @return string
@@ -133,13 +133,13 @@ class URL
 			return $prefix;
 		}
 	}
-	
+
 	/**
 	 * Convert a server-side path to a URL.
-	 * 
+	 *
 	 * This method returns false if the path cannot be converted to a URL,
 	 * e.g. if the path is outside of the document root.
-	 * 
+	 *
 	 * @param string $path
 	 * @return string|false
 	 */
@@ -161,13 +161,13 @@ class URL
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Convert a URL to a server-side path.
-	 * 
+	 *
 	 * This method returns false if the URL cannot be converted to a server-side path,
 	 * e.g. if the URL belongs to an external domain.
-	 * 
+	 *
 	 * @param string $url
 	 * @return string
 	 */
@@ -180,10 +180,10 @@ class URL
 		}
 		return Filters\FilenameFilter::cleanPath($_SERVER['DOCUMENT_ROOT'] . parse_url($url, \PHP_URL_PATH));
 	}
-	
+
 	/**
 	 * Encode UTF-8 domain into IDNA (punycode)
-	 * 
+	 *
 	 * @param string $url
 	 * @return string
 	 */
@@ -203,7 +203,7 @@ class URL
 			$domain = $url;
 			$position = 0;
 		}
-		
+
 		if (function_exists('idn_to_ascii'))
 		{
 			$new_domain = idn_to_ascii($domain);
@@ -213,13 +213,13 @@ class URL
 			$encoder = new \TrueBV\Punycode();
 			$new_domain = $encoder->encode($domain);
 		}
-		
+
 		return substr_replace($url, $new_domain, $position, strlen($domain));
 	}
 
 	/**
 	 * Convert IDNA (punycode) domain into UTF-8
-	 * 
+	 *
 	 * @param string $url
 	 * @return string
 	 */
@@ -239,7 +239,7 @@ class URL
 			$domain = $url;
 			$position = 0;
 		}
-		
+
 		if (function_exists('idn_to_utf8'))
 		{
 			$new_domain = idn_to_utf8($domain);
@@ -249,7 +249,7 @@ class URL
 			$decoder = new \TrueBV\Punycode();
 			$new_domain = $decoder->decode($domain);
 		}
-		
+
 		return substr_replace($url, $new_domain, $position, strlen($domain));
 	}
 }

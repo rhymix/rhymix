@@ -7,5 +7,5 @@ namespace Rhymix\Framework;
  */
 class Exception extends \Exception
 {
-	
+
 }

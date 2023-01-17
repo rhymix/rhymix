@@ -9,9 +9,9 @@ class MIME
 {
 	/**
 	 * Get the MIME type of a file, detected by its content.
-	 * 
+	 *
 	 * This method returns the MIME type of a file, or false on error.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return array|false
 	 */
@@ -38,10 +38,10 @@ class MIME
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the MIME type for the given extension.
-	 * 
+	 *
 	 * @param string $extension
 	 * @return string
 	 */
@@ -50,10 +50,10 @@ class MIME
 		$extension = strtolower($extension);
 		return array_key_exists($extension, self::$_types) ? self::$_types[$extension][0] : self::$_default;
 	}
-	
+
 	/**
 	 * Get the MIME type for the given filename.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return string
 	 */
@@ -64,10 +64,10 @@ class MIME
 		$extension = strtolower(substr($extension, 1));
 		return array_key_exists($extension, self::$_types) ? self::$_types[$extension][0] : self::$_default;
 	}
-	
+
 	/**
 	 * Get the most common extension for the given MIME type.
-	 * 
+	 *
 	 * @param string $type
 	 * @return string|false
 	 */
@@ -82,17 +82,17 @@ class MIME
 		}
 		return false;
 	}
-	
+
 	/**
 	 * The default MIME type for unknown extensions.
 	 */
 	protected static $_default = 'application/octet-stream';
-	
+
 	/**
 	 * The list of known MIME types.
 	 */
 	protected static $_types = array(
-		
+
 		// Text-based document formats.
 		'html' => ['text/html'],
 		'htm' => ['text/html'],
@@ -107,7 +107,7 @@ class MIME
 		'xsl' => ['text/xml'],
 		'css' => ['text/css'],
 		'csv' => ['text/csv'],
-		
+
 		// Binary document formats.
 		'doc' => ['application/msword'],
 		'dot' => ['application/msword'],
@@ -124,7 +124,7 @@ class MIME
 		'odb' => ['application/vnd.oasis.opendocument.database'],
 		'pdf' => ['application/pdf'],
 		'dvi' => ['application/x-dvi'],
-		
+
 		// Images.
 		'bmp' => ['image/bmp'],
 		'gif' => ['image/gif'],
@@ -138,7 +138,7 @@ class MIME
 		'tiff' => ['image/tiff'],
 		'tif' => ['image/tiff'],
 		'ico' => ['image/x-icon'],
-		
+
 		// Audio.
 		'mid' => ['audio/midi'],
 		'midi' => ['audio/midi'],
@@ -153,7 +153,7 @@ class MIME
 		'aiff' => ['audio/x-aiff'],
 		'ra' => ['audio/x-realaudio'],
 		'm4a' => ['audio/x-m4a'],
-		
+
 		// Video.
 		'avi' => ['video/x-msvideo'],
 		'flv' => ['video/x-flv'],
@@ -173,7 +173,7 @@ class MIME
 		'wma' => ['video/x-ms-asf'],
 		'asf' => ['video/x-ms-asf'],
 		'm4v' => ['video/x-m4v'],
-		
+
 		// Other multimedia file formats.
 		'psd' => ['application/x-photoshop'],
 		'swf' => ['application/x-shockwave-flash'],
@@ -182,11 +182,11 @@ class MIME
 		'ps' => ['application/postscript'],
 		'mif' => ['application/vnd.mif'],
 		'xul' => ['application/vnd.mozilla.xul+xml'],
-		
+
 		// Source code formats.
 		'phps' => ['application/x-httpd-php-source'],
 		'js' => ['application/x-javascript'],
-		
+
 		// Archives.
 		'bz2' => ['application/x-bzip'],
 		'gz' => ['application/x-gzip'],
@@ -195,13 +195,13 @@ class MIME
 		'gtar' => ['application/x-gtar'],
 		'rar' => ['application/x-rar-compressed'],
 		'zip' => ['application/x-zip'],
-		
+
 		// Executables and packages.
 		'apk' => ['application/vnd.android.package-archive'],
 		'pkg' => ['application/x-newton-compatible-pkg'],
 		'exe' => ['application/vnd.microsoft.portable-executable'],
 		'msi' => ['application/x-msdownload'],
-		
+
 		// RFC822 email message.
 		'eml' => ['message/rfc822'],
 	);

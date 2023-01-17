@@ -11,25 +11,25 @@ class Storage
 	 * Use atomic rename to overwrite files.
 	 */
 	public static $safe_overwrite = true;
-	
+
 	/**
 	 * Cache the umask here.
 	 */
 	protected static $_umask;
-	
+
 	/**
 	 * Cache the opcache status here.
 	 */
 	protected static $_opcache;
-	
+
 	/**
 	 * Cache locks here.
 	 */
 	protected static $_locks = array();
-	
+
 	/**
 	 * Check if a path really exists.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -39,10 +39,10 @@ class Storage
 		clearstatcache(true, $path);
 		return @file_exists($path);
 	}
-	
+
 	/**
 	 * Check if the given path is a file.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -51,10 +51,10 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_file($path);
 	}
-	
+
 	/**
 	 * Check if the given path is an empty file.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -63,11 +63,11 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_file($path) && (@filesize($path) == 0);
 	}
-	
-	
+
+
 	/**
 	 * Check if the given path is a directory.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -76,10 +76,10 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_dir($path);
 	}
-	
+
 	/**
 	 * Check if the given path is an empty directory.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -90,14 +90,14 @@ class Storage
 		{
 			return false;
 		}
-		
+
 		$iterator = new \FilesystemIterator($path, \FilesystemIterator::SKIP_DOTS);
 		return (iterator_count($iterator)) === 0 ? true : false;
 	}
-	
+
 	/**
 	 * Check if the given path is a symbolic link.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -106,10 +106,10 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @is_link($path);
 	}
-	
+
 	/**
 	 * Check if the given path is a valid symbolic link.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -118,10 +118,10 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @is_link($path) && ($target = @readlink($path)) !== false && self::exists($target);
 	}
-	
+
 	/**
 	 * Check if the given path is readable.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -130,10 +130,10 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_readable($path);
 	}
-	
+
 	/**
 	 * Check if the given path is writable.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -142,10 +142,10 @@ class Storage
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_writable($path);
 	}
-	
+
 	/**
 	 * Check if the given path is executable.
-	 * 
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -169,12 +169,12 @@ class Storage
 			return @self::exists($path) && @is_executable($path);
 		}
 	}
-	
+
 	/**
 	 * Get the size of a file.
-	 * 
+	 *
 	 * This method returns the size of a file, or false on error.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return int|false
 	 */
@@ -190,15 +190,15 @@ class Storage
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the content of a file.
-	 * 
+	 *
 	 * This method returns the content if it exists and is readable.
 	 * If $stream is true, it will return the content as a stream instead of
 	 * loading the entire content in memory. This may be useful for large files.
 	 * If the file cannot be opened, this method returns false.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param bool $stream (optional)
 	 * @return string|resource|false
@@ -216,7 +216,7 @@ class Storage
 			{
 				$result = @file_get_contents($filename);
 			}
-			
+
 			if ($result === false)
 			{
 				trigger_error('Cannot read file: ' . $filename, \E_USER_WARNING);
@@ -228,12 +228,12 @@ class Storage
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Read PHP data from a file, formatted for easy retrieval.
 	 *
 	 * This method returns the data on success and false on failure.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return mixed
 	 */
@@ -249,14 +249,14 @@ class Storage
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Write $content to a file.
 	 *
 	 * If $content is a stream, this method will copy it to the target file
 	 * without loading the entire content in memory. This may be useful for large files.
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param string|resource $content
 	 * @param string $mode (optional)
@@ -276,7 +276,7 @@ class Storage
 				return false;
 			}
 		}
-		
+
 		if (self::$safe_overwrite && strncasecmp($mode, 'a', 1) && @is_writable($destination_dir))
 		{
 			$use_atomic_rename = true;
@@ -287,7 +287,7 @@ class Storage
 		{
 			$use_atomic_rename = false;
 		}
-		
+
 		if ($fp = @fopen($filename, $mode))
 		{
 			flock($fp, \LOCK_EX);
@@ -302,7 +302,7 @@ class Storage
 			fflush($fp);
 			flock($fp, \LOCK_UN);
 			fclose($fp);
-			
+
 			if ($result === false || (is_string($content) && strlen($content) !== $result))
 			{
 				trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
@@ -314,9 +314,9 @@ class Storage
 			trigger_error('Cannot write file: ' . (isset($original_filename) ? $original_filename : $filename), \E_USER_WARNING);
 			return false;
 		}
-		
+
 		@chmod($filename, ($perms === null ? (0666 & ~self::getUmask()) : $perms));
-		
+
 		if ($use_atomic_rename)
 		{
 			$rename_success = @rename($filename, $original_filename);
@@ -333,7 +333,7 @@ class Storage
 			}
 			$filename = $original_filename;
 		}
-		
+
 		if (self::$_opcache === null)
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
@@ -342,17 +342,17 @@ class Storage
 		{
 			@opcache_invalidate($filename, true);
 		}
-		
+
 		clearstatcache(true, $filename);
 		return true;
 	}
-	
+
 	/**
 	 * Write PHP data to a file, formatted for easy retrieval.
 	 *
 	 * This method returns true on success and false on failure.
 	 * Resources and anonymous functions cannot be saved.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param mixed $data
 	 * @param string $comment (optional)
@@ -375,13 +375,13 @@ class Storage
 		}
 		return self::write($filename, $content);
 	}
-	
+
 	/**
 	 * Copy $source to $destination.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * If the destination permissions are not given, they will be copied from the source.
-	 * 
+	 *
 	 * @param string $source
 	 * @param string $destination
 	 * @param int $destination_perms
@@ -396,7 +396,7 @@ class Storage
 			trigger_error('Cannot copy because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
-		
+
 		$destination_dir = dirname($destination);
 		if (!self::exists($destination_dir) && !self::createDirectory($destination_dir))
 		{
@@ -408,7 +408,7 @@ class Storage
 			$destination_dir = $destination;
 			$destination = $destination . '/' . basename($source);
 		}
-		
+
 		if (self::$safe_overwrite && @is_writable($destination_dir))
 		{
 			$use_atomic_rename = true;
@@ -419,14 +419,14 @@ class Storage
 		{
 			$use_atomic_rename = false;
 		}
-		
+
 		$copy_success = @copy($source, $destination);
 		if (!$copy_success)
 		{
 			trigger_error('Cannot copy ' . $source . ' to ' . (isset($original_destination) ? $original_destination : $destination), \E_USER_WARNING);
 			return false;
 		}
-		
+
 		if ($destination_perms === null)
 		{
 			if (is_uploaded_file($source))
@@ -442,7 +442,7 @@ class Storage
 		{
 			@chmod($destination, $destination_perms);
 		}
-		
+
 		if ($use_atomic_rename)
 		{
 			$rename_success = @rename($destination, $original_destination);
@@ -459,7 +459,7 @@ class Storage
 			}
 			$destination = $original_destination;
 		}
-		
+
 		if (self::$_opcache === null)
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
@@ -468,16 +468,16 @@ class Storage
 		{
 			@opcache_invalidate($destination, true);
 		}
-		
+
 		clearstatcache(true, $destination);
 		return true;
 	}
-	
+
 	/**
 	 * Move $source to $destination.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $source
 	 * @param string $destination
 	 * @return bool
@@ -491,7 +491,7 @@ class Storage
 			trigger_error('Cannot move because the source does not exist: ' . $source, \E_USER_WARNING);
 			return false;
 		}
-		
+
 		$destination_dir = dirname($destination);
 		if (!self::exists($destination_dir) && !self::createDirectory($destination_dir))
 		{
@@ -502,19 +502,19 @@ class Storage
 		{
 			$destination = $destination . '/' . basename($source);
 		}
-		
+
 		$result = @rename($source, $destination);
 		if (!$result)
 		{
 			trigger_error('Cannot move ' . $source . ' to ' . $destination, \E_USER_WARNING);
 			return false;
 		}
-		
+
 		if (is_uploaded_file($source))
 		{
 			@chmod($destination, 0666 & ~self::getUmask());
 		}
-		
+
 		if (self::$_opcache === null)
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
@@ -530,16 +530,16 @@ class Storage
 				@opcache_invalidate($destination, true);
 			}
 		}
-		
+
 		clearstatcache(true, $destination);
 		return true;
 	}
-	
+
 	/**
 	 * Move uploaded $source to $destination.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $source
 	 * @param string $destination
 	 * @param string $type
@@ -579,13 +579,13 @@ class Storage
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Delete a file.
-	 * 
+	 *
 	 * This method returns true if the file exists and has been successfully
 	 * deleted, and false on any kind of failure.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return bool
 	 */
@@ -596,13 +596,13 @@ class Storage
 		{
 			return false;
 		}
-		
+
 		$result = @is_file($filename) && @unlink($filename);
 		if (!$result)
 		{
 			trigger_error('Cannot delete file: ' . $filename, \E_USER_WARNING);
 		}
-		
+
 		if (self::$_opcache === null)
 		{
 			self::$_opcache = function_exists('opcache_invalidate');
@@ -613,10 +613,10 @@ class Storage
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Create a directory.
-	 * 
+	 *
 	 * @param string $dirname
 	 * @return bool
 	 */
@@ -627,7 +627,7 @@ class Storage
 		{
 			$mode = 0777 & ~self::getUmask();
 		}
-		
+
 		$result = @mkdir($dirname, $mode, true);
 		if (!$result)
 		{
@@ -646,10 +646,10 @@ class Storage
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Read the list of files in a directory.
-	 * 
+	 *
 	 * @param string $dirname
 	 * @param bool $full_path (optional)
 	 * @param bool $skip_dotfiles (optional)
@@ -663,7 +663,7 @@ class Storage
 		{
 			return false;
 		}
-		
+
 		try
 		{
 			$iterator = new \FilesystemIterator($dirname, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
@@ -673,7 +673,7 @@ class Storage
 			trigger_error('Cannot read directory: ' . $dirname, \E_USER_WARNING);
 			return false;
 		}
-		
+
 		$result = array();
 		foreach ($iterator as $fileinfo)
 		{
@@ -689,7 +689,7 @@ class Storage
 		sort($result);
 		return $result;
 	}
-	
+
 	/**
 	 * Copy a directory recursively.
 	 *
@@ -712,11 +712,11 @@ class Storage
 			trigger_error('Cannot create directory to copy into: ' . $destination, \E_USER_WARNING);
 			return false;
 		}
-		
+
 		$rdi_options = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS;
 		$rii_options = \RecursiveIteratorIterator::CHILD_FIRST;
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, $rdi_options), $rii_options);
-		
+
 		foreach ($iterator as $path)
 		{
 			$path_source = $path->getPathname();
@@ -728,7 +728,7 @@ class Storage
 			{
 				continue;
 			}
-			
+
 			$path_destination = $destination . substr($path_source, strlen($source));
 			if ($path->isDir())
 			{
@@ -747,13 +747,13 @@ class Storage
 				}
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Move a directory.
-	 * 
+	 *
 	 * @param string $source
 	 * @param string $destination
 	 * @return bool
@@ -762,10 +762,10 @@ class Storage
 	{
 		return self::move($source, $destination);
 	}
-	
+
 	/**
 	 * Delete a directory recursively.
-	 * 
+	 *
 	 * @param string $dirname
 	 * @param bool $delete_self (optional)
 	 * @return bool
@@ -782,11 +782,11 @@ class Storage
 			trigger_error('Delete target is not a directory: ' . $dirname, \E_USER_WARNING);
 			return false;
 		}
-		
+
 		$rdi_options = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS;
 		$rii_options = \RecursiveIteratorIterator::CHILD_FIRST;
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dirname, $rdi_options), $rii_options);
-		
+
 		foreach ($iterator as $path)
 		{
 			if ($path->isDir())
@@ -806,7 +806,7 @@ class Storage
 				}
 			}
 		}
-		
+
 		if ($delete_self)
 		{
 			$result = @rmdir($dirname);
@@ -825,10 +825,10 @@ class Storage
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Delete a directory only if it is empty.
-	 * 
+	 *
 	 * @param string $dirname
 	 * @param bool $delete_empty_parents (optional)
 	 * @return bool
@@ -840,7 +840,7 @@ class Storage
 		{
 			return false;
 		}
-		
+
 		$result = @rmdir($dirname);
 		if (!$result)
 		{
@@ -855,10 +855,10 @@ class Storage
 			return true;
 		}
 	}
-	
+
 	/**
 	 * Get the current umask.
-	 * 
+	 *
 	 * @return int
 	 */
 	public static function getUmask()
@@ -869,10 +869,10 @@ class Storage
 		}
 		return self::$_umask;
 	}
-	
+
 	/**
 	 * Set the current umask.
-	 * 
+	 *
 	 * @param int $umask
 	 * @return void
 	 */
@@ -880,10 +880,10 @@ class Storage
 	{
 		self::$_umask = intval($umask);
 	}
-	
+
 	/**
 	 * Determine the best umask for this installation of Rhymix.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function recommendUmask()
@@ -893,29 +893,29 @@ class Storage
 		{
 			return '0000';
 		}
-		
+
 		// Get the UID of the owner of the current file.
 		$file_uid = fileowner(__FILE__);
-		
+
 		// Get the UID of the current PHP process.
 		$php_uid = self::getServerUID();
-		
+
 		// If both UIDs are the same, set the umask to 0022.
 		if ($file_uid == $php_uid)
 		{
 			return '0022';
 		}
-		
+
 		// Otherwise, set the umask to 0000.
 		else
 		{
 			return '0000';
 		}
 	}
-	
+
 	/**
 	 * Get the UID of the server process.
-	 * 
+	 *
 	 * @return int|false
 	 */
 	public static function getServerUID()
@@ -931,7 +931,7 @@ class Storage
 			{
 				self::delete($testfile);
 			}
-			
+
 			if (self::write($testfile, 'TEST'))
 			{
 				$uid = fileowner($testfile);
@@ -944,10 +944,10 @@ class Storage
 			}
 		}
 	}
-	
+
 	/**
 	 * Obtain an exclusive lock.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function getLock($name)
@@ -957,20 +957,20 @@ class Storage
 		{
 			return false;
 		}
-		
+
 		$lockdir = \RX_BASEDIR . 'files/locks';
 		if (!self::isDirectory($lockdir) && !self::createDirectory($lockdir))
 		{
 			return false;
 		}
-		
+
 		self::$_locks[$name] = @fopen($lockdir . '/' . $name . '.lock', 'w');
 		if (!self::$_locks[$name])
 		{
 			unset(self::$_locks[$name]);
 			return false;
 		}
-		
+
 		$result = @flock(self::$_locks[$name], \LOCK_EX | \LOCK_NB);
 		if (!$result)
 		{
@@ -978,14 +978,14 @@ class Storage
 			unset(self::$_locks[$name]);
 			return false;
 		}
-		
+
 		register_shutdown_function('\\Rhymix\\Framework\\Storage::clearLocks');
 		return true;
 	}
-	
+
 	/**
 	 * Clear all locks.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearLocks()
