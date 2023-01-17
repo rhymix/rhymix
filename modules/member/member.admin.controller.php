@@ -89,7 +89,7 @@ class MemberAdminController extends Member
 		{
 			$extra_vars = new stdClass;
 		}
-		
+
 		// Get list of extra vars
 		$all_args = Context::getRequestVars();
 		foreach($config->signupForm as $formInfo)
@@ -114,7 +114,7 @@ class MemberAdminController extends Member
 		{
 			$args->limit_date = '';
 		}
-		
+
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
 		foreach($checkInfos as $val)
@@ -130,7 +130,7 @@ class MemberAdminController extends Member
 		{
 			$args->description = '';
 		}
-		
+
 		$oMemberController = getController('member');
 		// Execute insert or update depending on the value of member_srl
 		if(!$args->member_srl)
@@ -146,7 +146,7 @@ class MemberAdminController extends Member
 		}
 
 		if(!$output->toBool()) return $output;
-		
+
 		// Invalidate sessions if denied or limited
 		if ($args->denied === 'Y' || $args->limited >= date('Ymd'))
 		{
@@ -155,13 +155,13 @@ class MemberAdminController extends Member
 			Rhymix\Framework\Session::setValidityInfo($args->member_srl, $validity_info);
 			executeQuery('member.deleteAutologin', ['member_srl' => $args->member_srl]);
 		}
-		
+
 		// Invalidate auth mail if denied or limited
 		if ($args->denied === 'Y' || $args->limited >= date('Ymd'))
 		{
 			executeQuery('member.deleteAuthMail', ['member_srl' => $args->member_srl]);
 		}
-		
+
 		// Save Signature
 		$signature = Context::get('signature');
 		$oMemberController->putSignature($args->member_srl, $signature);
@@ -193,7 +193,7 @@ class MemberAdminController extends Member
 
 		// Clear cache
 		MemberController::clearMemberCache($args->member_srl);
-		
+
 		// Return result
 		$this->add('member_srl', $args->member_srl);
 		$this->setMessage($msg_code);
@@ -238,7 +238,7 @@ class MemberAdminController extends Member
 			'allow_duplicate_nickname',
 			'member_profile_view'
 		);
-		
+
 		if ($args->enable_join === 'KEY')
 		{
 			$args->enable_join = 'N';
@@ -259,12 +259,12 @@ class MemberAdminController extends Member
 		{
 			$args->authmail_expires_unit = 86400;
 		}
-			
+
 		if(!array_key_exists($args->password_hashing_algorithm, Rhymix\Framework\Password::getSupportedAlgorithms()))
 		{
 			$args->password_hashing_algorithm = 'md5';
 		}
-		
+
 		$args->password_hashing_work_factor = intval($args->password_hashing_work_factor, 10);
 		if($args->password_hashing_work_factor < 4)
 		{
@@ -278,7 +278,7 @@ class MemberAdminController extends Member
 		{
 			$args->password_hashing_auto_upgrade = 'N';
 		}
-		
+
 		if(!in_array($args->nickname_symbols, ['Y', 'N', 'LIST']))
 		{
 			$args->nickname_symbols = 'Y';
@@ -299,7 +299,7 @@ class MemberAdminController extends Member
 	{
 		$config = new stdClass;
 		$config->features = array();
-		
+
 		$args = Context::gets(
 			'scrapped_documents',
 			'saved_documents',
@@ -312,7 +312,7 @@ class MemberAdminController extends Member
 		{
 			$config->features[$key] = toBool($value);
 		}
-		
+
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $config);
 
@@ -328,7 +328,7 @@ class MemberAdminController extends Member
 		$config = new stdClass;
 		$config->agreements = array();
 		$config->agreement = null;
-		
+
 		$args = Context::getRequestVars();
 		for ($i = 1; $i < 20; $i++)
 		{
@@ -347,14 +347,14 @@ class MemberAdminController extends Member
 				$config->agreements[$i] = $agreement;
 			}
 		}
-		
+
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $config);
 		if (!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		// Delete old agreement files.
 		foreach (Context::loadLangSupported() as $key => $val)
 		{
@@ -371,12 +371,12 @@ class MemberAdminController extends Member
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminAgreementsConfig');
 		$this->setRedirectUrl($returnUrl);
 	}
-	
+
 	public function procMemberAdminInsertSignupConfig()
 	{
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		
+
 		$oModuleController = getController('module');
 
 		$args = Context::gets(
@@ -433,7 +433,7 @@ class MemberAdminController extends Member
 		{
 			return new BaseObject('-1', 'msg_need_default_country');
 		}
-		
+
 		// set default
 		$all_args->is_nick_name_public = 'Y';
 
@@ -474,7 +474,7 @@ class MemberAdminController extends Member
 			$signupItem->required = ($all_args->{$key} == 'required') || $signupItem->mustRequired;
 			$signupItem->isUse = in_array($key, $usable_list) || $signupItem->required;
 			$signupItem->isPublic = ($all_args->{'is_'.$key.'_public'} == 'Y' && $signupItem->isUse) ? 'Y' : 'N';
-			
+
 			if(in_array($key, ['signature', 'profile_image', 'image_name', 'image_mark']))
 			{
 				$args->$key = $signupItem->isPublic;
@@ -538,7 +538,7 @@ class MemberAdminController extends Member
 			'after_login_url',
 			'after_logout_url'
 		);
-		
+
 		if(!count($args->identifiers))
 		{
 			return new BaseObject(-1, 'msg_need_identifier');
@@ -565,7 +565,7 @@ class MemberAdminController extends Member
 		}
 		$args->signupForm = $config->signupForm;
 		$args->identifier = array_first($args->identifiers);
-		
+
 		if(!$args->change_password_date)
 		{
 			$args->change_password_date = 0;
@@ -630,7 +630,7 @@ class MemberAdminController extends Member
 	{
 		global $lang;
 		$oMemberModel = getModel('member');
-		
+
 		// Get join form list which is additionally set
 		$extendItems = $oMemberModel->getJoinFormList();
 
@@ -700,7 +700,7 @@ class MemberAdminController extends Member
 	 */
 	function _createSignupRuleset($signupForm)
 	{
-		
+
 	}
 
 	/**
@@ -710,7 +710,7 @@ class MemberAdminController extends Member
 	 */
 	function _createLoginRuleset($identifier)
 	{
-		
+
 	}
 
 	/**
@@ -720,7 +720,7 @@ class MemberAdminController extends Member
 	 */
 	function _createFindAccountByQuestion($identifier)
 	{
-		
+
 	}
 
 	/**
@@ -984,7 +984,7 @@ class MemberAdminController extends Member
 						}
 						$this->setMessage('success_updated');
 						break;
-					}	
+					}
 				case 'delete':
 					{
 						$oMemberController->memberInfo = null;
@@ -1017,7 +1017,7 @@ class MemberAdminController extends Member
 		}
 
 		$oDB->commit();
-		
+
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMemberAdminList');
 		$this->setRedirectUrl($returnUrl);
 	}
@@ -1313,7 +1313,7 @@ class MemberAdminController extends Member
 
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.insertGroup', 'after', $args);
-		
+
 		return $output;
 	}
 
@@ -1325,7 +1325,7 @@ class MemberAdminController extends Member
 	function updateGroup($args)
 	{
 		if(!$args->group_srl) throw new Rhymix\Framework\Exceptions\TargetNotFound;
-		
+
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.updateGroup', 'before', $args);
 		if(!$trigger_output->toBool())
@@ -1346,10 +1346,10 @@ class MemberAdminController extends Member
 
 		$output = executeQuery('member.updateGroup', $args);
 		$this->_deleteMemberGroupCache();
-		
+
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.updateGroup', 'after', $args);
-		
+
 		return $output;
 	}
 
@@ -1369,7 +1369,7 @@ class MemberAdminController extends Member
 
 		if(!$group_info) throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		if($group_info->is_default == 'Y') throw new Rhymix\Framework\Exception('msg_not_delete_default');
-		
+
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.deleteGroup', 'before', $group_info);
 		if(!$trigger_output->toBool())

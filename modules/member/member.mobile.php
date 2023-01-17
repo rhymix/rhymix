@@ -4,7 +4,7 @@
 class MemberMobile extends MemberView
 {
 	/**
-	 * Support method are 
+	 * Support method are
 	 * dispMemberInfo, dispMemberSignUpForm, dispMemberFindAccount, dispMemberGetTempPassword, dispMemberModifyInfo, dispMemberModifyInfoBefore
 	 */
 	var $memberInfo;
