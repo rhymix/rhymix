@@ -109,7 +109,7 @@ class Dashboard extends Base
 				}
 			}
 		}
-		
+
 		// Retrieve the list of installed modules
 		$this->checkEasyInstall();
 
@@ -117,7 +117,7 @@ class Dashboard extends Base
 		//$oAutoinstallAdminModel = getAdminModel('autoinstall');
 		//$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
 		$needUpdateList = array();
-		
+
 		// Check counter addon
 		$oAddonAdminModel = AddonAdminModel::getInstance();
 		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter');
@@ -131,7 +131,7 @@ class Dashboard extends Base
 			Context::set('latestMemberList', $output->data);
 			unset($args, $output, $columnList);
 		}
-		
+
 		// Check unnecessary files
 		$cleanup_list = Maintenance\Cleanup::getInstance()->checkFiles();
 
@@ -159,10 +159,10 @@ class Dashboard extends Base
 		MemberController::getInstance()->procMemberLogout();
 		header('Location: ' . getNotEncodedUrl(''));
 	}
-	
+
 	/**
 	 * Check easy install.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function checkEasyInstall()
@@ -202,7 +202,7 @@ class Dashboard extends Base
 
 	/**
 	 * Update the easy install flag file.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _updateEasyInstallFlagFile()

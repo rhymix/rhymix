@@ -19,11 +19,11 @@ class Cleanup extends Base
 		// Get the list of files to clean up.
 		$cleanup_list = $this->checkFiles();
 		Context::set('cleanup_list', $cleanup_list);
-		
+
 		// Check previous errors.
 		Context::set('cleanup_errors', $_SESSION['admin_cleanup_errors'] ?? []);
 		unset($_SESSION['admin_cleanup_errors']);
-		
+
 		// Set the template file.
 		$this->setTemplateFile('cleanup');
 	}
@@ -39,7 +39,7 @@ class Cleanup extends Base
 		{
 			$this->setMessage('success_deleted');
 		}
-		
+
 		// If there were errors, set information in session.
 		else
 		{
@@ -47,14 +47,14 @@ class Cleanup extends Base
 			$this->setMessage('msg_cleanup_manually');
 			$_SESSION['admin_cleanup_errors'] = $result;
 		}
-		
+
 		// Redirect to the list screen.
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminCleanupList'));
 	}
 
 	/**
 	 * Check for files to clean up.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function checkFiles(): array
@@ -71,7 +71,7 @@ class Cleanup extends Base
 			{
 				continue;
 			}
-			
+
 			// Check for case difference and moved target.
 			if ($reason === 'case')
 			{
@@ -92,17 +92,17 @@ class Cleanup extends Base
 				$result[$name] = $reason;
 			}
 		}
-		
+
 		ksort($result);
 		return $result;
 	}
-	
+
 	/**
 	 * Check if the filesystem is case-sensitive.
-	 * 
+	 *
 	 * This method generally returns true on Linux, and false on Windows and Mac OS,
 	 * but the result may differ if tested on an unusual filesystem.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function checkCaseSensitiveFilesystem(): bool
@@ -113,7 +113,7 @@ class Cleanup extends Base
 		{
 			return $cache;
 		}
-		
+
 		// Return default values for most common operating systems.
 		if (preg_match('/Linux/', \PHP_OS))
 		{
@@ -123,29 +123,29 @@ class Cleanup extends Base
 		{
 			return $cache = false;
 		}
-		
+
 		// Create two files that differ only in case, and check if they overwrite each other.
 		$file1 = \RX_BASEDIR . 'files/cache/caseTest.php';
 		$file2 = \RX_BASEDIR . 'files/cache/caseTEST.php';
 		Storage::write($file1, '#1:' . Security::getRandom(36) . \PHP_EOL);
 		Storage::write($file2, '#2:' . Security::getRandom(36) . \PHP_EOL);
 		$cache = (Storage::read($file1) !== Storage::read($file2));
-		
+
 		// Clean up test files and return the result.
 		Storage::delete($file1);
 		Storage::delete($file2);
 		return $cache;
 	}
-	
+
 	/**
 	 * Delete files.
-	 * 
+	 *
 	 * If a name is given, only that file or directory will be deleted.
 	 * Otherwise, all files in the cleanup list will be deleted.
-	 * 
+	 *
 	 * This method returns the list of files that could not be deleted,
 	 * with reasons for each file.
-	 * 
+	 *
 	 * @param ?string $name
 	 * @return array
 	 */
@@ -168,12 +168,12 @@ class Cleanup extends Base
 		{
 			$list = $this->checkFiles();
 		}
-		
+
 		if (!count($list))
 		{
 			throw new TargetNotFound('msg_cleanup_list_empty');
 		}
-		
+
 		// Delete each file or directory.
 		$result = [];
 		foreach ($list as $name => $reason)
@@ -187,7 +187,7 @@ class Cleanup extends Base
 			{
 				$success = Storage::delete($normalized_path);
 			}
-			
+
 			if (!$success && Storage::exists($normalized_path))
 			{
 				if (!Storage::isWritable($normalized_path) || !Storage::isWritable(dirname($normalized_path)))
@@ -204,15 +204,15 @@ class Cleanup extends Base
 				}
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * List of files and directories to clean up.
 	 */
 	public const CLEANUP_LIST = [
-		
+
 		// Unnecessary files in the root directory
 		'composer.json' => 'moved:common/composer.json',
 		'composer.lock' => 'moved:common/composer.lock',
@@ -278,7 +278,7 @@ class Cleanup extends Base
 		'modules/spamfilter/ruleset/' => 'deleted',
 		'phpDoc/' => 'deleted:xe',
 		'tools/' => 'deleted:xe',
-		
+
 		// Deleted lang.xml
 		'common/lang/lang.xml' => 'deleted:xmllang',
 		'layouts/xedition/lang/lang.xml' => 'deleted:xmllang',
@@ -388,7 +388,7 @@ class Cleanup extends Base
 		'common/framework/parsers/dbtable/index.php' => 'case',
 		'common/framework/parsers/dbtable/table.php' => 'case',
 		'modules/member/controllers/device.php' => 'case',
-		
+
 		// Vendor directory
 		'vendor/' => 'moved:common/vendor/',
 	];

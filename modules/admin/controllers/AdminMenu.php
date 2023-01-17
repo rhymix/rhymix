@@ -22,7 +22,7 @@ class AdminMenu extends Base
 
 		Context::set('menu_srl', $output->menu_srl);
 		Context::set('menu_title', $output->title);
-		
+
 		$this->setTemplateFile('admin_setup');
 	}
 

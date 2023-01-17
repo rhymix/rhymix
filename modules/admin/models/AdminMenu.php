@@ -11,7 +11,7 @@ use ModuleModel;
 class AdminMenu
 {
 	public const ADMIN_MENU_NAME = '__ADMINMENU_V17__';
-	
+
 	public const DEFAULT_MENU_STRUCTURE = [
 		'dashboard' => [],
 		'menu' => [
@@ -56,16 +56,16 @@ class AdminMenu
 	{
 		return self::ADMIN_MENU_NAME;
 	}
-	
+
 	public static function getAdminMenuLang()
 	{
 		static $lang = null;
-		
+
 		if ($lang === null)
 		{
 			$lang = \Rhymix\Framework\Cache::get('admin_menu_langs:' . Context::getLangType());
 		}
-		
+
 		if ($lang === null)
 		{
 			$lang = [];
@@ -81,7 +81,7 @@ class AdminMenu
 					}
 				}
 			}
-			
+
 			\Rhymix\Framework\Cache::set('admin_menu_langs:' . Context::getLangType(), $lang, 0, true);
 		}
 
@@ -94,7 +94,7 @@ class AdminMenu
 		{
 			return;
 		}
-		
+
 		$oMenuAdminModel = MenuAdminModel::getInstance();
 		$output = $oMenuAdminModel->getMenuByTitle(self::ADMIN_MENU_NAME);
 
@@ -180,7 +180,7 @@ class AdminMenu
 		$args->hover_btn = '';
 		$args->active_btn = '';
 		$args->group_srls = $admin_group_srl;
-		
+
 		$moduleActionInfo = array();
 		foreach (self::DEFAULT_MENU_STRUCTURE as $key => $items)
 		{
@@ -188,7 +188,7 @@ class AdminMenu
 			{
 				continue;
 			}
-			
+
 			foreach ($items as $item)
 			{
 				list($module_name, $menu_name) = explode('.', $item);
@@ -196,7 +196,7 @@ class AdminMenu
 				{
 					$moduleActionInfo[$module_name] = ModuleModel::getModuleActionXml($module_name);
 				}
-				
+
 				$args->menu_item_srl = getNextSequence();
 				$args->parent_srl = $gnbDBList["'" . $key . "'"];
 				$args->name = '{$lang->menu_gnb_sub[\'' . $menu_name . '\']}';
@@ -216,7 +216,7 @@ class AdminMenu
 
 	/**
 	 * Return parent old menu key by child menu
-	 * 
+	 *
 	 * @return string
 	 */
 	protected static function _getOldGnbKey($menuName)
