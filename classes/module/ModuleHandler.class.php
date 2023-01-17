@@ -120,7 +120,7 @@ class ModuleHandler extends Handler
 	public function init()
 	{
 		$site_module_info = Context::get('site_module_info');
-		
+
 		// Check unregistered domain action.
 		if (!$site_module_info || !isset($site_module_info->domain_srl) || ($site_module_info->is_default_replaced ?? false))
 		{
@@ -133,17 +133,17 @@ class ModuleHandler extends Handler
 					case 'redirect_301':
 						header('Location: ' . Context::getDefaultUrl($site_module_info) . RX_REQUEST_URL, true, 301);
 						return false;
-						
+
 					case 'redirect_302':
 						header('Location: ' . Context::getDefaultUrl($site_module_info) . RX_REQUEST_URL, true, 302);
 						return false;
-					
+
 					case 'block':
 						$this->error = 'The site does not exist';
 						$this->error_detail = 'ERR_DOMAIN_NOT_FOUND';
 						$this->httpStatusCode = 404;
 						return true;
-						
+
 					case 'display':
 						// pass
 				}
@@ -160,7 +160,7 @@ class ModuleHandler extends Handler
 				Context::set($key, null);
 			}
 		}
-		
+
 		// If the Router returned an error earlier, show an error here.
 		if($this->route && $this->route->status > 200)
 		{
@@ -169,7 +169,7 @@ class ModuleHandler extends Handler
 			$this->httpStatusCode = 404;
 			return true;
 		}
-		
+
 		// Convert document alias (entry) to document_srl
 		if(!$this->document_srl && $this->mid && $this->entry)
 		{
@@ -193,7 +193,7 @@ class ModuleHandler extends Handler
 		{
 			$module_info = null;
 		}
-		
+
 		// Get module info from mid.
 		if(!$module_info && $this->mid)
 		{
@@ -219,7 +219,7 @@ class ModuleHandler extends Handler
 			header('location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
 			return false;
 		}
-		
+
 		// If module info was set, retrieve variables from the module information
 		if($module_info)
 		{
@@ -228,7 +228,7 @@ class ModuleHandler extends Handler
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
 			$this->_setModuleSEOInfo($module_info, $site_module_info);
-			
+
 			// Check if the current request is from a mobile device.
 			$this->is_mobile = Mobile::isFromMobilePhone();
 			$viewType = $this->is_mobile ? 'M' : 'P';
@@ -257,7 +257,7 @@ class ModuleHandler extends Handler
 
 			// Reset layout_srl in module_info.
 			$module_info->{$targetSrl} = $layoutSrl;
-			
+
 			// Add layout header script.
 			$part_config = ModuleModel::getModulePartConfig('layout', $layoutSrl);
 			Context::addHtmlHeader($part_config->header_script);
@@ -270,7 +270,7 @@ class ModuleHandler extends Handler
 		}
 
 		$this->_setModuleColorScheme($site_module_info);
-		
+
 		// Always overwrite site_srl (deprecated)
 		$this->module_info->site_srl = $site_module_info->site_srl;
 
@@ -288,7 +288,7 @@ class ModuleHandler extends Handler
 		{
 			Context::set('mid', $this->mid, TRUE);
 		}
-		
+
 		// Call a trigger after moduleHandler init
 		$output = self::triggerCall('moduleHandler.init', 'after', $this->module_info);
 		if(!$output->toBool())
@@ -376,7 +376,7 @@ class ModuleHandler extends Handler
 				return self::_createErrorMessage(-1, 'msg_security_violation', 403, 'ERR_CSRF_CHECK_FAILED');
 			}
 		}
-		
+
 		// check if the current action allows standalone access (without mid)
 		if(isset($xml_info->action->{$this->act}))
 		{
@@ -467,7 +467,7 @@ class ModuleHandler extends Handler
 			{
 				return self::_createErrorMessage(-1, 'msg_invalid_request', 403, 'ERR_NOT_FORWARDABLE');
 			}
-			
+
 			// 1. Look for the module with action name
 			if(preg_match('/^[a-z]+([A-Z][a-z0-9\_]+).*$/', $this->act, $matches))
 			{
@@ -497,12 +497,12 @@ class ModuleHandler extends Handler
 					$forward->act = $this->act;
 				}
 			}
-			
+
 			if(empty($forward->module))
 			{
 				$forward = ModuleModel::getActionForward($this->act);
 			}
-			
+
 			if(!empty($forward->module))
 			{
 				$kind = (stripos($forward->act, 'admin') !== false || stripos($forward->class_name, 'admin') !== false) ? 'admin' : '';
@@ -514,9 +514,9 @@ class ModuleHandler extends Handler
 				{
 					Context::addMetaTag('robots', 'noindex');
 				}
-				
+
 				$xml_info = ModuleModel::getModuleActionXml($forward->module);
-				
+
 				// Protect admin action
 				if(($this->module == 'admin' || $kind == 'admin') && !ModuleModel::getGrant($forward, $logged_info)->root)
 				{
@@ -525,7 +525,7 @@ class ModuleHandler extends Handler
 						return self::_createErrorMessage(-1, 'admin.msg_is_not_administrator');
 					}
 				}
-				
+
 				// SECISSUE also check REQUEST_METHOD for forwarded actions
 				$allowedMethodList = explode('|', $xml_info->action->{$this->act}->method);
 				if(!in_array($_SERVER['REQUEST_METHOD'], $allowedMethodList))
@@ -541,7 +541,7 @@ class ModuleHandler extends Handler
 						return self::_createErrorMessage(-1, 'msg_security_violation', 403, 'ERR_CSRF_CHECK_FAILED');
 					}
 				}
-				
+
 				if($forward->class_name)
 				{
 					$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $forward->module, $forward->class_name);
@@ -572,12 +572,12 @@ class ModuleHandler extends Handler
 				{
 					$oModule = self::getModuleInstance($forward->module, $type, $kind);
 				}
-						
+
 				if(!is_object($oModule))
 				{
 					return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 				}
-				
+
 				// Admin page layout
 				if($this->module == 'admin' && $type == 'view' && $this->act != 'dispLayoutAdminLayoutModify')
 				{
@@ -598,7 +598,7 @@ class ModuleHandler extends Handler
 				return $oModule;
 			}
 		}
-		
+
 		// ruleset check...
 		if(!empty($ruleset))
 		{
@@ -668,11 +668,11 @@ class ModuleHandler extends Handler
 			$domain_info = Context::get('site_module_info');
 			if ($domain_info && $domain_info->settings && $domain_info->settings->html_header)
 			{
-				Context::addHtmlHeader($domain_info->settings->html_header);				
+				Context::addHtmlHeader($domain_info->settings->html_header);
 			}
 			if ($domain_info && $domain_info->settings && $domain_info->settings->html_footer)
 			{
-				Context::addHtmlFooter($domain_info->settings->html_footer);				
+				Context::addHtmlFooter($domain_info->settings->html_footer);
 			}
 			if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 			{
@@ -737,7 +737,7 @@ class ModuleHandler extends Handler
 
 	/**
 	 * Check the value of $document_srl. This method is called during init().
-	 * 
+	 *
 	 * @return object|false
 	 */
 	protected function _checkDocumentSrl()
@@ -773,14 +773,14 @@ class ModuleHandler extends Handler
 					Context::set('mid', $this->mid);
 				}
 			}
-			
+
 			// Remove module info if a different module has already been selected for the current request.
 			if($this->module && $module_info->module !== $this->module)
 			{
 				$module_info = null;
 			}
 		}
-		
+
 		// Block access to secret or temporary documents.
 		if(Context::getRequestMethod() === 'GET')
 		{
@@ -794,14 +794,14 @@ class ModuleHandler extends Handler
 				$this->httpStatusCode = 403;
 			}
 		}
-		
+
 		// Return the module info for further processing.
 		return $module_info;
 	}
-	
+
 	/**
 	 * Set color scheme.
-	 * 
+	 *
 	 * @param object $site_module_info
 	 */
 	protected function _setModuleColorScheme($site_module_info)
@@ -820,10 +820,10 @@ class ModuleHandler extends Handler
 			Context::addBodyClass('color_scheme_' . $color_scheme);
 		}
 	}
-	
+
 	/**
 	 * Set SEO information to Context.
-	 * 
+	 *
 	 * @param object $module_info
 	 * @param object $site_module_info
 	 */
@@ -845,7 +845,7 @@ class ModuleHandler extends Handler
 			'subpage_title' => $module_info->browser_title,
 			'page' => Context::get('page') ?: 1,
 		));
-		
+
 		// Set meta keywords.
 		$module_config = ModuleModel::getModuleConfig('module');
 		if (!empty($module_info->meta_keywords))
@@ -860,7 +860,7 @@ class ModuleHandler extends Handler
 		{
 			Context::addMetaTag('keywords', $module_config->meta_keywords);
 		}
-		
+
 		// Set meta description.
 		if (!empty($module_info->meta_description))
 		{
@@ -875,10 +875,10 @@ class ModuleHandler extends Handler
 			Context::addMetaTag('description', $module_config->meta_description);
 		}
 	}
-	 
+
 	/**
 	 * Save input values to session so that they can be recovered after returning to the previous form.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected static function _setInputValueToSession()
@@ -893,7 +893,7 @@ class ModuleHandler extends Handler
 
 	/**
 	 * Get previous error information and restore it to Context so that it is available to templates.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected static function _setInputErrorToContext()
@@ -905,7 +905,7 @@ class ModuleHandler extends Handler
 			'XE_VALIDATOR_ERROR',
 			'XE_VALIDATOR_RETURN_URL',
 		];
-		
+
 		foreach ($keys as $key)
 		{
 			if (!Context::get($key))
@@ -913,7 +913,7 @@ class ModuleHandler extends Handler
 				Context::set($key, empty($_SESSION[$key]) ? null : $_SESSION[$key]);
 			}
 		}
-		
+
 		if (!empty($_SESSION['INPUT_ERROR']))
 		{
 			Context::set('INPUT_ERROR', $_SESSION['INPUT_ERROR']);
@@ -947,7 +947,7 @@ class ModuleHandler extends Handler
 			$caller = array_shift($backtrace);
 			$location = $caller['file'] . ':' . $caller['line'];
 		}
-		
+
 		self::_setInputErrorToContext();
 		$oMessageObject = MessageView::getInstance();
 		$oMessageObject->setError($error);
@@ -966,7 +966,7 @@ class ModuleHandler extends Handler
 	{
 		// Set the display mode for the current device type.
 		$this->is_mobile = Mobile::isFromMobilePhone();
-		
+
 		// If the module is not set or not an object, set error
 		if(!$oModule || !is_object($oModule))
 		{
@@ -1006,12 +1006,12 @@ class ModuleHandler extends Handler
 					$data['message'] = lang($oModule->message);
 				}
 				$data = array_merge($data, $oModule->getVariables());
-				
+
 				ob_end_clean();
 				echo sprintf('<html><head></head><body><script>parent.XE.handleIframeResponse(%s, %s);</script></body></html>', json_encode(strval($_POST['_rx_ajax_form'])), json_encode($data));
 				return;
 			}
-			
+
 			// Handle redirects.
 			if($oModule->getRedirectUrl())
 			{
@@ -1038,7 +1038,7 @@ class ModuleHandler extends Handler
 					return;
 				}
 			}
-			
+
 			// If error occurred, handle it
 			if($this->error)
 			{
@@ -1050,7 +1050,7 @@ class ModuleHandler extends Handler
 				{
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
-				
+
 				// If module was called normally, change the templates of the module into ones of the message view module
 				if($oModule)
 				{
@@ -1063,7 +1063,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule = $oMessageObject;
 				}
-				
+
 				self::_clearErrorSession();
 			}
 
@@ -1118,7 +1118,7 @@ class ModuleHandler extends Handler
 					{
 						$oMenuAdminController = getAdminController('menu');
 						$homeMenuCacheFile = null;
-						
+
 						foreach($layout_info->menu as $menu_id => $menu)
 						{							// No menu selected
 							if($menu->menu_srl == 0)
@@ -1139,12 +1139,12 @@ class ModuleHandler extends Handler
 									{
 										include($homeMenuCacheFile);
 									}
-									
+
 									$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
 									$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
 									$menu->menu_srl = $homeMenuSrl;
 								}
-								
+
 								$php_file = FileHandler::exists($menu->php_file);
 								if(!$php_file)
 								{
@@ -1156,7 +1156,7 @@ class ModuleHandler extends Handler
 									include($php_file);
 								}
 							}
-							
+
 							Context::set($menu_id, $menu);
 						}
 					}
@@ -1190,16 +1190,16 @@ class ModuleHandler extends Handler
 				}
 			}
 		}
-		
+
 		// Set http status code
 		if($this->httpStatusCode && $oModule->getHttpStatusCode() === 200)
 		{
 			$oModule->setHttpStatusCode($this->httpStatusCode);
 		}
-		
+
 		// Set http status message
 		self::_setHttpStatusMessage($oModule->getHttpStatusCode());
-		
+
 		// Display contents
 		$oDisplayHandler = new DisplayHandler();
 		$oDisplayHandler->printContent($oModule);
@@ -1264,7 +1264,7 @@ class ModuleHandler extends Handler
 		{
 			$triggers = array();
 		}
-		
+
 		foreach($triggers as $item)
 		{
 			$module = $item->module;
@@ -1289,13 +1289,13 @@ class ModuleHandler extends Handler
 			{
 				continue;
 			}
-			
+
 			// do not call if module is blacklisted
 			if (Context::isBlacklistedPlugin($oModule->module))
 			{
 				continue;
 			}
-			
+
 			try
 			{
 				$before_each_trigger_time = microtime(true);
@@ -1310,7 +1310,7 @@ class ModuleHandler extends Handler
 			if ($trigger_name !== 'common.flushDebugInfo')
 			{
 				$trigger_target = $module . ($type === 'class' ? '' : $type) . '.' . $called_method;
-				
+
 				if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
 				{
 					Rhymix\Framework\Debug::addTrigger(array(
@@ -1364,7 +1364,7 @@ class ModuleHandler extends Handler
 				{
 					$trigger_target = 'closure';
 				}
-				
+
 				if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
 				{
 					Rhymix\Framework\Debug::addTrigger(array(

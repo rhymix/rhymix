@@ -133,7 +133,7 @@ class Validator
 
 		$rules = array();
 		$messages = array();
-		
+
 		// custom rules
 		if(isset($xml->ruleset->customrules) && isset($xml->ruleset->customrules->rule))
 		{
@@ -196,7 +196,7 @@ class Validator
 			{
 				$fieldsNames[$name] = $title;
 			}
-			
+
 			unset($filter['name']);
 
 			// conditional statement
@@ -832,10 +832,10 @@ class Validator
 
 		return "(function($,v){\nv=xe.getApp('validator')[0];if(!v)return;\n{$addrules}\nv.cast('ADD_FILTER',['{$ruleset}', {{$content}}]);\n{$messages}\n})(jQuery);";
 	}
-	
+
 	/**
 	 * Polyfill for create_function()
-	 * 
+	 *
 	 * @param mixed $value
 	 * @param string $expression
 	 * @return mixed

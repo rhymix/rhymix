@@ -13,20 +13,20 @@ class Mobile
 	 * @var bool
 	 */
 	protected static $_ismobile = null;
-	
+
 	/**
 	 * Get instance of Mobile class
-	 * 
+	 *
 	 * @return Mobile
 	 */
 	public function getInstance()
 	{
 		return new self();
 	}
-	
+
 	/**
 	 * Get current mobile mode
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isFromMobilePhone()
@@ -36,13 +36,13 @@ class Mobile
 		{
 			return self::$_ismobile;
 		}
-		
+
 		// Not mobile if disabled explicitly.
 		if (!self::isMobileEnabled() || Context::get('full_browse') || ($_COOKIE['FullBrowse'] ?? 0))
 		{
 			return self::$_ismobile = false;
 		}
-		
+
 		// Try to detect from URL arguments and cookies, and finally fall back to user-agent detection.
 		$m = Context::get('m');
 		$cookie = isset($_COOKIE['rx_uatype']) ? $_COOKIE['rx_uatype'] : null;
@@ -55,7 +55,7 @@ class Mobile
 		{
 			$m = substr($cookie, -1);
 		}
-		
+
 		if ($m === '1')
 		{
 			self::$_ismobile = TRUE;
@@ -68,7 +68,7 @@ class Mobile
 		{
 			self::$_ismobile = Rhymix\Framework\UA::isMobile() && (config('mobile.tablets') || !Rhymix\Framework\UA::isTablet());
 		}
-		
+
 		// Set cookie to prevent recalculation.
 		$uatype = $uahash . ':' . (self::$_ismobile ? '1' : '0');
 		if ($cookie !== $uatype)
@@ -76,10 +76,10 @@ class Mobile
 			setcookie('rx_uatype', $uatype, 0, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
 			$_COOKIE['rx_uatype'] = $uatype;
 		}
-		
+
 		return self::$_ismobile;
 	}
-	
+
 	/**
 	 * Get current mobile mode
 	 *
@@ -89,7 +89,7 @@ class Mobile
 	{
 		return self::isFromMobilePhone();
 	}
-	
+
 	/**
 	 * Detect mobile device by user agent
 	 *
@@ -109,7 +109,7 @@ class Mobile
 	{
 		return Rhymix\Framework\UA::isTablet();
 	}
-	
+
 	/**
 	 * Set mobile mode
 	 *
@@ -123,7 +123,7 @@ class Mobile
 
 	/**
 	 * Check if mobile view is enabled
-	 * 
+	 *
 	 * @raturn bool
 	 */
 	public static function isMobileEnabled()

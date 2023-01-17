@@ -57,10 +57,10 @@ class VirtualXMLDisplayHandler
 			$html[] = '  parent.location.href = ' . json_encode($output->url) . ';';
 			$html[] = '}';
 		}
-		
+
 		$html[] = '</script>';
 		$html[] = '</head><body></body></html>';
-		
+
 		return join("\n", $html);
 	}
 

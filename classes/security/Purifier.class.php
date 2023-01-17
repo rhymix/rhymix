@@ -7,7 +7,7 @@ class Purifier
 	{
 		return new self();
 	}
-	
+
 	public function purify(&$content)
 	{
 		$content = Rhymix\Framework\Filters\HTMLFilter::clean($content);

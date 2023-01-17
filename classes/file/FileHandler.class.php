@@ -152,7 +152,7 @@ class FileHandler
 		{
 			return array();
 		}
-		
+
 		$output = array();
 		foreach ($list as $filename)
 		{
@@ -290,12 +290,12 @@ class FileHandler
 				'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
 				'timeout' => $timeout,
 			);
-			
+
 			foreach($headers as $key => $val)
 			{
 				$request_headers[$key] = $val;
 			}
-			
+
 			if(isset($cookies[$host]) && is_array($cookies[$host]))
 			{
 				foreach($cookies[$host] as $key => $val)
@@ -307,17 +307,17 @@ class FileHandler
 			{
 				$request_headers['Cookie'] = implode('; ', $request_cookies);
 			}
-			
+
 			foreach($request_config as $key => $val)
 			{
 				$request_options[$key] = $val;
 			}
-			
+
 			if($content_type)
 			{
 				$request_headers['Content-Type'] = $content_type;
 			}
-			
+
 			if(defined('__PROXY_SERVER__'))
 			{
 				$proxy = parse_url(__PROXY_SERVER__);
@@ -331,7 +331,7 @@ class FileHandler
 					}
 				}
 			}
-			
+
 			$url = str_replace('&amp;', '&', $url);
 			$start_time = microtime(true);
 			$response = Requests::request($url, $request_headers, $body ?: $post_data, $method, $request_options);
@@ -341,12 +341,12 @@ class FileHandler
 				$GLOBALS['__remote_request_elapsed__'] = 0;
 			}
 			$GLOBALS['__remote_request_elapsed__'] += $elapsed_time;
-			
+
 			$log = array();
 			$log['url'] = $url;
 			$log['status'] = $response ? $response->status_code : 0;
 			$log['elapsed_time'] = $elapsed_time;
-			
+
 			if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
 			{
 				if (in_array('slow_remote_requests', config('debug.display_content')))
@@ -373,12 +373,12 @@ class FileHandler
 				}
 				Rhymix\Framework\Debug::addRemoteRequest($log);
 			}
-			
+
 			foreach($response->cookies as $cookie)
 			{
 				$cookies[$host][$cookie->name] = $cookie->value;
 			}
-			
+
 			if($response->success)
 			{
 				if (isset($request_config['filename']))
@@ -420,7 +420,7 @@ class FileHandler
 		{
 			return false;
 		}
-		
+
 		$request_config['filename'] = $target_filename;
 		$success = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers, $cookies, $post_data, $request_config);
 		return $success ? true : false;
@@ -487,7 +487,7 @@ class FileHandler
 
 	/**
 	 * Check if image needs rotation
-	 * 
+	 *
 	 * @param string $filename
 	 * @return int|bool 0, 90, 180, 360, or false
 	 */
@@ -571,7 +571,7 @@ class FileHandler
 			6 => 'bmp',
 			18 => 'webp',
 		);
-		
+
 		$type = isset($typemap[$type]) ? $typemap[$type] : null;
 		if (!$type)
 		{
@@ -583,13 +583,13 @@ class FileHandler
 		{
 			$target_type = 'jpg';
 		}
-		
+
 		// Automatically set resize_height if it is 'auto'
 		if ($resize_height === 'auto')
 		{
 			$resize_height = round($resize_width / ($width / $height));
 		}
-		
+
 		// create temporary image having original type
 		if ($type === 'gif' && function_exists('imagecreatefromgif'))
 		{
@@ -654,7 +654,7 @@ class FileHandler
 				imagefilledrectangle($thumb, 0, 0, $resize_width - 1, $resize_height - 1, imagecolorallocate($thumb, 255, 255, 255));
 			}
 		}
-		
+
 		// Resize the original image and copy it to a temporary image
 		if ($resize_needed)
 		{
@@ -663,7 +663,7 @@ class FileHandler
 			$ratio_y = ($resize_height > 0 && $height > 0) ? $resize_height / $height : 1;
 			$ratio_max = max($ratio_x, $ratio_y);
 			$ratio_min = min($ratio_x, $ratio_y);
-			
+
 			// Determine the X-Y coordinates to copy
 			if ($thumbnail_type === 'stretch')
 			{
@@ -690,16 +690,16 @@ class FileHandler
 				$dst_width = round($width * min(1, $ratio_max));
 				$dst_height = round($height * min(1, $ratio_max));
 			}
-			
+
 			// Adjust for small margins of error
 			if (abs($resize_width - $dst_width) < ($resize_width * 0.02)) $dst_width = $resize_width;
 			if (abs($resize_height - $dst_height) < ($resize_height * 0.02)) $dst_height = $resize_height;
 			$dst_x = round(($resize_width - $dst_width) / 2);
 			$dst_y = round(($resize_height - $dst_height) / 2);
-			
+
 			imagecopyresampled($thumb, $source, $dst_x, $dst_y, 0, 0, $dst_width, $dst_height, $width, $height);
 		}
-		
+
 		// create directory
 		self::makeDir(dirname($target_file));
 
@@ -728,7 +728,7 @@ class FileHandler
 		{
 			return false;
 		}
-		
+
 		imagedestroy($thumb);
 		imagedestroy($source);
 		@chmod($target_file, 0666 & ~Rhymix\Framework\Storage::getUmask());
@@ -748,7 +748,7 @@ class FileHandler
 		{
 			return false;
 		}
-		
+
 		$arr = parse_ini_file($filename, true);
 		return is_array($arr) ? $arr : array();
 	}
@@ -876,7 +876,7 @@ class FileHandler
 
 	/**
 	 * @deprecated
-	 * 
+	 *
 	 * Clears file status cache
 	 *
 	 * @param string|array $target filename or directory
@@ -897,10 +897,10 @@ class FileHandler
 			}
 		}
 	}
-	
+
 	/**
 	 * @deprecated
-	 * 
+	 *
 	 * Invalidates a cached script of OPcache
 	 *
 	 * @param string|array $target filename or directory
@@ -909,7 +909,7 @@ class FileHandler
 	public static function invalidateOpcache($target, $force = true)
 	{
 		static $opcache = null;
-		
+
 		if($opcache === null)
 		{
 			$opcache = function_exists('opcache_invalidate');
@@ -918,7 +918,7 @@ class FileHandler
 		{
 			return;
 		}
-		
+
 		foreach(is_array($target) ? $target : array($target) as $target_item)
 		{
 			if(substr($target_item, -4) === '.php')

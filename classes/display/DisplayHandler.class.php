@@ -57,7 +57,7 @@ class DisplayHandler extends Handler
 		{
 			$handler = new HTMLDisplayHandler();
 		}
-		
+
 		// Handle error location info
 		if ($location = $oModule->get('rx_error_location'))
 		{
@@ -151,16 +151,16 @@ class DisplayHandler extends Handler
 		print $output;
 		print $debug;
 	}
-	
+
 	/**
 	 * Get debug information.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getDebugInfo(&$output = null)
 	{
 		// Check if debugging information has already been printed.
-		
+
 		if (self::$debug_printed)
 		{
 			return;
@@ -169,13 +169,13 @@ class DisplayHandler extends Handler
 		{
 			self::$debug_printed = 1;
 		}
-		
+
 		// Check if debugging is enabled for this request.
 		if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			return;
 		}
-		
+
 		// Do not display debugging information if there is no output.
 		$display_types = config('debug.display_type') ?: [];
 		if ($display_types && !is_array($display_types))
@@ -186,7 +186,7 @@ class DisplayHandler extends Handler
 		{
 			return;
 		}
-		
+
 		// Print debug information.
 		$debug_output = '';
 		$response_type = Context::getResponseMethod();
@@ -234,7 +234,7 @@ class DisplayHandler extends Handler
 						}
 					}
 				}
-				
+
 				switch ($response_type)
 				{
 					case 'HTML':
@@ -293,7 +293,7 @@ class DisplayHandler extends Handler
 				}
 			}
 		}
-		
+
 		return $debug_output;
 	}
 
@@ -323,10 +323,10 @@ class DisplayHandler extends Handler
 	{
 		header("Content-Type: application/json; charset=UTF-8");
 	}
-	
+
 	/**
 	 * print a custom Content-Type header.
-	 * 
+	 *
 	 * @param string $content_type
 	 * @return void
 	 */

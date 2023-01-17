@@ -58,22 +58,22 @@ class Password
 	{
 		return Rhymix\Framework\Password::getRandomPassword($length);
 	}
-	
+
 	public static function createSignature($string)
 	{
 		return Rhymix\Framework\Security::createSignature($string);
 	}
-	
+
 	public static function checkSignature($string, $signature)
 	{
 		return Rhymix\Framework\Security::verifySignature($string, $signature);
 	}
-	
+
 	public static function getSecretKey()
 	{
 		return config('crypto.authentication_key');
 	}
-	
+
 	public static function pbkdf2($password, $salt, $algorithm = 'sha256', $iterations = 8192, $length = 24)
 	{
 		$hash = Rhymix\Framework\Security::pbkdf2($password, $salt, $algorithm, $iterations, $length);

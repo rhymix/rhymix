@@ -4,7 +4,7 @@ class UploadFileFilter
 {
 	/**
 	 * Generic checker
-	 * 
+	 *
 	 * @param string $file
 	 * @param string $filename
 	 * @return bool
@@ -16,7 +16,7 @@ class UploadFileFilter
 		{
 			return false;
 		}
-		
+
 		// Don't check partial uploads (chunks).
 		if (Context::get('act') === 'procFileUpload' && preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE']))
 		{

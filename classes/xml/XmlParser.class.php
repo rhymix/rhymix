@@ -26,7 +26,7 @@ class Xml_Node_
 /**
  * XmlParser class
  * Class parsing a given xmlrpc request and creating a data object
- * @remarks <pre>{ 
+ * @remarks <pre>{
  * This class may drops unsupported xml lanuage attributes when multiple language attributes are given.
  * For example, if 'xml:lang='ko, en, ch, jp..' is given in a xml file, only ko will be left ignoring all other language
  * attributes when kor is only supported language. It seems to work fine now but we did not scrutinze any potential side effects,
@@ -221,8 +221,8 @@ class XeXmlParser
 	}
 
 	/**
-	 * Method to transfer values in an array to a data object       
-	 * @param array $arr data array 
+	 * Method to transfer values in an array to a data object
+	 * @param array $arr data array
 	 * @return Xml_Node_ object
 	 */
 	function _arrToAttrsObj($arr)

@@ -2,7 +2,7 @@
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * An abstract class of (*)Handler 
+ * An abstract class of (*)Handler
  *
  * @author NAVER (developers@xpressengine.com)
  */

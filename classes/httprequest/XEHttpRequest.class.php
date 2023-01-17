@@ -26,7 +26,7 @@ class XEHttpRequest
 	var $m_port;
 
 	/**
-	 * target scheme 
+	 * target scheme
 	 * @var string
 	 */
 	var $m_scheme;

@@ -12,7 +12,7 @@ class CacheHandler extends Handler
 	 * Force file cache.
 	 */
 	protected $_always_use_file = false;
-	
+
 	/**
 	 * Get a instance of CacheHandler(for singleton)
 	 *

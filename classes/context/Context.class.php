@@ -81,7 +81,7 @@ class Context
 	 * @var array
 	 */
 	public $opengraph_metadata = array();
-	
+
 	/**
 	 * Canonical URL
 	 * @var string
@@ -124,7 +124,7 @@ class Context
 	 * @var object
 	 */
 	private static $_instance = null;
-	
+
 	/**
 	 * Flag to prevent calling init() twice
 	 */
@@ -208,7 +208,7 @@ class Context
 	 */
 	private function __construct()
 	{
-		
+
 	}
 
 	/**
@@ -224,16 +224,16 @@ class Context
 			return;
 		}
 		self::$_init_called = true;
-		
+
 		// Obtain a singleton instance if not already given.
 		if(self::$_instance === null)
 		{
 			self::$_instance = self::getInstance();
 		}
-		
+
 		// Load system configuration.
 		self::loadDBInfo();
-		
+
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
@@ -249,7 +249,7 @@ class Context
 			self::setRequestArguments();
 		}
 		self::setUploadInfo();
-		
+
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
 		{
@@ -279,7 +279,7 @@ class Context
 			$site_module_info->is_default_replaced = true;
 			self::set('site_module_info', $site_module_info);
 		}
-		
+
 		// Redirect to SSL if the current domain requires SSL.
 		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && !$site_module_info->is_default_replaced)
 		{
@@ -288,12 +288,12 @@ class Context
 			header('Location: ' . $ssl_url, true, 301);
 			exit;
 		}
-		
+
 		// Load language support.
 		$enabled_langs = self::loadLangSelected();
 		$set_lang_cookie = false;
 		self::set('lang_supported', $enabled_langs);
-		
+
 		if($lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
@@ -318,13 +318,13 @@ class Context
 				$set_lang_cookie = true;
 			}
 		}
-		
+
 		$lang_type = preg_replace('/[^a-zA-Z0-9_-]/', '', $lang_type);
 		if ($set_lang_cookie)
 		{
 			setcookie('lang_type', $lang_type, time() + 86400 * 365, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
 		}
-		
+
 		if(!$lang_type || !isset($enabled_langs[$lang_type]))
 		{
 			if(isset($site_module_info->settings->language) && $site_module_info->settings->language !== 'default')
@@ -346,13 +346,13 @@ class Context
 		$lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
 		self::setLangType(self::$_instance->lang_type = $lang_type);
 		self::set('lang', self::$_instance->lang = $lang);
-		
+
 		// Set global variables for backward compatibility.
 		$GLOBALS['oContext'] = self::$_instance;
 		$GLOBALS['__Context__'] = &self::$_tpl_vars;
 		$GLOBALS['_time_zone'] = config('locale.default_timezone');
 		$GLOBALS['lang'] = &$lang;
-		
+
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
 		{
@@ -363,14 +363,14 @@ class Context
 					array($oSessionController, 'open'), array($oSessionController, 'close'), array($oSessionModel, 'read'), array($oSessionController, 'write'), array($oSessionController, 'destroy'), array($oSessionController, 'gc')
 			);
 		}
-		
+
 		// start session
 		if (\PHP_SAPI !== 'cli')
 		{
 			Rhymix\Framework\Session::checkSSO($site_module_info);
 			Rhymix\Framework\Session::start(false);
 		}
-		
+
 		// start output buffer
 		if (\PHP_SAPI !== 'cli')
 		{
@@ -390,10 +390,10 @@ class Context
 				self::set('logged_info', false);
 			}
 		}
-		
+
 		// start debugging
 		Rhymix\Framework\Debug::isEnabledForCurrentUser();
-		
+
 		// set locations for javascript use
 		$current_url = $request_uri = self::getRequestUri();
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET' && self::$_get_vars)
@@ -413,10 +413,10 @@ class Context
 		}
 		self::set('current_url', $current_url);
 		self::set('request_uri', $request_uri);
-		
+
 		// set mobile status
 		self::set('m', Mobile::isFromMobilePhone() ? 1 : 0);
-		
+
 		// If the site is locked, display the locked page.
 		if(config('lock.locked'))
 		{
@@ -426,7 +426,7 @@ class Context
 
 	/**
 	 * Get the session status
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function getSessionStatus()
@@ -436,7 +436,7 @@ class Context
 
 	/**
 	 * Start the session if $_SESSION was touched
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function checkSessionStatus($force = false)
@@ -456,7 +456,7 @@ class Context
 		{
 			DisplayHandler::getDebugInfo();
 		}
-		
+
 		// Check session status and close it if open.
 		if (Rhymix\Framework\Session::checkStart())
 		{
@@ -500,7 +500,7 @@ class Context
 		{
 			$config = Rhymix\Framework\Config::getAll();
 		}
-		
+
 		// Copy to old format for backward compatibility.
 		self::$_instance->db_info = new stdClass;
 		if (is_array($config) && count($config))
@@ -582,12 +582,12 @@ class Context
 		{
 			return $default_url;
 		}
-		
+
 		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
 		}
-		
+
 		$prefix = ($site_module_info->security !== 'none' || $use_ssl) ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
 		$port = ($prefix === 'https://') ? $site_module_info->https_port : $site_module_info->http_port;
@@ -751,7 +751,7 @@ class Context
 
 	/**
 	 * Return site title
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getSiteTitle()
@@ -766,10 +766,10 @@ class Context
 			return '';
 		}
 	}
-	
+
 	/**
 	 * Return site subtitle
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getSiteSubtitle()
@@ -808,13 +808,13 @@ class Context
 			$path = \RX_BASEDIR . $matches[1] . '/' . $matches[2] . '/lang';
 			$plugin_name = $matches[2];
 		}
-		
+
 		if (!(($GLOBALS['lang'] ?? null) instanceof Rhymix\Framework\Lang))
 		{
 			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
 			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		
+
 		return $GLOBALS['lang']->loadDirectory($path, $plugin_name);
 	}
 
@@ -830,7 +830,7 @@ class Context
 		{
 			self::$_instance->db_info = new stdClass;
 		}
-		
+
 		self::$_instance->db_info->lang_type = $lang_type;
 		self::$_instance->lang_type = $lang_type;
 		self::set('lang_type', $lang_type);
@@ -864,7 +864,7 @@ class Context
 			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
 			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		
+
 		return $GLOBALS['lang']->get($code);
 	}
 
@@ -882,7 +882,7 @@ class Context
 			$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(self::$_instance->lang_type ?: config('locale.default_lang') ?: 'ko');
 			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
-		
+
 		$GLOBALS['lang']->set($code, $val);
 	}
 
@@ -900,7 +900,7 @@ class Context
 				$lang = ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
 			}
 		}
-		
+
 		return preg_replace_callback('/\$user_lang->([a-zA-Z0-9\_]+)/', function($matches) use($lang) {
 			if(isset($lang[$matches[1]]) && !self::get($matches[1]))
 			{
@@ -912,7 +912,7 @@ class Context
 			}
 		}, $output);
 	}
-	
+
 	/**
 	 * Convert strings of variables in $source_object into UTF-8
 	 *
@@ -1017,7 +1017,7 @@ class Context
 
 	/**
 	 * Encode UTF-8 domain into IDNA (punycode)
-	 * 
+	 *
 	 * @param string $domain Domain to convert
 	 * @return string Converted string
 	 */
@@ -1028,7 +1028,7 @@ class Context
 
 	/**
 	 * Convert IDNA (punycode) domain into UTF-8
-	 * 
+	 *
 	 * @param string $domain Domain to convert
 	 * @return string Converted string
 	 */
@@ -1116,7 +1116,7 @@ class Context
 		{
 			self::$_instance->request_method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 		}
-		
+
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST')
 		{
 			// Set variables for XE compatibility.
@@ -1132,7 +1132,7 @@ class Context
 				{
 					$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 				}
-				
+
 				// Check the Content-Type header for a hint of JSON.
 				foreach (array('HTTP_ACCEPT', 'HTTP_CONTENT_TYPE', 'CONTENT_TYPE') as $header)
 				{
@@ -1142,7 +1142,7 @@ class Context
 						return;
 					}
 				}
-				
+
 				// Decide whether it's JSON or XMLRPC by looking at the first character of the POST data.
 				if (!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
@@ -1170,7 +1170,7 @@ class Context
 				$request_args[$key] = $val;
 			}
 		}
-		
+
 		// Set JSON and XMLRPC arguments.
 		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
@@ -1199,7 +1199,7 @@ class Context
 					parse_str($GLOBALS['HTTP_RAW_POST_DATA'], $params);
 				}
 			}
-			
+
 			foreach($params as $key => $val)
 			{
 				if ($val !== '' && $val !== null && !isset($request_args[$key]))
@@ -1207,13 +1207,13 @@ class Context
 					$request_args[$key] = $val;
 				}
 			}
-			
+
 			if (!empty($params['_rx_csrf_token']) && !isset($_REQUEST['_rx_csrf_token']))
 			{
 				$_REQUEST['_rx_csrf_token'] = $params['_rx_csrf_token'];
 			}
 		}
-		
+
 		// Filter all arguments and set them to Context.
 		foreach($request_args as $key => $val)
 		{
@@ -1225,10 +1225,10 @@ class Context
 			}
 		}
 	}
-	
+
 	/**
 	 * Handle uploaded file info.
-	 * 
+	 *
 	 * @return void
 	 */
 	private static function setUploadInfo()
@@ -1302,7 +1302,7 @@ class Context
 
 	/**
 	 * Check if a value (or array of values) matches a pattern defined in this class.
-	 * 
+	 *
 	 * @param mixed $val Values to check
 	 * @return bool
 	 */
@@ -1334,7 +1334,7 @@ class Context
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -1355,7 +1355,7 @@ class Context
 		foreach($val as $_key => $_val)
 		{
 			unset($_val->node_name, $_val->attrs);
-			
+
 			$args = new stdClass;
 			foreach((array)$_val as $name => $node)
 			{
@@ -1363,7 +1363,7 @@ class Context
 				{
 					$node = array($node);
 				}
-				
+
 				if($name == 'body' && count((array)$_val) === 1)
 				{
 					$_val = self::_filterRequestVar($key, $node);
@@ -1381,7 +1381,7 @@ class Context
 			}
 			$result[escape($_key)] = !empty((array)$args) ? $args : $_val;
 		}
-		
+
 		return $is_array ? $result : $result[0];
 	}
 
@@ -1399,7 +1399,7 @@ class Context
 		{
 			return;
 		}
-		
+
 		$result = array();
 		if(!$is_array = is_array($val))
 		{
@@ -1438,7 +1438,7 @@ class Context
 			$result[escape($_key)] = $_val;
 			self::_recursiveCheckVar($_val);
 		}
-		
+
 		return $is_array ? $result : $result[0];
 	}
 
@@ -1477,7 +1477,7 @@ class Context
 		{
 			return;
 		}
-		
+
 		// Allow if the current user is in the list of allowed IPs.
 		if (PHP_SAPI === 'cli')
 		{
@@ -1487,7 +1487,7 @@ class Context
 		{
 			return;
 		}
-		
+
 		// Set headers and constants for backward compatibility.
 		header('HTTP/1.1 503 Service Unavailable');
 		define('_XE_SITELOCK_', TRUE);
@@ -1495,7 +1495,7 @@ class Context
 		define('_XE_SITELOCK_MESSAGE_', config('lock.message'));
 		unset($_SESSION['XE_VALIDATOR_RETURN_URL']);
 		self::$_instance->is_site_locked = true;
-		
+
 		// Load the sitelock template.
 		if(FileHandler::exists(RX_BASEDIR . 'common/tpl/sitelock.user.html'))
 		{
@@ -1507,10 +1507,10 @@ class Context
 		}
 		exit;
 	}
-	
+
 	/**
 	 * Display a generic error page and exit.
-	 * 
+	 *
 	 * @param string $title
 	 * @param string $message
 	 * @return void
@@ -1519,11 +1519,11 @@ class Context
 	{
 		// Change current directory to the Rhymix installation path.
 		chdir(\RX_BASEDIR);
-		
+
 		// Set the title.
 		self::setBrowserTitle(self::getSiteTitle());
 		self::addBrowserTitle($title);
-		
+
 		// Set the message.
 		$oMessageObject = getView('message');
 		$oMessageObject->setError(-1);
@@ -1531,7 +1531,7 @@ class Context
 		{
 			$oMessageObject->setHttpStatusCode($status);
 		}
-		
+
 		// Find out the caller's location.
 		if (!$location)
 		{
@@ -1543,7 +1543,7 @@ class Context
 				$location = substr($location, strlen(\RX_BASEDIR));
 			}
 		}
-		
+
 		if (in_array(self::getRequestMethod(), array('XMLRPC', 'JSON', 'JS_CALLBACK')))
 		{
 			$oMessageObject->setMessage(trim($title . "\n\n" . $message));
@@ -1553,7 +1553,7 @@ class Context
 			$oMessageObject->setMessage($title);
 			$oMessageObject->dispMessage($message, $location);
 		}
-		
+
 		// Display the message.
 		$oModuleHandler = new ModuleHandler;
 		$oModuleHandler->displayContent($oMessageObject);
@@ -1610,7 +1610,7 @@ class Context
 		{
 			$rewrite_level = Rhymix\Framework\Router::getRewriteLevel();
 		}
-		
+
 		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
@@ -1697,12 +1697,12 @@ class Context
 				}
 			}
 		}
-		
+
 		// remove vid, rnd, error_return_url
 		unset($get_vars['error_return_url']);
 		unset($get_vars['rnd']);
 		unset($get_vars['vid']);
-		
+
 		// for compatibility to lower versions
 		$act = $get_vars['act'] ?? null;
 		$act_alias = array(
@@ -1715,7 +1715,7 @@ class Context
 		{
 			$get_vars['act'] = $act_alias[$act];
 		}
-		
+
 		// Don't use full short URL for admin pages #1643
 		if (isset($get_vars['module']) && $get_vars['module'] === 'admin' && $rewrite_level > 1)
 		{
@@ -1725,14 +1725,14 @@ class Context
 		{
 			$force_rewrite_level = 0;
 		}
-		
+
 		// organize URL
 		$query = '';
 		if(count($get_vars) > 0)
 		{
 			$query = Rhymix\Framework\Router::getURL($get_vars, $force_rewrite_level ?: $rewrite_level);
 		}
-		
+
 		// If using SSL always
 		if($site_module_info->security !== 'none')
 		{
@@ -1833,7 +1833,7 @@ class Context
 			}
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}
-		
+
 		$prefix = ($use_ssl || $site_module_info->security !== 'none') ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
 		$port = ($use_ssl || $site_module_info->security !== 'none') ? $site_module_info->https_port : $site_module_info->http_port;
@@ -1856,7 +1856,7 @@ class Context
 			trigger_error('Called Context::set() with an empty key', \E_USER_WARNING);
 			return;
 		}
-		
+
 		self::$_tpl_vars->{$key} = $val;
 
 		if($set_to_get_vars || isset(self::$_get_vars->{$key}))
@@ -1885,7 +1885,7 @@ class Context
 			trigger_error('Called Context::get() with an empty key', \E_USER_WARNING);
 			return;
 		}
-		
+
 		if(isset(self::$_tpl_vars->{$key}))
 		{
 			return self::$_tpl_vars->{$key};
@@ -1949,7 +1949,7 @@ class Context
 
 	/**
 	 * Clear all values from GET/POST/XMLRPC
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearRequestVars()
@@ -1959,7 +1959,7 @@ class Context
 
 	/**
 	 * Clear all user-set values
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearUserVars()
@@ -1976,7 +1976,7 @@ class Context
 	 */
 	public static function addSSLAction($action)
 	{
-		
+
 	}
 
 	/**
@@ -1988,7 +1988,7 @@ class Context
 	 */
 	public static function addSSLActions($action_array)
 	{
-		
+
 	}
 
 	/**
@@ -2000,7 +2000,7 @@ class Context
 	 */
 	public static function subtractSSLAction($action)
 	{
-		
+
 	}
 
 	/**
@@ -2092,7 +2092,7 @@ class Context
 		{
 			$args = func_get_args();
 		}
-		
+
 		self::$_oFrontEndFileHandler->loadFile($args);
 	}
 
@@ -2419,7 +2419,7 @@ class Context
 
 	/**
 	 * Remove all content added by addHtmlHeader()
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearHtmlHeader()
@@ -2544,7 +2544,7 @@ class Context
 
 	/**
 	 * Set a validator message
-	 * 
+	 *
 	 * @param string $id
 	 * @param string $message
 	 * @param string $type (optional)
@@ -2601,7 +2601,7 @@ class Context
 
 	/**
 	 * Check whether an addon, layout, module, or widget is distributed with Rhymix core.
-	 * 
+	 *
 	 * @param string $plugin_name
 	 * @param string $type
 	 * @return bool
@@ -2616,13 +2616,13 @@ class Context
 				self::$_default_plugins = array();
 			}
 		}
-		
+
 		return isset(self::$_default_plugins[$type][$plugin_name]);
 	}
-	
+
 	/**
 	 * Check whether an addon, module, or widget is blacklisted
-	 * 
+	 *
 	 * @param string $plugin_name
 	 * @param string $type
 	 * @return bool
@@ -2637,7 +2637,7 @@ class Context
 				self::$_blacklist = array();
 			}
 		}
-		
+
 		if ($type)
 		{
 			return isset(self::$_blacklist[$type][$plugin_name]);
@@ -2657,7 +2657,7 @@ class Context
 
 	/**
 	 * Check whether a word is reserved in Rhymix
-	 * 
+	 *
 	 * @param string $word
 	 * @return bool
 	 */
@@ -2671,7 +2671,7 @@ class Context
 				self::$_reserved_words = array();
 			}
 		}
-		
+
 		return isset(self::$_reserved_words[$word]);
 	}
 
@@ -2734,7 +2734,7 @@ class Context
 
 	/**
 	 * Get meta tag
-	 * 
+	 *
 	 * @param string $name (optional)
 	 * @return array The list of meta tags
 	 */
@@ -2744,7 +2744,7 @@ class Context
 		{
 			return isset(self::$_instance->meta_tags[$name]) ? self::$_instance->meta_tags[$name]['content'] : null;
 		}
-		
+
 		$ret = array();
 		foreach(self::$_instance->meta_tags as $name => $content)
 		{
@@ -2769,17 +2769,17 @@ class Context
 			'content' => self::replaceUserLang($content),
 		);
 	}
-	
+
 	/**
 	 * Get meta images
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getMetaImages()
 	{
 		return self::$_instance->meta_images;
 	}
-	
+
 	/**
 	 * Add meta image
 	 *
@@ -2805,10 +2805,10 @@ class Context
 			'height' => $height,
 		);
 	}
-	
+
 	/**
 	 * Get OpenGraph metadata
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getOpenGraphData()
@@ -2824,10 +2824,10 @@ class Context
 		}
 		return $ret;
 	}
-	
+
 	/**
 	 * Add OpenGraph metadata
-	 * 
+	 *
 	 * @param string $name
 	 * @param mixed $content
 	 * @return void
@@ -2846,10 +2846,10 @@ class Context
 			self::$_instance->opengraph_metadata[] = array($name, $content);
 		}
 	}
-	
+
 	/**
 	 * Set canonical URL
-	 * 
+	 *
 	 * @param string $url
 	 * @return void
 	 */
@@ -2858,10 +2858,10 @@ class Context
 		self::$_instance->canonical_url = escape($url, false);
 		self::addOpenGraphData('og:url', self::$_instance->canonical_url);
 	}
-	
+
 	/**
 	 * Get canonical URL
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getCanonicalURL()

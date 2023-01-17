@@ -45,7 +45,7 @@ class ExtraVar
 
 	/**
 	 * Register a key of extra variable
-	 * 
+	 *
 	 * @param object[] $extra_keys Array of extra variable. A value of array is object that contains module_srl, idx, name, default, desc, is_required, search, value, eid.
 	 * @return void
 	 */
@@ -359,13 +359,13 @@ class ExtraItem
 				return $country_name;
 			case 'textarea' :
 				return nl2br($value);
-				
+
 			case 'date' :
 				return $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 
 			case 'language':
 				return Rhymix\Framework\Lang::getSupportedList()[$value]['name'];
-				
+
 			case 'timezone':
 				return Rhymix\Framework\DateTime::getTimezoneList()[$value];
 			case 'checkbox' :
@@ -480,7 +480,7 @@ class ExtraItem
 					{
 						$selected = ' selected="selected"';
 					}
-					
+
 					$buff[] = '  <option value="' . $lang_type . '" ' . $selected . '>' . $supported_lang[$lang_type]['name'] . '</option>';
 				}
 				$buff[] = '</select>';
@@ -560,7 +560,7 @@ class ExtraItem
 				Context::loadJavascriptPlugin('ui.datepicker');
 
 				$formattedValue = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
-				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />'; 
+				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />';
 				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . $formattedValue . '" class="date" autocomplete="off" />';
 				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
 				$buff[] =	'<script type="text/javascript">';
@@ -600,7 +600,7 @@ class ExtraItem
 		{
 			$buff[] = '<p>' . escape(Context::replaceUserLang($this->desc), false) . '</p>';
 		}
-		
+
 		return join("\n", $buff);
 	}
 

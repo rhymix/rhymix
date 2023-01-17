@@ -21,7 +21,7 @@ class TemplateHandler
 	private $skipTags = NULL;
 	private $handler_mtime = 0;
 	private static $rootTpl = NULL;
-	
+
 	/**
 	 * Context variables accessible as $this in template files
 	 */
@@ -66,7 +66,7 @@ class TemplateHandler
 
 	/**
 	 * Reset all instance properties to the default state.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function resetState()
@@ -166,7 +166,7 @@ class TemplateHandler
 		}
 
 		$latest_mtime = max(filemtime($this->file), $this->handler_mtime);
-		
+
 		// make compiled file
 		if(!file_exists($this->compiled_file) || filemtime($this->compiled_file) < $latest_mtime)
 		{
@@ -180,14 +180,14 @@ class TemplateHandler
 					trigger_error($error_message, \E_USER_WARNING);
 					return escape($error_message);
 				}
-				
+
 				$this->compiled_file = $tmpfilename;
 			}
 		}
-		
+
 		Rhymix\Framework\Debug::addFilenameAlias($this->file, $this->compiled_file);
 		$output = $this->_fetch($this->compiled_file);
-		
+
 		// delete tmpfile
 		if(isset($tmpfilename))
 		{
@@ -326,7 +326,7 @@ class TemplateHandler
 		{
 			$autoform = true;
 		}
-		
+
 		// form ruleset attribute move to hidden tag
 		if ($autoform && $matches[1])
 		{
@@ -399,7 +399,7 @@ class TemplateHandler
 				$matches[1] = preg_replace('/no-(?:error-)?return-url="true"/i', '', $matches[1]);
 			}
 		}
-		
+
 		array_shift($matches);
 		return implode('', $matches);
 	}
@@ -415,28 +415,28 @@ class TemplateHandler
 		$__Context = Context::getAll();
 		$__Context->tpl_path = $this->path;
 		global $lang;
-		
+
 		// Start the output buffer.
 		$__ob_level_before_fetch = ob_get_level();
 		ob_start();
-		
+
 		// Include the compiled template.
 		include $filename;
-		
+
 		// Fetch contents of the output buffer until the buffer level is the same as before.
 		$contents = '';
 		while (ob_get_level() > $__ob_level_before_fetch)
 		{
 			$contents .= ob_get_clean();
 		}
-		
+
 		// Insert template path comment tag.
 		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
 		{
 			$sign = "\n" . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . "\n";
 			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
 		}
-		
+
 		return $contents;
 	}
 
@@ -525,11 +525,11 @@ class TemplateHandler
 	{
 		// list of self closing tags
 		$self_closing = array('area' => 1, 'base' => 1, 'basefont' => 1, 'br' => 1, 'hr' => 1, 'input' => 1, 'img' => 1, 'link' => 1, 'meta' => 1, 'param' => 1, 'frame' => 1, 'col' => 1);
-		
+
 		$skip = $this->skipTags ? sprintf('(?!%s)', implode('|', $this->skipTags)) : '';
 		$split_regex = "@(</?{$skip}[a-zA-Z](?>[^<>{}\"]+|<!--.*?-->.*?<!--.*?end-->|{[^}]*}|\"(?>'.*?'|.)*?\"|.)*?>)@s";
 		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
-		
+
 		for($idx = 1, $node_len = count($nodes); $idx < $node_len; $idx+=2)
 		{
 			if(!($node = $nodes[$idx]))
@@ -652,7 +652,7 @@ class TemplateHandler
 			{
 				return $m[0];
 			}
-			
+
 			if($m[1][0] == '@')
 			{
 				$m[1] = self::_replaceVar(substr($m[1], 1));
@@ -677,7 +677,7 @@ class TemplateHandler
 				{
 					$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
 				}
-				
+
 				// Separate filters from variable.
 				if (preg_match('@^(.+?)(?<![|\s])((?:\|[a-z]{2}[a-z0-9_]+(?::.+)?)+)$@', $m[1], $mm))
 				{
@@ -688,10 +688,10 @@ class TemplateHandler
 				{
 					$filters = array();
 				}
-				
+
 				// Process the variable.
 				$var = self::_replaceVar($m[1]);
-				
+
 				// Apply filters.
 				foreach ($filters as $filter)
 				{
@@ -713,7 +713,7 @@ class TemplateHandler
 					{
 						$filter_option = null;
 					}
-					
+
 					// Apply each filter.
 					switch ($filter)
 					{
@@ -724,60 +724,60 @@ class TemplateHandler
 						case 'noescape':
 							$escape_option = $filter;
 							break;
-							
+
 						case 'escapejs':
 							$var = "escape_js({$var})";
 							break;
-							
+
 						case 'json':
 							$var = "json_encode({$var})";
 							break;
-							
+
 						case 'strip':
 						case 'strip_tags':
 							$var = $filter_option ? "strip_tags({$var}, {$filter_option})" : "strip_tags({$var})";
 							break;
-							
+
 						case 'trim':
 							$var = "trim({$var})";
 							break;
-							
+
 						case 'urlencode':
 							$var = "rawurlencode({$var})";
 							break;
-							
+
 						case 'lower':
 							$var = "strtolower({$var})";
 							break;
-							
+
 						case 'upper':
 							$var = "strtoupper({$var})";
 							break;
-							
+
 						case 'nl2br':
 							$var = $this->_applyEscapeOption($var, $escape_option);
 							$var = "nl2br({$var})";
 							$escape_option = 'noescape';
 							break;
-							
+
 						case 'join':
 							$var = $filter_option ? "implode({$filter_option}, {$var})" : "implode(', ', {$var})";
 							break;
-							
+
 						case 'date':
 							$var = $filter_option ? "getDisplayDateTime(ztime({$var}), {$filter_option})" : "getDisplayDateTime(ztime({$var}), 'Y-m-d H:i:s')";
 							break;
-							
+
 						case 'format':
 						case 'number_format':
 							$var = $filter_option ? "number_format({$var}, {$filter_option})" : "number_format({$var})";
 							break;
-						
-						case 'shorten':						
+
+						case 'shorten':
 						case 'number_shorten':
 							$var = $filter_option ? "number_shorten({$var}, {$filter_option})" : "number_shorten({$var})";
 							break;
-							
+
 						case 'link':
 							$var = $this->_applyEscapeOption($var, $escape_option);
 							if ($filter_option)
@@ -791,13 +791,13 @@ class TemplateHandler
 							}
 							$escape_option = 'noescape';
 							break;
-							
+
 						default:
 							$filter = escape_sqstr($filter);
 							$var = "'INVALID FILTER ({$filter})'";
 					}
 				}
-				
+
 				// Apply the escape option and return.
 				return '<?php echo ' . $this->_applyEscapeOption($var, $escape_option) . ' ?>';
 			}
@@ -1035,7 +1035,7 @@ class TemplateHandler
 		{
 			$str = "$str ?? ''";
 		}
-		
+
 		switch($escape_option)
 		{
 			case 'escape':
@@ -1089,10 +1089,10 @@ class TemplateHandler
 
 		return $path;
 	}
-	
+
 	/**
 	 * Check if a string seems to contain a variable.
-	 * 
+	 *
 	 * @param string $str
 	 * @return bool
 	 */
@@ -1103,7 +1103,7 @@ class TemplateHandler
 
 	/**
 	 * Replace PHP variables of $ character
-	 * 
+	 *
 	 * @param string $php
 	 * @return string
 	 */
@@ -1113,12 +1113,12 @@ class TemplateHandler
 		{
 			return '';
 		}
-		
+
 		// Replace variables that need to be enclosed in curly braces, using temporary entities to prevent double-replacement.
 		$php = preg_replace_callback('@(?<!\$__Context)->\$([a-z_][a-z0-9_]*)@i', function($matches) {
 			return '->' . self::_getTempEntityForChar('{') . '$__Context->' . $matches[1] . self::_getTempEntityForChar('}');
 		}, $php);
-		
+
 		// Replace all other variables with Context attributes.
 		$php = preg_replace_callback('@(?<!::|\\\\|\$__Context->|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', function($matches) {
 			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|_SESSION|__Context|this|lang)$/', $matches[1]))
@@ -1130,13 +1130,13 @@ class TemplateHandler
 				return '$__Context->' . $matches[1];
 			}
 		}, $php);
-		
+
 		return $php;
 	}
-	
+
 	/**
 	 * Replace temporary entities to curly braces.
-	 * 
+	 *
 	 * @param string $str
 	 * @return string
 	 */
@@ -1147,10 +1147,10 @@ class TemplateHandler
 			'&#x1B;&#x7D;' => '}',
 		]);
 	}
-	
+
 	/**
 	 * Get the temporary entity for a character.
-	 * 
+	 *
 	 * @param string $char
 	 * @return string
 	 */
