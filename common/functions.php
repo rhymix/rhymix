@@ -623,6 +623,7 @@ function utf8_check($str)
 function utf8_clean($str)
 {
 	// Check if the input is a valid UTF-8 string.
+	$str = (string)$str;
     if (!utf8_check($str))
     {
         $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
