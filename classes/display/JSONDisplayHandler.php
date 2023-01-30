@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class JSONDisplayHandler
 {
@@ -74,5 +73,3 @@ class JSONDisplayHandler
 		return true;
 	}
 }
-/* End of file JSONDisplayHandler.class.php */
-/* Location: ./classes/display/JSONDisplayHandler.class.php */

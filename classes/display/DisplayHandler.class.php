@@ -1,13 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class DisplayHandler
+ * DisplayHandler
+ *
  * @author NAVER (developers@xpressengine.com)
- *  DisplayHandler is responsible for displaying the execution result. \n
- *  Depending on the request type, it can display either HTML or XML content.\n
- *  Xml content is simple xml presentation of variables in oModule while html content
- *   is the combination of the variables of oModue and template files/.
  */
 class DisplayHandler extends Handler
 {
@@ -347,5 +343,3 @@ class DisplayHandler extends Handler
 	}
 
 }
-/* End of file DisplayHandler.class.php */
-/* Location: ./classes/display/DisplayHandler.class.php */

@@ -1,13 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class TemplateHandler
+ * Template compiler
+ *
  * @author NAVER (developers@xpressengine.com)
- * template compiler
- * @version 0.1
- * @remarks It compiles template file by using regular expression into php
- *          code, and XE caches compiled code for further uses
  */
 class TemplateHandler
 {
@@ -1159,5 +1155,3 @@ class TemplateHandler
 		return '&#x1B;&#x' . strtoupper(bin2hex($char)) . ';';
 	}
 }
-/* End of File: TemplateHandler.class.php */
-/* Location: ./classes/template/TemplateHandler.class.php */

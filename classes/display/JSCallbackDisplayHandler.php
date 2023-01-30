@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class JSCallbackDisplayHandler
 {
@@ -21,5 +20,3 @@ class JSCallbackDisplayHandler
 </script>', Context::getJSCallbackFunc(), json_encode($variables));
 	}
 }
-/* End of file JSCallback.class.php */
-/* Location: ./classes/display/JSCallback.class.php */

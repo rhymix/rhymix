@@ -1,14 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class PageHandler
- * @author NAVER (developers@xpressengine.com)
- * handles page navigation
- * @version 0.1
+ * PageHandler
  *
- * @remarks Getting total counts, number of pages, current page number, number of items per page,
- *          this class implements methods and contains variables for page navigation
+ * @author NAVER (developers@xpressengine.com)
  */
 class PageHandler extends Handler implements Iterator
 {
@@ -146,5 +141,3 @@ class PageHandler extends Handler implements Iterator
 		$this->point++;
 	}
 }
-/* End of file PageHandler.class.php */
-/* Location: ./classes/page/PageHandler.class.php */

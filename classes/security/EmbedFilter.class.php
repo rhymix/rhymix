@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class EmbedFilter
 {
@@ -77,5 +76,3 @@ class EmbedFilter
 		// This functionality has been moved to the HTMLFilter class.
 	}
 }
-/* End of file : EmbedFilter.class.php */
-/* Location: ./classes/security/EmbedFilter.class.php */

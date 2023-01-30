@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * GeneralXmlParser class
@@ -102,5 +101,3 @@ class GeneralXmlParser
 	}
 
 }
-/* End of file GeneralXmlParser.class.php */
-/* Location: ./classes/xml/GeneralXmlParser.class.php */

@@ -1,10 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class ModuleObject
+ * ModuleObject
+ *
  * @author NAVER (developers@xpressengine.com)
- * base class of ModuleHandler
  */
 class ModuleObject extends BaseObject
 {
@@ -784,5 +783,3 @@ class ModuleObject extends BaseObject
 		}
 	}
 }
-/* End of file ModuleObject.class.php */
-/* Location: ./classes/module/ModuleObject.class.php */

@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Contains methods for accessing file system
@@ -932,6 +931,3 @@ class FileHandler
 		}
 	}
 }
-
-/* End of file FileHandler.class.php */
-/* Location: ./classes/file/FileHandler.class.php */

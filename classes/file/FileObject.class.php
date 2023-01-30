@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * File abstraction class
@@ -158,5 +157,3 @@ class FileObject extends BaseObject
 	}
 
 }
-/* End of file FileObject.class.php */
-/* Location: ./classes/file/FileObject.class.php */

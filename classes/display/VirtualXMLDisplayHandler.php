@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class VirtualXMLDisplayHandler
 {
@@ -65,5 +64,3 @@ class VirtualXMLDisplayHandler
 	}
 
 }
-/* End of file VirtualXMLDisplayHandler.class.php */
-/* Location: ./classes/display/VirtualXMLDisplayHandler.class.php */

@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class XMLDisplayHandler
 {
@@ -63,5 +62,3 @@ class XMLDisplayHandler
 	}
 
 }
-/* End of file XMLDisplayHandler.class.php */
-/* Location: ./classes/display/XMLDisplayHandler.class.php */

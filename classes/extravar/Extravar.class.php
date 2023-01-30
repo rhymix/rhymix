@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * A class to handle extra variables used in posts, member and others
@@ -605,5 +604,3 @@ class ExtraItem
 	}
 
 }
-/* End of file ExtraVar.class.php */
-/* Location: ./classes/extravar/ExtraVar.class.php */

@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Handle front end files
@@ -770,5 +769,3 @@ class FrontEndFileHandler extends Handler
 		}
 	}
 }
-/* End of file FrontEndFileHandler.class.php */
-/* Location: ./classes/frontendfile/FrontEndFileHandler.class.php */

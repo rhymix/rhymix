@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Every module inherits from BaseObject class.
@@ -323,6 +322,3 @@ class BaseObject
 		return $this->toBool();
 	}
 }
-
-/* End of file Object.class.php */
-/* Location: ./classes/object/Object.class.php */

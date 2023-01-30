@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * XmlGenerator class
@@ -72,5 +71,3 @@ class XmlGenerator
 	}
 
 }
-/* End of file XmlGenerator.class.php */
-/* Location: ./classes/xml/XmlGenerator.class.php */

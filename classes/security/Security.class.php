@@ -1,12 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * - Security class
- * - This class helps to solve security problems.
+ * Security class
+ *
  * @author NAVER (developers@xpressengine.com)
- * @package /classes/security
- * @version 0.1
  */
 class Security
 {
@@ -188,5 +185,3 @@ class Security
 		return !Rhymix\Framework\Security::checkXXE($xml);
 	}
 }
-/* End of file : Security.class.php */
-/* Location: ./classes/security/Security.class.php */

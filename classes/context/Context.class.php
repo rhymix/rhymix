@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Manages Context such as request arguments/environment variables
@@ -2869,5 +2868,3 @@ class Context
 		return self::$_instance->canonical_url;
 	}
 }
-/* End of file Context.class.php */
-/* Location: ./classes/context/Context.class.php */

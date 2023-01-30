@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * - HttpRequest class
@@ -255,5 +254,3 @@ class XEHttpRequest
 	}
 
 }
-/* End of file XEHttpRequest.class.php */
-/* Location: ./classes/httprequest/XEHttpRequest.class.php */

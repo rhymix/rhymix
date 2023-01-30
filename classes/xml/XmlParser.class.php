@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Xml_Node_ class
@@ -245,6 +244,3 @@ if (!class_exists('XmlParser', false))
 {
 	class_alias('XeXmlParser', 'XmlParser');
 }
-
-/* End of file XmlParser.class.php */
-/* Location: ./classes/xml/XmlParser.class.php */

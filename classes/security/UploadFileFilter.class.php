@@ -27,6 +27,3 @@ class UploadFileFilter
 		return Rhymix\Framework\Filters\FileContentFilter::check($file, $filename);
 	}
 }
-
-/* End of file : UploadFileFilter.class.php */
-/* Location: ./classes/security/UploadFileFilter.class.php */

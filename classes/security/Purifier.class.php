@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class Purifier
 {
@@ -14,5 +13,3 @@ class Purifier
 	}
 
 }
-/* End of file : Purifier.class.php */
-/* Location: ./classes/security/Purifier.class.php */

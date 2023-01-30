@@ -1372,6 +1372,3 @@ function reload($isOpener = FALSE)
 	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
 	echo sprintf('<script> %s </script>', $reloadScript);
 }
-
-/* End of file func.inc.php */
-/* Location: ./config/func.inc.php */

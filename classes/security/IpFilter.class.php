@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class IpFilter
 {
@@ -15,6 +14,3 @@ class IpFilter
 	}
 
 }
-
-/* End of file : IpFilter.class.php */
-/* Location: ./classes/security/IpFilter.class.php */

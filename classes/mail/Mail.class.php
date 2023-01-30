@@ -2,8 +2,6 @@
 
 /**
  * Mail class for XE Compatibility
- *
- * @author Kijin Sung <kijin@kijinsung.com>
  */
 class Mail extends Rhymix\Framework\Mail
 {
@@ -241,5 +239,3 @@ class Mail extends Rhymix\Framework\Mail
 	}
 
 }
-/* End of file Mail.class.php */
-/* Location: ./classes/mail/Mail.class.php */

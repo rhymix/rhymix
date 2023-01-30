@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * CacheHandler
@@ -158,6 +157,3 @@ class CacheHandler extends Handler
 		return Rhymix\Framework\Cache::clearGroup($keyGroupName);
 	}
 }
-
-/* End of file CacheHandler.class.php */
-/* Location: ./classes/cache/CacheHandler.class.php */

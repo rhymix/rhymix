@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class HTMLDisplayHandler
 {
@@ -734,5 +733,3 @@ class HTMLDisplayHandler
 		}
 	}
 }
-/* End of file HTMLDisplayHandler.class.php */
-/* Location: ./classes/display/HTMLDisplayHandler.class.php */

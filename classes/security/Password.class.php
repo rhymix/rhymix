@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class Password
 {
@@ -91,5 +90,3 @@ class Password
 		return Rhymix\Framework\Security::compareStrings($a, $b);
 	}
 }
-/* End of file : Password.class.php */
-/* Location: ./classes/security/Password.class.php */

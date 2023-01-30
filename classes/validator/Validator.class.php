@@ -1,11 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Validator class
+ *
  * @author NAVER (developers@xpressengine.com)
- * @package /classes/validator
- * @version 0.1
  */
 class Validator
 {
@@ -853,5 +851,3 @@ class Validator
 	}
 
 }
-/* End of file Validator.class.php */
-/* Location: ./classes/validator/Validator.class.php */

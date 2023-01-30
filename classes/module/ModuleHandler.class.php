@@ -1,15 +1,10 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class ModuleHandler
- * @author NAVER (developers@xpressengine.com)
- * Handling modules
+ * ModuleHandler
  *
- * @remarks This class is to excute actions of modules.
- *          Constructing an instance without any parameterconstructor, it finds the target module based on Context.
- *          If there is no act on the found module, excute an action referencing action_forward.
- * */
+ * @author NAVER (developers@xpressengine.com)
+ */
 class ModuleHandler extends Handler
 {
 	var $method = 'GET';
@@ -1472,5 +1467,3 @@ class ModuleHandler extends Handler
 	}
 
 }
-/* End of file ModuleHandler.class.php */
-/* Location: ./classes/module/ModuleHandler.class.php */
