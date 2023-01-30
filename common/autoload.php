@@ -11,7 +11,7 @@ if (defined('RX_VERSION'))
 /**
  * Check PHP version.
  */
-if (version_compare(PHP_VERSION, '7.2.5', '<'))
+if (PHP_VERSION_ID < 70205)
 {
 	header('HTTP/1.1 500 Internal Server Error');
 	echo 'Rhymix requires PHP 7.2.5 or higher.';
