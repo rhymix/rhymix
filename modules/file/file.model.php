@@ -32,12 +32,12 @@ class FileModel extends File
 		{
 			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
 		}
-		
+
 		// Get uploaded files
 		if($upload_target_srl)
 		{
 			$oDocument = DocumentModel::getDocument($upload_target_srl);
-			
+
 			// Check permissions of the comment
 			if(!$oDocument->isExists())
 			{
@@ -51,13 +51,13 @@ class FileModel extends File
 					$oDocument = DocumentModel::getDocument($oComment->get('document_srl'));
 				}
 			}
-			
+
 			// Check permissions of the document
 			if($oDocument->isExists() && !$oDocument->isAccessible())
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
-			
+
 			// Check permissions of the module
 			if($module_srl = isset($oComment) ? $oComment->get('module_srl') : $oDocument->get('module_srl'))
 			{
@@ -72,7 +72,7 @@ class FileModel extends File
 					throw new Rhymix\Framework\Exceptions\NotPermitted;
 				}
 			}
-			
+
 			// Set file list
 			foreach(self::getFiles($upload_target_srl) as $file_info)
 			{
@@ -94,18 +94,18 @@ class FileModel extends File
 				{
 					$obj->download_url = self::getDirectFileUrl($file_info->download_url);
 				}
-				
+
 				$file_list[] = $obj;
 				$attached_size += $file_info->file_size;
 			}
 		}
-		
+
 		// Set output
 		$this->add('files', $file_list);
 		$this->add('attached_size', FileHandler::filesize($attached_size));
 		$this->add('editor_sequence', $editor_sequence);
 		$this->add('upload_target_srl', $upload_target_srl);
-		
+
 		// Set upload config
 		$upload_config = self::getUploadConfig();
 		if($this->user->isAdmin())
@@ -120,13 +120,13 @@ class FileModel extends File
 			$this->add('allowed_attach_size', FileHandler::filesize($upload_config->allowed_attach_size * 1024 * 1024));
 			$this->add('allowed_extensions', $upload_config->allowed_extensions);
 		}
-		
+
 		// for compatibility
 		$this->add('allowed_filetypes', $upload_config->allowed_filetypes);
 		$this->add('upload_status', self::getUploadStatus($attached_size));
 		$this->add('left_size', $upload_config->allowed_attach_size * 1024 * 1024 - $attached_size);
 	}
-	
+
 	/**
 	 * Check if the file is downloadable
 	 *
@@ -144,13 +144,13 @@ class FileModel extends File
 		{
 			return true;
 		}
-		
+
 		// Check the validity
 		if($file_info->isvalid !== 'Y')
 		{
 			return false;
 		}
-		
+
 		// Check download groups
 		$config = self::getFileConfig($file_info->module_srl);
 		if($config->download_groups)
@@ -177,10 +177,10 @@ class FileModel extends File
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Check if the file is deletable
 	 *
@@ -202,7 +202,7 @@ class FileModel extends File
 		{
 			return true;
 		}
-		
+
 		// Check permissions of the module
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($file_info->module_srl);
 		if(empty($module_info->module_srl))
@@ -214,24 +214,24 @@ class FileModel extends File
 		{
 			return true;
 		}
-		
+
 		// Check permissions of the document
 		$oDocument = DocumentModel::getDocument($file_info->upload_target_srl);
 		if($oDocument->isExists() && $oDocument->isGranted())
 		{
 			return true;
 		}
-		
+
 		// Check permissions of the comment
 		$oComment = CommentModel::getComment($file_info->upload_target_srl);
 		if($oComment->isExists() && $oComment->isGranted())
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Return number of attachments which belongs to a specific document
 	 *
@@ -266,7 +266,7 @@ class FileModel extends File
 			return sprintf('index.php?module=%s&amp;act=%s&amp;file_srl=%s&amp;sid=%s', 'file', 'procFileDownload', $file_srl, $sid);
 		}
 	}
-	
+
 	/**
 	 * Return direct download file url
 	 *
@@ -277,7 +277,7 @@ class FileModel extends File
 	{
 		return \RX_BASEURL . ltrim($path, './');
 	}
-	
+
 	/**
 	 * Get file configurations
 	 *
@@ -296,7 +296,7 @@ class FileModel extends File
 				$config->$key = $value;
 			}
 		}
-		
+
 		// Default setting if not exists
 		$config->allowed_filesize = $config->allowed_filesize ?? '2';
 		$config->allowed_attach_size = $config->allowed_attach_size ?? '3';
@@ -310,7 +310,7 @@ class FileModel extends File
 		$config->video_mp4_gif_time = $config->video_mp4_gif_time ?? 0;
 		$config->ffmpeg_command = $config->ffmpeg_command ?? '/usr/bin/ffmpeg';
 		$config->ffprobe_command = $config->ffprobe_command ?? '/usr/bin/ffprobe';
-		
+
 		// Set allowed_extensions
 		if(!isset($config->allowed_extensions))
 		{
@@ -323,10 +323,10 @@ class FileModel extends File
 				}, explode(';', $config->allowed_filetypes));
 			}
 		}
-		
+
 		// Set download_groups
 		$config->download_groups = is_array($config->download_grant) ? array_filter($config->download_grant) : [];
-		
+
 		return $config;
 	}
 
@@ -388,7 +388,7 @@ class FileModel extends File
 		{
 			return array();
 		}
-		
+
 		$fileList = array();
 		foreach ($output->data as $file)
 		{
@@ -435,7 +435,7 @@ class FileModel extends File
 		{
 			$allowed_filesize = min($file_config->allowed_filesize * 1024 * 1024, FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 		}
-		
+
 		// Display upload status
 		$upload_status = sprintf(
 			'%s : %s/ %s<br /> %s : %s (%s : %s)',
@@ -452,7 +452,7 @@ class FileModel extends File
 
 	/**
 	 * method for compatibility
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getFileModuleConfig($module_srl)
@@ -462,7 +462,7 @@ class FileModel extends File
 
 	/**
 	 * method for compatibility
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getFileGrant($file_info, $member_info)

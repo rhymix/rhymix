@@ -34,7 +34,7 @@ class FileAdminView extends File
 		// Get a list
 		$oFileAdminModel = getAdminModel('file');
 		$output = $oFileAdminModel->getFileList($args);
-		
+
 		// Get the document for looping a list
 		if($output->data)
 		{
@@ -60,7 +60,7 @@ class FileAdminView extends File
 				// Find and update if upload_target_type doesn't exist
 				if(!$file->upload_target_type)
 				{
-					// Pass if upload_target_type is already found 
+					// Pass if upload_target_type is already found
 					if(isset($document_list[$target_srl]))
 					{
 						$file->upload_target_type = 'doc';
@@ -223,7 +223,7 @@ class FileAdminView extends File
 		$config = $oFileModel->getFileConfig();
 		Context::set('config', $config);
 		Context::set('is_ffmpeg', function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
-		
+
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('upload_config');
@@ -239,7 +239,7 @@ class FileAdminView extends File
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
 		Context::set('config',$config);
-		
+
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('download_config');
@@ -255,7 +255,7 @@ class FileAdminView extends File
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
 		Context::set('config',$config);
-		
+
 		// Set a template file
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('other_config');

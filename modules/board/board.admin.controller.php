@@ -14,7 +14,7 @@ class boardAdminController extends board {
 	 **/
 	function init()
 	{
-		
+
 	}
 
 	/**
@@ -37,7 +37,7 @@ class boardAdminController extends board {
 		{
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 		}
-		
+
 		// setup extra_order_target
 		$extra_order_target = array();
 		if($args->module_srl)
@@ -77,10 +77,10 @@ class boardAdminController extends board {
 				$args->protect_admin_content_delete = 'N';
 			}
 		}
-		
+
 		if(!in_array($args->order_target,$this->order_target) && !array_key_exists($args->order_target, $extra_order_target)) $args->order_target = 'list_order';
 		if(!in_array($args->order_type, array('asc', 'desc'))) $args->order_type = 'asc';
-		
+
 		$args->skip_bottom_list_days = max(0, intval($args->skip_bottom_list_days));
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
@@ -91,7 +91,7 @@ class boardAdminController extends board {
 		{
 			unset($args->module_srl);
 		}
-		
+
 		// preserve existing config
 		if ($args->module_srl)
 		{
@@ -209,25 +209,25 @@ class boardAdminController extends board {
 		$include_modules = array_map('intval', $vars->include_modules ?: []);
 		$include_days = max(0, floatval($vars->include_days));
 		$include_notice = $vars->include_notice === 'Y' ? 'Y' : 'N';
-		
+
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		if (!$module_info)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
-		
+
 		$module_info->include_modules = implode(',', array_filter($include_modules, function($item) {
 			return $item > 0;
 		}));
 		$module_info->include_days = floatval(number_format($include_days, 2, '.', ''));
 		$module_info->include_notice = $include_notice;
-		
+
 		$output = getController('module')->updateModule($module_info);
 		if (!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		$this->setMessage('success_updated');
 		if (Context::get('success_return_url'))
 		{

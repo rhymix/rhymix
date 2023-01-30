@@ -15,7 +15,7 @@ class boardController extends board
 	function init()
 	{
 	}
-	
+
 	/**
 	 * @brief insert document
 	 **/
@@ -26,12 +26,12 @@ class boardController extends board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// setup variables
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
 		$obj->commentStatus = $obj->comment_status;
-		
+
 		// Remove disallowed Unicode symbols.
 		if ($this->module_info->filter_specialchars !== 'N')
 		{
@@ -48,20 +48,20 @@ class boardController extends board
 				$obj->tags = utf8_clean($obj->tags);
 			}
 		}
-		
+
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))
 		{
 			throw new Rhymix\Framework\Exception('msg_empty_content');
 		}
-		
+
 		// Return error if content is too large.
 		$document_length_limit = ($this->module_info->document_length_limit ?: 1024) * 1024;
 		if (strlen($obj->content) > $document_length_limit && !$this->grant->manager)
 		{
 			throw new Rhymix\Framework\Exception('msg_content_too_long');
 		}
-		
+
 		// unset document style if not manager
 		if(!$this->grant->manager)
 		{
@@ -73,12 +73,12 @@ class boardController extends board
 		{
 			$obj->is_admin = 'Y';
 		}
-		
+
 		$oDocumentController = getController('document');
-		
+
 		$secret_status = DocumentModel::getConfigStatus('secret');
 		$use_status = explode('|@|', $this->module_info->use_status);
-		
+
 		// Set status
 		if(($obj->is_secret == 'Y' || $obj->status == $secret_status) && is_array($use_status) && in_array($secret_status, $use_status))
 		{
@@ -89,16 +89,16 @@ class boardController extends board
 			unset($obj->is_secret);
 			$obj->status = DocumentModel::getConfigStatus('public');
 		}
-		
+
 		// Set update log
 		if($this->module_info->update_log == 'Y')
 		{
 			$obj->update_log_setting = 'Y';
 		}
-		
+
 		$manual = false;
 		$logged_info = Context::get('logged_info');
-		
+
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
 
 		// Set anonymous information when insert mode or status is temp
@@ -108,17 +108,17 @@ class boardController extends board
 			{
 				$obj->document_srl = getNextSequence();
 			}
-			
+
 			$manual = true;
 			$anonymous_name = $this->module_info->anonymous_name ?: 'anonymous';
 			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
 			$this->module_info->admin_mail = '';
-			
+
 			$obj->notify_message = 'N';
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = $anonymous_name;
 		}
-		
+
 		// Update if the document already exists.
 		if($oDocument->isExists())
 		{
@@ -126,7 +126,7 @@ class boardController extends board
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
-			
+
 			// Protect admin document
 			if ($this->module_info->protect_admin_content_update !== 'N')
 			{
@@ -136,7 +136,7 @@ class boardController extends board
 					throw new Rhymix\Framework\Exception('msg_admin_document_no_modify');
 				}
 			}
-			
+
 			// if document status is temp
 			if($oDocument->get('status') == DocumentModel::getConfigStatus('temp'))
 			{
@@ -146,7 +146,7 @@ class boardController extends board
 					$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
 					$oDocument->add('member_srl', $obj->member_srl);
 				}
-				
+
 				// Update list order, date
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
@@ -161,7 +161,7 @@ class boardController extends board
 						throw new Rhymix\Framework\Exception('msg_protect_update_content');
 					}
 				}
-				
+
 				// Protect document by date
 				if($this->module_info->protect_document_regdate > 0 && !$this->grant->manager)
 				{
@@ -170,7 +170,7 @@ class boardController extends board
 						throw new Rhymix\Framework\Exception(sprintf(lang('msg_protect_regdate_document'), $this->module_info->protect_document_regdate));
 					}
 				}
-				
+
 				// Preserve module_srl if the document belongs to a module that is included in this board
 				if ($oDocument->get('module_srl') != $obj->module_srl && in_array($oDocument->get('module_srl'), explode(',', $this->module_info->include_modules ?: '')))
 				{
@@ -181,7 +181,7 @@ class boardController extends board
 				{
 					$obj->module_srl = $oDocument->get('module_srl');
 				}
-				
+
 				// notice & document style same as before if not manager
 				if(!$this->grant->manager)
 				{
@@ -189,13 +189,13 @@ class boardController extends board
 					$obj->title_color = $oDocument->get('title_color');
 					$obj->title_bold = $oDocument->get('title_bold');
 				}
-				
+
 				$obj->reason_update = escape($obj->reason_update);
 			}
-			
+
 			// Update
 			$output = $oDocumentController->updateDocument($oDocument, $obj, $manual);
-			
+
 			$msg_code = 'success_updated';
 		}
 		// Insert a new document.
@@ -206,29 +206,29 @@ class boardController extends board
 			{
 				$obj->member_srl = $logged_info->member_srl * -1;
 			}
-			
+
 			// Update list order if document_srl is already assigned
 			if ($obj->document_srl)
 			{
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
 			}
-			
+
 			// Insert
 			$output = $oDocumentController->insertDocument($obj, $manual, false, $obj->document_srl ? false : true);
-			
+
 			if ($output->toBool())
 			{
 				// Set grant for the new document.
 				$oDocument = DocumentModel::getDocument($output->get('document_srl'));
 				$oDocument->setGrantForSession();
-				
+
 				// send an email to admin user
 				if ($this->module_info->admin_mail && config('mail.default_from'))
 				{
 					$browser_title = Context::replaceUserLang($this->module_info->browser_title);
 					$mail_title = sprintf(lang('msg_document_notify_mail'), $browser_title, cut_str($obj->title, 20, '...'));
 					$mail_content = sprintf("From : <a href=\"%s\">%s</a><br/>\r\n%s", getFullUrl('', 'document_srl', $output->get('document_srl')), getFullUrl('', 'document_srl', $output->get('document_srl')), $obj->content);
-					
+
 					$oMail = new \Rhymix\Framework\Mail();
 					$oMail->setSubject($mail_title);
 					$oMail->setBody($mail_content);
@@ -242,21 +242,21 @@ class boardController extends board
 					$oMail->send();
 				}
 			}
-			
+
 			$msg_code = 'success_registed';
 		}
-		
+
 		// if there is an error
 		if(!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		// return the results
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $output->get('document_srl'));
 		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'document_srl', $output->get('document_srl')));
-		
+
 		// alert a message
 		$this->setMessage($msg_code);
 	}
@@ -325,7 +325,7 @@ class boardController extends board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// check protect content
 		if($this->module_info->protect_content == 'Y' || $this->module_info->protect_delete_content == 'Y')
 		{
@@ -415,7 +415,7 @@ class boardController extends board
 				$obj->content = utf8_clean($obj->content);
 			}
 		}
-		
+
 		// Return error if content is empty.
 		if (is_empty_html_content($obj->content))
 		{
@@ -428,7 +428,7 @@ class boardController extends board
 		{
 			throw new Rhymix\Framework\Exception('msg_content_too_long');
 		}
-		
+
 		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
 		if(!is_array($this->module_info->use_status))
 		{
@@ -453,7 +453,7 @@ class boardController extends board
 		}
 
 		$obj->module_srl = $oDocument->get('module_srl');
-		
+
 		// For anonymous use, remove writer's information and notifying information
 		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
 		{
@@ -505,7 +505,7 @@ class boardController extends board
 		{
 			// Update document last_update info?
 			$update_document = $this->module_info->update_order_on_comment === 'N' ? false : true;
-			
+
 			// Parent exists.
 			if($obj->parent_srl)
 			{
@@ -592,7 +592,7 @@ class boardController extends board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		$childs = null;
 		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
 		{
@@ -602,7 +602,7 @@ class boardController extends board
 				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
 			}
 		}
-		
+
 		if ($this->module_info->protect_admin_content_delete !== 'N' && $this->user->is_admin !== 'Y')
 		{
 			$member_info = MemberModel::getMemberInfo($comment->get('member_srl'));
@@ -760,7 +760,7 @@ class boardController extends board
 		{
 			return;
 		}
-		
+
 		// get the module information
 		$module_info = ModuleModel::getModuleInfoByMid($mid);
 		if (!$module_info || !isset($module_info->module) || $module_info->module !== 'board')
@@ -774,14 +774,14 @@ class boardController extends board
 				return;
 			}
 		}
-		
+
 		$url = getUrl('', 'mid', $mid, 'member_srl', $obj->member_srl);
 		getController('member')->addMemberPopupMenu($url, 'cmd_view_own_document', '', 'self', 'board_own_document');
 	}
-	
+
 	/**
 	 * Create an anonymous nickname.
-	 * 
+	 *
 	 * @param string $format
 	 * @param int $member_srl
 	 * @param int $document_srl
@@ -800,10 +800,10 @@ class boardController extends board
 			}
 		}, $format);
 	}
-	
+
 	/**
 	 * Subroutine for hashing anonymous nickname.
-	 * 
+	 *
 	 * @param string $content
 	 * @param int $digits
 	 * @return string

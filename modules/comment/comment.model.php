@@ -375,9 +375,9 @@ class CommentModel extends Comment
 
 	/**
 	 * Get the module info without duplication
-	 * 
+	 *
 	 * @deprecated
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getDistinctModules()
@@ -573,7 +573,7 @@ class CommentModel extends Comment
 		{
 			return $trigger_output;
 		}
-		
+
 		// If an alternate output is set, use it instead of running the default queries
 		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
 		{
@@ -587,7 +587,7 @@ class CommentModel extends Comment
 			{
 				return;
 			}
-			
+
 			// insert data into CommentPageList table if the number of results is different from stored comments
 			if(!$output->data)
 			{
@@ -605,7 +605,7 @@ class CommentModel extends Comment
 		ModuleHandler::triggerCall('comment.getCommentList', 'after', $output);
 		return $output;
 	}
-	
+
 	/**
 	 * Find out which page a comment is on
 	 * @param int $document_srl
@@ -623,14 +623,14 @@ class CommentModel extends Comment
 		{
 			return 0;
 		}
-		
+
 		// return if no comment exists
 		$document_comment_count = $oDocument->getCommentCount();
 		if($document_comment_count < 1)
 		{
 			return 0;
 		}
-		
+
 		// Get the comment count per page
 		if(!$count)
 		{
@@ -642,14 +642,14 @@ class CommentModel extends Comment
 		{
 			$comment_count = $count;
 		}
-		
+
 		// Get the number of pages
 		$total_pages = max(1, ceil($document_comment_count / $comment_count));
 		if ($total_pages == 1)
 		{
 			return 1;
 		}
-		
+
 		// Find out which page the comment is on
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -961,7 +961,7 @@ class CommentModel extends Comment
 		{
 			return $output;
 		}
-		
+
 		// If an alternate output is set, use it instead of running the default queries
 		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
 		{
@@ -972,7 +972,7 @@ class CommentModel extends Comment
 		{
 			$output = executeQueryArray($query_id, $args, $columnList);
 		}
-		
+
 		// return when no result or error occurance
 		if(!$output->toBool() || !count($output->data))
 		{
@@ -1132,7 +1132,7 @@ class CommentModel extends Comment
 
 		return $comment_config;
 	}
-	
+
 	/**
 	 * Return a list of voting member
 	 * @return void

@@ -370,7 +370,7 @@ class boardView extends board
 		// Check if a permission for file download is granted
 		// Get configurations (using module model object)
 		$file_module_config = ModuleModel::getModulePartConfig('file',$this->module_srl);
-		
+
 		$downloadGrantCount = 0;
 		if(is_array($file_module_config->download_grant))
 		{
@@ -384,7 +384,7 @@ class boardView extends board
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
 			}
-			
+
 			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
@@ -470,7 +470,7 @@ class boardView extends board
 		}
 		$output = DocumentModel::getNoticeList($args, $this->columnList);
 		$notice_list = $output->data ?? [];
-		
+
 		$this->_fillModuleTitles($notice_list);
 		Context::set('notice_list', $notice_list);
 	}
@@ -507,7 +507,7 @@ class boardView extends board
 			$args->search_target = Context::get('search_target');
 			$args->search_keyword = Context::get('search_keyword');
 		}
-		
+
 		if(!$search_option = Context::get('search_option'))
 		{
 			$search_option = $this->search_option;
@@ -516,13 +516,13 @@ class boardView extends board
 		{
 			$args->search_target = '';
 		}
-		
+
 		// set member_srl for view particular member's document
 		if($this->module_info->use_anonymous !== 'Y')
 		{
 			$args->member_srl = abs(Context::get('member_srl') ?? 0) ?: null;
 		}
-		
+
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
@@ -603,12 +603,12 @@ class boardView extends board
 	public function _fillModuleTitles(&$document_list)
 	{
 		static $map = null;
-		
+
 		if (!$document_list)
 		{
 			return;
 		}
-		
+
 		if ($this->include_modules)
 		{
 			if ($map === null)
@@ -655,17 +655,17 @@ class boardView extends board
 			'regdate', 'last_update', 'last_updater', 'ipaddress', 'list_order', 'update_order',
 			'allow_trackback', 'notify_message', 'status', 'comment_status',
 		);
-		
+
 		// List of columns that should always be selected
 		$defaultColumnList = array(
 			'document_srl', 'module_srl', 'category_srl', 'lang_code', 'is_notice',
 			'title', 'title_bold', 'title_color', 'member_srl', 'nick_name', 'tags', 'extra_vars',
 			'comment_count', 'trackback_count', 'uploaded_count', 'status', 'regdate', 'last_update',
 		);
-		
+
 		// List of columns selected by the user
 		$selectedColumnList = array_keys($this->listConfig);
-		
+
 		// Return all columns for some legacy skins
 		if($this->module_info->skin == 'xe_guestbook' || $this->module_info->default_style == 'blog')
 		{
@@ -682,12 +682,12 @@ class boardView extends board
 			{
 				$selectedColumnList[] = 'last_updater';
 			}
-			
+
 			// Remove duplicates and/or invalid column names
 			$selectedColumnList = array_intersect($selectedColumnList, $allColumnList);
 			$this->columnList = array_unique(array_merge($defaultColumnList, $selectedColumnList));
 		}
-		
+
 		// add table name
 		foreach($this->columnList as $no => $value)
 		{
@@ -756,19 +756,19 @@ class boardView extends board
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		if($this->grant->view == false || ($this->module_info->consultation == 'Y' && !$this->grant->manager && !$this->grant->consultation_read))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		$oDocument = DocumentModel::getDocument($document_srl);
 		if(!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		Context::set('oDocument', $oDocument);
-		
+
 		$this->setLayoutPath('./common/tpl');
 		$this->setLayoutFile('default_layout');
 		$this->setTemplateFile('comment.html');
@@ -819,7 +819,7 @@ class boardView extends board
 					if($is_granted) $category_list[$category_srl] = $category;
 				}
 			}
-			
+
 			// check if at least one category is granted
 			$grant_exists = false;
 			foreach ($category_list as $category)
@@ -866,7 +866,7 @@ class boardView extends board
 					throw new Rhymix\Framework\Exception('msg_protect_update_content');
 				}
 			}
-			
+
 			if ($this->module_info->protect_admin_content_update !== 'N')
 			{
 				$member_info = MemberModel::getMemberInfo($oDocument->get('member_srl'));
@@ -894,7 +894,7 @@ class boardView extends board
 			{
 				$pointForInsert = 0;
 			}
-			
+
 			if($pointForInsert < 0)
 			{
 				if(!$this->user->isMember())
@@ -1195,7 +1195,7 @@ class boardView extends board
 				throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
 			}
 		}
-		
+
 		// setup the comment variables on context
 		Context::set('oSourceComment', CommentModel::getComment());
 		Context::set('oComment', $oComment);
@@ -1256,7 +1256,7 @@ class boardView extends board
 				throw new Rhymix\Framework\Exception('msg_admin_comment_no_delete');
 			}
 		}
-		
+
 		// if the comment is not existed, then back to the board content page
 		if(!$oComment->isExists() )
 		{
@@ -1321,7 +1321,7 @@ class boardView extends board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		$document_srl = Context::get('document_srl');
 		if(!$document_srl)
 		{
@@ -1333,7 +1333,7 @@ class boardView extends board
 		{
 			return $updatelog;
 		}
-		
+
 		Context::set('total_count', $updatelog->page_navigation->total_count);
 		Context::set('total_page', $updatelog->page_navigation->total_page);
 		Context::set('page', $updatelog->page);
@@ -1440,7 +1440,7 @@ class boardView extends board
 		Context::set('blame_member_info', $blame_member_infos);
 		$this->setTemplateFile('vote_log');
 	}
-	
+
 	/**
 	 * Default 404 Handler.
 	 */
@@ -1451,7 +1451,7 @@ class boardView extends board
 
 	/**
 	 * Display an error page.
-	 * 
+	 *
 	 * @param string $msg_code
 	 * @param int $http_code
 	 * @return void
@@ -1470,9 +1470,9 @@ class boardView extends board
 
 	/**
 	 * Display an alert window on top of the page.
-	 * 
+	 *
 	 * @deprecated
-	 * 
+	 *
 	 * @param string $msg_code
 	 * @param int $http_code
 	 * @return void

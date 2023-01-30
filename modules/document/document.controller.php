@@ -29,7 +29,7 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$module_info = $this->module_info;
 		if(!$module_info->module_srl)
 		{
@@ -42,7 +42,7 @@ class DocumentController extends Document
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-		
+
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
@@ -75,7 +75,7 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$module_info = $this->module_info;
 		if(!$module_info->module_srl)
 		{
@@ -106,7 +106,7 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
-		
+
 		$point = 1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
 		if(!$output->toBool())
@@ -171,7 +171,7 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
-		
+
 		$point = -1;
 		$output = $this->updateVotedCount($document_srl, $point);
 		if(!$output->toBool())
@@ -214,7 +214,7 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
-		
+
 		$point = -1;
 		$output = $this->updateVotedCountCancel($document_srl, $oDocument, $point);
 		if(!$output->toBool())
@@ -254,14 +254,14 @@ class DocumentController extends Document
 			$args->ipaddress = \RX_CLIENT_IP;
 		}
 		$output = executeQuery('document.getDocumentVotedLogInfo', $args);
-		
+
 		if(!$output->data->count)
 		{
 			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
 		}
 
 		$point = $output->data->point;
-		
+
 		// Call a trigger (before)
 		$trigger_obj = new stdClass;
 		$trigger_obj->member_srl = $oDocument->get('member_srl');
@@ -277,11 +277,11 @@ class DocumentController extends Document
 		{
 			return $trigger_output;
 		}
-		
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		if($point != 0)
 		{
 			$args = new stdClass();
@@ -306,9 +306,9 @@ class DocumentController extends Document
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateVotedCountCancel', 'after', $trigger_obj);
-		
+
 		$oDB->commit();
-		
+
 		return $output;
 	}
 
@@ -403,7 +403,7 @@ class DocumentController extends Document
 		{
 		throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$oDocument = DocumentModel::getDocument($document_srl);
 		if (!$oDocument || !$oDocument->isExists())
 		{
@@ -413,14 +413,14 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
-		
+
 		$output = $this->deleteDocument($document_srl);
 		if ($output instanceof BaseObject && !$output->toBool())
 		{
 			return $output;
 		}
 	}
-	
+
 	/**
 	 * Delete alias when module deleted
 	 * @param int $module_srl
@@ -521,13 +521,13 @@ class DocumentController extends Document
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// List variables
 		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
-		if($obj->homepage) 
+		if($obj->homepage)
 		{
 			$obj->homepage = escape($obj->homepage);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
@@ -535,17 +535,17 @@ class DocumentController extends Document
 				$obj->homepage = 'http://'.$obj->homepage;
 			}
 		}
-		
+
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 		if(!$obj->email_address) $obj->email_address = '';
 		if(!$isRestore) $obj->ipaddress = \RX_CLIENT_IP;
 		$obj->isRestore = $isRestore ? true : false;
-		
+
 		// Sanitize variables
 		$obj->document_srl = intval($obj->document_srl);
 		$obj->category_srl = intval($obj->category_srl);
 		$obj->module_srl = intval($obj->module_srl);
-		
+
 		// Default Status
 		if($obj->status)
 		{
@@ -558,14 +558,14 @@ class DocumentController extends Document
 		{
 			$this->_checkDocumentStatusForOldVersion($obj);
 		}
-		
+
 		// can modify regdate only manager
 		$grant = Context::get('grant');
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
 		}
-		
+
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
 		if (!isset($obj->extra_vars))
 		{
@@ -586,7 +586,7 @@ class DocumentController extends Document
 		unset($obj->manual_member_info);
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
-		
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
 		if(!$output->toBool())
@@ -665,7 +665,7 @@ class DocumentController extends Document
 		{
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
-		
+
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y')
 		{
@@ -680,7 +680,7 @@ class DocumentController extends Document
 		$obj->content = utf8_mbencode($obj->content);
 
 		$obj->lang_code = Context::getLangType();
-		
+
 		// Insert data into the DB
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool())
@@ -718,10 +718,10 @@ class DocumentController extends Document
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
 		}
-		
+
 		// Update the category if the category_srl exists.
 		if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
-		
+
 		// Call a trigger (after)
 		if($obj->update_log_setting === 'Y')
 		{
@@ -741,7 +741,7 @@ class DocumentController extends Document
 			$oDB->rollback();
 			return $attachOutput;
 		}
-		
+
 		$obj->updated_file_count = $attachOutput->get('updated_file_count');
 		ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
 
@@ -772,17 +772,17 @@ class DocumentController extends Document
 		{
 			return new BaseObject(-1, 'msg_security_violation');
 		}
-		
+
 		if(!$source_obj->document_srl || !$obj->document_srl)
 		{
 			return new BaseObject(-1, 'msg_invalied_request');
 		}
-		
+
 		// Sanitize variables
 		$obj->document_srl = intval($obj->document_srl);
 		$obj->category_srl = intval($obj->category_srl);
 		$obj->module_srl = intval($obj->module_srl);
-		
+
 		// Default Status
 		if($obj->status)
 		{
@@ -790,7 +790,7 @@ class DocumentController extends Document
 			{
 				$obj->status = $this->getDefaultStatus();
 			}
-			
+
 			// Do not update to temp document (point problem)
 			if($obj->status == $this->getConfigStatus('temp'))
 			{
@@ -801,12 +801,12 @@ class DocumentController extends Document
 		{
 			$this->_checkDocumentStatusForOldVersion($obj);
 		}
-		
+
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
-		
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
 		if(!$output->toBool())
@@ -817,9 +817,9 @@ class DocumentController extends Document
 		// begin transaction
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-		
+
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
-		
+
 		$document_config = ModuleModel::getModulePartConfig('document', $obj->module_srl);
 		if(!$document_config)
 		{
@@ -829,7 +829,7 @@ class DocumentController extends Document
 		$bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
 
 		$logged_info = Context::get('logged_info');
-		
+
 		if($bUseHistory)
 		{
 			$args = new stdClass;
@@ -861,16 +861,16 @@ class DocumentController extends Document
 				$obj->homepage = 'http://'.$obj->homepage;
 			}
 		}
-		
+
 		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
-		
+
 		// can modify regdate only manager
 		$grant = Context::get('grant');
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
 		}
-		
+
 		// Serialize the $extra_vars
 		if (isset($obj->extra_vars) && !is_string($obj->extra_vars))
 		{
@@ -952,7 +952,7 @@ class DocumentController extends Document
 		{
 			$obj->content = getModel('editor')->converter($obj, 'document');
 		}
-		
+
 		// Remove iframe and script if not a top adminisrator in the session.
 		if($logged_info->is_admin != 'Y')
 		{
@@ -1069,7 +1069,7 @@ class DocumentController extends Document
 			return $attachOutput;
 		}
 		$obj->updated_file_count = $attachOutput->get('updated_file_count');
-		
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
 
@@ -1080,7 +1080,7 @@ class DocumentController extends Document
 		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->document_srl, 3)));
 
 		$output->add('document_srl',$obj->document_srl);
-		
+
 		//remove from cache
 		self::clearDocumentCache($obj->document_srl);
 		return $output;
@@ -1195,7 +1195,7 @@ class DocumentController extends Document
 		$trigger_obj = $oDocument->getObjectVars();
 		$trigger_obj->isEmptyTrash = $isEmptyTrash ? true : false;
 		ModuleHandler::triggerCall('document.deleteDocument', 'after', $trigger_obj);
-		
+
 		// declared document, log delete
 		$this->_deleteDeclaredDocuments($args);
 		$this->_deleteDocumentReadedLog($args);
@@ -1356,7 +1356,7 @@ class DocumentController extends Document
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
 		}
-		
+
 		// Call a trigger (after)
 		$obj->module_srl = $oDocument->get('module_srl');
 		$obj->member_srl = $oDocument->get('member_srl');
@@ -1384,7 +1384,7 @@ class DocumentController extends Document
 		{
 			return false;
 		}
-		
+
 		// Get the view count option, and use the default if the value is empty or invalid.
 		$valid_options = array(
 			'all' => true,
@@ -1392,7 +1392,7 @@ class DocumentController extends Document
 			'once' => true,
 			'none' => true,
 		);
-		
+
 		$config = DocumentModel::getDocumentConfig();
 		if (!isset($config->view_count_option) || !isset($valid_options[$config->view_count_option]))
 		{
@@ -1404,12 +1404,12 @@ class DocumentController extends Document
 		{
 			return false;
 		}
-		
+
 		// Get document and user information.
 		$document_srl = $oDocument->document_srl;
 		$member_srl = $oDocument->get('member_srl');
 		$logged_info = Context::get('logged_info');
-		
+
 		// Option 'some': only count once per session.
 		if ($config->view_count_option != 'all' && isset($_SESSION['readed_document'][$document_srl]))
 		{
@@ -1428,7 +1428,7 @@ class DocumentController extends Document
 				}
 				return false;
 			}
-			
+
 			// Pass if the author's member_srl is the same as the visitor's.
 			if($member_srl && $logged_info && $logged_info->member_srl && $logged_info->member_srl == $member_srl)
 			{
@@ -1440,7 +1440,7 @@ class DocumentController extends Document
 		// Call a trigger when the read count is updated (before)
 		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
 		if(!$trigger_output->toBool()) return $trigger_output;
-		
+
 		// Update read counts
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1453,7 +1453,7 @@ class DocumentController extends Document
 		$oDB->commit();
 
 		// Register session
-		if(!isset($_SESSION['readed_document'][$document_srl]) && Context::getSessionStatus()) 
+		if(!isset($_SESSION['readed_document'][$document_srl]) && Context::getSessionStatus())
 		{
 			$_SESSION['readed_document'][$document_srl] = true;
 		}
@@ -1577,7 +1577,7 @@ class DocumentController extends Document
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		
+
 		if (is_int($idx_or_eid) || ctype_digit($idx_or_eid))
 		{
 			if (!$eid)
@@ -1598,7 +1598,7 @@ class DocumentController extends Document
 				return new BaseObject(-1, 'Invalid eid: ' . $eid);
 			}
 		}
-		
+
 		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
@@ -1626,7 +1626,7 @@ class DocumentController extends Document
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		
+
 		if (is_int($idx_or_eid) || ctype_digit($idx_or_eid))
 		{
 			if (!$eid)
@@ -1647,7 +1647,7 @@ class DocumentController extends Document
 				return new BaseObject(-1, 'Invalid eid: ' . $eid);
 			}
 		}
-		
+
 		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
@@ -1658,21 +1658,21 @@ class DocumentController extends Document
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		$output = self::deleteDocumentExtraVars($module_srl, $document_srl, $idx_or_eid, $lang_code, $eid);
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$output = self::insertDocumentExtraVar($module_srl, $document_srl, $idx_or_eid, $value, $eid, $lang_code);
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$oDB->commit();
 		return $output;
 	}
@@ -1782,7 +1782,7 @@ class DocumentController extends Document
 		{
 			return $trigger_output;
 		}
-		
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1806,7 +1806,7 @@ class DocumentController extends Document
 
 		// Leave in the session information
 		$_SESSION['voted_document'][$document_srl] = $trigger_obj->point;
-		
+
 		// Leave logs
 		$args->point = $trigger_obj->point;
 		$output = executeQuery('document.insertDocumentVotedLog', $args);
@@ -1815,7 +1815,7 @@ class DocumentController extends Document
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateVotedCount', 'after', $trigger_obj);
 
@@ -1836,7 +1836,7 @@ class DocumentController extends Document
 			$output->setMessage('success_blamed');
 			$output->add('blamed_count', $trigger_obj->after_point);
 		}
-		
+
 		return $output;
 	}
 
@@ -1862,10 +1862,10 @@ class DocumentController extends Document
 		{
 			return $output;
 		}
-		
+
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 		$declare_message = trim(htmlspecialchars($declare_message));
-		
+
 		$trigger_obj = new stdClass();
 		$trigger_obj->document_srl = $document_srl;
 		$trigger_obj->declared_count = $declared_count;
@@ -1890,7 +1890,7 @@ class DocumentController extends Document
 
 		// Get currently logged in user.
 		$member_srl = $this->user->member_srl;
-		
+
 		// Check if document's author is a member.
 		if($oDocument->get('member_srl'))
 		{
@@ -1919,12 +1919,12 @@ class DocumentController extends Document
 			$_SESSION['declared_document'][$document_srl] = false;
 			return new BaseObject(-1, 'failed_declared');
 		}
-		
+
 		// Fill in remaining information for logging.
 		$args->member_srl = $member_srl;
 		$args->ipaddress = \RX_CLIENT_IP;
 		$args->declare_message = $declare_message;
-		
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1954,7 +1954,7 @@ class DocumentController extends Document
 		}
 
 		$this->add('declared_count', $declared_count + 1);
-		
+
 		// Send message to admin
 		$message_targets = array();
 		$module_srl = $oDocument->get('module_srl');
@@ -2011,7 +2011,7 @@ class DocumentController extends Document
 		{
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
-		
+
 		// Get the original document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
@@ -2034,7 +2034,7 @@ class DocumentController extends Document
 			unset($_SESSION['declared_document'][$document_srl]);
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
-		
+
 		// Get current declared count
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -2050,7 +2050,7 @@ class DocumentController extends Document
 		{
 			return $trigger_output;
 		}
-		
+
 		if($declared_count > 1)
 		{
 			$output = executeQuery('document.updateDeclaredDocumentCancel', $args);
@@ -2064,14 +2064,14 @@ class DocumentController extends Document
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$output = executeQuery('document.deleteDeclaredDocumentLog', $args);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$message_targets = array();
 		$module_srl = $oDocument->get('module_srl');
 		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
@@ -2101,7 +2101,7 @@ class DocumentController extends Document
 				$oCommunicationController->sendMessage($this->user->member_srl, $target_member_srl, $message_title, $message_content, false. null, false);
 			}
 		}
-		
+
 		$oDB->commit();
 
 		$trigger_obj->declared_count = $declared_count - 1;
@@ -2258,7 +2258,7 @@ class DocumentController extends Document
 		if(!$output->toBool()) return $output;
 
 		$this->makeCategoryFile($category_info->module_srl);
-		
+
 		// remove cache
 		$page = 0;
 		while(true)
@@ -3022,7 +3022,7 @@ class DocumentController extends Document
 	{
 		@set_time_limit(0);
 		$logged_info = Context::get('logged_info');
-		
+
 		$obj = new stdClass;
 		$obj->type = Context::get('type');
 		$obj->document_list = array();
@@ -3032,7 +3032,7 @@ class DocumentController extends Document
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
 		$obj->return_message = '';
-		
+
 		// Check permission of target module
 		if($obj->target_module_srl)
 		{
@@ -3047,7 +3047,7 @@ class DocumentController extends Document
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-		
+
 		// Set Cart
 		$cart = Context::get('cart');
 		if(!is_array($cart))
@@ -3055,21 +3055,21 @@ class DocumentController extends Document
 			$cart = explode('|@|', $cart);
 		}
 		$obj->document_srl_list = array_unique(array_map('intval', $cart));
-		
+
 		// Set document list
 		$obj->document_list = DocumentModel::getDocuments($obj->document_srl_list, false, false);
 		if(empty($obj->document_list))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.manage', 'before', $obj);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		$oController = getAdminController('document');
 		if($obj->type == 'move')
 		{
@@ -3077,13 +3077,13 @@ class DocumentController extends Document
 			{
 				throw new Rhymix\Framework\Exception('fail_to_move');
 			}
-			
+
 			$output = $oController->moveDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
 			if(!$output->toBool())
 			{
 				return $output;
 			}
-			
+
 			$obj->return_message = 'success_moved';
 		}
 		else if($obj->type == 'copy')
@@ -3092,13 +3092,13 @@ class DocumentController extends Document
 			{
 				throw new Rhymix\Framework\Exception('fail_to_move');
 			}
-			
+
 			$output = $oController->copyDocumentModule($obj->document_srl_list, $obj->target_module_srl, $obj->target_category_srl);
 			if(!$output->toBool())
 			{
 				return $output;
 			}
-			
+
 			$obj->return_message = 'success_copied';
 		}
 		else if($obj->type == 'delete')
@@ -3112,14 +3112,14 @@ class DocumentController extends Document
 					$obj->return_message = $output->getMessage();
 				}
 			}
-			
+
 			$obj->return_message = $obj->return_message ?: 'success_deleted';
 		}
 		else if($obj->type == 'trash')
 		{
 			$args = new stdClass;
 			$args->description = $obj->manager_message;
-			
+
 			foreach ($obj->document_list as $document_srl => $oDocument)
 			{
 				$args->document_srl = $document_srl;
@@ -3130,7 +3130,7 @@ class DocumentController extends Document
 					$obj->return_message = $output->getMessage();
 				}
 			}
-			
+
 			$obj->return_message = $obj->return_message ?: 'success_trashed';
 		}
 		else if($obj->type == 'cancelDeclare')
@@ -3142,17 +3142,17 @@ class DocumentController extends Document
 			{
 				return $output;
 			}
-			
+
 			$obj->return_message = 'success_declare_canceled';
 		}
 		else
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.manage', 'after', $obj);
-		
+
 		// Send a message
 		$actions = lang('default_message_verbs');
 		if(isset($actions[$obj->type]) && $obj->send_message)
@@ -3166,7 +3166,7 @@ class DocumentController extends Document
 <ul>%1\$s</ul>
 Content;
 			$document_item = '<li><a href="%1$s">%2$s</a></li>';
-			
+
 			// Set recipient
 			$recipients = array();
 			foreach ($obj->document_list as $document_srl => $oDocument)
@@ -3175,15 +3175,15 @@ Content;
 				{
 					continue;
 				}
-				
+
 				if(!isset($recipients[$member_srl]))
 				{
 					$recipients[$member_srl] = array();
 				}
-				
+
 				$recipients[$member_srl][] = sprintf($document_item, $oDocument->getPermanentUrl(), $oDocument->getTitleText());
 			}
-			
+
 			// Send
 			$oCommunicationController = getController('communication');
 			foreach ($recipients as $member_srl => $items)
@@ -3191,9 +3191,9 @@ Content;
 				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, sprintf($content, implode('', $items)), true, null, false);
 			}
 		}
-		
+
 		$_SESSION['document_management'] = array();
-		
+
 		$this->setMessage($obj->return_message);
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList'));
 	}
@@ -3211,19 +3211,19 @@ Content;
 		foreach ($target_module_srl as $srl)
 		{
 			if (!$srl) continue;
-			
+
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
-			
+
 			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
-			
+
 			$module_srl[] = $srl;
 		}
 
@@ -3246,7 +3246,7 @@ Content;
 		{
 			$output = $oModuleController->insertModulePartConfig('document',$srl,$document_config);
 		}
-		
+
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
 
@@ -3264,11 +3264,11 @@ Content;
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
 		$obj->status = $this->getConfigStatus('temp');
-		
+
 		// unset document style if not manager
 		if(!$this->grant->manager)
 		{
@@ -3276,9 +3276,9 @@ Content;
 			unset($obj->title_color);
 			unset($obj->title_bold);
 		}
-		
+
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
-		
+
 		// Update if already exists
 		if($oDocument->isExists())
 		{
@@ -3286,22 +3286,22 @@ Content;
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
-			
+
 			if($oDocument->get('status') != $this->getConfigStatus('temp'))
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
-			
+
 			$output = $this->updateDocument($oDocument, $obj);
 		}
 		// Otherwise, get a new
 		else
 		{
 			$output = $this->insertDocument($obj);
-			
+
 			$oDocument = DocumentModel::getDocument($output->get('document_srl'));
 		}
-		
+
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
 		{
@@ -3310,7 +3310,7 @@ Content;
 			$args->upload_target_srl = $oDocument->document_srl;
 			executeQuery('file.updateFileValid', $args);
 		}
-		
+
 		$this->setMessage('success_saved');
 		$this->add('document_srl', $output->get('document_srl'));
 	}
@@ -3325,7 +3325,7 @@ Content;
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		$documentSrls = Context::get('document_srls');
 		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
 
@@ -3346,7 +3346,7 @@ Content;
 
 	/**
 	 * Clear document cache
-	 * 
+	 *
 	 * @param int $document_srl
 	 * @param string $type
 	 */
@@ -3365,7 +3365,7 @@ Content;
 			unset($GLOBALS['RX_DOCUMENT_LANG'][$document_srl]);
 		}
 	}
-	
+
 	/**
 	 * For old version, comment allow status check.
 	 * @param object $obj
@@ -3399,35 +3399,35 @@ Content;
 			}
 		}
 	}
-	
+
 	public function updateUploaedCount($document_srl_list)
 	{
 		if(!is_array($document_srl_list))
 		{
 			$document_srl_list = array($document_srl_list);
 		}
-		
+
 		if(empty($document_srl_list))
 		{
 			return;
 		}
-		
+
 		$document_srl_list = array_unique($document_srl_list);
-		
+
 		foreach($document_srl_list as $document_srl)
 		{
 			if(!$document_srl = (int) $document_srl)
 			{
 				continue;
 			}
-			
+
 			$args = new stdClass;
 			$args->document_srl = $document_srl;
 			$args->uploaded_count = FileModel::getFilesCount($document_srl);
 			executeQuery('document.updateUploadedCount', $args);
 		}
 	}
-	
+
 	function triggerAfterDeleteFile($file)
 	{
 		$oDocument = DocumentModel::getDocument($file->upload_target_srl, false, false);
@@ -3435,10 +3435,10 @@ Content;
 		{
 			return;
 		}
-		
+
 		$this->updateUploaedCount($file->upload_target_srl);
 	}
-	
+
 	/**
 	 * Copy extra keys when module copied
 	 * @param object $obj

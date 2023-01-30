@@ -53,15 +53,15 @@ class DocumentView extends Document
 		if(!checkCSRF())
 		{
 			throw new Rhymix\Framework\Exceptions\SecurityViolation;
-		} 
-		
+		}
+
 		$content = Context::get('content');
-		
+
 		if(Context::get('logged_info')->is_admin != 'Y')
 		{
 			$content = removeHackTag($content);
 		}
-		
+
 		// Editor converter
 		$obj = new stdClass;
 		$obj->content = $content;
@@ -69,7 +69,7 @@ class DocumentView extends Document
 		$content = getModel('editor')->converter($obj, 'document');
 		$content = sprintf('<div class="document_0_%d rhymix_content xe_content">%s</div>', Context::get('logged_info')->member_srl, $content);
 		Context::set('content', $content);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('preview_page');
 		Context::set('layout', 'none');
@@ -107,7 +107,7 @@ class DocumentView extends Document
 		// Set target module info
 		$target_mid = Context::getRequestVars()->mid ?? '';
 		$module_srl = intval(Context::get('module_srl'));
-		
+
 		// if target mid is provided
 		if($target_mid && $target_mid === Context::get('mid'))
 		{
@@ -134,7 +134,7 @@ class DocumentView extends Document
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 			$module_srl = $module_info ? $module_info->module_srl : 0;
 		}
-		
+
 		Context::set('module_srl', $module_srl);
 		Context::set('mid', $module_info ? $module_info->mid : '');
 		Context::set('browser_title', $module_info ? $module_info->browser_title : '');

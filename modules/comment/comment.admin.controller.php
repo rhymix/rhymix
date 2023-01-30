@@ -215,7 +215,7 @@ class CommentAdminController extends Comment
 
 		$deleted_count = 0;
 		$module_infos = [];
-		
+
 		// Delete the comment posting
 		for($i = 0; $i < $comment_count; $i++)
 		{
@@ -230,13 +230,13 @@ class CommentAdminController extends Comment
 			{
 				continue;
 			}
-			
+
 			$module_srl = $comment->get('module_srl');
 			if (!isset($module_infos[$module_srl]))
 			{
 				$module_infos[$module_srl] = ModuleModel::getModuleInfoByModuleSrl($module_srl)->comment_delete_message ?? '';
 			}
-			
+
 			if($module_infos[$module_srl] === 'yes')
 			{
 				$output = $oCommentController->updateCommentByDelete($comment, true);
@@ -257,7 +257,7 @@ class CommentAdminController extends Comment
 				{
 					$output = $oCommentController->deleteComment($comment_srl, true, toBool($isTrash));
 				}
-				
+
 				if(!$output->toBool() && $output->error !== -2)
 				{
 					$oDB->rollback();
@@ -276,7 +276,7 @@ class CommentAdminController extends Comment
 
 			$deleted_count++;
 		}
-		
+
 		$oDB->commit();
 
 		$msgCode = '';
@@ -357,7 +357,7 @@ class CommentAdminController extends Comment
 					$oDB->rollback();
 					return $output;
 				}
-				
+
 				$obj = new stdClass;
 				$obj->comment_srl = $oComment->get('comment_srl');
 				$obj->module_srl = $oComment->get('module_srl');
@@ -482,7 +482,7 @@ class CommentAdminController extends Comment
 		{
 			$originObject = (object) $originObject;
 		}
-		
+
 		$oCommentController = getController('comment');
 		$oCommentModel = getModel('comment');
 

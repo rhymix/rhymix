@@ -92,11 +92,11 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		$document_item = false;
 		$columnList = array();
 		$reload_counts = true;
-		
+
 		if ($this->columnList === false)
 		{
 			$reload_counts = false;
@@ -145,7 +145,7 @@ class DocumentItem extends BaseObject
 			$this->document_srl = null;
 			return;
 		}
-		
+
 		$this->document_srl = $attribute->document_srl;
 		$this->lang_code = $attribute->lang_code ?? null;
 		$this->adds($attribute);
@@ -154,22 +154,22 @@ class DocumentItem extends BaseObject
 			$this->add('apparent_module_srl', $attribute->module_srl);
 			$this->add('origin_module_srl', $attribute->module_srl);
 		}
-		
+
 		// set XE_DOCUMENT_LIST
 		$GLOBALS['XE_DOCUMENT_LIST'][$this->document_srl] = $this;
-		
+
 		// set tags
 		if($this->get('tags'))
 		{
 			$this->add('tag_list', $this->getTags());
 		}
-		
+
 		// set extra vars
 		if($load_extra_vars)
 		{
 			DocumentModel::setToAllDocumentExtraVars();
 		}
-		
+
 		// set content in user language
 		if(isset($GLOBALS['RX_DOCUMENT_LANG'][$this->document_srl]['title']))
 		{
@@ -185,24 +185,24 @@ class DocumentItem extends BaseObject
 	{
 		return (bool) ($this->document_srl);
 	}
-	
+
 	function isGranted()
 	{
 		if(!$this->isExists())
 		{
 			return false;
 		}
-		
+
 		if (isset($_SESSION['granted_document'][$this->document_srl]))
 		{
 			return true;
 		}
-		
+
 		if ($this->grant_cache !== null)
 		{
 			return $this->grant_cache;
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info || !$logged_info->member_srl)
 		{
@@ -216,34 +216,34 @@ class DocumentItem extends BaseObject
 		{
 			return $this->grant_cache = true;
 		}
-		
+
 		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
 		}
-		
+
 		return $this->grant_cache = false;
 	}
-	
+
 	function setGrant()
 	{
 		$this->grant_cache = true;
 	}
-	
+
 	function setGrantForSession()
 	{
 		$_SESSION['granted_document'][$this->document_srl] = true;
 		$this->setGrant();
 	}
-	
+
 	function isAccessible($strict = false)
 	{
 		if(!$this->isExists())
 		{
 			return false;
 		}
-		
+
 		if ($strict)
 		{
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
@@ -257,28 +257,28 @@ class DocumentItem extends BaseObject
 				return false;
 			}
 		}
-		
+
 		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
 		{
 			return true;
 		}
-		
+
 		$status_list = DocumentModel::getStatusList();
 		if ($this->get('status') === $status_list['public'])
 		{
 			$this->setAccessible();
 			return true;
 		}
-		
+
 		if ($this->isGranted())
 		{
 			$this->setAccessible();
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	function setAccessible()
 	{
 		if(Context::getSessionStatus())
@@ -286,7 +286,7 @@ class DocumentItem extends BaseObject
 			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
 		}
 	}
-	
+
 	function allowComment()
 	{
 		// init write, document is not exists. so allow comment status is true
@@ -294,7 +294,7 @@ class DocumentItem extends BaseObject
 		{
 			return true;
 		}
-		
+
 		return (bool) ($this->get('comment_status') == 'ALLOW');
 	}
 
@@ -303,7 +303,7 @@ class DocumentItem extends BaseObject
 		static $allow_trackback_status = null;
 		if(is_null($allow_trackback_status))
 		{
-			
+
 			// Check the tarckback module exist
 			if(!getClass('trackback'))
 			{
@@ -313,12 +313,12 @@ class DocumentItem extends BaseObject
 			{
 				// If the trackback module is configured to be disabled, do not allow. Otherwise, check the setting of each module.
 				$trackback_config = ModuleModel::getModuleConfig('trackback');
-				
+
 				if(!$trackback_config)
 				{
 					$trackback_config = new stdClass();
 				}
-				
+
 				if(!isset($trackback_config->enable_trackback)) $trackback_config->enable_trackback = 'Y';
 				if($trackback_config->enable_trackback != 'Y') $allow_trackback_status = false;
 				else
@@ -340,7 +340,7 @@ class DocumentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		return (bool) ($this->get('comment_status') != 'ALLOW');
 	}
 
@@ -348,29 +348,29 @@ class DocumentItem extends BaseObject
 	{
 		return (bool) (!$this->get('member_srl') || $this->isGranted());
 	}
-	
+
 	function isSecret()
 	{
 		return (bool) ($this->get('status') == DocumentModel::getConfigStatus('secret'));
 	}
-	
+
 	function isNotice()
 	{
 		return (bool) ($this->get('is_notice') === 'Y' || $this->get('is_notice') === 'A');
 	}
-	
+
 	function useNotify()
 	{
 		return (bool) ($this->get('notify_message') == 'Y');
 	}
-	
+
 	function doCart()
 	{
 		if(!$this->isExists())
 		{
 			return false;
 		}
-		
+
 		$this->isCarted() ? $this->removeCart() : $this->addCart();
 	}
 
@@ -411,18 +411,18 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		// Return if the currently logged-in user is an author
 		$logged_info = Context::get('logged_info');
 		if($logged_info->member_srl == $this->get('member_srl'))
 		{
 			return;
 		}
-		
+
 		// List variables
 		$title = ($type ? sprintf('[%s] ', $type) : '') . cut_str(strip_tags($content), 10, '...');
 		$content = sprintf('%s<br><br>from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('', 'document_srl', $this->document_srl), getFullUrl('', 'document_srl', $this->document_srl));
-		
+
 		// Send a message
 		$sender_member_srl = $logged_info->member_srl ?: $this->get('member_srl');
 		getController('communication')->sendMessage($sender_member_srl, $this->get('member_srl'), $title, $content, false, null, false);
@@ -439,7 +439,7 @@ class DocumentItem extends BaseObject
 		{
 			return $this->get('ipaddress');
 		}
-		
+
 		return '*' . strstr($this->get('ipaddress') ?? '', '.');
 	}
 
@@ -454,12 +454,12 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!preg_match('@^[a-z]+://@i', $url))
 		{
 			$url = 'http://' . $url;
 		}
-		
+
 		return escape($url, false);
 	}
 
@@ -494,7 +494,7 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		return $cut_size ? cut_str($this->get('title'), $cut_size, $tail) : $this->get('title');
 	}
 
@@ -514,7 +514,7 @@ class DocumentItem extends BaseObject
 		{
 			return $_SESSION['voted_document'][$this->document_srl];
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		if(!$logged_info->member_srl)
 		{
@@ -554,7 +554,7 @@ class DocumentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		if(!$logged_info->member_srl)
 		{
@@ -565,7 +565,7 @@ class DocumentItem extends BaseObject
 		{
 			return $_SESSION['declared_document'][$this->document_srl];
 		}
-		
+
 		$args = new stdClass();
 		if($logged_info->member_srl)
 		{
@@ -582,7 +582,7 @@ class DocumentItem extends BaseObject
 		{
 			return $_SESSION['declared_document'][$this->document_srl] = $declaredCount;
 		}
-		
+
 		return false;
 	}
 
@@ -592,10 +592,10 @@ class DocumentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		$title = escape($this->getTitleText($cut_size, $tail), false);
 		$this->add('title_color', trim($this->get('title_color') ?? ''));
-		
+
 		$attrs = array();
 		if($this->get('title_bold') == 'Y')
 		{
@@ -609,7 +609,7 @@ class DocumentItem extends BaseObject
 		{
 			return sprintf('<span style="%s">%s</span>', implode(';', $attrs), $title);
 		}
-		
+
 		return $title;
 	}
 
@@ -619,19 +619,19 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return lang('msg_is_secret');
 		}
-		
+
 		$content = $this->get('content');
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
 			$content = cut_str($content, $strlen, '...');
 		}
-		
+
 		return escape($content);
 	}
 
@@ -641,12 +641,12 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return lang('msg_is_secret');
 		}
-		
+
 		$content = $this->get('content');
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
@@ -655,7 +655,7 @@ class DocumentItem extends BaseObject
 			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 			$content = cut_str($content, $strlen, '...');
 		}
-		
+
 		return escape($content);
 	}
 
@@ -708,18 +708,18 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return lang('msg_is_secret');
 		}
-		
+
 		$content = $this->get('content');
 		if(!$stripEmbedTagException)
 		{
 			stripEmbedTagForAdmin($content, $this->get('member_srl'));
 		}
-		
+
 		// Define a link if using a rewrite module
 		if(Context::isAllowRewrite())
 		{
@@ -761,7 +761,7 @@ class DocumentItem extends BaseObject
 		{
 			$content = preg_replace_callback('/<img([^>]+)>/i',array($this,'replaceResourceRealPath'), $content);
 		}
-		
+
 		return $content;
 	}
 
@@ -779,31 +779,31 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		$content = $this->getContent($add_popup_menu, $add_content_info, $resource_realpath, $add_xe_content_class);
 		$content = getController('editor')->transComponent($content);
-		
+
 		return $content;
 	}
-	
+
 	function getSummary($str_size = 50, $tail = '...')
 	{
 		// Remove tags
 		$content = $this->getContent(false, false);
 		$content = strip_tags(preg_replace('!<(style|script)\b.+?</\\1>!is', '', $content));
-		
+
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);
-		
+
 		// Replace all whitespaces to single space
 		$content = utf8_trim(utf8_normalize_spaces($content));
-		
+
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
-		
+
 		return escape($content);
 	}
-	
+
 	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)
 	{
 		return zdate($this->get('regdate'), $format, $conversion);
@@ -854,9 +854,9 @@ class DocumentItem extends BaseObject
 	 */
 	public function getTrackbackUrl()
 	{
-		
+
 	}
-	
+
 	public function getUrl()
 	{
 		return getFullUrl('', 'mid', $this->getApparentMid(), 'document_srl', $this->get('document_srl'));
@@ -868,14 +868,14 @@ class DocumentItem extends BaseObject
 		$tag_list = array_filter($tag_list, function($str) { return $str !== ''; });
 		return array_unique($tag_list);
 	}
-	
+
 	public function getHashtags()
 	{
 		preg_match_all('/(?<!&)#([\pL\pN_]+)/u', strip_tags($this->get('content')), $hashtags);
 		$hashtags[1] = array_map(function($str) { return escape($str, false); }, $hashtags[1]);
 		return array_unique($hashtags[1]);
 	}
-	
+
 	/**
 	 * Update readed count
 	 * @return void
@@ -911,35 +911,35 @@ class DocumentItem extends BaseObject
 
 		return DocumentModel::getExtraVars($module_srl, $this->document_srl);
 	}
-	
+
 	function getExtraEids()
 	{
 		if($this->extra_eids)
 		{
 			return $this->extra_eids;
 		}
-		
+
 		$extra_vars = $this->getExtraVars();
 		foreach($extra_vars as $idx => $key)
 		{
 			$this->extra_eids[$key->eid] = $key;
 		}
-		
+
 		return $this->extra_eids;
 	}
-	
+
 	function getExtraValue($idx)
 	{
 		$extra_vars = $this->getExtraVars();
 		return isset($extra_vars[$idx]) ? $extra_vars[$idx]->getValue() : '';
 	}
-	
+
 	function getExtraValueHTML($idx)
 	{
 		$extra_vars = $this->getExtraVars();
 		return isset($extra_vars[$idx]) ? $extra_vars[$idx]->getValueHTML() : '';
 	}
-	
+
 	function getExtraEidValue($eid)
 	{
 		$extra_eids = $this->getExtraEids();
@@ -951,7 +951,7 @@ class DocumentItem extends BaseObject
 		$extra_eids = $this->getExtraEids();
 		return isset($extra_eids[$eid]) ? $extra_eids[$eid]->getValueHTML() : '';
 	}
-	
+
 	function getExtraVarsValue($key)
 	{
 		$extra_vals = unserialize($this->get('extra_vars'));
@@ -969,12 +969,12 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return;
 		}
-		
+
 		// cpage is a number of comment pages
 		$cpageStr = sprintf('%d_cpage', $this->document_srl);
 		$cpage = Context::get($cpageStr);
@@ -994,7 +994,7 @@ class DocumentItem extends BaseObject
 		// Get a list of comments
 		$output = CommentModel::getCommentList($this->document_srl, $cpage);
 		if(!$output->toBool() || !count($output->data)) return;
-		
+
 		// Create commentItem object from a comment list
 		// If admin priviledge is granted on parent posts, you can read its child posts.
 		$accessible = array();
@@ -1016,7 +1016,7 @@ class DocumentItem extends BaseObject
 			}
 			$comment_list[$val->comment_srl] = $oCommentItem;
 		}
-		
+
 		// Cache the vote log for all comments.
 		$logged_info = Context::get('logged_info');
 		if ($logged_info->member_srl)
@@ -1048,12 +1048,12 @@ class DocumentItem extends BaseObject
 				}
 			}
 		}
-		
+
 		// Variable setting to be displayed on the skin
 		Context::set($cpageStr, $output->page_navigation->cur_page);
 		Context::set('cpage', $output->page_navigation->cur_page);
 		if($output->total_page>1) $this->comment_page_navigation = $output->page_navigation;
-		
+
 		// Call trigger (after)
 		$output = ModuleHandler::triggerCall('document.getComments', 'after', $comment_list);
 
@@ -1107,7 +1107,7 @@ class DocumentItem extends BaseObject
 		{
 			$config->thumbnail_quality = 75;
 		}
-		
+
 		// If not specify its height, create a square
 		if(!is_int($width))
 		{
@@ -1117,7 +1117,7 @@ class DocumentItem extends BaseObject
 		{
 			$height = $width;
 		}
-		
+
 		// Define thumbnail information
 		$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($this->document_srl, 3));
 		$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, $width, $height, $thumbnail_type);
@@ -1137,7 +1137,7 @@ class DocumentItem extends BaseObject
 				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 			}
 		}
-		
+
 		// Call trigger for custom thumbnails.
 		$trigger_obj = (object)[
 			'document_srl' => $this->document_srl, 'width' => $width, 'height' => $height,
@@ -1150,7 +1150,7 @@ class DocumentItem extends BaseObject
 		{
 			return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 		}
-		
+
 		// Get content if it does not exist.
 		if($this->get('content'))
 		{
@@ -1163,7 +1163,7 @@ class DocumentItem extends BaseObject
 			$output = executeQuery('document.getDocument', $args);
 			$content = $output->data->content;
 		}
-		
+
 		// Return false if neither attachement nor image files in the document
 		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $content)) return;
 
@@ -1262,7 +1262,7 @@ class DocumentItem extends BaseObject
 				}
 			}
 		}
-		
+
 		if($source_file)
 		{
 			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
@@ -1343,7 +1343,7 @@ class DocumentItem extends BaseObject
 
 	/**
 	 * Return the status code.
-	 * 
+	 *
 	 * @return string
 	 */
 	function getStatus()
@@ -1354,7 +1354,7 @@ class DocumentItem extends BaseObject
 
 	/**
 	 * Return the status in human-readable text.
-	 * 
+	 *
 	 * @return string
 	 */
 	function getStatusText()
@@ -1406,7 +1406,7 @@ class DocumentItem extends BaseObject
 			$iconSkin = 'default';
 			$iconType = 'gif';
 		}
-		
+
 		$path = sprintf('%s%s', \RX_BASEURL, "modules/document/tpl/icons/$iconSkin/");
 		$buff = array();
 		foreach($icons as $icon)
@@ -1422,12 +1422,12 @@ class DocumentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return false;
 		}
-		
+
 		return $this->get('uploaded_count')? true : false;
 	}
 
@@ -1437,22 +1437,22 @@ class DocumentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return;
 		}
-		
+
 		if(!$this->get('uploaded_count'))
 		{
 			return;
-		} 
-		
+		}
+
 		if(!isset($this->uploadedFiles[$sortIndex]))
 		{
 			$this->uploadedFiles[$sortIndex] = FileModel::getFiles($this->document_srl, array(), $sortIndex, true);
 		}
-		
+
 		return $this->uploadedFiles[$sortIndex];
 	}
 
@@ -1478,12 +1478,12 @@ class DocumentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		if(!$this->isAccessible())
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -1577,7 +1577,7 @@ class DocumentItem extends BaseObject
 
 	/**
 	 * Returns the apparent mid.
-	 * 
+	 *
 	 * @return string
 	 */
 	function getApparentMid()
@@ -1587,7 +1587,7 @@ class DocumentItem extends BaseObject
 
 	/**
 	 * Returns the true mid.
-	 * 
+	 *
 	 * @return string
 	 */
 	function getDocumentMid()

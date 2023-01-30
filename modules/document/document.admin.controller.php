@@ -43,7 +43,7 @@ class DocumentAdminController extends Document
 
 		$this->setMessage(sprintf(lang('msg_checked_document_is_deleted'), $document_count) );
 	}
-	
+
 	/**
 	 * Save the default settings of the document module
 	 * @return object
@@ -56,7 +56,7 @@ class DocumentAdminController extends Document
 		$config->view_count_option = Context::get('view_count_option');
 		$config->icons = Context::get('icons');
 		$config->micons = Context::get('micons');
-		
+
 		// Get icon skin type
 		$config->icons_type = 'gif';
 		$config->micons_type = 'gif';
@@ -364,7 +364,7 @@ class DocumentAdminController extends Document
 		$oDocumentController->moveDocumentToTrash($args);
 
 		$returnUrl = Context::get('success_return_url');
-		if(!$returnUrl)	
+		if(!$returnUrl)
 		{
 			$arrUrl = parse_url(Context::get('cur_url'));
 			$query = "";
@@ -424,7 +424,7 @@ class DocumentAdminController extends Document
 		$trash_srl = Context::get('trash_srl');
 		$this->restoreTrash($trash_srl);
 	}
-	
+
 	/**
 	 * Move module of the documents
 	 * @param array $document_srl_list
@@ -443,17 +443,17 @@ class DocumentAdminController extends Document
 			$document_srl_list = array_map('trim', explode(',', $document_srl_list));
 		}
 		$document_srl_list = array_map('intval', $document_srl_list);
-		
+
 		$obj = new stdClass;
 		$obj->document_srls = $document_srl_list;
 		$obj->list_count = count($document_srl_list);
 		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
 		$obj->module_srl = $target_module_srl;
 		$obj->category_srl = $target_category_srl;
-		
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.moveDocumentModule', 'before', $obj);
 		if(!$output->toBool())
@@ -461,10 +461,10 @@ class DocumentAdminController extends Document
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$origin_category = array();
 		$oDocumentController = getController('document');
-		
+
 		foreach($obj->document_list as $document)
 		{
 			// if the target module is different
@@ -472,16 +472,16 @@ class DocumentAdminController extends Document
 			{
 				$oDocumentController->deleteDocumentAliasByDocument($document->document_srl);
 			}
-			
+
 			// if the target category is different
 			if($document->category_srl != $obj->category_srl && $document->category_srl)
 			{
 				$origin_category[$document->category_srl] = $document->module_srl;
 			}
-			
+
 			$oDocumentController->insertDocumentUpdateLog($document);
 		}
-		
+
 		// update documents
 		$output = executeQuery('document.updateDocumentsModule', $obj);
 		if(!$output->toBool())
@@ -489,7 +489,7 @@ class DocumentAdminController extends Document
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		// update extra vars
 		$output = executeQuery('document.updateDocumentExtraVarsModule', $obj);
 		if(!$output->toBool())
@@ -497,10 +497,10 @@ class DocumentAdminController extends Document
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		// call a trigger (after)
 		ModuleHandler::triggerCall('document.moveDocumentModule', 'after', $obj);
-		
+
 		// update category count
 		foreach($origin_category as $category_srl => $module_srl)
 		{
@@ -510,15 +510,15 @@ class DocumentAdminController extends Document
 		{
 			$oDocumentController->updateCategoryCount($obj->module_srl, $obj->category_srl);
 		}
-		
+
 		$oDB->commit();
-		
+
 		// remove from cache
 		foreach($obj->document_list as $document)
 		{
 			DocumentController::clearDocumentCache($document->document_srl);
 		}
-		
+
 		return new BaseObject();
 	}
 
@@ -540,17 +540,17 @@ class DocumentAdminController extends Document
 			$document_srl_list = array_map('trim', explode(',', $document_srl_list));
 		}
 		$document_srl_list = array_map('intval', $document_srl_list);
-		
+
 		$obj = new stdClass;
 		$obj->document_srls = $document_srl_list;
 		$obj->list_count = count($document_srl_list);
 		$obj->document_list = executeQueryArray('document.getDocuments', $obj)->data;
 		$obj->module_srl = $target_module_srl;
 		$obj->category_srl = $target_category_srl;
-		
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.copyDocumentModule', 'before', $obj);
 		if(!$output->toBool())
@@ -558,10 +558,10 @@ class DocumentAdminController extends Document
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$oDocumentController = getController('document');
 		$extra_vars_list = getModel('document')->getDocumentExtraVarsFromDB($document_srl_list)->data;
-		
+
 		$extra_vars = array();
 		foreach($extra_vars_list as $extra)
 		{
@@ -569,10 +569,10 @@ class DocumentAdminController extends Document
 			{
 				$extra_vars[$extra->document_srl] = array();
 			}
-			
+
 			$extra_vars[$extra->document_srl][] = $extra;
 		}
-		
+
 		$copied_srls = array();
 		foreach($obj->document_list as $document)
 		{
@@ -583,13 +583,13 @@ class DocumentAdminController extends Document
 			$copy->comment_count = 0;
 			$copy->trackback_count = 0;
 			$copy->password_is_hashed = true;
-			
+
 			// call a trigger (add)
 			$args = new stdClass;
 			$args->source = $document;
 			$args->copied = $copy;
 			ModuleHandler::triggerCall('document.copyDocumentModule', 'add', $args);
-			
+
 			// insert a copied document
 			$output = $oDocumentController->insertDocument($copy, true, true);
 			if(!$output->toBool())
@@ -597,7 +597,7 @@ class DocumentAdminController extends Document
 				$oDB->rollback();
 				return $output;
 			}
-			
+
 			// insert copied extra vars of the document
 			if(isset($extra_vars[$document->document_srl]))
 			{
@@ -606,22 +606,22 @@ class DocumentAdminController extends Document
 					$oDocumentController->insertDocumentExtraVar($copy->module_srl, $copy->document_srl, $extra->var_idx, $extra->value, $extra->eid, $extra->lang_code);
 				}
 			}
-			
+
 			$copied_srls[$document->document_srl] = $copy->document_srl;
 		}
-		
+
 		// call a trigger (after)
 		$obj->copied_srls = $copied_srls;
 		ModuleHandler::triggerCall('document.copyDocumentModule', 'after', $obj);
-		
+
 		$oDB->commit();
-		
+
 		// return copied document_srls
 		$output = new BaseObject();
 		$output->add('copied_srls', $copied_srls);
 		return $output;
 	}
-	
+
 	/**
 	 * Delete all documents of the module
 	 * @param int $module_srl
@@ -633,23 +633,23 @@ class DocumentAdminController extends Document
 		$args->list_count = 0;
 		$args->module_srl = intval($module_srl);
 		$document_list = executeQueryArray('document.getDocumentList', $args, array('document_srl'))->data;
-		
+
 		// delete documents
 		$output = executeQuery('document.deleteModuleDocument', $args);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		// remove from cache
 		foreach ($document_list as $document)
 		{
 			DocumentController::clearDocumentCache($document->document_srl);
 		}
-		
+
 		return new BaseObject();
 	}
-	
+
 	/**
 	 * Restore document from trash module, called by trash module
 	 * This method is passived
