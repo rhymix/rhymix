@@ -12,7 +12,7 @@ class Message extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		
+
 	}
 
 	/**

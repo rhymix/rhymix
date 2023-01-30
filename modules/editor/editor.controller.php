@@ -87,7 +87,7 @@ class editorController extends editor
 	{
 		// Get request vars
 		$vars = Context::getRequestVars();
-		
+
 		// To configure many of modules at once
 		$target_module_srl = $vars->target_module_srl;
 		$target_module_srl = array_map('trim', explode(',', $target_module_srl));
@@ -119,7 +119,7 @@ class editorController extends editor
 		{
 			$config->default_editor_settings = 'N';
 		}
-		
+
 		// Apply module-specific editor settings.
 		$config->editor_skin = $vars->editor_skin;
 		$config->editor_colorset = $vars->editor_colorset;
@@ -152,7 +152,7 @@ class editorController extends editor
 			$config->font_defined = $vars->font_defined = 'N';
 			$config->content_font = $vars->content_font;
 		}
-		
+
 		$config->content_font_size = trim($vars->content_font_size);
 		$config->enable_autosave = $vars->enable_autosave ?: 'Y';
 		$config->auto_dark_mode = $vars->auto_dark_mode ?: 'Y';
@@ -217,7 +217,7 @@ class editorController extends editor
 		{
 			$editor_config = getModel('module')->getModuleConfig('editor');
 		}
-		
+
 		if ($editor_config)
 		{
 			$default_font_config = self::$default_font_config;
@@ -457,7 +457,7 @@ class editorController extends editor
 				{
 					$xml_info->mid_list = $extra_vars->mid_list;
 				}
-				
+
 				// Check the configuration of the editor component
 				if(!empty($xml_info->extra_vars))
 				{
@@ -469,7 +469,7 @@ class editorController extends editor
 			}
 
 			$component_list->{$component_name} = $xml_info;
-			
+
 			// Get buttons, icons, images
 			$icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/icon.gif';
 			$component_icon_file = RX_BASEDIR . 'modules/editor/components/'.$component_name.'/component_icon.gif';
@@ -500,7 +500,7 @@ class editorController extends editor
 		{
 			Rhymix\Framework\Cache::set('editor:components:all', $component_list, 0, true);
 		}
-		
+
 		return $component_list;
 	}
 

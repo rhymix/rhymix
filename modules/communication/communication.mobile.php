@@ -41,7 +41,7 @@ class communicationMobile extends communicationView
 			$this->module_info->mlayout_srl = $this->config->mlayout_srl;
 			$this->setLayoutPath($layout_info->path);
 		}
-		
+
 		$this->setTemplatePath($template_path);
 	}
 

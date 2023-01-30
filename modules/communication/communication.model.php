@@ -30,7 +30,7 @@ class communicationModel extends communication
 		{
 			$config = new stdClass();
 		}
-		
+
 		$config->enable_message = $config->enable_message ?? 'Y';
 		$config->enable_friend = $config->enable_friend ?? 'Y';
 		$config->enable_attachment = $config->enable_attachment ?? 'N';
@@ -42,12 +42,12 @@ class communicationModel extends communication
 		$config->mskin = $config->mskin ?? 'default';
 		$config->mcolorset = $config->mcolorset ?? 'white';
 		$config->grant_send = $config->grant_send ?? array('default' => 'member');
-		
+
 		return $config;
 	}
 
 	/**
-	  * @brief get grant array for insert to database. table module_config's config field 
+	  * @brief get grant array for insert to database. table module_config's config field
 	  * @param string $default
 	  * @param array $group
 	  * @return array
@@ -59,17 +59,17 @@ class communicationModel extends communication
 		{
 			$grant = array('default' => $default);
 		}
-		else if(is_array($group)) 
+		else if(is_array($group))
 		{
 			$grant_group = array();
 			foreach($group as $group_srl)
 			{
 				$grant_group[$group_srl] = true;
 			}
-			
+
 			$grant = array('group' => $grant_group);
-		} 
-		
+		}
+
 		return $grant;
 	}
 
@@ -81,7 +81,7 @@ class communicationModel extends communication
 	public static function checkGrant($arrGrant)
 	{
 		if(!$arrGrant) return false;
-		
+
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin == 'Y') return true;
 
@@ -194,7 +194,7 @@ class communicationModel extends communication
 
 		$oCommunicationController = getController('communication');
 		$oCommunicationController->setMessageReaded($message->message_srl);
-		
+
 		if (!$message->member_srl)
 		{
 			$message->member_srl = $message->sender_srl;
@@ -280,13 +280,13 @@ class communicationModel extends communication
 				$message->user_name = $message->nick_name;
 			}
 		}
-		
+
 		return $output;
 	}
-	
+
 	/**
 	 * Get a list of files attached to a message.
-	 * 
+	 *
 	 * @param object $message
 	 * @return array
 	 */
@@ -318,7 +318,7 @@ class communicationModel extends communication
 		$args->page_count = 10;
 
 		$output = executeQuery('communication.getFriends', $args, $columnList);
-		
+
 		return $output;
 	}
 
@@ -334,7 +334,7 @@ class communicationModel extends communication
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->target_srl = $member_srl;
-		
+
 		$output = executeQuery('communication.isAddedFriend', $args);
 
 		return $output->data->count;
@@ -354,7 +354,7 @@ class communicationModel extends communication
 		$args->friend_group_srl = $friend_group_srl;
 
 		$output = executeQuery('communication.getFriendGroup', $args);
-		
+
 		return $output->data;
 	}
 
@@ -372,15 +372,15 @@ class communicationModel extends communication
 		$friend_group_list = array();
 		foreach ($output->data as $item)
 		{
-			$friend_group_list[$item->friend_group_srl] = $item;		
+			$friend_group_list[$item->friend_group_srl] = $item;
 		}
 		return $friend_group_list;
 	}
 
 	/**
 	 * check whether to be added in the friend list
-	 * @param int $target_srl 
-	 * @return boolean (true : friend, false : not friend) 
+	 * @param int $target_srl
+	 * @return boolean (true : friend, false : not friend)
 	 */
 	public static function isFriend($target_srl)
 	{

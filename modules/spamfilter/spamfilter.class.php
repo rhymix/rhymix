@@ -16,14 +16,14 @@ class spamfilter extends ModuleObject
 		array('communication.sendMessage', 'before', 'controller', 'triggerSendMessage'),
 		array('moduleObject.proc', 'before', 'controller', 'triggerCheckCaptcha'),
 	);
-	
+
 	protected static $_delete_triggers = array(
 		array('trackback.insertTrackback', 'before', 'controller', 'triggerInsertTrackback'),
 	);
-	
+
 	/**
 	 * Register all triggers.
-	 * 
+	 *
 	 * @return object
 	 */
 	public function registerTriggers()
@@ -45,7 +45,7 @@ class spamfilter extends ModuleObject
 		}
 		return new BaseObject(0, 'success_updated');
 	}
-	
+
 	/**
 	 * @brief Additional tasks required to accomplish during the installation
 	 */
@@ -73,7 +73,7 @@ class spamfilter extends ModuleObject
 				return true;
 			}
 		}
-		
+
 		$oDB = DB::getInstance();
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'latest_hit')) return true;
@@ -85,13 +85,13 @@ class spamfilter extends ModuleObject
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'latest_hit')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'except_member')) return true;
 		if(!$oDB->isColumnExists('spamfilter_denied_ip', 'description')) return true;
-		
+
 		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 		if (!isset($config->captcha))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -105,7 +105,7 @@ class spamfilter extends ModuleObject
 		{
 			return $output;
 		}
-		
+
 		$oDB = DB::getInstance();
 		if(!$oDB->isColumnExists('spamfilter_denied_word', 'hit'))
 		{
@@ -152,7 +152,7 @@ class spamfilter extends ModuleObject
 		{
 			$oDB->addColumn('spamfilter_denied_ip', 'description', 'varchar', 191, null, false, 'except_member');
 		}
-		
+
 		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 		if (!isset($config->captcha))
 		{
@@ -167,7 +167,7 @@ class spamfilter extends ModuleObject
 				$config->captcha = new stdClass;
 				$config->captcha->type = 'none';
 			}
-			
+
 			$output = getController('module')->insertModuleConfig($this->module, $config);
 			if (!$output->toBool())
 			{
@@ -181,9 +181,9 @@ class spamfilter extends ModuleObject
 	 */
 	public function recompileCache()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Import configuration from reCAPTCHA addon.
 	 */
@@ -195,7 +195,7 @@ class spamfilter extends ModuleObject
 		{
 			return $output;
 		}
-		
+
 		if ($config->use_pc === 'Y' || $config->use_mobile === 'Y')
 		{
 			$output->type = 'recaptcha';
@@ -222,7 +222,7 @@ class spamfilter extends ModuleObject
 			$output->target_modules[$module_srl] = true;
 		}
 		$output->target_modules_type = ($config->xe_run_method === 'run_selected') ? '+' : '-';
-		
+
 		$oAddonAdminController = getAdminController('addon');
 		if ($output->target_devices['pc'])
 		{
@@ -234,7 +234,7 @@ class spamfilter extends ModuleObject
 			$oAddonAdminController->doDeactivate('recaptcha', 0, 'mobile');
 			$oAddonAdminController->makeCacheFile(0, 'mobile');
 		}
-		
+
 		return $output;
 	}
 }

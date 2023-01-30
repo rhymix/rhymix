@@ -54,7 +54,7 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -117,7 +117,7 @@ class communicationView extends communication
 				stripEmbedTagForAdmin($message->content, $message->sender_srl);
 				Context::set('message', $message);
 				Context::set('message_files', CommunicationModel::getMessageFiles($message));
-				
+
 				if(Mobile::isFromMobilePhone() && file_exists($this->getTemplatePath() . 'read_message.html'))
 				{
 					$template_filename = 'read_message';
@@ -132,7 +132,7 @@ class communicationView extends communication
 		// Extract a list
 		$columnList = array('message_srl', 'message_type', 'related_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
 		$output = $oCommunicationModel->getMessages($message_type, $columnList);
-		
+
 		// set a template file
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -159,7 +159,7 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -200,13 +200,13 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// Fix missing mid (it causes errors when uploading)
 		if(!Context::get('mid'))
 		{
 			Context::set('mid', Context::get('site_module_info')->mid);
 		}
-		
+
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -231,7 +231,7 @@ class communicationView extends communication
 
 		$oCommunicationModel = getModel('communication');
 		$oMemberModel = getModel('member');
-		
+
 		// get message_srl of the original message if it is a reply
 		$message_srl = Context::get('message_srl');
 		if($message_srl)
@@ -292,13 +292,13 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// Error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
-		
+
 		$oCommunicationModel = getModel('communication');
 
 		// get a group list
@@ -346,12 +346,12 @@ class communicationView extends communication
 	{
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("popup_layout");
-		
+
 		if($this->config->enable_friend == 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// error appears if not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -396,12 +396,12 @@ class communicationView extends communication
 	{
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("popup_layout");
-		
+
 		if($this->config->enable_friend == 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// error apprears if not logged-in
 		if(!Context::get('is_logged'))
 		{

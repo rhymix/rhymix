@@ -8,7 +8,7 @@
 class addonController extends addon
 {
 	public $addon_file_called = false;
-	
+
 	/**
 	 * Initialization
 	 *
@@ -78,41 +78,41 @@ class addonController extends addon
 		foreach($addon_list as $addon => $val)
 		{
 			if(Context::isBlacklistedPlugin($addon, 'addon')
-				|| ($type == "pc" && $val->is_used != 'Y') 
-				|| ($type == "mobile" && $val->is_used_m != 'Y') 
+				|| ($type == "pc" && $val->is_used != 'Y')
+				|| ($type == "mobile" && $val->is_used_m != 'Y')
 				|| ($gtype == 'global' && $val->is_fixed != 'Y')
 				|| !is_dir(RX_BASEDIR . 'addons/' . $addon))
 			{
 				continue;
 			}
-			
+
 			$extra_vars = unserialize($val->extra_vars);
 			if(!$extra_vars)
 			{
 				$extra_vars = new stdClass;
 			}
-			
+
 			$mid_list = $extra_vars->mid_list ?? [];
 			if(!is_array($mid_list))
 			{
 				$mid_list = array();
 			}
-			
+
 			// Initialize
 			$buff[] = '$before_time = microtime(true);';
-			
+
 			// Run method and mid list
 			$run_method = ($extra_vars->xe_run_method ?? null) ?: 'run_selected';
 			$buff[] = '$rm = \'' . $run_method . "';";
 			$buff[] = '$ml = ' . var_export(array_fill_keys($mid_list, true), true) . ';';
 			$buff[] = '$_m = Context::get(\'mid\');';
-			
+
 			// Addon filename
 			$buff[] = sprintf('$addon_file = RX_BASEDIR . \'addons/%s/%s.addon.php\';', $addon, $addon);
-			
+
 			// Addon configuration
 			$buff[] = '$addon_info = unserialize(' . var_export(serialize($extra_vars), true) . ');';
-			
+
 			// Decide whether to run in this mid
 			if ($run_method === 'no_run_selected')
 			{
@@ -126,7 +126,7 @@ class addonController extends addon
 			{
 				$buff[] = '$run = isset($ml[$_m]);';
 			}
-			
+
 			// Write debug info
 			$buff[] = 'if ($run && file_exists($addon_file)):';
 			$buff[] = '  include($addon_file);';
@@ -142,7 +142,7 @@ class addonController extends addon
 			$buff[] = 'endif;';
 			$buff[] = '';
 		}
-		
+
 		// Write file in new location
 		$addon_file = RX_BASEDIR . 'files/cache/addons/' . $type . '.php';
 		FileHandler::writeFile($addon_file, join(PHP_EOL, $buff));
@@ -176,7 +176,7 @@ class addonController extends addon
 			$args->site_srl = $site_srl;
 			$output = executeQuery('addon.updateSiteAddon', $args);
 		}
-		
+
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));

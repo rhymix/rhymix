@@ -36,7 +36,7 @@ class editorAdminView extends editor
 				$editor_config->$key = $val;
 			}
 		}
-		
+
 		// Get skin info
 		$editor_skin_list = array();
 		$skin_dir_list = FileHandler::readDir($this->module_path . 'skins');
@@ -46,7 +46,7 @@ class editorAdminView extends editor
 			{
 				continue;
 			}
-			
+
 			$skin_info = ModuleModel::loadSkinInfo($this->module_path, $skin);
 			foreach ($skin_info->colorset ?: [] as $colorset)
 			{
@@ -81,7 +81,7 @@ class editorAdminView extends editor
 				$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
 			}
 		}
-		
+
 		Context::set('editor_config', $editor_config);
 		Context::set('editor_skin_list', $editor_skin_list);
 		Context::set('component_list', $component_list);
@@ -108,7 +108,7 @@ class editorAdminView extends editor
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 		Context::set('component', $component);
-		
+
 		// Get a group list to set a group
 		$group_list = MemberModel::getGroups(0);
 		Context::set('group_list', $group_list);

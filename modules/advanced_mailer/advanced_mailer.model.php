@@ -13,6 +13,6 @@ class Advanced_MailerModel extends Advanced_Mailer
 	 */
 	public function triggerReplaceMailClass()
 	{
-		
+
 	}
 }

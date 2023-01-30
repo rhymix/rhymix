@@ -18,7 +18,7 @@ class layoutAdminController extends layout
 	/**
 	 * Create a new layout
 	 * Insert a title into "layouts" table in order to create a layout
-	 * @deprecated 
+	 * @deprecated
 	 * @return void|Object (void : success, Object : fail)
 	 */
 	function procLayoutAdminInsert()
@@ -65,7 +65,7 @@ class layoutAdminController extends layout
 	 * Initiate if it is faceoff layout
 	 * @param int $layout_srl
 	 * @param string $layout_name
-	 * @return void 
+	 * @return void
 	 */
 	function initLayout($layout_srl, $layout_name)
 	{
@@ -278,12 +278,12 @@ class layoutAdminController extends layout
 
 		$layout_file = $oLayoutModel->getUserLayoutHtml($layout_srl);
 		FileHandler::removeFile($layout_file);
-		
+
 		// Delete Layout
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery("layout.deleteLayout", $args);
-		
+
 		Rhymix\Framework\Cache::delete('layout:' . $args->layout_srl);
 
 		if(!$output->toBool()) return $output;
@@ -390,7 +390,7 @@ class layoutAdminController extends layout
 			$ext = substr(strrchr($filename,'.'),1);
 			$filename = sprintf('%s.%s', md5($filename), $ext);
 		}
-		
+
 		if(file_exists($path .'/'. $filename)) @unlink($path . $filename);
 		if(!move_uploaded_file($source['tmp_name'], $path . $filename )) return false;
 		return true;
@@ -693,7 +693,7 @@ class layoutAdminController extends layout
 		$args->extra_vars = $output->extra_vars;
 		$extra_vars = unserialize($args->extra_vars);
 		$image_list = array();
-		
+
 		if($layout->extra_var_count && $extra_vars)
 		{
 			$reg = "/^.\/files\/attach\/images\/([0-9]+)\/(.*)/";

@@ -46,7 +46,7 @@ class communicationAdminModel extends communication
 			$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin, $dir);
 			Context::set('skin_info', $skin_info);
 			Context::set('communication_config', CommunicationModel::getConfig());
-			
+
 			$security = new Security();
 			$security->encodeHTML('skin_info.colorset..title', 'skin_info.colorset..name');
 			$security->encodeHTML('skin_info.colorset..name');

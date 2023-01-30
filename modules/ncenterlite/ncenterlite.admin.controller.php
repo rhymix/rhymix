@@ -96,7 +96,7 @@ class ncenterliteAdminController extends ncenterlite
 				$config->admin_notify_module_srls = array();
 			}
 		}
-		
+
 		if($obj->disp_act == 'dispNcenterliteAdminOtherComment')
 		{
 			if(!$obj->comment_all)
@@ -116,7 +116,7 @@ class ncenterliteAdminController extends ncenterlite
 				$config->notify_count = 0;
 			}
 		}
-		
+
 		$output = $oModuleController->insertModuleConfig('ncenterlite', $config);
 		if(!$output->toBool())
 		{
@@ -203,7 +203,7 @@ class ncenterliteAdminController extends ncenterlite
 		}
 
 		$this->setMessage('msg_test_notifycation_success');
-		
+
 		if (Context::get('success_return_url'))
 		{
 			$this->setRedirectUrl(Context::get('success_return_url'));

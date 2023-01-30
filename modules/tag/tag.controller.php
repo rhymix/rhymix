@@ -16,7 +16,7 @@ class tagController extends tag
 		{
 			return;
 		}
-		
+
 		$tag_list = tagModel::splitString($obj->tags ?? '');
 		if (count($tag_list))
 		{
@@ -30,7 +30,7 @@ class tagController extends tag
 
 	/**
 	 * Replace all tags belonging to a document with a new list of tags.
-	 * 
+	 *
 	 * @param object $obj
 	 * @return BaseObject
 	 */
@@ -67,7 +67,7 @@ class tagController extends tag
 
 	/**
 	 * Delete all tags belonging to a document.
-	 * 
+	 *
 	 * @param object $obj
 	 * @return BaseObject
 	 */
@@ -96,7 +96,7 @@ class tagController extends tag
 		$oTagController = getAdminController('tag');
 		return $oTagController->deleteModuleTags($obj->module_srl);
 	}
-	
+
 	function triggerMoveDocument($obj)
 	{
 		executeQuery('tag.updateTagModule', $obj);

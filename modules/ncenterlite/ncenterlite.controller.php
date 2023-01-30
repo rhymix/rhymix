@@ -9,10 +9,10 @@ class ncenterliteController extends ncenterlite
 		'dispNcenterliteNotifyList' => true,
 		'dispEditorFrame' => true,
 	);
-	
+
 	/**
 	 * Send any message to a member.
-	 * 
+	 *
 	 * @param int $from_member_srl Sender
 	 * @param int $to_member_srl Recipient
 	 * @param string|object $message Message content
@@ -36,7 +36,7 @@ class ncenterliteController extends ncenterlite
 		$args->target_browser = '';
 		$args->target_summary = '';
 		$args->target_content = null;
-		
+
 		if (is_object($message))
 		{
 			$args->target_body = $message->subject;
@@ -48,7 +48,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$args->target_body = $message;
 		}
-		
+
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{
@@ -152,7 +152,7 @@ class ncenterliteController extends ncenterlite
 			$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUserConfig', 'member_srl', $member_srl));
 		}
 	}
-	
+
 	function procNcenterliteInsertUnsubscribe()
 	{
 		$config = NcenterliteModel::getConfig();
@@ -164,19 +164,19 @@ class ncenterliteController extends ncenterlite
 		{
 			throw new Rhymix\Framework\Exception('msg_unsubscribe_block_not_support');
 		}
-		
+
 		$obj = Context::getRequestVars();
-		
+
 		if(!$this->user->member_srl || (!intval($obj->unsubscribe_srl) && !intval($obj->target_srl)))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		if($obj->target_srl)
 		{
 			$oNcenterliteModel = getModel('ncenterlite');
 			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $this->user->member_srl);
-			
+
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
 			if($userBlockData)
 			{
@@ -184,24 +184,24 @@ class ncenterliteController extends ncenterlite
 				{
 					$obj->unsubscribe_srl = $userBlockData->unsubscribe_srl;
 				}
-				
+
 				if (intval($obj->unsubscribe_srl) != intval($userBlockData->unsubscribe_srl))
 				{
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 			}
 		}
-		
+
 		if(!$userBlockData && $obj->unsubscribe_srl)
 		{
 			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
-			
+
 			// The input member_srl from the POST or GET might not equal to the member_srl from the record of unsubscribe_srl.
 			if(intval($this->user->member_srl) != intval($userBlockData->member_srl))
 			{
 				throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
 			}
-			
+
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
 			if($userBlockData)
 			{
@@ -209,19 +209,19 @@ class ncenterliteController extends ncenterlite
 				{
 					$obj->target_srl = $userBlockData->target_srl;
 				}
-				
+
 				if (intval($obj->target_srl) != intval($userBlockData->target_srl))
 				{
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 			}
 		}
-		
+
 		if($userBlockData)
 		{
 			$obj->unsubscribe_srl = $userBlockData->unsubscribe_srl;
 		}
-		
+
 		// Content type can be document and comment, now. However, the default type cannot be specified, as the type can be another in the future.
 		if($obj->unsubscribe_type == 'document')
 		{
@@ -237,7 +237,7 @@ class ncenterliteController extends ncenterlite
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$args = new stdClass();
 		$args->member_srl = $this->user->member_srl;
 		$args->target_srl = $obj->target_srl;
@@ -251,7 +251,7 @@ class ncenterliteController extends ncenterlite
 		}
 		$args->unsubscribe_type = $obj->unsubscribe_type;
 		$args->text = $text;
-		
+
 		if($obj->value == 'Y')
 		{
 			// 데이터가 있으면 차단, 데이터가 없으면 차단하지 않기 때문에 따로 업데이트를 하지 않는다.
@@ -275,7 +275,7 @@ class ncenterliteController extends ncenterlite
 			{
 				throw new Rhymix\Framework\Exception('msg_unsubscribe_not_in_list');
 			}
-			
+
 			$args->unsubscribe_srl = $obj->unsubscribe_srl;
 			$output = executeQuery('ncenterlite.deleteUnsubscribe', $args);
 			if(!$output->toBool())
@@ -329,7 +329,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$this->removeFlagFile($args->member_srl);
 		}
-		
+
 		// Delete to user setting.
 		$userSetOutput = executeQuery('ncenterlite.deleteNcenterliteUserSettingData', $args);
 		if(!$userSetOutput->toBool())
@@ -436,7 +436,7 @@ class ncenterliteController extends ncenterlite
 				{
 					continue;
 				}
-				
+
 				$args = new stdClass();
 				$args->config_type = 'comment_all';
 				$args->member_srl = abs($value->member_srl);
@@ -461,7 +461,7 @@ class ncenterliteController extends ncenterlite
 				}
 			}
 		}
-		
+
 		$obj->admin_comment_notify = false;
 		$admin_list = $oNcenterliteModel->getMemberAdmins();
 
@@ -547,12 +547,12 @@ class ncenterliteController extends ncenterlite
 				{
 					return;
 				}
-				
+
 				if($oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($parent_srl, $abs_member_srl))
 				{
 					return;
 				}
-				
+
 				$args = new stdClass();
 				$args->config_type = 'comment_comment';
 				$args->member_srl = $abs_member_srl;
@@ -592,7 +592,7 @@ class ncenterliteController extends ncenterlite
 			{
 				return;
 			}
-			
+
 			if($config->user_notify_setting == 'Y')
 			{
 				$document_comment_member_config = NcenterliteModel::getUserConfig($abs_member_srl);
@@ -673,7 +673,7 @@ class ncenterliteController extends ncenterlite
 			return $output;
 		}
 	}
-	
+
 	function triggerAfterScrap($obj)
 	{
 		$config = NcenterliteModel::getConfig();
@@ -681,7 +681,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		if($config->user_notify_setting === 'Y')
 		{
 			$target_member_config = NcenterliteModel::getUserConfig(abs($obj->target_member_srl));
@@ -690,10 +690,10 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 		}
-		
+
 		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($obj->document_srl);
-		
+
 		$args = new stdClass();
 		$args->config_type = 'scrap';
 		$args->target_member_srl = abs($obj->member_srl);
@@ -755,7 +755,7 @@ class ncenterliteController extends ncenterlite
 		$args->module_srl = $obj->module_srl;
 		$this->_insertNotify($args, $config->anonymous_voter !== 'N');
 	}
-	
+
 	function triggerAfterDocumentVotedCancel($obj)
 	{
 		$config = NcenterliteModel::getConfig();
@@ -771,7 +771,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		if($config->anonymous_voter === 'Y')
 		{
 			$member_srl = -1 * $this->user->member_srl;
@@ -780,7 +780,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$member_srl = $this->user->member_srl;
 		}
-		
+
 		$args = new stdClass();
 		$args->type = $this->_TYPE_DOCUMENT;
 		$args->target_type = $this->_TYPE_VOTED;
@@ -792,7 +792,7 @@ class ncenterliteController extends ncenterlite
 			$this->removeFlagFile(abs($obj->member_srl));
 		}
 	}
-	
+
 	function triggerAfterCommentVotedCount($obj)
 	{
 		$config = NcenterliteModel::getConfig();
@@ -812,14 +812,14 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 		}
-		
+
 		$oCommentModel = getModel('comment');
 		$oComment = $oCommentModel->getComment($obj->comment_srl);
-		
+
 		$content = $oComment->get('content');
 		$document_srl = $oComment->get('document_srl');
 		$module_info = getModel('module')->getModuleInfoByDocumentSrl($document_srl);
-		
+
 		$args = new stdClass();
 		$args->config_type = 'vote';
 		$args->member_srl = abs($obj->member_srl);
@@ -852,7 +852,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		$args = new stdClass();
 		$args->type = $this->_TYPE_COMMENT;
 		$args->target_type = $this->_TYPE_VOTED;
@@ -872,7 +872,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		$member_srls = ncenterliteModel::getInstance()->getNotifyMemberSrlBySrl($obj->comment_srl);
 
 		$args = new stdClass();
@@ -894,7 +894,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		$member_srls = ncenterliteModel::getInstance()->getNotifyMemberSrlBySrl($obj->document_srl);
 
 		$args = new stdClass();
@@ -1058,23 +1058,23 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		
+
 		// 레이아웃에서 알림센터 사용중이라면 중지
 		if(Context::get('layout_info')->use_ncenter_widget == 'Y')
 		{
 			return;
 		}
-		
+
 		Context::set('ncenterlite_config', $config);
-		
+
 		if($config->highlight_effect === 'Y')
 		{
 			Context::loadFile(array('./modules/ncenterlite/tpl/js/ncenterlite.js', 'body', '', 100000));
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		$_output = $oNcenterliteModel->getMyNotifyList($logged_info->member_srl);
-		
+
 		if($config->always_display !== 'Y')
 		{
 			if(!$_output->data)
@@ -1082,7 +1082,7 @@ class ncenterliteController extends ncenterlite
 				return;
 			}
 		}
-		
+
 		$_latest_notify_id = array_slice($_output->data, 0, 1);
 		$_latest_notify_id = count($_latest_notify_id) > 0 ? $_latest_notify_id[0]->notify : "";
 		Context::set('ncenterlite_latest_notify_id', $_latest_notify_id);
@@ -1139,7 +1139,7 @@ class ncenterliteController extends ncenterlite
 		{
 			Context::set('ncenterlite_zindex', ' style="z-index:' . $config->zindex . ';" ');
 		}
-		
+
 		$result = TemplateHandler::getInstance()->compile($this->template_path, 'ncenterlite.html');
 		$this->_addFile();
 		$output_display = $result . $output_display;
@@ -1331,7 +1331,7 @@ class ncenterliteController extends ncenterlite
 	function _insertNotify($args, $anonymous = FALSE)
 	{
 		$config = NcenterliteModel::getConfig();
-		
+
 		if(is_array($config->hide_module_srls) && in_array($args->module_srl, $config->hide_module_srls))
 		{
 			return new BaseObject();
@@ -1348,7 +1348,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$args->notify = $this->_getNotifyId($args);
 		}
-		
+
 		// 날짜가 없는 경우 자동 생성
 		if (!$args->regdate)
 		{
@@ -1389,7 +1389,7 @@ class ncenterliteController extends ncenterlite
 			$args->target_user_id = '';
 			$args->target_email_address = '';
 		}
-		
+
 		// 수신자가 웹 알림을 거부한 경우 이미 읽은 것으로 처리
 		if($config->user_notify_setting == 'Y')
 		{
@@ -1405,7 +1405,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return $trigger_output;
 		}
-		
+
 		$output = executeQuery('ncenterlite.insertNotify', $args);
 		if($output->toBool())
 		{
@@ -1431,7 +1431,7 @@ class ncenterliteController extends ncenterlite
 
 		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
 		Rhymix\Framework\Cache::set($cache_key, $output);
-		
+
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
@@ -1454,7 +1454,7 @@ class ncenterliteController extends ncenterlite
 
 		$cache_key = sprintf('ncenterlite:notify_list:%d', $member_srl);
 		Rhymix\Framework\Cache::delete($cache_key);
-		
+
 		$flag_path = \RX_BASEDIR . 'files/cache/ncenterlite/new_notify/' . getNumberingPath($member_srl) . $member_srl . '.php';
 		if(file_exists($flag_path))
 		{
@@ -1479,13 +1479,13 @@ class ncenterliteController extends ncenterlite
 		$oMemberModel =  getModel('member');
 		$config = NcenterliteModel::getConfig();
 		$logged_info = Context::get('logged_info');
-		
+
 		// Extract mentions.
 		$content = html_entity_decode(strip_tags($content));
 		preg_match_all('/(?:^|\s)@([^\pC\pM\pP\pS\pZ]+)/u', $content, $matches);
 		$mentions = array_unique($matches[1]);
 		$members = array();
-		
+
 		// Find members.
 		foreach ($mentions as $mention)
 		{
@@ -1493,12 +1493,12 @@ class ncenterliteController extends ncenterlite
 			{
 				continue;
 			}
-			
+
 			if (count($members) >= $config->mention_limit)
 			{
 				break;
 			}
-			
+
 			if ($config->mention_suffix_always_cut != 'Y')
 			{
 				if ($config->mention_names === 'id')
@@ -1514,7 +1514,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$member_srl = null;
 			}
-			
+
 			if (!$member_srl)
 			{
 				foreach ($config->mention_suffixes as $suffix)
@@ -1524,7 +1524,7 @@ class ncenterliteController extends ncenterlite
 						$mention = substr($mention, 0, $pos);
 					}
 				}
-				
+
 				if (isset($members[$mention]))
 				{
 					continue;
@@ -1542,10 +1542,10 @@ class ncenterliteController extends ncenterlite
 			{
 				continue;
 			}
-			
+
 			$members[$mention] = $member_srl;
 		}
-		
+
 		return array_values($members);
 	}
 
@@ -1568,11 +1568,11 @@ class ncenterliteController extends ncenterlite
 		{
 			return false;
 		}
-		
+
 		$oNcenterliteModel = getModel('ncenterlite');
 		$content = $oNcenterliteModel->getNotificationText($args);
 		$content = htmlspecialchars_decode(preg_replace('/<\/?(strong|)[^>]*>/', '', $content));
-		
+
 		$target_url = $args->target_url;
 		if (!preg_match('!^https?://!', $target_url))
 		{
@@ -1604,10 +1604,10 @@ class ncenterliteController extends ncenterlite
 		$oPush->setURL(strval($target_url));
 		$oPush->addTo(intval($args->member_srl));
 		$output = $oPush->send();
-		
+
 		return $output;
 	}
-	
+
 	function sendSmsMessage($args)
 	{
 		$config = NcenterliteModel::getConfig();
@@ -1645,7 +1645,7 @@ class ncenterliteController extends ncenterlite
 			{
 				$phone_country = $member_info->phone_country;
 				$phone_number = $member_info->phone_number;
-				
+
 				// Sending SMS outside of Korea is currently not supported.
 				if($phone_country !== 'KOR')
 				{
@@ -1695,7 +1695,7 @@ class ncenterliteController extends ncenterlite
 		{
 			return false;
 		}
-		
+
 		$oNcenterliteModel = getModel('ncenterlite');
 		$content = $oNcenterliteModel->getNotificationText($args);
 
@@ -1711,7 +1711,7 @@ class ncenterliteController extends ncenterlite
 		{
 			$target_url = Rhymix\Framework\URL::getCurrentDomainUrl($target_url);
 		}
-		
+
 		$mail_content = sprintf("<p>%s</p>\n<p>%s</p>\n", $content, $target_url);
 		$member_info = MemberModel::getMemberInfoByMemberSrl($args->member_srl);
 
@@ -1816,9 +1816,9 @@ class ncenterliteController extends ncenterlite
 		$document_srl = Context::get('target_srl');
 
 		$config = NcenterliteModel::getConfig();
-		
+
 		if($config->unsubscribe !== 'Y') return;
-		
+
 		$oDocumentController = getController('document');
 		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $document_srl, 'unsubscribe_type', 'document');
 		$oDocumentController->addDocumentPopupMenu($url,'ncenterlite_cmd_unsubscribe_settings','','popup');
@@ -1838,17 +1838,17 @@ class ncenterliteController extends ncenterlite
 		$comment_srl = Context::get('target_srl');
 
 		$config = NcenterliteModel::getConfig();
-		
+
 		if($config->unsubscribe !== 'Y') return;
-		
+
 		$oCommentController = getController('comment');
 		$url = getUrl('','module','ncenterlite','act','dispNcenterliteInsertUnsubscribe', 'target_srl', $comment_srl, 'unsubscribe_type', 'comment');
 		$oCommentController->addCommentPopupMenu($url,'ncenterlite_cmd_unsubscribe_settings','','popup');
 	}
-	
+
 	/**
 	 * Cut a string to fit the notification summary column.
-	 * 
+	 *
 	 * @param string $str
 	 * @return string
 	 */
@@ -1864,10 +1864,10 @@ class ncenterliteController extends ncenterlite
 			return cut_str($str, 45);
 		}
 	}
-	
+
 	/**
 	 * Cut a string to fit the notification content column.
-	 * 
+	 *
 	 * @param string $str
 	 * @return string
 	 */

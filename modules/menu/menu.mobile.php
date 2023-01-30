@@ -67,7 +67,7 @@ class menuMobile extends moduleObject
 			}
 		}
 
-		Context::set('menu', $this->result);	
+		Context::set('menu', $this->result);
 
 		$this->setTemplatePath(sprintf("%stpl/",$this->module_path));
 		$this->setTemplateFile('menu.html');

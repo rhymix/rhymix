@@ -114,7 +114,7 @@ class spamfilterController extends spamfilter
 		}
 		else
 		{
-			$text = $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage;	
+			$text = $obj->content . ' ' . $obj->nick_name . ' ' . $obj->homepage;
 		}
 		$output = $oFilterModel->isDeniedWord($text);
 		if(!$output->toBool()) return $output;
@@ -141,14 +141,14 @@ class spamfilterController extends spamfilter
 		}
 		$fail_list = '';
 		$output = null;
-		
+
 		foreach ($ipaddress_list as $ipaddress)
 		{
 			if ($ipaddress === '')
 			{
 				continue;
 			}
-			
+
 			$args = new stdClass;
 			if (preg_match('@^(.+?)(?://|#)(.*)$@', $ipaddress, $matches))
 			{
@@ -160,24 +160,24 @@ class spamfilterController extends spamfilter
 				$args->ipaddress = $ipaddress;
 				$args->description = $description;
 			}
-			
+
 			if (!Rhymix\Framework\Filters\IpFilter::validateRange($args->ipaddress))
 			{
 				return new BaseObject(-1, 'msg_invalid_ip');
 			}
-			
+
 			$output = executeQuery('spamfilter.insertDeniedIP', $args);
 			if (!$output->toBool())
 			{
 				$fail_list .= $args->ipaddress . '<br />';
 			}
 		}
-		
+
 		if ($output)
 		{
 			$output->add('fail_list', $fail_list);
 		}
-		
+
 		Rhymix\Framework\Cache::delete('spamfilter:denied_ip_list');
 		return $output;
 	}
@@ -210,7 +210,7 @@ class spamfilterController extends spamfilter
 		// Save a log
 		$this->insertLog();
 	}
-	
+
 	/**
 	 * @brief while document manager is running, stop filter
 	 */
@@ -245,7 +245,7 @@ class spamfilterController extends spamfilter
 		{
 			return;
 		}
-		
+
 		$target_actions = [];
 		foreach (['signup', 'login', 'recovery', 'document', 'comment'] as $action)
 		{
@@ -257,12 +257,12 @@ class spamfilterController extends spamfilter
 				}
 			}
 		}
-		
+
 		if (count($target_actions))
 		{
 			include_once __DIR__ . '/spamfilter.lib.php';
 			spamfilter_reCAPTCHA::init($config->captcha);
-			
+
 			if (strncasecmp('proc', $obj->act, 4) === 0)
 			{
 				spamfilter_reCAPTCHA::check();

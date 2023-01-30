@@ -21,13 +21,13 @@ class installView extends install
 		{
 			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
-		
+
 		// Set the browser title.
 		Context::setBrowserTitle(lang('introduce_title'));
-		
+
 		// Specify the template path.
 		$this->setTemplatePath($this->module_path.'tpl');
-		
+
 		// Check the environment.
 		$oInstallController = getController('install');
 		self::$checkEnv = $oInstallController->checkInstallEnv();
@@ -46,7 +46,7 @@ class installView extends install
 		if (file_exists(RX_BASEDIR . 'config/install.config.php'))
 		{
 			include RX_BASEDIR . 'config/install.config.php';
-			
+
 			if (isset($install_config) && is_array($install_config))
 			{
 				$oInstallController = getController('install');
@@ -61,7 +61,7 @@ class installView extends install
 				}
 			}
 		}
-		
+
 		// Otherwise, display the license agreement screen.
 		Context::set('lang_type', Context::getLangType());
 		$this->setTemplateFile('license_agreement');
@@ -75,7 +75,7 @@ class installView extends install
 		// Create a temporary file for mod_rewrite check.
 		self::$rewriteCheckString = Rhymix\Framework\Security::getRandom(32);
 		FileHandler::writeFile(RX_BASEDIR . self::$rewriteCheckFilePath, self::$rewriteCheckString);
-		
+
 		// Check if the web server is nginx.
 		Context::set('use_nginx', stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false);
 		$this->setTemplateFile('check_env');
@@ -91,16 +91,16 @@ class installView extends install
 		{
 			return $this->dispInstallCheckEnv();
 		}
-		
+
 		// Delete mod_rewrite check file
 		FileHandler::removeFile(RX_BASEDIR . self::$rewriteCheckFilePath);
-		
+
 		// Save mod_rewrite check status.
 		if(Context::get('rewrite') === 'Y')
 		{
 			Context::set('use_rewrite', $_SESSION['use_rewrite'] = 'Y');
 		}
-		
+
 		Context::set('error_return_url', getNotEncodedUrl('', 'act', Context::get('act')));
 		$this->setTemplateFile('db_config');
 	}
@@ -115,19 +115,19 @@ class installView extends install
 		{
 			return $this->dispInstallCheckEnv();
 		}
-		
+
 		// Get list of time zones.
 		Context::set('timezones', Rhymix\Framework\DateTime::getTimezoneList());
-		
+
 		// Automatically select a time zone for the user.
 		Context::set('selected_timezone', $this->detectUserTimeZone());
-		
+
 		// Always use SSL if installing via SSL.
 		Context::set('use_ssl', RX_SSL ? 'always' : 'none');
 		Context::set('sitelock_ip_range', $this->detectUserIPRange());
 		$this->setTemplateFile('other_config');
 	}
-	
+
 	/**
 	 * Detect the IP range of the user.
 	 */
@@ -148,7 +148,7 @@ class installView extends install
 			return RX_CLIENT_IP;
 		}
 	}
-	
+
 	/**
 	 * Detect best time zone for the user.
 	 */

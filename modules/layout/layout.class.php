@@ -3,7 +3,7 @@
 /**
  * @class  layout
  * @author NAVER (developers@xpressengine.com)
- * high class of the layout module 
+ * high class of the layout module
  */
 class layout extends ModuleObject
 {
@@ -13,7 +13,7 @@ class layout extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		
+
 	}
 
 	/**
@@ -31,7 +31,7 @@ class layout extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		
+
 	}
 
 	/**
@@ -40,7 +40,7 @@ class layout extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		
+
 	}
 }
 /* End of file layout.class.php */
