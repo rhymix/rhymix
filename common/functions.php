@@ -623,9 +623,10 @@ function utf8_check($str)
 function utf8_clean($str)
 {
 	// Check if the input is a valid UTF-8 string.
-    if (!utf8_check($str))
-    {
-        $str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
+	$str = (string)$str;
+	if (!utf8_check($str))
+	{
+		$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
 	}
 
 	// Normalize the text content.
@@ -643,7 +644,7 @@ function utf8_clean($str)
 	// Remove excessively long sequences (more than 3) of combining diacritical marks.
 	$str = preg_replace('/(\pM{3})\pM+/u', '$1', $str);
 
-    return $str;
+	return $str;
 }
 
 /**
@@ -740,10 +741,10 @@ function is_empty_html_content($str)
 **/
 if (!function_exists('is_countable'))
 {
-    function is_countable($var)
+	function is_countable($var)
 	{
-        return is_array($var) || $var instanceof Countable;
-    }
+		return is_array($var) || $var instanceof Countable;
+	}
 }
 
 /**
