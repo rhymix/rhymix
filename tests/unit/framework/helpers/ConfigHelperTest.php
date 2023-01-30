@@ -15,7 +15,7 @@ class ConfigHelperTest extends \Codeception\TestCase\Test
 			'nosuch' => array('common:no.such.config', 'member:no.such.config.either', 'intval'),
 			'single' => 'member:identifier',
 		));
-		
+
 		$this->assertEquals(config('db.type'), $consolidated['dbtype']);
 		$this->assertEquals(tobool($member_config->enable_join), $consolidated['member']);
 		$this->assertEquals(0, $consolidated['nosuch']);

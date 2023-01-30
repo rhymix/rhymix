@@ -17,7 +17,7 @@ class KoreaTest extends \Codeception\TestCase\Test
 		$this->assertEquals('0505-9876-5432', Rhymix\Framework\Korea::formatPhoneNumber('050-5987-65432'));
 		$this->assertEquals('070-7432-1000', Rhymix\Framework\Korea::formatPhoneNumber('0707-432-1000'));
 	}
-	
+
 	public function testIsValidPhoneNumber()
 	{
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('1588-0000'));
@@ -39,7 +39,7 @@ class KoreaTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0303-1111-5432'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0505-9876-543210'));
 	}
-	
+
 	public function testIsValidMobilePhoneNumber()
 	{
 		$this->assertTrue(Rhymix\Framework\Korea::isValidMobilePhoneNumber('011-345-6789'));
@@ -51,28 +51,28 @@ class KoreaTest extends \Codeception\TestCase\Test
 		$this->assertFalse(Rhymix\Framework\Korea::isValidMobilePhoneNumber('063-9876-5432'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidMobilePhoneNumber('070-7654-3210'));
 	}
-	
+
 	public function testIsValidJuminNumber()
 	{
 		// These numbers are fake.
 		$this->assertTrue(Rhymix\Framework\Korea::isValidJuminNumber('123456-3456787'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidJuminNumber('123456-3456788'));
 	}
-	
+
 	public function testIsValidCorporationNumber()
 	{
 		// These numbers are fake.
 		$this->assertTrue(Rhymix\Framework\Korea::isValidCorporationNumber('123456-0123453'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidCorporationNumber('123456-0123454'));
 	}
-	
+
 	public function testIsValidBusinessNumber()
 	{
 		// These numbers are fake.
 		$this->assertTrue(Rhymix\Framework\Korea::isValidBusinessNumber('123-45-67891'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidBusinessNumber('123-45-67892'));
 	}
-	
+
 	public function testIsKoreanIP()
 	{
 		// Private IP ranges.
@@ -80,32 +80,32 @@ class KoreaTest extends \Codeception\TestCase\Test
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('127.0.123.45'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('192.168.10.1'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('::1'));
-		
+
 		// Korean IP ranges.
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('115.71.233.0'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('114.207.12.3'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('2001:0320::1'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanIP('2407:B800::F'));
-		
+
 		// Foreign IP ranges.
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanIP('216.58.197.0'));
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanIP('170.14.168.0'));
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanIP('2001:41d0:8:e8ad::1'));
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanIP('2404:6800:4005:802::200e'));
 	}
-	
+
 	public function testIsKoreanEmailAddress()
 	{
 		// Test Korean portals.
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanEmailAddress('test@naver.com'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanEmailAddress('test@hanmail.net'));
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanEmailAddress('test@worksmobile.com'));
-		
+
 		// Test foreign portals.
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanEmailAddress('test@gmail.com'));
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanEmailAddress('test@hotmail.com'));
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanEmailAddress('test@yahoo.com'));
-		
+
 		// Test third-party MX services.
 		$this->assertTrue(Rhymix\Framework\Korea::isKoreanEmailAddress('test@woorimail.com'));
 		$this->assertFalse(Rhymix\Framework\Korea::isKoreanEmailAddress('test@rhymix.org'));

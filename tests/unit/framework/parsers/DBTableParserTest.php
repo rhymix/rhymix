@@ -22,7 +22,7 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('none', $table->columns['custom_date']->xetype);
 		$this->assertEquals('char', $table->columns['regdate']->type);
 		$this->assertEquals('date', $table->columns['regdate']->xetype);
-		
+
 		$this->assertEquals(9, count($table->indexes));
 		$this->assertEquals(['module_srl' => 0, 'document_srl' => 0], $table->indexes['idx_module_document_srl']->columns);
 		$this->assertEquals(['status' => 6], $table->indexes['idx_status']->columns);
@@ -32,7 +32,7 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('SPATIAL', $table->indexes['spatial_geometry']->type);
 		$this->assertEquals('FULLTEXT', $table->indexes['fulltext_description']->type);
 		$this->assertEquals('WITH PARSER ngram', $table->indexes['fulltext_description']->options);
-		
+
 		$this->assertEquals(2, count($table->constraints));
 		$this->assertEquals('FOREIGN KEY', $table->constraints[0]->type);
 		$this->assertEquals('module_srl', $table->constraints[0]->column);
@@ -42,7 +42,7 @@ class DBTableParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('CHECK', $table->constraints[1]->type);
 		$this->assertEquals('list_order < 0', $table->constraints[1]->condition);
 	}
-	
+
 	public function testGetCreateQuery()
 	{
 		$table = Rhymix\Framework\Parsers\DBTableParser::loadXML(\RX_BASEDIR . 'tests/_data/dbtable/example.xml');
