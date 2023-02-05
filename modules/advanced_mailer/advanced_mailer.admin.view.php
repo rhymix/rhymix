@@ -15,11 +15,11 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	{
 		$advanced_mailer_config = $this->getConfig();
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('config');
 	}
-	
+
 	/**
 	 * Display the exception domains configuration form.
 	 */
@@ -27,7 +27,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		
+
 		for ($i = 1; $i <= 3; $i++)
 		{
 			if (!isset($advanced_mailer_config->exceptions[$i]))
@@ -39,15 +39,15 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 				$advanced_mailer_config->exceptions[$i]['method'] = 'mailfunction';
 			}
 		}
-		
+
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
 		Context::set('sending_methods', $sending_methods);
 		Context::set('sending_method', config('mail.type'));
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('exceptions');
 	}
-	
+
 	/**
 	 * Display the SPF/DKIM setting guide.
 	 */
@@ -55,7 +55,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		
+
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
 		Context::set('sending_methods', $sending_methods);
 		Context::set('sending_method', config('mail.type'));
@@ -67,7 +67,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		{
 			Context::set('sending_domain', preg_replace('/^www\./', '', $_SERVER['HTTP_HOST']));
 		}
-		
+
 		$used_methods = array(config('mail.type'));
 		$advanced_mailer_config->exceptions = $advanced_mailer_config->exceptions ?: array();
 		foreach ($advanced_mailer_config->exceptions as $exception)
@@ -78,7 +78,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 			}
 		}
 		Context::set('used_methods', $used_methods);
-		
+
 		$used_methods_with_usable_spf = array();
 		$used_methods_with_usable_dkim = array();
 		foreach ($used_methods as $method)
@@ -104,11 +104,11 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		ksort($used_methods_with_usable_dkim);
 		Context::set('used_methods_with_usable_spf', $used_methods_with_usable_spf);
 		Context::set('used_methods_with_usable_dkim', $used_methods_with_usable_dkim);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('spf_dkim');
 	}
-	
+
 	/**
 	 * Display the mail test form.
 	 */
@@ -116,15 +116,15 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		
+
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
 		Context::set('sending_methods', $sending_methods);
 		Context::set('sending_method', config('mail.type'));
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('mail_test');
 	}
-	
+
 	/**
 	 * Display the mail log.
 	 */
@@ -137,20 +137,20 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		$maillog = $maillog->toBool() ? $this->procMailLog($maillog->data) : array();
 		Context::set('advanced_mailer_log', $maillog);
 		Context::set('advanced_mailer_status', $obj->status);
-		
+
 		$paging = $this->procPaging($obj->status, 'mail', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
 		Context::set('page_navigation', $paging->page_navigation);
-		
+
 		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
 		Context::set('sending_methods', $sending_methods);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('mail_log');
 	}
-	
+
 	/**
 	 * Display the SMS test form.
 	 */
@@ -158,15 +158,15 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	{
 		$advanced_mailer_config = $this->getConfig();
 		$sending_methods = Rhymix\Framework\Mail::getSupportedDrivers();
-		
+
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
 		Context::set('sending_methods', $sending_methods);
 		Context::set('sending_method', config('mail.type'));
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('sms_test');
 	}
-	
+
 	/**
 	 * Display the SMS log.
 	 */
@@ -179,20 +179,20 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		$smslog = $smslog->toBool() ? $smslog->data : array();
 		Context::set('advanced_mailer_log', $smslog);
 		Context::set('advanced_mailer_status', $obj->status);
-		
+
 		$paging = $this->procPaging($obj->status, 'sms', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
 		Context::set('page_navigation', $paging->page_navigation);
-		
+
 		$sending_methods = Rhymix\Framework\SMS::getSupportedDrivers();
 		Context::set('sending_methods', $sending_methods);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('sms_log');
 	}
-	
+
 	/**
 	 * Display the Push test form.
 	 */
@@ -200,11 +200,11 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 	{
 		$advanced_mailer_config = $this->getConfig();
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('push_test');
 	}
-	
+
 	/**
 	 * Display the Push log.
 	 */
@@ -217,17 +217,17 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		$pushlog = $pushlog->toBool() ? $pushlog->data : array();
 		Context::set('advanced_mailer_log', $pushlog);
 		Context::set('advanced_mailer_status', $obj->status);
-		
+
 		$paging = $this->procPaging($obj->status, 'push', $page);
 		Context::set('total_count', $paging->total_count);
 		Context::set('total_page', $paging->total_page);
 		Context::set('page', $paging->page);
 		Context::set('page_navigation', $paging->page_navigation);
-		
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('push_log');
 	}
-	
+
 	/**
 	 * Process mail log for display.
 	 */
@@ -248,7 +248,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 				}
 			}
 			$item->mail_from = $from;
-			
+
 			$to = explode("\n", $item->mail_to);
 			foreach($to as &$toitem)
 			{
@@ -263,10 +263,10 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 			}
 			$item->mail_to = $to;
 		}
-		
+
 		return $log;
 	}
-	
+
 	/**
 	 * Process paging.
 	 */
@@ -288,7 +288,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		}
 		$total_count = $count->data->count;
 		$total_page = max(1, ceil($total_count / 20));
-		
+
 		$output = new stdClass;
 		$output->total_count = $total_count;
 		$output->total_page = $total_page;
@@ -296,7 +296,7 @@ class Advanced_MailerAdminView extends Advanced_Mailer
 		$output->page_navigation = new PageHandler($total_count, $total_page, $page, 10);
 		return $output;
 	}
-	
+
 	/**
 	 * Get the public IPv4 address of the current server.
 	 */

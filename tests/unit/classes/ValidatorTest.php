@@ -15,12 +15,12 @@ class ValidatorTest extends \Codeception\TestCase\Test
 	{
 		Rhymix\Framework\Storage::deleteDirectory(__DIR__ . '/validator/ruleset', true);
 	}
-	
+
 	public function _failed()
 	{
         Rhymix\Framework\Storage::deleteDirectory(__DIR__ . '/validator/ruleset', true);
     }
-    
+
     public function testRequired()
     {
         $vd = new Validator();

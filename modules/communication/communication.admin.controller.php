@@ -38,7 +38,7 @@ class communicationAdminController extends communication
 		$output = $oModuleController->insertModuleConfig('communication', $args);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispCommunicationAdminConfig');
-		
+
 		return $this->setRedirectUrl($returnUrl, $output);
 	}
 

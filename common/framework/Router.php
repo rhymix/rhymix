@@ -65,7 +65,7 @@ class Router
 			'priority' => 0,
 		),
 	);
-	
+
 	/**
 	 * List of legacy URLs that should not be treated as prefixes.
 	 */
@@ -73,14 +73,14 @@ class Router
 		'rss' => true,
 		'atom' => true,
 	);
-	
+
 	/**
 	 * List of legacy modules whose URLs should not be shortened.
 	 */
 	protected static $_except_modules = array(
 		'socialxe' => true,
 	);
-	
+
 	/**
 	 * Internal cache for module and route information.
 	 */
@@ -89,14 +89,14 @@ class Router
 	protected static $_global_forwarded_cache = array();
 	protected static $_internal_forwarded_cache = array();
 	protected static $_route_cache = array();
-	
+
 	/**
 	 * Return the currently configured rewrite level.
-	 * 
+	 *
 	 * 0 = None
 	 * 1 = XE-compatible rewrite rules only
 	 * 2 = Full rewrite support
-	 * 
+	 *
 	 * @return int
 	 */
 	public static function getRewriteLevel(): int
@@ -108,10 +108,10 @@ class Router
 		}
 		return intval($level);
 	}
-	
+
 	/**
 	 * Extract request arguments from the current URL.
-	 * 
+	 *
 	 * @param string $method
 	 * @param string $url
 	 * @param int $rewrite_level
@@ -128,7 +128,7 @@ class Router
 		$result->act = '';
 		$result->forwarded = false;
 		$result->args = array();
-		
+
 		// Separate additional arguments from the URL.
 		$args = array();
 		$argstart = strpos($url, '?');
@@ -138,7 +138,7 @@ class Router
 			$url = substr($url, 0, $argstart);
 			$result->args = $args;
 		}
-		
+
 		// Decode the URL into plain UTF-8.
 		$url = $result->url = urldecode($url);
 		if ($url === '')
@@ -150,7 +150,7 @@ class Router
 			$result->status = 404;
 			return $result;
 		}
-		
+
 		// Try to detect the prefix. This might be $mid.
 		if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?$#s', $url, $matches) && !isset(self::$_except_prefixes[$matches[1]]))
 		{
@@ -158,7 +158,7 @@ class Router
 			$prefix = $matches[1];
 			$internal_url = $matches[2] ?? '';
 			$prefix_type = 'mid';
-			
+
 			// Find the module associated with this prefix.
 			$module_name = '';
 			$action_info = self::_getActionInfoByPrefix($prefix, $module_name);
@@ -171,7 +171,7 @@ class Router
 					$prefix_type = 'module';
 				}
 			}
-			
+
 			// If a module is found, try its routes.
 			if ($action_info)
 			{
@@ -184,7 +184,7 @@ class Router
 					$result->args = $allargs;
 					return $result;
 				}
-				
+
 				// Try the list of routes defined by the module.
 				foreach ($action_info->route->{$method} as $regexp => $action)
 				{
@@ -199,7 +199,7 @@ class Router
 						return $result;
 					}
 				}
-				
+
 				// Check other modules.
 				if ($prefix_type === 'mid')
 				{
@@ -219,7 +219,7 @@ class Router
 						}
 					}
 				}
-				
+
 				// Try the generic mid/act pattern.
 				if (preg_match('#^[a-zA-Z0-9_]+$#', $internal_url))
 				{
@@ -231,7 +231,7 @@ class Router
 					$result->args = $allargs;
 					return $result;
 				}
-				
+
 				// If the module defines a 404 error handler, call it.
 				if ($internal_url && isset($action_info->error_handlers[404]))
 				{
@@ -245,7 +245,7 @@ class Router
 				}
 			}
 		}
-		
+
 		// Try registered global routes.
 		if ($rewrite_level >= 2)
 		{
@@ -264,7 +264,7 @@ class Router
 				}
 			}
 		}
-		
+
 		// Try XE-compatible global routes.
 		foreach (self::$_global_routes as $route_info)
 		{
@@ -280,7 +280,7 @@ class Router
 				return $result;
 			}
 		}
-		
+
 		// If no pattern matches, return either an empty route or a 404 error.
 		$result->module = isset($args['module']) ? $args['module'] : '';
 		$result->mid = isset($args['mid']) ? $args['mid'] : '';
@@ -297,10 +297,10 @@ class Router
 			return $result;
 		}
 	}
-	
+
 	/**
 	 * Create a URL for the given set of arguments.
-	 * 
+	 *
 	 * @param array $args
 	 * @param int $rewrite_level
 	 * @return string
@@ -312,23 +312,23 @@ class Router
 		{
 			return 'index.php?' . http_build_query($args);
 		}
-		
+
 		// Cache the number of arguments and their keys.
 		$count = count($args);
 		$keys = array_keys($args);
-		
+
 		// If there are no arguments, return the URL of the main page.
 		if ($count == 0)
 		{
 			return '';
 		}
-		
+
 		// If there is only one argument, try either $mid or $document_srl.
 		if ($rewrite_level >= 1 && $count == 1 && ($keys[0] === 'mid' || $keys[0] === 'document_srl'))
 		{
 			return urlencode($args[$keys[0]]);
 		}
-		
+
 		// If the list of keys is already cached, return the corresponding route.
 		$keys_sorted = $keys; sort($keys_sorted);
 		$keys_string = implode('.', $keys_sorted) . ':' . ($args['mid'] ?? '') . ':' . ($args['act'] ?? '');
@@ -336,10 +336,10 @@ class Router
 		{
 			return self::_insertRouteVars(self::$_route_cache[$rewrite_level][$keys_string], $args);
 		}
-		
+
 		// Remove $mid and $act from arguments and work with the remainder.
 		$args2 = $args; unset($args2['module'], $args2['mid'], $args2['act']);
-		
+
 		// If $mid exists, try routes defined in the module.
 		if ($rewrite_level >= 2 && (isset($args['mid']) || isset($args['module'])))
 		{
@@ -354,10 +354,10 @@ class Router
 				$action_info = self::_getActionInfoByModule($args['module']);
 				$prefix_type = 'module';
 			}
-			
+
 			// If there is no $act, use the default action.
 			$act = isset($args['act']) ? $args['act'] : $action_info->default_index_act;
-			
+
 			// Check if $act has any routes defined.
 			$action = $action_info->action->{$act} ?? null;
 			if ($action && $action->route)
@@ -375,7 +375,7 @@ class Router
 					return $args[$prefix_type];
 				}
 			}
-			
+
 			// Check other modules for $act.
 			if ($prefix_type === 'mid')
 			{
@@ -391,7 +391,7 @@ class Router
 					}
 				}
 			}
-			
+
 			// Try the generic mid/act pattern.
 			if (($prefix_type !== 'module' || !isset(self::$_except_modules[$args[$prefix_type]])) && isset($args['act']))
 			{
@@ -400,7 +400,7 @@ class Router
 				return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
 			}
 		}
-		
+
 		// Try registered global routes.
 		if ($rewrite_level >= 2 && isset($args['act']))
 		{
@@ -415,7 +415,7 @@ class Router
 				}
 			}
 		}
-		
+
 		// Try XE-compatible global routes.
 		if ($rewrite_level >= 1)
 		{
@@ -429,15 +429,15 @@ class Router
 				}
 			}
 		}
-		
+
 		// If no route matches, just create a query string.
 		self::$_route_cache[$rewrite_level][$keys_string] = 'index.php';
 		return 'index.php?' . http_build_query($args);
 	}
-	
+
 	/**
 	 * Load and cache module action info.
-	 * 
+	 *
 	 * @param string $prefix
 	 * @return object
 	 */
@@ -448,7 +448,7 @@ class Router
 			$module_name = self::$_action_cache_prefix[$prefix];
 			return self::_getActionInfoByModule(self::$_action_cache_prefix[$prefix]) ?: false;
 		}
-		
+
 		$module_info = \ModuleModel::getModuleInfoByMid($prefix);
 		if ($module_info && $module_info->module)
 		{
@@ -460,10 +460,10 @@ class Router
 			return self::$_action_cache_prefix[$prefix] = false;
 		}
 	}
-	
+
 	/**
 	 * Load and cache module action info.
-	 * 
+	 *
 	 * @param string $prefix
 	 * @return object
 	 */
@@ -473,14 +473,14 @@ class Router
 		{
 			return self::$_action_cache_module[$module];
 		}
-		
+
 		$action_info = \ModuleModel::getModuleActionXml($module);
 		return self::$_action_cache_module[$module] = $action_info ?: false;
 	}
-	
+
 	/**
 	 * Get the list of routes that are registered for action-forward.
-	 * 
+	 *
 	 * @param string $type
 	 * @return array
 	 */
@@ -494,14 +494,14 @@ class Router
 		{
 			return self::$_global_forwarded_cache;
 		}
-		
+
 		self::$_global_forwarded_cache['GET'] = array();
 		self::$_global_forwarded_cache['POST'] = array();
 		self::$_global_forwarded_cache['reverse'] = array();
 		self::$_internal_forwarded_cache['GET'] = array();
 		self::$_internal_forwarded_cache['POST'] = array();
 		self::$_internal_forwarded_cache['reverse'] = array();
-		
+
 		$action_forward = \ModuleModel::getActionForward();
 		foreach ($action_forward as $action_name => $action_info)
 		{
@@ -530,10 +530,10 @@ class Router
 		}
 		return $type === 'internal' ? self::$_internal_forwarded_cache : self::$_global_forwarded_cache;
 	}
-	
+
 	/**
 	 * Find the best matching route for an array of variables.
-	 * 
+	 *
 	 * @param array $routes
 	 * @param array $vars
 	 * @return string|false
@@ -551,7 +551,7 @@ class Router
 			}
 			return $only_route;
 		}
-		
+
 		// If the action has multiple routes, select the one that matches the most arguments.
 		else
 		{
@@ -574,10 +574,10 @@ class Router
 			return $best_route;
 		}
 	}
-	
+
 	/**
 	 * Insert variables into a route.
-	 * 
+	 *
 	 * @param string $route
 	 * @param array $vars
 	 * @return string
@@ -597,7 +597,7 @@ class Router
 				return '';
 			}
 		}, $route);
-		
+
 		// Add a query string for the remaining arguments.
 		return $route . (count($vars) ? ('?' . http_build_query($vars)) : '');
 	}

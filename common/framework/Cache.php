@@ -12,25 +12,25 @@ class Cache
 	 */
 	protected static $_driver = null;
 	protected static $_driver_name = null;
-	
+
 	/**
 	 * The cache prefix.
 	 */
 	protected static $_prefix = null;
-	
+
 	/**
 	 * The default TTL.
 	 */
 	protected static $_ttl = 86400;
-	
+
 	/**
 	 * Cache group versions.
 	 */
 	protected static $_group_versions = array();
-	
+
 	/**
 	 * Initialize the cache system.
-	 * 
+	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class Cache
 		{
 			$config = array($config);
 		}
-		
+
 		if (isset($config['type']))
 		{
 			$driver_name = $config['type'];
@@ -61,7 +61,7 @@ class Cache
 			$driver_name = null;
 			$class_name = null;
 		}
-		
+
 		if ($class_name !== null && $driver_name !== 'file' && class_exists($class_name) && $class_name::isSupported())
 		{
 			self::$_driver = $class_name::getInstance($config);
@@ -72,7 +72,7 @@ class Cache
 			self::$_driver = Drivers\Cache\Dummy::getInstance(array());
 			self::$_driver_name = 'dummy';
 		}
-		
+
 		if (self::$_driver->prefix)
 		{
 			self::$_prefix = substr(sha1(\RX_BASEDIR), 0, 10) . ':' . \RX_VERSION . ':';
@@ -81,13 +81,13 @@ class Cache
 		{
 			self::$_prefix = \RX_VERSION . ':';
 		}
-		
+
 		return self::$_driver;
 	}
-	
+
 	/**
 	 * Get the list of supported cache drivers.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSupportedDrivers()
@@ -104,20 +104,20 @@ class Cache
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Get the name of the currently enabled cache driver.
-	 * 
+	 *
 	 * @return string|null
 	 */
 	public static function getDriverName()
 	{
 		return self::$_driver_name;
 	}
-	
+
 	/**
 	 * Get the currently enabled cache driver, or a named driver with the given settings.
-	 * 
+	 *
 	 * @param string $name (optional)
 	 * @param array $config (optional)
 	 * @return object|null
@@ -141,30 +141,30 @@ class Cache
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the automatically generated cache prefix for this installation of Rhymix.
-	 * 
+	 *
 	 * @return object|null
 	 */
 	public static function getPrefix()
 	{
 		return self::$_prefix;
 	}
-	
+
 	/**
 	 * Get the default TTL.
-	 * 
+	 *
 	 * @return int
 	 */
 	public static function getDefaultTTL()
 	{
 		return self::$_ttl;
 	}
-	
+
 	/**
 	 * Set the default TTL.
-	 * 
+	 *
 	 * @param int $ttl
 	 * @return void
 	 */
@@ -172,12 +172,12 @@ class Cache
 	{
 		self::$_ttl = $ttl;
 	}
-	
+
 	/**
 	 * Get the value of a key.
-	 * 
+	 *
 	 * This method returns null if the key was not found.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -192,14 +192,14 @@ class Cache
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Set the value to a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * $ttl is measured in seconds. If it is not given, the default TTL is used.
 	 * $force is used to cache essential data when using the default driver.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl (optional)
@@ -226,13 +226,13 @@ class Cache
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Delete a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * If the key does not exist, it should return false.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -247,12 +247,12 @@ class Cache
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Check if a key exists.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -267,13 +267,13 @@ class Cache
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Increase the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value, or -1 on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount (optional)
 	 * @return int
@@ -289,13 +289,13 @@ class Cache
 			return -1;
 		}
 	}
-	
+
 	/**
 	 * Decrease the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value, or -1 on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount (optional)
 	 * @return int
@@ -311,12 +311,12 @@ class Cache
 			return -1;
 		}
 	}
-	
+
 	/**
 	 * Clear a group of keys from the cache.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $group_name
 	 * @return bool
 	 */
@@ -333,12 +333,12 @@ class Cache
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Clear all keys from the cache.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function clearAll(): bool
@@ -352,10 +352,10 @@ class Cache
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the group version.
-	 * 
+	 *
 	 * @param string $group_name
 	 * @return int
 	 */
@@ -377,10 +377,10 @@ class Cache
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the actual key used by Rhymix.
-	 * 
+	 *
 	 * @param string $key
 	 * @return string
 	 */
@@ -390,7 +390,7 @@ class Cache
 		{
 			$key = $matches[1] . '#' . self::getGroupVersion($matches[1]) . ':' . $matches[2];
 		}
-		
+
 		return self::$_prefix . $key;
 	}
 }

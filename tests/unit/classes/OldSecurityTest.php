@@ -6,7 +6,7 @@ class OldSecurityTest extends \Codeception\TestCase\Test
     {
         $this->_reset();
     }
-    
+
     protected function _reset()
     {
         /**

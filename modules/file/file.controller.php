@@ -34,13 +34,13 @@ class FileController extends File
 		// Basic variables setting
 		$editor_sequence = Context::get('editor_sequence');
 		$module_srl = $this->module_srl;
-		
+
 		// Exit a session if there is neither upload permission nor information
 		if(!$_SESSION['upload_info'][$editor_sequence]->enabled)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// Get upload_target_srl
 		$upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
 		if (!$upload_target_srl)
@@ -52,7 +52,7 @@ class FileController extends File
 			$upload_target_srl = getNextSequence();
 			$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
 		}
-		
+
 		// Handle chunking
 		if (preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE'], $matches))
 		{
@@ -66,7 +66,7 @@ class FileController extends File
 			}
 			$this->add('chunk_current_size', $chunk_size);
 			$this->add('chunk_uploaded_size', $chunk_start);
-			
+
 			// Check existing chunks
 			$temp_key = hash_hmac('sha1', sprintf('%d:%d:%d:%s:%s', $editor_sequence, $upload_target_srl, $module_srl, $file_info['name'], session_id()), config('crypto.authentication_key'));
 			$temp_filename = RX_BASEDIR . 'files/attach/chunks/' . $temp_key;
@@ -82,7 +82,7 @@ class FileController extends File
 				$this->add('chunk_status', 12);
 				throw new Rhymix\Framework\Exception('msg_upload_invalid_chunk');
 			}
-			
+
 			// Check size limit
 			$is_admin = (Context::get('logged_info')->is_admin === 'Y');
 			if (!$is_admin)
@@ -102,7 +102,7 @@ class FileController extends File
 					throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 				}
 			}
-			
+
 			// Append to chunk
 			$fp = fopen($file_info['tmp_name'], 'r');
 			$success = Rhymix\Framework\Storage::write($temp_filename, $fp, 'a');
@@ -135,14 +135,14 @@ class FileController extends File
 		{
 			$this->add('chunk_status', -1);
 		}
-		
+
 		// Save the file
 		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
 		if($output->error != '0')
 		{
 			throw new Rhymix\Framework\Exception($output->message);
 		}
-		
+
 		// Create the response
 		Context::setResponseMethod('JSON');
 		$this->add('file_srl', $output->get('file_srl'));
@@ -303,7 +303,7 @@ class FileController extends File
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
-		
+
 		// Not allow the file outlink
 		$file_module_config = FileModel::getFileConfig($file_obj->module_srl);
 		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
@@ -355,13 +355,13 @@ class FileController extends File
 				throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_allowed_outlink');
 			}
 		}
-		
+
 		// Check if the file is downloadable
 		if(!FileModel::isDownloadable($file_obj))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted('msg_not_permitted_download');
 		}
-		
+
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('file.downloadFile', 'before', $file_obj);
 		if(!$output->toBool())
@@ -389,7 +389,7 @@ class FileController extends File
 		$file_key_data = sprintf('%d:%d:%s:%s', $file_obj->file_srl, $file_key_timestamp, $file_obj->uploaded_filename, \RX_CLIENT_IP);
 		$file_key_sig = \Rhymix\Framework\Security::createSignature($file_key_data);
 		$file_key = dechex($file_key_timestamp) . $file_key_sig;
-		
+
 		// Use short URL or long URL
 		if ($file_module_config->download_short_url === 'Y' && config('use_rewrite'))
 		{
@@ -399,7 +399,7 @@ class FileController extends File
 		{
 			$url = getNotEncodedUrl('', 'module', 'file', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null);
 		}
-		
+
 		header('X-Robots-Tag: noindex');
 		header('Location: ' . $url);
 		Context::close();
@@ -412,7 +412,7 @@ class FileController extends File
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
 		$filename_arg = Context::get('filename');
-		
+
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = FileModel::getFile($file_srl, $columnList);
 		$file_config = FileModel::getFileConfig($file_obj->module_srl ?: null);
@@ -435,13 +435,13 @@ class FileController extends File
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		// Check filename if given
 		if ($filename_arg !== null && $filename_arg !== $filename)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
-		
+
 		// Check if file exists
 		$uploaded_filename = $file_obj->uploaded_filename;
 		if(!file_exists($uploaded_filename))
@@ -453,7 +453,7 @@ class FileController extends File
 		if(isset($_SERVER['HTTP_IF_NONE_MATCH']) && trim(trim($_SERVER['HTTP_IF_NONE_MATCH']), '\'"') === $etag)
 		{
 			header('HTTP/1.1 304 Not Modified');
-			exit(); 
+			exit();
 		}
 
 		// If client sent an If-Modified-Since header with a recent modification date, do not download again
@@ -532,19 +532,19 @@ class FileController extends File
 		{
 			$download_type = 'attachment';
 		}
-		
+
 		// Clear buffer
 		while(ob_get_level()) ob_end_clean();
-		
+
 		// Set filename headers
 		header('Content-Type: ' . $mime_type);
 		header('Content-Disposition: ' . $download_type . $filename_param);
-		
+
 		// Set cache headers
 		header('Cache-Control: private; max-age=3600');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Pragma: ');
-		
+
 		// Set other headers
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
@@ -610,13 +610,13 @@ class FileController extends File
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin !== 'Y' && !ModuleModel::isSiteAdmin($logged_info))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		$fileSrls = Context::get('file_srls');
 		if($fileSrls) $fileSrlList = explode(',', $fileSrls);
 
@@ -692,7 +692,7 @@ class FileController extends File
 	{
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return;
-		
+
 		return $this->deleteModuleFiles($module_srl);
 	}
 
@@ -723,7 +723,7 @@ class FileController extends File
 		}
 		$_SESSION['upload_info'][$editor_sequence]->enabled = true;
 		$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
-		
+
 		return $editor_sequence;
 	}
 
@@ -788,13 +788,13 @@ class FileController extends File
 		$trigger_obj->upload_target_srl = $upload_target_srl;
 		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
-		
+
 		// A workaround for Firefox upload bug
 		if(preg_match('/^=\?UTF-8\?B\?(.+)\?=$/i', $file_info['name'], $match))
 		{
 			$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
 		}
-		
+
 		// Set base information
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 		$file_info['type'] = $file_info['original_type'] = Rhymix\Framework\MIME::getContentType($file_info['tmp_name']);
@@ -804,7 +804,7 @@ class FileController extends File
 		$file_info['duration'] = null;
 		$file_info['thumbnail'] = null;
 		$file_info['converted'] = false;
-		
+
 		// Correct extension
 		if($file_info['extension'])
 		{
@@ -818,10 +818,10 @@ class FileController extends File
 				}
 			}
 		}
-		
+
 		// Get file module configuration
 		$config = FileModel::getFileConfig($module_srl);
-		
+
 		// Check file extension
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
@@ -830,7 +830,7 @@ class FileController extends File
 				throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 			}
 		}
-		
+
 		// Adjust
 		if(!$manual_insert)
 		{
@@ -839,14 +839,14 @@ class FileController extends File
 			{
 				$file_info = $this->adjustUploadedImage($file_info, $config);
 			}
-			
+
 			// video
 			if(in_array($file_info['extension'], ['mp4', 'webm', 'ogv']))
 			{
 				$file_info = $this->adjustUploadedVideo($file_info, $config);
 			}
 		}
-		
+
 		// Check file size
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
@@ -857,7 +857,7 @@ class FileController extends File
 			{
 				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 			}
-			
+
 			$size_args = new stdClass;
 			$size_args->upload_target_srl = $upload_target_srl;
 			$output = executeQuery('file.getAttachedFileSize', $size_args);
@@ -866,7 +866,7 @@ class FileController extends File
 				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
 			}
 		}
-		
+
 		$args = new stdClass;
 		$args->file_srl = getNextSequence();
 		$args->regdate = date('YmdHis');
@@ -880,20 +880,20 @@ class FileController extends File
 		$args->width = $file_info['width'];
 		$args->height = $file_info['height'];
 		$args->duration = $file_info['duration'];
-		
+
 		// Set original type
 		$args->original_type = null;
 		if($file_info['type'] !== $file_info['original_type'])
 		{
 			$args->original_type = $file_info['original_type'];
 		}
-		
+
 		// Add changed extension
 		if($file_info['extension'] && $file_info['extension'] !== $file_info['original_extension'])
 		{
 			$args->source_filename .= '.' . $file_info['extension'];
 		}
-		
+
 		// Set storage path by checking if the attachement is an image or other kinds of file
 		if($direct = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename))
 		{
@@ -903,7 +903,7 @@ class FileController extends File
 		{
 			$storage_path = $this->getStoragePath('binaries', $args->file_srl, $module_srl, $upload_target_srl, $args->regdate);
 		}
-		
+
 		if($config->allow_multimedia_direct_download !== 'N')
 		{
 			$args->direct_download = $direct ? 'Y' : 'N';
@@ -912,13 +912,13 @@ class FileController extends File
 		{
 			$args->direct_download = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename, false) ? 'Y' : 'N';
 		}
-		
+
 		// Create a directory
 		if(!Rhymix\Framework\Storage::isDirectory($storage_path) && !Rhymix\Framework\Storage::createDirectory($storage_path))
 		{
 			throw new Rhymix\Framework\Exception('msg_not_permitted_create');
 		}
-		
+
 		// Set move type and uploaded filename
 		$move_type = $manual_insert ? 'copy' : '';
 		if($file_info['converted'] || starts_with(RX_BASEDIR . 'files/attach/chunks/', $file_info['tmp_name']))
@@ -931,7 +931,7 @@ class FileController extends File
 		{
 			$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . $extension;
 		}
-		
+
 		// Move the uploaded file
 		if(!Rhymix\Framework\Storage::moveUploadedFile($file_info['tmp_name'], $uploaded_filename, $move_type))
 		{
@@ -939,7 +939,7 @@ class FileController extends File
 		}
 		$args->uploaded_filename = './' . substr($uploaded_filename, strlen(RX_BASEDIR));
 		$args->file_size = @filesize($uploaded_filename);
-		
+
 		// Move the generated thumbnail image
 		if($file_info['thumbnail'])
 		{
@@ -953,10 +953,10 @@ class FileController extends File
 				$args->thumbnail_filename = './' . substr($thumbnail_filename, strlen(RX_BASEDIR));
 			}
 		}
-		
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// Insert file information
 		$output = executeQuery('file.insertFile', $args);
 		if(!$output->toBool())
@@ -965,7 +965,7 @@ class FileController extends File
 			$this->deleteFile(array($args));
 			return $output;
 		}
-		
+
 		// Insert changelog
 		if($config->save_changelog === 'Y')
 		{
@@ -983,14 +983,14 @@ class FileController extends File
 				return $output;
 			}
 		}
-		
+
 		$oDB->commit();
-		
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('file.insertFile', 'after', $args);
-		
+
 		$_SESSION['__XE_UPLOADING_FILES_INFO__'][$args->file_srl] = true;
-		
+
 		$output->add('file_srl', $args->file_srl);
 		$output->add('file_size', $args->file_size);
 		$output->add('sid', $args->sid);
@@ -1000,10 +1000,10 @@ class FileController extends File
 		$output->add('uploaded_filename', $args->uploaded_filename);
 		$output->add('thumbnail_filename', $args->thumbnail_filename);
 		$output->add('original_type', $args->original_type);
-		
+
 		return $output;
 	}
-	
+
 	/**
 	 * Adjust uploaded image
 	 */
@@ -1014,11 +1014,11 @@ class FileController extends File
 		{
 			return $file_info;
 		}
-		
+
 		// Set image size
 		$file_info['width'] = $image_info['width'];
 		$file_info['height'] = $image_info['height'];
-		
+
 		// Set base information
 		$force = false;
 		$adjusted = [
@@ -1029,7 +1029,7 @@ class FileController extends File
 			'rotate' => 0,
 		];
 		$is_animated = Rhymix\Framework\Image::isAnimatedGIF($file_info['tmp_name']);
-		
+
 		// Adjust image type
 		if ($config->image_autoconv['gif2mp4'] && $is_animated && function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command))
 		{
@@ -1047,7 +1047,7 @@ class FileController extends File
 		{
 			$adjusted['type'] = 'jpg';
 		}
-		
+
 		// Adjust image rotation
 		if ($config->image_autorotate && $image_info['type'] === 'jpg')
 		{
@@ -1062,7 +1062,7 @@ class FileController extends File
 				$adjusted['rotate'] = $rotate;
 			}
 		}
-		
+
 		// Adjust image size
 		if ($config->max_image_size_action && ($config->max_image_width || $config->max_image_height) && (!$this->user->isAdmin() || $config->max_image_size_admin === 'Y'))
 		{
@@ -1081,7 +1081,7 @@ class FileController extends File
 				$resize_height = $config->max_image_height;
 				$exceeded++;
 			}
-			
+
 			if ($exceeded)
 			{
 				// Block upload
@@ -1101,7 +1101,7 @@ class FileController extends File
 					}
 					throw new Rhymix\Framework\Exception($message);
 				}
-				
+
 				$adjusted['width'] = (int)$resize_width;
 				$adjusted['height'] = (int)$resize_height;
 				if (!$is_animated && $adjusted['type'] === $image_info['type'] && $config->max_image_size_same_format !== 'Y')
@@ -1110,7 +1110,7 @@ class FileController extends File
 				}
 			}
 		}
-		
+
 		// Set force for remove EXIF data
 		if($config->image_remove_exif_data && $image_info['type'] === 'jpg' && function_exists('exif_read_data'))
 		{
@@ -1123,7 +1123,7 @@ class FileController extends File
 				$force = true;
 			}
 		}
-		
+
 		// Convert image if adjusted
 		if (
 			$force ||
@@ -1134,13 +1134,13 @@ class FileController extends File
 		)
 		{
 			$output_name = $file_info['tmp_name'] . '.converted.' . $adjusted['type'];
-			
+
 			// Generate an output file
 			if ($adjusted['type'] === 'mp4')
 			{
 				$adjusted['width'] -= $adjusted['width'] % 2;
 				$adjusted['height'] -= $adjusted['height'] % 2;
-				
+
 				// Convert using ffmpeg
 				$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
 				$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
@@ -1149,7 +1149,7 @@ class FileController extends File
 				$command .= ' ' . escapeshellarg($output_name);
 				@exec($command, $output, $return_var);
 				$result = $return_var === 0 ? true : false;
-				
+
 				// Generate a thumbnail image
 				if ($result)
 				{
@@ -1164,7 +1164,7 @@ class FileController extends File
 			{
 				$result = FileHandler::createImageFile($file_info['tmp_name'], $output_name, $adjusted['width'], $adjusted['height'], $adjusted['type'], 'fill', $adjusted['quality'], $adjusted['rotate']);
 			}
-			
+
 			// Change to information in the output file
 			if ($result)
 			{
@@ -1177,10 +1177,10 @@ class FileController extends File
 				$file_info['converted'] = true;
 			}
 		}
-		
+
 		return $file_info;
 	}
-	
+
 	/**
 	 * Adjust uploaded video
 	 */
@@ -1190,7 +1190,7 @@ class FileController extends File
 		{
 			return $file_info;
 		}
-		
+
 		// Analyze video file
 		$command = \RX_WINDOWS ? escapeshellarg($config->ffprobe_command) : $config->ffprobe_command;
 		$command .= ' -v quiet -print_format json -show_streams';
@@ -1200,7 +1200,7 @@ class FileController extends File
 		{
 			return $file_info;
 		}
-		
+
 		// Get stream information
 		$stream_info = [];
 		foreach ($output['streams'] as $info)
@@ -1211,12 +1211,12 @@ class FileController extends File
 		{
 			return $file_info;
 		}
-		
+
 		// Set video size
 		$file_info['width'] = (int)$stream_info['video']['width'];
 		$file_info['height'] = (int)$stream_info['video']['height'];
 		$file_info['duration'] = (int)$stream_info['video']['duration'];
-		
+
 		// MP4
 		if ($file_info['extension'] === 'mp4')
 		{
@@ -1226,7 +1226,7 @@ class FileController extends File
 				$file_info['original_type'] = 'image/gif';
 			}
 		}
-		
+
 		// Generate a thumbnail image
 		if ($config->video_thumbnail)
 		{
@@ -1240,10 +1240,10 @@ class FileController extends File
 				$file_info['thumbnail'] = $thumbnail_name;
 			}
 		}
-		
+
 		return $file_info;
 	}
-	
+
 	/**
 	 * Delete the attachment
 	 *
@@ -1277,16 +1277,16 @@ class FileController extends File
 		{
 			$file_list = explode(',', $file_list);
 		}
-		
+
 		if(empty($file_list))
 		{
 			return new BaseObject();
 		}
-		
+
 		$config = FileModel::getFileConfig();
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		foreach($file_list as $file)
 		{
 			if(!is_object($file))
@@ -1297,16 +1297,16 @@ class FileController extends File
 				}
 				$file = FileModel::getFile($file_srl);
 			}
-			
+
 			if(empty($file->file_srl))
 			{
 				continue;
 			}
-			
+
 			// Call a trigger (before)
 			$output = ModuleHandler::triggerCall('file.deleteFile', 'before', $file);
 			if(!$output->toBool()) return $output;
-			
+
 			// Remove from the DB
 			$output = executeQuery('file.deleteFile', $file);
 			if(!$output->toBool())
@@ -1314,7 +1314,7 @@ class FileController extends File
 				$oDB->rollback();
 				return $output;
 			}
-			
+
 			if($config->save_changelog === 'Y')
 			{
 				$clargs = new stdClass;
@@ -1329,16 +1329,16 @@ class FileController extends File
 					return $output;
 				}
 			}
-			
+
 			// If successfully deleted, remove the file
 			Rhymix\Framework\Storage::delete(FileHandler::getRealPath($file->uploaded_filename));
-			
+
 			// Call a trigger (after)
 			ModuleHandler::triggerCall('file.deleteFile', 'after', $file);
-			
+
 			// Remove empty directories
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->uploaded_filename)), true);
-			
+
 			// Remove thumbnail
 			if ($file->thumbnail_filename)
 			{
@@ -1346,11 +1346,11 @@ class FileController extends File
 				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($file->thumbnail_filename)), true);
 			}
 		}
-		
+
 		$oDB->commit();
 		return new BaseObject();
 	}
-	
+
 	/**
 	 * Delete all attachments of a particular document
 	 *
@@ -1361,17 +1361,17 @@ class FileController extends File
 	{
 		// Get a list of attachements
 		$file_list = FileModel::getFiles($upload_target_srl);
-		
+
 		// Success returned if no attachement exists
 		if(empty($file_list))
 		{
 			return new BaseObject();
 		}
-		
+
 		// Delete the file
 		return $this->deleteFile($file_list);
 	}
-	
+
 	/**
 	 * Delete the attachment of a particular module
 	 *
@@ -1388,11 +1388,11 @@ class FileController extends File
 		{
 			return $output;
 		}
-		
+
 		// Delete the file
 		return $this->deleteFile($file_list);
 	}
-	
+
 	/**
 	 * Move an attachement to the other document
 	 *
@@ -1413,11 +1413,11 @@ class FileController extends File
 		$config = FileModel::getFileConfig($module_srl);
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		foreach($file_list as $i => $file_info)
 		{
 			$old_file = $file_info->uploaded_filename;
-			
+
 			// Determine the file path by checking if the file is an image or other kinds
 			if (Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($file_info->source_filename))
 			{
@@ -1432,19 +1432,19 @@ class FileController extends File
 				$random_filename = basename($file_info->uploaded_filename) ?: Rhymix\Framework\Security::getRandom(32, 'hex');
 				$new_file = $path . $random_filename;
 			}
-			
+
 			// Pass if a target document to move is same
 			if($old_file === $new_file) continue;
-			
+
 			// Create a directory
 			FileHandler::makeDir($path);
-			
+
 			// Move the file
 			FileHandler::rename($old_file, $new_file);
-			
+
 			// Delete old path
 			Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($old_file)), true);
-			
+
 			// Update DB information
 			$args = new stdClass;
 			$args->file_srl = $file_info->file_srl;
@@ -1452,7 +1452,7 @@ class FileController extends File
 			$args->module_srl = $file_info->module_srl;
 			$args->upload_target_srl = $target_srl;
 			$output = executeQuery('file.updateFile', $args);
-			
+
 			if($config->save_changelog === 'Y')
 			{
 				$clargs = new stdClass;
@@ -1469,18 +1469,18 @@ class FileController extends File
 				}
 			}
 		}
-		
+
 		$oDB->commit();
 		return new BaseObject();
 	}
-	
+
 	function copyFile($source_file, $module_srl, $upload_target_srl, &$content = null)
 	{
 		$file_info = array();
 		$file_info['name'] = $source_file->source_filename;
 		$file_info['tmp_name'] = $source_file->uploaded_filename;
 		$copied_file = $this->insertFile($file_info, $module_srl, $upload_target_srl, 0, true);
-		
+
 		if($content)
 		{
 			// if image/video files
@@ -1497,23 +1497,23 @@ class FileController extends File
 				$content = str_replace('sid=' . $source_file->sid, 'sid=' . $copied_file->get('sid'), $content);
 			}
 		}
-		
+
 		return $copied_file;
 	}
-	
+
 	function copyFiles($source_file_list, $module_srl, $upload_target_srl, &$content = null)
 	{
 		if(!is_array($source_file_list))
 		{
 			$source_file_list = FileModel::getFiles($source_file_list, array(), 'file_srl', true);
 		}
-		
+
 		foreach($source_file_list as $source_file)
 		{
 			$this->copyFile($source_file, $module_srl, $upload_target_srl, $content);
 		}
 	}
-	
+
 	public function procFileSetCoverImage()
 	{
 		$vars = Context::getRequestVars();
@@ -1535,7 +1535,7 @@ class FileController extends File
 
 		$oDB = &DB::getInstance();
 		$oDB->begin();
-		
+
 		$args->cover_image = 'N';
 		$output = executeQuery('file.updateClearCoverImage', $args);
 		if(!$output->toBool())
@@ -1565,10 +1565,10 @@ class FileController extends File
 		$thumbnail_path = sprintf('files/thumbnails/%s', getNumberingPath($upload_target_srl, 3));
 		Filehandler::removeFilesInDir($thumbnail_path);
 	}
-	
+
 	/**
 	 * Determine storage path based on file.folder_structure configuration.
-	 * 
+	 *
 	 * @param string $file_type images or binary
 	 * @param int $file_srl
 	 * @param int $module_srl
@@ -1584,13 +1584,13 @@ class FileController extends File
 		$module_srl = intval($module_srl);
 		$upload_target_srl = $upload_target_srl ?: $file_srl;
 		$regdate = $regdate ?: date('YmdHis');
-		
+
 		// 시스템 설정 참고 (기존 사용자는 1, 신규 설치시 2가 기본값임)
 		$folder_structure = config('file.folder_structure');
-		
+
 		// 기본 경로 지정
 		$prefix = $absolute_path ? \RX_BASEDIR : './';
-		
+
 		// 2: 년월일 단위로 정리
 		if ($folder_structure == 2)
 		{
@@ -1603,7 +1603,7 @@ class FileController extends File
 			return sprintf('%sfiles/attach/%s/%d/%s', $prefix, $file_type, $module_srl, $components);
 		}
 	}
-	
+
 	/**
 	 * Find the attachment where a key is upload_target_srl and then return java script code
 	 *
@@ -1616,34 +1616,34 @@ class FileController extends File
 	{
 		return;
 	}
-	
+
 	function triggerMoveDocument($obj)
 	{
 		$obj->upload_target_srls = $obj->document_srls;
 		executeQuery('file.updateFileModule', $obj);
 		executeQuery('file.updateFileModuleComment', $obj);
 	}
-	
+
 	function triggerAddCopyDocument(&$obj)
 	{
 		if(!$obj->source->uploaded_count)
 		{
 			return;
 		}
-		
+
 		$this->copyFiles($obj->source->document_srl, $obj->copied->module_srl, $obj->copied->document_srl, $obj->copied->content);
 	}
-	
+
 	function triggerAddCopyCommentByDocument(&$obj)
 	{
 		if(!$obj->source->uploaded_count)
 		{
 			return;
 		}
-		
+
 		$this->copyFiles($obj->source->comment_srl, $obj->copied->module_srl, $obj->copied->comment_srl, $obj->copied->content);
 	}
-	
+
 	function triggerCopyModule(&$obj)
 	{
 		$fileConfig = ModuleModel::getModulePartConfig('file', $obj->originModuleSrl);

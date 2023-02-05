@@ -2,7 +2,7 @@
 
 /**
  * Preserved for backward compatibility
- * 
+ *
  * @deprecated
  */
 class AdminAdminModel extends Admin
@@ -200,6 +200,6 @@ class AdminAdminModel extends Admin
 
 	public static function getThemeInfo($theme_name, $layout_list = [])
 	{
-		
+
 	}
 }

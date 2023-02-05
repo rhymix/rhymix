@@ -3,7 +3,7 @@
 /**
  * @class  editor
  * @author NAVER (developers@xpressengine.com)
- * @brief high class of the editor odule 
+ * @brief high class of the editor odule
  */
 class editor extends ModuleObject
 {
@@ -17,7 +17,7 @@ class editor extends ModuleObject
 		'default_paragraph_spacing' => '0',
 		'default_word_break' => 'normal',
 	);
-	
+
 	/**
 	 * @brief Default editor config
 	 */
@@ -58,7 +58,7 @@ class editor extends ModuleObject
 		'additional_plugins' => array(),
 		'remove_plugins' => array('liststyle', 'tabletools', 'tableselection', 'contextmenu', 'exportpdf'),
 	);
-	
+
 	/**
 	 * @brief Implement if additional tasks are necessary when installing
 	 */
@@ -104,7 +104,7 @@ class editor extends ModuleObject
 		// 2009. 06. 19 Remove unused trigger
 		if(ModuleModel::getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) return true;
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after')) return true;
 
 		return false;
@@ -117,7 +117,7 @@ class editor extends ModuleObject
 	{
 		$oDB = DB::getInstance();
 		$oModuleController = getController('module');
-		
+
 		// XEVE-17-030
 		if(!$oDB->isColumnExists('editor_autosave', 'certify_key'))
 		{
@@ -127,23 +127,23 @@ class editor extends ModuleObject
 		{
 			$oDB->addIndex('editor_autosave', 'idx_certify_key', 'certify_key');
 		}
-		
+
 		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
-		if(!ModuleModel::getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 
+		if(!ModuleModel::getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after'))
 			$oModuleController->insertTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
-		if(!ModuleModel::getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) 
+		if(!ModuleModel::getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after'))
 			$oModuleController->insertTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
 		// 2007. 10. Add an editor trigger on the module addition setup
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before')) 
+		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before'))
 			$oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
 		// 2009. 04. 14 Add a trigger from compiled codes of the editor component
-		if(!ModuleModel::getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before')) 
+		if(!ModuleModel::getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before'))
 			$oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
 		// 2009. 06. 19 Remove unused trigger
-		if(ModuleModel::getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) 
+		if(ModuleModel::getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before'))
 			$oModuleController->deleteTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before');
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after');

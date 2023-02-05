@@ -11,7 +11,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * API endpoint URL (fallback if URL is not explicitly configured)
 	 */
 	const LEGACY_API_URL = 'https://sms.service.iwinv.kr/send/';
-	
+
 	/**
 	 * API specifications.
 	 */
@@ -54,10 +54,10 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Get the list of API URLs supported by this driver.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getApiUrls()
@@ -81,7 +81,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	{
 		$status = true;
 		$curl = null;
-		
+
 		foreach ($messages as $i => $message)
 		{
 			// Authentication
@@ -89,7 +89,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				'Content-Type: multipart/form-data',
 				'secret: ' . base64_encode($this->_config['api_key'] . '&' . $this->_config['api_secret']),
 			);
-			
+
 			// Sender and recipient
 			$data = array();
 			$data['from'] = str_replace('-', '', \Rhymix\Framework\Korea::formatPhoneNumber($message->from));
@@ -100,26 +100,26 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			{
 				$data['to'] = array_first($data['to']);
 			}
-			
+
 			// Subject and content
 			if ($message->type === 'LMS' && $message->subject)
 			{
 				$data['title'] = $message->subject;
 			}
 			$data['text'] = $message->content;
-			
+
 			// Image attachment
 			if ($message->image)
 			{
 				$data['image'] = curl_file_create(realpath($message->image));
 			}
-			
+
 			// Set delay
 			if ($message->delay && $message->delay > time() + 900)
 			{
 				$data['date'] = gmdate('Y-m-d H:i:s', $message->delay + (3600 * 9));
 			}
-			
+
 			// Set API URL
 			if (!empty($this->_config['api_url']))
 			{
@@ -129,7 +129,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			{
 				$api_url = self::LEGACY_API_URL;
 			}
-			
+
 			// We need to use curl because Filehandler::getRemoteResource() doesn't work with this API for some reason.
 			if (!$curl)
 			{
@@ -143,7 +143,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			curl_setopt($curl, \CURLOPT_HTTPHEADER, $headers);
 			$result = curl_exec($curl);
 			$err = curl_error($curl);
-			
+
 			// Check the result.
 			if ($err)
 			{
@@ -161,12 +161,12 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$status = false;
 			}
 		}
-		
+
 		if ($curl)
 		{
 			@curl_close($curl);
 		}
-		
+
 		return $status;
 	}
 }

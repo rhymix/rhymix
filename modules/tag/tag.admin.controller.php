@@ -14,7 +14,7 @@ class tagAdminController extends tag
 	{
 		$config = new stdClass;
 		$vars = Context::getRequestVars();
-		
+
 		$config->separators = [];
 		foreach ($vars->separators ?? [] as $val)
 		{
@@ -23,18 +23,18 @@ class tagAdminController extends tag
 				$config->separators[] = $val;
 			}
 		}
-		
+
 		$oModuleController = ModuleController::getInstance();
 		$output = $oModuleController->insertModuleConfig($this->module, $config);
 		if (!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		$this->setMessage('success_registed');
 		$this->setRedirectUrl(Context::get('success_return_url'));
 	}
-	
+
 	/**
 	 * @brief Delete all tags for a particular module
 	 */

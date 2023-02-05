@@ -31,30 +31,30 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		'image_max_filesize' => 300000,
 		'delay_supported' => true,
 	);
-	
+
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
 	protected static $_required_config = array('api_key', 'api_secret');
 	protected static $_optional_config = array('sender_key');
-	
+
 	/**
 	 * Check if the current SMS driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Send a message.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param array $messages
 	 * @param object $original
 	 * @return bool
@@ -111,7 +111,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					$status = false;
 				}
 			}
-			
+
 			return $status;
 		}
 		catch (\Nurigo\Exceptions\CoolsmsException $e)

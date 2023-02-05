@@ -2,7 +2,7 @@
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class  communication 
+ * @class  communication
  * @author NAVER (developers@xpressengine.com)
  * communication module of the high class
  */
@@ -22,7 +22,7 @@ class communication extends ModuleObject
 	function moduleInstall()
 	{
 		$oModuleController = getController('module');
-		
+
 		foreach($this->triggers as $trigger)
 		{
 			$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
@@ -39,7 +39,7 @@ class communication extends ModuleObject
 	function checkUpdate()
 	{
 		$oModuleModel = getModel('module');
-		
+
 		foreach($this->triggers as $trigger)
 		{
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
@@ -65,7 +65,7 @@ class communication extends ModuleObject
 				return TRUE;
 			}
 		}
-		
+
 		return FALSE;
 	}
 
@@ -77,7 +77,7 @@ class communication extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-		
+
 		foreach($this->triggers as $trigger)
 		{
 			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
@@ -106,7 +106,7 @@ class communication extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		
+
 	}
 
 }

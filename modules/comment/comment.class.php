@@ -63,7 +63,7 @@ class Comment extends ModuleObject
 			return TRUE;
 		}
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after'))
 		{
 			return TRUE;
@@ -85,7 +85,7 @@ class Comment extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		// 2018.01.24 Improve mass file deletion
 		if(!ModuleModel::getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
 		{
@@ -95,7 +95,7 @@ class Comment extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -107,7 +107,7 @@ class Comment extends ModuleObject
 	{
 		$oDB = DB::getInstance();
 		$oModuleController = getController('module');
-		
+
 		// 2007. 10. 17 add a trigger to delete comments together with posting deleted
 		if(!ModuleModel::getTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after'))
 		{
@@ -128,7 +128,7 @@ class Comment extends ModuleObject
 			$oDB->addIndex("comments", "idx_module_list_order", array("module_srl", "list_order"), TRUE);
 		}
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after');
@@ -144,13 +144,13 @@ class Comment extends ModuleObject
 		{
 			$oDB->addIndex('comments', 'idx_parent_srl', array('parent_srl'));
 		}
-		
+
 		// 2017.12.21 Add an index for nick_name
 		if(!$oDB->isIndexExists('comments', 'idx_nick_name'))
 		{
 			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
 		}
-		
+
 		// 2018.01.24 Improve mass file deletion
 		if(!ModuleModel::getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
 		{
@@ -168,7 +168,7 @@ class Comment extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		
+
 	}
 
 }

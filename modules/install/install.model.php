@@ -35,7 +35,7 @@ class installModel extends install
 
 	function getInstallFTPList()
 	{
-		if(!($ftp_info = Context::getRequestVars()) || !$ftp_info->ftp_user || !$ftp_info->ftp_password) 
+		if(!($ftp_info = Context::getRequestVars()) || !$ftp_info->ftp_user || !$ftp_info->ftp_password)
 		{
 			return $this->setError('msg_ftp_invalid_auth_info');
 		}
@@ -57,17 +57,17 @@ class installModel extends install
 			if(!$connection) return $this->setError(sprintf(lang('msg_ftp_not_connected'), 'host'));
 			if(! @ftp_login($connection, $ftp_info->ftp_user, $ftp_info->ftp_password))
 			{
-				ftp_close($connection);	
+				ftp_close($connection);
 				return $this->setError('msg_ftp_invalid_auth_info');
 			}
 
-			if($ftp_info->ftp_pasv != "N") 
+			if($ftp_info->ftp_pasv != "N")
 			{
 				ftp_pasv($connection, true);
 			}
 
 			$_list = ftp_rawlist($connection, $this->pwd);
-			ftp_close($connection);	
+			ftp_close($connection);
 		}
 		else
 		{
@@ -92,7 +92,7 @@ class installModel extends install
 		{
 			foreach($_list as $k => $v)
 			{
-				$src = new stdClass(); 
+				$src = new stdClass();
 				$src->data = $v;
 				$res = Context::convertEncoding($src);
 				$v = $res->data;

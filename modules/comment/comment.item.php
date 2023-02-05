@@ -93,24 +93,24 @@ class CommentItem extends BaseObject
 	{
 		return (bool) ($this->comment_srl);
 	}
-	
+
 	function isGranted()
 	{
 		if(!$this->isExists())
 		{
 			return false;
 		}
-		
+
 		if (isset($_SESSION['granted_comment'][$this->comment_srl]))
 		{
 			return true;
 		}
-		
+
 		if ($this->grant_cache !== null)
 		{
 			return $this->grant_cache;
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{
@@ -124,30 +124,30 @@ class CommentItem extends BaseObject
 		{
 			return $this->grant_cache = true;
 		}
-		
+
 		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
 		if ($grant->manager)
 		{
 			return $this->grant_cache = true;
 		}
-		
+
 		return $this->grant_cache = false;
 	}
-	
+
 	function setGrant()
 	{
 		$this->grant_cache = true;
 	}
-	
+
 	function setGrantForSession()
 	{
 		$_SESSION['granted_comment'][$this->comment_srl] = true;
 		$this->setGrant();
 	}
-	
+
 	/**
 	 * Return the status code.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getStatus()
@@ -170,7 +170,7 @@ class CommentItem extends BaseObject
 
 	/**
 	 * Return the status in human-readable text.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getStatusText()
@@ -193,7 +193,7 @@ class CommentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		if ($strict)
 		{
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
@@ -207,34 +207,34 @@ class CommentItem extends BaseObject
 				return false;
 			}
 		}
-		
+
 		if (isset($_SESSION['accessible'][$this->comment_srl]) && $_SESSION['accessible'][$this->comment_srl] === $this->get('last_update'))
 		{
 			return true;
 		}
-		
+
 		if ($this->get('status') == RX_STATUS_PUBLIC && $this->get('is_secret') !== 'Y')
 		{
 			$this->setAccessible();
 			return true;
 		}
-		
+
 		if ($this->isGranted())
 		{
 			$this->setAccessible();
 			return true;
 		}
-		
+
 		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
 		if ($oDocument->isGranted())
 		{
 			$this->setAccessible();
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	function setAccessible()
 	{
 		if(Context::getSessionStatus())
@@ -242,27 +242,27 @@ class CommentItem extends BaseObject
 			$_SESSION['accessible'][$this->comment_srl] = $this->get('last_update');
 		}
 	}
-	
+
 	function isEditable()
 	{
 		return !$this->get('member_srl') || $this->isGranted();
 	}
-	
+
 	function isSecret()
 	{
 		return $this->get('status') == RX_STATUS_SECRET || $this->get('is_secret') == 'Y';
 	}
-	
+
 	function isDeleted()
 	{
 		return $this->get('status') == RX_STATUS_DELETED || $this->get('status') == RX_STATUS_DELETED_BY_ADMIN;
 	}
-	
+
 	function isDeletedByAdmin()
 	{
 		return $this->get('status') == RX_STATUS_DELETED_BY_ADMIN;
 	}
-	
+
 	function useNotify()
 	{
 		return $this->get('notify_message') == 'Y';
@@ -280,7 +280,7 @@ class CommentItem extends BaseObject
 			return;
 		}
 
-		// pass if the author is not logged-in user 
+		// pass if the author is not logged-in user
 		if(!$this->get('member_srl'))
 		{
 			return;
@@ -293,7 +293,7 @@ class CommentItem extends BaseObject
 			return;
 		}
 
-		// get where the comment belongs to 
+		// get where the comment belongs to
 		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
 
 		// Variables
@@ -422,7 +422,7 @@ class CommentItem extends BaseObject
 		{
 			return $_SESSION['declared_comment'][$this->comment_srl];
 		}
-		
+
 		$args = new stdClass();
 		if ($logged_info->member_srl)
 		{
@@ -439,7 +439,7 @@ class CommentItem extends BaseObject
 		{
 			return $_SESSION['declared_comment'][$this->comment_srl] = $declared_count;
 		}
-		
+
 		return false;
 	}
 
@@ -461,7 +461,7 @@ class CommentItem extends BaseObject
 		{
 			$content = $this->get('content');
 		}
-		
+
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
@@ -492,7 +492,7 @@ class CommentItem extends BaseObject
 		{
 			$content = $this->get('content');
 		}
-		
+
 		if($strlen)
 		{
 			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
@@ -568,16 +568,16 @@ class CommentItem extends BaseObject
 	{
 		// Remove tags
 		$content = strip_tags($this->getContent(false, false));
-		
+
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);
-		
+
 		// Replace all whitespaces to single space
 		$content = utf8_trim(utf8_normalize_spaces($content));
-		
+
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
-		
+
 		return escape($content);
 	}
 
@@ -633,7 +633,7 @@ class CommentItem extends BaseObject
 		{
 			return false;
 		}
-		
+
 		return $this->get('uploaded_count') ? TRUE : FALSE;
 	}
 
@@ -643,12 +643,12 @@ class CommentItem extends BaseObject
 		{
 			return;
 		}
-		
+
 		if(!$this->get('uploaded_count'))
 		{
 			return;
 		}
-		
+
 		$file_list = FileModel::getFiles($this->comment_srl, array(), 'file_srl', TRUE);
 		return $file_list;
 	}
@@ -755,7 +755,7 @@ class CommentItem extends BaseObject
 		{
 			$config->thumbnail_quality = 75;
 		}
-		
+
 		// If signiture height setting is omitted, create a square
 		if(!is_int($width))
 		{
@@ -799,7 +799,7 @@ class CommentItem extends BaseObject
 		{
 			return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
 		}
-		
+
 		// return false if neigher attached file nor image;
 		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content')))
 		{
@@ -846,7 +846,7 @@ class CommentItem extends BaseObject
 			}
 		}
 
-		// get an image file from the doc content if no file attached. 
+		// get an image file from the doc content if no file attached.
 		if(!$source_file && $config->thumbnail_target !== 'attachment')
 		{
 			$external_image_min_width = min(100, round($trigger_obj->width * 0.3));

@@ -1,9 +1,7 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * Superclass of the edit component.
- * Set up the component variables
+ * Superclass of the editor component.
  *
  * @class EditorHandler
  * @author NAVER (developers@xpressengine.com)
@@ -32,5 +30,3 @@ class EditorHandler extends BaseObject
 	}
 
 }
-/* End of file EditorHandler.class.php */
-/* Location: ./classes/editor/EditorHandler.class.php */

@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * Every module inherits from BaseObject class.
@@ -44,7 +43,7 @@ class BaseObject
 	{
 		$this->setError($error);
 		$this->setMessage($message);
-		
+
 		if ($error)
 		{
 			$backtrace = debug_backtrace(false);
@@ -58,10 +57,10 @@ class BaseObject
 			$this->add('rx_error_location', $location);
 		}
 	}
-	
+
 	/**
 	 * Set state for var_export()
-	 * 
+	 *
 	 * @param array $vars
 	 * @return object
 	 */
@@ -94,7 +93,7 @@ class BaseObject
 		{
 			$this->error = -1;
 		}
-		
+
 		// Convert the error message into the correct language and interpolate any other variables into it.
 		if(count($args))
 		{
@@ -104,7 +103,7 @@ class BaseObject
 				$this->message = vsprintf($this->message, $args);
 			}
 		}
-		
+
 		return $this;
 	}
 
@@ -323,6 +322,3 @@ class BaseObject
 		return $this->toBool();
 	}
 }
-
-/* End of file Object.class.php */
-/* Location: ./classes/object/Object.class.php */

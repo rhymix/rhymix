@@ -3,7 +3,7 @@
 /**
  * @class  editorAPI
  * @author NAVER (developers@xpressengine.com)
- * @brief 
+ * @brief
  */
 class editorAPI extends editor
 {

@@ -14,7 +14,7 @@ class Advanced_MailerController extends Advanced_Mailer
 	public function triggerBeforeMailSend($mail)
 	{
 		$config = $this->getConfig();
-		
+
 		$recipients = $mail->message->getTo() ?: array();
 		if ($recipients)
 		{
@@ -28,7 +28,7 @@ class Advanced_MailerController extends Advanced_Mailer
 				}
 			}
 		}
-		
+
 		if (!$mail->getFrom())
 		{
 			list($default_from, $default_name) = $this->getDefaultEmailIdentity();
@@ -58,20 +58,20 @@ class Advanced_MailerController extends Advanced_Mailer
 			}
 		}
 	}
-	
+
 	/**
 	 * After mail send trigger.
 	 */
 	public function triggerAfterMailSend($mail)
 	{
 		$config = $this->getConfig();
-		
+
 		if (toBool($config->log_sent_mail ?? 'N') || (toBool($config->log_errors ?? 'N') && count($mail->errors)))
 		{
 			$obj = new \stdClass();
 			$obj->mail_from = '';
 			$obj->mail_to = '';
-			
+
 			if ($real_sender = $mail->message->getFrom())
 			{
 				foreach($real_sender as $email => $name)
@@ -79,7 +79,7 @@ class Advanced_MailerController extends Advanced_Mailer
 					$obj->mail_from .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
-			
+
 			if ($real_to = $mail->message->getTo())
 			{
 				foreach($real_to as $email => $name)
@@ -87,7 +87,7 @@ class Advanced_MailerController extends Advanced_Mailer
 					$obj->mail_to .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
-			
+
 			if ($real_cc = $mail->message->getCc())
 			{
 				foreach($real_cc as $email => $name)
@@ -95,7 +95,7 @@ class Advanced_MailerController extends Advanced_Mailer
 					$obj->mail_to .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
-			
+
 			if ($real_bcc = $mail->message->getBcc())
 			{
 				foreach($real_bcc as $email => $name)
@@ -103,7 +103,7 @@ class Advanced_MailerController extends Advanced_Mailer
 					$obj->mail_to .= (strval($name) !== '' ? "$name <$email>" : $email) . "\n";
 				}
 			}
-			
+
 			$obj->mail_from = trim($obj->mail_from);
 			$obj->mail_to = trim($obj->mail_to);
 			$obj->subject = $mail->message->getSubject();
@@ -118,10 +118,10 @@ class Advanced_MailerController extends Advanced_Mailer
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the default identity for sending email.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getDefaultEmailIdentity()
@@ -134,13 +134,13 @@ class Advanced_MailerController extends Advanced_Mailer
 			$email = $member_config->webmaster_email;
 			$name = $member_config->webmaster_name ?: 'webmaster';
 		}
-		
+
 		return [$email, $name];
 	}
-	
+
 	/**
 	 * Check if an email address is on a list of exceptions.
-	 * 
+	 *
 	 * @param string $email
 	 * @param object $config (optional)
 	 * @return string|null
@@ -151,14 +151,14 @@ class Advanced_MailerController extends Advanced_Mailer
 		{
 			$config = $this->getConfig();
 		}
-		
+
 		if (!isset($config->exceptions) || !is_array($config->exceptions) || !count($config->exceptions))
 		{
 			return null;
 		}
-		
+
 		$email = Rhymix\Framework\URL::encodeIdna($email);
-		
+
 		foreach ($config->exceptions as $exception)
 		{
 			$domains = array();
@@ -171,17 +171,17 @@ class Advanced_MailerController extends Advanced_Mailer
 				return $exception['method'];
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * After SMS send trigger.
 	 */
 	public function triggerAfterSMSSend($sms)
 	{
 		$config = $this->getConfig();
-		
+
 		if (toBool($config->log_sent_sms ?? 'N') || (toBool($config->log_sms_errors ?? 'N') && count($sms->errors)))
 		{
 			$obj = new \stdClass();
@@ -211,14 +211,14 @@ class Advanced_MailerController extends Advanced_Mailer
 			}
 		}
 	}
-	
+
 	/**
 	 * After Push send trigger.
 	 */
 	public function triggerAfterPushSend($push)
 	{
 		$config = $this->getConfig();
-		
+
 		if (toBool($config->log_sent_push ?? 'N') || (toBool($config->log_push_errors ?? 'N') && count($push->getErrors())))
 		{
 			$obj = new \stdClass();

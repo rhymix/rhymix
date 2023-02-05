@@ -14,7 +14,7 @@ class Base extends \ModuleObject
 {
 	/**
 	 * Initilization
-	 * 
+	 *
 	 * @return void
 	 */
 	public function init()
@@ -39,16 +39,16 @@ class Base extends \ModuleObject
 		// Load the admin menu.
 		$this->loadAdminMenu();
 	}
-	
+
 	/**
 	 * check system configuration.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function checkSystemConfiguration()
 	{
 		$changed = false;
-		
+
 		// Check encryption keys.
 		if (config('crypto.encryption_key') === null)
 		{
@@ -70,17 +70,17 @@ class Base extends \ModuleObject
 			config('file.folder_structure', 1);
 			$changed = true;
 		}
-		
+
 		// Save new configuration.
 		if ($changed)
 		{
 			Config::save();
 		}
 	}
-	
+
 	/**
 	 * Load the admin menu.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function loadAdminMenu($module = 'admin')
@@ -113,7 +113,7 @@ class Base extends \ModuleObject
 				break;
 			}
 		}
-		
+
 		// get current menu's srl(=parentSrl)
 		$parentSrl = 0;
 		foreach ((array)$menu->list as $parentKey => $parentMenu)
@@ -140,27 +140,27 @@ class Base extends \ModuleObject
 		// Get list of favorite
 		$output = FavoriteModel::getFavorites(true);
 		Context::set('favorite_list', $output->get('favoriteList'));
-		
+
 		Context::set('subMenuTitle', $subMenuTitle);
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo ?? null);
 		Context::addBrowserTitle($subMenuTitle ? $subMenuTitle : 'Dashboard');
 	}
-	
+
 	/**
 	 * Alias for backward compatibility.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getAdminMenuName()
 	{
 		return AdminMenuModel::getAdminMenuName();
 	}
-	
+
 	/**
 	 * Alias for backward compatibility.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getAdminMenuLang()

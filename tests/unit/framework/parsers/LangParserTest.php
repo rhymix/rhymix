@@ -3,7 +3,7 @@
 class LangParserTest extends \Codeception\TestCase\Test
 {
 	protected $_dir = 'tests/_data/lang';
-	
+
 	public function _before()
 	{
 		$files = Rhymix\Framework\Storage::readDirectory(\RX_BASEDIR . $this->_dir);
@@ -15,7 +15,7 @@ class LangParserTest extends \Codeception\TestCase\Test
 			}
 		}
 	}
-	
+
 	public function _after()
 	{
 		$files = Rhymix\Framework\Storage::readDirectory(\RX_BASEDIR . $this->_dir);
@@ -27,7 +27,7 @@ class LangParserTest extends \Codeception\TestCase\Test
 			}
 		}
 	}
-	
+
 	public function testConvertDirectory()
 	{
 		Rhymix\Framework\Parsers\LangParser::convertDirectory(\RX_BASEDIR . $this->_dir, ['ko', 'en']);
@@ -35,20 +35,20 @@ class LangParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue(file_exists(\RX_BASEDIR . $this->_dir . '/en.php'));
 		$this->assertFalse(file_exists(\RX_BASEDIR . $this->_dir . '/ja.php'));
 		$this->assertFalse(file_exists(\RX_BASEDIR . $this->_dir . '/fr.php'));
-		
+
 		$lang = new stdClass;
 		include \RX_BASEDIR . $this->_dir . '/ko.php';
 		$this->assertEquals('테스트 언어', $lang->testlang);
 		$this->assertEquals('<p>HTML<br>내용</p>', $lang->testhtml);
 		$this->assertEquals(['foo' => '푸', 'bar' => '바'], $lang->testarray);
-		
+
 		$lang = new stdClass;
 		include \RX_BASEDIR . $this->_dir . '/en.php';
 		$this->assertEquals('Test Lang', $lang->testlang);
 		$this->assertEquals('<p>HTML<br>Content</p>', $lang->testhtml);
 		$this->assertEquals(['foo' => 'FOO', 'bar' => 'BAR'], $lang->testarray);
 	}
-	
+
 	public function testCompileXMLtoPHP()
 	{
 		$in = \RX_BASEDIR . $this->_dir . '/lang.xml';
@@ -58,7 +58,7 @@ class LangParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals($out, $result);
 		$this->assertTrue(file_exists($result));
 		$this->assertFalse(file_exists($noout));
-		
+
 		$lang = new stdClass;
 		include \RX_BASEDIR . $this->_dir . '/ja.php';
 		$this->assertEquals('テスト言語', $lang->testlang);

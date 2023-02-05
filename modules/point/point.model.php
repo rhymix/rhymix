@@ -22,7 +22,7 @@ class pointModel extends point
 		$args = new stdClass;
 		$args->member_srl = abs($member_srl);
 		$output = executeQuery('point.getPoint', $args, array('member_srl'));
-		
+
 		return isset($output->data->member_srl);
 	}
 
@@ -51,7 +51,7 @@ class pointModel extends point
 				return parent::$_member_point_cache[$member_srl] = $point;
 			}
 		}
-		
+
 		// Get from file cache
 		$cache_path = sprintf(RX_BASEDIR . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
 		$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
@@ -79,7 +79,7 @@ class pointModel extends point
 			$exists = false;
 			return 0;
 		}
-		
+
 		// Save to cache
 		parent::$_member_point_cache[$member_srl] = $point;
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
@@ -121,7 +121,7 @@ class pointModel extends point
 		{
 			return;
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		if (!$logged_info->member_srl)
 		{

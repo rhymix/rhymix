@@ -40,7 +40,7 @@ class DocumentAdminView extends Document
 		$args->page = Context::get('page'); // /< Page
 		$args->list_count = 30; // /< the number of posts to display on a single page
 		$args->page_count = 5; // /< the number of pages that appear in the page navigation
-		
+
 		$args->search_target = Context::get('search_target'); // /< search (title, contents ...)
 		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search
 		if ($args->search_target === 'member_srl')
@@ -56,7 +56,7 @@ class DocumentAdminView extends Document
 		$args->sort_index = 'list_order'; // /< sorting value
 		$args->module_srl = Context::get('module_srl');
 		$args->statusList = array($this->getConfigStatus('public'), $this->getConfigStatus('secret'), $this->getConfigStatus('temp'));
-		
+
 		// get a list
 		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
@@ -104,7 +104,7 @@ class DocumentAdminView extends Document
 			}
 		}
 		Context::set('module_list', $module_list);
-		
+
 		// Get anonymous nicknames
 		$anonymous_member_srls = array();
 		$member_nick_name = array();
@@ -176,7 +176,7 @@ class DocumentAdminView extends Document
 		$args->list_count = 20; // /< the number of posts to display on a single page
 		$args->page_count = 10; // /< the number of pages that appear in the page navigation
 		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
-		
+
 		// select sort method
 		$sort_index = Context::get('sort_index');
 		if (!in_array($sort_index, array('declared_latest', 'declared_count', 'regdate')))
@@ -184,7 +184,7 @@ class DocumentAdminView extends Document
 			$sort_index = 'declared_latest';
 		}
 		Context::set('sort_index', $sort_index);
-		
+
 		// get latest declared list
 		if ($sort_index === 'declared_latest')
 		{
@@ -325,7 +325,7 @@ class DocumentAdminView extends Document
 		}
 		else
 		{
-			$aliases = $output->data; 
+			$aliases = $output->data;
 		}
 
 		Context::set('aliases', $aliases);

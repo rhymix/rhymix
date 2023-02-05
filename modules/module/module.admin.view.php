@@ -87,7 +87,7 @@ class ModuleAdminView extends Module
 		$module_info = $oModuleModel->getModuleInfoXml(Context::get('selected_module'));
 		Context::set('module_info', $module_info);
 
-		$security = new Security();				
+		$security = new Security();
 		$security->encodeHTML('module_info...');
 
 		// Set the layout to be pop-up
@@ -257,7 +257,7 @@ class ModuleAdminView extends Module
 		$oMemberModel = getModel('member');
 		$group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $group_list);
-		$security = new Security();				
+		$security = new Security();
 		$security->encodeHTML('group_list..title');
 
 		// Set the layout to be pop-up
@@ -310,10 +310,10 @@ class ModuleAdminView extends Module
 		Context::set('filebox_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('page', $page);
-		
+
 		$max_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 		Context::set('max_filesize', $max_filesize);
-		
+
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 		$this->setTemplateFile('adminFileBox');

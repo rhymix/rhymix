@@ -11,17 +11,17 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	 * Set this flag to false to disable cache prefixes.
 	 */
 	public $prefix = true;
-	
+
 	/**
 	 * The singleton instance is stored here.
 	 */
 	protected static $_instance = null;
-	
+
 	/**
 	 * The Redis connection is stored here.
 	 */
 	protected $_conn = null;
-	
+
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
@@ -71,10 +71,10 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			$this->_conn = null;
 		}
 	}
-	
+
 	/**
 	 * Create a new instance of the current cache driver, using the given settings.
-	 * 
+	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -86,24 +86,24 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 		}
 		return self::$_instance;
 	}
-	
+
 	/**
 	 * Check if the current cache driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return class_exists('\\Redis', false);
 	}
-	
+
 	/**
 	 * Validate cache settings.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param mixed $config
 	 * @return bool
 	 */
@@ -150,12 +150,12 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the value of a key.
-	 * 
+	 *
 	 * This method returns null if the key was not found.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -169,7 +169,7 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 		{
 			return null;
 		}
-		
+
 		if ($value === false)
 		{
 			return null;
@@ -178,7 +178,7 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 		{
 			return $value;
 		}
-		
+
 		$value = unserialize($value);
 		if ($value === false)
 		{
@@ -186,13 +186,13 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 		}
 		return $value;
 	}
-	
+
 	/**
 	 * Set the value to a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * $ttl is measured in seconds. If it is zero, the key should not expire.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
@@ -211,13 +211,13 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Delete a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * If the key does not exist, it should return false.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -232,12 +232,12 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Check if a key exists.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -252,13 +252,13 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Increase the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount
 	 * @return int
@@ -274,13 +274,13 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Decrease the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount
 	 * @return int
@@ -296,12 +296,12 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Clear all keys from the cache.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function clear()

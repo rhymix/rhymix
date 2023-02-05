@@ -67,7 +67,7 @@ class pageController extends page
 	}
 
 	/**
-	 * @brief Change the value of src, href in the content 
+	 * @brief Change the value of src, href in the content
 	 */
 	function replaceSrc($content, $path)
 	{

@@ -31,29 +31,29 @@ class Dummy extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		'image_max_filesize' => 300000,
 		'delay_supported' => true,
 	);
-	
+
 	/**
 	 * Sent messages are stored here for debugging and testing.
 	 */
 	protected $_sent_messages = array();
-	
+
 	/**
 	 * Check if the current SMS driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Send a message.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param array $messages
 	 * @param object $original
 	 * @return bool
@@ -66,20 +66,20 @@ class Dummy extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Get sent messages.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getSentMessages()
 	{
 		return $this->_sent_messages;
 	}
-	
+
 	/**
 	 * Reset sent messages.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function resetSentMessages()

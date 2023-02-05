@@ -208,7 +208,7 @@ class MemberView extends Member
 
 		// Get the member information if logged-in
 		if($this->user->member_srl) throw new Rhymix\Framework\Exception('msg_already_logged');
-		// call a trigger (before) 
+		// call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
 
@@ -233,11 +233,11 @@ class MemberView extends Member
 				throw new Rhymix\Framework\Exceptions\FeatureDisabled('msg_signup_disabled');
 			}
 		}
-		
+
 		$formTags = getAdminView('member')->_getMemberInputTag();
 		Context::set('formTags', $formTags);
 		Context::set('email_confirmation_required', $member_config->enable_confirm);
-		
+
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
 		{
@@ -262,21 +262,21 @@ class MemberView extends Member
 				{
 					$option->editor_skin = 'textarea';
 				}
-				
+
 				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
 		}
-		
+
 		$identifierForm = new stdClass;
 		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
 		Context::set('identifierForm', $identifierForm);
-		
+
 		$this->addExtraFormValidatorMessage();
-		
+
 		// Set a copy of the agreement for compatibility with old skins
 		$member_config->agreement = $member_config->agreements[1]->content ?? '';
-		
+
 		// Set a template file
 		$this->setTemplateFile('signup_form');
 	}
@@ -301,7 +301,7 @@ class MemberView extends Member
 		if ($this->member_config->identifier == 'email_address')
 		{
 			Context::set('identifierTitle', lang('email_address'));
-			Context::set('identifierValue', $logged_info->email_address); 
+			Context::set('identifierValue', $logged_info->email_address);
 		}
 		else
 		{
@@ -315,7 +315,7 @@ class MemberView extends Member
 	/**
 	 * @brief Modify member information
 	 */
-	function dispMemberModifyInfo() 
+	function dispMemberModifyInfo()
 	{
 		if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD' && $_SESSION['rechecked_password_step'] != 'INPUT_DATA')
 		{
@@ -337,10 +337,10 @@ class MemberView extends Member
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl, 0, $columnList);
 		$member_info->signature = MemberModel::getSignature($member_srl);
 		Context::set('member_info', $member_info);
-		
+
 		$formTags = getAdminView('member')->_getMemberInputTag($member_info);
 		Context::set('formTags', $formTags);
-		
+
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
 		{
@@ -365,19 +365,19 @@ class MemberView extends Member
 				{
 					$option->editor_skin = 'textarea';
 				}
-				
+
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
 			}
 		}
-		
+
 		$identifierForm = new stdClass;
 		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
-		
+
 		$this->addExtraFormValidatorMessage();
-		
+
 		// Set a template file
 		$this->setTemplateFile('modify_info');
 	}
@@ -411,7 +411,7 @@ class MemberView extends Member
 		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
 		$args->sort_index = 'list_order';
 		$args->statusList = array('PUBLIC', 'SECRET');
-		
+
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
 		$output = DocumentModel::getDocumentList($args, false, false, $columnList);
 		Context::set('total_count', $output->total_count);
@@ -454,7 +454,7 @@ class MemberView extends Member
 		$args->member_srl = array($this->user->member_srl, $this->user->member_srl * -1);
 		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
 		$args->sort_index = 'list_order';
-		
+
 		$output = CommentModel::getTotalCommentList($args);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
@@ -485,7 +485,7 @@ class MemberView extends Member
 		}
 
 		$logged_info = Context::get('logged_info');
-		
+
 		// Check folders
 		$args = new stdClass;
 		$args->member_srl = $logged_info->member_srl;
@@ -498,11 +498,11 @@ class MemberView extends Member
 			{
 				return $output;
 			}
-			
+
 			$output = executeQueryArray('member.getScrapFolderList', $args);
 			$folders = $output->data;
 		}
-		
+
 		// Get default folder if no folder is selected
 		$folder_srl = (int)Context::get('folder_srl');
 		if($folder_srl && !array_filter($folders, function($folder) use($folder_srl) { return $folder->folder_srl == $folder_srl; }))
@@ -513,7 +513,7 @@ class MemberView extends Member
 		{
 			$folder_srl = array_first($folders)->folder_srl;
 		}
-		
+
 		// Get folder info
 		$folder_info = new stdClass;
 		foreach($folders as $folder)
@@ -547,7 +547,7 @@ class MemberView extends Member
 				break;
 		}
 		$output = executeQueryArray('member.getScrapDocumentList', $args);
-		
+
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -577,7 +577,7 @@ class MemberView extends Member
 		$logged_info = Context::get('logged_info');
 		if(!$logged_info->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Get the saved document(module_srl is set to member_srl instead)
-		
+
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->page = Context::get('page');
@@ -607,7 +607,7 @@ class MemberView extends Member
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
-		
+
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->page = Context::get('page');
@@ -617,7 +617,7 @@ class MemberView extends Member
 		Context::set('page', $output->page);
 		Context::set('active_logins', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
-		
+
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$output = executeQueryArray('member.getMemberDevice', $args);
@@ -625,9 +625,9 @@ class MemberView extends Member
 
 		$this->setTemplateFile('active_logins');
 	}
-	
+
 	/**
-	 * @brief Display the login form 
+	 * @brief Display the login form
 	 */
 	function dispMemberLoginForm()
 	{
@@ -638,7 +638,7 @@ class MemberView extends Member
 			$referer_url = getNotEncodedUrl('act', '');
 		}
 		Context::set('referer_url', $referer_url);
-		
+
 		// Return to previous screen if already logged in.
 		if(Context::get('is_logged'))
 		{
@@ -734,7 +734,7 @@ class MemberView extends Member
 			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
 			return;
 		}
-		
+
 		$output = MemberController::getInstance()->procMemberLogout();
 		$this->setRedirectUrl(isset($output->redirect_url) ? $output->redirect_url : getNotEncodedUrl('act', ''));
 	}
@@ -808,7 +808,7 @@ class MemberView extends Member
 		$js_code[] = 'if(!validator) return false;';
 
 		$errorLang = array();
-		foreach($extraList as $val) 
+		foreach($extraList as $val)
 		{
 			$title = str_ireplace(array('<script', '</script'), array('<scr"+"ipt', '</scr"+"ipt'), addslashes($val->column_title));
 			if($val->column_type == 'kr_zip' || $val->column_type == 'tel')
@@ -832,7 +832,7 @@ class MemberView extends Member
 
 	/**
 	 * Spammer manage popup
-	 * 
+	 *
 	 * @return void
 	**/
 	function dispMemberSpammer()

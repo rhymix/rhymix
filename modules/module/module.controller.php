@@ -28,7 +28,7 @@ class ModuleController extends Module
 		$args->route_regexp = is_scalar($route_regexp) ? $route_regexp : serialize($route_regexp);
 		$args->route_config = is_scalar($route_config) ? $route_config : serialize($route_config);
 		$args->global_route = $global_route === 'Y' ? 'Y' : 'N';
-		
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
 		$output = executeQuery('module.deleteActionForward', ['act' => $act]);
@@ -56,7 +56,7 @@ class ModuleController extends Module
 
 	/**
 	 * @brief Add trigger callback function
-	 * 
+	 *
 	 * @param string $trigger_name
 	 * @param string $called_position
 	 * @param callable $callback_function
@@ -147,18 +147,18 @@ class ModuleController extends Module
 		{
 			return false;
 		}
-		
+
 		if(in_array($parent_module, array('module', 'addon', 'widget', 'layout')))
 		{
 			return false;
 		}
-		
+
 		$args = new stdClass;
 		$args->parent_module = $parent_module;
 		$args->extend_module = $extend_module;
 		$args->type = $type;
 		$args->kind = $kind == 'admin' ? 'admin' : '';
-		
+
 		$output = executeQuery('module.insertModuleExtend', $args);
 		if($output->toBool())
 		{
@@ -166,7 +166,7 @@ class ModuleController extends Module
 			unset($GLOBALS['__MODULE_EXTEND__']);
 			FileHandler::removeFile('files/cache/common/module_extend.php');
 		}
-		
+
 		return $output;
 	}
 
@@ -197,10 +197,10 @@ class ModuleController extends Module
 		{
 			$origin_config->{$key} = $val;
 		}
-		
+
 		return $this->insertModuleConfig($module, $origin_config);
 	}
-	
+
 	public function updateModuleSectionConfig($module, $section, $config)
 	{
 		$origin_config = ModuleModel::getModuleSectionConfig($module, $section) ?: new stdClass;
@@ -208,7 +208,7 @@ class ModuleController extends Module
 		{
 			$origin_config->{$key} = $val;
 		}
-		
+
 		return $this->insertModuleSectionConfig($module, $section, $origin_config);
 	}
 
@@ -219,13 +219,13 @@ class ModuleController extends Module
 		{
 			$origin_config->{$key} = $val;
 		}
-		
+
 		return $this->insertModulePartConfig($module, $module_srl, $origin_config);
 	}
 
 	/**
 	 * Save global config for a module.
-	 * 
+	 *
 	 * @param string $module
 	 * @param object $config
 	 * @return BaseObject
@@ -254,7 +254,7 @@ class ModuleController extends Module
 		}
 
 		$oDB->commit();
-		
+
 		//remove from cache
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
@@ -262,7 +262,7 @@ class ModuleController extends Module
 
 	/**
 	 * Save an independent section of module config.
-	 * 
+	 *
 	 * @param string $module
 	 * @param string $section
 	 * @param object $config
@@ -275,7 +275,7 @@ class ModuleController extends Module
 
 	/**
 	 * Save module config for a specific module_srl.
-	 * 
+	 *
 	 * @param string $module
 	 * @param int $module_srl
 	 * @param object $config
@@ -378,7 +378,7 @@ class ModuleController extends Module
 		{
 			return $output;
 		}
-		
+
 		// Check whether the module name already exists
 		if(ModuleModel::isIDExists($args->mid))
 		{
@@ -494,7 +494,7 @@ class ModuleController extends Module
 		{
 			$isMenuCreate = TRUE;
 		}
-		
+
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
 		if(!$output->toBool()) return $output;
 		// begin transaction
@@ -567,7 +567,7 @@ class ModuleController extends Module
 				foreach($menuOutput->data as $itemInfo)
 				{
 					$itemInfo->url = $args->mid;
-	
+
 					$updateMenuItemOutput = $oMenuAdminController->updateMenuItem($itemInfo);
 					if(!$updateMenuItemOutput->toBool())
 					{
@@ -804,12 +804,12 @@ class ModuleController extends Module
 		{
 			return;
 		}
-		
+
 		$args = new stdClass();
 		$args->module_srl = intval($module_srl);
 		$args->member_srl = $member_info->member_srl;
 		$output = executeQuery('module.insertAdminId', $args);
-		
+
 		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));
 		return $output;
 	}
@@ -837,7 +837,7 @@ class ModuleController extends Module
 				$args->member_srl = $member_info->member_srl;
 			}
 		}
-		
+
 		$output = executeQuery('module.deleteAdminId', $args);
 		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));
 		return $output;
@@ -969,7 +969,7 @@ class ModuleController extends Module
 	{
 		$this->deleteModuleExtraVars($module_srl);
 		getDestroyXeVars($obj);
-		
+
 		foreach(get_object_vars($obj) as $key => $val)
 		{
 			if(is_object($val) || is_array($val)) continue;
@@ -981,7 +981,7 @@ class ModuleController extends Module
 			if(!$args->name || !$args->value) continue;
 			$output = executeQuery('module.insertModuleExtraVars', $args);
 		}
-		
+
 		Rhymix\Framework\Cache::delete("site_and_module:module_extra_vars:$module_srl");
 	}
 
@@ -1021,7 +1021,7 @@ class ModuleController extends Module
 				executeQuery('module.insertModuleGrant', $args);
 			}
 		}
-		
+
 		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 	}
 
@@ -1033,7 +1033,7 @@ class ModuleController extends Module
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$output = executeQuery('module.deleteModuleGrants', $args);
-		
+
 		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 		return $output;
 	}
@@ -1048,7 +1048,7 @@ class ModuleController extends Module
 			$output = Context::replaceUserLang($output);
 		}
 	}
-	
+
 	/**
 	 * @brief Add and update a file into the file box
 	 */
@@ -1181,7 +1181,7 @@ class ModuleController extends Module
 		// get file path
 		$path = ModuleModel::getModuleFileBoxPath($vars->module_filebox_srl);
 		FileHandler::makeDir($path);
-		
+
 		$random = Rhymix\Framework\Security::getRandom(32, 'hex');
 		$ext = substr(strrchr($vars->addfile['name'], '.'), 1);
 		$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
@@ -1224,7 +1224,7 @@ class ModuleController extends Module
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$vars = new stdClass();
 		$vars->module_filebox_srl = $module_filebox_srl;
 		$output = $this->deleteModuleFileBox($vars);
@@ -1286,10 +1286,10 @@ class ModuleController extends Module
 		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 		return $output;
 	}
-	
+
 	/**
 	 * Check if all action-forwardable routes are registered. If not, register them.
-	 * 
+	 *
 	 * @param string $module_name
 	 * @return object
 	 */
@@ -1297,7 +1297,7 @@ class ModuleController extends Module
 	{
 		$action_forward = ModuleModel::getActionForward();
 		$module_action_info = ModuleModel::getModuleActionXml($module_name);
-		
+
 		// Get the list of forwardable actions and their routes.
 		$forwardable_routes = array();
 		foreach ($module_action_info->action ?: [] as $action_name => $action_info)
@@ -1326,7 +1326,7 @@ class ModuleController extends Module
 				$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
 			}
 		}
-		
+
 		// Insert or delete from the action_forward table.
 		foreach ($forwardable_routes as $action_name => $route_info)
 		{
@@ -1348,7 +1348,7 @@ class ModuleController extends Module
 				{
 					return $output;
 				}
-				
+
 				$output = $this->insertActionForward($module_name, $route_info['type'], $action_name,
 					$route_info['regexp'], $route_info['config'], $route_info['global_route']);
 				if (!$output->toBool())
@@ -1357,7 +1357,7 @@ class ModuleController extends Module
 				}
 			}
 		}
-		
+
 		// Clean up any action-forward routes that are no longer needed.
 		foreach ($forwardable_routes as $action_name => $route_info)
 		{
@@ -1374,7 +1374,7 @@ class ModuleController extends Module
 				}
 			}
 		}
-		
+
 		return new BaseObject();
 	}
 }

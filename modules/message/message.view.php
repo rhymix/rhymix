@@ -29,7 +29,7 @@ class MessageView extends Message
 		{
 			$config->mskin = 'default';
 		}
-		
+
 		// Set the template path
 		if (contains('mobile', get_class($this), false))
 		{
@@ -63,13 +63,13 @@ class MessageView extends Message
 		// Get the member configuration
 		$member_config = ModuleModel::getModuleConfig('member');
 		Context::set('member_config', $member_config);
-		
+
 		// Disable location if debug not available
 		if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
 			$location = null;
 		}
-		
+
 		// Remove basedir from location (if any)
 		if ($location && starts_with(\RX_BASEDIR, $location))
 		{
@@ -80,7 +80,7 @@ class MessageView extends Message
 		Context::set('system_message', nl2br($this->getMessage()));
 		Context::set('system_message_detail', nl2br($detail));
 		Context::set('system_message_location', escape($location));
-		
+
 		if ($this->getError())
 		{
 			if ($detail)
@@ -94,7 +94,7 @@ class MessageView extends Message
 		}
 
 		$this->setTemplateFile('system_message');
-		
+
 		// Default 403 Error
 		if($this->getHttpStatusCode() === 200)
 		{

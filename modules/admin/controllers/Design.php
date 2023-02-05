@@ -20,14 +20,14 @@ class Design extends Base
 
 	/**
 	 * Subroutine for the above.
-	 * 
+	 *
 	 * @param object $vars
 	 * @return void
 	 */
 	public function updateDefaultDesignInfo(object $vars): void
 	{
 		$vars->module_skin = json_decode($vars->module_skin);
-		
+
 		$siteDesignPath = \RX_BASEDIR . 'files/site_design/';
 		if (!is_dir($siteDesignPath))
 		{
@@ -77,7 +77,7 @@ class Design extends Base
 
 	/**
 	 * Subroutine for the above;
-	 * 
+	 *
 	 * @param object $designInfo
 	 * @return void
 	 */

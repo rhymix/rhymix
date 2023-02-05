@@ -15,11 +15,11 @@ class File extends ModuleObject
 	{
 		// Register action forward (to use in administrator mode)
 		$oModuleController = getController('module');
-		
+
 		// Generate a directory for the file module
 		FileHandler::makeDir('./files/attach/images');
 		FileHandler::makeDir('./files/attach/binaries');
-		
+
 		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
 		$oModuleController->insertTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after');
 		$oModuleController->insertTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after');
@@ -45,12 +45,12 @@ class File extends ModuleObject
 		if($oModuleModel->getTrigger('document.insertDocument', 'file', 'controller', 'triggerAttachFiles', 'after')) return true;
 		if($oModuleModel->getTrigger('document.updateDocument', 'file', 'controller', 'triggerCheckAttached', 'before')) return true;
 		if($oModuleModel->getTrigger('document.updateDocument', 'file', 'controller', 'triggerAttachFiles', 'after')) return true;
-		
+
 		if($oModuleModel->getTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before')) return true;
 		if($oModuleModel->getTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after')) return true;
 		if($oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before')) return true;
 		if($oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after')) return true;
-		
+
 		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
 		if(!$oModuleModel->getTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after')) return true;
 		if(!$oModuleModel->getTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after')) return true;
@@ -63,11 +63,11 @@ class File extends ModuleObject
 		// A column to determine a target type
 		if(!$oDB->isColumnExists('files', 'upload_target_type')) return true;
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after')) return true;
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) return true;
-		
+
 		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
 		{
 			return true;
@@ -165,7 +165,7 @@ class File extends ModuleObject
 		{
 			$oModuleController->deleteTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after');
 		}
-		
+
 		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
 		if(!$oModuleModel->getTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after'))
 			$oModuleController->insertTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after');
@@ -184,14 +184,14 @@ class File extends ModuleObject
 		// A column to determine a target type
 		if(!$oDB->isColumnExists('files', 'upload_target_type')) $oDB->addColumn('files', 'upload_target_type', 'char', '3');
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after');
 		}
 
 		if(!$oDB->isColumnExists('files', 'cover_image')) $oDB->addColumn('files', 'cover_image', 'char', '1', 'N');
-		
+
 		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
 		{
 			$oModuleController->insertTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after');

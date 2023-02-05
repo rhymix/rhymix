@@ -2,5 +2,5 @@
 
 class ModuleMobile extends ModuleView
 {
-	
+
 }

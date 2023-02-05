@@ -20,10 +20,10 @@ class Document extends ModuleObject
 
 	/**
 	 * List of status texts supported by Rhymix.
-	 * 
+	 *
 	 * Also see status constants in common/constants.php
 	 * and integer status codes used in the comment module.
-	 * 
+	 *
 	 * @var array
 	 */
 	public static $statusList = array(
@@ -107,10 +107,10 @@ class Document extends ModuleObject
 		// 2011. 10. 25 status index check
 		if(!$oDB->isIndexExists("documents", "idx_module_status")) return true;
 
-		// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied 
+		// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after')) return true;
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after')) return true;
 
 		// 2016. 1. 27: Add a column(declare_message) for report
@@ -121,13 +121,13 @@ class Document extends ModuleObject
 
 		// 2019. 3. 07 #1146
 		if(!$oDB->isColumnExists('document_update_log', 'reason_update')) return true;
-		
+
 		// 2017.12.21 Add an index for nick_name
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
-		
+
 		// 2018.01.24 Improve mass file deletion
 		if(!ModuleModel::getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after')) return true;
-		
+
 		return false;
 	}
 
@@ -217,13 +217,13 @@ class Document extends ModuleObject
 			$oDB->addIndex("documents", "idx_module_status", array("module_srl","status"));
 		}
 
-		// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied 
+		// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after');
 		}
 
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied 
+		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after');
@@ -241,19 +241,19 @@ class Document extends ModuleObject
 			$oDB->addColumn('document_update_log', 'is_admin', 'varchar', 1);
 			$oDB->addIndex('document_update_log', 'idx_is_admin', array('is_admin'));
 		}
-		
+
 		// 2019. 3. 07 #1146
 		if(!$oDB->isColumnExists('document_update_log', 'reason_update'))
 		{
 			$oDB->addColumn('document_update_log', 'reason_update', 'text', '', null, false, 'extra_vars');
 		}
-		
+
 		// 2017.12.21 Add an index for nick_name
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name'))
 		{
 			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
 		}
-		
+
 		// 2018.01.24 Improve mass file deletion
 		if(!ModuleModel::getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after'))
 		{

@@ -1,10 +1,9 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class ModuleObject
+ * ModuleObject
+ *
  * @author NAVER (developers@xpressengine.com)
- * base class of ModuleHandler
  */
 class ModuleObject extends BaseObject
 {
@@ -52,7 +51,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * Singleton
-	 * 
+	 *
 	 * @param string $module_hint (optional)
 	 * @return static
 	 */
@@ -97,7 +96,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * setter to set the name of module
-	 * 
+	 *
 	 * @param string $module name of module
 	 * @return $this
 	 */
@@ -109,7 +108,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * setter to set the name of module path
-	 * 
+	 *
 	 * @param string $path the directory path to a module directory
 	 * @return $this
 	 */
@@ -125,7 +124,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * setter to set an url for redirection
-	 * 
+	 *
 	 * @param string $url url for redirection
 	 * @return $this
 	 */
@@ -145,7 +144,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * get url for redirection
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getRedirectUrl()
@@ -157,7 +156,7 @@ class ModuleObject extends BaseObject
 	 * Set the template path for refresh.html
 	 * refresh.html is executed as a result of method execution
 	 * Tpl as the common run of the refresh.html ..
-	 * 
+	 *
 	 * @deprecated
 	 * @return $this
 	 */
@@ -170,7 +169,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * Set the action name
-	 * 
+	 *
 	 * @param string $act
 	 * @return $this
 	 */
@@ -179,10 +178,10 @@ class ModuleObject extends BaseObject
 		$this->act = $act;
 		return $this;
 	}
-	
+
 	/**
 	 * Set module information
-	 * 
+	 *
 	 * @param object $module_info object containing module information
 	 * @param object $xml_info object containing module description
 	 * @return $this
@@ -197,14 +196,14 @@ class ModuleObject extends BaseObject
 		$this->xml_info = $xml_info;
 		$this->skin_vars = $module_info->skin_vars ?? null;
 		$this->module_config = ModuleModel::getInstance()->getModuleConfig($this->module, $module_info->site_srl);
-		
+
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
 		{
 			$this->stop('msg_not_permitted');
 			return;
 		}
-		
+
 		// Set admin layout
 		if(preg_match('/^disp[A-Z][a-z0-9\_]+Admin/', $this->act))
 		{
@@ -219,7 +218,7 @@ class ModuleObject extends BaseObject
 				$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
 			}
 		}
-		
+
 		// Execute init
 		if(method_exists($this, 'init'))
 		{
@@ -235,10 +234,10 @@ class ModuleObject extends BaseObject
 
 		return $this;
 	}
-	
+
 	/**
 	 * Set privileges(granted) information of current user and check permission of current module
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function setPrivileges()
@@ -253,7 +252,7 @@ class ModuleObject extends BaseObject
 				{
 					return false;
 				}
-				
+
 				// If value is not array
 				if(!is_array($check_module_srl))
 				{
@@ -267,7 +266,7 @@ class ModuleObject extends BaseObject
 						$check_module_srl = array($check_module_srl);
 					}
 				}
-				
+
 				// Check permission by privileges(granted) information for target module
 				foreach($check_module_srl as $target_srl)
 				{
@@ -276,7 +275,7 @@ class ModuleObject extends BaseObject
 					{
 						return false;
 					}
-					
+
 					// Check permission
 					if(!$this->checkPermission($grant, $this->user))
 					{
@@ -286,13 +285,13 @@ class ModuleObject extends BaseObject
 				}
 			}
 		}
-		
+
 		// If no privileges(granted) information, check permission by privileges(granted) information for current module
 		if(!isset($grant))
 		{
 			// Get privileges(granted) information of current user for current module
 			$grant = ModuleModel::getInstance()->getGrant($this->module_info, $this->user, $this->xml_info);
-			
+
 			// Check permission
 			if(!$this->checkPermission($grant, $this->user))
 			{
@@ -300,23 +299,23 @@ class ModuleObject extends BaseObject
 				return false;
 			}
 		}
-		
+
 		// If member action, grant access for log-in, sign-up, member pages
 		if(preg_match('/^(disp|proc)(Member|Communication)[A-Z][a-zA-Z]+$/', $this->act))
 		{
 			$grant->access = true;
 		}
-		
+
 		// Set privileges(granted) variables
 		$this->grant = $grant;
 		Context::set('grant', $grant);
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * Check permission
-	 * 
+	 *
 	 * @param object $grant privileges(granted) information of user
 	 * @param object $member_info member information
 	 * @return bool
@@ -328,28 +327,28 @@ class ModuleObject extends BaseObject
 		{
 			$member_info = $this->user;
 		}
-		
+
 		// Get privileges(granted) information of the member for current module
 		if(!$grant)
 		{
 			$grant = ModuleModel::getGrant($this->module_info, $member_info, $this->xml_info);
 		}
-		
+
 		// If an administrator, Pass
 		if($grant->root)
 		{
 			return true;
 		}
-		
+
 		// Get permission types(guest, member, manager, root) of the currently requested action
 		$permission = $this->xml_info->action->{$this->act}->permission->target ?: ($this->xml_info->permission->{$this->act} ?? null);
-		
+
 		// If admin action, set default permission
 		if(empty($permission) && stripos($this->act, 'admin') !== false)
 		{
 			$permission = 'root';
 		}
-		
+
 		// If permission is not or 'guest', Pass
 		if(empty($permission) || $permission == 'guest')
 		{
@@ -370,7 +369,7 @@ class ModuleObject extends BaseObject
 			{
 				return true;
 			}
-			
+
 			// If permission is '*-managers', search modules to find manager privilege of the member
 			if(Context::get('is_logged') && isset($type[2]))
 			{
@@ -401,7 +400,7 @@ class ModuleObject extends BaseObject
 		else if($grant_names = explode(',', $permission))
 		{
 			$privilege_list = array_keys((array) $this->xml_info->grant);
-			
+
 			foreach($grant_names as $name)
 			{
 				if(!in_array($name, $privilege_list) || !$grant->$name)
@@ -409,16 +408,16 @@ class ModuleObject extends BaseObject
 					return false;
 				}
 			}
-			
+
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Stop processing this module instance.
-	 * 
+	 *
 	 * @param string $msg_code an error code
 	 * @return ModuleObject $this
 	 */
@@ -428,33 +427,33 @@ class ModuleObject extends BaseObject
 		{
 			// flag setting to stop the proc processing
 			$this->stop_proc = true;
-			
+
 			// Error handling
 			$this->setError(-1);
 			$this->setMessage($msg_code);
-			
+
 			// Get backtrace
 			$backtrace = debug_backtrace(false);
 			$caller = array_shift($backtrace);
 			$location = $caller['file'] . ':' . $caller['line'];
-			
+
 			// Error message display by message module
 			$oMessageObject = MessageView::getInstance();
 			$oMessageObject->setError(-1);
 			$oMessageObject->setMessage($msg_code);
 			$oMessageObject->dispMessage('', $location);
-			
+
 			$this->setTemplatePath($oMessageObject->getTemplatePath());
 			$this->setTemplateFile($oMessageObject->getTemplateFile());
 			$this->setHttpStatusCode($oMessageObject->getHttpStatusCode());
 		}
-		
+
 		return $this;
 	}
 
 	/**
 	 * set the file name of the template file
-	 * 
+	 *
 	 * @param string name of file
 	 * @return $this
 	 */
@@ -470,7 +469,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * retrieve the directory path of the template directory
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getTemplateFile()
@@ -480,7 +479,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * set the directory path of the template directory
-	 * 
+	 *
 	 * @param string path of template directory.
 	 * @return $this
 	 */
@@ -501,7 +500,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * retrieve the directory path of the template directory
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getTemplatePath()
@@ -511,7 +510,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * set the file name of the temporarily modified by admin
-	 * 
+	 *
 	 * @param string name of file
 	 * @return $this
 	 */
@@ -529,7 +528,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * retreived the file name of edited_layout_file
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getEditedLayoutFile()
@@ -539,7 +538,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * set the file name of the layout file
-	 * 
+	 *
 	 * @param string name of file
 	 * @return $this
 	 */
@@ -555,7 +554,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * get the file name of the layout file
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getLayoutFile()
@@ -565,7 +564,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * set the directory path of the layout directory
-	 * 
+	 *
 	 * @param string path of layout directory.
 	 * @return $this
 	 */
@@ -586,7 +585,7 @@ class ModuleObject extends BaseObject
 
 	/**
 	 * set the directory path of the layout directory
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getLayoutPath($layout_name = "", $layout_type = "P")
@@ -605,7 +604,7 @@ class ModuleObject extends BaseObject
 		{
 			return FALSE;
 		}
-		
+
 		// Check mobile status
 		$is_mobile = Mobile::isFromMobilePhone();
 
@@ -623,7 +622,7 @@ class ModuleObject extends BaseObject
 		$oAddonController = AddonController::getInstance();
 		$addon_file = $oAddonController->getCacheFilePath($is_mobile ? "mobile" : "pc");
 		if(FileHandler::exists($addon_file)) include($addon_file);
-		
+
 		// Check mobile status again, in case a trigger changed it
 		$is_mobile = Mobile::isFromMobilePhone();
 
@@ -636,7 +635,7 @@ class ModuleObject extends BaseObject
 				$this->stop("msg_not_permitted_act");
 				return FALSE;
 			}
-			
+
 			// Set module skin
 			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
@@ -645,7 +644,7 @@ class ModuleObject extends BaseObject
 				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
 				$module_skin = $this->module_info->{$skin_key} ?: '/USE_DEFAULT/';
 				$use_default_skin = $this->module_info->{'is_' . $skin_key . '_fix'} === 'N';
-				
+
 				// Set default skin
 				if(!$this->getTemplatePath() || $use_default_skin)
 				{
@@ -669,12 +668,12 @@ class ModuleObject extends BaseObject
 					}
 					$this->setTemplatePath(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin));
 				}
-				
+
 				// Set skin variable
 				ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
 				Context::set('module_info', $this->module_info);
 			}
-			
+
 			// Run
 			try
 			{
@@ -756,10 +755,10 @@ class ModuleObject extends BaseObject
 		}
 		return TRUE;
 	}
-	
+
 	/**
 	 * Copy the response of another ModuleObject into this instance.
-	 * 
+	 *
 	 * @param self $instance
 	 * @return void
 	 */
@@ -769,14 +768,14 @@ class ModuleObject extends BaseObject
 		$this->error = $instance->getError();
 		$this->message = $instance->getMessage();
 		$this->httpStatusCode = $instance->getHttpStatusCode();
-		
+
 		// Copy template settings.
 		$this->setTemplatePath($instance->getTemplatePath());
 		$this->setTemplateFile($instance->getTemplateFile());
 		$this->setLayoutPath($instance->getLayoutPath());
 		$this->setLayoutFile($instance->getLayoutFile());
 		$this->setEditedLayoutFile($instance->getEditedLayoutFile());
-		
+
 		// Copy all other variables: redirect URL, message type, etc.
 		foreach ($instance->getVariables() as $key => $val)
 		{
@@ -784,5 +783,3 @@ class ModuleObject extends BaseObject
 		}
 	}
 }
-/* End of file ModuleObject.class.php */
-/* Location: ./classes/module/ModuleObject.class.php */

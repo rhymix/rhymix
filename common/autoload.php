@@ -107,7 +107,7 @@ spl_autoload_register(function($class_name)
 	$filename2 = null;
 	$lang_plugin = null;
 	$lang_path = null;
-	
+
 	// Try namespaced classes, legacy classes, and module classes.
 	if (preg_match('!^Rhymix/(Framework|Addons|Modules|Plugins|Themes|Widgets)/((\w+)/(?:\w+/)*)?(\w+)$!', $class_name, $matches))
 	{
@@ -136,7 +136,7 @@ spl_autoload_register(function($class_name)
 			$lang_path = RX_BASEDIR . 'modules/' . $module . '/lang';
 		}
 	}
-	
+
 	// Load the PHP file.
 	if ($filename1 && file_exists($filename1))
 	{
@@ -146,7 +146,7 @@ spl_autoload_register(function($class_name)
 	{
 		include $filename2;
 	}
-	
+
 	// Load the lang file for the plugin.
 	if ($lang_plugin)
 	{

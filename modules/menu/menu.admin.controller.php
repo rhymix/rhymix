@@ -239,7 +239,7 @@ class menuAdminController extends menu
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispMenuAdminManagement', 'menu_srl', $args->menu_srl);
 		$this->setRedirectUrl($returnUrl);
 	}
-	
+
 	/**
 	 * Change the menu design (layout)
 	 */
@@ -253,7 +253,7 @@ class menuAdminController extends menu
 		{
 			return;
 		}
-		
+
 		$args = new stdClass;
 		$args->menu_srl = $menu_srl;
 		$output = executeQueryArray('layout.getLayoutModules', $args);
@@ -285,7 +285,7 @@ class menuAdminController extends menu
 						return $output;
 					}
 				}
-				
+
 				Rhymix\Framework\Cache::clearGroup('site_and_module');
 			}
 		}
@@ -1653,10 +1653,10 @@ class menuAdminController extends menu
 		$oModuleModel = getModel('module');
 		//$info = $oModuleModel->getModuleInfoXml($moduleName);
 		$info = $oModuleModel->getModuleActionXml($moduleName);
-		
+
 		$args = new stdClass();
 		$args->url = 'index.php?module=admin';
-		
+
 		if($info->menu->{$menuName}->index)
 		{
 			$args->url .= '&act=' . $info->menu->{$menuName}->index;
@@ -1665,7 +1665,7 @@ class menuAdminController extends menu
 		{
 			$args->url .= '&act=' . $info->admin_index_act;
 		}
-		
+
 		$args->menu_item_srl = (!$requestArgs->menu_item_srl) ? getNextSequence() : $requestArgs->menu_item_srl;
 		$args->parent_srl = $requestArgs->parent_srl;
 		$args->menu_srl = $requestArgs->menu_srl;
@@ -1730,7 +1730,7 @@ class menuAdminController extends menu
 			{
 				$exposure = implode(',', $exposure);
 			}
-			
+
 			if(in_array($exposure, array('-1','-3')))
 			{
 				$args->group_srls = $exposure;
@@ -1835,7 +1835,7 @@ class menuAdminController extends menu
 			FileHandler::writeFile($xml_file, '<root />');
 			FileHandler::writeFile($php_file, '<?php if(!defined("__XE__")) exit(); ?>');
 			return $xml_file;
-		}		
+		}
 		$site_srl = 0;
 		$domain = null;
 
@@ -1947,7 +1947,7 @@ class menuAdminController extends menu
 			{
 				$child_buff = $this->getXmlTree($tree[$menu_item_srl], $tree, $site_srl, $domain);
 			}
-			
+
 			// List variables
 			$names = $oMenuAdminModel->getMenuItemNames($node->name, $site_srl);
 			$name_arr_str = '';
@@ -1976,11 +1976,11 @@ class menuAdminController extends menu
 			$normal_btn = strval($node->normal_btn);
 			if($normal_btn && strncasecmp('./files/attach/menu_button', $normal_btn, 26) === 0) $normal_btn = escape($normal_btn);
 			else $normal_btn = '';
-			
+
 			$hover_btn = strval($node->hover_btn);
 			if($hover_btn && strncasecmp('./files/attach/menu_button', $hover_btn, 26) === 0) $hover_btn = escape($hover_btn);
 			else $hover_btn = '';
-			
+
 			$active_btn = strval($node->active_btn);
 			if($active_btn && strncasecmp('./files/attach/menu_button', $active_btn, 26) === 0) $active_btn = escape($active_btn);
 			else $active_btn = '';

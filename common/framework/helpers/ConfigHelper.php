@@ -14,10 +14,10 @@ class ConfigHelper
 	 * Cache plugin configuration during consolidation.
 	 */
 	protected static $_config_cache = array();
-	
+
 	/**
 	 * Consolidate configuration from multiple sources.
-	 * 
+	 *
 	 * @param array $format
 	 * @return array
 	 */
@@ -25,19 +25,19 @@ class ConfigHelper
 	{
 		self::$_config_cache = array();
 		$result = array();
-		
+
 		foreach ($format as $key => $value)
 		{
 			$result[$key] = self::_parseConfigValue((array)$value);
 		}
-		
+
 		self::$_config_cache = array();
 		return $result;
 	}
-	
+
 	/**
 	 * Parse and get a configuration value.
-	 * 
+	 *
 	 * @param array $value
 	 * @return mixed
 	 */
@@ -45,7 +45,7 @@ class ConfigHelper
 	{
 		$filters = array();
 		$result = null;
-		
+
 		foreach ($value as $option)
 		{
 			$option = array_map('trim', explode(':', $option, 2));
@@ -90,12 +90,12 @@ class ConfigHelper
 				$result = $temp;
 			}
 		}
-		
+
 		foreach ($filters as $filter)
 		{
 			$result = $filter($result);
 		}
-		
+
 		return $result;
 	}
 }

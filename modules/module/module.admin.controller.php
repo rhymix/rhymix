@@ -285,10 +285,10 @@ class ModuleAdminController extends Module
 		$columnList = array('module_srl', 'module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$module_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// Register Admin ID
 		$oModuleController->deleteAdminId($module_srl);
 		$admin_member = Context::get('admin_member');
@@ -357,9 +357,9 @@ class ModuleAdminController extends Module
 				if(!$output->toBool()) return $output;
 			}
 		}
-		
+
 		$oDB->commit();
-		
+
 		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 		$this->setMessage('success_registed');
 	}
@@ -646,10 +646,10 @@ class ModuleAdminController extends Module
 				}
 			}
 		}
-		
+
 		Rhymix\Framework\Cache::delete("site_and_module:module_grants:$module_srl");
 		$this->setMessage('success_registed');
-		
+
 		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
 		{
 			if(Context::get('success_return_url'))
@@ -876,10 +876,10 @@ class ModuleAdminController extends Module
 
 				$langMap[$langCode] += $langMap[$targetLangCode];
 			}
-			
+
 			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:0:' . $langCode, $langMap[$langCode], 0, true);
 		}
-		
+
 		$currentLang = Context::getLangType();
 		return isset($langMap[$currentLang]) ? $langMap[$currentLang] : array();
 	}

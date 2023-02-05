@@ -79,7 +79,7 @@ class CacheReset extends Base
 			$tmp_cache_list = FileHandler::readDir(\RX_BASEDIR . 'files', '/^(cache_[0-9]+)/');
 			$tmp_cache_prefix = \RX_BASEDIR . 'files/';
 		}
-		
+
 		if($tmp_cache_list)
 		{
 			foreach($tmp_cache_list as $tmp_dir)
@@ -91,7 +91,7 @@ class CacheReset extends Base
 					{
 						continue;
 					}
-					
+
 					// If possible, use system command to speed up recursive deletion
 					if (function_exists('exec') && !preg_match('/(?<!_)exec/', ini_get('disable_functions')))
 					{
@@ -104,7 +104,7 @@ class CacheReset extends Base
 							@exec('rm -rf ' . escapeshellarg($tmp_dir));
 						}
 					}
-					
+
 					// If the directory still exists, delete using PHP.
 					Storage::deleteDirectory($tmp_dir);
 				}

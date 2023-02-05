@@ -24,7 +24,7 @@ class editorView extends editor
 		$parent_input_id = Context::get('parent_input_id');
 		Context::set('parent_input_id', preg_replace('/[^a-z0-9_]/i', '', $parent_input_id));
 		Context::addBodyClass('disable_debug_panel');
-		
+
 		// Load editor
 		$oEditorModel = getModel('editor');
 		$option = $oEditorModel->getEditorConfig();
@@ -40,7 +40,7 @@ class editorView extends editor
 		$option->editor_focus = 'Y';
 		$editor = $oEditorModel->getEditor(0, $option);
 		Context::set('editor', $editor);
-		
+
 		// Set template
 		$this->setLayoutPath('./common/tpl/');
 		$this->setLayoutFile("default_layout");
@@ -124,7 +124,7 @@ class editorView extends editor
 			$current_module_srl = $current_module_info->module_srl;
 			if(!$current_module_srl) return new BaseObject();
 		}
-		
+
 		// Get editors settings
 		$oEditorModel = getModel('editor');
 		$editor_config = $oEditorModel->getEditorConfig($current_module_srl);
@@ -151,7 +151,7 @@ class editorView extends editor
 			{
 				continue;
 			}
-			
+
 			$skin_info = ModuleModel::loadSkinInfo($this->module_path, $skin);
 			foreach ($skin_info->colorset ?: [] as $colorset)
 			{
@@ -162,7 +162,7 @@ class editorView extends editor
 
 		Context::set('editor_config', $editor_config);
 		Context::set('editor_skin_list', $editor_skin_list);
-		
+
 		// Get a group list
 		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
@@ -195,7 +195,7 @@ class editorView extends editor
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest();
 		}
-		
+
 		$skin_info = ModuleModel::loadSkinInfo($this->module_path,$skin);
 		$colorset = $skin_info->colorset ?? null;
 		Context::set('colorset', $colorset);
@@ -204,7 +204,7 @@ class editorView extends editor
 	function dispEditorConfigPreview()
 	{
 		Context::set('editor', getModel('editor')->getModuleEditor(Context::get('type'), 0, 0, 'dummy_key', 'dummy_content'));
-		
+
 		$this->setLayoutFile('default_layout');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('config_preview');

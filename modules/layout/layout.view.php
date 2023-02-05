@@ -35,7 +35,7 @@ class layoutView extends layout
 
 	/**
 	 * Preview a layout with module.
-	 * 
+	 *
 	 * @return Object
 	 */
 	public function dispLayoutPreviewWithModule()
@@ -260,7 +260,7 @@ class layoutView extends layout
 			{
 				throw new Rhymix\Framework\Exception(lang('msg_unabled_preview'));
 			}
-		
+
 			$mid = current($output->data)->mid;
 		}
 
@@ -397,7 +397,7 @@ class layoutView extends layout
 		}
 		else
 		{
-			return ''; 
+			return '';
 		}
 
 	}
@@ -413,7 +413,7 @@ class layoutView extends layout
 		}
 		else
 		{
-			return ''; 
+			return '';
 		}
 
 	}

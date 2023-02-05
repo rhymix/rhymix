@@ -10,7 +10,7 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('dispTestView', $info->default_index_act);
 		$this->assertEquals('dispTestAdminIndex', $info->admin_index_act);
 		$this->assertEquals('', $info->setup_index_act);
-		
+
 		// Actions
 		$this->assertEquals('view', $info->action->dispTestView->type);
 		$this->assertEquals('guest', $info->action->dispTestView->grant);
@@ -34,12 +34,12 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('true', $info->action->dispTestAdminIndex->standalone);
 		$this->assertEquals('GET|POST', $info->action->procTestAdminSubmitData->method);
 		$this->assertEquals([], $info->action->procTestAdminSubmitData->route);
-		
+
 		// Standalone attribute
 		$this->assertEquals('auto', $info->action->dispTestStandalone1->standalone);
 		$this->assertEquals('false', $info->action->dispTestStandalone2->standalone);
 		$this->assertEquals('true', $info->action->dispTestStandalone3->standalone);
-		
+
 		// Routes
 		$this->assertEquals(7, count($info->route->GET));
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)$#u']);
@@ -47,19 +47,19 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('dispTestView', $info->route->GET['#^(?P<document_srl>[0-9]+)/tag/(?P<tag>[a-zA-Z0-9_]+)$#u']);
 		$this->assertEquals('dispTestWrite', $info->route->GET['#^write$#u']);
 		$this->assertEquals(3, count($info->route->POST));
-		
+
 		// Grant
 		$this->assertEquals(['view'], array_keys(get_object_vars($info->grant)));
 		$this->assertContains($info->grant->view->title, ['View', '열람']);
 		$this->assertEquals('guest', $info->grant->view->default);
-		
+
 		// Menu
 		$this->assertEquals(['test'], array_keys(get_object_vars($info->menu)));
 		$this->assertContains($info->menu->test->title, ['Test Menu', '테스트 메뉴']);
 		$this->assertEquals('dispTestAdminIndex', $info->menu->test->index);
 		$this->assertEquals(['dispTestAdminIndex'], $info->menu->test->acts);
 		$this->assertEquals('all', $info->menu->test->type);
-		
+
 		// Error handlers
 		$this->assertTrue(is_array($info->error_handlers));
 		$this->assertEquals('dispTestErrorHandler', $info->error_handlers[404]);

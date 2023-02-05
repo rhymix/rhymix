@@ -49,7 +49,7 @@ class CommentAdminView extends Comment
 		  }
 		 */
 
-		// get a list by using comment->getCommentList. 
+		// get a list by using comment->getCommentList.
 		$oCommentModel = getModel('comment');
 		$secretNameList = $oCommentModel->getSecretNameList();
 		$output = $oCommentModel->getTotalCommentList($args);
@@ -89,7 +89,7 @@ class CommentAdminView extends Comment
 			}
 		}
 		Context::set('module_list', $module_list);
-		
+
 		// Get anonymous nicknames
 		$anonymous_member_srls = array();
 		foreach($output->data as $val)
@@ -114,11 +114,11 @@ class CommentAdminView extends Comment
 			}
 		}
 		Context::set('member_nick_name', $member_nick_neme);
-		
+
 		$security = new Security();
 		$security->encodeHTML('search_target', 'search_keyword');
 
-		// set the template 
+		// set the template
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('comment_list');
 	}
@@ -135,7 +135,7 @@ class CommentAdminView extends Comment
 		$args->list_count = 30; // /< the number of comment postings to appear on a single page
 		$args->page_count = 10; // /< the number of pages to appear on the page navigation
 		$args->order_type = 'desc'; // /< sorted value
-		
+
 		// select sort method
 		$sort_index = Context::get('sort_index');
 		if (!in_array($sort_index, array('declared_latest', 'declared_count', 'regdate')))
@@ -143,7 +143,7 @@ class CommentAdminView extends Comment
 			$sort_index = 'declared_latest';
 		}
 		Context::set('sort_index', $sort_index);
-		
+
 		// get latest declared list
 		if ($sort_index === 'declared_latest')
 		{

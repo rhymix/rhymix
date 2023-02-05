@@ -19,7 +19,7 @@ class installController extends install
 		{
 			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
-		
+
 		// Increase time limit.
 		@set_time_limit(0);
 	}
@@ -31,13 +31,13 @@ class installController extends install
 	{
 		// Get DB config variables.
 		$config = Context::gets('db_type', 'db_host', 'db_port', 'db_user', 'db_pass', 'db_database', 'db_prefix');
-		
+
 		// Disallow installation using the root account.
 		if (trim($config->db_user) === 'root' && !preg_match('/Development Server$/', $_SERVER['SERVER_SOFTWARE']))
 		{
 			return new BaseObject(-1, 'msg_dbroot_disallowed');
 		}
-		
+
 		// Create a temporary setting object.
 		Rhymix\Framework\Config::set('db.master', array(
 			'type' => $config->db_type,
@@ -48,7 +48,7 @@ class installController extends install
 			'database' => $config->db_database,
 			'prefix' => $config->db_prefix ? (rtrim($config->db_prefix, '_') . '_') : '',
 		));
-		
+
 		// Check connection to the DB.
 		$oDB = DB::getInstance();
 		$output = $oDB->getError();
@@ -56,7 +56,7 @@ class installController extends install
 		{
 			return $output;
 		}
-		
+
 		// Check MySQL server capabilities.
 		if(stripos($config->db_type, 'mysql') !== false)
 		{
@@ -70,12 +70,12 @@ class installController extends install
 					break;
 				}
 			}
-			
+
 			// Check if utf8mb4 is supported.
 			$oDB->charset = $oDB->getBestSupportedCharset();
 			$config->db_charset = $oDB->charset;
 		}
-		
+
 		// Check if tables already exist.
 		$table_check = array('documents', 'comments', 'modules', 'sites');
 		foreach ($table_check as $table_name)
@@ -85,10 +85,10 @@ class installController extends install
 				throw new Rhymix\Framework\Exception('msg_table_already_exists');
 			}
 		}
-		
+
 		// Save DB config in session.
 		$_SESSION['db_config'] = $config;
-		
+
 		// Continue the installation.
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC','JSON')))
 		{
@@ -107,7 +107,7 @@ class installController extends install
 		{
 			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
-		
+
 		// Get install parameters.
 		$config = Rhymix\Framework\Config::getDefaults();
 		if ($install_config)
@@ -147,23 +147,23 @@ class installController extends install
 			$time_zone = Context::get('time_zone');
 			$user_info = Context::gets('email_address', 'password', 'nick_name', 'user_id');
 		}
-		
+
 		// Fix the database table prefix.
 		$config['db']['master']['prefix'] = rtrim($config['db']['master']['prefix'], '_');
 		if ($config['db']['master']['prefix'] !== '')
 		{
 			$config['db']['master']['prefix'] .= '_';
 		}
-		
+
 		// Create new crypto keys.
 		$config['crypto']['encryption_key'] = Rhymix\Framework\Security::getRandom(64, 'alnum');
 		$config['crypto']['authentication_key'] = Rhymix\Framework\Security::getRandom(64, 'alnum');
 		$config['crypto']['session_key'] = Rhymix\Framework\Security::getRandom(64, 'alnum');
-		
+
 		// Set the default language.
 		$config['locale']['default_lang'] = Context::getLangType();
 		$config['locale']['enabled_lang'] = array($config['locale']['default_lang']);
-		
+
 		// Set the default time zone.
 		if (strpos($time_zone, '/') !== false)
 		{
@@ -183,7 +183,7 @@ class installController extends install
 					$config['locale']['default_timezone'] = 'Etc/GMT' . ($user_timezone > 0 ? '-' : '+') . abs($user_timezone);
 			}
 		}
-		
+
 		// Set the internal time zone.
 		if ($config['locale']['default_timezone'] === 'Asia/Seoul')
 		{
@@ -197,24 +197,24 @@ class installController extends install
 		{
 			$config['locale']['internal_timezone'] = 0;
 		}
-		
+
 		// Set the default URL.
 		$config['url']['default'] = Context::getRequestUri();
-		
+
 		// Set the default umask.
 		$config['file']['umask'] = Rhymix\Framework\Storage::recommendUmask();
-		
+
 		// Load the new configuration.
 		Rhymix\Framework\Config::setAll($config);
 		Context::loadDBInfo($config);
-		
+
 		// Check DB.
 		$oDB = DB::getInstance();
 		if (!$oDB->isConnected())
 		{
 			return $oDB->getError();
 		}
-		
+
 		// Assign a temporary administrator while installing.
 		foreach ($user_info as $key => $val)
 		{
@@ -222,7 +222,7 @@ class installController extends install
 		}
 		$user_info->is_admin = 'Y';
 		Context::set('logged_info', $user_info);
-		
+
 		// Install all the modules.
 		try
 		{
@@ -235,7 +235,7 @@ class installController extends install
 			$oDB->rollback();
 			throw new Rhymix\Framework\Exception($e->getMessage());
 		}
-		
+
 		// Execute the install script.
 		$scripts = FileHandler::readDir(RX_BASEDIR . 'modules/install/script', '/(\.php)$/');
 		if(count($scripts))
@@ -247,7 +247,7 @@ class installController extends install
 				$output = include($script_path . $script);
 			}
 		}
-		
+
 		// Apply site lock.
 		if (Context::get('use_sitelock') === 'Y')
 		{
@@ -256,23 +256,23 @@ class installController extends install
 			Rhymix\Framework\Config::set('lock.message', 'This site is locked.');
 			Rhymix\Framework\Config::set('lock.allow', array('127.0.0.1', $user_ip_range));
 		}
-		
+
 		// Use APC cache if available.
 		if (function_exists('apcu_exists'))
 		{
 			Rhymix\Framework\Config::set('cache.type', 'apc');
 		}
-		
+
 		// Save the new configuration.
 		Rhymix\Framework\Config::save();
-		
+
 		// Unset temporary session variables.
 		unset($_SESSION['use_rewrite']);
 		unset($_SESSION['db_config']);
-		
+
 		// Redirect to the home page.
 		$this->setMessage('msg_install_completed');
-		
+
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : RX_BASEURL;
 		$this->setRedirectUrl($returnUrl);
 		return new BaseObject();
@@ -315,13 +315,13 @@ class installController extends install
 		{
 			$checklist['permission'] = false;
 		}
-		
+
 		// Check session availability
 		$license_agreement_time = intval(trim(FileHandler::readFile($this->flagLicenseAgreement)));
 		if(isset($_SESSION['license_agreement']) && (!$license_agreement_time || ($license_agreement_time == $_SESSION['license_agreement'])))
 		{
 			$sess_autostart = intval(ini_get('session.auto_start'));
-			
+
 			if($sess_autostart === 0)
 			{
 				$checklist['session'] = true;
@@ -425,7 +425,7 @@ class installController extends install
 		{
 			throw new Rhymix\Framework\Exception('msg_must_accept_license_agreement');
 		}
-		
+
 		$license_agreement_time = time();
 		$_SESSION['license_agreement'] = $license_agreement_time;
 		FileHandler::writeFile($this->flagLicenseAgreement, $license_agreement_time . PHP_EOL);
@@ -465,13 +465,13 @@ class installController extends install
 		{
 			// Get module name
 			$module = basename($module_path);
-			
+
 			// Only install default modules at this time
 			if (!Context::isDefaultPlugin($module, 'module'))
 			{
 				continue;
 			}
-			
+
 			// Try to group modules by category
 			$xml_info = ModuleModel::getModuleInfoXml($module);
 			if (!$xml_info)
@@ -480,14 +480,14 @@ class installController extends install
 			}
 			$modules[$xml_info->category ?: 'other'][] = $module;
 		}
-		
+
 		// Install "module" module in advance
 		$this->installModule('module','./modules/module');
 		$this->updateModule('module');
-		
+
 		// Determine the order of module installation depending on category
 		$install_step = array('system','content','member');
-		
+
 		// Install all the remaining modules
 		foreach($install_step as $category)
 		{
@@ -502,7 +502,7 @@ class installController extends install
 				unset($modules[$category]);
 			}
 		}
-		
+
 		// Install all the remaining modules
 		if(count($modules))
 		{
@@ -544,16 +544,16 @@ class installController extends install
 			{
 				continue;
 			}
-			
+
 			$table_name = $matches[1];
 			if(isset($schema_sorted[$table_name]) || $oDB->isTableExists($table_name))
 			{
 				continue;
 			}
-			
+
 			$schema_sorted[$table_name] = $filename;
 		}
-		
+
 		$schema_sorted = Rhymix\Framework\Parsers\DBTableParser::resolveDependency($schema_sorted);
 		foreach ($schema_sorted as $table_name => $filename)
 		{
@@ -563,7 +563,7 @@ class installController extends install
 				throw new Exception(lang('msg_create_table_failed') . ': ' . $table_name . ': ' . $oDB->getError()->getMessage());
 			}
 		}
-		
+
 		// Create a table and module instance and then execute install() method
 		$oModule = ModuleModel::getModuleInstallClass($module);
 		if($oModule && method_exists($oModule, 'moduleInstall'))
@@ -572,10 +572,10 @@ class installController extends install
 		}
 		return new BaseObject();
 	}
-	
+
 	/**
 	 * Update a module if necessary.
-	 * 
+	 *
 	 * @param string $module
 	 * @return mixed
 	 */
@@ -590,10 +590,10 @@ class installController extends install
 			}
 		}
 	}
-	
+
 	/**
 	 * Placeholder for third-party apps that try to manipulate system configuration.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function makeConfigFile()

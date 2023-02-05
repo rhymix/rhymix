@@ -20,19 +20,19 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		FrontEndFileHandler::$minify = 'none';
 		FrontEndFileHandler::$concat = 'none';
 	}
-	
+
 	public function _after()
 	{
 		HTMLDisplayHandler::$reservedCSS = $this->reservedCSS;
 		HTMLDisplayHandler::$reservedJS = $this->reservedJS;
 	}
-	
+
 	public function _failed()
 	{
 		HTMLDisplayHandler::$reservedCSS = $this->reservedCSS;
 		HTMLDisplayHandler::$reservedJS = $this->reservedJS;
 	}
-	
+
 	public function testJsHead()
 	{
 		$handler = new FrontEndFileHandler();
@@ -44,7 +44,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => $this->baseurl . 'common/js/common.js' . $this->_filemtime('common/js/common.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
-	
+
 	public function testJsBody()
 	{
 		$handler = new FrontEndFileHandler();
@@ -53,7 +53,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'));
 		$this->assertEquals($expected, $handler->getJsFileList('body'));
 	}
-	
+
 	public function testDefaultScss()
 	{
 		$handler = new FrontEndFileHandler();
@@ -81,7 +81,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => $this->baseurl . 'common/js/xml_js_filter.js' . $this->_filemtime('common/js/xml_js_filter.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
-	
+
 	public function testRedefineOrder()
 	{
 		$handler = new FrontEndFileHandler();
@@ -95,7 +95,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => $this->baseurl . 'common/js/xml_handler.js' . $this->_filemtime('common/js/xml_handler.js'));
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
-	
+
 	public function testUnload()
 	{
 		$handler = new FrontEndFileHandler();
@@ -124,7 +124,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => '//external.host/js/script2.js');
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
-	
+
 	public function testExternalFile2()
 	{
 		$handler = new FrontEndFileHandler();
@@ -134,7 +134,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => '//external.host/js/script.js');
 		$this->assertEquals($expected, $handler->getJsFileList());
 	}
-	
+
 	public function testExternalFile3()
 	{
 		$handler = new FrontEndFileHandler();
@@ -147,7 +147,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => 'https://external.host/css/style3.css?foo=bar&t=123', 'media'=>'all');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
-	
+
 	public function testExternalFile4()
 	{
 		$handler = new FrontEndFileHandler();
@@ -196,7 +196,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media' => 'all');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
-	
+
 	public function testMedia()
 	{
 		$handler = new FrontEndFileHandler();
@@ -213,27 +213,27 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	public function testMinify()
 	{
 		FrontEndFileHandler::$minify = 'all';
-		
+
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/css/rhymix.scss'));
 		$result = $handler->getCssFileList(true);
 		$this->assertRegexp('/\.rhymix\.scss\.min\.css\b/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
 		$this->assertTrue(empty($result[0]['targetie']));
-		
+
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/js/common.js', 'head'));
 		$result = $handler->getJsFileList('head', true);
 		$this->assertRegexp('/minified\/common\.js\.common\.min\.js\?\d+$/', $result[0]['file']);
 		$this->assertTrue(empty($result[0]['targetie']));
-		
+
 		FrontEndFileHandler::$minify = 'none';
 	}
-	
+
 	public function testConcat()
 	{
 		FrontEndFileHandler::$concat = 'css';
-		
+
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/css/rhymix.scss'));
 		$handler->loadFile(array('./common/css/bootstrap-responsive.css'));
@@ -250,9 +250,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		//$this->assertEquals('IE', $result[1]['targetie']);
 		$this->assertEquals('http://external.host/style.css', $result[1]['file']);
 		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[2]['file']);
-		
+
 		FrontEndFileHandler::$concat = 'js';
-		
+
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/js/common.js', 'head'));
 		$handler->loadFile(array('./common/js/debug.js', 'head'));
@@ -267,15 +267,15 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$this->assertRegexp('/combined\/[0-9a-f]+\.js\?\d+$/', $result[0]['file']);
 		$this->assertEquals('//external.host/js/script.js', $result[1]['file']);
 		$this->assertRegexp('/combined\/[0-9a-f]+\.js\?\d+$/', $result[2]['file']);
-		
+
 		FrontEndFileHandler::$concat = 'none';
 	}
-	
+
 	public function testBlockedScripts()
 	{
 		HTMLDisplayHandler::$reservedCSS = $this->reservedCSS;
 		HTMLDisplayHandler::$reservedJS = $this->reservedJS;
-		
+
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/css/xe.min.css'));
 		$handler->loadFile(array('./common/js/common.js'));

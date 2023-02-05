@@ -12,7 +12,7 @@ class Member extends ModuleObject
 	 */
 	public $admin_extra_vars = ['refused_reason', 'limited_reason'];
 	public $nouse_extra_vars = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
-	
+
 	/**
 	 * constructor
 	 *
@@ -32,14 +32,14 @@ class Member extends ModuleObject
 	{
 		$oModuleController = getController('module');
 		$config = ModuleModel::getModuleConfig('member');
-		
+
 		// Set default config
 		if(!$config)
 		{
 			$config = MemberModel::getMemberConfig();
 			$oModuleController->insertModuleConfig('member', $config);
 		}
-		
+
 		$oMemberModel = getModel('member');
 		$oMemberController = getController('member');
 		$oMemberAdminController = getAdminController('member');
@@ -127,36 +127,36 @@ class Member extends ModuleObject
 		if(!$oDB->isIndexExists("member","idx_phone_country")) return true;
 		if(!$oDB->isColumnExists("member", "phone_type")) return true;
 		if(!$oDB->isIndexExists("member","idx_phone_type")) return true;
-		
+
 		// Add columns for IP address
 		if(!$oDB->isColumnExists("member", "ipaddress")) return true;
 		if(!$oDB->isIndexExists("member","idx_ipaddress")) return true;
 		if(!$oDB->isColumnExists("member", "last_login_ipaddress")) return true;
 		if(!$oDB->isIndexExists("member","idx_last_login_ipaddress")) return true;
-		
+
 		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
-		
+
 		// Check autologin table
 		if(!$oDB->isColumnExists("member_autologin", "security_key")) return true;
-		
+
 		// Check scrap folder table
 		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
 
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_before_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
-		
+
 		// Check individual indexes for member_group_member table
 		if(!$oDB->isIndexExists('member_group_member', 'idx_member_srl')) return true;
-		
+
 		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
 		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
-		
+
 		$config = ModuleModel::getModuleConfig('member');
-		
+
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
 		{
@@ -167,7 +167,7 @@ class Member extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		// Check signup form
 		if(!$config->signupForm || !is_array($config->signupForm)) return true;
 		$phone_found = false;
@@ -190,7 +190,7 @@ class Member extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		// Check agreements
 		if(!$config->agreements)
 		{
@@ -225,7 +225,7 @@ class Member extends ModuleObject
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -238,13 +238,13 @@ class Member extends ModuleObject
 	{
 		$oDB = DB::getInstance();
 		$oModuleController = getController('module');
-		
+
 		// Check member directory
 		FileHandler::makeDir('./files/member_extra_info/image_name');
 		FileHandler::makeDir('./files/member_extra_info/image_mark');
 		FileHandler::makeDir('./files/member_extra_info/signature');
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
-		
+
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number"))
 		{
@@ -270,7 +270,7 @@ class Member extends ModuleObject
 		{
 			$oDB->addIndex("member","idx_phone_type", array("phone_type"));
 		}
-		
+
 		// Add columns for IP address
 		if(!$oDB->isColumnExists("member", "ipaddress"))
 		{
@@ -303,7 +303,7 @@ class Member extends ModuleObject
 		{
 			$oDB->addIndex("member","idx_list_order", array("list_order"));
 		}
-		
+
 		// Check autologin table
 		if(!$oDB->isColumnExists("member_autologin", "security_key"))
 		{
@@ -317,7 +317,7 @@ class Member extends ModuleObject
 			$oDB->addColumn("member_scrap", "folder_srl", "number", 11);
 			$oDB->addIndex("member_scrap","idx_folder_srl", array("folder_srl"));
 		}
-		
+
 		// Add to index in member nickname log table. 2020. 07 .20 @BJRambo
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_before_nick_name'))
 		{
@@ -325,13 +325,13 @@ class Member extends ModuleObject
 			$oDB->addIndex('member_nickname_log', 'idx_after_nick_name', array('after_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
 		}
-		
+
 		// Check index for member_group_member table
 		if(!$oDB->isIndexExists('member_group_member', 'idx_member_srl'))
 		{
 			$oDB->addIndex('member_group_member', 'idx_member_srl', array('member_srl'));
 		}
-		
+
 		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type'))
 		{
@@ -346,10 +346,10 @@ class Member extends ModuleObject
 			$oDB->addIndex('member_devices', 'idx_last_active_date', array('last_active_date'));
 			$oDB->query("UPDATE member_devices SET last_active_date = regdate WHERE last_active_date = ''");
 		}
-		
+
 		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
 		$changed = false;
-		
+
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
 		{
@@ -364,7 +364,7 @@ class Member extends ModuleObject
 				'new_phone_country' => 'KOR',
 			));
 		}
-		
+
 		// Check signup form
 		$oModuleController = getController('module');
 		$oMemberAdminController = getAdminController('member');
@@ -422,7 +422,7 @@ class Member extends ModuleObject
 			$config->signupForm = $newForm;
 			$changed = true;
 		}
-		
+
 		// Check agreements
 		if(!$config->agreements)
 		{
@@ -441,7 +441,7 @@ class Member extends ModuleObject
 		{
 			$output = $oModuleController->updateModuleConfig('member', $config);
 		}
-		
+
 		// Check skin
 		if($config->skin)
 		{

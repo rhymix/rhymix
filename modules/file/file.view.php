@@ -33,16 +33,16 @@ class FileView extends File
 				return;
 			}
 		}
-		
+
 		// Get file configurations of the module
 		$config = FileModel::getFileConfig($current_module_srl);
 		Context::set('config', $config);
 		Context::set('is_ffmpeg', function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
-		
+
 		// Get a permission for group setting
 		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
-		
+
 		// Set a template file
 		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path . 'tpl', 'file_module_config');

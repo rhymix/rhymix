@@ -331,7 +331,7 @@ function getNotEncodedFullUrl()
 /**
  * getSiteUrl() returns the URL by transforming the given argument value of domain
  * The first argument should consist of domain("http://" not included) and path
- * 
+ *
  * @return string
  */
 function getSiteUrl()
@@ -353,7 +353,7 @@ function getSiteUrl()
 /**
  * getSiteUrl() returns the not encoded URL by transforming the given argument value of domain
  * The first argument should consist of domain("http://" not included) and path
- * 
+ *
  * @return string
  */
 function getNotEncodedSiteUrl()
@@ -483,7 +483,7 @@ function cut_str($string, $cut_size = 0, $tail = '...')
 
 /**
  * Convert XE legacy time zone format into UTC offset.
- * 
+ *
  * @param string $time_zone Time zone in '+0900' format
  * @return int
  */
@@ -506,13 +506,13 @@ function zgap($timestamp = null)
 /**
  * Convert timestamp string to Unix timestamp.
  * This function assumes the internal timezone.
- * 
+ *
  * Supported formats:
  *   - YYYYMMDDHHMMSS
  *   - YYYYMMDD
  *   - YYYY-MM-DD HH:MM:SS
  *   - YYYY-MM-DDTHH:MM:SS+xx:xx (ISO 8601)
- * 
+ *
  * @param string $str Timestamp in one of the supported formats
  * @return int
  */
@@ -570,7 +570,7 @@ function ztime($str)
 	{
 		return null;
 	}
-	
+
 	$timestamp = gmmktime($hour, $min, $sec, $month, $day, $year);
 	if (!$has_offset)
 	{
@@ -602,7 +602,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 	{
 		return null;
 	}
-	
+
 	// convert the date format according to the language
 	if($conversion && $format !== 'relative')
 	{
@@ -625,7 +625,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 				'Y-m-d H:i' => 'H:i d-m-Y',
 			),
 		);
-		
+
 		$lang_type = Context::getLangType();
 		if(isset($convtable[$lang_type]))
 		{
@@ -639,10 +639,10 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 			}
 		}
 	}
-	
+
 	// get unixtime by using ztime() for date() function's argument.
 	$result = Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, ztime($str));
-	
+
 	// change day and am/pm for each language
 	if(preg_match('/[MFAa]/', $format))
 	{
@@ -657,7 +657,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
 /**
  * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
  * If the timestamp is not given, the current time is used.
- * 
+ *
  * @param int $timestamp Unix timestamp
  * @return string
  */
@@ -670,7 +670,7 @@ function getInternalDateTime($timestamp = null, $format = 'YmdHis')
 /**
  * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
  * If the timestamp is not given, the current time is used.
- * 
+ *
  * @param int $timestamp Unix timestamp
  * @return string
  */
@@ -691,7 +691,7 @@ function getTimeGap($date, $format = 'Y.m.d')
 {
 	$timestamp = ztime($date);
 	$gap = RX_TIME - $timestamp;
-	
+
 	if ($gap < 60 * 60 * 24)
 	{
 		return Rhymix\Framework\DateTime::getRelativeTimestamp(($gap >= 60) ? $timestamp : (RX_TIME - 60));
@@ -942,7 +942,7 @@ if(!function_exists('hexrgb'))
 
 /**
  * Php function for mysql old_password()
- * provides backward compatibility for zero board4 which uses old_password() of mysql 4.1 earlier versions. 
+ * provides backward compatibility for zero board4 which uses old_password() of mysql 4.1 earlier versions.
  * the function implemented by referring to the source codes of password.c file in mysql
  *
  * @deprecated
@@ -1018,7 +1018,7 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
 	{
 		$string = urldecode($string);
 	}
-	
+
 	if(function_exists('mb_check_encoding'))
 	{
 		$is_utf8 = mb_check_encoding($string, 'UTF-8');
@@ -1067,14 +1067,14 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 	{
 		return;
 	}
-	
+
 	$logged_info = Context::get('logged_info');
 	$writer_member_srl = abs($writer_member_srl);
 	if ($logged_info->member_srl == $writer_member_srl)
 	{
 		return;
 	}
-	
+
 	if ($logged_info->is_admin === 'Y' || getModel('module')->isSiteAdmin($logged_info))
 	{
 		if ($writer_member_srl)
@@ -1085,7 +1085,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 				return;
 			}
 		}
-		
+
 		$security_msg = '<div style="border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;">' .
 			'<p style="margin: 1em;">' . lang('security_warning_embed') . '</p></div>';
 		$content = Rhymix\Framework\Filters\MediaFilter::removeEmbeddedMedia($content, $security_msg);
@@ -1102,12 +1102,12 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
  */
 function requirePear()
 {
-	
+
 }
 
 /**
  * Check for CSRF attacks
- * 
+ *
  * @return bool
  */
 function checkCSRF()
@@ -1372,6 +1372,3 @@ function reload($isOpener = FALSE)
 	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
 	echo sprintf('<script> %s </script>', $reloadScript);
 }
-
-/* End of file func.inc.php */
-/* Location: ./config/func.inc.php */

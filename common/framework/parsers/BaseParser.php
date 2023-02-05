@@ -9,7 +9,7 @@ abstract class BaseParser
 {
 	/**
 	 * Get all attributes of an element as an associative array.
-	 * 
+	 *
 	 * @param SimpleXMLElement $element
 	 * @param bool $normalize
 	 * @return array
@@ -27,10 +27,10 @@ abstract class BaseParser
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Get the contents of child elements that match a language.
-	 * 
+	 *
 	 * @param SimpleXMLElement $parent
 	 * @param string $tag_name
 	 * @param string $lang
@@ -47,20 +47,20 @@ abstract class BaseParser
 				return trim($child);
 			}
 		}
-		
+
 		// Otherwise, return the first child element.
 		foreach ($parent->{$tag_name} as $child)
 		{
 			return trim($child);
 		}
-		
+
 		// If there are no child elements, return an empty string.
 		return '';
 	}
-	
+
 	/**
 	 * Parse extra_vars.
-	 * 
+	 *
 	 * @param SimpleXMLElement $extra_vars
 	 * @param string $lang
 	 * @return object
@@ -98,7 +98,7 @@ abstract class BaseParser
 					$item->options[$option_item->value] = $option_item;
 				}
 			}
-			
+
 			$result->{$item->name} = $item;
 		}
 		return $result;

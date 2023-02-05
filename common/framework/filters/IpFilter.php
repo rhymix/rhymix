@@ -9,7 +9,7 @@ class IpFilter
 {
 	/**
 	 * Check whether the given IP address belongs to a range.
-	 * 
+	 *
 	 * @param string $ip
 	 * @param string $range
 	 * @return bool
@@ -27,7 +27,7 @@ class IpFilter
 			$ip = strtolower($ip);
 			$ip_type = 6;
 		}
-		
+
 		// Determine the type of the range.
 		if ($ip_type === 6 && strpos($range, ':') !== false)
 		{
@@ -49,7 +49,7 @@ class IpFilter
 		{
 			$range_type = 'unknown';
 		}
-		
+
 		// Check!
 		switch ($range_type)
 		{
@@ -65,10 +65,10 @@ class IpFilter
 				return false;
 		}
 	}
-	
+
 	/**
 	 * Check whether the given IP address belongs to a set of ranges.
-	 * 
+	 *
 	 * @param string $ip
 	 * @param array $ranges
 	 * @return bool
@@ -84,10 +84,10 @@ class IpFilter
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check whether a range definition is valid.
-	 * 
+	 *
 	 * @param string $range
 	 * @return bool
 	 */
@@ -99,7 +99,7 @@ class IpFilter
 			'/^\d+\.\d+\.\d+\.\d+-\d+\.\d+\.\d+\.\d+$/',
 			'/^[0-9a-f:]+(\/\d+)?$/i',
 		);
-		
+
 		foreach ($regexes as $regex)
 		{
 			if (preg_match($regex, $range))
@@ -109,10 +109,10 @@ class IpFilter
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check whether a set of range definitions is valid.
-	 * 
+	 *
 	 * @param array $ranges
 	 * @return bool
 	 */
@@ -127,10 +127,10 @@ class IpFilter
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Get real IP from CloudFlare headers.
-	 * 
+	 *
 	 * @return string|false
 	 */
 	public static function getCloudFlareRealIP()
@@ -139,7 +139,7 @@ class IpFilter
 		{
 			return false;
 		}
-		
+
 		$cloudflare_ranges = (include \RX_BASEDIR . 'common/defaults/cloudflare.php');
 		foreach ($cloudflare_ranges as $cloudflare_range)
 		{
@@ -150,12 +150,12 @@ class IpFilter
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check whether the given IPv4 address belongs to a IPv4 CIDR range with mask.
-	 * 
+	 *
 	 * Example: 172.16.0.0/12
-	 * 
+	 *
 	 * @param string $ip
 	 * @param string $range
 	 * @return bool
@@ -168,12 +168,12 @@ class IpFilter
 		$range = ip2long($range) & (0xffffffff << (32 - $mask));
 		return $ip === $range;
 	}
-	
+
 	/**
 	 * Check whether the given IPv4 address belongs to a IPv6 CIDR range with mask.
-	 * 
+	 *
 	 * Example: 2400:cb00::/32
-	 * 
+	 *
 	 * @param string $ip
 	 * @param string $range
 	 * @return bool
@@ -193,12 +193,12 @@ class IpFilter
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Check whether the given IPv4 address belongs to a IPv4 wildcard range.
-	 * 
+	 *
 	 * Example: 192.168.*.*
-	 * 
+	 *
 	 * @param string $ip
 	 * @param string $range
 	 * @return bool
@@ -213,12 +213,12 @@ class IpFilter
 		$range = str_replace(array('.', '*'), array('\\.', '\\d+'), trim($range));
 		return preg_match("/^$range$/", $ip) ? true : false;
 	}
-	
+
 	/**
 	 * Check whether the given IPv4 address belongs to a IPv4 hyphen range.
-	 * 
+	 *
 	 * Example: 192.168.0.0-192.168.255.255
-	 * 
+	 *
 	 * @param string $ip
 	 * @param string $range
 	 * @return bool

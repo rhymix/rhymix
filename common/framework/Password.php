@@ -31,10 +31,10 @@ class Password
 		'kimsqrb' => '/\$[1-4]\$[0-9]{14}$/',
 		'crypt' => '/^([0-9a-zA-Z\.\/]{13}$|_[0-9a-zA-Z\.\/]{19}$|\$[156]\$)/',
 	);
-	
+
 	/**
 	 * Add a custom algorithm.
-	 * 
+	 *
 	 * @param string $name
 	 * @param string $signature
 	 * @param callable $callback
@@ -45,10 +45,10 @@ class Password
 		self::$_algorithm_signatures[$name] = $signature;
 		self::$_algorithm_callbacks[$name] = $callback;
 	}
-	
+
 	/**
 	 * Check if the given sequence of algorithms is valid.
-	 * 
+	 *
 	 * @param array|string $algos
 	 * @return bool
 	 */
@@ -70,10 +70,10 @@ class Password
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Get the list of hashing algorithms supported by this server.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSupportedAlgorithms()
@@ -96,7 +96,7 @@ class Password
 
 	/**
 	 * Get the best hashing algorithm supported by this server.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getBestSupportedAlgorithm()
@@ -107,7 +107,7 @@ class Password
 
 	/**
 	 * Get the current default hashing algorithm.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getDefaultAlgorithm()
@@ -130,7 +130,7 @@ class Password
 
 	/**
 	 * Get the currently configured work factor for bcrypt and other adjustable algorithms.
-	 * 
+	 *
 	 * @return int
 	 */
 	public static function getWorkFactor()
@@ -148,13 +148,13 @@ class Password
 		{
 			$work_factor = 10;
 		}
-		
+
 		return $work_factor;
 	}
-	
+
 	/**
 	 * Generate a reasonably strong random password.
-	 * 
+	 *
 	 * @param int $length
 	 * @return string
 	 */
@@ -176,14 +176,14 @@ class Password
 			}
 		}
 	}
-	
+
 	/**
 	 * Hash a password.
-	 * 
+	 *
 	 * To use multiple algorithms in series, provide them as an array.
 	 * Salted algorithms such as bcrypt, pbkdf2, or portable must be used last.
 	 * On error, false will be returned.
-	 * 
+	 *
 	 * @param string $password
 	 * @param string|array $algos (optional)
 	 * @param string $salt (optional)
@@ -196,11 +196,11 @@ class Password
 		{
 			$algos = self::getDefaultAlgorithm();
 		}
-		
+
 		// Initialize the chain of hashes.
 		$algos = array_map('strtolower', array_map('trim', is_array($algos) ? $algos : explode(',', $algos)));
 		$hashchain = preg_replace('/\\s+/', ' ', trim($password));
-		
+
 		// Apply the given algorithms one by one.
 		foreach ($algos as $algo)
 		{
@@ -211,7 +211,7 @@ class Password
 					$hashchain = self::bcrypt($hashchain, $salt, self::getWorkFactor());
 					if ($hashchain[0] === '*') return false;
 					return $hashchain;
-				
+
 				// PBKDF2 (must be used last)
 				case 'pbkdf2':
 					if ($salt === null)
@@ -231,7 +231,7 @@ class Password
 					}
 					$iterations_padding = ($salt === null || !isset($parts[1])) ? 7 : strlen($parts[1]);
 					return self::pbkdf2($hashchain, $salt, $hash_algorithm, $iterations, $key_length, $iterations_padding);
-				
+
 				// phpass portable algorithm (must be used last)
 				case 'portable':
 					$phpass = new \Hautelook\Phpass\PasswordHash(self::getWorkFactor(), true);
@@ -245,47 +245,47 @@ class Password
 						$match = $phpass->CheckPassword($hashchain, $salt);
 						return $match ? $salt : false;
 					}
-				
+
 				// Drupal's SHA-512 based algorithm (must be used last)
 				case 'drupal':
 					$hashchain = \VendorPass::drupal($password, $salt);
 					return $hashchain;
-				
+
 				// Joomla's MD5 based algorithm (must be used last)
 				case 'joomla':
 					$hashchain = \VendorPass::joomla($password, $salt);
 					return $hashchain;
-				
+
 				// KimsQ Rb algorithms (must be used last)
 				case 'kimsqrb':
 					$hashchain = \VendorPass::kimsqrb($password, $salt);
 					return $hashchain;
-				
+
 				// crypt() function (must be used last)
 				case 'crypt':
 					if ($salt === null) $salt = Security::getRandom(2, 'alnum');
 					$hashchain = crypt($hashchain, $salt);
 					return $hashchain;
-				
+
 				// MS SQL's PWDENCRYPT() function (must be used last)
 				case 'mssql_pwdencrypt':
 					$hashchain = \VendorPass::mssql_pwdencrypt($hashchain, $salt);
 					return $hashchain;
-				
+
 				// MySQL's old PASSWORD() function.
 				case 'mysql_old_password':
 					$hashchain = \VendorPass::mysql_old_password($hashchain);
 					break;
-				
+
 				// MySQL's new PASSWORD() function.
 				case 'mysql_new_password':
 					$hashchain = \VendorPass::mysql_new_password($hashchain);
 					break;
-				
+
 				// A dummy algorithm that does nothing.
 				case 'null':
 					break;
-				
+
 				// All other algorithms will be passed to hash() or treated as a function name.
 				default:
 					if (isset(self::$_algorithm_callbacks[$algo]))
@@ -307,16 +307,16 @@ class Password
 					}
 			}
 		}
-		
+
 		return $hashchain;
 	}
-	
+
 	/**
 	 * Check a password against a hash.
-	 * 
+	 *
 	 * This method returns true if the password is correct, and false otherwise.
 	 * If the algorithm is not specified, it will be guessed from the format of the hash.
-	 * 
+	 *
 	 * @param string $password
 	 * @param string $hash
 	 * @param array|string $algos
@@ -341,12 +341,12 @@ class Password
 			return Security::compareStrings($hash, self::hashPassword($password, $algos, $hash));
 		}
 	}
-	
+
 	/**
 	 * Guess which algorithm(s) were used to generate the given hash.
-	 * 
+	 *
 	 * If there are multiple possibilities, all of them will be returned in an array.
-	 * 
+	 *
 	 * @param string $hash
 	 * @return array
 	 */
@@ -359,10 +359,10 @@ class Password
 		}
 		return $candidates;
 	}
-	
+
 	/**
 	 * Check the work factor of a hash.
-	 * 
+	 *
 	 * @param string $hash
 	 * @return int
 	 */
@@ -381,10 +381,10 @@ class Password
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Generate the bcrypt hash of a string.
-	 * 
+	 *
 	 * @param string $password
 	 * @param string $salt (optional)
 	 * @param int $work_factor (optional)
@@ -396,13 +396,13 @@ class Password
 		{
 			$salt = '$2y$' . sprintf('%02d', $work_factor) . '$' . Security::getRandom(22, 'alnum');
 		}
-		
+
 		return crypt($password, $salt);
 	}
-	
+
 	/**
 	 * Generate the PBKDF2 hash of a string.
-	 * 
+	 *
 	 * @param string $password
 	 * @param string $salt (optional)
 	 * @param string $algorithm (optional)
@@ -417,7 +417,7 @@ class Password
 		{
 			$salt = Security::getRandom(12, 'alnum');
 		}
-		
+
 		if (function_exists('hash_pbkdf2'))
 		{
 			$hash = hash_pbkdf2($algorithm, $password, $salt, $iterations, $length, true);
@@ -438,24 +438,24 @@ class Password
 			}
 			$hash = substr($output, 0, $length);
 		}
-		
+
 		return $algorithm . ':' . str_pad($iterations, $iterations_padding, '0', STR_PAD_LEFT) . ':' . $salt . ':' . base64_encode($hash);
 	}
-	
+
 	/**
 	 * Count the amount of entropy that a password contains.
-	 * 
+	 *
 	 * @param string $password
 	 * @return int
 	 */
 	public static function countEntropyBits($password)
 	{
 		// An empty string has no entropy.
-		
+
 		if ($password === '') return 0;
-		
+
 		// Common character sets and the number of possible mutations.
-		
+
 		static $entropy_per_char = array(
 			'/^[0-9]+$/' => 10,
 			'/^[a-z]+$/' => 26,
@@ -468,7 +468,7 @@ class Password
 			'/^[\\x20-\\x7e]+$/' => 95,
 			'/^[\\x00-\\x7f]+$/' => 128,
 		);
-		
+
 		foreach ($entropy_per_char as $regex => $entropy)
 		{
 			if (preg_match($regex, $password))
@@ -476,7 +476,7 @@ class Password
 				return log(pow($entropy, strlen($password)), 2);
 			}
 		}
-		
+
 		return strlen($password) * 8;
 	}
 }

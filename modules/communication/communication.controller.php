@@ -42,7 +42,7 @@ class communicationController extends communication
 		{
 			return $output;
 		}
-		
+
 		MemberController::clearMemberCache($args->member_srl);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages', 'message_type', Context::get('message_type'));
@@ -82,7 +82,7 @@ class communicationController extends communication
 		{
 			throw new Rhymix\Framework\Exception('msg_content_is_null');
 		}
-		
+
 		$temp_srl = intval(Context::get('temp_srl')) ?: null;
 		if($temp_srl && !$_SESSION['upload_info'][$temp_srl]->enabled)
 		{
@@ -241,7 +241,7 @@ class communicationController extends communication
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		// update attached files
 		if ($temp_srl)
 		{
@@ -251,10 +251,10 @@ class communicationController extends communication
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('communication.sendMessage', 'after', $trigger_obj);
-		
+
 		$oDB->commit();
-		
-		// create a flag that message is sent (in file format) 
+
+		// create a flag that message is sent (in file format)
 		$this->updateFlagFile($receiver_srl);
 
 		return new BaseObject(0, 'success_sended');
@@ -395,7 +395,7 @@ class communicationController extends communication
 		{
 			return $output;
 		}
-		
+
 		// Delete attachment, only if related message has also been deleted
 		$related = $message->related_srl ? $oCommunicationModel->getSelectedMessage($message->related_srl) : true;
 		if (!$related)
@@ -404,7 +404,7 @@ class communicationController extends communication
 			$oFileController->deleteFiles($message->message_srl);
 			$oFileController->deleteFiles($message->related_srl);
 		}
-		
+
 		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
 	}
@@ -467,7 +467,7 @@ class communicationController extends communication
 		// Organize variables
 		$args = new stdClass();
 		$args->message_srls = implode(',', $target);
-		
+
 		if ($message_type === 'N')
 		{
 			$args->message_type = 'R';
@@ -476,7 +476,7 @@ class communicationController extends communication
 		{
 			$args->message_type = $message_type;
 		}
-		
+
 		if($message_type == 'S')
 		{
 			$args->sender_srl = $member_srl;
@@ -503,14 +503,14 @@ class communicationController extends communication
 				unset($related[$item->message_srl]);
 			}
 		}
-		
+
 		// Delete
 		$output = executeQuery('communication.deleteMessages', $args);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
-		
+
 		// Delete attachment, only if related message has also been deleted
 		$oFileController = getController('file');
 		foreach ($related as $message_srl => $related_srl)
@@ -518,7 +518,7 @@ class communicationController extends communication
 			$oFileController->deleteFiles($message_srl);
 			$oFileController->deleteFiles($related_srl);
 		}
-		
+
 		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
 
@@ -549,7 +549,7 @@ class communicationController extends communication
 		{
 			throw new Rhymix\Framework\Exception('msg_no_self_friend');
 		}
-		
+
 		// Check duplicate friend
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
@@ -567,7 +567,7 @@ class communicationController extends communication
 		{
 			return $trigger_output;
 		}
-		
+
 		// Variable
 		$args->friend_srl = getNextSequence();
 		$args->list_order = $args->friend_srl * -1;
@@ -579,7 +579,7 @@ class communicationController extends communication
 
 		// Call trigger (after)
 		$trigger_output = ModuleHandler::triggerCall('communication.addFriend', 'after', $args);
-		
+
 		$this->add('member_srl', $target_srl);
 		$this->setMessage('success_registed');
 
@@ -663,7 +663,7 @@ class communicationController extends communication
 	}
 
 	/**
-	 * Delete a friend 
+	 * Delete a friend
 	 * @return void|Object (success : void, fail : Object)
 	 */
 	function procCommunicationDeleteFriend()
@@ -693,14 +693,14 @@ class communicationController extends communication
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
 		$args->friend_srl_list = $friend_srl_list;
-		
+
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('communication.deleteFriend', 'before', $args);
 		if(!$trigger_output->toBool())
 		{
 			return $trigger_output;
 		}
-		
+
 		// Delete
 		$output = executeQuery('communication.deleteFriend', $args);
 		if(!$output->toBool())
@@ -710,7 +710,7 @@ class communicationController extends communication
 
 		// Call trigger (after)
 		$trigger_output = ModuleHandler::triggerCall('communication.deleteFriend', 'after', $args);
-		
+
 		$this->setMessage('success_deleted');
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationFriend');
@@ -855,7 +855,7 @@ class communicationController extends communication
 
 	/**
 	 * set a message status to be 'already read'
-	 * @param int $message_srl 
+	 * @param int $message_srl
 	 * @return Object
 	 */
 	function setMessageReaded($message_srl)
@@ -864,14 +864,14 @@ class communicationController extends communication
 		$args->message_srl = $message_srl;
 		$args->related_srl = $message_srl;
 		$output = executeQuery('communication.setMessageReaded', $args);
-		
+
 		// Update flag file
 		$logged_info = Context::get('logged_info');
 		$this->updateFlagFile($logged_info->member_srl);
-		
+
 		return $output;
 	}
-	
+
 	/**
 	 * Update flag file
 	 * @param int $member_srl
@@ -897,12 +897,12 @@ class communicationController extends communication
 		// Add menus on the member login information
 		$config = getModel('communication')->getConfig();
 		$oMemberController = getController('member');
-		
+
 		if($config->enable_message == 'Y')
 		{
 			$oMemberController->addMemberMenu('dispCommunicationMessages', 'cmd_view_message_box');
 		}
-		
+
 		if($config->enable_friend == 'Y')
 		{
 			$oMemberController->addMemberMenu('dispCommunicationFriend', 'cmd_view_friend');
@@ -921,10 +921,10 @@ class communicationController extends communication
 		{
 			return;
 		}
-		
+
 		$oCommunicationModel = getModel('communication');
 		$config = $oCommunicationModel->getConfig();
-		
+
 		if($config->enable_message == 'N' && $config->enable_friend == 'N')
 		{
 			return;
@@ -933,12 +933,12 @@ class communicationController extends communication
 		{
 			return;
 		}
-		
+
 		$mid = Context::get('cur_mid');
 		$member_srl = Context::get('target_srl');
 		$logged_info = Context::get('logged_info');
 		$oMemberController = getController('member');
-		
+
 		// Add a feature to display own message box.
 		if($logged_info->member_srl == $member_srl)
 		{
@@ -947,7 +947,7 @@ class communicationController extends communication
 			{
 				$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationMessages'), 'cmd_view_message_box', '', 'self');
 			}
-			
+
 			// Display a list of friends
 			if($config->enable_friend == 'Y')
 			{
@@ -970,7 +970,7 @@ class communicationController extends communication
 			{
 				$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationSendMessage', 'receiver_srl', $member_srl), 'cmd_send_message', '', 'popup');
 			}
-			
+
 			// Add a menu for listing friends (if a friend is new)
 			if($config->enable_friend == 'Y' && !$oCommunicationModel->isAddedFriend($member_srl))
 			{

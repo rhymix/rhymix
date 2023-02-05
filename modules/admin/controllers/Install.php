@@ -9,17 +9,17 @@ class Install extends Base
 {
 	/**
 	 * Install module
-	 * 
+	 *
 	 * @return void
 	 */
 	public function moduleInstall()
 	{
-		
+
 	}
 
 	/**
 	 * Check if update is necessary
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function checkUpdate()
@@ -35,7 +35,7 @@ class Install extends Base
 
 	/**
 	 * Update module
-	 * 
+	 *
 	 * @return void
 	 */
 	public function moduleUpdate()

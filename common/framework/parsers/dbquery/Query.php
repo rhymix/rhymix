@@ -21,21 +21,21 @@ class Query extends VariableBase
 	public $select_distinct = false;
 	public $update_duplicate = false;
 	public $requires_pagination = false;
-	
+
 	/**
 	 * Attributes for subqueries in the <tables> or <columns> section.
 	 */
 	public $alias;
 	public $join_type;
 	public $join_conditions = array();
-	
+
 	/**
 	 * Attributes for subqueries in the <conditions> section.
 	 */
 	public $operation;
 	public $column;
 	public $pipe;
-	
+
 	/**
 	 * Attributes used during query string generation.
 	 */
@@ -43,17 +43,17 @@ class Query extends VariableBase
 	protected $_args = array();
 	protected $_column_list = array();
 	protected $_params = array();
-	
+
 	/**
 	 * Constants for alias handling.
 	 */
 	const ALIAS_NONE = 0;
 	const ALIAS_SPECIFIED = 1;
 	const ALIAS_ALWAYS = 2;
-	
+
 	/**
 	 * Generate the query string for this query.
-	 * 
+	 *
 	 * @param string $prefix
 	 * @param array $args
 	 * @param array $column_list
@@ -67,7 +67,7 @@ class Query extends VariableBase
 		$this->_args = $args;
 		$this->_column_list = $column_list;
 		$this->_params = array();
-		
+
 		// Call different internal methods depending on the query type.
 		switch ($this->type)
 		{
@@ -86,37 +86,37 @@ class Query extends VariableBase
 			default:
 				$result = '';
 		}
-		
+
 		// Reset state and return the result.
 		$this->_prefix = '';
 		$this->_args = array();
 		$this->_column_list = array();
 		return $result;
 	}
-	
+
 	/**
 	 * Get the query parameters to use with the query string generated above.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getQueryParams()
 	{
 		return $this->_params;
 	}
-	
+
 	/**
 	 * Check if this query requires pagination.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function requiresPagination(): bool
 	{
 		return $this->requires_pagination;
 	}
-	
+
 	/**
 	 * Generate a SELECT query string.
-	 * 
+	 *
 	 * @param int $count_only
 	 * @return string
 	 */
@@ -125,7 +125,7 @@ class Query extends VariableBase
 		// Initialize the query string.
 		$result = 'SELECT';
 		$has_subquery_columns = false;
-		
+
 		// Compose the column list.
 		if ($this->_column_list)
 		{
@@ -168,7 +168,7 @@ class Query extends VariableBase
 			}
 			$column_list = implode(', ', $columns);
 		}
-		
+
 		// Replace the column list if this is a count-only query.
 		if ($count_only == 1)
 		{
@@ -187,7 +187,7 @@ class Query extends VariableBase
 			$count_wrap = false;
 			$result .= ($this->select_distinct ? ' DISTINCT ' : ' ') . $column_list;
 		}
-		
+
 		// Compose the FROM clause.
 		if (count($this->tables))
 		{
@@ -205,7 +205,7 @@ class Query extends VariableBase
 				$result .= ' ' . $index_hints;
 			}
 		}
-		
+
 		// Compose the WHERE clause.
 		if (count($this->conditions))
 		{
@@ -215,7 +215,7 @@ class Query extends VariableBase
 				$result .= ' WHERE ' . $where;
 			}
 		}
-		
+
 		// Compose the GROUP BY clause.
 		if ($this->groupby && count($this->groupby->columns) && (!$this->groupby->ifvar || isset($this->_args[$this->groupby->ifvar])))
 		{
@@ -241,13 +241,13 @@ class Query extends VariableBase
 				$result .= ' HAVING ' . $having;
 			}
 		}
-		
+
 		// Compose the ORDER BY clause.
 		if ($this->navigation && count($this->navigation->orderby) && !$count_only)
 		{
 			$result .= ' ORDER BY ' . $this->_arrangeOrderBy($this->navigation);
 		}
-		
+
 		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count && !$count_only)
 		{
@@ -257,27 +257,27 @@ class Query extends VariableBase
 				$result .= ' LIMIT ' . $limit_offset;
 			}
 		}
-		
+
 		// Wrap in a subquery if necesary.
 		if ($count_wrap)
 		{
 			$result = 'SELECT COUNT(*) AS `count` FROM (' . $result . ') AS `subquery`';
 		}
-		
+
 		// Return the final query string.
 		return $result;
 	}
-	
+
 	/**
 	 * Generate a INSERT query string.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function _getInsertQueryString(): string
 	{
 		// Initialize the query string.
 		$result = 'INSERT';
-		
+
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
@@ -287,7 +287,7 @@ class Query extends VariableBase
 				$result .= ' INTO ' . $tables;
 			}
 		}
-		
+
 		// Process the SET clause with new values.
 		$columns = array();
 		foreach ($this->columns as $column)
@@ -296,7 +296,7 @@ class Query extends VariableBase
 			{
 				continue;
 			}
-			
+
 			$setval_string = $this->_parseCondition($column);
 			if ($setval_string !== '')
 			{
@@ -304,7 +304,7 @@ class Query extends VariableBase
 			}
 		}
 		$result .= ' SET ' . implode(', ', $columns);
-		
+
 		// Process the ON DUPLICATE KEY UPDATE (upsert) clause.
 		if ($this->update_duplicate && count($columns))
 		{
@@ -315,21 +315,21 @@ class Query extends VariableBase
 				$this->_params[] = $param;
 			}
 		}
-		
+
 		// Return the final query string.
 		return $result;
 	}
-	
+
 	/**
 	 * Generate a UPDATE query string.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function _getUpdateQueryString(): string
 	{
 		// Initialize the query string.
 		$result = 'UPDATE ';
-		
+
 		// Compose the INTO clause.
 		if (count($this->tables))
 		{
@@ -339,7 +339,7 @@ class Query extends VariableBase
 				$result .= $tables;
 			}
 		}
-		
+
 		// Compose the SET clause with updated values.
 		$columns = array();
 		foreach ($this->columns as $column)
@@ -348,7 +348,7 @@ class Query extends VariableBase
 			{
 				continue;
 			}
-			
+
 			$setval_string = $this->_parseCondition($column);
 			if ($setval_string !== '')
 			{
@@ -356,7 +356,7 @@ class Query extends VariableBase
 			}
 		}
 		$result .= ' SET ' . implode(', ', $columns);
-		
+
 		// Compose the WHERE clause.
 		if (count($this->conditions))
 		{
@@ -366,21 +366,21 @@ class Query extends VariableBase
 				$result .= ' WHERE ' . $where;
 			}
 		}
-		
+
 		// Return the final query string.
 		return $result;
 	}
-	
+
 	/**
 	 * Generate a DELETE query string.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function _getDeleteQueryString(): string
 	{
 		// Initialize the query string.
 		$result = 'DELETE';
-		
+
 		// Compose the FROM clause.
 		if (count($this->tables))
 		{
@@ -390,7 +390,7 @@ class Query extends VariableBase
 				$result .= ' FROM ' . $tables;
 			}
 		}
-		
+
 		// Compose the WHERE clause.
 		if (count($this->conditions))
 		{
@@ -400,13 +400,13 @@ class Query extends VariableBase
 				$result .= ' WHERE ' . $where;
 			}
 		}
-		
+
 		// Compose the ORDER BY clause.
 		if ($this->navigation && count($this->navigation->orderby))
 		{
 			$result .= ' ORDER BY ' . $this->_arrangeOrderBy($this->navigation);
 		}
-		
+
 		// Compose the LIMIT/OFFSET clause.
 		if ($this->navigation && $this->navigation->list_count)
 		{
@@ -416,14 +416,14 @@ class Query extends VariableBase
 				$result .= ' LIMIT ' . $limit_offset;
 			}
 		}
-		
+
 		// Return the final query string.
 		return $result;
 	}
-	
+
 	/**
 	 * Generate a FROM clause from a list of tables.
-	 * 
+	 *
 	 * @param array $tables
 	 * @param int $use_aliases
 	 * @return string
@@ -432,7 +432,7 @@ class Query extends VariableBase
 	{
 		// Initialize the result.
 		$result = array();
-		
+
 		// Process each table definition.
 		foreach ($tables as $table)
 		{
@@ -441,7 +441,7 @@ class Query extends VariableBase
 			{
 				continue;
 			}
-			
+
 			// Subquery
 			if ($table instanceof self)
 			{
@@ -456,7 +456,7 @@ class Query extends VariableBase
 					$this->_params[] = $param;
 				}
 			}
-			
+
 			// Regular table
 			else
 			{
@@ -470,7 +470,7 @@ class Query extends VariableBase
 					$tabledef .= ' AS `' . $table->alias . '`';
 				}
 			}
-			
+
 			// Add join conditions
 			if ($table->join_type)
 			{
@@ -486,14 +486,14 @@ class Query extends VariableBase
 				$result[] = (count($result) ? ', ' : '') . $tabledef;
 			}
 		}
-		
+
 		// Combine the result and return as a string.
 		return implode('', $result);
 	}
-	
+
 	/**
 	 * Generate index hints.
-	 * 
+	 *
 	 * @param array $index_hints
 	 * @return string
 	 */
@@ -501,7 +501,7 @@ class Query extends VariableBase
 	{
 		// Initialize the index list by type.
 		$index_list = [];
-		
+
 		// Group each index hint by type.
 		foreach ($index_hints as $index_hint)
 		{
@@ -510,7 +510,7 @@ class Query extends VariableBase
 			{
 				continue;
 			}
-			
+
 			if (!count($index_hint->target_db) || isset($index_hint->target_db['mysql']))
 			{
 				$key = $index_hint->hint_type ?: 'USE';
@@ -525,7 +525,7 @@ class Query extends VariableBase
 				}
 			}
 		}
-		
+
 		// Generate a list of indexes for each group.
 		$result = [];
 		foreach ($index_list as $key => $val)
@@ -537,10 +537,10 @@ class Query extends VariableBase
 		}
 		return implode(' ', $result);
 	}
-	
+
 	/**
 	 * Generate a WHERE clause from a list of conditions.
-	 * 
+	 *
 	 * @param array $conditions
 	 * @return string
 	 */
@@ -548,7 +548,7 @@ class Query extends VariableBase
 	{
 		// Initialize the result.
 		$result = '';
-		
+
 		// Process each condition.
 		foreach ($conditions as $condition)
 		{
@@ -557,7 +557,7 @@ class Query extends VariableBase
 			{
 				continue;
 			}
-			
+
 			// Subquery
 			if ($condition instanceof self)
 			{
@@ -567,7 +567,7 @@ class Query extends VariableBase
 					$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . $condition_string;
 				}
 			}
-			
+
 			// Condition group
 			elseif ($condition instanceof ConditionGroup)
 			{
@@ -577,7 +577,7 @@ class Query extends VariableBase
 					$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . '(' . $condition_string . ')';
 				}
 			}
-			
+
 			// Simple condition
 			else
 			{
@@ -588,14 +588,14 @@ class Query extends VariableBase
 				}
 			}
 		}
-		
+
 		// Return the WHERE clause.
 		return $result;
 	}
-	
+
 	/**
 	 * Generate a ORDER BY clause from navigation settings.
-	 * 
+	 *
 	 * @param object $navigation
 	 * @return string
 	 */
@@ -603,7 +603,7 @@ class Query extends VariableBase
 	{
 		// Initialize the result.
 		$result = array();
-		
+
 		// Process each column definition.
 		foreach ($navigation->orderby as $orderby)
 		{
@@ -618,7 +618,7 @@ class Query extends VariableBase
 			{
 				$column_name = self::quoteName($column_name);
 			}
-			
+
 			// Get the ordering (ASC or DESC).
 			if (preg_match('/^(ASC|DESC)$/i', $orderby->order_var, $matches))
 			{
@@ -632,17 +632,17 @@ class Query extends VariableBase
 			{
 				$column_order = preg_replace('/[^A-Z]/', '', strtoupper($orderby->order_default));
 			}
-			
+
 			$result[] = $column_name . ' ' . $column_order;
 		}
-		
+
 		// Return the ORDER BY clause.
 		return implode(', ', $result);
 	}
-	
+
 	/**
 	 * Generate a LIMIT/OFFSET clause from navigation settings.
-	 * 
+	 *
 	 * @param object $navigation
 	 * @return string
 	 */
@@ -656,7 +656,7 @@ class Query extends VariableBase
 		}
 		$page = 0;
 		$offset = 0;
-		
+
 		// Get the offset from the page or offset variable.
 		if ($navigation->page)
 		{
@@ -666,7 +666,7 @@ class Query extends VariableBase
 		{
 			list($is_expression, $offset) = $navigation->offset->getValue($this->_args);
 		}
-		
+
 		// If page is available, set the offset and require pagination for this query.
 		if ($page > 0)
 		{
@@ -680,14 +680,14 @@ class Query extends VariableBase
 		{
 			$page = 1;
 		}
-		
+
 		// Return the LIMIT/OFFSET clause.
 		return ($offset > 0 ? (intval($offset) . ', ') : '') . intval($list_count);
 	}
-	
+
 	/**
 	 * Generate each condition in a WHERE clause.
-	 * 
+	 *
 	 * @param object $condition
 	 * @return string
 	 */
@@ -700,10 +700,10 @@ class Query extends VariableBase
 		}
 		return $where;
 	}
-	
+
 	/**
 	 * Quote a column name.
-	 * 
+	 *
 	 * @param string $column_name
 	 * @return string
 	 */
@@ -717,10 +717,10 @@ class Query extends VariableBase
 			return implode('.', $columns);
 		}, $column_name);
 	}
-	
+
 	/**
 	 * Check if a column name is valid.
-	 * 
+	 *
 	 * @param string $column_name
 	 * @return bool
 	 */
@@ -728,10 +728,10 @@ class Query extends VariableBase
 	{
 		return preg_match('/^[a-z][a-z0-9_]*(?:\.[a-z][a-z0-9_]*)*$/i', $column_name) ? true : false;
 	}
-	
+
 	/**
 	 * Check if a variable is considered valid for XE compatibility.
-	 * 
+	 *
 	 * @param mixed $var
 	 * @param bool $allow_empty_string
 	 * @return bool
@@ -742,7 +742,7 @@ class Query extends VariableBase
 		{
 			return false;
 		}
-		
+
 		if (is_array($var))
 		{
 			$count = count($var);
@@ -751,7 +751,7 @@ class Query extends VariableBase
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }

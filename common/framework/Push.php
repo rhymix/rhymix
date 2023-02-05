@@ -26,10 +26,10 @@ class Push
 	 * Static properties.
 	 */
 	protected static $_drivers = array();
-	
+
 	/**
 	 * Add a custom Push driver.
-	 * 
+	 *
 	 * @param string $name
 	 * @param object $driver
 	 * @return void
@@ -38,10 +38,10 @@ class Push
 	{
 		self::$_drivers[$name] = $driver;
 	}
-	
+
 	/**
 	 * Get the default driver.
-	 * 
+	 *
 	 * @param string $name
 	 * @return object|null
 	 */
@@ -51,7 +51,7 @@ class Push
 		{
 			return self::$_drivers[$name];
 		}
-		
+
 		$driver_class = '\Rhymix\Framework\Drivers\Push\\' . $name;
 		if (class_exists($driver_class))
 		{
@@ -63,10 +63,10 @@ class Push
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get the list of supported Push drivers.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSupportedDrivers(): array
@@ -99,15 +99,15 @@ class Push
 		ksort($result);
 		return $result;
 	}
-	
+
 	/**
 	 * The constructor.
 	 */
 	public function __construct()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Set the sender's member_srl.
 	 *
@@ -119,7 +119,7 @@ class Push
 		$this->from = $member_srl;
 		return true;
 	}
-	
+
 	/**
 	 * Get the sender's phone number.
 	 *
@@ -129,7 +129,7 @@ class Push
 	{
 		return intval($this->from);
 	}
-	
+
 	/**
 	 * Add a recipient.
 	 *
@@ -141,7 +141,7 @@ class Push
 		$this->to[] = $member_srl;
 		return true;
 	}
-	
+
 	/**
 	 * Get the list of recipients without country codes.
 	 *
@@ -151,7 +151,7 @@ class Push
 	{
 		return $this->to;
 	}
-	
+
 	/**
 	 * Set the subject.
 	 *
@@ -163,7 +163,7 @@ class Push
 		$this->subject = utf8_trim(utf8_clean($subject));
 		return true;
 	}
-	
+
 	/**
 	 * Get the subject.
 	 *
@@ -173,7 +173,7 @@ class Push
 	{
 		return $this->subject;
 	}
-	
+
 	/**
 	 * Set the content.
 	 *
@@ -186,17 +186,17 @@ class Push
 		$this->content = strtr($this->content, array("\r\n" => "\n"));
 		return true;
 	}
-	
+
 	/**
 	 * Get the content.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getContent(): string
 	{
 		return $this->content;
 	}
-	
+
 	/**
 	 * Set an click-action to associate with this push notification.
 	 *
@@ -211,14 +211,14 @@ class Push
 
 	/**
 	 * Get the click-action associated with this push notification.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getClickAction(): string
 	{
 		return $this->metadata['click_action'];
 	}
-	
+
 	/**
 	 * Set a sound to associate with this push notification.
 	 *
@@ -230,7 +230,7 @@ class Push
 		$this->metadata['sound'] = utf8_trim(utf8_clean($sound));
 		return true;
 	}
-	
+
 	/**
 	 * Set a badge to associate with this push notification.
 	 *
@@ -266,7 +266,7 @@ class Push
 		$this->metadata['tag'] = utf8_trim(utf8_clean($tag));
 		return true;
 	}
-	
+
 	/**
 	 * Set a color to associate with this push notification.
 	 *
@@ -278,7 +278,7 @@ class Push
 		$this->metadata['color'] = utf8_trim(utf8_clean($color));
 		return true;
 	}
-	
+
 	/**
 	 * Set an android-channel-id to associate with this push notification.
 	 *
@@ -290,10 +290,10 @@ class Push
 		$this->metadata['android_channel_id'] = utf8_trim(utf8_clean($android_channel_id));
 		return true;
 	}
-	
+
 	/**
 	 * Get notification array
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getMetadata(): array
@@ -314,17 +314,17 @@ class Push
 		$this->data = $data;
 		return true;
 	}
-	
+
 	/**
 	 * Get the data associated with this push notification.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getData(): array
 	{
 		return $this->data;
 	}
-	
+
 	/**
 	 * Set a URL to associate with this push notification.
 	 *
@@ -336,20 +336,20 @@ class Push
 		$this->data['url'] = $url;
 		return true;
 	}
-	
+
 	/**
 	 * Get the URL associated with this push notification.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getURL(): string
 	{
 		return $this->data['url'];
 	}
-	
+
 	/**
 	 * Send the message.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function send(): bool
@@ -360,19 +360,19 @@ class Push
 		{
 			$this->caller = $backtrace[0]['file'] . ($backtrace[0]['line'] ? (' line ' . $backtrace[0]['line']) : '');
 		}
-		
+
 		$output = \ModuleHandler::triggerCall('push.send', 'before', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 			return false;
 		}
-		
+
 		try
 		{
 			$tokens = $this->_getDeviceTokens();
 			$output = null;
-			
+
 			// Android FCM
 			if(count($tokens->fcm))
 			{
@@ -398,28 +398,28 @@ class Push
 				$this->_deleteInvalidTokens($output->invalid);
 				$this->_updateDeviceTokens($output->needUpdate);
 			}
-			
+
 		}
 		catch(\Exception $e)
 		{
 			$this->errors[] = class_basename($e) . ': ' . $e->getMessage();
 			$this->sent = false;
 		}
-		
+
 		$output = \ModuleHandler::triggerCall('push.send', 'after', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 		}
-		
+
 		return $this->sent > 0 ? true : false;
 	}
 
 	/**
 	 * Get the device token
-	 * 
+	 *
 	 * @return \stdClass
-	 * 
+	 *
 	 */
 	protected function _getDeviceTokens(): \stdClass
 	{
@@ -461,7 +461,7 @@ class Push
 
 	/**
 	 * Delete the device toekn
-	 * 
+	 *
 	 * @param array
 	 * @return void
 	 */
@@ -478,7 +478,7 @@ class Push
 
 	/**
 	 * Update the device toekn
-	 * 
+	 *
 	 * @param array
 	 * @return void
 	 */
@@ -492,70 +492,70 @@ class Push
 			executeQueryArray('member.updateMemberDevice', $args);
 		}
 	}
-	
+
 	/**
 	 * Check if the message was sent.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isSent(): bool
 	{
 		return $this->sent > 0 ? true : false;
 	}
-	
+
 	/**
 	 * Get caller information.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getCaller(): string
 	{
 		return $this->caller;
 	}
-	
+
 	/**
 	 * Get errors.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getErrors(): array
 	{
 		return $this->errors;
 	}
-	
+
 	/**
 	 * Get success tokens.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getSuccessTokens(): array
 	{
 		return $this->success_tokens;
 	}
-	
+
 	/**
 	 * Get deleted tokens.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getDeletedTokens(): array
 	{
 		return $this->deleted_tokens;
 	}
-	
+
 	/**
 	 * Get updated tokens.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getUpdatedTokens(): array
 	{
 		return $this->updated_tokens;
 	}
-	
+
 	/**
 	 * Add an error message.
-	 * 
+	 *
 	 * @param string $message
 	 * @return void
 	 */

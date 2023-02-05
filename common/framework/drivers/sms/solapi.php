@@ -8,7 +8,7 @@ namespace Rhymix\Framework\Drivers\SMS;
 class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
 	const appId = 'PAOe9c8ftH8R';
-	
+
 	/**
 	 * API specifications.
 	 */
@@ -115,7 +115,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			}
 			$groupArray[] = $options;
 		}
-		
+
 		if($groupMessage)
 		{
 			$jsonObject = new \stdClass();
@@ -156,7 +156,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 
 		return true;
 	}
-	
+
 	/**
 	 * Create header string for http protocol
 	 * @param $config
@@ -212,7 +212,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	private function request($method, $url, $data = false)
 	{
 		$url = 'https://api.solapi.com/' . $url;
-		
+
 		if(!$data)
 		{
 			$data = null;
@@ -222,7 +222,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$data = json_encode($data);
 		}
 		$result = \FileHandler::getRemoteResource($url, $data, 3, $method, 'application/json', array('Authorization' => $this->getHeader()));
-		
+
 		return $result;
 	}
 }

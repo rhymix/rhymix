@@ -8,7 +8,7 @@ use Rhymix\Framework\Exceptions\DBError;
 
 /**
  * DB Statement helper class.
- * 
+ *
  * We use instances of this class instead of raw PDOStatement in order to log
  * individual execute() calls of prepared statements. This is controlled by
  * the PDO::ATTR_STATEMENT_CLASS attribute set in the DB class.
@@ -19,7 +19,7 @@ class DBStmtHelper extends \PDOStatement
 	 * Store the database type (e.g. master) here.
 	 */
 	protected $_type = 'master';
-	
+
 	/**
 	 * Set the database type.
 	 */
@@ -27,10 +27,10 @@ class DBStmtHelper extends \PDOStatement
 	{
 		$this->_type = $type;
 	}
-	
+
 	/**
 	 * Execute a prepared statement.
-	 * 
+	 *
 	 * @param array $params
 	 * @return bool
 	 */
@@ -38,7 +38,7 @@ class DBStmtHelper extends \PDOStatement
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
-		
+
 		try
 		{
 			$result = parent::execute($params);
@@ -58,7 +58,7 @@ class DBStmtHelper extends \PDOStatement
 				Debug::addQuery($db_class->getQueryLog($this->queryString, $elapsed_time));
 			}
 		}
-		
+
 		return $result;
 	}
 }

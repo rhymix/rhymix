@@ -1,4 +1,4 @@
-<?php	
+<?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
  * @class  memberAdminView
@@ -102,7 +102,7 @@ class MemberAdminView extends Member
 			'user_name' => 'user_name',
 			'nick_name' => 'nick_name'
 		);
-		$usedIdentifiers = array();	
+		$usedIdentifiers = array();
 
 		if(is_array($config->signupForm))
 		{
@@ -116,7 +116,7 @@ class MemberAdminView extends Member
 				}
 			}
 		}
-		
+
 		// Get list of new members who have not completed email auth
 		$check_list = array();
 		foreach ($output->data as $member)
@@ -181,7 +181,7 @@ class MemberAdminView extends Member
 			$password_algos['sha256'] = false;
 		}
 		Context::set('password_hashing_algos', $password_algos);
-		
+
 		$this->setTemplateFile('default_config');
 	}
 
@@ -242,7 +242,7 @@ class MemberAdminView extends Member
 		$option->height = 300;
 		$option->editor_toolbar_hide = 'Y';
 		Context::set('editor', $oEditorModel->getEditor(0, $option));
-		
+
 		$signupForm = $config->signupForm;
 		foreach($signupForm as $val)
 		{
@@ -272,7 +272,7 @@ class MemberAdminView extends Member
 		$managedEmailHost = $oMemberModel->getManagedEmailHosts();
 		Context::set('managedEmailHost', $managedEmailHost);
 		$oSecurity->encodeHTML('managedEmailHost..email_host');
-		
+
 		// Get country calling code list
 		$country_list = Rhymix\Framework\i18n::listCountries(Context::get('lang_type') === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
 		Context::set('country_list', $country_list);
@@ -400,7 +400,7 @@ class MemberAdminView extends Member
 		Context::set('member_config', $member_config);
 		$extendForm = $oMemberModel->getCombineJoinForm($this->memberInfo);
 		Context::set('extend_form_list', $extendForm);
-		
+
 		$memberInfo = Context::get('member_info');
 		if(!is_object($memberInfo) || !$memberInfo->member_srl)
 		{
@@ -433,7 +433,7 @@ class MemberAdminView extends Member
 	{
 		$oMemberModel = getModel('member');
 		$member_config = $this->memberConfig;
-		
+
 		if($member_info = Context::get('member_info'))
 		{
 			$member_info->signature = $oMemberModel->getSignature($this->memberInfo->member_srl);
@@ -442,12 +442,12 @@ class MemberAdminView extends Member
 		{
 			$member_info = new stdClass;
 		}
-		
+
 		Context::set('member_info', $member_info);
-		
+
 		$formTags = $this->_getMemberInputTag($member_info, true);
 		Context::set('formTags', $formTags);
-		
+
 		// Editor of the module set for signing by calling getEditor
 		foreach($formTags as $formTag)
 		{
@@ -468,22 +468,22 @@ class MemberAdminView extends Member
 				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
-				
+
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
 			}
 		}
-		
+
 		$identifierForm = new stdClass;
 		$identifierForm->title = lang($member_config->identifier);
 		$identifierForm->name = $member_config->identifier;
 		$identifierForm->value = $member_info->{$member_config->identifier};
 		Context::set('identifierForm', $identifierForm);
-		
+
 		if ($member_info->limit_date < date('Ymd'))
 		{
 			$member_info->limit_date = '';
 		}
-		
+
 		$member_unauthenticated = false;
 		if ($member_info->member_srl && $member_info->denied !== 'N')
 		{
@@ -499,7 +499,7 @@ class MemberAdminView extends Member
 			}
 		}
 		Context::set('member_unauthenticated', $member_unauthenticated);
-		
+
 		$this->setTemplateFile('insert_member');
 	}
 
@@ -518,7 +518,7 @@ class MemberAdminView extends Member
 		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
-		
+
 		if ($memberInfo)
 		{
 			$memberInfo = get_object_vars($memberInfo);
@@ -533,17 +533,17 @@ class MemberAdminView extends Member
 		{
 			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
 		}
-		
+
 		global $lang;
 		$formTags = array();
-		
+
 		foreach($member_config->signupForm as $no=>$formInfo)
 		{
 			if(!$formInfo->isUse || $formInfo->name == $member_config->identifier || $formInfo->name == 'password')
 			{
 				continue;
 			}
-			
+
 			$formTag = new stdClass();
 			$inputTag = '';
 			$formTag->title = $formInfo->title;
@@ -593,7 +593,7 @@ class MemberAdminView extends Member
 					{
 						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="false" />', $formInfo->name);
 					}
-					
+
 					$max_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
 					if (isset($member_config->{$formInfo->name.'_max_filesize'}))
 					{

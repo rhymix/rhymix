@@ -55,7 +55,7 @@ class FileAdminModel extends File
 	 * - isvaild
 	 * - regdate
 	 * - ipaddress
-	 * 
+	 *
 	 * </pre>
 	 *
 	 * @param object $obj Search options
@@ -72,13 +72,13 @@ class FileAdminModel extends File
 		{
 			$args->isvalid = $obj->isvalid;
 		}
-		
+
 		// Set multimedia/common file
 		if(isset($obj->direct_download) && in_array($obj->direct_download, ['Y', 'N']))
 		{
 			$args->direct_download = $obj->direct_download;
 		}
-		
+
 		// Set variables
 		$args->sort_index = $obj->sort_index ?? null;
 		$args->order_type = $obj->order_type ?? 'desc';
@@ -97,7 +97,7 @@ class FileAdminModel extends File
 		{
 			$output = executeQueryArray('file.getFileList', $args, $columnList);
 		}
-		
+
 		// Return if no result or an error occurs
 		if(!$output->toBool() || !count($output->data))
 		{

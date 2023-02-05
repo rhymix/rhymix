@@ -8,12 +8,12 @@ class spamfilter_reCAPTCHA
 	protected static $instances_inserted = 0;
 	protected static $sequence = 1;
 	protected $_target_actions = [];
-	
+
 	public static function init($config)
 	{
 		self::$config = $config;
 	}
-	
+
 	public static function check()
 	{
 		$response = Context::get('g-recaptcha-response');
@@ -21,7 +21,7 @@ class spamfilter_reCAPTCHA
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
 		}
-		
+
 		try
 		{
 			$verify_request = \Requests::post(self::$verify_url, array(), array(
@@ -34,7 +34,7 @@ class spamfilter_reCAPTCHA
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_connection_error');
 		}
-		
+
         $verify = @json_decode($verify_request->body, true);
 		if (!$verify || !$verify['success'])
 		{
@@ -44,10 +44,10 @@ class spamfilter_reCAPTCHA
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
         }
-        
+
         $_SESSION['recaptcha_authenticated'] = true;
 	}
-	
+
 	public function addScripts()
 	{
 		if (!self::$scripts_added)
@@ -60,17 +60,17 @@ class spamfilter_reCAPTCHA
 			Context::addHtmlFooter($html);
 		}
 	}
-	
+
 	public function setTargetActions(array $target_actions)
 	{
 		$this->_target_actions = $target_actions;
 	}
-	
+
 	public function isTargetAction(string $action): bool
 	{
 		return isset($this->_target_actions[$action]);
 	}
-	
+
 	public function __toString()
 	{
 		return sprintf('<div id="recaptcha-instance-%d" class="g-recaptcha"></div>', self::$instances_inserted++);

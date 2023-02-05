@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * CacheHandler
@@ -12,7 +11,7 @@ class CacheHandler extends Handler
 	 * Force file cache.
 	 */
 	protected $_always_use_file = false;
-	
+
 	/**
 	 * Get a instance of CacheHandler(for singleton)
 	 *
@@ -158,6 +157,3 @@ class CacheHandler extends Handler
 		return Rhymix\Framework\Cache::clearGroup($keyGroupName);
 	}
 }
-
-/* End of file CacheHandler.class.php */
-/* Location: ./classes/cache/CacheHandler.class.php */

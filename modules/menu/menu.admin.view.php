@@ -21,7 +21,7 @@ class menuAdminView extends menu
 		$this->setTemplatePath($this->module_path.'tpl');
 	}
 
-	
+
 	/**
 	 * Site map admin menu index page
 	 * @return void
@@ -40,7 +40,7 @@ class menuAdminView extends menu
 			$oMenuController = getAdminController('menu');
 			$oMenuController->linkAllModuleInstancesToSitemap();
 		}
-		
+
 		// get installed module list
 		$oPageController = getController('page'); //for lang
 		$oMenuAdminModel = getAdminModel('menu');
@@ -79,7 +79,7 @@ class menuAdminView extends menu
 			}
 		}
 		Context::set('group_list', $groupList);
-		
+
 		// Get layout instance list
 		$oLayoutModel = getModel('layout');
 		$layouts_P = $oLayoutModel->getLayoutList(0, 'P') ?: [];

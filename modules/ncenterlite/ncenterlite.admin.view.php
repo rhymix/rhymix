@@ -29,7 +29,7 @@ class ncenterliteAdminView extends ncenterlite
 		Context::set('mid_list', $mid_list);
 		Context::set('config', $config);
 	}
-	
+
 	function dispNcenterliteAdminOtherComment()
 	{
 		$oModuleModel = getModel('module');

@@ -9,7 +9,7 @@ class EditorComponentParser extends BaseParser
 {
 	/**
 	 * Load an XML file.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param string $component_name
 	 * @param string $lang
@@ -23,14 +23,14 @@ class EditorComponentParser extends BaseParser
 		{
 			return false;
 		}
-		
+
 		// Get the current language.
 		$lang = $lang ?: (\Context::getLangType() ?: 'en');
-		
+
 		// Initialize the module definition.
 		$info = new \stdClass;
 		$info->component_name = $component_name;
-		
+
 		// Get basic information.
 		$info->title = self::_getChildrenByLang($xml, 'title', $lang);
 		$info->description = self::_getChildrenByLang($xml, 'description', $lang);
@@ -40,7 +40,7 @@ class EditorComponentParser extends BaseParser
 		$info->license = trim($xml->license ?? '');
 		$info->license_link = trim($xml->license['link'] ?? '');
 		$info->author = array();
-		
+
 		foreach ($xml->author as $author)
 		{
 			$author_info = new \stdClass;
@@ -49,13 +49,13 @@ class EditorComponentParser extends BaseParser
 			$author_info->homepage = trim($author['link'] ?? '');
 			$info->author[] = $author_info;
 		}
-		
+
 		// Get extra_vars.
 		if ($xml->extra_vars)
 		{
 			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang);
 		}
-		
+
 		// Return the complete result.
 		return $info;
 	}

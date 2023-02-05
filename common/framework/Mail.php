@@ -17,16 +17,16 @@ class Mail
 	protected $attachments = array();
 	public $errors = array();
 	protected $sent = false;
-	
+
 	/**
 	 * Static properties.
 	 */
 	public static $default_driver = null;
 	public static $custom_drivers = array();
-	
+
 	/**
 	 * Set the default driver.
-	 * 
+	 *
 	 * @param object $driver
 	 * @return void
 	 */
@@ -34,10 +34,10 @@ class Mail
 	{
 		self::$default_driver = $driver;
 	}
-	
+
 	/**
 	 * Get the default driver.
-	 * 
+	 *
 	 * @return object
 	 */
 	public static function getDefaultDriver()
@@ -58,7 +58,7 @@ class Mail
 		}
 		return self::$default_driver;
 	}
-	
+
 	/**
 	 * Add a custom mail driver.
 	 */
@@ -66,10 +66,10 @@ class Mail
 	{
 		self::$custom_drivers[] = $driver;
 	}
-	
+
 	/**
 	 * Get the list of supported mail drivers.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSupportedDrivers()
@@ -106,7 +106,7 @@ class Mail
 		ksort($result);
 		return $result;
 	}
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -115,7 +115,7 @@ class Mail
 		$this->message = new \Swift_Message;
 		$this->driver = self::getDefaultDriver();
 	}
-	
+
 	/**
 	 * Set the sender (From:).
 	 *
@@ -136,7 +136,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the sender (From:).
 	 *
@@ -147,7 +147,7 @@ class Mail
 		$list = $this->message->getFrom();
 		return $list ? array_first($this->formatAddresses($list)) : null;
 	}
-	
+
 	/**
 	 * Add a recipient (To:).
 	 *
@@ -168,7 +168,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Add a recipient (CC:).
 	 *
@@ -189,7 +189,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Add a recipient (BCC:).
 	 *
@@ -210,7 +210,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the list of recipients.
 	 *
@@ -219,7 +219,7 @@ class Mail
 	public function getRecipients()
 	{
 		$result = array();
-		
+
 		foreach ($this->formatAddresses($this->message->getTo()) as $address)
 		{
 			$result[] = $address;
@@ -232,10 +232,10 @@ class Mail
 		{
 			$result[] = $address;
 		}
-		
+
 		return array_unique($result);
 	}
-	
+
 	/**
 	 * Set the Reply-To: address.
 	 *
@@ -255,7 +255,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Set the Return-Path: address.
 	 *
@@ -275,7 +275,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Set the Message ID.
 	 *
@@ -296,7 +296,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Set the In-Reply-To: header.
 	 *
@@ -317,7 +317,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Set the References: header.
 	 *
@@ -338,7 +338,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Set the subject.
 	 *
@@ -358,7 +358,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the subject.
 	 *
@@ -368,7 +368,7 @@ class Mail
 	{
 		return $this->message->getSubject();
 	}
-	
+
 	/**
 	 * Set the subject (alias to setSubject).
 	 *
@@ -379,7 +379,7 @@ class Mail
 	{
 		return $this->setSubject($subject);
 	}
-	
+
 	/**
 	 * Get the subject (alias to getSubject).
 	 *
@@ -389,7 +389,7 @@ class Mail
 	{
 		return $this->getSubject();
 	}
-	
+
 	/**
 	 * Set the body content.
 	 *
@@ -403,25 +403,25 @@ class Mail
 		{
 			$this->setContentType($content_type);
 		}
-		
+
 		if (strpos($this->content_type, 'html') !== false)
 		{
 			$content = Filters\HTMLFilter::fixRelativeUrls($content);
 		}
-		
+
 		$this->message->setBody($content, $this->content_type);
 	}
-	
+
 	/**
 	 * Get the body content.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getBody()
 	{
 		return $this->message->getBody();
 	}
-	
+
 	/**
 	 * Set the body content (alias to setBody).
 	 *
@@ -433,20 +433,20 @@ class Mail
 	{
 		return $this->setBody($content, $content_type);
 	}
-	
+
 	/**
 	 * Get the body content (alias to getBody).
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getContent()
 	{
 		return $this->getBody();
 	}
-	
+
 	/**
 	 * Set the content type.
-	 * 
+	 *
 	 * @param string $mode The type
 	 * @return void
 	 */
@@ -454,17 +454,17 @@ class Mail
 	{
 		$this->content_type = (strpos($type, 'html') !== false) ? 'text/html' : ((strpos($type, '/') !== false) ? $type : 'text/plain');
 	}
-	
+
 	/**
 	 * Get the content type.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getContentType()
 	{
 		return $this->content_type;
 	}
-	
+
 	/**
 	 * Attach a file.
 	 *
@@ -482,11 +482,11 @@ class Mail
 		{
 			return false;
 		}
-		
+
 		$attachment = \Swift_Attachment::fromPath($local_filename);
 		$attachment->setFilename($display_filename);
 		$result = $this->message->attach($attachment);
-		
+
 		if ($result)
 		{
 			$this->attachments[] = (object)array(
@@ -502,7 +502,7 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Embed a file.
 	 *
@@ -516,14 +516,14 @@ class Mail
 		{
 			return false;
 		}
-		
+
 		$embedded = \Swift_EmbeddedFile::fromPath($local_filename);
 		if ($cid !== null)
 		{
 			$embedded->setId(preg_replace('/^cid:/i', '', $cid));
 		}
 		$result = $this->message->embed($embedded);
-		
+
 		if ($result)
 		{
 			$this->attachments[] = (object)array(
@@ -539,20 +539,20 @@ class Mail
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Get the list of attachments to this message.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getAttachments()
 	{
 		return $this->attachments;
 	}
-	
+
 	/**
 	 * Send the email.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function send()
@@ -563,20 +563,20 @@ class Mail
 		{
 			$this->caller = $backtrace[0]['file'] . ($backtrace[0]['line'] ? (' line ' . $backtrace[0]['line']) : '');
 		}
-		
+
 		// Reset Message-ID in case send() is called multiple times.
 		$random = substr(hash('sha256', mt_rand() . microtime() . getmypid()), 0, 32);
 		$sender = $this->message->getFrom(); reset($sender);
 		$id = $random . '@' . (preg_match('/^(.+)@([^@]+)$/', key($sender), $matches) ? $matches[2] : 'swift.generated');
 		$this->message->getHeaders()->get('Message-ID')->setId($id);
-		
+
 		$output = \ModuleHandler::triggerCall('mail.send', 'before', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 			return false;
 		}
-		
+
 		try
 		{
 			$this->sent = $this->driver->send($this) ? true : false;
@@ -586,46 +586,46 @@ class Mail
 			$this->errors[] = $e->getMessage();
 			$this->sent = false;
 		}
-		
+
 		$output = \ModuleHandler::triggerCall('mail.send', 'after', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 		}
-		
+
 		return $this->sent;
 	}
-	
+
 	/**
 	 * Check if the message was sent.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isSent()
 	{
 		return $this->sent;
 	}
-	
+
 	/**
 	 * Get caller information.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getCaller()
 	{
 		return $this->caller;
 	}
-	
+
 	/**
 	 * Get errors.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getErrors()
 	{
 		return $this->errors;
 	}
-	
+
 	/**
 	 * Convert image paths to absolute URLs.
 	 *
@@ -637,22 +637,22 @@ class Mail
 	{
 		return Filters\HTMLFilter::fixRelativeUrls($matches[0]);
 	}
-	
+
 	/**
 	 * Format an array of addresses for display.
-	 * 
+	 *
 	 * @param array $addresses
 	 * @return array
 	 */
 	protected function formatAddresses($addresses)
 	{
 		$result = array();
-		
+
 		if (!$addresses)
 		{
 			return array();
 		}
-		
+
 		foreach($addresses as $email => $name)
 		{
 			if(strval($name) === '')
@@ -664,7 +664,7 @@ class Mail
 				$result[] = $name . ' <' . $email . '>';
 			}
 		}
-		
+
 		return $result;
 	}
 }

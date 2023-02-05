@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class VirtualXMLDisplayHandler
 {
@@ -57,13 +56,11 @@ class VirtualXMLDisplayHandler
 			$html[] = '  parent.location.href = ' . json_encode($output->url) . ';';
 			$html[] = '}';
 		}
-		
+
 		$html[] = '</script>';
 		$html[] = '</head><body></body></html>';
-		
+
 		return join("\n", $html);
 	}
 
 }
-/* End of file VirtualXMLDisplayHandler.class.php */
-/* Location: ./classes/display/VirtualXMLDisplayHandler.class.php */

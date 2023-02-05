@@ -9,7 +9,7 @@ class ModuleInfoParser extends BaseParser
 {
 	/**
 	 * Load an XML file.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return object|false
 	 */
@@ -21,16 +21,16 @@ class ModuleInfoParser extends BaseParser
 		{
 			return false;
 		}
-		
+
 		// Get the current language.
 		$lang = \Context::getLangType() ?: 'en';
-		
+
 		// Initialize the module definition.
 		$info = new \stdClass;
-		
+
 		// Get the XML schema version.
 		$version = strval($xml['version']) ?: '0.1';
-		
+
 		// Parse version 0.2
 		if ($version === '0.2')
 		{
@@ -43,7 +43,7 @@ class ModuleInfoParser extends BaseParser
 			$info->license = trim($xml->license);
 			$info->license_link = trim($xml->license['link'] ?? '');
 			$info->author = array();
-			
+
 			foreach ($xml->author as $author)
 			{
 				$author_info = new \stdClass;
@@ -53,7 +53,7 @@ class ModuleInfoParser extends BaseParser
 				$info->author[] = $author_info;
 			}
 		}
-		
+
 		// Parse version 0.1
 		else
 		{
@@ -66,7 +66,7 @@ class ModuleInfoParser extends BaseParser
 			$info->license = trim($xml->license);
 			$info->license_link = trim($xml->license['link'] ?? '');
 			$info->author = array();
-			
+
 			foreach ($xml->author as $author)
 			{
 				$author_info = new \stdClass;
@@ -88,7 +88,7 @@ class ModuleInfoParser extends BaseParser
 			$info->simple_setup_index_act = $action_info->simple_setup_index_act;
 			$info->error_handlers = $action_info->error_handlers ?: [];
 		}
-		
+
 		// Return the complete result.
 		return $info;
 	}

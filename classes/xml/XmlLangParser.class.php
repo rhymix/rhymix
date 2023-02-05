@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * XmlLangParser class
@@ -275,5 +274,3 @@ class XmlLangParser extends XeXmlParser
 	}
 
 }
-/* End of file XmlLangParser.class.php */
-/* Location: ./classes/xml/XmlLangParser.class.php */

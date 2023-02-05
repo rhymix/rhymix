@@ -43,16 +43,16 @@ class installAdminController extends install
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		Rhymix\Framework\Session::close();
-		
+
 		$output = $oModule->moduleUpdate();
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();
 			return $output;
 		}
-		
+
 		$oModuleController = getController('module');
 		$output = $oModuleController->registerActionForwardRoutes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
@@ -60,7 +60,7 @@ class installAdminController extends install
 			Rhymix\Framework\Session::start();
 			return $output;
 		}
-		
+
 		Rhymix\Framework\Session::start();
 		$this->setMessage('success_updated');
 	}

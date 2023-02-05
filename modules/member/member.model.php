@@ -20,7 +20,7 @@ class MemberModel extends Member
 	 */
 	public function init()
 	{
-		
+
 	}
 
 	/**
@@ -32,9 +32,9 @@ class MemberModel extends Member
 		{
 			return self::$_member_config;
 		}
-		
+
 		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
-		
+
 		// Set default config
 		$config->enable_join = $config->enable_join ?? 'Y';
 		$config->enable_confirm = $config->enable_confirm ?? 'N';
@@ -49,7 +49,7 @@ class MemberModel extends Member
 		$config->password_hashing_work_factor = $config->password_hashing_work_factor ?? 10;
 		$config->password_hashing_auto_upgrade = $config->password_hashing_auto_upgrade ?? 'Y';
 		$config->password_change_invalidate_other_sessions = $config->password_change_invalidate_other_sessions ?? 'N';
-		
+
 		// Set features config
 		if(!isset($config->features)) $config->features = array();
 		$config->features['scrapped_documents'] = $config->features['scrapped_documents'] ?? true;
@@ -58,7 +58,7 @@ class MemberModel extends Member
 		$config->features['my_comments'] = $config->features['my_comments'] ?? true;
 		$config->features['active_logins'] = $config->features['active_logins'] ?? true;
 		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
-		
+
 		// Set agreements config
 		if(!isset($config->agreements) || !is_array($config->agreements))
 		{
@@ -69,7 +69,7 @@ class MemberModel extends Member
 			$config->agreements[1]->type = !empty($config->agreements[1]->content) ? 'required' : 'disabled';
 		}
 		unset($config->agreement);
-		
+
 		// Set signup config
 		$config->limit_day = $config->limit_day ?? 0;
 		$config->emailhost_check = $config->emailhost_check ?? 'allowed';
@@ -103,7 +103,7 @@ class MemberModel extends Member
 		{
 			$config->signature_editor_skin = 'ckeditor';
 		}
-		
+
 		// Set login config
 		$config->identifier = $config->identifier ?? 'user_id';
 		$config->identifiers = $config->identifiers ?? array('user_id', 'email_address');
@@ -114,17 +114,17 @@ class MemberModel extends Member
 		$config->login_invalidate_other_sessions = $config->login_invalidate_other_sessions ?? 'N';
 		$config->after_login_url = $config->after_login_url ?? null;
 		$config->after_logout_url = $config->after_logout_url ?? null;
-		
+
 		// Set design config
 		$config->layout_srl = $config->layout_srl ?? 0;
 		$config->skin = $config->skin ?? 'default';
 		$config->colorset = $config->colorset ?? 'white';
 		$config->mlayout_srl = $config->mlayout_srl ?? 0;
 		$config->mskin = $config->mskin ?? 'default';
-		
+
 		// Set group image config
 		$config->group_image_mark = $config->group_image_mark ?? 'N';
-		
+
 		// Set signup form
 		if(!isset($config->signupForm) || !is_array($config->signupForm))
 		{
@@ -138,13 +138,13 @@ class MemberModel extends Member
 			}
 			$config->signupForm[$key]->isPublic = $config->signupForm[$key]->isPublic ?? 'Y';
 		}
-		
+
 		return self::$_member_config = $config;
 	}
 
 	/**
 	 * Get member agreement from old version
-	 * 
+	 *
 	 * @deprecated
 	 */
 	protected static function _getAgreement()
@@ -188,11 +188,11 @@ class MemberModel extends Member
 			$this->add('errorDetail', 'ERR_CSRF_INVALID_ORIGIN');
 			return;
 		}
-		
+
 		// Add CORS restriction
 		header('Access-Control-Allow-Origin: ' . rtrim(Rhymix\Framework\Url::getCurrentDomainURL(), '/'));
 		header('Cross-Origin-Resource-Policy: same-origin');
-		
+
 		// Return login status and CSRF token
 		Context::setResponseMethod('JSON');
 		$this->add('status', Rhymix\Framework\Session::getLoginStatus());
@@ -211,12 +211,12 @@ class MemberModel extends Member
 		{
 			return;
 		}
-		
+
 		$mid = Context::get('cur_mid');
 		$logged_info = Context::get('logged_info');
 		$module_config = self::getMemberConfig();
 		$icon_path = '';
-		
+
 		// Get requested member info
 		if($member_srl == $logged_info->member_srl)
 		{
@@ -237,7 +237,7 @@ class MemberModel extends Member
 		ModuleHandler::triggerCall('member.getMemberMenu', 'before', $member_info);
 
 		$oMemberController = MemberController::getInstance();
-		
+
 		// Display member information (Don't display to non-logged user)
 		if($logged_info->member_srl)
 		{
@@ -269,7 +269,7 @@ class MemberModel extends Member
 				}
 			}
 		}
-		
+
 		// Check if homepage and blog are public
 		$homepage_is_public = false;
 		$blog_is_public = false;
@@ -292,19 +292,19 @@ class MemberModel extends Member
 				}
 			}
 		}
-		
+
 		// View homepage info
 		if($member_info->homepage && $homepage_is_public)
 		{
 			$oMemberController->addMemberPopupMenu(escape($member_info->homepage, false), 'homepage', '', '_blank', 'homepage');
 		}
-		
+
 		// View blog info
 		if($member_info->blog && $blog_is_public)
 		{
 			$oMemberController->addMemberPopupMenu(escape($member_info->blog, false), 'blog', '', '_blank', 'blog');
 		}
-		
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.getMemberMenu', 'after', $member_info);
 		// Display a menu for editting member info to a top administrator
@@ -315,7 +315,7 @@ class MemberModel extends Member
 
 			$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',0);
 			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'popup');
-			
+
 			$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
 
@@ -351,7 +351,7 @@ class MemberModel extends Member
 
 	/**
 	 * @brief Return member information with user_id
-	 * 
+	 *
 	 * @return object|null
 	 */
 	public static function getMemberInfoByUserID($user_id)
@@ -371,7 +371,7 @@ class MemberModel extends Member
 
 	/**
 	 * @brief Return member information with email_address
-	 * 
+	 *
 	 * @return object|null
 	 */
 	public static function getMemberInfoByEmailAddress($email_address)
@@ -390,7 +390,7 @@ class MemberModel extends Member
 
 	/**
 	 * @brief Return member information with phone number
-	 * 
+	 *
 	 * @return object|null
 	 */
 	public static function getMemberInfoByPhoneNumber($phone_number, $phone_country = null)
@@ -407,7 +407,7 @@ class MemberModel extends Member
 				$phone_country = array(preg_replace('/[^0-9]/', '', $phone_country), Rhymix\Framework\i18n::getCountryCodeByCallingCode($phone_country));
 			}
 		}
-		
+
 		$args = new stdClass();
 		$args->phone_number = $phone_number;
 		$args->phone_country = $phone_country;
@@ -421,7 +421,7 @@ class MemberModel extends Member
 
 	/**
 	 * @brief Return member information with member_srl
-	 * 
+	 *
 	 * @return object
 	 */
 	public static function getMemberInfoByMemberSrl($member_srl)
@@ -459,7 +459,7 @@ class MemberModel extends Member
 
 	/**
 	 * @brief Shortcut to getMemberInfoByMemberSrl()
-	 * 
+	 *
 	 * @param int $member_srl
 	 * @return object
 	 */
@@ -1190,7 +1190,7 @@ class MemberModel extends Member
 			{
 				return null;
 			}
-			
+
 			$info = null;
 			$member_group = self::getMemberGroups($member_srl);
 			$groups_info = self::getGroups();
@@ -1226,7 +1226,7 @@ class MemberModel extends Member
 				$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = '';
 			}
 		}
-		
+
 		return $GLOBALS['__member_info__']['group_image_mark'][$member_srl];
 	}
 
@@ -1249,7 +1249,7 @@ class MemberModel extends Member
 			if(file_exists($filename))
 			{
 				$signature = preg_replace('/<\?.*\?>/', '', FileHandler::readFile($filename));
-				
+
 				// retroact
 				$config = self::getMemberConfig();
 				if($config->signature_html_retroact == 'Y' && $config->signature_html == 'N' && preg_match('/<[^br]+>/i', $signature))
@@ -1257,7 +1257,7 @@ class MemberModel extends Member
 					$signature = preg_replace('/(\r?\n)+/', "\n", $signature);
 					return MemberController::getInstance()->putSignature($member_srl, $signature);
 				}
-				
+
 				$GLOBALS['__member_info__']['signature'][$member_srl] = $signature;
 			}
 			else
@@ -1265,7 +1265,7 @@ class MemberModel extends Member
 				$GLOBALS['__member_info__']['signature'][$member_srl] = '';
 			}
 		}
-		
+
 		return $GLOBALS['__member_info__']['signature'][$member_srl];
 	}
 
@@ -1283,7 +1283,7 @@ class MemberModel extends Member
 		{
 			return false;
 		}
-		
+
 		// Check the password
 		$password_match = false;
 		$current_algorithm = false;
@@ -1301,7 +1301,7 @@ class MemberModel extends Member
 		{
 			return false;
 		}
-		
+
 		// Update the encryption method if necessary
 		$config = self::getMemberConfig();
 		if($member_srl > 0 && $config->password_hashing_auto_upgrade != 'N')
@@ -1324,7 +1324,7 @@ class MemberModel extends Member
 					$need_upgrade = false;
 				}
 			}
-			
+
 			if ($need_upgrade)
 			{
 				$args = new stdClass();
@@ -1333,10 +1333,10 @@ class MemberModel extends Member
 				MemberController::getInstance()->updateMemberPassword($args);
 			}
 		}
-		
+
 		return true;
 	}
-	
+
 	/**
 	 * @brief Create a hash of plain text password
 	 * @param string $password_text The password to hash
@@ -1347,37 +1347,37 @@ class MemberModel extends Member
 	{
 		return Rhymix\Framework\Password::hashPassword($password_text, $algorithm);
 	}
-	
+
 	public static function checkPasswordStrength($password, $strength)
 	{
 		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin == 'Y') return true;
-		
+
 		if($strength == NULL)
 		{
 			$config = self::getMemberConfig();
 			$strength = $config->password_strength?$config->password_strength:'normal';
 		}
-		
+
 		$length = strlen($password);
-		
+
 		switch ($strength) {
 			case 'high':
 				if($length < 8 || !preg_match('/[^a-zA-Z0-9]/', $password)) return false;
 				/* no break */
-				
+
 			case 'normal':
 				if($length < 6 || !preg_match('/[a-zA-Z]/', $password) || !preg_match('/[0-9]/', $password)) return false;
 				break;
-				
+
 			case 'low':
 				if($length < 4) return false;
 				break;
 		}
-		
+
 		return true;
 	}
-	
+
 	public static function getAdminGroupSrl()
 	{
 		$groupSrl = 0;
@@ -1395,12 +1395,12 @@ class MemberModel extends Member
 		}
 		return $groupSrl;
 	}
-	
+
 	public static function getMemberModifyNicknameLog($page = 1, $member_srl = null)
 	{
 		$search_keyword = Context::get('search_keyword');
 		$search_target = Context::get('search_target');
-		
+
 		// $this->user 에 재대로 된 회원 정보가 들어 가지 않음.
 		$logged_info = Context::get('logged_info');
 
@@ -1429,14 +1429,14 @@ class MemberModel extends Member
 						break;
 				}
 				$output = executeQuery('member.getMemberModifyNickName', $args);
-				
+
 				return $output;
 			}
 		}
-		
+
 		$args->member_srl = $member_srl;
 		$output = executeQuery('member.getMemberModifyNickName', $args);
-		
+
 		return $output;
 	}
 }

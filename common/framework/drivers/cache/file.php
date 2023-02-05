@@ -13,17 +13,17 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 * Set this flag to false to disable cache prefixes.
 	 */
 	public $prefix = false;
-	
+
 	/**
 	 * The singleton instance is stored here.
 	 */
 	protected static $_instance = null;
-	
+
 	/**
 	 * The cache directory.
 	 */
 	protected $_dir;
-	
+
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
@@ -35,10 +35,10 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 			Storage::createDirectory($this->_dir);
 		}
 	}
-	
+
 	/**
 	 * Create a new instance of the current cache driver, using the given settings.
-	 * 
+	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -50,23 +50,23 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 		}
 		return static::$_instance;
 	}
-	
+
 	/**
 	 * Since Rhymix 2.1, This method always returns false.
 	 * The file cache driver can only be used through the dummy driver.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Validate cache settings.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param mixed $config
 	 * @return bool
 	 */
@@ -74,12 +74,12 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Get the value of a key.
-	 * 
+	 *
 	 * This method returns null if the key was not found.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -87,7 +87,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		$filename = $this->_getFilename($key);
 		$data = Storage::readPHPData($filename);
-		
+
 		if ($data === false)
 		{
 			return null;
@@ -102,13 +102,13 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 			return $data[1];
 		}
 	}
-	
+
 	/**
 	 * Set the value to a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * $ttl is measured in seconds. If it is zero, the key should not expire.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
@@ -119,13 +119,13 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return Storage::writePHPData($this->_getFilename($key), array($ttl ? (time() + $ttl) : 0, $value), $key);
 	}
-	
+
 	/**
 	 * Delete a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * If the key does not exist, it should return false.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -133,12 +133,12 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return Storage::delete($this->_getFilename($key));
 	}
-	
+
 	/**
 	 * Check if a key exists.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -146,13 +146,13 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return $this->get($key) !== null;
 	}
-	
+
 	/**
 	 * Increase the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount
 	 * @return int
@@ -163,13 +163,13 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 		$success = $this->set($key, $value + $amount, 0, true);
 		return $success ? ($value + $amount) : false;
 	}
-	
+
 	/**
 	 * Decrease the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount
 	 * @return int
@@ -178,22 +178,22 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return $this->incr($key, 0 - $amount);
 	}
-	
+
 	/**
 	 * Clear all keys from the cache.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function clear()
 	{
 		return Storage::deleteDirectory($this->_dir) ? true : false;
 	}
-	
+
 	/**
 	 * Get the filename to store a key.
-	 * 
+	 *
 	 * @param string $key
 	 * @return string
 	 */

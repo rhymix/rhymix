@@ -1,41 +1,36 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
- * @class PageHandler
- * @author NAVER (developers@xpressengine.com)
- * handles page navigation
- * @version 0.1
+ * PageHandler
  *
- * @remarks Getting total counts, number of pages, current page number, number of items per page, 
- *          this class implements methods and contains variables for page navigation
+ * @author NAVER (developers@xpressengine.com)
  */
 class PageHandler extends Handler implements Iterator
 {
 	// Number of total items
 	public $total_count = 0;
-	
+
 	// Number of total pages
 	public $total_page = 0;
-	
+
 	// Current page number
 	public $cur_page = 0;
-	
+
 	// Number of page links displayed at one time.
 	public $page_count = 10;
-	
+
 	// First page number
 	public $first_page = 1;
-	
+
 	// Last page number
 	public $last_page = 1;
-	
+
 	// Stepper
 	public $point = 0;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param int $total_count number of total items
 	 * @param int $total_page number of total pages
 	 * @param int $cur_page current page number
@@ -71,7 +66,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Request next page
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getNextPage(): int
@@ -86,7 +81,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Return number of page that added offset.
-	 * 
+	 *
 	 * @param int $offset
 	 * @return int
 	 */
@@ -97,7 +92,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Rewind iterator stepper.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function rewind(): void
@@ -107,7 +102,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Determine if a current iterated item is valid.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function valid(): bool
@@ -118,7 +113,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Get a current iterated page number.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function current(): int
@@ -128,7 +123,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Get a current iterator stepper.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function key(): int
@@ -138,7 +133,7 @@ class PageHandler extends Handler implements Iterator
 
 	/**
 	 * Step up the iterator.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function next(): void
@@ -146,5 +141,3 @@ class PageHandler extends Handler implements Iterator
 		$this->point++;
 	}
 }
-/* End of file PageHandler.class.php */
-/* Location: ./classes/page/PageHandler.class.php */

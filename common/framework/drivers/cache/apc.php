@@ -11,23 +11,23 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	 * Set this flag to false to disable cache prefixes.
 	 */
 	public $prefix = true;
-	
+
 	/**
 	 * The singleton instance is stored here.
 	 */
 	protected static $_instance = null;
-	
+
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
 	protected function __construct()
 	{
-		
+
 	}
-	
+
 	/**
 	 * Create a new instance of the current cache driver, using the given settings.
-	 * 
+	 *
 	 * @param array $config
 	 * @return void
 	 */
@@ -39,24 +39,24 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 		}
 		return self::$_instance;
 	}
-	
+
 	/**
 	 * Check if the current cache driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return function_exists('apcu_exists');
 	}
-	
+
 	/**
 	 * Validate cache settings.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param mixed $config
 	 * @return bool
 	 */
@@ -64,12 +64,12 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Get the value of a key.
-	 * 
+	 *
 	 * This method returns null if the key was not found.
-	 * 
+	 *
 	 * @param string $key
 	 * @return mixed
 	 */
@@ -78,13 +78,13 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 		$value = apcu_fetch($key);
 		return $value === false ? null : $value;
 	}
-	
+
 	/**
 	 * Set the value to a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * $ttl is measured in seconds. If it is zero, the key should not expire.
-	 * 
+	 *
 	 * @param string $key
 	 * @param mixed $value
 	 * @param int $ttl
@@ -95,13 +95,13 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return apcu_store($key, $value, $ttl);
 	}
-	
+
 	/**
 	 * Delete a key.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
 	 * If the key does not exist, it should return false.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -109,12 +109,12 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return apcu_delete($key);
 	}
-	
+
 	/**
 	 * Check if a key exists.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param string $key
 	 * @return bool
 	 */
@@ -122,13 +122,13 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		return apcu_exists($key);
 	}
-	
+
 	/**
 	 * Increase the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount
 	 * @return int
@@ -143,13 +143,13 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Decrease the value of a key by $amount.
-	 * 
+	 *
 	 * If the key does not exist, this method assumes that the current value is zero.
 	 * This method returns the new value.
-	 * 
+	 *
 	 * @param string $key
 	 * @param int $amount
 	 * @return int
@@ -164,12 +164,12 @@ class APC implements \Rhymix\Framework\Drivers\CacheInterface
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Clear all keys from the cache.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function clear()

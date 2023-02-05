@@ -12,12 +12,12 @@ class ncenterliteModel extends ncenterlite
 		{
 			$oModuleModel = getModel('module');
 			$config = $oModuleModel->getModuleConfig('ncenterlite');
-			
+
 			if(!$config)
 			{
 				$config = new stdClass();
 			}
-			
+
 			$config->use = $config->use ?? array('message' => array('web' => 1));
 			$config->display_use = $config->display_use ?? 'all';
 			$config->always_display = $config->always_display ?? 'N';
@@ -45,7 +45,7 @@ class ncenterliteModel extends ncenterlite
 			$config->mcolorset = $config->mcolorset ?? 'black';
 			$config->zindex = $config->zindex ?? '9999';
 			$config->notify_count = $config->notify_count ?? 5;
-			
+
 			if(!isset($config->hide_module_srls))
 			{
 				$config->hide_module_srls = array();
@@ -54,7 +54,7 @@ class ncenterliteModel extends ncenterlite
 			{
 				$config->hide_module_srls = explode('|@|', $config->hide_module_srls);
 			}
-			
+
 			// Convert old config format
 			if($config->use === 'Y')
 			{
@@ -74,13 +74,13 @@ class ncenterliteModel extends ncenterlite
 				getController('module')->insertModuleConfig('ncenterlite', $config);
 			}
 			unset($config->mention_format);
-			
+
 			self::$_config = $config;
 		}
 
 		return self::$_config;
 	}
-	
+
 	public static function getNotifyTypes()
 	{
 		$default = array(
@@ -95,7 +95,7 @@ class ncenterliteModel extends ncenterlite
 		{
 			$default['admin_content'] = 0;
 		}
-		
+
 		$custom_types = Rhymix\Framework\Cache::get('ncenterlite:notify_types');
 		if (!$custom_types)
 		{
@@ -109,11 +109,11 @@ class ncenterliteModel extends ncenterlite
 				$default[$type->notify_type_id] = $type->notify_type_srl;
 			}
 		}
-		
+
 		$default['custom'] = 0;
 		return $default;
 	}
-	
+
 	public static function getUserSetNotifyTypes()
 	{
 		return array(
@@ -196,20 +196,20 @@ class ncenterliteModel extends ncenterlite
 				return false;
 			}
 		}
-		
+
 		$member_srl = intval($member_srl);
 		$config = self::$_user_config[$member_srl] ?? null;
 		if ($config !== null)
 		{
 			return $config;
 		}
-		
+
 		$config = Rhymix\Framework\Cache::get('ncenterlite:user_config:' . $member_srl);
 		if ($config !== null)
 		{
 			return $config;
 		}
-		
+
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getUserConfig', $args);
@@ -238,7 +238,7 @@ class ncenterliteModel extends ncenterlite
 				}
 			}
 		}
-		
+
 		self::$_user_config[$member_srl] = $config;
 		Rhymix\Framework\Cache::set('ncenterlite:user_config:' . $member_srl, $config);
 		return $config;
@@ -271,31 +271,31 @@ class ncenterliteModel extends ncenterlite
 		{
 			$output = $this->_getMyNotifyList($member_srl, $page, $readed);
 		}
-		
+
 		$config = $this->getConfig();
 		$oMemberModel = getModel('member');
 		$list = $output->data;
-		
+
 		foreach($list as $k => $v)
 		{
 			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
 			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify);
-			
+
 			if($v->target_member_srl < 0)
 			{
 				$v->target_member_srl = 0;
 				$v->target_nick_name = lang('anonymous');
 				$v->target_user_id = $v->target_email_address = 'anonymous';
 			}
-			
+
 			if(($v->target_type === $this->_TYPE_VOTED && $config->anonymous_voter === 'Y') || ($v->target_type === $this->_TYPE_SCRAPPED && $config->anonymous_scrap === 'Y'))
 			{
 				$v->target_member_srl = 0;
 				$v->target_nick_name = lang('anonymous');
 				$v->target_user_id = $v->target_email_address = 'anonymous';
 			}
-			
+
 			if($v->target_member_srl)
 			{
 				$profileImage = $oMemberModel->getProfileImage($v->target_member_srl);
@@ -389,19 +389,19 @@ class ncenterliteModel extends ncenterlite
 
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-		
+
 		$args->page = $page ? $page : 1;
 		if ($readed)
 		{
 			$args->readed = $readed;
 		}
-		
+
 		$notify_count = intval(self::getConfig()->notify_count);
 		if($notify_count)
 		{
 			$args->list_count = $notify_count;
 		}
-		
+
 		$output = executeQueryArray('ncenterlite.getNotifyList', $args);
 		if (!$output->data)
 		{
@@ -467,7 +467,7 @@ class ncenterliteModel extends ncenterlite
 		{
 			$member_srl[] = $member->member_srl;
 		}
-		
+
 		return $member_srl;
 	}
 
@@ -495,7 +495,7 @@ class ncenterliteModel extends ncenterlite
 			$output = $this->_getMyNotifyList($member_srl);
 			return $output->total_count;
 		}
-		
+
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
 		$output = executeQuery('ncenterlite.getNotifyNewCount', $args);
@@ -520,10 +520,10 @@ class ncenterliteModel extends ncenterlite
 		if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);
 		$this->add('colorset_list', $colorsets);
 	}
-	
+
 	/**
 	 * Get information about a single notification.
-	 * 
+	 *
 	 * @param string $notify
 	 * @param int $member_srl
 	 * @return object|false
@@ -543,10 +543,10 @@ class ncenterliteModel extends ncenterlite
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Return the notification text.
-	 * 
+	 *
 	 * @param object $notification
 	 * @return string
 	 */
@@ -599,15 +599,15 @@ class ncenterliteModel extends ncenterlite
 					$notification->target_summary,        // %6$s
 					$notification->target_url,            // %7$s
 				));
-			
+
 			// Other.
 			case 'U':
 			default:
 				return $this->getNotifyTypeString($notification->notify_type, unserialize($notification->target_body)) ?: lang('ncenterlite');
 		}
-		
+
 		$config = $this->getConfig();
-		
+
 		// Get the notification text.
 		switch ($notification->target_type)
 		{
@@ -685,7 +685,7 @@ class ncenterliteModel extends ncenterlite
 			case 'I':
 				$str = sprintf(lang('ncenterlite_insert_member_message'), $notification->target_nick_name);
 				break;
-				
+
 			case 'G':
 				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
 				break;
@@ -754,7 +754,7 @@ class ncenterliteModel extends ncenterlite
 
 		return $output->data;
 	}
-	
+
 	/**
 	 * 알림에서 member_srl 만 정리해서 보내준다.
 	 * @param int $srl
@@ -773,7 +773,7 @@ class ncenterliteModel extends ncenterlite
 		{
 			return [];
 		}
-		
+
 		$member_srls = array();
 		foreach($output->data ?? [] as $value)
 		{
@@ -798,7 +798,7 @@ class ncenterliteModel extends ncenterlite
 		{
 			$member_srl = $this->user->member_srl;
 		}
-		
+
 		$args = new stdClass();
 		$args->target_srl = $target_srl;
 		$args->member_srl = $member_srl;

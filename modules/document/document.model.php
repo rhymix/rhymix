@@ -29,7 +29,7 @@ class DocumentModel extends Document
 	{
 		return $_SESSION['granted_document'][$document_srl];
 	}
-	
+
 	/**
 	 * Return document extra information from database
 	 * @param array $document_srls
@@ -41,7 +41,7 @@ class DocumentModel extends Document
 		$args->document_srl = $document_srls;
 		return executeQueryArray('document.getDocumentExtraVars', $args);
 	}
-	
+
 	/**
 	 * Extra variables for each article will not be processed bulk select and apply the macro city
 	 * @return void
@@ -54,10 +54,10 @@ class DocumentModel extends Document
 		{
 			return;
 		}
-		
+
 		static $checked = array();
 		static $module_extra_keys = array();
-		
+
 		// check documents
 		$document_srls = array();
 		foreach($_document_list as $document_srl => $oDocument)
@@ -66,16 +66,16 @@ class DocumentModel extends Document
 			{
 				continue;
 			}
-			
+
 			$checked[$document_srl] = true;
 			$document_srls[] = $document_srl;
 		}
-		
+
 		if(!$document_srls)
 		{
 			return;
 		}
-		
+
 		// get extra values of documents
 		$extra_values = array();
 		$output = self::getDocumentExtraVarsFromDB($document_srls);
@@ -85,10 +85,10 @@ class DocumentModel extends Document
 			{
 				continue;
 			}
-			
+
 			$extra_values[$val->document_srl][$val->var_idx][$val->lang_code] = trim($val->value);
 		}
-		
+
 		// set extra variables and document language
 		$user_lang_code = Context::getLangType();
 		foreach($document_srls as $document_srl)
@@ -97,7 +97,7 @@ class DocumentModel extends Document
 			$module_srl = $oDocument->get('module_srl');
 			$document_lang_code = $oDocument->get('lang_code');
 			$document_extra_values = $extra_values[$document_srl] ?? [];
-			
+
 			// set XE_EXTRA_VARS
 			if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl]))
 			{
@@ -106,7 +106,7 @@ class DocumentModel extends Document
 				{
 					$module_extra_keys[$module_srl] = self::getExtraKeys($module_srl);
 				}
-				
+
 				// set extra variables of the document
 				if($module_extra_keys[$module_srl])
 				{
@@ -114,7 +114,7 @@ class DocumentModel extends Document
 					foreach($module_extra_keys[$module_srl] as $idx => $key)
 					{
 						$document_extra_vars[$idx] = clone($key);
-						
+
 						// set variable value in user language
 						if(isset($document_extra_values[$idx][$user_lang_code]))
 						{
@@ -125,11 +125,11 @@ class DocumentModel extends Document
 							$document_extra_vars[$idx]->setValue($document_extra_values[$idx][$document_lang_code]);
 						}
 					}
-					
+
 					$GLOBALS['XE_EXTRA_VARS'][$document_srl] = $document_extra_vars;
 				}
 			}
-			
+
 			// set RX_DOCUMENT_LANG
 			if(!isset($GLOBALS['RX_DOCUMENT_LANG'][$document_srl]) && $document_lang_code !== $user_lang_code)
 			{
@@ -174,7 +174,7 @@ class DocumentModel extends Document
 			trigger_error('Called DocumentModel::getDocument() with $is_admin = true', \E_USER_WARNING);
 			$GLOBALS['XE_DOCUMENT_LIST'][$document_srl]->setGrant();
 		}
-		
+
 		return $GLOBALS['XE_DOCUMENT_LIST'][$document_srl];
 	}
 
@@ -202,7 +202,7 @@ class DocumentModel extends Document
 		$args->list_count = is_array($document_srls) ? count($document_srls) : 1;
 		$args->order_type = 'asc';
 		$output = executeQueryArray('document.getDocuments', $args, $columnList);
-		
+
 		$documents = array();
 		foreach($output->data as $attribute)
 		{
@@ -216,15 +216,15 @@ class DocumentModel extends Document
 				trigger_error('Called DocumentModel::getDocuments() with $is_admin = true', \E_USER_WARNING);
 				$GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]->setGrant();
 			}
-			
+
 			$documents[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
-		
+
 		if($load_extra_vars)
 		{
 			self::setToAllDocumentExtraVars();
 		}
-		
+
 		return $documents;
 	}
 
@@ -243,7 +243,7 @@ class DocumentModel extends Document
 		$obj->isExtraVars = $sort_check->isExtraVars;
 		$obj->except_notice = $except_notice;
 		$obj->columnList = $columnList;
-		
+
 		// Call trigger (before)
 		// This trigger can be used to set an alternative output using a different search method
 		unset($obj->use_alternate_output);
@@ -252,7 +252,7 @@ class DocumentModel extends Document
 		{
 			return $output;
 		}
-		
+
 		// If an alternate output is set, use it instead of running the default queries
 		if (isset($obj->use_alternate_output) && $obj->use_alternate_output instanceof BaseObject)
 		{
@@ -264,13 +264,13 @@ class DocumentModel extends Document
 			self::_setSearchOption($obj, $args, $query_id, $use_division);
 			$output = executeQueryArray($query_id, $args, $args->columnList);
 		}
-		
+
 		// Return if no result or an error occurs
 		if(!$output->toBool() || !$result = $output->data)
 		{
 			return $output;
 		}
-		
+
 		$output->data = array();
 		foreach($result as $key => $attribute)
 		{
@@ -281,12 +281,12 @@ class DocumentModel extends Document
 			}
 			$output->data[$key] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
-		
+
 		if($load_extra_vars)
 		{
 			self::setToAllDocumentExtraVars();
 		}
-		
+
 		// Call trigger (after)
 		// This trigger can be used to modify search results
 		ModuleHandler::triggerCall('document.getDocumentList', 'after', $output);
@@ -324,12 +324,12 @@ class DocumentModel extends Document
 		{
 			$output = executeQueryArray('document.getNoticeList', $args, $columnList);
 		}
-		
+
 		if(!$output->toBool() || !$result = $output->data)
 		{
 			return $output;
 		}
-		
+
 		$output->data = array();
 		foreach($result as $attribute)
 		{
@@ -338,10 +338,10 @@ class DocumentModel extends Document
 				$oDocument = new documentItem();
 				$oDocument->setAttribute($attribute, false);
 			}
-			
+
 			$output->data[$attribute->document_srl] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 		}
-		
+
 		self::setToAllDocumentExtraVars();
 
 		// Call trigger (after)
@@ -446,15 +446,15 @@ class DocumentModel extends Document
 		{
 			return array();
 		}
-		
+
 		ksort($GLOBALS['XE_EXTRA_VARS'][$document_srl]);
-		
+
 		return $GLOBALS['XE_EXTRA_VARS'][$document_srl];
 	}
 
 	/**
 	 * Get var_idx of extra variable from its eid
-	 * 
+	 *
 	 * @param int $module_srl
 	 * @param string $eid
 	 * @return int|false
@@ -475,7 +475,7 @@ class DocumentModel extends Document
 
 	/**
 	 * Get eid of extra variable from its var_idx
-	 * 
+	 *
 	 * @param int $module_srl
 	 * @param int $idx
 	 * @return string|false
@@ -493,7 +493,7 @@ class DocumentModel extends Document
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Show pop-up menu of the selected posts
 	 * Printing, scrap, recommendations and negative, reported the Add Features
@@ -1281,7 +1281,7 @@ class DocumentModel extends Document
 			return $list;
 		}
 	}
-	
+
 	/**
 	 * Setting sort index
 	 * @param object $obj
@@ -1293,34 +1293,34 @@ class DocumentModel extends Document
 		$args = new stdClass;
 		$args->sort_index = $obj->sort_index ?? null;
 		$args->isExtraVars = false;
-		
+
 		// check it's default sort
 		$default_sort = array('list_order', 'regdate', 'last_update', 'update_order', 'readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count', 'uploaded_count', 'title', 'category_srl');
 		if(in_array($args->sort_index, $default_sort))
 		{
 			return $args;
 		}
-		
+
 		// check it can use extra variable
 		if(!$load_extra_vars || !$extra_keys = self::getExtraKeys($obj->module_srl ?? 0))
 		{
 			$args->sort_index = 'list_order';
 			return $args;
 		}
-		
+
 		$eids = array();
 		foreach($extra_keys as $idx => $key)
 		{
 			$eids[] = $key->eid;
 		}
-		
+
 		// check it exists in extra keys of the module
 		if(!in_array($args->sort_index, $eids))
 		{
 			$args->sort_index = 'list_order';
 			return $args;
 		}
-		
+
 		$args->isExtraVars = true;
 		return $args;
 	}
@@ -1361,13 +1361,13 @@ class DocumentModel extends Document
 		$args->s_is_notice = ($searchOpt->except_notice ?? false) ? 'N' : null;
 		$args->statusList = $searchOpt->statusList ?? array(self::getConfigStatus('public'), self::getConfigStatus('secret'));
 		$args->columnList = $searchOpt->columnList ?? array();
-		
+
 		// get directly module_srl by mid
 		if(isset($searchOpt->mid) && $searchOpt->mid)
 		{
 			$args->module_srl = ModuleModel::getModuleSrlByMid($searchOpt->mid);
 		}
-		
+
 		// add subcategories
 		if(isset($args->category_srl) && $args->category_srl)
 		{
@@ -1379,13 +1379,13 @@ class DocumentModel extends Document
 				$args->category_srl = $categories;
 			}
 		}
-		
+
 		// default
 		$query_id = null;
 		$use_division = false;
 		$search_target = $searchOpt->search_target ?? null;
 		$search_keyword = trim($searchOpt->search_keyword ?? '') ?: null;
-		
+
 		// search
 		if($search_target && $search_keyword)
 		{
@@ -1463,7 +1463,7 @@ class DocumentModel extends Document
 					}
 					break;
 			}
-			
+
 			// exclude secret documents in searching if current user does not have privilege
 			if(!isset($args->member_srl) || !$args->member_srl || !Context::get('is_logged') || $args->member_srl !== Context::get('logged_info')->member_srl)
 			{
@@ -1475,7 +1475,7 @@ class DocumentModel extends Document
 				}
 			}
 		}
-		
+
 		// set query
 		if(!$query_id)
 		{
@@ -1499,12 +1499,12 @@ class DocumentModel extends Document
 				$query_id = 'document.getDocumentList';
 			}
 		}
-		// other queries not support to sort extra variable 
+		// other queries not support to sort extra variable
 		elseif($searchOpt->isExtraVars)
 		{
 			$args->sort_index = 'list_order';
 		}
-		
+
 		// division search by 5,000
 		if($use_division)
 		{
@@ -1512,18 +1512,18 @@ class DocumentModel extends Document
 			$args->sort_index = 'list_order';
 			$args->division = (int)Context::get('division');
 			$args->last_division = (int)Context::get('last_division');
-			
+
 			$division_args = new stdClass;
 			$division_args->module_srl = $args->module_srl;
 			$division_args->exclude_module_srl = $args->exclude_module_srl;
-			
+
 			// get start point of first division
 			if(Context::get('division') === null)
 			{
 				$division_output = executeQuery('document.getDocumentDivision', $division_args)->data;
 				$args->division = $division_output ? $division_output->list_order : 0;
 			}
-			
+
 			// get end point of the division
 			if(Context::get('last_division') === null && $args->division)
 			{
@@ -1532,11 +1532,11 @@ class DocumentModel extends Document
 				$division_output = executeQuery('document.getDocumentDivision', $division_args)->data;
 				$args->last_division = $division_output ? $division_output->list_order : 0;
 			}
-			
+
 			Context::set('division', $args->division);
 			Context::set('last_division', $args->last_division);
 		}
-		
+
 		// add default prefix
 		if($args->sort_index && strpos($args->sort_index, '.') === false)
 		{
@@ -1581,11 +1581,11 @@ class DocumentModel extends Document
 		$args->list_count = $count;
 		$output = executeQuery('document.getDocumentListByMemberSrl', $args, $columnList);
 		$document_list = $output->data;
-		
+
 		if(!$document_list) return array();
 		if(!is_array($document_list)) $document_list = array($document_list);
 
-		return $document_list;	
+		return $document_list;
 	}
 
 	public static function getDocumentUpdateLog($document_srl)

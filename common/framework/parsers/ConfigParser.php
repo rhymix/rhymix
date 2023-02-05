@@ -14,7 +14,7 @@ class ConfigParser
 {
 	/**
 	 * Convert previous configuration files to the current format and return it.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function convert()
@@ -30,7 +30,7 @@ class ConfigParser
 		{
 			return array();
 		}
-		
+
 		// Load FTP info file.
 		if (file_exists(\RX_BASEDIR . Config::$old_ftp_config_filename))
 		{
@@ -38,7 +38,7 @@ class ConfigParser
 			include \RX_BASEDIR . Config::$old_ftp_config_filename;
 			ob_end_clean();
 		}
-		
+
 		// Load selected language file.
 		if (file_exists(\RX_BASEDIR . Config::$old_lang_config_filename))
 		{
@@ -62,10 +62,10 @@ class ConfigParser
 			$lang_selected = \Context::getLangType() === 'jp' ? 'ja' : \Context::getLangType();
 			$lang_selected = array($lang_selected);
 		}
-		
+
 		// Load defaults for the new configuration.
 		$config = (include \RX_BASEDIR . Config::$default_config_filename);
-		
+
 		// Convert database configuration.
 		if (!isset($db_info->master_db))
 		{
@@ -78,7 +78,7 @@ class ConfigParser
 			$db_info->master_db['db_database'] = $db_info->db_database;
 			$db_info->master_db['db_table_prefix'] = $db_info->db_table_prefix;
 		}
-		
+
 		$config['db']['master']['type'] = strtolower($db_info->master_db['db_type']);
 		$config['db']['master']['host'] = $db_info->master_db['db_hostname'];
 		$config['db']['master']['port'] = $db_info->master_db['db_port'];
@@ -86,14 +86,14 @@ class ConfigParser
 		$config['db']['master']['pass'] = $db_info->master_db['db_password'];
 		$config['db']['master']['database'] = $db_info->master_db['db_database'];
 		$config['db']['master']['prefix'] = $db_info->master_db['db_table_prefix'];
-		
+
 		if (substr($config['db']['master']['prefix'], -1) !== '_')
 		{
 			$config['db']['master']['prefix'] .= '_';
 		}
-		
+
 		$config['db']['master']['charset'] = $db_info->master_db['db_charset'] ?: 'utf8';
-		
+
 		if (strpos($config['db']['master']['type'], 'innodb') !== false)
 		{
 			$config['db']['master']['type'] = str_replace('_innodb', '', $config['db']['master']['type']);
@@ -103,7 +103,7 @@ class ConfigParser
 		{
 			$config['db']['master']['engine'] = 'myisam';
 		}
-		
+
 		if (isset($db_info->slave_db) && is_array($db_info->slave_db) && count($db_info->slave_db))
 		{
 			foreach ($db_info->slave_db as $slave_id => $slave_db)
@@ -118,14 +118,14 @@ class ConfigParser
 					$config['db'][$slave_id]['pass'] = $slave_db['db_password'];
 					$config['db'][$slave_id]['database'] = $slave_db['db_database'];
 					$config['db'][$slave_id]['prefix'] = $slave_db['db_table_prefix'];
-					
+
 					if (substr($config['db'][$slave_id]['prefix'], -1) !== '_')
 					{
 						$config['db'][$slave_id]['prefix'] .= '_';
 					}
-					
+
 					$config['db'][$slave_id]['charset'] = $slave_db['db_charset'] ?: 'utf8';
-					
+
 					if (strpos($config['db'][$slave_id]['type'], 'innodb') !== false)
 					{
 						$config['db'][$slave_id]['type'] = str_replace('_innodb', '', $config['db'][$slave_id]['type']);
@@ -138,7 +138,7 @@ class ConfigParser
 				}
 			}
 		}
-		
+
 		// Convert cache configuration.
 		if (isset($db_info->use_object_cache))
 		{
@@ -150,7 +150,7 @@ class ConfigParser
 			$config['cache']['ttl'] = 86400;
 			$config['cache']['servers'] = in_array($config['cache']['type'], array('memcached', 'redis')) ? $db_info->use_object_cache : array();
 		}
-		
+
 		// Convert FTP configuration.
 		if (isset($ftp_info))
 		{
@@ -161,12 +161,12 @@ class ConfigParser
 			$config['ftp']['pasv'] = $ftp_info->ftp_pasv;
 			$config['ftp']['sftp'] = $ftp_info->sftp === 'Y' ? true : false;
 		}
-		
+
 		// Create new crypto keys.
 		$config['crypto']['encryption_key'] = Security::getRandom(64, 'alnum');
 		$config['crypto']['authentication_key'] = $db_info->secret_key ?: Security::getRandom(64, 'alnum');
 		$config['crypto']['session_key'] = Security::getRandom(64, 'alnum');
-		
+
 		// Convert language configuration.
 		if (isset($db_info->lang_type))
 		{
@@ -177,7 +177,7 @@ class ConfigParser
 			$config['locale']['default_lang'] = array_first($lang_selected);
 		}
 		$config['locale']['enabled_lang'] = array_values($lang_selected);
-		
+
 		// Convert timezone configuration.
 		$old_timezone = DateTime::getTimezoneOffsetByLegacyFormat($db_info->time_zone ?: '+0900');
 		switch ($old_timezone)
@@ -188,7 +188,7 @@ class ConfigParser
 				$config['locale']['default_timezone'] = DateTime::getTimezoneNameByOffset($old_timezone);
 		}
 		$config['locale']['internal_timezone'] = intval(date('Z'));
-		
+
 		// Convert URL configuration.
 		$default_url = $db_info->default_url;
 		if (strpos($default_url, 'xn--') !== false)
@@ -199,21 +199,21 @@ class ConfigParser
 		$config['url']['http_port'] = $db_info->http_port ?: null;
 		$config['url']['https_port'] = $db_info->https_port ?: null;
 		$config['url']['ssl'] = ($db_info->use_ssl === 'none') ? 'none' : 'always';
-		
+
 		// Convert session configuration.
 		$config['session']['delay'] = $db_info->delay_session === 'Y' ? true : false;
 		$config['session']['use_db'] = $db_info->use_db_session === 'Y' ? true : false;
-		
+
 		// Convert view configuration.
 		$config['view']['minify_scripts'] = $db_info->minify_scripts ?: 'common';
 		$config['view']['use_gzip'] = (defined('__OB_GZHANDLER_ENABLE__') && constant('__OB_GZHANDLER_ENABLE__'));
-		
+
 		// Convert admin IP whitelist.
 		if (isset($db_info->admin_ip_list) && is_array($db_info->admin_ip_list) && count($db_info->admin_ip_list))
 		{
 			$config['admin']['allow'] = array_values($db_info->admin_ip_list);
 		}
-		
+
 		// Convert sitelock configuration.
 		$config['lock']['locked'] = $db_info->use_sitelock === 'Y' ? true : false;
 		$config['lock']['title'] = strval($db_info->sitelock_title);
@@ -227,7 +227,7 @@ class ConfigParser
 			$db_info->sitelock_whitelist[] = '127.0.0.1';
 		}
 		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
-		
+
 		// Convert media filter configuration.
 		if (is_array($db_info->embed_white_iframe))
 		{
@@ -245,14 +245,14 @@ class ConfigParser
 			natcasesort($whitelist);
 			$config['mediafilter']['object'] = $whitelist;
 		}
-		
+
 		// Convert miscellaneous configuration.
 		$config['file']['folder_structure'] = 1;
 		$config['file']['umask'] = Storage::recommendUmask();
 		$config['mobile']['enabled'] = $db_info->use_mobile_view === 'N' ? false : true;
 		$config['use_rewrite'] = $db_info->use_rewrite === 'Y' ? true : false;
 		$config['use_sso'] = $db_info->use_sso === 'Y' ? true : false;
-		
+
 		// Copy other configuration.
 		unset($db_info->master_db, $db_info->slave_db);
 		unset($db_info->lang_type, $db_info->time_zone);
@@ -267,7 +267,7 @@ class ConfigParser
 		{
 			$config['other'][$key] = $value;
 		}
-		
+
 		// Return the new configuration.
 		return $config;
 	}
