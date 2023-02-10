@@ -192,9 +192,17 @@ class DisplayHandler extends Handler
 			{
 				$data = Rhymix\Framework\Debug::getDebugData();
 				$display_content = array_fill_keys(config('debug.display_content'), true);
+				if (!isset($display_content['request_info']))
+				{
+					unset($data->timestamp, $data->url, $data->request, $data->response, $data->memory, $data->timing);
+				}
 				if (!isset($display_content['entries']))
 				{
 					$data->entries = null;
+				}
+				if (!isset($display_content['errors']))
+				{
+					unset($data->errors);
 				}
 				if (!isset($display_content['queries']))
 				{

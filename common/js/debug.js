@@ -77,14 +77,16 @@ $(function() {
 		}));
 		
 		// Add general information.
-		page_body.append($('<h4></h4>').text('General Information'));
-		entry = $('<div class="debug_entry"></div>').appendTo(page_body);
-		var metadata = $('<ul class="debug_metadata"></ul>').appendTo(entry);
-		metadata.append($('<li></li>').text('Request: ' + data.request.method + (data.request.method !== "GET" ? (' - ' + data.request.size + ' bytes') : "")));
-		metadata.append($('<li></li>').text('Response: ' + data.response.method + ' - ' + data.response.size + ' bytes'));
-		metadata.append($('<li></li>').text('Memory Usage: ' + (data.memory ? XE.filesizeFormat(data.memory) : 'unknown')));
-		metadata.append($('<li></li>').text('Total Time: ' + data.timing.total));
-		metadata.append($('<li></li>').text('Query Time: ' + data.timing.db_query));
+		if (data.request) {
+			page_body.append($('<h4></h4>').text('General Information'));
+			entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+			var metadata = $('<ul class="debug_metadata"></ul>').appendTo(entry);
+			metadata.append($('<li></li>').text('Request: ' + data.request.method + (data.request.method !== "GET" ? (' - ' + data.request.size + ' bytes') : "")));
+			metadata.append($('<li></li>').text('Response: ' + data.response.method + ' - ' + data.response.size + ' bytes'));
+			metadata.append($('<li></li>').text('Memory Usage: ' + (data.memory ? XE.filesizeFormat(data.memory) : 'unknown')));
+			metadata.append($('<li></li>').text('Total Time: ' + data.timing.total));
+			metadata.append($('<li></li>').text('Query Time: ' + data.timing.db_query));
+		}
 		
 		// Add debug entries.
 		if (data.entries && data.entries.length) {
