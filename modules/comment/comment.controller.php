@@ -1789,7 +1789,8 @@ class CommentController extends Comment
 
 		// Call a trigger (before)
 		$trigger_obj = new stdClass();
-		$trigger_obj->document_srl = $comment_srl;
+		$trigger_obj->comment_srl = $comment_srl;
+		$trigger_obj->document_srl = $oComment->get('document_srl');
 		$trigger_obj->declared_count = $declared_count;
 		$trigger_output = ModuleHandler::triggerCall('comment.declaredCommentCancel', 'before', $trigger_obj);
 		if (!$trigger_output->toBool())
