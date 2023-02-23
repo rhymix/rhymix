@@ -36,7 +36,7 @@ class CalendarTest extends \Codeception\TestCase\Test
 			array(23, 24, 25, 26, 27, 28, 29),
 			array(30, 31, null, null, null, null, null),
 		);
-		
+
 		$target_201603 = array(
 			array(null, null, 1, 2, 3, 4, 5),
 			array(6, 7, 8, 9, 10, 11, 12),
@@ -45,7 +45,7 @@ class CalendarTest extends \Codeception\TestCase\Test
 			array(27, 28, 29, 30, 31, null, null),
 			array(null, null, null, null, null, null, null),
 		);
-		
+
 		$this->assertEquals($target_201508, Rhymix\Framework\Calendar::getMonthCalendar(8, 2015));
 		$this->assertEquals($target_201603, Rhymix\Framework\Calendar::getMonthCalendar(3, 2016));
 	}

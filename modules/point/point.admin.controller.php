@@ -173,7 +173,7 @@ class pointAdminController extends point
 
 		// A function to calculate per-level points
 		$config->expression = $args->expression;
-		
+
 		// Save
 		$oModuleController->insertModuleConfig('point', $config);
 
@@ -195,7 +195,7 @@ class pointAdminController extends point
 			'voter', 'blamer', 'voter_comment', 'blamer_comment',
 			'download_file_author', 'read_document_author', 'voted', 'blamed', 'voted_comment', 'blamed_comment',
 		);
-		
+
 		foreach($configTypeList AS $config)
 		{
 			if(is_array($args->{$config}))
@@ -385,7 +385,7 @@ class pointAdminController extends point
 		$output = executeQuery("point.initMemberPoint");
 		if(!$output->toBool()) return $output;
 		// Save the file temporarily
-		
+
 		$str = '';
 		foreach($member as $key => $val)
 		{
@@ -432,7 +432,7 @@ class pointAdminController extends point
 		{
 			FileHandler::removeFile('./files/cache/pointRecal.txt');
 			$idx = $total;
-			
+
 			Rhymix\Framework\Cache::clearGroup('member');
 			FileHandler::rename('./files/member_extra_info/point','./files/member_extra_info/point.old');
 			FileHandler::removeDir('./files/member_extra_info/point.old');

@@ -11,7 +11,7 @@ class Favorite
 {
 	/**
 	 * Get admin favorite list
-	 * 
+	 *
 	 * @param bool $add_module_info
 	 * @return BaseObject
 	 */
@@ -44,7 +44,7 @@ class Favorite
 
 	/**
 	 * Check if a module is already favorite
-	 * 
+	 *
 	 * @param string $module
 	 * @return BaseObject
 	 */
@@ -71,7 +71,7 @@ class Favorite
 
 	/**
 	 * Insert a favorite.
-	 * 
+	 *
 	 * @param string $module
 	 * @param string $type
 	 * @return DBResultHelper
@@ -88,7 +88,7 @@ class Favorite
 
 	/**
 	 * Delete a favorite.
-	 * 
+	 *
 	 * @param int $favorite_srl
 	 * @return DBResultHelper
 	 */
@@ -102,7 +102,7 @@ class Favorite
 
 	/**
 	 * Delete all favorites.
-	 * 
+	 *
 	 * @return DBResultHelper
 	 */
 	public static function deleteAllFavorites(): DBResultHelper
@@ -114,7 +114,7 @@ class Favorite
 
 	/**
 	 * Delete all favorites that don't point to an existing module.
-	 * 
+	 *
 	 * @return BaseObject
 	 */
 	public static function deleteInvalidFavorites(): BaseObject

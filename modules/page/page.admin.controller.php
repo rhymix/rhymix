@@ -40,7 +40,7 @@ class pageAdminController extends page
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
-		
+
 		// Check if an original module exists by using module_srl
 		if($args->module_srl)
 		{
@@ -328,7 +328,7 @@ class pageAdminController extends page
 		$target = ($obj->isMobile == 'Y') ? 'mdocument_srl' : 'document_srl';
 
 		// 이미 존재하는 경우 수정
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl) 
+		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
 		{
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';

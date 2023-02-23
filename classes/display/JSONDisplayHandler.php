@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class JSONDisplayHandler
 {
@@ -14,14 +13,14 @@ class JSONDisplayHandler
 		$variables = $oModule->getVariables();
 		$variables['error'] = $oModule->getError();
 		$variables['message'] = $oModule->getMessage();
-		
+
 		self::_convertCompat($variables, Context::getRequestMethod());
 		return json_encode($variables);
 	}
-	
+
 	/**
 	 * Convert arrays in a format that is compatible with XE.
-	 * 
+	 *
 	 * @param array $array
 	 * @param string $compat_type
 	 * @return array
@@ -51,10 +50,10 @@ class JSONDisplayHandler
 			}
 		}
 	}
-	
+
 	/**
 	 * Check if an array only has numeric keys.
-	 * 
+	 *
 	 * @param array $array
 	 * @return bool
 	 */
@@ -74,5 +73,3 @@ class JSONDisplayHandler
 		return true;
 	}
 }
-/* End of file JSONDisplayHandler.class.php */
-/* Location: ./classes/display/JSONDisplayHandler.class.php */

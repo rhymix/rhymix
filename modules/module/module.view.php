@@ -23,7 +23,7 @@ class ModuleView extends Module
 	{
 		$selected_module = Context::get('selected_module');
 		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
-		
+
 		// Get modules/skin information
 		$module_path = sprintf("./modules/%s/", $selected_module);
 		if(!is_dir($module_path)) throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -46,32 +46,32 @@ class ModuleView extends Module
 		// Get a list of modules at the site
 		$args = new stdClass;
 		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', $args);
-		
+
 		$mid_list = array();
-		
+
 		foreach($output->data as $key => $val)
 		{
 			if(!ModuleModel::getGrant($val, Context::get('logged_info'))->manager)
 			{
 				continue;
 			}
-			
+
 			if(!isset($mid_list[$val->module]))
 			{
 				$mid_list[$val->module] = new stdClass;
 				$mid_list[$val->module]->list = array();
 			}
-			
+
 			$obj = new stdClass;
 			$obj->module_srl = $val->module_srl;
 			$obj->browser_title = $val->browser_title;
-			
+
 			$mid_list[$val->module]->list[$val->category ?: 0][$val->mid] = $obj;
 			$mid_list[$val->module]->title = ModuleModel::getModuleInfoXml($val->module)->title;
 		}
-		
+
 		Context::set('mid_list', $mid_list);
-		
+
 		if(!empty($mid_list))
 		{
 			if(($selected_module = Context::get('selected_module')) && isset($mid_list[$selected_module]->list))
@@ -88,10 +88,10 @@ class ModuleView extends Module
 		{
 			Context::set('selected_mids', array());
 		}
-		
+
 		$security = new Security();
 		$security->encodeHTML('id', 'type', 'site_keyword');
-		
+
 		$this->setLayoutFile('popup_layout');
 		$this->setTemplateFile('module_selector');
 	}

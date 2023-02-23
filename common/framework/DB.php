@@ -11,12 +11,12 @@ class DB
 	 * Singleton instances.
 	 */
 	protected static $_instances = array();
-	
+
 	/**
 	 * Connection handle.
 	 */
 	protected $_handle;
-	
+
 	/**
 	 * Prefix and other connection settings.
 	 */
@@ -24,18 +24,18 @@ class DB
 	protected $_prefix = '';
 	protected $_charset = 'utf8mb4';
 	protected $_engine = 'innodb';
-	
+
 	/**
 	 * Information about the last executed statement.
 	 */
 	protected $_last_stmt;
-	
+
 	/**
 	 * Elapsed time.
 	 */
 	protected $_query_time = 0;
 	protected $_total_time = 0;
-	
+
 	/**
 	 * Current query ID and error information.
 	 */
@@ -50,17 +50,17 @@ class DB
 	 * Transaction level.
 	 */
 	protected $_transaction_level = 0;
-	
+
 	/**
 	 * Properties for backward compatibility.
 	 */
 	public $db_type = 'mysql';
 	public $db_version = '';
 	public $use_prepared_statements = true;
-	
+
 	/**
 	 * Get a singleton instance of the DB class.
-	 * 
+	 *
 	 * @param string $type
 	 * @return self
 	 */
@@ -71,7 +71,7 @@ class DB
 		{
 			return self::$_instances[$type];
 		}
-		
+
 		// Create an instance with the appropriate configuration.
 		if ($config = Config::get('db'))
 		{
@@ -80,7 +80,7 @@ class DB
 			{
 				throw new Exceptions\DBError('DB type \'' . $type . '\' is not configured.');
 			}
-			
+
 			return self::$_instances[$type] = new self($type, $typeconfig);
 		}
 		else
@@ -88,10 +88,10 @@ class DB
 			return new self($type, []);
 		}
 	}
-   
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param string $type
 	 * @param array $config
 	 */
@@ -106,7 +106,7 @@ class DB
 		{
 			return;
 		}
-		
+
 		// Connect to the DB.
 		$dsn = 'mysql:host=' . $config['host'];
 		$dsn .= (isset($config['port']) && $config['port'] != 3306) ? (';port=' . $config['port']) : '';
@@ -128,32 +128,32 @@ class DB
 		{
 			throw new Exceptions\DBError($e->getMessage());
 		}
-		
+
 		// Get the DB version.
 		$this->db_version = $this->_handle->getAttribute(\PDO::ATTR_SERVER_VERSION);
-		
+
 		// Cache the debug comment setting.
 		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
 		$this->_debug_comment = !!config('debug.query_comment');
 		$this->_debug_full_stack = !!Config::get('debug.query_full_stack');
 	}
-	
+
 	/**
 	 * Get the PDO handle for direct manipulation.
-	 * 
+	 *
 	 * @return Helpers\DBHelper
 	 */
 	public function getHandle(): Helpers\DBHelper
 	{
 		return $this->_handle;
 	}
-	
+
 	/**
 	 * Create a prepared statement.
-	 * 
+	 *
 	 * Table names in the FROM or JOIN clause of the statement are
 	 * automatically prefixed with the configured prefix.
-	 * 
+	 *
 	 * @param string $statement
 	 * @param array $driver_options
 	 * @return Helpers\DBStmtHelper
@@ -162,30 +162,30 @@ class DB
 	{
 		// Add table prefixes to the query string.
 		$statement = $this->addPrefixes($statement);
-		
+
 		// Add the debug comment.
 		if ($this->_debug_comment)
 		{
 			$statement .= "\n" . sprintf('/* prepare() %s */', \RX_CLIENT_IP);
 		}
-		
+
 		// Create and return a prepared statement.
 		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->prepare($statement, $driver_options);
 		return $this->_last_stmt;
 	}
-	
+
 	/**
 	 * Execute a query string with or without parameters.
-	 * 
+	 *
 	 * This method will automatically use prepared statements if there are
 	 * any parameters. It is strongly recommended to pass any user-supplied
 	 * values as separate parameters instead of embedding them directly
 	 * in the query string, in order to prevent SQL injection attacks.
-	 * 
+	 *
 	 * Table names in the FROM or JOIN clause of the statement are
 	 * automatically prefixed with the configured prefix.
-	 * 
+	 *
 	 * @param string $query_string
 	 * @param mixed ...$args
 	 * @return Helpers\DBStmtHelper
@@ -197,16 +197,16 @@ class DB
 		{
 			$args = $args[0];
 		}
-		
+
 		// Add table prefixes to the query string.
 		$query_string = $this->addPrefixes($query_string);
-		
+
 		// Add the debug comment.
 		if ($this->_debug_comment)
 		{
 			$query_string .= "\n" . sprintf('/* query() %s */', \RX_CLIENT_IP);
 		}
-		
+
 		// Execute either a prepared statement or a regular query depending on whether there are arguments.
 		$this->_last_stmt = null;
 		if (count($args))
@@ -220,10 +220,10 @@ class DB
 		}
 		return $this->_last_stmt;
 	}
-	
+
 	/**
 	 * Execute an XML-defined query.
-	 * 
+	 *
 	 * @param string $query_id
 	 * @param array $args
 	 * @param array $columns
@@ -250,13 +250,13 @@ class DB
 		{
 			return $this->setError(-1, 'DB is not configured.');
 		}
-		
+
 		// Force the column list to a numerical array.
 		$column_list = is_array($column_list) ? array_values($column_list) : array();
-		
+
 		// Start measuring elapsed time.
 		$start_time = microtime(true);
-		
+
 		// Get the name of the XML file.
 		$parts = explode('.', $query_id);
 		if (count($parts) === 2)
@@ -271,7 +271,7 @@ class DB
 			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
-		
+
 		// Parse and cache the XML file.
 		$cache_key = sprintf('query:%s:%d', $filename, filemtime($filename));
 		$query = Cache::get($cache_key);
@@ -290,7 +290,7 @@ class DB
 				return $output;
 			}
 		}
-		
+
 		// Get the query string and parameters.
 		try
 		{
@@ -304,7 +304,7 @@ class DB
 			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
-		
+
 		// If this query requires pagination, execute the COUNT(*) query first.
 		$last_index = 0;
 		if ($query->requiresPagination())
@@ -319,7 +319,7 @@ class DB
 				$this->_total_time += (microtime(true) - $start_time);
 				return $output;
 			}
-			
+
 			// Do not execute the main query if the current page is out of bounds.
 			if ($output->page > $output->total_page)
 			{
@@ -335,7 +335,7 @@ class DB
 		{
 			$output = new Helpers\DBResultHelper;
 		}
-		
+
 		// Prepare and execute the main query.
 		try
 		{
@@ -343,7 +343,7 @@ class DB
 			{
 				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
 			}
-			
+
 			$this->_query_id = $query_id;
 			$this->_last_stmt = null;
 			if (count($query_params))
@@ -355,7 +355,7 @@ class DB
 			{
 				$this->_last_stmt = $this->_handle->query($query_string);
 			}
-			
+
 			if ($this->isError())
 			{
 				$output = $this->getError();
@@ -387,22 +387,22 @@ class DB
 			$this->_total_time += (microtime(true) - $start_time);
 			return $output;
 		}
-		
+
 		// Fill query information and result data in the output object.
 		$this->_query_id = '';
 		$this->_total_time += ($elapsed_time = microtime(true) - $start_time);
 		$output->add('_query', $query_string);
 		$output->add('_elapsed_time', sprintf('%0.5f', $elapsed_time));
 		$output->data = $result;
-		
+
 		// Return the complete result.
 		$this->clearError();
 		return $output;
 	}
-	
+
 	/**
 	 * Execute a COUNT(*) query for pagination.
-	 * 
+	 *
 	 * @param string $query_id
 	 * @param Parsers\DBQuery\Query $query
 	 * @param array $args
@@ -421,7 +421,7 @@ class DB
 		{
 			return $this->setError(-1, $e->getMessage());
 		}
-		
+
 		// Prepare and execute the query.
 		try
 		{
@@ -429,7 +429,7 @@ class DB
 			{
 				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
 			}
-			
+
 			$this->_last_stmt = null;
 			if (count($query_params))
 			{
@@ -440,7 +440,7 @@ class DB
 			{
 				$this->_last_stmt = $this->_handle->query($query_string);
 			}
-			
+
 			if ($this->isError())
 			{
 				return $this->getError();
@@ -461,7 +461,7 @@ class DB
 			$output = $this->setError(-1, $e->getMessage());
 			return $output;
 		}
-		
+
 		// Collect various counts used in the page calculation.
 		list($is_expression, $list_count) = $query->navigation->list_count->getValue($args);
 		list($is_expression, $page_count) = $query->navigation->page_count->getValue($args);
@@ -470,7 +470,7 @@ class DB
 		$total_page = max(1, intval(ceil($total_count / $list_count)));
 		$last_index = $total_count - (($page - 1) * $list_count);
 		$page_handler = new \PageHandler($total_count, $total_page, $page, $page_count ?: 10);
-		
+
 		// Compose the output object.
 		$output = new Helpers\DBResultHelper;
 		$output->add('_count', $query_string);
@@ -481,13 +481,13 @@ class DB
 		$output->page_navigation = $page_handler;
 		return $output;
 	}
-	
+
 	/**
 	 * Execute a literal query string.
-	 * 
+	 *
 	 * This method should not be public, as it starts with an underscore.
 	 * But since there are many legacy apps that rely on it, we will leave it public.
-	 * 
+	 *
 	 * @param string $query_string
 	 * @return Helpers\DBStmtHelper
 	 */
@@ -497,18 +497,18 @@ class DB
 		{
 			$query_string .= "\n" . sprintf('/* _query() %s */', \RX_CLIENT_IP);
 		}
-		
+
 		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->query($query_string);
 		return $this->_last_stmt;
 	}
-	
+
 	/**
 	 * Fetch results from a query.
-	 * 
+	 *
 	 * This method should not be public, as it starts with an underscore.
 	 * But since there are many legacy apps that rely on it, we will leave it public.
-	 * 
+	 *
 	 * @param \PDOStatement $stmt
 	 * @param int $last_index
 	 * @param string $result_type
@@ -525,7 +525,7 @@ class DB
 		{
 			return $stmt;
 		}
-		
+
 		try
 		{
 			$result = array();
@@ -541,14 +541,14 @@ class DB
 				$result[$index] = $row;
 				$index += $step;
 			}
-			
+
 			$stmt->closeCursor();
 		}
 		catch (\PDOException $e)
 		{
 			throw new Exceptions\DBError($e->getMessage());
 		}
-		
+
 		if ($result_type === 'auto' && $last_index === 0 && count($result) <= 1)
 		{
 			return isset($result[0]) ? $result[0] : null;
@@ -558,10 +558,10 @@ class DB
 			return $result;
 		}
 	}
-	
+
 	/**
 	 * Begin a transaction.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function begin(): int
@@ -577,7 +577,7 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			
+
 			if (Debug::isEnabledForCurrentUser())
 			{
 				Debug::addQuery($this->getQueryLog('START TRANSACTION', 0));
@@ -590,10 +590,10 @@ class DB
 		$this->_transaction_level++;
 		return $this->_transaction_level;
 	}
-	
+
 	/**
 	 * Roll back a transaction.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function rollback(): int
@@ -609,7 +609,7 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			
+
 			if (Debug::isEnabledForCurrentUser())
 			{
 				Debug::addQuery($this->getQueryLog('ROLLBACK', 0));
@@ -619,17 +619,17 @@ class DB
 		{
 			$this->_handle->exec(sprintf('ROLLBACK TO SAVEPOINT `%s%s%d`', $this->_prefix, 'savepoint', $this->_transaction_level - 1));
 		}
-		
+
 		if ($this->_transaction_level > 0)
 		{
 			$this->_transaction_level--;
 		}
 		return $this->_transaction_level;
 	}
-	
+
 	/**
 	 * Commit a transaction.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function commit(): int
@@ -645,7 +645,7 @@ class DB
 			{
 				$this->setError(-1, $e->getMessage());
 			}
-			
+
 			if (Debug::isEnabledForCurrentUser())
 			{
 				Debug::addQuery($this->getQueryLog('COMMIT', 0));
@@ -658,44 +658,44 @@ class DB
 				Debug::addQuery($this->getQueryLog('NESTED COMMIT IGNORED BY RHYMIX', 0));
 			}
 		}
-		
+
 		if ($this->_transaction_level > 0)
 		{
 			$this->_transaction_level--;
 		}
 		return $this->_transaction_level;
 	}
-	
+
 	/**
 	 * Get the current transaction level.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getTransactionLevel(): int
 	{
 		return $this->_transaction_level;
 	}
-	
+
 	/**
 	 * Get the number of rows affected by the last statement.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getAffectedRows(): int
 	{
 		return $this->_last_stmt ? intval($this->_last_stmt->rowCount()) : 0;
 	}
-	
+
 	/**
 	 * Get the auto-incremented ID generated by the last statement.
-	 * 
+	 *
 	 * @return int
 	 */
 	public function getInsertID(): int
 	{
 		return intval($this->_handle->lastInsertId());
 	}
-	
+
 	/**
 	 * Get the next global sequence value.
 	 */
@@ -707,19 +707,19 @@ class DB
 		{
 			throw new Exceptions\DBError($this->getError()->getMessage());
 		}
-		
+
 		if($sequence % 10000 == 0)
 		{
 			$this->_handle->exec(sprintf('DELETE FROM `%s` WHERE seq < %d', $this->addQuotes($this->_prefix . 'sequence'), $sequence));
 		}
-		
+
 		$this->clearError();
 		return $sequence;
 	}
-	
+
 	/**
 	 * Check if a password is valid according to MySQL's old password hashing algorithm.
-	 * 
+	 *
 	 * @param string $password
 	 * @param string $saved_password
 	 * @return bool
@@ -734,10 +734,10 @@ class DB
 		{
 			return Password::checkPassword($password, $saved_password, 'mysql_old_password');
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Check if a table exists.
 	 *
@@ -750,10 +750,10 @@ class DB
 		$result = $this->_fetch($stmt);
 		return $result ? true : false;
 	}
-	
+
 	/**
 	 * Create a table.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param string $content
 	 * @return Helpers\DBResultHelper
@@ -770,16 +770,16 @@ class DB
 		{
 			return new Helpers\DBResultHelper;
 		}
-		
+
 		// Generate the CREATE TABLE query and execute it.
 		$query_string = $table->getCreateQuery($this->_prefix, $this->_charset, $this->_engine);
 		$result = $this->_handle->exec($query_string);
 		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Drop a table.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @return Helpers\DBResultHelper
 	 */
@@ -788,7 +788,7 @@ class DB
 		$stmt = $this->_handle->exec(sprintf("DROP TABLE `%s`", $this->addQuotes($this->_prefix . $table_name)));
 		return $stmt ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Check if a column exists.
 	 *
@@ -802,10 +802,10 @@ class DB
 		$result = $this->_fetch($stmt);
 		return $result ? true : false;
 	}
-	
+
 	/**
 	 * Add a column.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @param string $column_name
 	 * @param string $type
@@ -819,12 +819,12 @@ class DB
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
-		
+
 		// Compose the ADD COLUMN query.
 		$query = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
 		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
 		$query .= $notnull ? ' NOT NULL' : '';
-		
+
 		// Add the default value according to the type.
 		if (isset($default))
 		{
@@ -837,7 +837,7 @@ class DB
 				$query .= sprintf(" DEFAULT '%s'", $this->addQuotes($default));
 			}
 		}
-		
+
 		// Add position information.
 		if ($after_column === 'FIRST')
 		{
@@ -847,15 +847,15 @@ class DB
 		{
 			$query .= sprintf(' AFTER `%s`', $this->addQuotes($after_column));
 		}
-		
+
 		// Execute the query and return the result.
 		$result = $this->_handle->exec($query);
 		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Modify a column.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @param string $column_name
 	 * @param string $type
@@ -871,7 +871,7 @@ class DB
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
-		
+
 		// Compose the MODIFY COLUMN query.
 		if ($new_name && $new_name !== $column_name)
 		{
@@ -882,17 +882,17 @@ class DB
 			$query = sprintf("ALTER TABLE `%s` MODIFY `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
 		}
 		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
-		
+
 		// Add the character set information.
 		if (isset($new_charset))
 		{
 			$new_collation = preg_match('/^utf8/i', $new_charset) ? ($new_charset . '_unicode_ci') : ($new_charset . '_general_ci');
 			$query .= ' CHARACTER SET ' . $new_charset . ' COLLATE ' . $new_collation;
 		}
-		
+
 		// Add the NOT NULL constraint.
 		$query .= $notnull ? ' NOT NULL' : '';
-		
+
 		// Add the default value according to the type.
 		if (isset($default))
 		{
@@ -905,7 +905,7 @@ class DB
 				$query .= sprintf(" DEFAULT '%s'", $this->addQuotes($default));
 			}
 		}
-		
+
 		// Add position information.
 		if ($after_column === 'FIRST')
 		{
@@ -915,15 +915,15 @@ class DB
 		{
 			$query .= sprintf(' AFTER `%s`', $this->addQuotes($after_column));
 		}
-		
+
 		// Execute the query and return the result.
 		$result = $this->_handle->exec($query);
 		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Drop a column.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @param string $column_name
 	 * @return Helpers\DBResultHelper
@@ -933,7 +933,7 @@ class DB
 		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
 		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Get column information.
 	 *
@@ -950,7 +950,7 @@ class DB
 		{
 			return false;
 		}
-		
+
 		// Reorganize the type information.
 		$dbtype = strtolower($column_info->{'Type'});
 		if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $dbtype, $matches))
@@ -963,7 +963,7 @@ class DB
 			$size = '';
 		}
 		$xetype = Parsers\DBTableParser::getXEType($dbtype, $size ?: '');
-		
+
 		// Return the result as an object.
 		return (object)array(
 			'name' => $column_name,
@@ -974,10 +974,10 @@ class DB
 			'notnull' => strncmp($column_info->{'Null'}, 'NO', 2) == 0 ? true : false,
 		);
 	}
-	
+
 	/**
 	 * Check if an index exists.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @param string $index_name
 	 * @return boolean
@@ -988,10 +988,10 @@ class DB
 		$result = $this->_fetch($stmt);
 		return $result ? true : false;
 	}
-	
+
 	/**
 	 * Add an index.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @param string $index_name
 	 * @param array $columns
@@ -1005,12 +1005,12 @@ class DB
 		{
 			$columns = array($columns);
 		}
-		
+
 		if ($type === true || $type === 1)
 		{
 			$type = 'UNIQUE';
 		}
-		
+
 		$query = vsprintf("ALTER TABLE `%s` ADD %s `%s` (%s) %s", array(
 			$this->addQuotes($this->_prefix . $table_name),
 			ltrim($type . ' INDEX'),
@@ -1027,14 +1027,14 @@ class DB
 			}, $columns)),
 			$options,
 		));
-		
+
 		$result = $this->_handle->exec($query);
 		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Drop an index.
-	 * 
+	 *
 	 * @param string $table_name
 	 * @param string $index_name
 	 * @return Helpers\DBResultHelper
@@ -1044,10 +1044,10 @@ class DB
 		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
 		return $result ? new Helpers\DBResultHelper : $this->getError();
 	}
-	
+
 	/**
 	 * Add table prefixes to a query string.
-	 * 
+	 *
 	 * @param string $query_string
 	 * @return string
 	 */
@@ -1077,10 +1077,10 @@ class DB
 			}, $query_string);
 		}
 	}
-	
+
 	/**
 	 * Escape a string according to current DB settings.
-	 * 
+	 *
 	 * @param string $str
 	 * @return string
 	 */
@@ -1095,10 +1095,10 @@ class DB
 			return preg_replace("/^'(.*)'$/s", '$1', $this->_handle->quote($str));
 		}
 	}
-	
+
 	/**
 	 * Find out the best supported character set.
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getBestSupportedCharset(): string
@@ -1109,30 +1109,30 @@ class DB
 		})));
 		return $utf8mb4_support ? 'utf8mb4' : 'utf8';
 	}
-	
+
 	/**
 	 * Check if the last statement produced an error.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function isError(): bool
 	{
 		return $this->_errno !== 0 ? true : false;
 	}
-	
+
 	/**
 	 * Get the last error information.
-	 * 
+	 *
 	 * @return Helpers\DBResultHelper
 	 */
 	public function getError(): Helpers\DBResultHelper
 	{
 		return new Helpers\DBResultHelper($this->_errno, $this->_errstr);
 	}
-	
+
 	/**
 	 * Set error information to instance properties.
-	 * 
+	 *
 	 * @param int $errno
 	 * @param string $errstr
 	 * @return Helpers\DBResultHelper
@@ -1144,10 +1144,10 @@ class DB
 		$output = new Helpers\DBResultHelper($errno, $errstr);
 		return $output;
 	}
-	
+
 	/**
 	 * Clear error information.
-	 * 
+	 *
 	 * @return void
 	 */
 	public function clearError()
@@ -1155,10 +1155,10 @@ class DB
 		$this->_errno = 0;
 		$this->_errstr = 'success';
 	}
-	
+
 	/**
 	 * Generate a query log entry.
-	 * 
+	 *
 	 * @param string $query
 	 * @param float $elapsed_time
 	 * @return array
@@ -1179,7 +1179,7 @@ class DB
 			'called_method' => null,
 			'backtrace' => array(),
 		);
-		
+
 		// Add debug information if enabled.
 		if ($this->_errno || $this->_debug_queries)
 		{
@@ -1193,7 +1193,7 @@ class DB
 					$no++;
 					if (isset($backtrace[$no]))
 					{
-						$result['called_method'] = $backtrace[$no]['class'] . $backtrace[$no]['type'] . $backtrace[$no]['function'];
+						$result['called_method'] = ($backtrace[$no]['class'] ?? '') . ($backtrace[$no]['type'] ?? '') . ($backtrace[$no]['function'] ?? '');
 						$result['backtrace'] = $this->_debug_full_stack ? array_slice($backtrace, $no) : [];
 					}
 					else
@@ -1205,13 +1205,13 @@ class DB
 				}
 			}
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Send an entry to the query log for debugging.
-	 * 
+	 *
 	 * @param array $log
 	 * @return void
 	 */
@@ -1219,10 +1219,10 @@ class DB
 	{
 		Debug::addQuery($log);
 	}
-	
+
 	/**
 	 * Add elapsed time.
-	 * 
+	 *
 	 * @param float $elapsed_time
 	 * @return void
 	 */
@@ -1230,45 +1230,45 @@ class DB
 	{
 		$this->_query_time += $elapsed_time;
 	}
-	
+
 	/**
 	 * Get total time spent during queries.
-	 * 
+	 *
 	 * @return float
 	 */
 	public function getQueryElapsedTime(): float
 	{
 		return $this->_query_time;
 	}
-	
+
 	/**
 	 * Get total time spent in this class.
-	 * 
+	 *
 	 * @return float
 	 */
 	public function getTotalElapsedTime(): float
 	{
 		return $this->_total_time;
 	}
-	
+
 	/**
 	 * Enable or disable debug comments.
-	 * 
+	 *
 	 * @param bool $enabled
 	 */
 	public function setDebugComment(bool $enabled)
 	{
 		$this->_debug_comment = $enabled;
 	}
-	
+
 	/**
 	 * ========================== DEPRECATED METHODS ==========================
 	 * ==================== KEPT FOR COMPATIBILITY WITH XE ====================
 	 */
-	
+
 	/**
 	 * Old alias to getInstance().
-	 * 
+	 *
 	 * @deprecated
 	 * @return self
 	 */
@@ -1276,10 +1276,10 @@ class DB
 	{
 		return self::getInstance();
 	}
-	
+
 	/**
 	 * Old alias to $stmt->fetchObject().
-	 * 
+	 *
 	 * @deprecated
 	 * @param \PDOStatement $stmt
 	 * @return object|false
@@ -1288,10 +1288,10 @@ class DB
 	{
 		return $stmt->fetchObject();
 	}
-	
+
 	/**
 	 * Old alias to $stmt->closeCursor().
-	 * 
+	 *
 	 * @deprecated
 	 * @param \PDOStatement $stmt
 	 * @return bool
@@ -1300,10 +1300,10 @@ class DB
 	{
 		return $stmt->closeCursor();
 	}
-	
+
 	/**
 	 * Old alias to getInsertID().
-	 * 
+	 *
 	 * @deprecated
 	 * @return int
 	 */
@@ -1311,10 +1311,10 @@ class DB
 	{
 		return $this->getInsertID();
 	}
-	
+
 	/**
 	 * Get the list of supported database drivers.
-	 * 
+	 *
 	 * @deprecated
 	 * @return array
 	 */
@@ -1327,10 +1327,10 @@ class DB
 			),
 		);
 	}
-	
+
 	/**
 	 * Get the list of enabled database drivers.
-	 * 
+	 *
 	 * @deprecated
 	 * @return array
 	 */
@@ -1340,10 +1340,10 @@ class DB
 			return $item->enable;
 		});
 	}
-   
+
 	/**
 	 * Get the list of disabled database drivers.
-	 * 
+	 *
 	 * @deprecated
 	 * @return array
 	 */
@@ -1353,10 +1353,10 @@ class DB
 			return !$item->enable;
 		});
 	}
-	
+
 	/**
 	 * Check if the current instance is supported.
-	 * 
+	 *
 	 * @deprecated
 	 * @return bool
 	 */
@@ -1364,10 +1364,10 @@ class DB
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Check if the current instance is connected.
-	 * 
+	 *
 	 * @deprecated
 	 * @return bool
 	 */
@@ -1375,10 +1375,10 @@ class DB
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Close the DB connection.
-	 * 
+	 *
 	 * @deprecated
 	 * @return bool
 	 */
@@ -1386,10 +1386,10 @@ class DB
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Methods related to table creation.
-	 * 
+	 *
 	 * @deprecated
 	 * @return void
 	 */
@@ -1408,10 +1408,10 @@ class DB
 		$output = $this->createTable('', $xml_doc);
 		return $output->toBool();
 	}
-	
+
 	/**
 	 * Methods related to the click count cache feature.
-	 * 
+	 *
 	 * @deprecated
 	 * @return bool
 	 */
@@ -1427,7 +1427,7 @@ class DB
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Other deprecated methods.
 	 */

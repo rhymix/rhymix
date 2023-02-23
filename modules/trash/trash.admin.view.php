@@ -19,7 +19,7 @@ class trashAdminView extends trash
 		// 문서 및 댓글 모듈 lang 파일 로딩
 		Context::loadLang('./modules/document/lang');
 		Context::loadLang('./modules/comment/lang');
-		
+
 		// 템플릿 경로 지정 (board의 경우 tpl에 관리자용 템플릿 모아놓음)
 		$template_path = sprintf("%stpl/",$this->module_path);
 		$this->setTemplatePath($template_path);
@@ -39,7 +39,7 @@ class trashAdminView extends trash
 
 		$search_target = Context::get('search_target'); // /< search (title, contents ...)
 		$search_keyword = Context::get('search_keyword'); // /< keyword to search
-		
+
 		switch($search_target)
 		{
 			case 'title':
@@ -93,10 +93,10 @@ class trashAdminView extends trash
 		// 템플릿 파일 지정
 		$this->setTemplateFile('trash_list');
 	}
-	
-	
+
+
 	// Trash View - sejin7940
-	function dispTrashAdminView() 
+	function dispTrashAdminView()
 	{
 		$trash_srl = Context::get('trash_srl');
 
@@ -122,7 +122,7 @@ class trashAdminView extends trash
 			$args_extra = new stdClass;
 			$args_extra->module_srl = $originObject->module_srl;
 			$args_extra->document_srl = $originObject->document_srl;
-			$output_extra = executeQueryArray('trash.getDocumentExtraVars', $args_extra);				
+			$output_extra = executeQueryArray('trash.getDocumentExtraVars', $args_extra);
 			Context::set('oOriginExtraVars',$output_extra->data);
 		}
 		$this->setTemplateFile('trash_view');

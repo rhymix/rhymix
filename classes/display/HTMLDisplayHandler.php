@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class HTMLDisplayHandler
 {
@@ -10,12 +9,12 @@ class HTMLDisplayHandler
 	public const JQUERY_V2_MIGRATE = '1.4.1';
 	public const JQUERY_V3 = '3.6.3';
 	public const JQUERY_V3_MIGRATE = '3.4.0';
-	
+
 	/**
 	 * Default viewport setting
 	 */
 	public const DEFAULT_VIEWPORT = 'width=device-width, initial-scale=1.0, user-scalable=yes';
-	
+
 	/**
 	 * Reserved scripts
 	 */
@@ -37,12 +36,12 @@ class HTMLDisplayHandler
 		'@\beditor/skins/xpresseditor/js/xe_textarea\.(?:min\.)?js@' => 'editor/skins/ckeditor/js/xe_textarea.js',
 		'@/lang$@' => '/lang/lang.xml',
 	);
-	
+
 	/**
 	 * Image type information for SEO
 	 */
 	protected $_image_type = 'none';
-	
+
 	/**
 	 * Produce HTML compliant content given a module object.\n
 	 * @param ModuleObject $oModule the module object
@@ -171,7 +170,7 @@ class HTMLDisplayHandler
 				$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
 			}
 		}
-		
+
 		// Add OpenGraph and Twitter metadata
 		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
 		{
@@ -189,7 +188,7 @@ class HTMLDisplayHandler
 		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
-		
+
 		return $output;
 	}
 
@@ -234,10 +233,10 @@ class HTMLDisplayHandler
 			$pattern = '/href=(["\'])(\?[^"\']+)/s';
 			$output = preg_replace($pattern, 'href=$1' . \RX_BASEURL . '$2', $output);
 		}
-		
+
 		// prevent the 2nd request due to url(none) of the background-image
 		$output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
-		
+
 		$INPUT_ERROR = Context::get('INPUT_ERROR');
 		if(is_array($INPUT_ERROR) && count($INPUT_ERROR))
 		{
@@ -266,10 +265,10 @@ class HTMLDisplayHandler
 			$this->_loadDesktopJSCSS();
 		}
 		$output = $oTemplate->compile('./common/tpl', 'common_layout');
-		
+
 		// replace the user-defined-language
 		$output = Context::replaceUserLang($output);
-		
+
 		// remove template path comment tag
 		/*
 		if(!Rhymix\Framework\Debug::isEnabledForCurrentUser())
@@ -420,7 +419,7 @@ class HTMLDisplayHandler
 
 	/**
 	 * Add OpenGraph metadata tags.
-	 * 
+	 *
 	 * @return void
 	 */
 	function _addOpenGraphMetadata()
@@ -455,14 +454,14 @@ class HTMLDisplayHandler
 				}
 			}
 		}
-		
+
 		// Get existing metadata.
 		$og_data = array();
 		foreach (Context::getOpenGraphData() as $val)
 		{
 			$og_data[$val['property']] = $val['content'];
 		}
-		
+
 		// Add basic metadata.
 		Context::addOpenGraphData('og:title', $permitted ? Context::getBrowserTitle() : lang('msg_not_permitted'));
 		Context::addOpenGraphData('og:site_name', Context::getSiteTitle());
@@ -479,7 +478,7 @@ class HTMLDisplayHandler
 			Context::addOpenGraphData('og:description', $description);
 			Context::addMetaTag('description', $description);
 		}
-		
+
 		// Add metadata about this page.
 		if (!isset($og_data['og:type']))
 		{
@@ -506,7 +505,7 @@ class HTMLDisplayHandler
 			Context::addOpenGraphData('og:url', $canonical_url);
 			Context::setCanonicalURL($canonical_url);
 		}
-		
+
 		// Add metadata about the locale.
 		$lang_type = Context::getLangType();
 		$locales = (include \RX_BASEDIR . 'common/defaults/locales.php');
@@ -518,7 +517,7 @@ class HTMLDisplayHandler
 		{
 			Context::addOpenGraphData('og:locale:alternate', $locales[$oDocument->getLangCode()]);
 		}
-		
+
 		// Add image.
 		if ($document_images = Context::getMetaImages())
 		{
@@ -535,20 +534,20 @@ class HTMLDisplayHandler
 					usort($document_files, function($a, $b) {
 						return ord($b->cover_image) - ord($a->cover_image);
 					});
-					
+
 					foreach ($document_files as $file)
 					{
 						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png)$/i', $file->uploaded_filename))
 						{
 							continue;
 						}
-						
+
 						list($width, $height) = @getimagesize($file->uploaded_filename);
 						if ($width < 100 && $height < 100)
 						{
 							continue;
 						}
-						
+
 						$document_images[] = array('filepath' => $file->uploaded_filename, 'width' => $width, 'height' => $height);
 						break;
 					}
@@ -560,7 +559,7 @@ class HTMLDisplayHandler
 		{
 			$document_images = null;
 		}
-		
+
 		if ($document_images)
 		{
 			$first_image = array_first($document_images);
@@ -584,7 +583,7 @@ class HTMLDisplayHandler
 		{
 			$this->_image_type = 'none';
 		}
-		
+
 		// Add tags and hashtags for articles.
 		if ($page_type === 'article' && $permitted)
 		{
@@ -596,7 +595,7 @@ class HTMLDisplayHandler
 					Context::addOpenGraphData('og:article:tag', $tag, false);
 				}
 			}
-			
+
 			if (config('seo.og_extract_hashtags'))
 			{
 				$hashtags = $oDocument->getHashtags();
@@ -608,17 +607,17 @@ class HTMLDisplayHandler
 					}
 				}
 			}
-			
+
 			Context::addOpenGraphData('og:article:section', Context::replaceUserLang($current_module_info->browser_title));
 		}
-		
+
 		// Add author name for articles.
 		if ($page_type === 'article' && $permitted && config('seo.og_use_nick_name'))
 		{
 			Context::addMetaTag('author', $oDocument->getNickName());
 			Context::addOpenGraphData('og:article:author', $oDocument->getNickName());
 		}
-		
+
 		// Add datetime for articles.
 		if ($page_type === 'article' && $permitted && config('seo.og_use_timestamps'))
 		{
@@ -626,17 +625,17 @@ class HTMLDisplayHandler
 			Context::addOpenGraphData('og:article:modified_time', $oDocument->getUpdate('c'));
 		}
 	}
-	
+
 	/**
 	 * Add Twitter metadata tags.
-	 * 
+	 *
 	 * @return void
 	 */
 	function _addTwitterMetadata()
 	{
 		$card_type = $this->_image_type === 'document' ? 'summary_large_image' : 'summary';
 		Context::addMetaTag('twitter:card', $card_type);
-		
+
 		foreach(Context::getOpenGraphData() as $val)
 		{
 			if ($val['property'] === 'og:title')
@@ -686,9 +685,9 @@ class HTMLDisplayHandler
 			$jquery_version = self::JQUERY_V2;
 			$jquery_migrate_version = self::JQUERY_V2_MIGRATE;
 		}
-		
+
 		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
-		
+
 		$original_file_list = array(
 			'plugins/jquery.migrate/jquery-migrate-' . $jquery_migrate_version . '.min.js',
 			'plugins/cookie/js.cookie.min.js',
@@ -700,7 +699,7 @@ class HTMLDisplayHandler
 			'xml_handler.js',
 			'xml_js_filter.js',
 		);
-		
+
 		if(config('view.minify_scripts') === 'none')
 		{
 			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
@@ -734,5 +733,3 @@ class HTMLDisplayHandler
 		}
 	}
 }
-/* End of file HTMLDisplayHandler.class.php */
-/* Location: ./classes/display/HTMLDisplayHandler.class.php */

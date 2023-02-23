@@ -17,15 +17,15 @@ class i18n
 	const SORT_NAME_ENGLISH = 6;
 	const SORT_NAME_KOREAN = 7;
 	const SORT_NAME_NATIVE = 8;
-	
+
 	/**
 	 * Local cache.
 	 */
 	protected static $_countries = array();
-	
+
 	/**
 	 * Get the list of all countries.
-	 * 
+	 *
 	 * @param int $sort_by
 	 * @return array
 	 */
@@ -35,15 +35,15 @@ class i18n
 		{
 			return self::$_countries[$sort_by];
 		}
-		
+
 		$countries = (include \RX_BASEDIR . 'common/defaults/countries.php');
 		$result = array();
-		
+
 		foreach ($countries as $country)
 		{
 			$result[$country['iso_3166_1_alpha3']] = (object)$country;
 		}
-		
+
 		switch ($sort_by)
 		{
 			case self::SORT_CODE_2:
@@ -82,16 +82,16 @@ class i18n
 				});
 				break;
 		}
-		
+
 		self::$_countries[$sort_by] = $result;
 		return $result;
 	}
-	
+
 	/**
 	 * Get the calling code from a country code (either ISO-3166-1 alpha2 or alpha3).
-	 * 
+	 *
 	 * This function returns null if a matching country is not found.
-	 * 
+	 *
 	 * @param $code Country code
 	 * @return string|null
 	 */
@@ -112,16 +112,16 @@ class i18n
 				}
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Get the country code (either ISO-3166-1 alpha2 or alpha3) from a calling code.
-	 * 
+	 *
 	 * This function may return the wrong country if two or more countries share a calling code.
 	 * This function returns null if a matching country is not found.
-	 * 
+	 *
 	 * @param $code Calling code
 	 * @return string|null
 	 */
@@ -136,12 +136,12 @@ class i18n
 				return $type == 3 ? $country->iso_3166_1_alpha3 : $country->iso_3166_1_alpha2;
 			}
 		}
-		
+
 		return null;
 	}
 	/**
 	 * Format a phone number with country code.
-	 * 
+	 *
 	 * @param string $phone_number
 	 * @param string $phone_country
 	 * @param bool $pretty (optional)
@@ -153,7 +153,7 @@ class i18n
 		{
 			$phone_country = self::getCallingCodeByCountryCode($phone_country);
 		}
-		
+
 		if ($pretty)
 		{
 			if ($phone_country == 82)

@@ -21,21 +21,21 @@ class Notification extends Base
 	{
 		// Load advanced mailer module (for lang).
 		$oAdvancedMailerAdminView = \Advanced_mailerAdminView::getInstance();
-		
+
 		// Load advanced mailer config.
 		$advanced_mailer_config = $oAdvancedMailerAdminView->getConfig();
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
-		
+
 		// Load member config.
 		$member_config = ModuleModel::getModuleConfig('member');
 		Context::set('member_config', $member_config);
 		Context::set('webmaster_name', !empty($member_config->webmaster_name) ? $member_config->webmaster_name : 'webmaster');
 		Context::set('webmaster_email', $member_config->webmaster_email ?? '');
-		
+
 		// Load module config.
 		$module_config = ModuleModel::getModuleConfig('module');
 		Context::set('module_config', $module_config);
-		
+
 		// Load mail drivers.
 		$mail_drivers = Mail::getSupportedDrivers();
 		uasort($mail_drivers, function($a, $b) {
@@ -45,7 +45,7 @@ class Notification extends Base
 		});
 		Context::set('mail_drivers', $mail_drivers);
 		Context::set('mail_driver', config('mail.type') ?: 'mailfunction');
-		
+
 		// Load SMS drivers.
 		$sms_drivers = SMS::getSupportedDrivers();
 		uasort($sms_drivers, function($a, $b) {
@@ -55,7 +55,7 @@ class Notification extends Base
 		});
 		Context::set('sms_drivers', $sms_drivers);
 		Context::set('sms_driver', config('sms.type') ?: 'dummy');
-		
+
 		// Load Push drivers.
 		$push_drivers = Push::getSupportedDrivers();
 		uasort($push_drivers, function($a, $b) { return strcmp($a['name'], $b['name']); });
@@ -67,24 +67,24 @@ class Notification extends Base
 			$apns_certificate = Storage::read($apns_certificate_filename);
 		}
 		Context::set('apns_certificate', $apns_certificate);
-		
+
 		// Workaround for compatibility with older version of Amazon SES driver.
 		config('mail.ses.api_key', config('mail.ses.api_user'));
 		config('mail.ses.api_secret', config('mail.ses.api_pass'));
-		
+
 		$this->setTemplateFile('config_notification');
 	}
-	
+
 	/**
 	 * Update notification configuration.
 	 */
 	public function procAdminUpdateNotification()
 	{
 		$vars = Context::getRequestVars();
-		
+
 		// Load advanced mailer module (for lang).
 		$oAdvancedMailerAdminView = \Advanced_mailerAdminView::getInstance();
-		
+
 		// Validate the mail sender's information.
 		if (!$vars->mail_default_name)
 		{
@@ -102,7 +102,7 @@ class Notification extends Base
 		{
 			throw new Exception('msg_advanced_mailer_reply_to_is_invalid');
 		}
-		
+
 		// Validate the mail driver.
 		$mail_drivers = Mail::getSupportedDrivers();
 		$mail_driver = $vars->mail_driver;
@@ -110,7 +110,7 @@ class Notification extends Base
 		{
 			throw new Exception('msg_advanced_mailer_sending_method_is_invalid');
 		}
-		
+
 		// Validate the mail driver settings.
 		$mail_driver_config = array();
 		foreach ($mail_drivers[$mail_driver]['required'] as $conf_name)
@@ -122,7 +122,7 @@ class Notification extends Base
 			}
 			$mail_driver_config[$conf_name] = $conf_value;
 		}
-		
+
 		// Validate the SMS driver.
 		$sms_drivers = SMS::getSupportedDrivers();
 		$sms_driver = $vars->sms_driver;
@@ -130,7 +130,7 @@ class Notification extends Base
 		{
 			throw new Exception('msg_advanced_mailer_sending_method_is_invalid');
 		}
-		
+
 		// Validate the SMS driver settings.
 		$sms_driver_config = array();
 		foreach ($sms_drivers[$sms_driver]['required'] as $conf_name)
@@ -147,7 +147,7 @@ class Notification extends Base
 			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
 			$sms_driver_config[$conf_name] = $conf_value;
 		}
-		
+
 		// Validate the selected Push drivers.
 		$push_config = array('types' => array());
 		$push_config['allow_guest_device'] = $vars->allow_guest_device === 'Y' ? true : false;
@@ -164,7 +164,7 @@ class Notification extends Base
 				throw new Exception('msg_advanced_mailer_sending_method_is_invalid');
 			}
 		}
-		
+
 		// Validate the Push driver settings.
 		foreach ($push_drivers as $driver_name => $driver_definition)
 		{
@@ -176,7 +176,7 @@ class Notification extends Base
 					throw new Exception('msg_advanced_mailer_push_config_invalid');
 				}
 				$push_config[$driver_name][$conf_name] = $conf_value;
-				
+
 				// Save certificates in a separate file and only store the filename in config.php.
 				if ($conf_name === 'certificate')
 				{
@@ -185,7 +185,7 @@ class Notification extends Base
 					{
 						$filename = './files/config/' . $driver_name . '/cert-' . \Rhymix\Framework\Security::getRandom(32) . '.pem';
 					}
-					
+
 					if ($conf_value !== null)
 					{
 						Storage::write($filename, $conf_value);
@@ -203,7 +203,7 @@ class Notification extends Base
 				$push_config[$driver_name][$conf_name] = $conf_value;
 			}
 		}
-		
+
 		// Save advanced mailer config.
 		getController('module')->updateModuleConfig('advanced_mailer', (object)array(
 			'sender_name' => trim($vars->mail_default_name),
@@ -211,13 +211,13 @@ class Notification extends Base
 			'force_sender' => toBool($vars->mail_force_default_sender),
 			'reply_to' => trim($vars->mail_default_reply_to),
 		));
-		
+
 		// Save member config.
 		getController('module')->updateModuleConfig('member', (object)array(
 			'webmaster_name' => trim($vars->mail_default_name),
 			'webmaster_email' => trim($vars->mail_default_from),
 		));
-		
+
 		// Save system config.
 		Config::set("mail.default_name", trim($vars->mail_default_name));
 		Config::set("mail.default_from", trim($vars->mail_default_from));
@@ -236,7 +236,7 @@ class Notification extends Base
 		{
 			throw new Exception('msg_failed_to_save_config');
 		}
-		
+
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigNotification'));
 	}

@@ -213,7 +213,7 @@ class boardAdminView extends board {
 		$args->list_count = 1000;
 		$output = executeQueryArray('board.getBoardList', $args, ['module_srl', 'mid', 'browser_title']);
 		Context::set('board_list', $output->data);
-		
+
 		// setup the template file
 		$this->setTemplateFile('addition_setup');
 	}

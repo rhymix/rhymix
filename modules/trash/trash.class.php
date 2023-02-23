@@ -18,7 +18,7 @@ class trash extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		
+
 	}
 
 	/**
@@ -36,7 +36,7 @@ class trash extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		
+
 	}
 }
 /* End of file trash.class.php */

@@ -144,7 +144,7 @@ class editorAdminController extends editor
 	{
 		$oModuleController = getController('module');
 		$configVars = Context::getRequestVars();
-		
+
 		$config = new stdClass;
 		$config->editor_skin = $configVars->editor_skin;
 		$config->editor_colorset = $configVars->editor_colorset;
@@ -166,7 +166,7 @@ class editorAdminController extends editor
 		$config->mobile_comment_editor_height = $configVars->mobile_comment_editor_height;
 		$config->mobile_comment_editor_toolbar = $configVars->mobile_comment_editor_toolbar;
 		$config->mobile_comment_editor_toolbar_hide = $configVars->mobile_comment_editor_toolbar_hide === 'Y' ? 'Y' : 'N';
-		
+
 		if ($configVars->font_defined === 'Y')
 		{
 			$config->font_defined = 'Y';
@@ -177,7 +177,7 @@ class editorAdminController extends editor
 			$config->font_defined = $configVars->font_defined = 'N';
 			$config->content_font = $configVars->content_font;
 		}
-		
+
 		if ($configVars->additional_css)
 		{
 			$additional_css = array_map('trim', explode("\n", $configVars->additional_css));
@@ -188,7 +188,7 @@ class editorAdminController extends editor
 		{
 			$config->additional_css = array();
 		}
-		
+
 		if ($configVars->additional_mobile_css)
 		{
 			$additional_mobile_css = array_map('trim', explode("\n", $configVars->additional_mobile_css));
@@ -199,7 +199,7 @@ class editorAdminController extends editor
 		{
 			$config->additional_mobile_css = array();
 		}
-		
+
 		if ($configVars->additional_plugins)
 		{
 			$additional_plugins = array_map('trim', explode(',', $configVars->additional_plugins));
@@ -210,7 +210,7 @@ class editorAdminController extends editor
 		{
 			$config->additional_plugins = array();
 		}
-		
+
 		if ($configVars->remove_plugins)
 		{
 			$remove_plugins = array_map('trim', explode(',', $configVars->remove_plugins));
@@ -221,7 +221,7 @@ class editorAdminController extends editor
 		{
 			$config->remove_plugins = array();
 		}
-		
+
 		$config->content_font_size = trim($configVars->content_font_size);
 		$config->content_font_size = ctype_digit($config->content_font_size) ? ($config->content_font_size . 'px') : $config->content_font_size;
 		$config->content_line_height = trim($configVars->content_line_height);

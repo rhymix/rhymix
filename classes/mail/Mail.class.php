@@ -2,8 +2,6 @@
 
 /**
  * Mail class for XE Compatibility
- * 
- * @author Kijin Sung <kijin@kijinsung.com>
  */
 class Mail extends Rhymix\Framework\Mail
 {
@@ -18,7 +16,7 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		self::useSMTP(null, 'smtp.gmail.com', $account_name, $account_passwd, 'ssl', 465);
 	}
-	
+
 	/**
 	 * Set parameters for using SMTP protocol
 	 *
@@ -41,7 +39,7 @@ class Mail extends Rhymix\Framework\Mail
 			'smtp_pass' => $pass,
 		)));
 	}
-	
+
 	/**
 	 * Set additional parameters
 	 */
@@ -49,7 +47,7 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		// no-op
 	}
-	
+
 	/**
 	 * Set the sender (From:).
 	 *
@@ -61,7 +59,7 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		$this->setFrom($email, $name ?: null);
 	}
-	
+
 	/**
 	 * Get the sender.
 	 *
@@ -71,7 +69,7 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		return $this->getFrom() ?: false;
 	}
-	
+
 	/**
 	 * Set Recipient (To:)
 	 *
@@ -84,7 +82,7 @@ class Mail extends Rhymix\Framework\Mail
 		$this->message->setTo(array());
 		return $this->addTo($email, $name ?: null);
 	}
-	
+
 	/**
 	 * Get Recipient (To:)
 	 *
@@ -95,7 +93,7 @@ class Mail extends Rhymix\Framework\Mail
 		$list = $this->getRecipients();
 		return $list ? array_first($list) : false;
 	}
-	
+
 	/**
 	 * Set BCC
 	 *
@@ -107,7 +105,7 @@ class Mail extends Rhymix\Framework\Mail
 		$this->message->setBcc(array());
 		return $this->addBcc($bcc);
 	}
-	
+
 	/**
 	 * Get the Plain content of body message
 	 *
@@ -117,17 +115,17 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		return chunk_split(base64_encode(htmlspecialchars($this->message->getBody())));
 	}
-	
+
 	/**
 	 * Get the HTML content of body message
-	 * 
+	 *
 	 * @return string
 	 */
 	public function getHTMLContent()
 	{
 		return chunk_split(base64_encode($this->content_type != 'text/html' ? nl2br($this->message->getBody()) : $this->message->getBody()));
 	}
-	
+
 	/**
 	 * Add file attachment
 	 *
@@ -139,7 +137,7 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		return $this->attach($original_filename, $filename);
 	}
-	
+
 	/**
 	 * Add content attachment
 	 *
@@ -151,7 +149,7 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		return $this->embed($original_filename, $cid);
 	}
-	
+
 	/**
 	 * Process the images from attachments
 	 *
@@ -161,20 +159,20 @@ class Mail extends Rhymix\Framework\Mail
 	{
 		// no-op
 	}
-	
+
 	/**
 	 * Process the images from body content. This functions is used if Mailer is set as mail not as SMTP
-	 * 
+	 *
 	 * @return void
 	 */
 	public function procCidAttachments()
 	{
 		// no-op
 	}
-	
+
 	/**
 	 * Check if DNS of param is real or fake
-	 * 
+	 *
 	 * @param string $email_address Email address to check
 	 * @return bool
 	 */
@@ -198,20 +196,20 @@ class Mail extends Rhymix\Framework\Mail
 		}
 		return TRUE;
 	}
-	
+
 	/**
 	 * Check if this class supports Advanced Mailer features.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isAdvancedMailer()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Check if param is a valid email or not
-	 * 
+	 *
 	 * @param string $email_address Email address to check
 	 * @return string
 	 */
@@ -241,5 +239,3 @@ class Mail extends Rhymix\Framework\Mail
 	}
 
 }
-/* End of file Mail.class.php */
-/* Location: ./classes/mail/Mail.class.php */

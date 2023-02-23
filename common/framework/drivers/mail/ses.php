@@ -11,7 +11,7 @@ class SES extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 	 * Cache the message here for debug access.
 	 */
 	protected $_message;
-	
+
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
@@ -22,30 +22,30 @@ class SES extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 		$config['smtp_security'] = 'tls';
 		parent::__construct($config);
 	}
-	
+
 	/**
 	 * Get the human-readable name of this mail driver.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getName()
 	{
 		return 'Amazon SES (SMTP)';
 	}
-	
+
 	/**
 	 * Get the list of configuration fields required by this mail driver.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getRequiredConfig()
 	{
 		return array('smtp_user', 'smtp_pass', 'api_type');
 	}
-	
+
 	/**
 	 * Get the list of API types supported by this mail driver.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getAPITypes()
@@ -57,20 +57,20 @@ class SES extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 			'ap-southeast-1', 'ap-southeast-2', 'ap-south-1',
 		);
 	}
-	
+
 	/**
 	 * Get the SPF hint.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getSPFHint()
 	{
 		return 'include:amazonses.com';
 	}
-	
+
 	/**
 	 * Get the DKIM hint.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getDKIMHint()

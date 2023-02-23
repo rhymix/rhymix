@@ -29,27 +29,27 @@ class Debug extends Base
 		Context::set('debug_query_comment', Config::get('debug.query_comment'));
 		Context::set('debug_query_full_stack', Config::get('debug.query_full_stack'));
 		Context::set('debug_write_error_log', Config::get('debug.write_error_log'));
-		
+
 		// IP access control
 		$allowed_ip = Config::get('debug.allow');
 		Context::set('debug_allowed_ip', implode(PHP_EOL, $allowed_ip));
 		Context::set('remote_addr', RX_CLIENT_IP);
-		
+
 		$this->setTemplateFile('config_debug');
 	}
-	
+
 	/**
 	 * Update debug configuration.
 	 */
 	public function procAdminUpdateDebug()
 	{
 		$vars = Context::getRequestVars();
-		
+
 		// Save display type settings
 		$display_type = array_values(array_filter($vars->debug_display_type ?: [], function($str) {
 			return in_array($str, ['panel', 'comment', 'file']);
 		}));
-		
+
 		// Debug settings
 		Config::set('debug.enabled', $vars->debug_enabled === 'Y');
 		Config::set('debug.log_slow_queries', max(0, floatval($vars->debug_log_slow_queries)));
@@ -61,11 +61,11 @@ class Debug extends Base
 		Config::set('debug.query_comment', $vars->debug_query_comment === 'Y');
 		Config::set('debug.query_full_stack', $vars->debug_query_full_stack === 'Y');
 		Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
-		
+
 		// Debug content
 		$debug_content = array_values($vars->debug_display_content ?: array());
 		Config::set('debug.display_content', $debug_content);
-		
+
 		// Log filename
 		$log_filename = strval($vars->debug_log_filename);
 		$log_filename_today = str_replace(array('YYYY', 'YY', 'MM', 'DD'), array(
@@ -87,7 +87,7 @@ class Debug extends Base
 			throw new Exception('msg_debug_log_filename_not_writable');
 		}
 		Config::set('debug.log_filename', $log_filename);
-		
+
 		// IP access control
 		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->debug_allowed_ip));
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
@@ -97,13 +97,13 @@ class Debug extends Base
 			throw new Exception('msg_invalid_ip');
 		}
 		Config::set('debug.allow', array_values($allowed_ip));
-		
+
 		// Save
 		if (!Config::save())
 		{
 			throw new Exception('msg_failed_to_save_config');
 		}
-		
+
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigDebug'));
 	}

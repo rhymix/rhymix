@@ -3,14 +3,14 @@
 class DebugTest extends \Codeception\TestCase\Test
 {
 	public $error_log;
-	
+
 	public function _before()
 	{
 		Rhymix\Framework\Debug::enable();
 		$this->error_log = ini_get('error_log');
 		ini_set('error_log', '/dev/null');
 	}
-	
+
 	public function _after()
 	{
 		if ($this->error_log)
@@ -32,7 +32,7 @@ class DebugTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Debug::clearEntries();
 		$this->assertEquals(0, count(Rhymix\Framework\Debug::getEntries()));
 	}
-	
+
 	public function testDebugError()
 	{
 		$file = __FILE__;
@@ -47,7 +47,7 @@ class DebugTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Debug::clearErrors();
 		$this->assertEquals(0, count(Rhymix\Framework\Debug::getErrors()));
 	}
-	
+
 	public function testDebugQuery()
 	{
 		Rhymix\Framework\Debug::addQuery(array(
@@ -72,13 +72,13 @@ class DebugTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Debug::clearQueries();
 		$this->assertEquals(0, count(Rhymix\Framework\Debug::getQueries()));
 	}
-	
+
 	public function testDebugTranslateFilename()
 	{
 		$original_filename = __FILE__;
 		$trans_filename = substr($original_filename, strlen(\RX_BASEDIR));
 		$this->assertEquals($trans_filename, Rhymix\Framework\Debug::translateFilename($original_filename));
-		
+
 		$original_filename = __FILE__;
 		$alias_filename = $original_filename . '.foobar';
 		$trans_filename = substr($alias_filename, strlen(\RX_BASEDIR));

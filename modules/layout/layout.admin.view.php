@@ -97,7 +97,7 @@ class layoutAdminView extends layout
 				$layout_info = $oLayoutModel->getLayoutInfo($item->layout, null, $type);
 				if ($layout_info)
 				{
-					$layout_list[$item->layout]['title'] = $layout_info->title; 
+					$layout_list[$item->layout]['title'] = $layout_info->title;
 				}
 			}
 

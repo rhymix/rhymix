@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * - HttpRequest class
@@ -26,7 +25,7 @@ class XEHttpRequest
 	var $m_port;
 
 	/**
-	 * target scheme 
+	 * target scheme
 	 * @var string
 	 */
 	var $m_scheme;
@@ -255,5 +254,3 @@ class XEHttpRequest
 	}
 
 }
-/* End of file XEHttpRequest.class.php */
-/* Location: ./classes/httprequest/XEHttpRequest.class.php */

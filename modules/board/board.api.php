@@ -103,7 +103,7 @@ class boardAPI extends board
 
 	/**
 	 * Apply _arrangeContent to a list of documents.
-	 * 
+	 *
 	 * @param array $content_list
 	 * @param object $grant
 	 * @return array
@@ -120,7 +120,7 @@ class boardAPI extends board
 
 	/**
 	 * Clean up document info so that only some fields are exposed.
-	 * 
+	 *
 	 * @param object $content
 	 * @param object $grant
 	 * @return stdClass
@@ -162,7 +162,7 @@ class boardAPI extends board
 
 	/**
 	 * Clean up comment info so that only some fields are exposed.
-	 * 
+	 *
 	 * @param array $comment_list
 	 * @return array
 	 */
@@ -190,7 +190,7 @@ class boardAPI extends board
 
 	/**
 	 * Clean up file info so that only some fields are exposed.
-	 * 
+	 *
 	 * @param array $file_list
 	 * @return array
 	 */
@@ -211,7 +211,7 @@ class boardAPI extends board
 
 	/**
 	 * Clean up extra vars so that only some fields are exposed.
-	 * 
+	 *
 	 * @param array $extra_var_list
 	 * @return array
 	 */

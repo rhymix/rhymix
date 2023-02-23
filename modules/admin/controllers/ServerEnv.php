@@ -26,7 +26,7 @@ class ServerEnv extends Base
 			'widget' => array('content', 'counter_status', 'language_select', 'login_info', 'mcontent', 'pollWidget'),
 			'widgetstyle' => array('simple'),
 		);
-		
+
 		// Basic environment
 		$info[] = '[Basic Information]';
 		$info['rhymix_version'] = RX_VERSION;
@@ -48,7 +48,7 @@ class ServerEnv extends Base
 		}
 		$info['ssl'] = Context::get('site_module_info')->security ?: Context::getDbInfo()->use_ssl;
 		$info[] = '';
-		
+
 		// System settings
 		$info[] = '[System Settings]';
 		$info['db.type'] = preg_replace('/^mysql.+/', 'mysql', config('db.master.type'));
@@ -82,7 +82,7 @@ class ServerEnv extends Base
 		$info['view.minify_scripts'] = config('view.minify_scripts');
 		$info['use_sso'] = config('use_sso') ? 'true' : 'false';
 		$info[] = '';
-		
+
 		// PHP settings
 		$ini_info = ini_get_all();
 		$info[] = '[PHP Settings]';
@@ -104,7 +104,7 @@ class ServerEnv extends Base
 		}
 		natcasesort($info['extensions']);
 		$info[] = '';
-		
+
 		// Modules
 		$info[] = '[Modules]';
 		$info['module'] = array();
@@ -126,7 +126,7 @@ class ServerEnv extends Base
 		}
 		natcasesort($info['module']);
 		$info[] = '';
-		
+
 		// Addons
 		$info[] = '[Addons]';
 		$info['addon'] = array();
@@ -149,7 +149,7 @@ class ServerEnv extends Base
 		}
 		natcasesort($info['addon']);
 		$info[] = '';
-		
+
 		// Layouts
 		$info[] = '[Layouts]';
 		$info['layout'] = array();
@@ -172,7 +172,7 @@ class ServerEnv extends Base
 		}
 		natcasesort($info['layout']);
 		$info[] = '';
-		
+
 		// Widgets
 		$info[] = '[Widgets]';
 		$info['widget'] = array();
@@ -195,7 +195,7 @@ class ServerEnv extends Base
 		}
 		natcasesort($info['widget']);
 		$info[] = '';
-		
+
 		// Widgetstyles
 		$info[] = '[Widgetstyles]';
 		$info['widgetstyle'] = array();
@@ -219,7 +219,7 @@ class ServerEnv extends Base
 		natcasesort($info['widgetstyle']);
 		$info[] = '';
 		$str_info = '';
-		
+
 		// Convert to string.
 		foreach ($info as $key => $value)
 		{
@@ -227,7 +227,7 @@ class ServerEnv extends Base
 			{
 				$value = implode(', ', $value) ?: "no additional {$key}s";
 			}
-			
+
 			if (is_int($key) || ctype_digit($key))
 			{
 				$str_info .= "$value\n";
@@ -241,7 +241,7 @@ class ServerEnv extends Base
 		Context::set('str_info', $str_info);
 		$this->setTemplateFile('server_env.html');
 	}
-	
+
 	/**
 	 * Method to test if URL rewriting is properly configured in the web server.
 	 */
@@ -251,7 +251,7 @@ class ServerEnv extends Base
 		Context::setResponseMethod('JSON');
 		$this->add('result', $test * 42);
 	}
-	
+
 	/**
 	 * Clear APCU cache.
 	 */
@@ -266,7 +266,7 @@ class ServerEnv extends Base
 			return new BaseObject(-1, 'apcu_clear_cache_function_not_found');
 		}
 	}
-	
+
 	/**
 	 * Clear opcache.
 	 */

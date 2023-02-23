@@ -4,7 +4,7 @@ class AddonModel extends Addon
 {
 	/**
 	 * Get configuration for addon
-	 * 
+	 *
 	 * @param string $addon_name
 	 * @param string $type
 	 * @return object|null
@@ -15,14 +15,14 @@ class AddonModel extends Addon
 		{
 			$type = 'any';
 		}
-		
+
 		$cache_key = sprintf('addonConfig:%s:%s', $addon_name, $type);
 		$config = Rhymix\Framework\Cache::get($cache_key);
 		if ($config !== null)
 		{
 			return $config;
 		}
-		
+
 		$args = new stdClass();
 		$args->addon = $addon_name;
 		$args->site_srl = 0;
@@ -31,7 +31,7 @@ class AddonModel extends Addon
 		{
 			return null;
 		}
-		
+
 		$result = array_first($output->data);
 		if ($type === 'pc' && $result->is_used !== 'Y')
 		{
@@ -45,7 +45,7 @@ class AddonModel extends Addon
 		{
 			return null;
 		}
-		
+
 		$config = unserialize($result->extra_vars);
 		unset($config->xe_validator_id);
 		if (!isset($config->mid_list))
@@ -54,7 +54,7 @@ class AddonModel extends Addon
 		}
 		$config->use_pc = $result->is_used;
 		$config->use_mobile = $result->is_used_m;
-		
+
 		Rhymix\Framework\Cache::set($cache_key, $config, 0, true);
 		return $config;
 	}

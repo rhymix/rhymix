@@ -74,10 +74,10 @@ class menuAdminModel extends menu
 		$menu_info->php_file = sprintf('./files/cache/menu/%d.php',$menu_srl);
 		return $menu_info;
 	}
-	
+
 	/**
 	 * Get actual menu info data
-	 * 
+	 *
 	 * @param int $menu_srl
 	 * @return object
 	 */
@@ -85,7 +85,7 @@ class menuAdminModel extends menu
 	{
 		$menu = new stdClass;
 		$menu->list = [];
-		
+
 		$filename = sprintf('./files/cache/menu/%d.php', $menu_srl);
 		if (!FileHandler::exists($filename))
 		{
@@ -95,7 +95,7 @@ class menuAdminModel extends menu
 		{
 			include $filename;
 		}
-		
+
 		return $menu;
 	}
 
@@ -350,7 +350,7 @@ class menuAdminModel extends menu
 
 		$oAutoinstallAdminModel = getAdminModel('autoinstall');
 		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
-		
+
 		foreach($_allModules as $module_name)
 		{
 			$module = $oModuleModel->getModuleInfoXml($module_name);
@@ -489,7 +489,7 @@ class menuAdminModel extends menu
 		$oModuleModel = getModel('module');
 		$oMenuAdminController = getAdminController('menu');
 		$columnList = array('modules.mid', 'modules.browser_title', 'sites.index_module_srl');
-		
+
 		$start_module_list = executeQuery('module.getDomainInfo', new stdClass);
 		$start_module = $start_module_list->data;
 
@@ -503,7 +503,7 @@ class menuAdminModel extends menu
 			{
 				include($php_file);
 			}
-			else 
+			else
 			{
 				$oMenuAdminController->makeXmlFile($menuSrl);
 			}
@@ -663,7 +663,7 @@ class menuAdminModel extends menu
 		{
 			$start_module = $start_module ? array($start_module) : array();
 		}
-		
+
 		// if url is empty and is_shortcut is 'N', change to is_shortcut 'Y'
 		if(!$menu['url'] && $menu['is_shortcut'] == 'N')
 		{

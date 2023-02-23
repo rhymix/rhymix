@@ -27,19 +27,19 @@ class menu extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = DB::getInstance();
-		
+
 		// 2015. 06. 15 add column desc
 		if(!$oDB->isColumnExists('menu_item', 'desc'))
 		{
 			return true;
 		}
-		
+
 		// 2021. 01. 20 add column icon
 		if(!$oDB->isColumnExists('menu_item', 'icon'))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -50,13 +50,13 @@ class menu extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = DB::getInstance();
-		
+
 		// 2015. 06. 15 add column desc
 		if(!$oDB->isColumnExists('menu_item', 'desc'))
 		{
 			$oDB->addColumn('menu_item', 'desc', 'varchar', 250, null, false, 'name');
 		}
-		
+
 		// 2021. 01. 20 add column icon
 		if(!$oDB->isColumnExists('menu_item', 'icon'))
 		{

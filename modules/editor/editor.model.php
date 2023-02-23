@@ -12,7 +12,7 @@ class editorModel extends editor
 	 */
 	protected static $_module_config = array();
 	protected static $_loaded_component_list = array();
-	
+
 	/**
 	 * @brief Return the editor
 	 *
@@ -45,7 +45,7 @@ class editorModel extends editor
 		{
 			$editor_config = new stdClass;
 		}
-		
+
 		// Fill in some other values.
 		$grant_vars = array(
 			'enable_html_grant',
@@ -64,10 +64,10 @@ class editorModel extends editor
 				$editor_config->{$var} = [];
 			}
 		}
-		
+
 		// Load the default config for editor module.
 		$editor_default_config = ModuleModel::getModuleConfig('editor') ?: new stdClass;
-		
+
 		// Check whether we should use the default config.
 		if(!isset($editor_config->default_editor_settings) || $editor_config->default_editor_settings !== 'Y')
 		{
@@ -80,7 +80,7 @@ class editorModel extends editor
 		{
 			$editor_config->default_editor_settings = 'Y';
 		}
-		
+
 		// Apply the default config for missing values.
 		foreach (self::$default_editor_config as $key => $val)
 		{
@@ -89,7 +89,7 @@ class editorModel extends editor
 				$editor_config->$key = isset($editor_default_config->$key) ? $editor_default_config->$key : $val;
 			}
 		}
-		
+
 		return $editor_config;
 	}
 
@@ -99,7 +99,7 @@ class editorModel extends editor
 	public static function getSkinConfig($skin_name)
 	{
 		$skin_config = new stdClass;
-		
+
 		if($skin_info = ModuleModel::loadSkinInfo('./modules/editor', $skin_name))
 		{
 			foreach ($skin_info->extra_vars as $val)
@@ -107,7 +107,7 @@ class editorModel extends editor
 				$skin_config->{$val->name} = $val->value;
 			}
 		}
-		
+
 		return $skin_config;
 	}
 
@@ -120,12 +120,12 @@ class editorModel extends editor
 	{
 		// Load language files.
 		Context::loadLang('./modules/editor/lang');
-		
+
 		// Initialize options.
 		if (!is_object($option))
 		{
 			$option = new stdClass;
-			
+
 		}
 		// Set editor sequence and upload options.
 		if ($upload_target_srl)
@@ -140,7 +140,7 @@ class editorModel extends editor
 		Context::set('allow_fileupload', $option->allow_fileupload = toBool($option->allow_fileupload));
 		Context::set('upload_target_srl', $upload_target_srl);
 		Context::set('editor_sequence', $option->editor_sequence);
-		
+
 		// Check that the skin exist.
 		if (!$option->editor_skin)
 		{
@@ -173,7 +173,7 @@ class editorModel extends editor
 		Context::set('editor_toolbar', $option->editor_toolbar);
 		Context::set('editor_toolbar_hide', toBool($option->editor_toolbar_hide));
 		Context::set('module_type', $option->module_type);
-		
+
 		// Default font setting
 		Context::set('content_font', $option->content_font);
 		Context::set('content_font_size', $option->content_font_size);
@@ -185,13 +185,13 @@ class editorModel extends editor
 		Context::set('editor_additional_css', $option->additional_css);
 		Context::set('editor_additional_plugins', $option->additional_plugins);
 		Context::set('editor_remove_plugins', $option->remove_plugins);
-		
+
 		// Set the primary key valueof the document or comments
 		Context::set('editor_primary_key_name', $option->primary_key_name);
-		
+
 		// Set content column name to sync contents
 		Context::set('editor_content_key_name', $option->content_key_name);
-		
+
 		// Set autosave (do not use if the post is edited)
 		$option->enable_autosave = toBool($option->enable_autosave) && !Context::get($option->primary_key_name);
 		if ($option->enable_autosave)
@@ -199,12 +199,12 @@ class editorModel extends editor
 			Context::set('saved_doc', self::getSavedDoc($upload_target_srl));
 		}
 		Context::set('enable_autosave', $option->enable_autosave);
-		
+
 		// Set allow html and focus
 		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
 		Context::set('editor_focus', toBool($option->editor_focus));
 		Context::set('editor_auto_dark_mode', $option->auto_dark_mode !== 'N');
-		
+
 		// Load editor components.
 		if($option->enable_component)
 		{
@@ -241,7 +241,7 @@ class editorModel extends editor
 			{
 				$file_config->allowed_chunk_size = floor($file_config->allowed_chunk_size / 65536) * 65536;
 			}
-			
+
 			// Do not allow chunked uploads in IE < 10, Android browser, and Opera
 			$browser = Rhymix\Framework\UA::getBrowserInfo();
 			if (($browser->browser === 'IE' && version_compare($browser->version, '10', '<')) || $browser->browser === 'Android' || $browser->browser === 'Opera')
@@ -268,7 +268,7 @@ class editorModel extends editor
 		// Compile and return the editor skin template.
 		$tpl_path = Context::get('editor_path');
 		Context::loadLang($tpl_path.'lang');
-		
+
 		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, 'editor.html');
 	}
@@ -287,7 +287,7 @@ class editorModel extends editor
 
 		// Check mobile status
 		$is_mobile = Mobile::isFromMobilePhone() || \Rhymix\Framework\UA::isMobile();
-		
+
 		// Initialize options
 		$option = new stdClass();
 		$option->module_type = $type;
@@ -335,7 +335,7 @@ class editorModel extends editor
 				$option->additional_css = $option->additional_mobile_css;
 			}
 		}
-		
+
 		// Check a group_list of the currently logged-in user for permission check
 		if(Context::get('is_logged'))
 		{
@@ -346,7 +346,7 @@ class editorModel extends editor
 		{
 			$group_list = array();
 		}
-		
+
 		// Permission check for file upload
 		if($module_srl)
 		{
@@ -367,7 +367,7 @@ class editorModel extends editor
 				}
 			}
 		}
-		
+
 		// Permission check for using default components
 		if ($logged_info->is_admin === 'Y' || !count($option->enable_default_component_grant))
 		{
@@ -385,7 +385,7 @@ class editorModel extends editor
 				}
 			}
 		}
-		
+
 		// Permisshion check for using extended components
 		if($logged_info->is_admin === 'Y' || !count($option->enable_component_grant))
 		{
@@ -403,7 +403,7 @@ class editorModel extends editor
 				}
 			}
 		}
-		
+
 		// HTML editing privileges
 		if($logged_info->is_admin === 'Y' || !count($option->enable_html_grant))
 		{
@@ -421,7 +421,7 @@ class editorModel extends editor
 				}
 			}
 		}
-		
+
 		// Other settings
 		$option->primary_key_name = $primary_key_name;
 		$option->content_key_name = $content_key_name;
@@ -468,7 +468,7 @@ class editorModel extends editor
 		{
 			$saved_doc = array_first($saved_doc);
 		}
-		
+
 		// Return null if certify key does not match
 		if($saved_doc->certify_key && !isset($auto_save_args->certify_key))
 		{
@@ -683,7 +683,7 @@ class editorModel extends editor
 		$xml_file = sprintf('%sinfo.xml', $component_path);
 		$xml_mtime = filemtime($xml_file);
 		$lang_type = Context::getLangType();
-		
+
 		// Get from cache
 		$cache_key = sprintf('editor:component:%s:%s:%d', $component, $lang_type, $xml_mtime);
 		$info = Rhymix\Framework\Cache::get($cache_key);
@@ -691,15 +691,15 @@ class editorModel extends editor
 		{
 			return $info;
 		}
-		
+
 		// Parse XML file
 		$info = Rhymix\Framework\Parsers\EditorComponentParser::loadXML($xml_file, $component, $lang_type);
-		
+
 		// Set to cache and return
 		Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		return $info;
 	}
-	
+
 	/**
 	 * Return converted content
 	 * @param object $obj
@@ -709,7 +709,7 @@ class editorModel extends editor
 	{
 		$converter = null;
 		$config = self::getEditorConfig($obj->module_srl);
-		
+
 		// Get editor skin
 		if (in_array($type, array('document', 'comment')))
 		{
@@ -720,13 +720,13 @@ class editorModel extends editor
 			$converter = $obj->converter;
 			$skin = $obj->editor_skin ?: $config->editor_skin;
 		}
-		
+
 		// if not inserted converter, Get converter from skin
 		if (!$converter)
 		{
 			$converter = self::getSkinConfig($skin)->converter;
 		}
-		
+
 		// if not inserted converter, Check
 		if (!$converter)
 		{
@@ -743,7 +743,7 @@ class editorModel extends editor
 				$converter = 'nl2br';
 			}
 		}
-		
+
 		// Convert
 		if ($converter)
 		{
@@ -751,13 +751,13 @@ class editorModel extends editor
 			{
 				// Remove Tag
 				$obj->content = strip_tags($obj->content);
-				
+
 				// Trim space
 				$obj->content = utf8_trim($obj->content);
-				
+
 				// Escape
 				$obj->content = escape($obj->content, false);
-				
+
 				// Insert HTML line
 				$obj->content = nl2br($obj->content);
 			}
@@ -778,7 +778,7 @@ class editorModel extends editor
 				$obj->content = nl2br($obj->content);
 			}
 		}
-		
+
 		return $obj->content;
 	}
 }

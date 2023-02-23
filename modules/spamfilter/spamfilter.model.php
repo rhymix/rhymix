@@ -64,11 +64,11 @@ class spamfilterModel extends spamfilter
 				$args = new stdClass();
 				$args->ipaddress = $ip_range->ipaddress;
 				executeQuery('spamfilter.updateDeniedIPHit', $args);
-				
+
 				return new BaseObject(-1, 'msg_alert_registered_denied_ip');
 			}
 		}
-		
+
 		return new BaseObject();
 	}
 
@@ -102,7 +102,7 @@ class spamfilterModel extends spamfilter
 		$is_logged = Context::get('is_logged');
 		$fulltext = strtolower(utf8_trim(utf8_normalize_spaces($text)));
 		$plaintext = htmlspecialchars_decode(strip_tags($fulltext, '<a><img>'));
-		
+
 		foreach ($word_list as $word_item)
 		{
 			if (!empty($word_item->except_member) && $word_item->except_member === 'Y' && $is_logged)
@@ -150,7 +150,7 @@ class spamfilterModel extends spamfilter
 				{
 					$custom_message = sprintf($custom_message, escape($hit, false));
 				}
-				
+
 				return new BaseObject(-1, $custom_message);
 			}
 		}
@@ -182,7 +182,7 @@ class spamfilterModel extends spamfilter
 			{
 				$suffix = $config->ipv6_block_range ?: '';
 			}
-			
+
 			$oSpamFilterController = getController('spamfilter');
 			$oSpamFilterController->insertIP(\RX_CLIENT_IP .  $suffix, 'AUTO-DENIED : Over limit');
 			return new BaseObject(-1, 'msg_alert_registered_denied_ip');

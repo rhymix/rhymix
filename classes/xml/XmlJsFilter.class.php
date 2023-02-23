@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 /**
  * filter class traslate xml content into javascript code
@@ -70,7 +69,7 @@ class XmlJsFilter extends XeXmlParser
 	 * Compiled js file
 	 * @var string
 	 */
-	var $js_file = NULL; // / 
+	var $js_file = NULL; // /
 
 	/**
 	 * constructor
@@ -424,5 +423,3 @@ class XmlJsFilter extends XeXmlParser
 	}
 
 }
-/* End of file XmlJsFilter.class.php */
-/* Location: ./classes/xml/XmlJsFilter.class.php */

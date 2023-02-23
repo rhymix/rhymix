@@ -48,7 +48,7 @@ class addonAdminModel extends addon
 		{
 			// check blacklist
 			$addonList[$key]->isBlacklisted = Context::isBlacklistedPlugin($addon->addon, 'addon');
-			
+
 			// get easyinstall remove url
 			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($addon->path);
 			$addonList[$key]->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
@@ -109,7 +109,7 @@ class addonAdminModel extends addon
 			$path = $this->getAddonPath($addon_name);
 			// Wanted information on the add-on
 			$info = $this->getAddonInfoXml($addon_name, $site_srl, $gtype);
-			
+
 			if(!$info) $info = new stdClass();
 
 			$info->addon = $addon_name;
@@ -331,16 +331,16 @@ class addonAdminModel extends addon
 			$addon_info->title = $xml_obj->title->body;
 			$addon_info->description = trim($xml_obj->author->description->body);
 			$addon_info->version = $xml_obj->attrs->version;
-			
+
 			$date_obj = new stdClass();
 			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
 			$addon_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			
+
 			$author_obj = new stdClass();
 			$author_obj->name = $xml_obj->author->name->body;
 			$author_obj->email_address = $xml_obj->author->attrs->email_address;
 			$author_obj->homepage = $xml_obj->author->attrs->link;
-			
+
 			$addon_info->author = array();
 			$addon_info->author[] = $author_obj;
 
@@ -462,7 +462,7 @@ class addonAdminModel extends addon
 		);
 		$always_return_false_for_compatibility = array(
 		);
-		
+
 		if(isset($always_return_true_for_compatibility[$addon]))
 		{
 			return true;
@@ -471,7 +471,7 @@ class addonAdminModel extends addon
 		{
 			return false;
 		}
-		
+
 		$args = new stdClass();
 		$args->addon = $addon;
 		if($gtype == 'global')

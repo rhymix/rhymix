@@ -11,17 +11,17 @@ class point extends ModuleObject
 	 * Cache for the point module's own configuration.
 	 */
 	protected static $_config = null;
-	
+
 	/**
 	 * Cache for other modules' point configuration.
 	 */
 	protected static $_module_config_cache = array();
-	
+
 	/**
 	 * Cache for member points.
 	 */
 	protected static $_member_point_cache = array();
-	
+
 	/**
 	 * Triggers to insert.
 	 */
@@ -49,7 +49,7 @@ class point extends ModuleObject
 		array('module.procModuleAdminCopyModule', 'after', 'controller', 'triggerCopyModule'),
 		array('module.dispAdditionSetup', 'after', 'view', 'triggerDispPointAdditionSetup'),
 	);
-	
+
 	/**
 	 * Triggers to delete.
 	 */
@@ -58,7 +58,7 @@ class point extends ModuleObject
 		array('document.deleteDocument', 'before', 'controller', 'triggerBeforeDeleteDocument'),
 		array('file.insertFile', 'after', 'controller', 'triggerInsertFile'),
 	);
-	
+
 	/**
 	 * @brief Shortcut to getting module configuration
 	 */
@@ -70,10 +70,10 @@ class point extends ModuleObject
 		}
 		return self::$_config;
 	}
-	
+
 	/**
 	 * Check triggers.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public function checkTriggers()
@@ -95,10 +95,10 @@ class point extends ModuleObject
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Register triggers.
-	 * 
+	 *
 	 * @return object
 	 */
 	public function registerTriggers()
@@ -120,7 +120,7 @@ class point extends ModuleObject
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief Additional tasks required to accomplish during the installation
 	 */
@@ -140,7 +140,7 @@ class point extends ModuleObject
 		{
 			$config->level_step[$i] = pow($i, 2) * 90;
 		}
-		
+
 		// Define default points.
 		$config->signup_point = 10;
 		$config->login_point = 5;
@@ -153,10 +153,10 @@ class point extends ModuleObject
 		$config->blamed = 0;
 		$config->voted_comment = 0;
 		$config->blamed_comment = 0;
-		
+
 		// Save module config.
 		getController('module')->insertModuleConfig('point', $config);
-		
+
 		// Create a directory to store points information.
 		FileHandler::makeDir('./files/member_extra_info/point');
 	}
@@ -186,7 +186,7 @@ class point extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		
+
 	}
 }
 /* End of file point.class.php */

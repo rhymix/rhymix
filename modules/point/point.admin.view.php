@@ -47,11 +47,11 @@ class pointAdminView extends point
 			}
 		}
 		Context::set('group_list', $selected_group_list);
-		
+
 		// Get max level allowed by system
 		$system_max_level = min(1000, ini_get('max_input_vars') - 100);
 		Context::set('system_max_level', $system_max_level);
-		
+
 		//Security
 		$security = new Security();
 		$security->encodeHTML('group_list..title','group_list..description');
@@ -116,7 +116,7 @@ class pointAdminView extends point
 
 		$columnList = array('member.member_srl', 'member.user_id', 'member.email_address', 'member.nick_name', 'point.point');
 		$output = $oPointModel->getMemberList($args, $columnList);
-		// context::set for writing into a template 
+		// context::set for writing into a template
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);

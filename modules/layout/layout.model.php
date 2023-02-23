@@ -44,7 +44,7 @@ class layoutModel extends layout
 				unset($output->data[$no]);
 			}
 		}
-		
+
 		$oLayoutAdminModel = getAdminModel('layout');
 		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type);
 		if($siteDefaultLayoutSrl)
@@ -64,7 +64,7 @@ class layoutModel extends layout
 			$responsiveLayoutInfo->title = lang('use_responsive_pc_layout');
 			array_unshift($output->data, $responsiveLayoutInfo);
 		}
-		
+
 		return $output->data;
 	}
 
@@ -162,7 +162,7 @@ class layoutModel extends layout
 				$titleList[$dLayoutInfo->layout] = $dLayoutInfo->title;
 			}
 		}
-		
+
 		if($layout)
 		{
 			if(count($instanceList) < 1 && $downloadedList[$layout])
@@ -265,7 +265,7 @@ class layoutModel extends layout
 		{
 			return $layout_info;
 		}
-		
+
 		// Get information from the DB
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
@@ -589,7 +589,7 @@ class layoutModel extends layout
 
 					$count = count($extra_vars);
 					$extra_var_count += $count;
-					
+
 					for($i=0;$i<$count;$i++)
 					{
 						unset($var, $options);
@@ -680,7 +680,7 @@ class layoutModel extends layout
 			$extra_var_groups = $xml_obj->extra_vars->group;
 			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
 			if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
-			
+
 			$extra_var_count = 0;
 			$buff[] = '$layout_info->extra_var = new stdClass;';
 			foreach($extra_var_groups as $group)

@@ -35,7 +35,7 @@ class MemberAdminModel extends Member
 
 	/**
 	 * Get a member list
-	 * 
+	 *
 	 * @return object|array (object : when member count is 1, array : when member count is more than 1)
 	 */
 	function getMemberList()
@@ -143,7 +143,7 @@ class MemberAdminModel extends Member
 		else
 		{
 			$query_id = 'member.getMemberList';
-			$args->sort_index = $sort_index; 
+			$args->sort_index = $sort_index;
 		}
 
 		$args->sort_order = $sort_order;
@@ -159,7 +159,7 @@ class MemberAdminModel extends Member
 
 	/**
 	 * Get a memebr list for each site
-	 * 
+	 *
 	 * @param int $site_srl
 	 * @param int $page
 	 *
@@ -178,8 +178,8 @@ class MemberAdminModel extends Member
 
 	/**
 	 * Get member_srls lists about site admins
-	 * 
-	 * @return array 
+	 *
+	 * @return array
 	 */
 	function getSiteAdminMemberSrls()
 	{
@@ -197,8 +197,8 @@ class MemberAdminModel extends Member
 
 	/**
 	 * Return colorset list of a skin in the member module
-	 * 
-	 * @return void 
+	 *
+	 * @return void
 	 */
 	function getMemberAdminColorset()
 	{
@@ -225,7 +225,7 @@ class MemberAdminModel extends Member
 
 	/**
 	 * Return member count with date
-	 * 
+	 *
 	 * @param string $date
 	 *
 	 * @return int
@@ -292,7 +292,7 @@ class MemberAdminModel extends Member
 
 		$oMemberModel = getModel('member');
 		$config = $oMemberModel->getMemberConfig();
-		foreach($config->signupForm as $item) 
+		foreach($config->signupForm as $item)
 		{
 			$list[] = $item->name;
 		}
@@ -307,7 +307,7 @@ class MemberAdminModel extends Member
 	}
 
 	/**
-	 * check allowed target ip address when  login for admin. 
+	 * check allowed target ip address when  login for admin.
 	 *
 	 * @return boolean (true : allowed, false : refuse)
 	 */
@@ -317,12 +317,12 @@ class MemberAdminModel extends Member
 		{
 			return Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $allow_list);
 		}
-		
+
 		if ($deny_list = ($deny_list === null) ? config('admin.deny') : $deny_list)
 		{
 			return !Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, $deny_list);
 		}
-		
+
 		return true;
 	}
 }

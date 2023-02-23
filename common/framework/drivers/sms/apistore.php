@@ -23,34 +23,34 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		'mms_supported' => false,
 		'delay_supported' => true,
 	);
-	
+
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
 	protected static $_required_config = array('api_user', 'api_key');
-	
+
 	/**
 	 * Check if the current SMS driver is supported on this server.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isSupported()
 	{
 		return true;
 	}
-	
+
 	/**
 	 * Store the last response.
 	 */
 	protected $_last_response = '';
-	
+
 	/**
 	 * Send a message.
-	 * 
+	 *
 	 * This method returns true on success and false on failure.
-	 * 
+	 *
 	 * @param array $messages
 	 * @param object $original
 	 * @return bool
@@ -58,7 +58,7 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
 		$status = true;
-		
+
 		foreach ($messages as $i => $message)
 		{
 			$data = array();
@@ -69,7 +69,7 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			{
 				$data['subject'] = $message->subject;
 			}
-		
+
 			$result = $this->_apiCall(sprintf('message/%s', strtolower($message->type)), $data);
 			if (!$result)
 			{
@@ -81,13 +81,13 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$message->errors[] = 'ApiStore API error: ' . $result->result_code . ' ' . $result->result_message;
 			}
 		}
-		
+
 		return $status;
 	}
-	
+
 	/**
 	 * API call.
-	 * 
+	 *
 	 * @param string $url
 	 * @param array $data
 	 * @param string $method (optional)
@@ -106,12 +106,12 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$version = 1;
 		}
 		$url = sprintf('http://api.apistore.co.kr/ppurio/%d/%s/%s', $version, trim($url, '/'), $this->_config['api_user']);
-		
+
 		// Set the API key in the header.
 		$headers = array(
 			'x-waple-authorization' => $this->_config['api_key'],
 		);
-		
+
 		// Send the API reqeust.
 		if ($method === 'GET')
 		{
@@ -128,10 +128,10 @@ class ApiStore extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		$result = @json_decode($this->_last_response);
 		return $result ?: false;
 	}
-	
+
 	/**
 	 * Fetch the last API response.
-	 * 
+	 *
 	 * @return string
 	 */
 	protected function _getLastResponse()

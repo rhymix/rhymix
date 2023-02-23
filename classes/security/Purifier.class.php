@@ -1,5 +1,4 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
 class Purifier
 {
@@ -7,12 +6,10 @@ class Purifier
 	{
 		return new self();
 	}
-	
+
 	public function purify(&$content)
 	{
 		$content = Rhymix\Framework\Filters\HTMLFilter::clean($content);
 	}
 
 }
-/* End of file : Purifier.class.php */
-/* Location: ./classes/security/Purifier.class.php */

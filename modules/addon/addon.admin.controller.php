@@ -143,7 +143,7 @@ class addonAdminController extends addonController
 			$this->makeCacheFile($site_srl, 'mobile', 'site');
 			Rhymix\Framework\Cache::clearGroup('addonConfig');
 		}
-		
+
 		$this->setMessage('success_updated', 'info');
 		if(Context::get('success_return_url'))
 		{
@@ -245,7 +245,7 @@ class addonAdminController extends addonController
 		{
 			$args->is_used = $isUsed === 'Y' ? 'Y' : 'N';
 		}
-		
+
 		if($gtype == 'global')
 		{
 			$output = executeQuery('addon.insertAddon', $args);
@@ -256,7 +256,7 @@ class addonAdminController extends addonController
 			$args->site_srl = $site_srl;
 			$output = executeQuery('addon.insertSiteAddon', $args);
 		}
-		
+
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
@@ -293,7 +293,7 @@ class addonAdminController extends addonController
 			$args->site_srl = $site_srl;
 			$output = executeQuery('addon.updateSiteAddon', $args);
 		}
-		
+
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
@@ -329,7 +329,7 @@ class addonAdminController extends addonController
 			$args->site_srl = $site_srl;
 			$output = executeQuery('addon.updateSiteAddon', $args);
 		}
-		
+
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
 		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));

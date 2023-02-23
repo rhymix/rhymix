@@ -9,7 +9,7 @@ class XMLRPCParser
 {
 	/**
 	 * Load an XML file.
-	 * 
+	 *
 	 * @param string $content
 	 * @return object|false
 	 */
@@ -21,17 +21,17 @@ class XMLRPCParser
 		{
 			return false;
 		}
-		
+
 		// Loop over the list of parameters.
 		$result = self::_parseArray($xml->params);
-		
+
 		// Return the complete result.
 		return $result;
 	}
-	
+
 	/**
 	 * Process an array of parameters.
-	 * 
+	 *
 	 * @param \SimpleXMLElement $parent
 	 * @return array
 	 */

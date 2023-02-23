@@ -41,11 +41,11 @@ class Advanced extends Base
 			$cache_default_ttl = 86400;
 			$cache_servers = Config::get('cache');
 		}
-		
+
 		Context::set('object_cache_types', $object_cache_types);
 		Context::set('object_cache_type', $object_cache_type);
 		Context::set('cache_default_ttl', $cache_default_ttl);
-		
+
 		if ($cache_servers)
 		{
 			if (preg_match('!^(/.+)(#[0-9]+)?$!', array_first($cache_servers), $matches))
@@ -71,7 +71,7 @@ class Advanced extends Base
 			Context::set('object_cache_dbnum', 1);
 		}
 		Context::set('cache_truncate_method', Config::get('cache.truncate_method'));
-		
+
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
@@ -83,17 +83,17 @@ class Advanced extends Base
 			Context::set('thumbnail_target', 'none');
 			Context::set('thumbnail_type', 'fill');
 		}
-		
+
 		// Default and enabled languages
 		Context::set('supported_lang', Lang::getSupportedList());
 		Context::set('default_lang', Config::get('locale.default_lang'));
 		Context::set('enabled_lang', Config::get('locale.enabled_lang'));
 		Context::set('auto_select_lang', Config::get('locale.auto_select_lang'));
-		
+
 		// Default time zone
 		Context::set('timezones', DateTime::getTimezoneList());
 		Context::set('selected_timezone', Config::get('locale.default_timezone'));
-		
+
 		// Other settings
 		Context::set('use_rewrite', Router::getRewriteLevel());
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
@@ -108,17 +108,17 @@ class Advanced extends Base
 		Context::set('jquery_version', Config::get('view.jquery_version'));
 		Context::set('use_server_push', Config::get('view.server_push'));
 		Context::set('use_gzip', Config::get('view.use_gzip'));
-		
+
 		$this->setTemplateFile('config_advanced');
 	}
-	
+
 	/**
 	 * Update advanced configuration.
 	 */
 	public function procAdminUpdateAdvanced()
 	{
 		$vars = Context::getRequestVars();
-		
+
 		// Object cache
 		if ($vars->object_cache_type)
 		{
@@ -144,7 +144,7 @@ class Advanced extends Base
 					}
 					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
 				}
-				
+
 				if ($vars->object_cache_type === 'redis')
 				{
 					$cache_servers[0] .= '#' . intval($vars->object_cache_dbnum);
@@ -168,13 +168,13 @@ class Advanced extends Base
 		{
 			Config::set('cache', array());
 		}
-		
+
 		// Cache truncate method
 		if (in_array($vars->cache_truncate_method, array('delete', 'empty')))
 		{
 			Config::set('cache.truncate_method', $vars->cache_truncate_method);
 		}
-		
+
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$document_config = $oDocumentModel->getDocumentConfig();
@@ -183,7 +183,7 @@ class Advanced extends Base
 		$document_config->thumbnail_quality = intval($vars->thumbnail_quality) ?: 75;
 		$oModuleController = getController('module');
 		$oModuleController->insertModuleConfig('document', $document_config);
-		
+
 		// Mobile view
 		Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
 		Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
@@ -192,7 +192,7 @@ class Advanced extends Base
 		{
 			Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');
 		}
-		
+
 		// Languages and time zone
 		$enabled_lang = $vars->enabled_lang;
 		if (!in_array($vars->default_lang, $enabled_lang ?: []))
@@ -203,7 +203,7 @@ class Advanced extends Base
 		Config::set('locale.enabled_lang', array_values($enabled_lang));
 		Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
 		Config::set('locale.default_timezone', $vars->default_timezone);
-		
+
 		// Other settings
 		Config::set('url.rewrite', intval($vars->use_rewrite));
 		Config::set('use_rewrite', $vars->use_rewrite > 0);
@@ -215,13 +215,13 @@ class Advanced extends Base
 		Config::set('view.jquery_version', $vars->jquery_version == 3 ? 3 : 2);
 		Config::set('view.server_push', $vars->use_server_push === 'Y');
 		Config::set('view.use_gzip', $vars->use_gzip === 'Y');
-		
+
 		// Save
 		if (!Config::save())
 		{
 			throw new Exception('msg_failed_to_save_config');
 		}
-		
+
 		$this->setMessage('success_updated');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigAdvanced'));
 	}

@@ -11,7 +11,7 @@ class pointController extends point
 	 * Variables for internal reference.
 	 */
 	protected $_original;
-	
+
 	/**
 	 * @brief Initialization
 	 */
@@ -29,7 +29,7 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		$config = $this->getConfig();
 		$diff = intval($config->signup_point);
 		if ($diff != 0)
@@ -49,13 +49,13 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Points are given only once a day.
 		if (substr($obj->last_login, 0, 8) === date('Ymd'))
 		{
 			return;
 		}
-		
+
 		$config = $this->getConfig();
 		$diff = intval($config->login_point);
 		if ($diff != 0)
@@ -72,7 +72,7 @@ class pointController extends point
 	{
 		$group_srl = $obj->group_srl;
 		$config = $this->getConfig();
-		
+
 		// Exclude deleted group from point/level/group integration
 		if($config->point_group && isset($config->point_group[$group_srl]))
 		{
@@ -80,7 +80,7 @@ class pointController extends point
 			getController('module')->insertModuleConfig('point', $config);
 		}
 	}
-	
+
 	/**
 	 * @brief A trigger to add points to the member for creating a post
 	 */
@@ -92,7 +92,7 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// The fix to disable giving points for saving the document temporarily
 		if ($module_srl == $member_srl)
 		{
@@ -102,19 +102,19 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		$diff = 0;
 
 		// Add points for the document.
 		$diff += $this->_getModulePointConfig($module_srl, 'insert_document');
-		
+
 		// Add points for attached files.
 		if ($obj->updated_file_count > 0)
 		{
 			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
 			$diff += $upload_point * $obj->updated_file_count;
 		}
-		
+
 		// Increase the point.
 		if ($diff != 0)
 		{
@@ -137,7 +137,7 @@ class pointController extends point
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief The trigger to give points for normal saving the temporarily saved document
 	 * Temporary storage at the point in 1.2.3 changed to avoid payment
@@ -154,15 +154,15 @@ class pointController extends point
 			$module_srl = $obj->module_srl;
 			$member_srl = $obj->member_srl;
 		}
-		
+
 		if (!$module_srl || !$member_srl)
 		{
 			$this->_original = null;
 			return;
 		}
-		
+
 		$diff = 0;
-		
+
 		// Add points for the document, only if the document is being updated from TEMP to another status such as PUBLIC.
 		if ($obj->status !== DocumentModel::getConfigStatus('temp') && $this->_original->get('status') === DocumentModel::getConfigStatus('temp'))
 		{
@@ -175,14 +175,14 @@ class pointController extends point
 			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
 			$diff += $upload_point * $obj->updated_file_count;
 		}
-		
+
 		// Increase the point.
 		if ($diff != 0)
 		{
 			$cur_point = PointModel::getPoint($member_srl);
 			$this->setPoint($member_srl, $cur_point + $diff);
 		}
-		
+
 		// Remove the reference to the original document.
 		$this->_original = null;
 	}
@@ -192,7 +192,7 @@ class pointController extends point
 	 */
 	public function triggerBeforeDeleteDocument($obj)
 	{
-		
+
 	}
 
 	/**
@@ -210,14 +210,14 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Return if disabled
 		$config = $this->getConfig();
 		if ($config->insert_document_revert_on_delete === false)
 		{
 			return;
 		}
-		
+
 		// The fix to disable giving points for saving the document temporarily
 		if ($module_srl == $member_srl)
 		{
@@ -227,10 +227,10 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Subtract points for the document.
 		$diff = $this->_getModulePointConfig($module_srl, 'insert_document');
-		
+
 		// Increase the point.
 		if ($diff != 0)
 		{
@@ -258,14 +258,14 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Abort if the comment and the document have the same author.
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
 		{
 			return;
 		}
-		
+
 		// Abort if the document is older than a configured limit.
 		$config = $this->getConfig();
 		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
@@ -273,22 +273,22 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		$diff = 0;
-		
+
 		// Add points for the comment.
 		if ($mode === 'insert')
 		{
 			$diff += $this->_getModulePointConfig($module_srl, 'insert_comment');
 		}
-		
+
 		// Add points for attached files.
 		if ($obj->updated_file_count > 0)
 		{
 			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
 			$diff += $upload_point * $obj->updated_file_count;
 		}
-		
+
 		// Increase the point.
 		if ($diff != 0)
 		{
@@ -304,7 +304,7 @@ class pointController extends point
 	{
 		$this->triggerInsertComment($obj, 'update');
 	}
-	
+
 	/**
 	 * @brief A trigger which gives points for deleting a comment
 	 */
@@ -320,32 +320,32 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Return if disabled
 		$config = $this->getConfig();
 		if ($config->insert_comment_revert_on_delete === false)
 		{
 			return;
 		}
-		
+
 		// Abort if the comment and the document have the same author.
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if (!$oDocument->isExists() || abs($oDocument->get('member_srl')) == $member_srl)
 		{
 			return;
 		}
-		
+
 		// Abort if the document is older than a configured limit.
 		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
 		if ($time_limit > 0 && ztime($oDocument->get('regdate')) < RX_TIME - ($time_limit * 86400))
 		{
 			return;
 		}
-		
+
 		// Calculate points based on the module_srl of the document to which this comment belongs
 		$module_srl = $oDocument->get('module_srl');
 		$diff = $this->_getModulePointConfig($module_srl, 'insert_comment');
-		
+
 		// Decrease the point.
 		if ($diff != 0)
 		{
@@ -368,7 +368,7 @@ class pointController extends point
 	 */
 	public function triggerInsertFile($obj)
 	{
-		
+
 	}
 
 	/**
@@ -383,19 +383,19 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Return if disabled
 		$config = $this->getConfig();
 		if ($config->upload_file_revert_on_delete === false)
 		{
 			return;
 		}
-		
+
 		// Get the points of the member
 
 		// Subtract points for the file.
 		$diff = $this->_getModulePointConfig($module_srl, 'upload_file');
-		
+
 		// Update the point.
 		if ($diff != 0)
 		{
@@ -417,23 +417,23 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		$point = $this->_getModulePointConfig($module_srl, 'download_file');
 		if (!$point)
 		{
 			return;
 		}
-		
+
 		// Get current points.
 		$cur_point = $logged_member_srl ? PointModel::getPoint($logged_member_srl) : 0;
-		
+
 		// If the user (member or guest) does not have enough points, deny access.
 		$config = $this->getConfig();
 		if ($config->disable_download == 'Y' && $cur_point + $point < 0)
 		{
 			return new BaseObject(-1, 'msg_cannot_download');
 		}
-		
+
 		// Points will be adjusted after downloading (triggerDownloadFile).
 	}
 
@@ -450,7 +450,7 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Adjust points of the downloader.
 		if ($logged_member_srl)
 		{
@@ -461,7 +461,7 @@ class pointController extends point
 				$this->setPoint($logged_member_srl, $cur_point + $point);
 			}
 		}
-		
+
 		// Adjust points of the uploader.
 		if ($author_member_srl)
 		{
@@ -488,7 +488,7 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Load configuration for reader and author points.
 		$reader_point = $this->_getModulePointConfig($module_srl, 'read_document');
 		$author_point = $this->_getModulePointConfig($module_srl, 'read_document_author');
@@ -496,7 +496,7 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// If the reader has already read this document, do not adjust points again.
 		if ($logged_member_srl)
 		{
@@ -509,7 +509,7 @@ class pointController extends point
 				return;
 			}
 		}
-		
+
 		// Give no points if the document is older than a configured limit.
 		$regdate = ztime($obj->get('regdate'));
 		$config = $this->getConfig();
@@ -521,7 +521,7 @@ class pointController extends point
 		{
 			$author_point = 0;
 		}
-		
+
 		// Give no points if the document is a notice and an exception has been configured.
 		if ($obj->get('is_notice') === 'Y')
 		{
@@ -534,13 +534,13 @@ class pointController extends point
 				$author_point = 0;
 			}
 		}
-		
+
 		// Adjust points of the reader.
 		if ($reader_point)
 		{
 			// Get current points.
 			$cur_point = $logged_member_srl ? PointModel::getPoint($logged_member_srl) : 0;
-			
+
 			// If the reader does not have enough points, deny access.
 			if ($cur_point + $reader_point < 0 && $config->disable_read_document == 'Y')
 			{
@@ -556,7 +556,7 @@ class pointController extends point
 					return new BaseObject(-1, $message);
 				}
 			}
-			
+
 			// Record the fact that this member has already read this document.
 			if ($logged_member_srl)
 			{
@@ -567,7 +567,7 @@ class pointController extends point
 				$this->setPoint($logged_member_srl, $cur_point + $reader_point);
 			}
 		}
-		
+
 		// Adjust points of the person who wrote the document.
 		if ($author_point && $author_member_srl)
 		{
@@ -588,10 +588,10 @@ class pointController extends point
 		{
 			return;
 		}
-		
+
 		// Document or comment?
 		$is_comment = isset($obj->comment_srl) && $obj->comment_srl;
-		
+
 		// Give no points if the document or comment is older than a configured limit.
 		$config = $this->getConfig();
 		if ($is_comment)
@@ -608,7 +608,7 @@ class pointController extends point
 		}
 		$logged_enabled = !($config->$logged_config_key > 0 && $regdate < RX_TIME - ($config->$logged_config_key * 86400));
 		$target_enabled = !($config->$target_config_key > 0 && $regdate < RX_TIME - ($config->$target_config_key * 86400));
-		
+
 		// Adjust points of the voter.
 		if ($logged_member_srl && $logged_enabled)
 		{
@@ -624,7 +624,7 @@ class pointController extends point
 				$this->setPoint($logged_member_srl, $cur_point + $point);
 			}
 		}
-		
+
 		// Adjust points of the person who wrote the document or comment.
 		if ($target_member_srl && $target_enabled)
 		{
@@ -752,7 +752,7 @@ class pointController extends point
 		{
 			$change_group = ($level != $current_level);
 		}
-		
+
 		if ($change_group)
 		{
 			// Check if the level, for which the current points are prepared, is calculate and set the correct group
@@ -763,7 +763,7 @@ class pointController extends point
 				// Get the default group
 				$default_group = MemberModel::getDefaultGroup();
 				asort($point_group);
-				
+
 				// Reset group after initialization
 				if($config->group_reset != 'N')
 				{
@@ -862,10 +862,10 @@ class pointController extends point
 
 		return $output;
 	}
-	
+
 	/**
 	 * Get point configuration for module, falling back to defaults if not set.
-	 * 
+	 *
 	 * @param int $module_srl
 	 * @param string $config_key
 	 * @return int
@@ -878,7 +878,7 @@ class pointController extends point
 		{
 			return 0;
 		}
-		
+
 		if ($module_srl)
 		{
 			if (!isset(self::$_module_config_cache[$module_srl]))
@@ -895,7 +895,7 @@ class pointController extends point
 		{
 			$module_config = array();
 		}
-		
+
 		if (isset($module_config[$config_key]) && $module_config[$config_key] !== '')
 		{
 			$point = $module_config[$config_key];
@@ -905,7 +905,7 @@ class pointController extends point
 			$default_config = $this->getConfig();
 			$point = $default_config->{$config_key};
 		}
-		
+
 		return intval($point);
 	}
 }

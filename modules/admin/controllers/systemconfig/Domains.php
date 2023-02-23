@@ -29,7 +29,7 @@ class Domains extends Base
 		Context::set('domain_list', $domain_list);
 		Context::set('page_navigation', $domain_list->page_navigation);
 		Context::set('page', $page);
-		
+
 		// Get index module info.
 		$module_list = array();
 		$oModuleModel = getModel('module');
@@ -41,13 +41,13 @@ class Domains extends Base
 			}
 		}
 		Context::set('module_list', $module_list);
-		
+
 		// Get language list.
 		Context::set('supported_lang', Lang::getSupportedList());
-		
+
 		$this->setTemplateFile('config_domains');
 	}
-	
+
 	/**
 	 * Display domain edit screen
 	 */
@@ -66,7 +66,7 @@ class Domains extends Base
 		}
 		Context::set('domain_info', $domain_info);
 		Context::set('domain_copy', false);
-		
+
 		// Get modules.
 		if ($domain_info && $domain_info->index_module_srl)
 		{
@@ -77,7 +77,7 @@ class Domains extends Base
 			$index_module_srl = '';
 		}
 		Context::set('index_module_srl', $index_module_srl);
-		
+
 		// Get language list.
 		Context::set('supported_lang', Lang::getSupportedList());
 		Context::set('enabled_lang', Config::get('locale.enabled_lang'));
@@ -90,7 +90,7 @@ class Domains extends Base
 			$domain_lang = 'default';
 		}
 		Context::set('domain_lang', $domain_lang);
-		
+
 		// Get timezone list.
 		Context::set('timezones', DateTime::getTimezoneList());
 		if ($domain_info && $domain_info->settings->timezone)
@@ -102,7 +102,7 @@ class Domains extends Base
 			$domain_timezone = Config::get('locale.default_timezone');
 		}
 		Context::set('domain_timezone', $domain_timezone);
-		
+
 		// Get favicon and images.
 		if ($domain_info)
 		{
@@ -111,10 +111,10 @@ class Domains extends Base
 			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_info->domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
 		}
-		
+
 		$this->setTemplateFile('config_domains_edit');
 	}
-	
+
 	/**
 	 * Display domain copy screen
 	 */
@@ -127,13 +127,13 @@ class Domains extends Base
 		{
 			throw new Exception('msg_domain_not_found');
 		}
-		
+
 		// Adjust some properties for copying.
 		$domain_info->domain_srl = null;
 		$domain_info->is_default_domain = 'N';
 		Context::set('domain_info', $domain_info);
 		Context::set('domain_copy', true);
-		
+
 		// Get modules.
 		if ($domain_info && $domain_info->index_module_srl)
 		{
@@ -144,7 +144,7 @@ class Domains extends Base
 			$index_module_srl = '';
 		}
 		Context::set('index_module_srl', $index_module_srl);
-		
+
 		// Get language list.
 		Context::set('supported_lang', Lang::getSupportedList());
 		Context::set('enabled_lang', Config::get('locale.enabled_lang'));
@@ -157,7 +157,7 @@ class Domains extends Base
 			$domain_lang = 'default';
 		}
 		Context::set('domain_lang', $domain_lang);
-		
+
 		// Get timezone list.
 		Context::set('timezones', DateTime::getTimezoneList());
 		if ($domain_info && $domain_info->settings->timezone)
@@ -169,7 +169,7 @@ class Domains extends Base
 			$domain_timezone = Config::get('locale.default_timezone');
 		}
 		Context::set('domain_timezone', $domain_timezone);
-		
+
 		// Get favicon and images.
 		if ($domain_info)
 		{
@@ -178,24 +178,24 @@ class Domains extends Base
 			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_info->domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
 		}
-		
+
 		$this->setTemplateFile('config_domains_edit');
 	}
-	
+
 	/**
 	 * Update domains configuration.
 	 */
 	public function procAdminUpdateDomainConfig()
 	{
 		$vars = Context::getRequestVars();
-		
+
 		// Validate the unregistered domain action.
 		$valid_actions = array('redirect_301', 'redirect_302', 'display', 'block');
 		if (!in_array($vars->unregistered_domain_action, $valid_actions))
 		{
 			$vars->unregistered_domain_action = 'redirect_301';
 		}
-		
+
 		// Save system config.
 		Config::set('url.unregistered_domain_action', $vars->unregistered_domain_action);
 		Config::set('use_sso', $vars->use_sso === 'Y');
@@ -203,11 +203,11 @@ class Domains extends Base
 		{
 			throw new Exception('msg_failed_to_save_config');
 		}
-		
+
 		$this->setMessage('success_updated');
-		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));		
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
 	}
-	
+
 	/**
 	 * Insert or update domain info.
 	 */
@@ -224,7 +224,7 @@ class Domains extends Base
 				throw new Exception('msg_domain_not_found');
 			}
 		}
-		
+
 		// Copying?
 		$copy_domain_srl = intval($vars->copy_domain_srl);
 		if (!$domain_info && $copy_domain_srl > -1)
@@ -239,7 +239,7 @@ class Domains extends Base
 		{
 			$copy_domain_info = null;
 		}
-		
+
 		// Validate the title and subtitle.
 		$vars->title = utf8_trim($vars->title);
 		$vars->subtitle = utf8_trim($vars->subtitle);
@@ -247,7 +247,7 @@ class Domains extends Base
 		{
 			throw new Exception('msg_site_title_is_empty');
 		}
-		
+
 		// Validate the domain.
 		if (!preg_match('@^https?://@', $vars->domain))
 		{
@@ -270,7 +270,7 @@ class Domains extends Base
 		{
 			throw new Exception('msg_domain_already_exists');
 		}
-		
+
 		// Validate the ports.
 		if ($vars->http_port == 80 || !$vars->http_port)
 		{
@@ -288,21 +288,21 @@ class Domains extends Base
 		{
 			throw new Exception('msg_invalid_https_port');
 		}
-		
+
 		// Validate the security setting.
 		$valid_security_options = array('none', 'optional', 'always');
 		if (!in_array($vars->domain_security, $valid_security_options))
 		{
 			$vars->domain_security = 'none';
 		}
-		
+
 		// Validate the index module setting.
 		$module_info = getModel('module')->getModuleInfoByModuleSrl(intval($vars->index_module_srl));
 		if (!$module_info || $module_info->module_srl != $vars->index_module_srl)
 		{
 			throw new Exception('msg_invalid_index_module_srl');
 		}
-		
+
 		// Validate the index document setting.
 		if ($vars->index_document_srl)
 		{
@@ -320,36 +320,36 @@ class Domains extends Base
 		{
 			$vars->index_document_srl = 0;
 		}
-		
+
 		// Validate the default language.
 		$enabled_lang = Config::get('locale.enabled_lang');
 		if ($vars->default_lang !== 'default' && !in_array($vars->default_lang, $enabled_lang))
 		{
 			throw new Exception('msg_lang_is_not_enabled');
 		}
-		
+
 		// Validate the default time zone.
 		$timezone_list = DateTime::getTimezoneList();
 		if ($vars->default_timezone !== 'default' && !isset($timezone_list[$vars->default_timezone]))
 		{
 			throw new Exception('msg_invalid_timezone');
 		}
-		
+
 		// Clean up the meta keywords and description.
 		$vars->meta_keywords = utf8_trim($vars->meta_keywords);
 		$vars->meta_description = utf8_trim($vars->meta_description);
-		
+
 		// Clean up the header and footer scripts.
 		$vars->html_header = utf8_trim($vars->html_header);
 		$vars->html_footer = utf8_trim($vars->html_footer);
-		
+
 		// Validate the color scheme setting.
 		$valid_color_scheme_options = array('auto', 'light', 'dark');
 		if (!in_array($vars->color_scheme, $valid_color_scheme_options))
 		{
 			$vars->color_scheme = 'auto';
 		}
-		
+
 		// Merge all settings into an array.
 		$settings = array(
 			'title' => $vars->title,
@@ -362,11 +362,11 @@ class Domains extends Base
 			'html_footer' => $vars->html_footer,
 			'color_scheme' => $vars->color_scheme
 		);
-		
+
 		// Get the DB object and begin a transaction.
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// Insert or update the domain.
 		if (!$domain_info)
 		{
@@ -408,7 +408,7 @@ class Domains extends Base
 				return $output;
 			}
 		}
-		
+
 		// If changing the default domain, set all other domains as non-default.
 		if ($vars->is_default_domain === 'Y')
 		{
@@ -420,7 +420,7 @@ class Domains extends Base
 				return $output;
 			}
 		}
-		
+
 		// Save or copy the favicon.
 		if ($vars->delete_favicon)
 		{
@@ -436,7 +436,7 @@ class Domains extends Base
 			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'favicon.ico';
 			Storage::copy($source_filename, $target_filename);
 		}
-		
+
 		// Save or copy the mobile icon.
 		if ($vars->delete_mobicon)
 		{
@@ -452,7 +452,7 @@ class Domains extends Base
 			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'mobicon.png';
 			Storage::copy($source_filename, $target_filename);
 		}
-		
+
 		// Save or copy the site default image.
 		if ($vars->delete_default_image)
 		{
@@ -485,7 +485,7 @@ class Domains extends Base
 				}
 			}
 		}
-		
+
 		// Update system configuration to match the default domain.
 		if ($domain_info && $domain_info->is_default_domain === 'Y')
 		{
@@ -502,17 +502,17 @@ class Domains extends Base
 				throw new Exception('msg_failed_to_save_config');
 			}
 		}
-		
+
 		// Commit.
 		$oDB->commit();
-		
+
 		// Clear cache.
 		Cache::clearGroup('site_and_module');
-		
+
 		// Redirect to the domain list.
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAdminConfigGeneral'));
 	}
-	
+
 	/**
 	 * Delete a domain.
 	 */
@@ -533,7 +533,7 @@ class Domains extends Base
 		{
 			throw new Exception('msg_cannot_delete_default_domain');
 		}
-		
+
 		// Delete the domain.
 		$args = new \stdClass;
 		$args->domain_srl = $domain_srl;
@@ -542,12 +542,12 @@ class Domains extends Base
 		{
 			return $output;
 		}
-		
+
 		// Delete icons and default image for the domain.
 		IconModel::deleteIcon($domain_srl, 'favicon.ico');
 		IconModel::deleteIcon($domain_srl, 'mobicon.png');
 		IconModel::deleteDefaultImage($domain_srl);
-		
+
 		// Clear cache.
 		Cache::clearGroup('site_and_module');
 	}

@@ -12,7 +12,7 @@ class install extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		
+
 	}
 
 	/**
@@ -28,7 +28,7 @@ class install extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		
+
 	}
 
 	/**

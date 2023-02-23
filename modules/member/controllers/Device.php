@@ -6,9 +6,9 @@ class Device extends \Member
 {
 	/**
 	 * Automatically recognize device token from header or cookie and register it.
-	 * 
+	 *
 	 * If the device is already registered, just update its last active date.
-	 * 
+	 *
 	 * @return \BaseObject
 	 */
 	public function autoRegisterDevice(int $member_srl): \BaseObject
@@ -33,10 +33,10 @@ class Device extends \Member
 		}
 		return new \BaseObject;
 	}
-	
+
 	/**
 	 * Automatically recognize device token from header or cookie and unregister it.
-	 * 
+	 *
 	 * @return \BaseObject
 	 */
 	public function autoUnregisterDevice(int $member_srl): \BaseObject
@@ -115,7 +115,7 @@ class Device extends \Member
 		{
 			return new \BaseObject(-1, 'INVALID_DEVICE_TOKEN');
 		}
-		
+
 		if ($member_srl)
 		{
 			$member_srl = intval($member_srl);
@@ -150,7 +150,7 @@ class Device extends \Member
 		$args->device_type = $device_type;
 		$args->device_version = $device_version;
 		$args->device_model = $device_model;
-		
+
 		// Call trigger (before)
 		$trigger_output = \ModuleHandler::triggerCall('member.insertMemberDevice', 'before', $args);
 		if(!$trigger_output->toBool()) return $trigger_output;
@@ -158,10 +158,10 @@ class Device extends \Member
 		// Start transaction
 		$oDB = \DB::getInstance();
 		$oDB->begin();
-		
+
 		// Remove duplicated token key
 		executeQuery('member.deleteMemberDevice', ['device_token' => $device_token]);
-		
+
 		// Create member_device
 		$output = executeQuery('member.insertMemberDevice', $args);
 		if(!$output->toBool())
@@ -169,10 +169,10 @@ class Device extends \Member
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		// Call trigger (after)
 		\ModuleHandler::triggerCall('member.insertMemberDevice', 'after', $args);
-		
+
 		$oDB->commit();
 
 		// Set parameters
@@ -242,7 +242,7 @@ class Device extends \Member
 			{
 				if(isset($member_info->phone_number))
 				{
-					$user_id = $member_info->phone_number;	
+					$user_id = $member_info->phone_number;
 				}
 				else
 				{
@@ -259,26 +259,26 @@ class Device extends \Member
 		{
 			$member_info = null;
 		}
-		
+
 		// Update last active date
 		executeQuery('member.updateMemberDeviceLastActiveDate', ['device_token' => $device_token]);
-		
+
 		$this->add('member_srl', $member_srl);
 		$this->add('user_id', $member_info ? $member_info->user_id : null);
 		$this->add('user_name', $member_info ? $member_info->user_name : null);
 		$this->add('nick_name', $member_info ? $member_info->nick_name : null);
 	}
-	
+
 	/**
 	 * Unregister a registered device.
-	 * 
+	 *
 	 * This action requires a device token and matching device key.
 	 * It is intended to be called by mobile applications.
 	 */
 	public function procMemberUnregisterDevice()
 	{
 		\Context::setResponseMethod('JSON');
-		
+
 		// Check member_srl, device_token, device_key
 		$allow_guest_device = config('push.allow_guest_device');
 		$member_srl = abs(\Context::get('member_srl'));
@@ -298,7 +298,7 @@ class Device extends \Member
 		{
 			return new \BaseObject(-1, 'NULL_DEVICE_KEY');
 		}
-		
+
 		// Check the device token and key.
 		$args = new \stdClass;
 		$args->member_srl = $member_srl;
@@ -313,7 +313,7 @@ class Device extends \Member
 		{
 			return new \BaseObject(-1, 'UNREGISTERED_DEVICE');
 		}
-		
+
 		// Delete the device.
 		$args = new \stdClass;
 		$args->device_token = $device_token;
@@ -323,10 +323,10 @@ class Device extends \Member
 			return new \BaseObject(-1, 'DELETE_FAILED');
 		}
 	}
-	
+
 	/**
 	 * Delete a registered device.
-	 * 
+	 *
 	 * This action requires only the device_srl, but it must belong to the currently logged in member.
 	 * It is intended to be called from the web frontend.
 	 */
@@ -338,13 +338,13 @@ class Device extends \Member
 		{
 			throw new \Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		
+
 		$member_srl = $this->user->member_srl;
 		if (!$member_srl)
 		{
 			throw new \Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// Check that the device_srl matches the member.
 		$args = new \stdClass;
 		$args->device_srl = $device_srl;
@@ -354,17 +354,17 @@ class Device extends \Member
 		{
 			throw new \Rhymix\Framework\Exceptions\TargetNotFound;
 		}
-		
+
 		// Delete the device.
 		$args = new \stdClass;
 		$args->device_token = $output->data->device_token;
 		$output = executeQuery('member.deleteMemberDevice', $args);
 		return $output;
 	}
-	
+
 	/**
 	 * Get device token from POST parameter, HTTP header or cookie
-	 * 
+	 *
 	 * @return string|null
 	 */
 	protected function _getDeviceToken()
@@ -375,14 +375,14 @@ class Device extends \Member
 		{
 			return $device_token;
 		}
-		
+
 		// HTTP header named X-Device-Token
 		$device_token = $_SERVER['HTTP_X_DEVICE_TOKEN'] ?? null;
 		if ($device_token)
 		{
 			return $device_token;
 		}
-		
+
 		// Cookie named device_token
 		$device_token = $_COOKIE['device_token'] ?? null;
 		if ($device_token)
@@ -390,10 +390,10 @@ class Device extends \Member
 			return $device_token;
 		}
 	}
-	
+
 	/**
 	 * Set device key via header or cookie
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _setDeviceKey()
@@ -404,7 +404,7 @@ class Device extends \Member
 		{
 			return;
 		}
-		
+
 		// Set header if header was given, or cookie otherwise
 		if (isset($_SERVER['HTTP_X_DEVICE_TOKEN']))
 		{

@@ -8,7 +8,7 @@ class Icon
 {
 	/**
 	 * Get favicon URL for a domain.
-	 * 
+	 *
 	 * @param int $domain_srl
 	 * @return string
 	 */
@@ -19,7 +19,7 @@ class Icon
 
 	/**
 	 * Get mobile icon URL for a domain.
-	 * 
+	 *
 	 * @param int $domain_srl
 	 * @return string
 	 */
@@ -30,7 +30,7 @@ class Icon
 
 	/**
 	 * Check if an icon file exists, and if so, return its URL.
-	 * 
+	 *
 	 * @param int $domain_srl
 	 * @param string $icon_name
 	 * @return string
@@ -50,7 +50,7 @@ class Icon
 
 	/**
 	 * Get the default image for a domain.
-	 * 
+	 *
 	 * @param int $domain_srl
 	 * @param int &$width
 	 * @param int &$height
@@ -74,7 +74,7 @@ class Icon
 
 	/**
 	 * Save an icon for a domain.
-	 * 
+	 *
 	 * @param int $domain_srl
 	 * @param string $icon_name
 	 * @param array $fileinfo
@@ -115,7 +115,7 @@ class Icon
 
 	/**
 	 * Save the default image for a domain.
-	 * 
+	 *
 	 * @param int $domain_srl
 	 * @param array $file_info
 	 * @return bool

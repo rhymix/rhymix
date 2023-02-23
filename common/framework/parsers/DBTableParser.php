@@ -16,7 +16,7 @@ class DBTableParser extends BaseParser
 		'bigtext' => 'longtext',
 		'date' => 'char(14)',
 	);
-	
+
 	/**
 	 * List of types for which the size attribute will be ignored.
 	 */
@@ -25,10 +25,10 @@ class DBTableParser extends BaseParser
 		'int' => true,
 		'integer' => true,
 	);
-	
+
 	/**
 	 * Load a table definition XML file.
-	 * 
+	 *
 	 * @param string $filename
 	 * @param string $content
 	 * @return object|false
@@ -44,12 +44,12 @@ class DBTableParser extends BaseParser
 		{
 			$xml = simplexml_load_string(file_get_contents($filename));
 		}
-		
+
 		if ($xml === false)
 		{
 			return false;
 		}
-		
+
 		// Initialize table definition.
 		$table = new DBTable\Table;
 		if ($filename)
@@ -60,13 +60,13 @@ class DBTableParser extends BaseParser
 		{
 			$table->name = strval($xml['name']);
 		}
-		
+
 		$deleted = strval($xml['deleted']);
 		if ($deleted !== '')
 		{
 			$table->deleted = toBool($deleted);
 		}
-		
+
 		// Load columns.
 		foreach ($xml->column as $column_info)
 		{
@@ -74,10 +74,10 @@ class DBTableParser extends BaseParser
 			$column = new DBTable\Column;
 			$column->name = strval($column_info['name']);
 			list($column->type, $column->xetype, $column->size) = self::getTypeAndSize(strval($column_info['type']), strval($column_info['size']));
-			
+
 			// Get all attributes.
 			$attribs = self::_getAttributes($column_info);
-			
+
 			// Get the charset/utf8mb4 attribute.
 			if (isset($attribs['charset']))
 			{
@@ -91,19 +91,19 @@ class DBTableParser extends BaseParser
 			{
 				$column->charset = 'latin1';
 			}
-			
+
 			// Get the default value.
 			if (isset($attribs['default']))
 			{
 				$column->default_value = $attribs['default'];
 			}
-			
+
 			// Get the NOT NULL attribute.
 			if (isset($attribs['notnull']))
 			{
 				$column->not_null = true;
 			}
-			
+
 			// Get index information.
 			if (isset($attribs['index']))
 			{
@@ -129,7 +129,7 @@ class DBTableParser extends BaseParser
 				$column->is_indexed = true;
 				$column->is_unique = true;
 			}
-			
+
 			// Get primary key information.
 			if (isset($attribs['primarykey']) && toBool($attribs['primarykey']))
 			{
@@ -138,17 +138,17 @@ class DBTableParser extends BaseParser
 				$column->is_unique = true;
 				$column->is_primary_key = true;
 			}
-			
+
 			// Get auto-increment information.
 			if (isset($attribs['autoincrement']) && toBool($attribs['autoincrement']))
 			{
 				$column->auto_increment = true;
-			}			
-			
+			}
+
 			// Add the column to the table definition.
 			$table->columns[$column->name] = $column;
 		}
-		
+
 		// Load indexes.
 		foreach ($xml->index as $index_info)
 		{
@@ -169,7 +169,7 @@ class DBTableParser extends BaseParser
 					$index->columns[$idxcolumn] = 0;
 				}
 			}
-			
+
 			// Get the index type.
 			if (isset($index_info['type']) && $index_info['type'])
 			{
@@ -179,24 +179,24 @@ class DBTableParser extends BaseParser
 			{
 				$index->type = 'UNIQUE';
 			}
-			
+
 			// Set attributes on indexed columns.
 			if (isset($table->columns[$idxcolumn]) && is_object($table->columns[$idxcolumn]))
 			{
 				$table->columns[$idxcolumn]->is_indexed = true;
 				$table->columns[$idxcolumn]->is_unique = $index->type === 'UNIQUE' ? true : $table->columns[$idxcolumn]->is_unique;
 			}
-			
+
 			// If any index options are given, also store them in the index class.
 			if (isset($index_info['options']) && $index_info['options'])
 			{
 				$index->options = $index_info['options'];
 			}
-			
+
 			// Add the index to the column definition.
 			$table->indexes[$index->name] = $index;
 		}
-		
+
 		// Load other constraints (foreign keys).
 		foreach ($xml->constraint as $const_info)
 		{
@@ -210,14 +210,14 @@ class DBTableParser extends BaseParser
 			$constraint->on_update = ($const_info['onupdate'] ?? null) ?: $constraint->on_update;
 			$table->constraints[] = $constraint;
 		}
-		
+
 		// Return the complete table definition.
 		return $table;
 	}
-	
+
 	/**
 	 * Get column type and size.
-	 * 
+	 *
 	 * @param string $type
 	 * @param string $size
 	 * @return array
@@ -235,7 +235,7 @@ class DBTableParser extends BaseParser
 			$xetype = 'none';
 			$type = ltrim($type, '\\');
 		}
-		
+
 		// Extract and normalize the size.
 		if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $type, $matches))
 		{
@@ -247,14 +247,14 @@ class DBTableParser extends BaseParser
 		{
 			$size = null;
 		}
-		
+
 		// Return a complete array.
 		return [$type, $xetype, $size];
 	}
-	
+
 	/**
 	 * Get the XE-compatible type from a real database type.
-	 * 
+	 *
 	 * @param string $type
 	 * @param string $size
 	 * @return string
@@ -281,10 +281,10 @@ class DBTableParser extends BaseParser
 				return $type;
 		}
 	}
-	
+
 	/**
 	 * Order tables according to foreign key relations.
-	 * 
+	 *
 	 * @param array $tables [$table_name => $filename]
 	 * @return array
 	 */
@@ -310,7 +310,7 @@ class DBTableParser extends BaseParser
 				$ref_list[$table_name] = $info;
 			}
 		}
-		
+
 		// Sort each table after the ones they are dependent on.
 		for ($j = 0; $j < count($ref_list); $j++)
 		{
@@ -335,11 +335,11 @@ class DBTableParser extends BaseParser
 				break;
 			}
 		}
-		
+
 		uasort($ref_list, function($a, $b) {
 			return $a->index - $b->index;
 		});
-		
+
 		// Produce a result in the same format as the input.
 		$result = [];
 		foreach ($ref_list as $table_name => $info)

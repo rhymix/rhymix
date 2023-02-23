@@ -2,7 +2,7 @@
 
 /**
  * Preserved for backward compatibility
- * 
+ *
  * @deprecated
  */
 class AdminAdminController extends Admin
@@ -20,7 +20,7 @@ class AdminAdminController extends Admin
 
 	/**
 	 * Remove an icon.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function procAdminRemoveIcons()
@@ -39,7 +39,7 @@ class AdminAdminController extends Admin
 
 	/**
 	 * Delete the admin logo.
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public function procAdminDeleteLogo()
@@ -82,7 +82,7 @@ class AdminAdminController extends Admin
 	{
 		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 	}
-	
+
 	public function procAdminRemoveFTPInfo()
 	{
 		throw new Rhymix\Framework\Exceptions\FeatureDisabled;

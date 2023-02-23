@@ -42,7 +42,7 @@ class ncenterlite extends ModuleObject
 
 	function moduleInstall()
 	{
-		
+
 	}
 
 	function checkUpdate()
@@ -93,7 +93,7 @@ class ncenterlite extends ModuleObject
 				}
 			}
 		}
-		
+
 		// #1903 #1906
 		foreach(['target_browser', 'target_summary'] as $column_name)
 		{
@@ -103,7 +103,7 @@ class ncenterlite extends ModuleObject
 				return true;
 			}
 		}
-		
+
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
@@ -114,7 +114,7 @@ class ncenterlite extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		if($oDB->isColumnExists('ncenterlite_user_set','custom_notify'))
 		{
 			return true;
@@ -182,7 +182,7 @@ class ncenterlite extends ModuleObject
 		{
 			$oDB->addColumn('ncenterlite_notify', 'target_p_srl', 'number', 10, true);
 		}
-		
+
 		foreach(['idx_srl', 'idx_member_srl', 'idx_regdate', 'idx_readed', 'idx_target_srl', 'idx_target_p_srl', 'idx_target_member_srl'] as $index_name)
 		{
 			if(!$oDB->isIndexExists('ncenterlite_notify', $index_name))
@@ -219,13 +219,13 @@ class ncenterlite extends ModuleObject
 		{
 			$oDB->dropColumn('ncenterlite_user_set', 'custom_notify');
 		}
-		
+
 		// Composite index to speed up getNotifyList
 		if(!$oDB->isIndexExists('ncenterlite_notify', 'idx_member_srl_and_readed'))
 		{
 			$oDB->addIndex('ncenterlite_notify', 'idx_member_srl_and_readed', array('member_srl', 'readed'));
 		}
-		
+
 		// #1903 #1906
 		foreach(['target_browser', 'target_summary'] as $column_name)
 		{
@@ -235,7 +235,7 @@ class ncenterlite extends ModuleObject
 				$oDB->modifyColumn('ncenterlite_notify', $column_name, 'varchar', 80, null, false);
 			}
 		}
-		
+
 		// PK duplicate
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
@@ -309,7 +309,7 @@ class ncenterlite extends ModuleObject
 			{
 				return $oSmsHandler;
 			}
-			
+
 			$variable_name = array();
 			$member_config = getModel('member')->getMemberConfig();
 			foreach($member_config->signupForm as $value)

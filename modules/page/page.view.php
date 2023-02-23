@@ -32,7 +32,7 @@ class pageView extends page
 				$this instanceof pageMobile ? 'm' : 'pc',
 			]);
 		}
-		
+
 		if ($this->module_info->page_type === 'OUTSIDE')
 		{
 			$this->interval = (int)($this->module_info->page_caching_interval ?? 0);
@@ -79,7 +79,7 @@ class pageView extends page
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
-		
+
 		// if the page type is the widget or outside, there might be usable GET entities.
 		$request_vars = Context::getRequestVars();
 		if (isset($request_vars->document_srl) && intval($request_vars->document_srl) > 0 && $page_type_name == 'article')
@@ -104,7 +104,7 @@ class pageView extends page
 		{
 			$page_content = $this->module_info->content;
 		}
-		
+
 		if ($this->interval > 0)
 		{
 			if (!file_exists($this->cache_file) || !filesize($this->cache_file))
@@ -118,7 +118,7 @@ class pageView extends page
 
 			if($mtime && $mtime + ($this->interval * 60) > \RX_TIME)
 			{
-				$page_content = FileHandler::readFile($this->cache_file); 
+				$page_content = FileHandler::readFile($this->cache_file);
 				$page_content = str_replace('<!--#Meta:', '<!--Meta:', $page_content);
 			}
 			else
@@ -135,7 +135,7 @@ class pageView extends page
 				FileHandler::removeFile($this->cache_file);
 			}
 		}
-		
+
 		return $page_content;
 	}
 
@@ -167,7 +167,7 @@ class pageView extends page
 		{
 			return;
 		}
-		
+
 		// Kick out anyone who tries to exploit RVE-2022-2.
 		foreach (Context::getRequestVars() as $key => $val)
 		{
@@ -176,13 +176,13 @@ class pageView extends page
 				throw new Rhymix\Framework\Exceptions\SecurityViolation();
 			}
 		}
-		
+
 		// External URL
 		if (preg_match('!^[a-z]+://!i', $this->path))
 		{
 			return $this->getHtmlPage($this->path, $this->interval, $this->cache_file);
 		}
-		
+
 		// Internal PHP document
 		else
 		{
@@ -205,10 +205,10 @@ class pageView extends page
 			FileHandler::getRemoteFile($path, $cache_file);
 			$content = FileHandler::readFile($cache_file);
 		}
-		
+
 		// Create opage controller
 		$oPageController = getController('page');
-		
+
 		// change url of image, css, javascript and so on if the page is from external server
 		$content = $oPageController->replaceSrc($content, $path);
 
@@ -217,15 +217,15 @@ class pageView extends page
 		$buff->content = $content;
 		$buff = Context::convertEncoding($buff);
 		$content = $buff->content;
-		
+
 		// Extract a title
 		$title = $oPageController->getTitle($content);
 		if($title) Context::setBrowserTitle($title);
-		
+
 		// Extract header script
 		$head_script = $oPageController->getHeadScript($content);
 		if($head_script) Context::addHtmlHeader($head_script);
-		
+
 		// Extract content from the body
 		$body_script = $oPageController->getBodyScript($content);
 		if(!$body_script) $body_script = $content;
@@ -250,7 +250,7 @@ class pageView extends page
 		{
 			return file_get_contents($cache_file);
 		}
-		
+
 		// Parse as template if enabled.
 		if ($this->proc_tpl)
 		{
@@ -264,7 +264,7 @@ class pageView extends page
 			{
 				return '';
 			}
-			
+
 			// Include template file in an isolated scope.
 			$content = '';
 			$include_path = get_include_path();
@@ -282,7 +282,7 @@ class pageView extends page
 			{
 				$content .= ob_get_clean();
 			}
-			
+
 			// Insert comments for debugging.
 			if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $content) && !starts_with('<?xml', $content))
 			{
@@ -290,7 +290,7 @@ class pageView extends page
 				$content = sprintf($sign, 'start') . $content . sprintf($sign, 'end');
 			}
 		}
-		
+
 		// Parse as PHP if enabled.
 		elseif ($this->proc_php)
 		{
@@ -300,13 +300,13 @@ class pageView extends page
 			});
 			$content = ob_get_clean();
 		}
-		
+
 		// Otherwise, get the raw content of the file.
 		else
 		{
 			$content = file_get_contents($real_target_file);
 		}
-		
+
 		// Convert relative paths to absolute paths.
 		$this->path = str_replace('\\', '/', dirname($real_target_file)) . '/';
 		$content = preg_replace_callback('/\b(target=|src=|href=|url\()("|\')?([^"\'\)]+)("|\'\))?/is', array($this, '_replacePath'), $content);
@@ -320,7 +320,7 @@ class pageView extends page
 	function _replacePath($matches)
 	{
 		$val = trim($matches[3]);
-		
+
 		// Pass if the path is external or starts with /, #, { characters
 		// /=absolute path, #=hash in a page, {=Template syntax
 		if(strpos($val, '.') === FALSE || preg_match('@^((?:http|https|ftp|telnet|mms)://|(?:mailto|javascript):|[/#{])@i',$val))

@@ -33,7 +33,7 @@ class ModuleModel extends Module
 		{
 			return true;
 		}
-		
+
 		$dirs = array_map('strtolower', FileHandler::readDir(RX_BASEDIR));
 		$dirs[] = 'rss';
 		$dirs[] = 'atom';
@@ -42,7 +42,7 @@ class ModuleModel extends Module
 		{
 			return true;
 		}
-		
+
 		// mid test
 		$args = new stdClass();
 		$args->mid = $id;
@@ -51,7 +51,7 @@ class ModuleModel extends Module
 
 		return false;
 	}
-	
+
 	/**
 	 * @brief Get all domains
 	 */
@@ -92,7 +92,7 @@ class ModuleModel extends Module
 				$domain_info = false;
 			}
 		}
-		
+
 		return $domain_info;
 	}
 
@@ -121,7 +121,7 @@ class ModuleModel extends Module
 				$domain_info = false;
 			}
 		}
-		
+
 		return $domain_info;
 	}
 
@@ -142,7 +142,7 @@ class ModuleModel extends Module
 		{
 			return false;
 		}
-		
+
 		$domain = strtolower($domain);
 		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:domain:' . $domain);
 		if ($domain_info === null)
@@ -164,7 +164,7 @@ class ModuleModel extends Module
 				$domain_info = false;
 			}
 		}
-		
+
 		return $domain_info;
 	}
 
@@ -187,7 +187,7 @@ class ModuleModel extends Module
 				Rhymix\Framework\Cache::set('site_and_module:document_srl:' . $document_srl, $module_info, 0, true);
 			}
 		}
-		
+
 		self::_applyDefaultSkin($module_info);
 		return self::addModuleExtraVars($module_info);
 	}
@@ -200,7 +200,7 @@ class ModuleModel extends Module
 		// Get current domain.
 		$domain = $domain ?: strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
 		$domain = Rhymix\Framework\URL::decodeIdna($domain);
-		
+
 		// Find the domain information.
 		$domain_info = self::getSiteInfoByDomain($domain);
 		if (!$domain_info)
@@ -212,7 +212,7 @@ class ModuleModel extends Module
 			}
 			$domain_info->is_default_replaced = true;
 		}
-		
+
 		// Fill in module extra vars and return.
 		if ($domain_info->module_srl)
 		{
@@ -246,7 +246,7 @@ class ModuleModel extends Module
 		{
 			$module_info = null;
 		}
-		
+
 		if($module_info === null)
 		{
 			$output = executeQuery('module.getMidInfo', $args);
@@ -339,7 +339,7 @@ class ModuleModel extends Module
 		{
 			$mid_info = null;
 		}
-		
+
 		if($mid_info === null)
 		{
 			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $output->data->module_srl, 0, true);
@@ -411,7 +411,7 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Shortcut to getModuleInfoByModuleSrl()
-	 * 
+	 *
 	 * @param int $module_srl
 	 * @return object
 	 */
@@ -471,14 +471,14 @@ class ModuleModel extends Module
 		{
 			return [];
 		}
-		
+
 		$cache_key = 'site_and_module:modules_info:' . implode(',', $module_srls) . ':' . implode(',', $columnList ?: []);
 		$result = Rhymix\Framework\Cache::get($cache_key);
 		if ($result !== null)
 		{
 			return $result;
 		}
-		
+
 		$args = new stdClass();
 		$args->module_srls = $module_srls;
 		$output = executeQueryArray('module.getModulesInfo', $args, $columnList);
@@ -487,7 +487,7 @@ class ModuleModel extends Module
 		{
 			$result = self::addModuleExtraVars($result);
 		}
-		
+
 		Rhymix\Framework\Cache::set($cache_key, $result, 0, true);
 		return $result;
 	}
@@ -539,14 +539,14 @@ class ModuleModel extends Module
 		{
 			unset($args->site_srl);
 		}
-		
+
 		// Check if there are any arguments.
 		$argsCount = $args === null ? 0 : countobj($args);
 		if(!$argsCount)
 		{
 			$columnList = array();
 		}
-		
+
 		// Use cache only if there are no arguments. Otherwise, get data from DB.
 		$list = $argsCount ? null : Rhymix\Framework\Cache::get('site_and_module:module:mid_list');
 		if($list === null)
@@ -554,14 +554,14 @@ class ModuleModel extends Module
 			$output = executeQueryArray('module.getMidList', $args, $columnList);
 			if(!$output->toBool()) return $output;
 			$list = $output->data;
-			
+
 			// Set cache only if there are no arguments.
 			if(!$argsCount)
 			{
 				Rhymix\Framework\Cache::set('site_and_module:module:mid_list', $list, 0, true);
 			}
 		}
-		
+
 		if(!$list) return;
 
 		if(!is_array($list)) $list = array($list);
@@ -590,7 +590,7 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Return an array of module_srl corresponding to a mid list
-	 * 
+	 *
 	 * @param int|string|array $mid
 	 * @param bool $assoc
 	 * @return array
@@ -601,7 +601,7 @@ class ModuleModel extends Module
 		{
 			$mid = explode(',', $mid);
 		}
-		
+
 		if (count($mid) == 1 && ($first_mid = array_first($mid)) && isset(self::$_mid_map[$first_mid]))
 		{
 			return array($first_mid => self::$_mid_map[$first_mid]);
@@ -610,7 +610,7 @@ class ModuleModel extends Module
 		$args = new stdClass;
 		$args->mid = $mid;
 		$output = executeQueryArray('module.getModuleSrlByMid', $args);
-		
+
 		$module_srl_list = [];
 		foreach($output->data as $row)
 		{
@@ -623,7 +623,7 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Return mid corresponding to a module_srl list
-	 * 
+	 *
 	 * @param int|array $module_srl
 	 * @return string|array
 	 */
@@ -638,19 +638,19 @@ class ModuleModel extends Module
 			}
 			return $result;
 		}
-		
+
 		$module_srl = intval($module_srl);
 		if (isset(self::$_module_srl_map[$module_srl]))
 		{
 			return self::$_module_srl_map[$module_srl];
 		}
-		
+
 		$mid = Rhymix\Framework\Cache::get('site_and_module:module_srl_mid:' . $module_srl);
 		if (isset($mid))
 		{
 			return $mid;
 		}
-		
+
 		$args = new stdClass;
 		$args->module_srls = $module_srl;
 		$output = executeQuery('module.getModuleInfoByModuleSrl', $args, ['mid']);
@@ -680,7 +680,7 @@ class ModuleModel extends Module
 			{
 				return;
 			}
-			
+
 			$action_forward = array();
 			foreach($output->data as $item)
 			{
@@ -688,10 +688,10 @@ class ModuleModel extends Module
 				if ($item->route_config) $item->route_config = unserialize($item->route_config);
 				$action_forward[$item->act] = $item;
 			}
-			
+
 			Rhymix\Framework\Cache::set('action_forward', $action_forward, 0, true);
 		}
-		
+
 		if(!isset($act))
 		{
 			return $action_forward;
@@ -700,7 +700,7 @@ class ModuleModel extends Module
 		{
 			return;
 		}
-		
+
 		return $action_forward[$act];
 	}
 
@@ -736,7 +736,7 @@ class ModuleModel extends Module
 					Rhymix\Framework\Cache::set('triggers', $triggers, 0, true);
 				}
 			}
-			
+
 			$triggers = $triggers ?: array();
 			foreach($triggers as $item)
 			{
@@ -770,7 +770,7 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Get module extend
-	 * 
+	 *
 	 * @deprecated
 	 */
 	public static function getModuleExtend($parent_module, $type, $kind = '')
@@ -780,9 +780,9 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Get all the module extend
-	 * 
+	 *
 	 * @deprecated
-	 * 
+	 *
 	 */
 	public static function loadModuleExtends()
 	{
@@ -799,7 +799,7 @@ class ModuleModel extends Module
 		if (!$module_path) return;
 		$xml_file = $module_path . 'conf/info.xml';
 		if (!file_exists($xml_file)) return;
-		
+
 		// Load the XML file and cache the definition.
 		$lang_type = Context::getLangType() ?: 'en';
 		$mtime1 = filemtime($xml_file);
@@ -811,7 +811,7 @@ class ModuleModel extends Module
 			$info = Rhymix\Framework\Parsers\ModuleInfoParser::loadXML($xml_file);
 			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
-		
+
 		return $info;
 	}
 
@@ -825,7 +825,7 @@ class ModuleModel extends Module
 		if (!$module_path) return;
 		$xml_file = $module_path . 'conf/module.xml';
 		if (!file_exists($xml_file)) return;
-		
+
 		// Load the XML file and cache the definition.
 		$lang_type = Context::getLangType() ?: 'en';
 		$mtime = filemtime($xml_file);
@@ -836,10 +836,10 @@ class ModuleModel extends Module
 			$info = Rhymix\Framework\Parsers\ModuleActionParser::loadXML($xml_file);
 			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		}
-		
+
 		return $info;
 	}
-	
+
 	/**
 	 * Get a skin list for js API.
 	 * return void
@@ -925,7 +925,7 @@ class ModuleModel extends Module
 		{
 			$moduleName = 'ARTICLE';
 		}
-		
+
 		$useDefaultList = array();
 		if(array_key_exists($moduleName, $installedMenuTypes))
 		{
@@ -966,7 +966,7 @@ class ModuleModel extends Module
 		{
 			return;
 		}
-		
+
 		// Create XmlParser object
 		$oXmlParser = new XeXmlParser();
 		$_xml_obj = $oXmlParser->loadXmlFile($skin_xml_file);
@@ -1017,12 +1017,12 @@ class ModuleModel extends Module
 					{
 						continue;
 					}
-					
+
 					if(!is_array($group->var))
 					{
 						$extra_vars = array($group->var);
 					}
-					
+
 					foreach($extra_vars as $key => $val)
 					{
 						$obj = new stdClass;
@@ -1033,7 +1033,7 @@ class ModuleModel extends Module
 						$obj->description = $val->description->body ?? null;
 						$obj->value = $val->attrs->value ?? null;
 						$obj->default = $val->attrs->default ?? null;
-						
+
 						if(preg_match('/,|\|@\|/', $obj->value ?? '', $delimiter) && $delimiter[0])
 						{
 							$obj->value = explode($delimiter[0], $obj->value);
@@ -1042,7 +1042,7 @@ class ModuleModel extends Module
 						{
 							$obj->value = array($obj->value);
 						}
-						
+
 						// Get an option list from 'select'type
 						if(is_array($val->options))
 						{
@@ -1061,7 +1061,7 @@ class ModuleModel extends Module
 							$obj->options[0]->title = $val->options->title->body ?? null;
 							$obj->options[0]->value = $val->options->attrs->value ?? null;
 						}
-						
+
 						$skin_info->extra_vars[] = $obj;
 					}
 				}
@@ -1209,7 +1209,7 @@ class ModuleModel extends Module
 
 	/**
 	 * Get global config for a module.
-	 * 
+	 *
 	 * @param string $module
 	 * @return mixed
 	 */
@@ -1223,7 +1223,7 @@ class ModuleModel extends Module
 				$args = new stdClass;
 				$args->module = $module;
 				$output = executeQuery('module.getModuleConfig', $args);
-				
+
 				// Only object type
 				if(isset($output->data->config) && $output->data->config)
 				{
@@ -1233,7 +1233,7 @@ class ModuleModel extends Module
 				{
 					$config = -1;  // Use -1 as a temporary value because null cannot be cached
 				}
-				
+
 				// Set cache
 				if($output->toBool())
 				{
@@ -1242,14 +1242,14 @@ class ModuleModel extends Module
 			}
 			$GLOBALS['__ModuleConfig__'][$module] = $config;
 		}
-		
+
 		$config = $GLOBALS['__ModuleConfig__'][$module];
 		return $config === -1 ? null : $config;
 	}
 
 	/**
 	 * Get an independent section of module config.
-	 * 
+	 *
 	 * @param string $module
 	 * @param string $section
 	 * @return mixed
@@ -1261,7 +1261,7 @@ class ModuleModel extends Module
 
 	/**
 	 * Get config for a specific module_srl.
-	 * 
+	 *
 	 * @param string module
 	 * @param int $module_srl
 	 * @return mixed
@@ -1277,7 +1277,7 @@ class ModuleModel extends Module
 				$args->module = $module;
 				$args->module_srl = $module_srl ?: 0;
 				$output = executeQuery('module.getModulePartConfig', $args);
-				
+
 				// Object or Array(compatibility) type
 				if($output->data && isset($output->data->config))
 				{
@@ -1287,13 +1287,13 @@ class ModuleModel extends Module
 				{
 					$config = -1;  // Use -1 as a temporary value because null cannot be cached
 				}
-				
+
 				// Deprecate use of ArrayObject because of https://bugs.php.net/bug.php?id=77298
 				if($config instanceof ArrayObject)
 				{
 					$config = (object)($config->getArrayCopy());
 				}
-				
+
 				// Set cache
 				if($output->toBool())
 				{
@@ -1302,7 +1302,7 @@ class ModuleModel extends Module
 			}
 			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
 		}
-		
+
 		$config = $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
 		return $config === -1 ? null : $config;
 	}
@@ -1315,18 +1315,18 @@ class ModuleModel extends Module
 		$args = new stdClass();
 		$args->module = $module;
 		$output = executeQueryArray('module.getModulePartConfigs', $args);
-		
+
 		if(!$output->toBool() || !$output->data)
 		{
 			return array();
 		}
-		
+
 		$result = array();
 		foreach($output->data as $key => $val)
 		{
 			$result[$val->module_srl] = unserialize($val->config);
 		}
-		
+
 		return $result;
 	}
 
@@ -1395,9 +1395,9 @@ class ModuleModel extends Module
 
 	/**
 	 * Get module install class
-	 * 
+	 *
 	 * This method supports namespaced modules as well as XE-compatible modules.
-	 * 
+	 *
 	 * @param string $module_name
 	 * @return ModuleObject|null
 	 */
@@ -1487,7 +1487,7 @@ class ModuleModel extends Module
 
 		$searched_count = count($searched_list);
 		if(!$searched_count) return;
-		
+
 		// Get action forward
 		$action_forward = self::getActionForward();
 
@@ -1506,7 +1506,7 @@ class ModuleModel extends Module
 					$table_count++;
 				}
 			}
-			
+
 			// Check if the table is created
 			$created_table_count = 0;
 			foreach ($schema_files as $filename)
@@ -1515,7 +1515,7 @@ class ModuleModel extends Module
 				{
 					continue;
 				}
-				
+
 				if($oDB->isTableExists($matches[1]))
 				{
 					$created_table_count++;
@@ -1532,7 +1532,7 @@ class ModuleModel extends Module
 			$info->table_count = $table_count;
 			$info->path = $path;
 			$info->admin_index_act = $info->admin_index_act ?? null;
-			
+
 			if(!Context::isBlacklistedPlugin($module_name, 'module'))
 			{
 				// Check if DB is installed
@@ -1544,7 +1544,7 @@ class ModuleModel extends Module
 				{
 					$info->need_install = false;
 				}
-				
+
 				// Check if it is upgraded to module.class.php on each module
 				$oDummy = self::getModuleInstallClass($module_name);
 				if($oDummy && method_exists($oDummy, "checkUpdate"))
@@ -1552,7 +1552,7 @@ class ModuleModel extends Module
 					$info->need_update = $oDummy->checkUpdate();
 				}
 				unset($oDummy);
-				
+
 				// Check if all action-forwardable routes are registered
 				$module_action_info = self::getModuleActionXml($module_name);
 				$forwardable_routes = array();
@@ -1589,7 +1589,7 @@ class ModuleModel extends Module
 						$info->need_update = true;
 					}
 				}
-				
+
 				// Clean up any action-forward routes that are no longer needed.
 				foreach ($forwardable_routes as $action_name => $route_info)
 				{
@@ -1694,7 +1694,7 @@ class ModuleModel extends Module
 			if(!$site_module_info) return false;
 			$module_srl = $site_module_info->module_srl;
 		}
-		
+
 		$module_srl = $module_srl ?: 0;
 		$module_admins = Rhymix\Framework\Cache::get("site_and_module:module_admins:$module_srl");
 		if ($module_admins === null)
@@ -1930,7 +1930,7 @@ class ModuleModel extends Module
 	public static function syncMobileSkinInfoToModuleInfo(&$module_info)
 	{
 		if(!$module_info->module_srl) return;
-		
+
 		$skin_vars = Rhymix\Framework\Cache::get('site_and_module:module_mobile_skin_vars:' . $module_info->module_srl);
 		if($skin_vars === null)
 		{
@@ -1950,7 +1950,7 @@ class ModuleModel extends Module
 			$module_info->{$val->name} = $val->value;
 		}
 	}
-	
+
 	/**
 	 * @brief Return privileges(granted) information by using module info, xml info and member info
 	 */
@@ -1961,7 +1961,7 @@ class ModuleModel extends Module
 			$module_info = new stdClass;
 			$module_info->module = $module_info->module_srl = 0;
 		}
-		
+
 		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)]))
 		{
 			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)];
@@ -1970,30 +1970,30 @@ class ModuleModel extends Module
 				return $__cache;
 			}
 		}
-		
+
 		$grant = new stdClass;
-		
-		// Get information of module.xml 
+
+		// Get information of module.xml
 		if(!$xml_info)
 		{
 			$xml_info = self::getModuleActionXml($module_info->module);
 		}
 		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
-		
+
 		// Get group information of member
 		$member_group = !empty($member_info->group_list) ? array_keys($member_info->group_list) : array();
 		$is_module_admin = !empty($module_info->module_srl) ? self::isModuleAdmin($member_info, $module_info->module_srl) : false;
-		
+
 		// Get 'privilege name' list from module.xml
 		$privilege_list = array_keys($xml_grant_list);
-		
+
 		// Prepend default 'privilege name'
 		// manager, is_site_admin not distinguish because of compatibility.
 		array_unshift($privilege_list, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
-		
+
 		// Unique
 		$privilege_list = array_unique($privilege_list, SORT_STRING);
-		
+
 		// Grant first
 		foreach($privilege_list as $val)
 		{
@@ -2018,12 +2018,12 @@ class ModuleModel extends Module
 				$grant->{$val} = false;
 			}
 		}
-		
+
 		// If access were not granted, check more
 		if(!$grant->access)
 		{
 			$checked = array();
-			
+
 			// Grant privileges by information that get from the DB
 			foreach(self::getModuleGrants($module_info->module_srl)->data as $val)
 			{
@@ -2032,14 +2032,14 @@ class ModuleModel extends Module
 				{
 					continue;
 				}
-					
+
 				// All user
 				if($val->group_srl == 0)
 				{
 					$grant->{$val->name} = true;
 					continue;
 				}
-				
+
 				// Log-in member only
 				if($member_info && $member_info->member_srl)
 				{
@@ -2062,13 +2062,13 @@ class ModuleModel extends Module
 					}
 				}
 			}
-			
+
 			// Grant access by default
 			if(!isset($checked['access']))
 			{
 				$grant->access = true;
 			}
-			
+
 			// Grant privileges by default information of module
 			foreach($xml_grant_list as $name => $item)
 			{
@@ -2076,15 +2076,15 @@ class ModuleModel extends Module
 				{
 					continue;
 				}
-				
+
 				// All user
 				if($item->default == 'guest')
 				{
 					$grant->{$name} = true;
-					
+
 					continue;
 				}
-				
+
 				// Log-in member only
 				if($member_info && $member_info->member_srl)
 				{
@@ -2095,13 +2095,13 @@ class ModuleModel extends Module
 				}
 			}
 		}
-		
+
 		return $__cache = $grant;
 	}
-	
+
 	/**
 	 * Get the list of modules that the member can access.
-	 * 
+	 *
 	 * @param object $member_info
 	 * @return array
 	 */
@@ -2111,13 +2111,13 @@ class ModuleModel extends Module
 		{
 			$member_info = Context::get('logged_info');
 		}
-		
+
 		$result = Rhymix\Framework\Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
 		if($result === null)
 		{
 			$mid_list = self::getMidList();
 			$result = array();
-			
+
 			foreach($mid_list as $module_info)
 			{
 				$grant = self::getGrant($module_info, $member_info);
@@ -2135,13 +2135,13 @@ class ModuleModel extends Module
 				$result[$module_info->module_srl] = $module_info;
 			}
 			ksort($result);
-			
+
 			Rhymix\Framework\Cache::set(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl), $result);
 		}
-		
+
 		return $result;
 	}
-	
+
 	/**
 	 * Get privileges(granted) information of the member for target module by target_srl
 	 * @param string $target_srl as module_srl. It may be a reference serial number
@@ -2155,7 +2155,7 @@ class ModuleModel extends Module
 		{
 			return false;
 		}
-		
+
 		if($type)
 		{
 			if($type == 'document')
@@ -2175,25 +2175,25 @@ class ModuleModel extends Module
 				$module_info = self::getModuleInfoByMid($target_srl);
 			}
 		}
-		
+
 		if(!isset($module_info))
 		{
 			$module_info = self::getModuleInfoByModuleSrl($target_srl);
 		}
-		
+
 		if(!$module_info->module_srl)
 		{
 			return false;
 		}
-		
+
 		if(!$member_info)
 		{
 			$member_info = Context::get('logged_info');
 		}
-		
+
 		return self::getGrant($module_info, $member_info);
 	}
-	
+
 	/**
 	 * @brief Search all modules to find manager privilege of the member
 	 * @param object $member_info member information
@@ -2206,23 +2206,23 @@ class ModuleModel extends Module
 		{
 			return false;
 		}
-		
+
 		foreach($mid_list as $module_info)
 		{
 			if($module && $module_info->module != $module)
 			{
 				continue;
 			}
-			
+
 			if(($grant = self::getGrant($module_info, $member_info)) && $grant->manager)
 			{
 				return $grant;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * @brief Get module grants
 	 */

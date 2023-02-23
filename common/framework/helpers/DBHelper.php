@@ -8,7 +8,7 @@ use Rhymix\Framework\Exceptions\DBError;
 
 /**
  * DB helper class.
- * 
+ *
  * We use instances of this class instead of raw PDO in order to provide
  * better logging and error handling while keeping backward compatibility.
  */
@@ -18,7 +18,7 @@ class DBHelper extends \PDO
 	 * Store the database type (e.g. master) here.
 	 */
 	protected $_type = 'master';
-	
+
 	/**
 	 * Set the database type.
 	 */
@@ -26,10 +26,10 @@ class DBHelper extends \PDO
 	{
 		$this->_type = $type;
 	}
-	
+
 	/**
 	 * Create a prepared statement.
-	 * 
+	 *
 	 * @param string $statement
 	 * @param array $options
 	 * @return DBStmtHelper
@@ -39,7 +39,7 @@ class DBHelper extends \PDO
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
-		
+
 		try
 		{
 			/**
@@ -66,24 +66,24 @@ class DBHelper extends \PDO
 			{
 				Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
 			}
-			
+
 			/**
 			 * This is a new feature in Rhymix 2.0 so we don't have to mess
 			 * with status objects. We just throw an exception. Catch it!
 			 */
 			throw new DBError($e->getMessage(), 0, $e);
 		}
-		
+
 		return $stmt;
 	}
-	
+
 	/**
 	 * Execute a query.
-	 * 
+	 *
 	 * This method accepts additional parameters, but they are not for creating
 	 * prepared statements. They exist because PDO's own query() method accepts
 	 * various kinds of additional parameters, and we don't want to touch them.
-	 * 
+	 *
 	 * @param string $statement
 	 * @param int $fetch_mode
 	 * @return DBStmtHelper|false
@@ -95,7 +95,7 @@ class DBHelper extends \PDO
 		$db_class = DB::getInstance($this->_type);
 		$args = func_get_args();
 		array_shift($args);
-		
+
 		try
 		{
 			/**
@@ -122,13 +122,13 @@ class DBHelper extends \PDO
 				Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
 			}
 		}
-		
+
 		return $stmt;
 	}
-	
+
 	/**
 	 * Execute a query and return the number of affected rows.
-	 * 
+	 *
 	 * @param string $statement
 	 * @return int|false
 	 */
@@ -137,7 +137,7 @@ class DBHelper extends \PDO
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
-		
+
 		try
 		{
 			$result = parent::exec($statement);
@@ -156,7 +156,7 @@ class DBHelper extends \PDO
 				Debug::addQuery($db_class->getQueryLog($statement, $elapsed_time));
 			}
 		}
-		
+
 		return $result;
 	}
 }

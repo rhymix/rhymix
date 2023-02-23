@@ -127,7 +127,7 @@ class trashAdminController extends trash
 				if(!$output2->toBool()) return $output;
 			}
 		}
-		
+
 		return new BaseObject(0, 'success_deleted');
 	}
 

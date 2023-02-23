@@ -16,16 +16,16 @@ class HTMLFilter
 	 * HTMLPurifier instances are cached here.
 	 */
 	protected static $_instances = array();
-	
+
 	/**
 	 * Pre-processing and post-processing filters are stored here.
 	 */
 	protected static $_preproc = array();
 	protected static $_postproc = array();
-	
+
 	/**
 	 * Prepend a pre-processing filter.
-	 * 
+	 *
 	 * @param callable $callback
 	 * @return void
 	 */
@@ -33,10 +33,10 @@ class HTMLFilter
 	{
 		array_unshift(self::$_preproc, $callback);
 	}
-	
+
 	/**
 	 * Append a pre-processing filter.
-	 * 
+	 *
 	 * @param callable $callback
 	 * @return void
 	 */
@@ -44,10 +44,10 @@ class HTMLFilter
 	{
 		self::$_preproc[] = $callback;
 	}
-	
+
 	/**
 	 * Prepend a post-processing filter.
-	 * 
+	 *
 	 * @param callable $callback
 	 * @return void
 	 */
@@ -55,10 +55,10 @@ class HTMLFilter
 	{
 		array_unshift(self::$_postproc, $callback);
 	}
-	
+
 	/**
 	 * Append a post-processing filter.
-	 * 
+	 *
 	 * @param callable $callback
 	 * @return void
 	 */
@@ -66,10 +66,10 @@ class HTMLFilter
 	{
 		self::$_postproc[] = $callback;
 	}
-	
+
 	/**
 	 * Filter HTML content to block XSS attacks.
-	 * 
+	 *
 	 * @param string $input
 	 * @param array|bool $allow_classes (optional)
 	 * @param bool $allow_editor_components (optional)
@@ -82,7 +82,7 @@ class HTMLFilter
 		{
 			$input = $callback($input);
 		}
-		
+
 		if ($allow_classes === true)
 		{
 			$allowed_classes = null;
@@ -97,36 +97,36 @@ class HTMLFilter
 			{
 				$allowed_classes = Config::get('mediafilter.classes') ?: array();
 			}
-			
+
 			if ($allow_widgets)
 			{
 				$allowed_classes[] = 'zbxe_widget_output';
 			}
 		}
-		
+
 		$input = self::_preprocess($input, $allow_editor_components, $allow_widgets);
 		$output = self::getHTMLPurifier($allowed_classes)->purify($input);
 		$output = self::_postprocess($output, $allow_editor_components, $allow_widgets);
-		
+
 		foreach (self::$_postproc as $callback)
 		{
 			$output = $callback($output);
 		}
-		
+
 		return $output;
 	}
-	
+
 	/**
 	 * Convert relative URLs to absolute URLs in HTML content.
-	 * 
+	 *
 	 * This is useful when sending content outside of the website,
 	 * such as e-mail and RSS, where relative URLs might not mean the same.
-	 * 
+	 *
 	 * This method also removes attributes that don't mean anything
 	 * when sent outside of the website, such as editor component names.
-	 * 
+	 *
 	 * This method DOES NOT check HTML content for XSS or other attacks.
-	 * 
+	 *
 	 * @param string $content
 	 * @return string
 	 */
@@ -146,10 +146,10 @@ class HTMLFilter
 			return preg_replace($patterns, $replacements, $match[0]);
 		}, $content);
 	}
-	
+
 	/**
 	 * Get an instance of HTMLPurifier.
-	 * 
+	 *
 	 * @param array|null $allowed_classes (optional)
 	 * @return object
 	 */
@@ -162,13 +162,13 @@ class HTMLFilter
 			sort($allowed_classes);
 		}
 		$key = sha1(serialize($allowed_classes));
-		
+
 		// Create an instance with reasonable defaults.
 		if (!isset(self::$_instances[$key]))
 		{
 			// Get the default configuration.
 			$config = \HTMLPurifier_Config::createDefault();
-			
+
 			// Customize the default configuration.
 			$config->set('Attr.AllowedClasses', $allowed_classes);
 			$config->set('Attr.AllowedFrameTargets', array('_blank', '_self'));
@@ -188,42 +188,42 @@ class HTMLFilter
 			$config->set('Output.FlashCompat', true);
 			$config->set('Output.Newline', "\n");
 			$config->set('URI.MakeAbsolute', false);
-			
+
 			// Allow embedding of external multimedia content.
 			$config->set('HTML.SafeEmbed', true);
 			$config->set('HTML.SafeIframe', true);
 			$config->set('HTML.SafeObject', true);
 			$config->set('URI.SafeIframeRegexp', MediaFilter::getWhitelistRegex());
-			
+
 			// Set the serializer path.
 			$config->set('Cache.SerializerPath', \RX_BASEDIR . 'files/cache/htmlpurifier');
 			Storage::createDirectory(\RX_BASEDIR . 'files/cache/htmlpurifier');
-			
-			// Modify the HTML definition to support editor components and widgets.			
+
+			// Modify the HTML definition to support editor components and widgets.
 			$def = $config->getHTMLDefinition(true);
 			$def->addAttribute('img', 'editor_component', 'Text');
 			$def->addAttribute('div', 'editor_component', 'Text');
 			$def->addAttribute('img', 'rx_encoded_properties', 'Text');
 			$def->addAttribute('div', 'rx_encoded_properties', 'Text');
-			
+
 			// Support HTML5 and CSS3.
 			self::_supportHTML5($config);
 			self::_supportCSS3($config);
-			
+
 			// Cache our instance of HTMLPurifier.
 			self::$_instances[$key] = new \HTMLPurifier($config);
 		}
-		
+
 		// Return the cached instance.
 		return self::$_instances[$key];
 	}
-	
+
 	/**
 	 * Patch HTMLPurifier to support some HTML5 tags and attributes.
-	 * 
+	 *
 	 * These changes are based on https://github.com/xemlock/htmlpurifier-html5
 	 * but modified to support even more tags and attributes.
-	 * 
+	 *
 	 * @param object $config
 	 * @return void
 	 */
@@ -231,7 +231,7 @@ class HTMLFilter
 	{
 		// Get the HTML definition.
 		$def = $config->getHTMLDefinition(true);
-		
+
 		// Add various block-level tags.
 		$def->addElement('header', 'Block', 'Flow', 'Common');
 		$def->addElement('footer', 'Block', 'Flow', 'Common');
@@ -240,26 +240,26 @@ class HTMLFilter
 		$def->addElement('section', 'Block', 'Flow', 'Common');
 		$def->addElement('article', 'Block', 'Flow', 'Common');
 		$def->addElement('aside', 'Block', 'Flow', 'Common');
-		
+
 		// Add various inline tags.
 		$def->addElement('s', 'Inline', 'Inline', 'Common');
 		$def->addElement('sub', 'Inline', 'Inline', 'Common');
 		$def->addElement('sup', 'Inline', 'Inline', 'Common');
 		$def->addElement('mark', 'Inline', 'Inline', 'Common');
 		$def->addElement('wbr', 'Inline', 'Empty', 'Core');
-		
+
 		// Support figures.
 		$def->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
 		$def->addElement('figcaption', 'Inline', 'Flow', 'Common');
-		
+
 		// Support insertions and deletions.
 		$def->addElement('ins', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'Text'));
 		$def->addElement('del', 'Block', 'Flow', 'Common', array('cite' => 'URI', 'datetime' => 'Text'));
-		
+
 		// Support the <time> tag.
 		$time = $def->addElement('time', 'Inline', 'Inline', 'Common', array('datetime' => 'Text', 'pubdate' => 'Bool'));
 		$time->excludes = array('time' => true);
-		
+
 		// Suppport <audio> and <video> tags.
 		$def->addElement('audio', 'Block', 'Optional: (source, Flow) | (Flow, source) | Flow', 'Common', array(
 			'src' => 'URI',
@@ -296,23 +296,23 @@ class HTMLFilter
 			'kind' => 'Enum#captions,chapters,descriptions,metadata,subtitles',
 			'default' => 'Bool',
 		));
-		
+
 		// Support additional properties.
 		$def->addAttribute('i', 'aria-hidden', 'Text');
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
-		
+
 		// Support contenteditable="false" (#1710)
 		$def->addAttribute('div', 'contenteditable', 'Enum#false');
 	}
-	
+
 	/**
 	 * Patch HTMLPurifier to support more CSS2 and some CSS3 properties.
-	 * 
+	 *
 	 * These changes are based on:
 	 *   - https://github.com/mattiaswelander/htmlpurifier
-	 * 
+	 *
 	 * @param object $config
 	 * @return void
 	 */
@@ -320,14 +320,14 @@ class HTMLFilter
 	{
 		// Initialize $info.
 		$info = array();
-		
+
 		// min-width, max-width, etc.
 		$info['min-width'] = $info['max-width'] = $info['min-height'] =
 		$info['max-height'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
 			new \HTMLPurifier_AttrDef_CSS_Length(0),
 			new \HTMLPurifier_AttrDef_Enum(array('none', 'initial', 'inherit')),
 		));
-		
+
 		// border-radius, etc.
 		$border_radius = $info['border-top-left-radius'] =
 		$info['border-top-right-radius'] = $info['border-bottom-left-radius'] =
@@ -337,7 +337,7 @@ class HTMLFilter
 			new \HTMLPurifier_AttrDef_Enum(array('initial', 'inherit')),
 		));
 		$info['border-radius'] = new \HTMLPurifier_AttrDef_CSS_Multiple($border_radius);
-		
+
 		// word-break word-wrap, etc.
 		$info['word-break'] = new \HTMLPurifier_AttrDef_Enum(array(
 			'normal', 'break-all', 'keep-all', 'initial', 'inherit',
@@ -348,7 +348,7 @@ class HTMLFilter
 		$info['text-overflow'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
 			new \HTMLPurifier_AttrDef_Enum(array('clip', 'ellipsis', 'initial', 'inherit')),
 		));
-		
+
 		// text-shadow
 		$info['text-shadow'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
 			new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
@@ -357,7 +357,7 @@ class HTMLFilter
 			))),
 			new \HTMLPurifier_AttrDef_Enum(array('none', 'initial', 'inherit')),
 		));
-		
+
 		// box-shadow and box-sizing
 		$info['box-shadow'] = new \HTMLPurifier_AttrDef_CSS_Multiple(new \HTMLPurifier_AttrDef_CSS_Composite(array(
 			new \HTMLPurifier_AttrDef_CSS_Length(),
@@ -368,7 +368,7 @@ class HTMLFilter
 		$info['box-sizing'] = new \HTMLPurifier_AttrDef_Enum(array(
 			'content-box', 'border-box', 'initial', 'inherit',
 		));
-		
+
 		// outline
 		$info['outline-color'] = new \HTMLPurifier_AttrDef_CSS_Composite(array(
 			new \HTMLPurifier_AttrDef_CSS_Color(),
@@ -389,7 +389,7 @@ class HTMLFilter
 			$info['outline-color'], $info['outline-style'], $info['outline-width'],
 			new \HTMLPurifier_AttrDef_Enum(array('initial', 'inherit')),
 		)));
-		
+
 		// flexbox
 		$info['display'] = new \HTMLPurifier_AttrDef_Enum(array(
 			'block', 'flex', '-webkit-flex', 'inline', 'inline-block', 'inline-flex', '-webkit-inline-flex', 'inline-table',
@@ -424,7 +424,7 @@ class HTMLFilter
 			$info['flex-grow'], $info['flex-shrink'], $info['flex-basis'],
 			new \HTMLPurifier_AttrDef_Enum(array('auto', 'none', 'initial', 'inherit')),
 		)));
-		
+
 		// misc
 		$info['caption-side'] = new \HTMLPurifier_AttrDef_Enum(array(
 			'top', 'bottom', 'initial', 'inherit',
@@ -449,7 +449,7 @@ class HTMLFilter
 		$info['object-fit'] = new \HTMLPurifier_AttrDef_Enum(array(
 			'contain', 'cover', 'fill', 'none', 'scale-down', 'initial', 'inherit',
 		));
-		
+
 		// Wrap all new properties with a decorator that handles !important.
 		$allow_important = $config->get('CSS.AllowImportant');
 		$css_definition = $config->getCSSDefinition();
@@ -458,10 +458,10 @@ class HTMLFilter
 			$css_definition->info[$key] = new \HTMLPurifier_AttrDef_CSS_ImportantDecorator($val, $allow_important);
 		}
 	}
-	
+
 	/**
 	 * Rhymix-specific preprocessing method.
-	 * 
+	 *
 	 * @param string $content
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
@@ -476,10 +476,10 @@ class HTMLFilter
 		}
 		return $content;
 	}
-	
+
 	/**
 	 * Rhymix-specific postprocessing method.
-	 * 
+	 *
 	 * @param string $content
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
@@ -490,12 +490,12 @@ class HTMLFilter
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
 		$deny_acts = array('dispMemberLogout', 'dispLayoutPreview');
-		
+
 		// Remove tags not supported in Rhymix. Some of these may also have been removed by HTMLPurifier.
 		$content = preg_replace_callback('!</?(?:html|body|head|title|meta|base|link|script|style|applet)\b[^>]*>!i', function($matches) {
 			return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
 		}, $content);
-		
+
 		// Remove object and embed URLs that are not allowed.
 		$whitelist = MediaFilter::getWhitelistRegex();
 		$content = preg_replace_callback('!<(object|embed|param|audio|video|source|track)([^>]+)>!i', function($matches) use($whitelist) {
@@ -511,7 +511,7 @@ class HTMLFilter
 				return $attr[0];
 			}, $matches[0]);
 		}, $content);
-		
+
 		// Remove link URLs that may be CSRF attempts.
 		$content = preg_replace_callback('!\b(src|href|data|value)="([^"]+)"!i', function($matches) use($allow_acts, $deny_acts) {
 			$url = preg_replace('!\s+!', '', htmlspecialchars_decode(rawurldecode($matches[2])));
@@ -525,15 +525,15 @@ class HTMLFilter
 			}
 			return $matches[0];
 		}, $content);
-		
+
 		// Restore widget and editor component properties.
 		$content = self::_decodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
 		return $content;
 	}
-	
+
 	/**
 	 * Encode widgets and editor components before processing.
-	 * 
+	 *
 	 * @param string $content
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
@@ -554,7 +554,7 @@ class HTMLFilter
 		{
 			return $content;
 		}
-		
+
 		return preg_replace_callback('!<(div|img)([^>]*)(' . implode('|', $regexp) . ')([^>]*)>!i', function($match) {
 			$tag = strtolower($match[1]);
 			$attrs = array();
@@ -585,10 +585,10 @@ class HTMLFilter
 			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
 		}, $content);
 	}
-	
+
 	/**
 	 * Decode widgets and editor components after processing.
-	 * 
+	 *
 	 * @param string $content
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
@@ -608,7 +608,7 @@ class HTMLFilter
 		{
 			return $content;
 		}
-		
+
 		return preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
 			list($encoded_properties, $signature) = explode(':', $match[4]);

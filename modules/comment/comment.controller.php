@@ -88,7 +88,7 @@ class CommentController extends Comment
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
-		
+
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
@@ -167,7 +167,7 @@ class CommentController extends Comment
 		{
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
-		
+
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
 
@@ -183,7 +183,7 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
 		}
-		
+
 		// Check if the current user has voted previously.
 		$args = new stdClass;
 		$args->comment_srl = $comment_srl;
@@ -243,10 +243,10 @@ class CommentController extends Comment
 
 		//session reset
 		unset($_SESSION['voted_comment'][$comment_srl]);
-		
+
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $trigger_obj);
-		
+
 		$oDB->commit();
 		return $output;
 	}
@@ -276,7 +276,7 @@ class CommentController extends Comment
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// if an user select message from options, message would be the option.
 		$message_option = strval(Context::get('message_option'));
 		$improper_comment_reasons = lang('improper_comment_reasons');
@@ -460,7 +460,7 @@ class CommentController extends Comment
 
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
-		
+
 		// Sanitize variables
 		$obj->comment_srl = intval($obj->comment_srl);
 		$obj->module_srl = intval($obj->module_srl);
@@ -468,7 +468,7 @@ class CommentController extends Comment
 		$obj->parent_srl = intval($obj->parent_srl);
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
-		
+
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
 		if(!$output->toBool())
@@ -537,7 +537,7 @@ class CommentController extends Comment
 		{
 			$obj->comment_srl = getNextSequence();
 		}
-		elseif(!$is_admin && !$manual_inserted && !checkUserSequence($obj->comment_srl)) 
+		elseif(!$is_admin && !$manual_inserted && !checkUserSequence($obj->comment_srl))
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
@@ -553,13 +553,13 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'msg_empty_content');
 		}
-		
+
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
-		
+
 		if(!$obj->regdate)
 		{
 			$obj->regdate = date("YmdHis");
@@ -659,7 +659,7 @@ class CommentController extends Comment
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		// create the controller object of the document
 		$oDocumentController = getController('document');
 
@@ -684,7 +684,7 @@ class CommentController extends Comment
 		{
 			$obj->updated_file_count = 0;
 		}
-		
+
 		// call a trigger(after)
 		ModuleHandler::triggerCall('comment.insertComment', 'after', $obj);
 
@@ -722,8 +722,8 @@ class CommentController extends Comment
 
 	/**
 	 * Send email to module's admins after a new comment was interted successfully
-	 * if Comments Approval System is used 
-	 * @param object $obj 
+	 * if Comments Approval System is used
+	 * @param object $obj
 	 * @return void
 	 */
 	function sendEmailToAdminAfterInsertComment($obj)
@@ -836,7 +836,7 @@ class CommentController extends Comment
 
 		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
 		unset($obj->manual_member_info);
-		
+
 		// Sanitize variables
 		$obj->comment_srl = intval($obj->comment_srl);
 		$obj->module_srl = intval($obj->module_srl);
@@ -844,7 +844,7 @@ class CommentController extends Comment
 		$obj->parent_srl = intval($obj->parent_srl);
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
-		
+
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);
 		if(!$output->toBool())
@@ -874,7 +874,7 @@ class CommentController extends Comment
 			$obj->password = MemberModel::hashPassword($obj->password);
 		}
 
-		if($obj->homepage) 
+		if($obj->homepage)
 		{
 			$obj->homepage = escape($obj->homepage);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
@@ -919,13 +919,13 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'msg_empty_content');
 		}
-		
+
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
-		
+
 		// remove iframe and script if not a top administrator on the session
 		if($logged_info->is_admin != 'Y')
 		{
@@ -983,7 +983,7 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		
+
 		// check if comment exists and permission is granted
 		$comment = CommentModel::getComment($obj->comment_srl);
 		if(!$comment->isExists())
@@ -994,7 +994,7 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
-		
+
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.deleteComment', 'before', $comment);
 		if(!$output->toBool())
@@ -1017,7 +1017,7 @@ class CommentController extends Comment
 		// Begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		// Update
 		$obj->member_srl = 0;
 		unset($obj->last_update);
@@ -1109,7 +1109,7 @@ class CommentController extends Comment
 	{
 		// check if comment already exists
 		$comment = CommentModel::getComment($comment_srl);
-		
+
 		if(!$comment->isExists())
 		{
 			return new BaseObject(-2, 'msg_not_founded');
@@ -1231,8 +1231,8 @@ class CommentController extends Comment
 		{
 			$this->_deleteDeclaredComments($args);
 			$this->_deleteVotedComments($args);
-		} 
-		else 
+		}
+		else
 		{
 			$args = new stdClass();
 			$args->upload_target_srl = $comment_srl;
@@ -1268,10 +1268,10 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
-		
+
 		$logged_info = Context::get('logged_info');
 		$module_info = ModuleModel::getModuleInfo($oComment->get('module_srl'));
-		
+
 		if ($module_info->protect_admin_content_delete !== 'N' && $logged_info->is_admin !== 'Y')
 		{
 			$member_info = MemberModel::getMemberInfo($oComment->get('member_srl'));
@@ -1608,15 +1608,15 @@ class CommentController extends Comment
 		{
 			return $output;
 		}
-		
+
 		$declared_count = ($output->data->declared_count) ? $output->data->declared_count : 0;
 		$declare_message = trim(htmlspecialchars($declare_message));
-		
+
 		$trigger_obj = new stdClass();
 		$trigger_obj->comment_srl = $comment_srl;
 		$trigger_obj->declared_count = $declared_count;
 		$trigger_obj->declare_message = $declare_message;
-		
+
 		// Call a trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('comment.declaredComment', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
@@ -1636,7 +1636,7 @@ class CommentController extends Comment
 
 		// Get currently logged in user.
 		$member_srl = intval($this->user->member_srl);
-		
+
 		// if the comment author is a member
 		if($oComment->get('member_srl'))
 		{
@@ -1665,12 +1665,12 @@ class CommentController extends Comment
 			$_SESSION['declared_comment'][$comment_srl] = FALSE;
 			return new BaseObject(-1, 'failed_declared');
 		}
-		
+
 		// Fill in remaining information for logging.
 		$args->member_srl = $member_srl;
 		$args->ipaddress = \RX_CLIENT_IP;
 		$args->declare_message = $declare_message;
-		
+
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -1757,7 +1757,7 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'failed_declared_cancel');
 		}
-		
+
 		// Get the original document
 		$oComment = CommentModel::getComment($comment_srl);
 
@@ -1797,7 +1797,7 @@ class CommentController extends Comment
 		{
 			return $trigger_output;
 		}
-		
+
 		if ($declared_count > 1)
 		{
 			$output = executeQuery('comment.updateDeclaredCommentCancel', $args);
@@ -1811,14 +1811,14 @@ class CommentController extends Comment
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$output = executeQuery('comment.deleteDeclaredCommentLog', $args);
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
-		
+
 		$message_targets = array();
 		$module_srl = $oComment->get('module_srl');
 		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
@@ -1898,19 +1898,19 @@ class CommentController extends Comment
 		foreach ($target_module_srl as $srl)
 		{
 			if (!$srl) continue;
-			
+
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($srl);
 			if (!$module_info->module_srl)
 			{
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
-			
+
 			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
 			if (!$module_grant->manager)
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
-			
+
 			$module_srl[] = $srl;
 		}
 
@@ -2020,19 +2020,19 @@ class CommentController extends Comment
 
 		$this->add('comment_list', $commentList);
 	}
-	
+
 	function triggerMoveDocument($obj)
 	{
 		executeQuery('comment.updateCommentModule', $obj);
 		executeQuery('comment.updateCommentListModule', $obj);
 	}
-	
+
 	function triggerAddCopyDocument(&$obj)
 	{
 		$args = new stdClass;
 		$args->document_srls = $obj->source->document_srl;
 		$comment_list = executeQueryArray('comment.getCommentsByDocumentSrls', $args)->data;
-		
+
 		$copied_comments = array();
 		foreach($comment_list as $comment)
 		{
@@ -2041,24 +2041,24 @@ class CommentController extends Comment
 			$copy->module_srl = $obj->copied->module_srl;
 			$copy->document_srl = $obj->copied->document_srl;
 			$copy->parent_srl = $comment->parent_srl ? $copied_comments[$comment->parent_srl] : 0;
-			
+
 			// call a trigger (add)
 			$args = new stdClass;
 			$args->source = $comment;
 			$args->copied = $copy;
 			ModuleHandler::triggerCall('comment.copyCommentByDocument', 'add', $args);
-			
+
 			// insert a copied comment
 			$this->insertComment($copy, true);
-			
+
 			$copied_comments[$comment->comment_srl] = $copy->comment_srl;
 		}
-		
+
 		// update
 		$obj->copied->last_updater = $copy->nick_name;
 		$obj->copied->comment_count = count($copied_comments);
 	}
-	
+
 	function triggerCopyModule(&$obj)
 	{
 		$commentConfig = ModuleModel::getModulePartConfig('comment', $obj->originModuleSrl);

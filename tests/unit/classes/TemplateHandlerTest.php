@@ -9,7 +9,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
 	{
 		$this->baseurl = '/' . basename(dirname(dirname(dirname(__DIR__)))) . '/';
 	}
-	
+
     public function testParse()
     {
         $tests = array(

@@ -13,10 +13,10 @@ class VariableBase
 	public $var;
 	public $ifvar;
 	public $default;
-	
+
 	/**
 	 * Convert an operator into real SQL.
-	 * 
+	 *
 	 * @param array $args
 	 * @param string $prefix
 	 * @return array
@@ -28,11 +28,11 @@ class VariableBase
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Invalid invocation of getQueryStringAndParams()');
 		}
-		
+
 		// Initialze the return values.
 		$where = '';
 		$params = array();
-		
+
 		// Process the variable or default value.
 		if ($this->ifvar && !isset($args[$this->ifvar]))
 		{
@@ -95,23 +95,23 @@ class VariableBase
 		{
 			return [$where, $params];
 		}
-		
+
 		// Quote the column name.
 		$column = Query::quoteName(isset($this->column) ? $this->column : $this->name);
-		
+
 		// Prepare the target value.
 		$list_ops = array('in' => true, 'notin' => true, 'not_in' => true, 'between' => true);
 		if (isset($list_ops[$this->operation]) && !$is_expression && !is_array($value) && $value !== '')
 		{
 			$value = explode(',', preg_replace('/[\s\']/', '', $value));
 		}
-		
+
 		// Restrict operators for write queries.
 		if ($this instanceof ColumnWrite && $this->operation && !in_array($this->operation, ['equal', 'plus', 'minus', 'multiply']))
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Operation ' . $this->operation . ' is not valid for column in an INSERT or UPDATE query');
 		}
-		
+
 		// Apply the operator.
 		switch ($this->operation)
 		{
@@ -273,14 +273,14 @@ class VariableBase
 				$where = sprintf('%s = ?', $column);
 				$params[] = $value;
 		}
-		
+
 		// Return the complete condition and parameters.
 		return [$where, $params];
 	}
-	
+
 	/**
 	 * Get the current value, falling back to the default value if necessary.
-	 * 
+	 *
 	 * @param array $args
 	 * @return array
 	 */
@@ -315,20 +315,20 @@ class VariableBase
 			$is_expression = null;
 			$value = null;
 		}
-		
+
 		return [$is_expression, $value];
 	}
-	
+
 	/**
 	 * Get the default value of this variable.
-	 * 
+	 *
 	 * @return array
 	 */
 	public function getDefaultValue()
 	{
 		// Get the current column name.
 		$column = $this instanceof ColumnWrite ? $this->name : ($this->column ?? null);
-		
+
 		// If the default value is a column name, escape it.
 		if (strpos($this->default, '.') !== false && Query::isValidColumnName($this->default))
 		{
@@ -338,7 +338,7 @@ class VariableBase
 		{
 			return [true, Query::quoteName($this->default)];
 		}
-		
+
 		// If the default value is a function shortcut, return an appropriate value.
 		switch ($this->default)
 		{
@@ -363,7 +363,7 @@ class VariableBase
 			case 'null':
 				return [true, 'NULL'];
 		}
-		
+
 		// If the default value is a calculation based on the current value, return a query string.
 		if (isset($column) && preg_match('/^(plus|minus|multiply|divide|timestamp)\(([^)]+)\)$/', $this->default, $matches))
 		{
@@ -379,14 +379,14 @@ class VariableBase
 					return [false, date($matches[2])];
 			}
 		}
-		
+
 		// Otherwise, just return the literal value.
 		return [false, $this->default];
 	}
-	
+
 	/**
 	 * Filter a value.
-	 * 
+	 *
 	 * @param mixed $value
 	 * @return void
 	 */
@@ -399,7 +399,7 @@ class VariableBase
 		{
 			$filter = '';
 		}
-		
+
 		// Apply filters.
 		switch ($filter)
 		{
@@ -445,7 +445,7 @@ class VariableBase
 				}
 				break;
 		}
-		
+
 		// Check minimum and maximum lengths.
 		$length = is_scalar($value) ? iconv_strlen($value, 'UTF-8') : (is_countable($value) ? count($value) : 1);
 		if (isset($this->minlength) && $this->minlength > 0 && $length < $this->minlength)
@@ -457,10 +457,10 @@ class VariableBase
 			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->maxlength . ' characters');
 		}
 	}
-	
+
 	/**
 	 * Parse the search text.
-	 * 
+	 *
 	 * @param string $column
 	 * @param string $value
 	 * @return array
@@ -470,13 +470,13 @@ class VariableBase
 		// Initialze the return values.
 		$where = '';
 		$params = array();
-		
+
 		// parse the value (text);
 		$value = str_replace('&quot;', '"', $value);
 		$keywords = preg_split('/(\([^\)]*?\))|(\-?\"[^\"]*?\")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
 		$operators = array('AND' => 'AND', 'OR' => 'OR', '|' => 'OR');
-		
+
 		// loop the parsed keywords or operators
 		foreach ($keywords as $item)
 		{
@@ -486,7 +486,7 @@ class VariableBase
 			{
 				continue;
 			}
-			
+
 			// treat parenthesis
 			if (substr($item, 0, 1) === '(' && substr($item, -1) === ')')
 			{
@@ -500,7 +500,7 @@ class VariableBase
 				}
 				continue;
 			}
-			
+
 			// process 'AND' or 'OR' operator
 			if (isset($operators[$item]))
 			{
@@ -519,26 +519,26 @@ class VariableBase
 				{
 					$conditions[] = sprintf('%s LIKE ?', $column);
 				}
-				
+
 				// trim quotation mark
 				if (preg_match('/^"(.*)"$/', $item, $matches))
 				{
 					$item = $matches[1];
 				}
-				
+
 				// Escape and add to parameter list
 				$params[] = '%' . str_replace(['"', '\\', '_', '%'], ['&quot;', '\\\\', '\_', '\%'], $item) . '%';
-				
+
 				// if there is no operator, assume 'AND'
 				$conditions[] = 'AND';
 			}
 		}
-		
+
 		// remove the last point (would be an operator)
 		array_pop($conditions);
 		$conditions = implode(' ', $conditions);
 		$where = count($keywords) === 1 ? $conditions : "($conditions)";
-		
+
 		return [$where, $params];
 	}
 }

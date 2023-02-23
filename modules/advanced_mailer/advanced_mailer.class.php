@@ -18,23 +18,23 @@ class Advanced_Mailer extends ModuleObject
 		{
 			$config = new stdClass();
 		}
-		
+
 		if (isset($config->is_enabled) || isset($config->sending_method) || isset($config->send_type))
 		{
 			$config = $this->migrateConfig($config);
 			getController('module')->insertModuleConfig('advanced_mailer', $config);
 		}
-		
+
 		return $config;
 	}
-	
+
 	/**
 	 * Migrate from previous configuration format.
 	 */
 	public function migrateConfig($config)
 	{
 		$systemconfig = array();
-		
+
 		if (isset($config->sending_method))
 		{
 			$systemconfig['mail.type'] = $config->sending_method;
@@ -47,7 +47,7 @@ class Advanced_Mailer extends ModuleObject
 		{
 			$systemconfig['mail.type'] = 'mailfunction';
 		}
-		
+
 		if (isset($config->username))
 		{
 			if (in_array('username', $this->sending_methods[$config->sending_method]['conf']))
@@ -56,7 +56,7 @@ class Advanced_Mailer extends ModuleObject
 			}
 			unset($config->username);
 		}
-		
+
 		if (isset($config->password))
 		{
 			if (in_array('password', $this->sending_methods[$config->sending_method]['conf']))
@@ -65,7 +65,7 @@ class Advanced_Mailer extends ModuleObject
 			}
 			unset($config->password);
 		}
-		
+
 		if (isset($config->domain))
 		{
 			if (in_array('domain', $this->sending_methods[$config->sending_method]['conf']))
@@ -74,7 +74,7 @@ class Advanced_Mailer extends ModuleObject
 			}
 			unset($config->domain);
 		}
-		
+
 		if (isset($config->api_key))
 		{
 			if (in_array('api_key', $this->sending_methods[$config->sending_method]['conf']))
@@ -83,7 +83,7 @@ class Advanced_Mailer extends ModuleObject
 			}
 			unset($config->api_key);
 		}
-		
+
 		if (isset($config->account_type))
 		{
 			if (in_array('account_type', $this->sending_methods[$config->sending_method]['conf']))
@@ -92,25 +92,25 @@ class Advanced_Mailer extends ModuleObject
 			}
 			unset($config->account_type);
 		}
-		
+
 		if (isset($config->aws_region))
 		{
 			$config->ses_region = $config->aws_region;
 			unset($config->aws_region);
 		}
-		
+
 		if (isset($config->aws_access_key))
 		{
 			$config->ses_access_key = $config->aws_access_key;
 			unset($config->aws_access_key);
 		}
-		
+
 		if (isset($config->aws_secret_key))
 		{
 			$config->ses_secret_key = $config->aws_secret_key;
 			unset($config->aws_secret_key);
 		}
-		
+
 		$mail_drivers = Rhymix\Framework\Mail::getSupportedDrivers();
 		foreach ($mail_drivers as $driver_name => $driver_definition)
 		{
@@ -153,7 +153,7 @@ class Advanced_Mailer extends ModuleObject
 				}
 			}
 		}
-		
+
 		if (count($systemconfig))
 		{
 			foreach ($systemconfig as $key => $value)
@@ -162,7 +162,7 @@ class Advanced_Mailer extends ModuleObject
 			}
 			Rhymix\Framework\Config::save();
 		}
-		
+
 		unset($config->is_enabled);
 		unset($config->sending_method);
 		unset($config->send_type);
@@ -173,10 +173,10 @@ class Advanced_Mailer extends ModuleObject
 		{
 			$config->exceptions = array();
 		}
-		
+
 		return $config;
 	}
-	
+
 	/**
 	 * Register triggers.
 	 */
@@ -205,7 +205,7 @@ class Advanced_Mailer extends ModuleObject
 			$oModuleController->insertTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after');
 		}
 	}
-	
+
 	/**
 	 * Install.
 	 */
@@ -213,7 +213,7 @@ class Advanced_Mailer extends ModuleObject
 	{
 		$this->registerTriggers();
 	}
-	
+
 	/**
 	 * Check update.
 	 */
@@ -242,7 +242,7 @@ class Advanced_Mailer extends ModuleObject
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Update.
 	 */
@@ -250,7 +250,7 @@ class Advanced_Mailer extends ModuleObject
 	{
 		$this->registerTriggers();
 	}
-	
+
 	public function recompileCache()
 	{
 		// no-op

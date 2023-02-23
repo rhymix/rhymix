@@ -19,30 +19,30 @@ class Postmark extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
 		$config['smtp_pass'] = $config['api_token'];
 		parent::__construct($config);
 	}
-	
+
 	/**
 	 * Get the list of configuration fields required by this mail driver.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getRequiredConfig()
 	{
 		return array('api_token');
 	}
-	
+
 	/**
 	 * Get the SPF hint.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getSPFHint()
 	{
 		return 'include:spf.mtasv.net';
 	}
-	
+
 	/**
 	 * Get the DKIM hint.
-	 * 
+	 *
 	 * @return string
 	 */
 	public static function getDKIMHint()

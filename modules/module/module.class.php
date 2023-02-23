@@ -43,7 +43,7 @@ class Module extends ModuleObject
 				return $output;
 			}
 		}
-		
+
 		// Create a directory to use in the module module
 		FileHandler::makeDir('./files/cache/module_info');
 		FileHandler::makeDir('./files/cache/triggers');
@@ -56,7 +56,7 @@ class Module extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = DB::getInstance();
-		
+
 		// check ruleset directory
 		if(!is_dir(RX_BASEDIR . 'files/ruleset')) return true;
 
@@ -104,7 +104,7 @@ class Module extends ModuleObject
 		if(!$oDB->isColumnExists('action_forward', 'route_regexp')) return true;
 		if(!$oDB->isColumnExists('action_forward', 'route_config')) return true;
 		if(!$oDB->isColumnExists('action_forward', 'global_route')) return true;
-		
+
 		// check additional indexes on lang table
 		$column_info = $oDB->getColumnInfo('lang', 'name');
 		if($column_info->size > 100)
@@ -115,7 +115,7 @@ class Module extends ModuleObject
 		if(!$oDB->isIndexExists('lang', 'idx_name')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_lang_code')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_lang')) return true;
-		
+
 		// check module_trigger table
 		if($oDB->isIndexExists('module_trigger', 'idx_trigger'))
 		{
@@ -130,7 +130,7 @@ class Module extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		// check deprecated lang code
 		$output = executeQuery('module.getLangCount', ['site_srl' => 0, 'lang_code' => 'jp']);
 		if ($output->data->count > 0)
@@ -151,7 +151,7 @@ class Module extends ModuleObject
 		{
 			$this->migrateDomains();
 		}
-		
+
 		// check ruleset directory
 		FileHandler::makeDir(RX_BASEDIR . 'files/ruleset');
 
@@ -192,7 +192,7 @@ class Module extends ModuleObject
 				$oDB->addIndex('module_part_config', 'unique_module_part_config', array('module', 'module_srl'), false);
 			}
 		}
-		
+
 		// check route columns in action_forward table
 		if(!$oDB->isColumnExists('action_forward', 'route_regexp'))
 		{
@@ -206,7 +206,7 @@ class Module extends ModuleObject
 		{
 			$oDB->addColumn('action_forward', 'global_route', 'char', 1, 'N', true);
 		}
-		
+
 		// check additional indexes on lang table
 		$column_info = $oDB->getColumnInfo('lang', 'name');
 		if($column_info->size > 100)
@@ -229,7 +229,7 @@ class Module extends ModuleObject
 		{
 			$oDB->addIndex('lang', 'idx_lang', array('site_srl', 'name', 'lang_code'), false);
 		}
-		
+
 		// check module_trigger table
 		if($oDB->isIndexExists('module_trigger', 'idx_trigger'))
 		{
@@ -249,7 +249,7 @@ class Module extends ModuleObject
 			$oDB->addIndex('module_trigger', 'idx_trigger_name', array('trigger_name', 'called_position'));
 			$oDB->addIndex('module_trigger', 'idx_trigger_target', array('module', 'type', 'called_method'));
 		}
-		
+
 		// check deprecated lang code
 		$output = executeQuery('module.getLangCount', ['site_srl' => 0, 'lang_code' => 'jp']);
 		if ($output->data->count > 0)
@@ -261,7 +261,7 @@ class Module extends ModuleObject
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief Migrate old sites and multidomain info to new 'domains' table
 	 */
@@ -273,14 +273,14 @@ class Module extends ModuleObject
 		{
 			$oDB->createTable($this->module_path . 'schemas/domains.xml');
 		}
-		
+
 		// Get current site configuration.
 		$config = ModuleModel::getModuleConfig('module');
-		
+
 		// Initialize domains data.
 		$domains = array();
 		$default_domain = new stdClass;
-		
+
 		// Check XE sites.
 		$output = executeQueryArray('module.getSites');
 		if ($output->data)
@@ -292,7 +292,7 @@ class Module extends ModuleObject
 				{
 					$site_domain = 'http://' . $site_domain;
 				}
-				
+
 				$domain = new stdClass();
 				$domain->domain_srl = $site_info->site_srl;
 				$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
@@ -322,7 +322,7 @@ class Module extends ModuleObject
 		{
 			$output = executeQuery('module.getDefaultMidInfo', $args);
 			$default_hostinfo = parse_url(Rhymix\Framework\URL::getCurrentURL());
-			
+
 			$domain = new stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = Rhymix\Framework\URL::decodeIdna(strtolower($default_hostinfo['host']));
@@ -343,7 +343,7 @@ class Module extends ModuleObject
 			$domains[$domain->domain] = $domain;
 			$default_domain = $domain;
 		}
-		
+
 		// Check multidomain module.
 		if (getModel('multidomain'))
 		{
@@ -357,7 +357,7 @@ class Module extends ModuleObject
 					{
 						$site_domain = 'http://' . $site_domain;
 					}
-					
+
 					$domain = new stdClass();
 					$domain->domain_srl = $site_info->multidomain_srl;
 					$domain->domain = Rhymix\Framework\URL::getDomainFromURL(strtolower($site_domain));
@@ -384,7 +384,7 @@ class Module extends ModuleObject
 				}
 			}
 		}
-		
+
 		// Insert into DB.
 		foreach ($domains as $domain)
 		{
@@ -394,11 +394,11 @@ class Module extends ModuleObject
 				return $output;
 			}
 		}
-		
+
 		// Clear cache.
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
-		
+
 		// Return the default domain info.
 		return $default_domain;
 	}
@@ -413,7 +413,7 @@ class Module extends ModuleObject
 		$module_names = array_map(function($module_info) {
 			return $module_info->module;
 		}, $module_list);
-		
+
 		// Delete triggers belonging to modules that don't exist
 		$args = new stdClass;
 		$args->module = $module_names ?: [];

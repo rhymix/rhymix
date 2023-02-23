@@ -47,9 +47,9 @@ class FileAdminController extends File
 
 			$oFileController->deleteFile($file_srl);
 		}
-		
+
 		$this->setMessage(sprintf(lang('msg_checked_file_is_deleted'), $file_count));
-		
+
 		$redirect_url = $_SERVER['HTTP_REFERER'] ?? '';
 		if (!$redirect_url || !Rhymix\Framework\URL::isInternalURL($redirect_url))
 		{
@@ -94,7 +94,7 @@ class FileAdminController extends File
 			$config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
 			$config->ffprobe_command = escape(utf8_trim(Context::get('ffprobe_command'))) ?: '/usr/bin/ffprobe';
 		}
-		
+
 		// Check maximum file size
 		if (PHP_INT_SIZE < 8)
 		{
@@ -103,7 +103,7 @@ class FileAdminController extends File
 				throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 			}
 		}
-		
+
 		// Simplify allowed_filetypes
 		$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
 		if ($config->allowed_extensions)
@@ -120,7 +120,7 @@ class FileAdminController extends File
 			$config->allowed_extensions = array();
 			$config->allowed_filetypes = '*.*';
 		}
-		
+
 		// Save and redirect
 		$output = getController('module')->insertModuleConfig('file', $config);
 		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminUploadConfig');
@@ -142,7 +142,7 @@ class FileAdminController extends File
 		$config->allow_multimedia_direct_download = Context::get('allow_multimedia_direct_download') === 'Y' ? 'Y' : 'N';
 		$config->download_short_url = Context::get('download_short_url') === 'Y' ? 'Y' : 'N';
 		$config->inline_download_format = array_map('utf8_trim', Context::get('inline_download_format') ?: []);
-		
+
 		// Save and redirect
 		$output = getController('module')->insertModuleConfig('file', $config);
 		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminDownloadConfig');
@@ -159,7 +159,7 @@ class FileAdminController extends File
 		// Update configuration
 		$config = getModel('module')->getModuleConfig('file') ?: new stdClass;
 		$config->save_changelog = Context::get('save_changelog') === 'Y' ? 'Y' : 'N';
-		
+
 		// Save and redirect
 		$output = getController('module')->insertModuleConfig('file', $config);
 		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminOtherConfig');
@@ -174,7 +174,7 @@ class FileAdminController extends File
 	function procFileAdminInsertModuleConfig()
 	{
 		$config = new stdClass;
-		
+
 		// Default
 		if(!Context::get('use_default_file_config'))
 		{
@@ -182,7 +182,7 @@ class FileAdminController extends File
 			$config->allowed_filesize = Context::get('allowed_filesize');
 			$config->allowed_attach_size = Context::get('allowed_attach_size');
 			$config->allowed_filetypes = Context::get('allowed_filetypes');
-			
+
 			// Check maximum file size
 			if (PHP_INT_SIZE < 8)
 			{
@@ -191,7 +191,7 @@ class FileAdminController extends File
 					throw new Rhymix\Framework\Exception('msg_32bit_max_2047mb');
 				}
 			}
-			
+
 			// Simplify allowed_filetypes
 			$config->allowed_extensions = strtr(strtolower(trim($config->allowed_filetypes)), array('*.' => '', ';' => ','));
 			if ($config->allowed_extensions)
@@ -209,7 +209,7 @@ class FileAdminController extends File
 				$config->allowed_filetypes = '*.*';
 			}
 		}
-		
+
 		// Image
 		if(!Context::get('use_image_default_file_config'))
 		{
@@ -227,7 +227,7 @@ class FileAdminController extends File
 			$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 			$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
 		}
-		
+
 		// Video
 		if(!Context::get('use_video_default_file_config'))
 		{
@@ -235,11 +235,11 @@ class FileAdminController extends File
 			$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
 			$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
 		}
-		
+
 		// Set download groups
 		$download_grant = Context::get('download_grant');
 		$config->download_grant = is_array($download_grant) ? array_values($download_grant) : array($download_grant);
-		
+
 		// Update
 		$oModuleController = getController('module');
 		foreach(explode(',', Context::get('target_module_srl')) as $module_srl)
@@ -250,7 +250,7 @@ class FileAdminController extends File
 				return $output;
 			}
 		}
-		
+
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispBoardAdminContent'));

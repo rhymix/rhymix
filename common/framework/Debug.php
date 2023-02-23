@@ -25,90 +25,90 @@ class Debug
 	protected static $_slow_remote_requests = array();
 	protected static $_session_time = 0;
 	protected static $_query_time = 0;
-	
+
 	/**
 	 * Enable log collection.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function enable()
 	{
 		self::$_enabled = true;
 	}
-	
+
 	/**
 	 * Disable log collection.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function disable()
 	{
 		self::$_enabled = false;
 	}
-	
+
 	/**
 	 * Get all entries.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getEntries()
 	{
 		return self::$_entries;
 	}
-	
+
 	/**
 	 * Clear all entries.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearEntries()
 	{
 		self::$_entries = array();
 	}
-	
+
 	/**
 	 * Get all errors.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getErrors()
 	{
 		return self::$_errors;
 	}
-	
+
 	/**
 	 * Clear all errors.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearErrors()
 	{
 		self::$_errors = array();
 	}
-	
+
 	/**
 	 * Get all queries.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getQueries()
 	{
 		return self::$_queries;
 	}
-	
+
 	/**
 	 * Get all slow queries.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSlowQueries()
 	{
 		return self::$_slow_queries;
 	}
-	
+
 	/**
 	 * Clear all queries.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearQueries()
@@ -116,30 +116,30 @@ class Debug
 		self::$_queries = array();
 		self::$_slow_queries = array();
 	}
-	
+
 	/**
 	 * Get all triggers.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getTriggers()
 	{
 		return self::$_triggers;
 	}
-	
+
 	/**
 	 * Get all slow triggers.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSlowTriggers()
 	{
 		return self::$_slow_triggers;
 	}
-	
+
 	/**
 	 * Clear all triggers.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearTriggers()
@@ -147,30 +147,30 @@ class Debug
 		self::$_triggers = array();
 		self::$_slow_triggers = array();
 	}
-	
+
 	/**
 	 * Get all widgets.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getWidgets()
 	{
 		return self::$_widgets;
 	}
-	
+
 	/**
 	 * Get all slow widgets.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSlowWidgets()
 	{
 		return self::$_slow_widgets;
 	}
-	
+
 	/**
 	 * Clear all widgets.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearWidgets()
@@ -178,30 +178,30 @@ class Debug
 		self::$_widgets = array();
 		self::$_slow_widgets = array();
 	}
-	
+
 	/**
 	 * Get all remote requests.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getRemoteRequests()
 	{
 		return self::$_remote_requests;
 	}
-	
+
 	/**
 	 * Get all slow remote requests.
-	 * 
+	 *
 	 * @return array
 	 */
 	public static function getSlowRemoteRequests()
 	{
 		return self::$_slow_remote_requests;
 	}
-	
+
 	/**
 	 * Clear all remote requests.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearRemoteRequests()
@@ -209,10 +209,10 @@ class Debug
 		self::$_remote_requests = array();
 		self::$_slow_remote_requests = array();
 	}
-	
+
 	/**
 	 * Clear all records.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function clearAll()
@@ -230,10 +230,10 @@ class Debug
 		self::$_session_time = 0;
 		self::$_query_time = 0;
 	}
-	
+
 	/**
 	 * Add a filename alias.
-	 * 
+	 *
 	 * @param string $display_filename
 	 * @param string $real_filename
 	 * @return void
@@ -242,10 +242,10 @@ class Debug
 	{
 		self::$_aliases[$real_filename] = $display_filename;
 	}
-	
+
 	/**
 	 * Add session start time.
-	 * 
+	 *
 	 * @param float $session_start_time
 	 * @return void
 	 */
@@ -253,10 +253,10 @@ class Debug
 	{
 		self::$_session_time += $session_start_time;
 	}
-	
+
 	/**
 	 * Add an arbitrary entry to the log.
-	 * 
+	 *
 	 * @param string $message
 	 * @return void
 	 */
@@ -267,14 +267,14 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Get the backtrace.
 		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 		if (count($backtrace) > 1 && $backtrace[1]['function'] === 'debugPrint' && empty($backtrace[1]['class']))
 		{
 			array_shift($backtrace);
 		}
-		
+
 		// Create a log entry.
 		$entry = (object)array(
 			'message' => unserialize(serialize($message)),
@@ -285,7 +285,7 @@ class Debug
 			'type' => 'Debug',
 		);
 		self::$_entries[] = $entry;
-		
+
 		// Add the entry to the error log.
 		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
 		{
@@ -294,10 +294,10 @@ class Debug
 			error_log($log_entry);
 		}
 	}
-	
+
 	/**
 	 * Add a PHP error to the log.
-	 * 
+	 *
 	 * @param int $errno
 	 * @param string $errstr
 	 * @param string $errfile
@@ -312,13 +312,13 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Do not handle error types that we were told to ignore.
 		if (!($errno & error_reporting()))
 		{
 			return;
 		}
-		
+
 		// Rewrite the error message with relative paths.
 		$message = str_replace(array(
 			' called in ' . \RX_BASEDIR,
@@ -327,10 +327,10 @@ class Debug
 			' called in ',
 			' defined in ',
 		), $errstr);
-		
+
 		// Get the backtrace.
 		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
-		
+
 		// Prepare the error entry.
 		self::$_errors[] = $errinfo = (object)array(
 			'message' => $message,
@@ -340,7 +340,7 @@ class Debug
 			'time' => microtime(true),
 			'type' => self::getErrorType($errno),
 		);
-		
+
 		// Add the entry to the error log.
 		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
 		{
@@ -348,10 +348,10 @@ class Debug
 			error_log($log_entry . \PHP_EOL . self::formatBacktrace($backtrace));
 		}
 	}
-	
+
 	/**
 	 * Add a query to the log.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function addQuery($query)
@@ -361,7 +361,7 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Prepare the log entry.
 		$query_object = (object)array(
 			'query_id' => $query['query_id'],
@@ -377,10 +377,10 @@ class Debug
 			'time' => microtime(true),
 			'type' => 'Query',
 		);
-		
+
 		self::$_queries[] = $query_object;
 		self::$_query_time += $query_object->query_time;
-		
+
 		// Add the entry to the error log if the result wasn't successful.
 		if ($query['result'] === 'error')
 		{
@@ -392,26 +392,26 @@ class Debug
 				'time' => $query_object->time,
 				'type' => 'Query Error',
 			);
-			
+
 			self::$_errors[] = $error_object;
-			
+
 			if (self::$_config['write_error_log'] === 'all')
 			{
 				$log_entry = strtr(sprintf('Query Error: %s in %s on line %d', $error_object->message, $error_object->file, intval($error_object->line)), "\0\r\n\t\v\e\f", '       ');
 				error_log($log_entry . \PHP_EOL . self::formatBacktrace($error_object->backtrace));
 			}
 		}
-		
+
 		// Add the entry to the slow query log.
 		if ($query_object->query_time && $query_object->query_time >= (self::$_config['log_slow_queries'] ?? 1))
 		{
 			self::$_slow_queries[] = $query_object;
 		}
 	}
-	
+
 	/**
 	 * Add a trigger to the log.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function addTrigger($trigger)
@@ -421,7 +421,7 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Prepare the log entry.
 		$trigger_object = (object)array(
 			'trigger_name' => $trigger['name'],
@@ -435,17 +435,17 @@ class Debug
 			'time' => microtime(true),
 			'type' => 'Trigger',
 		);
-		
+
 		self::$_triggers[] = $trigger_object;
 		if ($trigger_object->trigger_time && $trigger_object->trigger_time >= (self::$_config['log_slow_triggers'] ?? 1))
 		{
 			self::$_slow_triggers[] = $trigger_object;
 		}
 	}
-	
+
 	/**
 	 * Add a widget to the log.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function addWidget($widget)
@@ -455,7 +455,7 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Prepare the log entry.
 		$widget_object = (object)array(
 			'widget_name' => $widget['name'],
@@ -467,17 +467,17 @@ class Debug
 			'time' => microtime(true),
 			'type' => 'Widget',
 		);
-		
+
 		self::$_widgets[] = $widget_object;
 		if ($widget_object->widget_time && $widget_object->widget_time >= (self::$_config['log_slow_widgets'] ?? 1))
 		{
 			self::$_slow_widgets[] = $widget_object;
 		}
 	}
-	
+
 	/**
 	 * Add a remote request to the log.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function addRemoteRequest($request)
@@ -487,7 +487,7 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Prepare the log entry.
 		$request_object = (object)array(
 			'url' => $request['url'],
@@ -501,17 +501,17 @@ class Debug
 			'time' => microtime(true),
 			'type' => 'Remote Request',
 		);
-		
+
 		self::$_remote_requests[] = $request_object;
 		if ($request_object->elapsed_time && $request_object->elapsed_time >= (self::$_config['log_slow_remote_requests'] ?? 1))
 		{
 			self::$_slow_remote_requests[] = $request_object;
 		}
 	}
-	
+
 	/**
 	 * The default handler for catching exceptions.
-	 * 
+	 *
 	 * @param Exception $e
 	 * @return void
 	 */
@@ -519,7 +519,7 @@ class Debug
 	{
 		// Find out the file where the error really occurred.
 		$errfile = self::translateFilename($e->getFile());
-		
+
 		// If the exception was thrown in a Rhymix Framework class, find out where that class was called.
 		$backtrace = $e->getTrace();
 		$caller_errfile = $errfile;
@@ -537,9 +537,9 @@ class Debug
 				$caller_errline = $trace['line'];
 			}
 		}
-		
+
 		// Add the exception to the error log.
-		
+
 		if ($caller_errfile && $caller_errfile !== $errfile)
 		{
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d (via %s on line %d)',
@@ -554,15 +554,15 @@ class Debug
 		{
 			error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
 		}
-		
+
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
 		exit;
 	}
-	
+
 	/**
 	 * The default handler for catching fatal errors.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function shutdownHandler()
@@ -573,10 +573,10 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Find out the file where the error really occurred.
 		$errinfo['file'] = self::translateFilename($errinfo['file']);
-		
+
 		// Add the entry to the error log.
 		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
 		$log_entry = str_replace("\0", '', 'PHP ' . self::getErrorType($errinfo['type']) . ': ' . $message);
@@ -584,11 +584,11 @@ class Debug
 		{
 			error_log($log_entry);
 		}
-		
+
 		// Display the error screen.
 		self::displayErrorScreen($log_entry);
 	}
-	
+
 	/**
 	 * Format a backtrace for error logging.
 	 */
@@ -607,10 +607,10 @@ class Debug
 		}
 		return implode(\PHP_EOL, $result);
 	}
-	
+
 	/**
 	 * Translate filenames.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return string
 	 */
@@ -626,10 +626,10 @@ class Debug
 		}
 		return $filename;
 	}
-	
+
 	/**
 	 * Register all error handlers.
-	 * 
+	 *
 	 * @return void
 	 */
 	public static function registerErrorHandlers($error_types)
@@ -639,10 +639,10 @@ class Debug
 		set_exception_handler('\\Rhymix\\Framework\\Debug::exceptionHandler');
 		register_shutdown_function('\\Rhymix\\Framework\\Debug::shutdownHandler');
 	}
-	
+
 	/**
 	 * Display a fatal error screen.
-	 * 
+	 *
 	 * @param string $message
 	 * @return void
 	 */
@@ -653,20 +653,20 @@ class Debug
 		{
 			return;
 		}
-		
+
 		// Disable output buffering.
 		while (ob_get_level())
 		{
 			ob_end_clean();
 		}
-		
+
 		// Localize the error title.
 		$title = lang('msg_server_error');
 		if ($title === 'msg_server_error')
 		{
 			$message = 'Server Error';
 		}
-		
+
 		// Localize the error message.
 		$display_error_message = ini_get('display_errors') || !\Context::isInstalled() || Session::isAdmin() || self::isEnabledForCurrentUser();
 		$message = $display_error_message ? $message : lang('msg_server_error_see_log');
@@ -674,7 +674,7 @@ class Debug
 		{
 			$message = 'Your server is configured to hide error messages. Please see your server\'s error log for details.';
 		}
-		
+
 		// Display a generic error page.
 		try
 		{
@@ -685,10 +685,10 @@ class Debug
 			self::displayError($message);
 		}
 	}
-	
+
 	/**
 	 * Display a default error.
-	 * 
+	 *
 	 * @param string $message
 	 * @return void
 	 */
@@ -706,10 +706,10 @@ class Debug
 			echo json_encode(array('error' => -1, 'message' => escape($message, false)), \JSON_UNESCAPED_UNICODE);
 		}
 	}
-	
+
 	/**
 	 * Check if debugging is enabled for the current user.
-	 * 
+	 *
 	 * @return bool
 	 */
 	public static function isEnabledForCurrentUser()
@@ -722,12 +722,12 @@ class Debug
 		{
 			return self::$_enabled = false;
 		}
-		
+
 		switch (self::$_config['display_to'])
 		{
 			case 'everyone':
 				return self::$_enabled = true;
-			
+
 			case 'ip':
 				if (Filters\IpFilter::inRanges(\RX_CLIENT_IP, self::$_config['allow']))
 				{
@@ -742,7 +742,7 @@ class Debug
 					return self::$_enabled = true;
 				}
 				return self::$_enabled = false;
-			
+
 			case 'admin':
 			default:
 				$logged_info = \Context::get('logged_info');
@@ -760,10 +760,10 @@ class Debug
 				}
 		}
 	}
-	
+
 	/**
 	 * Get all debug information as an object.
-	 * 
+	 *
 	 * @return object
 	 */
 	public static function getDebugData()
@@ -802,7 +802,7 @@ class Debug
 			'slow_widgets' => self::$_slow_widgets,
 			'slow_remote_requests' => self::$_slow_remote_requests,
 		);
-		
+
 		// Clean up the querystring.
 		if (isset($data->queries))
 		{
@@ -811,7 +811,7 @@ class Debug
 				$query->query_string = trim(utf8_normalize_spaces($query->query_string, true));
 			}
 		}
-		
+
 		// Clean up the backtrace.
 		foreach (array('entries', 'errors', 'queries', 'slow_queries', 'remote_requests', 'slow_remote_requests') as $key)
 		{
@@ -838,13 +838,13 @@ class Debug
 				}
 			}
 		}
-		
+
 		return $data;
 	}
-	
+
 	/**
 	 * Convert a PHP error number to the corresponding error name.
-	 * 
+	 *
 	 * @param int $errno
 	 * @return string
 	 */

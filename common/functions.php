@@ -2,13 +2,13 @@
 
 /**
  * Function library for Rhymix
- * 
+ *
  * Copyright (c) Rhymix Developers and Contributors
  */
 
 /**
  * Get or set system configuration.
- * 
+ *
  * @param string $key
  * @param string $value (optional)
  * @return mixed
@@ -39,7 +39,7 @@ function lang($code, $value = null)
 		$GLOBALS['lang'] = Rhymix\Framework\Lang::getInstance(Context::getLangType() ?: config('locale.default_lang') ?: 'ko');
 		$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 	}
-	
+
 	if ($value === null)
 	{
 		return $GLOBALS['lang']->get($code);
@@ -52,7 +52,7 @@ function lang($code, $value = null)
 
 /**
  * Get the first value of an array.
- * 
+ *
  * @param array $array The input array
  * @return mixed
  */
@@ -63,7 +63,7 @@ function array_first(array $array)
 
 /**
  * Get the first key of an array.
- * 
+ *
  * @param array $array The input array
  * @return mixed
  */
@@ -75,7 +75,7 @@ function array_first_key(array $array)
 
 /**
  * Get the last value of an array.
- * 
+ *
  * @param array $array The input array
  * @return mixed
  */
@@ -86,7 +86,7 @@ function array_last(array $array)
 
 /**
  * Get the last key of an array.
- * 
+ *
  * @param array $array The input array
  * @return mixed
  */
@@ -98,7 +98,7 @@ function array_last_key(array $array)
 
 /**
  * Escape all keys and values in a multi-dimensional array.
- * 
+ *
  * @param array $array The array to escape
  * @param bool $double_escape Set this to false to skip symbols that are already escaped (default: true)
  * @return array
@@ -153,7 +153,7 @@ function array_flatten(array $array, $preserve_keys = true)
 /**
  * Get the base name of a class name (without namespaces).
  * Based on Laravel helper function <http://laravel.com/docs/5.0/helpers>
- * 
+ *
  * @param string|object $class The class name
  * @return string
  */
@@ -164,9 +164,9 @@ function class_basename($class)
 
 /**
  * Clean a path to remove ./, ../, trailing slashes, etc.
- * 
+ *
  * This function is an alias to Rhymix\Framework\Filters\FilenameFilter::cleanPath().
- * 
+ *
  * @param string $path
  * @return string
  */
@@ -177,7 +177,7 @@ function clean_path($path)
 
 /**
  * This function is a shortcut to htmlspecialchars().
- * 
+ *
  * @param string $str The string to escape
  * @param bool $double_escape Set this to false to skip symbols that are already escaped (default: true)
  * @param bool $except_lang_code Set this to true to skip user lang codes (default: false)
@@ -199,7 +199,7 @@ function escape($str, $double_escape = true, $except_lang_code = false)
 
 /**
  * This function escapes a string to be used in a CSS property.
- * 
+ *
  * @param string $str The string to escape
  * @return string
  */
@@ -210,7 +210,7 @@ function escape_css($str)
 
 /**
  * This function escapes a string to be used in a JavaScript string literal.
- * 
+ *
  * @param string $str The string to escape
  * @return string
  */
@@ -224,7 +224,7 @@ function escape_js($str)
 /**
  * This function escapes a string to be used in a 'single-quoted' PHP string literal.
  * Null bytes are removed.
- * 
+ *
  * @param string $str The string to escape
  * @return string
  */
@@ -236,7 +236,7 @@ function escape_sqstr($str)
 /**
  * This function escapes a string to be used in a "double-quoted" PHP string literal.
  * Null bytes are removed.
- * 
+ *
  * @param string $str The string to escape
  * @return string
  */
@@ -249,7 +249,7 @@ function escape_dqstr($str)
  * This function splits a string into an array, but allows the delimter to be escaped.
  * For example, 'A|B\|C|D' will be split into 'A', 'B|C', and 'D'
  * because the bar between B and C is escaped.
- * 
+ *
  * @param string $delimiter The delimiter
  * @param string $str The string to split
  * @param int $limit The maximum number of items to return, 0 for unlimited (default: 0)
@@ -274,7 +274,7 @@ function explode_with_escape($delimiter, $str, $limit = 0, $escape_char = '\\')
 
 /**
  * This function returns true if $haystack starts with $needle, and false otherwise.
- * 
+ *
  * @param string $needle The needle
  * @param string $haystack The haystack
  * @param bool $case_sensitive Whether the search should be case-sensitive (default: true)
@@ -298,7 +298,7 @@ function starts_with($needle, $haystack, $case_sensitive = true)
 
 /**
  * This function returns true if $haystack ends with $needle, and false otherwise.
- * 
+ *
  * @param string $needle The needle
  * @param string $haystack The haystack
  * @param bool $case_sensitive Whether the search should be case-sensitive (default: true)
@@ -322,7 +322,7 @@ function ends_with($needle, $haystack, $case_sensitive = true)
 
 /**
  * This function returns true if $haystack contains $needle, and false otherwise.
- * 
+ *
  * @param string $needle The needle
  * @param string $haystack The haystack
  * @param bool $case_sensitive Whether the search should be case-sensitive (default: true)
@@ -347,7 +347,7 @@ function contains($needle, $haystack, $case_sensitive = true)
 /**
  * This function returns true if $needle is between $min and $max, and false otherwise.
  * Non-numeric values are compared according to PHP defaults.
- * 
+ *
  * @param mixed $needle The needle
  * @param mixed $min The minimum value
  * @param mixed $max The maximum value
@@ -370,7 +370,7 @@ function is_between($needle, $min, $max, $exclusive = false)
  * This function restricts $input to be between $min and $max.
  * All values less than $min are converted to $min, and all values greater than $max are converted to $max.
  * Non-numeric values are compared according to PHP defaults.
- * 
+ *
  * @param mixed $input The value to convert
  * @param mixed $min The minimum value
  * @param mixed $max The maximum value
@@ -385,10 +385,10 @@ function force_range($input, $min, $max)
 
 /**
  * This function encodes a string with base64, using a URL-safe character set.
- * 
+ *
  * The choice of alternative characters is defined in RFC 4648 Section 5.
  * Do not use substitute other characters such as the dot (.) or the tilde (~).
- * 
+ *
  * @param string $str The string to encode
  * @return string
  */
@@ -399,7 +399,7 @@ function base64_encode_urlsafe($str)
 
 /**
  * This function decodes a string with base64, using a URL-safe character set.
- * 
+ *
  * @param string $str The string to decode
  * @return string
  */
@@ -439,10 +439,10 @@ function number_shorten($number, $significant_digits = 2)
 
 /**
  * Convert a server-side path to a URL.
- * 
+ *
  * This function is an alias to Rhymix\Framework\URL::fromServerPath().
  * It returns false if the path cannot be converted.
- * 
+ *
  * @param string $path
  * @return string|false
  */
@@ -453,10 +453,10 @@ function path2url($path)
 
 /**
  * Convert a URL to a server-side path.
- * 
+ *
  * This function is an alias to Rhymix\Framework\URL::toServerPath().
  * It returns false if the URL cannot be converted.
- * 
+ *
  * @param string $url
  * @return string|false
  */
@@ -469,7 +469,7 @@ function url2path($url)
  * Convert hexadecimal color codes to an array of R, G, B values.
  * This function can handle both 6-digit and 3-digit notations, optionally prefixed with '#'.
  * If the color code is illegal, this function will return all nulls.
- * 
+ *
  * @param string $hex The color to convert
  * @return array
  */
@@ -498,7 +498,7 @@ function hex2rgb($hex)
 /**
  * Convert an array of R, G, B values to hexadecimal color codes.
  * If the RGB values are illegal, this function will return #000000.
- * 
+ *
  * @param array $rgb The color to convert
  * @param bool $hash_prefix Whether or not to prefix the result with '#' (default: true)
  * @return string
@@ -519,7 +519,7 @@ function rgb2hex(array $rgb, $hash_prefix = true)
 /**
  * This function includes another file in a clean scope.
  * This is useful if the included file tries to define global variables.
- * 
+ *
  * @param string $filename The name of the file to include
  * @return mixed
  */
@@ -530,7 +530,7 @@ function include_in_clean_scope($filename)
 
 /**
  * This function includes another file while ignoring all errors inside of it.
- * 
+ *
  * @param string $filename The name of the file to include
  * @return mixed
  */
@@ -544,7 +544,7 @@ function include_and_ignore_errors($filename)
 
 /**
  * This function includes another file while ignoring all output.
- * 
+ *
  * @param string $filename The name of the file to include
  * @return mixed
  */
@@ -559,7 +559,7 @@ function include_and_ignore_output($filename)
 /**
  * Converts any value to either true or false.
  * Based on util.php <https://github.com/brandonwamboldt/utilphp>
- * 
+ *
  * @param string $input The input value
  * @return bool
  */
@@ -575,7 +575,7 @@ function tobool($input)
 
 /**
  * Counts members of an array or an object.
- * 
+ *
  * @deprecated
  * @param mixed $array_or_object
  * @return int
@@ -598,7 +598,7 @@ function countobj($array_or_object)
 
 /**
  * Checks if the given string contains valid UTF-8.
- * 
+ *
  * @param string $str The input string
  * @return bool
  */
@@ -616,7 +616,7 @@ function utf8_check($str)
 
 /**
  * Remove BOM and invalid UTF-8 sequences from text content.
- * 
+ *
  * @param string $str
  * @return string
  */
@@ -628,19 +628,19 @@ function utf8_clean($str)
 	{
 		$str = @iconv('UTF-8', 'UTF-8//IGNORE', $str);
 	}
-	
+
 	// Normalize the text content.
 	if (class_exists('Normalizer'))
 	{
 		$str = Normalizer::normalize($str, Normalizer::FORM_C);
 	}
-	
+
 	// Remove BOM.
 	$str = preg_replace('/\xEF\xBB\xBF/', '', $str);
-	
+
 	// Remove Hangul Filler and RLO character.
 	$str = preg_replace('/(?:&#(?:8238|x202e|12644|x3164);|\xE3\x85\xA4|\xE2\x80\xAE)/i', '', $str);
-	
+
 	// Remove excessively long sequences (more than 3) of combining diacritical marks.
 	$str = preg_replace('/(\pM{3})\pM+/u', '$1', $str);
 
@@ -650,7 +650,7 @@ function utf8_clean($str)
 /**
  * Encode UTF-8 characters outside of the Basic Multilingual Plane in the &#xxxxxx format.
  * This allows emoticons and other characters to be stored in MySQL without utf8mb4 support.
- * 
+ *
  * @param $str The string to encode
  * @return string
  */
@@ -666,7 +666,7 @@ function utf8_mbencode($str)
 /**
  * This function replaces all whitespace characters with a single regular space (0x20).
  * Unicode whitespace characters are also replaced.
- * 
+ *
  * @param string $str The input string
  * @param bool $multiline Set this to true to permit newlines inside the string (default: false)
  * @return string
@@ -679,7 +679,7 @@ function utf8_normalize_spaces($str, $multiline = false)
 /**
  * This function trims all space from the beginning and end of a string.
  * Unicode whitespace characters are also trimmed.
- * 
+ *
  * @param string $str The input string
  * @return string
  */
@@ -692,7 +692,7 @@ function utf8_trim($str)
  * Check if a string contains HTML content.
  * This function checks whether a string seems to contain HTML.
  * It checks for tags like <p>, <div>, <br> at the beginning and end of lines.
- * 
+ *
  * @param string $str The input string
  * @return bool
  */
@@ -722,7 +722,7 @@ function is_html_content($str)
  * Check if HTML content is empty.
  * This function checks whether any printable characters remain
  * after removing all tags except images, videos, iframes, etc.
- * 
+ *
  * @param string $str The input string
  * @return bool
  */
@@ -735,7 +735,7 @@ function is_empty_html_content($str)
 
 /**
  * Polyfill for is_countable() in PHP < 7.3
- * 
+ *
  * @param mixed $var
  * @return bool
 **/
@@ -749,7 +749,7 @@ if (!function_exists('is_countable'))
 
 /**
  * Polyfill for str_starts_with() in PHP < 8.0
- * 
+ *
  * @param string $haystack
  * @param string $needle
  * @return bool
@@ -764,7 +764,7 @@ if (!function_exists('str_starts_with'))
 
 /**
  * Polyfill for str_starts_with() in PHP < 8.0
- * 
+ *
  * @param string $haystack
  * @param string $needle
  * @return bool
@@ -779,7 +779,7 @@ if (!function_exists('str_ends_with'))
 
 /**
  * Polyfill for str_starts_with() in PHP < 8.0
- * 
+ *
  * @param string $haystack
  * @param string $needle
  * @return bool

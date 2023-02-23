@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the spamfilter module
  */
-class spamfilterAdminView extends spamfilter 
+class spamfilterAdminView extends spamfilter
 {
 	/**
 	 * @brief Initialization
@@ -27,7 +27,7 @@ class spamfilterAdminView extends spamfilter
 		{
 			$sort_index = 'regdate';
 		}
-		
+
 		// Get the list of denied IP addresses and words
 		$oSpamFilterModel = getModel('spamfilter');
 		$ip_list = $oSpamFilterModel->getDeniedIPList($sort_index);
@@ -52,7 +52,7 @@ class spamfilterAdminView extends spamfilter
 		{
 			$sort_index = 'hit';
 		}
-		
+
 		// Get the list of denied IP addresses and words
 		$oSpamFilterModel = getModel('spamfilter');
 		$word_list = $oSpamFilterModel->getDeniedWordList($sort_index);

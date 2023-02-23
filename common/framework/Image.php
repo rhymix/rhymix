@@ -9,7 +9,7 @@ class Image
 {
 	/**
 	 * Check if a file is an image
-	 * 
+	 *
 	 * @param string $filename
 	 * @return bool
 	 */
@@ -17,10 +17,10 @@ class Image
 	{
 		return array_shift(explode('/', MIME::getContentType($filename))) === 'image';
 	}
-	
+
 	/**
 	 * Check if a file is an animated GIF.
-	 * 
+	 *
 	 * @param string $filename
 	 * @return bool
 	 */
@@ -46,10 +46,10 @@ class Image
 		fclose($fp);
 		return $frames > 1;
 	}
-	
+
 	/**
 	 * Get image information
-	 * 
+	 *
 	 * @param string $filename
 	 * @return array|false
 	 */
