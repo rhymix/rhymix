@@ -368,11 +368,15 @@ class Member extends ModuleObject
 		// Check signup form
 		$oModuleController = getController('module');
 		$oMemberAdminController = getAdminController('member');
-		if(!$config->identifier)
+		if(empty($config->identifier))
 		{
-			$config->identifier = 'email_address';
+			$config->identifier = 'user_id';
 		}
-		if(!$config->signupForm || !is_array($config->signupForm))
+		if(empty($config->identifiers))
+		{
+			$config->identifiers = array('user_id', 'email_address');
+		}
+		if(empty($config->signupForm) || !is_array($config->signupForm))
 		{
 			$config->signupForm = $oMemberAdminController->createSignupForm($config);
 			$output = $oModuleController->updateModuleConfig('member', $config);
