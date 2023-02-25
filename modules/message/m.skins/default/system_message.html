@@ -28,8 +28,8 @@
 			<input type="hidden" name="xe_validator_id" value="modules/message/m.skin/default/system_message/1" />
 				<fieldset>
 					<ul>
-						<li cond="$member_config->identifier == 'user_id'"><label for="uid">{$lang->user_id}</label><input type="text" name="user_id" id="uid" required autofocus /></li>
-						<li cond="$member_config->identifier != 'user_id'"><label for="uid">{$lang->email_address}</label><input type="email" name="user_id" id="uid" required autofocus /></li>
+						<li cond="$member_config->identifier != 'email_address'"><label for="uid">{$lang->user_id}</label><input type="text" name="user_id" id="uid" required autofocus /></li>
+						<li cond="$member_config->identifier == 'email_address'"><label for="uid">{$lang->email_address}</label><input type="email" name="user_id" id="uid" required autofocus /></li>
 						<li><label for="upw">{$lang->password}</label><input type="password" name="password" id="upw" value="" /></li>
 					</ul>
 					<p>
