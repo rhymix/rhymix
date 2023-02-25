@@ -216,6 +216,7 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
+		$oDB->commit();
 		return $output;
 	}
 
