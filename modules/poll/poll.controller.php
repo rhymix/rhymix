@@ -259,7 +259,7 @@ class pollController extends poll
 			throw new Rhymix\Framework\Exception('msg_cannot_delete_item_poll_exist');
 		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$item_args = new stdClass;
@@ -272,7 +272,7 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
-
+		$oDB->commit();
 		return $output;
 	}
 
@@ -312,7 +312,7 @@ class pollController extends poll
 		$oPollModel = getModel('poll');
 		if($oPollModel->isPolled($poll_srl)) throw new Rhymix\Framework\Exception('msg_already_poll');
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$args = new stdClass;
