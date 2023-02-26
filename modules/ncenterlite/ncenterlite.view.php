@@ -144,6 +144,7 @@ class ncenterliteView extends ncenterlite
 
 	function dispNcenterliteInsertUnsubscribe()
 	{
+		$this->setLayoutPath('./common/tpl');
 		$this->setLayoutFile('popup_layout');
 
 		/** @var ncenterliteModel $oNcenterliteModel */
