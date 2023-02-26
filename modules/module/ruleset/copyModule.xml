@@ -4,15 +4,15 @@
     </customrules>
     <fields>
 		<field name="module_srl" required="true" />
-		<field name="mid_1" rule="alpha_number" />
-		<field name="mid_2" rule="alpha_number" />
-		<field name="mid_3" rule="alpha_number" />
-		<field name="mid_4" rule="alpha_number" />
-		<field name="mid_5" rule="alpha_number" />
-		<field name="mid_6" rule="alpha_number" />
-		<field name="mid_7" rule="alpha_number" />
-		<field name="mid_8" rule="alpha_number" />
-		<field name="mid_9" rule="alpha_number" />
-		<field name="mid_10" rule="alpha_number" />
+		<field name="mid_1" rule="mid" />
+		<field name="mid_2" rule="mid" />
+		<field name="mid_3" rule="mid" />
+		<field name="mid_4" rule="mid" />
+		<field name="mid_5" rule="mid" />
+		<field name="mid_6" rule="mid" />
+		<field name="mid_7" rule="mid" />
+		<field name="mid_8" rule="mid" />
+		<field name="mid_9" rule="mid" />
+		<field name="mid_10" rule="mid" />
     </fields>
 </ruleset>
