@@ -564,7 +564,7 @@ class MemberAdminController extends Member
 			return new BaseObject(-1, 'msg_need_enabled_identifier');
 		}
 		$args->signupForm = $config->signupForm;
-		$args->identifier = array_first($args->identifiers);
+		$args->identifier = (count($args->identifiers) == 1 && $args->identifiers[0] == 'email_address') ? 'email_address' : 'user_id';
 
 		if(!$args->change_password_date)
 		{
