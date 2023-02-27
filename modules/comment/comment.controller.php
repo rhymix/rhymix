@@ -1863,8 +1863,8 @@ class CommentController extends Comment
 	 * Method to add a pop-up menu when clicking for displaying child comments
 	 * @param string $url
 	 * @param string $str
-	 * @param strgin $icon
-	 * @param strgin $target
+	 * @param string $icon
+	 * @param string $target
 	 * @return void
 	 */
 	function addCommentPopupMenu($url, $str, $icon = '', $target = '_blank')
