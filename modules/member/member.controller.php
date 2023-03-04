@@ -2171,6 +2171,11 @@ class MemberController extends Member
 			executeQuery('member.deleteAutologin', $args);
 			return false;
 		}
+		
+		// Call a trigger after validate security key (after)
+		$trigger_obj = new stdClass();
+		$trigger_obj->member_srl = $output->data->member_srl;
+		ModuleHandler::triggerCall('member.doAutoLogin', 'after', $trigger_obj);
 
 		// Update the security key.
 		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
