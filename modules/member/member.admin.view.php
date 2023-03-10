@@ -811,6 +811,48 @@ class MemberAdminView extends Member
 							'onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> ' .
 							'<input type="button" value="%cmd_delete%" class="btn dateRemover" />';
 					}
+					else if ($extendForm->column_type == 'country')
+					{
+						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
+						$optionTag = array();
+						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
+						$lang_type = Context::get('lang_type');
+						$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+						foreach ($country_list as $country_info)
+						{
+							$selected = strval($extendForm->value) !== '' && $country_info->iso_3166_1_alpha3 == $extendForm->value ? ' selected="selected"' : '';
+							$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
+							$optionTag[] = sprintf('<option value="%s"%s>%s</option>', $country_info->iso_3166_1_alpha3, $selected, $country_name);
+						}
+						$template = sprintf($template, implode('', $optionTag));
+					}
+					else if ($extendForm->column_type == 'language')
+					{
+						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
+						$optionTag = array();
+						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
+						$enable_language = Rhymix\Framework\Config::get('locale.enabled_lang');
+						$supported_lang = Rhymix\Framework\Lang::getSupportedList();
+						foreach ($enable_language  as $lang_type)
+						{
+							$selected = strval($extendForm->value) !== '' && $lang_type == $extendForm->value ? ' selected="selected"' : '';
+							$optionTag[] = sprintf('<option value="%s"%s>%s</option>', $lang_type, $selected, $supported_lang[$lang_type]['name']);
+						}
+						$template = sprintf($template, implode('', $optionTag));
+					}
+					else if ($extendForm->column_type == 'timezone')
+					{
+						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
+						$optionTag = array();
+						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
+						$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
+						foreach ($timezone_list as $key => $time_name)
+						{
+							$selected = strval($extendForm->value) !== '' && $key == $extendForm->value ? ' selected="selected"' : '';
+							$optionTag[] = sprintf('<option value="%s"%s>%s</option>', $key, $selected, $time_name);
+						}
+						$template = sprintf($template, implode('', $optionTag));
+					}
 
 					$replace = array_merge($extentionReplace, $replace);
 					$inputTag = preg_replace_callback('@%(\w+)%@', function($n) use($replace) { return $replace[$n[1]]; }, $template);
