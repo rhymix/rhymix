@@ -84,11 +84,11 @@
 .xc input[type="file"]:focus,
 .xc input[type="radio"]:focus,
 .xc input[type="checkbox"]:focus{outline:thin dotted #333;outline:5px auto -webkit-focus-ring-color;outline-offset:-2px}
-.xc input:-moz-placeholder, 
+.xc input:-moz-placeholder,
 .xc textarea:-moz-placeholder {color:#999999}
-.xc input:-ms-input-placeholder, 
+.xc input:-ms-input-placeholder,
 .xc textarea:-ms-input-placeholder {color:#999999}
-.xc input::-webkit-input-placeholder, 
+.xc input::-webkit-input-placeholder,
 .xc textarea::-webkit-input-placeholder {color:#999999}
 .xc input,
 .xc textarea{margin-left:0}
@@ -102,11 +102,11 @@
 .xc input[type="checkbox"][disabled],
 .xc input[type="radio"][readonly],
 .xc input[type="checkbox"][readonly]{background-color:transparent}
-.xc input:focus:invalid, 
-.xc textarea:focus:invalid, 
+.xc input:focus:invalid,
+.xc textarea:focus:invalid,
 .xc select:focus:invalid {color:#b94a48;border-color:#ee5f5b}
-.xc input:focus:invalid:focus, 
-.xc textarea:focus:invalid:focus, 
+.xc input:focus:invalid:focus,
+.xc textarea:focus:invalid:focus,
 .xc select:focus:invalid:focus {border-color:#e9322d;-webkit-box-shadow:0 0 6px #f8b9b7;-moz-box-shadow:0 0 6px #f8b9b7;box-shadow:0 0 6px #f8b9b7}
 /* Forms */
 .xc .form-horizontal .control-group{margin-bottom:20px;*zoom:1}
@@ -241,6 +241,7 @@
 .xc textarea,
 .xc select,
 .xc button,
+.xc a.btn,
 .xc table{font-size:13px}
 .xc h1{font-size:22px}
 .xc .nav a,

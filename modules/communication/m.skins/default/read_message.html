@@ -14,7 +14,7 @@
 	<!--@endif-->
 </div>
 <div class="bna">
-	<span class="fl"><a href="{getUrl('message_srl', '')}" class="bn white">{$lang->cmd_list}</a></span>
+	<span class="fl"><a href="{getUrl('message_srl', '', 'message_type', $message->message_type)}" class="bn white">{$lang->cmd_list}</a></span>
 	<span class="fr"><a href="#" onClick="doDeleteMessage('{$message->message_srl}');" class="bn white">{$lang->cmd_delete}</a></span>
 	<span class="fr" cond="$message->sender_srl != $logged_info->member_srl"><a href="{getUrl('act','dispCommunicationSendMessage','receiver_srl',$message->sender_srl,'message_srl',$message->message_srl)}" class="bn white">{$lang->cmd_reply_message}</a></span>
 </div>
