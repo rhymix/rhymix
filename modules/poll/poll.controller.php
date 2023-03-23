@@ -94,13 +94,16 @@ class pollController extends poll
 				$val->checkcount = 1;
 			}
 
-			if($val->title && count($val->item))
+			if($val->title && is_array($val->item) && count($val->item))
 			{
 				$args->poll[] = $val;
 			}
 		}
 
-		if(!count($args->poll)) throw new Rhymix\Framework\Exception('cmd_null_item');
+		if(!isset($args->poll) || !is_array($args->poll) || !count($args->poll))
+		{
+			throw new Rhymix\Framework\Exception('cmd_null_item');
+		}
 
 		$args->stop_date = $stop_date;
 
@@ -307,7 +310,10 @@ class pollController extends poll
 		}
 
 		// If there is no response item, display an error
-		if(!count($item_srls)) throw new Rhymix\Framework\Exception('msg_check_poll_item');
+		if(!is_array($item_srls) || !count($item_srls))
+		{
+			throw new Rhymix\Framework\Exception('msg_check_poll_item');
+		}
 		// Make sure is the poll has already been taken
 		$oPollModel = getModel('poll');
 		if($oPollModel->isPolled($poll_srl)) throw new Rhymix\Framework\Exception('msg_already_poll');
