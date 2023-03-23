@@ -733,7 +733,12 @@ class ModuleHandler extends Handler
 	/**
 	 * Check the value of $document_srl. This method is called during init().
 	 *
-	 * @return object|false
+	 * This method returns:
+	 * - Module info object if the document can be shown in the module,
+	 * - null if the document can be shown but the module is unspecified,
+	 * - false if we should redirect to another module.
+	 *
+	 * @return object|null|false
 	 */
 	protected function _checkDocumentSrl()
 	{
@@ -745,7 +750,7 @@ class ModuleHandler extends Handler
 			if(!$this->mid || $this->mid !== $module_info->mid)
 			{
 				// If the document is notice-all, preserve the current mid.
-				if($module_info->is_notice === 'A')
+				if($module_info->is_notice === 'A' && !empty($this->mid))
 				{
 					return null;
 				}
