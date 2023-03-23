@@ -10,6 +10,7 @@ class Push
 	/**
 	 * Instance properties.
 	 */
+	protected $caller = '';
 	protected $from = 0;
 	protected $to = array();
 	protected $subject = '';
