@@ -937,8 +937,8 @@ class MemberAdminController extends Member
 	function procMemberAdminSelectedMemberManage()
 	{
 		$var = Context::getRequestVars();
-		$groups = $var->groups;
-		$members = $var->member_srls;
+		$groups = $var->groups ?? [];
+		$members = $var->member_srls ?? [];
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
