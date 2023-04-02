@@ -949,7 +949,15 @@ class ModuleHandler extends Handler
 		}
 
 		self::_setInputErrorToContext();
-		$oMessageObject = MessageView::getInstance();
+
+		if (Mobile::isFromMobilePhone())
+		{
+			$oMessageObject = MessageMobile::getInstance();
+		}
+		else
+		{
+			$oMessageObject = MessageView::getInstance();
+		}
 		$oMessageObject->setError($error);
 		$oMessageObject->setMessage($message);
 		$oMessageObject->setHttpStatusCode($status_code ?: 403);
