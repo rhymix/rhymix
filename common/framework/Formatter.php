@@ -238,7 +238,19 @@ class Formatter
 			$scss_compiler->setImportPaths(array(dirname(is_array($source_filename) ? array_first($source_filename) : $source_filename)));
 			if ($variables)
 			{
-				$scss_compiler->addVariables(array_map('\ScssPhp\ScssPhp\ValueConverter::parseValue', $variables));
+				$converted_variables = [];
+				foreach ($variables as $key => $val)
+				{
+					if (is_string($val) && $val !== '')
+					{
+						$converted_variables[$key] = \ScssPhp\ScssPhp\ValueConverter::parseValue($val);
+					}
+					else
+					{
+						$converted_variables[$key] = \ScssPhp\ScssPhp\ValueConverter::fromPhp($val);
+					}
+				}
+				$scss_compiler->addVariables($converted_variables);
 			}
 
 			$content = $scss_compiler->compileString($content)->getCss() . "\n";
