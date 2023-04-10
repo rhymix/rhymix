@@ -367,20 +367,26 @@ class Member extends ModuleObject
 
 		// Check signup form
 		$oModuleController = getController('module');
-		$oMemberAdminController = getAdminController('member');
 		if(empty($config->identifier))
 		{
 			$config->identifier = 'user_id';
+			$changed = true;
 		}
 		if(empty($config->identifiers))
 		{
 			$config->identifiers = array('user_id', 'email_address');
+			$changed = true;
 		}
 		if(empty($config->signupForm) || !is_array($config->signupForm))
 		{
-			$config->signupForm = $oMemberAdminController->createSignupForm($config);
-			$output = $oModuleController->updateModuleConfig('member', $config);
+			$config->signupForm = MemberAdminController::createSignupForm($config);
+			$changed = true;
 		}
+		if($changed)
+		{
+			$oModuleController->updateModuleConfig('member', $config);
+		}
+
 		$phone_found = false;
 		foreach($config->signupForm as $no => $signupItem)
 		{
@@ -443,7 +449,7 @@ class Member extends ModuleObject
 		// Save updated config
 		if($changed)
 		{
-			$output = $oModuleController->updateModuleConfig('member', $config);
+			$oModuleController->updateModuleConfig('member', $config);
 		}
 
 		// Check skin

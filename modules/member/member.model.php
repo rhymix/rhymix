@@ -128,7 +128,7 @@ class MemberModel extends Member
 		// Set signup form
 		if(!isset($config->signupForm) || !is_array($config->signupForm))
 		{
-			$config->signupForm = getAdminController('member')->createSignupForm($config->identifier);
+			$config->signupForm = MemberAdminController::createSignupForm($config);
 		}
 		foreach($config->signupForm as $key => $value)
 		{
