@@ -93,7 +93,7 @@ class FileContentFilter
 	 */
 	protected static function _checkSVG($fp, $from, $to)
 	{
-		if (self::_matchStream('/<script|<handler\b|xlink:href\s*=\s*"(?!data:)/i', $fp, $from, $to))
+		if (self::_matchStream('/(?:<|&lt;)(?:script|iframe|foreignObject|object|embed|handler)|javascript:|xlink:href\s*=\s*"(?!data:)/i', $fp, $from, $to))
 		{
 			return false;
 		}
