@@ -129,18 +129,16 @@ class HTTP
 		}
 		elseif (is_array($data) && count($data) > 0)
 		{
-			if (isset($headers['Content-Type']) && $headers['Content-Type'] === 'multipart/form-data')
+			if (isset($headers['Content-Type']) && preg_match('!^multipart/form-data\b!i', $headers['Content-Type']))
 			{
-				unset($headers['Content-Type']);
 				$settings['multipart'] = [];
 				foreach ($data as $key => $val)
 				{
 					$settings['multipart'][] = ['name' => $key, 'contents' => $val];
 				}
 			}
-			elseif (isset($headers['Content-Type']) && $headers['Content-Type'] === 'application/json')
+			elseif (isset($headers['Content-Type']) && preg_match('!^application/json\b!i', $headers['Content-Type']))
 			{
-				unset($headers['Content-Type']);
 				$settings['json'] = $data;
 			}
 			elseif ($method !== 'GET')
