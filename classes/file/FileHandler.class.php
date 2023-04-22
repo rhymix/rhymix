@@ -276,127 +276,92 @@ class FileHandler
 	 * @param string[] $headers Headers key value array.
 	 * @param string[] $cookies Cookies key value array.
 	 * @param string $post_data Request arguments array for POST method
+	 * @param array $settings Any additional settings
 	 * @return string If success, the content of the target file. Otherwise: none
 	 */
-	public static function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array(), $request_config = array())
+	public static function getRemoteResource($url, $body = null, $timeout = 3, $method = 'GET', $content_type = null, $headers = array(), $cookies = array(), $post_data = array(), $settings = array())
 	{
-		try
+		// This method converts erroneously escaped ampersands. The HTTP class doesn't.
+		$url = str_replace('&amp;', '&', $url);
+
+		// Convert backward-compatible parameters to a format accepted by the HTTP class.
+		$converted_headers = [];
+		$converted_cookies = [];
+		$converted_settings = [
+			'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
+			'timeout' => $timeout,
+		];
+
+		// Add headers.
+		foreach ($headers as $key => $val)
 		{
-			$host = parse_url($url, PHP_URL_HOST);
-			$request_headers = array();
-			$request_cookies = array();
-			$request_options = array(
-				'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
-				'timeout' => $timeout,
-			);
+			$converted_headers[strval($key)] = strval($val);
+		}
 
-			foreach($headers as $key => $val)
+		// Add cookies.
+		$host = parse_url($url, PHP_URL_HOST);
+		if (isset($cookies[$host]) && is_array($cookies[$host]))
+		{
+			foreach($cookies[$host] as $key => $val)
 			{
-				$request_headers[$key] = $val;
+				$converted_cookies[strval($key)] = strval($val);
 			}
+		}
 
-			if(isset($cookies[$host]) && is_array($cookies[$host]))
+		// Add the request body and its content type.
+		if ($content_type)
+		{
+			$converted_headers['Content-Type'] = $content_type;
+		}
+
+		// Add other settings, converting old format to the new format as necessary.
+		foreach ($settings as $key => $val)
+		{
+			if ($key === 'filename')
 			{
-				foreach($cookies[$host] as $key => $val)
-				{
-					$request_cookies[] = rawurlencode($key) . '=' . rawurlencode($val);
-				}
+				$converted_settings['sink'] = $val;
 			}
-			if(count($request_cookies))
+			elseif ($key === 'follow_redirects')
 			{
-				$request_headers['Cookie'] = implode('; ', $request_cookies);
+				$converted_settings['allow_redirects'] = true;
 			}
-
-			foreach($request_config as $key => $val)
+			elseif ($key === 'redirects' && $val > 0)
 			{
-				$request_options[$key] = $val;
+				$converted_settings['allow_redirects'] = ['max' => intval($val)];
 			}
-
-			if($content_type)
+			elseif ($key === 'useragent')
 			{
-				$request_headers['Content-Type'] = $content_type;
-			}
-
-			if(defined('__PROXY_SERVER__'))
-			{
-				$proxy = parse_url(__PROXY_SERVER__);
-				if($proxy["host"])
-				{
-					$request_options['proxy'] = array($proxy['host'] . ($proxy['port'] ? (':' . $proxy['port']) : ''));
-					if($proxy['user'] && $proxy['pass'])
-					{
-						$request_options['proxy'][] = $proxy['user'];
-						$request_options['proxy'][] = $proxy['pass'];
-					}
-				}
-			}
-
-			$url = str_replace('&amp;', '&', $url);
-			$start_time = microtime(true);
-			$response = Requests::request($url, $request_headers, $body ?: $post_data, $method, $request_options);
-			$elapsed_time = microtime(true) - $start_time;
-			if (!isset($GLOBALS['__remote_request_elapsed__']))
-			{
-				$GLOBALS['__remote_request_elapsed__'] = 0;
-			}
-			$GLOBALS['__remote_request_elapsed__'] += $elapsed_time;
-
-			$log = array();
-			$log['url'] = $url;
-			$log['status'] = $response ? $response->status_code : 0;
-			$log['elapsed_time'] = $elapsed_time;
-
-			if (Rhymix\Framework\Debug::isEnabledForCurrentUser())
-			{
-				if (in_array('slow_remote_requests', config('debug.display_content')))
-				{
-					$bt = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
-					foreach($bt as $no => $call)
-					{
-						if(strncasecmp($call['function'], 'getRemote', 9) === 0)
-						{
-							$call_no = $no + 1;
-							$log['called_file'] = $bt[$call_no]['file'];
-							$log['called_line'] = $bt[$call_no]['line'];
-							$call_no++;
-							$log['called_method'] = $bt[$call_no]['class'].$bt[$call_no]['type'].$bt[$call_no]['function'];
-							$log['backtrace'] = array_slice($bt, $call_no, 1);
-							break;
-						}
-					}
-				}
-				else
-				{
-					$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
-					$log['backtrace'] = array();
-				}
-				Rhymix\Framework\Debug::addRemoteRequest($log);
-			}
-
-			foreach($response->cookies as $cookie)
-			{
-				$cookies[$host][$cookie->name] = $cookie->value;
-			}
-
-			if($response->success)
-			{
-				if (isset($request_config['filename']))
-				{
-					return true;
-				}
-				else
-				{
-					return $response->body;
-				}
+				$converted_headers['User-Agent'] = $val;
 			}
 			else
 			{
-				return NULL;
+				$converted_settings[$key] = $val;
 			}
 		}
-		catch(Exception $e)
+
+		// Pass to HTTP::request(), using Guzzle behind the scenes.
+		$response = \Rhymix\Framework\HTTP::request($url, strval($method),
+			$body ?: $post_data,
+			$converted_headers,
+			$converted_cookies,
+			$converted_settings
+		);
+
+		// Return the response body.
+		if ($response->getStatusCode() === 200)
 		{
-			return NULL;
+			if (isset($converted_settings['sink']))
+			{
+				return true;
+			}
+			else
+			{
+				return $response->getBody()->getContents();
+			}
+		}
+		else
+		{
+			return null;
 		}
 	}
 
@@ -420,7 +385,7 @@ class FileHandler
 			return false;
 		}
 
-		$request_config['filename'] = $target_filename;
+		$request_config['sink'] = $target_filename;
 		$success = self::getRemoteResource($url, $body, $timeout, $method, $content_type, $headers, $cookies, $post_data, $request_config);
 		return $success ? true : false;
 	}
