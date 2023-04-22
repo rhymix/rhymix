@@ -11,6 +11,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 * The API URL.
 	 */
 	protected static $_url = 'https://woorimail.com/index.php';
+	protected static $_timeout = 5;
 
 	/**
 	 * Error codes and messages.
@@ -171,16 +172,12 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$headers = array(
 			'Accept' => 'application/json, text/javascript, */*; q=0.1',
 		);
-		$options = array(
-			'timeout' => 5,
-			'useragent' => 'PHP',
-		);
 
 		// Send the API request.
 		try
 		{
-			$request = \Requests::post(self::$_url, $headers, $data, $options);
-			$result = @json_decode($request->body);
+			$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], ['timeout' => self::$_timeout]);
+			$result = @json_decode($request->getBody()->getContents());
 		}
 		catch (\Requests_Exception $e)
 		{

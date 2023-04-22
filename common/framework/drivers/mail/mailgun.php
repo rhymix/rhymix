@@ -92,6 +92,7 @@ class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$boundary = str_repeat('-', 24) . substr(md5(mt_rand()), 0, 16);
 		$headers = array(
 			'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+			'User-Agent' => 'PHP',
 		);
 		$data = implode("\r\n", array(
 			'--' . $boundary,
@@ -107,16 +108,15 @@ class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			'--' . $boundary . '--',
 			'',
 		));
-		$options = array(
+		$settings = array(
 			'auth' => array('api', $this->_config['api_token']),
 			'timeout' => 5,
-			'useragent' => 'PHP',
 		);
 
 		// Send the API request.
 		$url = self::$_url . '/' . $this->_config['api_domain'] . '/messages.mime';
-		$request = \Requests::post($url, $headers, $data, $options);
-		$result = @json_decode($request->body);
+		$request = \Rhymix\Framework\HTTP::post($url, $data, $headers, [], $settings);
+		$result = @json_decode($request->getBody()->getContents());
 
 		// Parse the result.
 		if (!$result)

@@ -11,6 +11,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * API endpoint URL (fallback if URL is not explicitly configured)
 	 */
 	const LEGACY_API_URL = 'https://sms.service.iwinv.kr/send/';
+	const DEFAULT_TIMEOUT = 5;
 
 	/**
 	 * API specifications.
@@ -80,14 +81,13 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
 		$status = true;
-		$curl = null;
 
 		foreach ($messages as $i => $message)
 		{
 			// Authentication
 			$headers = array(
-				'Content-Type: multipart/form-data',
-				'secret: ' . base64_encode($this->_config['api_key'] . '&' . $this->_config['api_secret']),
+				'Content-Type' => 'multipart/form-data',
+				'secret' => base64_encode($this->_config['api_key'] . '&' . $this->_config['api_secret']),
 			);
 
 			// Sender and recipient
@@ -109,7 +109,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$data['text'] = $message->content;
 
 			// Image attachment
-			if ($message->image)
+			if (!empty($message->image))
 			{
 				$data['image'] = curl_file_create(realpath($message->image));
 			}
@@ -130,24 +130,15 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$api_url = self::LEGACY_API_URL;
 			}
 
-			// We need to use curl because Filehandler::getRemoteResource() doesn't work with this API for some reason.
-			if (!$curl)
-			{
-				$curl = curl_init();
-			}
-			curl_setopt($curl, \CURLOPT_URL, $api_url);
-			curl_setopt($curl, \CURLOPT_TIMEOUT, 5);
-			curl_setopt($curl, \CURLOPT_POST, 1);
-			curl_setopt($curl, \CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, \CURLOPT_POSTFIELDS, $data);
-			curl_setopt($curl, \CURLOPT_HTTPHEADER, $headers);
-			$result = curl_exec($curl);
-			$err = curl_error($curl);
+			// Send the request.
+			$request = \Rhymix\Framework\HTTP::post($api_url, $data, $headers, [], ['timeout' => self::DEFAULT_TIMEOUT]);
+			$result = $request->getBody()->getContents();
+			$status_code = $request->getStatusCode();
 
 			// Check the result.
-			if ($err)
+			if ($status_code !== 200)
 			{
-				$original->addError('API error while sending message ' . ($i + 1) . ' of ' . count($messages) . ': ' . $err);
+				$original->addError('API error while sending message ' . ($i + 1) . ' of ' . count($messages) . ': ' . $status_code);
 				$status = false;
 			}
 			elseif (trim($result) === '')
@@ -160,11 +151,6 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 				$original->addError('API error ' . trim($result) . ' while sending message ' . ($i + 1) . ' of ' . count($messages));
 				$status = false;
 			}
-		}
-
-		if ($curl)
-		{
-			@curl_close($curl);
 		}
 
 		return $status;
