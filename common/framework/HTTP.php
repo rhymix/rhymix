@@ -13,6 +13,19 @@ class HTTP
 	public const DEFAULT_TIMEOUT = 3;
 
 	/**
+	 * Cache the Guzzle client instance here.
+	 */
+	protected static $_client = null;
+
+	/**
+	 * Reset the Guzzle client instance.
+	 */
+	public static function resetClient(): void
+	{
+		self::$_client = null;
+	}
+
+	/**
 	 * Make a GET request.
 	 *
 	 * @param string $url
@@ -160,9 +173,12 @@ class HTTP
 		}
 
 		// Send the request.
-		$guzzle = new \GuzzleHttp\Client();
+		if (!self::$_client)
+		{
+			self::$_client = new \GuzzleHttp\Client();
+		}
 		$start_time = microtime(true);
-		$response = $guzzle->request($method, $url, $settings);
+		$response = self::$_client->request($method, $url, $settings);
 		$status_code = $response->getStatusCode() ?: 0;
 
 		// Measure elapsed time and add a debug entry.
