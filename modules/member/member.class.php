@@ -120,6 +120,12 @@ class Member extends ModuleObject
 		// check member directory (22/10/2007 added)
 		if(!is_dir("./files/member_extra_info/profile_image")) return true;
 
+		// Check length of password column
+		if($oDB->getColumnInfo('member', 'password')->size < 250)
+		{
+			return true;
+		}
+
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number")) return true;
 		if(!$oDB->isIndexExists("member","idx_phone_number")) return true;
@@ -244,6 +250,12 @@ class Member extends ModuleObject
 		FileHandler::makeDir('./files/member_extra_info/image_mark');
 		FileHandler::makeDir('./files/member_extra_info/signature');
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
+
+		// Check length of password column
+		if($oDB->getColumnInfo('member', 'password')->size < 250)
+		{
+			$oDB->modifyColumn('member', 'password', 'varchar', 250, null, true);
+		}
 
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number"))
