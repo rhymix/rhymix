@@ -110,7 +110,63 @@ class HTTP
 	 * @param array $settings
 	 * @return \Psr\Http\Message\ResponseInterface
 	 */
-	public static function request(string $url, string $method = 'GET', $data = null, array $headers = [], array $cookies = [], array $settings = null): \Psr\Http\Message\ResponseInterface
+	public static function request(string $url, string $method = 'GET', $data = null, array $headers = [], array $cookies = [], array $settings = []): \Psr\Http\Message\ResponseInterface
+	{
+		// Create a new Guzzle client, or reuse a cached one if available.
+		$guzzle = self::_createClient();
+
+		// Populate settings.
+		$settings = self::_populateSettings($url, $method, $data, $headers, $cookies, $settings);
+
+		// Send the request.
+		$start_time = microtime(true);
+		try
+		{
+			$response = $guzzle->request($method, $url, $settings);
+		}
+		catch (\Throwable $e)
+		{
+			$response = new Helpers\HTTPHelper($e);
+		}
+
+		// Measure elapsed time and add a debug entry.
+		$status_code = $response->getStatusCode() ?: 0;
+		$elapsed_time = microtime(true) - $start_time;
+		self::_debug($url, $status_code, $elapsed_time);
+
+		return $response;
+	}
+
+	/**
+	 * Create a Guzzle client with default options.
+	 *
+	 * @return \GuzzleHttp\Client
+	 */
+	protected static function _createClient(): \GuzzleHttp\Client
+	{
+		if (!self::$_client)
+		{
+			self::$_client = new \GuzzleHttp\Client([
+				'http_errors' => false,
+				'timeout' => self::DEFAULT_TIMEOUT,
+				'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
+			]);
+		}
+		return self::$_client;
+	}
+
+	/**
+	 * Populate a settings array with various options.
+	 *
+	 * @param string $url
+	 * @param string $method
+	 * @param string|array $data
+	 * @param array $headers
+	 * @param array $cookies
+	 * @param array $settings
+	 * @return array
+	 */
+	protected static function _populateSettings(string $url, string $method = 'GET', $data = null, array $headers = [], array $cookies = [], array $settings = []): array
 	{
 		// Set headers.
 		if ($headers)
@@ -163,44 +219,7 @@ class HTTP
 			$settings['proxy'] = sprintf('%s%s%s:%s', $proxy_scheme, $proxy_auth, $proxy['host'], $proxy['port']);
 		}
 
-		// Create a new Guzzle client, or reuse a cached one if available.
-		$guzzle = self::_createClient();
-
-		// Send the request.
-		$start_time = microtime(true);
-		try
-		{
-			$response = $guzzle->request($method, $url, $settings);
-		}
-		catch (\Throwable $e)
-		{
-			$response = new Helpers\HTTPHelper($e);
-		}
-
-		// Measure elapsed time and add a debug entry.
-		$status_code = $response->getStatusCode() ?: 0;
-		$elapsed_time = microtime(true) - $start_time;
-		self::_debug($url, $status_code, $elapsed_time);
-
-		return $response;
-	}
-
-	/**
-	 * Create a Guzzle client with default options.
-	 *
-	 * @return \GuzzleHttp\Client
-	 */
-	protected static function _createClient(): \GuzzleHttp\Client
-	{
-		if (!self::$_client)
-		{
-			self::$_client = new \GuzzleHttp\Client([
-				'http_errors' => false,
-				'timeout' => self::DEFAULT_TIMEOUT,
-				'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
-			]);
-		}
-		return self::$_client;
+		return $settings;
 	}
 
 	/**
