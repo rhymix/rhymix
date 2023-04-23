@@ -172,6 +172,10 @@ class MemberAdminView extends Member
 		$column_info = $oDB->getColumnInfo('member', 'password');
 		$password_maxlength = intval($column_info->size);
 		$password_algos = Rhymix\Framework\Password::getSupportedAlgorithms();
+		if ($password_maxlength < 128 && isset($password_algos['argon2id']))
+		{
+			$password_algos['argon2id'] = false;
+		}
 		if ($password_maxlength < 128 && isset($password_algos['sha512']))
 		{
 			$password_algos['sha512'] = false;

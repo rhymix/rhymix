@@ -12,6 +12,7 @@ class Password
 	 */
 	protected static $_algorithm_callbacks = array();
 	protected static $_algorithm_signatures = array(
+		'argon2id' => '/^\$argon2id?\$/',
 		'bcrypt' => '/^\$2[a-z]\$[0-9]{2}\$/',
 		'pbkdf2' => '/^[a-z0-9]+:[0-9]+:/',
 		'md5' => '/^[0-9a-f]{32}$/',
@@ -79,6 +80,10 @@ class Password
 	public static function getSupportedAlgorithms()
 	{
 		$retval = array();
+		if (defined('\PASSWORD_ARGON2ID'))
+		{
+			$retval['argon2id'] = 'argon2id';
+		}
 		if (defined('\CRYPT_BLOWFISH'))
 		{
 			$retval['bcrypt'] = 'bcrypt';
@@ -101,7 +106,12 @@ class Password
 	 */
 	public static function getBestSupportedAlgorithm()
 	{
+		// Return the first algorithm in the list, except argon2id.
 		$algos = self::getSupportedAlgorithms();
+		if (isset($algos['argon2id']))
+		{
+			array_unshift($algos);
+		}
 		return key($algos);
 	}
 
@@ -206,6 +216,12 @@ class Password
 		{
 			switch ($algo)
 			{
+				// argon2id (must be used last)
+				case 'argon2id':
+					$hashchain = self::argon2id($hashchain, self::getWorkFactor());
+					if ($hashchain[0] === '*') return false;
+					return $hashchain;
+
 				// bcrypt (must be used last)
 				case 'bcrypt':
 					$hashchain = self::bcrypt($hashchain, $salt, self::getWorkFactor());
@@ -338,7 +354,14 @@ class Password
 		}
 		else
 		{
-			return Security::compareStrings($hash, self::hashPassword($password, $algos, $hash));
+			if ($algos === 'argon2id' || $algos === 'bcrypt')
+			{
+				return password_verify($password, $hash);
+			}
+			else
+			{
+				return Security::compareStrings($hash, self::hashPassword($password, $algos, $hash));
+			}
 		}
 	}
 
@@ -380,6 +403,49 @@ class Password
 		{
 			return 0;
 		}
+	}
+
+	/**
+	 * Generate the argon2id hash of a string.
+	 *
+	 * @param string $password
+	 * @param int $work_factor (optional)
+	 * @return string
+	 */
+	public static function argon2id($password, $work_factor = 10)
+	{
+		if (!defined('\PASSWORD_ARGON2ID'))
+		{
+			return '*';
+		}
+
+		// Set appropriate time cost and memory cost using the work factor setting.
+		if ($work_factor >= 16)
+		{
+			$memory_cost = \PASSWORD_ARGON2_DEFAULT_MEMORY_COST * 1.5;
+			$time_cost = round($work_factor / 1.6);
+		}
+		elseif ($work_factor >= 12)
+		{
+			$memory_cost = \PASSWORD_ARGON2_DEFAULT_MEMORY_COST;
+			$time_cost = round($work_factor / 2);
+		}
+		elseif ($work_factor >= 8)
+		{
+			$memory_cost = \PASSWORD_ARGON2_DEFAULT_MEMORY_COST * 0.75;
+			$time_cost = round($work_factor / 2.4);
+		}
+		else
+		{
+			$memory_cost = \PASSWORD_ARGON2_DEFAULT_MEMORY_COST * 0.5;
+			$time_cost = max(1, round($work_factor / 3));
+		}
+
+		return password_hash($password, \PASSWORD_ARGON2ID, [
+			'threads' => \PASSWORD_ARGON2_DEFAULT_THREADS,
+			'memory_cost' => intval($memory_cost),
+			'time_cost' => $time_cost,
+		]);
 	}
 
 	/**
