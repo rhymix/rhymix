@@ -168,10 +168,17 @@ class HTTP
 
 		// Send the request.
 		$start_time = microtime(true);
-		$response = $guzzle->request($method, $url, $settings);
-		$status_code = $response->getStatusCode() ?: 0;
+		try
+		{
+			$response = $guzzle->request($method, $url, $settings);
+		}
+		catch (\Throwable $e)
+		{
+			$response = new Helpers\HTTPHelper($e);
+		}
 
 		// Measure elapsed time and add a debug entry.
+		$status_code = $response->getStatusCode() ?: 0;
 		$elapsed_time = microtime(true) - $start_time;
 		self::_debug($url, $status_code, $elapsed_time);
 
