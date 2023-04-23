@@ -110,7 +110,7 @@ class Password
 		$algos = self::getSupportedAlgorithms();
 		if (isset($algos['argon2id']))
 		{
-			array_unshift($algos);
+			unset($algos['argon2id']);
 		}
 		return key($algos);
 	}
