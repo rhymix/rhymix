@@ -138,6 +138,70 @@ class HTTP
 	}
 
 	/**
+	 * Make any type of request asynchronously.
+	 *
+	 * @param string $url
+	 * @param string $method
+	 * @param string|array $data
+	 * @param array $headers
+	 * @param array $cookies
+	 * @param array $settings
+	 * @return \GuzzleHttp\Promise\PromiseInterface
+	 */
+	public static function async(string $url, string $method = 'GET', $data = null, array $headers = [], array $cookies = [], array $settings = []): \GuzzleHttp\Promise\PromiseInterface
+	{
+		// Create a new Guzzle client, or reuse a cached one if available.
+		$guzzle = self::_createClient();
+
+		// Populate settings.
+		$settings = self::_populateSettings($url, $method, $data, $headers, $cookies, $settings);
+
+		// Send the request.
+		$promise = $guzzle->requestAsync($method, $url, $settings);
+		self::_debug($url, 0, 0, true);
+		return $promise;
+	}
+
+	/**
+	 * Make multiple concurrent requests.
+	 *
+	 * @param array $requests[url, method, data, headers, cookies, settings]
+	 * @return array
+	 */
+	public static function multiple(array $requests): array
+	{
+		// Create a new Guzzle client, or reuse a cached one if available.
+		$guzzle = self::_createClient();
+
+		// Add settings for each request.
+		$promises = [];
+		foreach ($requests as $key => $val)
+		{
+			$settings = self::_populateSettings($val['url'], $val['method'] ?? 'GET', $val['data'] ?? null, $val['headers'] ?? [], $val['cookies'] ?? [], $val['settings'] ?? []);
+			$promise = $guzzle->requestAsync($val['method'] ?? 'GET', $val['url'], $settings);
+			$promises[$key] = $promise;
+			self::_debug($val['url'], 0, 0, true);
+		}
+
+		// Wait for each request.
+		$responses = \GuzzleHttp\Promise\Utils::settle($promises)->wait();
+		$result = [];
+		foreach ($responses as $key => $val)
+		{
+			if ($val['state'] === 'fulfilled')
+			{
+				$result[$key] = $val['value'];
+			}
+			else
+			{
+				$result[$key] = new Helpers\HTTPHelper($val['reason']);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Create a Guzzle client with default options.
 	 *
 	 * @return \GuzzleHttp\Client
@@ -230,7 +294,7 @@ class HTTP
 	 * @param float $elapsed_time
 	 * @return void
 	 */
-	protected static function _debug(string $url, int $status_code, float $elapsed_time): void
+	protected static function _debug(string $url, int $status_code = 0, float $elapsed_time = 0, bool $async = true): void
 	{
 		if (!isset($GLOBALS['__remote_request_elapsed__']))
 		{
@@ -242,8 +306,8 @@ class HTTP
 		{
 			$log = array();
 			$log['url'] = $url;
-			$log['status'] = $status_code;
-			$log['elapsed_time'] = $elapsed_time;
+			$log['status'] = $async ? 'ASYNC' : $status_code;
+			$log['elapsed_time'] = $async ? 'ASYNC' : $elapsed_time;
 			$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
 			$log['backtrace'] = [];
 
