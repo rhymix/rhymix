@@ -112,14 +112,17 @@ class HTTP
 	 */
 	public static function request(string $url, string $method = 'GET', $data = null, array $headers = [], array $cookies = [], array $settings = null): \Psr\Http\Message\ResponseInterface
 	{
-		// Apply default settings.
-		if (!isset($settings['timeout']))
+		// Set headers.
+		if ($headers)
 		{
-			$settings['timeout'] = self::DEFAULT_TIMEOUT;
+			$settings['headers'] = $headers;
 		}
-		if (!isset($settings['http_errors']))
+
+		// Set cookies.
+		if ($cookies && !isset($settings['cookies']))
 		{
-			$settings['http_errors'] = false;
+			$jar = \GuzzleHttp\Cookie\CookieJar::fromArray($cookies, parse_url($url, \PHP_URL_HOST));
+			$settings['cookies'] = $jar;
 		}
 
 		// Set the body or POST data.
@@ -151,32 +154,21 @@ class HTTP
 			}
 		}
 
-		// Set headers.
-		if ($headers)
-		{
-			$settings['headers'] = $headers;
-		}
-
-		// Set cookies.
-		if ($cookies && !isset($settings['cookies']))
-		{
-			$jar = \GuzzleHttp\Cookie\CookieJar::fromArray($cookies, parse_url($url, \PHP_URL_HOST));
-			$settings['cookies'] = $jar;
-		}
-
 		// Set the proxy.
 		if (!isset($settings['proxy']) && defined('__PROXY_SERVER__'))
 		{
-			$settings['proxy'] = constant('__PROXY_SERVER__');
+			$proxy = parse_url(constant('__PROXY_SERVER__'));
+			$proxy_scheme = preg_match('/^socks/', $proxy['scheme'] ?? '') ? ($proxy['scheme'] . '://') : 'http://';
+			$proxy_auth = (!empty($proxy['user']) && !empty($proxy['pass'])) ? ($proxy['user'] . ':' . $proxy['pass'] . '@') : '';
+			$settings['proxy'] = sprintf('%s%s%s:%s', $proxy_scheme, $proxy_auth, $proxy['host'], $proxy['port']);
 		}
 
+		// Create a new Guzzle client, or reuse a cached one if available.
+		$guzzle = self::_createClient();
+
 		// Send the request.
-		if (!self::$_client)
-		{
-			self::$_client = new \GuzzleHttp\Client();
-		}
 		$start_time = microtime(true);
-		$response = self::$_client->request($method, $url, $settings);
+		$response = $guzzle->request($method, $url, $settings);
 		$status_code = $response->getStatusCode() ?: 0;
 
 		// Measure elapsed time and add a debug entry.
@@ -184,6 +176,24 @@ class HTTP
 		self::_debug($url, $status_code, $elapsed_time);
 
 		return $response;
+	}
+
+	/**
+	 * Create a Guzzle client with default options.
+	 *
+	 * @return \GuzzleHttp\Client
+	 */
+	protected static function _createClient(): \GuzzleHttp\Client
+	{
+		if (!self::$_client)
+		{
+			self::$_client = new \GuzzleHttp\Client([
+				'http_errors' => false,
+				'timeout' => self::DEFAULT_TIMEOUT,
+				'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
+			]);
+		}
+		return self::$_client;
 	}
 
 	/**

@@ -287,10 +287,7 @@ class FileHandler
 		// Convert backward-compatible parameters to a format accepted by the HTTP class.
 		$converted_headers = [];
 		$converted_cookies = [];
-		$converted_settings = [
-			'verify' => \RX_BASEDIR . 'common/vendor/composer/ca-bundle/res/cacert.pem',
-			'timeout' => $timeout,
-		];
+		$converted_settings = ['timeout' => $timeout];
 
 		// Add headers.
 		foreach ($headers as $key => $val)
