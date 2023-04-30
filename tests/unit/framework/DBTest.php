@@ -99,6 +99,20 @@ class DBTest extends \Codeception\TestCase\Test
 		$this->assertTrue($stmt->closeCursor());
 	}
 
+	public function testTransaction()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+		$this->assertEquals(0, $oDB->getTransactionLevel());
+		$this->assertEquals(1, $oDB->beginTransaction());
+		$this->assertEquals(1, $oDB->getTransactionLevel());
+		$this->assertEquals(2, $oDB->begin());
+		$this->assertEquals(2, $oDB->getTransactionLevel());
+		$this->assertEquals(1, $oDB->rollback());
+		$this->assertEquals(1, $oDB->getTransactionLevel());
+		$this->assertEquals(0, $oDB->commit());
+		$this->assertEquals(0, $oDB->getTransactionLevel());
+	}
+
 	public function testAddPrefixes()
 	{
 		$oDB = Rhymix\Framework\DB::getInstance();
