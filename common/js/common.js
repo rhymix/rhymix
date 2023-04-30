@@ -18,7 +18,7 @@
 		($.os.Linux) ? 'Linux' :
 		($.os.Unix) ? 'Unix' :
 		($.os.Mac) ? 'Mac' : '';
-	
+
 	/* Intercept getScript error due to broken minified script URL */
 	$(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 		if(settings.dataType === "script" && (jqxhr.status >= 400 || (jqxhr.responseText && jqxhr.responseText.length < 40))) {
@@ -28,7 +28,7 @@
 			}
 		}
 	});
-	
+
 	/**
 	 * @brief Check if two URLs belong to the same origin
 	 */
@@ -42,7 +42,7 @@
 		if (url1.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i) || url2.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
 			return false;
 		}
-		
+
 		try {
 			url1 = window.XE.URI(url1).normalizePort().normalizeHostname().normalizePathname().origin();
 			url2 = window.XE.URI(url2).normalizePort().normalizeHostname().normalizePathname().origin();
@@ -92,7 +92,7 @@
 			return $(this);
 		}
 	};
-	
+
 	window.rhymix_alert_close = function() {
 		if($('#rhymix_alert').is(':hidden')) {
 			return;
@@ -101,7 +101,7 @@
 			$(this).empty();
 		});
 	};
-	
+
 	/**
 	 * @brief display alert
 	 */
@@ -121,7 +121,7 @@
 			alert(message);
 		}
 	};
-	
+
 	$(document).ready(function() {
 		if(Cookies.get('rhymix_alert_message')) {
 			rhymix_alert(Cookies.get('rhymix_alert_message'), null, Cookies.get('rhymix_alert_delay'));
@@ -130,7 +130,7 @@
 		}
 		$('#rhymix_alert').click(rhymix_alert_close);
 	});
-	
+
 	/* Array for pending debug data */
 	window.rhymix_debug_pending_data = [];
 
@@ -147,7 +147,7 @@
 		SecondLevelDomains : window.SecondLevelDomains,
 		IPv6 : window.IPv6,
 		baseurl : null,
-		
+
 		/**
 		 * @brief 특정 name을 가진 체크박스들의 checked 속성 변경
 		 * @param [itemName='cart',][options={}]
@@ -266,7 +266,7 @@
 				area.css({ top:areaOffset.top, left:areaOffset.left }).show().focus();
 			}
 		},
-		
+
 		/* 동일 사이트 내 주소인지 판단 (프로토콜 제외) */
 		isSameHost: function(url) {
 			if (typeof url !== "string") {
@@ -278,12 +278,12 @@
 			if (url.match(/^\w+:[^\/]*$/) || url.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
 				return false;
 			}
-			
+
 			if (!window.XE.baseurl) {
 				window.XE.baseurl = window.XE.URI(window.request_uri).normalizePort().normalizeHostname().normalizePathname();
 				window.XE.baseurl = window.XE.baseurl.hostname() + window.XE.baseurl.directory();
 			}
-			
+
 			try {
 				var target_url = window.XE.URI(url).normalizePort().normalizeHostname().normalizePathname();
 				if (target_url.is("urn")) {
@@ -299,7 +299,7 @@
 				return false;
 			}
 		},
-		
+
 		/* Format file size */
 		filesizeFormat: function(size) {
 			if (size < 2) return size + 'Byte';
@@ -310,7 +310,7 @@
 			return (size / 1099511627776).toFixed(2) + 'TB';
 		}
 	};
-	
+
 	/**
 	 * Shim for Modernizr if it is not loaded
 	 */
@@ -324,7 +324,7 @@
 		touch: ('ontouchstart' in window) || (navigator.maxTouchPoints > 0),
 		webgl: !!window.WebGLRenderingContext
 	};
-	
+
 })(jQuery);
 
 /* jQuery(document).ready() */
@@ -336,10 +336,10 @@ jQuery(function($) {
 	$(document).on("focus", "input,select,textarea", function() {
 		$(this).parents("form[method]").filter(function() { return String($(this).attr("method")).toUpperCase() == "POST"; }).addCSRFTokenToForm();
 	});
-	
+
 	/**
 	 * Reverse tabnapping protection
-	 * 
+	 *
 	 * Automatically add rel="noopener" to any external link with target="_blank"
 	 * This is not required in most modern browsers.
 	 * https://caniuse.com/mdn-html_elements_a_implicit_noopener
@@ -393,7 +393,7 @@ jQuery(function($) {
 			}
 		}
 	});
-	
+
 	/* Editor preview replacement */
 	$(".editable_preview").addClass("rhymix_content xe_content").attr("tabindex", 0);
 	$(".editable_preview").on("click", function() {
@@ -412,7 +412,7 @@ jQuery(function($) {
 	$(".editable_preview").on("focus", function() {
 		$(this).triggerHandler("click");
 	});
-	
+
 	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
 	if(navigator.userAgent.match(/MSIE/)) {
 		$('select').each(function(i, sels) {
@@ -464,7 +464,7 @@ jQuery(function($) {
 			alert(max_filesize_error);
 		}
 	});
-	
+
 	jQuery('input[type="submit"],button[type="submit"]').click(function(ev){
 		var $el = jQuery(ev.currentTarget);
 
@@ -549,10 +549,10 @@ jQuery(function($) {
 			return String(this).replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
 		};
 	}
-	
+
 	/**
 	 * @brief Helper function for setQuery()
-	 * 
+	 *
 	 * @param uri URI
 	 * @return URI
 	 */
@@ -565,10 +565,10 @@ jQuery(function($) {
 		if(window.XE.isSameHost(uri.toString()) && filename === 'index.php' && $.isEmptyObject(queries)) {
 			filename = '';
 		}
-		
+
 		return uri.protocol(protocol).port(port || null).normalizePort().filename(filename);
 	}
-	
+
 })(jQuery);
 
 /**
@@ -610,7 +610,7 @@ function winopen(url, target, features) {
 
 	if (typeof target == 'undefined') target = '_blank';
 	if (typeof features == 'undefined') features = '';
-	
+
 	if (!window.XE.isSameHost(url)) {
 		window.blankshield.open(url, target, features);
 	} else {
@@ -666,7 +666,7 @@ function move_url(url, open_window) {
 	if (/^\./.test(url)) {
 		url = window.request_uri + url;
 	}
-	
+
 	if (typeof open_window == 'undefined' || open_window == 'N') {
 		redirect(url);
 	} else {
@@ -1315,7 +1315,7 @@ jQuery(function($){
 		var name = $this.attr('name');
 		var href = $this.attr('href');
 		if (!name) name = '_xe_popup_' + Math.floor(Math.random() * 1000);
-		
+
 		event.preventDefault();
 		winopen(href, name, 'left=10,top=10,width=10,height=10,resizable=no,scrollbars=no,toolbars=no');
 	});

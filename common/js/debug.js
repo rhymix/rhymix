@@ -1,22 +1,22 @@
 /**
  * Client-side script for manipulating the debug panel on Rhymix.
- * 
+ *
  * @file debug.js
  * @author Kijin Sung <kijin@kijinsung.com>
  */
 $(function() {
-	
+
 	"use strict";
-	
+
 	// Disable debug panel?
 	if ($('body').hasClass("disable_debug_panel")) {
 		return;
 	}
-	
+
 	// Find debug panel elements.
 	var panel = $("#rhymix_debug_panel");
 	var button = $("#rhymix_debug_button").addClass('visible');
-	
+
 	// Initialize the debug button.
 	var button_link = $('<a href="#"></a>').text("DEBUG").appendTo(button).click(function(event) {
 		event.preventDefault();
@@ -24,7 +24,7 @@ $(function() {
 		panel.css({ width: max_width, left: max_width * -1 }).show().animate({ left: 0 }, 200);
 		button.hide();
 	});
-	
+
 	// Initialize the debug panel.
 	var header = $('<div class="debug_header"></div>').appendTo(panel);
 	header.append('<h2>RHYMIX DEBUG</h2>');
@@ -38,19 +38,19 @@ $(function() {
 			button.show();
 		});
 	}));
-	
+
 	// Define a function for adding debug data to the panel.
 	window.rhymix_debug_add_data = function(data, open) {
-		
+
 		// Define loop variables.
 		var i, j, entry, num, backtrace, description;
-		
+
 		// New pages are open by default.
 		if (open !== true && open !== false)
 		{
 			open = true;
 		}
-		
+
 		// Create the page.
 		var page = $('<div class="debug_page"></div>').appendTo(panel);
 		var page_body = $('<div class="debug_page_body"></div>').appendTo(page);
@@ -58,7 +58,7 @@ $(function() {
 		{
 			page_body.hide();
 		}
-		
+
 		// Create the page header.
 		var page_header = $('<div class="debug_page_header"></div>').prependTo(page).click(function() {
 			$(this).find("a.debug_page_collapse").triggerHandler("click");
@@ -75,7 +75,7 @@ $(function() {
 				$(this).text("▲");
 			}
 		}));
-		
+
 		// Add general information.
 		page_body.append($('<h4></h4>').text('General Information'));
 		entry = $('<div class="debug_entry"></div>').appendTo(page_body);
@@ -85,7 +85,7 @@ $(function() {
 		metadata.append($('<li></li>').text('Memory Usage: ' + (data.memory ? XE.filesizeFormat(data.memory) : 'unknown')));
 		metadata.append($('<li></li>').text('Total Time: ' + data.timing.total));
 		metadata.append($('<li></li>').text('Query Time: ' + data.timing.db_query));
-		
+
 		// Add debug entries.
 		if (data.entries && data.entries.length) {
 			page_body.append($('<h4></h4>').text('Debug Entries (' + data.entries.length + ')'));
@@ -101,7 +101,7 @@ $(function() {
 				}
 			}
 		}
-		
+
 		// Add errors.
 		if (data.errors && data.errors.length) {
 			page_body.append($('<h4></h4>').text('Errors (' + data.errors.length + ')'));
@@ -117,7 +117,7 @@ $(function() {
 				}
 			}
 		}
-		
+
 		// Add queries.
 		if (data.queries && data.queries.length) {
 			page_body.append($('<h4></h4>').text('Queries (' + data.queries.length + ')'));
@@ -143,7 +143,7 @@ $(function() {
 				description.append($('<li></li>').text("Result: " + ((data.queries[i].message === "success" || !data.queries[i].message) ? "success" : data.queries[i].message)));
 			}
 		}
-		
+
 		// Add slow queries.
 		if (data.slow_queries && data.slow_queries.length) {
 			page_body.append($('<h4></h4>').text('Slow Queries (' + data.slow_queries.length + ')'));
@@ -169,7 +169,7 @@ $(function() {
 				description.append($('<li></li>').text("Result: " + ((data.slow_queries[i].message === "success" || !data.slow_queries[i].message) ? "success" : ("error " + data.slow_queries[i].error_code + " " + data.slow_queries[i].message))));
 			}
 		}
-		
+
 		// Add slow triggers.
 		if (data.slow_triggers && data.slow_triggers.length) {
 			page_body.append($('<h4></h4>').text('Slow Triggers (' + data.slow_triggers.length + ')'));
@@ -182,7 +182,7 @@ $(function() {
 				description.append($('<li></li>').text("Exec Time: " + (data.slow_triggers[i].trigger_time ? (data.slow_triggers[i].trigger_time.toFixed(4) + " sec") : "")));
 			}
 		}
-		
+
 		// Add slow widgets.
 		if (data.slow_widgets && data.slow_widgets.length) {
 			page_body.append($('<h4></h4>').text('Slow Widgets (' + data.slow_widgets.length + ')'));
@@ -194,7 +194,7 @@ $(function() {
 				description.append($('<li></li>').text("Exec Time: " + (data.slow_widgets[i].widget_time ? (data.slow_widgets[i].widget_time.toFixed(4) + " sec") : "")));
 			}
 		}
-		
+
 		// Add slow remote requests.
 		if (data.slow_remote_requests && data.slow_remote_requests.length) {
 			page_body.append($('<h4></h4>').text('Slow Remote Requests (' + data.slow_remote_requests.length + ')'));
@@ -210,19 +210,19 @@ $(function() {
 				description.append($('<li></li>').text("Status Code: " + data.slow_remote_requests[i].status));
 			}
 		}
-		
+
 		// If there are errors, turn the button text red.
 		if (data.errors && data.errors.length) {
 			button_link.addClass("has_errors");
 		}
 	};
-	
+
 	// Add debug data from the current request.
 	if (window.rhymix_debug_content) {
 		window.rhymix_debug_content.page_title = 'MAIN PAGE';
 		rhymix_debug_add_data(window.rhymix_debug_content, true);
 	}
-	
+
 	// Add debug data from pending AJAX requests.
 	if (window.rhymix_debug_pending_data) {
 		while (window.rhymix_debug_pending_data.length) {

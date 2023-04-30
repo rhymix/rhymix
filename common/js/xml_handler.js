@@ -2,50 +2,50 @@
  * Functions for sending AJAX requests to the server.
  */
 (function($){
-	
+
 	"use strict";
-	
+
 	/**
 	 * Set this variable to false to hide the "waiting for server response" layer.
 	 */
 	window.show_waiting_message = false;
-	
+
 	/**
 	 * Set this variable to false to hide the "do you want to leave the page?" dialog.
 	 */
 	window.show_leaving_warning = false;
-	
+
 	/**
 	 * This variable becomes true when the user tries to navigate away from the page.
 	 */
 	var page_unloading = false;
-	
+
 	/**
 	 * This variable stores the .wfsr jQuery object.
 	 */
 	var waiting_obj = $(".wfsr");
-	
+
 	/**
 	 * Function for compatibility with XE's exec_xml()
 	 */
 	window.exec_xml = $.exec_xml = function(module, act, params, callback_success, return_fields, callback_success_arg, fo_obj) {
-		
+
 		// Define callback functions.
 		var successHandler, errorHandler, xmlHandler;
-		
+
 		// Convert params to object and fill in the module and act.
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		params.module = module;
 		params.act = act;
 		params._rx_ajax_compat = 'XMLRPC';
 		params._rx_csrf_token = getCSRFToken();
-		
+
 		// Decide whether or not to use SSL.
 		var url = request_uri;
-		
+
 		// Check whether this is a cross-domain request. If so, use an alternative method.
 		if (!isSameOrigin(location.href, url)) return send_by_form(url, params);
-		
+
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
@@ -53,14 +53,14 @@
 				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
-		
+
 		// Define the success handler.
 		successHandler = function(data, textStatus, xhr) {
-			
+
 			// Hide the waiting message.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			
+
 			// Copy data to the result object.
 			var result = {};
 			$.each(data, function(key, val) {
@@ -68,7 +68,7 @@
 					result[key] = val;
 				}
 			});
-			
+
 			// Add debug information.
 			if (data._rx_debug) {
 				data._rx_debug.page_title = "AJAX : " + params.module + "." + params.act;
@@ -78,7 +78,7 @@
 					window.rhymix_debug_pending_data.push(data._rx_debug);
 				}
 			}
-			
+
 			// If the response contains an error, display the error message.
 			if (data.error != "0") {
 				// This way of calling an error handler is deprecated. Do not use it.
@@ -100,7 +100,7 @@
 				}
 				return null;
 			}
-			
+
 			// If the response contains a redirect URL, redirect immediately.
 			if (data.redirect_url) {
 				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
@@ -108,21 +108,21 @@
 			if (data.redirect_url && !$.isFunction(callback_success)) {
 				return redirect(data.redirect_url);
 			}
-			
+
 			// If there was a success callback, call it.
 			if ($.isFunction(callback_success)) {
 				callback_success(result, return_fields, callback_success_arg, fo_obj);
 			}
 		};
-		
+
 		// Define the error handler.
 		errorHandler = function(xhr, textStatus, doNotHandleXml) {
-			
+
 			// If the server has returned XML anyway, convert to JSON and call the success handler.
 			if (textStatus === 'parsererror' && doNotHandleXml !== true && xhr.responseText && xhr.responseText.match(/<response/)) {
 				return xmlHandler(xhr, textStatus);
 			}
-			
+
 			// If the user is navigating away, don't do anything.
 			if (xhr.status == 0 && page_unloading) {
 				return;
@@ -132,7 +132,7 @@
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info;
-			
+
 			if ($(".x_modal-body").size()) {
 				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
 				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
@@ -141,7 +141,7 @@
 				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
 			}
 		};
-		
+
 		// Define the legacy XML handler.
 		xmlHandler = function(xhr, textStatus) {
 			var parseXmlAndReturn = function() {
@@ -167,7 +167,7 @@
 				});
 			}
 		};
-		
+
 		// Send the AJAX request.
 		try {
 			$.ajax({
@@ -189,7 +189,7 @@
 	 * Function for compatibility with XE's exec_json()
 	 */
 	window.exec_json = $.exec_json = function(action, params, callback_success, callback_error) {
-		
+
 		// Convert params to object and fill in the module and act.
 		var action_parts = action.split('.');
 		var request_info;
@@ -204,7 +204,7 @@
 			params._rx_csrf_token = getCSRFToken();
 			request_info = params.module + "." + params.act;
 		}
-		
+
 		// Delay the waiting message for 1 second to prevent rapid blinking.
 		waiting_obj.css("opacity", 0.0);
 		var wfsr_timeout = setTimeout(function() {
@@ -212,14 +212,14 @@
 				waiting_obj.css("opacity", "").show();
 			}
 		}, 1000);
-		
+
 		// Define the success handler.
 		var successHandler = function(data, textStatus, xhr) {
-			
+
 			// Hide the waiting message.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			
+
 			// Add debug information.
 			if (data._rx_debug) {
 				data._rx_debug.page_title = "AJAX : " + request_info;
@@ -229,7 +229,7 @@
 					window.rhymix_debug_pending_data.push(data._rx_debug);
 				}
 			}
-			
+
 			// If the response contains an error, display the error message.
 			if(data.error != "0" && data.error > -1000) {
 				// If this is a temporary CSRF error, retry with a new token.
@@ -261,7 +261,7 @@
 					return;
 				}
 			}
-			
+
 			// If the response contains a redirect URL, redirect immediately.
 			if (data.redirect_url) {
 				data.redirect_url = data.redirect_url.replace(/&amp;/g, "&");
@@ -269,13 +269,13 @@
 			if (data.redirect_url && !$.isFunction(callback_success)) {
 				return redirect(data.redirect_url);
 			}
-			
+
 			// If there was a success callback, call it.
 			if($.isFunction(callback_success)) {
 				callback_success(data);
 			}
 		};
-		
+
 		// Define the error handler.
 		var errorHandler = function(xhr, textStatus) {
 
@@ -283,12 +283,12 @@
 			if (xhr.status == 0 && page_unloading) {
 				return;
 			}
-			
+
 			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info;
-			
+
 			if ($(".x_modal-body").size()) {
 				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
 				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
@@ -297,7 +297,7 @@
 				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
 			}
 		};
-		
+
 		// Send the AJAX request.
 		try {
 			$.ajax({
@@ -396,7 +396,7 @@
 			XE.ajaxForm(this);
 		}
 	});
-	
+
 	/**
 	 * Empty placeholder for beforeUnload handler.
 	 */
@@ -404,7 +404,7 @@
 		page_unloading = true;
 		return "";
 	};
-	
+
 	/**
 	 * Register the beforeUnload handler.
 	 */
@@ -431,18 +431,18 @@
  * It was meant for cross-domain requests, but should be replaced with JSONP.
  */
 function send_by_form(url, params) {
-	
+
 	// This function is deprecated!
 	if (typeof console == "object" && typeof console.log == "function") {
 		console.log("DEPRECATED : send_by_form() is deprecated in Rhymix.");
 	}
-	
+
 	// Create the hidden iframe.
 	var frame_id = "xeTmpIframe";
 	if (!$("#" + frame_id).length) {
 		$('<iframe name="%id%" id="%id%" style="position:absolute;left:-1px;top:1px;width:1px;height:1px"></iframe>'.replace(/%id%/g, frame_id)).appendTo(document.body);
 	}
-	
+
 	// Create the hidden form.
 	var form_id  = "xeVirtualForm";
 	$("#" + form_id).remove();
@@ -452,17 +452,17 @@ function send_by_form(url, params) {
 		"action" : url,
 		"target" : frame_id
 	});
-	
+
 	// Add virtual XML parameters.
 	params.xeVirtualRequestMethod = "xml";
 	params.xeRequestURI           = location.href.replace(/#(.*)$/i, "");
 	params.xeVirtualRequestUrl    = request_uri;
-	
+
 	// Add inputs to the form.
 	$.each(params, function(key, value){
 		$('<input type="hidden">').attr("name", key).attr("value", value).appendTo(form);
 	});
-	
+
 	// Submit the hidden form.
 	form.appendTo(document.body).submit();
 }
