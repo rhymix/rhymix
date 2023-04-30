@@ -90,7 +90,7 @@ class ModuleHandler extends Handler
 		$this->is_mobile = Mobile::isFromMobilePhone();
         if($entry = Context::get('entry'))
         {
-            $this->entry = Context::convertEncodingStr($entry);
+            $this->entry = escape($entry, false);
         }
         if(!$this->module && $this->mid === 'admin')
         {

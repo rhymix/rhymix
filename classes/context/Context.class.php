@@ -915,6 +915,8 @@ class Context
 	/**
 	 * Convert strings of variables in $source_object into UTF-8
 	 *
+	 * @deprecated
+	 *
 	 * @param object $source_obj Conatins strings to convert
 	 * @return object converted object
 	 */
@@ -950,6 +952,8 @@ class Context
 	/**
 	 * Check flag
 	 *
+	 * @deprecated
+	 *
 	 * @param mixed $val
 	 * @param string $key
 	 * @param mixed $charset charset
@@ -977,6 +981,8 @@ class Context
 	/**
 	 * Convert array type variables into UTF-8
 	 *
+	 * @deprecated
+	 *
 	 * @param mixed $val
 	 * @param string $key
 	 * @param string $charset character set
@@ -997,6 +1003,8 @@ class Context
 
 	/**
 	 * Convert strings into UTF-8
+	 *
+	 * @deprecated
 	 *
 	 * @param string $str String to convert
 	 * @return string converted string
