@@ -12,7 +12,7 @@
 		<input type="hidden" name="success_return_url" value="{$referer_url}" />
 		<input type="hidden" name="xe_validator_id" value="modules/member/m.skin/default/login_form/1" />
 		<ul>
-			<li><label for="id"><!--@if($identifier == 'user_id')-->{$lang->user_id}<!--@else-->{$lang->email_address}<!--@end--></label><input name="user_id" type="<!--@if($identifier == 'user_id')-->text<!--@else-->email<!--@end-->" id="id" value="" /></li>
+			<li><label for="id"><!--@if($identifier == 'email_address')-->{$lang->email_address}<!--@else-->{$lang->user_id}<!--@end--></label><input name="user_id" type="<!--@if($identifier == 'email_address')-->email<!--@else-->text<!--@end-->" id="id" value="" /></li>
 			<li><label for="pw">{$lang->password}</label><input name="password" type="password" id="pw" value="" /></li>
 		</ul>
 		<div class="captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('login')">

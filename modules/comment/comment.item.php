@@ -293,9 +293,6 @@ class CommentItem extends BaseObject
 			return;
 		}
 
-		// get where the comment belongs to
-		$oDocument = DocumentModel::getDocument($this->get('document_srl'));
-
 		// Variables
 		if($type)
 		{

@@ -94,13 +94,16 @@ class pollController extends poll
 				$val->checkcount = 1;
 			}
 
-			if($val->title && count($val->item))
+			if($val->title && is_array($val->item) && count($val->item))
 			{
 				$args->poll[] = $val;
 			}
 		}
 
-		if(!count($args->poll)) throw new Rhymix\Framework\Exception('cmd_null_item');
+		if(!isset($args->poll) || !is_array($args->poll) || !count($args->poll))
+		{
+			throw new Rhymix\Framework\Exception('cmd_null_item');
+		}
 
 		$args->stop_date = $stop_date;
 
@@ -188,12 +191,22 @@ class pollController extends poll
 		$args->poll_srl = $poll_srl;
 
 		// Get the information related to the survey
-		$columnList = array('poll_type');
+		$columnList = array('poll_type', 'stop_date');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
-		$type = $output->data->poll_type;
+		if(!$output->data)
+		{
+			throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		}
+		if($output->data->stop_date < date('Ymd'))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		}
 
-		if(!$this->isAbletoAddItem($type)) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		$type = $output->data->poll_type;
+		if(!$this->isAbletoAddItem($type))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		}
 
 		if(!$this->user->isAdmin())
 		{
@@ -216,6 +229,7 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
+		$oDB->commit();
 		return $output;
 	}
 
@@ -238,7 +252,7 @@ class pollController extends poll
 		$args->poll_item_srl = $poll_item_srl;
 
 		// Get the information related to the survey
-		$columnList = array('add_user_srl','poll_count');
+		$columnList = array('add_user_srl', 'poll_count', 'stop_date');
 		$output = executeQuery('poll.getPollItem', $args, $columnList);
 		$add_user_srl = $output->data->add_user_srl;
 		$poll_count = $output->data->poll_count;
@@ -246,9 +260,16 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('member_srl');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
-		$poll_member_srl = $output->data->member_srl;
+		if(!$output->data)
+		{
+			throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		}
+		if($output->data->stop_date < date('Ymd'))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		}
 
+		$poll_member_srl = $output->data->member_srl;
 		if($add_user_srl != $this->user->member_srl && $poll_member_srl != $this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
@@ -258,7 +279,7 @@ class pollController extends poll
 			throw new Rhymix\Framework\Exception('msg_cannot_delete_item_poll_exist');
 		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$item_args = new stdClass;
@@ -271,7 +292,7 @@ class pollController extends poll
 			$oDB->rollback();
 			return $output;
 		}
-
+		$oDB->commit();
 		return $output;
 	}
 
@@ -306,12 +327,15 @@ class pollController extends poll
 		}
 
 		// If there is no response item, display an error
-		if(!count($item_srls)) throw new Rhymix\Framework\Exception('msg_check_poll_item');
+		if(!is_array($item_srls) || !count($item_srls))
+		{
+			throw new Rhymix\Framework\Exception('msg_check_poll_item');
+		}
 		// Make sure is the poll has already been taken
 		$oPollModel = getModel('poll');
 		if($oPollModel->isPolled($poll_srl)) throw new Rhymix\Framework\Exception('msg_already_poll');
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$args = new stdClass;

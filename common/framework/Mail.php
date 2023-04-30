@@ -564,18 +564,19 @@ class Mail
 			$this->caller = $backtrace[0]['file'] . ($backtrace[0]['line'] ? (' line ' . $backtrace[0]['line']) : '');
 		}
 
-		// Reset Message-ID in case send() is called multiple times.
-		$random = substr(hash('sha256', mt_rand() . microtime() . getmypid()), 0, 32);
-		$sender = $this->message->getFrom(); reset($sender);
-		$id = $random . '@' . (preg_match('/^(.+)@([^@]+)$/', key($sender), $matches) ? $matches[2] : 'swift.generated');
-		$this->message->getHeaders()->get('Message-ID')->setId($id);
-
 		$output = \ModuleHandler::triggerCall('mail.send', 'before', $this);
 		if(!$output->toBool())
 		{
 			$this->errors[] = $output->getMessage();
 			return false;
 		}
+
+		// Reset Message-ID in case send() is called multiple times.
+		$random = substr(hash('sha256', mt_rand() . microtime() . getmypid()), 0, 32);
+		$sender = $this->message->getFrom();
+		$sender_email = strval(array_first_key($sender));
+		$id = $random . '@' . (preg_match('/^(.+)@([^@]+)$/', $sender_email, $matches) ? $matches[2] : 'swift.generated');
+		$this->message->getHeaders()->get('Message-ID')->setId($id);
 
 		try
 		{

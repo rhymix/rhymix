@@ -18,7 +18,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<i>|</i>
 			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'Y')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'Y'">{$status_name_list['SECRET']}<block cond="$search_target == 'is_secret' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
 			<i>|</i>
-			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'temp'">{$status_name_list['TEMP']}<block cond="$search_target == 'is_secret' && $search_keyword == 'temp'">({number_format($total_count)})</block></a> 
+			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'temp')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'temp'">{$status_name_list['TEMP']}<block cond="$search_target == 'is_secret' && $search_keyword == 'temp'">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}">{$lang->cmd_declared_list}</a>
 			<i cond="$search_target == 'ipaddress'">|</i>
@@ -33,7 +33,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<div class="x_pull-right x_btn-group margin_after">
 				<button type="button" class="x_btn x_active __simple">{$lang->simple_view}</button>
 				<button type="button" class="x_btn __detail">{$lang->detail_view}</button>
-			</div>			
+			</div>
 		</caption>
 		<thead>
 			<tr>
@@ -51,8 +51,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr loop="$document_list => $no, $oDocument">
 
 				<td class="title">
-				<a href="{getUrl('','document_srl',$oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
-				
+				<a href="{$oDocument->getPermanentUrl()}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
+
 				<span cond="isset($module_list[$oDocument->get('module_srl')])">
 					- <a href="{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
 				</span></td>
@@ -205,7 +205,7 @@ jQuery(function($){
 				$modalBody.removeClass('showTree');
 			} else if(thisValue == 'move' || thisValue == 'copy') {
 				$.xeShowMenuSelectorIn($('._menuSelector'));
-				
+
 				$modalBody.addClass('showTree');
 				$tree = $('._menuSelector .tree');
 				$tree.bind('select_node.jstree', function(a,b){

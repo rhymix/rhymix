@@ -120,6 +120,12 @@ class Member extends ModuleObject
 		// check member directory (22/10/2007 added)
 		if(!is_dir("./files/member_extra_info/profile_image")) return true;
 
+		// Check length of password column
+		if($oDB->getColumnInfo('member', 'password')->size < 250)
+		{
+			return true;
+		}
+
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number")) return true;
 		if(!$oDB->isIndexExists("member","idx_phone_number")) return true;
@@ -245,6 +251,12 @@ class Member extends ModuleObject
 		FileHandler::makeDir('./files/member_extra_info/signature');
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
 
+		// Check length of password column
+		if($oDB->getColumnInfo('member', 'password')->size < 250)
+		{
+			$oDB->modifyColumn('member', 'password', 'varchar', 250, null, true);
+		}
+
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number"))
 		{
@@ -367,16 +379,26 @@ class Member extends ModuleObject
 
 		// Check signup form
 		$oModuleController = getController('module');
-		$oMemberAdminController = getAdminController('member');
-		if(!$config->identifier)
+		if(empty($config->identifier))
 		{
-			$config->identifier = 'email_address';
+			$config->identifier = 'user_id';
+			$changed = true;
 		}
-		if(!$config->signupForm || !is_array($config->signupForm))
+		if(empty($config->identifiers))
 		{
-			$config->signupForm = $oMemberAdminController->createSignupForm($config);
-			$output = $oModuleController->updateModuleConfig('member', $config);
+			$config->identifiers = array('user_id', 'email_address');
+			$changed = true;
 		}
+		if(empty($config->signupForm) || !is_array($config->signupForm))
+		{
+			$config->signupForm = MemberAdminController::createSignupForm($config);
+			$changed = true;
+		}
+		if($changed)
+		{
+			$oModuleController->updateModuleConfig('member', $config);
+		}
+
 		$phone_found = false;
 		foreach($config->signupForm as $no => $signupItem)
 		{
@@ -439,7 +461,7 @@ class Member extends ModuleObject
 		// Save updated config
 		if($changed)
 		{
-			$output = $oModuleController->updateModuleConfig('member', $config);
+			$oModuleController->updateModuleConfig('member', $config);
 		}
 
 		// Check skin

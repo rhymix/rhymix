@@ -147,25 +147,26 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$headers = array(
 			'Authorization' => 'Bearer ' . $this->_config['api_token'],
 			'Content-Type' => 'application/json',
+			'User-Agent' => 'PHP',
 		);
 		$options = array(
 			'timeout' => 8,
-			'useragent' => 'PHP',
 		);
 
 		// Send the API request.
-		$request = \Requests::post(self::$_url, $headers, json_encode($data), $options);
-		$response_code = intval($request->status_code);;
+		$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], $options);
+		$status_code = $request->getStatusCode();
+		$result = $request->getBody()->getContents();
 
 		// Parse the result.
-		if (!$response_code)
+		if (!$status_code)
 		{
-			$message->errors[] = 'SendGrid: Connection error: ' . $request->body;
+			$message->errors[] = 'SendGrid: Connection error: ' . $result;
 			return false;
 		}
-		elseif ($response_code > 202)
+		elseif ($status_code > 202)
 		{
-			$message->errors[] = 'SendGrid: Response code ' . $response_code . ': ' . $request->body;
+			$message->errors[] = 'SendGrid: Response code ' . $status_code . ': ' . $result;
 			return false;
 		}
 

@@ -2187,6 +2187,11 @@ class MemberController extends Member
 		executeQuery('member.updateLastLogin', (object)['member_srl' => $output->data->member_srl]);
 		self::clearMemberCache($output->data->member_srl);
 
+		// Call a trigger after validate security key (after)
+		$trigger_obj = new stdClass();
+		$trigger_obj->member_srl = $output->data->member_srl;
+		ModuleHandler::triggerCall('member.doAutoLogin', 'after', $trigger_obj);
+
 		// Return the member_srl.
 		return intval($output->data->member_srl);
 	}

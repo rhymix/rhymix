@@ -105,8 +105,8 @@ class MemberModel extends Member
 		}
 
 		// Set login config
-		$config->identifier = $config->identifier ?? 'user_id';
 		$config->identifiers = $config->identifiers ?? array('user_id', 'email_address');
+		$config->identifier = (count($config->identifiers) == 1 && $config->identifiers[0] == 'email_address') ? 'email_address' : 'user_id';
 		$config->change_password_date = $config->change_password_date ?? 0;
 		$config->enable_login_fail_report = $config->enable_login_fail_report ?? 'Y';
 		$config->max_error_count = $config->max_error_count ?? 10;
@@ -128,7 +128,7 @@ class MemberModel extends Member
 		// Set signup form
 		if(!isset($config->signupForm) || !is_array($config->signupForm))
 		{
-			$config->signupForm = getAdminController('member')->createSignupForm($config->identifier);
+			$config->signupForm = MemberAdminController::createSignupForm($config);
 		}
 		foreach($config->signupForm as $key => $value)
 		{

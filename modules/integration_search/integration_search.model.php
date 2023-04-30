@@ -49,7 +49,7 @@ class integration_searchModel extends module
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
 		$args->module_srl[] = 0;
-		
+
 		$args->page = $page;
 		$args->list_count = $list_count;
 		$args->page_count = 10;
@@ -63,7 +63,7 @@ class integration_searchModel extends module
 
 		// Get a list of documents
 		$document_list = DocumentModel::getDocumentList($args);
-		
+
 		// Replace title with module title if it belongs to a page
 		foreach ($document_list->data as $document)
 		{
@@ -138,7 +138,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output trackback list
 	 */
-	function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword, $page=1, $list_count = 20)
+	function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword = '', $page=1, $list_count = 20)
 	{
 		$oTrackbackModel = getAdminModel('trackback');
 		if(!$oTrackbackModel) return new BaseObject();
@@ -162,7 +162,7 @@ class integration_searchModel extends module
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
 		$args->module_srl[] = 0;
-		
+
 		$args->page = $page;
 		$args->list_count = $list_count;
 		$args->page_count = 10;
@@ -208,7 +208,7 @@ class integration_searchModel extends module
 			$args->exclude_module_srl = array(0); // exclude 'trash'
 		}
 		$args->module_srl[] = 0;
-		
+
 		$args->page = $page;
 		$args->list_count = $list_count;
 		$args->page_count = 10;

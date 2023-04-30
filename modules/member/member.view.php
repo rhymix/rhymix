@@ -633,7 +633,16 @@ class MemberView extends Member
 	{
 		// Get referer URL
 		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
-		if (!$referer_url || !Rhymix\Framework\URL::isInternalURL($referer_url) || contains('procMember', $referer_url) || contains('dispMemberLoginForm', $referer_url))
+		$is_valid_referer = !empty($referer_url) && Rhymix\Framework\URL::isInternalURL($referer_url);
+		if (preg_match('!\b(dispMemberLoginForm|dispMemberSignUpForm|dispMemberFindAccount|dispMemberResendAuthMail|procMember)!', $referer_url))
+		{
+			$is_valid_referer = false;
+		}
+		if (preg_match('!/(login|signup)\b!', $referer_url))
+		{
+			$is_valid_referer = false;
+		}
+		if (!$is_valid_referer)
 		{
 			$referer_url = getNotEncodedUrl('act', '');
 		}

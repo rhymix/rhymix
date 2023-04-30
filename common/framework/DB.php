@@ -22,6 +22,7 @@ class DB
 	 */
 	protected $_type = '';
 	protected $_prefix = '';
+	protected $_version = '';
 	protected $_charset = 'utf8mb4';
 	protected $_engine = 'innodb';
 
@@ -50,13 +51,6 @@ class DB
 	 * Transaction level.
 	 */
 	protected $_transaction_level = 0;
-
-	/**
-	 * Properties for backward compatibility.
-	 */
-	public $db_type = 'mysql';
-	public $db_version = '';
-	public $use_prepared_statements = true;
 
 	/**
 	 * Get a singleton instance of the DB class.
@@ -128,9 +122,6 @@ class DB
 		{
 			throw new Exceptions\DBError($e->getMessage());
 		}
-
-		// Get the DB version.
-		$this->db_version = $this->_handle->getAttribute(\PDO::ATTR_SERVER_VERSION);
 
 		// Cache the debug comment setting.
 		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
@@ -557,6 +548,16 @@ class DB
 		{
 			return $result;
 		}
+	}
+
+	/**
+	 * Alias to begin().
+	 *
+	 * @return int
+	 */
+	public function beginTransaction(): int
+	{
+		return $this->begin();
 	}
 
 	/**
@@ -1259,6 +1260,24 @@ class DB
 	public function setDebugComment(bool $enabled)
 	{
 		$this->_debug_comment = $enabled;
+	}
+
+	/**
+	 * Magic method to support some read-only properties for backward compatibility.
+	 *
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function __get($key)
+	{
+		switch ($key)
+		{
+			case 'db_type': return $this->_handle->getAttribute(\PDO::ATTR_DRIVER_NAME);
+			case 'db_version': return $this->_handle->getAttribute(\PDO::ATTR_SERVER_VERSION);
+			case 'prefix': return $this->_prefix;
+			case 'use_prepared_statements': return true;
+			default: return null;
+		}
 	}
 
 	/**

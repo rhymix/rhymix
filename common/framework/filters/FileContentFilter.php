@@ -41,6 +41,7 @@ class FileContentFilter
 		$fp = fopen($file, 'rb');
 		$first4kb = fread($fp, 4096);
 		$is_xml = preg_match('/<(?:\?xml|!DOCTYPE|html|head|body|meta|script|svg)\b/i', $first4kb);
+		$skip_xml = preg_match('/^(hwpx)$/', $ext);
 
 		// Check SVG files.
 		if (($ext === 'svg' || $is_xml) && !self::_checkSVG($fp, 0, $filesize))
@@ -71,7 +72,7 @@ class FileContentFilter
 		}
 
 		// Check HTML files.
-		if (($ext === 'html' || $ext === 'shtml' || $ext === 'xhtml' || $ext === 'phtml' || $is_xml) && !self::_checkHTML($fp, 0, $filesize))
+		if (($ext === 'html' || $ext === 'shtml' || $ext === 'xhtml' || $ext === 'phtml' || ($is_xml && !$skip_xml)) && !self::_checkHTML($fp, 0, $filesize))
 		{
 			fclose($fp);
 			return false;
@@ -92,7 +93,7 @@ class FileContentFilter
 	 */
 	protected static function _checkSVG($fp, $from, $to)
 	{
-		if (self::_matchStream('/<script|<handler\b|xlink:href\s*=\s*"(?!data:)/i', $fp, $from, $to))
+		if (self::_matchStream('/(?:<|&lt;)(?:script|iframe|foreignObject|object|embed|handler)|javascript:|xlink:href\s*=\s*"(?!data:)/i', $fp, $from, $to))
 		{
 			return false;
 		}

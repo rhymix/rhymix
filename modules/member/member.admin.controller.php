@@ -564,7 +564,7 @@ class MemberAdminController extends Member
 			return new BaseObject(-1, 'msg_need_enabled_identifier');
 		}
 		$args->signupForm = $config->signupForm;
-		$args->identifier = array_first($args->identifiers);
+		$args->identifier = (count($args->identifiers) == 1 && $args->identifiers[0] == 'email_address') ? 'email_address' : 'user_id';
 
 		if(!$args->change_password_date)
 		{
@@ -626,13 +626,21 @@ class MemberAdminController extends Member
 		$this->setRedirectUrl($returnUrl);
 	}
 
-	function createSignupForm($identifier)
+	public static function createSignupForm($config)
 	{
-		global $lang;
-		$oMemberModel = getModel('member');
+		// Maintain backward compatibility with inconsistent use of the first parameter of this method.
+		if (is_object($config))
+		{
+			$identifier = $config->identifier ?? 'user_id';
+		}
+		else
+		{
+			$identifier = strval($config) ?: 'user_id';
+			$config = new \stdClass;
+		}
 
 		// Get join form list which is additionally set
-		$extendItems = $oMemberModel->getJoinFormList();
+		$extendItems = MemberModel::getJoinFormList();
 
 		$items = array('user_id', 'email_address', 'phone_number', 'password', 'user_name', 'nick_name', 'homepage', 'blog', 'birthday', 'signature', 'profile_image', 'image_name', 'image_mark');
 		$mustRequireds = array('email_address', 'nick_name', 'password');
@@ -642,7 +650,6 @@ class MemberAdminController extends Member
 
 		foreach($items as $key)
 		{
-			unset($signupItem);
 			$signupItem = new stdClass;
 			$signupItem->isDefaultForm = true;
 			$signupItem->name = $key;
@@ -937,8 +944,8 @@ class MemberAdminController extends Member
 	function procMemberAdminSelectedMemberManage()
 	{
 		$var = Context::getRequestVars();
-		$groups = $var->groups;
-		$members = $var->member_srls;
+		$groups = $var->groups ?? [];
+		$members = $var->member_srls ?? [];
 
 		$oDB = DB::getInstance();
 		$oDB->begin();

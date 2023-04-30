@@ -3302,6 +3302,12 @@ Content;
 			$oDocument = DocumentModel::getDocument($output->get('document_srl'));
 		}
 
+		// Return error if save failed for any reason
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
 		{

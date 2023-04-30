@@ -4,7 +4,7 @@
 
 <div class="btnArea">
 	<div style="margin:0;display:block;float:left" class="btn-group">
-		<button loop="$lang->message_box => $key,$val" class="btn" onclick="location.href=current_url.setQuery('act', 'dispCommunicationMessages').setQuery('message_srl', '').setQuery('message_type', '{$key}'); return false;" style="font-weight:bold"|cond="$message_type == $key">{$val}</button>
+		<a loop="$lang->message_box => $key,$val" class="btn" href="{getUrl(['mid' => $mid, 'act' => 'dispCommunicationMessages', 'message_type' => $key])}" style="font-weight:bold"|cond="$message_type == $key">{$val}</a>
 	</div>
 	<form action="./" method="POST" style="margin:0;display:block;float:right">
 		<input type="hidden" name="module" value="communication" />
