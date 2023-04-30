@@ -182,6 +182,10 @@ class DisplayHandler extends Handler
 		{
 			return;
 		}
+		if ($output === null)
+		{
+			$output = '';
+		}
 
 		// Print debug information.
 		$debug_output = '';
