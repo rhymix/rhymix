@@ -228,7 +228,8 @@ class ModuleObject extends BaseObject
 			}
 			catch (Rhymix\Framework\Exception $e)
 			{
-				$this->stop($e->getMessage());
+				$this->stop($e->getMessage(), -2);
+				$this->add('rx_error_location', $e->getFile() . ':' . $e->getLine());
 			}
 		}
 
@@ -418,10 +419,11 @@ class ModuleObject extends BaseObject
 	/**
 	 * Stop processing this module instance.
 	 *
-	 * @param string $msg_code an error code
+	 * @param string $msg_code
+	 * @param int $error_code
 	 * @return ModuleObject $this
 	 */
-	public function stop($msg_code)
+	public function stop($msg_code, $error_code = -1)
 	{
 		if($this->stop_proc !== true)
 		{
@@ -429,7 +431,7 @@ class ModuleObject extends BaseObject
 			$this->stop_proc = true;
 
 			// Error handling
-			$this->setError(-1);
+			$this->setError($error_code ?: -1);
 			$this->setMessage($msg_code);
 
 			// Get backtrace
