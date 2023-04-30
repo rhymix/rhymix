@@ -247,7 +247,7 @@
 					});
 				}
 				// Should not display the error message when the callback function returns false.
-				if ($.isFunction(callback_error) && callback_error(data) === false) {
+				if ($.isFunction(callback_error) && callback_error(data, xhr) === false) {
 					return;
 				}
 				if(data.error == -1 && data.message == "admin.msg_is_not_administrator") {
@@ -294,6 +294,15 @@
 			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info;
 
+			// If a callback function is defined, call it and check if it returns false.
+			if ($.isFunction(callback_error)) {
+				var data = { error: -3, message: textStatus };
+				if (callback_error(data, xhr) === false) {
+					return;
+				}
+			}
+
+			// Otherwise, display a simple alert dialog.
 			if ($(".x_modal-body").size()) {
 				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
 				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
