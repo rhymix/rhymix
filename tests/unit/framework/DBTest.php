@@ -12,8 +12,20 @@ class DBTest extends \Codeception\TestCase\Test
 	{
 		$oDB = Rhymix\Framework\DB::getInstance();
 		$this->assertTrue($oDB instanceof Rhymix\Framework\DB);
+		$this->assertEquals($oDB, \DB::getInstance());
+		$this->assertTrue(\DB::getInstance() instanceof \DB);
 		$this->assertTrue($oDB->isConnected());
 		$this->assertTrue($oDB->getHandle() instanceof Rhymix\Framework\Helpers\DBHelper);
+	}
+
+	public function testCompatProperties()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+		$this->assertEquals('mysql', $oDB->db_type);
+		$this->assertEquals($oDB->getHandle()->getAttribute(\PDO::ATTR_SERVER_VERSION), $oDB->db_version);
+		$this->assertEquals(Rhymix\Framework\Config::get('db.master.prefix'), $oDB->prefix);
+		$this->assertTrue($oDB->use_prepared_statements);
+		$this->assertNull($oDB->some_nonexistent_property);
 	}
 
 	public function testPrepare()
