@@ -51,11 +51,18 @@ Debug Entries
 			$entry->message = trim(preg_replace('/\r?\n/', "\n" . '    ', print_r($entry->message, true)));
 		}
 		echo sprintf('%02d. %s', ++$entry_count, $entry->message) . "\n";
+		$is_first_entry = true;
 		foreach ($entry->backtrace as $key => $backtrace)
 		{
 			if (isset($backtrace['file']) && isset($backtrace['line']))
 			{
-				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']);
+				if ($is_first_entry)
+				{
+					echo ' (×' . $entry->count . ')';
+					$is_first_entry = false;
+				}
+				echo "\n";
 			}
 		}
 	}
@@ -74,11 +81,18 @@ PHP Errors and Warnings
 	foreach ($data->errors as $error)
 	{
 		echo sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message) . "\n";
+		$is_first_error = true;
 		foreach ($error->backtrace as $key => $backtrace)
 		{
 			if (isset($backtrace['file']) && isset($backtrace['line']))
 			{
-				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
+				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']);
+				if ($is_first_error)
+				{
+					echo ' (×' . $error->count . ')';
+					$is_first_error = false;
+				}
+				echo "\n";
 			}
 		}
 	}
@@ -101,7 +115,7 @@ Database Queries
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		if (empty($query->backtrace))
 		{
-			echo sprintf('    - Caller:      %s', $query_caller) . "\n";
+			echo sprintf('    - Caller:      %s', $query_caller) . ' (×' . $query->count . ')' . "\n";
 		}
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
 		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
@@ -109,7 +123,7 @@ Database Queries
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
 		if (!empty($query->backtrace))
 		{
-			echo sprintf('    - Call Stack:  %s', $query_caller) . "\n";
+			echo sprintf('    - Call Stack:  %s', $query_caller) . ' (×' . $query->count . ')' . "\n";
 			foreach ($query->backtrace ?? [] as $key => $backtrace)
 			{
 				if (isset($backtrace['file']) && isset($backtrace['line']))

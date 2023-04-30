@@ -98,7 +98,10 @@ $(function() {
 				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				for (j in data.entries[i].backtrace) {
 					if (data.entries[i].backtrace[j].file) {
-						backtrace.append($('<li></li>').text(data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line));
+						backtrace.append($('<li></li>').text(
+							data.entries[i].backtrace[j].file + ":" + data.entries[i].backtrace[j].line +
+							(j == 0 ? (" (×" + data.entries[i].count + ")") : "")
+						));
 					}
 				}
 			}
@@ -114,7 +117,10 @@ $(function() {
 				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				for (j in data.errors[i].backtrace) {
 					if (data.errors[i].backtrace[j].file) {
-						backtrace.append($('<li></li>').text(data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line));
+						backtrace.append($('<li></li>').text(
+							data.errors[i].backtrace[j].file + ":" + data.errors[i].backtrace[j].line +
+							(j == 0 ? (" (×" + data.errors[i].count + ")") : "")
+						));
 					}
 				}
 			}
@@ -129,7 +135,10 @@ $(function() {
 				entry.text(num + ". " + data.queries[i].query_string);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				if (data.queries[i].file && data.queries[i].line) {
-					description.append($('<li></li>').text("Caller: " + data.queries[i].file + ":" + data.queries[i].line).append("<br>(" + data.queries[i].method + ")"));
+					description.append($('<li></li>').text("Caller: " +
+						data.queries[i].file + ":" + data.queries[i].line +
+						(" (×" + data.queries[i].count + ")")
+					).append("<br>(" + data.queries[i].method + ")"));
 					description.append($('<li></li>').text("Connection: " + data.queries[i].query_connection));
 					description.append($('<li></li>').text("Query ID: " + data.queries[i].query_id));
 					description.append($('<li></li>').text("Query Time: " + (data.queries[i].query_time ? (data.queries[i].query_time.toFixed(4) + " sec") : "")));

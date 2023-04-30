@@ -53,7 +53,7 @@ class Debug
 	 */
 	public static function getEntries()
 	{
-		return self::$_entries;
+		return array_values(self::$_entries);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Debug
 	 */
 	public static function getErrors()
 	{
-		return self::$_errors;
+		return array_values(self::$_errors);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class Debug
 	 */
 	public static function getQueries()
 	{
-		return self::$_queries;
+		return array_values(self::$_queries);
 	}
 
 	/**
@@ -281,10 +281,21 @@ class Debug
 			'file' => isset($backtrace[0]['file']) ? $backtrace[0]['file'] : null,
 			'line' => isset($backtrace[0]['line']) ? $backtrace[0]['line'] : 0,
 			'backtrace' => $backtrace,
+			'count' => 1,
 			'time' => microtime(true),
 			'type' => 'Debug',
 		);
-		self::$_entries[] = $entry;
+
+		// Only add the same entry once.
+		$key = hash_hmac('sha1', serialize([$entry->message, $entry->file, $entry->line]), config('crypto.authentication_key'));
+		if (isset(self::$_entries[$key]))
+		{
+			self::$_entries[$key]->count++;
+		}
+		else
+		{
+			self::$_entries[$key] = $entry;
+		}
 
 		// Add the entry to the error log.
 		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
@@ -332,14 +343,26 @@ class Debug
 		$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 
 		// Prepare the error entry.
-		self::$_errors[] = $errinfo = (object)array(
+		$errinfo = (object)array(
 			'message' => $message,
 			'file' => $errfile,
 			'line' => $errline,
 			'backtrace' => $backtrace,
+			'count' => 1,
 			'time' => microtime(true),
 			'type' => self::getErrorType($errno),
 		);
+
+		// If the same error is repeated, only increment the counter.
+		$key = hash_hmac('sha1', serialize([$errinfo->message, $errinfo->file, $errinfo->line]), config('crypto.authentication_key'));
+		if (isset(self::$_errors[$key]))
+		{
+			self::$_errors[$key]->count++;
+		}
+		else
+		{
+			self::$_errors[$key] = $errinfo;
+		}
 
 		// Add the entry to the error log.
 		if (isset(self::$_config['write_error_log']) && self::$_config['write_error_log'] === 'all')
@@ -374,14 +397,36 @@ class Debug
 			'line' => $query['called_line'],
 			'method' => $query['called_method'],
 			'backtrace' => $query['backtrace'] ?: array(),
+			'count' => 1,
 			'time' => microtime(true),
 			'type' => 'Query',
 		);
 
-		self::$_queries[] = $query_object;
+		// Generate a unique key for this query.
+		$key = hash_hmac('sha1', serialize([
+			$query_object->query_id,
+			$query_object->query_string,
+			$query_object->query_connection,
+			$query_object->file,
+			$query_object->line,
+			$query_object->method,
+		]), config('crypto.authentication_key'));
+
+		// If the same query is repeated, only increment the counter.
+		if (isset(self::$_queries[$key]))
+		{
+			self::$_queries[$key]->query_time += $query_object->query_time;
+			self::$_queries[$key]->count++;
+		}
+		else
+		{
+			self::$_queries[$key] = $query_object;
+		}
+
+		// Record query time.
 		self::$_query_time += $query_object->query_time;
 
-		// Add the entry to the error log if the result wasn't successful.
+		// Add the query to the error log if the result wasn't successful.
 		if ($query['result'] === 'error')
 		{
 			$error_object = (object)array(
@@ -389,11 +434,21 @@ class Debug
 				'file' => $query_object->file,
 				'line' => $query_object->line,
 				'backtrace' => $query_object->backtrace ?: array(),
+				'count' => 1,
 				'time' => $query_object->time,
 				'type' => 'Query Error',
 			);
 
-			self::$_errors[] = $error_object;
+			// If the same query error is repeated, only increment the counter.
+			$key = hash_hmac('sha1', serialize(['QUERY ERROR', $error_object->message, $error_object->file, $error_object->line]), config('crypto.authentication_key'));
+			if (isset(self::$_errors[$key]))
+			{
+				self::$_errors[$key]->count++;
+			}
+			else
+			{
+				self::$_errors[$key] = $error_object;
+			}
 
 			if (self::$_config['write_error_log'] === 'all')
 			{
@@ -402,7 +457,7 @@ class Debug
 			}
 		}
 
-		// Add the entry to the slow query log.
+		// Add the query to the slow query log.
 		if ($query_object->query_time && $query_object->query_time >= (self::$_config['log_slow_queries'] ?? 1))
 		{
 			self::$_slow_queries[] = $query_object;
@@ -794,9 +849,9 @@ class Debug
 				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),
 				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__'] ?? 0),
 			),
-			'entries' => self::$_entries,
-			'errors' => self::$_errors,
-			'queries' => self::$_queries,
+			'entries' => array_values(self::$_entries),
+			'errors' => array_values(self::$_errors),
+			'queries' => array_values(self::$_queries),
 			'slow_queries' => self::$_slow_queries,
 			'slow_triggers' => self::$_slow_triggers,
 			'slow_widgets' => self::$_slow_widgets,
