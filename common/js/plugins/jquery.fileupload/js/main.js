@@ -87,7 +87,7 @@
 
 			var currentEnforce_ssl = window.enforce_ssl;
 			if(location.protocol == 'https:') { window.enforce_ssl = true; }
-			
+
 			var chunkStatus = true;
 			var defaultFormData = {
 				"editor_sequence": data.editorSequence,
@@ -195,7 +195,7 @@
 								temp_code = temp_code.replace('controls', 'poster="' + result.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
 							}
 						}
-						
+
 						if(temp_code !== '') {
 							if (opt.autoinsertPosition === 'paragraph') {
 								temp_code = "<p>" + temp_code + "</p>\n";
@@ -376,7 +376,7 @@
 						temp_code = temp_code.replace('controls', 'poster="' + result.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
 					}
 				}
-				
+
 				if(temp_code !== '') {
 					if (data.settings.autoinsertPosition === 'paragraph') {
 						temp_code = "<p>" + temp_code + "</p>\n";
@@ -389,7 +389,7 @@
 					_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
 				}
 				catch(err) {}
-				
+
 			});
 		},
 		/**
@@ -474,13 +474,13 @@
 				// 이미지와 그외 파일 분리
 				$.each(res.files, function (index, file) {
 					if(data.files[file.file_srl]) return;
-					
+
 					data.files[file.file_srl] = file;
 					$container.data(data);
-					
+
 					file.thumbnail_url = file.download_url;
 					file.source_filename = file.source_filename.replace("&amp;", "&");
-					
+
 					if(file.thumbnail_filename) {
 						file.thumbnail_url = file.thumbnail_filename;
 						if(/\.(mp4|webm|ogv)$/i.test(file.source_filename)) {
