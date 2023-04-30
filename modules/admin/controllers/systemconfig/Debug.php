@@ -25,10 +25,11 @@ class Debug extends Base
 		Context::set('debug_log_filename', Config::get('debug.log_filename') ?: 'files/debug/YYYYMMDD.php');
 		Context::set('debug_display_type', (array)Config::get('debug.display_type'));
 		Context::set('debug_display_content', Config::get('debug.display_content'));
-		Context::set('debug_display_to', Config::get('debug.display_to'));
-		Context::set('debug_query_comment', Config::get('debug.query_comment'));
-		Context::set('debug_query_full_stack', Config::get('debug.query_full_stack'));
-		Context::set('debug_write_error_log', Config::get('debug.write_error_log'));
+		Context::set('debug_display_to', Config::get('debug.display_to') ?? 'admin');
+		Context::set('debug_query_comment', Config::get('debug.query_comment') ?? false);
+		Context::set('debug_query_full_stack', Config::get('debug.query_full_stack') ?? false);
+		Context::set('debug_consolidate', Config::get('debug.consolidate') ?? true);
+		Context::set('debug_write_error_log', Config::get('debug.write_error_log') ?? 'fatal');
 
 		// IP access control
 		$allowed_ip = Config::get('debug.allow');
@@ -60,6 +61,7 @@ class Debug extends Base
 		Config::set('debug.display_to', strval($vars->debug_display_to) ?: 'admin');
 		Config::set('debug.query_comment', $vars->debug_query_comment === 'Y');
 		Config::set('debug.query_full_stack', $vars->debug_query_full_stack === 'Y');
+		Config::set('debug.consolidate', $vars->debug_consolidate === 'Y');
 		Config::set('debug.write_error_log', strval($vars->debug_write_error_log) ?: 'fatal');
 
 		// Debug content

@@ -57,7 +57,7 @@ Debug Entries
 			if (isset($backtrace['file']) && isset($backtrace['line']))
 			{
 				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']);
-				if ($is_first_entry)
+				if ($is_first_entry && $entry->count > 1)
 				{
 					echo ' (×' . $entry->count . ')';
 					$is_first_entry = false;
@@ -87,7 +87,7 @@ PHP Errors and Warnings
 			if (isset($backtrace['file']) && isset($backtrace['line']))
 			{
 				echo sprintf('    - %s line %d', $backtrace['file'], $backtrace['line']);
-				if ($is_first_error)
+				if ($is_first_error && $error->count > 1)
 				{
 					echo ' (×' . $error->count . ')';
 					$is_first_error = false;
@@ -115,7 +115,7 @@ Database Queries
 		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
 		if (empty($query->backtrace))
 		{
-			echo sprintf('    - Caller:      %s', $query_caller) . ' (×' . $query->count . ')' . "\n";
+			echo sprintf('    - Caller:      %s', $query_caller) . ($query->count > 1 ? (' (×' . $query->count . ')') : '') . "\n";
 		}
 		echo sprintf('    - Connection:  %s', $query->query_connection) . "\n";
 		echo sprintf('    - Query ID:    %s', $query->query_id) . "\n";
@@ -123,7 +123,7 @@ Database Queries
 		echo sprintf('    - Result:      %s', $query_result) . "\n";
 		if (!empty($query->backtrace))
 		{
-			echo sprintf('    - Call Stack:  %s', $query_caller) . ' (×' . $query->count . ')' . "\n";
+			echo sprintf('    - Call Stack:  %s', $query_caller) . ($query->count > 1 ? (' (×' . $query->count . ')') : '') . "\n";
 			foreach ($query->backtrace ?? [] as $key => $backtrace)
 			{
 				if (isset($backtrace['file']) && isset($backtrace['line']))

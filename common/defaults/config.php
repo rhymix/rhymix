@@ -2,7 +2,7 @@
 
 /**
  * Default configuration for Rhymix
- * 
+ *
  * Copyright (c) Rhymix Developers and Contributors
  */
 return array(
@@ -103,6 +103,7 @@ return array(
 		'display_to' => 'admin',
 		'query_comment' => false,
 		'query_full_stack' => false,
+		'consolidate' => true,
 		'write_error_log' => 'fatal',
 		'allow' => array(),
 	),

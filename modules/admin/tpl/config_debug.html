@@ -104,6 +104,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->debug_consolidate}</label>
+			<div class="x_controls">
+				<label for="debug_consolidate_Y" class="x_inline"><input type="radio" name="debug_consolidate" id="debug_consolidate_Y" value="Y" checked="checked"|cond="$debug_consolidate" /> {$lang->cmd_yes}</label>
+				<label for="debug_consolidate_N" class="x_inline"><input type="radio" name="debug_consolidate" id="debug_consolidate_N" value="N" checked="checked"|cond="!$debug_consolidate" /> {$lang->cmd_no}</label>
+				<p class="x_help-block">{$lang->about_debug_consolidate}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->debug_write_error_log}</label>
 			<div class="x_controls">
 				<label for="debug_write_error_log_all" class="x_inline"><input type="radio" name="debug_write_error_log" id="debug_write_error_log_all" value="all" checked="checked"|cond="$debug_write_error_log=='all'" /> {$lang->debug_write_error_log_all}</label>

@@ -286,15 +286,23 @@ class Debug
 			'type' => 'Debug',
 		);
 
-		// Only add the same entry once.
-		$key = hash_hmac('sha1', serialize([$entry->message, $entry->file, $entry->line]), config('crypto.authentication_key'));
-		if (isset(self::$_entries[$key]))
+		// Consolidate entries.
+		if (!isset(self::$_config['consolidate']) || self::$_config['consolidate'] === true)
 		{
-			self::$_entries[$key]->count++;
+			$key = hash_hmac('sha1', serialize([$entry->message, $entry->file, $entry->line]), config('crypto.authentication_key'));
+			if (isset(self::$_entries[$key]))
+			{
+				self::$_entries[$key]->count++;
+			}
+			else
+			{
+				self::$_entries[$key] = $entry;
+			}
 		}
 		else
 		{
-			self::$_entries[$key] = $entry;
+			$entry->count = 0;
+			self::$_entries[] = $entry;
 		}
 
 		// Add the entry to the error log.
@@ -354,14 +362,22 @@ class Debug
 		);
 
 		// If the same error is repeated, only increment the counter.
-		$key = hash_hmac('sha1', serialize([$errinfo->message, $errinfo->file, $errinfo->line]), config('crypto.authentication_key'));
-		if (isset(self::$_errors[$key]))
+		if (!isset(self::$_config['consolidate']) || self::$_config['consolidate'] === true)
 		{
-			self::$_errors[$key]->count++;
+			$key = hash_hmac('sha1', serialize([$errinfo->message, $errinfo->file, $errinfo->line]), config('crypto.authentication_key'));
+			if (isset(self::$_errors[$key]))
+			{
+				self::$_errors[$key]->count++;
+			}
+			else
+			{
+				self::$_errors[$key] = $errinfo;
+			}
 		}
 		else
 		{
-			self::$_errors[$key] = $errinfo;
+			$errinfo->count = 0;
+			self::$_errors[] = $errinfo;
 		}
 
 		// Add the entry to the error log.
@@ -402,25 +418,34 @@ class Debug
 			'type' => 'Query',
 		);
 
-		// Generate a unique key for this query.
-		$key = hash_hmac('sha1', serialize([
-			$query_object->query_id,
-			$query_object->query_string,
-			$query_object->query_connection,
-			$query_object->file,
-			$query_object->line,
-			$query_object->method,
-		]), config('crypto.authentication_key'));
-
-		// If the same query is repeated, only increment the counter.
-		if (isset(self::$_queries[$key]))
+		// Consolidate repeated queries.
+		if (!isset(self::$_config['consolidate']) || self::$_config['consolidate'] === true)
 		{
-			self::$_queries[$key]->query_time += $query_object->query_time;
-			self::$_queries[$key]->count++;
+			// Generate a unique key for this query.
+			$key = hash_hmac('sha1', serialize([
+				$query_object->query_id,
+				$query_object->query_string,
+				$query_object->query_connection,
+				$query_object->file,
+				$query_object->line,
+				$query_object->method,
+			]), config('crypto.authentication_key'));
+
+			// If the same query is repeated, only increment the counter.
+			if (isset(self::$_queries[$key]))
+			{
+				self::$_queries[$key]->query_time += $query_object->query_time;
+				self::$_queries[$key]->count++;
+			}
+			else
+			{
+				self::$_queries[$key] = $query_object;
+			}
 		}
 		else
 		{
-			self::$_queries[$key] = $query_object;
+			$query_object->count = 0;
+			self::$_queries[] = $query_object;
 		}
 
 		// Record query time.
@@ -439,17 +464,26 @@ class Debug
 				'type' => 'Query Error',
 			);
 
-			// If the same query error is repeated, only increment the counter.
-			$key = hash_hmac('sha1', serialize(['QUERY ERROR', $error_object->message, $error_object->file, $error_object->line]), config('crypto.authentication_key'));
-			if (isset(self::$_errors[$key]))
+			// Consolidate repeated queries.
+			if (!isset(self::$_config['consolidate']) || self::$_config['consolidate'] === true)
 			{
-				self::$_errors[$key]->count++;
+				$key = hash_hmac('sha1', serialize(['QUERY ERROR', $error_object->message, $error_object->file, $error_object->line]), config('crypto.authentication_key'));
+				if (isset(self::$_errors[$key]))
+				{
+					self::$_errors[$key]->count++;
+				}
+				else
+				{
+					self::$_errors[$key] = $error_object;
+				}
 			}
 			else
 			{
-				self::$_errors[$key] = $error_object;
+				$error_object->count = 0;
+				self::$_errors[] = $error_object;
 			}
 
+			// Add the entry to the error log.
 			if (self::$_config['write_error_log'] === 'all')
 			{
 				$log_entry = strtr(sprintf('Query Error: %s in %s on line %d', $error_object->message, $error_object->file, intval($error_object->line)), "\0\r\n\t\v\e\f", '       ');
