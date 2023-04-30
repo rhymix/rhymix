@@ -49,7 +49,7 @@
 
 			<!--@if(is_array($status_list))-->
 				<!--@foreach($status_list AS $key=>$value)-->
-				<input type="radio" name="status" value="{$key}" id="{$key}" <!--@if($oDocument->get('status') == $key || ($key == 'PUBLIC' && !$document_srl))-->checked="checked"<!--@end--> /> 
+				<input type="radio" name="status" value="{$key}" id="{$key}" <!--@if($oDocument->get('status') == $key || ($key == 'PUBLIC' && !$document_srl))-->checked="checked"<!--@end--> />
 				<label for="{$key}">{$value}</label>
 				<!--@end-->
 			<!--@end-->
@@ -57,7 +57,7 @@
 		<div class="write_author">
 			<span class="item" cond="!$is_logged">
 				<label for="userName" class="iLabel">{$lang->writer}</label>
-				<input type="text" name="nick_name" id="userName" class="iText userName" style="width:80px" value="{htmlspecialchars($oDocument->get('nick_name'))}" />
+				<input type="text" name="nick_name" id="userName" class="iText userName" style="width:80px" value="{escape($oDocument->get('nick_name'), false)}" />
 			</span>
 			<span class="item" cond="!$is_logged">
 				<label for="userPw" class="iLabel">{$lang->password}</label>
@@ -65,11 +65,11 @@
 			</span>
 			<span class="item" cond="!$is_logged">
 				<label for="homePage" class="iLabel">{$lang->homepage}</label>
-				<input type="text" name="homepage" id="homePage" class="iText homePage"  style="width:140px"value="{htmlspecialchars($oDocument->get('homepage'))}" />
+				<input type="text" name="homepage" id="homePage" class="iText homePage"  style="width:140px"value="{escape($oDocument->get('homepage'), false)}" />
 			</span>
 			<span class="item">
 				<label for="tags" class="iLabel">{$lang->tag}: {$lang->about_tag}</label>
-				<input type="text" name="tags" id="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="iText" style="width:300px" title="Tag" />
+				<input type="text" name="tags" id="tags" value="{escape($oDocument->get('tags') ?? '', false)}" class="iText" style="width:300px" title="Tag" />
 			</span>
 			<span class="item" cond="$oDocument->get('document_srl') && isset($module_info->update_log) && $module_info->update_log == 'Y'">
 				<label for="reason_update" class="iLabel">{$lang->reason_update}</label>
