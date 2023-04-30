@@ -864,7 +864,7 @@ class DocumentItem extends BaseObject
 
 	public function getTags()
 	{
-		$tag_list = array_map(function($str) { return escape(utf8_trim($str), false); }, explode(',', $this->get('tags')));
+		$tag_list = array_map(function($str) { return escape(utf8_trim($str), false); }, explode(',', $this->get('tags') ?? ''));
 		$tag_list = array_filter($tag_list, function($str) { return $str !== ''; });
 		return array_unique($tag_list);
 	}

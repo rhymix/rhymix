@@ -195,8 +195,8 @@ class ExtraItem
 	 */
 	function _getTypeValue($type, $value)
 	{
-		$value = trim($value);
-		if(!isset($value))
+		$value = trim($value ?? '');
+		if($value === '')
 		{
 			return;
 		}
@@ -419,9 +419,9 @@ class ExtraItem
 				break;
 			// Phone Number
 			case 'tel' :
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[0] . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[0] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[1] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[2] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
 				break;
 			// Select Country Number
 			case 'tel_intl' :
@@ -433,7 +433,7 @@ class ExtraItem
 					if($country_info->calling_code)
 					{
 						$selected = '';
-						if(strval($value[0]) !== '' && $country_info->calling_code == $value[0])
+						if(strval($value[0] ?? '') !== '' && $country_info->calling_code == $value[0])
 						{
 							$selected = ' selected="selected"';
 						}
@@ -444,9 +444,9 @@ class ExtraItem
 					}
 				}
 				$buff[] = '</select>';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[1] . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[2] . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . $value[3] . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[1] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[2] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[3] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
 				break;
 			// Select Country
 			case 'country':
@@ -456,7 +456,7 @@ class ExtraItem
 				foreach($country_list as $country_info)
 				{
 					$selected = '';
-					if (strval($value[0]) !== '' && $country_info->iso_3166_1_alpha3 == $value)
+					if (strval($value[0] ?? '') !== '' && $country_info->iso_3166_1_alpha3 == $value)
 					{
 						$selected = ' selected="selected"';
 					}
@@ -475,7 +475,7 @@ class ExtraItem
 				foreach ($enable_language as $lang_type)
 				{
 					$selected = '';
-					if (strval($value) !== '' && $lang_type == $value)
+					if (isset($value) && strval($value) !== '' && $lang_type === $value)
 					{
 						$selected = ' selected="selected"';
 					}
@@ -491,7 +491,7 @@ class ExtraItem
 				foreach ($timezone_list as $key => $time_name)
 				{
 					$selected = '';
-					if (strval($value) !== '' && $key == $value)
+					if (isset($value) && strval($value) !== '' && $key === $value)
 					{
 						$selected = ' selected="selected"';
 					}

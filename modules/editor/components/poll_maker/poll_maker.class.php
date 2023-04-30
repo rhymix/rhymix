@@ -66,7 +66,7 @@ class poll_maker extends EditorHandler
 		$poll_data = $oPollModel->_getPollinfo($args->poll_srl);
 
 		Context::set('poll_data', $poll_data);
-		Context::set('colorset', $args->colorset);
+		Context::set('colorset', $args->colorset ?? null);
 		Context::set('poll_srl', $args->poll_srl);
 		Context::set('style', $args->style);
 
