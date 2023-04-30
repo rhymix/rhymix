@@ -923,19 +923,20 @@ class Context
 	public static function convertEncoding($source_obj)
 	{
 		$charset_list = array(
-			'UTF-8', 'EUC-KR', 'CP949', 'ISO8859-1', 'EUC-JP', 'SHIFT_JIS',
-			'CP932', 'EUC-CN', 'HZ', 'GBK', 'GB18030', 'EUC-TW', 'BIG5',
+			'UTF-8', 'CP949', 'EUC-KR', 'ISO8859-1', 'EUC-JP', 'SHIFT_JIS',
+			'CP932', 'EUC-CN', 'GBK', 'GB18030', 'EUC-TW', 'BIG5',
 			'CP950', 'BIG5-HKSCS', 'ISO8859-6', 'ISO8859-8', 'JOHAB', 'CP1255',
 			'CP1256', 'CP862', 'ASCII', 'ISO8859-1', 'CP1250', 'CP1251',
 			'CP1252', 'CP1253', 'CP1254', 'CP1257', 'CP850', 'CP866'
 		);
 
+		$flag = true;
 		$obj = clone $source_obj;
 
 		foreach($charset_list as $charset)
 		{
 			array_walk($obj,'Context::checkConvertFlag',$charset);
-			$flag = self::checkConvertFlag($flag = TRUE);
+			$flag = self::checkConvertFlag($flag);
 			if($flag)
 			{
 				if($charset == 'UTF-8')
