@@ -69,74 +69,51 @@ function doRxDefaultPoll(fo_obj) {
 	}
 	fo_obj.poll_srl_indexes.value = poll_srl_indexes;
 
-	jQuery.exec_json("poll.procPoll", {"poll_srl":poll_srl,"poll_srl_indexes":poll_srl_indexes}, function(data){
-		if (data.error != 0) {
-			alert(data.message);
-		}
-		else {
-			loadRxDefaultPollResult(poll_srl);
-			jQuery("#poll_" + poll_srl + "_gotoresult_button").css({
-				display: "none"
-			});
-
-			jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-				display: "block"
-			});
-
-			jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
-				display: "none"
-			});
-		}
+	exec_json("poll.procPoll", {"poll_srl":poll_srl,"poll_srl_indexes":poll_srl_indexes}, function(data){
+		loadRxDefaultPollResult(poll_srl);
+		$("#poll_" + poll_srl + "_gotoresult_button").css({
+			display: "none"
+		});
+		$("#poll_" + poll_srl + "_result_nobutton").css({
+			display: "block"
+		});
+		$("#poll_" + poll_srl + "_result_yesbutton").css({
+			display: "none"
+		});
 	});
 	return false;
 }
 
 /* 항목 추가 함수 */
 function addRxDefaultItem(poll_srl, poll_srl_indexes) {
-	jQuery.exec_json("poll.procPollInsertItem", {"srl":poll_srl, "index_srl":poll_srl_indexes, "title":jQuery("#new_item_" + poll_srl_indexes).val()},  function(data){
-		if (data.error!=0) {
-			alert(data.message);
-		}
-		else {
-			jQuery("#poll_" + poll_srl + "_result_button").css({
-				display: "none"
-			});
-
-			jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-				display: "block"
-			});
-
-			jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
-				display: "none"
-			});
-
-			loadRxDefaultPoll(poll_srl);
-		}
+	exec_json("poll.procPollInsertItem", {"srl":poll_srl, "index_srl":poll_srl_indexes, "title":jQuery("#new_item_" + poll_srl_indexes).val()},  function(data){
+		$("#poll_" + poll_srl + "_result_button").css({
+			display: "none"
+		});
+		$("#poll_" + poll_srl + "_result_nobutton").css({
+			display: "block"
+		});
+		$("#poll_" + poll_srl + "_result_yesbutton").css({
+			display: "none"
+		});
+		loadRxDefaultPoll(poll_srl);
 	});
 	return false;
 }
 
 /* 항목 삭제 함수 */
 function deleteRxDefaultItem(poll_srl, poll_srl_indexes, poll_item_srl) {
-	jQuery.exec_json("poll.procPollDeleteItem", {"srl":poll_srl, "index_srl":poll_srl_indexes, "item_srl":poll_item_srl}, function(data){
-		if (data.error!=0) {
-			alert(data.message);
-		}
-		else {
-			jQuery("#poll_" + poll_srl + "_result_button").css({
-				display: "none"
-			});
-
-			jQuery("#poll_" + poll_srl + "_result_nobutton").css({
-				display: "block"
-			});
-
-			jQuery("#poll_" + poll_srl + "_result_yesbutton").css({
-				display: "none"
-			});
-
-			loadRxDefaultPoll(poll_srl);
-		}
+	exec_json("poll.procPollDeleteItem", {"srl":poll_srl, "index_srl":poll_srl_indexes, "item_srl":poll_item_srl}, function(data){
+		$("#poll_" + poll_srl + "_result_button").css({
+			display: "none"
+		});
+		$("#poll_" + poll_srl + "_result_nobutton").css({
+			display: "block"
+		});
+		$("#poll_" + poll_srl + "_result_yesbutton").css({
+			display: "none"
+		});
+		loadRxDefaultPoll(poll_srl);
 	});
 	return false;
 }
@@ -144,7 +121,7 @@ function deleteRxDefaultItem(poll_srl, poll_srl_indexes, poll_item_srl) {
 function loadRxDefaultPoll(poll_srl, data)
 {
 	if (typeof data == 'undefined') {
-		jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
+		exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
 			loadRxDefaultPoll(parseInt(data.poll.poll_srl), data);
 		});
 	}
@@ -188,7 +165,7 @@ function showRxDefaultPollMemberNext(poll_srl, poll_item_srl)
 
 	window.cur_page++;
 
-	jQuery.exec_json("poll.getPollitemInfo", {"poll_srl":poll_srl, "poll_item":poll_item_srl, "page":window.cur_page}, function(data){
+	exec_json("poll.getPollitemInfo", {"poll_srl":poll_srl, "poll_item":poll_item_srl, "page":window.cur_page}, function(data){
 		initRxDefaultTemplete('members', poll_srl);
 		var template = window.template_member;
 		var context = Object;
@@ -222,7 +199,7 @@ function showRxDefaultPollMember(poll_srl, poll_item_srl)
 {
 	window.cur_page = 1;
 
-	jQuery.exec_json("poll.getPollitemInfo", {"poll_srl":poll_srl, "poll_item":poll_item_srl, "page":window.cur_page}, function(data){
+	exec_json("poll.getPollitemInfo", {"poll_srl":poll_srl, "poll_item":poll_item_srl, "page":window.cur_page}, function(data){
 		initRxDefaultTemplete('members', poll_srl);
 		var template = window.template_member;
 		var context = Object;
@@ -264,7 +241,7 @@ function showRxDefaultPollMember(poll_srl, poll_item_srl)
 function loadRxDefaultPollResult(poll_srl, data)
 {
 	if (typeof data == 'undefined') {
-		jQuery.exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
+		exec_json("poll.getPollinfo", {"poll_srl":poll_srl}, function(data){
 			loadRxDefaultPollResult(parseInt(data.poll.poll_srl), data);
 		});
 	}
