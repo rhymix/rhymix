@@ -320,7 +320,7 @@
 	 */
 	window.exec_html = $.fn.exec_html = function() {
 		if (typeof console == "object" && typeof console.log == "function") {
-			console.log("DEPRECATED : exec_html() is deprecated in Rhymix.");
+			console.log("DEPRECATED : exec_html() is obsolete in Rhymix.");
 		}
 	};
 
