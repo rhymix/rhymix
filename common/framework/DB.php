@@ -560,6 +560,16 @@ class DB
 	}
 
 	/**
+	 * Alias to begin().
+	 *
+	 * @return int
+	 */
+	public function beginTransaction(): int
+	{
+		return $this->begin();
+	}
+
+	/**
 	 * Begin a transaction.
 	 *
 	 * @return int
