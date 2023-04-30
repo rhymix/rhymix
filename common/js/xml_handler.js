@@ -30,6 +30,11 @@
 	 */
 	window.exec_xml = $.exec_xml = function(module, act, params, callback_success, return_fields, callback_success_arg, fo_obj) {
 
+		// Display deprecation notice.
+		if (typeof console == "object" && typeof console.log == "function") {
+			console.log("DEPRECATED : exec_xml() is deprecated in Rhymix. Use exec_json() instead.");
+		}
+
 		// Define callback functions.
 		var successHandler, errorHandler, xmlHandler;
 
