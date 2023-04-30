@@ -191,12 +191,22 @@ class pollController extends poll
 		$args->poll_srl = $poll_srl;
 
 		// Get the information related to the survey
-		$columnList = array('poll_type');
+		$columnList = array('poll_type', 'stop_date');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
-		$type = $output->data->poll_type;
+		if(!$output->data)
+		{
+			throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		}
+		if($output->data->stop_date < date('Ymd'))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		}
 
-		if(!$this->isAbletoAddItem($type)) throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		$type = $output->data->poll_type;
+		if(!$this->isAbletoAddItem($type))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_add_item');
+		}
 
 		if(!$this->user->isAdmin())
 		{
@@ -242,7 +252,7 @@ class pollController extends poll
 		$args->poll_item_srl = $poll_item_srl;
 
 		// Get the information related to the survey
-		$columnList = array('add_user_srl','poll_count');
+		$columnList = array('add_user_srl', 'poll_count', 'stop_date');
 		$output = executeQuery('poll.getPollItem', $args, $columnList);
 		$add_user_srl = $output->data->add_user_srl;
 		$poll_count = $output->data->poll_count;
@@ -250,9 +260,16 @@ class pollController extends poll
 		// Get the information related to the survey
 		$columnList = array('member_srl');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
-		$poll_member_srl = $output->data->member_srl;
+		if(!$output->data)
+		{
+			throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		}
+		if($output->data->stop_date < date('Ymd'))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
+		}
 
+		$poll_member_srl = $output->data->member_srl;
 		if($add_user_srl != $this->user->member_srl && $poll_member_srl != $this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_cannot_delete_item');
