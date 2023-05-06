@@ -1522,12 +1522,10 @@ class ModuleModel extends Module
 				}
 			}
 			// Get information of the module
-			$info = NULL;
 			$info = self::getModuleInfoXml($module_name);
 			if(!$info) continue;
 
 			$info->module = $module_name;
-			$info->category = $info->category;
 			$info->created_table_count = $created_table_count;
 			$info->table_count = $table_count;
 			$info->path = $path;
