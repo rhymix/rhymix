@@ -412,7 +412,7 @@ class VariableBase
 				break;
 			case 'homepage':
 			case 'url':
-				if (!preg_match('/^(http|https)+(:\/\/)+[0-9a-z_-]+\.[^ ]+$/i', $value))
+				if (!preg_match('/^https?:\/\//i', $value))
 				{
 					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain a valid URL');
 				}
