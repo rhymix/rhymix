@@ -260,7 +260,7 @@ class spamfilterController extends spamfilter
 
 		if (count($target_actions))
 		{
-			include_once __DIR__ . '/spamfilter.lib.php';
+			include_once __DIR__ . '/drivers/' . $config->captcha->type . '.php';
 			spamfilter_captcha::init($config->captcha);
 
 			if (strncasecmp('proc', $obj->act, 4) === 0)
