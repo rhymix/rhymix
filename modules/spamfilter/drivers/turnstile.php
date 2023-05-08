@@ -35,17 +35,17 @@ class spamfilter_captcha
 			throw new Rhymix\Framework\Exception('msg_recaptcha_connection_error');
 		}
 
-        $verify = @json_decode($verify_request->body, true);
+		$verify = @json_decode($verify_request->body, true);
 		if (!$verify || !$verify['success'])
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_server_error');
 		}
-        if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
+		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
-        }
+		}
 
-        $_SESSION['recaptcha_authenticated'] = true;
+		$_SESSION['recaptcha_authenticated'] = true;
 	}
 
 	public function addScripts()
@@ -54,7 +54,7 @@ class spamfilter_captcha
 		{
 			self::$scripts_added = true;
 			Context::loadFile(array('./modules/spamfilter/tpl/js/turnstile.js', 'body'));
-            Context::addHtmlFooter('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha&amp;render=explicit&amp;onload=turnstileCallback" async defer></script>');
+			Context::addHtmlFooter('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha&amp;render=explicit&amp;onload=turnstileCallback" async defer></script>');
 			$html = '<div id="recaptcha-config" data-sitekey="%s" data-theme="%s" data-size="%s" data-targets="%s"></div>';
 			$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'auto', self::$config->size ?: 'normal', implode(',', array_keys($this->_target_actions)));
 			Context::addHtmlFooter($html);
