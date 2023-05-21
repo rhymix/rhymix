@@ -781,22 +781,17 @@ class FileController extends File
 	 */
 	function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false)
 	{
-		// Call a trigger (before)
-		$trigger_obj = new stdClass;
-		$trigger_obj->file_info = $file_info;
-		$trigger_obj->module_srl = $module_srl;
-		$trigger_obj->upload_target_srl = $upload_target_srl;
-		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
-		if(!$output->toBool()) return $output;
-
 		// Set base information
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
-		$file_info['type'] = $file_info['original_type'] = Rhymix\Framework\MIME::getContentType($file_info['tmp_name']);
-		$file_info['extension'] = $file_info['original_extension'] = strtolower(array_pop(explode('.', $file_info['name'])));
+		$file_info['type'] = Rhymix\Framework\MIME::getContentType($file_info['tmp_name']);
+		$file_info['original_type'] = $file_info['type'];
+		$file_info['extension'] = strtolower(array_pop(explode('.', $file_info['name'])));
+		$file_info['original_extension'] = $file_info['extension'];
 		$file_info['width'] = null;
 		$file_info['height'] = null;
 		$file_info['duration'] = null;
 		$file_info['thumbnail'] = null;
+		$file_info['save_path'] = null;
 		$file_info['converted'] = false;
 
 		// Correct extension
@@ -812,6 +807,14 @@ class FileController extends File
 				}
 			}
 		}
+
+		// Call a trigger (before)
+		$trigger_obj = new stdClass;
+		$trigger_obj->file_info = &$file_info;
+		$trigger_obj->module_srl = $module_srl;
+		$trigger_obj->upload_target_srl = $upload_target_srl;
+		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
+		if(!$output->toBool()) return $output;
 
 		// Get file module configuration
 		$config = FileModel::getFileConfig($module_srl);
@@ -889,15 +892,23 @@ class FileController extends File
 		}
 
 		// Set storage path by checking if the attachement is an image or other kinds of file
-		if($direct = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename))
+		if(!empty($file_info['save_path']))
+		{
+			$storage_path = dirname(FileHandler::getRealPath($file_info['save_path']));
+			$uploaded_filename = basename($file_info['save_path']);
+		}
+		elseif($direct = Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($args->source_filename))
 		{
 			$storage_path = $this->getStoragePath('images', $args->file_srl, $module_srl, $upload_target_srl, $args->regdate);
+			$uploaded_filename = null;
 		}
 		else
 		{
 			$storage_path = $this->getStoragePath('binaries', $args->file_srl, $module_srl, $upload_target_srl, $args->regdate);
+			$uploaded_filename = null;
 		}
 
+		// Set direct download option
 		if($config->allow_multimedia_direct_download !== 'N')
 		{
 			$args->direct_download = $direct ? 'Y' : 'N';
@@ -919,11 +930,14 @@ class FileController extends File
 		{
 			$move_type = 'move';
 		}
-		$extension = ($direct && $file_info['extension']) ? ('.' . $file_info['extension']) : '';
-		$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . $extension;
-		while(file_exists($uploaded_filename))
+		if(!$uploaded_filename)
 		{
+			$extension = ($direct && $file_info['extension']) ? ('.' . $file_info['extension']) : '';
 			$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . $extension;
+			while(file_exists($uploaded_filename))
+			{
+				$uploaded_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . $extension;
+			}
 		}
 
 		// Move the uploaded file
@@ -931,8 +945,9 @@ class FileController extends File
 		{
 			throw new Rhymix\Framework\Exception('msg_file_upload_error');
 		}
+		clearstatcache(true, $uploaded_filename);
 		$args->uploaded_filename = './' . substr($uploaded_filename, strlen(RX_BASEDIR));
-		$args->file_size = @filesize($uploaded_filename);
+		$args->file_size = Rhymix\Framework\Storage::getSize($uploaded_filename) ?: 0;
 
 		// Move the generated thumbnail image
 		if($file_info['thumbnail'])
