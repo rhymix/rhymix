@@ -33,9 +33,10 @@ class Advanced_MailerController extends Advanced_Mailer
 		{
 			list($default_from, $default_name) = $this->getDefaultEmailIdentity();
 			$mail->setFrom($default_from, $default_name);
-			if ($replyTo = config('mail.default_reply_to'))
+			$default_reply_to = config('mail.default_reply_to');
+			if ($default_reply_to && !$mail->message->getReplyTo())
 			{
-				$mail->setReplyTo($replyTo);
+				$mail->setReplyTo($default_reply_to);
 			}
 		}
 		elseif (toBool($config->force_sender ?? 'N'))
