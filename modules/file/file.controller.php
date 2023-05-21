@@ -789,12 +789,6 @@ class FileController extends File
 		$output = ModuleHandler::triggerCall('file.insertFile', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
 
-		// A workaround for Firefox upload bug
-		if(preg_match('/^=\?UTF-8\?B\?(.+)\?=$/i', $file_info['name'], $match))
-		{
-			$file_info['name'] = base64_decode(strtr($match[1], ':', '/'));
-		}
-
 		// Set base information
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 		$file_info['type'] = $file_info['original_type'] = Rhymix\Framework\MIME::getContentType($file_info['tmp_name']);
