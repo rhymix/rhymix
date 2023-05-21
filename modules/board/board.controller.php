@@ -407,6 +407,20 @@ class boardController extends board
 		// get the relevant data for inserting comment
 		$obj = Context::getRequestVars();
 
+		// Check the document.
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
+		if(!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$oDocument->isAccessible())
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		// Comments belong in the same module_srl as the document.
+		$obj->module_srl = $oDocument->get('module_srl');
+
 		// Remove disallowed Unicode symbols.
 		if ($this->module_info->filter_specialchars !== 'N')
 		{
@@ -444,15 +458,6 @@ class boardController extends board
 			unset($obj->is_secret);
 			$this->module_info->secret = 'N';
 		}
-
-		// check if the doument is existed
-		$oDocument = DocumentModel::getDocument($obj->document_srl);
-		if(!$oDocument->isExists())
-		{
-			throw new Rhymix\Framework\Exceptions\TargetNotFound;
-		}
-
-		$obj->module_srl = $oDocument->get('module_srl');
 
 		// For anonymous use, remove writer's information and notifying information
 		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
@@ -506,25 +511,27 @@ class boardController extends board
 			// Update document last_update info?
 			$update_document = $this->module_info->update_order_on_comment === 'N' ? false : true;
 
-			// Parent exists.
+			// Check parent comment.
 			if($obj->parent_srl)
 			{
 				$parent_comment = CommentModel::getComment($obj->parent_srl);
-				if(!$parent_comment->comment_srl)
+				if(!$parent_comment->comment_srl || $parent_comment->get('document_srl') != $oDocument->get('document_srl'))
 				{
 					throw new Rhymix\Framework\Exceptions\TargetNotFound;
+				}
+				if(!$parent_comment->isAccessible())
+				{
+					throw new Rhymix\Framework\Exceptions\NotPermitted;
 				}
 				if($parent_comment->isSecret() && $this->module_info->secret === 'Y')
 				{
 					$obj->is_secret = 'Y';
 				}
-				$output = $oCommentController->insertComment($obj, $manual, $update_document);
 			}
-			// Parent does not exist.
-			else
-			{
-				$output = $oCommentController->insertComment($obj, $manual, $update_document);
-			}
+
+			// Insert comment.
+			$output = $oCommentController->insertComment($obj, $manual, $update_document);
+
 			// Set grant for the new comment.
 			if ($output->toBool())
 			{
