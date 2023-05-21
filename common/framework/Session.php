@@ -75,7 +75,7 @@ class Session
 		// Set session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
 		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
-		ini_set('session.gc_maxlifetime', $lifetime + 28800);
+		ini_set('session.gc_maxlifetime', $lifetime > 0 ? $lifetime : 28800);
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
