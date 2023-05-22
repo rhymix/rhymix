@@ -65,11 +65,13 @@ class FileAdminController extends File
 	 */
 	function procFileAdminInsertUploadConfig()
 	{
-		// Update configuration
+		// Default settings
 		$config = getModel('module')->getModuleConfig('file') ?: new stdClass;
 		$config->allowed_filesize = Context::get('allowed_filesize');
 		$config->allowed_attach_size = Context::get('allowed_attach_size');
 		$config->allowed_filetypes = Context::get('allowed_filetypes');
+
+		// Image settings
 		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
@@ -82,6 +84,8 @@ class FileAdminController extends File
 		$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
+
+		// Video settings
 		$config->max_video_width = intval(Context::get('max_video_width')) ?: '';
 		$config->max_video_height = intval(Context::get('max_video_height')) ?: '';
 		$config->max_video_size_action = Context::get('max_video_size_action') ?: '';
@@ -90,6 +94,8 @@ class FileAdminController extends File
 		$config->video_always_reencode = Context::get('video_always_reencode') === 'Y' ? true : false;
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
 		$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
+
+		// Path to ffmpeg and ffprobe
 		if (RX_WINDOWS)
 		{
 			$config->ffmpeg_command = escape(Context::get('ffmpeg_command')) ?: 'C:\Program Files\ffmpeg\bin\ffmpeg.exe';
@@ -101,7 +107,7 @@ class FileAdminController extends File
 			$config->ffprobe_command = escape(utf8_trim(Context::get('ffprobe_command'))) ?: '/usr/bin/ffprobe';
 		}
 
-		// Check maximum file size
+		// Check maximum file size (probably not necessary anymore)
 		if (PHP_INT_SIZE < 8)
 		{
 			if ($config->allowed_filesize > 2047 || $config->allowed_attach_size > 2047)
