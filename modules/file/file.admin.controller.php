@@ -82,6 +82,12 @@ class FileAdminController extends File
 		$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
+		$config->max_video_width = intval(Context::get('max_video_width')) ?: '';
+		$config->max_video_height = intval(Context::get('max_video_height')) ?: '';
+		$config->max_video_size_action = Context::get('max_video_size_action') ?: '';
+		$config->max_video_size_admin = Context::get('max_video_size_admin') === 'Y' ? 'Y' : 'N';
+		$config->video_autoconv['any2mp4'] = Context::get('video_autoconv_any2mp4') === 'Y' ? true : false;
+		$config->video_always_reencode = Context::get('video_always_reencode') === 'Y' ? true : false;
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
 		$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
 		if (RX_WINDOWS)

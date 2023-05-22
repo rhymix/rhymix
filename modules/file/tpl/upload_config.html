@@ -8,7 +8,7 @@
 	<input type="hidden" name="module" value="file" />
 	<input type="hidden" name="act" value="procFileAdminInsertUploadConfig" />
 	<input type="hidden" name="xe_validator_id" value="modules/file/tpl/upload_config/1" />
-	
+
 	<div class="x_control-group">
 		<label for="allowed_filesize" class="x_control-label">{$lang->allowed_filesize}</label>
 		<div class="x_controls">
@@ -139,6 +139,57 @@
 	<section class="section">
 		<h1>{$lang->video}</h1>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->max_video_size}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="max_video_width" id="max_video_width" value="{$config->max_video_width}" size="7" style="min-width:80px" /> &times;
+				<input type="number" min="0" name="max_video_height" id="max_video_height" value="{$config->max_video_height}" size="7" style="min-width:80px" /> px &nbsp;
+				<select name="max_video_size_action" id="max_video_size_action">
+					<option value="">{$lang->max_image_size_action_nothing}</option>
+					<option value="block" selected="selected"|cond="$config->max_video_size_action === 'block'">{$lang->max_image_size_action_block}</option>
+					<option value="resize" selected="selected"|cond="$config->max_video_size_action === 'resize'">{$lang->max_image_size_action_resize}</option>
+				</select>
+				<p class="x_help-block">
+					{$lang->about_max_video_size}
+				</p>
+				<p>
+					<label for="max_video_size_admin">
+						<input type="checkbox" name="max_video_size_admin" id="max_video_size_admin" value="Y" checked="checked"|cond="$config->max_video_size_admin === 'Y'" />
+						{$lang->max_image_size_admin}
+					</label>
+				</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->video_autoconv_any2mp4}</label>
+			<div class="x_controls">
+				<label for="video_autoconv_any2mp4_Y" class="x_inline">
+					<input type="radio" name="video_autoconv_any2mp4" id="video_autoconv_any2mp4_Y" value="Y" checked="checked"|cond="$config->video_autoconv['any2mp4'] === true" disabled="disabled"|cond="!$is_ffmpeg" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="video_autoconv_any2mp4_N" class="x_inline">
+					<input type="radio" name="video_autoconv_any2mp4" id="video_autoconv_any2mp4_N" value="N" checked="checked"|cond="$config->video_autoconv['any2mp4'] !== true" disabled="disabled"|cond="!$is_ffmpeg" />
+					{$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_video_autoconv_any2mp4}</p>
+				<p class="x_text-info" cond="!$is_ffmpeg">{$lang->msg_cannot_use_ffmpeg}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->video_always_reencode}</label>
+			<div class="x_controls">
+				<label for="video_always_reencode_Y" class="x_inline">
+					<input type="radio" name="video_always_reencode" id="video_always_reencode_Y" value="Y" checked="checked"|cond="$config->video_always_reencode === true" disabled="disabled"|cond="!$is_ffmpeg" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="video_always_reencode_N" class="x_inline">
+					<input type="radio" name="video_always_reencode" id="video_always_reencode_N" value="N" checked="checked"|cond="$config->video_always_reencode !== true" disabled="disabled"|cond="!$is_ffmpeg" />
+					{$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_video_always_reencode}</p>
+				<p class="x_text-info" cond="!$is_ffmpeg">{$lang->msg_cannot_use_ffmpeg}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->video_thumbnail}</label>
 			<div class="x_controls">
 				<label for="video_thumbnail_Y" class="x_inline">
@@ -177,7 +228,7 @@
 			</div>
 		</div>
 	</section>
-	
+
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
