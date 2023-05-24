@@ -310,6 +310,7 @@ class FileModel extends File
 		$config->video_mp4_gif_time = $config->video_mp4_gif_time ?? 0;
 		$config->ffmpeg_command = $config->ffmpeg_command ?? '/usr/bin/ffmpeg';
 		$config->ffprobe_command = $config->ffprobe_command ?? '/usr/bin/ffprobe';
+		$config->magick_command = $config->magick_command ?? '';
 
 		// Set allowed_extensions
 		if(!isset($config->allowed_extensions))

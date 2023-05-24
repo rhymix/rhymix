@@ -75,6 +75,8 @@ class FileAdminController extends File
 		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
+		$config->image_autoconv['avif2jpg'] = Context::get('image_autoconv_avif2jpg') === 'Y' ? true : false;
+		$config->image_autoconv['heic2jpg'] = Context::get('image_autoconv_heic2jpg') === 'Y' ? true : false;
 		$config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
 		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
 		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
@@ -98,16 +100,18 @@ class FileAdminController extends File
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
 		$config->video_mp4_gif_time = intval(Context::get('video_mp4_gif_time'));
 
-		// Path to ffmpeg and ffprobe
+		// Path to ffmpeg, ffprobe, magick
 		if (RX_WINDOWS)
 		{
 			$config->ffmpeg_command = escape(Context::get('ffmpeg_command')) ?: 'C:\Program Files\ffmpeg\bin\ffmpeg.exe';
 			$config->ffprobe_command = escape(Context::get('ffprobe_command')) ?: 'C:\Program Files\ffmpeg\bin\ffprobe.exe';
+			$config->magick_command = escape(Context::get('magick_command')) ?: '';
 		}
 		else
 		{
 			$config->ffmpeg_command = escape(utf8_trim(Context::get('ffmpeg_command'))) ?: '/usr/bin/ffmpeg';
 			$config->ffprobe_command = escape(utf8_trim(Context::get('ffprobe_command'))) ?: '/usr/bin/ffprobe';
+			$config->magick_command = escape(utf8_trim(Context::get('magick_command'))) ?: '';
 		}
 
 		// Check maximum file size (probably not necessary anymore)

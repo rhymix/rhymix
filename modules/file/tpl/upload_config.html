@@ -47,7 +47,18 @@
 					<input type="checkbox" name="image_autoconv_webp2jpg" id="image_autoconv_webp2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['webp2jpg']" disabled="disabled"|cond="!function_exists('imagewebp')" />
 					{$lang->image_autoconv_webp2jpg}
 				</label>
-				<p class="x_help-block">{$lang->about_image_autoconv}</p>
+				<label for="image_autoconv_avif2jpg">
+					<input type="checkbox" name="image_autoconv_avif2jpg" id="image_autoconv_avif2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['avif2jpg']" disabled="disabled"|cond="!$is_magick" />
+					{$lang->image_autoconv_avif2jpg}
+				</label>
+				<label for="image_autoconv_heic2jpg">
+					<input type="checkbox" name="image_autoconv_heic2jpg" id="image_autoconv_heic2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['heic2jpg']" disabled="disabled"|cond="!$is_magick" />
+					{$lang->image_autoconv_heic2jpg}
+				</label>
+				<p class="x_help-block">
+					{$lang->about_image_autoconv}<br />
+					{$lang->msg_need_magick}
+				</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -150,6 +161,7 @@
 				</select>
 				<p class="x_help-block">
 					{$lang->about_max_video_size}
+					<span class="x_text-info" cond="!$is_ffmpeg"><br />{$lang->msg_cannot_use_ffmpeg}</span>
 				</p>
 				<p>
 					<label for="max_video_size_admin">
@@ -170,6 +182,7 @@
 				</select>
 				<p class="x_help-block">
 					{$lang->about_max_video_duration}
+					<span class="x_text-info" cond="!$is_ffmpeg"><br />{$lang->msg_cannot_use_ffmpeg}</span>
 				</p>
 				<p>
 					<label for="max_video_duration_admin">
@@ -234,17 +247,26 @@
 		</div>
 	</section>
 	<section class="section">
-		<h1>FFmpeg</h1>
+		<h1>{lang('file.external_program_paths')}</h1>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ffmpeg_path}</label>
 			<div class="x_controls">
 				<input type="text" name="ffmpeg_command" value="{$config->ffmpeg_command}" />
+				<p class="x_help-block">{$lang->about_ffmpeg_path}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->ffprobe_path}</label>
 			<div class="x_controls">
 				<input type="text" name="ffprobe_command" value="{$config->ffprobe_command}" />
+				<p class="x_help-block">{$lang->about_ffmpeg_path}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->magick_path}</label>
+			<div class="x_controls">
+				<input type="text" name="magick_command" value="{$config->magick_command}" />
+				<p class="x_help-block">{$lang->about_magick_path}</p>
 			</div>
 		</div>
 	</section>
