@@ -832,7 +832,7 @@ class FileController extends File
 		if(!$manual_insert)
 		{
 			// image
-			if(in_array($file_info['extension'], ['gif', 'jpg', 'jpeg', 'jfif', 'png', 'webp', 'bmp']))
+			if(in_array($file_info['extension'], ['gif', 'jpg', 'jpeg', 'jfif', 'png', 'webp', 'bmp', 'avif', 'heic', 'heif']))
 			{
 				$file_info = $this->adjustUploadedImage($file_info, $config);
 			}
@@ -1019,7 +1019,31 @@ class FileController extends File
 	public function adjustUploadedImage($file_info, $config)
 	{
 		// Get image information
-		if (!$image_info = Rhymix\Framework\Image::getImageInfo($file_info['tmp_name']))
+		if (in_array($file_info['extension'], ['avif', 'heic', 'heif']) && !empty($config->magick_command))
+		{
+			$command = \RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command;
+			$command .= ' identify ' . escapeshellarg($file_info['tmp_name']);
+			@exec($command, $output, $return_var);
+			if ($return_var === 0 && preg_match('/([A-Z]+) ([0-9]+)x([0-9]+)/', substr(array_last($output), strlen($file_info['tmp_name'])), $matches))
+			{
+				$image_info = [
+					'width' => (int)$matches[2],
+					'height' => (int)$matches[3],
+					'type' => strtolower($matches[1]),
+				];
+			}
+			else
+			{
+				$image_info = false;
+			}
+		}
+		else
+		{
+			$image_info = Rhymix\Framework\Image::getImageInfo($file_info['tmp_name']);
+		}
+
+		// Return if image cannot be converted
+		if (!$image_info)
 		{
 			return $file_info;
 		}
@@ -1055,6 +1079,18 @@ class FileController extends File
 		elseif ($config->image_autoconv['bmp2jpg'] && $image_info['type'] === 'bmp' && function_exists('imagebmp'))
 		{
 			$adjusted['type'] = 'jpg';
+		}
+		elseif ($config->image_autoconv['avif2jpg'] && $image_info['type'] === 'avif')
+		{
+			$adjusted['type'] = 'jpg';
+		}
+		elseif ($config->image_autoconv['heic2jpg'] && $image_info['type'] === 'heic')
+		{
+			$adjusted['type'] = 'jpg';
+		}
+		elseif ($image_info['type'] === 'avif' || $image_info['type'] === 'heic')
+		{
+			return $file_info;
 		}
 
 		// Adjust image rotation
@@ -1134,12 +1170,10 @@ class FileController extends File
 		}
 
 		// Convert image if adjusted
-		if (
-			$force ||
-			$adjusted['width'] !== $image_info['width'] ||
+		if ($adjusted['width'] !== $image_info['width'] ||
 			$adjusted['height'] !== $image_info['height'] ||
 			$adjusted['type'] !== $image_info['type'] ||
-			$adjusted['rotate'] !== 0
+			$adjusted['rotate'] !== 0 || $force
 		)
 		{
 			$output_name = $file_info['tmp_name'] . '.converted.' . $adjusted['type'];
@@ -1147,6 +1181,7 @@ class FileController extends File
 			// Generate an output file
 			if ($adjusted['type'] === 'mp4')
 			{
+				// Width and height must be even
 				$adjusted['width'] -= $adjusted['width'] % 2;
 				$adjusted['height'] -= $adjusted['height'] % 2;
 
@@ -1168,6 +1203,23 @@ class FileController extends File
 						$file_info['thumbnail'] = $thumbnail_name;
 					}
 				}
+			}
+			elseif ($image_info['type'] === 'avif' || $image_info['type'] === 'heic')
+			{
+				// Width and height must be even
+				$adjusted['width'] -= $adjusted['width'] % 2;
+				$adjusted['height'] -= $adjusted['height'] % 2;
+
+				// Convert using magick
+				$command = vsprintf('%s %s -resize %dx%d %s', [
+					\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+					escapeshellarg($file_info['tmp_name']),
+					$adjusted['width'],
+					$adjusted['height'],
+					escapeshellarg($output_name),
+				]);
+				@exec($command, $output, $return_var);
+				$result = $return_var === 0 ? true : false;
 			}
 			else
 			{
