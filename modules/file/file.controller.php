@@ -1228,6 +1228,7 @@ class FileController extends File
 		$adjusted = [
 			'width' => $file_info['width'],
 			'height' => $file_info['height'],
+			'duration' => $file_info['duration'],
 			'type' => $file_info['extension'],
 			'force' => false,
 		];
@@ -1271,8 +1272,30 @@ class FileController extends File
 					throw new Rhymix\Framework\Exception($message);
 				}
 
-				$adjusted['width'] = (int)$resize_width;
-				$adjusted['height'] = (int)$resize_height;
+				// Resize
+				if ($config->max_video_size_action === 'resize')
+				{
+					$adjusted['width'] = (int)$resize_width;
+					$adjusted['height'] = (int)$resize_height;
+					$adjusted['type'] = 'mp4';
+				}
+			}
+		}
+
+		// Check video duration
+		if (!empty($config->max_video_duration_action) && $config->max_video_duration && $adjusted['duration'] > $config->max_video_duration && (!$this->user->isAdmin() || $config->max_video_duration_admin === 'Y'))
+		{
+			// Block upload
+			if ($config->max_video_duration_action === 'block')
+			{
+				$message = sprintf(lang('msg_exceeds_max_video_duration'), $config->max_video_duration);
+				throw new Rhymix\Framework\Exception($message);
+			}
+
+			// Cut video
+			if ($config->max_video_duration_action === 'cut')
+			{
+				$adjusted['duration'] = $config->max_video_duration;
 				$adjusted['type'] = 'mp4';
 			}
 		}
@@ -1293,6 +1316,7 @@ class FileController extends File
 		// Convert
 		if ($adjusted['width'] !== $file_info['width'] ||
 			$adjusted['height'] !== $file_info['height'] ||
+			$adjusted['duration'] !== $file_info['duration'] ||
 			$adjusted['type'] !== $file_info['extension'] ||
 			$adjusted['force']
 		)
@@ -1306,6 +1330,10 @@ class FileController extends File
 			// Convert using ffmpeg
 			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
 			$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
+			if ($adjusted['duration'] !== $file_info['duration'])
+			{
+				$command .= sprintf(' -t %d', $adjusted['duration']);
+			}
 			$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
 			$command .= empty($stream_info['audio']) ? ' -an' : ' -acodec aac';
 			$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
