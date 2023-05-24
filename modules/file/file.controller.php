@@ -838,7 +838,7 @@ class FileController extends File
 			}
 
 			// video
-			if(in_array($file_info['extension'], ['mp4', 'webm', 'ogv']))
+			if(in_array($file_info['extension'], ['mp4', 'webm', 'ogv', 'avi', 'mkv', 'mov', 'mpg', 'mpe', 'mpeg', 'wmv', 'm4v', 'flv']))
 			{
 				$file_info = $this->adjustUploadedVideo($file_info, $config);
 			}
@@ -1221,16 +1221,115 @@ class FileController extends File
 			return $file_info;
 		}
 
-		// Set video size
+		// Get video size and duration
 		$file_info['width'] = (int)$stream_info['video']['width'];
 		$file_info['height'] = (int)$stream_info['video']['height'];
 		$file_info['duration'] = (int)$stream_info['video']['duration'];
+		$adjusted = [
+			'width' => $file_info['width'],
+			'height' => $file_info['height'],
+			'type' => $file_info['extension'],
+			'force' => false,
+		];
 
-		// MP4
-		if ($file_info['extension'] === 'mp4')
+		// Check video size
+		if (!empty($config->max_video_size_action) && ($config->max_video_width || $config->max_video_height) && (!$this->user->isAdmin() || $config->max_video_size_admin === 'Y'))
 		{
-			// Treat as GIF
-			if ($config->video_mp4_gif_time && $file_info['duration'] <= $config->video_mp4_gif_time && empty($stream_info['audio']))
+			$exceeded = 0;
+			$resize_width = $adjusted['width'];
+			$resize_height = $adjusted['height'];
+			if ($config->max_video_width > 0 && $adjusted['width'] > $config->max_video_width)
+			{
+				$resize_width = $config->max_video_width;
+				$resize_height = $adjusted['height'] * ($config->max_video_width / $adjusted['width']);
+				$exceeded++;
+			}
+			if ($config->max_video_height > 0 && $resize_height > $config->max_video_height)
+			{
+				$resize_width = $resize_width * ($config->max_video_height / $resize_height);
+				$resize_height = $config->max_video_height;
+				$exceeded++;
+			}
+
+			if ($exceeded)
+			{
+				// Block upload
+				if ($config->max_video_size_action === 'block')
+				{
+					if ($config->max_video_width && $config->max_video_height)
+					{
+						$message = sprintf(lang('msg_exceeds_max_video_size'), $config->max_video_width, $config->max_video_height);
+					}
+					elseif ($config->max_video_width)
+					{
+						$message = sprintf(lang('msg_exceeds_max_video_width'), $config->max_video_width);
+					}
+					else
+					{
+						$message = sprintf(lang('msg_exceeds_max_video_height'), $config->max_video_height);
+					}
+					throw new Rhymix\Framework\Exception($message);
+				}
+
+				$adjusted['width'] = (int)$resize_width;
+				$adjusted['height'] = (int)$resize_height;
+				$adjusted['type'] = 'mp4';
+			}
+		}
+
+		// Check if this video should be force-converted to MP4
+		if (isset($config->video_autoconv['any2mp4']) && $config->video_autoconv['any2mp4'] && $file_info['extension'] !== 'mp4')
+		{
+			$adjusted['type'] = 'mp4';
+		}
+
+		// Check if this video should be reencoded anyway
+		if (isset($config->video_always_reencode) && $config->video_always_reencode)
+		{
+			$adjusted['force'] = true;
+			$adjusted['type'] = 'mp4';
+		}
+
+		// Convert
+		if ($adjusted['width'] !== $file_info['width'] ||
+			$adjusted['height'] !== $file_info['height'] ||
+			$adjusted['type'] !== $file_info['extension'] ||
+			$adjusted['force']
+		)
+		{
+			$output_name = $file_info['tmp_name'] . '.converted.mp4';
+
+			// Width and height of video must be even
+			$adjusted['width'] -= $adjusted['width'] % 2;
+			$adjusted['height'] -= $adjusted['height'] % 2;
+
+			// Convert using ffmpeg
+			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
+			$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
+			$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
+			$command .= empty($stream_info['audio']) ? ' -an' : ' -acodec aac';
+			$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
+			$command .= ' ' . escapeshellarg($output_name);
+			@exec($command, $output, $return_var);
+			$result = $return_var === 0 ? true : false;
+
+			// Update file info
+			if ($result)
+			{
+				$file_info['tmp_name'] = $output_name;
+				$file_info['size'] = filesize($output_name);
+				$file_info['type'] = Rhymix\Framework\MIME::getContentType($output_name);
+				$file_info['extension'] = $adjusted['type'];
+				$file_info['width'] = $adjusted['width'];
+				$file_info['height'] = $adjusted['height'];
+				$file_info['converted'] = true;
+			}
+		}
+
+		// Set original type to GIF if this video is short and has no audio stream.
+		if (isset($config->video_mp4_gif_time) && $config->video_mp4_gif_time)
+		{
+			if ($file_info['extension'] === 'mp4' && $file_info['duration'] <= $config->video_mp4_gif_time && empty($stream_info['audio']))
 			{
 				$file_info['original_type'] = 'image/gif';
 			}
