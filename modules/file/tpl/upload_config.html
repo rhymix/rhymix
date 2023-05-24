@@ -160,6 +160,26 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->max_video_duration}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="max_video_duration" id="max_video_duration" value="{$config->max_video_duration}" size="7" style="min-width:80px" /> {$lang->unit_sec} &nbsp;
+				<select name="max_video_duration_action" id="max_video_duration_action">
+					<option value="">{$lang->max_image_size_action_nothing}</option>
+					<option value="block" selected="selected"|cond="$config->max_video_duration_action === 'block'">{$lang->max_image_size_action_block}</option>
+					<option value="cut" selected="selected"|cond="$config->max_video_duration_action === 'cut'">{$lang->max_image_size_action_cut}</option>
+				</select>
+				<p class="x_help-block">
+					{$lang->about_max_video_duration}
+				</p>
+				<p>
+					<label for="max_video_duration_admin">
+						<input type="checkbox" name="max_video_duration_admin" id="max_video_duration_admin" value="Y" checked="checked"|cond="$config->max_video_duration_admin === 'Y'" />
+						{$lang->max_image_size_admin}
+					</label>
+				</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->video_autoconv_any2mp4}</label>
 			<div class="x_controls">
 				<label for="video_autoconv_any2mp4_Y" class="x_inline">

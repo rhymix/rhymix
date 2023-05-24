@@ -90,6 +90,9 @@ class FileAdminController extends File
 		$config->max_video_height = intval(Context::get('max_video_height')) ?: '';
 		$config->max_video_size_action = Context::get('max_video_size_action') ?: '';
 		$config->max_video_size_admin = Context::get('max_video_size_admin') === 'Y' ? 'Y' : 'N';
+		$config->max_video_duration = intval(Context::get('max_video_duration')) ?: '';
+		$config->max_video_duration_action = Context::get('max_video_duration_action') ?: '';
+		$config->max_video_duration_admin = Context::get('max_video_duration_admin') === 'Y' ? 'Y' : 'N';
 		$config->video_autoconv['any2mp4'] = Context::get('video_autoconv_any2mp4') === 'Y' ? true : false;
 		$config->video_always_reencode = Context::get('video_always_reencode') === 'Y' ? true : false;
 		$config->video_thumbnail = Context::get('video_thumbnail') === 'Y' ? true : false;
