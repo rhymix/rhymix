@@ -1287,7 +1287,7 @@ class CommentController extends Comment
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
-		$oTrashVO->setTitle($oComment->getContentText(200));
+		$oTrashVO->setTitle(mb_substr($oComment->getContentText(100), 0, 250, 'UTF-8'));
 		$oTrashVO->setOriginModule('comment');
 		$oTrashVO->setSerializedObject(serialize($oComment->variables));
 		$oTrashVO->setDescription($obj->description);
