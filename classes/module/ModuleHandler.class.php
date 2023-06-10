@@ -65,7 +65,7 @@ class ModuleHandler extends Handler
 			case 'OK':
 				break;
 			case 'ALLOW ADMIN ONLY':
-				if(!Context::get('logged_info')->isAdmin())
+				if(!Context::get('logged_info') || !Context::get('logged_info')->isAdmin())
 				{
 					$this->error = 'msg_security_violation';
 					$this->error_detail = $oContext->security_check_detail;
