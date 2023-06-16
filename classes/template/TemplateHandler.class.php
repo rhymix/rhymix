@@ -161,13 +161,27 @@ class TemplateHandler
 			self::$rootTpl = $this->file;
 		}
 
-		$latest_mtime = max(filemtime($this->file), $this->handler_mtime);
+		// Don't try to compile files that are less than 1 second old
+		$filemtime = filemtime($this->file);
+		if ($filemtime > time() - 1)
+		{
+			$latest_mtime = $this->handler_mtime;
+		}
+		else
+		{
+			$latest_mtime = max($filemtime, $this->handler_mtime);
+		}
 
 		// make compiled file
 		if(!file_exists($this->compiled_file) || filemtime($this->compiled_file) < $latest_mtime)
 		{
 			$buff = $this->parse();
-			if(Rhymix\Framework\Storage::write($this->compiled_file, $buff) === false)
+			if($buff === null && file_exists($this->compiled_file))
+			{
+				$error_message = 'Template compile failed: Source file is unreadable: ' . $this->file;
+				trigger_error($error_message, \E_USER_WARNING);
+			}
+			elseif(Rhymix\Framework\Storage::write($this->compiled_file, $buff) === false)
 			{
 				$tmpfilename = tempnam(sys_get_temp_dir(), 'rx-compiled');
 				if($tmpfilename === false || Rhymix\Framework\Storage::write($tmpfilename, $buff) === false)
@@ -245,7 +259,11 @@ class TemplateHandler
 			}
 
 			// read tpl file
-			$buff = FileHandler::readFile($this->file);
+			$buff = Rhymix\Framework\Storage::read($this->file);
+			if ($buff === false)
+			{
+				return;
+			}
 		}
 
 		// HTML tags to skip
