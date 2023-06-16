@@ -1814,7 +1814,7 @@ class Context
 		// Check HTTP Request
 		if(!isset($_SERVER['SERVER_PROTOCOL']))
 		{
-			return;
+			return self::getDefaultUrl();
 		}
 
 		$site_module_info = self::get('site_module_info');
