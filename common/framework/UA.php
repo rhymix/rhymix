@@ -468,12 +468,12 @@ class UA
 		if (in_array($color_scheme, ['light', 'dark']))
 		{
 			$_COOKIE['rx_color_scheme'] = $color_scheme;
-			setcookie('rx_color_scheme', $color_scheme, time() + 86400 * 365, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
+			setcookie('rx_color_scheme', $color_scheme, time() + 86400 * 365, \RX_BASEURL, '', !!config('session.use_ssl_cookies'));
 		}
 		else
 		{
 			unset($_COOKIE['rx_color_scheme']);
-			setcookie('rx_color_scheme', 'deleted', time() - 86400, \RX_BASEURL, null);
+			setcookie('rx_color_scheme', 'deleted', time() - 86400, \RX_BASEURL);
 		}
 	}
 }

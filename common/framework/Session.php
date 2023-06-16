@@ -1261,7 +1261,7 @@ class Session
 	 * @param string $domain (optional)
 	 * @return bool
 	 */
-	protected static function _unsetCookie($name, $path = null, $domain = null)
+	protected static function _unsetCookie($name, $path = '', $domain = '')
 	{
 		$result = setcookie($name, 'deleted', time() - (86400 * 366), $path, $domain, false, false);
 		if ($result)
