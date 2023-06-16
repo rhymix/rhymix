@@ -480,7 +480,7 @@ class Session
 	public static function refresh($set_session_cookie = false)
 	{
 		// Get session parameters.
-		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 
 		// Set the domain initialization timestamp.
 		if (!isset($_SESSION['RHYMIX']['keys'][$domain]['started']))
@@ -844,7 +844,7 @@ class Session
 	 */
 	public static function getDomain()
 	{
-		if (self::$_domain || (self::$_domain = ltrim(Config::get('session.domain'), '.')))
+		if (self::$_domain || (self::$_domain = ltrim(Config::get('session.domain') ?? '', '.')))
 		{
 			return self::$_domain;
 		}
@@ -1172,7 +1172,7 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
-		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
 		$options = array(
 			'expires' => $lifetime,
