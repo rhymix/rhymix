@@ -61,7 +61,6 @@ class Module extends ModuleObject
 		}
 
 		// Remove site_srl column from tables
-		if ($oDB->isIndexExists('lang', 'idx_lang')) return true;
 		if ($oDB->getColumnInfo('lang', 'site_srl')->default_value === null) return true;
 		if ($oDB->isIndexExists('modules', 'idx_site_mid')) return true;
 		if ($oDB->getColumnInfo('modules', 'site_srl')->default_value === null) return true;
@@ -159,10 +158,6 @@ class Module extends ModuleObject
 		}
 
 		// Set default value as 0 for site_srl columns that are no longer used.
-		if ($oDB->isIndexExists('lang', 'idx_lang'))
-		{
-			$oDB->dropIndex('lang', 'idx_lang');
-		}
 		if ($oDB->getColumnInfo('lang', 'site_srl')->default_value === null)
 		{
 			$oDB->modifyColumn('lang', 'site_srl', 'number', null, 0, true, 'lang_code');
