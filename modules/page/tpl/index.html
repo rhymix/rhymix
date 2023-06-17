@@ -51,7 +51,7 @@ jQuery(function($){
 			<th scope="col">{$lang->url}</th>
 			<th scope="col">{$lang->browser_title}</th>
 			<th scope="col">{$lang->regdate}</th>
-			<th scope="col">&nbsp;</th>
+			<th scope="col">{$lang->cmd_edit}</th>
 			<th scope="col"><input type="checkbox" /></th>
 		</tr>
 	</thead>
@@ -76,11 +76,9 @@ jQuery(function($){
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" target="_blank">{$val->browser_title}</a></td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>
 			<td>
-				<a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}">{$lang->cmd_setup}</a>
-				<i>|</i>
-				<a href="{getUrl('','module','module','act','dispModuleAdminCopyModule','module_srl',$val->module_srl)}" onclick="popopen(this.href);return false;">{$lang->cmd_copy}</a>
-				<i>|</i>
-				<a href="{getUrl('act','dispPageAdminDelete','module_srl', $val->module_srl)}">{$lang->cmd_delete}</a>
+				<a href="{getUrl('act','dispPageAdminInfo','module_srl',$val->module_srl)}"><i class="x_icon-cog"></i> {$lang->cmd_setup}</a> &nbsp;
+				<a href="{getUrl('','module','module','act','dispModuleAdminCopyModule','module_srl',$val->module_srl)}" onclick="popopen(this.href);return false;"><i class="x_icon-plus"></i> {$lang->cmd_copy}</a> &nbsp;
+				<a href="{getUrl('act','dispPageAdminDelete','module_srl', $val->module_srl)}"><i class="x_icon-remove"></i> {$lang->cmd_delete}</a>
 				</td>
 			<td><input type="checkbox" name="cart" value="{$val->module_srl}" class="selectedModule" data-mid="{$val->mid}" data-browser_title="{$val->browser_title}" /></td>
 		</tr>
