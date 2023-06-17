@@ -70,7 +70,7 @@ jQuery(function($){
 				{$module_category[$val->module_category_srl]->title}
 				<!--@end-->
 				</td>
-			<td>{$val->page_type}</td>
+			<td>{$lang->page_type_name[$val->page_type] ?? $val->page_type}</td>
 			<td class="domain_prefix"><span class="domain">{$val->domain ?? ''}</span>{\RX_BASEURL}</td>
 			<td>{$val->mid}</td>
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" target="_blank">{$val->browser_title}</a></td>
