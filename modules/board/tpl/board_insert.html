@@ -23,7 +23,7 @@
 						<option value="{$domain->domain_srl}" selected="selected"|cond="$domain->domain_srl == $module_info->domain_srl">{$domain->domain}</option>
 					<!--@endif-->
 				</select>
-				<span class="baseurl">{\RX_BASEURL}</span>
+				<span class="baseurl">{\RX_BASEURL}<!--@if(!config('url.rewrite'))-->index.php?mid=<!--@endif--></span>
 				<input type="text" name="board_name" id="board_name" value="{$module_info->mid}" />
 				<p class="x_help-block">{$lang->about_mid}</p>
 			</div>
