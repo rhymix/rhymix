@@ -47,7 +47,8 @@ jQuery(function($){
 			<th scope="col">{$lang->no}</th>
 			<th scope="col">{$lang->module_category}</th>
 			<th scope="col">{$lang->page_type}</th>
-			<th scope="col">{$lang->mid}</th>
+			<th scope="col" class="domain_prefix">{$lang->domain} /</th>
+			<th scope="col">{$lang->url}</th>
 			<th scope="col">{$lang->browser_title}</th>
 			<th scope="col">{$lang->regdate}</th>
 			<th scope="col">&nbsp;</th>
@@ -70,6 +71,7 @@ jQuery(function($){
 				<!--@end-->
 				</td>
 			<td>{$val->page_type}</td>
+			<td class="domain_prefix">{$val->domain ?? '*'}{\RX_BASEURL}</td>
 			<td>{$val->mid}</td>
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" target="_blank">{$val->browser_title}</a></td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>

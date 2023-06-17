@@ -345,6 +345,7 @@ class ModuleController extends Module
 		unset($extra_vars->module_srl);
 		unset($extra_vars->module);
 		unset($extra_vars->module_category_srl);
+		unset($extra_vars->domain_srl);
 		unset($extra_vars->layout_srl);
 		unset($extra_vars->mlayout_srl);
 		unset($extra_vars->use_mobile);
@@ -614,20 +615,13 @@ class ModuleController extends Module
 	}
 
 	/**
-	 * @brief Change the module's virtual site
+	 * Change the module's virtual site
+	 * 
+	 * @deprecated
 	 */
 	function updateModuleSite($module_srl, $site_srl = 0, $layout_srl = 0)
 	{
-		$args = new stdClass;
-		$args->module_srl = $module_srl;
-		$args->layout_srl = $layout_srl;
-		$output = executeQuery('module.updateModuleSite', $args);
-		if(!$output->toBool()) return $output;
-
-		//remove from cache
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
-		return $output;
+		
 	}
 
 	/**
@@ -1276,15 +1270,12 @@ class ModuleController extends Module
 		return $output;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function updateModuleInSites($site_srls, $args)
 	{
-		$args = new stdClass;
-		$args->site_srls = $site_srls;
-		$output = executeQuery('module.updateModuleInSites', $args);
-
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
-		return $output;
+		
 	}
 
 	/**

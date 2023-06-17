@@ -2338,6 +2338,19 @@ html[lang="id"] .x .g11n.active>[disabled],
 	width: 14px;
 	height: 14px;
 }
+.x .x_table th.domain_prefix {
+	text-align: right;
+	padding-right: 0;
+}
+.x .x_table td.domain_prefix {
+	color: #888;
+	text-align: right;
+	padding-right: 0;
+}
+.x .x_table .domain_prefix + th,
+.x .x_table .domain_prefix + td {
+	padding-left: 4px;
+}
 
 /* language specific styles */
 /* English admin_en.css */

@@ -8,6 +8,7 @@
         <column name="module_category_srl" var="module_category_srl" default="0" />
         <column name="menu_srl" var="menu_srl" filter="number" />
         <column name="site_srl" var="site_srl" default="0" />
+        <column name="domain_srl" var="domain_srl" default="-1" />
         <column name="mid" var="mid" notnull="notnull" minlength="1" maxlength="40" />
         <column name="layout_srl" var="layout_srl" />
         <column name="mlayout_srl" var="mlayout_srl" />

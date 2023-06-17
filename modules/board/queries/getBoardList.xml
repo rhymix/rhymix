@@ -1,9 +1,16 @@
 <query id="getBoardList" action="select">
     <tables>
         <table name="modules" />
+        <table name="domains" type="left join">
+            <conditions>
+                <condition operation="equal" column="modules.domain_srl" default="domains.domain_srl" />
+                <condition operation="notequal" column="modules.domain_srl" default="-1" />
+            </conditions>
+        </table>
     </tables>
     <columns>
-        <column name="*" />
+        <column name="modules.*" />
+        <column name="domains.domain" />
     </columns>
     <conditions>
         <condition operation="equal" column="module" default="board" />

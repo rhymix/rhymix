@@ -15,8 +15,15 @@
 		<div class="x_controls" style="padding-top:4px">{$lang->page_type_name[$module_info->page_type]}</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label" for="page_name">{$lang->mid}</label>
+		<label class="x_control-label" for="page_name">{$lang->url}</label>
 		<div class="x_controls">
+			<select name="domain_srl" id="domain_srl">
+				<option value="-1" selected="selected"|cond="!isset($module_info->domain_srl) || $module_info->domain_srl == -1">{$lang->cmd_any_domain}</option>
+				<!--@foreach(ModuleModel::getAllDomains(100)->data as $domain)-->
+					<option value="{$domain->domain_srl}" selected="selected"|cond="$domain->domain_srl == $module_info->domain_srl">{$domain->domain}</option>
+				<!--@endif-->
+			</select>
+			<span class="baseurl">{\RX_BASEURL}</span>
 			<input type="text" name="page_name" id="page_name" value="{$module_info->mid}" />
 			<p class="x_help-block" id="aboutMid">{$lang->about_mid}</p>
 		</div>

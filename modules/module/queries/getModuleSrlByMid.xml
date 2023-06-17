@@ -7,7 +7,7 @@
         <column name="mid" />
     </columns>
     <conditions>
-        <condition operation="equal" column="site_srl" var="site_srl" />
+        <condition operation="in" column="domain_srl" var="domain_srl" />
         <condition operation="in" column="mid" var="mid" notnull="notnull" pipe="and" />
     </conditions>
 </query>

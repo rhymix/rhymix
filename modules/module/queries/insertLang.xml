@@ -3,7 +3,6 @@
         <table name="lang" />
     </tables>
     <columns>
-        <column name="site_srl" var="site_srl" default="0" />
         <column name="name" var="name" notnull="notnull" />
         <column name="lang_code" var="lang_code" notnull="notnull" />
         <column name="value" var="value" notnull="notnull" />

@@ -15,11 +15,17 @@
 	<section class="section">
 		<h1>{$lang->subtitle_primary}</h1>
 		<div cond="$logged_info->is_admin == 'Y'" class="x_control-group">
-			<label class="x_control-label" for="board_name">{$lang->mid}</label>
+			<label class="x_control-label" for="board_name">{$lang->url}</label>
 			<div class="x_controls">
+				<select name="domain_srl" id="domain_srl">
+					<option value="-1" selected="selected"|cond="!isset($module_info->domain_srl) || $module_info->domain_srl == -1">{$lang->cmd_any_domain}</option>
+					<!--@foreach(ModuleModel::getAllDomains(100)->data as $domain)-->
+						<option value="{$domain->domain_srl}" selected="selected"|cond="$domain->domain_srl == $module_info->domain_srl">{$domain->domain}</option>
+					<!--@endif-->
+				</select>
+				<span class="baseurl">{\RX_BASEURL}</span>
 				<input type="text" name="board_name" id="board_name" value="{$module_info->mid}" />
-				<a href="#module_name_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="module_name_help" class="x_help-block" hidden>{$lang->about_mid}</p>
+				<p class="x_help-block">{$lang->about_mid}</p>
 			</div>
 		</div>
 		<div class="x_control-group">

@@ -8,7 +8,7 @@
         </table>
     </tables>
     <columns>
-        <column name="modules.site_srl" />
+        <column name="modules.domain_srl" />
         <column name="modules.module" />
         <column name="modules.mid" />
         <column name="modules.browser_title" />
@@ -16,7 +16,7 @@
         <column name="modules.module_srl" />
     </columns>
     <conditions>
-        <condition operation="equal" column="modules.site_srl" var="site_srl" default="0" notnull="notnull" />
+        <condition operation="equal" column="modules.domain_srl" var="domain_srl" />
     </conditions>
     <navigation>
         <index  var="sort_index" default="modules.module" order="asc" />

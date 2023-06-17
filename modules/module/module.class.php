@@ -12,12 +12,6 @@ class Module extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		// Register action forward (to use in administrator mode)
-		$oModuleController = getController('module');
-
-		$oDB = DB::getInstance();
-		$oDB->addIndex("modules","idx_site_mid", array("site_srl","mid"), true);
-
 		// Insert new domain
 		if(!getModel('module')->getDefaultDomainInfo())
 		{
@@ -66,6 +60,19 @@ class Module extends ModuleObject
 			return true;
 		}
 
+		// Remove site_srl column from tables
+		if ($oDB->isIndexExists('lang', 'idx_lang')) return true;
+		if ($oDB->getColumnInfo('lang', 'site_srl')->default_value === null) return true;
+		if ($oDB->isIndexExists('modules', 'idx_site_mid')) return true;
+		if ($oDB->getColumnInfo('modules', 'site_srl')->default_value === null) return true;
+		if ($oDB->getColumnInfo('module_config', 'site_srl')->default_value === null) return true;
+		if ($oDB->isTableExists('site_admin')) return true;
+
+		// Add domain_srl column
+		if (!$oDB->isColumnExists('modules', 'domain_srl')) return true;
+		if (!$oDB->isIndexExists('modules', 'idx_domain_srl')) return true;
+		if (!$oDB->isIndexExists('modules', 'idx_mid')) return true;
+
 		// check fix mskin
 		if(!$oDB->isColumnExists("modules", "is_mskin_fix")) return true;
 
@@ -111,7 +118,6 @@ class Module extends ModuleObject
 		{
 			return true;
 		}
-		if(!$oDB->isIndexExists('lang', 'idx_site_srl')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_name')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_lang_code')) return true;
 		if(!$oDB->isIndexExists('lang', 'idx_lang')) return true;
@@ -132,7 +138,7 @@ class Module extends ModuleObject
 		}
 
 		// check deprecated lang code
-		$output = executeQuery('module.getLangCount', ['site_srl' => 0, 'lang_code' => 'jp']);
+		$output = executeQuery('module.getLangCount', ['lang_code' => 'jp']);
 		if ($output->data->count > 0)
 		{
 			return true;
@@ -150,6 +156,48 @@ class Module extends ModuleObject
 		if (!getModel('module')->getDefaultDomainInfo())
 		{
 			$this->migrateDomains();
+		}
+
+		// Set default value as 0 for site_srl columns that are no longer used.
+		if ($oDB->isIndexExists('lang', 'idx_lang'))
+		{
+			$oDB->dropIndex('lang', 'idx_lang');
+		}
+		if ($oDB->getColumnInfo('lang', 'site_srl')->default_value === null)
+		{
+			$oDB->modifyColumn('lang', 'site_srl', 'number', null, 0, true, 'lang_code');
+		}
+		if ($oDB->isIndexExists('modules', 'idx_site_mid'))
+		{
+			$oDB->dropIndex('modules', 'idx_site_mid');
+		}
+		if ($oDB->getColumnInfo('modules', 'site_srl')->default_value === null)
+		{
+			$oDB->modifyColumn('modules', 'site_srl', 'number', null, 0, true, 'menu_srl');
+		}
+		if ($oDB->getColumnInfo('module_config', 'site_srl')->default_value === null)
+		{
+			$oDB->modifyColumn('module_config', 'site_srl', 'number', null, 0, true, 'module');
+		}
+
+		// Remove the site_admin table.
+		if ($oDB->isTableExists('site_admin'))
+		{
+			$oDB->dropTable('site_admin');
+		}
+
+		// Add domain_srl column to relevant tables.
+		if (!$oDB->isColumnExists('modules', 'domain_srl'))
+		{
+			$oDB->addColumn('modules', 'domain_srl', 'number', null, -1, true, 'site_srl');
+		}
+		if (!$oDB->isIndexExists('modules', 'idx_domain_srl'))
+		{
+			$oDB->addIndex('modules', 'idx_domain_srl', array('domain_srl'));
+		}
+		if (!$oDB->isIndexExists('modules', 'idx_mid'))
+		{
+			$oDB->addIndex('modules', 'idx_mid', array('mid'));
 		}
 
 		// check ruleset directory
@@ -213,10 +261,6 @@ class Module extends ModuleObject
 		{
 			$oDB->modifyColumn('lang', 'name', 'varchar', 100, null, true);
 		}
-		if(!$oDB->isIndexExists('lang', 'idx_site_srl'))
-		{
-			$oDB->addIndex('lang', 'idx_site_srl', array('site_srl'), false);
-		}
 		if(!$oDB->isIndexExists('lang', 'idx_name'))
 		{
 			$oDB->addIndex('lang', 'idx_name', array('name'), false);
@@ -227,7 +271,7 @@ class Module extends ModuleObject
 		}
 		if(!$oDB->isIndexExists('lang', 'idx_lang'))
 		{
-			$oDB->addIndex('lang', 'idx_lang', array('site_srl', 'name', 'lang_code'), false);
+			$oDB->addIndex('lang', 'idx_lang', array('name', 'lang_code'), false);
 		}
 
 		// check module_trigger table
@@ -251,7 +295,7 @@ class Module extends ModuleObject
 		}
 
 		// check deprecated lang code
-		$output = executeQuery('module.getLangCount', ['site_srl' => 0, 'lang_code' => 'jp']);
+		$output = executeQuery('module.getLangCount', ['lang_code' => 'jp']);
 		if ($output->data->count > 0)
 		{
 			$output = executeQuery('module.updateLangCode', ['lang_code' => 'jp', 'new_lang_code' => 'ja']);

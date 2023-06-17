@@ -1,5 +1,0 @@
-<table name="site_admin">
-    <column name="site_srl" type="number" size="11" notnull="notnull" unique="idx_site_admin" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" unique="idx_site_admin" />
-    <column name="regdate" type="date" />
-</table>
