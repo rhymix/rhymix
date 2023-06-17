@@ -12,7 +12,7 @@
 		<tr>
 			<th scope="col">{$lang->no}</th>
 			<th scope="col">{$lang->module_category}</th>
-			<th scope="col" class="domain_prefix">{$lang->domain} /</th>
+			<th scope="col" class="domain_prefix">{$lang->domain}&thinsp;/</th>
 			<th scope="col">{$lang->url}</th>
 			<th scope="col">{$lang->browser_title}</th>
 			<th scope="col">{$lang->regdate}</th>
@@ -30,7 +30,7 @@
 				</block>
 				<block cond="$val->module_category_srl">{$module_category[$val->module_category_srl]->title}</block>
 			</td>
-			<td class="domain_prefix">{$val->domain ?? '*'}{\RX_BASEURL}</td>
+			<td class="domain_prefix"><span class="domain">{$val->domain ?? ''}</span>{\RX_BASEURL}</td>
 			<td>{$val->mid}</td>
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}">{$val->browser_title}</a></td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>

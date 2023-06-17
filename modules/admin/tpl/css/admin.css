@@ -24,7 +24,7 @@ body>.x,
 .x button {
 	font-size: 13px;
 }
-.x strong, 
+.x strong,
 .x th {
 	font-weight: 600;
 }
@@ -151,13 +151,13 @@ body>.x,
 	height: 26px;
 	margin: 10px 0 0 0;
 }
-.x .x_pagination ul>li>a, 
+.x .x_pagination ul>li>a,
 .x .x_pagination ul>li>span,
 .x .x_pagination ul>li>strong {
 	line-height: 24px;
 	padding: 0 8px;
 }
-.x .x_pagination ul>.x_active>a, 
+.x .x_pagination ul>.x_active>a,
 .x .x_pagination ul>.x_active>span,
 .x .x_pagination ul>.x_active>strong {
 	line-height: 26px;
@@ -234,15 +234,15 @@ body>.x,
 .x .x_btn-group>.x_btn-inverse+.x_btn-inverse {
 	border-left-color: #555;
 }
-.x input[type="radio"], 
+.x input[type="radio"],
 .x input[type="checkbox"] {
 	margin: 0;
 }
 .x input[type="file"] {
 	height: auto;
 }
-.x td select, 
-.x td textarea, 
+.x td select,
+.x td textarea,
 .x td input {
 	margin-bottom: 0;
 }
@@ -331,12 +331,12 @@ body>.x,
 .x .x_input-append>* {
 	vertical-align: top;
 }
-.x .x_input-append a.x_add-on, 
+.x .x_input-append a.x_add-on,
 .x .x_input-prepend a.x_add-on {
 	height: 16px;
 	line-height: 16px;
 }
-.x .x_input-append button.x_add-on, 
+.x .x_input-append button.x_add-on,
 .x .x_input-prepend button.x_add-on {
 	height: 24px;
 	line-height: 16px;
@@ -418,18 +418,18 @@ body>.x,
 .x .x_form-horizontal .x_control-group {
 margin-bottom: 10px;
 }
-.x input[type="text"], 
-.x input[type="password"], 
-.x input[type="datetime"], 
-.x input[type="datetime-local"], 
-.x input[type="date"], 
-.x input[type="month"], 
-.x input[type="time"], 
-.x input[type="week"], 
-.x input[type="number"], 
-.x input[type="email"], 
-.x input[type="url"], 
-.x input[type="search"], 
+.x input[type="text"],
+.x input[type="password"],
+.x input[type="datetime"],
+.x input[type="datetime-local"],
+.x input[type="date"],
+.x input[type="month"],
+.x input[type="time"],
+.x input[type="week"],
+.x input[type="number"],
+.x input[type="email"],
+.x input[type="url"],
+.x input[type="search"],
 .x input[type="tel"] {
 	height: 16px;
 	line-height: 16px;
@@ -489,7 +489,7 @@ margin-bottom: 10px;
 .x .x_help-inline {
 	display: inline;
 }
-.x .x_btn.x_disabled, 
+.x .x_btn.x_disabled,
 .x .x_btn[disabled] {
 	opacity: .5;
 	filter: alpha(opacity=50);
@@ -1866,8 +1866,8 @@ html[lang="id"] .x .g11n.active>[disabled],
 /* ---------- Deprecated UI:  Please do not use this CSS styles below. It will be removed as soon as possible. ---------- */
 
 /* Section & Heading */
-.x .h2, 
-.x .h3, 
+.x .h2,
+.x .h3,
 .x .h4 {
 	position: relative;
 	border-style: solid;
@@ -1903,9 +1903,9 @@ html[lang="id"] .x .g11n.active>[disabled],
 .x .h2 + ul,
 .x .h3 + ul,
 .x .h4 + ul,
-.x .h1 + .table table, 
-.x .h2 + .table table, 
-.x .h3 + .table table, 
+.x .h1 + .table table,
+.x .h2 + .table table,
+.x .h3 + .table table,
 .x .h4 + .table table {
 	border-top: 0 !important;
 	margin-top: -1em !important;
@@ -2091,7 +2091,7 @@ html[lang="id"] .x .g11n.active>[disabled],
 	vertical-align: top;
 	resize: both;
 }
-.x .form span.desc, 
+.x .form span.desc,
 .x .form em.desc {
 	line-height: 22px;
 	vertical-align: middle;
@@ -2286,9 +2286,9 @@ html[lang="id"] .x .g11n.active>[disabled],
 	zoom: 1;
 	box-shadow: 0 0 6px #000;
 }
-.modal ul, 
-.modal ol, 
-.modal .lined, 
+.modal ul,
+.modal ol,
+.modal .lined,
 .modal .table {
 	margin-bottom: 1em;
 }
@@ -2347,9 +2347,14 @@ html[lang="id"] .x .g11n.active>[disabled],
 	text-align: right;
 	padding-right: 0;
 }
+.x .x_table td.domain_prefix span.domain {
+	display: inline-block;
+	margin-right: 2px;
+	color: #333;
+}
 .x .x_table .domain_prefix + th,
 .x .x_table .domain_prefix + td {
-	padding-left: 4px;
+	padding-left: 2px;
 }
 
 /* language specific styles */
