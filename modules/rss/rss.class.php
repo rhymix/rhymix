@@ -12,19 +12,19 @@ class rss extends ModuleObject
 		array('rss', 'view', 'rss'),
 		array('rss', 'view', 'atom'),
 	);
-	
+
 	// Add triggers
 	protected static $add_triggers = array(
 		array('moduleHandler.proc', 'rss', 'controller', 'triggerRssUrlInsert', 'after'),
 		array('module.dispAdditionSetup', 'rss', 'view', 'triggerDispRssAdditionSetup', 'before'),
 		array('module.procModuleAdminCopyModule', 'rss', 'controller', 'triggerCopyModule', 'after'),
 	);
-	
+
 	// Remove triggers
 	protected static $remove_triggers = array(
 		array('display', 'rss', 'controller', 'triggerRssUrlInsert', 'before'),
 	);
-	
+
 	/**
 	 * Install
 	 */
@@ -32,14 +32,14 @@ class rss extends ModuleObject
 	{
 		$this->moduleUpdate();
 	}
-	
+
 	/**
 	 * Check update
 	 */
 	function checkUpdate()
 	{
 		$oModuleModel = getModel('module');
-		
+
 		// Check forwards for add
 		foreach(self::$add_forwards as $forward)
 		{
@@ -48,7 +48,7 @@ class rss extends ModuleObject
 				return true;
 			}
 		}
-		
+
 		// Check triggers for add
 		foreach(self::$add_triggers as $trigger)
 		{
@@ -57,7 +57,7 @@ class rss extends ModuleObject
 				return true;
 			}
 		}
-		
+
 		// Check triggers for remove
 		foreach(self::$remove_triggers as $trigger)
 		{
@@ -66,10 +66,10 @@ class rss extends ModuleObject
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Update
 	 */
@@ -77,7 +77,7 @@ class rss extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-		
+
 		// Add forwards
 		foreach(self::$add_forwards as $forward)
 		{
@@ -86,7 +86,7 @@ class rss extends ModuleObject
 				$oModuleController->insertActionForward($forward[0], $forward[1], $forward[2]);
 			}
 		}
-		
+
 		// Add triggers
 		foreach(self::$add_triggers as $trigger)
 		{
@@ -95,7 +95,7 @@ class rss extends ModuleObject
 				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
 			}
 		}
-		
+
 		// Remove triggers
 		foreach(self::$remove_triggers as $trigger)
 		{
@@ -105,10 +105,10 @@ class rss extends ModuleObject
 			}
 		}
 	}
-	
+
 	function recompileCache()
 	{
-		
+
 	}
 }
 /* End of file rss.class.php */

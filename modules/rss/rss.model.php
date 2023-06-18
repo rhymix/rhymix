@@ -11,7 +11,7 @@ class rssModel extends rss
 	{
 		return getFullUrl('', 'mid', $mid, 'act', $format);
 	}
-	
+
 	function getConfig()
 	{
 		$config = getModel('module')->getModuleConfig('rss') ?: new stdClass;
@@ -21,20 +21,20 @@ class rssModel extends rss
 		{
 			$config->image_url = $config->image . '?' . date('YmdHis', filemtime($config->image));
 		}
-		
+
 		return $config;
 	}
-	
+
 	function getRssModuleConfig($module_srl)
 	{
 		$config = getModel('module')->getModulePartConfig('rss', $module_srl) ?: new stdClass;
 		$config->module_srl = $module_srl;
 		$config->open_rss = $config->open_rss ?? 'N';
 		$config->open_total_feed = $config->open_total_feed ?? 'N';
-		
+
 		return $config;
 	}
-	
+
 	/**
 	 * Compatible function
 	 */
