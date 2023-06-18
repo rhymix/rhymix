@@ -125,6 +125,10 @@ class Member extends ModuleObject
 		{
 			return true;
 		}
+		if($oDB->getColumnInfo('member_auth_mail', 'new_password')->size < 250)
+		{
+			return true;
+		}
 
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number")) return true;
@@ -255,6 +259,10 @@ class Member extends ModuleObject
 		if($oDB->getColumnInfo('member', 'password')->size < 250)
 		{
 			$oDB->modifyColumn('member', 'password', 'varchar', 250, null, true);
+		}
+		if($oDB->getColumnInfo('member_auth_mail', 'new_password')->size < 250)
+		{
+			$oDB->modifyColumn('member_auth_mail', 'new_password', 'varchar', 250, null, true);
 		}
 
 		// Add columns for phone number
