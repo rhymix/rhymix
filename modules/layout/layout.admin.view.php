@@ -236,6 +236,12 @@ class layoutAdminView extends layout
 		// Error appears if there is no layout information is registered
 		if(!$layout_info) return $this->dispLayoutAdminInstalledList();
 
+		// Prevent editing if the layout has not already been edited #2121
+		if(!$layout_info->is_edited)
+		{
+			return new BaseObject(-1, 'layout.layout_editing_deprecated_p1');
+		}
+
 		// Get Layout Code
 		if($oLayoutModel->useDefaultLayout($layout_info->layout_srl))
 		{

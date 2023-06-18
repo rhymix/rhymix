@@ -32,7 +32,13 @@
 			<td>{$item->title} ({$layout_name})</td>
 			<td>{zdate($item->regdate, "Y-m-d")}</td>
 			<td><a href="{getUrl('act', 'dispLayoutAdminModify', 'layout_srl', $item->layout_srl)}">{$lang->cmd_setup}</a></td>
-			<td><a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $item->layout_srl)}">{$lang->cmd_edit}</a></td>
+			<td>
+				<!--@if($item->is_edited)-->
+					<a href="{getUrl('act', 'dispLayoutAdminEdit', 'layout_srl', $item->layout_srl)}">{$lang->cmd_edit}</a>
+				<!--@else-->
+					<span style="color:#999">편집</span>
+				<!--@endif-->
+			</td>
 			<td><a href="{getUrl('', 'module', 'layout', 'act', 'dispLayoutAdminCopyLayout', 'layout_srl', $item->layout_srl)}" onclick="popopen(this.href);return false;" title="{$lang->cmd_copy}">{$lang->cmd_copy}</a></td>
 			<td class="rx_detail_marks">
 				<form cond="count($layout) > 1" class="layout_delete_form" ruleset="deleteLayout" action="./" method="post">

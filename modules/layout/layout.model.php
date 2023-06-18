@@ -139,6 +139,16 @@ class layoutModel extends layout
 		{
 			foreach($output->data as $no => $iInfo)
 			{
+				if (file_exists(\RX_BASEDIR . 'files/faceOff/' . getNumberingPath($iInfo->layout_srl) . 'layout.html') ||
+					file_exists(\RX_BASEDIR . 'files/faceOff/' . getNumberingPath($iInfo->layout_srl) . 'layout.css'))
+				{
+					$iInfo->is_edited = true;
+				}
+				else
+				{
+					$iInfo->is_edited = false;
+				}
+
 				if($this->isExistsLayoutFile($iInfo->layout, $iInfo->layout_type) && $iInfo->layout_type === $layoutType)
 				{
 					$instanceList[] = $iInfo->layout;
@@ -275,6 +285,17 @@ class layoutModel extends layout
 
 		// Return xml file informaton after listing up the layout and extra_vars
 		$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
+
+		// Check if layout has been edited
+		if (file_exists(\RX_BASEDIR . 'files/faceOff/' . getNumberingPath($layout_srl) . 'layout.html') ||
+			file_exists(\RX_BASEDIR . 'files/faceOff/' . getNumberingPath($layout_srl) . 'layout.css'))
+		{
+			$layout_info->is_edited = true;
+		}
+		else
+		{
+			$layout_info->is_edited = false;
+		}
 
 		// Store in cache
 		Rhymix\Framework\Cache::set("layout:$layout_srl", $layout_info);
