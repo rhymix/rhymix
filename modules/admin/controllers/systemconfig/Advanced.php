@@ -101,6 +101,7 @@ class Advanced extends Base
 		Context::set('mobile_viewport', config('mobile.viewport') ?? HTMLDisplayHandler::DEFAULT_VIEWPORT);
 		Context::set('use_ssl', Config::get('url.ssl'));
 		Context::set('delay_session', Config::get('session.delay'));
+		Context::set('delay_template_compile', Config::get('view.delay_compile'));
 		Context::set('use_db_session', Config::get('session.use_db'));
 		Context::set('manager_layout', Config::get('view.manager_layout'));
 		Context::set('minify_scripts', Config::get('view.minify_scripts'));
@@ -212,6 +213,7 @@ class Advanced extends Base
 		Config::set('view.manager_layout', $vars->manager_layout ?: 'module');
 		Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
+		Config::set('view.delay_compile', intval($vars->delay_template_compile));
 		Config::set('view.jquery_version', $vars->jquery_version == 3 ? 3 : 2);
 		Config::set('view.server_push', $vars->use_server_push === 'Y');
 		Config::set('view.use_gzip', $vars->use_gzip === 'Y');

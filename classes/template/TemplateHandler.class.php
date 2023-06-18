@@ -16,6 +16,7 @@ class TemplateHandler
 	private $config = NULL;
 	private $skipTags = NULL;
 	private $handler_mtime = 0;
+	private $delay_compile = 0;
 	private static $rootTpl = NULL;
 
 	/**
@@ -32,6 +33,7 @@ class TemplateHandler
 		ini_set('pcre.jit', false);
 		$this->config = new stdClass;
 		$this->handler_mtime = filemtime(__FILE__);
+		$this->delay_compile = config('view.delay_compile') ?? 0;
 		$this->user = Rhymix\Framework\Session::getMemberInfo();
 	}
 
@@ -163,7 +165,7 @@ class TemplateHandler
 
 		// Don't try to compile files that are less than 1 second old
 		$filemtime = filemtime($this->file);
-		if ($filemtime > time() - 1)
+		if ($filemtime > time() - $this->delay_compile)
 		{
 			$latest_mtime = $this->handler_mtime;
 		}

@@ -111,6 +111,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="delay_template_compile">{$lang->delay_template_compile}</label>
+			<div class="x_controls">
+				<select name="delay_template_compile" id="delay_template_compile">
+					<option value="0" selected="selected"|cond="$delay_template_compile == 0">0 {$lang->unit_sec}</option>
+					<option value="1" selected="selected"|cond="$delay_template_compile == 1">1 {$lang->unit_sec}</option>
+					<option value="2" selected="selected"|cond="$delay_template_compile == 2">2 {$lang->unit_sec}</option>
+					<option value="3" selected="selected"|cond="$delay_template_compile == 3">3 {$lang->unit_sec}</option>
+				</select>
+				<p class="x_help-block">{$lang->about_delay_template_compile}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->thumbnail_target}</label>
 			<div class="x_controls">
 				<label for="thumbnail_target_all" class="x_inline">
