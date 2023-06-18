@@ -77,10 +77,9 @@ class rssView extends rss
 				break;
 		}
 
-		$oRssModel = getModel('rss');
-		$config = $oRssModel->getConfig();
-		$module_config = $oRssModel->getRssModuleConfig($target_module_srl);
-		$module_info = getModel('module')->getModuleInfoByModuleSrl($target_module_srl);
+		$config = rssModel::getConfig();
+		$module_config = rssModel::getRssModuleConfig($target_module_srl);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($target_module_srl);
 
 		// Get URL
 		$format = ($act != $format) ? $format : '';
@@ -113,7 +112,7 @@ class rssView extends rss
 			// total feed
 			elseif($config->use_total_feed == 'Y')
 			{
-				foreach(getModel('module')->getModulePartConfigs('rss') as $module_srl => $part_config)
+				foreach(ModuleModel::getModulePartConfigs('rss') as $module_srl => $part_config)
 				{
 					if($part_config->open_rss == 'N' || $part_config->open_total_feed == 'T_N')
 					{
@@ -143,7 +142,7 @@ class rssView extends rss
 				$args->list_count = $config->feed_document_count > 0 ? $config->feed_document_count : 20;
 				$args->sort_index = 'regdate';
 				$args->order_type = 'desc';
-				$document_list = getModel('document')->getDocumentList($args)->data;
+				$document_list = DocumentModel::getDocumentList($args)->data;
 			}
 			Context::set('document_list', $document_list);
 
@@ -151,7 +150,7 @@ class rssView extends rss
 			$category_list = array();
 			foreach($target_modules as $module_srl => $open_rss)
 			{
-				$category_list[$module_srl] = getModel('document')->getCategoryList($module_srl);
+				$category_list[$module_srl] = DocumentModel::getCategoryList($module_srl);
 			}
 			Context::set('category_list', $category_list);
 		}
@@ -205,7 +204,7 @@ class rssView extends rss
 		}
 
 		// Get part configuration
-		Context::set('module_config', getModel('rss')->getRssModuleConfig($current_module_srl));
+		Context::set('module_config', rssModel::getRssModuleConfig($current_module_srl));
 
 		// Add output after compile template
 		$output .= TemplateHandler::getInstance()->compile($this->module_path . 'tpl', 'rss_module_config');
