@@ -137,9 +137,10 @@ class rssView extends rss
 				$args->end_date = $end;
 				$args->search_target = 'is_secret';
 				$args->search_keyword = 'N';
-				$args->page = $page > 0 ? $page : 1;
 				$args->module_srl = array_keys($target_modules);
 				$args->list_count = $config->feed_document_count > 0 ? $config->feed_document_count : 20;
+				$args->offset = ($page > 1) ? ($args->list_count * ($page - 1)) : 0;
+				$args->page = 0;
 				$args->sort_index = 'regdate';
 				$args->order_type = 'desc';
 				$document_list = DocumentModel::getDocumentList($args)->data;
