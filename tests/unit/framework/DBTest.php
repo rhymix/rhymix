@@ -13,7 +13,7 @@ class DBTest extends \Codeception\TestCase\Test
 		$oDB = Rhymix\Framework\DB::getInstance();
 		$this->assertTrue($oDB instanceof Rhymix\Framework\DB);
 		$this->assertEquals($oDB, \DB::getInstance());
-		$this->assertTrue(\DB::getInstance() instanceof \DB);
+		$this->assertTrue(\DB::getInstance() instanceof Rhymix\Framework\DB);
 		$this->assertTrue($oDB->isConnected());
 		$this->assertTrue($oDB->getHandle() instanceof Rhymix\Framework\Helpers\DBHelper);
 	}
