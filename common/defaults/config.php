@@ -61,6 +61,7 @@ return array(
 		'use_keys' => false,
 		'use_ssl' => false,
 		'use_ssl_cookies' => false,
+		'samesite' => 'Lax',
 		'domain' => null,
 		'path' => null,
 		'lifetime' => 0,
@@ -126,6 +127,8 @@ return array(
 		'robot_user_agents' => array(),
 		'check_csrf_token' => false,
 		'nofollow' => false,
+		'x_frame_options' => 'SAMEORIGIN',
+		'x_content_type_options' => 'nosniff',
 	),
 	'mobile' => array(
 		'enabled' => true,

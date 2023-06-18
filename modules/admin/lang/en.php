@@ -168,6 +168,8 @@ $lang->about_robot_user_agents = 'This list defines the list of browser user-age
 $lang->use_samesite = 'SameSite attribute';
 $lang->use_samesite_empty = 'Do not use';
 $lang->about_use_samesite = 'Set the SameSite attribute for session cookies and session keys.<br>Lax is the recommended setting for most sites. You may need to use None if you are having difficulties integrating with external services such as payment gateways.<br>However, None is only valid when used with SSL-only sessions.';
+$lang->about_x_frame_options = 'Block loading this site in an iframe from another site. This helps prevent clickjacking attacks.<br />SameOrigin is recommended for most sites. Deny will make iframes stop working even on this site.<br />Do not use this setting if you have already enabled the X-Frame-Options header in your server configuration.';
+$lang->about_x_content_type_options = 'Prevent browser sniffing of MIME types of documents and attached files.<br />Do not use this setting if you have already enabled the X-Content-Type-Options header in your server configuration.';
 $lang->use_session_keys = 'Use session security keys';
 $lang->about_use_session_keys = 'Use additional security keys to guard against session theft. This setting is highly recommended if you don\'t use SSL-only sessions.<br>This setting may cause some users to become logged out.';
 $lang->use_session_ssl = 'Use SSL-only session';
@@ -176,7 +178,7 @@ $lang->use_cookies_ssl = 'Use SSL-only cookies';
 $lang->about_use_cookies_ssl = 'Force all cookies to be SSL-only.';
 $lang->check_csrf_token = 'Use CSRF tokens';
 $lang->about_check_csrf_token = 'Use CSRF tokens to validate requests. This is more secure but may break some functionality.<br>If not selected, Rhymix will use only the Referer header to defend against CSRF attacks.';
-$lang->use_nofollow = 'Use nofollow attribute';
+$lang->use_nofollow = 'Add nofollow attribute to Links';
 $lang->about_use_nofollow = 'Add rel=&quot;nofollow&quot; to all links submitted by users in order to reduce the effectiveness of spamming.<br>This does not apply to content submitted by the administrator.';
 $lang->use_object_cache = 'Use Cache';
 $lang->cache_default_ttl = 'Cache default TTL';

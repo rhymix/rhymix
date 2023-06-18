@@ -115,6 +115,16 @@ class DisplayHandler extends Handler
 			}
 		}
 
+		// Print security-related headers.
+		if($header_value = config('security.x_frame_options'))
+		{
+			header('X-Frame-Options: ' . $header_value);
+		}
+		if($header_value = config('security.x_content_type_options'))
+		{
+			header('X-Content-Type-Options: ' . $header_value);
+		}
+
 		// flush output buffer
 		while (ob_get_level())
 		{
