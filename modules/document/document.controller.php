@@ -623,7 +623,7 @@ class DocumentController extends Document
 		// Check the status of password hash for manually inserting. Apply hashing for otherwise.
 		if($obj->password && !$obj->password_is_hashed)
 		{
-			$obj->password = MemberModel::hashPassword($obj->password);
+			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
 
 		// Insert member's information only if the member is logged-in and not manually registered.
@@ -901,7 +901,7 @@ class DocumentController extends Document
 		// Hash the password if it exists
 		if($obj->password)
 		{
-			$obj->password = MemberModel::hashPassword($obj->password);
+			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
 
 		// If an author is identical to the modifier or history is used, use the logged-in user's information.

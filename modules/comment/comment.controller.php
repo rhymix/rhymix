@@ -486,7 +486,7 @@ class CommentController extends Comment
 		// even for manual_inserted if password exists, hash it.
 		if($obj->password)
 		{
-			$obj->password = MemberModel::hashPassword($obj->password);
+			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
 
 		// get the original posting
@@ -871,7 +871,7 @@ class CommentController extends Comment
 
 		if($obj->password)
 		{
-			$obj->password = MemberModel::hashPassword($obj->password);
+			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
 
 		if($obj->homepage)
