@@ -80,7 +80,6 @@ return array(
 		'delay_compile' => 0,
 		'jquery_version' => 2,
 		'server_push' => false,
-		'use_gzip' => false,
 	),
 	'admin' => array(
 		'allow' => array(),

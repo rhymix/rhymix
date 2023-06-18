@@ -206,7 +206,6 @@ class ConfigParser
 
 		// Convert view configuration.
 		$config['view']['minify_scripts'] = $db_info->minify_scripts ?: 'common';
-		$config['view']['use_gzip'] = (defined('__OB_GZHANDLER_ENABLE__') && constant('__OB_GZHANDLER_ENABLE__'));
 
 		// Convert admin IP whitelist.
 		if (isset($db_info->admin_ip_list) && is_array($db_info->admin_ip_list) && count($db_info->admin_ip_list))

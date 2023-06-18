@@ -9,9 +9,8 @@ class DisplayHandler extends Handler
 {
 	public static $response_size = 0;
 	public static $debug_printed = 0;
-	var $content_size = 0; // /< The size of displaying contents
-	var $gz_enabled = FALSE; // / <a flog variable whether to call contents after compressing by gzip
-	var $handler = NULL;
+	public $content_size = 0;
+	public $handler = NULL;
 
 	/**
 	 * print either html or xml content given oModule object
@@ -21,12 +20,6 @@ class DisplayHandler extends Handler
 	 */
 	public function printContent(&$oModule)
 	{
-		// Check if the gzip encoding supported
-		if(config('view.use_gzip') && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false && extension_loaded('zlib') && $oModule->gzhandler_enable)
-		{
-			$this->gz_enabled = TRUE;
-		}
-
 		// Extract contents to display by the response method
 		$responseMethod = Context::getResponseMethod();
 		if(Context::get('xeVirtualRequestMethod') == 'xml')
@@ -122,20 +115,10 @@ class DisplayHandler extends Handler
 			}
 		}
 
-		// disable gzip if output already exists
+		// flush output buffer
 		while (ob_get_level())
 		{
 			ob_end_flush();
-		}
-		if(headers_sent())
-		{
-			$this->gz_enabled = FALSE;
-		}
-
-		// enable gzip using zlib extension
-		if($this->gz_enabled)
-		{
-			ini_set('zlib.output_compression', true);
 		}
 
 		// call a trigger after display
