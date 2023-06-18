@@ -225,6 +225,12 @@ class Cleanup extends Base
 		'.travis.yml' => 'deleted:xe',
 
 		// Deleted files and directories
+		'addons/blogapi/' => 'deleted:xe',
+		'addons/captcha/' => 'deleted:xe',
+		'addons/captcha_member/' => 'deleted:xe',
+		'addons/member_communication/' => 'deleted:xe',
+		'addons/mobile/' => 'deleted:xe',
+		'addons/openid_delegation_id/' => 'deleted:xe',
 		'classes/cache/CacheApc.class.php' => 'deleted:xe',
 		'classes/cache/CacheFile.class.php' => 'deleted:xe',
 		'classes/cache/CacheMemcache.class.php' => 'deleted:xe',
