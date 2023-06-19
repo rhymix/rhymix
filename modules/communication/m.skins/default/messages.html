@@ -8,8 +8,20 @@
 		<span class="memberInfo">{$val->nick_name}  ({zdate($val->regdate,"Y-m-d")})</span>
 	</li>
 </ul>
+<form action="{Context::getRequestUri()}" method="get" no-error-return-url="true" class="search">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="act" value="{$act}" />
+	<select name="search_target" title="{$lang->search_target}">
+		<option value="title" selected="selected"|cond="isset($search_target) && $search_target == 'title'">{$lang->title}</option>
+		<option value="title_content" selected="selected"|cond="isset($search_target) && $search_target == 'title_content'">{$lang->title_content}</option>
+		<option value="content" selected="selected"|cond="isset($search_target) && $search_target == 'content'">{$lang->content}</option>
+	</select>
+	<input type="text" name="search_keyword" value="{escape($search_keyword ?? '', false)}">
+	<button type="submit" class="btn">{$lang->cmd_search}</button>
+</form>
 <div class="pn">
 	<a cond="$page != 1" href="{getUrl('page',$page-1,'document_srl','')}" class="prev">{$lang->cmd_prev}</a>
 	<strong>{$page} / {$page_navigation->last_page}</strong>
 	<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1,'document_srl','')}" class="next">{$lang->cmd_next}</a>
 </div>
+
