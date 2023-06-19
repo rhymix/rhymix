@@ -926,7 +926,7 @@ class BoardView extends Board
 		/**
 		 * add JS filters
 		 **/
-		if(Context::get('logged_info')->is_admin == 'Y' || $this->module_info->allow_no_category == 'Y')
+		if($this->grant->manager || $this->module_info->allow_no_category == 'Y')
 		{
 			Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
 		}
