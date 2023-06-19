@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the point module
  */
-class pointAdminView extends point
+class PointAdminView extends Point
 {
 	/**
 	 * @brief Initialization

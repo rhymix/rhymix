@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The model class fo the point module
  */
-class pointModel extends point
+class PointModel extends Point
 {
 	/**
 	 * Cache for module configuration.
