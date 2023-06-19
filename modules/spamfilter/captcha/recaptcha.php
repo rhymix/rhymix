@@ -1,6 +1,6 @@
 <?php
 
-class spamfilter_reCAPTCHA
+class spamfilter_captcha
 {
 	protected static $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
 	protected static $config = null;
@@ -35,17 +35,17 @@ class spamfilter_reCAPTCHA
 			throw new Rhymix\Framework\Exception('msg_recaptcha_connection_error');
 		}
 
-        $verify = @json_decode($verify_request->body, true);
+		$verify = @json_decode($verify_request->body, true);
 		if (!$verify || !$verify['success'])
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_server_error');
 		}
-        if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
+		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
 			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
-        }
+		}
 
-        $_SESSION['recaptcha_authenticated'] = true;
+		$_SESSION['recaptcha_authenticated'] = true;
 	}
 
 	public function addScripts()

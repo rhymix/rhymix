@@ -225,7 +225,7 @@ class spamfilterController extends spamfilter
 	function triggerCheckCaptcha(&$obj)
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!isset($config) || !isset($config->captcha) || $config->captcha->type !== 'recaptcha' || !$config->captcha->site_key || !$config->captcha->secret_key)
+		if (!isset($config) || !isset($config->captcha) || !in_array($config->captcha->type, ['recaptcha','turnstile']) || !$config->captcha->site_key || !$config->captcha->secret_key)
 		{
 			return;
 		}
@@ -260,16 +260,16 @@ class spamfilterController extends spamfilter
 
 		if (count($target_actions))
 		{
-			include_once __DIR__ . '/spamfilter.lib.php';
-			spamfilter_reCAPTCHA::init($config->captcha);
+			include_once __DIR__ . '/captcha/' . $config->captcha->type . '.php';
+			spamfilter_captcha::init($config->captcha);
 
 			if (strncasecmp('proc', $obj->act, 4) === 0)
 			{
-				spamfilter_reCAPTCHA::check();
+				spamfilter_captcha::check();
 			}
 			else
 			{
-				$captcha = new spamfilter_reCAPTCHA();
+				$captcha = new spamfilter_captcha();
 				$captcha->setTargetActions($target_actions);
 				$captcha->addScripts();
 				Context::set('captcha', $captcha);
