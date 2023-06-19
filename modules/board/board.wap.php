@@ -7,7 +7,7 @@
  * @brief  board module WAP class
  **/
 
-class boardWAP extends board
+class BoardWAP extends Board
 {
 	/**
 	 * @brief wap procedure method

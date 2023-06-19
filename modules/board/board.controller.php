@@ -7,7 +7,7 @@
  * @brief  board module Controller class
  **/
 
-class boardController extends board
+class BoardController extends Board
 {
 	/**
 	 * @brief initialization

@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief  board module View class
  **/
-class boardView extends board
+class BoardView extends Board
 {
 	var $listConfig;
 	var $columnList;
