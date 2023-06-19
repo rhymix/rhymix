@@ -222,6 +222,7 @@ class MemberAdminController extends Member
 	public function procMemberAdminInsertDefaultConfig()
 	{
 		$args = Context::gets(
+			'member_mid',
 			'enable_join',
 			'enable_join_key',
 			'enable_confirm',
@@ -239,6 +240,50 @@ class MemberAdminController extends Member
 			'member_profile_view'
 		);
 
+		// Update member mid
+		$config = MemberModel::getMemberConfig();
+		if ($args->member_mid !== ($config->mid ?? null))
+		{
+			if (!preg_match('/^[a-z][a-z0-9_]+$/i', $args->member_mid))
+			{
+				return new BaseObject(-1, 'msg_limit_mid');
+			}
+
+			if ($config->mid)
+			{
+				$module_info = ModuleModel::getModuleInfoByMid($config->mid);
+				if (!$module_info || $module_info->module !== $this->module)
+				{
+					$module_info = null;
+				}
+			}
+			else
+			{
+				$module_info = null;
+			}
+
+			if ($module_info)
+			{
+				$module_info->mid = $args->member_mid;
+				$output = ModuleController::getInstance()->updateModule($module_info);
+			}
+			else
+			{
+				$output = $this->createMid($args->member_mid, $config->skin ?: 'default', $config->mskin ?: 'default');
+			}
+
+			if ($output->toBool())
+			{
+				$args->mid = $args->member_mid;
+				unset($args->member_mid);
+			}
+			else
+			{
+				return $output;
+			}
+		}
+
+		// Update join key
 		if ($args->enable_join === 'KEY')
 		{
 			$args->enable_join = 'N';
