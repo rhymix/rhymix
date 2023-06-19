@@ -37,10 +37,10 @@ class PointModel extends Point
 		$member_srl = abs($member_srl);
 
 		// Get from instance memory
-		if (!$from_db && isset(parent::$_member_point_cache[$member_srl]))
+		if (!$from_db && isset(self::$_member_point_cache[$member_srl]))
 		{
 			$exists = true;
-			return parent::$_member_point_cache[$member_srl];
+			return self::$_member_point_cache[$member_srl];
 		}
 
 		// Get from object cache
@@ -51,7 +51,7 @@ class PointModel extends Point
 			if ($point !== null)
 			{
 				$exists = true;
-				return parent::$_member_point_cache[$member_srl] = $point;
+				return self::$_member_point_cache[$member_srl] = $point;
 			}
 		}
 
@@ -64,7 +64,7 @@ class PointModel extends Point
 			if ($point !== '')
 			{
 				$exists = true;
-				return parent::$_member_point_cache[$member_srl] = intval($point);
+				return self::$_member_point_cache[$member_srl] = intval($point);
 			}
 		}
 
@@ -84,7 +84,7 @@ class PointModel extends Point
 		}
 
 		// Save to cache
-		parent::$_member_point_cache[$member_srl] = $point;
+		self::$_member_point_cache[$member_srl] = $point;
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
 			Rhymix\Framework\Cache::set($cache_key, $point);
