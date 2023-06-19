@@ -37,6 +37,8 @@ class Member extends ModuleObject
 		if(!$config)
 		{
 			$config = MemberModel::getMemberConfig();
+			$config->mid = 'member';
+			$this->createMid($config->mid);
 			$oModuleController->insertModuleConfig('member', $config);
 		}
 
@@ -165,7 +167,12 @@ class Member extends ModuleObject
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
 		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
 
+		// Check mid
 		$config = ModuleModel::getModuleConfig('member');
+		if (empty($config->mid))
+		{
+			return true;
+		}
 
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
@@ -370,6 +377,19 @@ class Member extends ModuleObject
 		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
 		$changed = false;
 
+		// Check mid
+		if (empty($config->mid))
+		{
+			$config->mid = 'member';
+			$output = $this->createMid($config->mid, $config->skin ?: 'default', $config->mskin ?: 'default');
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+			$changed = true;
+		}
+
+
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
 		{
@@ -526,12 +546,32 @@ class Member extends ModuleObject
 	}
 
 	/**
-	 * Re-generate the cache file
+	 * Create mid
 	 *
-	 * @return void
+	 * @param string $mid
+	 * @param string $skin
+	 * @param string $mskin
+	 * @return BaseObject
 	 */
-	function recompileCache()
+	public function createMid($mid = 'member', $skin = 'default', $mskin = 'default')
 	{
+		$module_info = \ModuleModel::getModuleInfoByMid($mid);
+		if ($module_info && $module_info->module === $this->module)
+		{
+			return new BaseObject();
+		}
+
+		return ModuleController::getInstance()->insertModule((object)array(
+			'mid' => $mid,
+			'module' => $this->module,
+			'browser_title' => lang('member'),
+			'description' => '',
+			'layout_srl' => -1,
+			'mlayout_srl' => -1,
+			'skin' => $skin,
+			'mskin' => $mskin,
+			'use_mobile' => 'Y',
+		));
 	}
 
 	/**
