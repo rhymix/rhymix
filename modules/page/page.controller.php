@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief controller class of the document module
  */
-class pageController extends page
+class PageController extends Page
 {
 	var $target_path = '';
 

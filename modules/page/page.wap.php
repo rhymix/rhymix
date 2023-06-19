@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief wap class page of the module
  */
-class pageWap extends page
+class PageWap extends Page
 {
 	/**
 	 * @brief wap procedure method

@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief page view class of the module
  */
-class pageView extends page
+class PageView extends Page
 {
 	public $module_srl = 0;
 	public $list_count = 20;

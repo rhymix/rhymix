@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-class pageMobile extends pageView
+class PageMobile extends PageView
 {
 	function _getArticleContent()
 	{
