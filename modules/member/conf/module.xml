@@ -2,6 +2,7 @@
 <module>
 	<grants />
 	<actions>
+		<action name="dispMemberIndex" type="view" index="true" />
 		<action name="dispMemberSignUpForm" type="view" meta-noindex="true">
 			<route route="signup" />
 			<route route="signup$document_srl:delete" />
@@ -31,11 +32,11 @@
 		<action name="dispMemberModifyNicknameLog" type="view" permission="member" meta-noindex="true" />
 		<action name="dispMemberLogout" type="view" meta-noindex="true" />
 		<action name="dispMemberSpammer" type="view" permission="manager" check_var="module_srl" meta-noindex="true" />
-		
+
 		<action name="getLoginStatus" type="model" method="POST" check_csrf="false" meta-noindex="true" />
 		<action name="getMemberMenu" type="model" />
 		<action name="getApiGroups" type="model" permission="root" />
-		
+
 		<action name="procMemberInsert" type="controller" route="signup" />
 		<action name="procMemberCheckValue" type="controller" />
 		<action name="procMemberLogin" type="controller" route="login" />
@@ -70,12 +71,12 @@
 		<action name="procMemberSiteLeave" type="controller" permission="member" />
 		<action name="procMemberLogout" type="controller" permission="member" />
 		<action name="procMemberSpammerManage" type="controller" permission="manager" check_var="module_srl" />
-		
+
 		<action name="procMemberRegisterDevice" class="Controllers\Device" route="device/register" standalone="true" />
 		<action name="procMemberLoginWithDevice" class="Controllers\Device" route="device/login" standalone="true" />
 		<action name="procMemberUnregisterDevice" class="Controllers\Device" route="device/unregister" standalone="true" />
 		<action name="procMemberDeleteDevice" class="Controllers\Device" permission="member" standalone="true" />
-		
+
 		<action name="dispMemberAdminList" type="view" admin_index="true" menu_name="userList" menu_index="true"/>
 		<action name="dispMemberAdminInfo" type="view" menu_name="userList" />
 		<action name="dispMemberAdminInsert" type="view" menu_name="userList" />
@@ -88,11 +89,11 @@
 		<action name="dispMemberAdminNickNameLog" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
 		<action name="dispMemberAdminInsertJoinForm" type="view" />
-		
+
 		<action name="getMemberAdminColorset" type="model" />
 		<action name="getMemberAdminInsertJoinForm" type="model" />
 		<action name="getMemberAdminIPCheck" type="model" />
-		
+
 		<action name="procMemberAdminInsert" type="controller" ruleset="insertAdminMember" />
 		<action name="procMemberAdminDelete" type="controller" />
 		<action name="procMemberAdminSelectedMemberManage" type="controller" ruleset="updateSeletecdMemberInfo" />

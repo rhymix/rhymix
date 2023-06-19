@@ -54,6 +54,21 @@ class MemberView extends Member
 	}
 
 	/**
+	 * Module index
+	 */
+	public function dispMemberIndex()
+	{
+		if ($this->user->isMember())
+		{
+			$this->setRedirectUrl(getUrl(['mid' => $this->mid, 'act' => 'dispMemberInfo']));
+		}
+		else
+		{
+			$this->setRedirectUrl(getUrl(['mid' => $this->mid, 'act' => 'dispMemberLoginForm']));
+		}
+	}
+
+	/**
 	 * @brief Display member information
 	 */
 	function dispMemberInfo()
