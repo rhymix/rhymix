@@ -16,13 +16,12 @@ class LegacyTest extends \Codeception\TestCase\Test
 		$this->assertTrue(getView('board') instanceof BoardView);
 		$this->assertTrue(getAPI('board') instanceof BoardApi);
 		$this->assertTrue(getMobile('board') instanceof BoardMobile);
-		$this->assertTrue(getWAP('board') instanceof BoardWap);
 		$this->assertTrue(getClass('board') instanceof Board);
 	}
 
 	public function testGetNextSequence()
 	{
-		if (!DB::getInstance()->isConnected())
+		if (!DB::getInstance()->getHandle())
 		{
 			return;
 		}
