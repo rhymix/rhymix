@@ -12,7 +12,12 @@
 				{$site_module_info->domain}{\RX_BASEURL}<!--@if(!config('url.rewrite'))-->index.php?mid=<!--@endif-->
 			</span>
 			<input type="text" name="member_mid" id="member_mid" value="{$config->mid ?? 'member'}" />
-			<p class="x_help-block">{$lang->about_mid}</p>
+			&nbsp;
+			<label class="x_inline" for="force_mid">
+				<input type="checkbox" name="force_mid" id="force_mid" value="Y" checked="checked"|cond="!empty($config->force_mid)" />
+				{$lang->cmd_force_member_mid}
+			</label>
+			<p class="x_help-block" style="margin-top:10px">{$lang->about_mid}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

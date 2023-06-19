@@ -38,6 +38,7 @@ class Member extends ModuleObject
 		{
 			$config = MemberModel::getMemberConfig();
 			$config->mid = 'member';
+			$config->force_mid = true;
 			$this->createMid($config->mid);
 			$oModuleController->insertModuleConfig('member', $config);
 		}

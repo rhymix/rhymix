@@ -55,7 +55,7 @@ class MemberView extends Member
 		{
 			$this->member_config = MemberModel::getMemberConfig();
 		}
-		if (!$this->member_config->mid)
+		if (!$this->member_config->mid || !$this->member_config->force_mid)
 		{
 			return true;
 		}

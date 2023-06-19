@@ -223,6 +223,7 @@ class MemberAdminController extends Member
 	{
 		$args = Context::gets(
 			'member_mid',
+			'force_mid',
 			'enable_join',
 			'enable_join_key',
 			'enable_confirm',
@@ -282,6 +283,8 @@ class MemberAdminController extends Member
 				return $output;
 			}
 		}
+
+		$args->force_mid = ($args->force_mid === 'Y');
 
 		// Update join key
 		if ($args->enable_join === 'KEY')
