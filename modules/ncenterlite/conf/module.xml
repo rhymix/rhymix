@@ -2,19 +2,19 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispNcenterliteNotifyList" type="view" permission="member" route="notifications" />
-		<action name="dispNcenterliteUserConfig" type="view" permission="member" route="notififcations/config" />
-		<action name="dispNcenterliteUnsubscribeList" type="view" permission="member" route="notififcations/unsubscribe" />
-		<action name="dispNcenterliteInsertUnsubscribe" type="view" permission="member" route="notififcations/unsubscribe/add" />
-		
+		<action name="dispNcenterliteNotifyList" type="view" permission="member" route="notifications" meta-noindex="true" />
+		<action name="dispNcenterliteUserConfig" type="view" permission="member" route="notififcations/config" meta-noindex="true" />
+		<action name="dispNcenterliteUnsubscribeList" type="view" permission="member" route="notififcations/unsubscribe" meta-noindex="true" />
+		<action name="dispNcenterliteInsertUnsubscribe" type="view" permission="member" route="notififcations/unsubscribe/add" meta-noindex="true" />
+
 		<action name="getColorsetList" type="model" permission="root" />
 		<action name="getMyNotifyListTpl" type="model" permission="member" />
-		
+
 		<action name="procNcenterliteUserConfig" type="controller" permission="member" />
 		<action name="procNcenterliteNotifyReadAll" type="controller" permission="member" />
 		<action name="procNcenterliteRedirect" type="controller" permission="member" method="GET|POST" />
 		<action name="procNcenterliteInsertUnsubscribe" type="controller" />
-		
+
 		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
 		<action name="dispNcenterliteAdminAdvancedconfig" type="view" menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminSeletedmid" type="view" menu_name="ncenterlite" />
@@ -23,7 +23,7 @@
 		<action name="dispNcenterliteAdminList" type="view" menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminCustomList" type="view" menu_name="ncenterlite" />
 		<action name="dispNcenterliteAdminOtherComment" type="view" menu_name="ncenterlite" />
-		
+
 		<action name="procNcenterliteAdminInsertConfig" type="controller" ruleset="insertConfig" />
 		<action name="procNcenterliteAdminInsertDummyData" type="controller" />
 		<action name="procNcenterliteAdminInsertPushData" type="controller" />
