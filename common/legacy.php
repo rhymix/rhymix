@@ -1128,6 +1128,7 @@ function recurciveExposureCheck(&$menu)
 			if(!$value['isShow'])
 			{
 				unset($menu[$key]);
+				continue;
 			}
 			if(is_array($value['list']) && count($value['list']) > 0)
 			{
