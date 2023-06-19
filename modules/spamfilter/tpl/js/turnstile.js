@@ -1,10 +1,10 @@
 
 function turnstileCallback() {
 	var recaptcha_config = $("#recaptcha-config");
-	var recaptcha_instances = $(".g-recaptcha");
+	var recaptcha_instances = $(".turnstile-captcha");
 	var recaptcha_instance_id = 1;
 	var recaptcha_targets = String(recaptcha_config.data("targets")).split(",");
-	
+
 	if (recaptcha_instances.length === 0) {
 		var autoinsert_candidates = $("form").filter(function() {
 			var actinput = $("input[name='act']", this);
@@ -33,8 +33,8 @@ function turnstileCallback() {
 			return false;
 		});
 		autoinsert_candidates.each(function() {
-			var new_instance = $('<div class="g-recaptcha"></div>');
-			new_instance.attr("id", "recaptcha-instance-" + recaptcha_instance_id++);
+			var new_instance = $('<div class="turnstile-captcha"></div>');
+			new_instance.attr("id", "turnstile-instance-" + recaptcha_instance_id++);
 			var autoinsert_point = $(this).find("button[type='submit'],input[type='submit']").parent();
 			if (autoinsert_point.size()) {
 				new_instance.insertBefore(autoinsert_point);
@@ -42,9 +42,9 @@ function turnstileCallback() {
 				new_instance.appendTo($(this));
 			}
 		});
-		var recaptcha_instances = $(".g-recaptcha");
+		var recaptcha_instances = $(".turnstile-captcha");
 	}
-	
+
 	recaptcha_instances.each(function() {
 		var instance = $(this);
 		var theme = recaptcha_config.data("theme");

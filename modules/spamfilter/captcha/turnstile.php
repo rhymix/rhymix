@@ -1,6 +1,11 @@
 <?php
 
-class spamfilter_captcha
+namespace Rhymix\Modules\Spamfilter\Captcha;
+
+use Context;
+use Rhymix\Framework\Exception;
+
+class Turnstile
 {
 	protected static $verify_url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
 	protected static $config = null;
@@ -19,7 +24,7 @@ class spamfilter_captcha
 		$response = Context::get('g-recaptcha-response');
 		if (!$response)
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
+			throw new Exception('msg_recaptcha_invalid_response');
 		}
 
 		try
@@ -32,17 +37,17 @@ class spamfilter_captcha
 		}
 		catch (\Requests_Exception $e)
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_connection_error');
+			throw new Exception('msg_recaptcha_connection_error');
 		}
 
 		$verify = @json_decode($verify_request->body, true);
 		if (!$verify || !$verify['success'])
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_server_error');
+			throw new Exception('msg_recaptcha_server_error');
 		}
 		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
+			throw new Exception('msg_recaptcha_invalid_response');
 		}
 
 		$_SESSION['recaptcha_authenticated'] = true;
@@ -73,6 +78,6 @@ class spamfilter_captcha
 
 	public function __toString()
 	{
-		return sprintf('<div id="recaptcha-instance-%d" class="g-recaptcha"></div>', self::$instances_inserted++);
+		return sprintf('<div id="turnstile-instance-%d" class="turnstile-captcha"></div>', self::$instances_inserted++);
 	}
 }
