@@ -158,9 +158,9 @@ class DB
 	/**
 	 * Get the PDO handle for direct manipulation.
 	 *
-	 * @return Helpers\DBHelper
+	 * @return ?Helpers\DBHelper
 	 */
-	public function getHandle(): Helpers\DBHelper
+	public function getHandle(): ?Helpers\DBHelper
 	{
 		return $this->_handle;
 	}
@@ -1430,7 +1430,7 @@ class DB
 	 */
 	public function isConnected(): bool
 	{
-		return true;
+		return $this->_handle ? true : false;
 	}
 
 	/**
@@ -1496,7 +1496,7 @@ class DB
 	{
 		return 0;
 	}
-	public function _getConnection(): \PDO
+	public function _getConnection(): ?Helpers\DBHelper
 	{
 		return $this->getHandle();
 	}
