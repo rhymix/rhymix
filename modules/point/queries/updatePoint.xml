@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="point" var="point" />
+		<column name="point" operation="plus" var="diff" />
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />

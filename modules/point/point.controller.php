@@ -666,47 +666,76 @@ class pointController extends point
 	/**
 	 * @brief Set points
 	 */
-	public function setPoint($member_srl, $point, $mode = null)
+	public static function setPoint($member_srl, $point, $mode = 'update')
 	{
+		// Normalize parameters
 		$member_srl = abs($member_srl);
-		$mode_arr = array('add', 'minus', 'update', 'signup');
-		if(!$mode || !in_array($mode,$mode_arr)) $mode = 'update';
+		$point = intval($point);
+		if(!in_array($mode, ['add', 'plus', 'minus', 'update', 'signup']))
+		{
+			$mode = 'update';
+		}
 
 		// Get configuration information
 		$config = ModuleModel::getModuleConfig('point');
 
-		// Get the default configuration information
+		// Get current points for the member
 		$current_point = PointModel::getPoint($member_srl, false, $exists);
 		$current_level = PointModel::getLevel($current_point, $config->level_step);
+		$new_point = $current_point;
+		$new_level = $current_level;
 
-		// Change points
+		// Initialize query arguments
 		$args = new stdClass();
 		$args->member_srl = $member_srl;
-		$args->point = $current_point;
 
+		// Set or update depending on mode
 		switch($mode)
 		{
-			case 'add' :
-				$args->point += $point;
+			case 'add':
+			case 'plus':
+				$new_point += $point;
+				$args->diff = $point;
+				if ($point < 0)
+				{
+					$mode = 'minus';
+					$point = $point * -1;
+				}
 				break;
-			case 'minus' :
-				$args->point -= $point;
+			case 'minus':
+				$new_point -= $point;
+				$args->diff = $point * -1;
+				if ($point < 0)
+				{
+					$mode = 'plus';
+					$point = $point * -1;
+				}
 				break;
-			case 'update' :
-			case 'signup' :
+			case 'update':
+			case 'signup':
+				$new_point = $point;
 				$args->point = $point;
 				break;
 		}
-		if($args->point < 0) $args->point = 0;
-		$point = $args->point;
+
+		// Prevent negative points. This may not be 100% reliable if using diff.
+		if (isset($args->diff) && $current_point + $args->diff < 0)
+		{
+			$args->diff = $current_point * -1;
+		}
+		if (isset($args->point) && $args->point < 0)
+		{
+			$args->point = 0;
+		}
 
 		// Call a trigger (before)
 		$trigger_obj = new stdClass();
 		$trigger_obj->member_srl = $args->member_srl;
-		$trigger_obj->mode = $mode;
+		$trigger_obj->mode = $mode === 'plus' ? 'add' : $mode;
 		$trigger_obj->current_point = $current_point;
 		$trigger_obj->current_level = $current_level;
 		$trigger_obj->set_point = $point;
+		$trigger_obj->new_point = $new_point;
 		$trigger_output = ModuleHandler::triggerCall('point.setPoint', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
 		{
@@ -714,7 +743,7 @@ class pointController extends point
 		}
 
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		// If there are points, update, if no, insert
@@ -724,10 +753,14 @@ class pointController extends point
 		}
 		else
 		{
+			// This will fail if someone else has inserted points for this member.
+			$args->point = $new_point;
 			$output = executeQuery("point.insertPoint", $args);
-			// 많은 동접시 포인트를 넣는 과정에서 미리 들어간 포인트가 있을 수 있는 문제가 있어 이를 확실하게 처리하도록 수정요청을 한 번 더 실행.
+
+			// Handle race condition by re-trying update if insert fails.
 			if(!$output->toBool())
 			{
+				if(isset($args->diff)) unset($args->point);
 				$output = executeQuery("point.updatePoint", $args);
 			}
 		}
@@ -739,18 +772,18 @@ class pointController extends point
 		}
 
 		// Get a new level
-		$level = PointModel::getLevel($point, $config->level_step);
+		$new_level = PointModel::getLevel($new_point, $config->level_step);
 
 		// If existing level and a new one are different attempt to set a point group
 		$new_group_list = array();
 		$del_group_list = array();
 		if ($config->group_ratchet === 'Y')
 		{
-			$change_group = ($level > $current_level);
+			$change_group = ($new_level > $current_level);
 		}
 		else
 		{
-			$change_group = ($level != $current_level);
+			$change_group = ($new_level != $current_level);
 		}
 
 		if ($change_group)
@@ -758,7 +791,7 @@ class pointController extends point
 			// Check if the level, for which the current points are prepared, is calculate and set the correct group
 			$point_group = $config->point_group;
 			// If the point group exists
-			if($point_group && is_array($point_group) && count($point_group) )
+			if($point_group && is_array($point_group) && count($point_group))
 			{
 				// Get the default group
 				$default_group = MemberModel::getDefaultGroup();
@@ -768,19 +801,19 @@ class pointController extends point
 				if($config->group_reset != 'N')
 				{
 					// If the new level is in the right group
-					if(in_array($level, $point_group))
+					if(in_array($new_level, $point_group))
 					{
 						// Delete all groups except the one which the current level belongs to
 						foreach($point_group as $group_srl => $target_level)
 						{
 							$del_group_list[] = $group_srl;
-							if($target_level == $level) $new_group_list[] = $group_srl;
+							if($target_level == $new_level) $new_group_list[] = $group_srl;
 						}
 					}
 					// Otherwise, in case the level is reduced, add the recent group
 					else
 					{
-						$i = $level;
+						$i = $new_level;
 						while($i > 0)
 						{
 							if(in_array($i, $point_group))
@@ -800,7 +833,7 @@ class pointController extends point
 					// Delete the group of a level which is higher than the current level
 					foreach($point_group as $group_srl => $target_level)
 					{
-						if($target_level > $level) $del_group_list[] = $group_srl;
+						if($target_level > $new_level) $del_group_list[] = $group_srl;
 					}
 					$del_group_list[] = $default_group->group_srl;
 				}
@@ -811,7 +844,7 @@ class pointController extends point
 					foreach($point_group as $group_srl => $target_level)
 					{
 						$del_group_list[] = $group_srl;
-						if($target_level <= $level) $new_group_list[] = $group_srl;
+						if($target_level <= $new_level) $new_group_list[] = $group_srl;
 					}
 				}
 				// If there is no a new group, granted the default group
@@ -836,29 +869,16 @@ class pointController extends point
 		}
 
 		// Call a trigger (after)
+		$trigger_obj->new_level = $new_level;
 		$trigger_obj->new_group_list = $new_group_list;
 		$trigger_obj->del_group_list = $del_group_list;
-		$trigger_obj->new_level = $level;
 		ModuleHandler::triggerCall('point.setPoint', 'after', $trigger_obj);
 
 		$oDB->commit();
 
-		// Cache Settings
-		$cache_key = sprintf('member:point:%d', $member_srl);
-		$cache_path = sprintf(RX_BASEDIR . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
-		$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
-		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
-		{
-			Rhymix\Framework\Cache::set($cache_key, $point);
-			Rhymix\Framework\Storage::delete($cache_filename);
-		}
-		else
-		{
-			Rhymix\Framework\Storage::write($cache_filename, $point);
-		}
-
+		// Refresh cache
+		PointModel::getPoint($member_srl, true);
 		MemberController::clearMemberCache($member_srl);
-		unset(parent::$_member_point_cache[$member_srl]);
 
 		return $output;
 	}
