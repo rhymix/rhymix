@@ -101,32 +101,58 @@ class DB
 			return;
 		}
 
+		// Cache the debug comment setting.
+		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
+		$this->_debug_comment = !!config('debug.query_comment');
+		$this->_debug_full_stack = !!Config::get('debug.query_full_stack');
+
 		// Connect to the DB.
+		$this->connect($config);
+	}
+
+	/**
+	 * Connect to the database.
+	 *
+	 * @param array $config
+	 * @return void
+	 */
+	public function connect(array $config): void
+	{
+		// Assemble the DSN and default options.
 		$dsn = 'mysql:host=' . $config['host'];
 		$dsn .= (isset($config['port']) && $config['port'] != 3306) ? (';port=' . $config['port']) : '';
 		$dsn .= ';dbname=' . $config['database'];
 		$dsn .= ';charset=' . $this->_charset;
-		class_exists('\Rhymix\Framework\Helpers\DBStmtHelper');
 		$options = array(
 			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_EMULATE_PREPARES => false,
 			\PDO::ATTR_STATEMENT_CLASS => array('\Rhymix\Framework\Helpers\DBStmtHelper'),
 			\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false,
 		);
+
+		// Preload the statement helper class.
+		class_exists('\Rhymix\Framework\Helpers\DBStmtHelper');
+
 		try
 		{
 			$this->_handle = new Helpers\DBHelper($dsn, $config['user'], $config['pass'], $options);
-			$this->_handle->setType($type);
+			$this->_handle->setType($this->_type);
 		}
 		catch (\PDOException $e)
 		{
 			throw new Exceptions\DBError($e->getMessage());
 		}
+	}
 
-		// Cache the debug comment setting.
-		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
-		$this->_debug_comment = !!config('debug.query_comment');
-		$this->_debug_full_stack = !!Config::get('debug.query_full_stack');
+	/**
+	 * Disconnect from the database.
+	 *
+	 * @return void
+	 */
+	public function disconnect(): void
+	{
+		$this->_handle = null;
+		unset(self::$_instances[$this->_type]);
 	}
 
 	/**
