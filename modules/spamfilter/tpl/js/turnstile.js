@@ -1,6 +1,6 @@
 
 function turnstileCallback() {
-	var recaptcha_config = $("#recaptcha-config");
+	var recaptcha_config = $("#turnstile-config");
 	var recaptcha_instances = $(".turnstile-captcha");
 	var recaptcha_instance_id = 1;
 	var recaptcha_targets = String(recaptcha_config.data("targets")).split(",");

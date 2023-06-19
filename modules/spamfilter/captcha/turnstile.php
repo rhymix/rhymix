@@ -58,7 +58,7 @@ class Turnstile
 			self::$scripts_added = true;
 			Context::loadFile(array('./modules/spamfilter/tpl/js/turnstile.js', 'body'));
 			Context::addHtmlFooter('<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?compat=recaptcha&amp;render=explicit&amp;onload=turnstileCallback" async defer></script>');
-			$html = '<div id="recaptcha-config" data-sitekey="%s" data-theme="%s" data-size="%s" data-targets="%s"></div>';
+			$html = '<div id="turnstile-config" data-sitekey="%s" data-theme="%s" data-size="%s" data-targets="%s"></div>';
 			$html = sprintf($html, escape(self::$config->site_key), self::$config->theme ?: 'auto', self::$config->size ?: 'normal', implode(',', array_keys($this->_target_actions)));
 			Context::addHtmlFooter($html);
 		}
