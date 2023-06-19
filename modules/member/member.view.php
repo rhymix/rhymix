@@ -7,9 +7,8 @@
  */
 class MemberView extends Member
 {
-	var $group_list = NULL; // /< Group list information
-	var $member_info = NULL; // /< Member information of the user
-	var $skin = 'default';
+	public $member_config;
+	public $member_info;
 
 	/**
 	 * @brief Initialization
@@ -48,6 +47,10 @@ class MemberView extends Member
 	 */
 	public function checkMidAndRedirect()
 	{
+		if (!$this->member_config)
+		{
+			$this->member_config = MemberModel::getMemberConfig();
+		}
 		if (!$this->member_config->mid)
 		{
 			return true;
@@ -56,7 +59,7 @@ class MemberView extends Member
 		{
 			return true;
 		}
-		if (isset($this->mid) && $this->mid === $this->member_config->mid)
+		if (Context::get('mid') === $this->member_config->mid)
 		{
 			return true;
 		}

@@ -61,6 +61,14 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
 		$logged_info = Context::get('logged_info');
 
 		// Set the variables
@@ -177,11 +185,17 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$oCommunicationModel = getModel('communication');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
 
 		// get a new message
 		$columnList = array('message_srl', 'member_srl', 'nick_name', 'title', 'content', 'sender_srl');
-		$message = $oCommunicationModel->getNewMessage($columnList);
+		$message = CommunicationModel::getInstance()->getNewMessage($columnList);
 		if($message)
 		{
 			stripEmbedTagForAdmin($message->content, $message->sender_srl);
@@ -207,21 +221,31 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Error appears if not logged-in
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
+		// Check permission
 		if(!getModel('communication')->checkGrant($this->config->grant_send))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
 		}
 
 		// Fix missing mid (it causes errors when uploading)
 		if(!Context::get('mid'))
 		{
 			Context::set('mid', Context::get('site_module_info')->mid);
-		}
-
-		// Error appears if not logged-in
-		if(!Context::get('is_logged'))
-		{
-			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -310,6 +334,14 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
 		$oCommunicationModel = getModel('communication');
 
 		// get a group list
@@ -369,6 +401,14 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
 		$logged_info = Context::get('logged_info');
 		$target_srl = Context::get('target_srl');
 
@@ -419,7 +459,13 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$logged_info = Context::get('logged_info');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
 
 		// change to edit mode when getting the group_srl
 		$friend_group_srl = Context::get('friend_group_srl');

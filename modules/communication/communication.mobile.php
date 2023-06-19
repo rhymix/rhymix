@@ -51,6 +51,14 @@ class communicationMobile extends communicationView
 	 */
 	function dispCommunicationMessageBoxList()
 	{
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
 		$this->setTemplateFile('message_box');
 	}
 }
