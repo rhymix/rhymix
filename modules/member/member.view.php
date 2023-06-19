@@ -23,8 +23,12 @@ class MemberView extends Member
 
 		// Set the skin path
 		$skin = $this->member_config->skin;
-		if($skin)
+		if ($skin)
 		{
+			if ($skin === '/USE_DEFAULT/')
+			{
+				$skin = 'default';
+			}
 			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
 		}
 		else
