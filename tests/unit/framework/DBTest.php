@@ -14,8 +14,24 @@ class DBTest extends \Codeception\TestCase\Test
 		$this->assertTrue($oDB instanceof Rhymix\Framework\DB);
 		$this->assertEquals($oDB, \DB::getInstance());
 		$this->assertTrue(\DB::getInstance() instanceof Rhymix\Framework\DB);
-		$this->assertTrue($oDB->isConnected());
 		$this->assertTrue($oDB->getHandle() instanceof Rhymix\Framework\Helpers\DBHelper);
+	}
+
+	public function testConnectDisconnect()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance('master');
+		$this->assertTrue(is_object($oDB->getHandle()));
+
+		$oDB->disconnect();
+		$this->assertTrue(is_null($oDB->getHandle()));
+		$this->assertFalse($oDB->isConnected());
+
+		$oDB->connect(config('db.master'));
+		$this->assertTrue(is_object($oDB->getHandle()));
+		$this->assertTrue($oDB->isConnected());
+
+		$oDB = Rhymix\Framework\DB::getInstance('master');
+		$this->assertTrue(is_object($oDB->getHandle()));
 	}
 
 	public function testCompatProperties()
