@@ -17,6 +17,12 @@
     <conditions>
         <condition operation="equal" column="message.receiver_srl" var="member_srl" notnull="notnull" />
         <condition operation="equal" column="message.message_type" var="message_type" default="T" pipe="and" />
+		<condition operation="search" column="message.title" var="s_title" />
+		<condition operation="search" column="message.content" var="s_content" />
+		<group>
+			<condition operation="search" column="message.title" var="s_title_content" />
+			<condition operation="search" column="message.content" var="s_title_content" pipe="or" />
+		</group>
     </conditions>
     <navigation>
         <index var="sort_index" default="message.list_order" order="asc" />

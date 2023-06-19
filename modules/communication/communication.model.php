@@ -226,9 +226,12 @@ class communicationModel extends communication
 	 * get a message list
 	 * @param string $message_type (R: Received Message, S: Sent Message, T: Archive)
 	 * @param array $columnList
+	 * @param string $search_target
+	 * @param string $search_keyword
+	 * @param int $page
 	 * @return Object
 	 */
-	public static function getMessages($message_type = "R", $columnList = array())
+	public static function getMessages($message_type = 'R', $columnList = [], $search_target = null, $search_keyword = null, $page = null)
 	{
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
@@ -260,9 +263,15 @@ class communicationModel extends communication
 				break;
 		}
 
+		// Search conditions
+		if ($search_target && $search_keyword)
+		{
+			$args->{'s_' . $search_target} = $search_keyword;
+		}
+
 		// Other variables
 		$args->sort_index = 'message.list_order';
-		$args->page = Context::get('page');
+		$args->page = $page ?? max(1, intval(Context::get('page')));
 		$args->list_count = 20;
 		$args->page_count = 10;
 

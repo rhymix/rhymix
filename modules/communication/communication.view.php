@@ -86,28 +86,28 @@ class communicationView extends communication
 				case 'R':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 
 				case 'S':
 					if($message->sender_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 
 				case 'T':
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 
 				case 'N':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 			}
@@ -129,9 +129,20 @@ class communicationView extends communication
 			}
 		}
 
+		// Set search conditions
+		$search_target = Context::get('search_target');
+		if (!in_array($search_target, ['title', 'title_content', 'content']))
+		{
+			$search_target = null;
+		}
+		$search_keyword = utf8_clean(Context::get('search_keyword'));
+		Context::set('search_target', $search_target);
+		Context::set('search_keyword', $search_keyword !== '' ? $search_keyword : null);
+
 		// Extract a list
 		$columnList = array('message_srl', 'message_type', 'related_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
-		$output = $oCommunicationModel->getMessages($message_type, $columnList);
+		$page = max(1, intval(Context::get('page')));
+		$output = $oCommunicationModel->getMessages($message_type, $columnList, $search_target, $search_keyword, $page);
 
 		// set a template file
 		Context::set('total_count', $output->total_count);
