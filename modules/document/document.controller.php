@@ -608,11 +608,20 @@ class DocumentController extends Document
 		if($obj->category_srl)
 		{
 			$category_list = DocumentModel::getCategoryList($obj->module_srl);
-			if(count($category_list) > 0 && !$category_list[$obj->category_srl]->grant)
+			if (count($category_list) > 0)
 			{
-				return new BaseObject(-1, 'msg_not_permitted');
+				if (isset($category_list[$obj->category_srl]))
+				{
+					if (!$category_list[$obj->category_srl]->grant)
+					{
+						return new BaseObject(-1, 'msg_not_permitted');
+					}
+				}
+				else
+				{
+					$obj->category_srl = 0;
+				}
 			}
-			if(count($category_list) > 0 && !$category_list[$obj->category_srl]) $obj->category_srl = 0;
 		}
 
 		// Set the read counts and update order.
@@ -720,7 +729,10 @@ class DocumentController extends Document
 		}
 
 		// Update the category if the category_srl exists.
-		if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+		if($obj->category_srl)
+		{
+			$this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+		}
 
 		// Call a trigger (after)
 		if($obj->update_log_setting === 'Y')
@@ -884,14 +896,22 @@ class DocumentController extends Document
 		unset($obj->_saved_doc_message);
 
 		// Set the category_srl to 0 if the changed category is not exsiting.
-		if($source_obj->get('category_srl')!=$obj->category_srl)
+		if ($source_obj->get('category_srl') != $obj->category_srl)
 		{
 			$category_list = DocumentModel::getCategoryList($obj->module_srl);
-			if(!$category_list[$obj->category_srl]) $obj->category_srl = 0;
-
-			if($obj->category_srl > 0 && !$category_list[$obj->category_srl]->grant)
+			if (count($category_list) > 0)
 			{
-				return new BaseObject(-1, 'msg_not_permitted');
+				if (isset($category_list[$obj->category_srl]))
+				{
+					if (!$category_list[$obj->category_srl]->grant)
+					{
+						return new BaseObject(-1, 'msg_not_permitted');
+					}
+				}
+				else
+				{
+					$obj->category_srl = 0;
+				}
 			}
 		}
 
@@ -1041,8 +1061,14 @@ class DocumentController extends Document
 		// Update the category if the category_srl exists.
 		if($source_obj->get('category_srl') != $obj->category_srl || $source_obj->get('module_srl') == $logged_info->member_srl)
 		{
-			if($source_obj->get('category_srl') != $obj->category_srl) $this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
-			if($obj->category_srl) $this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+			if($source_obj->get('category_srl') != $obj->category_srl)
+			{
+				$this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
+			}
+			if($obj->category_srl)
+			{
+				$this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+			}
 		}
 
 		// Update log
