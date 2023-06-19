@@ -8,11 +8,14 @@
 class pointModel extends point
 {
 	/**
-	 * @brief Initialization
+	 * Cache for module configuration.
 	 */
-	public function init()
-	{
-	}
+	protected static $_module_config_cache = array();
+
+	/**
+	 * Cache for member points.
+	 */
+	protected static $_member_point_cache = array();
 
 	/**
 	 * @brief Check if there is points information
@@ -224,6 +227,52 @@ class pointModel extends point
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get point configuration for module, falling back to defaults if not set.
+	 *
+	 * @param int $module_srl
+	 * @param string $config_key
+	 * @return int
+	 */
+	public static function getModulePointConfig($module_srl, $config_key)
+	{
+		$module_srl = intval($module_srl);
+		$config_key = strval($config_key);
+		if (!$module_srl || !$config_key)
+		{
+			return 0;
+		}
+
+		if ($module_srl)
+		{
+			if (!isset(self::$_module_config_cache[$module_srl]))
+			{
+				self::$_module_config_cache[$module_srl] = ModuleModel::getModulePartConfig('point', $module_srl);
+				if (is_object(self::$_module_config_cache[$module_srl]))
+				{
+					self::$_module_config_cache[$module_srl] = get_object_vars(self::$_module_config_cache[$module_srl]);
+				}
+			}
+			$module_config = self::$_module_config_cache[$module_srl];
+		}
+		else
+		{
+			$module_config = array();
+		}
+
+		if (isset($module_config[$config_key]) && $module_config[$config_key] !== '')
+		{
+			$point = $module_config[$config_key];
+		}
+		else
+		{
+			$default_config = self::getConfig();
+			$point = $default_config->{$config_key};
+		}
+
+		return intval($point);
 	}
 }
 /* End of file point.model.php */

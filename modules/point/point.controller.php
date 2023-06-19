@@ -107,12 +107,12 @@ class pointController extends point
 		$diff = 0;
 
 		// Add points for the document.
-		$diff += $this->_getModulePointConfig($module_srl, 'insert_document');
+		$diff += PointModel::getModulePointConfig($module_srl, 'insert_document');
 
 		// Add points for attached files.
 		if ($obj->updated_file_count > 0)
 		{
-			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$upload_point = PointModel::getModulePointConfig($module_srl, 'upload_file');
 			$diff += $upload_point * $obj->updated_file_count;
 		}
 
@@ -166,13 +166,13 @@ class pointController extends point
 		// Add points for the document, only if the document is being updated from TEMP to another status such as PUBLIC.
 		if ($obj->status !== DocumentModel::getConfigStatus('temp') && $this->_original->get('status') === DocumentModel::getConfigStatus('temp'))
 		{
-			$diff += $this->_getModulePointConfig($module_srl, 'insert_document');
+			$diff += PointModel::getModulePointConfig($module_srl, 'insert_document');
 		}
 
 		// Add points for attached files.
 		if ($obj->updated_file_count > 0)
 		{
-			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$upload_point = PointModel::getModulePointConfig($module_srl, 'upload_file');
 			$diff += $upload_point * $obj->updated_file_count;
 		}
 
@@ -228,7 +228,7 @@ class pointController extends point
 		}
 
 		// Subtract points for the document.
-		$diff = $this->_getModulePointConfig($module_srl, 'insert_document');
+		$diff = PointModel::getModulePointConfig($module_srl, 'insert_document');
 
 		// Decrease the point.
 		if ($diff != 0)
@@ -277,13 +277,13 @@ class pointController extends point
 		// Add points for the comment.
 		if ($mode === 'insert')
 		{
-			$diff += $this->_getModulePointConfig($module_srl, 'insert_comment');
+			$diff += PointModel::getModulePointConfig($module_srl, 'insert_comment');
 		}
 
 		// Add points for attached files.
 		if ($obj->updated_file_count > 0)
 		{
-			$upload_point = $this->_getModulePointConfig($module_srl, 'upload_file');
+			$upload_point = PointModel::getModulePointConfig($module_srl, 'upload_file');
 			$diff += $upload_point * $obj->updated_file_count;
 		}
 
@@ -341,7 +341,7 @@ class pointController extends point
 
 		// Calculate points based on the module_srl of the document to which this comment belongs
 		$module_srl = $oDocument->get('module_srl');
-		$diff = $this->_getModulePointConfig($module_srl, 'insert_comment');
+		$diff = PointModel::getModulePointConfig($module_srl, 'insert_comment');
 
 		// Decrease the point.
 		if ($diff != 0)
@@ -390,7 +390,7 @@ class pointController extends point
 		// Get the points of the member
 
 		// Subtract points for the file.
-		$diff = $this->_getModulePointConfig($module_srl, 'upload_file');
+		$diff = PointModel::getModulePointConfig($module_srl, 'upload_file');
 
 		// Update the point.
 		if ($diff != 0)
@@ -413,7 +413,7 @@ class pointController extends point
 			return;
 		}
 
-		$point = $this->_getModulePointConfig($module_srl, 'download_file');
+		$point = PointModel::getModulePointConfig($module_srl, 'download_file');
 		if (!$point)
 		{
 			return;
@@ -449,7 +449,7 @@ class pointController extends point
 		// Adjust points of the downloader.
 		if ($logged_member_srl)
 		{
-			$point = $this->_getModulePointConfig($module_srl, 'download_file');
+			$point = PointModel::getModulePointConfig($module_srl, 'download_file');
 			if ($point)
 			{
 				$this->setPoint($logged_member_srl, $point, 'plus');
@@ -459,7 +459,7 @@ class pointController extends point
 		// Adjust points of the uploader.
 		if ($author_member_srl)
 		{
-			$point = $this->_getModulePointConfig($module_srl, 'download_file_author');
+			$point = PointModel::getModulePointConfig($module_srl, 'download_file_author');
 			if ($point)
 			{
 				$this->setPoint($author_member_srl, $point, 'plus');
@@ -483,8 +483,8 @@ class pointController extends point
 		}
 
 		// Load configuration for reader and author points.
-		$reader_point = $this->_getModulePointConfig($module_srl, 'read_document');
-		$author_point = $this->_getModulePointConfig($module_srl, 'read_document_author');
+		$reader_point = PointModel::getModulePointConfig($module_srl, 'read_document');
+		$author_point = PointModel::getModulePointConfig($module_srl, 'read_document_author');
 		if (!$reader_point && !$author_point)
 		{
 			return;
@@ -605,7 +605,7 @@ class pointController extends point
 		if ($logged_member_srl && $logged_enabled)
 		{
 			$config_key = ($obj->point > 0) ? ($is_comment ? 'voter_comment' : 'voter') : ($is_comment ? 'blamer_comment' : 'blamer');
-			$point = $this->_getModulePointConfig($obj->module_srl, $config_key);
+			$point = PointModel::getModulePointConfig($obj->module_srl, $config_key);
 			if ($point)
 			{
 				if (isset($obj->cancel) && $obj->cancel)
@@ -620,7 +620,7 @@ class pointController extends point
 		if ($target_member_srl && $target_enabled)
 		{
 			$config_key = ($obj->point > 0) ? ($is_comment ? 'voted_comment' : 'voted') : ($is_comment ? 'blamed_comment' : 'blamed');
-			$point = $this->_getModulePointConfig($obj->module_srl, $config_key);
+			$point = PointModel::getModulePointConfig($obj->module_srl, $config_key);
 			if ($point)
 			{
 				if (isset($obj->cancel) && $obj->cancel)
@@ -871,52 +871,6 @@ class pointController extends point
 		MemberController::clearMemberCache($member_srl);
 
 		return $output;
-	}
-
-	/**
-	 * Get point configuration for module, falling back to defaults if not set.
-	 *
-	 * @param int $module_srl
-	 * @param string $config_key
-	 * @return int
-	 */
-	protected function _getModulePointConfig($module_srl, $config_key)
-	{
-		$module_srl = intval($module_srl);
-		$config_key = strval($config_key);
-		if (!$config_key)
-		{
-			return 0;
-		}
-
-		if ($module_srl)
-		{
-			if (!isset(self::$_module_config_cache[$module_srl]))
-			{
-				self::$_module_config_cache[$module_srl] = ModuleModel::getModulePartConfig('point', $module_srl);
-				if (is_object(self::$_module_config_cache[$module_srl]))
-				{
-					self::$_module_config_cache[$module_srl] = get_object_vars(self::$_module_config_cache[$module_srl]);
-				}
-			}
-			$module_config = self::$_module_config_cache[$module_srl];
-		}
-		else
-		{
-			$module_config = array();
-		}
-
-		if (isset($module_config[$config_key]) && $module_config[$config_key] !== '')
-		{
-			$point = $module_config[$config_key];
-		}
-		else
-		{
-			$default_config = $this->getConfig();
-			$point = $default_config->{$config_key};
-		}
-
-		return intval($point);
 	}
 }
 /* End of file point.controller.php */
