@@ -4,6 +4,7 @@ namespace Rhymix\Modules\Spamfilter\Captcha;
 
 use Context;
 use Rhymix\Framework\Exception;
+use Rhymix\Framework\HTTP;
 
 class reCAPTCHA
 {
@@ -27,20 +28,17 @@ class reCAPTCHA
 			throw new Exception('msg_recaptcha_invalid_response');
 		}
 
-		try
-		{
-			$verify_request = \Requests::post(self::$verify_url, array(), array(
-				'secret' => self::$config->secret_key,
-				'response' => $response,
-				'remoteip' => \RX_CLIENT_IP,
-			));
-		}
-		catch (\Requests_Exception $e)
+		$verify_request = HTTP::post(self::$verify_url, [
+			'secret' => self::$config->secret_key,
+			'response' => $response,
+			'remoteip' => \RX_CLIENT_IP,
+		]);
+		if ($verify_request->getStatusCode() !== 200 || !$verify_request->getBody())
 		{
 			throw new Exception('msg_recaptcha_connection_error');
 		}
 
-		$verify = @json_decode($verify_request->body, true);
+		$verify = @json_decode($verify_request->getBody(), true);
 		if (!$verify || !$verify['success'])
 		{
 			throw new Exception('msg_recaptcha_server_error');
