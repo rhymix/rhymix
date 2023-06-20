@@ -487,6 +487,7 @@ class installController extends install
 
 		// Determine the order of module installation depending on category
 		$install_step = array('system','content','member');
+		$update_order = [];
 
 		// Install all the remaining modules
 		foreach($install_step as $category)
@@ -497,7 +498,7 @@ class installController extends install
 				{
 					if($module == 'module') continue;
 					$this->installModule($module, sprintf('./modules/%s', $module));
-					$this->updateModule($module);
+					$update_order[] = $module;
 				}
 				unset($modules[$category]);
 			}
@@ -514,10 +515,16 @@ class installController extends install
 					{
 						if($module == 'module') continue;
 						$this->installModule($module, sprintf('./modules/%s', $module));
-						$this->updateModule($module);
+						$update_order[] = $module;
 					}
 				}
 			}
+		}
+
+		// Update all modules
+		foreach ($update_order as $module)
+		{
+			$this->updateModule($module);
 		}
 
 		return new BaseObject();
