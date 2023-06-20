@@ -722,12 +722,12 @@ class Session
 
 		// Check member information to see if denied or limited.
 		$member_info = \MemberModel::getMemberInfo($member_srl);
-		if ($member_info->denied === 'Y')
+		if (!empty($member_info->denied) && $member_info->denied === 'Y')
 		{
 			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (denied)', \E_USER_WARNING);
 			return false;
 		}
-		if ($member_info->limit_date && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
+		if (!empty($member_info->limit_date) && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
 		{
 			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (limited)', \E_USER_WARNING);
 			return false;

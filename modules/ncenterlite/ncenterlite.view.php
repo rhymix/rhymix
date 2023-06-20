@@ -4,7 +4,7 @@ class ncenterliteView extends ncenterlite
 {
 	function init()
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
+		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$config = $oNcenterliteModel->getConfig();
 		$template_path = sprintf("%sskins/%s/",$this->module_path, $config->skin);
 		if(!is_dir($template_path)||!$config->skin)
@@ -28,8 +28,15 @@ class ncenterliteView extends ncenterlite
 
 	function dispNcenterliteNotifyList()
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
 
+		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$output = $oNcenterliteModel->getMyNotifyList($this->user->member_srl, 1, null, true);
 
 		Context::set('total_count', $output->page_navigation->total_count);
@@ -43,7 +50,15 @@ class ncenterliteView extends ncenterlite
 
 	function dispNcenterliteUserConfig()
 	{
-		$oNcenterliteModel = getModel('ncenterlite');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
+		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$config = $oNcenterliteModel->getConfig();
 		if($config->user_notify_setting != 'Y')
 		{
@@ -102,8 +117,15 @@ class ncenterliteView extends ncenterlite
 	 */
 	function dispNcenterliteUnsubscribeList()
 	{
-		/** @var ncenterliteModel $oNcenterliteModel */
-		$oNcenterliteModel = getModel('ncenterlite');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
+		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$config = $oNcenterliteModel->getConfig();
 
 		if($config->unsubscribe !== 'Y')
@@ -147,8 +169,15 @@ class ncenterliteView extends ncenterlite
 		$this->setLayoutPath('./common/tpl');
 		$this->setLayoutFile('popup_layout');
 
-		/** @var ncenterliteModel $oNcenterliteModel */
-		$oNcenterliteModel = getModel('ncenterlite');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
+		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$target_srl = Context::get('target_srl');
 		$unsubscribe_srl = Context::get('unsubscribe_srl');
 		$unsubscribe_type = Context::get('unsubscribe_type');
