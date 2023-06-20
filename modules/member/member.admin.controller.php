@@ -29,9 +29,9 @@ class MemberAdminController extends Member
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
+		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','is_admin','denied','status','description','group_srl_list','limit_date');
 		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig ();
+		$config = $oMemberModel->getMemberConfig();
 		$getVars = array();
 		if($config->signupForm)
 		{
@@ -80,7 +80,7 @@ class MemberAdminController extends Member
 		{
 			$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
 			$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
-			foreach($this->nouse_extra_vars as $key)
+			foreach(self::NOUSE_EXTRA_VARS as $key)
 			{
 				unset($extra_vars->$key);
 			}
@@ -99,11 +99,18 @@ class MemberAdminController extends Member
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
 		}
-		foreach($this->admin_extra_vars as $key)
+		foreach(self::ADMIN_EXTRA_VARS as $key)
 		{
 			$extra_vars->{$key} = escape(utf8_clean($all_args->{$key} ?? ''));
 		}
 		$args->extra_vars = serialize($extra_vars);
+
+		// Normalize denied and status columns
+		if (!in_array($args->status ?? '', self::STATUS_LIST))
+		{
+			$args->status = 'APPROVED';
+		}
+		$args->denied = ($args->status === 'APPROVED') ? 'N' : 'Y';
 
 		// Delete invalid or past limit dates #1334
 		if (!isset($args->limit_date))
@@ -1030,6 +1037,7 @@ class MemberAdminController extends Member
 						if($var->denied)
 						{
 							$args->denied = $var->denied;
+							$args->status = $var->denied === 'Y' ? 'DENIED' : 'APPROVED';
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
 							if(!$output->toBool())
 							{

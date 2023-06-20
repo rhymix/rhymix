@@ -8,10 +8,11 @@
 class Member extends ModuleObject
 {
 	/**
-	 * Extra vars for admin purposes
+	 * Constants
 	 */
-	public $admin_extra_vars = ['refused_reason', 'limited_reason'];
-	public $nouse_extra_vars = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
+	public const ADMIN_EXTRA_VARS = ['refused_reason', 'limited_reason'];
+	public const NOUSE_EXTRA_VARS = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
+	public const STATUS_LIST = ['APPROVED', 'DENIED', 'UNAUTHED', 'SUSPENDED', 'DELETED'];
 
 	/**
 	 * constructor
@@ -147,6 +148,10 @@ class Member extends ModuleObject
 		if(!$oDB->isColumnExists("member", "last_login_ipaddress")) return true;
 		if(!$oDB->isIndexExists("member","idx_last_login_ipaddress")) return true;
 
+		// Add column for status
+		if(!$oDB->isColumnExists("member", "status")) return true;
+		if(!$oDB->isIndexExists("member", "idx_status")) return true;
+
 		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
 		if(!$oDB->isIndexExists("member","idx_list_order")) return true;
@@ -167,6 +172,13 @@ class Member extends ModuleObject
 		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
 		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
+
+		// Update status column
+		$output = executeQuery('member.getDeniedAndStatus');
+		if ($output->data->count)
+		{
+			return true;
+		}
 
 		// Check mid
 		$config = ModuleModel::getModuleConfig('member');
@@ -317,6 +329,16 @@ class Member extends ModuleObject
 			$oDB->addIndex("member","idx_last_login_ipaddress", array("last_login_ipaddress"));
 		}
 
+		// Add column for status
+		if(!$oDB->isColumnExists("member", "status"))
+		{
+			$oDB->addColumn("member", "status", "varchar", 20, 'APPROVED', true, 'denied');
+		}
+		if(!$oDB->isIndexExists("member", "idx_status"))
+		{
+			$oDB->addIndex("member", "idx_status", array("status"));
+		}
+
 		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order"))
 		{
@@ -375,6 +397,37 @@ class Member extends ModuleObject
 			$oDB->query("UPDATE member_devices SET last_active_date = regdate WHERE last_active_date = ''");
 		}
 
+		// Update status column
+		$output = executeQuery('member.getDeniedAndStatus');
+		if ($output->data->count)
+		{
+			$oDB->begin();
+			$result = $oDB->query("UPDATE `member` SET `status` = 'DENIED' WHERE `denied` = 'Y'");
+			if ($result)
+			{
+				$result = $oDB->query("UPDATE `member` AS `m` " .
+					"JOIN `member_auth_mail` AS `a` ON `m`.`member_srl` = `a`.`member_srl` " .
+					"SET `m`.`status` = 'UNAUTHED' WHERE `m`.`status` = 'DENIED' " .
+					"AND `a`.`is_register` = 'Y'");
+				if ($result)
+				{
+					$oDB->commit();
+				}
+				else
+				{
+					var_dump($result);
+					var_dump(Rhymix\Framework\Debug::getErrors());
+					$oDB->rollback();
+					exit;
+				}
+			}
+			else
+			{
+				$oDB->rollback();
+			}
+		}
+
+		// Get module config
 		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
 		$changed = false;
 

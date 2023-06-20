@@ -72,11 +72,9 @@
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label">{$lang->status}</label>
 		<div class="x_controls">
-			<label class="x_inline" for="appoval"><input type="radio" name="denied" id="appoval" value="N" checked="checked"|cond="$member_info->denied == 'N'" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl" /> {$lang->approval}</label>
-			<label class="x_inline" for="deny"><input type="radio" name="denied" id="deny" value="Y" checked="checked"|cond="$member_info->denied == 'Y' && !$member_unauthenticated" disabled="disabled"|cond="$member_unauthenticated || $member_info->member_srl == $logged_info->member_srl" /> {$lang->denied}</label>
-			<!--@if($member_unauthenticated)-->
-				<label class="x_inline" for="deny2"><input type="radio" name="denied" id="deny2" value="Y" checked="checked"|cond="($member_info->denied == 'Y' && $member_unauthenticated) || $member_info->member_srl == $logged_info->member_srl" /> {$lang->member_unauthenticated}</label>
-			<!--@endif-->
+			<label class="x_inline" for="status_approved"><input type="radio" name="status" id="status_approved" value="APPROVED" checked="checked"|cond="$member_info->status == 'APPROVED' || $member_info->denied == 'Y' || $member_info->member_srl == $logged_info->member_srl" /> {$lang->approval}</label>
+			<label class="x_inline" for="status_denied"><input type="radio" name="status" id="status_denied" value="DENIED" checked="checked"|cond="$member_info->status == 'DENIED' && $member_info->member_srl != $logged_info->member_srl" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl" /> {$lang->denied}</label>
+			<label class="x_inline" for="status_unauthed"><input type="radio" name="status" id="status_unauthed" value="UNAUTHED" checked="checked"|cond="$member_info->status == 'UNAUTHED' && $member_info->member_srl != $logged_info->member_srl" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl" /> {$lang->member_unauthenticated}</label>
 		</div>
 	</div>
 	<div class="x_control-group div_refused_reason">
@@ -198,7 +196,7 @@
 			refused_reason_division.slideUp(200);
 		}
 	});
-	
+
 	if(!$('#until').val())
 	{
 		$('.div_limited_reason').hide();
