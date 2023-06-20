@@ -1680,10 +1680,17 @@ class Context
 			$get_vars = array();
 			foreach ($args_list[0] as $key => $val)
 			{
-				$val = trim($val);
-				if ($val !== '')
+				if (is_array($val))
 				{
 					$get_vars[$key] = $val;
+				}
+				else
+				{
+					$val = trim(strval($val));
+					if ($val !== '')
+					{
+						$get_vars[$key] = $val;
+					}
 				}
 			}
 		}
