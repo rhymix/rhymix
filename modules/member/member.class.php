@@ -390,7 +390,6 @@ class Member extends ModuleObject
 			$changed = true;
 		}
 
-
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
 		{
