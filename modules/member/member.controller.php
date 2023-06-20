@@ -867,24 +867,26 @@ class MemberController extends Member
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
 
-		if($config->redirect_url)
+		self::clearMemberCache($args->member_srl);
+
+		// Redirect
+		if ($config->redirect_url)
 		{
 			$returnUrl = $config->redirect_url;
 		}
+		elseif (Context::get('success_return_url'))
+		{
+			$returnUrl = Context::get('success_return_url');
+		}
+		elseif (isset($_SESSION['member_auth_referer']))
+		{
+			$returnUrl = $_SESSION['member_auth_referer'];
+			unset($_SESSION['member_auth_referer']);
+		}
 		else
 		{
-			if(Context::get('success_return_url'))
-			{
-				$returnUrl = Context::get('success_return_url');
-			}
-			else if($_COOKIE['XE_REDIRECT_URL'])
-			{
-				$returnUrl = $_COOKIE['XE_REDIRECT_URL'];
-				setcookie("XE_REDIRECT_URL", '', 1);
-			}
+			$returnUrl = getNotEncodedUrl('');
 		}
-
-		self::clearMemberCache($args->member_srl);
 
 		$this->setRedirectUrl($returnUrl);
 	}

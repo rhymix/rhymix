@@ -47,7 +47,47 @@ class MemberView extends Member
 	}
 
 	/**
-	 * Check redirect
+	 * Check the referer for login and signup pages.
+	 */
+	public function checkRefererUrl()
+	{
+		// Get the referer URL from Context var or HTTP header.
+		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
+
+		// Check if the referer is an internal URL.
+		$is_valid_referer = !empty($referer_url) && Rhymix\Framework\URL::isInternalURL($referer_url);
+
+		// Check if the referer is the login or signup page, to prevent redirect loops.
+		if (preg_match('!\b(dispMemberLoginForm|dispMemberSignUpForm|dispMemberFindAccount|dispMemberResendAuthMail|procMember)!', $referer_url))
+		{
+			$is_valid_referer = false;
+		}
+		if (preg_match('!/(login|signup)\b!', $referer_url))
+		{
+			$is_valid_referer = false;
+		}
+
+		// Store valid referer info in the session.
+		if ($is_valid_referer)
+		{
+			return $_SESSION['member_auth_referer'] = $referer_url;
+		}
+		elseif (isset($_SESSION['member_auth_referer']))
+		{
+			return $_SESSION['member_auth_referer'];
+		}
+		elseif ($this->mid && !empty($this->member_config->mid) && $this->mid === $this->member_config->mid)
+		{
+			return getNotEncodedUrl('');
+		}
+		else
+		{
+			return getNotEncodedUrl('act', '');
+		}
+	}
+
+	/**
+	 * Check redirect to member mid.
 	 */
 	public function checkMidAndRedirect()
 	{
@@ -245,14 +285,24 @@ class MemberView extends Member
 	 */
 	function dispMemberSignUpForm()
 	{
-		//setcookie for redirect url in case of going to member sign up
-		setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER'], 0, '/', null, !!config('session.use_ssl_cookies'));
+		// Check referer URL
+		$referer_url = $this->checkRefererUrl();
 
-		$member_config = $this->member_config;
+		// Redirect to member mid if necessary.
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
 
-		// Get the member information if logged-in
-		if($this->user->member_srl) throw new Rhymix\Framework\Exception('msg_already_logged');
+		// Return to previous screen if already logged in.
+		if($this->user->isMember())
+		{
+			$this->setRedirectUrl($referer_url);
+			return;
+		}
+
 		// call a trigger (before)
+		$member_config = $this->member_config;
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
 
@@ -710,25 +760,18 @@ class MemberView extends Member
 	 */
 	function dispMemberLoginForm()
 	{
-		// Get referer URL
-		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
-		$is_valid_referer = !empty($referer_url) && Rhymix\Framework\URL::isInternalURL($referer_url);
-		if (preg_match('!\b(dispMemberLoginForm|dispMemberSignUpForm|dispMemberFindAccount|dispMemberResendAuthMail|procMember)!', $referer_url))
-		{
-			$is_valid_referer = false;
-		}
-		if (preg_match('!/(login|signup)\b!', $referer_url))
-		{
-			$is_valid_referer = false;
-		}
-		if (!$is_valid_referer)
-		{
-			$referer_url = getNotEncodedUrl('act', '');
-		}
+		// Check referer URL
+		$referer_url = $this->checkRefererUrl();
 		Context::set('referer_url', $referer_url);
 
+		// Redirect to member mid if necessary.
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		// Return to previous screen if already logged in.
-		if(Context::get('is_logged'))
+		if($this->user->isMember())
 		{
 			$this->setRedirectUrl($referer_url);
 			return;
