@@ -2,6 +2,11 @@
 
 class LegacyTest extends \Codeception\TestCase\Test
 {
+	public function _before()
+	{
+		Context::init();
+	}
+
 	public function testGetModule()
 	{
 		$this->assertTrue(getModule('board', 'controller') instanceof BoardController);
@@ -53,6 +58,22 @@ class LegacyTest extends \Codeception\TestCase\Test
 		 *  - getScriptPath()
 		 *  - getRequestUriByServerEnviroment()
 		 */
+
+		// Legacy format
+		$this->assertStringContainsString('?foo=bar', getUrl('foo', 'bar'));
+		$this->assertStringContainsString('?foo=bar&amp;rhy=mix', getUrl('', 'foo', 'bar', 'rhy', 'mix'));
+		$this->assertStringContainsString('?foo=bar&amp;rhy=mix', getUrl('', 'foo', 'bar', 'rhy', 'mix', 'empty', '', 'keys', null));
+		$this->assertStringContainsString('?foo=bar&rhy=mix', getNotEncodedUrl('', 'foo', 'bar', 'rhy', 'mix'));
+
+		// Array format
+		$this->assertStringContainsString('?foo=bar&amp;rhy=mix', getUrl(['foo' => 'bar', 'rhy' => 'mix', 'empty' => false]));
+		$this->assertStringContainsString('?foo=bar&rhy=mix', getNotEncodedUrl(['foo' => 'bar', 'rhy' => 'mix']));
+		$this->assertStringContainsString('?foo=bar', getNotEncodedUrl(['foo' => 'bar', 'rhymix' => []]));
+
+		// Nested arrays #2123
+		$this->assertStringContainsString('?foo=bar&rhy[0]=mix&rhy[1]=xe', urldecode(getNotEncodedUrl(['foo' => 'bar', 'rhy' => ['mix', 'xe']])));
+		$this->assertStringContainsString('?foo=bar&rhy[x]=mix&rhy[y]=xe', urldecode(getNotEncodedUrl(['foo' => 'bar', 'rhy' => ['x' => 'mix', 'y' => 'xe']])));
+		$this->assertStringContainsString('?foo=bar&rhy[x][0]=mix&rhy[x][1]=xe', urldecode(getNotEncodedUrl(['foo' => 'bar', 'rhy' => ['x' => ['mix', 'xe']]])));
 	}
 
 	public function testIsSiteID()
