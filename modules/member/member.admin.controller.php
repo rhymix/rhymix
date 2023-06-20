@@ -106,14 +106,11 @@ class MemberAdminController extends Member
 		$args->extra_vars = serialize($extra_vars);
 
 		// Normalize denied and status columns
-		if ($args->status === 'APPROVED')
+		if (!in_array($args->status ?? '', self::STATUS_LIST))
 		{
-			$args->denied = 'N';
+			$args->status = 'APPROVED';
 		}
-		else
-		{
-			$args->denied = 'Y';
-		}
+		$args->denied = ($args->status === 'APPROVED') ? 'N' : 'Y';
 
 		// Delete invalid or past limit dates #1334
 		if (!isset($args->limit_date))
