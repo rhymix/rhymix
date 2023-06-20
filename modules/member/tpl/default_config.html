@@ -9,7 +9,7 @@
 		<label class="x_control-label" for="member_mid">{$lang->url}</label>
 		<div class="x_controls">
 			<span class="baseurl" style="display:inline-block;transform:translateY(2px)">
-				{$site_module_info->domain}{\RX_BASEURL}<!--@if(!config('url.rewrite'))-->index.php?mid=<!--@endif-->
+				{$site_module_info->security === 'always' ? 'https://' : 'http://'}{$site_module_info->domain}{\RX_BASEURL}<!--@if(!config('url.rewrite'))-->index.php?mid=<!--@endif-->
 			</span>
 			<input type="text" name="member_mid" id="member_mid" value="{$config->mid ?? 'member'}" />
 			&nbsp;
