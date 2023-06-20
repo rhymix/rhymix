@@ -235,14 +235,12 @@ class communicationView extends communication
 		}
 
 		// Check member mid
-		/*
 		$oMemberView = MemberView::getInstance();
 		if (!$oMemberView->checkMidAndRedirect())
 		{
 			$this->setRedirectUrl($oMemberView->getRedirectUrl());
 			return;
 		}
-		*/
 
 		// Fix missing mid (it causes errors when uploading)
 		if(!Context::get('mid'))
