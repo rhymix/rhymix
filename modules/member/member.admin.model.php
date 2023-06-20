@@ -42,17 +42,24 @@ class MemberAdminModel extends Member
 	{
 		// Search option
 		$args = new stdClass();
-		$args->is_admin = Context::get('is_admin')=='Y'?'Y':'';
-		$args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
+		$args->is_admin = Context::get('is_admin') === 'Y' ? 'Y' : null;
+		$args->status = Context::get('is_denied') === 'Y' ? 'DENIED' : null;
 		$args->selected_group_srl = Context::get('selected_group_srl');
 
 		$filter = Context::get('filter_type');
 		switch($filter)
 		{
-			case 'super_admin' : $args->is_admin = 'Y';break;
-			case 'site_admin' : $args->member_srls = $this->getSiteAdminMemberSrls();break;
-			case 'enable' : $args->is_denied = 'N';break;
-			case 'disable' : $args->is_denied = 'Y';break;
+			case 'admin':
+			case 'super_admin':
+				$args->is_admin = 'Y'; break;
+			case 'approved':
+			case 'enable':
+				$args->status = 'APPROVED'; break;
+			case 'denied':
+			case 'disable':
+				$args->status = 'DENIED'; break;
+			case 'unauthed':
+				$args->status = 'UNAUTHED'; break;
 		}
 
 		$search_target = trim(Context::get('search_target') ?? '');

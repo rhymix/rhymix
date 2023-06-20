@@ -766,7 +766,11 @@ class MemberController extends Member
 		$args->extra_vars = serialize($extra_vars);
 
 		// Set the user state as "denied" when using mail authentication
-		if($config->enable_confirm == 'Y') $args->denied = 'Y';
+		if($config->enable_confirm == 'Y')
+		{
+			$args->denied = 'Y';
+			$args->status = 'UNAUTHED';
+		}
 
 		// remove whitespace
 		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
@@ -1025,7 +1029,7 @@ class MemberController extends Member
 		// Get existing extra vars
 		$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
 		$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
-		foreach($this->nouse_extra_vars as $key)
+		foreach(self::NOUSE_EXTRA_VARS as $key)
 		{
 			unset($extra_vars->$key);
 		}
@@ -1772,16 +1776,21 @@ class MemberController extends Member
 		$is_register = $output->data->is_register;
 
 		// If credentials are correct, change the password to a new one
+		$args = new stdClass;
+		$args->member_srl = $member_srl;
 		if($is_register === 'Y')
 		{
 			$args->denied = 'N';
+			$args->status = 'APPROVED';
+			$query_id = 'member.updateMemberStatus';
 		}
 		else
 		{
 			$args->password = MemberModel::hashPassword($output->data->new_password);
+			$query_id = 'member.updateMemberPassword';
 		}
 
-		$output = executeQuery('member.updateMemberPassword', $args);
+		$output = executeQuery($query_id, $args);
 		if(!$output->toBool())
 		{
 			return $output;
@@ -1832,7 +1841,7 @@ class MemberController extends Member
 		{
 			throw new Rhymix\Framework\Exception('msg_not_exists_member');
 		}
-		if($member_info->denied !== 'Y')
+		if($member_info->status !== 'UNAUTHED')
 		{
 			throw new Rhymix\Framework\Exception('msg_activation_not_needed');
 		}
@@ -2334,17 +2343,17 @@ class MemberController extends Member
 		}
 
 		// If denied == 'Y', notify
-		if($member_info->denied == 'Y')
+		if($member_info->denied === 'Y')
 		{
-			$args->member_srl = $member_info->member_srl;
-			$output = executeQuery('member.chkAuthMail', $args);
-			if ($output->toBool() && $output->data->count)
+			if ($member_info->status === 'UNAUTHED')
 			{
 				return new BaseObject(-1, sprintf(lang('msg_user_not_confirmed'), $member_info->email_address));
 			}
-
-			$refused_reason = $member_info->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $member_info->refused_reason) : '';
-			return new BaseObject(-1, lang('msg_user_denied') . $refused_reason);
+			else
+			{
+				$refused_reason = $member_info->refused_reason ? ('<br>' . lang('refused_reason') . ': ' . $member_info->refused_reason) : '';
+				return new BaseObject(-1, lang('msg_user_denied') . $refused_reason);
+			}
 		}
 
 		// Notify if user is limited
@@ -2744,10 +2753,16 @@ class MemberController extends Member
 			}
 		}
 
+		// Set status
+		if (!isset($args->status))
+		{
+			$args->status = ($args->denied === 'Y') ? 'UNAUTHED' : 'APPROVED';
+		}
+
 		// Insert data into the DB
 		$args->list_order = -1 * $args->member_srl;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$output = executeQuery('member.insertMember', $args);
@@ -2855,6 +2870,7 @@ class MemberController extends Member
 			if($is_admin == false)
 			{
 				unset($args->denied);
+				unset($args->status);
 			}
 			if($logged_info->member_srl != $args->member_srl && $is_admin == false)
 			{
@@ -3703,7 +3719,8 @@ class MemberController extends Member
 		$args->email_address = $member_info->email_address;
 		$args->user_id = $member_info->user_id;
 		$args->nick_name = $member_info->nick_name;
-		$args->denied = "Y";
+		$args->denied = 'Y';
+		$args->status = 'DENIED';
 		$args->description = trim(vsprintf("%s\n%s [%s %s]\ninfo: %s\ndocuments: %d\ncomments: %d]", [
 			trim($member_info->description),
 			lang('cmd_spammer'),

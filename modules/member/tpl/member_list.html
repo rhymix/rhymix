@@ -16,11 +16,13 @@
 		<caption>
 			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="!$filter_type">{$lang->cmd_show_all_member}<block cond="!$filter_type">({$total_count})</block></a>
 			<i>|</i>
-			<a href="{getUrl('filter_type', 'super_admin', 'page', '')}" class="active"|cond="$filter_type=='super_admin'">{$lang->cmd_show_super_admin_member}<block cond="$filter_type=='super_admin'">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', 'admin', 'page', '')}" class="active"|cond="$filter_type=='admin'">{$lang->cmd_show_super_admin_member}<block cond="$filter_type=='admin'">({$total_count})</block></a>
 			<i>|</i>
-			<a href="{getUrl('filter_type', 'enable', 'page', '')}" class="active"|cond="$filter_type=='enable'">{$lang->approval}<block cond="$filter_type=='enable'">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', 'approved', 'page', '')}" class="active"|cond="$filter_type=='approved'">{$lang->approval}<block cond="$filter_type=='approved'">({$total_count})</block></a>
 			<i>|</i>
-			<a href="{getUrl('filter_type', 'disable', 'page', '')}" class="active"|cond="$filter_type=='disable'">{$lang->denied}<block cond="$filter_type=='disable'">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', 'denied', 'page', '')}" class="active"|cond="$filter_type=='denied'">{$lang->denied}<block cond="$filter_type=='denied'">({$total_count})</block></a>
+			<i>|</i>
+			<a href="{getUrl('filter_type', 'unauthed', 'page', '')}" class="active"|cond="$filter_type=='unauthed'">{$lang->member_unauthenticated}<block cond="$filter_type=='unauthed'">({$total_count})</block></a>
 			<div class="x_pull-right x_btn-group">
 				<a class="x_btn x_btn-inverse" href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminInsert')}">{$lang->msg_new_member}</a>
 				<a href="#listManager" data-value="modify" class="modalAnchor _member x_btn">{$lang->modify}</a>
@@ -76,16 +78,16 @@
 					<!--@end-->
 				</td>
 				<td class="nowr">
-					<!--@if($member_info['denied']=='Y')-->
-						<!--@if(isset($new_member_check_list[$member_info['member_srl']]) && $new_member_check_list[$member_info['member_srl']])-->
-							<span style="color:red;">{$lang->member_unauthenticated}</span>
-						<!--@else-->
-							<span style="color:red;">{$lang->denied}</span>
-						<!--@endif-->
+					<!--@if($member_info['status'] == 'APPROVED')-->
+						{$lang->approval}
+					<!--@elseif($member_info['status'] == 'DENIED')-->
+						<span style="color:red;">{$lang->denied}</span>
+					<!--@elseif($member_info['status'] == 'UNAUTHED')-->
+						<span style="color:red;">{$lang->member_unauthenticated}</span>
 					<!--@elseif($member_info['limit_date'] && substr($member_info['limit_date'], 0, 8) >= date('Ymd'))-->
 						<span style="color:red;">{$lang->member_limited}</span>
 					<!--@else-->
-						{$lang->approval}
+						<span style="color:red;">{$member_info['status']}</span>
 					<!--@end-->
 				</td>
 				<td class="nowr rx_detail_marks" title="{zdate($member_info['regdate'], 'Y-m-d H:i:s')}<!--@if($member_info['ipaddress'])--> ({$member_info['ipaddress']})<!--@end-->">
@@ -119,7 +121,7 @@
 		<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
 		<ul>
 			<li class="x_disabled"|cond="!$page || $page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
-	
+
 			<block cond="$page_navigation->first_page != 1 && $page_navigation->first_page + $page_navigation->page_count > $page_navigation->last_page - 1 && $page_navigation->page_count != $page_navigation->total_page">
 				<li>
 					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
@@ -129,12 +131,12 @@
 					</span>
 				</li>
 			</block>
-	
+
 			<!--@while($page_no = $page_navigation->getNextPage())-->
 				{@$last_page = $page_no}
 				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
 			<!--@end-->
-	
+
 			<block cond="$last_page != $page_navigation->last_page && $last_page + 1 != $page_navigation->last_page">
 				<li>
 					<a href="#goTo" data-toggle title="{$lang->cmd_go_to_page}">&hellip;</a>
@@ -143,9 +145,9 @@
 						<button type="submit" class="x_add-on">Go</button>
 					</span>
 				</li>
-				
+
 			</block>
-	
+
 			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 		</ul>
 	</form>
