@@ -186,6 +186,11 @@ class Member extends ModuleObject
 		{
 			return true;
 		}
+		$mid_info = ModuleModel::getModuleInfoByMid($config->mid);
+		if (!$mid_info || $mid_info->module !== $this->module)
+		{
+			return true;
+		}
 
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
@@ -432,7 +437,20 @@ class Member extends ModuleObject
 		$changed = false;
 
 		// Check mid
+		$create_mid = false;
 		if (empty($config->mid))
+		{
+			$create_mid = true;
+		}
+		else
+		{
+			$mid_info = ModuleModel::getModuleInfoByMid($config->mid);
+			if (!$mid_info || $mid_info->module !== $this->module)
+			{
+				$create_mid = true;
+			}
+		}
+		if ($create_mid)
 		{
 			$config->mid = 'member';
 			$output = $this->createMid($config->mid, $config->skin ?: 'default', $config->mskin ?: 'default');
