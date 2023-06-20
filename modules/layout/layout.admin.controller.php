@@ -175,7 +175,8 @@ class layoutAdminController extends layout
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 		$layout_config = new stdClass();
-		$layout_config->header_script = Context::get('header_script');
+		$layout_config->header_script = Context::get('header_script') ?? '';
+		$layout_config->header_script = Rhymix\Modules\Admin\Models\Utility::cleanHeaderAndFooterScripts($layout_config->header_script);
 		$oModuleController->insertModulePartConfig('layout',$args->layout_srl,$layout_config);
 		// Save a title of the menu
 		$extra_vars->menu_name_list = $menu_name_list;
