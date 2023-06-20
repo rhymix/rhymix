@@ -60,7 +60,7 @@ class LegacyTest extends \Codeception\TestCase\Test
 		 */
 
 		// Legacy format
-		$this->assertEquals(1, preg_match('/[?&]foo=bar/', getUrl('foo', 'bar')));
+		$this->assertStringContainsString('foo=bar', getUrl('foo', 'bar'));
 		$this->assertStringContainsString('?foo=bar&amp;rhy=mix', getUrl('', 'foo', 'bar', 'rhy', 'mix'));
 		$this->assertStringContainsString('?foo=bar&amp;rhy=mix', getUrl('', 'foo', 'bar', 'rhy', 'mix', 'empty', '', 'keys', null));
 		$this->assertStringContainsString('?foo=bar&rhy=mix', getNotEncodedUrl('', 'foo', 'bar', 'rhy', 'mix'));
