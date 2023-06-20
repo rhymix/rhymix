@@ -70,7 +70,7 @@ class MemberView extends Member
 
 		$vars = get_object_vars(Context::getRequestVars());
 		$vars['mid'] = $this->member_config->mid;
-		$this->setRedirectUrl(getUrl($vars));
+		$this->setRedirectUrl(getNotEncodedUrl($vars));
 		return false;
 	}
 
