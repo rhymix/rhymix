@@ -105,7 +105,11 @@ class BoardView extends Board
 		 * load javascript, JS filters
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
-		Context::addJsFile($this->module_path.'tpl/js/board.js');
+		Context::loadFile([$this->module_path.'tpl/js/board.js', 'head']);
+		if (config('url.rewrite') > 1)
+		{
+			Context::loadFile([$this->module_path.'tpl/js/rewrite.js', 'body']);
+		}
 		Context::loadLang('./modules/document/lang');
 		Context::loadLang('./modules/comment/lang');
 
