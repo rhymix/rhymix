@@ -282,6 +282,7 @@ class Cleanup extends Base
 		'modules/counter/queries/updateSiteTotalCounterUnique.xml' => 'deleted:xe',
 		'modules/editor/skins/xpresseditor/' => 'deleted:xe',
 		'modules/editor/styles/' => 'deleted:xe',
+		'modules/module/schemas/site_admin.xml' => 'deleted',
 		'modules/page/page.wap.php' => 'deleted:xe',
 		'modules/spamfilter/spamfilter.lib.php' => 'deleted',
 		'modules/spamfilter/ruleset/' => 'deleted',
