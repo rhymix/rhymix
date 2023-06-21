@@ -1058,7 +1058,7 @@ class FileController extends File
 			'width' => $image_info['width'],
 			'height' => $image_info['height'],
 			'type' => $image_info['type'],
-			'quality' => $config->image_quality_adjustment,
+			'quality' => $config->image_quality_adjustment ?: 75,
 			'rotate' => 0,
 		];
 		$is_animated = Rhymix\Framework\Image::isAnimatedGIF($file_info['tmp_name']);
@@ -1211,11 +1211,14 @@ class FileController extends File
 				$adjusted['height'] -= $adjusted['height'] % 2;
 
 				// Convert using magick
-				$command = vsprintf('%s %s -resize %dx%d %s', [
+				$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
 					\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
 					escapeshellarg($file_info['tmp_name']),
 					$adjusted['width'],
 					$adjusted['height'],
+					intval($adjusted['quality'] ?: 75),
+					'-auto-orient -strip',
+					'-limit memory 64MB -limit map 128MB -limit disk 1GB',
 					escapeshellarg($output_name),
 				]);
 				@exec($command, $output, $return_var);
@@ -1223,11 +1226,29 @@ class FileController extends File
 			}
 			else
 			{
+				// Try resizing with GD.
 				$result = FileHandler::createImageFile($file_info['tmp_name'], $output_name, $adjusted['width'], $adjusted['height'], $adjusted['type'], 'fill', $adjusted['quality'], $adjusted['rotate']);
+
+				// If the image cannot be resized using GD, try ImageMagick.
+				if (!$result && !empty($config->magick_command))
+				{
+					$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
+						\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+						escapeshellarg($file_info['tmp_name']),
+						$adjusted['width'],
+						$adjusted['height'],
+						intval($adjusted['quality'] ?: 75),
+						'-auto-orient -strip',
+						'-limit memory 64MB -limit map 128MB -limit disk 1GB',
+						escapeshellarg($output_name),
+					]);
+					@exec($command, $output, $return_var);
+					$result = $return_var === 0 ? true : false;
+				}
 			}
 
 			// Change to information in the output file
-			if ($result)
+			if ($result && file_exists($output_name))
 			{
 				$file_info['tmp_name'] = $output_name;
 				$file_info['size'] = filesize($output_name);
