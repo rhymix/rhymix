@@ -715,6 +715,7 @@ class PointController extends Point
 		}
 		if (isset($args->point) && $args->point < 0)
 		{
+			$new_point = 0;
 			$args->point = 0;
 		}
 
@@ -724,7 +725,7 @@ class PointController extends Point
 		$trigger_obj->mode = $mode === 'plus' ? 'add' : $mode;
 		$trigger_obj->current_point = $current_point;
 		$trigger_obj->current_level = $current_level;
-		$trigger_obj->set_point = $point;
+		$trigger_obj->set_point = $new_point;
 		$trigger_obj->new_point = $new_point;
 		$trigger_output = ModuleHandler::triggerCall('point.setPoint', 'before', $trigger_obj);
 		if(!$trigger_output->toBool())
