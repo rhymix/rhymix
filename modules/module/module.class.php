@@ -65,7 +65,10 @@ class Module extends ModuleObject
 		if ($oDB->isIndexExists('modules', 'idx_site_mid')) return true;
 		if ($oDB->getColumnInfo('modules', 'site_srl')->default_value === null) return true;
 		if ($oDB->getColumnInfo('module_config', 'site_srl')->default_value === null) return true;
-		if ($oDB->isTableExists('site_admin')) return true;
+		if ($oDB->isTableExists('site_admin') && !file_exists($this->module_path . 'schemas/site_admin.xml'))
+		{
+			return true;
+		}
 
 		// Add domain_srl column
 		if (!$oDB->isColumnExists('modules', 'domain_srl')) return true;
@@ -176,7 +179,7 @@ class Module extends ModuleObject
 		}
 
 		// Remove the site_admin table.
-		if ($oDB->isTableExists('site_admin'))
+		if ($oDB->isTableExists('site_admin') && !file_exists($this->module_path . 'schemas/site_admin.xml'))
 		{
 			$oDB->dropTable('site_admin');
 		}
