@@ -52,6 +52,7 @@ $lang->group_image_mark_max_width = '가로 제한 길이';
 $lang->group_image_mark_max_height = '세로 제한 길이';
 $lang->signature_max_height = '서명 높이 제한';
 $lang->cmd_force_member_mid = '강제 적용';
+$lang->msg_exists_member_mid = '회원 모듈이 요구하는 \'%s\' URL은 다른 모듈이 이미 사용하고 있습니다. 회원 모듈과 충돌하는 URL을 가진 게시판이나 페이지의 주소를 변경해 주십시오.';
 $lang->enable_join = '회원 가입 허가';
 $lang->enable_join_only_with_url_key = 'URL 키가 일치하는 경우에만 허가';
 $lang->enable_join_url_key = 'URL 키';

@@ -182,12 +182,7 @@ class Member extends ModuleObject
 
 		// Check mid
 		$config = ModuleModel::getModuleConfig('member');
-		if (empty($config->mid))
-		{
-			return true;
-		}
-		$mid_info = ModuleModel::getModuleInfoByMid($config->mid);
-		if (!$mid_info || $mid_info->module !== $this->module)
+		if (empty($config->mid) || $this->checkMid($config->mid) !== 1)
 		{
 			return true;
 		}
@@ -437,20 +432,7 @@ class Member extends ModuleObject
 		$changed = false;
 
 		// Check mid
-		$create_mid = false;
-		if (empty($config->mid))
-		{
-			$create_mid = true;
-		}
-		else
-		{
-			$mid_info = ModuleModel::getModuleInfoByMid($config->mid);
-			if (!$mid_info || $mid_info->module !== $this->module)
-			{
-				$create_mid = true;
-			}
-		}
-		if ($create_mid)
+		if (empty($config->mid) || $this->checkMid($config->mid) !== 1)
 		{
 			$config->mid = 'member';
 			$output = $this->createMid($config->mid, $config->skin ?: 'default', $config->mskin ?: 'default');
@@ -617,6 +599,33 @@ class Member extends ModuleObject
 	}
 
 	/**
+	 * Check mid
+	 *
+	 * This method returns 0 if the mid doesn't exist,
+	 * 1 if the mid exists and belongs to this module,
+	 * and -1 if the mid exists but belongs to a different module.
+	 *
+	 * @param string $mid
+	 * @return int
+	 */
+	public function checkMid($mid = 'member')
+	{
+		$module_info = \ModuleModel::getModuleInfoByMid($mid);
+		if (!$module_info)
+		{
+			return 0;
+		}
+		elseif ($module_info->module === $this->module)
+		{
+			return 1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	/**
 	 * Create mid
 	 *
 	 * @param string $mid
@@ -626,10 +635,14 @@ class Member extends ModuleObject
 	 */
 	public function createMid($mid = 'member', $skin = 'default', $mskin = 'default')
 	{
-		$module_info = \ModuleModel::getModuleInfoByMid($mid);
-		if ($module_info && $module_info->module === $this->module)
+		$check = $this->checkMid($mid);
+		if ($check == 1)
 		{
 			return new BaseObject();
+		}
+		if ($check == -1)
+		{
+			return new BaseObject(-1, sprintf(lang('msg_exists_member_mid'), $mid));
 		}
 
 		return ModuleController::getInstance()->insertModule((object)array(

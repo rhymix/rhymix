@@ -257,13 +257,9 @@ class MemberAdminController extends Member
 				return new BaseObject(-1, 'msg_limit_mid');
 			}
 
-			if ($config->mid)
+			if (!empty($config->mid) && $this->checkMid($config->mid) == 1)
 			{
-				$module_info = ModuleModel::getModuleInfoByMid($config->mid);
-				if (!$module_info || $module_info->module !== $this->module)
-				{
-					$module_info = null;
-				}
+				$module_info = \ModuleModel::getModuleInfoByMid($config->mid);
 			}
 			else
 			{

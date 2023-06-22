@@ -52,6 +52,7 @@ $lang->group_image_mark_max_width = 'Max Width';
 $lang->group_image_mark_max_height = 'Max Height';
 $lang->signature_max_height = 'Max Signature Height';
 $lang->cmd_force_member_mid = 'Force';
+$lang->msg_exists_member_mid = 'The URL \'%s\' required by the member module is already used by another module. Please change the URL of the other module and try again.';
 $lang->enable_join = 'Accept New Members';
 $lang->enable_join_only_with_url_key = 'Only with valid URL key';
 $lang->enable_join_url_key = 'URL Key';
