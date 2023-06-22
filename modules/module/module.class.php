@@ -73,7 +73,10 @@ class Module extends ModuleObject
 		// Add domain_srl column
 		if (!$oDB->isColumnExists('modules', 'domain_srl')) return true;
 		if (!$oDB->isIndexExists('modules', 'idx_domain_srl')) return true;
-		if (!$oDB->isIndexExists('modules', 'idx_mid')) return true;
+		if (!$oDB->isIndexExists('modules', 'idx_mid') && !$oDB->isIndexExists('modules', 'unique_mid'))
+		{
+			return true;
+		}
 
 		// check fix mskin
 		if(!$oDB->isColumnExists("modules", "is_mskin_fix")) return true;
@@ -193,7 +196,13 @@ class Module extends ModuleObject
 		{
 			$oDB->addIndex('modules', 'idx_domain_srl', array('domain_srl'));
 		}
-		if (!$oDB->isIndexExists('modules', 'idx_mid'))
+
+		// Try adding a unique index on mid, but fall back to a regular index if not possible.
+		if (!$oDB->isIndexExists('modules', 'unique_mid'))
+		{
+			$oDB->addIndex('modules', 'unique_mid', array('mid'), true);
+		}
+		elseif (!$oDB->isIndexExists('modules', 'idx_mid'))
 		{
 			$oDB->addIndex('modules', 'idx_mid', array('mid'));
 		}

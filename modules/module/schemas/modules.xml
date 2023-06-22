@@ -5,7 +5,7 @@
     <column name="menu_srl" type="number" size="11" notnull="notnull" default="0" />
     <column name="site_srl" type="number" size="11" notnull="notnull" default="0" />
     <column name="domain_srl" type="number" size="11" notnull="notnull" default="-1" index="idx_domain_srl" />
-    <column name="mid" type="varchar" size="40" notnull="notnull" />
+    <column name="mid" type="varchar" size="40" notnull="notnull" unique="unique_mid" />
     <column name="layout_srl" type="number" size="11" default="0" />
     <column name="mlayout_srl" type="number" size="11" default="0" />
     <column name="use_mobile" type="char" size="1" default="N" />
