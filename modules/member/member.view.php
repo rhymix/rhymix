@@ -121,11 +121,11 @@ class MemberView extends Member
 	{
 		if ($this->user->isMember())
 		{
-			$this->setRedirectUrl(getUrl(['mid' => $this->mid, 'act' => 'dispMemberInfo']));
+			$this->setRedirectUrl(getNotEncodedUrl(['mid' => $this->mid, 'act' => 'dispMemberInfo']));
 		}
 		else
 		{
-			$this->setRedirectUrl(getUrl(['mid' => $this->mid, 'act' => 'dispMemberLoginForm']));
+			$this->setRedirectUrl(getNotEncodedUrl(['mid' => $this->mid, 'act' => 'dispMemberLoginForm']));
 		}
 	}
 
