@@ -206,7 +206,7 @@ class menuAdminController extends menu
 				$moduleInfo->menu_srl = $menuSrl;
 			}
 
-			$output = executeQuery('module.updateModule', $moduleInfo);
+			ModuleController::getInstance()->updateModule($moduleInfo);
 		}
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
@@ -372,22 +372,28 @@ class menuAdminController extends menu
 		}
 
 		// Delete linked module
-		if ($delete_module)
+		$oModuleController = ModuleController::getInstance();
+		foreach($output->data as $itemInfo)
 		{
-			$oModuleController = ModuleController::getInstance();
-			foreach($output->data as $itemInfo)
+			if ($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
 			{
-				if ($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
+				$moduleInfo = ModuleModel::getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
+				if ($moduleInfo->module_srl)
 				{
-					$moduleInfo = ModuleModel::getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
-					if ($moduleInfo->module_srl)
+					if ($delete_module)
 					{
 						$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
-						if (!$output->toBool())
-						{
-							$oDB->rollback();
-							return $output;
-						}
+					}
+					else
+					{
+						$moduleInfo->menu_srl = 0;
+						$output = $oModuleController->updateModule($moduleInfo);
+					}
+
+					if (!$output->toBool())
+					{
+						$oDB->rollback();
+						return $output;
 					}
 				}
 			}
@@ -1003,7 +1009,7 @@ class menuAdminController extends menu
 		if($node['active_btn']) FileHandler::removeFile($node['active_btn']);
 
 		// Delete module
-		if($delete_module && $node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
+		if($node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
 		{
 			// reference menu's url modify
 			$args->url = $node['url'];
@@ -1026,7 +1032,16 @@ class menuAdminController extends menu
 			$moduleInfo = ModuleModel::getModuleInfoByMid($node['url'], $menuInfo->site_srl);
 			if($moduleInfo->module_srl)
 			{
-				$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
+				if ($delete_module)
+				{
+					$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
+				}
+				else
+				{
+					$moduleInfo->menu_srl = 0;
+					$output = $oModuleController->updateModule($moduleInfo);
+				}
+
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
