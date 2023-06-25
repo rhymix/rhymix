@@ -655,6 +655,7 @@ class Member extends ModuleObject
 			'skin' => $skin,
 			'mskin' => $mskin,
 			'use_mobile' => 'Y',
+			'isMenuCreate' => false,
 		));
 	}
 
