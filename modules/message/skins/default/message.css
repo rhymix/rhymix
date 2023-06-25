@@ -15,6 +15,7 @@ body, #access table, #access input, #access textarea, #access select, #access bu
 #access>.login-footer:before,
 #access>.login-footer:after{display:table;line-height:0;content:"";clear:both}
 #access .control-group{position:relative;padding:0 14px 0 0;margin:0;clear:both}
+#access .control-group.captcha { margin-bottom:10px}
 #access .control-group:before{content:"";display:block;clear:both}
 #access .message{padding:0.8em 1em}
 #access .message.location{word-break:break-all}
