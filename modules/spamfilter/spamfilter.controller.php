@@ -225,23 +225,7 @@ class spamfilterController extends spamfilter
 	function triggerCheckCaptcha(&$obj)
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!isset($config) || !isset($config->captcha) || !in_array($config->captcha->type, ['recaptcha', 'turnstile']) || !$config->captcha->site_key || !$config->captcha->secret_key)
-		{
-			return;
-		}
-		if ($this->user->is_admin === 'Y')
-		{
-			return;
-		}
-		if ($config->captcha->target_users !== 'everyone' && $this->user->member_srl)
-		{
-			return;
-		}
-		if ($config->captcha->target_frequency !== 'every_time' && isset($_SESSION['recaptcha_authenticated']) && $_SESSION['recaptcha_authenticated'])
-		{
-			return;
-		}
-		if (!$config->captcha->target_devices[Mobile::isFromMobilePhone() ? 'mobile' : 'pc'])
+		if (!SpamfilterModel::isCaptchaEnabled())
 		{
 			return;
 		}
