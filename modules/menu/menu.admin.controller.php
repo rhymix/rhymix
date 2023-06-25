@@ -109,7 +109,7 @@ class menuAdminController extends menu
 	{
 		$unlinked_modules = false;
 		$args = new stdClass;
-		$args->site_srl = 0;
+		$args->menu_srl = 0;
 		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
 		if($output->toBool() && $output->data)
 		{
@@ -207,8 +207,6 @@ class menuAdminController extends menu
 			}
 
 			$output = executeQuery('module.updateModule', $moduleInfo);
-
-			return $output;
 		}
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
