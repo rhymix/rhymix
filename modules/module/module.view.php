@@ -144,44 +144,6 @@ class ModuleView extends Module
 	}
 
 	/**
-	 * Display the current site's favicon
-	 */
-	public function dispModuleCurrentSiteFavicon()
-	{
-		$domain = ModuleModel::getSiteInfoByDomain($_SERVER['HTTP_HOST']) ?: ModuleModel::getDefaultDomainInfo();
-		$domain_srl = $domain->domain_srl ?? 0;
-		$filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($domain_srl ? ($domain_srl . '/') : '') . 'favicon.ico';
-
-		if (Rhymix\Framework\Storage::exists($filename))
-		{
-			// Handle 304 Not Modified
-			if(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) > filemtime($uploaded_filename))
-			{
-				header('HTTP/1.1 304 Not Modified');
-				exit();
-			}
-
-			// Clear buffer
-			while(ob_get_level()) ob_end_clean();
-
-			// Set headers
-			header('Content-Type: image/x-icon');
-			header('Content-Length: ' . filesize($filename));
-			header('Cache-Control: private; max-age=3600');
-			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
-
-			// Print icon and exit
-			readfile($filename);
-			exit();
-		}
-		else
-		{
-			$this->stop('msg_not_founded');
-			$this->setHttpStatusCode(404);
-		}
-	}
-
-	/**
 	 * Moved from mobile class
 	 */
 	function dispModuleChangeLang()

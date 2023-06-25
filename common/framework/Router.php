@@ -64,12 +64,6 @@ class Router
 			'extra_vars' => ['act' => 'dispAdminRewriteTest'],
 			'priority' => 0,
 		),
-		'favicon\.ico' => array(
-			'regexp' => '#^favicon\.ico$#',
-			'vars' => [],
-			'extra_vars' => ['module' => 'module', 'act' => 'dispModuleCurrentSiteFavicon'],
-			'priority' => 0,
-		)
 	);
 
 	/**
