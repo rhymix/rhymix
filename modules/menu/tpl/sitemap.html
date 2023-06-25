@@ -713,6 +713,8 @@
 	xe.lang.msg_url_is_required = '{$lang->msg_url_is_required}';
 	xe.lang.confirm_sitemap_delete = '{$lang->confirm_sitemap_delete}';
 	xe.lang.confirm_menu_delete = '{$lang->confirm_menu_delete}';
+	xe.lang.confirm_menu_delete_desc = '{$lang->confirm_menu_delete_desc}';
+	xe.lang.confirm_delete_not_contents = '{$lang->confirm_delete_not_contents}';
 	xe.lang.confirm_delete_all_contents = '{$lang->confirm_delete_all_contents}';
 	xe.lang.confirm_shortcut_delete = '{$lang->confirm_shortcut_delete}';
 	xe.lang.confirm_shortcut_desc = '{$lang->confirm_shortcut_desc}';
@@ -1922,7 +1924,7 @@ jQuery(function($){
 		params['is_shortcut'] = isShortCut;
 		params['parent_srl'] = sSelectedMenuSrl;
 		params[sTargetKey] = sUrl;
-		
+
 		$.exec_json("menu.procMenuAdminInsertItem", params, function(htData){
 			// select the newly created menu
 			//$._xeAdminVar.sSelectOnload = htData.menu_item_srl;
@@ -3440,10 +3442,11 @@ jQuery(function($){
 		scrollToRight();
 	});
 
-	function doDelete(sMenuSrl, bForce, sSelectOnload){
+	function doDelete(sMenuSrl, bForce, sSelectOnload, deleteModule){
 		var params = {
 			menu_item_srl : sMenuSrl,
-			is_force : bForce ? 'Y' : 'N'
+			is_force : bForce ? 'Y' : 'N',
+			delete_module : deleteModule ? deleteModule : 'N'
 		};
 
 		$.exec_json("menu.procMenuAdminDeleteItem", params, function(htData){
@@ -3458,7 +3461,7 @@ jQuery(function($){
 					bDanger : true,
 
 					fnOnOK : function(){
-						doDelete(sMenuSrl, true, sSelectOnload);
+						doDelete(sMenuSrl, true, sSelectOnload, deleteModule);
 					}
 				});
 
@@ -3483,46 +3486,29 @@ jQuery(function($){
 		if(htInfo.is_shortcut == 'Y')
 		{
 			tmpTitle = xe.lang.confirm_shortcut_delete;
-			tmpText = xe.lang.confirm_shortcut_desc;
+			tmpText = '<p>' + xe.lang.confirm_shortcut_desc + '</p>';
 		}
 		else
 		{
 			tmpTitle = xe.lang.confirm_menu_delete;
-			tmpText = xe.lang.confirm_delete_all_contents;
+			tmpText = '<p>' + xe.lang.confirm_menu_delete_desc + '</p>' +
+				'<p><label><input type="radio" name="delete_module" value="N" checked="checked"> ' + xe.lang.confirm_delete_not_contents + '</label>' +
+				'<label><input type="radio" name="delete_module" value="Y"> ' + xe.lang.confirm_delete_all_contents + '</label></p>';
 		}
 
 		$.xeMsgBox.confirmDialog({
 			sTitle : tmpTitle,
 
-			sText : '<label><input type="checkbox"> ' + tmpText + '</label>',
+			sText : tmpText,
 
 			bDanger : true,
 
 			fnOnOK : function(){
-				if(!$.xeMsgBox.$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
-
 				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
-
 				var sParentSrl = htNodeInfo[sSelectedMenuSrl].parent_srl;
-
-				doDelete(sSelectedMenuSrl, false, sParentSrl);
+				var deleteModule = $.xeMsgBox.$msgBox.find('input[type="radio"]:checked').val();
+				doDelete(sSelectedMenuSrl, false, sParentSrl, deleteModule);
 			},
-
-			fnOnShow : function(){
-				$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
-
-				$.xeMsgBox.$msgBox.find('input[type="checkbox"]').click(function(){
-					if($(this).attr('checked')){
-						$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
-					}else{
-						$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
-					}
-				});
-			},
-
-			fnOnHide : function(){
-				$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
-			}
 		});
 	});
 
