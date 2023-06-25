@@ -497,14 +497,12 @@ class ModuleController extends Module
 		}
 
 		// Check whether the module name already exists
-		$output = executeQuery('module.isExistsModuleName', $args);
-		if(!$output->toBool() || $output->data->count)
+		if(ModuleModel::isIDExists($args->mid))
 		{
 			return new BaseObject(-1, 'msg_module_name_exists');
 		}
 
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
-
 		$args->browser_title = escape(strip_tags($args->browser_title ?? $module_info->browser_title), false);
 		$args->description = isset($args->description) ? escape($args->description, false) : null;
 
