@@ -101,7 +101,7 @@ jQuery(function($){
 			{member_join_form_srl:memberFormSrl},
 			function(ret){
 				var tpl = ret.tpl.replace(/\|@\|/g, '\n');
-				$('#extendForm').html(tpl);
+				$('#extendForm').html(tpl).find('.lang_code').xeApplyMultilingualUI();
 
 				if (checked)$('#extendForm #radio_'+checked).attr('checked', 'checked');
 			},
@@ -109,7 +109,7 @@ jQuery(function($){
 		);
 
 	});
-	
+
 	$('a._extendFormDelete').click(function(event){
 		event.preventDefault();
 		if (!confirm(xe.lang.msg_delete_extend_form)) return;
@@ -135,7 +135,7 @@ jQuery(function($){
 			$('#prohibited_id').focus();
 			return;
 		}
-		
+
 
 		ids = ids.replace(/\n/g, ',');
 
@@ -193,7 +193,7 @@ jQuery(function($){
 			$('#prohibited_nick_name').focus();
 			return;
 		}
-		
+
 
 		ids = ids.replace(/\n/g, ',');
 
@@ -217,7 +217,7 @@ jQuery(function($){
 		jQuery.exec_json('member.procMemberAdminUpdateDeniedNickName', {'nick_name': ids}, on_complete);
 
 	});
-	
+
 	$('#userDefine').submit(function(e) {
 		var id_list = $(this).find('input[name=join_form_id_list]').val();
 		var id_list_arr = id_list.split(',');
