@@ -383,7 +383,7 @@ class ModuleController extends Module
 		}
 
 		// Check whether the module name already exists
-		if(ModuleModel::isIDExists($args->mid))
+		if(ModuleModel::isIDExists($args->mid, $args->module))
 		{
 			return new BaseObject(-1, 'msg_module_name_exists');
 		}

@@ -23,13 +23,13 @@ class ModuleModel extends Module
 	/**
 	 * @brief Check if mid is available
 	 */
-	public static function isIDExists($id)
+	public static function isIDExists($id, $module = null)
 	{
 		if (!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i', $id))
 		{
 			return true;
 		}
-		if (Context::isReservedWord(strtolower($id)))
+		if (Context::isReservedWord(strtolower($id)) && $id !== $module)
 		{
 			return true;
 		}
