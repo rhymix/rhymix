@@ -18,25 +18,6 @@ class MemberMobile extends MemberView
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('member_config.signupForm..');
 
-		// Set the template path
-		$mskin = $this->member_config->mskin;
-		if(!$mskin)
-		{
-			$template_path = sprintf('%sm.skins/%s/', $this->module_path, 'default');
-		}
-		elseif($mskin === '/USE_RESPONSIVE/')
-		{
-			$template_path = sprintf("%sskins/%s/", $this->module_path, $this->member_config->skin);
-			if(!is_dir($template_path) || !$this->member_config->skin)
-			{
-				$template_path = sprintf("%sskins/%s/", $this->module_path, 'default');
-			}
-		}
-		else
-		{
-			$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
-		}
-
 		// if member_srl exists, set memberInfo
 		$member_srl = Context::get('member_srl');
 		if($member_srl)
@@ -53,15 +34,8 @@ class MemberMobile extends MemberView
 			}
 		}
 
-		$this->setTemplatePath($template_path);
-
-		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($this->member_config->mlayout_srl);
-		if($layout_info)
-		{
-			$this->module_info->mlayout_srl = $this->member_config->mlayout_srl;
-			$this->setLayoutPath($layout_info->path);
-		}
+		// Set layout and skin paths
+		$this->setLayoutAndTemplatePaths('M', $this->member_config);
 	}
 
 	function dispMemberModifyInfo()

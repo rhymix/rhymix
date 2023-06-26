@@ -21,29 +21,8 @@ class MemberView extends Member
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('member_config.signupForm..');
 
-		// Set the skin path
-		$skin = $this->member_config->skin;
-		if ($skin)
-		{
-			if ($skin === '/USE_DEFAULT/')
-			{
-				$skin = 'default';
-			}
-			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
-		}
-		else
-		{
-			$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
-		}
-		$this->setTemplatePath($template_path);
-
-		// Set the layout path
-		$layout_info = LayoutModel::getInstance()->getLayout($this->member_config->layout_srl);
-		if($layout_info)
-		{
-			$this->module_info->layout_srl = $this->member_config->layout_srl;
-			$this->setLayoutPath($layout_info->path);
-		}
+		// Set layout and skin paths
+		$this->setLayoutAndTemplatePaths('P', $this->member_config);
 	}
 
 	/**
