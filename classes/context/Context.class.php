@@ -745,7 +745,7 @@ class Context
 		{
 			return '';
 		}
-		return escape(self::replaceUserLang(self::$_instance->browser_title), false);
+		return escape(self::replaceUserLang(self::$_instance->browser_title, true), false);
 	}
 
 	/**
@@ -758,7 +758,7 @@ class Context
 		$domain_info = self::get('site_module_info');
 		if ($domain_info && $domain_info->settings && $domain_info->settings->title)
 		{
-			return escape(self::replaceUserLang($domain_info->settings->title), false);
+			return escape(self::replaceUserLang($domain_info->settings->title, true), false);
 		}
 		else
 		{
@@ -776,7 +776,7 @@ class Context
 		$domain_info = self::get('site_module_info');
 		if ($domain_info && $domain_info->settings && $domain_info->settings->subtitle)
 		{
-			return escape(self::replaceUserLang($domain_info->settings->subtitle), false);
+			return escape(self::replaceUserLang($domain_info->settings->subtitle, true), false);
 		}
 		else
 		{
@@ -886,9 +886,13 @@ class Context
 	}
 
 	/**
-	 * @brief Replace user-defined language codes
+	 * Replace user-defined language codes
+	 *
+	 * @param string $string
+	 * @param bool $fix_double_escape
+	 * @return string
 	 */
-	public static function replaceUserLang($output)
+	public static function replaceUserLang($string, $fix_double_escape = false)
 	{
 		static $lang = null;
 		if($lang === null)
@@ -900,7 +904,15 @@ class Context
 			}
 		}
 
-		return preg_replace_callback('/\$user_lang->([a-zA-Z0-9\_]+)/', function($matches) use($lang) {
+		if ($fix_double_escape)
+		{
+			$regexp = '/\$user_lang-(?:>|&gt;)([a-zA-Z0-9\_]+)/';
+		}
+		else
+		{
+			$regexp = '/\$user_lang->([a-zA-Z0-9\_]+)/';
+		}
+		return preg_replace_callback($regexp, function($matches) use($lang) {
 			if(isset($lang[$matches[1]]) && !self::get($matches[1]))
 			{
 				return $lang[$matches[1]];
@@ -909,7 +921,7 @@ class Context
 			{
 				return $matches[1];
 			}
-		}, $output);
+		}, $string);
 	}
 
 	/**
@@ -2781,7 +2793,7 @@ class Context
 	{
 		self::$_instance->meta_tags[$name] = array(
 			'is_http_equiv' => (bool)$is_http_equiv,
-			'content' => self::replaceUserLang($content),
+			'content' => self::replaceUserLang($content, true),
 		);
 	}
 
