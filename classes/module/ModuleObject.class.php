@@ -651,7 +651,7 @@ class ModuleObject extends BaseObject
 				$skin = ModuleModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
 			}
 			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
-			if (!Rhymix\Framework\Storage::isDirectory($template_path))
+			if (!Rhymix\Framework\Storage::exists($template_path))
 			{
 				$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
 			}
@@ -672,7 +672,7 @@ class ModuleObject extends BaseObject
 					$skin = ModuleModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
 				}
 				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
-				if (!Rhymix\Framework\Storage::isDirectory($template_path))
+				if (!Rhymix\Framework\Storage::exists($template_path))
 				{
 					$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
 				}
@@ -680,7 +680,7 @@ class ModuleObject extends BaseObject
 			else
 			{
 				$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
-				if (!Rhymix\Framework\Storage::isDirectory($template_path))
+				if (!Rhymix\Framework\Storage::exists($template_path))
 				{
 					$template_path = sprintf("%sm.skins/%s/", $this->module_path, 'default');
 				}
