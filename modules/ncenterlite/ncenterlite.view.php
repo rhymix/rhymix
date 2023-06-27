@@ -6,24 +6,7 @@ class ncenterliteView extends ncenterlite
 	{
 		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$config = $oNcenterliteModel->getConfig();
-		$template_path = sprintf("%sskins/%s/",$this->module_path, $config->skin);
-		if(!is_dir($template_path)||!$config->skin)
-		{
-			$config->skin = 'default';
-			$template_path = sprintf("%sskins/%s/",$this->module_path, $config->skin);
-		}
-		$this->setTemplatePath($template_path);
-
-		$oLayoutModel = getModel('layout');
-		if (isset($config->layout_srl) && $config->layout_srl)
-		{
-			$layout_info = $oLayoutModel->getLayout($config->layout_srl);
-			if ($layout_info)
-			{
-				$this->module_info->layout_srl = $config->layout_srl;
-				$this->setLayoutPath($layout_info->path);
-			}
-		}
+		$this->setLayoutAndTemplatePaths($this instanceof ncenterliteView ? 'P' : 'M', $config);
 	}
 
 	function dispNcenterliteNotifyList()

@@ -15,33 +15,9 @@ class communicationView extends communication
 	 */
 	function init()
 	{
-		$oCommunicationModel = getModel('communication');
-
-		$this->config = $oCommunicationModel->getConfig();
-		$skin = $this->config->skin;
-
+		$this->config = CommunicationModel::getConfig();
 		Context::set('communication_config', $this->config);
-
-		$config_parse = explode('|@|', $skin);
-
-		if(count($config_parse) > 1)
-		{
-			$tpl_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
-		}
-		else
-		{
-			$tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
-		}
-
-		$this->setTemplatePath($tpl_path);
-
-		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($this->config->layout_srl);
-		if($layout_info)
-		{
-			$this->module_info->layout_srl = $this->config->layout_srl;
-			$this->setLayoutPath($layout_info->path);
-		}
+		$this->setLayoutAndTemplatePaths('P', $this->config);
 	}
 
 	/**
