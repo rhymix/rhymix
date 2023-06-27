@@ -241,6 +241,7 @@ class MemberAdminController extends Member
 			'password_hashing_work_factor',
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
+			'allow_nickname_change',
 			'update_nickname_log',
 			'nickname_symbols',
 			'nickname_symbols_allowed_list',

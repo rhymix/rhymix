@@ -60,6 +60,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<div class="x_control-label">{$lang->cmd_modify_nickname_allow}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="allow_nickname_change_yes"><input type="radio" name="allow_nickname_change" id="allow_nickname_change_yes" value="Y" checked="checked"|cond="$config->allow_nickname_change != 'N'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="allow_nickname_change_no"><input type="radio" name="allow_nickname_change" id="allow_nickname_change_no" value="N" checked="checked"|cond="$config->allow_nickname_change == 'N'"/> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_allow_nickname_change}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<div class="x_control-label">{$lang->cmd_modify_nickname_log}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="update_nickname_log_yes"><input type="radio" name="update_nickname_log" id="update_nickname_log_yes" value="Y" checked="checked"|cond="$config->update_nickname_log == 'Y'" /> {$lang->cmd_yes}</label>

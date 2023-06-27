@@ -663,11 +663,21 @@ class MemberAdminView extends Member
 					}
 					else
 					{
+						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N')
+						{
+							$readonly = 'readonly="readonly" ';
+						}
+						else
+						{
+							$readonly = '';
+						}
 						$formTag->type = 'text';
-						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" />',
+						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" %s/>',
 							$formInfo->name,
 							$formInfo->name,
-							$memberInfo[$formInfo->name]);
+							$memberInfo[$formInfo->name],
+							$readonly);
+
 					}
 				}//end isDefaultForm
 				else

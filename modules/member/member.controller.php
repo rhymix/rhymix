@@ -1056,6 +1056,12 @@ class MemberController extends Member
 			}
 		}
 
+		// Check if nickname change is allowed
+		if(isset($config->allow_nickname_change) && $config->allow_nickname_change === 'N')
+		{
+			$args->nick_name = $logged_info->nick_name;
+		}
+
 		// Check symbols in nickname
 		if($config->nickname_symbols === 'N')
 		{
