@@ -505,7 +505,7 @@ class MemberAdminView extends Member
 
 		foreach($member_config->signupForm as $no=>$formInfo)
 		{
-			if(!$formInfo->isUse || in_array($formInfo->name, $identifiers) || $formInfo->name == 'password')
+			if(!$formInfo->isUse || (in_array($formInfo->name, $identifiers) && $formInfo->name === array_first($identifiers)) || $formInfo->name == 'password')
 			{
 				continue;
 			}
@@ -595,8 +595,16 @@ class MemberAdminView extends Member
 					}
 					else if($formInfo->name == 'email_address')
 					{
+						if(isset($member_config->enable_confirm) && $member_config->enable_confirm === 'Y')
+						{
+							$readonly = 'readonly="readonly" ';
+						}
+						else
+						{
+							$readonly = '';
+						}
 						$formTag->type = 'email';
-						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" />';
+						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" ' . $readonly . '/>';
 					}
 					else if($formInfo->name == 'phone_number')
 					{

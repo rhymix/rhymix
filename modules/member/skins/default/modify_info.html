@@ -23,7 +23,7 @@
 		<label for="{$identifierForm->name}" class="control-label">{$identifierForm->title} <em style="color:red">*</em></label>
 		<div class="controls">
 			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-			<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
+			<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" readonly="readonly" />
 		</div>
 	</div>
 	<div class="control-group" loop="$formTags=>$formTag">
