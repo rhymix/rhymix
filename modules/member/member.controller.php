@@ -1059,7 +1059,19 @@ class MemberController extends Member
 		// Check if nickname change is allowed
 		if(isset($config->allow_nickname_change) && $config->allow_nickname_change === 'N')
 		{
-			$args->nick_name = $logged_info->nick_name;
+			if (!empty($args->nick_name) && $args->nick_name !== $logged_info->nick_name)
+			{
+				return new BaseObject(-1, 'msg_nickname_not_changeable');
+			}
+		}
+
+		// Check if email address change is allowed
+		if(isset($config->enable_confirm) && $config->enable_confirm === 'Y')
+		{
+			if (!empty($args->email_address) && $args->email_address !== $logged_info->email_address)
+			{
+				return new BaseObject(-1, 'msg_email_address_not_changeable');
+			}
 		}
 
 		// Check symbols in nickname
