@@ -595,7 +595,7 @@ class MemberAdminView extends Member
 					}
 					else if($formInfo->name == 'email_address')
 					{
-						if(isset($member_config->enable_confirm) && $member_config->enable_confirm === 'Y')
+						if(isset($member_config->enable_confirm) && $member_config->enable_confirm === 'Y' && !$isAdmin)
 						{
 							$readonly = 'readonly="readonly" ';
 						}

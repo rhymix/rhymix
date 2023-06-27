@@ -3013,7 +3013,10 @@ class MemberController extends Member
 			{
 				return new BaseObject(-1, 'msg_exists_email_address');
 			}
-			$args->email_address = $orgMemberInfo->email_address;
+			if($logged_info->is_admin !== 'Y')
+			{
+				$args->email_address = $orgMemberInfo->email_address;
+			}
 		}
 		if(in_array('user_id', $identifiers))
 		{
@@ -3022,7 +3025,10 @@ class MemberController extends Member
 			{
 				return new BaseObject(-1, 'msg_exists_user_id');
 			}
-			$args->user_id = $orgMemberInfo->user_id;
+			if($logged_info->is_admin !== 'Y')
+			{
+				$args->user_id = $orgMemberInfo->user_id;
+			}
 		}
 
 		// Check if phone number is duplicate
