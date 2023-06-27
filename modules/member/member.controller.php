@@ -2993,7 +2993,8 @@ class MemberController extends Member
 		}
 
 		// Check if email address or user ID is duplicate
-		if($config->identifier == 'email_address')
+		$identifiers = $config->identifiers ?? [$config->identifier];
+		if(in_array('email_address', $identifiers))
 		{
 			$member_srl = MemberModel::getMemberSrlByEmailAddress($args->email_address);
 			if($member_srl && $args->member_srl != $member_srl)
@@ -3002,14 +3003,13 @@ class MemberController extends Member
 			}
 			$args->email_address = $orgMemberInfo->email_address;
 		}
-		else
+		if(in_array('user_id', $identifiers))
 		{
 			$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
 			if($member_srl && $args->member_srl != $member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_user_id');
 			}
-
 			$args->user_id = $orgMemberInfo->user_id;
 		}
 

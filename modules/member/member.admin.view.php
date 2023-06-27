@@ -497,13 +497,15 @@ class MemberAdminView extends Member
 		{
 			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
 		}
+		$identifiers = $member_config->identifiers ?? [$member_config->identifier];
+		$identifiers = array_intersect($identifiers, ['user_id', 'email_address']);
 
 		global $lang;
 		$formTags = array();
 
 		foreach($member_config->signupForm as $no=>$formInfo)
 		{
-			if(!$formInfo->isUse || $formInfo->name == $member_config->identifier || $formInfo->name == 'password')
+			if(!$formInfo->isUse || in_array($formInfo->name, $identifiers) || $formInfo->name == 'password')
 			{
 				continue;
 			}
