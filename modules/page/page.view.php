@@ -154,8 +154,7 @@ class PageView extends Page
 		}
 		Context::set('oDocument', $oDocument);
 
-		$templatePath = sprintf('%sskins/%s', $this->module_path, $this->module_info->skin ?: 'default');
-		$page_content = $oTemplate->compile($templatePath, 'content');
+		$page_content = $oTemplate->compile($this->getTemplatePath(), 'content');
 
 		return $page_content;
 	}
