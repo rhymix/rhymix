@@ -1553,7 +1553,7 @@ class DocumentModel extends Document
 			}
 			$args->columnList[$key] = 'documents.' . $column;
 		}
-		if($args->columnList && !in_array($args->sort_index, $args->columnList))
+		if($args->columnList && $args->sort_index && !in_array($args->sort_index, $args->columnList))
 		{
 			$args->columnList[] = $args->sort_index;
 		}
