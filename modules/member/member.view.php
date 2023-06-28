@@ -125,17 +125,18 @@ class MemberView extends Member
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$member_srl = Context::get('member_srl');
-		if(!$member_srl && Context::get('is_logged'))
+		$member_srl = Context::get('member_srl') ?: $logged_info->member_srl;
+		if(!$member_srl)
 		{
-			$member_srl = $logged_info->member_srl;
-		}
-		elseif(!$member_srl)
-		{
-			return $this->dispMemberSignUpForm();
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if (!$member_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
 		unset($member_info->password);
 		unset($member_info->email_id);
 		unset($member_info->email_host);
@@ -146,8 +147,6 @@ class MemberView extends Member
 			$protect_id = substr($email_id, 0, 2) . str_repeat('*', strlen($email_id)-2);
 			$member_info->email_address = sprintf('%s@%s', $protect_id, $email_host);
 		}
-
-		if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
 
 		Context::set('memberInfo', get_object_vars($member_info));
 
