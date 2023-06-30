@@ -10,6 +10,5 @@
     <conditions>
         <condition operation="equal" column="module_part_config.module" var="module" notnull="notnull" />
         <condition operation="equal" column="modules.module_srl" default="module_part_config.module_srl" pipe="and" />
-        <condition operation="equal" column="modules.site_srl" var="site_srl" pipe="and" />
     </conditions>
 </query>

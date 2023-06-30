@@ -14,6 +14,7 @@ use Rhymix\Framework\Storage;
 use Rhymix\Framework\URL;
 use Rhymix\Modules\Admin\Controllers\Base;
 use Rhymix\Modules\Admin\Models\Icon as IconModel;
+use Rhymix\Modules\Admin\Models\Utility as UtilityModel;
 
 class Domains extends Base
 {
@@ -340,8 +341,8 @@ class Domains extends Base
 		$vars->meta_description = utf8_trim($vars->meta_description);
 
 		// Clean up the header and footer scripts.
-		$vars->html_header = utf8_trim($vars->html_header);
-		$vars->html_footer = utf8_trim($vars->html_footer);
+		$vars->html_header = UtilityModel::cleanHeaderAndFooterScripts($vars->html_header ?? '');
+		$vars->html_footer = UtilityModel::cleanHeaderAndFooterScripts($vars->html_footer ?? '');
 
 		// Validate the color scheme setting.
 		$valid_color_scheme_options = array('auto', 'light', 'dark');

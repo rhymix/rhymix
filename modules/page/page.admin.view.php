@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief page admin view of the module class
  */
-class pageAdminView extends page
+class PageAdminView extends Page
 {
 	var $module_srl = 0;
 	var $list_count = 20;

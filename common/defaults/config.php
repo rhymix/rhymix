@@ -61,6 +61,7 @@ return array(
 		'use_keys' => false,
 		'use_ssl' => false,
 		'use_ssl_cookies' => false,
+		'samesite' => 'Lax',
 		'domain' => null,
 		'path' => null,
 		'lifetime' => 0,
@@ -77,9 +78,9 @@ return array(
 		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
+		'delay_compile' => 0,
 		'jquery_version' => 2,
 		'server_push' => false,
-		'use_gzip' => false,
 	),
 	'admin' => array(
 		'allow' => array(),
@@ -126,6 +127,8 @@ return array(
 		'robot_user_agents' => array(),
 		'check_csrf_token' => false,
 		'nofollow' => false,
+		'x_frame_options' => 'SAMEORIGIN',
+		'x_content_type_options' => 'nosniff',
 	),
 	'mobile' => array(
 		'enabled' => true,

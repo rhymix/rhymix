@@ -7,7 +7,7 @@
  * @brief  board module View Action에 대한 API 처리
  **/
 
-class boardAPI extends board
+class BoardAPI extends Board
 {
 	/**
 	 * @brief notice list

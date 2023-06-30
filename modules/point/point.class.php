@@ -5,22 +5,12 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The parent class of the point module
  */
-class point extends ModuleObject
+class Point extends ModuleObject
 {
 	/**
 	 * Cache for the point module's own configuration.
 	 */
 	protected static $_config = null;
-
-	/**
-	 * Cache for other modules' point configuration.
-	 */
-	protected static $_module_config_cache = array();
-
-	/**
-	 * Cache for member points.
-	 */
-	protected static $_member_point_cache = array();
 
 	/**
 	 * Triggers to insert.
@@ -62,11 +52,11 @@ class point extends ModuleObject
 	/**
 	 * @brief Shortcut to getting module configuration
 	 */
-	public function getConfig()
+	public static function getConfig()
 	{
 		if (self::$_config === null)
 		{
-			self::$_config = getModel('module')->getModuleConfig('point');
+			self::$_config = ModuleModel::getModuleConfig('point');
 		}
 		return self::$_config;
 	}

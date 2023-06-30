@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief page of the module admin controller class
  */
-class pageAdminController extends page
+class PageAdminController extends Page
 {
 	/**
 	 * @brief Initialization

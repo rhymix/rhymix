@@ -11,6 +11,7 @@
 		<condition operation="in" column="mgm.group_srl" var="selected_group_srl" notnull="notnull" />
 		<condition operation="equal" column="member.is_admin" var="is_admin" />
 		<condition operation="equal" column="member.denied" var="is_denied" pipe="and" />
+		<condition operation="equal" column="member.status" var="status" pipe="and" />
 		<condition operation="in" column="member.member_srl" var="member_srls" pipe="and" />
 		<group pipe="and">
 			<condition operation="like" column="member.user_id" var="s_user_id" />

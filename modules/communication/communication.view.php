@@ -15,33 +15,9 @@ class communicationView extends communication
 	 */
 	function init()
 	{
-		$oCommunicationModel = getModel('communication');
-
-		$this->config = $oCommunicationModel->getConfig();
-		$skin = $this->config->skin;
-
+		$this->config = CommunicationModel::getConfig();
 		Context::set('communication_config', $this->config);
-
-		$config_parse = explode('|@|', $skin);
-
-		if(count($config_parse) > 1)
-		{
-			$tpl_path = sprintf('./themes/%s/modules/communication/', $config_parse[0]);
-		}
-		else
-		{
-			$tpl_path = sprintf('%sskins/%s', $this->module_path, $skin);
-		}
-
-		$this->setTemplatePath($tpl_path);
-
-		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($this->config->layout_srl);
-		if($layout_info)
-		{
-			$this->module_info->layout_srl = $this->config->layout_srl;
-			$this->setLayoutPath($layout_info->path);
-		}
+		$this->setLayoutAndTemplatePaths('P', $this->config);
 	}
 
 	/**
@@ -59,6 +35,14 @@ class communicationView extends communication
 		if(!Context::get('is_logged'))
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -86,28 +70,28 @@ class communicationView extends communication
 				case 'R':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 
 				case 'S':
 					if($message->sender_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 
 				case 'T':
 					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 
 				case 'N':
 					if($message->receiver_srl != $logged_info->member_srl)
 					{
-						throw new Rhymix\Framework\Exceptions\InvalidRequest;
+						throw new Rhymix\Framework\Exceptions\TargetNotFound;
 					}
 					break;
 			}
@@ -129,9 +113,20 @@ class communicationView extends communication
 			}
 		}
 
+		// Set search conditions
+		$search_target = Context::get('search_target');
+		if (!in_array($search_target, ['title', 'title_content', 'content']))
+		{
+			$search_target = null;
+		}
+		$search_keyword = utf8_clean(Context::get('search_keyword'));
+		Context::set('search_target', $search_target);
+		Context::set('search_keyword', $search_keyword !== '' ? $search_keyword : null);
+
 		// Extract a list
 		$columnList = array('message_srl', 'message_type', 'related_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
-		$output = $oCommunicationModel->getMessages($message_type, $columnList);
+		$page = max(1, intval(Context::get('page')));
+		$output = $oCommunicationModel->getMessages($message_type, $columnList, $search_target, $search_keyword, $page);
 
 		// set a template file
 		Context::set('total_count', $output->total_count);
@@ -166,11 +161,17 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$oCommunicationModel = getModel('communication');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
 
 		// get a new message
 		$columnList = array('message_srl', 'member_srl', 'nick_name', 'title', 'content', 'sender_srl');
-		$message = $oCommunicationModel->getNewMessage($columnList);
+		$message = CommunicationModel::getInstance()->getNewMessage($columnList);
 		if($message)
 		{
 			stripEmbedTagForAdmin($message->content, $message->sender_srl);
@@ -196,21 +197,31 @@ class communicationView extends communication
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Error appears if not logged-in
+		if(!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
+		// Check permission
 		if(!getModel('communication')->checkGrant($this->config->grant_send))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
 		}
 
 		// Fix missing mid (it causes errors when uploading)
 		if(!Context::get('mid'))
 		{
 			Context::set('mid', Context::get('site_module_info')->mid);
-		}
-
-		// Error appears if not logged-in
-		if(!Context::get('is_logged'))
-		{
-			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -299,6 +310,14 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
 		$oCommunicationModel = getModel('communication');
 
 		// get a group list
@@ -358,6 +377,14 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
+
 		$logged_info = Context::get('logged_info');
 		$target_srl = Context::get('target_srl');
 
@@ -408,7 +435,13 @@ class communicationView extends communication
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$logged_info = Context::get('logged_info');
+		// Check member mid
+		$oMemberView = MemberView::getInstance();
+		if (!$oMemberView->checkMidAndRedirect())
+		{
+			$this->setRedirectUrl($oMemberView->getRedirectUrl());
+			return;
+		}
 
 		// change to edit mode when getting the group_srl
 		$friend_group_srl = Context::get('friend_group_srl');

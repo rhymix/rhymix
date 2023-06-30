@@ -480,7 +480,7 @@ class Session
 	public static function refresh($set_session_cookie = false)
 	{
 		// Get session parameters.
-		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 
 		// Set the domain initialization timestamp.
 		if (!isset($_SESSION['RHYMIX']['keys'][$domain]['started']))
@@ -722,12 +722,12 @@ class Session
 
 		// Check member information to see if denied or limited.
 		$member_info = \MemberModel::getMemberInfo($member_srl);
-		if ($member_info->denied === 'Y')
+		if (!empty($member_info->denied) && $member_info->denied === 'Y')
 		{
 			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (denied)', \E_USER_WARNING);
 			return false;
 		}
-		if ($member_info->limit_date && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
+		if (!empty($member_info->limit_date) && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
 		{
 			trigger_error('Session is invalid for member_srl=' . intval($_SESSION['RHYMIX']['login']) . ' (limited)', \E_USER_WARNING);
 			return false;
@@ -844,7 +844,7 @@ class Session
 	 */
 	public static function getDomain()
 	{
-		if (self::$_domain || (self::$_domain = ltrim(Config::get('session.domain'), '.')))
+		if (self::$_domain || (self::$_domain = ltrim(Config::get('session.domain') ?? '', '.')))
 		{
 			return self::$_domain;
 		}
@@ -1172,7 +1172,7 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
-		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
 		$options = array(
 			'expires' => $lifetime,
@@ -1261,7 +1261,7 @@ class Session
 	 * @param string $domain (optional)
 	 * @return bool
 	 */
-	protected static function _unsetCookie($name, $path = null, $domain = null)
+	protected static function _unsetCookie($name, $path = '', $domain = '')
 	{
 		$result = setcookie($name, 'deleted', time() - (86400 * 366), $path, $domain, false, false);
 		if ($result)

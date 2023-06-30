@@ -7,9 +7,8 @@
  */
 class MemberView extends Member
 {
-	var $group_list = NULL; // /< Group list information
-	var $member_info = NULL; // /< Member information of the user
-	var $skin = 'default';
+	public $member_config;
+	public $member_info;
 
 	/**
 	 * @brief Initialization
@@ -22,34 +21,90 @@ class MemberView extends Member
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('member_config.signupForm..');
 
-		$skin = $this->member_config->skin;
-		// Set the template path
-		if(!$skin)
+		// Set layout and skin paths
+		$this->setLayoutAndTemplatePaths('P', $this->member_config);
+	}
+
+	/**
+	 * Check the referer for login and signup pages.
+	 */
+	public function checkRefererUrl()
+	{
+		// Get the referer URL from Context var or HTTP header.
+		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
+
+		// Check if the referer is an internal URL.
+		$is_valid_referer = !empty($referer_url) && Rhymix\Framework\URL::isInternalURL($referer_url);
+
+		// Check if the referer is the login or signup page, to prevent redirect loops.
+		if (preg_match('!\b(dispMemberLoginForm|dispMemberSignUpForm|dispMemberFindAccount|dispMemberResendAuthMail|procMember)!', $referer_url))
 		{
-			$skin = 'default';
-			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+			$is_valid_referer = false;
+		}
+		if (preg_match('!/(login|signup)\b!', $referer_url))
+		{
+			$is_valid_referer = false;
+		}
+
+		// Store valid referer info in the session.
+		if ($is_valid_referer)
+		{
+			return $_SESSION['member_auth_referer'] = $referer_url;
+		}
+		elseif (isset($_SESSION['member_auth_referer']))
+		{
+			return $_SESSION['member_auth_referer'];
+		}
+		elseif ($this->mid && !empty($this->member_config->mid) && $this->mid === $this->member_config->mid)
+		{
+			return getNotEncodedUrl('');
 		}
 		else
 		{
-			//check theme
-			$config_parse = explode('|@|', $skin);
-			if (count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
-			}
-			else
-			{
-				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
-			}
+			return getNotEncodedUrl('act', '');
 		}
-		// Template path
-		$this->setTemplatePath($template_path);
+	}
 
-		$layout_info = LayoutModel::getInstance()->getLayout($this->member_config->layout_srl);
-		if($layout_info)
+	/**
+	 * Check redirect to member mid.
+	 */
+	public function checkMidAndRedirect()
+	{
+		if (!$this->member_config)
 		{
-			$this->module_info->layout_srl = $this->member_config->layout_srl;
-			$this->setLayoutPath($layout_info->path);
+			$this->member_config = MemberModel::getMemberConfig();
+		}
+		if (!$this->member_config->mid || !$this->member_config->force_mid)
+		{
+			return true;
+		}
+		if (ModuleModel::getModuleInfoByMid($this->member_config->mid)->module !== $this->module)
+		{
+			return true;
+		}
+		if (Context::get('mid') === $this->member_config->mid)
+		{
+			return true;
+		}
+
+		$vars = get_object_vars(Context::getRequestVars());
+		$vars['mid'] = $this->member_config->mid;
+		$this->setRedirectUrl(getNotEncodedUrl($vars));
+		return false;
+	}
+
+	/**
+	 * Module index
+	 */
+	public function dispMemberIndex()
+	{
+		if ($this->user->isMember())
+		{
+			$this->setRedirectUrl(getNotEncodedUrl(['mid' => $this->mid, 'act' => 'dispMemberInfo']));
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl(['mid' => $this->mid, 'act' => 'dispMemberLoginForm']));
 		}
 	}
 
@@ -58,21 +113,30 @@ class MemberView extends Member
 	 */
 	function dispMemberInfo()
 	{
-		$logged_info = Context::get('logged_info');
-		// Don't display member info to non-logged user
-		if(!$logged_info->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
-
-		$member_srl = Context::get('member_srl');
-		if(!$member_srl && Context::get('is_logged'))
+		if (!$this->checkMidAndRedirect())
 		{
-			$member_srl = $logged_info->member_srl;
+			return;
 		}
-		elseif(!$member_srl)
+
+		// Don't display member info to non-logged user
+		$logged_info = Context::get('logged_info');
+		if(!$logged_info->member_srl)
 		{
-			return $this->dispMemberSignUpForm();
+			throw new Rhymix\Framework\Exceptions\MustLogin;
+		}
+
+		$member_srl = Context::get('member_srl') ?: $logged_info->member_srl;
+		if(!$member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if (!$member_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
 		unset($member_info->password);
 		unset($member_info->email_id);
 		unset($member_info->email_host);
@@ -83,8 +147,6 @@ class MemberView extends Member
 			$protect_id = substr($email_id, 0, 2) . str_repeat('*', strlen($email_id)-2);
 			$member_info->email_address = sprintf('%s@%s', $protect_id, $email_host);
 		}
-
-		if(!$member_info->member_srl) return $this->dispMemberSignUpForm();
 
 		Context::set('memberInfo', get_object_vars($member_info));
 
@@ -201,14 +263,24 @@ class MemberView extends Member
 	 */
 	function dispMemberSignUpForm()
 	{
-		//setcookie for redirect url in case of going to member sign up
-		setcookie("XE_REDIRECT_URL", $_SERVER['HTTP_REFERER'], 0, '/', null, !!config('session.use_ssl_cookies'));
+		// Check referer URL
+		$referer_url = $this->checkRefererUrl();
 
-		$member_config = $this->member_config;
+		// Redirect to member mid if necessary.
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
 
-		// Get the member information if logged-in
-		if($this->user->member_srl) throw new Rhymix\Framework\Exception('msg_already_logged');
+		// Return to previous screen if already logged in.
+		if($this->user->isMember())
+		{
+			$this->setRedirectUrl($referer_url);
+			return;
+		}
+
 		// call a trigger (before)
+		$member_config = $this->member_config;
 		$trigger_output = ModuleHandler::triggerCall('member.dispMemberSignUpForm', 'before', $member_config);
 		if(!$trigger_output->toBool()) return $trigger_output;
 
@@ -283,6 +355,11 @@ class MemberView extends Member
 
 	function dispMemberModifyInfoBefore()
 	{
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		$logged_info = Context::get('logged_info');
 		if(!$logged_info->member_srl)
 		{
@@ -320,6 +397,11 @@ class MemberView extends Member
 		if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD' && $_SESSION['rechecked_password_step'] != 'INPUT_DATA')
 		{
 			$this->dispMemberModifyInfoBefore();
+			return;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
 			return;
 		}
 
@@ -392,6 +474,11 @@ class MemberView extends Member
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		// A message appears if the user is not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -436,6 +523,11 @@ class MemberView extends Member
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		// A message appears if the user is not logged-in
 		if(!Context::get('is_logged'))
 		{
@@ -476,6 +568,11 @@ class MemberView extends Member
 		if ($this->member_config->features['scrapped_documents'] === false)
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
 		}
 
 		// A message appears if the user is not logged-in
@@ -573,6 +670,11 @@ class MemberView extends Member
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 		}
 
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		// A message appears if the user is not logged-in
 		$logged_info = Context::get('logged_info');
 		if(!$logged_info->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
@@ -600,6 +702,11 @@ class MemberView extends Member
 		if ($this->member_config->features['active_logins'] === false)
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
 		}
 
 		$logged_info = Context::get('logged_info');
@@ -631,25 +738,18 @@ class MemberView extends Member
 	 */
 	function dispMemberLoginForm()
 	{
-		// Get referer URL
-		$referer_url = Context::get('referer_url') ?: ($_SERVER['HTTP_REFERER'] ?? '');
-		$is_valid_referer = !empty($referer_url) && Rhymix\Framework\URL::isInternalURL($referer_url);
-		if (preg_match('!\b(dispMemberLoginForm|dispMemberSignUpForm|dispMemberFindAccount|dispMemberResendAuthMail|procMember)!', $referer_url))
-		{
-			$is_valid_referer = false;
-		}
-		if (preg_match('!/(login|signup)\b!', $referer_url))
-		{
-			$is_valid_referer = false;
-		}
-		if (!$is_valid_referer)
-		{
-			$referer_url = getNotEncodedUrl('act', '');
-		}
+		// Check referer URL
+		$referer_url = $this->checkRefererUrl();
 		Context::set('referer_url', $referer_url);
 
+		// Redirect to member mid if necessary.
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		// Return to previous screen if already logged in.
-		if(Context::get('is_logged'))
+		if($this->user->isMember())
 		{
 			$this->setRedirectUrl($referer_url);
 			return;
@@ -679,8 +779,12 @@ class MemberView extends Member
 		// A message appears if the user is not logged-in
 		if(!$this->user->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 
-		$memberConfig = $this->member_config;
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
 
+		$memberConfig = $this->member_config;
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 
@@ -710,8 +814,12 @@ class MemberView extends Member
 		// A message appears if the user is not logged-in
 		if(!$this->user->member_srl) throw new Rhymix\Framework\Exceptions\MustLogin;
 
-		$memberConfig = $this->member_config;
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
 
+		$memberConfig = $this->member_config;
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 
@@ -767,9 +875,12 @@ class MemberView extends Member
 			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
-		$config = $this->member_config;
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
 
-		Context::set('identifier', $config->identifier);
+		Context::set('identifier', $this->member_config->identifier);
 		Context::set('enable_find_account_question', 'N');
 
 		$this->setTemplateFile('find_member_account');
@@ -785,6 +896,11 @@ class MemberView extends Member
 			throw new Rhymix\Framework\Exception('already_logged');
 		}
 
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
 		$this->setTemplateFile('resend_auth_mail');
 	}
 
@@ -794,6 +910,11 @@ class MemberView extends Member
 		{
 			Context::set('success_return_url', getUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyEmailAddress'));
 			$this->dispMemberModifyInfoBefore();
+			return;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
 			return;
 		}
 
@@ -846,7 +967,15 @@ class MemberView extends Member
 	**/
 	function dispMemberSpammer()
 	{
-		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
+		if (!Context::get('is_logged'))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
 
 		$member_srl = Context::get('member_srl');
 		$module_srl = Context::get('module_srl');
@@ -879,6 +1008,11 @@ class MemberView extends Member
 		if ($this->member_config->features['nickname_log'] === false || $this->member_config->update_nickname_log != 'Y')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
 		}
 
 		$member_srl = Context::get('member_srl');

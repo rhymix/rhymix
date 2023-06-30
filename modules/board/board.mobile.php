@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-class boardMobile extends boardView
+class BoardMobile extends BoardView
 {
 	function getBoardCommentPage()
 	{

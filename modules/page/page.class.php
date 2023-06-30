@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief high class of the module page
  */
-class page extends ModuleObject
+class Page extends ModuleObject
 {
 	/**
 	 * @brief Implement if additional tasks are necessary when installing

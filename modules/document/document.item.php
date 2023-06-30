@@ -625,7 +625,7 @@ class DocumentItem extends BaseObject
 			return lang('msg_is_secret');
 		}
 
-		$content = $this->get('content');
+		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $this->get('content'));
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
@@ -647,7 +647,7 @@ class DocumentItem extends BaseObject
 			return lang('msg_is_secret');
 		}
 
-		$content = $this->get('content');
+		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $this->get('content'));
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
 		if($strlen)
@@ -790,6 +790,7 @@ class DocumentItem extends BaseObject
 	{
 		// Remove tags
 		$content = $this->getContent(false, false);
+		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $content);
 		$content = strip_tags(preg_replace('!<(style|script)\b.+?</\\1>!is', '', $content));
 
 		// Convert temporarily html entity for truncate

@@ -29,9 +29,9 @@ class MemberAdminController extends Member
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','denied','is_admin','description','group_srl_list','limit_date');
+		$args = Context::gets('member_srl','email_address','find_account_answer', 'allow_mailing','allow_message','is_admin','denied','status','description','group_srl_list','limit_date');
 		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig ();
+		$config = $oMemberModel->getMemberConfig();
 		$getVars = array();
 		if($config->signupForm)
 		{
@@ -80,7 +80,7 @@ class MemberAdminController extends Member
 		{
 			$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
 			$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
-			foreach($this->nouse_extra_vars as $key)
+			foreach(self::NOUSE_EXTRA_VARS as $key)
 			{
 				unset($extra_vars->$key);
 			}
@@ -99,11 +99,18 @@ class MemberAdminController extends Member
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
 		}
-		foreach($this->admin_extra_vars as $key)
+		foreach(self::ADMIN_EXTRA_VARS as $key)
 		{
 			$extra_vars->{$key} = escape(utf8_clean($all_args->{$key} ?? ''));
 		}
 		$args->extra_vars = serialize($extra_vars);
+
+		// Normalize denied and status columns
+		if (!in_array($args->status ?? '', self::STATUS_LIST))
+		{
+			$args->status = 'APPROVED';
+		}
+		$args->denied = ($args->status === 'APPROVED') ? 'N' : 'Y';
 
 		// Delete invalid or past limit dates #1334
 		if (!isset($args->limit_date))
@@ -222,6 +229,8 @@ class MemberAdminController extends Member
 	public function procMemberAdminInsertDefaultConfig()
 	{
 		$args = Context::gets(
+			'member_mid',
+			'force_mid',
 			'enable_join',
 			'enable_join_key',
 			'enable_confirm',
@@ -232,6 +241,7 @@ class MemberAdminController extends Member
 			'password_hashing_work_factor',
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
+			'allow_nickname_change',
 			'update_nickname_log',
 			'nickname_symbols',
 			'nickname_symbols_allowed_list',
@@ -239,6 +249,48 @@ class MemberAdminController extends Member
 			'member_profile_view'
 		);
 
+		// Update member mid
+		$config = MemberModel::getMemberConfig();
+		if ($args->member_mid !== ($config->mid ?? null))
+		{
+			if (!preg_match('/^[a-z][a-z0-9_]+$/i', $args->member_mid))
+			{
+				return new BaseObject(-1, 'msg_limit_mid');
+			}
+
+			if (!empty($config->mid) && $this->checkMid($config->mid) == 1)
+			{
+				$module_info = \ModuleModel::getModuleInfoByMid($config->mid);
+			}
+			else
+			{
+				$module_info = null;
+			}
+
+			if ($module_info)
+			{
+				$module_info->mid = $args->member_mid;
+				$output = ModuleController::getInstance()->updateModule($module_info);
+			}
+			else
+			{
+				$output = $this->createMid($args->member_mid, $config->skin ?: 'default', $config->mskin ?: 'default');
+			}
+
+			if ($output->toBool())
+			{
+				$args->mid = $args->member_mid;
+				unset($args->member_mid);
+			}
+			else
+			{
+				return $output;
+			}
+		}
+
+		$args->force_mid = ($args->force_mid === 'Y');
+
+		// Update join key
 		if ($args->enable_join === 'KEY')
 		{
 			$args->enable_join = 'N';
@@ -563,8 +615,15 @@ class MemberAdminController extends Member
 		{
 			return new BaseObject(-1, 'msg_need_enabled_identifier');
 		}
+		if (in_array('email_address', $args->identifiers) && $config->enable_confirm === 'Y')
+		{
+			$args->identifier = 'email_address';
+		}
+		else
+		{
+			$args->identifier = array_first($args->identifiers) === 'email_address' ? 'email_address' : 'user_id';
+		}
 		$args->signupForm = $config->signupForm;
-		$args->identifier = (count($args->identifiers) == 1 && $args->identifiers[0] == 'email_address') ? 'email_address' : 'user_id';
 
 		if(!$args->change_password_date)
 		{
@@ -982,6 +1041,7 @@ class MemberAdminController extends Member
 						if($var->denied)
 						{
 							$args->denied = $var->denied;
+							$args->status = $var->denied === 'Y' ? 'DENIED' : 'APPROVED';
 							$output = executeQuery('member.updateMemberDeniedInfo', $args);
 							if(!$output->toBool())
 							{

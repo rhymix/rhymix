@@ -5,7 +5,6 @@
     <columns>
         <column name="module" var="module" notnull="notnull" />
         <column name="config" var="config" />
-        <column name="site_srl" var="site_srl" default="0" />
         <column name="regdate" default="curdate()" />
     </columns>
 </query>

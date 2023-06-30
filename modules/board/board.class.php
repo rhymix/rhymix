@@ -7,7 +7,7 @@
  * @brief  board module high class
  **/
 
-class board extends ModuleObject
+class Board extends ModuleObject
 {
 	var $search_option = array('title_content','title','content','comment','user_name','nick_name','user_id','tag'); ///< 검색 옵션
 

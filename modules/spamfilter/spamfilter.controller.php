@@ -225,23 +225,7 @@ class spamfilterController extends spamfilter
 	function triggerCheckCaptcha(&$obj)
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!isset($config) || !isset($config->captcha) || $config->captcha->type !== 'recaptcha' || !$config->captcha->site_key || !$config->captcha->secret_key)
-		{
-			return;
-		}
-		if ($this->user->is_admin === 'Y')
-		{
-			return;
-		}
-		if ($config->captcha->target_users !== 'everyone' && $this->user->member_srl)
-		{
-			return;
-		}
-		if ($config->captcha->target_frequency !== 'every_time' && isset($_SESSION['recaptcha_authenticated']) && $_SESSION['recaptcha_authenticated'])
-		{
-			return;
-		}
-		if (!$config->captcha->target_devices[Mobile::isFromMobilePhone() ? 'mobile' : 'pc'])
+		if (!SpamfilterModel::isCaptchaEnabled())
 		{
 			return;
 		}
@@ -260,16 +244,16 @@ class spamfilterController extends spamfilter
 
 		if (count($target_actions))
 		{
-			include_once __DIR__ . '/spamfilter.lib.php';
-			spamfilter_reCAPTCHA::init($config->captcha);
+			$captcha_class = 'Rhymix\\Modules\\Spamfilter\\Captcha\\' . $config->captcha->type;
+			$captcha_class::init($config->captcha);
 
 			if (strncasecmp('proc', $obj->act, 4) === 0)
 			{
-				spamfilter_reCAPTCHA::check();
+				$captcha_class::check();
 			}
 			else
 			{
-				$captcha = new spamfilter_reCAPTCHA();
+				$captcha = new $captcha_class();
 				$captcha->setTargetActions($target_actions);
 				$captcha->addScripts();
 				Context::set('captcha', $captcha);

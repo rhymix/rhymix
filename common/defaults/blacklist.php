@@ -2,11 +2,11 @@
 
 /**
  * Rhymix Default Blacklist for Deprecated Plugins
- * 
+ *
  * Copyright (c) Rhymix Developers and Contributors
  */
 return array(
-	
+
 	// Addons
 	'addon' => array(
 		'autolang' => true,
@@ -16,11 +16,12 @@ return array(
 		'fix_mysql_utf8' => true,
 		'jquerycdn' => true,
 		'member_communication' => true,
+		'mobile' => true,
 		'session_shield' => true,
 		'smartphone' => true,
 		'zipperupper' => true,
 	),
-	
+
 	// Modules
 	'module' => array(
 		'auto_login' => true,
@@ -30,9 +31,9 @@ return array(
 		'seo' => true,
 		'trackback' => true,
 	),
-	
+
 	// Widgets
 	'widget' => array(
-		
+
 	),
 );

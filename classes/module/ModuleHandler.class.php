@@ -193,6 +193,15 @@ class ModuleHandler extends Handler
 		if(!$module_info && $this->mid)
 		{
 			$module_info = ModuleModel::getModuleInfoByMid($this->mid);
+			if($module_info && isset($module_info->domain_srl) && $module_info->domain_srl > -1)
+			{
+				if($module_info->domain_srl != $site_module_info->domain_srl)
+				{
+					$this->error = 'msg_module_is_not_exists';
+					$this->httpStatusCode = 404;
+					return true;
+				}
+			}
 		}
 
 		// Set module info as the default module for the domain.
@@ -983,7 +992,7 @@ class ModuleHandler extends Handler
 		}
 
 		// If connection to DB has a problem even though it's not install module, set error
-		if($this->module != 'install' && !DB::getInstance()->isConnected())
+		if($this->module != 'install' && !DB::getInstance()->getHandle())
 		{
 			$this->error = 'msg_dbconnect_failed';
 		}

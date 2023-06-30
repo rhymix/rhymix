@@ -1351,9 +1351,16 @@ class DocumentModel extends Document
 		}
 		$args->order_type = (isset($searchOpt->order_type) && $searchOpt->order_type === 'desc') ? 'desc' : 'asc';
 		$args->sort_index = $searchOpt->sort_index;
-		$args->page = $searchOpt->page ?? 1;
 		$args->list_count = $searchOpt->list_count ?? 20;
-		$args->page_count = $searchOpt->page_count ?? 10;
+		$args->page = intval($searchOpt->page ?? 1);
+		if ($args->page > 0)
+		{
+			$args->page_count = $searchOpt->page_count ?? 10;
+		}
+		elseif (isset($searchOpt->offset) && $searchOpt->offset > 0)
+		{
+			$args->offset = intval($searchOpt->offset);
+		}
 		$args->start_date = $searchOpt->start_date ?? null;
 		$args->end_date = $searchOpt->end_date ?? null;
 		$args->start_regdate = $searchOpt->start_regdate ?? null;
@@ -1489,10 +1496,6 @@ class DocumentModel extends Document
 					$args->sort_index = 'extra_sort.value';
 				}
 				$query_id = 'document.getDocumentListWithExtraVars';
-				if($args->columnList && !in_array($args->sort_index, $args->columnList))
-				{
-					$args->columnList[] = $args->sort_index;
-				}
 			}
 			else
 			{
@@ -1549,6 +1552,10 @@ class DocumentModel extends Document
 				continue;
 			}
 			$args->columnList[$key] = 'documents.' . $column;
+		}
+		if($args->columnList && $args->sort_index && !in_array($args->sort_index, $args->columnList))
+		{
+			$args->columnList[] = $args->sort_index;
 		}
 	}
 

@@ -71,10 +71,13 @@
 		'dispMemberScrappedDocument',
 		'dispMemberSavedDocument',
 		'dispMemberOwnDocument',
+		'dispMemberOwnComment',
+		'dispMemberActiveLogins',
 		'dispCommunicationFriend',
 		'dispCommunicationMessages',
 		'dispNcenterliteUserConfig',
 		'dispNcenterliteNotifyList',
+		'dispNcenterliteUnsubscribeList',
 		'dispLoginxeclientListProvider',
 		'dispAjaxboardNotificationConfig',
 		'IS'
@@ -227,7 +230,7 @@
 							</a>
 							<div class="ly ly_login">
 								<ul>
-									<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('act', $key, 'member_srl', '', 'page', '')}">{lang($val)}</a></li>
+									<li loop="$logged_info->menu_list => $key, $val"><a href="{getUrl('', 'mid', $mid, 'act', $key)}">{lang($val)}</a></li>
 									<li><a href="{getUrl('act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
 								</ul>
 								<span class="edge"></span>
@@ -532,7 +535,7 @@
 	});
 	</script>
 </section>
-<!-- /Login widget -->    
+<!-- /Login widget -->
 <script cond="$_enable_slide">
 jQuery(document).ready(function () {
 	var swiper = new Swiper('.swiper-container', {

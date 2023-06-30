@@ -77,8 +77,7 @@ $lang->msg_cannot_delete_for_child = 'Cannot delete a category which has child c
 $lang->msg_limit_mid = 'Only alphanumeric can be used in the module name.';
 $lang->msg_extra_name_exists = 'Already registered field ID. Please input another name.';
 $lang->about_browser_title = 'It will be shown in the browser title. It will be also used in a RSS/Trackback.';
-$lang->about_mid = 'The module name will be used like http://address/?mid=ModuleName.
-(Only english alphabet letters, numbers and underscore can be used. The maximum length is 40.)';
+$lang->about_mid = 'The module name must begin with a Latin alphabet, and only consist of Latin alphabets, numerals, and underscores.';
 $lang->about_default = 'If checked, this module will be shown when users access the site without mid value (mid=NoValue).';
 $lang->about_module_category = 'It enables you to manage it through a module category.
  The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Module category </a>.';

@@ -1,9 +1,10 @@
-<query id="updatememberDeniedInfo" action="update">
+<query id="updateMemberDeniedInfo" action="update">
     <tables>
         <table name="member" />
     </tables>
     <columns>
         <column name="denied" var="denied" notnull="notnull" />
+		<column name="status" var="status" notnull="notnull" />
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" notnull="notnull" filter="number" />

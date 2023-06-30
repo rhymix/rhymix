@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 
-class pageMobile extends pageView
+class PageMobile extends PageView
 {
 	function _getArticleContent()
 	{
@@ -24,23 +24,14 @@ class pageMobile extends pageView
 		}
 		Context::set('oDocument', $oDocument);
 
-		if($this->module_info->mskin === '/USE_RESPONSIVE/')
+		$template_path = $this->getTemplatePath();
+		if (preg_match('!/skins/!', $template_path))
 		{
-			$template_path = sprintf("%sskins/%s/",$this->module_path, $this->module_info->skin);
-			if(!is_dir($template_path)||!$this->module_info->skin)
-			{
-				$template_path = sprintf("%sskins/%s/",$this->module_path, 'default');
-			}
-			$page_content = $oTemplate->compile($template_path, 'content');
+			$page_content = $oTemplate->compile($this->getTemplatePath(), 'content');
 		}
 		else
 		{
-			$template_path = sprintf("%sm.skins/%s/",$this->module_path, $this->module_info->mskin);
-			if(!is_dir($template_path)||!$this->module_info->mskin)
-			{
-				$template_path = sprintf("%sm.skins/%s/",$this->module_path, 'default');
-			}
-			$page_content = $oTemplate->compile($template_path, 'mobile');
+			$page_content = $oTemplate->compile($this->getTemplatePath(), 'mobile');
 		}
 
 		return $page_content;

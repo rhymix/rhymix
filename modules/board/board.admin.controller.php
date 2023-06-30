@@ -7,7 +7,7 @@
  * @brief  board module admin controller class
  **/
 
-class boardAdminController extends board {
+class BoardAdminController extends Board {
 
 	/**
 	 * @brief initialization
@@ -85,6 +85,8 @@ class boardAdminController extends board {
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
+		$args->header_text = Rhymix\Modules\Admin\Models\Utility::cleanHeaderAndFooterScripts($args->header_text ?? '');
+		$args->footer_text = Rhymix\Modules\Admin\Models\Utility::cleanHeaderAndFooterScripts($args->footer_text ?? '');
 
 		// if there is an existed module
 		if ($args->module_srl && $module_info->module_srl != $args->module_srl)

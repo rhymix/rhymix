@@ -46,17 +46,6 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_samesite}</label>
-			<div class="x_controls">
-				<label for="use_samesite_strict" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_strict" value="Strict" checked="checked"|cond="$use_samesite === 'Strict'" /> Strict</label>
-				<label for="use_samesite_lax" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_lax" value="Lax" checked="checked"|cond="$use_samesite === 'Lax'" /> Lax</label>
-				<label for="use_samesite_none" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_none" value="None" checked="checked"|cond="$use_samesite === 'None'" disabled="disabled"|cond="!$use_session_ssl || $site_module_info->security !== 'always'" /> None</label>
-				<label for="use_samesite_empty" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_empty" value="" checked="checked"|cond="!$use_samesite" /> {$lang->use_samesite_empty}</label>
-				<br />
-				<p class="x_help-block">{$lang->about_use_samesite}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_session_keys}</label>
 			<div class="x_controls">
 				<label for="use_session_keys_y" class="x_inline"><input type="radio" name="use_session_keys" id="use_session_keys_y" value="Y" checked="checked"|cond="$use_session_keys !== false" /> {$lang->cmd_yes}</label>
@@ -99,6 +88,36 @@
 				<label for="use_nofollow_n" class="x_inline"><input type="radio" name="use_nofollow" id="use_nofollow_n" value="N" checked="checked"|cond="!$use_nofollow" /> {$lang->cmd_no}</label>
 				<br />
 				<p class="x_help-block">{$lang->about_use_nofollow}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_samesite}</label>
+			<div class="x_controls">
+				<label for="use_samesite_strict" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_strict" value="Strict" checked="checked"|cond="$use_samesite === 'Strict'" /> Strict</label>
+				<label for="use_samesite_lax" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_lax" value="Lax" checked="checked"|cond="$use_samesite === 'Lax'" /> Lax</label>
+				<label for="use_samesite_none" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_none" value="None" checked="checked"|cond="$use_samesite === 'None'" disabled="disabled"|cond="!$use_session_ssl || $site_module_info->security !== 'always'" /> None</label>
+				<label for="use_samesite_empty" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_empty" value="" checked="checked"|cond="!$use_samesite" /> {$lang->use_samesite_empty}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_use_samesite}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">X-Frame-Options</label>
+			<div class="x_controls">
+				<label for="x_frame_options_deny" class="x_inline"><input type="radio" name="x_frame_options" id="x_frame_options_deny" value="DENY" checked="checked"|cond="$x_frame_options === 'DENY'" /> Deny</label>
+				<label for="x_frame_options_sameorigin" class="x_inline"><input type="radio" name="x_frame_options" id="x_frame_options_sameorigin" value="SAMEORIGIN" checked="checked"|cond="$x_frame_options === 'SAMEORIGIN'" /> SameOrigin</label>
+				<label for="x_frame_options_empty" class="x_inline"><input type="radio" name="x_frame_options" id="x_frame_options_empty" value="" checked="checked"|cond="!$x_frame_options" /> {$lang->use_samesite_empty}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_x_frame_options}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">X-Content-Type-Options</label>
+			<div class="x_controls">
+				<label for="x_content_type_options_nosniff" class="x_inline"><input type="radio" name="x_content_type_options" id="x_content_type_options_nosniff" value="nosniff" checked="checked"|cond="$x_content_type_options === 'nosniff'" /> nosniff</label>
+				<label for="x_content_type_options_empty" class="x_inline"><input type="radio" name="x_content_type_options" id="x_content_type_options_empty" value="" checked="checked"|cond="!$x_content_type_options" /> {$lang->use_samesite_empty}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_x_content_type_options}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

@@ -52,7 +52,7 @@ class installController extends install
 		// Check connection to the DB.
 		$oDB = DB::getInstance();
 		$output = $oDB->getError();
-		if (!$output->toBool() || !$oDB->isConnected())
+		if (!$output->toBool() || !$oDB->getHandle())
 		{
 			return $output;
 		}
@@ -61,7 +61,7 @@ class installController extends install
 		if(stripos($config->db_type, 'mysql') !== false)
 		{
 			// Check if InnoDB is supported.
-			$show_engines = $oDB->_fetch($oDB->_query('SHOW ENGINES'));
+			$show_engines = $oDB->query('SHOW ENGINES')->fetchAll();
 			foreach($show_engines as $engine_info)
 			{
 				if ($engine_info->Engine === 'InnoDB' && $engine_info->Support !== 'NO')
@@ -209,8 +209,8 @@ class installController extends install
 		Context::loadDBInfo($config);
 
 		// Check DB.
-		$oDB = DB::getInstance();
-		if (!$oDB->isConnected())
+		$oDB = DB::getInstance('master');
+		if (!$oDB->getHandle())
 		{
 			return $oDB->getError();
 		}
@@ -487,6 +487,7 @@ class installController extends install
 
 		// Determine the order of module installation depending on category
 		$install_step = array('system','content','member');
+		$update_order = [];
 
 		// Install all the remaining modules
 		foreach($install_step as $category)
@@ -497,7 +498,7 @@ class installController extends install
 				{
 					if($module == 'module') continue;
 					$this->installModule($module, sprintf('./modules/%s', $module));
-					$this->updateModule($module);
+					$update_order[] = $module;
 				}
 				unset($modules[$category]);
 			}
@@ -514,10 +515,16 @@ class installController extends install
 					{
 						if($module == 'module') continue;
 						$this->installModule($module, sprintf('./modules/%s', $module));
-						$this->updateModule($module);
+						$update_order[] = $module;
 					}
 				}
 			}
+		}
+
+		// Update all modules
+		foreach ($update_order as $module)
+		{
+			$this->updateModule($module);
 		}
 
 		return new BaseObject();

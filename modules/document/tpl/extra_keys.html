@@ -59,7 +59,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="lang_desc">{$lang->description}</label>
 				<div class="x_controls">
-					<input type="text" name="desc" id="desc" value="{$selected_var->desc}" class="lang_code" />
+					<input type="text" name="desc" id="desc" value="<!--@if(strpos($selected_var->desc, '$user_lang->') === false)-->{$selected_var->desc}<!--@else-->{escape($selected_var->desc, false)}<!--@end-->" class="lang_code" />
 					<p class="x_help-block">{$lang->about_extra_vars_description}</p>
 				</div>
 			</div>

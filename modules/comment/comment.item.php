@@ -459,6 +459,7 @@ class CommentItem extends BaseObject
 			$content = $this->get('content');
 		}
 
+		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $content);
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
@@ -490,9 +491,10 @@ class CommentItem extends BaseObject
 			$content = $this->get('content');
 		}
 
+		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $content);
+		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
-			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 			$content = cut_str($content, $strlen, '...');
 		}
 		return escape($content);
@@ -564,7 +566,9 @@ class CommentItem extends BaseObject
 	function getSummary($str_size = 50, $tail = '...')
 	{
 		// Remove tags
-		$content = strip_tags($this->getContent(false, false));
+		$content = $this->getContent(false, false);
+		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $content);
+		$content = strip_tags($content);
 
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);

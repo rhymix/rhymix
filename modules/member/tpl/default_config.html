@@ -6,6 +6,21 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', $act)}" />
 	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
 	<div class="x_control-group">
+		<label class="x_control-label" for="member_mid">{$lang->url}</label>
+		<div class="x_controls">
+			<span class="baseurl" style="display:inline-block;transform:translateY(2px)">
+				{$site_module_info->security === 'always' ? 'https://' : 'http://'}{$site_module_info->domain}{\RX_BASEURL}<!--@if(!config('url.rewrite'))-->index.php?mid=<!--@endif-->
+			</span>
+			<input type="text" name="member_mid" id="member_mid" value="{$config->mid ?? 'member'}" />
+			&nbsp;
+			<label class="x_inline" for="force_mid">
+				<input type="checkbox" name="force_mid" id="force_mid" value="Y" checked="checked"|cond="!empty($config->force_mid)" />
+				{$lang->cmd_force_member_mid}
+			</label>
+			<p class="x_help-block" style="margin-top:10px">{$lang->about_mid}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<div class="x_control-label">{$lang->enable_join}</div>
 		<div class="x_controls">
 			<label class="x_inline" for="enable_join_yes"><input type="radio" name="enable_join" id="enable_join_yes" value="Y" checked="checked"|cond="$config->enable_join == 'Y'" /> {$lang->cmd_yes}</label>
@@ -42,6 +57,14 @@
 			<label class="x_inline" for="member_profile_view_yes"><input type="radio" name="member_profile_view" id="member_profile_view_yes" value="Y" checked="checked"|cond="$config->member_profile_view == 'Y'" /> {$lang->cmd_yes}</label>
 			<label class="x_inline" for="member_profile_view_no"><input type="radio" name="member_profile_view" id="member_profile_view_no" value="N" checked="checked"|cond="$config->member_profile_view != 'Y'"/> {$lang->cmd_no}</label>
 			<p class="x_help-block">{$lang->about_member_profile_view}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<div class="x_control-label">{$lang->cmd_modify_nickname_allow}</div>
+		<div class="x_controls">
+			<label class="x_inline" for="allow_nickname_change_yes"><input type="radio" name="allow_nickname_change" id="allow_nickname_change_yes" value="Y" checked="checked"|cond="$config->allow_nickname_change != 'N'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="allow_nickname_change_no"><input type="radio" name="allow_nickname_change" id="allow_nickname_change_no" value="N" checked="checked"|cond="$config->allow_nickname_change == 'N'"/> {$lang->cmd_no}</label>
+			<p class="x_help-block">{$lang->about_allow_nickname_change}</p>
 		</div>
 	</div>
 	<div class="x_control-group">

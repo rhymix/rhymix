@@ -9,7 +9,7 @@
  * @package /modules/board
  * @version 0.1
  */
-class boardAdminModel extends board
+class BoardAdminModel extends Board
 {
 	/**
 	 * Initialization

@@ -174,6 +174,30 @@ class communicationController extends communication
 		$message_srl = $temp_srl ?: getNextSequence();
 		$related_srl = getNextSequence();
 
+		// Call a trigger (before)
+		$trigger_obj = new stdClass();
+		$trigger_obj->sender_srl = $sender_srl;
+		$trigger_obj->receiver_srl = $receiver_srl;
+		$trigger_obj->message_srl = $message_srl;
+		$trigger_obj->related_srl = $related_srl;
+		$trigger_obj->title = $title;
+		$trigger_obj->content = $content;
+		$trigger_obj->sender_log = $sender_log;
+		$trigger_obj->use_spamfilter = $use_spamfilter;
+		$trigger_output = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Copy trigger result
+		$sender_srl = $trigger_obj->sender_srl ?? $sender_srl;
+		$receiver_srl = $trigger_obj->receiver_srl ?? $receiver_srl;
+		$title = $trigger_obj->title ?? $title;
+		$content = $trigger_obj->content ?? $content;
+		$sender_log = boolval($trigger_obj->sender_log ?? $sender_log);
+		$use_spamfilter = boolval($trigger_obj->use_spamfilter ?? $use_spamfilter);
+
 		// messages to save in the sendor's message box
 		$sender_args = new stdClass();
 		$sender_args->sender_srl = $sender_srl;
@@ -203,22 +227,6 @@ class communicationController extends communication
 		$receiver_args->content = $content;
 		$receiver_args->readed = 'N';
 		$receiver_args->regdate = date("YmdHis");
-
-		// Call a trigger (before)
-		$trigger_obj = new stdClass();
-		$trigger_obj->sender_srl = $sender_srl;
-		$trigger_obj->receiver_srl = $receiver_srl;
-		$trigger_obj->message_srl = $message_srl;
-		$trigger_obj->related_srl = $related_srl;
-		$trigger_obj->title = $title;
-		$trigger_obj->content = $content;
-		$trigger_obj->sender_log = $sender_log;
-		$trigger_obj->use_spamfilter = $use_spamfilter;
-		$trigger_output = ModuleHandler::triggerCall('communication.sendMessage', 'before', $trigger_obj);
-		if(!$trigger_output->toBool())
-		{
-			return $trigger_output;
-		}
 
 		$oDB = DB::getInstance();
 		$oDB->begin();

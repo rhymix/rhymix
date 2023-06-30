@@ -596,6 +596,100 @@ class ModuleObject extends BaseObject
 	}
 
 	/**
+	 * Automatically set layout and template path based on skin settings.
+	 *
+	 * @param string $type 'P' or 'M'
+	 * @param object $config
+	 * @return void
+	 */
+	public function setLayoutAndTemplatePaths($type, $config)
+	{
+		// Set the layout path.
+		if ($type === 'P')
+		{
+			$layout_srl = $config->layout_srl ?? 0;
+			if ($layout_srl > 0)
+			{
+				$layout_info = LayoutModel::getInstance()->getLayout($layout_srl);
+				if($layout_info)
+				{
+					$this->module_info->layout_srl = $layout_srl;
+					$this->setLayoutPath($layout_info->path);
+				}
+			}
+		}
+		else
+		{
+			$layout_srl = $config->mlayout_srl ?? 0;
+			if ($layout_srl == -2)
+			{
+				$layout_srl = $config->layout_srl ?: -1;
+				if ($layout_srl == -1)
+				{
+					$layout_srl = LayoutAdminModel::getInstance()->getSiteDefaultLayout('P');
+				}
+			}
+			elseif ($layout_srl == -1)
+			{
+				$layout_srl = LayoutAdminModel::getInstance()->getSiteDefaultLayout('M');
+			}
+
+			$layout_info = LayoutModel::getInstance()->getLayout($layout_srl);
+			if($layout_info)
+			{
+				$this->module_info->mlayout_srl = $layout_srl;
+				$this->setLayoutPath($layout_info->path);
+			}
+		}
+
+		// Set the skin path.
+		if ($type === 'P')
+		{
+			$skin = ($config->skin ?? '') ?: 'default';
+			if ($skin === '/USE_DEFAULT/')
+			{
+				$skin = ModuleModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
+			}
+			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+			if (!Rhymix\Framework\Storage::exists($template_path))
+			{
+				$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
+			}
+		}
+		else
+		{
+			$mskin = ($config->mskin ?? '') ?: 'default';
+			if ($mskin === '/USE_DEFAULT/')
+			{
+				$mskin = ModuleModel::getModuleDefaultSkin($this->module, 'M') ?: 'default';
+			}
+
+			if($mskin === '/USE_RESPONSIVE/')
+			{
+				$skin = ($config->skin ?? '') ?: 'default';
+				if ($skin === '/USE_DEFAULT/')
+				{
+					$skin = ModuleModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
+				}
+				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
+				if (!Rhymix\Framework\Storage::exists($template_path))
+				{
+					$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
+				}
+			}
+			else
+			{
+				$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
+				if (!Rhymix\Framework\Storage::exists($template_path))
+				{
+					$template_path = sprintf("%sm.skins/%s/", $this->module_path, 'default');
+				}
+			}
+		}
+		$this->setTemplatePath($template_path);
+	}
+
+	/**
 	 * excute the member method specified by $act variable
 	 * @return bool
 	 */
@@ -641,37 +735,11 @@ class ModuleObject extends BaseObject
 			// Set module skin
 			if(isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$skin_type = $is_mobile ? 'M' : 'P';
-				$skin_key = $is_mobile ? 'mskin' : 'skin';
-				$skin_dir = $is_mobile ? 'm.skins' : 'skins';
-				$module_skin = $this->module_info->{$skin_key} ?: '/USE_DEFAULT/';
-				$use_default_skin = $this->module_info->{'is_' . $skin_key . '_fix'} === 'N';
-
-				// Set default skin
+				$use_default_skin = $this->module_info->{$is_mobile ? 'is_mskin_fix' : 'is_skin_fix'} === 'N';
 				if(!$this->getTemplatePath() || $use_default_skin)
 				{
-					if($module_skin === '/USE_DEFAULT/')
-					{
-						$module_skin = ModuleModel::getModuleDefaultSkin($this->module, $skin_type);
-						$this->module_info->{$skin_key} = $module_skin;
-					}
-					if($module_skin === '/USE_RESPONSIVE/')
-					{
-						$skin_dir = 'skins';
-						$module_skin = $this->module_info->skin ?: '/USE_DEFAULT/';
-						if($module_skin === '/USE_DEFAULT/')
-						{
-							$module_skin = ModuleModel::getModuleDefaultSkin($this->module, 'P');
-						}
-					}
-					if(!is_dir(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin)))
-					{
-						$module_skin = 'default';
-					}
-					$this->setTemplatePath(sprintf('%s%s/%s', $this->module_path, $skin_dir, $module_skin));
+					$this->setLayoutAndTemplatePaths($is_mobile ? 'M' : 'P', $this->module_info);
 				}
-
-				// Set skin variable
 				ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
 				Context::set('module_info', $this->module_info);
 			}

@@ -38,6 +38,8 @@ class Security extends Base
 		Context::set('use_cookies_ssl', Config::get('session.use_ssl_cookies'));
 		Context::set('check_csrf_token', Config::get('security.check_csrf_token'));
 		Context::set('use_nofollow', Config::get('security.nofollow'));
+		Context::set('x_frame_options', Config::get('security.x_frame_options'));
+		Context::set('x_content_type_options', Config::get('security.x_content_type_options'));
 
 		$this->setTemplateFile('config_security');
 	}
@@ -106,10 +108,21 @@ class Security extends Base
 		}
 
 		$site_module_info = Context::get('site_module_info');
-		$vars->use_samesite = preg_replace('/[^a-zA-Z]/', '', $vars->use_samesite);
+		if (!in_array($vars->use_samesite ?? '', ['Strict', 'Lax', 'None', '']))
+		{
+			$vars->use_samesite = '';
+		}
 		if ($vars->use_samesite === 'None' && ($vars->use_session_ssl !== 'Y' || $site_module_info->security !== 'always'))
 		{
 			$vars->use_samesite = '';
+		}
+		if (!in_array($vars->x_frame_options ?? '', ['DENY', 'SAMEORIGIN', '']))
+		{
+			$vars->x_frame_options = '';
+		}
+		if (!in_array($vars->x_content_type_options ?? '', ['nosniff', '']))
+		{
+			$vars->x_content_type_options = '';
 		}
 
 		Config::set('admin.allow', array_values($allowed_ip));
@@ -120,6 +133,8 @@ class Security extends Base
 		Config::set('session.use_ssl_cookies', $vars->use_cookies_ssl === 'Y');
 		Config::set('security.check_csrf_token', $vars->check_csrf_token === 'Y');
 		Config::set('security.nofollow', $vars->use_nofollow === 'Y');
+		Config::set('security.x_frame_options', strtoupper($vars->x_frame_options));
+		Config::set('security.x_content_type_options', strtolower($vars->x_content_type_options));
 
 		// Save
 		if (!Config::save())

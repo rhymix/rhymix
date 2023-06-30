@@ -8,7 +8,7 @@
         </table>
     </tables>
     <columns>
-        <column name="modules.site_srl" />
+        <column name="modules.domain_srl" />
         <column name="modules.module" />
         <column name="modules.module_category_srl" />
         <column name="modules.layout_srl" />

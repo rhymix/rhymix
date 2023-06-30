@@ -26,8 +26,13 @@
 					<input type="text" name="user_id" id="uid" title="{$lang->user_id}" placeholder="{$lang->user_id}" required autofocus cond="$member_config->identifier != 'email_address'" />
 					<input type="email" name="user_id" id="uid" title="{$lang->email_address}" placeholder="{$lang->email_address}" required autofocus cond="$member_config->identifier == 'email_address'" />
 					<input type="password" name="password" id="upw" title="{$lang->password}" placeholder="{$lang->password}" required />
+					<!--@if(SpamfilterModel::isCaptchaEnabled('login'))-->
+						<div class="control-group captcha">
+							{SpamfilterModel::getCaptcha('login')|noescape}
+						</div>
+					<!--@endif-->
 					<label for="keepid" cond="!$system_message_detail">
-						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()&gt;0?'addClass':'removeClass')]('open');" />						
+						<input type="checkbox" name="keep_signed" id="keepid" class="inputCheck" value="Y" onclick="jQuery('#warning')[(jQuery('#keepid:checked').size()&gt;0?'addClass':'removeClass')]('open');" />
 						{$lang->keep_signed}
 					</label>
 				</div>

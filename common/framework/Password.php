@@ -139,6 +139,33 @@ class Password
 	}
 
 	/**
+	 * Get the current default hashing algorithm, unless it will produce
+	 * hashes that are longer than 60 characters.
+	 *
+	 * In that case, this method returns the next best supported algorithm
+	 * that produces 60-character (or shorter) hashes. This helps maintain
+	 * compatibility with old tables that still have varchar(60) columns.
+	 *
+	 * @return string
+	 */
+	public static function getBackwardCompatibleAlgorithm()
+	{
+		$algorithm = self::getDefaultAlgorithm();
+		if (!in_array($algorithm, ['bcrypt', 'pbkdf2', 'sha1', 'md5']))
+		{
+			$candidates = self::getSupportedAlgorithms();
+			foreach ($candidates as $algorithm)
+			{
+				if (in_array($algorithm, ['bcrypt', 'pbkdf2', 'sha1', 'md5']))
+				{
+					return $algorithm;
+				}
+			}
+		}
+		return $algorithm;
+	}
+
+	/**
 	 * Get the currently configured work factor for bcrypt and other adjustable algorithms.
 	 *
 	 * @return int

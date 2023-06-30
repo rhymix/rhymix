@@ -2,7 +2,7 @@
 
 /**
  * This script updates all modules.
- * 
+ *
  * Running this script on the CLI is better than clicking 'update' in the
  * admin dashboard because some module updates may take a long time.
  */
@@ -47,10 +47,13 @@ $oInstallAdminController = getAdminController('install');
 foreach ($need_update as $module)
 {
 	echo 'Updating ' . $module . '...' . PHP_EOL;
-	$oModule = getModule($module, 'class');
-	if ($oModule)
+	$oModule = ModuleModel::getModuleInstallClass($module);
+	if (is_object($oModule) && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
 	{
-		$oModule->moduleUpdate();
+		if ($oModule->checkUpdate())
+		{
+			return $oModule->moduleUpdate();
+		}
 	}
 }
 

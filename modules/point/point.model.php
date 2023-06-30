@@ -5,14 +5,17 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The model class fo the point module
  */
-class pointModel extends point
+class PointModel extends Point
 {
 	/**
-	 * @brief Initialization
+	 * Cache for module configuration.
 	 */
-	public function init()
-	{
-	}
+	protected static $_module_config_cache = array();
+
+	/**
+	 * Cache for member points.
+	 */
+	protected static $_member_point_cache = array();
 
 	/**
 	 * @brief Check if there is points information
@@ -34,10 +37,10 @@ class pointModel extends point
 		$member_srl = abs($member_srl);
 
 		// Get from instance memory
-		if (!$from_db && isset(parent::$_member_point_cache[$member_srl]))
+		if (!$from_db && isset(self::$_member_point_cache[$member_srl]))
 		{
 			$exists = true;
-			return parent::$_member_point_cache[$member_srl];
+			return self::$_member_point_cache[$member_srl];
 		}
 
 		// Get from object cache
@@ -48,7 +51,7 @@ class pointModel extends point
 			if ($point !== null)
 			{
 				$exists = true;
-				return parent::$_member_point_cache[$member_srl] = $point;
+				return self::$_member_point_cache[$member_srl] = $point;
 			}
 		}
 
@@ -61,7 +64,7 @@ class pointModel extends point
 			if ($point !== '')
 			{
 				$exists = true;
-				return parent::$_member_point_cache[$member_srl] = intval($point);
+				return self::$_member_point_cache[$member_srl] = intval($point);
 			}
 		}
 
@@ -81,7 +84,7 @@ class pointModel extends point
 		}
 
 		// Save to cache
-		parent::$_member_point_cache[$member_srl] = $point;
+		self::$_member_point_cache[$member_srl] = $point;
 		if (Rhymix\Framework\Cache::getDriverName() !== 'dummy')
 		{
 			Rhymix\Framework\Cache::set($cache_key, $point);
@@ -224,6 +227,52 @@ class pointModel extends point
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Get point configuration for module, falling back to defaults if not set.
+	 *
+	 * @param int $module_srl
+	 * @param string $config_key
+	 * @return int
+	 */
+	public static function getModulePointConfig($module_srl, $config_key)
+	{
+		$module_srl = intval($module_srl);
+		$config_key = strval($config_key);
+		if (!$module_srl || !$config_key)
+		{
+			return 0;
+		}
+
+		if ($module_srl)
+		{
+			if (!isset(self::$_module_config_cache[$module_srl]))
+			{
+				self::$_module_config_cache[$module_srl] = ModuleModel::getModulePartConfig('point', $module_srl);
+				if (is_object(self::$_module_config_cache[$module_srl]))
+				{
+					self::$_module_config_cache[$module_srl] = get_object_vars(self::$_module_config_cache[$module_srl]);
+				}
+			}
+			$module_config = self::$_module_config_cache[$module_srl];
+		}
+		else
+		{
+			$module_config = array();
+		}
+
+		if (isset($module_config[$config_key]) && $module_config[$config_key] !== '')
+		{
+			$point = $module_config[$config_key];
+		}
+		else
+		{
+			$default_config = self::getConfig();
+			$point = $default_config->{$config_key};
+		}
+
+		return intval($point);
 	}
 }
 /* End of file point.model.php */

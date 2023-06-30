@@ -7,7 +7,7 @@
  * @brief  board module admin view class
  **/
 
-class boardAdminView extends board {
+class BoardAdminView extends Board {
 
 	/**
 	 * @brief initialization

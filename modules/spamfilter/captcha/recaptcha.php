@@ -1,6 +1,12 @@
 <?php
 
-class spamfilter_reCAPTCHA
+namespace Rhymix\Modules\Spamfilter\Captcha;
+
+use Context;
+use Rhymix\Framework\Exception;
+use Rhymix\Framework\HTTP;
+
+class reCAPTCHA
 {
 	protected static $verify_url = 'https://www.google.com/recaptcha/api/siteverify';
 	protected static $config = null;
@@ -19,33 +25,30 @@ class spamfilter_reCAPTCHA
 		$response = Context::get('g-recaptcha-response');
 		if (!$response)
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
+			throw new Exception('msg_recaptcha_invalid_response');
 		}
 
-		try
+		$verify_request = HTTP::post(self::$verify_url, [
+			'secret' => self::$config->secret_key,
+			'response' => $response,
+			'remoteip' => \RX_CLIENT_IP,
+		]);
+		if ($verify_request->getStatusCode() !== 200 || !$verify_request->getBody())
 		{
-			$verify_request = \Requests::post(self::$verify_url, array(), array(
-				'secret' => self::$config->secret_key,
-				'response' => $response,
-				'remoteip' => \RX_CLIENT_IP,
-			));
-		}
-		catch (\Requests_Exception $e)
-		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_connection_error');
+			throw new Exception('msg_recaptcha_connection_error');
 		}
 
-        $verify = @json_decode($verify_request->body, true);
+		$verify = @json_decode($verify_request->getBody(), true);
 		if (!$verify || !$verify['success'])
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_server_error');
+			throw new Exception('msg_recaptcha_server_error');
 		}
-        if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
+		if ($verify && isset($verify['error-codes']) && in_array('invalid-input-response', $verify['error-codes']))
 		{
-			throw new Rhymix\Framework\Exception('msg_recaptcha_invalid_response');
-        }
+			throw new Exception('msg_recaptcha_invalid_response');
+		}
 
-        $_SESSION['recaptcha_authenticated'] = true;
+		$_SESSION['recaptcha_authenticated'] = true;
 	}
 
 	public function addScripts()

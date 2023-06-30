@@ -345,6 +345,7 @@ class ModuleController extends Module
 		unset($extra_vars->module_srl);
 		unset($extra_vars->module);
 		unset($extra_vars->module_category_srl);
+		unset($extra_vars->domain_srl);
 		unset($extra_vars->layout_srl);
 		unset($extra_vars->mlayout_srl);
 		unset($extra_vars->use_mobile);
@@ -373,6 +374,8 @@ class ModuleController extends Module
 	 */
 	function insertModule($args)
 	{
+		$isMenuCreate = $args->isMenuCreate ?? true;
+
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
 		if(!$output->toBool())
 		{
@@ -380,7 +383,7 @@ class ModuleController extends Module
 		}
 
 		// Check whether the module name already exists
-		if(ModuleModel::isIDExists($args->mid))
+		if(ModuleModel::isIDExists($args->mid, $args->module))
 		{
 			return new BaseObject(-1, 'msg_module_name_exists');
 		}
@@ -390,7 +393,7 @@ class ModuleController extends Module
 		{
 			$args->module_srl = getNextSequence();
 		}
-		$args->browser_title = escape(strip_tags($args->browser_title ?? ''), false);
+		$args->browser_title = escape(strip_tags($args->browser_title ?? ''), false, true);
 		$args->description = isset($args->description) ? escape($args->description, false) : null;
 		if(!isset($args->skin) || $args->skin == '/USE_DEFAULT/')
 		{
@@ -427,7 +430,6 @@ class ModuleController extends Module
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$isMenuCreate = $args->isMenuCreate ?? true;
 		if($isMenuCreate)
 		{
 			$menuArgs = new stdClass;
@@ -486,39 +488,29 @@ class ModuleController extends Module
 	 */
 	function updateModule($args)
 	{
-		if(isset($args->isMenuCreate))
-		{
-			$isMenuCreate = $args->isMenuCreate;
-		}
-		else
-		{
-			$isMenuCreate = TRUE;
-		}
+		$isMenuCreate = $args->isMenuCreate ?? true;
 
 		$output = $this->arrangeModuleInfo($args, $extra_vars);
-		if(!$output->toBool()) return $output;
-		// begin transaction
-		$oDB = &DB::getInstance();
-		$oDB->begin();
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
+		// Check whether the module name already exists
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
-
-		if(!$args->browser_title)
+		if($args->mid !== $module_info->mid && ModuleModel::isIDExists($args->mid))
 		{
-			$args->browser_title = $module_info->browser_title;
+			if ($args->module !== $args->mid)
+			{
+				return new BaseObject(-1, 'msg_module_name_exists');
+			}
 		}
 
-		$args->browser_title = strip_tags($args->browser_title);
-
-		$output = executeQuery('module.isExistsModuleName', $args);
-		if(!$output->toBool() || $output->data->count)
-		{
-			$oDB->rollback();
-			return new BaseObject(-1, 'msg_module_name_exists');
-		}
+		$args->browser_title = escape(strip_tags($args->browser_title ?? $module_info->browser_title), false, true);
+		$args->description = isset($args->description) ? escape($args->description, false) : null;
 
 		// default value
-		if($args->skin == '/USE_DEFAULT/')
+		if(!isset($args->skin) || $args->skin == '/USE_DEFAULT/')
 		{
 			$args->is_skin_fix = 'N';
 		}
@@ -534,7 +526,7 @@ class ModuleController extends Module
 			}
 		}
 
-		if($args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
+		if(!isset($args->mskin) || $args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
@@ -549,14 +541,12 @@ class ModuleController extends Module
 				$args->is_mskin_fix = 'Y';
 			}
 		}
-		$output = executeQuery('module.updateModule', $args);
-		if(!$output->toBool())
-		{
-			$oDB->rollback();
-			return $output;
-		}
 
-		if($isMenuCreate === TRUE)
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		if($isMenuCreate)
 		{
 			$menuArgs = new stdClass;
 			$menuArgs->url = $module_info->mid;
@@ -576,6 +566,13 @@ class ModuleController extends Module
 					}
 				}
 			}
+		}
+
+		$output = executeQuery('module.updateModule', $args);
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
 		}
 
 		// if mid changed, change mid of success_return_url to new mid
@@ -614,20 +611,13 @@ class ModuleController extends Module
 	}
 
 	/**
-	 * @brief Change the module's virtual site
+	 * Change the module's virtual site
+	 *
+	 * @deprecated
 	 */
 	function updateModuleSite($module_srl, $site_srl = 0, $layout_srl = 0)
 	{
-		$args = new stdClass;
-		$args->module_srl = $module_srl;
-		$args->layout_srl = $layout_srl;
-		$output = executeQuery('module.updateModuleSite', $args);
-		if(!$output->toBool()) return $output;
 
-		//remove from cache
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
-		return $output;
 	}
 
 	/**
@@ -1276,15 +1266,12 @@ class ModuleController extends Module
 		return $output;
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function updateModuleInSites($site_srls, $args)
 	{
-		$args = new stdClass;
-		$args->site_srls = $site_srls;
-		$output = executeQuery('module.updateModuleInSites', $args);
 
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
-		return $output;
 	}
 
 	/**

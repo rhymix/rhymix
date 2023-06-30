@@ -209,6 +209,59 @@ class spamfilterModel extends spamfilter
 	}
 
 	/**
+	 * Check if CAPTCHA is enabled
+	 *
+	 * @return bool
+	 */
+	public static function isCaptchaEnabled($target_action = null)
+	{
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		$user = Context::get('logged_info');
+		if (!isset($config) || !isset($config->captcha) || !in_array($config->captcha->type, ['recaptcha', 'turnstile']) || !$config->captcha->site_key || !$config->captcha->secret_key)
+		{
+			return false;
+		}
+		if ($user->is_admin === 'Y')
+		{
+			return false;
+		}
+		if ($config->captcha->target_users !== 'everyone' && $user->member_srl)
+		{
+			return false;
+		}
+		if ($config->captcha->target_frequency !== 'every_time' && isset($_SESSION['recaptcha_authenticated']) && $_SESSION['recaptcha_authenticated'])
+		{
+			return false;
+		}
+		if (!$config->captcha->target_devices[Mobile::isFromMobilePhone() ? 'mobile' : 'pc'])
+		{
+			return false;
+		}
+		if ($target_action && !$config->captcha->target_actions[$target_action])
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Get a CAPTCHA instance.
+	 *
+	 * @return object
+	 */
+	public static function getCaptcha($target_action)
+	{
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		$captcha_class = 'Rhymix\\Modules\\Spamfilter\\Captcha\\' . $config->captcha->type;
+		$captcha_class::init($config->captcha);
+
+		$captcha = new $captcha_class();
+		$captcha->setTargetActions([$target_action => true]);
+		$captcha->addScripts();
+		return $captcha;
+	}
+
+	/**
 	 * @brief Check if the trackbacks have already been registered to a particular article
 	 */
 	function isInsertedTrackback($document_srl)

@@ -1,6 +1,20 @@
 <include target="header.html" />
 <load target="js/adminEdit.js" />
-<p>{nl2br($lang->about_layout_code)}</p>
+
+<div class="message error">
+	<p>{$lang->layout_editing_deprecated_p2}</p>
+	<p>{$lang->layout_editing_deprecated_p3}</p>
+	<ul>
+		<li>files/faceOff/{getNumberingPath($layout_srl)}layout.html</li>
+		<li>files/faceOff/{getNumberingPath($layout_srl)}layout.css</li>
+	</ul>
+	<p>{$lang->layout_editing_deprecated_p4}</p>
+	<ul>
+		<li>layouts/{$selected_layout->layout}/layout.html</li>
+	</ul>
+	<p>{$lang->layout_editing_deprecated_p5}</p>
+</div>
+
 <section class="section">
 	<h1>{$lang->layout_image_repository}</h1>
 	<p>{nl2br($lang->about_layout_image_repository)}</p>

@@ -77,7 +77,7 @@ class spamfilterAdminController extends spamfilter
 		{
 			$config->captcha = new stdClass;
 		}
-		$config->captcha->type = $vars->captcha_type === 'recaptcha' ? 'recaptcha' : 'none';
+		$config->captcha->type = in_array($vars->captcha_type, ['recaptcha', 'turnstile']) ? $vars->captcha_type : 'none';
 		$config->captcha->site_key = escape(utf8_trim($vars->site_key));
 		$config->captcha->secret_key = escape(utf8_trim($vars->secret_key));
 		if ($config->captcha->type !== 'none' && (!$config->captcha->site_key || !$config->captcha->secret_key))

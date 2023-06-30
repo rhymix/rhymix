@@ -10,6 +10,7 @@
         <condition operation="in" column="module_srl" var="module_srls" pipe="and" />
         <condition operation="equal" column="module" var="module" pipe="and" />
         <condition operation="equal" column="module_category_srl" var="module_category_srl" />
+        <condition operation="in" column="domain_srl" var="domain_srls" pipe="and" />
     </conditions>
     <navigation>
         <index var="sort_index" default="browser_title" order="asc" />

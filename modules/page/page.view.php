@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief page view class of the module
  */
-class pageView extends page
+class PageView extends Page
 {
 	public $module_srl = 0;
 	public $list_count = 20;
@@ -154,8 +154,7 @@ class pageView extends page
 		}
 		Context::set('oDocument', $oDocument);
 
-		$templatePath = sprintf('%sskins/%s', $this->module_path, $this->module_info->skin ?: 'default');
-		$page_content = $oTemplate->compile($templatePath, 'content');
+		$page_content = $oTemplate->compile($this->getTemplatePath(), 'content');
 
 		return $page_content;
 	}

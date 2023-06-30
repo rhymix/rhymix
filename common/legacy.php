@@ -110,8 +110,7 @@ function getMobile($module_name)
 /**
  * Create a wap instance of the module
  *
- * @param string $module_name The module name to get a wap instance
- * @return mixed Module wap class instance
+ * @deprecated
  */
 function getWAP($module_name)
 {
@@ -1129,6 +1128,7 @@ function recurciveExposureCheck(&$menu)
 			if(!$value['isShow'])
 			{
 				unset($menu[$key]);
+				continue;
 			}
 			if(is_array($value['list']) && count($value['list']) > 0)
 			{

@@ -8,7 +8,7 @@
  * POINT 2.0 format document output
  *
  */
-class pointView extends point
+class PointView extends Point
 {
 	/**
 	 * @brief Initialization

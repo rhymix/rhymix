@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief  board module View class
  **/
-class boardView extends board
+class BoardView extends Board
 {
 	var $listConfig;
 	var $columnList;
@@ -105,7 +105,11 @@ class boardView extends board
 		 * load javascript, JS filters
 		 **/
 		Context::addJsFilter($this->module_path.'tpl/filter', 'input_password.xml');
-		Context::addJsFile($this->module_path.'tpl/js/board.js');
+		Context::loadFile([$this->module_path.'tpl/js/board.js', 'head']);
+		if (config('url.rewrite') > 1)
+		{
+			Context::loadFile([$this->module_path.'tpl/js/rewrite.js', 'body']);
+		}
 		Context::loadLang('./modules/document/lang');
 		Context::loadLang('./modules/comment/lang');
 
@@ -926,7 +930,7 @@ class boardView extends board
 		/**
 		 * add JS filters
 		 **/
-		if(Context::get('logged_info')->is_admin == 'Y' || $this->module_info->allow_no_category == 'Y')
+		if($this->grant->manager || $this->module_info->allow_no_category == 'Y')
 		{
 			Context::addJsFilter($this->module_path.'tpl/filter', 'insert_admin.xml');
 		}

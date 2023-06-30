@@ -14,6 +14,7 @@
 				<select id="captcha_type" name="captcha_type">
 					<option value="none" selected="selected"|cond="$config->captcha->type === 'none'">{$lang->notuse}</option>
 					<option value="recaptcha" selected="selected"|cond="$config->captcha->type === 'recaptcha'">reCAPTCHA</option>
+					<option value="turnstile" selected="selected"|cond="$config->captcha->type === 'turnstile'">Turnstile</option>
 				</select>
 				<p class="x_help-block">{$lang->about_captcha_position}</p>
 			</div>

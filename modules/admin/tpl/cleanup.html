@@ -39,7 +39,7 @@
 							<!--@if($reason === 'deleted:xe')-->{sprintf($lang->cmd_cleanup_reason_deleted_xe, $filetype)}<!--@endif-->
 							<!--@if($reason === 'deleted:xmllang')-->{$lang->cmd_cleanup_reason_deleted_xmllang}<!--@endif-->
 							<!--@if($reason === 'case')-->{$lang->cmd_cleanup_reason_case}<!--@endif-->
-							<!--@if(preg_match('/^moved:(.+)$/', $reason, $matches))-->{$lang->cmd_cleanup_reason_moved}: {$matches[1]}<!--@endif-->
+							<!--@if(preg_match('/^moved:(.+)$/', $reason, $matches))-->{$lang->cmd_cleanup_reason_moved}: <s style="color:#999">{$matches[1]}</s><!--@endif-->
 						</td>
 						<!--@if($cleanup_errors)-->
 							<td scope="col" class="nowr" style="color:red">

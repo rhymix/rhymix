@@ -3,16 +3,16 @@
         <table name="member" />
     </tables>
     <columns>
-        <column name="password" var="password" notnull="notnull" />
-        <column name="user_name" var="user_name" notnull="notnull" minlength="1" maxlength="40" />
-        <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
         <column name="user_id" var="user_id" notnull="notnull" />
+        <column name="password" var="password" notnull="notnull" />
 		<column name="email_address" var="email_address" notnull="notnull" />
 		<column name="email_id" var="email_id" />
 		<column name="email_host" var="email_host" />
 		<column name="phone_number" var="phone_number" />
 		<column name="phone_country" var="phone_country" />
 		<column name="phone_type" var="phone_type" />
+        <column name="user_name" var="user_name" notnull="notnull" minlength="1" maxlength="40" />
+        <column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
         <column name="find_account_question" var="find_account_question" />
         <column name="find_account_answer" var="find_account_answer" default="" />
         <column name="homepage" var="homepage" default="" />
@@ -20,9 +20,10 @@
         <column name="birthday" var="birthday" />
         <column name="allow_mailing" var="allow_mailing" default="Y" />
         <column name="allow_message" var="allow_message" />
-        <column name="denied" var="denied" />
-        <column name="limit_date" var="limit_date" />
         <column name="is_admin" var="is_admin" />
+        <column name="denied" var="denied" />
+        <column name="status" var="status" />
+        <column name="limit_date" var="limit_date" />
         <column name="description" var="description" />
         <column name="extra_vars" var="extra_vars" />
     </columns>

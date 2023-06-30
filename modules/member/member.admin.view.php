@@ -117,29 +117,6 @@ class MemberAdminView extends Member
 			}
 		}
 
-		// Get list of new members who have not completed email auth
-		$check_list = array();
-		foreach ($output->data as $member)
-		{
-			if ($member->denied !== 'N')
-			{
-				$check_list[$member->member_srl] = false;
-			}
-		}
-		if (count($check_list))
-		{
-			$args2 = new stdClass;
-			$args2->member_srl = array_keys($check_list);
-			$output2 = executeQueryArray('member.getAuthMailType', $args2);
-			foreach ($output2->data as $item)
-			{
-				if ($item->is_register === 'Y')
-				{
-					$check_list[$item->member_srl] = true;
-				}
-			}
-		}
-
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
@@ -148,7 +125,6 @@ class MemberAdminView extends Member
 		Context::set('sort_index', Context::get('sort_index'));
 		Context::set('member_config', $oMemberModel->getMemberConfig());
 		Context::set('member_list', $output->data);
-		Context::set('new_member_check_list', $check_list);
 		Context::set('usedIdentifiers', $usedIdentifiers);
 		Context::set('page_navigation', $output->page_navigation);
 		Context::set('profileImageConfig', $config->profile_image);
@@ -488,22 +464,6 @@ class MemberAdminView extends Member
 			$member_info->limit_date = '';
 		}
 
-		$member_unauthenticated = false;
-		if ($member_info->member_srl && $member_info->denied !== 'N')
-		{
-			$args2 = new stdClass;
-			$args2->member_srl = $member_info->member_srl;
-			$output2 = executeQueryArray('member.getAuthMailType', $args2);
-			foreach ($output2->data as $item)
-			{
-				if ($item->is_register === 'Y')
-				{
-					$member_unauthenticated = true;
-				}
-			}
-		}
-		Context::set('member_unauthenticated', $member_unauthenticated);
-
 		$this->setTemplateFile('insert_member');
 	}
 
@@ -537,13 +497,15 @@ class MemberAdminView extends Member
 		{
 			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
 		}
+		$identifiers = $member_config->identifiers ?? [$member_config->identifier];
+		$identifiers = array_intersect($identifiers, ['user_id', 'email_address']);
 
 		global $lang;
 		$formTags = array();
 
 		foreach($member_config->signupForm as $no=>$formInfo)
 		{
-			if(!$formInfo->isUse || $formInfo->name == $member_config->identifier || $formInfo->name == 'password')
+			if(!$formInfo->isUse || (in_array($formInfo->name, $identifiers) && $formInfo->name === array_first($identifiers)) || $formInfo->name == 'password')
 			{
 				continue;
 			}
@@ -633,8 +595,16 @@ class MemberAdminView extends Member
 					}
 					else if($formInfo->name == 'email_address')
 					{
+						if(isset($member_config->enable_confirm) && $member_config->enable_confirm === 'Y' && !$isAdmin)
+						{
+							$readonly = 'readonly="readonly" ';
+						}
+						else
+						{
+							$readonly = '';
+						}
 						$formTag->type = 'email';
-						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" />';
+						$inputTag = '<input type="email" name="email_address" id="email_address" value="'.$memberInfo['email_address'].'" ' . $readonly . '/>';
 					}
 					else if($formInfo->name == 'phone_number')
 					{
@@ -703,11 +673,21 @@ class MemberAdminView extends Member
 					}
 					else
 					{
+						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N')
+						{
+							$readonly = 'readonly="readonly" ';
+						}
+						else
+						{
+							$readonly = '';
+						}
 						$formTag->type = 'text';
-						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" />',
+						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" %s/>',
 							$formInfo->name,
 							$formInfo->name,
-							$memberInfo[$formInfo->name]);
+							$memberInfo[$formInfo->name],
+							$readonly);
+
 					}
 				}//end isDefaultForm
 				else

@@ -111,6 +111,18 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="delay_template_compile">{$lang->delay_template_compile}</label>
+			<div class="x_controls">
+				<select name="delay_template_compile" id="delay_template_compile">
+					<option value="0" selected="selected"|cond="$delay_template_compile == 0">0 {$lang->unit_sec}</option>
+					<option value="1" selected="selected"|cond="$delay_template_compile == 1">1 {$lang->unit_sec}</option>
+					<option value="2" selected="selected"|cond="$delay_template_compile == 2">2 {$lang->unit_sec}</option>
+					<option value="3" selected="selected"|cond="$delay_template_compile == 3">3 {$lang->unit_sec}</option>
+				</select>
+				<p class="x_help-block">{$lang->about_delay_template_compile}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->thumbnail_target}</label>
 			<div class="x_controls">
 				<label for="thumbnail_target_all" class="x_inline">
@@ -225,15 +237,6 @@
 				<label for="use_server_push_n" class="x_inline"><input type="radio" name="use_server_push" id="use_server_push_n" value="N" checked="checked"|cond="!$use_server_push" /> {$lang->cmd_no}</label>
 				<br />
 				<p class="x_help-block">{$lang->about_use_server_push}</p>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_gzip}</label>
-			<div class="x_controls">
-				<label for="use_gzip_y" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_y" value="Y" checked="checked"|cond="$use_gzip" /> {$lang->cmd_yes}</label>
-				<label for="use_gzip_n" class="x_inline"><input type="radio" name="use_gzip" id="use_gzip_n" value="N" checked="checked"|cond="!$use_gzip" /> {$lang->cmd_no}</label>
-				<br />
-				<p class="x_help-block">{$lang->about_use_gzip}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

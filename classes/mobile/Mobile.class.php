@@ -46,7 +46,7 @@ class Mobile
 		$m = Context::get('m');
 		$cookie = isset($_COOKIE['rx_uatype']) ? $_COOKIE['rx_uatype'] : null;
 		$uahash = base64_encode_urlsafe(md5($_SERVER['HTTP_USER_AGENT'] ?? '', true));
-		if (strncmp($cookie, $uahash . ':', strlen($uahash) + 1) !== 0)
+		if (strncmp($cookie ?? '', $uahash . ':', strlen($uahash) + 1) !== 0)
 		{
 			$cookie = null;
 		}
@@ -72,7 +72,7 @@ class Mobile
 		$uatype = $uahash . ':' . (self::$_ismobile ? '1' : '0');
 		if ($cookie !== $uatype)
 		{
-			setcookie('rx_uatype', $uatype, 0, \RX_BASEURL, null, !!config('session.use_ssl_cookies'));
+			setcookie('rx_uatype', $uatype, 0, \RX_BASEURL, '', !!config('session.use_ssl_cookies'));
 			$_COOKIE['rx_uatype'] = $uatype;
 		}
 

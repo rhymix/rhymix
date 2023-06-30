@@ -7,7 +7,7 @@
  * @brief  board module Controller class
  **/
 
-class boardController extends board
+class BoardController extends Board
 {
 	/**
 	 * @brief initialization
@@ -61,6 +61,34 @@ class boardController extends board
 		{
 			throw new Rhymix\Framework\Exception('msg_content_too_long');
 		}
+
+		// Check category
+		$category_list = DocumentModel::getCategoryList($this->module_srl);
+		if (count($category_list) > 0)
+		{
+			if ($obj->category_srl)
+			{
+				if (isset($category_list[$obj->category_srl]))
+				{
+					if (!$category_list[$obj->category_srl]->grant)
+					{
+						return new BaseObject(-1, 'msg_not_permitted');
+					}
+				}
+				else
+				{
+					$obj->category_srl = 0;
+				}
+			}
+			if (!$obj->category_srl && ($this->module_info->allow_no_category ?? 'N') !== 'Y')
+			{
+				if (!$this->grant->manager)
+				{
+					throw new Rhymix\Framework\Exception('categoryneeded');
+				}
+			}
+		}
+
 
 		// unset document style if not manager
 		if(!$this->grant->manager)

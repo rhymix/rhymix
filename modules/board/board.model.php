@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief  board module  Model class
  **/
-class boardModel extends module
+class BoardModel extends Board
 {
 	/**
 	 * @brief initialization

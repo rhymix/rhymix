@@ -109,7 +109,7 @@ class menuAdminController extends menu
 	{
 		$unlinked_modules = false;
 		$args = new stdClass;
-		$args->site_srl = 0;
+		$args->menu_srl = 0;
 		$output = executeQueryArray('module.getNotLinkedModuleBySiteSrl',$args);
 		if($output->toBool() && $output->data)
 		{
@@ -206,9 +206,7 @@ class menuAdminController extends menu
 				$moduleInfo->menu_srl = $menuSrl;
 			}
 
-			$output = executeQuery('module.updateModule', $moduleInfo);
-
-			return $output;
+			ModuleController::getInstance()->updateModule($moduleInfo);
 		}
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
@@ -298,6 +296,7 @@ class menuAdminController extends menu
 	function procMenuAdminDelete()
 	{
 		$menu_srl = Context::get('menu_srl');
+		$delete_module = Context::get('delete_module') === 'Y';
 
 		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($menu_srl);
@@ -338,7 +337,7 @@ class menuAdminController extends menu
 			throw new Rhymix\Framework\Exception('msg_cannot_delete_homemenu');
 		}
 
-		$output = $this->deleteMenu($menu_srl);
+		$output = $this->deleteMenu($menu_srl, $delete_module);
 		if(!$output->toBool())
 		{
 			throw new Rhymix\Framework\Exception($output->message);
@@ -354,7 +353,7 @@ class menuAdminController extends menu
 	 * Delete menu_item and xml cache files
 	 * @return Object
 	 */
-	function deleteMenu($menu_srl)
+	function deleteMenu($menu_srl, $delete_module = false)
 	{
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -365,25 +364,33 @@ class menuAdminController extends menu
 		$oMenuAdminModel = getAdminModel('menu');
 		$menuInfo = $oMenuAdminModel->getMenu($args->menu_srl);
 
-		// Delete modules
+		// Delete menu
 		$output = executeQueryArray('menu.getMenuItems', $args);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
 
-		$oModuleController = getController('module');
-		$oModuleModel = getModel('module');
-
+		// Delete linked module
+		$oModuleController = ModuleController::getInstance();
 		foreach($output->data as $itemInfo)
 		{
-			if($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
+			if ($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
 			{
-				$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
-				if($moduleInfo->module_srl)
+				$moduleInfo = ModuleModel::getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
+				if ($moduleInfo->module_srl)
 				{
-					$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
-					if(!$output->toBool())
+					if ($delete_module)
+					{
+						$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
+					}
+					else
+					{
+						$moduleInfo->menu_srl = 0;
+						$output = $oModuleController->updateModule($moduleInfo);
+					}
+
+					if (!$output->toBool())
 					{
 						$oDB->rollback();
 						return $output;
@@ -399,6 +406,7 @@ class menuAdminController extends menu
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Delete the menu
 		$output = executeQuery("menu.deleteMenu", $args);
 		if(!$output->toBool())
@@ -406,6 +414,8 @@ class menuAdminController extends menu
 			$oDB->rollback();
 			return $output;
 		}
+
+		$oDB->commit();
 
 		// Delete cache files
 		$cache_list = FileHandler::readDir("./files/cache/menu","",false,true);
@@ -420,8 +430,6 @@ class menuAdminController extends menu
 		// Delete images of menu buttons
 		$image_path = sprintf('./files/attach/menu_button/%d', $menu_srl);
 		FileHandler::removeDir($image_path);
-
-		$oDB->commit();
 
 		return new BaseObject(0,'success_deleted');
 	}
@@ -870,8 +878,9 @@ class menuAdminController extends menu
 		$args->menu_srl = Context::get('menu_srl');
 		$args->menu_item_srl = Context::get('menu_item_srl');
 		$args->is_force = Context::get('is_force');
+		$delete_module = Context::get('delete_module') === 'Y';
 
-		$returnObj = $this->deleteItem($args);
+		$returnObj = $this->deleteItem($args, $delete_module);
 		if(is_object($returnObj))
 		{
 			$this->setError($returnObj->error);
@@ -891,7 +900,7 @@ class menuAdminController extends menu
 	 * @args menu_srl, menu_item_srl, is_force
 	 * @return void|Object
 	 */
-	public function deleteItem($args)
+	public function deleteItem($args, $delete_module = false)
 	{
 		$oModuleModel = getModel('module');
 		$oMenuAdminModel = getAdminModel('menu');
@@ -950,7 +959,7 @@ class menuAdminController extends menu
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$this->_recursiveDeleteMenuItem($oDB, $menuInfo, $originMenu);
+		$this->_recursiveDeleteMenuItem($oDB, $menuInfo, $originMenu, $delete_module);
 
 		$oDB->commit();
 
@@ -980,11 +989,10 @@ class menuAdminController extends menu
 		}
 	}
 
-	private function _deleteMenuItem(&$oDB, &$menuInfo, $node)
+	private function _deleteMenuItem(&$oDB, &$menuInfo, $node, $delete_module = false)
 	{
 		// Remove from the DB
 		$args = new stdClass();
-		$args->menu_srl = $menuSrl;
 		$args->menu_item_srl = $node['node_srl'];
 		$output = executeQuery("menu.deleteMenuItem", $args);
 		if(!$output->toBool())
@@ -1003,9 +1011,6 @@ class menuAdminController extends menu
 		// Delete module
 		if($node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
 		{
-			$oModuleController = getController('module');
-			$oModuleModel = getModel('module');
-
 			// reference menu's url modify
 			$args->url = $node['url'];
 			$args->site_srl = $menuInfo->site_srl;
@@ -1023,10 +1028,20 @@ class menuAdminController extends menu
 				}
 			}
 
-			$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url'], $menuInfo->site_srl);
+			$oModuleController = ModuleController::getInstance();
+			$moduleInfo = ModuleModel::getModuleInfoByMid($node['url'], $menuInfo->site_srl);
 			if($moduleInfo->module_srl)
 			{
-				$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
+				if ($delete_module)
+				{
+					$output = $oModuleController->onlyDeleteModule($moduleInfo->module_srl);
+				}
+				else
+				{
+					$moduleInfo->menu_srl = 0;
+					$output = $oModuleController->updateModule($moduleInfo);
+				}
+
 				if(!$output->toBool())
 				{
 					$oDB->rollback();
@@ -1037,9 +1052,9 @@ class menuAdminController extends menu
 		return new BaseObject(0, 'success');
 	}
 
-	private function _recursiveDeleteMenuItem(&$oDB, &$menuInfo, $node)
+	private function _recursiveDeleteMenuItem(&$oDB, &$menuInfo, $node, $delete_module = false)
 	{
-		$output = $this->_deleteMenuItem($oDB, $menuInfo, $node);
+		$output = $this->_deleteMenuItem($oDB, $menuInfo, $node, $delete_module);
 		if(!$output->toBool())
 		{
 			throw new Rhymix\Framework\Exception($output->message);
@@ -1049,7 +1064,7 @@ class menuAdminController extends menu
 		{
 			foreach($node['list'] AS $key=>$value)
 			{
-				$this->_recursiveDeleteMenuItem($oDB, $menuInfo, $value);
+				$this->_recursiveDeleteMenuItem($oDB, $menuInfo, $value, $delete_module);
 			}
 		}
 	}
@@ -1136,6 +1151,7 @@ class menuAdminController extends menu
 	{
 		if(is_array($node))
 		{
+			$oModuleController = ModuleController::getInstance();
 			foreach($node AS $key=>$node)
 			{
 				$args = new stdClass();
@@ -1146,12 +1162,10 @@ class menuAdminController extends menu
 				//module's menu_srl move also
 				if($node['is_shortcut'] == 'N' && !empty($node['url']))
 				{
-					$oModuleModel = getModel('module');
-					$moduleInfo = $oModuleModel->getModuleInfoByMid($node['url']);
+					$moduleInfo = ModuleModel::getModuleInfoByMid($node['url']);
 					if($menu_srl != $moduleInfo->menu_srl)
 					{
 						$moduleInfo->menu_srl = $menu_srl;
-						$oModuleController = getController('module');
 						$output = $oModuleController->updateModule($moduleInfo);
 					}
 				}
@@ -1493,12 +1507,11 @@ class menuAdminController extends menu
 			//module's menu_srl move also
 			if($isShortcut == 'N' && !empty($url))
 			{
-				$oModuleModel = getModel('module');
-				$moduleInfo = $oModuleModel->getModuleInfoByMid($url);
+				$moduleInfo = ModuleModel::getModuleInfoByMid($url);
 				if($menu_srl != $moduleInfo->menu_srl)
 				{
 					$moduleInfo->menu_srl = $menu_srl;
-					$oModuleController = getController('module');
+					$oModuleController = ModuleController::getInstance();
 					$output = $oModuleController->updateModule($moduleInfo);
 				}
 

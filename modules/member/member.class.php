@@ -8,10 +8,11 @@
 class Member extends ModuleObject
 {
 	/**
-	 * Extra vars for admin purposes
+	 * Constants
 	 */
-	public $admin_extra_vars = ['refused_reason', 'limited_reason'];
-	public $nouse_extra_vars = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
+	public const ADMIN_EXTRA_VARS = ['refused_reason', 'limited_reason'];
+	public const NOUSE_EXTRA_VARS = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
+	public const STATUS_LIST = ['APPROVED', 'DENIED', 'UNAUTHED', 'SUSPENDED', 'DELETED'];
 
 	/**
 	 * constructor
@@ -37,6 +38,9 @@ class Member extends ModuleObject
 		if(!$config)
 		{
 			$config = MemberModel::getMemberConfig();
+			$config->mid = 'member';
+			$config->force_mid = true;
+			$this->createMid($config->mid);
 			$oModuleController->insertModuleConfig('member', $config);
 		}
 
@@ -125,6 +129,10 @@ class Member extends ModuleObject
 		{
 			return true;
 		}
+		if($oDB->getColumnInfo('member_auth_mail', 'new_password')->size < 250)
+		{
+			return true;
+		}
 
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number")) return true;
@@ -139,6 +147,10 @@ class Member extends ModuleObject
 		if(!$oDB->isIndexExists("member","idx_ipaddress")) return true;
 		if(!$oDB->isColumnExists("member", "last_login_ipaddress")) return true;
 		if(!$oDB->isIndexExists("member","idx_last_login_ipaddress")) return true;
+
+		// Add column for status
+		if(!$oDB->isColumnExists("member", "status")) return true;
+		if(!$oDB->isIndexExists("member", "idx_status")) return true;
 
 		// Add column for list order
 		if(!$oDB->isColumnExists("member", "list_order")) return true;
@@ -161,7 +173,19 @@ class Member extends ModuleObject
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
 		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
 
+		// Update status column
+		$output = executeQuery('member.getDeniedAndStatus');
+		if ($output->data->count)
+		{
+			return true;
+		}
+
+		// Check mid
 		$config = ModuleModel::getModuleConfig('member');
+		if (empty($config->mid) || $this->checkMid($config->mid) !== 1)
+		{
+			return true;
+		}
 
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
@@ -256,6 +280,10 @@ class Member extends ModuleObject
 		{
 			$oDB->modifyColumn('member', 'password', 'varchar', 250, null, true);
 		}
+		if($oDB->getColumnInfo('member_auth_mail', 'new_password')->size < 250)
+		{
+			$oDB->modifyColumn('member_auth_mail', 'new_password', 'varchar', 250, null, true);
+		}
 
 		// Add columns for phone number
 		if(!$oDB->isColumnExists("member", "phone_number"))
@@ -299,6 +327,16 @@ class Member extends ModuleObject
 		if(!$oDB->isIndexExists("member","idx_last_login_ipaddress"))
 		{
 			$oDB->addIndex("member","idx_last_login_ipaddress", array("last_login_ipaddress"));
+		}
+
+		// Add column for status
+		if(!$oDB->isColumnExists("member", "status"))
+		{
+			$oDB->addColumn("member", "status", "varchar", 20, 'APPROVED', true, 'denied');
+		}
+		if(!$oDB->isIndexExists("member", "idx_status"))
+		{
+			$oDB->addIndex("member", "idx_status", array("status"));
 		}
 
 		// Add column for list order
@@ -359,8 +397,51 @@ class Member extends ModuleObject
 			$oDB->query("UPDATE member_devices SET last_active_date = regdate WHERE last_active_date = ''");
 		}
 
+		// Update status column
+		$output = executeQuery('member.getDeniedAndStatus');
+		if ($output->data->count)
+		{
+			$oDB->begin();
+			$result = $oDB->query("UPDATE `member` SET `status` = 'DENIED' WHERE `denied` = 'Y'");
+			if ($result)
+			{
+				$result = $oDB->query("UPDATE `member` AS `m` " .
+					"JOIN `member_auth_mail` AS `a` ON `m`.`member_srl` = `a`.`member_srl` " .
+					"SET `m`.`status` = 'UNAUTHED' WHERE `m`.`status` = 'DENIED' " .
+					"AND `a`.`is_register` = 'Y'");
+				if ($result)
+				{
+					$oDB->commit();
+				}
+				else
+				{
+					var_dump($result);
+					var_dump(Rhymix\Framework\Debug::getErrors());
+					$oDB->rollback();
+					exit;
+				}
+			}
+			else
+			{
+				$oDB->rollback();
+			}
+		}
+
+		// Get module config
 		$config = ModuleModel::getModuleConfig('member') ?: new stdClass;
 		$changed = false;
+
+		// Check mid
+		if (empty($config->mid) || $this->checkMid($config->mid) !== 1)
+		{
+			$config->mid = 'member';
+			$output = $this->createMid($config->mid, $config->skin ?: 'default', $config->mskin ?: 'default');
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+			$changed = true;
+		}
 
 		// Check members with phone country in old format
 		if ($config->phone_number_default_country && !preg_match('/^[A-Z]{3}$/', $config->phone_number_default_country))
@@ -518,12 +599,64 @@ class Member extends ModuleObject
 	}
 
 	/**
-	 * Re-generate the cache file
+	 * Check mid
 	 *
-	 * @return void
+	 * This method returns 0 if the mid doesn't exist,
+	 * 1 if the mid exists and belongs to this module,
+	 * and -1 if the mid exists but belongs to a different module.
+	 *
+	 * @param string $mid
+	 * @return int
 	 */
-	function recompileCache()
+	public function checkMid($mid = 'member')
 	{
+		$module_info = \ModuleModel::getModuleInfoByMid($mid);
+		if (!$module_info)
+		{
+			return 0;
+		}
+		elseif ($module_info->module === $this->module)
+		{
+			return 1;
+		}
+		else
+		{
+			return -1;
+		}
+	}
+
+	/**
+	 * Create mid
+	 *
+	 * @param string $mid
+	 * @param string $skin
+	 * @param string $mskin
+	 * @return BaseObject
+	 */
+	public function createMid($mid = 'member', $skin = 'default', $mskin = 'default')
+	{
+		$check = $this->checkMid($mid);
+		if ($check == 1)
+		{
+			return new BaseObject();
+		}
+		if ($check == -1)
+		{
+			return new BaseObject(-1, sprintf(lang('msg_exists_member_mid'), $mid));
+		}
+
+		return ModuleController::getInstance()->insertModule((object)array(
+			'mid' => $mid,
+			'module' => $this->module,
+			'browser_title' => lang('member'),
+			'description' => '',
+			'layout_srl' => -1,
+			'mlayout_srl' => -1,
+			'skin' => $skin,
+			'mskin' => $mskin,
+			'use_mobile' => 'Y',
+			'isMenuCreate' => false,
+		));
 	}
 
 	/**

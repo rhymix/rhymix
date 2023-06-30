@@ -2,7 +2,7 @@
 
 /**
  * Reserved words for Rhymix
- * 
+ *
  * Copyright (c) Rhymix Developers and Contributors
  */
 return array(
@@ -12,6 +12,7 @@ return array(
 	'admin' => true,
 	'module' => true,
 	'module_srl' => true,
+	'member' => true,
 	'member_srl' => true,
 	'menu_srl' => true,
 	'menu_item_srl' => true,

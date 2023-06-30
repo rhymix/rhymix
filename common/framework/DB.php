@@ -101,40 +101,66 @@ class DB
 			return;
 		}
 
+		// Cache the debug comment setting.
+		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
+		$this->_debug_comment = !!config('debug.query_comment');
+		$this->_debug_full_stack = !!Config::get('debug.query_full_stack');
+
 		// Connect to the DB.
+		$this->connect($config);
+	}
+
+	/**
+	 * Connect to the database.
+	 *
+	 * @param array $config
+	 * @return void
+	 */
+	public function connect(array $config): void
+	{
+		// Assemble the DSN and default options.
 		$dsn = 'mysql:host=' . $config['host'];
 		$dsn .= (isset($config['port']) && $config['port'] != 3306) ? (';port=' . $config['port']) : '';
 		$dsn .= ';dbname=' . $config['database'];
 		$dsn .= ';charset=' . $this->_charset;
-		class_exists('\Rhymix\Framework\Helpers\DBStmtHelper');
 		$options = array(
 			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
 			\PDO::ATTR_EMULATE_PREPARES => false,
 			\PDO::ATTR_STATEMENT_CLASS => array('\Rhymix\Framework\Helpers\DBStmtHelper'),
 			\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => false,
 		);
+
+		// Preload the statement helper class.
+		class_exists('\Rhymix\Framework\Helpers\DBStmtHelper');
+
 		try
 		{
 			$this->_handle = new Helpers\DBHelper($dsn, $config['user'], $config['pass'], $options);
-			$this->_handle->setType($type);
+			$this->_handle->setType($this->_type);
 		}
 		catch (\PDOException $e)
 		{
 			throw new Exceptions\DBError($e->getMessage());
 		}
+	}
 
-		// Cache the debug comment setting.
-		$this->_debug_queries = in_array('queries', Config::get('debug.display_content') ?: []);
-		$this->_debug_comment = !!config('debug.query_comment');
-		$this->_debug_full_stack = !!Config::get('debug.query_full_stack');
+	/**
+	 * Disconnect from the database.
+	 *
+	 * @return void
+	 */
+	public function disconnect(): void
+	{
+		$this->_handle = null;
+		unset(self::$_instances[$this->_type]);
 	}
 
 	/**
 	 * Get the PDO handle for direct manipulation.
 	 *
-	 * @return Helpers\DBHelper
+	 * @return ?Helpers\DBHelper
 	 */
-	public function getHandle(): Helpers\DBHelper
+	public function getHandle(): ?Helpers\DBHelper
 	{
 		return $this->_handle;
 	}
@@ -360,7 +386,7 @@ class DB
 			}
 			elseif ($query->type === 'SELECT')
 			{
-				$result = $this->_fetch($this->_last_stmt, $last_index, $result_type, $result_class);
+				$result = $this->fetch($this->_last_stmt, $last_index, $result_type, $result_class);
 			}
 			else
 			{
@@ -474,31 +500,7 @@ class DB
 	}
 
 	/**
-	 * Execute a literal query string.
-	 *
-	 * This method should not be public, as it starts with an underscore.
-	 * But since there are many legacy apps that rely on it, we will leave it public.
-	 *
-	 * @param string $query_string
-	 * @return Helpers\DBStmtHelper
-	 */
-	public function _query($query_string)
-	{
-		if ($this->_debug_comment)
-		{
-			$query_string .= "\n" . sprintf('/* _query() %s */', \RX_CLIENT_IP);
-		}
-
-		$this->_last_stmt = null;
-		$this->_last_stmt = $this->_handle->query($query_string);
-		return $this->_last_stmt;
-	}
-
-	/**
 	 * Fetch results from a query.
-	 *
-	 * This method should not be public, as it starts with an underscore.
-	 * But since there are many legacy apps that rely on it, we will leave it public.
 	 *
 	 * @param \PDOStatement $stmt
 	 * @param int $last_index
@@ -506,7 +508,7 @@ class DB
 	 * @param string $result_class
 	 * @return mixed
 	 */
-	public function _fetch($stmt, $last_index = 0, $result_type = 'auto', $result_class = '')
+	public function fetch($stmt, $last_index = 0, $result_type = 'auto', $result_class = '')
 	{
 		if (!($stmt instanceof \PDOStatement))
 		{
@@ -748,7 +750,7 @@ class DB
 	public function isTableExists(string $table_name): bool
 	{
 		$stmt = $this->_handle->query(sprintf("SHOW TABLES LIKE '%s'", $this->addQuotes($this->_prefix . $table_name)));
-		$result = $this->_fetch($stmt);
+		$result = $this->fetch($stmt);
 		return $result ? true : false;
 	}
 
@@ -800,7 +802,7 @@ class DB
 	public function isColumnExists(string $table_name, string $column_name): bool
 	{
 		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		$result = $this->_fetch($stmt);
+		$result = $this->fetch($stmt);
 		return $result ? true : false;
 	}
 
@@ -946,7 +948,7 @@ class DB
 	{
 		// If column information is not found, return false.
 		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		$column_info = $this->_fetch($stmt);
+		$column_info = $this->fetch($stmt);
 		if (!$column_info)
 		{
 			return false;
@@ -986,7 +988,7 @@ class DB
 	public function isIndexExists(string $table_name, string $index_name): bool
 	{
 		$stmt = $this->_handle->query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
-		$result = $this->_fetch($stmt);
+		$result = $this->fetch($stmt);
 		return $result ? true : false;
 	}
 
@@ -1104,7 +1106,7 @@ class DB
 	 */
 	public function getBestSupportedCharset(): string
 	{
-		$output = $this->_fetch($this->_handle->query("SHOW CHARACTER SET LIKE 'utf8%'"), 1);
+		$output = $this->fetch($this->_handle->query("SHOW CHARACTER SET LIKE 'utf8%'"), 1);
 		$utf8mb4_support = ($output && count(array_filter($output, function($row) {
 			return $row->Charset === 'utf8mb4';
 		})));
@@ -1286,6 +1288,42 @@ class DB
 	 */
 
 	/**
+	 * Execute a literal query string.
+	 *
+	 * Use query() instead, or call methods directly on the handle.
+	 *
+	 * @deprecated
+	 * @param string $query_string
+	 * @return Helpers\DBStmtHelper
+	 */
+	public function _query($query_string)
+	{
+		if ($this->_debug_comment)
+		{
+			$query_string .= "\n" . sprintf('/* _query() %s */', \RX_CLIENT_IP);
+		}
+
+		$this->_last_stmt = null;
+		$this->_last_stmt = $this->_handle->query($query_string);
+		return $this->_last_stmt;
+	}
+
+	/**
+	 * Fetch results from a query.
+	 *
+	 * Use query() and fetch() instead.
+	 *
+	 * @deprecated
+	 * @param \PDOStatement $stmt
+	 * @param int $last_index
+	 * @return mixed
+	 */
+	public function _fetch($stmt, $last_index = 0)
+	{
+		return $this->fetch($stmt, $last_index);
+	}
+
+	/**
 	 * Old alias to getInstance().
 	 *
 	 * @deprecated
@@ -1392,7 +1430,7 @@ class DB
 	 */
 	public function isConnected(): bool
 	{
-		return true;
+		return $this->_handle ? true : false;
 	}
 
 	/**
@@ -1458,7 +1496,7 @@ class DB
 	{
 		return 0;
 	}
-	public function _getConnection(): \PDO
+	public function _getConnection(): ?Helpers\DBHelper
 	{
 		return $this->getHandle();
 	}
