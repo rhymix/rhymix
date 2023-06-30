@@ -125,11 +125,15 @@ class ModuleObject extends BaseObject
 	/**
 	 * setter to set an url for redirection
 	 *
-	 * @param string $url url for redirection
+	 * @param string|array $url url for redirection
 	 * @return $this
 	 */
 	public function setRedirectUrl($url = './', $output = NULL)
 	{
+		if (is_array($url))
+		{
+			$url = getNotEncodedUrl($url);
+		}
 		$this->add('redirect_url', $url);
 
 		if($output !== NULL && is_object($output))
