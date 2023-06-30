@@ -400,26 +400,7 @@ class FileController extends File
 			$url = getNotEncodedUrl('', 'module', 'file', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null);
 		}
 
-		$allow_indexing = false;
-		// Handles extension to allow indexing
-		if($file_module_config->allow_indexing_format)
-		{
-			$allow_indexing_format_array = array();
-			$allow_indexing_format_array = explode(',', $file_module_config->allow_indexing_format);
-			if(!is_array($allow_indexing_format_array)) $allow_indexing_format_array[0] = $file_module_config->allow_indexing_format;
-
-			foreach($allow_indexing_format_array as $val)
-			{
-				$val = trim($val);
-				if(preg_match("/\.{$val}$/i", $filename))
-				{
-					$allow_indexing = true;
-					break;
-				}
-			}
-		}
-
-		if(!$allow_indexing)
+		if (!FileModel::isIndexable($filename, $file_module_config))
 		{
 			header('X-Robots-Tag: noindex');
 		}
@@ -572,7 +553,11 @@ class FileController extends File
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
 		header('Etag: "' . $etag . '"');
-		header('X-Robots-Tag: noindex');
+
+		if (!FileModel::isIndexable($filename, $file_config))
+		{
+			header('X-Robots-Tag: noindex' . false);
+		}
 
 		// Print the file contents
 		for($offset = 0; $offset < $range_length; $offset += 4096)
