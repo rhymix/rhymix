@@ -287,7 +287,10 @@ class Cleanup extends Base
 		'modules/spamfilter/spamfilter.lib.php' => 'deleted',
 		'modules/spamfilter/ruleset/' => 'deleted',
 		'phpDoc/' => 'deleted:xe',
-		'tools/' => 'deleted:xe',
+		'tools/dbxml_validator/' => 'deleted:xe',
+		'tools/korea_ip_ranges/' => 'deleted',
+		'tools/phpDoc/' => 'deleted',
+		'tools/README.md' => 'deleted:xe',
 
 		// Deleted lang.xml
 		'common/lang/lang.xml' => 'deleted:xmllang',
