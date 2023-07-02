@@ -400,7 +400,11 @@ class FileController extends File
 			$url = getNotEncodedUrl('', 'module', 'file', 'act', 'procFileOutput', 'file_srl', $file_srl, 'file_key', $file_key, 'force_download', Context::get('force_download') === 'Y' ? 'Y' : null);
 		}
 
-		header('X-Robots-Tag: noindex');
+		if (!FileModel::isIndexable($filename, $file_module_config))
+		{
+			header('X-Robots-Tag: noindex');
+		}
+
 		header('Location: ' . $url);
 		Context::close();
 		exit();
@@ -549,7 +553,11 @@ class FileController extends File
 		header('Content-Length: ' . $range_length);
 		header('Accept-Ranges: bytes');
 		header('Etag: "' . $etag . '"');
-		header('X-Robots-Tag: noindex');
+
+		if (!FileModel::isIndexable($filename, $file_config))
+		{
+			header('X-Robots-Tag: noindex' . false);
+		}
 
 		// Print the file contents
 		for($offset = 0; $offset < $range_length; $offset += 4096)

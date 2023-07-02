@@ -182,6 +182,33 @@ class FileModel extends File
 	}
 
 	/**
+	 * Check if the file is indexable
+	 * @param object $filename
+	 * @param object $file_module_config
+	 * @return bool
+	 */
+	public static function isIndexable($filename, $file_module_config)
+	{
+		if($file_module_config->allow_indexing_format)
+		{
+			$allow_indexing_format_array = array();
+			$allow_indexing_format_array = explode(',', $file_module_config->allow_indexing_format);
+			if(!is_array($allow_indexing_format_array)) $allow_indexing_format_array[0] = $file_module_config->allow_indexing_format;
+
+			foreach($allow_indexing_format_array as $val)
+			{
+				$val = trim($val);
+				if(preg_match("/\.{$val}$/i", $filename))
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check if the file is deletable
 	 *
 	 * @param object $file_info
