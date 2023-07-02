@@ -186,7 +186,7 @@ class menuAdminController extends menu
 
 			if($output->toBool() && $output->data)
 			{
-				$moduleInfo->menu_srl = $output->data->menu_srl;
+				$new_menu_srl = $output->data->menu_srl;
 			}
 			else
 			{
@@ -203,10 +203,10 @@ class menuAdminController extends menu
 				{
 					return $output;
 				}
-				$moduleInfo->menu_srl = $menuSrl;
+				$new_menu_srl = $menuSrl;
 			}
 
-			ModuleController::getInstance()->updateModule($moduleInfo);
+			ModuleController::getInstance()->updateModuleMenuSrl($moduleInfo->module_srl, $new_menu_srl, false);
 		}
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
@@ -386,8 +386,7 @@ class menuAdminController extends menu
 					}
 					else
 					{
-						$moduleInfo->menu_srl = 0;
-						$output = $oModuleController->updateModule($moduleInfo);
+						$output = $oModuleController->updateModuleMenuSrl($moduleInfo->module_srl, 0);
 					}
 
 					if (!$output->toBool())
@@ -1038,8 +1037,7 @@ class menuAdminController extends menu
 				}
 				else
 				{
-					$moduleInfo->menu_srl = 0;
-					$output = $oModuleController->updateModule($moduleInfo);
+					$output = $oModuleController->updateModuleMenuSrl($moduleInfo->module_srl, 0);
 				}
 
 				if(!$output->toBool())
@@ -1165,8 +1163,7 @@ class menuAdminController extends menu
 					$moduleInfo = ModuleModel::getModuleInfoByMid($node['url']);
 					if($menu_srl != $moduleInfo->menu_srl)
 					{
-						$moduleInfo->menu_srl = $menu_srl;
-						$output = $oModuleController->updateModule($moduleInfo);
+						$oModuleController->updateModuleMenuSrl($moduleInfo->module_srl, $menu_srl);
 					}
 				}
 
@@ -1510,9 +1507,7 @@ class menuAdminController extends menu
 				$moduleInfo = ModuleModel::getModuleInfoByMid($url);
 				if($menu_srl != $moduleInfo->menu_srl)
 				{
-					$moduleInfo->menu_srl = $menu_srl;
-					$oModuleController = ModuleController::getInstance();
-					$output = $oModuleController->updateModule($moduleInfo);
+					ModuleController::getInstance()->updateModuleMenuSrl($moduleInfo->module_srl, $menu_srl);
 				}
 
 				// change home menu cache file
