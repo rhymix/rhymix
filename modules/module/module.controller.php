@@ -751,13 +751,37 @@ class ModuleController extends Module
 	}
 
 	/**
-	 * @brief Update menu_srl of mid which belongs to menu_srl
+	 * Update menu_srl of mid which belongs to menu_srl
+	 *
+	 * @deprecated
 	 */
-	function updateModuleMenu($args)
+	public function updateModuleMenu($args)
 	{
 		$output = executeQuery('module.updateModuleMenu', $args);
 
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
+		return $output;
+	}
+
+	/**
+	 * Update menu_srl of a module.
+	 *
+	 * @param int $module_srl
+	 * @param int $menu_srl
+	 * @param bool $clear_cache
+	 * @return BaseObject
+	 */
+	public function updateModuleMenuSrl(int $module_srl, int $menu_srl, bool $clear_cache = true): BaseObject
+	{
+		$output = executeQuery('module.updateModuleMenuSrl', [
+			'module_srl' => $module_srl,
+			'menu_srl' => $menu_srl,
+		]);
+
+		if ($clear_cache)
+		{
+			Rhymix\Framework\Cache::clearGroup('site_and_module');
+		}
 		return $output;
 	}
 
