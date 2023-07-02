@@ -22,7 +22,7 @@
 			</div>
 			<div class="confirm">
 				<label for="accept_agreement_{$i}">
-					<input type="checkbox" name="accept_agreement[{$i}]" value="Y" id="accept_agreement_{$i}" />
+					<input type="checkbox" name="accept_agreement[{$i}]" value="Y" id="accept_agreement_{$i}" required="required"|cond="$agreement->type === 'required'" />
 					{$lang->about_accept_agreement}
 				</label>
 			</div>
