@@ -106,7 +106,7 @@ class MemberModel extends Member
 
 		// Set login config
 		$config->identifiers = $config->identifiers ?? array('user_id', 'email_address');
-		if (in_array('email_address', $config->identifiers) && $config->enable_confirm === 'Y')
+		if (in_array('email_address', $config->identifiers) && $config->enable_confirm === 'Y' && Context::get('act') === 'dispMemberInfo')
 		{
 			$config->identifier = 'email_address';
 		}
