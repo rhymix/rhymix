@@ -339,9 +339,10 @@ class MemberView extends Member
 			}
 		}
 
+		$identifier = array_first($member_config->identifiers);
 		$identifierForm = new stdClass;
-		$identifierForm->title = lang($member_config->identifier);
-		$identifierForm->name = $member_config->identifier;
+		$identifierForm->title = lang($identifier);
+		$identifierForm->name = $identifier;
 		Context::set('identifierForm', $identifierForm);
 
 		$this->addExtraFormValidatorMessage();
@@ -452,10 +453,11 @@ class MemberView extends Member
 			}
 		}
 
+		$identifier = array_first($member_config->identifiers);
 		$identifierForm = new stdClass;
-		$identifierForm->title = lang($member_config->identifier);
-		$identifierForm->name = $member_config->identifier;
-		$identifierForm->value = $member_info->{$member_config->identifier};
+		$identifierForm->title = lang($identifier);
+		$identifierForm->name = $identifier;
+		$identifierForm->value = $member_info->$identifier;
 		Context::set('identifierForm', $identifierForm);
 
 		$this->addExtraFormValidatorMessage();
