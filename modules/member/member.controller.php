@@ -2266,7 +2266,7 @@ class MemberController extends Member
 			}
 
 		}
-		elseif($config->identifiers && in_array('phone_number', $config->identifiers) && strpos($user_id, '@') === false)
+		elseif($config->identifiers && in_array('phone_number', $config->identifiers) && strpos($user_id, '@') === false && !preg_match('/^[a-z]/i', $user_id))
 		{
 			if(preg_match('/^\+([0-9-]+)\.([0-9.-]+)$/', $user_id, $matches))
 			{
