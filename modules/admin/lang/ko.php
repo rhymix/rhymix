@@ -425,6 +425,7 @@ $lang->cmd_cleanup_filetype_file = '파일';
 $lang->cmd_cleanup_filetype_directory = '디렉토리';
 $lang->cmd_cleanup_filetype_symlink = '심볼릭 링크';
 $lang->cmd_cleanup_reason = '삭제 이유';
+$lang->cmd_cleanup_exception = '제외';
 $lang->cmd_cleanup_reason_deleted = '사용하지 않음';
 $lang->cmd_cleanup_reason_deleted_xe = 'XE에서 사용하던 %s';
 $lang->cmd_cleanup_reason_deleted_xmllang = 'XE에서 사용하던 XML 언어 파일';

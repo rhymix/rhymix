@@ -8,6 +8,7 @@
 		<!-- Maintenance -->
 		<action name="procAdminRecompileCacheFile" class="Controllers\Maintenance\CacheReset" />
 		<action name="dispAdminCleanupList" class="Controllers\Maintenance\Cleanup" />
+		<action name="procAdminAddCleanupException" class="Controllers\Maintenance\Cleanup" />
 		<action name="procAdminCleanupFiles" class="Controllers\Maintenance\Cleanup" />
 		<!-- Server Env -->
 		<action name="dispAdminViewServerEnv" class="Controllers\ServerEnv" />

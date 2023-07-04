@@ -428,6 +428,7 @@ $lang->cmd_cleanup_filetype = 'Type';
 $lang->cmd_cleanup_filetype_file = 'file';
 $lang->cmd_cleanup_filetype_directory = 'directory';
 $lang->cmd_cleanup_filetype_symlink = 'symbolic link';
+$lang->cmd_cleanup_exception = 'Add exception';
 $lang->cmd_cleanup_reason = 'Reason to delete';
 $lang->cmd_cleanup_reason_deleted = 'Not used anymore';
 $lang->cmd_cleanup_reason_deleted_xe = 'This %s was only used in XE';

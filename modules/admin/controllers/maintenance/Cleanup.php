@@ -3,6 +3,8 @@
 namespace Rhymix\Modules\Admin\Controllers\Maintenance;
 
 use Context;
+use ModuleController;
+use ModuleModel;
 use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Exceptions\TargetNotFound;
 use Rhymix\Framework\Security;
@@ -26,6 +28,30 @@ class Cleanup extends Base
 
 		// Set the template file.
 		$this->setTemplateFile('cleanup');
+	}
+
+	/**
+	 * Add a file or directory to the cleanup exception list.
+	 */
+	public function procAdminAddCleanupException()
+	{
+		// Check the path.
+		$path = Context::get('path');
+		if (!$path || !array_key_exists($path, self::CLEANUP_LIST))
+		{
+			throw new InvalidRequest;
+		}
+
+		// Get current configuration.
+		$config = ModuleModel::getModuleConfig('admin') ?: new \stdClass;
+		if (!isset($config->cleanup_exceptions))
+		{
+			$config->cleanup_exceptions = [];
+		}
+
+		// Add the path to the exception list.
+		$config->cleanup_exceptions[$path] = date('Ymd');
+		ModuleController::getInstance()->insertModuleConfig('admin', $config);
 	}
 
 	/**
@@ -59,9 +85,22 @@ class Cleanup extends Base
 	 */
 	public function checkFiles(): array
 	{
+		// Get current configuration.
+		$config = ModuleModel::getModuleConfig('admin') ?: new \stdClass;
+		if (!isset($config->cleanup_exceptions))
+		{
+			$config->cleanup_exceptions = [];
+		}
+
 		$result = [];
 		foreach (self::CLEANUP_LIST as $name => $reason)
 		{
+			// Skip if registered as an exception.
+			if (isset($config->cleanup_exceptions[$name]))
+			{
+				continue;
+			}
+
 			// Skip if file/directory distinction doesn't match.
 			if (str_ends_with($name, '/') && !Storage::isDirectory(\RX_BASEDIR . rtrim($name, '/')))
 			{

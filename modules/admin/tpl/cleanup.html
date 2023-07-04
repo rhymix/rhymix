@@ -1,4 +1,5 @@
 <config autoescape="on" />
+<load target="js/cleanup.js" />
 
 <div class="x_page-header">
 	<h1>{$lang->admin_cleanup_unnecessary_core_files}</h1>
@@ -21,6 +22,7 @@
 					<th scope="col" class="nowr">{$lang->cmd_cleanup_filename}</th>
 					<th scope="col" class="nowr">{$lang->cmd_cleanup_filetype}</th>
 					<th scope="col" class="nowr">{$lang->cmd_cleanup_reason}</th>
+					<th scope="col" class="nowr">{$lang->cmd_cleanup_exception}</th>
 					<!--@if($cleanup_errors)-->
 						<th scope="col" class="nowr">{$lang->cmd_cleanup_error_reason}</th>
 					<!--@endif-->
@@ -32,7 +34,7 @@
 					{@ $filetype = str_ends_with($file, '/') ? $lang->cmd_cleanup_filetype_directory : $lang->cmd_cleanup_filetype_file}
 					<tr>
 						<td class="nowr">{$no++}</td>
-						<td class="nowr">{rtrim($file, '/')}</td>
+						<td class="nowr">{$file}</td>
 						<td class="nowr">{$filetype}</td>
 						<td class="nowr">
 							<!--@if($reason === 'deleted')-->{$lang->cmd_cleanup_reason_deleted}<!--@endif-->
@@ -40,6 +42,9 @@
 							<!--@if($reason === 'deleted:xmllang')-->{$lang->cmd_cleanup_reason_deleted_xmllang}<!--@endif-->
 							<!--@if($reason === 'case')-->{$lang->cmd_cleanup_reason_case}<!--@endif-->
 							<!--@if(preg_match('/^moved:(.+)$/', $reason, $matches))-->{$lang->cmd_cleanup_reason_moved}: <s style="color:#999">{$matches[1]}</s><!--@endif-->
+						</td>
+						<td>
+							<a href="#" class="add_cleanup_exception" data-path="{$file}">{$lang->cmd_cleanup_exception}</a>
 						</td>
 						<!--@if($cleanup_errors)-->
 							<td scope="col" class="nowr" style="color:red">
