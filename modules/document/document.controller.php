@@ -1341,7 +1341,9 @@ class DocumentController extends Document
 		// new trash module
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
-		$oTrashVO->setTrashSrl(getNextSequence());
+		$trash_srl = getNextSequence();
+		$obj->trash_srl = $trash_srl
+		$oTrashVO->setTrashSrl($trash_srl);
 		$oTrashVO->setTitle($oDocument->variables['title']);
 		$oTrashVO->setOriginModule('document');
 		$oTrashVO->setSerializedObject(serialize($oDocument->variables));
