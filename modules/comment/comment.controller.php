@@ -55,7 +55,8 @@ class CommentController extends Comment
 		}
 
 		$point = 1;
-		$output = $this->updateVotedCount($comment_srl, $point);
+		$allow_same_ip = ($comment_config->allow_vote_from_same_ip ?? 'N') === 'Y';
+		$output = $this->updateVotedCount($comment_srl, $point, $allow_same_ip);
 		$this->add('voted_count', $output->get('voted_count'));
 		return $output;
 	}
@@ -134,7 +135,8 @@ class CommentController extends Comment
 		}
 
 		$point = -1;
-		$output = $this->updateVotedCount($comment_srl, $point);
+		$allow_same_ip = ($comment_config->allow_vote_from_same_ip ?? 'N') === 'Y';
+		$output = $this->updateVotedCount($comment_srl, $point, $allow_same_ip);
 		$this->add('blamed_count', $output->get('blamed_count'));
 		return $output;
 	}
@@ -1461,9 +1463,10 @@ class CommentController extends Comment
 	 * Increase vote-up counts of the comment
 	 * @param int $comment_srl
 	 * @param int $point
+	 * @param bool $allow_same_ip
 	 * @return Object
 	 */
-	function updateVotedCount($comment_srl, $point = 1)
+	function updateVotedCount($comment_srl, $point = 1, $allow_same_ip = false)
 	{
 		if($point > 0)
 		{
@@ -1484,9 +1487,8 @@ class CommentController extends Comment
 		$oComment = CommentModel::getComment($comment_srl);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oComment->get('ipaddress') == \RX_CLIENT_IP)
+		if(!$allow_same_ip && $oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
-			$_SESSION['voted_comment'][$comment_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
 
@@ -1628,9 +1630,11 @@ class CommentController extends Comment
 		$oComment = CommentModel::getComment($comment_srl);
 
 		// failed if both ip addresses between author's and the current user are same.
-		if($oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
+		$module_srl = $oComment->get('module_srl');
+		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
+		$allow_same_ip = ($comment_config->allow_declare_from_same_ip ?? 'N') === 'Y';
+		if(!$allow_same_ip && $oComment->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
-			$_SESSION['declared_comment'][$comment_srl] = FALSE;
 			return new BaseObject(-1, 'failed_declared');
 		}
 
@@ -1703,8 +1707,6 @@ class CommentController extends Comment
 
 		// Send message to admin
 		$message_targets = array();
-		$module_srl = $oComment->get('module_srl');
-		$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
 		if ($comment_config->declared_message && in_array('admin', $comment_config->declared_message))
 		{
 			$output = executeQueryArray('member.getAdmins', new stdClass);
@@ -1943,6 +1945,12 @@ class CommentController extends Comment
 		{
 			$comment_config->use_vote_down = 'Y';
 		}
+
+		$comment_config->allow_vote_from_same_ip = Context::get('allow_vote_from_same_ip');
+		if(!$comment_config->allow_vote_from_same_ip) $comment_config->allow_vote_from_same_ip = 'N';
+
+		$comment_config->allow_declare_from_same_ip = Context::get('allow_declare_from_same_ip');
+		if(!$comment_config->allow_declare_from_same_ip) $comment_config->allow_declare_from_same_ip = 'N';
 
 		$comment_config->declared_message = Context::get('declared_message');
 		if(!is_array($comment_config->declared_message)) $comment_config->declared_message = array();

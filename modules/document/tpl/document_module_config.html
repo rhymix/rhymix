@@ -18,9 +18,9 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
+			<label for="d_use_vote_up" class="x_control-label">{$lang->cmd_vote}</label>
 			<div class="x_controls">
-				<select name="use_vote_up" id="use_vote_up">
+				<select name="use_vote_up" id="d_use_vote_up">
 					<option value="Y" selected="selected"|cond="$document_config->use_vote_up=='Y'">{$lang->use}</option>
 					<option value="S" selected="selected"|cond="$document_config->use_vote_up=='S'">{$lang->use_and_display}</option>
 					<option value="N" selected="selected"|cond="$document_config->use_vote_up=='N'">{$lang->notuse}</option>
@@ -28,13 +28,39 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label for="use_vote_down" class="x_control-label">{$lang->cmd_vote_down}</label>
+			<label for="d_use_vote_down" class="x_control-label">{$lang->cmd_vote_down}</label>
 			<div class="x_controls">
-				<select name="use_vote_down" id="use_vote_down">
+				<select name="use_vote_down" id="d_use_vote_down">
 					<option value="Y" selected="selected"|cond="$document_config->use_vote_down=='Y'">{$lang->use}</option>
 					<option value="S" selected="selected"|cond="$document_config->use_vote_down=='S'">{$lang->use_and_display}</option>
 					<option value="N" selected="selected"|cond="$document_config->use_vote_down=='N'">{$lang->notuse}</option>
 				</select>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_vote_from_same_ip}</label>
+			<div class="x_controls">
+				<label for="d_allow_vote_from_same_ip_Y" class="x_inline">
+					<input type="radio" id="d_allow_vote_from_same_ip_Y" name="allow_vote_from_same_ip" value="Y" checked="checked"|cond="$document_config->allow_vote_from_same_ip === 'Y'">
+					{$lang->cmd_yes}
+				</label>
+				<label for="d_allow_vote_from_same_ip_N" class="x_inline">
+					<input type="radio" id="d_allow_vote_from_same_ip_N" name="allow_vote_from_same_ip" value="N" checked="checked"|cond="$document_config->allow_vote_from_same_ip !== 'Y'">
+					{$lang->cmd_no}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->allow_declare_from_same_ip}</label>
+			<div class="x_controls">
+				<label for="d_allow_declare_from_same_ip_Y" class="x_inline">
+					<input type="radio" id="d_allow_declare_from_same_ip_Y" name="allow_declare_from_same_ip" value="Y" checked="checked"|cond="$document_config->allow_declare_from_same_ip === 'Y'">
+					{$lang->cmd_yes}
+				</label>
+				<label for="d_allow_declare_from_same_ip_N" class="x_inline">
+					<input type="radio" id="d_allow_declare_from_same_ip_N" name="allow_declare_from_same_ip" value="N" checked="checked"|cond="$document_config->allow_declare_from_same_ip !== 'Y'">
+					{$lang->cmd_no}
+				</label>
 			</div>
 		</div>
 		<div class="x_control-group">

@@ -59,7 +59,8 @@ class DocumentController extends Document
 		}
 
 		$point = 1;
-		$output = $this->updateVotedCount($document_srl, $point);
+		$allow_same_ip = ($document_config->allow_vote_from_same_ip ?? 'N') === 'Y';
+		$output = $this->updateVotedCount($document_srl, $point, $allow_same_ip);
 		if(!$output->toBool())
 		{
 			return $output;
@@ -173,7 +174,8 @@ class DocumentController extends Document
 		}
 
 		$point = -1;
-		$output = $this->updateVotedCount($document_srl, $point);
+		$allow_same_ip = ($document_config->allow_vote_from_same_ip ?? 'N') === 'Y';
+		$output = $this->updateVotedCount($document_srl, $point, $allow_same_ip);
 		if(!$output->toBool())
 		{
 			return $output;
@@ -1729,9 +1731,10 @@ class DocumentController extends Document
 	 * Increase the number of vote-up of the document
 	 * @param int $document_srl
 	 * @param int $point
+	 * @param bool $allow_same_ip
 	 * @return Object
 	 */
-	function updateVotedCount($document_srl, $point = 1)
+	function updateVotedCount($document_srl, $point = 1, $allow_same_ip = false)
 	{
 		if($point > 0)
 		{
@@ -1752,9 +1755,8 @@ class DocumentController extends Document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == \RX_CLIENT_IP)
+		if(!$allow_same_ip && $oDocument->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
-			$_SESSION['voted_document'][$document_srl] = false;
 			return new BaseObject(-1, $failed_voted);
 		}
 
@@ -1908,9 +1910,11 @@ class DocumentController extends Document
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 
 		// Pass if the author's IP address is as same as visitor's.
-		if($oDocument->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
+		$module_srl = $oDocument->get('module_srl');
+		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
+		$allow_same_ip = ($document_config->allow_declare_from_same_ip ?? 'N') === 'Y';
+		if(!$allow_same_ip && $oDocument->get('ipaddress') == \RX_CLIENT_IP && !$this->user->isAdmin())
 		{
-			$_SESSION['declared_document'][$document_srl] = false;
 			return new BaseObject(-1, 'failed_declared');
 		}
 
@@ -1983,8 +1987,6 @@ class DocumentController extends Document
 
 		// Send message to admin
 		$message_targets = array();
-		$module_srl = $oDocument->get('module_srl');
-		$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
 		if ($document_config->declared_message && in_array('admin', $document_config->declared_message))
 		{
 			$output = executeQueryArray('member.getAdmins', new stdClass);
@@ -3262,6 +3264,12 @@ Content;
 
 		$document_config->use_vote_down = Context::get('use_vote_down');
 		if(!$document_config->use_vote_down) $document_config->use_vote_down = 'Y';
+
+		$document_config->allow_vote_from_same_ip = Context::get('allow_vote_from_same_ip');
+		if(!$document_config->allow_vote_from_same_ip) $document_config->allow_vote_from_same_ip = 'N';
+
+		$document_config->allow_declare_from_same_ip = Context::get('allow_declare_from_same_ip');
+		if(!$document_config->allow_declare_from_same_ip) $document_config->allow_declare_from_same_ip = 'N';
 
 		$document_config->declared_message = Context::get('declared_message');
 		if(!is_array($document_config->declared_message)) $document_config->declared_message = array();
