@@ -22,6 +22,14 @@ class Cleanup extends Base
 		$cleanup_list = $this->checkFiles();
 		Context::set('cleanup_list', $cleanup_list);
 
+		// Get current configuration.
+		$config = ModuleModel::getModuleConfig('admin') ?: new \stdClass;
+		if (!isset($config->cleanup_exceptions))
+		{
+			$config->cleanup_exceptions = [];
+		}
+		Context::set('exceptions', $config->cleanup_exceptions);
+
 		// Check previous errors.
 		Context::set('cleanup_errors', $_SESSION['admin_cleanup_errors'] ?? []);
 		unset($_SESSION['admin_cleanup_errors']);
@@ -51,6 +59,16 @@ class Cleanup extends Base
 
 		// Add the path to the exception list.
 		$config->cleanup_exceptions[$path] = date('Ymd');
+		ModuleController::getInstance()->insertModuleConfig('admin', $config);
+	}
+
+	/**
+	 * Reset the exception list.
+	 */
+	public function procAdminResetCleanupException()
+	{
+		$config = ModuleModel::getModuleConfig('admin') ?: new \stdClass;
+		$config->cleanup_exceptions = [];
 		ModuleController::getInstance()->insertModuleConfig('admin', $config);
 	}
 
