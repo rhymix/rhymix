@@ -597,7 +597,7 @@ class ExtraItem
 		}
 		if($this->desc)
 		{
-			$buff[] = '<p>' . escape(Context::replaceUserLang($this->desc), false) . '</p>';
+			$buff[] = '<p>' . nl2br(trim(escape(Context::replaceUserLang($this->desc), false))) . '</p>';
 		}
 
 		return join("\n", $buff);
