@@ -1466,6 +1466,7 @@ class DocumentController extends Document
 		}
 
 		// Call a trigger (after)
+		$obj->trash_srl = $oTrashVO->getTrashSrl();
 		$obj->module_srl = $oDocument->get('module_srl');
 		$obj->member_srl = $oDocument->get('member_srl');
 		$obj->regdate = $oDocument->get('regdate');

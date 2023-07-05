@@ -1439,6 +1439,7 @@ class CommentController extends Comment
 			executeQuery('file.updateFileValid', $args);
 		}
 
+		$obj->trash_srl = $oTrashVO->getTrashSrl();
 		$obj->module_srl = $oComment->get('module_srl');
 		$obj->document_srl = $oComment->get('document_srl');
 		$obj->parent_srl = $oComment->get('parent_srl');
