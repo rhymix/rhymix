@@ -174,10 +174,47 @@ class DocumentView extends Document
 		{
 			$document_config = new stdClass();
 		}
-		if(!isset($document_config->use_history)) $document_config->use_history = 'N';
+		if(!isset($document_config->use_history))
+		{
+			$document_config->use_history = 'N';
+		}
+		if(!isset($document_config->use_vote_up))
+		{
+			$document_config->use_vote_up = 'Y';
+		}
+		if(!isset($document_config->use_vote_down))
+		{
+			$document_config->use_vote_down = 'Y';
+		}
+		if(!isset($document_config->allow_vote_from_same_ip))
+		{
+			$document_config->allow_vote_from_same_ip = 'N';
+		}
+		if(!isset($document_config->allow_declare_from_same_ip))
+		{
+			$document_config->allow_declare_from_same_ip = 'N';
+		}
+
+		if ($current_module_srl)
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($current_module_srl);
+			if (!isset($document_config->allow_vote_cancel))
+			{
+				$document_config->allow_vote_cancel = (($module_info->cancel_vote ?? 'N') === 'Y') ? 'Y' : 'N';
+			}
+			if (!isset($document_config->allow_vote_non_member))
+			{
+				$document_config->allow_vote_non_member = (($module_info->non_login_vote ?? 'N') === 'Y') ? 'Y' : 'N';
+			}
+			if (!isset($document_config->allow_declare_cancel))
+			{
+				$document_config->allow_declare_cancel = (($module_info->cancel_vote ?? 'N') === 'Y') ? 'Y' : 'N';
+			}
+		}
+
 		Context::set('document_config', $document_config);
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'document_module_config');
 		$obj = $tpl . $obj;
 

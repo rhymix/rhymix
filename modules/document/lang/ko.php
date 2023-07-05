@@ -118,4 +118,7 @@ $lang->improper_document_reasons['privacy'] = '민감한 개인정보가 노출 
 $lang->improper_document_reasons['others'] = '기타(직접작성)';
 $lang->about_improper_document_declare = '게시글을 신고하신 이유를 간단히 적어서 제출해주시면 관리자 검토 후 조치하겠습니다.';
 $lang->allow_vote_from_same_ip = '동일 IP 추천 허용';
+$lang->allow_vote_non_member = '비회원 추천 허용';
+$lang->allow_vote_cancel = '추천 취소 허용';
 $lang->allow_declare_from_same_ip = '동일 IP 신고 허용';
+$lang->allow_declare_cancel = '신고 취소 허용';

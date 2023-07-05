@@ -38,28 +38,32 @@
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->allow_vote_from_same_ip}</label>
+			<label class="x_control-label">{$lang->cmd_vote_config}</label>
 			<div class="x_controls">
-				<label for="d_allow_vote_from_same_ip_Y" class="x_inline">
-					<input type="radio" id="d_allow_vote_from_same_ip_Y" name="allow_vote_from_same_ip" value="Y" checked="checked"|cond="$document_config->allow_vote_from_same_ip === 'Y'">
-					{$lang->cmd_yes}
+				<label for="d_allow_vote_from_same_ip" class="x_inline">
+					<input type="checkbox" id="d_allow_vote_from_same_ip" name="allow_vote_from_same_ip" value="Y" checked="checked"|cond="$document_config->allow_vote_from_same_ip === 'Y'">
+					{$lang->allow_vote_from_same_ip}
 				</label>
-				<label for="d_allow_vote_from_same_ip_N" class="x_inline">
-					<input type="radio" id="d_allow_vote_from_same_ip_N" name="allow_vote_from_same_ip" value="N" checked="checked"|cond="$document_config->allow_vote_from_same_ip !== 'Y'">
-					{$lang->cmd_no}
+				<label for="d_allow_vote_cancel" class="x_inline">
+					<input type="checkbox" id="d_allow_vote_cancel" name="allow_vote_cancel" value="Y" checked="checked"|cond="$document_config->allow_vote_cancel === 'Y'">
+					{$lang->allow_vote_cancel}
+				</label>
+				<label for="d_allow_vote_non_member" class="x_inline">
+					<input type="checkbox" id="d_allow_vote_non_member" name="allow_vote_non_member" value="Y" checked="checked"|cond="$document_config->allow_vote_non_member === 'Y'">
+					{$lang->allow_vote_non_member}
 				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
-			<label class="x_control-label">{$lang->allow_declare_from_same_ip}</label>
+			<label class="x_control-label">{$lang->cmd_declare_config}</label>
 			<div class="x_controls">
-				<label for="d_allow_declare_from_same_ip_Y" class="x_inline">
-					<input type="radio" id="d_allow_declare_from_same_ip_Y" name="allow_declare_from_same_ip" value="Y" checked="checked"|cond="$document_config->allow_declare_from_same_ip === 'Y'">
-					{$lang->cmd_yes}
+				<label for="d_allow_declare_from_same_ip" class="x_inline">
+					<input type="checkbox" id="d_allow_declare_from_same_ip" name="allow_declare_from_same_ip" value="Y" checked="checked"|cond="$document_config->allow_declare_from_same_ip === 'Y'">
+					{$lang->allow_declare_from_same_ip}
 				</label>
-				<label for="d_allow_declare_from_same_ip_N" class="x_inline">
-					<input type="radio" id="d_allow_declare_from_same_ip_N" name="allow_declare_from_same_ip" value="N" checked="checked"|cond="$document_config->allow_declare_from_same_ip !== 'Y'">
-					{$lang->cmd_no}
+				<label for="d_allow_declare_cancel" class="x_inline">
+					<input type="checkbox" id="d_allow_declare_cancel" name="allow_declare_cancel" value="Y" checked="checked"|cond="$document_config->allow_declare_cancel === 'Y'">
+					{$lang->allow_declare_cancel}
 				</label>
 			</div>
 		</div>

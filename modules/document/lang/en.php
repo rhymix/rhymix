@@ -118,4 +118,7 @@ $lang->improper_document_reasons['privacy'] = 'Privacy issue.';
 $lang->improper_document_reasons['others'] = 'Others (Write your own)';
 $lang->about_improper_document_declare = 'Write here why you report this article as an improper document.';
 $lang->allow_vote_from_same_ip = 'Allow voting from same IP';
+$lang->allow_vote_non_member = 'Allow voting by non-members';
+$lang->allow_vote_cancel = 'Allow vote cancellation';
 $lang->allow_declare_from_same_ip = 'Allow reporting from same IP';
+$lang->allow_declare_cancel = 'Allow report cancellation';

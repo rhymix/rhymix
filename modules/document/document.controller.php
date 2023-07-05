@@ -30,19 +30,7 @@ class DocumentController extends Document
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$module_info = $this->module_info;
-		if(!$module_info->module_srl)
-		{
-			$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
-		}
-		if($module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-
+		// Check target document.
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
@@ -52,10 +40,30 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+
+		// Check if voting is enabled.
 		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
 		if($document_config->use_vote_up === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($document_config->allow_vote_non_member))
+			{
+				if ($document_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
 		}
 
 		$point = 1;
@@ -77,23 +85,7 @@ class DocumentController extends Document
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$module_info = $this->module_info;
-		if(!$module_info->module_srl)
-		{
-			$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
-		}
-		if($module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-		if($module_info->cancel_vote !== 'Y')
-		{
-			throw new Rhymix\Framework\Exception('failed_voted_cancel');
-		}
-
+		// Check target document.
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
@@ -106,6 +98,41 @@ class DocumentController extends Document
 		if($oDocument->get('voted_count') <= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
+		}
+
+		// Check if voting and canceling are enabled.
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
+		$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		if (isset($document_config->allow_vote_cancel))
+		{
+			if ($document_config->allow_vote_cancel !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		else
+		{
+			if (($module_info->cancel_vote ?? 'N') !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($document_config->allow_vote_non_member))
+			{
+				if ($document_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
 		}
 
 		$point = 1;
@@ -121,43 +148,18 @@ class DocumentController extends Document
 	}
 
 	/**
-	 * insert alias
-	 * @param int $module_srl
-	 * @param int $document_srl
-	 * @param string $alias_title
-	 * @return object
-	 */
-	function insertAlias($module_srl, $document_srl, $alias_title)
-	{
-		$args = new stdClass;
-		$args->alias_srl = getNextSequence();
-		$args->module_srl = $module_srl;
-		$args->document_srl = $document_srl;
-		$args->alias_title = urldecode($alias_title);
-		$query = "document.insertAlias";
-		$output = executeQuery($query, $args);
-		return $output;
-	}
-
-	/**
 	 * Action to handle vote-up of the post (Down)
 	 * @return Object
 	 */
 	function procDocumentVoteDown()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Check target document.
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
@@ -167,10 +169,30 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+
+		// Check if voting is enabled.
 		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
 		if($document_config->use_vote_down === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($document_config->allow_vote_non_member))
+			{
+				if ($document_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
 		}
 
 		$point = -1;
@@ -186,23 +208,13 @@ class DocumentController extends Document
 
 	function procDocumentVoteDownCancel()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-		if($this->module_info->cancel_vote !== 'Y')
-		{
-			return new Rhymix\Framework\Exception('failed_voted_canceled');
-		}
-
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Check target document.
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
@@ -215,6 +227,41 @@ class DocumentController extends Document
 		if($oDocument->get('blamed_count') >= 0)
 		{
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
+		}
+
+		// Check if voting and canceling are enabled.
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
+		$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		if (isset($document_config->allow_vote_cancel))
+		{
+			if ($document_config->allow_vote_cancel !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		else
+		{
+			if (($module_info->cancel_vote ?? 'N') !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($document_config->allow_vote_non_member))
+			{
+				if ($document_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
 		}
 
 		$point = -1;
@@ -367,6 +414,7 @@ class DocumentController extends Document
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check if the document exists and is accessible to the current user.
 		$document_srl = Context::get('target_srl');
 		if(!$document_srl)
 		{
@@ -381,10 +429,23 @@ class DocumentController extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
-		if($module_info->cancel_vote !== 'Y')
+
+		// Check if canceling is allowed.
+		$document_config = ModuleModel::getModulePartConfig('document', $oDocument->get('module_srl'));
+		if (isset($document_config->allow_declare_cancel))
 		{
-			throw new Rhymix\Framework\Exception('failed_declared_cancel');
+			if ($document_config->allow_declare_cancel !== 'Y')
+			{
+				throw new Rhymix\Framework\Exception('failed_declared_cancel');
+			}
+		}
+		else
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+			if (($module_info->cancel_vote ?? 'N') !== 'Y')
+			{
+				throw new Rhymix\Framework\Exception('failed_declared_cancel');
+			}
 		}
 
 		if(Context::get('success_return_url'))
@@ -421,6 +482,25 @@ class DocumentController extends Document
 		{
 			return $output;
 		}
+	}
+
+	/**
+	 * insert alias
+	 * @param int $module_srl
+	 * @param int $document_srl
+	 * @param string $alias_title
+	 * @return object
+	 */
+	function insertAlias($module_srl, $document_srl, $alias_title)
+	{
+		$args = new stdClass;
+		$args->alias_srl = getNextSequence();
+		$args->module_srl = $module_srl;
+		$args->document_srl = $document_srl;
+		$args->alias_title = urldecode($alias_title);
+		$query = "document.insertAlias";
+		$output = executeQuery($query, $args);
+		return $output;
 	}
 
 	/**
@@ -3268,8 +3348,17 @@ Content;
 		$document_config->allow_vote_from_same_ip = Context::get('allow_vote_from_same_ip');
 		if(!$document_config->allow_vote_from_same_ip) $document_config->allow_vote_from_same_ip = 'N';
 
+		$document_config->allow_vote_cancel = Context::get('allow_vote_cancel');
+		if(!$document_config->allow_vote_cancel) $document_config->allow_vote_cancel = 'N';
+
+		$document_config->allow_vote_non_member = Context::get('allow_vote_non_member');
+		if(!$document_config->allow_vote_non_member) $document_config->allow_vote_non_member = 'N';
+
 		$document_config->allow_declare_from_same_ip = Context::get('allow_declare_from_same_ip');
 		if(!$document_config->allow_declare_from_same_ip) $document_config->allow_declare_from_same_ip = 'N';
+
+		$document_config->allow_declare_cancel = Context::get('allow_declare_cancel');
+		if(!$document_config->allow_declare_cancel) $document_config->allow_declare_cancel = 'N';
 
 		$document_config->declared_message = Context::get('declared_message');
 		if(!is_array($document_config->declared_message)) $document_config->declared_message = array();

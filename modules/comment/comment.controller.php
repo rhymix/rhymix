@@ -12,33 +12,18 @@
 class CommentController extends Comment
 {
 	/**
-	 * Initialization
-	 * @return void
-	 */
-	function init()
-	{
-
-	}
-
-	/**
 	 * Action to handle recommendation votes on comments (Up)
 	 * @return Object
 	 */
 	function procCommentVoteUp()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Check target comment.
 		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
@@ -48,10 +33,30 @@ class CommentController extends Comment
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+
+		// Check if voting is enabled.
 		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
 		if($comment_config->use_vote_up === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($comment_config->allow_vote_non_member))
+			{
+				if ($comment_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
 		}
 
 		$point = 1;
@@ -63,19 +68,13 @@ class CommentController extends Comment
 
 	function procCommentVoteUpCancel()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Check target comment.
 		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
@@ -90,8 +89,47 @@ class CommentController extends Comment
 			throw new Rhymix\Framework\Exception('failed_voted_canceled');
 		}
 
+		// Check if voting and canceling are enabled.
+		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
+		$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
+		if (isset($comment_config->allow_vote_cancel))
+		{
+			if ($comment_config->allow_vote_cancel !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		else
+		{
+			if (($module_info->cancel_vote ?? 'N') !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($comment_config->allow_vote_non_member))
+			{
+				if ($comment_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+		}
+
 		$point = 1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new BaseObject();
 		$output->setMessage('success_voted_canceled');
@@ -106,19 +144,13 @@ class CommentController extends Comment
 	 */
 	function procCommentVoteDown()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Check target comment.
 		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
@@ -128,10 +160,30 @@ class CommentController extends Comment
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+
+		// Check if voting is enabled.
 		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
 		if($comment_config->use_vote_down === 'N')
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($comment_config->allow_vote_non_member))
+			{
+				if ($comment_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
 		}
 
 		$point = -1;
@@ -143,19 +195,13 @@ class CommentController extends Comment
 
 	function procCommentVoteDownCancel()
 	{
-		if($this->module_info->non_login_vote !== 'Y')
-		{
-			if(!Context::get('is_logged'))
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-		}
-
 		$comment_srl = Context::get('target_srl');
 		if(!$comment_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+
+		// Check target comment.
 		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
@@ -170,8 +216,47 @@ class CommentController extends Comment
 			throw new Rhymix\Framework\Exception('failed_blamed_canceled');
 		}
 
+		// Check if voting and canceling are enabled.
+		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
+		$module_info = $this->module_info ?: ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
+		if (isset($comment_config->allow_vote_cancel))
+		{
+			if ($comment_config->allow_vote_cancel !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		else
+		{
+			if (($module_info->cancel_vote ?? 'N') !== 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+			}
+		}
+		if(!Context::get('is_logged'))
+		{
+			if (isset($comment_config->allow_vote_non_member))
+			{
+				if ($comment_config->allow_vote_non_member !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+			else
+			{
+				if (($module_info->non_login_vote ?? 'N') !== 'Y')
+				{
+					throw new Rhymix\Framework\Exceptions\MustLogin;
+				}
+			}
+		}
+
 		$point = -1;
 		$output = $this->updateVotedCountCancel($comment_srl, $oComment, $point);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
 
 		$output = new BaseObject();
 		$output->setMessage('success_blamed_canceled');
@@ -305,6 +390,7 @@ class CommentController extends Comment
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
+		// Check if the comment exists and is accessible to the current user.
 		$comment_srl = Context::get('target_srl');
 		if (!$comment_srl)
 		{
@@ -319,10 +405,23 @@ class CommentController extends Comment
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
-		if ($module_info->cancel_vote !== 'Y')
+
+		// Check if canceling is allowed.
+		$comment_config = ModuleModel::getModulePartConfig('comment', $oComment->get('module_srl'));
+		if (isset($comment_config->allow_declare_cancel))
 		{
-			throw new Rhymix\Framework\Exception('failed_declared_cancel');
+			if ($comment_config->allow_declare_cancel !== 'Y')
+			{
+				throw new Rhymix\Framework\Exception('failed_declared_cancel');
+			}
+		}
+		else
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($oComment->get('module_srl'));
+			if (($module_info->cancel_vote ?? 'N') !== 'Y')
+			{
+				throw new Rhymix\Framework\Exception('failed_declared_cancel');
+			}
 		}
 
 		if (Context::get('success_return_url'))
@@ -1949,8 +2048,17 @@ class CommentController extends Comment
 		$comment_config->allow_vote_from_same_ip = Context::get('allow_vote_from_same_ip');
 		if(!$comment_config->allow_vote_from_same_ip) $comment_config->allow_vote_from_same_ip = 'N';
 
+		$comment_config->allow_vote_cancel = Context::get('allow_vote_cancel');
+		if(!$comment_config->allow_vote_cancel) $comment_config->allow_vote_cancel = 'N';
+
+		$comment_config->allow_vote_non_member = Context::get('allow_vote_non_member');
+		if(!$comment_config->allow_vote_non_member) $comment_config->allow_vote_non_member = 'N';
+
 		$comment_config->allow_declare_from_same_ip = Context::get('allow_declare_from_same_ip');
 		if(!$comment_config->allow_declare_from_same_ip) $comment_config->allow_declare_from_same_ip = 'N';
+
+		$comment_config->allow_declare_cancel = Context::get('allow_declare_cancel');
+		if(!$comment_config->allow_declare_cancel) $comment_config->allow_declare_cancel = 'N';
 
 		$comment_config->declared_message = Context::get('declared_message');
 		if(!is_array($comment_config->declared_message)) $comment_config->declared_message = array();

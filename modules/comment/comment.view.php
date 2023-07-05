@@ -44,6 +44,48 @@ class CommentView extends Comment
 
 		// get the comment configuration
 		$comment_config = CommentModel::getCommentConfig($current_module_srl);
+		if(!$comment_config)
+		{
+			$comment_config = new stdClass();
+		}
+		if(!isset($comment_config->cmd_comment_validation))
+		{
+			$comment_config->cmd_comment_validation = 'N';
+		}
+		if(!isset($comment_config->use_vote_up))
+		{
+			$comment_config->use_vote_up = 'Y';
+		}
+		if(!isset($comment_config->use_vote_down))
+		{
+			$comment_config->use_vote_down = 'Y';
+		}
+		if(!isset($comment_config->allow_vote_from_same_ip))
+		{
+			$comment_config->allow_vote_from_same_ip = 'N';
+		}
+		if(!isset($comment_config->allow_declare_from_same_ip))
+		{
+			$comment_config->allow_declare_from_same_ip = 'N';
+		}
+
+		if ($current_module_srl)
+		{
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($current_module_srl);
+			if (!isset($comment_config->allow_vote_cancel))
+			{
+				$comment_config->allow_vote_cancel = (($module_info->cancel_vote ?? 'N') === 'Y') ? 'Y' : 'N';
+			}
+			if (!isset($comment_config->allow_vote_non_member))
+			{
+				$comment_config->allow_vote_non_member = (($module_info->non_login_vote ?? 'N') === 'Y') ? 'Y' : 'N';
+			}
+			if (!isset($comment_config->allow_declare_cancel))
+			{
+				$comment_config->allow_declare_cancel = (($module_info->cancel_vote ?? 'N') === 'Y') ? 'Y' : 'N';
+			}
+		}
+
 		Context::set('comment_config', $comment_config);
 
 		// get a group list
