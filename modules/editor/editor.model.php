@@ -208,11 +208,11 @@ class editorModel extends editor
 		// Load editor components.
 		if($option->enable_component)
 		{
-			if(!Context::get('component_list'))
-			{
-				$component_list = self::getComponentList(true);
-				Context::set('component_list', $component_list);
-			}
+			Context::set('component_list', self::getComponentList(true));
+		}
+		else
+		{
+			Context::set('component_list', []);
 		}
 		Context::set('enable_component', $option->enable_component ? true : false);
 		Context::set('enable_default_component', $option->enable_default_component ? true : false);
