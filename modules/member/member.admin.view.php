@@ -487,10 +487,12 @@ class MemberAdminView extends Member
 		if ($memberInfo)
 		{
 			$memberInfo = get_object_vars($memberInfo);
+			$isSignup = false;
 		}
 		else
 		{
 			$memberInfo = array();
+			$isSignup = true;
 		}
 
 		$member_config = $this->memberConfig;
@@ -596,7 +598,7 @@ class MemberAdminView extends Member
 					}
 					else if($formInfo->name == 'email_address')
 					{
-						if(isset($member_config->enable_confirm) && $member_config->enable_confirm === 'Y' && !$isAdmin)
+						if(isset($member_config->enable_confirm) && $member_config->enable_confirm === 'Y' && !$isAdmin && !$isSignup)
 						{
 							$readonly = 'readonly="readonly" ';
 						}
@@ -674,7 +676,7 @@ class MemberAdminView extends Member
 					}
 					else
 					{
-						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N')
+						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N' && !$isSignup)
 						{
 							$readonly = 'readonly="readonly" ';
 						}
