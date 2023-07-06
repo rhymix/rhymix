@@ -478,9 +478,7 @@ class MemberAdminView extends Member
 	 */
 	function _getMemberInputTag($memberInfo = null, $isAdmin = false)
 	{
-		$logged_info = Context::get('logged_info');
-		$oMemberModel = getModel('member');
-		$extend_form_list = $oMemberModel->getCombineJoinForm($memberInfo);
+		$extend_form_list = MemberModel::getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
 		$security->encodeHTML('..column_title', '..description', '..default_value.');
 
@@ -498,7 +496,7 @@ class MemberAdminView extends Member
 		$member_config = $this->memberConfig;
 		if(!$this->memberConfig)
 		{
-			$member_config = $this->memberConfig = $oMemberModel->getMemberConfig();
+			$member_config = $this->memberConfig = MemberModel::getMemberConfig();
 		}
 		$identifiers = $member_config->identifiers ?? [$member_config->identifier];
 		$identifiers = array_intersect($identifiers, ['user_id', 'email_address']);
@@ -506,7 +504,7 @@ class MemberAdminView extends Member
 		global $lang;
 		$formTags = array();
 
-		foreach($member_config->signupForm as $no=>$formInfo)
+		foreach($member_config->signupForm as $formInfo)
 		{
 			if(!$formInfo->isUse || (in_array($formInfo->name, $identifiers) && $formInfo->name === array_first($identifiers)) || $formInfo->name == 'password')
 			{
