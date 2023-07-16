@@ -154,7 +154,7 @@
 								</p>
 								<!--@if($item->name === 'profile_image')-->
 									<p class="x_help-block">
-										<label class="x_inline">{$lang->cmd_image_force_ratio}</label> 
+										<label class="x_inline">{$lang->cmd_image_force_ratio}</label>
 										<label class="x_inline"><input type="radio" name="profile_image_force_ratio" value="Y" checked="checked"|cond="$config->profile_image_force_ratio !== 'N'" /> {$lang->cmd_yes}</label>
 										<label class="x_inline"><input type="radio" name="profile_image_force_ratio" value="N" checked="checked"|cond="$config->profile_image_force_ratio === 'N'" /> {$lang->cmd_no}</label>
 									</p>
@@ -197,6 +197,10 @@
 								</select>
 								<select name="sel_editor_colorset" id="sel_editor_colorset" style="display:none"></select>
 								<p class="x_help-block">
+									<label class="x_inline" for="signature_max_height">{$lang->signature_max_height}</label>
+									<input type="number" min="0" name="signature_max_height" id="signature_max_height" value="{$config->signature_max_height ?? 100}" /> px
+								</p>
+								<p class="x_help-block">
 									<label class="x_inline">{lang('allow_html')}</label>
 									<label class="x_inline"><input type="radio" name="signature_html" id="signature_html_yes" value="Y" checked="checked"|cond="$config->signature_html != 'N'" /> {$lang->cmd_yes}</label>
 									<label class="x_inline"><input type="radio" name="signature_html" id="signature_html_no" value="N" checked="checked"|cond="$config->signature_html == 'N'" /> {$lang->cmd_no}</label>
@@ -211,7 +215,7 @@
 								</p>
 								<script>
 									getEditorSkinColorList('{$config->signature_editor_skin}','{$config->sel_editor_colorset}');
-									
+
 									if(!$('#signature_html_no').is(':checked'))
 									{
 										$('#signature_html_retroact').hide();
