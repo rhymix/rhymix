@@ -17,6 +17,7 @@ codeception.yml
 /node_modules/
 /bower_components/
 composer.phar
+codecept.phar
 
 .idea
 *.sublime-workspace
