@@ -1060,7 +1060,8 @@ class ncenterliteController extends ncenterlite
 		}
 
 		// 레이아웃에서 알림센터 사용중이라면 중지
-		if(Context::get('layout_info')->use_ncenter_widget == 'Y')
+		$layout_info = Context::get('layout_info');
+		if($layout_info && isset($layout_info->use_ncenter_widget) && $layout_info->use_ncenter_widget == 'Y')
 		{
 			return;
 		}
