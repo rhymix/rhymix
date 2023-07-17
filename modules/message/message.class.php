@@ -23,7 +23,7 @@ class Message extends ModuleObject
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('message');
 
-		if($config->skin)
+		if(!empty($config->skin))
 		{
 			$config_parse = explode('.', $config->skin);
 			if (count($config_parse) > 1)
