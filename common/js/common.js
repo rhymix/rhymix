@@ -221,6 +221,11 @@
 							var icon = item[i].icon;
 							var target = item[i].target;
 
+							// Convert self to _self #2154
+							if (target === 'self') {
+								target = '_self';
+							}
+
 							var actmatch = url.match(/\bact=(\w+)/) || url.match(/\b((?:disp|proc)\w+)/);
 							var act = actmatch ? actmatch[1] : null;
 							var classText = 'class="' + (classname ? classname : (act ? (act + ' ') : ''));

@@ -249,7 +249,7 @@ class MemberModel extends Member
 		if($logged_info->member_srl)
 		{
 			$url = getUrl('','mid',$mid,'act','dispMemberInfo','member_srl',$member_srl);
-			$oMemberController->addMemberPopupMenu($url,'cmd_view_member_info',$icon_path);
+			$oMemberController->addMemberPopupMenu($url, 'cmd_view_member_info', $icon_path, 'self');
 		}
 
 		// When click other's nickname
@@ -321,7 +321,7 @@ class MemberModel extends Member
 			$oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'MemberModifyInfo');
 
 			$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',0);
-			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'popup');
+			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'MemberSpammer');
 
 			$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
 			$oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
