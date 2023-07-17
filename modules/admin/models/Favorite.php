@@ -32,8 +32,8 @@ class Favorite
 			foreach ($output->data as $key => $value)
 			{
 				$module_info = ModuleModel::getModuleInfoXml($value->module);
-				$output->data[$key]->admin_index_act = $module_info->admin_index_act;
-				$output->data[$key]->title = $module_info->title;
+				$output->data[$key]->admin_index_act = $module_info->admin_index_act ?? null;
+				$output->data[$key]->title = $module_info->title ?? null;
 			}
 		}
 

@@ -280,11 +280,18 @@ class layoutModel extends layout
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
 		$output = executeQuery('layout.getLayout', $args);
-		if(!$output->data) return;
-		$layout = $output->data->layout;
+		if (!$output->data)
+		{
+			return;
+		}
 
 		// Return xml file informaton after listing up the layout and extra_vars
+		$layout = $output->data->layout;
 		$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
+		if (!$layout_info)
+		{
+			return;
+		}
 
 		// Check if layout has been edited
 		if (file_exists(\RX_BASEDIR . 'files/faceOff/' . getNumberingPath($layout_srl) . 'layout.html') ||
