@@ -593,13 +593,20 @@ class communicationController extends communication
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
-			global $lang;
-			htmlHeader();
-			alertScript($lang->success_registed);
-			closePopupScript();
-			htmlFooter();
-			Context::close();
-			exit;
+			if (Context::get('window_type') === 'self')
+			{
+				$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispCommunicationFriend'));
+			}
+			else
+			{
+				global $lang;
+				htmlHeader();
+				alertScript($lang->success_registed);
+				closePopupScript();
+				htmlFooter();
+				Context::close();
+				exit;
+			}
 		}
 	}
 
@@ -767,13 +774,20 @@ class communicationController extends communication
 		{
 			if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 			{
-				global $lang;
-				htmlHeader();
-				alertScript($lang->fail_to_registed);
-				closePopupScript();
-				htmlFooter();
-				Context::close();
-				exit;
+				if (Context::get('window_type') === 'self')
+				{
+					$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispCommunicationFriend'));
+				}
+				else
+				{
+					global $lang;
+					htmlHeader();
+					alertScript($lang->fail_to_registed);
+					closePopupScript();
+					htmlFooter();
+					Context::close();
+					exit;
+				}
 			}
 			else
 			{
@@ -784,14 +798,21 @@ class communicationController extends communication
 		{
 			if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 			{
-				global $lang;
-				htmlHeader();
-				alertScript($lang->success_registed);
-				reload(true);
-				closePopupScript();
-				htmlFooter();
-				Context::close();
-				exit;
+				if (Context::get('window_type') === 'self')
+				{
+					$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispCommunicationFriend'));
+				}
+				else
+				{
+					global $lang;
+					htmlHeader();
+					alertScript($lang->success_registed);
+					reload(true);
+					closePopupScript();
+					htmlFooter();
+					Context::close();
+					exit;
+				}
 			}
 			else
 			{
@@ -976,13 +997,15 @@ class communicationController extends communication
 			// Add a menu for sending message
 			if($config->enable_message == 'Y' && ($logged_info->is_admin == 'Y' || $target_member_info->allow_message == 'Y' || ($target_member_info->allow_message == 'F' && $oCommunicationModel->isFriend($member_srl))))
 			{
-				$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationSendMessage', 'receiver_srl', $member_srl), 'cmd_send_message', '', 'popup');
+				$url = getUrl('', 'mid', $mid, 'act', 'dispCommunicationSendMessage', 'receiver_srl', $member_srl, 'window_type', 'self');
+				$oMemberController->addMemberPopupMenu($url, 'cmd_send_message', '', 'self');
 			}
 
 			// Add a menu for listing friends (if a friend is new)
 			if($config->enable_friend == 'Y' && !$oCommunicationModel->isAddedFriend($member_srl))
 			{
-				$oMemberController->addMemberPopupMenu(getUrl('', 'mid', $mid, 'act', 'dispCommunicationAddFriend', 'target_srl', $member_srl), 'cmd_add_friend', '', 'popup');
+				$url = getUrl('', 'mid', $mid, 'act', 'dispCommunicationAddFriend', 'target_srl', $member_srl, 'window_type', 'self');
+				$oMemberController->addMemberPopupMenu($url, 'cmd_add_friend', '', 'self');
 			}
 		}
 	}

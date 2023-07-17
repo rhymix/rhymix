@@ -374,8 +374,22 @@ class communicationView extends communication
 	 */
 	function dispCommunicationAddFriend()
 	{
-		$this->setLayoutPath('./common/tpl/');
-		$this->setLayoutFile("popup_layout");
+		// If window type is self, use member module layout.
+		// Otherwise, assume it's a popup window on PC for backward compatibility.
+		if(Context::get('window_type') === 'self')
+		{
+			$oMemberView = MemberView::getInstance();
+			if (!$oMemberView->checkMidAndRedirect())
+			{
+				$this->setRedirectUrl($oMemberView->getRedirectUrl());
+				return;
+			}
+		}
+		elseif(!Context::get('m'))
+		{
+			$this->setLayoutPath('./common/tpl/');
+			$this->setLayoutFile("popup_layout");
+		}
 
 		if($this->config->enable_friend == 'N')
 		{
@@ -432,8 +446,22 @@ class communicationView extends communication
 	 */
 	function dispCommunicationAddFriendGroup()
 	{
-		$this->setLayoutPath('./common/tpl/');
-		$this->setLayoutFile("popup_layout");
+		// If window type is self, use member module layout.
+		// Otherwise, assume it's a popup window on PC for backward compatibility.
+		if(Context::get('window_type') === 'self')
+		{
+			$oMemberView = MemberView::getInstance();
+			if (!$oMemberView->checkMidAndRedirect())
+			{
+				$this->setRedirectUrl($oMemberView->getRedirectUrl());
+				return;
+			}
+		}
+		elseif(!Context::get('m'))
+		{
+			$this->setLayoutPath('./common/tpl/');
+			$this->setLayoutFile("popup_layout");
+		}
 
 		if($this->config->enable_friend == 'N')
 		{

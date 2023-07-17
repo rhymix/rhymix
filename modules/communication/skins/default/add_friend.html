@@ -1,6 +1,11 @@
 <load target="filter/add_friend.xml" />
 <load target="css/communication.css" />
 <load target="js/communication.js" />
+
+<!--@if(isset($window_type) && $window_type === 'self')-->
+	<include target="./common_header.html" />
+<!--@endif-->
+
 <div class="xc">
 	<h1>{$lang->cmd_add_friend}</h1>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/add_friend/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -11,6 +16,7 @@
 		<input type="hidden" name="act" value="procCommunicationAddFriend" />
 		<input type="hidden" name="target_srl" value="{$target_info->member_srl}" />
 		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/add_friend/1" />
+		<input type="hidden" name="window_type" value="{escape($window_type ?? '')}" />
 		<table class="table table-striped table-hover">
 			<tr>
 				<th scope="row">{$lang->nick_name}</th>
@@ -22,7 +28,7 @@
 					<select name="friend_group_srl" id="friend_group_srl">
 						<option value="">{$lang->default_friend_group}</option>
 						<option loop="$friend_group_list => $key,$val" value="{$val->friend_group_srl}">{$val->title}</option>
-					</select> 
+					</select>
 					<a href="{getUrl('act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
 				</td>
 			</tr>

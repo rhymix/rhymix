@@ -26,7 +26,7 @@
 		<span class="btn-group">
 			<button type="button" class="btn" cond="count($friend_group_list)" onclick="doRenameFriendGroup();return false;">{$lang->cmd_rename_friend_group}</button>
 			<button type="button" class="btn" cond="count($friend_group_list)" onclick="doDeleteFriendGroup();return false;">{$lang->cmd_delete_friend_group}</button>
-			<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup')}" class="btn" onclick="popopen(this.href);return false;">{$lang->cmd_add_friend_group}</a>
+			<a href="{getUrl('','module','communication','act','dispCommunicationAddFriendGroup','window_type','self')}" class="btn">{$lang->cmd_add_friend_group}</a>
 		</span>
 	</div>
 
