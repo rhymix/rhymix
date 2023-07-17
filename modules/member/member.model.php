@@ -319,16 +319,16 @@ class MemberModel extends Member
 		if($logged_info->is_admin == 'Y')
 		{
 			$url = getUrl('','module','admin','act','dispMemberAdminInsert','member_srl',$member_srl);
-			$oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'MemberModifyInfo');
+			$oMemberController->addMemberPopupMenu($url,'cmd_manage_member_info',$icon_path,'');
 
 			$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',0);
-			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'MemberSpammer');
+			$oMemberController->addMemberPopupMenu($url,'cmd_spammer',$icon_path,'popup');
 
 			$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','member_srl','search_keyword',$member_srl);
-			$oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'TraceMemberDocument');
+			$oMemberController->addMemberPopupMenu($url,'cmd_trace_document',$icon_path,'');
 
 			$url = getUrl('','module','admin','act','dispCommentAdminList','search_target','member_srl','search_keyword',$member_srl);
-			$oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'TraceMemberComment');
+			$oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'');
 		}
 		// Change a language of pop-up menu
 		$menus = Context::get('member_popup_menu_list');
