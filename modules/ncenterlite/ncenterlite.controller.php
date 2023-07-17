@@ -72,13 +72,9 @@ class ncenterliteController extends ncenterlite
 			throw new Rhymix\Framework\Exception('msg_not_use_user_setting');
 		}
 
-		$logged_info = Context::get('logged_info');
-		$member_srl = Context::get('member_srl');
-		if(!$member_srl)
-		{
-			$member_srl = $logged_info->member_srl;
-		}
-		if($logged_info->member_srl != $member_srl && $logged_info->is_admin != 'Y')
+		// Disable modifying other user's config #1925 #2148
+		$member_srl = Context::get('member_srl') ?: $this->user->member_srl;
+		if ($this->user->member_srl !== $member_srl)
 		{
 			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_settings');
 		}
@@ -1171,13 +1167,6 @@ class ncenterliteController extends ncenterlite
 		if($config->user_notify_setting == 'Y')
 		{
 			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
-
-			if($logged_info->is_admin == 'Y')
-			{
-				$url = getUrl('', 'act', 'dispNcenterliteUserConfig', 'member_srl', $target_srl);
-				$str = Context::getLang('ncenterlite_user_settings');
-				$oMemberController->addMemberPopupMenu($url, $str, '');
-			}
 		}
 	}
 

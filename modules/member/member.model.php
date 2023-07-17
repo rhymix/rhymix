@@ -256,6 +256,7 @@ class MemberModel extends Member
 		if($member_srl != $logged_info->member_srl && $logged_info->member_srl)
 		{
 			// Get email config
+			$email_config = null;
 			foreach($module_config->signupForm as $field)
 			{
 				if($field->name == 'email_address')
@@ -266,7 +267,7 @@ class MemberModel extends Member
 			}
 
 			// Send an email only if email address is public
-			if($email_config->isPublic == 'Y' && $member_info->email_address)
+			if($email_config && $email_config->isPublic == 'Y' && $member_info->email_address)
 			{
 				$oCommunicationModel = CommunicationModel::getInstance();
 				if($logged_info->is_admin == 'Y' || $oCommunicationModel->isFriend($member_info->member_srl))

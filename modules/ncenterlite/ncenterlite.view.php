@@ -53,17 +53,11 @@ class ncenterliteView extends ncenterlite
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		$member_srl = Context::get('member_srl');
-		if($this->user->isAdmin() && $member_srl)
+		// Disable modifying other user's config #1925 #2148
+		$member_srl = Context::get('member_srl') ?: $this->user->member_srl;
+		if ($this->user->member_srl !== $member_srl)
 		{
-			$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
-		}
-		if(!$this->user->isAdmin() && $member_srl)
-		{
-			if($member_srl != $this->user->member_srl)
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted('ncenterlite_stop_no_permission_other_user');
-			}
+			throw new Rhymix\Framework\Exceptions\NotPermitted('ncenterlite_stop_no_permission_other_user');
 		}
 
 		$user_selected = [];
@@ -83,7 +77,7 @@ class ncenterliteView extends ncenterlite
 			}
 		}
 
-		Context::set('member_info', $member_info ?? null);
+		Context::set('member_info', MemberModel::getMemberInfoByMemberSrl($member_srl));
 		Context::set('notify_types', $notify_types);
 		Context::set('user_config', $user_config);
 		Context::set('user_selected', $user_selected);
