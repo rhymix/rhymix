@@ -131,7 +131,7 @@ class communicationController extends communication
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
-			if(Context::get('is_popup') != 'Y')
+			if(Context::get('is_popup') != 'Y' && Context::get('window_type') != 'self')
 			{
 				global $lang;
 				htmlHeader();
@@ -144,7 +144,7 @@ class communicationController extends communication
 			else
 			{
 				$this->setMessage('success_sended');
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('','act', 'dispCommunicationMessages', 'message_type', 'S', 'receiver_srl', $receiver_srl, 'message_srl', '');
+				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('','act', 'dispCommunicationMessages', 'message_type', 'S');
 				$this->setRedirectUrl($returnUrl);
 			}
 		}

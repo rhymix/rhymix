@@ -1,5 +1,10 @@
 <load target="css/communication.css" />
 <load target="js/communication.js" />
+
+<!--@if(isset($window_type) && $window_type === 'self')-->
+	<include target="./common_header.html" />
+<!--@endif-->
+
 <div class="xc">
 	<h1>{$lang->cmd_send_message}</h1>
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/communication/skins/default/send_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
@@ -21,6 +26,8 @@
 		<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
 		<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
 		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/send_message/1" />
+		<input type="hidden" name="success_return_url" value="{getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_type', 'S')}" />
+		<input type="hidden" name="window_type" value="{escape($window_type ?? '')}" />
 		<table class="table table-striped table-hover">
 			<tr>
 				<th scope="row"><label for="textfield1">{$lang->receiver}</label></th>

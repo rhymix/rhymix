@@ -6,8 +6,8 @@ function completeSendMessage(ret_obj) {
 
 function doSendMessage(member_srl, message_srl) {
     if(typeof(message_srl)=='undefined') message_srl = 0;
-    var url = request_uri.setQuery('mid',current_mid).setQuery('act','dispCommunicationSendMessage').setQuery('receiver_srl',member_srl).setQuery('message_srl',message_srl);
-    popopen(url, 'sendMessage');
+    var url = request_uri.setQuery('mid',current_mid).setQuery('act','dispCommunicationSendMessage').setQuery('receiver_srl',member_srl).setQuery('message_srl',message_srl).setQuery('window_type', 'self');
+    window.location = url;
 }
 
 /* 개별 쪽지 삭제 */

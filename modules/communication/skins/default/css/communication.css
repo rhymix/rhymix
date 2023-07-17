@@ -243,7 +243,7 @@
 .xc button,
 .xc a.btn,
 .xc table{font-size:13px}
-.xc h1{font-size:22px}
+.xc h1{font-size:20px;margin-bottom:12px}
 .xc .nav a,
 .xc .btn{text-decoration:none}
 .xc .table{border-top:1px solid #ddd;border-bottom:1px solid #ddd}
