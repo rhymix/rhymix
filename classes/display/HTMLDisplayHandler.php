@@ -494,7 +494,7 @@ class HTMLDisplayHandler
 			{
 				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
 			}
-			elseif ($current_module_info->module_srl == $site_module_info->module_srl)
+			elseif (isset($current_module_info->module_srl) && $current_module_info->module_srl == ($site_module_info->module_srl ?? 0))
 			{
 				$canonical_url = getFullUrl('');
 			}

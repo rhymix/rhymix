@@ -921,7 +921,7 @@ class Context
 			{
 				return $matches[1];
 			}
-		}, $string);
+		}, strval($string));
 	}
 
 	/**
