@@ -423,6 +423,7 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
 		$options = array(
 			'expires' => $lifetime,
@@ -451,6 +452,8 @@ class Session
 			self::_setCookie(session_name(), session_id(), $options);
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
 		}
+
+		return true;
 	}
 
 	/**
