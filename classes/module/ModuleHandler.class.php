@@ -1032,7 +1032,7 @@ class ModuleHandler extends Handler
 			// Handle redirects.
 			if($oModule->getRedirectUrl())
 			{
-				if ($_SESSION['is_new_session'])
+				if (!empty($_SESSION['is_new_session']))
 				{
 					ob_end_clean();
 					echo sprintf('<html><head><meta charset="UTF-8" /><meta http-equiv="refresh" content="0; url=%s" /></head><body></body></html>', escape($oModule->getRedirectUrl()));
