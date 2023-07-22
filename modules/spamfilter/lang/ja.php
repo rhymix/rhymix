@@ -26,7 +26,6 @@ $lang->cmd_interval = '10秒の間3回以上書き込みをすると、スパム
 $lang->cmd_check_trackback = 'ひとつの書き込みに2回以上トラックバックを登録するとスパムとみなしますか？トラックバックをブロックします。';
 $lang->add = '追加';
 $lang->yes = 'はい';
-$lang->no = 'いいえ';
 $lang->msg_duplicate = '既に存在します。';
 $lang->msg_invalid_ip = 'IPアドレスの形式が正しくありません。';
 $lang->msg_invalid_word = 'スパムキーワードは2〜180文字の範囲で指定します。';
