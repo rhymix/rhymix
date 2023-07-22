@@ -58,7 +58,6 @@ return array(
 	'session' => array(
 		'delay' => false,
 		'use_db' => false,
-		'use_keys' => false,
 		'use_ssl' => false,
 		'use_ssl_cookies' => false,
 		'samesite' => 'Lax',
