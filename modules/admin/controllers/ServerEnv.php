@@ -75,7 +75,6 @@ class ServerEnv extends Base
 		$info['mobile.tablets'] = config('mobile.tablets') ? 'true' : 'false';
 		$info['session.delay'] = config('session.delay') ? 'true' : 'false';
 		$info['session.use_db'] = config('session.use_db') ? 'true' : 'false';
-		$info['session.use_keys'] = config('session.use_keys') ? 'true' : 'false';
 		$info['session.use_ssl'] = config('session.use_ssl') ? 'true' : 'false';
 		$info['session.use_ssl_cookies'] = config('session.use_ssl_cookies') ? 'true' : 'false';
 		$info['view.concat_scripts'] = config('view.concat_scripts');
