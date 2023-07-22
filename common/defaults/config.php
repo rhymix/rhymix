@@ -60,6 +60,7 @@ return array(
 		'use_db' => false,
 		'use_ssl' => false,
 		'use_ssl_cookies' => false,
+		'httponly' => true,
 		'samesite' => 'Lax',
 		'domain' => null,
 		'path' => null,

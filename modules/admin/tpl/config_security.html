@@ -82,6 +82,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->use_httponly}</label>
+			<div class="x_controls">
+				<label for="use_httponly_y" class="x_inline"><input type="radio" name="use_httponly" id="use_httponly_y" value="Y" checked="checked"|cond="$use_httponly !== false" /> {$lang->cmd_yes}</label>
+				<label for="use_httponly_n" class="x_inline"><input type="radio" name="use_httponly" id="use_httponly_n" value="N" checked="checked"|cond="$use_httponly === false" /> {$lang->cmd_no}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_use_httponly}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_samesite}</label>
 			<div class="x_controls">
 				<label for="use_samesite_strict" class="x_inline"><input type="radio" name="use_samesite" id="use_samesite_strict" value="Strict" checked="checked"|cond="$use_samesite === 'Strict'" /> Strict</label>

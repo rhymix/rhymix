@@ -32,6 +32,7 @@ class Security extends Base
 		Context::set('remote_addr', RX_CLIENT_IP);
 
 		// Session and cookie security settings
+		Context::set('use_httponly', Config::get('session.httponly'));
 		Context::set('use_samesite', Config::get('session.samesite'));
 		Context::set('use_session_ssl', Config::get('session.use_ssl'));
 		Context::set('use_cookies_ssl', Config::get('session.use_ssl_cookies'));
@@ -126,6 +127,7 @@ class Security extends Base
 
 		Config::set('admin.allow', array_values($allowed_ip));
 		Config::set('admin.deny', array_values($denied_ip));
+		Config::set('session.httponly', $vars->use_httponly === 'Y');
 		Config::set('session.samesite', $vars->use_samesite);
 		Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');
 		Config::set('session.use_ssl_cookies', $vars->use_cookies_ssl === 'Y');

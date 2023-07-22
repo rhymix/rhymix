@@ -73,7 +73,7 @@ class Session
 		}
 
 		// Set session parameters.
-		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		ini_set('session.gc_maxlifetime', $lifetime > 0 ? $lifetime : 28800);
 		ini_set('session.use_cookies', 1);
@@ -90,7 +90,7 @@ class Session
 				$path = ($path ?: '/') . '; SameSite=' . $samesite;
 			}
 		}
-		session_set_cookie_params($lifetime, $path, $domain, $secure, true);
+		session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 
 		// Check if the session cookie already exists.
@@ -239,13 +239,13 @@ class Session
 		$value = self::getLoginStatus();
 		if (!isset($_COOKIE['rx_login_status']) || $_COOKIE['rx_login_status'] !== $value)
 		{
-			list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+			list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 			self::_setCookie('rx_login_status', $value, array(
 				'expires' => 0,
 				'path' => $path,
 				'domain' => $domain,
 				'secure' => $secure,
-				'httponly' => true,
+				'httponly' => $httponly,
 				'samesite' => $samesite,
 			));
 		}
@@ -422,28 +422,28 @@ class Session
 	public static function refresh($refresh_cookie = false)
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
-		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
 		$options = array(
 			'expires' => $lifetime,
 			'path' => $path,
 			'domain' => $domain,
 			'secure' => $secure,
-			'httponly' => true,
+			'httponly' => $httponly,
 			'samesite' => $samesite,
 		);
 
 		// Set the domain initialization timestamp.
-		if (!isset($_SESSION['RHYMIX']['domains'][$domain]['started']))
+		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['started']))
 		{
-			$_SESSION['RHYMIX']['domains'][$domain]['started'] = time();
+			$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
 		}
 
 		// Reset the trusted information.
-		if (!isset($_SESSION['RHYMIX']['domains'][$domain]['trusted']))
+		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['trusted']))
 		{
-			$_SESSION['RHYMIX']['domains'][$domain]['trusted'] = 0;
+			$_SESSION['RHYMIX']['domains'][$alt_domain]['trusted'] = 0;
 		}
 
 		// Refresh the main session cookie.
@@ -490,7 +490,7 @@ class Session
 	public static function destroy()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 
 		// Delete all cookies.
 		self::destroyAutologinKeys();
@@ -1065,8 +1065,9 @@ class Session
 		$domain = self::getDomain();
 		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
 		$secure = (\RX_SSL && config('session.use_ssl')) ? true : false;
+		$httponly = Config::get('session.httponly') ?? true;
 		$samesite = config('session.samesite');
-		return array($lifetime, $refresh, $domain, $path, $secure, $samesite);
+		return array($lifetime, $refresh, $domain, $path, $secure, $httponly, $samesite);
 	}
 
 	/**
@@ -1154,7 +1155,7 @@ class Session
 	public static function setAutologinKeys($autologin_key, $security_key)
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 		$lifetime = time() + (86400 * 365);
 		$samesite = config('session.samesite');
 
@@ -1166,7 +1167,7 @@ class Session
 				'path' => $path,
 				'domain' => $domain,
 				'secure' => $secure,
-				'httponly' => true,
+				'httponly' => $httponly,
 				'samesite' => $samesite,
 			));
 
@@ -1187,7 +1188,7 @@ class Session
 	public static function destroyAutologinKeys()
 	{
 		// Get session parameters.
-		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 
 		// Delete the autologin keys from the database.
 		if (self::$_autologin_key)
@@ -1268,7 +1269,7 @@ class Session
 			return false;
 		}
 
-		list($lifetime, $refresh_interval, $domain, $path, $secure, $samesite) = self::_getParams();
+		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 		foreach ($cookies as $cookie)
 		{
 			foreach ($conflict_domains as $conflict_domain)
