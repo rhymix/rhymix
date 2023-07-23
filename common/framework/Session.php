@@ -155,18 +155,6 @@ class Session
 			}
 		}
 
-		// If this is a new session, remove conflicting cookies.
-		// This is temporary code to take care of a bug that was in develop branch for a few days in March 2020.
-		// It is not needed if you never updated to a buggy develop branch.
-		/*
-		if ($cookie_exists && $domain === null && !isset($_SESSION['conflict_clean']))
-		{
-			self::destroyCookiesFromConflictingDomains(array(session_name(), 'rx_autologin', 'rx_sesskey1', 'rx_sesskey2'), true);
-			session_regenerate_id();
-			$_SESSION['conflict_clean'] = true;
-		}
-		*/
-
 		// Check the login status cookie.
 		self::checkLoginStatusCookie();
 
