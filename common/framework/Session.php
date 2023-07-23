@@ -455,8 +455,8 @@ class Session
 		// Refresh the main session cookie.
 		if ($refresh_cookie)
 		{
-			self::_setCookie(session_name(), session_id(), $options);
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
+			self::_setCookie(session_name(), session_id(), $options);
 		}
 
 		return true;
@@ -500,12 +500,12 @@ class Session
 
 		// Delete all cookies.
 		self::destroyAutologinKeys();
+		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'rx_login_status', 'xeak', 'sso'));
 		self::_unsetCookie(session_name(), $path, $domain);
 		self::_unsetCookie('xe_logged', $path, $domain);
 		self::_unsetCookie('rx_login_status', $path, $domain);
 		self::_unsetCookie('xeak', $path, $domain);
 		self::_unsetCookie('sso', $path, $domain);
-		self::destroyCookiesFromConflictingDomains(array('xe_logged', 'rx_login_status', 'xeak', 'sso'));
 
 		// Clear session data.
 		$_SESSION = array();
@@ -1172,6 +1172,7 @@ class Session
 		if ($autologin_key && $security_key)
 		{
 			$_SESSION['RHYMIX']['autologin_key'] = $autologin_key . $security_key;
+			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 			self::_setCookie('rx_autologin', $autologin_key . $security_key, array(
 				'expires' => $lifetime,
 				'path' => $path,
@@ -1181,7 +1182,6 @@ class Session
 				'samesite' => $samesite,
 			));
 
-			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
 			return true;
 		}
 		else
@@ -1213,8 +1213,8 @@ class Session
 		}
 
 		// Delete the autologin cookie.
-		self::_unsetCookie('rx_autologin', $path, $domain);
 		self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
+		self::_unsetCookie('rx_autologin', $path, $domain);
 		unset($_COOKIE['rx_autologin']);
 		return $result;
 	}
