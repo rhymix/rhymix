@@ -142,6 +142,19 @@ class Session
 			$must_refresh = false;
 		}
 
+		// Resend the autologin key if the client has not recognized its change.
+		if (isset($_SESSION['RHYMIX']['autologin_key']) && strlen($_SESSION['RHYMIX']['autologin_key']) === 48)
+		{
+			if ($_SESSION['RHYMIX']['autologin_key'] !== self::_getAutologinKey())
+			{
+				self::setAutologinKeys(substr($_SESSION['RHYMIX']['autologin_key'], 0, 24), substr($_SESSION['RHYMIX']['autologin_key'], 24, 24));
+			}
+			else
+			{
+				$_SESSION['RHYMIX']['autologin_key'] = false;
+			}
+		}
+
 		// If this is a new session, remove conflicting cookies.
 		// This is temporary code to take care of a bug that was in develop branch for a few days in March 2020.
 		// It is not needed if you never updated to a buggy develop branch.
@@ -392,7 +405,6 @@ class Session
 			if ($member_srl && self::isValid($member_srl))
 			{
 				self::login($member_srl, false);
-				$_SESSION['RHYMIX']['autologin_key'] = substr(self::$_autologin_key, 0, 24);
 			}
 			else
 			{
@@ -1155,11 +1167,11 @@ class Session
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
 		$lifetime = time() + (86400 * 365);
-		$samesite = config('session.samesite');
 
 		// Set the autologin keys.
 		if ($autologin_key && $security_key)
 		{
+			$_SESSION['RHYMIX']['autologin_key'] = $autologin_key . $security_key;
 			self::_setCookie('rx_autologin', $autologin_key . $security_key, array(
 				'expires' => $lifetime,
 				'path' => $path,
