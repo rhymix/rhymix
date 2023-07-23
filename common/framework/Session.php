@@ -534,9 +534,12 @@ class Session
 		}
 
 		// Set member_srl to session.
-		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = $member_srl;
+		$_SESSION['RHYMIX']['login'] = $member_srl;
 		$_SESSION['RHYMIX']['last_login'] = time();
-		$_SESSION['is_logged'] = (bool)$member_srl;
+
+		// Set other session variables for backward compatibility.
+		$_SESSION['member_srl'] = $member_srl;
+		$_SESSION['is_logged'] = $member_srl > 0 ? true : false;
 		self::$_member_info = false;
 
 		// Refresh the session keys.
@@ -560,9 +563,10 @@ class Session
 	 */
 	public static function logout()
 	{
-		$_SESSION['RHYMIX']['login'] = $_SESSION['member_srl'] = false;
+		$_SESSION['RHYMIX']['login'] = false;
 		$_SESSION['RHYMIX']['last_login'] = false;
 		$_SESSION['is_logged'] = false;
+		$_SESSION['member_srl'] = false;
 		self::$_member_info = false;
 		return self::destroy();
 	}
