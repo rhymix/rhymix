@@ -116,12 +116,6 @@ class Session
 		self::$_started = true;
 		$must_create = $must_refresh = false;
 
-		// Check whether the visitor uses Android webview.
-		if (!isset($_SESSION['is_webview']))
-		{
-			$_SESSION['is_webview'] = self::_isBuggyUserAgent();
-		}
-
 		// Check if the session has been initialized for Rhymix.
 		if (!isset($_SESSION['RHYMIX']))
 		{
