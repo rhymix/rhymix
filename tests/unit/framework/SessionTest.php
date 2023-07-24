@@ -4,6 +4,7 @@ class SessionTest extends \Codeception\TestCase\Test
 {
 	public function _before()
 	{
+		Context::getInstance();
 		Rhymix\Framework\Config::set('session.delay', false);
 		Rhymix\Framework\Session::close();
 		session_id('rhymix-test-session');
@@ -43,16 +44,11 @@ class SessionTest extends \Codeception\TestCase\Test
 
 	public function testStart()
 	{
-		Rhymix\Framework\Config::set('session.use_keys', true);
-
 		// Test normal start.
 		$this->assertTrue(@Rhymix\Framework\Session::start());
-		$this->assertTrue(isset($_COOKIE['rx_sesskey1']));
-		$this->assertTrue(isset($_COOKIE['rx_sesskey2']));
 		$this->assertNotEmpty($_SESSION['RHYMIX']['secret']);
-		$this->assertEquals($_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1'], $_COOKIE['rx_sesskey1']);
-		$this->assertEquals($_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2'], $_COOKIE['rx_sesskey2']);
-		$this->assertEquals(0, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['trusted']);
+		$this->assertTrue($_SESSION['RHYMIX']['domains']['www.rhymix.org']['started'] > 0);
+		$this->assertEquals(0, $_SESSION['RHYMIX']['domains']['www.rhymix.org']['trusted']);
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 
@@ -62,38 +58,8 @@ class SessionTest extends \Codeception\TestCase\Test
 		$session_secret = $_SESSION['RHYMIX']['secret'];
 		Rhymix\Framework\Session::close();
 
-		// Test missing HTTP key.
-		unset($_COOKIE['rx_sesskey1']);
-		$this->assertTrue(@Rhymix\Framework\Session::start());
-		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
-		$session_secret = $_SESSION['RHYMIX']['secret'];
-		Rhymix\Framework\Session::close();
-
-		// Test missing HTTPS key.
-		unset($_COOKIE['rx_sesskey2']);
-		$this->assertTrue(@Rhymix\Framework\Session::start());
-		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
-		$session_secret = $_SESSION['RHYMIX']['secret'];
-		Rhymix\Framework\Session::close();
-
-		// Test invalid HTTP key.
-		$_COOKIE['rx_sesskey1'] = substr(md5(mt_rand()), 0, 24);
-		$this->assertTrue(@Rhymix\Framework\Session::start());
-		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
-		$session_secret = $_SESSION['RHYMIX']['secret'];
-		Rhymix\Framework\Session::close();
-
-		// Test invalid HTTPS key.
-		$_COOKIE['rx_sesskey2'] = substr(md5(mt_rand()), 0, 24);
-		$this->assertTrue(@Rhymix\Framework\Session::start());
-		$this->assertNotEquals($session_secret, $_SESSION['RHYMIX']['secret']);
-		$session_secret = $_SESSION['RHYMIX']['secret'];
-		Rhymix\Framework\Session::close();
-
 		// Test initial transition from HTTP to HTTPS.
 		session_start();
-		unset($_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2']);
-		unset($_COOKIE['rx_sesskey2']);
 		session_write_close();
 		$this->assertTrue(@Rhymix\Framework\Session::start());
 		$this->assertEquals($session_secret, $_SESSION['RHYMIX']['secret']);
@@ -143,17 +109,9 @@ class SessionTest extends \Codeception\TestCase\Test
 
 		@Rhymix\Framework\Session::start();
 		$session_secret = $_SESSION['RHYMIX']['secret'];
-		$key1 = $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1'];
-		$key2 = $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2'];
-		$_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1_time'] = time() - 3600;
-		$_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2_time'] = time() - 3600;
 		Rhymix\Framework\Session::close();
 
 		@Rhymix\Framework\Session::start();
-		$this->assertNotEquals($key1, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1']);
-		$this->assertNotEquals($key2, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2']);
-		$this->assertEquals($key1, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key1_prev']);
-		$this->assertEquals($key2, $_SESSION['RHYMIX']['keys']['www.rhymix.org']['key2_prev']);
 		$this->assertEquals($session_secret, $_SESSION['RHYMIX']['secret']);
 		Rhymix\Framework\Session::close();
 	}
@@ -235,9 +193,9 @@ class SessionTest extends \Codeception\TestCase\Test
 	{
 		@Rhymix\Framework\Session::start();
 
-		$_SESSION['RHYMIX']['keys']['www.rhymix.org']['trusted'] = 0;
+		$_SESSION['RHYMIX']['domains']['www.rhymix.org']['trusted'] = 0;
 		$this->assertFalse(Rhymix\Framework\Session::isTrusted());
-		$_SESSION['RHYMIX']['keys']['www.rhymix.org']['trusted'] = time() + 300;
+		$_SESSION['RHYMIX']['domains']['www.rhymix.org']['trusted'] = time() + 300;
 		$this->assertTrue(Rhymix\Framework\Session::isTrusted());
 
 		Rhymix\Framework\Session::close();
