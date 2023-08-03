@@ -5,6 +5,7 @@
 	<columns>
 		<column name="autologin_key" var="autologin_key" notnull="notnull" minlength="1" maxlength="80" />
 		<column name="security_key" var="security_key" notnull="notnull" minlength="1" maxlength="80" />
+		<column name="previous_key" var="previous_key" />
 		<column name="member_srl" var="member_srl" notnull="notnull" filter="number" />
 		<column name="regdate" var="regdate" default="curdate()" />
 		<column name="ipaddress" var="ipaddress" default="ipaddress()" />

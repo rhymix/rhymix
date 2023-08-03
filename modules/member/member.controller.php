@@ -2181,6 +2181,7 @@ class MemberController extends Member
 		// Fetch autologin information from DB.
 		$args = new stdClass;
 		$args->autologin_key = $autologin_key;
+		$args->page = 0;
 		$output = executeQuery('member.getAutologin', $args);
 		if (!$output->toBool() || !$output->data)
 		{
@@ -2190,12 +2191,16 @@ class MemberController extends Member
 		{
 			$output->data = array_first($output->data);
 		}
+		if (!$output->data || !$output->data->member_srl)
+		{
+			return false;
+		}
 
 		// Hash the security key.
-		$valid_security_keys = array(base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true)));
+		$hashed_security_key = base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true));
 
 		// Check the security key.
-		if (!in_array($output->data->security_key, $valid_security_keys) || !$output->data->member_srl)
+		if ($hashed_security_key !== $output->data->security_key && $hashed_security_key !== $output->data->previous_key ?? '')
 		{
 			$args = new stdClass;
 			$args->autologin_key = $autologin_key;
@@ -2203,15 +2208,29 @@ class MemberController extends Member
 			return false;
 		}
 
-		// Update the security key.
-		$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
-		$args = new stdClass;
-		$args->autologin_key = $autologin_key;
-		$args->security_key = base64_encode(hash_hmac('sha256', $new_security_key, $autologin_key, true));
-		$update_output = executeQuery('member.updateAutologin', $args);
-		if ($update_output->toBool())
+		// If the current security key matches, generate a new key.
+		// If the previous key matches, don't update until the client has the current key.
+		// Resending the current key in this case will be handled by the Session class.
+		if ($hashed_security_key === $output->data->security_key)
 		{
-			Rhymix\Framework\Session::setAutologinKeys($autologin_key, $new_security_key);
+			$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
+			$new_hash = base64_encode(hash_hmac('sha256', $new_security_key, $autologin_key, true));
+
+			$args = new stdClass;
+			$args->autologin_key = $autologin_key;
+			$args->security_key = $new_hash;
+			$args->previous_key = $output->data->security_key;
+			$update_output = executeQuery('member.updateAutologin', $args);
+			if ($update_output->toBool())
+			{
+				Rhymix\Framework\Session::setAutologinKeys($autologin_key, $new_security_key);
+			}
+		}
+		else
+		{
+			$args = new stdClass;
+			$args->autologin_key = $autologin_key;
+			$update_output = executeQuery('member.updateAutologin', $args);
 		}
 
 		// Update the last login time.

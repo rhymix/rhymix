@@ -4,6 +4,7 @@
 	</tables>
 	<columns>
 		<column name="security_key" var="security_key" />
+		<column name="previous_key" var="previous_key" />
 		<column name="last_visit" var="last_visit" default="curdate()" />
 		<column name="last_ipaddress" var="last_ipaddress" default="ipaddress()" />
 		<column name="user_agent" var="user_agent" />

@@ -158,6 +158,7 @@ class Member extends ModuleObject
 
 		// Check autologin table
 		if(!$oDB->isColumnExists("member_autologin", "security_key")) return true;
+		if(!$oDB->isColumnExists("member_autologin", "previous_key")) return true;
 
 		// Check scrap folder table
 		if(!$oDB->isColumnExists("member_scrap", "folder_srl")) return true;
@@ -359,6 +360,10 @@ class Member extends ModuleObject
 		{
 			$oDB->dropTable('member_autologin');
 			$oDB->createTable($this->module_path . '/schemas/member_autologin.xml');
+		}
+		if(!$oDB->isColumnExists("member_autologin", "previous_key"))
+		{
+			$oDB->addColumn("member_autologin", "previous_key", "varchar", 80, null, false, "security_key");
 		}
 
 		// Check scrap folder table
