@@ -38,6 +38,7 @@ class ncenterliteAdminController extends ncenterlite
 			'comment_all_notify_module_srls',
 			'unsubscribe',
 			'notify_count',
+			'fcm_push_format',
 		);
 
 		if($obj->disp_act == 'dispNcenterliteAdminSkinsetting')

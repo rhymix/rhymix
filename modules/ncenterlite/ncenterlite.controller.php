@@ -1588,11 +1588,15 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$oPush = new \Rhymix\Framework\Push();
-		$oPush->setSubject($content);
-		$oPush->setContent(strval($args->extra_content));
+		if (!isset($config->fcm_push_format) || $config->fcm_push_format === 'notification')
+		{
+			$oPush->setSubject($content);
+			$oPush->setContent(strval($args->extra_content));
+		}
 		$oPush->setData($args->extra_data);
 		$oPush->setURL(strval($target_url));
 		$oPush->addTo(intval($args->member_srl));
+		var_dump($oPush);exit;
 		$output = $oPush->send();
 
 		return $output;

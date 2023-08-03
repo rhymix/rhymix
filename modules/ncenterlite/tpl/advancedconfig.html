@@ -107,6 +107,18 @@
 				<p class="x_help-block">{$lang->about_unsubscribe}</p>
 			</div>
 		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->fcm_push_format}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" name="fcm_push_format" value="notification" checked="checked"|cond="$config->fcm_push_format !== 'data'" /> {$lang->fcm_push_format_notification}
+				</label>
+				<label class="x_inline">
+					<input type="radio" name="fcm_push_format" value="data" checked="checked"|cond="$config->fcm_push_format === 'data'" /> {$lang->fcm_push_format_data}
+				</label>
+				<p class="x_help-block">{$lang->about_fcm_push_format}</p>
+			</div>
+		</div>
 	</section>
 	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
