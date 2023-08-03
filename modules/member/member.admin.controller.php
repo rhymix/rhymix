@@ -459,19 +459,8 @@ class MemberAdminController extends Member
 		}
 		$args->max_auth_sms_count = max(0, intval($args->max_auth_sms_count));
 		$args->max_auth_sms_count_time = max(0, intval($args->max_auth_sms_count_time));
-		if($args->redirect_url)
-		{
-			$oModuleModel = getModel('module');
-			$redirectModuleInfo = $oModuleModel->getModuleInfoByModuleSrl($args->redirect_url, array('mid'));
-
-			if(!$redirectModuleInfo)
-			{
-				return new BaseObject('-1', 'msg_exist_selected_module');
-			}
-
-			$args->redirect_mid = $redirectModuleInfo->mid;
-			$args->redirect_url = getNotEncodedFullUrl('','mid',$redirectModuleInfo->mid);
-		}
+		$args->redirect_mid = '';
+		$args->redirect_url = utf8_trim($args->redirect_url);
 
 		$args->phone_number_default_country = preg_replace('/[^A-Z]/', '', $args->phone_number_default_country);
 		if (!array_key_exists($args->phone_number_default_country, Rhymix\Framework\i18n::listCountries()))

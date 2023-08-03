@@ -189,22 +189,6 @@ class MemberAdminView extends Member
 	{
 		$config = $this->memberConfig;
 
-		if($config->redirect_url)
-		{
-			if(!$config->redirect_mid)
-			{
-				$mid = str_ireplace(Context::getDefaultUrl(), '', $config->redirect_url);
-			}
-			else
-			{
-				$mid = $config->redirect_mid;
-			}
-
-			$moduleInfo = ModuleModel::getModuleInfoByMid($mid);
-			$config->redirect_url = $moduleInfo->module_srl;
-			Context::set('config', $config);
-		}
-
 		$oMemberModel = getModel('member');
 		// retrieve skins of editor
 		$oEditorModel = getModel('editor');
@@ -223,6 +207,7 @@ class MemberAdminView extends Member
 		$option->editor_toolbar_hide = 'Y';
 		Context::set('editor', $oEditorModel->getEditor(0, $option));
 
+		$userIdInfo = null;
 		$signupForm = $config->signupForm;
 		foreach($signupForm as $val)
 		{
@@ -234,7 +219,7 @@ class MemberAdminView extends Member
 		}
 
 		$oSecurity = new Security();
-		if($userIdInfo->isUse)
+		if($userIdInfo && $userIdInfo->isUse)
 		{
 			// get denied ID list
 			Context::set('useUserID', 1);

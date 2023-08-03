@@ -75,8 +75,10 @@ class MemberModel extends Member
 		$config->emailhost_check = $config->emailhost_check ?? 'allowed';
 		$config->special_phone_number = $config->special_phone_number ?? null;
 		$config->special_phone_code = $config->special_phone_code ?? null;
-		$config->redirect_mid = $config->redirect_mid ?? null;
-		$config->redirect_url = $config->redirect_mid ? getNotEncodedFullUrl('', 'mid', $config->redirect_mid) : null;
+		if (!empty($config->redirect_mid))
+		{
+			$config->redirect_url = getNotEncodedFullUrl('', 'mid', $config->redirect_mid);
+		}
 		$config->phone_number_default_country = $config->phone_number_default_country ?? (Context::get('lang_type') === 'ko' ? 'KOR' : null);
 		$config->phone_number_hide_country = $config->phone_number_hide_country ?? 'N';
 		$config->phone_number_allow_duplicate = $config->phone_number_allow_duplicate ?? 'N';
