@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Push;
+use Rhymix\Framework\Drivers\PushInterface;
+
 /**
  * The FCM (Google) Push driver.
  */
-class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
+class FCM extends Base implements PushInterface
 {
 	/**
 	 * Config keys used by this driver are stored here.
@@ -44,7 +48,7 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * @param array $tokens
 	 * @return \stdClass
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens): \stdClass
+	public function send(Push $message, array $tokens): \stdClass
 	{
 		$output = new \stdClass;
 		$output->success = [];
@@ -60,27 +64,38 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 
 		// Set notification
 		$notification = $message->getMetadata();
-		$notification['title'] = $message->getSubject();
-		$notification['body'] = $message->getContent();
-		$notification['sound'] = isset($notification['sound']) ? $notification['sound'] : 'default';
+		$subject = $message->getSubject();
+		$content = $message->getContent();
+		if ($subject !== '' || $content !== '')
+		{
+			$notification['title'] = $subject;
+			$notification['body'] = $content;
+		}
+		if (count($notification))
+		{
+			$notification['sound'] = isset($notification['sound']) ? $notification['sound'] : 'default';
+		}
 
 		$chunked_token = array_chunk($tokens, 1000);
 		foreach($chunked_token as $token_unit)
 		{
-			$data = json_encode(array(
+			$data = [
 				'registration_ids' => $token_unit,
-				'notification' => $notification,
 				'priority' => 'normal',
 				'data' => $message->getData() ?: new \stdClass,
-			));
-
-			$response = \FileHandler::getRemoteResource($url, $data, 5, 'POST', 'application/json', $headers);
-			if($response)
+			];
+			if (count($notification))
 			{
-				$decoded_response = json_decode($response);
+				$data['notification'] = $notification;
+			}
+
+			$response = HTTP::request($url, 'POST', json_encode($data), $headers);
+			if($response->getStatusCode() === 200)
+			{
+				$decoded_response = json_decode($response->getBody());
 				if(!$decoded_response)
 				{
-					$message->addError('FCM return invalid json : '. $response);
+					$message->addError('FCM error: Invalid Response: '. $response);
 					return $output;
 				}
 				$results = $decoded_response->results ?: [];
@@ -88,7 +103,7 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 				{
 					if($result->error)
 					{
-						$message->addError('FCM error code: '. $result->error);
+						$message->addError('FCM error: '. $result->error);
 						$output->invalid[$token_unit[$i]] = $token_unit[$i];
 					}
 					else if($result->message_id && $result->registration_id)
@@ -103,7 +118,7 @@ class FCM extends Base implements \Rhymix\Framework\Drivers\PushInterface
 			}
 			else
 			{
-				$message->addError('FCM return empty response.');
+				$message->addError('FCM error: HTTP ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase());
 			}
 		}
 		return $output;
