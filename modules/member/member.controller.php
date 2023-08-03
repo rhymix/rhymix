@@ -2220,6 +2220,7 @@ class MemberController extends Member
 			$args->autologin_key = $autologin_key;
 			$args->security_key = $new_hash;
 			$args->previous_key = $output->data->security_key;
+			$args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$update_output = executeQuery('member.updateAutologin', $args);
 			if ($update_output->toBool())
 			{
@@ -2230,6 +2231,7 @@ class MemberController extends Member
 		{
 			$args = new stdClass;
 			$args->autologin_key = $autologin_key;
+			$args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$update_output = executeQuery('member.updateAutologin', $args);
 		}
 
