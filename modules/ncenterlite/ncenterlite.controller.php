@@ -1596,7 +1596,6 @@ class ncenterliteController extends ncenterlite
 		$oPush->setData($args->extra_data);
 		$oPush->setURL(strval($target_url));
 		$oPush->addTo(intval($args->member_srl));
-		var_dump($oPush);exit;
 		$output = $oPush->send();
 
 		return $output;
