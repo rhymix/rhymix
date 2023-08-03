@@ -18,7 +18,7 @@
 		<tr>
 			<td>{$val->target_nick_name}</td>
 			<td cond="$member_info->member_srl">{$member_info->nick_name}</td> <td cond="!$member_info->member_srl">{$lang->ncenterlite_no_target}</td>
-			<td><a href="{$val->target_url}">{$val->text}</a></td>
+			<td><a href="{$val->readed === 'Y' ? $val->target_url : $val->url}">{$val->text}</a></td>
 			<td>
 				<span class="history-auth" cond="$val->readed=='Y'">{$lang->ncenterlite_read_y}</span>
 				<span class="history-auth" cond="$val->readed=='N'">{$lang->ncenterlite_read_n}</span>
@@ -35,10 +35,10 @@
 
 <div class="pagination pagination-centered">
 	<ul>
-		<li><a href="{getUrl('page','')}" class="direction">&laquo; {$lang->first_page}</a></li> 
+		<li><a href="{getUrl('page','')}" class="direction">&laquo; {$lang->first_page}</a></li>
 		<!--@if($page_navigation)-->
 		<!--@while($page_no = $page_navigation->getNextPage())-->
-		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li> 
+		<li class="active"|cond="$page == $page_no"><a href="{getUrl('page',$page_no)}">{$page_no}</a></li>
 		<!--@end-->
 		<!--@end-->
 		<li><a href="{getUrl('page',$page_navigation->last_page)}" class="direction">{$lang->last_page} &raquo;</a></li>
