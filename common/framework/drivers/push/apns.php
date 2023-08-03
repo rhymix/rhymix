@@ -2,10 +2,13 @@
 
 namespace Rhymix\Framework\Drivers\Push;
 
+use Rhymix\Framework\Push;
+use Rhymix\Framework\Drivers\PushInterface;
+
 /**
  * The APNs (Apple) Push driver.
  */
-class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
+class APNs extends Base implements PushInterface
 {
 	/**
 	 * Config keys used by this driver are stored here.
@@ -44,7 +47,7 @@ class APNs extends Base implements \Rhymix\Framework\Drivers\PushInterface
 	 * @param array $tokens
 	 * @return \stdClass
 	 */
-	public function send(\Rhymix\Framework\Push $message, array $tokens): \stdClass
+	public function send(Push $message, array $tokens): \stdClass
 	{
 		$output = new \stdClass;
 		$output->success = [];
