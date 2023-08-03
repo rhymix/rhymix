@@ -7,7 +7,7 @@
 	<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/skins'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 		<p>{$XE_VALIDATOR_MESSAGE}</p>
 	</div>
-    <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal">
+    <form ruleset="@insertMember" id="fo_insert_member" action="./" method="post" enctype="multipart/form-data" class="form-horizontal rx_ajax">
 		<input type="hidden" name="act" value="procMemberInsert" />
 		<input type="hidden" name="xe_validator_id" value="modules/member/skins" />
 		<input type="hidden" name="success_return_url" value="" />
