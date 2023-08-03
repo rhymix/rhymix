@@ -1,13 +1,14 @@
 <query id="getMidInfo" action="select">
-    <tables>
-        <table name="modules" />
-    </tables>
-    <columns>
-        <column name="*" />
-    </columns>
-    <conditions>
-        <condition operation="equal" column="mid" var="mid" />
-        <condition operation="equal" column="module_srl" var="module_srl" pipe="and" />
-        <condition operation="equal" column="domain_srl" var="domain_srl" pipe="and" />
-    </conditions>
+	<tables>
+		<table name="modules" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="mid" var="mid" />
+	<condition operation="like_prefix" column="mid" var="mid_prefix" />
+		<condition operation="equal" column="module_srl" var="module_srl" pipe="and" />
+		<condition operation="equal" column="domain_srl" var="domain_srl" pipe="and" />
+	</conditions>
 </query>

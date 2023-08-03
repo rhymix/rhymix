@@ -530,6 +530,37 @@ class ModuleModel extends Module
 	}
 
 	/**
+	 * Get the next available mid with the given prefix.
+	 *
+	 * @param string $prefix
+	 * @return string
+	 */
+	public static function getNextAvailableMid($prefix)
+	{
+		$prefix = trim($prefix);
+		if (!$prefix)
+		{
+			return '';
+		}
+
+		$args = new stdClass;
+		$args->mid_prefix = $prefix;
+		$output = executeQueryArray('module.getMidInfo', $args, ['mid']);
+
+		$max = 0;
+		$len = strlen($prefix);
+		foreach ($output->data as $info)
+		{
+			$suffix = substr($info->mid, $len);
+			if (ctype_digit($suffix))
+			{
+				$max = max($max, intval($suffix));
+			}
+		}
+		return $prefix . ($max + 1);
+	}
+
+	/**
 	 * @brief Get a complete list of mid, which is created in the DB
 	 */
 	public static function getMidList($args = null, $columnList = array())

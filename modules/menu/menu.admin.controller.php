@@ -674,8 +674,7 @@ class menuAdminController extends menu
 		// if mid is empty, auto create mid
 		if(!$request->module_id)
 		{
-			$randomMid = $this->_makeRandomMid();
-			$request->module_id = $cmArgs->module.'_'.$randomMid;
+			$request->module_id = ModuleModel::getNextAvailableMid($cmArgs->module);
 		}
 		$cmArgs->mid = $request->module_id;
 
@@ -1261,8 +1260,7 @@ class menuAdminController extends menu
 			$moduleInfo = $oModuleModel->getModuleInfoByMid($originMenu['url']);
 
 			$args->module_type = $moduleInfo->module;
-			$randomMid = $this->_makeRandomMid();
-			$args->module_id = $moduleInfo->module.'_'.$randomMid;
+			$args->module_id = ModuleModel::getNextAvailableMid($moduleInfo->module);
 			$args->layout_srl = $moduleInfo->layout_srl;
 
 			$oModuleAdminController = getAdminController('module');
@@ -1327,22 +1325,6 @@ class menuAdminController extends menu
 		{
 			$this->_copyMenu($menuSrl, $insertedMenuItemSrl, $childMenu);
 		}
-	}
-
-	private function _makeRandomMid()
-	{
-		$time = $_SERVER['REQUEST_TIME'];
-		$randomString = "";
-		for($i=0;$i<4;$i++)
-		{
-			$case = rand(0, 1);
-			if($case) $doc = rand(65, 90);
-			else $doc = rand(97, 122);
-
-			$randomString .= chr($doc);
-		}
-
-		return $randomString.substr($time, -2);
 	}
 
 	/**
