@@ -857,42 +857,46 @@ class MemberController extends Member
 		// Register device
 		Rhymix\Modules\Member\Controllers\Device::getInstance()->autoRegisterDevice($args->member_srl, false);
 
-		// Results
-		$this->add('member_srl', $args->member_srl);
-		if($config->redirect_url) $this->add('redirect_url', $config->redirect_url);
-		if($config->enable_confirm == 'Y')
-		{
-			$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
-			$this->setMessage($msg);
-			return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), new BaseObject(-12, $msg));
-		}
-		else $this->setMessage('success_registed');
-
 		// Call a trigger (after)
+		$this->add('member_srl', $args->member_srl);
 		ModuleHandler::triggerCall('member.procMemberInsert', 'after', $config);
-
 		self::clearMemberCache($args->member_srl);
 
 		// Redirect
-		if ($config->redirect_url)
+		if($config->redirect_url)
 		{
-			$returnUrl = $config->redirect_url;
+			$this->setRedirectUrl($config->redirect_url);
+			if ($config->enable_confirm === 'Y')
+			{
+				$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
+				return new BaseObject(-12, $msg);
+			}
 		}
-		elseif (Context::get('success_return_url'))
+		elseif($config->enable_confirm === 'Y')
 		{
-			$returnUrl = Context::get('success_return_url');
-		}
-		elseif (isset($_SESSION['member_auth_referer']))
-		{
-			$returnUrl = $_SESSION['member_auth_referer'];
-			unset($_SESSION['member_auth_referer']);
+			$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberLoginForm'));
+			$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
+			return new BaseObject(-12, $msg);
 		}
 		else
 		{
-			$returnUrl = getNotEncodedUrl('');
-		}
+			$this->setMessage('success_registed');
 
-		$this->setRedirectUrl($returnUrl);
+			if (Context::get('success_return_url'))
+			{
+				$this->setRedirectUrl(Context::get('success_return_url'));
+			}
+			elseif (isset($_SESSION['member_auth_referer']))
+			{
+				$redirect_url = $_SESSION['member_auth_referer'];
+				unset($_SESSION['member_auth_referer']);
+				$this->setRedirectUrl($redirect_url);
+			}
+			else
+			{
+				$this->setRedirectUrl(getNotEncodedUrl(''));
+			}
+		}
 	}
 
 	function procMemberModifyInfoBefore()
