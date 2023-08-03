@@ -868,15 +868,13 @@ class MemberController extends Member
 			$this->setRedirectUrl($config->redirect_url);
 			if ($config->enable_confirm === 'Y')
 			{
-				$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
-				return new BaseObject(-12, $msg);
+				$this->setMessage(sprintf(lang('msg_confirm_mail_sent'), $args->email_address));
 			}
 		}
 		elseif($config->enable_confirm === 'Y')
 		{
 			$this->setRedirectUrl(getNotEncodedUrl('', 'act', 'dispMemberLoginForm'));
-			$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
-			return new BaseObject(-12, $msg);
+			$this->setMessage(sprintf(lang('msg_confirm_mail_sent'), $args->email_address));
 		}
 		else
 		{
