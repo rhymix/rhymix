@@ -1148,25 +1148,19 @@ class ncenterliteController extends ncenterlite
 
 		$config = NcenterliteModel::getConfig();
 
-		if($config->user_config_list == 'Y')
+		if($config->user_config_list == 'Y' && Context::get('is_logged'))
 		{
-			$logged_info = Context::get('logged_info');
-			if(!Context::get('is_logged'))
-			{
-				return;
-			}
-			$target_srl = Context::get('target_srl');
-
 			$oMemberController->addMemberMenu('dispNcenterliteNotifyList', 'ncenterlite_my_list');
+
+			if($config->user_notify_setting == 'Y')
+			{
+				$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
+			}
+
 			if($config->unsubscribe == 'Y')
 			{
 				$oMemberController->addMemberMenu('dispNcenterliteUnsubscribeList', 'unsubscribe_list');
 			}
-		}
-
-		if($config->user_notify_setting == 'Y')
-		{
-			$oMemberController->addMemberMenu('dispNcenterliteUserConfig', 'ncenterlite_my_settings');
 		}
 	}
 
