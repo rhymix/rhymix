@@ -51,6 +51,13 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
 		$this->assertEquals($timestamp, ztime('20160129015320'));
 
+		// Test ztime() with alternative formats.
+		$this->assertEquals(1576555660, ztime('2019-12-17 13:07:40'));
+		$this->assertEquals(1576555660, ztime('2019-12-17T13:07:40+09:00'));
+		$this->assertEquals(1576555660, ztime('2019-12-17T02:07:40-02:00'));
+		$this->assertEquals(1576555640, ztime('20191217130720'));
+		$this->assertEquals(1576555620, ztime('201912171307'));
+
 		// Restore the internal timezone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
 	}
@@ -79,7 +86,7 @@ class DateTimeTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
 		$this->assertEquals($expected, zdate('20160128195320'));
 		$this->assertEquals($expected, zdate('2016-01-28 19:53:20'));
-		$this->assertEquals($expected, zdate('2016-01-28T23:53:20-07:00'));
+		$this->assertEquals($expected, zdate('2016-01-28T09:53:20-07:00'));
 		$this->assertEquals($expected, zdate('2016-01-28 21:23:20+04:30'));
 
 		// Test zdate() when the internal time zone is the same as the default time zone.

@@ -526,7 +526,7 @@ function ztime($str)
 	{
 		return intval($str);
 	}
-	elseif ($len >= 19 && preg_match('/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})(?:[+-](\d{2}):(\d{2}))?/', $str, $matches))
+	elseif ($len >= 19 && preg_match('/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})(?:([+-])(\d{2}):(\d{2}))?/', $str, $matches))
 	{
 		$has_time = true;
 		$year = intval($matches[1], 10);
@@ -538,7 +538,8 @@ function ztime($str)
 		if (isset($matches[7]))
 		{
 			$has_offset = true;
-			$offset = (intval($matches[7], 10) * 3600) + (intval($matches[8], 10) * 60);
+			$offset = (intval($matches[8], 10) * 3600) + (intval($matches[9], 10) * 60);
+			$offset = $offset * (($matches[7] === '+') ? 1 : -1);
 		}
 		else
 		{
@@ -546,7 +547,7 @@ function ztime($str)
 			$offset = 0;
 		}
 	}
-	elseif (preg_match('/^(\d{4})(\d{2})(\d{2})(?:(\d{2})(\d{2})(\d{2}))?$/', $str, $matches))
+	elseif (preg_match('/^(\d{4})(\d{2})(\d{2})(?:(\d{2})(\d{2})?(\d{2})?)?$/', $str, $matches))
 	{
 		$year = intval($matches[1], 10);
 		$month = intval($matches[2], 10);
@@ -555,9 +556,9 @@ function ztime($str)
 		{
 			$has_time = true;
 			$hour = intval($matches[4], 10);
-			$min = intval($matches[5], 10);
-			$sec = intval($matches[6], 10);
-			}
+			$min = intval($matches[5] ?? 0, 10);
+			$sec = intval($matches[6] ?? 0, 10);
+		}
 		else
 		{
 			$has_time = false;
@@ -573,14 +574,7 @@ function ztime($str)
 	$timestamp = gmmktime($hour, $min, $sec, $month, $day, $year);
 	if (!$has_offset)
 	{
-		if ($has_time)
-		{
-			$offset = Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
-		}
-		else
-		{
-			$offset = 0;
-		}
+		$offset = $has_time ? (Rhymix\Framework\Config::get('locale.internal_timezone') ?: date('Z', $timestamp)) : 0;
 	}
 	return $timestamp - $offset;
 }
