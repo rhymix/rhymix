@@ -1347,29 +1347,21 @@ class MemberAdminController extends Member
 		}
 
 		// Check the value of is_default.
-		if($args->is_default != 'Y')
-		{
-			$args->is_default = 'N';
-		}
-		else
+		$args->is_default = $args->is_default ?? 'N';
+		if($args->is_default === 'Y')
 		{
 			$output = executeQuery('member.updateGroupDefaultClear', $args);
 			if(!$output->toBool()) return $output;
 		}
-
-		if(!isset($args->list_order) || $args->list_order=='')
-		{
-			$args->list_order = $args->group_srl;
-		}
-
-		if(!$args->group_srl) $args->group_srl = getNextSequence();
-		$args->list_order = $args->group_srl;
+		if(empty($args->group_srl)) $args->group_srl = getNextSequence();
+		$args->list_order = $args->list_order ?? $args->group_srl;
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache();
 
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.insertGroup', 'after', $args);
 
+		$output->add('group_srl', $args->group_srl);
 		return $output;
 	}
 
