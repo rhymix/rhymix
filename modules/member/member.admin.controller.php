@@ -788,7 +788,7 @@ class MemberAdminController extends Member
 		$output = $this->insertGroup($args);
 		if(!$output->toBool()) return $output;
 
-		$this->add('group_srl','');
+		$this->add('group_srl', $output->get('group_srl'));
 		$this->add('page',Context::get('page'));
 		$this->setMessage('success_registed');
 
