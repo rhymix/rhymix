@@ -1353,7 +1353,7 @@ class MemberAdminController extends Member
 			$output = executeQuery('member.updateGroupDefaultClear', $args);
 			if(!$output->toBool()) return $output;
 		}
-		if(empty($args->group_srl)) $args->group_srl = getNextSequence();
+		$args->group_srl = !empty($args->group_srl) ? $args->group_srl : getNextSequence();
 		$args->list_order = $args->list_order ?? $args->group_srl;
 		$output = executeQuery('member.insertGroup', $args);
 		$this->_deleteMemberGroupCache();
@@ -1372,7 +1372,10 @@ class MemberAdminController extends Member
 	 */
 	function updateGroup($args)
 	{
-		if(!$args->group_srl) throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		if(!$args->group_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
 
 		// Call trigger (before)
 		$trigger_output = ModuleHandler::triggerCall('member.updateGroup', 'before', $args);
@@ -1382,11 +1385,8 @@ class MemberAdminController extends Member
 		}
 
 		// Check the value of is_default.
-		if($args->is_default!='Y')
-		{
-			$args->is_default = 'N';
-		}
-		else
+		$args->is_default = $args->is_default ?? 'N';
+		if($args->is_default === 'Y')
 		{
 			$output = executeQuery('member.updateGroupDefaultClear', $args);
 			if(!$output->toBool()) return $output;
