@@ -1346,6 +1346,9 @@ class MemberAdminController extends Member
 			return $trigger_output;
 		}
 
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Check the value of is_default.
 		$args->is_default = $args->is_default ?? 'N';
 		if($args->is_default === 'Y')
@@ -1355,7 +1358,17 @@ class MemberAdminController extends Member
 		}
 		$args->group_srl = !empty($args->group_srl) ? $args->group_srl : getNextSequence();
 		$args->list_order = $args->list_order ?? $args->group_srl;
+
 		$output = executeQuery('member.insertGroup', $args);
+		if ($output->toBool())
+		{
+			$oDB->commit();
+		}
+		else
+		{
+			$oDB->rollback();
+		}
+
 		$this->_deleteMemberGroupCache();
 
 		// Call trigger (after)
@@ -1384,6 +1397,9 @@ class MemberAdminController extends Member
 			return $trigger_output;
 		}
 
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Check the value of is_default.
 		$args->is_default = $args->is_default ?? 'N';
 		if($args->is_default === 'Y')
@@ -1393,6 +1409,15 @@ class MemberAdminController extends Member
 		}
 
 		$output = executeQuery('member.updateGroup', $args);
+		if ($output->toBool())
+		{
+			$oDB->commit();
+		}
+		else
+		{
+			$oDB->rollback();
+		}
+
 		$this->_deleteMemberGroupCache();
 
 		// Call trigger (after)
