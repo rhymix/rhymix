@@ -802,8 +802,6 @@ class MemberAdminController extends Member
 	 */
 	function procMemberAdminUpdateGroup()
 	{
-		$group_srl = Context::get('group_srl');
-
 		$args = Context::gets('group_srl','title','description','is_default','image_mark');
 		$output = $this->updateGroup($args);
 		if(!$output->toBool()) return $output;
