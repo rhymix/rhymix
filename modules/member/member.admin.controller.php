@@ -1358,6 +1358,8 @@ class MemberAdminController extends Member
 		}
 		$args->group_srl = !empty($args->group_srl) ? $args->group_srl : getNextSequence();
 		$args->list_order = $args->list_order ?? $args->group_srl;
+		$args->title = escape($args->title);
+		$args->description = escape($args->description);
 
 		$output = executeQuery('member.insertGroup', $args);
 		if ($output->toBool())
@@ -1407,6 +1409,8 @@ class MemberAdminController extends Member
 			$output = executeQuery('member.updateGroupDefaultClear', $args);
 			if(!$output->toBool()) return $output;
 		}
+		$args->title = isset($args->title) ? escape($args->title) : null;
+		$args->description = isset($args->description) ? escape($args->description) : null;
 
 		$output = executeQuery('member.updateGroup', $args);
 		if ($output->toBool())
