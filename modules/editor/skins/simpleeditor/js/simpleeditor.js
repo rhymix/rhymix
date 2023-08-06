@@ -1,7 +1,7 @@
 "use strict";
 
 (function($) {
-	
+
 	// Save the cursor position.
 	var ranges = [];
 	var saveSelection = function() {
@@ -13,7 +13,7 @@
 			}
 		}
 	};
-	
+
 	// Insert content at cursor position.
 	var insertContent = function(instance, content) {
 		if (content.match(/<(audio|video)\b[^>]+>(<\/p>)?/)) {
@@ -38,7 +38,7 @@
 			document.execCommand('insertHTML', false, content);
 		}
 	};
-	
+
 	// Simplify HTML content by removing unnecessary tags.
 	var simplifyContent = function(str) {
 		str = String(str);
@@ -51,18 +51,18 @@
 		}
 		return str;
 	};
-	
+
 	// Convert YouTube links.
 	var convertYouTube = function(str) {
-		var regexp = /https?:\/\/(www\.youtube(?:-nocookie)?\.com\/(?:watch\?v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)\S*/g;
-		var embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p></p>';
+		var regexp = /(?<!src=")https?:\/\/(www\.youtube(?:-nocookie)?\.com\/(?:watch\?v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)\S*/g;
+		var embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p></p>';
 		return String(str).replace(regexp, embed);
 	};
-	
+
 	// Page load event handler.
 	$(function() {
 		$('.rx_simpleeditor').each(function() {
-			
+
 			// Load editor info.
 			var editor = $(this);
 			var editor_sequence = editor.data('editor-sequence');
@@ -74,17 +74,17 @@
 			if (editor_height) {
 				editor.css('height', editor_height + 'px');
 			}
-			
+
 			// Set editor sequence and other info to the form.
 			insert_form[0].setAttribute('editor_sequence', editor_sequence);
 			editorRelKeys[editor_sequence] = {};
 			editorRelKeys[editor_sequence].primary = insert_form.find("input[name='" + primary_key + "']").get(0);
 			editorRelKeys[editor_sequence].content = content_input;
 			editorRelKeys[editor_sequence].func = editorGetContent;
-			
+
 			// Force <p> as paragraph separator.
 			document.execCommand('defaultParagraphSeparator', false, 'p');
-			
+
 			// Capture some simple keyboard shortcuts.
 			editor.on('keydown', function(event) {
 				if (!event.ctrlKey) {
@@ -104,12 +104,12 @@
 					event.preventDefault();
 				}
 			});
-			
+
 			// Save cursor position on moseup & keyup.
 			editor.on('mouseup keyup', function() {
 				saveSelection();
 			});
-			
+
 			// Clean up pasted content.
 			editor.on('paste', function(event) {
 				var clipboard_data = (event.clipboardData || window.clipboardData || event.originalEvent.clipboardData);
@@ -125,12 +125,12 @@
 				insertContent(editor, content);
 				event.preventDefault();
 			});
-			
+
 			// Load existing content.
 			if (content_input.size()) {
 				editor.html(content_input.val());
 			}
-			
+
 			// Copy edited content to the actual input element.
 			editor.on('input blur mouseup keyup', function() {
 				var content = simplifyContent(editor.html());
@@ -138,7 +138,7 @@
 			});
 		});
 	});
-	
+
 	// Simulate CKEditor for file upload integration.
 	window._getCkeInstance = function(editor_sequence) {
 		var instance = $('#simpleeditor_instance_' + editor_sequence);
@@ -154,5 +154,5 @@
 			}
 		};
 	};
-	
+
 })(jQuery);
