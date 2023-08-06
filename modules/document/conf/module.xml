@@ -7,12 +7,13 @@
 		<action name="dispTempSavedList" type="view" permission="member" meta-noindex="true" />
 		<action name="dispDocumentDeclare" type="view" permission="member" meta-noindex="true" />
 		<action name="dispDocumentManageDocument" type="view" permission="all-managers" meta-noindex="true" />
-		
+
 		<action name="getDocumentMenu" type="model" />
 		<action name="getDocumentCategories" type="model" permission="all-managers" />
+		<action name="getDocumentCategoryTree" type="model" permission="all-managers" />
 		<action name="getDocumentCategoryTplInfo" type="model" permission="manager" check_var="module_srl" />
 		<action name="getDocumentVotedMemberList" type="model" permission="root" />
-		
+
 		<action name="procDocumentVoteUp" type="controller" />
 		<action name="procDocumentVoteUpCancel" type="controller" />
 		<action name="procDocumentVoteDown" type="controller" />
@@ -29,14 +30,14 @@
 		<action name="procDocumentDeleteCategory" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procDocumentMoveCategory" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procDocumentMakeXmlFile" type="controller" permission="manager" check_var="module_srl" />
-		
+
 		<action name="dispDocumentAdminList" type="view" admin_index="true" menu_name="document" menu_index="true" />
 		<action name="dispDocumentAdminConfig" type="view" menu_name="document" />
 		<action name="dispDocumentAdminDeclared" type="view" menu_name="document" />
 		<action name="dispDocumentAdminDeclaredLogByDocumentSrl" type="view" menu_name="document" />
 		<action name="dispDocumentAdminAlias" type="view" menu_name="document" />
 		<action name="dispDocumentAdminTrashList" type="view" menu_name="document" />
-		
+
 		<action name="procDocumentAdminDeleteChecked" type="controller" />
 		<action name="procDocumentAdminInsertConfig" type="controller" />
 		<action name="procDocumentAdminDeleteAllThumbnail" type="controller" />

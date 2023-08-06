@@ -965,6 +965,27 @@ class DocumentModel extends Document
 	}
 
 	/**
+	 * Get category list in tree format
+	 */
+	public function getDocumentCategoryTree()
+	{
+		$module_srl = Context::get('module_srl');
+		if ($module_srl <= 0)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		$filename = self::getCategoryPhpFile($module_srl);
+		if (!$filename)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
+		include $filename;
+
+		$this->add('categories', $menu->list ?? []);
+	}
+
+	/**
 	 * Wanted to set document information
 	 * @return object
 	 */
@@ -1003,10 +1024,6 @@ class DocumentModel extends Document
 	 */
 	public function getCategoryHTML($module_srl)
 	{
-		$category_xml_file = self::getCategoryXmlFile($module_srl);
-
-		Context::set('category_xml_file', $category_xml_file);
-
 		Context::loadJavascriptPlugin('ui.tree');
 
 		// Get a list of member groups

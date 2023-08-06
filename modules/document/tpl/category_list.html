@@ -25,10 +25,10 @@
 	var simpleTreeCollection;
 	var max_menu_depth = 999;
 	var lang_confirm_delete = "{$lang->confirm_delete}";
-	var xml_url = "{$category_xml_file}";
+	var category_module_srl = "{$module_info->module_srl}";
 
 	jQuery(function($){
-		Tree(xml_url);
+		Tree(category_module_srl);
 	});
 </script>
 
@@ -37,7 +37,6 @@
 		<input type="hidden" name="module" value="document" />
 		<input type="hidden" name="act" value="procDocumentInsertCategory" />
 		<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-		<input type="hidden" name="xml_file" value="{$category_xml_file}" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 		<input type="hidden" name="parent_srl" value="{$category_info->parent_srl}" />
 		<input type="hidden" name="category_srl" value="{$category_info->category_srl}" />

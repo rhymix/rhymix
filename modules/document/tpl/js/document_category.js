@@ -4,8 +4,7 @@
  * @brief  document 모듈의 category tree javascript
  **/
 
-function Tree(url){
-	var $ = jQuery;
+function Tree(category_module_srl) {
 
     // clear tree;
     $('#menu > ul > li > ul').remove();
@@ -20,13 +19,14 @@ function Tree(url){
 	}
 
     //ajax get data and transeform ul il
-    $.get(url,function(data){
-        $(data).find("node").each(function(i){
-            var text = $(this).attr("text");
-            var node_srl = $(this).attr("node_srl");
-            var parent_srl = $(this).attr("parent_srl");
-            var color = $(this).attr("color");
-            var url = $(this).attr("url");
+    exec_json('document.getDocumentCategoryTree', { module_srl: category_module_srl }, function(data) {
+        var callback;
+		callback = function(item) {
+            var text = item.text;
+            var node_srl = item.node_srl;
+            var parent_srl = item.parent_srl;
+            var color = item.color;
+            var url = item.url;
 
             // node
             var node = '';
@@ -73,7 +73,17 @@ function Tree(url){
                 $('#menu ul.simpleTree > li > ul').append(node);
             }
 
-        });
+			// look for children
+			if (item.list) {
+				item.list.forEach(function(child) {
+					callback(child);
+				});
+			}
+		};
+
+		data.categories.forEach(function(item) {
+			callback(item);
+		});
 
         //button show hide
         $("#menu li").each(function(){
@@ -94,7 +104,7 @@ function Tree(url){
             },
             afterMove:function(destination, source, pos){
                 if(destination.size() == 0){
-                    Tree(xml_url);
+                    Tree(category_module_srl);
                     return;
                 }
                 var module_srl = $("#fo_category input[name=module_srl]").val();
@@ -111,7 +121,7 @@ function Tree(url){
                 $.exec_json("document.procDocumentMoveCategory",{ "module_srl":module_srl,"parent_srl":parent_srl,"target_srl":target_srl,"source_srl":source_srl},
                 function(data){
                     $('#category_info').html('');
-                   if(data.error > 0) Tree(xml_url);
+                   if(data.error > 0) Tree(category_module_srl);
                 });
 
             },
@@ -133,12 +143,10 @@ function Tree(url){
             ,docToFolderConvert:true
         });
 
-
-
         // open all node
         nodeToggleAll();
 
-    },"xml");
+    });
 }
 
 function clearValue(){
@@ -223,8 +231,8 @@ function deleteNode(node){
                 ,"module_srl":jQuery("#fo_category [name=module_srl]").val()
                 };
 
-        jQuery.exec_json('document.procDocumentDeleteCategory', params, function(data){
-            if(data.error==0) Tree(xml_url);
+        exec_json('document.procDocumentDeleteCategory', params, function(data){
+            if(data.error==0) Tree(category_module_srl);
         });
     }
 }
@@ -232,7 +240,7 @@ function deleteNode(node){
 /* 카테고리 아이템 입력후 */
 function completeInsertCategory(ret_obj) {
     jQuery('#category_info').html("");
-    Tree(xml_url);
+    Tree(category_module_srl);
 }
 
 function hideCategoryInfo() {
@@ -241,9 +249,5 @@ function hideCategoryInfo() {
 
 /* 카테고리 목록 갱신 */
 function doReloadTreeCategory(module_srl) {
-    var params = {'module_srl':module_srl};
-
-    // 서버에 요청하여 해당 노드의 정보를 수정할 수 있도록 한다.
-    var response_tags = new Array('error','message', 'xml_file');
-    exec_xml('document', 'procDocumentMakeXmlFile', params, completeInsertCategory, response_tags, params);
+    exec_json('document.procDocumentMakeXmlFile', { module_srl: module_srl }, completeInsertCategory);
 }
