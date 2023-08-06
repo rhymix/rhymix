@@ -659,9 +659,9 @@ class ModuleController extends Module
 			$args->is_force = 'N';
 
 			$oMenuAdminController = getAdminController('menu');
-			$output = $oMenuAdminController->deleteItem($args);
+			$output = $oMenuAdminController->deleteItem($args, true);
 
-			if($output->isSuccess)
+			if($output->toBool())
 			{
 				return new BaseObject(0, 'success_deleted');
 			}
