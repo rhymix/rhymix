@@ -106,6 +106,9 @@ class MessageView extends Message
 	{
 		$regexp_list = [
 			'/Class [\'"]Object[\'"] not found/' => 'baseobject',
+			'/Undefined constant [\'"][^\'"]+?[\'"]/' => 'undef_constant',
+			'/Attempt to assign property [\'"][^\'"]+?[\'"] on null/' => 'undef_object',
+			'/Argument #\d+ \(\$\w+\) must be of type (Countable\|)?array, \w+ given ?/' => 'not_array',
 		];
 
 		foreach ($regexp_list as $regexp => $key)
