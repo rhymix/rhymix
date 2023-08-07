@@ -55,7 +55,7 @@ class integration_searchAdminView extends integration_search
 		// module_category and module combination
 		if($module_categories) {
 		foreach($mid_list as $module_srl => $module) {
-		$module_categories[$module->module_category_srl]->list[$module_srl] = $module; 
+		$module_categories[$module->module_category_srl]->list[$module_srl] = $module;
 		}
 		} else {
 		$module_categories[0]->list = $mid_list;
@@ -67,7 +67,13 @@ class integration_searchAdminView extends integration_search
 		$security->encodeHTML('skin_list..title', 'mskin_list..title');
 
 		// Sample Code
-		Context::set('sample_code', htmlspecialchars('<form action="{getUrl()}" method="get"><input type="hidden" name="vid" value="{$vid}" /><input type="hidden" name="mid" value="{$mid}" /><input type="hidden" name="act" value="IS" /><input type="text" name="is_keyword"  value="{$is_keyword}" /><input class="btn" type="submit" value="{$lang->cmd_search}" /></form>', ENT_COMPAT | ENT_HTML401, 'UTF-8', false) );
+		Context::set('sample_code', escape(
+			'<form action="{\RX_BASEURL}" method="GET">' . PHP_EOL .
+			'  <input type="hidden" name="mid" value="{$mid}" />' . PHP_EOL .
+			'  <input type="hidden" name="act" value="IS" />' . PHP_EOL .
+			'  <input type="text" name="is_keyword"  value="{$is_keyword}" />' . PHP_EOL .
+			'  <input type="submit" value="{$lang->cmd_search}" />' . PHP_EOL .
+			'</form>'));
 
 		$this->setTemplateFile("index");
 	}
