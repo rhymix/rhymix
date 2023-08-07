@@ -628,24 +628,30 @@ class Debug
 		}
 
 		// Add the exception to the error log.
-
 		if ($caller_errfile && $caller_errfile !== $errfile)
 		{
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d (via %s on line %d)',
 				get_class($e), $e->getCode(), $e->getMessage(), $caller_errfile, $caller_errline, $errfile, $e->getLine()));
+			$friendly_entry = $log_entry;
 		}
 		else
 		{
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d',
 				get_class($e), $e->getCode(), $e->getMessage(), $errfile, $e->getLine()));
+			$friendly_entry = $log_entry;
+			if ($e->getMessage() === 'Class "Object" not found')
+			{
+				$friendly_entry .= "\n\n" . lang('msg_baseobject_fix');
+			}
 		}
+
 		if (!isset(self::$_config['write_error_log']) || self::$_config['write_error_log'] !== 'none')
 		{
 			error_log('PHP Exception: ' . $log_entry . \PHP_EOL . self::formatBacktrace($e->getTrace()));
 		}
 
 		// Display the error screen.
-		self::displayErrorScreen($log_entry);
+		self::displayErrorScreen($friendly_entry);
 		exit;
 	}
 
