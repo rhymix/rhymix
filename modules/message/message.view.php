@@ -8,16 +8,9 @@
 class MessageView extends Message
 {
 	/**
-	 * @brief Initialization
-	 */
-	function init()
-	{
-	}
-
-	/**
 	 * @brief Display messages
 	 */
-	function dispMessage($detail = null, $location = null)
+	public function dispMessage($detail = null, $location = null)
 	{
 		// Get skin configuration
 		$config = ModuleModel::getModuleConfig('message') ?: new stdClass;
@@ -79,6 +72,7 @@ class MessageView extends Message
 		Context::set('ssl_mode', \RX_SSL);
 		Context::set('system_message', nl2br($this->getMessage()));
 		Context::set('system_message_detail', nl2br($detail));
+		Context::set('system_message_help', self::getErrorHelp($detail));
 		Context::set('system_message_location', escape($location));
 
 		if ($this->getError())
@@ -100,6 +94,29 @@ class MessageView extends Message
 		{
 			$this->setHttpStatusCode(403);
 		}
+	}
+
+	/**
+	 * Get friendly help message for common types of errors.
+	 *
+	 * @param string $error_message
+	 * @return string
+	 */
+	public static function getErrorHelp(string $error_message): string
+	{
+		$regexp_list = [
+			'/Class [\'"]Object[\'"] not found/' => 'baseobject',
+		];
+
+		foreach ($regexp_list as $regexp => $key)
+		{
+			if (preg_match($regexp, $error_message))
+			{
+				return lang('message.error_help.' . $key);
+			}
+		}
+
+		return '';
 	}
 }
 /* End of file message.view.php */

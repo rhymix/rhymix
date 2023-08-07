@@ -632,17 +632,11 @@ class Debug
 		{
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d (via %s on line %d)',
 				get_class($e), $e->getCode(), $e->getMessage(), $caller_errfile, $caller_errline, $errfile, $e->getLine()));
-			$friendly_entry = $log_entry;
 		}
 		else
 		{
 			$log_entry = str_replace("\0", '', sprintf('%s #%d "%s" in %s on line %d',
 				get_class($e), $e->getCode(), $e->getMessage(), $errfile, $e->getLine()));
-			$friendly_entry = $log_entry;
-			if ($e->getMessage() === 'Class "Object" not found')
-			{
-				$friendly_entry .= "\n\n" . lang('msg_baseobject_fix');
-			}
 		}
 
 		if (!isset(self::$_config['write_error_log']) || self::$_config['write_error_log'] !== 'none')
@@ -651,7 +645,7 @@ class Debug
 		}
 
 		// Display the error screen.
-		self::displayErrorScreen($friendly_entry);
+		self::displayErrorScreen($log_entry);
 		exit;
 	}
 
@@ -741,7 +735,7 @@ class Debug
 	 * @param string $message
 	 * @return void
 	 */
-	public static function displayErrorScreen($message)
+	public static function displayErrorScreen($message, $location = '')
 	{
 		// Do not display error screen in CLI.
 		if (php_sapi_name() === 'cli')
@@ -773,7 +767,7 @@ class Debug
 		// Display a generic error page.
 		try
 		{
-			\Context::displayErrorPage($title, $message, 500);
+			\Context::displayErrorPage($title, $message, 500, $location);
 		}
 		catch (\Error $e)
 		{

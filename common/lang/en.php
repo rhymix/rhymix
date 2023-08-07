@@ -342,7 +342,6 @@ $lang->filter['invalid_number'] = 'The format of %s is invalid. Please enter num
 $lang->filter['invalid_float'] = 'The format of %s is invalid. Please enter numbers only.';
 $lang->filter['invalid_extension'] = 'The format of %s is invalid. e.g. gif, jpg, png';
 $lang->security_warning_embed = 'Due to security concern, administrators are not allowed to view embedded items.<BR /> To view them, please use another non-administrator ID.';
-$lang->msg_baseobject_fix = 'Object → BaseObject conversion is required in a third-party program. Please fix it by consulting the file name and line number shown above.';
 $lang->msg_pc_to_mobile = 'View mobile optimized version of this page';
 $lang->cmd_yes = 'Yes';
 $lang->cmd_no = 'No';
