@@ -645,7 +645,7 @@ class Debug
 		}
 
 		// Display the error screen.
-		self::displayErrorScreen($log_entry);
+		self::displayErrorScreen($log_entry, $errfile . ':' . $e->getLine());
 		exit;
 	}
 
@@ -675,7 +675,7 @@ class Debug
 		}
 
 		// Display the error screen.
-		self::displayErrorScreen($log_entry);
+		self::displayErrorScreen($log_entry, $errinfo['file'] . ':' . intval($errinfo['line']));
 	}
 
 	/**
