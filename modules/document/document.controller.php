@@ -348,7 +348,11 @@ class DocumentController extends Document
 				$output = executeQuery('document.updateBlamedCount', $args);
 			}
 			$d_output = executeQuery('document.deleteDocumentVotedLog', $d_args);
-			if(!$d_output->toBool()) return $d_output;
+			if(!$d_output->toBool())
+			{
+				$oDB->rollback();
+				return $d_output;
+			}
 		}
 		// session reset
 		unset($_SESSION['voted_document'][$document_srl]);
@@ -600,10 +604,6 @@ class DocumentController extends Document
 			return new BaseObject(-1, 'msg_security_violation');
 		}
 
-		// begin transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
-
 		// List variables
 		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
@@ -772,6 +772,10 @@ class DocumentController extends Document
 
 		$obj->lang_code = Context::getLangType();
 
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Insert data into the DB
 		$output = executeQuery('document.insertDocument', $obj);
 		if(!$output->toBool())
@@ -908,10 +912,6 @@ class DocumentController extends Document
 			return $output;
 		}
 
-		// begin transaction
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
 
 		$document_config = ModuleModel::getModulePartConfig('document', $obj->module_srl);
@@ -919,28 +919,12 @@ class DocumentController extends Document
 		{
 			$document_config = new stdClass();
 		}
-		if(!isset($document_config->use_history)) $document_config->use_history = 'N';
-		$bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
+		if(!isset($document_config->use_history))
+		{
+			$document_config->use_history = 'N';
+		}
 
 		$logged_info = Context::get('logged_info');
-
-		if($bUseHistory)
-		{
-			$args = new stdClass;
-			$args->history_srl = getNextSequence();
-			$args->document_srl = $obj->document_srl;
-			$args->module_srl = $obj->module_srl;
-			if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
-			$args->nick_name = $source_obj->get('nick_name');
-			$args->member_srl = $source_obj->get('member_srl');
-			$args->regdate = $source_obj->get('last_update');
-			$args->ipaddress = $source_obj->get('ipaddress');
-			$output = executeQuery("document.insertHistory", $args);
-		}
-		else
-		{
-			$obj->ipaddress = $source_obj->get('ipaddress');
-		}
 
 		// List variables
 		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
@@ -1064,6 +1048,30 @@ class DocumentController extends Document
 		// Fix encoding of non-BMP UTF-8 characters.
 		$obj->title = utf8_mbencode($obj->title);
 		$obj->content = utf8_mbencode($obj->content);
+
+		// Begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		// Insert history
+		$bUseHistory = $document_config->use_history == 'Y' || $document_config->use_history == 'Trace';
+		if($bUseHistory)
+		{
+			$args = new stdClass;
+			$args->history_srl = getNextSequence();
+			$args->document_srl = $obj->document_srl;
+			$args->module_srl = $obj->module_srl;
+			if($document_config->use_history == 'Y') $args->content = $source_obj->get('content');
+			$args->nick_name = $source_obj->get('nick_name');
+			$args->member_srl = $source_obj->get('member_srl');
+			$args->regdate = $source_obj->get('last_update');
+			$args->ipaddress = $source_obj->get('ipaddress');
+			$output = executeQuery("document.insertHistory", $args);
+		}
+		else
+		{
+			$obj->ipaddress = $source_obj->get('ipaddress');
+		}
 
 		// Set lang_code if the original document doesn't have it.
 		if (!$source_obj->get('lang_code'))
@@ -1251,10 +1259,6 @@ class DocumentController extends Document
 		$output = ModuleHandler::triggerCall('document.deleteDocument', 'before', $trigger_obj);
 		if(!$output->toBool()) return $output;
 
-		// begin transaction
-		$oDB = &DB::getInstance();
-		$oDB->begin();
-
 		// Check if the document exists
 		if(!$isEmptyTrash)
 		{
@@ -1275,6 +1279,10 @@ class DocumentController extends Document
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		//if empty trash, document already deleted, therefore document not delete
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
@@ -1290,7 +1298,6 @@ class DocumentController extends Document
 		}
 
 		$this->deleteDocumentAliasByDocument($document_srl);
-
 		$this->deleteDocumentHistory(null, $document_srl, null);
 		// Update category information if the category_srl exists.
 		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
@@ -1310,13 +1317,13 @@ class DocumentController extends Document
 		$this->_deleteDocumentVotedLog($args);
 		$this->_deleteDocumentUpdateLog($args);
 
-		// Remove the thumbnail file
-		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($document_srl, 3)));
-
 		// commit
 		$oDB->commit();
 
-		//remove from cache
+		// Remove the thumbnail file
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($document_srl, 3)));
+
+		// Remove from cache
 		self::clearDocumentCache($document_srl);
 		return $output;
 	}
@@ -1411,7 +1418,7 @@ class DocumentController extends Document
 		$document_args->document_srl = $obj->document_srl;
 
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		/*$output = executeQuery('document.insertTrash', $trash_args);
@@ -2568,8 +2575,9 @@ class DocumentController extends Document
 		else $args->group_srls = implode(',', $args->group_srls);
 		$args->parent_srl = (int)$args->parent_srl;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
+
 		// Check if already exists
 		if($args->category_srl)
 		{
@@ -2681,8 +2689,6 @@ class DocumentController extends Document
 		// List variables
 		$args = Context::gets('module_srl','category_srl');
 
-		$oDB = &DB::getInstance();
-		$oDB->begin();
 		// Check permissions
 		$columnList = array('module_srl', 'module');
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl, $columnList);
@@ -2693,7 +2699,14 @@ class DocumentController extends Document
 		$category_info = DocumentModel::getCategory($args->category_srl);
 		if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
 		// Display an error that the category cannot be deleted if it has a child node
-		if(DocumentModel::getCategoryChlidCount($args->category_srl)) return new BaseObject(-1, 'msg_cannot_delete_for_child');
+		if(DocumentModel::getCategoryChlidCount($args->category_srl))
+		{
+			return new BaseObject(-1, 'msg_cannot_delete_for_child');
+		}
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Remove from the DB
 		$output = $this->deleteCategory($args->category_srl);
 		if(!$output->toBool())
