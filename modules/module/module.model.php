@@ -1673,6 +1673,14 @@ class ModuleModel extends Module
 						$info->need_update = true;
 					}
 				}
+				foreach ($namespaces as $name => $path)
+				{
+					$attached_module = preg_replace('!^modules/!', '', $path);
+					if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))
+					{
+						$info->need_update = true;
+					}
+				}
 
 				// Check if all prefixes are registered.
 				foreach ($module_action_info->prefixes ?? [] as $name)

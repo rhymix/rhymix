@@ -1457,18 +1457,36 @@ class ModuleController extends Module
 		{
 			if(!isset($namespaces[$name]))
 			{
-				$namespaces[$name] = $module_name;
+				$namespaces[$name] = 'modules/' . $module_name;
 				$changed = true;
 			}
 		}
 
 		// Remove namespaces that are no longer defined by this module.
-		foreach ($namespaces as $name => $attached_module)
+		foreach ($namespaces as $name => $path)
 		{
+			$attached_module = preg_replace('!^modules/!', '', $path);
 			if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))
 			{
 				unset($namespaces[$name]);
+				$changed = true;
 			}
+		}
+
+		// Generate a regular expression for routing.
+		$regexp = [];
+		unset($namespaces['regexp']);
+		foreach ($namespaces as $name => $path)
+		{
+			$regexp[] = preg_quote(strtr($name, '\\', '/'), '!');
+		}
+		if (count($regexp))
+		{
+			$namespaces['regexp'] = '!^(' . implode('|', $regexp) . ')/(\\w+/)*(\\w+)$!';
+		}
+		else
+		{
+			$namespaces['regexp'] = '';
 		}
 
 		// Update system configuration.
