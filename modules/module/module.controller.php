@@ -1388,6 +1388,73 @@ class ModuleController extends Module
 
 		return new BaseObject();
 	}
+
+	/**
+	 * Check if all event handlers are registered. If not, register them.
+	 *
+	 * @param string $module_name
+	 * @return object
+	 */
+	public function registerEventHandlers(string $module_name)
+	{
+		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+
+		foreach ($module_action_info->event_handlers ?? [] as $ev)
+		{
+			if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
+			{
+				$output = $this->insertTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+
+		return new BaseObject();
+	}
+
+	/**
+	 * Check if all custom namespaces are registered. If not, register them.
+	 *
+	 * @param string $module_name
+	 * @return object
+	 */
+	public function registerNamespaces(string $module_name)
+	{
+		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+		$namespaces = config('namespaces') ?? [];
+		$changed = false;
+
+		foreach ($module_action_info->namespaces ?? [] as $name)
+		{
+			if(!isset($namespaces[$name]))
+			{
+				$namespaces[$name] = $module_name;
+				$changed = true;
+			}
+		}
+
+		if ($changed)
+		{
+			Rhymix\Framework\Config::set('namespaces', $namespaces);
+			Rhymix\Framework\Config::save();
+		}
+
+		return new BaseObject();
+	}
+
+	/**
+	 * Check if all prefixes for a module are registered. If not, register them.
+	 *
+	 * @param string $module_name
+	 * @return object
+	 */
+	public function registerPrefixes(string $module_name)
+	{
+		// TODO
+		return new BaseObject();
+	}
 }
 /* End of file module.controller.php */
 /* Location: ./modules/module/module.controller.php */

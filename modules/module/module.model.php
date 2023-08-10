@@ -1631,9 +1631,39 @@ class ModuleModel extends Module
 						$info->need_update = true;
 					}
 				}
+
+				// Check if all event handlers are registered.
+				foreach ($module_action_info->event_handlers ?? [] as $ev)
+				{
+					if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
+					{
+						$info->need_update = true;
+					}
+				}
+
+				// Check if all namespaces are registered.
+				$namespaces = config('namespaces') ?? [];
+				foreach ($module_action_info->namespaces ?? [] as $name)
+				{
+					if(!isset($namespaces[$name]))
+					{
+						$info->need_update = true;
+					}
+				}
+
+				// Check if all prefixes are registered.
+				foreach ($module_action_info->prefixes ?? [] as $name)
+				{
+					if(!ModuleModel::getModuleSrlByMid($name))
+					{
+						$info->need_update = true;
+					}
+				}
 			}
+
 			$list[] = $info;
 		}
+
 		return $list;
 	}
 
