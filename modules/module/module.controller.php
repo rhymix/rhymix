@@ -1398,15 +1398,41 @@ class ModuleController extends Module
 	public function registerEventHandlers(string $module_name)
 	{
 		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+		$registered_event_handlers = [];
 
+		// Insert new event handlers.
 		foreach ($module_action_info->event_handlers ?? [] as $ev)
 		{
+			$key = implode(':', [$ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position]);
+			$registered_event_handlers[$key] = true;
 			if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
 			{
 				$output = $this->insertTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position);
 				if (!$output->toBool())
 				{
 					return $output;
+				}
+			}
+		}
+
+		// Remove event handlers that are no longer defined by this module.
+		if (count($registered_event_handlers))
+		{
+			foreach ($GLOBALS['__triggers__'] as $trigger_name => $val1)
+			{
+				foreach ($val1 as $called_position => $val2)
+				{
+					foreach ($val2 as $item)
+					{
+						if ($item->module === $module_name)
+						{
+							$key = implode(':', [$trigger_name, $item->module, $item->type, $item->called_method, $called_position]);
+							if (!isset($registered_event_handlers[$key]))
+							{
+								$this->deleteTrigger($trigger_name, $item->module, $item->type, $item->called_method, $called_position);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -1426,6 +1452,7 @@ class ModuleController extends Module
 		$namespaces = config('namespaces') ?? [];
 		$changed = false;
 
+		// Add all namespaces defined by this module.
 		foreach ($module_action_info->namespaces ?? [] as $name)
 		{
 			if(!isset($namespaces[$name]))
@@ -1435,6 +1462,16 @@ class ModuleController extends Module
 			}
 		}
 
+		// Remove namespaces that are no longer defined by this module.
+		foreach ($namespaces as $name => $attached_module)
+		{
+			if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))
+			{
+				unset($namespaces[$name]);
+			}
+		}
+
+		// Update system configuration.
 		if ($changed)
 		{
 			Rhymix\Framework\Config::set('namespaces', $namespaces);

@@ -1633,11 +1633,34 @@ class ModuleModel extends Module
 				}
 
 				// Check if all event handlers are registered.
+				$registered_event_handlers = [];
 				foreach ($module_action_info->event_handlers ?? [] as $ev)
 				{
+					$key = implode(':', [$ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position]);
+					$registered_event_handlers[$key] = true;
 					if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
 					{
 						$info->need_update = true;
+					}
+				}
+				if (count($registered_event_handlers))
+				{
+					foreach ($GLOBALS['__triggers__'] as $trigger_name => $val1)
+					{
+						foreach ($val1 as $called_position => $val2)
+						{
+							foreach ($val2 as $item)
+							{
+								if ($item->module === $module_name)
+								{
+									$key = implode(':', [$trigger_name, $item->module, $item->type, $item->called_method, $called_position]);
+									if (!isset($registered_event_handlers[$key]))
+									{
+										$info->need_update = true;
+									}
+								}
+							}
+						}
 					}
 				}
 
