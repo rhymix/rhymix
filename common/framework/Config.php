@@ -41,6 +41,12 @@ class Config
 				self::save();
 			}
 		}
+
+		if (!empty(self::$_config['namespaces']))
+		{
+			$GLOBALS['RX_NAMESPACES'] = self::$_config['namespaces'];
+		}
+
 		return self::$_config;
 	}
 
