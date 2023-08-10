@@ -588,14 +588,45 @@ class installController extends install
 	 */
 	public function updateModule($module)
 	{
+		$oModuleController = ModuleController::getInstance();
 		$oModule = ModuleModel::getModuleInstallClass($module);
 		if (is_object($oModule) && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
 		{
 			if ($oModule->checkUpdate())
 			{
-				return $oModule->moduleUpdate();
+				$output = $oModule->moduleUpdate();
+				if($output instanceof BaseObject && !$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
+
+		$output = $oModuleController->registerActionForwardRoutes($module);
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+
+		$output = $oModuleController->registerEventHandlers($module);
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+
+		$output = $oModuleController->registerNamespaces($module);
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+
+		$output = $oModuleController->registerPrefixes($module);
+		if($output instanceof BaseObject && !$output->toBool())
+		{
+			return $output;
+		}
+
+		return new BaseObject();
 	}
 
 	/**
