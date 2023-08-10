@@ -2,13 +2,13 @@
 
 /**
  * This file must be included at the top of all shell scripts (cron jobs).
- * 
+ *
  * HERE BE DRAGONS.
- * 
+ *
  * Failure to perform the checks listed in this file at the top of a cron job,
  * or any attempt to work around the limitations deliberately placed in this
  * file, may result in errors or degradation of service.
- * 
+ *
  * Please be warned that errors may not show up immediately, especially if you
  * screw up the permissions inside deeply nested directory trees. You may find
  * it difficult and/or costly to undo the damages when errors begin to show up
@@ -30,7 +30,7 @@ require_once dirname(__DIR__) . '/autoload.php';
 $uid = Rhymix\Framework\Storage::getServerUID();
 if ($uid === 0)
 {
-	echo "This script must not be executed by the root user.\n";
+	echo "This script must NOT be executed by the root user.\n";
 	exit(2);
 }
 $web_server_uid = fileowner(RX_BASEDIR . 'files/config/config.php');
