@@ -2,6 +2,11 @@
 
 class FormatterTest extends \Codeception\TestCase\Test
 {
+	public function _before()
+	{
+		config('security.nofollow', false);
+	}
+
 	public function testText2HTML()
 	{
 		$text = file_get_contents(\RX_BASEDIR . 'tests/_data/formatter/text2html.source.txt');
