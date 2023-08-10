@@ -36,24 +36,25 @@ class installAdminController extends install
 	{
 		@set_time_limit(0);
 		$module_name = Context::get('module_name');
-		if(!$module_name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$oModule = ModuleModel::getModuleInstallClass($module_name);
-		if(!$oModule || !method_exists($oModule, 'moduleUpdate'))
+		if(!$module_name)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		Rhymix\Framework\Session::close();
 
-		$output = $oModule->moduleUpdate();
-		if($output instanceof BaseObject && !$output->toBool())
+		$oModuleController = ModuleController::getInstance();
+		$oModule = ModuleModel::getModuleInstallClass($module_name);
+		if($oModule && method_exists($oModule, 'moduleUpdate'))
 		{
-			Rhymix\Framework\Session::start();
-			return $output;
+			$output = $oModule->moduleUpdate();
+			if($output instanceof BaseObject && !$output->toBool())
+			{
+				Rhymix\Framework\Session::start();
+				return $output;
+			}
 		}
 
-		$oModuleController = getController('module');
 		$output = $oModuleController->registerActionForwardRoutes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
