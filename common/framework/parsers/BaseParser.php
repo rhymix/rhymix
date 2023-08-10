@@ -29,6 +29,52 @@ abstract class BaseParser
 	}
 
 	/**
+	 * Get the string value of an XML attribute after normalizing its name.
+	 *
+	 * @param SimpleXMLElement $element
+	 * @param string $name
+	 * @return string
+	 */
+	protected static function _getAttributeString(\SimpleXMLElement $element, string $name): string
+	{
+		$normalized_name = strtolower(preg_replace('/[^a-zA-Z]/', '', $name));
+		foreach ($element->attributes() as $key => $val)
+		{
+			$normalized_key = strtolower(preg_replace('/[^a-zA-Z]/', '', $key));
+			if ($normalized_key === $normalized_name)
+			{
+				return trim($val);
+			}
+		}
+		return '';
+	}
+
+	/**
+	 * Get the boolean value of an XML attribute after normalizing its name.
+	 *
+	 * A value that is identical to the name of the attribute will be treated as true.
+	 * Other values will be passed to toBool() for evaluation.
+	 *
+	 * @param SimpleXMLElement $element
+	 * @param string $name
+	 * @return bool
+	 */
+	protected static function _getAttributeBool(\SimpleXMLElement $element, string $name): bool
+	{
+		$normalized_name = strtolower(preg_replace('/[^a-zA-Z]/', '', $name));
+		foreach ($element->attributes() as $key => $val)
+		{
+			$normalized_key = strtolower(preg_replace('/[^a-zA-Z]/', '', $key));
+			if ($normalized_key === $normalized_name)
+			{
+				$normalized_val = strtolower(preg_replace('/[^a-zA-Z]/', '', $val));
+				return ($normalized_key === $normalized_val) || toBool($val);
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Get the contents of child elements that match a language.
 	 *
 	 * @param SimpleXMLElement $parent

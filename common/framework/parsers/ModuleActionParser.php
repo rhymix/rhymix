@@ -187,40 +187,40 @@ class ModuleActionParser extends BaseParser
 			$action_info->method = implode('|', $methods);
 			$action_info->route = $route_arg;
 			$action_info->standalone = $standalone;
-			$action_info->check_csrf = (trim($action['check_csrf'] ?? '') ?: trim($action['check-csrf'] ?? '')) === 'false' ? 'false' : 'true';
-			$action_info->meta_noindex = (trim($action['meta_noindex'] ?? '') ?: trim($action['meta-noindex'] ?? '')) === 'true' ? 'true' : 'false';
+			$action_info->check_csrf = self::_getAttributeString($action, 'check-csrf') === 'false' ? 'false' : 'true';
+			$action_info->meta_noindex = self::_getAttributeString($action, 'meta-noindex') === 'true' ? 'true' : 'false';
 			$action_info->global_route = $global_route;
 			$info->action->{$action_name} = $action_info;
 
 			// Set the menu name and index settings.
-			$menu_name = trim($action['menu_name'] ?? '');
+			$menu_name = self::_getAttributeString($action, 'menu-name');
 			if ($menu_name && isset($info->menu->{$menu_name}))
 			{
 				$info->menu->{$menu_name}->acts[] = $action_name;
-				if (toBool($action['menu_index']))
+				if (self::_getAttributeBool($action, 'menu_index'))
 				{
 					$info->menu->{$menu_name}->index = $action_name;
 				}
 			}
-			if (toBool($action['index']))
+			if (self::_getAttributeBool($action, 'index'))
 			{
 				$info->default_index_act = $action_name;
 			}
-			if (toBool($action['admin_index']))
+			if (self::_getAttributeBool($action, 'admin_index'))
 			{
 				$info->admin_index_act = $action_name;
 			}
-			if (toBool($action['setup_index']))
+			if (self::_getAttributeBool($action, 'setup_index'))
 			{
 				$info->setup_index_act = $action_name;
 			}
-			if (toBool($action['simple_setup_index']))
+			if (self::_getAttributeBool($action, 'simple_setup_index'))
 			{
 				$info->simple_setup_index_act = $action_name;
 			}
 
 			// Set error handler settings.
-			$error_handlers = explode(',', trim($action['error_handlers'] ?? '') ?: trim($action['error-handlers'] ?? ''));
+			$error_handlers = explode(',', self::_getAttributeString($action, 'error-handlers'));
 			foreach ($error_handlers as $error_handler)
 			{
 				if (intval($error_handler) > 200)
@@ -237,8 +237,8 @@ class ModuleActionParser extends BaseParser
 			if (isset($info->action->{$action_name}))
 			{
 				$info->action->{$action_name}->permission->target = trim($permission['target'] ?? '');
-				$info->action->{$action_name}->permission->check_var = trim($permission['check_var'] ?? '') ?: trim($permission['check-var'] ?? '');
-				$info->action->{$action_name}->permission->check_type = trim($permission['check_type'] ?? '') ?: trim($permission['check-type'] ?? '');
+				$info->action->{$action_name}->permission->check_var = self::_getAttributeString($permission, 'check-var');
+				$info->action->{$action_name}->permission->check_type = self::_getAttributeString($permission, 'check-type');
 			}
 		}
 
