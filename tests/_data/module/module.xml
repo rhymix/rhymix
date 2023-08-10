@@ -30,4 +30,17 @@
 	<permissions>
 		<permission action="procTestSubmitData" target="view" />
 	</permissions>
+	<errorHandlers>
+		<errorHandler code="405" class="Controllers\Errors" method="dispErrorMethod" />
+	</errorHandlers>
+	<eventHandlers>
+		<eventHandler after="document.insertDocument" class="Controllers\Triggers" method="triggerAfterInsertDocument" />
+		<eventHandler beforeAction="document.procDocumentVoteUp" class="controller" method="triggerBeforeDocumentVoteUp" />
+	</eventHandlers>
+	<namespaces>
+		<namespace name="VendorName\Hello\World" />
+	</namespaces>
+	<prefixes>
+		<prefix name="foobar" />
+	</prefixes>
 </module>

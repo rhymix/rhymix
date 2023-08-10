@@ -52,6 +52,9 @@ class ModuleActionParser extends BaseParser
 		$info->grant = new \stdClass;
 		$info->menu = new \stdClass;
 		$info->error_handlers = [];
+		$info->event_handlers = [];
+		$info->namespaces = [];
+		$info->prefixes = [];
 
 		// Parse grants.
 		foreach ($xml->grants->grant ?: [] as $grant)
@@ -237,6 +240,45 @@ class ModuleActionParser extends BaseParser
 				$info->action->{$action_name}->permission->check_var = trim($permission['check_var'] ?? '') ?: trim($permission['check-var'] ?? '');
 				$info->action->{$action_name}->permission->check_type = trim($permission['check_type'] ?? '') ?: trim($permission['check-type'] ?? '');
 			}
+		}
+
+		// Parse error handlers.
+		foreach ($xml->errorHandlers->errorHandler ?: [] as $errorHandler)
+		{
+			$attrs = self::_getAttributes($errorHandler);
+			$info->error_handlers[intval($attrs['code'])] = [$attrs['class'], $attrs['method']];
+		}
+
+		// Parse event handlers.
+		foreach ($xml->eventHandlers->eventHandler ?: [] as $eventHandler)
+		{
+			$attrs = self::_getAttributes($eventHandler);
+			$def = new \stdClass;
+			foreach (['before', 'after', 'beforeaction', 'afteraction'] as $key)
+			{
+				if (isset($attrs[$key]))
+				{
+					$def->event_name = (str_contains($key, 'action') ? 'act:' : '') . $attrs[$key];
+					$def->position = str_starts_with($key, 'before') ? 'before' : 'after';
+					$def->class_name = $attrs['class'];
+					$def->method = $attrs['method'];
+					$info->event_handlers[] = $def;
+					break;
+				}
+			}
+
+		}
+
+		// Parse custom namespaces.
+		foreach ($xml->namespaces->namespace ?: [] as $namespace)
+		{
+			$info->namespaces[] = strval($namespace['name']);
+		}
+
+		// Parse custom prefixes.
+		foreach ($xml->prefixes->prefix ?: [] as $prefix)
+		{
+			$info->prefixes[] = strval($prefix['name']);
 		}
 
 		// Return the complete result.
