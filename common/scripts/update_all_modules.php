@@ -28,7 +28,7 @@ foreach($module_list as $key => $value)
 }
 
 // Install all modules.
-$oInstallController = getController('install');
+$oInstallController = InstallController::getInstance();
 foreach ($need_install as $module)
 {
 	try
@@ -38,22 +38,21 @@ foreach ($need_install as $module)
 	}
 	catch (\Exception $e)
 	{
-		// pass
+		echo 'Error: ' . $e->getMessage() . PHP_EOL;
 	}
 }
 
 // Update all modules.
-$oInstallAdminController = getAdminController('install');
 foreach ($need_update as $module)
 {
-	echo 'Updating ' . $module . '...' . PHP_EOL;
-	$oModule = ModuleModel::getModuleInstallClass($module);
-	if (is_object($oModule) && method_exists($oModule, 'checkUpdate') && method_exists($oModule, 'moduleUpdate'))
+	try
 	{
-		if ($oModule->checkUpdate())
-		{
-			return $oModule->moduleUpdate();
-		}
+		echo 'Updating ' . $module . '...' . PHP_EOL;
+		$oInstallController->updateModule($module);
+	}
+	catch (\Exception $e)
+	{
+		echo 'Error: ' . $e->getMessage() . PHP_EOL;
 	}
 }
 
