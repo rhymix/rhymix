@@ -47,6 +47,11 @@ class Config
 			$GLOBALS['RX_NAMESPACES'] = self::$_config['namespaces'];
 		}
 
+		if (!empty(self::$_config['prefixes']))
+		{
+			$GLOBALS['RX_PREFIXES'] = self::$_config['prefixes'];
+		}
+
 		return self::$_config;
 	}
 
