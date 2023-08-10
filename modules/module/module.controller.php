@@ -1484,10 +1484,6 @@ class ModuleController extends Module
 		{
 			$namespaces['regexp'] = '!^(' . implode('|', $regexp) . ')/(\\w+/)*(\\w+)$!';
 		}
-		else
-		{
-			$namespaces['regexp'] = '';
-		}
 
 		// Update system configuration.
 		if ($changed)
