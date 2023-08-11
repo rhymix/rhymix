@@ -72,7 +72,7 @@ class MessageView extends Message
 		Context::set('ssl_mode', \RX_SSL);
 		Context::set('system_message', nl2br($this->getMessage()));
 		Context::set('system_message_detail', nl2br($detail));
-		Context::set('system_message_help', self::getErrorHelp($detail));
+		Context::set('system_message_help', self::getErrorHelp(strval($detail)));
 		Context::set('system_message_location', escape($location));
 
 		if ($this->getError())
