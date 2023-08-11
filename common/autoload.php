@@ -120,18 +120,6 @@ spl_autoload_register(function($class_name)
 			$lang_path = RX_BASEDIR . strtolower($matches[1]) . '/' . $lang_plugin . '/lang';
 		}
 	}
-	elseif (isset($GLOBALS['RX_NAMESPACES']) && preg_match($GLOBALS['RX_NAMESPACES']['regexp'], $class_name, $matches))
-	{
-		$plugin_path = $GLOBALS['RX_NAMESPACES'][strtr($matches[1], '/', '\\')] ?? '';
-		$dir = RX_BASEDIR . $plugin_path . '/' . strtolower($matches[2]);
-		$filename1 = $dir . $matches[3] . '.php';
-		$filename2 = $dir . strtolower($matches[3]) . '.php';
-		if ($matches[1] !== 'Framework' && !empty($matches[3]))
-		{
-			$lang_plugin = array_last(explode('/', $plugin_path));
-			$lang_path = RX_BASEDIR . $plugin_path . '/lang';
-		}
-	}
 	elseif (isset($GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name = strtolower($class_name)]))
 	{
 		$filename1 = RX_BASEDIR . $GLOBALS['RX_AUTOLOAD_FILE_MAP'][$lc_class_name];
@@ -146,6 +134,18 @@ spl_autoload_register(function($class_name)
 		{
 			$lang_plugin = $module;
 			$lang_path = RX_BASEDIR . 'modules/' . $module . '/lang';
+		}
+	}
+	elseif (isset($GLOBALS['RX_NAMESPACES']) && preg_match($GLOBALS['RX_NAMESPACES']['regexp'], $class_name, $matches))
+	{
+		$plugin_path = $GLOBALS['RX_NAMESPACES'][strtr($matches[1], '/', '\\')] ?? '';
+		$dir = RX_BASEDIR . $plugin_path . '/' . strtolower($matches[2]);
+		$filename1 = $dir . $matches[3] . '.php';
+		$filename2 = $dir . strtolower($matches[3]) . '.php';
+		if ($matches[1] !== 'Framework' && !empty($matches[3]))
+		{
+			$lang_plugin = array_last(explode('/', $plugin_path));
+			$lang_path = RX_BASEDIR . $plugin_path . '/lang';
 		}
 	}
 
