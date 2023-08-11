@@ -414,7 +414,15 @@ class ModuleHandler extends Handler
 		// Create an instance of the requested module and class
 		if($class_name)
 		{
-			$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $this->module, $class_name);
+			if (isset($xml_info->namespaces) && count($xml_info->namespaces))
+			{
+				$class_fullname = array_first($xml_info->namespaces) . '\\' . $class_name;
+			}
+			else
+			{
+				$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $this->module, $class_name);
+			}
+
 			if (class_exists($class_fullname))
 			{
 				$oModule = $class_fullname::getInstance();
@@ -442,19 +450,7 @@ class ModuleHandler extends Handler
 			$oModule = self::getModuleInstance($this->module, $type ?: 'class', $kind);
 			if (!$oModule)
 			{
-				$base_class_fullname = sprintf('Rhymix\\Modules\\%s\\Base', $this->module);
-				if (class_exists($base_class_fullname))
-				{
-					$oModule = $base_class_fullname::getInstance();
-				}
-				else
-				{
-					$base_class_fullname = sprintf('Rhymix\\Modules\\%s\\Controllers\\Base', $this->module);
-					if (class_exists($base_class_fullname))
-					{
-						$oModule = $base_class_fullname::getInstance();
-					}
-				}
+				$oModule = ModuleModel::getModuleBaseClass($this->module, $xml_info);
 			}
 		}
 
@@ -548,7 +544,15 @@ class ModuleHandler extends Handler
 
 				if($forward->class_name)
 				{
-					$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $forward->module, $forward->class_name);
+					if (isset($xml_info->namespaces) && count($xml_info->namespaces))
+					{
+						$class_fullname = array_first($xml_info->namespaces) . '\\' . $forward->class_name;
+					}
+					else
+					{
+						$class_fullname = sprintf('Rhymix\\Modules\\%s\\%s', $forward->module, $forward->class_name);
+					}
+
 					if (class_exists($class_fullname))
 					{
 						$oModule = $class_fullname::getInstance();
@@ -1291,7 +1295,7 @@ class ModuleHandler extends Handler
 			// Get instance of module class
 			if (strpos($type, '\\') !== false)
 			{
-				$class_name = sprintf('Rhymix\\Modules\\%s\\%s', $module, $type);
+				$class_name = ($type[0] === '\\') ? $type : sprintf('Rhymix\\Modules\\%s\\%s', $module, $type);
 				if (class_exists($class_name))
 				{
 					$oModule = $class_name::getInstance();

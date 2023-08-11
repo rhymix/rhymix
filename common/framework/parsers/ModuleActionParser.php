@@ -242,6 +242,18 @@ class ModuleActionParser extends BaseParser
 			}
 		}
 
+		// Parse custom namespaces.
+		foreach ($xml->namespaces->namespace ?: [] as $namespace)
+		{
+			$info->namespaces[] = strval($namespace['name']);
+		}
+
+		// Parse custom prefixes.
+		foreach ($xml->prefixes->prefix ?: [] as $prefix)
+		{
+			$info->prefixes[] = strval($prefix['name']);
+		}
+
 		// Parse error handlers.
 		foreach ($xml->errorHandlers->errorHandler ?: [] as $errorHandler)
 		{
@@ -253,32 +265,29 @@ class ModuleActionParser extends BaseParser
 		foreach ($xml->eventHandlers->eventHandler ?: [] as $eventHandler)
 		{
 			$attrs = self::_getAttributes($eventHandler);
-			$def = new \stdClass;
 			foreach (['before', 'after', 'beforeaction', 'afteraction'] as $key)
 			{
 				if (isset($attrs[$key]))
 				{
+					if (count($info->namespaces) && str_contains($attrs['class'], '\\'))
+					{
+						$namespace = '\\' . array_first($info->namespaces) . '\\';
+					}
+					else
+					{
+						$namespace = '';
+					}
+
+					$def = new \stdClass;
 					$def->event_name = (str_contains($key, 'action') ? 'act:' : '') . $attrs[$key];
 					$def->position = str_starts_with($key, 'before') ? 'before' : 'after';
-					$def->class_name = $attrs['class'];
+					$def->class_name = $namespace . $attrs['class'];
 					$def->method = $attrs['method'];
 					$info->event_handlers[] = $def;
 					break;
 				}
 			}
 
-		}
-
-		// Parse custom namespaces.
-		foreach ($xml->namespaces->namespace ?: [] as $namespace)
-		{
-			$info->namespaces[] = strval($namespace['name']);
-		}
-
-		// Parse custom prefixes.
-		foreach ($xml->prefixes->prefix ?: [] as $prefix)
-		{
-			$info->prefixes[] = strval($prefix['name']);
 		}
 
 		// Return the complete result.

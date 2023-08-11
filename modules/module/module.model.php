@@ -1425,6 +1425,48 @@ class ModuleModel extends Module
 	}
 
 	/**
+	 * Get module base class
+	 *
+	 * This method supports namespaced modules as well as XE-compatible modules.
+	 *
+	 * @param string $module_name
+	 * @return ModuleObject|null
+	 */
+	public static function getModuleBaseClass(string $module_name, ?object $module_action_info = null)
+	{
+		if (!$module_action_info)
+		{
+			$module_action_info = self::getModuleActionXml($module_name);
+		}
+
+		if (isset($module_action_info->namespaces) && count($module_action_info->namespaces))
+		{
+			$namespace = array_first($module_action_info->namespaces);
+		}
+		else
+		{
+			$namespace = 'Rhymix\\Modules\\' . ucfirst($module_name);
+		}
+
+		$class_name = $namespace . '\\Base';
+		if (class_exists($class_name))
+		{
+			return $class_name::getInstance();
+		}
+
+		$class_name = $namespace . '\\Controllers\\Base';
+		if (class_exists($class_name))
+		{
+			return $class_name::getInstance();
+		}
+
+		if ($oModule = getModule($module_name, 'class'))
+		{
+			return $oModule;
+		}
+	}
+
+	/**
 	 * Get module install class
 	 *
 	 * This method supports namespaced modules as well as XE-compatible modules.
@@ -1432,18 +1474,34 @@ class ModuleModel extends Module
 	 * @param string $module_name
 	 * @return ModuleObject|null
 	 */
-	public static function getModuleInstallClass(string $module_name)
+	public static function getModuleInstallClass(string $module_name, ?object $module_action_info = null)
 	{
-		$class_name = 'Rhymix\\Modules\\' . ucfirst($module_name) . '\\Install';
+		if (!$module_action_info)
+		{
+			$module_action_info = self::getModuleActionXml($module_name);
+		}
+
+		if (isset($module_action_info->namespaces) && count($module_action_info->namespaces))
+		{
+			$namespace = array_first($module_action_info->namespaces);
+		}
+		else
+		{
+			$namespace = 'Rhymix\\Modules\\' . ucfirst($module_name);
+		}
+
+		$class_name = $namespace . '\\Install';
 		if (class_exists($class_name))
 		{
 			return $class_name::getInstance();
 		}
-		$class_name = 'Rhymix\\Modules\\' . ucfirst($module_name) . '\\Controllers\\Install';
+
+		$class_name = $namespace . '\\Controllers\\Install';
 		if (class_exists($class_name))
 		{
 			return $class_name::getInstance();
 		}
+
 		if ($oModule = getModule($module_name, 'class'))
 		{
 			return $oModule;

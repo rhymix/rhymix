@@ -1418,6 +1418,9 @@ class ModuleController extends Module
 		// Remove event handlers that are no longer defined by this module.
 		if (count($registered_event_handlers))
 		{
+			// Refresh cache
+			ModuleModel::getTriggers('null', 'null');
+
 			foreach ($GLOBALS['__triggers__'] as $trigger_name => $val1)
 			{
 				foreach ($val1 as $called_position => $val2)
