@@ -37,6 +37,10 @@
 		<eventHandler after="document.insertDocument" class="Controllers\Triggers" method="triggerAfterInsertDocument" />
 		<eventHandler beforeAction="document.procDocumentVoteUp" class="controller" method="triggerBeforeDocumentVoteUp" />
 	</eventHandlers>
+	<classes>
+		<class type="default" name="Custom\DefaultClass" />
+		<class type="install" name="Custom\InstallClass" />
+	</classes>
 	<namespaces>
 		<namespace name="VendorName\Hello\World" />
 	</namespaces>

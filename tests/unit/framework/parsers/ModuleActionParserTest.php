@@ -70,13 +70,17 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertTrue(is_object($info->event_handlers[0]));
 		$this->assertEquals('document.insertDocument', $info->event_handlers[0]->event_name);
 		$this->assertEquals('after', $info->event_handlers[0]->position);
-		$this->assertEquals('Controllers\\Triggers', $info->event_handlers[0]->class_name);
+		$this->assertEquals('\\VendorName\\Hello\\World\\Controllers\\Triggers', $info->event_handlers[0]->class_name);
 		$this->assertEquals('triggerAfterInsertDocument', $info->event_handlers[0]->method);
 		$this->assertTrue(is_object($info->event_handlers[1]));
 		$this->assertEquals('act:document.procDocumentVoteUp', $info->event_handlers[1]->event_name);
 		$this->assertEquals('before', $info->event_handlers[1]->position);
 		$this->assertEquals('controller', $info->event_handlers[1]->class_name);
 		$this->assertEquals('triggerBeforeDocumentVoteUp', $info->event_handlers[1]->method);
+
+		// Custom classes
+		$this->assertEquals('Custom\\DefaultClass', $info->classes['default']);
+		$this->assertEquals('Custom\\InstallClass', $info->classes['install']);
 
 		// Custom namespaces
 		$this->assertTrue(is_array($info->namespaces));
