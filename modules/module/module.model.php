@@ -1432,7 +1432,7 @@ class ModuleModel extends Module
 	 * @param string $module_name
 	 * @return ModuleObject|null
 	 */
-	public static function getModuleBaseClass(string $module_name, ?object $module_action_info = null)
+	public static function getModuleDefaultClass(string $module_name, ?object $module_action_info = null)
 	{
 		if (!$module_action_info)
 		{
@@ -1446,6 +1446,12 @@ class ModuleModel extends Module
 		else
 		{
 			$namespace = 'Rhymix\\Modules\\' . ucfirst($module_name);
+		}
+
+		if (isset($module_action_info->classes['default']))
+		{
+			$class_name = $namespace . '\\' . $module_action_info->classes['default'];
+			return class_exists($class_name) ? $class_name::getInstance() : null;
 		}
 
 		$class_name = $namespace . '\\Base';
@@ -1488,6 +1494,12 @@ class ModuleModel extends Module
 		else
 		{
 			$namespace = 'Rhymix\\Modules\\' . ucfirst($module_name);
+		}
+
+		if (isset($module_action_info->classes['install']))
+		{
+			$class_name = $namespace . '\\' . $module_action_info->classes['install'];
+			return class_exists($class_name) ? $class_name::getInstance() : null;
 		}
 
 		$class_name = $namespace . '\\Install';

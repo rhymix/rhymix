@@ -450,7 +450,7 @@ class ModuleHandler extends Handler
 			$oModule = self::getModuleInstance($this->module, $type ?: 'class', $kind);
 			if (!$oModule)
 			{
-				$oModule = ModuleModel::getModuleBaseClass($this->module, $xml_info);
+				$oModule = ModuleModel::getModuleDefaultClass($this->module, $xml_info);
 			}
 		}
 

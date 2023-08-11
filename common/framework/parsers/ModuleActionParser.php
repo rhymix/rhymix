@@ -51,10 +51,11 @@ class ModuleActionParser extends BaseParser
 		$info->action = new \stdClass;
 		$info->grant = new \stdClass;
 		$info->menu = new \stdClass;
-		$info->error_handlers = [];
-		$info->event_handlers = [];
+		$info->classes = [];
 		$info->namespaces = [];
 		$info->prefixes = [];
+		$info->error_handlers = [];
+		$info->event_handlers = [];
 
 		// Parse grants.
 		foreach ($xml->grants->grant ?: [] as $grant)
@@ -240,6 +241,12 @@ class ModuleActionParser extends BaseParser
 				$info->action->{$action_name}->permission->check_var = self::_getAttributeString($permission, 'check-var');
 				$info->action->{$action_name}->permission->check_type = self::_getAttributeString($permission, 'check-type');
 			}
+		}
+
+		// Parse custom classes.
+		foreach ($xml->classes->class ?: [] as $class)
+		{
+			$info->classes[strval($class['type'])] = strval($class['name']);
 		}
 
 		// Parse custom namespaces.
