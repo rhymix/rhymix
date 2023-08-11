@@ -748,6 +748,16 @@ class ModuleObject extends BaseObject
 				Context::set('module_info', $this->module_info);
 			}
 
+			// Trigger before specific action
+			$triggerAct = sprintf('act:%s.%s', $this->module, $this->act);
+			$triggerOutput = ModuleHandler::triggerCall($triggerAct, 'before', $this);
+			if(!$triggerOutput->toBool())
+			{
+				$this->setError($triggerOutput->getError());
+				$this->setMessage($triggerOutput->getMessage());
+				return false;
+			}
+
 			// Run
 			try
 			{
@@ -759,6 +769,9 @@ class ModuleObject extends BaseObject
 				$location = $e->getFile() . ':' . $e->getLine();
 				$output->add('rx_error_location', $location);
 			}
+
+			// Trigger after specific action
+			ModuleHandler::triggerCall($triggerAct, 'after', $output);
 		}
 		else
 		{
