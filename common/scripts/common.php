@@ -25,6 +25,7 @@ if (PHP_SAPI !== 'cli')
 // Load Rhymix.
 chdir(dirname(dirname(__DIR__)));
 require_once dirname(__DIR__) . '/autoload.php';
+Context::init();
 
 // Abort if the UID does not match.
 $uid = Rhymix\Framework\Storage::getServerUID();
