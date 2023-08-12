@@ -144,11 +144,8 @@ spl_autoload_register(function($class_name)
 			$dir = RX_BASEDIR . $plugin_path . '/' . strtolower($matches[2]);
 			$filename1 = $dir . $matches[3] . '.php';
 			$filename2 = $dir . strtolower($matches[3]) . '.php';
-			if ($matches[1] !== 'Framework' && !empty($matches[3]))
-			{
-				$lang_plugin = array_last(explode('/', $plugin_path));
-				$lang_path = RX_BASEDIR . $plugin_path . '/lang';
-			}
+			$lang_plugin = array_last(explode('/', $plugin_path));
+			$lang_path = RX_BASEDIR . $plugin_path . '/lang';
 		}
 	}
 
