@@ -84,7 +84,7 @@ class BoardController extends Board
 			{
 				if (!$this->grant->manager)
 				{
-					throw new Rhymix\Framework\Exception('categoryneeded');
+					return new BaseObject(-1, sprintf(lang('common.filter.isnull'), lang('common.category')));
 				}
 			}
 		}
