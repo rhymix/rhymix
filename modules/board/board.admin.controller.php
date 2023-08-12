@@ -83,6 +83,7 @@ class BoardAdminController extends Board {
 
 		$args->skip_bottom_list_days = max(0, intval($args->skip_bottom_list_days));
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
+		$args->robots_tag = ($args->robots_tag === 'noindex') ? 'noindex' : 'all';
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
 		$args->header_text = Rhymix\Modules\Admin\Models\Utility::cleanHeaderAndFooterScripts($args->header_text ?? '');

@@ -125,6 +125,12 @@ class DisplayHandler extends Handler
 			header('X-Content-Type-Options: ' . $header_value);
 		}
 
+		// Print robot headers.
+		if (isset($oModule->module_info->robots_tag) && $oModule->module_info->robots_tag === 'noindex')
+		{
+			header('X-Robots-Tag: noindex');
+		}
+
 		// flush output buffer
 		while (ob_get_level())
 		{

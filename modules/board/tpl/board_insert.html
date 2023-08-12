@@ -37,6 +37,14 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_robots_tag}</label>
+			<div class="x_controls">
+				<label class="x_inline" for="robots_tag_all"><input type="radio" name="robots_tag" id="robots_tag_all" value="all" checked="checked"|cond="$module_info->robots_tag !== 'noindex'" /> {$lang->cmd_yes}</label>
+				<label class="x_inline" for="robots_tag_noindex"><input type="radio" name="robots_tag" id="robots_tag_noindex" value="noindex" checked="checked"|cond="$module_info->robots_tag === 'noindex'" /> {$lang->cmd_no}</label>
+				<p class="x_help-inline">{$lang->msg_about_robots_tag}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="lang_meta_keywords">{$lang->meta_keywords}</label>
 			<div class="x_controls">
 				<input type="text" name="meta_keywords" id="meta_keywords" value="{$module_info->meta_keywords}" class="lang_code" />

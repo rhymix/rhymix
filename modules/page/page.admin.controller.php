@@ -38,6 +38,7 @@ class PageAdminController extends Page
 
 		if($args->use_mobile != 'Y') $args->use_mobile = '';
 		$args->browser_title = trim(utf8_normalize_spaces($args->browser_title));
+		$args->robots_tag = ($args->robots_tag === 'noindex') ? 'noindex' : 'all';
 		$args->meta_keywords = $args->meta_keywords ? implode(', ', array_map('trim', explode(',', $args->meta_keywords))) : '';
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
 
