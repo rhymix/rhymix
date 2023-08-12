@@ -42,14 +42,9 @@ class Config
 			}
 		}
 
-		if (!empty(self::$_config['namespaces']))
+		if (isset(self::$_config['namespaces']) && !empty(self::$_config['namespaces']['regexp']))
 		{
 			$GLOBALS['RX_NAMESPACES'] = self::$_config['namespaces'];
-		}
-
-		if (!empty(self::$_config['prefixes']))
-		{
-			$GLOBALS['RX_PREFIXES'] = self::$_config['prefixes'];
 		}
 
 		return self::$_config;

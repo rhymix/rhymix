@@ -1463,20 +1463,20 @@ class ModuleController extends Module
 				continue;
 			}
 
-			if (!isset($namespaces[$name]))
+			if (!isset($namespaces['mapping'][$name]))
 			{
-				$namespaces[$name] = 'modules/' . $module_name;
+				$namespaces['mapping'][$name] = 'modules/' . $module_name;
 				$changed = true;
 			}
 		}
 
 		// Remove namespaces that are no longer defined by this module.
-		foreach ($namespaces as $name => $path)
+		foreach ($namespaces['mapping'] ?? [] as $name => $path)
 		{
 			$attached_module = preg_replace('!^modules/!', '', $path);
 			if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))
 			{
-				unset($namespaces[$name]);
+				unset($namespaces['mapping'][$name]);
 				$changed = true;
 			}
 		}
@@ -1484,7 +1484,7 @@ class ModuleController extends Module
 		// Generate a regular expression for routing.
 		$regexp = [];
 		unset($namespaces['regexp']);
-		foreach ($namespaces as $name => $path)
+		foreach ($namespaces['mapping'] ?? [] as $name => $path)
 		{
 			$regexp[] = preg_quote(strtr($name, '\\', '/'), '!');
 		}

@@ -1738,12 +1738,12 @@ class ModuleModel extends Module
 				$namespaces = config('namespaces') ?? [];
 				foreach ($module_action_info->namespaces ?? [] as $name)
 				{
-					if(!isset($namespaces[$name]))
+					if(!isset($namespaces['mapping'][$name]))
 					{
 						$info->need_update = true;
 					}
 				}
-				foreach ($namespaces as $name => $path)
+				foreach ($namespaces['mapping'] ?? [] as $name => $path)
 				{
 					$attached_module = preg_replace('!^modules/!', '', $path);
 					if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))

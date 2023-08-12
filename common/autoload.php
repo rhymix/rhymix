@@ -138,14 +138,17 @@ spl_autoload_register(function($class_name)
 	}
 	elseif (isset($GLOBALS['RX_NAMESPACES']) && preg_match($GLOBALS['RX_NAMESPACES']['regexp'], $class_name, $matches))
 	{
-		$plugin_path = $GLOBALS['RX_NAMESPACES'][strtr($matches[1], '/', '\\')] ?? '';
-		$dir = RX_BASEDIR . $plugin_path . '/' . strtolower($matches[2]);
-		$filename1 = $dir . $matches[3] . '.php';
-		$filename2 = $dir . strtolower($matches[3]) . '.php';
-		if ($matches[1] !== 'Framework' && !empty($matches[3]))
+		$plugin_path = $GLOBALS['RX_NAMESPACES']['mapping'][strtr($matches[1], '/', '\\')] ?? '';
+		if ($plugin_path)
 		{
-			$lang_plugin = array_last(explode('/', $plugin_path));
-			$lang_path = RX_BASEDIR . $plugin_path . '/lang';
+			$dir = RX_BASEDIR . $plugin_path . '/' . strtolower($matches[2]);
+			$filename1 = $dir . $matches[3] . '.php';
+			$filename2 = $dir . strtolower($matches[3]) . '.php';
+			if ($matches[1] !== 'Framework' && !empty($matches[3]))
+			{
+				$lang_plugin = array_last(explode('/', $plugin_path));
+				$lang_path = RX_BASEDIR . $plugin_path . '/lang';
+			}
 		}
 	}
 

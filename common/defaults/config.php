@@ -135,8 +135,10 @@ return array(
 		'tablets' => false,
 		'viewport' => 'width=device-width, initial-scale=1.0, user-scalable=yes',
 	),
-	'namespaces' => [],
-	'prefixes' => [],
+	'namespaces' => [
+		'mapping' => [],
+		'regexp' => '',
+	],
 	'use_rewrite' => true,
 	'use_sso' => false,
 	'other' => array(),
