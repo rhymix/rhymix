@@ -1458,7 +1458,12 @@ class ModuleController extends Module
 		// Add all namespaces defined by this module.
 		foreach ($module_action_info->namespaces ?? [] as $name)
 		{
-			if(!isset($namespaces[$name]))
+			if (preg_match('/^Rhymix\\\\/i', $name))
+			{
+				continue;
+			}
+
+			if (!isset($namespaces[$name]))
 			{
 				$namespaces[$name] = 'modules/' . $module_name;
 				$changed = true;

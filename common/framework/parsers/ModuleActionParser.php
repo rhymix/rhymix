@@ -252,7 +252,7 @@ class ModuleActionParser extends BaseParser
 		// Parse custom namespaces.
 		foreach ($xml->namespaces->namespace ?: [] as $namespace)
 		{
-			$info->namespaces[] = strval($namespace['name']);
+			$info->namespaces[] = trim($namespace['name'], '/\\');
 		}
 
 		// Parse custom prefixes.
