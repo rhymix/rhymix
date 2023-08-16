@@ -24,6 +24,21 @@ class HTMLFilter
 	protected static $_postproc = array();
 
 	/**
+	 * Default permissions for iframes.
+	 */
+	protected static $_iframe_permissions = array(
+		'accelerometer' => true,
+		'autoplay' => true,
+		'clipboard-write' => true,
+		'encrypted-media' => true,
+		'fullscreen' => true,
+		'gyroscope' => true,
+		'picture-in-picture' => true,
+		'screen-wake-lock' => true,
+		'web-share' => true,
+	);
+
+	/**
 	 * Prepend a pre-processing filter.
 	 *
 	 * @param callable $callback
@@ -301,8 +316,9 @@ class HTMLFilter
 		$def->addAttribute('i', 'aria-hidden', 'Text');
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('img', 'data-file-srl', 'Number');
-		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
 		$def->addAttribute('iframe', 'allow', 'Text');
+		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+		$def->addAttribute('iframe', 'referrerpolicy', 'Enum#no-referrer,no-referrer-when-downgrade,origin,origin-when-cross-origin,same-origin,strict-origin,strict-origin-when-cross-origin,unsafe-url');
 
 		// Support contenteditable="false" (#1710)
 		$def->addAttribute('div', 'contenteditable', 'Enum#false');
@@ -495,6 +511,19 @@ class HTMLFilter
 		// Remove tags not supported in Rhymix. Some of these may also have been removed by HTMLPurifier.
 		$content = preg_replace_callback('!</?(?:html|body|head|title|meta|base|link|script|style|applet)\b[^>]*>!i', function($matches) {
 			return htmlspecialchars($matches[0], ENT_QUOTES, 'UTF-8');
+		}, $content);
+
+		// Remove "allow" attributes that should not be allowed.
+		$content = preg_replace_callback('!(?<=\s)allow="([^"<>]*?)"!i', function($matches) {
+			$result = [];
+			foreach (array_map('trim', explode(';', $matches[1])) as $value)
+			{
+				if (isset(self::$_iframe_permissions[$value]))
+				{
+					$result[] = $value;
+				}
+			}
+			return 'allow="' . implode('; ', $result) . '"';
 		}, $content);
 
 		// Remove object and embed URLs that are not allowed.

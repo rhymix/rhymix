@@ -118,6 +118,14 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<iframe title="Video Test" width="640" height="360" frameborder="0" scrolling="no"></iframe>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
+		$source = '<iframe src="https://www.youtube.com/" allow="autoplay; nonexistent; disallowd-feature; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+		$target = '<iframe src="https://www.youtube.com/" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen=""></iframe>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<iframe src="https://www.youtube.com/" referrerpolicy="no-referrer" hello="world"></iframe>';
+		$target = '<iframe src="https://www.youtube.com/" referrerpolicy="no-referrer"></iframe>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
 		$source = '<object type="application/x-shockwave-flash" width="640px" height="360px" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,3,0,0">' .
 			'<param name="movie" value="http://videofarm.daum.net/controller/player/VodPlayer.swf" />' .
 			'<param name="allowScriptAccess" value="always" />' .
