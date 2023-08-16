@@ -1227,6 +1227,38 @@ class ModuleHandler extends Handler
 	}
 
 	/**
+	 * Process command line arguments.
+	 *
+	 * @param array $args
+	 * @return void
+	 */
+	public static function procCommandLineArguments(array $args)
+	{
+		$command = count($args) > 1 ? $args[1] : '';
+		$args = count($args) > 2 ? array_slice($args, 2) : [];
+		if (!$command)
+		{
+			echo 'Command not supplied.' . PHP_EOL;
+			exit(1);
+		}
+		if (!preg_match('/^([a-z0-9_-]+)\.([a-z0-9_-]+)$/', $command, $matches))
+		{
+			echo 'Invalid command: ' . $command . PHP_EOL;
+			exit(1);
+		}
+
+		$path = sprintf('%s%s/scripts/%s.php', \RX_BASEDIR , $matches[1] === 'common' ? 'common' : ('modules/' . $matches[1]), $matches[2]);
+		if (!file_exists($path) || !is_readable($path))
+		{
+			echo 'Command not found: ' . $command . PHP_EOL;
+			exit(1);
+		}
+
+		require_once \RX_BASEDIR . 'common/scripts/common.php';
+		require_once $path;
+	}
+
+	/**
 	 * returns module's path
 	 * @param string $module module name
 	 * @return string path of the module

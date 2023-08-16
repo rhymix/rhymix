@@ -47,6 +47,14 @@ Context::init();
 /**
  * Initialize and execute the requested module.
  */
-$oModuleHandler = new ModuleHandler();
-$oModuleHandler->init() && $oModuleHandler->displayContent($oModuleHandler->procModule());
-Context::close();
+if (PHP_SAPI !== 'cli')
+{
+	$oModuleHandler = new ModuleHandler();
+	$oModuleHandler->init() && $oModuleHandler->displayContent($oModuleHandler->procModule());
+	Context::close();
+}
+else
+{
+	Rhymix\Framework\Debug::disable();
+	ModuleHandler::procCommandLineArguments($argv);
+}

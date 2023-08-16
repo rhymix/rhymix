@@ -34,10 +34,13 @@ if ($uid === 0)
 	echo "This script must NOT be executed by the root user.\n";
 	exit(2);
 }
-$web_server_uid = fileowner(RX_BASEDIR . 'files/config/config.php');
-if ($uid !== $web_server_uid)
+if (file_exists(\RX_BASEDIR . 'files/config/config.php'))
 {
-	$web_server_uid = posix_getpwuid($web_server_uid);
-	echo "This script must be executed by the same user as the usual web server process ({$web_server_uid['name']}).\n";
-	exit(3);
+	$web_server_uid = fileowner(\RX_BASEDIR . 'files/config/config.php');
+	if ($uid !== $web_server_uid)
+	{
+		$web_server_uid = posix_getpwuid($web_server_uid);
+		echo "This script must be executed by the same user as the usual web server process ({$web_server_uid['name']}).\n";
+		exit(3);
+	}
 }
