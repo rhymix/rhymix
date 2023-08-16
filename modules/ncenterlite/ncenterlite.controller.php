@@ -73,7 +73,7 @@ class ncenterliteController extends ncenterlite
 		}
 
 		// Disable modifying other user's config #1925 #2148
-		$member_srl = Context::get('member_srl') ?: $this->user->member_srl;
+		$member_srl = intval(Context::get('member_srl')) ?: $this->user->member_srl;
 		if ($this->user->member_srl !== $member_srl)
 		{
 			throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_settings');
