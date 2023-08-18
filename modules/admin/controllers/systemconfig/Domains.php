@@ -174,9 +174,9 @@ class Domains extends Base
 		// Get favicon and images.
 		if ($domain_info)
 		{
-			Context::set('favicon_url', IconModel::getFaviconUrl($domain_info->domain_srl));
-			Context::set('mobicon_url', IconModel::getMobiconUrl($domain_info->domain_srl));
-			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_info->domain_srl));
+			Context::set('favicon_url', IconModel::getFaviconUrl($domain_srl ?? 0));
+			Context::set('mobicon_url', IconModel::getMobiconUrl($domain_srl ?? 0));
+			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_srl ?? 0));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
 		}
 
