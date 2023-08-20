@@ -302,6 +302,12 @@ class communicationView extends communication
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
 		Context::set('editor', $editor);
 		$this->setTemplateFile('send_message');
+
+		// Fix for skins that don't support window_type=self
+		if(Context::get('window_type') === 'self')
+		{
+			Context::loadFile([$this->module_path . 'tpl/js/window_type.js', 'body']);
+		}
 	}
 
 	/**
@@ -438,6 +444,12 @@ class communicationView extends communication
 		Context::set('friend_group_list', $friend_group_list);
 
 		$this->setTemplateFile('add_friend');
+
+		// Fix for skins that don't support window_type=self
+		if(Context::get('window_type') === 'self')
+		{
+			Context::loadFile([$this->module_path . 'tpl/js/window_type.js', 'body']);
+		}
 	}
 
 	/**
@@ -495,6 +507,12 @@ class communicationView extends communication
 		}
 
 		$this->setTemplateFile('add_friend_group');
+
+		// Fix for skins that don't support window_type=self
+		if(Context::get('window_type') === 'self')
+		{
+			Context::loadFile([$this->module_path . 'tpl/js/window_type.js', 'body']);
+		}
 	}
 }
 /* End of file communication.view.php */
