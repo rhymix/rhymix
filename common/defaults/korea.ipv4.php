@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Source: https://mirror.oops.org/pub/oops/libkrisp/data/v2/
- * Last Updated: 2022-12-26
+ * Source: http://mirror.oops.org/pub/oops/libkrisp/data/v2/
+ * Last Updated: 2023-08-21
  */
 return array (
   0 => 

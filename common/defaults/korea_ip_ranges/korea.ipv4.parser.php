@@ -11,8 +11,8 @@ if (PHP_SAPI !== 'cli')
 /**
  * Download the latest IPv4 data from libkrisp.
  */
-$download_url = 'https://mirror.oops.org/pub/oops/libkrisp/data/v2/krisp.csv.gz';
-$referer_url = 'https://mirror.oops.org/pub/oops/libkrisp/data/v2/';
+$download_url = 'http://mirror.oops.org/pub/oops/libkrisp/data/v2/krisp.csv.gz';
+$referer_url = 'http://mirror.oops.org/pub/oops/libkrisp/data/v2/';
 $content = file_get_contents($download_url, false, stream_context_create(array(
     'http' => array(
         'user_agent' => 'Mozilla/5.0 (compatible; IP range generator)',
