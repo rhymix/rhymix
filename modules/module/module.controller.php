@@ -1491,7 +1491,7 @@ class ModuleController extends Module
 		if (count($regexp))
 		{
 			usort($regexp, function($a, $b) { return strlen($b) - strlen($a); });
-			$namespaces['regexp'] = '!^(' . implode('|', $regexp) . ')/(\\w+/)*(\\w+)$!';
+			$namespaces['regexp'] = '!^(' . implode('|', $regexp) . ')/((?:\\w+/)*)(\\w+)$!';
 		}
 
 		// Update system configuration.
