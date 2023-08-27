@@ -63,6 +63,10 @@ class Table
 				{
 					$columndef .= ' DEFAULT ' . $column->default_value;
 				}
+				elseif (preg_match('/^[a-z0-9_()]$/i', $column->default_value))
+				{
+					$columndef .= ' DEFAULT ' . $column->default_value;
+				}
 				else
 				{
 					$columndef .= ' DEFAULT \'' . $column->default_value . '\'';
