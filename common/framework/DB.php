@@ -1189,7 +1189,7 @@ class DB
 			$backtrace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
 			foreach ($backtrace as $no => $call)
 			{
-				if (!preg_match('#/common/framework/(?:db|helpers)\b#', $call['file']) && $call['file'] !== \RX_BASEDIR . 'common/legacy.php')
+				if (!preg_match('#/common/framework/(?:DB|helpers)\b#', $call['file']) && $call['file'] !== \RX_BASEDIR . 'common/legacy.php')
 				{
 					$result['called_file'] = $backtrace[$no]['file'];
 					$result['called_line'] = $backtrace[$no]['line'];
