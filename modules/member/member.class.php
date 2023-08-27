@@ -11,7 +11,7 @@ class Member extends ModuleObject
 	 * Constants
 	 */
 	public const ADMIN_EXTRA_VARS = ['refused_reason', 'limited_reason'];
-	public const NOUSE_EXTRA_VARS = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
+	public const NOUSE_EXTRA_VARS = ['error_return_url', 'success_return_url', '_rx_ajax_compat', '_rx_ajax_form', '_rx_csrf_token', 'ruleset', 'captchaType', 'use_editor', 'use_html'];
 	public const STATUS_LIST = ['APPROVED', 'DENIED', 'UNAUTHED', 'SUSPENDED', 'DELETED'];
 
 	/**

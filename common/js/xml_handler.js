@@ -42,8 +42,6 @@
 		params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 		params.module = module;
 		params.act = act;
-		params._rx_ajax_compat = 'XMLRPC';
-		params._rx_csrf_token = getCSRFToken();
 
 		// Decide whether or not to use SSL.
 		var url = request_uri;
@@ -180,6 +178,10 @@
 				type : "POST",
 				dataType : "json",
 				data : params,
+				headers : {
+					'X-AJAX-Compat': 'XMLRPC',
+					'X-CSRF-Token': getCSRFToken()
+				},
 				success : successHandler,
 				error : errorHandler
 			});
@@ -205,8 +207,6 @@
 			//if (action_parts.length != 2) return;
 			params.module = action_parts[0];
 			params.act = action_parts[1];
-			params._rx_ajax_compat = 'JSON';
-			params._rx_csrf_token = getCSRFToken();
 			request_info = params.module + "." + params.act;
 		}
 
@@ -320,6 +320,10 @@
 				url: request_uri,
 				data: params,
 				processData: (action !== 'raw'),
+				headers : (action !== 'raw') ? {
+					'X-AJAX-Compat': 'JSON',
+					'X-CSRF-Token': getCSRFToken()
+				} : {},
 				success : successHandler,
 				error : errorHandler
 			});

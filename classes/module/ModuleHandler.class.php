@@ -701,7 +701,7 @@ class ModuleHandler extends Handler
 		$procResult = $oModule->proc();
 
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
-		if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]) && !isset($_POST['_rx_ajax_form']))
+		if(!$oModule->stop_proc && !isset($methodList[Context::getRequestMethod()]) && !isset($_SERVER['HTTP_X_AJAX_TARGET']) && !isset($_POST['_rx_ajax_form']))
 		{
 			$error = $oModule->getError();
 			$message = $oModule->getMessage();
@@ -1013,7 +1013,8 @@ class ModuleHandler extends Handler
 		if(!isset($methodList[Context::getRequestMethod()]))
 		{
 			// Handle iframe form submissions.
-			if(isset($_POST['_rx_ajax_form']) && starts_with('_rx_temp_iframe_', $_POST['_rx_ajax_form']))
+			$ajax_form_target = strval($_SERVER['HTTP_X_AJAX_TARGET'] ?? ($_POST['_rx_ajax_form'] ?? ''));
+			if($ajax_form_target !== '' && starts_with('_rx_temp_iframe_', $ajax_form_target))
 			{
 				$data = [];
 				if ($this->error)
@@ -1029,7 +1030,7 @@ class ModuleHandler extends Handler
 				$data = array_merge($data, $oModule->getVariables());
 
 				ob_end_clean();
-				echo sprintf('<html><head></head><body><script>parent.XE.handleIframeResponse(%s, %s);</script></body></html>', json_encode(strval($_POST['_rx_ajax_form'])), json_encode($data));
+				echo sprintf('<html><head></head><body><script>parent.XE.handleIframeResponse(%s, %s);</script></body></html>', json_encode($ajax_form_target), json_encode($data));
 				return;
 			}
 

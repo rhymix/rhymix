@@ -1140,9 +1140,10 @@ class Context
 		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST')
 		{
 			// Set variables for XE compatibility.
-			if (isset($_POST['_rx_ajax_compat']) && in_array($_POST['_rx_ajax_compat'], array('JSON', 'XMLRPC')))
+			$compat = $_SERVER['HTTP_X_AJAX_COMPAT'] ?? ($_POST['_rx_ajax_compat'] ?? false);
+			if ($compat && in_array($compat, array('JSON', 'XMLRPC')))
 			{
-				self::$_instance->request_method = $_POST['_rx_ajax_compat'];
+				self::$_instance->request_method = $compat;
 				return;
 			}
 			else
