@@ -368,6 +368,10 @@ class Context
 		{
 			Rhymix\Framework\Session::checkSSO($site_module_info);
 			Rhymix\Framework\Session::start(false);
+			if (!session_cache_limiter())
+			{
+				self::setCacheControl(0);
+			}
 		}
 
 		// start output buffer
