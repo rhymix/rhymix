@@ -407,8 +407,8 @@ class Session
 	/**
 	 * Refresh the session.
 	 *
-	 * This method can be used to invalidate old session cookies.
-	 * It is called automatically when someone logs in or out.
+	 * This helps increase the lifetime for session cookies and autologin cookies
+	 * while the user is active on the site.
 	 *
 	 * @param bool $refresh_cookie
 	 * @return bool
@@ -428,23 +428,18 @@ class Session
 			'samesite' => $samesite,
 		);
 
-		// Set the domain initialization timestamp.
-		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['started']))
-		{
-			$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
-		}
+		// Update the domain initialization timestamp.
+		$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
 
-		// Reset the trusted information.
-		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['trusted']))
-		{
-			$_SESSION['RHYMIX']['domains'][$alt_domain]['trusted'] = 0;
-		}
-
-		// Refresh the main session cookie.
+		// Refresh the main session cookie and the autologin key.
 		if ($refresh_cookie)
 		{
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
 			self::_setCookie(session_name(), session_id(), $options);
+			if (self::$_autologin_key = self::_getAutologinKey())
+			{
+				self::setAutologinKeys(substr(self::$_autologin_key, 0, 24), substr(self::$_autologin_key, 24, 24));
+			}
 		}
 
 		return true;

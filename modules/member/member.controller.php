@@ -2233,6 +2233,10 @@ class MemberController extends Member
 			$args->autologin_key = $autologin_key;
 			$args->user_agent = json_encode(Rhymix\Framework\UA::getBrowserInfo());
 			$update_output = executeQuery('member.updateAutologin', $args);
+			if ($update_output->toBool())
+			{
+				Rhymix\Framework\Session::setAutologinKeys($autologin_key, $security_key);
+			}
 		}
 
 		// Update the last login time.
