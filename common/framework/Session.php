@@ -430,6 +430,10 @@ class Session
 
 		// Update the domain initialization timestamp.
 		$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
+		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['trusted']))
+		{
+			$_SESSION['RHYMIX']['domains'][$alt_domain]['trusted'] = 0;
+		}
 
 		// Refresh the main session cookie and the autologin key.
 		if ($refresh_cookie)
