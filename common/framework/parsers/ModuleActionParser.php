@@ -190,6 +190,8 @@ class ModuleActionParser extends BaseParser
 			$action_info->standalone = $standalone;
 			$action_info->check_csrf = self::_getAttributeString($action, 'check-csrf') === 'false' ? 'false' : 'true';
 			$action_info->meta_noindex = self::_getAttributeString($action, 'meta-noindex') === 'true' ? 'true' : 'false';
+			$action_info->session = self::_getAttributeString($action, 'session') === 'false' ? 'false' : 'true';
+			$action_info->cache_control = self::_getAttributeString($action, 'cache-control') === 'false' ? 'false' : 'true';
 			$action_info->global_route = $global_route;
 			$info->action->{$action_name} = $action_info;
 

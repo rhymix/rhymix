@@ -127,6 +127,8 @@ class Router
 		$result->mid = '';
 		$result->act = '';
 		$result->forwarded = false;
+		$result->session = true;
+		$result->cache_control = true;
 		$result->args = array();
 
 		// Separate additional arguments from the URL.
@@ -181,6 +183,8 @@ class Router
 					$allargs = array_merge($args, [$prefix_type => $prefix]);
 					$result->module = $module_name;
 					$result->mid = $prefix;
+					$result->session = ($action_info->action->{$action_info->default_index_act}->session === 'false') ? false : true;
+					$result->cache_control = ($action_info->action->{$action_info->default_index_act}->cache_control === 'false') ? false : true;
 					$result->args = $allargs;
 					return $result;
 				}
@@ -195,6 +199,8 @@ class Router
 						$result->module = $module_name;
 						$result->mid = $prefix_type === 'mid' ? $prefix : '';
 						$result->act = $action;
+						$result->session = ($action_info->action->{$action}->session === 'false') ? false : true;
+						$result->cache_control = ($action_info->action->{$action}->cache_control === 'false') ? false : true;
 						$result->args = $allargs;
 						return $result;
 					}

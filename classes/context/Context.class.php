@@ -366,11 +366,17 @@ class Context
 		// start session
 		if (\PHP_SAPI !== 'cli')
 		{
-			Rhymix\Framework\Session::checkSSO($site_module_info);
-			Rhymix\Framework\Session::start(false);
-			if (!session_cache_limiter())
+			if (!isset(self::$_route_info->session) || self::$_route_info->session)
 			{
-				self::setCacheControl(0);
+				Rhymix\Framework\Session::checkSSO($site_module_info);
+				Rhymix\Framework\Session::start(false);
+			}
+			if (!isset(self::$_route_info->cache_control) || self::$_route_info->cache_control)
+			{
+				if (!session_cache_limiter())
+				{
+					self::setCacheControl(0);
+				}
 			}
 		}
 
