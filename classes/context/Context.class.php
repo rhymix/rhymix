@@ -368,6 +368,7 @@ class Context
 		{
 			if (!isset(self::$_route_info->session) || self::$_route_info->session)
 			{
+				session_cache_limiter('');
 				Rhymix\Framework\Session::checkSSO($site_module_info);
 				Rhymix\Framework\Session::start(false);
 			}
