@@ -188,11 +188,25 @@ class ModuleActionParser extends BaseParser
 			$action_info->method = implode('|', $methods);
 			$action_info->route = $route_arg;
 			$action_info->standalone = $standalone;
-			$action_info->check_csrf = self::_getAttributeString($action, 'check-csrf') === 'false' ? 'false' : 'true';
-			$action_info->meta_noindex = self::_getAttributeString($action, 'meta-noindex') === 'true' ? 'true' : 'false';
-			$action_info->session = self::_getAttributeString($action, 'session') === 'false' ? 'false' : 'true';
-			$action_info->cache_control = self::_getAttributeString($action, 'cache-control') === 'false' ? 'false' : 'true';
 			$action_info->global_route = $global_route;
+
+			// check-csrf (default true)
+			$check_csrf = self::_getAttributeString($action, 'check-csrf');
+			$action_info->check_csrf = ($check_csrf !== '' && !toBool($check_csrf)) ? 'false' : 'true';
+
+			// meta-noindex (default false)
+			$meta_noindex = self::_getAttributeString($action, 'meta-noindex');
+			$action_info->meta_noindex = ($meta_noindex !== '' && toBool($meta_noindex)) ? 'true' : 'false';
+
+			// session (default true)
+			$session = self::_getAttributeString($action, 'session');
+			$action_info->session = ($session !== '' && !toBool($session)) ? 'false' : 'true';
+
+			// cache-control (default false)
+			$cache_control = self::_getAttributeString($action, 'cache-control');
+			$action_info->cache_control = ($cache_control !== '' && !toBool($cache_control)) ? 'false' : 'true';
+
+			// Add the action to the list.
 			$info->action->{$action_name} = $action_info;
 
 			// Set the menu name and index settings.
