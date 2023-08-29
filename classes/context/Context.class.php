@@ -472,17 +472,17 @@ class Context
 	{
 		if($ttl == 0)
 		{
-			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0, no-store, no-cache');
+			header('Cache-Control: ' . ($public ? '' : 'private, ') . 'must-revalidate, no-store, no-cache');
 			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		}
 		elseif($ttl == -1)
 		{
-			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, post-check=0, pre-check=0');
+			header('Cache-Control: ' . ($public ? '' : 'private, ') . 'must-revalidate');
 		}
 		else
 		{
-			header('Cache-Control: ' . ($public ? 'public, ' : 'private, ') . 'must-revalidate, max-age=' . (int)$ttl);
+			header('Cache-Control: ' . ($public ? '' : 'private, ') . 'must-revalidate, max-age=' . (int)$ttl);
 			header('Expires: ' . gmdate('D, d M Y H:i:s', time() + (int)$ttl) . ' GMT');
 		}
 	}
