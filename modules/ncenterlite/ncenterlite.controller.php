@@ -1088,7 +1088,10 @@ class ncenterliteController extends ncenterlite
 		{
 			return;
 		}
-		setcookie('_ncenterlite_hide_id', '', 0, '/');
+		if(!empty($_COOKIE['_ncenterlite_hide_id']))
+		{
+			setcookie('_ncenterlite_hide_id', '', 0, '/');
+		}
 
 		$oMemberModel = getModel('member');
 		$memberConfig = $oMemberModel->getMemberConfig();

@@ -3,7 +3,7 @@
 	$(function () {
 		var n = $('#nc_container');
 		$('.close', n).click(function () {
-			setCookie('_ncenterlite_hide_id', '{$ncenterlite_latest_notify_id}', 1);
+			setCookie('_ncenterlite_hide_id', $(this).parents('#nc_container').data('latestId'), 1);
 			n.hide().next('div').hide();
 			return false;
 		});

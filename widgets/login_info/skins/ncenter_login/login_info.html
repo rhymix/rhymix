@@ -1,7 +1,7 @@
 <load target="./css/ncenter.css" />
 <load target="./js/ncenter.js" type="body" />
 
-<div id="nc_container" class="nc_login"|cond="$ncenterlite_page_navigation->total_count == 0" {$ncenterlite_zindex}>
+<div id="nc_container" data-latest-id="{$ncenterlite_latest_notify_id}" class="nc_login"|cond="$ncenterlite_page_navigation->total_count == 0" {$ncenterlite_zindex}>
 	<ul class="nc_memu" cond="$ncenterlite_page_navigation->total_count > 0">
 		<li class="nc_profile fLeft">
 			<block cond="$useProfileImage">
