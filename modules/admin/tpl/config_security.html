@@ -46,6 +46,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="autologin_lifetime">{$lang->autologin_lifetime}</label>
+			<div class="x_controls">
+				<input type="number" name="autologin_lifetime" min="1" max="400" value="{$autologin_lifetime}" /> {$lang->unit_day} &nbsp;
+				<label for="autologin_refresh" class="x_inline"><input type="checkbox" name="autologin_refresh" id="autologin_refresh" value="Y" checked="checked"|cond="$autologin_refresh" /> {$lang->autologin_refresh}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_autologin_lifetime}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->use_session_ssl}</label>
 			<div class="x_controls">
 				<label for="use_session_ssl_y" class="x_inline"><input type="radio" name="use_session_ssl" id="use_session_ssl_y" value="Y" checked="checked"|cond="$use_session_ssl && $site_module_info->security === 'always'" disabled="disabled"|cond="$site_module_info->security !== 'always'" /> {$lang->cmd_yes}</label>

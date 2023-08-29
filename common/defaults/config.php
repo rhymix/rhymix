@@ -56,6 +56,8 @@ return array(
 		'rewrite' => 1,
 	),
 	'session' => array(
+		'autologin_lifetime' => 365,
+		'autologin_refresh' => true,
 		'delay' => false,
 		'use_db' => false,
 		'use_ssl' => false,

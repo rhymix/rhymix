@@ -1149,7 +1149,8 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
-		$lifetime = time() + (86400 * 365);
+		$lifetime_days = config('session.autologin_lifetime') ?: 365;
+		$lifetime = time() + (86400 * $lifetime_days);
 
 		// Set the autologin keys.
 		if ($autologin_key && $security_key)

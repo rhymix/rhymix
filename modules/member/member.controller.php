@@ -2211,7 +2211,7 @@ class MemberController extends Member
 		// If the current security key matches, generate a new key.
 		// If the previous key matches, don't update until the client has the current key.
 		// Resending the current key in this case will be handled by the Session class.
-		if ($hashed_security_key === $output->data->security_key)
+		if ($hashed_security_key === $output->data->security_key && config('session.autologin_refresh') !== false)
 		{
 			$new_security_key = Rhymix\Framework\Security::getRandom(24, 'alnum');
 			$new_hash = base64_encode(hash_hmac('sha256', $new_security_key, $autologin_key, true));
