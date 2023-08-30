@@ -25,6 +25,7 @@ return array(
 		'ttl' => 86400,
 		'servers' => array(),
 		'truncate_method' => 'delete',
+		'cache_control' => 'must-revalidate, no-store, no-cache',
 	),
 	'ftp' => array(
 		'host' => 'localhost',

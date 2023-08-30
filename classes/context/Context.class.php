@@ -481,9 +481,11 @@ class Context
 	 */
 	public static function setCacheControl($ttl = 0, $public = true)
 	{
+		$cache_control_header = config('cache.cache_control') ?? 'must-revalidate, no-store, no-cache';
+
 		if($ttl == 0)
 		{
-			header('Cache-Control: ' . ($public ? '' : 'private, ') . 'must-revalidate, no-store, no-cache');
+			header('Cache-Control: ' . ($public ? '' : 'private, ') . $cache_control_header);
 			header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 			header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
 		}

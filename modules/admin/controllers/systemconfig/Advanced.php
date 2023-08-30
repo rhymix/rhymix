@@ -71,6 +71,7 @@ class Advanced extends Base
 			Context::set('object_cache_dbnum', 1);
 		}
 		Context::set('cache_truncate_method', Config::get('cache.truncate_method'));
+		Context::set('cache_control_header', array_map('trim', explode(',', Config::get('cache.cache_control') ?? 'must-revalidate, no-store, no-cache')));
 
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
@@ -174,6 +175,16 @@ class Advanced extends Base
 		{
 			Config::set('cache.truncate_method', $vars->cache_truncate_method);
 		}
+
+		$cache_control = ['no-cache'];
+		foreach (['no-cache', 'no-store', 'must-revalidate'] as $val)
+		{
+			if (isset($vars->cache_control_header) && in_array($val, $vars->cache_control_header))
+			{
+				$cache_control[] = $val;
+			}
+		}
+		Config::set('cache.cache_control', implode(', ', array_reverse($cache_control)));
 
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');

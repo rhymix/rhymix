@@ -192,6 +192,16 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cache_control_header}</label>
+			<div class="x_controls">
+				<label for="cache_control_header_no_cache" class="x_inline"><input type="checkbox" name="cache_control_header[]" id="cache_control_header_no_cache" value="no-cache" checked="checked"|cond="in_array('no-cache', $cache_control_header)" disabled="disabled" /> no-cache</label>
+				<label for="cache_control_header_no_store" class="x_inline"><input type="checkbox" name="cache_control_header[]" id="cache_control_header_no_store" value="no-store" checked="checked"|cond="in_array('no-store', $cache_control_header)" /> no-store</label>
+				<label for="cache_control_header_must_revalidate" class="x_inline"><input type="checkbox" name="cache_control_header[]" id="cache_control_header_must_revalidate" value="must-revalidate" checked="checked"|cond="in_array('must-revalidate', $cache_control_header)" /> must-revalidate</label>
+				<br />
+				<p class="x_help-block">{$lang->about_cache_control_header}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->manager_layout}</label>
 			<div class="x_controls">
 				<label for="manager_layout_module" class="x_inline"><input type="radio" name="manager_layout" id="manager_layout_module" value="module" checked="checked"|cond="$manager_layout != 'admin'" /> {$lang->cmd_manager_layout_module}</label>
