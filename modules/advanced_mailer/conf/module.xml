@@ -11,7 +11,7 @@
 		<action name="dispAdvanced_mailerAdminSMSLog" type="view" />
 		<action name="dispAdvanced_mailerAdminPushTest" type="view" />
 		<action name="dispAdvanced_mailerAdminPushLog" type="view" />
-		
+
 		<action name="procAdvanced_mailerAdminInsertConfig" type="controller" />
 		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
 		<action name="procAdvanced_mailerAdminCheckDNSRecord" type="controller" />
@@ -22,6 +22,12 @@
 		<action name="procAdvanced_mailerAdminTestSendSMS" type="controller" />
 		<action name="procAdvanced_mailerAdminTestSendPush" type="controller" />
 	</actions>
+	<eventHandlers>
+		<eventHandler before="mail.send" class="controller" method="triggerBeforeMailSend" />
+		<eventHandler after="mail.send" class="controller" method="triggerAfterMailSend" />
+		<eventHandler after="sms.send" class="controller" method="triggerAfterSMSSend" />
+		<eventHandler after="push.send" class="controller" method="triggerAfterPushSend" />
+	</eventHandlers>
 	<menus>
 		<menu name="advanced_mailer" type="all">
 			<title xml:lang="ko">고급 메일 발송 모듈</title>

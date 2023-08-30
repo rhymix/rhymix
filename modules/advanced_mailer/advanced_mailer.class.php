@@ -177,82 +177,23 @@ class Advanced_Mailer extends ModuleObject
 		return $config;
 	}
 
-	/**
-	 * Register triggers.
-	 */
-	public function registerTriggers()
-	{
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-		if ($oModuleModel->getTrigger('moduleHandler.init', 'advanced_mailer', 'model', 'triggerReplaceMailClass', 'before'))
-		{
-			$oModuleController->deleteTrigger('moduleHandler.init', 'advanced_mailer', 'model', 'triggerReplaceMailClass', 'before');
-		}
-		if (!$oModuleModel->getTrigger('mail.send', 'advanced_mailer', 'controller', 'triggerBeforeMailSend', 'before'))
-		{
-			$oModuleController->insertTrigger('mail.send', 'advanced_mailer', 'controller', 'triggerBeforeMailSend', 'before');
-		}
-		if (!$oModuleModel->getTrigger('mail.send', 'advanced_mailer', 'controller', 'triggerAfterMailSend', 'after'))
-		{
-			$oModuleController->insertTrigger('mail.send', 'advanced_mailer', 'controller', 'triggerAfterMailSend', 'after');
-		}
-		if (!$oModuleModel->getTrigger('sms.send', 'advanced_mailer', 'controller', 'triggerAfterSMSSend', 'after'))
-		{
-			$oModuleController->insertTrigger('sms.send', 'advanced_mailer', 'controller', 'triggerAfterSMSSend', 'after');
-		}
-		if (!$oModuleModel->getTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after'))
-		{
-			$oModuleController->insertTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after');
-		}
-	}
-
-	/**
-	 * Install.
-	 */
 	public function moduleInstall()
 	{
-		$this->registerTriggers();
+
 	}
 
-	/**
-	 * Check update.
-	 */
 	public function checkUpdate()
 	{
-		$oModuleModel = getModel('module');
-		if ($oModuleModel->getTrigger('moduleHandler.init', 'advanced_mailer', 'model', 'triggerReplaceMailClass', 'before'))
-		{
-			return true;
-		}
-		if (!$oModuleModel->getTrigger('mail.send', 'advanced_mailer', 'controller', 'triggerBeforeMailSend', 'before'))
-		{
-			return true;
-		}
-		if (!$oModuleModel->getTrigger('mail.send', 'advanced_mailer', 'controller', 'triggerAfterMailSend', 'after'))
-		{
-			return true;
-		}
-		if (!$oModuleModel->getTrigger('sms.send', 'advanced_mailer', 'controller', 'triggerAfterSMSSend', 'after'))
-		{
-			return true;
-		}
-		if (!$oModuleModel->getTrigger('push.send', 'advanced_mailer', 'controller', 'triggerAfterPushSend', 'after'))
-		{
-			return true;
-		}
-		return false;
+
 	}
 
-	/**
-	 * Update.
-	 */
 	public function moduleUpdate()
 	{
-		$this->registerTriggers();
+
 	}
 
 	public function recompileCache()
 	{
-		// no-op
+
 	}
 }
