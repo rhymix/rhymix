@@ -30,9 +30,9 @@ class XMLDisplayHandler
 	 */
 	function _makeXmlDoc($obj)
 	{
-		if(!count($obj))
+		if (!countobj($obj))
 		{
-			return;
+			return '';
 		}
 
 		$xmlDoc = '';
