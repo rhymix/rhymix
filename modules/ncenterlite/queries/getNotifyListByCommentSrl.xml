@@ -1,4 +1,4 @@
-<query id="getNotifyListByDocumentSrl" action="select">
+<query id="getNotifyListByCommentSrl" action="select">
 	<tables>
 		<table name="ncenterlite_notify" />
 	</tables>
