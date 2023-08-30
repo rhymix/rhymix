@@ -1,0 +1,12 @@
+<query id="getNotifyListByCommentSrl" action="select">
+	<tables>
+		<table name="ncenterlite_notify" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="srl" var="document_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="target_srl" var="comment_srl" filter="number" notnull="notnull" />
+	</conditions>
+</query>

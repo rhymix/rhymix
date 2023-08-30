@@ -938,6 +938,38 @@ class ncenterliteController extends ncenterlite
 		}
 	}
 
+	function triggerAfterMoveToTrashComment($obj)
+	{
+		$notify_list = ncenterliteModel::getInstance()->getNotifyListByCommentSrl($obj->document_srl, $obj->comment_srl);
+
+		$member_srls = array();
+		foreach($notify_list as $value)
+		{
+			if(!in_array($value->member_srl, $member_srls))
+			{
+				$member_srls[] = $value->member_srl;
+			}
+		}
+
+		$config = NcenterliteModel::getConfig();
+		if(empty($config->use))
+		{
+			return;
+		}
+
+		$args = new stdClass();
+		$args->srl = $obj->comment_srl;
+		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
+		if($output->toBool())
+		{
+			foreach($member_srls as $member_srl)
+			{
+				//Remove flag files
+				$this->removeFlagFile($member_srl);
+			}
+		}
+	}
+
 	function triggerAfterModuleHandlerProc(&$oModule)
 	{
 		$args = new stdClass();
