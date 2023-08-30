@@ -952,14 +952,13 @@ class ncenterliteController extends ncenterlite
 		}
 
 		$config = NcenterliteModel::getConfig();
-
 		if(empty($config->use))
 		{
 			return;
 		}
 
 		$args = new stdClass();
-		$args->target_srl = $obj->comment_srl;
+		$args->srl = $obj->comment_srl;
 		$output = executeQuery('ncenterlite.deleteNotifyBySrl', $args);
 		if($output->toBool())
 		{
