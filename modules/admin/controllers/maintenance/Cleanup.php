@@ -305,6 +305,7 @@ class Cleanup extends Base
 		'common/framework/drivers/cache/wincache.php' => 'deleted',
 		'common/framework/drivers/cache/xcache.php' => 'deleted',
 		'common/img/flvplayer.swf' => 'deleted:xe',
+		'common/js/html5.js' => 'deleted',
 		'common/js/jquery-1.12.4.min.js' => 'deleted',
 		'common/js/jquery-1.12.4.js' => 'deleted',
 		'common/js/plugins/jquery.migrate/jquery-migrate-1.4.1.js' => 'deleted',
