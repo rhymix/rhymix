@@ -5,8 +5,8 @@
  **/
 function xDeprecate(funcName) {
 	var msg = 'DEPRECATED : '+funcName+'() is deprecated in Rhymix.';
-	if (typeof console == 'object' && typeof console.log == 'function') {
-		console.log(msg);
+	if (typeof console == 'object' && typeof console.warn == 'function') {
+		console.warn(msg);
 	}
 }
 

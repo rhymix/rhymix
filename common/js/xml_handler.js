@@ -31,8 +31,8 @@
 	window.exec_xml = $.exec_xml = function(module, act, params, callback_success, return_fields, callback_success_arg, fo_obj) {
 
 		// Display deprecation notice.
-		if (typeof console == "object" && typeof console.log == "function") {
-			console.log("DEPRECATED : exec_xml() is deprecated in Rhymix. Use exec_json() instead.");
+		if (typeof console == "object" && typeof console.warn == "function") {
+			console.warn("DEPRECATED : exec_xml() is deprecated in Rhymix. Use exec_json() instead.");
 		}
 
 		// Define callback functions.
@@ -86,8 +86,8 @@
 			if (data.error != "0") {
 				// This way of calling an error handler is deprecated. Do not use it.
 				if ($.isFunction($.exec_xml.onerror)) {
-					if (typeof console == "object" && typeof console.log == "function") {
-						console.log("DEPRECATED : $.exec_xml.onerror() is deprecated in Rhymix.");
+					if (typeof console == "object" && typeof console.warn == "function") {
+						console.warn("DEPRECATED : $.exec_xml.onerror() is deprecated in Rhymix.");
 					}
 					return $.exec_xml.onerror(module, act, data, callback_success, return_fields, callback_success_arg, fo_obj);
 				}
@@ -337,8 +337,8 @@
 	 * Function for compatibility with XE's exec_html()
 	 */
 	window.exec_html = $.fn.exec_html = function() {
-		if (typeof console == "object" && typeof console.log == "function") {
-			console.log("DEPRECATED : exec_html() is obsolete in Rhymix.");
+		if (typeof console == "object" && typeof console.warn == "function") {
+			console.warn("DEPRECATED : exec_html() is obsolete in Rhymix.");
 		}
 	};
 
@@ -451,8 +451,8 @@
 function send_by_form(url, params) {
 
 	// This function is deprecated!
-	if (typeof console == "object" && typeof console.log == "function") {
-		console.log("DEPRECATED : send_by_form() is deprecated in Rhymix.");
+	if (typeof console == "object" && typeof console.warn == "function") {
+		console.warn("DEPRECATED : send_by_form() is deprecated in Rhymix.");
 	}
 
 	// Create the hidden iframe.
