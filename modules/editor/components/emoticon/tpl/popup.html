@@ -1,12 +1,16 @@
+<load target="popup.scss" />
 <load target="popup.js" />
-<load target="popup.less" />
-{@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
+
+{@ Context::addMetaTag('viewport', 'width=device-width', FALSE);}
+
 <script>
 	var lang_success_added = '{$lang->success_added}';
 </script>
+
 <div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
 </div>
+
 <div class="x_modal-body">
 	<div class="rx_tab">
 		<ul class="rx_tab">
