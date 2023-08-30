@@ -308,6 +308,7 @@ class Cleanup extends Base
 		'common/js/html5.js' => 'deleted',
 		'common/js/jquery-1.12.4.min.js' => 'deleted',
 		'common/js/jquery-1.12.4.js' => 'deleted',
+		'common/js/respond.min.js' => 'deleted',
 		'common/js/plugins/jquery.migrate/jquery-migrate-1.4.1.js' => 'deleted',
 		'common/js/plugins/spectrum/bower.json' => 'deleted',
 		'common/js/plugins/spectrum/Gruntfile.js' => 'deleted',
