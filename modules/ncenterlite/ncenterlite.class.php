@@ -29,6 +29,7 @@ class ncenterlite extends ModuleObject
 		array('member.procMemberScrapDocument', 'ncenterlite', 'controller', 'triggerAfterScrap', 'after'),
 		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
 		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
+		array('comment.moveCommentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrashComment', 'after'),
 		array('comment.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCount', 'after'),
 		array('comment.updateVotedCountCancel', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCancel', 'after'),
 		// 2020. 05. 30 add menu when popup document menu called

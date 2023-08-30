@@ -755,6 +755,24 @@ class ncenterliteModel extends ncenterlite
 		return $output->data;
 	}
 
+	function getNotifyListByCommentSrl($document_srl, $comment_srl)
+	{
+		if($comment_srl === null)
+		{
+			return false;
+		}
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$args->comment_srl = $comment_srl;
+		$output = executeQueryArray('ncenterlite.getNotifyListByCommentSrl', $args);
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		return $output->data;
+	}
+
 	/**
 	 * 알림에서 member_srl 만 정리해서 보내준다.
 	 * @param int $srl
