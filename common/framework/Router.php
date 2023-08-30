@@ -91,6 +91,21 @@ class Router
 	protected static $_route_cache = array();
 
 	/**
+	 * Instance properties.
+	 */
+	public $status = 200;
+	public $url = '';
+	public $module = '';
+	public $mid = '';
+	public $act = '';
+	public $args = [];
+	public $is_forwarded = false;
+	public $check_csrf = true;
+	public $meta_noindex = false;
+	public $session = true;
+	public $cache_control = true;
+
+	/**
 	 * Return the currently configured rewrite level.
 	 *
 	 * 0 = None
@@ -115,21 +130,12 @@ class Router
 	 * @param string $method
 	 * @param string $url
 	 * @param int $rewrite_level
-	 * @return object
+	 * @return self
 	 */
-	public static function parseURL(string $method, string $url, int $rewrite_level)
+	public static function parseURL(string $method, string $url, int $rewrite_level): self
 	{
 		// Prepare the return object.
-		$result = new \stdClass;
-		$result->status = 200;
-		$result->url = '';
-		$result->module = '';
-		$result->mid = '';
-		$result->act = '';
-		$result->forwarded = false;
-		$result->session = true;
-		$result->cache_control = true;
-		$result->args = array();
+		$result = new self;
 
 		// Separate additional arguments from the URL.
 		$args = array();
@@ -183,9 +189,8 @@ class Router
 					$allargs = array_merge($args, [$prefix_type => $prefix]);
 					$result->module = $module_name;
 					$result->mid = $prefix;
-					$result->session = ($action_info->action->{$action_info->default_index_act}->session === 'false') ? false : true;
-					$result->cache_control = ($action_info->action->{$action_info->default_index_act}->cache_control === 'false') ? false : true;
 					$result->args = $allargs;
+					self::_fillActionProperties($result, $action_info->action->{$action_info->default_index_act});
 					return $result;
 				}
 
@@ -199,9 +204,8 @@ class Router
 						$result->module = $module_name;
 						$result->mid = $prefix_type === 'mid' ? $prefix : '';
 						$result->act = $action;
-						$result->session = ($action_info->action->{$action}->session === 'false') ? false : true;
-						$result->cache_control = ($action_info->action->{$action}->cache_control === 'false') ? false : true;
 						$result->args = $allargs;
+						self::_fillActionProperties($result, $action_info->action->{$action});
 						return $result;
 					}
 				}
@@ -219,8 +223,9 @@ class Router
 							$result->module = $action[0];
 							$result->mid = $prefix;
 							$result->act = $action[1];
-							$result->forwarded = true;
+							$result->is_forwarded = true;
 							$result->args = $allargs;
+							self::_fillActionProperties($result);
 							return $result;
 						}
 					}
@@ -233,8 +238,9 @@ class Router
 					$result->module = $module_name;
 					$result->mid = $prefix_type === 'mid' ? $prefix : '';
 					$result->act = $internal_url;
-					$result->forwarded = true;
+					$result->is_forwarded = true;
 					$result->args = $allargs;
+					self::_fillActionProperties($result);
 					return $result;
 				}
 
@@ -245,8 +251,9 @@ class Router
 					$result->module = $module_name;
 					$result->mid = $prefix_type === 'mid' ? $prefix : '';
 					$result->act = $action_info->error_handlers[404];
-					$result->forwarded = false;
+					$result->is_forwarded = false;
 					$result->args = $allargs;
+					self::_fillActionProperties($result);
 					return $result;
 				}
 			}
@@ -264,8 +271,9 @@ class Router
 					$allargs = array_merge($args, $matches, ['act' => $action[1]]);
 					$result->module = $action[0];
 					$result->act = $action[1];
-					$result->forwarded = true;
+					$result->is_forwarded = true;
 					$result->args = $allargs;
+					self::_fillActionProperties($result);
 					return $result;
 				}
 			}
@@ -281,8 +289,9 @@ class Router
 				$result->module = $allargs['module'] ?? '';
 				$result->mid = ($allargs['mid'] ?? '') ?: '';
 				$result->act = ($allargs['act'] ?? '') ?: '';
-				$result->forwarded = false;
+				$result->is_forwarded = false;
 				$result->args = $allargs;
+				self::_fillActionProperties($result);
 				return $result;
 			}
 		}
@@ -445,7 +454,7 @@ class Router
 	 * Load and cache module action info.
 	 *
 	 * @param string $prefix
-	 * @return object
+	 * @return object|false
 	 */
 	protected static function _getActionInfoByPrefix(string $prefix, string &$module_name = '')
 	{
@@ -471,7 +480,7 @@ class Router
 	 * Load and cache module action info.
 	 *
 	 * @param string $prefix
-	 * @return object
+	 * @return object|false
 	 */
 	protected static function _getActionInfoByModule(string $module)
 	{
@@ -482,6 +491,37 @@ class Router
 
 		$action_info = \ModuleModel::getModuleActionXml($module);
 		return self::$_action_cache_module[$module] = $action_info ?: false;
+	}
+
+	/**
+	 * Fill additional properties of an action.
+	 *
+	 * @param object $route
+	 * @param ?object $action
+	 * @return void
+	 */
+	protected static function _fillActionProperties(object $route, ?object $action = null): void
+	{
+		if (!$action)
+		{
+			if ($route->module && $route->act)
+			{
+				$action_info = \ModuleModel::getModuleActionXml($route->module);
+				if (isset($action_info->action->{$route->act}))
+				{
+					$action = $action_info->action->{$route->act};
+				}
+			}
+		}
+		if (!$action)
+		{
+			return;
+		}
+
+		$route->check_csrf = ($action->check_csrf === 'false') ? false : true;
+		$route->meta_noindex = ($action->meta_noindex === 'true') ? true : false;
+		$route->session = ($action->session === 'false') ? false : true;
+		$route->cache_control = ($action->cache_control === 'false') ? false : true;
 	}
 
 	/**
