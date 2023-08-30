@@ -18,6 +18,8 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals('GET|POST', $info->action->dispTestView->method);
 		$this->assertEquals('false', $info->action->dispTestView->standalone);
 		$this->assertEquals('true', $info->action->dispTestView->check_csrf);
+		$this->assertEquals('false', $info->action->dispTestView->session);
+		$this->assertEquals('false', $info->action->dispTestView->cache_control);
 		$this->assertEquals(3, count($info->action->dispTestView->route));
 		$this->assertEquals(100, $info->action->dispTestView->route['$document_srl']['priority']);
 		$this->assertEquals(['document_srl' => 'int'], $info->action->dispTestView->route['$document_srl']['vars']);
@@ -28,6 +30,8 @@ class ModuleActionParserTest extends \Codeception\TestCase\Test
 		$this->assertEquals(['write' => ['priority' => 0, 'vars' => []]], $info->action->dispTestWrite->route);
 		$this->assertEquals('true', $info->action->dispTestWrite->meta_noindex);
 		$this->assertEquals('true', $info->action->dispTestWrite->global_route);
+		$this->assertEquals('true', $info->action->dispTestWrite->session);
+		$this->assertEquals('true', $info->action->dispTestWrite->cache_control);
 		$this->assertEquals('controller', $info->action->procTestSubmitData->type);
 		$this->assertEquals('submitData', $info->action->procTestSubmitData->ruleset);
 		$this->assertEquals('POST', $info->action->procTestSubmitData->method);

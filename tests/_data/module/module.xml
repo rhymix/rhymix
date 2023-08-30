@@ -7,7 +7,7 @@
 		</grant>
 	</grants>
 	<actions>
-		<action name="dispTestView" type="view" permission="view" standalone="false" index="true">
+		<action name="dispTestView" type="view" permission="view" standalone="false" index="true" session="false" cache-control="off">
 			<route route="$document_srl:int" priority="100" />
 			<route route="$document_srl:int/comment/$comment_srl:int" priority="70" />
 			<route route="$document_srl:int/tag/$tag:word" priority="50" />
