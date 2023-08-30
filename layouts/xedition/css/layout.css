@@ -79,7 +79,6 @@ a:hover, a:active, a:focus {
     width: 1200px;
     height: 100%;
     margin: 0 auto;
-    zoom: 1
 }
 .header > .side {
     float: right;
@@ -109,7 +108,6 @@ a:hover, a:active, a:focus {
     content: ''
 }
 .content {
-    zoom: 1
 }
 .content:after {
     display: block;
@@ -957,7 +955,6 @@ a:hover, a:active, a:focus {
         width: 100%;
         height: auto;
         margin: 0 auto;
-        zoom: 1
     }
     .magazine .header {
 	    text-align:left;
@@ -982,7 +979,6 @@ a:hover, a:active, a:focus {
         padding: 0;
     }
     .content {
-        zoom: 1;
     }
     .content:after {
         clear: both;
@@ -1045,8 +1041,7 @@ a:hover, a:active, a:focus {
         z-index: 1000;
         border-bottom: 1px solid #e1e1e1;
         background-color: #fff;
-        -webkit-animation: ani-header 0.5s forwards;
-        animation: ani-header 0.5s forwards
+        animation: ani-header 0.5s forwards;
     }
     .fixed_header .header_wrap.shrink .header > h1 {
         padding: 0
@@ -1176,11 +1171,7 @@ a:hover, a:active, a:focus {
         line-height: 50px;
         letter-spacing: 1px;
         color: #FFF;
-        -webkit-transition: all .2s ease-in-out;
-        -moz-transition: all .2s ease-in-out;
-        -ms-transition: all .2s ease-in-out;
-        -o-transition: all .2s ease-in-out;
-        transition: all .2s ease-in-out
+        transition: all .2s ease-in-out;
     }
     .btn_item:hover,
     .btn_item:active
@@ -1352,8 +1343,6 @@ a:hover, a:active, a:focus {
     .gnb .menu_btn.opened .menu_bar div.btn1 {
         top: 6px;
         width: 20px;
-        -webkit-transform: rotate(45deg);
-        -o-transform: rotate(45deg);
         transform: rotate(45deg);
     }
     .gnb .menu_btn.opened .menu_bar div.btn2 {
@@ -1363,11 +1352,7 @@ a:hover, a:active, a:focus {
     .gnb .menu_btn.opened .menu_bar div.btn3 {
         top: 6px;
         width: 20px;
-        -webkit-transform: rotate(-45deg);
-        -o-transform: rotate(-45deg);
         transform: rotate(-45deg);
-    }
-    .body {
     }
     .body .lnb {
         display: none;
@@ -1485,14 +1470,6 @@ a:hover, a:active, a:focus {
 
 }
 /* header animation */
-@-webkit-keyframes ani-header {
-    0% {
-        top: -60px
-    }
-    100% {
-        top: 0px
-    }
-}
 @keyframes ani-header {
     0% {
         top: -60px

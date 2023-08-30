@@ -51,7 +51,6 @@
 /* Board Header */
 .board_header {
 	position: relative;
-	zoom: 1;
 	margin: 0 0 22px 0;
 }
 .board_header:after {
@@ -77,7 +76,6 @@
 	margin: 0 0 35px 0;
 	padding: 0;
 	list-style: none;
-	zoom: 1;
 	border-bottom: 1px solid #999;
 }
 .cTab:after {
@@ -242,7 +240,6 @@
 .list_footer {
 	position: relative;
 	margin: 15px 0;
-	zoom: 1;
 }
 .list_footer:after {
 	content: "";
@@ -466,7 +463,6 @@
 /* _read.html */
 .board_read {
 	background: #fff url(bgHeader.gif) no-repeat 0 -50px;
-	zoom: 1;
 }
 .read_header {
 	position: relative;
@@ -505,7 +501,6 @@
 	padding: 8px 12px 8px 15px;
 	background: #f6f6f6;
 	border-bottom: 1px solid #ddd;
-	zoom: 1;
 	white-space: nowrap;
 }
 .read_header .meta:after {
@@ -654,7 +649,6 @@
 	margin: 0 0 -1px 0;
 	padding: 10px 15px;
 	overflow: hidden;
-	zoom: 1;
 }
 .read_footer .sign .pf {
 	float: left;
@@ -742,7 +736,6 @@
 	padding: 18px 0 16px 0;
 	border-bottom: 1px dashed #e6e6e6;
 	margin: 0 0 -1px 0;
-	zoom: 1;
 	list-style: none;
 }
 .feedback .fbItem:after {
@@ -998,7 +991,6 @@
 	border-bottom: solid #fff;
 	border-left: 0;
 	margin-right: 1px;
-	*left: -4px;
 }
 .pagination .next span {
 	border: 3px solid;
@@ -1016,7 +1008,6 @@
 .write_author .item {
 	position: relative;
 	display: inline-block;
-	zoom: 1;
 }
 .write_author .iLabel {
 	top: 4px;
@@ -1031,7 +1022,6 @@
 .write_comment {
 	position: relative;
 	margin: 10px 12px;
-	zoom: 1;
 }
 .write_comment:after {
 	content: "";
@@ -1125,8 +1115,6 @@
 .board .btn {
 	text-decoration: none !important;
 	display: inline-block;
-	*display: inline;
-	*zoom: 1;
 	padding: 0 12px;
 	margin: 0;
 	font-family: inherit;
@@ -1140,15 +1128,8 @@
 	cursor: pointer;
 	overflow: visible;
 	background-color: #f5f5f5;
-	*background-color: #e6e6e6;
-	background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
-	background-image: -webkit-gradient(top, #ffffff, #e6e6e6);
-	background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
-	background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
-	background-image: linear-gradient(top, #ffffff, #e6e6e6);
+	background: linear-gradient(top, #ffffff, #e6e6e6);
 	background-repeat: repeat-x;
-	filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
-	filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
 	border: 1px solid #bbb;
 	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
 	border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
@@ -1161,5 +1142,4 @@
 .board .btn[disabled] {
 	color: #333;
 	background-color: #e6e6e6;
-	*background-color: #d9d9d9;
 }

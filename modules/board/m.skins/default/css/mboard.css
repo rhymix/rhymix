@@ -71,7 +71,6 @@ input[type=radio] {
 	content: "";
 	display: block;
 	clear: both;
-	zoom: 1;
 }
 /* Hx */
 .hx {
@@ -451,7 +450,6 @@ input[type=radio] {
 	text-align: center;
 	padding: 0 10px;
 	margin: 10px 0;
-	zoom: 1;
 }
 .bna:after {
 	content: "";

@@ -51,7 +51,6 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	zoom: 1;
 	border: 0;
 }
 .cTab:after {
@@ -78,7 +77,7 @@
 	text-decoration: none;
 	color: #666;
 	box-sizing:border-box;
-	-webkit-transition: all .1s ease-in-out;-moz-transition: all .1s ease-in-out;-ms-transition: all .1s ease-in-out;-o-transition: all .1s ease-in-out;transition: all .1s ease-in-out		
+	transition: all .1s ease-in-out;
 }
 .cTab li em {
 	font: 11px Tahoma, Geneva, sans-serif;
@@ -215,7 +214,6 @@
 .list_footer {
 	position: relative;
 	margin: 15px 0;
-	zoom: 1;
 }
 .list_footer:after {
 	content: "";
@@ -244,7 +242,7 @@
 	border: 1px solid #DBDBDB;
 	border-radius: 4px;
 	box-sizing:border-box;
-	-webkit-transition: all .2s ease-in-out;-moz-transition: all .2s ease-in-out;-ms-transition: all .2s ease-in-out;-o-transition: all .2s ease-in-out;transition: all .2s ease-in-out		
+	transition: all .2s ease-in-out;
 }
 .list_footer .board_search .iText.active,
 .list_footer .board_search .iText:active,
@@ -447,7 +445,7 @@
 
 /* _read.html */
 .board_read {
-	zoom: 1;
+	display: block;
 }
 .read_header {
 	position: relative;
@@ -485,7 +483,6 @@
 	margin: 0;
 	padding: 8px 0 13px;
 	border-bottom: 1px solid #ddd;
-	zoom: 1;
 	white-space: nowrap;
 	color : #666;
 }
@@ -599,15 +596,15 @@
 .read_footer .sns li{display:inline;vertical-align:top}
 .read_footer .sns a{display:inline-block;width:32px;height:32px;border:1px solid #e0e0e0;background-color:#f4f4f4; border-radius:2px;}
 .read_footer .sns i{font-size:22px;line-height:32px;color:#bcbcbc}
-.read_footer .sns a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
-.read_footer .sns a:hover {color:#747474;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
+.read_footer .sns a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;}
+.read_footer .sns a:hover {color:#747474;transition: all 0.2s ease-in-out;}
 
 .read_footer .vote{ margin-top:51px;text-align:center; }
 .read_footer .vote li{display:inline;vertical-align:top}
 .read_footer .vote a{display:inline-block;width:70px;height:70px;border:1px solid #e0e0e0;background-color:#f4f4f4; border-radius:2px;}
 .read_footer .vote i{font-size:22px;line-height:45px;color:#bcbcbc}
-.read_footer .vote a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
-.read_footer .vote a:hover {color:#747474;transition: all 0.2s ease-in-out;-webkit-transition: all 0.2s ease-in-out}
+.read_footer .vote a:hover{border-color:#DECA79;background-color:#f9dc5f;transition: all 0.2s ease-in-out;}
+.read_footer .vote a:hover {color:#747474;transition: all 0.2s ease-in-out;}
 
 .read_footer .sign {
 	clear: both;
@@ -615,7 +612,6 @@
 	margin: 0 0 -1px 0;
 	padding: 10px 15px;
 	overflow: hidden;
-	zoom: 1;
 }
 .read_footer .sign .pf {
 	float: left;
@@ -692,7 +688,6 @@
 	padding: 20px 0 19px 0;
 	border-bottom: 1px solid #E9E9E9;
 	margin: 0 0 -1px 0;
-	zoom: 1;
 	list-style: none;
 }
 .feedback .fbItem:last-child {
@@ -949,7 +944,6 @@
 	border-bottom: solid #fff;
 	border-left: 0;
 	margin-right: 1px;
-	*left: -4px;
 }
 .pagination .next span {
 	border: 3px solid;
@@ -967,7 +961,6 @@
 .write_author .item {
 	position: relative;
 	display: inline-block;
-	zoom: 1;
 }
 .write_author .iLabel {
 	top: 6px;
@@ -982,7 +975,6 @@
 .write_comment {
 	position: relative;
 	margin: 10px 0 75px;
-	zoom: 1;
 }
 .write_comment:after {
 	content: "";
@@ -1079,8 +1071,6 @@
 .board .btn {
 	text-decoration: none !important;
 	display: inline-block;
-	*display: inline;
-	*zoom: 1;
 	padding: 0 12px !important;
 	margin: 0;
 	font-family: inherit;
@@ -1099,14 +1089,13 @@
 	text-shadow:none;
 	color:#000;
 	box-shadow:none;
-	-webkit-transition: all .2s ease-in-out;-moz-transition: all .2s ease-in-out;-ms-transition: all .2s ease-in-out;-o-transition: all .2s ease-in-out;transition: all .2s ease-in-out		
+	transition: all .2s ease-in-out;
 }
 .board .btn:hover,
 .board .btn:active,
 .board .btn[disabled] {
 	color: #fff;
 	background-color: #CDA25A;
-	*background-color: #CDA25A;
 }
 .board .btn i {
 	width: 24px;
@@ -1127,9 +1116,9 @@
 	width:130px;
 	height:38px;
 	border-radius:2px;
-	color:#fff; 
+	color:#fff;
 	background:#CDA25A;
-	-webkit-transition: all .2s ease-in-out;-moz-transition: all .2s ease-in-out;-ms-transition: all .2s ease-in-out;-o-transition: all .2s ease-in-out;transition: all .2s ease-in-out	
+	transition: all .2s ease-in-out;
 }
 .board .btn_insert:hover {
 	background:#555;
@@ -1149,7 +1138,6 @@
 	font-size: 15px;
 	font-family: "Open Sans","나눔바른고딕",NanumBarunGothic,"맑은 고딕","Malgun Gothic","돋움",Dotum,"애플 SD 산돌고딕 Neo","Apple SD Gothic Neo",AppleGothic,Helvetica,sans-serif;
 	line-height: 1.6;
-	-webkit-font-smoothing: antialiased;
 	background: rgb(255, 255, 255);
 }
 
