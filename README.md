@@ -36,7 +36,7 @@ Rhymix는 개발자와 사용자가 서로의 권리와 책임을 존중하는 �
 
 ### 설치 환경
 
-Rhymix를 사용하려면 PHP 7.0 이상, MySQL 5.0.7 이상 버전이 필요합니다.
+Rhymix를 사용하려면 PHP 7.2.5 이상, MySQL 또는 MariaDB가 필요합니다.
 자세한 설치 환경은 [매뉴얼](https://rhymix.org/manual/introduction/requirements)을 참고하십시오.
 
 ### 개발 참여
@@ -108,7 +108,7 @@ This requires the most convenience for the average user over any other CMS.
 
 ### Installation Environment
 
-Rhymix requires PHP 7.0 or higher, and MySQL 5.0.7 or higher.
+Rhymix requires PHP 7.2.5 or higher, and MySQL or MariaDB.
 Please see the [online manual](https://rhymix.org/manual/introduction/requirements) for more information on server requirements.
 
 ### Participation in Development
