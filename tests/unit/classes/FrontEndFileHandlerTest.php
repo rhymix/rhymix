@@ -256,7 +256,6 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/js/common.js', 'head'));
 		$handler->loadFile(array('./common/js/debug.js', 'head'));
-		$handler->loadFile(array('./common/js/html5.js', 'head'));
 		$handler->loadFile(array('///external.host/js/script.js'));
 		$handler->loadFile(array('./tests/_data/formatter/concat.source1.js', 'head', 'lt IE 8'));
 		$handler->loadFile(array('./tests/_data/formatter/concat.source2.js', 'head', 'gt IE 7'));
