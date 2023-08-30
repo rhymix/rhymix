@@ -211,7 +211,7 @@
 
 			} else {
 				if(menus) {
-					var item = menus.item;
+					var item = menus.item || menus;
 					if(typeof(item.length)=='undefined' || item.length<1) item = new Array(item);
 					if(item.length) {
 						for(var i=0;i<item.length;i++) {
@@ -1288,7 +1288,8 @@ jQuery(function($){
 			evt.pageY = touch.pageY;
 		}
 
-		var action = 'get'+ucfirst(match[2])+'Menu';
+		var module = match[2];
+		var action = 'get'+ucfirst(module)+'Menu';
 		var params = {
 			mid        : current_mid,
 			cur_mid    : current_mid,
@@ -1304,11 +1305,15 @@ jQuery(function($){
 		evt.preventDefault();
 		evt.stopPropagation();
 
-		if(is_def(XE.loaded_popup_menus[params.menu_id])) return XE.displayPopupMenu(params, response_tags, params);
+		if(is_def(XE.loaded_popup_menus[params.menu_id])) {
+			return XE.displayPopupMenu(params, response_tags, params);
+		}
 
 		show_waiting_message = false;
-		exec_xml('member', action, params, XE.displayPopupMenu, response_tags, params);
-		show_waiting_message = true;
+		exec_json(module + '.' + action, params, function(data) {
+			XE.displayPopupMenu(data, response_tags, params);
+			show_waiting_message = true;
+		});
 	});
 
 	/**
