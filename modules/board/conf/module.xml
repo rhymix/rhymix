@@ -93,7 +93,7 @@
 		<action name="dispBoardUpdateLogView" type="view" permission="update_view" standalone="false" />
 		<action name="dispBoardVoteLog" type="view" permission="vote_log_view" standalone="false" />
 		<action name="dispBoardNotFound" type="view" standalone="false" error-handlers="404" />
-		
+
 		<action name="dispBoardNoticeList" type="view" permission="list" standalone="false" />
 		<action name="dispBoardCategoryList" type="view" permission="list" standalone="false" />
 		<action name="dispBoardContentCommentList" type="view" permission="view" standalone="false" />
@@ -102,7 +102,7 @@
 		<action name="dispBoardCategory" type="view" permission="list" standalone="false" />
 		<action name="dispBoardCommentPage" type="view" permission="view" standalone="false" />
 		<action name="getBoardCommentPage" type="mobile" permission="view" standalone="false" />
-		
+
 		<action name="procBoardInsertDocument" type="controller" permission="write_document" standalone="false" ruleset="insertDocument" />
 		<action name="procBoardDeleteDocument" type="controller" permission="write_document" standalone="false" />
 		<action name="procBoardRevertDocument" type="controller" permission="update_view" standalone="false" />
@@ -111,7 +111,7 @@
 		<action name="procBoardDeleteTrackback" type="controller" permission="list,view" standalone="false" />
 		<action name="procBoardVerificationPassword" type="controller" permission="view" standalone="false" />
 		<action name="procBoardVoteDocument" type="controller" permission="view" standalone="false" />
-		
+
 		<action name="dispBoardAdminContent" type="view" admin_index="true" menu_name="board" menu_index="true" />
 		<action name="dispBoardAdminInsertBoard" type="view" setup_index="true" menu_name="board" />
 		<action name="dispBoardAdminDeleteBoard" type="view" menu_name="board" />
@@ -122,15 +122,19 @@
 		<action name="dispBoardAdminBoardAdditionSetup" type="view" permission="manager" menu_name="board" />
 		<action name="dispBoardAdminSkinInfo" type="view" permission="manager" menu_name="board" />
 		<action name="dispBoardAdminMobileSkinInfo" type="view" permission="manager" menu_name="board" />
-		
+
 		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
-		
+
 		<action name="procBoardAdminInsertBoard" type="controller" permission="manager" check_var="module_srl" ruleset="insertBoard" />
 		<action name="procBoardAdminDeleteBoard" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procBoardAdminUpdateBoard" type="controller" ruleset="insertBoardForBasic" />
 		<action name="procBoardAdminInsertCombinedConfig" type="controller" />
 		<action name="procBoardAdminSaveCategorySettings" type="controller" permission="manager" check_var="module_srl" ruleset="saveCategorySettings" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="member.getMemberMenu" class="controller" method="triggerMemberMenu" />
+		<eventHandler after="menu.getModuleListInSitemap" class="model" method="triggerModuleListInSitemap" />
+	</eventHandlers>
 	<menus>
 		<menu name="board" type="all">
 			<title xml:lang="en">Board</title>
