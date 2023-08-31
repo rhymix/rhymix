@@ -6,7 +6,11 @@
 function xDeprecate(funcName) {
 	var msg = 'DEPRECATED : '+funcName+'() is deprecated in Rhymix.';
 	if (typeof console == 'object' && typeof console.warn == 'function') {
-		console.warn(msg);
+		if (navigator.userAgent.match(/Firefox/)) {
+			console.error(msg);
+		} else {
+			console.warn(msg);
+		}
 	}
 }
 

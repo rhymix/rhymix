@@ -32,7 +32,12 @@
 
 		// Display deprecation notice.
 		if (typeof console == "object" && typeof console.warn == "function") {
-			console.warn("DEPRECATED : exec_xml() is deprecated in Rhymix. Use exec_json() instead.");
+			var msg = "DEPRECATED : exec_xml() is deprecated in Rhymix. Use exec_json() instead.";
+			if (navigator.userAgent.match(/Firefox/)) {
+				console.error(msg);
+			} else {
+				console.warn(msg);
+			}
 		}
 
 		// Define callback functions.
@@ -87,7 +92,12 @@
 				// This way of calling an error handler is deprecated. Do not use it.
 				if ($.isFunction($.exec_xml.onerror)) {
 					if (typeof console == "object" && typeof console.warn == "function") {
-						console.warn("DEPRECATED : $.exec_xml.onerror() is deprecated in Rhymix.");
+						var msg = "DEPRECATED : $.exec_xml.onerror() is deprecated in Rhymix.";
+						if (navigator.userAgent.match(/Firefox/)) {
+							console.error(msg);
+						} else {
+							console.warn(msg);
+						}
 					}
 					return $.exec_xml.onerror(module, act, data, callback_success, return_fields, callback_success_arg, fo_obj);
 				}
@@ -338,7 +348,12 @@
 	 */
 	window.exec_html = $.fn.exec_html = function() {
 		if (typeof console == "object" && typeof console.warn == "function") {
-			console.warn("DEPRECATED : exec_html() is obsolete in Rhymix.");
+			var msg = "DEPRECATED : exec_html() is obsolete in Rhymix.";
+			if (navigator.userAgent.match(/Firefox/)) {
+				console.error(msg);
+			} else {
+				console.warn(msg);
+			}
 		}
 	};
 
@@ -452,7 +467,12 @@ function send_by_form(url, params) {
 
 	// This function is deprecated!
 	if (typeof console == "object" && typeof console.warn == "function") {
-		console.warn("DEPRECATED : send_by_form() is deprecated in Rhymix.");
+		var msg = "DEPRECATED : send_by_form() is deprecated in Rhymix.";
+		if (navigator.userAgent.match(/Firefox/)) {
+			console.error(msg);
+		} else {
+			console.warn(msg);
+		}
 	}
 
 	// Create the hidden iframe.
