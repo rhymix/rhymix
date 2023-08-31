@@ -199,7 +199,7 @@ function doSyncPageContent() {
 		if(obj && jQuery(obj).hasClass("widgetContent")) {
 			if(!fo_obj.document_srl || fo_obj.document_srl.value == '0') {
 				try {
-					var content = Base64.decode(xInnerHtml(obj));
+					var content = Base64.decode(obj.innerHTML);
 					get_by_id("content_fo").content.value = content;
 					xe.Editors["1"].exec("SET_IR", [content]);
 				}
@@ -349,9 +349,8 @@ function doAddWidgetCode(widget_code) {
 
 		cssfile = request_uri+cssfile;
 		if(typeof(document.createStyleSheet)=='undefined') {
-			var css ='<link rel="stylesheet" href="'+cssfile+'" />';
-			var dummy  = xCreateElement("DIV");
-			xInnerHtml(dummy , css);
+			var dummy = document.createElement('div');
+			dummy.innerHTML = '<link rel="stylesheet" href="'+cssfile+'" />';
 			document.body.appendChild(dummy);
 		} else {
 			document.createStyleSheet(cssfile,0);
@@ -385,8 +384,8 @@ function doAddWidgetCode(widget_code) {
 
 
 	// html 추가
-	var dummy = xCreateElement('div');
-	xInnerHtml(dummy, widget_code);
+	var dummy = document.createElement('div');
+	dummy.innerHTML = widget_code;
 	var obj = dummy.childNodes[0];
 
 	if(selectedWidget && selectedWidget.getAttribute("widget")) {
@@ -462,8 +461,8 @@ function doCheckWidget(e) {
 			exec_xml('widget','procWidgetCopyDocument', params, completeCopyWidgetContent, response_tags, params, p_obj);
 			return;
 		} else {
-			var dummy = xCreateElement("DIV");
-			xInnerHtml(dummy,xInnerHtml(p_obj));
+			var dummy = document.createElement('div');
+			dummy.innerHTML = p_obj.innerHTML;
 
 			dummy.widget_sequence = '';
 			dummy.className = "widgetOutput";
@@ -521,10 +520,8 @@ function doCheckWidget(e) {
 // content widget 복사
 function completeCopyWidgetContent(ret_obj, response_tags, params, p_obj) {
 	var document_srl = ret_obj.document_srl;
-	var dummy = xCreateElement("DIV");
-	xInnerHtml(dummy,xInnerHtml(p_obj));
-
-
+	var dummy = document.createElement('div');
+	dummy.innerHTML = p_obj.innerHTML;
 	dummy.widget_sequence = '';
 	dummy.className = "widgetOutput";
 	for(var i=0;i<p_obj.attributes.length;i++) {
@@ -770,7 +767,7 @@ function doApplyWidgetSize(fo_obj) {
 		if(height && height != "100%") selectedSizeWidget.style.height = height;
 		else {
 			selectedSizeWidget.style.height = '';
-			var widgetBorder = xGetElementsByClassName('widgetBorder',selectedSizeWidget);
+			var widgetBorder = selectedSizeWidget.getElementsByClassName('widgetBorder');
 			for(var i=0;i<widgetBorder.length;i++) {
 				var obj = widgetBorder[i];
 				obj.style.height = '';
@@ -952,7 +949,7 @@ var widgetDisappear = 0;
 
 function widgetCreateTmpObject(obj) {
 	var id = obj.getAttribute('id');
-	tmpObj = xCreateElement('DIV');
+	tmpObj = document.createElement('div');
 	tmpObj.id = id + '_tmp';
 	tmpObj.className = obj.className;
 	tmpObj.style.overflow = 'hidden';
@@ -999,8 +996,7 @@ function widgetDragStart(tobj, px, py) {
 	var $tobj = jQuery(tobj);
 	if($tobj.hasClass('widgetResize') || $tobj.hasClass('widgetResizeLeft') || $tobj.hasClass('widgetBoxResize') || $tobj.hasClass('widgetBoxResizeLeft')) return;
 	var obj = widgetGetTmpObject(tobj);
-
-	xInnerHtml(obj, xInnerHtml(tobj));
+	obj.innerHTML = tobj.innerHTML;
 
 	xLeft(obj, xPageX(tobj));
 	xTop(obj, xPageY(tobj));
@@ -1072,7 +1068,7 @@ function widgetDrag(tobj, dx, dy) {
 		// 박스 안에 있을 경우에는 박스내의 위젯하고 자리를 바꾸고 그 외의 경우에는 박스를 빠져 나간다
 		if(tobj.parentNode != zonePageObj) {
 			// 박스내에 있는 위젯들을 구함
-			var widgetList = xGetElementsByClassName("widgetOutput",tobj.parentNode);
+			var widgetList = tobj.parentNode.getElementsByClassName("widgetOutput");
 
 			for(var i=0;i<widgetList.length;i++) {
 				var target_obj = widgetList[i];
@@ -1084,12 +1080,12 @@ function widgetDrag(tobj, dx, dy) {
 				if( tobj != target_obj && tobj.xDPX >= l && tobj.xDPX <= ll && tobj.xDPY >= t && tobj.xDPY <= tt && tobj.parentNode == target_obj.parentNode) {
 					var next1 = target_obj.nextSibling;
 					if(!next1) {
-						next1 = xCreateElement("DIV");
+						next1 = document.createElement('div');
 						target_obj.parentNode.appendChild(next1);
 					}
 					var next2 = tobj.nextSibling;
 					if(!next2) {
-						next2 = xCreateElement("DIV");
+						next2 = document.createElement('div');
 						tobj.parentNode.appendChild(next2);
 					}
 
@@ -1117,7 +1113,7 @@ function widgetDrag(tobj, dx, dy) {
 			// 이동하려는 위젯이 박스 위젯이 아니라면 박스 위젯들을 구해서 입력 유무를 검사한다
 			if(tobj.getAttribute("widget")!="widgetBox") {
 
-				var boxList = xGetElementsByClassName("nullWidget", zonePageObj);
+				var boxList = zonePageObj.getElementsByClassName("nullWidget");
 				for(var i=0;i<boxList.length;i++) {
 					var target_obj = boxList[i];
 					var $target_obj = jQuery(target_obj);
@@ -1157,7 +1153,7 @@ function widgetDrag(tobj, dx, dy) {
 			}
 
 			// 다른 위젯들을 구해서 자리를 바꿈
-			var widgetList = xGetElementsByClassName("widgetOutput",zonePageObj);
+			var widgetList = zonePageObj.getElementsByClassName("widgetOutput");
 			for(var i=0;i<widgetList.length;i++) {
 				var target_obj = widgetList[i];
 				var widget = target_obj.getAttribute("widget");
@@ -1171,12 +1167,12 @@ function widgetDrag(tobj, dx, dy) {
 					var next1 = target_obj.nextSibling;
 					if(!next1) next1 = target_obj.parentNode.lastChild;
 					if(!next1) {
-						next1 = xCreateElement("DIV");
+						next1 = document.createElement('div');
 						target_obj.parentNode.appendChild(next1);
 					}
 					var next2 = tobj.nextSibling;
 					if(!next2) {
-						next2 = xCreateElement("DIV");
+						next2 = document.createElement('div');
 						tobj.parentNode.appendChild(next2);
 					}
 
@@ -1200,8 +1196,8 @@ function widgetDragEnd(tobj, px, py) {
 
 // 스르르 사라지게 함 (일단 사라지게 하는 기능을 제거.. 속도 문제)
 function widgetDisapearObject(obj, tobj) {
-	xInnerHtml(tobj,xInnerHtml(obj));
-	xInnerHtml(obj,'');
+	tobj.innerHTML = obj.innerHTML;
+	obj.innerHTML = '';
 	jQuery(obj).hide();
 	obj.parentNode.removeChild(obj);
 	widgetTmpObject[tobj.id] = null;
@@ -1213,7 +1209,7 @@ function widgetMouseDown(e) {
 	var obj = e.target;
 
 	while(obj && !obj.draggable) {
-		obj = xParent(obj, true);
+		obj = obj.parentElement || obj.parentNode;
 	}
 	if(obj) {
 		e.preventDefault();

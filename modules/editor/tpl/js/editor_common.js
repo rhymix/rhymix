@@ -227,7 +227,7 @@ function editorSearchComponent(evt) {
 	if(obj.getAttribute("widget")) {
 		// editor_sequence을 찾음
 		while(tobj && tobj.nodeName != "BODY") {
-			tobj = xParent(tobj);
+			tobj = tobj.parentElement || tobj.parentNode;
 		}
 		if(!tobj || tobj.nodeName != "BODY" || !tobj.getAttribute("editor_sequence")) {
 			editorPrevNode = null;
@@ -245,8 +245,7 @@ function editorSearchComponent(evt) {
 	// 선택되어진 object부터 상단으로 이동하면서 editor_component attribute가 있는지 검사
 	if(!obj.getAttribute("editor_component")) {
 		while(obj && !obj.getAttribute("editor_component")) {
-			if(obj.parentElement) obj = obj.parentElement;
-			else obj = xParent(obj);
+			obj = obj.parentElement || obj.parentNode;
 		}
 	}
 
@@ -274,7 +273,7 @@ function editorSearchComponent(evt) {
 	// editor_sequence을 찾음
 	tobj = obj;
 	while(tobj && tobj.nodeName != "BODY") {
-		tobj = xParent(tobj);
+		tobj = tobj.parentElement || tobj.parentNode;
 	}
 	if(!tobj || tobj.nodeName != "BODY" || !tobj.getAttribute("editor_sequence")) {
 		editorPrevNode = null;

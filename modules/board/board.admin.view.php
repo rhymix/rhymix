@@ -305,7 +305,7 @@ class BoardAdminView extends Board {
 	 * @brief board module message
 	 **/
 	function alertMessage($message) {
-		$script =  sprintf('<script> xAddEventListener(window,"load", function() { alert("%s"); } );</script>', lang($message));
-		Context::addHtmlHeader( $script );
+		$script = sprintf('<script> window.addEventListener("load", function() { alert(%s); }); </script>', json_encode(strval(lang($message))));
+		Context::addHtmlHeader($script);
 	}
 }
