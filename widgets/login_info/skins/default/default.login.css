@@ -2,8 +2,6 @@
 
 .account {
 	display: inline-block;
-	*display: inline;
-	zoom: 1;
 	vertical-align: top;
 	margin: 0;
 	padding: 0;
@@ -11,8 +9,6 @@
 .account>a,
 .account>.info .logout {
 	display: inline-block;
-	*display: inline;
-	*zoom: 1;
 	background: #f7f7f7;
 	border: 1px solid #d4d8db;
 	border-radius: 2px;
@@ -153,8 +149,6 @@
 }
 .account .info>li {
 	display: inline-block;
-	*display: inline;
-	zoom: 1;
 }
 .account .info .user {
 	display: inline-block;

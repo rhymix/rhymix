@@ -5,7 +5,7 @@
 .clearLeft{ clear:left;}
 .clearRight{ clear:right;}
 
-.widgetContainer .open{ display:block !important;} 
+.widgetContainer .open{ display:block !important;}
 .widgetContainer a{ text-decoration:none;}
 .widgetContainer a:hover,
 .widgetContainer a:active,
@@ -15,10 +15,10 @@
 .widgetContainer form{ margin:0; padding:0;}
 .widgetContainer fieldset{ border:0; margin:0; padding:0;}
 
-.widgetTabA{ position:relative; margin:0 0 10px 0; padding:0; *zoom:1; border-bottom:2px solid;}
-.widgetTabA:after{ content:""; display:block; clear:both;} 
+.widgetTabA{ position:relative; margin:0 0 10px 0; padding:0; border-bottom:2px solid;}
+.widgetTabA:after{ content:""; display:block; clear:both;}
 .widgetTabA li{ float:left; margin-right:1px; list-style:none; background-repeat:no-repeat; background-position:0 0;}
-.widgetTabA li.active{ background-position:0 -30px;} 
+.widgetTabA li.active{ background-position:0 -30px;}
 .widgetTabA li a{ position:relative; left:2px; float:left; height:20px; padding:8px 15px 0 15px; text-decoration:none; font-size:12px; background-repeat:no-repeat; background-position:right 0;}
 .widgetTabA li.active a{ background-position:right -30px; font-weight:bold; letter-spacing:-1px;}
 
@@ -27,22 +27,22 @@ ul.widgetA li { margin:0; padding:0; list-style:none; }
 .widgetTableA { width:100%; font-size:12px; position:relative; border:0;}
 .widgetTableA td{ border:0; line-height:1.5; white-space:nowrap; vertical-align:top; padding:1px 5px 1px 5px;}
 .widgetTableA td.title{ width:100%; white-space:normal;}
-.widgetTableA td .board{ padding-right:5px;} 
+.widgetTableA td .board{ padding-right:5px;}
 .widgetTableA td .notice{ padding-right:5px;}
 .widgetTableA td .category{ padding-right:5px; font-weight:normal;}
 .widgetTableA td .replyNum a{ font:10px Tahoma;}
 .widgetTableA td .trackbackNum a{ font:10px Tahoma;}
 .widgetTableA td.summary{ white-space:normal;}
-.widgetTableA td.time{ font-size:11px; font-family:Tahoma;} 
+.widgetTableA td.time{ font-size:11px; font-family:Tahoma;}
 
 
 .widgetTabC{ margin:0; padding:0; font-size:12px; border-top:1px solid;}
-.widgetTabC li{ list-style:none; border-bottom:1px solid; *zoom:1; margin-bottom:1px;}
-.widgetTabC li a{ display:block; padding:7px 0 6px 10px; text-decoration:none; *zoom:1;}
+.widgetTabC li{ list-style:none; border-bottom:1px solid; margin-bottom:1px;}
+.widgetTabC li a{ display:block; padding:7px 0 6px 10px; text-decoration:none;}
 
 dl.widgetDivider{ margin:0;}
 dl.widgetDivider dt{ position:absolute; width:0; height:0; overflow:hidden; font-size:0; line-height:0;}
-dl.widgetDivider dd{ display:none; margin:0;} 
+dl.widgetDivider dd{ display:none; margin:0;}
 
 .widgetNavigator{ margin:0; padding:0; text-align:right; clear:both;}
 .widgetNavigator li{ list-style:none; display:inline;}
@@ -51,7 +51,7 @@ dl.widgetDivider dd{ display:none; margin:0;}
 .widgetNavigator li button.next{ background-position:right center; *background-position:13px center;}
 .widgetNavigator li button span{ position:absolute; display:block; width:0; height:0; overflow:hidden; visibility:hidden;}
 
-.widgetGalleryA{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.5; *zoom:1; _margin-right:-100%;}
+.widgetGalleryA{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.5; }
 .widgetGalleryA:after{ content:""; display:block; clear:both;}
 .widgetGalleryA li { float:left; overflow:hidden; width:100px; margin-right:28px; margin-bottom:15px; padding-bottom:0; white-space:nowrap; list-style:none;}
 .widgetGalleryA li.clearRight{ margin-right:0;}
@@ -68,7 +68,7 @@ dl.widgetDivider dd{ display:none; margin:0;}
 
 /* widgetThumb */
 .widgetThumb{ position:relative; margin:0; text-align:center; font-size:12px; line-height:1.5;}
-.widgetThumb .thumb{ display:block; margin-bottom:5px; position:relative; *zoom:1; text-decoration:none; _float:left;}
+.widgetThumb .thumb{ display:block; margin-bottom:5px; position:relative; text-decoration:none;}
 .widgetThumb .thumb img{ display:block; width:100%;}
 .widgetThumb .thumb .imgNone{ display:block; position:relative; width:100%; padding-top:30px; padding-bottom:50px; background:#eee; text-align:center; cursor:pointer; color:#000;}
 .widgetThumb .thumb .category{ display:block; position:absolute; width:100%; bottom:0; left:0; padding:2px 0 0 0 !important; cursor:pointer; text-align:center; font-weight:normal; background:#000; color:#fff; opacity:0.6;  filter:alpha(opacity=60); -ms-filter:alpha('opacity=60'); }
@@ -77,9 +77,9 @@ dl.widgetDivider dd{ display:none; margin:0;}
 .widgetThumb .date{ font-size:11px; font-family:Tahoma;}
 .widgetThumb .hour{ font-size:11px; font-family:Tahoma;}
 
-.widgetZineA{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.5; *zoom:1;}
+.widgetZineA{ position:relative; margin:0; padding:0; font-size:12px; line-height:1.5; }
 .widgetZineA:after{ content:""; display:block; clear:both;}
-.widgetZineA li { list-style:none; clear:both; margin-bottom:10px; padding-bottom:10px; *zoom:1; overflow:hidden; }
+.widgetZineA li { list-style:none; clear:both; margin-bottom:10px; padding-bottom:10px; overflow:hidden; }
 .widgetZineA li p{ margin:0; padding:0;}
 .widgetZineA li p.thumbArea{ position:relative; float:left; width:100px; margin-right:-100px; overflow:hidden;}
 .widgetZineA li p.titleArea{ margin-left:120px; margin-bottom:4px;}
@@ -101,7 +101,7 @@ dl.widgetDivider dd{ display:none; margin:0;}
 .widgetTabC{ border-color:#e5e5e5;}
 .widgetTabC li{ border-color:#e5e5e5; background:#f8f8f8;}
 .widgetTabC li a{ color:#333;}
-.widgetTabC li a:hover, 
+.widgetTabC li a:hover,
 .widgetTabC li a:active,
 .widgetTabC li a:focus{ background:#eee;}
 .widgetTabA{ border-color:#666;}
@@ -156,7 +156,7 @@ dl.widgetDivider dd{ display:none; margin:0;}
 .widgetContainer.black .widgetTabC li a:active,
 .widgetContainer.black .widgetTabC li a:focus{ background:#333;}
 .widgetContainer.black .widgetTabA{ border-color:#999;}
-.widgetContainer.black .widgetTabA li, 
+.widgetContainer.black .widgetTabA li,
 .widgetContainer.black .widgetTabA li a{ background-image:url(../img/black/buttonWidgetTab.gif);}
 .widgetContainer.black .widgetTabA li a{ color:#999;}
 

@@ -4,7 +4,7 @@ jQuery(function(){
         var langList = c.next('ul.langList');
         langList.toggle();
 
-        jQuery(this).parents('[id^=ex_]:first').css('overflow','').css('position','relative').css('zoom','1');
+        jQuery(this).parents('[id^=ex_]:first').css('overflow','').css('position','relative');
 
         if(langList.css('top')){
             if(jQuery('body').height() <= c.offset().top + langList.height()) {
