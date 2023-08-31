@@ -1,6 +1,6 @@
 function editorStartTextarea(editor_sequence, content_key, primary_key) {
-    var obj = xGetElementById('editor_'+editor_sequence);
-    var use_html = xGetElementById('htm_'+editor_sequence).value;
+    var obj = document.getElementById('editor_'+editor_sequence);
+    var use_html = document.getElementById('htm_'+editor_sequence).value;
     obj.form.setAttribute('editor_sequence', editor_sequence);
 
     obj.style.width = '100%';
@@ -24,8 +24,8 @@ function editorStartTextarea(editor_sequence, content_key, primary_key) {
 }
 
 function editorGetContentTextarea(editor_sequence) {
-    var obj = xGetElementById('editor_'+editor_sequence);
-    var use_html = xGetElementById('htm_'+editor_sequence).value;
+    var obj = document.getElementById('editor_'+editor_sequence);
+    var use_html = document.getElementById('htm_'+editor_sequence).value;
     var content = obj.value.trim();
     if(use_html) {
         if(use_html!='br') {
