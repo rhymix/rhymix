@@ -30,6 +30,26 @@
 		<action name="procNcenterliteAdminDeleteNofity" type="controller" />
 		<action name="procNcenterliteAdminDeleteCustom" type="controller" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="comment.insertComment" class="controller" method="triggerAfterInsertComment" />
+		<eventHandler after="comment.deleteComment" class="controller" method="triggerAfterDeleteComment" />
+		<eventHandler after="document.insertDocument" class="controller" method="triggerAfterInsertDocument" />
+		<eventHandler after="document.deleteDocument" class="controller" method="triggerAfterDeleteDocument" />
+		<eventHandler before="display" class="controller" method="triggerBeforeDisplay" />
+		<eventHandler after="moduleHandler.proc" class="controller" method="triggerAfterModuleHandlerProc" />
+		<eventHandler after="member.deleteMember" class="controller" method="triggerAfterDeleteMember" />
+		<eventHandler after="communication.sendMessage" class="controller" method="triggerAfterSendMessage" />
+		<eventHandler after="document.updateVotedCount" class="controller" method="triggerAfterDocumentVotedUpdate" />
+		<eventHandler after="document.updateVotedCountCancel" class="controller" method="triggerAfterDocumentVotedCancel" />
+		<eventHandler after="member.procMemberScrapDocument" class="controller" method="triggerAfterScrap" />
+		<eventHandler after="moduleHandler.init" class="controller" method="triggerAddMemberMenu" />
+		<eventHandler after="document.moveDocumentToTrash" class="controller" method="triggerAfterMoveToTrash" />
+		<eventHandler after="comment.moveCommentToTrash" class="controller" method="triggerAfterMoveToTrashComment" />
+		<eventHandler after="comment.updateVotedCount" class="controller" method="triggerAfterCommentVotedCount" />
+		<eventHandler after="comment.updateVotedCountCancel" class="controller" method="triggerAfterCommentVotedCancel" />
+		<eventHandler after="document.getDocumentMenu" class="controller" method="triggerGetDocumentMenu" />
+		<eventHandler after="comment.getCommentMenu" class="controller" method="triggerGetCommentMenu" />
+	</eventHandlers>
 	<menus>
 		<menu name="ncenterlite" type="all">
 			<title xml:lang="ko">알림센터 Lite</title>
