@@ -38,7 +38,7 @@ function doUpdateCategory(category_srl, mode, message)
 {
 	if(typeof(message)!='undefined'&&!confirm(message)) return;
 
-	var fo_obj = xGetElementById('fo_category_info');
+	var fo_obj = document.getElementById('fo_category_info');
 	fo_obj.category_srl.value = category_srl;
 	fo_obj.mode.value = mode;
 
@@ -77,8 +77,8 @@ function doCartSetup(url)
 /* setup index */
 function doInsertItem()
 {
-	var target_obj = xGetElementById('targetItem');
-	var display_obj = xGetElementById('displayItem');
+	var target_obj = document.getElementById('targetItem');
+	var display_obj = document.getElementById('displayItem');
 	if(!target_obj || !display_obj) return;
 
 	var text = target_obj.options[target_obj.selectedIndex].text;
@@ -92,7 +92,7 @@ function doInsertItem()
 }
 function doDeleteItem()
 {
-	var sel_obj = xGetElementById('displayItem');
+	var sel_obj = document.getElementById('displayItem');
 	var idx = sel_obj.selectedIndex;
 	if(idx<0 || sel_obj.options.length<2) return;
 	sel_obj.remove(idx);
@@ -100,7 +100,7 @@ function doDeleteItem()
 }
 function doMoveUpItem()
 {
-	var sel_obj = xGetElementById('displayItem');
+	var sel_obj = document.getElementById('displayItem');
 	var idx = sel_obj.selectedIndex;
 	if(idx<1 || !idx) return;
 
@@ -115,7 +115,7 @@ function doMoveUpItem()
 }
 function doMoveDownItem()
 {
-	var sel_obj = xGetElementById('displayItem');
+	var sel_obj = document.getElementById('displayItem');
 	var idx = sel_obj.selectedIndex;
 	if(idx>=sel_obj.options.length-1) return;
 
@@ -132,13 +132,13 @@ function doMoveDownItem()
 function doSaveListConfig(module_srl)
 {
 	if(!module_srl) return;
-	var sel_obj = xGetElementById('displayItem');
+	var sel_obj = document.getElementById('displayItem');
 	var idx = sel_obj.selectedIndex;
 
 	var list = [];
 	for(var i=0;i<sel_obj.options.length;i++) list[list.length] = sel_obj.options[i].value;
 	if(list.length<1) return;
-	
+
 	var params = {};
 	params.module_srl = module_srl;
 	params.list = list.join(',');

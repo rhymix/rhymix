@@ -123,9 +123,9 @@
 </div>
 <div class="list_footer">
 	<div class="pagination" cond="$document_list || $notice_list">
-		<a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="direction prev"><span></span><span></span> {$lang->first_page}</a> 
+		<a href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}" class="direction prev"><span></span><span></span> {$lang->first_page}</a>
 		<block loop="$page_no=$page_navigation->getNextPage()">
-			<strong cond="$page==$page_no">{$page_no}</strong> 
+			<strong cond="$page==$page_no">{$page_no}</strong>
 			<a cond="$page!=$page_no" href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
 		</block>
 		<a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="direction next">{$lang->last_page} <span></span><span></span></a>
@@ -136,14 +136,13 @@
 	</div>
 	<button type="button" class="bsToggle" title="{$lang->cmd_search}">{$lang->cmd_search}</button>
 	<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
-		<input type="hidden" name="vid" value="{$vid}" />
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="category" value="{$category}" />
 		<input type="text" name="search_keyword" value="{escape($search_keyword, false)}" title="{$lang->cmd_search}" class="iText" />
 		<select name="search_target">
 			<option loop="$search_option=>$key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
 		</select>
-		<button type="submit" class="btn" onclick="xGetElementById('board_search').submit();return false;">{$lang->cmd_search}</button>
+		<button type="submit" class="btn">{$lang->cmd_search}</button>
         <a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="btn">{$lang->cmd_search_next}</a>
 	</form>
 	<a href="{getUrl('act','dispBoardTagList')}" class="tagSearch" title="{$lang->tag}">{$lang->tag}</a>
