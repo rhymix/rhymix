@@ -15,54 +15,14 @@ class ncenterlite extends ModuleObject
 	var $_TYPE_CUSTOM = 'U'; //Updated alert(uses type table)
 	var $_TYPE_INSERT_MEMBER = 'I'; // Insert Member
 
-	var $triggers = array(
-		array('comment.insertComment', 'ncenterlite', 'controller', 'triggerAfterInsertComment', 'after'),
-		array('comment.deleteComment', 'ncenterlite', 'controller', 'triggerAfterDeleteComment', 'after'),
-		array('document.insertDocument', 'ncenterlite', 'controller', 'triggerAfterInsertDocument', 'after'),
-		array('document.deleteDocument', 'ncenterlite', 'controller', 'triggerAfterDeleteDocument', 'after'),
-		array('display', 'ncenterlite', 'controller', 'triggerBeforeDisplay', 'before'),
-		array('moduleHandler.proc', 'ncenterlite', 'controller', 'triggerAfterModuleHandlerProc', 'after'),
-		array('member.deleteMember', 'ncenterlite', 'controller', 'triggerAfterDeleteMember', 'after'),
-		array('communication.sendMessage', 'ncenterlite', 'controller', 'triggerAfterSendMessage', 'after'),
-		array('document.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterDocumentVotedUpdate', 'after'),
-		array('document.updateVotedCountCancel', 'ncenterlite', 'controller', 'triggerAfterDocumentVotedCancel', 'after'),
-		array('member.procMemberScrapDocument', 'ncenterlite', 'controller', 'triggerAfterScrap', 'after'),
-		array('moduleHandler.init', 'ncenterlite', 'controller', 'triggerAddMemberMenu', 'after'),
-		array('document.moveDocumentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrash', 'after'),
-		array('comment.moveCommentToTrash', 'ncenterlite', 'controller', 'triggerAfterMoveToTrashComment', 'after'),
-		array('comment.updateVotedCount', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCount', 'after'),
-		array('comment.updateVotedCountCancel', 'ncenterlite', 'controller', 'triggerAfterCommentVotedCancel', 'after'),
-		// 2020. 05. 30 add menu when popup document menu called
-		array('document.getDocumentMenu', 'ncenterlite', 'controller', 'triggerGetDocumentMenu', 'after'),
-		array('comment.getCommentMenu', 'ncenterlite', 'controller', 'triggerGetCommentMenu', 'after'),
-	);
-
-	private $delete_triggers = array(
-		array('moduleObject.proc', 'ncenterlite', 'controller', 'triggerBeforeModuleObjectProc', 'before')
-	);
-
 	function moduleInstall()
 	{
-
 	}
 
 	function checkUpdate()
 	{
 		$oModuleModel = getModel('module');
-		$oDB = &DB::getInstance();
-
-		foreach($this->triggers as $trigger)
-		{
-			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4])) return true;
-		}
-
-		foreach($this->delete_triggers as $trigger)
-		{
-			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				return true;
-			}
-		}
+		$oDB = DB::getInstance();
 
 		foreach(['notify_type', 'readed', 'target_body', 'target_browser', 'target_p_srl'] as $column_name)
 		{
@@ -145,23 +105,7 @@ class ncenterlite extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-		$oDB = &DB::getInstance();
-
-		foreach($this->triggers as $trigger)
-		{
-			if(!$oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				$oModuleController->insertTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
-
-		foreach($this->delete_triggers as $trigger)
-		{
-			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
+		$oDB = DB::getInstance();
 
 		if(!$oDB->isColumnExists('ncenterlite_notify','notify_type'))
 		{
@@ -282,12 +226,6 @@ class ncenterlite extends ModuleObject
 
 	function moduleUninstall()
 	{
-		$oModuleController = getController('module');
-
-		foreach($this->triggers as $trigger)
-		{
-			$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-		}
 		return new BaseObject();
 	}
 
