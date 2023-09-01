@@ -15,10 +15,6 @@ class ncenterlite extends ModuleObject
 	var $_TYPE_CUSTOM = 'U'; //Updated alert(uses type table)
 	var $_TYPE_INSERT_MEMBER = 'I'; // Insert Member
 
-	private $delete_triggers = array(
-		array('moduleObject.proc', 'ncenterlite', 'controller', 'triggerBeforeModuleObjectProc', 'before')
-	);
-
 	function moduleInstall()
 	{
 	}
@@ -27,14 +23,6 @@ class ncenterlite extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oDB = &DB::getInstance();
-
-		foreach($this->delete_triggers as $trigger)
-		{
-			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				return true;
-			}
-		}
 
 		foreach(['notify_type', 'readed', 'target_body', 'target_browser', 'target_p_srl'] as $column_name)
 		{
@@ -118,14 +106,6 @@ class ncenterlite extends ModuleObject
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
 		$oDB = &DB::getInstance();
-
-		foreach($this->delete_triggers as $trigger)
-		{
-			if($oModuleModel->getTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]))
-			{
-				$oModuleController->deleteTrigger($trigger[0], $trigger[1], $trigger[2], $trigger[3], $trigger[4]);
-			}
-		}
 
 		if(!$oDB->isColumnExists('ncenterlite_notify','notify_type'))
 		{
