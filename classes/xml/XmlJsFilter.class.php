@@ -172,13 +172,12 @@ class XmlJsFilter extends XeXmlParser
 				{
 					// get the result
 					$extend_filter_list = $oExtendFilter->{$method}(TRUE);
-					$extend_filter_count = count($extend_filter_list);
 
 					// apply lang_value from the result to the variable
-					for($i = 0; $i < $extend_filter_count; $i++)
+					foreach ($extend_filter_list as $item)
 					{
-						$name = $extend_filter_list[$i]->name;
-						$lang_value = $extend_filter_list[$i]->lang;
+						$name = $item->name;
+						$lang_value = $item->lang;
 						if($lang_value)
 						{
 							$lang->{$name} = $lang_value;
