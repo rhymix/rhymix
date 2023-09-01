@@ -22,7 +22,7 @@ class ncenterlite extends ModuleObject
 	function checkUpdate()
 	{
 		$oModuleModel = getModel('module');
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 
 		foreach(['notify_type', 'readed', 'target_body', 'target_browser', 'target_p_srl'] as $column_name)
 		{
@@ -105,7 +105,7 @@ class ncenterlite extends ModuleObject
 	{
 		$oModuleModel = getModel('module');
 		$oModuleController = getController('module');
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 
 		if(!$oDB->isColumnExists('ncenterlite_notify','notify_type'))
 		{
