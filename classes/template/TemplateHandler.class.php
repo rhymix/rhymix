@@ -327,8 +327,17 @@ class TemplateHandler
 		{
 			$buff = rtrim($buff) . PHP_EOL;
 		}
-		$buff = preg_replace('/\n[\t\x20]*?(?=\n)/', "\n<?php ?>", $buff);
-		$buff = preg_replace('/\n[\t\x20]+?\<\?php/', "\n<?php", $buff);
+		$buff = preg_replace([
+			'/>\<\?php } \?\>\n[\t\x20]*?(?=\n<!--)/',
+			'/\n[\t\x20]*?(?=\n<!--)/',
+			'/\n[\t\x20]*?(?=\n)/',
+			'/\n[\t\x20]+?\<\?php/',
+		], [
+			"><?php } ?>\n<?php echo \"\\n\"; ?>",
+			"\n",
+			"\n<?php ?>",
+			"\n<?php",
+		], $buff);
 
 		// restore config to previous value
 		$this->config = $previous_config;
