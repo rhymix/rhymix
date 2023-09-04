@@ -5,19 +5,18 @@
 		<action name="dispEditorComponentInfo" type="view" meta-noindex="true" />
 		<action name="dispEditorFrame" type="view" meta-noindex="true" />
 		<action name="dispEditorPopup" type="view" meta-noindex="true" />
-		<action name="dispEditorPreview" type="view" meta-noindex="true" />
 		<action name="dispEditorSkinColorset" type="view" permission="all-managers" meta-noindex="true" />
 		<action name="dispEditorConfigPreview" type="view" permission="root" meta-noindex="true" />
-		
+
 		<action name="procEditorCall" type="controller" />
 		<action name="procEditorSaveDoc" type="controller" />
 		<action name="procEditorRemoveSavedDoc" type="controller" />
 		<action name="procEditorLoadSavedDocument" type="controller" />
 		<action name="procEditorInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
-		
+
 		<action name="dispEditorAdminIndex" type="view" menu_name="editor" menu_index="true" admin_index="true" />
 		<action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
-		
+
 		<action name="procEditorAdminGeneralConfig" type="controller" ruleset="generalConfig" />
 		<action name="procEditorAdminCheckUseListOrder" type="controller" ruleset="componentOrderAndUse" />
 		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />

@@ -181,13 +181,6 @@ class editorView extends editor
 		return new BaseObject();
 	}
 
-
-	function dispEditorPreview()
-	{
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('preview');
-	}
-
 	function dispEditorSkinColorset()
 	{
 		$skin = Context::get('skin');

@@ -349,6 +349,7 @@ class Cleanup extends Base
 		'modules/editor/skins/simpleeditor/css/simpleeditor.less' => 'deleted',
 		'modules/editor/skins/xpresseditor/' => 'deleted:xe',
 		'modules/editor/styles/' => 'deleted:xe',
+		'modules/editor/tpl/preview.html' => 'deleted',
 		'modules/module/schemas/site_admin.xml' => 'deleted',
 		'modules/module/tpl/css/module_admin.less' => 'deleted',
 		'modules/page/page.wap.php' => 'deleted:xe',
