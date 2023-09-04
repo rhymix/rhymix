@@ -1,7 +1,7 @@
 <table name="files">
 	<column name="file_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
 	<column name="upload_target_srl" type="number" size="11" default="0" notnull="notnull" index="idx_upload_target_srl" />
-	<column name="upload_target_type" type="char" size="3" index="idx_upload_target_type" />
+	<column name="upload_target_type" type="varchar" size="20" index="idx_upload_target_type" />
 	<column name="sid" type="varchar" size="60" />
 	<column name="module_srl" type="number" size="11" default="0" notnull="notnull" index="idx_module_srl" />
 	<column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
@@ -18,7 +18,7 @@
 	<column name="duration" type="number" size="11" />
 	<column name="comment" type="varchar" size="250" />
 	<column name="isvalid" type="char" size="1" default="N" index="idx_is_valid" />
-	<column name="cover_image" type="char" size="1" default="N" notnull="notnull" index="idx_list_order" />
+	<column name="cover_image" type="char" size="1" default="N" notnull="notnull" index="idx_cover_image" />
 	<column name="regdate" type="date" index="idx_regdate" />
 	<column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_ipaddress"/>
 </table>

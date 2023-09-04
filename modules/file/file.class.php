@@ -60,13 +60,9 @@ class File extends ModuleObject
 		if(!$oModuleModel->getTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after')) return true;
 		// 2007. 10. 19 Call a trigger to set up the file permissions before displaying
 		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before')) return true;
-		// A column to determine a target type
-		if(!$oDB->isColumnExists('files', 'upload_target_type')) return true;
 
 		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after')) return true;
-
-		if(!$oDB->isColumnExists('files', 'cover_image')) return true;
 
 		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
 		{
@@ -80,6 +76,21 @@ class File extends ModuleObject
 		{
 			return true;
 		}
+
+		// Check columns
+		if(!$oDB->isColumnExists('files', 'upload_target_type'))
+		{
+			return true;
+		}
+		if($oDB->getColumnInfo('files', 'upload_target_type')->size < 20)
+		{
+			return true;
+		}
+		if(!$oDB->isColumnExists('files', 'cover_image'))
+		{
+			return true;
+		}
+
 		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
 		{
 			return true;
@@ -112,6 +123,21 @@ class File extends ModuleObject
 		{
 			return true;
 		}
+
+		// Check indexes
+		if (!$oDB->isIndexExists('files', 'idx_upload_target_type'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('files', 'idx_cover_image'))
+		{
+			return true;
+		}
+		if ($oDB->isIndexExists('files', 'idx_list_order'))
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -181,17 +207,11 @@ class File extends ModuleObject
 		// 2007. 10. 19 Call a trigger to set up the file permissions before displaying
 		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before'))
 			$oModuleController->insertTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before');
-		// A column to determine a target type
-		if(!$oDB->isColumnExists('files', 'upload_target_type')) $oDB->addColumn('files', 'upload_target_type', 'char', '3');
-
 		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
 		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after'))
 		{
 			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after');
 		}
-
-		if(!$oDB->isColumnExists('files', 'cover_image')) $oDB->addColumn('files', 'cover_image', 'char', '1', 'N');
-
 		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
 		{
 			$oModuleController->insertTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after');
@@ -203,6 +223,20 @@ class File extends ModuleObject
 		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
 		{
 			$oModuleController->insertTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add');
+		}
+
+		// Check columns
+		if(!$oDB->isColumnExists('files', 'upload_target_type'))
+		{
+			$oDB->addColumn('files', 'upload_target_type', 'varchar', '20', null, false, 'upload_target_srl');
+		}
+		if($oDB->getColumnInfo('files', 'upload_target_type')->size < 20)
+		{
+			$oDB->modifyColumn('files', 'upload_target_type', 'varchar', 20, null, false);
+		}
+		if(!$oDB->isColumnExists('files', 'cover_image'))
+		{
+			$oDB->addColumn('files', 'cover_image', 'char', '1', 'N', false, 'isvalid');
 		}
 		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
 		{
@@ -239,6 +273,20 @@ class File extends ModuleObject
 		if(!$oDB->isColumnExists('files', 'duration'))
 		{
 			$oDB->addColumn('files', 'duration', 'number', '11', null, false, 'height');
+		}
+
+		// Check indexes
+		if (!$oDB->isIndexExists('files', 'idx_upload_target_type'))
+		{
+			$oDB->addIndex('files', 'idx_upload_target_type', ['upload_target_type']);
+		}
+		if (!$oDB->isIndexExists('files', 'idx_cover_image'))
+		{
+			$oDB->addIndex('files', 'idx_cover_image', ['cover_image']);
+		}
+		if ($oDB->isIndexExists('files', 'idx_list_order'))
+		{
+			$oDB->dropIndex('files', 'idx_list_order');
 		}
 	}
 
