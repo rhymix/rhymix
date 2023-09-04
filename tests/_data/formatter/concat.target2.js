@@ -5,7 +5,8 @@
 		event.preventDefault();
 		$(this).attr("bar", "baz");
 	});
-})(jQuery);;
+})(jQuery);
+/* sourceMappingURL=concat.source1.js.map */;
 
 /* Original file: tests/_data/formatter/concat.source2.js */
 

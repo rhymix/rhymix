@@ -516,6 +516,7 @@ class Formatter
 
 			// Clean the content.
 			$content = utf8_clean(file_get_contents($filename));
+			$content = preg_replace('!(\n)//# (sourceMappingURL=\S+)!', '$1/* $2 */', $content);
 
 			// Append to the result string.
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;

@@ -4,3 +4,4 @@
 		$(this).attr("bar", "baz");
 	});
 })(jQuery);
+//# sourceMappingURL=concat.source1.js.map
