@@ -228,10 +228,10 @@ class Formatter
 	{
 		// Get the cleaned and concatenated content.
 		$imported_list = [];
-		$content = self::concatCSS($source_filename, $target_filename, true, $imported_list);
+		$content = self::concatCSS($source_filename, $target_filename, false, $imported_list);
 		if (strpos($content, '@charset') === false)
 		{
-			$content = '@charset "UTF-8";' . "\n" . $content;
+			$content = '@charset "UTF-8"; ' . $content;
 		}
 		$primary_filename = is_array($source_filename) ? array_first($source_filename) : $source_filename;
 		$sourcemap_filename = preg_replace('/\.css$/', '.map', $target_filename);
@@ -361,6 +361,7 @@ class Formatter
 	{
 		$charsets = [];
 		$imported_urls = [];
+		$import_type = 'normal';
 		$result = '';
 
 		if (!is_array($source_filename))
@@ -450,6 +451,11 @@ class Formatter
 						trigger_error('Imported file not found: ' . $error_filename, \E_USER_WARNING);
 					}
 				}
+				if ($import_type === 'scss')
+				{
+					$import_content = preg_replace('!//.*?\n!s', '', $import_content);
+					$import_content = preg_replace('![\r\n]+!', ' ', $import_content);
+				}
 				return trim($import_content);
 			}, $content);
 
@@ -506,7 +512,8 @@ class Formatter
 		if (count($charsets))
 		{
 			$charset = '@charset "' . escape_dqstr(array_first($charsets)) . '";';
-			$result = $charset . "\n" . $result;
+			$delimiter = $import_type === 'scss' ? ' ' : "\n";
+			$result = $charset . $delimiter . $result;
 		}
 
 		return $result;
