@@ -66,22 +66,22 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // <!--@for--> ~ <!--@endfor-->
             array(
                 '<!--@for($i=0;$i<$len;$i++)--><li>Repeat this</li><!--@endfor-->',
-                PHP_EOL.'for($__Context->i=0;$__Context->i<$__Context->len;$__Context->i++){ ?><li>Repeat this</li><?php } ?>'
+                'for($__Context->i=0;$__Context->i<$__Context->len;$__Context->i++){ ?><li>Repeat this</li><?php } ?>'
             ),
             // <!--@foreach--> ~ <!--@endforeach-->
             array(
                 '<!--@foreach($arr as $key=>$val)--><li>item{$key} : {$val}</li><!--@endfor-->',
-                PHP_EOL . 'if($__Context->arr)foreach($__Context->arr as $__Context->key=>$__Context->val){ ?><li>item<?php echo $__Context->key ?? \'\' ?> : <?php echo $__Context->val ?? \'\' ?></li><?php } ?>'
+                'if($__Context->arr)foreach($__Context->arr as $__Context->key=>$__Context->val){ ?><li>item<?php echo $__Context->key ?? \'\' ?> : <?php echo $__Context->val ?? \'\' ?></li><?php } ?>'
             ),
             // <!--@while--> ~ <!--@endwhile-->
             array(
                 '<!--@while($item=$list->getItem())--><a href="{$v->link}">{$v->text}</a><!--@endwhile-->',
-                PHP_EOL.'while($__Context->item=$__Context->list->getItem()){ ?><a href="<?php echo $__Context->v->link ?? \'\' ?>"><?php echo $__Context->v->text ?? \'\' ?></a><?php } ?>'
+                'while($__Context->item=$__Context->list->getItem()){ ?><a href="<?php echo $__Context->v->link ?? \'\' ?>"><?php echo $__Context->v->text ?? \'\' ?></a><?php } ?>'
             ),
             // <!--@switch--> ~ <!--@case--> ~ <!--@break--> ~ <!--@default --> ~ <!--@endswitch-->
             array(
                 '<dummy /><!--@switch($var)--> <!--@case("A")--> A<!--@break--> <!--@case(\'B\')-->B<!--@break--><!--@default-->C<!--@endswitch--><dummy />',
-                '?><dummy /><?php switch($__Context->var){;'.PHP_EOL.'case "A": ?> A<?php break;'.PHP_EOL.'case \'B\': ?>B<?php break;'.PHP_EOL.'default : ?>C<?php } ?><dummy />'
+                '?><dummy /><?php switch($__Context->var){ case "A": ?> A<?php break; case \'B\': ?>B<?php break; default : ?>C<?php } ?><dummy />'
             ),
             // invalid block statement
             array(
@@ -146,7 +146,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // self-closing tag
             array(
                 '<meta charset="utf-8" cond="$foo">',
-                PHP_EOL . 'if($__Context->foo ?? false){ ?><meta charset="utf-8"><?php } ?>'
+                'if($__Context->foo ?? false){ ?><meta charset="utf-8"><?php } ?>'
             ),
             // relative path1
             array(
@@ -161,7 +161,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // error case
             array(
                 '<a href="{$layout_info->index_url}" cond="$layout_info->logo_image"><img src="{$layout_info->logo_image}" alt="logo" border="0" /></a>',
-                PHP_EOL . 'if($__Context->layout_info->logo_image ?? false){ ?><a href="<?php echo $__Context->layout_info->index_url ?? \'\' ?>"><img src="<?php echo $__Context->layout_info->logo_image ?? \'\' ?>" alt="logo" border="0" /></a><?php } ?>'
+                'if($__Context->layout_info->logo_image ?? false){ ?><a href="<?php echo $__Context->layout_info->index_url ?? \'\' ?>"><img src="<?php echo $__Context->layout_info->logo_image ?? \'\' ?>" alt="logo" border="0" /></a><?php } ?>'
             ),
             // error case - ignore stylesheets
             array(
@@ -186,22 +186,22 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 135
             array(
                 '<block loop="$_m_list_all=>$key,$val"><p>{$key}</p><div>Loop block {$val}</div></block>',
-                PHP_EOL . '$__loop_tmp=$__Context->_m_list_all;if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?? \'\' ?></p><div>Loop block <?php echo $__Context->val ?? \'\' ?></div><?php } ?>'
+                '$__loop_tmp=$__Context->_m_list_all;if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><p><?php echo $__Context->key ?? \'\' ?></p><div>Loop block <?php echo $__Context->val ?? \'\' ?></div><?php } ?>'
             ),
             // issue 136
             array(
                 '<br cond="$var==\'foo\'" />bar',
-                PHP_EOL . 'if($__Context->var==\'foo\'){ ?><br /><?php } ?>bar'
+                'if($__Context->var==\'foo\'){ ?><br /><?php } ?>bar'
             ),
             // issue 188
             array(
                 '<div cond="$ii < $nn" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if($__Context->ii < $__Context->nn){;' . PHP_EOL . '$__loop_tmp=$__Context->dummy;if($__loop_tmp)foreach($__loop_tmp as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                'if($__Context->ii < $__Context->nn){ ' . '$__loop_tmp=$__Context->dummy;if($__loop_tmp)foreach($__loop_tmp as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 190
             array(
                 '<div cond="!($i >= $n)" loop="$dummy => $k, $v">Hello, world!</div>',
-                PHP_EOL . 'if(!($__Context->i >= $__Context->n)){;' . PHP_EOL . '$__loop_tmp=$__Context->dummy;if($__loop_tmp)foreach($__loop_tmp as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
+                'if(!($__Context->i >= $__Context->n)){ ' . '$__loop_tmp=$__Context->dummy;if($__loop_tmp)foreach($__loop_tmp as $__Context->k=>$__Context->v){ ?><div>Hello, world!</div><?php }} ?>'
             ),
             // issue 183
             array(
@@ -216,7 +216,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 584
             array(
                 '<img cond="$oBodex->display_extra_images[\'mobile\'] && $arr_extra && $arr_extra->bodex->mobile" src="./images/common/mobile.gif" title="mobile" alt="mobile" />',
-                PHP_EOL . 'if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="' . $this->baseurl . 'tests/unit/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
+                'if($__Context->oBodex->display_extra_images[\'mobile\'] && $__Context->arr_extra && $__Context->arr_extra->bodex->mobile){ ?><img src="' . $this->baseurl . 'tests/unit/classes/template/images/common/mobile.gif" title="mobile" alt="mobile" /><?php } ?>'
             ),
             // issue 831
             array(
@@ -231,32 +231,32 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             // issue 696
             array(
                 '{@ eval(\'$val = $document_srl;\')}',
-                PHP_EOL . 'eval(\'$__Context->val = $__Context->document_srl;\') ?>'
+                ' eval(\'$__Context->val = $__Context->document_srl;\') ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img cond="$foo->bar" src="../common/mobile.gif" />',
-                PHP_EOL . 'if($__Context->foo->bar ?? false){ ?><img src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                'if($__Context->foo->bar ?? false){ ?><img src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img cond="$foo->bar > 100" alt="a!@#$%^&*()_-=[]{}?/" src="../common/mobile.gif" />',
-                PHP_EOL . 'if($__Context->foo->bar > 100){ ?><img alt="a!@#$%^&*()_-=[]{}?/" src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                'if($__Context->foo->bar > 100){ ?><img alt="a!@#$%^&*()_-=[]{}?/" src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img src="../common/mobile.gif" cond="$foo->bar" />',
-                PHP_EOL . 'if($__Context->foo->bar ?? false){ ?><img src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                'if($__Context->foo->bar ?? false){ ?><img src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img class="tmp_class" cond="!$module_info->title" src="../img/common/blank.gif" />',
-                PHP_EOL . 'if(!$__Context->module_info->title){ ?><img class="tmp_class" src="' . $this->baseurl . 'tests/unit/classes/img/common/blank.gif" /><?php } ?>'
+                'if(!$__Context->module_info->title){ ?><img class="tmp_class" src="' . $this->baseurl . 'tests/unit/classes/img/common/blank.gif" /><?php } ?>'
             ),
             // https://github.com/xpressengine/xe-core/issues/1510
             array(
                 '<img cond="$mi->title" class="tmp_class"|cond="$mi->use" src="../img/common/blank.gif" />',
-                PHP_EOL . 'if($__Context->mi->title ?? false){ ?><img<?php if($__Context->mi->use){ ?> class="tmp_class"<?php } ?> src="' . $this->baseurl . 'tests/unit/classes/img/common/blank.gif" /><?php } ?>'
+                'if($__Context->mi->title ?? false){ ?><img<?php if($__Context->mi->use){ ?> class="tmp_class"<?php } ?> src="' . $this->baseurl . 'tests/unit/classes/img/common/blank.gif" /><?php } ?>'
             ),
             array(
                 '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
@@ -264,7 +264,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             ),
             array(
                 '<input foo="bar" />' . "\n" . '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
-                '?><input foo="bar" />' . PHP_EOL . '<input foo="bar" /> <?php if($__Context->foo->bar ?? false){ ?><img alt="alt"   src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
+                '?><input foo="bar" />' . "\n" . '<input foo="bar" /> <?php if($__Context->foo->bar ?? false){ ?><img alt="alt"   src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             array(
                 'asf <img src="{$foo->bar}" />',
@@ -323,56 +323,56 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             ),
             array(
                 '<!--@if($foo->$bar)--><div></div><!--@endif-->',
-                "\n" . 'if($__Context->foo->{$__Context->bar}){ ?><div></div><?php } ?>'
+                'if($__Context->foo->{$__Context->bar}){ ?><div></div><?php } ?>'
             ),
             array(
                 '<aside cond="$foo->$bar"><img src="" /></aside>',
-                "\n" . 'if($__Context->foo->{$__Context->bar}){ ?><aside><img src="" /></aside><?php } ?>'
+                'if($__Context->foo->{$__Context->bar}){ ?><aside><img src="" /></aside><?php } ?>'
             ),
             array(
                 '<ul loop="$foo->$bar => $key, $val" class="test"|cond="$foo->$key"><li>{$val}</li></ul>',
-                "\n" . '$__loop_tmp=$__Context->foo->{$__Context->bar};if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><ul<?php if($__Context->foo->{$__Context->key}){ ?> class="test"<?php } ?>><li><?php echo $__Context->val ?? \'\' ?></li></ul><?php } ?>'
+                '$__loop_tmp=$__Context->foo->{$__Context->bar};if($__loop_tmp)foreach($__loop_tmp as $__Context->key=>$__Context->val){ ?><ul<?php if($__Context->foo->{$__Context->key}){ ?> class="test"<?php } ?>><li><?php echo $__Context->val ?? \'\' ?></li></ul><?php } ?>'
             ),
 			// Rhymix autoescape
             array(
                 '<config autoescape="on" />{$foo}',
-                PHP_EOL . '$this->config->autoescape = true;' . "\n" . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\')) ?>'
+                '$this->config->autoescape = true; ' . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\')) ?>'
             ),
             array(
                 '<config autoescape="off" />{$foo}',
-                PHP_EOL . '$this->config->autoescape = false;' . "\n" . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\')) ?>'
+                '$this->config->autoescape = false; ' . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\')) ?>'
             ),
             array(
                 '<config autoescape="yes" />{$foo|auto}',
-                PHP_EOL . '$this->config->autoescape = true;' . "\n" . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\')) ?>'
+                '$this->config->autoescape = true; ' . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\')) ?>'
             ),
             array(
                 '<config autoescape="no" />{$foo->$bar|auto}',
-                PHP_EOL . '$this->config->autoescape = false;' . "\n" . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo->{$__Context->bar}, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo->{$__Context->bar})) ?>'
+                '$this->config->autoescape = false; ' . 'echo ($this->config->autoescape ? htmlspecialchars($__Context->foo->{$__Context->bar}, ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo->{$__Context->bar})) ?>'
             ),
             array(
                 '<config autoescape="true" />{$foo|autoescape}',
-                PHP_EOL . '$this->config->autoescape = true;' . "\n" . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) ?>'
+                '$this->config->autoescape = true; ' . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) ?>'
             ),
             array(
                 '<config autoescape="false" />{$foo|autoescape}',
-                PHP_EOL . '$this->config->autoescape = false;' . "\n" . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) ?>'
+                '$this->config->autoescape = false; ' . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) ?>'
             ),
             array(
                 '<config autoescape="1" />{$foo|escape}',
-                PHP_EOL . '$this->config->autoescape = true;' . "\n" . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', true) ?>'
+                '$this->config->autoescape = true; ' . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', true) ?>'
             ),
             array(
                 '<config autoescape="0" />{$foo|escape}',
-                PHP_EOL . '$this->config->autoescape = false;' . "\n" . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', true) ?>'
+                '$this->config->autoescape = false; ' . 'echo htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', true) ?>'
             ),
             array(
                 '<config autoescape="Y" />{$foo|noescape}',
-                PHP_EOL . '$this->config->autoescape = true;' . "\n" . 'echo $__Context->foo ?? \'\' ?>'
+                '$this->config->autoescape = true; ' . 'echo $__Context->foo ?? \'\' ?>'
             ),
             array(
                 '<config autoescape="N" />{$foo|noescape}',
-                PHP_EOL . '$this->config->autoescape = false;' . "\n" . 'echo $__Context->foo ?? \'\' ?>'
+                '$this->config->autoescape = false; ' . 'echo $__Context->foo ?? \'\' ?>'
             ),
 			// Rhymix filters
             array(
@@ -457,7 +457,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             ),
             array(
                 '<config autoescape="on" /><p>{$foo|link:$url}</p>',
-                PHP_EOL . '$this->config->autoescape = true; ?><p><?php echo \'<a href="\' . (($this->config->autoescape ? htmlspecialchars($__Context->url ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->url ?? \'\'))) . \'">\' . (($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\'))) . \'</a>\' ?></p>'
+                '$this->config->autoescape = true; ?><p><?php echo \'<a href="\' . (($this->config->autoescape ? htmlspecialchars($__Context->url ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->url ?? \'\'))) . \'">\' . (($this->config->autoescape ? htmlspecialchars($__Context->foo ?? \'\', ENT_QUOTES, \'UTF-8\', false) : ($__Context->foo ?? \'\'))) . \'</a>\' ?></p>'
             ),
 			// Rhymix filters (reject malformed filters)
             array(
@@ -507,7 +507,8 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
             $tmpl = new TemplateHandlerWrapper;
             $tmpl->init(__DIR__ . '/template', 'no_file.html');
             $result = $tmpl->parse($test[0]);
-            $this->assertEquals($this->prefix . $test[1], $result);
+			$between = str_starts_with($test[1], '?>') ? '' : ' ';
+            $this->assertEquals($this->prefix . $between . $test[1], $result);
         }
     }
 
@@ -526,7 +527,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
         $result = $tmpl->compileDirect(__DIR__ . '/template', 'sample.html');
         $result = trim($result);
 
-        $this->assertEquals($this->prefix.PHP_EOL.'if($__Context->has_blog ?? false){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'tests\', \'\']); ?>', $result);
+        $this->assertEquals($this->prefix . ' if($__Context->has_blog ?? false){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'tests\', \'\']); ?>', $result);
     }
 }
 

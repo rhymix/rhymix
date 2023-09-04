@@ -266,6 +266,11 @@ class TemplateHandler
 			{
 				return;
 			}
+			$buff_type = 'file';
+		}
+		else
+		{
+			$buff_type = 'string';
 		}
 
 		// HTML tags to skip
@@ -313,7 +318,17 @@ class TemplateHandler
 		$buff = self::_replaceTempEntities($buff);
 
 		// remove php script reopening
-		$buff = preg_replace(array('/(\n|\r\n)+/', '/(;)?( )*\?\>\<\?php([\n\t ]+)?/'), array("\n", ";\n"), $buff);
+		$buff = preg_replace_callback('/([;{])?( )*\?\>\<\?php\s/', function($match) {
+			return $match[1] === '{' ? '{ ' : '; ';
+		}, $buff);
+
+		// remove empty lines
+		if ($buff_type === 'file')
+		{
+			$buff = rtrim($buff) . PHP_EOL;
+		}
+		$buff = preg_replace('/\n[\t\x20]*?(?=\n)/', "\n<?php ?>", $buff);
+		$buff = preg_replace('/\n[\t\x20]+?\<\?php/', "\n<?php", $buff);
 
 		// restore config to previous value
 		$this->config = $previous_config;
