@@ -263,7 +263,7 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
                 '?><input foo="bar" /> <?php if($__Context->foo->bar ?? false){ ?><img alt="alt"   src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             array(
-                '<input foo="bar" />' . "\n" . '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
+                '<input foo="bar" />' . "\r\n" . '<input foo="bar" /> <img cond="$foo->bar" alt="alt"   src="../common/mobile.gif" />',
                 '?><input foo="bar" />' . "\n" . '<input foo="bar" /> <?php if($__Context->foo->bar ?? false){ ?><img alt="alt"   src="' . $this->baseurl . 'tests/unit/classes/common/mobile.gif" /><?php } ?>'
             ),
             array(

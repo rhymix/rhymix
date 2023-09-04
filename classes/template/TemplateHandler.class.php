@@ -286,6 +286,9 @@ class TemplateHandler
 		// detect existence of autoescape config
 		$this->config->autoescape = (strpos($buff, ' autoescape="') === false) ? null : false;
 
+		// remove UTF-8 BOM and convert CRLF to LF
+		$buff = preg_replace(['/^\xEF\xBB\xBF/', '/\r\n/'], ['', "\n"], $buff);
+
 		// replace comments
 		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
 
