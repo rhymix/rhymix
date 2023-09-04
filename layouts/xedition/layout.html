@@ -3,8 +3,7 @@
 
 <!--// 레이아웃을 위한 설정 값들 -->
 <!--// 회원 모듈 -->
-	{@ $oMemberModel = getModel('member');
-	$member_config = $oMemberModel->getMemberConfig();}
+	{@ $member_config = MemberModel::getMemberConfig()}
 <!--// index 모듈 체크 -->
 	{@ $_is_indexmodule = ($site_module_info->module_srl === $current_module_info->module_srl)}
 	{@ $_body_class = array()}
