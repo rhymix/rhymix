@@ -136,21 +136,16 @@
 		{@ $_container_class[] = 'fixed_header'}
 	</block>
 
-
-
-
 <!--// Demo 기능 활성화 -->
 	<!--// 사이트 인덱스에서만 데모기능 사용 -->
 	<block cond="!$_is_indexmodule">{@ $layout_info->use_demo = 'N'}</block>
 	<!--// 페이지 수정 모드에서 감춤 -->
 	<block cond="isset($act) && $act === 'dispPageAdminContentModify'">{@ $layout_info->use_demo = 'N'}</block>
 
-
 {@ $_body_class = join(' ', $_body_class)}
 {@ $_visual_class = join(' ', $_visual_class)}
 {@ $_container_class = join(' ', $_container_class)}
 <!--// END:레이아웃을 위한 설정 값들 -->
-
 
 <!--// CSS -->
 <load target="./css/layout.css" />
@@ -159,12 +154,12 @@
 <load target="./css/webfont.css" />
 <load target="./css/xeicon.css" cond="$mid === 'xeicon'" />
 <load target="../../common/xeicon/xeicon.min.css" />
+
 <!--// JS -->
 <load cond="$_enable_slide" target="./js/idangerous.swiper.min.js" />
 <load target="./js/layout.js" />
 <load cond="$layout_info->use_demo ==='Y'" target="./js/welcome.js" />
 <load target="./js/jquery.parallax-scroll.min.js" />
-
 
 <!--// BODY -->
 <p class="skip"><a href="#content">{$lang->skip_to_content}</a></p>
