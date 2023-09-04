@@ -330,11 +330,9 @@ class TemplateHandler
 		$buff = preg_replace([
 			'/>\<\?php } \?\>\n[\t\x20]*?(?=\n<!--)/',
 			'/\n[\t\x20]*?(?=\n<!--)/',
-			'/\n[\t\x20]*?(?=\n)/',
 			'/\n[\t\x20]+?\<\?php/',
 		], [
 			"><?php } ?>\n<?php echo \"\\n\"; ?>",
-			"\n",
 			"\n<?php ?>",
 			"\n<?php",
 		], $buff);
