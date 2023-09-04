@@ -229,13 +229,26 @@ class Formatter
 		// Get the cleaned and concatenated content.
 		$imported_list = [];
 		$content = self::concatCSS($source_filename, $target_filename, true, $imported_list);
+		if (strpos($content, '@charset') === false)
+		{
+			$content = '@charset "UTF-8";' . "\n" . $content;
+		}
+		$primary_filename = is_array($source_filename) ? array_first($source_filename) : $source_filename;
+		$sourcemap_filename = preg_replace('/\.css$/', '.map', $target_filename);
 
 		// Compile!
 		try
 		{
 			$scss_compiler = new \ScssPhp\ScssPhp\Compiler;
 			$scss_compiler->setOutputStyle($minify ? \ScssPhp\ScssPhp\OutputStyle::COMPRESSED : \ScssPhp\ScssPhp\OutputStyle::EXPANDED);
-			$scss_compiler->setImportPaths(array(dirname(is_array($source_filename) ? array_first($source_filename) : $source_filename)));
+			$scss_compiler->setImportPaths(array(dirname($primary_filename)));
+			$scss_compiler->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
+			$scss_compiler->setSourceMapOptions([
+				'sourceMapURL' => basename($sourcemap_filename),
+				'sourceMapFilename' => basename($target_filename),
+				'sourceMapBasepath' => \RX_BASEDIR,
+				'sourceRoot' => \RX_BASEURL,
+			]);
 			if ($variables)
 			{
 				$converted_variables = [];
@@ -253,20 +266,26 @@ class Formatter
 				$scss_compiler->addVariables($converted_variables);
 			}
 
-			$content = $scss_compiler->compileString($content)->getCss() . "\n";
-			$content = strpos($content, '@charset') === false ? ('@charset "UTF-8";' . "\n" . $content) : $content;
+			$compiler = $scss_compiler->compileString($content, $primary_filename);
+			$content = $compiler->getCss() . "\n";
+			$sourcemap = $compiler->getSourceMap();
 			$result = true;
 		}
 		catch (\Exception $e)
 		{
-			$filename = starts_with(\RX_BASEDIR, $source_filename) ? substr($source_filename, strlen(\RX_BASEDIR)) : $source_filename;
+			$filename = starts_with(\RX_BASEDIR, $primary_filename) ? substr($primary_filename, strlen(\RX_BASEDIR)) : $primary_filename;
 			$message = preg_replace('/\(stdin\)\s/', '', $e->getMessage());
 			$content = sprintf("/*\n  Error while compiling %s\n\n  %s\n*/\n", $filename, $message);
+			$sourcemap = '';
 			$result = false;
 		}
 
 		// Save the result to the target file.
 		Storage::write($target_filename, $content);
+		if ($sourcemap)
+		{
+			Storage::write($sourcemap_filename, $sourcemap);
+		}
 
 		// Save the list of imported files.
 		Storage::writePHPData(preg_replace('/\.css$/', '.imports.php', $target_filename), $imported_list, null, false);
@@ -460,6 +479,9 @@ class Formatter
 			{
 				$content = "@media $media {\n\n" . trim($content) . "\n\n}";
 			}
+
+			// Remove out-of-place sourcemap declarations.
+			$content = preg_replace('!/\\*# (sourceMappingURL=.+?)\\*/!s', '/* $1*/', $content);
 
 			// Append to the result string.
 			$original_filename = starts_with(\RX_BASEDIR, $filename) ? substr($filename, strlen(\RX_BASEDIR)) : $filename;
