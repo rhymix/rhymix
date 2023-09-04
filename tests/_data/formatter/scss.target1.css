@@ -20,6 +20,7 @@
   background: url("../_data/formatter/foo/bar.jpg");
 }
 .rhymix span {
+  font-family: "테스트", Raleway, monospace;
   margin: 320px;
 }
-
+/*# sourceMappingURL=scss.target1.map */
