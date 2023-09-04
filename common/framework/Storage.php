@@ -363,15 +363,18 @@ class Storage
 	{
 		if ($comment !== null)
 		{
-			$comment = "/* $comment */\n";
+			$comment = '/* ' . preg_replace_callback('/[\x00-\x1f\xff*?<>\/\\\\\'"]/', function($match) {
+				return rawurlencode($match[0]);
+			}, $comment) . " */\n";
 		}
+
 		if ($serialize)
 		{
-			$content = '<' . '?php ' . $comment . 'return unserialize(' . var_export(serialize($data), true) . ');';
+			$content = '<' . '?php ' . $comment . 'return unserialize(' . var_export(serialize($data), true) . ');' . PHP_EOL;
 		}
 		else
 		{
-			$content = '<' . '?php ' . $comment . 'return ' . var_export($data, true) . ';';
+			$content = '<' . '?php ' . $comment . 'return ' . var_export($data, true) . ';' . PHP_EOL;
 		}
 		return self::write($filename, $content);
 	}

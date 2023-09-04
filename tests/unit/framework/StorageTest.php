@@ -198,8 +198,12 @@ class StorageTest extends \Codeception\TestCase\Test
 	{
 		$testfile = \RX_BASEDIR . 'tests/_output/test.php';
 		$data = array('foo' => 'bar', 'baz' => array('rhymix' => '\'"special\\chars' . chr(0) . chr(255), 'test' => 'wow'));
+		$comment = 'Hello world */' . PHP_EOL . '?><?php return; ?>';
 
 		$this->assertTrue(Rhymix\Framework\Storage::writePHPData($testfile, $data));
+		$this->assertEquals($data, Rhymix\Framework\Storage::readPHPData($testfile));
+
+		$this->assertTrue(Rhymix\Framework\Storage::writePHPData($testfile, $data, $comment));
 		$this->assertEquals($data, Rhymix\Framework\Storage::readPHPData($testfile));
 	}
 
