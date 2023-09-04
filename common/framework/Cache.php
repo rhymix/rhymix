@@ -386,6 +386,10 @@ class Cache
 	 */
 	public static function getRealKey(string $key): string
 	{
+		$key = preg_replace_callback('/[^\x21-\x7E]/', function($match) {
+			return rawurlencode($match[0]);
+		}, $key);
+
 		if (preg_match('/^([^:]+):(.+)$/i', $key, $matches))
 		{
 			$key = $matches[1] . '#' . self::getGroupVersion($matches[1]) . ':' . $matches[2];
