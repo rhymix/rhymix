@@ -74,7 +74,7 @@ class Session
 
 		// Set session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
-		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 		ini_set('session.gc_maxlifetime', $lifetime > 0 ? $lifetime : 28800);
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
@@ -417,7 +417,7 @@ class Session
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
-		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$alt_domain = $domain ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 		$lifetime = $lifetime ? ($lifetime + time()) : 0;
 		$options = array(
 			'expires' => $lifetime,
@@ -617,7 +617,7 @@ class Session
 	public static function isTrusted()
 	{
 		// Get session parameters.
-		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 
 		// Check the 'trusted' parameter.
 		if ($_SESSION['RHYMIX']['domains'][$domain]['trusted'] > time())
@@ -819,7 +819,7 @@ class Session
 	public static function setTrusted($duration = 300)
 	{
 		// Get session parameters.
-		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 
 		// Update the 'trusted' parameter if the current user is logged in.
 		if (isset($_SESSION['RHYMIX']['domains'][$domain]) && $_SESSION['RHYMIX']['login'])
@@ -1260,7 +1260,7 @@ class Session
 		$conflict_domains = config('session.conflict_domains') ?: array();
 		if ($include_current_host)
 		{
-			$conflict_domains[] = '.' . preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST']));
+			$conflict_domains[] = '.' . preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
 		}
 		if (!count($conflict_domains))
 		{
