@@ -434,7 +434,8 @@ class FileModel extends File
 	 */
 	public static function getUploadConfig()
 	{
-		$config = self::getFileConfig(Context::get('module_srl') ?: Context::get('current_module_info')->module_srl);
+		$module_srl = Context::get('module_srl') ?: (Context::get('current_module_info')->module_srl ?? 0);
+		$config = self::getFileConfig($module_srl);
 		if (Rhymix\Framework\Session::isAdmin())
 		{
 			$module_config = ModuleModel::getModuleConfig('file');

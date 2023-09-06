@@ -530,7 +530,7 @@ class MemberAdminView extends Member
 						$functionName = 'doDeleteImageMark';
 					}
 
-					if($target->src)
+					if(!empty($target->src))
 					{
 						$inputTag = sprintf('<input type="hidden" name="__%s_exist" value="true" /><span id="%s"><img src="%s" alt="%s" /> <button type="button" onclick="%s(%d);return false;">%s</button></span>',
 							$formInfo->name,
