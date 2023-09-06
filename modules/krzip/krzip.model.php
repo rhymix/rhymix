@@ -61,21 +61,21 @@ class krzipModel extends krzip
 		}
 
 		/* 지번 주소 */
-		if(preg_match('/\(.+\s.+[읍면동리(마을)(0-9+가)]\s[0-9-]+\)/', $output[1], $matches))
+		if(preg_match('/\(.+\s\S+[읍면동리(마을)(0-9+가)]\s[0-9-]+\)/us', $output[1], $matches))
 		{
 			$output[1] = trim(str_replace($matches[0], '', $output[1]));
 			$output[2] = $matches[0];
 		}
 
 		/* 부가 정보 */
-		if(preg_match('/\(.+[읍면동리(마을)(0-9+가)](?:,.*)?\)/u', $output[1], $matches))
+		if(preg_match('/\(\S+[읍면동리(마을)(0-9+가)](?:,.*)?\)/us', $output[1], $matches))
 		{
 			$output[1] = trim(str_replace($matches[0], '', $output[1]));
 			$output[4] = $matches[0];
 		}
 
 		/* 상세 주소 */
-		if(preg_match('/^(.+ [가-힝]+[0-9]*[동리로길]\s*[0-9-]+(?:번지?)?),?\s+(.+)$/u', $output[1], $matches))
+		if(preg_match('/^(.+ [가-힝A-Za-z0-9.·-]+(?:[동리로]|번?안?길)\s*[0-9-]+(?:번지?)?),?\s+(.+)$/us', $output[1], $matches))
 		{
 			$output[1] = trim($matches[1]);
 			$output[3] = trim($matches[2]);

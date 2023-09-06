@@ -65,16 +65,20 @@
 				/* 예상 주소 저장 */
 				ui.guide.hide().html("");
 				if(response.autoRoadAddress) {
-					var expRoadAddr = (response.autoRoadAddress + extraRoadAddr);
-					ui.guide
-						.html("(" + xe.lang.msg_krzip_road_address_expectation.replace("%s", expRoadAddr) + ")")
-						.show();
+					var expRoadAddr = response.autoRoadAddress;
+					if (expRoadAddr && !roadAddr) {
+						ui.roadAddress.val(expRoadAddr).trigger("change");
+					} else {
+						ui.guide.html("(" + xe.lang.msg_krzip_road_address_expectation.replace("%s", expRoadAddr) + ")").show();
+					}
 				}
 				else if(response.autoJibunAddress) {
 					var expJibunAddr = response.autoJibunAddress;
-					ui.guide
-						.html("(" + xe.lang.msg_krzip_jibun_address_expectation.replace("%s", expJibunAddr) + ")")
-						.show();
+					if (expJibunAddr && !jibunAddr) {
+						ui.jibunAddress.val("(" + expJibunAddr + ")").trigger("change");
+					} else {
+						ui.guide.html("(" + xe.lang.msg_krzip_jibun_address_expectation.replace("%s", expJibunAddr) + ")").show();
+					}
 				}
 
 				/* 상세 주소로 커서 이동 */
