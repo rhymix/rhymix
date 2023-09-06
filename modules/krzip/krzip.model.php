@@ -40,41 +40,54 @@ class krzipModel extends krzip
 	}
 
 	/**
-	 * @brief 여러 포맷의 우편번호를 모듈 표준 포맷으로 변환
+	 * 여러 포맷의 우편번호를 모듈 표준 포맷으로 변환
+	 *
 	 * @param mixed $values
 	 * @return array
 	 */
 	function getMigratedPostcode($values)
 	{
-		if(is_array($values))
+		// Don't convert if values are already in the standard format.
+		if (is_array($values) && count($values) === 5 && preg_match('/^[0-9]{5}$/', $values[0] ?? ''))
 		{
-			$values = implode(' ', $values);
+			if (preg_match('/[로길]\s+(지하\s+)?[0-9]+(-[0-9]+)?$/us', $values[1] ?? ''))
+			{
+				if (preg_match('/^\(.+\)$/s', $values[2] ?? '') || (isset($values[2]) && $values[2] === ''))
+				{
+					if (preg_match('/^\(.+\)$/s', $values[4] ?? '') || (isset($values[4]) && $values[4] === ''))
+					{
+						return $values;
+					}
+				}
+			}
 		}
 
+		// Concatenate all values into a single string to be parsed again.
+		$values = is_array($values) ? implode(' ', $values) : strval($values);
 		$output = array('', trim(preg_replace('/\s+/', ' ', $values)), '', '', '');
 
-		/* 우편번호 */
+		// 우편번호 분리
 		if(preg_match('/\(?([0-9]{3}-[0-9]{3}|^[0-9]{5})\)?/', $output[1], $matches))
 		{
 			$output[1] = trim(preg_replace('/\s+/', ' ', str_replace($matches[0], '', $output[1])));
 			$output[0] = $matches[1];
 		}
 
-		/* 지번 주소 */
+		// 지번주소 분리
 		if(preg_match('/\(.+\s\S+[읍면동리(마을)(0-9+가)]\s[0-9-]+\)/us', $output[1], $matches))
 		{
 			$output[1] = trim(str_replace($matches[0], '', $output[1]));
 			$output[2] = $matches[0];
 		}
 
-		/* 부가 정보 */
+		// 부가정보 분리
 		if(preg_match('/\(\S+[읍면동리(마을)(0-9+가)](?:,.*)?\)/us', $output[1], $matches))
 		{
 			$output[1] = trim(str_replace($matches[0], '', $output[1]));
 			$output[4] = $matches[0];
 		}
 
-		/* 상세 주소 */
+		// 나머지 내용 중 도로명주소를 제외한 뒷부분은 상세주소로 취급
 		if(preg_match('/^(.+ [가-힝A-Za-z0-9.·-]+(?:[동리로]|번?안?길)\s*[0-9-]+(?:번지?)?),?\s+(.+)$/us', $output[1], $matches))
 		{
 			$output[1] = trim($matches[1]);
