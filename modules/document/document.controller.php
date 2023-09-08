@@ -646,6 +646,8 @@ class DocumentController extends Document
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
+			unset($obj->last_update);
+			unset($obj->last_updater);
 		}
 
 		// Serialize the $extra_vars, check the extra_vars type, because duplicate serialized avoid
@@ -664,8 +666,22 @@ class DocumentController extends Document
 		unset($obj->_saved_doc_content);
 		unset($obj->_saved_doc_message);
 
-		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
-		unset($obj->manual_member_info);
+		// Add the current user's info, unless it is a guest post
+		$logged_info = Context::get('logged_info');
+		if($logged_info->member_srl && !$manual_inserted && !$isRestore)
+		{
+			$obj->member_srl = $logged_info->member_srl;
+			$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
+			$obj->email_address = $logged_info->email_address;
+			$obj->homepage = $logged_info->homepage;
+		}
+		if(!$logged_info->member_srl && !$manual_inserted && !$isRestore)
+		{
+			unset($obj->member_srl);
+			unset($obj->user_id);
+		}
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
 
@@ -715,20 +731,6 @@ class DocumentController extends Document
 		if($obj->password && !$obj->password_is_hashed)
 		{
 			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
-		}
-
-		// Insert member's information only if the member is logged-in and not manually registered.
-		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$manual_inserted && !$isRestore && !$obj->manual_member_info)
-		{
-			$obj->member_srl = $logged_info->member_srl;
-
-			// user_id, user_name and nick_name already encoded
-			$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
-			$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
-			$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
-			$obj->email_address = $logged_info->email_address;
-			$obj->homepage = $logged_info->homepage;
 		}
 
 		// If the tile is empty, extract string from the contents.
@@ -900,8 +902,22 @@ class DocumentController extends Document
 			$this->_checkDocumentStatusForOldVersion($obj);
 		}
 
-		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
-		unset($obj->manual_member_info);
+		// Preserve original author info.
+		if ($source_obj->get('member_srl'))
+		{
+			$obj->member_srl = $source_obj->get('member_srl');
+			$obj->user_id = $source_obj->get('user_id');
+			$obj->user_name = $source_obj->get('user_name');
+			$obj->nick_name = $source_obj->get('nick_name');
+			$obj->email_address = $source_obj->get('email_address');
+			$obj->homepage = $source_obj->get('homepage');
+			$obj->ipaddress = $source_obj->get('ipaddress');
+		}
+		else
+		{
+			unset($obj->member_srl);
+			unset($obj->user_id);
+		}
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
 
@@ -947,6 +963,8 @@ class DocumentController extends Document
 		if(!$grant->manager)
 		{
 			unset($obj->regdate);
+			unset($obj->last_update);
+			unset($obj->list_order);
 		}
 
 		// Serialize the $extra_vars
@@ -988,29 +1006,6 @@ class DocumentController extends Document
 		if($obj->password)
 		{
 			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
-		}
-
-		// If an author is identical to the modifier or history is used, use the logged-in user's information.
-		if(Context::get('is_logged') && !$manual_updated && !$obj->manual_member_info)
-		{
-			if($source_obj->get('member_srl')==$logged_info->member_srl)
-			{
-				$obj->member_srl = $logged_info->member_srl;
-				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
-				$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
-				$obj->email_address = $logged_info->email_address;
-				$obj->homepage = $logged_info->homepage;
-			}
-		}
-
-		// For the document written by logged-in user however no nick_name exists
-		if($source_obj->get('member_srl')&& !$obj->nick_name && !$obj->manual_member_info)
-		{
-			$obj->member_srl = $source_obj->get('member_srl');
-			$obj->user_name = $source_obj->get('user_name');
-			$obj->nick_name = $source_obj->get('nick_name');
-			$obj->email_address = $source_obj->get('email_address');
-			$obj->homepage = $source_obj->get('homepage');
 		}
 
 		// If the tile is empty, extract string from the contents.
@@ -1067,10 +1062,6 @@ class DocumentController extends Document
 			$args->regdate = $source_obj->get('last_update');
 			$args->ipaddress = $source_obj->get('ipaddress');
 			$output = executeQuery("document.insertHistory", $args);
-		}
-		else
-		{
-			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 
 		// Set lang_code if the original document doesn't have it.

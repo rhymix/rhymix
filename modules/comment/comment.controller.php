@@ -559,14 +559,36 @@ class CommentController extends Comment
 		}
 		$obj->__isupdate = FALSE;
 
-		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
-		unset($obj->manual_member_info);
-
 		// Sanitize variables
 		$obj->comment_srl = intval($obj->comment_srl);
 		$obj->module_srl = intval($obj->module_srl);
 		$obj->document_srl = intval($obj->document_srl);
 		$obj->parent_srl = intval($obj->parent_srl);
+
+		// Only managers can customize dates.
+		$grant = Context::get('grant');
+		if(!$grant->manager)
+		{
+			unset($obj->regdate);
+			unset($obj->last_update);
+		}
+
+		// Add the current user's info, unless it is a guest post.
+		$logged_info = Context::get('logged_info');
+		if($logged_info->member_srl && !$manual_inserted)
+		{
+			$obj->member_srl = $logged_info->member_srl;
+			$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
+			$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
+			$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
+			$obj->email_address = $logged_info->email_address;
+			$obj->homepage = $logged_info->homepage;
+		}
+		if(!$logged_info->member_srl && !$manual_inserted)
+		{
+			unset($obj->member_srl);
+			unset($obj->user_id);
+		}
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 
@@ -594,7 +616,6 @@ class CommentController extends Comment
 		if(!$manual_inserted)
 		{
 			$oDocument = DocumentModel::getDocument($document_srl);
-
 			if($document_srl != $oDocument->document_srl)
 			{
 				return new BaseObject(-1, 'msg_invalid_document');
@@ -603,35 +624,22 @@ class CommentController extends Comment
 			{
 				return new BaseObject(-1, 'msg_invalid_request');
 			}
-
-			if($obj->homepage)
-			{
-				$obj->homepage = escape($obj->homepage);
-				if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
-				{
-					$obj->homepage = 'http://'.$obj->homepage;
-				}
-			}
-
-			// input the member's information if logged-in
-			$logged_info = Context::get('logged_info');
-			if(Context::get('is_logged') && !$obj->manual_member_info)
-			{
-				$obj->member_srl = $logged_info->member_srl;
-
-				// user_id, user_name and nick_name already encoded
-				$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
-				$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
-				$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
-				$obj->email_address = $logged_info->email_address;
-				$obj->homepage = $logged_info->homepage;
-			}
 		}
 
 		// error display if neither of log-in info and user name exist.
 		if(!$logged_info->member_srl && !$obj->nick_name)
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
+		}
+
+		// Clean up the homepage link, if any
+		if($obj->homepage)
+		{
+			$obj->homepage = escape($obj->homepage);
+			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
+			{
+				$obj->homepage = 'http://'.$obj->homepage;
+			}
 		}
 
 		if(!$obj->comment_srl)
@@ -661,11 +669,6 @@ class CommentController extends Comment
 			$obj->content = getModel('editor')->converter($obj, 'comment');
 		}
 
-		if(!$obj->regdate)
-		{
-			$obj->regdate = date("YmdHis");
-		}
-
 		// remove iframe and script if not a top administrator on the session.
 		if($logged_info->is_admin != 'Y')
 		{
@@ -673,12 +676,12 @@ class CommentController extends Comment
 		}
 		$obj->content = utf8_mbencode($obj->content);
 
-		if(!$obj->notify_message)
+		if (isset($obj->notify_message) && $obj->notify_message !== 'Y')
 		{
 			$obj->notify_message = 'N';
 		}
 
-		if(!$obj->is_secret)
+		if (isset($obj->is_secret) && $obj->is_secret !== 'Y')
 		{
 			$obj->is_secret = 'N';
 		}
@@ -935,14 +938,28 @@ class CommentController extends Comment
 
 		$obj->__isupdate = TRUE;
 
-		// Remove manual member info to prevent forgery. This variable can be set by triggers only.
-		unset($obj->manual_member_info);
-
 		// Sanitize variables
 		$obj->comment_srl = intval($obj->comment_srl);
 		$obj->module_srl = intval($obj->module_srl);
 		$obj->document_srl = intval($obj->document_srl);
 		$obj->parent_srl = intval($obj->parent_srl);
+
+		// Preserve original author info.
+		$source_obj = CommentModel::getComment($obj->comment_srl);
+		if ($source_obj->get('member_srl'))
+		{
+			$obj->member_srl = $source_obj->get('member_srl');
+			$obj->user_id = $source_obj->get('user_id');
+			$obj->user_name = $source_obj->get('user_name');
+			$obj->nick_name = $source_obj->get('nick_name');
+			$obj->email_address = $source_obj->get('email_address');
+			$obj->homepage = $source_obj->get('homepage');
+		}
+		else
+		{
+			unset($obj->member_srl);
+			unset($obj->user_id);
+		}
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 
@@ -951,17 +968,6 @@ class CommentController extends Comment
 		if(!$output->toBool())
 		{
 			return $output;
-		}
-
-		// get the original data
-		$source_obj = CommentModel::getComment($obj->comment_srl);
-		if(!$source_obj->getMemberSrl())
-		{
-			$obj->member_srl = $source_obj->get('member_srl');
-			$obj->user_name = $source_obj->get('user_name');
-			$obj->nick_name = $source_obj->get('nick_name');
-			$obj->email_address = $source_obj->get('email_address');
-			$obj->homepage = $source_obj->get('homepage');
 		}
 
 		// check if permission is granted
@@ -984,30 +990,6 @@ class CommentController extends Comment
 			}
 		}
 
-		// set modifier's information if logged-in and posting author and modifier are matched.
-		$logged_info = Context::get('logged_info');
-		if(Context::get('is_logged') && !$obj->manual_member_info)
-		{
-			if($source_obj->member_srl == $logged_info->member_srl)
-			{
-				$obj->member_srl = $logged_info->member_srl;
-				$obj->user_name = $logged_info->user_name;
-				$obj->nick_name = $logged_info->nick_name;
-				$obj->email_address = $logged_info->email_address;
-				$obj->homepage = $logged_info->homepage;
-			}
-		}
-
-		// if nick_name of the logged-in author doesn't exist
-		if($source_obj->get('member_srl') && !$obj->nick_name && !$obj->manual_member_info)
-		{
-			$obj->member_srl = $source_obj->get('member_srl');
-			$obj->user_name = $source_obj->get('user_name');
-			$obj->nick_name = $source_obj->get('nick_name');
-			$obj->email_address = $source_obj->get('email_address');
-			$obj->homepage = $source_obj->get('homepage');
-		}
-
 		if(!$obj->content)
 		{
 			$obj->content = $source_obj->get('content');
@@ -1028,6 +1010,7 @@ class CommentController extends Comment
 		}
 
 		// remove iframe and script if not a top administrator on the session
+		$logged_info = Context::get('logged_info');
 		if($logged_info->is_admin != 'Y')
 		{
 			$obj->content = removeHackTag($obj->content);
