@@ -149,7 +149,7 @@ class TemplateHandler
 		{
 			$tpl_path = rtrim(str_replace('\\', '/', $tpl_path), '/') . '/';
 			$error_message = vsprintf('Template not found: %s%s%s', array(
-				$tpl_path,
+				starts_with(\RX_BASEDIR, $tpl_path) ? substr($tpl_path, strlen(\RX_BASEDIR)) : $tpl_path,
 				preg_replace('/\.html$/i', '', $tpl_filename) . '.html',
 				$tpl_file ? " ($tpl_file)" : '',
 			));
@@ -236,7 +236,7 @@ class TemplateHandler
 		{
 			$tpl_path = rtrim(str_replace('\\', '/', $tpl_path), '/') . '/';
 			$error_message = vsprintf('Template not found: %s%s', array(
-				$tpl_path,
+				starts_with(\RX_BASEDIR, $tpl_path) ? substr($tpl_path, strlen(\RX_BASEDIR)) : $tpl_path,
 				preg_replace('/\.html$/i', '', $tpl_filename) . '.html',
 			));
 			trigger_error($error_message, \E_USER_WARNING);
