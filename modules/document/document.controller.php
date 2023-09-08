@@ -3396,6 +3396,8 @@ Content;
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
 		$obj->status = $this->getConfigStatus('temp');
+		$obj->list_order = $obj->update_order = 0;
+		unset($obj->extra_vars);
 
 		// unset document style if not manager
 		if(!$this->grant->manager)
