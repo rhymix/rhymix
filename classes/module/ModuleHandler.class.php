@@ -1205,7 +1205,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule->setLayoutFile('popup_layout');
 				}
-				else
+				elseif (HTMLDisplayHandler::isPartialPageRendering())
 				{
 					$oModule->setLayoutPath('common/tpl');
 					$oModule->setLayoutFile('default_layout');

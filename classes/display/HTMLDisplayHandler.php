@@ -47,7 +47,7 @@ class HTMLDisplayHandler
 	 * @param ModuleObject $oModule the module object
 	 * @return string compiled template string
 	 */
-	function toDoc(&$oModule)
+	public function toDoc(&$oModule)
 	{
 		$oTemplate = TemplateHandler::getInstance();
 
@@ -112,7 +112,13 @@ class HTMLDisplayHandler
 				$output = '<div class="x">' . $output . '</div>';
 			}
 
-			if(Context::get('layout') != 'none')
+			// Wrap content in layout
+			$use_layout = Context::get('layout') !== 'none';
+			if (!$use_layout && isset($_REQUEST['layout']) && !self::isPartialPageRendering())
+			{
+				$use_layout = true;
+			}
+			if ($use_layout)
 			{
 				$start = microtime(true);
 
@@ -193,11 +199,41 @@ class HTMLDisplayHandler
 	}
 
 	/**
+	 * Check if partial page rendering (dropping the layout) is enabled.
+	 *
+	 * @return bool
+	 */
+	public static function isPartialPageRendering()
+	{
+		$ppr = config('view.partial_page_rendering') ?? 'internal_only';
+		if ($ppr === 'disabled')
+		{
+			return false;
+		}
+		elseif ($ppr === 'ajax_only' && empty($_SERVER['HTTP_X_REQUESTED_WITH']))
+		{
+			return false;
+		}
+		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !Rhymix\Framework\URL::isInternalURL($_SERVER['HTTP_REFERER'])))
+		{
+			return false;
+		}
+		elseif ($ppr === 'except_robots' && isCrawler())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * when display mode is HTML, prepare code before print.
 	 * @param string $output compiled template string
 	 * @return void
 	 */
-	function prepareToPrint(&$output)
+	public function prepareToPrint(&$output)
 	{
 		if(Context::getResponseMethod() != 'HTML')
 		{

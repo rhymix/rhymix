@@ -202,6 +202,19 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label" for="partial_page_rendering">{$lang->cmd_partial_page_rendering}</label>
+			<div class="x_controls">
+				<select name="partial_page_rendering" id="partial_page_rendering">
+					<option value="all" selected="selected"|cond="$partial_page_rendering === 'all'">{$lang->cmd_partial_page_rendering_all}</option>
+					<option value="except_robots" selected="selected"|cond="$partial_page_rendering === 'except_robots'">{$lang->cmd_partial_page_rendering_except_robots}</option>
+					<option value="internal_only" selected="selected"|cond="$partial_page_rendering === 'internal_only'">{$lang->cmd_partial_page_rendering_internal_only}</option>
+					<option value="ajax_only" selected="selected"|cond="$partial_page_rendering === 'ajax_only'">{$lang->cmd_partial_page_rendering_ajax_only}</option>
+					<option value="disabled" selected="selected"|cond="$partial_page_rendering === 'disabled'">{$lang->cmd_partial_page_rendering_disabled}</option>
+				</select>
+				<p class="x_help-block">{$lang->about_partial_page_rendering}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->manager_layout}</label>
 			<div class="x_controls">
 				<label for="manager_layout_module" class="x_inline"><input type="radio" name="manager_layout" id="manager_layout_module" value="module" checked="checked"|cond="$manager_layout != 'admin'" /> {$lang->cmd_manager_layout_module}</label>

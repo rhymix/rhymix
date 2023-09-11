@@ -104,6 +104,7 @@ class Advanced extends Base
 		Context::set('delay_session', Config::get('session.delay'));
 		Context::set('delay_template_compile', Config::get('view.delay_compile'));
 		Context::set('use_db_session', Config::get('session.use_db'));
+		Context::set('partial_page_rendering', Config::get('view.partial_page_rendering') ?? 'internal_only');
 		Context::set('manager_layout', Config::get('view.manager_layout'));
 		Context::set('minify_scripts', Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Config::get('view.concat_scripts'));
@@ -220,6 +221,7 @@ class Advanced extends Base
 		Config::set('use_rewrite', $vars->use_rewrite > 0);
 		Config::set('session.delay', $vars->delay_session === 'Y');
 		Config::set('session.use_db', $vars->use_db_session === 'Y');
+		Config::set('view.partial_page_rendering', $vars->partial_page_rendering);
 		Config::set('view.manager_layout', $vars->manager_layout ?: 'module');
 		Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');

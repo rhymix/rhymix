@@ -78,6 +78,7 @@ return array(
 		'type' => 'mailfunction',
 	),
 	'view' => array(
+		'partial_page_rendering' => 'internal_only',
 		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
