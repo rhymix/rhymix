@@ -1,19 +1,3 @@
-jQuery(function($)
-{
-	// Dashboard portlet UI
-	$('.dashboard>div>section>ul>li')
-	.bind('mouseenter focusin', function(){
-		$(this).addClass('hover').find('>.action').show();
-	})
-	.bind('mouseleave focusout', function()
-	{
-		if(!$(this).find(':focus').length)
-		{
-			$(this).removeClass('hover').find('>.action').hide();
-		}
-	});
-});
-
 function obj2Array(htObj)
 {
 	var aRes = [];
