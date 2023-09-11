@@ -52,7 +52,7 @@
 			<li loop="$latestCommentList => $key,$value">
 				<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content) !== '')-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a> 
 				<span class="side">{$value->getNickName()}</span> 
-				<form class="action">
+				<form class="action" method="POST">
 					<input type="hidden" name="module" value="admin" />
 					<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
 					<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
