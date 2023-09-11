@@ -519,7 +519,7 @@ class MemberModel extends Member
 				}
 			}
 
-			if(strlen($info->find_account_answer) == 32 && preg_match('/[a-zA-Z0-9]+/', $info->find_account_answer))
+			if(strlen($info->find_account_answer ?? '') == 32 && preg_match('/[a-zA-Z0-9]+/', $info->find_account_answer ?? ''))
 			{
 				$info->find_account_answer = null;
 			}
