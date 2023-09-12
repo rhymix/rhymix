@@ -452,6 +452,9 @@ class TemplateHandler
 	 */
 	private function _fetch($filename)
 	{
+		// Remember the current template filename.
+		$__current_filename = $this->web_path . $this->filename;
+
 		// Import Context and lang as local variables.
 		$__Context = Context::getAll();
 		$__Context->tpl_path = $this->path;
@@ -474,8 +477,8 @@ class TemplateHandler
 		// Insert template path comment tag.
 		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
 		{
-			$sign = "\n" . '<!-- Template %s : ' . $this->web_path . $this->filename . ' -->' . "\n";
-			$contents = sprintf($sign, 'start') . $contents . sprintf($sign, 'end');
+			$sign = '<!--#Template%s:' . $__current_filename . '-->' . "\n";
+			$contents = sprintf($sign, 'Start') . $contents . sprintf($sign, 'End');
 		}
 
 		return $contents;
