@@ -1436,6 +1436,7 @@ class DocumentModel extends Document
 						elseif($search_target == 'tag')
 						{
 							$query_id = 'document.getDocumentListWithinTag';
+							$search_keyword = htmlspecialchars_decode($search_keyword);
 						}
 						$args->{'s_' . $search_target} = $search_keyword;
 					}

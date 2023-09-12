@@ -104,7 +104,7 @@
 			<span class="tags" cond="$tag_list">
 				<i class="xi-tags"></i>
 				<!--@foreach($tag_list as $tag)-->
-					<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag" rel="tag">{htmlspecialchars($tag)}</a><span>,</span>
+					<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag" rel="tag">{escape($tag, false)}</a><span>,</span>
 				<!--@end-->
 			</span>
 			<a class="document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a>
