@@ -40,6 +40,12 @@ class menu extends ModuleObject
 			return true;
 		}
 
+		// 2023. 09. 12 add column class
+		if(!$oDB->isColumnExists('menu_item', 'class'))
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -61,6 +67,12 @@ class menu extends ModuleObject
 		if(!$oDB->isColumnExists('menu_item', 'icon'))
 		{
 			$oDB->addColumn('menu_item', 'icon', 'varchar', 250, null, false, 'name');
+		}
+
+		// 2023. 09. 12 add column class
+		if(!$oDB->isColumnExists('menu_item', 'class'))
+		{
+			$oDB->addColumn('menu_item', 'class', 'varchar', 250, null, false, 'icon');
 		}
 	}
 

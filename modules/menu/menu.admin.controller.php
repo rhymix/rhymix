@@ -560,6 +560,7 @@ class menuAdminController extends menu
 		}
 
 		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
 		$args->desc = trim($request->menu_desc ?? '') ?: '';
 
 		$args->menu_item_srl = getNextSequence();
@@ -595,6 +596,7 @@ class menuAdminController extends menu
 		else $args->name = $request->menu_name;
 
 		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
 		$args->desc = trim($request->menu_desc ?? '') ?: '';
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
@@ -780,6 +782,7 @@ class menuAdminController extends menu
 		}
 
 		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
 		$args->desc = trim($request->menu_desc ?? '') ?: '';
 
 		unset($args->group_srls);
@@ -1949,6 +1952,7 @@ class menuAdminController extends menu
 
 			$url = escape($node->url);
 			$icon = Rhymix\Framework\Filters\HTMLFilter::clean($node->icon ?? '', true);
+			$class = Rhymix\Framework\Filters\HTMLFilter::clean($node->class ?? '', true);
 			$desc = Rhymix\Framework\Filters\HTMLFilter::clean($node->desc ?? '', true);
 			$desc = preg_replace('/(\$user_lang)-&gt;(userLang[0-9]+)/', '$1->$2', $desc);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
@@ -1997,7 +2001,7 @@ class menuAdminController extends menu
 			}
 
 			$attribute = sprintf(
-				'node_srl="%d" parent_srl="%d" menu_name_key=%s text="<?php if(%s) { %s }?>" url="<?php print(%s?%s:"")?>" href="<?php print(%s?%s:"")?>" is_shortcut=%s icon=%s desc=%s open_window=%s expand=%s normal_btn=%s hover_btn=%s active_btn=%s link="<?php if(%s) {?>%s<?php }?>"',
+				'node_srl="%d" parent_srl="%d" menu_name_key=%s text="<?php if(%s) { %s }?>" url="<?php print(%s?%s:"")?>" href="<?php print(%s?%s:"")?>" is_shortcut=%s icon=%s class=%s desc=%s open_window=%s expand=%s normal_btn=%s hover_btn=%s active_btn=%s link="<?php if(%s) {?>%s<?php }?>"',
 				$menu_item_srl,
 				($node->parent_srl) ? $node->parent_srl : '',
 				var_export(escape($node->name ?: '', true, true), true),
@@ -2009,6 +2013,7 @@ class menuAdminController extends menu
 				$href,
 				var_export($is_shortcut, true),
 				var_export($icon, true),
+				var_export($class, true),
 				var_export($desc, true),
 				var_export($open_window, true),
 				var_export($expand, true),
@@ -2095,6 +2100,7 @@ class menuAdminController extends menu
 			$href = escape($node->href ?? '', false);
 			$url = escape($node->url ?? '', false);
 			$icon = Rhymix\Framework\Filters\HTMLFilter::clean($node->icon ?? '', true);
+			$class = Rhymix\Framework\Filters\HTMLFilter::clean($node->class ?? '', true);
 			$desc = Rhymix\Framework\Filters\HTMLFilter::clean($node->desc ?? '', true);
 			$desc = preg_replace('/(\$user_lang)-&gt;(userLang[0-9]+)/', '$1->$2', $desc);
 			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
@@ -2157,6 +2163,7 @@ class menuAdminController extends menu
 				"url" => (%s ? %s : ""),
 				"is_shortcut" => %s,
 				"icon" => %s,
+				"class" => %s,
 				"desc" => %s,
 				"open_window" => %s,
 				"normal_btn" => %s,
@@ -2178,6 +2185,7 @@ class menuAdminController extends menu
 				var_export($url, true),
 				var_export($is_shortcut, true),
 				var_export($icon, true),
+				var_export($class, true),
 				var_export($desc, true),
 				var_export($open_window, true),
 				var_export($normal_btn, true),

@@ -8,6 +8,7 @@
         <column name="menu_srl" var="menu_srl" filter="number" notnull="notnull" />
         <column name="name" var="name" notnull="notnull" />
         <column name="icon" var="icon" />
+        <column name="class" var="class" />
         <column name="desc" var="desc" />
         <column name="url" var="url" />
         <column name="is_shortcut" var="is_shortcut" notnull="notnull" default="N" />

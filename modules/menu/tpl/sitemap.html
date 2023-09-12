@@ -191,11 +191,20 @@
 						</div>
 					</li>
 					<li>
-						<div class="x_input-append">
-							<label for="menuIcon2">{$lang->menu_icon}</label>
-							<input id="menuIcon2" class="_menuIcon" type="text" />
+						<label for="menuIcon2">{$lang->menu_icon} <a href="#help_menuIcon2" class="x_icon-question-sign" data-admin-toggle="#help_menuIcon2">{$lang->help}</a></label>
+						<div id="help_menuIcon2" class="x_alert x_alert-info">
+							<button type="button" class="x_close" data-admin-hide="#help_menuIcon2">×</button>
+							<p>{$lang->about_menu_icon}</p>
 						</div>
-						<p>{$lang->about_menu_icon}</p>
+						<input id="menuIcon2" class="_menuIcon" type="text" />
+					</li>
+					<li>
+						<label for="menuClass2">{$lang->menu_class} <a href="#help_menuClass2" class="x_icon-question-sign" data-admin-toggle="#help_menuClass2">{$lang->help}</a></label>
+						<div id="help_menuClass2" class="x_alert x_alert-info">
+							<button type="button" class="x_close" data-admin-hide="#help_menuClass2">×</button>
+							<p>{$lang->about_menu_class}</p>
+						</div>
+						<input id="menuClass2" class="_menuClass" type="text" />
 					</li>
 					<li>
 						<div class="multilingual x_input-append">
@@ -204,7 +213,7 @@
 						</div>
 					</li>
 					<li class="typePage">
-						<label for="mid1">{$lang->menu_id} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">{$lang->help}</a></label>
+						<label for="mid1">{$lang->menu_url} <a href="#help_menuId" class="x_icon-question-sign" data-admin-toggle="#mid1_help">{$lang->help}</a></label>
 						<div id="mid1_help" class="x_alert x_alert-info">
 							<button type="button" class="x_close" data-admin-hide="#mid1_help">×</button>
 							<p>{$lang->about_menu_id} {$lang->about_new_menu_id}</p>
@@ -261,11 +270,20 @@
 						</div>
 					</li>
 					<li>
-						<div class="x_input-append">
-							<label for="menuIcon">{$lang->menu_icon}</label>
-							<input id="menuIcon" class="_menuIcon" type="text" />
+						<label for="menuIcon">{$lang->menu_icon} <a href="#help_menuIcon" class="x_icon-question-sign" data-admin-toggle="#help_menuIcon">{$lang->help}</a></label>
+						<div id="help_menuIcon" class="x_alert x_alert-info">
+							<button type="button" class="x_close" data-admin-hide="#help_menuIcon">×</button>
+							<p>{$lang->about_menu_icon}</p>
 						</div>
-						<p style="width:220px;min-width:100%">{$lang->about_menu_icon}</p>
+						<input id="menuIcon" class="_menuIcon" type="text" />
+					</li>
+					<li>
+						<label for="menuClass">{$lang->menu_class} <a href="#help_menuClass" class="x_icon-question-sign" data-admin-toggle="#help_menuClass">{$lang->help}</a></label>
+						<div id="help_menuClass" class="x_alert x_alert-info">
+							<button type="button" class="x_close" data-admin-hide="#help_menuClass">×</button>
+							<p>{$lang->about_menu_class}</p>
+						</div>
+						<input id="menuClass" class="_menuClass" type="text" />
 					</li>
 					<li>
 						<div class="multilingual x_input-append">
@@ -1867,6 +1885,7 @@ jQuery(function($){
 	$('#add_menu ._save').bind("click", function(){
 		var sMenuName = $('#add_menu ._menuName').val();
 		var sMenuIcon = $('#add_menu ._menuIcon').val();
+		var sMenuClass = $('#add_menu ._menuClass').val();
 		var sMenuDesc = $('#add_menu ._menuDesc').val();
 		var sUrl = $('#add_menu ._mid').val();
 		var sTargetKey = "module_id";
@@ -1917,6 +1936,7 @@ jQuery(function($){
 		params['menu_name_key'] = "";
 		params['menu_name'] = sMenuName;
 		params['menu_icon'] = sMenuIcon;
+		params['menu_class'] = sMenuClass;
 		params['menu_desc'] = sMenuDesc;
 		params['module_type'] = sSelectedModuleName;
 		params['menu_open_window'] = "N";
@@ -1952,6 +1972,7 @@ jQuery(function($){
 
 		$(this).find('#menuName').val(htInfo.sMenuNameKey.match(/\$user_lang->/) ? htInfo.sMenuNameKey : htInfo.sText);
 		$(this).find('#menuIcon').val(htInfo.icon);
+		$(this).find('#menuClass').val(htInfo.class);
 		$(this).find('#menuDesc').val(htInfo.desc);
 		//menu_name_key
 
@@ -2007,6 +2028,7 @@ jQuery(function($){
 
 		var sMenuName = $('#default ._menuName').val();
 		var sMenuIcon = $('#default ._menuIcon').val();
+		var sMenuClass = $('#default ._menuClass').val();
 		var sMenuDesc = $('#default ._menuDesc').val();
 		var sMID;
 
@@ -2034,11 +2056,11 @@ jQuery(function($){
 		params['menu_item_srl'] = sSelectedMenuSrl;
 		params['menu_name'] = sMenuName;
 		params['menu_icon'] = sMenuIcon;
+		params['menu_class'] = sMenuClass;
 		params['menu_desc'] = sMenuDesc;
 		params['menu_open_window'] = sNewWindow;
 		params['menu_expand'] = sLeaveUnfolded;
 		params['browser_title'] = sBrowserTitle;
-//console.log(params);return;
 		$.exec_json("menu.procMenuAdminUpdateItem", params, function(htData){
 			// select currently selected menu
 			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;

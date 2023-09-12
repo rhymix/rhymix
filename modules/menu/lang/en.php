@@ -133,3 +133,5 @@ $lang->no_use_skin = 'Will not use any skin';
 $lang->menu_desc = 'Description';
 $lang->menu_icon = 'Icon';
 $lang->about_menu_icon = 'If and how the icon code is interpreted is up to the layout designer.';
+$lang->menu_class = 'HTML Class';
+$lang->about_menu_class = 'If and how the class name is interpreted is up to the layout designer.';
