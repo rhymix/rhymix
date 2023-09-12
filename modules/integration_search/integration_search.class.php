@@ -24,26 +24,13 @@ class integration_search extends ModuleObject
 	 *
 	 * @return bool
 	 */
-	function checkUpdate() 
+	function checkUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('integration_search');
-
-		if($config->skin)
-		{
-			$config_parse = explode('.', $config->skin);
-			if(count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
-				if(is_dir($template_path)) return true;
-			}
-		}
-		
 		if (!ModuleModel::getActionForward('IS'))
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -52,29 +39,11 @@ class integration_search extends ModuleObject
 	 *
 	 * @return Object
 	 */
-	function moduleUpdate() 
+	function moduleUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('message');
-
-		if($config->skin)
-		{
-			$config_parse = explode('.', $config->skin);
-			if(count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/integration_search/', $config_parse[0]);
-				if(is_dir($template_path))
-				{
-					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = getController('module');
-					$oModuleController->updateModuleConfig('integration_search', $config);
-				}
-			}
-		}
-		
 		if (!ModuleModel::getActionForward('IS'))
 		{
-			$oModuleController = getController('module');
+			$oModuleController = ModuleController::getInstance();
 			$oModuleController->insertActionForward('integration_search', 'view', 'IS');
 		}
 	}

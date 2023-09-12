@@ -228,17 +228,6 @@ class Member extends ModuleObject
 			return true;
 		}
 
-		// Check skin
-		if($config->skin)
-		{
-			$config_parse = explode('.', $config->skin);
-			if(count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
-				if(is_dir($template_path)) return true;
-			}
-		}
-
 		// supprot multilanguage agreement.
 		if(FileHandler::exists('./files/member_extra_info/agreement.txt')) return true;
 		if(FileHandler::exists('./files/ruleset/insertMember.xml')) return true;
@@ -548,22 +537,6 @@ class Member extends ModuleObject
 		if($changed)
 		{
 			$oModuleController->updateModuleConfig('member', $config);
-		}
-
-		// Check skin
-		if($config->skin)
-		{
-			$config_parse = explode('.', $config->skin);
-			if (count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/member/', $config_parse[0]);
-				if(is_dir($template_path))
-				{
-					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = getController('module');
-					$oModuleController->updateModuleConfig('member', $config);
-				}
-			}
 		}
 
 		if(file_exists('./files/member_extra_info/agreement.txt'))

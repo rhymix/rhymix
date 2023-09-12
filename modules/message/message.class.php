@@ -20,19 +20,7 @@ class Message extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('message');
 
-		if(!empty($config->skin))
-		{
-			$config_parse = explode('.', $config->skin);
-			if (count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
-				if(is_dir($template_path)) return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -40,23 +28,7 @@ class Message extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oModuleModel = getModel('module');
-		$config = $oModuleModel->getModuleConfig('message');
 
-		if($config->skin)
-		{
-			$config_parse = explode('.', $config->skin);
-			if (count($config_parse) > 1)
-			{
-				$template_path = sprintf('./themes/%s/modules/message/', $config_parse[0]);
-				if(is_dir($template_path))
-				{
-					$config->skin = implode('|@|', $config_parse);
-					$oModuleController = getController('module');
-					$oModuleController->updateModuleConfig('message', $config);
-				}
-			}
-		}
 	}
 
 	/**
@@ -64,6 +36,7 @@ class Message extends ModuleObject
 	 */
 	function recompileCache()
 	{
+
 	}
 }
 /* End of file message.class.php */
