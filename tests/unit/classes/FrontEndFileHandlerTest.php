@@ -7,7 +7,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 	private $reservedJS;
 	private function _filemtime($file)
 	{
-		return '?' . date('YmdHis', filemtime(_XE_PATH_ . $file));
+		return '?t=' . filemtime(_XE_PATH_ . $file);
 	}
 
 	public function _before()
@@ -59,7 +59,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/css/rhymix.scss'));
 		$result = $handler->getCssFileList(true);
-		$this->assertRegexp('/\.rhymix\.scss\.css\?\d+$/', $result[0]['file']);
+		$this->assertRegexp('/\.rhymix\.scss\.css\?t=\d+$/', $result[0]['file']);
 		$this->assertEquals('all', $result[0]['media']);
 		$this->assertTrue(empty($result[0]['targetie']));
 	}
@@ -224,7 +224,7 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler = new FrontEndFileHandler();
 		$handler->loadFile(array('./common/js/common.js', 'head'));
 		$result = $handler->getJsFileList('head', true);
-		$this->assertRegexp('/minified\/common\.js\.common\.min\.js\?\d+$/', $result[0]['file']);
+		$this->assertRegexp('/minified\/common\.js\.common\.min\.js\?t=\d+$/', $result[0]['file']);
 		$this->assertTrue(empty($result[0]['targetie']));
 
 		FrontEndFileHandler::$minify = 'none';
@@ -245,11 +245,11 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./tests/_data/formatter/concat.target2.css'));
 		$result = $handler->getCssFileList(true);
 		$this->assertEquals(3, count($result));
-		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[0]['file']);
+		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?t=\d+$/', $result[0]['file']);
 		//$this->assertEquals($this->baseurl . 'common/css/bootstrap.css' . $this->_filemtime('common/css/bootstrap.css'), $result[1]['file']);
 		//$this->assertEquals('IE', $result[1]['targetie']);
 		$this->assertEquals('http://external.host/style.css', $result[1]['file']);
-		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?\d+$/', $result[2]['file']);
+		$this->assertRegexp('/combined\/[0-9a-f]+\.css\?t=\d+$/', $result[2]['file']);
 
 		FrontEndFileHandler::$concat = 'js';
 
@@ -263,9 +263,9 @@ class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
 		$handler->loadFile(array('./tests/_data/formatter/concat.target2.js'));
 		$result = $handler->getJsFileList('head', true);
 		$this->assertEquals(3, count($result));
-		$this->assertRegexp('/combined\/[0-9a-f]+\.js\?\d+$/', $result[0]['file']);
+		$this->assertRegexp('/combined\/[0-9a-f]+\.js\?t=\d+$/', $result[0]['file']);
 		$this->assertEquals('//external.host/js/script.js', $result[1]['file']);
-		$this->assertRegexp('/combined\/[0-9a-f]+\.js\?\d+$/', $result[2]['file']);
+		$this->assertRegexp('/combined\/[0-9a-f]+\.js\?t=\d+$/', $result[2]['file']);
 
 		FrontEndFileHandler::$concat = 'none';
 	}
