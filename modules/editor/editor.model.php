@@ -265,6 +265,9 @@ class editorModel extends editor
 		// Check an option whether to start the editor manually.
 		Context::set('editor_manual_start', $option->manual_start ?? null);
 
+		// Add the timestamp for the editor module config.
+		Context::set('editor_config_timestamp', $option->timestamp ?? 0);
+
 		// Compile and return the editor skin template.
 		$tpl_path = Context::get('editor_path');
 		Context::loadLang($tpl_path.'lang');

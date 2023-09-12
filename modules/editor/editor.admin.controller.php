@@ -44,6 +44,10 @@ class editorAdminController extends editor
 		$output = $this->editorCheckUse($componentList,$site_module_info->site_srl);
 		if(!$output->toBool()) return new BaseObject();
 
+		$config = ModuleModel::getModuleConfig('editor') ?: new stdClass;
+		$config->timestamp = time();
+		ModuleController::getInstance()->insertModuleConfig('editor', $config);
+
 		$oEditorController = getController('editor');
 		$oEditorController->removeCache($site_module_info->site_srl);
 		$this->setRedirectUrl(Context::get('error_return_url'));
@@ -239,6 +243,7 @@ class editorAdminController extends editor
 			$config->autoinsert_types[$type] = true;
 		}
 		$config->autoinsert_position = in_array($configVars->autoinsert_position, array('paragraph', 'inline')) ? $configVars->autoinsert_position : 'paragraph';
+		$config->timestamp = time();
 
 		$oModuleController->insertModuleConfig('editor', $config);
 		$this->setRedirectUrl(Context::get('error_return_url'));

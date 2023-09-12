@@ -51,10 +51,10 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 	jQuery(function($){
 		"use strict";
 		<!--@if(!$ckeditor_config_filemtime)-->CKEDITOR.config.customConfig = '';<!--@endif-->
-		
+
 		// Import CSS content from PHP.
 		var css_content = {json_encode($css_content)};
-		
+
 		// Get default font name and list of other supported fonts.
 		var default_font_name = {json_encode($content_font ? trim(array_first(explode(',', $content_font)), '\'" ') : null)};
 		var default_font_fullname = {json_encode($content_font ?: null)};
@@ -79,7 +79,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		font_list = $.map(font_list, function(val) {
 			return $.trim(val.split(",")[0]) + "/" + val;
 		}).join(";");
-		
+
 		// Get default font size and list of other supported sizes.
 		var default_font_size = {json_encode(strval($content_font_size ?: '13'))};
 		default_font_size = parseInt(default_font_size.replace(/\D/, ''), 10);
@@ -91,7 +91,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		font_sizes = $.map(font_sizes, function(val) {
 			return val + "/" + val + "px";
 		}).join(";");
-		
+
 		// Apply auto dark mode.
 		var editor_skin = '{$colorset}';
 		var editor_color = null;
@@ -103,7 +103,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 				}
 			}
 		<!--@endif-->
-		
+
 		// Initialize CKEditor settings.
 		var settings = {
 			ckeconfig: {
@@ -124,7 +124,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 			enableToolbar: true,
 			content_field: jQuery('[name={$editor_content_key_name}]')
 		};
-		
+
 		// Add style-sheet for the WYSIWYG
 		$(document.getElementsByTagName('link')).each(function() {
 			if ($(this).attr('rel') == 'stylesheet') {
@@ -135,9 +135,9 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		// Prevent removal of icon fonts and Google code.
 		CKEDITOR.dtd.$removeEmpty.i = 0;
 		CKEDITOR.dtd.$removeEmpty.ins = 0;
-		
+
 		// Set the timestamp for plugins.
-		CKEDITOR.timestamp = '{strtoupper(dechex(max($ckeditor_main_filemtime, $ckeditor_config_filemtime)))}';
+		CKEDITOR.timestamp = '{strtoupper(dechex(max($ckeditor_main_filemtime, $ckeditor_config_filemtime, $editor_config_timestamp ?? 0)))}';
 
 		// Add editor components.
 		<!--@if($enable_component)-->
@@ -170,7 +170,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		<!--@if($editor_remove_plugins)-->
 			settings.ckeconfig.removePlugins = {json_encode(implode(',', $editor_remove_plugins))};
 		<!--@endif-->
-		
+
 		// https://github.com/rhymix/rhymix/issues/932
 		if (CKEDITOR.env.iOS) {
 			settings.ckeconfig.extraPlugins = (settings.ckeconfig.extraPlugins ? (settings.ckeconfig.extraPlugins + ',') : '') + 'divarea,ios_enterkey';
@@ -203,7 +203,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 
 		// Initialize CKEditor.
 		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
-		
+
 		// Add use_editor and use_html fields to parent form.
 		var parentform = $('#ckeditor_instance_{$editor_sequence}').parents('form');
 		var use_editor = parentform.find("input[name='use_editor']");

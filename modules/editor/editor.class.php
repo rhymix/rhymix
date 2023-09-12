@@ -57,6 +57,7 @@ class editor extends ModuleObject
 		'additional_mobile_css' => array(),
 		'additional_plugins' => array(),
 		'remove_plugins' => array('liststyle', 'tabletools', 'tableselection', 'contextmenu', 'exportpdf'),
+		'timestamp' => 0,
 	);
 
 	/**
