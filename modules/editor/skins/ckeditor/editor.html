@@ -137,7 +137,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		CKEDITOR.dtd.$removeEmpty.ins = 0;
 
 		// Set the timestamp for plugins.
-		CKEDITOR.timestamp = '{strtoupper(dechex(max($ckeditor_main_filemtime, $ckeditor_config_filemtime, $editor_config_timestamp ?? 0)))}';
+		CKEDITOR.timestamp = '{max($ckeditor_main_filemtime, $ckeditor_config_filemtime, $editor_config_timestamp ?? 0)}';
 
 		// Add editor components.
 		<!--@if($enable_component)-->

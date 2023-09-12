@@ -40,7 +40,7 @@ class Icon
 		$filename = 'files/attach/xeicon/' . ($domain_srl ? ($domain_srl . '/') : '') . $icon_name;
 		if (Storage::exists(\RX_BASEDIR . $filename))
 		{
-			return \RX_BASEURL . $filename . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $filename));
+			return \RX_BASEURL . $filename . '?t=' . filemtime(\RX_BASEDIR . $filename);
 		}
 		else
 		{
@@ -64,7 +64,7 @@ class Icon
 		{
 			$width = $info['width'];
 			$height = $info['height'];
-			return \RX_BASEURL . $info['filename'] . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $info['filename']));
+			return \RX_BASEURL . $info['filename'] . '?t=' . filemtime(\RX_BASEDIR . $info['filename']);
 		}
 		else
 		{

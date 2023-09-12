@@ -19,7 +19,7 @@ class rssModel extends rss
 		$config->feed_document_count = intval($config->feed_document_count ?? 15) ?: 15;
 		if (isset($config->image) && $config->image)
 		{
-			$config->image_url = $config->image . '?' . date('YmdHis', filemtime($config->image));
+			$config->image_url = $config->image . '?t=' . filemtime($config->image);
 		}
 
 		return $config;

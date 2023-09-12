@@ -2841,7 +2841,7 @@ class Context
 			list($width, $height) = getimagesize(\RX_BASEDIR . $filename);
 		}
 		self::$_instance->meta_images[] = array(
-			'filepath' => $filename . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $filename)),
+			'filepath' => $filename . '?t=' . filemtime(\RX_BASEDIR . $filename),
 			'width' => $width,
 			'height' => $height,
 		);

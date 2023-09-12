@@ -1109,7 +1109,7 @@ class MemberModel extends Member
 					$info = new stdClass();
 					$info->width = $width;
 					$info->height = $height;
-					$info->src = \RX_BASEURL . $image_name_file . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $image_name_file));
+					$info->src = \RX_BASEURL . $image_name_file . '?t=' . filemtime(\RX_BASEDIR . $image_name_file);
 					$info->file = './'.$image_name_file;
 					$GLOBALS['__member_info__']['profile_image'][$member_srl] = $info;
 					break;
@@ -1142,7 +1142,7 @@ class MemberModel extends Member
 				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
-				$info->src = \RX_BASEURL . $image_name_file. '?' . date('YmdHis', filemtime(\RX_BASEDIR . $image_name_file));
+				$info->src = \RX_BASEURL . $image_name_file. '?t=' . filemtime(\RX_BASEDIR . $image_name_file);
 				$info->file = './'.$image_name_file;
 				$GLOBALS['__member_info__']['image_name'][$member_srl] = $info;
 			}
@@ -1176,7 +1176,7 @@ class MemberModel extends Member
 				$info = new stdClass;
 				$info->width = $width;
 				$info->height = $height;
-				$info->src = \RX_BASEURL . $image_mark_file . '?' . date('YmdHis', filemtime(\RX_BASEDIR . $image_mark_file));
+				$info->src = \RX_BASEURL . $image_mark_file . '?t=' . filemtime(\RX_BASEDIR . $image_mark_file);
 				$info->file = './'.$image_mark_file;
 				$GLOBALS['__member_info__']['image_mark'][$member_srl] = $info;
 			}
@@ -1232,7 +1232,7 @@ class MemberModel extends Member
 								$localpath = str_replace('/./', '/', parse_url($info->src, PHP_URL_PATH));
 								if(file_exists($_SERVER['DOCUMENT_ROOT'] . $localpath))
 								{
-									$info->src = $localpath . '?' . date('YmdHis', filemtime($_SERVER['DOCUMENT_ROOT'] . $localpath));
+									$info->src = $localpath . '?t=' . filemtime($_SERVER['DOCUMENT_ROOT'] . $localpath);
 								}
 							}
 							$GLOBALS['__member_info__']['group_image_mark'][$member_srl] = $info;

@@ -1135,7 +1135,7 @@ class DocumentItem extends BaseObject
 			}
 			else
 			{
-				return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
+				return $thumbnail_url . '?t=' . filemtime($thumbnail_file);
 			}
 		}
 
@@ -1149,7 +1149,7 @@ class DocumentItem extends BaseObject
 		clearstatcache(true, $thumbnail_file);
 		if (file_exists($thumbnail_file) && filesize($thumbnail_file) > 0)
 		{
-			return $thumbnail_url . '?' . date('YmdHis', filemtime($thumbnail_file));
+			return $thumbnail_url . '?t=' . filemtime($thumbnail_file);
 		}
 
 		// Get content if it does not exist.

@@ -466,7 +466,7 @@ class FrontEndFileHandler extends Handler
 					$url = $file->filePath . '/' . $file->fileName;
 					if (!$file->isExternalURL && is_readable($file->fileFullPath))
 					{
-						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+						$url .= '?t=' . filemtime($file->fileFullPath);
 					}
 					$result[] = array('file' => $url, 'media' => $file->media);
 				}
@@ -486,7 +486,7 @@ class FrontEndFileHandler extends Handler
 						$concat_content = '@charset "UTF-8";' . "\n\n" . preg_replace('/@charset\s*[\'"][a-z0-9-]+[\'"];\s*/i', '', $concat_content);
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, $concat_content);
 					}
-					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
+					$concat_filename .= '?t=' . filemtime(\RX_BASEDIR . $concat_filename);
 					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'media' => 'all');
 				}
 			}
@@ -500,7 +500,7 @@ class FrontEndFileHandler extends Handler
 					$url = $file->filePath . '/' . $file->fileName;
 					if (!$file->isExternalURL && is_readable($file->fileFullPath))
 					{
-						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+						$url .= '?t=' . filemtime($file->fileFullPath);
 					}
 					$result[] = array('file' => $url, 'media' => $file->media);
 				}
@@ -572,7 +572,7 @@ class FrontEndFileHandler extends Handler
 					$url = $file->filePath . '/' . $file->fileName;
 					if (!$file->isExternalURL && is_readable($file->fileFullPath))
 					{
-						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+						$url .= '?t=' . filemtime($file->fileFullPath);
 					}
 					$result[] = array('file' => $url);
 				}
@@ -590,7 +590,7 @@ class FrontEndFileHandler extends Handler
 					{
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, Rhymix\Framework\Formatter::concatJS($concat_files, $concat_filename));
 					}
-					$concat_filename .= '?' . date('YmdHis', filemtime(\RX_BASEDIR . $concat_filename));
+					$concat_filename .= '?t=' . filemtime(\RX_BASEDIR . $concat_filename);
 					$result[] = array('file' => \RX_BASEURL . $concat_filename);
 				}
 			}
@@ -604,7 +604,7 @@ class FrontEndFileHandler extends Handler
 					$url = $file->filePath . '/' . $file->fileName;
 					if (!$file->isExternalURL && is_readable($file->fileFullPath))
 					{
-						$url .= '?' . date('YmdHis', filemtime($file->fileFullPath));
+						$url .= '?t=' . filemtime($file->fileFullPath);
 					}
 					$result[] = array('file' => $url);
 				}
