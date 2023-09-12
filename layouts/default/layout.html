@@ -30,9 +30,11 @@
 		<nav class="gnb" id="gnb">
 			<ul>
 				<li loop="$GNB->list=>$key1,$val1" class="active"|cond="$val1['selected']">
-					<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+					<a href="{$val1['href']}" class="{$val1['class']}"|cond="!empty($val1['class'])" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
 					<ul cond="$val1['list']">
-						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a></li>
+						<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']">
+							<a href="{$val2['href']}" class="{$val2['class']}"|cond="!empty($val2['class'])" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+						</li>
 					</ul>
 				</li>
 			</ul>
@@ -85,11 +87,16 @@
 	<div class="body main"|cond="$layout_info->LAYOUT_TYPE=='MAIN_PAGE'" class="body sub"|cond="$layout_info->LAYOUT_TYPE=='SUB_PAGE'">
 		<!-- LNB -->
 		<nav class="lnb" cond="$layout_info->LAYOUT_TYPE == 'SUB_PAGE'">
-			<h1 loop="$GNB->list=>$key1,$val1" cond="$val1['selected']"><a href="{$val1['href']}" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a></h1>
+			<h1 loop="$GNB->list=>$key1,$val1" cond="$val1['selected']">
+				<a href="{$val1['href']}" class="{$val1['class']}"|cond="!empty($val1['class'])" target="_blank"|cond="$val1['open_window']=='Y'">{$val1['link']}</a>
+			</h1>
 			<ul loop="$GNB->list=>$key1,$val1" cond="$val1['selected'] && $val1['list']">
-				<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
+				<li loop="$val1['list']=>$key2,$val2" class="active"|cond="$val2['selected']">
+					<a href="{$val2['href']}" class="{$val2['class']}"|cond="!empty($val2['class'])" target="_blank"|cond="$val2['open_window']=='Y'">{$val2['link']}</a>
 					<ul cond="$val2['list']">
-						<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']"><a href="{$val3['href']}" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a></li>
+						<li loop="$val2['list']=>$key3,$val3" class="active"|cond="$val3['selected']">
+							<a href="{$val3['href']}" class="{$val3['class']}"|cond="!empty($val3['class'])" target="_blank"|cond="$val3['open_window']=='Y'">{$val3['link']}</a>
+						</li>
 					</ul>
 				</li>
 			</ul>

@@ -267,14 +267,14 @@
 				</div>
 				<ul>
 					<li loop="$GNB->list => $key1, $val1">
-						<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
+						<a href="{$val1['href']}" class="{$val1['class']}"|cond="!empty($val1['class'])" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
 						<block cond="$val1['selected']">{@ $_selected_menu = $val1}</block>
 						<ul cond="$val1['list']" class="depth2">
 							<li loop="$val1['list'] => $key2, $val2" class="more"|cond="$val2['list']">
-								<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
+								<a href="{$val2['href']}" class="{$val2['class']}"|cond="!empty($val2['class'])" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
 								<ul cond="$val2['list']" class="depth3">
 									<li loop="$val2['list'] => $key3, $val3">
-										<a href="{$val3['href']}" target="_blank"|cond="$val3['open_window'] == 'Y'">{$val3['link']}</a>
+										<a href="{$val3['href']}" class="{$val3['class']}"|cond="!empty($val3['class'])" target="_blank"|cond="$val3['open_window'] == 'Y'">{$val3['link']}</a>
 									</li>
 								</ul>
 							</li>
@@ -401,10 +401,10 @@
 						{@$i = 0}
 						<li loop="$FNB->list => $key1, $val1" class="clear"|cond="!($i % 3) && $i > 0">
 							{@$i++}
-							<a href="{$val1['href']}" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
+							<a href="{$val1['href']}" class="{$val1['class']}"|cond="!empty($val1['class'])" target="_blank"|cond="$val1['open_window'] == 'Y'">{$val1['link']}</a>
 							<ul cond="$val1['list']">
 								<li loop="$val1['list'] => $key2, $val2">
-									<a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
+									<a href="{$val2['href']}" class="{$val2['class']}"|cond="!empty($val2['class'])" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
 								</li>
 							</ul>
 						</li>
