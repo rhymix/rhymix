@@ -31,6 +31,7 @@ class BoardController extends Board
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
 		$obj->commentStatus = $obj->comment_status;
+		unset($obj->extra_vars);
 
 		// Remove disallowed Unicode symbols.
 		if ($this->module_info->filter_specialchars !== 'N')
@@ -145,6 +146,11 @@ class BoardController extends Board
 			$obj->notify_message = 'N';
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = $anonymous_name;
+			$obj->member_srl = $logged_info->member_srl * -1;
+			if ($oDocument->isExists())
+			{
+				$oDocument->add('member_srl', $obj->member_srl);
+			}
 		}
 
 		// Update if the document already exists.
@@ -168,13 +174,6 @@ class BoardController extends Board
 			// if document status is temp
 			if($oDocument->get('status') == DocumentModel::getConfigStatus('temp'))
 			{
-				// if use anonymous, set the member_srl to a negative number
-				if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
-				{
-					$obj->member_srl = abs($oDocument->get('member_srl')) * -1;
-					$oDocument->add('member_srl', $obj->member_srl);
-				}
-
 				// Update list order, date
 				$obj->last_update = $obj->regdate = date('YmdHis');
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
@@ -229,12 +228,6 @@ class BoardController extends Board
 		// Insert a new document.
 		else
 		{
-			// if use anonymous, set the member_srl to a negative number
-			if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
-			{
-				$obj->member_srl = $logged_info->member_srl * -1;
-			}
-
 			// Update list order if document_srl is already assigned
 			if ($obj->document_srl)
 			{
