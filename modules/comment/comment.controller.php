@@ -920,11 +920,11 @@ class CommentController extends Comment
 	/**
 	 * Fix the comment
 	 * @param object $obj
-	 * @param bool $is_admin
+	 * @param bool $skip_grant_check
 	 * @param bool $manual_updated
 	 * @return object
 	 */
-	function updateComment($obj, $is_admin = FALSE, $manual_updated = FALSE)
+	function updateComment($obj, $skip_grant_check = FALSE, $manual_updated = FALSE)
 	{
 		if(!$manual_updated && !checkCSRF())
 		{
@@ -971,7 +971,7 @@ class CommentController extends Comment
 		}
 
 		// check if permission is granted
-		if(!$is_admin && !$source_obj->isGranted())
+		if(!$skip_grant_check && !$source_obj->isGranted())
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
@@ -1058,10 +1058,10 @@ class CommentController extends Comment
 	/**
 	 * Fix comment the delete comment message
 	 * @param object $obj
-	 * @param bool $is_admin
+	 * @param bool $skip_grant_check
 	 * @return object
 	 */
-	function updateCommentByDelete($obj, $is_admin = FALSE)
+	function updateCommentByDelete($obj, $skip_grant_check = FALSE)
 	{
 		if (!$obj->comment_srl)
 		{
@@ -1074,7 +1074,7 @@ class CommentController extends Comment
 		{
 			return new BaseObject(-1, 'msg_not_founded');
 		}
-		if(!$is_admin && !$comment->isGranted())
+		if(!$skip_grant_check && !$comment->isGranted())
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
@@ -1087,7 +1087,7 @@ class CommentController extends Comment
 		}
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
-		if($is_admin === true && $obj->member_srl !== $this->user->member_srl)
+		if($obj->member_srl !== $this->user->member_srl && $this->user->member_srl)
 		{
 			$obj->content = lang('msg_admin_deleted_comment');
 			$obj->status = RX_STATUS_DELETED_BY_ADMIN;

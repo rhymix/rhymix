@@ -1236,12 +1236,12 @@ class DocumentController extends Document
 	/**
 	 * Deleting Documents
 	 * @param int $document_srl
-	 * @param bool $is_admin
+	 * @param bool $skip_grant_check
 	 * @param bool $isEmptyTrash
 	 * @param documentItem $oDocument
 	 * @return object
 	 */
-	function deleteDocument($document_srl, $is_admin = false, $isEmptyTrash = false, $oDocument = null)
+	function deleteDocument($document_srl, $skip_grant_check = false, $isEmptyTrash = false, $oDocument = null)
 	{
 		// Call a trigger (before)
 		$trigger_obj = new stdClass();
@@ -1253,7 +1253,7 @@ class DocumentController extends Document
 		// Check if the document exists
 		if(!$isEmptyTrash)
 		{
-			$oDocument = DocumentModel::getDocument($document_srl, $is_admin);
+			$oDocument = DocumentModel::getDocument($document_srl);
 		}
 		else if($isEmptyTrash && $oDocument == null)
 		{
@@ -1265,7 +1265,7 @@ class DocumentController extends Document
 		{
 			return new BaseObject(-1, 'msg_invalid_document');
 		}
-		if(!$oDocument->isGranted())
+		if(!$skip_grant_check && !$oDocument->isGranted())
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}

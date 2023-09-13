@@ -2883,9 +2883,9 @@ class MemberController extends Member
 	/**
 	 * Modify member information
 	 *
-	 * @param bool $is_admin , modified 2013-11-22
+	 * @param bool $deprecated_allow_update_other
 	 */
-	function updateMember($args, $is_admin = FALSE)
+	function updateMember($args, $deprecated_allow_update_other = FALSE)
 	{
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('member.updateMember', 'before', $args);
@@ -2912,14 +2912,14 @@ class MemberController extends Member
 			unset($args->is_admin);
 			unset($args->limit_date);
 			unset($args->description);
-			if($is_admin == false)
+			if (!$deprecated_allow_update_other)
 			{
 				unset($args->denied);
 				unset($args->status);
-			}
-			if($logged_info->member_srl != $args->member_srl && $is_admin == false)
-			{
-				return new BaseObject(-1, 'msg_invalid_request');
+				if ($logged_info->member_srl != $args->member_srl)
+				{
+					return new BaseObject(-1, 'msg_invalid_request');
+				}
 			}
 		}
 
