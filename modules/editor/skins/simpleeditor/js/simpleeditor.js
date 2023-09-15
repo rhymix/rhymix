@@ -54,9 +54,14 @@
 
 	// Convert YouTube links.
 	var convertYouTube = function(str) {
-		var regexp = /(?<!src=")https?:\/\/(www\.youtube(?:-nocookie)?\.com\/(?:watch\?v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)\S*/g;
-		var embed = '<iframe width="560" height="315" src="https://www.youtube.com/embed/$2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p></p>';
-		return String(str).replace(regexp, embed);
+		var regexp = /(src=")?https?:\/\/(www\.youtube(?:-nocookie)?\.com\/(?:watch\?v=|v\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]+)\S*/g;
+		return String(str).replace(regexp, function(match, p1, p2, p3) {
+			if (p1 === 'src="') {
+				return match;
+			} else {
+				return '<iframe width="560" height="315" src="https://www.youtube.com/embed/' + p3 + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><p></p>';
+			}
+		});
 	};
 
 	// Page load event handler.
