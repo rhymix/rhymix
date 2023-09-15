@@ -1087,7 +1087,7 @@ class CommentController extends Comment
 		}
 
 		// If the case manager to delete comments, it indicated that the administrator deleted.
-		if($obj->member_srl !== $this->user->member_srl && $this->user->member_srl)
+		if(abs($obj->member_srl) != $this->user->member_srl && $this->user->member_srl)
 		{
 			$obj->content = lang('msg_admin_deleted_comment');
 			$obj->status = RX_STATUS_DELETED_BY_ADMIN;
