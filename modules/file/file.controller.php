@@ -165,7 +165,7 @@ class FileController extends File
 	/**
 	 * Iframe upload attachments
 	 *
-	 * @return Object
+	 * @return void
 	 */
 	function procFileIframeUpload()
 	{
@@ -210,7 +210,7 @@ class FileController extends File
 	/**
 	 * Image resize
 	 *
-	 * @return Object
+	 * @return void
 	 */
 	function procFileImageResize()
 	{
@@ -573,7 +573,7 @@ class FileController extends File
 	/**
 	 * Delete an attachment from the editor
 	 *
-	 * @return Object
+	 * @return void
 	 */
 	function procFileDelete()
 	{
@@ -610,7 +610,7 @@ class FileController extends File
 	/**
 	 * get file list
 	 *
-	 * @return Object
+	 * @return void
 	 */
 	function procFileGetList()
 	{
@@ -662,7 +662,7 @@ class FileController extends File
 	 * A trigger to delete the attachment in the upload_target_srl (document_srl)
 	 *
 	 * @param object $obj Trigger object
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function triggerDeleteAttached(&$obj)
 	{
@@ -677,7 +677,7 @@ class FileController extends File
 	 * A trigger to delete the attachment in the upload_target_srl (comment_srl)
 	 *
 	 * @param object $obj Trigger object
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function triggerCommentDeleteAttached(&$obj)
 	{
@@ -694,7 +694,7 @@ class FileController extends File
 	 * A trigger to delete all the attachements when deleting the module
 	 *
 	 * @param object $obj Trigger object
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function triggerDeleteModuleFiles(&$obj)
 	{
@@ -740,7 +740,7 @@ class FileController extends File
 	 * By changing its state to valid when a document is inserted, it prevents from being considered as a unnecessary file
 	 *
 	 * @param int $upload_target_srl
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function setFilesValid($upload_target_srl, $upload_target_type = null)
 	{
@@ -780,12 +780,12 @@ class FileController extends File
 	 * - sid
 	 * </pre>
 	 *
-	 * @param object $file_info PHP file information array
+	 * @param array $file_info PHP file information array
 	 * @param int $module_srl Sequence of module to upload file
 	 * @param int $upload_target_srl Sequence of target to upload file
 	 * @param int $download_count Initial download count
 	 * @param bool $manual_insert If set true, pass validation check
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false)
 	{
@@ -1486,7 +1486,7 @@ class FileController extends File
 	 * </pre>
 	 *
 	 * @param array|int $file_list or $file_srl
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function deleteFile($file_list)
 	{
@@ -1572,7 +1572,7 @@ class FileController extends File
 	 * Delete all attachments of a particular document
 	 *
 	 * @param int $upload_target_srl Upload target srl to delete files
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function deleteFiles($upload_target_srl)
 	{
@@ -1593,7 +1593,7 @@ class FileController extends File
 	 * Delete the attachment of a particular module
 	 *
 	 * @param int $module_srl Sequence of module to delete files
-	 * @return Object
+	 * @return BaseObject
 	 */
 	function deleteModuleFiles($module_srl)
 	{
@@ -1616,7 +1616,7 @@ class FileController extends File
 	 * @param int $source_srl Sequence of target to move
 	 * @param int $target_module_srl New squence of module
 	 * @param int $target_srl New sequence of target
-	 * @return object
+	 * @return ?BaseObject
 	 */
 	function moveFile($source_srl, $target_module_srl, $target_srl)
 	{
