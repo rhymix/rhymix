@@ -1625,9 +1625,7 @@ class FileController extends File
 		$file_list = FileModel::getFiles($source_srl);
 		if(!$file_list) return;
 
-		$file_count = count($file_list);
-
-		$config = FileModel::getFileConfig($module_srl);
+		$config = FileModel::getFileConfig();
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
