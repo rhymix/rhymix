@@ -337,7 +337,7 @@ class TemplateHandler
 		], [
 			"><?php } ?>\n<?php echo \"\\n\"; ?>",
 			"\n<?php ?>",
-			"\n<?php",
+			"\n\t<?php",
 		], $buff);
 
 		// restore config to previous value
