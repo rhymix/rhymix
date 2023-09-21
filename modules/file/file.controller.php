@@ -1303,9 +1303,17 @@ class FileController extends File
 		}
 
 		// Get video size and duration
-		$file_info['width'] = (int)$stream_info['video']['width'];
-		$file_info['height'] = (int)$stream_info['video']['height'];
-		$file_info['duration'] = (int)$stream_info['video']['duration'];
+		if (isset($stream_info['video']['tags']['rotate']) && in_array($stream_info['video']['tags']['rotate'], [90, 270]))
+		{
+			$file_info['width'] = (int)$stream_info['video']['height'];
+			$file_info['height'] = (int)$stream_info['video']['width'];
+		}
+		else
+		{
+			$file_info['width'] = (int)$stream_info['video']['width'];
+			$file_info['height'] = (int)$stream_info['video']['height'];
+		}
+		$file_info['duration'] = round($stream_info['video']['duration']);
 		$adjusted = [
 			'width' => $file_info['width'],
 			'height' => $file_info['height'],
