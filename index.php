@@ -35,6 +35,13 @@
  */
 
 /**
+ * Uncomment the following line to show error messages.
+ * This should only be used on crappy hosting with no logging facility.
+ * You should comment it back as soon as the problem is fixed.
+ */
+//ini_set('display_errors', true);
+
+/**
  * Include the autoloader.
  */
 require __DIR__ . '/common/autoload.php';
