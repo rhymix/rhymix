@@ -1362,11 +1362,7 @@ class DocumentController extends Document
 	 */
 	function moveDocumentToTrash($obj)
 	{
-		$trash_args = new stdClass();
-		// Get trash_srl if a given trash_srl doesn't exist
-		if(!$obj->trash_srl) $trash_args->trash_srl = getNextSequence();
-		else $trash_args->trash_srl = $obj->trash_srl;
-		// Get its module_srl which the document belongs to
+		// Check the document and grants
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if(!$oDocument->isExists())
 		{
@@ -1384,48 +1380,23 @@ class DocumentController extends Document
 				return new BaseObject(-1, 'msg_admin_document_no_move_to_trash');
 			}
 		}
-
-		$trash_args->module_srl = $oDocument->get('module_srl');
-		$obj->module_srl = $oDocument->get('module_srl');
-		// Cannot throw data from the trash to the trash
-		if($trash_args->module_srl == 0)
+		if($oDocument->get('module_srl') == 0)
 		{
 			return new BaseObject(-1, 'Cannot throw data from the trash to the trash');
 		}
-		// Data setting
-		$trash_args->document_srl = $obj->document_srl;
-		$trash_args->description = $obj->description;
-		// Insert member's information only if the member is logged-in and not manually registered.
-		if($this->user->isMember())
-		{
-			$trash_args->member_srl = $this->user->member_srl;
-			$trash_args->user_id = htmlspecialchars_decode($this->user->user_id);
-			$trash_args->user_name = htmlspecialchars_decode($this->user->user_name);
-			$trash_args->nick_name = htmlspecialchars_decode($this->user->nick_name);
-		}
-		// Date setting for updating documents
-		$document_args = new stdClass;
-		$document_args->module_srl = 0;
-		$document_args->document_srl = $obj->document_srl;
 
-		// begin transaction
-		$oDB = DB::getInstance();
-		$oDB->begin();
-
-		/*$output = executeQuery('document.insertTrash', $trash_args);
-		  if (!$output->toBool()) {
-		  $oDB->rollback();
-		  return $output;
-		  }*/
-
-		// new trash module
+		// Create trash object.
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
 		$oTrashVO->setTitle($oDocument->variables['title']);
 		$oTrashVO->setOriginModule('document');
 		$oTrashVO->setSerializedObject(serialize($oDocument->variables));
-		$oTrashVO->setDescription($obj->description);
+		$oTrashVO->setDescription($obj->description ?? '');
+
+		// begin transaction
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
 		$oTrashAdminController = getAdminController('trash');
 		$output = $oTrashAdminController->insertTrash($oTrashVO);
@@ -1435,24 +1406,18 @@ class DocumentController extends Document
 			return $output;
 		}
 
-		$output = executeQuery('document.deleteDocument', $trash_args);
+		$output = executeQuery('document.deleteDocument', ['document_srl' => $oDocument->document_srl]);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
 
-		/*$output = executeQuery('document.updateDocument', $document_args);
-		  if (!$output->toBool()) {
-		  $oDB->rollback();
-		  return $output;
-		  }*/
-
 		// update category
-		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
-
-		// remove thumbnails
-		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->document_srl, 3)));
+		if ($oDocument->get('category_srl'))
+		{
+			$this->updateCategoryCount($oDocument->get('module_srl'), $oDocument->get('category_srl'));
+		}
 
 		// Set the attachment to be invalid state
 		if($oDocument->hasUploadedFiles())
@@ -1473,6 +1438,9 @@ class DocumentController extends Document
 
 		// commit
 		$oDB->commit();
+
+		// remove thumbnails
+		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->document_srl, 3)));
 
 		// Clear cache
 		self::clearDocumentCache($oDocument->document_srl);

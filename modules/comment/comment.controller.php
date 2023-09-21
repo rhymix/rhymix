@@ -1365,16 +1365,16 @@ class CommentController extends Comment
 			}
 		}
 
-		$oDB = DB::getInstance();
-		$oDB->begin();
-
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
 		$oTrashVO->setTitle(mb_substr($oComment->getContentText(100), 0, 250, 'UTF-8'));
 		$oTrashVO->setOriginModule('comment');
 		$oTrashVO->setSerializedObject(serialize($oComment->variables));
-		$oTrashVO->setDescription($obj->description);
+		$oTrashVO->setDescription($obj->description ?? '');
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
 		$oTrashAdminController = getAdminController('trash');
 		$output = $oTrashAdminController->insertTrash($oTrashVO);
@@ -1437,7 +1437,6 @@ class CommentController extends Comment
 		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->comment_srl, 3)));
 
 		$output->add('document_srl', $oComment->document_srl);
-
 		return $output;
 	}
 

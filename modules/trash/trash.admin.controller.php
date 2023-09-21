@@ -12,15 +12,12 @@ class trashAdminController extends trash
 {
 	/**
 	 * object insert to trash
-	 * @param TrashVO $obj
+	 * @param TrashVO $oTrashVO
 	 * @return Object
 	 */
-	function insertTrash($obj)
+	function insertTrash($oTrashVO)
 	{
 		$logged_info = Context::get('logged_info');
-
-		$oTrashVO = new TrashVO();
-		$oTrashVO = &$obj;
 
 		if(!$oTrashVO->getTrashSrl()) $oTrashVO->setTrashSrl(getNextSequence());
 		if(!is_string($oTrashVO->getSerializedObject())) $oTrashVO->setSerializedObject(serialize($oTrashVO->getSerializedObject()));

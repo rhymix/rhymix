@@ -24,8 +24,8 @@ class TrashVO
 	}
 	function getTitle()
 	{
-		if(empty($this->title)) return $lang->untitle;
-		return htmlspecialchars($this->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		if(empty($this->title)) return lang('untitle');
+		return escape($this->title, false);
 	}
 	function setTitle($title)
 	{
@@ -90,7 +90,7 @@ class TrashVO
 	}
 	function getNickName()
 	{
-		return htmlspecialchars($this->nickName, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
+		return escape($this->nickName, false);
 	}
 	function setNickName($nickName)
 	{
