@@ -1385,6 +1385,13 @@ class DocumentController extends Document
 			return new BaseObject(-1, 'Cannot throw data from the trash to the trash');
 		}
 
+		// Call trigger (before).
+		$trigger_output = ModuleHandler::triggerCall('document.moveDocumentToTrash', 'before', $obj);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// Create trash object.
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();

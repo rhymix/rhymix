@@ -1365,6 +1365,14 @@ class CommentController extends Comment
 			}
 		}
 
+		// Call trigger (before).
+		$trigger_output = ModuleHandler::triggerCall('comment.moveCommentToTrash', 'before', $obj);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Create trash object.
 		require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
 		$oTrashVO = new TrashVO();
 		$oTrashVO->setTrashSrl(getNextSequence());
