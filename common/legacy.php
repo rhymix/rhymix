@@ -742,18 +742,14 @@ function debugPrint($entry = null): void
 
 /**
  * @deprecated
- * @param string $type query, trigger
- * @param float $elapsed_time
- * @param object $obj
  */
-function writeSlowlog($type, $elapsed_time, $obj)
+function writeSlowlog()
 {
 	// no-op
 }
 
 /**
  * @deprecated
- * @param void
  */
 function flushSlowlog()
 {
@@ -763,6 +759,7 @@ function flushSlowlog()
 /**
  * microtime() return
  *
+ * @deprecated
  * @return float
  */
 function getMicroTime()
@@ -1319,6 +1316,7 @@ if(!function_exists('mb_strtolower'))
 /**
  * Print raw html header
  *
+ * @deprecated
  * @return void
  */
 function htmlHeader()
@@ -1329,6 +1327,7 @@ function htmlHeader()
 /**
  * Print raw html footer
  *
+ * @deprecated
  * @return void
  */
 function htmlFooter()
@@ -1339,6 +1338,7 @@ function htmlFooter()
 /**
  * Print raw alert message script
  *
+ * @deprecated
  * @param string $msg
  * @return void
  */
@@ -1353,6 +1353,7 @@ function alertScript($msg)
 /**
  * Print raw close window script
  *
+ * @deprecated
  * @return void
  */
 function closePopupScript()
@@ -1363,6 +1364,7 @@ function closePopupScript()
 /**
  * Print raw reload script
  *
+ * @deprecated
  * @param bool $isOpener
  * @return void
  */
