@@ -851,7 +851,7 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
  * @param string $agent if set, use this value instead HTTP_USER_AGENT
  * @return bool
  */
-function isCrawler($agent = NULL)
+function isCrawler($agent = null): bool
 {
 	return Rhymix\Framework\UA::isRobot($agent);
 }
@@ -863,7 +863,7 @@ function isCrawler($agent = NULL)
  * @param int $writer_member_srl
  * @return void
  */
-function stripEmbedTagForAdmin(&$content, $writer_member_srl)
+function stripEmbedTagForAdmin(&$content, $writer_member_srl): void
 {
 	if (!Context::get('is_logged'))
 	{
@@ -901,7 +901,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
  *
  * @return bool
  */
-function checkCSRF()
+function checkCSRF(): bool
 {
 	return Rhymix\Framework\Security::checkCSRF();
 }
@@ -911,7 +911,7 @@ function checkCSRF()
  * @param array $menu
  * @return void
  */
-function recurciveExposureCheck(&$menu)
+function recurciveExposureCheck(&$menu): void
 {
 	if(is_array($menu))
 	{
@@ -1115,7 +1115,7 @@ if(!function_exists('mb_strtolower'))
  * @deprecated
  * @return void
  */
-function htmlHeader()
+function htmlHeader(): void
 {
 	echo implode("\n", array('<!DOCTYPE html>', '<html lang="ko">', '<head>', '<meta charset="UTF-8" />', '</head>', '<body>', ''));
 }
@@ -1126,7 +1126,7 @@ function htmlHeader()
  * @deprecated
  * @return void
  */
-function htmlFooter()
+function htmlFooter(): void
 {
 	echo implode("\n", array('', '</body>', '</html>', ''));
 }
@@ -1138,11 +1138,11 @@ function htmlFooter()
  * @param string $msg
  * @return void
  */
-function alertScript($msg)
+function alertScript($msg = null): void
 {
 	if($msg)
 	{
-		echo sprintf('<script> alert(%s); </script>', json_encode(@strval($msg)));
+		echo sprintf('<script> alert(%s); </script>', json_encode(strval($msg)));
 	}
 }
 
@@ -1152,7 +1152,7 @@ function alertScript($msg)
  * @deprecated
  * @return void
  */
-function closePopupScript()
+function closePopupScript(): void
 {
 	echo '<script> window.open("", "_self", ""); window.close(); </script>';
 }
@@ -1164,7 +1164,7 @@ function closePopupScript()
  * @param bool $isOpener
  * @return void
  */
-function reload($isOpener = FALSE)
+function reload($isOpener = FALSE): void
 {
 	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
 	echo sprintf('<script> %s </script>', $reloadScript);
@@ -1180,7 +1180,7 @@ function reload($isOpener = FALSE)
  * @param int $line
  * @return void
  */
-function handleError($errno, $errstr, $file, $line, $context)
+function handleError($errno, $errstr, $file, $line, $context): void
 {
 	Rhymix\Framework\Debug::addError($errno, $errstr, $file, $line, $context);
 }
@@ -1191,7 +1191,7 @@ function handleError($errno, $errstr, $file, $line, $context)
  * @deprecated
  * @return float
  */
-function getMicroTime()
+function getMicroTime(): float
 {
 	return microtime(true);
 }
@@ -1202,7 +1202,7 @@ function getMicroTime()
  * @deprecated
  * @return string
  */
-function getScriptPath()
+function getScriptPath(): string
 {
 	return RX_BASEURL;
 }
@@ -1213,7 +1213,7 @@ function getScriptPath()
  * @deprecated
  * @return string
  */
-function getRequestUriByServerEnviroment()
+function getRequestUriByServerEnviroment(): string
 {
 	return preg_replace('/[<>"]/', '', $_SERVER['REQUEST_URI']);
 }
@@ -1223,7 +1223,7 @@ function getRequestUriByServerEnviroment()
  *
  * @deprecated
  * @param mixed $data
- * @return string
+ * @return string|false
  */
 function json_encode2($data)
 {
@@ -1237,7 +1237,7 @@ function json_encode2($data)
  * @param string $str The url
  * @return string
  */
-function url_decode($str)
+function url_decode($str): string
 {
 	return escape(utf8RawUrlDecode($str));
 }
@@ -1309,9 +1309,9 @@ function checkUploadedFile($file, $filename = null): bool
  * @param string $password
  * @return string
  */
-function mysql_pre4_hash_password($password)
+function mysql_pre4_hash_password($password): string
 {
-	return VendorPass::mysql_old_password($password);
+	return VendorPass::mysql_old_password(strval($password));
 }
 
 /**
@@ -1353,7 +1353,7 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
  * @param string $source
  * @return string
  */
-function utf8RawUrlDecode($source)
+function utf8RawUrlDecode($source): string
 {
 	return preg_replace_callback('/%u([0-9a-f]+)/i', function($m) {
 		return html_entity_decode('&#x' . $m[1] . ';');
@@ -1367,7 +1367,7 @@ function utf8RawUrlDecode($source)
  * @param int $num
  * @return string
  */
-function _code2utf($num)
+function _code2utf($num): string
 {
 	return html_entity_decode('&#' . $num . ';');
 }
@@ -1375,7 +1375,7 @@ function _code2utf($num)
 /**
  * @deprecated
  */
-function writeSlowlog()
+function writeSlowlog(): void
 {
 	// no-op
 }
@@ -1383,7 +1383,7 @@ function writeSlowlog()
 /**
  * @deprecated
  */
-function flushSlowlog()
+function flushSlowlog(): void
 {
 	// no-op
 }
@@ -1391,7 +1391,7 @@ function flushSlowlog()
 /**
  * @deprecated
  */
-function requirePear()
+function requirePear(): void
 {
 	// no-op
 }
