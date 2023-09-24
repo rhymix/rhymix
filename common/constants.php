@@ -21,7 +21,7 @@ define('RX_TIME', intval(RX_MICROTIME));
 define('RX_BASEDIR', str_replace('\\', '/', dirname(__DIR__)) . '/');
 
 /**
- * RX_BASEURL is the CLIENT-SIDE absolute path of Rhymix (with trailing slash, relative to the document root).
+ * RX_BASEURL is the CLIENT-SIDE absolute path of Rhymix (with trailing slash, not including the domain).
  */
 if ($_SERVER['DOCUMENT_ROOT'] && !strncmp(RX_BASEDIR,  str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), strlen($_SERVER['DOCUMENT_ROOT'])))
 {
@@ -37,7 +37,7 @@ elseif (PHP_SAPI !== 'cli')
 }
 
 /**
- * RX_REQUEST_URL is the remainder of the current URL (not including RX_BASEURL).
+ * RX_REQUEST_URL is the remainder of the current URL (not including RX_BASEURL, hence without leading slash).
  */
 if (isset($_SERVER['REQUEST_URI']))
 {
