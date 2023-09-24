@@ -90,7 +90,7 @@ class integration_searchModel extends module
 	{
 		if(!is_array($module_srls_list))
 		{
-			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+			$module_srls_list = $module_srls_list ? explode(',', $module_srls_list) : array();
 		}
 		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
@@ -145,7 +145,7 @@ class integration_searchModel extends module
 
 		if(!is_array($module_srls_list))
 		{
-			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+			$module_srls_list = $module_srls_list ? explode(',', $module_srls_list) : array();
 		}
 		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
@@ -192,7 +192,7 @@ class integration_searchModel extends module
 	{
 		if(!is_array($module_srls_list))
 		{
-			$module_srls_list = $module_srl_list ? explode(',', $module_srls_list) : array();
+			$module_srls_list = $module_srls_list ? explode(',', $module_srls_list) : array();
 		}
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
