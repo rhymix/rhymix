@@ -235,7 +235,7 @@ class integration_searchModel extends module
 			$obj->target_srl = $val->upload_target_srl;
 			$obj->file_size = $val->file_size;
 			// Images
-			if(preg_match('/\.(jpg|jpeg|gif|png)$/i', $val->source_filename))
+			if(preg_match('/\.(jpe?g|gif|png|webp)$/i', $val->source_filename))
 			{
 				$obj->type = 'image';
 
