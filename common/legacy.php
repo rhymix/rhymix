@@ -930,25 +930,6 @@ function recurciveExposureCheck(&$menu)
 	}
 }
 
-function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_url')
-{
-	if($requestKey != $dbKey)
-	{
-		$arrayUrl = parse_url(Context::get('success_return_url'));
-		if($arrayUrl['query'])
-		{
-			parse_str($arrayUrl['query'], $parsedStr);
-
-			if(isset($parsedStr[$key]))
-			{
-				$parsedStr[$key] = $requestKey;
-				$successReturnUrl = $arrayUrl['path'].'?'.http_build_query($parsedStr);
-				Context::set($urlName, $successReturnUrl);
-			}
-		}
-	}
-}
-
 /**
  * Alias to hex2rgb()
  *
@@ -1334,7 +1315,37 @@ function mysql_pre4_hash_password($password)
 }
 
 /**
+ * Change values inside a user-submitted URL, most commonly success_return_url.
+ *
+ * @deprecated
+ * @param string $key
+ * @param string $requestKey
+ * @param string $dbKey
+ * @param string $urlName
+ * @return void
+ */
+function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_url'): void
+{
+	if($requestKey != $dbKey)
+	{
+		$arrayUrl = parse_url(Context::get('success_return_url'));
+		if($arrayUrl['query'])
+		{
+			parse_str($arrayUrl['query'], $parsedStr);
+
+			if(isset($parsedStr[$key]))
+			{
+				$parsedStr[$key] = $requestKey;
+				$successReturnUrl = $arrayUrl['path'].'?'.http_build_query($parsedStr);
+				Context::set($urlName, $successReturnUrl);
+			}
+		}
+	}
+}
+
+/**
  * PHP unescape function of javascript's escape
+ *
  * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
  * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
  *
