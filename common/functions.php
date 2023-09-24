@@ -13,7 +13,7 @@
  * @param string $value (optional)
  * @return mixed
  */
-function config($key, $value = null)
+function config(string $key, $value = null)
 {
 	if ($value === null)
 	{
@@ -32,7 +32,7 @@ function config($key, $value = null)
  * @param string $value `$code`s value
  * @return mixed
  */
-function lang($code, $value = null)
+function lang(string $code, $value = null)
 {
 	if (!isset($GLOBALS['lang']) || !$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 	{
@@ -103,7 +103,7 @@ function array_last_key(array $array)
  * @param bool $double_escape Set this to false to skip symbols that are already escaped (default: true)
  * @return array
  */
-function array_escape(array $array, $double_escape = true)
+function array_escape(array $array, bool $double_escape = true): array
 {
 	$flags = ENT_QUOTES | ENT_SUBSTITUTE;
 	$result = array();
@@ -134,7 +134,7 @@ function array_escape(array $array, $double_escape = true)
  * @param bool $preserve_keys Whether or not to preserve array keys (default: true)
  * @return array
  */
-function array_flatten(array $array, $preserve_keys = true)
+function array_flatten(array $array, bool $preserve_keys = true): array
 {
 	$result = array();
 	array_walk_recursive($array, function($value, $key) use(&$result, $preserve_keys) {
@@ -157,7 +157,7 @@ function array_flatten(array $array, $preserve_keys = true)
  * @param string|object $class The class name
  * @return string
  */
-function class_basename($class)
+function class_basename($class): string
 {
 	return basename(str_replace('\\', '/', is_object($class) ? get_class($class) : $class));
 }
@@ -170,7 +170,7 @@ function class_basename($class)
  * @param string $path
  * @return string
  */
-function clean_path($path)
+function clean_path(string $path): string
 {
 	return Rhymix\Framework\Filters\FilenameFilter::cleanPath($path);
 }
@@ -183,7 +183,7 @@ function clean_path($path)
  * @param bool $except_lang_code Set this to true to skip user lang codes (default: false)
  * @return string
  */
-function escape($str, $double_escape = true, $except_lang_code = false)
+function escape($str, bool $double_escape = true, bool $except_lang_code = false): string
 {
 	$str = (string)$str;
 	if ($except_lang_code && preg_match('/^\$user_lang->userLang[0-9]+$/', $str))
@@ -203,7 +203,7 @@ function escape($str, $double_escape = true, $except_lang_code = false)
  * @param string $str The string to escape
  * @return string
  */
-function escape_css($str)
+function escape_css(string $str): string
 {
 	return preg_replace('/[^a-zA-Z0-9_.#\/-]/', '', (string)$str);
 }
@@ -214,7 +214,7 @@ function escape_css($str)
  * @param string $str The string to escape
  * @return string
  */
-function escape_js($str)
+function escape_js(string $str): string
 {
 	$flags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE;
 	$str = json_encode((string)$str, $flags);
@@ -228,7 +228,7 @@ function escape_js($str)
  * @param string $str The string to escape
  * @return string
  */
-function escape_sqstr($str)
+function escape_sqstr(string $str): string
 {
 	return str_replace(array('\\0', '\\"'), array('', '"'), addslashes((string)$str));
 }
@@ -240,7 +240,7 @@ function escape_sqstr($str)
  * @param string $str The string to escape
  * @return string
  */
-function escape_dqstr($str)
+function escape_dqstr(string $str): string
 {
 	return str_replace(array('\\0', "\\'", '$'), array('', "'", '\\$'), addslashes((string)$str));
 }
@@ -256,7 +256,7 @@ function escape_dqstr($str)
  * @param string $escape_char The escape character (default: backslash)
  * @return array
  */
-function explode_with_escape($delimiter, $str, $limit = 0, $escape_char = '\\')
+function explode_with_escape(string $delimiter, string $str, $limit = 0, $escape_char = '\\'): array
 {
 	if ($limit < 1) $limit = 0;
 	$str = (string)$str;
@@ -280,8 +280,10 @@ function explode_with_escape($delimiter, $str, $limit = 0, $escape_char = '\\')
  * @param bool $case_sensitive Whether the search should be case-sensitive (default: true)
  * @return bool
  */
-function starts_with($needle, $haystack, $case_sensitive = true)
+function starts_with($needle, $haystack, bool $case_sensitive = true): bool
 {
+	$needle = strval($needle);
+	$haystack = strval($haystack);
 	if (strlen($needle) > strlen($haystack))
 	{
 		return false;
@@ -304,8 +306,10 @@ function starts_with($needle, $haystack, $case_sensitive = true)
  * @param bool $case_sensitive Whether the search should be case-sensitive (default: true)
  * @return bool
  */
-function ends_with($needle, $haystack, $case_sensitive = true)
+function ends_with($needle, $haystack, bool $case_sensitive = true): bool
 {
+	$needle = strval($needle);
+	$haystack = strval($haystack);
 	if (strlen($needle) > strlen($haystack))
 	{
 		return false;
@@ -328,8 +332,10 @@ function ends_with($needle, $haystack, $case_sensitive = true)
  * @param bool $case_sensitive Whether the search should be case-sensitive (default: true)
  * @return bool
  */
-function contains($needle, $haystack, $case_sensitive = true)
+function contains($needle, $haystack, bool $case_sensitive = true): bool
 {
+	$needle = strval($needle);
+	$haystack = strval($haystack);
 	if (strlen($needle) > strlen($haystack))
 	{
 		return false;
@@ -354,7 +360,7 @@ function contains($needle, $haystack, $case_sensitive = true)
  * @param bool $exclusive Set this to true to exclude endpoints (default: false)
  * @return bool
  */
-function is_between($needle, $min, $max, $exclusive = false)
+function is_between($needle, $min, $max, bool $exclusive = false): bool
 {
 	if ($exclusive)
 	{
@@ -392,7 +398,7 @@ function force_range($input, $min, $max)
  * @param string $str The string to encode
  * @return string
  */
-function base64_encode_urlsafe($str)
+function base64_encode_urlsafe(string $str): string
 {
 	return strtr(rtrim(base64_encode($str), '='), '+/', '-_');
 }
@@ -403,7 +409,7 @@ function base64_encode_urlsafe($str)
  * @param string $str The string to decode
  * @return string
  */
-function base64_decode_urlsafe($str)
+function base64_decode_urlsafe(string $str): string
 {
 	return @base64_decode(str_pad(strtr($str, '-_', '+/'), ceil(strlen($str) / 4) * 4, '=', STR_PAD_RIGHT));
 }
@@ -415,9 +421,10 @@ function base64_decode_urlsafe($str)
  * @param int $significant_digits The number of significant digits to retain
  * @return string
  */
-function number_shorten($number, $significant_digits = 2)
+function number_shorten($number, int $significant_digits = 2): string
 {
-	$length = strlen(abs(intval($number)));
+	$number = abs(intval($number));
+	$length = strlen($number);
 	switch ($length)
 	{
 		case 0: case 1: case 2: case 3: return strval(intval($number));
@@ -446,7 +453,7 @@ function number_shorten($number, $significant_digits = 2)
  * @param string $path
  * @return string|false
  */
-function path2url($path)
+function path2url(string $path)
 {
 	return Rhymix\Framework\URL::fromServerPath($path);
 }
@@ -460,7 +467,7 @@ function path2url($path)
  * @param string $url
  * @return string|false
  */
-function url2path($url)
+function url2path(string $url)
 {
 	return Rhymix\Framework\URL::toServerPath($url);
 }
@@ -473,7 +480,7 @@ function url2path($url)
  * @param string $hex The color to convert
  * @return array
  */
-function hex2rgb($hex)
+function hex2rgb(string $hex): array
 {
 	$hex = ltrim($hex, '#');
 	if (strlen($hex) == 3)
@@ -503,7 +510,7 @@ function hex2rgb($hex)
  * @param bool $hash_prefix Whether or not to prefix the result with '#' (default: true)
  * @return string
  */
-function rgb2hex(array $rgb, $hash_prefix = true)
+function rgb2hex(array $rgb, bool $hash_prefix = true): string
 {
 	if (!isset($rgb[0]) || !isset($rgb[1]) || !isset($rgb[2]) || $rgb[0] > 255 || $rgb[1] > 255 || $rgb[2] > 255)
 	{
@@ -523,7 +530,7 @@ function rgb2hex(array $rgb, $hash_prefix = true)
  * @param string $filename The name of the file to include
  * @return mixed
  */
-function include_in_clean_scope($filename)
+function include_in_clean_scope(string $filename)
 {
 	return (include $filename);
 }
@@ -534,7 +541,7 @@ function include_in_clean_scope($filename)
  * @param string $filename The name of the file to include
  * @return mixed
  */
-function include_and_ignore_errors($filename)
+function include_and_ignore_errors(string $filename)
 {
 	error_reporting(0);
 	$result = (include $filename);
@@ -548,7 +555,7 @@ function include_and_ignore_errors($filename)
  * @param string $filename The name of the file to include
  * @return mixed
  */
-function include_and_ignore_output($filename)
+function include_and_ignore_output(string $filename)
 {
 	ob_start();
 	$result = (include $filename);
@@ -563,7 +570,7 @@ function include_and_ignore_output($filename)
  * @param string $input The input value
  * @return bool
  */
-function tobool($input)
+function tobool($input): bool
 {
 	if (is_scalar($input))
 	{
@@ -580,7 +587,7 @@ function tobool($input)
  * @param mixed $array_or_object
  * @return int
  */
-function countobj($array_or_object)
+function countobj($array_or_object): int
 {
 	if (is_array($array_or_object) || $array_or_object instanceof Countable)
 	{
@@ -602,7 +609,7 @@ function countobj($array_or_object)
  * @param string $str The input string
  * @return bool
  */
-function utf8_check($str)
+function utf8_check($str): bool
 {
 	if (function_exists('mb_check_encoding'))
 	{
@@ -620,7 +627,7 @@ function utf8_check($str)
  * @param string $str
  * @return string
  */
-function utf8_clean($str)
+function utf8_clean($str): string
 {
 	// Check if the input is a valid UTF-8 string.
 	$str = (string)$str;
@@ -654,7 +661,7 @@ function utf8_clean($str)
  * @param $str The string to encode
  * @return string
  */
-function utf8_mbencode($str)
+function utf8_mbencode($str): string
 {
 	return preg_replace_callback('/[\xF0-\xF7][\x80-\xBF]{3}/', function($m) {
 		$bytes = array(ord($m[0][0]), ord($m[0][1]), ord($m[0][2]), ord($m[0][3]));
@@ -671,7 +678,7 @@ function utf8_mbencode($str)
  * @param bool $multiline Set this to true to permit newlines inside the string (default: false)
  * @return string
  */
-function utf8_normalize_spaces($str, $multiline = false)
+function utf8_normalize_spaces($str, bool $multiline = false): string
 {
 	return $multiline ? preg_replace('/((?!\x0A)[\pZ\pC])+/u', ' ', (string)$str) : preg_replace('/[\pZ\pC]+/u', ' ', (string)$str);
 }
@@ -683,7 +690,7 @@ function utf8_normalize_spaces($str, $multiline = false)
  * @param string $str The input string
  * @return string
  */
-function utf8_trim($str)
+function utf8_trim($str): string
 {
 	return preg_replace('/^[\s\pZ\pC]+|[\s\pZ\pC]+$/u', '', (string)$str);
 }
@@ -696,7 +703,7 @@ function utf8_trim($str)
  * @param string $str The input string
  * @return bool
  */
-function is_html_content($str)
+function is_html_content($str): bool
 {
 	$str = preg_replace('![\r\n]+!', "\n", utf8_trim(utf8_clean($str)));
 	$line_count = substr_count($str, "\n") + 1;
@@ -726,7 +733,7 @@ function is_html_content($str)
  * @param string $str The input string
  * @return bool
  */
-function is_empty_html_content($str)
+function is_empty_html_content($str): bool
 {
 	$str = strip_tags($str, '<img><audio><video><iframe><object><embed>');
 	$str = utf8_trim(utf8_clean(html_entity_decode($str, ENT_QUOTES, 'UTF-8')));
