@@ -122,3 +122,5 @@ $lang->allow_vote_non_member = 'Allow voting by non-members';
 $lang->allow_vote_cancel = 'Allow vote cancellation';
 $lang->allow_declare_from_same_ip = 'Allow reporting from same IP';
 $lang->allow_declare_cancel = 'Allow report cancellation';
+$lang->cmd_search_division = 'Search division';
+$lang->about_search_division = 'Divide search results into sections in order to reduce time and server load. Setting this value to 0 will disable divisions entirely.<br />Disabling divisions or using large values may cause serious problems such as timeouts or server overload. Values between 5000 and 10000 are recommended.';

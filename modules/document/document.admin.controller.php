@@ -56,6 +56,7 @@ class DocumentAdminController extends Document
 		$config->view_count_option = Context::get('view_count_option');
 		$config->icons = Context::get('icons');
 		$config->micons = Context::get('micons');
+		$config->search_division = intval(Context::get('search_division') ?? 5000);
 
 		// Get icon skin type
 		$config->icons_type = 'gif';

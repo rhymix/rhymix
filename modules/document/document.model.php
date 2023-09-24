@@ -1526,7 +1526,16 @@ class DocumentModel extends Document
 			$args->sort_index = 'list_order';
 		}
 
-		// division search by 5,000
+		// search division
+		if($use_division)
+		{
+			$document_config = self::getDocumentConfig();
+			$division_count = $document_config->search_division ?? 5000;
+			if (!$division_count)
+			{
+				$use_division = false;
+			}
+		}
 		if($use_division)
 		{
 			$args->order_type = 'asc';
@@ -1548,7 +1557,7 @@ class DocumentModel extends Document
 			// get end point of the division
 			if(Context::get('last_division') === null && $args->division)
 			{
-				$division_args->offset = 5000;
+				$division_args->offset = $division_count;
 				$division_args->list_order = $args->division;
 				$division_output = executeQuery('document.getDocumentDivision', $division_args)->data;
 				$args->last_division = $division_output ? $division_output->list_order : 0;

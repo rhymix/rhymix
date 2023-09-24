@@ -41,6 +41,13 @@
 			<p id="micons_help" class="x_help-block">{$lang->about_cmd_mobile_icon_setting}</p>
 		</div>
 	</div>
+	<div class="x_control-group">
+		<label class="x_control-label" for="search_division">{$lang->cmd_search_division}</label>
+		<div class="x_controls">
+			<input type="number" name="search_division" value="{$config->search_division ?? 5000}" />
+			<p class="x_help-block">{$lang->about_search_division}</p>
+		</div>
+	</div>
 	<div class="btnArea x_clearfix">
 		<span class="x_pull-right" style="margin-left:10px;"><input class="btn" type="button" value="{$lang->cmd_delete_all_thumbnail}" onclick="doDeleteAllThumbnail()"/></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
