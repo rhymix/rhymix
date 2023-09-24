@@ -9,12 +9,12 @@
 /**
  * Define a function to use {@see ModuleHandler::getModuleObject()} ($module_name, $type)
  *
- * @param string $module_name The module name to get a instance
- * @param string $type disp, proc, controller, class
+ * @param string $module_name
+ * @param string $type model, controller, view, class, etc.
  * @param string $kind admin, null
- * @return mixed Module instance
+ * @return ?ModuleObject
  */
-function getModule($module_name, $type = 'view', $kind = '')
+function getModule($module_name, $type = 'view', $kind = ''): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, $type, $kind);
 }
@@ -22,10 +22,10 @@ function getModule($module_name, $type = 'view', $kind = '')
 /**
  * Create a controller instance of the module
  *
- * @param string $module_name The module name to get a controller instance
- * @return mixed Module controller instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getController($module_name)
+function getController($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'controller');
 }
@@ -33,10 +33,10 @@ function getController($module_name)
 /**
  * Create a admin controller instance of the module
  *
- * @param string $module_name The module name to get a admin controller instance
- * @return mixed Module admin controller instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getAdminController($module_name)
+function getAdminController($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'controller', 'admin');
 }
@@ -44,10 +44,10 @@ function getAdminController($module_name)
 /**
  * Create a view instance of the module
  *
- * @param string $module_name The module name to get a view instance
- * @return mixed Module view instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getView($module_name)
+function getView($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'view');
 }
@@ -55,10 +55,10 @@ function getView($module_name)
 /**
  * Create a admin view instance of the module
  *
- * @param string $module_name The module name to get a admin view instance
- * @return mixed Module admin view instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getAdminView($module_name)
+function getAdminView($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'view', 'admin');
 }
@@ -66,10 +66,10 @@ function getAdminView($module_name)
 /**
  * Create a model instance of the module
  *
- * @param string $module_name The module name to get a model instance
- * @return mixed Module model instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getModel($module_name)
+function getModel($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'model');
 }
@@ -77,10 +77,10 @@ function getModel($module_name)
 /**
  * Create an admin model instance of the module
  *
- * @param string $module_name The module name to get a admin model instance
- * @return mixed Module admin model instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getAdminModel($module_name)
+function getAdminModel($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'model', 'admin');
 }
@@ -88,10 +88,10 @@ function getAdminModel($module_name)
 /**
  * Create an api instance of the module
  *
- * @param string $module_name The module name to get a api instance
- * @return mixed Module api class instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getAPI($module_name)
+function getAPI($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'api');
 }
@@ -99,10 +99,10 @@ function getAPI($module_name)
 /**
  * Create a mobile instance of the module
  *
- * @param string $module_name The module name to get a mobile instance
- * @return mixed Module mobile instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getMobile($module_name)
+function getMobile($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'mobile');
 }
@@ -111,8 +111,10 @@ function getMobile($module_name)
  * Create a wap instance of the module
  *
  * @deprecated
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getWAP($module_name)
+function getWAP($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'wap');
 }
@@ -120,10 +122,10 @@ function getWAP($module_name)
 /**
  * Create a class instance of the module
  *
- * @param string $module_name The module name to get a class instance
- * @return mixed Module class instance
+ * @param string $module_name
+ * @return ?ModuleObject
  */
-function getClass($module_name)
+function getClass($module_name): ?ModuleObject
 {
 	return ModuleHandler::getModuleInstance($module_name, 'class');
 }
@@ -137,9 +139,9 @@ function getClass($module_name)
  * @param array $column_list Column list
  * @param string $result_type 'auto', 'array' or 'raw'
  * @param string $result_class Name of class to use instead of stdClass
- * @return object Query result data
+ * @return Rhymix\Framework\Helpers\DBResultHelper
  */
-function executeQuery($query_id, $args = [], $column_list = [], $result_type = 'auto', $result_class = 'stdClass')
+function executeQuery($query_id, $args = [], $column_list = [], string $result_type = 'auto', string $result_class = 'stdClass'): Rhymix\Framework\Helpers\DBResultHelper
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
 	return $oDB->executeQuery($query_id, $args, $column_list, $result_type, $result_class);
@@ -153,9 +155,9 @@ function executeQuery($query_id, $args = [], $column_list = [], $result_type = '
  * @param array|object $args Arguments
  * @param array $column_list Column list
  * @param string $result_class Name of class to use instead of stdClass
- * @return object Query result data
+ * @return Rhymix\Framework\Helpers\DBResultHelper
  */
-function executeQueryArray($query_id, $args = [], $column_list = [], $result_class = 'stdClass')
+function executeQueryArray($query_id, $args = [], $column_list = [], string $result_class = 'stdClass'): Rhymix\Framework\Helpers\DBResultHelper
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
 	return $oDB->executeQuery($query_id, $args, $column_list, 'array', $result_class);
@@ -167,7 +169,7 @@ function executeQueryArray($query_id, $args = [], $column_list = [], $result_cla
  * @see DB::getNextSequence()
  * @return int
  */
-function getNextSequence()
+function getNextSequence(): int
 {
 	$seq = Rhymix\Framework\DB::getInstance()->getNextSequence();
 	setUserSequence($seq);
@@ -180,7 +182,7 @@ function getNextSequence()
  * @param int $seq sequence number
  * @return void
  */
-function setUserSequence($seq)
+function setUserSequence($seq): void
 {
 	if (!isset($_SESSION['seq']) || !is_array($_SESSION['seq']))
 	{
@@ -194,9 +196,9 @@ function setUserSequence($seq)
  * Check Sequence number grant
  *
  * @param int $seq sequence number
- * @return boolean
+ * @return bool
  */
-function checkUserSequence($seq)
+function checkUserSequence($seq): bool
 {
 	$seq = intval($seq);
 	return isset($_SESSION['seq']) && in_array($seq, $_SESSION['seq']);
@@ -215,7 +217,7 @@ function checkUserSequence($seq)
  *
  * @return string
  */
-function getUrl()
+function getUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -238,7 +240,7 @@ function getUrl()
  * @see getUrl()
  * @return string
  */
-function getNotEncodedUrl()
+function getNotEncodedUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -261,7 +263,7 @@ function getNotEncodedUrl()
  * @see getUrl()
  * @return string
  */
-function getAutoEncodedUrl()
+function getAutoEncodedUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -283,7 +285,7 @@ function getAutoEncodedUrl()
  *
  * @return string
  */
-function getFullUrl()
+function getFullUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -307,7 +309,7 @@ function getFullUrl()
  *
  * @return string
  */
-function getNotEncodedFullUrl()
+function getNotEncodedFullUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -333,7 +335,7 @@ function getNotEncodedFullUrl()
  *
  * @return string
  */
-function getSiteUrl()
+function getSiteUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -355,7 +357,7 @@ function getSiteUrl()
  *
  * @return string
  */
-function getNotEncodedSiteUrl()
+function getNotEncodedSiteUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -376,7 +378,7 @@ function getNotEncodedSiteUrl()
  *
  * @return string
  */
-function getFullSiteUrl()
+function getFullSiteUrl(): string
 {
 	$num_args = func_num_args();
 	$args_list = func_get_args();
@@ -404,7 +406,7 @@ function getFullSiteUrl()
  *
  * @return string
  */
-function getCurrentPageUrl($escape = true)
+function getCurrentPageUrl($escape = true): string
 {
 	$url = Rhymix\Framework\URL::getCurrentURL();
 	return $escape ? escape($url) : $url;
@@ -416,7 +418,7 @@ function getCurrentPageUrl($escape = true)
  * @param string $domain
  * @return bool
  */
-function isSiteID($domain)
+function isSiteID($domain): bool
 {
 	return (bool)preg_match('/^([a-zA-Z0-9\_]+)$/', $domain);
 }
@@ -429,7 +431,7 @@ function isSiteID($domain)
  * @param string $tail Tail to put in the end of the string after trimming
  * @return string
  */
-function cut_str($string, $cut_size = 0, $tail = '...')
+function cut_str($string, $cut_size = 0, $tail = '...'): string
 {
 	if($cut_size < 1 || !$string)
 	{
@@ -486,7 +488,7 @@ function cut_str($string, $cut_size = 0, $tail = '...')
  * @param string $time_zone Time zone in '+0900' format
  * @return int
  */
-function get_time_zone_offset($timezone)
+function get_time_zone_offset($timezone): int
 {
 	return Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($timezone);
 }
@@ -496,7 +498,7 @@ function get_time_zone_offset($timezone)
  *
  * @return int
  */
-function zgap($timestamp = null)
+function zgap($timestamp = null): int
 {
 	$current_user_timezone = Rhymix\Framework\DateTime::getTimezoneForCurrentUser();
 	return Rhymix\Framework\DateTime::getTimezoneOffsetFromInternal($current_user_timezone, $timestamp);
@@ -513,9 +515,9 @@ function zgap($timestamp = null)
  *   - YYYY-MM-DDTHH:MM:SS+xx:xx (ISO 8601)
  *
  * @param string $str Timestamp in one of the supported formats
- * @return int
+ * @return ?int
  */
-function ztime($str)
+function ztime($str): ?int
 {
 	$len = strlen($str);
 	if (!$len)
@@ -587,9 +589,9 @@ function ztime($str)
  * @param string $str Timestamp in one of the supported formats
  * @param string $format Time format for date() function
  * @param bool $conversion If true, convert automatically for the current language.
- * @return string
+ * @return ?string
  */
-function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
+function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false): ?string
 {
 	if(!$str)
 	{
@@ -651,10 +653,11 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false)
  * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
  * If the timestamp is not given, the current time is used.
  *
- * @param int $timestamp Unix timestamp
+ * @param ?int $timestamp Unix timestamp
+ * @param string $format
  * @return string
  */
-function getInternalDateTime($timestamp = null, $format = 'YmdHis')
+function getInternalDateTime(?int $timestamp = null, string $format = 'YmdHis'): string
 {
 	$timestamp = ($timestamp !== null) ? $timestamp : time();
 	return Rhymix\Framework\DateTime::formatTimestamp($format, $timestamp);
@@ -664,10 +667,11 @@ function getInternalDateTime($timestamp = null, $format = 'YmdHis')
  * Convert a Unix timestamp to YYYYMMDDHHIISS format, using the internal time zone.
  * If the timestamp is not given, the current time is used.
  *
- * @param int $timestamp Unix timestamp
+ * @param ?int $timestamp Unix timestamp
+ * @param string $format
  * @return string
  */
-function getDisplayDateTime($timestamp = null, $format = 'YmdHis')
+function getDisplayDateTime(?int $timestamp = null, string $format = 'YmdHis'): string
 {
 	$timestamp = ($timestamp !== null) ? $timestamp : time();
 	return Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, $timestamp);
@@ -680,9 +684,9 @@ function getDisplayDateTime($timestamp = null, $format = 'YmdHis')
  * @param string $format If gap is within a day, returns this format.
  * @return string
  */
-function getTimeGap($date, $format = 'Y.m.d')
+function getTimeGap($date, $format = 'Y.m.d'): string
 {
-	$timestamp = ztime($date);
+	$timestamp = intval(ztime($date));
 	$gap = RX_TIME - $timestamp;
 
 	if ($gap < 60 * 60 * 24)
@@ -699,14 +703,14 @@ function getTimeGap($date, $format = 'Y.m.d')
  * Name of the month return
  *
  * @param int $month Month
- * @param boot $short If set, returns short string
+ * @param bool $short If set, returns short string
  * @return string
  */
-function getMonthName($month, $short = TRUE)
+function getMonthName(int $month, bool $short = true): string
 {
 	$short_month = array('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec');
 	$long_month = array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December');
-	return $short ? $short_month[$month - 1] : $long_month[$month - 1];
+	return strval($short ? $short_month[$month - 1] : $long_month[$month - 1]);
 }
 
 /**
@@ -715,7 +719,7 @@ function getMonthName($month, $short = TRUE)
  * @param string $email The email
  * @return string
  */
-function getEncodeEmailAddress($email)
+function getEncodeEmailAddress($email): string
 {
 	$return = '';
 	for($i = 0, $c = strlen($email); $i < $c; $i++)
@@ -731,7 +735,7 @@ function getEncodeEmailAddress($email)
  * @param mixed $entry Target object to be printed
  * @return void
  */
-function debugPrint($entry = null)
+function debugPrint($entry = null): void
 {
 	Rhymix\Framework\Debug::addEntry($entry);
 }
@@ -773,7 +777,7 @@ function getMicroTime()
  * @param object $del_obj Object vars to delete from the original object
  * @return object
  */
-function delObjectVars($target_obj, $del_obj)
+function delObjectVars($target_obj, $del_obj): object
 {
 	if(!is_object($target_obj) || !is_object($del_obj))
 	{
@@ -824,8 +828,9 @@ function handleError($errno, $errstr, $file, $line, $context)
  *
  * @param int $no A given number
  * @param int $size A given digits
+ * @return string
  */
-function getNumberingPath($no, $size = 3)
+function getNumberingPath($no, int $size = 3): string
 {
 	$mod = pow(10, $size);
 	$output = sprintf('%0' . $size . 'd/', intval($no % $mod));
@@ -854,9 +859,9 @@ function url_decode($str)
  * @param string $content Target content
  * @return string
  */
-function removeHackTag($content)
+function removeHackTag($content): string
 {
-	return Rhymix\Framework\Filters\HTMLFilter::clean($content);
+	return Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
 }
 
 /**
@@ -864,11 +869,11 @@ function removeHackTag($content)
  *
  * @deprecated
  * @param string &$content Target content
- * @return string
+ * @return void
  */
-function purifierHtml(&$content)
+function purifierHtml(&$content): void
 {
-	$content = Rhymix\Framework\Filters\HTMLFilter::clean($content);
+	$content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
 }
 
 /**
@@ -878,9 +883,9 @@ function purifierHtml(&$content)
  * @param string $content Target content
  * @return string
  */
-function checkXmpTag($content)
+function checkXmpTag($content): string
 {
-	return $content;
+	return (string)$content;
 }
 
 /**
@@ -890,9 +895,9 @@ function checkXmpTag($content)
  * @param string $content Taget content
  * @return string
  **/
-function blockWidgetCode($content)
+function blockWidgetCode($content): string
 {
-	return preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', $content);
+	return preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', (string)$content);
 }
 
 /**
@@ -902,9 +907,9 @@ function blockWidgetCode($content)
  * @param array $match
  * @return string
  */
-function removeSrcHack($match)
+function removeSrcHack(array $match): string
 {
-	return $match[0];
+	return strval($match[0]);
 }
 
 /**
@@ -914,7 +919,7 @@ function removeSrcHack($match)
  * @param string $file Taget file path
  * @return bool
  */
-function checkUploadedFile($file, $filename = null)
+function checkUploadedFile($file, $filename = null): bool
 {
 	return true;
 }
