@@ -1,15 +1,26 @@
-<!-- css -->
-{@ $css_var = new stdClass; }
-{@ $css_var->colorset = $colorset; }
-{@ $css_var->content_font = $content_font ? $content_font : 'none'; }
-{@ $css_var->content_font_size =  $content_font_size ? $content_font_size : 'none';}
-{@ $css_var->content_line_height = $content_line_height ? $content_line_height: 'none';}
-{@ $css_var->content_word_break = $content_word_break ? $content_word_break : 'none';}
-{@ $css_var->content_paragraph_spacing = $content_paragraph_spacing ? $content_paragraph_spacing : 'none';}
+<!--// Configuration -->
+{@
+	$css_var = new stdClass;
+	$css_var->colorset = $colorset;
+	$css_var->content_font = $content_font ?: 'none';
+	$css_var->content_font_size =  $content_font_size ?: 'none';
+	$css_var->content_line_height = $content_line_height ?: 'none';
+	$css_var->content_word_break = $content_word_break ?: 'none';
+	$css_var->content_paragraph_spacing = $content_paragraph_spacing ?: 'none';
 
-{@ Context::set('css_var',$css_var);}
-<load target="css/default.less" vars="$css_var" />
-<load target="../../../../common/xeicon/xeicon.min.css" />
+	$css_file_list = array_values($editor_additional_css ?: []);
+	$css_content = '';
+
+	$filemtime1 = filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/ckeditor.js');
+	$filemtime2 = file_exists(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') ? filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') : 0;
+	$filemtimestamp = max($filemtime1, $filemtime2, $editor_config_timestamp ?? 0);
+
+	$editor_height_fixed = $editor_height + ($editor_toolbar_hide ? 58 : ($editor_toolbar === 'simple' ? 74 : 140));
+}
+
+<!-- CSS -->
+<load target="css/ckeditor.scss" vars="$css_var" />
+<load target="../../../../common/css/xeicon/xeicon.min.css" />
 
 <!-- JS -->
 <!--%load_js_plugin("ckeditor")-->
@@ -18,15 +29,8 @@
 <load target="js/xe_interface.js" />
 
 <script>
-var auto_saved_msg = "{$lang->msg_auto_saved}";
+	var auto_saved_msg = "{$lang->msg_auto_saved}";
 </script>
-
-{@ $css_file_list = array()}
-<!--@foreach($editor_additional_css as $additional_css_url)-->
-	{@ $css_file_list[] = $additional_css_url}
-<!--@endforeach-->
-
-{@ $css_content = "" }
 
 <!--@if($enable_autosave)-->
 <input type="hidden" name="_saved_doc_title" value="{(isset($saved_doc) && $saved_doc) ? escape($saved_doc->title) : ''}" />
@@ -34,10 +38,6 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 <input type="hidden" name="_saved_doc_document_srl" value="{(isset($saved_doc) && $saved_doc) ? $saved_doc->document_srl : ''}" />
 <input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
 <!--@end-->
-
-{@ $ckeditor_main_filemtime = filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/ckeditor.js')}
-{@ $ckeditor_config_filemtime = file_exists(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') ? filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') : 0}
-{@ $editor_height_fixed = $editor_height + ($editor_toolbar_hide ? 58 : ($editor_toolbar === 'simple' ? 74 : 140))}
 
 <div id="ckeditor_instance_{$editor_sequence}" data-editor-sequence="{$editor_sequence}" data-editor-primary-key-name="{$editor_primary_key_name}" data-editor-content-key-name="{$editor_content_key_name}" style="min-height:{$editor_height_fixed}px;"></div>
 
@@ -137,7 +137,7 @@ var auto_saved_msg = "{$lang->msg_auto_saved}";
 		CKEDITOR.dtd.$removeEmpty.ins = 0;
 
 		// Set the timestamp for plugins.
-		CKEDITOR.timestamp = '{max($ckeditor_main_filemtime, $ckeditor_config_filemtime, $editor_config_timestamp ?? 0)}';
+		CKEDITOR.timestamp = {json_encode($filemtimestamp)};
 
 		// Add editor components.
 		<!--@if($enable_component)-->

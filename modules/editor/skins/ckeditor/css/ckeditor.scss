@@ -1,0 +1,184 @@
+@charset "UTF-8";
+
+@mixin light-dark($colorset) {
+	@if $colorset == "moono-dark" {
+		background-color: #333;
+		color: #fff;
+	} @else {
+		background-color: #fff;
+		color: #000;
+		&.color_scheme_dark.cke_auto_dark_mode {
+			background-color: #333;
+			color: #fff;
+		}
+	}
+}
+
+@mixin light-dark-top($colorset) {
+	@if $colorset == "moono-dark" {
+		body & {
+			border-color: #555;
+			&.cke_bottom {
+				background: #333;
+				.cke_button_icon, .cke_combo_button, .cke_button_arrow, .cke_button_label {
+					filter: invert(1);
+				}
+			}
+		}
+	} @else {
+		.color_scheme_dark.cke_auto_dark_mode & {
+			background: #333;
+			border-color: #555;
+			.cke_button_on {
+				background: #000;
+				border-color: #555;
+			}
+			.cke_button_icon, .cke_combo_button, .cke_button_arrow, .cke_button_label {
+				filter: invert(1);
+			}
+			&.cke_dialog_body {
+				background: #555;
+			}
+			.cke_dialog_title {
+				background: #333;
+				color: #fff;
+				border-bottom-color: #555;
+				.cke_dialog_close_button {
+					color: #fff;
+				}
+			}
+			.cke_dialog_tabs {
+				background: #555;
+				.cke_dialog_tab {
+					background: #555;
+					color: #999;
+					border-color: #777;
+				}
+				.cke_dialog_tab_selected {
+					background: #777;
+					color: #fff;
+					border-color: #777;
+				}
+			}
+			.cke_dialog_contents {
+				background: #555;
+				border-top-color: #777;
+				label {
+					color: #fff;
+				}
+				select, input, .ImagePreviewBox td {
+					background: #333;
+					color: #fff;
+					border-color: #777;
+				}
+			}
+			.cke_dialog_footer {
+				background: #333;
+				border-top-color: #555;
+			}
+		}
+	}
+}
+
+// Editor UI styling
+html {
+	&.cke_panel_container, &.cke_panel_container body {
+		@include light-dark("default");
+	}
+	width: unset;
+	height: unset;
+	min-width: unset;
+	min-height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+body.cke_editable {
+	width: unset;
+	height: unset;
+	min-width: unset;
+	min-height: 100vh;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 10px;
+	@include light-dark($colorset);
+}
+body.color_scheme_dark.cke_auto_dark_mode .cke_wysiwyg_div {
+	background-color: #333;
+	color: #fff;
+}
+
+p.editor_autosaved_message.autosave_message {
+	display:none;
+	background: #e0e0e0;
+	color: #000;
+	padding: 10px;
+	margin:0;
+	line-height:1.2;
+	.color_scheme_dark & {
+		background: #222;
+		color: #fff;
+	}
+}
+.cke_reset {
+	.cke_top, .cke_bottom {
+		@include light-dark-top($colorset);
+		a {
+			&:hover, &:focus {
+				transition: none;
+			}
+		}
+	}
+	.cke_combo__fontsize {
+		.cke_combo_button {
+			width: 64px;
+		}
+		.cke_combo_text {
+			width: 30px;
+		}
+	}
+}
+.cke_dialog_body {
+	@include light-dark-top($colorset);
+}
+
+// Content area styling
+.xe_content.editable, .rhymix_content.editable, .cke_wysiwyg_div {
+	font-family: $content_font;
+	font-size: $content_font_size;
+	line-height: $content_line_height;
+	@if $content_word_break == 'none' {
+		white-space: nowrap;
+	} @else {
+		word-break: $content_word_break;
+		word-wrap: break-word;
+	}
+	p {
+		margin: 0 0 $content_paragraph_spacing 0;
+		line-height: $content_line_height;
+		span {
+			line-height: $content_line_height;
+		}
+	}
+	img, video {
+		max-width: 100%;
+		height: auto;
+	}
+	blockquote {
+		padding: 2px 0;
+		border-style: solid;
+		border-color: #ccc;
+		border-width: 0;
+		border-left-width: 5px;
+		padding-left: 20px;
+		padding-right: 8px;
+
+		&:lang(ar), &:lang(arc), &:lang(dv), &:lang(ha), &:lang(he), &:lang(khw), &:lang(ks), &:lang(ku), &:lang(ps), &:lang(fa), &:lang(ur), &:lang(yi) {
+			border-left-width: 0px;
+			border-right-width: 5px;
+			padding-left: 8px;
+			padding-right: 20px;
+
+		}
+	}
+}
