@@ -25,7 +25,7 @@ class layoutModel extends layout
 	/**
 	 * Get a layout list created in the DB
 	 * If you found a new list, it means that the layout list is inserted to the DB
-	 * @deprecated
+	 *
 	 * @param int $site_srl
 	 * @param string $layout_type (P : PC, M : Mobile)
 	 * @param array $columnList
