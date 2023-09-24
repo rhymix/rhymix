@@ -741,33 +741,6 @@ function debugPrint($entry = null): void
 }
 
 /**
- * @deprecated
- */
-function writeSlowlog()
-{
-	// no-op
-}
-
-/**
- * @deprecated
- */
-function flushSlowlog()
-{
-	// no-op
-}
-
-/**
- * microtime() return
- *
- * @deprecated
- * @return float
- */
-function getMicroTime()
-{
-	return microtime(true);
-}
-
-/**
  * Delete the second object vars from the first argument
  *
  * @param object $target_obj An original object
@@ -806,21 +779,6 @@ function getDestroyXeVars($vars)
 }
 
 /**
- * Legacy error handler
- *
- * @deprecated
- * @param int $errno
- * @param string $errstr
- * @param string $file
- * @param int $line
- * @return void
- */
-function handleError($errno, $errstr, $file, $line, $context)
-{
-	Rhymix\Framework\Debug::addError($errno, $errstr, $file, $line, $context);
-}
-
-/**
  * Trim a given number to a fiven size recursively
  *
  * @param int $no A given number
@@ -839,18 +797,6 @@ function getNumberingPath($no, int $size = 3): string
 }
 
 /**
- * Decode the URL in Korean
- *
- * @deprecated
- * @param string $str The url
- * @return string
- */
-function url_decode($str)
-{
-	return escape(utf8RawUrlDecode($str));
-}
-
-/**
  * Sanitize HTML content.
  *
  * @param string $content Target content
@@ -859,144 +805,6 @@ function url_decode($str)
 function removeHackTag($content): string
 {
 	return Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
-}
-
-/**
- * HTMLPurifier wrapper (Deprecated)
- *
- * @deprecated
- * @param string &$content Target content
- * @return void
- */
-function purifierHtml(&$content): void
-{
-	$content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
-}
-
-/**
- * Check xmp tag (Deprecated)
- *
- * @deprecated
- * @param string $content Target content
- * @return string
- */
-function checkXmpTag($content): string
-{
-	return (string)$content;
-}
-
-/**
- * Block widget code (Deprecated)
- *
- * @deprecated
- * @param string $content Taget content
- * @return string
- **/
-function blockWidgetCode($content): string
-{
-	return preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', (string)$content);
-}
-
-/**
- * Remove src hack (Deprecated)
- *
- * @deprecated
- * @param array $match
- * @return string
- */
-function removeSrcHack(array $match): string
-{
-	return strval($match[0]);
-}
-
-/**
- * Check uploaded file (Deprecated)
- *
- * @deprecated
- * @param string $file Taget file path
- * @return bool
- */
-function checkUploadedFile($file, $filename = null): bool
-{
-	return true;
-}
-
-/**
- * Convert hexa value to RGB
- *
- * @param string $hexstr
- * @return array
- */
-if(!function_exists('hexrgb'))
-{
-	function hexrgb($hex)
-	{
-		return hex2rgb($hex);
-	}
-}
-
-/**
- * Php function for mysql old_password()
- * provides backward compatibility for zero board4 which uses old_password() of mysql 4.1 earlier versions.
- * the function implemented by referring to the source codes of password.c file in mysql
- *
- * @deprecated
- * @param string $password
- * @return string
- */
-function mysql_pre4_hash_password($password)
-{
-	return VendorPass::mysql_old_password($password);
-}
-
-/**
- * Return the requested script path
- *
- * @deprecated
- * @return string
- */
-function getScriptPath()
-{
-	return RX_BASEURL;
-}
-
-/**
- * Return the requested script path
- *
- * @deprecated
- * @return string
- */
-function getRequestUriByServerEnviroment()
-{
-	return preg_replace('/[<>"]/', '', $_SERVER['REQUEST_URI']);
-}
-
-/**
- * PHP unescape function of javascript's escape
- * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
- * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
- *
- * @deprecated
- * @param string $source
- * @return string
- */
-function utf8RawUrlDecode($source)
-{
-	return preg_replace_callback('/%u([0-9a-f]+)/i', function($m) {
-		return html_entity_decode('&#x' . $m[1] . ';');
-	}, rawurldecode($source));
-}
-
-/**
- * Returns utf-8 string of given code
- *
- * @deprecated
- * @param int $num
- * @return string
- */
-function _code2utf($num)
-{
-	return html_entity_decode('&#' . $num . ';');
 }
 
 /**
@@ -1024,18 +832,6 @@ function detectUTF8($string, $return_convert = FALSE, $urldecode = TRUE)
 		$is_utf8 = ($string === @iconv('UTF-8', 'UTF-8', $string));
 		return $return_convert ? iconv('CP949', 'UTF-8', $string) : $is_utf8;
 	}
-}
-
-/**
- * get json encoded string of data
- *
- * @deprecated
- * @param mixed $data
- * @return string
- */
-function json_encode2($data)
-{
-	return json_encode($data);
 }
 
 /**
@@ -1090,17 +886,6 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl)
 }
 
 /**
- * Require pear
- *
- * @deprecated
- * @return void
- */
-function requirePear()
-{
-
-}
-
-/**
  * Check for CSRF attacks
  *
  * @return bool
@@ -1150,6 +935,20 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
 				Context::set($urlName, $successReturnUrl);
 			}
 		}
+	}
+}
+
+/**
+ * Alias to hex2rgb()
+ *
+ * @param string $hexstr
+ * @return array
+ */
+if(!function_exists('hexrgb'))
+{
+	function hexrgb($hex)
+	{
+		return hex2rgb($hex);
 	}
 }
 
@@ -1314,6 +1113,11 @@ if(!function_exists('mb_strtolower'))
 }
 
 /**
+ * =========================== DEPRECATED FUNCTIONS ===========================
+ * ====================== KEPT FOR COMPATIBILITY WITH XE ======================
+ */
+
+/**
  * Print raw html header
  *
  * @deprecated
@@ -1372,4 +1176,200 @@ function reload($isOpener = FALSE)
 {
 	$reloadScript = $isOpener ? 'window.opener.location.reload();' : 'window.location.reload();';
 	echo sprintf('<script> %s </script>', $reloadScript);
+}
+
+/**
+ * Legacy error handler
+ *
+ * @deprecated
+ * @param int $errno
+ * @param string $errstr
+ * @param string $file
+ * @param int $line
+ * @return void
+ */
+function handleError($errno, $errstr, $file, $line, $context)
+{
+	Rhymix\Framework\Debug::addError($errno, $errstr, $file, $line, $context);
+}
+
+/**
+ * Alias to microtime(true)
+ *
+ * @deprecated
+ * @return float
+ */
+function getMicroTime()
+{
+	return microtime(true);
+}
+
+/**
+ * Return the requested script path
+ *
+ * @deprecated
+ * @return string
+ */
+function getScriptPath()
+{
+	return RX_BASEURL;
+}
+
+/**
+ * Return the requested script path
+ *
+ * @deprecated
+ * @return string
+ */
+function getRequestUriByServerEnviroment()
+{
+	return preg_replace('/[<>"]/', '', $_SERVER['REQUEST_URI']);
+}
+
+/**
+ * get json encoded string of data
+ *
+ * @deprecated
+ * @param mixed $data
+ * @return string
+ */
+function json_encode2($data)
+{
+	return json_encode($data);
+}
+
+/**
+ * Decode the URL in Korean
+ *
+ * @deprecated
+ * @param string $str The url
+ * @return string
+ */
+function url_decode($str)
+{
+	return escape(utf8RawUrlDecode($str));
+}
+
+/**
+ * Block widget code (Deprecated)
+ *
+ * @deprecated
+ * @param string $content Taget content
+ * @return string
+ **/
+function blockWidgetCode($content): string
+{
+	return preg_replace('/(<(?:img|div)(?:[^>]*))(widget)(?:(=([^>]*?)>))/is', '$1blocked-widget$3', (string)$content);
+}
+
+/**
+ * HTMLPurifier wrapper (Deprecated)
+ *
+ * @deprecated
+ * @param string &$content Target content
+ * @return void
+ */
+function purifierHtml(&$content): void
+{
+	$content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
+}
+
+/**
+ * Check xmp tag (Deprecated)
+ *
+ * @deprecated
+ */
+function checkXmpTag($content): string
+{
+	return (string)$content;
+}
+
+/**
+ * Remove src hack (Deprecated)
+ *
+ * @deprecated
+ * @param array $match
+ * @return string
+ */
+function removeSrcHack(array $match): string
+{
+	return strval($match[0]);
+}
+
+/**
+ * Check uploaded file (Deprecated)
+ *
+ * @deprecated
+ * @param string $file Taget file path
+ * @return bool
+ */
+function checkUploadedFile($file, $filename = null): bool
+{
+	return true;
+}
+
+/**
+ * Php function for mysql old_password()
+ * provides backward compatibility for zero board4 which uses old_password() of mysql 4.1 earlier versions.
+ * the function implemented by referring to the source codes of password.c file in mysql
+ *
+ * @deprecated
+ * @param string $password
+ * @return string
+ */
+function mysql_pre4_hash_password($password)
+{
+	return VendorPass::mysql_old_password($password);
+}
+
+/**
+ * PHP unescape function of javascript's escape
+ * Function converts an Javascript escaped string back into a string with specified charset (default is UTF-8).
+ * Modified function from http://pure-essence.net/stuff/code/utf8RawUrlDecode.phps
+ *
+ * @deprecated
+ * @param string $source
+ * @return string
+ */
+function utf8RawUrlDecode($source)
+{
+	return preg_replace_callback('/%u([0-9a-f]+)/i', function($m) {
+		return html_entity_decode('&#x' . $m[1] . ';');
+	}, rawurldecode($source ?? ''));
+}
+
+/**
+ * Returns utf-8 string of given code
+ *
+ * @deprecated
+ * @param int $num
+ * @return string
+ */
+function _code2utf($num)
+{
+	return html_entity_decode('&#' . $num . ';');
+}
+
+/**
+ * @deprecated
+ */
+function writeSlowlog()
+{
+	// no-op
+}
+
+/**
+ * @deprecated
+ */
+function flushSlowlog()
+{
+	// no-op
+}
+
+/**
+ * @deprecated
+ */
+function requirePear()
+{
+	// no-op
 }
