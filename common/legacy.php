@@ -762,9 +762,20 @@ function delObjectVars($target_obj, $del_obj): object
 	return (object)$target_vars;
 }
 
+/**
+ * Delete variables that are commonly submitted but don't need to be saved.
+ *
+ * @param array|object $vars
+ * @return array|object
+ */
 function getDestroyXeVars($vars)
 {
-	foreach(array('error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id') as $var)
+	$delete_vars = array(
+		'error_return_url', 'success_return_url', 'ruleset', 'xe_validator_id',
+		'_filter', '_rx_ajax_compat', '_rx_ajax_form', '_rx_csrf_token',
+	);
+
+	foreach($delete_vars as $var)
 	{
 		if(is_array($vars))
 		{
