@@ -986,14 +986,15 @@ class DocumentModel extends Document
 	}
 
 	/**
-	 * Wanted to set document information
+	 * Get document module config
+	 *
 	 * @return object
 	 */
 	public static function getDocumentConfig()
 	{
 		if (self::$_config === null)
 		{
-			self::$_config = ModuleModel::getModuleConfig('document') ?: new stdClass;;
+			self::$_config = ModuleModel::getModuleConfig('document') ?: new stdClass;
 		}
 		return self::$_config;
 	}
