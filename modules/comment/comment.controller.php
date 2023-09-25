@@ -266,7 +266,8 @@ class CommentController extends Comment
 
 	function updateVotedCountCancel($comment_srl, $oComment, $point)
 	{
-		if(!$_SESSION['voted_comment'][$comment_srl] && !$this->user->member_srl)
+		// Guests can only cancel votes that are registered in the current session.
+		if(!$this->user->member_srl && empty($_SESSION['voted_comment'][$comment_srl]))
 		{
 			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
 		}
@@ -1568,9 +1569,9 @@ class CommentController extends Comment
 		}
 
 		// invalid vote if vote info exists in the session info.
-		if($_SESSION['voted_comment'][$comment_srl])
+		if(!empty($_SESSION['voted_comment'][$comment_srl]))
 		{
-			return new BaseObject(-1, $failed_voted);
+			return new BaseObject(-1, $failed_voted . '_already');
 		}
 
 		// Get the original comment
@@ -1592,7 +1593,7 @@ class CommentController extends Comment
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
 				$_SESSION['voted_comment'][$comment_srl] = false;
-				return new BaseObject(-1, $failed_voted);
+				return new BaseObject(-1, $failed_voted . '_self');
 			}
 		}
 
@@ -1687,9 +1688,9 @@ class CommentController extends Comment
 	function declaredComment($comment_srl, $declare_message)
 	{
 		// Fail if session information already has a reported document
-		if(isset($_SESSION['declared_comment'][$comment_srl]))
+		if(!empty($_SESSION['declared_comment'][$comment_srl]))
 		{
-			return new BaseObject(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared_already');
 		}
 
 		// check if already reported
@@ -1738,7 +1739,7 @@ class CommentController extends Comment
 			if($member_srl && $member_srl == abs($oComment->get('member_srl')))
 			{
 				$_SESSION['declared_comment'][$comment_srl] = FALSE;
-				return new BaseObject(-1, 'failed_declared');
+				return new BaseObject(-1, 'failed_declared_self');
 			}
 		}
 
@@ -1757,7 +1758,7 @@ class CommentController extends Comment
 		if($log_output->data->count)
 		{
 			$_SESSION['declared_comment'][$comment_srl] = FALSE;
-			return new BaseObject(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared_already');
 		}
 
 		// Fill in remaining information for logging.

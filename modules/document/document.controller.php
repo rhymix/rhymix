@@ -285,7 +285,8 @@ class DocumentController extends Document
 	 */
 	function updateVotedCountCancel($document_srl, $oDocument, $point)
 	{
-		if(!$_SESSION['voted_document'][$document_srl] && !$this->user->member_srl)
+		// Guests can only cancel votes that are registered in the current session.
+		if(!$this->user->member_srl && empty($_SESSION['voted_document'][$document_srl]))
 		{
 			return new BaseObject(-1, $point > 0 ? 'failed_voted_canceled' : 'failed_blamed_canceled');
 		}
@@ -1800,9 +1801,9 @@ class DocumentController extends Document
 		}
 
 		// Return fail if session already has information about votes
-		if($_SESSION['voted_document'][$document_srl])
+		if(!empty($_SESSION['voted_document'][$document_srl]))
 		{
-			return new BaseObject(-1, $failed_voted);
+			return new BaseObject(-1, $failed_voted . '_already');
 		}
 
 		// Get the original document
@@ -1824,7 +1825,7 @@ class DocumentController extends Document
 			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
 				$_SESSION['voted_document'][$document_srl] = false;
-				return new BaseObject(-1, $failed_voted);
+				return new BaseObject(-1, $failed_voted . '_self');
 			}
 		}
 
@@ -1931,9 +1932,9 @@ class DocumentController extends Document
 	function declaredDocument($document_srl, $declare_message = '')
 	{
 		// Fail if session already tried to report the document
-		if(isset($_SESSION['declared_document'][$document_srl]))
+		if(!empty($_SESSION['declared_document'][$document_srl]))
 		{
-			return new BaseObject(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared_already');
 		}
 
 		// Check if previously reported
@@ -1982,7 +1983,7 @@ class DocumentController extends Document
 			if($member_srl && $member_srl == abs($oDocument->get('member_srl')))
 			{
 				$_SESSION['declared_document'][$document_srl] = false;
-				return new BaseObject(-1, 'failed_declared');
+				return new BaseObject(-1, 'failed_declared_self');
 			}
 		}
 
@@ -2001,7 +2002,7 @@ class DocumentController extends Document
 		if($output->data->count)
 		{
 			$_SESSION['declared_document'][$document_srl] = false;
-			return new BaseObject(-1, 'failed_declared');
+			return new BaseObject(-1, 'failed_declared_already');
 		}
 
 		// Fill in remaining information for logging.
