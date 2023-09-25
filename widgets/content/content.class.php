@@ -195,7 +195,7 @@ class content extends WidgetHandler
 		{
 			$obj->is_secret = 'N';
 		}
-		
+
 		// Get model object of the comment module and execute getCommentList() method
 		$oCommentModel = getModel('comment');
 		$output = $oCommentModel->getNewestCommentList($obj);
@@ -209,7 +209,7 @@ class content extends WidgetHandler
 			{
 				continue;
 			}
-			
+
 			$attribute = $oComment->getObjectVars();
 			$title = $oComment->getSummary($args->content_cut_size);
 			$thumbnail = $oComment->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
@@ -259,7 +259,7 @@ class content extends WidgetHandler
 		{
 			$obj->order_type = $args->order_type=="desc"?"desc":"asc";
 		}
-		
+
 		if($args->show_secret == 'Y')
 		{
 			$obj->statusList = array('PUBLIC', 'SECRET');
@@ -268,7 +268,7 @@ class content extends WidgetHandler
 		{
 			$obj->statusList = array('PUBLIC');
 		}
-		
+
 		$obj->list_count = $args->list_count * $args->page_count;
 		$output = executeQueryArray('widgets.content.getNewestDocuments', $obj);
 		if(!$output->toBool() || !$output->data) return;
@@ -464,16 +464,16 @@ class content extends WidgetHandler
 	{
 		// Remove tags
 		$content = strip_tags($content);
-		
+
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);
-		
+
 		// Replace all whitespaces to single space
 		$content = utf8_trim(utf8_normalize_spaces($content));
-		
+
 		// Truncate string
 		$content = cut_str($content, $str_size, '...');
-		
+
 		return escape($content);
 	}
 
@@ -583,6 +583,7 @@ class content extends WidgetHandler
 		else if($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom')
 		{
 			// Atom 1.0 spec supported by misol
+			$rss = new stdClass;
 			$rss->title = $xml_doc->feed->title->body;
 			$links = $xml_doc->feed->link;
 			if(is_array($links))
@@ -765,7 +766,7 @@ class content extends WidgetHandler
 		$widget_info->tab_type = $args->tab_type;
 
 		$widget_info->markup_type = $args->markup_type;
-		// If it is a tab type, list up tab items and change key value(module_srl) to index 
+		// If it is a tab type, list up tab items and change key value(module_srl) to index
 		if($args->tab_type != 'none' && $args->tab_type)
 		{
 			$tab = array();
@@ -967,7 +968,7 @@ class contentItem extends BaseObject
 			return $this->get('thumbnail_x' . intval($source_size));
 		}
 	}
-	function getMemberSrl() 
+	function getMemberSrl()
 	{
 		return $this->get('member_srl');
 	}
