@@ -235,30 +235,30 @@ class communicationView extends communication
 			Context::set('mid', Context::get('site_module_info')->mid);
 		}
 
-		$logged_info = Context::get('logged_info');
-
-		// get receipient's information
-		// check inalid request
+		// Check receipient info
 		$receiver_srl = Context::get('receiver_srl');
 		if(!$receiver_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-
-		// check receiver and sender are same
+		$logged_info = Context::get('logged_info');
 		if($logged_info->member_srl == $receiver_srl)
 		{
 			throw new Rhymix\Framework\Exception('msg_cannot_send_to_yourself');
 		}
+		$receiver_info = MemberModel::getMemberInfoByMemberSrl($receiver_srl);
+		if(!$receiver_info || !$receiver_info->member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
-		$oCommunicationModel = getModel('communication');
-		$oMemberModel = getModel('member');
+		Context::set('receiver_info', $receiver_info);
 
 		// get message_srl of the original message if it is a reply
 		$message_srl = Context::get('message_srl');
 		if($message_srl)
 		{
-			$source_message = $oCommunicationModel->getSelectedMessage($message_srl);
+			$source_message = CommunicationModel::getSelectedMessage($message_srl);
 			if($source_message->message_srl == $message_srl && $source_message->sender_srl == $receiver_srl && $source_message->receiver_srl == $logged_info->member_srl)
 			{
 				if(strncasecmp('[re]', $source_message->title, 4) !== 0)
@@ -273,14 +273,6 @@ class communicationView extends communication
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 		}
-
-		$receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
-		if(!$receiver_info || !$receiver_info->member_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		Context::set('receiver_info', $receiver_info);
 
 		// set a signiture by calling getEditor of the editor module
 		$oEditorModel = getModel('editor');
