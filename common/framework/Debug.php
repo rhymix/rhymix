@@ -321,10 +321,9 @@ class Debug
 	 * @param string $errstr
 	 * @param string $errfile
 	 * @param int $errline
-	 * @param array $errcontext
 	 * @return void
 	 */
-	public static function addError(int $errno, string $errstr, string $errfile, int $errline, array $errcontext = []): void
+	public static function addError(int $errno, string $errstr, string $errfile, int $errline): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)

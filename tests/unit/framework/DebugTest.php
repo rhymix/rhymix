@@ -37,7 +37,7 @@ class DebugTest extends \Codeception\TestCase\Test
 	{
 		$file = __FILE__;
 		$line = __LINE__ + 1;
-		Rhymix\Framework\Debug::addError(~0, 'Rhymix', $file, $line, null);
+		Rhymix\Framework\Debug::addError(~0, 'Rhymix', $file, $line);
 		$errors = Rhymix\Framework\Debug::getErrors();
 		$this->assertGreaterThanOrEqual(1, count($errors));
 		$error = array_pop($errors);
