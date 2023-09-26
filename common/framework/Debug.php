@@ -31,7 +31,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function enable()
+	public static function enable(): void
 	{
 		self::$_enabled = true;
 	}
@@ -41,7 +41,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function disable()
+	public static function disable(): void
 	{
 		self::$_enabled = false;
 	}
@@ -51,7 +51,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getEntries()
+	public static function getEntries(): array
 	{
 		return array_values(self::$_entries);
 	}
@@ -61,7 +61,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearEntries()
+	public static function clearEntries(): void
 	{
 		self::$_entries = array();
 	}
@@ -71,7 +71,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getErrors()
+	public static function getErrors(): array
 	{
 		return array_values(self::$_errors);
 	}
@@ -81,7 +81,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearErrors()
+	public static function clearErrors(): void
 	{
 		self::$_errors = array();
 	}
@@ -91,7 +91,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getQueries()
+	public static function getQueries(): array
 	{
 		return array_values(self::$_queries);
 	}
@@ -101,7 +101,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getSlowQueries()
+	public static function getSlowQueries(): array
 	{
 		return self::$_slow_queries;
 	}
@@ -111,7 +111,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearQueries()
+	public static function clearQueries(): void
 	{
 		self::$_queries = array();
 		self::$_slow_queries = array();
@@ -122,7 +122,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getTriggers()
+	public static function getTriggers(): array
 	{
 		return self::$_triggers;
 	}
@@ -132,7 +132,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getSlowTriggers()
+	public static function getSlowTriggers(): array
 	{
 		return self::$_slow_triggers;
 	}
@@ -142,7 +142,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearTriggers()
+	public static function clearTriggers(): void
 	{
 		self::$_triggers = array();
 		self::$_slow_triggers = array();
@@ -153,7 +153,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getWidgets()
+	public static function getWidgets(): array
 	{
 		return self::$_widgets;
 	}
@@ -163,7 +163,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getSlowWidgets()
+	public static function getSlowWidgets(): array
 	{
 		return self::$_slow_widgets;
 	}
@@ -173,7 +173,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearWidgets()
+	public static function clearWidgets(): void
 	{
 		self::$_widgets = array();
 		self::$_slow_widgets = array();
@@ -184,7 +184,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getRemoteRequests()
+	public static function getRemoteRequests(): array
 	{
 		return self::$_remote_requests;
 	}
@@ -194,7 +194,7 @@ class Debug
 	 *
 	 * @return array
 	 */
-	public static function getSlowRemoteRequests()
+	public static function getSlowRemoteRequests(): array
 	{
 		return self::$_slow_remote_requests;
 	}
@@ -204,7 +204,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearRemoteRequests()
+	public static function clearRemoteRequests(): void
 	{
 		self::$_remote_requests = array();
 		self::$_slow_remote_requests = array();
@@ -215,7 +215,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function clearAll()
+	public static function clearAll(): void
 	{
 		self::$_entries = array();
 		self::$_errors = array();
@@ -238,7 +238,7 @@ class Debug
 	 * @param string $real_filename
 	 * @return void
 	 */
-	public static function addFilenameAlias($display_filename, $real_filename)
+	public static function addFilenameAlias(string $display_filename, string $real_filename): void
 	{
 		self::$_aliases[$real_filename] = $display_filename;
 	}
@@ -249,7 +249,7 @@ class Debug
 	 * @param float $session_start_time
 	 * @return void
 	 */
-	public static function addSessionStartTime($session_start_time)
+	public static function addSessionStartTime(float $session_start_time): void
 	{
 		self::$_session_time += $session_start_time;
 	}
@@ -257,10 +257,10 @@ class Debug
 	/**
 	 * Add an arbitrary entry to the log.
 	 *
-	 * @param string $message
+	 * @param mixed $message
 	 * @return void
 	 */
-	public static function addEntry($message)
+	public static function addEntry($message): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -324,7 +324,7 @@ class Debug
 	 * @param array $errcontext
 	 * @return void
 	 */
-	public static function addError($errno, $errstr, $errfile, $errline, $errcontext = [])
+	public static function addError(int $errno, string $errstr, string $errfile, int $errline, array $errcontext = []): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -391,9 +391,10 @@ class Debug
 	/**
 	 * Add a query to the log.
 	 *
+	 * @param array $query
 	 * @return void
 	 */
-	public static function addQuery($query)
+	public static function addQuery(array $query): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -501,9 +502,10 @@ class Debug
 	/**
 	 * Add a trigger to the log.
 	 *
+	 * @param array $trigger
 	 * @return bool
 	 */
-	public static function addTrigger($trigger)
+	public static function addTrigger(array $trigger): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -535,9 +537,10 @@ class Debug
 	/**
 	 * Add a widget to the log.
 	 *
-	 * @return bool
+	 * @param array $widget
+	 * @return void
 	 */
-	public static function addWidget($widget)
+	public static function addWidget(array $widget): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -567,9 +570,10 @@ class Debug
 	/**
 	 * Add a remote request to the log.
 	 *
-	 * @return bool
+	 * @param array $request
+	 * @return void
 	 */
-	public static function addRemoteRequest($request)
+	public static function addRemoteRequest(array $request): void
 	{
 		// Do not store log if disabled.
 		if (!self::$_enabled)
@@ -601,10 +605,10 @@ class Debug
 	/**
 	 * The default handler for catching exceptions.
 	 *
-	 * @param Exception $e
+	 * @param \Throwable $e
 	 * @return void
 	 */
-	public static function exceptionHandler($e)
+	public static function exceptionHandler(\Throwable $e): void
 	{
 		// Find out the file where the error really occurred.
 		$errfile = self::translateFilename($e->getFile());
@@ -654,7 +658,7 @@ class Debug
 	 *
 	 * @return void
 	 */
-	public static function shutdownHandler()
+	public static function shutdownHandler(): void
 	{
 		// Check if we are exiting because of a fatal error.
 		$errinfo = error_get_last();
@@ -680,8 +684,11 @@ class Debug
 
 	/**
 	 * Format a backtrace for error logging.
+	 *
+	 * @param array $backtrace
+	 * @return string
 	 */
-	public static function formatBacktrace($backtrace)
+	public static function formatBacktrace(array $backtrace): string
 	{
 		$result = array();
 		foreach ($backtrace as $step)
@@ -703,7 +710,7 @@ class Debug
 	 * @param string $filename
 	 * @return string
 	 */
-	public static function translateFilename($filename)
+	public static function translateFilename(string $filename)
 	{
 		if (isset(self::$_aliases[$filename]))
 		{
@@ -719,9 +726,10 @@ class Debug
 	/**
 	 * Register all error handlers.
 	 *
+	 * @param int $error_types
 	 * @return void
 	 */
-	public static function registerErrorHandlers($error_types)
+	public static function registerErrorHandlers(int $error_types): void
 	{
 		self::$_config = config('debug');
 		set_error_handler('\\Rhymix\\Framework\\Debug::addError', $error_types);
@@ -733,9 +741,10 @@ class Debug
 	 * Display a fatal error screen.
 	 *
 	 * @param string $message
+	 * @param string $location
 	 * @return void
 	 */
-	public static function displayErrorScreen($message, $location = '')
+	public static function displayErrorScreen(string $message, string $location = ''): void
 	{
 		// Do not display error screen in CLI.
 		if (php_sapi_name() === 'cli')
@@ -781,7 +790,7 @@ class Debug
 	 * @param string $message
 	 * @return void
 	 */
-	public static function displayError($message)
+	public static function displayError(string $message): void
 	{
 		header('HTTP/1.1 500 Internal Server Error');
 		if ($_SERVER['REQUEST_METHOD'] === 'GET' || !isset($_SERVER['HTTP_X_REQUESTED_WITH']))
@@ -801,7 +810,7 @@ class Debug
 	 *
 	 * @return bool
 	 */
-	public static function isEnabledForCurrentUser()
+	public static function isEnabledForCurrentUser(): bool
 	{
 		if (self::$_enabled !== null)
 		{
@@ -855,7 +864,7 @@ class Debug
 	 *
 	 * @return object
 	 */
-	public static function getDebugData()
+	public static function getDebugData(): object
 	{
 		// Collect debug information.
 		$db = DB::getInstance();
@@ -937,7 +946,7 @@ class Debug
 	 * @param int $errno
 	 * @return string
 	 */
-	public static function getErrorType($errno)
+	public static function getErrorType(int $errno): string
 	{
 		switch ($errno)
 		{
