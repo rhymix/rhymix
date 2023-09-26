@@ -269,7 +269,7 @@ class DB
 		}
 
 		// Force the column list to a numerical array.
-		$column_list = is_array($column_list) ? array_values($column_list) : array();
+		$column_list = array_values($column_list);
 
 		// Start measuring elapsed time.
 		$start_time = microtime(true);

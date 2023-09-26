@@ -144,6 +144,7 @@ function getClass($module_name): ?ModuleObject
 function executeQuery($query_id, $args = [], $column_list = [], string $result_type = 'auto', string $result_class = 'stdClass'): Rhymix\Framework\Helpers\DBResultHelper
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
+	$column_list = is_array($column_list) ? $column_list : [];
 	return $oDB->executeQuery($query_id, $args, $column_list, $result_type, $result_class);
 }
 
@@ -160,6 +161,7 @@ function executeQuery($query_id, $args = [], $column_list = [], string $result_t
 function executeQueryArray($query_id, $args = [], $column_list = [], string $result_class = 'stdClass'): Rhymix\Framework\Helpers\DBResultHelper
 {
 	$oDB = Rhymix\Framework\DB::getInstance();
+	$column_list = is_array($column_list) ? $column_list : [];
 	return $oDB->executeQuery($query_id, $args, $column_list, 'array', $result_class);
 }
 
