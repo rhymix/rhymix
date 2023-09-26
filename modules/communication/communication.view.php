@@ -268,6 +268,10 @@ class communicationView extends communication
 				$source_message->content = "\r\n<br />\r\n<br /><div style=\"padding-left:5px; border-left:5px solid #DDDDDD;\">" . trim($source_message->content) . "</div>";
 				Context::set('source_message', $source_message);
 			}
+			else
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
 		}
 
 		$receiver_info = $oMemberModel->getMemberInfoByMemberSrl($receiver_srl);
