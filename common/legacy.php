@@ -492,7 +492,7 @@ function cut_str($string, $cut_size = 0, $tail = '...'): string
  */
 function get_time_zone_offset($timezone): int
 {
-	return Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat($timezone);
+	return Rhymix\Framework\DateTime::getTimezoneOffsetByLegacyFormat((string)$timezone);
 }
 
 /**
@@ -638,7 +638,7 @@ function zdate($str, $format = 'Y-m-d H:i:s', $conversion = false): ?string
 	}
 
 	// get unixtime by using ztime() for date() function's argument.
-	$result = Rhymix\Framework\DateTime::formatTimestampForCurrentUser($format, ztime($str));
+	$result = Rhymix\Framework\DateTime::formatTimestampForCurrentUser((string)$format, ztime($str));
 
 	// change day and am/pm for each language
 	if(preg_match('/[MFAa]/', $format))
@@ -892,7 +892,7 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl): void
 
 		$security_msg = '<div style="border: 1px solid #DDD; background: #FAFAFA; text-align:center; margin: 1em 0;">' .
 			'<p style="margin: 1em;">' . lang('security_warning_embed') . '</p></div>';
-		$content = Rhymix\Framework\Filters\MediaFilter::removeEmbeddedMedia($content, $security_msg);
+		$content = Rhymix\Framework\Filters\MediaFilter::removeEmbeddedMedia((string)$content, $security_msg);
 	}
 
 	return;
