@@ -259,7 +259,7 @@ class communicationView extends communication
 		if($message_srl)
 		{
 			$source_message = $oCommunicationModel->getSelectedMessage($message_srl);
-			if($source_message->message_srl == $message_srl && $source_message->sender_srl == $receiver_srl)
+			if($source_message->message_srl == $message_srl && $source_message->sender_srl == $receiver_srl && $source_message->receiver_srl == $logged_info->member_srl)
 			{
 				if(strncasecmp('[re]', $source_message->title, 4) !== 0)
 				{
