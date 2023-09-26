@@ -16,7 +16,7 @@ class Cache
 	/**
 	 * The cache prefix.
 	 */
-	protected static $_prefix = null;
+	protected static $_prefix = '';
 
 	/**
 	 * The default TTL.
@@ -32,9 +32,9 @@ class Cache
 	 * Initialize the cache system.
 	 *
 	 * @param array $config
-	 * @return void
+	 * @return Drivers\CacheInterface
 	 */
-	public static function init($config)
+	public static function init($config): Drivers\CacheInterface
 	{
 		if (!is_array($config))
 		{
@@ -90,7 +90,7 @@ class Cache
 	 *
 	 * @return array
 	 */
-	public static function getSupportedDrivers()
+	public static function getSupportedDrivers(): array
 	{
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/cache', false) as $filename)
@@ -108,9 +108,9 @@ class Cache
 	/**
 	 * Get the name of the currently enabled cache driver.
 	 *
-	 * @return string|null
+	 * @return ?string
 	 */
-	public static function getDriverName()
+	public static function getDriverName(): ?string
 	{
 		return self::$_driver_name;
 	}
@@ -120,9 +120,9 @@ class Cache
 	 *
 	 * @param string $name (optional)
 	 * @param array $config (optional)
-	 * @return object|null
+	 * @return ?Drivers\CacheInterface
 	 */
-	public static function getDriverInstance($name = null, array $config = [])
+	public static function getDriverInstance($name = null, array $config = []): ?Drivers\CacheInterface
 	{
 		if ($name === null)
 		{
@@ -145,9 +145,9 @@ class Cache
 	/**
 	 * Get the automatically generated cache prefix for this installation of Rhymix.
 	 *
-	 * @return object|null
+	 * @return string
 	 */
-	public static function getPrefix()
+	public static function getPrefix(): string
 	{
 		return self::$_prefix;
 	}
@@ -157,7 +157,7 @@ class Cache
 	 *
 	 * @return int
 	 */
-	public static function getDefaultTTL()
+	public static function getDefaultTTL(): int
 	{
 		return self::$_ttl;
 	}
@@ -168,7 +168,7 @@ class Cache
 	 * @param int $ttl
 	 * @return void
 	 */
-	public static function setDefaultTTL($ttl)
+	public static function setDefaultTTL(int $ttl): void
 	{
 		self::$_ttl = $ttl;
 	}
@@ -181,7 +181,7 @@ class Cache
 	 * @param string $key
 	 * @return mixed
 	 */
-	public static function get($key)
+	public static function get(string $key)
 	{
 		if (self::$_driver !== null)
 		{
@@ -206,11 +206,10 @@ class Cache
 	 * @param bool $force (optional)
 	 * @return bool
 	 */
-	public static function set($key, $value, $ttl = 0, $force = false)
+	public static function set(string $key, $value, int $ttl = 0, bool $force = false): bool
 	{
 		if (self::$_driver !== null)
 		{
-			$ttl = intval($ttl);
 			if ($ttl >= (3600 * 24 * 30))
 			{
 				$ttl = min(3600 * 24 * 30, max(0, $ttl - time()));

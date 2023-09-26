@@ -175,7 +175,7 @@ class DB
 	 * @param array $driver_options
 	 * @return Helpers\DBStmtHelper
 	 */
-	public function prepare(string $statement, array $driver_options = [])
+	public function prepare(string $statement, array $driver_options = []): Helpers\DBStmtHelper
 	{
 		// Add table prefixes to the query string.
 		$statement = $this->addPrefixes($statement);
@@ -207,7 +207,7 @@ class DB
 	 * @param mixed ...$args
 	 * @return Helpers\DBStmtHelper
 	 */
-	public function query(string $query_string, ...$args)
+	public function query(string $query_string, ...$args): Helpers\DBStmtHelper
 	{
 		// If query parameters are given as a single array, unpack it.
 		if (count($args) === 1 && is_array($args[0]))
@@ -242,13 +242,13 @@ class DB
 	 * Execute an XML-defined query.
 	 *
 	 * @param string $query_id
-	 * @param array $args
+	 * @param array|object $args
 	 * @param array $columns
 	 * @param string $result_type
 	 * @param string $result_class
 	 * @return Helpers\DBResultHelper
 	 */
-	public function executeQuery(string $query_id, $args = [], $column_list = [], $result_type = 'auto', $result_class = ''): Helpers\DBResultHelper
+	public function executeQuery(string $query_id, $args = [], array $column_list = [], string $result_type = 'auto', string $result_class = ''): Helpers\DBResultHelper
 	{
 		// Validate the args.
 		if (is_object($args))
@@ -506,9 +506,9 @@ class DB
 	 * @param int $last_index
 	 * @param string $result_type
 	 * @param string $result_class
-	 * @return mixed
+	 * @return array|object|null|\PDOStatement
 	 */
-	public function fetch($stmt, $last_index = 0, $result_type = 'auto', $result_class = '')
+	public function fetch($stmt, int $last_index = 0, string $result_type = 'auto', string $result_class = '')
 	{
 		if (!($stmt instanceof \PDOStatement))
 		{
@@ -701,8 +701,10 @@ class DB
 
 	/**
 	 * Get the next global sequence value.
+	 *
+	 * @return int
 	 */
-	public function getNextSequence()
+	public function getNextSequence(): int
 	{
 		$this->_handle->exec(sprintf('INSERT INTO `%s` (seq) VALUES (NULL)', $this->addQuotes($this->_prefix . 'sequence')));
 		$sequence = $this->getInsertID();
@@ -717,7 +719,7 @@ class DB
 		}
 
 		$this->clearError();
-		return $sequence;
+		return (int)$sequence;
 	}
 
 	/**
@@ -942,16 +944,16 @@ class DB
 	 *
 	 * @param string $table_name
 	 * @param string $column_name
-	 * @return object
+	 * @return ?object
 	 */
-	public function getColumnInfo(string $table_name, string $column_name)
+	public function getColumnInfo(string $table_name, string $column_name): ?object
 	{
 		// If column information is not found, return false.
 		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
 		$column_info = $this->fetch($stmt);
 		if (!$column_info)
 		{
-			return false;
+			return null;
 		}
 
 		// Reorganize the type information.
@@ -1054,7 +1056,7 @@ class DB
 	 * @param string $query_string
 	 * @return string
 	 */
-	public function addPrefixes($query_string): string
+	public function addPrefixes(string $query_string): string
 	{
 		if (!$this->_prefix)
 		{
@@ -1084,7 +1086,7 @@ class DB
 	/**
 	 * Escape a string according to current DB settings.
 	 *
-	 * @param string $str
+	 * @param int|float|string $str
 	 * @return string
 	 */
 	public function addQuotes($str): string
@@ -1095,7 +1097,7 @@ class DB
 		}
 		else
 		{
-			return preg_replace("/^'(.*)'$/s", '$1', $this->_handle->quote($str));
+			return preg_replace("/^'(.*)'$/s", '$1', $this->_handle->quote(strval($str)));
 		}
 	}
 
@@ -1153,7 +1155,7 @@ class DB
 	 *
 	 * @return void
 	 */
-	public function clearError()
+	public function clearError(): void
 	{
 		$this->_errno = 0;
 		$this->_errstr = 'success';
@@ -1218,7 +1220,7 @@ class DB
 	 * @param array $log
 	 * @return void
 	 */
-	public function setQueryLog(array $log)
+	public function setQueryLog(array $log): void
 	{
 		Debug::addQuery($log);
 	}
@@ -1229,7 +1231,7 @@ class DB
 	 * @param float $elapsed_time
 	 * @return void
 	 */
-	public function addElapsedTime(float $elapsed_time)
+	public function addElapsedTime(float $elapsed_time): void
 	{
 		$this->_query_time += $elapsed_time;
 	}
@@ -1258,8 +1260,9 @@ class DB
 	 * Enable or disable debug comments.
 	 *
 	 * @param bool $enabled
+	 * @return void
 	 */
-	public function setDebugComment(bool $enabled)
+	public function setDebugComment(bool $enabled): void
 	{
 		$this->_debug_comment = $enabled;
 	}
@@ -1270,7 +1273,7 @@ class DB
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function __get($key)
+	public function __get(string $key)
 	{
 		switch ($key)
 		{
@@ -1296,7 +1299,7 @@ class DB
 	 * @param string $query_string
 	 * @return Helpers\DBStmtHelper
 	 */
-	public function _query($query_string)
+	public function _query($query_string): Helpers\DBStmtHelper
 	{
 		if ($this->_debug_comment)
 		{
@@ -1304,7 +1307,7 @@ class DB
 		}
 
 		$this->_last_stmt = null;
-		$this->_last_stmt = $this->_handle->query($query_string);
+		$this->_last_stmt = $this->_handle->query(strval($query_string));
 		return $this->_last_stmt;
 	}
 
@@ -1318,7 +1321,7 @@ class DB
 	 * @param int $last_index
 	 * @return mixed
 	 */
-	public function _fetch($stmt, $last_index = 0)
+	public function _fetch($stmt, int $last_index = 0)
 	{
 		return $this->fetch($stmt, $last_index);
 	}
@@ -1448,9 +1451,9 @@ class DB
 	 * Methods related to table creation.
 	 *
 	 * @deprecated
-	 * @return void
+	 * @return bool
 	 */
-	public function createTableByXmlFile($filename)
+	public function createTableByXmlFile($filename): bool
 	{
 		$output = $this->createTable($filename);
 		return $output->toBool();

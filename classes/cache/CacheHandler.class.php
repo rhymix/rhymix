@@ -72,7 +72,7 @@ class CacheHandler extends Handler
 	 */
 	public function get($key, $modified_time = 0)
 	{
-		$value = Rhymix\Framework\Cache::get($key);
+		$value = Rhymix\Framework\Cache::get(strval($key));
 		return $value === null ? false : $value;
 	}
 
@@ -88,7 +88,7 @@ class CacheHandler extends Handler
 	 */
 	public function put($key, $obj, $valid_time = 0)
 	{
-		return Rhymix\Framework\Cache::set($key, $obj, $valid_time, $this->_always_use_file);
+		return Rhymix\Framework\Cache::set(strval($key), $obj, intval($valid_time), $this->_always_use_file);
 	}
 
 	/**
@@ -99,7 +99,7 @@ class CacheHandler extends Handler
 	 */
 	public function delete($key)
 	{
-		return Rhymix\Framework\Cache::delete($key);
+		return Rhymix\Framework\Cache::delete(strval($key));
 	}
 
 	/**
@@ -112,7 +112,7 @@ class CacheHandler extends Handler
 	 */
 	public function isValid($key, $modified_time = 0)
 	{
-		return Rhymix\Framework\Cache::exists($key);
+		return Rhymix\Framework\Cache::exists(strval($key));
 	}
 
 	/**
@@ -154,6 +154,6 @@ class CacheHandler extends Handler
 	 */
 	public function invalidateGroupKey($keyGroupName)
 	{
-		return Rhymix\Framework\Cache::clearGroup($keyGroupName);
+		return Rhymix\Framework\Cache::clearGroup(strval($keyGroupName));
 	}
 }
