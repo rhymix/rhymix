@@ -1242,7 +1242,7 @@ class ModuleHandler extends Handler
 			echo 'Command not supplied.' . PHP_EOL;
 			exit(1);
 		}
-		if (!preg_match('/^([a-z0-9_-]+)\.([a-z0-9_-]+)$/', $command, $matches))
+		if (!preg_match('/^([a-z0-9_-]+)\.([a-z0-9_-]+)$/i', $command, $matches))
 		{
 			echo 'Invalid command: ' . $command . PHP_EOL;
 			exit(1);
