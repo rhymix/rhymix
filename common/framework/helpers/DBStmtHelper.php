@@ -22,8 +22,11 @@ class DBStmtHelper extends \PDOStatement
 
 	/**
 	 * Set the database type.
+	 *
+	 * @param string $type
+	 * @return void
 	 */
-	public function setType(string $type)
+	public function setType(string $type): void
 	{
 		$this->_type = $type;
 	}
@@ -31,10 +34,10 @@ class DBStmtHelper extends \PDOStatement
 	/**
 	 * Execute a prepared statement.
 	 *
-	 * @param array $params
+	 * @param ?array $params
 	 * @return bool
 	 */
-	public function execute($params = null): bool
+	public function execute(?array $params = null): bool
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
