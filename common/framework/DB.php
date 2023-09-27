@@ -1297,9 +1297,9 @@ class DB
 	 *
 	 * @deprecated
 	 * @param string $query_string
-	 * @return Helpers\DBStmtHelper
+	 * @return ?Helpers\DBStmtHelper
 	 */
-	public function _query($query_string): Helpers\DBStmtHelper
+	public function _query($query_string): ?Helpers\DBStmtHelper
 	{
 		if ($this->_debug_comment)
 		{
@@ -1308,7 +1308,7 @@ class DB
 
 		$this->_last_stmt = null;
 		$this->_last_stmt = $this->_handle->query(strval($query_string));
-		return $this->_last_stmt;
+		return $this->_last_stmt ?: null;
 	}
 
 	/**
