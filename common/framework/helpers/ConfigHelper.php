@@ -21,7 +21,7 @@ class ConfigHelper
 	 * @param array $format
 	 * @return array
 	 */
-	public static function consolidate($format)
+	public static function consolidate(array $format): array
 	{
 		self::$_config_cache = array();
 		$result = array();
