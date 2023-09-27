@@ -171,6 +171,9 @@ class DB
 	 * Table names in the FROM or JOIN clause of the statement are
 	 * automatically prefixed with the configured prefix.
 	 *
+	 * Note that this method will throw an exception (DBError) on error,
+	 * instead of returning false or null as legacy functions do.
+	 *
 	 * @param string $statement
 	 * @param array $driver_options
 	 * @return Helpers\DBStmtHelper
@@ -205,9 +208,9 @@ class DB
 	 *
 	 * @param string $query_string
 	 * @param mixed ...$args
-	 * @return Helpers\DBStmtHelper
+	 * @return ?Helpers\DBStmtHelper
 	 */
-	public function query(string $query_string, ...$args): Helpers\DBStmtHelper
+	public function query(string $query_string, ...$args): ?Helpers\DBStmtHelper
 	{
 		// If query parameters are given as a single array, unpack it.
 		if (count($args) === 1 && is_array($args[0]))
@@ -235,7 +238,7 @@ class DB
 		{
 			$this->_last_stmt = $this->_handle->query($query_string);
 		}
-		return $this->_last_stmt;
+		return $this->_last_stmt ?: null;
 	}
 
 	/**
