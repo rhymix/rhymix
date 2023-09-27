@@ -37,7 +37,7 @@ class DBStmtHelper extends \PDOStatement
 	 * @param ?array $params
 	 * @return bool
 	 */
-	public function execute(?array $params = null): bool
+	public function execute($params = null): bool
 	{
 		$start_time = microtime(true);
 		$db_class = DB::getInstance($this->_type);
