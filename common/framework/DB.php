@@ -1301,6 +1301,7 @@ class DB
 	 */
 	public function _query($query_string): ?Helpers\DBStmtHelper
 	{
+		trigger_error('Custom query using unsafe method', \E_USER_WARNING);
 		if ($this->_debug_comment)
 		{
 			$query_string .= "\n" . sprintf('/* _query() %s */', \RX_CLIENT_IP);
@@ -1323,6 +1324,7 @@ class DB
 	 */
 	public function _fetch($stmt, int $last_index = 0)
 	{
+		trigger_error('Custom query using unsafe method', \E_USER_WARNING);
 		return $this->fetch($stmt, $last_index);
 	}
 
