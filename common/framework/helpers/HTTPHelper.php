@@ -45,7 +45,7 @@ class HTTPHelper implements ResponseInterface
     {
         return $this->_error_message;
     }
-    public function withStatus($code, $reasonPhrase = ''): ResponseInterface
+    public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
         $new = clone $this;
 		$new->_error_message = $reasonPhrase;
