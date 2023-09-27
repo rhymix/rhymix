@@ -1631,6 +1631,8 @@ class ModuleModel extends Module
 			$info->table_count = $table_count;
 			$info->path = $path;
 			$info->admin_index_act = $info->admin_index_act ?? null;
+			$info->need_install = false;
+			$info->need_update = false;
 
 			if(!Context::isBlacklistedPlugin($module_name, 'module'))
 			{
@@ -1638,10 +1640,6 @@ class ModuleModel extends Module
 				if($table_count > $created_table_count)
 				{
 					$info->need_install = true;
-				}
-				else
-				{
-					$info->need_install = false;
 				}
 
 				// Check if it is upgraded to module.class.php on each module
