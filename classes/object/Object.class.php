@@ -148,7 +148,7 @@ class BaseObject
 	 */
 	public function setMessage($message = 'success', $type = null)
 	{
-		$this->message = lang($message);
+		$this->message = lang((string)$message);
 		if($type !== null)
 		{
 			$this->setMessageType($type);

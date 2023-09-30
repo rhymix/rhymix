@@ -185,7 +185,6 @@ class PageAdminController extends Page
 		$this->add("module_srl", $module_info->module_srl);
 		$this->add("page", Context::get('page'));
 		$this->add("mid", $module_info->mid);
-		$this->setMessage($msg_code);
 
 		// Create cache file
 		$this->procPageAdminRemoveWidgetCache();
