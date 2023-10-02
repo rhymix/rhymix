@@ -29,7 +29,7 @@ class i18n
 	 * @param int $sort_by
 	 * @return array
 	 */
-	public static function listCountries($sort_by = self::SORT_NAME_ENGLISH)
+	public static function listCountries(int $sort_by = self::SORT_NAME_ENGLISH): array
 	{
 		if (isset(self::$_countries[$sort_by]))
 		{
@@ -92,10 +92,10 @@ class i18n
 	 *
 	 * This function returns null if a matching country is not found.
 	 *
-	 * @param $code Country code
-	 * @return string|null
+	 * @param string $code Country code
+	 * @return ?string
 	 */
-	public static function getCallingCodeByCountryCode($code)
+	public static function getCallingCodeByCountryCode(string $code): ?string
 	{
 		$countries = self::listCountries();
 		if (strlen($code) === 3)
@@ -122,10 +122,11 @@ class i18n
 	 * This function may return the wrong country if two or more countries share a calling code.
 	 * This function returns null if a matching country is not found.
 	 *
-	 * @param $code Calling code
-	 * @return string|null
+	 * @param string $code Calling code
+	 * @param int $type (2 or 3)
+	 * @return ?string
 	 */
-	public static function getCountryCodeByCallingCode($code, $type = 3)
+	public static function getCountryCodeByCallingCode(string $code, $type = 3): ?string
 	{
 		$countries = self::listCountries();
 		$code = preg_replace('/[^0-9]/', '', $code);
@@ -133,12 +134,13 @@ class i18n
 		{
 			if (preg_replace('/[^0-9]/', '', $country->calling_code) === $code)
 			{
-				return $type == 3 ? $country->iso_3166_1_alpha3 : $country->iso_3166_1_alpha2;
+				return strval($type == 3 ? $country->iso_3166_1_alpha3 : $country->iso_3166_1_alpha2);
 			}
 		}
 
 		return null;
 	}
+
 	/**
 	 * Format a phone number with country code.
 	 *
@@ -147,7 +149,7 @@ class i18n
 	 * @param bool $pretty (optional)
 	 * @return string
 	 */
-	public static function formatPhoneNumber($phone_number, $phone_country, $pretty = true)
+	public static function formatPhoneNumber(string $phone_number, string $phone_country, bool $pretty = true): string
 	{
 		if (!is_numeric($phone_country))
 		{
@@ -156,11 +158,11 @@ class i18n
 
 		if ($pretty)
 		{
-			if ($phone_country == 82)
+			if ($phone_country === '82')
 			{
 				$pretty_phone_number = Korea::formatPhoneNumber($phone_number);
 			}
-			elseif ($phone_country == 1)
+			elseif ($phone_country === '1')
 			{
 				$digits = preg_replace('/[^0-9]/', '', $phone_number);
 				$pretty_phone_number = substr($digits, 0, 3) . '-' . substr($digits, 3, 3) . '-' . substr($digits, 6);
@@ -173,7 +175,7 @@ class i18n
 		}
 		else
 		{
-			if (!in_array(strval($phone_country), array('39', '378', '379')))
+			if (!in_array($phone_country, array('39', '378', '379')))
 			{
 				$phone_number = preg_replace('/^0/', '', $phone_number);
 			}

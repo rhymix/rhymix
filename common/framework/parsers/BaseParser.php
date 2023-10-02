@@ -14,7 +14,7 @@ abstract class BaseParser
 	 * @param bool $normalize
 	 * @return array
 	 */
-	protected static function _getAttributes(\SimpleXMLElement $element, $normalize = true): array
+	protected static function _getAttributes(\SimpleXMLElement $element, bool $normalize = true): array
 	{
 		$result = array();
 		foreach ($element->attributes() as $key => $val)

@@ -24,9 +24,9 @@ class Lang
 	 * This method returns the cached instance of a language.
 	 *
 	 * @param string $language
-	 * @return object
+	 * @return self
 	 */
-	public static function getInstance($language)
+	public static function getInstance(string $language): self
 	{
 		if ($language === 'jp')
 		{
@@ -44,7 +44,7 @@ class Lang
 	 *
 	 * @param string $language
 	 */
-	protected function __construct($language)
+	protected function __construct(string $language)
 	{
 		$this->_language = preg_replace('/[^a-z0-9_-]/i', '', $language);
 		$this->_loaded_plugins['_custom_'] = new \stdClass();
@@ -55,7 +55,7 @@ class Lang
 	 *
 	 * @return string
 	 */
-	public function langType()
+	public function langType(): string
 	{
 		return $this->_language;
 	}
@@ -66,7 +66,7 @@ class Lang
 	 * @param string $name
 	 * @return bool
 	 */
-	public function loadPlugin($name)
+	public function loadPlugin(string $name): bool
 	{
 		if (isset($this->_loaded_plugins[$name]))
 		{
@@ -89,6 +89,12 @@ class Lang
 		{
 			$this->loadDirectory(\RX_BASEDIR . "addons/$name/lang", $name);
 		}
+		else
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -98,7 +104,7 @@ class Lang
 	 * @param string $plugin_name
 	 * @return bool
 	 */
-	public function loadDirectory($dir, $plugin_name = null)
+	public function loadDirectory(string $dir, string $plugin_name = ''): bool
 	{
 		// Do not load the same directory twice.
 		$dir = rtrim($dir, '/');
@@ -161,7 +167,7 @@ class Lang
 	 *
 	 * @return array
 	 */
-	public static function getSupportedList()
+	public static function getSupportedList(): array
 	{
 		static $list = null;
 		if ($list === null)
@@ -175,9 +181,9 @@ class Lang
 	 * Generic getter.
 	 *
 	 * @param string $key
-	 * @return string
+	 * @return string|\ArrayObject
 	 */
-	public function get($key)
+	public function get(string $key)
 	{
 		$args = func_get_args();
 		array_shift($args);
@@ -200,10 +206,10 @@ class Lang
 	 * Generic setter.
 	 *
 	 * @param string $key
-	 * @param string $value
+	 * @param mixed $value
 	 * @return void
 	 */
-	public function set($key, $value)
+	public function set(string $key, $value): void
 	{
 		$this->__set($key, $value);
 	}
@@ -212,9 +218,9 @@ class Lang
 	 * Fallback method for getting the default translation.
 	 *
 	 * @param string $key
-	 * @return string
+	 * @return string|\ArrayObject
 	 */
-	public function getFromDefaultLang($key)
+	public function getFromDefaultLang(string $key)
 	{
 		if ($this->_language === 'en')
 		{
@@ -230,9 +236,9 @@ class Lang
 	 * Magic method for translations without arguments.
 	 *
 	 * @param string $key
-	 * @return string
+	 * @return string|\ArrayObject
 	 */
-	public function __get($key)
+	public function __get(string $key)
 	{
 		// Load a dot-separated key (prefixed by plugin name).
 		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key)) && count($keys) >= 2)
@@ -293,10 +299,10 @@ class Lang
 	 * Magic method for setting a new custom translation.
 	 *
 	 * @param string $key
-	 * @param string $value
+	 * @param mixed $value
 	 * @return void
 	 */
-	public function __set($key, $value)
+	public function __set(string $key, $value): void
 	{
 		// Set a dot-separated key (prefixed by plugin name).
 		if (preg_match('/^[a-z0-9_.-]+$/i', $key) && ($keys = explode('.', $key)) && count($keys) >= 2)
@@ -309,7 +315,7 @@ class Lang
 			}
 			if (!isset($this->_loaded_plugins[$plugin_name]))
 			{
-				return false;
+				return;
 			}
 
 			// Set the given key.
@@ -330,7 +336,7 @@ class Lang
 					}
 					else
 					{
-						return false;
+						return;
 					}
 				}
 				elseif (is_array($lang) && isset($lang[$subkey]))
@@ -346,7 +352,7 @@ class Lang
 					}
 					else
 					{
-						return false;
+						return;
 					}
 				}
 				else
@@ -374,7 +380,7 @@ class Lang
 	 * @param string $key
 	 * @return bool
 	 */
-	public function __isset($key)
+	public function __isset(string $key): bool
 	{
 		foreach ($this->_loaded_plugins as $plugin_name => $translations)
 		{
@@ -392,7 +398,7 @@ class Lang
 	 * @param string $key
 	 * @return void
 	 */
-	public function __unset($key)
+	public function __unset(string $key): void
 	{
 		$this->set($key, null);
 	}
@@ -402,9 +408,9 @@ class Lang
 	 *
 	 * @param string $key
 	 * @param mixed $args
-	 * @return string|null
+	 * @return mixed
 	 */
-	public function __call($key, $args = array())
+	public function __call(string $key, $args = array())
 	{
 		return $this->get($key, $args);
 	}

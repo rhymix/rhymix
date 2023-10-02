@@ -13,15 +13,20 @@ class DateTime
 	protected static $_timezones = array();
 
 	/**
+	 * Define the relative format constant.
+	 */
+	public const FORMAT_RELATIVE = 'relative';
+
+	/**
 	 * Format a Unix timestamp using the internal timezone.
 	 *
 	 * @param string $format Format used in PHP date() function
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return string
 	 */
-	public static function formatTimestamp($format, $timestamp = null)
+	public static function formatTimestamp(string $format, ?int $timestamp = null): string
 	{
-		if ($format === 'relative')
+		if ($format === self::FORMAT_RELATIVE)
 		{
 			return self::getRelativeTimestamp($timestamp ?: time());
 		}
@@ -37,9 +42,9 @@ class DateTime
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return string
 	 */
-	public static function formatTimestampForCurrentUser($format, $timestamp = null)
+	public static function formatTimestampForCurrentUser(string $format, ?int $timestamp = null): string
 	{
-		if ($format === 'relative')
+		if ($format === self::FORMAT_RELATIVE)
 		{
 			return self::getRelativeTimestamp($timestamp ?: time());
 		}
@@ -60,7 +65,7 @@ class DateTime
 	 *
 	 * @return string
 	 */
-	public static function getTimezoneForCurrentUser()
+	public static function getTimezoneForCurrentUser(): string
 	{
 		if (isset($_SESSION['RHYMIX']['timezone']) && $_SESSION['RHYMIX']['timezone'])
 		{
@@ -68,11 +73,11 @@ class DateTime
 		}
 		elseif ($default = \Context::get('_default_timezone'))
 		{
-			return $default;
+			return (string)$default;
 		}
 		elseif ($default = Config::get('locale.default_timezone'))
 		{
-			return $default;
+			return (string)$default;
 		}
 		else
 		{
@@ -85,7 +90,7 @@ class DateTime
 	 *
 	 * @return array
 	 */
-	public static function getTimezoneList()
+	public static function getTimezoneList(): array
 	{
 		$result = array();
 		$tzlist = \DateTimeZone::listIdentifiers();
@@ -111,7 +116,7 @@ class DateTime
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return int
 	 */
-	public static function getTimezoneOffset($timezone, $timestamp = null)
+	public static function getTimezoneOffset(string $timezone, ?int $timestamp = null): int
 	{
 		if (!isset(self::$_timezones[$timezone]))
 		{
@@ -130,9 +135,9 @@ class DateTime
 	 * @param int $timestamp Unix timestamp (optional, default is now)
 	 * @return int
 	 */
-	public static function getTimezoneOffsetFromInternal($timezone, $timestamp = null)
+	public static function getTimezoneOffsetFromInternal(string $timezone, ?int $timestamp = null): int
 	{
-		return self::getTimezoneOffset($timezone, $timestamp) - Config::get('locale.internal_timezone');
+		return self::getTimezoneOffset($timezone, $timestamp ?: time()) - Config::get('locale.internal_timezone');
 	}
 
 	/**
@@ -141,7 +146,7 @@ class DateTime
 	 * @param string $timezone
 	 * @return int
 	 */
-	public static function getTimezoneOffsetByLegacyFormat($timezone)
+	public static function getTimezoneOffsetByLegacyFormat(string $timezone): int
 	{
 		$multiplier = ($timezone[0] === '-') ? -60 : 60;
 		$timezone = preg_replace('/[^0-9]/', '', $timezone);
@@ -159,9 +164,9 @@ class DateTime
 	 * so this should never be a problem in practice.
 	 *
 	 * @param int $offset
-	 * @return bool
+	 * @return string
 	 */
-	public static function getTimezoneNameByOffset($offset)
+	public static function getTimezoneNameByOffset(int $offset): string
 	{
 		switch ($offset)
 		{
@@ -185,9 +190,9 @@ class DateTime
 	 * @param int $timestamp
 	 * @return string
 	 */
-	public static function getRelativeTimestamp($timestamp)
+	public static function getRelativeTimestamp(?int $timestamp = null): string
 	{
-		$diff = \RX_TIME - $timestamp;
+		$diff = \RX_TIME - intval($timestamp ?: time());
 		$langs = lang('common.time_gap');
 
 		if ($diff < 3)

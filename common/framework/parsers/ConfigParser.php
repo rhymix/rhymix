@@ -17,13 +17,13 @@ class ConfigParser
 	 *
 	 * @return array
 	 */
-	public static function convert()
+	public static function convert(): array
 	{
 		// Load DB info file.
-		if (file_exists(\RX_BASEDIR . Config::$old_db_config_filename))
+		if (file_exists(\RX_BASEDIR . Config::OLD_DB_CONFIG_PATH))
 		{
 			ob_start();
-			include \RX_BASEDIR . Config::$old_db_config_filename;
+			include \RX_BASEDIR . Config::OLD_DB_CONFIG_PATH;
 			ob_end_clean();
 		}
 		else
@@ -32,18 +32,18 @@ class ConfigParser
 		}
 
 		// Load FTP info file.
-		if (file_exists(\RX_BASEDIR . Config::$old_ftp_config_filename))
+		if (file_exists(\RX_BASEDIR . Config::OLD_FTP_CONFIG_PATH))
 		{
 			ob_start();
-			include \RX_BASEDIR . Config::$old_ftp_config_filename;
+			include \RX_BASEDIR . Config::OLD_FTP_CONFIG_PATH;
 			ob_end_clean();
 		}
 
 		// Load selected language file.
-		if (file_exists(\RX_BASEDIR . Config::$old_lang_config_filename))
+		if (file_exists(\RX_BASEDIR . Config::OLD_LANG_CONFIG_PATH))
 		{
 			$lang_selected = array();
-			$lang_selected_raw = file_get_contents(\RX_BASEDIR . Config::$old_lang_config_filename);
+			$lang_selected_raw = file_get_contents(\RX_BASEDIR . Config::OLD_LANG_CONFIG_PATH);
 			$lang_selected_raw = array_map('trim', explode("\n", $lang_selected_raw));
 			foreach ($lang_selected_raw as $lang_selected_item)
 			{
@@ -64,7 +64,7 @@ class ConfigParser
 		}
 
 		// Load defaults for the new configuration.
-		$config = (include \RX_BASEDIR . Config::$default_config_filename);
+		$config = (include \RX_BASEDIR . Config::DEFAULT_CONFIG_PATH);
 
 		// Convert database configuration.
 		if (!isset($db_info->master_db))

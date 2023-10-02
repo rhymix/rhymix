@@ -30,7 +30,7 @@ function config(string $key, $value = null)
  *
  * @param string $code Lang variable name
  * @param string $value `$code`s value
- * @return mixed
+ * @return string|null|\ArrayObject
  */
 function lang(string $code, $value = null)
 {

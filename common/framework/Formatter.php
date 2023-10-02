@@ -26,7 +26,7 @@ class Formatter
 	 * @param int $options (optional)
 	 * @return string
 	 */
-	public static function text2html($text, $options = 0)
+	public static function text2html(string $text, int $options = 0): string
 	{
 		// This option uses <p> instead of <br> to separate lines.
 		if ($options & self::TEXT_NEWLINE_AS_P)
@@ -63,7 +63,7 @@ class Formatter
 	 * @param string $html
 	 * @return string
 	 */
-	public static function html2text($html)
+	public static function html2text(string $html): string
 	{
 		// Add line breaks after <br> and <p> tags.
 		$html = preg_replace('!<br[^>]*>\s*!i', "\n", $html);
@@ -97,7 +97,7 @@ class Formatter
 	 * @param int $options (optional)
 	 * @return string
 	 */
-	public static function markdown2html($markdown, $options = 0)
+	public static function markdown2html(string $markdown, int $options = 0): string
 	{
 		if ($options & self::MD_ENABLE_EXTRA)
 		{
@@ -126,7 +126,7 @@ class Formatter
 	 * @param string $html
 	 * @return string
 	 */
-	public static function html2markdown($html)
+	public static function html2markdown(string $html): string
 	{
 		$converter = new \League\HTMLToMarkdown\HtmlConverter();
 		$converter->getConfig()->setOption('bold_style', '**');
@@ -140,7 +140,7 @@ class Formatter
 	 * @param string $bbcode
 	 * @return string
 	 */
-	public static function bbcode($bbcode)
+	public static function bbcode(string $bbcode): string
 	{
 		$parser = new \JBBCode\Parser;
 		$parser->addCodeDefinitionSet(new \JBBCode\DefaultCodeDefinitionSet());
@@ -162,7 +162,7 @@ class Formatter
 	 * @param string $html
 	 * @return string
 	 */
-	public static function applySmartQuotes($html)
+	public static function applySmartQuotes(string $html): string
 	{
 		return \Michelf\SmartyPants::defaultTransform($html, 'qbBdDiew');
 	}
@@ -173,10 +173,10 @@ class Formatter
 	 * @param string|array $source_filename
 	 * @param string $target_filename
 	 * @param array $variables (optional)
-	 * @parsm bool $minify (optional)
+	 * @param bool $minify (optional)
 	 * @return bool
 	 */
-	public static function compileLESS($source_filename, $target_filename, $variables = array(), $minify = false)
+	public static function compileLESS($source_filename, string $target_filename, array $variables = [], bool $minify = false): bool
 	{
 		// Get the cleaned and concatenated content.
 		$imported_list = [];
@@ -221,10 +221,10 @@ class Formatter
 	 * @param string|array $source_filename
 	 * @param string $target_filename
 	 * @param array $variables (optional)
-	 * @parsm bool $minify (optional)
+	 * @param bool $minify (optional)
 	 * @return bool
 	 */
-	public static function compileSCSS($source_filename, $target_filename, $variables = array(), $minify = false)
+	public static function compileSCSS($source_filename, string $target_filename, array $variables = [], bool $minify = false): bool
 	{
 		// Get the cleaned and concatenated content.
 		$imported_list = [];
@@ -301,7 +301,7 @@ class Formatter
 	 * @param string $target_filename
 	 * @return bool
 	 */
-	public static function minifyCSS($source_filename, $target_filename)
+	public static function minifyCSS($source_filename, string $target_filename): bool
 	{
 		$minifier = new \MatthiasMullie\Minify\CSS();
 		$minifier->setMaxImportSize(5);
@@ -329,7 +329,7 @@ class Formatter
 	 * @param string $target_filename
 	 * @return bool
 	 */
-	public static function minifyJS($source_filename, $target_filename)
+	public static function minifyJS($source_filename, string $target_filename): bool
 	{
 		$minifier = new \MatthiasMullie\Minify\JS();
 		if (is_array($source_filename))
@@ -357,7 +357,7 @@ class Formatter
 	 * @param array &$imported_list
 	 * @return string
 	 */
-	public static function concatCSS($source_filename, $target_filename, $add_comment = true, &$imported_list = [])
+	public static function concatCSS($source_filename, string $target_filename, bool $add_comment = true, array &$imported_list = []): string
 	{
 		$charsets = [];
 		$imported_urls = [];
@@ -523,10 +523,9 @@ class Formatter
 	 * JS concatenation subroutine.
 	 *
 	 * @param string|array $source_filename
-	 * @param string $target_filename
 	 * @return string
 	 */
-	public static function concatJS($source_filename, $target_filename)
+	public static function concatJS($source_filename): string
 	{
 		$result = '';
 

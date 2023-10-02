@@ -15,23 +15,23 @@ class Config
 	/**
 	 * Location of configuration files.
 	 */
-	public static $config_filename = 'files/config/config.php';
-	public static $old_db_config_filename = 'files/config/db.config.php';
-	public static $old_ftp_config_filename = 'files/config/ftp.config.php';
-	public static $old_lang_config_filename = 'files/config/lang_selected.info';
-	public static $default_config_filename = 'common/defaults/config.php';
+	public const CONFIG_FILENAME = 'files/config/config.php';
+	public const OLD_DB_CONFIG_PATH = 'files/config/db.config.php';
+	public const OLD_FTP_CONFIG_PATH = 'files/config/ftp.config.php';
+	public const OLD_LANG_CONFIG_PATH = 'files/config/lang_selected.info';
+	public const DEFAULT_CONFIG_PATH = 'common/defaults/config.php';
 
 	/**
 	 * Load system configuration.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public static function init()
+	public static function init(): array
 	{
-		if (file_exists(\RX_BASEDIR . self::$config_filename))
+		if (file_exists(\RX_BASEDIR . self::CONFIG_FILENAME))
 		{
 			ob_start();
-			self::$_config = (include \RX_BASEDIR . self::$config_filename);
+			self::$_config = (include \RX_BASEDIR . self::CONFIG_FILENAME);
 			ob_end_clean();
 		}
 		else
@@ -47,7 +47,7 @@ class Config
 			$GLOBALS['RX_NAMESPACES'] = self::$_config['namespaces'];
 		}
 
-		return self::$_config;
+		return self::$_config ?: [];
 	}
 
 	/**
@@ -55,9 +55,9 @@ class Config
 	 *
 	 * @return array
 	 */
-	public static function getAll()
+	public static function getAll(): array
 	{
-		return self::$_config;
+		return self::$_config ?: [];
 	}
 
 	/**
@@ -65,9 +65,9 @@ class Config
 	 *
 	 * @return array
 	 */
-	public static function getDefaults()
+	public static function getDefaults(): array
 	{
-		return (include \RX_BASEDIR . self::$default_config_filename);
+		return (include \RX_BASEDIR . self::DEFAULT_CONFIG_PATH);
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Config
 	 * @param string $key
 	 * @return mixed
 	 */
-	public static function get($key)
+	public static function get(string $key)
 	{
 		if (!count(self::$_config))
 		{
@@ -102,7 +102,7 @@ class Config
 	 * @param mixed $value
 	 * @return void
 	 */
-	public static function set($key, $value)
+	public static function set(string $key, $value): void
 	{
 		if (!count(self::$_config))
 		{
@@ -123,7 +123,7 @@ class Config
 	 * @param array $config
 	 * @return void
 	 */
-	public static function setAll($config)
+	public static function setAll(array $config): void
 	{
 		self::$_config = $config;
 	}
@@ -134,7 +134,7 @@ class Config
 	 * @param array $config (optional)
 	 * @return bool
 	 */
-	public static function save($config = null)
+	public static function save(?array $config = null): bool
 	{
 		if ($config)
 		{
@@ -142,10 +142,10 @@ class Config
 		}
 
 		// Backup the main config file.
-		$config_filename = \RX_BASEDIR . self::$config_filename;
+		$config_filename = \RX_BASEDIR . self::CONFIG_FILENAME;
 		if (Storage::exists($config_filename))
 		{
-			$backup_filename = \RX_BASEDIR . self::$config_filename . '.backup.' . time() . '.php';
+			$backup_filename = \RX_BASEDIR . self::CONFIG_FILENAME . '.backup.' . time() . '.php';
 			$result = Storage::copy($config_filename, $backup_filename);
 			clearstatcache(true, $backup_filename);
 			if (!$result || filesize($config_filename) !== filesize($backup_filename))
@@ -169,8 +169,8 @@ class Config
 		// Save XE-compatible config files.
 		$warning = '// THIS FILE IS NOT USED IN RHYMIX.' . "\n" . '// TO MODIFY SYSTEM CONFIGURATION, EDIT config.php INSTEAD.';
 		$buff = '<?php' . "\n" . $warning . "\n";
-		Storage::write(\RX_BASEDIR . self::$old_db_config_filename, $buff);
-		Storage::write(\RX_BASEDIR . self::$old_ftp_config_filename, $buff);
+		Storage::write(\RX_BASEDIR . self::OLD_DB_CONFIG_PATH, $buff);
+		Storage::write(\RX_BASEDIR . self::OLD_FTP_CONFIG_PATH, $buff);
 		return true;
 	}
 
@@ -180,7 +180,7 @@ class Config
 	 * @param mixed $value
 	 * @return string
 	 */
-	public static function serialize($value)
+	public static function serialize($value): string
 	{
 		if (is_object($value))
 		{

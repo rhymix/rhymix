@@ -14,12 +14,12 @@ class Calendar
 	 * @param bool $long_format (optional, default is true)
 	 * @return string
 	 */
-	public static function getMonthName($month_number, $long_format = true)
+	public static function getMonthName(int $month_number, bool $long_format = true): string
 	{
 		$month_number = intval($month_number, 10);
 		if (!is_between($month_number, 1, 12))
 		{
-			return false;
+			throw new Exception('Invalid month number: ' . $month_number);
 		}
 
 		return date($long_format ? 'F' : 'M', mktime(0, 0, 0, $month_number, 1));
@@ -35,12 +35,11 @@ class Calendar
 	 * @param int $year (optional)
 	 * @return int
 	 */
-	public static function getMonthStartDayOfWeek($month_number, $year = null)
+	public static function getMonthStartDayOfWeek(int $month_number, ?int $year = null): int
 	{
-		$month_number = intval($month_number, 10);
 		if (!is_between($month_number, 1, 12))
 		{
-			return false;
+			throw new Exception('Invalid month number: ' . $month_number);
 		}
 
 		return (int)date('w', mktime(0, 0, 0, $month_number, 1, $year ?: date('Y')));
@@ -56,12 +55,11 @@ class Calendar
 	 * @param int $year (optional)
 	 * @return int
 	 */
-	public static function getMonthDays($month_number, $year = null)
+	public static function getMonthDays(int $month_number, ?int $year = null): int
 	{
-		$month_number = intval($month_number, 10);
 		if (!is_between($month_number, 1, 12))
 		{
-			return false;
+			throw new Exception('Invalid month number: ' . $month_number);
 		}
 
 		return (int)date('t', mktime(0, 0, 0, $month_number, 1, $year ?: date('Y')));
@@ -81,20 +79,19 @@ class Calendar
 	 * @param int $start_dow (optional)
 	 * @return array
 	 */
-	public static function getMonthCalendar($month_number, $year = null, $start_dow = 0)
+	public static function getMonthCalendar(int $month_number, ?int $year = null, int $start_dow = 0): array
 	{
-		$month_number = intval($month_number, 10);
 		if (!is_between($month_number, 1, 12))
 		{
-			return false;
+			throw new Exception('Invalid month number: ' . $month_number);
 		}
 		if (!is_between($start_dow, 0, 6))
 		{
-			return false;
+			throw new Exception('Invalid first day of week: ' . $start_dow);
 		}
 		if (!$year || !is_between($year, 1000, 9999))
 		{
-			$year = date('Y');
+			$year = (int)date('Y');
 		}
 
 		$start = self::getMonthStartDayOfWeek($month_number, $year);

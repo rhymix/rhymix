@@ -13,7 +13,7 @@ class Korea
 	 * @param string $num
 	 * @return string
 	 */
-	public static function formatPhoneNumber($num)
+	public static function formatPhoneNumber(string $num): string
 	{
 		// Remove all non-numbers.
 		$num = preg_replace('/[^0-9]/', '', $num);
@@ -69,7 +69,7 @@ class Korea
 	 * @param string $num
 	 * @return bool
 	 */
-	public static function isValidPhoneNumber($num)
+	public static function isValidPhoneNumber(string $num): bool
 	{
 		$num = str_replace('-', '', self::formatPhoneNumber($num));
 		if (preg_match('/^1[0-9]{7}$/', $num))
@@ -97,7 +97,7 @@ class Korea
 	 * @param string $num
 	 * @return bool
 	 */
-	public static function isValidMobilePhoneNumber($num)
+	public static function isValidMobilePhoneNumber(string $num): bool
 	{
 		$num = str_replace('-', '', self::formatPhoneNumber($num));
 		$len = strlen($num);
@@ -114,7 +114,7 @@ class Korea
 	 * @param string $code
 	 * @return bool
 	 */
-	public static function isValidJuminNumber($code)
+	public static function isValidJuminNumber(string $code): bool
 	{
 		// Return false if the format is obviously wrong.
 		if (!preg_match('/^[0-9]{6}-?[0-9]{7}$/', $code))
@@ -164,7 +164,7 @@ class Korea
 	 * @param string $code
 	 * @return bool
 	 */
-	public static function isValidCorporationNumber($code)
+	public static function isValidCorporationNumber(string $code): bool
 	{
 		// Return false if the format is obviously wrong.
 		if (!preg_match('/^[0-9]{6}-?[0-9]{7}$/', $code))
@@ -200,7 +200,7 @@ class Korea
 	 * @param string $code
 	 * @return bool
 	 */
-	public static function isValidBusinessNumber($code)
+	public static function isValidBusinessNumber(string $code): bool
 	{
 		// Return false if the format is obviously wrong.
 		if (!preg_match('/^[0-9]{3}-?[0-9]{2}-?[0-9]{5}$/', $code))
@@ -232,7 +232,7 @@ class Korea
 	 * @param string $ip
 	 * @return bool
 	 */
-	public static function isKoreanIP($ip)
+	public static function isKoreanIP(string $ip): bool
 	{
 		// Extract the IPv4 address from an "IPv4-mapped IPv6" address.
 		if (preg_match('/::ffff:(?:0+:)?([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)$/', $ip, $matches)) $ip = $matches[1];
@@ -293,7 +293,7 @@ class Korea
 	 * @param bool $clear_cache (optional)
 	 * @return bool
 	 */
-	public static function isKoreanEmailAddress($email_address, $clear_cache = false)
+	public static function isKoreanEmailAddress(string $email_address, bool $clear_cache = false): bool
 	{
 		// Clear the cache if requested.
 		if ($clear_cache)
@@ -369,7 +369,7 @@ class Korea
 	 * @param int $type
 	 * @return array
 	 */
-	protected static function _getDNSRecords($domain, $type)
+	protected static function _getDNSRecords(string $domain, int $type): array
 	{
 		$records = dns_get_record($domain, $type);
 		if (!$records)
@@ -414,6 +414,7 @@ class Korea
 		'hanmail.net',
 		'hanmail2.net',
 		'daum.net',
+		'kakao.com',
 		'paran.com',
 		'tistory.com',
 		'naver.com',

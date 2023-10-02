@@ -13,7 +13,7 @@ class Image
 	 * @param string $filename
 	 * @return bool
 	 */
-	public static function isImage($filename)
+	public static function isImage(string $filename): bool
 	{
 		return array_shift(explode('/', MIME::getContentType($filename))) === 'image';
 	}
@@ -24,7 +24,7 @@ class Image
 	 * @param string $filename
 	 * @return bool
 	 */
-	public static function isAnimatedGIF($filename)
+	public static function isAnimatedGIF(string $filename): bool
 	{
 		if (MIME::getContentType($filename) !== 'image/gif')
 		{
@@ -51,17 +51,17 @@ class Image
 	 * Get image information
 	 *
 	 * @param string $filename
-	 * @return array|false
+	 * @return ?array
 	 */
-	public static function getImageInfo($filename)
+	public static function getImageInfo(string $filename): ?array
 	{
 		if (!self::isImage($filename))
 		{
-			return false;
+			return null;
 		}
 		if (!$image_info = @getimagesize($filename))
 		{
-			return false;
+			return null;
 		}
 		$img_type = [
 			IMAGETYPE_GIF => 'gif',
