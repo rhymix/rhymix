@@ -652,6 +652,11 @@ class CommentController extends Comment
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
+		if (empty($obj->regdate))
+		{
+			$obj->regdate = date('YmdHis');
+		}
+
 		// determine the order
 		$obj->list_order = getNextSequence() * -1;
 
