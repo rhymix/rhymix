@@ -2153,10 +2153,12 @@ class CommentController extends Comment
 			$args->source = $comment;
 			$args->copied = $copy;
 			ModuleHandler::triggerCall('comment.copyCommentByDocument', 'add', $args);
+			ModuleHandler::triggerCall('comment.copyCommentByDocument.each', 'before', $args);
 
 			// insert a copied comment
 			$this->insertComment($copy, true);
 
+			ModuleHandler::triggerCall('comment.copyCommentByDocument.each', 'after', $args);
 			$copied_comments[$comment->comment_srl] = $copy->comment_srl;
 		}
 
