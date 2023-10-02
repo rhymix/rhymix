@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * high class of the layout module
  */
-class layout extends ModuleObject
+class Layout extends ModuleObject
 {
 	/**
 	 * Implement if additional tasks are necessary when installing

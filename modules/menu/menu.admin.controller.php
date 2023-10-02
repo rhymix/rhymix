@@ -8,7 +8,7 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menuAdminController extends menu
+class MenuAdminController extends Menu
 {
 	/**
 	 * menu number

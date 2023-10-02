@@ -1,6 +1,6 @@
 <?php
 
-class ncenterliteView extends ncenterlite
+class NcenterliteView extends Ncenterlite
 {
 	function init()
 	{

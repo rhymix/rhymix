@@ -1,5 +1,5 @@
 <?php
-class ncenterliteModel extends ncenterlite
+class NcenterliteModel extends Ncenterlite
 {
 	protected static $_config = NULL;
 	protected static $_user_config = [];

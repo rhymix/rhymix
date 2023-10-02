@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The model class for the poll modules
  */
-class pollModel extends poll
+class PollModel extends Poll
 {
 	/**
 	 * @brief Initialization

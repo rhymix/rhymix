@@ -1,5 +1,5 @@
 <?php
-class ncenterliteAdminView extends ncenterlite
+class NcenterliteAdminView extends Ncenterlite
 {
 	function init()
 	{

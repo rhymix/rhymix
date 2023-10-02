@@ -1,5 +1,5 @@
 <?php
-class ncenterlite extends ModuleObject
+class Ncenterlite extends ModuleObject
 {
 	var $_TYPE_DOCUMENT = 'D'; // 댓글
 	var $_TYPE_COMMENT = 'C'; // 댓글의 댓글

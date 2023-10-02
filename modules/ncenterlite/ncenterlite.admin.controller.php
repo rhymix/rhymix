@@ -1,5 +1,5 @@
 <?php
-class ncenterliteAdminController extends ncenterlite
+class NcenterliteAdminController extends Ncenterlite
 {
 	function procNcenterliteAdminInsertConfig()
 	{

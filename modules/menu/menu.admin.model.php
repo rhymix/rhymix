@@ -8,7 +8,7 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menuAdminModel extends menu
+class MenuAdminModel extends Menu
 {
 	private $menuSrlWithinHome = 0;
 

@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the poll module
  */
-class pollAdminController extends poll
+class PollAdminController extends Poll
 {
 	/**
 	 * @brief Initialization

@@ -1,6 +1,6 @@
 <?php
 
-class ncenterliteAdminModel extends ncenterlite
+class NcenterliteAdminModel extends Ncenterlite
 {
 	function getAdminNotifyList()
 	{

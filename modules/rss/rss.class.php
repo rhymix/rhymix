@@ -5,7 +5,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class rss extends ModuleObject
+class Rss extends ModuleObject
 {
 	// Add forwards
 	protected static $add_forwards = array(

@@ -5,7 +5,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class rssView extends rss
+class RssView extends Rss
 {
 	// Disable gzhandler
 	public $gzhandler_enable = false;

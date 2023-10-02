@@ -8,7 +8,7 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menu extends ModuleObject
+class Menu extends ModuleObject
 {
 	/**
 	 * Implement if additional tasks are necessary when installing

@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief view class of the editor module
  */
-class editorView extends editor
+class EditorView extends Editor
 {
 	/**
 	 * @brief Initialization

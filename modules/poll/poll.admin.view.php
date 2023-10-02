@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the poll module
  */
-class pollAdminView extends poll
+class PollAdminView extends Poll
 {
 	/**
 	 * @brief Initialization

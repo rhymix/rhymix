@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief editor of the module admin controller class
  */
-class editorAdminController extends editor
+class EditorAdminController extends Editor
 {
 	/**
 	 * @brief Initialization

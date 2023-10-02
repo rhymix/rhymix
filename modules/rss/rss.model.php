@@ -5,7 +5,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class rssModel extends rss
+class RssModel extends Rss
 {
 	public static function getRssURL($format = 'rss', $mid = '')
 	{

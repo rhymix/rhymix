@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * admin view class of the layout module
  */
-class layoutAdminModel extends layout
+class LayoutAdminModel extends Layout
 {
 	/**
 	 * init

@@ -1,6 +1,6 @@
 <?php
 
-class ncenterliteMobile extends ncenterliteView
+class NcenterliteMobile extends NcenterliteView
 {
 
 }

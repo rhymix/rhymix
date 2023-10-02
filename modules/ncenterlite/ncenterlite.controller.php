@@ -1,6 +1,6 @@
 <?php
 
-class ncenterliteController extends ncenterlite
+class NcenterliteController extends Ncenterlite
 {
 	/**
 	 * List of acts to skip.

@@ -5,7 +5,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class rssAdminView extends rss
+class RssAdminView extends Rss
 {
 	function init()
 	{

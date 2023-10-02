@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief Controller class for poll module
  */
-class pollController extends poll
+class PollController extends Poll
 {
 	/**
 	 * @brief Initialization

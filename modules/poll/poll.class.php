@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The parent class of the poll module
  */
-class poll extends ModuleObject
+class Poll extends ModuleObject
 {
 	/**
 	 * @brief Additional tasks required to accomplish during the installation

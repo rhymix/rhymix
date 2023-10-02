@@ -6,7 +6,7 @@
  * @version 0.1
  * Model class of the layout module
  */
-class layoutModel extends layout
+class LayoutModel extends Layout
 {
 	/**
 	 * Check user layout temp

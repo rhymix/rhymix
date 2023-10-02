@@ -8,7 +8,7 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menuAdminView extends menu
+class MenuAdminView extends Menu
 {
 	var $tmpMenu = null;
 

@@ -8,7 +8,7 @@
  * @package /modules/menu
  * @version 0.1
  */
-class menuMobile extends moduleObject
+class MenuMobile extends moduleObject
 {
 	/**
 	 * Result data list

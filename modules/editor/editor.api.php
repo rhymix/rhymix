@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief
  */
-class editorAPI extends editor
+class EditorAPI extends Editor
 {
 	function dispEditorSkinColorset(&$oModule)
 	{
