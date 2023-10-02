@@ -3,10 +3,10 @@
 	<grants />
 	<actions>
 		<action name="dispCommentDeclare" type="view" permission="member" />
-		
+
 		<action name="getCommentMenu" type="model" />
 		<action name="getCommentVotedMemberList" type="model" permission="root" />
-		
+
 		<action name="procCommentVoteUp" type="controller" />
 		<action name="procCommentVoteUpCancel" type="controller" />
 		<action name="procCommentVoteDown" type="controller" />
@@ -15,11 +15,11 @@
 		<action name="procCommentDeclareCancel" type="controller" permission="member" />
 		<action name="procCommentGetList" type="controller" permission="manager" check_type="comment" check_var="comment_srls" />
 		<action name="procCommentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" ruleset="insertCommentModuleConfig" />
-		
+
 		<action name="dispCommentAdminList" type="view" admin_index="true" menu_name="comment" menu_index="true" />
 		<action name="dispCommentAdminDeclared" type="view" menu_name="comment" />
 		<action name="dispCommentAdminDeclaredLogByCommentSrl" type="view" menu_name="comment" />
-		
+
 		<action name="procCommentAdminChangeStatus" type="controller"/>
 		<action name="procCommentAdminChangePublishedStatusChecked" type="controller" />
 		<action name="procCommentAdminCancelDeclare" type="controller" />
@@ -27,6 +27,14 @@
 		<action name="procCommentAdminDeleteChecked" type="controller" permission="manager" check_type="comment" check_var="cart" ruleset="deleteChecked" />
 		<action name="procCommentAdminMoveToTrash" type="controller" permission="manager" check_type="comment" check_var="comment_srl" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="document.deleteDocument" class="controller" method="triggerDeleteDocumentComments" />
+		<eventHandler after="module.deleteModule" class="controller" method="triggerDeleteModuleComments" />
+		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModule" />
+		<eventHandler after="document.moveDocumentModule" class="controller" method="triggerMoveDocument" />
+		<eventHandler before="document.copyDocumentModule.each" class="controller" method="triggerAddCopyDocument" />
+		<eventHandler before="module.dispAdditionSetup" class="view" method="triggerDispCommentAdditionSetup" />
+	</eventHandlers>
 	<menus>
 		<menu name="comment">
 			<title xml:lang="en">Comment</title>

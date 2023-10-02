@@ -19,20 +19,9 @@ class Comment extends ModuleObject
 	function moduleInstall()
 	{
 		$oDB = DB::getInstance();
-
-		// register the action forward (for using on the admin mode)
-		$oModuleController = getController('module');
-
 		$oDB->addIndex(
 				"comments", "idx_module_list_order", array("module_srl", "list_order"), TRUE
 		);
-
-		// 2007. 10. 17 add a trigger to delete comments together with posting deleted
-		$oModuleController->insertTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after');
-		// 2007. 10. 17 add a trigger to delete all of comments together with module deleted
-		$oModuleController->insertTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after');
-		// 2008. 02. 22 add comment setting when a new module added
-		$oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
 	}
 
 	/**
@@ -42,29 +31,7 @@ class Comment extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = DB::getInstance();
-
-		// 2007. 10. 17 add a trigger to delete comments together with posting deleted
-		if(!ModuleModel::getTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after'))
-		{
-			return TRUE;
-		}
-		// 2007. 10. 17 add a trigger to delete all of comments together with module deleted
-		if(!ModuleModel::getTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after'))
-		{
-			return TRUE;
-		}
-		// 2008. 02. 22 add comment setting when a new module added
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before'))
-		{
-			return TRUE;
-		}
 		if(!$oDB->isIndexExists("comments", "idx_module_list_order"))
-		{
-			return TRUE;
-		}
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after'))
 		{
 			return TRUE;
 		}
@@ -86,16 +53,6 @@ class Comment extends ModuleObject
 			return true;
 		}
 
-		// 2018.01.24 Improve mass file deletion
-		if(!ModuleModel::getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
-		{
-			return true;
-		}
-		if(!ModuleModel::getTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add'))
-		{
-			return true;
-		}
-
 		return false;
 	}
 
@@ -106,32 +63,9 @@ class Comment extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = DB::getInstance();
-		$oModuleController = getController('module');
-
-		// 2007. 10. 17 add a trigger to delete comments together with posting deleted
-		if(!ModuleModel::getTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after'))
-		{
-			$oModuleController->insertTrigger('document.deleteDocument', 'comment', 'controller', 'triggerDeleteDocumentComments', 'after');
-		}
-		// 2007. 10. 17 add a trigger to delete all of comments together with module deleted
-		if(!ModuleModel::getTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after'))
-		{
-			$oModuleController->insertTrigger('module.deleteModule', 'comment', 'controller', 'triggerDeleteModuleComments', 'after');
-		}
-		// 2008. 02. 22 add comment setting when a new module added
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before'))
-		{
-			$oModuleController->insertTrigger('module.dispAdditionSetup', 'comment', 'view', 'triggerDispCommentAdditionSetup', 'before');
-		}
 		if(!$oDB->isIndexExists("comments", "idx_module_list_order"))
 		{
 			$oDB->addIndex("comments", "idx_module_list_order", array("module_srl", "list_order"), TRUE);
-		}
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after'))
-		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'comment', 'controller', 'triggerCopyModule', 'after');
 		}
 
 		// 2016. 1. 29: Add a column(declare_message) for report
@@ -150,27 +84,7 @@ class Comment extends ModuleObject
 		{
 			$oDB->addIndex('comments', 'idx_nick_name', array('nick_name'));
 		}
-
-		// 2018.01.24 Improve mass file deletion
-		if(!ModuleModel::getTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after'))
-		{
-			$oModuleController->insertTrigger('document.moveDocumentModule', 'comment', 'controller', 'triggerMoveDocument', 'after');
-		}
-		if(!ModuleModel::getTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add'))
-		{
-			$oModuleController->insertTrigger('document.copyDocumentModule', 'comment', 'controller', 'triggerAddCopyDocument', 'add');
-		}
 	}
-
-	/**
-	 * Regenerate cache file
-	 * @return void
-	 */
-	function recompileCache()
-	{
-
-	}
-
 }
 /* End of file comment.class.php */
 /* Location: ./modules/comment/comment.class.php */

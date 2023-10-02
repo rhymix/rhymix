@@ -46,10 +46,7 @@ class Document extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		// Register action forward (to use in administrator mode)
-		$oModuleController = getController('module');
-
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->addIndex("documents","idx_module_list_order", array("module_srl","list_order"));
 		$oDB->addIndex("documents","idx_module_update_order", array("module_srl","update_order"));
 		$oDB->addIndex("documents","idx_module_readed_count", array("module_srl","readed_count"));
@@ -60,11 +57,6 @@ class Document extends ModuleObject
 		$oDB->addIndex("documents","idx_module_blamed_count", array("module_srl","blamed_count"));
 		$oDB->addIndex("document_aliases", "idx_module_title", array("module_srl","alias_title"), true);
 		$oDB->addIndex("document_extra_vars", "unique_extra_vars", array("module_srl","document_srl","var_idx","lang_code"), true);
-		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
-		$oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
-
-		// 2009. 01. 29 Added a trigger for additional setup
-		$oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
 	}
 
 	/**
@@ -82,9 +74,6 @@ class Document extends ModuleObject
 		if(!$oDB->isIndexExists("documents","idx_module_voted_count")) return true;
 		if(!$oDB->isIndexExists("documents","idx_module_regdate")) return true;
 
-		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
-		if(!ModuleModel::getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after')) return true;
-
 		// 2007. 11. 20 create a composite index on the columns(module_srl + is_notice)
 		if(!$oDB->isIndexExists("documents","idx_module_notice")) return true;
 
@@ -93,9 +82,6 @@ class Document extends ModuleObject
 
 		// 2008. 04. 23 Add a column(blamed_count)
 		if(!$oDB->isIndexExists("documents","idx_module_blamed_count")) return true;
-
-		// 2009. 01. 29 Added a trigger for additional setup
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before')) return true;
 
 		// 2009. 03. 11 check the index in the document_extra_vars table
 		if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) return true;
@@ -106,12 +92,6 @@ class Document extends ModuleObject
 
 		// 2011. 10. 25 status index check
 		if(!$oDB->isIndexExists("documents", "idx_module_status")) return true;
-
-		// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after')) return true;
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after')) return true;
 
 		// 2016. 1. 27: Add a column(declare_message) for report
 		if(!$oDB->isColumnExists("document_declared_log","declare_message")) return true;
@@ -125,9 +105,6 @@ class Document extends ModuleObject
 		// 2017.12.21 Add an index for nick_name
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
 
-		// 2018.01.24 Improve mass file deletion
-		if(!ModuleModel::getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after')) return true;
-
 		return false;
 	}
 
@@ -138,7 +115,6 @@ class Document extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = DB::getInstance();
-		$oModuleController = getController('module');
 
 		// 2007. 8. 23: create a clustered index in the document table
 		if(!$oDB->isIndexExists("documents","idx_module_list_order"))
@@ -166,12 +142,6 @@ class Document extends ModuleObject
 			$oDB->addIndex("documents","idx_module_regdate", array("module_srl","regdate"));
 		}
 
-		// 2007. 10. 17 Add a trigger to delete all posts together when the module is deleted
-		if(!ModuleModel::getTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after'))
-		{
-			$oModuleController->insertTrigger('module.deleteModule', 'document', 'controller', 'triggerDeleteModuleDocuments', 'after');
-		}
-
 		// 2007. 11. 20 create a composite index on the columns(module_srl + is_notice)
 		if(!$oDB->isIndexExists("documents","idx_module_notice"))
 		{
@@ -188,12 +158,6 @@ class Document extends ModuleObject
 		if(!$oDB->isIndexExists("documents","idx_module_blamed_count"))
 		{
 			$oDB->addIndex('documents', 'idx_module_blamed_count', array('module_srl', 'blamed_count'));
-		}
-
-		// 2009. 01. 29 Added a trigger for additional setup
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before'))
-		{
-			$oModuleController->insertTrigger('module.dispAdditionSetup', 'document', 'view', 'triggerDispDocumentAdditionSetup', 'before');
 		}
 
 		// 2009. 03. 11 Check the index in the document_extra_vars table
@@ -215,18 +179,6 @@ class Document extends ModuleObject
 		if(!$oDB->isIndexExists("documents", "idx_module_status"))
 		{
 			$oDB->addIndex("documents", "idx_module_status", array("module_srl","status"));
-		}
-
-		// 2012. 02. 27 Add a trigger to copy extra keys when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after'))
-		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModuleExtraKeys', 'after');
-		}
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after'))
-		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'document', 'controller', 'triggerCopyModule', 'after');
 		}
 
 		// 2016. 1. 27: Add a column(declare_message) for report
@@ -253,20 +205,6 @@ class Document extends ModuleObject
 		{
 			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
 		}
-
-		// 2018.01.24 Improve mass file deletion
-		if(!ModuleModel::getTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after'))
-		{
-			$oModuleController->insertTrigger('file.deleteFile', 'document', 'controller', 'triggerAfterDeleteFile', 'after');
-		}
-	}
-
-	/**
-	 * Re-generate the cache file
-	 * @return void
-	 */
-	function recompileCache()
-	{
 	}
 
 	/**

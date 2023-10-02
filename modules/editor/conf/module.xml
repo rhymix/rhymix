@@ -21,6 +21,13 @@
 		<action name="procEditorAdminCheckUseListOrder" type="controller" ruleset="componentOrderAndUse" />
 		<action name="procEditorAdminSetupComponent" type="controller" ruleset="setupComponent" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="document.insertDocument" class="controller" method="triggerDeleteSavedDoc" />
+		<eventHandler after="document.updateDocument" class="controller" method="triggerDeleteSavedDoc" />
+		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModule" />
+		<eventHandler before="module.dispAdditionSetup" class="view" method="triggerDispEditorAdditionSetup" />
+		<eventHandler before="display" class="controller" method="triggerEditorComponentCompile" />
+	</eventHandlers>
 	<menus>
 		<menu name="editor">
 			<title xml:lang="en">WYSIWYG Editor</title>

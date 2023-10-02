@@ -13,22 +13,9 @@ class File extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		// Register action forward (to use in administrator mode)
-		$oModuleController = getController('module');
-
 		// Generate a directory for the file module
 		FileHandler::makeDir('./files/attach/images');
 		FileHandler::makeDir('./files/attach/binaries');
-
-		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
-		$oModuleController->insertTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after');
-		$oModuleController->insertTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after');
-		// 2009. 6. 9 Delete all the attachements when auto-saved document is deleted
-		$oModuleController->insertTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after');
-		// 2007. 10. 17 Create a trigger to delete all the attachements when the module is deleted
-		$oModuleController->insertTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after');
-		// 2007. 10. 19 Call a trigger to set up the file permissions before displaying
-		$oModuleController->insertTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before');
 	}
 
 	/**
@@ -39,43 +26,6 @@ class File extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = DB::getInstance();
-		$oModuleModel = getModel('module');
-
-		if($oModuleModel->getTrigger('document.insertDocument', 'file', 'controller', 'triggerCheckAttached', 'before')) return true;
-		if($oModuleModel->getTrigger('document.insertDocument', 'file', 'controller', 'triggerAttachFiles', 'after')) return true;
-		if($oModuleModel->getTrigger('document.updateDocument', 'file', 'controller', 'triggerCheckAttached', 'before')) return true;
-		if($oModuleModel->getTrigger('document.updateDocument', 'file', 'controller', 'triggerAttachFiles', 'after')) return true;
-
-		if($oModuleModel->getTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before')) return true;
-		if($oModuleModel->getTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after')) return true;
-		if($oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before')) return true;
-		if($oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after')) return true;
-
-		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
-		if(!$oModuleModel->getTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after')) return true;
-		if(!$oModuleModel->getTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after')) return true;
-		// 2009. 6. 9 Delete all the attachements when auto-saved document is deleted
-		if(!$oModuleModel->getTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after')) return true;
-		// 2007. 10. 17 Create a trigger to delete all the attachements when the module is deleted
-		if(!$oModuleModel->getTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after')) return true;
-		// 2007. 10. 19 Call a trigger to set up the file permissions before displaying
-		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before')) return true;
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after')) return true;
-
-		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
-		{
-			return true;
-		}
-		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'file', 'controller', 'triggerAddCopyDocument', 'add'))
-		{
-			return true;
-		}
-		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
-		{
-			return true;
-		}
 
 		// Check columns
 		if(!$oDB->isColumnExists('files', 'upload_target_type'))
@@ -149,81 +99,6 @@ class File extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = DB::getInstance();
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
-
-		if($oModuleModel->getTrigger('document.insertDocument', 'file', 'controller', 'triggerCheckAttached', 'before'))
-		{
-			$oModuleController->deleteTrigger('document.insertDocument', 'file', 'controller', 'triggerCheckAttached', 'before');
-		}
-
-		if($oModuleModel->getTrigger('document.insertDocument', 'file', 'controller', 'triggerAttachFiles', 'after'))
-		{
-			$oModuleController->deleteTrigger('document.insertDocument', 'file', 'controller', 'triggerAttachFiles', 'after');
-		}
-
-		if($oModuleModel->getTrigger('document.updateDocument', 'file', 'controller', 'triggerCheckAttached', 'before'))
-		{
-			$oModuleController->deleteTrigger('document.updateDocument', 'file', 'controller', 'triggerCheckAttached', 'before');
-		}
-
-		if($oModuleModel->getTrigger('document.updateDocument', 'file', 'controller', 'triggerAttachFiles', 'after'))
-		{
-			$oModuleController->deleteTrigger('document.updateDocument', 'file', 'controller', 'triggerAttachFiles', 'after');
-		}
-
-		if($oModuleModel->getTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before'))
-		{
-			$oModuleController->deleteTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before');
-		}
-
-		if($oModuleModel->getTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after'))
-		{
-			$oModuleController->deleteTrigger('comment.insertComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after');
-		}
-
-		if($oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before'))
-		{
-			$oModuleController->deleteTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentCheckAttached', 'before');
-		}
-
-		if($oModuleModel->getTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after'))
-		{
-			$oModuleController->deleteTrigger('comment.updateComment', 'file', 'controller', 'triggerCommentAttachFiles', 'after');
-		}
-
-		// 2007. 10. 17 Create a trigger to insert, update, delete documents and comments
-		if(!$oModuleModel->getTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after'))
-			$oModuleController->insertTrigger('document.deleteDocument', 'file', 'controller', 'triggerDeleteAttached', 'after');
-
-		if(!$oModuleModel->getTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after'))
-			$oModuleController->insertTrigger('comment.deleteComment', 'file', 'controller', 'triggerCommentDeleteAttached', 'after');
-		// 2009. 6. 9 Delete all the attachements when auto-saved document is deleted
-		if(!$oModuleModel->getTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after'))
-			$oModuleController->insertTrigger('editor.deleteSavedDoc', 'file', 'controller', 'triggerDeleteAttached', 'after');
-		// 2007. 10. 17 Create a trigger to delete all the attachements when the module is deleted
-		if(!$oModuleModel->getTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after'))
-			$oModuleController->insertTrigger('module.deleteModule', 'file', 'controller', 'triggerDeleteModuleFiles', 'after');
-		// 2007. 10. 19 Call a trigger to set up the file permissions before displaying
-		if(!$oModuleModel->getTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before'))
-			$oModuleController->insertTrigger('module.dispAdditionSetup', 'file', 'view', 'triggerDispFileAdditionSetup', 'before');
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!$oModuleModel->getTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after'))
-		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'file', 'controller', 'triggerCopyModule', 'after');
-		}
-		if(!$oModuleModel->getTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after'))
-		{
-			$oModuleController->insertTrigger('document.moveDocumentModule', 'file', 'controller', 'triggerMoveDocument', 'after');
-		}
-		if(!$oModuleModel->getTrigger('document.copyDocumentModule', 'file', 'controller', 'triggerAddCopyDocument', 'add'))
-		{
-			$oModuleController->insertTrigger('document.copyDocumentModule', 'file', 'controller', 'triggerAddCopyDocument', 'add');
-		}
-		if(!$oModuleModel->getTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add'))
-		{
-			$oModuleController->insertTrigger('comment.copyCommentByDocument', 'file', 'controller', 'triggerAddCopyCommentByDocument', 'add');
-		}
 
 		// Check columns
 		if(!$oDB->isColumnExists('files', 'upload_target_type'))
@@ -288,15 +163,6 @@ class File extends ModuleObject
 		{
 			$oDB->dropIndex('files', 'idx_list_order');
 		}
-	}
-
-	/**
-	 * Re-generate the cache file
-	 *
-	 * @return Object
-	 */
-	function recompileCache()
-	{
 	}
 }
 /* End of file file.class.php */

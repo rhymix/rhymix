@@ -65,23 +65,15 @@ class editor extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		// Register action forward (to use in administrator mode)
-		$oModuleController = getController('module');
 		// Add the default editor component
 		$oEditorController = getAdminController('editor');
 		$oEditorController->insertComponent('emoticon', false);
 		$oEditorController->insertComponent('image_link', false);
 		$oEditorController->insertComponent('image_gallery', false);
 		$oEditorController->insertComponent('poll_maker', true);
+
 		// Create a directory to use in the editor module
 		FileHandler::makeDir('./files/cache/editor');
-		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
-		$oModuleController->insertTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
-		$oModuleController->insertTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
-		// 2007. 10. 23 Add an editor trigger on the module addition setup
-		$oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
-		// 2009. 04. 14 Add a trigger from compiled codes of the editor component
-		$oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
 	}
 
 	/**
@@ -94,19 +86,6 @@ class editor extends ModuleObject
 		// XEVE-17-030
 		if(!$oDB->isColumnExists('editor_autosave', 'certify_key')) return true;
 		if(!$oDB->isIndexExists('editor_autosave', 'idx_certify_key')) return true;
-
-		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
-		if(!ModuleModel::getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
-		if(!ModuleModel::getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after')) return true;
-		// 2007. 10. 23 Add an editor trigger on the module addition setup
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before')) return true;
-		// 2009. 04. 14 Add a trigger from compiled codes of the editor component
-		if(!ModuleModel::getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before')) return true;
-		// 2009. 06. 19 Remove unused trigger
-		if(ModuleModel::getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before')) return true;
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after')) return true;
 
 		return false;
 	}
@@ -128,34 +107,6 @@ class editor extends ModuleObject
 		{
 			$oDB->addIndex('editor_autosave', 'idx_certify_key', 'certify_key');
 		}
-
-		// 2007. 10. 17 Add a trigger to delete automatically saved document whenever the document(insert or update) is modified
-		if(!ModuleModel::getTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after'))
-			$oModuleController->insertTrigger('document.insertDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
-		if(!ModuleModel::getTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after'))
-			$oModuleController->insertTrigger('document.updateDocument', 'editor', 'controller', 'triggerDeleteSavedDoc', 'after');
-		// 2007. 10. Add an editor trigger on the module addition setup
-		if(!ModuleModel::getTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before'))
-			$oModuleController->insertTrigger('module.dispAdditionSetup', 'editor', 'view', 'triggerDispEditorAdditionSetup', 'before');
-		// 2009. 04. 14 Add a trigger from compiled codes of the editor component
-		if(!ModuleModel::getTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before'))
-			$oModuleController->insertTrigger('display', 'editor', 'controller', 'triggerEditorComponentCompile', 'before');
-		// 2009. 06. 19 Remove unused trigger
-		if(ModuleModel::getTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before'))
-			$oModuleController->deleteTrigger('file.getIsPermitted', 'editor', 'controller', 'triggerSrlSetting', 'before');
-
-		// 2012. 08. 29 Add a trigger to copy additional setting when the module is copied
-		if(!ModuleModel::getTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after'))
-		{
-			$oModuleController->insertTrigger('module.procModuleAdminCopyModule', 'editor', 'controller', 'triggerCopyModule', 'after');
-		}
-	}
-
-	/**
-	 * @brief Re-generate the cache file
-	 */
-	function recompileCache()
-	{
 	}
 }
 /* End of file editor.class.php */

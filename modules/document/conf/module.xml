@@ -50,6 +50,13 @@
 		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procDocumentAdminMoveExtraVar" type="controller" permission="manager" check_var="module_srl" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="module.deleteModule" class="controller" method="triggerDeleteModuleDocuments" />
+		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModuleExtraKeys" />
+		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModule" />
+		<eventHandler after="file.deleteFile" class="controller" method="triggerAfterDeleteFile" />
+		<eventHandler before="module.dispAdditionSetup" class="view" method="triggerDispDocumentAdditionSetup" />
+	</eventHandlers>
 	<menus>
 		<menu name="document">
 			<title xml:lang="en">Document</title>
