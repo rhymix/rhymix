@@ -32,4 +32,8 @@
 		<action name="getCommunicationAdminColorset" type="model" />
 		<action name="procCommunicationAdminInsertConfig" type="controller" ruleset="insertConfig" />
 	</actions>
+	<eventHandlers>
+		<eventHandler before="moduleHandler.init" class="controller" method="triggerModuleHandlerBefore" />
+		<eventHandler before="member.getMemberMenu" class="controller" method="triggerMemberMenu" />
+	</eventHandlers>
 </module>
