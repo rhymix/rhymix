@@ -13,18 +13,18 @@ class MIME
 	 * This method returns the MIME type of a file, or false on error.
 	 *
 	 * @param string $filename
-	 * @return array|false
+	 * @return ?string
 	 */
-	public static function getContentType($filename)
+	public static function getContentType(string $filename): ?string
 	{
 		$filename = rtrim($filename, '/\\');
 		if (Storage::exists($filename) && @is_file($filename) && @is_readable($filename))
 		{
 			if (function_exists('mime_content_type'))
 			{
-				return @mime_content_type($filename) ?: false;
+				return @mime_content_type($filename) ?: null;
 			}
-			elseif (($image = @getimagesize($filename)) && $image['mime'])
+			elseif (($image = @getimagesize($filename)) && !empty($image['mime']))
 			{
 				return $image['mime'];
 			}
@@ -35,7 +35,7 @@ class MIME
 		}
 		else
 		{
-			return false;
+			return null;
 		}
 	}
 
@@ -45,10 +45,10 @@ class MIME
 	 * @param string $extension
 	 * @return string
 	 */
-	public static function getTypeByExtension($extension)
+	public static function getTypeByExtension(string $extension): string
 	{
 		$extension = strtolower($extension);
-		return array_key_exists($extension, self::$_types) ? self::$_types[$extension][0] : self::$_default;
+		return array_key_exists($extension, self::TYPES) ? self::TYPES[$extension][0] : self::DEFAULT_TYPE;
 	}
 
 	/**
@@ -57,41 +57,41 @@ class MIME
 	 * @param string $filename
 	 * @return string
 	 */
-	public static function getTypeByFilename($filename)
+	public static function getTypeByFilename(string $filename): string
 	{
 		$extension = strrchr($filename, '.');
-		if ($extension === false) return self::$_default;
+		if ($extension === false) return self::DEFAULT_TYPE;
 		$extension = strtolower(substr($extension, 1));
-		return array_key_exists($extension, self::$_types) ? self::$_types[$extension][0] : self::$_default;
+		return array_key_exists($extension, self::TYPES) ? self::TYPES[$extension][0] : self::DEFAULT_TYPE;
 	}
 
 	/**
 	 * Get the most common extension for the given MIME type.
 	 *
 	 * @param string $type
-	 * @return string|false
+	 * @return ?string
 	 */
-	public static function getExtensionByType($type)
+	public static function getExtensionByType(string $type): ?string
 	{
-		foreach (self::$_types as $extension => $mimes)
+		foreach (self::TYPES as $extension => $mimes)
 		{
 			foreach ($mimes as $mime)
 			{
 				if (!strncasecmp($type, $mime, strlen($type))) return $extension;
 			}
 		}
-		return false;
+		return null;
 	}
 
 	/**
 	 * The default MIME type for unknown extensions.
 	 */
-	protected static $_default = 'application/octet-stream';
+	protected const DEFAULT_TYPE = 'application/octet-stream';
 
 	/**
 	 * The list of known MIME types.
 	 */
-	protected static $_types = array(
+	protected const TYPES = array(
 
 		// Text-based document formats.
 		'html' => ['text/html'],

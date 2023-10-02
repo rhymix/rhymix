@@ -10,8 +10,8 @@ class Pagination
 	/**
 	 * Count style constants.
 	 */
-	const COUNT_STYLE_NORMAL = 1;
-	const COUNT_STYLE_CONTINUOUS = 2;
+	public const COUNT_STYLE_NORMAL = 1;
+	public const COUNT_STYLE_CONTINUOUS = 2;
 
 	/**
 	 * Calculate the number of pages.
@@ -21,11 +21,11 @@ class Pagination
 	 * @param int $minimum (optional)
 	 * @return int
 	 */
-	public static function countPages($total_items, $items_per_page, $minimum = 1)
+	public static function countPages(int $total_items, int $items_per_page, int $minimum = 1): int
 	{
 		if (!$items_per_page)
 		{
-			return (int)$minimum;
+			return $minimum;
 		}
 		else
 		{
@@ -37,11 +37,13 @@ class Pagination
 	 * Create HTML for pagination.
 	 *
 	 * @param string $base_url ($PAGE will be replaced with the page number)
-	 * @param int $current_page
 	 * @param int $total_pages
+	 * @param int $current_page (optional)
 	 * @param int $count (optional)
+	 * @param int $count_style (optional)
+	 * @return string
 	 */
-	public static function createLinks($base_url, $total_pages, $current_page, $count = 10, $count_style = self::COUNT_STYLE_NORMAL)
+	public static function createLinks(string $base_url, int $total_pages, int $current_page = 1, int $count = 10, int $count_style = self::COUNT_STYLE_NORMAL): string
 	{
 		// Only integers are allowed here.
 		$current_page = (int)$current_page;
@@ -146,7 +148,7 @@ class Pagination
 	 * @param string $content
 	 * @return string
 	 */
-	protected static function _composeLink($target_url, $content)
+	protected static function _composeLink(string $target_url, string $content): string
 	{
 		return '<a href="' . escape($target_url) . '">' . $content . '</a>';
 	}

@@ -12,9 +12,9 @@ class Security
 	 *
 	 * @param string $input
 	 * @param string $type
-	 * @return string|false
+	 * @return string
 	 */
-	public static function sanitize($input, $type)
+	public static function sanitize(string $input, string $type): string
 	{
 		switch ($type)
 		{
@@ -38,8 +38,9 @@ class Security
 				if (!utf8_check($input)) return false;
 				return Filters\FilenameFilter::clean($input);
 
-			// Unknown filters return false.
-			default: return false;
+			// Unknown filters.
+			default:
+				throw new Exception('Unknown filter type for sanitize: ' . $type);
 		}
 	}
 
@@ -48,9 +49,9 @@ class Security
 	 *
 	 * @param string $plaintext
 	 * @param string $key (optional)
-	 * @return string|false
+	 * @return string
 	 */
-	public static function encrypt($plaintext, $key = null)
+	public static function encrypt(string $plaintext, ?string $key = null): string
 	{
 		// Get the encryption key.
 		$key = $key ?: config('crypto.encryption_key');
@@ -67,7 +68,7 @@ class Security
 	 * @param string $key (optional)
 	 * @return string|false
 	 */
-	public static function decrypt($ciphertext, $key = null)
+	public static function decrypt(string $ciphertext, ?string $key = null)
 	{
 		// Get the encryption key.
 		$key = $key ?: config('crypto.encryption_key');
@@ -90,7 +91,7 @@ class Security
 	 * @param string $string
 	 * @return string
 	 */
-	public static function createSignature($string)
+	public static function createSignature(string $string): string
 	{
 		$key = config('crypto.authentication_key');
 		$salt = self::getRandom(8, 'alnum');
@@ -105,7 +106,7 @@ class Security
 	 * @param string $signature
 	 * @return bool
 	 */
-	public static function verifySignature($string, $signature)
+	public static function verifySignature(string $string, string $signature): bool
 	{
 		if(strlen($signature) !== 40)
 		{
@@ -125,7 +126,7 @@ class Security
 	 * @param string $format
 	 * @return string
 	 */
-	public static function getRandom($length = 32, $format = 'alnum')
+	public static function getRandom(int $length = 32, string $format = 'alnum'): string
 	{
 		// Find out how many bytes of entropy we really need.
 		switch($format)
@@ -233,7 +234,7 @@ class Security
 	 * @param int $max
 	 * @return int
 	 */
-	public static function getRandomNumber($min = 0, $max = 0x7fffffff)
+	public static function getRandomNumber(int $min = 0, int $max = \PHP_INT_MAX): int
 	{
 		if (function_exists('random_int'))
 		{
@@ -253,7 +254,7 @@ class Security
 	 *
 	 * @return string
 	 */
-	public static function getRandomUUID()
+	public static function getRandomUUID(): string
 	{
 		$randpool = self::getRandom(16, 'binary');
 		$randpool[6] = chr(ord($randpool[6]) & 0x0f | 0x40);
@@ -268,7 +269,7 @@ class Security
 	 * @param string $b
 	 * @return bool
 	 */
-	public static function compareStrings($a, $b)
+	public static function compareStrings(string $a, string $b): bool
 	{
 		if(function_exists('hash_equals'))
 		{
@@ -293,7 +294,7 @@ class Security
 	 * @param string $referer (optional)
 	 * @return bool
 	 */
-	public static function checkCSRF($referer = null)
+	public static function checkCSRF(?string $referer = null): bool
 	{
 		$check_csrf_token = config('security.check_csrf_token') ? true : false;
 		if ($token = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : null)
@@ -342,7 +343,7 @@ class Security
 	 * @param string $xml (optional)
 	 * @return bool
 	 */
-	public static function checkXXE($xml = null)
+	public static function checkXXE(?string $xml = null): bool
 	{
 		// Stop if there is no XML content.
 		if (!$xml)

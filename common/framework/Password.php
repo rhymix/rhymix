@@ -41,7 +41,7 @@ class Password
 	 * @param callable $callback
 	 * @return void
 	 */
-	public static function addAlgorithm($name, $signature, $callback)
+	public static function addAlgorithm(string $name, string $signature, callable $callback): void
 	{
 		self::$_algorithm_signatures[$name] = $signature;
 		self::$_algorithm_callbacks[$name] = $callback;
@@ -53,7 +53,7 @@ class Password
 	 * @param array|string $algos
 	 * @return bool
 	 */
-	public static function isValidAlgorithm($algos)
+	public static function isValidAlgorithm($algos): bool
 	{
 		$hash_algos = hash_algos();
 		$algos = is_array($algos) ? $algos : explode(',', $algos);
@@ -77,7 +77,7 @@ class Password
 	 *
 	 * @return array
 	 */
-	public static function getSupportedAlgorithms()
+	public static function getSupportedAlgorithms(): array
 	{
 		$retval = array();
 		if (defined('\PASSWORD_ARGON2ID'))
@@ -104,7 +104,7 @@ class Password
 	 *
 	 * @return string
 	 */
-	public static function getBestSupportedAlgorithm()
+	public static function getBestSupportedAlgorithm(): string
 	{
 		// Return the first algorithm in the list, except argon2id.
 		$algos = self::getSupportedAlgorithms();
@@ -112,7 +112,7 @@ class Password
 		{
 			unset($algos['argon2id']);
 		}
-		return key($algos);
+		return array_first_key($algos);
 	}
 
 	/**
@@ -120,11 +120,11 @@ class Password
 	 *
 	 * @return string
 	 */
-	public static function getDefaultAlgorithm()
+	public static function getDefaultAlgorithm(): string
 	{
 		if (class_exists('\MemberModel'))
 		{
-			$config = @\MemberModel::getInstance()->getMemberConfig();
+			$config = \MemberModel::getInstance()->getMemberConfig();
 			$algorithm = $config->password_hashing_algorithm ?? '';
 			if (strval($algorithm) === '')
 			{
@@ -148,7 +148,7 @@ class Password
 	 *
 	 * @return string
 	 */
-	public static function getBackwardCompatibleAlgorithm()
+	public static function getBackwardCompatibleAlgorithm(): string
 	{
 		$algorithm = self::getDefaultAlgorithm();
 		if (!in_array($algorithm, ['bcrypt', 'pbkdf2', 'sha1', 'md5']))
@@ -170,11 +170,11 @@ class Password
 	 *
 	 * @return int
 	 */
-	public static function getWorkFactor()
+	public static function getWorkFactor(): int
 	{
 		if (class_exists('\MemberModel'))
 		{
-			$config = @\MemberModel::getInstance()->getMemberConfig();
+			$config = \MemberModel::getInstance()->getMemberConfig();
 			$work_factor = $config->password_hashing_work_factor ?? 10;
 			if (!$work_factor || $work_factor < 4 || $work_factor > 31)
 			{
@@ -195,7 +195,7 @@ class Password
 	 * @param int $length
 	 * @return string
 	 */
-	public static function getRandomPassword($length = 16)
+	public static function getRandomPassword(int $length = 16): string
 	{
 		while(true)
 		{
@@ -222,11 +222,11 @@ class Password
 	 * On error, false will be returned.
 	 *
 	 * @param string $password
-	 * @param string|array $algos (optional)
-	 * @param string $salt (optional)
-	 * @return string|false
+	 * @param string|array|null $algos (optional)
+	 * @param string|null $salt (optional)
+	 * @return string
 	 */
-	public static function hashPassword($password, $algos = null, $salt = null)
+	public static function hashPassword(string $password, $algos = null, ?string $salt = null): string
 	{
 		// If the algorithm is null, use the default algorithm.
 		if ($algos === null)
@@ -246,13 +246,19 @@ class Password
 				// argon2id (must be used last)
 				case 'argon2id':
 					$hashchain = self::argon2id($hashchain, self::getWorkFactor());
-					if ($hashchain[0] === '*') return false;
+					if ($hashchain[0] === '*')
+					{
+						throw new Exception('Failed to hash password using ' . $algo);
+					}
 					return $hashchain;
 
 				// bcrypt (must be used last)
 				case 'bcrypt':
 					$hashchain = self::bcrypt($hashchain, $salt, self::getWorkFactor());
-					if ($hashchain[0] === '*') return false;
+					if ($hashchain[0] === '*')
+					{
+						throw new Exception('Failed to hash password using ' . $algo);
+					}
 					return $hashchain;
 
 				// PBKDF2 (must be used last)
@@ -286,7 +292,7 @@ class Password
 					else
 					{
 						$match = $phpass->CheckPassword($hashchain, $salt);
-						return $match ? $salt : false;
+						return $match ? $salt : '';
 					}
 
 				// Drupal's SHA-512 based algorithm (must be used last)
@@ -346,7 +352,7 @@ class Password
 					}
 					else
 					{
-						return false;
+						throw new Exception('Failed to hash password using ' . $algo);
 					}
 			}
 		}
@@ -362,10 +368,10 @@ class Password
 	 *
 	 * @param string $password
 	 * @param string $hash
-	 * @param array|string $algos
+	 * @param array|string|null $algos
 	 * @return bool
 	 */
-	public static function checkPassword($password, $hash, $algos = null)
+	public static function checkPassword(string $password, string $hash, $algos = null): bool
 	{
 		if ($algos === null)
 		{
@@ -400,7 +406,7 @@ class Password
 	 * @param string $hash
 	 * @return array
 	 */
-	public static function checkAlgorithm($hash)
+	public static function checkAlgorithm(string $hash): array
 	{
 		$candidates = array();
 		foreach (self::$_algorithm_signatures as $name => $signature)
@@ -416,7 +422,7 @@ class Password
 	 * @param string $hash
 	 * @return int
 	 */
-	public static function checkWorkFactor($hash)
+	public static function checkWorkFactor(string $hash): int
 	{
 		if(preg_match('/^\$2[axy]\$([0-9]{2})\$/', $hash, $matches))
 		{
@@ -439,7 +445,7 @@ class Password
 	 * @param int $work_factor (optional)
 	 * @return string
 	 */
-	public static function argon2id($password, $work_factor = 10)
+	public static function argon2id(string $password, int $work_factor = 10): string
 	{
 		if (!defined('\PASSWORD_ARGON2ID'))
 		{
@@ -483,7 +489,7 @@ class Password
 	 * @param int $work_factor (optional)
 	 * @return string
 	 */
-	public static function bcrypt($password, $salt = null, $work_factor = 10)
+	public static function bcrypt(string $password, ?string $salt = null, int $work_factor = 10): string
 	{
 		if ($salt === null)
 		{
@@ -504,7 +510,7 @@ class Password
 	 * @param int $iterations_padding (optional)
 	 * @return string
 	 */
-	public static function pbkdf2($password, $salt = null, $algorithm = 'sha512', $iterations = 16384, $length = 24, $iterations_padding = 7)
+	public static function pbkdf2(string $password, ?string $salt = null, string $algorithm = 'sha512', int $iterations = 16384, int $length = 24, int $iterations_padding = 7): string
 	{
 		if ($salt === null)
 		{
@@ -541,7 +547,7 @@ class Password
 	 * @param string $password
 	 * @return int
 	 */
-	public static function countEntropyBits($password)
+	public static function countEntropyBits(string $password): int
 	{
 		// An empty string has no entropy.
 
@@ -566,7 +572,7 @@ class Password
 		{
 			if (preg_match($regex, $password))
 			{
-				return log(pow($entropy, strlen($password)), 2);
+				return (int)round(log(pow($entropy, strlen($password)), 2));
 			}
 		}
 

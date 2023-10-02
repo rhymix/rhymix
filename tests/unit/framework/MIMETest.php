@@ -21,6 +21,6 @@ class MIMETest extends \Codeception\TestCase\Test
 		$this->assertEquals('ogv', Rhymix\Framework\MIME::getExtensionByType('video/ogg'));
 		$this->assertEquals('mp4', Rhymix\Framework\MIME::getExtensionByType('audio/mp4'));
 		$this->assertEquals('mp4', Rhymix\Framework\MIME::getExtensionByType('video/mp4'));
-		$this->assertFalse(Rhymix\Framework\MIME::getExtensionByType('application/octet-stream'));
+		$this->assertNull(Rhymix\Framework\MIME::getExtensionByType('application/octet-stream'));
 	}
 }
