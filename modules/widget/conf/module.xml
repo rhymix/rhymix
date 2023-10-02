@@ -6,7 +6,7 @@
 		<action name="dispWidgetGenerateCode" type="view" permission="root" meta-noindex="true" />
 		<action name="dispWidgetGenerateCodeInPage" type="view" permission="all-managers" meta-noindex="true" />
 		<action name="dispWidgetStyleGenerateCodeInPage" type="view" permission="all-managers" meta-noindex="true" />
-		
+
 		<action name="procWidgetGenerateCode" type="controller" permission="root" />
 		<action name="procWidgetGenerateCodeInPage" type="controller" permission="all-managers" ruleset="generateCodeInPage" />
 		<action name="procWidgetInsertDocument" type="controller" permission="manager" check_var="module_srl" />
@@ -14,11 +14,14 @@
 		<action name="procWidgetCopyDocument" type="controller" permission="manager" check_type="document" check_var="document_srl" />
 		<action name="procWidgetGetColorsetList" type="controller" permission="all-managers" />
 		<action name="procWidgetStyleExtraImageUpload" type="controller" permission="all-managers" />
-		
+
 		<action name="dispWidgetAdminDownloadedList" type="view" admin_index="true" menu_name="installedWidget" menu_index="true" />
 		<action name="dispWidgetAdminGenerateCode" type="view" menu_name="installedWidget" />
 		<action name="dispWidgetAdminAddContent" type="view" permission="manager" check_var="module_srl" />
 	</actions>
+	<eventHandlers>
+		<eventHandler before="display" class="controller" method="triggerWidgetCompile" />
+	</eventHandlers>
 	<menus>
 		<menu name="installedWidget">
 			<title xml:lang="en">Widgets</title>

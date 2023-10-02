@@ -5,6 +5,15 @@
 		<action name="dispTagAdminConfig" type="view" admin_index="true" menu_name="tag" />
 		<action name="procTagAdminInsertConfig" type="controller" />
 	</actions>
+	<eventHandlers>
+		<eventHandler before="document.insertDocument" class="controller" method="triggerArrangeTag" />
+		<eventHandler after="document.insertDocument" class="controller" method="triggerInsertTag" />
+		<eventHandler before="document.updateDocument" class="controller" method="triggerArrangeTag" />
+		<eventHandler after="document.updateDocument" class="controller" method="triggerInsertTag" />
+		<eventHandler after="document.deleteDocument" class="controller" method="triggerDeleteTag" />
+		<eventHandler after="module.deleteModule" class="controller" method="triggerDeleteModuleTags" />
+		<eventHandler after="document.moveDocumentModule" class="controller" method="triggerMoveDocument" />
+	</eventHandlers>
 	<menus>
 		<menu name="tag" type="all">
 			<title xml:lang="ko">태그</title>

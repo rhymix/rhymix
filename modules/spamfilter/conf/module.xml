@@ -6,7 +6,7 @@
 		<action name="dispSpamfilterAdminDeniedWordList" type="view" menu_name="spamFilter" />
 		<action name="dispSpamfilterAdminConfigBlock" type="view" menu_name="spamFilter" />
 		<action name="dispSpamfilterAdminConfigCaptcha" type="view" menu_name="spamFilter" />
-		
+
 		<action name="procSpamfilterAdminInsertDeniedIP" type="controller" />
 		<action name="procSpamfilterAdminUpdateDeniedIP" type="controller" />
 		<action name="procSpamfilterAdminDeleteDeniedIP" type="controller" />
@@ -16,6 +16,15 @@
 		<action name="procSpamfilterAdminInsertConfig" type="controller" />
 		<action name="procSpamfilterAdminInsertConfigCaptcha" type="controller" />
 	</actions>
+	<eventHandlers>
+		<eventHandler before="document.insertDocument" class="controller" method="triggerInsertDocument" />
+		<eventHandler before="document.updateDocument" class="controller" method="triggerInsertDocument" />
+		<eventHandler before="document.manage" class="controller" method="triggerManageDocument" />
+		<eventHandler before="comment.insertComment" class="controller" method="triggerInsertComment" />
+		<eventHandler before="comment.updateComment" class="controller" method="triggerInsertComment" />
+		<eventHandler before="communication.sendMessage" class="controller" method="triggerSendMessage" />
+		<eventHandler before="moduleObject.proc" class="controller" method="triggerCheckCaptcha" />
+	</eventHandlers>
 	<menus>
 		<menu name="spamFilter" tyle="super">
 			<title xml:lang="en">Spam Filter</title>
