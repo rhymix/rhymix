@@ -413,11 +413,17 @@ class BoardController extends Board
 	 **/
 	function procBoardVoteDocument()
 	{
-		// generate document module controller object
-		$oDocumentController = DocumentController::getInstance();
+		// Check document_srl
+		$document_srl = intval(Context::get('document_srl'));
+		if (!$document_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
-		$document_srl = Context::get('document_srl');
-		return $oDocumentController->updateVotedCount($document_srl);
+		// Pass to procDocumentVoteUp
+		Context::set('target_srl', $document_srl);
+		$oDocumentController = DocumentController::getInstance();
+		return $oDocumentController->procDocumentVoteUp();
 	}
 
 	/**
