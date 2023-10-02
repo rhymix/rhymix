@@ -6,7 +6,7 @@
  * @version 0.1
  * @brief Model class for widget modules
  */
-class widgetModel extends widget
+class WidgetModel extends Widget
 {
 	/**
 	 * @brief Initialization

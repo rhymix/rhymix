@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The Model class of the session module
  */
-class sessionModel extends session
+class SessionModel extends Session
 {
 	/**
 	 * @brief Initialization

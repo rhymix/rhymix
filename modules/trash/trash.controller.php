@@ -8,7 +8,7 @@
  * @package /modules/trash
  * @version 0.1
  */
-class trashController extends trash
+class TrashController extends Trash
 {
 }
 

@@ -8,7 +8,7 @@
  * @package /modules/trash
  * @version 0.1
  */
-class trashAdminController extends trash
+class TrashAdminController extends Trash
 {
 	/**
 	 * object insert to trash

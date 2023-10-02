@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The controller class for the spamfilter module
  */
-class spamfilterController extends spamfilter
+class SpamfilterController extends Spamfilter
 {
 	/**
 	 * List of actions to use CAPTCHA.

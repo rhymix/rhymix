@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the session module
  */
-class sessionAdminView extends session
+class SessionAdminView extends Session
 {
 	/**
 	 * @brief Initialization

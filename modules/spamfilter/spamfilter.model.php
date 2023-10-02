@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The Model class of the spamfilter module
  */
-class spamfilterModel extends spamfilter
+class SpamfilterModel extends Spamfilter
 {
 	/**
 	 * @brief Initialization

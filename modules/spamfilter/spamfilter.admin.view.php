@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin view class of the spamfilter module
  */
-class spamfilterAdminView extends spamfilter
+class SpamfilterAdminView extends Spamfilter
 {
 	/**
 	 * @brief Initialization

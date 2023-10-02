@@ -8,7 +8,7 @@
  * @package /modules/trash
  * @version 0.1
  */
-class trashModel extends trash
+class TrashModel extends Trash
 {
 	private static $config = NULL;
 

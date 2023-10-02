@@ -8,7 +8,7 @@
  *
  * The session management class
  */
-class session extends ModuleObject
+class Session extends ModuleObject
 {
 	var $lifetime = 18000;
 	var $session_started = false;

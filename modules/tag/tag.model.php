@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief tag model class of the module
  */
-class tagModel extends tag
+class TagModel extends Tag
 {
 	/**
 	 * Separator regexp cache

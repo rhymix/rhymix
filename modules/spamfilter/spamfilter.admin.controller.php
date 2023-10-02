@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The admin controller class of the spamfilter module
  */
-class spamfilterAdminController extends spamfilter
+class SpamfilterAdminController extends Spamfilter
 {
 	/**
 	 * @brief Initialization

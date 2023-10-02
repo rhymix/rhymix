@@ -1,6 +1,6 @@
 <?php
 
-class tagAdminView extends tag
+class TagAdminView extends Tag
 {
 	public function dispTagAdminConfig()
 	{

@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The controller class of the session module
  */
-class sessionController extends session
+class SessionController extends Session
 {
 	/**
 	 * @brief Initialization

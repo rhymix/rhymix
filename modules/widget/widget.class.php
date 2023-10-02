@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief widget module's high class
  */
-class widget extends ModuleObject
+class Widget extends ModuleObject
 {
 	/**
 	 * @brief Implement if additional tasks are necessary when installing

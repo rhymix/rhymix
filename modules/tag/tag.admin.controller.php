@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief admin controller class of the tag module
  */
-class tagAdminController extends tag
+class TagAdminController extends Tag
 {
 	/**
 	 * Save admin config.

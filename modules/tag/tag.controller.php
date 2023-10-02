@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief tag module's controller class
  */
-class tagController extends tag
+class TagController extends Tag
 {
 	/**
 	 * Parse tags.

@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief admin view class for widget modules
  */
-class widgetAdminView extends widget
+class WidgetAdminView extends Widget
 {
 	/**
 	 * @brief Initialization

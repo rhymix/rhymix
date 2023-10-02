@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief high class of the tag module
  */
-class tag extends ModuleObject
+class Tag extends ModuleObject
 {
 	/**
 	 * @brief Implement if additional tasks are necessary when installing

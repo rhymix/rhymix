@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The parent class of the spamfilter module
  */
-class spamfilter extends ModuleObject
+class Spamfilter extends ModuleObject
 {
 	/**
 	 * @brief Additional tasks required to accomplish during the installation

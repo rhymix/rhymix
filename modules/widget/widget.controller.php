@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief Controller class for widget modules
  */
-class widgetController extends widget
+class WidgetController extends Widget
 {
 	// The results are not widget modify/delete and where to use the flag for
 	// layout_javascript_mode include all the results into the javascript mode Sikkim

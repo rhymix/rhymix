@@ -10,7 +10,7 @@ require_once(RX_BASEDIR.'modules/trash/model/TrashVO.php');
  * @package /modules/trash
  * @version 0.1
  */
-class trash extends ModuleObject
+class Trash extends ModuleObject
 {
 	/**
 	 * Implement if additional tasks are necessary when installing

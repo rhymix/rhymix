@@ -8,7 +8,7 @@
  * @package /modules/trash
  * @version 0.1
  */
-class trashAdminView extends trash
+class TrashAdminView extends Trash
 {
 	/**
 	 * Initialization
