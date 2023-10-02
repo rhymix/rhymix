@@ -6,24 +6,32 @@
 		<action name="getPollinfo" type="model" />
 		<action name="getPollitemInfo" type="model" />
 		<action name="getPollGetColorsetList" type="model" />
-		
+
 		<action name="procPollInsert" type="controller" />
 		<action name="procPollInsertItem" type="controller" permission="member" />
 		<action name="procPollDeleteItem" type="controller" permission="member" />
 		<action name="procPoll" type="controller" ruleset="poll" />
 		<action name="procPollViewResult" type="controller" />
 		<action name="procPollGetList" type="controller" permission="root" />
-		
+
 		<action name="dispPollAdminList" type="view" admin_index="true" menu_name="poll" menu_index="true" />
 		<action name="dispPollAdminResult" type="view" />
 		<action name="dispPollAdminConfig" type="view" />
-		
+
 		<action name="getPollAdminTarget" type="model" />
-		
+
 		<action name="procPollAdminAddCart" type="controller" />
 		<action name="procPollAdminDeleteChecked" type="controller" ruleset="deleteChecked" />
 		<action name="procPollAdminInsertConfig" type="controller" ruleset="insertConfig" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="document.insertDocument" class="controller" method="triggerInsertDocumentPoll" />
+		<eventHandler after="document.updateDocument" class="controller" method="triggerUpdateDocumentPoll" />
+		<eventHandler after="document.deleteDocument" class="controller" method="triggerDeleteDocumentPoll" />
+		<eventHandler after="comment.insertComment" class="controller" method="triggerInsertCommentPoll" />
+		<eventHandler after="comment.updateComment" class="controller" method="triggerUpdateCommentPoll" />
+		<eventHandler after="comment.deleteComment" class="controller" method="triggerDeleteCommentPoll" />
+	</eventHandlers>
 	<menus>
 		<menu name="poll">
 			<title xml:lang="en">Poll</title>

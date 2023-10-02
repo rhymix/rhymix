@@ -104,10 +104,6 @@ class Member extends ModuleObject
 		FileHandler::makeDir('./files/member_extra_info/image_mark');
 		FileHandler::makeDir('./files/member_extra_info/profile_image');
 		FileHandler::makeDir('./files/member_extra_info/signature');
-
-		// 2013. 11. 22 add menu when popup document menu called
-		$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
-		$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
 	}
 
 	/**
@@ -232,10 +228,6 @@ class Member extends ModuleObject
 		if(FileHandler::exists('./files/member_extra_info/agreement.txt')) return true;
 		if(FileHandler::exists('./files/ruleset/insertMember.xml')) return true;
 		if(FileHandler::exists('./files/ruleset/login.xml')) return true;
-
-		// 2013. 11. 22 add menu when popup document menu called
-		if(!ModuleModel::getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after')) return true;
-		if(!ModuleModel::getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after')) return true;
 
 		// Allow duplicate nickname
 		if($config->allow_duplicate_nickname == 'Y')
@@ -555,12 +547,6 @@ class Member extends ModuleObject
 		{
 			FileHandler::removeFile('./files/ruleset/login.xml');
 		}
-
-		// 2013. 11. 22 add menu when popup document menu called
-		if(!ModuleModel::getTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after'))
-			$oModuleController->insertTrigger('document.getDocumentMenu', 'member', 'controller', 'triggerGetDocumentMenu', 'after');
-		if(!ModuleModel::getTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after'))
-			$oModuleController->insertTrigger('comment.getCommentMenu', 'member', 'controller', 'triggerGetCommentMenu', 'after');
 
 		// Allow duplicate nickname
 		if($config->allow_duplicate_nickname == 'Y')

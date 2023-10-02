@@ -4,12 +4,17 @@
 	<actions>
 		<action name="rss" type="view" />
 		<action name="atom" type="view" />
-		
+
 		<action name="dispRssAdminIndex" type="view" admin_index="true" menu_name="rss" menu_index="true" />
 		<action name="procRssAdminInsertConfig" type="controller" ruleset="insertRssConfig" />
 		<action name="procRssAdminInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
 		<action name="procRssAdminDeleteFeedImage" type="controller" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="moduleHandler.proc" class="controller" method="triggerRssUrlInsert" />
+		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModule" />
+		<eventHandler before="module.dispAdditionSetup" class="view" method="triggerDispRssAdditionSetup" />
+	</eventHandlers>
 	<menus>
 		<menu name="rss">
 		<title xml:lang="en">RSS</title>

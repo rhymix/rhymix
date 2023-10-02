@@ -118,6 +118,10 @@
 		<action name="procMemberAdminUpdateMembersGroup" type="controller" ruleset="manageMemberGroup" />
 		<action name="procMemberAdminDeleteMembers" type="controller" />
 	</actions>
+	<eventHandlers>
+		<eventHandler after="document.getDocumentMenu" class="controller" method="triggerGetDocumentMenu" />
+		<eventHandler after="comment.getCommentMenu" class="controller" method="triggerGetCommentMenu" />
+	</eventHandlers>
 	<menus>
 		<menu name="userList">
 			<title xml:lang="en">Member List</title>
