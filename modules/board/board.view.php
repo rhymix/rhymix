@@ -710,13 +710,10 @@ class BoardView extends Board
 			return $this->dispBoardMessage('msg_not_permitted');
 		}
 
-		// generate the tag module model object
-		$oTagModel = getModel('tag');
-
 		$obj = new stdClass;
 		$obj->mid = $this->module_info->mid;
 		$obj->list_count = 10000;
-		$output = $oTagModel->getTagList($obj);
+		$output = TagModel::getInstance()->getTagList($obj);
 
 		// automatically order
 		if(count($output->data))
@@ -905,7 +902,7 @@ class BoardView extends Board
 				{
 					return $this->dispBoardMessage('msg_not_permitted');
 				}
-				else if((getModel('point')->getPoint($this->user->member_srl) + $pointForInsert) < 0)
+				else if((PointModel::getPoint($this->user->member_srl) + $pointForInsert) < 0)
 				{
 					return $this->dispBoardMessage('msg_not_enough_point');
 				}
@@ -921,11 +918,14 @@ class BoardView extends Board
 		Context::set('oDocument', $oDocument);
 
 		// apply xml_js_filter on header
-		$oDocumentController = getController('document');
+		$oDocumentController = DocumentController::getInstance();
 		$oDocumentController->addXmlJsFilter($this->module_info->module_srl);
 
 		// if the document exists, then setup extra variabels on context
-		if($oDocument->isExists() && !$savedDoc) Context::set('extra_keys', $oDocument->getExtraVars());
+		if ($oDocument->isExists() && !$savedDoc)
+		{
+			Context::set('extra_keys', $oDocument->getExtraVars());
+		}
 
 		/**
 		 * add JS filters

@@ -103,7 +103,7 @@ class BoardController extends Board
 			$obj->is_admin = 'Y';
 		}
 
-		$oDocumentController = getController('document');
+		$oDocumentController = DocumentController::getInstance();
 
 		$secret_status = DocumentModel::getConfigStatus('secret');
 		$use_status = explode('|@|', $this->module_info->use_status);
@@ -298,7 +298,7 @@ class BoardController extends Board
 			throw new Rhymix\Framework\Exception('msg_no_update_id');
 		}
 
-		$oDocumentController = getController('document');
+		$oDocumentController = DocumentController::getInstance();
 		$update_log = DocumentModel::getUpdateLog($update_id);
 
 		if($logged_info->is_admin != 'Y')
@@ -382,7 +382,7 @@ class BoardController extends Board
 			}
 		}
 		// generate document module controller object
-		$oDocumentController = getController('document');
+		$oDocumentController = DocumentController::getInstance();
 		if($this->module_info->trash_use == 'Y')
 		{
 			$output = $oDocumentController->moveDocumentToTrash($oDocument);
@@ -414,7 +414,7 @@ class BoardController extends Board
 	function procBoardVoteDocument()
 	{
 		// generate document module controller object
-		$oDocumentController = getController('document');
+		$oDocumentController = DocumentController::getInstance();
 
 		$document_srl = Context::get('document_srl');
 		return $oDocumentController->updateVotedCount($document_srl);
@@ -503,7 +503,7 @@ class BoardController extends Board
 		}
 
 		// generate comment module controller object
-		$oCommentController = getController('comment');
+		$oCommentController = CommentController::getInstance();
 
 		// check the comment is existed
 		// if the comment is not existed, then generate a new sequence
@@ -657,7 +657,7 @@ class BoardController extends Board
 			}
 		}
 		// generate comment  controller object
-		$oCommentController = getController('comment');
+		$oCommentController = CommentController::getInstance();
 		if($this->module_info->comment_delete_message === 'yes' && $instant_delete != 'Y')
 		{
 			$output = $oCommentController->updateCommentByDelete($comment, $this->grant->manager);
@@ -725,7 +725,6 @@ class BoardController extends Board
 
 		// generate trackback module controller object
 		$oTrackbackController = getController('trackback');
-
 		if(!$oTrackbackController) return;
 
 		$output = $oTrackbackController->deleteTrackback($trackback_srl, $this->grant->manager);
@@ -811,7 +810,9 @@ class BoardController extends Board
 		}
 
 		$url = getUrl('', 'mid', $mid, 'member_srl', $obj->member_srl);
-		getController('member')->addMemberPopupMenu($url, 'cmd_view_own_document', '', 'self', 'board_own_document');
+
+		$oMemberController = MemberController::getInstance();
+		$oMemberController->addMemberPopupMenu($url, 'cmd_view_own_document', '', 'self', 'board_own_document');
 	}
 
 	/**
