@@ -147,9 +147,16 @@ class BoardController extends Board
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
 			$obj->user_name = $obj->nick_name = $anonymous_name;
 			$obj->member_srl = $logged_info->member_srl * -1;
+
+			// Ensure that anonymous information is preserved on update.
 			if ($oDocument->isExists())
 			{
 				$oDocument->add('member_srl', $obj->member_srl);
+				ModuleController::getInstance()->addTriggerFunction('document.updateDocument', 'before', function($obj) use($anonymous_name, $logged_info) {
+					$obj->email_address = $obj->homepage = $obj->user_id = '';
+					$obj->user_name = $obj->nick_name = $anonymous_name;
+					$obj->member_srl = $logged_info->member_srl * -1;
+				});
 			}
 		}
 
