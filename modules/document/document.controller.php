@@ -559,12 +559,11 @@ class DocumentController extends Document
 		$module_srl = $obj->module_srl;
 		if(!$module_srl) return;
 		// Delete the document
-		$oDocumentAdminController = getAdminController('document');
+		$oDocumentAdminController = DocumentAdminController::getInstance();
 		$output = $oDocumentAdminController->deleteModuleDocument($module_srl);
 		if(!$output->toBool()) return $output;
 		// Delete the category
-		$oDocumentController = getController('document');
-		$output = $oDocumentController->deleteModuleCategory($module_srl);
+		$output = $this->deleteModuleCategory($module_srl);
 		if(!$output->toBool()) return $output;
 		// Delete extra key and variable, because module deleted
 		$this->deleteDocumentExtraKeys($module_srl);
@@ -757,7 +756,7 @@ class DocumentController extends Document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
-			$obj->content = getModel('editor')->converter($obj, 'document');
+			$obj->content = EditorModel::converter($obj, 'document');
 		}
 
 		// Remove iframe and script if not a top adminisrator in the session.
@@ -836,7 +835,7 @@ class DocumentController extends Document
 			}
 		}
 
-		$attachOutput = getController('file')->setFilesValid($obj->document_srl, 'doc');
+		$attachOutput = FileController::getInstance()->setFilesValid($obj->document_srl, 'doc');
 		if(!$attachOutput->toBool())
 		{
 			$oDB->rollback();
@@ -1032,7 +1031,7 @@ class DocumentController extends Document
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
-			$obj->content = getModel('editor')->converter($obj, 'document');
+			$obj->content = EditorModel::converter($obj, 'document');
 		}
 
 		// Remove iframe and script if not a top adminisrator in the session.
@@ -1170,7 +1169,7 @@ class DocumentController extends Document
 		}
 
 		// Update attached file count
-		$attachOutput = getController('file')->setFilesValid($obj->document_srl, 'doc');
+		$attachOutput = FileController::getInstance()->setFilesValid($obj->document_srl, 'doc');
 		if(!$attachOutput->toBool())
 		{
 			$oDB->rollback();
@@ -1406,7 +1405,7 @@ class DocumentController extends Document
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$oTrashAdminController = getAdminController('trash');
+		$oTrashAdminController = TrashAdminController::getInstance();
 		$output = $oTrashAdminController->insertTrash($oTrashVO);
 		if(!$output->toBool())
 		{
@@ -2060,7 +2059,7 @@ class DocumentController extends Document
 		}
 		if ($message_targets)
 		{
-			$oCommunicationController = getController('communication');
+			$oCommunicationController = CommunicationController::getInstance();
 			$message_title = lang('document.declared_message_title');
 			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText(), $declare_message);
 			foreach ($message_targets as $target_member_srl => $val)
@@ -2176,7 +2175,7 @@ class DocumentController extends Document
 		}
 		if ($message_targets)
 		{
-			$oCommunicationController = getController('communication');
+			$oCommunicationController = CommunicationController::getInstance();
 			$message_title = lang('document.declared_cancel_message_title');
 			$message_content = sprintf('<p><a href="%s">%s</a></p>', $oDocument->getPermanentUrl(), $oDocument->getTitleText());
 			foreach ($message_targets as $target_member_srl => $val)
@@ -3159,7 +3158,7 @@ class DocumentController extends Document
 			return $output;
 		}
 
-		$oController = getAdminController('document');
+		$oController = DocumentAdminController::getInstance();
 		if($obj->type == 'move')
 		{
 			if(!$obj->target_module_srl)
@@ -3274,7 +3273,7 @@ Content;
 			}
 
 			// Send
-			$oCommunicationController = getController('communication');
+			$oCommunicationController = CommunicationController::getInstance();
 			foreach ($recipients as $member_srl => $items)
 			{
 				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, sprintf($content, implode('', $items)), true, null, false);
@@ -3345,7 +3344,7 @@ Content;
 		if(!is_array($document_config->declared_message)) $document_config->declared_message = array();
 		$document_config->declared_message = array_values($document_config->declared_message);
 
-		$oModuleController = getController('module');
+		$oModuleController = ModuleController::getInstance();
 		foreach ($module_srl as $srl)
 		{
 			$output = $oModuleController->insertModulePartConfig('document',$srl,$document_config);
@@ -3562,12 +3561,11 @@ Content;
 
 		if(is_array($documentExtraKeys) && is_array($obj->moduleSrlList))
 		{
-			$oDocumentController=getController('document');
 			foreach($obj->moduleSrlList AS $key=>$value)
 			{
 				foreach($documentExtraKeys AS $extraItem)
 				{
-					$oDocumentController->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
+					$this->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
 				}
 			}
 		}
@@ -3577,7 +3575,7 @@ Content;
 	{
 		$documentConfig = ModuleModel::getModulePartConfig('document', $obj->originModuleSrl);
 
-		$oModuleController = getController('module');
+		$oModuleController = ModuleController::getInstance();
 		if(is_array($obj->moduleSrlList))
 		{
 			foreach($obj->moduleSrlList AS $key=>$moduleSrl)

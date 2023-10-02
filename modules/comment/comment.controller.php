@@ -460,8 +460,8 @@ class CommentController extends Comment
 			return;
 		}
 
-		$oCommentController = getAdminController('comment');
-		return $oCommentController->deleteModuleComments($module_srl);
+		$oCommentAdminController = CommentAdminController::getInstance();
+		return $oCommentAdminController->deleteModuleComments($module_srl);
 	}
 
 	/**
@@ -672,7 +672,7 @@ class CommentController extends Comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
-			$obj->content = getModel('editor')->converter($obj, 'comment');
+			$obj->content = EditorModel::converter($obj, 'comment');
 		}
 
 		// remove iframe and script if not a top administrator on the session.
@@ -770,10 +770,8 @@ class CommentController extends Comment
 			return $output;
 		}
 
-		// create the controller object of the document
-		$oDocumentController = getController('document');
-
 		// Update the number of comments in the post
+		$oDocumentController = DocumentController::getInstance();
 		$comment_count = CommentModel::getCommentCount($document_srl);
 		if($comment_count && (!$using_validation || $is_admin))
 		{
@@ -782,7 +780,7 @@ class CommentController extends Comment
 
 		if($obj->uploaded_count > 0)
 		{
-			$attachOutput = getController('file')->setFilesValid($obj->comment_srl, 'com');
+			$attachOutput = FileController::getInstance()->setFilesValid($obj->comment_srl, 'com');
 			if(!$attachOutput->toBool())
 			{
 				$oDB->rollback();
@@ -1012,7 +1010,7 @@ class CommentController extends Comment
 		// if use editor of nohtml, Remove HTML tags from the contents.
 		if(!$manual_updated || isset($obj->allow_html) || isset($obj->use_html))
 		{
-			$obj->content = getModel('editor')->converter($obj, 'comment');
+			$obj->content = EditorModel::converter($obj, 'comment');
 		}
 
 		// remove iframe and script if not a top administrator on the session
@@ -1037,7 +1035,7 @@ class CommentController extends Comment
 
 		if($obj->uploaded_count > 0)
 		{
-			$attachOutput = getController('file')->setFilesValid($obj->comment_srl, 'com');
+			$attachOutput = FileController::getInstance()->setFilesValid($obj->comment_srl, 'com');
 			if(!$attachOutput->toBool())
 			{
 				$oDB->rollback();
@@ -1126,10 +1124,8 @@ class CommentController extends Comment
 		// only document is exists
 		if(is_int($comment_count))
 		{
-			// create the controller object of the document
-			$oDocumentController = getController('document');
-
 			// update comment count of the article posting
+			$oDocumentController = DocumentController::getInstance();
 			$output = $oDocumentController->updateCommentCount($obj->document_srl, $comment_count, NULL, FALSE);
 			if(!$output->toBool())
 			{
@@ -1170,10 +1166,8 @@ class CommentController extends Comment
 		// only document is exists
 		if(is_int($comment_count))
 		{
-			// create the controller object of the document
-			$oDocumentController = getController('document');
-
 			// update comment count of the article posting
+			$oDocumentController = DocumentController::getInstance();
 			$output = $oDocumentController->updateCommentCount($obj->document_srl, $comment_count, NULL, FALSE);
 			if(!$output->toBool())
 			{
@@ -1301,10 +1295,8 @@ class CommentController extends Comment
 		// only document is exists
 		if(is_int($comment_count))
 		{
-			// create the controller object of the document
-			$oDocumentController = getController('document');
-
 			// update comment count of the article posting
+			$oDocumentController = DocumentController::getInstance();
 			$output = $oDocumentController->updateCommentCount($document_srl, $comment_count, NULL, FALSE);
 			if(!$output->toBool())
 			{
@@ -1390,7 +1382,7 @@ class CommentController extends Comment
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$oTrashAdminController = getAdminController('trash');
+		$oTrashAdminController = TrashAdminController::getInstance();
 		$output = $oTrashAdminController->insertTrash($oTrashVO);
 		if(!$output->toBool())
 		{
@@ -1420,7 +1412,8 @@ class CommentController extends Comment
 		$comment_count = CommentModel::getCommentCount($oComment->document_srl);
 		if(is_int($comment_count))
 		{
-			$output = getController('document')->updateCommentCount($oComment->document_srl, $comment_count);
+			$oDocumentController = DocumentController::getInstance();
+			$output = $oDocumentController->updateCommentCount($oComment->document_srl, $comment_count);
 			if(!$output->toBool())
 			{
 				$oDB->rollback();
@@ -1821,7 +1814,7 @@ class CommentController extends Comment
 		}
 		if ($message_targets)
 		{
-			$oCommunicationController = getController('communication');
+			$oCommunicationController = CommunicationController::getInstance();
 			$message_title = lang('document.declared_message_title');
 			$message_content = sprintf('<p><a href="%s">%s</a></p><p>%s</p>', $oComment->getPermanentUrl(), $oComment->getContentText(50), $declare_message);
 			foreach ($message_targets as $target_member_srl => $val)
@@ -1938,7 +1931,7 @@ class CommentController extends Comment
 		}
 		if ($message_targets)
 		{
-			$oCommunicationController = getController('communication');
+			$oCommunicationController = CommunicationController::getInstance();
 			$message_title = lang('document.declared_cancel_message_title');
 			$message_content = sprintf('<p><a href="%s">%s</a></p>', $oComment->getPermanentUrl(), $oComment->getContentText(50));
 			foreach ($message_targets as $target_member_srl => $val)
@@ -2087,7 +2080,7 @@ class CommentController extends Comment
 	 */
 	function setCommentModuleConfig($srl, $comment_config)
 	{
-		$oModuleController = getController('module');
+		$oModuleController = ModuleController::getInstance();
 		$oModuleController->insertModulePartConfig('comment', $srl, $comment_config);
 		return new BaseObject();
 	}
@@ -2176,7 +2169,7 @@ class CommentController extends Comment
 	{
 		$commentConfig = ModuleModel::getModulePartConfig('comment', $obj->originModuleSrl);
 
-		$oModuleController = getController('module');
+		$oModuleController = ModuleController::getInstance();
 		if(is_array($obj->moduleSrlList))
 		{
 			foreach($obj->moduleSrlList as $moduleSrl)
