@@ -590,6 +590,7 @@ class DocumentAdminController extends Document
 			$args->source = $document;
 			$args->copied = $copy;
 			ModuleHandler::triggerCall('document.copyDocumentModule', 'add', $args);
+			ModuleHandler::triggerCall('document.copyDocumentModule.each', 'before', $args);
 
 			// insert a copied document
 			$output = $oDocumentController->insertDocument($copy, true, true);
@@ -608,6 +609,7 @@ class DocumentAdminController extends Document
 				}
 			}
 
+			ModuleHandler::triggerCall('document.copyDocumentModule.each', 'after', $args);
 			$copied_srls[$document->document_srl] = $copy->document_srl;
 		}
 
