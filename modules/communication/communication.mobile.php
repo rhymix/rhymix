@@ -6,9 +6,8 @@
  * @author NAVER (developers@xpressengine.com)
  * Mobile class of communication module
  */
-class communicationMobile extends communicationView
+class CommunicationMobile extends communicationView
 {
-
 	function init()
 	{
 		$this->config = CommunicationModel::getConfig();

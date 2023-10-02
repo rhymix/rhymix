@@ -6,17 +6,8 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief communication module of the admin controller class
  */
-class communicationAdminController extends communication
+class CommunicationAdminController extends communication
 {
-
-	/**
-	 * Initialization
-	 */
-	function init()
-	{
-
-	}
-
 	/**
 	 * save configurations of the communication module
 	 * @return void|Object (success : void, fail : Object)

@@ -6,9 +6,8 @@
  * @author NAVER (developers@xpressengine.com)
  * communication module of the Model class
  */
-class communicationModel extends communication
+class CommunicationModel extends communication
 {
-
 	/**
 	 * Initialization
 	 * @return void

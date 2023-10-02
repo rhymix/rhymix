@@ -6,7 +6,7 @@
  * @author NAVER (developers@xpressengine.com)
  * communication module of the high class
  */
-class communication extends ModuleObject
+class Communication extends ModuleObject
 {
 	private $triggers = array(
 		array('moduleHandler.init', 'communication', 'controller', 'triggerModuleHandlerBefore', 'before'),

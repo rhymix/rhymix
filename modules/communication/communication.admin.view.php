@@ -6,17 +6,8 @@
  * @author NAVER (developers@xpressengine.com)
  * communication module of the admin view class
  */
-class communicationAdminView extends communication
+class CommunicationAdminView extends communication
 {
-
-	/**
-	 * Initialization
-	 */
-	function init()
-	{
-
-	}
-
 	/**
 	 * configuration to manage messages and friends
 	 * @return void

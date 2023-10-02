@@ -6,9 +6,8 @@
  * @author NAVER (developers@xpressengine.com)
  * communication module of the Controller class
  */
-class communicationController extends communication
+class CommunicationController extends communication
 {
-
 	/**
 	 * Initialization
 	 */

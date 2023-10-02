@@ -6,17 +6,8 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief communication module of the admin model class
  */
-class communicationAdminModel extends communication
+class CommunicationAdminModel extends communication
 {
-
-	/**
-	 * Initialization
-	 */
-	function init()
-	{
-
-	}
-
 	/**
 	 * the html to select colorset of the skin
 	 * @return void
