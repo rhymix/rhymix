@@ -33,7 +33,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function exists($path)
+	public static function exists(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		clearstatcache(true, $path);
@@ -46,7 +46,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isFile($path)
+	public static function isFile(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_file($path);
@@ -58,7 +58,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isEmptyFile($path)
+	public static function isEmptyFile(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_file($path) && (@filesize($path) == 0);
@@ -71,7 +71,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isDirectory($path)
+	public static function isDirectory(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_dir($path);
@@ -83,7 +83,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isEmptyDirectory($path)
+	public static function isEmptyDirectory(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		if (!self::isDirectory($path))
@@ -101,7 +101,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isSymlink($path)
+	public static function isSymlink(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @is_link($path);
@@ -113,7 +113,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isValidSymlink($path)
+	public static function isValidSymlink(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @is_link($path) && ($target = @readlink($path)) !== false && self::exists($target);
@@ -125,7 +125,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isReadable($path)
+	public static function isReadable(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_readable($path);
@@ -137,7 +137,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isWritable($path)
+	public static function isWritable(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		return @self::exists($path) && @is_writable($path);
@@ -149,7 +149,7 @@ class Storage
 	 * @param string $path
 	 * @return bool
 	 */
-	public static function isExecutable($path)
+	public static function isExecutable(string $path): bool
 	{
 		$path = rtrim($path, '/\\');
 		if (function_exists('exec') && !\RX_WINDOWS)
@@ -178,7 +178,7 @@ class Storage
 	 * @param string $filename
 	 * @return int|false
 	 */
-	public static function getSize($filename)
+	public static function getSize(string $filename)
 	{
 		$filename = rtrim($filename, '/\\');
 		if (self::exists($filename) && @is_file($filename) && @is_readable($filename))
@@ -203,7 +203,7 @@ class Storage
 	 * @param bool $stream (optional)
 	 * @return string|resource|false
 	 */
-	public static function read($filename, $stream = false)
+	public static function read(string $filename, bool $stream = false)
 	{
 		$filename = rtrim($filename, '/\\');
 		if (self::exists($filename) && @is_file($filename) && @is_readable($filename))
@@ -237,7 +237,7 @@ class Storage
 	 * @param string $filename
 	 * @return mixed
 	 */
-	public static function readPHPData($filename)
+	public static function readPHPData(string $filename)
 	{
 		$filename = rtrim($filename, '/\\');
 		if (@is_file($filename) && @is_readable($filename))
@@ -263,7 +263,7 @@ class Storage
 	 * @param int $perms (optional)
 	 * @return string|false
 	 */
-	public static function write($filename, $content, $mode = 'w', $perms = null)
+	public static function write(string $filename, $content, string $mode = 'w', int $perms = null)
 	{
 		$filename = rtrim($filename, '/\\');
 		$destination_dir = dirname($filename);
@@ -355,11 +355,11 @@ class Storage
 	 *
 	 * @param string $filename
 	 * @param mixed $data
-	 * @param string $comment (optional)
+	 * @param string|null $comment (optional)
 	 * @param bool $serialize (optional)
 	 * @return string|false
 	 */
-	public static function writePHPData($filename, $data, $comment = null, $serialize = true)
+	public static function writePHPData(string $filename, $data, ?string $comment = null, bool $serialize = true)
 	{
 		if ($comment !== null)
 		{
@@ -376,6 +376,7 @@ class Storage
 		{
 			$content = '<' . '?php ' . $comment . 'return ' . var_export($data, true) . ';' . PHP_EOL;
 		}
+
 		return self::write($filename, $content);
 	}
 
@@ -387,10 +388,10 @@ class Storage
 	 *
 	 * @param string $source
 	 * @param string $destination
-	 * @param int $destination_perms
+	 * @param ?int $destination_perms (optional)
 	 * @return bool
 	 */
-	public static function copy($source, $destination, $destination_perms = null)
+	public static function copy(string $source, string $destination, ?int $destination_perms = null): bool
 	{
 		$source = rtrim($source, '/\\');
 		$destination = rtrim($destination, '/\\');
@@ -485,7 +486,7 @@ class Storage
 	 * @param string $destination
 	 * @return bool
 	 */
-	public static function move($source, $destination)
+	public static function move(string $source, string $destination): bool
 	{
 		$source = rtrim($source, '/\\');
 		$destination = rtrim($destination, '/\\');
@@ -545,10 +546,10 @@ class Storage
 	 *
 	 * @param string $source
 	 * @param string $destination
-	 * @param string $type
+	 * @param string $type (optional)
 	 * @return bool
 	 */
-	public static function moveUploadedFile($source, $destination, $type = null)
+	public static function moveUploadedFile(string $source, string $destination, string $type = ''): bool
 	{
 		if ($type === 'copy')
 		{
@@ -592,7 +593,7 @@ class Storage
 	 * @param string $filename
 	 * @return bool
 	 */
-	public static function delete($filename)
+	public static function delete(string $filename): bool
 	{
 		$filename = rtrim($filename, '/\\');
 		if (!self::exists($filename))
@@ -621,9 +622,10 @@ class Storage
 	 * Create a directory.
 	 *
 	 * @param string $dirname
+	 * @param ?int $mode
 	 * @return bool
 	 */
-	public static function createDirectory($dirname, $mode = null)
+	public static function createDirectory(string $dirname, ?int $mode = null): bool
 	{
 		$dirname = rtrim($dirname, '/\\');
 		if ($mode === null)
@@ -659,7 +661,7 @@ class Storage
 	 * @param bool $skip_subdirs (optional)
 	 * @return array|false
 	 */
-	public static function readDirectory($dirname, $full_path = true, $skip_dotfiles = true, $skip_subdirs = true)
+	public static function readDirectory(string $dirname, bool $full_path = true, bool $skip_dotfiles = true, bool $skip_subdirs = true)
 	{
 		$dirname = rtrim($dirname, '/\\');
 		if (!self::isDirectory($dirname))
@@ -701,7 +703,7 @@ class Storage
 	 * @param string $exclude_regexp (optional)
 	 * @return bool
 	 */
-	public static function copyDirectory($source, $destination, $exclude_regexp = null)
+	public static function copyDirectory(string $source, string $destination, string $exclude_regexp = ''): bool
 	{
 		$source = rtrim($source, '/\\');
 		$destination = rtrim($destination, '/\\');
@@ -761,7 +763,7 @@ class Storage
 	 * @param string $destination
 	 * @return bool
 	 */
-	public static function moveDirectory($source, $destination)
+	public static function moveDirectory(string $source, string $destination): bool
 	{
 		return self::move($source, $destination);
 	}
@@ -773,7 +775,7 @@ class Storage
 	 * @param bool $delete_self (optional)
 	 * @return bool
 	 */
-	public static function deleteDirectory($dirname, $delete_self = true)
+	public static function deleteDirectory(string $dirname, bool $delete_self = true): bool
 	{
 		$dirname = rtrim($dirname, '/\\');
 		if (!self::exists($dirname))
@@ -836,7 +838,7 @@ class Storage
 	 * @param bool $delete_empty_parents (optional)
 	 * @return bool
 	 */
-	public static function deleteEmptyDirectory($dirname, $delete_empty_parents = false)
+	public static function deleteEmptyDirectory(string $dirname, bool $delete_empty_parents = false): bool
 	{
 		$dirname = rtrim($dirname, '/\\');
 		if (!self::isDirectory($dirname) || !self::isEmptyDirectory($dirname))
@@ -864,7 +866,7 @@ class Storage
 	 *
 	 * @return int
 	 */
-	public static function getUmask()
+	public static function getUmask(): int
 	{
 		if (self::$_umask === null)
 		{
@@ -879,9 +881,9 @@ class Storage
 	 * @param int $umask
 	 * @return void
 	 */
-	public static function setUmask($umask)
+	public static function setUmask(int $umask): void
 	{
-		self::$_umask = intval($umask);
+		self::$_umask = $umask;
 	}
 
 	/**
@@ -889,7 +891,7 @@ class Storage
 	 *
 	 * @return string
 	 */
-	public static function recommendUmask()
+	public static function recommendUmask(): string
 	{
 		// On Windows, set the umask to 0000.
 		if (\RX_WINDOWS)
@@ -951,9 +953,10 @@ class Storage
 	/**
 	 * Obtain an exclusive lock.
 	 *
+	 * @param string $name
 	 * @return bool
 	 */
-	public static function getLock($name)
+	public static function getLock(string $name): bool
 	{
 		$name = str_replace('.', '%2E', rawurlencode($name));
 		if (isset(self::$_locks[$name]))
@@ -991,7 +994,7 @@ class Storage
 	 *
 	 * @return void
 	 */
-	public static function clearLocks()
+	public static function clearLocks(): void
 	{
 		foreach (self::$_locks as $name => $lock)
 		{
