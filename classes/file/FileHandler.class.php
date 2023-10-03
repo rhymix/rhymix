@@ -13,7 +13,7 @@ class FileHandler
 	 * @param string $source path to change into absolute path
 	 * @return string Absolute path
 	 */
-	public static function getRealPath($source)
+	public static function getRealPath($source): string
 	{
 		if (strncmp($source, './', 2) === 0)
 		{
@@ -21,7 +21,7 @@ class FileHandler
 		}
 		elseif (preg_match('@^(?:/|[a-z]:[\\\\/]|\\\\|https?:)@i', $source))
 		{
-			return $source;
+			return (string)$source;
 		}
 		else
 		{
@@ -39,9 +39,9 @@ class FileHandler
 	 * @param string $filter Regex to filter files. If file matches this regex, the file is not copied.
 	 * @return void
 	 */
-	public static function copyDir($source_dir, $target_dir, $filter = null)
+	public static function copyDir($source_dir, $target_dir, $filter = '')
 	{
-		return Rhymix\Framework\Storage::copyDirectory(self::getRealPath($source_dir), self::getRealPath($target_dir), $filter);
+		return Rhymix\Framework\Storage::copyDirectory(self::getRealPath($source_dir), self::getRealPath($target_dir), $filter ?: '');
 	}
 
 	/**
@@ -79,7 +79,7 @@ class FileHandler
 	 */
 	public static function writeFile($filename, $buff, $mode = "w")
 	{
-		return Rhymix\Framework\Storage::write(self::getRealPath($filename), $buff, $mode);
+		return Rhymix\Framework\Storage::write(self::getRealPath($filename), (string)$buff, (string)$mode);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class FileHandler
 	 */
 	public static function readDir($path, $filter = '', $to_lower = FALSE, $concat_prefix = FALSE)
 	{
-		$list = Rhymix\Framework\Storage::readDirectory(self::getRealPath($path), $concat_prefix, true, false);
+		$list = Rhymix\Framework\Storage::readDirectory(self::getRealPath($path), (bool)$concat_prefix, true, false);
 		if (!$list)
 		{
 			return array();
@@ -705,6 +705,7 @@ class FileHandler
 	 */
 	public static function readIniFile($filename)
 	{
+		$filename = (string)$filename;
 		if(!Rhymix\Framework\Storage::isReadable($filename))
 		{
 			return false;
