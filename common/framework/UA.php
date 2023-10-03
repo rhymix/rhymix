@@ -8,6 +8,19 @@ namespace Rhymix\Framework;
 class UA
 {
 	/**
+	 * Public properties to be used in getBrowserInfo().
+	 */
+	public $browser;
+	public $version;
+	public $os;
+	public $os_version;
+	public $device;
+	public $is_mobile;
+	public $is_tablet;
+	public $is_webview;
+	public $is_robot;
+
+	 /**
 	 * Cache to prevent multiple lookups.
 	 */
 	protected static $_mobile_cache = array();
@@ -196,25 +209,15 @@ class UA
 	 * This method parses the User-Agent string to guess what kind of browser it is.
 	 *
 	 * @param string $ua (optional)
-	 * @return object
+	 * @return self
 	 */
-	public static function getBrowserInfo(?string $ua = null): object
+	public static function getBrowserInfo(?string $ua = null): self
 	{
 		// Get the User-Agent header if the caller did not specify $ua.
 		$ua = $ua ?: ($_SERVER['HTTP_USER_AGENT'] ?? null);
 
 		// Initialize the result.
-		$result = (object)array(
-			'browser' => null,
-			'version' => null,
-			'os' => null,
-			'os_version' => null,
-			'device' => null,
-			'is_mobile' => null,
-			'is_tablet' => null,
-			'is_webview' => null,
-			'is_robot' => null,
-		);
+		$result = new self;
 		if (is_null($ua))
 		{
 			return $result;
