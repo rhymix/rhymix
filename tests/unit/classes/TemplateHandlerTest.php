@@ -3,7 +3,7 @@
 class TemplateHandlerTest extends \Codeception\TestCase\Test
 {
 	private $baseurl;
-    private $prefix = '<?php if(!defined("__XE__"))exit;';
+    private $prefix = '<?php if (!defined("RX_VERSION")) exit();';
 
 	public function _before()
 	{
@@ -531,7 +531,6 @@ class TemplateHandlerTest extends \Codeception\TestCase\Test
     }
 }
 
-
 class TemplateHandlerWrapper extends \TemplateHandler {
     private $inst;
 
@@ -540,10 +539,10 @@ class TemplateHandlerWrapper extends \TemplateHandler {
     }
 
     public function init($tpl_path, $tpl_filename, $tpl_file = '') {
-        call_user_func(array($this->inst, 'init'), $tpl_path, $tpl_filename, $tpl_file);
+		$this->inst->_setSourcePath($tpl_path, $tpl_filename, $tpl_file);
     }
 
     public function parse($buff = null) {
-        return call_user_func(array($this->inst, 'parse'), $buff);
+		return $this->inst->_convert($buff);
     }
 }

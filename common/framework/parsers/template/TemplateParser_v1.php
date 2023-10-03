@@ -1,338 +1,72 @@
 <?php
 
-class_alias('Rhymix\Framework\Template', 'TemplateHandler');
+namespace Rhymix\Framework\Parsers\Template;
 
-/**
- * Template compiler
- *
- * @author NAVER (developers@xpressengine.com)
- */
-class XETemplateHandler
+use HTMLDisplayHandler;
+use Rhymix\Framework\Template;
+
+class TemplateParser_v1
 {
-	private $path = NULL; ///< target directory
-	private $filename = NULL; ///< target filename
-	private $file = NULL; ///< target file (fullpath)
-	private $web_path = NULL; ///< tpl file web path
-	private $compiled_file = NULL; ///< tpl file web path
-	private $source_type = NULL;
-	private $config = NULL;
-	private $skipTags = NULL;
-	private $handler_mtime = 0;
-	private $delay_compile = 0;
-	private static $rootTpl = NULL;
-
 	/**
-	 * Context variables accessible as $this in template files
+	 * Instance properties.
 	 */
-	public $user = FALSE;
+	public $autoescape_config_exists;
+	public $source_type;
+	public $template;
 
 	/**
-	 * constructor
-	 * @return void
-	 */
-	public function __construct()
-	{
-		ini_set('pcre.jit', false);
-		$this->config = new stdClass;
-		$this->handler_mtime = filemtime(__FILE__);
-		$this->delay_compile = config('view.delay_compile') ?? 0;
-		$this->user = Rhymix\Framework\Session::getMemberInfo();
-	}
-
-	/**
-	 * returns TemplateHandler's singleton object
-	 * @return TemplateHandler instance
-	 */
-	public static function getInstance()
-	{
-		static $oTemplate = NULL;
-
-		if(!isset($GLOBALS['__TemplateHandlerCalled__']))
-		{
-			$GLOBALS['__TemplateHandlerCalled__'] = 1;
-		}
-		else
-		{
-			$GLOBALS['__TemplateHandlerCalled__']++;
-		}
-
-		if(!$oTemplate)
-		{
-			$oTemplate = new TemplateHandler();
-		}
-
-		return $oTemplate;
-	}
-
-	/**
-	 * Reset all instance properties to the default state.
+	 * Convert template code into PHP.
 	 *
-	 * @return void
+	 * @param string $content
+	 * @param Template $template
+	 * @return string
 	 */
-	protected function resetState()
+	public function convert(string $content, Template $template): string
 	{
-		$this->path = null;
-		$this->web_path = null;
-		$this->filename = null;
-		$this->file = null;
-		$this->compiled_file = null;
-		$this->source_type = null;
-		$this->config = new stdClass;
-		$this->skipTags = null;
-		self::$rootTpl = null;
-	}
-
-	/**
-	 * set variables for template compile
-	 * @param string $tpl_path
-	 * @param string $tpl_filename
-	 * @param string $tpl_file
-	 * @return void
-	 */
-	protected function init($tpl_path, $tpl_filename, $tpl_file = '')
-	{
-		// verify arguments
-		$tpl_path = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_path)), '/') . '/';
-		$tpl_path = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $tpl_path);
-		if($tpl_path === '/')
-		{
-			$tpl_path = '';
-		}
-		elseif(!is_dir(\RX_BASEDIR . $tpl_path))
-		{
-			$this->resetState();
-			return;
-		}
-
-		if(!file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename) && file_exists(\RX_BASEDIR . $tpl_path . $tpl_filename . '.html'))
-		{
-			$tpl_filename .= '.html';
-		}
-
-		// create tpl_file variable
-		if($tpl_file)
-		{
-			$tpl_file = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', str_replace('\\', '/', $tpl_file)), '/');
-		}
-		else
-		{
-			$tpl_file = $tpl_path . $tpl_filename;
-		}
-
-		// set template file infos.
-		$this->path = \RX_BASEDIR . $tpl_path;
-		$this->web_path = \RX_BASEURL . $tpl_path;
-		$this->filename = $tpl_filename;
-		$this->file = \RX_BASEDIR . $tpl_file;
-
-		// set compiled file name
-		$converted_path = ltrim(str_replace(array('\\', '..'), array('/', 'dotdot'), $tpl_file), '/');
-		$this->compiled_file = \RX_BASEDIR . 'files/cache/template/' . $converted_path . '.php';
-		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $tpl_path, $matches) ? $matches[1] : null;
-	}
-
-	/**
-	 * compiles specified tpl file and execution result in Context into resultant content
-	 * @param string $tpl_path path of the directory containing target template file
-	 * @param string $tpl_filename target template file's name
-	 * @param string $tpl_file if specified use it as template file's full path
-	 * @return string Returns compiled result in case of success, NULL otherwise
-	 */
-	public function compile($tpl_path, $tpl_filename, $tpl_file = '')
-	{
-		// store the starting time for debug information
-		$start = microtime(true);
-
-		// initiation
-		$this->init($tpl_path, $tpl_filename, $tpl_file);
-
-		// if target file does not exist exit
-		if(!$this->file || !file_exists($this->file))
-		{
-			$tpl_path = rtrim(str_replace('\\', '/', $tpl_path), '/') . '/';
-			$error_message = vsprintf('Template not found: %s%s%s', array(
-				starts_with(\RX_BASEDIR, $tpl_path) ? substr($tpl_path, strlen(\RX_BASEDIR)) : $tpl_path,
-				preg_replace('/\.html$/i', '', $tpl_filename) . '.html',
-				$tpl_file ? " ($tpl_file)" : '',
-			));
-			trigger_error($error_message, \E_USER_WARNING);
-			return escape($error_message);
-		}
-
-		// for backward compatibility
-		if(is_null(self::$rootTpl))
-		{
-			self::$rootTpl = $this->file;
-		}
-
-		// Don't try to compile files that are less than 1 second old
-		$filemtime = filemtime($this->file);
-		if ($filemtime > time() - $this->delay_compile)
-		{
-			$latest_mtime = $this->handler_mtime;
-		}
-		else
-		{
-			$latest_mtime = max($filemtime, $this->handler_mtime);
-		}
-
-		// make compiled file
-		if(!file_exists($this->compiled_file) || filemtime($this->compiled_file) < $latest_mtime)
-		{
-			$buff = $this->parse();
-			if($buff === null && file_exists($this->compiled_file))
-			{
-				$error_message = 'Template compile failed: Source file is unreadable: ' . $this->file;
-				trigger_error($error_message, \E_USER_WARNING);
-			}
-			elseif(Rhymix\Framework\Storage::write($this->compiled_file, $buff) === false)
-			{
-				$tmpfilename = tempnam(sys_get_temp_dir(), 'rx-compiled');
-				if($tmpfilename === false || Rhymix\Framework\Storage::write($tmpfilename, $buff) === false)
-				{
-					$error_message = 'Template compile failed: Cannot create temporary file. Please check permissions.';
-					trigger_error($error_message, \E_USER_WARNING);
-					return escape($error_message);
-				}
-
-				$this->compiled_file = $tmpfilename;
-			}
-		}
-
-		Rhymix\Framework\Debug::addFilenameAlias($this->file, $this->compiled_file);
-		$output = $this->_fetch($this->compiled_file);
-
-		// delete tmpfile
-		if(isset($tmpfilename))
-		{
-			Rhymix\Framework\Storage::delete($tmpfilename);
-		}
-
-		if(isset($__templatehandler_root_tpl) && $__templatehandler_root_tpl == $this->file)
-		{
-			$__templatehandler_root_tpl = null;
-		}
-
-		// store the ending time for debug information
-		if (!isset($GLOBALS['__template_elapsed__']))
-		{
-			$GLOBALS['__template_elapsed__'] = 0;
-		}
-		$GLOBALS['__template_elapsed__'] += microtime(true) - $start;
-
-		return $output;
-	}
-
-	/**
-	 * compile specified file and immediately return
-	 * @param string $tpl_path path of the directory containing target template file
-	 * @param string $tpl_filename target template file's name
-	 * @return string Returns compiled content in case of success or NULL in case of failure
-	 */
-	public function compileDirect($tpl_path, $tpl_filename)
-	{
-		$this->init($tpl_path, $tpl_filename, null);
-
-		// if target file does not exist exit
-		if(!$this->file || !file_exists($this->file))
-		{
-			$tpl_path = rtrim(str_replace('\\', '/', $tpl_path), '/') . '/';
-			$error_message = vsprintf('Template not found: %s%s', array(
-				starts_with(\RX_BASEDIR, $tpl_path) ? substr($tpl_path, strlen(\RX_BASEDIR)) : $tpl_path,
-				preg_replace('/\.html$/i', '', $tpl_filename) . '.html',
-			));
-			trigger_error($error_message, \E_USER_WARNING);
-			return escape($error_message);
-		}
-
-		return $this->parse();
-	}
-
-	/**
-	 * parse syntax.
-	 * @param string $buff template file
-	 * @return string compiled result in case of success or NULL in case of error
-	 */
-	protected function parse($buff = null)
-	{
-		if(is_null($buff))
-		{
-			if(!is_readable($this->file))
-			{
-				return;
-			}
-
-			// read tpl file
-			$buff = Rhymix\Framework\Storage::read($this->file);
-			if ($buff === false)
-			{
-				return;
-			}
-			$buff_type = 'file';
-		}
-		else
-		{
-			$buff_type = 'string';
-		}
-
-		// HTML tags to skip
-		if(is_null($this->skipTags))
-		{
-			$this->skipTags = array('marquee');
-		}
-
-		// reset config for this buffer (this step is necessary because we use a singleton for every template)
-		$previous_config = clone $this->config;
-		$this->config = new stdClass();
-
-		// detect existence of autoescape config
-		$this->config->autoescape = (strpos($buff, ' autoescape="') === false) ? null : false;
-
-		// remove UTF-8 BOM and convert CRLF to LF
-		$buff = preg_replace(['/^\xEF\xBB\xBF/', '/\r\n/'], ['', "\n"], $buff);
+		// Prepare default settings.
+		ini_set('pcre.jit', false);
+		$this->autoescape_config_exists = str_contains($content, '$this->config->autoescape = ');
+		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $template->relative_dirname, $matches) ? $matches[1] : null;
+		$this->template = $template;
 
 		// replace comments
-		$buff = preg_replace('@<!--//.*?-->@s', '', $buff);
+		$content = preg_replace('@<!--//.*?-->@s', '', $content);
 
 		// replace value of src in img/input/script tag
-		$buff = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file|data):|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $buff);
+		$content = preg_replace_callback('/<(?:img|input|script)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* src="(?!(?:https?|file|data):|[\/\{])([^"]+)"/is', array($this, '_replacePath'), $content);
 
 		// replace value of srcset in img/source/link tag
-		$buff = preg_replace_callback('/<(?:img|source|link)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* srcset="([^"]+)"/is', array($this, '_replaceSrcsetPath'), $buff);
+		$content = preg_replace_callback('/<(?:img|source|link)(?:[^<>]*?)(?(?=cond=")(?:cond="[^"]+"[^<>]*)+|)[^<>]* srcset="([^"]+)"/is', array($this, '_replaceSrcsetPath'), $content);
 
 		// replace loop and cond template syntax
-		$buff = $this->_parseInline($buff);
+		$content = $this->_parseInline($content);
 
 		// include, unload/load, import
-		$buff = preg_replace_callback('/{(@[\s\S]+?|(?=[\$\\\\]\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?)|config)(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $buff);
+		$content = preg_replace_callback('/{(@[\s\S]+?|(?=[\$\\\\]\w+|_{1,2}[A-Z]+|[!\(+-]|\w+(?:\(|::)|\d+|[\'"].*?[\'"]).+?)}|<(!--[#%])?(include|import|(un)?load(?(4)|(?:_js_plugin)?)|config)(?(2)\(["\']([^"\']+)["\'])(.*?)(?(2)\)--|\/)>|<!--(@[a-z@]*)([\s\S]*?)-->(\s*)/', array($this, '_parseResource'), $content);
 
 		// remove block which is a virtual tag
-		$buff = preg_replace('@</?block\s*>@is', '', $buff);
+		$content = preg_replace('@</?block\s*>@is', '', $content);
 
 		// form auto generation
-		$temp = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $buff);
+		$temp = preg_replace_callback('/(<form(?:<\?php.+?\?>|[^<>]+)*?>)(.*?)(<\/form>)/is', array($this, '_compileFormAuthGeneration'), $content);
 		if($temp)
 		{
-			$buff = $temp;
+			$content = $temp;
 		}
 
 		// prevent from calling directly before writing into file
-		$buff = '<?php if(!defined("__XE__"))exit;?>' . $buff;
+		$content = '<?php if (!defined("RX_VERSION")) exit();?>' . $content;
 
 		// restore curly braces from temporary entities
-		$buff = self::_replaceTempEntities($buff);
+		$content = self::_replaceTempEntities($content);
 
 		// remove php script reopening
-		$buff = preg_replace_callback('/([;{])?( )*\?\>\<\?php\s/', function($match) {
+		$content = preg_replace_callback('/([;{])?( )*\?\>\<\?php\s/', function($match) {
 			return $match[1] === '{' ? '{ ' : '; ';
-		}, $buff);
+		}, $content);
 
 		// remove empty lines
-		if ($buff_type === 'file')
-		{
-			$buff = rtrim($buff) . PHP_EOL;
-		}
-		$buff = preg_replace([
+		$content = preg_replace([
 			'/>\<\?php } \?\>\n[\t\x20]*?(?=\n<!--)/',
 			'/\n[\t\x20]*?(?=\n<!--)/',
 			'/\n[\t\x20]+?\<\?php/',
@@ -340,12 +74,9 @@ class XETemplateHandler
 			"><?php } ?>\n<?php echo \"\\n\"; ?>",
 			"\n<?php ?>",
 			"\n\t<?php",
-		], $buff);
+		], $content);
 
-		// restore config to previous value
-		$this->config = $previous_config;
-
-		return $buff;
+		return $content;
 	}
 
 	/**
@@ -391,13 +122,13 @@ class XETemplateHandler
 					$fileName = str_replace(' ?>', '', $fileName);
 					$path = '#./files/ruleset/' . $fileName . '.xml';
 
-					preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm);
+					preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->template->relative_path, $mm);
 					$module_path = $mm[1];
 					list($rulsetFile) = explode('.', $fileName);
 					$autoPath = $module_path . '/ruleset/' . $rulsetFile . '.xml';
 					$m[1] = $rulsetFile;
 				}
-				else if(preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->path, $mm))
+				else if(preg_match('@(?:^|\.?/)(modules/[\w-]+)@', $this->template->relative_path, $mm))
 				{
 					$module_path = $mm[1];
 					$path = $module_path . '/ruleset/' . $m[1] . '.xml';
@@ -448,45 +179,6 @@ class XETemplateHandler
 	}
 
 	/**
-	 * fetch using ob_* function
-	 * @param string $filename compiled template file name
-	 * @return string
-	 */
-	private function _fetch($filename)
-	{
-		// Remember the current template filename.
-		$__current_filename = $this->web_path . $this->filename;
-
-		// Import Context and lang as local variables.
-		$__Context = Context::getAll();
-		$__Context->tpl_path = $this->path;
-		global $lang;
-
-		// Start the output buffer.
-		$__ob_level_before_fetch = ob_get_level();
-		ob_start();
-
-		// Include the compiled template.
-		include $filename;
-
-		// Fetch contents of the output buffer until the buffer level is the same as before.
-		$contents = '';
-		while (ob_get_level() > $__ob_level_before_fetch)
-		{
-			$contents .= ob_get_clean();
-		}
-
-		// Insert template path comment tag.
-		if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $contents) && !starts_with('<?xml', $contents))
-		{
-			$sign = '<!--#Template%s:' . $__current_filename . '-->' . "\n";
-			$contents = sprintf($sign, 'Start') . $contents . sprintf($sign, 'End');
-		}
-
-		return $contents;
-	}
-
-	/**
 	 * preg_replace_callback handler
 	 *
 	 * replace image path
@@ -522,7 +214,7 @@ class XETemplateHandler
 
 		$src = preg_replace('@^(\./)+@', '', trim($match[1]));
 
-		$src = $this->web_path . $src;
+		$src = \RX_BASEURL . $this->template->relative_dirname . $src;
 		$src = str_replace('/./', '/', $src);
 
 		// for backward compatibility
@@ -564,17 +256,17 @@ class XETemplateHandler
 
 	/**
 	 * replace loop and cond template syntax
-	 * @param string $buff
+	 * @param string $content
 	 * @return string changed result
 	 */
-	private function _parseInline($buff)
+	private function _parseInline($content)
 	{
 		// list of self closing tags
 		$self_closing = array('area' => 1, 'base' => 1, 'basefont' => 1, 'br' => 1, 'hr' => 1, 'input' => 1, 'img' => 1, 'link' => 1, 'meta' => 1, 'param' => 1, 'frame' => 1, 'col' => 1);
 
-		$skip = $this->skipTags ? sprintf('(?!%s)', implode('|', $this->skipTags)) : '';
+		$skip = sprintf('(?!%s)', implode('|', ['marquee']));
 		$split_regex = "@(</?{$skip}[a-zA-Z](?>[^<>{}\"]+|<!--.*?-->.*?<!--.*?end-->|{[^}]*}|\"(?>'.*?'|.)*?\"|.)*?>)@s";
-		$nodes = preg_split($split_regex, $buff, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$nodes = preg_split($split_regex, $content, -1, PREG_SPLIT_DELIM_CAPTURE);
 
 		for($idx = 1, $node_len = count($nodes); $idx < $node_len; $idx+=2)
 		{
@@ -678,9 +370,9 @@ class XETemplateHandler
 			}
 		}
 
-		$buff = implode('', $nodes);
+		$content = implode('', $nodes);
 
-		return $buff;
+		return $content;
 	}
 
 	/**
@@ -707,7 +399,7 @@ class XETemplateHandler
 			else
 			{
 				// Get escape options.
-				if($m[1] === '$content' && preg_match('@/layouts/.+/layout\.html$@', $this->file))
+				if($m[1] === '$content' && preg_match('@^layouts/.+/layout\.html$@', $this->template->relative_path))
 				{
 					$escape_option = 'noescape';
 				}
@@ -721,7 +413,7 @@ class XETemplateHandler
 				}
 				else
 				{
-					$escape_option = $this->config->autoescape !== null ? 'auto' : 'noescape';
+					$escape_option = $this->autoescape_config_exists ? 'auto' : 'noescape';
 				}
 
 				// Separate filters from variable.
@@ -879,7 +571,7 @@ class XETemplateHandler
 			{
 				// <!--#include--> or <include ..>
 				case 'include':
-					if(!$this->file || !$attr['target'])
+					if(!$this->template->relative_dirname || !$attr['target'])
 					{
 						return '';
 					}
@@ -1107,7 +799,7 @@ class XETemplateHandler
 	{
 		$_path = $path;
 
-		$fileDir = strtr(realpath($this->path), '\\', '/');
+		$fileDir = $this->template->absolute_dirname;
 		if($path[0] != '/')
 		{
 			$path = strtr(realpath($fileDir . '/' . $path), '\\', '/');
