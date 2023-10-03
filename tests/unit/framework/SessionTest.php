@@ -180,10 +180,16 @@ class SessionTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Session::login(42);
 		$this->assertFalse(Rhymix\Framework\Session::isAdmin());
 
-		Rhymix\Framework\Session::setMemberInfo((object)array('member_srl' => 42, 'is_admin' => 'Y'));
+		$member_info = new Rhymix\Framework\Helpers\SessionHelper();
+		$member_info->member_srl = 42;
+		$member_info->is_admin = 'Y';
+		Rhymix\Framework\Session::setMemberInfo($member_info);
 		$this->assertTrue(Rhymix\Framework\Session::isAdmin());
 
-		Rhymix\Framework\Session::setMemberInfo((object)array('member_srl' => 99, 'is_admin' => 'Y'));
+		$member_info = new Rhymix\Framework\Helpers\SessionHelper();
+		$member_info->member_srl = 99;
+		$member_info->is_admin = 'Y';
+		Rhymix\Framework\Session::setMemberInfo($member_info);
 		$this->assertFalse(Rhymix\Framework\Session::isAdmin());
 
 		Rhymix\Framework\Session::close();
@@ -229,7 +235,7 @@ class SessionTest extends \Codeception\TestCase\Test
 	public function testGetMemberSrl()
 	{
 		@Rhymix\Framework\Session::start();
-		$this->assertEquals(false, Rhymix\Framework\Session::getMemberSrl());
+		$this->assertEquals(0, Rhymix\Framework\Session::getMemberSrl());
 
 		Rhymix\Framework\Session::login(42);
 		$this->assertEquals(42, Rhymix\Framework\Session::getMemberSrl());
@@ -245,11 +251,17 @@ class SessionTest extends \Codeception\TestCase\Test
 		Rhymix\Framework\Session::login(42);
 		$this->assertEquals(new Rhymix\Framework\Helpers\SessionHelper(), Rhymix\Framework\Session::getMemberInfo());
 
-		Rhymix\Framework\Session::setMemberInfo((object)array('member_srl' => 42));
-		$this->assertEquals((object)array('member_srl' => 42), Rhymix\Framework\Session::getMemberInfo());
+		$member_info = new Rhymix\Framework\Helpers\SessionHelper();
+		$member_info->member_srl = 42;
+		Rhymix\Framework\Session::setMemberInfo($member_info);
+		$this->assertEquals(42, Rhymix\Framework\Session::getMemberInfo()->member_srl);
 
-		Rhymix\Framework\Session::setMemberInfo((object)array('member_srl' => 99, 'is_admin' => 'Y'));
-		$this->assertEquals(new Rhymix\Framework\Helpers\SessionHelper(), Rhymix\Framework\Session::getMemberInfo());
+		$member_info = new Rhymix\Framework\Helpers\SessionHelper();
+		$member_info->member_srl = 99;
+		$member_info->is_admin = 'Y';
+		Rhymix\Framework\Session::setMemberInfo($member_info);
+		$this->assertEquals(0, Rhymix\Framework\Session::getMemberInfo()->member_srl);
+		$this->assertEquals('N', Rhymix\Framework\Session::getMemberInfo()->is_admin);
 
 		Rhymix\Framework\Session::close();
 	}

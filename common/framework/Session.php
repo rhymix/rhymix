@@ -21,7 +21,7 @@ class Session
 	 * @param string $key
 	 * @return mixed
 	 */
-	public static function get($key)
+	public static function get(string $key)
 	{
 		$data = $_SESSION;
 		$key = explode('.', $key);
@@ -43,7 +43,7 @@ class Session
 	 * @param mixed $value
 	 * @return void
 	 */
-	public static function set($key, $value)
+	public static function set(string $key, $value): void
 	{
 		$data = &$_SESSION;
 		$key = explode('.', $key);
@@ -63,7 +63,7 @@ class Session
 	 * @param bool $force (optional)
 	 * @return bool
 	 */
-	public static function start($force = false)
+	public static function start(bool $force = false): bool
 	{
 		// Do not start the session if it is already started.
 		if (self::$_started)
@@ -183,7 +183,7 @@ class Session
 	 * @param bool $force (optional)
 	 * @return bool
 	 */
-	public static function checkStart($force = false)
+	public static function checkStart(bool $force = false): bool
 	{
 		// Return if the session is already started.
 		if (self::$_started)
@@ -228,7 +228,7 @@ class Session
 	 *
 	 * @return void
 	 */
-	public static function checkLoginStatusCookie()
+	public static function checkLoginStatusCookie(): void
 	{
 		// If the cookie value is different from the current login status, overwrite it.
 		$value = self::getLoginStatus();
@@ -255,7 +255,7 @@ class Session
 	 * @param object $site_module_info
 	 * @return void
 	 */
-	public static function checkSSO($site_module_info)
+	public static function checkSSO(object $site_module_info): void
 	{
 		// Abort if SSO is disabled, the visitor is a robot, or this is not a typical GET request.
 		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET' || !config('use_sso') || UA::isRobot() || in_array(\Context::get('act'), array('rss', 'atom')))
@@ -354,7 +354,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	public static function create()
+	public static function create(): bool
 	{
 		// Create the data structure for a new Rhymix session.
 		$_SESSION['RHYMIX'] = array();
@@ -413,7 +413,7 @@ class Session
 	 * @param bool $refresh_cookie
 	 * @return bool
 	 */
-	public static function refresh($refresh_cookie = false)
+	public static function refresh(bool $refresh_cookie = false): bool
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
@@ -455,9 +455,9 @@ class Session
 	 * This method is called automatically at the end of a request, but you can
 	 * call it sooner if you don't plan to write any more data to the session.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public static function close()
+	public static function close(): void
 	{
 		// Restore member_srl from XE-compatible variable if it has changed.
 		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX'] && $_SESSION['RHYMIX']['login'] !== intval($_SESSION['member_srl']))
@@ -478,9 +478,9 @@ class Session
 	 *
 	 * This method deletes all data associated with the current session.
 	 *
-	 * @return bool
+	 * @return void
 	 */
-	public static function destroy()
+	public static function destroy(): void
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
@@ -499,15 +499,13 @@ class Session
 
 		// Close and delete the session.
 		@session_write_close();
-		$result = @session_destroy();
+		@session_destroy();
 
 		// Clear local state.
 		self::$_started = false;
 		self::$_autologin_key = false;
 		self::$_member_info = false;
 		$_SESSION = array();
-
-		return $result;
 	}
 
 	/**
@@ -520,7 +518,7 @@ class Session
 	 * @param bool $refresh (optional)
 	 * @return bool
 	 */
-	public static function login($member_srl, $refresh = true)
+	public static function login(int $member_srl, bool $refresh = true): bool
 	{
 		// Check the validity of member_srl.
 		if (is_object($member_srl) && isset($member_srl->member_srl))
@@ -554,20 +552,18 @@ class Session
 	}
 
 	/**
-	 * Log out.
+	 * Log out and destroy the session.
 	 *
-	 * This method returns true on success and false on failure.
-	 *
-	 * @return bool
+	 * @return void
 	 */
-	public static function logout()
+	public static function logout(): void
 	{
 		$_SESSION['RHYMIX']['login'] = false;
 		$_SESSION['RHYMIX']['last_login'] = false;
 		$_SESSION['is_logged'] = false;
 		$_SESSION['member_srl'] = false;
 		self::$_member_info = false;
-		return self::destroy();
+		self::destroy();
 	}
 
 	/**
@@ -575,7 +571,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	public static function isStarted()
+	public static function isStarted(): bool
 	{
 		return self::$_started;
 	}
@@ -587,7 +583,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	public static function isMember()
+	public static function isMember(): bool
 	{
 		return ($_SESSION['member_srl'] > 0 && $_SESSION['RHYMIX']['login'] > 0);
 	}
@@ -599,7 +595,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	public static function isAdmin()
+	public static function isAdmin(): bool
 	{
 		$member_info = self::getMemberInfo();
 		return ($member_info && $member_info->is_admin === 'Y');
@@ -614,7 +610,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	public static function isTrusted()
+	public static function isTrusted(): bool
 	{
 		// Get session parameters.
 		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
@@ -638,7 +634,7 @@ class Session
 	 * @param int $member_srl (optional)
 	 * @return bool
 	 */
-	public static function isValid($member_srl = 0)
+	public static function isValid(int $member_srl = 0): bool
 	{
 		// If no member_srl is given, the session is always valid.
 		$member_srl = intval($member_srl) ?: (isset($_SESSION['RHYMIX']['login']) ? $_SESSION['RHYMIX']['login'] : 0);
@@ -675,13 +671,13 @@ class Session
 	/**
 	 * Get the member_srl of the currently logged in member.
 	 *
-	 * This method returns an integer, or false if nobody is logged in.
+	 * This method returns an integer, or zero if nobody is logged in.
 	 *
-	 * @return int|false
+	 * @return int
 	 */
-	public static function getMemberSrl()
+	public static function getMemberSrl(): int
 	{
-		return ($_SESSION['member_srl'] ?? 0) ?: (($_SESSION['RHYMIX']['login'] ?? false) ?: false);
+		return intval(($_SESSION['member_srl'] ?? 0) ?: (($_SESSION['RHYMIX']['login'] ?? 0) ?: 0));
 	}
 
 	/**
@@ -692,7 +688,7 @@ class Session
 	 * @param bool $refresh
 	 * @return Helpers\SessionHelper
 	 */
-	public static function getMemberInfo($refresh = false)
+	public static function getMemberInfo(bool $refresh = false): Helpers\SessionHelper
 	{
 		// Return false if the current user is not logged in.
 		$member_srl = self::getMemberSrl();
@@ -716,10 +712,10 @@ class Session
 	 *
 	 * This method is for debugging and testing purposes only.
 	 *
-	 * @param object $member_info
+	 * @param Helpers\SessionHelper $member_info
 	 * @return void
 	 */
-	public static function setMemberInfo($member_info)
+	public static function setMemberInfo(Helpers\SessionHelper $member_info): void
 	{
 		self::$_member_info = $member_info;
 	}
@@ -732,7 +728,7 @@ class Session
 	 *
 	 * @return string
 	 */
-	public static function getLanguage()
+	public static function getLanguage(): string
 	{
 		return isset($_SESSION['RHYMIX']['language']) ? $_SESSION['RHYMIX']['language'] : \Context::getLangType();
 	}
@@ -741,9 +737,9 @@ class Session
 	 * Set the current user's preferred language.
 	 *
 	 * @param string $language
-	 * @return bool
+	 * @return void
 	 */
-	public static function setLanguage($language)
+	public static function setLanguage(string $language): void
 	{
 		$_SESSION['RHYMIX']['language'] = $language;
 	}
@@ -756,7 +752,7 @@ class Session
 	 *
 	 * @return string
 	 */
-	public static function getTimezone()
+	public static function getTimezone(): string
 	{
 		return DateTime::getTimezoneForCurrentUser();
 	}
@@ -765,9 +761,9 @@ class Session
 	 * Set the current user's preferred time zone.
 	 *
 	 * @param string $timezone
-	 * @return bool
+	 * @return void
 	 */
-	public static function setTimezone($timezone)
+	public static function setTimezone(string $timezone): void
 	{
 		$_SESSION['RHYMIX']['timezone'] = $timezone;
 	}
@@ -777,25 +773,25 @@ class Session
 	 *
 	 * @return string
 	 */
-	public static function getDomain()
+	public static function getDomain(): string
 	{
 		if (self::$_domain || (self::$_domain = ltrim(Config::get('session.domain') ?? '', '.')))
 		{
-			return self::$_domain;
+			return self::$_domain ?: '';
 		}
 		else
 		{
-			self::$_domain = ltrim(ini_get('session.cookie_domain'), '.') ?: null;
-			return self::$_domain;
+			return self::$_domain = ltrim(ini_get('session.cookie_domain'), '.') ?: '';
 		}
 	}
 
 	/**
 	 * Set session domain.
 	 *
+	 * @param string $domain
 	 * @return bool
 	 */
-	public static function setDomain($domain)
+	public static function setDomain(string $domain): bool
 	{
 		if (self::$_started)
 		{
@@ -816,7 +812,7 @@ class Session
 	 * @param int $duration (optional, default is 300 seconds)
 	 * @return bool
 	 */
-	public static function setTrusted($duration = 300)
+	public static function setTrusted(int $duration = 300): bool
 	{
 		// Get session parameters.
 		$domain = self::getDomain() ?: preg_replace('/:\\d+$/', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
@@ -862,10 +858,10 @@ class Session
 	 * @param string $key (optional)
 	 * @return string
 	 */
-	public static function createToken($key = null)
+	public static function createToken(string $key = ''): string
 	{
 		$token = Security::getRandom(16, 'alnum');
-		$_SESSION['RHYMIX']['tokens'][$token] = strval($key);
+		$_SESSION['RHYMIX']['tokens'][$token] = $key;
 		return $token;
 	}
 
@@ -882,7 +878,7 @@ class Session
 	 * @param bool $strict (optional)
 	 * @return bool
 	 */
-	public static function verifyToken($token, $key = '', $strict = true)
+	public static function verifyToken(string $token, string $key = '', bool $strict = true): bool
 	{
 		if (isset($_SESSION['RHYMIX']['tokens'][$token]) && $_SESSION['RHYMIX']['tokens'][$token] === strval($key))
 		{
@@ -902,10 +898,9 @@ class Session
 	 * Invalidate a token so that it cannot be verified.
 	 *
 	 * @param string $token
-	 * @param string $key (optional)
 	 * @return bool
 	 */
-	public static function invalidateToken($token)
+	public static function invalidateToken(string $token): bool
 	{
 		if (isset($_SESSION['RHYMIX']['tokens'][$token]))
 		{
@@ -926,7 +921,7 @@ class Session
 	 *
 	 * @return string
 	 */
-	public static function getLoginStatus()
+	public static function getLoginStatus(): string
 	{
 		if (isset($_SESSION['RHYMIX']) && $_SESSION['RHYMIX']['login'])
 		{
@@ -946,7 +941,7 @@ class Session
 	 *
 	 * @return int
 	 */
-	public static function getLastLoginTime()
+	public static function getLastLoginTime(): int
 	{
 		return $_SESSION['RHYMIX']['last_login'] ?? 0;
 	}
@@ -957,9 +952,8 @@ class Session
 	 * @param int $member_srl
 	 * @return object
 	 */
-	public static function getValidityInfo($member_srl)
+	public static function getValidityInfo(int $member_srl): object
 	{
-		$member_srl = intval($member_srl);
 		$validity_info = Cache::get(sprintf('session:validity_info:%d', $member_srl));
 		if ($validity_info)
 		{
@@ -988,7 +982,7 @@ class Session
 	 * @param object $validity_info
 	 * @return bool
 	 */
-	public static function setValidityInfo($member_srl, $validity_info)
+	public static function setValidityInfo(int $member_srl, object $validity_info): bool
 	{
 		$member_srl = intval($member_srl);
 		if (!$member_srl)
@@ -1008,10 +1002,10 @@ class Session
 	 * Arrays and objects can also be encrypted. (They will be serialized.)
 	 * Resources and the boolean false value will not be preserved.
 	 *
-	 * @param mixed $plaintext
+	 * @param string $plaintext
 	 * @return string
 	 */
-	public static function encrypt($plaintext)
+	public static function encrypt(string $plaintext): string
 	{
 		$key = ($_SESSION['RHYMIX']['secret'] ?? '') . Config::get('crypto.encryption_key');
 		return Security::encrypt($plaintext, $key);
@@ -1024,9 +1018,9 @@ class Session
 	 * All users of this method must be designed to handle failures safely.
 	 *
 	 * @param string $ciphertext
-	 * @return mixed
+	 * @return string|false
 	 */
-	public static function decrypt($ciphertext)
+	public static function decrypt(string $ciphertext)
 	{
 		$key = ($_SESSION['RHYMIX']['secret'] ?? '') . Config::get('crypto.encryption_key');
 		return Security::decrypt($ciphertext, $key);
@@ -1037,7 +1031,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	protected static function _isBuggyUserAgent()
+	protected static function _isBuggyUserAgent(): bool
 	{
 		$browser = UA::getBrowserInfo();
 		if ($browser->browser === 'Android')
@@ -1055,7 +1049,7 @@ class Session
 	 *
 	 * @return array
 	 */
-	protected static function _getParams()
+	protected static function _getParams(): array
 	{
 		$lifetime = Config::get('session.lifetime');
 		$refresh = Config::get('session.refresh') ?: 300;
@@ -1093,7 +1087,7 @@ class Session
 	 * @param array $options
 	 * @return bool
 	 */
-	protected static function _setCookie($name, $value, array $options = [])
+	protected static function _setCookie(string $name, string $value, array $options = []): bool
 	{
 		$name = strval($name);
 		$value = strval($value);
@@ -1132,7 +1126,7 @@ class Session
 	 * @param string $domain (optional)
 	 * @return bool
 	 */
-	protected static function _unsetCookie($name, $path = '', $domain = '')
+	protected static function _unsetCookie(string $name, string $path = '', string $domain = ''): bool
 	{
 		$result = setcookie($name, 'deleted', time() - (86400 * 366), $path, $domain, false, false);
 		if ($result)
@@ -1149,7 +1143,7 @@ class Session
 	 * @param string $security_key
 	 * @return bool
 	 */
-	public static function setAutologinKeys($autologin_key, $security_key)
+	public static function setAutologinKeys(string $autologin_key, string $security_key): bool
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
@@ -1183,7 +1177,7 @@ class Session
 	 *
 	 * @return bool
 	 */
-	public static function destroyAutologinKeys()
+	public static function destroyAutologinKeys(): bool
 	{
 		// Get session parameters.
 		list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
@@ -1191,9 +1185,9 @@ class Session
 		// Delete the autologin keys from the database.
 		if (self::$_autologin_key)
 		{
-			executeQuery('member.deleteAutologin', (object)array('autologin_key' => substr(self::$_autologin_key, 0, 24)));
+			$output = executeQuery('member.deleteAutologin', (object)array('autologin_key' => substr(self::$_autologin_key, 0, 24)));
 			self::$_autologin_key = false;
-			$result = true;
+			$result = $output->toBool();
 		}
 		else
 		{
@@ -1213,7 +1207,7 @@ class Session
 	 * @param int $member_srl
 	 * @return bool
 	 */
-	public static function destroyOtherSessions($member_srl)
+	public static function destroyOtherSessions(int $member_srl): bool
 	{
 		// Check the validity of member_srl.
 		$member_srl = intval($member_srl);
@@ -1238,14 +1232,14 @@ class Session
 		// Destroy all other autologin keys.
 		if (self::$_autologin_key)
 		{
-			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl, 'not_autologin_key' => substr(self::$_autologin_key, 0, 24)));
+			$output = executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl, 'not_autologin_key' => substr(self::$_autologin_key, 0, 24)));
 		}
 		else
 		{
-			executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
+			$output = executeQuery('member.deleteAutologin', (object)array('member_srl' => $member_srl));
 		}
 
-		return true;
+		return $output->toBool();
 	}
 
 	/**
@@ -1255,7 +1249,7 @@ class Session
 	 * @param bool $include_current_host (optional)
 	 * @return bool
 	 */
-	public static function destroyCookiesFromConflictingDomains(array $cookies, $include_current_host = false)
+	public static function destroyCookiesFromConflictingDomains(array $cookies, bool $include_current_host = false): bool
 	{
 		$conflict_domains = config('session.conflict_domains') ?: array();
 		if ($include_current_host)
