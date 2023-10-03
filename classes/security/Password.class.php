@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @deprecated
+ */
 class Password
 {
 	public static function registerCustomAlgorithm($name, $regexp, $callback)
