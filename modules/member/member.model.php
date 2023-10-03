@@ -333,11 +333,10 @@ class MemberModel extends Member
 			$oMemberController->addMemberPopupMenu($url,'cmd_trace_comment',$icon_path,'');
 		}
 		// Change a language of pop-up menu
-		$menus = Context::get('member_popup_menu_list');
-		$menus_count = count($menus);
-		for($i=0;$i<$menus_count;$i++)
+		$menus = Context::get('member_popup_menu_list') ?: [];
+		foreach ($menus as $menu)
 		{
-			$menus[$i]->str = lang($menus[$i]->str);
+			$menu->str = lang($menu->str);
 		}
 		// Get a list of finalized pop-up menu
 		$this->add('menus', $menus);
