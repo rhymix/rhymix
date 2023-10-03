@@ -99,7 +99,7 @@ class Query extends VariableBase
 	 *
 	 * @return array
 	 */
-	public function getQueryParams()
+	public function getQueryParams(): array
 	{
 		return $this->_params;
 	}
@@ -596,7 +596,7 @@ class Query extends VariableBase
 	/**
 	 * Generate a ORDER BY clause from navigation settings.
 	 *
-	 * @param object $navigation
+	 * @param Navigation $navigation
 	 * @return string
 	 */
 	protected function _arrangeOrderBy(Navigation $navigation): string
@@ -643,7 +643,7 @@ class Query extends VariableBase
 	/**
 	 * Generate a LIMIT/OFFSET clause from navigation settings.
 	 *
-	 * @param object $navigation
+	 * @param Navigation $navigation
 	 * @return string
 	 */
 	protected function _arrangeLimitOffset(Navigation $navigation): string
@@ -688,7 +688,7 @@ class Query extends VariableBase
 	/**
 	 * Generate each condition in a WHERE clause.
 	 *
-	 * @param object $condition
+	 * @param VariableBase $condition
 	 * @return string
 	 */
 	protected function _parseCondition(VariableBase $condition): string
@@ -736,7 +736,7 @@ class Query extends VariableBase
 	 * @param bool $allow_empty_string
 	 * @return bool
 	 */
-	public static function isValidVariable($var, $allow_empty_string = true): bool
+	public static function isValidVariable($var, bool $allow_empty_string = true): bool
 	{
 		if ($var === null || ($var === '' && !$allow_empty_string))
 		{

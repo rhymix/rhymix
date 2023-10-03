@@ -284,7 +284,7 @@ class VariableBase
 	 * @param array $args
 	 * @return array
 	 */
-	public function getValue(array $args)
+	public function getValue(array $args): array
 	{
 		if ($this->var && Query::isValidVariable($args[$this->var] ?? null, $this instanceof ColumnWrite))
 		{
@@ -324,7 +324,7 @@ class VariableBase
 	 *
 	 * @return array
 	 */
-	public function getDefaultValue()
+	public function getDefaultValue(): array
 	{
 		// Get the current column name.
 		$column = $this instanceof ColumnWrite ? $this->name : ($this->column ?? null);
@@ -390,7 +390,7 @@ class VariableBase
 	 * @param mixed $value
 	 * @return void
 	 */
-	public function filterValue($value)
+	public function filterValue($value): void
 	{
 		// Don't apply a filter if there is no variable.
 		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
@@ -465,7 +465,7 @@ class VariableBase
 	 * @param string $value
 	 * @return array
 	 */
-	protected function _parseSearchKeywords($column, $value)
+	protected function _parseSearchKeywords(string $column, string $value): array
 	{
 		// Initialze the return values.
 		$where = '';

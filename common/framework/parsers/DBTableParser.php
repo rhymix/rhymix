@@ -10,7 +10,7 @@ class DBTableParser extends BaseParser
 	/**
 	 * Mapping for XE-compatible types.
 	 */
-	protected static $_xe_types = array(
+	protected const XE_COMPAT_TYPES = array(
 		'bignumber' => 'bigint',
 		'number' => 'bigint',
 		'bigtext' => 'longtext',
@@ -20,7 +20,7 @@ class DBTableParser extends BaseParser
 	/**
 	 * List of types for which the size attribute will be ignored.
 	 */
-	protected static $_nosize_types = array(
+	protected const NO_SIZE_TYPES = array(
 		'bigint' => true,
 		'int' => true,
 		'integer' => true,
@@ -31,9 +31,9 @@ class DBTableParser extends BaseParser
 	 *
 	 * @param string $filename
 	 * @param string $content
-	 * @return object|false
+	 * @return ?object
 	 */
-	public static function loadXML(string $filename = '', string $content = '')
+	public static function loadXML(string $filename = '', string $content = ''): object
 	{
 		// Load the XML content.
 		if ($content)
@@ -47,7 +47,7 @@ class DBTableParser extends BaseParser
 
 		if ($xml === false)
 		{
-			return false;
+			return null;
 		}
 
 		// Initialize table definition.
@@ -225,10 +225,10 @@ class DBTableParser extends BaseParser
 	public static function getTypeAndSize(string $type, string $size): array
 	{
 		// Map XE-compatible types to database native types.
-		if (isset(self::$_xe_types[$type]))
+		if (isset(self::XE_COMPAT_TYPES[$type]))
 		{
 			$xetype = $type;
-			$type = self::$_xe_types[$type];
+			$type = self::XE_COMPAT_TYPES[$type];
 		}
 		else
 		{
@@ -243,7 +243,7 @@ class DBTableParser extends BaseParser
 			$size = $matches[2];
 		}
 		$size = implode(',', array_map('trim', explode(',', $size))) ?: null;
-		if (isset(self::$_nosize_types[$type]))
+		if (isset(self::NO_SIZE_TYPES[$type]))
 		{
 			$size = null;
 		}
