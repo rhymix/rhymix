@@ -82,6 +82,7 @@ class Mobile
 	/**
 	 * Get current mobile mode
 	 *
+	 * @deprecated
 	 * @return bool
 	 */
 	public static function _isFromMobilePhone()
@@ -92,7 +93,8 @@ class Mobile
 	/**
 	 * Detect mobile device by user agent
 	 *
-	 * @return bool Returns true on mobile device or false.
+	 * @deprecated
+	 * @return bool
 	 */
 	public static function isMobileCheckByAgent()
 	{
@@ -102,7 +104,8 @@ class Mobile
 	/**
 	 * Check if user-agent is a tablet PC as iPad or Andoid tablet.
 	 *
-	 * @return bool TRUE for tablet, and FALSE for else.
+	 * @deprecated
+	 * @return bool
 	 */
 	public static function isMobilePadCheckByAgent()
 	{
@@ -112,6 +115,7 @@ class Mobile
 	/**
 	 * Set mobile mode
 	 *
+	 * @deprecated
 	 * @param bool $ismobile
 	 * @return void
 	 */
