@@ -1056,7 +1056,7 @@ class Context
 	 */
 	public static function encodeIdna($domain)
 	{
-		return Rhymix\Framework\URL::encodeIdna($domain);
+		return Rhymix\Framework\URL::encodeIdna((string)$domain);
 	}
 
 	/**
@@ -1067,7 +1067,7 @@ class Context
 	 */
 	public static function decodeIdna($domain)
 	{
-		return Rhymix\Framework\URL::decodeIdna($domain);
+		return Rhymix\Framework\URL::decodeIdna((string)$domain);
 	}
 
 	/**
@@ -1517,7 +1517,7 @@ class Context
 		{
 			return;
 		}
-		if (Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow')))
+		if (Rhymix\Framework\Filters\IpFilter::inRanges(RX_CLIENT_IP, config('lock.allow') ?: []))
 		{
 			return;
 		}
@@ -2570,7 +2570,7 @@ class Context
 	 */
 	public static function getConfigFile()
 	{
-		return RX_BASEDIR . Rhymix\Framework\Config::$old_db_config_filename;
+		return RX_BASEDIR . Rhymix\Framework\Config::OLD_DB_CONFIG_PATH;
 	}
 
 	/**
@@ -2580,7 +2580,7 @@ class Context
 	 */
 	public static function getFTPConfigFile()
 	{
-		return RX_BASEDIR . Rhymix\Framework\Config::$old_ftp_config_filename;
+		return RX_BASEDIR . Rhymix\Framework\Config::OLD_FTP_CONFIG_PATH;
 	}
 
 	/**
