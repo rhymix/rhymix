@@ -699,6 +699,7 @@ class FileHandler
 	/**
 	 * Reads ini file, and puts result into array
 	 *
+	 * @deprecated
 	 * @see self::writeIniFile()
 	 * @param string $filename Path of the ini file
 	 * @return array ini array (if the target file does not exist, it returns FALSE)
@@ -724,6 +725,7 @@ class FileHandler
 	 * 	$ini['section']['key2_in_section'] = 'value2_in_section';<br/>
 	 * 	self::writeIniFile('exmple.ini', $ini);
 	 *
+	 * @deprecated
 	 * @see self::readIniFile()
 	 * @param string $filename Target ini file name
 	 * @param array $arr Array
@@ -742,6 +744,7 @@ class FileHandler
 	/**
 	 * Make array to ini string
 	 *
+	 * @deprecated
 	 * @param array $arr Array
 	 * @return string
 	 */
@@ -778,6 +781,7 @@ class FileHandler
 	 *
 	 * If the directory of the file does not exist, create it.
 	 *
+	 * @deprecated
 	 * @param string $filename Target file name
 	 * @param string $mode File mode for fopen
 	 * @return FileObject File object
@@ -837,10 +841,9 @@ class FileHandler
 	}
 
 	/**
-	 * @deprecated
-	 *
 	 * Clears file status cache
 	 *
+	 * @deprecated
 	 * @param string|array $target filename or directory
 	 * @param boolean $include include files in the directory
 	 */
@@ -861,10 +864,9 @@ class FileHandler
 	}
 
 	/**
-	 * @deprecated
-	 *
 	 * Invalidates a cached script of OPcache
 	 *
+	 * @deprecated
 	 * @param string|array $target filename or directory
 	 * @param boolean $force force
 	 */
