@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @deprecated
+ */
 class IpFilter
 {
 	public static function filter($ip_list, $ip = NULL)
@@ -12,5 +15,4 @@ class IpFilter
 	{
 		return Rhymix\Framework\Filters\IpFilter::validateRanges($ip_list);
 	}
-
 }

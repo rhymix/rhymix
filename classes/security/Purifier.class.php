@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * @deprecated
+ */
 class Purifier
 {
 	public static function getInstance()
@@ -9,7 +12,6 @@ class Purifier
 
 	public function purify(&$content)
 	{
-		$content = Rhymix\Framework\Filters\HTMLFilter::clean($content);
+		$content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
 	}
-
 }
