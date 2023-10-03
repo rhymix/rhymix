@@ -135,7 +135,7 @@ class SMSTest extends \Codeception\TestCase\Test
 		$this->assertLessThanOrEqual(time() + $delay_relative + 1, $sms->getDelay());
 
 		$delay_relative = 86400 * 3650;
-		$this->assertTrue($sms->setDelay($delay_relative));
+		$this->assertFalse($sms->setDelay($delay_relative));
 		$this->assertEquals(0, $sms->getDelay());
 	}
 

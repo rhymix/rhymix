@@ -27,10 +27,10 @@ class Mail
 	/**
 	 * Set the default driver.
 	 *
-	 * @param object $driver
+	 * @param Drivers\MailInterface $driver
 	 * @return void
 	 */
-	public static function setDefaultDriver(Drivers\MailInterface $driver)
+	public static function setDefaultDriver(Drivers\MailInterface $driver): void
 	{
 		self::$default_driver = $driver;
 	}
@@ -38,9 +38,9 @@ class Mail
 	/**
 	 * Get the default driver.
 	 *
-	 * @return object
+	 * @return Drivers\MailInterface
 	 */
-	public static function getDefaultDriver()
+	public static function getDefaultDriver(): Drivers\MailInterface
 	{
 		if (!self::$default_driver)
 		{
@@ -61,8 +61,11 @@ class Mail
 
 	/**
 	 * Add a custom mail driver.
+	 *
+	 * @param Drivers\MailInterface $driver
+	 * @return void
 	 */
-	public static function addDriver(Drivers\MailInterface $driver)
+	public static function addDriver(Drivers\MailInterface $driver): void
 	{
 		self::$custom_drivers[] = $driver;
 	}
@@ -72,7 +75,7 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public static function getSupportedDrivers()
+	public static function getSupportedDrivers(): array
 	{
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/mail', false) as $filename)
@@ -123,7 +126,7 @@ class Mail
 	 * @param string $name Name (optional)
 	 * @return bool
 	 */
-	public function setFrom($email, $name = null)
+	public function setFrom(string $email, ?string $name = null): bool
 	{
 		try
 		{
@@ -142,7 +145,7 @@ class Mail
 	 *
 	 * @return string|null
 	 */
-	public function getFrom()
+	public function getFrom(): ?string
 	{
 		$list = $this->message->getFrom();
 		return $list ? array_first($this->formatAddresses($list)) : null;
@@ -155,7 +158,7 @@ class Mail
 	 * @param string $name Name (optional)
 	 * @return bool
 	 */
-	public function addTo($email, $name = null)
+	public function addTo(string $email, ?string $name = null): bool
 	{
 		try
 		{
@@ -176,7 +179,7 @@ class Mail
 	 * @param string $name Name (optional)
 	 * @return bool
 	 */
-	public function addCc($email, $name = null)
+	public function addCc(string $email, ?string $name = null): bool
 	{
 		try
 		{
@@ -197,7 +200,7 @@ class Mail
 	 * @param string $name Name (optional)
 	 * @return bool
 	 */
-	public function addBcc($email, $name = null)
+	public function addBcc(string $email, ?string $name = null): bool
 	{
 		try
 		{
@@ -214,21 +217,21 @@ class Mail
 	/**
 	 * Get the list of recipients.
 	 *
-	 * @return array();
+	 * @return array
 	 */
-	public function getRecipients()
+	public function getRecipients(): array
 	{
 		$result = array();
 
-		foreach ($this->formatAddresses($this->message->getTo()) as $address)
+		foreach ($this->formatAddresses($this->message->getTo() ?: []) as $address)
 		{
 			$result[] = $address;
 		}
-		foreach ($this->formatAddresses($this->message->getCc()) as $address)
+		foreach ($this->formatAddresses($this->message->getCc() ?: []) as $address)
 		{
 			$result[] = $address;
 		}
-		foreach ($this->formatAddresses($this->message->getBcc()) as $address)
+		foreach ($this->formatAddresses($this->message->getBcc() ?: []) as $address)
 		{
 			$result[] = $address;
 		}
@@ -242,7 +245,7 @@ class Mail
 	 * @param string $replyTo
 	 * @return bool
 	 */
-	public function setReplyTo($replyTo)
+	public function setReplyTo(string $replyTo): bool
 	{
 		try
 		{
@@ -262,7 +265,7 @@ class Mail
 	 * @param string $returnPath
 	 * @return bool
 	 */
-	public function setReturnPath($returnPath)
+	public function setReturnPath(string $returnPath): bool
 	{
 		try
 		{
@@ -279,15 +282,15 @@ class Mail
 	/**
 	 * Set the Message ID.
 	 *
-	 * @param string $messageId
+	 * @param string $message_id
 	 * @return bool
 	 */
-	public function setMessageID($messageId)
+	public function setMessageID(string $message_id): bool
 	{
 		try
 		{
 			$headers = $this->message->getHeaders();
-			$headers->get('Message-ID')->setId($messageId);
+			$headers->get('Message-ID')->setId($message_id);
 			return true;
 		}
 		catch (\Exception $e)
@@ -300,15 +303,15 @@ class Mail
 	/**
 	 * Set the In-Reply-To: header.
 	 *
-	 * @param string $inReplyTo
+	 * @param string $in_reply_to
 	 * @return bool
 	 */
-	public function setInReplyTo($inReplyTo)
+	public function setInReplyTo(string $in_reply_to): bool
 	{
 		try
 		{
 			$headers = $this->message->getHeaders();
-			$headers->addTextHeader('In-Reply-To', $inReplyTo);
+			$headers->addTextHeader('In-Reply-To', $in_reply_to);
 			return true;
 		}
 		catch (\Exception $e)
@@ -324,7 +327,7 @@ class Mail
 	 * @param string $references
 	 * @return bool
 	 */
-	public function setReferences($references)
+	public function setReferences(string $references): bool
 	{
 		try
 		{
@@ -345,11 +348,11 @@ class Mail
 	 * @param string $subject
 	 * @return bool
 	 */
-	public function setSubject($subject)
+	public function setSubject(string $subject): bool
 	{
 		try
 		{
-			$this->message->setSubject(strval($subject));
+			$this->message->setSubject($subject);
 			return true;
 		}
 		catch (\Exception $e)
@@ -364,7 +367,7 @@ class Mail
 	 *
 	 * @return string
 	 */
-	public function getSubject()
+	public function getSubject(): string
 	{
 		return $this->message->getSubject();
 	}
@@ -375,7 +378,7 @@ class Mail
 	 * @param string $subject
 	 * @return bool
 	 */
-	public function setTitle($subject)
+	public function setTitle(string $subject): bool
 	{
 		return $this->setSubject($subject);
 	}
@@ -385,7 +388,7 @@ class Mail
 	 *
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle(): string
 	{
 		return $this->getSubject();
 	}
@@ -397,7 +400,7 @@ class Mail
 	 * @param string $content_type (optional)
 	 * @return void
 	 */
-	public function setBody($content, $content_type = null)
+	public function setBody(string $content, ?string $content_type = null): void
 	{
 		if ($content_type !== null)
 		{
@@ -417,7 +420,7 @@ class Mail
 	 *
 	 * @return string
 	 */
-	public function getBody()
+	public function getBody(): string
 	{
 		return $this->message->getBody();
 	}
@@ -429,9 +432,9 @@ class Mail
 	 * @param string $content_type (optional)
 	 * @return void
 	 */
-	public function setContent($content, $content_type = null)
+	public function setContent(string $content, ?string $content_type = null): void
 	{
-		return $this->setBody($content, $content_type);
+		$this->setBody($content, $content_type);
 	}
 
 	/**
@@ -439,7 +442,7 @@ class Mail
 	 *
 	 * @return string
 	 */
-	public function getContent()
+	public function getContent(): string
 	{
 		return $this->getBody();
 	}
@@ -450,7 +453,7 @@ class Mail
 	 * @param string $mode The type
 	 * @return void
 	 */
-	public function setContentType($type = 'text/html')
+	public function setContentType(string $type = 'text/html'): void
 	{
 		$this->content_type = (strpos($type, 'html') !== false) ? 'text/html' : ((strpos($type, '/') !== false) ? $type : 'text/plain');
 	}
@@ -460,7 +463,7 @@ class Mail
 	 *
 	 * @return string
 	 */
-	public function getContentType()
+	public function getContentType(): string
 	{
 		return $this->content_type;
 	}
@@ -472,7 +475,7 @@ class Mail
 	 * @param string $display_filename (optional)
 	 * @return bool
 	 */
-	public function attach($local_filename, $display_filename = null)
+	public function attach(string $local_filename, ?string $display_filename = null): bool
 	{
 		if ($display_filename === null)
 		{
@@ -510,7 +513,7 @@ class Mail
 	 * @param string $cid (optional)
 	 * @return string|false
 	 */
-	public function embed($local_filename, $cid = null)
+	public function embed(string $local_filename, ?string $cid = null)
 	{
 		if (!Storage::exists($local_filename))
 		{
@@ -545,7 +548,7 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public function getAttachments()
+	public function getAttachments(): array
 	{
 		return $this->attachments;
 	}
@@ -555,7 +558,7 @@ class Mail
 	 *
 	 * @return bool
 	 */
-	public function send()
+	public function send(): bool
 	{
 		// Get caller information.
 		$backtrace = debug_backtrace(0);
@@ -602,7 +605,7 @@ class Mail
 	 *
 	 * @return bool
 	 */
-	public function isSent()
+	public function isSent(): bool
 	{
 		return $this->sent;
 	}
@@ -612,7 +615,7 @@ class Mail
 	 *
 	 * @return string
 	 */
-	public function getCaller()
+	public function getCaller(): string
 	{
 		return $this->caller;
 	}
@@ -622,7 +625,7 @@ class Mail
 	 *
 	 * @return array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
 		return $this->errors;
 	}
@@ -634,7 +637,7 @@ class Mail
 	 * @param array $matches Match info.
 	 * @return string
 	 */
-	protected function convertImageURLs(array $matches)
+	protected function convertImageURLs(array $matches): string
 	{
 		return Filters\HTMLFilter::fixRelativeUrls($matches[0]);
 	}
@@ -645,7 +648,7 @@ class Mail
 	 * @param array $addresses
 	 * @return array
 	 */
-	protected function formatAddresses($addresses)
+	protected function formatAddresses(array $addresses): array
 	{
 		$result = array();
 

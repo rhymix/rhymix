@@ -34,10 +34,10 @@ class SMS
 	/**
 	 * Set the default driver.
 	 *
-	 * @param object $driver
+	 * @param Drivers\SMSInterface $driver
 	 * @return void
 	 */
-	public static function setDefaultDriver(Drivers\SMSInterface $driver)
+	public static function setDefaultDriver(Drivers\SMSInterface $driver): void
 	{
 		self::$default_driver = $driver;
 	}
@@ -45,9 +45,9 @@ class SMS
 	/**
 	 * Get the default driver.
 	 *
-	 * @return object
+	 * @return Drivers\SMSInterface
 	 */
-	public static function getDefaultDriver()
+	public static function getDefaultDriver(): Drivers\SMSInterface
 	{
 		if (!self::$default_driver)
 		{
@@ -68,8 +68,11 @@ class SMS
 
 	/**
 	 * Add a custom mail driver.
+	 *
+	 * @param Drivers\SMSInterface $driver
+	 * @return void
 	 */
-	public static function addDriver(Drivers\SMSInterface $driver)
+	public static function addDriver(Drivers\SMSInterface $driver): void
 	{
 		self::$custom_drivers[] = $driver;
 	}
@@ -79,7 +82,7 @@ class SMS
 	 *
 	 * @return array
 	 */
-	public static function getSupportedDrivers()
+	public static function getSupportedDrivers(): array
 	{
 		$result = array();
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/sms', false) as $filename)
@@ -132,7 +135,7 @@ class SMS
 	 * @param string $number Phone number
 	 * @return bool
 	 */
-	public function setFrom($number)
+	public function setFrom(string $number): bool
 	{
 		$this->from = preg_replace('/[^0-9]/', '', $number);
 		return true;
@@ -143,7 +146,7 @@ class SMS
 	 *
 	 * @return string|null
 	 */
-	public function getFrom()
+	public function getFrom(): ?string
 	{
 		return $this->from;
 	}
@@ -155,7 +158,7 @@ class SMS
 	 * @param string $country Country code (optional)
 	 * @return bool
 	 */
-	public function addTo($number, $country = 0)
+	public function addTo(string $number, string $country = '0'): bool
 	{
 		$this->to[] = (object)array(
 			'number' => preg_replace('/[^0-9]/', '', $number),
@@ -169,7 +172,7 @@ class SMS
 	 *
 	 * @return array
 	 */
-	public function getRecipients()
+	public function getRecipients(): array
 	{
 		return array_map(function($recipient) {
 			return $recipient->number;
@@ -181,7 +184,7 @@ class SMS
 	 *
 	 * @return array
 	 */
-	public function getRecipientsWithCountry()
+	public function getRecipientsWithCountry(): array
 	{
 		return $this->to;
 	}
@@ -191,7 +194,7 @@ class SMS
 	 *
 	 * @return array
 	 */
-	public function getRecipientsGroupedByCountry()
+	public function getRecipientsGroupedByCountry(): array
 	{
 		$result = array();
 		foreach ($this->to as $recipient)
@@ -207,7 +210,7 @@ class SMS
 	 * @param string $subject
 	 * @return bool
 	 */
-	public function setSubject($subject)
+	public function setSubject(string $subject): bool
 	{
 		$this->subject = utf8_trim(utf8_clean($subject));
 		return true;
@@ -218,7 +221,7 @@ class SMS
 	 *
 	 * @return string
 	 */
-	public function getSubject()
+	public function getSubject(): string
 	{
 		return $this->subject;
 	}
@@ -229,7 +232,7 @@ class SMS
 	 * @param string $subject
 	 * @return bool
 	 */
-	public function setTitle($subject)
+	public function setTitle(string $subject): bool
 	{
 		return $this->setSubject($subject);
 	}
@@ -239,7 +242,7 @@ class SMS
 	 *
 	 * @return string
 	 */
-	public function getTitle()
+	public function getTitle(): string
 	{
 		return $this->getSubject();
 	}
@@ -250,7 +253,7 @@ class SMS
 	 * @param string $content
 	 * @return bool
 	 */
-	public function setBody($content)
+	public function setBody(string $content): bool
 	{
 		$this->content = utf8_trim(utf8_clean($content));
 		$this->content = strtr($this->content, array("\r\n" => "\n"));
@@ -262,7 +265,7 @@ class SMS
 	 *
 	 * @return string
 	 */
-	public function getBody()
+	public function getBody(): string
 	{
 		return $this->content;
 	}
@@ -271,9 +274,9 @@ class SMS
 	 * Set the content (alias to setBody).
 	 *
 	 * @param string $content
-	 * @return void
+	 * @return bool
 	 */
-	public function setContent($content)
+	public function setContent(string $content): bool
 	{
 		return $this->setBody($content);
 	}
@@ -283,7 +286,7 @@ class SMS
 	 *
 	 * @return string
 	 */
-	public function getContent()
+	public function getContent(): string
 	{
 		return $this->getBody();
 	}
@@ -295,7 +298,7 @@ class SMS
 	 * @param string $display_filename (optional)
 	 * @return bool
 	 */
-	public function attach($local_filename, $display_filename = null)
+	public function attach(string $local_filename, ?string $display_filename = null): bool
 	{
 		if ($display_filename === null)
 		{
@@ -320,7 +323,7 @@ class SMS
 	 *
 	 * @return array
 	 */
-	public function getAttachments()
+	public function getAttachments(): array
 	{
 		return $this->attachments;
 	}
@@ -332,7 +335,7 @@ class SMS
 	 * @param mixed $value
 	 * @return void
 	 */
-	public function setExtraVar($key, $value)
+	public function setExtraVar(string $key, $value): void
 	{
 		$this->extra_vars[$key] = $value;
 	}
@@ -343,7 +346,7 @@ class SMS
 	 * @param string $key
 	 * @return mixed
 	 */
-	public function getExtraVar($key)
+	public function getExtraVar(string $key)
 	{
 		return isset($this->extra_vars[$key]) ? $this->extra_vars[$key] : null;
 	}
@@ -352,9 +355,9 @@ class SMS
 	 * Get all extra variables.
 	 *
 	 * @param string $key
-	 * @return mixed
+	 * @return array
 	 */
-	public function getExtraVars()
+	public function getExtraVars(): array
 	{
 		return $this->extra_vars;
 	}
@@ -365,7 +368,7 @@ class SMS
 	 * @param array $vars
 	 * @return void
 	 */
-	public function setExtraVars(array $vars)
+	public function setExtraVars(array $vars): void
 	{
 		$this->extra_vars = $vars;
 	}
@@ -381,7 +384,7 @@ class SMS
 	 * @param int $when Unix timestamp
 	 * @return bool
 	 */
-	public function setDelay($when)
+	public function setDelay(int $when): bool
 	{
 		if ($when <= (86400 * 365))
 		{
@@ -392,8 +395,8 @@ class SMS
 			$when = 0;
 		}
 
-		$this->delay_timestamp = intval($when);
-		return true;
+		$this->delay_timestamp = $when;
+		return $when > 0;
 	}
 
 	/**
@@ -406,7 +409,7 @@ class SMS
 	 *
 	 * @return int
 	 */
-	public function getDelay()
+	public function getDelay(): int
 	{
 		return $this->delay_timestamp;
 	}
@@ -416,7 +419,7 @@ class SMS
 	 *
 	 * @return void
 	 */
-	public function forceSMS()
+	public function forceSMS(): void
 	{
 		$this->force_sms = true;
 	}
@@ -426,7 +429,7 @@ class SMS
 	 *
 	 * @return void
 	 */
-	public function unforceSMS()
+	public function unforceSMS(): void
 	{
 		$this->force_sms = false;
 	}
@@ -436,7 +439,7 @@ class SMS
 	 *
 	 * @return bool
 	 */
-	public function isForceSMS()
+	public function isForceSMS(): bool
 	{
 		return $this->force_sms;
 	}
@@ -446,7 +449,7 @@ class SMS
 	 *
 	 * @return void
 	 */
-	public function allowSplitSMS()
+	public function allowSplitSMS(): void
 	{
 		$this->allow_split_sms = true;
 	}
@@ -456,7 +459,7 @@ class SMS
 	 *
 	 * @return void
 	 */
-	public function allowSplitLMS()
+	public function allowSplitLMS(): void
 	{
 		$this->allow_split_lms = true;
 	}
@@ -466,7 +469,7 @@ class SMS
 	 *
 	 * @return void
 	 */
-	public function disallowSplitSMS()
+	public function disallowSplitSMS(): void
 	{
 		$this->allow_split_sms = false;
 	}
@@ -476,7 +479,7 @@ class SMS
 	 *
 	 * @return void
 	 */
-	public function disallowSplitLMS()
+	public function disallowSplitLMS(): void
 	{
 		$this->allow_split_lms = false;
 	}
@@ -486,7 +489,7 @@ class SMS
 	 *
 	 * @return bool
 	 */
-	public function isSplitSMSAllowed()
+	public function isSplitSMSAllowed(): bool
 	{
 		return $this->allow_split_sms;
 	}
@@ -496,7 +499,7 @@ class SMS
 	 *
 	 * @return bool
 	 */
-	public function isSplitLMSAllowed()
+	public function isSplitLMSAllowed(): bool
 	{
 		return $this->allow_split_lms;
 	}
@@ -506,7 +509,7 @@ class SMS
 	 *
 	 * @return bool
 	 */
-	public function send()
+	public function send(): bool
 	{
 		// Get caller information.
 		$backtrace = debug_backtrace(0);
@@ -568,7 +571,7 @@ class SMS
 	 *
 	 * @return bool
 	 */
-	public function isSent()
+	public function isSent(): bool
 	{
 		return $this->sent;
 	}
@@ -578,7 +581,7 @@ class SMS
 	 *
 	 * @return string
 	 */
-	public function getCaller()
+	public function getCaller(): string
 	{
 		return $this->caller;
 	}
@@ -588,7 +591,7 @@ class SMS
 	 *
 	 * @return array
 	 */
-	public function getErrors()
+	public function getErrors(): array
 	{
 		return $this->errors;
 	}
@@ -599,7 +602,7 @@ class SMS
 	 * @param string $message
 	 * @return void
 	 */
-	public function addError($message)
+	public function addError(string $message): void
 	{
 		$this->errors[] = $message;
 	}
@@ -610,7 +613,7 @@ class SMS
 	 * @param array $spec API specifications
 	 * @return array
 	 */
-	protected function _formatSpec(array $spec)
+	protected function _formatSpec(array $spec): array
 	{
 		// Initialize the return array.
 		$result = array();
@@ -771,9 +774,9 @@ class SMS
 	 *
 	 * @param string $str String to measure
 	 * @param string $charset Character set to measure length
-	 * @return
+	 * @return int
 	 */
-	protected function _getLengthInCharset($str, $charset)
+	protected function _getLengthInCharset(string $str, string $charset): int
 	{
 		$str = @iconv('UTF-8', $charset . '//IGNORE', $str);
 		return strlen($str);
@@ -787,7 +790,7 @@ class SMS
 	 * @param string $charset Character set to measure length
 	 * @return array
 	 */
-	protected function _splitString($str, $max_length, $charset)
+	protected function _splitString(string $str, int $max_length, string $charset): array
 	{
 		$str = utf8_trim(utf8_normalize_spaces($str, true));
 		$chars = preg_split('//u', $str, -1, \PREG_SPLIT_NO_EMPTY);

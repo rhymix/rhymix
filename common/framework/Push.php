@@ -35,7 +35,7 @@ class Push
 	 * @param object $driver
 	 * @return void
 	 */
-	public static function addDriver(string $name, Drivers\PushInterface $driver)
+	public static function addDriver(string $name, Drivers\PushInterface $driver): void
 	{
 		self::$_drivers[$name] = $driver;
 	}
@@ -44,9 +44,9 @@ class Push
 	 * Get the default driver.
 	 *
 	 * @param string $name
-	 * @return object|null
+	 * @return ?object
 	 */
-	public static function getDriver(string $name)
+	public static function getDriver(string $name): ?object
 	{
 		if (isset(self::$_drivers[$name]))
 		{
@@ -464,34 +464,41 @@ class Push
 	 * Delete the device toekn
 	 *
 	 * @param array
-	 * @return void
+	 * @return bool
 	 */
-	protected function _deleteInvalidTokens(array $invalid_tokens)
+	protected function _deleteInvalidTokens(array $invalid_tokens): bool
 	{
 		if(!count($invalid_tokens))
 		{
-			return;
+			return true;
 		}
 		$args = new \stdClass;
 		$args->device_token = $invalid_tokens;
-		executeQueryArray('member.deleteMemberDevice', $args);
+		$output = executeQueryArray('member.deleteMemberDevice', $args);
+		return $output->toBool();
 	}
 
 	/**
 	 * Update the device toekn
 	 *
 	 * @param array
-	 * @return void
+	 * @return bool
 	 */
-	protected function _updateDeviceTokens(array $update_tokens)
+	protected function _updateDeviceTokens(array $update_tokens): bool
 	{
 		$args = new \stdClass;
+		$result = true;
 		foreach($update_tokens as $key => $value)
 		{
 			$args->old_token = $key;
 			$args->new_token = $value;
-			executeQueryArray('member.updateMemberDevice', $args);
+			$output = executeQueryArray('member.updateMemberDevice', $args);
+			if (!$output->toBool())
+			{
+				$result = false;
+			}
 		}
+		return $result;
 	}
 
 	/**
@@ -560,7 +567,7 @@ class Push
 	 * @param string $message
 	 * @return void
 	 */
-	public function addError(string $message)
+	public function addError(string $message): void
 	{
 		$this->errors[] = $message;
 	}
