@@ -336,7 +336,7 @@ class MemberModel extends Member
 		$menus = Context::get('member_popup_menu_list') ?: [];
 		foreach ($menus as $menu)
 		{
-			$menu->str = lang($menu->str);
+			$menu->str = lang($menu->str ?? '');
 		}
 		// Get a list of finalized pop-up menu
 		$this->add('menus', $menus);

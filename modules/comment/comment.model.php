@@ -119,12 +119,10 @@ class CommentModel extends Comment
 		}
 
 		// Changing a language of pop-up menu
-		$menus = Context::get('comment_popup_menu_list');
-		$menus_count = count($menus);
-
-		for($i = 0; $i < $menus_count; $i++)
+		$menus = Context::get('comment_popup_menu_list') ?: [];
+		foreach ($menus as $menu)
 		{
-			$menus[$i]->str = lang($menus[$i]->str);
+			$menu->str = lang($menu->str ?? '');
 		}
 
 		// get a list of final organized pop-up menus
