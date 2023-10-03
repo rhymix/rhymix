@@ -17,7 +17,7 @@ class LangParser
 	 * @param array $xml_langs When converting XML to PHP, only convert these languages. (Optional)
 	 * @return void
 	 */
-	public static function convertDirectory($dir, $xml_langs = array())
+	public static function convertDirectory(string $dir, array $xml_langs = []): void
 	{
 		if (file_exists("$dir/lang.xml"))
 		{
@@ -43,9 +43,10 @@ class LangParser
 	 *
 	 * @param string $filename
 	 * @param string $language
-	 * @return string|false
+	 * @param ?string $output_filename (optional)
+	 * @return ?string
 	 */
-	public static function compileXMLtoPHP($filename, $language, $output_filename = null)
+	public static function compileXMLtoPHP(string $filename, string $language, ?string $output_filename = null): ?string
 	{
 		// Check if the cache file already exists.
 		if ($output_filename === null)
@@ -62,7 +63,7 @@ class LangParser
 		if ($xml === false)
 		{
 			Storage::write($output_filename, '');
-			return false;
+			return null;
 		}
 
 		// Convert XML to a PHP array.
@@ -103,15 +104,17 @@ class LangParser
 	/**
 	 * XML to array conversion callback.
 	 *
-	 * @param array $items
+	 * @param array|object $items
+	 * @param array &$lang
+	 * @param string $language
 	 * @return void
 	 */
-	protected static function _toArray($items, &$lang, $language)
+	protected static function _toArray($items, &$lang, string $language): void
 	{
 		foreach ($items as $item)
 		{
 			$name = strval($item['name']);
-			if (@count($item->item))
+			if (countobj($item->item))
 			{
 				$lang[$name] = array();
 				self::_toArray($item->item, $lang[$name], $language);

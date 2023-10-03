@@ -11,15 +11,15 @@ class ModuleInfoParser extends BaseParser
 	 * Load an XML file.
 	 *
 	 * @param string $filename
-	 * @return object|false
+	 * @return ?object
 	 */
-	public static function loadXML(string $filename)
+	public static function loadXML(string $filename): ?object
 	{
 		// Load the XML file.
 		$xml = simplexml_load_string(file_get_contents($filename));
 		if ($xml === false)
 		{
-			return false;
+			return null;
 		}
 
 		// Get the current language.

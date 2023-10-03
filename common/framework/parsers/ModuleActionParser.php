@@ -25,15 +25,15 @@ class ModuleActionParser extends BaseParser
 	 * Load an XML file.
 	 *
 	 * @param string $filename
-	 * @return object|false
+	 * @return ?object
 	 */
-	public static function loadXML(string $filename)
+	public static function loadXML(string $filename): ?object
 	{
 		// Load the XML file.
 		$xml = simplexml_load_string(file_get_contents($filename));
 		if ($xml === false)
 		{
-			return false;
+			return null;
 		}
 
 		// Get the current language.
@@ -323,7 +323,7 @@ class ModuleActionParser extends BaseParser
 	 * @param array $route
 	 * @return object
 	 */
-	public static function analyzeRoute(array $route)
+	public static function analyzeRoute(array $route): object
 	{
 		// Replace variables in the route definition into appropriate regexp.
 		$var_regexp = '#\\$([a-zA-Z0-9_]+)(?::(' . implode('|', array_keys(self::$_shortcuts)) . '))?#';
