@@ -638,12 +638,14 @@ class EditorModel extends Editor
 
 		$component_name = $component->component_name;
 
-		unset($xml_info);
 		$xml_info = self::getComponentXmlInfo($component_name);
+		if (!$xml_info)
+		{
+			return (object)['enabled' => false];
+		}
+
 		$xml_info->enabled = $component->enabled;
-
 		$xml_info->target_group = array();
-
 		$xml_info->mid_list = array();
 
 		if($component->extra_vars)
@@ -690,7 +692,7 @@ class EditorModel extends Editor
 		// Get from cache
 		$cache_key = sprintf('editor:component:%s:%s:%d', $component, $lang_type, $xml_mtime);
 		$info = Rhymix\Framework\Cache::get($cache_key);
-		if ($info !== null && FALSE)
+		if (!empty($info))
 		{
 			return $info;
 		}

@@ -13,15 +13,15 @@ class EditorComponentParser extends BaseParser
 	 * @param string $filename
 	 * @param string $component_name
 	 * @param string $lang
-	 * @return object|false
+	 * @return ?object
 	 */
-	public static function loadXML(string $filename, string $component_name, string $lang = '')
+	public static function loadXML(string $filename, string $component_name, string $lang = ''): ?object
 	{
 		// Load the XML file.
 		$xml = simplexml_load_string(file_get_contents($filename));
 		if ($xml === false)
 		{
-			return false;
+			return null;
 		}
 
 		// Get the current language.
