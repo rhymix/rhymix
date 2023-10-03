@@ -1219,8 +1219,11 @@ class Context
 					$GLOBALS['HTTP_RAW_POST_DATA'] = '';
 					return;
 				}
-				libxml_disable_entity_loader(true);
-				$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($GLOBALS['HTTP_RAW_POST_DATA']);
+				if (PHP_VERSION_ID < 80000)
+				{
+					libxml_disable_entity_loader(true);
+				}
+				$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($GLOBALS['HTTP_RAW_POST_DATA']) ?: [];
 			}
 			elseif($request_method === 'JSON')
 			{
