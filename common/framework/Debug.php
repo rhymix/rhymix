@@ -625,7 +625,7 @@ class Debug
 			}
 			else
 			{
-				$caller_errfile = self::translateFilename($trace['file']);
+				$caller_errfile = self::translateFilename($trace['file'] ?? '');
 				$caller_errline = $trace['line'];
 			}
 		}
@@ -667,7 +667,7 @@ class Debug
 		}
 
 		// Find out the file where the error really occurred.
-		$errinfo['file'] = self::translateFilename($errinfo['file']);
+		$errinfo['file'] = self::translateFilename($errinfo['file'] ?? '');
 
 		// Add the entry to the error log.
 		$message = sprintf('%s in %s on line %d', $errinfo['message'], $errinfo['file'], intval($errinfo['line']));
