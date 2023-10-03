@@ -18,10 +18,10 @@ class MediaFilter
 	 * Add a prefix to the iframe whitelist.
 	 *
 	 * @param string $prefix
-	 * @parsm bool $permanently
+	 * @param bool $permanently
 	 * @return void
 	 */
-	public static function addPrefix($prefix, $permanently = false)
+	public static function addPrefix(string $prefix, bool $permanently = false): void
 	{
 		if (!self::$_whitelist)
 		{
@@ -48,8 +48,11 @@ class MediaFilter
 	 * Add a prefix to the object whitelist.
 	 *
 	 * @deprecated
+	 * @param string $prefix
+	 * @param bool $permanently
+	 * @return void
 	 */
-	public static function addIframePrefix($prefix, $permanently = false)
+	public static function addIframePrefix(string $prefix, bool $permanently = false): void
 	{
 		self::addPrefix($prefix, $permanently);
 	}
@@ -58,8 +61,9 @@ class MediaFilter
 	 * Add a prefix to the object whitelist.
 	 *
 	 * @deprecated
+	 * @return void
 	 */
-	public static function addObjectPrefix()
+	public static function addObjectPrefix(): void
 	{
 
 	}
@@ -70,7 +74,7 @@ class MediaFilter
 	 * @param string $prefix
 	 * @return string
 	 */
-	public static function formatPrefix($prefix)
+	public static function formatPrefix(string $prefix): string
 	{
 		$prefix = preg_match('@^(?:https?:)?//(.*)$@i', $prefix, $matches) ? $matches[1] : $prefix;
 		if (strpos($prefix, '/') === false)
@@ -85,7 +89,7 @@ class MediaFilter
 	 *
 	 * @return array
 	 */
-	public static function getWhitelist()
+	public static function getWhitelist(): array
 	{
 		if (!self::$_whitelist)
 		{
@@ -99,7 +103,7 @@ class MediaFilter
 	 *
 	 * @return string
 	 */
-	public static function getWhitelistRegex()
+	public static function getWhitelistRegex(): string
 	{
 		if (!self::$_whitelist)
 		{
@@ -119,7 +123,7 @@ class MediaFilter
 	 * @param string $url
 	 * @return bool
 	 */
-	public static function matchWhitelist($url)
+	public static function matchWhitelist(string $url): bool
 	{
 		return preg_match(self::getWhitelistRegex(), $url) ? true : false;
 	}
@@ -131,7 +135,7 @@ class MediaFilter
 	 * @param string $replacement
 	 * @return string
 	 */
-	public static function removeEmbeddedMedia($input, $replacement = '')
+	public static function removeEmbeddedMedia(string $input, string $replacement = ''): string
 	{
 		$input = preg_replace('!<object[^>]*>(.*?</object>)?!is', $replacement, $input);
 		$input = preg_replace('!<embed[^>]*>(.*?</embed>)?!is', $replacement, $input);
@@ -145,14 +149,14 @@ class MediaFilter
 	 * @param array $custom_whitelist
 	 * @return void
 	 */
-	protected static function _loadWhitelists($custom_whitelist = array())
+	protected static function _loadWhitelists(array $custom_whitelist = []): void
 	{
 		$default_whitelist = (include \RX_BASEDIR . 'common/defaults/whitelist.php');
 		self::$_whitelist = [];
 
 		if($custom_whitelist)
 		{
-			if(!is_array($custom_whitelist) || !isset($custom_whitelist['iframe']) || !isset($custom_whitelist['object']))
+			if(!isset($custom_whitelist['iframe']) || !isset($custom_whitelist['object']))
 			{
 				$custom_whitelist = array(
 					'iframe' => isset($custom_whitelist->iframe) ? $custom_whitelist->iframe : array(),
@@ -215,7 +219,7 @@ class MediaFilter
 	 * @deprecated
 	 * @return array
 	 */
-	public static function getIframeWhitelist()
+	public static function getIframeWhitelist(): array
 	{
 		return self::getWhitelist();
 	}
@@ -226,7 +230,7 @@ class MediaFilter
 	 * @deprecated
 	 * @return string
 	 */
-	public static function getIframeWhitelistRegex()
+	public static function getIframeWhitelistRegex(): string
 	{
 		return self::getWhitelistRegex();
 	}
@@ -238,7 +242,7 @@ class MediaFilter
 	 * @param string $url
 	 * @return bool
 	 */
-	public static function matchIframeWhitelist($url)
+	public static function matchIframeWhitelist(string $url): bool
 	{
 		return self::matchWhitelist($url);
 	}
@@ -249,7 +253,7 @@ class MediaFilter
 	 * @deprecated
 	 * @return array
 	 */
-	public static function getObjectWhitelist()
+	public static function getObjectWhitelist(): array
 	{
 		return self::getWhitelist();
 	}
@@ -260,7 +264,7 @@ class MediaFilter
 	 * @deprecated
 	 * @return string
 	 */
-	public static function getObjectWhitelistRegex()
+	public static function getObjectWhitelistRegex(): string
 	{
 		return self::getWhitelistRegex();
 	}
@@ -272,7 +276,7 @@ class MediaFilter
 	 * @param string $url
 	 * @return bool
 	 */
-	public static function matchObjectWhitelist($url)
+	public static function matchObjectWhitelist(string $url): bool
 	{
 		return self::matchWhitelist($url);
 	}

@@ -19,7 +19,7 @@ class FileContentFilter
 	 * @param string $filename Filename hint for type detection
 	 * @return bool
 	 */
-	public static function check($file, $filename = null)
+	public static function check(?string $file = null, ?string $filename = null): bool
 	{
 		// Return error if the file does not exist.
 		if (!$file || !file_exists($file))

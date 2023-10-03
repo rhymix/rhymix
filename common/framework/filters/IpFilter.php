@@ -14,7 +14,7 @@ class IpFilter
 	 * @param string $range
 	 * @return bool
 	 */
-	public static function inRange($ip, $range)
+	public static function inRange(string $ip, string $range): bool
 	{
 		// Determine the type of the IP address.
 		if (preg_match('/[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$/', $ip, $matches))
@@ -73,7 +73,7 @@ class IpFilter
 	 * @param array $ranges
 	 * @return bool
 	 */
-	public static function inRanges($ip, array $ranges)
+	public static function inRanges(string $ip, array $ranges): bool
 	{
 		foreach ($ranges as $range)
 		{
@@ -91,7 +91,7 @@ class IpFilter
 	 * @param string $range
 	 * @return bool
 	 */
-	public static function validateRange($range)
+	public static function validateRange(string $range): bool
 	{
 		$regexes = array(
 			'/^\d+\.\d+\.\d+\.\d+(\/\d+)?$/',
@@ -116,7 +116,7 @@ class IpFilter
 	 * @param array $ranges
 	 * @return bool
 	 */
-	public static function validateRanges(array $ranges)
+	public static function validateRanges(array $ranges): bool
 	{
 		foreach ($ranges as $range)
 		{
@@ -160,7 +160,7 @@ class IpFilter
 	 * @param string $range
 	 * @return bool
 	 */
-	protected static function _checkIPv4CIDR($ip, $range)
+	protected static function _checkIPv4CIDR(string $ip, string $range): bool
 	{
 		if (strpos($range, '/') === false) $range .= '/32';
 		list($range, $mask) = explode('/', $range);
@@ -178,7 +178,7 @@ class IpFilter
 	 * @param string $range
 	 * @return bool
 	 */
-	protected static function _checkIPv6CIDR($ip, $range)
+	protected static function _checkIPv6CIDR(string $ip, string $range): bool
 	{
 		if (function_exists('inet_pton'))
 		{
@@ -203,7 +203,7 @@ class IpFilter
 	 * @param string $range
 	 * @return bool
 	 */
-	protected static function _checkIPv4Wildcard($ip, $range)
+	protected static function _checkIPv4Wildcard(string $ip, string $range): bool
 	{
 		$count = count(explode('.', $range));
 		if ($count < 4)
@@ -223,7 +223,7 @@ class IpFilter
 	 * @param string $range
 	 * @return bool
 	 */
-	protected static function _checkIPv4Hyphen($ip, $range)
+	protected static function _checkIPv4Hyphen(string $ip, string $range): bool
 	{
 		$ip = sprintf('%u', ip2long($ip));
 		list($range_start, $range_end) = explode('-', $range);

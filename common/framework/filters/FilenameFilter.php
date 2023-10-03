@@ -13,7 +13,7 @@ class FilenameFilter
 	 * @param string $filename
 	 * @return string
 	 */
-	public static function clean($filename)
+	public static function clean(string $filename): string
 	{
 		// Replace dangerous characters with safe alternatives, maintaining meaning as much as possible.
 		$illegal = array('\\', '/', '<', '>', '{', '}', ':', ';', '|', '"', '~', '`', '$', '%', '^', '*', '?');
@@ -57,7 +57,7 @@ class FilenameFilter
 	 * @param string $path
 	 * @return string
 	 */
-	public static function cleanPath($path)
+	public static function cleanPath(string $path): string
 	{
 		// Convert relative paths to absolute paths.
 		if (!preg_match('@^(?:/|[a-z]:[\\\\/]|\\\\|https?:)@i', $path))
@@ -97,7 +97,7 @@ class FilenameFilter
 	 * @param bool $include_multimedia (optional)
 	 * @return bool
 	 */
-	public static function isDirectDownload($filename, $include_multimedia = true)
+	public static function isDirectDownload(string $filename, bool $include_multimedia = true): bool
 	{
 		$images = 'gif|jpe?g|jfif|png|webp';
 		$audios = 'mp3|wav|ogg|flac|aac';

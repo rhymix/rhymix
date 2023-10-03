@@ -44,7 +44,7 @@ class HTMLFilter
 	 * @param callable $callback
 	 * @return void
 	 */
-	public static function prependPreFilter($callback)
+	public static function prependPreFilter(callable $callback): void
 	{
 		array_unshift(self::$_preproc, $callback);
 	}
@@ -55,7 +55,7 @@ class HTMLFilter
 	 * @param callable $callback
 	 * @return void
 	 */
-	public static function appendPreFilter($callback)
+	public static function appendPreFilter(callable $callback): void
 	{
 		self::$_preproc[] = $callback;
 	}
@@ -66,7 +66,7 @@ class HTMLFilter
 	 * @param callable $callback
 	 * @return void
 	 */
-	public static function prependPostFilter($callback)
+	public static function prependPostFilter(callable $callback): void
 	{
 		array_unshift(self::$_postproc, $callback);
 	}
@@ -77,7 +77,7 @@ class HTMLFilter
 	 * @param callable $callback
 	 * @return void
 	 */
-	public static function appendPostFilter($callback)
+	public static function appendPostFilter(callable $callback): void
 	{
 		self::$_postproc[] = $callback;
 	}
@@ -91,7 +91,7 @@ class HTMLFilter
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	public static function clean($input, $allow_classes = false, $allow_editor_components = true, $allow_widgets = false)
+	public static function clean(string $input, $allow_classes = false, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		foreach (self::$_preproc as $callback)
 		{
@@ -166,9 +166,9 @@ class HTMLFilter
 	 * Get an instance of HTMLPurifier.
 	 *
 	 * @param array|null $allowed_classes (optional)
-	 * @return object
+	 * @return \HTMLPurifier
 	 */
-	public static function getHTMLPurifier($allowed_classes = null)
+	public static function getHTMLPurifier(?array $allowed_classes = null): \HTMLPurifier
 	{
 		// Keep separate instances for different sets of allowed classes.
 		if ($allowed_classes !== null)
@@ -239,10 +239,10 @@ class HTMLFilter
 	 * These changes are based on https://github.com/xemlock/htmlpurifier-html5
 	 * but modified to support even more tags and attributes.
 	 *
-	 * @param object $config
+	 * @param \HTMLPurifier_Config $config
 	 * @return void
 	 */
-	protected static function _supportHTML5($config)
+	protected static function _supportHTML5(\HTMLPurifier_Config $config): void
 	{
 		// Get the HTML definition.
 		$def = $config->getHTMLDefinition(true);
@@ -330,10 +330,10 @@ class HTMLFilter
 	 * These changes are based on:
 	 *   - https://github.com/mattiaswelander/htmlpurifier
 	 *
-	 * @param object $config
+	 * @param \HTMLPurifier_Config $config
 	 * @return void
 	 */
-	protected static function _supportCSS3($config)
+	protected static function _supportCSS3(\HTMLPurifier_Config $config): void
 	{
 		// Initialize $info.
 		$info = array();
@@ -484,7 +484,7 @@ class HTMLFilter
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _preprocess($content, $allow_editor_components = true, $allow_widgets = false)
+	protected static function _preprocess(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		// Encode widget and editor component properties so that they are not removed by HTMLPurifier.
 		if ($allow_editor_components || $allow_widgets)
@@ -502,7 +502,7 @@ class HTMLFilter
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _postprocess($content, $allow_editor_components = true, $allow_widgets = false)
+	protected static function _postprocess(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
@@ -569,7 +569,7 @@ class HTMLFilter
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _encodeWidgetsAndEditorComponents($content, $allow_editor_components = true, $allow_widgets = false)
+	protected static function _encodeWidgetsAndEditorComponents(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		$regexp = array();
 		if ($allow_editor_components)
@@ -624,7 +624,7 @@ class HTMLFilter
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _decodeWidgetsAndEditorComponents($content, $allow_editor_components = true, $allow_widgets = false)
+	protected static function _decodeWidgetsAndEditorComponents(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		if (!$allow_editor_components)
 		{
