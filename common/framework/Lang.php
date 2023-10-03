@@ -104,7 +104,7 @@ class Lang
 	 * @param string $plugin_name
 	 * @return bool
 	 */
-	public function loadDirectory(string $dir, string $plugin_name = ''): bool
+	public function loadDirectory(string $dir, ?string $plugin_name = null): bool
 	{
 		// Do not load the same directory twice.
 		$dir = rtrim($dir, '/');
