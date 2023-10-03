@@ -1592,7 +1592,7 @@ class NcenterliteController extends Ncenterlite
 		$content = $oNcenterliteModel->getNotificationText($args);
 		$content = htmlspecialchars_decode(preg_replace('/<\/?(strong|)[^>]*>/', '', $content));
 
-		$target_url = $args->target_url;
+		$target_url = strval($args->target_url);
 		if (!preg_match('!^https?://!', $target_url))
 		{
 			$target_url = Rhymix\Framework\URL::getCurrentDomainUrl($target_url);
@@ -1623,7 +1623,7 @@ class NcenterliteController extends Ncenterlite
 			$oPush->setContent(strval($args->extra_content));
 		}
 		$oPush->setData($args->extra_data);
-		$oPush->setURL(strval($target_url));
+		$oPush->setURL($target_url);
 		$oPush->addTo(intval($args->member_srl));
 		$output = $oPush->send();
 
@@ -1665,8 +1665,8 @@ class NcenterliteController extends Ncenterlite
 		{
 			if($config->variable_name === '#')
 			{
-				$phone_country = $member_info->phone_country;
-				$phone_number = $member_info->phone_number;
+				$phone_country = $member_info->phone_country ?? '';
+				$phone_number = $member_info->phone_number ?? '';
 
 				// Sending SMS outside of Korea is currently not supported.
 				if($phone_country !== 'KOR')
@@ -1676,7 +1676,7 @@ class NcenterliteController extends Ncenterlite
 			}
 			else
 			{
-				$phone_number = implode('', $member_info->{$config->variable_name});
+				$phone_number = implode('', $member_info->{$config->variable_name} ?? []);
 			}
 
 			// Check if a Korean phone number contains a valid area code and the correct number of digits.
@@ -1728,7 +1728,7 @@ class NcenterliteController extends Ncenterlite
 		}
 		$mail_title = Context::getSiteTitle() . ' - ' . $mail_title;
 
-		$target_url = $args->target_url;
+		$target_url = strval($args->target_url);
 		if (!preg_match('!^https?://!', $target_url))
 		{
 			$target_url = Rhymix\Framework\URL::getCurrentDomainUrl($target_url);
@@ -1736,6 +1736,10 @@ class NcenterliteController extends Ncenterlite
 
 		$mail_content = sprintf("<p>%s</p>\n<p>%s</p>\n", $content, $target_url);
 		$member_info = MemberModel::getMemberInfoByMemberSrl($args->member_srl);
+		if (!$member_info || !$member_info->email_address)
+		{
+			return false;
+		}
 
 		$oMail = new \Rhymix\Framework\Mail();
 		$oMail->setSubject($mail_title);
