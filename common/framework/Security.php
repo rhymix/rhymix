@@ -252,13 +252,31 @@ class Security
 	/**
 	 * Generate a random UUID.
 	 *
+	 * The code for UUIDv4 is based on https://stackoverflow.com/a/15875555/481206
+	 *
+	 * @param int $version (4 or 7)
 	 * @return string
 	 */
-	public static function getRandomUUID(): string
+	public static function getRandomUUID(int $version = 4): string
 	{
-		$randpool = self::getRandom(16, 'binary');
-		$randpool[6] = chr(ord($randpool[6]) & 0x0f | 0x40);
-		$randpool[8] = chr(ord($randpool[8]) & 0x3f | 0x80);
+		if ($version === 4)
+		{
+			$randpool = self::getRandom(16, 'binary');
+			$randpool[6] = chr(ord($randpool[6]) & 0x0f | 0x40);
+			$randpool[8] = chr(ord($randpool[8]) & 0x3f | 0x80);
+		}
+		elseif ($version === 7)
+		{
+			$timestamp = microtime(false);
+			$timestamp = substr(pack('J', (intval(substr($timestamp, -10), 10) * 1000) + intval(substr($timestamp, 2, 3), 10)), -6);
+			$randpool = $timestamp . self::getRandom(10, 'binary');
+			$randpool[6] = chr(ord($randpool[6]) & 0x0f | 0x70);
+			$randpool[8] = chr(ord($randpool[8]) & 0x3f | 0x80);
+		}
+		else
+		{
+			throw new Exception('Invalid UUID version: ' . $version);
+		}
 		return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($randpool), 4));
 	}
 

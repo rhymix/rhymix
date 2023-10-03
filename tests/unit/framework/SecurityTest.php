@@ -83,6 +83,16 @@ class SecurityTest extends \Codeception\TestCase\Test
 		{
 			$this->assertRegExp($regex, Rhymix\Framework\Security::getRandomUUID());
 		}
+		for ($i = 0; $i < 10; $i++)
+		{
+			$this->assertRegExp($regex, Rhymix\Framework\Security::getRandomUUID(4));
+		}
+
+		$regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/';
+		for ($i = 0; $i < 10; $i++)
+		{
+			$this->assertRegExp($regex, Rhymix\Framework\Security::getRandomUUID(7));
+		}
 	}
 
 	public function testCompareStrings()
