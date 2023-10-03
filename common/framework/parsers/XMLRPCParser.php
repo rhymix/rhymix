@@ -11,15 +11,15 @@ class XMLRPCParser
 	 * Load an XML file.
 	 *
 	 * @param string $content
-	 * @return object|false
+	 * @return ?array
 	 */
-	public static function parse(string $content)
+	public static function parse(string $content): ?array
 	{
 		// Load the XML content.
 		$xml = simplexml_load_string($content);
 		if ($xml === false)
 		{
-			return false;
+			return null;
 		}
 
 		// Loop over the list of parameters.
