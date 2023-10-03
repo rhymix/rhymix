@@ -352,6 +352,7 @@ class ModuleHandler extends Handler
 		$ruleset = $xml_info->action->{$this->act}->ruleset ?? '';
 		$meta_noindex = $xml_info->action->{$this->act}->meta_noindex ?? '';
 		$kind = (stripos($this->act ?? '', 'admin') !== false || stripos($class_name, 'admin') !== false) ? 'admin' : '';
+		$is_namespaced_module = false;
 		if ($meta_noindex === 'true')
 		{
 			Context::addMetaTag('robots', 'noindex');
@@ -426,6 +427,7 @@ class ModuleHandler extends Handler
 			if (class_exists($class_fullname))
 			{
 				$oModule = $class_fullname::getInstance();
+				$is_namespaced_module = true;
 			}
 			else
 			{
@@ -556,6 +558,7 @@ class ModuleHandler extends Handler
 					if (class_exists($class_fullname))
 					{
 						$oModule = $class_fullname::getInstance();
+						$is_namespaced_module = true;
 					}
 					else
 					{
@@ -610,6 +613,12 @@ class ModuleHandler extends Handler
 		// ruleset check...
 		if(!empty($ruleset))
 		{
+			// Rulesets are deprecated for namespaced modules
+			if ($is_namespaced_module)
+			{
+				trigger_error('Ruleset is deprecated in namespaced modules', E_USER_WARNING);
+			}
+
 			$rulesetModule = !empty($forward->module) ? $forward->module : $this->module;
 			$rulesetFile = ModuleModel::getValidatorFilePath($rulesetModule, $ruleset, $this->mid);
 			if(!empty($rulesetFile))
