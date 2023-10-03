@@ -20,11 +20,11 @@ class Timer
 	 * @param string $name (optional)
 	 * @return float
 	 */
-	public static function start($name = null)
+	public static function start(string $name = ''): float
 	{
 		$timestamp = microtime(true);
 
-		if ($name === null)
+		if ($name === '')
 		{
 			$name = 'anon-timer-' . $timestamp;
 		}
@@ -37,17 +37,17 @@ class Timer
 	 * Stop a timer and return the elapsed time.
 	 *
 	 * If the name is not given, the most recently started timer will be stopped.
-	 * If no timer has been started, this method returns false.
+	 * If no timer has been started, this method returns zero.
 	 *
 	 * @param string $name (optional)
-	 * @return float|false
+	 * @return float
 	 */
-	public static function stop($name = null)
+	public static function stop(string $name = ''): float
 	{
 		$timestamp = microtime(true);
 		$started_timestamp = 0;
 
-		if ($name === null)
+		if ($name === '')
 		{
 			if (count(self::$_timestamps))
 			{
@@ -55,7 +55,7 @@ class Timer
 			}
 			else
 			{
-				return false;
+				return 0;
 			}
 		}
 		elseif (array_key_exists($name, self::$_timestamps))
@@ -65,7 +65,7 @@ class Timer
 		}
 		else
 		{
-			return false;
+			return 0;
 		}
 
 		return $timestamp - $started_timestamp;
@@ -75,15 +75,15 @@ class Timer
 	 * Stop a timer and return the elapsed time in a human-readable format.
 	 *
 	 * If the name is not given, the most recently started timer will be stopped.
-	 * If no timer has been started, this method returns false.
+	 * If no timer has been started, this method returns '0'.
 	 *
 	 * @param string $name (optional)
-	 * @return string|false
+	 * @return string
 	 */
-	public static function stopFormat($name = null)
+	public static function stopFormat(string $name = ''): string
 	{
 		$result = self::stop($name);
-		if ($result === false) return $result;
+		if ($result === 0) return '0';
 		return number_format($result * 1000, 1, '.', ',') . 'ms';
 	}
 
@@ -92,7 +92,7 @@ class Timer
 	 *
 	 * @return float
 	 */
-	public static function sinceStartup()
+	public static function sinceStartup(): float
 	{
 		return microtime(true) - \RX_MICROTIME;
 	}
@@ -102,7 +102,7 @@ class Timer
 	 *
 	 * @return string
 	 */
-	public static function sinceStartupFormat()
+	public static function sinceStartupFormat(): string
 	{
 		return number_format((microtime(true) - \RX_MICROTIME) * 1000, 1, '.', ',') . 'ms';
 	}

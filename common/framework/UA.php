@@ -32,7 +32,7 @@ class UA
 	 * @param string $ua (optional)
 	 * @return bool
 	 */
-	public static function isMobile($ua = null)
+	public static function isMobile(?string $ua = null): bool
 	{
 		// Get the User-Agent header if the caller did not specify $ua.
 		if ($ua === null)
@@ -95,10 +95,10 @@ class UA
 	 * @param string $ua (optional)
 	 * @return bool
 	 */
-	public static function isTablet($ua = null)
+	public static function isTablet(?string $ua = null): bool
 	{
 		// Get the User-Agent header if the caller did not specify $ua.
-		$ua = $ua ?: (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null);
+		$ua = $ua ?: ($_SERVER['HTTP_USER_AGENT'] ?? null);
 
 		// If the User-Agent header is missing, it's probably not a tablet.
 		if (is_null($ua))
@@ -140,10 +140,10 @@ class UA
 	 * @param string $ua (optional)
 	 * @return bool
 	 */
-	public static function isRobot($ua = null)
+	public static function isRobot(?string $ua = null): bool
 	{
 		// Get the User-Agent header if the caller did not specify $ua.
-		$ua = $ua ?: (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null);
+		$ua = $ua ?: ($_SERVER['HTTP_USER_AGENT'] ?? null);
 
 		// If the User-Agent header is missing, it's probably not a robot.
 		if (is_null($ua))
@@ -183,10 +183,10 @@ class UA
 	 * @param string $header (optional)
 	 * @return string
 	 */
-	public static function getLocale($header = null)
+	public static function getLocale(?string $header = null): string
 	{
 		// Get the Accept-Language header if the caller did not specify $header.
-		$header = $header ?: (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? $_SERVER['HTTP_ACCEPT_LANGUAGE'] : 'en-US');
+		$header = $header ?: ($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? 'en-US');
 
 		// Return the first locale name found.
 		return preg_match('/^([a-z0-9_-]+)/i', $header, $matches) ? $matches[1] : 'en-US';
@@ -198,10 +198,10 @@ class UA
 	 * @param string $ua (optional)
 	 * @return object
 	 */
-	public static function getBrowserInfo($ua = null)
+	public static function getBrowserInfo(?string $ua = null): object
 	{
 		// Get the User-Agent header if the caller did not specify $ua.
-		$ua = $ua ?: (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null);
+		$ua = $ua ?: ($_SERVER['HTTP_USER_AGENT'] ?? null);
 
 		// Initialize the result.
 		$result = (object)array(
@@ -374,10 +374,10 @@ class UA
 	 * @param string $ua (optional)
 	 * @return string
 	 */
-	public static function encodeFilenameForDownload($filename, $ua = null)
+	public static function encodeFilenameForDownload(string $filename, ?string $ua = null): string
 	{
 		// Get the User-Agent header if the caller did not specify $ua.
-		$ua = $ua ?: (isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null);
+		$ua = $ua ?: ($_SERVER['HTTP_USER_AGENT'] ?? null);
 
 		// Get the browser name and version.
 		$browser = self::getBrowserInfo($ua);
@@ -463,7 +463,7 @@ class UA
 	 * @param string $color_scheme
 	 * @return void
 	 */
-	public static function setColorScheme(string $color_scheme)
+	public static function setColorScheme(string $color_scheme): void
 	{
 		if (in_array($color_scheme, ['light', 'dark']))
 		{

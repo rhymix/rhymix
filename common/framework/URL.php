@@ -16,7 +16,7 @@ class URL
 	 * @param array $changes
 	 * @return string
 	 */
-	public static function getCurrentURL(array $changes = array())
+	public static function getCurrentURL(array $changes = []): string
 	{
 		$request_uri = preg_replace('/[<>"]/', '', isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/');
 		$url = self::getCurrentDomainURL($request_uri);
@@ -36,7 +36,7 @@ class URL
 	 * @param string $path
 	 * @return string
 	 */
-	public static function getCurrentDomainURL($path = '/')
+	public static function getCurrentDomainURL(string $path = '/'): string
 	{
 		$proto = \RX_SSL ? 'https://' : 'http://';
 		$host = isset($_SERVER['HTTP_HOST']) ? self::decodeIdna($_SERVER['HTTP_HOST']) : 'localhost';
@@ -49,7 +49,7 @@ class URL
 	 * @param string $url
 	 * @return string
 	 */
-	public static function getCanonicalURL($url)
+	public static function getCanonicalURL(string $url): string
 	{
 		if (preg_match('#^\.?/([^/]|$)#', $url) || !preg_match('#^(https?:|/)#', $url))
 		{
@@ -67,7 +67,7 @@ class URL
 	 * @param string $url
 	 * @return string|false
 	 */
-	public static function getDomainFromURL($url)
+	public static function getDomainFromURL(string $url)
 	{
 		$domain = @parse_url($url, \PHP_URL_HOST);
 		if ($domain === false || $domain === null)
@@ -86,7 +86,7 @@ class URL
 	 * @param string $url
 	 * @return bool
 	 */
-	public static function isInternalURL($url)
+	public static function isInternalURL(string $url): bool
 	{
 		$domain = self::getDomainFromURL($url);
 		if ($domain === false)
@@ -117,7 +117,7 @@ class URL
 	 * @param array $changes
 	 * @return string
 	 */
-	public static function modifyURL($url, array $changes = array())
+	public static function modifyURL(string $url, array $changes = []): string
 	{
 		$url = parse_url(self::getCanonicalURL($url));
 		$prefix = sprintf('%s://%s%s%s', $url['scheme'], $url['host'], (($url['port'] ?? '') ? (':' . $url['port']) : ''), $url['path']);
@@ -143,7 +143,7 @@ class URL
 	 * @param string $path
 	 * @return string|false
 	 */
-	public static function fromServerPath($path)
+	public static function fromServerPath(string $path)
 	{
 		$cleanpath = Filters\FilenameFilter::cleanPath($path);
 		if (substr($path, -1) === '/')
@@ -169,16 +169,17 @@ class URL
 	 * e.g. if the URL belongs to an external domain.
 	 *
 	 * @param string $url
-	 * @return string
+	 * @return string|false
 	 */
-	public static function toServerPath($url)
+	public static function toServerPath(string $url)
 	{
 		$url = self::getCanonicalURL($url);
 		if (!self::isInternalURL($url))
 		{
 			return false;
 		}
-		return Filters\FilenameFilter::cleanPath($_SERVER['DOCUMENT_ROOT'] . parse_url($url, \PHP_URL_PATH));
+		$root = $_SERVER['DOCUMENT_ROOT'] ?? rtrim(\RX_BASEDIR, '/');
+		return Filters\FilenameFilter::cleanPath($root . parse_url($url, \PHP_URL_PATH));
 	}
 
 	/**
@@ -187,7 +188,7 @@ class URL
 	 * @param string $url
 	 * @return string
 	 */
-	public static function encodeIdna($url)
+	public static function encodeIdna(string $url): string
 	{
 		if (preg_match('@[:/#]@', $url))
 		{
@@ -223,7 +224,7 @@ class URL
 	 * @param string $url
 	 * @return string
 	 */
-	public static function decodeIdna($url)
+	public static function decodeIdna(string $url): string
 	{
 		if (preg_match('@[:/#]@', $url))
 		{
