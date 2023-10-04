@@ -3,19 +3,19 @@
 		<table name="comments" />
 	</tables>
 	<columns>
-		<column name="module_srl" var="module_srl" filter="number" default="0" />
+		<column name="module_srl" var="module_srl" filter="number" />
 		<column name="member_srl" var="member_srl" />
-		<column name="parent_srl" var="parent_srl" filter="number" default="0" />
-		<column name="is_secret" var="is_secret" default="N" />
-        <column name="notify_message" var="notify_message" default="N" />
+		<column name="parent_srl" var="parent_srl" filter="number" />
+		<column name="is_secret" var="is_secret" />
+		<column name="notify_message" var="notify_message" />
 		<column name="content" var="content" notnull="notnull" />
 		<column name="password" var="password" maxlength="60" />
 		<column name="user_id" var="user_id" />
-		<column name="user_name" var="user_name" default="" />
+		<column name="user_name" var="user_name" />
 		<column name="nick_name" var="nick_name" notnull="notnull" minlength="1" maxlength="40" />
 		<column name="email_address" var="email_address" filter="email" maxlength="250" />
 		<column name="homepage" var="homepage" filter="homepage" maxlength="250" />
-		<column name="uploaded_count" var="uploaded_count" default="0" />
+		<column name="uploaded_count" var="uploaded_count" />
 		<column name="last_update" var="last_update" default="curdate()" />
 	</columns>
 	<conditions>
