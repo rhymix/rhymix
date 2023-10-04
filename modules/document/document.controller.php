@@ -917,6 +917,11 @@ class DocumentController extends Document
 		{
 			unset($obj->member_srl);
 			unset($obj->user_id);
+			unset($obj->user_name);
+			$obj->nick_name = $obj->nick_name ?? $source_obj->get('nick_name');
+			$obj->email_address = $obj->email_address ?? $source_obj->get('email_address');
+			$obj->homepage = $obj->homepage ?? $source_obj->get('homepage');
+			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
