@@ -55,7 +55,7 @@ class VariableBase
 				{
 					if ($this->not_null)
 					{
-						throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $this->column . ' must not be null');
+						throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . ($this->column ?? ($this->name ?? 'unknown')) . ' must not be null');
 					}
 					if ($this instanceof Condition && in_array($this->operation, ['equal', 'notequal', 'not_equal']))
 					{
@@ -89,7 +89,7 @@ class VariableBase
 		}
 		elseif ($this->not_null)
 		{
-			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . ($this->column ?? 'unknown') . ' is not set');
+			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . ($this->column ?? ($this->name ?? 'unknown')) . ' is not set');
 		}
 		elseif (!in_array($this->operation, ['null', 'notnull', 'not_null']))
 		{
