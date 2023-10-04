@@ -961,6 +961,7 @@ class CommentController extends Comment
 		}
 		else
 		{
+			$obj->nick_name = $obj->nick_name ?? $source_obj->get('nick_name');
 			unset($obj->member_srl);
 			unset($obj->user_id);
 		}
