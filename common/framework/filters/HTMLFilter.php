@@ -93,11 +93,6 @@ class HTMLFilter
 	 */
 	public static function clean(string $input, $allow_classes = false, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
-		foreach (self::$_preproc as $callback)
-		{
-			$input = $callback($input);
-		}
-
 		if ($allow_classes === true)
 		{
 			$allowed_classes = null;
@@ -119,13 +114,20 @@ class HTMLFilter
 			}
 		}
 
-		$input = self::_preprocess($input, $allow_editor_components, $allow_widgets);
-		$output = self::getHTMLPurifier($allowed_classes)->purify($input);
-		$output = self::_postprocess($output, $allow_editor_components, $allow_widgets);
+		$purifier = self::getHTMLPurifier($allowed_classes);
+
+		foreach (self::$_preproc as $callback)
+		{
+			$input = $callback($input, $purifier, $allow_editor_components, $allow_widgets);
+		}
+
+		$input = self::_preprocess($input, $purifier, $allow_editor_components, $allow_widgets);
+		$output = $purifier->purify($input);
+		$output = self::_postprocess($output, $purifier, $allow_editor_components, $allow_widgets);
 
 		foreach (self::$_postproc as $callback)
 		{
-			$output = $callback($output);
+			$output = $callback($output, $purifier, $allow_editor_components, $allow_widgets);
 		}
 
 		return $output;
@@ -483,11 +485,12 @@ class HTMLFilter
 	 * Rhymix-specific preprocessing method.
 	 *
 	 * @param string $content
+	 * @param \HTMLPurifier $purifier
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _preprocess(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	protected static function _preprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		// Encode widget and editor component properties so that they are not removed by HTMLPurifier.
 		if ($allow_editor_components || $allow_widgets)
@@ -501,11 +504,12 @@ class HTMLFilter
 	 * Rhymix-specific postprocessing method.
 	 *
 	 * @param string $content
+	 * @param \HTMLPurifier $purifier
 	 * @param bool $allow_editor_components (optional)
 	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _postprocess(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	protected static function _postprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
