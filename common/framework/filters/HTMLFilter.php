@@ -255,6 +255,8 @@ class HTMLFilter
 		$def->addElement('section', 'Block', 'Flow', 'Common');
 		$def->addElement('article', 'Block', 'Flow', 'Common');
 		$def->addElement('aside', 'Block', 'Flow', 'Common');
+		$def->addElement('details', 'Block', 'Flow', 'Common');
+		$def->addElement('summary', 'Block', 'Flow', 'Common');
 
 		// Add various inline tags.
 		$def->addElement('s', 'Inline', 'Inline', 'Common');
@@ -313,6 +315,7 @@ class HTMLFilter
 		));
 
 		// Support additional properties.
+		$def->addAttribute('details', 'open', 'Bool');
 		$def->addAttribute('i', 'aria-hidden', 'Text');
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('img', 'data-file-srl', 'Number');
