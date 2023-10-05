@@ -41,10 +41,10 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="image">{$lang->feed_image}</label>
 			<div class="x_controls">
-			<div class="_rss_image_container" cond="$config->image">
+				<div class="_rss_image_container" cond="$config->image">
 					<div class="x_thumbnail" style="display:inline-block;margin:0 0 5px 0"> 
 						<img src="{$config->image_url}" alt="image" style="max-width:210px;max-height:150px" />
-						<input type="button" class="_delete_rss_image x_icon-remove" value="{$lang->cmd_delete}" style="width:14px" />
+						<button type="button" class="_delete_rss_image">{$lang->cmd_delete}</button>
 					</div>
 				</div>
 				<p><input type="file" name="image" value="" id="image" /></p>
