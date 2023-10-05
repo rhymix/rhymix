@@ -39,6 +39,18 @@ class HTMLFilter
 	);
 
 	/**
+	 * List of tags where data-* attributes are allowed.
+	 */
+	protected static $_data_allowed = array(
+		'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'div', 'p',
+		'a', 'span', 'img', 'picture', 'b', 'i', 'strong', 'em', 'u', 's', 'sub', 'sup',
+		'header', 'footer', 'nav', 'main', 'section', 'article', 'aside', 'details', 'summary',
+		'ul', 'ol', 'li', 'mark', 'wbr', 'figure', 'figcaption', 'caption',
+		'table', 'thead', 'tbody', 'tr', 'th', 'td', 'ins', 'del',
+		'iframe', 'video', 'audio', 'source', 'track', 'blockquote', 'code',
+	);
+
+	/**
 	 * Prepend a pre-processing filter.
 	 *
 	 * @param callable $callback
@@ -216,13 +228,6 @@ class HTMLFilter
 			$config->set('Cache.SerializerPath', \RX_BASEDIR . 'files/cache/htmlpurifier');
 			Storage::createDirectory(\RX_BASEDIR . 'files/cache/htmlpurifier');
 
-			// Modify the HTML definition to support editor components and widgets.
-			$def = $config->getHTMLDefinition(true);
-			$def->addAttribute('img', 'editor_component', 'Text');
-			$def->addAttribute('div', 'editor_component', 'Text');
-			$def->addAttribute('img', 'rx_encoded_properties', 'Text');
-			$def->addAttribute('div', 'rx_encoded_properties', 'Text');
-
 			// Support HTML5 and CSS3.
 			self::_supportHTML5($config);
 			self::_supportCSS3($config);
@@ -320,13 +325,24 @@ class HTMLFilter
 		$def->addAttribute('details', 'open', 'Bool');
 		$def->addAttribute('i', 'aria-hidden', 'Text');
 		$def->addAttribute('img', 'srcset', 'Text');
-		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('iframe', 'allow', 'Text');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
 		$def->addAttribute('iframe', 'referrerpolicy', 'Enum#no-referrer,no-referrer-when-downgrade,origin,origin-when-cross-origin,same-origin,strict-origin,strict-origin-when-cross-origin,unsafe-url');
 
 		// Support contenteditable="false" (#1710)
 		$def->addAttribute('div', 'contenteditable', 'Enum#false');
+
+		// Support editor components and widgets.
+		$def->addAttribute('img', 'editor_component', 'Text');
+		$def->addAttribute('div', 'editor_component', 'Text');
+		$def->addAttribute('img', 'rx_encoded_properties', 'Text');
+		$def->addAttribute('div', 'rx_encoded_properties', 'Text');
+
+		// Support encoded data-* attributes for some tags.
+		foreach (self::$_data_allowed as $tag)
+		{
+			$def->addAttribute($tag, 'rx_encoded_datas', 'Text');
+		}
 	}
 
 	/**
@@ -497,6 +513,9 @@ class HTMLFilter
 		{
 			$content = self::_encodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
 		}
+
+		// Encode data-* attributes.
+		$content = self::_encodeDataAttributes($content);
 		return $content;
 	}
 
@@ -565,6 +584,9 @@ class HTMLFilter
 
 		// Restore widget and editor component properties.
 		$content = self::_decodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
+
+		// Restore data-* attributes.
+		$content = self::_decodeDataAttributes($content);
 		return $content;
 	}
 
@@ -605,7 +627,7 @@ class HTMLFilter
 				{
 					return $attr[0];
 				}
-				$attrval = utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2])));
+				$attrval = trim(utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2]))));
 				if (preg_match('/^javascript:/i', preg_replace('/\s+/', '', $attrval)))
 				{
 					return '';
@@ -660,7 +682,69 @@ class HTMLFilter
 			}
 			foreach ($decoded_properties as $key => $val)
 			{
-				$attrs[] = $key . '="' . htmlspecialchars($val) . '"';
+				$attrs[] = $key . '="' . htmlspecialchars($val, ENT_QUOTES, 'UTF-8') . '"';
+			}
+			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
+		}, $content);
+	}
+
+	/**
+	 * Encode data-* attributes so that they will survive being passed through HTMLPurifier.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected static function _encodeDataAttributes(string $content): string
+	{
+		$tags = implode('|', self::$_data_allowed);
+		return preg_replace_callback('!<(' . $tags . ')\s([^>]+)>!i', function($match) {
+			$attrs = array();
+			$html = preg_replace_callback('!\s(data-[a-zA-Z0-9_-]+)="([^"]*)"!', function($attr) use(&$attrs) {
+				$attrkey = strtolower($attr[1]);
+				$attrval = trim(utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2]))));
+				if (preg_match('/^javascript:/i', preg_replace('/\s+/', '', $attrval)))
+				{
+					return '';
+				}
+				if (preg_match('/-srl$/i', $attrkey) && !ctype_digit($attrval))
+				{
+					return '';
+				}
+				$attrs[$attrkey] = $attrval;
+				return '';
+			}, $match[0]);
+			$encoded_datas = base64_encode(json_encode($attrs));
+			$encoded_datas = $encoded_datas . ':' . Security::createSignature($encoded_datas);
+			return substr($html, 0, -1) . ' rx_encoded_datas="' . $encoded_datas . '">';
+		}, $content);
+	}
+
+	/**
+	 * Decode data-* attributes after processing.
+	 *
+	 * @param string $content
+	 * @param bool $allow_editor_components (optional)
+	 * @param bool $allow_widgets (optional)
+	 * @return string
+	 */
+	protected static function _decodeDataAttributes(string $content): string
+	{
+		$tags = implode('|', self::$_data_allowed);
+		return preg_replace_callback('!<(' . $tags . ')([^>]*)(\srx_encoded_datas="([^"]+)")!i', function($match) {
+			$attrs = array();
+			list($encoded_datas, $signature) = explode(':', $match[4]);
+			if (!Security::verifySignature($encoded_datas, $signature))
+			{
+				return str_replace($match[3], '', $match[0]);
+			}
+			$encoded_datas = json_decode(base64_decode($encoded_datas));
+			if (!$encoded_datas)
+			{
+				return str_replace($match[3], '', $match[0]);
+			}
+			foreach ($encoded_datas as $key => $val)
+			{
+				$attrs[] = $key . '="' . htmlspecialchars($val, ENT_QUOTES, 'UTF-8') . '"';
 			}
 			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
