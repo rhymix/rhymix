@@ -167,7 +167,7 @@
 	</select>
 	<select name="search_target" style="margin-right:4px" title="{$lang->search_target}">
 		{@ $lang->search_target_list = array_merge($usedIdentifiers, lang('member.search_target_list')->getArrayCopy())}
-		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="$search_target==$key">{$val}</option>
+		<option value="{$key}" loop="$lang->search_target_list=>$key,$val" selected="selected"|cond="isset($search_target) && $search_target == $key">{$val}</option>
 	</select>
 	<input type="search" name="search_keyword" value="{$search_keyword}" style="width:140px">
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>

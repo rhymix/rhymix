@@ -31,12 +31,12 @@
 <form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
 	<input type="hidden" name="module" value="{$module}" />
 	<select name="search_target" style="margin-right:4px" title="{$lang->search_target}">
-		<option value="before" selected="selected"|cond="$search_target=='before'">{$lang->nick_name_before_changing}</option>
-		<option value="after" selected="selected"|cond="$search_target=='after'">{$lang->nick_name_after_changing}</option>
-		<option value="user_id" selected="selected"|cond="$search_target=='user_id'">{$lang->user_id}</option>
-		<option value="member_srl" selected="selected"|cond="$search_target=='member_srl'">{$lang->member_number}</option>
+		<option value="before" selected="selected"|cond="isset($search_target) && $search_target == 'before'">{$lang->nick_name_before_changing}</option>
+		<option value="after" selected="selected"|cond="isset($search_target) && $search_target == 'after'">{$lang->nick_name_after_changing}</option>
+		<option value="user_id" selected="selected"|cond="isset($search_target) && $search_target == 'user_id'">{$lang->user_id}</option>
+		<option value="member_srl" selected="selected"|cond="isset($search_target) && $search_target == 'member_srl'">{$lang->member_number}</option>
 	</select>
-	<input type="search" name="search_keyword" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="width:140px">
+	<input type="search" name="search_keyword" value="{escape($search_keyword ?? '', false)}" style="width:140px">
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 </form>
 
