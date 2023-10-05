@@ -48,7 +48,6 @@ class MenuAdminModel extends Menu
 	{
 		// Get information from the DB
 		$args = new stdClass();
-		$args->menu_srl = $menu_srl;
 		$output = executeQueryArray('menu.getMenus', $args);
 		if(!$output->data) return;
 		$menus = $output->data;
@@ -199,8 +198,8 @@ class MenuAdminModel extends Menu
 				if($moduleInfo->mid == $menuItem->url)
 				{
 					$menuItem->moduleType = $moduleInfo->module;
-					$menuItem->pageType = $moduleInfo->page_type;
-					$menuItem->layoutSrl = $moduleInfo->layout_srl;
+					$menuItem->pageType = $moduleInfo->page_type ?? null;
+					$menuItem->layoutSrl = $moduleInfo->layout_srl ?? -1;
 				}
 			}
 		}
@@ -359,14 +358,14 @@ class MenuAdminModel extends Menu
 			$defaultMobileSkin = $oModuleModel->getModuleDefaultSkin($module_name, 'M');
 			$skinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultSkin);
 			$mobileSkinInfo = $oModuleModel->loadSkinInfo(ModuleHandler::getModulePath($module_name), $defaultMobileSkin, 'm.skins');
-			if($defaultMobileSkin === '/USE_RESPONSIVE/' && !$mobileSkinInfo || !$mobileSkinInfo->title)
+			if($defaultMobileSkin === '/USE_RESPONSIVE/' && !$mobileSkinInfo || empty($mobileSkinInfo->title))
 			{
 				$mobileSkinInfo = $mobileSkinInfo ?: new stdClass;
 				$mobileSkinInfo->title = lang('use_responsive_pc_skin');
 			}
 			$module->defaultSkin = new stdClass();
 			$module->defaultSkin->skin = $defaultSkin;
-			$module->defaultSkin->title = $skinInfo->title ? $skinInfo->title : $defaultSkin;
+			$module->defaultSkin->title = isset($skinInfo->title) ? $skinInfo->title : $defaultSkin;
 			$module->defaultMobileSkin = new stdClass();
 			$module->defaultMobileSkin->skin = $defaultMobileSkin;
 			$module->defaultMobileSkin->title = $mobileSkinInfo->title ? $mobileSkinInfo->title : $defaultMobileSkin;
@@ -556,7 +555,7 @@ class MenuAdminModel extends Menu
 						}
 
 						include($value->php_file);
-						if(!$menu)
+						if(empty($menu))
 						{
 							$menu = new stdClass;
 							$menu->list = array();
@@ -636,6 +635,10 @@ class MenuAdminModel extends Menu
 		{
 			$setupUrl = getNotEncodedUrl('', 'module', 'admin', 'act', $moduleConfInfo->setup_index_act, 'module_srl', $moduleInfo->module_srl);
 		}
+		else
+		{
+			$setupUrl = null;
+		}
 
 		if($moduleConfInfo->simple_setup_index_act)
 		{
@@ -691,7 +694,7 @@ class MenuAdminModel extends Menu
 			{
 				$menu['module_srl'] = $midInfo->module_srl;
 				$menu['module'] = $midInfo->module;
-				if($midInfo->page_type)
+				if(!empty($midInfo->page_type))
 				{
 					$menu['module_type'] = $midInfo->page_type;
 				}
@@ -701,11 +704,11 @@ class MenuAdminModel extends Menu
 				}
 			}
 
-			if($moduleInfo->setup_index_act)
+			if(!empty($moduleInfo->setup_index_act))
 			{
 				$menu['setup_index_act'] = $moduleInfo->setup_index_act;
 			}
-			else if($moduleInfo->default_index_act)
+			elseif(!empty($moduleInfo->default_index_act))
 			{
 				$menu['setup_index_act'] = $moduleInfo->default_index_act;
 			}

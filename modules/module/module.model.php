@@ -322,13 +322,13 @@ class ModuleModel extends Module
 		}
 
 		$moduleInfo->designSettings->layout->pcIsDefault = $moduleInfo->layout_srl == -1 ? 1 : 0;
-		$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title;
+		$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title ?? null;
 		$moduleInfo->designSettings->layout->mobileIsDefault = $moduleInfo->mlayout_srl == -1 ? 1 : 0;
-		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title;
+		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title ?? null;
 		$moduleInfo->designSettings->skin->pcIsDefault = $moduleInfo->is_skin_fix == 'N' ? 1 : 0;
-		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title;
+		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title ?? null;
 		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
-		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
+		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title ?? null;
 
 		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
 		if($module_srl)
@@ -988,7 +988,7 @@ class ModuleModel extends Module
 	{
 		// Read xml file having skin information
 		if(substr($path,-1)!='/') $path .= '/';
-		if(!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		if(!preg_match('/^[a-zA-Z0-9_-]+$/', $skin ?? ''))
 		{
 			return;
 		}
@@ -1983,7 +1983,7 @@ class ModuleModel extends Module
 		{
 			include($designInfoFile);
 
-			$skinName = $designInfo->module->{$module_name}->{$target};
+			$skinName = $designInfo->module->{$module_name}->{$target} ?? null;
 		}
 		if(!isset($designInfo))
 		{

@@ -432,8 +432,8 @@ class autoinstallAdminModel extends autoinstall
 		$_download_server = 'https://download.xpressengine.com/';
 
 		$config = new stdClass();
-		$config->location_site = $config_info->location_site ? $config_info->location_site : $_location_site;
-		$config->download_server = $config_info->download_server ? $config_info->download_server : $_download_server;
+		$config->location_site = ($config_info->location_site ?? null) ?: $_location_site;
+		$config->download_server = ($config_info->download_server ?? null) ?: $_download_server;
 		
 		return $config;
 	}

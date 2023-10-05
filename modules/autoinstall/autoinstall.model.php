@@ -349,13 +349,13 @@ class autoinstallModel extends autoinstall
 			$path = substr($path, 0, strlen($path) - 1);
 		}
 
-		if(!$GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path])
+		if(empty($GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path]))
 		{
 			$args = new stdClass();
 			$args->path = $path;
 			$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
 
-			$GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path] = $output->data->package_srl;
+			$GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path] = $output->data->package_srl ?? null;
 		}
 
 		return $GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path];
