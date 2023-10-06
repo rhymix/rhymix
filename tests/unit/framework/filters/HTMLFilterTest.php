@@ -270,8 +270,8 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<div style="width:100%;" data-foo="foobar" data-bar="bazz">Hello World</div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
-		$source = '<a href="#" data-not-properly-encoded="Rhymix\'s Future">Hello World</a>';
-		$target = '<a href="#" data-not-properly-encoded="Rhymix&#039;s Future">Hello World</a>';
+		$source = '<img src="test.jpg" data-file-srl="123" alt="TEST" data-not-properly-encoded="Rhymix\'s Future" width="174" />';
+		$target = '<img src="test.jpg" data-file-srl="123" alt="TEST" width="174" data-not-properly-encoded="Rhymix&#039;s Future" />';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
 		$source = '<article nonsense="#" data-json="{&quot;foo&quot;:[&quot;bar&quot;,777]}"><p>Hello World<p></article>';

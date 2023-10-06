@@ -333,6 +333,7 @@ class HTMLFilter
 		$def->addAttribute('div', 'contenteditable', 'Enum#false');
 
 		// Support editor components and widgets.
+		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('img', 'editor_component', 'Text');
 		$def->addAttribute('div', 'editor_component', 'Text');
 		$def->addAttribute('img', 'rx_encoded_properties', 'Text');
@@ -702,6 +703,10 @@ class HTMLFilter
 			$html = preg_replace_callback('!\s(data-[a-zA-Z0-9_-]+)="([^"]*)"!', function($attr) use(&$attrs) {
 				$attrkey = strtolower($attr[1]);
 				$attrval = trim(utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2]))));
+				if (preg_match('/^(data-file-srl)$/', $attrkey))
+				{
+					return $attr[0];
+				}
 				if (preg_match('/^javascript:/i', preg_replace('/\s+/', '', $attrval)))
 				{
 					return '';
@@ -715,7 +720,7 @@ class HTMLFilter
 			}, $match[0]);
 			$encoded_datas = base64_encode(json_encode($attrs));
 			$encoded_datas = $encoded_datas . ':' . Security::createSignature($encoded_datas);
-			return substr($html, 0, -1) . ' rx_encoded_datas="' . $encoded_datas . '">';
+			return rtrim($html, ' />') . ' rx_encoded_datas="' . $encoded_datas . '"' . (preg_match('!/>$!', $html) ? ' />' : '>');
 		}, $content);
 	}
 
