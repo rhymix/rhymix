@@ -280,7 +280,7 @@ class DBQueryParser extends BaseParser
 			{
 				$group = new DBQuery\ConditionGroup;
 				$group->conditions = self::_parseConditions($tag);
-				$group->pipe = strtoupper($attribs['pipe'] ?? null) ?: 'AND';
+				$group->pipe = strtoupper($attribs['pipe'] ?? '') ?: 'AND';
 				$group->ifvar = $attribs['if'] ?? null;
 				$result[] = $group;
 			}
