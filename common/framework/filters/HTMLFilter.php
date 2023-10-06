@@ -711,10 +711,6 @@ class HTMLFilter
 				{
 					return '';
 				}
-				if (preg_match('/-srl$/i', $attrkey) && !ctype_digit($attrval))
-				{
-					return '';
-				}
 				$attrs[$attrkey] = $attrval;
 				return '';
 			}, $match[0]);
