@@ -364,7 +364,7 @@ class Session
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 		$_SESSION['RHYMIX']['language'] = \Context::getLangType();
-		$_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
+		// $_SESSION['RHYMIX']['timezone'] = DateTime::getTimezoneForCurrentUser();
 		$_SESSION['RHYMIX']['secret'] = Security::getRandom(32, 'alnum');
 		$_SESSION['RHYMIX']['domains'] = array();
 		$_SESSION['RHYMIX']['tokens'] = array();
