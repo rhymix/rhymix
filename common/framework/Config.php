@@ -164,7 +164,10 @@ class Config
 		}
 
 		// Remove the backup file.
-		Storage::delete($backup_filename);
+		if (isset($backup_filename))
+		{
+			Storage::delete($backup_filename);
+		}
 
 		// Save XE-compatible config files.
 		$warning = '// THIS FILE IS NOT USED IN RHYMIX.' . "\n" . '// TO MODIFY SYSTEM CONFIGURATION, EDIT config.php INSTEAD.';
