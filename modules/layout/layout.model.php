@@ -382,7 +382,7 @@ class LayoutModel extends Layout
 				continue;
 			}
 
-			if($withAutoinstallInfo)
+			if($withAutoinstallInfo && false)
 			{
 				// get easyinstall remove url
 				$packageSrl = $oAutoinstallModel->getPackageSrlByPath($layout_info->path);
@@ -498,7 +498,7 @@ class LayoutModel extends Layout
 		}
 		else
 		{
-			$layout_title = $layout = $layout_srl = null;
+			$layout_title = $layout_srl = null;
 			$site_srl = 0;
 			$vars = new stdClass;
 		}
