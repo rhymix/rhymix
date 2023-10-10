@@ -141,10 +141,8 @@ class PageView extends Page
 
 	function _getArticleContent()
 	{
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument(0);
-
-		if($this->module_info->document_srl)
+		$oDocument = DocumentModel::getDocument(0);
+		if($this->module_info->document_srl ?? 0)
 		{
 			$document_srl = $this->module_info->document_srl;
 			$oDocument->setDocument($document_srl);
