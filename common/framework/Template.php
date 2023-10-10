@@ -93,7 +93,7 @@ class Template
 		// Normalize the filename. Result will look like 'bar/example.html'
 		$filename = trim(strtr($filename, ['\\' => '/', '//' => '/']), '/');
 		$filename = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $filename);
-		if (!preg_match('/\.(html?|php)$/', $filename))
+		if (!preg_match('/\.\w+$/', $filename) && !Storage::exists($this->absolute_dirname . $filename))
 		{
 			$filename .= '.html';
 		}
