@@ -23,7 +23,8 @@ class Template
 	public $absolute_path;
 	public $relative_path;
 	public $cache_path;
-	public $ob_level;
+	public $cache_enabled = true;
+	public $ob_level = 0;
 
 	/**
 	 * Static properties
@@ -121,6 +122,16 @@ class Template
 	}
 
 	/**
+	 * Disable caching.
+	 *
+	 * @return void
+	 */
+	public function disableCache(): void
+	{
+		$this->cache_enabled = false;
+	}
+
+	/**
 	 * Compile and execute a template file.
 	 *
 	 * You don't need to pass any paths if you have already supplied them
@@ -174,7 +185,7 @@ class Template
 		}
 
 		// If a cached result does not exist, or if it is stale, compile again.
-		if (!Storage::exists($this->cache_path) || filemtime($this->cache_path) < $latest_mtime)
+		if (!Storage::exists($this->cache_path) || filemtime($this->cache_path) < $latest_mtime || !$this->cache_enabled)
 		{
 			$content = $this->_convert();
 			if (!Storage::write($this->cache_path, $content))
@@ -247,6 +258,12 @@ class Template
 			$this->config->{$match[1]} = ($match[1] === 'version' ? intval($match[2]) : toBool($match[2]));
 			return sprintf('<?php $this->config->%s = %s; ?>', $match[1], var_export($this->config->{$match[1]}, true));
 		}, $content);
+
+		// Check the alternative version directive: @version(2)
+		if (preg_match('/(?:^|\s)@version\(([0-9]+)\)/', $content, $matches))
+		{
+			$this->config->version = intval($matches[1]);
+		}
 
 		// Turn autoescape on if the version is 2 or greater.
 		if ($this->config->version >= 2)
