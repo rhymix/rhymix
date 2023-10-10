@@ -49,7 +49,7 @@ class HTMLDisplayHandler
 	 */
 	public function toDoc(&$oModule)
 	{
-		$oTemplate = TemplateHandler::getInstance();
+		$oTemplate = Rhymix\Framework\Template::getInstance();
 
 		// SECISSUE https://github.com/xpressengine/xe-core/issues/1583
 		$oSecurity = new Security();
@@ -291,7 +291,7 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
-		$oTemplate = TemplateHandler::getInstance();
+		$oTemplate = Rhymix\Framework\Template::getInstance();
 		if(Mobile::isFromMobilePhone())
 		{
 			$this->_loadMobileJSCSS();

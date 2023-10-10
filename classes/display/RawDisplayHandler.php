@@ -8,7 +8,7 @@ class RawDisplayHandler
 		$tpl_file = $oModule->getTemplateFile();
 		if ($tpl_path && $tpl_file)
 		{
-			$oTemplate = TemplateHandler::getInstance();
+			$oTemplate = Rhymix\Framework\Template::getInstance();
 			$output = $oTemplate->compile($tpl_path, $tpl_file);
 		}
 		else

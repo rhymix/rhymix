@@ -260,7 +260,7 @@ class PageAdminView extends Page
 		$security->encodeHTML('widget_list..title','module_info.mid');
 
 		// Load admin resources
-		$oTemplate = TemplateHandler::getInstance();
+		$oTemplate = Rhymix\Framework\Template::getInstance();
 		$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
 
 		// Set a template file
