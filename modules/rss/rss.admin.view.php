@@ -40,7 +40,7 @@ class RssAdminView extends Rss
 			$args->url = $oRssModel->getRssURL('rss', $module_info->mid);
 			$args->open_feed = $module_config->open_rss;
 			$args->open_total_feed = $module_config->open_total_feed;
-			$args->feed_description = $module_config->feed_description;
+			$args->feed_description = $module_config->feed_description ?? '';
 
 			$rss_list[$module_srl] = $args;
 		}

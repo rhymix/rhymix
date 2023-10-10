@@ -1700,7 +1700,7 @@ jQuery(function($){
 			bDanger : true,
 
 			fnOnOK : function(){
-				if(!$.xeMsgBox.$msgBox.find('input[type="checkbox"]').attr('checked')) return true;
+				if(!$.xeMsgBox.$msgBox.find('input[type="checkbox"]').prop('checked')) return true;
 
 				var sSelectedMenuSrl = $._xeAdminVar.sSelectedMenuSrl;
 				var params = {};
@@ -1714,7 +1714,7 @@ jQuery(function($){
 				$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
 
 				$.xeMsgBox.$msgBox.find('input[type="checkbox"]').click(function(){
-					if($(this).attr('checked')){
+					if($(this).prop('checked')){
 						$.xeMsgBox.$msgBox.find("._ok").removeClass("x_disabled");
 					}else{
 						$.xeMsgBox.$msgBox.find("._ok").addClass("x_disabled");
@@ -2032,8 +2032,8 @@ jQuery(function($){
 		var sMenuDesc = $('#default ._menuDesc').val();
 		var sMID;
 
-		var sNewWindow = $('#default ._newWindow').attr("checked")?"Y":"N";
-		var sLeaveUnfolded = $('#default ._leaveUnfolded').attr("checked")?"Y":"N";
+		var sNewWindow = $('#default ._newWindow').prop("checked")?"Y":"N";
+		var sLeaveUnfolded = $('#default ._leaveUnfolded').prop("checked")?"Y":"N";
 
 		var sBrowserTitle = $('#default ._browserTitle').val();
 
@@ -2440,7 +2440,7 @@ jQuery(function($){
 
 			for(var ii=0, nLen2=$groups.length; ii<nLen2; ii++){
 				$chkbox = $($groups[ii]);
-				if($chkbox.attr('checked')){
+				if($chkbox.prop('checked')){
 					vValue.push($chkbox.val());
 				}
 			}
@@ -3176,7 +3176,7 @@ jQuery(function($){
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
 
 		$ChkBox = $('#layout ._chkUseDefaultLayout');
-		if($ChkBox.attr('checked')){
+		if($ChkBox.prop('checked')){
 			$('#layout .list').addClass('disabled').find(':radio').attr('disabled','disabled');
 			htDesign.sLayoutSrl = -1;
 
@@ -3591,7 +3591,7 @@ jQuery(function($){
 		$ChkBox = $('#skin ._chkUseDefault');
 
 		var htDesign = $._xeAdminVar.htSelectedMenuDesign;
-		if($ChkBox.is(':visible') && $ChkBox.attr('checked')){
+		if($ChkBox.is(':visible') && $ChkBox.prop('checked')){
 			htDesign.sTmpSkinName = htDesign.sSkinName;
 
 			htDesign.sSkinName = "";

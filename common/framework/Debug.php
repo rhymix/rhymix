@@ -595,7 +595,7 @@ class Debug
 		);
 
 		self::$_remote_requests[] = $request_object;
-		if ($request_object->elapsed_time && $request_object->elapsed_time >= (self::$_config['log_slow_remote_requests'] ?? 1))
+		if ($request_object->elapsed_time && is_numeric($request_object->elapsed_time) && $request_object->elapsed_time >= (self::$_config['log_slow_remote_requests'] ?? 1))
 		{
 			self::$_slow_remote_requests[] = $request_object;
 		}

@@ -136,7 +136,7 @@
 		<label class="x_control-label">{$lang->member_group}</label>
 		<div class="x_controls">
 			<label for="group_{$key}" class="x_inline" loop="$group_list => $key,$val">
-				<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" checked="checked"|cond="$member_info->group_list[$key]" />
+				<input type="checkbox" name="group_srl_list[]" value="{$key}" id="group_{$key}" checked="checked"|cond="!empty($member_info->group_list[$key])" />
 				{$val->title}
 			</label>
 		</div>

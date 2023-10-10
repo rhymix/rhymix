@@ -2,6 +2,7 @@
 <script src="modules/module/tpl/js/module_admin.js"></script>
 <script>
 </script>
+{@ if(!isset($member_config)) $member_config = MemberModel::getMemberConfig()}
 <form ruleset="insertBoardForBasic" id="fo_obj" class="x_form-horizontal" action="./" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="act" value="procBoardAdminUpdateBoard" />
 	<input type="hidden" name="board_name" value="{$module_info->mid}" />

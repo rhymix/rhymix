@@ -322,13 +322,13 @@ class ModuleModel extends Module
 		}
 
 		$moduleInfo->designSettings->layout->pcIsDefault = $moduleInfo->layout_srl == -1 ? 1 : 0;
-		$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title;
+		$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title ?? null;
 		$moduleInfo->designSettings->layout->mobileIsDefault = $moduleInfo->mlayout_srl == -1 ? 1 : 0;
-		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title;
+		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title ?? null;
 		$moduleInfo->designSettings->skin->pcIsDefault = $moduleInfo->is_skin_fix == 'N' ? 1 : 0;
-		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title;
+		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title ?? null;
 		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
-		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title;
+		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title ?? null;
 
 		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
 		if($module_srl)
@@ -988,7 +988,7 @@ class ModuleModel extends Module
 	{
 		// Read xml file having skin information
 		if(substr($path,-1)!='/') $path .= '/';
-		if(!preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		if(!preg_match('/^[a-zA-Z0-9_-]+$/', $skin ?? ''))
 		{
 			return;
 		}
@@ -1102,27 +1102,30 @@ class ModuleModel extends Module
 		{
 			// skin format v0.1
 			$date_obj = (object)array('y' => 0, 'm' => 0, 'd' => 0);
-			sscanf($xml_obj->maker->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+			if (isset($xml_obj->maker->attrs->date))
+			{
+				sscanf($xml_obj->maker->attrs->date, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
+			}
 
-			$skin_info->version = $xml_obj->version->body;
+			$skin_info->version = $xml_obj->version->body ?? null;
 			$skin_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$skin_info->homepage = $xml_obj->link->body;
-			$skin_info->license = $xml_obj->license->body;
-			$skin_info->license_link = $xml_obj->license->attrs->link;
-			$skin_info->description = $xml_obj->maker->description->body;
+			$skin_info->homepage = $xml_obj->link->body ?? null;
+			$skin_info->license = $xml_obj->license->body ?? null;
+			$skin_info->license_link = $xml_obj->license->attrs->link ?? null;
+			$skin_info->description = $xml_obj->maker->description->body ?? null;
 
 			$skin_info->author[0] = new stdClass();
-			$skin_info->author[0]->name = $xml_obj->maker->name->body;
-			$skin_info->author[0]->email_address = $xml_obj->maker->attrs->email_address;
-			$skin_info->author[0]->homepage = $xml_obj->maker->attrs->link;
+			$skin_info->author[0]->name = $xml_obj->maker->name->body ?? null;
+			$skin_info->author[0]->email_address = $xml_obj->maker->attrs->email_address ?? null;
+			$skin_info->author[0]->homepage = $xml_obj->maker->attrs->link ?? null;
 			// Variables used in the skin
-			$extra_var_groups = $xml_obj->extra_vars->group;
-			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
+			$extra_var_groups = $xml_obj->extra_vars->group ?? null;
+			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars ?? null;
 			if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
 
 			foreach($extra_var_groups as $group)
 			{
-				$extra_vars = $group->var;
+				$extra_vars = $group->var ?? null;
 
 				if($extra_vars)
 				{
@@ -1980,7 +1983,7 @@ class ModuleModel extends Module
 		{
 			include($designInfoFile);
 
-			$skinName = $designInfo->module->{$module_name}->{$target};
+			$skinName = $designInfo->module->{$module_name}->{$target} ?? null;
 		}
 		if(!isset($designInfo))
 		{

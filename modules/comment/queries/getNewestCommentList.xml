@@ -8,6 +8,7 @@
     <conditions>
         <condition operation="equal" column="is_secret" var="is_secret" pipe="and" />
         <condition operation="in" column="module_srl" var="module_srl" filter="number" pipe="and" />
+		<condition operation="notin" column="module_srl" var="exclude_module_srl" filter="number" pipe="and" />
         <condition operation="equal" column="document_srl" var="document_srl" filter="number" pipe="and" />
         <condition operation="equal" column="status" var="status" pipe="and" />
         <condition operation="in" column="status" var="statusList" pipe="and" />

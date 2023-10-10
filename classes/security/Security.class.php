@@ -3,6 +3,7 @@
 /**
  * Security class
  *
+ * @deprecated
  * @author NAVER (developers@xpressengine.com)
  */
 class Security

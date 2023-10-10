@@ -203,7 +203,7 @@ Rhymix\Framework\Debug::registerErrorHandlers(error_reporting());
 /**
  * Set the internal timezone.
  */
-$internal_timezone = Rhymix\Framework\DateTime::getTimezoneNameByOffset(config('locale.internal_timezone'));
+$internal_timezone = Rhymix\Framework\DateTime::getTimezoneNameByOffset(config('locale.internal_timezone') ?? intval(date('Z')));
 date_default_timezone_set($internal_timezone);
 
 /**

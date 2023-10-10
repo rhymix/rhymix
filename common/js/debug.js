@@ -216,7 +216,7 @@ $(function() {
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				if (data.slow_remote_requests[i].file && data.slow_remote_requests[i].line) {
 					description.append($('<li></li>').text("Caller: " + data.slow_remote_requests[i].file + ":" + data.slow_remote_requests[i].line).append("<br>(" + data.slow_remote_requests[i].method + ")"));
-					description.append($('<li></li>').text("Elapsed Time: " + (data.slow_remote_requests[i].elapsed_time ? (data.slow_remote_requests[i].elapsed_time.toFixed(4) + " sec") : "")));
+					description.append($('<li></li>').text("Elapsed Time: " + (typeof data.slow_remote_requests[i].elapsed_time === 'number' ? (data.slow_remote_requests[i].elapsed_time.toFixed(4) + " sec") : String(data.slow_remote_requests[i].elapsed_time))));
 				}
 				description.append($('<li></li>').text("Status Code: " + data.slow_remote_requests[i].status));
 			}

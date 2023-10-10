@@ -13,7 +13,7 @@ class FileHandler
 	 * @param string $source path to change into absolute path
 	 * @return string Absolute path
 	 */
-	public static function getRealPath($source)
+	public static function getRealPath($source): string
 	{
 		if (strncmp($source, './', 2) === 0)
 		{
@@ -21,7 +21,7 @@ class FileHandler
 		}
 		elseif (preg_match('@^(?:/|[a-z]:[\\\\/]|\\\\|https?:)@i', $source))
 		{
-			return $source;
+			return (string)$source;
 		}
 		else
 		{
@@ -39,9 +39,9 @@ class FileHandler
 	 * @param string $filter Regex to filter files. If file matches this regex, the file is not copied.
 	 * @return void
 	 */
-	public static function copyDir($source_dir, $target_dir, $filter = null)
+	public static function copyDir($source_dir, $target_dir, $filter = '')
 	{
-		return Rhymix\Framework\Storage::copyDirectory(self::getRealPath($source_dir), self::getRealPath($target_dir), $filter);
+		return Rhymix\Framework\Storage::copyDirectory(self::getRealPath($source_dir), self::getRealPath($target_dir), $filter ?: '');
 	}
 
 	/**
@@ -79,7 +79,7 @@ class FileHandler
 	 */
 	public static function writeFile($filename, $buff, $mode = "w")
 	{
-		return Rhymix\Framework\Storage::write(self::getRealPath($filename), $buff, $mode);
+		return Rhymix\Framework\Storage::write(self::getRealPath($filename), (string)$buff, (string)$mode);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class FileHandler
 	 */
 	public static function readDir($path, $filter = '', $to_lower = FALSE, $concat_prefix = FALSE)
 	{
-		$list = Rhymix\Framework\Storage::readDirectory(self::getRealPath($path), $concat_prefix, true, false);
+		$list = Rhymix\Framework\Storage::readDirectory(self::getRealPath($path), (bool)$concat_prefix, true, false);
 		if (!$list)
 		{
 			return array();
@@ -699,12 +699,14 @@ class FileHandler
 	/**
 	 * Reads ini file, and puts result into array
 	 *
+	 * @deprecated
 	 * @see self::writeIniFile()
 	 * @param string $filename Path of the ini file
 	 * @return array ini array (if the target file does not exist, it returns FALSE)
 	 */
 	public static function readIniFile($filename)
 	{
+		$filename = (string)$filename;
 		if(!Rhymix\Framework\Storage::isReadable($filename))
 		{
 			return false;
@@ -723,6 +725,7 @@ class FileHandler
 	 * 	$ini['section']['key2_in_section'] = 'value2_in_section';<br/>
 	 * 	self::writeIniFile('exmple.ini', $ini);
 	 *
+	 * @deprecated
 	 * @see self::readIniFile()
 	 * @param string $filename Target ini file name
 	 * @param array $arr Array
@@ -741,6 +744,7 @@ class FileHandler
 	/**
 	 * Make array to ini string
 	 *
+	 * @deprecated
 	 * @param array $arr Array
 	 * @return string
 	 */
@@ -777,6 +781,7 @@ class FileHandler
 	 *
 	 * If the directory of the file does not exist, create it.
 	 *
+	 * @deprecated
 	 * @param string $filename Target file name
 	 * @param string $mode File mode for fopen
 	 * @return FileObject File object
@@ -836,10 +841,9 @@ class FileHandler
 	}
 
 	/**
-	 * @deprecated
-	 *
 	 * Clears file status cache
 	 *
+	 * @deprecated
 	 * @param string|array $target filename or directory
 	 * @param boolean $include include files in the directory
 	 */
@@ -860,10 +864,9 @@ class FileHandler
 	}
 
 	/**
-	 * @deprecated
-	 *
 	 * Invalidates a cached script of OPcache
 	 *
+	 * @deprecated
 	 * @param string|array $target filename or directory
 	 * @param boolean $force force
 	 */

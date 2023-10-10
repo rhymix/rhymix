@@ -83,6 +83,10 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$source = '<div contenteditable="true"><div contenteditable="false"><p contenteditable="false"></p></div></div>';
 		$target = '<div><div contenteditable="false"><p contenteditable="false"></p></div></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<details open><summary>Summary</summary><div>Content</div><p>Paragraph</p></details>';
+		$target = '<details open=""><summary>Summary</summary><div>Content</div><p>Paragraph</p></details>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 
 	public function testHTMLFilterCSS3()
@@ -253,8 +257,29 @@ class HTMLFilterTest extends \Codeception\TestCase\Test
 		$target = '<p><img src="foo.jpg" alt="foobar" data-file-srl="1234" /></p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
+		$source = '<p><img src="foo.jpg" alt="foobar" data-file-srl="NaN" /></p>';
+		$target = '<p><img src="foo.jpg" alt="foobar" /></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
 		$source = '<p><img src="foo.jpg" alt="foobar" data-file-srl="javascript:xss()" /></p>';
 		$target = '<p><img src="foo.jpg" alt="foobar" /></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		// Other data-* attribute
+		$source = '<div data-foo="foobar" data-bar="bazz" style="width:100%;">Hello World</div>';
+		$target = '<div style="width:100%;" data-foo="foobar" data-bar="bazz">Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<img src="test.jpg" data-file-srl="123" alt="TEST" data-not-properly-encoded="Rhymix\'s Future" width="174" />';
+		$target = '<img src="test.jpg" data-file-srl="123" alt="TEST" width="174" data-not-properly-encoded="Rhymix&#039;s Future" />';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<article nonsense="#" data-json="{&quot;foo&quot;:[&quot;bar&quot;,777]}"><p>Hello World<p></article>';
+		$target = '<article data-json="{&quot;foo&quot;:[&quot;bar&quot;,777]}"><p>Hello World</p><p></p></article>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<p data-dangerous=" javascript: xss() ">Hello World</p>';
+		$target = '<p>Hello World</p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 
