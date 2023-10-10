@@ -46,9 +46,10 @@ class Template
 	 *
 	 * @param ?string $dirname
 	 * @param ?string $filename
+	 * @param ?string $extension
 	 * @return void
 	 */
-	public function __construct(?string $dirname = null, ?string $filename = null)
+	public function __construct(?string $dirname = null, ?string $filename = null, ?string $extension = null)
 	{
 		// Set instance configuration to default values.
 		$this->config = new \stdClass;
@@ -71,7 +72,7 @@ class Template
 		// If paths were provided, initialize immediately.
 		if ($dirname && $filename)
 		{
-			$this->_setSourcePath($dirname, $filename);
+			$this->_setSourcePath($dirname, $filename, $extension ?? 'html');
 		}
 	}
 
@@ -80,9 +81,10 @@ class Template
 	 *
 	 * @param string $dirname
 	 * @param string $filename
+	 * @param string $extension
 	 * @return void
 	 */
-	protected function _setSourcePath(string $dirname, string $filename): void
+	protected function _setSourcePath(string $dirname, string $filename, string $extension = 'html'): void
 	{
 		// Normalize the template path. Result will look like 'modules/foo/views/'
 		$dirname = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', strtr($dirname, ['\\' => '/', '//' => '/'])), '/') . '/';
@@ -93,9 +95,9 @@ class Template
 		// Normalize the filename. Result will look like 'bar/example.html'
 		$filename = trim(strtr($filename, ['\\' => '/', '//' => '/']), '/');
 		$filename = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $filename);
-		if (!preg_match('/\.\w+$/', $filename) && !Storage::exists($this->absolute_dirname . $filename))
+		if (!preg_match('/\.(?:html?|php)$/', $filename) && !Storage::exists($this->absolute_dirname . $filename))
 		{
-			$filename .= '.html';
+			$filename .= '.' . $extension;
 		}
 		$this->filename = $filename;
 		$this->absolute_path = $this->absolute_dirname . $filename;
@@ -111,7 +113,7 @@ class Template
 	 */
 	protected function _setCachePath()
 	{
-		$this->cache_path = \RX_BASEDIR . 'files/cache/template/' . $this->relative_path . '.php';
+		$this->cache_path = \RX_BASEDIR . 'files/cache/template/' . $this->relative_path . '.compiled.php';
 		if ($this->exists)
 		{
 			Debug::addFilenameAlias($this->absolute_path, $this->cache_path);
