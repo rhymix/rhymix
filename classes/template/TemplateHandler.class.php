@@ -1,9 +1,17 @@
 <?php
 
-class_alias('Rhymix\Framework\Template', 'TemplateHandler');
+/**
+ * Alias to new Template class
+ */
+class TemplateHandler extends Rhymix\Framework\Template
+{
+
+}
 
 /**
- * Template compiler
+ * Old template compiler
+ *
+ * Moved to Rhymix\Framework\Parsers\Template\TemplateParser_v1
  *
  * @author NAVER (developers@xpressengine.com)
  */
