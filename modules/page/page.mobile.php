@@ -7,10 +7,8 @@ class PageMobile extends PageView
 	{
 		$oTemplate = &TemplateHandler::getInstance();
 
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument(0);
-
-		if($this->module_info->mdocument_srl)
+		$oDocument = DocumentModel::getDocument(0);
+		if($this->module_info->mdocument_srl ?? 0)
 		{
 			$document_srl = $this->module_info->mdocument_srl;
 			$oDocument->setDocument($document_srl);
