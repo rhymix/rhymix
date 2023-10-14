@@ -202,7 +202,7 @@ class TemplateParser_v2
 
 		$content = preg_replace_callback('#(<\?php|<\?(?!=))(.+?)(\?>)#s', $callback, $content);
 		$content = preg_replace_callback('#(\{@)(.+?)(\})#s', $callback, $content);
-		$content = preg_replace_callback('#(@php)(.+?)(@endphp)#s', $callback, $content);
+		$content = preg_replace_callback('#(?<!@)(@php)(.+?)(?<!@)(@endphp)#s', $callback, $content);
 		return $content;
 	}
 
@@ -242,7 +242,7 @@ class TemplateParser_v2
 	protected function _convertClassAliases(string $content): string
 	{
 		// Find all alias directives.
-		$regexp = '#^[\x09\x20]*(?:<use\s+class="([^"]+)"\s+as="([^"]+)"\s*/?>|@use\x20?\([\'"]([^\'"]+)[\'"],\s*[\'"]([^\'"]+)[\'"]\))[\x09\x20]*$#m';
+		$regexp = '#^[\x09\x20]*(?:<use\s+class="([^"]+)"\s+as="([^"]+)"\s*/?>|(?<!@)@use\x20?\([\'"]([^\'"]+)[\'"],\s*[\'"]([^\'"]+)[\'"]\))[\x09\x20]*$#m';
 		$content = preg_replace_callback($regexp, function($match) {
 			$class = isset($match[3]) ? $match[3] : $match[1];
 			$alias = isset($match[4]) ? $match[4] : $match[2];
@@ -310,7 +310,7 @@ class TemplateParser_v2
 		}, $content);
 
 		// Convert Blade-style include directives.
-		$regexp = '#^[\x09\x20]*@(include(?:If|When|Unless)?)\x20?\((.+?)\)[\x09\x20]*$#sm';
+		$regexp = '#^[\x09\x20]*(?<!@)@(include(?:If|When|Unless)?)\x20?\((.+?)\)[\x09\x20]*$#sm';
 		$content = preg_replace_callback($regexp, function($match) {
 			if ($match[1] === 'include')
 			{
@@ -373,7 +373,7 @@ class TemplateParser_v2
 		}, $content);
 
 		// Convert Blade-style load directives.
-		$regexp = '#^[\x09\x20]*@load\x20?\((.+?)\)[\x09\x20]*#sm';
+		$regexp = '#^[\x09\x20]*(?<!@)@load\x20?\((.+?)\)[\x09\x20]*#sm';
 		$content = preg_replace_callback($regexp, function($match) {
 			$args = array_map('trim', explode(',', $match[1]));
 			$attrs = self::_arrangeArgumentsForAsset($args);
@@ -618,11 +618,9 @@ class TemplateParser_v2
 					$code = str_contains($code, '%s') ? sprintf($code, $args) : $code;
 				}
 			}
-
-			// Invalid directives.
 			else
 			{
-				$code = sprintf('trigger_error("Invalid directive: " . %s, \E_USER_WARNING);', var_export($directive, true));
+				return $match[0];
 			}
 
 			// Put together the PHP code.
@@ -661,7 +659,7 @@ class TemplateParser_v2
 
 		// Convert Blade-style inline directives.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$regexp = '#\s*@(checked|selected|disabled|readonly|required)(' . $parentheses . ')#';
+		$regexp = '#\s*(?<!@)@(checked|selected|disabled|readonly|required)(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$condition = self::_convertVariableScope($match[2]);
 			return sprintf('<?php if %s: ?> %s="%s"<?php endif; ?>', $condition, $match[1], $match[1]);
@@ -683,13 +681,13 @@ class TemplateParser_v2
 	protected function _convertMiscDirectives(string $content): string
 	{
 		// Insert CSRF tokens.
-		$content = preg_replace_callback('#@csrf#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@csrf#', function($match) {
 			return '<input type="hidden" name="_rx_csrf_token" value="<?php echo \Rhymix\Framework\Session::getGenericToken(); ?>" />';
 		}, $content);
 
 		// Insert JSON and lang codes.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#@(json|lang)('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang)('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
 			if ($match[1] === 'json')
 			{
@@ -913,12 +911,18 @@ class TemplateParser_v2
 	protected function _postprocess(string $content): string
 	{
 		// Restore curly braces and escaped variables.
-		return strtr($content, [
+		$content = strtr($content, [
 			'&#x1B;&#x7B;' => '{',
 			'&#x1B;&#x7D;' => '}',
 			'&#x1B;&#x24;' => '$',
 			'\\$' => '$',
 		]);
+
+		// Restore escaped Blade-style directives.
+		$content = preg_replace([
+			'#@(@[a-z]{2,})#',
+			'#@(\{\{)#',
+		], '$1', $content);
 
 		// Remove unnecessary spaces before and after PHP tags.
 		$content = preg_replace([
