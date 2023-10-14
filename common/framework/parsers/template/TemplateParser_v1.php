@@ -859,7 +859,7 @@ class TemplateParser_v1
 
 		// Replace all other variables with Context attributes.
 		$php = preg_replace_callback('@(?<!::|\\\\|\$__Context->|(?<!eval\()\')\$([a-z_][a-z0-9_]*)@i', function($matches) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_GET|_POST|_REQUEST|_SESSION|__Context|this|lang)$/', $matches[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this)$/', $matches[1]))
 			{
 				return '$' . $matches[1];
 			}
