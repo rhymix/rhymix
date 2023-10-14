@@ -784,7 +784,9 @@ class TemplateParser_v2
 					$escape_option = $filter;
 					break;
 				case 'escapejs':
+				case 'js':
 					$str = "escape_js({$str})";
+					$escape_option = 'noescape';
 					break;
 				case 'json':
 					$str = "json_encode({$str}, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)";
