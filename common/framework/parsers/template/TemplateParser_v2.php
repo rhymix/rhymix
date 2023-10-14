@@ -4,22 +4,42 @@ namespace Rhymix\Framework\Parsers\Template;
 
 use Rhymix\Framework\Template;
 
+/**
+ * Template parser v2
+ *
+ * This is a new template engine, rewritten from scratch to act as a bridge
+ * between legacy XE-style templates and new Blade-style templates.
+ *
+ * It supports not only Blade directives but also a number of v1 features,
+ * such as automatic path conversion and centralized asset management,
+ * which are especially important given the modular structure of Rhymix.
+ *
+ * Commonly used elements of the v1 template language are also supported
+ * for ease of migration, while some of the older and/or more bug-prone parts
+ * of v1 have been dropped.
+ */
 class TemplateParser_v2
 {
 	/**
-	 * Store template info here.
+	 * Cache template path info here.
 	 */
 	public $template;
 	public $source_type;
 
 	/**
-	 * Temporary information for conversion.
+	 * Properties for internal bookkeeping.
 	 */
 	protected $_aliases = [];
 	protected $_stack = [];
 	protected $_uniq_order = 1;
 
-	// Loop definitions.
+	/**
+	 * Definitions of loop and condition directives.
+	 *
+	 * %s     : Full PHP code passed to the directive in parentheses.
+	 * %array : The array used in a foreach/forelse loop.
+	 * %uniq  : A random string that identifies a specific loop or condition.
+	 */
 	protected static $_loopdef = [
 		'if' => ['if (%s):', 'endif;'],
 		'unless' => ['if (!(%s)):', 'endif;'],

@@ -5,6 +5,18 @@ namespace Rhymix\Framework\Parsers\Template;
 use HTMLDisplayHandler;
 use Rhymix\Framework\Template;
 
+/**
+ * Template parser v1 for XE compatibility.
+ *
+ * Originally part of TemplateHandler, this parser is preserved here
+ * for bug-for-bug compatibility with XE and older versions of Rhymix.
+ * A significant part of this code dates back to the early days of XE,
+ * though Rhymix has managed to squeeze in a few new features.
+ *
+ * Except in the case of a serious security issue, there will be no change
+ * to the parsing and conversion logic, and no new features.
+ * It is strongly recommended that new templates be written in v2.
+ */
 class TemplateParser_v1
 {
 	/**
