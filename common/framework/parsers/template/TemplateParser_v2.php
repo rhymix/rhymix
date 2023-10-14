@@ -302,7 +302,7 @@ class TemplateParser_v2
 	 *
 	 * Blade-style syntax:
 	 * @include('view')
-	 * @include('view.html', $vars)
+	 * @include('view.blade.php', $vars)
 	 *
 	 * @param string $content
 	 * @return string
@@ -315,7 +315,7 @@ class TemplateParser_v2
 			$attrs = self::_getTagAttributes($match[1]);
 			$path = $attrs['src'] ?? ($attrs['target'] ?? null);
 			if (!$path) return $match[0];
-			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "' . $path . '"); ';
+			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';
 			$tpl .= !empty($attrs['vars']) ? ' $__tpl->setVars(' . $attrs['vars'] . '); ' : '';
 			$tpl .= 'echo $__tpl->compile(); ?>';
 			if (!empty($attrs['if']) || !empty($attrs['when']))
@@ -332,17 +332,18 @@ class TemplateParser_v2
 		// Convert Blade-style include directives.
 		$regexp = '#^[\x09\x20]*(?<!@)@(include(?:If|When|Unless)?)\x20?\((.+?)\)[\x09\x20]*$#sm';
 		$content = preg_replace_callback($regexp, function($match) {
+			$extension = $this->template->extension === 'blade.php' ? 'blade.php' : 'html';
 			if ($match[1] === 'include')
 			{
 				$tpl = '<?php (function($__path, $__vars = null) { ';
-				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path); ';
+				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path, "' . $extension . '"); ';
 				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
 				$tpl .= 'echo $__tpl->compile(); })(' . $match[2] . '); ?>';
 			}
 			elseif ($match[1] === 'includeIf')
 			{
 				$tpl = '<?php (function($__path, $__vars = null) { ';
-				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path); ';
+				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path, "' . $extension . '"); ';
 				$tpl .= 'if (!$__tpl->exists()) return; ';
 				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
 				$tpl .= 'echo $__tpl->compile(); })(' . $match[2] . '); ?>';
@@ -352,7 +353,7 @@ class TemplateParser_v2
 				$tpl = '<?php (function($__type, $__cond, $__path, $__vars = null) { ';
 				$tpl .= 'if ($__type === "includeWhen" && !$__cond) return; ';
 				$tpl .= 'if ($__type === "includeUnless" && $__cond) return; ';
-				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path); ';
+				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path, "' . $extension . '"); ';
 				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
 				$tpl .= 'echo $__tpl->compile(); })("' . $match[1] . '", ' . $match[2] . '); ?>';
 			}

@@ -19,6 +19,7 @@ class Template
 	public $absolute_dirname;
 	public $relative_dirname;
 	public $filename;
+	public $extension;
 	public $exists;
 	public $absolute_path;
 	public $relative_path;
@@ -105,20 +106,24 @@ class Template
 			if ($extension !== 'auto')
 			{
 				$filename .= '.' . $extension;
+				$this->extension = $extension;
 			}
 			elseif (Storage::exists($this->absolute_dirname . $filename . '.html'))
 			{
 				$filename .= '.html';
+				$this->extension = 'html';
 				$this->exists = true;
 			}
 			elseif (Storage::exists($this->absolute_dirname . $filename . '.blade.php'))
 			{
 				$filename .= '.blade.php';
+				$this->extension = 'blade.php';
 				$this->exists = true;
 			}
 			else
 			{
 				$filename .= '.html';
+				$this->extension = 'html';
 			}
 		}
 
@@ -126,11 +131,15 @@ class Template
 		$this->filename = $filename;
 		$this->absolute_path = $this->absolute_dirname . $filename;
 		$this->relative_path = $this->relative_dirname . $filename;
+		if ($this->extension === null)
+		{
+			$this->extension = preg_match('/\.(?:blade\.php|[a-z]+)$/i', $filename, $m) ? $m[1] : '';
+		}
 		if ($this->exists === null)
 		{
 			$this->exists = Storage::exists($this->absolute_path);
 		}
-		if ($this->exists && preg_match('/\.blade\.php$/', $filename))
+		if ($this->exists && $this->extension === 'blade.php')
 		{
 			$this->config->version = 2;
 			$this->config->autoescape = true;
