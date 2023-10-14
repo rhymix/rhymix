@@ -75,7 +75,7 @@ class Template
 		// If paths were provided, initialize immediately.
 		if ($dirname && $filename)
 		{
-			$this->_setSourcePath($dirname, $filename, $extension ?? 'html');
+			$this->_setSourcePath($dirname, $filename, $extension ?? 'auto');
 		}
 	}
 
@@ -87,7 +87,7 @@ class Template
 	 * @param string $extension
 	 * @return void
 	 */
-	protected function _setSourcePath(string $dirname, string $filename, string $extension = 'html'): void
+	protected function _setSourcePath(string $dirname, string $filename, string $extension = 'auto'): void
 	{
 		// Normalize the template path. Result will look like 'modules/foo/views/'
 		$dirname = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', strtr($dirname, ['\\' => '/', '//' => '/'])), '/') . '/';
@@ -98,14 +98,43 @@ class Template
 		// Normalize the filename. Result will look like 'bar/example.html'
 		$filename = trim(strtr($filename, ['\\' => '/', '//' => '/']), '/');
 		$filename = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $filename);
+
+		// If the filename doesn't have a typical extension and doesn't exist, try adding common extensions.
 		if (!preg_match('/\.(?:html?|php)$/', $filename) && !Storage::exists($this->absolute_dirname . $filename))
 		{
-			$filename .= '.' . $extension;
+			if ($extension !== 'auto')
+			{
+				$filename .= '.' . $extension;
+			}
+			elseif (Storage::exists($this->absolute_dirname . $filename . '.html'))
+			{
+				$filename .= '.html';
+				$this->exists = true;
+			}
+			elseif (Storage::exists($this->absolute_dirname . $filename . '.blade.php'))
+			{
+				$filename .= '.blade.php';
+				$this->exists = true;
+			}
+			else
+			{
+				$filename .= '.html';
+			}
 		}
+
+		// Set the remainder of properties.
 		$this->filename = $filename;
 		$this->absolute_path = $this->absolute_dirname . $filename;
 		$this->relative_path = $this->relative_dirname . $filename;
-		$this->exists = Storage::exists($this->absolute_path);
+		if ($this->exists === null)
+		{
+			$this->exists = Storage::exists($this->absolute_path);
+		}
+		if ($this->exists && preg_match('/\.blade\.php$/', $filename))
+		{
+			$this->config->version = 2;
+			$this->config->autoescape = true;
+		}
 		$this->_setCachePath();
 	}
 
