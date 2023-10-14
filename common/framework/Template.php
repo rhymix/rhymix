@@ -25,6 +25,7 @@ class Template
 	public $cache_path;
 	public $cache_enabled = true;
 	public $ob_level = 0;
+	public $vars;
 
 	/**
 	 * Static properties
@@ -56,6 +57,7 @@ class Template
 		$this->config = new \stdClass;
 		$this->config->version = 1;
 		$this->config->autoescape = false;
+		$this->config->context = 'HTML';
 
 		// Set user information.
 		$this->user = Session::getMemberInfo() ?: new Helpers\SessionHelper();
@@ -129,6 +131,48 @@ class Template
 	public function disableCache(): void
 	{
 		$this->cache_enabled = false;
+	}
+
+	/**
+	 * Check if the template file exists.
+	 *
+	 * @return bool
+	 */
+	public function exists(): bool
+	{
+		return $this->exists ? true : false;
+	}
+
+	/**
+	 * Get vars.
+	 *
+	 * @return ?object
+	 */
+	public function getVars(): ?object
+	{
+		return $this->vars;
+	}
+
+	/**
+	 * Set vars.
+	 *
+	 * @param array|object $vars
+	 * @return void
+	 */
+	public function setVars($vars): void
+	{
+		if (is_array($vars))
+		{
+			$this->vars = (object)$vars;
+		}
+		elseif (is_object($vars))
+		{
+			$this->vars = $vars;
+		}
+		else
+		{
+			throw new Exception('Template vars must be an array or object');
+		}
 	}
 
 	/**
@@ -254,22 +298,17 @@ class Template
 		$content = preg_replace(['/^\xEF\xBB\xBF/', '/\r\n/'], ['', "\n"], $content);
 
 		// Check the config tag: <config version="2" /> or <config autoescape="on" />
-		$content = preg_replace_callback('!^<config\s+(\w+)="([^"]+)"\s*/?>!', function($match) {
+		$content = preg_replace_callback('!(?<=^|\n)<config\s+(\w+)="([^"]+)"\s*/?>!', function($match) {
 			$this->config->{$match[1]} = ($match[1] === 'version' ? intval($match[2]) : toBool($match[2]));
 			return sprintf('<?php $this->config->%s = %s; ?>', $match[1], var_export($this->config->{$match[1]}, true));
 		}, $content);
 
 		// Check the alternative version directive: @version(2)
-		if (preg_match('/(?:^|\s)@version\(([0-9]+)\)/', $content, $matches))
-		{
-			$this->config->version = intval($matches[1]);
-		}
-
-		// Turn autoescape on if the version is 2 or greater.
-		if ($this->config->version >= 2)
-		{
+		$content = preg_replace_callback('!(?<=^|\n)@version\s?\(([0-9]+)\)!', function($match) {
+			$this->config->version = intval($match[1]);
 			$this->config->autoescape = true;
-		}
+			return sprintf('<?php $this->config->version = %s; $this->config->autoescape = true; ?>', var_export($this->config->version, true));
+		}, $content);
 
 		// Call a version-specific parser to convert template code into PHP.
 		$class_name = '\Rhymix\Framework\Parsers\Template\TemplateParser_v' . $this->config->version;
@@ -287,8 +326,7 @@ class Template
 	protected function _execute(): string
 	{
 		// Import Context and lang as local variables.
-		$__Context = \Context::getAll();
-		global $lang;
+		$__Context = $this->vars ?: \Context::getAll();
 
 		// Start the output buffer.
 		$this->ob_level = ob_get_level();
