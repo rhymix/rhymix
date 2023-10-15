@@ -1,6 +1,6 @@
 <?php
 
-class TemplateParserV2Test extends \Codeception\TestCase\Test
+class TemplateParserV2Test extends \Codeception\Test\Unit
 {
 	private $prefix = '<?php if (!defined("RX_VERSION")) exit(); ?><?php $this->config->version = 2; ?>';
 	private $baseurl;
