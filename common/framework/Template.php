@@ -133,7 +133,7 @@ class Template
 		$this->relative_path = $this->relative_dirname . $filename;
 		if ($this->extension === null)
 		{
-			$this->extension = preg_match('/\.(?:blade\.php|[a-z]+)$/i', $filename, $m) ? $m[1] : '';
+			$this->extension = preg_match('/\.(blade\.php|[a-z]+)$/i', $filename, $m) ? $m[1] : '';
 		}
 		if ($this->exists === null)
 		{
