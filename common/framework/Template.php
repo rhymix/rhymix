@@ -327,7 +327,7 @@ class Template
 			$content = Storage::read($this->absolute_path);
 			$content = trim($content) . PHP_EOL;
 		}
-		if ($content === null || $content === '')
+		if ($content === null || $content === '' || $content === PHP_EOL)
 		{
 			return '';
 		}
