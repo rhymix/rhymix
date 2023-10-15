@@ -504,7 +504,7 @@ class TemplateParserV1Test extends \Codeception\Test\Unit
 
         foreach ($tests as $test)
         {
-            $tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'no_file.html');
+            $tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
             $result = $tmpl->parse($test[0]);
 			$between = str_starts_with($test[1], '?>') ? '' : ' ';
             $this->assertEquals($this->prefix . $between . $test[1], $result);
@@ -513,7 +513,7 @@ class TemplateParserV1Test extends \Codeception\Test\Unit
 
     public function testParseNoContent()
     {
-        $tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'no_file.html');
+        $tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
         $result = $tmpl->parse(null);
         $this->assertEquals('', $result);
     }
