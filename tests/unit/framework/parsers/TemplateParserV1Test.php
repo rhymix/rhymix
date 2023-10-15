@@ -521,7 +521,7 @@ class TemplateParserV1Test extends \Codeception\TestCase\Test
     public function testCompileDirect()
     {
         $tmpl = new \Rhymix\Framework\Template();
-        $result = $tmpl->compileDirect('./tests/_data/template', 'sample.html');
+        $result = $tmpl->compileDirect('./tests/_data/template', 'v1example.html');
         $result = trim($result);
 
         $this->assertEquals($this->prefix . ' if($__Context->has_blog ?? false){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'tests\', \'\']); ?>', $result);
