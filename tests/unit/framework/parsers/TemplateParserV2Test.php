@@ -155,7 +155,83 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function testAssetLoading()
 	{
+		// CSS, SCSS, LESS with media and variables
+		$source = '<load src="assets/hello.scss" media="print" vars="$foo" />';
+		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.scss', 'print', '', '', \$__Context->foo]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 
+		$source = '<load target="../hello.css" media="screen and (max-width: 800px)" />';
+		$target = "<?php \Context::loadFile(['./tests/_data/hello.css', 'screen and (max-width: 800px)', '', '', []]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// JS with type and index
+		$source = '<load src="assets/hello.js" type="head" />';
+		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', 'head', '', '']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<load target="assets/../otherdir/hello.js" type="body" index="20" />';
+		$target = "<?php \Context::loadFile(['./tests/_data/template/otherdir/hello.js', 'body', '', 20]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Path relative to Rhymix installation directory
+		$source = '<load src="^/common/js/foobar.js" />';
+		$target = "<?php \Context::loadFile(['./common/js/foobar.js', '', '', '']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// JS plugin
+		$source = '<load src="^/common/js/plugins/ckeditor/" />';
+		$target = "<?php \Context::loadJavascriptPlugin('ckeditor'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Lang file
+		$source = '<load src="^/modules/member/lang" />';
+		$target = "<?php \Context::loadLang('./modules/member/lang'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<load src="^/modules/legacy_module/lang/lang.xml" />';
+		$target = "<?php \Context::loadLang('./modules/legacy_module/lang'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style SCSS with media and variables
+		$source = "@load('assets/hello.scss', 'print', \$vars)";
+		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.scss', 'print', '', '', \$__Context->vars]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = "@load ('../hello.css', 'screen')";
+		$target = "<?php \Context::loadFile(['./tests/_data/hello.css', 'screen', '', '', []]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style JS with type and index
+		$source = "@load('assets/hello.js', 'body', 10)";
+		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', 'body', '', 10]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = "@load ('assets/hello.js', 'head')";
+		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', 'head', '', '']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = "@load ('assets/hello.js')";
+		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', '', '', '']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style path relative to Rhymix installation directory
+		$source = '@load ("^/common/js/foobar.js")';
+		$target = "<?php \Context::loadFile(['./common/js/foobar.js', '', '', '']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style JS plugin
+		$source = "@load('^/common/js/plugins/ckeditor/')";
+		$target = "<?php \Context::loadJavascriptPlugin('ckeditor'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style lang file
+		$source = "@load('^/modules/member/lang')";
+		$target = "<?php \Context::loadLang('./modules/member/lang'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '@load("^/modules/legacy_module/lang/lang.xml")';
+		$target = "<?php \Context::loadLang('./modules/legacy_module/lang'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testEchoStatements()

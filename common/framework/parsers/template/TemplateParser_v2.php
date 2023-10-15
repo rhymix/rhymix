@@ -473,7 +473,7 @@ class TemplateParser_v2
 			{
 				$info['type'] = $match[2];
 			}
-			elseif (preg_match('#^([\'"])(screen|print)\1$#', $value, $match))
+			elseif (preg_match('#^([\'"])((?:screen|print)[^\'"]*)\1$#', $value, $match))
 			{
 				$info['media'] = $match[2];
 			}
