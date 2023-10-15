@@ -120,6 +120,12 @@ class TemplateParser_v2
 	 */
 	protected function _preprocess(string $content): string
 	{
+		// Force the version number.
+		if (!str_contains($content, '$this->config->version'))
+		{
+			$content = '<?php $this->config->version = 2; ?>' . $content;
+		}
+
 		// Prevent direct invocation.
 		$content = '<?php if (!defined("RX_VERSION")) exit(); ?>' . $content;
 
