@@ -312,7 +312,13 @@ class TemplateParser_v2
 			$attrs = self::_getTagAttributes($match[1]);
 			$path = $attrs['src'] ?? ($attrs['target'] ?? null);
 			if (!$path) return $match[0];
-			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';
+			$dir = '$this->relative_dirname';
+			if (preg_match('#^\^/?(\w.+)$#s', $path, $m))
+			{
+				$dir = '"' . (str_contains($m[1], '/') ? dirname($m[1]) : '') . '"';
+				$path = basename($m[1]);
+			}
+			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template(' . $dir . ', "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';
 			$tpl .= !empty($attrs['vars']) ? ' $__tpl->setVars(' . $attrs['vars'] . '); ' : '';
 			$tpl .= 'echo $__tpl->compile(); ?>';
 			if (!empty($attrs['if']) || !empty($attrs['when']) || !empty($attrs['cond']))
