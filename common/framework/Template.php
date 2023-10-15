@@ -344,8 +344,7 @@ class Template
 		// Check the alternative version directive: @version(2)
 		$content = preg_replace_callback('!(?<=^|\n)@version\s?\(([0-9]+)\)!', function($match) {
 			$this->config->version = intval($match[1]);
-			$this->config->autoescape = true;
-			return sprintf('<?php $this->config->version = %s; $this->config->autoescape = true; ?>', var_export($this->config->version, true));
+			return sprintf('<?php $this->config->version = %s; ?>', var_export($this->config->version, true));
 		}, $content);
 
 		// Call a version-specific parser to convert template code into PHP.
