@@ -504,8 +504,7 @@ class TemplateParserV1Test extends \Codeception\TestCase\Test
 
         foreach ($tests as $test)
         {
-            $tmpl = new TemplateHandlerWrapper;
-            $tmpl->init('./tests/_data/template', 'no_file.html');
+            $tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'no_file.html');
             $result = $tmpl->parse($test[0]);
 			$between = str_starts_with($test[1], '?>') ? '' : ' ';
             $this->assertEquals($this->prefix . $between . $test[1], $result);
@@ -514,35 +513,17 @@ class TemplateParserV1Test extends \Codeception\TestCase\Test
 
     public function testParseNoContent()
     {
-        $tmpl = new TemplateHandlerWrapper;
-        $tmpl->init('./tests/_data/template', 'no_file.html');
+        $tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'no_file.html');
         $result = $tmpl->parse(null);
-
         $this->assertEquals('', $result);
     }
 
     public function testCompileDirect()
     {
-        $tmpl = TemplateHandler::getInstance();
+        $tmpl = new \Rhymix\Framework\Template();
         $result = $tmpl->compileDirect('./tests/_data/template', 'sample.html');
         $result = trim($result);
 
         $this->assertEquals($this->prefix . ' if($__Context->has_blog ?? false){ ?><a href="http://mygony.com">Taggon\'s blog</a><?php } ?>'.PHP_EOL.'<!--#Meta://external.host/js.js--><?php Context::loadFile([\'//external.host/js.js\', \'\', \'tests\', \'\']); ?>', $result);
-    }
-}
-
-class TemplateHandlerWrapper extends \TemplateHandler {
-    private $inst;
-
-    function __construct() {
-        $this->inst = parent::getInstance();
-    }
-
-    public function init($tpl_path, $tpl_filename, $tpl_file = '') {
-		$this->inst->_setSourcePath($tpl_path, $tpl_filename, $tpl_file);
-    }
-
-    public function parse($buff = null) {
-		return $this->inst->_convert($buff);
     }
 }

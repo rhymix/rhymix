@@ -269,14 +269,14 @@ class Template
 		// If a cached result does not exist, or if it is stale, compile again.
 		if (!Storage::exists($this->cache_path) || filemtime($this->cache_path) < $latest_mtime || !$this->cache_enabled)
 		{
-			$content = $this->_convert();
+			$content = $this->parse();
 			if (!Storage::write($this->cache_path, $content))
 			{
 				throw new Exception('Cannot write template cache file: ' . $this->cache_path);
 			}
 		}
 
-		$output = $this->_execute();
+		$output = $this->execute();
 
 		// Record the time elapsed.
 		$elapsed_time = microtime(true) - $start;
@@ -307,8 +307,8 @@ class Template
 			return escape($error_message);
 		}
 
-		// Convert, but don't actually execute it.
-		return $this->_convert();
+		// Parse the template, but don't actually execute it.
+		return $this->parse();
 	}
 
 	/**
@@ -319,7 +319,7 @@ class Template
 	 *
 	 * @return string
 	 */
-	protected function _convert(?string $content = null): string
+	public function parse(?string $content = null): string
 	{
 		// Read the source, or use the provided content.
 		if ($content === null && $this->exists)
@@ -361,7 +361,7 @@ class Template
 	 *
 	 * @return string
 	 */
-	protected function _execute(): string
+	public function execute(): string
 	{
 		// Import Context and lang as local variables.
 		$__Context = $this->vars ?: \Context::getAll();
