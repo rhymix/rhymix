@@ -309,6 +309,8 @@ class TemplateParser_v2
 		// Convert XE-style include directives.
 		$regexp = '#^[\x09\x20]*(<include(?:\s+(?:target|src|if|when|cond|unless|vars)="(?:[^"]+)")+\s*/?>)[\x09\x20]*$#m';
 		$content = preg_replace_callback($regexp, function($match) {
+
+			// Convert the path if necessary.
 			$attrs = self::_getTagAttributes($match[1]);
 			$path = $attrs['src'] ?? ($attrs['target'] ?? null);
 			if (!$path) return $match[0];
@@ -318,9 +320,13 @@ class TemplateParser_v2
 				$dir = '"' . (str_contains($m[1], '/') ? dirname($m[1]) : '') . '"';
 				$path = basename($m[1]);
 			}
+
+			// Generate the code to create a new Template object and compile it.
 			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template(' . $dir . ', "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';
-			$tpl .= !empty($attrs['vars']) ? ' $__tpl->setVars(' . $attrs['vars'] . '); ' : '';
+			$tpl .= !empty($attrs['vars']) ? '$__tpl->setVars(' . self::_convertVariableScope($attrs['vars']) . '); ' : '';
 			$tpl .= 'echo $__tpl->compile(); ?>';
+
+			// Add conditions around the code.
 			if (!empty($attrs['if']) || !empty($attrs['when']) || !empty($attrs['cond']))
 			{
 				$condition = $attrs['if'] ?? ($attrs['when'] ?? $attrs['cond']);
@@ -337,30 +343,56 @@ class TemplateParser_v2
 		// Convert Blade-style include directives.
 		$regexp = '#^[\x09\x20]*(?<!@)@(include(?:If|When|Unless)?)\x20?\((.+?)\)[\x09\x20]*$#sm';
 		$content = preg_replace_callback($regexp, function($match) {
+
+			// Convert the path if necessary.
+			$match[2] = self::_convertVariableScope(trim($match[2]));
 			$extension = $this->template->extension === 'blade.php' ? 'blade.php' : 'html';
-			if ($match[1] === 'include')
+			$dir = '$this->relative_dirname';
+			if ($match[1] === 'include' || $match[1] === 'includeIf')
 			{
-				$tpl = '<?php (function($__path, $__vars = null) { ';
-				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path, "' . $extension . '"); ';
-				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
-				$tpl .= 'echo $__tpl->compile(); })(' . $match[2] . '); ?>';
-			}
-			elseif ($match[1] === 'includeIf')
-			{
-				$tpl = '<?php (function($__path, $__vars = null) { ';
-				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path, "' . $extension . '"); ';
-				$tpl .= 'if (!$__tpl->exists()) return; ';
-				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
-				$tpl .= 'echo $__tpl->compile(); })(' . $match[2] . '); ?>';
+				$path = preg_match('#^([\'"])([^\'"]+)\1#', $match[2], $m) ? $m[2] : '';
+				if (preg_match('#^\^/?(\w.+)$#s', $path, $mm))
+				{
+					$dir = '"' . escape_dqstr(str_contains($mm[1], '/') ? dirname($mm[1]) : '') . '"';
+					$filename = basename($mm[1]);
+					$match[2] = preg_replace('#^([\'"])([^\'"]+)\1#', '$1' . $filename . '$1', $match[2]);
+				}
 			}
 			else
 			{
-				$tpl = '<?php (function($__type, $__cond, $__path, $__vars = null) { ';
+				$path = preg_match('#^([^,]+,\s*)([\'"])([^\'"]+)\2#', $match[2], $m) ? $m[3] : '';
+				if (preg_match('#^\^/?(\w.+)$#s', $path, $mm))
+				{
+					$dir = '"' . escape_dqstr(str_contains($mm[1], '/') ? dirname($mm[1]) : '') . '"';
+					$filename = basename($mm[1]);
+					$match[2] = preg_replace('#^([^,]+,\s*)([\'"])([^\'"]+)\2#', '$1$2' . $filename . '$2', $match[2]);
+				}
+			}
+
+			// Generate an IIFE to create a new Template object and compile it.
+			if ($match[1] === 'include')
+			{
+				$tpl = '<?php (function($__dir, $__path, $__vars = null) { ';
+				$tpl .= '$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "' . $extension . '"); ';
+				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
+				$tpl .= 'echo $__tpl->compile(); })(' . $dir . ', ' . $match[2] . '); ?>';
+			}
+			elseif ($match[1] === 'includeIf')
+			{
+				$tpl = '<?php (function($__dir, $__path, $__vars = null) { ';
+				$tpl .= '$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "' . $extension . '"); ';
+				$tpl .= 'if (!$__tpl->exists()) return; ';
+				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
+				$tpl .= 'echo $__tpl->compile(); })(' . $dir . ', ' . $match[2] . '); ?>';
+			}
+			else
+			{
+				$tpl = '<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) { ';
 				$tpl .= 'if ($__type === "includeWhen" && !$__cond) return; ';
 				$tpl .= 'if ($__type === "includeUnless" && $__cond) return; ';
-				$tpl .= '$__tpl = new \Rhymix\Framework\Template($this->relative_dirname, $__path, "' . $extension . '"); ';
+				$tpl .= '$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "' . $extension . '"); ';
 				$tpl .= 'if ($__vars) $__tpl->setVars($__vars); ' ;
-				$tpl .= 'echo $__tpl->compile(); })("' . $match[1] . '", ' . $match[2] . '); ?>';
+				$tpl .= 'echo $__tpl->compile(); })("' . $match[1] . '", ' . $dir . ', ' . $match[2] . '); ?>';
 			}
 			return self::_escapeVars($tpl);
 		}, $content);

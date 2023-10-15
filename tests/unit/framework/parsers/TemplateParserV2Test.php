@@ -77,6 +77,80 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = '<?php if(empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "blade.php"); echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
+		// With variables
+		$source = '<include src="foobar" vars="$vars" />';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "blade.php"); $__tpl->setVars($__Context->vars); echo $__tpl->compile(); ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// With array literal passed as variables
+		$source = '<include src="foobar" vars="[\'foo\' => \'bar\']" />';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "blade.php"); $__tpl->setVars([\'foo\' => \'bar\']); echo $__tpl->compile(); ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @include
+		$source = "@include ('foobar')";
+		$target = implode(' ', [
+			'<?php (function($__dir, $__path, $__vars = null) {',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'if ($__vars) $__tpl->setVars($__vars);',
+			'echo $__tpl->compile(); })($this->relative_dirname, \'foobar\'); ?>'
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @include with variable in filename
+		$source = "@include(\$var)";
+		$target = implode(' ', [
+			'<?php (function($__dir, $__path, $__vars = null) {',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'if ($__vars) $__tpl->setVars($__vars);',
+			'echo $__tpl->compile(); })($this->relative_dirname, $__Context->var); ?>'
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @include with path relative to Rhymix installation directory
+		$source = '@include ("^/common/js/plugins/foobar/baz.blade.php")';
+		$target = implode(' ', [
+			'<?php (function($__dir, $__path, $__vars = null) {',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'if ($__vars) $__tpl->setVars($__vars);',
+			'echo $__tpl->compile(); })("common/js/plugins/foobar", "baz.blade.php"); ?>'
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @includeIf with variables
+		$source = "@includeIf('dir/foobar', \$vars)";
+		$target = implode(' ', [
+			'<?php (function($__dir, $__path, $__vars = null) {',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'if (!$__tpl->exists()) return;',
+			'if ($__vars) $__tpl->setVars($__vars);',
+			'echo $__tpl->compile(); })($this->relative_dirname, \'dir/foobar\', $__Context->vars); ?>'
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @includeWhen
+		$source = "@includeWhen(\$foo->isBar(), '../../foobar.html', \$vars)";
+		$target = implode(' ', [
+			'<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) {',
+			'if ($__type === "includeWhen" && !$__cond) return;',
+			'if ($__type === "includeUnless" && $__cond) return;',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'if ($__vars) $__tpl->setVars($__vars);',
+			'echo $__tpl->compile(); })("includeWhen", $this->relative_dirname, $__Context->foo->isBar(), \'../../foobar.html\', $__Context->vars); ?>'
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @includeUnless with path relative to Rhymix installation directory
+		$source = "@includeUnless (false, '^common/tpl/foobar.html', \$vars)";
+		$target = implode(' ', [
+			'<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) {',
+			'if ($__type === "includeWhen" && !$__cond) return;',
+			'if ($__type === "includeUnless" && $__cond) return;',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'if ($__vars) $__tpl->setVars($__vars);',
+			'echo $__tpl->compile(); })("includeUnless", "common/tpl", false, \'foobar.html\', $__Context->vars); ?>'
+		]);
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testAssetLoading()
