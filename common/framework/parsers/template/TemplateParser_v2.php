@@ -307,7 +307,7 @@ class TemplateParser_v2
 	protected function _convertIncludes(string $content): string
 	{
 		// Convert XE-style include directives.
-		$regexp = '#^[\x09\x20]*(<include(?:\s+(?:target|src|if|when|unless|vars)="(?:[^"]+)")+\s*/?>)[\x09\x20]*$#m';
+		$regexp = '#^[\x09\x20]*(<include(?:\s+(?:target|src|if|when|cond|unless|vars)="(?:[^"]+)")+\s*/?>)[\x09\x20]*$#m';
 		$content = preg_replace_callback($regexp, function($match) {
 			$attrs = self::_getTagAttributes($match[1]);
 			$path = $attrs['src'] ?? ($attrs['target'] ?? null);
@@ -315,13 +315,15 @@ class TemplateParser_v2
 			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';
 			$tpl .= !empty($attrs['vars']) ? ' $__tpl->setVars(' . $attrs['vars'] . '); ' : '';
 			$tpl .= 'echo $__tpl->compile(); ?>';
-			if (!empty($attrs['if']) || !empty($attrs['when']))
+			if (!empty($attrs['if']) || !empty($attrs['when']) || !empty($attrs['cond']))
 			{
-				$tpl = '<?php if(!empty(' . ($attrs['if'] ?? $attrs['when']) . ')): ?>' . $tpl . '<?php endif; ?>';
+				$condition = $attrs['if'] ?? ($attrs['when'] ?? $attrs['cond']);
+				$tpl = '<?php if(!empty(' . $condition . ')): ?>' . $tpl . '<?php endif; ?>';
 			}
 			if (!empty($attrs['unless']))
 			{
-				$tpl = '<?php if(empty(' . $attrs['unless'] . ')): ?>' . $tpl . '<?php endif; ?>';
+				$condition = $attrs['unless'];
+				$tpl = '<?php if(empty(' . $condition . ')): ?>' . $tpl . '<?php endif; ?>';
 			}
 			return self::_escapeVars($tpl);
 		}, $content);
