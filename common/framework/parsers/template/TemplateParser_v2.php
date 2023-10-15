@@ -120,15 +120,6 @@ class TemplateParser_v2
 	 */
 	protected function _preprocess(string $content): string
 	{
-		// Force the version number.
-		if (!str_contains($content, '$this->config->version'))
-		{
-			$content = '<?php $this->config->version = 2; ?>' . $content;
-		}
-
-		// Prevent direct invocation.
-		$content = '<?php if (!defined("RX_VERSION")) exit(); ?>' . $content;
-
 		// Remove trailing whitespace.
 		$content = preg_replace('#[\x20\x09]+$#m', '', $content);
 
@@ -950,6 +941,15 @@ class TemplateParser_v2
 			'#@(@[a-z]{2,})#',
 			'#@(\{\{)#',
 		], '$1', $content);
+
+		// Prepend the version number.
+		if (!str_contains($content, '$this->config->version'))
+		{
+			$content = '<?php $this->config->version = 2; ?>' . $content;
+		}
+
+		// Prepend constant check to block direct invocation of the cache file.
+		$content = '<?php if (!defined("RX_VERSION")) exit(); ?>' . $content;
 
 		// Remove unnecessary spaces before and after PHP tags.
 		$content = preg_replace([
