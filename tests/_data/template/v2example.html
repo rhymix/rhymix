@@ -23,7 +23,7 @@
 
 <div class="foobar"|unless="isset($baz)">
 	@if ($foo || $bar)
-		<p>Hello {$foo|noescape}</p>
+		<p>Hello @if ($bar){$foo|noescape}@endif</p>
 		<p>{{ implode('|', array_map(function(\$i) { return strtoupper(\$i); }, $bar)) }}</p>
 	@end
 </div>
@@ -35,9 +35,7 @@
 		<span <!--@if($k >= 2)-->class="{$val}"<!--@end-->></span>
 	@endempty
 </div>
-@empty
-	<div>Nothing here...</div>
-@end
+@empty<div>Nothing here...</div>@end
 
 @each('incl/eachtest', $bar, 'var')
 @each('incl/eachtest', [], 'anything', 'incl/empty')

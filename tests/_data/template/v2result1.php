@@ -23,21 +23,19 @@
 
 <div<?php if (!(isset($__Context->baz))): ?> class="foobar"<?php endif; ?>>
 <?php if ($__Context->foo || $__Context->bar): ?>
-		<p>Hello <?php echo $__Context->foo ?? ''; ?></p>
+		<p>Hello <?php if ($__Context->bar): ?><?php echo $__Context->foo ?? ''; ?><?php endif; ?></p>
 		<p><?php echo htmlspecialchars(implode('|', array_map(function($i) { return strtoupper($i); }, $__Context->bar)), \ENT_QUOTES, 'UTF-8', false); ?></p>
 <?php endif; ?>
 </div>
 
-<?php $__tmp_042521f3da7d65 = Context::get('bar') ?? []; if($__tmp_042521f3da7d65): foreach ($__tmp_042521f3da7d65 as $__Context->k => $__Context->val): ?>
+<?php $__tmp_8eaec5a37bc467 = Context::get('bar') ?? []; if($__tmp_8eaec5a37bc467): foreach ($__tmp_8eaec5a37bc467 as $__Context->k => $__Context->val): ?>
 <div>
 <?php if (empty($__Context->nosuchvar)): ?>
 		<img src="/rhymix/tests/_data/template/bar/rhymix.svg" alt="unit tests are cool" />
 		<span <?php if ($__Context->k >= 2): ?>class="<?php echo htmlspecialchars($__Context->val ?? '', \ENT_QUOTES, 'UTF-8', false); ?>"<?php endif; ?>></span>
 <?php endif; ?>
 </div>
-<?php endforeach; else: ?>
-	<div>Nothing here...</div>
-<?php endif; ?>
+<?php endforeach; else: ?><div>Nothing here...</div><?php endif; ?>
 
 <?php (function($__dir, $__path, $__vars, $__varname, $__empty = null) { if (!$__vars): $__vars = []; if ($__empty): $__path = $__empty; $__vars[] = ''; endif; endif; foreach ($__vars as $__var): $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); $__tpl->setVars([(string)$__varname => $__var]); echo $__tpl->compile(); endforeach; })($this->relative_dirname, 'incl/eachtest', $__Context->bar, 'var'); ?>
 <?php (function($__dir, $__path, $__vars, $__varname, $__empty = null) { if (!$__vars): $__vars = []; if ($__empty): $__path = $__empty; $__vars[] = ''; endif; endif; foreach ($__vars as $__var): $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); $__tpl->setVars([(string)$__varname => $__var]); echo $__tpl->compile(); endforeach; })($this->relative_dirname, 'incl/eachtest', [], 'anything', 'incl/empty'); ?>

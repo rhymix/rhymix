@@ -616,13 +616,12 @@ class TemplateParser_v2
 	 * Convert loop and condition directives.
 	 *
 	 * Loops and conditions can be written inside HTML comments (XE-style)
-	 * or without comments (Blade-style). If using the Blade-style syntax,
-	 * each directive must appear in its own line.
+	 * or without comments (Blade-style).
 	 *
 	 * It is highly recommended that ending directives match the starting
 	 * directive, e.g. @if ... @endif. However, for compatibility with legacy
 	 * templates, Rhymix will automatically find out which loop you are
-	 * trying to end if you simply write @end. Either way, your loops must
+	 * trying to close if you simply write @end. Either way, your loops must
 	 * balance out or you will see 'unexpected end of file' errors.
 	 *
 	 * XE-style syntax:
@@ -638,13 +637,26 @@ class TemplateParser_v2
 	 */
 	protected function _convertLoopDirectives(string $content): string
 	{
-		// Convert block directives.
-		$regexp = '#(?:^[\x09\x20]*|<!--)@((?:end)?(?:if|unless|for|foreach|forelse|while|switch|once|isset|unset|empty|admin|auth|member|guest|desktop|mobile)|else|elseif|case|default|continue|break|end)\x20?(?:\((.+?)\))?(?:\x20*-->|[\x09\x20]*$)#sm';
+		// Generate the list of directives to match.
+		foreach (self::$_loopdef as $directive => $def)
+		{
+			$directives[] = $directive;
+			if (count($def) > 1)
+			{
+				$directives[] = 'end' . $directive;
+			}
+		}
+		usort($directives, function($a, $b) { return strlen($b) - strlen($a); });
+		$directives = implode('|', $directives) . '|end';
+
+		// Convert both XE-style and Blade-style directives.
+		$parentheses = self::_getRegexpForParentheses(2);
+		$regexp = '#(?:<!--)?(?<!@)@(' . $directives . ')\x20?(' . $parentheses . ')?(?:[\x20\x09]*-->)?#';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Collect the necessary information.
 			$directive = $match[1];
-			$args = isset($match[2]) ? self::_convertVariableScope($match[2]) : '';
+			$args = isset($match[2]) ? self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2)) : '';
 			$stack = null;
 			$code = null;
 
