@@ -976,7 +976,25 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function testCompile()
 	{
+		Context::init();
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2example.html');
 
+		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
+		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
+		//file_put_contents(\RX_BASEDIR . 'tests/_data/template/v2result1.php', $compiled_output);
+
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result1.php');
+		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);
+		$this->assertEquals($expected, $compiled_output);
+
+		$executed_output = $tmpl->compile();
+		$executed_output = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $executed_output);
+		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $executed_output, $m) ? $m[1] : '';
+		//file_put_contents(\RX_BASEDIR . 'tests/_data/template/v2result2.php', $executed_output);
+
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result2.php');
+		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);
+		$this->assertEquals($expected, $executed_output);
 	}
 
 	protected function _parse($source, $force_v2 = true)

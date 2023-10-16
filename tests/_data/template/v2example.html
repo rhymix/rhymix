@@ -1,0 +1,50 @@
+<config version="2" />
+
+@use('Rhymix\Framework\Push', 'Push')
+@include('^/common/tpl/refresh.html')
+@load('^/common/js/plugins/ckeditor/')
+@load('css/style.css')
+
+<?php
+	$foo = 'FOOFOOFOO';
+?>
+@php
+	$bar = ['Rhy', 'miX', 'is', 'da', 'BEST!'];
+@endphp
+@verbatim
+	{{ $foo }}
+@endverbatim
+
+<form action="{\RX_BASEURL}" method="post">
+	@csrf
+	<input type="text" @required(Context::getInstance()->get('foo'))>
+	<input type="text" value="{$bar[0]}" required|if="$bar[3] === 'da'" />
+</form>
+
+<div class="foobar"|unless="isset($baz)">
+	@if ($foo || $bar)
+		<p>Hello {$foo|noescape}</p>
+		<p>{{ implode('|', array_map(function(\$i) { return strtoupper(\$i); }, $bar)) }}</p>
+	@end
+</div>
+
+@forelse (Context::get('bar') as $k => $val)
+<div>
+	@empty ($nosuchvar)
+		<img src="foo/../bar/rhymix.svg" alt="unit tests are cool" />
+		<span <!--@if($k >= 2)-->class="{$val}"<!--@end-->></span>
+	@endempty
+</div>
+@empty
+	<div>Nothing here...</div>
+@end
+
+@desktop
+	<p>The full class name is {get_class(new Push)|escape}, {Push::class} really.</p>
+@enddesktop
+
+<div class="barContainer" data-bar="{$bar|json}"></div>
+
+<script type="text/javascript">
+	const bar = @json($bar);
+</script>
