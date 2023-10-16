@@ -905,6 +905,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = "@use('Rhymix\Framework\Lang', 'Lang')\n" . '<p>@lang(Lang::getLang())</p>';
 		$target = "\n" . '<p><?php echo $this->config->context === \'JS\' ? escape_js(lang(Rhymix\Framework\Lang::getLang())) : lang(Rhymix\Framework\Lang::getLang()); ?></p>';
 		$this->assertEquals($target, $this->_parse($source));
+
+		// @class
+		$source = "<span @class(['a-1', 'font-normal' => \$foo, 'text-blue' => false, 'bg-white' => true])></span>";
+		$this->assertStringContainsString("implode(' ', \$__values)", $this->_parse($source));
+		$this->assertStringContainsString("\$__Context->foo", $this->_parse($source));
+
+		// @style
+		$source = "<span @style(['border-radius: 0.25rem', 'margin: 1rem' => Context::get('bar')])></span>";
+		$this->assertStringContainsString("implode('; ', \$__values)", $this->_parse($source));
+		$this->assertStringContainsString("if (is_numeric(\$__key)):", $this->_parse($source));
 	}
 
 	public function testComments()
@@ -991,7 +1001,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
 		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
-		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result1.php', $compiled_output);
+		Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result1.php', $compiled_output);
 
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result1.php');
 		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);
@@ -1000,7 +1010,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$executed_output = $tmpl->compile();
 		$executed_output = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $executed_output);
 		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $executed_output, $m) ? $m[1] : '';
-		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result2.php', $executed_output);
+		Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result2.php', $executed_output);
 
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result2.php');
 		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);

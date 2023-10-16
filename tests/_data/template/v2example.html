@@ -46,7 +46,10 @@
 	<p>The full class name is {get_class(new Push)|escape}, {Push::class} really.</p>
 @enddesktop
 
-<div class="barContainer" data-bar="{$bar|json}"></div>
+<div class="barContainer" data-bar="{$bar|json}">
+	<span @class(['a-1', 'font-normal' => $foo, 'text-blue' => false, 'bg-white' => true])></span>
+	<span @style(['border-radius: 0.25rem', 'margin: 1rem' => Context::get('bar'), 'padding: 2rem' => false])></span>
+</div>
 
 <script type="text/javascript">
 	const bar = @json($bar);

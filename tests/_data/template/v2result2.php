@@ -49,7 +49,10 @@
 
 	<p>The full class name is Rhymix\Framework\Push, Rhymix\Framework\Push really.</p>
 
-<div class="barContainer" data-bar="[&quot;Rhy&quot;,&quot;miX&quot;,&quot;is&quot;,&quot;da&quot;,&quot;BEST!&quot;]"></div>
+<div class="barContainer" data-bar="[&quot;Rhy&quot;,&quot;miX&quot;,&quot;is&quot;,&quot;da&quot;,&quot;BEST!&quot;]">
+	<span class="a-1 font-normal bg-white"></span>
+	<span style="border-radius: 0.25rem; margin: 1rem"></span>
+</div>
 
 <script type="text/javascript">
 	const bar = ["Rhy","miX","is","da","BEST!"];

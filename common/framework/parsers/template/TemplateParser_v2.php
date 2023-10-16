@@ -421,7 +421,7 @@ class TemplateParser_v2
 			$tpl .= '$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "' . $extension . '"); ';
 			$tpl .= '$__tpl->setVars([(string)$__varname => $__var]); ' ;
 			$tpl .= 'echo $__tpl->compile(); endforeach; })(' . $dir . ', ' . $args . '); ?>';
-			return $tpl;
+			return self::_escapeVars($tpl);
 		}, $content);
 
 		return $content;
@@ -752,6 +752,25 @@ class TemplateParser_v2
 		$content = preg_replace_callback($regexp, function($match) {
 			$condition = self::_convertVariableScope($match[2]);
 			return sprintf('<?php if %s: ?> %s="%s"<?php endif; ?>', $condition, $match[1], $match[1]);
+		}, $content);
+
+		// Convert Blade-style @class and @style conditions.
+		$regexp = '#\s*(?<!@)@(class|style)(' . $parentheses . ')#';
+		$content = preg_replace_callback($regexp, function($match) {
+			$defs = self::_convertVariableScope($match[2]);
+			$delimiter = $match[1] === 'class' ? ' ' : '; ';
+			$tpl = '<?php (function(array $__defs) { ';
+			$tpl .= '$__values = []; ';
+			$tpl .= 'foreach ($__defs as $__key => $__val): ';
+			$tpl .= 'if (is_numeric($__key)): $__values[] = $__val; ';
+			$tpl .= 'elseif ($__val): $__values[] = $__key; ';
+			$tpl .= 'endif; endforeach; ';
+			$tpl .= 'if ($__values): ';
+			$tpl .= 'echo \' ' . $match[1] . '="\'; ';
+			$tpl .= 'echo htmlspecialchars(implode(\'' . $delimiter . '\', $__values), \ENT_QUOTES, \'UTF-8\', false); ';
+			$tpl .= 'echo \'"\'; ';
+			$tpl .= 'endif; })(' . $defs . '); ?>';
+			return self::_escapeVars($tpl);
 		}, $content);
 
 		return $content;
