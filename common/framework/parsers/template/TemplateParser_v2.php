@@ -824,7 +824,7 @@ class TemplateParser_v2
 			if (preg_match('#^([a-z0-9_-]+):(.+)$#', $filter, $m))
 			{
 				$filter = $m[1];
-				$filter_option = $m[2];
+				$filter_option = strtr($m[2], ['\|' => '|']);
 				if (!preg_match('#^\$#', $filter_option) && !preg_match('#^([\'"]).*\1$#', $filter_option))
 				{
 					$filter_option = "'" . escape_sqstr($filter_option) . "'";
@@ -838,7 +838,6 @@ class TemplateParser_v2
 			// Apply each filter.
 			switch ($filter)
 			{
-				case 'autocontext':
 				case 'autoescape':
 				case 'autolang':
 				case 'escape':
@@ -939,34 +938,6 @@ class TemplateParser_v2
 	}
 
 	/**
-	 * Convert variable scope.
-	 *
-	 * @param string $content
-	 * @return string
-	 */
-	protected function _convertVariableScope(string $content): string
-	{
-		// Replace variables that need to be enclosed in curly braces, using temporary entities to prevent double-replacement.
-		$content = preg_replace_callback('#(?<!\$__Context)->\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
-			return '->' . self::_escapeCurly('{') . '$__Context->' . $match[1] . self::_escapeCurly('}');
-		}, $content);
-
-		// Replace all other variables with Context attributes.
-		$content = preg_replace_callback('#(?<!::|\\\\|\$__Context->|\')\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this)$/', $match[1]))
-			{
-				return '$' . $match[1];
-			}
-			else
-			{
-				return '$__Context->' . $match[1];
-			}
-		}, $content);
-
-		return $content;
-	}
-
-	/**
 	 * Postprocessing.
 	 *
 	 * @param string $content
@@ -1026,12 +997,54 @@ class TemplateParser_v2
 	 */
 	protected static function _convertRelativePath(string $path, string $basepath): string
 	{
-		$path = preg_replace('#/\./#', '/', $basepath . $path);
+		// Path relative to the Rhymix installation directory?
+		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
+		{
+			$path = \RX_BASEURL . $match[1];
+		}
+
+		// Other paths will be relative to the given basepath.
+		else
+		{
+			$path = preg_replace('#/\./#', '/', $basepath . $path);
+		}
+
+		// Remove extra slashes and parent directory references.
+		$path = preg_replace('#\\\\#', '/', $path);
+		$path = preg_replace('#//#', '/', $path);
 		while (($tmp = preg_replace('#/[^/]+/\.\./#', '/', $path)) !== $path)
 		{
 			$path = $tmp;
 		}
 		return $path;
+	}
+
+	/**
+	 * Convert variable scope.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function _convertVariableScope(string $content): string
+	{
+		// Replace variables that need to be enclosed in curly braces, using temporary entities to prevent double-replacement.
+		$content = preg_replace_callback('#(?<!\$__Context)->\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
+			return '->' . self::_escapeCurly('{') . '$__Context->' . $match[1] . self::_escapeCurly('}');
+		}, $content);
+
+		// Replace all other variables with Context attributes.
+		$content = preg_replace_callback('#(?<!::|\\\\|\$__Context->|\')\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this)$/', $match[1]))
+			{
+				return '$' . $match[1];
+			}
+			else
+			{
+				return '$__Context->' . $match[1];
+			}
+		}, $content);
+
+		return $content;
 	}
 
 	/**
