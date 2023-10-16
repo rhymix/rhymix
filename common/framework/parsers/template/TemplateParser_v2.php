@@ -57,7 +57,7 @@ class TemplateParser_v2
 		],
 		'once' => [
 			"if (!isset(\$GLOBALS['tplv2_once']['%uniq'])):",
-			"endif; \$GLOBALS['tplv2_once']['%uniq'] = true;",
+			"\$GLOBALS['tplv2_once']['%uniq'] = true; endif;",
 		],
 		'isset' => ['if (isset(%s)):', 'endif;'],
 		'unset' => ['if (!isset(%s)):', 'endif;'],
@@ -175,12 +175,12 @@ class TemplateParser_v2
 		$basepath = \RX_BASEURL . $this->template->relative_dirname;
 
 		// Convert all src and srcset attributes.
-		$regexp = '#(<(?:img|audio|video|script|input|source|link)\s[^>]*)(src|srcset)="([^"]+)"#';
+		$regexp = '#(<(?:img|audio|video|script|input|source|link)\s[^>]*)(src|srcset|poster)="([^"]+)"#';
 		return preg_replace_callback($regexp, function($match) use ($basepath) {
-			if ($match[2] === 'src')
+			if ($match[2] !== 'srcset')
 			{
 				$src = trim($match[3]);
-				return $match[1] . sprintf('src="%s"', self::_isRelativePath($src) ? self::_convertRelativePath($src, $basepath) : $src);
+				return $match[1] . sprintf('%s="%s"', $match[2], self::_isRelativePath($src) ? self::_convertRelativePath($src, $basepath) : $src);
 			}
 			else
 			{
@@ -234,7 +234,7 @@ class TemplateParser_v2
 	protected function _convertVerbatimSections(string $content): string
 	{
 		$content = preg_replace_callback('#(@verbatim)(.+?)(@endverbatim)#s', function($match) {
-			return preg_replace(['#(?<!@)\{\{#', '#\$#'], ['@{{', '&#x1B;&#x24;'], $match[2]);
+			return preg_replace(['#(?<!@)\{\{#', '#(?<!@)@([a-z]+)#', '#\$#'], ['@{{', '@@$1', '&#x1B;&#x24;'], $match[2]);
 		}, $content);
 		return $content;
 	}
@@ -531,6 +531,10 @@ class TemplateParser_v2
 		{
 			$restype = $match[1];
 		}
+		elseif (preg_match('#/css\d?\?.+#', $path))
+		{
+			$restype = 'css';
+		}
 		else
 		{
 			$restype = 'unknown';
@@ -606,7 +610,7 @@ class TemplateParser_v2
 	protected function _convertLoopDirectives(string $content): string
 	{
 		// Convert block directives.
-		$regexp = '#(?:^[\x09\x20]*|<!--)@((?:end)?(?:if|unless|for|foreach|forelse|while|switch|once|isset|unset|empty|auth|guest|desktop|mobile)|else|elseif|case|default|continue|break|end)\x20?(?:\((.+?)\))?(?:\x20*-->|[\x09\x20]*$)#sm';
+		$regexp = '#(?:^[\x09\x20]*|<!--)@((?:end)?(?:if|unless|for|foreach|forelse|while|switch|once|isset|unset|empty|admin|auth|member|guest|desktop|mobile)|else|elseif|case|default|continue|break|end)\x20?(?:\((.+?)\))?(?:\x20*-->|[\x09\x20]*$)#sm';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Collect the necessary information.
@@ -755,7 +759,7 @@ class TemplateParser_v2
 			}
 			else
 			{
-				return sprintf('<?php echo lang(%s); ?>', $args);
+				return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(lang(%s)) : lang(%s); ?>', $args, $args);
 			}
 		}, $content);
 
@@ -1034,7 +1038,7 @@ class TemplateParser_v2
 
 		// Replace all other variables with Context attributes.
 		$content = preg_replace_callback('#(?<!::|\\\\|\$__Context->|\')\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this)$/', $match[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this|loop)$/', $match[1]))
 			{
 				return '$' . $match[1];
 			}
