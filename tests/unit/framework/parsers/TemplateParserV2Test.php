@@ -49,49 +49,49 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 	{
 		// Basic usage
 		$source = '<include src="foobar" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "blade.php"); echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Legacy 'target' attribute
 		$source = '<include target="subdir/foobar" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "subdir/foobar", "blade.php"); echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "subdir/foobar", "html"); echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Conditional include
 		$source = '<include src="../up/foobar" if="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "../up/foobar", "blade.php"); echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "../up/foobar", "html"); echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Conditional include with legacy 'cond' attribute
 		$source = '<include target="legacy/cond.statement.html" cond="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "legacy/cond.statement.html", "blade.php"); echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "legacy/cond.statement.html", "html"); echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Path relative to Rhymix installation directory
 		$source = '<include src="^/modules/foobar/views/baz" when="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "blade.php"); echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "html"); echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Unless
 		$source = '<include src="^/modules/foobar/views/baz" unless="$cond" />';
-		$target = '<?php if(empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "blade.php"); echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "html"); echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// With variables
 		$source = '<include src="foobar" vars="$vars" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "blade.php"); $__tpl->setVars($__Context->vars); echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); $__tpl->setVars($__Context->vars); echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// With array literal passed as variables
 		$source = '<include src="foobar" vars="[\'foo\' => \'bar\']" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "blade.php"); $__tpl->setVars([\'foo\' => \'bar\']); echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); $__tpl->setVars([\'foo\' => \'bar\']); echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @include
 		$source = "@include ('foobar')";
 		$target = implode(' ', [
 			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
 			'if ($__vars) $__tpl->setVars($__vars);',
 			'echo $__tpl->compile(); })($this->relative_dirname, \'foobar\'); ?>'
 		]);
@@ -101,7 +101,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = "@include(\$var)";
 		$target = implode(' ', [
 			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
 			'if ($__vars) $__tpl->setVars($__vars);',
 			'echo $__tpl->compile(); })($this->relative_dirname, $__Context->var); ?>'
 		]);
@@ -111,7 +111,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@include ("^/common/js/plugins/foobar/baz.blade.php")';
 		$target = implode(' ', [
 			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
 			'if ($__vars) $__tpl->setVars($__vars);',
 			'echo $__tpl->compile(); })("common/js/plugins/foobar", "baz.blade.php"); ?>'
 		]);
@@ -121,7 +121,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = "@includeIf('dir/foobar', \$vars)";
 		$target = implode(' ', [
 			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
 			'if (!$__tpl->exists()) return;',
 			'if ($__vars) $__tpl->setVars($__vars);',
 			'echo $__tpl->compile(); })($this->relative_dirname, \'dir/foobar\', $__Context->vars); ?>'
@@ -134,7 +134,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) {',
 			'if ($__type === "includeWhen" && !$__cond) return;',
 			'if ($__type === "includeUnless" && $__cond) return;',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
 			'if ($__vars) $__tpl->setVars($__vars);',
 			'echo $__tpl->compile(); })("includeWhen", $this->relative_dirname, $__Context->foo->isBar(), \'../../foobar.html\', $__Context->vars); ?>'
 		]);
@@ -146,7 +146,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) {',
 			'if ($__type === "includeWhen" && !$__cond) return;',
 			'if ($__type === "includeUnless" && $__cond) return;',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "blade.php");',
+			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
 			'if ($__vars) $__tpl->setVars($__vars);',
 			'echo $__tpl->compile(); })("includeUnless", "common/tpl", false, \'foobar.html\', $__Context->vars); ?>'
 		]);
@@ -236,7 +236,55 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function testEchoStatements()
 	{
+		// Basic usage of XE-style single braces
+		$source = '{$var}';
+		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 
+		// Single braces with space at beginning will not be parsed
+		$source = '{ $var}';
+		$target = '{ $var}';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Single braces with space at end are OK
+		$source = '{$var  }';
+		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Correct handling of object property and array access
+		$source = '{Context::getRequestVars()->$foo[$bar]}';
+		$target = "<?php echo htmlspecialchars(Context::getRequestVars()->{\$__Context->foo}[\$__Context->bar], \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Basic usage of Blade-style double braces
+		$source = '{{ $var }}';
+		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Double braces without spaces are OK
+		$source = '{{$var}}';
+		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Literal double braces
+		$source = '@{{ $var }}';
+		$target = '{{ $var }}';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style shortcut for unescaped output
+		$source = '{!! Context::getInstance()->get($var) !!}';
+		$target = "<?php echo Context::getInstance()->get(\$__Context->var); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Callback function inside echo statement
+		$source = '{{ implode("|", array_map(function(\$i) { return \$i + 1; }, $list) }}';
+		$target = "<?php echo htmlspecialchars(implode(\"|\", array_map(function(\$i) { return \$i + 1; }, \$__Context->list), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Multiline echo statement
+		$source = '{{ $foo ?' . "\n" . '  date($foo) :' . "\n" . '  toBool($bar) }}';
+		$target = "<?php echo htmlspecialchars(\$__Context->foo ?\n  date(\$__Context->foo) :\n  toBool(\$__Context->bar), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testOutputFilters()
@@ -294,10 +342,13 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	}
 
-	public function _parse($source, $force_v2 = true)
+	protected function _parse($source, $force_v2 = true)
 	{
-		$filename = $force_v2 ? 'v2example.blade.php' : 'empty.html';
-		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', $filename);
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
+		if ($force_v2)
+		{
+			$tmpl->config->version = 2;
+		}
 		$result = $tmpl->parse($source);
 		if (str_starts_with($result, $this->prefix))
 		{
