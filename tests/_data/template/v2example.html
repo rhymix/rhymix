@@ -39,6 +39,9 @@
 	<div>Nothing here...</div>
 @end
 
+@each('incl/eachtest', $bar, 'var')
+@each('incl/eachtest', [], 'anything', 'incl/empty')
+
 @desktop
 	<p>The full class name is {get_class(new Push)|escape}, {Push::class} really.</p>
 @enddesktop

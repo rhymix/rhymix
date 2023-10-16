@@ -151,6 +151,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'echo $__tpl->compile(); })("includeUnless", "common/tpl", false, \'foobar.html\', $__Context->vars); ?>'
 		]);
 		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style @each
+		$source = "@each('incl/eachtest', \$jobs, 'job')";
+		$target = 'foreach ($__vars as $__var):';
+		$this->assertStringContainsString($target, $this->_parse($source));
+
+		// Blade-style @each with fallback template
+		$source = "@each('incl/eachtest', \$jobs, 'job', 'incl/empty')";
+		$target = 'if ($__empty): $__path = $__empty;';
+		$this->assertStringContainsString($target, $this->_parse($source));
 	}
 
 	public function testAssetLoading()
@@ -981,7 +991,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
 		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
-		//file_put_contents(\RX_BASEDIR . 'tests/_data/template/v2result1.php', $compiled_output);
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result1.php', $compiled_output);
 
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result1.php');
 		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);
@@ -990,7 +1000,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$executed_output = $tmpl->compile();
 		$executed_output = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $executed_output);
 		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $executed_output, $m) ? $m[1] : '';
-		//file_put_contents(\RX_BASEDIR . 'tests/_data/template/v2result2.php', $executed_output);
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result2.php', $executed_output);
 
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result2.php');
 		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);

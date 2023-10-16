@@ -28,7 +28,7 @@
 <?php endif; ?>
 </div>
 
-<?php $__tmp_19148045bac5d8 = Context::get('bar') ?? []; if($__tmp_19148045bac5d8): foreach ($__tmp_19148045bac5d8 as $__Context->k => $__Context->val): ?>
+<?php $__tmp_042521f3da7d65 = Context::get('bar') ?? []; if($__tmp_042521f3da7d65): foreach ($__tmp_042521f3da7d65 as $__Context->k => $__Context->val): ?>
 <div>
 <?php if (empty($__Context->nosuchvar)): ?>
 		<img src="/rhymix/tests/_data/template/bar/rhymix.svg" alt="unit tests are cool" />
@@ -38,6 +38,9 @@
 <?php endforeach; else: ?>
 	<div>Nothing here...</div>
 <?php endif; ?>
+
+<?php (function($__dir, $__path, $__vars, $__varname, $__empty = null) { if (!$__vars): $__vars = []; if ($__empty): $__path = $__empty; $__vars[] = ''; endif; endif; foreach ($__vars as $__var): $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); $__tpl->setVars([(string)$__varname => $__var]); echo $__tpl->compile(); endforeach; })($this->relative_dirname, 'incl/eachtest', $__Context->bar, 'var'); ?>
+<?php (function($__dir, $__path, $__vars, $__varname, $__empty = null) { if (!$__vars): $__vars = []; if ($__empty): $__path = $__empty; $__vars[] = ''; endif; endif; foreach ($__vars as $__var): $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); $__tpl->setVars([(string)$__varname => $__var]); echo $__tpl->compile(); endforeach; })($this->relative_dirname, 'incl/eachtest', [], 'anything', 'incl/empty'); ?>
 
 <?php if (!$__Context->m): ?>
 	<p>The full class name is <?php echo htmlspecialchars(get_class(new Rhymix\Framework\Push), \ENT_QUOTES, 'UTF-8', true); ?>, <?php echo htmlspecialchars(Rhymix\Framework\Push::class, \ENT_QUOTES, 'UTF-8', false); ?> really.</p>

@@ -397,6 +397,33 @@ class TemplateParser_v2
 			return self::_escapeVars($tpl);
 		}, $content);
 
+		// Handle the @each directive.
+		$parentheses = self::_getRegexpForParentheses(1);
+		$regexp = '#(?:^[\x09\x20]*|<!--)@each\x20?('. $parentheses . ')(?:\x20*-->|[\x09\x20]*$)#sm';
+		$content = preg_replace_callback($regexp, function($match) {
+
+			// Convert the path if necessary.
+			$args = self::_convertVariableScope(substr($match[1], 1, strlen($match[1]) - 2));
+			$extension = $this->template->extension === 'blade.php' ? 'blade.php' : 'html';
+			$dir = '$this->relative_dirname';
+			$path = preg_match('#^([\'"])([^\'"]+)\1#', $args, $m) ? $m[2] : '';
+			if (preg_match('#^\^/?(\w.+)$#s', $path, $mm))
+			{
+				$dir = '"' . escape_dqstr(str_contains($mm[1], '/') ? dirname($mm[1]) : '') . '"';
+				$filename = basename($mm[1]);
+				$args = preg_replace('#^([\'"])([^\'"]+)\1#', '$1' . $filename . '$1', $args);
+			}
+
+			// Generate the IIFE code.
+			$tpl = '<?php (function($__dir, $__path, $__vars, $__varname, $__empty = null) { ';
+			$tpl .= 'if (!$__vars): $__vars = []; if ($__empty): $__path = $__empty; $__vars[] = \'\'; endif; endif; ';
+			$tpl .= 'foreach ($__vars as $__var): ';
+			$tpl .= '$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "' . $extension . '"); ';
+			$tpl .= '$__tpl->setVars([(string)$__varname => $__var]); ' ;
+			$tpl .= 'echo $__tpl->compile(); endforeach; })(' . $dir . ', ' . $args . '); ?>';
+			return $tpl;
+		}, $content);
+
 		return $content;
 	}
 
@@ -749,7 +776,7 @@ class TemplateParser_v2
 
 		// Insert JSON and lang codes.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#(?<!@)@(json|lang)('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang)\x20?('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
 			if ($match[1] === 'json')
 			{

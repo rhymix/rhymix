@@ -40,6 +40,13 @@
 		<span class="BEST!"></span>
 </div>
 
+<div>Rhy</div>
+<div>miX</div>
+<div>is</div>
+<div>da</div>
+<div>BEST!</div>
+<div>Empty</div>
+
 	<p>The full class name is Rhymix\Framework\Push, Rhymix\Framework\Push really.</p>
 
 <div class="barContainer" data-bar="[&quot;Rhy&quot;,&quot;miX&quot;,&quot;is&quot;,&quot;da&quot;,&quot;BEST!&quot;]"></div>
