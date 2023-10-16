@@ -779,6 +779,12 @@ class TemplateParser_v2
 		// Convert {{ double }} curly braces.
 		$content = preg_replace_callback('#(?<!@)\{\{(.+?)\}\}#s', [$this, '_arrangeOutputFilters'], $content);
 
+		// Convert {!! unescaped !!} curly braces.
+		$content = preg_replace_callback('#(?<!@)\{!!(.+?)!!\}#s', function($match) {
+			$match[1] .= '|noescape';
+			return $this->_arrangeOutputFilters($match);
+		}, $content);
+
 		// Convert {single} curly braces.
 		$content = preg_replace_callback('#(?<!\{)\{(?!\s)([^{}]+?)\}#', [$this, '_arrangeOutputFilters'], $content);
 
