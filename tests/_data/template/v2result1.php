@@ -1,9 +1,9 @@
 <?php if (!defined("RX_VERSION")) exit(); ?><?php $this->config->version = 2; ?>
 
 
-<?php (function($__dir, $__path, $__vars = null) { $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); if ($__vars) $__tpl->setVars($__vars); echo $__tpl->compile(); })("common/tpl", 'refresh.html'); ?>
-<?php \Context::loadJavascriptPlugin('ckeditor'); ?>
-<?php \Context::loadFile(['./tests/_data/template/css/style.css', '', '', '', []]); ?>
+<div><?php (function($__dir, $__path, $__vars = null) { $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); if ($__vars) $__tpl->setVars($__vars); echo $__tpl->compile(); })("common/tpl", 'refresh.html'); ?></div>
+<div><?php \Context::loadJavascriptPlugin('ckeditor'); ?></div>
+<?php \Context::loadFile(['./tests/_data/template/css/style.css', 'print', '', '', []]); ?>
 
 <?php
 	$__Context->foo = 'FOOFOOFOO';

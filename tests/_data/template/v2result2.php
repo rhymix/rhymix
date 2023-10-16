@@ -1,8 +1,10 @@
 
 
-<script>
+<div><script>
 	top.location.reload();
 </script>
+</div>
+<div></div>
 
 
 	{{ $foo }}

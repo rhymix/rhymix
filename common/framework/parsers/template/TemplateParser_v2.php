@@ -259,7 +259,7 @@ class TemplateParser_v2
 	protected function _convertClassAliases(string $content): string
 	{
 		// Find all alias directives.
-		$regexp = '#^[\x09\x20]*(?:<use\s+class="([^"]+)"\s+as="([^"]+)"\s*/?>|(?<!@)@use\x20?\([\'"]([^\'"]+)[\'"],\s*[\'"]([^\'"]+)[\'"]\))[\x09\x20]*$#m';
+		$regexp = '#(?:<use\s+class="([^"]+)"\s+as="([^"]+)"\s*/?>|(?<!@)@use\x20?\([\'"]([^\'"]+)[\'"],\s*[\'"]([^\'"]+)[\'"]\))#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$class = isset($match[3]) ? $match[3] : $match[1];
 			$alias = isset($match[4]) ? $match[4] : $match[2];
@@ -307,7 +307,7 @@ class TemplateParser_v2
 	protected function _convertIncludes(string $content): string
 	{
 		// Convert XE-style include directives.
-		$regexp = '#^[\x09\x20]*(<include(?:\s+(?:target|src|if|when|cond|unless|vars)="(?:[^"]+)")+\s*/?>)[\x09\x20]*$#m';
+		$regexp = '#(<include(?:\s+(?:target|src|if|when|cond|unless|vars)="(?:[^"]+)")+\s*/?>)#';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Convert the path if necessary.
@@ -341,11 +341,12 @@ class TemplateParser_v2
 		}, $content);
 
 		// Convert Blade-style include directives.
-		$regexp = '#^[\x09\x20]*(?<!@)@(include(?:If|When|Unless)?)\x20?\((.+?)\)[\x09\x20]*$#sm';
+		$parentheses = self::_getRegexpForParentheses(2);
+		$regexp = '#(?<!@)@(include(?:If|When|Unless)?)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Convert the path if necessary.
-			$match[2] = self::_convertVariableScope(trim($match[2]));
+			$match[2] = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
 			$extension = $this->template->extension === 'blade.php' ? 'blade.php' : 'html';
 			$dir = '$this->relative_dirname';
 			if ($match[1] === 'include' || $match[1] === 'includeIf')
@@ -399,7 +400,7 @@ class TemplateParser_v2
 
 		// Handle the @each directive.
 		$parentheses = self::_getRegexpForParentheses(1);
-		$regexp = '#(?:^[\x09\x20]*|<!--)@each\x20?('. $parentheses . ')(?:\x20*-->|[\x09\x20]*$)#sm';
+		$regexp = '#(?<!@)@each\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Convert the path if necessary.
@@ -449,7 +450,7 @@ class TemplateParser_v2
 	protected function _convertAssets(string $content): string
 	{
 		// Convert XE-style load directives.
-		$regexp = '#^[\x09\x20]*(<load(?:\s+(?:target|src|type|media|index|vars)="(?:[^"]+)")+\s*/?>)[\x09\x20]*$#m';
+		$regexp = '#(<load(?:\s+(?:target|src|type|media|index|vars)="(?:[^"]+)")+\s*/?>)#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$attrs = self::_getTagAttributes($match[1]);
 			$attrs['src'] = $attrs['src'] ?? ($attrs['target'] ?? null);
@@ -458,9 +459,10 @@ class TemplateParser_v2
 		}, $content);
 
 		// Convert Blade-style load directives.
-		$regexp = '#^[\x09\x20]*(?<!@)@load\x20?\((.+?)\)[\x09\x20]*#sm';
+		$parentheses = self::_getRegexpForParentheses(1);
+		$regexp = '#(?<!@)@load\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
-			$args = array_map('trim', explode(',', $match[1]));
+			$args = array_map('trim', explode(',', substr($match[1], 1, strlen($match[1]) - 2)));
 			$attrs = self::_arrangeArgumentsForAsset($args);
 			if (!$attrs['src']) return $match[0];
 			return self::_escapeVars(self::_generateCodeForAsset($attrs));
@@ -748,14 +750,14 @@ class TemplateParser_v2
 
 		// Convert Blade-style inline directives.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$regexp = '#\s*(?<!@)@(checked|selected|disabled|readonly|required)(' . $parentheses . ')#';
+		$regexp = '#\s*(?<!@)@(checked|selected|disabled|readonly|required)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$condition = self::_convertVariableScope($match[2]);
 			return sprintf('<?php if %s: ?> %s="%s"<?php endif; ?>', $condition, $match[1], $match[1]);
 		}, $content);
 
 		// Convert Blade-style @class and @style conditions.
-		$regexp = '#\s*(?<!@)@(class|style)(' . $parentheses . ')#';
+		$regexp = '#\s*(?<!@)@(class|style)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$defs = self::_convertVariableScope($match[2]);
 			$delimiter = $match[1] === 'class' ? ' ' : '; ';
