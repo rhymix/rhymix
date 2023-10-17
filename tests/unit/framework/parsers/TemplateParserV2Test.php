@@ -164,104 +164,104 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertStringContainsString($target, $this->_parse($source));
 	}
 
-	public function testAssetLoading()
+	public function testResourceLoading()
 	{
 		// CSS, SCSS, LESS with media and variables
 		$source = '<load src="assets/hello.scss" media="print" vars="$foo" />';
-		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.scss', 'print', '', '', \$__Context->foo]); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.scss', 'print', '', \$__Context->foo); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = '<load target="../hello.css" media="screen and (max-width: 800px)" />';
-		$target = "<?php \Context::loadFile(['./tests/_data/hello.css', 'screen and (max-width: 800px)', '', '', []]); ?>";
+		$target = "<?php \$this->_v2_loadResource('../hello.css', 'screen and (max-width: 800px)', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// JS with type and index
 		$source = '<load src="assets/hello.js" type="head" />';
-		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', 'head', '', '']); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.js', 'head', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = '<load target="assets/../otherdir/hello.js" type="body" index="20" />';
-		$target = "<?php \Context::loadFile(['./tests/_data/template/otherdir/hello.js', 'body', '', 20]); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/../otherdir/hello.js', 'body', '20', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// External script
 		$source = '<load src="//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" />';
-		$target = "<?php \Context::loadFile(['//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js', '', 'tests', '']); ?>";
+		$target = "<?php \$this->_v2_loadResource('//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js', '', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// External webfont
 		$source = '<load src="https://fonts.googleapis.com/css2?family=Roboto&display=swap" />';
-		$target = "<?php \Context::loadFile(['https://fonts.googleapis.com/css2?family=Roboto&display=swap', '', 'tests', '', []]); ?>";
+		$target = "<?php \$this->_v2_loadResource('https://fonts.googleapis.com/css2?family=Roboto&display=swap', '', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Path relative to Rhymix installation directory
 		$source = '<load src="^/common/js/foobar.js" />';
-		$target = "<?php \Context::loadFile(['./common/js/foobar.js', '', '', '']); ?>";
+		$target = "<?php \$this->_v2_loadResource('^/common/js/foobar.js', '', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// JS plugin
 		$source = '<load src="^/common/js/plugins/ckeditor/" />';
-		$target = "<?php \Context::loadJavascriptPlugin('ckeditor'); ?>";
+		$target = "<?php \$this->_v2_loadResource('^/common/js/plugins/ckeditor/', '', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Lang file
 		$source = '<load src="^/modules/member/lang" />';
-		$target = "<?php \Context::loadLang('./modules/member/lang'); ?>";
+		$target = "<?php \$this->_v2_loadResource('^/modules/member/lang', '', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = '<load src="^/modules/legacy_module/lang/lang.xml" />';
-		$target = "<?php \Context::loadLang('./modules/legacy_module/lang'); ?>";
+		$target = "<?php \$this->_v2_loadResource('^/modules/legacy_module/lang/lang.xml', '', '', []); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style SCSS with media and variables
 		$source = "@load('assets/hello.scss', 'print', \$vars)";
-		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.scss', 'print', '', '', \$__Context->vars]); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.scss', 'print', \$__Context->vars); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = "@load ('../hello.css', 'screen')";
-		$target = "<?php \Context::loadFile(['./tests/_data/hello.css', 'screen', '', '', []]); ?>";
+		$target = "<?php \$this->_v2_loadResource('../hello.css', 'screen'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style JS with type and index
 		$source = "@load('assets/hello.js', 'body', 10)";
-		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', 'body', '', 10]); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.js', 'body', 10); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = "@load ('assets/hello.js', 'head')";
-		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', 'head', '', '']); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.js', 'head'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = "@load ('assets/hello.js')";
-		$target = "<?php \Context::loadFile(['./tests/_data/template/assets/hello.js', '', '', '']); ?>";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.js'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style external script
 		$source = "@load ('//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js')";
-		$target = "<?php \Context::loadFile(['//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js', '', 'tests', '']); ?>";
+		$target = "<?php \$this->_v2_loadResource('//cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style external webfont
 		$source = "@load('https://fonts.googleapis.com/css2?family=Roboto&display=swap')";
-		$target = "<?php \Context::loadFile(['https://fonts.googleapis.com/css2?family=Roboto&display=swap', '', 'tests', '', []]); ?>";
+		$target = "<?php \$this->_v2_loadResource('https://fonts.googleapis.com/css2?family=Roboto&display=swap'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style path relative to Rhymix installation directory
 		$source = '@load ("^/common/js/foobar.js")';
-		$target = "<?php \Context::loadFile(['./common/js/foobar.js', '', '', '']); ?>";
+		$target = '<?php $this->_v2_loadResource("^/common/js/foobar.js"); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style JS plugin
 		$source = "@load('^/common/js/plugins/ckeditor/')";
-		$target = "<?php \Context::loadJavascriptPlugin('ckeditor'); ?>";
+		$target = "<?php \$this->_v2_loadResource('^/common/js/plugins/ckeditor/'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style lang file
 		$source = "@load('^/modules/member/lang')";
-		$target = "<?php \Context::loadLang('./modules/member/lang'); ?>";
+		$target = "<?php \$this->_v2_loadResource('^/modules/member/lang'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = '@load("^/modules/legacy_module/lang/lang.xml")';
-		$target = "<?php \Context::loadLang('./modules/legacy_module/lang'); ?>";
+		$target = '<?php $this->_v2_loadResource("^/modules/legacy_module/lang/lang.xml"); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 	}
 
@@ -1014,7 +1014,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		// Get compiled code
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
 		$tmpvar = preg_match('/\$__tmp_([0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
-		Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html', $compiled_output);
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html', $compiled_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html');
 		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(
@@ -1024,7 +1024,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Get final output
 		$executed_output = $tmpl->compile();
-		Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html', $executed_output);
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html', $executed_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html');
 		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(
@@ -1041,6 +1041,12 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($fragment_output)
 		);
+
+		// Check that resource is loaded
+		$list = \Context::getJsFile('body');
+		$this->assertStringContainsString('/rhymix/common/js/plugins/ckeditor/', array_first($list)['file']);
+		$list = \Context::getCssFile();
+		$this->assertStringContainsString('/rhymix/tests/_data/template/css/style.scss', array_first($list)['file']);
 
 		// Loop variable
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2loops.html');

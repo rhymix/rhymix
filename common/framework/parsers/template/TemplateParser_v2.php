@@ -24,7 +24,6 @@ class TemplateParser_v2
 	 * Cache template path info here.
 	 */
 	public $template;
-	public $source_type;
 
 	/**
 	 * Properties for internal bookkeeping.
@@ -91,7 +90,6 @@ class TemplateParser_v2
 	{
 		// Store template info in instance property.
 		$this->template = $template;
-		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $template->relative_dirname, $match) ? $match[1] : null;
 
 		// Preprocessing.
 		$content = $this->_preprocess($content);
@@ -105,7 +103,7 @@ class TemplateParser_v2
 		$content = $this->_convertFragments($content);
 		$content = $this->_convertClassAliases($content);
 		$content = $this->_convertIncludes($content);
-		$content = $this->_convertAssets($content);
+		$content = $this->_convertResource($content);
 		$content = $this->_convertLoopDirectives($content);
 		$content = $this->_convertInlineDirectives($content);
 		$content = $this->_convertMiscDirectives($content);
@@ -185,13 +183,13 @@ class TemplateParser_v2
 			if ($match[2] !== 'srcset')
 			{
 				$src = trim($match[3]);
-				return $match[1] . sprintf('%s="%s"', $match[2], self::_isRelativePath($src) ? self::_convertRelativePath($src, $basepath) : $src);
+				return $match[1] . sprintf('%s="%s"', $match[2], $this->template->isRelativePath($src) ? $this->template->convertPath($src, $basepath) : $src);
 			}
 			else
 			{
 				$srcset = array_map('trim', explode(',', $match[3]));
 				$result = array_map(function($src) use($basepath) {
-					return self::_isRelativePath($src) ? self::_convertRelativePath($src, $basepath) : $src;
+					return $this->template->isRelativePath($src) ? $this->template->convertPath($src, $basepath) : $src;
 				}, array_filter($srcset, function($src) {
 					return !empty($src);
 				}));
@@ -461,7 +459,7 @@ class TemplateParser_v2
 	}
 
 	/**
-	 * Convert asset loading directives.
+	 * Convert resource loading directives.
 	 *
 	 * This can be used to load nearly every kind of asset, from scripts
 	 * and stylesheets to lang files to Rhymix core Javascript plugins.
@@ -479,169 +477,29 @@ class TemplateParser_v2
 	 * @param string $content
 	 * @return string
 	 */
-	protected function _convertAssets(string $content): string
+	protected function _convertResource(string $content): string
 	{
 		// Convert XE-style load directives.
 		$regexp = '#(<load(?:\s+(?:target|src|type|media|index|vars)="(?:[^"]+)")+\s*/?>)#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$attrs = self::_getTagAttributes($match[1]);
-			$attrs['src'] = $attrs['src'] ?? ($attrs['target'] ?? null);
-			if (!$attrs['src']) return $match[0];
-			return self::_escapeVars(self::_generateCodeForAsset($attrs));
+			return vsprintf('<?php \$this->_v2_loadResource(%s, %s, %s, %s); ?>', [
+				var_export($attrs['src'] ?? ($attrs['target'] ?? ''), true),
+				var_export($attrs['type'] ?? ($attrs['media'] ?? ''), true),
+				var_export($attrs['index'] ?? '', true),
+				self::_convertVariableScope($attrs['vars'] ?? '') ?: '[]',
+			]);
 		}, $content);
 
 		// Convert Blade-style load directives.
 		$parentheses = self::_getRegexpForParentheses(1);
 		$regexp = '#(?<!@)@load\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
-			$args = array_map('trim', explode(',', substr($match[1], 1, strlen($match[1]) - 2)));
-			$attrs = self::_arrangeArgumentsForAsset($args);
-			if (!$attrs['src']) return $match[0];
-			return self::_escapeVars(self::_generateCodeForAsset($attrs));
+			$args = self::_convertVariableScope(substr($match[1], 1, strlen($match[1]) - 2));
+			return sprintf('<?php \$this->_v2_loadResource(%s); ?>', $args);
 		}, $content);
 
 		return $content;
-	}
-
-	/**
-	 * Subroutine for determining the role of each argument to @load.
-	 *
-	 * The Blade-style syntax does not have named arguments, so we must rely
-	 * on the position and format of each argument to guess what it is for.
-	 * Fortunately, there are only a handful of valid options for the type,
-	 * media, and index attributes.
-	 *
-	 * @param array $args
-	 * @return array
-	 */
-	protected function _arrangeArgumentsForAsset(array $args): array
-	{
-		// Assign the path.
-		$info = [];
-		if (preg_match('#^([\'"])([^\'"]+)\1$#', array_shift($args) ?? '', $match))
-		{
-			$info['src'] = $match[2];
-		}
-		if (!$info['src'])
-		{
-			return [];
-		}
-
-		// Assign the remaining arguments to respective array keys.
-		while ($value = array_shift($args))
-		{
-			if (preg_match('#^([\'"])(head|body)\1$#', $value, $match))
-			{
-				$info['type'] = $match[2];
-			}
-			elseif (preg_match('#^([\'"])((?:screen|print)[^\'"]*)\1$#', $value, $match))
-			{
-				$info['media'] = $match[2];
-			}
-			elseif (preg_match('#^([\'"])([0-9]+)\1$#', $value, $match))
-			{
-				$info['index'] = $match[2];
-			}
-			elseif (ctype_digit($value))
-			{
-				$info['index'] = $value;
-			}
-			else
-			{
-				$info['vars'] = $value;
-			}
-		}
-
-		return $info;
-	}
-
-	/**
-	 * Subroutine to generate code for asset loading.
-	 *
-	 * @param array $info
-	 * @return string
-	 */
-	protected function _generateCodeForAsset(array $info): string
-	{
-		// Determine whether the path is an internal or external link.
-		$path = $info['src'];
-		$external = false;
-		if (preg_match('#^\^#', $path))
-		{
-			$path = './' . ltrim($path, '^/');
-		}
-		elseif (self::_isRelativePath($path))
-		{
-			$path = self::_convertRelativePath($path, './' . $this->template->relative_dirname);
-		}
-		else
-		{
-			$external = true;
-		}
-
-		// Determine the type of resource.
-		if (!$external && str_starts_with($path, './common/js/plugins/'))
-		{
-			$restype = 'jsplugin';
-		}
-		elseif (!$external && preg_match('#/lang(\.xml)?$#', $path))
-		{
-			$restype = 'lang';
-		}
-		elseif (preg_match('#\.(css|js|scss|less)($|\?|/)#', $path, $match))
-		{
-			$restype = $match[1];
-		}
-		elseif (preg_match('#/css\d?\?.+#', $path))
-		{
-			$restype = 'css';
-		}
-		else
-		{
-			$restype = 'unknown';
-		}
-
-		// Generate code for each type of asset.
-		if ($restype === 'jsplugin')
-		{
-			if (preg_match('#/common/js/plugins/([^/]+)#', $path, $match))
-			{
-				$plugin_name = $match[1];
-				return sprintf('<?php \Context::loadJavascriptPlugin(%s); ?>', var_export($plugin_name, true));
-			}
-			else
-			{
-				return sprintf('<?php trigger_error("Unable to find JS plugin at " . %s, \E_USER_WARNING); ?>', var_export($path, true));
-			}
-		}
-		elseif ($restype === 'lang')
-		{
-			$lang_dir = preg_replace('#/lang\.xml$#', '', $path);
-			return sprintf('<?php \Context::loadLang(%s); ?>', var_export($lang_dir, true));
-		}
-		elseif ($restype === 'js')
-		{
-			return vsprintf('<?php \Context::loadFile([%s, %s, %s, %s]); ?>', [
-				var_export($path, true),
-				var_export($info['type'] ?? '', true),
-				var_export($external ? $this->source_type : '', true),
-				var_export(isset($info['index']) ? intval($info['index']) : '', true),
-			]);
-		}
-		elseif ($restype === 'unknown')
-		{
-			return sprintf('<?php trigger_error("Unable to determine type of resource at " . %s, \E_USER_WARNING); ?>', var_export($path, true));
-		}
-		else
-		{
-			return vsprintf('<?php \Context::loadFile([%s, %s, %s, %s, %s]); ?>', [
-				var_export($path, true),
-				var_export($info['media'] ?? '', true),
-				var_export($external ? $this->source_type : '', true),
-				var_export(isset($info['index']) ? intval($info['index']) : '', true),
-				empty($info['vars']) ? '[]' : self::_convertVariableScope($info['vars'])
-			]);
-		}
 	}
 
 	/**
@@ -1070,48 +928,6 @@ class TemplateParser_v2
 		], '$1', $content);
 
 		return $content;
-	}
-
-	/**
-	 * Check if a path should be treated as relative to the path of the current template.
-	 *
-	 * @param string $path
-	 * @return bool
-	 */
-	protected static function _isRelativePath(string $path): bool
-	{
-		return !preg_match('#^((?:https?|file|data):|[\/\{<])#i', $path);
-	}
-
-	/**
-	 * Check if a path should be treated as relative to the path of the current template.
-	 *
-	 * @param string $path
-	 * @param string $basepath
-	 * @return string
-	 */
-	protected static function _convertRelativePath(string $path, string $basepath): string
-	{
-		// Path relative to the Rhymix installation directory?
-		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
-		{
-			$path = \RX_BASEURL . $match[1];
-		}
-
-		// Other paths will be relative to the given basepath.
-		else
-		{
-			$path = preg_replace('#/\./#', '/', $basepath . $path);
-		}
-
-		// Remove extra slashes and parent directory references.
-		$path = preg_replace('#\\\\#', '/', $path);
-		$path = preg_replace('#//#', '/', $path);
-		while (($tmp = preg_replace('#/[^/]+/\.\./#', '/', $path)) !== $path)
-		{
-			$path = $tmp;
-		}
-		return $path;
 	}
 
 	/**

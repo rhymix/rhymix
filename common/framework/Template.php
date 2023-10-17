@@ -25,7 +25,8 @@ class Template
 	public $relative_path;
 	public $cache_path;
 	public $cache_enabled = true;
-	public $ob_level = 0;
+	public $source_type;
+	public $ob_level;
 	public $vars;
 	protected $_fragments = [];
 	protected static $_loopvars = [];
@@ -146,6 +147,7 @@ class Template
 			$this->config->version = 2;
 			$this->config->autoescape = true;
 		}
+		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $this->relative_dirname, $match) ? $match[1] : null;
 		$this->_setCachePath();
 	}
 
@@ -410,8 +412,181 @@ class Template
 	}
 
 	/**
+	 * Check if a path should be treated as relative to the path of the current template.
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	public function isRelativePath(string $path): bool
+	{
+		return !preg_match('#^((?:https?|file|data):|[\/\{<])#i', $path);
+	}
+
+	/**
+	 * Convert a relative path using the given basepath.
+	 *
+	 * @param string $path
+	 * @param string $basepath
+	 * @return string
+	 */
+	public function convertPath(string $path, string $basepath): string
+	{
+		// Path relative to the Rhymix installation directory?
+		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
+		{
+			$path = \RX_BASEURL . $match[1];
+		}
+
+		// Other paths will be relative to the given basepath.
+		else
+		{
+			$path = preg_replace('#/\./#', '/', $basepath . $path);
+		}
+
+		// Remove extra slashes and parent directory references.
+		$path = preg_replace('#\\\\#', '/', $path);
+		$path = preg_replace('#//#', '/', $path);
+		while (($tmp = preg_replace('#/[^/]+/\.\./#', '/', $path)) !== $path)
+		{
+			$path = $tmp;
+		}
+		return $path;
+	}
+
+	/**
 	 * =================== HELPER FUNCTIONS FOR TEMPLATE v2 ===================
 	 */
+
+	/**
+	 * Load a resource from v2 @load directive.
+	 *
+	 * The Blade-style syntax does not have named arguments, so we must rely
+	 * on the position and format of each argument to guess what it is for.
+	 * Fortunately, there are only a handful of valid options for the type,
+	 * media, and index attributes.
+	 *
+	 * @param ...$args
+	 * @return void
+	 */
+	protected function _v2_loadResource(...$args): void
+	{
+		// Assign the path.
+		$path = null;
+		if (count($args))
+		{
+			$path = array_shift($args);
+		}
+		if (empty($path))
+		{
+			trigger_error('Resource loading directive used with no path', \E_USER_WARNING);
+			return;
+		}
+
+		// Assign the remaining arguments to respective array keys.
+		$info = [];
+		while ($value = array_shift($args))
+		{
+			if (preg_match('#^([\'"])(head|body)\1$#', $value, $match))
+			{
+				$info['type'] = $match[2];
+			}
+			elseif (preg_match('#^([\'"])((?:screen|print)[^\'"]*)\1$#', $value, $match))
+			{
+				$info['media'] = $match[2];
+			}
+			elseif (preg_match('#^([\'"])([0-9]+)\1$#', $value, $match))
+			{
+				$info['index'] = $match[2];
+			}
+			elseif (ctype_digit($value))
+			{
+				$info['index'] = $value;
+			}
+			else
+			{
+				$info['vars'] = $value;
+			}
+		}
+
+		// Check whether the path is an internal or external link.
+		$external = false;
+		if (preg_match('#^\^#', $path))
+		{
+			$path = './' . ltrim($path, '^/');
+		}
+		elseif ($this->isRelativePath($path))
+		{
+			$path = $this->convertPath($path, './' . $this->relative_dirname);
+		}
+		else
+		{
+			$external = true;
+		}
+
+		// Determine the type of resource.
+		if (!$external && str_starts_with($path, './common/js/plugins/'))
+		{
+			$type = 'jsplugin';
+		}
+		elseif (!$external && preg_match('#/lang(\.xml)?$#', $path))
+		{
+			$type = 'lang';
+		}
+		elseif (preg_match('#\.(css|js|scss|less)($|\?|/)#', $path, $match))
+		{
+			$type = $match[1];
+		}
+		elseif (preg_match('#/css\d?\?.+#', $path))
+		{
+			$type = 'css';
+		}
+		else
+		{
+			$type = 'unknown';
+		}
+
+		// Load the resource.
+		if ($type === 'jsplugin')
+		{
+			if (preg_match('#/common/js/plugins/([^/]+)#', $path, $match))
+			{
+				$plugin_name = $match[1];
+				\Context::loadJavascriptPlugin($plugin_name);
+			}
+			else
+			{
+				trigger_error("Unable to find JS plugin at $path", \E_USER_WARNING);
+			}
+		}
+		elseif ($type === 'lang')
+		{
+			$lang_dir = preg_replace('#/lang\.xml$#', '', $path);
+			\Context::loadLang($lang_dir);
+		}
+		elseif ($type === 'js')
+		{
+			\Context::loadFile([
+				$path,
+				$info['type'] ?? '',
+				$external ? $this->source_type : '',
+				isset($info['index']) ? intval($info['index']) : '',
+			]);
+		}
+		elseif ($type === 'css' || $type === 'scss' || $type === 'less')
+		{
+			\Context::loadFile([
+				$path,
+				$info['media'] ?? '',
+				$external ? $this->source_type : '',
+				isset($info['index']) ? intval($info['index']) : '',
+				$info['vars'] ?? [],
+			]);
+		}
+		else
+		{
+			trigger_error("Unable to determine type of resource at $path", \E_USER_WARNING);
+		}
+	}
 
 	/**
 	 * Initialize v2 loop variable.

@@ -2,8 +2,8 @@
 
 
 <div><?php (function($__dir, $__path, $__vars = null) { $__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html"); if ($__vars) $__tpl->setVars($__vars); echo $__tpl->compile(); })("common/tpl", 'refresh.html'); ?></div>
-<div><?php \Context::loadJavascriptPlugin('ckeditor'); ?></div>
-<?php \Context::loadFile(['./tests/_data/template/css/style.css', 'print', '', '', []]); ?>
+<div><?php $this->_v2_loadResource('^/common/js/plugins/ckeditor/'); ?></div>
+<?php $this->_v2_loadResource('css/style.scss', 'print', '', []); ?>
 
 <?php
 	$__Context->foo = 'FOOFOOFOO';
