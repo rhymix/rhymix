@@ -35,9 +35,10 @@ class TemplateParser_v2
 	/**
 	 * Definitions of loop and condition directives.
 	 *
-	 * %s     : Full PHP code passed to the directive in parentheses.
-	 * %array : The array used in a foreach/forelse loop.
-	 * %uniq  : A random string that identifies a specific loop or condition.
+	 * %s         : Full PHP code passed to the directive in parentheses.
+	 * %array     : The array used in a foreach/forelse loop.
+	 * %remainder : The remainder of the foreach/forelse loop ($key => $val)
+	 * %uniq      : A random string that identifies a specific loop or condition.
 	 */
 	protected static $_loopdef = [
 		'if' => ['if (%s):', 'endif;'],
@@ -97,6 +98,11 @@ class TemplateParser_v2
 		'continue' => ['continue;'],
 		'break' => ['break;'],
 	];
+
+	/**
+	 * Cache the compiled regexp for directives here.
+	 */
+	protected static $_directives_regexp;
 
 	/**
 	 * Convert template code into PHP.
@@ -488,21 +494,24 @@ class TemplateParser_v2
 	protected function _convertLoopDirectives(string $content): string
 	{
 		// Generate the list of directives to match.
-		foreach (self::$_loopdef as $directive => $def)
+		if (self::$_directives_regexp === null)
 		{
-			$directive = preg_replace('#(.+)if$#', '$1[iI]f', $directive);
-			$directives[] = $directive;
-			if (count($def) > 1)
+			foreach (self::$_loopdef as $directive => $def)
 			{
-				$directives[] = 'end[' . substr($directive, 0, 1) . strtoupper(substr($directive, 0, 1)) . ']' . substr($directive, 1);
+				$directive = preg_replace('#(.+)if$#', '$1[iI]f', $directive);
+				$directives[] = $directive;
+				if (count($def) > 1)
+				{
+					$directives[] = 'end[' . substr($directive, 0, 1) . strtoupper(substr($directive, 0, 1)) . ']' . substr($directive, 1);
+				}
 			}
+			usort($directives, function($a, $b) { return strlen($b) - strlen($a); });
+			self::$_directives_regexp = implode('|', $directives) . '|end';
 		}
-		usort($directives, function($a, $b) { return strlen($b) - strlen($a); });
-		$directives = implode('|', $directives) . '|end';
 
 		// Convert both XE-style and Blade-style directives.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$regexp = '#(?:<!--)?(?<!@)@(' . $directives . ')\b\x20?(' . $parentheses . ')?(?:[\x20\x09]*-->)?#';
+		$regexp = '#(?:<!--)?(?<!@)@(' . self::$_directives_regexp . ')\b\x20?(' . $parentheses . ')?(?:[\x20\x09]*-->)?#';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Collect the necessary information.
