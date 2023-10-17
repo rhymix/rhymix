@@ -746,20 +746,20 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 
-		// @auth, @member and @guest
+		// @auth and @guest
 		$source = implode("\n", [
 			'@auth',
-			'@member',
+			'@auth(\'manager\')',
 			'<p>Welcome back!</p>',
-			'@endmember',
+			'@endauth',
 			'@end',
 			'@guest',
 			'<p>Please join!</p>',
 			'@endguest',
 		]);
 		$target = implode("\n", [
-			'<?php if ($this->user->isMember()): ?>',
-			'<?php if ($this->user->isMember()): ?>',
+			'<?php if ($this->_v2_checkAuth()): ?>',
+			'<?php if ($this->_v2_checkAuth(\'manager\')): ?>',
 			'<p>Welcome back!</p>',
 			'<?php endif; ?>',
 			'<?php endif; ?>',

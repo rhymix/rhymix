@@ -733,4 +733,22 @@ class Template
 
 		return sprintf(' %s="%s"', $attribute, escape(implode($delimiters[$attribute], $values), false));
 	}
+
+	/**
+	 * Auth checker for v2.
+	 *
+	 * @param string $type
+	 * @return bool
+	 */
+	protected function _v2_checkAuth(string $type = 'member'): bool
+	{
+		$grant = \Context::get('grant');
+		switch ($type)
+		{
+			case 'admin': return $this->user->isAdmin();
+			case 'manager': return $grant->manager ?? false;
+			case 'member': return $this->user->isMember();
+			default: return $grant->$type ?? false;
+		}
+	}
 }

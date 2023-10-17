@@ -66,8 +66,7 @@ class TemplateParser_v2
 		'unset' => ['if (!isset(%s)):', 'endif;'],
 		'empty' => ['if (empty(%s)):', 'endif;'],
 		'admin' => ['if ($this->user->isAdmin()):', 'endif;'],
-		'auth' => ['if ($this->user->isMember()):', 'endif;'],
-		'member' => ['if ($this->user->isMember()):', 'endif;'],
+		'auth' => ['if ($this->_v2_checkAuth(%s)):', 'endif;'],
 		'guest' => ['if (!$this->user->isMember()):', 'endif;'],
 		'desktop' => ['if (!$__Context->m):', 'endif;'],
 		'mobile' => ['if ($__Context->m):', 'endif;'],
@@ -495,7 +494,7 @@ class TemplateParser_v2
 			if (preg_match('#^end(.*)$#', $directive, $m))
 			{
 				$stack = array_pop($this->_stack);
-				$directive = $m[1] ?: $stack['directive'];
+				$directive = $m[1] ?: ($stack ? $stack['directive'] : '');
 			}
 
 			// Handle intermediate directives first.
