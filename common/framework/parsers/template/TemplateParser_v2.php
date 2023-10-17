@@ -814,8 +814,8 @@ class TemplateParser_v2
 			if ($match[1] === 'json')
 			{
 				return sprintf('<?php echo $this->config->context === \'JS\' ? ' .
-					'json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : ' .
-					'htmlspecialchars(json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
+					'json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ' .
+					'htmlspecialchars(json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 			}
 			else
 			{
@@ -914,7 +914,7 @@ class TemplateParser_v2
 					$escape_option = 'noescape';
 					break;
 				case 'json':
-					$str = "json_encode({$str}, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)";
+					$str = "json_encode({$str}, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT)";
 					$escape_option = 'autocontext';
 					break;
 				case 'strip':

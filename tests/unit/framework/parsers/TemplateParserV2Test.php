@@ -7,6 +7,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function _before()
 	{
+		Context::init();
 		$this->baseurl = '/' . basename(dirname(dirname(dirname(dirname(__DIR__))))) . '/';
 	}
 
@@ -378,8 +379,8 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '{{ $foo|json }}';
 		$target = implode('', [
 			"<?php echo \$this->config->context === 'JS' ? ",
-			"(json_encode(\$__Context->foo ?? '', \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES)) : ",
-			"htmlspecialchars(json_encode(\$__Context->foo ?? '', \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES), \ENT_QUOTES, 'UTF-8', false); ?>",
+			"(json_encode(\$__Context->foo ?? '', \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT)) : ",
+			"htmlspecialchars(json_encode(\$__Context->foo ?? '', \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, 'UTF-8', false); ?>",
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 
@@ -877,8 +878,8 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@json($var)';
 		$target = implode('', [
 			'<?php echo $this->config->context === \'JS\' ? ',
-			'json_encode($__Context->var, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : ',
-			'htmlspecialchars(json_encode($__Context->var, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES), \ENT_QUOTES, \'UTF-8\', false); ?>',
+			'json_encode($__Context->var, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ',
+			'htmlspecialchars(json_encode($__Context->var, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 
@@ -886,19 +887,19 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@json(["foo" => 1, "bar" => 2])';
 		$target = implode('', [
 			'<?php echo $this->config->context === \'JS\' ? ',
-			'json_encode(["foo" => 1, "bar" => 2], \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : ',
-			'htmlspecialchars(json_encode(["foo" => 1, "bar" => 2], \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES), \ENT_QUOTES, \'UTF-8\', false); ?>',
+			'json_encode(["foo" => 1, "bar" => 2], \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ',
+			'htmlspecialchars(json_encode(["foo" => 1, "bar" => 2], \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 
-		// Lang code with variable
+		// Lang code with variable as name
 		$source = '@lang($var->name)';
 		$target = '<?php echo $this->config->context === \'JS\' ? escape_js(lang($__Context->var->name)) : lang($__Context->var->name); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
-		// Lang code with literal name
-		$source = "@lang('board.cmd_list_items')";
-		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(lang('board.cmd_list_items')) : lang('board.cmd_list_items'); ?>";
+		// Lang code with literal name and variable
+		$source = "@lang('board.cmd_list_items', \$var)";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(lang('board.cmd_list_items', \$__Context->var)) : lang('board.cmd_list_items', \$__Context->var); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Lang code with class alias
@@ -996,7 +997,6 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function testCompile()
 	{
-		Context::init();
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2example.html');
 
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
