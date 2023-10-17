@@ -471,4 +471,34 @@ class Template
 			array_pop(self::$_loopvars);
 		}
 	}
+
+	/**
+	 * Attribute builder for v2.
+	 *
+	 * @param string $attribute
+	 * @param array $definition
+	 * @return string
+	 */
+	protected function _v2_buildAttribute(string $attribute, array $definition = []): string
+	{
+		$delimiters = [
+			'class' => ' ',
+			'style' => '; ',
+		];
+
+		$values = [];
+		foreach ($definition as $key => $val)
+		{
+			if (is_int($key) && !empty($val))
+			{
+				$values[] = $val;
+			}
+			elseif ($val)
+			{
+				$values[] = $key;
+			}
+		}
+
+		return sprintf(' %s="%s"', $attribute, escape(implode($delimiters[$attribute], $values), false));
+	}
 }

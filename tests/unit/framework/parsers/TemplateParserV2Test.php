@@ -868,13 +868,13 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// @class
 		$source = "<span @class(['a-1', 'font-normal' => \$foo, 'text-blue' => false, 'bg-white' => true])></span>";
-		$this->assertStringContainsString("implode(' ', \$__values)", $this->_parse($source));
+		$this->assertStringContainsString("\$this->_v2_buildAttribute(", $this->_parse($source));
 		$this->assertStringContainsString("\$__Context->foo", $this->_parse($source));
 
 		// @style
 		$source = "<span @style(['border-radius: 0.25rem', 'margin: 1rem' => Context::get('bar')])></span>";
-		$this->assertStringContainsString("implode('; ', \$__values)", $this->_parse($source));
-		$this->assertStringContainsString("if (is_numeric(\$__key)):", $this->_parse($source));
+		$this->assertStringContainsString("\$this->_v2_buildAttribute(", $this->_parse($source));
+		$this->assertStringContainsString("Context::get('bar')]);", $this->_parse($source));
 	}
 
 	public function testMiscDirectives()
@@ -1014,7 +1014,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		// Get compiled code
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
 		$tmpvar = preg_match('/\$__tmp_([0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
-		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html', $compiled_output);
+		Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html', $compiled_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html');
 		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(
@@ -1024,7 +1024,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Get final output
 		$executed_output = $tmpl->compile();
-		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html', $executed_output);
+		Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html', $executed_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html');
 		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(

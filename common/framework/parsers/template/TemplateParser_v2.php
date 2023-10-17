@@ -805,20 +805,9 @@ class TemplateParser_v2
 		// Convert Blade-style @class and @style conditions.
 		$regexp = '#\s*(?<!@)@(class|style)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
-			$defs = self::_convertVariableScope($match[2]);
-			$delimiter = $match[1] === 'class' ? ' ' : '; ';
-			$tpl = '<?php (function(array $__defs) { ';
-			$tpl .= '$__values = []; ';
-			$tpl .= 'foreach ($__defs as $__key => $__val): ';
-			$tpl .= 'if (is_numeric($__key)): $__values[] = $__val; ';
-			$tpl .= 'elseif ($__val): $__values[] = $__key; ';
-			$tpl .= 'endif; endforeach; ';
-			$tpl .= 'if ($__values): ';
-			$tpl .= 'echo \' ' . $match[1] . '="\'; ';
-			$tpl .= 'echo htmlspecialchars(implode(\'' . $delimiter . '\', $__values), \ENT_QUOTES, \'UTF-8\', false); ';
-			$tpl .= 'echo \'"\'; ';
-			$tpl .= 'endif; })(' . $defs . '); ?>';
-			return self::_escapeVars($tpl);
+			$attribute = trim($match[1]);
+			$definitions = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
+			return sprintf("<?php echo \$this->_v2_buildAttribute('%s', %s); ?>", $attribute, $definitions);
 		}, $content);
 
 		return $content;
