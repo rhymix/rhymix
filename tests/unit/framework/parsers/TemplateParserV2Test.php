@@ -723,6 +723,19 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = strtr($target, ['$UNIQ' => $tmpvar]);
 		$this->assertEquals($target, $parsed);
 
+		// @error
+		$source = implode("\n", [
+			"@error('email', 'login')",
+			'{{ $message }}',
+			'@enderror',
+		]);
+		$target = implode("\n", [
+			"<?php if (\$this->_v2_errorExists('email', 'login')): ?>",
+			"<?php echo htmlspecialchars(\$__Context->message ?? '', \ENT_QUOTES, 'UTF-8', false); ?>",
+			'<?php endif; ?>',
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
 		// @isset and @unset
 		$source = '<!--@isset($foo)--><!--@unset($bar)--><p></p><!--@end--><!--@endisset-->';
 		$target = '<?php if (isset($__Context->foo)): ?><?php if (!isset($__Context->bar)): ?><p></p><?php endif; ?><?php endif; ?>';
@@ -1020,6 +1033,18 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$executed_output = $tmpl->compile();
 		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2loops.executed.html', $executed_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2loops.executed.html');
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
+
+		// Validation error check
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2validation.html');
+		$tmpl->disableCache();
+
+		$executed_output = $tmpl->compile();
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2validation.executed.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2validation.executed.html');
 		$this->assertEquals(
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($executed_output)

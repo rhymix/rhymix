@@ -1,0 +1,41 @@
+@version(2)
+
+<!--// No error yet -->
+@error('foo/bar/baz/1')
+	<div class="alert">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+		<p><strong>[Ref. #1]</strong></p>
+	</div>
+@enderror
+
+<!--// We set error ID and message now -->
+{@ $XE_VALIDATOR_ID = 'foo/bar/baz/1'}
+{@ $XE_VALIDATOR_MESSAGE = 'You have an error!'}
+
+<!--// This should work -->
+@error('foo/bar/baz/3', 'foo/bar/baz/2', 'foo/bar/baz/1')
+	<div class="alert">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+		<p><strong>[Ref. #2]</strong></p>
+	</div>
+@enderror
+
+<!--// Wrong error ID -->
+@error('foo/bar/baz/6', 'foo/bar/baz/5', 'foo/bar/baz/4')
+	<div class="alert">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+		<p><strong>[Ref. #3]</strong></p>
+	</div>
+@enderror
+
+<!--// Check for any error, this should also work -->
+@error
+	<div class="alert">
+		<p>{$XE_VALIDATOR_MESSAGE}</p>
+		<p><strong>[Ref. #4]</strong></p>
+	</div>
+@enderror
+
+<!--// Cleanup -->
+{@ $XE_VALIDATOR_ID = null}
+{@ $XE_VALIDATOR_MESSAGE = null}

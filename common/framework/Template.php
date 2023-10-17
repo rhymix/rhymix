@@ -751,4 +751,21 @@ class Template
 			default: return $grant->$type ?? false;
 		}
 	}
+
+	/**
+	 * Check if a validation error exists for v2.
+	 *
+	 * @param ...$args
+	 * @return bool
+	 */
+	protected function _v2_errorExists(...$args): bool
+	{
+		$validator_id = \Context::get('XE_VALIDATOR_ID');
+		$validator_message = \Context::get('XE_VALIDATOR_MESSAGE');
+		if (empty($validator_id) || empty($validator_message))
+		{
+			return false;
+		}
+		return count($args) ? in_array((string)$validator_id, $args, true) : true;
+	}
 }

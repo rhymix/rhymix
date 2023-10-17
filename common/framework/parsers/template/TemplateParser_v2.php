@@ -62,6 +62,10 @@ class TemplateParser_v2
 			'ob_start(); $__last_fragment_name = %s;',
 			"\$this->_fragments[\$__last_fragment_name] = ob_get_flush();",
 		],
+		'error' => [
+			'if ($this->_v2_errorExists(%s)):',
+			'endif;',
+		],
 		'isset' => ['if (isset(%s)):', 'endif;'],
 		'unset' => ['if (!isset(%s)):', 'endif;'],
 		'empty' => ['if (empty(%s)):', 'endif;'],
