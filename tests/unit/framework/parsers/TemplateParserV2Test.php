@@ -11,7 +11,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->baseurl = '/' . basename(dirname(dirname(dirname(dirname(__DIR__))))) . '/';
 	}
 
-	public function testVersion()
+	public function testVersionDetection()
 	{
 		// Extension is .html and config is explicitly declared
 		$source = '<config version="2" />' . "\n" . '<div>{{ RX_VERSION|noescape }}</div>';
@@ -529,7 +529,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// $loop
 		$source = "{!! \$loop->first !!}";
-		$target = "<?php echo \$loop->first ?? ''; ?>";
+		$target = "<?php echo end(self::\$_loopvars)->first; ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Escaped dollar sign
@@ -713,13 +713,13 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'<!--@endforeach -->',
 		]);
 		$target = implode("\n", [
-			'<?php $__tmp = $__Context->list ?? []; foreach ($__tmp as $__Context->key => $__Context->val): ?>',
+			'<?php $__tmp = $__Context->list ?? []; $__loop = $this->_v2_initLoopVar("%uniq", $__tmp); foreach ($__tmp as $__Context->key => $__Context->val): ?>',
 			'<p>Hello World</p>',
-			'<?php endforeach; ?>',
+			'<?php $this->_v2_incrLoopVar($__loop); endforeach; $this->_v2_removeLoopVar($__loop); unset($__loop); ?>',
 		]);
 		$parsed = $this->_parse($source);
-		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $parsed, $m) ? $m[1] : '';
-		$target = strtr($target, ['$__tmp' => $tmpvar]);
+		$tmpvar = preg_match('/(\$__(?:tmp|loop)_)([0-9a-f]{14})/', $parsed, $m) ? $m[2] : '';
+		$target = preg_replace(['/(\$__(?:tmp|loop))/', '/%uniq/'], ['$1_' . $tmpvar, $tmpvar], $target);
 		$this->assertEquals($target, $parsed);
 
 		// @forelse with @empty
@@ -731,15 +731,15 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'@end',
 		]);
 		$target = implode("\n", [
-			'<?php $__tmp = $__Context->list ?? []; if($__tmp): foreach ($__tmp as $__Context->key => $__Context->val): ?>',
+			'<?php $__tmp = $__Context->list ?? []; if($__tmp): $__loop = $this->_v2_initLoopVar("%uniq", $__tmp); foreach ($__tmp as $__Context->key => $__Context->val): ?>',
 			'<p>Hello World</p>',
-			'<?php endforeach; else: ?>',
+			'<?php $this->_v2_incrLoopVar($__loop); endforeach; $this->_v2_removeLoopVar($__loop); unset($__loop); else: ?>',
 			'<p>Nothing Here!</p>',
 			'<?php endif; ?>',
 		]);
 		$parsed = $this->_parse($source);
-		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $parsed, $m) ? $m[1] : '';
-		$target = strtr($target, ['$__tmp' => $tmpvar]);
+		$tmpvar = preg_match('/(\$__(?:tmp|loop)_)([0-9a-f]{14})/', $parsed, $m) ? $m[2] : '';
+		$target = preg_replace(['/(\$__(?:tmp|loop))/', '/%uniq/'], ['$1_' . $tmpvar, $tmpvar], $target);
 		$this->assertEquals($target, $parsed);
 
 		// @once
@@ -865,6 +865,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '<input type="text" @readonly(!!false) @required($member_info->require_title) />';
 		$target = '<input type="text"<?php if (!!false): ?> readonly="readonly"<?php endif; ?><?php if ($__Context->member_info->require_title): ?> required="required"<?php endif; ?> />';
 		$this->assertEquals($target, $this->_parse($source));
+
+		// @class
+		$source = "<span @class(['a-1', 'font-normal' => \$foo, 'text-blue' => false, 'bg-white' => true])></span>";
+		$this->assertStringContainsString("implode(' ', \$__values)", $this->_parse($source));
+		$this->assertStringContainsString("\$__Context->foo", $this->_parse($source));
+
+		// @style
+		$source = "<span @style(['border-radius: 0.25rem', 'margin: 1rem' => Context::get('bar')])></span>";
+		$this->assertStringContainsString("implode('; ', \$__values)", $this->_parse($source));
+		$this->assertStringContainsString("if (is_numeric(\$__key)):", $this->_parse($source));
 	}
 
 	public function testMiscDirectives()
@@ -907,15 +917,15 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = "\n" . '<p><?php echo $this->config->context === \'JS\' ? escape_js(lang(Rhymix\Framework\Lang::getLang())) : lang(Rhymix\Framework\Lang::getLang()); ?></p>';
 		$this->assertEquals($target, $this->_parse($source));
 
-		// @class
-		$source = "<span @class(['a-1', 'font-normal' => \$foo, 'text-blue' => false, 'bg-white' => true])></span>";
-		$this->assertStringContainsString("implode(' ', \$__values)", $this->_parse($source));
-		$this->assertStringContainsString("\$__Context->foo", $this->_parse($source));
+		// Dump one variable
+		$source = '@dump($foo)';
+		$target = '<?php ob_start(); var_dump($__Context->foo); $__dump = ob_get_clean(); echo rtrim($__dump); ?>';
+		$this->assertEquals($target, $this->_parse($source));
 
-		// @style
-		$source = "<span @style(['border-radius: 0.25rem', 'margin: 1rem' => Context::get('bar')])></span>";
-		$this->assertStringContainsString("implode('; ', \$__values)", $this->_parse($source));
-		$this->assertStringContainsString("if (is_numeric(\$__key)):", $this->_parse($source));
+		// Dump more than one variable, some literal
+		$source = '@dump($foo, Context::get("var"), (object)["foo" => "bar"])';
+		$target = '<?php ob_start(); var_dump($__Context->foo, Context::get("var"), (object)["foo" => "bar"]); $__dump = ob_get_clean(); echo rtrim($__dump); ?>';
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testComments()
@@ -997,27 +1007,50 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function testCompile()
 	{
+		// General example
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2example.html');
+		$tmpl->disableCache();
 
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
-		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
-		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result1.php', $compiled_output);
-
-		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result1.php');
-		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);
-		$this->assertEquals($expected, $compiled_output);
+		$tmpvar = preg_match('/\$__tmp_([0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html', $compiled_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html');
+		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($compiled_output)
+		);
 
 		$executed_output = $tmpl->compile();
-		$executed_output = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $executed_output);
-		$tmpvar = preg_match('/(\$__tmp_[0-9a-f]{14})/', $executed_output, $m) ? $m[1] : '';
-		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2result2.php', $executed_output);
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html');
+		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
 
-		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2result2.php');
-		$expected = preg_replace('/(\$__tmp_[0-9a-f]{14})/', $tmpvar, $expected);
-		$this->assertEquals($expected, $executed_output);
+		// Loop variable
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2loops.html');
+		$tmpl->disableCache();
+
+		$executed_output = $tmpl->compile();
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2loops.executed.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2loops.executed.html');
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
 	}
 
-	protected function _parse($source, $force_v2 = true)
+	/**
+	 * Utility function to compile an arbitrary string and return the results.
+	 *
+	 * @param string $source
+	 * @param bool $force_v2 Disable version detection
+	 * @return string
+	 */
+	protected function _parse(string $source, bool $force_v2 = true): string
 	{
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
 		if ($force_v2)
@@ -1030,5 +1063,27 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$result = substr($result, strlen($this->prefix));
 		}
 		return $result;
+	}
+
+	/**
+	 * Utility function to remove empty lines and leading/trailing whitespace.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function _normalizeWhitespace(string $content): string
+	{
+		$content = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $content);
+
+		$result = [];
+		foreach (explode("\n", $content) as $line)
+		{
+			$line = trim($line);
+			if ($line !== '')
+			{
+				$result[] = $line;
+			}
+		}
+		return implode("\n", $result);
 	}
 }

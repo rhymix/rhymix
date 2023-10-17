@@ -47,12 +47,12 @@ class TemplateParser_v2
 		'while' => ['while (%s):', 'endwhile;'],
 		'switch' => ['switch (%s):', 'endswitch;'],
 		'foreach' => [
-			'$__tmp_%uniq = %array ?? []; foreach ($__tmp_%uniq as %remainder):',
-			'endforeach;',
+			'$__tmp_%uniq = %array ?? []; $__loop_%uniq = $this->_v2_initLoopVar("%uniq", $__tmp_%uniq); foreach ($__tmp_%uniq as %remainder):',
+			'$this->_v2_incrLoopVar($__loop_%uniq); endforeach; $this->_v2_removeLoopVar($__loop_%uniq); unset($__loop_%uniq);',
 		],
 		'forelse' => [
-			'$__tmp_%uniq = %array ?? []; if($__tmp_%uniq): foreach ($__tmp_%uniq as %remainder):',
-			'endforeach; else:',
+			'$__tmp_%uniq = %array ?? []; if($__tmp_%uniq): $__loop_%uniq = $this->_v2_initLoopVar("%uniq", $__tmp_%uniq); foreach ($__tmp_%uniq as %remainder):',
+			'$this->_v2_incrLoopVar($__loop_%uniq); endforeach; $this->_v2_removeLoopVar($__loop_%uniq); unset($__loop_%uniq); else:',
 			'endif;',
 		],
 		'once' => [
@@ -670,7 +670,9 @@ class TemplateParser_v2
 			// Handle intermediate directives first.
 			if ($directive === 'empty' && !$args && !$stack && end($this->_stack)['directive'] === 'forelse')
 			{
+				$stack = end($this->_stack);
 				$code = self::$_loopdef['forelse'][1];
+				$code = strtr($code, ['%uniq' => $stack['uniq'], '%array' => $stack['array'], '%remainder' => $stack['remainder']]);
 			}
 
 			// Single directives.
@@ -807,9 +809,9 @@ class TemplateParser_v2
 			return '<input type="hidden" name="_rx_csrf_token" value="<?php echo \Rhymix\Framework\Session::getGenericToken(); ?>" />';
 		}, $content);
 
-		// Insert JSON and lang codes.
+		// Insert JSON, lang codes, and dumps.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#(?<!@)@(json|lang)\x20?('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang|dump)\x20?('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
 			if ($match[1] === 'json')
 			{
@@ -817,9 +819,17 @@ class TemplateParser_v2
 					'json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ' .
 					'htmlspecialchars(json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 			}
-			else
+			elseif ($match[1] === 'lang')
 			{
 				return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(lang(%s)) : lang(%s); ?>', $args, $args);
+			}
+			elseif ($match[1] === 'dump')
+			{
+				return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
+			}
+			else
+			{
+				return $match[0];
 			}
 		}, $content);
 
@@ -1098,9 +1108,13 @@ class TemplateParser_v2
 
 		// Replace all other variables with Context attributes.
 		$content = preg_replace_callback('#(?<!::|\\\\|\$__Context->|\')\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
-			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this|loop)$/', $match[1]))
+			if (preg_match('/^(?:GLOBALS|_SERVER|_COOKIE|_ENV|_GET|_POST|_REQUEST|_SESSION|__Context|this)$/', $match[1]))
 			{
 				return '$' . $match[1];
+			}
+			elseif ($match[1] === 'loop')
+			{
+				return 'end(self::$_loopvars)';
 			}
 			else
 			{

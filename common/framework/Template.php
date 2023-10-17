@@ -27,6 +27,8 @@ class Template
 	public $cache_enabled = true;
 	public $ob_level = 0;
 	public $vars;
+	protected $_fragments = [];
+	protected static $_loopvars = [];
 
 	/**
 	 * Static properties
@@ -387,5 +389,86 @@ class Template
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Get a fragment of the executed output.
+	 *
+	 * @param string $name
+	 * @return ?string
+	 */
+	public function getFragment(string $name): ?string
+	{
+		if (isset($this->_fragments[$name]))
+		{
+			return $this->_fragments[$name];
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * =================== HELPER FUNCTIONS FOR TEMPLATE v2 ===================
+	 */
+
+	/**
+	 * Initialize v2 loop variable.
+	 *
+	 * @param string $stack_id
+	 * @param array|Traversable &$array
+	 * @return object
+	 */
+	protected function _v2_initLoopVar(string $stack_id, &$array): object
+	{
+		// Create the data structure.
+		$loop = new \stdClass;
+		$loop->index = 0;
+		$loop->iteration = 1;
+		$loop->count = is_countable($array) ? count($array) : countobj($array);
+		$loop->remaining = $loop->count - 1;
+		$loop->first = true;
+		$loop->last = ($loop->count === 1);
+		$loop->even = false;
+		$loop->odd = true;
+		$loop->depth = count(self::$_loopvars) + 1;
+		$loop->parent = count(self::$_loopvars) ? end(self::$_loopvars) : null;
+
+		// Append to stack and return.
+		return self::$_loopvars[$stack_id] = $loop;
+	}
+
+	/**
+	 * Increment v2 loop variable.
+	 *
+	 * @param object $loopvar
+	 * @return void
+	 */
+	protected function _v2_incrLoopVar(object $loop): void
+	{
+		// Update properties.
+		$loop->index++;
+		$loop->iteration++;
+		$loop->remaining--;
+		$loop->first = ($loop->count === 1);
+		$loop->last = ($loop->iteration === $loop->count);
+		$loop->even = ($loop->iteration % 2 === 0);
+		$loop->odd = !$loop->even;
+	}
+
+	/**
+	 * Remove v2 loop variable.
+	 *
+	 * @param object $loopvar
+	 * @return void
+	 */
+	protected function _v2_removeLoopVar(object $loop): void
+	{
+		// Remove from stack.
+		if ($loop === end(self::$_loopvars))
+		{
+			array_pop(self::$_loopvars);
+		}
 	}
 }
