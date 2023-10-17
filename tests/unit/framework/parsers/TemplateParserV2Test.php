@@ -90,67 +90,32 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Blade-style @include
 		$source = "@include ('foobar')";
-		$target = implode(' ', [
-			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
-			'if ($__vars) $__tpl->setVars($__vars);',
-			'echo $__tpl->compile(); })($this->relative_dirname, \'foobar\'); ?>'
-		]);
+		$target = "<?php echo \$this->_v2_include('include', 'foobar'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @include with variable in filename
 		$source = "@include(\$var)";
-		$target = implode(' ', [
-			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
-			'if ($__vars) $__tpl->setVars($__vars);',
-			'echo $__tpl->compile(); })($this->relative_dirname, $__Context->var); ?>'
-		]);
+		$target = "<?php echo \$this->_v2_include('include', \$__Context->var); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @include with path relative to Rhymix installation directory
 		$source = '@include ("^/common/js/plugins/foobar/baz.blade.php")';
-		$target = implode(' ', [
-			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
-			'if ($__vars) $__tpl->setVars($__vars);',
-			'echo $__tpl->compile(); })("common/js/plugins/foobar", "baz.blade.php"); ?>'
-		]);
+		$target = '<?php echo $this->_v2_include(\'include\', "^/common/js/plugins/foobar/baz.blade.php"); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @includeIf with variables
 		$source = "@includeIf('dir/foobar', \$vars)";
-		$target = implode(' ', [
-			'<?php (function($__dir, $__path, $__vars = null) {',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
-			'if (!$__tpl->exists()) return;',
-			'if ($__vars) $__tpl->setVars($__vars);',
-			'echo $__tpl->compile(); })($this->relative_dirname, \'dir/foobar\', $__Context->vars); ?>'
-		]);
+		$target = "<?php echo \$this->_v2_include('includeIf', 'dir/foobar', \$__Context->vars); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @includeWhen
 		$source = "@includeWhen(\$foo->isBar(), '../../foobar.html', \$vars)";
-		$target = implode(' ', [
-			'<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) {',
-			'if ($__type === "includeWhen" && !$__cond) return;',
-			'if ($__type === "includeUnless" && $__cond) return;',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
-			'if ($__vars) $__tpl->setVars($__vars);',
-			'echo $__tpl->compile(); })("includeWhen", $this->relative_dirname, $__Context->foo->isBar(), \'../../foobar.html\', $__Context->vars); ?>'
-		]);
+		$target = "<?php echo \$this->_v2_include('includeWhen', \$__Context->foo->isBar(), '../../foobar.html', \$__Context->vars); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @includeUnless with path relative to Rhymix installation directory
 		$source = "@includeUnless (false, '^common/tpl/foobar.html', \$vars)";
-		$target = implode(' ', [
-			'<?php (function($__type, $__dir, $__cond, $__path, $__vars = null) {',
-			'if ($__type === "includeWhen" && !$__cond) return;',
-			'if ($__type === "includeUnless" && $__cond) return;',
-			'$__tpl = new \Rhymix\Framework\Template($__dir, $__path, "html");',
-			'if ($__vars) $__tpl->setVars($__vars);',
-			'echo $__tpl->compile(); })("includeUnless", "common/tpl", false, \'foobar.html\', $__Context->vars); ?>'
-		]);
+		$target = "<?php echo \$this->_v2_include('includeUnless', false, '^common/tpl/foobar.html', \$__Context->vars); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @each
@@ -160,7 +125,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Blade-style @each with fallback template
 		$source = "@each('incl/eachtest', \$jobs, 'job', 'incl/empty')";
-		$target = 'if ($__empty): $__path = $__empty;';
+		$target = 'echo $this->_v2_include("include"';
 		$this->assertStringContainsString($target, $this->_parse($source));
 	}
 

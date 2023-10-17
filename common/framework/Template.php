@@ -458,6 +458,63 @@ class Template
 	 */
 
 	/**
+	 * Include another template from v2 @include directive.
+	 *
+	 * Blade has several variations of the @include directive, and we need
+	 * access to the actual PHP args in order to process them accurately.
+	 * So we do this in the Template class, not in the converter.
+	 *
+	 * @param ...$args
+	 * @return string
+	 */
+	protected function _v2_include(...$args): string
+	{
+		// Set some basic information.
+		$directive = $args[0];
+		$extension = $this->extension === 'blade.php' ? 'blade.php' : null;
+		$isConditional = in_array($directive, ['includeWhen', 'includeUnless']);
+		$basedir = $this->relative_dirname;
+		$cond = $isConditional ? $args[1] : null;
+		$path = $isConditional ? $args[2] : $args[1];
+		$vars = $isConditional ? ($args[3] ?? null) : ($args[2] ?? null);
+
+		// Handle paths relative to the Rhymix installation directory.
+		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
+		{
+			$basedir = str_contains($match[1], '/') ? dirname($match[1]) : \RX_BASEDIR;
+			$path = basename($match[1]);
+		}
+
+		// If the conditions are not met, return.
+		if ($isConditional && $directive === 'includeWhen' && !$cond)
+		{
+			return '';
+		}
+		if ($isConditional && $directive === 'includeUnless' && $cond)
+		{
+			return '';
+		}
+
+		// Create a new instance of TemplateHandler.
+		$template = new self($basedir, $path, $extension);
+
+		// If the directive is @includeIf and the template file does not exist, return.
+		if ($directive === 'includeIf' && !$template->exists())
+		{
+			return '';
+		}
+
+		// Set variables.
+		if ($vars !== null)
+		{
+			$template->setVars($vars);
+		}
+
+		// Compile and return.
+		return $template->compile();
+	}
+
+	/**
 	 * Load a resource from v2 @load directive.
 	 *
 	 * The Blade-style syntax does not have named arguments, so we must rely
