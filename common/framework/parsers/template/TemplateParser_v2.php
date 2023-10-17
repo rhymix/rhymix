@@ -225,7 +225,7 @@ class TemplateParser_v2
 
 		$content = preg_replace_callback('#(<\?php|<\?(?!=))(.+?)(\?>)#s', $callback, $content);
 		$content = preg_replace_callback('#(\{@)(.+?)(\})#s', $callback, $content);
-		$content = preg_replace_callback('#(?<!@)(@php)(.+?)(?<!@)(@endphp)#s', $callback, $content);
+		$content = preg_replace_callback('#(?<!@)(@php)\b(.+?)(?<!@)(@endphp)\b#s', $callback, $content);
 		return $content;
 	}
 
@@ -239,7 +239,7 @@ class TemplateParser_v2
 	 */
 	protected function _convertVerbatimSections(string $content): string
 	{
-		$content = preg_replace_callback('#(@verbatim)(.+?)(@endverbatim)#s', function($match) {
+		$content = preg_replace_callback('#(@verbatim)\b(.+?)(@endverbatim)\b#s', function($match) {
 			return preg_replace(['#(?<!@)\{\{#', '#(?<!@)@([a-z]+)#', '#\$#'], ['@{{', '@@$1', '&#x1B;&#x24;'], $match[2]);
 		}, $content);
 		return $content;
@@ -485,7 +485,7 @@ class TemplateParser_v2
 
 		// Convert both XE-style and Blade-style directives.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$regexp = '#(?:<!--)?(?<!@)@(' . $directives . ')\x20?(' . $parentheses . ')?(?:[\x20\x09]*-->)?#';
+		$regexp = '#(?:<!--)?(?<!@)@(' . $directives . ')\b\x20?(' . $parentheses . ')?(?:[\x20\x09]*-->)?#';
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Collect the necessary information.
@@ -628,7 +628,7 @@ class TemplateParser_v2
 	protected function _convertMiscDirectives(string $content): string
 	{
 		// Insert CSRF tokens.
-		$content = preg_replace_callback('#(?<!@)@csrf#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@csrf\b#', function($match) {
 			return '<input type="hidden" name="_rx_csrf_token" value="<?php echo \Rhymix\Framework\Session::getGenericToken(); ?>" />';
 		}, $content);
 
