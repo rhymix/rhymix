@@ -28,6 +28,7 @@
 	@end
 </div>
 
+@fragment('rhymix')
 @forelse (Context::get('bar') as $k => $val)
 <div>
 	@empty ($nosuchvar)
@@ -36,6 +37,7 @@
 	@endempty
 </div>
 @empty<div>Nothing here...</div>@end
+@endfragment
 
 @each('incl/eachtest', $bar, 'var')
 @each('incl/eachtest', [], 'anything', 'incl/empty')

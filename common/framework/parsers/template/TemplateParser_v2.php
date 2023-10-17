@@ -59,6 +59,10 @@ class TemplateParser_v2
 			"if (!isset(\$GLOBALS['tplv2_once']['%uniq'])):",
 			"\$GLOBALS['tplv2_once']['%uniq'] = true; endif;",
 		],
+		'fragment' => [
+			'ob_start(); $__last_fragment_name = %s;',
+			"\$this->_fragments[\$__last_fragment_name] = ob_get_flush();",
+		],
 		'isset' => ['if (isset(%s)):', 'endif;'],
 		'unset' => ['if (!isset(%s)):', 'endif;'],
 		'empty' => ['if (empty(%s)):', 'endif;'],
@@ -98,6 +102,7 @@ class TemplateParser_v2
 		$content = $this->_convertRelativePaths($content);
 		$content = $this->_convertPHPSections($content);
 		$content = $this->_convertVerbatimSections($content);
+		$content = $this->_convertFragments($content);
 		$content = $this->_convertClassAliases($content);
 		$content = $this->_convertIncludes($content);
 		$content = $this->_convertAssets($content);
@@ -236,6 +241,33 @@ class TemplateParser_v2
 		$content = preg_replace_callback('#(@verbatim)(.+?)(@endverbatim)#s', function($match) {
 			return preg_replace(['#(?<!@)\{\{#', '#(?<!@)@([a-z]+)#', '#\$#'], ['@{{', '@@$1', '&#x1B;&#x24;'], $match[2]);
 		}, $content);
+		return $content;
+	}
+
+	/**
+	 * Convert fragments.
+	 *
+	 * Sections delimited by <fragment name="name"> ... </fragment> (XE-style)
+	 * or @fragment('name') ... @endfragment (Blade-style) are stored
+	 * separately when executed, and can be accessed through getFragment()
+	 * afterwards. They are, of course, also included in the primary output.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function _convertFragments(string $content): string
+	{
+		// Convert XE-style fragment code. Blade-style is handled elsewhere.
+		$regexp = '#<fragment\s+name="([^"]+)"\s*/?>(.*?)</fragment>#s';
+		$content = preg_replace_callback($regexp, function($match) {
+			$name = trim($match[1]);
+			$content = $match[2];
+			$tpl = '<?php ob_start(); \$__last_fragment_name = ' . var_export($name, true) . '; ?>';
+			$tpl .= $content;
+			$tpl .= '<?php $this->_fragments[\$__last_fragment_name] = ob_get_flush(); ?>';
+			return $tpl;
+		}, $content);
+
 		return $content;
 	}
 
