@@ -30,6 +30,7 @@ class Template
 	public $vars;
 	protected $_fragments = [];
 	protected static $_loopvars = [];
+	protected static $_stacks = [];
 
 	/**
 	 * Static properties
@@ -404,6 +405,24 @@ class Template
 		if (isset($this->_fragments[$name]))
 		{
 			return $this->_fragments[$name];
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Get the contents of a stack.
+	 *
+	 * @param string $name
+	 * @return ?array
+	 */
+	public function getStack(string $name): ?array
+	{
+		if (isset(self::$_stacks[$name]))
+		{
+			return self::$_stacks[$name];
 		}
 		else
 		{

@@ -1038,6 +1038,19 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($executed_output)
 		);
 
+		// Push stack
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2pushstack.html');
+		$tmpl->disableCache();
+
+		$executed_output = $tmpl->compile();
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2pushstack.executed.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2pushstack.executed.html');
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
+		$this->assertEquals(4, count($tmpl->getStack('cms')));
+
 		// Validation error check
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2validation.html');
 		$tmpl->disableCache();

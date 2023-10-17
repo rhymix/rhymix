@@ -60,11 +60,27 @@ class TemplateParser_v2
 		],
 		'fragment' => [
 			'ob_start(); $__last_fragment_name = %s;',
-			"\$this->_fragments[\$__last_fragment_name] = ob_get_flush();",
+			'$this->_fragments[$__last_fragment_name] = ob_get_flush();',
 		],
 		'error' => [
 			'if ($this->_v2_errorExists(%s)):',
 			'endif;',
+		],
+		'push' => [
+			'ob_start(); if (!isset(self::$_stacks[%s])): self::$_stacks[%s] = []; endif;',
+			'array_push(self::$_stacks[%s], trim(ob_get_clean()));',
+		],
+		'pushif' => [
+			'list($__stack_cond, $__stack_name) = [%s]; if ($__stack_cond): ob_start(); if (!isset(self::$_stacks[$__stack_name])): self::$_stacks[$__stack_name] = []; endif;',
+			'array_push(self::$_stacks[$__stack_name], trim(ob_get_clean())); endif;',
+		],
+		'prepend' => [
+			'ob_start(); if (!isset(self::$_stacks[%s])): self::$_stacks[%s] = []; endif;',
+			'array_unshift(self::$_stacks[%s], trim(ob_get_clean()));',
+		],
+		'prependif' => [
+			'list($__stack_cond, $__stack_name) = [%s]; if ($__stack_cond): ob_start(); if (!isset(self::$_stacks[$__stack_name])): self::$_stacks[$__stack_name] = []; endif;',
+			'array_unshift(self::$_stacks[$__stack_name], trim(ob_get_clean())); endif;',
 		],
 		'isset' => ['if (isset(%s)):', 'endif;'],
 		'unset' => ['if (!isset(%s)):', 'endif;'],
@@ -474,10 +490,11 @@ class TemplateParser_v2
 		// Generate the list of directives to match.
 		foreach (self::$_loopdef as $directive => $def)
 		{
+			$directive = preg_replace('#(.+)if$#', '$1[iI]f', $directive);
 			$directives[] = $directive;
 			if (count($def) > 1)
 			{
-				$directives[] = 'end' . $directive;
+				$directives[] = 'end[' . substr($directive, 0, 1) . strtoupper(substr($directive, 0, 1)) . ']' . substr($directive, 1);
 			}
 		}
 		usort($directives, function($a, $b) { return strlen($b) - strlen($a); });
@@ -489,7 +506,7 @@ class TemplateParser_v2
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Collect the necessary information.
-			$directive = $match[1];
+			$directive = strtolower($match[1]);
 			$args = isset($match[2]) ? self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2)) : '';
 			$stack = null;
 			$code = null;
@@ -539,10 +556,10 @@ class TemplateParser_v2
 						}
 					}
 					$code = self::$_loopdef[$directive][0];
-					$code = strtr($code, ['%uniq' => $uniq, '%array' => $array, '%remainder' => $remainder]);
-					$code = str_contains($code, '%s') ? sprintf($code, $args) : $code;
+					$code = strtr($code, ['%s' => $args, '%uniq' => $uniq, '%array' => $array, '%remainder' => $remainder]);
 					$this->_stack[] = [
 						'directive' => $directive,
+						'args' => $args,
 						'uniq' => $uniq,
 						'array' => $array,
 						'remainder' => $remainder,
@@ -553,8 +570,7 @@ class TemplateParser_v2
 				else
 				{
 					$code = end(self::$_loopdef[$directive]);
-					$code = strtr($code, ['%uniq' => $stack['uniq'], '%array' => $stack['array'], '%remainder' => $stack['remainder']]);
-					$code = str_contains($code, '%s') ? sprintf($code, $args) : $code;
+					$code = strtr($code, ['%s' => $stack['args'], '%uniq' => $stack['uniq'], '%array' => $stack['array'], '%remainder' => $stack['remainder']]);
 				}
 			}
 			else
@@ -621,6 +637,7 @@ class TemplateParser_v2
 	 * @csrf
 	 * @json($var)
 	 * @lang('foo.bar')
+	 * @stack('name')
 	 *
 	 * @param string $content
 	 * @return string
@@ -634,7 +651,7 @@ class TemplateParser_v2
 
 		// Insert JSON, lang codes, and dumps.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#(?<!@)@(json|lang|dump)\x20?('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|stack)\x20?('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
 			if ($match[1] === 'json')
 			{
@@ -649,6 +666,10 @@ class TemplateParser_v2
 			elseif ($match[1] === 'dump')
 			{
 				return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
+			}
+			elseif ($match[1] === 'stack')
+			{
+				return sprintf('<?php echo implode("\n", self::\$_stacks[%s] ?? []) . "\n"; ?>', $args);
 			}
 			else
 			{
