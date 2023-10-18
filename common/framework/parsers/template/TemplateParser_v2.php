@@ -75,6 +75,10 @@ class TemplateParser_v2
 			'list($__stack_cond, $__stack_name) = [%s]; if ($__stack_cond): ob_start(); if (!isset(self::$_stacks[$__stack_name])): self::$_stacks[$__stack_name] = []; endif;',
 			'array_push(self::$_stacks[$__stack_name], trim(ob_get_clean())); endif;',
 		],
+		'pushonce' => [
+			'ob_start(); if (!isset(self::$_stacks[%s])): self::$_stacks[%s] = []; endif;',
+			'$__tmp_%uniq = trim(ob_get_clean()); if (!in_array($__tmp_%uniq, self::$_stacks[%s])): array_push(self::$_stacks[%s], $__tmp_%uniq); endif;',
+		],
 		'prepend' => [
 			'ob_start(); if (!isset(self::$_stacks[%s])): self::$_stacks[%s] = []; endif;',
 			'array_unshift(self::$_stacks[%s], trim(ob_get_clean()));',
@@ -82,6 +86,10 @@ class TemplateParser_v2
 		'prependif' => [
 			'list($__stack_cond, $__stack_name) = [%s]; if ($__stack_cond): ob_start(); if (!isset(self::$_stacks[$__stack_name])): self::$_stacks[$__stack_name] = []; endif;',
 			'array_unshift(self::$_stacks[$__stack_name], trim(ob_get_clean())); endif;',
+		],
+		'prependonce' => [
+			'ob_start(); if (!isset(self::$_stacks[%s])): self::$_stacks[%s] = []; endif;',
+			'$__tmp_%uniq = trim(ob_get_clean()); if (!in_array($__tmp_%uniq, self::$_stacks[%s])): array_unshift(self::$_stacks[%s], $__tmp_%uniq); endif;',
 		],
 		'isset' => ['if (isset(%s)):', 'endif;'],
 		'unset' => ['if (!isset(%s)):', 'endif;'],
@@ -502,8 +510,9 @@ class TemplateParser_v2
 		{
 			foreach (self::$_loopdef as $directive => $def)
 			{
-				$directive = preg_replace('#(.+)if$#', '$1[iI]f', $directive);
+				$directive = preg_replace(['#(?<=\w)once$#', '#(?<=\w)if$#'], ['[Oo]nce', '[Ii]f'], $directive);
 				$directives[] = $directive;
+
 				if (count($def) > 1)
 				{
 					$directives[] = 'end[' . substr($directive, 0, 1) . strtoupper(substr($directive, 0, 1)) . ']' . substr($directive, 1);

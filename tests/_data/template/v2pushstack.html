@@ -2,9 +2,13 @@
 
 <?php $foo = 42; ?>
 
-@push('cms')
+@pushOnce('cms')
 	<li>XE</li>
-@endpush
+@endpushOnce
+
+@pushonce('cms')
+	<li>XE</li>
+@endPushOnce
 
 @push('cms')
 	<li>WordPress</li>
@@ -14,9 +18,13 @@
 	<li>Drupal</li>
 @endPushIf
 
-@prepend('cms')
+@prependOnce('cms')
 	<li>Rhymix</li>
-@endprepend
+@endPrependOnce
+
+@prependonce('cms')
+	<li>Rhymix</li>
+@endprependonce
 
 @prependIf(!$foo, 'cms')
 	<li>Joomla</li>
