@@ -450,11 +450,17 @@ class Template
 	 * Convert a relative path using the given basepath.
 	 *
 	 * @param string $path
-	 * @param string $basepath
+	 * @param ?string $basepath
 	 * @return string
 	 */
-	public function convertPath(string $path, string $basepath): string
+	public function convertPath(string $path, ?string $basepath = null): string
 	{
+		// If basepath is not provided, use the relative dir of the current instance.
+		if ($basepath === null)
+		{
+			$basepath = $this->relative_dirname;
+		}
+
 		// Path relative to the Rhymix installation directory?
 		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
 		{
