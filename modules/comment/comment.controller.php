@@ -969,6 +969,8 @@ class CommentController extends Comment
 			$obj->homepage = $obj->homepage ?? $source_obj->get('homepage');
 		}
 
+		if(($obj->is_secret ?? 'N') !== 'Y') $obj->is_secret = 'N';
+		if(($obj->notify_message ?? 'N') !== 'Y') $obj->notify_message = 'N';
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
 
 		// call a trigger (before)

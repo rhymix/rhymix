@@ -924,6 +924,11 @@ class DocumentController extends Document
 			$obj->ipaddress = $source_obj->get('ipaddress');
 		}
 
+		if(!isset($obj->is_notice)) $obj->is_notice = 'N';
+		if(($obj->title_bold ?? 'N') !== 'Y') $obj->title_bold = 'N';
+		if(($obj->title_color ?? 'N') === 'N') $obj->title_color = 'N';
+		if(($obj->notify_message ?? 'N') !== 'Y') $obj->notify_message = 'N';
+		if(($obj->allow_trackback ?? 'N') !== 'Y') $obj->allow_trackback = 'N';
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
 
 		// Call a trigger (before)
@@ -951,7 +956,6 @@ class DocumentController extends Document
 		if($obj->comment_status) $obj->commentStatus = $obj->comment_status;
 		if(!$obj->commentStatus) $obj->commentStatus = 'DENY';
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
-		if($obj->allow_trackback!='Y') $obj->allow_trackback = 'N';
 		if($obj->homepage)
 		{
 			$obj->homepage = escape($obj->homepage);
@@ -960,8 +964,6 @@ class DocumentController extends Document
 				$obj->homepage = 'http://'.$obj->homepage;
 			}
 		}
-
-		if($obj->notify_message != 'Y') $obj->notify_message = 'N';
 
 		// can modify regdate only manager
 		$grant = Context::get('grant');
