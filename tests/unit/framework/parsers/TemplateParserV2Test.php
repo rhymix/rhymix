@@ -940,6 +940,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@dump($foo, Context::get("var"), (object)["foo" => "bar"])';
 		$target = '<?php ob_start(); var_dump($__Context->foo, Context::get("var"), (object)["foo" => "bar"]); $__dump = ob_get_clean(); echo rtrim($__dump); ?>';
 		$this->assertEquals($target, $this->_parse($source));
+
+		// URL
+		$source = "@url(['mid' => 'foo', 'act' => 'dispBoardWrite'])";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(getNotEncodedUrl(['mid' => 'foo', 'act' => 'dispBoardWrite'])) : getUrl(['mid' => 'foo', 'act' => 'dispBoardWrite']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// URL old-style with variables
+		$source = "@url('', 'mid', \$mid, 'act', \$act])";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(getNotEncodedUrl('', 'mid', \$__Context->mid, 'act', \$__Context->act])) : getUrl('', 'mid', \$__Context->mid, 'act', \$__Context->act]); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testComments()

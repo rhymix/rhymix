@@ -650,7 +650,10 @@ class TemplateParser_v2
 	 * @csrf
 	 * @json($var)
 	 * @lang('foo.bar')
+	 * @dump($var, $var, ...)
+	 * @dd($var, $var, ...)
 	 * @stack('name')
+	 * @url(['mid' => $mid, 'act' => $act])
 	 *
 	 * @param string $content
 	 * @return string
@@ -664,29 +667,26 @@ class TemplateParser_v2
 
 		// Insert JSON, lang codes, and dumps.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|stack)\x20?('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|stack|url)\x20?('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
-			if ($match[1] === 'json')
+			switch ($match[1])
 			{
-				return sprintf('<?php echo $this->config->context === \'JS\' ? ' .
-					'json_encode(%s, self::$_json_options) : ' .
-					'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
-			}
-			elseif ($match[1] === 'lang')
-			{
-				return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(lang(%s)) : lang(%s); ?>', $args, $args);
-			}
-			elseif ($match[1] === 'dump')
-			{
-				return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
-			}
-			elseif ($match[1] === 'stack')
-			{
-				return sprintf('<?php echo implode("\n", self::\$_stacks[%s] ?? []) . "\n"; ?>', $args);
-			}
-			else
-			{
-				return $match[0];
+				case 'json':
+					return sprintf('<?php echo $this->config->context === \'JS\' ? ' .
+						'json_encode(%s, self::$_json_options) : ' .
+						'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
+				case 'lang':
+					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(lang(%s)) : lang(%s); ?>', $args, $args);
+				case 'dump':
+					return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
+				case 'dd':
+					return sprintf('<?php while (ob_get_level()) ob_end_flush(); var_dump(%s); exit(); ?>', $args);
+				case 'stack':
+					return sprintf('<?php echo implode("\n", self::\$_stacks[%s] ?? []) . "\n"; ?>', $args);
+				case 'url':
+					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(getNotEncodedUrl(%s)) : getUrl(%s); ?>', $args, $args);
+				default:
+					return $match[0];
 			}
 		}, $content);
 
