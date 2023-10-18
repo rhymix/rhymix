@@ -1028,9 +1028,9 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		// Get compiled code
 		$compiled_output = $tmpl->compileDirect('./tests/_data/template', 'v2example.html');
 		$tmpvar = preg_match('/\$__tmp_([0-9a-f]{14})/', $compiled_output, $m) ? $m[1] : '';
+		$compiled_output = strtr($compiled_output, [$tmpvar => 'RANDOM_LOOP_ID']);
 		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html', $compiled_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.compiled.html');
-		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($compiled_output)
@@ -1040,7 +1040,6 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$executed_output = $tmpl->compile();
 		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html', $executed_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.executed.html');
-		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($executed_output)
@@ -1050,7 +1049,6 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$fragment_output = $tmpl->getFragment('rhymix');
 		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2example.fragment.html', $fragment_output);
 		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2example.fragment.html');
-		$expected = preg_replace('/RANDOM_LOOP_ID/', $tmpvar, $expected);
 		$this->assertEquals(
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($fragment_output)

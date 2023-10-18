@@ -29,14 +29,14 @@
 </div>
 
 <?php ob_start(); $__last_fragment_name = 'rhymix'; ?>
-<?php $__tmp_64b3371f38fea1 = Context::get('bar') ?? []; if($__tmp_64b3371f38fea1): $__loop_64b3371f38fea1 = $this->_v2_initLoopVar("64b3371f38fea1", $__tmp_64b3371f38fea1); foreach ($__tmp_64b3371f38fea1 as $__Context->k => $__Context->val): ?>
+<?php $__tmp_RANDOM_LOOP_ID = Context::get('bar') ?? []; if($__tmp_RANDOM_LOOP_ID): $__loop_RANDOM_LOOP_ID = $this->_v2_initLoopVar("RANDOM_LOOP_ID", $__tmp_RANDOM_LOOP_ID); foreach ($__tmp_RANDOM_LOOP_ID as $__Context->k => $__Context->val): ?>
 <div>
 <?php if (empty($__Context->nosuchvar)): ?>
 		<img src="/rhymix/tests/_data/template/bar/rhymix.svg" alt="unit tests are cool" />
 		<span <?php if ($__Context->k >= 2): ?>class="<?php echo $this->config->context === 'JS' ? escape_js($__Context->val ?? '') : htmlspecialchars($__Context->val ?? '', \ENT_QUOTES, 'UTF-8', false); ?>"<?php endif; ?>></span>
 <?php endif; ?>
 </div>
-<?php $this->_v2_incrLoopVar($__loop_64b3371f38fea1); endforeach; $this->_v2_removeLoopVar($__loop_64b3371f38fea1); unset($__loop_64b3371f38fea1); else: ?><div>Nothing here...</div><?php endif; ?>
+<?php $this->_v2_incrLoopVar($__loop_RANDOM_LOOP_ID); endforeach; $this->_v2_removeLoopVar($__loop_RANDOM_LOOP_ID); unset($__loop_RANDOM_LOOP_ID); else: ?><div>Nothing here...</div><?php endif; ?>
 <?php $this->_fragments[$__last_fragment_name] = ob_get_flush(); ?>
 
 <?php (function($__filename, $__vars, $__varname, $__empty = null) { if (!$__vars): $__vars = []; if ($__empty): $__filename = $__empty; $__vars[] = ''; endif; endif; foreach ($__vars as $__var): echo $this->_v2_include("include", $__filename, [(string)$__varname => $__var]); endforeach; })('incl/eachtest', $__Context->bar, 'var'); ?>
