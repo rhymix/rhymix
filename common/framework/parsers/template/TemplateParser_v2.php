@@ -35,12 +35,16 @@ class TemplateParser_v2
 	/**
 	 * Definitions of loop and condition directives.
 	 *
+	 * This is not the exhaustive list of Blade-style directives
+	 * supported by TemplateParser v2. Other directives may be handled
+	 * by individual conversion methods, such as _convertIncludes().
+	 *
 	 * %s         : Full PHP code passed to the directive in parentheses.
 	 * %array     : The array used in a foreach/forelse loop.
 	 * %remainder : The remainder of the foreach/forelse loop ($key => $val)
 	 * %uniq      : A random string that identifies a specific loop or condition.
 	 */
-	protected static $_loopdef = [
+	protected static $_directives = [
 		'if' => ['if (%s):', 'endif;'],
 		'unless' => ['if (!(%s)):', 'endif;'],
 		'for' => ['for (%s):', 'endfor;'],
@@ -508,7 +512,7 @@ class TemplateParser_v2
 		// Generate the list of directives to match.
 		if (self::$_directives_regexp === null)
 		{
-			foreach (self::$_loopdef as $directive => $def)
+			foreach (self::$_directives as $directive => $def)
 			{
 				$directive = preg_replace(['#(?<=\w)once$#', '#(?<=\w)if$#'], ['[Oo]nce', '[Ii]f'], $directive);
 				$directives[] = $directive;
@@ -544,19 +548,19 @@ class TemplateParser_v2
 			if ($directive === 'empty' && !$args && !$stack && end($this->_stack)['directive'] === 'forelse')
 			{
 				$stack = end($this->_stack);
-				$code = self::$_loopdef['forelse'][1];
+				$code = self::$_directives['forelse'][1];
 				$code = strtr($code, ['%uniq' => $stack['uniq'], '%array' => $stack['array'], '%remainder' => $stack['remainder']]);
 			}
 
 			// Single directives.
-			elseif (isset(self::$_loopdef[$directive]) && count(self::$_loopdef[$directive]) === 1)
+			elseif (isset(self::$_directives[$directive]) && count(self::$_directives[$directive]) === 1)
 			{
-				$code = self::$_loopdef[$directive][0];
+				$code = self::$_directives[$directive][0];
 				$code = str_contains($code, '%s') ? sprintf($code, $args) : $code;
 			}
 
 			// Paired directives.
-			elseif (isset(self::$_loopdef[$directive]))
+			elseif (isset(self::$_directives[$directive]))
 			{
 				// Starting directive.
 				if (!$stack)
@@ -577,7 +581,7 @@ class TemplateParser_v2
 							$remainder = '';
 						}
 					}
-					$code = self::$_loopdef[$directive][0];
+					$code = self::$_directives[$directive][0];
 					$code = strtr($code, ['%s' => $args, '%uniq' => $uniq, '%array' => $array, '%remainder' => $remainder]);
 					$this->_stack[] = [
 						'directive' => $directive,
@@ -591,7 +595,7 @@ class TemplateParser_v2
 				// Ending directive.
 				else
 				{
-					$code = end(self::$_loopdef[$directive]);
+					$code = end(self::$_directives[$directive]);
 					$code = strtr($code, ['%s' => $stack['args'], '%uniq' => $stack['uniq'], '%array' => $stack['array'], '%remainder' => $stack['remainder']]);
 				}
 			}
