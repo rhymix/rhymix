@@ -6,7 +6,7 @@
 <load src="css/style.scss" media="print" />
 
 <?php
-	$foo = 'FOOFOOFOO';
+	$foo = 'FOOFOO<"FOO">BAR';
 ?>
 @php
 	$bar = ['Rhy', 'miX', 'is', 'da', 'BEST!'];
@@ -61,5 +61,6 @@
 </div>
 
 <script type="text/javascript">
+	const foo = '{{ $foo }}';
 	const bar = @json($bar);
 </script>

@@ -37,6 +37,7 @@ class Template
 	 */
 	protected static $_mtime;
 	protected static $_delay_compile;
+	protected static $_json_options;
 
 	/**
 	 * Provided for compatibility with old TemplateHandler.
@@ -75,6 +76,10 @@ class Template
 		if (self::$_delay_compile === null)
 		{
 			self::$_delay_compile = config('view.delay_compile') ?? 0;
+		}
+		if (self::$_json_options === null)
+		{
+			self::$_json_options = \JSON_HEX_TAG | \JSON_HEX_AMP | \JSON_HEX_APOS | \JSON_HEX_QUOT | \JSON_UNESCAPED_UNICODE;
 		}
 
 		// If paths were provided, initialize immediately.
@@ -767,7 +772,42 @@ class Template
 			case 'admin': return $this->user->isAdmin();
 			case 'manager': return $grant->manager ?? false;
 			case 'member': return $this->user->isMember();
-			default: return $grant->$type ?? false;
+			default: false;
+		}
+	}
+
+	/**
+	 * Capability checker for v2.
+	 *
+	 * @param int $check_type
+	 * @param string|array $capability
+	 * @return bool
+	 */
+	protected function _v2_checkCapability(int $check_type, $capability): bool
+	{
+		$grant = \Context::get('grant');
+		if ($check_type === 1)
+		{
+			return isset($grant->$capability) ? boolval($grant->$capability) : false;
+		}
+		elseif ($check_type === 2)
+		{
+			return isset($grant->$capability) ? !boolval($grant->$capability) : true;
+		}
+		elseif (is_array($capability))
+		{
+			foreach ($capability as $cap)
+			{
+				if (isset($grant->$cap) && $grant->$cap)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		else
+		{
+			return false;
 		}
 	}
 

@@ -234,7 +234,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 	{
 		// Basic usage of XE-style single braces
 		$source = '{$var}';
-		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->var ?? '') : htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Single braces with space at beginning will not be parsed
@@ -244,22 +244,22 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Single braces with space at end are OK
 		$source = '{$var  }';
-		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->var ?? '') : htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Correct handling of object property and array access
 		$source = '{Context::getRequestVars()->$foo[$bar]}';
-		$target = "<?php echo htmlspecialchars(Context::getRequestVars()->{\$__Context->foo}[\$__Context->bar], \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(Context::getRequestVars()->{\$__Context->foo}[\$__Context->bar]) : htmlspecialchars(Context::getRequestVars()->{\$__Context->foo}[\$__Context->bar], \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Basic usage of Blade-style double braces
 		$source = '{{ $var }}';
-		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->var ?? '') : htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Double braces without spaces are OK
 		$source = '{{$var}}';
-		$target = "<?php echo htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->var ?? '') : htmlspecialchars(\$__Context->var ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Literal double braces
@@ -273,13 +273,13 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Callback function inside echo statement
-		$source = '{{ implode("|", array_map(function(\$i) { return \$i + 1; }, $list) }}';
-		$target = "<?php echo htmlspecialchars(implode(\"|\", array_map(function(\$i) { return \$i + 1; }, \$__Context->list), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$source = '{{ implode("|", array_map(function(\$i) { return \$i + 1; }, $list) | noescape }}';
+		$target = "<?php echo implode(\"|\", array_map(function(\$i) { return \$i + 1; }, \$__Context->list); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Multiline echo statement
 		$source = '{{ $foo ?' . "\n" . '  date($foo) :' . "\n" . '  toBool($bar) }}';
-		$target = "<?php echo htmlspecialchars(\$__Context->foo ?\n  date(\$__Context->foo) :\n  toBool(\$__Context->bar), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->foo ?   date(\$__Context->foo) :   toBool(\$__Context->bar)) : htmlspecialchars(\$__Context->foo ?\n  date(\$__Context->foo) :\n  toBool(\$__Context->bar), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 	}
 
@@ -315,9 +315,17 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = "<?php echo htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
-		// Autolang
+		// Autolang (lang codes are not escaped, but escape_js() is applied in JS context)
 		$source = '{{ $foo|autolang }}';
-		$target = "<?php echo (preg_match('/^$(?:user_)?lang->\w+$/', \$__Context->foo ?? '') ? (\$__Context->foo ?? '') : htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false)); ?>";
+		$target = "<?php echo (preg_match('/^\\\$(?:user_)?lang->\w+$/', \$__Context->foo ?? '') ? (\$__Context->foo ?? '') : htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false)); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '{{ $lang->cmd_hello_world }}';
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->lang->cmd_hello_world) : (\$__Context->lang->cmd_hello_world); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '{{ $user_lang->user_lang_1234567890 }}';
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->user_lang->user_lang_1234567890 ?? '') : (\$__Context->user_lang->user_lang_1234567890 ?? ''); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Escape
@@ -344,19 +352,19 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '{{ $foo|json }}';
 		$target = implode('', [
 			"<?php echo \$this->config->context === 'JS' ? ",
-			"(json_encode(\$__Context->foo ?? '', \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT)) : ",
-			"htmlspecialchars(json_encode(\$__Context->foo ?? '', \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, 'UTF-8', false); ?>",
+			"json_encode(\$__Context->foo ?? '', self::\$_json_options) : ",
+			"htmlspecialchars(json_encode(\$__Context->foo ?? '', self::\$_json_options), \ENT_QUOTES, 'UTF-8', false); ?>",
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 
 		// strip_tags
 		$source = '{{ $foo|strip }}';
-		$target = "<?php echo htmlspecialchars(strip_tags(\$__Context->foo ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(strip_tags(\$__Context->foo ?? '')) : htmlspecialchars(strip_tags(\$__Context->foo ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// strip_tags (alternate name)
 		$source = '{{ $foo|upper|strip_tags }}';
-		$target = "<?php echo htmlspecialchars(strip_tags(strtoupper(\$__Context->foo ?? '')), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(strip_tags(strtoupper(\$__Context->foo ?? ''))) : htmlspecialchars(strip_tags(strtoupper(\$__Context->foo ?? '')), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Trim
@@ -366,12 +374,12 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// URL encode
 		$source = '{{ $foo|trim|urlencode }}';
-		$target = "<?php echo htmlspecialchars(rawurlencode(trim(\$__Context->foo ?? '')), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(rawurlencode(trim(\$__Context->foo ?? ''))) : htmlspecialchars(rawurlencode(trim(\$__Context->foo ?? '')), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Lowercase
 		$source = '{{ $foo|trim|lower }}';
-		$target = "<?php echo htmlspecialchars(strtolower(trim(\$__Context->foo ?? '')), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(strtolower(trim(\$__Context->foo ?? ''))) : htmlspecialchars(strtolower(trim(\$__Context->foo ?? '')), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Uppercase
@@ -391,62 +399,62 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Array join (default joiner is comma)
 		$source = '{{ $foo|join }}';
-		$target = "<?php echo htmlspecialchars(implode(', ', \$__Context->foo ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(implode(', ', \$__Context->foo ?? '')) : htmlspecialchars(implode(', ', \$__Context->foo ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Array join (custom joiner)
 		$source = '{{ $foo|join:"!@!" }}';
-		$target = "<?php echo htmlspecialchars(implode(\"!@!\", \$__Context->foo ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(implode(\"!@!\", \$__Context->foo ?? '')) : htmlspecialchars(implode(\"!@!\", \$__Context->foo ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Date conversion (default format)
 		$source = '{{ $item->regdate | date }}';
-		$target = "<?php echo htmlspecialchars(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), 'Y-m-d H:i:s'), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), 'Y-m-d H:i:s')) : htmlspecialchars(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), 'Y-m-d H:i:s'), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Date conversion (custom format)
 		$source = "{{ \$item->regdate | date:'n/j H:i' }}";
-		$target = "<?php echo htmlspecialchars(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), 'n/j H:i'), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), 'n/j H:i')) : htmlspecialchars(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), 'n/j H:i'), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Date conversion (custom format in variable)
 		$source = "{{ \$item->regdate | date:\$format }}";
-		$target = "<?php echo htmlspecialchars(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), \$__Context->format), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), \$__Context->format)) : htmlspecialchars(getDisplayDateTime(ztime(\$__Context->item->regdate ?? ''), \$__Context->format), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number format
 		$source = '{{ $num | format }}';
-		$target = "<?php echo htmlspecialchars(number_format(\$__Context->num ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(number_format(\$__Context->num ?? '')) : htmlspecialchars(number_format(\$__Context->num ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number format (alternate name)
 		$source = '{{ $num | number_format }}';
-		$target = "<?php echo htmlspecialchars(number_format(\$__Context->num ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(number_format(\$__Context->num ?? '')) : htmlspecialchars(number_format(\$__Context->num ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number format (custom format)
-		$source = '{{ $num | number_format:6 }}';
-		$target = "<?php echo htmlspecialchars(number_format(\$__Context->num ?? '', '6'), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$source = '{{ $num | number_format:6 | noescape }}';
+		$target = "<?php echo number_format(\$__Context->num ?? '', '6'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number format (custom format in variable)
-		$source = '{{ $num | number_format:$digits }}';
-		$target = "<?php echo htmlspecialchars(number_format(\$__Context->num ?? '', \$__Context->digits), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$source = '{{ $num | number_format:$digits | noescape }}';
+		$target = "<?php echo number_format(\$__Context->num ?? '', \$__Context->digits); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number shorten
-		$source = '{{ $num | shorten }}';
-		$target = "<?php echo htmlspecialchars(number_shorten(\$__Context->num ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$source = '{{ $num | shorten | noescape }}';
+		$target = "<?php echo number_shorten(\$__Context->num ?? ''); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number shorten (alternate name)
-		$source = '{{ $num | number_shorten }}';
-		$target = "<?php echo htmlspecialchars(number_shorten(\$__Context->num ?? ''), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$source = '{{ $num | number_shorten | noescape }}';
+		$target = "<?php echo number_shorten(\$__Context->num ?? ''); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Number shorten (custom format)
-		$source = '{{ $num | number_shorten:1 }}';
-		$target = "<?php echo htmlspecialchars(number_shorten(\$__Context->num ?? '', '1'), \ENT_QUOTES, 'UTF-8', false); ?>";
+		$source = '{{ $num | number_shorten:1 | noescape }}';
+		$target = "<?php echo number_shorten(\$__Context->num ?? '', '1'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Link
@@ -489,12 +497,12 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// $lang
 		$source = "{!! \$lang->cmd_yes !!}";
-		$target = "<?php echo \$__Context->lang->cmd_yes ?? ''; ?>";
+		$target = "<?php echo \$__Context->lang->cmd_yes; ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// $loop
 		$source = "{!! \$loop->first !!}";
-		$target = "<?php echo end(self::\$_loopvars)->first; ?>";
+		$target = "<?php echo end(self::\$_loopvars)->first ?? ''; ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Escaped dollar sign
@@ -731,7 +739,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		]);
 		$target = implode("\n", [
 			"<?php if (\$this->_v2_errorExists('email', 'login')): ?>",
-			"<?php echo htmlspecialchars(\$__Context->message ?? '', \ENT_QUOTES, 'UTF-8', false); ?>",
+			"<?php echo \$this->config->context === 'JS' ? escape_js(\$__Context->message ?? '') : htmlspecialchars(\$__Context->message ?? '', \ENT_QUOTES, 'UTF-8', false); ?>",
 			'<?php endif; ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
@@ -800,6 +808,34 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'<?php endif; ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
+
+		// @can and @cannot, @canany
+		$source = implode("\n", [
+			"@can('foo')",
+			'Hello World',
+			'@endcan',
+			"<!--@cannot('bar') -->",
+			"@canany(['foo', 'bar'])",
+			'Goodbye World',
+			'<!--@endcanany-->',
+			'<!--@end-->'
+		]);
+		$target = implode("\n", [
+			'<?php if ($this->_v2_checkCapability(1, \'foo\')): ?>',
+			'Hello World',
+			'<?php endif; ?>',
+			'<?php if ($this->_v2_checkCapability(2, \'bar\')): ?>',
+			'<?php if ($this->_v2_checkCapability(3, [\'foo\', \'bar\'])): ?>',
+			'Goodbye World',
+			'<?php endif; ?>',
+			'<?php endif; ?>',
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// @env
+		$source = "@env('foo') FOO @endenv";
+		$target = '<?php if (!empty($_ENV[\'foo\'])): ?> FOO <?php endif; ?>';
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testInlineConditions()
@@ -866,8 +902,8 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@json($var)';
 		$target = implode('', [
 			'<?php echo $this->config->context === \'JS\' ? ',
-			'json_encode($__Context->var, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ',
-			'htmlspecialchars(json_encode($__Context->var, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>',
+			'json_encode($__Context->var, self::$_json_options) : ',
+			'htmlspecialchars(json_encode($__Context->var, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 
@@ -875,8 +911,8 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@json(["foo" => 1, "bar" => 2])';
 		$target = implode('', [
 			'<?php echo $this->config->context === \'JS\' ? ',
-			'json_encode(["foo" => 1, "bar" => 2], \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ',
-			'htmlspecialchars(json_encode(["foo" => 1, "bar" => 2], \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>',
+			'json_encode(["foo" => 1, "bar" => 2], self::$_json_options) : ',
+			'htmlspecialchars(json_encode(["foo" => 1, "bar" => 2], self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
 

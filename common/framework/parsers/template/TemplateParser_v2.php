@@ -88,9 +88,13 @@ class TemplateParser_v2
 		'empty' => ['if (empty(%s)):', 'endif;'],
 		'admin' => ['if ($this->user->isAdmin()):', 'endif;'],
 		'auth' => ['if ($this->_v2_checkAuth(%s)):', 'endif;'],
+		'can' => ['if ($this->_v2_checkCapability(1, %s)):', 'endif;'],
+		'cannot' => ['if ($this->_v2_checkCapability(2, %s)):', 'endif;'],
+		'canany' => ['if ($this->_v2_checkCapability(3, %s)):', 'endif;'],
 		'guest' => ['if (!$this->user->isMember()):', 'endif;'],
 		'desktop' => ['if (!$__Context->m):', 'endif;'],
 		'mobile' => ['if ($__Context->m):', 'endif;'],
+		'env' => ['if (!empty($_ENV[%s])):', 'endif;'],
 		'else' => ['else:'],
 		'elseif' => ['elseif (%s):'],
 		'case' => ['case %s:'],
@@ -665,8 +669,8 @@ class TemplateParser_v2
 			if ($match[1] === 'json')
 			{
 				return sprintf('<?php echo $this->config->context === \'JS\' ? ' .
-					'json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT) : ' .
-					'htmlspecialchars(json_encode(%s, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
+					'json_encode(%s, self::$_json_options) : ' .
+					'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 			}
 			elseif ($match[1] === 'lang')
 			{
@@ -726,22 +730,29 @@ class TemplateParser_v2
 	 */
 	protected function _arrangeOutputFilters(array $match): string
 	{
-		// Escape is 'autoescape' by default.
-		$escape_option = 'autoescape';
-
 		// Split content into filters.
 		$filters = array_map('trim', preg_split('#(?<![\\\\\|])\|(?![\|\'"])#', $match[1]));
 		$str = strtr(array_shift($filters), ['\\|' => '|']);
 
-		// Convert variable scope before applying filters.
-		$str = $this->_escapeCurly($str);
-		$str = $this->_convertVariableScope($str);
+		// Set default escape option.
+		if (preg_match('/^\\$(?:user_)?lang->\\w+$/', $str))
+		{
+			$escape_option = 'autocontext_lang';
+		}
+		else
+		{
+			$escape_option = 'autocontext';
+		}
 
 		// Prevent null errors.
-		if (preg_match('#^\$[\\\\\w\[\]\'":>-]+$#', $str))
+		if (preg_match('#^\$[\\\\\w\[\]\'":>-]+$#', $str) && !str_starts_with($str, '$lang->'))
 		{
-			$str = preg_match('/^\$lang->/', $str) ? $str : "$str ?? ''";
+			$str = "$str ?? ''";
 		}
+
+		// Convert variable scope and escape any curly braces.
+		$str = $this->_escapeCurly($str);
+		$str = $this->_convertVariableScope($str);
 
 		// Apply filters.
 		foreach ($filters as $filter)
@@ -777,8 +788,8 @@ class TemplateParser_v2
 					$escape_option = 'noescape';
 					break;
 				case 'json':
-					$str = "json_encode({$str}, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES | \JSON_HEX_TAG | \JSON_HEX_QUOT)";
-					$escape_option = 'autocontext';
+					$str = "json_encode({$str}, self::\$_json_options)";
+					$escape_option = 'autocontext_json';
 					break;
 				case 'strip':
 				case 'strip_tags':
@@ -797,7 +808,7 @@ class TemplateParser_v2
 					$str = "strtoupper({$str})";
 					break;
 				case 'nl2br':
-					$str = self::_applyEscapeOption($str, $escape_option);
+					$str = self::_applyEscapeOption($str, $escape_option === 'autocontext' ? 'autoescape' : $escape_option);
 					$str = "nl2br({$str})";
 					$escape_option = 'noescape';
 					break;
@@ -816,10 +827,10 @@ class TemplateParser_v2
 					$str = $filter_option ? "number_shorten({$str}, {$filter_option})" : "number_shorten({$str})";
 					break;
 				case 'link':
-					$str = self::_applyEscapeOption($str, $escape_option);
+					$str = self::_applyEscapeOption($str, $escape_option === 'autocontext' ? 'autoescape' : $escape_option);
 					if ($filter_option)
 					{
-						$filter_option = self::_applyEscapeOption($filter_option, $escape_option);
+						$filter_option = self::_applyEscapeOption($filter_option, $escape_option === 'autocontext' ? 'autoescape' : $escape_option);
 						$str = "'<a href=\"' . ($filter_option) . '\">' . ($str) . '</a>'";
 					}
 					else
@@ -847,14 +858,19 @@ class TemplateParser_v2
 	 */
 	protected static function _applyEscapeOption(string $str, string $option): string
 	{
+		$str2 = strtr($str, ["\n" => ' ']);
 		switch($option)
 		{
 			case 'autocontext':
-				return "\$this->config->context === 'JS' ? ({$str}) : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
+				return "\$this->config->context === 'JS' ? escape_js({$str2}) : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
+			case 'autocontext_json':
+				return "\$this->config->context === 'JS' ? {$str2} : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
+			case 'autocontext_lang':
+				return "\$this->config->context === 'JS' ? escape_js({$str2}) : ({$str})";
 			case 'autoescape':
 				return "htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
 			case 'autolang':
-				return "(preg_match('/^\\$(?:user_)?lang->\\w+$/', {$str}) ? ({$str}) : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false))";
+				return "(preg_match('/^\\\\\$(?:user_)?lang->\\w+$/', {$str2}) ? ({$str}) : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false))";
 			case 'escape':
 				return "htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', true)";
 			case 'noescape':
