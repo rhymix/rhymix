@@ -552,47 +552,19 @@ class Template
 	 * Fortunately, there are only a handful of valid options for the type,
 	 * media, and index attributes.
 	 *
-	 * @param ...$args
+	 * @param string $path
+	 * @param string $media_type
+	 * @param int $index
+	 * @param array|object $vars
 	 * @return void
 	 */
-	protected function _v2_loadResource(...$args): void
+	protected function _v2_loadResource(string $path, $media_type = null, $index = null, $vars = null): void
 	{
 		// Assign the path.
-		$path = null;
-		if (count($args))
-		{
-			$path = array_shift($args);
-		}
 		if (empty($path))
 		{
 			trigger_error('Resource loading directive used with no path', \E_USER_WARNING);
 			return;
-		}
-
-		// Assign the remaining arguments to respective array keys.
-		$info = [];
-		while ($value = array_shift($args))
-		{
-			if (preg_match('#^([\'"])(head|body)\1$#', $value, $match))
-			{
-				$info['type'] = $match[2];
-			}
-			elseif (preg_match('#^([\'"])((?:screen|print)[^\'"]*)\1$#', $value, $match))
-			{
-				$info['media'] = $match[2];
-			}
-			elseif (preg_match('#^([\'"])([0-9]+)\1$#', $value, $match))
-			{
-				$info['index'] = $match[2];
-			}
-			elseif (ctype_digit($value))
-			{
-				$info['index'] = $value;
-			}
-			else
-			{
-				$info['vars'] = $value;
-			}
 		}
 
 		// Check whether the path is an internal or external link.
@@ -610,8 +582,32 @@ class Template
 			$external = true;
 		}
 
+		// If any of the variables seems to be an array or object, it's $vars.
+		if (!is_scalar($media_type))
+		{
+			$vars = $media_type;
+			$media_type = null;
+		}
+		if (!is_scalar($index))
+		{
+			$vars = $index;
+			$index = null;
+		}
+		if (ctype_digit($media_type ?? ''))
+		{
+			$index = $media_type;
+			$media_type = null;
+		}
+
+		// Split the media type if it has a colon in it.
+		if (preg_match('#^(css|js):(.+)$#s', $media_type ?? '', $match))
+		{
+			$media_type = trim($match[2]);
+			$type = $match[1];
+		}
+
 		// Determine the type of resource.
-		if (!$external && str_starts_with($path, './common/js/plugins/'))
+		elseif (!$external && str_starts_with($path, './common/js/plugins/'))
 		{
 			$type = 'jsplugin';
 		}
@@ -654,19 +650,19 @@ class Template
 		{
 			\Context::loadFile([
 				$path,
-				$info['type'] ?? '',
+				$media_type ?? '',
 				$external ? $this->source_type : '',
-				isset($info['index']) ? intval($info['index']) : '',
+				$index ? intval($index) : '',
 			]);
 		}
 		elseif ($type === 'css' || $type === 'scss' || $type === 'less')
 		{
 			\Context::loadFile([
 				$path,
-				$info['media'] ?? '',
+				$media_type ?? '',
 				$external ? $this->source_type : '',
-				isset($info['index']) ? intval($info['index']) : '',
-				$info['vars'] ?? [],
+				$index ? intval($index) : '',
+				$vars ?? [],
 			]);
 		}
 		else

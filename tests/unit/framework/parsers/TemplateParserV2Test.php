@@ -179,8 +179,8 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style SCSS with media and variables
-		$source = "@load('assets/hello.scss', 'print', \$vars)";
-		$target = "<?php \$this->_v2_loadResource('assets/hello.scss', 'print', \$__Context->vars); ?>";
+		$source = "@load('assets/hello.scss', 'print', 0, \$vars)";
+		$target = "<?php \$this->_v2_loadResource('assets/hello.scss', 'print', 0, \$__Context->vars); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		$source = "@load ('../hello.css', 'screen')";
