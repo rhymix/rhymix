@@ -256,12 +256,19 @@ class TemplateParser_v2
 	protected function _convertPHPSections(string $content): string
 	{
 		$callback = function($match) {
-			$open = '<?php' . (preg_match('#^\s#', $match[2]) ? '' : ' ');
+			if ($match[1] === '<?=')
+			{
+				$open = '<?php echo' . (preg_match('#^\s#', $match[2]) ? '' : ' ');
+			}
+			else
+			{
+				$open = '<?php' . (preg_match('#^\s#', $match[2]) ? '' : ' ');
+			}
 			$close = (preg_match('#\s$#', $match[2]) ? '' : ' ') . '?>';
 			return $open . self::_convertVariableScope($match[2]) . $close;
 		};
 
-		$content = preg_replace_callback('#(<\?php|<\?(?!=))(.+?)(\?>)#s', $callback, $content);
+		$content = preg_replace_callback('#(<\?php|<\?=?)(.+?)(\?>)#s', $callback, $content);
 		$content = preg_replace_callback('#(\{@)(.+?)(\})#s', $callback, $content);
 		$content = preg_replace_callback('#(?<!@)(@php)\b(.+?)(?<!@)(@endphp)\b#s', $callback, $content);
 		return $content;

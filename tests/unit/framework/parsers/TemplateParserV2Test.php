@@ -1036,6 +1036,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = '<?php $__Context->foo = 42; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
+		// Short PHP tags
+		$source = '<? foo($bar); ?>';
+		$target = '<?php foo($__Context->bar); ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Short PHP echo tags
+		$source = '<?=$foo?>';
+		$target = '<?php echo $__Context->foo ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
 		// XE-style {@ ... } notation
 		$source = '{@ $foo = 42; }';
 		$target = '<?php $__Context->foo = 42; ?>';
