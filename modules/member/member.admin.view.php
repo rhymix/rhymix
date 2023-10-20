@@ -659,7 +659,7 @@ class MemberAdminView extends Member
 					}
 					else
 					{
-						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N' && !$isSignup)
+						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N' && !$isAdmin && !$isSignup)
 						{
 							$readonly = 'readonly="readonly" ';
 						}
