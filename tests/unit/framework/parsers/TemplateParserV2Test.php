@@ -228,6 +228,24 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@load("^/modules/legacy_module/lang/lang.xml")';
 		$target = '<?php $this->_v2_loadResource("^/modules/legacy_module/lang/lang.xml"); ?>';
 		$this->assertEquals($target, $this->_parse($source));
+
+		// XE-style unload
+		$source = '<unload src="script.js" />';
+		$target = "<?php \Context::unloadFile('tests/_data/template/script.js', '', 'all'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<unload src="css/styles.css" media="braille" />';
+		$target = "<?php \Context::unloadFile('tests/_data/template/css/styles.css', '', 'braille'); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Blade-style unload
+		$source = "@unload('../script.js')";
+		$target = "<?php \Context::unloadFile(\$this->convertPath('../script.js')); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = "@unload('^/common/js/jquery.js')";
+		$target = "<?php \Context::unloadFile(\$this->convertPath('^/common/js/jquery.js')); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testEchoStatements()

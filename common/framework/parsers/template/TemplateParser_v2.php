@@ -416,7 +416,7 @@ class TemplateParser_v2
 		$regexp = '#(?<!@)@(include(?:If|When|Unless)?)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$directive = trim($match[1]);
-			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
+			$args = self::_convertVariableScope(substr($match[2], 1, -1));
 			return sprintf("<?php echo \$this->_v2_include('%s', %s); ?>", $directive, $args);
 		}, $content);
 
@@ -426,7 +426,7 @@ class TemplateParser_v2
 		$content = preg_replace_callback($regexp, function($match) {
 
 			// Convert the path if necessary.
-			$args = self::_convertVariableScope(substr($match[1], 1, strlen($match[1]) - 2));
+			$args = self::_convertVariableScope(substr($match[1], 1, -1));
 
 			// Generate the loop code.
 			$tpl = '<?php (function($__filename, $__vars, $__varname, $__empty = null) { ';
@@ -462,23 +462,40 @@ class TemplateParser_v2
 	protected function _convertResource(string $content): string
 	{
 		// Convert XE-style load directives.
-		$regexp = '#(<load(?:\s+(?:target|src|type|media|index|vars)="(?:[^"]+)")+\s*/?>)#';
+		$regexp = '#(<(load|unload)(?:\s+(?:target|src|type|media|index|vars)="(?:[^"]+)")+\s*/?>)#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$attrs = self::_getTagAttributes($match[1]);
-			return vsprintf('<?php \$this->_v2_loadResource(%s, %s, %s, %s); ?>', [
-				var_export($attrs['src'] ?? ($attrs['target'] ?? ''), true),
-				var_export($attrs['type'] ?? ($attrs['media'] ?? ''), true),
-				var_export($attrs['index'] ?? '', true),
-				self::_convertVariableScope($attrs['vars'] ?? '') ?: '[]',
-			]);
+			if ($match[2] === 'load')
+			{
+				return vsprintf('<?php \$this->_v2_loadResource(%s, %s, %s, %s); ?>', [
+					var_export($attrs['src'] ?? ($attrs['target'] ?? ''), true),
+					var_export($attrs['type'] ?? ($attrs['media'] ?? ''), true),
+					var_export($attrs['index'] ?? '', true),
+					self::_convertVariableScope($attrs['vars'] ?? '') ?: '[]',
+				]);
+			}
+			else
+			{
+				return vsprintf('<?php \Context::unloadFile(%s, \'\', %s); ?>', [
+					var_export($this->template->convertPath($attrs['src'] ?? ($attrs['target'] ?? '')), true),
+					var_export($attrs['media'] ?? 'all', true),
+				]);
+			}
 		}, $content);
 
 		// Convert Blade-style load directives.
-		$parentheses = self::_getRegexpForParentheses(1);
-		$regexp = '#(?<!@)@load\x20?(' . $parentheses . ')#';
+		$parentheses = self::_getRegexpForParentheses(2);
+		$regexp = '#(?<!@)@(load|unload)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
-			$args = self::_convertVariableScope(substr($match[1], 1, strlen($match[1]) - 2));
-			return sprintf('<?php \$this->_v2_loadResource(%s); ?>', $args);
+			$args = self::_convertVariableScope(substr($match[2], 1, -1));
+			if ($match[1] === 'load')
+			{
+				return sprintf('<?php \$this->_v2_loadResource(%s); ?>', $args);
+			}
+			else
+			{
+				return sprintf('<?php \Context::unloadFile(\$this->convertPath(%s)); ?>', $args);
+			}
 		}, $content);
 
 		return $content;
@@ -533,7 +550,7 @@ class TemplateParser_v2
 
 			// Collect the necessary information.
 			$directive = strtolower($match[1]);
-			$args = isset($match[2]) ? self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2)) : '';
+			$args = isset($match[2]) ? self::_convertVariableScope(substr($match[2], 1, -1)) : '';
 			$stack = null;
 			$code = null;
 
@@ -650,7 +667,7 @@ class TemplateParser_v2
 		$regexp = '#\s*(?<!@)@(class|style)\x20?(' . $parentheses . ')#';
 		$content = preg_replace_callback($regexp, function($match) {
 			$attribute = trim($match[1]);
-			$definitions = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
+			$definitions = self::_convertVariableScope(substr($match[2], 1, -1));
 			return sprintf("<?php echo \$this->_v2_buildAttribute('%s', %s); ?>", $attribute, $definitions);
 		}, $content);
 
@@ -681,7 +698,7 @@ class TemplateParser_v2
 		// Insert JSON, lang codes, and dumps.
 		$parentheses = self::_getRegexpForParentheses(2);
 		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|stack|url)\x20?('. $parentheses . ')#', function($match) {
-			$args = self::_convertVariableScope(substr($match[2], 1, strlen($match[2]) - 2));
+			$args = self::_convertVariableScope(substr($match[2], 1, -1));
 			switch ($match[1])
 			{
 				case 'json':
