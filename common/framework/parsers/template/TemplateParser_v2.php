@@ -149,6 +149,7 @@ class TemplateParser_v2
 		$content = $this->_convertInlineDirectives($content);
 		$content = $this->_convertMiscDirectives($content);
 		$content = $this->_convertEchoStatements($content);
+		$content = $this->_addDeprecationMessages($content);
 
 		// Postprocessing.
 		$content = $this->_postprocess($content);
@@ -915,6 +916,31 @@ class TemplateParser_v2
 			default:
 				return "htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
 		}
+	}
+
+	/**
+	 * Add an error message if any supported v1 syntax is found.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected function _addDeprecationMessages(string $content): string
+	{
+		// <block>
+		$content = preg_replace_callback('#<block(?=\s)#', function($match) {
+			return $match[0] . '<?php trigger_error("block element is not supported in template v2", \E_USER_WARNING); ?>';
+		}, $content);
+
+		// cond, loop
+		$content = preg_replace_callback('#(?<=\s)(cond|loop)="([^"]+)"#', function($match) {
+			if ($match[1] === 'loop' && ctype_alnum($match[2]))
+			{
+				return $match[0];
+			}
+			return '<?php trigger_error("' . $match[1] . ' attribute is not supported in template v2", \E_USER_WARNING); ?>';
+		}, $content);
+
+		return $content;
 	}
 
 	/**

@@ -1057,6 +1057,43 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertEquals($target, $this->_parse($source));
 	}
 
+	public function testDeprecationMessages()
+	{
+		// <block> element
+		$source = '<block class="foobar">';
+		$target = '<block<?php trigger_error("block element is not supported in template v2", \E_USER_WARNING); ?> class="foobar">';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// cond
+		$source = '<div cond="$foo->isBar()"></div>';
+		$target = '<div <?php trigger_error("cond attribute is not supported in template v2", \E_USER_WARNING); ?>></div>';;
+		$this->assertEquals($target, $this->_parse($source));
+
+		// cond is OK in includes
+		$source = '<include src="foo.html" cond="$bar" />';
+		$target = '<?php if(!empty($bar)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foo.html", "html"); echo $__tpl->compile(); ?><?php endif; ?>';;
+		$this->assertEquals($target, $this->_parse($source));
+
+		// loop
+		$source = '<tr loop="$foo => $bar"></tr>';
+		$target = '<tr <?php trigger_error("loop attribute is not supported in template v2", \E_USER_WARNING); ?>></tr>';;
+		$this->assertEquals($target, $this->_parse($source));
+
+		// loop is OK in multimedia elements
+		$source = '<video autoplay loop="loop"></video>';
+		$target = '<video autoplay loop="loop"></video>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Comprehensive example
+		$source = '<block cond="$foo" loop="$arr => $k, $v"></block>';
+		$target = implode('', [
+			'<block<?php trigger_error("block element is not supported in template v2", \E_USER_WARNING); ?> ',
+			'<?php trigger_error("cond attribute is not supported in template v2", \E_USER_WARNING); ?> ',
+			'<?php trigger_error("loop attribute is not supported in template v2", \E_USER_WARNING); ?>></block>',
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+	}
+
 	public function testCompile()
 	{
 		// General example
