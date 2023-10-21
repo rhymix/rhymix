@@ -13,9 +13,16 @@ class Template
 	public $user;
 
 	/**
-	 * Properties for internal use
+	 * Properties for configuration
 	 */
 	public $config;
+	public $source_type;
+	public $parent;
+	public $vars;
+
+	/**
+	 * Properties for path manipulation
+	 */
 	public $absolute_dirname;
 	public $relative_dirname;
 	public $filename;
@@ -23,17 +30,23 @@ class Template
 	public $exists;
 	public $absolute_path;
 	public $relative_path;
-	public $cache_path;
+
+	/**
+	 * Properties for caching
+	 */
 	public $cache_enabled = true;
-	public $source_type;
-	public $ob_level;
-	public $vars;
+	public $cache_path;
+
+	/**
+	 * Properties for state management during compilation/execution
+	 */
+	protected $_ob_level;
 	protected $_fragments = [];
 	protected static $_loopvars = [];
 	protected static $_stacks = [];
 
 	/**
-	 * Static properties
+	 * Properties for optimization
 	 */
 	protected static $_mtime;
 	protected static $_delay_compile;
@@ -189,6 +202,27 @@ class Template
 	public function exists(): bool
 	{
 		return $this->exists ? true : false;
+	}
+
+	/**
+	 * Get the parent template.
+	 *
+	 * @return ?self
+	 */
+	public function getParent(): ?self
+	{
+		return $this->parent;
+	}
+
+	/**
+	 * Set the parent template.
+	 *
+	 * @param ?self $parent
+	 * @return void
+	 */
+	public function setParent(self $parent): void
+	{
+		$this->parent = $parent;
 	}
 
 	/**
@@ -395,7 +429,7 @@ class Template
 		$__Context = $this->vars ?: \Context::getAll();
 
 		// Start the output buffer.
-		$this->ob_level = ob_get_level();
+		$this->_ob_level = ob_get_level();
 		ob_start();
 
 		// Include the compiled template.
@@ -403,7 +437,7 @@ class Template
 
 		// Fetch the content of the output buffer until the buffer level is the same as before.
 		$content = '';
-		while (ob_get_level() > $this->ob_level)
+		while (ob_get_level() > $this->_ob_level)
 		{
 			$content .= ob_get_clean();
 		}
@@ -571,6 +605,7 @@ class Template
 		}
 
 		// Set variables.
+		$template->setParent($this);
 		if ($this->vars)
 		{
 			$template->setVars($this->vars);

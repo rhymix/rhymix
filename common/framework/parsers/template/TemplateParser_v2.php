@@ -407,7 +407,7 @@ class TemplateParser_v2
 
 			// Generate the code to create a new Template object and compile it.
 			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template(' . $dir . ', "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';
-			$tpl .= 'if ($this->vars): $__tpl->setVars($this->vars); endif; ';
+			$tpl .= '$__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; ';
 			$tpl .= !empty($attrs['vars']) ? '$__tpl->addVars(' . self::_convertVariableScope($attrs['vars']) . '); ' : '';
 			$tpl .= 'echo $__tpl->compile(); ?>';
 

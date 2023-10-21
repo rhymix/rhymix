@@ -50,42 +50,42 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 	{
 		// Basic usage
 		$source = '<include src="foobar" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Legacy 'target' attribute
 		$source = '<include target="subdir/foobar" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "subdir"), "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "subdir"), "foobar", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Conditional include
 		$source = '<include src="../up/foobar" if="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "../up"), "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "../up"), "foobar", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Conditional include with legacy 'cond' attribute
 		$source = '<include target="legacy/cond.statement.html" cond="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "legacy"), "cond.statement.html", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "legacy"), "cond.statement.html", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Path relative to Rhymix installation directory
 		$source = '<include src="^/modules/foobar/views/baz" when="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Unless
 		$source = '<include src="^/modules/foobar/views/baz" unless="$cond" />';
-		$target = '<?php if(empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template("modules/foobar/views", "baz", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// With variables
 		$source = '<include src="foobar" vars="$vars" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; $__tpl->addVars($__Context->vars); echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; $__tpl->addVars($__Context->vars); echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// With array literal passed as variables
 		$source = '<include src="foobar" vars="[\'foo\' => \'bar\']" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; $__tpl->addVars([\'foo\' => \'bar\']); echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foobar", "html"); $__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif; $__tpl->addVars([\'foo\' => \'bar\']); echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Blade-style @include
@@ -1071,7 +1071,11 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// cond is OK in includes
 		$source = '<include src="foo.html" cond="$bar" />';
-		$target = '<?php if(!empty($bar)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foo.html", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';;
+		$target = implode(' ', [
+			'<?php if(!empty($bar)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "foo.html", "html");',
+			'$__tpl->setParent($this); if ($this->vars): $__tpl->setVars($this->vars); endif;',
+			'echo $__tpl->compile(); ?><?php endif; ?>',
+		]);
 		$this->assertEquals($target, $this->_parse($source));
 
 		// loop
