@@ -55,17 +55,17 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Legacy 'target' attribute
 		$source = '<include target="subdir/foobar" />';
-		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "subdir/foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?>';
+		$target = '<?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "subdir"), "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Conditional include
 		$source = '<include src="../up/foobar" if="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "../up/foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "../up"), "foobar", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Conditional include with legacy 'cond' attribute
 		$source = '<include target="legacy/cond.statement.html" cond="$cond" />';
-		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->relative_dirname, "legacy/cond.statement.html", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
+		$target = '<?php if(!empty($cond)): ?><?php $__tpl = new \Rhymix\Framework\Template($this->normalizePath($this->relative_dirname . "legacy"), "cond.statement.html", "html"); if ($this->vars): $__tpl->setVars($this->vars); endif; echo $__tpl->compile(); ?><?php endif; ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Path relative to Rhymix installation directory
@@ -1183,6 +1183,9 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($executed_output)
 		);
+
+		$list = \Context::getJsFile();
+		$this->assertStringContainsString('/rhymix/tests/_data/template/js/test.js', array_last($list)['file']);
 	}
 
 	/**

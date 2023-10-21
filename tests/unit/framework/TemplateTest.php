@@ -51,4 +51,17 @@ class TemplateTest extends \Codeception\Test\Unit
 		$target = '/rhymix/foo/bar.gif';
 		$this->assertEquals($target, $tmpl->convertPath($source));
 	}
+
+	public function testNormalizePath()
+	{
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
+
+		$source = '/rhymix/foo/bar//../hello/world\\..';
+		$target = '/rhymix/foo/hello';
+		$this->assertEquals($target, $tmpl->normalizePath($source));
+
+		$source = '../foo\\bar/../baz/';
+		$target = '../foo/baz/';
+		$this->assertEquals($target, $tmpl->normalizePath($source));
+	}
 }

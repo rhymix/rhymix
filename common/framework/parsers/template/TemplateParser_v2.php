@@ -399,6 +399,11 @@ class TemplateParser_v2
 				$dir = '"' . (str_contains($m[1], '/') ? dirname($m[1]) : '') . '"';
 				$path = basename($m[1]);
 			}
+			if (preg_match('#^(.+)/([^/]+)$#', $path, $match))
+			{
+				$dir = '$this->normalizePath(' . $dir . ' . "' . $match[1] . '")';
+				$path = $match[2];
+			}
 
 			// Generate the code to create a new Template object and compile it.
 			$tpl = '<?php $__tpl = new \Rhymix\Framework\Template(' . $dir . ', "' . $path . '", "' . ($this->template->extension ?: 'auto') . '"); ';

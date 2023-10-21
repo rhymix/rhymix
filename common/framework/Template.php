@@ -492,10 +492,20 @@ class Template
 			$path = preg_replace('#/\./#', '/', $basepath . $path);
 		}
 
-		// Remove extra slashes and parent directory references.
-		$path = preg_replace('#\\\\#', '/', $path);
-		$path = preg_replace('#//#', '/', $path);
-		while (($tmp = preg_replace('#/[^/]+/\.\./#', '/', $path)) !== $path)
+		// Normalize and return the path.
+		return $this->normalizePath($path);
+	}
+
+	/**
+	 * Normalize a path by removing extra slashes and parent directory references.
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function normalizePath(string $path): string
+	{
+		$path = preg_replace('#[\\\\/]+#', '/', $path);
+		while (($tmp = preg_replace('#/[^/]+/\.\.(/|$)#', '$1', $path)) !== $path)
 		{
 			$path = $tmp;
 		}
@@ -527,13 +537,6 @@ class Template
 		$path = $isConditional ? $args[2] : $args[1];
 		$vars = $isConditional ? ($args[3] ?? null) : ($args[2] ?? null);
 
-		// Handle paths relative to the Rhymix installation directory.
-		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
-		{
-			$basedir = str_contains($match[1], '/') ? dirname($match[1]) : \RX_BASEDIR;
-			$path = basename($match[1]);
-		}
-
 		// If the conditions are not met, return.
 		if ($isConditional && $directive === 'includeWhen' && !$cond)
 		{
@@ -542,6 +545,20 @@ class Template
 		if ($isConditional && $directive === 'includeUnless' && $cond)
 		{
 			return '';
+		}
+
+		// Handle paths relative to the Rhymix installation directory.
+		if (preg_match('#^\^/?(\w.+)$#s', $path, $match))
+		{
+			$basedir = str_contains($match[1], '/') ? dirname($match[1]) : \RX_BASEDIR;
+			$path = basename($match[1]);
+		}
+
+		// Convert relative paths embedded in the filename.
+		if (preg_match('#^(.+)/([^/]+)$#', $path, $match))
+		{
+			$basedir = $this->normalizePath($basedir . $match[1] . '/');
+			$path = $match[2];
 		}
 
 		// Create a new instance of TemplateHandler.

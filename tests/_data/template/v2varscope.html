@@ -1,9 +1,9 @@
 @version(2)
 
-@php
+<?php
 	$foobar = 'Rhymix Template';
 	$globalonly = 'Context Variable';
-@endphp
+?>
 
 <div class="global">
 	@include ('incl/scopetest1.html')
@@ -14,5 +14,5 @@
 </div>
 
 <div class="test2">
-	@include ('incl/scopetest2.html', ['foobar' => 'Included #2'])
+	<include src="incl/scopetest2.html" vars="['foobar' => 'Included #2']" />
 </div>
