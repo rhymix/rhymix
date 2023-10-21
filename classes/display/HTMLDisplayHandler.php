@@ -49,13 +49,12 @@ class HTMLDisplayHandler
 	 */
 	public function toDoc(&$oModule)
 	{
-		$oTemplate = Rhymix\Framework\Template::getInstance();
-
 		// SECISSUE https://github.com/xpressengine/xe-core/issues/1583
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('is_keyword', 'search_keyword', 'search_target', 'order_target', 'order_type');
 
 		$template_path = $oModule->getTemplatePath();
+		$template_file = $oModule->getTemplateFile();
 
 		if(!is_dir($template_path))
 		{
@@ -95,8 +94,8 @@ class HTMLDisplayHandler
 			}
 		}
 
-		$tpl_file = $oModule->getTemplateFile();
-		$output = $oTemplate->compile($template_path, $tpl_file);
+		$oTemplate = new Rhymix\Framework\Template;
+		$output = $oTemplate->compile($template_path, $template_file);
 
 		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML')
@@ -161,6 +160,8 @@ class HTMLDisplayHandler
 				{
 					$layout_file = 'default_layout';
 				}
+
+				$oTemplate = new Rhymix\Framework\Template;
 				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
 				// if popup_layout, remove admin bar.
@@ -291,7 +292,6 @@ class HTMLDisplayHandler
 
 		// convert the final layout
 		Context::set('content', $output);
-		$oTemplate = Rhymix\Framework\Template::getInstance();
 		if(Mobile::isFromMobilePhone())
 		{
 			$this->_loadMobileJSCSS();
@@ -300,6 +300,7 @@ class HTMLDisplayHandler
 		{
 			$this->_loadDesktopJSCSS();
 		}
+		$oTemplate = new Rhymix\Framework\Template;
 		$output = $oTemplate->compile('./common/tpl', 'common_layout');
 
 		// replace the user-defined-language
