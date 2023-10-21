@@ -215,11 +215,30 @@ class Template
 		}
 		elseif (is_object($vars))
 		{
-			$this->vars = $vars;
+			$this->vars = clone $vars;
 		}
 		else
 		{
 			throw new Exception('Template vars must be an array or object');
+		}
+	}
+
+	/**
+	 * Add vars.
+	 *
+	 * @param array|object $vars
+	 * @return void
+	 */
+	public function addVars($vars): void
+	{
+		if (!isset($this->vars))
+		{
+			$this->vars = new \stdClass;
+		}
+
+		foreach (is_object($vars) ? get_object_vars($vars) : $vars as $key => $val)
+		{
+			$this->vars->$key = $val;
 		}
 	}
 
@@ -535,9 +554,13 @@ class Template
 		}
 
 		// Set variables.
+		if ($this->vars)
+		{
+			$template->setVars($this->vars);
+		}
 		if ($vars !== null)
 		{
-			$template->setVars($vars);
+			$template->addVars($vars);
 		}
 
 		// Compile and return.
