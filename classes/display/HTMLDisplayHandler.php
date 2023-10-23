@@ -94,8 +94,8 @@ class HTMLDisplayHandler
 			}
 		}
 
-		$oTemplate = new Rhymix\Framework\Template;
-		$output = $oTemplate->compile($template_path, $template_file);
+		$oTemplate = new Rhymix\Framework\Template($template_path, $template_file);
+		$output = $oTemplate->compile();
 
 		// add .x div for adminitration pages
 		if(Context::getResponseMethod() == 'HTML')
@@ -300,8 +300,8 @@ class HTMLDisplayHandler
 		{
 			$this->_loadDesktopJSCSS();
 		}
-		$oTemplate = new Rhymix\Framework\Template;
-		$output = $oTemplate->compile('./common/tpl', 'common_layout');
+		$oTemplate = new Rhymix\Framework\Template('./common/tpl', 'common_layout');
+		$output = $oTemplate->compile();
 
 		// replace the user-defined-language
 		$output = Context::replaceUserLang($output);

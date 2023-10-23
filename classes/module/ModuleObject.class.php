@@ -218,8 +218,8 @@ class ModuleObject extends BaseObject
 			}
 			else
 			{
-				$oTemplate = Rhymix\Framework\Template::getInstance();
-				$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+				$oTemplate = new Rhymix\Framework\Template('modules/admin/tpl', '_admin_common.html');
+				$oTemplate->compile();
 			}
 		}
 
