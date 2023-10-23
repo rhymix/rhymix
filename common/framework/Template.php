@@ -72,16 +72,13 @@ class Template
 	 */
 	public function __construct(?string $dirname = null, ?string $filename = null, ?string $extension = null)
 	{
-		// Set instance configuration to default values.
-		$this->config = new \stdClass;
-		$this->config->version = 1;
-		$this->config->autoescape = false;
-		$this->config->context = 'HTML';
+		// Initialize configuration.
+		$this->_initConfig();
 
 		// Set user information.
 		$this->user = Session::getMemberInfo() ?: new Helpers\SessionHelper();
 
-		// Cache commonly used configurations as static properties.
+		// Populate static properties for optimization.
 		if (self::$_mtime === null)
 		{
 			self::$_mtime = filemtime(__FILE__);
@@ -100,6 +97,19 @@ class Template
 		{
 			$this->_setSourcePath($dirname, $filename, $extension ?? 'auto');
 		}
+	}
+
+	/**
+	 * Initialize the configuration object.
+	 * 
+	 * @return void
+	 */
+	protected function _initConfig(): void
+	{
+		$this->config = new \stdClass;
+		$this->config->version = 1;
+		$this->config->autoescape = false;
+		$this->config->context = 'HTML';
 	}
 
 	/**
@@ -295,6 +305,7 @@ class Template
 		// If paths are given, initialize now.
 		if ($dirname && $filename)
 		{
+			$this->_initConfig();
 			$this->_setSourcePath($dirname, $filename);
 		}
 		if ($override_filename)
@@ -362,6 +373,7 @@ class Template
 	public function compileDirect(string $dirname, string $filename): string
 	{
 		// Initialize paths. Return error if file does not exist.
+		$this->_initConfig();
 		$this->_setSourcePath($dirname, $filename);
 		if (!$this->exists)
 		{
