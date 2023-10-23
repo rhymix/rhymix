@@ -1298,7 +1298,7 @@ class MemberModel extends Member
 	public static function isValidPassword($hashed_password, $password_text, $member_srl=null)
 	{
 		// False if no password in entered
-		if(!$password_text)
+		if(!$hashed_password || !$password_text)
 		{
 			return false;
 		}
