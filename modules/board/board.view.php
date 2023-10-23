@@ -983,11 +983,15 @@ class BoardView extends Board
 		{
 			$oDocument = DocumentModel::getDocument($document_srl);
 		}
+		else
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
-		// if the document is not existed, then back to the board content page
+		// if the document does not exist
 		if(!$oDocument || !$oDocument->isExists())
 		{
-			return $this->dispBoardContent();
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 
 		// if the document is not granted, then back to the password input form
@@ -1023,7 +1027,7 @@ class BoardView extends Board
 			}
 		}
 
-		Context::set('oDocument',$oDocument);
+		Context::set('oDocument', $oDocument);
 
 		/**
 		 * add JS filters
@@ -1231,6 +1235,23 @@ class BoardView extends Board
 		{
 			$oComment = CommentModel::getComment($comment_srl);
 		}
+		else
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		// if the comment does not exist
+		if(!$oComment || !$oComment->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
+		// if the comment is not granted, then back to the password input form
+		if(!$oComment->isGranted())
+		{
+			Context::set('document_srl', $oComment->get('document_srl'));
+			return $this->setTemplateFile('input_password_form');
+		}
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
@@ -1259,19 +1280,6 @@ class BoardView extends Board
 			{
 				throw new Rhymix\Framework\Exception('msg_admin_comment_no_delete');
 			}
-		}
-
-		// if the comment is not existed, then back to the board content page
-		if(!$oComment->isExists() )
-		{
-			return $this->dispBoardContent();
-		}
-
-		// if the comment is not granted, then back to the password input form
-		if(!$oComment->isGranted())
-		{
-			Context::set('document_srl', $oComment->get('document_srl'));
-			return $this->setTemplateFile('input_password_form');
 		}
 
 		Context::set('oComment',$oComment);
