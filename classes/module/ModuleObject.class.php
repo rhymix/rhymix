@@ -218,8 +218,8 @@ class ModuleObject extends BaseObject
 			}
 			else
 			{
-				$oTemplate = TemplateHandler::getInstance();
-				$oTemplate->compile('modules/admin/tpl', '_admin_common.html');
+				$oTemplate = new Rhymix\Framework\Template('modules/admin/tpl', '_admin_common.html');
+				$oTemplate->compile();
 			}
 		}
 
@@ -465,10 +465,12 @@ class ModuleObject extends BaseObject
 	 */
 	public function setTemplateFile($filename)
 	{
+		/*
 		if(isset($filename) && substr_compare($filename, '.html', -5) !== 0)
 		{
 			$filename .= '.html';
 		}
+		*/
 		$this->template_file = $filename;
 		return $this;
 	}

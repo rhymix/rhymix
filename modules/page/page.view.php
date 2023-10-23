@@ -141,8 +141,6 @@ class PageView extends Page
 
 	function _getArticleContent()
 	{
-		$oTemplate = &TemplateHandler::getInstance();
-
 		$oDocument = DocumentModel::getDocument(0);
 		if($this->module_info->document_srl ?? 0)
 		{
@@ -152,6 +150,7 @@ class PageView extends Page
 		}
 		Context::set('oDocument', $oDocument);
 
+		$oTemplate = Rhymix\Framework\Template::getInstance();
 		$page_content = $oTemplate->compile($this->getTemplatePath(), 'content');
 
 		return $page_content;
@@ -252,7 +251,7 @@ class PageView extends Page
 		if ($this->proc_tpl)
 		{
 			// Store compiled template in a temporary file.
-			$oTemplate = TemplateHandler::getInstance();
+			$oTemplate = Rhymix\Framework\Template::getInstance();
 			$real_target_dir = dirname($real_target_file);
 			$tmp_cache_file = preg_replace('/\.cache\.php$/', '.compiled.php', $cache_file);
 			$content = $oTemplate->compileDirect($real_target_dir . '/', basename($real_target_file));

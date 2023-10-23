@@ -1,0 +1,35 @@
+@version(2)
+
+<?php $foo = 42; ?>
+
+@pushOnce('cms')
+	<li>XE</li>
+@endpushOnce
+
+@pushonce('cms')
+	<li>XE</li>
+@endPushOnce
+
+@push('cms')
+	<li>WordPress</li>
+@end
+
+@pushIf($foo, 'cms')
+	<li>Drupal</li>
+@endPushIf
+
+@prependOnce('cms')
+	<li>Rhymix</li>
+@endPrependOnce
+
+@prependonce('cms')
+	<li>Rhymix</li>
+@endprependonce
+
+@prependIf(!$foo, 'cms')
+	<li>Joomla</li>
+@end
+
+<ul>
+	@stack('cms')
+</ul>

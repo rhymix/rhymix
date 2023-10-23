@@ -1,0 +1,22 @@
+@version(2)
+
+@php
+	$foo = ['red', 'blue', 'yellow', 'black', 'white'];
+	$bar = ['dog', 'cat', 'rabbit', 'panda', 'otter'];
+@endphp
+
+<h1>Pets</h1>
+
+<ul>
+	@foreach ($foo as $color)
+		@foreach ($bar as $animal)
+			<li>
+				<span>A {{ $color }} {{ $animal }}</span>
+				<span>current index {{ $loop->index }} of {{ $loop->count }}</span>
+				<span>parent index {{ $loop->parent->index }} of {{ $loop->parent->count }}</span>
+				<span>first: @dump($loop->first)</span>
+				<span>last: @dump($loop->last)</span>
+			</li>
+		@endforeach
+	@endforeach
+</ul>

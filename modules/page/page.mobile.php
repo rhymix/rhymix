@@ -5,8 +5,6 @@ class PageMobile extends PageView
 {
 	function _getArticleContent()
 	{
-		$oTemplate = &TemplateHandler::getInstance();
-
 		$oDocument = DocumentModel::getDocument(0);
 		if($this->module_info->mdocument_srl ?? 0)
 		{
@@ -22,6 +20,7 @@ class PageMobile extends PageView
 		}
 		Context::set('oDocument', $oDocument);
 
+		$oTemplate = Rhymix\Framework\Template::getInstance();
 		$template_path = $this->getTemplatePath();
 		if (preg_match('!/skins/!', $template_path))
 		{

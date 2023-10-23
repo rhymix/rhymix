@@ -747,7 +747,7 @@ class WidgetController extends Widget
 		}
 		// Compilation
 		$widgetstyle_path = $oWidgetModel->getWidgetStylePath($widgetStyle);
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = Rhymix\Framework\Template::getInstance();
 		$tpl = $oTemplate->compile($widgetstyle_path, 'widgetstyle');
 
 		return $tpl;

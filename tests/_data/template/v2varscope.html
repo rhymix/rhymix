@@ -1,0 +1,18 @@
+@version(2)
+
+<?php
+	$foobar = 'Rhymix Template';
+	$globalonly = 'Context Variable';
+?>
+
+<div class="global">
+	@include ('incl/scopetest1.html')
+</div>
+
+<div class="test1">
+	@include ('incl/scopetest1.html', ['foobar' => 'Included #1'])
+</div>
+
+<div class="test2">
+	<include src="incl/scopetest2.html" vars="['foobar' => 'Included #2']" />
+</div>

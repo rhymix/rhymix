@@ -1,0 +1,66 @@
+<config version="2" />
+
+@use('Rhymix\Framework\Push', 'Push')
+<div>@include('^/common/tpl/refresh.html')</div>
+<div>@load('^/common/js/plugins/ckeditor/')</div>
+<load src="css/style.scss" media="print" />
+
+<?php
+	$foo = 'FOOFOO<"FOO">BAR';
+?>
+@php
+	$bar = ['Rhy', 'miX', 'is', 'da', 'BEST!'];
+@endphp
+@verbatim
+	{{ $foo }}
+@endverbatim
+
+<form action="{\RX_BASEURL}" method="post">
+	@csrf
+	<input type="text" @required(Context::getInstance()->get('foo'))>
+	<input type="text" value="{$bar[0]}" required|if="$bar[3] === 'da'" />
+</form>
+
+<div class="foobar"|unless="isset($baz)">
+	@if ($foo || $bar)
+		<p>Hello @if ($bar){$foo|noescape}@endif</p>
+		<p>{{ implode('|', array_map(function(\$i) { return strtoupper(\$i); }, $bar)) }}</p>
+	@end
+</div>
+
+@fragment('rhymix')
+@forelse (Context::get('bar') as $k => $val)
+<div>
+	@empty ($nosuchvar)
+		<img src="foo/../bar/rhymix.svg" alt="unit tests are cool" />
+		<span <!--@if($k >= 2)-->class="{$val}"<!--@end-->></span>
+	@endempty
+</div>
+@empty<div>Nothing here...</div>@end
+@endfragment
+
+@each('incl/eachtest', $bar, 'var')
+@each('incl/eachtest', [], 'anything', 'incl/empty')
+
+@desktop
+	<p>The full class name is {get_class(new Push)|escape}, {Push::class} really.</p>
+@enddesktop
+
+<div class="barContainer" data-bar="{$bar|json}">
+	<span @class([
+		'a-1',
+		'font-normal' => $foo,
+		'text-blue' => false,
+		'bg-gray-200' => true
+	])></span>
+	<span @style([
+		'border-radius: 0.25rem',
+		'margin: 1rem' => Context::get('bar'),
+		'padding: 2rem' => false,
+	])></span>
+</div>
+
+<script type="text/javascript">
+	const foo = '{{ $foo }}';
+	const bar = @json($bar);
+</script>
