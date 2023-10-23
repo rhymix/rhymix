@@ -637,7 +637,7 @@ class LayoutModel extends Layout
 						$buff[] = sprintf('$layout_info->extra_var->%s->group = %s;', $name, var_export($group->title->body ?? null, true));
 						$buff[] = sprintf('$layout_info->extra_var->%s->title = %s;', $name, var_export($var->title->body ?? null, true));
 						$buff[] = sprintf('$layout_info->extra_var->%s->type = %s;', $name, var_export($var->attrs->type ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
+						$buff[] = sprintf('$layout_info->extra_var->%s->value = $vars->%s ?? null;', $name, $name);
 						$buff[] = sprintf('$layout_info->extra_var->%s->description = %s;', $name, var_export($var->description->body ?? null, true));
 
 						$options = $var->options;
@@ -739,8 +739,8 @@ class LayoutModel extends Layout
 						$buff[] = sprintf('$layout_info->extra_var->%s->group = %s;', $name, var_export($group->title->body ?? null, true));
 						$buff[] = sprintf('$layout_info->extra_var->%s->title = %s;', $name, var_export($var->title->body ?? null, true));
 						$buff[] = sprintf('$layout_info->extra_var->%s->type = %s;', $name, var_export($var->attrs->type ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->value = $vars->%s;', $name, $name);
-						$buff[] = sprintf('$layout_info->extra_var->%s->description = %s;', $name, var_export($var->description->body ?? null, true));
+						$buff[] = sprintf('$layout_info->extra_var->%s->value = $vars->%s ?? null;', $name, $name);
+						$buff[] = sprintf('$layout_info->extra_var->%s->description = %s ?? null;', $name, var_export($var->description->body ?? null, true));
 
 						$options = $var->options;
 						if(!$options) continue;
