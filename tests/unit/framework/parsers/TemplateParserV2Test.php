@@ -1059,6 +1059,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function testDeprecationMessages()
 	{
+		// <!--#include()-->
+		$source = '<!--#include("foo.html")-->';
+		$target = '<?php trigger_error("#include is not supported in template v2", \E_USER_WARNING); ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// <!--%import()-->
+		$source = '<!--%import("../foo/bar.js")-->';
+		$target = '<?php trigger_error("%import is not supported in template v2", \E_USER_WARNING); ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
 		// <block> element
 		$source = '<block class="foobar">';
 		$target = '<block<?php trigger_error("block element is not supported in template v2", \E_USER_WARNING); ?> class="foobar">';

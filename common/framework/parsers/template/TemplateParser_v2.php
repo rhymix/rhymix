@@ -932,6 +932,11 @@ class TemplateParser_v2
 	 */
 	protected function _addDeprecationMessages(string $content): string
 	{
+		// <!--#include-->, <!--%import-->, etc.
+		$content = preg_replace_callback('#<!--(\#include|%import|%unload|%load_js_plugin)\s?\(.+?-->#', function($match) {
+			return '<?php trigger_error("' . $match[1] . ' is not supported in template v2", \E_USER_WARNING); ?>';
+		}, $content);
+
 		// <block>
 		$content = preg_replace_callback('#<block(?=\s)#', function($match) {
 			return $match[0] . '<?php trigger_error("block element is not supported in template v2", \E_USER_WARNING); ?>';
