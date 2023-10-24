@@ -72,8 +72,7 @@ class Mobile
 		$uatype = $uahash . ':' . (self::$_ismobile ? '1' : '0');
 		if ($cookie !== $uatype)
 		{
-			setcookie('rx_uatype', $uatype, 0, \RX_BASEURL, '', !!config('session.use_ssl_cookies'));
-			$_COOKIE['rx_uatype'] = $uatype;
+			Rhymix\Framework\Cookie::set('rx_uatype', $uatype, ['expires' => 0]);
 		}
 
 		return self::$_ismobile;

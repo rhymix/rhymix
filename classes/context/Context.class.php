@@ -321,7 +321,7 @@ class Context
 		$lang_type = preg_replace('/[^a-zA-Z0-9_-]/', '', $lang_type ?? '');
 		if ($set_lang_cookie)
 		{
-			setcookie('lang_type', $lang_type, time() + 86400 * 365, \RX_BASEURL, '', !!config('session.use_ssl_cookies'));
+			Rhymix\Framework\Cookie::set('lang_type', $lang_type, ['expires' => 365]);
 		}
 
 		if(!$lang_type || !isset($enabled_langs[$lang_type]))

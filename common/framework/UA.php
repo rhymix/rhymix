@@ -470,13 +470,11 @@ class UA
 	{
 		if (in_array($color_scheme, ['light', 'dark']))
 		{
-			$_COOKIE['rx_color_scheme'] = $color_scheme;
-			setcookie('rx_color_scheme', $color_scheme, time() + 86400 * 365, \RX_BASEURL, '', !!config('session.use_ssl_cookies'));
+			Cookie::set('rx_color_scheme', $color_scheme, ['expires' => 365]);
 		}
 		else
 		{
-			unset($_COOKIE['rx_color_scheme']);
-			setcookie('rx_color_scheme', 'deleted', time() - 86400, \RX_BASEURL);
+			Cookie::remove('rx_color_scheme');
 		}
 	}
 }
