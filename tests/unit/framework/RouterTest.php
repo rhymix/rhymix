@@ -1,6 +1,6 @@
 <?php
 
-class RouterTest extends \Codeception\TestCase\Test
+class RouterTest extends \Codeception\Test\Unit
 {
     public function testGetRewriteLevel()
     {

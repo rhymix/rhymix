@@ -1,6 +1,6 @@
 <?php
 
-class i18nTest extends \Codeception\TestCase\Test
+class i18nTest extends \Codeception\Test\Unit
 {
 	public function testListCountries()
 	{

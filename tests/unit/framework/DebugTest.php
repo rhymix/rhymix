@@ -1,6 +1,6 @@
 <?php
 
-class DebugTest extends \Codeception\TestCase\Test
+class DebugTest extends \Codeception\Test\Unit
 {
 	public $error_log;
 

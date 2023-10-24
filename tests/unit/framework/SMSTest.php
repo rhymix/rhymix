@@ -1,6 +1,6 @@
 <?php
 
-class SMSTest extends \Codeception\TestCase\Test
+class SMSTest extends \Codeception\Test\Unit
 {
 	public function _before()
 	{

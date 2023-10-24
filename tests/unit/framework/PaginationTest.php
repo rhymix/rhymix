@@ -1,6 +1,6 @@
 <?php
 
-class PaginationTest extends \Codeception\TestCase\Test
+class PaginationTest extends \Codeception\Test\Unit
 {
 	public function testCountPages()
 	{

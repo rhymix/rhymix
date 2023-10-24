@@ -1,6 +1,6 @@
 <?php
 
-class UATest extends \Codeception\TestCase\Test
+class UATest extends \Codeception\Test\Unit
 {
 	public function testIsMobile()
 	{

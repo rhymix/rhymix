@@ -1,6 +1,6 @@
 <?php
 
-class KoreaTest extends \Codeception\TestCase\Test
+class KoreaTest extends \Codeception\Test\Unit
 {
 	public function testFormatPhoneNumber()
 	{

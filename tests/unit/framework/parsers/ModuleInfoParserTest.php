@@ -1,6 +1,6 @@
 <?php
 
-class ModuleInfoParserTest extends \Codeception\TestCase\Test
+class ModuleInfoParserTest extends \Codeception\Test\Unit
 {
 	public function testLoadXML()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-class OldSecurityTest extends \Codeception\TestCase\Test
+class OldSecurityTest extends \Codeception\Test\Unit
 {
     public function _before()
     {

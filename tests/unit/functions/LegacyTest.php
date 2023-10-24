@@ -1,6 +1,6 @@
 <?php
 
-class LegacyTest extends \Codeception\TestCase\Test
+class LegacyTest extends \Codeception\Test\Unit
 {
 	public function _before()
 	{

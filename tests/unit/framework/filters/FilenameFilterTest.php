@@ -2,7 +2,7 @@
 
 use Rhymix\Framework\Filters\FilenameFilter;
 
-class FilenameFilterTest extends \Codeception\TestCase\Test
+class FilenameFilterTest extends \Codeception\Test\Unit
 {
 	public function testFilenameFilterClean()
 	{

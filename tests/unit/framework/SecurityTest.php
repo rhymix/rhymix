@@ -1,6 +1,6 @@
 <?php
 
-class SecurityTest extends \Codeception\TestCase\Test
+class SecurityTest extends \Codeception\Test\Unit
 {
 	public function testSanitize()
 	{

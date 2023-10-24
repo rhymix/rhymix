@@ -1,6 +1,6 @@
 <?php
 
-class FormatterTest extends \Codeception\TestCase\Test
+class FormatterTest extends \Codeception\Test\Unit
 {
 	public function _before()
 	{

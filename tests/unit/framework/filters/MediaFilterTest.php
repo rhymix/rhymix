@@ -1,6 +1,6 @@
 <?php
 
-class MediaFilterTest extends \Codeception\TestCase\Test
+class MediaFilterTest extends \Codeception\Test\Unit
 {
 	public function testWhitelists()
 	{

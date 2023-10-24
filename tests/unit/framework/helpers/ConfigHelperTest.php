@@ -2,7 +2,7 @@
 
 use Rhymix\Framework\Helpers\ConfigHelper;
 
-class ConfigHelperTest extends \Codeception\TestCase\Test
+class ConfigHelperTest extends \Codeception\Test\Unit
 {
 	public function testConsolidate()
 	{

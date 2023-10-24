@@ -1,6 +1,6 @@
 <?php
 
-class IpFilterTest extends \Codeception\TestCase\Test
+class IpFilterTest extends \Codeception\Test\Unit
 {
 	public function testIPv4CIDR()
 	{

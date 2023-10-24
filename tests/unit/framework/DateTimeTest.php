@@ -1,6 +1,6 @@
 <?php
 
-class DateTimeTest extends \Codeception\TestCase\Test
+class DateTimeTest extends \Codeception\Test\Unit
 {
 	private $old_timezone;
 

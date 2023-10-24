@@ -2,7 +2,7 @@
 
 use Rhymix\Framework\Filters\FileContentFilter;
 
-class FileContentFilterTest extends \Codeception\TestCase\Test
+class FileContentFilterTest extends \Codeception\Test\Unit
 {
 	public function testSVG()
 	{

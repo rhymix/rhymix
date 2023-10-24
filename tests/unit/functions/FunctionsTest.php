@@ -8,7 +8,7 @@ class CountableTest implements Countable
 	}
 }
 
-class FunctionsTest extends \Codeception\TestCase\Test
+class FunctionsTest extends \Codeception\Test\Unit
 {
 	public function testArrayFunctions()
 	{

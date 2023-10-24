@@ -1,6 +1,6 @@
 <?php
 
-class SessionTest extends \Codeception\TestCase\Test
+class SessionTest extends \Codeception\Test\Unit
 {
 	public function _before()
 	{

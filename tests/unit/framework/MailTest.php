@@ -1,6 +1,6 @@
 <?php
 
-class MailTest extends \Codeception\TestCase\Test
+class MailTest extends \Codeception\Test\Unit
 {
 	public function testGetSetDefaultDriver()
 	{

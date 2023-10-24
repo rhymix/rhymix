@@ -1,6 +1,6 @@
 <?php
 
-class DBTableParserTest extends \Codeception\TestCase\Test
+class DBTableParserTest extends \Codeception\Test\Unit
 {
 	public function testLoadXML()
 	{

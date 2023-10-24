@@ -1,6 +1,6 @@
 <?php
 
-class MIMETest extends \Codeception\TestCase\Test
+class MIMETest extends \Codeception\Test\Unit
 {
 	public function testMIME()
 	{

@@ -1,6 +1,6 @@
 <?php
 
-class HTMLFilterTest extends \Codeception\TestCase\Test
+class HTMLFilterTest extends \Codeception\Test\Unit
 {
 	public function testHTMLFilterClean()
 	{

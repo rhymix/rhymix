@@ -1,6 +1,6 @@
 <?php
 
-class CacheTest extends \Codeception\TestCase\Test
+class CacheTest extends \Codeception\Test\Unit
 {
 	public function _before()
 	{

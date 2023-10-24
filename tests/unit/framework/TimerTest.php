@@ -1,6 +1,6 @@
 <?php
 
-class TimerTest extends \Codeception\TestCase\Test
+class TimerTest extends \Codeception\Test\Unit
 {
 	function testStartStop()
 	{

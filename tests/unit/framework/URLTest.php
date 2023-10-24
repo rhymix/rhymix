@@ -1,6 +1,6 @@
 <?php
 
-class URLTest extends \Codeception\TestCase\Test
+class URLTest extends \Codeception\Test\Unit
 {
 	private $baseurl;
 	private $relurl;

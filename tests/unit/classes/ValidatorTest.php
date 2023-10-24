@@ -1,6 +1,6 @@
 <?php
 
-class ValidatorTest extends \Codeception\TestCase\Test
+class ValidatorTest extends \Codeception\Test\Unit
 {
     public function _before()
     {

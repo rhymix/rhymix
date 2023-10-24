@@ -1,6 +1,6 @@
 <?php
 
-class PasswordTest extends \Codeception\TestCase\Test
+class PasswordTest extends \Codeception\Test\Unit
 {
 	public function testIsValidAlgorithm()
 	{

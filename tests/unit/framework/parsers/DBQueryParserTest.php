@@ -1,6 +1,6 @@
 <?php
 
-class DBQueryParserTest extends \Codeception\TestCase\Test
+class DBQueryParserTest extends \Codeception\Test\Unit
 {
 	public function testLoadXML()
 	{

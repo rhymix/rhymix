@@ -1,6 +1,6 @@
 <?php
 
-class FrontEndFileHandlerTest extends \Codeception\TestCase\Test
+class FrontEndFileHandlerTest extends \Codeception\Test\Unit
 {
 	private $baseurl;
 	private $reservedCSS;

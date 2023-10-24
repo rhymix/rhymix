@@ -1,6 +1,6 @@
 <?php
 
-class DBTest extends \Codeception\TestCase\Test
+class DBTest extends \Codeception\Test\Unit
 {
 	public function _before()
 	{

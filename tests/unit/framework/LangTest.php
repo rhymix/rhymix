@@ -1,6 +1,6 @@
 <?php
 
-class LangTest extends \Codeception\TestCase\Test
+class LangTest extends \Codeception\Test\Unit
 {
 	public function testLang()
 	{

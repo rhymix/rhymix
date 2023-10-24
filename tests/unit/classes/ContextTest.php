@@ -1,6 +1,6 @@
 <?php
 
-class ContextTest extends \Codeception\TestCase\Test
+class ContextTest extends \Codeception\Test\Unit
 {
     /**
      * @var \UnitTester

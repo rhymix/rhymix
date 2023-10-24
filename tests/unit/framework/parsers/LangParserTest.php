@@ -1,6 +1,6 @@
 <?php
 
-class LangParserTest extends \Codeception\TestCase\Test
+class LangParserTest extends \Codeception\Test\Unit
 {
 	protected $_dir = 'tests/_data/lang';
 

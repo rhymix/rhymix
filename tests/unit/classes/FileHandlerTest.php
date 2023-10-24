@@ -1,6 +1,6 @@
 <?php
 
-class FileHandlerTest extends \Codeception\TestCase\Test
+class FileHandlerTest extends \Codeception\Test\Unit
 {
    /**
     * @var \UnitTester

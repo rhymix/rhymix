@@ -1,6 +1,6 @@
 <?php
 
-class XmlrpcParserTest extends \Codeception\TestCase\Test
+class XmlrpcParserTest extends \Codeception\Test\Unit
 {
 	public function testParse()
 	{

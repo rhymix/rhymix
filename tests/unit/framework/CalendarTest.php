@@ -1,6 +1,6 @@
 <?php
 
-class CalendarTest extends \Codeception\TestCase\Test
+class CalendarTest extends \Codeception\Test\Unit
 {
 	public function testGetMonthName()
 	{
