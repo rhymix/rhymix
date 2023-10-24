@@ -41,6 +41,11 @@
 			<label for="message_content">{$lang->content}</label>
 			<textarea id="message_content" name="new_content" rows="8" style="width:100%;box-sizing:border-box"></textarea>
 		</li>
+		<!--@if($this->user->isAdmin())-->
+			<li>
+				<span id="message_send_mail"><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail}</span>
+			</li>
+		<!--@endif-->
 	</ul>
 	<div class="bna">
 		<span class="fl"><a href="{getUrl('act', 'dispCommunicationMessages')}" class="bn white">{$lang->cmd_back}</a></span>

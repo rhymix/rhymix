@@ -39,6 +39,7 @@ $lang->msg_allow_message_to_friend = 'Failed to send a message because the recip
 $lang->msg_disallow_message = 'Failed to send a message because the recipient blocked receiving messages.';
 $lang->about_allow_message = 'You can set whether to receive messages or not.';
 $lang->msg_send_mail_privacy = 'Your email address will be exposed to the recipient.';
+$lang->msg_send_mail_admin_only = 'The email option can only be used by the administrator.';
 $lang->message_notice = 'Send a message to the author about this. If you don\'t write a message, it is not sent.';
 $lang->friends_page_does_not_support = 'Friends in a mobile environment is not supported. Please go to the PC page.';
 $lang->communication_send_message_grant = 'Send Message Grant';

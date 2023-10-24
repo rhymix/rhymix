@@ -88,6 +88,12 @@ class CommunicationController extends communication
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
+		$send_mail = Context::get('send_mail') === 'Y' ? 'Y' : 'N';
+		if ($send_mail === 'Y' && !$this->user->isAdmin())
+		{
+			throw new Rhymix\Framework\Exception('msg_send_mail_admin_only');
+		}
+
 		// Check if there is a member to receive a message
 		$oMemberModel = getModel('member');
 		$oCommunicationModel = getModel('communication');
@@ -126,6 +132,12 @@ class CommunicationController extends communication
 		if(!$output->toBool())
 		{
 			return $output;
+		}
+
+		// send an e-mail (admin only)
+		if($send_mail === 'Y')
+		{
+			$this->sendMessageByEmail($logged_info, $receiver_member_info, $title, $content);
 		}
 
 		if(!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
@@ -265,6 +277,44 @@ class CommunicationController extends communication
 		$this->updateFlagFile($receiver_srl);
 
 		return new BaseObject(0, 'success_sended');
+	}
+
+	/**
+	 * Send a message by email.
+	 *
+	 * @param object $sender
+	 * @param object $recipient
+	 * @param string $title
+	 * @param string $content
+	 * @return bool
+	 */
+	public function sendMessageByEmail($sender, $recipient, $title, $content): bool
+	{
+		if (empty($recipient->email_address) || !config('mail.default_from'))
+		{
+			return false;
+		}
+
+		$view_url = Context::getRequestUri();
+		$mail_title = vsprintf('%s - %s', [
+			Context::getSiteTitle(),
+			$title,
+		]);
+
+		$mail_content = vsprintf('From: %s<br><hr><br>%s<br><hr><br>%s<br><a href="%s" target="_blank">%s</a>', [
+			$sender->nick_name,
+			utf8_mbencode(removeHackTag($content)),
+			Context::getSiteTitle(),
+			$view_url, $view_url,
+		]);
+
+		$oMail = new \Rhymix\Framework\Mail();
+		$oMail->setFrom(config('mail.default_from'), config('mail.default_name'));
+		$oMail->addTo($recipient->email_address, $recipient->nick_name ?: null);
+		$oMail->setSubject($mail_title);
+		$oMail->setBody($mail_content);
+		$output = $oMail->send();
+		return (bool)$output;
 	}
 
 	/**

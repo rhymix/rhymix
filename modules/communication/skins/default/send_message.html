@@ -37,6 +37,12 @@
 				<th scope="row">{$lang->title}</th>
 				<td><input type="text" name="title" id="message_title" value="{$source_message->title}" style="width:90%" /></td>
 			</tr>
+			<!--@if($this->user->isAdmin())-->
+				<tr>
+					<th scope="row">{$lang->cmd_option}</th>
+					<td><label><input type="checkbox" value="Y" name="send_mail" /> {$lang->cmd_send_mail}</label></td>
+				</tr>
+			<!--@endif-->
 		</table>
 		{$editor|noescape}
 		<div class="btnArea">
