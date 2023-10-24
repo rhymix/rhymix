@@ -70,6 +70,13 @@ return array(
 		'lifetime' => 0,
 		'refresh' => 300,
 	),
+	'cookie' => array(
+		'domain' => null,
+		'path' => null,
+		'secure' => null,
+		'httponly' => null,
+		'samesite' => 'Lax',
+	),
 	'file' => array(
 		'folder_structure' => 2,
 		'umask' => '0022',

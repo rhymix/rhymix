@@ -140,6 +140,22 @@ class Security extends Base
 		Config::set('security.x_frame_options', strtoupper($vars->x_frame_options));
 		Config::set('security.x_content_type_options', strtolower($vars->x_content_type_options));
 
+		// Prepare the alternate config key for cookies.
+		if (Config::get('cookie'))
+		{
+			Config::set('cookie.secure', $vars->use_cookies_ssl === 'Y');
+		}
+		else
+		{
+			Config::set('cookie', [
+				'domain' => null,
+				'path' => null,
+				'secure' => $vars->use_cookies_ssl === 'Y',
+				'httponly' => null,
+				'samesite' => 'Lax',
+			]);
+		}
+
 		// Save
 		if (!Config::save())
 		{

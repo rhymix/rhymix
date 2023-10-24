@@ -58,17 +58,25 @@ class Cookie
 		}
 
 		// Set defaults.
-		if (!isset($options['path']))
+		if (!array_key_exists('path', $options))
 		{
-			$options['path'] = \RX_BASEURL;
+			$options['path'] = config('cookie.path') ?? \RX_BASEURL;
+		}
+		if (!array_key_exists('domain', $options) && ($default_domain = config('cookie.domain')))
+		{
+			$options['domain'] = $default_domain;
 		}
 		if (!isset($options['secure']))
 		{
 			$options['secure'] = \RX_SSL && !!config('session.use_ssl_cookies');
 		}
+		if (!isset($options['httponly']))
+		{
+			$options['httponly'] = config('cookie.httponly') ?? false;
+		}
 		if (!isset($options['samesite']))
 		{
-			$options['samesite'] = 'Lax';
+			$options['samesite'] = config('cookie.samesite') ?? 'Lax';
 		}
 
 		// PHP 7.3+ supports the samesite attribute natively. PHP 7.2 requires a hack.
