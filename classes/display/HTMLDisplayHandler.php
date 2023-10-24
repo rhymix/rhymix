@@ -525,19 +525,26 @@ class HTMLDisplayHandler
 		{
 			if ($page_type === 'article')
 			{
-				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
+				$canonical_url = getNotEncodedFullUrl('', 'mid', $current_module_info->mid, 'document_srl', $document_srl);
 			}
 			elseif (($page = Context::get('page')) > 1)
 			{
-				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
+				$canonical_url = getNotEncodedFullUrl('', 'mid', $current_module_info->mid, 'page', $page);
 			}
 			elseif (isset($current_module_info->module_srl) && $current_module_info->module_srl == ($site_module_info->module_srl ?? 0))
 			{
-				$canonical_url = getFullUrl('');
+				$canonical_url = getNotEncodedFullUrl('');
 			}
 			else
 			{
-				$canonical_url = getFullUrl('', 'mid', $current_module_info->mid);
+				if (Rhymix\Framework\Router::getRewriteLevel() === 2 && Context::getRouteInfo()->url !== '')
+				{
+					$canonical_url = Rhymix\Framework\URL::getCurrentDomainURL(\RX_BASEURL . preg_replace('/\?.*$/', '', \RX_REQUEST_URL));
+				}
+				else
+				{
+					$canonical_url = getNotEncodedFullUrl('', 'mid', $current_module_info->mid);
+				}
 			}
 			Context::addOpenGraphData('og:url', $canonical_url);
 			Context::setCanonicalURL($canonical_url);
