@@ -88,7 +88,6 @@ $lang->cmd_concat_css_only = 'CSSのみ結合';
 $lang->cmd_concat_js_only = 'JSのみ結合';
 $lang->cmd_concat_css_js = 'CSSやJSの両方を結合';
 $lang->about_concat_scripts = 'CSS、JSファイルを一つにまとめて送信されます。外部からロードするスクリプトは、合わせてされません.';
-$lang->use_server_push = 'HTTP/2 Server Push使用';
 $lang->use_gzip = 'gzip 圧縮';
 $lang->delay_session = 'セッションの開始を遅延';
 $lang->about_delay_session = 'Varnishなどのプロキシキャッシュサーバ使用時のパフォーマンスを向上させるために、ログインしていないユーザーには、認証セッションを付与しません。<br>このオプションを選択した場合、訪問者数とヒット集計が正確でない場合があります。';

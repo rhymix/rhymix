@@ -84,7 +84,6 @@ return array(
 		'concat_scripts' => 'none',
 		'delay_compile' => 0,
 		'jquery_version' => 2,
-		'server_push' => false,
 	),
 	'admin' => array(
 		'allow' => array(),

@@ -507,17 +507,6 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 
-		// Enable HTTP/2 server push for CSS resources.
-		if ($finalize && $this->_isServerPushEnabled())
-		{
-			foreach ($result as $resource)
-			{
-				if ($resource['file'][0] === '/' && $resource['file'][1] !== '/')
-				{
-					header(sprintf('Link: <%s>; rel=preload; as=style', $resource['file']), false);
-				}
-			}
-		}
 		return $result;
 	}
 
@@ -611,17 +600,6 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 
-		// Enable HTTP/2 server push for JS resources.
-		if ($type === 'head' && $finalize && $this->_isServerPushEnabled())
-		{
-			foreach ($result as $resource)
-			{
-				if ($resource['file'][0] === '/' && $resource['file'][1] !== '/')
-				{
-					header(sprintf('Link: <%s>; rel=preload; as=script', $resource['file']), false);
-				}
-			}
-		}
 		return $result;
 	}
 
@@ -741,31 +719,6 @@ class FrontEndFileHandler extends Handler
 		{
 			$cssSortList = array('common' => -100000, 'layouts' => -90000, 'm.layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
 			$file->index += isset($cssSortList[$tmp]) ? $cssSortList[$tmp] : 0;
-		}
-	}
-
-	/**
-	 * Check if server push is enabled.
-	 *
-	 * @return bool
-	 */
-	protected function _isServerPushEnabled()
-	{
-		if (!config('view.server_push'))
-		{
-			return false;
-		}
-		elseif (strncmp($_SERVER['SERVER_PROTOCOL'] ?? '', 'HTTP/2', 6) === 0)
-		{
-			return true;
-		}
-		elseif (isset($_SERVER['HTTP_CF_VISITOR']) && \RX_SSL)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
 		}
 	}
 }
