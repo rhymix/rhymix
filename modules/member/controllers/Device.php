@@ -2,6 +2,8 @@
 
 namespace Rhymix\Modules\Member\Controllers;
 
+use Rhymix\Framework\Cookie;
+
 class Device extends \Member
 {
 	/**
@@ -412,7 +414,10 @@ class Device extends \Member
 		}
 		else
 		{
-			setcookie('device_key', $member_srl . ':' . $device_key, time() + 60, \RX_BASEURL, null, !!config('session.use_ssl_cookies'), true);
+			Cookie::set('device_key', $member_srl . ':' . $device_key, [
+				'expires' => time() + 60,
+				'httponly' => true,
+			]);
 		}
 	}
 }

@@ -235,7 +235,7 @@ class Session
 		if (!isset($_COOKIE['rx_login_status']) || $_COOKIE['rx_login_status'] !== $value)
 		{
 			list($lifetime, $refresh_interval, $domain, $path, $secure, $httponly, $samesite) = self::_getParams();
-			self::_setCookie('rx_login_status', $value, array(
+			Cookie::set('rx_login_status', $value, array(
 				'expires' => 0,
 				'path' => $path,
 				'domain' => $domain,
@@ -277,7 +277,7 @@ class Session
 		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
 		{
 			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			self::_setCookie('sso', md5($current_domain), array(
+			Cookie::set('sso', md5($current_domain), array(
 				'expires' => 0,
 				'path' => '/',
 				'domain' => null,
@@ -439,7 +439,7 @@ class Session
 		if ($refresh_cookie)
 		{
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
-			self::_setCookie(session_name(), session_id(), $options);
+			Cookie::set(session_name(), session_id(), $options);
 			if (self::$_autologin_key = self::_getAutologinKey())
 			{
 				self::setAutologinKeys(substr(self::$_autologin_key, 0, 24), substr(self::$_autologin_key, 24, 24));
@@ -1080,45 +1080,6 @@ class Session
 	}
 
 	/**
-	 * Set cookie (for compatibility with PHP < 7.3)
-	 *
-	 * @param string $name
-	 * @param string $value
-	 * @param array $options
-	 * @return bool
-	 */
-	protected static function _setCookie(string $name, string $value, array $options = []): bool
-	{
-		$name = strval($name);
-		$value = strval($value);
-
-		if (PHP_VERSION_ID >= 70300)
-		{
-			$result = setcookie($name, $value, $options);
-		}
-		else
-		{
-			$expires = $options['expires'] ?? 0;
-			$path = $options['path'] ?? null;
-			$domain = $options['domain'] ?? null;
-			$secure = $options['secure'] ?? null;
-			$httponly = $options['httponly'] ?? null;
-			$samesite = $options['samesite'] ?? '';
-			if ($samesite)
-			{
-				$path = ($path ?: '/') . '; SameSite=' . $samesite;
-			}
-			$result = setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
-		}
-
-		if ($result)
-		{
-			$_COOKIE[$name] = $value;
-		}
-		return $result;
-	}
-
-	/**
 	 * Unset cookie.
 	 *
 	 * @param string $name
@@ -1155,7 +1116,7 @@ class Session
 		{
 			$_SESSION['RHYMIX']['autologin_key'] = $autologin_key . $security_key;
 			self::destroyCookiesFromConflictingDomains(array('rx_autologin'));
-			self::_setCookie('rx_autologin', $autologin_key . $security_key, array(
+			Cookie::set('rx_autologin', $autologin_key . $security_key, array(
 				'expires' => $lifetime,
 				'path' => $path,
 				'domain' => $domain,

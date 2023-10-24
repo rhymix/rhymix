@@ -1122,7 +1122,7 @@ class NcenterliteController extends Ncenterlite
 		}
 		if(!empty($_COOKIE['_ncenterlite_hide_id']))
 		{
-			setcookie('_ncenterlite_hide_id', '', 0, '/');
+			Rhymix\Framework\Cookie::remove('_ncenterlite_hide_id', ['path' => '/']);
 		}
 
 		$oMemberModel = getModel('member');
