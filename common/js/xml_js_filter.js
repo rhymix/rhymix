@@ -395,6 +395,12 @@ function filterAlertMessage(ret_obj) {
  * @deprecated
  */
 function procFilter(form, filter_func) {
+	var msg = "DEPRECATED : procFilter() is deprecated in Rhymix.";
+	if (navigator.userAgent.match(/Firefox/)) {
+		console.error(msg);
+	} else {
+		console.warn(msg);
+	}
 	filter_func(form);
 	return false;
 }
@@ -415,9 +421,12 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 			if(!v || !n) return true;
 			if(rename_params[n]) n = rename_params[n];
 
-			if(/\[\]$/.test(n)) n = n.replace(/\[\]$/, '');
+			n = n.replace(/\[\]$/, '');
 			if(params[n]) {
-				params[n] += '|@|'+v;
+				if (!Array.isArray(params[n])) {
+					params[n] = [params[n]];
+				}
+				params[n].push(v);
 			} else {
 				params[n] = field.value;
 			}
@@ -425,7 +434,18 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 
 		if (confirm_msg && !confirm(confirm_msg)) return false;
 
-		exec_xml(module, act, params, callback, responses, params, form);
+		//exec_xml(module, act, params, callback, responses, params, form);
+		exec_json(module + '.' + act, params, function(result) {
+			if ($.isFunction(callback)) {
+				var filtered_result = {};
+				responses.forEach(function(key) {
+					if (result[key]) {
+						filtered_result[key] = result[key];
+					}
+				});
+				callback(filtered_result, responses, params, form);
+			}
+		});
 	};
 
 	v.cast('ADD_CALLBACK', args);
