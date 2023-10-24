@@ -60,7 +60,7 @@ class Cookie
 		// Set defaults.
 		if (!array_key_exists('path', $options))
 		{
-			$options['path'] = config('cookie.path') ?? \RX_BASEURL;
+			$options['path'] = config('cookie.path') ?? '/';
 		}
 		if (!array_key_exists('domain', $options) && ($default_domain = config('cookie.domain')))
 		{
@@ -87,7 +87,7 @@ class Cookie
 		else
 		{
 			$expires = $options['expires'];
-			$path = $options['path'] ?? \RX_BASEURL;
+			$path = $options['path'] ?? '/';
 			$domain = $options['domain'] ?? null;
 			$secure = $options['secure'] ?? false;
 			$httponly = $options['httponly'] ?? false;

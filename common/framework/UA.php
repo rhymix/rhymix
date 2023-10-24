@@ -470,7 +470,7 @@ class UA
 	{
 		if (in_array($color_scheme, ['light', 'dark']))
 		{
-			Cookie::set('rx_color_scheme', $color_scheme, ['expires' => 365]);
+			Cookie::set('rx_color_scheme', $color_scheme, ['expires' => 365, 'path' => \RX_BASEURL]);
 		}
 		else
 		{
