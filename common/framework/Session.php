@@ -155,23 +155,24 @@ class Session
 			}
 		}
 
-		// Check the login status cookie.
-		self::checkLoginStatusCookie();
-
 		// Create or refresh the session if needed.
 		if ($must_create)
 		{
-			return self::create();
+			$result = self::create();
 		}
 		elseif ($must_refresh)
 		{
-			return self::refresh(true);
+			$result = self::refresh(true);
 		}
 		else
 		{
 			$_SESSION['is_new_session'] = false;
-			return true;
+			$result = true;
 		}
+
+		// Check the login status cookie.
+		self::checkLoginStatusCookie();
+		return $result;
 	}
 
 	/**
