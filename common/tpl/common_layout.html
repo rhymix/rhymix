@@ -1,6 +1,6 @@
 <config version="2" />
 <!DOCTYPE html>
-<html lang="{{ $lang_type = Context::getLangType() }}" class="xe-mobilelayout"|if="$m">
+<html lang="{!! $lang_type = Context::getLangType() !!}" class="xe-mobilelayout"|if="$m">
 <head>
 
 <!-- META -->
@@ -11,19 +11,19 @@
 @foreach (Context::getMetaTag() as $val)
 <meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{{ $val['content'] }}" />
 @endforeach
-<meta name="csrf-token" content="{{ \Rhymix\Framework\Session::getGenericToken()|noescape }}" />
+<meta name="csrf-token" content="{!! \Rhymix\Framework\Session::getGenericToken() !!}" />
 
 <!-- TITLE -->
 <title>{{ Context::getBrowserTitle() }}</title>
 
 <!-- CSS -->
 @foreach (Context::getCssFile(true) as $css_file)
-<link rel="stylesheet" href="{{ $css_file['file']|noescape }}" media="{{ $css_file['media']|noescape }}"|if="$css_file['media'] !== 'all'" />
+<link rel="stylesheet" href="{!! $css_file['file'] !!}" media="{{ $css_file['media'] }}"|if="$css_file['media'] !== 'all'" />
 @endforeach
 
 <!-- JS -->
 @foreach (Context::getJsFile('head', true) as $js_file)
-<script src="{{ $js_file['file']|noescape }}"></script>
+<script src="{!! $js_file['file'] !!}"></script>
 @endforeach
 
 <!-- RSS -->
@@ -45,21 +45,21 @@
 <link rel="canonical" href="{{ $canonical_url }}" />
 @endif
 @if (!empty($favicon_url))
-<link rel="shortcut icon" href="{$favicon_url}" />
+<link rel="shortcut icon" href="{{ $favicon_url }}" />
 @endif
 @if (!empty($mobicon_url))
-<link rel="apple-touch-icon" href="{$mobicon_url}" />
+<link rel="apple-touch-icon" href="{{ $mobicon_url }}" />
 @endif
 
 <!-- OTHER HEADERS -->
 @foreach (Context::getOpenGraphData() as $og_metadata)
-<meta property="{$og_metadata['property']}" content="{$og_metadata['content']}" />
+<meta property="{{ $og_metadata['property'] }}" content="{{ $og_metadata['content'] }}" />
 @endforeach
-{{ Context::getHtmlHeader()|noescape }}
+{!! Context::getHtmlHeader() !!}
 </head>
 
 <!-- BODY START -->
-<body{{ Context::getBodyClass()|noescape }}>
+<body{!! Context::getBodyClass() !!}>
 
 <!-- COMMON JS VARIABLES -->
 <script>
@@ -77,10 +77,10 @@
 </script>
 
 <!-- PAGE CONTENT -->
-{{ Context::getBodyHeader()|noescape }}
-{{ $content|noescape }}
-{{ Context::getHtmlFooter()|noescape }}
-{{ "\n\n" }}
+{!! Context::getBodyHeader() !!}
+{!! $content !!}
+{!! Context::getHtmlFooter() !!}
+{!! "\n\n" !!}
 
 <!-- ETC -->
 @desktop
@@ -92,7 +92,7 @@
 
 <!-- BODY JS -->
 @foreach (Context::getJsFile('body', true) as $js_file)
-<script src="{{ $js_file['file']|noescape }}"></script>
+<script src="{!! $js_file['file'] !!}"></script>
 @endforeach
 
 </body>
