@@ -7,18 +7,18 @@ jobs:
       fail-fast: false
       matrix:
         php: [ '7.2', '7.3', '7.4', '8.0', '8.1', '8.2' ]
-    
+
     name: PHP ${{ matrix.php }}
     steps:
-    
+
     - name: Checkout Repository
       uses: actions/checkout@v3
-    
+
     - name: Setup PHP
       uses: nanasess/setup-php@master
       with:
         php-version: ${{ matrix.php }}
-    
+
     - name: Start MySQL and create database
       run: |
         sudo systemctl start mysql.service
@@ -29,13 +29,13 @@ jobs:
 
     - name: PHP Lint
       run: if find . -name "*.php" ! -path "./common/vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
-    
+
     - name: Download codeception
-      run: wget https://codeception.com/codecept.phar
-    
+      run: wget https://res.rhymix.org/ci/php${{ matrix.php }}/codecept.phar
+
     - name: Run PHP development server
       run: php -S localhost:8000 &
-    
+
     - name: Build and run codeception
       run: |
         php codecept.phar build
