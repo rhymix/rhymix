@@ -435,6 +435,7 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 		if (confirm_msg && !confirm(confirm_msg)) return false;
 
 		//exec_xml(module, act, params, callback, responses, params, form);
+		params['_rx_ajax_compat'] = 'XMLRPC';
 		exec_json(module + '.' + act, params, function(result) {
 			if ($.isFunction(callback)) {
 				var filtered_result = {};

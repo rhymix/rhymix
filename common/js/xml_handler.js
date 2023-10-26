@@ -322,6 +322,15 @@
 			}
 		};
 
+		// Generate headers.
+		var headers = {};
+		if (action !== 'raw') {
+			headers['X-CSRF-Token'] = getCSRFToken();
+			if (!params['_rx_ajax_compat']) {
+				headers['X-AJAX-Compat'] = 'JSON';
+			}
+		};
+
 		// Send the AJAX request.
 		try {
 			$.ajax({
@@ -330,10 +339,7 @@
 				url: request_uri,
 				data: params,
 				processData: (action !== 'raw'),
-				headers : (action !== 'raw') ? {
-					'X-AJAX-Compat': 'JSON',
-					'X-CSRF-Token': getCSRFToken()
-				} : {},
+				headers : headers,
 				success : successHandler,
 				error : errorHandler
 			});
