@@ -2,7 +2,7 @@
 <load target="js/dashboard_default.js" />
 <load target="js/dashboard_counter.js" />
 
-<div>
+{@ ob_start()}
 	<section class="status">
 		<h2>{$lang->uv}</h2>
 		<div style="margin:10px 15px;height:142px" id="visitors"></div>
@@ -13,7 +13,10 @@
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispCounterAdminIndex')}"><i>&rsaquo;</i> {$lang->details}</a>
 		</div>
 	</section>
-	<section class="status">
+{@ $dashboard_stack->left[] = ob_get_clean()}
+
+{@ ob_start()}
+		<section class="status">
 		<h2>{$lang->pv}</h2>
 		<div style="margin:10px 15px;height:142px" id="page_views"></div>
 		<div class="more">
@@ -24,9 +27,9 @@
 		</div>
 	</section>
 	<style scoped>.jqplot-table-legend{background:#fff;top:13px!important}</style>
-</div>
+{@ $dashboard_stack->left[] = ob_get_clean()}
 
-<div>
+{@ ob_start()}
 	<section class="document">
 		<h2>{$lang->latest_documents}</h2>
 		<ul>
@@ -47,6 +50,9 @@
 		</ul>
 		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
 	</section>
+{@ $dashboard_stack->right[] = ob_get_clean()}
+
+{@ ob_start()}
 	<section class="reply">
 		<h2>{$lang->latest_comments}</h2>
 		<ul>
@@ -66,7 +72,7 @@
 		</ul>
 		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i>&rsaquo;</i> {$lang->more}</a></p>
 	</section>
-</div>
+{@ $dashboard_stack->right[] = ob_get_clean()}
 
 <script>
 xe.lang.this_week = '{$lang->this_week}';

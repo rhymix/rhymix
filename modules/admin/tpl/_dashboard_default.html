@@ -1,7 +1,7 @@
 <config autoescape="on" />
 <load target="js/dashboard_default.js" />
 
-<div>
+{@ ob_start()}
 	<section class="member">
 		<h2>{$lang->member}</h2>
 		<ul>
@@ -17,9 +17,9 @@
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}"><i class="xi-angle-right"></i><span>{$lang->more}</span></a>
 		</div>
 	</section>
-</div>
+{@ $dashboard_stack->left[] = ob_get_clean()}
 
-<div>
+{@ ob_start()}
 	<section class="document">
 		<h2>{$lang->latest_documents}</h2>
 		<ul>
@@ -45,6 +45,9 @@
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i class="xi-angle-right"></i><span>{$lang->more}</span></a>
 		</div>
 	</section>
+{@ $dashboard_stack->right[] = ob_get_clean()}
+
+{@ ob_start()}
 	<section class="reply">
 		<h2>{$lang->latest_comments}</h2>
 		<ul>
@@ -65,4 +68,5 @@
 		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i class="xi-angle-right"></i><span>{$lang->more}</span></a></p>
 	</section>
 </div>
+{@ $dashboard_stack->right[] = ob_get_clean()}
 

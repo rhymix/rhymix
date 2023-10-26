@@ -52,7 +52,7 @@
 		<h2>{$lang->update_available}</h2>
 		<p>{$lang->core_update_available} <a href="https://rhymix.org/" target="_blank">{$lang->core_update_link}</a></p>
 	</div>
-	
+
 	<!--// Notice about cleaning up unnecessary core files -->
 	<div class="message update cleanup_list" cond="$cleanup_list">
 		<h2>{$lang->msg_cleanup_notice_title}</h2>
@@ -91,12 +91,30 @@
 
 	<!--// Real dashboard begins here -->
 	<div class="dashboard">
-		<block cond="$counterAddonActivated">
+		{@
+			$dashboard_stack = new stdClass;
+			$dashboard_stack->left = [];
+			$dashboard_stack->right = [];
+		}
+
+		<!--@if($counterAddonActivated)-->
 			<include target="./_dashboard_counter.html" />
-		</block>
-		<block cond="!$counterAddonActivated">
+		<!--@else-->
 			<include target="./_dashboard_default.html" />
-		</block>
+		<!--@endif-->
+
+		<!--// Call event handler -->
+		{@ ModuleHandler::triggerCall('admin.dashboard', 'before', $dashboard_stack)}
+
+		<!--// Left stack -->
+		<div>
+			{implode("\n", $dashboard_stack->left)|noescape}
+		</div>
+
+		<!--// Right stack -->
+		<div>
+			{implode("\n", $dashboard_stack->right)|noescape}
+		</div>
 	</div>
 </div>
 
