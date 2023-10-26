@@ -533,6 +533,7 @@ class Context
 	/**
 	 * Get DB's db_type
 	 *
+	 * @deprecated
 	 * @return string DB's db_type
 	 */
 	public static function getDBType()
@@ -543,6 +544,7 @@ class Context
 	/**
 	 * Set DB information
 	 *
+	 * @deprecated
 	 * @param object $db_info DB information
 	 * @return void
 	 */
@@ -554,6 +556,7 @@ class Context
 	/**
 	 * Get DB information
 	 *
+	 * @deprecated
 	 * @return object DB information
 	 */
 	public static function getDBInfo()
@@ -574,6 +577,7 @@ class Context
 	/**
 	 * Return ssl status
 	 *
+	 * @deprecated
 	 * @return object SSL status (none or always)
 	 */
 	public static function getSSLStatus()
@@ -648,7 +652,8 @@ class Context
 	/**
 	 * Single Sign On (SSO)
 	 *
-	 * @return bool True : Module handling is necessary in the control path of current request , False : Otherwise
+	 * @deprecated
+	 * @return bool
 	 */
 	public static function checkSSO()
 	{
@@ -658,6 +663,7 @@ class Context
 	/**
 	 * Check if FTP info is registered
 	 *
+	 * @deprecated
 	 * @return bool True: FTP information is registered, False: otherwise
 	 */
 	public static function isFTPRegisted()
@@ -669,6 +675,7 @@ class Context
 	/**
 	 * Get FTP information
 	 *
+	 * @deprecated
 	 * @return object FTP information
 	 */
 	public static function getFTPInfo()
@@ -799,6 +806,7 @@ class Context
 
 	/**
 	 * Get browser title
+	 *
 	 * @deprecated
 	 */
 	public static function _getBrowserTitle()
@@ -1051,6 +1059,7 @@ class Context
 	/**
 	 * Encode UTF-8 domain into IDNA (punycode)
 	 *
+	 * @deprecated
 	 * @param string $domain Domain to convert
 	 * @return string Converted string
 	 */
@@ -1062,6 +1071,7 @@ class Context
 	/**
 	 * Convert IDNA (punycode) domain into UTF-8
 	 *
+	 * @deprecated
 	 * @param string $domain Domain to convert
 	 * @return string Converted string
 	 */
@@ -1482,6 +1492,7 @@ class Context
 	/**
 	 * Check if there exists uploaded file
 	 *
+	 * @deprecated
 	 * @return bool True: exists, False: otherwise
 	 */
 	public static function isUploaded()
@@ -1492,6 +1503,7 @@ class Context
 	/**
 	 * Handle uploaded file
 	 *
+	 * @deprecated
 	 * @return void
 	 */
 	public static function _setUploadedArgument()
@@ -1612,6 +1624,8 @@ class Context
 
 	/**
 	 * Return js callback func.
+	 *
+	 * @deprecated
 	 * @return string callback func.
 	 */
 	public static function getJSCallbackFunc()
@@ -2322,6 +2336,7 @@ class Context
 
 	/**
 	 * Returns javascript plugin file info
+	 *
 	 * @param string $plugin_name
 	 * @return stdClass
 	 */
@@ -2378,6 +2393,7 @@ class Context
 
 		return $result;
 	}
+
 	/**
 	 * Load javascript plugin
 	 *
@@ -2569,6 +2585,7 @@ class Context
 	/**
 	 * Get config file
 	 *
+	 * @deprecated
 	 * @retrun string The path of the config file that contains database settings
 	 */
 	public static function getConfigFile()
@@ -2579,6 +2596,7 @@ class Context
 	/**
 	 * Get FTP config file
 	 *
+	 * @deprecated
 	 * @return string The path of the config file that contains FTP settings
 	 */
 	public static function getFTPConfigFile()
@@ -2623,10 +2641,11 @@ class Context
 	}
 
 	/**
-	 * Transforms codes about widget or other features into the actual code, deprecatred
+	 * Transforms codes about widget or other features into the actual code
 	 *
-	 * @param string Transforms codes
-	 * @return string Transforms codes
+	 * @deprecated
+	 * @param string $content
+	 * @return string
 	 */
 	public static function transContent($content)
 	{
@@ -2636,6 +2655,7 @@ class Context
 	/**
 	 * Check whether it is allowed to use rewrite mod
 	 *
+	 * @deprecated
 	 * @return int The currently configured rewrite level
 	 */
 	public static function isAllowRewrite()
@@ -2722,6 +2742,7 @@ class Context
 	/**
 	 * Converts a local path into an URL
 	 *
+	 * @deprecated
 	 * @param string $path URL path
 	 * @return string Converted path
 	 */
