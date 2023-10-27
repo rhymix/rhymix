@@ -24,7 +24,7 @@
 	<input type="hidden" name="source_content" value="{htmlspecialchars($source_message->content, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" />
 	<input type="hidden" name="content" value="" />
 	<input type="hidden" name="xe_validator_id" value="modules/communication/m.skins/default/send_message/1" />
-	<input type="hidden" name="success_return_url" value="{getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_type', 'S')}" />
+	<input type="hidden" name="success_return_url" value="{getNotEncodedUrl('', 'mid', $mid, 'act', 'dispCommunicationMessages')}" />
 	<input type="hidden" name="window_type" value="self" />
 	<ul>
 		<li>

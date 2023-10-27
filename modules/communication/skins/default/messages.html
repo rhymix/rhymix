@@ -2,6 +2,10 @@
 <load target="filter/delete_checked_message.xml" />
 <load target="filter/update_allow_message.xml" />
 
+<div cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/communication/skins/default/send_message/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
 <div class="btnArea">
 	<div style="margin:0;display:block;float:left" class="btn-group">
 		<a loop="$lang->message_box => $key,$val" class="btn" href="{getUrl(['mid' => $mid, 'act' => 'dispCommunicationMessages', 'message_type' => $key])}" style="font-weight:bold"|cond="$message_type == $key">{$val}</a>
@@ -44,6 +48,7 @@
 		</tr>
 	<!--@endif-->
 </table>
+
 <div class="btnArea btn-group" cond="$message" style="margin-bottom:20px">
 	<button class="btn" cond="$message->message_type != 'S' && $message->member_srl != $logged_info->member_srl" type="button" onclick="doSendMessage('{$message->sender_srl}','{$message->message_srl}');">{$lang->cmd_reply_message}</button>
 	<button class="btn" cond="$message->message_type == 'R'" type="button" onclick="doStoreMessage('{$message->message_srl}');">{$lang->cmd_store}</button>

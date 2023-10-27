@@ -26,7 +26,7 @@
 		<input type="hidden" name="content" value="{htmlspecialchars($source_message->content)}" />
 		<input type="hidden" name="receiver_srl" value="{$receiver_info->member_srl}" />
 		<input type="hidden" name="xe_validator_id" value="modules/communication/skins/default/send_message/1" />
-		<input type="hidden" name="success_return_url" value="{getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_type', 'S')}" />
+		<input type="hidden" name="success_return_url" value="{getNotEncodedUrl('', 'mid', $mid, 'act', 'dispCommunicationMessages')}" />
 		<input type="hidden" name="window_type" value="{escape($window_type ?? '')}" />
 		<table class="table table-striped table-hover">
 			<tr>

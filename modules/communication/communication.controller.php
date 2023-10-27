@@ -155,8 +155,14 @@ class CommunicationController extends communication
 			else
 			{
 				$this->setMessage('success_sended');
-				$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('','act', 'dispCommunicationMessages', 'message_type', 'S');
-				$this->setRedirectUrl($returnUrl);
+				if (Context::get('success_return_url'))
+				{
+					$this->setRedirectUrl(Context::get('success_return_url'));
+				}
+				else
+				{
+					$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispCommunicationMessages'));
+				}
 			}
 		}
 
