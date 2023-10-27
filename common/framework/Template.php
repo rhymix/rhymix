@@ -38,6 +38,12 @@ class Template
 	public $cache_path;
 
 	/**
+	 * Properties for backward compatibility
+	 */
+	public $path;
+	public $web_path;
+
+	/**
 	 * Properties for state management during compilation/execution
 	 */
 	protected $_ob_level;
@@ -177,6 +183,8 @@ class Template
 			$this->config->autoescape = true;
 		}
 		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $this->relative_dirname, $match) ? $match[1] : null;
+		$this->path = $this->absolute_dirname;
+		$this->web_path = \RX_BASEURL . $this->relative_dirname;
 		$this->_setCachePath();
 	}
 
@@ -439,6 +447,7 @@ class Template
 	{
 		// Import Context and lang as local variables.
 		$__Context = $this->vars ?: \Context::getAll();
+		$__Context->tpl_path = $this->absolute_dirname;
 
 		// Start the output buffer.
 		$this->_ob_level = ob_get_level();
