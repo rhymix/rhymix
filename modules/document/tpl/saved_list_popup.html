@@ -10,8 +10,8 @@
 			<tr>
 				<th class="title">{$lang->date}</th>
 				<th class="title">{$lang->title}</th>
-				<th class="title">{$lang->cmd_select}</th>
-				<th class="title">{$lang->cmd_delete}</th>
+				<th class="title" style="width:60px">{$lang->cmd_select}</th>
+				<th class="title" style="width:60px">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -20,7 +20,7 @@
 				<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
 				<td>
 					<a href="#" class="toggle_content">{$val->getTitle()}</a>
-					<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;">{$val->getContent(false)}</div>
+					<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;margin:20px -120px 0 0">{$val->getContent(false)}</div>
 				</td>
 				<td><a href="#" class="btn btn_select_temp_saved" data-document-srl="{$val->document_srl}" data-document-type="{$val->getDocumentType()}">{$lang->cmd_select}</a></td>
 				<td><a href="#" class="btn btn_delete_temp_saved" data-document-srl="{$val->document_srl}">{$lang->cmd_delete}</a></td>
