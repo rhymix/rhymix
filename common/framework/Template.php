@@ -139,20 +139,20 @@ class Template
 		$filename = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $filename);
 
 		// If the filename doesn't have a typical extension and doesn't exist, try adding common extensions.
-		if (!preg_match('/\.(?:html?|php)$/', $filename) && !Storage::exists($this->absolute_dirname . $filename))
+		if (!preg_match('/\.(?:html?|php)$/', $filename) && !Storage::isFile($this->absolute_dirname . $filename))
 		{
 			if ($extension !== 'auto')
 			{
 				$filename .= '.' . $extension;
 				$this->extension = $extension;
 			}
-			elseif (Storage::exists($this->absolute_dirname . $filename . '.html'))
+			elseif (Storage::isFile($this->absolute_dirname . $filename . '.html'))
 			{
 				$filename .= '.html';
 				$this->extension = 'html';
 				$this->exists = true;
 			}
-			elseif (Storage::exists($this->absolute_dirname . $filename . '.blade.php'))
+			elseif (Storage::isFile($this->absolute_dirname . $filename . '.blade.php'))
 			{
 				$filename .= '.blade.php';
 				$this->extension = 'blade.php';
@@ -175,7 +175,7 @@ class Template
 		}
 		if ($this->exists === null)
 		{
-			$this->exists = Storage::exists($this->absolute_path);
+			$this->exists = Storage::isFile($this->absolute_path);
 		}
 		if ($this->exists && $this->extension === 'blade.php')
 		{
