@@ -8,9 +8,10 @@ namespace Rhymix\Framework;
 class Template
 {
 	/**
-	 * Properties for user
+	 * Properties for convenience
 	 */
 	public $user;
+	public $request;
 
 	/**
 	 * Properties for configuration
@@ -81,8 +82,9 @@ class Template
 		// Initialize configuration.
 		$this->_initConfig();
 
-		// Set user information.
+		// Set user and current request information.
 		$this->user = Session::getMemberInfo() ?: new Helpers\SessionHelper();
+		$this->request = \Context::getCurrentRequest();
 
 		// Populate static properties for optimization.
 		if (self::$_mtime === null)
@@ -107,7 +109,7 @@ class Template
 
 	/**
 	 * Initialize the configuration object.
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function _initConfig(): void

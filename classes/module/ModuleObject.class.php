@@ -32,6 +32,7 @@ class ModuleObject extends BaseObject
 
 	// Variables for convenience
 	public $user;
+	public $request;
 
 	// Other variables for compatibility
 	public $ajaxRequestMethod = array('XMLRPC', 'JSON');
@@ -89,6 +90,7 @@ class ModuleObject extends BaseObject
 		{
 			$obj->user = Rhymix\Framework\Session::getMemberInfo();
 		}
+		$obj->request = \Context::getCurrentRequest();
 
 		// Return the instance.
 		return $GLOBALS['_module_instances_'][$class_name] = $obj;
