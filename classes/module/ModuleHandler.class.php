@@ -86,7 +86,7 @@ class ModuleHandler extends Handler
 		$this->mid = $mid ? $mid : Context::get('mid');
 		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
 		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
-		$this->route = Context::getRouteInfo() ?: new stdClass;
+		$this->route = Context::getCurrentRequest() ?: new stdClass;
 		$this->is_mobile = Mobile::isFromMobilePhone();
         if($entry = Context::get('entry'))
         {
@@ -157,7 +157,7 @@ class ModuleHandler extends Handler
 		}
 
 		// If the Router returned an error earlier, show an error here.
-		if($this->route && $this->route->status > 200)
+		if($this->route && $this->route->getRouteStatus() > 200)
 		{
 			$this->error = 'msg_module_is_not_exists';
 			$this->error_detail = 'ERR_ROUTE_NOT_FOUND';

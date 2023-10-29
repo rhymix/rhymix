@@ -537,7 +537,7 @@ class HTMLDisplayHandler
 			}
 			else
 			{
-				if (Rhymix\Framework\Router::getRewriteLevel() === 2 && Context::getRouteInfo()->url !== '')
+				if (Rhymix\Framework\Router::getRewriteLevel() === 2 && Context::getCurrentRequest()->url !== '')
 				{
 					$canonical_url = Rhymix\Framework\URL::getCurrentDomainURL(\RX_BASEURL . preg_replace('/\?.*$/', '', \RX_REQUEST_URL));
 				}

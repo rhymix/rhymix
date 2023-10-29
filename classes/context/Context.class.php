@@ -9,6 +9,11 @@
 class Context
 {
 	/**
+	 * Current request object
+	 */
+	protected $_current_request;
+
+	/**
 	 * Request method
 	 * @var string GET|POST|XMLRPC|JSON
 	 */
@@ -130,11 +135,6 @@ class Context
 	private static $_init_called = false;
 
 	/**
-	 * Current route information
-	 */
-	private static $_route_info = null;
-
-	/**
 	 * object oFrontEndFileHandler()
 	 * @var object
 	 */
@@ -239,15 +239,17 @@ class Context
 		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
-			$route_info = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());
-			self::setRequestArguments($route_info->args);
-			self::$_route_info = $route_info;
+			$request = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());
+			self::setRequestArguments($request->args);
 		}
 		else
 		{
+			$request = new Rhymix\Framework\Request;
 			self::setRequestArguments();
 		}
 		self::setUploadInfo();
+		self::$_instance->_current_request = $request;
+		$request->args = get_object_vars(self::$_get_vars);
 
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -366,13 +368,13 @@ class Context
 		// start session
 		if (\PHP_SAPI !== 'cli')
 		{
-			if (!isset(self::$_route_info->session) || self::$_route_info->session)
+			if ($request->getRouteOption('enable_session'))
 			{
 				session_cache_limiter('');
 				Rhymix\Framework\Session::checkSSO($site_module_info);
 				Rhymix\Framework\Session::start(false);
 			}
-			if (!isset(self::$_route_info->cache_control) || self::$_route_info->cache_control)
+			if ($request->getRouteOption('cache_control'))
 			{
 				if (!session_cache_limiter())
 				{
@@ -548,7 +550,7 @@ class Context
 	 * @param object $db_info DB information
 	 * @return void
 	 */
-	public static function setDBInfo($db_info)
+	public static function setDBInfo(object $db_info): void
 	{
 		self::$_instance->db_info = $db_info;
 	}
@@ -559,28 +561,39 @@ class Context
 	 * @deprecated
 	 * @return object DB information
 	 */
-	public static function getDBInfo()
+	public static function getDBInfo(): object
 	{
-		return self::$_instance->db_info;
+		return self::$_instance->db_info ?? new \stdClass;
 	}
 
 	/**
 	 * Get current route information
 	 *
-	 * @return object
+	 * @deprecated
+	 * @return Rhymix\Framework\Request
 	 */
-	public static function getRouteInfo()
+	public static function getRouteInfo(): Rhymix\Framework\Request
 	{
-		return self::$_route_info;
+		return self::$_instance->_current_request;
 	}
 
 	/**
-	 * Return ssl status
+	 * Get the current request.
+	 *
+	 * @return Rhymix\Framework\Request
+	 */
+	public static function getCurrentRequest(): Rhymix\Framework\Request
+	{
+		return self::$_instance->_current_request;
+	}
+
+	/**
+	 * Return SSL status
 	 *
 	 * @deprecated
-	 * @return object SSL status (none or always)
+	 * @return string (none or always)
 	 */
-	public static function getSSLStatus()
+	public static function getSSLStatus(): string
 	{
 		return self::get('_use_ssl');
 	}

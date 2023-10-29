@@ -91,21 +91,6 @@ class Router
 	protected static $_route_cache = array();
 
 	/**
-	 * Instance properties.
-	 */
-	public $status = 200;
-	public $url = '';
-	public $module = '';
-	public $mid = '';
-	public $act = '';
-	public $args = [];
-	public $is_forwarded = false;
-	public $check_csrf = true;
-	public $meta_noindex = false;
-	public $session = true;
-	public $cache_control = true;
-
-	/**
 	 * Return the currently configured rewrite level.
 	 *
 	 * 0 = None
@@ -130,12 +115,12 @@ class Router
 	 * @param string $method
 	 * @param string $url
 	 * @param int $rewrite_level
-	 * @return self
+	 * @return Request
 	 */
-	public static function parseURL(string $method, string $url, int $rewrite_level): self
+	public static function parseURL(string $method, string $url, int $rewrite_level): Request
 	{
 		// Prepare the return object.
-		$result = new self;
+		$result = new Request;
 
 		// Separate additional arguments from the URL.
 		$args = array();
@@ -155,7 +140,7 @@ class Router
 		}
 		if (function_exists('mb_check_encoding') && !mb_check_encoding($url, 'UTF-8'))
 		{
-			$result->status = 404;
+			$result->setRouteStatus(404);
 			return $result;
 		}
 
@@ -223,7 +208,7 @@ class Router
 							$result->module = $action[0];
 							$result->mid = $prefix;
 							$result->act = $action[1];
-							$result->is_forwarded = true;
+							$result->setRouteOption('is_forwarded', true);
 							$result->args = $allargs;
 							self::_fillActionProperties($result);
 							return $result;
@@ -238,7 +223,7 @@ class Router
 					$result->module = $module_name;
 					$result->mid = $prefix_type === 'mid' ? $prefix : '';
 					$result->act = $internal_url;
-					$result->is_forwarded = true;
+					$result->setRouteOption('is_forwarded', true);
 					$result->args = $allargs;
 					self::_fillActionProperties($result);
 					return $result;
@@ -251,7 +236,7 @@ class Router
 					$result->module = $module_name;
 					$result->mid = $prefix_type === 'mid' ? $prefix : '';
 					$result->act = $action_info->error_handlers[404];
-					$result->is_forwarded = false;
+					$result->setRouteOption('is_forwarded', false);
 					$result->args = $allargs;
 					self::_fillActionProperties($result);
 					return $result;
@@ -271,7 +256,7 @@ class Router
 					$allargs = array_merge($args, $matches, ['act' => $action[1]]);
 					$result->module = $action[0];
 					$result->act = $action[1];
-					$result->is_forwarded = true;
+					$result->setRouteOption('is_forwarded', true);
 					$result->args = $allargs;
 					self::_fillActionProperties($result);
 					return $result;
@@ -289,7 +274,7 @@ class Router
 				$result->module = $allargs['module'] ?? '';
 				$result->mid = ($allargs['mid'] ?? '') ?: '';
 				$result->act = ($allargs['act'] ?? '') ?: '';
-				$result->is_forwarded = false;
+				$result->setRouteOption('is_forwarded', false);
 				$result->args = $allargs;
 				self::_fillActionProperties($result);
 				return $result;
@@ -308,7 +293,7 @@ class Router
 		}
 		else
 		{
-			$result->status = 404;
+			$result->setRouteStatus(404);
 			return $result;
 		}
 	}
@@ -496,20 +481,20 @@ class Router
 	/**
 	 * Fill additional properties of an action.
 	 *
-	 * @param object $route
+	 * @param Request $request
 	 * @param ?object $action
 	 * @return void
 	 */
-	protected static function _fillActionProperties(object $route, ?object $action = null): void
+	protected static function _fillActionProperties(Request $request, ?object $action = null): void
 	{
 		if (!$action)
 		{
-			if ($route->module && $route->act)
+			if ($request->module && $request->act)
 			{
-				$action_info = \ModuleModel::getModuleActionXml($route->module);
-				if (isset($action_info->action->{$route->act}))
+				$action_info = \ModuleModel::getModuleActionXml($request->module);
+				if (isset($action_info->action->{$request->act}))
 				{
-					$action = $action_info->action->{$route->act};
+					$action = $action_info->action->{$request->act};
 				}
 			}
 		}
@@ -518,10 +503,10 @@ class Router
 			return;
 		}
 
-		$route->check_csrf = ($action->check_csrf === 'false') ? false : true;
-		$route->meta_noindex = ($action->meta_noindex === 'true') ? true : false;
-		$route->session = ($action->session === 'false') ? false : true;
-		$route->cache_control = ($action->cache_control === 'false') ? false : true;
+		$request->setRouteOption('check_csrf', ($action->check_csrf === 'false') ? false : true);
+		$request->setRouteOption('is_indexable', ($action->meta_noindex === 'true') ? false : true);
+		$request->setRouteOption('enable_session', ($action->session === 'false') ? false : true);
+		$request->setRouteOption('cache_control', ($action->cache_control === 'false') ? false : true);
 	}
 
 	/**
