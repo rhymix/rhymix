@@ -2,11 +2,6 @@
 
 class PasswordTest extends \Codeception\Test\Unit
 {
-	public function _before()
-	{
-		\Context::init();
-	}
-
 	public function testIsValidAlgorithm()
 	{
 		$this->assertTrue(Rhymix\Framework\Password::isValidAlgorithm('bcrypt'));

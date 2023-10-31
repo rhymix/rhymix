@@ -12,6 +12,7 @@ $_SERVER['REQUEST_URI'] = '/' . basename(dirname(__DIR__)) . '/index.php';
 
 // Include the autoloader.
 require_once dirname(__DIR__) . '/common/autoload.php';
+Context::init();
 
 function _debug() {
 	$args = func_get_args();
