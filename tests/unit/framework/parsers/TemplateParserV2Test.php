@@ -936,17 +936,17 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Lang code with variable as name
 		$source = '@lang($var->name)';
-		$target = '<?php echo $this->config->context === \'JS\' ? escape_js(lang($__Context->var->name)) : lang($__Context->var->name); ?>';
+		$target = '<?php echo $this->config->context === \'JS\' ? escape_js($this->_v2_lang($__Context->var->name)) : $this->_v2_lang($__Context->var->name); ?>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Lang code with literal name and variable
 		$source = "@lang('board.cmd_list_items', \$var)";
-		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(lang('board.cmd_list_items', \$__Context->var)) : lang('board.cmd_list_items', \$__Context->var); ?>";
+		$target = "<?php echo \$this->config->context === 'JS' ? escape_js(\$this->_v2_lang('board.cmd_list_items', \$__Context->var)) : \$this->_v2_lang('board.cmd_list_items', \$__Context->var); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Lang code with class alias
 		$source = "@use('Rhymix\Framework\Lang', 'Lang')\n" . '<p>@lang(Lang::getLang())</p>';
-		$target = "\n" . '<p><?php echo $this->config->context === \'JS\' ? escape_js(lang(Rhymix\Framework\Lang::getLang())) : lang(Rhymix\Framework\Lang::getLang()); ?></p>';
+		$target = "\n" . '<p><?php echo $this->config->context === \'JS\' ? escape_js($this->_v2_lang(Rhymix\Framework\Lang::getLang())) : $this->_v2_lang(Rhymix\Framework\Lang::getLang()); ?></p>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Dump one variable
@@ -1148,6 +1148,32 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertStringContainsString('/rhymix/common/js/plugins/ckeditor/', array_first($list)['file']);
 		$list = \Context::getCssFile();
 		$this->assertStringContainsString('/rhymix/tests/_data/template/css/style.scss', array_first($list)['file']);
+
+		// Lang
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2lang.html');
+		$tmpl->source_type = 'modules';
+		$tmpl->source_name = 'document';
+		$tmpl->disableCache();
+
+		$executed_output = $tmpl->compile();
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2lang.executed1.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2lang.executed1.html');
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
+
+		$tmpl->source_type = 'modules';
+		$tmpl->source_name = 'member';
+		$tmpl->disableCache();
+
+		$executed_output = $tmpl->compile();
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2lang.executed2.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2lang.executed2.html');
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
 
 		// Loop variable
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2loops.html');

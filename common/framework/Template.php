@@ -18,6 +18,7 @@ class Template
 	 */
 	public $config;
 	public $source_type;
+	public $source_name;
 	public $parent;
 	public $vars;
 
@@ -184,7 +185,11 @@ class Template
 			$this->config->version = 2;
 			$this->config->autoescape = true;
 		}
-		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $this->relative_dirname, $match) ? $match[1] : null;
+		if (preg_match('!^(addons|common|(?:m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/(\w+)!', $this->relative_dirname, $match))
+		{
+			$this->source_type = $match[1];
+			$this->source_name = $match[2];
+		}
 		$this->path = $this->absolute_dirname;
 		$this->web_path = \RX_BASEURL . $this->relative_dirname;
 		$this->setCachePath();
@@ -927,5 +932,27 @@ class Template
 			return false;
 		}
 		return count($args) ? in_array((string)$validator_id, $args, true) : true;
+	}
+
+	/**
+	 * Lang shortcut for v2.
+	 *
+	 * @param ...$args
+	 * @return string
+	 */
+	protected function _v2_lang(...$args): string
+	{
+		if (!isset($GLOBALS['lang']) || !$GLOBALS['lang'] instanceof Lang)
+		{
+			$GLOBALS['lang'] = Lang::getInstance(\Context::getLangType());
+			$GLOBALS['lang']->loadDirectory(\RX_BASEDIR . 'common/lang', 'common');
+		}
+
+		if (isset($args[0]) && !strncmp($args[0], 'this.', 5))
+		{
+			$args[0] = $this->source_name . '.' . substr($args[0], 5);
+		}
+
+		return $GLOBALS['lang']->get(...$args);
 	}
 }

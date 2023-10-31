@@ -720,7 +720,7 @@ class TemplateParser_v2
 						'json_encode(%s, self::$_json_options) : ' .
 						'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 				case 'lang':
-					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(lang(%s)) : lang(%s); ?>', $args, $args);
+					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js($this->_v2_lang(%s)) : $this->_v2_lang(%s); ?>', $args, $args);
 				case 'dump':
 					return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
 				case 'dd':
