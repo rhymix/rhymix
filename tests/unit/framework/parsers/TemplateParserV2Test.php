@@ -1108,7 +1108,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertEquals($target, $this->_parse($source));
 	}
 
-	public function testCompile()
+	public function testCompileGeneral()
 	{
 		// General example
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2example.html');
@@ -1148,7 +1148,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertStringContainsString('/rhymix/common/js/plugins/ckeditor/', array_first($list)['file']);
 		$list = \Context::getCssFile();
 		$this->assertStringContainsString('/rhymix/tests/_data/template/css/style.scss', array_first($list)['file']);
+	}
 
+	public function testCompileLang()
+	{
 		// Lang
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2lang.html');
 		$tmpl->source_type = 'modules';
@@ -1174,7 +1177,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($executed_output)
 		);
+	}
 
+	public function testCompileLoopVariable()
+	{
 		// Loop variable
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2loops.html');
 		$tmpl->disableCache();
@@ -1186,7 +1192,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($executed_output)
 		);
+	}
 
+	public function testCompilePushStack()
+	{
 		// Push stack
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2pushstack.html');
 		$tmpl->disableCache();
@@ -1199,7 +1208,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($executed_output)
 		);
 		$this->assertEquals(4, count($tmpl->getStack('cms')));
+	}
 
+	public function testCompileValidation()
+	{
 		// Validation error check
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2validation.html');
 		$tmpl->disableCache();
@@ -1211,7 +1223,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			$this->_normalizeWhitespace($expected),
 			$this->_normalizeWhitespace($executed_output)
 		);
+	}
 
+	public function testCompileVariableScope()
+	{
 		// Variable scope check
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2varscope.html');
 		$tmpl->disableCache();
