@@ -747,7 +747,7 @@ class Context
 	public static function getSiteTitle()
 	{
 		$domain_info = self::get('site_module_info');
-		if ($domain_info && $domain_info->settings && $domain_info->settings->title)
+		if ($domain_info && $domain_info->settings && !empty($domain_info->settings->title))
 		{
 			return escape(self::replaceUserLang($domain_info->settings->title, true), false);
 		}
@@ -765,7 +765,7 @@ class Context
 	public static function getSiteSubtitle()
 	{
 		$domain_info = self::get('site_module_info');
-		if ($domain_info && $domain_info->settings && $domain_info->settings->subtitle)
+		if ($domain_info && $domain_info->settings && !empty($domain_info->settings->subtitle))
 		{
 			return escape(self::replaceUserLang($domain_info->settings->subtitle, true), false);
 		}
