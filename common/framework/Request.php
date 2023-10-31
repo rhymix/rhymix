@@ -8,9 +8,14 @@ namespace Rhymix\Framework;
 class Request
 {
 	/**
-	 * The request method.
+	 * The actual HTTP request method.
 	 */
 	public $method = '';
+
+	/**
+	 * XE-compatible request method, e.g. XMLRPC.
+	 */
+	public $compat_method = '';
 
 	/**
 	 * The request URL, not including RX_BASEURL.
@@ -54,7 +59,8 @@ class Request
 	public function __construct(string $method = '', string $url = '', string $hostname = '', string $protocol = '')
 	{
 		// Set instance properties.
-		$this->method = $method ?: (\PHP_SAPI === 'cli' ? 'CLI' : \Context::getRequestMethod());
+		$this->method = $method ?: (\PHP_SAPI === 'cli' ? 'CLI' : ($_SERVER['REQUEST_METHOD'] ?? 'GET'));
+		$this->compat_method = \Context::getRequestMethod();
 		$this->url = $url ?: \RX_REQUEST_URL;
 		$this->hostname = $hostname ?: $_SERVER['HTTP_HOST'];
 		$this->protocol = \RX_SSL ? 'https' : 'http';

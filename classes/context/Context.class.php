@@ -9,147 +9,120 @@
 class Context
 {
 	/**
-	 * Current request object
-	 */
-	protected $_current_request;
-
-	/**
-	 * Request method
+	 * XE-compatible request method, e.g. XMLRPC.
+	 *
 	 * @var string GET|POST|XMLRPC|JSON
 	 */
 	public $request_method = 'GET';
 
 	/**
-	 * Response method.If it's not set, it follows request method.
+	 * Response method. If not set, it follows the request method.
+	 *
 	 * @var string HTML|XMLRPC|JSON|JS_CALLBACK
 	 */
 	public $response_method = '';
 
 	/**
-	 * js callback function name.
-	 * @var string
+	 * JS callback function name.
 	 */
 	public $js_callback_func = '';
 
 	/**
-	 * DB info
-	 * @var object
+	 * Legacy DB info and FTP info. Do not use.
 	 */
-	public $db_info = NULL;
+	public $db_info;
+	public $ftp_info;
 
 	/**
-	 * FTP info
-	 * @var object
-	 */
-	public $ftp_info = NULL;
-
-	/**
-	 * site's browser title
-	 * @var string
+	 * The current page's title and header/footer text.
 	 */
 	public $browser_title = '';
-
-	/**
-	 * script codes in <head>..</head>
-	 * @var string
-	 */
 	public $html_header = '';
-
-	/**
-	 * class names of <body>
-	 * @var array
-	 */
-	public $body_class = array();
-
-	/**
-	 * codes after <body>
-	 * @var string
-	 */
-	public $body_header = '';
-
-	/**
-	 * class names before </body>
-	 * @var string
-	 */
 	public $html_footer = '';
+	public $body_header = '';
+	public $body_class = [];
 
 	/**
-	 * Meta tags
-	 * @var array
+	 * The current page's SEO information.
 	 */
 	public $meta_tags = array();
 	public $meta_images = array();
-
-	/**
-	 * OpenGraph metadata
-	 * @var array
-	 */
 	public $opengraph_metadata = array();
-
-	/**
-	 * Canonical URL
-	 * @var string
-	 */
 	public $canonical_url = '';
 
 	/**
-	 * language type - changed by HTTP_USER_AGENT or user's cookie
-	 * @var string
+	 * The current language type.
 	 */
 	public $lang_type = '';
 
 	/**
-	 * contains language-specific data
-	 * @var object
+	 * Singleton instance of the Lang object.
+	 *
+	 * @var Rhymix\Framework\Lang
 	 */
-	public $lang = NULL;
+	public $lang;
 
 	/**
-	 * Checks uploaded
-	 * @var bool TRUE if attached file exists
+	 * This flag is set to true if a file is uploaded.
 	 */
-	public $is_uploaded = FALSE;
+	public $is_uploaded = false;
 
 	/**
-	 * Checks if the site is locked
-	 * @var bool TRUE if the site is locked
+	 * This flag is set to true if site lock is in effect.
 	 */
-	public $is_site_locked = FALSE;
+	public $is_site_locked = false;
 
 	/**
-	 * Result of initial security check
-	 * @var string|bool
+	 * Result of initial security check.
 	 */
 	public $security_check = 'OK';
 	public $security_check_detail = '';
 
 	/**
 	 * Singleton instance
-	 * @var object
+	 *
+	 * @var self
 	 */
-	private static $_instance = null;
+	private static $_instance;
 
 	/**
 	 * Flag to prevent calling init() twice
+	 *
+	 * @var bool
 	 */
 	private static $_init_called = false;
 
 	/**
-	 * object oFrontEndFileHandler()
+	 * Current request object
+	 *
+	 * @var Rhymix\Framework\Request
+	 */
+	private static $_current_request;
+
+	/**
+	 * User-set variables (Context::get, Context::set)
+	 *
 	 * @var object
 	 */
-	private static $_oFrontEndFileHandler = null;
+	private static $_user_vars = NULL;
+
+	/**
+	 * Singleton instance of FrontEndFileHandler
+	 *
+	 * @var FrontEndFileHandler
+	 */
+	private static $_oFrontEndFileHandler;
 
 	/**
 	 * Plugin default and blacklist cache
 	 */
-	private static $_default_plugins = null;
-	private static $_blacklist = null;
+	private static $_default_plugins;
+	private static $_blacklist;
 
 	/**
 	 * Reserved words cache
 	 */
-	private static $_reserved_words = null;
+	private static $_reserved_words;
 
 	/**
 	 * Reserved keys cache
@@ -162,25 +135,12 @@ class Context
 
 	/**
 	 * Pattern for request vars check
-	 * @var array
 	 */
 	private static $_check_patterns = array(
 		'@<(?:\?|%)@' => 'DENY ALL',
 		'@<script\s*?language\s*?=@i' => 'DENY ALL',
 		'@</?script@i' => 'ALLOW ADMIN ONLY',
 	);
-
-	/**
-	 * variables from current request
-	 * @var object
-	 */
-	private static $_get_vars = NULL;
-
-	/**
-	 * variables from user (Context::get, Context::set)
-	 * @var object
-	 */
-	private static $_tpl_vars = NULL;
 
 	/**
 	 * Obtain a singleton instance of Context.
@@ -194,8 +154,7 @@ class Context
 			// Create a singleton instance and initialize static properties.
 			self::$_instance = new Context();
 			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = new FrontEndFileHandler();
-			self::$_get_vars = self::$_get_vars ?: new stdClass;
-			self::$_tpl_vars = self::$_tpl_vars ?: new stdClass;
+			self::$_user_vars = self::$_user_vars ?: new stdClass;
 		}
 		return self::$_instance;
 	}
@@ -240,16 +199,15 @@ class Context
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 			$request = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());
+			self::$_current_request = $request;
 			self::setRequestArguments($request->args);
 		}
 		else
 		{
-			$request = new Rhymix\Framework\Request;
+			self::$_current_request = new Rhymix\Framework\Request;
 			self::setRequestArguments();
 		}
 		self::setUploadInfo();
-		self::$_instance->_current_request = $request;
-		$request->args = get_object_vars(self::$_get_vars);
 
 		// If Rhymix is installed, get virtual site information.
 		if(self::isInstalled())
@@ -350,7 +308,7 @@ class Context
 
 		// Set global variables for backward compatibility.
 		$GLOBALS['oContext'] = self::$_instance;
-		$GLOBALS['__Context__'] = &self::$_tpl_vars;
+		$GLOBALS['__Context__'] = &self::$_user_vars;
 		$GLOBALS['_time_zone'] = config('locale.default_timezone');
 		$GLOBALS['lang'] = &$lang;
 
@@ -368,13 +326,13 @@ class Context
 		// start session
 		if (\PHP_SAPI !== 'cli')
 		{
-			if ($request->getRouteOption('enable_session'))
+			if (self::$_current_request->getRouteOption('enable_session'))
 			{
 				session_cache_limiter('');
 				Rhymix\Framework\Session::checkSSO($site_module_info);
 				Rhymix\Framework\Session::start(false);
 			}
-			if ($request->getRouteOption('cache_control'))
+			if (self::$_current_request->getRouteOption('cache_control'))
 			{
 				if (!session_cache_limiter())
 				{
@@ -408,9 +366,9 @@ class Context
 
 		// set locations for javascript use
 		$current_url = $request_uri = self::getRequestUri();
-		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET' && self::$_get_vars)
+		if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'GET' && self::$_current_request->args)
 		{
-			if ($query_string = http_build_query(self::$_get_vars))
+			if ($query_string = http_build_query(self::$_current_request->args))
 			{
 				$current_url .= '?' . $query_string;
 			}
@@ -574,7 +532,7 @@ class Context
 	 */
 	public static function getRouteInfo(): Rhymix\Framework\Request
 	{
-		return self::$_instance->_current_request;
+		return self::$_current_request;
 	}
 
 	/**
@@ -584,7 +542,7 @@ class Context
 	 */
 	public static function getCurrentRequest(): Rhymix\Framework\Request
 	{
-		return self::$_instance->_current_request;
+		return self::$_current_request;
 	}
 
 	/**
@@ -1162,6 +1120,10 @@ class Context
 		if ($type)
 		{
 			self::$_instance->request_method = $type;
+			if (self::$_current_request)
+			{
+				self::$_current_request->compat_method = $type;
+			}
 			return;
 		}
 		elseif (self::$_instance->js_callback_func = self::getJSCallbackFunc())
@@ -1281,7 +1243,8 @@ class Context
 			{
 				$key = escape($key);
 				$val = self::_filterRequestVar($key, $val);
-				self::set($key, $val, true);
+				self::$_current_request->args[$key] = $val;
+				self::$_user_vars->{$key} = $val;
 			}
 		}
 	}
@@ -1708,7 +1671,7 @@ class Context
 		}
 
 		// Get existing parameters from the current request.
-		$get_vars = self::$_get_vars ? get_object_vars(self::$_get_vars) : array();
+		$get_vars = self::$_current_request->args ?? [];
 
 		// If $args_list is not an array, reset it to an empty array.
 		if (!is_array($args_list))
@@ -1917,10 +1880,10 @@ class Context
 	 *
 	 * @param string $key Key
 	 * @param mixed $val Value
-	 * @param mixed $set_to_get_vars If not FALSE, Set to get vars.
+	 * @param mixed $replace_request_arg
 	 * @return void
 	 */
-	public static function set($key, $val, $set_to_get_vars = false)
+	public static function set($key, $val, $replace_request_arg = false)
 	{
 		if(empty($key))
 		{
@@ -1928,17 +1891,17 @@ class Context
 			return;
 		}
 
-		self::$_tpl_vars->{$key} = $val;
+		self::$_user_vars->{$key} = $val;
 
-		if($set_to_get_vars || isset(self::$_get_vars->{$key}))
+		if($replace_request_arg || isset(self::$_current_request->args[$key]))
 		{
 			if($val === NULL || $val === '')
 			{
-				unset(self::$_get_vars->{$key});
+				unset(self::$_current_request->args[$key]);
 			}
 			else
 			{
-				self::$_get_vars->{$key} = $val;
+				self::$_current_request->args[$key] = $val;
 			}
 		}
 	}
@@ -1957,9 +1920,9 @@ class Context
 			return;
 		}
 
-		if(isset(self::$_tpl_vars->{$key}))
+		if(isset(self::$_user_vars->{$key}))
 		{
-			return self::$_tpl_vars->{$key};
+			return self::$_user_vars->{$key};
 		}
 		elseif(isset(self::$_instance->{$key}))
 		{
@@ -1986,10 +1949,10 @@ class Context
 
 		$args_list = func_get_args();
 		$output = new stdClass;
-		self::$_tpl_vars = self::$_tpl_vars !== null ? self::$_tpl_vars : new stdClass;
+		self::$_user_vars = self::$_user_vars !== null ? self::$_user_vars : new stdClass;
 		foreach($args_list as $key)
 		{
-			$output->{$key} = isset(self::$_tpl_vars->{$key}) ? self::$_tpl_vars->{$key} : (isset(self::$_instance->{$key}) ? self::$_instance->{$key} : null);
+			$output->{$key} = isset(self::$_user_vars->{$key}) ? self::$_user_vars->{$key} : (isset(self::$_instance->{$key}) ? self::$_instance->{$key} : null);
 		}
 		return $output;
 	}
@@ -2001,7 +1964,7 @@ class Context
 	 */
 	public static function getAll()
 	{
-		return self::$_tpl_vars !== null ? self::$_tpl_vars : new stdClass;
+		return self::$_user_vars !== null ? self::$_user_vars : new stdClass;
 	}
 
 	/**
@@ -2011,9 +1974,9 @@ class Context
 	 */
 	public static function getRequestVars()
 	{
-		if(self::$_get_vars)
+		if (self::$_current_request)
 		{
-			return clone(self::$_get_vars);
+			return (object)(self::$_current_request->args);
 		}
 		return new stdClass;
 	}
@@ -2025,7 +1988,10 @@ class Context
 	 */
 	public static function clearRequestVars()
 	{
-		self::$_get_vars = new stdClass;
+		if (self::$_current_request)
+		{
+			self::$_current_request->args = [];
+		}
 	}
 
 	/**
@@ -2035,7 +2001,7 @@ class Context
 	 */
 	public static function clearUserVars()
 	{
-		self::$_tpl_vars = new stdClass;
+		self::$_user_vars = new stdClass;
 	}
 
 	/**
