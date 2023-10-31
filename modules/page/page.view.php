@@ -250,50 +250,22 @@ class PageView extends Page
 		// Parse as template if enabled.
 		if ($this->proc_tpl)
 		{
-			// Store compiled template in a temporary file.
-			$oTemplate = Rhymix\Framework\Template::getInstance();
-			$real_target_dir = dirname($real_target_file);
-			$tmp_cache_file = preg_replace('/\.cache\.php$/', '.compiled.php', $cache_file);
-			$content = $oTemplate->compileDirect($real_target_dir . '/', basename($real_target_file));
-			$success = Rhymix\Framework\Storage::write($tmp_cache_file, $content);
-			if (!$success)
-			{
-				return '';
-			}
-
-			// Include template file in an isolated scope.
-			$content = '';
+			// Add the target directory to include_path, so that raw PHP include statements inside the template will work.
 			$include_path = get_include_path();
-			$ob_level = ob_get_level();
-			ob_start();
-			set_include_path($real_target_dir . PATH_SEPARATOR . $include_path);
-			call_user_func(function() use($real_target_dir, $tmp_cache_file) {
-				$__Context = Context::getAll();
-				$__Context->tpl_path = $real_target_dir;
-				global $lang;
-				include $tmp_cache_file;
-			});
-			set_include_path($include_path);
-			while (ob_get_level() > $ob_level)
-			{
-				$content .= ob_get_clean();
-			}
+			$target_dir = dirname($real_target_file);
+			set_include_path($target_dir . PATH_SEPARATOR . $include_path);
 
-			// Insert comments for debugging.
-			if(Rhymix\Framework\Debug::isEnabledForCurrentUser() && Context::getResponseMethod() === 'HTML' && !starts_with('<!DOCTYPE', $content) && !starts_with('<?xml', $content))
-			{
-				$sign = PHP_EOL . '<!-- Template %s : ' . $target_file . ' -->' . PHP_EOL;
-				$content = sprintf($sign, 'start') . $content . sprintf($sign, 'end');
-			}
+			// Compile the template.
+			$oTemplate = new Rhymix\Framework\Template($target_dir . '/', basename($real_target_file));
+			$oTemplate->setCachePath(preg_replace('/\.cache\.php$/', '.compiled.php', $cache_file));
+			$content = $oTemplate->compile();
 		}
 
 		// Parse as PHP if enabled.
 		elseif ($this->proc_php)
 		{
 			ob_start();
-			call_user_func(function() use($real_target_file) {
-				include $real_target_file;
-			});
+			include_in_clean_scope($real_target_file);
 			$content = ob_get_clean();
 		}
 

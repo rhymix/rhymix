@@ -187,17 +187,18 @@ class Template
 		$this->source_type = preg_match('!^((?:m\.)?[a-z]+)/!', $this->relative_dirname, $match) ? $match[1] : null;
 		$this->path = $this->absolute_dirname;
 		$this->web_path = \RX_BASEURL . $this->relative_dirname;
-		$this->_setCachePath();
+		$this->setCachePath();
 	}
 
 	/**
 	 * Set the path for the cache file.
 	 *
+	 * @param ?string $cache_path
 	 * @return void
 	 */
-	protected function _setCachePath()
+	public function setCachePath(?string $cache_path = null)
 	{
-		$this->cache_path = \RX_BASEDIR . 'files/cache/template/' . $this->relative_path . '.compiled.php';
+		$this->cache_path = $cache_path ?? (\RX_BASEDIR . 'files/cache/template/' . $this->relative_path . '.compiled.php');
 		if ($this->exists)
 		{
 			Debug::addFilenameAlias($this->absolute_path, $this->cache_path);
@@ -325,7 +326,7 @@ class Template
 			$this->absolute_path = \RX_BASEDIR . $override_filename;
 			$this->relative_path = $override_filename;
 			$this->exists = Storage::exists($this->absolute_path);
-			$this->_setCachePath();
+			$this->setCachePath();
 		}
 
 		// Return error if the source file does not exist.
