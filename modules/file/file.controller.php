@@ -42,10 +42,11 @@ class FileController extends File
 		}
 
 		// Get upload_target_srl
-		$upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
-		if (!$upload_target_srl)
+		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
+		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
 		{
-			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
 		}
 		if (!$upload_target_srl)
 		{
@@ -173,21 +174,32 @@ class FileController extends File
 		$editor_sequence = Context::get('editor_sequence');
 		$callback = Context::get('callback');
 		$module_srl = $this->module_srl;
-		$upload_target_srl = intval(Context::get('uploadTargetSrl'));
-		if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
 
 		// Exit a session if there is neither upload permission nor information
-		if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
-		// Extract from session information if upload_target_srl is not specified
-		if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-		// Create if upload_target_srl is not defined in the session information
-		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+		if(!$_SESSION['upload_info'][$editor_sequence]->enabled)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		// Get upload_target_srl
+		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
+		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$upload_target_srl)
+		{
+			$upload_target_srl = getNextSequence();
+			$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
+		}
+
 		// Delete and then attempt to re-upload if file_srl is requested
 		$file_srl = Context::get('file_srl');
 		if($file_srl)
 		{
 			$file_info = FileModel::getFile($file_srl);
-			if($file_info->file_srl == $file_srl && FileModel::isDeletable($file_info))
+			if($file_info->file_srl == $file_srl && $file_info->upload_target_srl == $upload_target_srl && FileModel::isDeletable($file_info))
 			{
 				$this->deleteFile($file_srl);
 			}
