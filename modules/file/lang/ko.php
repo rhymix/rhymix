@@ -49,6 +49,7 @@ $lang->about_save_changelog = '파일 저장 및 삭제 내역을 DB에 기록�
 $lang->cmd_delete_checked_file = '선택항목 삭제';
 $lang->cmd_move_to_document = '문서로 이동';
 $lang->cmd_download = '다운로드';
+$lang->msg_invalid_upload_info = '업로드 대상 정보가 일치하지 않습니다.';
 $lang->msg_not_permitted_download = '다운로드할 수 있는 권한이 없습니다.';
 $lang->msg_file_cart_is_null = '삭제할 파일을 선택해주세요.';
 $lang->msg_checked_file_is_deleted = '%d개의 첨부 파일이 삭제되었습니다.';

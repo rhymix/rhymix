@@ -36,11 +36,11 @@ class FileController extends File
 		$module_srl = $this->module_srl;
 		if (empty($_SESSION['upload_info'][$editor_sequence]->enabled))
 		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('file.msg_invalid_upload_info');
 		}
-		if ($_SESSION['upload_info'][$editor_sequence]->module_srl && $_SESSION['upload_info'][$editor_sequence]->module_srl !== $module_srl)
+		if ($_SESSION['upload_info'][$editor_sequence]->module_srl !== $module_srl)
 		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('file.msg_invalid_upload_info');
 		}
 
 		// Validate upload_target_srl.
@@ -48,7 +48,7 @@ class FileController extends File
 		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
 		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
 		{
-			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('file.msg_invalid_upload_info');
 		}
 		if (!$upload_target_srl)
 		{
@@ -180,11 +180,11 @@ class FileController extends File
 		$module_srl = $this->module_srl;
 		if (empty($_SESSION['upload_info'][$editor_sequence]->enabled))
 		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('file.msg_invalid_upload_info');
 		}
-		if ($_SESSION['upload_info'][$editor_sequence]->module_srl && $_SESSION['upload_info'][$editor_sequence]->module_srl !== $module_srl)
+		if ($_SESSION['upload_info'][$editor_sequence]->module_srl !== $module_srl)
 		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('file.msg_invalid_upload_info');
 		}
 
 		// Get upload_target_srl
@@ -192,7 +192,7 @@ class FileController extends File
 		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
 		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
 		{
-			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('file.msg_invalid_upload_info');
 		}
 		if (!$upload_target_srl)
 		{
@@ -749,6 +749,14 @@ class FileController extends File
 			}
 			$editor_sequence = ++$_SESSION['_editor_sequence_'];
 		}
+		if(!$module_srl)
+		{
+			$current_module_info = Context::get('current_module_info');
+			if (!empty($current_module_info->module_srl))
+			{
+				$module_srl = $current_module_info->module_srl;
+			}
+		}
 		if(!isset($_SESSION['upload_info']) || !is_array($_SESSION['upload_info']))
 		{
 			$_SESSION['upload_info'] = array();
@@ -762,8 +770,9 @@ class FileController extends File
 		$_SESSION['upload_info'][$editor_sequence]->module_srl = (int)$module_srl;
 		if (!$module_srl)
 		{
-			trigger_error('FileController::setUploadInfo() called without module_srl', E_USER_WARNING);
+			trigger_error('No module_srl supplied to setUploadInfo(), and cannot determine automatically', E_USER_WARNING);
 		}
+
 		return $editor_sequence;
 	}
 
