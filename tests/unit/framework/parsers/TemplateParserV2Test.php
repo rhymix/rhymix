@@ -1274,6 +1274,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 	protected function _normalizeWhitespace(string $content): string
 	{
 		$content = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $content);
+		$content = preg_replace('!(action|src)="' . preg_quote($this->baseurl, '!') . '!', '$1="/rhymix/', $content);
 
 		$result = [];
 		foreach (explode("\n", $content) as $line)
