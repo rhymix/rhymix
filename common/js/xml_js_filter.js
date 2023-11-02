@@ -423,10 +423,13 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 
 			n = n.replace(/\[\]$/, '');
 			if(params[n]) {
+				params[n] += '|@|' + v;
+				/*
 				if (!Array.isArray(params[n])) {
 					params[n] = [params[n]];
 				}
 				params[n].push(v);
+				*/
 			} else {
 				params[n] = field.value;
 			}
