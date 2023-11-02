@@ -251,13 +251,25 @@ class EditorModel extends Editor
 			}
 
 			Context::set('file_config',$file_config);
+
 			// Configure upload status such as file size
 			$upload_status = FileModel::getUploadStatus();
 			Context::set('upload_status', $upload_status);
+
 			// Upload enabled (internally caching)
 			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0);
+
+			// Set editor mid
+			if (!empty($option->mid))
+			{
+				Context::addHtmlFooter('<script> var editor_mid = ' . json_encode($option->mid) . '; </script>');
+			}
+
 			// Check if the file already exists
-			if($upload_target_srl) $files_count = FileModel::getFilesCount($upload_target_srl);
+			if ($upload_target_srl)
+			{
+				$files_count = FileModel::getFilesCount($upload_target_srl);
+			}
 		}
 		Context::set('files_count', (int)$files_count);
 
