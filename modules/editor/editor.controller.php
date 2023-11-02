@@ -328,11 +328,10 @@ class EditorController extends Editor
 		$editor_sequence = Context::get('editor_sequence');
 		$primary_key = Context::get('primary_key');
 		$oEditorModel = getModel('editor');
-		$oFileController = getController('file');
 
 		$saved_doc = $oEditorModel->getSavedDoc(null);
 
-		$oFileController->setUploadInfo($editor_sequence, $saved_doc->document_srl);
+		FileController::setUploadInfo($editor_sequence, $saved_doc->document_srl, intval($saved_doc->module_srl));
 		$vars = $this->getVariables();
 		$this->add("editor_sequence", $editor_sequence);
 		$this->add("key", $primary_key);
