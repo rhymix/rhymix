@@ -1145,9 +1145,9 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Check that resource is loaded
 		$list = \Context::getJsFile('body');
-		$this->assertStringContainsString('/rhymix/common/js/plugins/ckeditor/', array_first($list)['file']);
+		$this->assertStringContainsString('/common/js/plugins/ckeditor/', array_first($list)['file']);
 		$list = \Context::getCssFile();
-		$this->assertStringContainsString('/rhymix/tests/_data/template/css/style.scss', array_first($list)['file']);
+		$this->assertStringContainsString('/tests/_data/template/css/style.scss', array_first($list)['file']);
 	}
 
 	public function testCompileLang()
@@ -1240,7 +1240,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		);
 
 		$list = \Context::getJsFile();
-		$this->assertStringContainsString('/rhymix/tests/_data/template/js/test.js', array_last($list)['file']);
+		$this->assertStringContainsString('/tests/_data/template/js/test.js', array_last($list)['file']);
 	}
 
 	/**
