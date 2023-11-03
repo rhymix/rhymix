@@ -260,6 +260,10 @@ class EditorModel extends Editor
 			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0);
 
 			// Set editor mid
+			if (!empty($option->module_srl))
+			{
+				$option->mid = ModuleModel::getModuleInfoByModuleSrl($option->module_srl)->mid ?? null;
+			}
 			if (!empty($option->mid))
 			{
 				Context::addHtmlFooter('<script> var editor_mid = ' . json_encode($option->mid) . '; </script>');

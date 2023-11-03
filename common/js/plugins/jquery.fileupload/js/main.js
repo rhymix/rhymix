@@ -92,7 +92,7 @@
 			var defaultFormData = {
 				"editor_sequence": data.editorSequence,
 				"upload_target_srl" : data.uploadTargetSrl ? data.uploadTargetSrl : 0,
-				"mid" : window.current_mid ? window.current_mid : window.editor_mid,
+				"mid" : window.editor_mid ? window.editor_mid : window.current_mid,
 				"act": 'procFileUpload'
 			};
 

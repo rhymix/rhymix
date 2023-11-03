@@ -439,9 +439,7 @@ class MemberAdminView extends Member
 				}
 				if ($option->allow_fileupload)
 				{
-					$oMemberView = MemberView::getInstance();
-					$option->module_srl = $oMemberView->getMemberModuleSrl();
-					$option->mid = $oMemberView->getMemberModulePrefix();
+					$option->module_srl = MemberView::getInstance()->getMemberModuleSrl();
 				}
 
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
