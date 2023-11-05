@@ -901,7 +901,11 @@ class CommentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
+		}
+		else
+		{
+			$output_file = false;
 		}
 
 		// Remove source file if it was temporary
@@ -914,7 +918,7 @@ class CommentItem extends BaseObject
 		FileHandler::removeFile($thumbnail_lockfile);
 
 		// Return the thumbnail path if it was successfully generated
-		if($output)
+		if($output_file)
 		{
 			return $thumbnail_url . '?' . date('YmdHis');
 		}
