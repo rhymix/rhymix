@@ -440,7 +440,7 @@ class MemberAdminController extends Member
 			'profile_image_max_width', 'profile_image_max_height', 'profile_image_max_filesize', 'profile_image_force_ratio',
 			'image_name_max_width', 'image_name_max_height', 'image_name_max_filesize',
 			'image_mark_max_width', 'image_mark_max_height', 'image_mark_max_filesize',
-			'signature_editor_skin', 'sel_editor_colorset', 'signature_max_height', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload'
+			'signature_editor_skin', 'sel_editor_colorset', 'signature_max_height', 'signature_html', 'signature_html_retroact', 'member_allow_fileupload', 'member_max_filesize'
 		);
 
 		$list_order = Context::get('list_order');

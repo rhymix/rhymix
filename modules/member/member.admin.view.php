@@ -441,6 +441,10 @@ class MemberAdminView extends Member
 				{
 					$option->module_srl = MemberView::getInstance()->getMemberModuleSrl();
 				}
+				if ($member_config->member_max_filesize)
+				{
+					$option->allowed_filesize = $member_config->member_max_filesize * 1024;
+				}
 
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
 			}
