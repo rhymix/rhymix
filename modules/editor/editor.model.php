@@ -230,6 +230,11 @@ class EditorModel extends Editor
 			$file_config = FileModel::getUploadConfig();
 			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
 			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
+			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
+			{
+				$file_config->allowed_attach_size = $option->allowed_filesize * 1024 * 1024;
+				$file_config->allowed_filesize = $option->allowed_filesize * 1024 * 1024;
+			}
 
 			// Calculate the appropriate chunk size.
 			$file_config->allowed_chunk_size = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')) * 0.95, 64 * 1024 * 1024);
@@ -256,8 +261,17 @@ class EditorModel extends Editor
 			$upload_status = FileModel::getUploadStatus();
 			Context::set('upload_status', $upload_status);
 
-			// Upload enabled (internally caching)
-			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0);
+			// Set upload config in session
+			$upload_config = [];
+			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
+			{
+				$upload_config['allowed_filesize'] = $option->allowed_filesize;
+			}
+			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
+			{
+				$upload_config['allowed_filesize'] = $option->allowed_filesize;
+			}
+			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0, $upload_config);
 
 			// Set editor mid
 			if (!empty($option->module_srl))

@@ -90,9 +90,16 @@ class FileController extends File
 			$is_admin = (Context::get('logged_info')->is_admin === 'Y');
 			if (!$is_admin)
 			{
-				$module_config = FileModel::getFileConfig($module_srl);
-				$allowed_attach_size = $module_config->allowed_attach_size * 1024 * 1024;
-				$allowed_filesize = $module_config->allowed_filesize * 1024 * 1024;
+				if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_filesize))
+				{
+					$allowed_attach_size = $allowed_filesize = ($_SESSION['upload_info'][$editor_sequence]->allowed_filesize * 1024 * 1024);
+				}
+				else
+				{
+					$module_config = FileModel::getFileConfig($module_srl);
+					$allowed_attach_size = $module_config->allowed_attach_size * 1024 * 1024;
+					$allowed_filesize = $module_config->allowed_filesize * 1024 * 1024;
+				}
 				if ($total_size > $allowed_filesize)
 				{
 					$this->add('chunk_status', 21);
@@ -140,7 +147,7 @@ class FileController extends File
 		}
 
 		// Save the file
-		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+		$output = $this->insertFile($file_info, $module_srl, $upload_target_srl, 0, false, $editor_sequence);
 		if($output->error != '0')
 		{
 			throw new Rhymix\Framework\Exception($output->message);
@@ -214,7 +221,7 @@ class FileController extends File
 		$file_info = Context::get('Filedata');
 		// An error appears if not a normally uploaded file
 		if(is_uploaded_file($file_info['tmp_name'])) {
-			$output = $this->insertFile($file_info, $module_srl, $upload_target_srl);
+			$output = $this->insertFile($file_info, $module_srl, $upload_target_srl, 0, false, $editor_sequence);
 			Context::set('uploaded_fileinfo',$output);
 			Context::set('module_srl', $module_srl);
 		}
@@ -737,9 +744,10 @@ class FileController extends File
 	 * @param int $editor_sequence
 	 * @param int $upload_target_srl
 	 * @param int $module_srl
+	 * @param array $config
 	 * @return int
 	 */
-	public static function setUploadInfo($editor_sequence = 0, $upload_target_srl = 0, $module_srl = 0)
+	public static function setUploadInfo($editor_sequence = 0, $upload_target_srl = 0, $module_srl = 0, array $config = [])
 	{
 		if(!$editor_sequence)
 		{
@@ -771,6 +779,13 @@ class FileController extends File
 		if (!$module_srl)
 		{
 			trigger_error('No module_srl supplied to setUploadInfo(), and cannot determine automatically', E_USER_WARNING);
+		}
+		if ($config)
+		{
+			foreach ($config as $key => $val)
+			{
+				$_SESSION['upload_info'][$editor_sequence]->$key = $val;
+			}
 		}
 
 		return $editor_sequence;
@@ -826,9 +841,10 @@ class FileController extends File
 	 * @param int $upload_target_srl Sequence of target to upload file
 	 * @param int $download_count Initial download count
 	 * @param bool $manual_insert If set true, pass validation check
+	 * @param int $editor_sequence Optional
 	 * @return BaseObject
 	 */
-	function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false)
+	function insertFile($file_info, $module_srl, $upload_target_srl, $download_count = 0, $manual_insert = false, $editor_sequence = 0)
 	{
 		// Set base information
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
@@ -871,7 +887,14 @@ class FileController extends File
 		// Check file extension
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
-			if($config->allowed_extensions && !in_array($file_info['extension'], $config->allowed_extensions))
+			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_extensions))
+			{
+				if (!in_array($file_info['extension'], $_SESSION['upload_info'][$editor_sequence]->allowed_extensions))
+				{
+					throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
+				}
+			}
+			elseif($config->allowed_extensions && !in_array($file_info['extension'], $config->allowed_extensions))
 			{
 				throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 			}
@@ -897,8 +920,15 @@ class FileController extends File
 		if(!$manual_insert && !$this->user->isAdmin())
 		{
 			$file_size = filesize($file_info['tmp_name']);
-			$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
-			$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_filesize))
+			{
+				$allowed_attach_size = $allowed_filesize = ($_SESSION['upload_info'][$editor_sequence]->allowed_filesize * 1024 * 1024);
+			}
+			else
+			{
+				$allowed_filesize = $config->allowed_filesize * 1024 * 1024;
+				$allowed_attach_size = $config->allowed_attach_size * 1024 * 1024;
+			}
 			if($allowed_filesize < $file_size)
 			{
 				throw new Rhymix\Framework\Exception('msg_exceeds_limit_size');
