@@ -435,6 +435,7 @@ function isSiteID($domain): bool
  */
 function cut_str($string, $cut_size = 0, $tail = '...'): string
 {
+	$string = (string)$string;
 	if($cut_size < 1 || !$string)
 	{
 		return $string;
