@@ -433,6 +433,14 @@ class MemberAdminView extends Member
 				$option->editor_toolbar_hide = 'Y';
 				$option->editor_skin = $member_config->signature_editor_skin;
 				$option->sel_editor_colorset = $member_config->sel_editor_colorset;
+				if (!$option->allow_html)
+				{
+					$option->editor_skin = 'textarea';
+				}
+				if ($option->allow_fileupload)
+				{
+					$option->module_srl = MemberView::getInstance()->getMemberModuleSrl();
+				}
 
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
 			}

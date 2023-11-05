@@ -31,21 +31,24 @@ class FileController extends File
 		// An error appears if not a normally uploaded file
 		if(!$file_info || !is_uploaded_file($file_info['tmp_name'])) exit();
 
-		// Basic variables setting
+		// Validate editor_sequence and module_srl.
 		$editor_sequence = Context::get('editor_sequence');
 		$module_srl = $this->module_srl;
-
-		// Exit a session if there is neither upload permission nor information
-		if(!$_SESSION['upload_info'][$editor_sequence]->enabled)
+		if (empty($_SESSION['upload_info'][$editor_sequence]->enabled))
 		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'editor_sequence'));
+		}
+		if ($_SESSION['upload_info'][$editor_sequence]->module_srl !== $module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'module_srl'));
 		}
 
-		// Get upload_target_srl
-		$upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
-		if (!$upload_target_srl)
+		// Validate upload_target_srl.
+		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
+		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
 		{
-			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'upload_target_srl'));
 		}
 		if (!$upload_target_srl)
 		{
@@ -170,24 +173,39 @@ class FileController extends File
 	function procFileIframeUpload()
 	{
 		// Basic variables setting
-		$editor_sequence = Context::get('editor_sequence');
 		$callback = Context::get('callback');
-		$module_srl = $this->module_srl;
-		$upload_target_srl = intval(Context::get('uploadTargetSrl'));
-		if(!$upload_target_srl) $upload_target_srl = intval(Context::get('upload_target_srl'));
 
-		// Exit a session if there is neither upload permission nor information
-		if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
-		// Extract from session information if upload_target_srl is not specified
-		if(!$upload_target_srl) $upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-		// Create if upload_target_srl is not defined in the session information
-		if(!$upload_target_srl) $_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl = getNextSequence();
+		// Validate editor_sequence and module_srl.
+		$editor_sequence = Context::get('editor_sequence');
+		$module_srl = $this->module_srl;
+		if (empty($_SESSION['upload_info'][$editor_sequence]->enabled))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'editor_sequence'));
+		}
+		if ($_SESSION['upload_info'][$editor_sequence]->module_srl !== $module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'module_srl'));
+		}
+
+		// Get upload_target_srl
+		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
+		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'upload_target_srl'));
+		}
+		if (!$upload_target_srl)
+		{
+			$upload_target_srl = getNextSequence();
+			$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
+		}
+
 		// Delete and then attempt to re-upload if file_srl is requested
 		$file_srl = Context::get('file_srl');
 		if($file_srl)
 		{
 			$file_info = FileModel::getFile($file_srl);
-			if($file_info->file_srl == $file_srl && FileModel::isDeletable($file_info))
+			if($file_info->file_srl == $file_srl && $file_info->upload_target_srl == $upload_target_srl && FileModel::isDeletable($file_info))
 			{
 				$this->deleteFile($file_srl);
 			}
@@ -582,10 +600,18 @@ class FileController extends File
 		$file_srl = Context::get('file_srl');
 		$file_srls = Context::get('file_srls');
 		if($file_srls) $file_srl = $file_srls;
-		// Exit a session if there is neither upload permission nor information
-		if(!$_SESSION['upload_info'][$editor_sequence]->enabled) exit();
 
+		// Exit a session if there is neither upload permission nor information
+		if (!$_SESSION['upload_info'][$editor_sequence]->enabled)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		if (!$upload_target_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		$module_srl = $_SESSION['upload_info'][$editor_sequence]->module_srl ?? 0;
 
 		$srls = explode(',',$file_srl);
 		if(!count($srls)) return;
@@ -601,9 +627,10 @@ class FileController extends File
 			if(!$output->toBool()) continue;
 
 			$file_info = $output->data;
-			if(!$file_info) continue;
+			if(!$file_info || $file_info->upload_target_srl != $upload_target_srl) continue;
+			if($module_srl && $file_info->module_srl != $module_srl) continue;
 			if(!FileModel::isDeletable($file_info)) continue;
-			if($upload_target_srl && $file_srl) $output = $this->deleteFile($file_srl);
+			$output = $this->deleteFile($file_srl);
 		}
 	}
 
@@ -709,9 +736,10 @@ class FileController extends File
 	 *
 	 * @param int $editor_sequence
 	 * @param int $upload_target_srl
+	 * @param int $module_srl
 	 * @return int
 	 */
-	function setUploadInfo($editor_sequence = 0, $upload_target_srl = 0)
+	public static function setUploadInfo($editor_sequence = 0, $upload_target_srl = 0, $module_srl = 0)
 	{
 		if(!$editor_sequence)
 		{
@@ -720,6 +748,14 @@ class FileController extends File
 				$_SESSION['_editor_sequence_'] = 1;
 			}
 			$editor_sequence = ++$_SESSION['_editor_sequence_'];
+		}
+		if(!$module_srl)
+		{
+			$current_module_info = Context::get('current_module_info');
+			if (!empty($current_module_info->module_srl))
+			{
+				$module_srl = $current_module_info->module_srl;
+			}
 		}
 		if(!isset($_SESSION['upload_info']) || !is_array($_SESSION['upload_info']))
 		{
@@ -730,7 +766,12 @@ class FileController extends File
 			$_SESSION['upload_info'][$editor_sequence] = new stdClass();
 		}
 		$_SESSION['upload_info'][$editor_sequence]->enabled = true;
-		$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
+		$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = (int)$upload_target_srl;
+		$_SESSION['upload_info'][$editor_sequence]->module_srl = (int)$module_srl;
+		if (!$module_srl)
+		{
+			trigger_error('No module_srl supplied to setUploadInfo(), and cannot determine automatically', E_USER_WARNING);
+		}
 
 		return $editor_sequence;
 	}
@@ -1740,17 +1781,32 @@ class FileController extends File
 	public function procFileSetCoverImage()
 	{
 		$vars = Context::getRequestVars();
-		$logged_info = Context::get('logged_info');
 
-		if(!$vars->editor_sequence) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$upload_target_srl = $_SESSION['upload_info'][$vars->editor_sequence]->upload_target_srl;
+		// Exit a session if there is neither upload permission nor information
+		$editor_sequence = $vars->editor_sequence ?? 0;
+		if (!$vars->editor_sequence)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if (!$_SESSION['upload_info'][$editor_sequence]->enabled)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		if (!$upload_target_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
 
 		$file_info = FileModel::getFile($vars->file_srl);
-
-		if(!$file_info) throw new Rhymix\Framework\Exceptions\TargetNotFound;
-
-		if(!$this->manager && !$file_info->member_srl === $logged_info->member_srl) throw new Rhymix\Framework\Exceptions\NotPermitted;
+		if (!$file_info || $file_info->upload_target_srl != $upload_target_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if(!$this->grant->manager && $file_info->member_srl != $this->user->member_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
 		$args =  new stdClass();
 		$args->file_srl = $vars->file_srl;
@@ -1769,7 +1825,6 @@ class FileController extends File
 
 		if($file_info->cover_image != 'Y')
 		{
-
 			$args->cover_image = 'Y';
 			$output = executeQuery('file.updateCoverImage', $args);
 			if(!$output->toBool())
@@ -1777,7 +1832,6 @@ class FileController extends File
 				$oDB->rollback();
 				return $output;
 			}
-
 		}
 
 		$oDB->commit();

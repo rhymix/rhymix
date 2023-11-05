@@ -1145,9 +1145,9 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Check that resource is loaded
 		$list = \Context::getJsFile('body');
-		$this->assertStringContainsString('/rhymix/common/js/plugins/ckeditor/', array_first($list)['file']);
+		$this->assertStringContainsString('/common/js/plugins/ckeditor/', array_first($list)['file']);
 		$list = \Context::getCssFile();
-		$this->assertStringContainsString('/rhymix/tests/_data/template/css/style.scss', array_first($list)['file']);
+		$this->assertStringContainsString('/tests/_data/template/css/style.scss', array_first($list)['file']);
 	}
 
 	public function testCompileLang()
@@ -1240,7 +1240,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		);
 
 		$list = \Context::getJsFile();
-		$this->assertStringContainsString('/rhymix/tests/_data/template/js/test.js', array_last($list)['file']);
+		$this->assertStringContainsString('/tests/_data/template/js/test.js', array_last($list)['file']);
 	}
 
 	/**
@@ -1274,6 +1274,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 	protected function _normalizeWhitespace(string $content): string
 	{
 		$content = preg_replace('/<!--#Template(Start|End):.+?-->\n/', '', $content);
+		$content = preg_replace('!(action|src)="' . preg_quote($this->baseurl, '!') . '!', '$1="/rhymix/', $content);
 
 		$result = [];
 		foreach (explode("\n", $content) as $line)

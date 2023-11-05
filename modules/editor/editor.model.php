@@ -251,14 +251,29 @@ class EditorModel extends Editor
 			}
 
 			Context::set('file_config',$file_config);
+
 			// Configure upload status such as file size
 			$upload_status = FileModel::getUploadStatus();
 			Context::set('upload_status', $upload_status);
+
 			// Upload enabled (internally caching)
-			$oFileController = getController('file');
-			$oFileController->setUploadInfo($option->editor_sequence, $upload_target_srl);
+			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0);
+
+			// Set editor mid
+			if (!empty($option->module_srl))
+			{
+				$option->mid = ModuleModel::getModuleInfoByModuleSrl($option->module_srl)->mid ?? null;
+			}
+			if (!empty($option->mid))
+			{
+				Context::addHtmlFooter('<script> var editor_mid = ' . json_encode($option->mid) . '; </script>');
+			}
+
 			// Check if the file already exists
-			if($upload_target_srl) $files_count = FileModel::getFilesCount($upload_target_srl);
+			if ($upload_target_srl)
+			{
+				$files_count = FileModel::getFilesCount($upload_target_srl);
+			}
 		}
 		Context::set('files_count', (int)$files_count);
 
@@ -294,6 +309,7 @@ class EditorModel extends Editor
 		// Initialize options
 		$option = new stdClass();
 		$option->module_type = $type;
+		$option->module_srl = (int)$module_srl;
 
 		// Convert configuration keys according to type (document or comment).
 		if($type == 'document')

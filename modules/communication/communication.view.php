@@ -293,6 +293,10 @@ class CommunicationView extends communication
 		{
 			$option->editor_toolbar_hide = 'Y';
 		}
+		if ($option->allow_fileupload)
+		{
+			$option->module_srl = MemberView::getInstance()->getMemberModuleSrl();
+		}
 		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
 		Context::set('editor', $editor);

@@ -26,12 +26,8 @@ class FileModel extends File
 	{
 		$file_list = [];
 		$attached_size = 0;
-		$editor_sequence = Context::get('editor_sequence');
-		$upload_target_srl = Context::get('upload_target_srl') ?: 0;
-		if(!$upload_target_srl && isset($_SESSION['upload_info'][$editor_sequence]))
-		{
-			$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
-		}
+		$editor_sequence = intval(Context::get('editor_sequence'));
+		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl ?? 0;
 
 		// Get uploaded files
 		if($upload_target_srl)

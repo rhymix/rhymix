@@ -5,6 +5,7 @@ class TemplateTest extends \Codeception\Test\Unit
 	public function _before()
 	{
 		Context::init();
+		$this->baseurl = '/' . basename(dirname(dirname(dirname(__DIR__)))) . '/';
 	}
 
 	public function testIsRelativePath()
@@ -48,7 +49,7 @@ class TemplateTest extends \Codeception\Test\Unit
 		$this->assertEquals($target, $tmpl->convertPath($source));
 
 		$source = '^/foo/bar.gif';
-		$target = '/rhymix/foo/bar.gif';
+		$target = $this->baseurl . 'foo/bar.gif';
 		$this->assertEquals($target, $tmpl->convertPath($source));
 	}
 

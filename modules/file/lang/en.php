@@ -49,6 +49,7 @@ $lang->about_save_changelog = 'Keep a log of new and deleted files in the databa
 $lang->cmd_delete_checked_file = 'Delete Selected Item(s)';
 $lang->cmd_move_to_document = 'Move to Document';
 $lang->cmd_download = 'Download';
+$lang->msg_invalid_upload_info = 'Invalid upload target information. (%s)';
 $lang->msg_not_permitted_download = 'You do not have a permission to download.';
 $lang->msg_file_cart_is_null = 'Please select a file(s) to delete.';
 $lang->msg_checked_file_is_deleted = '%d attachment(s) was(were) deleted.';

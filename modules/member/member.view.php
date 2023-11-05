@@ -94,6 +94,27 @@ class MemberView extends Member
 	}
 
 	/**
+	 * Get the module_srl for the member mid.
+	 *
+	 * @return int
+	 */
+	public function getMemberModuleSrl(): int
+	{
+		if (!$this->member_config)
+		{
+			$this->member_config = MemberModel::getMemberConfig();
+		}
+		if (!empty($this->member_config->mid))
+		{
+			return ModuleModel::getModuleInfoByMid($this->member_config->mid)->module_srl ?? 0;
+		}
+		else
+		{
+			return 0;
+		}
+	}
+
+	/**
 	 * Module index
 	 */
 	public function dispMemberIndex()
@@ -334,6 +355,10 @@ class MemberView extends Member
 				{
 					$option->editor_skin = 'textarea';
 				}
+				if ($option->allow_fileupload)
+				{
+					$option->module_srl = $this->getMemberModuleSrl();
+				}
 
 				Context::set('editor', getModel('editor')->getEditor(0, $option));
 			}
@@ -447,6 +472,10 @@ class MemberView extends Member
 				if (!$option->allow_html)
 				{
 					$option->editor_skin = 'textarea';
+				}
+				if ($option->allow_fileupload)
+				{
+					$option->module_srl = $this->getMemberModuleSrl();
 				}
 
 				Context::set('editor', getModel('editor')->getEditor($member_info->member_srl, $option));
