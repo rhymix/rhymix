@@ -121,8 +121,8 @@ class FileModel extends File
 		{
 			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_filesize))
 			{
-				$this->add('allowed_filesize', FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize * 1024 * 1024));
-				$this->add('allowed_attach_size', FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize * 1024 * 1024));
+				$this->add('allowed_filesize', FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize));
+				$this->add('allowed_attach_size', FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize));
 			}
 			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_extensions))
 			{

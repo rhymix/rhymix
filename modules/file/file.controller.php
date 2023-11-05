@@ -92,7 +92,7 @@ class FileController extends File
 			{
 				if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_filesize))
 				{
-					$allowed_attach_size = $allowed_filesize = ($_SESSION['upload_info'][$editor_sequence]->allowed_filesize * 1024 * 1024);
+					$allowed_attach_size = $allowed_filesize = $_SESSION['upload_info'][$editor_sequence]->allowed_filesize;
 				}
 				else
 				{
@@ -922,7 +922,7 @@ class FileController extends File
 			$file_size = filesize($file_info['tmp_name']);
 			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_filesize))
 			{
-				$allowed_attach_size = $allowed_filesize = ($_SESSION['upload_info'][$editor_sequence]->allowed_filesize * 1024 * 1024);
+				$allowed_attach_size = $allowed_filesize = $_SESSION['upload_info'][$editor_sequence]->allowed_filesize;
 			}
 			else
 			{

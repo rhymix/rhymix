@@ -232,8 +232,8 @@ class EditorModel extends Editor
 			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
 			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
 			{
-				$file_config->allowed_attach_size = $option->allowed_filesize * 1024 * 1024;
-				$file_config->allowed_filesize = $option->allowed_filesize * 1024 * 1024;
+				$file_config->allowed_attach_size = $option->allowed_filesize;
+				$file_config->allowed_filesize = $option->allowed_filesize;
 			}
 
 			// Calculate the appropriate chunk size.
@@ -267,9 +267,9 @@ class EditorModel extends Editor
 			{
 				$upload_config['allowed_filesize'] = $option->allowed_filesize;
 			}
-			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
+			if (isset($option->allowed_extensions) && !empty($option->allowed_extensions))
 			{
-				$upload_config['allowed_filesize'] = $option->allowed_filesize;
+				$upload_config['allowed_extensions'] = $option->allowed_extensions;
 			}
 			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0, $upload_config);
 

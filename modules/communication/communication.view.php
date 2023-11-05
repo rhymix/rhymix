@@ -280,7 +280,7 @@ class CommunicationView extends communication
 		$option->primary_key_name = 'temp_srl';
 		$option->content_key_name = 'content';
 		$option->allow_fileupload = $this->config->enable_attachment === 'Y';
-		$option->allowed_filesize = $this->config->attachment_size_limit ?? 0;
+		$option->allowed_filesize = ($this->config->attachment_size_limit ?? 0) * 1024;
 		$option->enable_autosave = FALSE;
 		$option->enable_default_component = TRUE; // FALSE;
 		$option->enable_component = FALSE;
