@@ -15,7 +15,7 @@ class CommunicationAdminController extends communication
 	function procCommunicationAdminInsertConfig()
 	{
 		// get the default information
-		$args = Context::gets('enable_message', 'enable_friend', 'enable_attachment', 'skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_send_default','grant_send_group');
+		$args = Context::gets('enable_message', 'enable_friend', 'enable_attachment', 'attachment_size_limit', 'skin', 'colorset', 'editor_skin', 'sel_editor_colorset', 'mskin', 'mcolorset', 'layout_srl', 'mlayout_srl', 'grant_send_default','grant_send_group');
 		$args->editor_colorset = $args->sel_editor_colorset;
 		unset($args->sel_editor_colorset);
 
@@ -23,6 +23,7 @@ class CommunicationAdminController extends communication
 		$args->grant_send = $oCommunicationModel->getGrantArray($args->grant_send_default, $args->grant_send_group);
 		unset($args->grant_send_default);
 		unset($args->grant_send_group);
+		$args->attachment_size_limit = intval($args->attachment_size_limit) ?? 0;
 
 		// create the module module Controller object
 		$oModuleController = getController('module');

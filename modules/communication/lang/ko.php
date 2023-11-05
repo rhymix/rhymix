@@ -48,6 +48,7 @@ $lang->alert_new_message_arrived = '%d개의 새로운 메시지가 도착하였
 $lang->enable_communication_friend = '친구기능 사용';
 $lang->enable_communication_message = '쪽지기능 사용';
 $lang->enable_attachment = '파일첨부 허용';
+$lang->attachment_size_limit = '첨부 용량 제한';
 $lang->warning = '알려드립니다!';
 $lang->msg_allow_message_friend = '현재 회원님은 친구에게만 수신 가능한 상태입니다.';
 $lang->msg_allow_meesage_Block = '현재 회원님은 수신거부 상태입니다.';

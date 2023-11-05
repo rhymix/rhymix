@@ -54,6 +54,12 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label for="allowed_attach_size" class="x_control-label">{lang('communication.attachment_size_limit')}</label>
+		<div class="x_controls">
+			<input type="number" min="0" name="attachment_size_limit" id="attachment_size_limit" value="{$config->attachment_size_limit ?? ''}" /> MB
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="editor_skin">{$lang->editor_skin}</label>
 		<div class="x_controls">
 			<select name="editor_skin" id="editor_skin" onchange="getEditorSkinColorList(this.value)">

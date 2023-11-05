@@ -48,3 +48,4 @@ $lang->alert_new_message_arrived = 'You have %d new message(s). Do you want to c
 $lang->enable_communication_friend = 'Friend Enable';
 $lang->enable_communication_message = 'Message Enable';
 $lang->enable_attachment = 'Allow Attachment';
+$lang->attachment_size_limit = 'Attachment Size Limit';
