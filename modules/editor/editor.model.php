@@ -142,19 +142,19 @@ class EditorModel extends Editor
 		Context::set('editor_sequence', $option->editor_sequence);
 
 		// Check that the skin exist.
-		if (!$option->editor_skin)
+		if (empty($option->editor_skin))
 		{
-			$option->editor_skin = $option->skin;
+			$option->editor_skin = $option->skin ?? null;
 		}
-		if (!$option->editor_skin || !file_exists('./modules/editor/skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
+		if (empty($option->editor_skin) || !file_exists('./modules/editor/skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
 		{
 			$option->editor_skin = self::$default_editor_config['editor_skin'];
 		}
-		if (!$option->editor_colorset)
+		if (empty($option->editor_colorset))
 		{
-			$option->editor_colorset = $option->colorset ?: ($option->sel_editor_colorset ?: self::$default_editor_config['editor_colorset']);
+			$option->editor_colorset = $option->colorset ?? ($option->sel_editor_colorset ?? self::$default_editor_config['editor_colorset']);
 		}
-		if (!$option->editor_height)
+		if (empty($option->editor_height))
 		{
 			$option->editor_height = $option->height ?: self::$default_editor_config['editor_height'];
 		}
@@ -170,21 +170,21 @@ class EditorModel extends Editor
 		Context::set('editor_path', './modules/editor/skins/' . $option->editor_skin . '/');
 		Context::set('colorset', $option->editor_colorset);
 		Context::set('editor_height', $option->editor_height);
-		Context::set('editor_toolbar', $option->editor_toolbar);
-		Context::set('editor_toolbar_hide', toBool($option->editor_toolbar_hide));
-		Context::set('module_type', $option->module_type);
+		Context::set('editor_toolbar', $option->editor_toolbar ?? null);
+		Context::set('editor_toolbar_hide', toBool($option->editor_toolbar_hide ?? null));
+		Context::set('module_type', $option->module_type ?? null);
 
 		// Default font setting
-		Context::set('content_font', $option->content_font);
-		Context::set('content_font_size', $option->content_font_size);
-		Context::set('content_line_height', $option->content_line_height);
-		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing);
-		Context::set('content_word_break', $option->content_word_break);
-		Context::set('editor_autoinsert_types', $option->autoinsert_types ?? ($option->autoinsert_image !== 'none' ? self::$default_editor_config['autoinsert_types'] : []));
-		Context::set('editor_autoinsert_position', $option->autoinsert_position ?? $option->autoinsert_image);
-		Context::set('editor_additional_css', $option->additional_css);
-		Context::set('editor_additional_plugins', $option->additional_plugins);
-		Context::set('editor_remove_plugins', $option->remove_plugins);
+		Context::set('content_font', $option->content_font ?? null);
+		Context::set('content_font_size', $option->content_font_size ?? null);
+		Context::set('content_line_height', $option->content_line_height ?? null);
+		Context::set('content_paragraph_spacing', $option->content_paragraph_spacing ?? null);
+		Context::set('content_word_break', $option->content_word_break ?? null);
+		Context::set('editor_autoinsert_types', $option->autoinsert_types ?? (($option->autoinsert_image ?? null) !== 'none' ? self::$default_editor_config['autoinsert_types'] : []));
+		Context::set('editor_autoinsert_position', $option->autoinsert_position ?? ($option->autoinsert_image ?? null));
+		Context::set('editor_additional_css', $option->additional_css ?? '');
+		Context::set('editor_additional_plugins', $option->additional_plugins ?? '');
+		Context::set('editor_remove_plugins', $option->remove_plugins ?? '');
 
 		// Set the primary key valueof the document or comments
 		Context::set('editor_primary_key_name', $option->primary_key_name);
@@ -198,12 +198,12 @@ class EditorModel extends Editor
 		{
 			Context::set('saved_doc', self::getSavedDoc($upload_target_srl));
 		}
-		Context::set('enable_autosave', $option->enable_autosave);
+		Context::set('enable_autosave', $option->enable_autosave ?? false);
 
 		// Set allow html and focus
-		Context::set('allow_html', ($option->allow_html === false || $option->allow_html === 'N') ? false : true);
-		Context::set('editor_focus', toBool($option->editor_focus));
-		Context::set('editor_auto_dark_mode', $option->auto_dark_mode !== 'N');
+		Context::set('allow_html', (isset($option->allow_html) && ($option->allow_html === false || $option->allow_html === 'N')) ? false : true);
+		Context::set('editor_focus', toBool($option->editor_focus ?? false));
+		Context::set('editor_auto_dark_mode', ($option->auto_dark_mode ?? 'Y') !== 'N');
 
 		// Load editor components.
 		if($option->enable_component)
@@ -214,11 +214,11 @@ class EditorModel extends Editor
 		{
 			Context::set('component_list', []);
 		}
-		Context::set('enable_component', $option->enable_component ? true : false);
-		Context::set('enable_default_component', $option->enable_default_component ? true : false);
+		Context::set('enable_component', ($option->enable_component ?? false) ? true : false);
+		Context::set('enable_default_component', ($option->enable_default_component ?? false) ? true : false);
 
 		// Set HTML mode.
-		Context::set('html_mode', $option->disable_html ? false : true);
+		Context::set('html_mode', ($option->disable_html ?? false) ? false : true);
 
 		/**
 		 * Upload setting by using configuration of the file module internally
