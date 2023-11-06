@@ -7,7 +7,6 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 	public function _before()
 	{
-		Context::init();
 		$this->baseurl = '/' . basename(dirname(dirname(dirname(dirname(__DIR__))))) . '/';
 	}
 

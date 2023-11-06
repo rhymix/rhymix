@@ -2,11 +2,6 @@
 
 class LegacyTest extends \Codeception\Test\Unit
 {
-	public function _before()
-	{
-		Context::init();
-	}
-
 	public function testGetModule()
 	{
 		$this->assertTrue(getModule('board', 'controller') instanceof BoardController);

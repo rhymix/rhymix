@@ -2,11 +2,6 @@
 
 class SMSTest extends \Codeception\Test\Unit
 {
-	public function _before()
-	{
-		Context::init();
-	}
-
 	public function testGetSetDefaultDriver()
 	{
 		$driver = Rhymix\Framework\SMS::getDefaultDriver();

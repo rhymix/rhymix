@@ -5,7 +5,6 @@ class ModuleInfoParserTest extends \Codeception\Test\Unit
 	public function testLoadXML()
 	{
 		// Basic info
-		Context::init();
 		Context::setLangType('ko');
 		$info = Rhymix\Framework\Parsers\ModuleInfoParser::loadXML(\RX_BASEDIR . 'tests/_data/module/info.xml');
 		$this->assertTrue(is_object($info));
