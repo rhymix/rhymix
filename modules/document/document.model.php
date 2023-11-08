@@ -1492,11 +1492,16 @@ class DocumentModel extends Document
 			// exclude secret documents in searching if current user does not have privilege
 			if(!isset($args->member_srl) || !$args->member_srl || !Context::get('is_logged') || $args->member_srl !== Context::get('logged_info')->member_srl)
 			{
-				$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
-				if(!ModuleModel::getGrant($module_info, Context::get('logged_info'))->manager)
+				$module_list = is_array($args->module_srl) ? $args->module_srl : [$args->module_srl];
+				foreach ($module_list as $module_srl)
 				{
-					$args->comment_is_secret = 'N';
-					$args->statusList = array(self::getConfigStatus('public'));
+					$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+					if(!ModuleModel::getGrant($module_info, Context::get('logged_info'))->manager)
+					{
+						$args->comment_is_secret = 'N';
+						$args->statusList = array(self::getConfigStatus('public'));
+						break;
+					}
 				}
 			}
 		}
