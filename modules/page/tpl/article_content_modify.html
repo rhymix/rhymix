@@ -5,13 +5,13 @@
 	<input type="hidden" name="document_srl" value="{$document_srl}" />
 	<input type="hidden" name="isMobile" value="{$isMobile}" />
 	<div style="margin-right:10px">
-		<input type="text" name="title" value="{htmlspecialchars($oDocument->getTitleText(), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" title="{$lang->title}" style="width:100%" />
+		<input type="text" name="title" value="{escape($oDocument->getTitleText(), false)}" title="{$lang->title}" style="width:100%" />
 	</div>
 
     <div class="editor">{$oDocument->getEditor()}</div>
 
     <div class="tag">
-        <input type="text" name="tags" value="{htmlspecialchars($oDocument->get('tags'), ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" class="iText" title="Tag" />
+        <input type="text" name="tags" value="{escape($oDocument->get('tags') ?? '', false)}" class="iText" title="Tag" />
 		<p>{$lang->about_tag}</p>
     </div>
 	<div class="btnArea">
