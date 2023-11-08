@@ -59,6 +59,7 @@ class TrashAdminView extends Trash
 		$oTrashModel = getModel('trash');
 		$output = $oTrashModel->getTrashList($args);
 
+		Context::set('originModule', strval($args->originModule));
 		Context::set('trash_list', $output->data);
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);
