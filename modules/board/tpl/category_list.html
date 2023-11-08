@@ -16,13 +16,13 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->hide_category}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="hide_category"><input type="checkbox" name="hide_category" id="hide_category" value="Y" checked="checked"|cond="$module_info->hide_category == 'Y'" /> {$lang->about_hide_category}</label>
+				<label class="x_inline" for="hide_category"><input type="checkbox" name="hide_category" id="hide_category" value="Y" checked="checked"|cond="($module_info->hide_category ?? '') == 'Y'" /> {$lang->about_hide_category}</label>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->allow_no_category}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="allow_no_category"><input type="checkbox" name="allow_no_category" id="allow_no_category" value="Y" checked="checked"|cond="$module_info->allow_no_category == 'Y'" /> {$lang->about_allow_no_category}</label>
+				<label class="x_inline" for="allow_no_category"><input type="checkbox" name="allow_no_category" id="allow_no_category" value="Y" checked="checked"|cond="($module_info->allow_no_category ?? '') == 'Y'" /> {$lang->about_allow_no_category}</label>
 			</div>
 		</div>
 	</section>

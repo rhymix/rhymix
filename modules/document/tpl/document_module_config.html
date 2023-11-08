@@ -4,7 +4,7 @@
 		<input type="hidden" name="module" value="document" />
 		<input type="hidden" name="act" value="procDocumentInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+		<input type="hidden" name="target_module_srl" value="{!empty($module_info->module_srl) ? $module_info->module_srl : $module_srls}" />
 
 		<div class="x_control-group">
 			<label for="use_history" class="x_control-label">{$lang->history}</label>

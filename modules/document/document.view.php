@@ -170,7 +170,7 @@ class DocumentView extends Document
 		{
 			$document_config = ModuleModel::getModulePartConfig('document', $current_module_srl);
 		}
-		if(!$document_config)
+		if(!isset($document_config))
 		{
 			$document_config = new stdClass();
 		}

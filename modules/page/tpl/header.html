@@ -3,13 +3,13 @@
 	<h1>
 		{$lang->page_management}
 		<span class="path" cond="$module_info->mid">
-			&gt; <a href="{getSiteUrl($module_info->domain,'','mid',$module_info->mid)}" target="_blank"|cond="$module=='admin'">{$module_info->mid}</a><block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
+			&gt; <a href="{getSiteUrl($module_info->domain ?? '', '', 'mid', $module_info->mid)}" target="_blank"|cond="$module=='admin'">{$module_info->mid}</a><block cond="$module_info->is_default=='Y'">({$lang->is_default})</block>
 		</span>
-		<a href="#aboutPage" class="x_icon-question-sign" data-toggle cond="!$module_info->mid"></a>
+		<a href="#aboutPage" class="x_icon-question-sign" data-toggle cond="empty($module_info->mid)"></a>
 	</h1>
 </div>
-<p id="aboutPage" class="x_alert x_alert-info" cond="!$module_info->mid" hidden>{nl2br($lang->about_page)}</p>
-<ul class="x_nav x_nav-tabs" cond="$act != 'dispPageAdminDelete' && $module_info">
+<p id="aboutPage" class="x_alert x_alert-info" cond="empty($module_info->mid)" hidden>{nl2br($lang->about_page)}</p>
+<ul class="x_nav x_nav-tabs" cond="$act != 'dispPageAdminDelete' && !empty($module_info)">
 	<li cond="$module=='admin'" class="x_active"|cond="$act=='dispPageAdminContent'"><a href="{getUrl('act','dispPageAdminContent','module_srl','')}">{$lang->cmd_list}</a></li>
 	<li cond="$module!='admin'"><a href="{getUrl('act','','module_srl','')}">{$lang->cmd_back}</a></li>
 		<block cond="$module_srl">

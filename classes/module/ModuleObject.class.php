@@ -833,7 +833,7 @@ class ModuleObject extends BaseObject
 		}
 
 		// execute api methods of the module if view action is and result is XMLRPC or JSON
-		if($this->module_info->module_type == 'view' || $this->module_info->module_type == 'mobile')
+		if(isset($this->module_info->module_type) && in_array($this->module_info->module_type, ['view', 'mobile']))
 		{
 			if(Context::getResponseMethod() == 'XMLRPC' || Context::getResponseMethod() == 'JSON')
 			{

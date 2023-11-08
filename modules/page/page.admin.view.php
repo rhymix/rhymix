@@ -103,7 +103,7 @@ class PageAdminView extends Page
 		// If you do not value module_srl just showing the index page
 		if(!$module_srl) return $this->dispPageAdminContent();
 		// If the layout is destined to add layout information haejum (layout_title, layout)
-		if($module_info->layout_srl)
+		if($module_info->layout_srl > 0)
 		{
 			$oLayoutModel = getModel('layout');
 			$layout_info = $oLayoutModel->getLayout($module_info->layout_srl);

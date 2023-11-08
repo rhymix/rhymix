@@ -4,7 +4,7 @@
 <form action="./" method="post" class="section">
 	<input type="hidden" name="act" value="procEditorInsertModuleConfig" />
 	<input type="hidden" name="module" value="editor" />
-	<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+	<input type="hidden" name="target_module_srl" value="{!empty($module_info->module_srl) ? $module_info->module_srl : $module_srls}" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input type="hidden" name="xe_validator_id" value="modules/editor/addition_setup/1" />
     <h1>{$lang->editor}</h1>
@@ -147,7 +147,7 @@
 						<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
 					</label>
 					<label>
-						<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} : 
+						<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} :
 						<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="$editor_config->font_defined == 'Y'" />
 					</label>
 				</td>
@@ -156,7 +156,7 @@
 				<th scope="row" style="text-align:right"><label for="content_font_size">{$lang->content_font_size}</label></th>
 				<td colspan="2">
 					<input type="text" id="font_size" name="content_font_size" value="{$editor_config->content_font_size ?: 13}" />
-					<p class="x_help-inline">{$lang->about_unit_default_px}</p>	
+					<p class="x_help-inline">{$lang->about_unit_default_px}</p>
 				</td>
 			</tr>
 			<tr class="editor_skin">

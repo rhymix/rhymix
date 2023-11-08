@@ -12,16 +12,16 @@
 	<input type="hidden" name="vid" value="{$vid}" />
 	<input type="hidden" name="act" value="dispPageAdminContent" />
 	<select cond="count($module_category)" name="module_category_srl" title="{$lang->module_category}" style="margin-right:4px">
-		<option value="" selected="selected"|cond="!$module_category_srl">{$lang->all}</option>
-		<option value="0" selected="selected"|cond="$module_category_srl==='0'">{$lang->not_exists}</option>
-		<option value="{$key}" loop="$module_category => $key,$val"  selected="selected"|cond="$module_category_srl==$key">{$val->title}</option>
+		<option value="" selected="selected"|cond="empty($module_category_srl)">{$lang->all}</option>
+		<option value="0" selected="selected"|cond="isset($module_category_srl) && $module_category_srl ==='0'">{$lang->not_exists}</option>
+		<option value="{$key}" loop="$module_category => $key,$val"  selected="selected"|cond="isset($module_category_srl) && $module_category_srl == $key">{$val->title}</option>
 	</select>
 	<select name="search_target" id="search_target" style="margin-right:4px">
-		<option value="s_mid" selected="selected"|cond="$search_target=='s_mid'">{$lang->mid}</option>
-		<option value="s_browser_title" selected="selected"|cond="$search_target=='s_browser_title'">{$lang->browser_title}</option>
+		<option value="s_mid" selected="selected"|cond="isset($search_target) && $search_target == 's_mid'">{$lang->mid}</option>
+		<option value="s_browser_title" selected="selected"|cond="isset($search_target) && $search_target == 's_browser_title'">{$lang->browser_title}</option>
 		<option cond="$module_category">{$lang->module_category}</option>
 	</select>
-	<input type="search" name="search_keyword" title="Search" value="{htmlspecialchars($search_keyword, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}" style="width:150px" />
+	<input type="search" name="search_keyword" title="Search" value="{escape($search_keyword ?? '', false)}" style="width:150px" />
 	<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
 	<a href="{getUrl('','module',$module,'act',$act)}" class="x_btn">{$lang->cmd_cancel}</a>
 </form>

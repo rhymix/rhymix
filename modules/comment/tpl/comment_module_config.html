@@ -4,7 +4,7 @@
 		<input type="hidden" name="module" value="comment" />
 		<input type="hidden" name="act" value="procCommentInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-		<input type="hidden" name="target_module_srl" value="{$module_info->module_srl?$module_info->module_srl:$module_srls}" />
+		<input type="hidden" name="target_module_srl" value="{!empty($module_info->module_srl) ? $module_info->module_srl : $module_srls}" />
 		<div class="x_control-group">
 			<label for="comment_count" class="x_control-label">{$lang->comment_count}</label>
 			<div class="x_controls">
@@ -23,8 +23,8 @@
 			<label for="comment_count" class="x_control-label">{$lang->comment_default_page}</label>
 			<div class="x_controls">
 				<select name="default_page" id="default_page">
-					<option value="first" selected="selected"|cond="$comment_config->default_page === 'first'">{$lang->comment_default_page_first}</option>
-					<option value="last" selected="selected"|cond="$comment_config->default_page !== 'first'">{$lang->comment_default_page_last}</option>
+					<option value="first" selected="selected"|cond="isset($comment_config->default_page) && $comment_config->default_page === 'first'">{$lang->comment_default_page_first}</option>
+					<option value="last" selected="selected"|cond="!isset($comment_config->default_page) || $comment_config->default_page !== 'first'">{$lang->comment_default_page_last}</option>
 				</select>
 			</div>
 		</div>
@@ -32,11 +32,11 @@
 			<label for="use_comment_validation" class="x_control-label">{$lang->cmd_comment_validation}</label>
 			<div class="x_controls">
 				<label for="use_comment_validation_Y" class="x_inline">
-					<input type="radio" id="use_comment_validation_Y" name="use_comment_validation" value="Y" checked="checked"|cond="$comment_config->use_comment_validation === 'Y'">
+					<input type="radio" id="use_comment_validation_Y" name="use_comment_validation" value="Y" checked="checked"|cond="isset($comment_config->use_comment_validation) && $comment_config->use_comment_validation === 'Y'">
 					{$lang->cmd_yes}
 				</label>
 				<label for="use_comment_validation_N" class="x_inline">
-					<input type="radio" id="use_comment_validation_N" name="use_comment_validation" value="N" checked="checked"|cond="$comment_config->use_comment_validation !== 'Y'">
+					<input type="radio" id="use_comment_validation_N" name="use_comment_validation" value="N" checked="checked"|cond="!isset($comment_config->use_comment_validation) || $comment_config->use_comment_validation !== 'Y'">
 					{$lang->cmd_no}
 				</label>
 				<p class="x_help-inline">{$lang->about_comment_validation}</p>

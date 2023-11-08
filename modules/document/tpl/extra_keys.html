@@ -2,14 +2,14 @@
 <!--%import("filter/insert_extra_var.xml")-->
 <!--%import("filter/delete_extra_var.xml")-->
 
-<block cond="$selected_var_idx && $extra_keys[$selected_var_idx]">
+<block cond="isset($selected_var_idx) && isset($extra_keys[$selected_var_idx])">
     {@ $selected_var = $extra_keys[$selected_var_idx] }
 </block>
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/extra_keys/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 
-<!--@if($type == 'insertExtraForm' || $selected_var_idx)-->
+<!--@if((isset($type) && $type == 'insertExtraForm') || isset($selected_var_idx))-->
 	<section class="section">
 		<h1>{$lang->extra_vars}</h1>
 		<form ruleset="insertExtraVar" action="./" method="post" class="x_form-horizontal">

@@ -1804,12 +1804,19 @@ class ModuleModel extends Module
 		{
 			foreach($data as $key => $val)
 			{
-				$data[$key]->domain = $modules[$val->module_srl]->domain;
+				if (isset($modules[$val->module_srl]))
+				{
+					$data[$key]->domain = $modules[$val->module_srl]->domain;
+				}
+				elseif (!isset($data[$key]->domain))
+				{
+					$data[$key]->domain = null;
+				}
 			}
 		}
 		else
 		{
-			$data->domain = $modules[$data->module_srl]->domain;
+			$data->domain = $modules[$data->module_srl]->domain ?? null;
 		}
 	}
 
