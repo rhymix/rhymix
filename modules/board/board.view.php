@@ -671,7 +671,7 @@ class BoardView extends Board
 		$selectedColumnList = array_keys($this->listConfig);
 
 		// Return all columns for some legacy skins
-		if($this->module_info->skin == 'xe_guestbook' || $this->module_info->default_style == 'blog')
+		if($this->module_info->skin == 'xe_guestbook' || ($this->module_info->default_style ?? '') == 'blog')
 		{
 			$this->columnList = $allColumnList;
 		}
