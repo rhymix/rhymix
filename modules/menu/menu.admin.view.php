@@ -38,7 +38,11 @@ class MenuAdminView extends Menu
 		if($site_srl == 0)
 		{
 			$oMenuController = getAdminController('menu');
-			$oMenuController->linkAllModuleInstancesToSitemap();
+			$output = $oMenuController->linkAllModuleInstancesToSitemap();
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		// get installed module list

@@ -116,12 +116,20 @@ class MenuAdminController extends Menu
 			$unlinked_modules = $output->data;
 		}
 
-		if($unlinked_modules)
+		if ($unlinked_modules)
 		{
 			$unlinked_menu_srl = $this->getUnlinkedMenu();
-			$output = $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
+			if ($unlinked_menu_srl instanceof BaseObject && !$unlinked_menu_srl->toBool())
+			{
+				return $unlinked_menu_srl;
+			}
+			else
+			{
+				return $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
+			}
 		}
 
+		return new BaseObject();
 	}
 
 	function getUnlinkedMenu()
@@ -152,7 +160,7 @@ class MenuAdminController extends Menu
 			}
 			else
 			{
-				return false;
+				return $output;
 			}
 		}
 
