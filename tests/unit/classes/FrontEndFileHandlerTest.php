@@ -200,13 +200,15 @@ class FrontEndFileHandlerTest extends \Codeception\Test\Unit
 	public function testMedia()
 	{
 		$handler = new FrontEndFileHandler();
-		$handler->loadFile(array('./common/css/common.css', 'all'));
 		$handler->loadFile(array('./common/css/common.css', 'screen'));
-		$handler->loadFile(array('./common/css/common.css', 'handled'));
+		$handler->loadFile(array('./common/css/common.css', 'print'));
+		$handler->loadFile(array('./common/css/common.css', 'handheld'));
+		$handler->loadFile(array('./common/css/common.css', true));
 
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'all');
 		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'screen');
-		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'handled');
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'print');
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'handheld');
+		$expected[] = array('file' => $this->baseurl . 'common/css/common.css', 'media'=>'all');
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
 

@@ -113,6 +113,13 @@ class FrontEndFileHandler extends Handler
 			}
 		}
 
+		// Remove 'true' parameter used as a CDN flag in some XE versions.
+		if (isset($args[1]) && $args[1] === true)
+		{
+			$args[1] = null;
+		}
+
+		// Find the source type hint if possible.
 		if (isset($args[2]) && preg_match('/IE/i', $args[2]))
 		{
 			$source_hint = '';
