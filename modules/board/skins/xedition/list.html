@@ -139,7 +139,7 @@
 		<a cond="$grant->manager" href="{getUrl('','mid',$mid,'act','dispDocumentManageDocument')}" class="btn" onclick="popopen(this.href,'manageDocument'); return false;">{$lang->cmd_manage_document}</a>
 	</div>
 
-	<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
+	<form cond="$grant->view" action="{getUrl()}" method="get" id="board_search" class="board_search" rx-autoform="false">
 		<input type="hidden" name="mid" value="{$mid}" />
 		<input type="hidden" name="category" value="{$category ?? ''}" />
 		<select name="search_target">
