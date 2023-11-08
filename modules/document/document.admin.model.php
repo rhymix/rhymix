@@ -63,10 +63,8 @@ class DocumentAdminModel extends Document
 
 		foreach($data as $key => $attribute)
 		{
-			$oDocument = null;
 			$oDocument = new documentItem();
 			$oDocument->setAttribute($attribute, false);
-			if($is_admin) $oDocument->setGrant();
 
 			$output->data[$virtual_number] = $oDocument;
 			$virtual_number--;
