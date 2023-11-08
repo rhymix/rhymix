@@ -148,6 +148,39 @@ class Request
 	}
 
 	/**
+	 * Set a request argument.
+	 *
+	 * @param string $name
+	 * @param string|array $value
+	 * @return void
+	 */
+	public function set(string $name, $value): void
+	{
+		if ($value === null || $value === '')
+		{
+			unset($this->args[$name]);
+		}
+		else
+		{
+			$this->args[$name] = $value;
+		}
+	}
+
+	/**
+	 * Set all request arguments.
+	 *
+	 * @param array $args
+	 * @return void
+	 */
+	public function setAll(array $args): void
+	{
+		$this->args = array_filter($args, function($item) {
+			return $item !== null && $item !== '';
+		});
+	}
+
+
+	/**
 	 * Set route status.
 	 *
 	 * @param int $status

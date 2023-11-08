@@ -129,7 +129,7 @@ class Router
 		{
 			@parse_str(substr($url, $argstart + 1), $args);
 			$url = substr($url, 0, $argstart);
-			$result->args = $args;
+			$result->setAll($args);
 		}
 
 		// Decode the URL into plain UTF-8.
@@ -174,7 +174,7 @@ class Router
 					$allargs = array_merge($args, [$prefix_type => $prefix]);
 					$result->module = $module_name;
 					$result->mid = $prefix;
-					$result->args = $allargs;
+					$result->setAll($allargs);
 					self::_fillActionProperties($result, $action_info->action->{$action_info->default_index_act});
 					return $result;
 				}
@@ -189,7 +189,7 @@ class Router
 						$result->module = $module_name;
 						$result->mid = $prefix_type === 'mid' ? $prefix : '';
 						$result->act = $action;
-						$result->args = $allargs;
+						$result->setAll($allargs);
 						self::_fillActionProperties($result, $action_info->action->{$action});
 						return $result;
 					}
@@ -209,7 +209,7 @@ class Router
 							$result->mid = $prefix;
 							$result->act = $action[1];
 							$result->setRouteOption('is_forwarded', true);
-							$result->args = $allargs;
+							$result->setAll($allargs);
 							self::_fillActionProperties($result);
 							return $result;
 						}
@@ -224,7 +224,7 @@ class Router
 					$result->mid = $prefix_type === 'mid' ? $prefix : '';
 					$result->act = $internal_url;
 					$result->setRouteOption('is_forwarded', true);
-					$result->args = $allargs;
+					$result->setAll($allargs);
 					self::_fillActionProperties($result);
 					return $result;
 				}
@@ -237,7 +237,7 @@ class Router
 					$result->mid = $prefix_type === 'mid' ? $prefix : '';
 					$result->act = $action_info->error_handlers[404];
 					$result->setRouteOption('is_forwarded', false);
-					$result->args = $allargs;
+					$result->setAll($allargs);
 					self::_fillActionProperties($result);
 					return $result;
 				}
@@ -257,7 +257,7 @@ class Router
 					$result->module = $action[0];
 					$result->act = $action[1];
 					$result->setRouteOption('is_forwarded', true);
-					$result->args = $allargs;
+					$result->setAll($allargs);
 					self::_fillActionProperties($result);
 					return $result;
 				}
@@ -275,7 +275,7 @@ class Router
 				$result->mid = ($allargs['mid'] ?? '') ?: '';
 				$result->act = ($allargs['act'] ?? '') ?: '';
 				$result->setRouteOption('is_forwarded', false);
-				$result->args = $allargs;
+				$result->setAll($allargs);
 				self::_fillActionProperties($result);
 				return $result;
 			}
@@ -285,7 +285,7 @@ class Router
 		$result->module = isset($args['module']) ? $args['module'] : '';
 		$result->mid = isset($args['mid']) ? $args['mid'] : '';
 		$result->act = isset($args['act']) ? $args['act'] : '';
-		$result->args = $args;
+		$result->setAll($args);
 		if ($url === '' || $url === 'index.php')
 		{
 			$result->url = '';
@@ -344,19 +344,26 @@ class Router
 		if ($rewrite_level >= 2 && (isset($args['mid']) || isset($args['module'])))
 		{
 			// Get module action info.
-			if (isset($args['mid']))
+			if (isset($args['mid']) && $args['mid'] !== '')
 			{
 				$action_info = self::_getActionInfoByPrefix($args['mid']);
 				$prefix_type = 'mid';
 			}
-			elseif (isset($args['module']))
+			elseif (isset($args['module']) && $args['module'] !== '')
 			{
 				$action_info = self::_getActionInfoByModule($args['module']);
 				$prefix_type = 'module';
 			}
 
 			// If there is no $act, use the default action.
-			$act = isset($args['act']) ? $args['act'] : $action_info->default_index_act;
+			if (isset($args['act']) && $args['act'] !== '')
+			{
+				$act = $args['act'];
+			}
+			else
+			{
+				$act = $action_info->default_index_act;
+			}
 
 			// Check if $act has any routes defined.
 			$action = $action_info->action->{$act} ?? null;
@@ -402,7 +409,7 @@ class Router
 		}
 
 		// Try registered global routes.
-		if ($rewrite_level >= 2 && isset($args['act']))
+		if ($rewrite_level >= 2 && (isset($args['act']) && $args['act'] !== ''))
 		{
 			$global_routes = self::_getForwardedRoutes('global');
 			if (isset($global_routes['reverse'][$args['act']]))
