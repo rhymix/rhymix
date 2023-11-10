@@ -33,7 +33,7 @@ class FileController extends File
 
 		// Validate editor_sequence and module_srl.
 		$editor_sequence = Context::get('editor_sequence');
-		$module_srl = $this->module_srl;
+		$module_srl = intval($this->module_srl);
 		if (empty($_SESSION['upload_info'][$editor_sequence]->enabled))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'editor_sequence'));
@@ -44,9 +44,9 @@ class FileController extends File
 		}
 
 		// Validate upload_target_srl.
-		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$upload_target_srl = intval($_SESSION['upload_info'][$editor_sequence]->upload_target_srl);
 		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
-		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
+		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== $upload_target_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'upload_target_srl'));
 		}
@@ -184,7 +184,7 @@ class FileController extends File
 
 		// Validate editor_sequence and module_srl.
 		$editor_sequence = Context::get('editor_sequence');
-		$module_srl = $this->module_srl;
+		$module_srl = intval($this->module_srl);
 		if (empty($_SESSION['upload_info'][$editor_sequence]->enabled))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'editor_sequence'));
@@ -195,9 +195,9 @@ class FileController extends File
 		}
 
 		// Get upload_target_srl
-		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$upload_target_srl = intval($_SESSION['upload_info'][$editor_sequence]->upload_target_srl);
 		$submitted_upload_target_srl = intval(Context::get('uploadTargetSrl')) ?: intval(Context::get('upload_target_srl'));
-		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== intval($upload_target_srl))
+		if ($submitted_upload_target_srl && $submitted_upload_target_srl !== $upload_target_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest(sprintf(lang('file.msg_invalid_upload_info'), 'upload_target_srl'));
 		}
