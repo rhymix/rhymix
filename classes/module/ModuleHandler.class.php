@@ -264,7 +264,10 @@ class ModuleHandler extends Handler
 
 			// Add layout header script.
 			$part_config = ModuleModel::getModulePartConfig('layout', $layoutSrl);
-			Context::addHtmlHeader($part_config->header_script);
+			if ($part_config && isset($part_config->header_script))
+			{
+				Context::addHtmlHeader($part_config->header_script);
+			}
 		}
 		else
 		{
