@@ -43,7 +43,7 @@ $(function() {
 	window.rhymix_debug_add_data = function(data, open) {
 
 		// Define loop variables.
-		var i, j, entry, num, backtrace, description;
+		var i, j, entry, num, cnt, backtrace, description;
 
 		// New pages are open by default.
 		if (open !== true && open !== false)
@@ -90,7 +90,8 @@ $(function() {
 
 		// Add debug entries.
 		if (data.entries && data.entries.length) {
-			page_body.append($('<h4></h4>').text('Debug Entries (' + data.entries.length + ')'));
+			cnt = data.entries.reduce(function(a, c) { return a + c.count; }, 0);
+			page_body.append($('<h4></h4>').text('Debug Entries (' + cnt + ')'));
 			for (i in data.entries) {
 				entry = $('<div class="debug_entry pre_wrap"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
@@ -109,7 +110,8 @@ $(function() {
 
 		// Add errors.
 		if (data.errors && data.errors.length) {
-			page_body.append($('<h4></h4>').text('Errors (' + data.errors.length + ')'));
+			cnt = data.errors.reduce(function(a, c) { return a + c.count; }, 0);
+			page_body.append($('<h4></h4>').text('Errors (' + cnt + ')'));
 			for (i in data.errors) {
 				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
@@ -128,7 +130,8 @@ $(function() {
 
 		// Add queries.
 		if (data.queries && data.queries.length) {
-			page_body.append($('<h4></h4>').text('Queries (' + data.queries.length + ')'));
+			cnt = data.queries.reduce(function(a, c) { return a + c.count; }, 0);
+			page_body.append($('<h4></h4>').text('Queries (' + cnt + ')'));
 			for (i in data.queries) {
 				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
