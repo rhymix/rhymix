@@ -326,7 +326,7 @@ class Template
 		}
 		if ($override_filename)
 		{
-			$override_filename = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', strtr($override_filename, ['\\' => '/', '//' => '/'])), '/') . '/';
+			$override_filename = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', strtr($override_filename, ['\\' => '/', '//' => '/'])), '/');
 			$override_filename = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $override_filename);
 			$this->absolute_path = \RX_BASEDIR . $override_filename;
 			$this->relative_path = $override_filename;
