@@ -1123,6 +1123,7 @@ class CommentController extends Comment
 
 		// Update
 		$obj->member_srl = 0;
+		$obj->uploaded_count = 0;
 		unset($obj->last_update);
 		$output = executeQuery('comment.updateCommentByDelete', $obj);
 		if(!$output->toBool())

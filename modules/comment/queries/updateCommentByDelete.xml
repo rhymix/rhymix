@@ -5,6 +5,7 @@
 	<columns>
 		<column name="member_srl" var="member_srl" />
 		<column name="content" var="content" notnull="notnull" />
+		<column name="uploaded_count" var="uploaded_count" />
 		<column name="last_update" var="last_update" default="curdate()" />
 		<column name="status" var="status" default="1" />
 	</columns>
