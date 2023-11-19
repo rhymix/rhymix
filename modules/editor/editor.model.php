@@ -263,13 +263,13 @@ class EditorModel extends Editor
 
 			// Set upload config in session
 			$upload_config = [];
-			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
+			$upload_config_keys = ['allowed_filesize', 'allowed_extensions', 'upload_target_type'];
+			foreach ($upload_config_keys as $key)
 			{
-				$upload_config['allowed_filesize'] = $option->allowed_filesize;
-			}
-			if (isset($option->allowed_extensions) && !empty($option->allowed_extensions))
-			{
-				$upload_config['allowed_extensions'] = $option->allowed_extensions;
+				if (isset($option->$key) && !empty($option->$key))
+				{
+					$upload_config[$key] = $option->$key;
+				}
 			}
 			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0, $upload_config);
 
@@ -453,6 +453,16 @@ class EditorModel extends Editor
 					break;
 				}
 			}
+		}
+
+		// Preset upload target type
+		if ($type === 'document')
+		{
+			$option->upload_target_type = 'doc';
+		}
+		elseif ($type === 'comment')
+		{
+			$option->upload_target_type = 'com';
 		}
 
 		// Other settings

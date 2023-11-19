@@ -358,6 +358,7 @@ class MemberView extends Member
 				if ($option->allow_fileupload)
 				{
 					$option->module_srl = $this->getMemberModuleSrl();
+					$option->upload_target_type = 'sig';
 				}
 				if ($member_config->member_max_filesize)
 				{
@@ -480,6 +481,7 @@ class MemberView extends Member
 				if ($option->allow_fileupload)
 				{
 					$option->module_srl = $this->getMemberModuleSrl();
+					$option->upload_target_type = 'sig';
 				}
 				if ($member_config->member_max_filesize)
 				{

@@ -297,6 +297,7 @@ class CommunicationView extends communication
 		if ($option->allow_fileupload)
 		{
 			$option->module_srl = MemberView::getInstance()->getMemberModuleSrl();
+			$option->upload_target_type = 'msg';
 		}
 		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";

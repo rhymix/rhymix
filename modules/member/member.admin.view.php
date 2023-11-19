@@ -440,6 +440,7 @@ class MemberAdminView extends Member
 				if ($option->allow_fileupload)
 				{
 					$option->module_srl = MemberView::getInstance()->getMemberModuleSrl();
+					$option->upload_target_type = 'sig';
 				}
 				if ($member_config->member_max_filesize)
 				{

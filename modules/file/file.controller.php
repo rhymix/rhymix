@@ -1042,6 +1042,12 @@ class FileController extends File
 			}
 		}
 
+		// Set upload target type
+		if ($editor_sequence && isset($_SESSION['upload_info'][$editor_sequence]->upload_target_type))
+		{
+			$args->upload_target_type = strval($_SESSION['upload_info'][$editor_sequence]->upload_target_type);
+		}
+
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
