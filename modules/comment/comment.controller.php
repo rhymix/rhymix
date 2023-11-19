@@ -1099,8 +1099,17 @@ class CommentController extends Comment
 		// If the case manager to delete comments, it indicated that the administrator deleted.
 		if(abs($obj->member_srl) != $this->user->member_srl && $this->user->member_srl)
 		{
-			$obj->content = lang('msg_admin_deleted_comment');
-			$obj->status = RX_STATUS_DELETED_BY_ADMIN;
+			$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($comment->get('module_srl')), $this->user);
+			if ($grant->manager)
+			{
+				$obj->content = lang('msg_admin_deleted_comment');
+				$obj->status = RX_STATUS_DELETED_BY_ADMIN;
+			}
+			else
+			{
+				$obj->content = lang('msg_deleted_comment');
+				$obj->status = RX_STATUS_DELETED;
+			}
 		}
 		else
 		{
