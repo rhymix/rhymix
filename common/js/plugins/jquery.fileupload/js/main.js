@@ -503,6 +503,10 @@
 				// 컨트롤, 리스트 표시
 				data.settings.controll.show()
 				data.settings.fileList.show();
+			}, function(data, xhr) {
+				if (xhr.status != 200) {
+					return false;
+				}
 			});
 		},
 		setCover: function($container, selected_el) {
