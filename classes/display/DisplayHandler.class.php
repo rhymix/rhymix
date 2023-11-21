@@ -131,11 +131,13 @@ class DisplayHandler extends Handler
 			header('X-Robots-Tag: noindex');
 		}
 
-		// flush output buffer
+		// Flush the output buffer, and remove unnecessary whitespace at the beginning.
+		$buff = '';
 		while (ob_get_level())
 		{
-			ob_end_flush();
+			$buff .= ob_get_clean();
 		}
+		$buff = ltrim($buff, "\n\r\t\v\x00\x20\u{FEFF}");
 
 		// call a trigger after display
 		self::$response_size = $this->content_size = strlen($output);
