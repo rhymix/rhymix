@@ -635,7 +635,7 @@ class FileController extends File
 
 			$file_info = $output->data;
 			if(!$file_info || $file_info->upload_target_srl != $upload_target_srl) continue;
-			if($module_srl && $file_info->module_srl != $module_srl) continue;
+			//if($module_srl && $file_info->module_srl != $module_srl) continue;
 			if(!FileModel::isDeletable($file_info)) continue;
 			$output = $this->deleteFile($file_srl);
 		}
