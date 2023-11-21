@@ -244,18 +244,19 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$this->assertTrue($query->tables['m'] instanceof Rhymix\Framework\Parsers\DBQuery\Query);
 		$this->assertEquals(1, count($query->tables['m']->tables));
 		$this->assertEquals('member', $query->tables['m']->tables['member']->name);
-		$this->assertEquals(2, count($query->tables['m']->columns));
+		$this->assertEquals(3, count($query->tables['m']->columns));
 		$this->assertEquals(1, count($query->columns));
 		$this->assertEquals('documents.member_srl', $query->conditions[0]->column);
 		$this->assertEquals('m.member_srl', $query->conditions[0]->default);
 
-		$sql = $query->getQueryString('rx_', []);
+		$sql = $query->getQueryString('rx_', ['nick_name' => 'foobar']);
 		$params = $query->getQueryParams();
 
 		$this->assertEquals('SELECT `documents`.* FROM `rx_documents` AS `documents`, ' .
-			'(SELECT `member_srl`, `nick_name` FROM `rx_member` AS `member`) AS `m` ' .
+			'(SELECT `member_srl`, `nick_name`, `regdate` FROM `rx_member` AS `member` ' .
+			'WHERE `documents`.`nick_name` = ?) AS `m` ' .
 			'WHERE `documents`.`member_srl` = `m`.`member_srl`', $sql);
-		$this->assertEquals([], $params);
+		$this->assertEquals(['foobar'], $params);
 	}
 
 	public function testSubquery2()

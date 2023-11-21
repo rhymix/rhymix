@@ -1,14 +1,22 @@
 <query id="selectSubqueryTest1" action="select">
 	<tables>
 		<table name="documents" />
-		<table query="true" alias="m">
+		<table query="true" alias="m" type="join">
 			<tables>
-				<table name="member" />
+				<table name="member">
+					<conditions>
+						<condition operation="equal" column="documents.regdate" default="m.regdate" />
+					</conditions>
+				</table>
 			</tables>
 			<columns>
 				<column name="member_srl" />
 				<column name="nick_name" />
+				<column name="regdate" />
 			</columns>
+			<conditions>
+				<condition operation="equal" column="documents.nick_name" var="nick_name" />
+			</conditions>
 		</table>
 	</tables>
 	<columns>
