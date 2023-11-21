@@ -6,6 +6,12 @@
 	"use strict";
 
 	/**
+	 * Set this variable to a list of HTTP status codes for which to show AJAX communication errors.
+	 * To show all errors, include the string 'ALL'.
+	 */
+	window.show_ajax_errors = ['ALL'];
+
+	/**
 	 * Set this variable to false to hide the "waiting for server response" layer.
 	 */
 	window.show_waiting_message = false;
@@ -109,7 +115,11 @@
 					}
 					alert(full_message);
 				} else {
-					alert("AJAX communication error while requesting " + params.module + "." + params.act);
+					var msg = "AJAX communication error while requesting " + params.module + "." + params.act;
+					console.error(msg);
+					if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
+						alert(msg);
+					}
 				}
 				return null;
 			}
@@ -144,14 +154,30 @@
 			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			var error_info;
+			var error_info, msg;
 
 			if ($(".x_modal-body").size()) {
-				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
-				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
+				if (xhr.status == 0) {
+					error_info = 'Connection failed: ' + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				} else {
+					error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				}
+				msg = "AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info;
+				console.error(msg.replace(/(<br>)+/g, "\n").trim());
+				if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
+					alert(msg);
+				}
 			} else {
-				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
-				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+				if (xhr.status == 0) {
+					error_info = 'Connection failed: ' + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				} else {
+					error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				}
+				msg = "AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info;
+				console.error(msg.trim().replace(/\n+/g, "\n"));
+				if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
+					alert(msg);
+				}
 			}
 		};
 
@@ -271,7 +297,11 @@
 						}
 						alert(full_message);
 					} else {
-						alert("AJAX communication error while requesting " + request_info);
+						var msg = "AJAX communication error while requesting " + request_info;
+						console.error(msg);
+						if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
+							alert(msg);
+						}
 					}
 					return;
 				}
@@ -302,7 +332,7 @@
 			// Hide the waiting message and display an error notice.
 			clearTimeout(wfsr_timeout);
 			waiting_obj.hide().trigger("cancel_confirm");
-			var error_info;
+			var error_info, msg;
 
 			// If a callback function is defined, call it and check if it returns false.
 			if ($.isFunction(callback_error)) {
@@ -314,11 +344,27 @@
 
 			// Otherwise, display a simple alert dialog.
 			if ($(".x_modal-body").size()) {
-				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
-				alert("AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info);
+				if (xhr.status == 0) {
+					error_info = 'Connection failed: ' + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				} else {
+					error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+				}
+				msg = "AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info;
+				console.error(msg.replace(/(<br>)+/g, "\n").trim());
+				if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
+					alert(msg);
+				}
 			} else {
-				error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
-				alert("AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info);
+				if (xhr.status == 0) {
+					error_info = 'Connection failed: ' + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				} else {
+					error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+				}
+				msg = "AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info;
+				console.error(msg.trim().replace(/\n+/g, "\n"));
+				if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
+					alert(msg);
+				}
 			}
 		};
 
