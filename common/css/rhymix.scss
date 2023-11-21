@@ -176,26 +176,6 @@ a img {
 	border: 0;
 }
 
-/* Waiting for server response */
-.wfsr {
-	z-index: 100;
-	display: none;
-	position: fixed;
-	left: 0;
-	top: 0;
-	right: 0;
-	margin: 0;
-	padding: 20px 0 0 0;
-	border-bottom: 1px solid #ccc;
-	text-align: center;
-	font: bold 16px/60px "Helvetica Neue", Helvetica, Arial, Dotum, sans-serif;
-	color: #fff;
-	opacity: .8;
-	filter: alpha(opacity=80);
-	box-shadow: 0 0 5px #000;
-	background: #333 url("../../common/img/msg.loading.gif") no-repeat center 15px;
-}
-
 /* alert */
 #rhymix_alert {
 	display: none;

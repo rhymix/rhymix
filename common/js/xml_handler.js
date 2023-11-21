@@ -12,24 +12,16 @@
 	window.show_ajax_errors = ['ALL'];
 
 	/**
-	 * Set this variable to false to hide the "waiting for server response" layer.
-	 */
-	window.show_waiting_message = false;
-
-	/**
-	 * Set this variable to false to hide the "do you want to leave the page?" dialog.
+	 * Set this variable to true to show the "do you want to leave the page?" dialog.
+	 * This may be useful on pages with important forms, but it is generally not recommended.
 	 */
 	window.show_leaving_warning = false;
 
 	/**
 	 * This variable becomes true when the user tries to navigate away from the page.
+	 * It should not be manually edited.
 	 */
 	var page_unloading = false;
-
-	/**
-	 * This variable stores the .wfsr jQuery object.
-	 */
-	var waiting_obj = $(".wfsr");
 
 	/**
 	 * Function for compatibility with XE's exec_xml()
@@ -60,20 +52,8 @@
 		// Check whether this is a cross-domain request. If so, use an alternative method.
 		if (!isSameOrigin(location.href, url)) return send_by_form(url, params);
 
-		// Delay the waiting message for 1 second to prevent rapid blinking.
-		waiting_obj.css("opacity", 0.0);
-		var wfsr_timeout = setTimeout(function() {
-			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").show();
-			}
-		}, 1000);
-
 		// Define the success handler.
 		successHandler = function(data, textStatus, xhr) {
-
-			// Hide the waiting message.
-			clearTimeout(wfsr_timeout);
-			waiting_obj.hide().trigger("cancel_confirm");
 
 			// Copy data to the result object.
 			var result = {};
@@ -151,9 +131,6 @@
 				return;
 			}
 
-			// Hide the waiting message and display an error notice.
-			clearTimeout(wfsr_timeout);
-			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info, msg;
 
 			if ($(".x_modal-body").size()) {
@@ -246,20 +223,8 @@
 			request_info = params.module + "." + params.act;
 		}
 
-		// Delay the waiting message for 1 second to prevent rapid blinking.
-		waiting_obj.css("opacity", 0.0);
-		var wfsr_timeout = setTimeout(function() {
-			if (show_waiting_message) {
-				waiting_obj.css("opacity", "").show();
-			}
-		}, 1000);
-
 		// Define the success handler.
 		var successHandler = function(data, textStatus, xhr) {
-
-			// Hide the waiting message.
-			clearTimeout(wfsr_timeout);
-			waiting_obj.hide().trigger("cancel_confirm");
 
 			// Add debug information.
 			if (data._rx_debug) {
@@ -329,9 +294,6 @@
 				return;
 			}
 
-			// Hide the waiting message and display an error notice.
-			clearTimeout(wfsr_timeout);
-			waiting_obj.hide().trigger("cancel_confirm");
 			var error_info, msg;
 
 			// If a callback function is defined, call it and check if it returns false.
@@ -494,8 +456,6 @@
 	 * Register the beforeUnload handler.
 	 */
 	$(function() {
-		waiting_obj = $('.wfsr');
-		waiting_obj.text(waiting_obj.data('message'));
 		if (show_leaving_warning) {
 			$(document).ajaxStart(function() {
 				$(window).bind("beforeunload", beforeUnloadHandler);
