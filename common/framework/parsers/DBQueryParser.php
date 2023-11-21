@@ -59,6 +59,7 @@ class DBQueryParser extends BaseParser
 			if (trim($tag['query'] ?? '') === 'true')
 			{
 				$table = self::_parseQuery($tag);
+				$table_type = 'subquery';
 				$query->tables[$table->alias] = $table;
 			}
 			else
@@ -67,12 +68,13 @@ class DBQueryParser extends BaseParser
 				$table->name = trim($tag['name']);
 				$table->alias = trim($tag['alias'] ?? '') ?: null;
 				$table->ifvar = trim($tag['if'] ?? '') ?: null;
+				$table_type = 'default';
 			}
 
-			$table_type = trim($tag['type'] ?? '');
-			if (stripos($table_type, 'join') !== false)
+			$join_type = trim($tag['type'] ?? '');
+			if ($table_type !== 'subquery' && stripos($join_type, 'join') !== false)
 			{
-				$table->join_type = strtoupper($table_type);
+				$table->join_type = strtoupper($join_type);
 				if ($tag->conditions)
 				{
 					$table->join_conditions = self::_parseConditions($tag->conditions);
