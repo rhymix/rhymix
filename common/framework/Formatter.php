@@ -387,7 +387,7 @@ class Formatter
 			// Convert all paths in LESS and SCSS imports, too.
 			$dirname = dirname($filename);
 			$import_type = ends_with('.scss', $filename) ? 'scss' : 'normal';
-			$content = preg_replace_callback('/@import\s+([^\r\n]+);[\r\n]*/', function($matches) use($dirname, $filename, $target_filename, $import_type, &$imported_list, &$imported_urls) {
+			$content = preg_replace_callback('/@import\s+([^\r\n]+)?;/', function($matches) use($dirname, $filename, $target_filename, $import_type, &$imported_list, &$imported_urls) {
 				if (preg_match('!^url\([\'"]?((?:https?:)?//[^()\'"]+)!i', $matches[1], $urlmatches))
 				{
 					$imported_urls[] = $urlmatches[1];
