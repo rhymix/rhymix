@@ -783,7 +783,7 @@ class TemplateParser_v1
 	{
 		if (preg_match('/^\$[\\\\\w\[\]\'":>-]+$/i', $str))
 		{
-			$str = preg_match('/^\$lang->/', $str) ? $str : "$str ?? ''";
+			$str = preg_match('/^\$(__Context->)?lang->/', $str) ? $str : "$str ?? ''";
 		}
 
 		switch($escape_option)
