@@ -164,6 +164,25 @@ class FormatterTest extends \Codeception\Test\Unit
 		$this->assertEquals(trim(file_get_contents($real_target2)), trim($test_with_media_query));
 	}
 
+	public function testConcatMinifiedCSS()
+	{
+		$source1 = \RX_BASEDIR . 'tests/_data/formatter/concat.source1.css';
+		$source2 = \RX_BASEDIR . 'tests/_data/formatter/concat.source2.css';
+		$final_target = \RX_BASEDIR . 'tests/_data/formatter/concat.target3.css';
+		$test_target1 = \RX_BASEDIR . 'tests/_output/concat+minify.target1.css';
+		$test_target2 = \RX_BASEDIR . 'tests/_output/concat+minify.target2.css';
+		$test_target3 = \RX_BASEDIR . 'tests/_output/concat+minify.target3.css';
+
+		$this->assertTrue(Rhymix\Framework\Formatter::minifyCSS($source1, $test_target1));
+		$this->assertTrue(Rhymix\Framework\Formatter::minifyCSS($source2, $test_target2));
+
+		$concat_result = Rhymix\Framework\Formatter::concatCSS(array($test_target1, $test_target2), $test_target3);
+		$this->assertEquals(trim(file_get_contents($final_target)), trim($concat_result));
+
+		unlink($test_target1);
+		unlink($test_target2);
+	}
+
 	public function testConcatJS()
 	{
 		$source1 = \RX_BASEDIR . 'tests/_data/formatter/concat.source1.js';
