@@ -211,7 +211,7 @@ class TemplateParserV1Test extends \Codeception\Test\Unit
             // issue 512 - ignores <marquee>
             array(
                 '<div class="topimgContex"><marquee direction="up" scrollamount="1" height="130" loop="infinity" behavior="lscro">{$lang->sl_show_topimgtext}</marquee></div>',
-                '?><div class="topimgContex"><marquee direction="up" scrollamount="1" height="130" loop="infinity" behavior="lscro"><?php echo $__Context->lang->sl_show_topimgtext ?? \'\' ?></marquee></div>'
+                '?><div class="topimgContex"><marquee direction="up" scrollamount="1" height="130" loop="infinity" behavior="lscro"><?php echo $__Context->lang->sl_show_topimgtext ?></marquee></div>'
             ),
             // issue 584
             array(
