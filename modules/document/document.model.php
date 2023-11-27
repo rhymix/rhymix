@@ -265,26 +265,29 @@ class DocumentModel extends Document
 			$output = executeQueryArray($query_id, $args, $args->columnList);
 		}
 
-		// Return if no result or an error occurs
-		if(!$output->toBool() || !$result = $output->data)
+		// Return if there was an error.
+		if (!$output->toBool())
 		{
 			return $output;
 		}
 
-		$output->data = array();
-		foreach($result as $key => $attribute)
+		// Create document objects and load extra vars.
+		if ($output->data)
 		{
-			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
+			foreach ($output->data as $key => $attribute)
 			{
-				$oDocument = new documentItem();
-				$oDocument->setAttribute($attribute, false);
+				if (!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
+				{
+					$oDocument = new DocumentItem();
+					$oDocument->setAttribute($attribute, false);
+				}
+				$output->data[$key] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
 			}
-			$output->data[$key] = $GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl];
-		}
 
-		if($load_extra_vars)
-		{
-			self::setToAllDocumentExtraVars();
+			if ($load_extra_vars)
+			{
+				self::setToAllDocumentExtraVars();
+			}
 		}
 
 		// Call trigger (after)
