@@ -1664,23 +1664,32 @@ class MemberController extends Member
 			if($output->toBool() && $output->data->count != '0') throw new Rhymix\Framework\Exception('msg_user_not_confirmed');
 		}
 
+		// Get password reset method
+		$member_config = ModuleModel::getModuleConfig('member');
+		$password_reset_method = intval($member_config->password_reset_method ?? 1);
+
 		// Insert data into the authentication DB
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = Rhymix\Framework\Password::getRandomPassword(8);
+		$args->new_password = $password_reset_method == 2 ? '' : Rhymix\Framework\Password::getRandomPassword(8);
 		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
-		$args->auth_type = 'password_v1';
+		$args->auth_type = 'password_v' . $password_reset_method;
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
 		if(!$output->toBool()) return $output;
+
 		// Get content of the email to send a member
+		global $lang;
+		if ($password_reset_method == 2)
+		{
+			$args->new_password = lang('member.msg_change_after_click');
+			$lang->set('msg_find_account_comment', lang('member.msg_find_account_comment_v2'));
+		}
 		Context::set('auth_args', $args);
 
-		$member_config = ModuleModel::getModuleConfig('member');
 		$memberInfo = array();
-		global $lang;
 		if(is_array($member_config->signupForm))
 		{
 			$exceptForm=array('password', 'find_account_question');
