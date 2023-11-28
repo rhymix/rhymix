@@ -402,3 +402,4 @@ $lang->scrap_folder_delete = '삭제';
 $lang->member_unauthenticated = '미인증';
 $lang->member_number = '회원 번호';
 $lang->msg_change_after_click = '아래 링크 클릭 후 변경 가능';
+$lang->msg_password_changed = '비밀번호가 변경되었습니다.';

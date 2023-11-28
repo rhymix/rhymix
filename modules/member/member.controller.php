@@ -1219,7 +1219,7 @@ class MemberController extends Member
 		}
 
 		$this->add('member_srl', $member_srl);
-		$this->setMessage('success_updated');
+		$this->setMessage('member.msg_password_changed');
 
 		if (Context::get('success_return_url'))
 		{

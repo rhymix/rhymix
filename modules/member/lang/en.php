@@ -398,3 +398,4 @@ $lang->scrap_folder_delete = 'Delete';
 $lang->member_unauthenticated = 'Unauthenticated';
 $lang->member_number = 'Member identification number';
 $lang->msg_change_after_click = 'Change after clicking link below';
+$lang->msg_password_changed = 'Your password has been changed.';
