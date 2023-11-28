@@ -1179,15 +1179,15 @@ class MemberController extends Member
 		// Get information of logged-in user
 		if ($is_password_reset)
 		{
-			$member_srl = $this->user->member_srl;
+			$member_srl = $vars->member_srl;
 		}
 		else
 		{
-			$member_srl = $vars->member_srl;
+			$member_srl = $this->user->member_srl;
 		}
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 
-		// Verify the cuttent password
+		// Verify the current password
 		if (!$is_password_reset)
 		{
 			if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
@@ -1213,16 +1213,26 @@ class MemberController extends Member
 		}
 
 		// Log out all other sessions.
-		$member_config = ModuleModel::getModuleConfig('member');
-		if ($member_config->password_change_invalidate_other_sessions === 'Y')
+		if ($config->password_change_invalidate_other_sessions === 'Y')
 		{
 			Rhymix\Framework\Session::destroyOtherSessions($member_srl);
 		}
 
-		$this->add('member_srl', $args->member_srl);
+		$this->add('member_srl', $member_srl);
 		$this->setMessage('success_updated');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+		if (Context::get('success_return_url'))
+		{
+			$returnUrl = Context::get('success_return_url');
+		}
+		elseif ($is_password_reset)
+		{
+			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberLoginForm');
+		}
+		else
+		{
+			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+		}
 		$this->setRedirectUrl($returnUrl);
 	}
 
