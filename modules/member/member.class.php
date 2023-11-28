@@ -40,6 +40,7 @@ class Member extends ModuleObject
 			$config = MemberModel::getMemberConfig();
 			$config->mid = 'member';
 			$config->force_mid = true;
+			$config->password_reset_method = 2;
 			$this->createMid($config->mid);
 			$oModuleController->insertModuleConfig('member', $config);
 		}
