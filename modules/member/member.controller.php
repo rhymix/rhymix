@@ -1670,6 +1670,7 @@ class MemberController extends Member
 		$args->member_srl = $member_info->member_srl;
 		$args->new_password = Rhymix\Framework\Password::getRandomPassword(8);
 		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
+		$args->auth_type = 'password_v1';
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
@@ -2858,6 +2859,7 @@ class MemberController extends Member
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
 			$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
+			$args->auth_type = 'signup';
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -3435,6 +3437,8 @@ class MemberController extends Member
 		$auth_args->member_srl = $member_info->member_srl;
 		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
+		$auth_args->auth_type = 'change_email';
+		$auth_args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
@@ -3499,7 +3503,7 @@ class MemberController extends Member
 		$output = executeQuery('member.updateMemberEmailAddress', $args);
 		if(!$output->toBool()) return $output;
 
-		// Remove all values having the member_srl and new_password equal to 'XE_change_emaill_address' from authentication table
+		// Remove all values having the member_srl and auth_type = change_email
 		executeQuery('member.deleteAuthChangeEmailAddress',$args);
 
 		self::clearMemberCache($args->member_srl);

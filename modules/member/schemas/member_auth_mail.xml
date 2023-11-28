@@ -1,8 +1,9 @@
 <table name="member_auth_mail">
-    <column name="auth_key" type="varchar" size="60" notnull="notnull" unique="unique_key" />
-    <column name="member_srl" type="number" size="11" notnull="notnull" unique="unique_key" />
+    <column name="auth_key" type="varchar" size="60" notnull="notnull" unique="unique_auth_key" />
+    <column name="member_srl" type="number" size="11" notnull="notnull" index="idx_member_srl" />
     <column name="user_id" type="varchar" size="80" notnull="notnull" />
     <column name="new_password" type="varchar" size="250" notnull="notnull" />
-    <column name="is_register" type="char" size="1" default="N" />
-    <column name="regdate" type="date" index="idx_regdate" />
+	<column name="auth_type" type="varchar" size="20" notnull="notnull" default="password_v1" />
+    <column name="is_register" type="char" size="1" notnull="notnull" default="N" />
+    <column name="regdate" type="date" notnull="notnull" index="idx_regdate" />
 </table>
