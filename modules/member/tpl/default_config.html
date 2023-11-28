@@ -139,6 +139,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{$lang->cmd_password_reset_method}</label>
+		<div class="x_controls">
+			<label for="password_reset_method_v2" class="x_inline"><input type="radio" name="password_reset_method" id="password_reset_method_v2" value="2" checked="checked"|cond="$config->password_reset_method == 2" /> {$lang->cmd_password_reset_method_v2}</label>
+			<label for="password_reset_method_v1" class="x_inline"><input type="radio" name="password_reset_method" id="password_reset_method_v1" value="1" checked="checked"|cond="$config->password_reset_method != 2" /> {$lang->cmd_password_reset_method_v1}</label>
+			<p class="x_help-block">{$lang->about_password_reset_method}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label" for="member_sync">{$lang->cmd_member_sync}</label>
 		<div class="x_controls">
 			<input id="member_sync" type="button" value="{$lang->cmd_member_sync}" class="__sync x_btn x_btn-warning" />
