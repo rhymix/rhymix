@@ -1148,24 +1148,52 @@ class MemberController extends Member
 	 */
 	function procMemberModifyPassword()
 	{
-		if (!Context::get('is_logged'))
+		// Check if this request comes from password reset
+		$config = MemberModel::getMemberConfig();
+		$vars = Context::getRequestVars();
+		$is_password_reset = (($config->password_reset_method ?? 1) == 2 && !empty($vars->auth_key) && !empty($vars->member_srl) && $vars->auth_key === $vars->current_password);
+		if ($is_password_reset)
+		{
+			$output = executeQuery('member.getAuthMail', ['member_srl' => $vars->member_srl, 'auth_key' => $vars->auth_key]);
+			if(!$output->toBool() || $output->data->auth_key !== $vars->auth_key)
+			{
+				executeQuery('member.deleteAuthMail', ['member_srl' => $vars->member_srl, 'auth_key' => $vars->auth_key]);
+				throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
+			}
+			$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
+			if(ztime($output->data->regdate) < time() - $expires)
+			{
+				executeQuery('member.deleteAuthMail', ['member_srl' => $vars->member_srl, 'auth_key' => $vars->auth_key]);
+				throw new Rhymix\Framework\Exception('msg_expired_auth_key');
+			}
+		}
+		if (!$is_password_reset && !$this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		// Extract the necessary information in advance
-		$current_password = trim(Context::get('current_password'));
-		$password = trim(Context::get('password1'));
+		$current_password = trim($vars->current_password);
+		$password = trim($vars->password1);
 
 		// Get information of logged-in user
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
+		if ($is_password_reset)
+		{
+			$member_srl = $this->user->member_srl;
+		}
+		else
+		{
+			$member_srl = $vars->member_srl;
+		}
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 
 		// Verify the cuttent password
-		if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
+		if (!$is_password_reset)
 		{
-			throw new Rhymix\Framework\Exception('invalid_current_password');
+			if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
+			{
+				throw new Rhymix\Framework\Exception('invalid_current_password');
+			}
 		}
 
 		// Check if a new password is as same as the previous password
@@ -1804,20 +1832,47 @@ class MemberController extends Member
 
 		// Back up the value of $output->data->is_register
 		$is_register = $output->data->is_register;
+		$password_reset_method = $output->data->auth_type === 'password_v2' ? 2 : 1;
 
 		// If credentials are correct, change the password to a new one
-		$args = new stdClass;
-		$args->member_srl = $member_srl;
 		if($is_register === 'Y')
 		{
-			$args->denied = 'N';
-			$args->status = 'APPROVED';
 			$query_id = 'member.updateMemberStatus';
+			$args = [
+				'member_srl' => $member_srl,
+				'denied' => 'N',
+				'status' => 'APPROVED',
+			];
+		}
+		elseif ($password_reset_method == 1)
+		{
+			$query_id = 'member.updateMemberPassword';
+			$args = [
+				'member_srl' => $member_srl,
+				'password' => MemberModel::hashPassword($output->data->new_password),
+			];
 		}
 		else
 		{
-			$args->password = MemberModel::hashPassword($output->data->new_password);
-			$query_id = 'member.updateMemberPassword';
+			$tpl_path = sprintf('%sskins/%s', $this->module_path, $config->skin ?: 'default');
+			if(!Rhymix\Framework\Storage::isDirectory($tpl_path))
+			{
+				$tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+			}
+			$tpl_file = sprintf('%s/%s', $tpl_path, 'reset_password.html');
+			if (!Rhymix\Framework\Storage::exists($tpl_file))
+			{
+				$tpl_file = sprintf('%s/%s', $tpl_path, 'reset_password.blade.php');
+				if (!Rhymix\Framework\Storage::exists($tpl_file))
+				{
+					$tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+				}
+			}
+
+			$this->setTemplatePath($tpl_path);
+			$this->setTemplateFile('reset_password');
+			Context::set('member_config', $config ?? '');
+			return;
 		}
 
 		$output = executeQuery($query_id, $args);

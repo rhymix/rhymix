@@ -49,7 +49,7 @@
 		<action name="procMemberConfirmVerificationSMS" type="controller" />
 		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" />
 		<action name="procMemberModifyInfo" type="controller" permission="member" />
-		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />
+		<action name="procMemberModifyPassword" type="controller" permission="guest" ruleset="modifyPassword" />
 		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" />
 		<action name="procMemberLeave" type="controller" permission="member" ruleset="leaveMember" />
 		<action name="procMemberInsertProfileImage" type="controller" permission="member" ruleset="insertProfileImage" />
