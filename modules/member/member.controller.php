@@ -1226,15 +1226,19 @@ class MemberController extends Member
 			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
 		}
 
+		$member_srl = $output->data->member_srl;
+		if (!$member_srl || $output->data->auth_type !== 'password_v2')
+		{
+			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
+			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
+		}
+
 		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
 		if(ztime($output->data->regdate) < time() - $expires)
 		{
 			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
 			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
 		}
-
-		// Extract the necessary information in advance
-		$member_srl = $output->data->member_srl;
 
 		// Update the password
 		$args = new stdClass;
