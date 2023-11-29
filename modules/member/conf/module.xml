@@ -42,7 +42,7 @@
 		<action name="procMemberLogin" type="controller" route="login" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" />
 		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" />
-		<action name="procMemberAuthAccount" type="controller" method="GET|POST" />
+		<action name="procMemberAuthAccount" type="controller" method="GET|POST" route="auth/$member_srl/$auth_key" />
 		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" />
 		<action name="procMemberSendVerificationSMS" type="controller" />
@@ -50,6 +50,7 @@
 		<action name="procMemberModifyInfoBefore" type="controller" permission="member" ruleset="recheckedPassword" />
 		<action name="procMemberModifyInfo" type="controller" permission="member" />
 		<action name="procMemberModifyPassword" type="controller" permission="member" ruleset="modifyPassword" />
+		<action name="procMemberResetPassword" type="controller" ruleset="resetPassword" />
 		<action name="procMemberModifyEmailAddress" type="controller" permission="member" ruleset="modifyEmailAddress" />
 		<action name="procMemberLeave" type="controller" permission="member" ruleset="leaveMember" />
 		<action name="procMemberInsertProfileImage" type="controller" permission="member" ruleset="insertProfileImage" />

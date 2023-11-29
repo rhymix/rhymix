@@ -40,6 +40,7 @@ class Member extends ModuleObject
 			$config = MemberModel::getMemberConfig();
 			$config->mid = 'member';
 			$config->force_mid = true;
+			$config->password_reset_method = 2;
 			$this->createMid($config->mid);
 			$oModuleController->insertModuleConfig('member', $config);
 		}
@@ -169,6 +170,12 @@ class Member extends ModuleObject
 		// Add device token type and last active date 2020.10.28
 		if(!$oDB->isColumnExists('member_devices', 'device_token_type')) return true;
 		if(!$oDB->isColumnExists('member_devices', 'last_active_date')) return true;
+
+		// Check member_auth_mail table
+		if(!$oDB->isColumnExists('member_auth_mail', 'auth_type')) return true;
+		if(!$oDB->isIndexExists('member_auth_mail', 'unique_auth_key')) return true;
+		if(!$oDB->isIndexExists('member_auth_mail', 'idx_member_srl')) return true;
+		if($oDB->isIndexExists('member_auth_mail', 'unique_key')) return true;
 
 		// Update status column
 		$output = executeQuery('member.getDeniedAndStatus');
@@ -381,6 +388,25 @@ class Member extends ModuleObject
 			$oDB->addColumn('member_devices', 'last_active_date', 'date', '', '', true, 'regdate');
 			$oDB->addIndex('member_devices', 'idx_last_active_date', array('last_active_date'));
 			$oDB->query("UPDATE member_devices SET last_active_date = regdate WHERE last_active_date = ''");
+		}
+
+		// Check member_auth_mail table
+		if(!$oDB->isColumnExists('member_auth_mail', 'auth_type'))
+		{
+			$oDB->addColumn('member_auth_mail', 'auth_type', 'varchar', '20', 'password_v1', true, 'new_password');
+			$oDB->query("UPDATE member_auth_mail SET auth_type = 'signup' WHERE is_register = 'Y'");
+		}
+		if(!$oDB->isIndexExists('member_auth_mail', 'unique_auth_key'))
+		{
+			$oDB->addIndex('member_auth_mail', 'unique_auth_key', ['auth_key'], true);
+		}
+		if(!$oDB->isIndexExists('member_auth_mail', 'idx_member_srl'))
+		{
+			$oDB->addIndex('member_auth_mail', 'idx_member_srl', ['member_srl']);
+		}
+		if($oDB->isIndexExists('member_auth_mail', 'unique_key'))
+		{
+			$oDB->dropIndex('member_auth_mail', 'unique_key');
 		}
 
 		// Update status column

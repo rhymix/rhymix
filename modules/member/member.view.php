@@ -41,7 +41,7 @@ class MemberView extends Member
 		{
 			$is_valid_referer = false;
 		}
-		if (preg_match('!/(login|signup)\b!', $referer_url))
+		if (preg_match('!/(auth|login|signup)\b!', $referer_url))
 		{
 			$is_valid_referer = false;
 		}

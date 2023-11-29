@@ -1146,23 +1146,24 @@ class MemberController extends Member
 	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
-	function procMemberModifyPassword()
+	public function procMemberModifyPassword()
 	{
-		if (!Context::get('is_logged'))
+		$config = MemberModel::getMemberConfig();
+		$vars = Context::getRequestVars();
+		if (!$this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
 		// Extract the necessary information in advance
-		$current_password = trim(Context::get('current_password'));
-		$password = trim(Context::get('password1'));
+		$current_password = trim($vars->current_password);
+		$password = trim($vars->password1);
 
 		// Get information of logged-in user
-		$logged_info = Context::get('logged_info');
-		$member_srl = $logged_info->member_srl;
+		$member_srl = $this->user->member_srl;
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 
-		// Verify the cuttent password
+		// Verify the current password
 		if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
 		{
 			throw new Rhymix\Framework\Exception('invalid_current_password');
@@ -1185,16 +1186,91 @@ class MemberController extends Member
 		}
 
 		// Log out all other sessions.
-		$member_config = ModuleModel::getModuleConfig('member');
-		if ($member_config->password_change_invalidate_other_sessions === 'Y')
+		if ($config->password_change_invalidate_other_sessions === 'Y')
 		{
 			Rhymix\Framework\Session::destroyOtherSessions($member_srl);
 		}
 
-		$this->add('member_srl', $args->member_srl);
-		$this->setMessage('success_updated');
+		$this->add('member_srl', $member_srl);
+		$this->setMessage('member.msg_password_changed');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+		if (Context::get('success_return_url'))
+		{
+			$returnUrl = Context::get('success_return_url');
+		}
+		else
+		{
+			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+		}
+		$this->setRedirectUrl($returnUrl);
+	}
+
+	/**
+	 * Change password using auth_key instead of current password
+	 */
+	public function procMemberResetPassword()
+	{
+		$config = MemberModel::getMemberConfig();
+		$vars = Context::getRequestVars();
+		if ($this->user->member_srl)
+		{
+			throw new Rhymix\Framework\Exception('already_logged');
+		}
+
+		// Check auth_key
+		if (empty($vars->auth_key))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$output = executeQuery('member.getAuthMail', ['auth_key' => $vars->auth_key]);
+		if(!$output->toBool() || $output->data->auth_key !== $vars->auth_key)
+		{
+			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
+			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
+		}
+
+		$member_srl = $output->data->member_srl;
+		if (!$member_srl || $output->data->auth_type !== 'password_v2')
+		{
+			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
+			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
+		}
+
+		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
+		if(ztime($output->data->regdate) < time() - $expires)
+		{
+			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
+			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
+		}
+
+		// Update the password
+		$args = new stdClass;
+		$args->member_srl = $member_srl;
+		$args->password = trim($vars->password1);
+		$output = $this->updateMemberPassword($args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Log out all other sessions.
+		if ($config->password_change_invalidate_other_sessions === 'Y')
+		{
+			Rhymix\Framework\Session::destroyOtherSessions($member_srl);
+		}
+
+		$this->add('member_srl', $member_srl);
+		$this->setMessage('member.msg_password_changed');
+
+		if (Context::get('success_return_url'))
+		{
+			$returnUrl = Context::get('success_return_url');
+		}
+		else
+		{
+			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberLoginForm');
+		}
 		$this->setRedirectUrl($returnUrl);
 	}
 
@@ -1664,22 +1740,32 @@ class MemberController extends Member
 			if($output->toBool() && $output->data->count != '0') throw new Rhymix\Framework\Exception('msg_user_not_confirmed');
 		}
 
+		// Get password reset method
+		$member_config = ModuleModel::getModuleConfig('member');
+		$password_reset_method = intval($member_config->password_reset_method ?? 1);
+
 		// Insert data into the authentication DB
 		$args = new stdClass();
 		$args->user_id = $member_info->user_id;
 		$args->member_srl = $member_info->member_srl;
-		$args->new_password = Rhymix\Framework\Password::getRandomPassword(8);
+		$args->new_password = $password_reset_method == 2 ? '' : Rhymix\Framework\Password::getRandomPassword(8);
 		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
+		$args->auth_type = 'password_v' . $password_reset_method;
 		$args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $args);
 		if(!$output->toBool()) return $output;
+
 		// Get content of the email to send a member
+		global $lang;
+		if ($password_reset_method == 2)
+		{
+			$args->new_password = lang('member.msg_change_after_click');
+			$lang->set('msg_find_account_comment', lang('member.msg_find_account_comment_v2'));
+		}
 		Context::set('auth_args', $args);
 
-		$member_config = ModuleModel::getModuleConfig('member');
 		$memberInfo = array();
-		global $lang;
 		if(is_array($member_config->signupForm))
 		{
 			$exceptForm=array('password', 'find_account_question');
@@ -1774,40 +1860,63 @@ class MemberController extends Member
 		}
 
 		// Test logs for finding password by user_id and authkey
-		$args = new stdClass;
-		$args->member_srl = $member_srl;
-		$args->auth_key = $auth_key;
-		$output = executeQuery('member.getAuthMail', $args);
-
-		if(!$output->toBool() || $output->data->auth_key !== $auth_key)
+		$output = executeQuery('member.getAuthMail', ['auth_key' => $auth_key]);
+		if(!$output->data || $output->data->auth_key !== $auth_key || $output->data->member_srl != $member_srl)
 		{
-			executeQuery('member.deleteAuthMail', $args);
+			executeQuery('member.deleteAuthMail', ['member_srl' => $member_srl]);
 			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
 		}
 
 		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
 		if(ztime($output->data->regdate) < time() - $expires)
 		{
-			executeQuery('member.deleteAuthMail', $args);
+			executeQuery('member.deleteAuthMail', ['auth_key' => $auth_key]);
 			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
 		}
 
 		// Back up the value of $output->data->is_register
 		$is_register = $output->data->is_register;
+		$password_reset_method = $output->data->auth_type === 'password_v2' ? 2 : 1;
 
 		// If credentials are correct, change the password to a new one
-		$args = new stdClass;
-		$args->member_srl = $member_srl;
 		if($is_register === 'Y')
 		{
-			$args->denied = 'N';
-			$args->status = 'APPROVED';
 			$query_id = 'member.updateMemberStatus';
+			$args = [
+				'member_srl' => $member_srl,
+				'denied' => 'N',
+				'status' => 'APPROVED',
+			];
+		}
+		elseif ($password_reset_method == 1)
+		{
+			$query_id = 'member.updateMemberPassword';
+			$args = [
+				'member_srl' => $member_srl,
+				'password' => MemberModel::hashPassword($output->data->new_password),
+			];
 		}
 		else
 		{
-			$args->password = MemberModel::hashPassword($output->data->new_password);
-			$query_id = 'member.updateMemberPassword';
+			$tpl_path = sprintf('%sskins/%s', $this->module_path, $config->skin ?: 'default');
+			if(!Rhymix\Framework\Storage::isDirectory($tpl_path))
+			{
+				$tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+			}
+			$tpl_file = sprintf('%s/%s', $tpl_path, 'reset_password.html');
+			if (!Rhymix\Framework\Storage::exists($tpl_file))
+			{
+				$tpl_file = sprintf('%s/%s', $tpl_path, 'reset_password.blade.php');
+				if (!Rhymix\Framework\Storage::exists($tpl_file))
+				{
+					$tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+				}
+			}
+
+			$this->setTemplatePath($tpl_path);
+			$this->setTemplateFile('reset_password');
+			Context::set('member_config', $config ?? '');
+			return;
 		}
 
 		$output = executeQuery($query_id, $args);
@@ -1825,11 +1934,11 @@ class MemberController extends Member
 		executeQuery('member.deleteLoginCountByIp', ['ipaddress' => \RX_CLIENT_IP]);
 
 		// Clear member cache
-		self::clearMemberCache($args->member_srl);
+		self::clearMemberCache($member_srl);
 
 		// Call a trigger (after)
 		$trigger_obj->is_register = $is_register;
-		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
+		ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
 
 		// Notify the result
 		$message = $is_register === 'Y' ? lang('msg_success_confirmed') : lang('msg_success_authed');
@@ -2858,6 +2967,7 @@ class MemberController extends Member
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
 			$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
+			$args->auth_type = 'signup';
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
@@ -3435,6 +3545,8 @@ class MemberController extends Member
 		$auth_args->member_srl = $member_info->member_srl;
 		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$auth_args->new_password = 'XE_change_emaill_address';
+		$auth_args->auth_type = 'change_email';
+		$auth_args->is_register = 'N';
 
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
@@ -3499,7 +3611,7 @@ class MemberController extends Member
 		$output = executeQuery('member.updateMemberEmailAddress', $args);
 		if(!$output->toBool()) return $output;
 
-		// Remove all values having the member_srl and new_password equal to 'XE_change_emaill_address' from authentication table
+		// Remove all values having the member_srl and auth_type = change_email
 		executeQuery('member.deleteAuthChangeEmailAddress',$args);
 
 		self::clearMemberCache($args->member_srl);

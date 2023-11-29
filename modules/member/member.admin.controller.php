@@ -241,6 +241,7 @@ class MemberAdminController extends Member
 			'password_hashing_work_factor',
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
+			'password_reset_method',
 			'allow_nickname_change',
 			'update_nickname_log',
 			'nickname_symbols',
@@ -330,7 +331,7 @@ class MemberAdminController extends Member
 		{
 			$args->password_hashing_auto_upgrade = 'N';
 		}
-
+		$args->password_reset_method = intval($args->password_reset_method);
 		if(!in_array($args->nickname_symbols, ['Y', 'N', 'LIST']))
 		{
 			$args->nickname_symbols = 'Y';
