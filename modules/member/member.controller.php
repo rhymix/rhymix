@@ -1852,21 +1852,17 @@ class MemberController extends Member
 		}
 
 		// Test logs for finding password by user_id and authkey
-		$args = new stdClass;
-		$args->member_srl = $member_srl;
-		$args->auth_key = $auth_key;
-		$output = executeQuery('member.getAuthMail', $args);
-
-		if(!$output->toBool() || $output->data->auth_key !== $auth_key)
+		$output = executeQuery('member.getAuthMail', ['auth_key' => $auth_key]);
+		if(!$output->data || $output->data->auth_key !== $auth_key || $output->data->member_srl != $member_srl)
 		{
-			executeQuery('member.deleteAuthMail', $args);
+			executeQuery('member.deleteAuthMail', ['member_srl' => $member_srl]);
 			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
 		}
 
 		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
 		if(ztime($output->data->regdate) < time() - $expires)
 		{
-			executeQuery('member.deleteAuthMail', $args);
+			executeQuery('member.deleteAuthMail', ['auth_key' => $auth_key]);
 			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
 		}
 
@@ -1930,11 +1926,11 @@ class MemberController extends Member
 		executeQuery('member.deleteLoginCountByIp', ['ipaddress' => \RX_CLIENT_IP]);
 
 		// Clear member cache
-		self::clearMemberCache($args->member_srl);
+		self::clearMemberCache($member_srl);
 
 		// Call a trigger (after)
 		$trigger_obj->is_register = $is_register;
-		$trigger_output = ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
+		ModuleHandler::triggerCall('member.procMemberAuthAccount', 'after', $trigger_obj);
 
 		// Notify the result
 		$message = $is_register === 'Y' ? lang('msg_success_confirmed') : lang('msg_success_authed');
