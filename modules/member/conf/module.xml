@@ -42,7 +42,7 @@
 		<action name="procMemberLogin" type="controller" route="login" />
 		<action name="procMemberFindAccount" type="controller" method="GET|POST" ruleset="findAccount" />
 		<action name="procMemberFindAccountByQuestion" type="controller" method="GET|POST" />
-		<action name="procMemberAuthAccount" type="controller" method="GET|POST" />
+		<action name="procMemberAuthAccount" type="controller" method="GET|POST" route="auth/$member_srl/$auth_key" />
 		<action name="procMemberAuthEmailAddress" type="controller" method="GET|POST" />
 		<action name="procMemberResendAuthMail" type="controller" ruleset="resendAuthMail" />
 		<action name="procMemberSendVerificationSMS" type="controller" />
