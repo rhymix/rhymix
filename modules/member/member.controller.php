@@ -1797,8 +1797,8 @@ class MemberController extends Member
 		$find_url = getFullUrl ('', 'module', 'member', 'act', 'procMemberAuthAccount', 'member_srl', $member_info->member_srl, 'auth_key', $args->auth_key);
 		Context::set('find_url', $find_url);
 
-		$oTemplate = &TemplateHandler::getInstance();
-		$content = $oTemplate->compile($tpl_path, 'find_member_account_mail');
+		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'find_member_account_mail');
+		$content = $oTemplate->compile();
 
 		// Get information of the Webmaster
 		$member_config = ModuleModel::getModuleConfig('member');
@@ -2035,8 +2035,8 @@ class MemberController extends Member
 		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
 		Context::set('auth_url', $auth_url);
 
-		$oTemplate = &TemplateHandler::getInstance();
-		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_account_mail');
+		$content = $oTemplate->compile();
 
 		// Send a mail
 		$oMail = new \Rhymix\Framework\Mail();
@@ -2092,8 +2092,8 @@ class MemberController extends Member
 		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
 		Context::set('auth_url', $auth_url);
 
-		$oTemplate = &TemplateHandler::getInstance();
-		$content = $oTemplate->compile($tpl_path, 'confirm_member_account_mail');
+		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_account_mail');
+		$content = $oTemplate->compile();
 
 		// Send a mail
 		$oMail = new \Rhymix\Framework\Mail();
@@ -3569,8 +3569,8 @@ class MemberController extends Member
 		$auth_url = getFullUrl('','module','member','act','procMemberAuthEmailAddress','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
 		Context::set('auth_url', $auth_url);
 
-		$oTemplate = &TemplateHandler::getInstance();
-		$content = $oTemplate->compile($tpl_path, 'confirm_member_new_email');
+		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_new_email');
+		$content = $oTemplate->compile();
 
 		$oMail = new \Rhymix\Framework\Mail();
 		$oMail->setSubject(lang('title_modify_email_address'));
