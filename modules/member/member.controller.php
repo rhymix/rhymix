@@ -1146,28 +1146,11 @@ class MemberController extends Member
 	 *
 	 * @return void|Object (void : success, Object : fail)
 	 */
-	function procMemberModifyPassword()
+	public function procMemberModifyPassword()
 	{
-		// Check if this request comes from password reset
 		$config = MemberModel::getMemberConfig();
 		$vars = Context::getRequestVars();
-		$is_password_reset = (($config->password_reset_method ?? 1) == 2 && !empty($vars->auth_key) && !empty($vars->member_srl) && $vars->auth_key === $vars->current_password);
-		if ($is_password_reset)
-		{
-			$output = executeQuery('member.getAuthMail', ['member_srl' => $vars->member_srl, 'auth_key' => $vars->auth_key]);
-			if(!$output->toBool() || $output->data->auth_key !== $vars->auth_key)
-			{
-				executeQuery('member.deleteAuthMail', ['member_srl' => $vars->member_srl, 'auth_key' => $vars->auth_key]);
-				throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
-			}
-			$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
-			if(ztime($output->data->regdate) < time() - $expires)
-			{
-				executeQuery('member.deleteAuthMail', ['member_srl' => $vars->member_srl, 'auth_key' => $vars->auth_key]);
-				throw new Rhymix\Framework\Exception('msg_expired_auth_key');
-			}
-		}
-		if (!$is_password_reset && !$this->user->member_srl)
+		if (!$this->user->member_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
@@ -1177,23 +1160,13 @@ class MemberController extends Member
 		$password = trim($vars->password1);
 
 		// Get information of logged-in user
-		if ($is_password_reset)
-		{
-			$member_srl = $vars->member_srl;
-		}
-		else
-		{
-			$member_srl = $this->user->member_srl;
-		}
+		$member_srl = $this->user->member_srl;
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 
 		// Verify the current password
-		if (!$is_password_reset)
+		if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
 		{
-			if (!MemberModel::isValidPassword($member_info->password, $current_password, $member_srl))
-			{
-				throw new Rhymix\Framework\Exception('invalid_current_password');
-			}
+			throw new Rhymix\Framework\Exception('invalid_current_password');
 		}
 
 		// Check if a new password is as same as the previous password
@@ -1225,13 +1198,70 @@ class MemberController extends Member
 		{
 			$returnUrl = Context::get('success_return_url');
 		}
-		elseif ($is_password_reset)
-		{
-			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberLoginForm');
-		}
 		else
 		{
 			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberInfo');
+		}
+		$this->setRedirectUrl($returnUrl);
+	}
+
+	/**
+	 * Change password using auth_key instead of current password
+	 */
+	public function procMemberResetPassword()
+	{
+		$config = MemberModel::getMemberConfig();
+		$vars = Context::getRequestVars();
+
+		// Check auth_key
+		if (empty($vars->auth_key))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$output = executeQuery('member.getAuthMail', ['auth_key' => $vars->auth_key]);
+		if(!$output->toBool() || $output->data->auth_key !== $vars->auth_key)
+		{
+			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
+			throw new Rhymix\Framework\Exception('msg_invalid_auth_key');
+		}
+
+		$expires = (intval($config->authmail_expires) * intval($config->authmail_expires_unit)) ?: 86400;
+		if(ztime($output->data->regdate) < time() - $expires)
+		{
+			executeQuery('member.deleteAuthMail', ['auth_key' => $vars->auth_key]);
+			throw new Rhymix\Framework\Exception('msg_expired_auth_key');
+		}
+
+		// Extract the necessary information in advance
+		$member_srl = $output->data->member_srl;
+
+		// Update the password
+		$args = new stdClass;
+		$args->member_srl = $member_srl;
+		$args->password = trim($vars->password1);
+		$output = $this->updateMemberPassword($args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Log out all other sessions.
+		if ($config->password_change_invalidate_other_sessions === 'Y')
+		{
+			Rhymix\Framework\Session::destroyOtherSessions($member_srl);
+		}
+
+		$this->add('member_srl', $member_srl);
+		$this->setMessage('member.msg_password_changed');
+
+		if (Context::get('success_return_url'))
+		{
+			$returnUrl = Context::get('success_return_url');
+		}
+		else
+		{
+			$returnUrl = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberLoginForm');
 		}
 		$this->setRedirectUrl($returnUrl);
 	}
