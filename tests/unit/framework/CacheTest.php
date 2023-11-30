@@ -14,7 +14,8 @@ class CacheTest extends \Codeception\Test\Unit
 
 	public function _after()
 	{
-		$driver = Rhymix\Framework\Cache::clearAll();
+		Rhymix\Framework\Cache::clearAll();
+		Rhymix\Framework\Cache::init(array('dummy'));
 	}
 
 	public function testInit()
