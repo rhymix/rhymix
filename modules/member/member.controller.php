@@ -1898,18 +1898,14 @@ class MemberController extends Member
 		}
 		else
 		{
-			$tpl_path = sprintf('%sskins/%s', $this->module_path, $config->skin ?: 'default');
-			if(!Rhymix\Framework\Storage::isDirectory($tpl_path))
-			{
-				$tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-			}
-			$tpl_file = sprintf('%s/%s', $tpl_path, 'reset_password.html');
+			$this->setLayoutAndTemplatePaths(Context::get('m') ? 'P' : 'M', $config);
+			$tpl_file = sprintf('%s%s', $this->getTemplatePath(), 'reset_password.html');
 			if (!Rhymix\Framework\Storage::exists($tpl_file))
 			{
-				$tpl_file = sprintf('%s/%s', $tpl_path, 'reset_password.blade.php');
+				$tpl_file = sprintf('%s%s', $this->getTemplatePath(), 'reset_password.blade.php');
 				if (!Rhymix\Framework\Storage::exists($tpl_file))
 				{
-					$tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
+					$this->setTemplatePath(sprintf('%sskins/%s', $this->module_path, 'default'));
 				}
 			}
 
