@@ -1908,8 +1908,6 @@ class MemberController extends Member
 					$this->setTemplatePath(sprintf('%sskins/%s', $this->module_path, 'default'));
 				}
 			}
-
-			$this->setTemplatePath($tpl_path);
 			$this->setTemplateFile('reset_password');
 			Context::set('member_config', $config ?? '');
 			return;
