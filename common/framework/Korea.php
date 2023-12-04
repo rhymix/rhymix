@@ -84,7 +84,7 @@ class Korea
 		{
 			return true;
 		}
-		if (preg_match('/^0(?:303|505)[2-9][0-9]{6,7}$/', $num))
+		if (preg_match('/^0(?:303|50[2-8])[1-9][0-9]{6,7}$/', $num))
 		{
 			return true;
 		}

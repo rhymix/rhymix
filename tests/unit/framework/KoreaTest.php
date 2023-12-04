@@ -30,13 +30,15 @@ class KoreaTest extends \Codeception\Test\Unit
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('010-4444-5555'));
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('0303-4444-5555'));
 		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('0505-4444-5555'));
+		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('0507-1234-5678'));
+		$this->assertTrue(Rhymix\Framework\Korea::isValidPhoneNumber('0506-123-4567'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('010-4444-55555'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('010-1234-5678'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('02-123-4567'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('02-123456'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('03-456-7890'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('090-9876-5432'));
-		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0303-1111-5432'));
+		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0303-0000-5432'));
 		$this->assertFalse(Rhymix\Framework\Korea::isValidPhoneNumber('0505-9876-543210'));
 	}
 
