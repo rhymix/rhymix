@@ -1379,17 +1379,26 @@ class FileController extends File
 			return $file_info;
 		}
 
-		// Get video size and duration
+		// Check if video needs to be rotated
+		$rotate = false;
 		if (isset($stream_info['video']['tags']['rotate']) && in_array($stream_info['video']['tags']['rotate'], [90, 270]))
 		{
-			$file_info['width'] = (int)$stream_info['video']['height'];
-			$file_info['height'] = (int)$stream_info['video']['width'];
+			$rotate = true;
 		}
-		else
+		elseif (isset($stream_info['video']['side_data_list']) && is_array($stream_info['video']['side_data_list']))
 		{
-			$file_info['width'] = (int)$stream_info['video']['width'];
-			$file_info['height'] = (int)$stream_info['video']['height'];
+			foreach ($stream_info['video']['side_data_list'] as $side_data)
+			{
+				if (isset($side_data['rotation']) && in_array(abs($side_data['rotation']), [90, 270]))
+				{
+					$rotate = true;
+				}
+			}
 		}
+
+		// Get video size and duration
+		$file_info['width'] = intval($rotate ? $stream_info['video']['height'] : $stream_info['video']['width']);
+		$file_info['height'] = intval($rotate ? $stream_info['video']['width'] : $stream_info['video']['height']);
 		$file_info['duration'] = round($stream_info['video']['duration']);
 		$adjusted = [
 			'width' => $file_info['width'],
