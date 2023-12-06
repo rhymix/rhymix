@@ -467,7 +467,7 @@ class HTMLDisplayHandler
 		$site_module_info = Context::get('site_module_info');
 		$document_srl = Context::get('document_srl');
 		$grant = Context::get('grant');
-		$permitted = $grant->access;
+		$permitted = isset($grant->access) ? $grant->access : false;
 		if (isset($grant->view) && !$grant->view)
 		{
 			$permitted = false;
@@ -480,7 +480,7 @@ class HTMLDisplayHandler
 			}
 			else
 			{
-				$oDocument = Context::get('oDocument') ?: getModel('document')->getDocument($document_srl, false, false);
+				$oDocument = Context::get('oDocument') ?: DocumentModel::getDocument($document_srl, false, false);
 				if (is_object($oDocument) && $oDocument->document_srl == $document_srl)
 				{
 					$page_type = 'article';

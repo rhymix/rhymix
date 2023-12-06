@@ -1065,8 +1065,6 @@ class NcenterliteController extends Ncenterlite
 			return;
 		}
 
-		$module_info = Context::get('module_info');
-
 		$oNcenterliteModel = getModel('ncenterlite');
 		$config = NcenterliteModel::getConfig();
 
@@ -1082,7 +1080,8 @@ class NcenterliteController extends Ncenterlite
 		}
 
 		// 노티바 제외 페이지이면 중지
-		if(is_array($config->hide_module_srls) && in_array($module_info->module_srl, $config->hide_module_srls))
+		$module_info = Context::get('module_info');
+		if(is_array($config->hide_module_srls) && in_array($module_info->module_srl ?? 0, $config->hide_module_srls))
 		{
 			return;
 		}
@@ -1319,6 +1318,10 @@ class NcenterliteController extends Ncenterlite
 		}
 
 		$module_info = Context::get('module_info');
+		if (!$module_info || !$module_info->module)
+		{
+			return false;
+		}
 
 		// DX 익명 체크박스
 		if($module_info->module == 'beluxe' && $triggerObj->anonymous == 'Y')
