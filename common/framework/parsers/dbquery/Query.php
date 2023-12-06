@@ -620,7 +620,7 @@ class Query extends VariableBase
 			}
 
 			// Get the ordering (ASC or DESC).
-			if (preg_match('/^(ASC|DESC)$/i', $orderby->order_var, $matches))
+			if (preg_match('/^(ASC|DESC)$/i', $orderby->order_var ?: '', $matches))
 			{
 				$column_order = strtoupper($matches[1]);
 			}
