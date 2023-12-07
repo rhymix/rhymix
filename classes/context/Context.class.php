@@ -2874,16 +2874,29 @@ class Context
 	 *
 	 * @param string $name
 	 * @param mixed $content
+	 * @param bool $overwrite
 	 * @return void
 	 */
-	public static function addOpenGraphData($name, $content)
+	public static function addOpenGraphData($name, $content, $overwrite = false) : void
 	{
 		if (is_array($content))
 		{
 			foreach ($content as $key => $val)
 			{
-				self::addOpenGraphData("$name:$key", $val);
+				self::addOpenGraphData("$name:$key", $val, $overwrite);
 			}
+		}
+		else if($overwrite)
+		{
+			foreach(self::$_instance->opengraph_metadata as $key => $val)
+			{
+				if($val[0] == $name)
+				{
+					self::$_instance->opengraph_metadata[$key][1] = $content;
+					return;
+				}
+			}
+			self::$_instance->opengraph_metadata[] = array($name, $content);
 		}
 		else
 		{
@@ -2900,7 +2913,7 @@ class Context
 	public static function setCanonicalURL($url)
 	{
 		self::$_instance->canonical_url = escape($url, false);
-		self::addOpenGraphData('og:url', self::$_instance->canonical_url);
+		self::addOpenGraphData('og:url', self::$_instance->canonical_url, true);
 	}
 
 	/**
