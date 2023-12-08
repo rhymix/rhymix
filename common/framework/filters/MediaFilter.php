@@ -140,7 +140,7 @@ class MediaFilter
 		$input = preg_replace('!<object[^>]*>(.*?</object>)?!is', $replacement, $input);
 		$input = preg_replace('!<embed[^>]*>(.*?</embed>)?!is', $replacement, $input);
 		$input = preg_replace('!<img[^>]*editor_component="multimedia_link"[^>]*>(.*?</img>)?!is', $replacement, $input);
-		return $input;
+		return (string)$input;
 	}
 
 	/**
