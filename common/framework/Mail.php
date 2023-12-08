@@ -581,6 +581,11 @@ class Mail
 		$id = $random . '@' . (preg_match('/^(.+)@([^@]+)$/', $sender_email, $matches) ? $matches[2] : 'swift.generated');
 		$this->message->getHeaders()->get('Message-ID')->setId($id);
 
+		if (config('mail.default_force') && config('mail.default_from'))
+		{
+			$this->setFrom(config('mail.default_from'), config('mail.default_name') ?: null);
+		}
+
 		try
 		{
 			$this->sent = $this->driver->send($this) ? true : false;
