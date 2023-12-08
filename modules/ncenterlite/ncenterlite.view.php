@@ -235,7 +235,10 @@ class NcenterliteView extends Ncenterlite
 		$path = $this->getTemplatePath();
 		if (!file_exists($path . $filename . '.html'))
 		{
-			$this->setTemplatePath(dirname($path) . '/default/');
+			if (!file_exists($path . $filename . '.blade.php'))
+			{
+				$this->setTemplatePath(dirname($path) . '/default/');
+			}
 		}
 		$this->setTemplateFile($filename);
 	}
