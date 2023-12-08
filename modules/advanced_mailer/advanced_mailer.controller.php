@@ -39,7 +39,7 @@ class Advanced_MailerController extends Advanced_Mailer
 				$mail->setReplyTo($default_reply_to);
 			}
 		}
-		elseif (toBool($config->force_sender ?? 'N'))
+		elseif (toBool($config->force_sender ?? 'N') || config('mail.default_force'))
 		{
 			if (stripos($mail->driver->getName(), 'woorimail') !== false && config('mail.woorimail.api_type') === 'free')
 			{
