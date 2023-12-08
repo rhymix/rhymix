@@ -6,7 +6,7 @@ class NcenterliteView extends Ncenterlite
 	{
 		$oNcenterliteModel = ncenterliteModel::getInstance();
 		$config = $oNcenterliteModel->getConfig();
-		$this->setLayoutAndTemplatePaths($this instanceof ncenterliteView ? 'P' : 'M', $config);
+		$this->setLayoutAndTemplatePaths($this instanceof NcenterliteMobile ? 'M' : 'P', $config);
 	}
 
 	function dispNcenterliteNotifyList()
