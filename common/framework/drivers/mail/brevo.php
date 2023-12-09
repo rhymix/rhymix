@@ -29,7 +29,7 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function getSPFHint(): string
 	{
-		return '';
+		return 'include:spf.brevo.com';
 	}
 
 	/**
