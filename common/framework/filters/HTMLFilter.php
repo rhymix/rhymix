@@ -39,6 +39,23 @@ class HTMLFilter
 	);
 
 	/**
+	 * Sandbox values for iframes.
+	 */
+	protected static $_iframe_sandbox = array(
+		'allow-downloads' => true,
+		'allow-forms' => true,
+		'allow-modals' => true,
+		'allow-orientation-lock' => true,
+		'allow-pointer-lock' => true,
+		'allow-popups' => true,
+		'allow-presentation' => true,
+		'allow-same-origin' => true,
+		'allow-scripts' => true,
+		'allow-top-navigation' => true,
+
+	);
+
+	/**
 	 * List of tags where data-* attributes are allowed.
 	 */
 	protected static $_data_allowed = array(
@@ -327,7 +344,9 @@ class HTMLFilter
 		$def->addAttribute('img', 'srcset', 'Text');
 		$def->addAttribute('iframe', 'allow', 'Text');
 		$def->addAttribute('iframe', 'allowfullscreen', 'Bool');
+		$def->addAttribute('iframe', 'loading', 'Enum#eager,lazy');
 		$def->addAttribute('iframe', 'referrerpolicy', 'Enum#no-referrer,no-referrer-when-downgrade,origin,origin-when-cross-origin,same-origin,strict-origin,strict-origin-when-cross-origin,unsafe-url');
+		$def->addAttribute('iframe', 'sandbox', 'Text');
 
 		// Support contenteditable="false" (#1710)
 		$def->addAttribute('div', 'contenteditable', 'Enum#false');
@@ -551,6 +570,19 @@ class HTMLFilter
 				}
 			}
 			return 'allow="' . implode('; ', $result) . '"';
+		}, $content);
+
+		// Remove "sandbox" attributes that should not be allowed.
+		$content = preg_replace_callback('!(?<=\s)sandbox="([^"<>]*?)"!i', function($matches) {
+			$result = [];
+			foreach (array_map('trim', preg_split('/\s+/', $matches[1])) as $value)
+			{
+				if (isset(self::$_iframe_sandbox[$value]))
+				{
+					$result[] = $value;
+				}
+			}
+			return 'sandbox="' . implode(' ', $result) . '"';
 		}, $content);
 
 		// Remove object and embed URLs that are not allowed.

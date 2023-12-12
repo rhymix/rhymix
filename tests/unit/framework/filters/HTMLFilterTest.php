@@ -130,6 +130,14 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$target = '<iframe src="https://www.youtube.com/" referrerpolicy="no-referrer"></iframe>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
+		$source = '<iframe src="https://www.youtube.com/" loading="lazy" sandbox="allow-presentation allow-scripts  allow-whatever"></iframe>';
+		$target = '<iframe src="https://www.youtube.com/" loading="lazy" sandbox="allow-presentation allow-scripts"></iframe>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<iframe src="https://www.youtube.com/" loading="invalid" sandbox=" "></iframe>';
+		$target = '<iframe src="https://www.youtube.com/" sandbox=""></iframe>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
 		$source = '<object type="application/x-shockwave-flash" width="640px" height="360px" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,3,0,0">' .
 			'<param name="movie" value="http://videofarm.daum.net/controller/player/VodPlayer.swf" />' .
 			'<param name="allowScriptAccess" value="always" />' .
