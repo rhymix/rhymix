@@ -256,6 +256,7 @@ class ModuleController extends Module
 		$oDB->commit();
 
 		//remove from cache
+		unset($GLOBALS['__ModuleConfig__'][$module]);
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
@@ -308,6 +309,7 @@ class ModuleController extends Module
 		$oDB->commit();
 
 		//remove from cache
+		unset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]);
 		Rhymix\Framework\Cache::clearGroup('site_and_module');
 		return $output;
 	}
