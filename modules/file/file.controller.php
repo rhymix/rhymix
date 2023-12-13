@@ -235,42 +235,11 @@ class FileController extends File
 	/**
 	 * Image resize
 	 *
-	 * @return void
+	 * @deprecated
 	 */
 	function procFileImageResize()
 	{
-		$file_srl = Context::get('file_srl');
-		$width = Context::get('width');
-		$height = Context::get('height');
-
-		if(!$file_srl || !$width)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		$fileInfo = FileModel::getFile($file_srl);
-		if(!$fileInfo || $fileInfo->direct_download != 'Y')
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		$source_src = $fileInfo->uploaded_filename;
-		$output_src = $source_src . '.resized' . strrchr($source_src,'.');
-
-		if(!$height) $height = $width-1;
-
-		if(FileHandler::createImageFile($source_src,$output_src,$width,$height,'','ratio'))
-		{
-			$output = new stdClass();
-			$output->info = getimagesize($output_src);
-			$output->src = $output_src;
-		}
-		else
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		$this->add('resized_info',$output);
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled;
 	}
 
 	/**

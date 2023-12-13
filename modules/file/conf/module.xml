@@ -6,7 +6,7 @@
 
 		<action name="procFileUpload" type="controller" check_csrf="false" />
 		<action name="procFileIframeUpload" type="controller" />
-		<action name="procFileImageResize" type="controller" ruleset="imageResize" />
+		<action name="procFileImageResize" type="controller" />
 		<action name="procFileDelete" type="controller" />
 		<action name="procFileSetCoverImage" type="controller" />
 		<action name="procFileDownload" type="controller" method="GET|POST" />
