@@ -546,7 +546,6 @@ class HTMLDisplayHandler
 					$canonical_url = getNotEncodedFullUrl('', 'mid', $current_module_info->mid);
 				}
 			}
-			Context::addOpenGraphData('og:url', $canonical_url);
 			Context::setCanonicalURL($canonical_url);
 		}
 
