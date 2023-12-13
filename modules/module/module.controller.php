@@ -395,7 +395,7 @@ class ModuleController extends Module
 		{
 			$args->module_srl = getNextSequence();
 		}
-		$args->browser_title = escape(strip_tags($args->browser_title ?? ''), false, true);
+		$args->browser_title = escape($args->browser_title ?? '', false, true);
 		$args->description = isset($args->description) ? escape($args->description, false) : null;
 		if(!isset($args->skin) || $args->skin == '/USE_DEFAULT/')
 		{
@@ -508,7 +508,7 @@ class ModuleController extends Module
 			}
 		}
 
-		$args->browser_title = escape(strip_tags($args->browser_title ?? $module_info->browser_title), false, true);
+		$args->browser_title = escape($args->browser_title ?? $module_info->browser_title, false, true);
 		$args->description = isset($args->description) ? escape($args->description, false) : null;
 
 		// default value

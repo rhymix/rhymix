@@ -1745,7 +1745,7 @@ jQuery(function($){
 
 		var sMenuId = $._htMarkupActionParam.sMenuId;
 		var htInfo = htNodeInfo[sMenuId];
-		$(ev.target).find('.title').text(htInfo.sText);
+		$(ev.target).find('.title').text(htInfo.sText.escape(false).unescape());
 
 		$(ev.target).find('.title').attr('href', htInfo.href);
 
@@ -1970,10 +1970,10 @@ jQuery(function($){
 			$(this).addClass('page');
 		}
 
-		$(this).find('#menuName').val(htInfo.sMenuNameKey.match(/\$user_lang->/) ? htInfo.sMenuNameKey : htInfo.sText);
+		$(this).find('#menuName').val(htInfo.sMenuNameKey.match(/\$user_lang->/) ? htInfo.sMenuNameKey : htInfo.sText.escape(false).unescape());
 		$(this).find('#menuIcon').val(htInfo.icon);
 		$(this).find('#menuClass').val(htInfo.class);
-		$(this).find('#menuDesc').val(htInfo.desc);
+		$(this).find('#menuDesc').val(htInfo.desc.escape(false).unescape());
 		//menu_name_key
 
 		$(this).find('#mid2').val(htInfo.url);
@@ -1998,7 +1998,7 @@ jQuery(function($){
 				showMenuSelector($(this).find('._menuSelector_menuTreeContainer'));
 			}
 		}else{
-			$(this).find('._browserTitle').val(htInfo.browser_title);
+			$(this).find('._browserTitle').val(htInfo.browser_title.escape(false).unescape());
 		}
 
 		if(htInfo.open_window === "N"){

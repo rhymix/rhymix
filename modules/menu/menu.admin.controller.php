@@ -532,7 +532,7 @@ class MenuAdminController extends Menu
 			if(!$args->is_shortcut) $args->is_shortcut = 'Y';
 
 			if($request->menu_name_key) $args->name = $request->menu_name_key;
-			else $args->name = $request->menu_name;
+			else $args->name = escape($request->menu_name, true, true);
 		}
 		// type is module short cut
 		else if(is_numeric($request->shortcut_target))
@@ -552,7 +552,7 @@ class MenuAdminController extends Menu
 				unset($args->group_srls);
 			}
 			$args->menu_srl = $request->menu_srl;
-			$args->name = $request->menu_name;
+			$args->name = escape($request->menu_name, true, true);
 			$args->parent_srl = $request->parent_srl;
 			$args->is_shortcut = $request->is_shortcut;
 		}
@@ -561,15 +561,15 @@ class MenuAdminController extends Menu
 		{
 			$args = new stdClass();
 			$args->menu_srl = $request->menu_srl;
-			$args->name = $request->menu_name;
+			$args->name = escape($request->menu_name, true, true);
 			$args->parent_srl = $request->parent_srl;
 			$args->is_shortcut = $request->is_shortcut;
 			$args->url = '#';
 		}
 
-		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->icon = escape(trim($request->menu_icon ?? '') ?: '');
 		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
-		$args->desc = trim($request->menu_desc ?? '') ?: '';
+		$args->desc = escape(trim($request->menu_desc ?? '') ?: '', true, true);
 
 		$args->menu_item_srl = getNextSequence();
 		$args->listorder = -1*$args->menu_item_srl;
@@ -601,11 +601,11 @@ class MenuAdminController extends Menu
 		if(!$args->is_shortcut) $args->is_shortcut = 'N';
 
 		if($request->menu_name_key) $args->name = $request->menu_name_key;
-		else $args->name = $request->menu_name;
+		else $args->name = escape($request->menu_name, true, true);
 
-		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->icon = escape(trim($request->menu_icon ?? '') ?: '');
 		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
-		$args->desc = trim($request->menu_desc ?? '') ?: '';
+		$args->desc = escape(trim($request->menu_desc ?? '') ?: '', true, true);
 
 		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
 		{
@@ -786,12 +786,12 @@ class MenuAdminController extends Menu
 		}
 		else
 		{
-			$args->name = $request->menu_name;
+			$args->name = escape($request->menu_name, true, true);
 		}
 
-		$args->icon = trim($request->menu_icon ?? '') ?: '';
+		$args->icon = escape(trim($request->menu_icon ?? '') ?: '');
 		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
-		$args->desc = trim($request->menu_desc ?? '') ?: '';
+		$args->desc = escape(trim($request->menu_desc ?? '') ?: '', true, true);
 
 		unset($args->group_srls);
 		$args->open_window = $request->menu_open_window;
