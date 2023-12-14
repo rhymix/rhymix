@@ -1123,7 +1123,7 @@ class CommentModel extends Comment
 		{
 			$comment_config->comment_count = 50;
 		}
-		if(!isset($comment_config->comment_page_count) || $comment_config->comment_page_count)
+		if(!isset($comment_config->comment_page_count) || !$comment_config->comment_page_count)
 		{
 			$comment_config->comment_page_count = 10;
 		}
