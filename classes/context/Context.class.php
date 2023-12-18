@@ -856,7 +856,7 @@ class Context
 			$GLOBALS['lang']->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		}
 
-		return $GLOBALS['lang']->get($code);
+		return $code ? $GLOBALS['lang']->get((string)$code) : (string)$code;
 	}
 
 	/**

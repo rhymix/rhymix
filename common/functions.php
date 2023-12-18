@@ -32,7 +32,7 @@ function config(string $key, $value = null)
  * @param string $value `$code`s value
  * @return string|null|\ArrayObject
  */
-function lang(string $code, $value = null)
+function lang(?string $code, $value = null)
 {
 	if (!isset($GLOBALS['lang']) || !$GLOBALS['lang'] instanceof Rhymix\Framework\Lang)
 	{
@@ -42,9 +42,9 @@ function lang(string $code, $value = null)
 
 	if ($value === null)
 	{
-		return $GLOBALS['lang']->get($code);
+		return $GLOBALS['lang']->get($code ?? '');
 	}
-	else
+	elseif ($code !== null)
 	{
 		$GLOBALS['lang']->set($code, $value);
 	}
