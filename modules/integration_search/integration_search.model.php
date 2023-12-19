@@ -52,7 +52,7 @@ class integration_searchModel extends module
 
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = $search_target;
 		$args->search_keyword = $search_keyword;
 		$args->sort_index = 'list_order';
@@ -110,7 +110,7 @@ class integration_searchModel extends module
 
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = 'content';
 		$args->search_keyword = $search_keyword;
 		$args->is_secret = 'N';
@@ -165,7 +165,7 @@ class integration_searchModel extends module
 
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = $search_target;
 		$args->search_keyword = $search_keyword;
 		$args->sort_index = 'list_order';
@@ -211,7 +211,7 @@ class integration_searchModel extends module
 
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = 'filename';
 		$args->search_keyword = $search_keyword;
 		$args->sort_index = 'files.file_srl';
