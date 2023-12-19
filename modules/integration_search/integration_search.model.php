@@ -127,56 +127,6 @@ class integration_searchModel extends module
 	}
 
 	/**
-	 * Search trackbacks
-	 *
-	 * @param string $target choose target. exclude or include for $module_srls_list
-	 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
-	 * @param string $search_target Target
-	 * @param string $search_keyword Keyword
-	 * @param integer $page page of page navigation
-	 * @param integer $list_count list count of page navigation
-	 *
-	 * @return Object output trackback list
-	 */
-	function getTrackbacks($target, $module_srls_list, $search_target = "title", $search_keyword = '', $page=1, $list_count = 20)
-	{
-		$oTrackbackModel = getAdminModel('trackback');
-		if(!$oTrackbackModel) return new BaseObject();
-
-		if(!is_array($module_srls_list))
-		{
-			$module_srls_list = $module_srls_list ? explode(',', $module_srls_list) : array();
-		}
-		$module_srls_list = array_map('intval', $module_srls_list);
-		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
-
-		$args = new stdClass();
-		if($target == 'exclude')
-		{
-			$args->module_srl = $accessible_modules;
-			$args->exclude_module_srl = $module_srls_list;
-		}
-		else
-		{
-			$args->module_srl = array_intersect($module_srls_list, $accessible_modules);
-			$args->exclude_module_srl = array(0); // exclude 'trash'
-		}
-		$args->module_srl[] = 0;
-
-		$args->page = $page;
-		$args->list_count = $list_count;
-		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
-		$args->search_target = $search_target;
-		$args->search_keyword = $search_keyword;
-		$args->sort_index = 'list_order';
-		$args->order_type = 'asc';
-		// Get a list of documents
-		$output = $oTrackbackModel->getTotalTrackbackList($args);
-		if(!$output->toBool()|| !$output->data) return $output;
-		return $output;
-	}
-
-	/**
 	 * Search file
 	 *
 	 * @param string $target choose target. exclude or include for $module_srls_list
@@ -327,6 +277,17 @@ class integration_searchModel extends module
 	function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20)
 	{
 		return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, 'N');
+	}
+
+	/**
+	 * Search trackbacks
+	 *
+	 * @deprecated
+	 * @return BaseObject
+	 */
+	function getTrackbacks()
+	{
+		return new BaseObject();
 	}
 }
 /* End of file integration_search.model.php */

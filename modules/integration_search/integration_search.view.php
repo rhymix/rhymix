@@ -47,13 +47,13 @@ class integration_searchView extends integration_search
 			$this->setRedirectUrl($redirect_url);
 			return;
 		}
-		
+
 		// Check permissions
 		if(!$this->grant->access)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		
+
 		// Block robots
 		$config = $oModuleModel->getModuleConfig('integration_search') ?: new stdClass;
 		if (!isset($config->block_robots) || $config->block_robots !== false)
@@ -63,7 +63,7 @@ class integration_searchView extends integration_search
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
-		
+
 		// Set skin path
 		if(ends_with('Mobile', get_class($this), false))
 		{
@@ -100,7 +100,7 @@ class integration_searchView extends integration_search
 				$config->skin = 'default';
 			}
 		}
-		
+
 		$this->setTemplatePath($template_path);
 		$skin_vars = ($config->skin_vars) ? unserialize($config->skin_vars) : new stdClass;
 		Context::set('module_info', $skin_vars);
@@ -133,7 +133,7 @@ class integration_searchView extends integration_search
 		// Set page variables
 		$page = (int)Context::get('page');
 		if(!$page) $page = 1;
-		
+
 		// Set page title
 		$title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
 		Context::setBrowserTitle($title, array(
@@ -149,13 +149,8 @@ class integration_searchView extends integration_search
 		// Create integration search model object
 		if($is_keyword)
 		{
-			$oIS = getModel('integration_search');
-			$oTrackbackModel = getAdminModel('trackback');
-			Context::set('trackback_module_exist', true);
-			if(!$oTrackbackModel)
-			{
-				Context::set('trackback_module_exist', false);
-			}
+			$oIS = integration_searchModel::getInstance();
+			Context::set('trackback_module_exist', false);
 
 			switch($where)
 			{
@@ -173,15 +168,6 @@ class integration_searchView extends integration_search
 					Context::set('output', $output);
 					$this->setTemplateFile("comment", $page);
 					break;
-				case 'trackback' :
-					$search_target = Context::get('search_target');
-					if(!in_array($search_target, array('title','url','blog_name','excerpt'))) $search_target = 'title';
-					Context::set('search_target', $search_target);
-
-					$output = $oIS->getTrackbacks($target, $module_srl_list, $search_target, $is_keyword, $page, 10);
-					Context::set('output', $output);
-					$this->setTemplateFile("trackback", $page);
-					break;
 				case 'multimedia' :
 					$output = $oIS->getImages($target, $module_srl_list, $is_keyword, $page,20);
 					Context::set('output', $output);
@@ -195,9 +181,9 @@ class integration_searchView extends integration_search
 				default :
 					$output['document'] = $oIS->getDocuments($target, $module_srl_list, 'title_content', $is_keyword, $page, 5);
 					$output['comment'] = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 5);
-					$output['trackback'] = $oIS->getTrackbacks($target, $module_srl_list, 'title', $is_keyword, $page, 5);
 					$output['multimedia'] = $oIS->getImages($target, $module_srl_list, $is_keyword, $page, 5);
 					$output['file'] = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 5);
+					$output['trackback'] = new BaseObject;
 					Context::set('search_result', $output);
 					Context::set('search_target', 'title_content');
 					$this->setTemplateFile("index", $page);
