@@ -90,7 +90,7 @@ class MenuAdminController extends Menu
 	{
 		$args = new stdClass();
 		$args->site_srl = $siteSrl;
-		$args->title = $title;
+		$args->title = escape($title, true, true);
 
 		$args->menu_srl = getNextSequence();
 		$args->listorder = $args->menu_srl * -1;
@@ -234,7 +234,7 @@ class MenuAdminController extends Menu
 	{
 		// List variables
 		$args = new stdClass();
-		$args->title = Context::get('title');
+		$args->title = escape(Context::get('title'), true, true);
 		$args->menu_srl = Context::get('menu_srl');
 
 		$output = executeQuery('menu.updateMenu', $args);

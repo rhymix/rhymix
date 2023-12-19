@@ -532,7 +532,8 @@ class MenuAdminModel extends Menu
 			}
 
 			$menuItems->menuSrl = $output->menu_srl;
-			$menuItems->title = $output->title;
+			$menuItems->menuNameKey = $output->title;
+			$menuItems->title = Context::replaceUserLang($value->title);
 			$menuItems->menuItems = $menu;
 			$menuList[] = $menuItems;
 		}
@@ -583,7 +584,8 @@ class MenuAdminModel extends Menu
 
 						$menuItems = new stdClass();
 						$menuItems->menuSrl = $value->menu_srl;
-						$menuItems->title = $value->title;
+						$menuItems->menuNameKey = $value->title;
+						$menuItems->title = Context::replaceUserLang($value->title);
 						$menuItems->menuItems = $menu;
 
 						// If include home menu, move first

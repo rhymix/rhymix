@@ -64,7 +64,7 @@
 				<ul class="_itemList">
 					<li>
 						<label for="sitemapName">{$lang->sitemap_name}</label>
-						<input id="sitemapName" class="_sitemapName" type="text" required>
+						<input id="sitemapName" class="_sitemapName lang_code" type="text" required>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -98,7 +98,7 @@
 				<ul class="_itemList">
 					<li>
 						<label for="sitemapName2">{$lang->sitemap_name}</label>
-						<input id="sitemapName2" class="_sitemapName" type="text" required>
+						<input id="sitemapName2" class="_sitemapName lang_code" type="text" required>
 					</li>
 				</ul>
 				<div class="btnBoth">
@@ -1577,7 +1577,7 @@ jQuery(function($){
 		var $panel = $('#add_sitemap');
 
 
-		var sTitle = $panel.find('INPUT._sitemapName').val();;
+		var sTitle = $panel.find('INPUT._sitemapName').val();
 		var params = {};
 		params['title'] = sTitle;
 		$.exec_json("menu.procMenuAdminInsert", params, function(htData){
@@ -1594,7 +1594,8 @@ jQuery(function($){
 		var htInfo = htNodeInfo[sMenuId];
 
 		var $panel = $(this);
-		$panel.find('INPUT._sitemapName').val(htInfo.title);
+		$panel.find('input._sitemapName').val(htInfo.menuNameKey.match(/\$user_lang->/) ? htInfo.menuNameKey : htInfo.title.escape(false).unescape());
+		$panel.find('.lang_code').trigger('reload-multilingual');
 	});
 	$('#sitemap_general ._save').click(function(){
 		var sTitle = $('#sitemap_general INPUT._sitemapName').val();
