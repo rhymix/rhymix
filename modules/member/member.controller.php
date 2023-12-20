@@ -3652,7 +3652,7 @@ class MemberController extends Member
 		{
 			return new BaseObject(-1, 'msg_invalid_phone_number');
 		}
-		if ($phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($phone_number))
+		if ($phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($phone_number ?? ''))
 		{
 			return new BaseObject(-1, 'msg_invalid_phone_number');
 		}
@@ -4036,7 +4036,7 @@ class MemberController extends Member
 			{
 				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
 			}
-			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
+			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number ?? ''))
 			{
 				if ($required)
 				{
