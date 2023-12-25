@@ -252,8 +252,8 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		{
 			$oMail = new Rhymix\Framework\Mail();
 			$oMail->setTitle('Advanced Mailer Test : ' . strtoupper($sending_method));
-			$oMail->setContent('<p>This is a <b>test email</b> from Advanced Mailer.</p><p>Thank you for trying Advanced Mailer.</p>' .
-				'<p>고급 메일 발송 모듈 <b>테스트</b> 메일입니다.</p><p>메일이 정상적으로 발송되고 있습니다.</p>');
+			$oMail->setContent('<!DOCTYPE html><html lang="ko"><head><title>Advanced Mailer Test : '.strtoupper($sending_method).'</title></head><body><p>This is a <b>test email</b> from Advanced Mailer.</p><p>Thank you for trying Advanced Mailer.</p>' .
+				'<p>고급 메일 발송 모듈 <b>테스트</b> 메일입니다.</p><p>메일이 정상적으로 발송되고 있습니다.</p></body></html>');
 			$oMail->addTo($recipient_email, $recipient_name);
 			$result = $oMail->send();
 
