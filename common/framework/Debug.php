@@ -494,7 +494,7 @@ class Debug
 		// Add the query to the slow query log.
 		if ($query_object->query_time && $query_object->query_time >= (self::$_config['log_slow_queries'] ?? 1))
 		{
-			self::$_slow_queries[] = $query_object;
+			self::$_slow_queries[count(self::$_queries)] = $query_object;
 		}
 	}
 

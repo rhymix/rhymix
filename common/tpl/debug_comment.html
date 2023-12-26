@@ -187,17 +187,16 @@ Debug Entries
 ================================================================================
 <?php echo $ansi['off']; ?>
 <?php
-	$query_count = 0;
 	if (!count($data->slow_queries))
 	{
 		echo 'None'. "\n";
 	}
-	foreach ($data->slow_queries as $query)
+	foreach ($data->slow_queries as $index => $query)
 	{
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
 		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
 		echo $ansi['bold'] . $ansi['magenta'];
-		echo sprintf('%02d. %s', ++$query_count, $query->query_string);
+		echo sprintf('%02d. %s', $index, $query->query_string);
 		echo $ansi['off'] . "\n";
 		if (empty($query->backtrace))
 		{
