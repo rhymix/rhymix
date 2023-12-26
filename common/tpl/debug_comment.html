@@ -1,10 +1,34 @@
 <?php if (!defined('RX_BASEDIR')) exit; ?>
 
+<?php
+$ansi = array(
+	'off' => "\033[0m",
+	'bold' => "\033[1m",
+	'italic' => "\033[3m",
+	'underline' => "\033[4m",
+	'inverse' => "\033[7m",
+	'black' => "\033[30m",
+	'red' => "\033[31m",
+	'green' => "\033[32m",
+	'yellow' => "\033[33m",
+	'blue' => "\033[34m",
+	'magenta' => "\033[35m",
+	'cyan' => "\033[36m",
+	'white' => "\033[37m",
+);
+?>
+
+<?php echo $ansi['bold'] . $ansi['cyan']; ?>
+--------------------------------------------------------------------------------
 <?php echo '[' . $data->timestamp . ']' . "\n"; ?>
+<?php echo $ansi['off']; ?>
 
 <?php if (isset($display_content['request_info'])): ?>
+<?php echo $ansi['bold']; ?>
 Request / Response
-==================
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 Request URL:         <?php echo $data->url . "\n"; ?>
 Request IP Address:  <?php echo \RX_CLIENT_IP . "\n"; ?>
 Request Method:      <?php echo $data->request->method . "\n" ?>
@@ -12,8 +36,11 @@ Request Body Size:   <?php echo $data->request->size . "\n" ?>
 Response Method:     <?php echo $data->response->method . "\n"; ?>
 Response Body Size:  <?php echo $data->response->size . "\n"; ?>
 
+<?php echo $ansi['bold']; ?>
 Page Generation Time
-====================
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 Total Time:              <?php echo $data->timing->total . "\n"; ?>
 DB Query Time:           <?php echo $data->timing->db_query . "\n"; ?>
 DB Processing Time:      <?php echo $data->timing->db_class . "\n"; ?>
@@ -25,15 +52,22 @@ XML Parsing Time:        <?php echo $data->timing->xmlparse . "\n"; ?>
 Template Compile Time:   <?php echo $data->timing->template . "\n"; ?>
 Content Transform Time:  <?php echo $data->timing->trans . "\n"; ?>
 
+<?php echo $ansi['bold']; ?>
 Resource Usage
-==============
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 Peak Memory Usage:  <?php echo sprintf('%0.1f MB', memory_get_peak_usage(true) / 1024 / 1024) . "\n"; ?>
 Included Files:     <?php echo count(get_included_files()) . "\n"; ?>
 <?php endif; ?>
 
 <?php if (isset($display_content['entries'])): ?>
+
+<?php echo $ansi['bold']; ?>
 Debug Entries
-=============
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$entry_count = 0;
 	if (!count($data->entries))
@@ -50,7 +84,9 @@ Debug Entries
 		{
 			$entry->message = trim(preg_replace('/\r?\n/', "\n" . '    ', print_r($entry->message, true)));
 		}
-		echo sprintf('%02d. %s', ++$entry_count, $entry->message) . "\n";
+		echo $ansi['bold'];
+		echo sprintf('%02d. %s', ++$entry_count, $entry->message);
+		echo $ansi['off'] . "\n";
 		$is_first_entry = true;
 		foreach ($entry->backtrace as $key => $backtrace)
 		{
@@ -70,8 +106,11 @@ Debug Entries
 <?php endif; ?>
 
 <?php if (isset($display_content['errors'])): ?>
-PHP Errors and Warnings
-=======================
+
+<?php echo $ansi['bold']; ?>PHP Errors and Warnings
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$error_count = 0;
 	if (!count($data->errors))
@@ -80,7 +119,9 @@ PHP Errors and Warnings
 	}
 	foreach ($data->errors as $error)
 	{
-		echo sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message) . "\n";
+		echo $ansi['bold'] . $ansi['red'];
+		echo sprintf('%02d. %s: %s', ++$error_count, $error->type, $error->message);
+		echo $ansi['off'] . "\n";
 		$is_first_error = true;
 		foreach ($error->backtrace as $key => $backtrace)
 		{
@@ -100,8 +141,10 @@ PHP Errors and Warnings
 <?php endif; ?>
 
 <?php if (isset($display_content['queries'])): ?>
-Database Queries
-================
+<?php echo $ansi['bold']; ?>Database Queries
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$query_count = 0;
 	if (!count($data->queries))
@@ -112,7 +155,9 @@ Database Queries
 	{
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
 		$query_result = ($query->message === 'success') ? 'success' : $query->message;
-		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
+		echo $ansi['bold'];
+		echo sprintf('%02d. %s', ++$query_count, $query->query_string);
+		echo $ansi['off'] . "\n";
 		if (empty($query->backtrace))
 		{
 			echo sprintf('    - Caller:      %s', $query_caller) . ($query->count > 1 ? (' (×' . $query->count . ')') : '') . "\n";
@@ -137,8 +182,10 @@ Database Queries
 <?php endif; ?>
 
 <?php if (isset($display_content['slow_queries'])): ?>
-Slow Queries
-============
+<?php echo $ansi['bold']; ?>Slow Queries
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$query_count = 0;
 	if (!count($data->slow_queries))
@@ -149,7 +196,9 @@ Slow Queries
 	{
 		$query_caller = sprintf('%s line %d (%s)', $query->file, $query->line, $query->method);
 		$query_result = ($query->message === 'success') ? 'success' : sprintf('error %d %s', $query->error_code, $query->message);
-		echo sprintf('%02d. %s', ++$query_count, $query->query_string) . "\n";
+		echo $ansi['bold'] . $ansi['magenta'];
+		echo sprintf('%02d. %s', ++$query_count, $query->query_string);
+		echo $ansi['off'] . "\n";
 		if (empty($query->backtrace))
 		{
 			echo sprintf('    - Caller:      %s', $query_caller) . "\n";
@@ -174,8 +223,10 @@ Slow Queries
 <?php endif; ?>
 
 <?php if (isset($display_content['slow_triggers'])): ?>
-Slow Triggers
-=============
+<?php echo $ansi['bold']; ?>Slow Triggers
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$trigger_count = 0;
 	if (!count($data->slow_triggers))
@@ -184,7 +235,9 @@ Slow Triggers
 	}
 	foreach ($data->slow_triggers as $trigger)
 	{
-		echo sprintf('%02d. %s', ++$trigger_count, $trigger->trigger_name) . "\n";
+		echo $ansi['bold'] . $ansi['magenta'];
+		echo sprintf('%02d. %s', ++$trigger_count, $trigger->trigger_name);
+		echo $ansi['off'] . "\n";
 		echo sprintf('    - Target:     %s', $trigger->trigger_target) . "\n";
 		echo sprintf('    - Exec Time:  %0.4f sec', $trigger->trigger_time) . "\n";
 	}
@@ -192,8 +245,10 @@ Slow Triggers
 <?php endif; ?>
 
 <?php if (isset($display_content['slow_widgets'])): ?>
-Slow Widgets
-============
+<?php echo $ansi['bold']; ?>Slow Widgets
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$widget_count = 0;
 	if (!count($data->slow_widgets))
@@ -202,15 +257,19 @@ Slow Widgets
 	}
 	foreach ($data->slow_widgets as $widget)
 	{
-		echo sprintf('%02d. %s', ++$widget_count, $widget->widget_name) . "\n";
+		echo $ansi['bold'] . $ansi['magenta'];
+		echo sprintf('%02d. %s', ++$widget_count, $widget->widget_name);
+		echo $ansi['off'] . "\n";
 		echo sprintf('    - Exec Time:  %0.4f sec', $widget->widget_time) . "\n";
 	}
 ?>
 <?php endif; ?>
 
 <?php if (isset($display_content['slow_remote_requests'])): ?>
-Slow Remote Requests
-====================
+<?php echo $ansi['bold']; ?>Slow Remote Requests
+<?php echo $ansi['yellow']; ?>
+================================================================================
+<?php echo $ansi['off']; ?>
 <?php
 	$request_count = 0;
 	if (!count($data->slow_remote_requests))
@@ -220,7 +279,9 @@ Slow Remote Requests
 	foreach ($data->slow_remote_requests as $request)
 	{
 		$request_caller = sprintf('%s line %d (%s)', $request->file, $request->line, $request->method);
-		echo sprintf('%02d. %s', ++$request_count, $request->url) . "\n";
+		echo $ansi['bold'] . $ansi['magenta'];
+		echo sprintf('%02d. %s', ++$request_count, $request->url);
+		echo $ansi['off'] . "\n";
 		echo sprintf('    - Caller:        %s', $request_caller) . "\n";
 		echo sprintf('    - Elapsed Time:  %0.4f sec', $request->elapsed_time) . "\n";
 		echo sprintf('    - Status Code:   %d', $request->status) . "\n";
