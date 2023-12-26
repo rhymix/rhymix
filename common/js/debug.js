@@ -93,9 +93,9 @@ $(function() {
 			cnt = data.entries.reduce(function(a, c) { return a + c.count; }, 0);
 			page_body.append($('<h4></h4>').text('Debug Entries (' + cnt + ')'));
 			for (i in data.entries) {
-				entry = $('<div class="debug_entry pre_wrap"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry pre_wrap"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.entries[i].message);
+				entry.find('strong').text(num + ". " + data.entries[i].message);
 				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				for (j in data.entries[i].backtrace) {
 					if (data.entries[i].backtrace[j].file) {
@@ -113,9 +113,9 @@ $(function() {
 			cnt = data.errors.reduce(function(a, c) { return a + c.count; }, 0);
 			page_body.append($('<h4></h4>').text('Errors (' + cnt + ')'));
 			for (i in data.errors) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry debug_errors"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.errors[i].type + ": " + data.errors[i].message);
+				entry.find('strong').text(num + ". " + data.errors[i].type + ": " + data.errors[i].message);
 				backtrace = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				for (j in data.errors[i].backtrace) {
 					if (data.errors[i].backtrace[j].file) {
@@ -133,9 +133,9 @@ $(function() {
 			cnt = data.queries.reduce(function(a, c) { return a + c.count; }, 0);
 			page_body.append($('<h4></h4>').text('Queries (' + cnt + ')'));
 			for (i in data.queries) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.queries[i].query_string);
+				entry.find('strong').text(num + ". " + data.queries[i].query_string);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				if (data.queries[i].file && data.queries[i].line) {
 					description.append($('<li></li>').text("Caller: " +
@@ -162,9 +162,9 @@ $(function() {
 		if (data.slow_queries && data.slow_queries.length) {
 			page_body.append($('<h4></h4>').text('Slow Queries (' + data.slow_queries.length + ')'));
 			for (i in data.slow_queries) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.slow_queries[i].query_string);
+				entry.find('strong').text(num + ". " + data.slow_queries[i].query_string);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				if (data.slow_queries[i].file && data.slow_queries[i].line) {
 					description.append($('<li></li>').text("Caller: " + data.slow_queries[i].file + ":" + data.slow_queries[i].line).append("<br>(" + data.slow_queries[i].method + ")"));
@@ -188,9 +188,9 @@ $(function() {
 		if (data.slow_triggers && data.slow_triggers.length) {
 			page_body.append($('<h4></h4>').text('Slow Triggers (' + data.slow_triggers.length + ')'));
 			for (i in data.slow_triggers) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.slow_triggers[i].trigger_name);
+				entry.find('strong').text(num + ". " + data.slow_triggers[i].trigger_name);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				description.append($('<li></li>').text("Target: " + data.slow_triggers[i].trigger_target));
 				description.append($('<li></li>').text("Exec Time: " + (data.slow_triggers[i].trigger_time ? (data.slow_triggers[i].trigger_time.toFixed(4) + " sec") : "")));
@@ -201,9 +201,9 @@ $(function() {
 		if (data.slow_widgets && data.slow_widgets.length) {
 			page_body.append($('<h4></h4>').text('Slow Widgets (' + data.slow_widgets.length + ')'));
 			for (i in data.slow_widgets) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.slow_widgets[i].widget_name);
+				entry.find('strong').text(num + ". " + data.slow_widgets[i].widget_name);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				description.append($('<li></li>').text("Exec Time: " + (data.slow_widgets[i].widget_time ? (data.slow_widgets[i].widget_time.toFixed(4) + " sec") : "")));
 			}
@@ -213,9 +213,9 @@ $(function() {
 		if (data.slow_remote_requests && data.slow_remote_requests.length) {
 			page_body.append($('<h4></h4>').text('Slow Remote Requests (' + data.slow_remote_requests.length + ')'));
 			for (i in data.slow_remote_requests) {
-				entry = $('<div class="debug_entry"></div>').appendTo(page_body);
+				entry = $('<div class="debug_entry"><strong class="debug_entry_title"></strong></div>').appendTo(page_body);
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
-				entry.text(num + ". " + data.slow_remote_requests[i].url);
+				entry.find('strong').text(num + ". " + data.slow_remote_requests[i].url);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
 				if (data.slow_remote_requests[i].file && data.slow_remote_requests[i].line) {
 					description.append($('<li></li>').text("Caller: " + data.slow_remote_requests[i].file + ":" + data.slow_remote_requests[i].line).append("<br>(" + data.slow_remote_requests[i].method + ")"));

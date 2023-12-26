@@ -241,13 +241,16 @@ a img {
 	border-right: 1px solid #ccc;
 	box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.18), 0 0 8px 0 rgba(0, 0, 0, 0.12);
 	z-index: 1073741824;
+	-webkit-font-smoothing: antialiased;
 	.debug_header {
 		clear: both;
 		width: 100%;
 		height: 36px;
 		background: #444444;
 		background: linear-gradient(to right, #222222 0%, #444444 40%, #eeeeee 100%);
-		position: relative;
+		position: sticky;
+		top: 0;
+		z-index: 1;
 		h2 {
 			font: bold 16px/20px Arial, sans-serif;
 			color: #fcfcfc;
@@ -275,13 +278,15 @@ a img {
 	}
 	.debug_page {
 		clear: both;
-		margin: 12px 10px;
+		margin: 0 10px;
 		font: normal 12px/16px Arial, NanumBarunGothic, NanumGothic, "Malgun Gothic", sans-serif;
 		.debug_page_header {
-			padding-bottom: 8px;
+			padding: 12px 0;
 			border-bottom: 1px solid #ddd;
-			position: relative;
+			position: sticky;
+			top: 36px;
 			cursor: pointer;
+			background-color: #fff;
 			h3 {
 				color: #444;
 				font: inherit;
@@ -294,34 +299,41 @@ a img {
 		.debug_page_collapse {
 			display: block;
 			position: absolute;
-			right: 0; top: 0;
-			color: #999;
+			right: 0;
+			top: 12px;
+			color: #555;
 			font-size: 10px;
 			line-height: 12px;
 			text-decoration: none;
 			padding: 2px 2px;
 		}
 		.debug_page_body {
-			margin: 8px 4px 8px 10px;
+			margin: 0 4px 0 10px;
 			h4 {
 				color: #444;
 				font: inherit;
 				font-size: 13px;
 				font-weight: bold;
-				margin: 0 0 8px 0;
-				padding: 0;
+				margin: 0;
+				padding: 8px;
+				position: sticky;
+				top: 77px;
+				background-color: #fff;
 			}
 		}
 		.debug_entry {
-			font-family: Consolas, "Courier New", monospace;
+			font-family: ui-monospace, Consolas, "Courier New", monospace;
 			color: #444;
 			margin-left: 38px;
 			margin-bottom: 8px;
 			text-indent: -28px;
 			word-wrap: break-word;
 			word-break: break-all;
-			&.pre_wrap {
-				white-space: pre-wrap;
+			&.debug_errors {
+				color: red;
+			}
+			.debug_entry_title {
+				font-weight: 600;
 			}
 			ul.debug_metadata {
 				margin: 0 0 0 -16px; padding: 0;
@@ -335,7 +347,7 @@ a img {
 				li {
 					list-style: disc;
 					margin: 0; padding: 0; text-indent: 0;
-					color: #888;
+					color: #777;
 					ul {
 						padding-left: 20px;
 						li {
