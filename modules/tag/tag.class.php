@@ -13,7 +13,7 @@ class Tag extends ModuleObject
 	public function moduleInstall()
 	{
 		$oDB = DB::getInstance();
-		$oDB->addIndex('tags', 'idx_tag', array('document_srl', 'tag'));
+		$oDB->addIndex('tags', 'idx_tag_document_srl', array('tag', 'document_srl'));
 	}
 
 	/**
@@ -21,9 +21,12 @@ class Tag extends ModuleObject
 	 */
 	public function checkUpdate()
 	{
-		// tag in the index column of the table tag
 		$oDB = DB::getInstance();
-		if (!$oDB->isIndexExists('tags', 'idx_tag'))
+		if ($oDB->isIndexExists('tags', 'idx_tag'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('tags', 'idx_tag_document_srl'))
 		{
 			return true;
 		}
@@ -35,11 +38,14 @@ class Tag extends ModuleObject
 	 */
 	public function moduleUpdate()
 	{
-		// tag in the index column of the table tag
 		$oDB = DB::getInstance();
-		if (!$oDB->isIndexExists('tags', 'idx_tag'))
+		if ($oDB->isIndexExists('tags', 'idx_tag'))
 		{
-			$oDB->addIndex('tags', 'idx_tag', array('document_srl', 'tag'));
+			$oDB->dropIndex('tags', 'idx_tag');
+		}
+		if (!$oDB->isIndexExists('tags', 'idx_tag_document_srl'))
+		{
+			$oDB->addIndex('tags', 'idx_tag_document_srl', array('tag', 'document_srl'));
 		}
 	}
 }
