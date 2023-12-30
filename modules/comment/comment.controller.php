@@ -486,7 +486,7 @@ class CommentController extends Comment
 	 */
 	function isModuleUsingPublishValidation($module_srl = NULL)
 	{
-		if($module_srl == NULL)
+		if($module_srl == NULL || is_array($module_srl))
 		{
 			return FALSE;
 		}
