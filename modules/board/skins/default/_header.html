@@ -1,23 +1,32 @@
 <load target="board.default.css" />
 <load target="board.default.js" type="body" />
-<!--@if($order_type == "desc")-->
-    {@ $order_type = "asc"; }
-<!--@else-->
-    {@ $order_type = "desc"; }
-<!--@end-->
-<block cond="!$module_info->duration_new = (int)$module_info->duration_new">{@ $module_info->duration_new = 12 }</block>
-{@ $cate_list = array(); $current_key = null; }
-<!--@foreach($category_list as $key=>$val)-->
-	<!--@if(!$val->depth)-->
-		{@
+
+{@
+	if (isset($order_type) && $order_type == 'desc'):
+		$order_type = 'asc';
+	else:
+		$order_type = 'desc';
+	endif;
+
+	$module_info->duration_new = intval($module_info->duration_new ?? 0);
+	if (!$module_info->duration_new):
+		$module_info->duration_new = 12;
+	endif;
+
+	$cate_list = [];
+	$current_key = null;
+	$category_list = $category_list ?? [];
+	foreach ($category_list as $key => $val):
+		if (!$val->depth):
 			$cate_list[$key] = $val;
 			$cate_list[$key]->children = array();
 			$current_key = $key;
-		}
-	<!--@elseif($current_key)-->
-		{@ $cate_list[$current_key]->children[] = $val }
-	<!--@end-->
-<!--@end-->
+		elseif ($current_key):
+			$cate_list[$current_key]->children[] = $val;
+		endif;
+	endforeach;
+}
+
 <div class="board">
 	<!--@if($m && $module_info->mobile_header_text)-->
 		{$module_info->mobile_header_text}
