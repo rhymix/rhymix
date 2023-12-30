@@ -1,4 +1,6 @@
 <load target="css/mcommunication.css" />
+<include target="^/modules/member/m.skins/default/common_header.html" cond="empty($messages_skip_header_footer)" />
+
 <div class="hx h2">
 	<h2>{$lang->message_box[$message_type]}<a href="{getUrl('page','','act','dispCommunicationMessageBoxList','message_srl','')}" class="ca">{$lang->cmd_message_box}</a></h2>
 </div>
@@ -26,3 +28,4 @@
 	<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1,'document_srl','')}" class="next">{$lang->cmd_next}</a>
 </div>
 
+<include target="^/modules/member/m.skins/default/common_footer.html" cond="empty($messages_skip_header_footer)" />

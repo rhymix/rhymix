@@ -1,5 +1,7 @@
 <load target="css/mcommunication.css" />
 <load target="./js/communication.js" />
+<include target="^/modules/member/m.skins/default/common_header.html" />
+
 <div class="hx h2">
 	<h2>{$message->title}</h2><span class="ex">{$message->nick_name} | {zdate($message->regdate, "Y.m.d H:i")}</span>
 </div>
@@ -22,4 +24,7 @@
 	var confirm_delete_msg = "{$lang->confirm_delete}";
 </script>
 
+{@ $messages_skip_header_footer = true}
 <include target="messages.html" />
+
+<include target="^/modules/member/m.skins/default/common_footer.html" />
