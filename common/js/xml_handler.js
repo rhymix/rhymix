@@ -187,7 +187,7 @@
 		// Send the AJAX request.
 		try {
 			$.ajax({
-				url : url,
+				url : XE.URI(request_uri).pathname(),
 				type : "POST",
 				dataType : "json",
 				data : params,
@@ -344,7 +344,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: request_uri,
+				url: XE.URI(request_uri).pathname(),
 				data: params,
 				processData: (action !== 'raw'),
 				headers : headers,
