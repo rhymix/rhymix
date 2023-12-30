@@ -1434,6 +1434,7 @@ class DocumentController extends Document
 		}
 
 		// Set the attachment to be invalid state
+		/*
 		if($oDocument->hasUploadedFiles())
 		{
 			$args = new stdClass();
@@ -1441,6 +1442,7 @@ class DocumentController extends Document
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
 		}
+		*/
 
 		// Call a trigger (after)
 		$obj->trash_srl = $oTrashVO->getTrashSrl();

@@ -1437,6 +1437,7 @@ class CommentController extends Comment
 			}
 		}
 
+		/*
 		if($oComment->hasUploadedFiles())
 		{
 			$args = new stdClass();
@@ -1444,6 +1445,7 @@ class CommentController extends Comment
 			$args->isvalid = 'N';
 			executeQuery('file.updateFileValid', $args);
 		}
+		*/
 
 		$obj->trash_srl = $oTrashVO->getTrashSrl();
 		$obj->module_srl = $oComment->get('module_srl');
