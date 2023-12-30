@@ -146,6 +146,8 @@ class integration_searchView extends integration_search
 		// Search by search tab
 		$where = Context::get('where');
 		Context::set('where', $where);
+		$target_types = $config->target_types ?? ['document' => true, 'comment' => true, 'multimedia' => true, 'file' => true];
+		Context::set('target_types', $target_types);
 
 		// Create integration search model object
 		if($is_keyword)
@@ -159,31 +161,86 @@ class integration_searchView extends integration_search
 					$search_target = Context::get('search_target');
 					if(!in_array($search_target, array('title','content','title_content','tag'))) $search_target = 'title_content';
 					Context::set('search_target', $search_target);
-
-					$output = $oIS->getDocuments($target, $module_srl_list, $search_target, $is_keyword, $page, 10);
+					if ($target_types['document'])
+					{
+						$output = $oIS->getDocuments($target, $module_srl_list, $search_target, $is_keyword, $page, 10);
+					}
+					else
+					{
+						$output = new BaseObject;
+					}
 					Context::set('output', $output);
 					$this->setTemplateFile("document", $page);
 					break;
 				case 'comment' :
-					$output = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 10);
+					if ($target_types['comment'])
+					{
+						$output = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 10);
+					}
+					else
+					{
+						$output = new BaseObject;
+					}
 					Context::set('output', $output);
 					$this->setTemplateFile("comment", $page);
 					break;
 				case 'multimedia' :
-					$output = $oIS->getImages($target, $module_srl_list, $is_keyword, $page,20);
+					if ($target_types['multimedia'])
+					{
+						$output = $oIS->getImages($target, $module_srl_list, $is_keyword, $page,20);
+					}
+					else
+					{
+						$output = new BaseObject;
+					}
 					Context::set('output', $output);
 					$this->setTemplateFile("multimedia", $page);
 					break;
 				case 'file' :
-					$output = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 20);
+					if ($target_types['file'])
+					{
+						$output = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 20);
+					}
+					else
+					{
+						$output = new BaseObject;
+					}
 					Context::set('output', $output);
 					$this->setTemplateFile("file", $page);
 					break;
 				default :
-					$output['document'] = $oIS->getDocuments($target, $module_srl_list, 'title_content', $is_keyword, $page, 5);
-					$output['comment'] = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 5);
-					$output['multimedia'] = $oIS->getImages($target, $module_srl_list, $is_keyword, $page, 5);
-					$output['file'] = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 5);
+					if ($target_types['document'])
+					{
+						$output['document'] = $oIS->getDocuments($target, $module_srl_list, 'title_content', $is_keyword, $page, 5);
+					}
+					else
+					{
+						$output['document'] = new BaseObject;
+					}
+					if ($target_types['comment'])
+					{
+						$output['comment'] = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 5);
+					}
+					else
+					{
+						$output['comment'] = new BaseObject;
+					}
+					if ($target_types['multimedia'])
+					{
+						$output['multimedia'] = $oIS->getImages($target, $module_srl_list, $is_keyword, $page, 5);
+					}
+					else
+					{
+						$output['multimedia'] = new BaseObject;
+					}
+					if ($target_types['file'])
+					{
+						$output['file'] = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 5);
+					}
+					else
+					{
+						$output['file'] = new BaseObject;
+					}
 					$output['trackback'] = new BaseObject;
 					Context::set('search_result', $output);
 					Context::set('search_target', 'title_content');

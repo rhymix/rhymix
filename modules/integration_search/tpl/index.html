@@ -34,16 +34,35 @@
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label for="block_robots" class="x_control-label">{$lang->integration_search_block_robots}</label>
+		<label class="x_control-label">{$lang->integration_search_block_robots}</label>
 		<div class="x_controls">
-			<select name="block_robots" id="block_robots">
-				<option value="Y" selected="selected"|cond="!isset($config->block_robots) || $config->block_robots">{$lang->cmd_yes}</option>
-				<option value="N" selected="selected"|cond="isset($config->block_robots) && !$config->block_robots">{$lang->cmd_no}</option>
-			</select>
+			<label for="block_robots_Y" class="x_inline">
+				<input type="radio" name="block_robots" id="block_robots_Y" value="Y" checked="checked"|cond="!isset($config->block_robots) || $config->block_robots" /> {$lang->cmd_yes}
+			</label>
+			<label for="block_robots_N" class="x_inline">
+				<input type="radio" name="block_robots" id="block_robots_N" value="N" checked="checked"|cond="isset($config->block_robots) && !$config->block_robots" /> {$lang->cmd_no}
+			</label>
 		</div>
 	</div>
 	<div class="x_control-group">
-		<label class="x_control-label">{$lang->target}</label>
+		<label class="x_control-label">{$lang->integration_search_target_types}</label>
+		<div class="x_controls">
+			<label class="x_inline">
+				<input type="checkbox" name="target_types[]" value="document" checked="checked"|cond="!isset($config->target_types) || !empty($config->target_types['document'])" /> {$lang->document}
+			</label>
+			<label class="x_inline">
+				<input type="checkbox" name="target_types[]" value="comment" checked="checked"|cond="!isset($config->target_types) || !empty($config->target_types['comment'])" /> {$lang->comment}
+			</label>
+			<label class="x_inline">
+				<input type="checkbox" name="target_types[]" value="multimedia" checked="checked"|cond="!isset($config->target_types) || !empty($config->target_types['multimedia'])" /> {$lang->multimedia}
+			</label>
+			<label class="x_inline">
+				<input type="checkbox" name="target_types[]" value="file" checked="checked"|cond="!isset($config->target_types) || !empty($config->target_types['file'])" /> {$lang->file}
+			</label>
+		</div>
+	</div>
+	<div class="x_control-group">
+		<label class="x_control-label">{$lang->integration_search_target_modules}</label>
 		<div class="x_controls">
 			<select name="target">
 				<option value="include">{$lang->include_search_target}</option>

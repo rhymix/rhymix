@@ -1,25 +1,33 @@
-<!--#include("header.html")-->
+<include target="header.html" />
 
-{@ $output = $search_result['document'] }
-<!--#include("document.html")-->
-<!--@if($output->data)-->
-<div class="isMore"><a href="{getAutoEncodedUrl('where','document','page',1)}">more</a></div>
-<!--@end-->
+<!--@if($target_types['document'])-->
+	{@ $output = $search_result['document']}
+	<include target="document.html" />
+	<!--@if($output->data)-->
+		<div class="isMore"><a href="{getAutoEncodedUrl('where','document','page',1)}">more</a></div>
+	<!--@endif-->
+<!--@endif-->
 
-{@ $output = $search_result['comment'] }
-<!--#include("comment.html")-->
-<!--@if($output->data)-->
-<div class="isMore"><a href="{getAutoEncodedUrl('where','comment','page',1)}">more</a></div>
-<!--@end-->
+<!--@if($target_types['comment'])-->
+	{@ $output = $search_result['comment']}
+	<include target="comment.html" />
+	<!--@if($output->data)-->
+		<div class="isMore"><a href="{getAutoEncodedUrl('where','comment','page',1)}">more</a></div>
+	<!--@endif-->
+<!--@endif-->
 
-{@ $output = $search_result['multimedia'] }
-<!--#include("multimedia.html")-->
-<!--@if($output->data)-->
-<div class="isMore"><a href="{getAutoEncodedUrl('where','multimedia','page',1)}">more</a></div>
-<!--@end-->
+<!--@if($target_types['multimedia'])-->
+	{@ $output = $search_result['multimedia']}
+	<include target="multimedia.html" />
+	<!--@if($output->data)-->
+		<div class="isMore"><a href="{getAutoEncodedUrl('where','multimedia','page',1)}">more</a></div>
+	<!--@endif-->
+<!--@endif-->
 
-{@ $output = $search_result['file'] }
-<!--#include("file.html")-->
-<!--@if($output->data)-->
-<div class="isMore"><a href="{getAutoEncodedUrl('where','file','page',1)}">more</a></div>
-<!--@end-->
+<!--@if($target_types['file'])-->
+	{@ $output = $search_result['file']}
+	<include target="file.html" />
+	<!--@if($output->data)-->
+		<div class="isMore"><a href="{getAutoEncodedUrl('where','file','page',1)}">more</a></div>
+	<!--@endif-->
+<!--@endif-->

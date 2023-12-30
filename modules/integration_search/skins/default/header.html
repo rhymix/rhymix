@@ -2,14 +2,14 @@
     {@ $_loaded = true; }
 
     <!--// 컬러셋 체크 -->
-    <!--@if($module_info->colorset != "white")-->
-        {@if(!is_object($module_info)) $module_info = new stdClass;}
-        {@$module_info->colorset = "white"}
+    <!--@if(!isset($module_info->colorset) || $module_info->colorset !== 'white')-->
+        {@ $module_info = $module_info ?? new stdClass}
+        {@ $module_info->colorset = 'white'}
     <!--@end-->
 
     <!--// CSS 파일 로드 (컬러셋에 따라서) -->
-    <!--@if($module_info->colorset == "white")-->
-        <!--%import("white.css")-->
+    <!--@if($module_info->colorset === 'white')-->
+        <load target="white.css" />
     <!--@end-->
 
     <div id="spot">
@@ -24,11 +24,28 @@
     </div>
 
     <ul class="localNavigation">
-        <li <!--@if(!$where)-->class="on"<!--@end-->><a href="{getAutoEncodedUrl('where','','page','','division','')}">{$lang->integration_search}</a></li>
-        <li <!--@if($where=='document')-->class="on"<!--@end-->><a href="{getAutoEncodedUrl('where','document','page',1,'division','')}">{$lang->document}</a></li>
-        <li <!--@if($where=='comment')-->class="on"<!--@end-->><a href="{getAutoEncodedUrl('where','comment','page',1,'division','')}">{$lang->comment}</a></li>
-        <li cond="$trackback_module_exist" <!--@if($where=='trackback')-->class="on"<!--@end-->><a href="{getAutoEncodedUrl('where','trackback','page',1,'division','')}">{$lang->trackback}</a></li>
-        <li <!--@if($where=='multimedia')-->class="on"<!--@end-->><a href="{getAutoEncodedUrl('where','multimedia','page',1,'division','')}">{$lang->multimedia}</a></li>
-        <li <!--@if($where=='file')-->class="on"<!--@end-->><a href="{getAutoEncodedUrl('where','file','page',1,'division','')}">{$lang->file}</a></li>
-    </ul>
+        <li class="on"|cond="!$where">
+			<a href="{getAutoEncodedUrl('where','','page','','division','')}">{$lang->integration_search}</a>
+		</li>
+		<!--@if($target_types['document'])-->
+        	<li class="on"|cond="$where=='document'">
+				<a href="{getAutoEncodedUrl('where','document','page',1,'division','')}">{$lang->document}</a>
+			</li>
+		<!--@endif-->
+		<!--@if($target_types['comment'])-->
+			<li class="on"|cond="$where=='comment'">
+				<a href="{getAutoEncodedUrl('where','comment','page',1,'division','')}">{$lang->comment}</a>
+			</li>
+		<!--@endif-->
+		<!--@if($target_types['multimedia'])-->
+			<li class="on"|cond="$where=='multimedia'">
+				<a href="{getAutoEncodedUrl('where','multimedia','page',1,'division','')}">{$lang->multimedia}</a>
+			</li>
+		<!--@endif-->
+		<!--@if($target_types['file'])-->
+			<li class="on"|cond="$where=='file'">
+				<a href="{getAutoEncodedUrl('where','file','page',1,'division','')}">{$lang->file}</a>
+			</li>
+		<!--@endif-->
+		</ul>
 <!--@end-->

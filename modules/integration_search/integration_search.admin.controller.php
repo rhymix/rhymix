@@ -31,9 +31,18 @@ class integration_searchAdminController extends integration_search
 		$config->skin = Context::get('skin');
 		$config->mskin = Context::get('mskin');
 		$config->block_robots = Context::get('block_robots') === 'N' ? false : true;
+		$config->target_types = [];
+		$target_types = Context::get('target_types') ?? [];
+		foreach (['document', 'comment', 'multimedia', 'file'] as $type)
+		{
+			$config->target_types[$type] = in_array($type, $target_types);
+		}
 		$config->target = Context::get('target');
 		$config->target_module_srl = Context::get('target_module_srl');
-		if(!$config->target_module_srl) $config->target_module_srl = '';
+		if (!$config->target_module_srl)
+		{
+			$config->target_module_srl = '';
+		}
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->insertModuleConfig('integration_search', $config);
@@ -56,13 +65,13 @@ class integration_searchAdminController extends integration_search
 
 		// Get skin information (to check extra_vars)
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $config->skin);
-		
+
 		// Check received variables (delete the basic variables such as mo, act, module_srl, page)
 		$obj = Context::getRequestVars();
 		unset($obj->act);
 		unset($obj->module_srl);
 		unset($obj->page);
-		
+
 		// Separately handle if the extra_vars is an image type in the original skin_info
 		if($skin_info->extra_vars)
 		{
@@ -114,8 +123,8 @@ class integration_searchAdminController extends integration_search
 				$obj->{$vars->name} = $filename;
 			}
 		}
-		
-		// Serialize and save 
+
+		// Serialize and save
 		$config->skin_vars = serialize($obj);
 
 		$oModuleController = getController('module');
