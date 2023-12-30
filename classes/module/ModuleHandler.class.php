@@ -510,12 +510,12 @@ class ModuleHandler extends Handler
 
 			if(!empty($forward->module))
 			{
-				$kind = (stripos($forward->act, 'admin') !== false || stripos($forward->class_name, 'admin') !== false) ? 'admin' : '';
-				$type = $forward->type;
-				$ruleset = $forward->ruleset;
+				$kind = (stripos($forward->act, 'admin') !== false || stripos($forward->class_name ?? '', 'admin') !== false) ? 'admin' : '';
+				$type = $forward->type ?? null;
+				$ruleset = $forward->ruleset ?? null;
 				$tpl_path = $oModule->getTemplatePath();
 				$orig_module = $oModule;
-				if($forward->meta_noindex === 'true')
+				if(isset($forward->meta_noindex) && $forward->meta_noindex === 'true')
 				{
 					Context::addMetaTag('robots', 'noindex');
 				}
@@ -547,7 +547,7 @@ class ModuleHandler extends Handler
 					}
 				}
 
-				if($forward->class_name)
+				if(!empty($forward->class_name))
 				{
 					if (isset($xml_info->namespaces) && count($xml_info->namespaces))
 					{
