@@ -957,7 +957,7 @@ class FileController extends File
 		}
 
 		// Set direct download option
-		if($config->allow_multimedia_direct_download !== 'N')
+		if(isset($config->allow_multimedia_direct_download) && $config->allow_multimedia_direct_download !== 'N')
 		{
 			$args->direct_download = $direct ? 'Y' : 'N';
 		}
@@ -998,6 +998,7 @@ class FileController extends File
 		$args->file_size = Rhymix\Framework\Storage::getSize($uploaded_filename) ?: 0;
 
 		// Move the generated thumbnail image
+		$args->thumbnail_filename = null;
 		if($file_info['thumbnail'])
 		{
 			$thumbnail_filename = $storage_path . Rhymix\Framework\Security::getRandom(32, 'hex') . '.jpg';
@@ -1030,7 +1031,7 @@ class FileController extends File
 		}
 
 		// Insert changelog
-		if($config->save_changelog === 'Y')
+		if(isset($config->save_changelog) && $config->save_changelog === 'Y')
 		{
 			$clargs = new stdClass;
 			$clargs->change_type = 'I';
