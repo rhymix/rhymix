@@ -2565,9 +2565,6 @@ class MemberController extends Member
 			}
 		}
 
-		// Call a trigger after successfully log-in (after)
-		ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
-
 		// When user checked to use auto-login
 		if($keep_signed)
 		{
@@ -2593,6 +2590,9 @@ class MemberController extends Member
 		{
 			Rhymix\Framework\Session::destroyOtherSessions($member_info->member_srl);
 		}
+
+		// Call a trigger after successfully log-in (after)
+		ModuleHandler::triggerCall('member.doLogin', 'after', $member_info);
 
 		return $output;
 	}
