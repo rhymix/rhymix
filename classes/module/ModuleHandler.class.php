@@ -1321,7 +1321,7 @@ class ModuleHandler extends Handler
 			$called_method = $item->called_method;
 
 			// Get instance of module class
-			if (strpos($type, '\\') !== false)
+			if (!preg_match('/^(controller|model|view|mobile|api|wap|class)$/', $type))
 			{
 				$class_name = ($type[0] === '\\') ? $type : sprintf('Rhymix\\Modules\\%s\\%s', $module, $type);
 				if (class_exists($class_name))

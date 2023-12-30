@@ -292,7 +292,7 @@ class ModuleActionParser extends BaseParser
 			{
 				if (isset($attrs[$key]))
 				{
-					if (count($info->namespaces) && str_contains($attrs['class'], '\\'))
+					if (count($info->namespaces) && !preg_match('/^(controller|model|view|mobile|api|wap|class)$/', $attrs['class']))
 					{
 						$namespace = '\\' . array_first($info->namespaces) . '\\';
 					}
