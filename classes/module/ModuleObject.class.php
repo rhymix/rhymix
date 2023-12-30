@@ -467,12 +467,6 @@ class ModuleObject extends BaseObject
 	 */
 	public function setTemplateFile($filename)
 	{
-		/*
-		if(isset($filename) && substr_compare($filename, '.html', -5) !== 0)
-		{
-			$filename .= '.html';
-		}
-		*/
 		$this->template_file = $filename;
 		return $this;
 	}
@@ -527,11 +521,6 @@ class ModuleObject extends BaseObject
 	public function setEditedLayoutFile($filename)
 	{
 		if(!$filename) return $this;
-
-		if(substr_compare($filename, '.html', -5) !== 0)
-		{
-			$filename .= '.html';
-		}
 		$this->edited_layout_file = $filename;
 		return $this;
 	}
@@ -554,10 +543,6 @@ class ModuleObject extends BaseObject
 	 */
 	public function setLayoutFile($filename)
 	{
-		if($filename && substr_compare($filename, '.html', -5) !== 0)
-		{
-			$filename .= '.html';
-		}
 		$this->layout_file = $filename;
 		return $this;
 	}
