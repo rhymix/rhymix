@@ -211,6 +211,7 @@
 	window.exec_json = $.exec_json = function(action, params, callback_success, callback_error) {
 
 		// Convert params to object and fill in the module and act.
+		var url = XE.URI(request_uri).pathname();
 		var action_parts = action.split('.');
 		var request_info;
 		if (action === 'raw') {
@@ -307,22 +308,22 @@
 			// Otherwise, display a simple alert dialog.
 			if ($(".x_modal-body").size()) {
 				if (xhr.status == 0) {
-					error_info = 'Connection failed: ' + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
+					error_info = 'Connection failed: ' + url + ' (' + textStatus + ')' + "<br><br><pre>" + xhr.responseText + "</pre>";
 				} else {
 					error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "<br><br><pre>" + xhr.responseText + "</pre>";
 				}
-				msg = "AJAX communication error while requesting " + params.module + "." + params.act + "<br><br>" + error_info;
+				msg = "AJAX communication error while requesting " + (params.act ? (params.module + "." + params.act) : url) + "<br><br>" + error_info;
 				console.error(msg.replace(/(<br>)+/g, "\n").trim());
 				if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
 					alert(msg);
 				}
 			} else {
 				if (xhr.status == 0) {
-					error_info = 'Connection failed: ' + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
+					error_info = 'Connection failed: ' + url + ' (' + textStatus + ')' + "\n\n" + xhr.responseText;
 				} else {
 					error_info = xhr.status + " " + xhr.statusText + " (" + textStatus + ")" + "\n\n" + xhr.responseText;
 				}
-				msg = "AJAX communication error while requesting " + params.module + "." + params.act + "\n\n" + error_info;
+				msg = "AJAX communication error while requesting " + (params.act ? (params.module + "." + params.act) : url) + "\n\n" + error_info;
 				console.error(msg.trim().replace(/\n+/g, "\n"));
 				if (window.show_ajax_errors.indexOf('ALL') >= 0 || window.show_ajax_errors.indexOf(xhr.status) >= 0) {
 					alert(msg);
@@ -344,7 +345,7 @@
 			$.ajax({
 				type: "POST",
 				dataType: "json",
-				url: XE.URI(request_uri).pathname(),
+				url: url,
 				data: params,
 				processData: (action !== 'raw'),
 				headers : headers,
