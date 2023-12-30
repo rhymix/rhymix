@@ -422,11 +422,11 @@
 			</p>
 			<ul class="mobile-footer-member">
 				<!--@if(!$is_logged)-->
-				<li><a href="{getUrl('act','dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
-				<li><a href="{getUrl('act','dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
+				<li><a href="{getUrl('', 'mid', $mid ?? '', 'act', 'dispMemberLoginForm')}">{$lang->cmd_login}</a></li>
+				<li><a href="{getUrl('', 'mid', $mid ?? '', 'act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a></li>
 				<!--@else-->
-				<li><a href="{getUrl('act','dispMemberLogout')}">{$lang->cmd_logout}</a></li>
-				<li><a href="{getUrl('act','dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
+				<li><a href="{getUrl('', 'mid', $mid ?? '', 'act', 'dispMemberLogout')}">{$lang->cmd_logout}</a></li>
+				<li><a href="{getUrl('', 'mid', $mid ?? '', 'act', 'dispMemberInfo')}">{$lang->cmd_view_member_info}</a></li>
 				<!--@end-->
 			</ul>
 		</div>
@@ -493,9 +493,9 @@
 			</form>
 		</div>
 		<div class="login-footer">
-			<a href="{getUrl('act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
+			<a href="{getUrl('', 'mid', $mid ?? '', 'act', 'dispMemberFindAccount')}">{$lang->cmd_find_member_account}</a>
 			<span class="f_bar">|</span>
-			<a href="{getUrl('act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
+			<a href="{getUrl('', 'mid', $mid ?? '', 'act', 'dispMemberSignUpForm')}">{$lang->cmd_signup}</a>
 		</div>
 		<a href="#" class="btn_ly_popup"><span class="blind">닫기</span></a>
 	</div>
