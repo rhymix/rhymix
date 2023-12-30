@@ -56,14 +56,14 @@ class DocumentAdminView extends Document
 		$args->sort_index = 'list_order'; // /< sorting value
 		$args->module_srl = Context::get('module_srl');
 		$args->statusList = [];
+		$args->use_division = false;
 
 		// get a list
-		$oDocumentModel = getModel('document');
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
-		$output = $oDocumentModel->getDocumentList($args, false, true, $columnList);
+		$output = DocumentModel::getDocumentList($args, false, true, $columnList);
 
 		// get Status name list
-		$statusNameList = $oDocumentModel->getStatusNameList();
+		$statusNameList = DocumentModel::getStatusNameList();
 
 		// Set values of document_model::getDocumentList() objects for a template
 		Context::set('total_count', $output->total_count);

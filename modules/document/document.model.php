@@ -1535,6 +1535,10 @@ class DocumentModel extends Document
 		}
 
 		// search division
+		if(isset($searchOpt->use_division) && $searchOpt->use_division === false)
+		{
+			$use_division = false;
+		}
 		if($use_division)
 		{
 			$document_config = self::getDocumentConfig();

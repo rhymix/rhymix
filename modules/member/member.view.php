@@ -539,6 +539,7 @@ class MemberView extends Member
 		$args->module_srl = intval(Context::get('selected_module_srl')) ?: null;
 		$args->sort_index = 'list_order';
 		$args->statusList = array('PUBLIC', 'SECRET');
+		$args->use_division = false;
 
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
 		$output = DocumentModel::getDocumentList($args, false, false, $columnList);
