@@ -2,7 +2,7 @@
 
 <h3 class="subTitle">{$lang->comment} <span>({number_format($output->total_count)})</span> </h3>
 
-<!--@if(!count($output->data))-->
+<!--@if(!$output->data)-->
     <span class="noResult">{$lang->msg_no_result}</span>
 <!--@else-->
     <ul class="searchResult comment">
@@ -21,10 +21,10 @@
 
     <!--@if($where == 'comment' && $output->page_navigation)-->
         <div class="pagination a1">
-            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+            <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a>
             <!--@while($page_no = $output->page_navigation->getNextPage())-->
                 <!--@if($page == $page_no)-->
-                    <strong>{$page_no}</strong> 
+                    <strong>{$page_no}</strong>
                 <!--@else-->
                     <a href="{getUrl('page',$page_no)}">{$page_no}</a>
                 <!--@end-->

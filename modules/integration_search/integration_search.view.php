@@ -145,6 +145,7 @@ class integration_searchView extends integration_search
 
 		// Search by search tab
 		$where = Context::get('where');
+		Context::set('where', $where);
 
 		// Create integration search model object
 		if($is_keyword)
