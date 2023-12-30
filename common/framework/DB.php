@@ -951,7 +951,7 @@ class DB
 	 */
 	public function getColumnInfo(string $table_name, string $column_name): ?object
 	{
-		// If column information is not found, return false.
+		// If column information is not found, return null.
 		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
 		$column_info = $this->fetch($stmt);
 		if (!$column_info)
@@ -1051,6 +1051,48 @@ class DB
 	{
 		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
 		return $result ? new Helpers\DBResultHelper : $this->getError();
+	}
+
+	/**
+	 * Get index information.
+	 *
+	 * @param string $table_name
+	 * @param string $index_name
+	 * @return ?object
+	 */
+	public function getIndexInfo(string $table_name, string $index_name): ?object
+	{
+		// If the index is not found, return null.
+		$stmt = $this->_handle->query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
+		$index_info = $this->fetch($stmt, 0, 'array');
+		if (!$index_info)
+		{
+			return null;
+		}
+
+		// Get the list of columns included in the index.
+		$is_unique = false;
+		$columns = [];
+		foreach ($index_info as $column)
+		{
+			if (!$column->Non_unique)
+			{
+				$is_unique = true;
+			}
+			$columns[] = (object)[
+				'name' => $column->Column_name,
+				'size' => $column->Sub_part ? intval($column->Sub_part) : null,
+				'cardinality' => $column->Cardinality ? intval($column->Cardinality) : null,
+			];
+		}
+
+		// Return the result as an object.
+		return (object)array(
+			'name' => $column->Key_name,
+			'table' => $column->Table,
+			'is_unique' => $is_unique,
+			'columns' => $columns,
+		);
 	}
 
 	/**

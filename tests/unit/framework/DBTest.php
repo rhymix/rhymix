@@ -189,6 +189,30 @@ class DBTest extends \Codeception\Test\Unit
 		$this->assertTrue($info->notnull);
 	}
 
+	public function testGetIndexInfo()
+	{
+		$oDB = Rhymix\Framework\DB::getInstance();
+
+		$info = $oDB->getIndexInfo('member', 'idx_nick_name');
+		$this->assertTrue(is_object($info));
+		$this->assertFalse($info->is_unique);
+		$this->assertEquals(1, count($info->columns));
+		$this->assertEquals('nick_name', $info->columns[0]->name);
+		$this->assertNull($info->columns[0]->size);
+		$this->assertNotNull($info->columns[0]->cardinality);
+
+		$info = $oDB->getIndexInfo('module_extra_vars', 'unique_module_vars');
+		$this->assertTrue(is_object($info));
+		$this->assertTrue($info->is_unique);
+		$this->assertEquals(2, count($info->columns));
+		$this->assertEquals('module_srl', $info->columns[0]->name);
+		$this->assertEquals('name', $info->columns[1]->name);
+		$this->assertNull($info->columns[1]->size);
+
+		$info = $oDB->getIndexInfo('documents', 'idx_nonexistent');
+		$this->assertNull($info);
+	}
+
 	public function testIsValidOldPassword()
 	{
 		$oDB = Rhymix\Framework\DB::getInstance();
