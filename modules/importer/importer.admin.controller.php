@@ -662,7 +662,7 @@ class importerAdminController extends importer
 					$sequence = $v->attrs->sequence;
 					$parent = $v->attrs->parent;
 
-					$obj = null;
+					$obj = new stdClass;
 					$obj->title = $category;
 					$obj->module_srl = $module_srl;
 					if($parent) $obj->parent_srl = $match_sequence[$parent];
@@ -762,9 +762,9 @@ class importerAdminController extends importer
 			$obj->status = base64_decode($xmlDoc->post->is_secret->body)=='Y'?$oDocumentModel->getConfigStatus('secret'):$oDocumentModel->getConfigStatus('public');
 			$obj->title = base64_decode($xmlDoc->post->title->body);
 			$obj->content = base64_decode($xmlDoc->post->content->body);
-			$obj->readed_count = base64_decode($xmlDoc->post->readed_count->body);
-			$obj->voted_count = base64_decode($xmlDoc->post->voted_count->body);
-			$obj->blamed_count = base64_decode($xmlDoc->post->blamed_count->body);
+			$obj->readed_count = intval(base64_decode($xmlDoc->post->readed_count->body ?? ''));
+			$obj->voted_count = intval(base64_decode($xmlDoc->post->voted_count->body ?? ''));
+			$obj->blamed_count = intval(base64_decode($xmlDoc->post->blamed_count->body ?? ''));
 			$obj->password = base64_decode($xmlDoc->post->password->body) ?: null;
 			$obj->user_name = base64_decode($xmlDoc->post->user_name->body);
 			$obj->nick_name = base64_decode($xmlDoc->post->nick_name->body);
@@ -972,8 +972,8 @@ class importerAdminController extends importer
 				$obj->is_secret = base64_decode($xmlDoc->comment->is_secret->body)=='Y'?'Y':'N';
 				$obj->notify_message = base64_decode($xmlDoc->comment->notify_message->body)=='Y'?'Y':'N';
 				$obj->content = base64_decode($xmlDoc->comment->content->body);
-				$obj->voted_count = base64_decode($xmlDoc->comment->voted_count->body);
-				$obj->blamed_count = base64_decode($xmlDoc->comment->blamed_count->body);
+				$obj->voted_count = intval(base64_decode($xmlDoc->comment->voted_count->body ?? ''));
+				$obj->blamed_count = intval(base64_decode($xmlDoc->comment->blamed_count->body ?? ''));
 				$obj->password = base64_decode($xmlDoc->comment->password->body) ?: null;
 				$obj->user_name =base64_decode($xmlDoc->comment->user_name->body);
 				$obj->nick_name = base64_decode($xmlDoc->comment->nick_name->body);
@@ -1169,14 +1169,13 @@ class importerAdminController extends importer
 						$file_obj->comment = NULL;
 						$file_obj->member_srl = 0;
 						$file_obj->sid = $random->createSecureSalt(32, 'hex');
+						$file_obj->mime_type = Rhymix\Framework\MIME::getTypeByFilename($filename);
 						$file_obj->isvalid = 'Y';
 						$output = executeQuery('file.insertFile', $file_obj);
 
 						if($output->toBool())
 						{
 							$uploaded_count++;
-							$tmp_obj = null;
-							$tmp_obj->source_filename = $file_obj->source_filename;
 							if($file_obj->direct_download == 'Y') $files[$file_obj->source_filename] = $file_obj->uploaded_filename;
 							else $files[$file_obj->source_filename] = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
 						}
