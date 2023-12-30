@@ -33,13 +33,13 @@
 	<!--@else-->
 		{$module_info->header_text}
 	<!--@end-->
-	<div class="board_header" cond="$module_info->title_image || $grant->manager">
+	<div class="board_header" cond="!empty($module_info->title_image) || $grant->manager">
 		<h2 cond="$module_info->title_image"><a href="{getUrl('','mid',$mid)}"><img src="{$module_info->title_image}" alt="{$module_info->title_alt}" /></a></h2>
 		<a cond="$grant->manager" class="setup" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}">{$lang->cmd_setup}</a>
 	</div>
 	<ul class="cTab" cond="$module_info->use_category=='Y'">
-		<li class="on"|cond="!$category"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
-		<li loop="$cate_list=>$key,$val" class="on"|cond="$category==$val->category_srl"><a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
+		<li class="on"|cond="empty($category)"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
+		<li loop="$cate_list=>$key,$val" class="on"|cond="($category ?? 0) == $val->category_srl"><a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
 			<ul cond="count($val->children)">
 				<li loop="$val->children=>$idx,$item" class="on_"|cond="$category==$item->category_srl"><a href="{getUrl('category',$item->category_srl,'document_srl','', 'page', '')}">{$item->title}<!--<em cond="$val->document_count">[{$item->document_count}]</em>--></a></li>
 			</ul>
