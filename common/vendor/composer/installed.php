@@ -3,11 +3,11 @@
         'name' => 'rhymix/rhymix',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '901bdab6a9298ba644187ca6b555567b8872c17a',
+        'reference' => 'ee440eff536be5e932d0d9d3e5c0ced24d9294e7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => false,
+        'dev' => true,
     ),
     'versions' => array(
         'bordoni/phpass' => array(
@@ -228,7 +228,7 @@
         'rhymix/rhymix' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '901bdab6a9298ba644187ca6b555567b8872c17a',
+            'reference' => 'ee440eff536be5e932d0d9d3e5c0ced24d9294e7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

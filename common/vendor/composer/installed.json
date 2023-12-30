@@ -2217,6 +2217,6 @@
             "install-path": "../true/punycode"
         }
     ],
-    "dev": false,
+    "dev": true,
     "dev-package-names": []
 }

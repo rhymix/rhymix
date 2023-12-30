@@ -9,7 +9,9 @@
     { "name": "NAVER", "email": "developers@xpressengine.com" }
   ],
   "config": {
-    "optimize-autoloader": true
+    "optimize-autoloader": true,
+    "platform-check": false,
+    "prepend-autoloader": false
   },
   "require": {
     "php": ">=7.2.5",
