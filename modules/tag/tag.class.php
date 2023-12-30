@@ -12,8 +12,7 @@ class Tag extends ModuleObject
 	 */
 	public function moduleInstall()
 	{
-		$oDB = DB::getInstance();
-		$oDB->addIndex('tags', 'idx_tag', array('document_srl', 'tag'));
+
 	}
 
 	/**
@@ -21,9 +20,10 @@ class Tag extends ModuleObject
 	 */
 	public function checkUpdate()
 	{
-		// tag in the index column of the table tag
+		// Convert unnecessary composite index into a single-column index.
 		$oDB = DB::getInstance();
-		if (!$oDB->isIndexExists('tags', 'idx_tag'))
+		$index = $oDB->getIndexInfo('tags', 'idx_tag');
+		if (!$index || count($index->columns) > 1)
 		{
 			return true;
 		}
@@ -35,11 +35,16 @@ class Tag extends ModuleObject
 	 */
 	public function moduleUpdate()
 	{
-		// tag in the index column of the table tag
+		// Convert unnecessary composite index into a single-column index.
 		$oDB = DB::getInstance();
-		if (!$oDB->isIndexExists('tags', 'idx_tag'))
+		$index = $oDB->getIndexInfo('tags', 'idx_tag');
+		if (!$index || count($index->columns) > 1)
 		{
-			$oDB->addIndex('tags', 'idx_tag', array('document_srl', 'tag'));
+			if ($index)
+			{
+				$oDB->dropIndex('tags', 'idx_tag');
+			}
+			$oDB->addIndex('tags', 'idx_tag', ['tag']);
 		}
 	}
 }
