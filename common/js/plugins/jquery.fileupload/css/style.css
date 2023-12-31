@@ -240,8 +240,7 @@ button.xefu-btn {
 
 p.xefu-dropzone-message {
 	display: inline-block;
-	margin: 0;
-	margin-left: 5px;
+	margin: 0 0 0 5px !important;
 	line-height: 24px;
 	vertical-align: middle;
 }

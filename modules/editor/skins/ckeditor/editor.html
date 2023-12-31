@@ -15,7 +15,18 @@
 	$filemtime2 = file_exists(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') ? filemtime(RX_BASEDIR . 'common/js/plugins/ckeditor/ckeditor/config.js') : 0;
 	$filemtimestamp = max($filemtime1, $filemtime2, $editor_config_timestamp ?? 0);
 
-	$editor_height_fixed = $editor_height + ($editor_toolbar_hide ? 58 : ($editor_toolbar === 'simple' ? 74 : 140));
+	// Start with fixed min-height to prevent layout shift when editor is loaded.
+	if ($editor_toolbar_hide):
+		$editor_height_fixed = $editor_height + 55;
+	elseif ($editor_toolbar === 'simple'):
+		$editor_height_fixed = $editor_height + 71;
+	else:
+		$editor_height_fixed = $editor_height + 137;
+	endif;
+
+	if (str_contains($_SERVER['HTTP_USER_AGENT'], 'Firefox/')):
+		$editor_height_fixed += 2;
+	endif;
 }
 
 <!-- CSS -->
