@@ -1624,8 +1624,8 @@ class MenuAdminController extends Menu
 			foreach($installed_module_list AS $key=>$value)
 			{
 				$info = $oModuleModel->getModuleActionXml($value->module);
-				if($info->menu) $menuList[$value->module] = $info->menu;
-				unset($info->menu);
+				$menu = $info->menu ? get_object_vars($info->menu) : [];
+				if($menu) $menuList[$value->module] = $menu;
 			}
 		}
 		$this->add('menuList', $menuList);
