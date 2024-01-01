@@ -641,6 +641,9 @@ class DocumentController extends Document
 			$this->_checkDocumentStatusForOldVersion($obj);
 		}
 
+		// Check publish status
+		$is_publish = $obj->status !== 'TEMP';
+
 		// can modify regdate only manager
 		$grant = Context::get('grant');
 		if(!$grant->manager)
@@ -690,6 +693,16 @@ class DocumentController extends Document
 		if(!$output->toBool())
 		{
 			return $output;
+		}
+
+		// Call publish trigger (before)
+		if ($is_publish)
+		{
+			$output = ModuleHandler::triggerCall('document.publishDocument', 'before', $obj);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		// Register it if no given document_srl exists
@@ -844,6 +857,10 @@ class DocumentController extends Document
 
 		$obj->updated_file_count = $attachOutput->get('updated_file_count');
 		ModuleHandler::triggerCall('document.insertDocument', 'after', $obj);
+		if ($is_publish)
+		{
+			ModuleHandler::triggerCall('document.publishDocument', 'after', $obj);
+		}
 
 		// commit
 		$oDB->commit();
@@ -902,6 +919,9 @@ class DocumentController extends Document
 			$this->_checkDocumentStatusForOldVersion($obj);
 		}
 
+		// Check publish status (update from TEMP to non-TEMP)
+		$is_publish = ($obj->status !== 'TEMP' && $source_obj->get('status') === 'TEMP');
+
 		// Preserve original author info.
 		if ($source_obj->get('member_srl'))
 		{
@@ -936,6 +956,16 @@ class DocumentController extends Document
 		if(!$output->toBool())
 		{
 			return $output;
+		}
+
+		// Call publish trigger (before)
+		if ($is_publish)
+		{
+			$output = ModuleHandler::triggerCall('document.publishDocument', 'before', $obj);
+			if(!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		if(!$obj->module_srl) $obj->module_srl = $source_obj->get('module_srl');
@@ -1186,6 +1216,10 @@ class DocumentController extends Document
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('document.updateDocument', 'after', $obj);
+		if ($is_publish)
+		{
+			ModuleHandler::triggerCall('document.publishDocument', 'after', $obj);
+		}
 
 		// commit
 		$oDB->commit();
