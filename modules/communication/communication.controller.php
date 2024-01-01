@@ -418,15 +418,14 @@ class CommunicationController extends communication
 		$member_srl = $logged_info->member_srl;
 
 		// Check the variable
-		$message_srl = Context::get('message_srl');
+		$message_srl = intval(Context::get('message_srl'));
 		if(!$message_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
 		// Get the message
-		$oCommunicationModel = getModel('communication');
-		$message = $oCommunicationModel->getSelectedMessage($message_srl);
+		$message = CommunicationModel::getSelectedMessage($message_srl);
 		if(!$message)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -450,9 +449,16 @@ class CommunicationController extends communication
 				break;
 		}
 
-		// Delete
+		// Call trigger (before)
 		$args = new stdClass();
 		$args->message_srl = $message_srl;
+		$trigger_output = ModuleHandler::triggerCall('communication.deleteMessage', 'before', $args);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Delete
 		$output = executeQuery('communication.deleteMessage', $args);
 		if(!$output->toBool())
 		{
@@ -460,13 +466,16 @@ class CommunicationController extends communication
 		}
 
 		// Delete attachment, only if related message has also been deleted
-		$related = $message->related_srl ? $oCommunicationModel->getSelectedMessage($message->related_srl) : true;
+		$related = $message->related_srl ? CommunicationModel::getSelectedMessage($message->related_srl) : true;
 		if (!$related)
 		{
-			$oFileController = getController('file');
+			$oFileController = FileController::getInstance();
 			$oFileController->deleteFiles($message->message_srl);
 			$oFileController->deleteFiles($message->related_srl);
 		}
+
+		// Call trigger (after)
+		ModuleHandler::triggerCall('communication.deleteMessage', 'after', $args);
 
 		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
@@ -487,19 +496,27 @@ class CommunicationController extends communication
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
 
-		// check variables
-		if(!Context::get('message_srl_list'))
+		// Get list of messages
+		$message_srl_list = Context::get('message_srl_list');
+		if (!$message_srl_list)
 		{
 			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
-
-		$message_srl_list = Context::get('message_srl_list');
-		if(!is_array($message_srl_list))
+		if (!is_array($message_srl_list))
 		{
 			$message_srl_list = explode('|@|', trim($message_srl_list));
 		}
+		$target = array();
+		foreach ($message_srl_list as $message_srl)
+		{
+			$message_srl = intval($message_srl, 10);
+			if ($message_srl > 0)
+			{
+				$target[] = $message_srl;
+			}
 
-		if(!count($message_srl_list))
+		}
+		if (!count($target))
 		{
 			throw new Rhymix\Framework\Exception('msg_cart_is_null');
 		}
@@ -510,26 +527,9 @@ class CommunicationController extends communication
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$message_count = count($message_srl_list);
-		$target = array();
-		for($i = 0; $i < $message_count; $i++)
-		{
-			$message_srl = (int) trim($message_srl_list[$i]);
-			if(!$message_srl)
-			{
-				continue;
-			}
-
-			$target[] = $message_srl;
-		}
-		if(!count($target))
-		{
-			throw new Rhymix\Framework\Exception('msg_cart_is_null');
-		}
-
 		// Organize variables
 		$args = new stdClass();
-		$args->message_srls = implode(',', $target);
+		$args->message_srls = $target;
 
 		if ($message_type === 'N')
 		{
@@ -547,6 +547,13 @@ class CommunicationController extends communication
 		else
 		{
 			$args->receiver_srl = $member_srl;
+		}
+
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('communication.deleteMessages', 'before', $args);
+		if(!$trigger_output->toBool())
+		{
+			return $trigger_output;
 		}
 
 		// Find related messages
@@ -581,6 +588,9 @@ class CommunicationController extends communication
 			$oFileController->deleteFiles($message_srl);
 			$oFileController->deleteFiles($related_srl);
 		}
+
+		// Call trigger (after)
+		ModuleHandler::triggerCall('communication.deleteMessages', 'after', $args);
 
 		$this->updateFlagFile($member_srl);
 		$this->setMessage('success_deleted');
