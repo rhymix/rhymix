@@ -26,6 +26,10 @@ jQuery(function($){
 			for(var x in moduleList)
 			{
 				var menuList = moduleList[x];
+				if (!menuList)
+				{
+					continue;
+				}
 				$optgroup = $('<optgroup label="'+x+'" />').appendTo(menuNameList);
 				for(var y in menuList)
 				{
