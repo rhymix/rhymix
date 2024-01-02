@@ -169,6 +169,14 @@ class SpamfilterModel extends Spamfilter
 		$limit_count = $config->limits_count ?: 3;
 		$interval = $config->limits_interval ?: 10;
 
+		if (!empty($config->except_ip))
+		{
+			if (Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $config->except_ip))
+			{
+				return new BaseObject();
+			}
+		}
+
 		$count = $this->getLogCount($interval);
 
 		// Ban the IP address if the interval is exceeded
@@ -183,7 +191,7 @@ class SpamfilterModel extends Spamfilter
 				$suffix = $config->ipv6_block_range ?: '';
 			}
 
-			$oSpamFilterController = getController('spamfilter');
+			$oSpamFilterController = SpamfilterController::getInstance();
 			$oSpamFilterController->insertIP(\RX_CLIENT_IP .  $suffix, 'AUTO-DENIED : Over limit');
 			return new BaseObject(-1, 'msg_alert_registered_denied_ip');
 		}

@@ -1,6 +1,6 @@
 <include target="./header.html" />
 <section class="section">
-	<form action="./" method="post" id="spamfilterConfig" class="x_form-horizontal">	
+	<form action="./" method="post" id="spamfilterConfig" class="x_form-horizontal">
 		<input type="hidden" name="act" value="procSpamfilterAdminInsertConfig" />
 		<input type="hidden" name="module" value="spamfilter" />
 		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/1" />
@@ -16,7 +16,7 @@
 						{$lang->cmd_yes}
 					</label>
 					<label for="spamCond1_no" class="x_inline">
-						<input type="radio" name="limits" id="spamCond1_no" value="N" checked="checked"|cond="$config->limits!='Y' && $config->limits !=''" /> 
+						<input type="radio" name="limits" id="spamCond1_no" value="N" checked="checked"|cond="$config->limits!='Y' && $config->limits !=''" />
 						{$lang->cmd_no}
 					</label>
 				</p>
@@ -58,6 +58,13 @@
 					</option>
 				</select>
 				<p class="x_help-block">{$lang->cmd_block_range_help}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label for="except_ip" class="x_control-label">{$lang->cmd_spamfilter_except_ip}</label>
+			<div class="x_controls">
+				<textarea name="except_ip" id="except_ip">{implode("\n", $config->except_ip ?? [])}</textarea>
+				<p class="x_help-block">{$lang->cmd_spamfilter_except_ip_help}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

@@ -20,7 +20,7 @@ class SpamfilterAdminController extends Spamfilter
 		$config = ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 
 		// Get the default information
-		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'ipv4_block_range', 'ipv6_block_range', 'custom_message');
+		$args = Context::gets('limits', 'limits_interval', 'limits_count', 'ipv4_block_range', 'ipv6_block_range', 'except_ip', 'custom_message');
 
 		// Set default values
 		if($args->limits != 'Y')
@@ -35,6 +35,7 @@ class SpamfilterAdminController extends Spamfilter
 		{
 			$args->ipv6_block_range = '';
 		}
+		$args->except_ip = array_map('trim', preg_split('/[\n,]/', trim($args->except_ip ?? ''), -1, \PREG_SPLIT_NO_EMPTY));
 		$args->limits_interval = intval($args->limits_interval);
 		$args->limits_count = intval($args->limits_count);
 		$args->custom_message = escape(utf8_trim($args->custom_message));
