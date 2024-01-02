@@ -706,13 +706,17 @@ function _displayMultimedia(src, width, height, options) {
 	var clsid = "";
 	var codebase = "";
 	var html = "";
+	var background = "black";
 	width = parseInt(width, 10);
 	height = parseInt(height, 10);
 
-	if(/\.(gif|jpg|jpeg|bmp|png)$/i.test(src)){
+	if (/\.(gif|jpe?g|bmp|png|webp)$/i.test(src)){
 		html = '<img src="'+src+'" width="'+width+'" height="'+height+'" class="thumb" />';
 	} else {
-		html = '<span style="position:relative;background:black;width:' + width + 'px;height:' + height + 'px" class="thumb">';
+		if (options.thumbnail) {
+			background += " url('" + options.thumbnail + "');background-size:cover;background-position:center center";
+		}
+		html = '<span style="position:relative;background:' + background + ';width:' + width + 'px;height:' + height + 'px" class="thumb">';
 		html += '<img style="width:24px;height:24px;position:absolute;left:50%;top:50%;border:0;margin:-12px 0 0 -12px;padding:0" src="' + request_uri + 'common/img/play.png" alt="" />';
 		html += '</span>';
 	}
