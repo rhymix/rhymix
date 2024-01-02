@@ -169,44 +169,40 @@ class integration_searchModel extends module
 		$args->isvalid = 'Y';
 		$args->direct_download = $direct_download=='Y'?'Y':'N';
 		$args->exclude_secret = 'Y';
-		// Get a list of documents
-		$oFileAdminModel = getAdminModel('file');
+
+		// Get a list of files
+		$oFileAdminModel = FileAdminModel::getInstance();
 		$output = $oFileAdminModel->getFileList($args);
 		if(!$output->toBool() || !$output->data) return $output;
 
 		$list = array();
 		foreach($output->data as $key => $val)
 		{
-			$obj = new stdClass;
+			$obj = new \Rhymix\Modules\Integration_Search\Models\FileSearchResult;
+			$obj->file_srl = $val->file_srl;
 			$obj->filename = $val->source_filename;
+			$obj->uploaded_filename = $val->uploaded_filename;
 			$obj->download_count = $val->download_count;
-			if(substr($val->download_url,0,2)=='./') $val->download_url = substr($val->download_url,2);
-			$obj->download_url = Context::getRequestUri().$val->download_url;
+			$obj->download_url = \RX_BASEURL . preg_replace('!^\.\/!', '', $val->download_url);
 			$obj->target_srl = $val->upload_target_srl;
 			$obj->file_size = $val->file_size;
+
 			// Images
-			if(preg_match('/\.(jpe?g|gif|png|webp)$/i', $val->source_filename))
+			if(preg_match('/\.(jpe?g|gif|png|bmp|webp)$/i', $val->source_filename))
 			{
 				$obj->type = 'image';
-
-				$thumbnail_path = sprintf('files/thumbnails/%s',getNumberingPath($val->file_srl, 3));
-				if(!is_dir($thumbnail_path)) FileHandler::makeDir($thumbnail_path);
-				$thumbnail_file = sprintf('%s%dx%d.%s.jpg', $thumbnail_path, 120, 120, 'crop');
-				$thumbnail_url  = Context::getRequestUri().$thumbnail_file;
-				if(!file_exists($thumbnail_file)) FileHandler::createImageFile($val->uploaded_filename, $thumbnail_file, 120, 120, 'jpg', 'crop');
-				$obj->src = sprintf('<img src="%s" alt="%s" width="%d" height="%d" class="thumb" />', $thumbnail_url, htmlspecialchars($obj->filename, ENT_COMPAT | ENT_HTML401, 'UTF-8', false), 120, 120);
-				// Videos
 			}
 			elseif(Rhymix\Framework\Filters\FilenameFilter::isDirectDownload($val->source_filename))
 			{
 				$obj->type = 'multimedia';
-				$obj->src = sprintf('<script>displayMultimedia("%s",80,80);</script>', $val->uploaded_filename);
-				// Others
+				if ($val->thumbnail_filename)
+				{
+					$obj->video_thumbnail_url = \RX_BASEURL . preg_replace('!^\.\/!', '', $val->thumbnail_filename);
+				}
 			}
 			else
 			{
 				$obj->type = 'binary';
-				$obj->src = '';
 			}
 
 			$list[] = $obj;
