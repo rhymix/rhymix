@@ -394,7 +394,7 @@ class content extends WidgetHandler
 		{
 			$args->rss_url = $rss;
 			$content_item = $this->_getRssItems($args);
-			if(count($content_item) > 0)
+			if(!empty($content_item))
 			{
 				$browser_title = $content_item[0]->getBrowserTitle();
 				$args->mid_lists[] = $browser_title;
@@ -492,6 +492,7 @@ class content extends WidgetHandler
 		// Date Format
 		$DATE_FORMAT = $args->date_format ? $args->date_format : "Y-m-d H:i:s";
 
+		$content_items = array();
 		$buff = $this->requestFeedContents($args->rss_url);
 
 		$encoding = preg_match("/<\?xml.*encoding=\"(.+)\".*\?>/i", $buff, $matches);
@@ -511,8 +512,6 @@ class content extends WidgetHandler
 
 			if(!$items) return;
 			if($items && !is_array($items)) $items = array($items);
-
-			$content_items = array();
 
 			foreach ($items as $key => $value)
 			{
@@ -551,8 +550,6 @@ class content extends WidgetHandler
 
 			if(!$items) return;
 			if($items && !is_array($items)) $items = array($items);
-
-			$content_items = array();
 
 			foreach ($items as $key => $value)
 			{
@@ -603,8 +600,6 @@ class content extends WidgetHandler
 
 			if(!$items) return;
 			if($items && !is_array($items)) $items = array($items);
-
-			$content_items = array();
 
 			foreach ($items as $key => $value)
 			{
