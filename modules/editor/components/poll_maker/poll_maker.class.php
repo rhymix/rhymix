@@ -33,7 +33,7 @@ class poll_maker extends EditorHandler
 		$tpl_path = $this->component_path.'tpl';
 		$tpl_file = 'popup.html';
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 
@@ -71,7 +71,7 @@ class poll_maker extends EditorHandler
 		Context::set('style', $args->style);
 
 		// Compile a template
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 }

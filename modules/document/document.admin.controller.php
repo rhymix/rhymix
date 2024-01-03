@@ -666,7 +666,7 @@ class DocumentAdminController extends Document
 		$oDocumentController = getController('document');
 		$oDocumentModel = getModel('document');
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		//DB restore

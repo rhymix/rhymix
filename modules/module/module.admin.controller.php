@@ -168,7 +168,7 @@ class ModuleAdminController extends Module
 			}
 		}
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 		// Copy a module
 		$triggerObj = new stdClass();

@@ -43,12 +43,12 @@ class MenuMobile extends moduleObject
 	function dispMenuMenu()
 	{
 		$menu_srl = Context::get('menu_srl');
-		$oAdminModel =& getAdminModel('menu');
+		$oAdminModel = MenuAdminModel::getInstance();
 		$menu_info = $oAdminModel->getMenu($menu_srl);
 
 		if(!$menu_srl)
 		{
-			$oMenuAdminController = getAdminController('menu');
+			$oMenuAdminController = MenuAdminController::getInstance();
 			$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
 
 			if(file_exists($homeMenuCacheFile))

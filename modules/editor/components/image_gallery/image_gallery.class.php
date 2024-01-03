@@ -31,7 +31,7 @@ class image_gallery extends EditorHandler
 
 		Context::set("tpl_path", $tpl_path);
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 
@@ -86,7 +86,7 @@ class image_gallery extends EditorHandler
 		if($gallery_info->gallery_style == "list") $tpl_file = 'list_gallery.html';
 		else $tpl_file = 'slide_gallery.html';
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 }

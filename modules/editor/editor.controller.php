@@ -52,8 +52,8 @@ class EditorController extends Editor
 			throw new Rhymix\Framework\Exception('msg_component_is_not_founded', $component);
 		}
 
-		$oEditorModel = getModel('editor');
-		$oComponent = &$oEditorModel->getComponentObject($component);
+		$oEditorModel = EditorModel::getInstance();
+		$oComponent = $oEditorModel->getComponentObject($component);
 		if(!$oComponent->toBool()) return $oComponent;
 
 		if(!method_exists($oComponent, $method))
@@ -211,11 +211,11 @@ class EditorController extends Editor
 		$module_srl = $module_info->module_srl ?? 0;
 		if($module_srl)
 		{
-			$editor_config = getModel('editor')->getEditorConfig($module_srl);
+			$editor_config = EditorModel::getEditorConfig($module_srl);
 		}
 		else
 		{
-			$editor_config = getModel('module')->getModuleConfig('editor');
+			$editor_config = ModuleModel::getModuleConfig('editor');
 		}
 
 		if ($editor_config)
@@ -280,8 +280,8 @@ class EditorController extends Editor
 		}
 
 		// Get converted codes by using component::transHTML()
-		$oEditorModel = getModel('editor');
-		$oComponent = &$oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
+		$oEditorModel = EditorModel::getInstance();
+		$oComponent = $oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
 		if(!is_object($oComponent) || !method_exists($oComponent, 'transHTML'))
 		{
 			return $match[0];
@@ -327,9 +327,7 @@ class EditorController extends Editor
 	{
 		$editor_sequence = Context::get('editor_sequence');
 		$primary_key = Context::get('primary_key');
-		$oEditorModel = getModel('editor');
-
-		$saved_doc = $oEditorModel->getSavedDoc(null);
+		$saved_doc = EditorModel::getSavedDoc(null);
 
 		FileController::setUploadInfo($editor_sequence, $saved_doc->document_srl, intval($saved_doc->module_srl));
 		$vars = $this->getVariables();

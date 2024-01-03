@@ -381,19 +381,19 @@ class mcontent extends WidgetHandler
 	{
 		// Remove tags
 		$content = strip_tags($content);
-		
+
 		// Convert temporarily html entity for truncate
 		$content = html_entity_decode($content, ENT_QUOTES);
-		
+
 		// Replace all whitespaces to single space
 		$content = utf8_trim(utf8_normalize_spaces($content));
-		
+
 		// Truncate string
 		$content = cut_str($content, $str_size, '...');
-		
+
 		return escape($content);
 	}
-	
+
 	/**
 	 * @brief function to receive contents from rss url
 	 * For Tistory blog in Korea, the original RSS url has location header without contents. Fixed to work as same as rss_reader widget.
@@ -496,7 +496,7 @@ class mcontent extends WidgetHandler
 				$content_items[] = $content_item;
 			}
 		}
-		else if($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom') 
+		else if($xml_doc->feed && $xml_doc->feed->attrs->xmlns == 'http://www.w3.org/2005/Atom')
 			{
 			// Atom 1.0 spec supported by misol
 			$rss->title = $xml_doc->feed->title->body;
@@ -513,25 +513,25 @@ class mcontent extends WidgetHandler
 				}
 			}
 			else if($links->attrs->rel == 'alternate') $rss->link = $links->attrs->href;
-	
+
 			$items = $xml_doc->feed->entry;
-	
+
 			if(!$items) return;
 			if($items && !is_array($items)) $items = array($items);
-	
+
 			$content_items = array();
-	
+
 			foreach ($items as $key => $value)
 			{
 				if($key >= $args->list_count) break;
 				unset($item);
-	
+
 				foreach($value as $key2 => $value2)
 				{
 					if(is_array($value2)) $value2 = array_shift($value2);
 					$item->{$key2} = $this->_getRssBody($value2);
 				}
-	
+
 				$content_item = new mcontentItem($rss->title);
 				$links = $value->link;
 				if(is_array($links))
@@ -546,7 +546,7 @@ class mcontent extends WidgetHandler
 					}
 				}
 				else if($links->attrs->rel == 'alternate') $item->link = $links->attrs->href;
-	
+
 				$content_item->setContentsLink($rss->link);
 				if($item->title)
 				{
@@ -555,22 +555,22 @@ class mcontent extends WidgetHandler
 				$content_item->setTitle($item->title);
 				$content_item->setNickName(max($item->author,$item->{'dc:creator'}));
 				$content_item->setAuthorSite($value->author->uri->body);
-	
+
 				//$content_item->setCategory($item->category);
 				$item->description = ($item->content) ? $item->content : $item->description = $item->summary;
 				$item->description = preg_replace('!<a href=!is','<a target="_blank" rel="noopener" href=', $item->description);
-	
+
 				if(($item->content && stripos($value->content->attrs->type, "html") === FALSE) || (!$item->content && stripos($value->summary->attrs->type, "html") === FALSE))
 				{
 					$item->description = htmlspecialchars($item->description, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
-	
+
 				}
-	
+
 				$content_item->setContent($this->_getSummary($item->description, $args->content_cut_size));
 				$content_item->setLink($item->link);
 				$date = date('YmdHis', strtotime(max($item->published,$item->updated,$item->{'dc:date'})));
 				$content_item->setRegdate($date);
-	
+
 				$content_items[] = $content_item;
 			}
 		}
@@ -621,7 +621,6 @@ class mcontent extends WidgetHandler
 
 	function _compile($args,$content_items)
 	{
-		$oTemplate = &TemplateHandler::getInstance();
 		// Set variables for widget
 		$widget_info = new stdClass();
 		$widget_info->modules_info = $args->modules_info;
@@ -654,6 +653,8 @@ class mcontent extends WidgetHandler
 		Context::set('widget_info', $widget_info);
 
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
+
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, "content");
 	}
 }

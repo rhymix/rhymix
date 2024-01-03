@@ -3233,7 +3233,7 @@ class MemberController extends Member
 		}
 		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$output = executeQuery('member.updateMember', $args);

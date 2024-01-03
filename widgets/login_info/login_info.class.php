@@ -81,7 +81,7 @@ class login_info extends WidgetHandler
 		Context::set('ssl_mode', $ssl_mode);
 
 		// Compile a template
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 }

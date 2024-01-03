@@ -93,7 +93,7 @@ class PollAdminController extends Poll
 
 		$args->poll_index_srl = $poll_index_srl;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$output = executeQueryArray('poll.getPollByDeletePollTitle', $args);
@@ -145,7 +145,7 @@ class PollAdminController extends Poll
 		$args = new stdClass;
 		$args->poll_srl = $poll_srl;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$output = $oDB->executeQuery('poll.deletePoll', $args);

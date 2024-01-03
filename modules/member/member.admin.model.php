@@ -222,7 +222,7 @@ class MemberAdminModel extends Member
 			if(!$config->colorset) $config->colorset = "white";
 			Context::set('config', $config);
 
-			$oTemplate = &TemplateHandler::getInstance();
+			$oTemplate = TemplateHandler::getInstance();
 			$tpl = $oTemplate->compile($this->module_path.'tpl', 'new_colorset_list');
 		}
 
@@ -307,7 +307,7 @@ class MemberAdminModel extends Member
 		$id_list = implode(',',$list);
 		Context::set('id_list',$id_list);
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'insert_join_form');
 
 		$this->add('tpl', str_replace("\n"," ",$tpl));

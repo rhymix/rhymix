@@ -682,7 +682,6 @@ class content extends WidgetHandler
 
 	function _compile($args,$content_items)
 	{
-		$oTemplate = TemplateHandler::getInstance();
 		// Set variables for widget
 		$widget_info = new stdClass();
 		$widget_info->modules_info = $args->modules_info;
@@ -741,6 +740,8 @@ class content extends WidgetHandler
 		Context::set('widget_info', $widget_info);
 
 		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
+
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, "content");
 	}
 }

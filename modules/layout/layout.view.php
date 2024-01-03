@@ -227,7 +227,6 @@ class LayoutView extends Layout
 		Context::set('layout','none');
 
 		// Convert widgets and others
-		$oContext = Context::getInstance();
 		Context::set('layout_tpl', $layout_tpl);
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('layout_preview');
@@ -371,7 +370,7 @@ class LayoutView extends Layout
 		FileHandler::writeFile($edited_layout_file, $code);
 
 		// Compile
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 
 		$layout_path = $layout_info->path;
 		$layout_file = 'layout';
@@ -379,7 +378,6 @@ class LayoutView extends Layout
 		$layout_tpl = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 		Context::set('layout','none');
 		// Convert widgets and others
-		$oContext = &Context::getInstance();
 		Context::set('layout_tpl', $layout_tpl);
 		// Delete Temporary Files
 		FileHandler::removeFile($edited_layout_file);

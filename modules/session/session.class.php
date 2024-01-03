@@ -24,7 +24,7 @@ class Session extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));
 	}
 
@@ -43,7 +43,7 @@ class Session extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		if(!$oDB->isIndexExists("session","idx_session_update_mid"))
 		{
 			$oDB->addIndex("session","idx_session_update_mid", array("member_srl","last_update","cur_mid"));

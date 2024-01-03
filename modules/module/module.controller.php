@@ -699,7 +699,7 @@ class ModuleController extends Module
 		if(!$output->toBool()) return $output;
 
 		// begin transaction
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$args = new stdClass();

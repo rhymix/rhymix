@@ -62,8 +62,7 @@ class EditorView extends Editor
 		$site_module_info = Context::get('site_module_info');
 		$site_srl = (int)$site_module_info->site_srl;
 		// Get compoenet object
-		$oEditorModel = getModel('editor');
-		$oComponent = &$oEditorModel->getComponentObject($component, $editor_sequence, $site_srl);
+		$oComponent = EditorModel::getComponentObject($component, $editor_sequence, $site_srl);
 		if(!$oComponent->toBool())
 		{
 			Context::set('message', sprintf($oComponent->getMessage(), $component));
@@ -174,7 +173,7 @@ class EditorView extends Editor
 		$security->encodeHTML('editor_comment_colorset_list..title');
 
 		// Set a template file
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'editor_module_config');
 		$obj .= $tpl;
 

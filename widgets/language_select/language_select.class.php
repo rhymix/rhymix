@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
- * @class language_select 
+ * @class language_select
  * @author NAVER (developers@xpressengine.com)
  * @brief Language selector
  * @version 0.1
@@ -23,7 +23,7 @@ class language_select extends WidgetHandler
 		Context::set('colorset', $args->colorset);
 
 		// Compile a template
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 }

@@ -1827,7 +1827,7 @@ class FileController extends File
 		$args->file_srl = $vars->file_srl;
 		$args->upload_target_srl = $upload_target_srl;
 
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$oDB->begin();
 
 		$args->cover_image = 'N';

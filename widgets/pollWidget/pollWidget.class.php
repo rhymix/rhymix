@@ -1,7 +1,7 @@
 <?php
 /* Copyright (C) NAVER <http://www.navercorp.com> */
 /**
- * @class language_select 
+ * @class language_select
  * @author NAVER (developers@xpressengine.com)
  * @brief Language selector
  * @version 0.1
@@ -32,7 +32,7 @@ class pollWidget extends WidgetHandler
 		Context::set('style', $args->style);
 
 		// Compile a template
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 }

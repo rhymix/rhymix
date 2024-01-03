@@ -61,7 +61,7 @@ class PointView extends Point
 		$module_config['point_name'] = $config->point_name;
 		Context::set('module_config', $module_config);
 		// Set the template file
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'point_module_config');
 		$obj .= $tpl;
 	}

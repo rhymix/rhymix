@@ -158,7 +158,7 @@ class LayoutAdminModel extends Layout
 		$security->encodeHTML('layout_code_css', 'layout_code', 'widget_list..title');
 
 		$script = '<script src="./modules/layout/tpl/js/layout_admin_set_html.js"></script>';
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		$html = $oTemplate->compile($this->module_path.'tpl/', 'layout_html_css_view');
 
 		$this->add('html', $script.$html);

@@ -1102,7 +1102,7 @@ class LayoutModel extends Layout
 		// Display menu when editing the faceOff page
 		if(Context::get('act')=='dispLayoutAdminLayoutModify' && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin))
 		{
-			$oTemplate = &TemplateHandler::getInstance();
+			$oTemplate = TemplateHandler::getInstance();
 			Context::addBodyHeader($oTemplate->compile($this->module_path.'/tpl', 'faceoff_layout_menu'));
 		}
 	}

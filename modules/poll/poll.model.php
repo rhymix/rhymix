@@ -263,7 +263,7 @@ class PollModel extends Poll
 		// The skin for the default configurations, and the colorset configurations
 		$tpl_path = sprintf("%sskins/%s/", $this->module_path, $skin);
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 
@@ -312,7 +312,7 @@ class PollModel extends Poll
 		// The skin for the default configurations, and the colorset configurations
 		$tpl_path = sprintf("%sskins/%s/", $this->module_path, $skin);
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 	/** [TO REVIEW]

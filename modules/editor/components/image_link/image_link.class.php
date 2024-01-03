@@ -31,7 +31,7 @@ class image_link extends EditorHandler
 
 		Context::set("tpl_path", $tpl_path);
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 

@@ -130,7 +130,7 @@ class ModuleAdminModel extends Module
 		Context::set('tabChoice', $tabChoice);
 
 		// Get information of module_grants
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($this->module_path.'tpl', 'include.manage_selected.html');
 	}
 
@@ -208,7 +208,7 @@ class ModuleAdminModel extends Module
 		$security->encodeHTML('admin_member..nick_name');
 
 		// Get information of module_grants
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($this->module_path.'tpl', 'module_grants');
 	}
 
@@ -392,7 +392,7 @@ class ModuleAdminModel extends Module
 		$security->encodeHTML('module_info.browser_title');
 		$security->encodeHTML('skin_info...');
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($this->module_path.'tpl', 'skin_config');
 	}
 

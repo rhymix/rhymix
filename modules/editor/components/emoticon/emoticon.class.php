@@ -99,7 +99,7 @@ class emoticon extends EditorHandler
 		$tpl_path = $this->component_path.'tpl';
 		$tpl_file = 'popup.html';
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
 

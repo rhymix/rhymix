@@ -140,7 +140,7 @@ class TrashAdminController extends Trash
 		if(is_array($trashSrlList))
 		{
 			// begin transaction
-			$oDB = &DB::getInstance();
+			$oDB = DB::getInstance();
 			$oDB->begin();
 			// eache restore method call in each classfile
 			foreach($trashSrlList as $value)

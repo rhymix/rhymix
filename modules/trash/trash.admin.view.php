@@ -111,11 +111,11 @@ class TrashAdminView extends Trash
 		Context::set('oTrashVO',$output->data);
 		Context::set('oOrigin',$originObject);
 
-		$oMemberModel = &getModel('member');
+		$oMemberModel = getModel('member');
 		$remover_info = $oMemberModel->getMemberInfoByMemberSrl($output->data->getRemoverSrl());
 		Context::set('remover_info', $remover_info);
 
-		$oModuleModel = &getModel('module');
+		$oModuleModel = getModel('module');
 		$module_info = $oModuleModel->getModuleInfoByModuleSrl($originObject->module_srl);
 		Context::set('module_info', $module_info);
 

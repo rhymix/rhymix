@@ -930,7 +930,7 @@ class ModuleModel extends Module
 
 		$tmpPath = strtr($path, array('/' => ' '));
 		$tmpPath = trim($tmpPath);
-		$module = array_pop(explode(' ', $tmpPath));
+		$module = array_last(explode(' ', $tmpPath));
 
 		if($dir == 'skins')
 		{
@@ -1525,7 +1525,7 @@ class ModuleModel extends Module
 
 	public static function checkNeedInstall($module_name)
 	{
-		$oDB = &DB::getInstance();
+		$oDB = DB::getInstance();
 		$info = null;
 
 		$moduledir = ModuleHandler::getModulePath($module_name);
@@ -2489,7 +2489,7 @@ class ModuleModel extends Module
 		$security = new Security();
 		$security->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
 
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		$html = $oTemplate->compile(RX_BASEDIR . 'modules/module/tpl/', 'filebox_list_html');
 
 		$this->add('html', $html);

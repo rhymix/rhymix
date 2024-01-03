@@ -1016,7 +1016,7 @@ class DocumentModel extends Document
 		$security->encodeHTML('extra_keys..', 'selected_var_idx');
 
 		// Get information of module_grants
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($this->module_path.'tpl', 'extra_keys');
 	}
 
@@ -1037,7 +1037,7 @@ class DocumentModel extends Document
 		$security->encodeHTML('group_list..title');
 
 		// Get information of module_grants
-		$oTemplate = &TemplateHandler::getInstance();
+		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($this->module_path.'tpl', 'category_list');
 	}
 
