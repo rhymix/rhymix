@@ -35,6 +35,11 @@ elseif (PHP_SAPI !== 'cli')
 {
     define('RX_BASEURL', '/');
 }
+else
+{
+	// If in CLI mode, RX_BASEURL will be set in Context::init()
+	// based on cached configuration values.
+}
 
 /**
  * RX_REQUEST_URL is the remainder of the current URL (not including RX_BASEURL, hence without leading slash).
