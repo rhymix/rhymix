@@ -783,7 +783,7 @@ class LayoutModel extends Layout
 		// header_script
 		$oModuleModel = getModel('module');
 		$layout_config = $oModuleModel->getModulePartConfig('layout', $layout_srl);
-		$header_script = trim($layout_config->header_script);
+		$header_script = trim($layout_config->header_script ?? '');
 
 		if(!empty($header_script))
 		{
