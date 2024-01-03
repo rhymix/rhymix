@@ -7,6 +7,55 @@
  */
 
 /**
+ * Legacy class names for the autoloader.
+ */
+$GLOBALS['RX_AUTOLOAD_FILE_MAP'] = [
+	'cachehandler' => 'classes/cache/CacheHandler.class.php',
+	'context' => 'classes/context/Context.class.php',
+	'db' => 'classes/db/DB.class.php',
+	'displayhandler' => 'classes/display/DisplayHandler.class.php',
+	'htmldisplayhandler' => 'classes/display/HTMLDisplayHandler.php',
+	'jscallbackdisplayhandler' => 'classes/display/JSCallbackDisplayHandler.php',
+	'jsondisplayhandler' => 'classes/display/JSONDisplayHandler.php',
+	'rawdisplayhandler' => 'classes/display/RawDisplayHandler.php',
+	'virtualxmldisplayhandler' => 'classes/display/VirtualXMLDisplayHandler.php',
+	'xmldisplayhandler' => 'classes/display/XMLDisplayHandler.php',
+	'editorhandler' => 'classes/editor/EditorHandler.class.php',
+	'extravar' => 'classes/extravar/Extravar.class.php',
+	'extraitem' => 'classes/extravar/Extravar.class.php',
+	'filehandler' => 'classes/file/FileHandler.class.php',
+	'fileobject' => 'classes/file/FileObject.class.php',
+	'frontendfilehandler' => 'classes/frontendfile/FrontEndFileHandler.class.php',
+	'handler' => 'classes/handler/Handler.class.php',
+	'xehttprequest' => 'classes/httprequest/XEHttpRequest.class.php',
+	'mail' => 'classes/mail/Mail.class.php',
+	'mobile' => 'classes/mobile/Mobile.class.php',
+	'modulehandler' => 'classes/module/ModuleHandler.class.php',
+	'moduleobject' => 'classes/module/ModuleObject.class.php',
+	'pagehandler' => 'classes/page/PageHandler.class.php',
+	'embedfilter' => 'classes/security/EmbedFilter.class.php',
+	'ipfilter' => 'classes/security/IpFilter.class.php',
+	'password' => 'classes/security/Password.class.php',
+	'purifier' => 'classes/security/Purifier.class.php',
+	'security' => 'classes/security/Security.class.php',
+	'uploadfilefilter' => 'classes/security/UploadFileFilter.class.php',
+	'templatehandler' => 'classes/template/TemplateHandler.class.php',
+	'validator' => 'classes/validator/Validator.class.php',
+	'widgethandler' => 'classes/widget/WidgetHandler.class.php',
+	'generalxmlparser' => 'classes/xml/GeneralXmlParser.class.php',
+	'xml_node_' => 'classes/xml/XmlParser.class.php',
+	'xmlgenerator' => 'classes/xml/XmlGenerator.class.php',
+	'xmljsfilter' => 'classes/xml/XmlJsFilter.class.php',
+	'xmllangparser' => 'classes/xml/XmlLangParser.class.php',
+	'xmlparser' => 'classes/xml/XmlParser.class.php',
+	'xexmlparser' => 'classes/xml/XmlParser.class.php',
+	'ftp' => 'common/libraries/ftp.php',
+	'tar' => 'common/libraries/tar.php',
+	'cryptocompat' => 'common/libraries/cryptocompat.php',
+	'vendorpass' => 'common/libraries/vendorpass.php',
+];
+
+/**
  * Define a function to use {@see ModuleHandler::getModuleObject()} ($module_name, $type)
  *
  * @param string $module_name

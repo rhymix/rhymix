@@ -49,55 +49,6 @@ require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/legacy.php';
 
 /**
- * Define the list of legacy class names for the autoloader.
- */
-$GLOBALS['RX_AUTOLOAD_FILE_MAP'] = array_change_key_case(array(
-	'CacheHandler' => 'classes/cache/CacheHandler.class.php',
-	'Context' => 'classes/context/Context.class.php',
-	'DB' => 'classes/db/DB.class.php',
-	'DisplayHandler' => 'classes/display/DisplayHandler.class.php',
-	'HTMLDisplayHandler' => 'classes/display/HTMLDisplayHandler.php',
-	'JSCallbackDisplayHandler' => 'classes/display/JSCallbackDisplayHandler.php',
-	'JSONDisplayHandler' => 'classes/display/JSONDisplayHandler.php',
-	'RawDisplayHandler' => 'classes/display/RawDisplayHandler.php',
-	'VirtualXMLDisplayHandler' => 'classes/display/VirtualXMLDisplayHandler.php',
-	'XMLDisplayHandler' => 'classes/display/XMLDisplayHandler.php',
-	'EditorHandler' => 'classes/editor/EditorHandler.class.php',
-	'ExtraVar' => 'classes/extravar/Extravar.class.php',
-	'ExtraItem' => 'classes/extravar/Extravar.class.php',
-	'FileHandler' => 'classes/file/FileHandler.class.php',
-	'FileObject' => 'classes/file/FileObject.class.php',
-	'FrontEndFileHandler' => 'classes/frontendfile/FrontEndFileHandler.class.php',
-	'Handler' => 'classes/handler/Handler.class.php',
-	'XEHttpRequest' => 'classes/httprequest/XEHttpRequest.class.php',
-	'Mail' => 'classes/mail/Mail.class.php',
-	'Mobile' => 'classes/mobile/Mobile.class.php',
-	'ModuleHandler' => 'classes/module/ModuleHandler.class.php',
-	'ModuleObject' => 'classes/module/ModuleObject.class.php',
-	'PageHandler' => 'classes/page/PageHandler.class.php',
-	'EmbedFilter' => 'classes/security/EmbedFilter.class.php',
-	'IpFilter' => 'classes/security/IpFilter.class.php',
-	'Password' => 'classes/security/Password.class.php',
-	'Purifier' => 'classes/security/Purifier.class.php',
-	'Security' => 'classes/security/Security.class.php',
-	'UploadFileFilter' => 'classes/security/UploadFileFilter.class.php',
-	'TemplateHandler' => 'classes/template/TemplateHandler.class.php',
-	'Validator' => 'classes/validator/Validator.class.php',
-	'WidgetHandler' => 'classes/widget/WidgetHandler.class.php',
-	'GeneralXmlParser' => 'classes/xml/GeneralXmlParser.class.php',
-	'Xml_Node_' => 'classes/xml/XmlParser.class.php',
-	'XmlGenerator' => 'classes/xml/XmlGenerator.class.php',
-	'XmlJsFilter' => 'classes/xml/XmlJsFilter.class.php',
-	'XmlLangParser' => 'classes/xml/XmlLangParser.class.php',
-	'XmlParser' => 'classes/xml/XmlParser.class.php',
-	'XeXmlParser' => 'classes/xml/XmlParser.class.php',
-	'Ftp' => 'common/libraries/ftp.php',
-	'Tar' => 'common/libraries/tar.php',
-	'CryptoCompat' => 'common/libraries/cryptocompat.php',
-	'VendorPass' => 'common/libraries/vendorpass.php',
-), CASE_LOWER);
-
-/**
  * Define the autoloader.
  */
 spl_autoload_register(function($class_name)
