@@ -111,7 +111,7 @@ class content extends WidgetHandler
 		}
 
 		/**
-		 * Method is separately made because content extraction, articles, comments, trackbacks, RSS and other elements exist
+		 * Method is separately made because content extraction, articles, comments, RSS and other elements exist
 		 */
 		// tab type
 		if($args->tab_type == 'none' || $args->tab_type == '')
@@ -128,7 +128,7 @@ class content extends WidgetHandler
 					$content_items = $this->getRssItems($args);
 					break;
 				case 'trackback':
-					$content_items = $this->_getTrackbackItems($args);
+					$content_items = [];
 					break;
 				default:
 					$content_items = $this->_getDocumentItems($args);
@@ -160,11 +160,7 @@ class content extends WidgetHandler
 					$content_items = $this->getRssItems($args);
 					break;
 				case 'trackback':
-					foreach($args->mid_lists as $module_srl => $mid)
-					{
-						$args->module_srl = $module_srl;
-						$content_items[$module_srl] = $this->_getTrackbackItems($args);
-					}
+					$content_items = [];
 					break;
 				default:
 					foreach($args->mid_lists as $module_srl => $mid)
@@ -681,53 +677,7 @@ class content extends WidgetHandler
 
 	function _getTrackbackItems($args)
 	{
-		$oTrackbackModel = getModel('trackback');
-		if(!$oTrackbackModel)
-		{
-			return;
-		}
-
-		$obj = new stdClass;
-		// Get categories
-		$output = executeQueryArray('widgets.content.getCategories',$obj);
-		if($output->toBool() && $output->data)
-		{
-			foreach($output->data as $key => $val)
-			{
-				$category_lists[$val->module_srl][$val->category_srl] = $val;
-			}
-		}
-
-		$obj->module_srl = $args->module_srl;
-		$obj->sort_index = $args->order_target;
-		$obj->list_count = $args->list_count * $args->page_count;
-
-		// Get model object from the trackback module and execute getTrackbackList() method
-		$output = $oTrackbackModel->getNewestTrackbackList($obj);
-		// If an error occurs, just ignore it.
-		if(!$output->toBool() || !$output->data) return;
-		// If the result exists, make each document as an object
-		$content_items = array();
-		foreach($output->data as $key => $item)
-		{
-			$domain = $args->module_srls_info[$item->module_srl]->domain;
-			$category = $category_lists[$item->module_srl]->text;
-			$url = getUrl('', 'mid', $args->module_srls_info[$item->module_srl]->mid, 'document_srl', $item->document_srl);
-			$browser_title = $args->module_srls_info[$item->module_srl]->browser_title;
-
-			$content_item = new contentItem($browser_title);
-			$content_item->adds($item);
-			$content_item->setTitle($item->title);
-			$content_item->setCategory($category);
-			$content_item->setNickName($item->blog_name);
-			$content_item->setContent($item->excerpt);  ///<<
-			$content_item->setDomain($domain);  ///<<
-			$content_item->setLink($url);
-			$content_item->add('mid', $args->mid_lists[$item->module_srl]);
-			$content_item->setRegdate($item->regdate);
-			$content_items[] = $content_item;
-		}
-		return $content_items;
+		return [];
 	}
 
 	function _compile($args,$content_items)
@@ -754,7 +704,7 @@ class content extends WidgetHandler
 		$widget_info->show_browser_title = $args->show_browser_title;
 		$widget_info->show_category = $args->show_category;
 		$widget_info->show_comment_count = $args->show_comment_count;
-		$widget_info->show_trackback_count = $args->show_trackback_count;
+		$widget_info->show_trackback_count = 'N';
 		$widget_info->show_icon = $args->show_icon;
 
 		$widget_info->list_type = $args->list_type;

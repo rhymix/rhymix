@@ -75,17 +75,6 @@
                     <name xml:lang="tr">Ekli Görüntü</name>
                 </options>
                 <options>
-                    <value>trackback</value>
-                    <name xml:lang="ko">트랙백</name>
-                    <name xml:lang="en">Trackback</name>
-                    <name xml:lang="vi">Liên kết Web</name>
-                    <name xml:lang="ru">Trackback</name>
-                    <name xml:lang="zh-CN">引用</name>
-                    <name xml:lang="zh-TW">引用</name>
-                    <name xml:lang="jp">トラックバック</name>
-                    <name xml:lang="tr">Geri İzleme</name>
-                </options>
-                <options>
                     <value>rss</value>
                     <name xml:lang="ko">피드 (RSS/ATOM)</name>
                     <name xml:lang="en">Feed (RSS/ATOM)</name>
@@ -526,38 +515,6 @@
                     <name xml:lang="tr">Görüntüleme</name>
                 </options>
             </var>
-            <var id="show_trackback_count" type="select">
-                <name xml:lang="ko">엮인글수 표시</name>
-                <name xml:lang="en">Trackback</name>
-                <name xml:lang="vi">Liên kết Web</name>
-                <name xml:lang="ru">Trackback</name>
-                <name xml:lang="zh-CN">显示引用数</name>
-                <name xml:lang="zh-TW">引用數</name>
-                <name xml:lang="jp">トラックバック数の表示</name>
-                <name xml:lang="tr">Geri İzlenim</name>
-                <options>
-                    <value>Y</value>
-                    <name xml:lang="ko">출력</name>
-                    <name xml:lang="en">Display</name>
-                    <name xml:lang="vi">Hiển thị</name>
-                    <name xml:lang="ru">Display</name>
-                    <name xml:lang="zh-CN">显示</name>
-                    <name xml:lang="zh-TW">顯示</name>
-                    <name xml:lang="jp">表示</name>
-                    <name xml:lang="tr">Görüntüle</name>
-                </options>
-                <options>
-                    <value>N</value>
-                    <name xml:lang="ko">출력하지 않음</name>
-                    <name xml:lang="en">No Display</name>
-                    <name xml:lang="vi">Không hiển thị</name>
-                    <name xml:lang="ru">No Display</name>
-                    <name xml:lang="zh-CN">不显示</name>
-                    <name xml:lang="zh-TW">不顯示</name>
-                    <name xml:lang="jp">表示しない</name>
-                    <name xml:lang="tr">Görüntüleme</name>
-                </options>
-            </var>
             <var id="show_category" type="select">
                 <name xml:lang="ko">분류 표시</name>
                 <name xml:lang="en">Category</name>
@@ -635,7 +592,7 @@
                     <name xml:lang="zh-TW">不顯示</name>
                     <name xml:lang="jp">表示しない</name>
                     <name xml:lang="tr">Görüntüleme</name>
-                </options>				
+                </options>
                 <options>
                     <value>Y</value>
                     <name xml:lang="ko">출력</name>
