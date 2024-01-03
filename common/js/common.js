@@ -779,7 +779,7 @@ function doCallModuleAction(module, action, target_srl) {
 		cur_mid    : current_mid,
 		mid        : current_mid
 	};
-	exec_xml(module, action, params, completeCallModuleAction);
+	exec_xml(module + '.' + action, params, completeCallModuleAction);
 }
 
 function completeCallModuleAction(ret_obj, response_tags) {
@@ -905,7 +905,7 @@ function doDocumentSave(obj) {
 		editorRelKeys[editor_sequence].content.value = content;
 	}
 
-	var params={}, responses=['error','message','document_srl'], elms=obj.form.elements, data=jQuery(obj.form).serializeArray();
+	var params={}, data=jQuery(obj.form).serializeArray();
 	jQuery.each(data, function(i, field){
 		var val = jQuery.trim(field.value);
 		if(!val) return true;
@@ -914,7 +914,7 @@ function doDocumentSave(obj) {
 		else params[field.name] = field.value;
 	});
 
-	exec_xml('document','procDocumentTempSave', params, completeDocumentSave, responses, params, obj.form);
+	exec_json('document.procDocumentTempSave', params, completeDocumentSave);
 
 	editorRelKeys[editor_sequence].content.value = prev_content;
 	return false;
@@ -984,9 +984,9 @@ function doAddDocumentCart(obj) {
 
 function callAddDocumentCart(document_length) {
 	if(addedDocument.length<1 || document_length != addedDocument.length) return;
-	var params = [];
-	params.srls = addedDocument.join(",");
-	exec_xml("document","procDocumentAddCart", params, null);
+	exec_json('document.procDocumentAddCart', {
+		srls: addedDocument.join(',')
+	});
 	addedDocument = [];
 }
 
