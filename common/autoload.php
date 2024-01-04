@@ -21,7 +21,7 @@ if (PHP_VERSION_ID < 70205)
 /**
  * Set error reporting rules.
  */
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
+error_reporting(E_ALL);
 
 /**
  * Suppress date/time errors until the internal time zone is set (see below).
