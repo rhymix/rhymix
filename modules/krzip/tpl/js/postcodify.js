@@ -36,6 +36,10 @@
 		ui.detailAddress.addClass("postcodify_details");
 		ui.extraAddress.addClass("postcodify_extra_info");
 
+		ui.detailAddress.on('change', function() {
+			values.detailAddress.val(ui.detailAddress.val());
+		});
+
 		ui.search.postcodifyPopUp({
 			inputParent : $this,
 			useFullJibeon : false,
