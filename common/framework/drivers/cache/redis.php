@@ -203,7 +203,7 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	{
 		try
 		{
-			$value = (is_int($value) || ctype_digit((string)$value)) ? $value : serialize($value);
+			$value = (is_scalar($value) && ctype_digit((string)$value)) ? $value : serialize($value);
 			return $this->_conn->setex($key, $ttl, $value) ? true : false;
 		}
 		catch (\RedisException $e)
