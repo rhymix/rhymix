@@ -134,7 +134,10 @@ class EditorModel extends Editor
 		}
 		else
 		{
-			if(!$_SESSION['_editor_sequence_']) $_SESSION['_editor_sequence_'] = 1;
+			if(empty($_SESSION['_editor_sequence_']))
+			{
+				$_SESSION['_editor_sequence_'] = 1;
+			}
 			$option->editor_sequence = $_SESSION['_editor_sequence_']++;
 		}
 		Context::set('allow_fileupload', $option->allow_fileupload = toBool($option->allow_fileupload));

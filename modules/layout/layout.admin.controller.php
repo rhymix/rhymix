@@ -941,6 +941,7 @@ class LayoutAdminController extends Layout
 		$oModel = getModel('layout');
 		$layoutInfo = $oModel->getLayout($layoutSrl);
 
+		$newLayoutInfo = new stdClass;
 		if($layoutInfo->extra_var_count)
 		{
 			foreach($layoutInfo->extra_var as $varId => $val)

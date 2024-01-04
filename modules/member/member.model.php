@@ -141,7 +141,7 @@ class MemberModel extends Member
 		}
 		foreach($config->signupForm as $key => $value)
 		{
-			if($value->isDefaultForm && empty($value->isCustomTitle))
+			if(!empty($value->isDefaultForm) && empty($value->isCustomTitle))
 			{
 				$config->signupForm[$key]->title = lang($value->name);
 			}

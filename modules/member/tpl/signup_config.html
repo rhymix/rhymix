@@ -112,7 +112,7 @@
 					{@ $fixed_private_list = array('email_address', 'phone_number', 'password')}
 					<!--@foreach($config->signupForm as $item)-->
 					<!--@if(in_array($item->name, $disabled_list))-->
-					<!--@elseif($item->isDefaultForm)-->
+					<!--@elseif(isset($item->isDefaultForm) && $item->isDefaultForm)-->
 					<tr class="_imageType"|cond="$item->imageType">
 						<input type="hidden" name="list_order[]" value="{$item->name}" />
 						<input type="hidden" name="usable_list[]" value="{$item->name}" cond="$item->isIdentifier || $item->mustRequired"/>
