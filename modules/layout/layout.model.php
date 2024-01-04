@@ -15,14 +15,6 @@ class LayoutModel extends Layout
 	var $useUserLayoutTemp = null;
 
 	/**
-	 * Initialization
-	 * @return void
-	 */
-	function init()
-	{
-	}
-
-	/**
 	 * Get a layout list created in the DB
 	 * If you found a new list, it means that the layout list is inserted to the DB
 	 *
@@ -31,7 +23,7 @@ class LayoutModel extends Layout
 	 * @param array $columnList
 	 * @return array layout lists in site
 	 */
-	function getLayoutList($site_srl = 0, $layout_type="P", $columnList = array())
+	public static function getLayoutList($site_srl = 0, $layout_type="P", $columnList = array())
 	{
 		$args = new stdClass();
 		$args->layout_type = $layout_type;
@@ -39,17 +31,17 @@ class LayoutModel extends Layout
 
 		foreach($output->data as $no => &$val)
 		{
-			if(!$this->isExistsLayoutFile($val->layout, $layout_type))
+			if(!self::isExistsLayoutFile($val->layout, $layout_type))
 			{
 				unset($output->data[$no]);
 			}
 		}
 
-		$oLayoutAdminModel = getAdminModel('layout');
+		$oLayoutAdminModel = LayoutAdminModel::getInstance();
 		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type);
 		if($siteDefaultLayoutSrl)
 		{
-			$siteDefaultLayoutInfo = $this->getlayout($siteDefaultLayoutSrl);
+			$siteDefaultLayoutInfo = self::getLayout($siteDefaultLayoutSrl);
 			$siteDefaultLayoutInfo->layout_srl = -1;
 			$siteDefaultLayoutInfo->layout = $siteDefaultLayoutInfo->title;
 			$siteDefaultLayoutInfo->title = lang('use_site_default_layout');
@@ -122,7 +114,7 @@ class LayoutModel extends Layout
 	 * @param array $columnList
 	 * @return array layout lists in site
 	 */
-	function getLayoutInstanceList($siteSrl = 0, $layoutType = 'P', $layout = null, $columnList = array())
+	public static function getLayoutInstanceList($siteSrl = 0, $layoutType = 'P', $layout = null, $columnList = array())
 	{
 		if ($columnList && !isset($columnList['layout_type']))
 		{
@@ -149,7 +141,7 @@ class LayoutModel extends Layout
 					$iInfo->is_edited = false;
 				}
 
-				if($this->isExistsLayoutFile($iInfo->layout, $iInfo->layout_type) && $iInfo->layout_type === $layoutType)
+				if(self::isExistsLayoutFile($iInfo->layout, $iInfo->layout_type) && $iInfo->layout_type === $layoutType)
 				{
 					$instanceList[] = $iInfo->layout;
 				}
@@ -163,7 +155,7 @@ class LayoutModel extends Layout
 		// Create downloaded name list
 		$downloadedList = array();
 		$titleList = array();
-		$_downloadedList = $this->getDownloadedLayoutList($layoutType);
+		$_downloadedList = self::getDownloadedLayoutList($layoutType);
 		if(is_array($_downloadedList))
 		{
 			foreach($_downloadedList as $dLayoutInfo)
@@ -183,7 +175,7 @@ class LayoutModel extends Layout
 				$insertArgs->title = $titleList[$layout];
 				$insertArgs->layout_type = $layoutType;
 
-				$oLayoutAdminController = getAdminController('layout');
+				$oLayoutAdminController = LayoutAdminController::getInstance();
 				$oLayoutAdminController->insertLayout($insertArgs);
 				$isCreateInstance = TRUE;
 			}
@@ -200,7 +192,7 @@ class LayoutModel extends Layout
 				$insertArgs->title = $titleList[$layoutName];
 				$insertArgs->layout_type = $layoutType;
 
-				$oLayoutAdminController = getAdminController('layout');
+				$oLayoutAdminController = LayoutAdminController::getInstance();
 				$oLayoutAdminController->insertLayout($insertArgs);
 				$isCreateInstance = TRUE;
 			}
@@ -215,7 +207,7 @@ class LayoutModel extends Layout
 			{
 				foreach($output->data as $no => $iInfo)
 				{
-					if(!$this->isExistsLayoutFile($iInfo->layout, $layoutType))
+					if(!self::isExistsLayoutFile($iInfo->layout, $layoutType))
 					{
 						unset($output->data[$no]);
 					}
@@ -233,7 +225,7 @@ class LayoutModel extends Layout
 	 * @param string $layoutType P or M
 	 * @return bool
 	 */
-	function isExistsLayoutFile($layout, $layoutType)
+	public static function isExistsLayoutFile($layout, $layoutType)
 	{
 		//TODO If remove a support themes, remove this codes also.
 		if($layoutType == 'P')
@@ -267,7 +259,7 @@ class LayoutModel extends Layout
 	 * @param bool $use_cache
 	 * @return object info of layout
 	 */
-	function getLayout($layout_srl, $use_cache = true)
+	public static function getLayout($layout_srl, $use_cache = true)
 	{
 		// Get information from cache
 		$layout_info = Rhymix\Framework\Cache::get("layout:$layout_srl");
@@ -287,7 +279,7 @@ class LayoutModel extends Layout
 
 		// Return xml file informaton after listing up the layout and extra_vars
 		$layout = $output->data->layout;
-		$layout_info = $this->getLayoutInfo($layout, $output->data, $output->data->layout_type);
+		$layout_info = self::getLayoutInfo($layout, $output->data, $output->data->layout_type);
 		if (!$layout_info)
 		{
 			return;
@@ -309,7 +301,7 @@ class LayoutModel extends Layout
 		return $layout_info;
 	}
 
-	function getLayoutRawData($layout_srl, $columnList = array())
+	public static function getLayoutRawData($layout_srl, $columnList = array())
 	{
 		$args = new stdClass();
 		$args->layout_srl = $layout_srl;
@@ -328,7 +320,7 @@ class LayoutModel extends Layout
 	 * @param string $layout_type (P : PC, M : Mobile)
 	 * @return string path of layout
 	 */
-	function getLayoutPath($layout_name = "", $layout_type = "P")
+	public function getLayoutPath($layout_name = "", $layout_type = "P")
 	{
 		$layout_parse = explode('|@|', $layout_name ?? '');
 		if(count($layout_parse) > 1)
@@ -358,12 +350,15 @@ class LayoutModel extends Layout
 	 * @param boolean $withAutoinstallInfo
 	 * @return array info of layout
 	 */
-	function getDownloadedLayoutList($layout_type = "P", $withAutoinstallInfo = false)
+	public static function getDownloadedLayoutList($layout_type = "P", $withAutoinstallInfo = false)
 	{
-		if ($withAutoinstallInfo) $oAutoinstallModel = getModel('autoinstall');
+		if ($withAutoinstallInfo)
+		{
+			$oAutoinstallModel = AutoinstallModel::getInstance();
+		}
 
 		// Get a list of downloaded layout and installed layout
-		$searched_list = $this->_getInstalledLayoutDirectories($layout_type);
+		$searched_list = self::_getInstalledLayoutDirectories($layout_type);
 		$searched_count = count($searched_list);
 		if(!$searched_count) return;
 
@@ -375,7 +370,7 @@ class LayoutModel extends Layout
 			// Name of the layout
 			$layout = $searched_list[$i];
 			// Get information of the layout
-			$layout_info = $this->getLayoutInfo($layout, null, $layout_type);
+			$layout_info = self::getLayoutInfo($layout, null, $layout_type);
 
 			if(!$layout_info)
 			{
@@ -401,14 +396,14 @@ class LayoutModel extends Layout
 			$list[] = $layout_info;
 		}
 
-		usort($list, array($this, 'sortLayoutByTitle'));
+		usort($list, array(self::class, 'sortLayoutByTitle'));
 		return $list;
 	}
 
 	/**
 	 * Sort layout by title
 	 */
-	function sortLayoutByTitle($a, $b)
+	public static function sortLayoutByTitle($a, $b)
 	{
 		if(!$a->title)
 		{
@@ -436,9 +431,9 @@ class LayoutModel extends Layout
 	 * @param string $layoutType (P : PC, M : Mobile)
 	 * @return int
 	 */
-	function getInstalledLayoutCount($layoutType = 'P')
+	public static function getInstalledLayoutCount($layoutType = 'P')
 	{
-		$searchedList = $this->_getInstalledLayoutDirectories($layoutType);
+		$searchedList = self::_getInstalledLayoutDirectories($layoutType);
 		return  count($searchedList);
 	}
 
@@ -447,7 +442,7 @@ class LayoutModel extends Layout
 	 * @param string $layoutType (P : PC, M : Mobile)
 	 * @return array
 	 */
-	function _getInstalledLayoutDirectories($layoutType = 'P')
+	public static function _getInstalledLayoutDirectories($layoutType = 'P')
 	{
 		if($layoutType == 'M')
 		{
@@ -480,7 +475,7 @@ class LayoutModel extends Layout
 	 * @param string $layoutType (P : PC, M : Mobile)
 	 * @return object info of layout
 	 */
-	function getLayoutInfo($layout, $info = null, $layout_type = "P")
+	public static function getLayoutInfo($layout, $info = null, $layout_type = "P")
 	{
 		if($info)
 		{
@@ -506,7 +501,7 @@ class LayoutModel extends Layout
 		// Get a path of the requested module. Return if not exists.
 		if(!isset($layout_path))
 		{
-			$layout_path = $this->getLayoutPath($layout, $layout_type);
+			$layout_path = self::getInstance()->getLayoutPath($layout, $layout_type);
 		}
 		if(!is_dir($layout_path))
 		{
@@ -535,11 +530,11 @@ class LayoutModel extends Layout
 		// Include the cache file if it is valid and then return $layout_info variable
 		if(empty($layout_srl))
 		{
-			$cache_file = $this->getLayoutCache($layout, Context::getLangType(), $layout_type);
+			$cache_file = self::getLayoutCache($layout, Context::getLangType(), $layout_type);
 		}
 		else
 		{
-			$cache_file = $this->getUserLayoutCache($layout_srl, Context::getLangType());
+			$cache_file = self::getUserLayoutCache($layout_srl, Context::getLangType());
 		}
 
 		if(file_exists($cache_file) && filemtime($cache_file) > filemtime($xml_file))
@@ -781,8 +776,7 @@ class LayoutModel extends Layout
 		}
 
 		// header_script
-		$oModuleModel = getModel('module');
-		$layout_config = $oModuleModel->getModulePartConfig('layout', $layout_srl);
+		$layout_config = ModuleModel::getModulePartConfig('layout', $layout_srl);
 		$header_script = trim($layout_config->header_script ?? '');
 
 		if(!empty($header_script))
@@ -806,9 +800,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return array image list in layout
 	 */
-	function getUserLayoutImageList($layout_srl)
+	public static function getUserLayoutImageList($layout_srl)
 	{
-		return FileHandler::readDir($this->getUserLayoutImagePath($layout_srl));
+		return FileHandler::readDir(self::getUserLayoutImagePath($layout_srl));
 	}
 
 	/**
@@ -817,12 +811,12 @@ class LayoutModel extends Layout
 	 * @param string $layout_name
 	 * @return array
 	 */
-	function getUserLayoutIniConfig($layout_srl, $layout_name=null)
+	public function getUserLayoutIniConfig($layout_srl, $layout_name=null)
 	{
-		$file = $this->getUserLayoutIni($layout_srl);
+		$file = self::getUserLayoutIni($layout_srl);
 		if($layout_name && FileHandler::exists($file) === FALSE)
 		{
-			FileHandler::copyFile($this->getDefaultLayoutIni($layout_name),$this->getUserLayoutIni($layout_srl));
+			FileHandler::copyFile($this->getDefaultLayoutIni($layout_name), $this->getUserLayoutIni($layout_srl));
 		}
 
 		return FileHandler::readIniFile($file);
@@ -833,7 +827,7 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutPath($layout_srl)
+	public static function getUserLayoutPath($layout_srl)
 	{
 		return sprintf("./files/faceOff/%s", getNumberingPath($layout_srl,3));
 	}
@@ -843,9 +837,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutImagePath($layout_srl)
+	public static function getUserLayoutImagePath($layout_srl)
 	{
-		return $this->getUserLayoutPath($layout_srl). 'images/';
+		return self::getUserLayoutPath($layout_srl). 'images/';
 	}
 
 	/**
@@ -853,9 +847,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutCss($layout_srl)
+	public static function getUserLayoutCss($layout_srl)
 	{
-		return $this->getUserLayoutPath($layout_srl). 'layout.css';
+		return self::getUserLayoutPath($layout_srl). 'layout.css';
 	}
 
 	/**
@@ -863,7 +857,7 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutFaceOffCss($layout_srl)
+	public function getUserLayoutFaceOffCss($layout_srl)
 	{
 		if($this->useUserLayoutTemp == 'temp') return;
 		return $this->_getUserLayoutFaceOffCss($layout_srl);
@@ -874,9 +868,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function _getUserLayoutFaceOffCss($layout_srl)
+	public function _getUserLayoutFaceOffCss($layout_srl)
 	{
-		return $this->getUserLayoutPath($layout_srl). 'faceoff.css';
+		return self::getUserLayoutPath($layout_srl). 'faceoff.css';
 	}
 
 	/**
@@ -884,9 +878,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutTempFaceOffCss($layout_srl)
+	public static function getUserLayoutTempFaceOffCss($layout_srl)
 	{
-		return $this->getUserLayoutPath($layout_srl). 'tmp.faceoff.css';
+		return self::getUserLayoutPath($layout_srl). 'tmp.faceoff.css';
 	}
 
 	/**
@@ -894,9 +888,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutHtml($layout_srl)
+	public function getUserLayoutHtml($layout_srl)
 	{
-		$src = $this->getUserLayoutPath($layout_srl). 'layout.html';
+		$src = self::getUserLayoutPath($layout_srl). 'layout.html';
 		if($this->useUserLayoutTemp == 'temp')
 		{
 			$temp = $this->getUserLayoutTempHtml($layout_srl);
@@ -912,9 +906,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutTempHtml($layout_srl)
+	public static function getUserLayoutTempHtml($layout_srl)
 	{
-		return $this->getUserLayoutPath($layout_srl). 'tmp.layout.html';
+		return self::getUserLayoutPath($layout_srl). 'tmp.layout.html';
 	}
 
 	/**
@@ -922,12 +916,12 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutIni($layout_srl)
+	public function getUserLayoutIni($layout_srl)
 	{
-		$src = $this->getUserLayoutPath($layout_srl). 'layout.ini';
+		$src = self::getUserLayoutPath($layout_srl). 'layout.ini';
 		if($this->useUserLayoutTemp == 'temp')
 		{
-			$temp = $this->getUserLayoutTempIni($layout_srl);
+			$temp = self::getUserLayoutTempIni($layout_srl);
 			if(!file_exists(FileHandler::getRealPath($temp))) FileHandler::copyFile($src,$temp);
 			return $temp;
 		}
@@ -940,9 +934,9 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return string
 	 */
-	function getUserLayoutTempIni($layout_srl)
+	public static function getUserLayoutTempIni($layout_srl)
 	{
-		return $this->getUserLayoutPath($layout_srl). 'tmp.layout.ini';
+		return self::getUserLayoutPath($layout_srl). 'tmp.layout.ini';
 	}
 
 	/**
@@ -952,9 +946,9 @@ class LayoutModel extends Layout
 	 * @param string $lang_type
 	 * @return string
 	 */
-	function getUserLayoutCache($layout_srl,$lang_type)
+	public static function getUserLayoutCache($layout_srl,$lang_type)
 	{
-		return $this->getUserLayoutPath($layout_srl). "{$lang_type}.cache.php";
+		return self::getUserLayoutPath($layout_srl). "{$lang_type}.cache.php";
 	}
 
 	/**
@@ -963,7 +957,7 @@ class LayoutModel extends Layout
 	 * @param string $lang_type
 	 * @return string
 	 */
-	function getLayoutCache($layout_name,$lang_type,$layout_type='P')
+	public static function getLayoutCache($layout_name,$lang_type,$layout_type='P')
 	{
 		if($layout_type=='P')
 		{
@@ -980,7 +974,7 @@ class LayoutModel extends Layout
 	 * @param string $layout_name
 	 * @return string
 	 */
-	function getDefaultLayoutIni($layout_name)
+	public function getDefaultLayoutIni($layout_name)
 	{
 		return $this->getDefaultLayoutPath($layout_name). 'layout.ini';
 	}
@@ -990,7 +984,7 @@ class LayoutModel extends Layout
 	 * @param string $layout_name
 	 * @return string
 	 */
-	function getDefaultLayoutHtml($layout_name)
+	public function getDefaultLayoutHtml($layout_name)
 	{
 		return $this->getDefaultLayoutPath($layout_name). 'layout.html';
 	}
@@ -1000,7 +994,7 @@ class LayoutModel extends Layout
 	 * @param string $layout_name
 	 * @return string
 	 */
-	function getDefaultLayoutCss($layout_name)
+	public function getDefaultLayoutCss($layout_name)
 	{
 		return $this->getDefaultLayoutPath($layout_name). 'css/layout.css';
 	}
@@ -1010,7 +1004,7 @@ class LayoutModel extends Layout
 	 * @deprecated
 	 * @return string
 	 */
-	function getDefaultLayoutPath()
+	public function getDefaultLayoutPath()
 	{
 		return "./modules/layout/faceoff/";
 	}
@@ -1020,7 +1014,7 @@ class LayoutModel extends Layout
 	 * @param string $layout_name
 	 * @return boolean (true : faceoff, false : layout)
 	 */
-	function useDefaultLayout($layout_name)
+	public function useDefaultLayout($layout_name)
 	{
 		$info = $this->getLayoutInfo($layout_name);
 		return ($info->type == 'faceoff');
@@ -1031,7 +1025,7 @@ class LayoutModel extends Layout
 	 * @param string $flag (default 'temp')
 	 * @return void
 	 */
-	function setUseUserLayoutTemp($flag='temp')
+	public function setUseUserLayoutTemp($flag='temp')
 	{
 		$this->useUserLayoutTemp = $flag;
 	}
@@ -1041,7 +1035,7 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return array temp files info
 	 */
-	function getUserLayoutTempFileList($layout_srl)
+	public function getUserLayoutTempFileList($layout_srl)
 	{
 		return array(
 				$this->getUserLayoutTempHtml($layout_srl),
@@ -1055,7 +1049,7 @@ class LayoutModel extends Layout
 	 * @param int $layout_srl
 	 * @return array files info
 	 */
-	function getUserLayoutFileList($layout_srl)
+	public function getUserLayoutFileList($layout_srl)
 	{
 		$file_list = array(
 			basename($this->getUserLayoutHtml($layout_srl)),
@@ -1080,7 +1074,7 @@ class LayoutModel extends Layout
 	 * @param object $layout_info
 	 * @return void
 	 */
-	function doActivateFaceOff(&$layout_info)
+	public function doActivateFaceOff(&$layout_info)
 	{
 		$layout_info->faceoff_ini_config = $this->getUserLayoutIniConfig($layout_info->layout_srl, $layout_info->layout);
 		// faceoff layout CSS
