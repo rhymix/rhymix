@@ -1052,7 +1052,7 @@ class NcenterliteController extends Ncenterlite
 		{
 			return;
 		}
-		if(isset(self::$_skip_acts[Context::get('act')]))
+		if(isset(self::$_skip_acts[strval(Context::get('act'))]))
 		{
 			return;
 		}
