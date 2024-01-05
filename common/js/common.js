@@ -779,7 +779,7 @@ function doCallModuleAction(module, action, target_srl) {
 		cur_mid    : current_mid,
 		mid        : current_mid
 	};
-	exec_xml(module + '.' + action, params, completeCallModuleAction);
+	exec_json(module + '.' + action, params, completeCallModuleAction);
 }
 
 function completeCallModuleAction(ret_obj, response_tags) {
