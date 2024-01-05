@@ -82,7 +82,7 @@ function _editorAutoSave(exe, callback) {
 		editorAutoSaveObj.content = content;
 
 		// 메시지 만들어서 보여줌
-		jQuery("#editor_autosaved_message_"+editor_sequence).text(oDate.getHours()+':'+oDate.getMinutes()+' '+auto_saved_msg).show(300);
+		jQuery("#editor_autosaved_message_"+editor_sequence).text(oDate.toTimeString().substring(0, 5) + ' ' + auto_saved_msg).show(300);
 
 		// 현재 자동저장중임을 설정
 		editorAutoSaveObj.locked = true;
