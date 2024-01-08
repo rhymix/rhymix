@@ -165,7 +165,14 @@ class MemberView extends Member
 		if($logged_info->is_admin != 'Y' && ($member_info->member_srl != $logged_info->member_srl))
 		{
 			list($email_id, $email_host) = explode('@', $member_info->email_address);
-			$protect_id = substr($email_id, 0, 2) . str_repeat('*', strlen($email_id)-2);
+			if (strlen($email_id) <= 3)
+			{
+				$protect_id = '***';
+			}
+			else
+			{
+				$protect_id = substr($email_id, 0, 2) . str_repeat('*', strlen($email_id) - 2);
+			}
 			$member_info->email_address = sprintf('%s@%s', $protect_id, $email_host);
 		}
 
