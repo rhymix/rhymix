@@ -108,7 +108,7 @@ class PageHandler extends Handler implements Iterator
 	public function valid(): bool
 	{
 		$page = $this->first_page + $this->point;
-		return $this->point <= $this->page_count && $page <= $this->last_page;
+		return $this->point < $this->page_count && $page <= $this->last_page;
 	}
 
 	/**
