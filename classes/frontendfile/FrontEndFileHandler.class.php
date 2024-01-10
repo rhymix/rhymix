@@ -209,7 +209,7 @@ class FrontEndFileHandler extends Handler
 		$file->isExternalURL = preg_match('@^(https?:)?//@i', $file->filePath) ? true : false;
 		if ($file->isExternalURL && !$file->fileExtension)
 		{
-			$file->fileExtension = preg_match('/[\.\/](css|js)\b/', $fileName, $matches) ? $matches[1] : null;
+			$file->fileExtension = preg_match('/[\.\/](css|js)[0-9]?\b/', $fileName, $matches) ? $matches[1] : null;
 		}
 		$file->isCachedScript = !$file->isExternalURL && strpos($file->filePath, 'files/cache/') !== false;
 		$file->isCommon = $isCommon;

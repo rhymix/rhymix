@@ -118,6 +118,16 @@ class TemplateParserV1Test extends \Codeception\Test\Unit
                 '<dummy /><load target="css/style.css" /><dummy />',
                 '?><dummy /><!--#Meta:tests/_data/template/css/style.css--><?php Context::loadFile([\'tests/_data/template/css/style.css\', \'\', \'\', \'\', []]); ?><dummy />'
             ),
+            // <load target="https://fonts.googleapis.com/css?family=Montserrat&display=swap">
+            array(
+                '<dummy /><load target="https://fonts.googleapis.com/css?family=Montserrat&display=swap" /><dummy />',
+                '?><dummy /><!--#Meta:https://fonts.googleapis.com/css?family=Montserrat&display=swap--><?php Context::loadFile([\'https://fonts.googleapis.com/css?family=Montserrat&display=swap\', \'\', \'tests\', \'\', []]); ?><dummy />'
+            ),
+            // <load target="//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap">
+            array(
+                '<dummy /><load target="//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" /><dummy />',
+                '?><dummy /><!--#Meta://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap--><?php Context::loadFile([\'//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap\', \'\', \'tests\', \'\', []]); ?><dummy />'
+            ),
             // <unload target="style.css">
             array(
                 '<dummy /><unload target="css/style.css" /><dummy />',

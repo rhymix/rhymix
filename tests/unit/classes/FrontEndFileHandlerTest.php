@@ -161,6 +161,17 @@ class FrontEndFileHandlerTest extends \Codeception\Test\Unit
 		$this->assertEquals($expected, $handler->getCssFileList());
 	}
 
+	public function testExternalFile5()
+	{
+		$handler = new FrontEndFileHandler();
+		$handler->loadFile(array('https://fonts.googleapis.com/css?family=Montserrat&display=swap'));
+		$handler->loadFile(array('//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap'));
+
+		$expected[] = array('file' => 'https://fonts.googleapis.com/css?family=Montserrat&display=swap', 'media'=>'all');
+		$expected[] = array('file' => '//fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap', 'media'=>'all');
+		$this->assertEquals($expected, $handler->getCssFileList());
+	}
+
 	public function testPathConversion()
 	{
 		$handler = new FrontEndFileHandler();

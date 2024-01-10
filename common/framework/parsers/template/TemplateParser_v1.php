@@ -628,7 +628,14 @@ class TemplateParser_v1
 					$doUnload = ($m[3] === 'unload');
 					$isRemote = !!preg_match('@^(https?:)?//@i', $attr['target']);
 
-					if(!$isRemote)
+					if($isRemote)
+					{
+						if (empty($pathinfo['extension']))
+						{
+							$pathinfo['extension'] = preg_match('/[\.\/](css|js)[0-9]?\b/', $attr['target'], $mx) ? $mx[1] : null;
+						}
+					}
+					else
 					{
 						if (preg_match('!^\\^/(.+)!', $attr['target'], $tmatches))
 						{
