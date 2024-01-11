@@ -6,6 +6,9 @@
  * @version 0.1
  * @brief Model class for widget modules
  */
+
+use Rhymix\Framework\Cache;
+
 class WidgetModel extends Widget
 {
 	/**
@@ -125,146 +128,46 @@ class WidgetModel extends Widget
 		// Get a path of the requested module. Return if not exists.
 		$widget_path = $this->getWidgetPath($widget);
 		if(!$widget_path) return;
-		// Read the xml file for module skin information
-		$xml_file = sprintf("%sconf/info.xml", $widget_path);
-		if(!file_exists($xml_file)) return;
-		// If the problem by comparing the cache file and include the return variable $widget_info
-		$cache_file = sprintf(RX_BASEDIR . 'files/cache/widget/%s.%s.cache.php', $widget, Context::getLangType());
 
-		if(file_exists($cache_file)&&filemtime($cache_file)>filemtime($xml_file))
-		{
-			@include($cache_file);
-			return $widget_info;
-		}
-		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XeXmlParser();
-		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-		$xml_obj = $tmp_xml_obj->widget;
-		if(!$xml_obj) return;
+		$widget_info = self::getWidgetXmlInfo($widget);
+		$widget_info->path = $widget_path;
+		$widget_info->extra_var_count = count((array) $widget_info->extra_vars) ?? 0;
 
-		$buff = '$widget_info = new stdClass;';
-
-		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
-		{
-			// Title of the widget, version
-			$buff .= sprintf('$widget_info->widget = %s;', var_export($widget, true));
-			$buff .= sprintf('$widget_info->path = %s;', var_export($widget_path, true));
-			$buff .= sprintf('$widget_info->title = %s;', var_export($xml_obj->title->body, true));
-			$buff .= sprintf('$widget_info->description = %s;', var_export($xml_obj->description->body, true));
-			$buff .= sprintf('$widget_info->version = %s;', var_export($xml_obj->version->body, true));
-			if($xml_obj->date->body === 'RX_CORE')
-			{
-				$date = '';
-			}
-			else
-			{
-				$date_obj = new stdClass;
-				sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-				$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			}
-			$buff .= sprintf('$widget_info->date = %s;', var_export($date, true));
-			$buff .= sprintf('$widget_info->homepage = %s;', var_export($xml_obj->link->body, true));
-			$buff .= sprintf('$widget_info->license = %s;', var_export($xml_obj->license->body, true));
-			$buff .= sprintf('$widget_info->license_link = %s;', var_export($xml_obj->license->attrs->link, true));
-			$buff .= sprintf('$widget_info->widget_srl = $widget_srl;');
-			$buff .= sprintf('$widget_info->widget_title = $widget_title;');
-			// Author information
-			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
-			else $author_list = $xml_obj->author;
-
-			for($i=0; $i < count($author_list); $i++)
-			{
-				$buff .= '$widget_info->author['.$i.'] = new stdClass;';
-				$buff .= sprintf('$widget_info->author['.$i.']->name = %s;', var_export($author_list[$i]->name->body, true));
-				$buff .= sprintf('$widget_info->author['.$i.']->email_address = %s;', var_export($author_list[$i]->attrs->email_address, true));
-				$buff .= sprintf('$widget_info->author['.$i.']->homepage = %s;', var_export($author_list[$i]->attrs->link, true));
-			}
-		}
-		else
-		{
-			// Title of the widget, version
-			$buff .= sprintf('$widget_info->widget = %s;', var_export($widget, true));
-			$buff .= sprintf('$widget_info->path = %s;', var_export($widget_path, true));
-			$buff .= sprintf('$widget_info->title = %s;', var_export($xml_obj->title->body, true));
-			$buff .= sprintf('$widget_info->description = %s;', var_export($xml_obj->author->description->body, true));
-			$buff .= sprintf('$widget_info->version = %s;', var_export($xml_obj->attrs->version, true));
-			$date_obj = new stdClass;
-			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$buff .= sprintf('$widget_info->date = %s;', var_export($date, true));
-			$buff .= sprintf('$widget_info->widget_srl = $widget_srl;');
-			$buff .= sprintf('$widget_info->widget_title = $widget_title;');
-			// Author information
-			$buff .= '$widget_info->author[0] = new stdClass;';
-			$buff .= sprintf('$widget_info->author[0]->name = %s;', var_export($xml_obj->author->name->body, true));
-			$buff .= sprintf('$widget_info->author[0]->email_address = %s;', var_export($xml_obj->author->attrs->email_address, true));
-			$buff .= sprintf('$widget_info->author[0]->homepage = %s;', var_export($xml_obj->author->attrs->link, true));
-		}
-		// Extra vars (user defined variables to use in a template)
-		$extra_var_groups = $xml_obj->extra_vars->group;
-		if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
-		if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
-		foreach($extra_var_groups as $group)
-		{
-			$extra_vars = $group->var;
-			if(!is_array($group->var)) $extra_vars = array($group->var);
-
-			if($extra_vars[0]->attrs->id || $extra_vars[0]->attrs->name)
-			{
-				$extra_var_count = count($extra_vars);
-
-				$buff .= sprintf('$widget_info->extra_var_count = %d;', $extra_var_count);
-				$buff .= '$widget_info->extra_var = $widget_info->extra_var ?? new stdClass;';
-				for($i=0;$i<$extra_var_count;$i++)
-				{
-					unset($var);
-					unset($options);
-					$var = $extra_vars[$i];
-
-					$id = $var->attrs->id?$var->attrs->id:$var->attrs->name;
-					$name = $var->name->body?$var->name->body:$var->title->body;
-					$type = $var->attrs->type?$var->attrs->type:$var->type->body;
-					$buff .= sprintf('$widget_info->extra_var->%s = new stdClass;', $id);
-					if($type =='filebox')
-					{
-						$buff .= sprintf('$widget_info->extra_var->%s->filter = %s;', $id, var_export($var->type->attrs->filter, true));
-						$buff .= sprintf('$widget_info->extra_var->%s->allow_multiple = %s;', $id, var_export($var->type->attrs->allow_multiple, true));
-					}
-
-					$buff .= sprintf('$widget_info->extra_var->%s->group = %s;', $id, var_export($group->title->body, true));
-					$buff .= sprintf('$widget_info->extra_var->%s->name = %s;', $id, var_export($name, true));
-					$buff .= sprintf('$widget_info->extra_var->%s->type = %s;', $id, var_export($type, true));
-					$buff .= sprintf('$widget_info->extra_var->%s->value = $vars->%s;', $id, $id);
-					$buff .= sprintf('$widget_info->extra_var->%s->description = %s;', $id, var_export($var->description->body, true));
-
-					$options = $var->options;
-					if(!$options) continue;
-
-					if(!is_array($options)) $options = array($options);
-					$options_count = count($options);
-					for($j=0;$j<$options_count;$j++)
-					{
-						$buff .= sprintf('$widget_info->extra_var->%s->options[%s] = %s;', $id, var_export($options[$j]->value->body, true), var_export($options[$j]->name->body, true));
-
-						if($options[$j]->attrs->default && $options[$j]->attrs->default=='true')
-						{
-							$buff .= sprintf('$widget_info->extra_var->%s->default_options[%s] = true;', $id, var_export($options[$j]->value->body, true));
-						}
-
-						if($options[$j]->attrs->init && $options[$j]->attrs->init=='true')
-						{
-							$buff .= sprintf('$widget_info->extra_var->%s->init_options[%s] = true;', $id, var_export($options[$j]->value->body, true));
-						}
-					}
-				}
-			}
-		}
-
-		$buff = '<?php if(!defined("__XE__")) exit(); '.$buff.' ?>';
-		FileHandler::writeFile($cache_file, $buff);
-
-		if(file_exists($cache_file)) @include($cache_file);
 		return $widget_info;
+	}
+
+	/**
+	 * @brief Read xml information of the component
+	 */
+	public static function getWidgetXmlInfo(string $widget): ?\stdClass
+	{
+		// Get xml file path of the requested components
+		$widget = preg_replace('/[^a-zA-Z0-9-_]/', '', $widget);
+		$widget_path = sprintf('%s/widgets/%s/conf/', \RX_BASEDIR, $widget);
+
+		$xml_file = sprintf('%sinfo.xml', $widget_path);
+		$xml_mtime = max(
+			filemtime($xml_file),
+			filemtime(\RX_BASEDIR . 'common/framework/parsers/BaseParser.php'),
+			filemtime(\RX_BASEDIR . 'common/framework/parsers/WidgetParser.php'),
+		);
+		$lang_type = Context::getLangType();
+
+		// Get from cache
+		$cache_key = sprintf('widget:%s:%s:%d', $widget, $lang_type, $xml_mtime);
+		$info = Cache::get($cache_key);
+		if (!empty($info))
+		{
+			return $info;
+		}
+
+		// Parse XML file
+		$info = Rhymix\Framework\Parsers\WidgetParser::loadXML($xml_file, $widget, $lang_type);
+
+		// Sor to cache and return
+		Cache::set($cache_key, $info, 0, true);
+
+		return $info;
 	}
 
 	/**
