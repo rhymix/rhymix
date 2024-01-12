@@ -14,7 +14,7 @@ class WidgetParser extends BaseParser
 	 */
 	protected static $extra_vars_allowed_types = [
 		'checkbox',
-		'color',
+		'color', 'colorpicker',
 		'filebox',
 		'member_group',
 		'menu',
@@ -46,6 +46,7 @@ class WidgetParser extends BaseParser
 
 		$info = new \stdClass;
 		$info->widget = $widget_name;
+		$info->widget_name = $widget_name;
 
 		// Get basic information.
 		$info->title = self::_getChildrenByLang($xml, 'title', $lang);
@@ -70,6 +71,8 @@ class WidgetParser extends BaseParser
 		if ($xml->extra_vars)
 		{
 			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang, self::$extra_vars_allowed_types);
+			// fallback
+			$info->extra_var = &$info->extra_vars;
 		}
 
 		// Return the complete result.
