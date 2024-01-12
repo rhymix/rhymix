@@ -149,7 +149,7 @@ class WidgetModel extends Widget
 		$xml_mtime = max(
 			filemtime($xml_file),
 			filemtime(\RX_BASEDIR . 'common/framework/parsers/BaseParser.php'),
-			filemtime(\RX_BASEDIR . 'common/framework/parsers/WidgetParser.php'),
+			filemtime(\RX_BASEDIR . 'common/framework/parsers/WidgetParser.php')
 		);
 		$lang_type = Context::getLangType();
 
