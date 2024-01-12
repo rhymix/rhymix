@@ -247,6 +247,13 @@ abstract class BaseParser
 						$option_item->value = trim($option_item->attrs->value);
 					}
 
+					// type: filebox
+					if ($item->type === 'filebox')
+					{
+						// unused. deprecated
+						$item->allow_multiple = tobool($option_item->attrs->allow_multiple ?? '');
+					}
+
 					// type: number
 					if ($item->type === 'number')
 					{
