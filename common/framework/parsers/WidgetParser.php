@@ -12,19 +12,19 @@ class WidgetParser extends BaseParser
 	 *
 	 * @var array<string>
 	 */
-	protected $allowedExtraVarTypes = [
+	protected static $extra_vars_allowed_types = [
 		'checkbox',
 		'color',
 		'filebox',
 		'member_group',
 		'menu',
-		'mid',
 		'mid_list',
+		'mid',
 		'module_srl_list',
 		'number',
 		'radio',
-		'select',
 		'select-multi-order',
+		'select',
 		'text',
 		'textarea',
 	];
@@ -69,7 +69,7 @@ class WidgetParser extends BaseParser
 		// Get extra_vars.
 		if ($xml->extra_vars)
 		{
-			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang);
+			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang, self::$extra_vars_allowed_types);
 		}
 
 		// Return the complete result.

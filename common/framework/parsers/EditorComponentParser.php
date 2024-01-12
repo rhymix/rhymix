@@ -8,6 +8,17 @@ namespace Rhymix\Framework\Parsers;
 class EditorComponentParser extends BaseParser
 {
 	/**
+	 * Allowed types
+	 *
+	 * @var array<string>
+	 */
+	protected static $extra_vars_allowed_types = [
+		'select',
+		'text',
+		'textarea',
+	];
+
+	/**
 	 * Load an XML file.
 	 *
 	 * @param string $filename
@@ -53,7 +64,7 @@ class EditorComponentParser extends BaseParser
 		// Get extra_vars.
 		if ($xml->extra_vars)
 		{
-			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang);
+			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang, self::$extra_vars_allowed_types);
 		}
 
 		// Return the complete result.

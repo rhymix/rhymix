@@ -14,7 +14,7 @@ abstract class BaseParser
 	 *
 	 * @var array<string>
 	 */
-	protected static $extra_vars_allowed_types = [
+	protected static $extra_vars_supported_types = [
 		'checkbox',
 		'color',
 		'colorpicker',
@@ -139,8 +139,10 @@ abstract class BaseParser
 	 */
 	protected static function _getExtraVars(SimpleXMLElement $extra_vars, string $lang, array $allowed_types = null): object
 	{
-		if (empty($allowed_types)) {
-			$allowed_types = self::$extra_vars_allowed_types;
+		if (!empty($allowed_types)) {
+			$allowed_types = array_intersect($allowed_types, self::$extra_vars_supported_types);
+		} else {
+			$allowed_types = self::$extra_vars_supported_types;
 		}
 
 		/** @var object $result */
@@ -148,7 +150,7 @@ abstract class BaseParser
 
 		foreach ($extra_vars->group ?: [] as $group)
 		{
-			$group_result = self::_getExtraVars($group, $lang);
+			$group_result = self::_getExtraVars($group, $lang, $allowed_types);
 			foreach ($group_result as $key => $val)
 			{
 				$result->{$key} = $val;
