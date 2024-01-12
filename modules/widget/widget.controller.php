@@ -785,9 +785,9 @@ class WidgetController extends Widget
 		$vars->widget_padding_bottom = trim($request_vars->widget_padding_bottom);
 		$vars->document_srl= trim($request_vars->document_srl);
 
-		if(countobj($widget_info->extra_var))
+		if(countobj($widget_info->extra_vars))
 		{
-			foreach($widget_info->extra_var as $key=>$val)
+			foreach($widget_info->extra_vars as $key=>$val)
 			{
 				$vars->{$key} = trim($request_vars->{$key});
 			}
@@ -796,9 +796,9 @@ class WidgetController extends Widget
 		if($request_vars->widgetstyle)
 		{
 			$widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
-			if(countobj($widgetStyle_info->extra_var))
+			if(countobj($widgetStyle_info->extra_vars))
 			{
-				foreach($widgetStyle_info->extra_var as $key=>$val)
+				foreach($widgetStyle_info->extra_vars as $key=>$val)
 				{
 					if($val->type =='color' || $val->type =='text' || $val->type =='select' || $val->type =='filebox' || $val->type == 'textarea')
 					{
