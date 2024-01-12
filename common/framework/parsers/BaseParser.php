@@ -192,7 +192,7 @@ abstract class BaseParser
 			$item->type = in_array($item->type, $allowed_types) ? $item->type : 'text';
 
 			// title (title -> name)
-			$item->title = self::_getChildrenByLang($var, ($var->title == 'title' ?: 'name'), $lang);
+			$item->title = self::_getChildrenByLang($var, (isset($var->title) ?'title' : 'name'), $lang);
 
 			// description
 			$item->description = str_replace('\\n', "\n", self::_getChildrenByLang($var, 'description', $lang));
@@ -231,10 +231,14 @@ abstract class BaseParser
 					$option_item->attrs = (object) self::_getAttributes($option);
 
 					// options/title (title -> name)
-					$option_item->title = self::_getChildrenByLang($option, ($option->title == 'title' ?: 'name'), $lang);
+					$option_item->title = self::_getChildrenByLang($option, (isset($option->title) ? 'title' : 'name'), $lang);
 
 					// options/value
-					$option_item->value = trim($option->value);
+					$option_item->value = trim($option->value ?? '');
+					if(!$option_item->value)
+					{
+						$option_item->value = trim($option_item->attrs->value);
+					}
 
 					if ($item->type === 'select-multi-order')
 					{
