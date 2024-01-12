@@ -235,11 +235,20 @@ abstract class BaseParser
 
 					// options/value
 					$option_item->value = trim($option->value ?? '');
-					if(!$option_item->value)
+					if (!$option_item->value)
 					{
 						$option_item->value = trim($option_item->attrs->value);
 					}
 
+					// type: number
+					if ($item->type === 'number')
+					{
+						$item->min = $option_item->attrs->min ?? null;
+						$item->max = $option_item->attrs->max ?? null;
+						$item->step = $option_item->attrs->step ?? null;
+					}
+
+					// type: select-multi-order
 					if ($item->type === 'select-multi-order')
 					{
 						$item->init_options = $item->init_options ?: array();

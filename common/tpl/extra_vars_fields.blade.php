@@ -22,10 +22,10 @@
 				<div class="x_controls">
 					@if ($var->type == 'checkbox')
 						{{-- checkbox --}}
-						@foreach($var->options as $key => $val)
-						<label>
-							<input type="checkbox" name="{{ $id }}" id="{{ $id }}_{{ $key }}" value="{{ $key }}" @checked(in_array($key, $var->default))> {{ $val->title }}
-						</label>
+						@foreach ($var->options as $key => $val)
+							<label>
+								<input type="checkbox" name="{{ $id }}" id="{{ $id }}_{{ $key }}" value="{{ $key }}" @checked(in_array($key, $var->default))> {{ $val->title }}
+							</label>
 						@endforeach
 					@elseif ($var->type == 'color' || $var->type == 'colorpicker')
 						{{-- color --}}

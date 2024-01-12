@@ -1,35 +1,36 @@
 @if ($in_admin)
-    @include('header.html')
+	@include('header.html')
 @endif
 
 @load('js/generate_code.js')
 
 <div class="x_alert x_alert-info" id="widgetInfo" hidden>
-    <p>{{ $widget_info->description }}</p>
+	<p>{{ $widget_info->description }}</p>
 </div>
 <div class="x_alert x_alert-info" id="codeHelp" hidden>
-    <p>{{ $lang->about_widget_code }}</p>
+	<p>{{ $lang->about_widget_code }}</p>
 </div>
 
 <form id="widget_code_form" class="x_form-horizontal" action="./" method="post">
-    <input type="hidden" name="module" value="widget" />
-    <input type="hidden" name="act" value="procWidgetGenerateCode" />
-    <input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
+	<input type="hidden" name="module" value="widget" />
+	<input type="hidden" name="act" value="procWidgetGenerateCode" />
+	<input type="hidden" name="selected_widget" value="{$widget_info->widget}" />
 
-    @include('widget_generate_code.include')
+	@include('widget_generate_code.include')
 
-    <div class="x_clearfix btnArea">
-        <a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" class="x_btn x_pull-left">{{ $lang->cmd_list }}</a>
-        <input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_generate_code}" />
-    </div>
+	<div class="x_clearfix btnArea">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispWidgetAdminDownloadedList')}" class="x_btn x_pull-left">{{ $lang->cmd_list }}</a>
+		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_generate_code}" />
+	</div>
 </form>
 
 <div class="x_well">
-    <h3>@lang('widget_code')</h3>
-    <p style="margin-right:14px">
-        <textarea id="widget_code" rows="4" cols="42" style="width:100%;cursor:text;font-family:'Courier New', Courier, monospace" readonly="readonly"></textarea>
+	<h3>@lang('widget_code')</h3>
+	<p style="margin-right:14px">
+		<textarea id="widget_code" rows="4" cols="42" style="width:100%;cursor:text;font-family:'Courier New', Courier, monospace" readonly="readonly"></textarea>
+	</p>
 </div>
 
 @if ($in_admin)
-    @include('../../module/tpl/include.filebox.blade.php')
+	@include('../../module/tpl/include.filebox.blade.php')
 @endif
