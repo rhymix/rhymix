@@ -6,10 +6,10 @@
 	$group_descriptions = array_unique($group_descriptions) ?: [''];
 @endphp
 
-@foreach ($groups as $key => $group)
+@foreach ($groups as $group_idx => $group)
 	<section class="extra_vars section">
 		<h1>{{ $group }}</h1>
-		<p>{!! $group_descriptions[$key] !!}</p>
+		<p>{!! $group_descriptions[$group_idx] !!}</p>
 
 		@foreach ($extra_vars as $id => $var)
 			@if ($group !== $var->group)
@@ -64,8 +64,11 @@
 						@foreach ($mid_list as $module_category_srl => $modules)
 							<fieldset>
 								@if (count($mid_list) > 1)
-									<legend cond="$modules->title">{{ $modules->title }}</legend>
-									<legend cond="!$modules->title">@lang('none_category')</legend>
+									@if ($modules->title)
+										<legend>{{ $modules->title }}</legend>
+									@else
+										<legend>@lang('none_category')</legend>
+									@endif
 								@endif
 								@foreach ($modules->list as $key => $val)
 									<div>
