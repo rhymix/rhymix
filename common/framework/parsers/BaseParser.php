@@ -191,6 +191,11 @@ abstract class BaseParser
 			{
 				$item->type = trim($item->attrs->type ?: $var['type']);
 			}
+			else
+			{
+				$item->type = trim($var->type ?? '') ?: $var['type'];
+			}
+
 			$item->type = in_array($item->type, $allowed_types) ? $item->type : 'text';
 
 			// title (title -> name)
