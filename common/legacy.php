@@ -784,11 +784,16 @@ function getEncodeEmailAddress($email): string
 /**
  * Add an entry to the debug log.
  *
- * @param mixed $entry Target object to be printed
+ * @param mixed ...$entry Target object to be printed
  * @return void
  */
-function debugPrint($entry = null): void
+function debugPrint(...$entry): void
 {
+	if (func_num_args() === 1)
+	{
+		$entry = $entry[0];
+	}
+
 	Rhymix\Framework\Debug::addEntry($entry);
 }
 
