@@ -789,12 +789,16 @@ function getEncodeEmailAddress($email): string
  */
 function debugPrint(...$entry): void
 {
-	if (count($entry) <= 1)
+	if (count($entry) === 1)
 	{
-		$entry = $entry[0] ?? null;
+		Rhymix\Framework\Debug::addEntry($entry[0]);
+		return;
 	}
 
-	Rhymix\Framework\Debug::addEntry($entry);
+	foreach ($entry as $v)
+	{
+		Rhymix\Framework\Debug::addEntry($v);
+	}
 }
 
 /**
