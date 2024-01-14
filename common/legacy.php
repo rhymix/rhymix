@@ -789,9 +789,9 @@ function getEncodeEmailAddress($email): string
  */
 function debugPrint(...$entry): void
 {
-	if (func_num_args() === 1)
+	if (count($entry) <= 1)
 	{
-		$entry = $entry[0];
+		$entry = $entry[0] ?? null;
 	}
 
 	Rhymix\Framework\Debug::addEntry($entry);
