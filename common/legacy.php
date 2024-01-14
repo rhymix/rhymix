@@ -784,18 +784,15 @@ function getEncodeEmailAddress($email): string
 /**
  * Add an entry to the debug log.
  *
- * @param mixed ...$entry Target object to be printed
+ * @param mixed $value The expression to dump.
+ * @param mixed $values Further expressions to dump.
  * @return void
  */
-function debugPrint(...$entry): void
+function debugPrint($value, ...$values): void
 {
-	if (count($entry) === 1)
-	{
-		Rhymix\Framework\Debug::addEntry($entry[0]);
-		return;
-	}
+	Rhymix\Framework\Debug::addEntry($value);
 
-	foreach ($entry as $v)
+	foreach ($values as $v)
 	{
 		Rhymix\Framework\Debug::addEntry($v);
 	}
