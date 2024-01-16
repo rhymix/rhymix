@@ -1015,6 +1015,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'@verbatim',
 			'@if (true)',
 			'<p>{{ $foobar }}</p>',
+			'<p>{$foobar}</p>',
 			'@endif',
 			'@endverbatim',
 		]);
@@ -1022,6 +1023,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'',
 			'@if (true)',
 			'<p>{{ $foobar }}</p>',
+			'<p>{$foobar}</p>',
 			'@endif',
 			'',
 		]);
