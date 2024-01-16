@@ -261,7 +261,7 @@ class HTMLDisplayHandler
 			$pattern = '/(action)=(["\'])(["\'])/s';
 			$output = preg_replace($pattern, '$1=$2' . \RX_BASEURL . '$3', $output);
 
-			$pattern = '/(action|src|href)=(["\'])\.\/([^"\']*)(["\'])/s';
+			$pattern = '/(action|poster|src|href)=(["\'])\.\/([^"\']*)(["\'])/s';
 			$output = preg_replace($pattern, '$1=$2' . \RX_BASEURL . '$3$4', $output);
 
 			$pattern = '/src=(["\'])((?:files\/(?:attach|cache|faceOff|member_extra_info|thumbnails)|addons|common|(?:m\.)?layouts|modules|widgets|widgetstyle)\/[^"\']+)(["\'])/s';
