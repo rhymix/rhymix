@@ -1898,7 +1898,7 @@ class MemberController extends Member
 		}
 		else
 		{
-			$this->setLayoutAndTemplatePaths(Context::get('m') ? 'P' : 'M', $config);
+			$this->setLayoutAndTemplatePaths(Context::get('m') ? 'M' : 'P', $config);
 			$tpl_file = sprintf('%s%s', $this->getTemplatePath(), 'reset_password.html');
 			if (!Rhymix\Framework\Storage::exists($tpl_file))
 			{
