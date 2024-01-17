@@ -611,8 +611,11 @@ class ModuleObject extends BaseObject
 				$layout_info = LayoutModel::getInstance()->getLayout($layout_srl);
 				if($layout_info)
 				{
-					$this->module_info->layout_srl = $layout_srl;
 					$this->setLayoutPath($layout_info->path);
+					if ($config->layout_srl > 0)
+					{
+						$this->module_info->layout_srl = $layout_srl;
+					}
 				}
 			}
 		}
@@ -637,8 +640,11 @@ class ModuleObject extends BaseObject
 				$layout_info = LayoutModel::getInstance()->getLayout($layout_srl);
 				if($layout_info)
 				{
-					$this->module_info->mlayout_srl = $layout_srl;
 					$this->setLayoutPath($layout_info->path);
+					if ($config->mlayout_srl > 0)
+					{
+						$this->module_info->mlayout_srl = $layout_srl;
+					}
 				}
 			}
 		}
