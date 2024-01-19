@@ -103,8 +103,8 @@ class TagModel extends Tag
 			$args->module_srl = $obj->module_srl;
 		}
 
-		$args->list_count = $obj->list_count;
-		$args->count = $obj->sort_index;
+		$args->list_count = $obj->list_count ?? null;
+		$args->count = $obj->sort_index ?? null;
 
 		$output = executeQueryArray('tag.getTagList', $args);
 		if(!$output->toBool()) return $output;
