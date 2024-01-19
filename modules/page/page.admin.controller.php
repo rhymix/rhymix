@@ -19,15 +19,26 @@ class PageAdminController extends Page
 	 */
 	function procPageAdminInsert()
 	{
-		// Create model/controller object of the module module
-		$oModuleController = getController('module');
-		$oModuleModel = getModel('module');
 		// Set board module
 		$args = Context::getRequestVars();
 		$args->module = 'page';
 		$args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
 		$args->path = (!$args->path) ? '' : $args->path;
 		$args->mpath = (!$args->mpath) ? '' : $args->mpath;
+		if (preg_match('!\bfiles/cache/!i', $args->path))
+		{
+			$this->setError(-1);
+			$this->setMessage('msg_invalid_opage_pc_path');
+			$this->setRedirectUrl(Context::get('success_return_url'));
+			return;
+		}
+		if (preg_match('!\bfiles/cache/!i', $args->mpath))
+		{
+			$this->setError(-1);
+			$this->setMessage('msg_invalid_opage_mobile_path');
+			$this->setRedirectUrl(Context::get('success_return_url'));
+			return;
+		}
 		$args->opage_proc_php = $args->opage_proc_php ?? 'N';
 		$args->opage_proc_tpl = $args->opage_proc_tpl ?? 'N';
 		if ($args->opage_proc_tpl === 'Y')
@@ -46,7 +57,7 @@ class PageAdminController extends Page
 		if($args->module_srl)
 		{
 			$columnList = array('module_srl');
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($args->module_srl, $columnList);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl, $columnList);
 			if($module_info->module_srl != $args->module_srl)
 			{
 				unset($args->module_srl);
@@ -86,6 +97,7 @@ class PageAdminController extends Page
 				}
 		}
 		// Insert/update depending on module_srl
+		$oModuleController = ModuleController::getInstance();
 		if(!$args->module_srl)
 		{
 			$output = $oModuleController->insertModule($args);
