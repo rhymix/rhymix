@@ -2,7 +2,7 @@ RewriteEngine On
 
 # block direct access to templates, XML schema files, config files, dotfiles, environment, etc.
 RewriteCond %{REQUEST_URI} !/modules/editor/(skins|styles)/
-RewriteRule ^(addons|common/tpl|files/ruleset|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/.+\.(html|xml|blade\.php)$ - [L,F]
+RewriteRule ^(addons|common/tpl|files/(faceOff|ruleset)|(m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/.+\.(html|xml|blade\.php)$ - [L,F]
 RewriteRule ^files/(attach|config|cache)/.+\.(ph(p|t|ar)?[0-9]?|p?html?|cgi|pl|exe|[aj]spx?|inc|bak)$ - [L,F]
 RewriteRule ^files/(env|member_extra_info/(new_message_flags|point))/ - [L,F]
 RewriteRule ^(\.git|\.ht|\.travis|codeception\.|composer\.|Gruntfile\.js|package\.json|CONTRIBUTING|COPYRIGHT|LICENSE|README) - [L,F]
