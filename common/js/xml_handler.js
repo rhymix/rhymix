@@ -380,7 +380,7 @@
 		form = $(form);
 		// Get success and error callback functions.
 		if (typeof callback_success === 'undefined') {
-			callback_success = form.data('callback-success');
+			callback_success = form.data('callbackSuccess');
 			if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
 				callback_success = window[callback_success];
 			} else {
@@ -395,7 +395,7 @@
 			}
 		}
 		if (typeof callback_error === 'undefined') {
-			callback_error = form.data('callback-error');
+			callback_error = form.data('callbackError');
 			if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
 				callback_error = window[callback_error];
 			} else {
