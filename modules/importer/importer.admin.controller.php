@@ -1246,7 +1246,7 @@ class importerAdminController extends importer
 		$buff = '<extra_vars>'.$buff;
 		$oXmlParser = new XeXmlParser();
 		$xmlDoc = $this->oXmlParser->parse($buff);
-		if(!count($xmlDoc->extra_vars->key)) return array();
+		if(empty($xmlDoc->extra_vars->key)) return array();
 
 		$index = 1;
 		foreach($xmlDoc->extra_vars->key as $k => $v)

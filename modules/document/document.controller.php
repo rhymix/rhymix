@@ -1532,7 +1532,7 @@ class DocumentController extends Document
 
 		// Get document and user information.
 		$document_srl = $oDocument->document_srl;
-		$member_srl = $oDocument->get('member_srl');
+		$member_srl = abs($oDocument->get('member_srl'));
 		$logged_info = Context::get('logged_info');
 
 		// Option 'some': only count once per session.

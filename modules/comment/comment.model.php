@@ -829,9 +829,9 @@ class CommentModel extends Comment
 		// Variables
 		$args = new stdClass();
 		$args->sort_index = 'comments.list_order';
-		$args->page = $obj->page ? $obj->page : 1;
-		$args->list_count = $obj->list_count ? $obj->list_count : 20;
-		$args->page_count = $obj->page_count ? $obj->page_count : 10;
+		$args->page = $obj->page ?? 1;
+		$args->list_count = $obj->list_count ?? 20;
+		$args->page_count = $obj->page_count ?? 10;
 		$args->s_member_srl = $obj->member_srl ?? null;
 		$args->s_module_srl = $obj->module_srl ?? null;
 		$args->exclude_module_srl = $obj->exclude_module_srl ?? null;
@@ -843,8 +843,8 @@ class CommentModel extends Comment
 		}
 
 		// check if module is using comment validation system
-		$oCommentController = getController("comment");
-		$is_using_validation = $oCommentController->isModuleUsingPublishValidation($obj->module_srl);
+		$oCommentController = CommentController::getInstance();
+		$is_using_validation = $oCommentController->isModuleUsingPublishValidation($args->s_module_srl);
 		if($is_using_validation)
 		{
 			$args->s_is_published = 1;
@@ -1002,8 +1002,8 @@ class CommentModel extends Comment
 
 		// Variables
 		$args = new stdClass();
-		$args->s_module_srl = $obj->module_srl;
-		$args->exclude_module_srl = $obj->exclude_module_srl;
+		$args->s_module_srl = $obj->module_srl ?? null;
+		$args->exclude_module_srl = $obj->exclude_module_srl ?? null;
 		$args->statusList = $obj->statusList ?? null;
 		if (isset($obj->is_secret) && $obj->is_secret)
 		{

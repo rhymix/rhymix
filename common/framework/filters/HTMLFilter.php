@@ -353,6 +353,8 @@ class HTMLFilter
 
 		// Support editor components and widgets.
 		$def->addAttribute('img', 'data-file-srl', 'Number');
+		$def->addAttribute('video', 'data-file-srl', 'Number');
+		$def->addAttribute('audio', 'data-file-srl', 'Number');
 		$def->addAttribute('img', 'editor_component', 'Text');
 		$def->addAttribute('div', 'editor_component', 'Text');
 		$def->addAttribute('img', 'rx_encoded_properties', 'Text');

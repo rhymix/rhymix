@@ -273,6 +273,14 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$target = '<p><img src="foo.jpg" alt="foobar" /></p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
+		$source = '<video src="foo.mp4" poster="foo.jpg" data-file-srl="1234"></video>';
+		$target = '<video src="foo.mp4" poster="foo.jpg" data-file-srl="1234"></video>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<audio src="foo.mp3" invalid="" data-file-srl="1234"></audio>';
+		$target = '<audio src="foo.mp3" data-file-srl="1234"></audio>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
 		// Other data-* attribute
 		$source = '<div data-foo="foobar" data-bar="bazz" style="width:100%;">Hello World</div>';
 		$target = '<div style="width:100%;" data-foo="foobar" data-bar="bazz">Hello World</div>';

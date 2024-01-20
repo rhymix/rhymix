@@ -285,8 +285,15 @@ class TemplateParser_v2
 	 */
 	protected function _convertVerbatimSections(string $content): string
 	{
-		$content = preg_replace_callback('#(@verbatim)\b(.+?)(@endverbatim)\b#s', function($match) {
-			return preg_replace(['#(?<!@)\{\{#', '#(?<!@)@([a-z]+)#', '#\$#'], ['@{{', '@@$1', '&#x1B;&#x24;'], $match[2]);
+		$conversions = [
+			'#(?<!\{)\{(?!\s)([^{}]+?)\}#' => '&#x1B;&#x7B;$1&#x1B;&#x7D;',
+			'#(?<!@)\{\{#' => '@{{',
+			'#(?<!@)@([a-z]+)#' => '@@$1',
+			'#\$#' => '&#x1B;&#x24;',
+		];
+
+		$content = preg_replace_callback('#(@verbatim)\b(.+?)(@endverbatim)\b#s', function($match) use($conversions) {
+			return preg_replace(array_keys($conversions), array_values($conversions), $match[2]);
 		}, $content);
 		return $content;
 	}
