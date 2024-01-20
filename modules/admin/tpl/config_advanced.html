@@ -179,7 +179,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="cache_default_ttl">{$lang->cache_default_ttl}</label>
 			<div class="x_controls">
-				<input type="text" name="cache_default_ttl" id="cache_default_ttl" value="{$cache_default_ttl}" /> {$lang->unit_sec}
+				<input type="number" min="1" name="cache_default_ttl" id="cache_default_ttl" value="{$cache_default_ttl}" /> {$lang->unit_sec}
 			</div>
 		</div>
 		<div class="x_control-group">

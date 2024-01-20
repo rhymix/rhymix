@@ -21,8 +21,8 @@
 					</label>
 				</p>
 				<p>
-					<input type="number" name="limits_interval" id="limits_interval" value="{intval($config->limits_interval) ?: 10}" /> {$lang->unit_sec} &nbsp;
-					<input type="number" name="limits_count" id="limits_count" value="{intval($config->limits_count) ?: 3}" /> {$lang->unit_write_count}
+					<input type="number" min="1" name="limits_interval" id="limits_interval" value="{intval($config->limits_interval) ?: 10}" /> {$lang->unit_sec} &nbsp;
+					<input type="number" min="1" name="limits_count" id="limits_count" value="{intval($config->limits_count) ?: 3}" /> {$lang->unit_write_count}
 				</p>
 				<p class="x_help-block">{$lang->cmd_interval_help}</p>
 			</div>

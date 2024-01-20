@@ -39,7 +39,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="list_count">{$lang->list_count}</label>
 		<div class="x_controls">
-			<input type="text" name="list_count" id="list_count" value="{$module_info->list_count?$module_info->list_count:20}" style="width:30px" />
+			<input type="number" min="1" name="list_count" id="list_count" value="{$module_info->list_count?$module_info->list_count:20}" />
 			<p class="x_help-inline">{$lang->about_list_count}</p>
 		</div>
 	</div>
