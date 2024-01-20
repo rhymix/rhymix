@@ -432,7 +432,7 @@ class MemberView extends Member
 	 */
 	function dispMemberModifyInfo()
 	{
-		if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD' && $_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		if (!isset($_SESSION['rechecked_password_step']) || !in_array($_SESSION['rechecked_password_step'], ['VALIDATE_PASSWORD', 'INPUT_DATA']))
 		{
 			$this->dispMemberModifyInfoBefore();
 			return;
@@ -955,7 +955,7 @@ class MemberView extends Member
 
 	function dispMemberModifyEmailAddress()
 	{
-		if($_SESSION['rechecked_password_step'] != 'VALIDATE_PASSWORD' && $_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		if (!isset($_SESSION['rechecked_password_step']) || !in_array($_SESSION['rechecked_password_step'], ['VALIDATE_PASSWORD', 'INPUT_DATA']))
 		{
 			Context::set('success_return_url', getUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyEmailAddress'));
 			$this->dispMemberModifyInfoBefore();

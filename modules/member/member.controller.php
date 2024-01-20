@@ -899,7 +899,7 @@ class MemberController extends Member
 
 	function procMemberModifyInfoBefore()
 	{
-		if($_SESSION['rechecked_password_step'] != 'INPUT_PASSWORD')
+		if (!isset($_SESSION['rechecked_password_step']) || $_SESSION['rechecked_password_step'] !== 'INPUT_PASSWORD')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -952,7 +952,7 @@ class MemberController extends Member
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
 
-		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		if (!isset($_SESSION['rechecked_password_step']) || $_SESSION['rechecked_password_step'] !== 'INPUT_DATA')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
@@ -3502,7 +3502,7 @@ class MemberController extends Member
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 
-		if($_SESSION['rechecked_password_step'] != 'INPUT_DATA')
+		if (!isset($_SESSION['rechecked_password_step']) || $_SESSION['rechecked_password_step'] !== 'INPUT_DATA')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
