@@ -257,7 +257,11 @@ class DisplayHandler extends Handler
 						unset($_SESSION['_rx_debug_previous']);
 						if (preg_match('/^(.+)\}$/', $output, $matches))
 						{
-							$output = $matches[1] . ',"_rx_debug":' . json_encode($data) . '}';
+							$data = json_encode($data);
+							if (json_last_error() === JSON_ERROR_NONE)
+							{
+								$output = $matches[1] . ',"_rx_debug":' . $data . '}';
+							}
 						}
 						break;
 					default:
