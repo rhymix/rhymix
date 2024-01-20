@@ -266,6 +266,24 @@ class SessionTest extends \Codeception\Test\Unit
 		Rhymix\Framework\Session::close();
 	}
 
+	public function testProfileImage()
+	{
+		$member_info = new Rhymix\Framework\Helpers\SessionHelper();
+
+		$this->assertFalse($member_info->profileImageExists());
+		$this->assertNull($member_info->profileImageUrl());
+		$this->assertNull($member_info->profileImagePath());
+
+		$member_info->profile_image = (object) array(
+			'src' => '/tests/_data/images/rhymix.png?t=12345678',
+			'file' => './tests/_data/images/rhymix.png'
+		);
+
+		$this->assertTrue($member_info->profileImageExists());
+		$this->assertEquals('/tests/_data/images/rhymix.png?t=12345678', $member_info->profileImageUrl());
+		$this->assertEquals(\RX_BASEDIR . 'tests/_data/images/rhymix.png', $member_info->profileImagePath());
+	}
+
 	public function testGetSetLanguage()
 	{
 		@Rhymix\Framework\Session::start();
