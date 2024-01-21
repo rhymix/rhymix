@@ -89,6 +89,7 @@ class MemberModel extends Member
 		$config->signature_html = $config->signature_html ?? 'Y';
 		$config->signature_html_retroact = $config->signature_html_retroact ?? 'N';
 		$config->member_allow_fileupload = $config->member_allow_fileupload ?? 'N';
+		$config->member_max_filesize = $config->member_max_filesize ?? 0;
 		$config->profile_image = $config->profile_image ?? 'N';
 		$config->profile_image_max_width = $config->profile_image_max_width ?? 90;
 		$config->profile_image_max_height = $config->profile_image_max_height ?? 90;
