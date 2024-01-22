@@ -506,18 +506,24 @@ class NcenterliteModel extends Ncenterlite
 
 	function getColorsetList()
 	{
-		$oModuleModel = getModel('module');
 		$skin = Context::get('skin');
+		$skin_info = ModuleModel::loadSkinInfo($this->module_path, $skin);
 
-		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
-
-		for($i=0, $c=count($skin_info->colorset); $i<$c; $i++)
+		$colorset_list = [];
+		foreach ($skin_info->colorset ?? [] as $colorset)
 		{
-			$colorset = sprintf('%s|@|%s', $skin_info->colorset[$i]->name, $skin_info->colorset[$i]->title);
-			$colorset_list[] = $colorset;
+			$colorset_list[] = sprintf('%s|@|%s', $colorset->name, $colorset->title);
 		}
 
-		if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);
+		if (count($colorset_list))
+		{
+			$colorsets = implode("\n", $colorset_list);
+		}
+		else
+		{
+			$colorsets = '';
+		}
+
 		$this->add('colorset_list', $colorsets);
 	}
 
