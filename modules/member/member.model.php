@@ -903,7 +903,7 @@ class MemberModel extends Member
 		foreach($extend_form_list as $srl => $item)
 		{
 			$column_name = $item->column_name;
-			$value = $member_info->{$column_name};
+			$value = $member_info->{$column_name} ?? null;
 
 			// Change values depening on the type of extend form
 			switch($item->column_type)
