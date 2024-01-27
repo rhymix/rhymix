@@ -656,9 +656,16 @@ class MemberModel extends Member
 			}
 			if(!$group_list) return array();
 
-			foreach($group_list as $group)
+			foreach($group_list as $group_srl => $group)
 			{
-				$result[$group->group_srl] = $group->title;
+				if (is_object($group))
+				{
+					$result[$group->group_srl] = $group->title;
+				}
+				else
+				{
+					$result[$group_srl] = $group;
+				}
 			}
 			$GLOBALS['__member_groups__'][$member_srl] = $result;
 		}
