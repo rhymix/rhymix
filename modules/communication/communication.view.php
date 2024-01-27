@@ -123,7 +123,7 @@ class CommunicationView extends communication
 		Context::set('search_keyword', $search_keyword !== '' ? $search_keyword : null);
 
 		// Extract a list
-		$columnList = array('message_srl', 'message_type', 'related_srl', 'readed', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed_date');
+		$columnList = array('message_srl', 'message_type', 'related_srl', 'sender_srl', 'receiver_srl', 'title', 'member.member_srl', 'member.nick_name', 'message.regdate', 'readed', 'readed_date');
 		$page = max(1, intval(Context::get('page')));
 		$output = $oCommunicationModel->getMessages($message_type, $columnList, $search_target, $search_keyword, $page);
 
@@ -246,9 +246,9 @@ class CommunicationView extends communication
 			throw new Rhymix\Framework\Exception('msg_cannot_send_to_yourself');
 		}
 		$receiver_info = MemberModel::getMemberInfoByMemberSrl($receiver_srl);
-		if(!$receiver_info || !$receiver_info->member_srl)
+		if(!$receiver_info || empty($receiver_info->member_srl))
 		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest('msg_invalid_recipient');
 		}
 
 		Context::set('receiver_info', $receiver_info);

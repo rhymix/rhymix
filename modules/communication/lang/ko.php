@@ -37,6 +37,7 @@ $lang->msg_title_is_null = '쪽지 제목을 입력해주세요.';
 $lang->msg_content_is_null = '내용을 입력해주세요.';
 $lang->msg_allow_message_to_friend = '친구에게만 쪽지 발송을 허용한 사용자라서 쪽지 발송을 하지 못했습니다.';
 $lang->msg_disallow_message = '쪽지 수신을 거부한 사용자라서 쪽지 발송을 하지 못했습니다.';
+$lang->msg_invalid_recipient = '수신자 정보를 찾을 수 없습니다.';
 $lang->msg_send_mail_privacy = '보낸이의 메일 주소가 받는이에게 노출될 수 있습니다.';
 $lang->msg_send_mail_admin_only = '메일 발송 기능은 관리자만 사용할 수 있습니다.';
 $lang->about_allow_message = '쪽지 수신 여부를 결정할 수 있습니다.';

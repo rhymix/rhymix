@@ -139,7 +139,7 @@ class CommunicationModel extends communication
 			$member_info = $oMemberModel->getMemberInfoByMemberSrl($message->sender_srl);
 		}
 
-		if($member_info->member_srl)
+		if($member_info && isset($member_info->member_srl))
 		{
 			foreach($member_info as $key => $val)
 			{

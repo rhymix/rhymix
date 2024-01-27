@@ -37,6 +37,7 @@ $lang->msg_title_is_null = 'Please enter the title of message.';
 $lang->msg_content_is_null = 'Please enter the content.';
 $lang->msg_allow_message_to_friend = 'Failed to send a message because the recipient accepts messages from friends only.';
 $lang->msg_disallow_message = 'Failed to send a message because the recipient blocked receiving messages.';
+$lang->msg_invalid_recipient = 'Failed to find the recipient\'s member information.';
 $lang->about_allow_message = 'You can set whether to receive messages or not.';
 $lang->msg_send_mail_privacy = 'Your email address will be exposed to the recipient.';
 $lang->msg_send_mail_admin_only = 'The email option can only be used by the administrator.';

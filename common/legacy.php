@@ -935,12 +935,12 @@ function stripEmbedTagForAdmin(&$content, $writer_member_srl): void
 		return;
 	}
 
-	if ($logged_info->is_admin === 'Y' || getModel('module')->isSiteAdmin($logged_info))
+	if ($logged_info && isset($logged_info->is_admin) && $logged_info->is_admin === 'Y')
 	{
 		if ($writer_member_srl)
 		{
-			$member_info = getModel('member')->getMemberInfoByMemberSrl($writer_member_srl);
-			if ($member_info && $member_info->is_admin === 'Y')
+			$member_info = MemberModel::getMemberInfoByMemberSrl($writer_member_srl);
+			if ($member_info && isset($member_info->is_admin) && $member_info->is_admin === 'Y')
 			{
 				return;
 			}

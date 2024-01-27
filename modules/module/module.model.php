@@ -1825,7 +1825,7 @@ class ModuleModel extends Module
 	 */
 	public static function isSiteAdmin($member_info)
 	{
-		if ($member_info && $member_info->is_admin == 'Y')
+		if ($member_info && isset($member_info->is_admin) && $member_info->is_admin == 'Y')
 		{
 			return true;
 		}
