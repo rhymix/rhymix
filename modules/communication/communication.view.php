@@ -343,7 +343,8 @@ class CommunicationView extends communication
 		Context::set('friend_group_list', $friend_group_list);
 
 		// get a list of friends
-		$friend_group_srl = Context::get('friend_group_srl');
+		$friend_group_srl = Context::get('friend_group_srl') ?: 0;
+		Context::set('friend_group_srl', $friend_group_srl);
 		$columnList = array('friend_srl', 'friend_group_srl', 'target_srl', 'member.nick_name', 'friend.regdate');
 
 		$output = $oCommunicationModel->getFriends($friend_group_srl, $columnList);
@@ -352,12 +353,14 @@ class CommunicationView extends communication
 			foreach($output->data as $key => $val)
 			{
 				$group_srl = $val->friend_group_srl;
-				$group_title = $friend_group_list[$group_srl]->title;
-				if(!$group_title)
+				if (isset($friend_group_list[$group_srl]->title))
 				{
-					$group_title = Context::get('default_friend_group');
+					$output->data[$key]->group_title = $friend_group_list[$group_srl]->title;
 				}
-				$output->data[$key]->group_title = $group_title;
+				else
+				{
+					$output->data[$key]->group_title = lang('default_friend_group');
+				}
 			}
 		}
 		else
