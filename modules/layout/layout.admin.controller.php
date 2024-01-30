@@ -897,7 +897,7 @@ class LayoutAdminController extends Layout
 			return;
 		}
 
-		if(!preg_match('/\.(jpg|jpeg|gif|png)$/i', $img['name']))
+		if(!preg_match('/\.(gif|jpe?g|png|svg|webp)$/i', $img['name']))
 		{
 			Context::set('msg', lang('msg_layout_image_target'));
 			return;
