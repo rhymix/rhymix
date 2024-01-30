@@ -26,3 +26,6 @@ $lang->opage_proc_php = 'Execute PHP code';
 $lang->opage_proc_tpl = 'Parse as Rhymix template';
 $lang->page_management = 'Manage of page';
 $lang->page_delete_warning = 'If you delete a page, the files of the page will be removed also.';
+$lang->msg_not_selected_page = 'Page not selected.';
+$lang->msg_invalid_opage_pc_path = 'Invalid path for the external document for PC.';
+$lang->msg_invalid_opage_mobile_path = 'Invalid path for the external document for Mobile.';
