@@ -99,7 +99,7 @@ class mcontent extends WidgetHandler
 		 * Method is separately made because content extraction, articles, comments, trackbacks, RSS and other elements exist
 		 */
 		// tab mode
-		if($args->tab_type == 'none' || $args->tab_type == '')
+		if(empty($args->tab_type) || $args->tab_type === 'none')
 		{
 			switch($args->content_type)
 			{
@@ -252,10 +252,10 @@ class mcontent extends WidgetHandler
 				$content_item = new mcontentItem( $args->module_srls_info[$module_srl]->browser_title );
 				$content_item->adds($oDocument->getObjectVars());
 				$content_item->setTitle($oDocument->getTitleText());
-				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title );
-				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain );
+				$content_item->setCategory( $category_lists[$module_srl][$category_srl]->title ?? '');
+				$content_item->setDomain( $args->module_srls_info[$module_srl]->domain ?? '');
 				$content_item->setContent($oDocument->getSummary($args->content_cut_size));
-				$content_item->setLink( getSiteUrl($domain,'','document_srl',$document_srl) );
+				$content_item->setLink($oDocument->getPermanentUrl());
 				$content_item->setThumbnail($thumbnail);
 				$content_item->add('mid', $args->mid_lists[$module_srl]);
 				if($first_thumbnail_idx==-1 && $thumbnail) $first_thumbnail_idx = $i;
@@ -313,7 +313,7 @@ class mcontent extends WidgetHandler
 			$content_item->setContent($content);
 			$content_item->setLink($url);
 			$content_item->setThumbnail($thumbnail);
-			$content_item->setExtraImages($extra_images);
+			//$content_item->setExtraImages($extra_images);
 			$content_item->setDomain($domain);
 			$content_item->add('mid', $args->mid_lists[$attribute->module_srl]);
 			$content_items[] = $content_item;
@@ -524,8 +524,8 @@ class mcontent extends WidgetHandler
 			foreach ($items as $key => $value)
 			{
 				if($key >= $args->list_count) break;
-				unset($item);
 
+				$item = new stdClass;
 				foreach($value as $key2 => $value2)
 				{
 					if(is_array($value2)) $value2 = array_shift($value2);
@@ -579,7 +579,7 @@ class mcontent extends WidgetHandler
 
 	function _getTrackbackItems($args){
 		// Get categories
-		$output = executeQueryArray('widgets.content.getCategories',$obj);
+		$output = executeQueryArray('widgets.content.getCategories');
 		if($output->toBool() && $output->data)
 		{
 			foreach($output->data as $key => $val) {
@@ -587,6 +587,7 @@ class mcontent extends WidgetHandler
 			}
 		}
 
+		$obj = new stdClass;
 		$obj->module_srl = $args->module_srl;
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count;
@@ -629,22 +630,22 @@ class mcontent extends WidgetHandler
 		$widget_info->subject_cut_size = $args->subject_cut_size;
 		$widget_info->content_cut_size = $args->content_cut_size;
 
-		$widget_info->thumbnail_type = $args->thumbnail_type;
-		$widget_info->thumbnail_width = $args->thumbnail_width;
-		$widget_info->thumbnail_height = $args->thumbnail_height;
-		$widget_info->mid_lists = $args->mid_lists;
+		$widget_info->thumbnail_type = $args->thumbnail_type ?? null;
+		$widget_info->thumbnail_width = $args->thumbnail_width ?? null;
+		$widget_info->thumbnail_height = $args->thumbnail_height ?? null;
+		$widget_info->mid_lists = $args->mid_lists ?? null;
 
-		$widget_info->show_browser_title = $args->show_browser_title;
-		$widget_info->show_category = $args->show_category;
-		$widget_info->show_comment_count = $args->show_comment_count;
-		$widget_info->show_trackback_count = $args->show_trackback_count;
-		$widget_info->show_icon = $args->show_icon;
+		$widget_info->show_browser_title = $args->show_browser_title ?? null;
+		$widget_info->show_category = $args->show_category ?? null;
+		$widget_info->show_comment_count = $args->show_comment_count ?? null;
+		$widget_info->show_trackback_count = $args->show_trackback_count ?? null;
+		$widget_info->show_icon = $args->show_icon ?? null;
 
-		$widget_info->list_type = $args->list_type;
-		$widget_info->tab_type = $args->tab_type;
+		$widget_info->list_type = $args->list_type ?? null;
+		$widget_info->tab_type = $args->tab_type ?? null;
 
-		$widget_info->markup_type = $args->markup_type;
-		$widget_info->content_items = $content_items;
+		$widget_info->markup_type = $args->markup_type ?? null;
+		$widget_info->content_items = $content_items ?? null;
 
 		unset($args->option_view_arr);
 		unset($args->modules_info);
@@ -678,7 +679,8 @@ class mcontentItem extends BaseObject
 	}
 	function setFirstThumbnailIdx($first_thumbnail_idx)
 	{
-		if(is_null($this->first_thumbnail) && $first_thumbnail_idx>-1) {
+		if (!isset($this->first_thumbnail) && $first_thumbnail_idx > -1)
+		{
 			$this->has_first_thumbnail_idx = true;
 			$this->first_thumbnail_idx= $first_thumbnail_idx;
 		}
