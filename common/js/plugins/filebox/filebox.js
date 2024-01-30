@@ -86,8 +86,7 @@ function addRow(){
 	var $last = $attributes.last();
 	var count = $last.data('count') + 1;
 	var $clone = $last.clone().data('count', count);
-	
-	
+
 	$last.find('.__addBtn').hide();
 
 	$clone.find('.__attribute_name').attr('value', '').attr("id", "attribute_name"+count);
@@ -103,7 +102,7 @@ function clearRow(target){
 	var $attributes = $('.__attribute');
 	var $controlGroup = $(target).closest('.x_control-group');
 	var count = $attributes.length;
-	
+
 	if (count <= 1){
 		return;
 	}
@@ -123,7 +122,7 @@ jQuery(document).ready(function($){
 		}
 		$('#new_filebox_upload').find('input[name^=attribute_name], input[name^=attribute_value], input[name=addfile]').val('');
 	});
-	
+
 	$('.filebox').click(function(){
 		$current_filebox = $(this);
 	});
@@ -140,8 +139,12 @@ jQuery(document).ready(function($){
 				if (!content) {
 					content = window.iframeTarget.document.getElementsByTagName('body');
 				}
-				var data = eval('(' + $(content).html() + ')');
+				if (!content) {
+					alert('Error');
+					return;
+				}
 
+				var data = JSON.parse($.trim($(content).html()));
 				if (data.error){
 					alert(data.message);
 					return;
