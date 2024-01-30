@@ -67,7 +67,7 @@
 				<li class="delicious link"><a href="https://delicious.com/">Delicious</a></li>
 			</ul>
 			<script>
-				var sTitle = '{str_ireplace(array('<script', '</script'), array("<scr'+'ipt", "</scr'+'ipt"), addslashes($oDocument->getTitleText()))}';
+				var sTitle = {json_encode($oDocument->getTitleText())};
 				jQuery(function($){
 					$('.twitter>a').snspost({
 						type : 'twitter',

@@ -64,7 +64,7 @@
 		    </li>
 		    </ul>
 			<script>
-				var sTitle = '{$oDocument->getTitleText()}';
+				var sTitle = {json_encode($oDocument->getTitleText())};
 				jQuery(function($){
 					$('.twitter').snspost({
 						type : 'twitter',

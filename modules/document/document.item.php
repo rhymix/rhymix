@@ -495,7 +495,8 @@ class DocumentItem extends BaseObject
 			return;
 		}
 
-		return $cut_size ? cut_str($this->get('title'), $cut_size, $tail) : $this->get('title');
+		$title = $cut_size ? cut_str($this->get('title'), $cut_size, $tail) : $this->get('title');
+		return escape($title, false);
 	}
 
 	function getVoted()
@@ -593,7 +594,7 @@ class DocumentItem extends BaseObject
 			return false;
 		}
 
-		$title = escape($this->getTitleText($cut_size, $tail), false);
+		$title = $this->getTitleText($cut_size, $tail);
 		$this->add('title_color', trim($this->get('title_color') ?? ''));
 
 		$attrs = array();
