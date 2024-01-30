@@ -748,11 +748,11 @@ class DocumentController extends Document
 
 		// If the tile is empty, extract string from the contents.
 		$obj->title = escape($obj->title, false);
-		if($obj->title == '')
+		if ($obj->title === '')
 		{
 			$obj->title = escape(cut_str(trim(utf8_normalize_spaces(strip_tags($obj->content))), 20, '...'), false);
 		}
-		if($obj->title == '')
+		if ($obj->title === '')
 		{
 			$obj->title = 'Untitled';
 		}
@@ -1047,11 +1047,11 @@ class DocumentController extends Document
 
 		// If the tile is empty, extract string from the contents.
 		$obj->title = escape($obj->title, false);
-		if($obj->title == '')
+		if ($obj->title === '')
 		{
 			$obj->title = escape(cut_str(trim(utf8_normalize_spaces(strip_tags($obj->content))), 20, '...'), false);
 		}
-		if($obj->title == '')
+		if ($obj->title === '')
 		{
 			$obj->title = 'Untitled';
 		}
