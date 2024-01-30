@@ -1049,7 +1049,7 @@ class DocumentController extends Document
 		$obj->title = escape($obj->title, false);
 		if($obj->title == '')
 		{
-			$obj->title = cut_str(strip_tags($obj->content),20,'...');
+			$obj->title = escape(cut_str(trim(utf8_normalize_spaces(strip_tags($obj->content))), 20, '...'), false);
 		}
 		if($obj->title == '')
 		{
