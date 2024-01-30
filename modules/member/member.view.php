@@ -929,6 +929,7 @@ class MemberView extends Member
 			return;
 		}
 
+		Context::set('member_config', $this->member_config);
 		Context::set('identifier', $this->member_config->identifier);
 		Context::set('enable_find_account_question', 'N');
 

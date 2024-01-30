@@ -1,5 +1,6 @@
 <include target="./common_header.html" />
 <load target="filter/find_member_account.xml" />
+
 <section>
 	<h1>{$lang->cmd_find_member_account_with_email}</h1>
 	<p>{$lang->about_find_member_account}</p>
@@ -21,6 +22,8 @@
 		</div>
 	</form>
 </section>
+
+<!--@if($member_config->enable_confirm === 'Y')-->
 <hr>
 <section>
 	<h1>{$lang->cmd_resend_auth_mail}</h1>
@@ -42,4 +45,6 @@
 		</div>
 	</form>
 </section>
+<!--@endif-->
+
 <include target="./common_footer.html" />
