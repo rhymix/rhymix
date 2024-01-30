@@ -134,11 +134,20 @@ class MemberController extends Member
 		// If a device key is present, unregister it.
 		Rhymix\Modules\Member\Controllers\Device::getInstance()->autoUnregisterDevice($logged_info->member_srl);
 
+		// Set redirect URL.
 		$output = new BaseObject();
-		$config = ModuleModel::getModuleConfig('member');
-		if($config->after_logout_url)
+		$redirect_url = Context::get('redirect_url');
+		if ($redirect_url && Rhymix\Framework\URL::isInternalURL($redirect_url))
 		{
-			$output->redirect_url = $config->after_logout_url;
+			$output->redirect_url = $redirect_url;
+		}
+		else
+		{
+			$config = ModuleModel::getModuleConfig('member');
+			if($config->after_logout_url)
+			{
+				$output->redirect_url = $config->after_logout_url;
+			}
 		}
 		return $output;
 	}

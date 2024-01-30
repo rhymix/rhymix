@@ -897,12 +897,19 @@ class MemberView extends Member
 		// Redirect if not logged in.
 		if(!Context::get('is_logged'))
 		{
-			$this->setRedirectUrl(getNotEncodedUrl('act', ''));
+			$this->setRedirectUrl(getNotEncodedUrl('act', '', 'redirect_url', ''));
 			return;
 		}
 
 		$output = MemberController::getInstance()->procMemberLogout();
-		$this->setRedirectUrl(isset($output->redirect_url) ? $output->redirect_url : getNotEncodedUrl('act', ''));
+		if (!empty($output->redirect_url))
+		{
+			$this->setRedirectUrl($output->redirect_url);
+		}
+		else
+		{
+			$this->setRedirectUrl(getNotEncodedUrl('act', '', 'redirect_url', ''));
+		}
 	}
 
 	/**
