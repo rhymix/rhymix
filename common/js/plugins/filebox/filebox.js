@@ -136,7 +136,11 @@ jQuery(document).ready(function($){
 			$iframe.attr('src', '#');
 			$iframe.attr('name', 'iframeTarget');
 			$iframe.load(function(){
-				var data = eval('(' + $(window.iframeTarget.document.getElementsByTagName("body")[0]).html() + ')');
+				var content = window.iframeTarget.document.getElementsByTagName('pre');
+				if (!content) {
+					content = window.iframeTarget.document.getElementsByTagName('body');
+				}
+				var data = eval('(' + $(content).html() + ')');
 
 				if (data.error){
 					alert(data.message);
