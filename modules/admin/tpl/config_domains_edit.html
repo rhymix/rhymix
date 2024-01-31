@@ -18,14 +18,14 @@
 				<input type="text" name="title" value="{$domain_info ? escape($domain_info->settings->title) : ''}" class="lang_code" />
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->site_subtitle}</label>
 			<div class="x_controls">
 				<input type="text" name="subtitle" value="{$domain_info ? escape($domain_info->settings->subtitle) : ''}" class="lang_code" />
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="domain">{$lang->domain}</label>
 			<div class="x_controls">
@@ -36,21 +36,21 @@
 				</label>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="http_port">{$lang->cmd_http_port}</label>
 			<div class="x_controls">
 				<input type="number" name="http_port" id="http_port" size="5" value="{($domain_info && $domain_info->http_port) ? $domain_info->http_port : ''}" />
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="https_port">{$lang->cmd_https_port}</label>
 			<div class="x_controls">
 				<input type="number" name="https_port" id="https_port" size="5" value="{($domain_info && $domain_info->https_port) ? $domain_info->https_port : ''}" />
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="domain_security">{$lang->use_ssl}</label>
 			<div class="x_controls">
@@ -61,21 +61,21 @@
 				<div class="x_help-block">{lang('admin.about_use_ssl')}</div>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="index_module_srl">{$lang->cmd_index_module_srl}</label>
 			<div class="x_controls">
 				<input class="module_search" type="text" id="index_module_srl" name="index_module_srl" value="{$index_module_srl}" />
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="index_document_srl">{$lang->cmd_index_document_srl}</label>
 			<div class="x_controls">
 				<input type="number" name="index_document_srl" id="index_document_srl" value="{($domain_info && $domain_info->index_document_srl) ? $domain_info->index_document_srl : ''}"/>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="default_lang">{$lang->default_lang}</label>
 			<div class="x_controls">
@@ -83,9 +83,13 @@
 					<option value="default" selected="selected"|cond="$domain_lang === 'default'">{$lang->follow_default_lang}</option>
 					<option value="{$key}" loop="$enabled_lang => $key" selected="selected"|cond="$key == $domain_lang">{$supported_lang[$key]['name']}</option>
 				</select>
+				&nbsp;
+				<label class="x_inline" for="force_lang">
+					<input type="checkbox" name="force_lang" id="force_lang" value="Y" checked="checked"|cond="$domain_force_lang" /> {$lang->cmd_force_default_language}
+				</label>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="default_timezone">{$lang->timezone}</label>
 			<div class="x_controls">
@@ -95,7 +99,7 @@
 				</select>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="meta_keywords">{$lang->site_meta_keywords}</label>
 			<div class="x_controls">
@@ -109,7 +113,7 @@
 				<input type="text" name="meta_description" id="meta_description" value="{$domain_info ? $domain_info->settings->meta_description : ''}" class="lang_code" />
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="html_header">{$lang->input_header_script}</label>
 			<div class="x_controls" style="margin-right:14px">
@@ -117,7 +121,7 @@
 				<div class="x_help-block">{$lang->detail_input_header_script}</div>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="html_footer">{$lang->input_footer_script}</label>
 			<div class="x_controls" style="margin-right:14px">
@@ -125,7 +129,7 @@
 				<div class="x_help-block">{$lang->detail_input_footer_script}</div>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->allow_use_favicon}</label>
 			<div class="x_controls">
@@ -140,7 +144,7 @@
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->allow_use_mobile_icon}</label>
 			<div class="x_controls">
@@ -155,7 +159,7 @@
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_site_default_image}</label>
 			<div class="x_controls">
@@ -169,7 +173,7 @@
 				<span class="x_help-block">{$lang->about_site_default_image}</span>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="color_scheme">{lang('admin.cmd_site_default_color_scheme')}</label>
 			<div class="x_controls">
@@ -181,12 +185,12 @@
 				<div class="x_help-block">{lang('admin.about_site_default_color_scheme')}</div>
 			</div>
 		</div>
-		
+
 		<div class="x_clearfix btnArea">
 			<div class="x_pull-right">
 				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
 			</div>
 		</div>
-		
+
 	</form>
 </section>

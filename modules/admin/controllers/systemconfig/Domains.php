@@ -82,21 +82,24 @@ class Domains extends Base
 		// Get language list.
 		Context::set('supported_lang', Lang::getSupportedList());
 		Context::set('enabled_lang', Config::get('locale.enabled_lang'));
-		if ($domain_info && $domain_info->settings->language)
+		if ($domain_info && !empty($domain_info->settings->language))
 		{
-			$domain_lang = $domain_info->settings->language;
+			$domain_lang = $domain_info->settings->language ?? 'default';
+			$domain_force_lang = $domain_info->settings->force_language ?? false;
 		}
 		else
 		{
 			$domain_lang = 'default';
+			$domain_force_lang = false;
 		}
 		Context::set('domain_lang', $domain_lang);
+		Context::set('domain_force_lang', $domain_force_lang);
 
 		// Get timezone list.
 		Context::set('timezones', DateTime::getTimezoneList());
-		if ($domain_info && $domain_info->settings->timezone)
+		if ($domain_info && !empty($domain_info->settings->timezone))
 		{
-			$domain_timezone = $domain_info->settings->timezone;
+			$domain_timezone = $domain_info->settings->timezone ?? '';
 		}
 		else
 		{
@@ -149,19 +152,22 @@ class Domains extends Base
 		// Get language list.
 		Context::set('supported_lang', Lang::getSupportedList());
 		Context::set('enabled_lang', Config::get('locale.enabled_lang'));
-		if ($domain_info && $domain_info->settings->language)
+		if ($domain_info && !empty($domain_info->settings->language))
 		{
-			$domain_lang = $domain_info->settings->language;
+			$domain_lang = $domain_info->settings->language ?? 'default';
+			$domain_force_lang = $domain_info->settings->force_language ?? false;
 		}
 		else
 		{
 			$domain_lang = 'default';
+			$domain_force_lang = false;
 		}
 		Context::set('domain_lang', $domain_lang);
+		Context::set('domain_force_lang', $domain_force_lang);
 
 		// Get timezone list.
 		Context::set('timezones', DateTime::getTimezoneList());
-		if ($domain_info && $domain_info->settings->timezone)
+		if ($domain_info && !empty($domain_info->settings->timezone))
 		{
 			$domain_timezone = $domain_info->settings->timezone;
 		}
@@ -328,6 +334,7 @@ class Domains extends Base
 		{
 			throw new Exception('msg_lang_is_not_enabled');
 		}
+		$vars->force_lang = isset($vars->force_lang) ? toBool($vars->force_lang) : false;
 
 		// Validate the default time zone.
 		$timezone_list = DateTime::getTimezoneList();
@@ -356,6 +363,7 @@ class Domains extends Base
 			'title' => $vars->title,
 			'subtitle' => $vars->subtitle,
 			'language' => $vars->default_lang,
+			'force_language' => $vars->force_lang,
 			'timezone' => $vars->default_timezone,
 			'meta_keywords' => $vars->meta_keywords,
 			'meta_description' => $vars->meta_description,

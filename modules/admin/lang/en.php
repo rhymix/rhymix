@@ -106,6 +106,7 @@ $lang->cmd_https_port = 'HTTPS Port';
 $lang->cmd_index_module_srl = 'Main Module';
 $lang->cmd_index_document_srl = 'Main Document';
 $lang->cmd_default_language = 'Default Language';
+$lang->cmd_force_default_language = 'Force';
 $lang->cmd_any_domain = 'Any Domain';
 $lang->cmd_new_domain = 'Add New Domain';
 $lang->cmd_edit_domain = 'Edit Domain';

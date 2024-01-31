@@ -253,7 +253,11 @@ class Context
 		$set_lang_cookie = false;
 		self::set('lang_supported', $enabled_langs);
 
-		if($lang_type = self::get('l'))
+		if (!empty($site_module_info->settings->language) && !empty($site_module_info->settings->force_language))
+		{
+			$lang_type = $site_module_info->settings->language;
+		}
+		elseif ($lang_type = self::get('l'))
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{

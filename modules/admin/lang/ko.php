@@ -105,6 +105,7 @@ $lang->cmd_https_port = 'HTTPS 포트';
 $lang->cmd_index_module_srl = '메인 모듈';
 $lang->cmd_index_document_srl = '메인 문서';
 $lang->cmd_default_language = '기본 언어';
+$lang->cmd_force_default_language = '강제 적용';
 $lang->cmd_any_domain = '모든 도메인';
 $lang->cmd_new_domain = '새 도메인 추가';
 $lang->cmd_edit_domain = '도메인 정보 수정';
