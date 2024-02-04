@@ -316,7 +316,7 @@ class CommunicationModel extends communication
 		$logged_info = Context::get('logged_info');
 
 		$args = new stdClass();
-		$args->friend_group_srl = $friend_group_srl;
+		$args->friend_group_srl = $friend_group_srl ?: null;
 		$args->member_srl = $logged_info->member_srl;
 
 		// Other variables
