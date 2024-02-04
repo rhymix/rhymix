@@ -123,9 +123,13 @@ class MenuAdminController extends Menu
 			{
 				return $unlinked_menu_srl;
 			}
-			else
+			elseif ($unlinked_menu_srl)
 			{
 				return $this->updateLinkModule($unlinked_modules, $unlinked_menu_srl);
+			}
+			else
+			{
+				trigger_error('Cannot find menu_srl for unlinked menu', E_USER_WARNING);
 			}
 		}
 
