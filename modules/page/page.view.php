@@ -74,24 +74,48 @@ class PageView extends Page
 		{
 			$page_type_name = 'widget';
 		}
+
+		// Check document_srl.
+		$request_vars = Context::getRequestVars();
+		if (!empty($request_vars->document_srl))
+		{
+			$oDocument = DocumentModel::getDocument($request_vars->document_srl);
+			if (!$oDocument->isExists())
+			{
+				return $this->dispPageNotFound(404, 'msg_not_founded');
+			}
+			elseif (!$oDocument->isAccessible())
+			{
+				return $this->dispPageNotFound(403, 'msg_not_permitted');
+			}
+			elseif (in_array($page_type_name, ['article']))
+			{
+				return $this->setRedirectUrl(getNotEncodedUrl(['mid' => $this->mid]));
+			}
+		}
+
+		// Get page content.
 		$method = '_get' . ucfirst($page_type_name) . 'Content';
 		$page_content = $this->{$method}();
 
 		Context::set('module_info', $this->module_info);
 		Context::set('page_content', $page_content);
 
-		// if the page type is the widget or outside, there might be usable GET entities.
-		$request_vars = Context::getRequestVars();
-		if (!empty($request_vars->document_srl) && in_array($page_type_name, ['article', 'widget']))
-		{
-			$returnUrl = getUrl(['mid' => Context::get('mid')]);
-			$this->setRedirectUrl($returnUrl);
-		}
-		else
-		{
-			$this->setTemplatePath($this->module_path . 'tpl');
-			$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
-		}
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile($this instanceof pageMobile ? 'mobile' : 'content');
+	}
+
+	/**
+	 * 404 error handler
+	 */
+	public function dispPageNotFound($code, $message)
+	{
+		$oMessageObject = $this instanceof PageMobile ? MessageMobile::getInstance() : MessageView::getInstance();
+		$oMessageObject->setMessage($message);
+		$oMessageObject->dispMessage();
+		$this->setTemplatePath($oMessageObject->getTemplatePath());
+		$this->setTemplateFile($oMessageObject->getTemplateFile());
+		$this->setHttpStatusCode($code);
 	}
 
 	function _getWidgetContent()
