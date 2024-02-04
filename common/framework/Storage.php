@@ -672,25 +672,26 @@ class Storage
 		try
 		{
 			$iterator = new \FilesystemIterator($dirname, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS);
-		}
-		catch (\UnexpectedValueException $e)
-		{
-			trigger_error('Cannot read directory: ' . $dirname, \E_USER_WARNING);
-			return false;
-		}
 
-		$result = array();
-		foreach ($iterator as $fileinfo)
-		{
-			if (!$skip_subdirs || !is_dir($fileinfo))
+			$result = array();
+			foreach ($iterator as $fileinfo)
 			{
-				$basename = basename($fileinfo);
-				if (!$skip_dotfiles || $basename[0] !== '.')
+				if (!$skip_subdirs || !is_dir($fileinfo))
 				{
-					$result[] = $full_path ? $fileinfo : $basename;
+					$basename = basename($fileinfo);
+					if (!$skip_dotfiles || $basename[0] !== '.')
+					{
+						$result[] = $full_path ? $fileinfo : $basename;
+					}
 				}
 			}
 		}
+		catch (\UnexpectedValueException $e)
+		{
+			trigger_error($e->getMessage(), \E_USER_WARNING);
+			return false;
+		}
+
 		sort($result);
 		return $result;
 	}
@@ -720,37 +721,46 @@ class Storage
 
 		$rdi_options = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS;
 		$rii_options = \RecursiveIteratorIterator::CHILD_FIRST;
-		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, $rdi_options), $rii_options);
 
-		foreach ($iterator as $path)
+		try
 		{
-			$path_source = $path->getPathname();
-			if (strpos($path_source, $source) !== 0)
-			{
-				continue;
-			}
-			if ($exclude_regexp && preg_match($exclude_regexp, $path_source))
-			{
-				continue;
-			}
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source, $rdi_options), $rii_options);
 
-			$path_destination = $destination . substr($path_source, strlen($source));
-			if ($path->isDir())
+			foreach ($iterator as $path)
 			{
-				$status = self::isDirectory($path_destination) || self::createDirectory($path_destination, $path->getPerms());
-				if (!$status)
+				$path_source = $path->getPathname();
+				if (strpos($path_source, $source) !== 0)
 				{
-					return false;
+					continue;
+				}
+				if ($exclude_regexp && preg_match($exclude_regexp, $path_source))
+				{
+					continue;
+				}
+
+				$path_destination = $destination . substr($path_source, strlen($source));
+				if ($path->isDir())
+				{
+					$status = self::isDirectory($path_destination) || self::createDirectory($path_destination, $path->getPerms());
+					if (!$status)
+					{
+						return false;
+					}
+				}
+				else
+				{
+					$status = self::copy($path_source, $path_destination, $path->getPerms());
+					if (!$status)
+					{
+						return false;
+					}
 				}
 			}
-			else
-			{
-				$status = self::copy($path_source, $path_destination, $path->getPerms());
-				if (!$status)
-				{
-					return false;
-				}
-			}
+		}
+		catch (\UnexpectedValueException $e)
+		{
+			trigger_error($e->getMessage(), \E_USER_WARNING);
+			return false;
 		}
 
 		return true;
