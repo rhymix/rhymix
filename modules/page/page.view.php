@@ -82,7 +82,7 @@ class PageView extends Page
 
 		// if the page type is the widget or outside, there might be usable GET entities.
 		$request_vars = Context::getRequestVars();
-		if (isset($request_vars->document_srl) && intval($request_vars->document_srl) > 0 && $page_type_name == 'article')
+		if (!empty($request_vars->document_srl) && in_array($page_type_name, ['article', 'widget']))
 		{
 			$returnUrl = getUrl(['mid' => Context::get('mid')]);
 			$this->setRedirectUrl($returnUrl);
