@@ -998,6 +998,19 @@ class DocumentModel extends Document
 		{
 			self::$_config = ModuleModel::getModuleConfig('document') ?: new stdClass;
 		}
+		if (!isset(self::$_config->thumbnail_target))
+		{
+			self::$_config->thumbnail_target = 'all';
+		}
+		if (!isset(self::$_config->thumbnail_type))
+		{
+			self::$_config->thumbnail_type = 'fill';
+		}
+		if (!isset(self::$_config->thumbnail_quality))
+		{
+			self::$_config->thumbnail_quality = 75;
+		}
+
 		return self::$_config;
 	}
 
