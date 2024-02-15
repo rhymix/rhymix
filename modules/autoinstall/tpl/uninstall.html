@@ -15,9 +15,6 @@
 				<li loop="$directModuleInstall->get('path') => $path">{$path}</li>
 			</ul>
 		</block>
-		<block cond="$show_ftp_note">
-			<p>{$lang->ftp_form_title}. (<a href="{getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp')}">FTP Setup</a>)</p>
-		</block>
 	</div>
 
 	<div cond="!$show_ftp_note">
@@ -29,18 +26,8 @@
 			<input type="hidden" name="act" value="procAutoinstallAdminUninstallPackage" />
 			<input type="hidden" name="package_srl" value="{$package_srl}" />
 			<input type="hidden" name="return_url" value="{$return_url}" />
-			<input cond="!$need_password || $directModuleInstall->toBool()" type="hidden" name="ftp_password" value="dummy" />
 			<input type="hidden" name="xe_validator_id" value="modules/autoinstall/tpl/uninstall/1" />
 
-			<block cond="$need_password && !$directModuleInstall->toBool()">
-				<div class="x_control-group">
-					<label class="x_control-label" for="ftp_password">FTP {$lang->password}</label>
-					<div class="x_controls">
-						<input type="password" name="ftp_password" id="ftp_password" value="" />
-						<span class="x_help-block">{$lang->about_ftp_password}</span>
-					</div>
-				</div>
-			</block>
 			<div class="x_clearfix btnArea">
 				<div class="x_pull-right">
 					<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_delete}" />
