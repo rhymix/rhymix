@@ -3809,6 +3809,25 @@ class MemberController extends Member
 	}
 
 	/**
+	 * trigger for document.deleteDocument. Delete to document scrap for deleteDocument trigger.
+	 * @param object $obj
+	 * @return void
+	 */
+	function triggerDeleteDocument($obj)
+	{
+		// Variables
+		$args = new stdClass;
+		$args->document_srl = intval($obj->document_srl);
+
+		// Delete
+		$output = executeQuery('member.deleteScrapDocumentByDocumentSrl', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+	}
+
+	/**
 	 * Spammer manage. Denied user login. And delete or trash all documents. Response Ajax string
 	 *
 	 * @return object

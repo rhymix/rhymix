@@ -122,6 +122,7 @@
 	<eventHandlers>
 		<eventHandler after="document.getDocumentMenu" class="controller" method="triggerGetDocumentMenu" />
 		<eventHandler after="comment.getCommentMenu" class="controller" method="triggerGetCommentMenu" />
+		<eventHandler after="document.deleteDocument" class="controller" method="triggerDeleteDocument" />
 	</eventHandlers>
 	<menus>
 		<menu name="userList">
