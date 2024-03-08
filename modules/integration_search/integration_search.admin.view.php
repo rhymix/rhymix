@@ -89,7 +89,7 @@ class integration_searchAdminView extends integration_search
 		$skin_info = $oModuleModel->loadSkinInfo($this->module_path, $this->config->skin);
 		$skin_vars = unserialize($this->config->skin_vars);
 		// value for skin_info extra_vars
-		if(count($skin_info->extra_vars))
+		if(!empty($skin_info->extra_vars))
 		{
 			foreach($skin_info->extra_vars as $key => $val)
 			{
