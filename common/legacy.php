@@ -734,9 +734,9 @@ function getDisplayDateTime(?int $timestamp = null, string $format = 'YmdHis'): 
  *
  * @param string $date Time value in format of YYYYMMDDHHIISS
  * @param string $format If gap is within a day, returns this format.
- * @return string
+ * @return ?string
  */
-function getTimeGap($date, $format = 'Y.m.d'): string
+function getTimeGap($date, $format = 'Y.m.d'): ?string
 {
 	$timestamp = intval(ztime($date));
 	$gap = RX_TIME - $timestamp;
