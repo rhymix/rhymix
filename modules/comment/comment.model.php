@@ -1005,7 +1005,7 @@ class CommentModel extends Comment
 				}
 				foreach ($output->data as $val)
 				{
-					if (isset($document_srl_list[$val->document_srl]))
+					if (isset($document_srl_list[$val->document_srl]) && is_object($document_srl_list[$val->document_srl]))
 					{
 						$val->module_srl = $document_srl_list[$val->document_srl]->get('module_srl');
 						$val->document_member_srl = $document_srl_list[$val->document_srl]->get('member_srl');
