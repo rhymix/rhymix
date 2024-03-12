@@ -92,6 +92,7 @@ class CommentAdminView extends Comment
 
 		// Get anonymous nicknames
 		$anonymous_member_srls = array();
+		$member_nick_name = array();
 		foreach($output->data as $val)
 		{
 			if($val->get('member_srl') < 0)
@@ -106,14 +107,13 @@ class CommentAdminView extends Comment
 			$member_output = executeQueryArray('member.getMembers', $member_args);
 			if($member_output)
 			{
-				$member_nick_neme = array();
 				foreach($member_output->data as $member)
 				{
-					$member_nick_neme[$member->member_srl] = $member->nick_name;
+					$member_nick_name[$member->member_srl] = $member->nick_name;
 				}
 			}
 		}
-		Context::set('member_nick_name', $member_nick_neme);
+		Context::set('member_nick_name', $member_nick_name);
 
 		$security = new Security();
 		$security->encodeHTML('search_target', 'search_keyword');
