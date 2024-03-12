@@ -960,6 +960,15 @@ class CommentModel extends Comment
 			return $output;
 		}
 
+		// Use simple query without JOIN if there are no document-related conditions.
+		if ($query_id === 'comment.getTotalCommentList')
+		{
+			if (!$args->s_module_srl && !$args->exclude_module_srl && !$args->document_statusList)
+			{
+				$query_id = 'comment.getTotalCommentListWithoutJoin';
+			}
+		}
+
 		// If an alternate output is set, use it instead of running the default queries
 		if (isset($args->use_alternate_output) && $args->use_alternate_output instanceof BaseObject)
 		{
@@ -977,9 +986,40 @@ class CommentModel extends Comment
 			return $output;
 		}
 
+		// Fill in document-related fields if a simple query was used.
+		if ($query_id === 'comment.getTotalCommentListWithoutJoin')
+		{
+			$document_srl_list = [];
+			foreach ($output->data as $val)
+			{
+				$document_srl_list[$val->document_srl] = true;
+			}
+			if (count($document_srl_list))
+			{
+				$document_list = DocumentModel::getDocuments(array_keys($document_srl_list), false, false, [
+					'document_srl', 'module_srl', 'member_srl', 'user_id', 'user_name', 'nick_name', 'title',
+				]);
+				foreach ($document_list as $val)
+				{
+					$document_srl_list[$val->document_srl] = $val;
+				}
+				foreach ($output->data as $val)
+				{
+					if (isset($document_srl_list[$val->document_srl]))
+					{
+						$val->module_srl = $document_srl_list[$val->document_srl]->get('module_srl');
+						$val->document_member_srl = $document_srl_list[$val->document_srl]->get('member_srl');
+						$val->document_user_id = $document_srl_list[$val->document_srl]->get('user_id');
+						$val->document_user_name = $document_srl_list[$val->document_srl]->get('user_name');
+						$val->document_nick_name = $document_srl_list[$val->document_srl]->get('nick_name');
+						$val->document_title = $document_srl_list[$val->document_srl]->get('title');
+					}
+				}
+			}
+		}
+
 		foreach($output->data as $key => $val)
 		{
-			unset($_oComment);
 			$_oComment = new CommentItem(0);
 			$_oComment->setAttribute($val);
 			$output->data[$key] = $_oComment;
