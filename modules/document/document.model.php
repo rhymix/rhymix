@@ -201,6 +201,7 @@ class DocumentModel extends Document
 		$args->document_srls = $document_srls;
 		$args->list_count = is_array($document_srls) ? count($document_srls) : 1;
 		$args->order_type = 'asc';
+		$args->page = 0;
 		$output = executeQueryArray('document.getDocuments', $args, $columnList);
 
 		$documents = array();
