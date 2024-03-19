@@ -196,7 +196,7 @@ class MenuAdminController extends Menu
 
 			$output = executeQuery('menu.getMenuItemByUrl', $args);
 
-			if($output->toBool() && $output->data)
+			if($output->toBool() && $output->data && $output->data->menu_srl)
 			{
 				$new_menu_srl = $output->data->menu_srl;
 			}
