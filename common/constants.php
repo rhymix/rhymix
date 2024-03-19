@@ -134,6 +134,10 @@ if (!defined('__XE__'))
 {
 	define('__XE__', true);
 }
+if (!defined('__ZBXE__'))
+{
+	define('__ZBXE__', true);
+}
 define('__XE_VERSION__', RX_VERSION);
 define('__XE_VERSION_ALPHA__', false);
 define('__XE_VERSION_BETA__', false);
@@ -141,7 +145,6 @@ define('__XE_VERSION_RC__', false);
 define('__XE_VERSION_STABLE__', true);
 define('__XE_MIN_PHP_VERSION__', '7.2.5');
 define('__XE_RECOMMEND_PHP_VERSION__', '7.4.0');
-define('__ZBXE__', true);
 define('__ZBXE_VERSION__', RX_VERSION);
 define('_XE_LOCATION_', 'ko');
 define('_XE_PACKAGE_', 'XE');
