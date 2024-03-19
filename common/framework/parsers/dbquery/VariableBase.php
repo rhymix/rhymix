@@ -34,7 +34,7 @@ class VariableBase
 		$params = array();
 
 		// Process the variable or default value.
-		if ($this->ifvar && !isset($args[$this->ifvar]))
+		if ($this->ifvar && empty($args[$this->ifvar]))
 		{
 			return [$where, $params];
 		}

@@ -138,7 +138,7 @@ class Query extends VariableBase
 			$columns = array();
 			foreach ($this->columns as $column)
 			{
-				if ($column->ifvar && !isset($this->_args[$column->ifvar]))
+				if ($column->ifvar && empty($this->_args[$column->ifvar]))
 				{
 					continue;
 				}
@@ -217,7 +217,7 @@ class Query extends VariableBase
 		}
 
 		// Compose the GROUP BY clause.
-		if ($this->groupby && count($this->groupby->columns) && (!$this->groupby->ifvar || isset($this->_args[$this->groupby->ifvar])))
+		if ($this->groupby && count($this->groupby->columns) && (!$this->groupby->ifvar || !empty($this->_args[$this->groupby->ifvar])))
 		{
 			$columns = array();
 			foreach ($this->groupby->columns as $column_name)
@@ -233,7 +233,7 @@ class Query extends VariableBase
 			}
 			$result .= ' GROUP BY ' . implode(', ', $columns);
 		}
-		if ($this->groupby && count($this->groupby->having) && (!$this->groupby->ifvar || isset($this->_args[$this->groupby->ifvar])))
+		if ($this->groupby && count($this->groupby->having) && (!$this->groupby->ifvar || !empty($this->_args[$this->groupby->ifvar])))
 		{
 			$having = $this->_arrangeConditions($this->groupby->having);
 			if ($having !== '')
@@ -292,7 +292,7 @@ class Query extends VariableBase
 		$columns = array();
 		foreach ($this->columns as $column)
 		{
-			if ($column->ifvar && !isset($this->_args[$column->ifvar]))
+			if ($column->ifvar && empty($this->_args[$column->ifvar]))
 			{
 				continue;
 			}
@@ -344,7 +344,7 @@ class Query extends VariableBase
 		$columns = array();
 		foreach ($this->columns as $column)
 		{
-			if ($column->ifvar && !isset($this->_args[$column->ifvar]))
+			if ($column->ifvar && empty($this->_args[$column->ifvar]))
 			{
 				continue;
 			}
@@ -437,7 +437,7 @@ class Query extends VariableBase
 		foreach ($tables as $table)
 		{
 			// Skip
-			if ($table->ifvar && !isset($this->_args[$table->ifvar]))
+			if ($table->ifvar && empty($this->_args[$table->ifvar]))
 			{
 				continue;
 			}
@@ -506,7 +506,7 @@ class Query extends VariableBase
 		foreach ($index_hints as $index_hint)
 		{
 			// Skip
-			if ($index_hint->ifvar && !isset($this->_args[$index_hint->ifvar]))
+			if ($index_hint->ifvar && empty($this->_args[$index_hint->ifvar]))
 			{
 				continue;
 			}
@@ -553,7 +553,7 @@ class Query extends VariableBase
 		foreach ($conditions as $condition)
 		{
 			// Skip
-			if ($condition->ifvar && !isset($this->_args[$condition->ifvar]))
+			if ($condition->ifvar && empty($this->_args[$condition->ifvar]))
 			{
 				continue;
 			}
