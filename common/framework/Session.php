@@ -956,14 +956,14 @@ class Session
 	public static function getValidityInfo(int $member_srl): object
 	{
 		$validity_info = Cache::get(sprintf('session:validity_info:%d', $member_srl));
-		if ($validity_info)
+		if (is_object($validity_info))
 		{
 			return $validity_info;
 		}
 
 		$filename = \RX_BASEDIR . sprintf('files/member_extra_info/session_validity/%s%d.php', getNumberingPath($member_srl), $member_srl);
 		$validity_info = Storage::readPHPData($filename);
-		if (!$validity_info)
+		if (!$validity_info || !is_object($validity_info))
 		{
 			$validity_info = (object)array(
 				'invalid_before' => 0,
