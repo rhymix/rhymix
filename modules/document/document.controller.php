@@ -997,11 +997,23 @@ class DocumentController extends Document
 
 		// can modify regdate only manager
 		$grant = Context::get('grant');
-		if(!$grant->manager)
+		if(!$grant->manager && !$manual_updated)
 		{
 			unset($obj->regdate);
 			unset($obj->last_update);
 			unset($obj->list_order);
+		}
+
+		// Set default values for regdate, list_order, and update_order.
+		if ($is_publish)
+		{
+			$obj->regdate = date('YmdHis');
+			$obj->list_order = getNextSequence() * -1;
+			$obj->update_order = $obj->list_order;
+		}
+		else
+		{
+			$obj->update_order = getNextSequence() * -1;
 		}
 
 		// Serialize the $extra_vars
@@ -1035,9 +1047,6 @@ class DocumentController extends Document
 				}
 			}
 		}
-
-		// Change the update order
-		$obj->update_order = getNextSequence() * -1;
 
 		// Hash the password if it exists
 		if($obj->password)
@@ -1122,12 +1131,6 @@ class DocumentController extends Document
 				$obj->title = $document_output->data->title;
 				$obj->content = $document_output->data->content;
 			}
-		}
-
-		// if temporary document, regdate is now setting
-		if ($source_obj->get('status') == $this->getConfigStatus('temp'))
-		{
-			$obj->regdate = date('YmdHis');
 		}
 
 		// Insert data into the DB

@@ -178,14 +178,8 @@ class BoardController extends Board
 				}
 			}
 
-			// if document status is temp
-			if($oDocument->get('status') == DocumentModel::getConfigStatus('temp'))
-			{
-				// Update list order, date
-				$obj->last_update = $obj->regdate = date('YmdHis');
-				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
-			}
-			else
+			// Additional protections for published (non-TEMP) documents
+			if($oDocument->get('status') !== DocumentModel::getConfigStatus('temp'))
 			{
 				// Protect document by comment
 				if($this->module_info->protect_content == 'Y' || $this->module_info->protect_update_content == 'Y')
