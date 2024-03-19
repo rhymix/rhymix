@@ -48,6 +48,23 @@ class Image
 	}
 
 	/**
+	 * Check if a file is an animated WebP.
+	 *
+	 * @param string $filename
+	 * @return bool
+	 */
+	public static function isAnimatedWebP(string $filename): bool
+	{
+		if (!$fp = @fopen($filename, 'rb'))
+		{
+			return false;
+		}
+		$buff = fread($fp, 64);
+		fclose($fp);
+		return preg_match('/^RIFF....WEBPVP8X[\x00-\xff]{14}ANIM/s', $buff) > 0;
+	}
+
+	/**
 	 * Get image information
 	 *
 	 * @param string $filename

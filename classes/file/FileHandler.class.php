@@ -568,7 +568,7 @@ class FileHandler
 		{
 			$source = @imagecreatefrombmp($source_file);
 		}
-		elseif ($type === 'webp' && function_exists('imagecreatefromwebp'))
+		elseif ($type === 'webp' && function_exists('imagecreatefromwebp') && !Rhymix\Framework\Image::isAnimatedWebP($source_file))
 		{
 			$source = @imagecreatefromwebp($source_file);
 		}
