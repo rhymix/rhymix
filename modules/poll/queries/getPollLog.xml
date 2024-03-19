@@ -9,7 +9,7 @@
         <condition operation="equal" column="poll_srl" var="poll_srl" />
         <group pipe="and">
             <condition operation="equal" column="member_srl" var="member_srl" />
-            <condition operation="equal" column="ipaddress" var="ipaddress" default="ipaddress()" pipe="or" />
+            <condition operation="equal" column="ipaddress" var="ipaddress" pipe="or" />
         </group>
     </conditions>
 </query>
