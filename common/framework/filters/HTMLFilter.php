@@ -649,7 +649,7 @@ class HTMLFilter
 			return $content;
 		}
 
-		return preg_replace_callback('!<(div|img)([^>]*)(' . implode('|', $regexp) . ')([^>]*)>!i', function($match) {
+		return (string)preg_replace_callback('!<(div|img)([^>]*)(' . implode('|', $regexp) . ')([^>]*)>!i', function($match) {
 			$tag = strtolower($match[1]);
 			$attrs = array();
 			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
@@ -703,7 +703,7 @@ class HTMLFilter
 			return $content;
 		}
 
-		return preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
+		return (string)preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
 			list($encoded_properties, $signature) = explode(':', $match[4]);
 			if (!Security::verifySignature($encoded_properties, $signature))
@@ -732,7 +732,7 @@ class HTMLFilter
 	protected static function _encodeDataAttributes(string $content): string
 	{
 		$tags = implode('|', self::$_data_allowed);
-		return preg_replace_callback('!<(' . $tags . ')\s([^>]+)>!i', function($match) {
+		return (string)preg_replace_callback('!<(' . $tags . ')\s([^>]+)>!i', function($match) {
 			$attrs = array();
 			$html = preg_replace_callback('!\s(data-[a-zA-Z0-9_-]+)="([^"]*)"!', function($attr) use(&$attrs) {
 				$attrkey = strtolower($attr[1]);
@@ -765,7 +765,7 @@ class HTMLFilter
 	protected static function _decodeDataAttributes(string $content): string
 	{
 		$tags = implode('|', self::$_data_allowed);
-		return preg_replace_callback('!<(' . $tags . ')([^>]*)(\srx_encoded_datas="([^"]+)")!i', function($match) {
+		return (string)preg_replace_callback('!<(' . $tags . ')([^>]*)(\srx_encoded_datas="([^"]+)")!i', function($match) {
 			$attrs = array();
 			list($encoded_datas, $signature) = explode(':', $match[4]);
 			if (!Security::verifySignature($encoded_datas, $signature))
