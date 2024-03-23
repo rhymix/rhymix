@@ -207,7 +207,15 @@ class MemberController extends Member
 		}
 		else
 		{
-			$default_folder_srl = null;
+			$output = $this->migrateMemberScrappedDocuments($logged_info->member_srl);
+			if ($output instanceof BaseObject)
+			{
+				return $output;
+			}
+			else
+			{
+				$default_folder_srl = $output;
+			}
 		}
 
 		// Variables
@@ -468,7 +476,7 @@ class MemberController extends Member
 	 * Migrate a member's scrapped documents to the new folder system.
 	 *
 	 * @param int $member_srl
-	 * @return void|Object (void : success, Object : fail)
+	 * @return int|BaseObject
 	 */
 	function migrateMemberScrappedDocuments($member_srl)
 	{
@@ -487,6 +495,8 @@ class MemberController extends Member
 		{
 			return $output;
 		}
+
+		return $args->folder_srl;
 	}
 
 	/**

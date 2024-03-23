@@ -7,6 +7,9 @@
     </columns>
     <conditions>
         <condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
-		<condition operation="null" column="folder_srl" pipe="and" />
+		<group>
+			<condition operation="equal" column="folder_srl" default="0" />
+			<condition operation="null" column="folder_srl" pipe="or" />
+		</group>
     </conditions>
 </query>

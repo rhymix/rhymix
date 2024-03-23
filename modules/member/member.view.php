@@ -671,6 +671,15 @@ class MemberView extends Member
 			}
 		}
 
+		// If viewing default folder, check for additional scraps to migrate.
+		if (isset($folder_info->folder_srl) && $folder_info->name === '/DEFAULT/')
+		{
+			$output = executeQuery('member.updateScrapFolderFromNull', [
+				'folder_srl' => $folder_info->folder_srl,
+				'member_srl' => $logged_info->member_srl,
+			]);
+		}
+
 		// Get scrapped documents in selected folder
 		$args = new stdClass();
 		$args->member_srl = $logged_info->member_srl;
