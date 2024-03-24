@@ -59,6 +59,7 @@ class Template
 	protected static $_mtime;
 	protected static $_delay_compile;
 	protected static $_json_options;
+	protected static $_json_options2;
 
 	/**
 	 * Provided for compatibility with old TemplateHandler.
@@ -99,6 +100,10 @@ class Template
 		if (self::$_json_options === null)
 		{
 			self::$_json_options = \JSON_HEX_TAG | \JSON_HEX_AMP | \JSON_HEX_APOS | \JSON_HEX_QUOT | \JSON_UNESCAPED_UNICODE;
+		}
+		if (self::$_json_options2 === null)
+		{
+			self::$_json_options2 = \JSON_HEX_TAG | \JSON_HEX_QUOT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES;
 		}
 
 		// If paths were provided, initialize immediately.

@@ -724,7 +724,7 @@ class TemplateParser_v2
 			{
 				case 'json':
 					return sprintf('<?php echo $this->config->context === \'JS\' ? ' .
-						'json_encode(%s, self::$_json_options) : ' .
+						'json_encode(%s, self::$_json_options2) : ' .
 						'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 				case 'lang':
 					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js($this->_v2_lang(%s)) : $this->_v2_lang(%s); ?>', $args, $args);

@@ -919,7 +919,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@json($var)';
 		$target = implode('', [
 			'<?php echo $this->config->context === \'JS\' ? ',
-			'json_encode($__Context->var, self::$_json_options) : ',
+			'json_encode($__Context->var, self::$_json_options2) : ',
 			'htmlspecialchars(json_encode($__Context->var, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
@@ -928,7 +928,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '@json(["foo" => 1, "bar" => 2])';
 		$target = implode('', [
 			'<?php echo $this->config->context === \'JS\' ? ',
-			'json_encode(["foo" => 1, "bar" => 2], self::$_json_options) : ',
+			'json_encode(["foo" => 1, "bar" => 2], self::$_json_options2) : ',
 			'htmlspecialchars(json_encode(["foo" => 1, "bar" => 2], self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
