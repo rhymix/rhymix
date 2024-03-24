@@ -143,6 +143,12 @@ class DisplayHandler extends Handler
 		self::$response_size = $this->content_size = strlen($output);
 		ModuleHandler::triggerCall('display', 'after', $output);
 
+		// Output buffered content only if the current page is HTML.
+		if ($handler instanceof HTMLDisplayHandler)
+		{
+			echo $buff;
+		}
+
 		// Output the page content and debug data.
 		$debug = self::getDebugInfo($output);
 		print $output;
