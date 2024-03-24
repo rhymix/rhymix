@@ -2207,10 +2207,9 @@ class MemberController extends Member
 	 *
 	 * @param int $member_srl
 	 * @param int $group_srl
-	 *
-	 * @return Object
+	 * @return BaseObject
 	 */
-	public static function addMemberToGroup($member_srl, $group_srl)
+	public static function addMemberToGroup($member_srl, $group_srl): BaseObject
 	{
 		// Return if member already belongs to group
 		$args = new stdClass();
@@ -2237,6 +2236,10 @@ class MemberController extends Member
 
 		// Add member to group
 		$output = executeQuery('member.addMemberToGroup', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
@@ -2250,7 +2253,6 @@ class MemberController extends Member
 	 *
 	 * @param int $member_srl
 	 * @param int $group_srl
-	 *
 	 * @return BaseObject
 	 */
 	public static function removeMemberFromGroup(int $member_srl, int $group_srl): BaseObject
