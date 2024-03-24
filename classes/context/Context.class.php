@@ -474,6 +474,32 @@ class Context
 	}
 
 	/**
+	 * Set CORS policy for the current request.
+	 *
+	 * @param string $origin Origin to allow, or '*'
+	 * @param array $methods
+	 * @param array $headers
+	 * @param int $max_age
+	 * @return void
+	 */
+	public static function setCorsPolicy(string $origin = '*', array $methods = [], array $headers = [], int $max_age = 0): void
+	{
+		header('Access-Control-Allow-Origin: ' . $origin);
+		if (count($methods))
+		{
+			header('Access-Control-Allow-Methods: ' . implode(', ', $methods));
+		}
+		if (count($headers))
+		{
+			header('Access-Control-Allow-Headers: ' . implode(', ', $headers));
+		}
+		if ($max_age > 0)
+		{
+			header('Access-Control-Max-Age: ' . $max_age);
+		}
+	}
+
+	/**
 	 * Load the database information
 	 *
 	 * @return void
