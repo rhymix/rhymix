@@ -3780,7 +3780,9 @@ class MemberController extends Member
 
 		$sms = new Rhymix\Framework\SMS;
 		$sms->addTo($phone_number, $phone_country_calling_code);
-		$content = '[' . Context::get('site_module_info')->settings->title . '] ' . sprintf(lang('member.verify_by_sms_message'), $code);
+		$site_title = Context::replaceUserLang(Context::get('site_module_info')->settings->title);
+		$message = sprintf(lang('member.verify_by_sms_message'), $code);
+		$content = sprintf('[%s] %s', $site_title, $message);
 		$sms->setContent($content);
 		$result = $sms->send();
 		if ($result && config('sms.type') !== 'dummy')
