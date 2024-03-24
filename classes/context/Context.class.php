@@ -450,9 +450,11 @@ class Context
 	/**
 	 * set Cache-Control header
 	 *
+	 * @param int $ttl
+	 * @param bool $public
 	 * @return void
 	 */
-	public static function setCacheControl($ttl = 0, $public = true)
+	public static function setCacheControl($ttl = 0, $public = true): void
 	{
 		$cache_control_header = config('cache.cache_control') ?? 'must-revalidate, no-store, no-cache';
 
