@@ -99,7 +99,7 @@ class ModuleActionParser extends BaseParser
 			$method_attr = trim($action['method'] ?? '');
 			if ($method_attr)
 			{
-				$methods = explode('|', strtoupper($method_attr));
+				$methods = array_map('trim', preg_split('/[|,]/', strtoupper($method_attr)));
 			}
 			elseif ($action_type === 'controller' || starts_with('proc', $action_name))
 			{

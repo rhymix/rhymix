@@ -4,7 +4,7 @@
 	<actions>
 		<!-- Dashboard -->
 		<action name="dispAdminIndex" class="Controllers\Dashboard" index="true" />
-		<action name="procAdminLogout" class="Controllers\Dashboard" method="GET|POST" />
+		<action name="procAdminLogout" class="Controllers\Dashboard" method="GET,POST" />
 		<!-- Maintenance -->
 		<action name="procAdminRecompileCacheFile" class="Controllers\Maintenance\CacheReset" />
 		<action name="dispAdminCleanupList" class="Controllers\Maintenance\Cleanup" />
