@@ -636,6 +636,9 @@ class Router
 			}
 		}, $route);
 
+		// Replace unnecessary regexp.
+		$route = preg_replace('/\\.[*+?]/', '', $route);
+
 		// Add a query string for the remaining arguments.
 		return $route . (count($vars) ? ('?' . http_build_query($vars)) : '');
 	}
