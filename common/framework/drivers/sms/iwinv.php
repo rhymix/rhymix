@@ -86,7 +86,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		{
 			// Authentication
 			$headers = array(
-				'Content-Type' => 'multipart/form-data',
+				//'Content-Type' => 'multipart/form-data',
 				'secret' => base64_encode($this->_config['api_key'] . '&' . $this->_config['api_secret']),
 			);
 
