@@ -143,6 +143,15 @@ class Context
 	);
 
 	/**
+	 * HTTP methods supported by router.
+	 */
+	private static $_router_methods = array(
+		'GET', 'POST', 'JSON', 'XMLRPC',
+		'HEAD', 'OPTIONS', 'PUT', 'PATCH',
+		'DELETE', 'TRACE',
+	);
+
+	/**
 	 * Obtain a singleton instance of Context.
 	 *
 	 * @return object Instance
@@ -195,7 +204,7 @@ class Context
 		// Set information about the current request.
 		self::_checkGlobalVars();
 		self::setRequestMethod();
-		if (in_array(self::$_instance->request_method, array('GET', 'POST', 'JSON')))
+		if (in_array(self::$_instance->request_method, self::$_router_methods))
 		{
 			$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 			$request = Rhymix\Framework\Router::parseURL($method, RX_REQUEST_URL, Rhymix\Framework\Router::getRewriteLevel());

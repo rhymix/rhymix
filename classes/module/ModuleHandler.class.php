@@ -39,6 +39,13 @@ class ModuleHandler extends Handler
 	);
 
 	/**
+	 * List of HTTP methods that do not require CSRF checks by default.
+	 */
+	protected static $_nocsrf_methods = array(
+		'GET', 'HEAD', 'OPTIONS',
+	);
+
+	/**
 	 * prepares variables to use in moduleHandler
 	 * @param string $module name of module
 	 * @param string $act name of action
@@ -377,7 +384,7 @@ class ModuleHandler extends Handler
 		}
 
 		// check CSRF for non-GET (POST, PUT, etc.) actions
-		if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
+		if(!in_array(Context::getRequestMethod(), self::$_nocsrf_methods) && Context::isInstalled())
 		{
 			if(isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 			{
@@ -539,7 +546,7 @@ class ModuleHandler extends Handler
 				}
 
 				// check CSRF for non-GET (POST, PUT, etc.) actions
-				if(Context::getRequestMethod() !== 'GET' && Context::isInstalled())
+				if(!in_array(Context::getRequestMethod(), self::$_nocsrf_methods) && Context::isInstalled())
 				{
 					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
 					{

@@ -180,7 +180,7 @@ class Router
 				}
 
 				// Try the list of routes defined by the module.
-				foreach ($action_info->route->{$method} as $regexp => $action)
+				foreach ($action_info->route->{$method} ?? [] as $regexp => $action)
 				{
 					if (preg_match($regexp, $internal_url, $matches))
 					{
@@ -199,7 +199,7 @@ class Router
 				if ($prefix_type === 'mid')
 				{
 					$forwarded_routes = self::_getForwardedRoutes('internal');
-					foreach ($forwarded_routes[$method] ?: [] as $regexp => $action)
+					foreach ($forwarded_routes[$method] ?? [] as $regexp => $action)
 					{
 						if (preg_match($regexp, $internal_url, $matches))
 						{
@@ -248,7 +248,7 @@ class Router
 		if ($rewrite_level >= 2)
 		{
 			$global_routes = self::_getForwardedRoutes('global');
-			foreach ($global_routes[$method] ?: [] as $regexp => $action)
+			foreach ($global_routes[$method] ?? [] as $regexp => $action)
 			{
 				if (preg_match($regexp, $url, $matches))
 				{
