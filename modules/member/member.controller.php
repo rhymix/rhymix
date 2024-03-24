@@ -2203,7 +2203,7 @@ class MemberController extends Member
 	}
 
 	/**
-	 * Add group_srl to member_srl
+	 * Add member to group
 	 *
 	 * @param int $member_srl
 	 * @param int $group_srl
@@ -2240,6 +2240,47 @@ class MemberController extends Member
 
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
+		self::clearMemberCache($member_srl);
+
+		return $output;
+	}
+
+	/**
+	 * Remove member from group
+	 *
+	 * @param int $member_srl
+	 * @param int $group_srl
+	 *
+	 * @return BaseObject
+	 */
+	public static function removeMemberFromGroup(int $member_srl, int $group_srl): BaseObject
+	{
+		// Return if member does not belong to group
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->group_srl = $group_srl;
+		$output = executeQueryArray('member.getMemberGroupMember', $args);
+		if ($output->data && count($output->data) < 1)
+		{
+			return $output;
+		}
+
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.removeMemberFromGroup', 'before', $args);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Remove member from group
+		$output = executeQuery('member.deleteMemberGroupMember', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.removeMemberFromGroup', 'after', $args);
 		self::clearMemberCache($member_srl);
 
 		return $output;
