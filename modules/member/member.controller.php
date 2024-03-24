@@ -2221,6 +2221,15 @@ class MemberController extends Member
 		{
 			return $output;
 		}
+
+		// Call trigger (before)
+		$trigger_output = ModuleHandler::triggerCall('member.addMemberToGroup', 'before', $args);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
+		// Delete duplicate records
 		if ($output->data && count($output->data) > 1)
 		{
 			executeQuery('member.deleteMemberGroupMember', $args);
@@ -2229,6 +2238,7 @@ class MemberController extends Member
 		// Add member to group
 		$output = executeQuery('member.addMemberToGroup', $args);
 
+		// Call trigger (after)
 		ModuleHandler::triggerCall('member.addMemberToGroup', 'after', $args);
 		self::clearMemberCache($member_srl);
 
