@@ -562,8 +562,8 @@ class ExtraItem
 			// time
 			case 'time' :
 				$buff[] = '<input type="time" name="' . $column_name . '" class="rx_ev_time" value="' . $value . '" pattern="\d{2}:\d{2}" />';
-				$buff[] = '<button type="button" class="btn dateRemover" ' .
-					'onclick="jQuery(this).prev(\'.time\').val(\'\');return false;">' .
+				$buff[] = '<button type="button" class="btn timeRemover" ' .
+					'onclick="jQuery(this).prev(\'.rx_ev_time\').val(\'\');return false;">' .
 					lang('cmd_delete') . '</button>';
 				break;
 			// address
