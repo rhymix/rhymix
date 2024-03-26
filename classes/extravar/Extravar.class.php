@@ -559,6 +559,7 @@ class ExtraItem
 				$formattedValue = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />';
 				$buff[] = '<input type="date" id="date_' . $column_name . '" class="date" value="' . $formattedValue . '" ' .
+					'pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD" ' .
 					'onchange="jQuery(this).prev(\'.rx_ev_date\').val(this.value.replace(/-/g,\'\'));" /> ';
 				$buff[] = '<input type="button" value="' . lang('cmd_delete') . '" class="btn dateRemover" />';
 				break;
