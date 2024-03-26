@@ -210,32 +210,10 @@ class ExtraItem
 				}
 				return escape($value, false);
 
-			case 'tel' :
-				if(is_array($value))
-				{
-					$values = $value;
-				}
-				elseif(strpos($value, '|@|') !== FALSE)
-				{
-					$values = explode('|@|', $value);
-				}
-				elseif(strpos($value, ',') !== FALSE)
-				{
-					$values = explode(',', $value);
-				}
-				else
-				{
-					$values = array($value);
-				}
-
-				$values = array_values($values);
-				for($i = 0, $c = count($values); $i < $c; $i++)
-				{
-					$values[$i] = trim(escape($values[$i], false));
-				}
-				return $values;
-
-			case 'tel_intl' :
+			case 'tel':
+			case 'tel_v2':
+			case 'tel_intl':
+			case 'tel_intl_v2':
 				if(is_array($value))
 				{
 					$values = $value;
@@ -345,8 +323,10 @@ class ExtraItem
 				return ($value) ? sprintf('<a href="mailto:%s">%s</a>', $value, $value) : "";
 
 			case 'tel' :
+			case 'tel_v2' :
 				return $value ? implode('-', $value) : '';
 			case 'tel_intl' :
+			case 'tel_intl_v2' :
 				$country_number = $value[0] ?? '';
 				$array_slice = $value ? array_slice($value, 1) : [];
 				$phone_number = implode('-', $array_slice);
@@ -423,8 +403,13 @@ class ExtraItem
 				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[1] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
 				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[2] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
 				break;
+			// Phone Number v2 (single input)
+			case 'tel_v2' :
+				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[0] ?? '') . '" size="16" maxlength="16" class="rx_ev_tel_v2" />';
+				break;
 			// Select Country Number
 			case 'tel_intl' :
+			case 'tel_intl_v2' :
 				$lang_type = Context::get('lang_type');
 				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
 				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select rx_ev_select_country">';
@@ -445,9 +430,16 @@ class ExtraItem
 					}
 				}
 				$buff[] = '</select>';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[1] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[2] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
-				$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[3] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
+				if ($type === 'tel_intl_v2')
+				{
+					$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[1] ?? '') . '" size="16" maxlength="16" class="rx_ev_tel_v2" />';
+				}
+				else
+				{
+					$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[1] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel1" />';
+					$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[2] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel2" />';
+					$buff[] = '<input type="tel" name="' . $column_name . '[]" value="' . ($value[3] ?? '') . '" size="4" maxlength="4" class="tel rx_ev_tel3" />';
+				}
 				break;
 			// Select Country
 			case 'country':
