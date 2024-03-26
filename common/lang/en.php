@@ -326,6 +326,7 @@ $lang->column_type_list['kr_zip'] = 'Korean address and postal code';
 $lang->column_type_list['country'] = 'Country';
 $lang->column_type_list['language'] = 'Language';
 $lang->column_type_list['date'] = 'Date';
+$lang->column_type_list['time'] = 'Time';
 $lang->column_type_list['timezone'] = 'Time zone';
 $lang->column_name = 'Column Name';
 $lang->column_title = 'Column Title';

@@ -286,6 +286,7 @@ class ExtraItem
 				return $values;
 
 			//case 'date' :
+			//case 'time' :
 			//case 'email_address' :
 			//case 'text' :
 			//case 'textarea' :
@@ -365,6 +366,7 @@ class ExtraItem
 
 			// case 'text' :
 			// case 'password' :
+			// case 'time' :
 			default :
 				return $value;
 		}
@@ -548,12 +550,21 @@ class ExtraItem
 				break;
 			// date
 			case 'date' :
-				$formattedValue = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
+				$formatted_value = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />';
-				$buff[] = '<input type="date" id="date_' . $column_name . '" class="date" value="' . $formattedValue . '" ' .
+				$buff[] = '<input type="date" class="date" value="' . $formatted_value . '" ' .
 					'pattern="\d{4}-\d{2}-\d{2}" placeholder="YYYY-MM-DD" ' .
 					'onchange="jQuery(this).prev(\'.rx_ev_date\').val(this.value.replace(/-/g,\'\'));" /> ';
-				$buff[] = '<input type="button" value="' . lang('cmd_delete') . '" class="btn dateRemover" />';
+				$buff[] = '<button type="button" class="btn dateRemover" ' .
+					'onclick="jQuery(this).prev(\'.date\').val(\'\').trigger(\'change\');return false;">' .
+					lang('cmd_delete') . '</button>';
+				break;
+			// time
+			case 'time' :
+				$buff[] = '<input type="time" name="' . $column_name . '" class="rx_ev_time" value="' . $value . '" pattern="\d{2}:\d{2}" />';
+				$buff[] = '<button type="button" class="btn dateRemover" ' .
+					'onclick="jQuery(this).prev(\'.time\').val(\'\');return false;">' .
+					lang('cmd_delete') . '</button>';
 				break;
 			// address
 			case "kr_zip" :

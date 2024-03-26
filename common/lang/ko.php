@@ -328,6 +328,7 @@ $lang->column_type_list['kr_zip'] = '한국 주소와 우편번호';
 $lang->column_type_list['country'] = '국가';
 $lang->column_type_list['language'] = '언어';
 $lang->column_type_list['date'] = '날짜';
+$lang->column_type_list['time'] = '시간';
 $lang->column_type_list['timezone'] = '표준 시간대';
 $lang->column_name = '입력항목 이름';
 $lang->column_title = '입력항목 제목';
