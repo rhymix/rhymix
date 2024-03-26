@@ -710,10 +710,17 @@ class MemberAdminView extends Member
 					}
 					else if($extendForm->column_type == 'tel')
 					{
-						$extentionReplace = array('tel_0' => $extendForm->value[0],
+						$extentionReplace = array(
+							'tel_0' => $extendForm->value[0],
 							'tel_1' => $extendForm->value[1],
-							'tel_2' => $extendForm->value[2]);
+							'tel_2' => $extendForm->value[2]
+						);
 						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" class="rx_ev_tel2" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" class="rx_ev_tel3" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
+					}
+					else if($extendForm->column_type == 'tel_v2')
+					{
+						$extentionReplace = array('tel_0' => $extendForm->value[0] ?? '');
+						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="16" maxlength="16" style="width:100px" />';
 					}
 					else if($extendForm->column_type == 'textarea')
 					{
@@ -793,6 +800,12 @@ class MemberAdminView extends Member
 							'<input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" ' .
 							'onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> ' .
 							'<input type="button" value="%cmd_delete%" class="btn dateRemover" />';
+					}
+					else if($extendForm->column_type == 'time')
+					{
+						$extentionReplace = array('time' => $extendForm->value, 'cmd_delete' => $lang->cmd_delete);
+						$template = '<input type="time" name="%column_name%" class="rx_ev_time" value="%time%" pattern="\d{2}:\d{2}" /> ' .
+							'<button type="button" class="btn timeRemover" onclick="jQuery(this).prev(\'.rx_ev_time\').val(\'\');return false;">%cmd_delete%</button>';
 					}
 					else if ($extendForm->column_type == 'country')
 					{
