@@ -555,30 +555,11 @@ class ExtraItem
 				break;
 			// date
 			case 'date' :
-				// datepicker javascript plugin load
-				Context::loadJavascriptPlugin('ui.datepicker');
-
 				$formattedValue = $value ? sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2)) : '';
 				$buff[] = '<input type="hidden" class="rx_ev_date" name="' . $column_name . '" value="' . $value . '" />';
-				$buff[] =	'<input type="text" id="date_' . $column_name . '" value="' . $formattedValue . '" class="date" autocomplete="off" />';
-				$buff[] =	'<input type="button" value="' . lang('cmd_delete') . '" class="btn" id="dateRemover_' . $column_name . '" />';
-				$buff[] =	'<script type="text/javascript">';
-				$buff[] = '//<![CDATA[';
-				$buff[] =	'(function($){';
-				$buff[] =	'$(function(){';
-				$buff[] =	'  var option = { dateFormat: "yy-mm-dd", changeMonth:true, changeYear:true, gotoCurrent:false, yearRange:\'-100:+10\', onSelect:function(){';
-				$buff[] =	'    $(this).prev(\'input[type="hidden"]\').val(this.value.replace(/-/g,""))}';
-				$buff[] =	'  };';
-				$buff[] =	'  $.extend(option,$.datepicker.regional[\'' . Context::getLangType() . '\']);';
-				$buff[] =	'  $("#date_' . $column_name . '").datepicker(option);';
-				$buff[] =	'  $("#dateRemover_' . $column_name . '").click(function(){';
-				$buff[] =	'    $(this).siblings("input").val("");';
-				$buff[] =	'    return false;';
-				$buff[] =	'  })';
-				$buff[] =	'});';
-				$buff[] =	'})(jQuery);';
-				$buff[] = '//]]>';
-				$buff[] = '</script>';
+				$buff[] = '<input type="date" id="date_' . $column_name . '" class="date" value="' . $formattedValue . '" ' .
+					'onchange="jQuery(this).prev(\'.rx_ev_date\').val(this.value.replace(/-/g,\'\'));" /> ';
+				$buff[] = '<input type="button" value="' . lang('cmd_delete') . '" class="btn dateRemover" />';
 				break;
 			// address
 			case "kr_zip" :
