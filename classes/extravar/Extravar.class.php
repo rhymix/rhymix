@@ -428,6 +428,7 @@ class ExtraItem
 				$lang_type = Context::get('lang_type');
 				$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
 				$buff[] = '<select name="' . $column_name . '" class="select rx_ev_select rx_ev_select_country">';
+				$buff[] = '  <option value=""></option>';
 				foreach($country_list as $country_info)
 				{
 					if($country_info->calling_code)
