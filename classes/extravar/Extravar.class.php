@@ -347,8 +347,8 @@ class ExtraItem
 			case 'tel' :
 				return $value ? implode('-', $value) : '';
 			case 'tel_intl' :
-				$country_number = $value[0];
-				$array_slice = array_slice($value, 1);
+				$country_number = $value[0] ?? '';
+				$array_slice = $value ? array_slice($value, 1) : [];
 				$phone_number = implode('-', $array_slice);
 				return $value ? "+{$country_number}){$phone_number}": '';
 			case 'country':
