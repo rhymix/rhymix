@@ -3187,9 +3187,9 @@ class MemberController extends Member
 		}
 		else
 		{
-			$args->phone_country = '';
-			$args->phone_number = '';
-			$args->phone_type = '';
+			unset($args->phone_country);
+			unset($args->phone_number);
+			unset($args->phone_type);
 		}
 
 		// Check managed Email Host
