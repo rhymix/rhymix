@@ -3,6 +3,15 @@
 	<h1>{$lang->comment} {$lang->cmd_management}</h1>
 </div>
 
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$act == 'dispCommentAdminList'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->comment_list}</a>
+	</li>
+	<li class="x_active"|cond="$act == 'dispCommentAdminDeclared'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a>
+	</li>
+</ul>
+
 <script type="text/javascript">
 	var secret_name_list = {$lang->secret_name_list->getArrayCopy()|json};
 	var published_name_list = {$lang->published_name_list->getArrayCopy()|json};

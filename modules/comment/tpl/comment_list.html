@@ -18,8 +18,6 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<a href="{getUrl('search_target','is_published','search_keyword','N')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'N'">{$lang->published_name_list['N']}<block cond="$search_target == 'is_published' && $search_keyword == 'N'">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('search_target','is_published','search_keyword','Y')}" class="active"|cond="$search_target == 'is_published' && $search_keyword == 'Y'">{$lang->published_name_list['Y']}<block cond="$search_target == 'is_published' && $search_keyword == 'Y'">({number_format($total_count)})</block></a>
-			<i>|</i>
-			<a href="{getUrl('', 'module', 'admin', 'act','dispCommentAdminDeclared')}">{$lang->cmd_declared_list}</a>
 			<i cond="$search_target == 'ipaddress'">|</i>
 			<a href="{getUrl('search_target', 'ipaddress')}" class="active" cond="$search_target == 'ipaddress'">{$lang->ipaddress}:{$search_keyword}({number_format($total_count)})</a>
 
@@ -52,7 +50,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{@ $comment = $val->getContentText(200)}
 				<td>
 					<block cond="isset($module_list[$val->module_srl])">
-					<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> - 
+					<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> -
 					</block>
 					<a href="{getUrl('','document_srl',$val->document_srl,'comment_srl',$val->comment_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a>
 				</td>
