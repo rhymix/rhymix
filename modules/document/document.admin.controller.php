@@ -113,7 +113,15 @@ class DocumentAdminController extends Document
 			$args = new stdClass();
 			$args->document_srl = $document_srl;
 			$output = executeQuery('document.deleteDeclaredDocuments', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+			$output = executeQuery('document.deleteDocumentDeclaredLog', $args);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 		}
 	}
 

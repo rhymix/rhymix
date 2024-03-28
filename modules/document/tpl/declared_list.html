@@ -2,7 +2,6 @@
 xe.lang.msg_empty_search_target = '{$lang->msg_empty_search_target}';
 xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 </script>
-<load target="js/document_admin.js" />
 <include target="header.html" />
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/document/tpl/declared_list/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
@@ -18,7 +17,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<i>|</i>
 			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'Y')}">{$status_name_list['SECRET']}</a>
 			<i>|</i>
-			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a> 
+			<a href="{getUrl('act', 'dispDocumentAdminList', 'search_target', 'is_secret', 'search_keyword', 'temp')}">{$status_name_list['TEMP']}</a>
 			<i>|</i>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminDeclared')}" class="active"|cond="$act == 'dispDocumentAdminDeclared'">{$lang->cmd_declared_list}({number_format($total_count)})</a>
 
@@ -135,6 +134,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<label for="message">{$lang->message_notice}</label>
 				<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
 			</div>
+			<div class="prevent_redeclare">
+				<label for="prevent_redeclare">
+					<input type="checkbox" id="prevent_redeclare" name="prevent_redeclare" value="Y" checked="checked" />
+					{$lang->prevent_redeclare}
+				</label>
+			</div>
 		</section>
 		<section class="moveTree">
 			<h1>{$lang->msg_select_menu}</h1>
@@ -179,7 +184,7 @@ jQuery(function($){
 				$modalBody.removeClass('showTree');
 			} else if(thisValue == 'move' || thisValue == 'copy') {
 				$.xeShowMenuSelectorIn($('._menuSelector'));
-				
+
 				$modalBody.addClass('showTree');
 				$tree = $('._menuSelector .tree');
 				$tree.bind('select_node.jstree', function(a,b){
@@ -195,6 +200,11 @@ jQuery(function($){
 				$('._menuSelector').bind('site_changed', function(){
 					$('#manageForm input[name=module_srl]').val('');
 				});
+			}
+			if (thisValue == 'cancelDeclare') {
+				$modalBody.find('.prevent_redeclare').show();
+			} else {
+				$modalBody.find('.prevent_redeclare').hide();
 			}
 		}
 	});

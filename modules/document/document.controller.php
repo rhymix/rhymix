@@ -3276,7 +3276,14 @@ class DocumentController extends Document
 			{
 				return $output;
 			}
-
+			if(Context::get('prevent_redeclare') !== 'Y')
+			{
+				$output = executeQuery('document.deleteDocumentDeclaredLog', $args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
 			$obj->return_message = 'success_declare_canceled';
 		}
 		else

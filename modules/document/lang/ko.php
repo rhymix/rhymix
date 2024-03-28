@@ -124,3 +124,4 @@ $lang->allow_declare_from_same_ip = '동일 IP 신고 허용';
 $lang->allow_declare_cancel = '신고 취소 허용';
 $lang->cmd_search_division = '검색 결과 분할';
 $lang->about_search_division = '검색 소요시간과 서버 부하를 줄이기 위해 일정 갯수만큼 끊어서 검색합니다. 0으로 설정할 경우 분할하지 않습니다.<br />분할하지 않거나 지나치게 많은 게시물을 한 번에 검색하려고 하면 타임아웃, 서버 다운 등 심각한 부작용이 발생할 수 있으므로 5000~10000 내외를 권장합니다.';
+$lang->prevent_redeclare = '같은 사용자가 이 게시물을 다시 신고하는 것을 방지합니다.';
