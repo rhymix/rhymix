@@ -417,6 +417,15 @@ class CommentAdminController extends Comment
 			{
 				return $output;
 			}
+
+			if(Context::get('prevent_redeclare') !== 'Y')
+			{
+				$output = executeQuery('comment.deleteDeclaredCommentLog', $args);
+				if(!$output->toBool())
+				{
+					return $output;
+				}
+			}
 		}
 	}
 

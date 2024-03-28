@@ -117,10 +117,14 @@ class DocumentAdminController extends Document
 			{
 				return $output;
 			}
-			$output = executeQuery('document.deleteDocumentDeclaredLog', $args);
-			if (!$output->toBool())
+
+			if(Context::get('prevent_redeclare') !== 'Y')
 			{
-				return $output;
+				$output = executeQuery('document.deleteDocumentDeclaredLog', $args);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 	}
