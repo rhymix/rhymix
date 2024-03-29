@@ -3106,6 +3106,7 @@ class MemberController extends Member
 		$args->nick_name = escape($args->nick_name, false);
 		$args->homepage = escape($args->homepage, false);
 		$args->blog = escape($args->blog, false);
+		$args->birthday = intval($args->birthday ?? '') ?: '';
 		if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
 		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
 
@@ -3305,7 +3306,6 @@ class MemberController extends Member
 		{
 			$args->description = $orgMemberInfo->description;
 		}
-		if(!$args->birthday) $args->birthday = $orgMemberInfo->birthday;
 
 		$oDB = DB::getInstance();
 		$oDB->begin();

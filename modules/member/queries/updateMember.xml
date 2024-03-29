@@ -17,7 +17,7 @@
         <column name="find_account_answer" var="find_account_answer" default="" />
         <column name="homepage" var="homepage" default="" />
         <column name="blog" var="blog" default="" />
-        <column name="birthday" var="birthday" />
+        <column name="birthday" var="birthday" default="" />
         <column name="allow_mailing" var="allow_mailing" default="Y" />
         <column name="allow_message" var="allow_message" />
         <column name="is_admin" var="is_admin" />
