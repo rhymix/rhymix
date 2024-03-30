@@ -4,7 +4,7 @@
 	<ul class="lt">
 		<li loop="$comment_list => $no,$comment">
 			<a href="{getUrl('','document_srl',$comment->document_srl)}#comment_{$comment->comment_srl}" target="_blank">
-				{$comment->getSummary() ?: $lang->msg_no_text_comment}
+				{$comment->getSummary() === "0" ? "0" : ($comment->getSummary() ?: $lang->msg_no_text_comment)}
 				<span class="memberInfo">{$comment->getRegdate("Y-m-d")}</span>
 			</a>
 		</li>
@@ -16,7 +16,7 @@
 		<button type="submit">{$lang->cmd_search}</button>
 	</form>
 	<div class="pn">
-		<a cond="$page != 1" href="{getUrl('page',$page-1,'module_srl','','document_srl','')}" class="prev">{$lang->cmd_prev}</a> 
+		<a cond="$page != 1" href="{getUrl('page',$page-1,'module_srl','','document_srl','')}" class="prev">{$lang->cmd_prev}</a>
 		<strong>{$page} / {$page_navigation->last_page}</strong>
 		<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1,'module_srl','','document_srl','')}" class="next">{$lang->cmd_next}</a>
 	</div>
