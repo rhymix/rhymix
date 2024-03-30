@@ -440,7 +440,7 @@ class CommentItem extends BaseObject
 		return false;
 	}
 
-	function getContentPlainText($strlen = 0)
+	function getContentPlainText($strlen = 0, $default_content = '')
 	{
 		if($this->isDeletedByAdmin())
 		{
@@ -465,7 +465,20 @@ class CommentItem extends BaseObject
 		{
 			$content = cut_str($content, $strlen, '...');
 		}
-		return escape($content);
+
+		$content = escape($content);
+
+		if ($content === '')
+		{
+			return $default_content;
+		}
+
+		if ($content === '0')
+		{
+			return '0';
+		}
+
+		return $content;
 	}
 
 	/**
@@ -563,7 +576,7 @@ class CommentItem extends BaseObject
 	 * Return summary content
 	 * @return string
 	 */
-	function getSummary($str_size = 50, $tail = '...')
+	function getSummary($str_size = 50, $tail = '...', $default_content = '')
 	{
 		// Remove tags
 		$content = $this->getContent(false, false);
@@ -578,8 +591,19 @@ class CommentItem extends BaseObject
 
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
+		$content = escape($content);
 
-		return escape($content);
+		if ($content === '')
+		{
+			return $default_content;
+		}
+
+		if ($content === '0')
+		{
+			return '0';
+		}
+
+		return $content;
 	}
 
 	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)

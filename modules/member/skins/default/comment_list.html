@@ -16,7 +16,7 @@
 			<td>{$no}</td>
 			<td>
 				<a href="{getUrl('','document_srl',$comment->document_srl)}#comment_{$comment->comment_srl}" target="_blank">
-					{$comment->getSummary() === "0" ? "0" : ($comment->getSummary() ?: $lang->msg_no_text_comment)}
+					{$comment->getSummary(50, '...', $lang->msg_no_text_comment)}
 				</a>
 			</td>
 			<td>{$comment->getRegdate("Y-m-d")}</td>
