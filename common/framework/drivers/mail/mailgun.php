@@ -121,7 +121,7 @@ class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		// Parse the result.
 		if (!$result)
 		{
-			$message->errors[] = 'Mailgun: Connection error: ' . $request->body;
+			$message->errors[] = 'Mailgun: API error: ' . $request->getBody()->getContents();
 			return false;
 		}
 		elseif (!$result->id)
