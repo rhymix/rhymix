@@ -65,7 +65,8 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = [
  */
 function getModule($module_name, $type = 'view', $kind = ''): ?ModuleObject
 {
-	return ModuleHandler::getModuleInstance($module_name, $type, $kind);
+	$oModule = ModuleHandler::getModuleInstance($module_name, $type, $kind);
+	return $oModule instanceof ModuleObject ? $oModule : null;
 }
 
 /**
@@ -176,7 +177,8 @@ function getWAP($module_name): ?ModuleObject
  */
 function getClass($module_name): ?ModuleObject
 {
-	return ModuleHandler::getModuleInstance($module_name, 'class');
+	$oModule = ModuleHandler::getModuleInstance($module_name, 'class');
+	return $oModule instanceof ModuleObject ? $oModule : null;
 }
 
 /**
