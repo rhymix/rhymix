@@ -255,6 +255,19 @@ class MemberView extends Member
 				{
 					$item->value = implode('-', $orgValue);
 				}
+				elseif($formInfo->type=='tel_intl' && is_array($orgValue))
+				{
+					$country_number = $orgValue[0] ?? '';
+					$array_slice = $orgValue ? array_slice($orgValue, 1) : [];
+					$phone_number = implode('-', $array_slice);
+					$item->value = $orgValue ? "+{$country_number}){$phone_number}": '';
+				}
+				elseif($formInfo->type=='tel_intl_v2' && is_array($orgValue))
+				{
+					$country_number = $orgValue[0] ?? '';
+					$phone_number =  $orgValue[1] ? ($country_number === '82' ? Rhymix\Framework\Korea::formatPhoneNumber($orgValue[1]) : $orgValue[1]) : '';
+					$item->value = $orgValue ? "+{$country_number}){$phone_number}": '';
+				}
 				elseif($formInfo->type=='kr_zip' && is_array($orgValue))
 				{
 					$item->value = implode(' ', $orgValue);
