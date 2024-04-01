@@ -711,9 +711,9 @@ class MemberAdminView extends Member
 					else if($extendForm->column_type == 'tel')
 					{
 						$extentionReplace = array(
-							'tel_0' => $extendForm->value[0],
-							'tel_1' => $extendForm->value[1],
-							'tel_2' => $extendForm->value[2]
+							'tel_0' => $extendForm->value[0] ?? '',
+							'tel_1' => $extendForm->value[1] ?? '',
+							'tel_2' => $extendForm->value[2] ?? ''
 						);
 						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" class="rx_ev_tel2" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" class="rx_ev_tel3" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
 					}
@@ -721,6 +721,40 @@ class MemberAdminView extends Member
 					{
 						$extentionReplace = array('tel_0' => $extendForm->value[0] ?? '');
 						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="16" maxlength="16" style="width:100px" />';
+					}
+					else if($extendForm->column_type == 'tel_intl' || $extendForm->column_type == 'tel_intl_v2')
+					{
+						$extentionReplace = array(
+							'tel_0' => $extendForm->value[0] ?? '',
+							'tel_1' => $extendForm->value[1] ?? '',
+							'tel_2' => $extendForm->value[2] ?? '',
+							'tel_3' => $extendForm->value[3] ?? ''
+						);
+						$template = '<select name="%column_name%[]" class="rx_ev_select">';
+						$template .= ' <option value=""></option>';
+						$lang_type = Context::get('lang_type');
+						$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
+						foreach ($country_list as $country)
+						{
+							if ($country->calling_code)
+							{
+								$template .= '<option value="' . $country->calling_code . '"' . ($country->calling_code === $extendForm->value[0] ? ' selected="selected"' : '') . '>';
+								$template .= escape(Context::get('lang_type') === 'ko' ? $country->name_korean : $country->name_english) . ' (+' . $country->calling_code . ')</option>';
+							}
+						}
+						$template .= '</select>' . "\n";
+						if ($extendForm->column_type == 'tel_intl_v2')
+						{
+							if ($extentionReplace['tel_0'] === '82')
+							{
+								$extentionReplace['tel_1'] = Rhymix\Framework\Korea::formatPhoneNumber($extendForm->value[1]);
+							}
+							$template .= '<input type="tel" class="rx_ev_tel_v2" name="%column_name%[]" id="%column_name%" value="%tel_1%" size="16" maxlength="16" style="width:157px" />';
+						}
+						else
+						{
+							$template .= '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_1%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" class="rx_ev_tel2" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" class="rx_ev_tel3" name="%column_name%[]" value="%tel_3%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
+						}
 					}
 					else if($extendForm->column_type == 'textarea')
 					{
