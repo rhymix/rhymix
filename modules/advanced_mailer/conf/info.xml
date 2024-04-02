@@ -10,8 +10,8 @@
 	</description>
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>
-	<author link="https://www.poesis.org">
-		<name xml:lang="ko">포에시스</name>
-		<name xml:lang="en">POESIS</name>
+	<author link="https://rhymix.org">
+		<name xml:lang="ko">Rhymix</name>
+		<name xml:lang="en">Rhymix</name>
 	</author>
 </module>
