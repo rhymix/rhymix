@@ -7,8 +7,8 @@
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>
 	<category>service</category>
-	<author link="http://github.com/xe-public">
-		<name xml:lang="ko">XE Public</name>
-		<name xml:lang="en">XE Public</name>
+	<author link="https://rhymix.org">
+		<name xml:lang="ko">Rhymix</name>
+		<name xml:lang="en">Rhymix</name>
 	</author>
 </module>
