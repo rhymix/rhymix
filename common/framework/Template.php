@@ -479,7 +479,7 @@ class Template
 		// Insert comments for debugging.
 		if(Debug::isEnabledForCurrentUser() && \Context::getResponseMethod() === 'HTML' && !preg_match('/^<(?:\!DOCTYPE|\?xml)/', $content))
 		{
-			$meta = '<!--#Template%s:' . $this->relative_path . '-->' . "\n";
+			$meta = '<!--Template%s:' . $this->relative_path . '-->' . "\n";
 			$content = sprintf($meta, 'Start') . $content . sprintf($meta, 'End');
 		}
 
