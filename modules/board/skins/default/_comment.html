@@ -39,17 +39,17 @@
 			</div>
 			<p class="action">
 				<span class="vote" cond="$comment->get('voted_count')!=0">{$lang->cmd_vote}:{$comment->get('voted_count')?$comment->get('voted_count'):0}</span>
-				<a cond="$oDocument->allowComment()" href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="reply">{$lang->cmd_reply}</a>
-				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="modify">{$lang->cmd_modify}</a>
-				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="delete">{$lang->cmd_delete}</a>
+				<a cond="$oDocument->allowComment()" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardReplyComment', 'comment_srl', $comment->comment_srl)}" class="reply">{$lang->cmd_reply}</a>
+				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardModifyComment', 'comment_srl', $comment->comment_srl)}" class="modify">{$lang->cmd_modify}</a>
+				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDeleteComment', 'comment_srl', $comment->comment_srl)}" class="delete">{$lang->cmd_delete}</a>
 				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a>
 			</p>
 		</li>
 	</ul>
     <div cond="$oDocument->comment_page_navigation" class="pagination">
-        <a href="{getUrl('cpage',1)}#comment" class="direction prev"><span></span><span></span> {$lang->first_page}</a> 
+        <a href="{getUrl('cpage',1)}#comment" class="direction prev"><span></span><span></span> {$lang->first_page}</a>
         <block loop="$page_no=$oDocument->comment_page_navigation->getNextPage()">
-			<strong cond="$cpage==$page_no">{$page_no}</strong> 
+			<strong cond="$cpage==$page_no">{$page_no}</strong>
 			<a cond="$cpage!=$page_no" href="{getUrl('cpage',$page_no)}#comment">{$page_no}</a>
         </block>
         <a href="{getUrl('cpage',$oDocument->comment_page_navigation->last_page)}#comment" class="direction next">{$lang->last_page} <span></span><span></span></a>
@@ -86,7 +86,7 @@
 		</div>
 	</form>
 </div>
-<div class="fbFooter"> 
+<div class="fbFooter">
 	<a href="{getUrl('document_srl','')}" class="btn">{$lang->cmd_list}</a>
 </div>
 <!-- /COMMENT -->

@@ -3,7 +3,7 @@
 
 	<div class="rd">
 		<div class="hx">
-			<h2><a href="{getUrl('document_srl','','category','','page','')}">{$module_info->browser_title}</a>
+			<h2><a href="{getUrl('', 'mid', $mid)}">{$module_info->browser_title}</a>
 				<!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->&rsaquo; <a href="{getUrl('document_srl','','category',$oDocument->get('category_srl'))}">{$category_list[$oDocument->get('category_srl')]->title}</a><!--@end--> &rsaquo; {$oDocument->getTitle()}</h2>
 			<em><a href="#">{$oDocument->getNickName()}</a></em>
 			<span>{$oDocument->getRegdate()}</span>
@@ -103,9 +103,9 @@
 	</div>
 	<ul class="cm">
 		<li class="fl"><a href="{getUrl('document_srl','')}" class="bn">{$lang->cmd_list}</a></li>
-		<li class="fr"><a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="bn">{$lang->cmd_write}</a></li>
+		<li class="fr"><a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite')}" class="bn">{$lang->cmd_write}</a></li>
         <!--@if($oDocument->isEditable())-->
-		<li class="fr"><a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="bn">{$lang->cmd_delete}</a></li>
+		<li class="fr"><a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDelete', 'document_srl', $oDocument->document_srl)}" class="bn">{$lang->cmd_delete}</a></li>
 		<!--@end-->
 	</ul>
 <script>

@@ -2,10 +2,10 @@
 <load target="css/mboard.css" />
 
 <div class="hx h2">
-	<h2><a href="{getUrl('document_srl','','category','','page','')}">{$module_info->browser_title}</a> 
+	<h2><a href="{getUrl('', 'mid', $mid)}">{$module_info->browser_title}</a>
 		<!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->&rsaquo; <a href="{getUrl('document_srl','','category',$oDocument->get('category_srl'))}">{$category_list[$oDocument->get('category_srl')]->title}</a><!--@end--> &rsaquo; {$oDocument->getTitle()}</h2>
 	<span class="ex">{$oDocument->getNickName()} | {$oDocument->getRegdate()} | <a href="#skip_co">{$lang->skip_to_content}</a></span>
-	<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="write">{$lang->cmd_write}</a>
+	<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite')}" class="write">{$lang->cmd_write}</a>
 </div>
 <div class="co">
 		<!--@if(!$oDocument->isAccessible())-->
@@ -34,7 +34,7 @@
 <!--@if($oDocument->hasUploadedFiles())-->
 {@ $uploaded_list = $oDocument->getUploadedFiles() }
 <div class="hx h3">
-	<h3>{$lang->uploaded_file} <em>[{count($uploaded_list)}]</em></h3> 
+	<h3>{$lang->uploaded_file} <em>[{count($uploaded_list)}]</em></h3>
 	<button type="button" class="tg" title="open/close"></button>
 </div>
 <ul class="file tgo open">
@@ -66,7 +66,7 @@
 <!--@endif-->
 <!--@if($oDocument->getCommentCount())-->
 <div class="hx h3">
-	<h3 id="clb">{$lang->comment} <em>[{$oDocument->getCommentCount()}]</em></h3> 
+	<h3 id="clb">{$lang->comment} <em>[{$oDocument->getCommentCount()}]</em></h3>
 	<button type="button" class="tg tgr" title="open/close"></button>
 </div>
 <!--@endif-->
@@ -114,7 +114,7 @@
 	<span class="fl"><a href="{getUrl('document_srl','')}" class="bn white">{$lang->cmd_list}</a></span>
 	<span class="fr">
 		<!--@if($oDocument->isEditable())-->
-		<a href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" class="bn white">{$lang->cmd_delete}</a>
+		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDelete', 'document_srl', $oDocument->document_srl)}" class="bn white">{$lang->cmd_delete}</a>
 		<!--@end-->
 	</span>
 </div>

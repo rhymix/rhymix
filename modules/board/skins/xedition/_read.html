@@ -2,7 +2,7 @@
 	<!-- READ HEADER -->
 	<div class="read_header">
 		<h1>
-			<a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}" class="category" cond="$module_info->use_category=='Y' && $oDocument->get('category_srl')">{$category_list[$oDocument->get('category_srl')]->title}</a>
+			<a href="{getUrl('', 'mid', $mid, 'category', $oDocument->get('category_srl'))}" class="category" cond="$module_info->use_category=='Y' && $oDocument->get('category_srl')">{$category_list[$oDocument->get('category_srl')]->title}</a>
 			<a href="{$oDocument->getUrl()}">{$oDocument->getTitle()}</a>
 		</h1>
 		<p class="meta">
@@ -104,7 +104,7 @@
 			<span class="tags" cond="$tag_list">
 				<i class="xi-tags"></i>
 				<!--@foreach($tag_list as $tag)-->
-					<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag" rel="tag">{escape($tag, false)}</a><span>,</span>
+					<a href="{getUrl('', 'mid', $mid, 'search_target', 'tag', 'search_keyword', $tag)}" class="tag" rel="tag">{escape($tag, false)}</a><span>,</span>
 				<!--@end-->
 			</span>
 			<a class="document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a>
@@ -114,12 +114,12 @@
 			<div cond="$oDocument->getSignature()" class="tx">{$oDocument->getSignature()}</div>
 		</div>
 		<div class="btnArea">
-			<a class="btn" href="{getUrl('act','dispBoardVoteLog','target_srl',$oDocument->document_srl,'target','document')}"><i class="xi-list-ul"></i>{$lang->cmd_document_vote_user}</a>
-			<a cond="$update_view" class="btn" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-list-ul"></i>{$lang->update_log}</a>
-			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-eraser"></i>{$lang->cmd_modify}</a>
-			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}"><i class="xi-trash"></i>{$lang->cmd_delete}</a>
+			<a class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardVoteLog', 'target_srl', $oDocument->document_srl, 'target', 'document')}"><i class="xi-list-ul"></i>{$lang->cmd_document_vote_user}</a>
+			<a cond="$update_view" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardUpdateLog', 'document_srl', $oDocument->document_srl)}"><i class="xi-list-ul"></i>{$lang->update_log}</a>
+			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'document_srl', $oDocument->document_srl)}"><i class="xi-eraser"></i>{$lang->cmd_modify}</a>
+			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDelete', 'document_srl', $oDocument->document_srl)}"><i class="xi-trash"></i>{$lang->cmd_delete}</a>
 			<span class="etc">
-				<a href="{getUrl('document_srl','')}" class="btn"><i class="xi-list-ul-l"></i>{$lang->cmd_list}</a>
+				<a href="{getUrl('document_srl', '', 'comment_srl', '')}" class="btn"><i class="xi-list-ul-l"></i>{$lang->cmd_list}</a>
 			</span>
 		</div>
 	</div>

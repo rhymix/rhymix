@@ -133,10 +133,10 @@
 <div class="list_footer">
 
 	<div class="btnArea">
-		<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="btn"><i class="xi-pen"></i> {$lang->cmd_write}</a>
-		<a href="{getUrl('act','dispBoardTagList')}" class="btn" title="{$lang->tag}"><i class="xi-tag"></i> {$lang->tag}</a>
-		<a cond="$grant->manager" class="btn" href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="xi-cog"></i> {$lang->cmd_setup}</a>
-		<a cond="$grant->manager" href="{getUrl('','mid',$mid,'act','dispDocumentManageDocument')}" class="btn" onclick="popopen(this.href,'manageDocument'); return false;">{$lang->cmd_manage_document}</a>
+		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite')}" class="btn"><i class="xi-pen"></i> {$lang->cmd_write}</a>
+		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardTagList')}" class="btn" title="{$lang->tag}"><i class="xi-tag"></i> {$lang->tag}</a>
+		<a cond="$grant->manager" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="xi-cog"></i> {$lang->cmd_setup}</a>
+		<a cond="$grant->manager" href="{getUrl('', 'mid', $mid, 'act', 'dispDocumentManageDocument')}" class="btn" onclick="popopen(this.href,'manageDocument'); return false;">{$lang->cmd_manage_document}</a>
 	</div>
 
 	<form cond="$grant->view" action="{getUrl()}" method="get" id="board_search" class="board_search" rx-autoform="false">

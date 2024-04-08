@@ -21,9 +21,9 @@
 			<em>{$comment->getNickName()}</em>
 			<span class="time">{$comment->getRegdate("Y.m.d")}</span>
 			<!--@if($comment->isGranted() || !$comment->get('member_srl'))-->
-			<a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="btn de">{$lang->cmd_delete}</a>
+			<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDeleteComment', 'comment_srl', $comment->comment_srl)}" class="btn de">{$lang->cmd_delete}</a>
 			<!--@endif-->
-			<a href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="btn re">{$lang->cmd_reply}</a>
+			<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardReplyComment', 'comment_srl', $comment->comment_srl)}" class="btn re">{$lang->cmd_reply}</a>
 			{@ $start = false }
 			{@ $depth = $comment->get('depth') }
 		</span>
