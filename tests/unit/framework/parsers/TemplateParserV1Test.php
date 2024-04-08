@@ -7,6 +7,7 @@ class TemplateParserV1Test extends \Codeception\Test\Unit
 
 	public function _before()
 	{
+		\Rhymix\Framework\Debug::disable();
 		$this->baseurl = '/' . basename(dirname(dirname(dirname(dirname(__DIR__))))) . '/';
 	}
 
