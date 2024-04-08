@@ -504,7 +504,7 @@ class CommentItem extends BaseObject
 			$content = $this->get('content');
 		}
 
-		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $content);
+		$content = preg_replace('!(</p>|</div>|<br)!i', ' $1', $content);
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{

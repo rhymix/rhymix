@@ -648,7 +648,7 @@ class DocumentItem extends BaseObject
 			return lang('msg_is_secret');
 		}
 
-		$content = preg_replace('!(</p|</div|<br)!i', ' $1', $this->get('content'));
+		$content = preg_replace('!(</p>|</div>|<br)!i', ' $1', $this->get('content'));
 		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
 		if($strlen)
