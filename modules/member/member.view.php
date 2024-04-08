@@ -640,7 +640,7 @@ class MemberView extends Member
 		if(!count($folders))
 		{
 			$output = MemberController::getInstance()->migrateMemberScrappedDocuments($logged_info->member_srl);
-			if($output && !$output->toBool())
+			if ($output instanceof BaseObject && !$output->toBool())
 			{
 				return $output;
 			}
