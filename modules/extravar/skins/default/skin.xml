@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">기본 스킨</title>
+    <title xml:lang="en">Default Skin</title>
+    <description xml:lang="ko">기존 버전과 호환되는 확장변수 입력란 코드를 제공합니다.</description>
+    <description xml:lang="en">Provides input form codes compatible with older versions.</description>
+    <version>1.0</version>
+    <date>2024-04-01</date>
+	<author link="https://rhymix.org">
+		<name xml:lang="ko">Rhymix</name>
+		<name xml:lang="en">Rhymix</name>
+	</author>
+</skin>

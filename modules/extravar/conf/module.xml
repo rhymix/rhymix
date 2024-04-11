@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+	<actions>
+		<action name="dispExtravarAdminConfig" class="Controllers\Config" menu_name="extravar" menu_index="true" admin_index="true" />
+		<action name="procExtravarAdminInsertConfig" class="Controllers\Config" standalone="true" />
+	</actions>
+	<menus>
+		<menu name="extravar">
+			<title xml:lang="ko">확장 변수</title>
+			<title xml:lang="en">Extra Input Fields</title>
+		</menu>
+	</menus>
+</module>

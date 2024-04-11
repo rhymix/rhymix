@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+	<title xml:lang="ko">확장 변수</title>
+	<title xml:lang="en">Extra Input Fields</title>
+	<description xml:lang="ko">회원정보, 문서 등의 사용자 정의 입력 항목을 관리합니다.</description>
+	<description xml:lang="en">Manage custom input fields in member information, documents, etc.</description>
+	<version>RX_VERSION</version>
+	<date>RX_CORE</date>
+	<category>service</category>
+	<author link="https://rhymix.org">
+		<name xml:lang="ko">Rhymix</name>
+		<name xml:lang="en">Rhymix</name>
+	</author>
+</module>
