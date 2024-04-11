@@ -31,14 +31,6 @@ class ConfigParser
 			return array();
 		}
 
-		// Load FTP info file.
-		if (file_exists(\RX_BASEDIR . Config::OLD_FTP_CONFIG_PATH))
-		{
-			ob_start();
-			include \RX_BASEDIR . Config::OLD_FTP_CONFIG_PATH;
-			ob_end_clean();
-		}
-
 		// Load selected language file.
 		if (file_exists(\RX_BASEDIR . Config::OLD_LANG_CONFIG_PATH))
 		{
@@ -149,17 +141,6 @@ class ConfigParser
 			$config['cache']['type'] = preg_replace('/^memcache$/', 'memcached', preg_replace('/:.+$/', '', array_first($db_info->use_object_cache)));
 			$config['cache']['ttl'] = 86400;
 			$config['cache']['servers'] = in_array($config['cache']['type'], array('memcached', 'redis')) ? $db_info->use_object_cache : array();
-		}
-
-		// Convert FTP configuration.
-		if (isset($ftp_info))
-		{
-			$config['ftp']['host'] = $ftp_info->ftp_host;
-			$config['ftp']['port'] = $ftp_info->ftp_port;
-			$config['ftp']['path'] = $ftp_info->ftp_root_path;
-			$config['ftp']['user'] = $ftp_info->ftp_user;
-			$config['ftp']['pasv'] = $ftp_info->ftp_pasv;
-			$config['ftp']['sftp'] = $ftp_info->sftp === 'Y' ? true : false;
 		}
 
 		// Create new crypto keys.

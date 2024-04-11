@@ -2,11 +2,11 @@
 
 /**
  * Rhymix Default Plugins
- * 
+ *
  * Copyright (c) Rhymix Developers and Contributors
  */
 return array(
-	
+
 	// Addons
 	'addon' => array(
 		'adminlogging' => true,
@@ -16,7 +16,7 @@ return array(
 		'photoswipe' => true,
 		'point_level_icon' => true,
 	),
-	
+
 	// Layouts
 	'layout' => array(
 		'colorCode' => true,
@@ -25,7 +25,7 @@ return array(
 		'user_layout' => true,
 		'xedition' => true,
 	),
-	
+
 	// Modules
 	'module' => array(
 		'addon' => true,
@@ -39,6 +39,7 @@ return array(
 		'counter' => true,
 		'document' => true,
 		'editor' => true,
+		'extravar' => true,
 		'file' => true,
 		'importer' => true,
 		'install' => true,
@@ -60,7 +61,7 @@ return array(
 		'trash' => true,
 		'widget' => true,
 	),
-	
+
 	// Widgets
 	'widget' => array(
 		'content' => true,
