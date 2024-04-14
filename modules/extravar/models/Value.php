@@ -241,7 +241,7 @@ class Value
 			case 'select':
 			case 'radio':
 			case 'checkbox':
-				return is_array($value) ? implode(',', $value) : $value;
+				return is_array($value) ? implode(', ', $value) : $value;
 			case 'tel':
 			case 'tel_v2':
 				return is_array($value) ? implode('-', $value) : $value;
