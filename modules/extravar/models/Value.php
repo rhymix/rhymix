@@ -247,9 +247,20 @@ class Value
 				return is_array($value) ? implode('-', $value) : $value;
 			case 'tel_intl':
 			case 'tel_intl_v2':
-				$country_code = $value[0] ?? '';
-				$phone_number = implode('-', array_slice((array)$value, 1));
-				return $value ? "(+{$country_code}) {$phone_number}": '';
+				if (is_array($value) && count($value))
+				{
+					$country_code = $value[0];
+					$phone_number = array_slice((array)$value, 1);
+					if (count($phone_number) && ctype_alpha(end($phone_number)))
+					{
+						array_pop($phone_number);
+					}
+					return sprintf('(+%d) %s', $country_code, implode('-', $phone_number));
+				}
+				else
+				{
+					return '';
+				}
 			case 'homepage':
 			case 'url':
 				$display = mb_strlen($value, 'UTF-8') > 60 ? mb_substr($value, 0, 40, 'UTF-8') . '...' . mb_substr($value, -10, 10, 'UTF-8') : $value;
