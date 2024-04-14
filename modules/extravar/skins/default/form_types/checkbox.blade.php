@@ -8,6 +8,7 @@
 		<li>
 			<input type="{{ $type }}" name="{{ $input_name . $column_suffix }}"
 				id="{{ $tempid }}" class="{{ $type }}" value="{{ $v }}"
+				style="{{ $definition->style }}"|if="$definition->style"
 				@checked($is_checked)
 				@required(toBool($definition->is_required))
 				@disabled(toBool($definition->is_disabled))

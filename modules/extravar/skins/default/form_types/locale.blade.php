@@ -6,6 +6,7 @@
 	@endphp
 	<select name="{{ $input_name }}"
 		id="{{ $input_id }}"|if="$input_id" class="select rx_ev_select rx_ev_select_country"
+		style="{{ $definition->style }}"|if="$definition->style"
 		@required(toBool($definition->is_required))
 		@disabled(toBool($definition->is_disabled))
 		@readonly(toBool($definition->is_readonly))>
@@ -24,6 +25,7 @@
 	@endphp
 	<select name="{{ $input_name }}"
 		id="{{ $input_id }}"|if="$input_id" class="select rx_ev_select rx_ev_select_language"
+		style="{{ $definition->style }}"|if="$definition->style"
 		@required(toBool($definition->is_required))
 		@disabled(toBool($definition->is_disabled))
 		@readonly(toBool($definition->is_readonly))>
@@ -40,6 +42,7 @@
 	@endphp
 	<select name="{{ $input_name }}"
 		id="{{ $input_id }}"|if="$input_id" class="select rx_ev_select rx_ev_select_timezone"
+		style="{{ $definition->style }}"|if="$definition->style"
 		@required(toBool($definition->is_required))
 		@disabled(toBool($definition->is_disabled))
 		@readonly(toBool($definition->is_readonly))>

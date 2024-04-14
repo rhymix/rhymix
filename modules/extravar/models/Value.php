@@ -29,6 +29,7 @@ class Value
 	public $is_disabled = 'N';
 	public $is_readonly = 'N';
 	public $search = 'N';
+	public $style = null;
 
 	/**
 	 * Skin path cache.
