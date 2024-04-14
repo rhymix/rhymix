@@ -522,6 +522,7 @@ class MemberAdminView extends Member
 			}
 			$formTag->name = $formInfo->name;
 
+			// Default input fields
 			if($formInfo->isDefaultForm)
 			{
 				if($formInfo->imageType)
@@ -660,202 +661,63 @@ class MemberAdminView extends Member
 							$inputTag .= '</div>';
 						}
 					}
-					else if($formInfo->name == 'homepage')
+					else if($formInfo->name == 'homepage' || $formInfo->name === 'blog')
 					{
 						$formTag->type = 'url';
-						$inputTag = '<input type="url" name="homepage" id="homepage" value="'.$memberInfo['homepage'].'" />';
-					}
-					else if($formInfo->name == 'blog')
-					{
-						$formTag->type = 'url';
-						$inputTag = '<input type="url" name="blog" id="blog" value="'.$memberInfo['blog'].'" />';
+						$input = new Rhymix\Modules\Extravar\Models\Value(0, 1, '', 'url');
+						$input->parent_type = 'member';
+						$input->input_name = $formInfo->name;
+						$input->input_id = $formInfo->name;
+						$input->value = $memberInfo[$formInfo->name] ?? '';
+						$inputTag = $input->getFormHTML();
 					}
 					else
 					{
 						if($formInfo->name === 'nick_name' && ($member_config->allow_nickname_change ?? 'Y') === 'N' && !$isAdmin && !$isSignup)
 						{
-							$readonly = 'readonly="readonly" ';
+							$readonly = 'Y';
 						}
 						else
 						{
-							$readonly = '';
+							$readonly = 'N';
 						}
 						$formTag->type = 'text';
-						$inputTag = sprintf('<input type="text" name="%s" id="%s" value="%s" %s/>',
-							$formInfo->name,
-							$formInfo->name,
-							$memberInfo[$formInfo->name],
-							$readonly);
-
+						$input = new Rhymix\Modules\Extravar\Models\Value(0, 1, '', 'text');
+						$input->parent_type = 'member';
+						$input->input_name = $formInfo->name;
+						$input->input_id = $formInfo->name;
+						$input->value = $memberInfo[$formInfo->name] ?? '';
+						$input->is_readonly = $readonly;
+						$inputTag = $input->getFormHTML();
 					}
-				}//end isDefaultForm
+				}
+
+				// User-defined input fields
 				else
 				{
 					$extendForm = $extend_form_list[$formInfo->member_join_form_srl];
-					$replace = array('column_name' => $extendForm->column_name, 'value' => $extendForm->value);
-					$extentionReplace = array();
-
 					$formTag->type = $extendForm->column_type;
-					if($extendForm->column_type == 'text')
+					$input = new Rhymix\Modules\Extravar\Models\Value(0, 1, '', $extendForm->column_type);
+					$input->parent_type = 'member';
+					$input->input_name = $extendForm->column_name;
+					$input->input_id = $extendForm->column_name;
+					$input->value = $extendForm->value ?? '';
+					$input->default = $extendForm->default_value ?? null;
+					if ($extendForm->column_type === 'tel' || $extendForm->column_type === 'tel_intl')
 					{
-						$template = '<input type="text" class="rx_ev_text" name="%column_name%" id="%column_name%" value="%value%" />';
+						$input->style = 'width:33.3px';
 					}
-					else if($extendForm->column_type == 'homepage')
-					{
-						$template = '<input type="url" class="rx_ev_url" name="%column_name%" id="%column_name%" value="%value%" />';
-					}
-					else if($extendForm->column_type == 'email_address')
-					{
-						$template = '<input type="email" class="rx_ev_email" name="%column_name%" id="%column_name%" value="%value%" />';
-					}
-					else if($extendForm->column_type == 'tel')
-					{
-						$extentionReplace = array(
-							'tel_0' => $extendForm->value[0],
-							'tel_1' => $extendForm->value[1],
-							'tel_2' => $extendForm->value[2]
-						);
-						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="4" maxlength="4" style="width:30px" title="First Number" /> - <input type="tel" class="rx_ev_tel2" name="%column_name%[]" value="%tel_1%" size="4" maxlength="4" style="width:35px" title="Second Number" /> - <input type="tel" class="rx_ev_tel3" name="%column_name%[]" value="%tel_2%" size="4" maxlength="4" style="width:35px" title="Third Number" />';
-					}
-					else if($extendForm->column_type == 'tel_v2')
-					{
-						$extentionReplace = array('tel_0' => $extendForm->value[0] ?? '');
-						$template = '<input type="tel" class="rx_ev_tel1" name="%column_name%[]" id="%column_name%" value="%tel_0%" size="16" maxlength="16" style="width:100px" />';
-					}
-					else if($extendForm->column_type == 'textarea')
-					{
-						$template = '<textarea class="rx_ev_textarea" name="%column_name%" id="%column_name%" rows="4" cols="42">%value%</textarea>';
-					}
-					else if($extendForm->column_type == 'password')
-					{
-						$template = '<input type="password" class="rx_ev_password" name="%column_name%" id="%column_name%" value="%value%" />';
-					}
-					else if($extendForm->column_type == 'checkbox')
-					{
-						$template = '';
-						if($extendForm->default_value)
-						{
-							$template = '<div class="rx_ev_checkbox" style="padding-top:5px">%s</div>';
-							$__i = 0;
-							$optionTag = array();
-							foreach($extendForm->default_value as $v)
-							{
-								$checked = '';
-								if(is_array($extendForm->value) && in_array($v, $extendForm->value))$checked = 'checked="checked"';
-								$optionTag[] = '<label for="%column_name%'.$__i.'"><input type="checkbox" id="%column_name%'.$__i.'" name="%column_name%[]" value="'.$v.'" '.$checked.' /> '.$v.'</label>';
-								$__i++;
-							}
-							$template = sprintf($template, implode('', $optionTag));
-						}
-					}
-					else if($extendForm->column_type == 'radio')
-					{
-						$template = '';
-						if($extendForm->default_value)
-						{
-							$template = '<div class="rx_ev_radio" style="padding-top:5px">%s</div>';
-							$optionTag = array();
-							foreach($extendForm->default_value as $v)
-							{
-								if($extendForm->value == $v)$checked = 'checked="checked"';
-								else $checked = '';
-								$optionTag[] = '<label><input type="radio" name="%column_name%" value="'.$v.'" '.$checked.' /> '.$v.'</label>';
-							}
-							$template = sprintf($template, implode('', $optionTag));
-						}
-					}
-					else if($extendForm->column_type == 'select')
-					{
-						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
-						$optionTag = array();
-						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
-						if($extendForm->default_value)
-						{
-							foreach($extendForm->default_value as $v)
-							{
-								if($v == $extendForm->value) $selected = 'selected="selected"';
-								else $selected = '';
-								$optionTag[] = sprintf('<option value="%s" %s >%s</option>', $v, $selected, $v);
-							}
-						}
-						$template = sprintf($template, implode('', $optionTag));
-					}
-					else if($extendForm->column_type == 'kr_zip')
-					{
-						$krzipModel = getModel('krzip');
-						if($krzipModel && method_exists($krzipModel , 'getKrzipCodeSearchHtml' ))
-						{
-							$template = $krzipModel->getKrzipCodeSearchHtml($extendForm->column_name, $extendForm->value);
-						}
-					}
-					else if($extendForm->column_type == 'jp_zip')
-					{
-						$template = '<input type="text" name="%column_name%" id="%column_name%" value="%value%" />';
-					}
-					else if($extendForm->column_type == 'date')
-					{
-						$formattedValue = $extendForm->value ? sprintf('%s-%s-%s', substr($extendForm->value, 0, 4), substr($extendForm->value, 4, 2), substr($extendForm->value, 6, 2)) : '';
-						$extentionReplace = array('date' => $formattedValue, 'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="hidden" class="rx_ev_date" name="%column_name%" id="date_%column_name%" value="%value%" />' .
-							'<input type="date" placeholder="YYYY-MM-DD" class="inputDate" value="%date%" ' .
-							'onchange="jQuery(\'#date_%column_name%\').val(this.value.replace(/-/g,\'\'));" readonly="readonly" /> ' .
-							'<input type="button" value="%cmd_delete%" class="btn dateRemover" />';
-					}
-					else if($extendForm->column_type == 'time')
-					{
-						$extentionReplace = array('time' => $extendForm->value, 'cmd_delete' => $lang->cmd_delete);
-						$template = '<input type="time" name="%column_name%" class="rx_ev_time" value="%time%" pattern="\d{2}:\d{2}" /> ' .
-							'<button type="button" class="btn timeRemover" onclick="jQuery(this).prev(\'.rx_ev_time\').val(\'\');return false;">%cmd_delete%</button>';
-					}
-					else if ($extendForm->column_type == 'country')
-					{
-						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
-						$optionTag = array();
-						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
-						$lang_type = Context::get('lang_type');
-						$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
-						foreach ($country_list as $country_info)
-						{
-							$selected = strval($extendForm->value) !== '' && $country_info->iso_3166_1_alpha3 == $extendForm->value ? ' selected="selected"' : '';
-							$country_name = $lang_type === 'ko' ? $country_info->name_korean : $country_info->name_english;
-							$optionTag[] = sprintf('<option value="%s"%s>%s</option>', $country_info->iso_3166_1_alpha3, $selected, $country_name);
-						}
-						$template = sprintf($template, implode('', $optionTag));
-					}
-					else if ($extendForm->column_type == 'language')
-					{
-						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
-						$optionTag = array();
-						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
-						$enable_language = Rhymix\Framework\Config::get('locale.enabled_lang');
-						$supported_lang = Rhymix\Framework\Lang::getSupportedList();
-						foreach ($enable_language  as $lang_type)
-						{
-							$selected = strval($extendForm->value) !== '' && $lang_type == $extendForm->value ? ' selected="selected"' : '';
-							$optionTag[] = sprintf('<option value="%s"%s>%s</option>', $lang_type, $selected, $supported_lang[$lang_type]['name']);
-						}
-						$template = sprintf($template, implode('', $optionTag));
-					}
-					else if ($extendForm->column_type == 'timezone')
-					{
-						$template = '<select class="rx_ev_select" name="'.$formInfo->name.'" id="'.$formInfo->name.'">%s</select>';
-						$optionTag = array();
-						$optionTag[] = sprintf('<option value="">%s</option>', $lang->cmd_select);
-						$timezone_list = Rhymix\Framework\DateTime::getTimezoneList();
-						foreach ($timezone_list as $key => $time_name)
-						{
-							$selected = strval($extendForm->value) !== '' && $key == $extendForm->value ? ' selected="selected"' : '';
-							$optionTag[] = sprintf('<option value="%s"%s>%s</option>', $key, $selected, $time_name);
-						}
-						$template = sprintf($template, implode('', $optionTag));
-					}
+					$inputTag = $input->getFormHTML();
 
-					$replace = array_merge($extentionReplace, $replace);
-					$inputTag = preg_replace_callback('@%(\w+)%@', function($n) use($replace) { return $replace[$n[1]]; }, $template);
-
-					if($extendForm->description)
-						$inputTag .= '<p class="help-block">'.$extendForm->description.'</p>';
+					if (!empty($extendForm->description))
+					{
+						$inputTag = vsprintf('%s<p class="help-block">%s</p>', [
+							$inputTag,
+							$extendForm->description,
+						]);
+					}
 				}
+
 				$formTag->inputTag = $inputTag;
 				$formTags[] = $formTag;
 		}

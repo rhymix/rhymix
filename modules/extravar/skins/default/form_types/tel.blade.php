@@ -10,7 +10,7 @@
 		$lang_sort = $lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH;
 		$countries = Rhymix\Framework\i18n::listCountries($lang_sort);
 	@endphp
-	<select name="{{ $input_name }}[]" class="select rx_ev_select rx_ev_select_country" style="{{ $definition->style }}"|if="$definition->style">
+	<select name="{{ $input_name }}[]" class="select rx_ev_select rx_ev_select_country">
   		<option value=""></option>
 		@foreach ($countries as $country)
 			@php

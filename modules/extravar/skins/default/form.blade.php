@@ -45,6 +45,8 @@
 		@include ('form_types/text')
 @endswitch
 
-@if ($desc)
-	<p>{{ nl2br(escape(Context::replaceUserLang($definition->desc), false)) }}</p>
+@if (!empty($desc))
+	<p class="rx_ev_description">
+		{{ nl2br(escape(Context::replaceUserLang($definition->desc), false)) }}
+	</p>
 @endif
