@@ -911,6 +911,7 @@ class MemberModel extends Member
 				case 'checkbox' :
 					if($value && !is_array($value)) $value = array($value);
 					break;
+				/*
 				case 'country' :
 					$lang_type = Context::get('lang_type');
 					$country_list = Rhymix\Framework\i18n::listCountries($lang_type === 'ko' ? Rhymix\Framework\i18n::SORT_NAME_KOREAN : Rhymix\Framework\i18n::SORT_NAME_ENGLISH);
@@ -921,6 +922,7 @@ class MemberModel extends Member
 					$supported_lang = Rhymix\Framework\Lang::getSupportedList();
 					$value = $supported_lang[$value]['name'];
 					break;
+				*/
 				case 'text' :
 				case 'homepage' :
 				case 'email_address' :

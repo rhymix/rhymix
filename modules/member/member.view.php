@@ -250,31 +250,13 @@ class MemberView extends Member
 			else
 			{
 				$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title ?? null;
-				$orgValue = $extendFormInfo[$formInfo->member_join_form_srl]->value ?? null;
-				if($formInfo->type=='tel' && is_array($orgValue))
-				{
-					$item->value = implode('-', $orgValue);
-				}
-				elseif($formInfo->type=='kr_zip' && is_array($orgValue))
-				{
-					$item->value = implode(' ', $orgValue);
-				}
-				elseif($formInfo->type=='checkbox' && is_array($orgValue))
-				{
-					$item->value = implode(", ",$orgValue);
-				}
-				elseif($formInfo->type=='date')
-				{
-					$item->value = is_array($orgValue) ? array_first($orgValue) : $orgValue;
-					if (preg_match('/^[0-9]{8}/', $item->value))
-					{
-						$item->value = sprintf('%s-%s-%s', substr($item->value, 0, 4), substr($item->value, 4, 2), substr($item->value, 6, 2));
-					}
-				}
-				else
-				{
-					$item->value = nl2br(is_array($orgValue) ? array_first($orgValue) : $orgValue);
-				}
+				$extvalue = new Rhymix\Modules\Extravar\Models\Value(0, 1, '', $formInfo->type);
+				$extvalue->parent_type = 'member';
+				$extvalue->input_name = $formInfo->name;
+				$extvalue->input_id = $formInfo->name;
+				$extvalue->value = $extendFormInfo[$formInfo->member_join_form_srl]->value ?? null;
+				$extvalue->default = $extendFormInfo[$formInfo->member_join_form_srl]->default_value ?? null;
+				$item->value = $extvalue->getValueHTML();
 			}
 
 			$displayDatas[] = $item;
