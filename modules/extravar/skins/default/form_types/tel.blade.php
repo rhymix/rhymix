@@ -3,7 +3,10 @@
 	<input type="tel" name="{{ $input_name }}[]" value="{{ $value[1] }}" size="4" maxlength="4" class="tel rx_ev_tel2" style="{{ $definition->style }}"|if="$definition->style" />
 	<input type="tel" name="{{ $input_name }}[]" value="{{ $value[2] }}" size="4" maxlength="4" class="tel rx_ev_tel3" style="{{ $definition->style }}"|if="$definition->style" />
 @elseif ($type === 'tel_v2')
-	<input type="tel" name="{{ $input_name }}[]" value="{{ $value[0] }}" size="16" maxlength="16" class="rx_ev_tel_v2" style="{{ $definition->style }}"|if="$definition->style" />
+	<input type="tel" name="{{ $input_name }}[]" value="{{ $value[0] }}" size="16" maxlength="16"
+		class="rx_ev_tel_v2" style="{{ $definition->style }}"|if="$definition->style"
+		pattern="^[0-9\s\(\)\.\+\-]*$"
+	/>
 @elseif ($type === 'tel_intl' || $type === 'tel_intl_v2')
 	@php
 		$lang_type = Context::getLangType();
@@ -42,7 +45,10 @@
 		<input type="tel" name="{{ $input_name }}[]" value="{{ $value[2] }}" size="4" maxlength="4" class="tel rx_ev_tel2" style="{{ $definition->style }}"|if="$definition->style" />
 		<input type="tel" name="{{ $input_name }}[]" value="{{ $value[3] }}" size="4" maxlength="4" class="tel rx_ev_tel3" style="{{ $definition->style }}"|if="$definition->style" />
 	@else
-		<input type="tel" name="{{ $input_name }}[]" value="{{ $value[1] }}" size="16" maxlength="16" class="rx_ev_tel_v2" style="{{ $definition->style }}"|if="$definition->style" />
+		<input type="tel" name="{{ $input_name }}[]" value="{{ $value[1] }}" size="16" maxlength="16"
+			class="rx_ev_tel_v2" style="{{ $definition->style }}"|if="$definition->style"
+			pattern="^[0-9\s\(\)\.\+\-]*$"
+		/>
 	@endif
 	<input type="hidden" name="{{ $input_name }}[]" id="{{ $tempid }}_iso_code" value="{{ $selected_iso_code }}" />
 @endif
