@@ -260,9 +260,16 @@ class Value
 			case 'kr_zip':
 				return is_array($value) ? implode(' ', $value) : $value;
 			case 'country':
-				$country = i18n::listCountries()[$value];
-				$lang_type = \Context::getLangType();
-				return $lang_type === 'ko' ? $country->name_korean : $country->name_english;
+				$country = i18n::listCountries()[$value] ?? '';
+				if ($country)
+				{
+					$lang_type = \Context::getLangType();
+					return $lang_type === 'ko' ? $country->name_korean : $country->name_english;
+				}
+				else
+				{
+					return '';
+				}
 			case 'language':
 				return Lang::getSupportedList()[$value]['name'] ?? '';
 			case 'date':
