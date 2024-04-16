@@ -20,42 +20,53 @@ class FileModel extends File
 	 * It is used when a file list of the upload_target_srl is requested for creating/updating a document.
 	 * Attempt to replace with sever-side session if upload_target_srl is not yet determined
 	 *
-	 * @return void
+	 * @return object
 	 */
-	public function getFileList()
+	public function getFileList($editor_sequence = null, $upload_target_srl = null, $upload_target_type = null)
 	{
 		$file_list = [];
 		$attached_size = 0;
-		$editor_sequence = intval(Context::get('editor_sequence'));
-		$upload_target_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl ?? 0;
+		$editor_sequence = $editor_sequence ?? intval(Context::get('editor_sequence'));
+		$upload_target_srl = $upload_target_srl ?? $_SESSION['upload_info'][$editor_sequence]->upload_target_srl ?? 0;
 
 		// Get uploaded files
 		if($upload_target_srl)
 		{
-			$oDocument = DocumentModel::getDocument($upload_target_srl);
+			if (!$upload_target_type || $upload_target_type === 'document')
+			{
+				$oDocument = DocumentModel::getDocument($upload_target_srl);
+			}
+			else
+			{
+				$oDocument = null;
+			}
 
 			// Check permissions of the comment
-			if(!$oDocument->isExists())
+			if(!$oDocument || !$oDocument->isExists())
 			{
-				$oComment = CommentModel::getComment($upload_target_srl);
-				if($oComment->isExists())
+				if (!$upload_target_type || $upload_target_type === 'comment')
 				{
-					if(!$oComment->isAccessible())
+					$oComment = CommentModel::getComment($upload_target_srl);
+					if($oComment->isExists())
 					{
-						throw new Rhymix\Framework\Exceptions\NotPermitted;
+						if(!$oComment->isAccessible())
+						{
+							throw new Rhymix\Framework\Exceptions\NotPermitted;
+						}
+						$oDocument = DocumentModel::getDocument($oComment->get('document_srl'));
 					}
-					$oDocument = DocumentModel::getDocument($oComment->get('document_srl'));
 				}
 			}
 
 			// Check permissions of the document
-			if($oDocument->isExists() && !$oDocument->isAccessible())
+			if($oDocument && $oDocument->isExists() && !$oDocument->isAccessible())
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 
 			// Check permissions of the module
-			if($module_srl = isset($oComment) ? $oComment->get('module_srl') : $oDocument->get('module_srl'))
+			$module_srl = isset($oComment) ? $oComment->get('module_srl') : ($oDocument ? $oDocument->get('module_srl') : 0);
+			if ($module_srl)
 			{
 				$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 				if(empty($module_info->module_srl))
@@ -96,44 +107,49 @@ class FileModel extends File
 			}
 		}
 
-		// Set output
-		$this->add('files', $file_list);
-		$this->add('attached_size', FileHandler::filesize($attached_size));
-		$this->add('editor_sequence', $editor_sequence);
-		$this->add('upload_target_srl', $upload_target_srl);
+		// Initialize return value
+		$result = new \stdClass;
+		$result->files = $file_list;
+		$result->editor_sequence = $editor_sequence;
+		$result->upload_target_srl = $upload_target_srl;
+		$result->upload_status = self::getUploadStatus($attached_size);
 
 		// Set upload config
 		$upload_config = self::getUploadConfig();
+		$result->attached_size = FileHandler::filesize($attached_size);
+		$result->left_size = max(0, ($upload_config->allowed_attach_size * 1024 * 1024) - $attached_size);
 		if($this->user->isAdmin())
 		{
-			$this->add('allowed_filesize', sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin')));
-			$this->add('allowed_attach_size', sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin')));
-			$this->add('allowed_extensions', []);
+			$result->allowed_filesize = sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin'));
+			$result->allowed_attach_size = sprintf('%s (%s)', lang('common.unlimited'), lang('common.admin'));
+			$result->allowed_extensions = [];
 		}
 		else
 		{
-			$this->add('allowed_filesize', FileHandler::filesize($upload_config->allowed_filesize * 1024 * 1024));
-			$this->add('allowed_attach_size', FileHandler::filesize($upload_config->allowed_attach_size * 1024 * 1024));
-			$this->add('allowed_extensions', $upload_config->allowed_extensions);
+			$result->allowed_filesize = FileHandler::filesize($upload_config->allowed_filesize * 1024 * 1024);
+			$result->allowed_attach_size = FileHandler::filesize($upload_config->allowed_attach_size * 1024 * 1024);
+			$result->allowed_extensions = $upload_config->allowed_extensions;
 		}
-		
 		if(!$this->user->isAdmin())
 		{
 			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_filesize))
 			{
-				$this->add('allowed_filesize', FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize));
-				$this->add('allowed_attach_size', FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize));
+				$result->allowed_filesize = FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize);
+				$result->allowed_attach_size = FileHandler::filesize($_SESSION['upload_info'][$editor_sequence]->allowed_filesize);
 			}
 			if (isset($_SESSION['upload_info'][$editor_sequence]->allowed_extensions))
 			{
-				$this->add('allowed_extensions', $_SESSION['upload_info'][$editor_sequence]->allowed_extensions);
+				$result->allowed_extensions = $_SESSION['upload_info'][$editor_sequence]->allowed_extensions;
 			}
 		}
-		
+		$result->allowed_filetypes = $upload_config->allowed_filetypes ?? null;
+
 		// for compatibility
-		$this->add('allowed_filetypes', $upload_config->allowed_filetypes);
-		$this->add('upload_status', self::getUploadStatus($attached_size));
-		$this->add('left_size', $upload_config->allowed_attach_size * 1024 * 1024 - $attached_size);
+		foreach ($result as $key => $val)
+		{
+			$this->add($key, $val);
+		}
+		return $result;
 	}
 
 	/**

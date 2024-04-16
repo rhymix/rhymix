@@ -170,6 +170,23 @@ class FileController extends File
 		{
 			$this->add('download_url', FileModel::getDownloadUrl($output->get('file_srl'), $output->get('sid'), 0, $output->get('source_filename')));
 		}
+
+		// Add upload status (getFileList)
+		try
+		{
+			$file_list = FileModel::getInstance()->getFileList($editor_sequence);
+			foreach ($file_list as $key => $val)
+			{
+				if (!isset($this->variables[$key]))
+				{
+					$this->add($key, $val);
+				}
+			}
+		}
+		catch (Exception $e)
+		{
+			// pass
+		}
 	}
 
 	/**
@@ -607,6 +624,23 @@ class FileController extends File
 			//if($module_srl && $file_info->module_srl != $module_srl) continue;
 			if(!FileModel::isDeletable($file_info)) continue;
 			$output = $this->deleteFile($file_srl);
+		}
+
+		// Add upload status (getFileList)
+		try
+		{
+			$file_list = FileModel::getInstance()->getFileList($editor_sequence);
+			foreach ($file_list as $key => $val)
+			{
+				if (!isset($this->variables[$key]))
+				{
+					$this->add($key, $val);
+				}
+			}
+		}
+		catch (Exception $e)
+		{
+			// pass
 		}
 	}
 

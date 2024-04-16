@@ -205,15 +205,23 @@
 							}
 							catch(err) {}
 						}
+						if (typeof result.files !== 'undefined') {
+							$container.data('editorStatus', result);
+						} else {
+							$container.data('editorStatus', null);
+						}
 					} else if (result.message) {
+						$container.data('editorStatus', null);
 						alert(result.message);
 						return false;
 					} else {
+						$container.data('editorStatus', null);
 						alert(window.xe.msg_file_upload_error + " (Type 6)" + "<br>\n" + res.response().result);
 						return false;
 					}
 				},
 				fail: function(e, res) {
+					$container.data('editorStatus', null);
 					lastUploadTime = Date.now();
 					setTimeout(function() {
 						if (lastUploadTime < Date.now() - 800) {
@@ -228,7 +236,7 @@
 				},
 				stop: function() {
 					lastUploadTime = Date.now();
-					self.loadFilelist($container);
+					self.loadFilelist($container, true);
 				},
 				start: function() {
 					lastUploadTime = Date.now();
@@ -261,7 +269,7 @@
 			$container.data('xefu-instance', this);
 
 			// 파일 목록 불러오기
-			this.loadFilelist($container);
+			this.loadFilelist($container, true);
 
 			// 본문 삽입
 			data.settings.actSelectedInsertContent.on('click', function() {
@@ -415,20 +423,25 @@
 				file_srls.push(file_srl);
 			}
 
-			exec_json('file.procFileDelete', {'file_srls': file_srls.join(','), 'editor_sequence': data.editorSequence}, function() {
+			exec_json('file.procFileDelete', {'file_srls': file_srls.join(','), 'editor_sequence': data.editorSequence}, function(result) {
 				$.each(file_srls, function(idx, srl){
 					data.settings.fileList.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
 				var ckeditor = _getCkeInstance(data.editorSequence);
 				var regexp = new RegExp('<(img|audio|video) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
 				ckeditor.setData(ckeditor.getData().replace(regexp, ''));
-				self.loadFilelist($container);
+				if (result.error == 0 && typeof result.files !== 'undefined') {
+					$container.data('editorStatus', result);
+				} else {
+					$container.data('editorStatus', null);
+				}
+				self.loadFilelist($container, true);
 			});
 		 },
 		/**
 		 * 파일 목록 갱신
 		 */
-		loadFilelist: function($container) {
+		loadFilelist: function($container, useEditorStatus) {
 			var self = this;
 			var data = $container.data();
 			var obj = {};
@@ -436,7 +449,7 @@
 			obj.editor_sequence = data.editorSequence;
 			obj.allow_chunks = 'Y';
 
-			$.exec_json('file.getFileList', obj, function(res){
+			var refreshList = function(res) {
 				data.uploadTargetSrl = res.upload_target_srl;
 				if(editorRelKeys[data.editorSequence]) {
 					editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
@@ -503,11 +516,18 @@
 				// 컨트롤, 리스트 표시
 				data.settings.controll.show()
 				data.settings.fileList.show();
-			}, function(data, xhr) {
-				if (xhr.status != 200) {
-					return false;
-				}
-			});
+			};
+
+			// Get file list from HTML data-editor-status attribute when initializing.
+			if (useEditorStatus && typeof data.editorStatus !== 'undefined' && data.editorStatus !== null) {
+				refreshList(data.editorStatus);
+			} else {
+				$.exec_json('file.getFileList', obj, refreshList, function(data, xhr) {
+					if (xhr.status != 200) {
+						return false;
+					}
+				});
+			}
 		},
 		setCover: function($container, selected_el) {
 			var data = $container.data();

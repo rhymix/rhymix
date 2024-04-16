@@ -2,7 +2,10 @@
 <!--%load_js_plugin("jquery.finderSelect")-->
 <!--%load_js_plugin("handlebars")-->
 <load target="./lang" />
-<div cond="$allow_fileupload" id="xefu-container-{$editor_sequence}" class="xefu-container xe-clearfix" data-editor-sequence="{$editor_sequence}">
+<div cond="$allow_fileupload" id="xefu-container-{$editor_sequence}" class="xefu-container xe-clearfix"
+	data-editor-sequence="{$editor_sequence}"
+	data-editor-status="{escape(json_encode(FileModel::getInstance()->getFileList($editor_sequence)))}">
+
 	<!--// dropzone -->
 	<div class="xefu-dropzone">
 		<span class="xefu-btn fileinput-button xefu-act-selectfile">
