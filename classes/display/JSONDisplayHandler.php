@@ -15,7 +15,7 @@ class JSONDisplayHandler
 		$variables['message'] = $oModule->getMessage();
 
 		self::_convertCompat($variables, Context::getRequestMethod());
-		return json_encode($variables);
+		return json_encode($variables) . "\n";
 	}
 
 	/**

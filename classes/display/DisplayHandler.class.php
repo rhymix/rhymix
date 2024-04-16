@@ -160,13 +160,13 @@ class DisplayHandler extends Handler
 	 *
 	 * @return string
 	 */
-	public static function getDebugInfo(&$output = null)
+	public static function getDebugInfo(&$output = null): string
 	{
 		// Check if debugging information has already been printed.
 
 		if (self::$debug_printed)
 		{
-			return;
+			return '';
 		}
 		else
 		{
@@ -176,7 +176,7 @@ class DisplayHandler extends Handler
 		// Check if debugging is enabled for this request.
 		if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
 		{
-			return;
+			return '';
 		}
 
 		// Do not display debugging information if there is no output.
@@ -187,7 +187,7 @@ class DisplayHandler extends Handler
 		}
 		if ($output === null && !in_array('file', $display_types))
 		{
-			return;
+			return '';
 		}
 		if ($output === null)
 		{
@@ -261,12 +261,12 @@ class DisplayHandler extends Handler
 						break;
 					case 'JSON':
 						unset($_SESSION['_rx_debug_previous']);
-						if (preg_match('/^(.+)\}$/', $output, $matches))
+						if (preg_match('/^(.+)\}\n?$/', $output, $matches))
 						{
 							$data = json_encode($data);
 							if (json_last_error() === JSON_ERROR_NONE)
 							{
-								$output = $matches[1] . ',"_rx_debug":' . $data . '}';
+								$output = $matches[1] . ',"_rx_debug":' . $data . "}\n";
 							}
 						}
 						break;

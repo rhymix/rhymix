@@ -18,7 +18,7 @@ class XMLDisplayHandler
 
 		$xmlDoc .= $this->_makeXmlDoc($variables);
 
-		$xmlDoc .= "</response>";
+		$xmlDoc .= "</response>\n";
 
 		return $xmlDoc;
 	}
