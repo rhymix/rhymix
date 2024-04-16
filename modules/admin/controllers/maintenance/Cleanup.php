@@ -338,6 +338,8 @@ class Cleanup extends Base
 		'modules/admin/tpl/js/menu_setup.min.js' => 'deleted',
 		'modules/admin/tpl/img/faviconSample.png' => 'deleted',
 		'modules/admin/tpl/img/mobiconSample.png' => 'deleted',
+		'modules/autoinstall/ruleset/' => 'deleted:xe',
+		'modules/autoinstall/tpl/filter/uninstall_package.xml' => 'deleted:xe',
 		'modules/board/board.wap.php' => 'deleted:xe',
 		'modules/counter/queries/deleteSiteCounter.xml' => 'deleted:xe',
 		'modules/counter/queries/deleteSiteCounterLog.xml' => 'deleted:xe',

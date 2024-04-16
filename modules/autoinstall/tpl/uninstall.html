@@ -21,7 +21,7 @@
 		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/autoinstall/tpl/uninstall/1'" class="message error">
 			<p>{$XE_VALIDATOR_MESSAGE}</p>
 		</div>
-		<form action="./" class="x_form-horizontal" method="post" ruleset="ftp">
+		<form action="./" class="x_form-horizontal" method="post">
 			<input type="hidden" name="module" value="autoinstall" />
 			<input type="hidden" name="act" value="procAutoinstallAdminUninstallPackage" />
 			<input type="hidden" name="package_srl" value="{$package_srl}" />

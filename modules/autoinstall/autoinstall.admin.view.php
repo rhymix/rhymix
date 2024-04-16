@@ -30,7 +30,7 @@ class autoinstallAdminView extends autoinstall
 		$oAdminModel = getAdminModel('autoinstall');
 		$config = $oAdminModel->getAutoInstallAdminModuleConfig();
 		Context::set('config', $config);
-		
+
 		$template_path = sprintf("%stpl/", $this->module_path);
 		Context::set('original_site', $config->location_site);
 		Context::set('uri', $config->download_server);
@@ -188,7 +188,7 @@ class autoinstallAdminView extends autoinstall
 		}
 
 		$oModel = getModel('autoinstall');
-		
+
 		if($package == null)
 		{
 			$packages = $oModel->getInstalledPackages(array_keys($targetpackages));
@@ -605,7 +605,6 @@ class autoinstallAdminView extends autoinstall
 			$installedPackage->deps = $item_list[$package_srl]->deps;
 			Context::set('package', $installedPackage);
 			$this->setTemplateFile('uninstall');
-			Context::addJsFilter($this->module_path . 'tpl/filter', 'uninstall_package.xml');
 
 			$security = new Security();
 			$security->encodeHTML('package.');
@@ -620,7 +619,7 @@ class autoinstallAdminView extends autoinstall
 
 	/**
 	 * Display config
-	 * 
+	 *
 	 */
 	function dispAutoinstallAdminConfig()
 	{
