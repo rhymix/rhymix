@@ -424,6 +424,7 @@ class ModuleAdminModel extends Module
 				}
 			}
 		}
+		/*
 		else
 		{
 			$tmp = unserialize($name);
@@ -439,6 +440,7 @@ class ModuleAdminModel extends Module
 				}
 			}
 		}
+		*/
 
 		$output = array();
 		if(is_array($lang_supported))
