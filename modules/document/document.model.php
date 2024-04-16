@@ -365,7 +365,7 @@ class DocumentModel extends Document
 		if(!isset($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
 		{
 			$keys = Rhymix\Framework\Cache::get("site_and_module:module_document_extra_keys:$module_srl");
-			$oExtraVar = ExtraVar::getInstance($module_srl);
+			$oExtraVar = new Rhymix\Modules\Extravar\Models\ValueCollection($module_srl);
 
 			if($keys === null)
 			{
