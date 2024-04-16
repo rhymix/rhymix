@@ -1294,7 +1294,7 @@ class ModuleHandler extends Handler
 		}
 
 		$class_name = $module . self::$_kinds[$kind] . self::$_types[$type];
-		if (class_exists($class_name))
+		if (class_exists($class_name) && is_subclass_of($class_name, 'ModuleObject'))
 		{
 			return $class_name::getInstance($module);
 		}
