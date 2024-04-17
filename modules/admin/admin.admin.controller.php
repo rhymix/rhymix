@@ -19,25 +19,6 @@ class AdminAdminController extends Admin
 	}
 
 	/**
-	 * Remove an icon.
-	 *
-	 * @deprecated
-	 */
-	public function procAdminRemoveIcons()
-	{
-		$site_info = Context::get('site_module_info');
-		$icon_name = Rhymix\Framework\Filters\FilenameFilter::clean(Context::get('iconname'));
-		if (Rhymix\Modules\Admin\Models\Icon::deleteIcon($site_info->domain_srl, $icon_name))
-		{
-			$this->setMessage('success_deleted');
-		}
-		else
-		{
-			throw new Exception('fail_to_delete');
-		}
-	}
-
-	/**
 	 * Delete the admin logo.
 	 *
 	 * @deprecated

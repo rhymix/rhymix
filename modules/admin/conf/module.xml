@@ -47,7 +47,6 @@
 		<action name="procAdminUpdateFTPInfo" type="controller" />
 		<action name="procAdminRemoveFTPInfo" type="controller" />
 		<action name="procAdminUpdateConfig" type="controller" />
-		<action name="procAdminRemoveIcons" type="controller" />
 		<action name="procAdminDeleteLogo" type="controller" />
 		<action name="getSiteAllList" type="model" permission="root" />
 	</actions>

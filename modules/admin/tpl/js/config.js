@@ -30,7 +30,7 @@ jQuery(function($){
 			}
 		}).triggerHandler("change");
 	}
-	
+
 	// Disable rewrite level 2 if test AJAX request fails.
 	if ($('#use_rewrite_2').size() && !$('#use_rewrite_2').is(':checked')) {
 		var testval = 1000 + Math.floor(Math.random() * 9000);
@@ -62,25 +62,6 @@ function viewSiteSearch(){
 	jQuery(".site_keyword_search").css("display","");
 }
 
-var icon = null;
-function deleteIcon(iconname){
-	var params = [];
-	params.iconname = iconname;
-	exec_xml('admin', 'procAdminRemoveIcons', params, iconDeleteMessage, ['error', 'message'], params);
-	icon = iconname;
-}
-function iconDeleteMessage(ret_obj){
-	alert(ret_obj.message);
-
-	if (ret_obj.error == '0')
-	{
-		if (icon == 'favicon.ico'){
-			jQuery('.faviconPreview img').attr('src', 'modules/admin/tpl/img/faviconSample.png');
-		}else if (icon == 'mobicon.png'){
-			jQuery('.mobiconPreview img').attr('src', 'modules/admin/tpl/img/mobiconSample.png');
-		}
-	}
-}
 function doRecompileCacheFile() {
 	if (!confirm(xe.lang.confirm_run)) return;
 	exec_json('admin.procAdminRecompileCacheFile', {}, function(data) {
