@@ -45,7 +45,7 @@
 		@include ('form_types/text')
 @endswitch
 
-@if (!empty($desc))
+@if (!empty($definition->desc))
 	<p class="rx_ev_description">
 		{{ nl2br(escape(Context::replaceUserLang($definition->desc), false)) }}
 	</p>
