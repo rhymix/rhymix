@@ -188,7 +188,9 @@ class MailTest extends \Codeception\Test\Unit
 	{
 		$this->assertEquals('devops@rhymix.org', Mail::isVaildMailAddress('devops@rhymix.org'));
 		$this->assertEquals('some+thing@gmail.com', Mail::isVaildMailAddress('some+thing@gmail.com'));
-		$this->assertEquals('weird@localhost', Mail::isVaildMailAddress('weird@localhost'));
+		$this->assertEquals('', Mail::isVaildMailAddress('weird@localhost'));
+		$this->assertEquals('weird@localhost', Mail::isVaildMailAddress('weird@localhost', false));
 		$this->assertEquals('', Mail::isVaildMailAddress('invalid@'));
+		$this->assertEquals('', Mail::isVaildMailAddress('invalid@', false));
 	}
 }

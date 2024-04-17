@@ -405,7 +405,7 @@ class VariableBase
 		{
 			case 'email':
 			case 'email_address':
-				if (!preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $value))
+				if (!\Mail::isVaildMailAddress($value))
 				{
 					throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain a valid e-mail address');
 				}

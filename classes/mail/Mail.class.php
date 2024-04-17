@@ -211,10 +211,18 @@ class Mail extends Rhymix\Framework\Mail
 	 * Check if param is a valid email or not
 	 *
 	 * @param string $email_address Email address to check
+	 * @param bool $restrictive
 	 * @return string
 	 */
-	public static function isVaildMailAddress($email_address)
+	public static function isVaildMailAddress($email_address, $restrictive = true)
 	{
+		// Restrictive mode
+		if ($restrictive)
+		{
+			return preg_match('/^[\w-]+((?:\.|\+|\~)[\w-]+)*@[\w-]+(\.[\w-]+)+$/', $email_address) ? $email_address : '';
+		}
+
+		// RFC mode
 		$validator = new \Egulias\EmailValidator\EmailValidator;
 		$rfc = new \Egulias\EmailValidator\Validation\RFCValidation;
 		if($validator->isValid($email_address, $rfc))
