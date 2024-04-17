@@ -39,14 +39,14 @@ jQuery(function($) {
 function doInstallModule(module) {
 	var params = [];
 	params.module_name = module;
-	exec_xml('install','procInstallAdminInstall',params, completeInstallModule);
+	exec_json('install.procInstallAdminInstall', params, completeInstallModule);
 }
 
 // upgrade module
 function doUpdateModule(module) {
 	var params = [];
 	params.module_name = module;
-	exec_xml('install','procInstallAdminUpdate',params, completeInstallModule);
+	exec_json('install.procInstallAdminUpdate', params, completeInstallModule);
 }
 
 function completeInstallModule(ret_obj) {
