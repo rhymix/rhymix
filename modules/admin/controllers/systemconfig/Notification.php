@@ -67,6 +67,12 @@ class Notification extends Base
 			$apns_certificate = Storage::read($apns_certificate_filename);
 		}
 		Context::set('apns_certificate', $apns_certificate);
+		$fcmv1_service_account = false;
+		if ($fcmv1_service_account_filename = config('push.fcmv1.service_account'))
+		{
+			$fcmv1_service_account = Storage::read($fcmv1_service_account_filename);
+		}
+		Context::set('fcmv1_service_account', $fcmv1_service_account);
 
 		// Workaround for compatibility with older version of Amazon SES driver.
 		config('mail.ses.api_key', config('mail.ses.api_user'));
@@ -178,12 +184,19 @@ class Notification extends Base
 				$push_config[$driver_name][$conf_name] = $conf_value;
 
 				// Save certificates in a separate file and only store the filename in config.php.
-				if ($conf_name === 'certificate')
+				if ($conf_name === 'certificate' || $conf_name === 'service_account')
 				{
-					$filename = Config::get('push.' . $driver_name . '.certificate');
+					$filename = Config::get('push.' . $driver_name . '.' . $conf_name);
 					if (!$filename)
 					{
-						$filename = './files/config/' . $driver_name . '/cert-' . \Rhymix\Framework\Security::getRandom(32) . '.pem';
+						if ($conf_name === 'certificate')
+						{
+							$filename = './files/config/' . $driver_name . '/cert-' . \Rhymix\Framework\Security::getRandom(32) . '.pem';
+						}
+						else
+						{
+							$filename = './files/config/' . $driver_name . '/pkey-' . \Rhymix\Framework\Security::getRandom(32) . '.json';
+						}
 					}
 
 					if ($conf_value !== null)

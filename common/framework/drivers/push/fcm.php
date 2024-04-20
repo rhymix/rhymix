@@ -7,7 +7,7 @@ use Rhymix\Framework\Push;
 use Rhymix\Framework\Drivers\PushInterface;
 
 /**
- * The FCM Legacy HTTP API Push driver.
+ * The FCM Legacy API Push driver.
  */
 class FCM extends Base implements PushInterface
 {
@@ -24,7 +24,7 @@ class FCM extends Base implements PushInterface
 	 */
 	public static function getName(): string
 	{
-		return 'FCM Legacy HTTP API';
+		return 'FCM Legacy API';
 	}
 
 	/**
