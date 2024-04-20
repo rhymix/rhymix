@@ -202,6 +202,7 @@ class Notification extends Base
 					if ($conf_value !== null)
 					{
 						Storage::write($filename, $conf_value);
+						Storage::write('./files/config/' . $driver_name . '/index.html', '<!-- Direct Access Not Allowed -->');
 						$push_config[$driver_name][$conf_name] = $filename;
 					}
 					elseif (Storage::exists($filename))
