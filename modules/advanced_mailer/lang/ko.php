@@ -151,5 +151,5 @@ $lang->cmd_advanced_mailer_success_count = '성공';
 $lang->cmd_advanced_mailer_deleted_count = '삭제';
 $lang->cmd_advanced_mailer_updated_count = '변경';
 $lang->cmd_advanced_mailer_not_rhymix = '이 모듈은 XE용으로, 라이믹스와는 호환되지 않습니다. 라이믹스에 기본 포함된 버전을 사용하시기 바랍니다.';
-$lang->msg_advanced_mailer_about_fcm_legacy = 'Legacy API는 2024년 6월 이후 사용할 수 없으니 HTTP v1 API로 변경하십시오.';
+$lang->msg_advanced_mailer_about_fcm_legacy = 'FCM Legacy API는 2024년 6월 이후 사용할 수 없습니다.<br>HTTP v1 API로 변경하고 서비스 계정 비공개 키를 설정하십시오.';
 $lang->msg_advanced_mailer_about_fcm_service_account = 'Firebase 콘솔의 &quot;서비스 계정&quot; 메뉴에서 비공개 키를 생성한 후,<br>다운로드한 JSON 파일의 내용을 빈 칸에 붙여넣으십시오.';

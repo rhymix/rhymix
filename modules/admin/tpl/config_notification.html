@@ -381,7 +381,7 @@
 					<label class="x_control-label" for="push_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_fcm_api_key}</label>
 					<div class="x_controls">
 						<input type="password" name="push_{$driver_name}_api_key" id="push_{$driver_name}_api_key" value="{$conf_value|escape}" autocomplete="new-password" />
-						<p class="x_help-block">{$lang->msg_advanced_mailer_about_fcm_legacy}</p>
+						<p class="x_help-block" style="color:red">{$lang->msg_advanced_mailer_about_fcm_legacy}</p>
 					</div>
 				</div>
 				<!--@end-->
@@ -390,7 +390,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_service_account">{$lang->cmd_advanced_mailer_fcm_service_account}</label>
 					<div class="x_controls">
-						<textarea name="push_{$driver_name}_service_account" id="push_{$driver_name}_service_account" class="x_full-width" rows="10">{$fcmv1_service_account|escape}</textarea>
+						<textarea name="push_{$driver_name}_service_account" id="push_{$driver_name}_service_account" class="x_full-width" rows="5">{$fcmv1_service_account|escape}</textarea>
 						<p class="x_help-block">{$lang->msg_advanced_mailer_about_fcm_service_account}</p>
 					</div>
 				</div>
@@ -400,7 +400,7 @@
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_certificate">{$lang->cmd_advanced_mailer_apns_certificate}</label>
 					<div class="x_controls full-width">
-						<textarea name="push_{$driver_name}_certificate" id="push_{$driver_name}_certificate" class="x_full-width" rows="10">{$apns_certificate|escape}</textarea>
+						<textarea name="push_{$driver_name}_certificate" id="push_{$driver_name}_certificate" class="x_full-width" rows="5">{$apns_certificate|escape}</textarea>
 					</div>
 				</div>
 				<!--@end-->
