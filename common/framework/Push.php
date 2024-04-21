@@ -288,7 +288,7 @@ class Push
 	 */
 	public function setAndroidChannelId(string $android_channel_id): bool
 	{
-		$this->metadata['android_channel_id'] = utf8_trim(utf8_clean($android_channel_id));
+		$this->metadata['channel_id'] = utf8_trim(utf8_clean($android_channel_id));
 		return true;
 	}
 
@@ -374,10 +374,11 @@ class Push
 			$tokens = $this->_getDeviceTokens();
 			$output = null;
 
-			// Android FCM
+			// FCM HTTP v1 or Legacy API
 			if(count($tokens->fcm))
 			{
-				$fcm_driver = $this->getDriver('fcm');
+				$fcm_driver_name = array_key_exists('fcmv1', config('push.types') ?: []) ? 'fcmv1' : 'fcm';
+				$fcm_driver = $this->getDriver($fcm_driver_name);
 				$output = $fcm_driver->send($this, $tokens->fcm);
 				$this->sent += count($output->success);
 				$this->success_tokens = $output ? $output->success : [];
