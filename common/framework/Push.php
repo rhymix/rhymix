@@ -433,7 +433,7 @@ class Push
 		$args->member_srl = $this->getRecipients();
 		$args->device_token_type = [];
 		$driver_types = config('push.types') ?: array();
-		if(isset($driver_types['fcm']))
+		if(isset($driver_types['fcm']) || isset($driver_types['fcmv1']))
 		{
 			$args->device_token_type[] = 'fcm';
 		}
