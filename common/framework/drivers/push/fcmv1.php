@@ -71,7 +71,7 @@ class FCMv1 extends Base implements PushInterface
 
 		// Configure Google OAuth2 access token, with appropriate caching.
 		$service_account = Storage::read($this->_config['service_account'] ?? '');
-		$service_account = json_decode($service_account);
+		$service_account = json_decode($service_account, true);
 		if (!$service_account || empty($service_account['project_id']))
 		{
 			$message->addError('FCM error: service account JSON file cannot be decoded');
@@ -104,13 +104,13 @@ class FCMv1 extends Base implements PushInterface
 		if (count($metadata))
 		{
 			$metadata['sound'] = isset($metadata['sound']) ? $metadata['sound'] : 'default';
-			$payload['message']['android'] = $metadata;
-			$payload['message']['webpush'] = $metadata;
+			$payload['message']['android']['notification'] = $metadata;
+			$payload['message']['webpush']['notification'] = $metadata;
 			$payload['message']['apns']['payload'] = [
 				'aps' => [
 					'alert' => ['title' => $title, 'body' => $body],
 					'sound' => $metadata['sound'],
-					'badge' => $metadata['badge'] ?? '',
+					'badge' => $metadata['badge'] ?? 0,
 					'category' => $metadata['click_action'] ?? '',
 				],
 			];
@@ -146,44 +146,26 @@ class FCMv1 extends Base implements PushInterface
 			}
 
 			$responses = HTTP::multiple($requests);
-
-			// TODO: response parsing
 			foreach ($responses as $response)
 			{
-				if ($response->getStatusCode() === 200)
+				$status_code = $response->getStatusCode();
+				$result = @json_decode($response->getBody()->getContents());
+				if ($status_code === 200)
 				{
-					$decoded_response = json_decode($response->getBody());
-					var_dump($response->getStatusCode(), $decoded_response);
-
-					if (!$decoded_response)
+					$output->success[$tokens[$i]] = $tokens[$i];
+				}
+				elseif ($result && isset($result->error))
+				{
+					$error_message = $result->error->message ?? ($result->error->status ?? '');
+					$message->addError('FCM error: HTTP ' . $status_code . ' ' . $error_message);
+					if (str_contains($error_message, 'not a valid FCM registration token'))
 					{
-						$message->addError('FCM error: Invalid Response: '. $response);
-						return $output;
-					}
-					$results = $decoded_response->results ?: [];
-					foreach ($results as $result)
-					{
-						if ($result->error)
-						{
-							$message->addError('FCM error: '. $result->error);
-							$output->invalid[$token] = $token;
-						}
-						elseif ($result->message_id && $result->registration_id)
-						{
-							$output->needUpdate[$token] = $result->registration_id;
-						}
-						else
-						{
-							$output->success[$token] = $result->message_id;
-						}
+						$output->invalid[$tokens[$i]] = $tokens[$i];
 					}
 				}
 				else
 				{
-					$decoded_response = json_decode($response->getBody());
-					var_dump($response->getStatusCode(), $decoded_response);
-
-					$message->addError('FCM error: HTTP ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase());
+					$message->addError('FCM error: HTTP ' . $status_code . ' ' . $response->getReasonPhrase());
 				}
 			}
 		}
