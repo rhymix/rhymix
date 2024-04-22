@@ -152,7 +152,7 @@ class FCMv1 extends Base implements PushInterface
 				$result = @json_decode($response->getBody()->getContents());
 				if ($status_code === 200)
 				{
-					$output->success[$tokens[$i]] = $tokens[$i];
+					$output->success[$tokens[$i]] = $result->name ?? '';
 				}
 				elseif ($result && isset($result->error))
 				{
