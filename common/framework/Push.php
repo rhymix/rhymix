@@ -12,21 +12,22 @@ class Push
 	 */
 	protected $caller = '';
 	protected $from = 0;
-	protected $to = array();
+	protected $to = [];
+	protected $topics = [];
 	protected $subject = '';
 	protected $content = '';
 	protected $metadata = [];
 	protected $data = [];
-	protected $errors = array();
-	protected $success_tokens = array();
-	protected $deleted_tokens = array();
-	protected $updated_tokens = array();
+	protected $errors = [];
+	protected $success_tokens = [];
+	protected $deleted_tokens = [];
+	protected $updated_tokens = [];
 	protected $sent = 0;
 
 	/**
 	 * Static properties.
 	 */
-	protected static $_drivers = array();
+	protected static $_drivers = [];
 
 	/**
 	 * Add a custom Push driver.
@@ -56,7 +57,7 @@ class Push
 		$driver_class = '\Rhymix\Framework\Drivers\Push\\' . $name;
 		if (class_exists($driver_class))
 		{
-			$driver_config = config('push.' . $name) ?: array();
+			$driver_config = config('push.' . $name) ?: [];
 			return self::$_drivers[$name] = $driver_class::getInstance($driver_config);
 		}
 		else
@@ -72,29 +73,29 @@ class Push
 	 */
 	public static function getSupportedDrivers(): array
 	{
-		$result = array();
+		$result = [];
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/push', false) as $filename)
 		{
 			$driver_name = substr($filename, 0, -4);
 			$class_name = '\Rhymix\Framework\Drivers\Push\\' . $driver_name;
 			if ($class_name::isSupported())
 			{
-				$result[$driver_name] = array(
+				$result[$driver_name] = [
 					'name' => $class_name::getName(),
 					'required' => $class_name::getRequiredConfig(),
 					'optional' => $class_name::getOptionalConfig(),
-				);
+				];
 			}
 		}
 		foreach (self::$_drivers as $driver_name => $driver)
 		{
 			if ($driver->isSupported())
 			{
-				$result[$driver_name] = array(
+				$result[$driver_name] = [
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
 					'optional' => $driver->getOptionalConfig(),
-				);
+				];
 			}
 		}
 		ksort($result);
@@ -184,7 +185,7 @@ class Push
 	public function setContent(string $content): bool
 	{
 		$this->content = utf8_trim(utf8_clean($content));
-		$this->content = strtr($this->content, array("\r\n" => "\n"));
+		$this->content = strtr($this->content, ["\r\n" => "\n"]);
 		return true;
 	}
 
@@ -432,7 +433,7 @@ class Push
 		$args = new \stdClass;
 		$args->member_srl = $this->getRecipients();
 		$args->device_token_type = [];
-		$driver_types = config('push.types') ?: array();
+		$driver_types = config('push.types') ?: [];
 		if(isset($driver_types['fcm']) || isset($driver_types['fcmv1']))
 		{
 			$args->device_token_type[] = 'fcm';
