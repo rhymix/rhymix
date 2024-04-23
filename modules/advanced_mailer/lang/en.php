@@ -153,3 +153,4 @@ $lang->cmd_advanced_mailer_updated_count = 'Updated';
 $lang->cmd_advanced_mailer_not_rhymix = 'This module is for XE. It is incompatible with Rhymix. Please use the version included with Rhymix.';
 $lang->msg_advanced_mailer_about_fcm_legacy = 'The FCM Legacy API will stop working after June 2024.<br>Please change to the HTTP v1 API and set up a service account private key.';
 $lang->msg_advanced_mailer_about_fcm_service_account = 'Generate a new private key in the &quot;Service accounts&quot; menu of the Firebase console.<br>Then paste the contents of the downloaded JSON file above.';
+$lang->msg_advanced_mailer_invalid_fcm_json = 'The FCM service account you entered is not valid JSON.';

@@ -183,6 +183,16 @@ class Notification extends Base
 				}
 				$push_config[$driver_name][$conf_name] = $conf_value;
 
+				// Validate the FCM service account.
+				if ($conf_name === 'service_account' && $conf_value !== null)
+				{
+					$decoded_value = @json_decode($conf_value, true);
+					if (!$decoded_value || !isset($decoded_value['project_id']) || !isset($decoded_value['private_key']))
+					{
+						throw new Exception('msg_advanced_mailer_invalid_fcm_json');
+					}
+				}
+
 				// Save certificates in a separate file and only store the filename in config.php.
 				if ($conf_name === 'certificate' || $conf_name === 'service_account')
 				{
