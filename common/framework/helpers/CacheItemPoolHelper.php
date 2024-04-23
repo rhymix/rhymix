@@ -58,7 +58,6 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		}
 
 		$key = $this->_getRealKey($key);
-		var_dump($key);
 		return new CacheItemHelper($key, $this->_driver);
 	}
 
