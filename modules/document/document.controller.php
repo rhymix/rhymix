@@ -279,7 +279,7 @@ class DocumentController extends Document
 	/**
 	 * Update Document Voted Cancel
 	 * @param int $document_srl
-	 * @param Document $oDocument
+	 * @param DocumentItem $oDocument
 	 * @param int $point
 	 * @return object
 	 */
