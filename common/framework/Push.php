@@ -145,13 +145,35 @@ class Push
 	}
 
 	/**
-	 * Get the list of recipients without country codes.
+	 * Get the list of recipients.
 	 *
 	 * @return array
 	 */
 	public function getRecipients(): array
 	{
 		return $this->to;
+	}
+
+	/**
+	 * Add a topic.
+	 *
+	 * @param string $topic
+	 * @return bool
+	 */
+	public function addTopic(string $topic): bool
+	{
+		$this->topics[] = $topic;
+		return true;
+	}
+
+	/**
+	 * Get the list of topics.
+	 *
+	 * @return array
+	 */
+	public function getTopics(): array
+	{
+		return $this->topics;
 	}
 
 	/**
@@ -376,7 +398,7 @@ class Push
 			$output = null;
 
 			// FCM HTTP v1 or Legacy API
-			if(count($tokens->fcm))
+			if(count($tokens->fcm) || count($this->topics))
 			{
 				$fcm_driver_name = array_key_exists('fcmv1', config('push.types') ?: []) ? 'fcmv1' : 'fcm';
 				$fcm_driver = $this->getDriver($fcm_driver_name);
@@ -442,7 +464,7 @@ class Push
 		{
 			$args->device_token_type[] = 'apns';
 		}
-		if(!count($args->device_token_type))
+		if(!count($args->device_token_type) || !count($args->member_srl))
 		{
 			return $result;
 		}

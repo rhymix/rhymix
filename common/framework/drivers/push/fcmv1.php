@@ -123,8 +123,8 @@ class FCMv1 extends Base implements PushInterface
 		}
 
 		// Send a notification to each token, grouped into chunks to speed up the process.
-		$chunked_tokens = array_chunk($tokens, self::CHUNK_SIZE);
-		foreach($chunked_tokens as $tokens)
+		$chunked_tokens = $tokens ? array_chunk($tokens, self::CHUNK_SIZE) : [[]];
+		foreach ($chunked_tokens as $tokens)
 		{
 			$requests = [];
 			foreach ($tokens as $i => $token)
@@ -132,9 +132,6 @@ class FCMv1 extends Base implements PushInterface
 				$requests[$i] = [
 					'url' => $api_url,
 					'method' => 'POST',
-					'data' => null,
-					'headers' => [],
-					'cookies' => [],
 					'settings' => [
 						'auth' => 'google_auth',
 						'base_uri' => self::BASE_URL,
@@ -166,6 +163,43 @@ class FCMv1 extends Base implements PushInterface
 				else
 				{
 					$message->addError('FCM error: HTTP ' . $status_code . ' ' . $response->getReasonPhrase());
+				}
+			}
+		}
+
+		// Send a notification to each topic.
+		$topics = $message->getTopics();
+		if (count($topics))
+		{
+			$requests = [];
+			foreach ($topics as $i => $topic)
+			{
+				$requests[$i] = [
+					'url' => $api_url,
+					'method' => 'POST',
+					'settings' => [
+						'auth' => 'google_auth',
+						'base_uri' => self::BASE_URL,
+						'handler' => $stack,
+						'json' => $payload,
+					],
+				];
+				$requests[$i]['settings']['json']['message']['topic'] = $topic;
+			}
+
+			$responses = HTTP::multiple($requests);
+			foreach ($responses as $response)
+			{
+				$status_code = $response->getStatusCode();
+				$result = @json_decode($response->getBody()->getContents());
+				if ($status_code === 200)
+				{
+					$output->success[$topics[$i]] = $result->name ?? '';
+				}
+				else
+				{
+					$error_message = $result->error->message ?? ($result->error->status ?? $response->getReasonPhrase());
+					$message->addError('FCM error: HTTP ' . $status_code . ' ' . $error_message);
 				}
 			}
 		}
