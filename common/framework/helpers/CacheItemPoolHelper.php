@@ -12,7 +12,16 @@ use Psr\Cache\InvalidArgumentException;
 class CacheItemPoolHelper implements CacheItemPoolInterface
 {
 	/**
+	 * Cache the driver instance here.
+	 *
+	 * @var \Rhymix\Framework\Drivers\CacheInterface
+	 */
+	protected $_driver;
+
+	/**
 	 * Force persistence even if caching is disabled.
+	 *
+	 * @var bool
 	 */
 	public $force = false;
 
@@ -23,7 +32,15 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 	 */
 	public function __construct(bool $force = false)
 	{
-		$this->force = $force;
+		$this->_driver = \Rhymix\Framework\Cache::getDriverInstance();
+		if ($this->_driver === null || (\PHP_SAPI === 'cli' && $this->_driver instanceof \Rhymix\Framework\Drivers\Cache\APC))
+		{
+			$this->_driver = \Rhymix\Framework\Drivers\Cache\Dummy::getInstance([]);
+		}
+		if ($this->_driver instanceof \Rhymix\Framework\Drivers\Cache\Dummy)
+		{
+			$this->force = $force;
+		}
 	}
 
     /**
@@ -39,7 +56,10 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		{
 			throw new InvalidArgumentException;
 		}
-		return new CacheItemHelper((string)$key);
+
+		$key = $this->_getRealKey($key);
+		var_dump($key);
+		return new CacheItemHelper($key, $this->_driver);
 	}
 
     /**
@@ -58,7 +78,9 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 			{
 				throw new InvalidArgumentException;
 			}
-			$result[(string)$key] = new CacheItemHelper((string)$key);
+
+			$key = $this->_getRealKey($key);
+			$result[$key] = new CacheItemHelper($key, $this->_driver);
 		}
 		return $result;
 	}
@@ -82,7 +104,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      */
     public function clear()
 	{
-		\Rhymix\Framework\Cache::clearAll();
+		return $this->_driver->clear();
 	}
 
     /**
@@ -98,7 +120,9 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		{
 			throw new InvalidArgumentException;
 		}
-		return \Rhymix\Framework\Cache::delete((string)$key);
+
+		$key = $this->_getRealKey($key);
+		return $this->_driver->delete($key);
 	}
 
     /**
@@ -117,7 +141,9 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 			{
 				throw new InvalidArgumentException;
 			}
-			if (!\Rhymix\Framework\Cache::delete((string)$key))
+
+			$key = $this->_getRealKey($key);
+			if (!$this->_driver->delete($key))
 			{
 				$result = false;
 			}
@@ -134,7 +160,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
     public function save(CacheItemInterface $item)
 	{
 		$ttl = $item->expires ? max(0, min(30 * 86400, $item->expires - time())) : 0;
-		return \Rhymix\Framework\Cache::set($item->key, $item->value, $ttl, $this->force);
+		return $this->_driver->set($item->key, $item->value, $ttl, $this->force);
 	}
 
     /**
@@ -156,5 +182,25 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
     public function commit()
 	{
 		return true;
+	}
+
+	/**
+	 * Get the real key in a way that is mostly compatible with R\F\Cache.
+	 *
+	 * @param string
+	 * @return string
+	 */
+	protected function _getRealKey($key): string
+	{
+		$key = preg_replace_callback('/[^\x21-\x7E]/', function($match) {
+			return rawurlencode($match[0]);
+		}, $key);
+
+		if (preg_match('/^([^:]+):(.+)$/i', $key, $matches))
+		{
+			$key = $matches[1] . '#0:' . $matches[2];
+		}
+
+		return \Rhymix\Framework\Cache::getPrefix() . $key;
 	}
 }

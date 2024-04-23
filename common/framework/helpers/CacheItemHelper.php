@@ -2,6 +2,7 @@
 
 namespace Rhymix\Framework\Helpers;
 
+use Rhymix\Framework\Drivers\CacheInterface;
 use Psr\Cache\CacheItemInterface;
 
 /**
@@ -15,15 +16,17 @@ class CacheItemHelper implements CacheItemInterface
 	public $key = '';
 	public $value = null;
 	public $expires = null;
+	protected $_driver = null;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param string $key
 	 */
-	public function __construct(string $key)
+	public function __construct(string $key, CacheInterface $driver)
 	{
 		$this->key = $key;
+		$this->_driver = $driver;
 	}
 
     /**
@@ -45,7 +48,7 @@ class CacheItemHelper implements CacheItemInterface
 	{
 		if ($this->value === null)
 		{
-			$this->value = \Rhymix\Framework\Cache::get($this->key);
+			$this->value = $this->_driver->get($this->key);
 		}
 		return $this->value;
 	}
@@ -57,7 +60,7 @@ class CacheItemHelper implements CacheItemInterface
      */
     public function isHit()
 	{
-		return \Rhymix\Framework\Cache::exists($this->key);
+		return $this->_driver->exists($this->key);
 	}
 
     /**
