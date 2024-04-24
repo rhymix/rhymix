@@ -1,7 +1,10 @@
+'use strict';
+
 /**
  * Upload plugin for Rhymix
  */
 CKEDITOR.plugins.add('rx_upload', {
+
 	init: function(editor) {
 
 		/**
@@ -53,11 +56,15 @@ CKEDITOR.plugins.add('rx_upload', {
 				data: form,
 				dataType: 'json',
 				success: function(data) {
-					insertFile(upload_container, data);
-					reloadFileList(upload_container, data);
+					if (data.error == 0) {
+						insertFile(upload_container, data);
+						reloadFileList(upload_container, data);
+					} else {
+						displayError(8, data.message);
+					}
 				},
 				error: function(jqXHR) {
-					alert('Upload error: ' + jqXHR.responseText);
+					displayError(9, jqXHR.responseText);
 				}
 			});
 		};
@@ -66,10 +73,6 @@ CKEDITOR.plugins.add('rx_upload', {
 		 * Insert file into editor.
 		 */
 		const insertFile = function(container, data) {
-			if (data.error != 0) {
-				alert(data.message);
-				return;
-			}
 
 			let temp_code = '';
 			if(/\.(gif|jpe?g|png|webp)$/i.test(data.source_filename)) {
@@ -112,5 +115,13 @@ CKEDITOR.plugins.add('rx_upload', {
 			container.data('instance').loadFilelist(container, true);
 		};
 
+		/**
+		 * Display an error message.
+		 */
+		const displayError = function(type, message) {
+			alert(window.xe.msg_file_upload_error + ' (Type ' + type + ")\n" + message);
+		};
+
 	}
+
 });
