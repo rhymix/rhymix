@@ -8,6 +8,11 @@ CKEDITOR.plugins.add('rx_upload', {
 	init: function(editor) {
 
 		/**
+		 * Prevent the clipboard plugin from interfering with file type support.
+		 */
+		editor.plugins.clipboard._supportedFileMatchers.unshift(function() { return true; });
+
+		/**
 		 * The main event handler for paste and drop.
 		 */
 		editor.on('paste', function(event) {
