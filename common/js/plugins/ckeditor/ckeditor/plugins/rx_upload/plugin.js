@@ -73,38 +73,8 @@ CKEDITOR.plugins.add('rx_upload', {
 		 * Insert file into editor.
 		 */
 		const insertFile = function(container, data) {
-
-			let temp_code = '';
-			if(/\.(gif|jpe?g|png|webp)$/i.test(data.source_filename)) {
-				temp_code += '<img src="' + data.download_url + '" alt="' + data.source_filename + '" editor_component="image_link" data-file-srl="' + data.file_srl + '" />';
-			}
-			else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(data.source_filename)) {
-				temp_code += '<audio src="' + data.download_url + '" controls data-file-srl="' + data.file_srl + '" />';
-			}
-			else if(/\.(mp4|webm|ogv)$/i.test(data.source_filename)) {
-				if(data.original_type === 'image/gif') {
-					temp_code += '<video src="' + data.download_url + '" autoplay loop muted playsinline data-file-srl="' + data.file_srl + '" />';
-				} else if (data.download_url.match(/\b(?:procFileDownload\b|files\/download\/)/)) {
-					if (!data.download_url.match(/^\//)) {
-						data.download_url = XE.URI(default_url).pathname() + data.download_url;
-					}
-					temp_code += '<video src="' + data.download_url + '" controls preload="none" data-file-srl="' + data.file_srl + '" />';
-				} else {
-					temp_code += '<video src="' + data.download_url + '" controls data-file-srl="' + data.file_srl + '" />';
-				}
-				if(data.thumbnail_filename) {
-					temp_code = temp_code.replace('controls', 'poster="' + data.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
-				}
-			}
-			else {
-				temp_code += '<a href="' + data.download_url + '" data-file-srl="' + data.file_srl + '">' + data.source_filename + "</a>\n";
-			}
-
-			if(temp_code !== '') {
-				temp_code = "<p>" + temp_code + "</p>\n";
-			}
-
-			editor.insertHtml(temp_code, 'unfiltered_html');
+			const html = container.data('instance').generateHtml(container, data);
+			editor.insertHtml(html, 'unfiltered_html');
 		};
 
 		/**
