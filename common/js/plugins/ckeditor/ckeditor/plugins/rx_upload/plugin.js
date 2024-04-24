@@ -8,9 +8,12 @@ CKEDITOR.plugins.add('rx_upload', {
 	init: function(editor) {
 
 		/**
-		 * Prevent the clipboard plugin from displaying the "file type not supported" error.
+		 * Prevent the clipboard plugin from interfering with us.
 		 */
 		editor.plugins.clipboard._supportedFileMatchers.unshift(function() { return true; });
+		if (editor.config.clipboard_handleImages) {
+			editor.config.clipboard_handleImages = false;
+		}
 
 		/**
 		 * The main event handler for paste and drop.
