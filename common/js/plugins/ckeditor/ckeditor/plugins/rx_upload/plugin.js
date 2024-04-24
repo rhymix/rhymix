@@ -8,7 +8,7 @@ CKEDITOR.plugins.add('rx_upload', {
 	init: function(editor) {
 
 		/**
-		 * Prevent the clipboard plugin from interfering with file type support.
+		 * Prevent the clipboard plugin from displaying the "file type not supported" error.
 		 */
 		editor.plugins.clipboard._supportedFileMatchers.unshift(function() { return true; });
 
@@ -41,7 +41,7 @@ CKEDITOR.plugins.add('rx_upload', {
 
 			// Get the editor sequence.
 			const editor_container = $(editor.container.$).parents('.rx_ckeditor');
-			const upload_container = editor_container.next('.xefu-container');
+			const upload_container = editor_container.nextAll('.xefu-container').first();
 			const editor_sequence = editor_container.data('editorSequence');
 
 			// Generate the form data.
