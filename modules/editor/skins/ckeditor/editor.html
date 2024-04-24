@@ -128,7 +128,6 @@
 	            fontSize_sizes: font_sizes,
 				toolbarCanCollapse: true,
 				allowedContent: true,
-				clipboard_handleImages: false,
 				startupFocus: {json_encode($editor_focus)},
 				language: "{str_replace('jp','ja',$lang_type)}",
 				iframe_attributes: {},
@@ -177,6 +176,7 @@
 		settings.ckeconfig.toolbarStartupExpanded = {$editor_toolbar_hide ? 'false' : 'true'};
 
 		// Add or remove plugins based on Rhymix configuration.
+		{@ $editor_additional_plugins[] = 'rx_upload'}
 		<!--@if($editor_additional_plugins)-->
 			settings.ckeconfig.extraPlugins = {json_encode(implode(',', $editor_additional_plugins))};
 		<!--@endif-->
