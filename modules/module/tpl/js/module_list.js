@@ -25,7 +25,7 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 
 		this.$selectedObj.nextAll('a').filter('.moduleTrigger').bind('moduleSelect', function(e, aSelected){
 			var sType, sName, sSrl;
-			
+
 			for(var i=0, nLen=aSelected.length; i<nLen; i++){
 				sType = aSelected[i].mid + ', ' + aSelected[i].type;
 				sName = aSelected[i].browser_title;
@@ -83,6 +83,9 @@ xe.ModuleListManager = xe.createApp("ModuleListManager", {
 
 			for(var i in data.module_list){
 				var module = data.module_list[i];
+				if (!module) {
+					continue;
+				}
 				var obj = $(document.createElement('option'));
 				obj.val(module.module_srl).html(module.browser_title + ' (' + module.mid + ', ' + module.module_name + ')').appendTo(self.$selectedObj);
 			}
