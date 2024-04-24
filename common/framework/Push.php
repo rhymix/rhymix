@@ -16,6 +16,7 @@ class Push
 	protected $topics = [];
 	protected $subject = '';
 	protected $content = '';
+	protected $image = '';
 	protected $metadata = [];
 	protected $data = [];
 	protected $errors = [];
@@ -219,6 +220,29 @@ class Push
 	public function getContent(): string
 	{
 		return $this->content;
+	}
+
+	/**
+	 * Set the image.
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	public function setImage(string $url): bool
+	{
+		$url = preg_replace('!^\./!', URL::getCurrentDomainURL(\RX_BASEURL), $url);
+		$this->image = $url;
+		return true;
+	}
+
+	/**
+	 * Get the image.
+	 *
+	 * @return string
+	 */
+	public function getImage(): string
+	{
+		return $this->image;
 	}
 
 	/**

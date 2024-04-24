@@ -91,6 +91,7 @@ class FCMv1 extends Base implements PushInterface
 		$payload = ['message' => []];
 		$title = $message->getSubject();
 		$body = $message->getContent();
+		$image = $message->getImage();
 		if ($title !== '')
 		{
 			$payload['message']['notification']['title'] = $title;
@@ -98,6 +99,10 @@ class FCMv1 extends Base implements PushInterface
 		if ($body !== '')
 		{
 			$payload['message']['notification']['body'] = $body;
+		}
+		if ($image !== '')
+		{
+			$payload['message']['notification']['image'] = $image;
 		}
 
 		$metadata = $message->getMetadata();
