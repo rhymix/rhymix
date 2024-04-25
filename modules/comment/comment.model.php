@@ -451,36 +451,21 @@ class CommentModel extends Comment
 			}
 		}
 
-		$output = executeQuery('comment.getNewestCommentList', $args, $columnList);
-
+		$output = executeQueryArray('comment.getNewestCommentList', $args, $columnList);
 		if(!$output->toBool())
 		{
 			return $output;
 		}
 
-		$comment_list = $output->data;
-		if($comment_list)
+		$result = [];
+		foreach ($output->data as $key => $attribute)
 		{
-			if(!is_array($comment_list))
+			if ($attribute->comment_srl)
 			{
-				$comment_list = array($comment_list);
-			}
-
-			$result = [];
-			foreach($comment_list as $key => $attribute)
-			{
-				if(!$attribute->comment_srl)
-				{
-					continue;
-				}
-
-				$oComment = NULL;
-				$oComment = new commentItem();
+				$oComment = new CommentItem();
 				$oComment->setAttribute($attribute);
-
 				$result[$key] = $oComment;
 			}
-			$output->data = $result;
 		}
 
 		return $result;
