@@ -64,6 +64,10 @@ class Dashboard extends Base
 				$value->content = strip_tags($value->content);
 			}
 		}
+		else
+		{
+			$output = [];
+		}
 		Context::set('latestCommentList', $output);
 		unset($args, $output, $columnList);
 
