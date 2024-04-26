@@ -79,7 +79,7 @@
 	function reloadUploader(editor_sequence) {
 		var container = $('#xefu-container-' + editor_sequence);
 		if (container.length) {
-			container.data('instance').loadFilelist($container);
+			container.data('instance').loadFilelist(container);
 		}
 	}
 

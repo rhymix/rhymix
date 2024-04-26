@@ -43,7 +43,7 @@ CKEDITOR.plugins.add('rx_upload', {
 		const uploadFile = function(file) {
 
 			// Get the editor sequence.
-			const editor_container = $(editor.container.$).parents('.rx_ckeditor');
+			const editor_container = $(editor.container.$).closest('.rx_ckeditor');
 			const upload_container = editor_container.nextAll('.xefu-container').first();
 			const editor_sequence = editor_container.data('editorSequence');
 
