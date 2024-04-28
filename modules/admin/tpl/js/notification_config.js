@@ -1,8 +1,8 @@
 
 (function($) {
-	
+
 	$(function() {
-		
+
 		$("#mail_driver").on("change", function() {
 			var selected_driver = $(this).val();
 			$(this).parents("section").find("div.x_control-group.hidden-by-default, p.x_help-block.hidden-by-default").each(function() {
@@ -13,7 +13,7 @@
 				}
 			});
 		}).triggerHandler("change");
-		
+
 		$("#sms_driver").on("change", function() {
 			var selected_driver = $(this).val();
 			$(this).parents("section").find("div.x_control-group.hidden-by-default, p.x_help-block.hidden-by-default").each(function() {
@@ -24,7 +24,19 @@
 				}
 			});
 		}).triggerHandler("change");
-		
+
+		$(".push_driver_checkbox").on("change", function() {
+			$(".push_driver_checkbox").each(function() {
+				var driver_name = $(this).data('driver');
+				var is_checked = $(this).is(':checked');
+				$(this).parents("section").find("div.x_control-group.hidden-by-default, p.x_help-block.hidden-by-default").each(function() {
+					if ($(this).hasClass("show-for-" + driver_name)) {
+						is_checked ? $(this).show() : $(this).hide();
+					}
+				});
+			});
+		}).first().triggerHandler("change");
+
 		$("#mail_smtp_manual_entry").on("change", function() {
 			var auto_fill = $(this).val();
 			if (auto_fill === 'gmail') {
@@ -76,7 +88,7 @@
 				$("#mail_force_default_sender").prop("checked", true).parent().addClass("checked");
 			}
 		});
-		
+
 	});
-	
+
 })(jQuery);

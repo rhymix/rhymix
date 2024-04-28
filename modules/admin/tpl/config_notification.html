@@ -11,16 +11,16 @@
 	var mail_drivers = {json_encode($mail_drivers)};
 	var sms_drivers = {json_encode($sms_drivers)};
 </script>
-	
+
 <form action="./" method="post" class="x_form-horizontal">
 	<input type="hidden" name="module" value="admin" />
 	<input type="hidden" name="act" value="procAdminUpdateNotification" />
 	<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_notification/1" />
-	
+
 	<section class="section">
-		
+
 		<h2>{$lang->email}</h2>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_default_name">{$lang->cmd_admin_default_from_name}</label>
 			<div class="x_controls">
@@ -29,7 +29,7 @@
 				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_name_help}</p>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_default_from">{$lang->cmd_admin_default_from_email}</label>
 			<div class="x_controls">
@@ -43,7 +43,7 @@
 				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_email_help}</p>
 			</div>
 		</div>
-	
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_default_reply_to">{$lang->cmd_admin_default_reply_to}</label>
 			<div class="x_controls">
@@ -52,7 +52,7 @@
 				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_reply_to_help}</p>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="mail_driver">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
@@ -69,13 +69,13 @@
 				</p>
 			</div>
 		</div>
-		
+
 		<!--@foreach($mail_drivers as $driver_name => $driver_definition)-->
-		
+
 			<!--@foreach($driver_definition['required'] as $conf_name)-->
-			
+
 				{@ $conf_value = escape(config("mail.$driver_name.$conf_name"))}
-			
+
 				<!--@if($conf_name === 'smtp_host')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_smtp_host">{$lang->cmd_advanced_mailer_smtp_host}</label>
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'smtp_port')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_smtp_port">{$lang->cmd_advanced_mailer_smtp_port}</label>
@@ -102,7 +102,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'smtp_security')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label">{$lang->cmd_advanced_mailer_smtp_security}</label>
@@ -113,7 +113,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'smtp_user')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_smtp_user">{$lang->cmd_advanced_mailer_smtp_user}</label>
@@ -122,7 +122,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'smtp_pass')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_smtp_pass">{$lang->cmd_advanced_mailer_smtp_pass}</label>
@@ -131,7 +131,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_type')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_type">{$lang->cmd_advanced_mailer_api_type}</label>
@@ -144,7 +144,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_domain')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_domain">{$lang->cmd_advanced_mailer_api_domain}</label>
@@ -153,7 +153,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_user')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
@@ -162,7 +162,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_pass')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
@@ -171,7 +171,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_token')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
@@ -180,7 +180,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_key')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_key}</label>
@@ -189,7 +189,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_secret')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="mail_{$driver_name}_api_secret">{$lang->cmd_advanced_mailer_api_secret}</label>
@@ -198,17 +198,17 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 			<!--@end-->
-			
+
 		<!--@end-->
-		
+
 	</section>
-	
+
 	<section class="section">
-		
+
 		<h2>{$lang->sms}</h2>
-	
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="sms_default_from">{$lang->cmd_admin_default_from_phone}</label>
 			<div class="x_controls">
@@ -222,7 +222,7 @@
 				<p class="x_help-block" style="margin-top:10px">{$lang->cmd_admin_default_from_phone_help}</p>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label" for="sms_driver">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
@@ -236,15 +236,15 @@
 				</p>
 			</div>
 		</div>
-		
+
 		<!--@foreach($sms_drivers as $driver_name => $driver_definition)-->
-		
+
 			{@ $conf_names = array_merge($driver_definition['required'], $driver_definition['optional'])}
-			
+
 			<!--@foreach($conf_names as $conf_name)-->
-			
+
 				{@ $conf_value = escape(config("sms.$driver_name.$conf_name"))}
-				
+
 				<!--@if($conf_name === 'api_url')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_url}</label>
@@ -258,7 +258,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_user')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_user">{$lang->cmd_advanced_mailer_api_user}</label>
@@ -267,7 +267,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_pass')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_pass">{$lang->cmd_advanced_mailer_api_pass}</label>
@@ -276,7 +276,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_token')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_token">{$lang->cmd_advanced_mailer_api_token}</label>
@@ -285,7 +285,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_key')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_key}</label>
@@ -294,7 +294,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'api_secret')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_secret">{$lang->cmd_advanced_mailer_api_secret}</label>
@@ -303,7 +303,7 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'sender_key')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_sender_key">{$lang->cmd_advanced_mailer_sender_key}</label>
@@ -313,11 +313,11 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 			<!--@end-->
-			
+
 		<!--@end-->
-	
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_admin_allow_split_sms}</label>
 			<div class="x_controls">
@@ -333,7 +333,7 @@
 				<p class="x_help-block">{$lang->cmd_admin_allow_split_sms_help}</p>
 			</div>
 		</div>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_admin_allow_split_lms}</label>
 			<div class="x_controls">
@@ -349,48 +349,62 @@
 				<p class="x_help-block">{$lang->cmd_admin_allow_split_lms_help}</p>
 			</div>
 		</div>
-		
+
 	</section>
-	
+
 	<section class="section">
-		
+
 		<h2>{$lang->push_notification}</h2>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_admin_sending_method}</label>
 			<div class="x_controls">
 				<!--@foreach($push_drivers as $driver_name => $driver_definition)-->
-					<label for="push_driver_{$driver_name}" class="x_inline"><input type="checkbox" name="push_driver[]" id="push_driver_{$driver_name}" value="{$driver_name}" checked="checked"|cond="isset($push_config['types'][$driver_name])" /> {$driver_definition['name']}</label>
+					<label for="push_driver_{$driver_name}" class="x_inline">
+						<input type="checkbox" class="push_driver_checkbox" name="push_driver[]" id="push_driver_{$driver_name}" value="{$driver_name}" checked="checked"|cond="isset($push_config['types'][$driver_name])" data-driver="{$driver_name}" value="Y" />
+						{$driver_definition['name']}
+					</label>
 				<!--@end-->
 			</div>
 		</div>
-		
+
 		<!--@foreach($push_drivers as $driver_name => $driver_definition)-->
-		
+
 			{@ $conf_names = array_merge($driver_definition['required'], $driver_definition['optional'])}
-			
+
 			<!--@foreach($conf_names as $conf_name)-->
-			
+
 				{@ $conf_value = escape(config("push.$driver_name.$conf_name"))}
-				
+
 				<!--@if($conf_name === 'api_key')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_fcm_api_key}</label>
 					<div class="x_controls">
 						<input type="password" name="push_{$driver_name}_api_key" id="push_{$driver_name}_api_key" value="{$conf_value|escape}" autocomplete="new-password" />
+						<p class="x_help-block" style="color:red">{$lang->msg_advanced_mailer_about_fcm_legacy}</p>
 					</div>
 				</div>
 				<!--@end-->
-				
+
+				<!--@if($conf_name === 'service_account')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="push_{$driver_name}_service_account">{$lang->cmd_advanced_mailer_fcm_service_account}</label>
+					<div class="x_controls">
+						<textarea name="push_{$driver_name}_service_account" id="push_{$driver_name}_service_account" class="x_full-width" rows="5">{$fcmv1_service_account|escape}</textarea>
+						<p class="x_help-block">{$lang->msg_advanced_mailer_about_fcm_service_account}</p>
+					</div>
+				</div>
+				<!--@end-->
+
 				<!--@if($conf_name === 'certificate')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_certificate">{$lang->cmd_advanced_mailer_apns_certificate}</label>
 					<div class="x_controls full-width">
-						<textarea name="push_{$driver_name}_certificate" id="push_{$driver_name}_certificate">{$apns_certificate|escape}</textarea>
+						<textarea name="push_{$driver_name}_certificate" id="push_{$driver_name}_certificate" class="x_full-width" rows="5">{$apns_certificate|escape}</textarea>
 					</div>
 				</div>
 				<!--@end-->
-				
+
 				<!--@if($conf_name === 'passphrase')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="push_{$driver_name}_passphrase">{$lang->cmd_advanced_mailer_apns_passphrase}</label>
@@ -399,11 +413,11 @@
 					</div>
 				</div>
 				<!--@end-->
-				
+
 			<!--@end-->
-			
+
 		<!--@end-->
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->cmd_advanced_mailer_allow_guest_device}</label>
 			<div class="x_controls">
@@ -419,7 +433,7 @@
 				<p class="x_help-block">{$lang->cmd_advanced_mailer_about_allow_guest_device}</p>
 			</div>
 		</div>
-		
+
 	</section>
 
 	<div class="x_clearfix btnArea">

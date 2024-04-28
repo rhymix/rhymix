@@ -12,21 +12,23 @@ class Push
 	 */
 	protected $caller = '';
 	protected $from = 0;
-	protected $to = array();
+	protected $to = [];
+	protected $topics = [];
 	protected $subject = '';
 	protected $content = '';
+	protected $image = '';
 	protected $metadata = [];
 	protected $data = [];
-	protected $errors = array();
-	protected $success_tokens = array();
-	protected $deleted_tokens = array();
-	protected $updated_tokens = array();
+	protected $errors = [];
+	protected $success_tokens = [];
+	protected $deleted_tokens = [];
+	protected $updated_tokens = [];
 	protected $sent = 0;
 
 	/**
 	 * Static properties.
 	 */
-	protected static $_drivers = array();
+	protected static $_drivers = [];
 
 	/**
 	 * Add a custom Push driver.
@@ -56,7 +58,7 @@ class Push
 		$driver_class = '\Rhymix\Framework\Drivers\Push\\' . $name;
 		if (class_exists($driver_class))
 		{
-			$driver_config = config('push.' . $name) ?: array();
+			$driver_config = config('push.' . $name) ?: [];
 			return self::$_drivers[$name] = $driver_class::getInstance($driver_config);
 		}
 		else
@@ -72,29 +74,29 @@ class Push
 	 */
 	public static function getSupportedDrivers(): array
 	{
-		$result = array();
+		$result = [];
 		foreach (Storage::readDirectory(__DIR__ . '/drivers/push', false) as $filename)
 		{
 			$driver_name = substr($filename, 0, -4);
 			$class_name = '\Rhymix\Framework\Drivers\Push\\' . $driver_name;
 			if ($class_name::isSupported())
 			{
-				$result[$driver_name] = array(
+				$result[$driver_name] = [
 					'name' => $class_name::getName(),
 					'required' => $class_name::getRequiredConfig(),
 					'optional' => $class_name::getOptionalConfig(),
-				);
+				];
 			}
 		}
 		foreach (self::$_drivers as $driver_name => $driver)
 		{
 			if ($driver->isSupported())
 			{
-				$result[$driver_name] = array(
+				$result[$driver_name] = [
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
 					'optional' => $driver->getOptionalConfig(),
-				);
+				];
 			}
 		}
 		ksort($result);
@@ -144,13 +146,35 @@ class Push
 	}
 
 	/**
-	 * Get the list of recipients without country codes.
+	 * Get the list of recipients.
 	 *
 	 * @return array
 	 */
 	public function getRecipients(): array
 	{
 		return $this->to;
+	}
+
+	/**
+	 * Add a topic.
+	 *
+	 * @param string $topic
+	 * @return bool
+	 */
+	public function addTopic(string $topic): bool
+	{
+		$this->topics[] = $topic;
+		return true;
+	}
+
+	/**
+	 * Get the list of topics.
+	 *
+	 * @return array
+	 */
+	public function getTopics(): array
+	{
+		return $this->topics;
 	}
 
 	/**
@@ -184,7 +208,7 @@ class Push
 	public function setContent(string $content): bool
 	{
 		$this->content = utf8_trim(utf8_clean($content));
-		$this->content = strtr($this->content, array("\r\n" => "\n"));
+		$this->content = strtr($this->content, ["\r\n" => "\n"]);
 		return true;
 	}
 
@@ -196,6 +220,29 @@ class Push
 	public function getContent(): string
 	{
 		return $this->content;
+	}
+
+	/**
+	 * Set the image.
+	 *
+	 * @param string $url
+	 * @return bool
+	 */
+	public function setImage(string $url): bool
+	{
+		$url = preg_replace('!^\./!', URL::getCurrentDomainURL(\RX_BASEURL), $url);
+		$this->image = $url;
+		return true;
+	}
+
+	/**
+	 * Get the image.
+	 *
+	 * @return string
+	 */
+	public function getImage(): string
+	{
+		return $this->image;
 	}
 
 	/**
@@ -288,7 +335,7 @@ class Push
 	 */
 	public function setAndroidChannelId(string $android_channel_id): bool
 	{
-		$this->metadata['android_channel_id'] = utf8_trim(utf8_clean($android_channel_id));
+		$this->metadata['channel_id'] = utf8_trim(utf8_clean($android_channel_id));
 		return true;
 	}
 
@@ -374,10 +421,11 @@ class Push
 			$tokens = $this->_getDeviceTokens();
 			$output = null;
 
-			// Android FCM
-			if(count($tokens->fcm))
+			// FCM HTTP v1 or Legacy API
+			if(count($tokens->fcm) || count($this->topics))
 			{
-				$fcm_driver = $this->getDriver('fcm');
+				$fcm_driver_name = array_key_exists('fcmv1', config('push.types') ?: []) ? 'fcmv1' : 'fcm';
+				$fcm_driver = $this->getDriver($fcm_driver_name);
 				$output = $fcm_driver->send($this, $tokens->fcm);
 				$this->sent += count($output->success);
 				$this->success_tokens = $output ? $output->success : [];
@@ -431,8 +479,8 @@ class Push
 		$args = new \stdClass;
 		$args->member_srl = $this->getRecipients();
 		$args->device_token_type = [];
-		$driver_types = config('push.types') ?: array();
-		if(isset($driver_types['fcm']))
+		$driver_types = config('push.types') ?: [];
+		if(isset($driver_types['fcm']) || isset($driver_types['fcmv1']))
 		{
 			$args->device_token_type[] = 'fcm';
 		}
@@ -440,7 +488,7 @@ class Push
 		{
 			$args->device_token_type[] = 'apns';
 		}
-		if(!count($args->device_token_type))
+		if(!count($args->device_token_type) || !count($args->member_srl))
 		{
 			return $result;
 		}

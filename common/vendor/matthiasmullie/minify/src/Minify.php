@@ -261,6 +261,49 @@ abstract class Minify
     }
 
     /**
+     * Both JS and CSS use the same form of multi-line comment, so putting the common code here.
+     */
+    protected function stripMultilineComments()
+    {
+        // First extract comments we want to keep, so they can be restored later
+        // PHP only supports $this inside anonymous functions since 5.4
+        $minifier = $this;
+        $callback = function ($match) use ($minifier) {
+            $count = count($minifier->extracted);
+            $placeholder = '/*' . $count . '*/';
+            $minifier->extracted[$placeholder] = $match[0];
+
+            return $placeholder;
+        };
+        $this->registerPattern('/
+            # optional newline
+            \n?
+
+            # start comment
+            \/\*
+
+            # comment content
+            (?:
+                # either starts with an !
+                !
+            |
+                # or, after some number of characters which do not end the comment
+                (?:(?!\*\/).)*?
+
+                # there is either a @license or @preserve tag
+                @(?:license|preserve)
+            )
+
+            # then match to the end of the comment
+            .*?\*\/\n?
+
+            /ixs', $callback);
+
+        // Then strip all other comments
+        $this->registerPattern('/\/\*.*?\*\//s', '');
+    }
+
+    /**
      * We can't "just" run some regular expressions against JavaScript: it's a
      * complex language. E.g. having an occurrence of // xyz would be a comment,
      * unless it's used within a string. Of you could have something that looks
@@ -451,14 +494,20 @@ abstract class Minify
         $parsed = parse_url($path);
         if (
             // file is elsewhere
-            isset($parsed['host']) ||
+            isset($parsed['host'])
             // file responds to queries (may change, or need to bypass cache)
-            isset($parsed['query'])
+            || isset($parsed['query'])
         ) {
             return false;
         }
 
-        return strlen($path) < PHP_MAXPATHLEN && @is_file($path) && is_readable($path);
+        try {
+            return strlen($path) < PHP_MAXPATHLEN && @is_file($path) && is_readable($path);
+        }
+        // catch openbasedir exceptions which are not caught by @ on is_file()
+        catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -491,9 +540,9 @@ abstract class Minify
     protected function writeToFile($handler, $content, $path = '')
     {
         if (
-            !is_resource($handler) ||
-            ($result = @fwrite($handler, $content)) === false ||
-            ($result < strlen($content))
+            !is_resource($handler)
+            || ($result = @fwrite($handler, $content)) === false
+            || ($result < strlen($content))
         ) {
             throw new IOException('The file "' . $path . '" could not be written to. Check your disk space and file permissions.');
         }
