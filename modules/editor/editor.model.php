@@ -149,7 +149,11 @@ class EditorModel extends Editor
 		{
 			$option->editor_skin = $option->skin ?? null;
 		}
-		if (empty($option->editor_skin) || !file_exists('./modules/editor/skins/' . $option->editor_skin . '/editor.html') || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
+		if (empty($option->editor_skin) || starts_with('xpresseditor', $option->editor_skin) || starts_with('dreditor', $option->editor_skin))
+		{
+			$option->editor_skin = self::$default_editor_config['editor_skin'];
+		}
+		if (!file_exists('./modules/editor/skins/' . $option->editor_skin . '/editor.html') && !file_exists('./modules/editor/skins/' . $option->editor_skin . '/editor.blade.php'))
 		{
 			$option->editor_skin = self::$default_editor_config['editor_skin'];
 		}
@@ -305,7 +309,7 @@ class EditorModel extends Editor
 		Context::loadLang($tpl_path.'lang');
 
 		$oTemplate = TemplateHandler::getInstance();
-		return $oTemplate->compile($tpl_path, 'editor.html');
+		return $oTemplate->compile($tpl_path, 'editor');
 	}
 
 	/**
