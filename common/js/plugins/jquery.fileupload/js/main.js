@@ -174,36 +174,24 @@
 					}
 
 					if(result.error == 0) {
-						if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename) && opt.autoinsertTypes.image) {
-							temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
+						var filename = String(result.source_filename);
+						if (filename.match(/\.(gif|jpe?g|png|webp)$/i) && opt.autoinsertTypes.image) {
+							temp_code = self.generateHtml($container, result);
 						}
-						else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename) && opt.autoinsertTypes.audio) {
-							temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+						else if (filename.match(/\.(mp3|wav|ogg|flac|aac)$/i) && opt.autoinsertTypes.audio) {
+							temp_code = self.generateHtml($container, result);
 						}
-						else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename) && opt.autoinsertTypes.video) {
-							if(result.original_type === 'image/gif') {
-								temp_code += '<video src="' + result.download_url + '" autoplay loop muted playsinline data-file-srl="' + result.file_srl + '" />';
-							} else if (result.download_url.match(/\b(?:procFileDownload\b|files\/download\/)/)) {
-								if (!result.download_url.match(/^\//)) {
-									result.download_url = XE.URI(default_url).pathname() + result.download_url;
-								}
-								temp_code += '<video src="' + result.download_url + '" controls preload="none" data-file-srl="' + result.file_srl + '" />';
-							} else {
-								temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
-							}
-							if(result.thumbnail_filename) {
-								temp_code = temp_code.replace('controls', 'poster="' + result.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
-							}
+						else if (filename.match(/\.(mp4|webm|ogv)$/i) && opt.autoinsertTypes.video) {
+							temp_code = self.generateHtml($container, result);
 						}
 
 						if(temp_code !== '') {
-							if (opt.autoinsertPosition === 'paragraph') {
-								temp_code = "<p>" + temp_code + "</p>\n";
-							}
 							try {
 								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
 							}
-							catch(err) {}
+							catch(err) {
+								// pass
+							}
 						}
 						if (typeof result.files !== 'undefined') {
 							$container.data('editorStatus', result);
@@ -353,51 +341,63 @@
 		unselectImageFiles: function() {},
 		unselectNonImageFiles: function() {},
 
+		generateHtml: function($container, file) {
+			var filename = String(file.source_filename);
+			var html = '';
+			var data = $container.data();
+
+			if (filename.match(/\.(gif|jpe?g|png|webp)$/i)) {
+				html = '<img src="' + file.download_url + '" alt="' + file.source_filename + '"'
+					+ ' editor_component="image_link" data-file-srl="' + file.file_srl + '" />';
+			}
+			else if (filename.match(/\.(mp3|wav|ogg|flac|aac)$/i)) {
+				html = '<audio src="' + file.download_url + '" controls' +
+					' data-file-srl="' + file.file_srl + '" />';
+			}
+			else if (filename.match(/\.(mp4|webm|ogv)$/i)) {
+				if (file.original_type === 'image/gif') {
+					html = '<video src="' + file.download_url + '"'
+						+ ' autoplay loop muted playsinline data-file-srl="' + file.file_srl + '" />';
+				} else if (file.download_url.match(/\b(?:procFileDownload\b|files\/download\/)/)) {
+					if (!file.download_url.match(/^\//)) {
+						file.download_url = XE.URI(default_url).pathname() + file.download_url;
+					}
+					html = '<video src="' + file.download_url + '" controls preload="none"'
+						+ ' data-file-srl="' + file.file_srl + '" />';
+				} else {
+					html = '<video src="' + file.download_url + '" controls data-file-srl="' + file.file_srl + '" />';
+				}
+				if (file.thumbnail_filename) {
+					html = html.replace('controls', 'poster="' + file.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
+				}
+			}
+
+			if (html !== '' && data.settings.autoinsertPosition === 'paragraph') {
+					html = '<p>' + html + '</p>\n';
+			}
+
+			if (html === '') {
+				html += '<a href="' + file.download_url + '" data-file-srl="' + file.file_srl + '">' + file.source_filename + '</a>\n';
+			}
+
+			return html;
+		},
+
 		insertToContent: function($container) {
 			var self = this;
 			var data = $container.data();
-
 			$.each(data.selected_files, function(idx, file) {
 				var file_srl = $(file).data().fileSrl;
 				var result = data.files[file_srl];
-				if(!result) return;
-				var temp_code = '';
-
-				if(/\.(gif|jpe?g|png|webp)$/i.test(result.source_filename)) {
-					temp_code += '<img src="' + result.download_url + '" alt="' + result.source_filename + '" editor_component="image_link" data-file-srl="' + result.file_srl + '" />';
-				}
-				else if(/\.(mp3|wav|ogg|flac|aac)$/i.test(result.source_filename)) {
-					temp_code += '<audio src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
-				}
-				else if(/\.(mp4|webm|ogv)$/i.test(result.source_filename)) {
-					if(result.original_type === 'image/gif') {
-						temp_code += '<video src="' + result.download_url + '" autoplay loop muted playsinline data-file-srl="' + result.file_srl + '" />';
-					} else if (result.download_url.match(/\b(?:procFileDownload\b|files\/download\/)/)) {
-						if (!result.download_url.match(/^\//)) {
-							result.download_url = XE.URI(default_url).pathname() + result.download_url;
-						}
-						temp_code += '<video src="' + result.download_url + '" controls preload="none" data-file-srl="' + result.file_srl + '" />';
-					} else {
-						temp_code += '<video src="' + result.download_url + '" controls data-file-srl="' + result.file_srl + '" />';
+				if (result) {
+					var html = self.generateHtml($container, result);
+					try {
+						_getCkeInstance(data.editorSequence).insertHtml(html, 'unfiltered_html');
 					}
-					if(result.thumbnail_filename) {
-						temp_code = temp_code.replace('controls', 'poster="' + result.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
+					catch(err) {
+						// pass
 					}
 				}
-
-				if(temp_code !== '') {
-					if (data.settings.autoinsertPosition === 'paragraph') {
-						temp_code = "<p>" + temp_code + "</p>\n";
-					}
-				}
-				if(temp_code === '') {
-					temp_code += '<a href="' + result.download_url + '" data-file-srl="' + result.file_srl + '">' + result.source_filename + "</a>\n";
-				}
-				try {
-					_getCkeInstance(data.editorSequence).insertHtml(temp_code, "unfiltered_html");
-				}
-				catch(err) {}
-
 			});
 		},
 		/**

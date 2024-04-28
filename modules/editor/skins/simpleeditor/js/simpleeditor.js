@@ -70,12 +70,12 @@
 
 			// Load editor info.
 			var editor = $(this);
-			var editor_sequence = editor.data('editor-sequence');
-			var content_key = editor.data('editor-content-key-name');
-			var primary_key = editor.data('editor-primary-key-name');
+			var editor_sequence = editor.data('editorSequence');
+			var content_key = editor.data('editorContentKeyName');
+			var primary_key = editor.data('editorPrimaryKeyName');
 			var insert_form = editor.closest('form');
 			var content_input = insert_form.find('input,textarea').filter('[name=' + content_key + ']');
-			var editor_height = editor.data('editor-height');
+			var editor_height = editor.data('editorHeight');
 			if (editor_height) {
 				editor.css('height', editor_height + 'px');
 			}

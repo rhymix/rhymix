@@ -128,15 +128,13 @@
 	            fontSize_sizes: font_sizes,
 				toolbarCanCollapse: true,
 				allowedContent: true,
-				clipboard_handleImages: false,
 				startupFocus: {json_encode($editor_focus)},
 				language: "{str_replace('jp','ja',$lang_type)}",
 				iframe_attributes: {},
 				versionCheck: false
 			},
 			loadXeComponent: true,
-			enableToolbar: true,
-			content_field: jQuery('[name={$editor_content_key_name}]')
+			enableToolbar: true
 		};
 
 		// Add style-sheet for the WYSIWYG
@@ -177,6 +175,7 @@
 		settings.ckeconfig.toolbarStartupExpanded = {$editor_toolbar_hide ? 'false' : 'true'};
 
 		// Add or remove plugins based on Rhymix configuration.
+		{@ $editor_additional_plugins[] = 'rx_upload'}
 		<!--@if($editor_additional_plugins)-->
 			settings.ckeconfig.extraPlugins = {json_encode(implode(',', $editor_additional_plugins))};
 		<!--@endif-->
@@ -219,15 +218,15 @@
 		var ckeApp = $('#ckeditor_instance_{$editor_sequence}').XeCkEditor(settings);
 
 		// Add use_editor and use_html fields to parent form.
-		var parentform = $('#ckeditor_instance_{$editor_sequence}').parents('form');
+		var parentform = $('#ckeditor_instance_{$editor_sequence}').closest('form');
 		var use_editor = parentform.find("input[name='use_editor']");
 		var use_html = parentform.find("input[name='use_html']");
-		if (use_editor.size()) {
+		if (use_editor.length) {
 			use_editor.val("Y");
 		} else {
 			parentform.append('<input type="hidden" name="use_editor" value="Y" />');
 		}
-		if (use_html.size()) {
+		if (use_html.length) {
 			use_html.val("Y");
 		} else {
 			parentform.append('<input type="hidden" name="use_html" value="Y" />');

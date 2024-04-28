@@ -1,16 +1,14 @@
 function getCkFormInstance(editor_sequence)
 {
-	var fo_obj = document.getElementById('ckeditor_instance_' + editor_sequence).parentNode;
-	while(fo_obj.nodeName != 'FORM') { fo_obj = fo_obj.parentNode; }
-	if(fo_obj.nodeName == 'FORM') return fo_obj;
-	return;
+	var form = $('#ckeditor_instance_' + editor_sequence).closest('form');
+	return form.length ? form[0] : null;
 }
 
-function getAutoSavedSrl(ret_obj, response_tags, c) {
+function getAutoSavedSrl(ret_obj) {
 	var editor_sequence = ret_obj.editor_sequence;
 	var primary_key = ret_obj.key;
 	var fo_obj = getCkFormInstance(editor_sequence);
-	
+
 	if(ret_obj.document_srl !== 0)
 	{
 		fo_obj[primary_key].value = ret_obj.document_srl;
@@ -76,46 +74,48 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 		editorInit : function(containerEl, opts) {
 			var self = this;
 			var $containerEl = containerEl;
-			var $form     = $containerEl.closest('form');
-			var $contentField = $form.find(opts.content_field);
+			var form = $containerEl.closest('form');
 			var data = $containerEl.data();
-			var editor_sequence = $containerEl.data().editorSequence;
-			var primary_key = $containerEl.data().editorPrimaryKeyName;
+			var editor_sequence = data.editorSequence;
+			var primary_key = data.editorPrimaryKeyName;
+			var primary_input = form.find("[name='" + primary_key + "']");
+			var content_key = data.editorContentKeyName;
+			var content_input = form.find("[name='" + content_key + "']");
 			var fo_obj = getCkFormInstance(editor_sequence);
 
 			this.ckeconfig = $.extend({}, default_ckeconfig, opts.ckeconfig || {});
 			this.ckeconfig.bodyClass = this.ckeconfig.bodyClass + ' color_scheme_' + getColorScheme() +
 				($('body').hasClass('cke_auto_dark_mode') ? ' cke_auto_dark_mode' : '');
 
-			this.editor_sequence = data.editorSequence;
-			$form.attr('editor_sequence', data.editorSequence);
+			this.editor_sequence = editor_sequence;
+			form.attr('editor_sequence', editor_sequence);
 
 			if(CKEDITOR.env.mobile) CKEDITOR.env.isCompatible = true;
-			
+
 			// saved document(자동저장 문서)에 대한 확인
 			if(typeof(fo_obj._saved_doc_title)!= "undefined") { ///<< _saved_doc_title field가 없으면 자동저장 하지 않음
 				var saved_title = fo_obj._saved_doc_title.value;
 				var saved_content = fo_obj._saved_doc_content.value;
-		
+
 				if(saved_title || saved_content) {
 					// 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
-					if(confirm(fo_obj._saved_doc_message.value)) {
-						if(typeof(fo_obj.title)!='undefined') fo_obj.title.value = saved_title;
-						$contentField.val(saved_content);
-		
-						var param = [];
-						param.editor_sequence = editor_sequence;
-						param.primary_key = primary_key;
-						param.mid = current_mid;
-						var response_tags = new Array("error","message","editor_sequence","key","title","content","document_srl");
-						exec_xml('editor',"procEditorLoadSavedDocument", param, getAutoSavedSrl, response_tags);
+					if (confirm(fo_obj._saved_doc_message.value)) {
+						if(typeof(fo_obj.title) !== 'undefined') {
+							fo_obj.title.value = saved_title;
+						}
+						content_input.val(saved_content);
+						exec_json('editor.procEditorLoadSavedDocument', {
+							editor_sequence: editor_sequence,
+							primary_key: primary_key,
+							mid: current_mid
+						}, getAutoSavedSrl);
 					} else {
 						editorRemoveSavedDoc();
 					}
 				}
 			}
 
-			var instance = CKEDITOR.appendTo($containerEl[0], {}, $contentField.val());
+			var instance = CKEDITOR.appendTo($containerEl[0], {}, content_input.val());
 
 			instance.on('customConfigLoaded', function(e) {
 				instance.config = $.extend({}, e.editor.config, self.ckeconfig);
@@ -173,17 +173,19 @@ function getAutoSavedSrl(ret_obj, response_tags, c) {
 			$containerEl.data('cke_instance', instance);
 
 			window.editorRelKeys[data.editorSequence] = {};
-			window.editorRelKeys[data.editorSequence].primary   = $form.find('[name='+data.editorPrimaryKeyName+']')[0];
-			window.editorRelKeys[data.editorSequence].content   = $form.find('[name='+data.editorContentKeyName+']')[0];
-			window.editorRelKeys[data.editorSequence].func      = function(seq) {
+			window.editorRelKeys[data.editorSequence].primary = primary_input[0];
+			window.editorRelKeys[data.editorSequence].content = content_input[0];
+			window.editorRelKeys[data.editorSequence].func = function(seq) {
 				return self.getContent.call(self, seq);
 			};
 			window.editorRelKeys[data.editorSequence].pasteHTML = function(text){
 				instance.insertHtml(text, 'html');
 			};
-			
+
 			// 자동저장 필드가 있다면 자동 저장 기능 활성화
-			if(typeof(fo_obj._saved_doc_title)!="undefined" ) editorEnableAutoSave(fo_obj, editor_sequence);
+			if (typeof(fo_obj._saved_doc_title) !== 'undefined') {
+				editorEnableAutoSave(fo_obj, editor_sequence);
+			}
 		},
 		getContent : function(seq) {
 			var self = this;

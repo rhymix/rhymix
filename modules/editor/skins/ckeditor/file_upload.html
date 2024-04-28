@@ -1,10 +1,17 @@
+<config autoescape="on" />
+<load target="./lang" />
+
 <!--%load_js_plugin("jquery.fileupload")-->
 <!--%load_js_plugin("jquery.finderSelect")-->
 <!--%load_js_plugin("handlebars")-->
-<load target="./lang" />
+
 <div cond="$allow_fileupload" id="xefu-container-{$editor_sequence}" class="xefu-container xe-clearfix"
 	data-editor-sequence="{$editor_sequence}"
-	data-editor-status="{escape(json_encode(FileModel::getInstance()->getFileList($editor_sequence)))}">
+	data-editor-status="{json_encode(FileModel::getInstance()->getFileList($editor_sequence), JSON_UNESCAPED_UNICODE)}"
+	data-max-file-size="{$logged_info->is_admin === 'Y' ? 0 : $file_config->allowed_filesize}"
+	data-max-chunk-size="{$file_config->allowed_chunk_size ?: 0}"
+	data-autoinsert-types="{json_encode($editor_autoinsert_types)}"
+	data-autoinsert-position="{$editor_autoinsert_position ?: 'paragraph'}">
 
 	<!--// dropzone -->
 	<div class="xefu-dropzone">
@@ -29,10 +36,9 @@
 		<div style="float: left;">
 			{$lang->ckeditor_file_count} (<span class="attached_size"></span> / <span class="allowed_attach_size"></span>)
 		</div>
-
 		<div style="float: right">
-			<input type="button" class="xefu-btn xefu-act-link-selected" style=" vertical-align: middle; vertical-align: middle;" value="{$lang->edit->link_file}">
-			<input type="button" class="xefu-btn xefu-act-delete-selected" style=" vertical-align: middle; vertical-align: middle;" value="{$lang->edit->delete_selected}">
+			<input type="button" class="xefu-btn xefu-act-link-selected" style="vertical-align: middle" value="{$lang->edit->link_file}">
+			<input type="button" class="xefu-btn xefu-act-delete-selected" style="vertical-align: middle" value="{$lang->edit->delete_selected}">
 		</div>
 	</div>
 
@@ -41,7 +47,6 @@
 			<ul>
 			</ul>
 		</div>
-
 		<div class="xefu-list-files">
 			<ul>
 			</ul>
@@ -51,24 +56,18 @@
 </div>
 
 <script>
-	function reloadUploader(editor_sequence){
-<!--@if($allow_fileupload)-->
-		$container = jQuery('#xefu-container-' + editor_sequence);
-		$container.data('instance').loadFilelist($container);
-<!--@endif-->
-	}
-<!--@if($allow_fileupload)-->
+
 	jQuery(function($){
-		// uploader
-		var setting = {
-			maxFileSize: {$logged_info->is_admin === 'Y' ? 0 : $file_config->allowed_filesize},
-			maxChunkSize: {$file_config->allowed_chunk_size ?: 0},
-			autoinsertTypes: {json_encode($editor_autoinsert_types)},
-			autoinsertPosition: {json_encode($editor_autoinsert_position ?: 'paragraph')},
-			singleFileUploads: true
-		};
-		$container = $('#xefu-container-{$editor_sequence}');
-		$container.data('instance',$container.xeUploader(setting));
+		var container = $('#xefu-container-{$editor_sequence}');
+		if (container.length) {
+			container.data('instance', container.xeUploader({
+				maxFileSize: parseInt(container.data('maxFileSize'), 10),
+				maxChunkSize: parseInt(container.data('maxChunkSize'), 10),
+				autoinsertTypes: container.data('autoinsertTypes'),
+				autoinsertPosition: container.data('autoinsertPosition'),
+				singleFileUploads: true
+			}));
+		}
 		window.xe.msg_exceeds_limit_size = '{$lang->msg_exceeds_limit_size}';
 		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
 		window.xe.msg_file_cart_is_null = '{$lang->msg_file_cart_is_null}';
@@ -76,5 +75,12 @@
 		window.xe.msg_not_allowed_filetype = '{$lang->msg_not_allowed_filetype}';
 		window.xe.msg_file_upload_error = '{$lang->msg_file_upload_error}';
 	});
-<!--@endif-->
+
+	function reloadUploader(editor_sequence) {
+		var container = $('#xefu-container-' + editor_sequence);
+		if (container.length) {
+			container.data('instance').loadFilelist(container);
+		}
+	}
+
 </script>
