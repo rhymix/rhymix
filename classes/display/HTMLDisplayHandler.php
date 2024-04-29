@@ -580,7 +580,7 @@ class HTMLDisplayHandler
 
 					foreach ($document_files as $file)
 					{
-						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png)$/i', $file->uploaded_filename))
+						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png|webp)$/i', $file->uploaded_filename))
 						{
 							continue;
 						}
