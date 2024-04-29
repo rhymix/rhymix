@@ -440,10 +440,15 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 		//exec_xml(module, act, params, callback, responses, params, form);
 		params['_rx_ajax_compat'] = 'XMLRPC';
 		exec_json(module + '.' + act, params, function(result) {
+			if (!result) {
+				result = {};
+			}
 			if ($.isFunction(callback)) {
 				var filtered_result = {};
-				responses.forEach(function(key) {
-					if (result[key]) {
+				Object.keys(result).forEach(function(key) {
+					if (responses && responses.indexOf(key) >= 0) {
+						filtered_result[key] = result[key];
+					} else if (['error', 'message', 'act', 'redirect_url'].indexOf(key) >= 0) {
 						filtered_result[key] = result[key];
 					}
 				});
