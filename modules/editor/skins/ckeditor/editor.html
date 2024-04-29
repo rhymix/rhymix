@@ -13,17 +13,6 @@
 <load target="../../tpl/js/editor.app.js" />
 <load target="js/editor.js" />
 
-<script>
-	var auto_saved_msg = "{$lang->msg_auto_saved}";
-</script>
-
-<!--@if($enable_autosave)-->
-<input type="hidden" name="_saved_doc_title" value="{empty($saved_doc) ? '' : $saved_doc->title|escape}" />
-<input type="hidden" name="_saved_doc_content" value="{empty($saved_doc) ? '' : $saved_doc->content|escape}" />
-<input type="hidden" name="_saved_doc_document_srl" value="{empty($saved_doc) ? '' : $saved_doc->document_srl}" />
-<input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
-<!--@end-->
-
 <!--// Main Editor Area -->
 <div id="ckeditor_instance_{$editor_sequence}" class="rx_ckeditor"
 	data-editor-sequence="{$editor_sequence}"
@@ -35,6 +24,11 @@
 
 <!--@if($enable_autosave)-->
 <p id="editor_autosaved_message_{$editor_sequence}" class="editor_autosaved_message autosave_message">&nbsp;</p>
+<input type="hidden" name="_saved_doc_title" value="{empty($saved_doc) ? '' : $saved_doc->title|escape}" />
+<input type="hidden" name="_saved_doc_content" value="{empty($saved_doc) ? '' : $saved_doc->content|escape}" />
+<input type="hidden" name="_saved_doc_document_srl" value="{empty($saved_doc) ? '' : $saved_doc->document_srl}" />
+<input type="hidden" name="_saved_doc_message" value="{$lang->msg_load_saved_doc}" />
+<script> window.auto_saved_msg = '{$lang->msg_auto_saved}'; </script>
 <!--@endif-->
 
 <!--@if($allow_fileupload)-->
