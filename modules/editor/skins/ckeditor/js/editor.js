@@ -160,3 +160,62 @@ function ckInsertUploadedFile() {
 		}
 	}
 }
+
+/**
+ * Legacy function to get iframe content and insert it into CKEditor.
+ */
+function editorReplaceHTML(iframe_obj, content) {
+	if (typeof console == "object" && typeof console.warn == "function") {
+		const msg = "DEPRECATED : editorReplaceHTML() is deprecated in Rhymix.";
+		if (navigator.userAgent.match(/Firefox/)) {
+			console.error(msg);
+		} else {
+			console.warn(msg);
+		}
+	}
+	var editor_sequence = parseInt(iframe_obj.id.replace(/^.*_/, ''), 10);
+	_getCkeInstance(editor_sequence).insertHtml(content, 'unfiltered_html');
+}
+
+/**
+ * Legacy function to get a direct reference to the CKEditor container element.
+ */
+function editorGetIFrame(editor_sequence) {
+	if (typeof console == "object" && typeof console.warn == "function") {
+		const msg = "DEPRECATED : editorGetIFrame() is deprecated in Rhymix.";
+		if (navigator.userAgent.match(/Firefox/)) {
+			console.error(msg);
+		} else {
+			console.warn(msg);
+		}
+	}
+	return $('#ckeditor_instance_' + editor_sequence).get(0);
+}
+
+/**
+ * Legacy function to get an instance of CKEditor.
+ */
+function _getCkeInstance(editor_sequence) {
+	return $('#ckeditor_instance_' + editor_sequence).data('cke_instance');
+}
+
+/**
+ * Legacy function to get HTML content from CKEditor.
+ */
+function editorGetContent(editor_sequence) {
+	return _getCkeInstance(editor_sequence).getData();
+}
+
+/**
+ * Legacy function to get text content from CKEditor.
+ */
+function editorGetContentTextarea_xe(editor_sequence) {
+	return _getCkeInstance(editor_sequence).getText();
+}
+
+/**
+ * Legacy function to get currently selected text from CKEditor.
+ */
+function editorGetSelectedHtml(editor_sequence) {
+	return _getCkeInstance(editor_sequence).getSelection().getSelectedText();
+}
