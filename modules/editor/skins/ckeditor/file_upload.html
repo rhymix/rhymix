@@ -1,9 +1,11 @@
 <config autoescape="on" />
-<load target="./lang" />
 
 <!--%load_js_plugin("jquery.fileupload")-->
 <!--%load_js_plugin("jquery.finderSelect")-->
 <!--%load_js_plugin("handlebars")-->
+
+<load target="./lang" />
+<load target="js/file_upload.js" />
 
 <div cond="$allow_fileupload" id="xefu-container-{$editor_sequence}" class="xefu-container xe-clearfix"
 	data-editor-sequence="{$editor_sequence}"
@@ -56,31 +58,10 @@
 </div>
 
 <script>
-
-	jQuery(function($){
-		var container = $('#xefu-container-{$editor_sequence}');
-		if (container.length) {
-			container.data('instance', container.xeUploader({
-				maxFileSize: parseInt(container.data('maxFileSize'), 10),
-				maxChunkSize: parseInt(container.data('maxChunkSize'), 10),
-				autoinsertTypes: container.data('autoinsertTypes'),
-				autoinsertPosition: container.data('autoinsertPosition'),
-				singleFileUploads: true
-			}));
-		}
-		window.xe.msg_exceeds_limit_size = '{$lang->msg_exceeds_limit_size}';
-		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
-		window.xe.msg_file_cart_is_null = '{$lang->msg_file_cart_is_null}';
-		window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
-		window.xe.msg_not_allowed_filetype = '{$lang->msg_not_allowed_filetype}';
-		window.xe.msg_file_upload_error = '{$lang->msg_file_upload_error}';
-	});
-
-	function reloadUploader(editor_sequence) {
-		var container = $('#xefu-container-' + editor_sequence);
-		if (container.length) {
-			container.data('instance').loadFilelist(container);
-		}
-	}
-
+	window.xe.msg_exceeds_limit_size = '{$lang->msg_exceeds_limit_size}';
+	window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
+	window.xe.msg_file_cart_is_null = '{$lang->msg_file_cart_is_null}';
+	window.xe.msg_checked_file_is_deleted = '{$lang->msg_checked_file_is_deleted}';
+	window.xe.msg_not_allowed_filetype = '{$lang->msg_not_allowed_filetype}';
+	window.xe.msg_file_upload_error = '{$lang->msg_file_upload_error}';
 </script>
