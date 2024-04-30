@@ -2223,7 +2223,7 @@ class Context
 					$file = $autoPath;
 				}
 			}
-			$validator = new Validator($file);
+			$validator = new Validator(FileHandler::getRealPath($file));
 			$validator->setCacheDir('files/cache');
 			$file = $validator->getJsPath();
 		}

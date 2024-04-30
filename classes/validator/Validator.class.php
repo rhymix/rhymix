@@ -115,8 +115,6 @@ class Validator
 	function load($xml_path)
 	{
 		$this->_xml_ruleset = NULL;
-
-		$xml_path = realpath($xml_path);
 		if(!is_readable($xml_path))
 		{
 			return FALSE;
