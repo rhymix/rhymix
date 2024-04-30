@@ -2932,6 +2932,7 @@ jQuery(function($){
 			if(sModuleName === "_SHORTCUT") continue;
 
 			item = $._xeAdminVar.htAllModules[sModuleName];
+			if (!item) continue;
 			sModuleTitle = item.title;
 
 			htSkins[sModuleName] = (sMode === "P") ? item.defaultSkin.skin : item.defaultMobileSkin.skin;
