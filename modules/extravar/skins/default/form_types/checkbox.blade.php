@@ -11,7 +11,6 @@
 					id="{{ $tempid }}" value="{{ $v }}"
 					style="{{ $definition->style }}"|if="$definition->style"
 					@checked($is_checked)
-					@required(toBool($definition->is_required))
 					@disabled(toBool($definition->is_disabled))
 					@readonly(toBool($definition->is_readonly))
 				/> {{ $v }}
@@ -31,7 +30,6 @@
 					id="{{ $tempid }}" class="{{ $type }}" value="{{ $v }}"
 					style="{{ $definition->style }}"|if="$definition->style"
 					@checked($is_checked)
-					@required(toBool($definition->is_required))
 					@disabled(toBool($definition->is_disabled))
 					@readonly(toBool($definition->is_readonly))
 				/><label for="{{ $tempid }}">{{ $v }}</label>
