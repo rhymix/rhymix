@@ -27,7 +27,7 @@ $(function() {
 			let test_content = $('<div class="rhymix_content xe_content"></div>').hide().appendTo($(document.body));
 			let test_styles = window.getComputedStyle(test_content[0], null);
 			if (test_styles && test_styles.getPropertyValue) {
-				default_font = test_styles.getPropertyValue('font-family');
+				let default_font = test_styles.getPropertyValue('font-family');
 				if (default_font) {
 					config.default_font = $.trim(default_font.split(',')[0].replace(/['"]/g, ''));
 					config.css_content = '.rhymix_content.editable { font-family:' + default_font + '; } ' + config.css_content;
