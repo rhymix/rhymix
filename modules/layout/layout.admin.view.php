@@ -377,7 +377,7 @@ class LayoutAdminView extends Layout
 		$faceoffcss = $oLayoutModel->_getUserLayoutFaceOffCss($current_module_info->layout_srl);
 
 		$css = FileHandler::readFile($faceoffcss);
-		$match = null;
+		$style = [];
 		preg_match_all('/([^\{]+)\{([^\}]*)\}/is',$css,$match);
 		for($i=0,$c=count($match[1]);$i<$c;$i++)
 		{

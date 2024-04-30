@@ -26,7 +26,7 @@ class LayoutAdminModel extends Layout
 		$script = '<script src="./modules/layout/tpl/js/layout_modify.js"></script>';
 		$oTemplate = TemplateHandler::getInstance();
 		$html = $oTemplate->compile($this->module_path.'tpl/', 'layout_info_view');
-
+		$csss = '';
 		preg_match_all('/<!--#JSPLUGIN:(.*)-->/', $html, $m);
 		$pluginList = $m[1];
 
@@ -49,11 +49,6 @@ class LayoutAdminModel extends Layout
 		}
 
 		$this->add('html', $csss . $script . $html);
-
-		if($isReturn)
-		{
-			return $this->get('html');
-		}
 	}
 
 	public function setLayoutAdminSetInfoView()
