@@ -58,11 +58,27 @@ class TemplateTest extends \Codeception\Test\Unit
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
 
 		$source = '/rhymix/foo/bar//../hello/world\\..';
-		$target = '/rhymix/foo/hello';
+		$target = '/rhymix/foo/hello/';
 		$this->assertEquals($target, $tmpl->normalizePath($source));
 
 		$source = '../foo\\bar/../baz/';
 		$target = '../foo/baz/';
+		$this->assertEquals($target, $tmpl->normalizePath($source));
+
+		$source = '/fo/ob/ar/../../baz/./buzz.txt';
+		$target = '/fo/baz/buzz.txt';
+		$this->assertEquals($target, $tmpl->normalizePath($source));
+
+		$source = 'foo/bar/../../baz/buzz.txt';
+		$target = 'baz/buzz.txt';
+		$this->assertEquals($target, $tmpl->normalizePath($source));
+
+		$source = 'tests/unit/foo/bar/../../../../../../buzz.txt';
+		$target = '../../buzz.txt';
+		$this->assertEquals($target, $tmpl->normalizePath($source));
+
+		$source = 'tests/unit/foo/bar/../../../../.././';
+		$target = '../';
 		$this->assertEquals($target, $tmpl->normalizePath($source));
 	}
 }

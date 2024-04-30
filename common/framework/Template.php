@@ -107,7 +107,7 @@ class Template
 		}
 
 		// If paths were provided, initialize immediately.
-		if ($dirname && $filename)
+		if ($dirname !== null && $filename !== null)
 		{
 			$this->_setSourcePath($dirname, $filename, $extension ?? 'auto');
 		}
@@ -137,7 +137,7 @@ class Template
 	protected function _setSourcePath(string $dirname, string $filename, string $extension = 'auto'): void
 	{
 		// Normalize the template path. Result will look like 'modules/foo/views/'
-		$dirname = trim(preg_replace('@^' . preg_quote(\RX_BASEDIR, '@') . '|\./@', '', strtr($dirname, ['\\' => '/', '//' => '/'])), '/') . '/';
+		$dirname = trim(preg_replace('@^(' . preg_quote(\RX_BASEDIR, '@') . '|\./)@', '', strtr($dirname, ['\\' => '/', '//' => '/'])), '/') . '/';
 		$dirname = preg_replace('/[\{\}\(\)\[\]<>\$\'"]/', '', $dirname);
 		$this->absolute_dirname = \RX_BASEDIR . $dirname;
 		$this->relative_dirname = $dirname;
@@ -208,7 +208,8 @@ class Template
 	 */
 	public function setCachePath(?string $cache_path = null)
 	{
-		$this->cache_path = $cache_path ?? (\RX_BASEDIR . 'files/cache/template/' . $this->relative_path . '.compiled.php');
+		$clean_path = str_replace('../', '__parentdir/', $this->relative_path);
+		$this->cache_path = $cache_path ?? (\RX_BASEDIR . 'files/cache/template/' . $clean_path . '.compiled.php');
 		if ($this->exists)
 		{
 			Debug::addFilenameAlias($this->absolute_path, $this->cache_path);
@@ -573,7 +574,8 @@ class Template
 	public function normalizePath(string $path): string
 	{
 		$path = preg_replace('#[\\\\/]+#', '/', $path);
-		while (($tmp = preg_replace('#/[^/]+/\.\.(/|$)#', '$1', $path)) !== $path)
+		$path = preg_replace('#/\./#', '/', $path);
+		while (($tmp = preg_replace('#(/|^)(?!\.\./)[^/]+/\.\.(/|$)#', '$1', $path)) !== $path)
 		{
 			$path = $tmp;
 		}
