@@ -162,14 +162,6 @@ function getAutoSavedSrl(ret_obj) {
 				}
 			});
 
-			instance.on('paste', function(e) {
-				if (e.data && e.data.dataValue && e.data.dataValue.replace) {
-					e.data.dataValue = e.data.dataValue.replace(/&lt;(iframe|object)\s[^<>]+&lt;\/\1&gt;/g, function(m) {
-						return String(m).unescape() + '<p>&nbsp;</p>';
-					});
-				}
-			});
-
 			$containerEl.data('cke_instance', instance);
 
 			window.editorRelKeys[data.editorSequence] = {};

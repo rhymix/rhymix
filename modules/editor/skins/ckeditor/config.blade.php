@@ -15,7 +15,9 @@ $ckconfig->ios_patch = (bool)preg_match('/i(Phone|Pad|Pod)/', $_SERVER['HTTP_USE
 // Plugin configuration
 $ckconfig->add_plugins = $editor_additional_plugins ?? [];
 $ckconfig->remove_plugins = $editor_remove_plugins ?? [];
-$ckconfig->add_plugins[] = 'rx_upload';
+if (!in_array('clipboard', $ckconfig->remove_plugins)) {
+	$ckconfig->add_plugins[] = 'rx_paste';
+}
 if ($ckconfig->ios_patch) {
 	$ckconfig->add_plugins[] = 'divarea';
 	$ckconfig->add_plugins[] = 'ios_enterkey';

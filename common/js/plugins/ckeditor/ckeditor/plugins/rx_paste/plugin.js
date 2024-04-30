@@ -3,7 +3,7 @@
 /**
  * Upload plugin for Rhymix
  */
-CKEDITOR.plugins.add('rx_upload', {
+CKEDITOR.plugins.add('rx_paste', {
 
 	init: function(editor) {
 
@@ -20,20 +20,24 @@ CKEDITOR.plugins.add('rx_upload', {
 		 */
 		editor.on('paste', function(event) {
 
-			// Check if the pasted data contains any files.
 			const method = event.data.method;
+			const dataValue = event.data.dataValue;
 			const dataTransfer = event.data.dataTransfer;
-			const files_count = dataTransfer.getFilesCount();
-			if (!files_count) {
-				return;
+			const filesCount = dataTransfer.getFilesCount();
+
+			// Replace iframe code in pasted text.
+			if (method === 'paste' && dataValue && dataValue.replace) {
+				event.data.dataValue = dataValue.replace(/&lt;(iframe|object)\s[^<>]+&lt;\/\1&gt;/g, function(m) {
+					return String(m).unescape() + '<p>&nbsp;</p>';
+				});
 			}
 
-			// Prevent the default plugin from touching these files.
-			event.stop();
-
-			// Read and upload each file.
-			for (let i = 0; i < files_count; i++) {
-				uploadFile(dataTransfer.getFile(i));
+			// Check if the pasted data contains any files.
+			if (filesCount) {
+				event.stop();
+				for (let i = 0; i < filesCount; i++) {
+					uploadFile(dataTransfer.getFile(i));
+				}
 			}
 		});
 
