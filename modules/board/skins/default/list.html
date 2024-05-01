@@ -131,7 +131,7 @@
 		<a href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}" class="direction next">{$lang->last_page} <span></span><span></span></a>
 	</div>
 	<div class="btnArea">
-		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite')}" class="btn">{$lang->cmd_write}</a>
+		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'category', $category ?? null)}" class="btn">{$lang->cmd_write}</a>
 		<a cond="$grant->manager" href="{getUrl('','mid',$mid,'act','dispDocumentManageDocument')}" class="btn" onclick="popopen(this.href,'manageDocument'); return false;">{$lang->cmd_manage_document}</a>
 	</div>
 	<button type="button" class="bsToggle" title="{$lang->cmd_search}">{$lang->cmd_search}</button>

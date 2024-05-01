@@ -1,7 +1,7 @@
 <div class="hx h2">
 	<h2><a href="{getUrl('','mid',$mid)}">{$module_info->browser_title}</a> <em>[{number_format($total_count)}]</em></h2>
 	<!--@if($module_info->use_category == "Y")--><a href="{getUrl('page','','act','dispBoardCategory','')}" class="ca">{$lang->category}</a><!--@endif-->
-	<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite')}" class="write">{$lang->cmd_write}</a>
+	<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'category', $category ?? null)}" class="write">{$lang->cmd_write}</a>
 </div>
 <ul class="lt">
 	<!--@foreach($notice_list as $no => $document)-->

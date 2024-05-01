@@ -5,7 +5,7 @@
 	<h2><a href="{getUrl('', 'mid', $mid)}">{$module_info->browser_title}</a>
 		<!--@if($module_info->use_category == "Y" && $oDocument->get('category_srl'))-->&rsaquo; <a href="{getUrl('document_srl','','category',$oDocument->get('category_srl'))}">{$category_list[$oDocument->get('category_srl')]->title}</a><!--@end--> &rsaquo; {$oDocument->getTitle()}</h2>
 	<span class="ex">{$oDocument->getNickName()} | {$oDocument->getRegdate()} | <a href="#skip_co">{$lang->skip_to_content}</a></span>
-	<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite')}" class="write">{$lang->cmd_write}</a>
+	<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'category', $category ?? null)}" class="write">{$lang->cmd_write}</a>
 </div>
 <div class="co">
 		<!--@if(!$oDocument->isAccessible())-->
@@ -114,6 +114,7 @@
 	<span class="fl"><a href="{getUrl('document_srl','')}" class="bn white">{$lang->cmd_list}</a></span>
 	<span class="fr">
 		<!--@if($oDocument->isEditable())-->
+		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'document_srl', $oDocument->document_srl)}" class="bn white">{$lang->cmd_modify}</a>
 		<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDelete', 'document_srl', $oDocument->document_srl)}" class="bn white">{$lang->cmd_delete}</a>
 		<!--@end-->
 	</span>
