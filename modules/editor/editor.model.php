@@ -189,9 +189,9 @@ class EditorModel extends Editor
 		Context::set('content_word_break', $option->content_word_break ?? null);
 		Context::set('editor_autoinsert_types', $option->autoinsert_types ?? (($option->autoinsert_image ?? null) !== 'none' ? self::$default_editor_config['autoinsert_types'] : []));
 		Context::set('editor_autoinsert_position', $option->autoinsert_position ?? ($option->autoinsert_image ?? null));
-		Context::set('editor_additional_css', $option->additional_css ?? '');
-		Context::set('editor_additional_plugins', $option->additional_plugins ?? '');
-		Context::set('editor_remove_plugins', $option->remove_plugins ?? '');
+		Context::set('editor_additional_css', $option->additional_css ?? []);
+		Context::set('editor_additional_plugins', $option->additional_plugins ?? []);
+		Context::set('editor_remove_plugins', $option->remove_plugins ?? []);
 
 		// Set the primary key valueof the document or comments
 		Context::set('editor_primary_key_name', $option->primary_key_name);

@@ -13,8 +13,8 @@ $ckconfig->focus = $editor_focus ?? false;
 $ckconfig->ios_patch = (bool)preg_match('/i(Phone|Pad|Pod)/', $_SERVER['HTTP_USER_AGENT'] ?? '');
 
 // Plugin configuration
-$ckconfig->add_plugins = $editor_additional_plugins ?? [];
-$ckconfig->remove_plugins = $editor_remove_plugins ?? [];
+$ckconfig->add_plugins = $editor_additional_plugins ?: [];
+$ckconfig->remove_plugins = $editor_remove_plugins ?: [];
 if (!in_array('clipboard', $ckconfig->remove_plugins)) {
 	$ckconfig->add_plugins[] = 'rx_paste';
 }
