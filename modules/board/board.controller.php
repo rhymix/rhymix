@@ -823,18 +823,19 @@ class BoardController extends Board
 	 * @param int $document_srl
 	 * @return string
 	 */
-	public function createAnonymousName($format, $member_srl, $document_srl)
+	public static function createAnonymousName($format, $member_srl, $document_srl): string
 	{
-		return preg_replace_callback('/\$((?:DAILY|DOC|DOCDAILY|)NUM)(?::([0-9]))?/', function($matches) use($member_srl, $document_srl) {
-			$digits = empty($matches[2]) ? 8 : max(1, min(8, intval($matches[2])));
+		return preg_replace_callback('/\$(DAILY|DOC|DOCDAILY|)(NUM|STR)(?::([0-9]))?/', function($matches) use($member_srl, $document_srl) {
+			$digits = empty($matches[3]) ? 8 : max(1, min(8, intval($matches[3])));
+			$type = strtolower($matches[2]);
 			switch ($matches[1])
 			{
-				case 'NUM': return self::_createHash($member_srl ?: \RX_CLIENT_IP, $digits);
-				case 'DAILYNUM': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':date:' . date('Y-m-d'), $digits);
-				case 'DOCNUM': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, $digits);
-				case 'DOCDAILYNUM': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), $digits);
+				case '': return self::_createHash($member_srl ?: \RX_CLIENT_IP, $digits, $type);
+				case 'DAILY': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':date:' . date('Y-m-d'), $digits, $type);
+				case 'DOC': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, $digits, $type);
+				case 'DOCDAILY': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), $digits, $type);
 			}
-		}, $format);
+		}, (string)$format);
 	}
 
 	/**
@@ -842,12 +843,19 @@ class BoardController extends Board
 	 *
 	 * @param string $content
 	 * @param int $digits
+	 * @param string $type
 	 * @return string
 	 */
-	protected static function _createHash(string $content, int $digits = 8): string
+	protected static function _createHash(string $content, int $digits = 8, string $type = 'num'): string
 	{
 		$hash = hash_hmac('sha256', $content, config('crypto.authentication_key'));
-		$num = sprintf('%0' . $digits . 'd', hexdec(substr($hash, 0, 8)) % pow(10, $digits));
-		return $num;
+		if ($type === 'num')
+		{
+			return sprintf('%0' . $digits . 'd', hexdec(substr($hash, 0, 8)) % pow(10, $digits));
+		}
+		else
+		{
+			return substr($hash, 0, $digits);
+		}
 	}
 }
