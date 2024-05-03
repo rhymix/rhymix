@@ -362,6 +362,11 @@ class DocumentModel extends Document
 	 */
 	public static function getExtraKeys($module_srl)
 	{
+		if(!$module_srl)
+		{
+			return [];
+		}
+
 		if(!isset($GLOBALS['XE_EXTRA_KEYS'][$module_srl]))
 		{
 			$keys = Rhymix\Framework\Cache::get("site_and_module:module_document_extra_keys:$module_srl");
@@ -426,7 +431,6 @@ class DocumentModel extends Document
 				Rhymix\Framework\Cache::set("site_and_module:module_document_extra_keys:$module_srl", $keys, 0, true);
 			}
 
-
 			$GLOBALS['XE_EXTRA_KEYS'][$module_srl] = $keys;
 		}
 
@@ -441,6 +445,11 @@ class DocumentModel extends Document
 	 */
 	public static function getExtraVars($module_srl, $document_srl)
 	{
+		if(!$document_srl)
+		{
+			return [];
+		}
+
 		if(!isset($GLOBALS['XE_EXTRA_VARS'][$document_srl]))
 		{
 			self::getDocument($document_srl);
