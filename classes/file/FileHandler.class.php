@@ -79,6 +79,11 @@ class FileHandler
 	 */
 	public static function writeFile($filename, $buff, $mode = "w")
 	{
+		if (!$filename)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::write(self::getRealPath($filename), (string)$buff, (string)$mode);
 	}
 
@@ -90,6 +95,11 @@ class FileHandler
 	 */
 	public static function removeFile($filename)
 	{
+		if (!$filename)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::delete(self::getRealPath($filename));
 	}
 
@@ -104,6 +114,11 @@ class FileHandler
 	 */
 	public static function rename($source, $target)
 	{
+		if (!$source || !$target)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::move(self::getRealPath($source), self::getRealPath($target));
 	}
 
@@ -116,6 +131,11 @@ class FileHandler
 	 */
 	public static function moveFile($source, $target)
 	{
+		if (!$source || !$target)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::move(self::getRealPath($source), self::getRealPath($target));
 	}
 
@@ -130,6 +150,11 @@ class FileHandler
 	 */
 	public static function moveDir($source_dir, $target_dir)
 	{
+		if (!$source_dir || !$target_dir)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::move(self::getRealPath($source_dir), self::getRealPath($target_dir));
 	}
 
@@ -184,6 +209,11 @@ class FileHandler
 	 */
 	public static function makeDir($path_string)
 	{
+		if (!$path_string)
+		{
+			return false;
+		}
+
 		$path = self::getRealPath($path_string);
 		return Rhymix\Framework\Storage::isDirectory($path) || Rhymix\Framework\Storage::createDirectory($path);
 	}
@@ -196,6 +226,11 @@ class FileHandler
 	 */
 	public static function removeDir($path)
 	{
+		if (!$path)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::deleteDirectory(self::getRealPath($path));
 	}
 
@@ -207,6 +242,11 @@ class FileHandler
 	 */
 	public static function removeBlankDir($path)
 	{
+		if (!$path)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::deleteEmptyDirectory(self::getRealPath($path), false);
 	}
 
@@ -220,6 +260,11 @@ class FileHandler
 	 */
 	public static function removeFilesInDir($path)
 	{
+		if (!$path)
+		{
+			return false;
+		}
+
 		return Rhymix\Framework\Storage::deleteDirectory(self::getRealPath($path), false);
 	}
 
