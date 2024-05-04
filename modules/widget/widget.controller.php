@@ -730,7 +730,7 @@ class WidgetController extends Widget
 		{
 			foreach($widgetstyle_extra_var_key['extra_var'] as $key => $val)
 			{
-				$widgetstyle_extra_var->{$key} =  $args->{$key};
+				$widgetstyle_extra_var->{$key} = $args->{$key} ?? null;
 			}
 		}
 		Context::set('widgetstyle_extra_var', $widgetstyle_extra_var);
@@ -789,7 +789,7 @@ class WidgetController extends Widget
 		{
 			foreach($widget_info->extra_var as $key=>$val)
 			{
-				$vars->{$key} = trim($request_vars->{$key});
+				$vars->{$key} = trim($request_vars->{$key} ?? '');
 			}
 		}
 		// If the widget style
@@ -802,7 +802,7 @@ class WidgetController extends Widget
 				{
 					if($val->type =='color' || $val->type =='text' || $val->type =='select' || $val->type =='filebox' || $val->type == 'textarea')
 					{
-						$vars->{$key} = trim($request_vars->{$key});
+						$vars->{$key} = trim($request_vars->{$key} ?? '');
 					}
 				}
 			}
