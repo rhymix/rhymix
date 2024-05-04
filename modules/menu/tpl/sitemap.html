@@ -1190,12 +1190,27 @@ function createTreeMarkup(aNode, sParentSrl, sMenuTree, sMenuTreeNode){
 		if(sIsStartModule){
 			sTextWithIcons += " ${h}";
 		}
+		if(nNodeType == 2 && aNode[i].is_restricted){
+			sTextWithIcons += " ${r}";
+		}
 		if(htNodeInfo[sNodeSrl].sModuleType === "_SHORTCUT"){
 			sTextWithIcons += " ${s}";
 			nNodeType = 3;
 		}
 
-		sResult += $.tmpl( sMenuTreeNode, {MenuTitleWithHome:sTextWithIcons,MenuTitle:sText,eMenuTitle:sText.replace(/\"/g, "\\\""),MenuId:sNodeSrl,MenuUrl:sURL,NodeType:nNodeType,SubTree:sSubTree,Target:sTargetPanel} ).get()[0].outerHTML.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>").replace("${s}", "<i class='xi-link' title='Shortcut'></i>");
+		sResult += $.tmpl(sMenuTreeNode, {
+			MenuTitleWithHome: sTextWithIcons,
+			MenuTitle: sText,
+			eMenuTitle: sText.replace(/\"/g, "\\\""),
+			MenuId: sNodeSrl,
+			MenuUrl: sURL,
+			NodeType: nNodeType,
+			SubTree: sSubTree,
+			Target: sTargetPanel
+		}).get()[0].outerHTML
+			.replace("${h}", "<i class='x_icon-home' title='" + aNode[i].is_start_module_of + "'>[HOME]</i>")
+			.replace("${r}", "<i class='xi-lock' title='Restricted'></i>")
+			.replace("${s}", "<i class='xi-link' title='Shortcut'></i>");
 	}
 
 	return $.tmpl( sMenuTree, {Nodes:sResult} ).get()[0].outerHTML;
@@ -2421,9 +2436,8 @@ jQuery(function($){
 		};
 
 		jQuery.exec_json("menu.procMenuAdminUpdateAuth", htParam, function(htData){
-			//alert(xe.lang.success_saved);//.//
-			$.xeMsgBox.alert(xe.lang.success_saved);
-			$('#auth').hide();
+			$._xeAdminVar.sSelectOnload = $._xeAdminVar.sSelectedMenuSrl;
+			loadSiteMap();
 		});
 	});
 	function readPermValue($select){
