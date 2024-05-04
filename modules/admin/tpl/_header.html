@@ -17,7 +17,7 @@
 	<header class="header">
 		<!--@if($module_manager)-->
 		<h1>
-			<a class="default_header" href="javascript:void()"><i class="xi xi-cog"></i></a>
+			<a class="default_header" href="{getUrl('')}"><i class="xi xi-home"></i></a>
 		</h1>
 		<p class="site" cond="$this->user->isAdmin()">
 			<a href="{getUrl(['module' => 'admin', 'act' => $act ?? null, 'module_srl' => $module_info->module_srl])}">{lang('admin.view_in_manager_layout')}</a>
