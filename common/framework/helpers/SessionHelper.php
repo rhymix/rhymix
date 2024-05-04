@@ -12,7 +12,23 @@ class SessionHelper
 	 * Instance properties.
 	 */
 	public $member_srl = 0;
+	public $user_id;
+	public $user_name;
+	public $nick_name;
+	public $email_address;
+	public $phone_number;
+	public $homepage;
+	public $blog;
+	public $birthday;
+	public $denied;
+	public $status;
 	public $is_admin = 'N';
+	public $is_site_admin;
+	public $profile_image;
+	public $image_name;
+	public $image_mark;
+	public $signature;
+	public $description;
 	public $group_list = array();
 	public $menu_list = array();
 
@@ -97,5 +113,15 @@ class SessionHelper
 	public function getGroups(): array
 	{
 		return $this->group_list;
+	}
+
+	/**
+	 * Get the profile image URL, if it exists.
+	 *
+	 * @return string
+	 */
+	public function getProfileImage(): string
+	{
+		return isset($this->profile_image->src) ? $this->profile_image->src : '';
 	}
 }
