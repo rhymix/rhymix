@@ -1,0 +1,12 @@
+<query id="updateCategoryIsDefault" action="update">
+    <tables>
+        <table name="document_categories" />
+    </tables>
+    <columns>
+        <column name="is_default" var="is_default" default="N" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
+        <condition operation="notequal" column="category_srl" var="except_category_srl" filter="number" />
+    </conditions>
+</query>

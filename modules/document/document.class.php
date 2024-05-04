@@ -105,6 +105,10 @@ class Document extends ModuleObject
 		// 2017.12.21 Add an index for nick_name
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name')) return true;
 
+		// 2024.05.04 Add default category
+		if(!$oDB->isColumnExists('document_categories', 'is_default')) return true;
+		if(!$oDB->isIndexExists('document_categories', 'idx_list_order')) return true;
+
 		return false;
 	}
 
@@ -204,6 +208,16 @@ class Document extends ModuleObject
 		if(!$oDB->isIndexExists('documents', 'idx_nick_name'))
 		{
 			$oDB->addIndex('documents', 'idx_nick_name', array('nick_name'));
+		}
+
+		// 2024.05.04 Add default category
+		if(!$oDB->isColumnExists('document_categories', 'is_default'))
+		{
+			$oDB->addColumn('document_categories', 'is_default', 'char', '1', 'N', true, 'expand');
+		}
+		if(!$oDB->isIndexExists('document_categories', 'idx_list_order'))
+		{
+			$oDB->addIndex('document_categories', 'idx_list_order', array('list_order'));
 		}
 	}
 

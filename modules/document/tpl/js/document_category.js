@@ -210,6 +210,9 @@ function modifyNode(node,e){
 		if(data.category_info.expand == 'Y'){
 			$w.find('input[name="expand"]').attr('checked', 'checked');
 		}
+		if(data.category_info.is_default == 'Y'){
+			$w.find('input[name="is_default"]').attr('checked', 'checked');
+		}
 	});
 
 	$('#__parent_category_info').hide().next('.x_control-group').css('borderTop','0');

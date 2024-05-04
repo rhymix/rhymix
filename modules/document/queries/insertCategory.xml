@@ -5,15 +5,16 @@
     <columns>
         <column name="category_srl" var="category_srl" filter="number" notnull="notnull" />
         <column name="module_srl" var="module_srl" filter="number" default="0" notnull="notnull" />
+        <column name="parent_srl" var="parent_srl" filter="number" default="0" />
         <column name="title" var="title" notnull="notnull" minlength="1" maxlength="250" />
         <column name="description" var="description" maxlength="2000"/>
+        <column name="group_srls" var="group_srls" />
+        <column name="color" var="color" />
+        <column name="expand" var="expand" />
+		<column name="is_default" var="is_default" />
         <column name="document_count" var="document_count" default="0" />
         <column name="regdate" var="regdate" default="curdate()" />
-        <column name="expand" var="expand" />
-        <column name="parent_srl" var="parent_srl" filter="number" default="0" />
-        <column name="group_srls" var="group_srls" />
         <column name="last_update" var="last_update" default="curdate()" />
         <column name="list_order" var="list_order" default="0" />
-        <column name="color" var="color" />
     </columns>
 </query>

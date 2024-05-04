@@ -813,7 +813,8 @@ class DocumentModel extends Document
 			$obj->parent_srl = $val['parent_srl'];
 			$obj->title = $obj->text = $val['text'];
 			$obj->description = $val['description'];
-			$obj->expand = $val['expand']=='Y'?true:false;
+			$obj->expand = isset($val['expand']) && $val['expand'] === 'Y';
+			$obj->is_default = isset($val['is_default']) && $val['is_default'] === 'Y';
 			$obj->color = $val['color'];
 			$obj->document_count = $val['document_count'];
 			$obj->depth = $depth;
@@ -821,10 +822,19 @@ class DocumentModel extends Document
 			$obj->childs = array();
 			$obj->grant = $val['grant'];
 
-			if(Context::get('mid') == $obj->mid && Context::get('category') == $obj->category_srl) $selected = true;
-			else $selected = false;
-
-			$obj->selected = $selected;
+			$selected_category = Context::get('category');
+			if (Context::get('mid') == $obj->mid && $selected_category == $obj->category_srl)
+			{
+				$obj->selected = true;
+			}
+			elseif (!isset($selected_category) && $obj->is_default)
+			{
+				$obj->selected = true;
+			}
+			else
+			{
+				$obj->selected = false;
+			}
 
 			$list_order[$idx++] = $obj->category_srl;
 			// If you have a parent category of child nodes apply data
@@ -833,7 +843,10 @@ class DocumentModel extends Document
 				$parent_srl = $obj->parent_srl;
 				$document_count = $obj->document_count;
 				$expand = $obj->expand;
-				if($selected) $expand = true;
+				if ($obj->selected)
+				{
+					$expand = true;
+				}
 
 				while($parent_srl)
 				{

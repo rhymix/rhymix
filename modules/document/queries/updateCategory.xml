@@ -5,12 +5,13 @@
     <columns>
         <column name="title" var="title" />
         <column name="description" var="description" />
-        <column name="list_order" var="list_order" />
-        <column name="last_update" var="last_update" default="curdate()" />
-        <column name="expand" var="expand" />
-        <column name="parent_srl" var="parent_srl" filter="number" />
         <column name="group_srls" var="group_srls" />
         <column name="color" var="color" />
+        <column name="expand" var="expand" />
+		<column name="is_default" var="is_default" />
+        <column name="last_update" var="last_update" default="curdate()" />
+        <column name="list_order" var="list_order" />
+        <column name="parent_srl" var="parent_srl" filter="number" />
     </columns>
     <conditions>
         <condition operation="equal" column="category_srl" var="category_srl" filter="number" notnull="notnull" />

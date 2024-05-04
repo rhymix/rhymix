@@ -2565,26 +2565,33 @@ class DocumentController extends Document
 	function procDocumentInsertCategory($args = null)
 	{
 		// List variables
-		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','group_srls','category_color','mid');
+		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','is_default','group_srls','category_color','mid');
 		$args->title = trim($args->category_title);
 		$args->description = trim($args->category_description);
 		$args->color = $args->category_color;
+		$args->expand = (isset($args->expand) && $args->expand === 'Y') ? 'Y' : 'N';
+		$args->is_default = (isset($args->is_default) && $args->is_default === 'Y') ? 'Y' : 'N';
 
 		if(!$args->module_srl && $args->mid)
 		{
-			$mid = $args->mid;
 			unset($args->mid);
 			$args->module_srl = $this->module_srl;
 		}
+
 		// Check permissions
 		$columnList = array('module_srl', 'module');
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl, $columnList);
 		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
 		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
 
-		if($args->expand !="Y") $args->expand = "N";
-		if(!is_array($args->group_srls)) $args->group_srls = str_replace('|@|',',',$args->group_srls);
-		else $args->group_srls = implode(',', $args->group_srls);
+		if (!is_array($args->group_srls))
+		{
+			$args->group_srls = str_replace('|@|',',',$args->group_srls);
+		}
+		else
+		{
+			$args->group_srls = implode(',', $args->group_srls);
+		}
 		$args->parent_srl = (int)$args->parent_srl;
 
 		$oDB = DB::getInstance();
@@ -2596,6 +2603,7 @@ class DocumentController extends Document
 			$category_info = DocumentModel::getCategory($args->category_srl);
 			if($category_info->category_srl != $args->category_srl) $args->category_srl = null;
 		}
+
 		// Update if exists
 		if($args->category_srl)
 		{
@@ -2616,6 +2624,16 @@ class DocumentController extends Document
 				return $output;
 			}
 		}
+
+		// If set as default, set other categories as not default.
+		if ($args->is_default === 'Y')
+		{
+			$output = executeQuery('document.updateCategoryIsDefault', [
+				'module_srl' => $args->module_srl,
+				'except_category_srl' => $args->category_srl,
+			]);
+		}
+
 		// Update the xml file and get its location
 		$xml_file = $this->makeCategoryFile($args->module_srl);
 
@@ -2890,7 +2908,8 @@ class DocumentController extends Document
 				$child_buff = $this->getXmlTree($tree[$category_srl], $tree, $site_srl, $xml_header_buff);
 			}
 			// List variables
-			$expand = ($node->expand) ? $node->expand : 'N';
+			$expand = isset($node->expand) ? $node->expand : 'N';
+			$is_default = isset($node->is_default) ? $node->is_default : 'N';
 			$group_srls = ($node->group_srls) ? $node->group_srls : '';
 			$mid = ($node->mid) ? $node->mid : '';
 			$module_srl = ($node->module_srl) ? $node->parent_srl : '';
@@ -2923,7 +2942,7 @@ class DocumentController extends Document
 			}
 
 			$attribute = sprintf(
-				'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url=%s expand=%s color=%s description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
+				'mid="%s" module_srl="%d" node_srl="%d" parent_srl="%d" category_srl="%d" text="<?php echo (%s?($_titles[%d][$lang_type]):"")?>" url=%s expand=%s is_default=%s color=%s description="<?php echo (%s?($_descriptions[%d][$lang_type]):"")?>" document_count="%d" ',
 				$mid,
 				$module_srl,
 				$category_srl,
@@ -2933,6 +2952,7 @@ class DocumentController extends Document
 				$category_srl,
 				str_replace("'", '"', var_export(getUrl('','mid',$node->mid,'category',$category_srl), true)),
 				str_replace("'", '"', var_export($expand, true)),
+				str_replace("'", '"', var_export($is_default, true)),
 				str_replace("'", '"', var_export(escape($color, false), true)),
 				$group_check_code,
 				$category_srl,
@@ -2988,7 +3008,8 @@ class DocumentController extends Document
 			// List variables
 			$selected = '"' . implode('","', $child_output['category_srl_list']) . '"';
 			$child_buff = $child_output['buff'];
-			$expand = $node->expand;
+			$expand = $node->expand ?? 'N';
+			$is_default = $node->is_default ?? 'N';
 
 			$title = $node->title;
 			$description = $node->description;
@@ -3027,7 +3048,7 @@ class DocumentController extends Document
 
 			// Create attributes(Use the category_srl_list to check whether to belong to the menu's node. It seems to be tricky but fast fast and powerful;)
 			$attribute = sprintf(
-				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%d","category_srl"=>"%d","parent_srl"=>"%d","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>%s,"color"=>%s,"description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%d","category_srl"=>"%d","parent_srl"=>"%d","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>%s,"is_default"=>%s,"color"=>%s,"description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
 				$node->mid,
 				$node->module_srl,
 				$node->category_srl,
@@ -3036,6 +3057,7 @@ class DocumentController extends Document
 				$node->category_srl,
 				$selected,
 				var_export($expand, true),
+				var_export($is_default, true),
 				var_export($node->color, true),
 				$node->category_srl,
 				$child_buff,
