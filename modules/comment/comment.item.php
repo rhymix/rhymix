@@ -393,8 +393,7 @@ class CommentItem extends BaseObject
 		}
 		$args->comment_srl = $this->comment_srl;
 		$output = executeQuery('comment.getCommentVotedLog', $args);
-
-		if($output->data->point)
+		if(isset($output->data) && $output->data->point)
 		{
 			return $_SESSION['voted_comment'][$this->comment_srl] = $output->data->point;
 		}
