@@ -130,10 +130,7 @@ class CommentController extends Comment
 		{
 			return $output;
 		}
-
-		$output = new BaseObject();
-		$output->setMessage('success_voted_canceled');
-
+		$this->add('voted_count', $output->get('voted_count'));
 		return $output;
 	}
 
@@ -257,10 +254,7 @@ class CommentController extends Comment
 		{
 			return $output;
 		}
-
-		$output = new BaseObject();
-		$output->setMessage('success_blamed_canceled');
-
+		$this->add('blamed_count', $output->get('blamed_count'));
 		return $output;
 	}
 
@@ -336,6 +330,19 @@ class CommentController extends Comment
 		ModuleHandler::triggerCall('comment.updateVotedCountCancel', 'after', $trigger_obj);
 
 		$oDB->commit();
+
+		// Return result
+		$output = new BaseObject();
+		if($trigger_obj->update_target === 'voted_count')
+		{
+			$output->setMessage('success_voted_canceled');
+			$output->add('voted_count', $trigger_obj->after_point);
+		}
+		else
+		{
+			$output->setMessage('success_blamed_canceled');
+			$output->add('blamed_count', $trigger_obj->after_point);
+		}
 		return $output;
 	}
 
