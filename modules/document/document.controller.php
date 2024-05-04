@@ -840,7 +840,7 @@ class DocumentController extends Document
 		// Update the category if the category_srl exists.
 		if($obj->category_srl)
 		{
-			$this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+			$this->updateCategoryCount($obj->module_srl, $obj->category_srl, '+1');
 		}
 
 		// Call a trigger (after)
@@ -1192,11 +1192,11 @@ class DocumentController extends Document
 		{
 			if($source_obj->get('category_srl') != $obj->category_srl)
 			{
-				$this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'));
+				$this->updateCategoryCount($obj->module_srl, $source_obj->get('category_srl'), '-1');
 			}
 			if($obj->category_srl)
 			{
-				$this->updateCategoryCount($obj->module_srl, $obj->category_srl);
+				$this->updateCategoryCount($obj->module_srl, $obj->category_srl, '+1');
 			}
 		}
 
@@ -1343,7 +1343,10 @@ class DocumentController extends Document
 		$this->deleteDocumentAliasByDocument($document_srl);
 		$this->deleteDocumentHistory(null, $document_srl, null);
 		// Update category information if the category_srl exists.
-		if($oDocument->get('category_srl')) $this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'));
+		if($oDocument->get('category_srl'))
+		{
+			$this->updateCategoryCount($oDocument->get('module_srl'),$oDocument->get('category_srl'), '-1');
+		}
 		// Delete a declared list
 		executeQuery('document.deleteDeclared', $args);
 		// Delete extra variable
@@ -1475,7 +1478,7 @@ class DocumentController extends Document
 		// update category
 		if ($oDocument->get('category_srl'))
 		{
-			$this->updateCategoryCount($oDocument->get('module_srl'), $oDocument->get('category_srl'));
+			$this->updateCategoryCount($oDocument->get('module_srl'), $oDocument->get('category_srl'), '-1');
 		}
 
 		// Set the attachment to be invalid state
@@ -2343,20 +2346,26 @@ class DocumentController extends Document
 	 * Update document_count in the category.
 	 * @param int $module_srl
 	 * @param int $category_srl
-	 * @param int $document_count
+	 * @param int|string $document_count
 	 * @return object
 	 */
 	function updateCategoryCount($module_srl, $category_srl, $document_count = 0)
 	{
 		// Create a document model object
-		if(!$document_count)
+		if (preg_match('/^[+-]/', (string)$document_count))
 		{
-			$document_count = DocumentModel::getCategoryDocumentCount($module_srl,$category_srl);
+			$document_count = intval($document_count, 10);
+			$mode = 'document_count_diff';
+		}
+		else
+		{
+			$document_count = $document_count ?: DocumentModel::getCategoryDocumentCount($module_srl,$category_srl);
+			$mode = 'document_count';
 		}
 
 		$args = new stdClass;
 		$args->category_srl = $category_srl;
-		$args->document_count = $document_count;
+		$args->{$mode} = $document_count;
 		$output = executeQuery('document.updateCategoryCount', $args);
 		if($output->toBool()) $this->makeCategoryFile($module_srl);
 

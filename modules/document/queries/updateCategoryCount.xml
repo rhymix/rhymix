@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="document_count" var="document_count" />
+        <column name="document_count" var="document_count_diff" operation="plus" />
         <column name="last_update" var="last_update" default="curdate()" />
     </columns>
     <conditions>
