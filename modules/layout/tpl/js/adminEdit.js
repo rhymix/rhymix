@@ -10,3 +10,12 @@ function doPreviewLayoutCode()
 	$form.removeAttr('target');
 	$act.val(og_act);
 }
+
+$(function() {
+	$('.reset_layout').on('click', function(e) {
+		var msg = $(this).data('confirmationMsg');
+		if (!confirm(msg)) {
+			e.preventDefault();
+		}
+	});
+});

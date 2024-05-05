@@ -85,6 +85,7 @@ $lang->layout_editing_deprecated_p2 = 'Layout editing is supported for a limited
 $lang->layout_editing_deprecated_p3 = 'For your information, edited source code is currently stored in the following files.';
 $lang->layout_editing_deprecated_p4 = 'The original source code is stored in the following file, as well as any file included/referenced therein.';
 $lang->layout_editing_deprecated_p5 = 'Caution: Clicking Reset will roll back the layout source code to the original. You cannot return to this screen afterward.<br />Please back up the edited source code below before clicking Reset.';
+$lang->layout_reset_confirmation = 'Do you want to reset the layout source code to the original state?';
 $lang->layout_image_repository = 'Layout Repository';
 $lang->about_layout_image_repository = 'You can upload image/flash files for the selected layout. They will be included in exports.';
 $lang->msg_layout_image_target = 'Only gif, jpg, png, svg, webp files are allowed.';

@@ -85,6 +85,7 @@ $lang->layout_editing_deprecated_p2 = '레이아웃 편집 기능은 이미 편�
 $lang->layout_editing_deprecated_p3 = '편집된 소스 코드는 아래의 경로에 저장되어 있으니 참고하십시오.';
 $lang->layout_editing_deprecated_p4 = '원본 소스 코드는 아래의 경로에 있으며, 그곳에서 인클루드 또는 참조된 다른 파일이 더 있을 수 있습니다.';
 $lang->layout_editing_deprecated_p5 = '주의: 초기화를 클릭하면 편집된 소스 코드가 원본으로 대체되며, 이 화면으로 다시 돌아올 수 없습니다.<br />초기화하기 전에 편집된 소스 코드를 백업해 두시기 바랍니다.';
+$lang->layout_reset_confirmation = '레이아웃 소스를 원본 상태로 초기화하시겠습니까?';
 $lang->layout_image_repository = '레이아웃 파일 저장소';
 $lang->about_layout_image_repository = '선택한 레이아웃에 사용될 이미지/플래시파일 등을 올릴 수 있습니다. 내보내기에 같이 포함 됩니다.';
 $lang->msg_layout_image_target = 'gif, jpg, png, svg, webp 파일만 가능합니다.';
