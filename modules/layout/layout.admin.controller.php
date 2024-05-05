@@ -351,7 +351,11 @@ class LayoutAdminController extends Layout
 
 		$this->initLayout($layout_srl, $info->layout);
 		$this->setMessage('success_reset');
-		$this->setRedirectUrl(Context::get('error_return_url'));
+		$this->setRedirectUrl(getNotEncodedUrl([
+			'module' => 'admin',
+			'act' => 'dispLayoutAdminAllInstanceList',
+			'type' => starts_with('./m.layouts/', $info->path) ? 'M' : '',
+		]));
 	}
 
 	/**
