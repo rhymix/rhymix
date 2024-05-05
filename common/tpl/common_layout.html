@@ -50,6 +50,9 @@
 @if (!empty($mobicon_url))
 <link rel="apple-touch-icon" href="{{ $mobicon_url }}" />
 @endif
+@foreach (Context::getLinks() as $link_url => $link_rel)
+<link rel="{{ $link_rel }}" href="{{ $link_url }}" />
+@endforeach
 
 <!-- OTHER HEADERS -->
 @foreach (Context::getOpenGraphData() as $og_metadata)

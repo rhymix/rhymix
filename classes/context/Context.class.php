@@ -41,6 +41,7 @@ class Context
 	public $html_footer = '';
 	public $body_header = '';
 	public $body_class = [];
+	public $link_rels = [];
 
 	/**
 	 * The current page's SEO information.
@@ -2494,7 +2495,7 @@ class Context
 	 */
 	public static function getHtmlHeader(): string
 	{
-		return self::$_instance->html_header;
+		return self::$_instance->html_header === '' ? '' : (self::$_instance->html_header . "\n");
 	}
 
 	/**
@@ -2600,6 +2601,28 @@ class Context
 	public static function getHtmlFooter()
 	{
 		return self::$_instance->html_footer;
+	}
+
+	/**
+	 * Add <link> such as <link rel="preconnect" href="https://webfonts.example.com" />
+	 *
+	 * @param string $url
+	 * @param string $rel
+	 * @return void
+	 */
+	public static function addLink(string $url, string $rel): void
+	{
+		self::$_instance->link_rels[$url] = $rel;
+	}
+
+	/**
+	 * Returns added <link> list
+	 *
+	 * @return array
+	 */
+	public static function getLinks(): array
+	{
+		return self::$_instance->link_rels;
 	}
 
 	/**
