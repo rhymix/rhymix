@@ -243,14 +243,11 @@ class HTMLDisplayHandler
 
 		$start = microtime(true);
 
-		// move <style ..></style> in body to the header
+		// move <style>...</style> in body to the header
 		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this, '_moveStyleToHeader'), $output);
 
-		// move <link ..></link> in body to the header
-		$output = preg_replace_callback('!<link(.*?)/?>!is', array($this, '_moveLinkToHeader'), $output);
-
-		// move <meta ../> in body to the header
-		$output = preg_replace_callback('!<meta(.*?)(?:\/|)>!is', array($this, '_moveMetaToHeader'), $output);
+		// move <link> and <meta> in body to the header
+		$output = preg_replace_callback('!<(link|meta)\b(.*?)>!is', array($this, '_moveLinkToHeader'), $output);
 
 		// change a meta fine(widget often put the tag like <!--Meta:path--> to the content because of caching)
 		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\-\/\.\@\:]+)(\?\$\_\_Context\-\>[a-z0-9\_\-\/\.\@\:\>]+)?-->/is', array($this, '_transMeta'), $output);
@@ -396,8 +393,8 @@ class HTMLDisplayHandler
 	}
 
 	/**
-	 * add html style code extracted from html body to Context, which will be
-	 * printed inside <header></header> later.
+	 * Move <style> in the document body to the <head> section.
+	 *
 	 * @param array $matches
 	 * @return void
 	 */
@@ -411,25 +408,21 @@ class HTMLDisplayHandler
 	}
 
 	/**
-	 * add html link code extracted from html body to Context, which will be
-	 * printed inside <header></header> later.
+	 * Move <link> and <meta> in the document body to the <head> section.
+	 *
 	 * @param array $matches
 	 * @return void
 	 */
 	function _moveLinkToHeader($matches)
 	{
-		Context::addHtmlHeader($matches[0]);
-	}
-
-	/**
-	 * add meta code extracted from html body to Context, which will be
-	 * printed inside <header></header> later.
-	 * @param array $matches
-	 * @return void
-	 */
-	function _moveMetaToHeader($matches)
-	{
-		Context::addHtmlHeader($matches[0]);
+		if ($matches[1] === 'link' && preg_match('/\brel="([^"]+)"/', $matches[2], $rel) && $rel[1] !== 'stylesheet' && preg_match('/\bhref="([^"]+)"/', $matches[2], $href))
+		{
+			Context::addLink($href[1], $rel[1]);
+		}
+		else
+		{
+			Context::addHtmlHeader($matches[0]);
+		}
 	}
 
 	/**
