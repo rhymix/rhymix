@@ -98,20 +98,28 @@ class Base extends \ModuleObject
 		$result = AdminMenuModel::checkAdminMenu();
 		include $result->php_file;
 
-		$oModuleModel = getModel('module');
-
 		// get current menu's subMenuTitle
-		$moduleActionInfo = $oModuleModel->getModuleActionXml($module);
+		$moduleActionInfo = \ModuleModel::getModuleActionXml($module);
+		$moduleMenus = isset($moduleActionInfo->menu) ? (array)$moduleActionInfo->menu : [];
 		$currentAct = Context::get('act');
 		$subMenuTitle = '';
 
-		foreach((array)$moduleActionInfo->menu as $value)
+		foreach($moduleMenus as $value)
 		{
 			if(is_array($value->acts) && in_array($currentAct, $value->acts))
 			{
 				$subMenuTitle = $value->title;
 				break;
 			}
+		}
+		if (!$subMenuTitle && count($moduleMenus))
+		{
+			$subMenuTitle = array_first($moduleMenus)->title;
+		}
+		if (!$subMenuTitle)
+		{
+			$moduleInfo = \ModuleModel::getModuleInfoXml($module);
+			$subMenuTitle = $moduleInfo->title ?? 'Dashboard';
 		}
 
 		// get current menu's srl(=parentSrl)
@@ -145,7 +153,7 @@ class Base extends \ModuleObject
 		Context::set('gnbUrlList', $menu->list);
 		Context::set('parentSrl', $parentSrl);
 		Context::set('gnb_title_info', $gnbTitleInfo ?? null);
-		Context::addBrowserTitle($subMenuTitle ? $subMenuTitle : 'Dashboard');
+		Context::addBrowserTitle($subMenuTitle);
 	}
 
 	/**
