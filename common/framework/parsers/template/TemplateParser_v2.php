@@ -179,16 +179,31 @@ class TemplateParser_v2
 	 */
 	protected function _addContextSwitches(string $content): string
 	{
-		return preg_replace_callback('#(<script(\s[^>]*)?|</script)#i', function($match) {
+		return preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) {
 			if (substr($match[1], 1, 1) === '/')
 			{
 				return '<?php $this->config->context = "HTML"; ?>' . $match[1];
 			}
-			else
+			elseif (!str_contains($match[2] ?? '', 'src="'))
 			{
 				return $match[1] . '<?php $this->config->context = "JS"; ?>';
 			}
+			else
+			{
+				return $match[0];
+			}
 		}, $content);
+	}
+
+	/**
+	 * Remove context switch points.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	protected static function _removeContextSwitches(string $content): string
+	{
+		return preg_replace('#<\?php \$this->config->context = "[A-Z]+"; \?>#', '', $content);
 	}
 
 	/**
@@ -266,7 +281,7 @@ class TemplateParser_v2
 				$open = '<?php' . (preg_match('#^\s#', $match[2]) ? '' : ' ');
 			}
 			$close = (preg_match('#\s$#', $match[2]) ? '' : ' ') . '?>';
-			return $open . self::_convertVariableScope($match[2]) . $close;
+			return $open . self::_convertVariableScope(self::_removeContextSwitches($match[2])) . $close;
 		};
 
 		$content = preg_replace_callback('#(<\?php|<\?=?)(.+?)(\?>)#s', $callback, $content);

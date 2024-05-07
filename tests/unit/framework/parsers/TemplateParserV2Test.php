@@ -366,6 +366,11 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = "<?php echo escape_js(\$__Context->foo ?? ''); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
+		// Context-aware escape
+		$source = '<script type="text/javascript"> foobar(); </script>';
+		$target = '<script type="text/javascript"<?php $this->config->context = "JS"; ?>> foobar(); <?php $this->config->context = "HTML"; ?></script>';
+		$this->assertEquals($target, $this->_parse($source));
+
 		// JSON using context-aware escape
 		$source = '{{ $foo|json }}';
 		$target = implode('', [
@@ -563,12 +568,12 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Script tag with local path
 		$source = '<script src="assets/foo.js" async>';
-		$target = '<script src="' . $this->baseurl . 'tests/_data/template/assets/foo.js" async<?php $this->config->context = "JS"; ?>>';
+		$target = '<script src="' . $this->baseurl . 'tests/_data/template/assets/foo.js" async>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Script tag with external path
 		$source = '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>';
-		$target = '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"<?php $this->config->context = "JS"; ?>><?php $this->config->context = "HTML"; ?></script>';
+		$target = '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"><?php $this->config->context = "HTML"; ?></script>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Absolute URL
@@ -1056,6 +1061,11 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		// Blade-style @php and @endphp directives
 		$source = '@php $foo = 42; @endphp';
 		$target = '<?php $__Context->foo = 42; ?>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// Turn off context-aware escape within raw PHP blocks
+		$source = "@php Context::addHtmlFooter('<script></script>'); @endphp";
+		$target = "<?php Context::addHtmlFooter('<script></script>'); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 	}
 
