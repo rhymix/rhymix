@@ -3,14 +3,14 @@
 	<grants />
 	<actions>
 		<action name="dispAdvanced_mailerAdminConfig" type="view" admin_index="true" menu_name="advanced_mailer" />
-		<action name="dispAdvanced_mailerAdminExceptions" type="view" />
-		<action name="dispAdvanced_mailerAdminSpfDkim" type="view" />
-		<action name="dispAdvanced_mailerAdminMailTest" type="view" />
-		<action name="dispAdvanced_mailerAdminMailLog" type="view" />
-		<action name="dispAdvanced_mailerAdminSMSTest" type="view" />
-		<action name="dispAdvanced_mailerAdminSMSLog" type="view" />
-		<action name="dispAdvanced_mailerAdminPushTest" type="view" />
-		<action name="dispAdvanced_mailerAdminPushLog" type="view" />
+		<action name="dispAdvanced_mailerAdminExceptions" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminSpfDkim" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminMailTest" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminMailLog" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminSMSTest" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminSMSLog" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminPushTest" type="view" menu_name="advanced_mailer" />
+		<action name="dispAdvanced_mailerAdminPushLog" type="view" menu_name="advanced_mailer" />
 
 		<action name="procAdvanced_mailerAdminInsertConfig" type="controller" />
 		<action name="procAdvanced_mailerAdminInsertExceptions" type="controller" />
@@ -30,8 +30,8 @@
 	</eventHandlers>
 	<menus>
 		<menu name="advanced_mailer" type="all">
-			<title xml:lang="ko">고급 메일 발송 모듈</title>
-			<title xml:lang="en">Advanced Mailer</title>
+			<title xml:lang="ko">메일, SMS 및 푸시 알림 관리</title>
+			<title xml:lang="en">Mail, SMS and Push Notification Manager</title>
 		</menu>
 	</menus>
 </module>
