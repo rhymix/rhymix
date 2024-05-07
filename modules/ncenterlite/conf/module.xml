@@ -52,9 +52,9 @@
 	</eventHandlers>
 	<menus>
 		<menu name="ncenterlite" type="all">
-			<title xml:lang="ko">알림센터 Lite</title>
-			<title xml:lang="en">Notification Center Lite</title>
-			<title xml:lang="jp">通知センター Lite</title>
+			<title xml:lang="ko">알림 센터</title>
+			<title xml:lang="en">Notification Center</title>
+			<title xml:lang="jp">通知センター</title>
 		</menu>
 	</menus>
 </module>

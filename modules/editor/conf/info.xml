@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
-	<title xml:lang="vi">WYSIWYG Editor</title>
-	<title xml:lang="ko">위지윅 에디터 </title>
-	<title xml:lang="en">WYSIWYG Editor</title>
-	<title xml:lang="es">Editor WYSIWYG</title>
+	<title xml:lang="vi">Editor</title>
+	<title xml:lang="ko">에디터 </title>
+	<title xml:lang="en">Editor</title>
+	<title xml:lang="es">Editor</title>
 	<title xml:lang="zh-CN">网页编辑器</title>
-	<title xml:lang="jp">ウィジウィグエディター</title>
-	<title xml:lang="ru">WYSIWYG-редактор</title>
+	<title xml:lang="jp">エディター</title>
+	<title xml:lang="ru">редактор</title>
 	<title xml:lang="zh-TW">網頁編輯器</title>
-	<title xml:lang="tr">Editor WYSIWYG</title>
+	<title xml:lang="tr">Editor</title>
 	<description xml:lang="vi">Module hiển thị WYSIWYG Editor để quản lý những kiểu viết bài.</description>
 	<description xml:lang="ko">위지윅 에디터를 출력하거나 에디터 컴포넌트들을 관리/중계하는 합니다.</description>
 	<description xml:lang="en">Module for displaying WYSIWYG editor and managing/relaying editor components.</description>
