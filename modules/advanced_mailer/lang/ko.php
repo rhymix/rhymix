@@ -107,6 +107,7 @@ $lang->msg_advanced_mailer_sender_name_is_empty = '보낸이 이름을 입력해
 $lang->msg_advanced_mailer_sender_email_is_empty = '보낸이 메일 주소를 입력해 주십시오.';
 $lang->msg_advanced_mailer_sender_email_is_invalid = '보낸이 메일 주소가 올바른 메일 주소가 아닙니다.';
 $lang->msg_advanced_mailer_reply_to_is_invalid = 'Reply-To 메일 주소가 올바른 메일 주소가 아닙니다.';
+$lang->msg_advanced_mailer_default_from_email_not_set = '기본 발신자 이름과 주소가 설정되어 있지 않습니다.';
 $lang->msg_advanced_mailer_recipient_name_is_empty = '받는이 이름을 입력해 주십시오.';
 $lang->msg_advanced_mailer_recipient_email_is_empty = '받는이 메일 주소를 입력해 주십시오.';
 $lang->msg_advanced_mailer_recipient_email_is_invalid = '받는이 메일 주소가 올바른 메일 주소가 아닙니다.';

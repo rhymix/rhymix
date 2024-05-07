@@ -229,6 +229,11 @@ class Advanced_MailerAdminController extends Advanced_Mailer
 		$recipient_name = $recipient_config->recipient_name;
 		$recipient_email = $recipient_config->recipient_email;
 
+		if (!config('mail.default_from'))
+		{
+			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_default_from_email_not_set'));
+			return;
+		}
 		if (!$recipient_name)
 		{
 			$this->add('test_result', 'Error: ' . Context::getLang('msg_advanced_mailer_recipient_name_is_empty'));

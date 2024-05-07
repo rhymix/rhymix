@@ -107,6 +107,7 @@ $lang->msg_advanced_mailer_sender_name_is_empty = 'Please enter the sender\'s na
 $lang->msg_advanced_mailer_sender_email_is_empty = 'Please enter the sender\'s email address.';
 $lang->msg_advanced_mailer_sender_email_is_invalid = 'The sender\'s email address is invalid.';
 $lang->msg_advanced_mailer_reply_to_is_invalid = 'The Reply-To email address is invalid.';
+$lang->msg_advanced_mailer_default_from_email_not_set = 'The default sender email address is not configured.';
 $lang->msg_advanced_mailer_recipient_name_is_empty = 'Please enter the recipient\'s name.';
 $lang->msg_advanced_mailer_recipient_email_is_empty = 'Please enter the recipient\'s email address.';
 $lang->msg_advanced_mailer_recipient_email_is_invalid = 'The recipient\'s email address is invalid.';

@@ -32,7 +32,10 @@ class Advanced_MailerController extends Advanced_Mailer
 		if (!$mail->getFrom())
 		{
 			list($default_from, $default_name) = $this->getDefaultEmailIdentity();
-			$mail->setFrom($default_from, $default_name);
+			if ($default_from)
+			{
+				$mail->setFrom($default_from, $default_name);
+			}
 			$default_reply_to = config('mail.default_reply_to');
 			if ($default_reply_to && !$mail->message->getReplyTo())
 			{
@@ -51,10 +54,13 @@ class Advanced_MailerController extends Advanced_Mailer
 				$original_sender_email = $sender ? array_first_key($sender) : null;
 				$original_sender_name = $sender ? array_first($sender) : null;
 				list($default_from, $default_name) = $this->getDefaultEmailIdentity();
-				if ($original_sender_email !== $default_from)
+				if ($original_sender_email !== $default_from && $default_from)
 				{
 					$mail->setFrom($default_from, $original_sender_name ?: $default_name);
-					$mail->setReplyTo($original_sender_email);
+					if ($original_sender_email)
+					{
+						$mail->setReplyTo($original_sender_email);
+					}
 				}
 			}
 		}
@@ -132,7 +138,7 @@ class Advanced_MailerController extends Advanced_Mailer
 		if (!$email)
 		{
 			$member_config = getModel('module')->getModuleConfig('member');
-			$email = $member_config->webmaster_email;
+			$email = strval($member_config->webmaster_email);
 			$name = $member_config->webmaster_name ?: 'webmaster';
 		}
 
