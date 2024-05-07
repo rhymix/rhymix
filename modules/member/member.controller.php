@@ -1028,7 +1028,15 @@ class MemberController extends Member
 		}
 
 		// Check all required fields
-		$output = $this->_checkSignUpFields($config, $args, 'update');
+		$skip = [];
+		foreach (['profile_image', 'image_name', 'image_mark'] as $key)
+		{
+			if (!empty($logged_info->{$key}))
+			{
+				$skip[] = $key;
+			}
+		}
+		$output = $this->_checkSignUpFields($config, $args, 'update', $skip);
 		if (!$output->toBool())
 		{
 			return $output;
@@ -4051,9 +4059,10 @@ class MemberController extends Member
 	 * @param object $config
 	 * @param object $args
 	 * @param string $mode
+	 * @param array $skip
 	 * @return object
 	 */
-	protected function _checkSignUpFields($config, $args, $mode = 'insert')
+	protected function _checkSignUpFields($config, $args, $mode = 'insert', $skip = [])
 	{
 		$not_required_if_indirect_insert = ['user_id'];
 		$not_required_in_update = ['password'];
@@ -4071,7 +4080,7 @@ class MemberController extends Member
 					{
 						// pass
 					}
-					else
+					elseif (!in_array($formInfo->name, $skip))
 					{
 						return new BaseObject(-1, sprintf(lang('common.filter.isnull'), $formInfo->title));
 					}
