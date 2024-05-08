@@ -112,14 +112,21 @@ class Base extends \ModuleObject
 				break;
 			}
 		}
-		if (!$subMenuTitle && count($moduleMenus))
+		if (!$subMenuTitle && $currentAct && count($moduleMenus))
 		{
 			$subMenuTitle = array_first($moduleMenus)->title;
 		}
 		if (!$subMenuTitle)
 		{
-			$moduleInfo = \ModuleModel::getModuleInfoXml($module);
-			$subMenuTitle = $moduleInfo->title ?? 'Dashboard';
+			if ($currentAct)
+			{
+				$moduleInfo = \ModuleModel::getModuleInfoXml($module);
+				$subMenuTitle = $moduleInfo->title ?? 'Dashboard';
+			}
+			else
+			{
+				$subMenuTitle = 'Dashboard';
+			}
 		}
 
 		// get current menu's srl(=parentSrl)
@@ -135,12 +142,14 @@ class Base extends \ModuleObject
 				$firstChild = current($parentMenu['list']);
 				$menu->list[$parentKey]['href'] = $firstChild['href'];
 			}
-
-			foreach ($parentMenu['list'] as $childMenu)
+			if ($currentAct)
 			{
-				if ($subMenuTitle == $childMenu['text'] && $parentSrl == 0)
+				foreach ($parentMenu['list'] as $childMenu)
 				{
-					$parentSrl = $childMenu['parent_srl'];
+					if (preg_match('/\b' . preg_quote($currentAct, '/') . '$/', $childMenu['href']))
+					{
+						$parentSrl = $childMenu['parent_srl'];
+					}
 				}
 			}
 		}
