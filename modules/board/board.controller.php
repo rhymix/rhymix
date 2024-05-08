@@ -397,7 +397,7 @@ class BoardController extends Board
 		}
 
 		// alert an message
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', ''));
+		$this->setRedirectUrl(getNotEncodedFullUrl('', 'mid', Context::get('mid'), 'page', Context::get('page')));
 		$this->add('mid', Context::get('mid'));
 		$this->add('page', Context::get('page'));
 		$this->setMessage('success_deleted');
@@ -714,7 +714,7 @@ class BoardController extends Board
 		$this->add('page', Context::get('page'));
 		$this->add('document_srl', $output->get('document_srl'));
 		$this->setMessage('success_deleted');
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '', 'page', Context::get('page'), 'document_srl', $output->get('document_srl')));
+		$this->setRedirectUrl(getNotEncodedFullUrl('', 'mid', Context::get('mid'), 'document_srl', $output->get('document_srl')));
 	}
 
 	/**
