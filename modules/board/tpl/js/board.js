@@ -7,27 +7,25 @@
 /* complete tp insert document */
 function completeDocumentInserted(ret_obj)
 {
-	var error = ret_obj.error;
-	var message = ret_obj.message;
 	var mid = ret_obj.mid;
 	var document_srl = ret_obj.document_srl;
 	var category_srl = ret_obj.category_srl;
+	var current_category_srl = parseInt(current_url.getQuery('category'), 10);
+	var url;
 
 	if (ret_obj.redirect_url) {
-		redirect(ret_obj.redirect_url);
+		url = ret_obj.redirect_url;
 	} else {
-		var url;
-		if(!document_srl)
-		{
-			url = current_url.setQuery('mid',mid).setQuery('act','');
+		url = current_url.setQuery('mid', mid).setQuery('act', '');
+		if (document_srl) {
+			url = url.setQuery('document_srl', document_srl);
 		}
-		else
-		{
-			url = current_url.setQuery('mid',mid).setQuery('document_srl',document_srl).setQuery('act','');
-		}
-		if(category_srl) url = url.setQuery('category',category_srl);
-		redirect(url);
 	}
+
+	if (current_category_srl && category_srl && current_category_srl == category_srl) {
+		url = url.setQuery('category', current_category_srl);
+	}
+	redirect(url);
 }
 
 /* delete the document */

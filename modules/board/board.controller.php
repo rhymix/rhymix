@@ -277,7 +277,8 @@ class BoardController extends Board
 		// return the results
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $output->get('document_srl'));
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'), 'document_srl', $output->get('document_srl')));
+		$this->add('category_srl', $output->get('category_srl'));
+		$this->setRedirectUrl(getNotEncodedFullUrl('', 'mid', Context::get('mid'), 'document_srl', $output->get('document_srl')));
 
 		// alert a message
 		$this->setMessage($msg_code);
