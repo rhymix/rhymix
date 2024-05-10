@@ -1363,19 +1363,19 @@ class NcenterliteController extends Ncenterlite
 		}
 
 		// 비회원 노티 제거
-		if($args->member_srl <= 0)
+		if(!isset($args->member_srl) || $args->member_srl <= 0)
 		{
 			return new BaseObject();
 		}
 
 		// 노티 ID가 없는 경우 자동 생성
-		if (!$args->notify)
+		if (empty($args->notify))
 		{
 			$args->notify = $this->_getNotifyId($args);
 		}
 
 		// 날짜가 없는 경우 자동 생성
-		if (!$args->regdate)
+		if (empty($args->regdate))
 		{
 			$args->regdate = date('YmdHis');
 		}
