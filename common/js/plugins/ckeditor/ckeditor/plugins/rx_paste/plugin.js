@@ -47,9 +47,9 @@ CKEDITOR.plugins.add('rx_paste', {
 		const uploadFile = function(file) {
 
 			// Get the editor sequence.
-			const editor_container = $(editor.container.$).closest('.rx_ckeditor');
+			const editor_sequence = editor.config.xe_editor_sequence;
+			const editor_container = $('#ckeditor_instance_' + editor_sequence);
 			const upload_container = editor_container.nextAll('.xefu-container').first();
-			const editor_sequence = editor_container.data('editorSequence');
 
 			// Generate the form data.
 			const form = new FormData();
