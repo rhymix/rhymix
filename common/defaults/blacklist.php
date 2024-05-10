@@ -11,6 +11,7 @@ return array(
 	'addon' => array(
 		'autolang' => true,
 		'autowww' => true,
+		'baro_upload' => true,
 		'elkha_www' => true,
 		'fix_domain' => true,
 		'fix_mysql_utf8' => true,
