@@ -81,6 +81,12 @@ class Ncenterlite extends ModuleObject
 			return true;
 		}
 
+		// Extra data column
+		if (!$oDB->isColumnExists('ncenterlite_notify', 'data'))
+		{
+			return true;
+		}
+
 		$config = getModel('ncenterlite')->getConfig();
 
 		$member_config = getModel('member')->getMemberConfig();
@@ -185,6 +191,12 @@ class Ncenterlite extends ModuleObject
 		if($oDB->isIndexExists('ncenterlite_notify', 'idx_notify'))
 		{
 			$oDB->dropIndex('ncenterlite_notify', 'idx_notify');
+		}
+
+		// Extra data column
+		if (!$oDB->isColumnExists('ncenterlite_notify', 'data'))
+		{
+			$oDB->addColumn('ncenterlite_notify', 'data', 'longtext', null, null, false, 'target_url');
 		}
 
 		$config = getModel('ncenterlite')->getConfig();

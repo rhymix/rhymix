@@ -39,10 +39,13 @@ class NcenterliteController extends Ncenterlite
 
 		if (is_object($message))
 		{
-			$args->target_body = $message->subject;
-			$args->target_url = $message->url ?: $args->target_url;
-			$args->extra_content = $message->content;
-			$args->extra_data = $message->data ?: [];
+			$args->target_body = $message->subject ?? '';
+			$args->target_url = empty($message->url) ? $args->target_url : $message->url;
+			$args->extra_content = $message->content ?? '';
+			if (isset($message->data))
+			{
+				$args->extra_data = is_object($message->data) ? get_object_vars($message->data) : (array)($message->data);
+			}
 		}
 		else
 		{
@@ -1426,6 +1429,11 @@ class NcenterliteController extends Ncenterlite
 		if(!$trigger_output->toBool() || $trigger_output->getMessage() === 'cancel')
 		{
 			return $trigger_output;
+		}
+
+		if (isset($args->extra_data) && $args->extra_data)
+		{
+			$args->data = serialize($args->extra_data);
 		}
 
 		$output = executeQuery('ncenterlite.insertNotify', $args);

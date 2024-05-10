@@ -16,6 +16,7 @@
 	<column name="target_summary" type="varchar" size="80" brief="메시지 요약문" />
 	<column name="target_body" type="varchar" size="255" brief="커스텀 알림 제목" />
 	<column name="target_url" type="varchar" size="255" notnull="notnull" brief="링크 목적지 주소" />
+	<column name="data" type="longtext" />
 	<column name="readed" type="char" size="1" default="N" notnull="notnull" index="idx_readed" />
 	<column name="regdate" type="date" index="idx_regdate" />
 </table>
