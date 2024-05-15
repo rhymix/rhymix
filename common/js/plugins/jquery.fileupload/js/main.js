@@ -187,7 +187,18 @@
 
 						if(temp_code !== '') {
 							try {
-								_getCkeInstance(settings.formData.editor_sequence).insertHtml(temp_code, "unfiltered_html");
+								var textarea = _getCkeContainer(settings.formData.editor_sequence).find('.cke_source');
+								var editor = _getCkeInstance(settings.formData.editor_sequence);
+								if (textarea.length && editor.mode == 'source') {
+									var caretPosition = textarea[0].selectionStart;
+									var currentText = textarea[0].value;
+									textarea.val(currentText.substring(0, caretPosition) + "\n" +
+										temp_code + "\n" +
+										currentText.substring(caretPosition)
+									);
+								} else {
+									editor.insertHtml(temp_code, 'unfiltered_html');
+								}
 							}
 							catch(err) {
 								// pass
@@ -392,7 +403,19 @@
 				if (result) {
 					var html = self.generateHtml($container, result);
 					try {
-						_getCkeInstance(data.editorSequence).insertHtml(html, 'unfiltered_html');
+						var textarea = _getCkeContainer(data.editorSequence).find('.cke_source');
+						var editor = _getCkeInstance(data.editorSequence);
+						console.log(textarea, editor.mode);
+						if (textarea.length && editor.mode == 'source') {
+							var caretPosition = textarea[0].selectionStart;
+							var currentText = textarea[0].value;
+							textarea.val(currentText.substring(0, caretPosition) + "\n" +
+								html + "\n" +
+								currentText.substring(caretPosition)
+							);
+						} else {
+							editor.insertHtml(html, 'unfiltered_html');
+						}
 					}
 					catch(err) {
 						// pass

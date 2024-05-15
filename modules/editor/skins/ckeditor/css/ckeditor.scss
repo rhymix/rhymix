@@ -103,6 +103,9 @@ body.cke_editable {
 	padding: 10px;
 	@include light-dark($colorset);
 }
+textarea.cke_source.cke_editable {
+	padding: 10px;
+}
 body.color_scheme_dark.cke_auto_dark_mode .cke_wysiwyg_div {
 	background-color: #333;
 	color: #fff;

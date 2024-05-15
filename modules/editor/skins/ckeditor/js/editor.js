@@ -200,6 +200,13 @@ function _getCkeInstance(editor_sequence) {
 }
 
 /**
+ * Legacy function to get the container element for CKEditor.
+ */
+function _getCkeContainer(editor_sequence) {
+	return $('#ckeditor_instance_' + editor_sequence);
+}
+
+/**
  * Legacy function to get HTML content from CKEditor.
  */
 function editorGetContent(editor_sequence) {
