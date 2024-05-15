@@ -451,8 +451,9 @@
 					data.settings.fileList.find('ul').find('li[data-file-srl=' + srl + ']').remove();
 				});
 				var ckeditor = _getCkeInstance(data.editorSequence);
-				var regexp = new RegExp('<(img|audio|video) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
-				ckeditor.setData(ckeditor.getData().replace(regexp, ''));
+				var regexp1 = new RegExp('<p><(img|audio|video) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*><\/p>', 'g');
+				var regexp2 = new RegExp('<(img|audio|video) [^>]*data-file-srl="(' + file_srls.join('|') + ')"[^>]*>', 'g');
+				ckeditor.setData(ckeditor.getData().replace(regexp1, '').replace(regexp2, ''));
 				if (result.error == 0 && typeof result.files !== 'undefined') {
 					$container.data('editorStatus', result);
 				} else {
