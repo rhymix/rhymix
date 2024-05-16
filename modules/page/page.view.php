@@ -108,7 +108,7 @@ class PageView extends Page
 	/**
 	 * 404 error handler
 	 */
-	public function dispPageNotFound($code, $message)
+	public function dispPageNotFound($code = '404', $message = 'msg_not_founded')
 	{
 		$oMessageObject = $this instanceof PageMobile ? MessageMobile::getInstance() : MessageView::getInstance();
 		$oMessageObject->setMessage($message);
