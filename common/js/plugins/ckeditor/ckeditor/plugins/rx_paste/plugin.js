@@ -33,7 +33,7 @@ CKEDITOR.plugins.add('rx_paste', {
 			}
 
 			// Check if the pasted data contains any files.
-			if (filesCount) {
+			if (filesCount && dataTransfer.isFileTransfer()) {
 				event.stop();
 				for (let i = 0; i < filesCount; i++) {
 					uploadFile(dataTransfer.getFile(i));
