@@ -583,18 +583,27 @@ class Debug
 		// Prepare the log entry.
 		$request_object = (object)array(
 			'url' => $request['url'],
+			'verb' => $request['verb'],
 			'status' => $request['status'],
 			'elapsed_time' => $request['elapsed_time'],
+			'redirect_to' => $request['redirect_to'],
 			'message' => null,
 			'file' => $request['called_file'],
 			'line' => $request['called_line'],
 			'method' => $request['called_method'],
 			'backtrace' => $request['backtrace'],
 			'time' => microtime(true),
-			'type' => 'Remote Request',
+			'type' => $request['type'],
 		);
 
 		self::$_remote_requests[] = $request_object;
+
+		if (!isset($GLOBALS['__remote_request_elapsed__']))
+		{
+			$GLOBALS['__remote_request_elapsed__'] = 0;
+		}
+		$GLOBALS['__remote_request_elapsed__'] += $request_object->elapsed_time;
+
 		if ($request_object->elapsed_time && is_numeric($request_object->elapsed_time) && $request_object->elapsed_time >= (self::$_config['log_slow_remote_requests'] ?? 1))
 		{
 			self::$_slow_remote_requests[] = $request_object;

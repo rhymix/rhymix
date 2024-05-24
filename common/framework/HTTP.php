@@ -116,10 +116,9 @@ class HTTP
 		$guzzle = self::_createClient();
 
 		// Populate settings.
-		$settings = self::_populateSettings($url, $method, $data, $headers, $cookies, $settings);
+		$settings = self::_populateSettings($url, $method, '', $data, $headers, $cookies, $settings);
 
 		// Send the request.
-		$start_time = microtime(true);
 		try
 		{
 			$response = $guzzle->request($method, $url, $settings);
@@ -128,11 +127,6 @@ class HTTP
 		{
 			$response = new Helpers\HTTPHelper($e);
 		}
-
-		// Measure elapsed time and add a debug entry.
-		$status_code = $response->getStatusCode() ?: 0;
-		$elapsed_time = microtime(true) - $start_time;
-		self::_debug($url, $status_code, $elapsed_time);
 
 		return $response;
 	}
@@ -154,12 +148,10 @@ class HTTP
 		$guzzle = self::_createClient();
 
 		// Populate settings.
-		$settings = self::_populateSettings($url, $method, $data, $headers, $cookies, $settings);
+		$settings = self::_populateSettings($url, $method, 'async', $data, $headers, $cookies, $settings);
 
 		// Send the request.
-		$promise = $guzzle->requestAsync($method, $url, $settings);
-		self::_debug($url, 0, 0, true);
-		return $promise;
+		return $guzzle->requestAsync($method, $url, $settings);
 	}
 
 	/**
@@ -177,13 +169,12 @@ class HTTP
 		$promises = [];
 		foreach ($requests as $key => $val)
 		{
-			$settings = self::_populateSettings($val['url'], $val['method'] ?? 'GET', $val['data'] ?? null, $val['headers'] ?? [], $val['cookies'] ?? [], $val['settings'] ?? []);
+			$settings = self::_populateSettings($val['url'], $val['method'] ?? 'GET', 'multiple', $val['data'] ?? null, $val['headers'] ?? [], $val['cookies'] ?? [], $val['settings'] ?? []);
 			$promise = $guzzle->requestAsync($val['method'] ?? 'GET', $val['url'], $settings);
 			$promises[$key] = $promise;
-			self::_debug($val['url'], 0, 0, true);
 		}
 
-		// Wait for each request.
+		// Wait for all the requests to complete.
 		$responses = \GuzzleHttp\Promise\Utils::settle($promises)->wait();
 		$result = [];
 		foreach ($responses as $key => $val)
@@ -236,13 +227,14 @@ class HTTP
 	 *
 	 * @param string $url
 	 * @param string $method
+	 * @param string $type
 	 * @param string|array $data
 	 * @param array $headers
 	 * @param array $cookies
 	 * @param array $settings
 	 * @return array
 	 */
-	protected static function _populateSettings(string $url, string $method = 'GET', $data = null, array $headers = [], array $cookies = [], array $settings = []): array
+	protected static function _populateSettings(string $url, string $method = 'GET', string $type = '', $data = null, array $headers = [], array $cookies = [], array $settings = []): array
 	{
 		// Set headers.
 		if ($headers)
@@ -286,6 +278,45 @@ class HTTP
 			}
 		}
 
+		// Set the callback for debugging.
+		if (Debug::isEnabledForCurrentUser() && in_array('slow_remote_requests', config('debug.display_content')))
+		{
+			$log = array();
+			$log['url'] = $url;
+			$log['verb'] = $method;
+			$log['type'] = $type;
+			$log['status'] = 0;
+			$log['elapsed_time'] = 0;
+			$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
+			$log['redirect_to'] = null;
+			$log['backtrace'] = [];
+
+			$bt = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
+			foreach ($bt as $no => $call)
+			{
+				if($call['file'] !== __FILE__ && $call['file'] !== \RX_BASEDIR . 'classes/file/FileHandler.class.php')
+				{
+					$log['called_file'] = $bt[$no]['file'];
+					$log['called_line'] = $bt[$no]['line'];
+					$next = $no + 1;
+					if (isset($bt[$next]))
+					{
+						$log['called_method'] = $bt[$next]['class'].$bt[$next]['type'].$bt[$next]['function'];
+						$log['backtrace'] = array_slice($bt, $next, 1);
+					}
+					break;
+				}
+			}
+
+			$settings['on_stats'] = function($stats) use($log) {
+				$log['url'] = strval($stats->getEffectiveUri());
+				$log['status'] = $stats->hasResponse() ? $stats->getResponse()->getStatusCode() : 0;
+				$log['elapsed_time'] = $stats->getTransferTime();
+				$log['redirect_to'] = $stats->hasResponse() ? ($stats->getResponse()->getHeaderLine('location') ?: null) : null;
+				Debug::addRemoteRequest($log);
+			};
+		}
+
 		return $settings;
 	}
 
@@ -297,7 +328,7 @@ class HTTP
 	 * @param float $elapsed_time
 	 * @return void
 	 */
-	protected static function _debug(string $url, int $status_code = 0, float $elapsed_time = 0, bool $async = true): void
+	protected static function _debug(string $url, int $status_code = 0, float $elapsed_time = 0): void
 	{
 		if (!isset($GLOBALS['__remote_request_elapsed__']))
 		{
@@ -309,8 +340,8 @@ class HTTP
 		{
 			$log = array();
 			$log['url'] = $url;
-			$log['status'] = $async ? 'ASYNC' : $status_code;
-			$log['elapsed_time'] = $async ? 'ASYNC' : $elapsed_time;
+			$log['status'] = $status_code;
+			$log['elapsed_time'] = $elapsed_time;
 			$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
 			$log['backtrace'] = [];
 
@@ -324,14 +355,17 @@ class HTTP
 						$log['called_file'] = $bt[$no]['file'];
 						$log['called_line'] = $bt[$no]['line'];
 						$next = $no + 1;
-						$log['called_method'] = $bt[$next]['class'].$bt[$next]['type'].$bt[$next]['function'];
-						$log['backtrace'] = array_slice($bt, $next, 1);
+						if (isset($bt[$next]))
+						{
+							$log['called_method'] = $bt[$next]['class'].$bt[$next]['type'].$bt[$next]['function'];
+							$log['backtrace'] = array_slice($bt, $next, 1);
+						}
 						break;
 					}
 				}
 			}
 
-			Debug::addRemoteRequest($log);
+
 		}
 	}
 }
