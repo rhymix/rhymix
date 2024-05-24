@@ -236,7 +236,7 @@ class TemplateParser_v2
 
 		// Convert all src and srcset attributes.
 		$regexp = '#(<(?:img|audio|video|script|input|source|link)\s[^>]*)(src|srcset|poster)="([^"]+)"#';
-		return preg_replace_callback($regexp, function($match) use ($basepath) {
+		$content = preg_replace_callback($regexp, function($match) use ($basepath) {
 			if ($match[2] !== 'srcset')
 			{
 				$src = trim($match[3]);
@@ -253,6 +253,21 @@ class TemplateParser_v2
 				return $match[1] . sprintf('srcset="%s"', implode(', ', $result));
 			}
 		}, $content);
+
+		// Convert relative paths in CSS url() function.
+		$regexp = ['#\b(style=")([^"]+)(")#', '#(<style\b)(.*?)(</style>)#s'];
+		$content = preg_replace_callback($regexp, function($match) use ($basepath) {
+			$regexp = '#\b(url\([\'"]?)([^\'"\(\)]+)([\'"]?\))#';
+			$match[2] = preg_replace_callback($regexp, function($match) use ($basepath) {
+				if ($this->template->isRelativePath($match[2] = trim($match[2])))
+				{
+					$match[2] = $this->template->convertPath($match[2], $basepath);
+				}
+				return $match[1] . $match[2] . $match[3];
+			}, $match[2]);
+			return $match[1] . $match[2] . $match[3];
+		}, $content);
+		return $content;
 	}
 
 	/**

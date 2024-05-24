@@ -600,6 +600,41 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '<img srcset="bar/foo@4x.png 4x, ../foo@2x.png 2x ,./foo.jpg" />';
 		$target = '<img srcset="' . $this->baseurl . 'tests/_data/template/bar/foo@4x.png 4x, ' . $this->baseurl . 'tests/_data/foo@2x.png 2x, ' . $this->baseurl . 'tests/_data/template/foo.jpg" />';
 		$this->assertEquals($target, $this->_parse($source));
+
+		// url() conversion in style sttribute
+		$source = '<div style="background-image: url(img/foo.jpg)"></div>';
+		$target = '<div style="background-image: url(' . $this->baseurl . 'tests/_data/template/img/foo.jpg)"></div>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<div style="border-image: url(\'img/foo.jpg\')"></div>';
+		$target = '<div style="border-image: url(\'' . $this->baseurl . 'tests/_data/template/img/foo.jpg\')"></div>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<div style="mask-image: image(url(foo/bar.svg), blue, linear-gradient(rgb(0 0 0 / 100%), transparent))"></div>';
+		$target = '<div style="mask-image: image(url(' . $this->baseurl . 'tests/_data/template/foo/bar.svg), blue, linear-gradient(rgb(0 0 0 / 100%), transparent))"></div>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<div style="content: url(\'https://foo.com/bar.png\')"></div>';
+		$target = '<div style="content: url(\'https://foo.com/bar.png\')"></div>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<div style="content: url(data:image/png,base64)" other-attribute="cursor: url(img/foo.jpg)"></div>';
+		$target = '<div style="content: url(data:image/png,base64)" other-attribute="cursor: url(img/foo.jpg)"></div>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// url() conversion in <style> tag
+		$source = '<style> .foo { background-image: url("img/foo.jpg"); } </style>';
+		$target = '<style> .foo { background-image: url("' . $this->baseurl . 'tests/_data/template/img/foo.jpg"); } </style>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// No url() conversion in other tags or attributes
+		$source = '<other-tag> .foo { list-style-image: url(img/foo.jpg); } </other-tag>';
+		$target = '<other-tag> .foo { list-style-image: url(img/foo.jpg); } </other-tag>';
+		$this->assertEquals($target, $this->_parse($source));
+
+		$source = '<p class="url(foo.svg)" style="url(../foo.jpg)"> url(img/foo.jpg); } </p>';
+		$target = '<p class="url(foo.svg)" style="url(' . $this->baseurl . 'tests/_data/foo.jpg)"> url(img/foo.jpg); } </p>';
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testBlockConditions()
