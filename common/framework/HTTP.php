@@ -301,7 +301,7 @@ class HTTP
 					$next = $no + 1;
 					if (isset($bt[$next]))
 					{
-						$log['called_method'] = $bt[$next]['class'].$bt[$next]['type'].$bt[$next]['function'];
+						$log['called_method'] = ($bt[$next]['class'] ?? '') . ($bt[$next]['type'] ?? '') . ($bt[$next]['function'] ?? '');
 						$log['backtrace'] = array_slice($bt, $next, 1);
 					}
 					break;
