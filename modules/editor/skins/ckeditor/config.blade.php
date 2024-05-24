@@ -11,6 +11,7 @@ $ckconfig->toolbar = $editor_toolbar ?? 'default';
 $ckconfig->hide_toolbar = $editor_toolbar_hide ?? false;
 $ckconfig->focus = $editor_focus ?? false;
 $ckconfig->ios_patch = (bool)preg_match('/i(Phone|Pad|Pod)/', $_SERVER['HTTP_USER_AGENT'] ?? '');
+$ckconfig->allow_upload = $allow_fileupload ?? false;
 
 // Plugin configuration
 $ckconfig->add_plugins = $editor_additional_plugins ?: [];

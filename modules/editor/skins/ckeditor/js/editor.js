@@ -52,7 +52,8 @@ $(function() {
 				language: config.language,
 				iframe_attributes: {},
 				versionCheck: false,
-				xe_editor_sequence: editor_sequence
+				rx_allow_upload: config.allow_upload,
+				xe_editor_sequence: editor_sequence,
 			},
 			loadXeComponent: true,
 			enableToolbar: true

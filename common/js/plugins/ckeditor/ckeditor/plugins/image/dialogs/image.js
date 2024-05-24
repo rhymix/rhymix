@@ -574,16 +574,20 @@
 								},
 								validate: CKEDITOR.dialog.validate.notEmpty( editor.lang.image.urlMissing )
 							},
+							// Rhymix upload integration
 							{
 								type: 'button',
-								id: 'browse',
-								// v-align with the 'txtUrl' field.
-								// TODO: We need something better than a fixed size here.
+								id: 'rx_upload',
 								style: 'display:inline-block;margin-top:14px;',
 								align: 'center',
-								label: editor.lang.common.browseServer,
-								hidden: true,
-								filebrowser: 'info:txtUrl'
+								label: editor.lang.image.upload,
+								hidden: !editor.config.rx_allow_upload,
+								onClick: function() {
+									const editor_container = _getCkeContainer(editor.config.xe_editor_sequence);
+									const upload_container = editor_container.nextAll('.xefu-container').first();
+									upload_container.find('input[type=file]').first().trigger('click');
+									this.getDialog().hide();
+								}
 							} ]
 						} ]
 					},
