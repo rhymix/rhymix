@@ -461,7 +461,7 @@ class Template
 	{
 		// Import Context and lang as local variables.
 		$__Context = $this->vars ?: \Context::getAll();
-		$__Context->tpl_path = $this->absolute_dirname;
+		$__Context->tpl_path = './' . $this->relative_dirname;
 
 		// Start the output buffer.
 		$this->_ob_level = ob_get_level();
