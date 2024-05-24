@@ -220,10 +220,15 @@ Slow Remote Requests
 	foreach ($data->slow_remote_requests as $request)
 	{
 		$request_caller = sprintf('%s line %d (%s)', $request->file, $request->line, $request->method);
-		echo sprintf('%02d. %s', ++$request_count, $request->url) . "\n";
+		echo sprintf('%02d. %s', ++$request_count, escape($request->url)) . "\n";
+		echo sprintf('    - Method:        %s%s', $request->verb, $request->type ? (' (' . $request->type . ')') : '') . "\n";
 		echo sprintf('    - Caller:        %s', $request_caller) . "\n";
 		echo sprintf('    - Elapsed Time:  %0.4f sec', $request->elapsed_time) . "\n";
 		echo sprintf('    - Status Code:   %d', $request->status) . "\n";
+		if ($request->redirect_to)
+		{
+			echo sprintf('    - Redirect To:   %s', escape($request->redirect_to)) . "\n";
+		}
 	}
 ?>
 <?php endif; ?>

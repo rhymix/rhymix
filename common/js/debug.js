@@ -217,11 +217,17 @@ $(function() {
 				num = parseInt(i) + 1; if (num < 10) num = "0" + num;
 				entry.text(num + ". " + data.slow_remote_requests[i].url);
 				description = $('<ul class="debug_backtrace"></ul>').appendTo(entry);
+				description.append($('<li></li>').text("Method: " + data.slow_remote_requests[i].verb +
+					(data.slow_remote_requests[i].type ? (' (' + data.slow_remote_requests[i].type + ')') : '')
+				));
 				if (data.slow_remote_requests[i].file && data.slow_remote_requests[i].line) {
 					description.append($('<li></li>').text("Caller: " + data.slow_remote_requests[i].file + ":" + data.slow_remote_requests[i].line).append("<br>(" + data.slow_remote_requests[i].method + ")"));
 					description.append($('<li></li>').text("Elapsed Time: " + (typeof data.slow_remote_requests[i].elapsed_time === 'number' ? (data.slow_remote_requests[i].elapsed_time.toFixed(4) + " sec") : String(data.slow_remote_requests[i].elapsed_time))));
 				}
 				description.append($('<li></li>').text("Status Code: " + data.slow_remote_requests[i].status));
+				if (data.slow_remote_requests[i].redirect_to) {
+					description.append($('<li></li>').text("Redirect To: " + data.slow_remote_requests[i].redirect_to));
+				}
 			}
 		}
 
