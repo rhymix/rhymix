@@ -41,6 +41,25 @@ class URLTest extends \Codeception\Test\Unit
 		$_SERVER['REQUEST_URI'] = $old_request_uri;
 	}
 
+	public function testGetCurrentDomain()
+	{
+		$original_host = $_SERVER['HTTP_HOST'];
+
+		$_SERVER['HTTP_HOST'] = 'rhymix.org';
+		$this->assertEquals('rhymix.org', Rhymix\Framework\URL::getCurrentDomain());
+		$this->assertEquals('rhymix.org', Rhymix\Framework\URL::getCurrentDomain(true));
+
+		$_SERVER['HTTP_HOST'] = 'xn--oi2b48fl0g0pf.RHYMIX.ORG:443';
+		$this->assertEquals('라이믹스.rhymix.org', Rhymix\Framework\URL::getCurrentDomain());
+		$this->assertEquals('라이믹스.rhymix.org:443', Rhymix\Framework\URL::getCurrentDomain(true));
+
+		$_SERVER['HTTP_HOST'] = 'rhymix.org:8080';
+		$this->assertEquals('rhymix.org', Rhymix\Framework\URL::getCurrentDomain());
+		$this->assertEquals('rhymix.org:8080', Rhymix\Framework\URL::getCurrentDomain(true));
+
+		$_SERVER['HTTP_HOST'] = $original_host;
+	}
+
 	public function testGetCurrentDomainURL()
 	{
 		$this->assertEquals('https://www.rhymix.org/', Rhymix\Framework\URL::getCurrentDomainURL());

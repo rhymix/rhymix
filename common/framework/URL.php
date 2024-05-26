@@ -33,6 +33,23 @@ class URL
 	/**
 	 * Get the current domain.
 	 *
+	 * @param bool $preserve_port
+	 * @return string
+	 */
+	public static function getCurrentDomain(bool $preserve_port = false): string
+	{
+		// Get current domain.
+		$domain = strtolower($_SERVER['HTTP_HOST'] ?? '');
+		if (!$preserve_port)
+		{
+			$domain = preg_replace('/:\d+$/', '', $domain);
+		}
+		return self::decodeIdna($domain);
+	}
+
+	/**
+	 * Get a URL using the current domain and the path.
+	 *
 	 * @param string $path
 	 * @return string
 	 */

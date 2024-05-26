@@ -198,8 +198,7 @@ class ModuleModel extends Module
 	public static function getDefaultMid($domain = null)
 	{
 		// Get current domain.
-		$domain = $domain ?: strtolower(preg_replace('/:\d+$/', '', $_SERVER['HTTP_HOST']));
-		$domain = Rhymix\Framework\URL::decodeIdna($domain);
+		$domain = $domain ? Rhymix\Framework\URL::decodeIdna($domain) : Rhymix\Framework\URL::getCurrentDomain();
 
 		// Find the domain information.
 		$domain_info = self::getSiteInfoByDomain($domain);
@@ -208,7 +207,7 @@ class ModuleModel extends Module
 			$domain_info = self::getDefaultDomainInfo();
 			if (!$domain_info)
 			{
-				$domain_info = getClass('module')->migrateDomains();
+				$domain_info = Module::getInstance()->migrateDomains();
 			}
 			$domain_info->is_default_replaced = true;
 		}
