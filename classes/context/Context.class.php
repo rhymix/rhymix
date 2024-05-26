@@ -252,9 +252,8 @@ class Context
 		// Redirect to SSL if the current domain requires SSL.
 		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && !$site_module_info->is_default_replaced)
 		{
-			$ssl_url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
-			self::setCacheControl(0);
-			header('Location: ' . $ssl_url, true, 301);
+			$url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
+			self::redirect($url, 301);
 			exit;
 		}
 
@@ -500,6 +499,20 @@ class Context
 		{
 			header('Access-Control-Max-Age: ' . $max_age);
 		}
+	}
+
+	/**
+	 * Redirect
+	 *
+	 * @param string $url
+	 * @param int $status_code
+	 * @param int $ttl
+	 * @return void
+	 */
+	public static function redirect(string $url, int $status_code = 302, int $ttl = 0): void
+	{
+		header("Location: $url", true, $status_code);
+		self::setCacheControl($ttl);
 	}
 
 	/**
