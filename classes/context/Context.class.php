@@ -1568,6 +1568,17 @@ class Context
 			return;
 		}
 
+		// If the site was visited using an unregistered domain, redirect to the default domain.
+		$site_module_info = self::get('site_module_info');
+		if (Rhymix\Framework\URL::getCurrentDomain() !== $site_module_info->domain)
+		{
+			$url = ($site_module_info->security === 'always') ? 'https://' : 'http://';
+			$url = $url . Rhymix\Framework\URL::encodeIdna($site_module_info->domain);
+			$url = $url . $_SERVER['REQUEST_URI'] ?? \RX_BASEURL;
+			self::redirect($url);
+			exit;
+		}
+
 		// Set headers and constants for backward compatibility.
 		header('HTTP/1.1 503 Service Unavailable');
 		define('_XE_SITELOCK_', TRUE);
