@@ -475,7 +475,7 @@
 
 			var refreshList = function(res) {
 				data.uploadTargetSrl = res.upload_target_srl;
-				if(editorRelKeys[data.editorSequence]) {
+				if (editorRelKeys[data.editorSequence] && editorRelKeys[data.editorSequence].primary) {
 					editorRelKeys[data.editorSequence].primary.value = res.upload_target_srl;
 				}
 				data.uploadTargetSrl = res.uploadTargetSrl;
