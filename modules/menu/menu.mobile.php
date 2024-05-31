@@ -55,7 +55,10 @@ class MenuMobile extends moduleObject
 			{
 				@include($homeMenuCacheFile);
 			}
-			$menu_info->php_file = './files/cache/menu/'.$homeMenuSrl.'.php';
+			if($menu_info)
+			{
+				$menu_info->php_file = './files/cache/menu/'.$homeMenuSrl.'.php';
+			}
 		}
 
 		if(file_exists($menu_info->php_file)) @include($menu_info->php_file);
