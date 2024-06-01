@@ -56,6 +56,9 @@ class BoardModel extends Board
 	 **/
 	public static function getDefaultListConfig($module_srl)
 	{
+		$extra_vars = [];
+		$module_srl = (int)$module_srl;
+
 		// add virtual srl, title, registered date, update date, nickname, ID, name, readed count, voted count etc.
 		$virtual_vars = array( 'no', 'title', 'regdate', 'last_update', 'last_post', 'module_title', 'nick_name',
 				'user_id', 'user_name', 'readed_count', 'voted_count', 'blamed_count', 'comment_count',
