@@ -11,7 +11,7 @@ class SpamfilterController extends Spamfilter
 	 * List of actions to use CAPTCHA.
 	 */
 	protected static $_captcha_actions = array(
-		'signup' => '/^(?:disp|proc)Member(?:SignUp|Insert)/i',
+		'signup' => '/^(?:disp|proc)Member(?:SignUp|Insert$)/i',
 		'login' => '/^(?:disp|proc)MemberLogin(?:Form)?/i',
 		'recovery' => '/^(?:disp|proc)Member(?:FindAccount|ResendAuthMail)/i',
 		'document' => '/^(?:disp|proc)Board(Write|InsertDocument)/i',
