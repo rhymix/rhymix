@@ -1248,6 +1248,11 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleConfig($module)
 	{
+		if (!$module || !is_scalar($module))
+		{
+			return null;
+		}
+
 		if(!isset($GLOBALS['__ModuleConfig__'][$module]))
 		{
 			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module);
@@ -1301,6 +1306,11 @@ class ModuleModel extends Module
 	 */
 	public static function getModulePartConfig($module, $module_srl)
 	{
+		if (!$module || !is_scalar($module) || !$module_srl || !is_scalar($module_srl))
+		{
+			return null;
+		}
+
 		if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
 		{
 			$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
