@@ -3,7 +3,7 @@
 /**
  * @class  editor
  * @author NAVER (developers@xpressengine.com)
- * @brief high class of the editor odule
+ * @brief high class of the editor module
  */
 class Editor extends ModuleObject
 {
