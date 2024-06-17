@@ -1,4 +1,4 @@
-<query id="getPackageSqlByPath" action="select">
+<query id="getPackageSrlByPath" action="select">
     <tables>
         <table name="autoinstall_packages" />
     </tables>

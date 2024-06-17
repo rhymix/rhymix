@@ -1,4 +1,4 @@
-<query id="selectModuleCategory" action="select">
+<query id="getModuleCategory" action="select">
     <tables>
         <table name="module_categories" />
     </tables>

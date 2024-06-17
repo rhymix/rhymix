@@ -1,4 +1,4 @@
-<query id="getDocumentsTagList" action="select">
+<query id="getAllTagList" action="select">
     <tables>
         <table name="tags" />
     </tables>

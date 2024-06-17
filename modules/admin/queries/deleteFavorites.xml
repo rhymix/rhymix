@@ -1,4 +1,4 @@
-<query id="deleteFavorite" action="delete">
+<query id="deleteFavorites" action="delete">
 	<tables>
 		<table name="admin_favorite" />
 	</tables>

@@ -1,4 +1,4 @@
-<query id="updateMemberFindQuesionAnswer" action="update">
+<query id="updateMemberFindQuestionAnswer" action="update">
     <tables>
         <table name="member" />
     </tables>

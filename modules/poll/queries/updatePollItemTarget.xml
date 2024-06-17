@@ -1,4 +1,4 @@
-<query id="updatePollTarget" action="update">
+<query id="updatePollItemTarget" action="update">
     <tables>
         <table name="poll_item" />
     </tables>

@@ -1,4 +1,4 @@
-<query id="getUnsubscribeBlockList" action="select">
+<query id="getUnsubscribeList" action="select">
 	<tables>
 		<table name="ncenterlite_unsubscribe" />
 	</tables>

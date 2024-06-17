@@ -1,4 +1,4 @@
-<query id="insertDeniedIP" action="insert">
+<query id="insertDeniedWord" action="insert">
 	<tables>
 		<table name="spamfilter_denied_word" />
 	</tables>

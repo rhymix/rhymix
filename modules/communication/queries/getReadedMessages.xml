@@ -1,4 +1,4 @@
-<query id="getReceivedMessages" action="select">
+<query id="getReadedMessages" action="select">
 	<tables>
 		<table name="member_message" alias="message" />
 		<table name="member" type="left join">

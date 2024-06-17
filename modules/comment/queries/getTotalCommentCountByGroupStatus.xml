@@ -1,4 +1,4 @@
-<query id="getTotalCommentList" action="select">
+<query id="getTotalCommentCountByGroupStatus" action="select">
     <tables>
         <table name="comments" alias="comments" />
     </tables>

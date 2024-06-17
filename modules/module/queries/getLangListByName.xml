@@ -1,4 +1,4 @@
-<query id="getLangList" action="select">
+<query id="getLangListByName" action="select">
     <tables>
         <table name="lang" />
     </tables>

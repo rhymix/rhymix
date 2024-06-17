@@ -1,4 +1,4 @@
-<query id="getHistories" action="select">
+<query id="getHistory" action="select">
     <tables>
         <table name="document_histories" />
     </tables>
