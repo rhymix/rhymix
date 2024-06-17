@@ -1,4 +1,4 @@
-<query id="deleteScrapDocument" action="delete">
+<query id="deleteScrapDocumentByDocumentSrl" action="delete">
 	<tables>
 		<table name="member_scrap" />
 	</tables>

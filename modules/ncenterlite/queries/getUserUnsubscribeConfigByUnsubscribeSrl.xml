@@ -1,4 +1,4 @@
-<query id="getUserUnsubscribeBlockConfigByUnsubscribeSrl" action="select">
+<query id="getUserUnsubscribeConfigByUnsubscribeSrl" action="select">
 	<tables>
 		<table name="ncenterlite_unsubscribe" />
 	</tables>

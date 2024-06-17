@@ -1,4 +1,4 @@
-<query id="deleteComments" action="delete">
+<query id="deleteModuleComments" action="delete">
     <tables>
         <table name="comments" />
     </tables>

@@ -1,4 +1,4 @@
-<query id="deleteCategory" action="delete">
+<query id="deleteModuleCategory" action="delete">
     <tables>
         <table name="document_categories" />
     </tables>

@@ -1,4 +1,4 @@
-<query id="getMonthlyArchivedList" action="select">
+<query id="getDailyArchivedList" action="select">
     <tables>
         <table name="documents" />
     </tables>

@@ -1,4 +1,4 @@
-<query id="deleteUnsubscribeBlock" action="delete">
+<query id="deleteUnsubscribe" action="delete">
 	<tables>
 		<table name="ncenterlite_unsubscribe" />
 	</tables>

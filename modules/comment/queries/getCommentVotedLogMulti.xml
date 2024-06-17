@@ -1,4 +1,4 @@
-<query id="getCommentVotedLog" action="select">
+<query id="getCommentVotedLogMulti" action="select">
 	<tables>
 		<table name="comment_voted_log" />
 	</tables>

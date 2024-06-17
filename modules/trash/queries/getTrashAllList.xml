@@ -1,4 +1,4 @@
-<query id="getTrashList" action="select">
+<query id="getTrashAllList" action="select">
     <tables>
         <table name="trash" alias="T" />
         <table name="member" alias="M" />

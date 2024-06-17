@@ -1,4 +1,4 @@
-<query id="getActionForward" action="select">
+<query id="getActionForwardWithModule" action="select">
     <tables>
         <table name="action_forward" />
     </tables>

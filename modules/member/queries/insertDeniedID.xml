@@ -1,4 +1,4 @@
-<query id="insertGroup" action="insert">
+<query id="insertDeniedID" action="insert">
     <tables>
         <table name="member_denied_user_id" />
     </tables>

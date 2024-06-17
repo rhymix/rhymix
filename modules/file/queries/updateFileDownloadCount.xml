@@ -1,4 +1,4 @@
-<query id="updateDownloadCount" action="update">
+<query id="updateFileDownloadCount" action="update">
     <tables>
         <table name="files" />
     </tables>

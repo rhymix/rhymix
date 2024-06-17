@@ -1,4 +1,4 @@
-<query id="getSiteCounterStatus" action="select">
+<query id="getCounterStatusDays" action="select">
     <tables>
         <table name="counter_status" />
     </tables>

@@ -1,4 +1,4 @@
-<query id="deleteDocumentDeclaredLog" action="delete">
+<query id="deleteDeclaredDocumentLog" action="delete">
 	<tables>
 		<table name="document_declared_log" />
 	</tables>

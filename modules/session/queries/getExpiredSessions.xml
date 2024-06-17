@@ -1,4 +1,4 @@
-<query id="getExpiredSession" action="select">
+<query id="getExpiredSessions" action="select">
     <tables>
         <table name="session" />
     </tables>
