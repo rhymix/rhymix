@@ -88,7 +88,7 @@ $lang->cmd_advanced_mailer_exception_group = 'Exception Group';
 $lang->cmd_advanced_mailer_use_exceptions = 'Exception domains';
 $lang->cmd_advanced_mailer_use_exceptions_yes = 'Test with exceptions as configured';
 $lang->cmd_advanced_mailer_use_exceptions_no = 'Ignore exceptions and only test the default sending method';
-$lang->msg_advanced_mailer_about_dummy = 'Dummy does not actually send any email, but logs them. Use this option for testing.';
+$lang->msg_advanced_mailer_about_dummy = 'This option does not actually send any email, but may log them. Use this option for testing.';
 $lang->msg_advanced_mailer_about_dummy_exceptions = 'Caution: if you have set up exception domains, unwanted email may be sent using other methods.';
 $lang->msg_advanced_mailer_about_mailfunction = 'This method uses the mail() function that comes with PHP itself. It has very low deliverability.<br /><span style="color:red">This option may be deprecated in the future, so please use a different sending method if at all possible.</span>';
 $lang->msg_advanced_mailer_sending_method_is_invalid = 'Please select a valid sending method.';

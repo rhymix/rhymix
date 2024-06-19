@@ -88,7 +88,7 @@ $lang->cmd_advanced_mailer_exception_group = '예외 그룹';
 $lang->cmd_advanced_mailer_use_exceptions = '예외 도메인 설정';
 $lang->cmd_advanced_mailer_use_exceptions_yes = '예외 설정을 적용하여 테스트';
 $lang->cmd_advanced_mailer_use_exceptions_no = '무시하고 기본 발송 방법만 테스트';
-$lang->msg_advanced_mailer_about_dummy = '메일을 발송하지 않고 로그 기록만 하도록 강제합니다. 테스트 중 원치 않는 메일이 발송되는 것을 막기 위해 사용할 수 있습니다.';
+$lang->msg_advanced_mailer_about_dummy = '메일을 발송하지 않고 로그 기록만 합니다. 테스트 중 원치 않는 메일이 발송되는 것을 막기 위해 사용할 수 있습니다.';
 $lang->msg_advanced_mailer_about_dummy_exceptions = '이 옵션을 선택하더라도 예외 도메인을 지정한 경우 메일이 발송될 수 있으니 주의하십시오.';
 $lang->msg_advanced_mailer_about_mailfunction = 'PHP에 내장된 mail() 함수를 사용합니다. 발송 성공률이 매우 낮습니다.<br/><span style="color:red">이 옵션은 추후 지원되지 않을 수 있으니, 가능하면 다른 방식을 선택하시기 바랍니다.</span>';
 $lang->msg_advanced_mailer_sending_method_is_invalid = '올바른 발송 방법을 선택해 주십시오.';
