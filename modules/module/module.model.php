@@ -634,7 +634,7 @@ class ModuleModel extends Module
 
 		if (count($mid) == 1 && ($first_mid = array_first($mid)) && isset(self::$_mid_map[$first_mid]))
 		{
-			return array($first_mid => self::$_mid_map[$first_mid]);
+			return array($assoc ? $first_mid : 0 => self::$_mid_map[$first_mid]);
 		}
 
 		$args = new stdClass;
