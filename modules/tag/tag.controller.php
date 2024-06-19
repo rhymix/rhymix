@@ -14,6 +14,7 @@ class TagController extends Tag
 	{
 		if (empty($obj->tags))
 		{
+			$obj->tags = '';
 			return;
 		}
 
@@ -24,7 +25,7 @@ class TagController extends Tag
 		}
 		else
 		{
-			$obj->tags = null;
+			$obj->tags = '';
 		}
 	}
 
