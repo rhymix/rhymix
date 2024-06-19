@@ -174,7 +174,14 @@ function getAutoSavedSrl(ret_obj) {
 				instance.insertHtml(text, 'html');
 			};
 
-			// 자동저장 필드가 있다면 자동 저장 기능 활성화
+			// Automatically update content input value #445
+			instance.on('change', function(e) {
+				if (window.editorRelKeys[data.editorSequence].content) {
+					window.editorRelKeys[data.editorSequence].content.value = e.editor.getData();
+				}
+			});
+
+			// Enable autosave
 			if (typeof(fo_obj._saved_doc_title) !== 'undefined') {
 				editorEnableAutoSave(fo_obj, editor_sequence);
 			}
