@@ -24,6 +24,7 @@ CKEDITOR.plugins.add('rx_paste', {
 			const dataValue = event.data.dataValue;
 			const dataTransfer = event.data.dataTransfer;
 			const filesCount = dataTransfer.getFilesCount();
+			const isFileTransfer = dataTransfer.isFileTransfer() || String(dataValue).match(/^<img\s[^>]+>$/);
 
 			// Replace iframe code in pasted text.
 			if (method === 'paste' && dataValue && dataValue.replace) {
@@ -33,7 +34,7 @@ CKEDITOR.plugins.add('rx_paste', {
 			}
 
 			// Check if the pasted data contains any files.
-			if (filesCount && dataTransfer.isFileTransfer()) {
+			if (filesCount && isFileTransfer) {
 				event.stop();
 				for (let i = 0; i < filesCount; i++) {
 					uploadFile(dataTransfer.getFile(i));
