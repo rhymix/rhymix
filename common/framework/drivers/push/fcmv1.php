@@ -148,7 +148,7 @@ class FCMv1 extends Base implements PushInterface
 			}
 
 			$responses = HTTP::multiple($requests);
-			foreach ($responses as $response)
+			foreach ($responses as $i => $response)
 			{
 				$status_code = $response->getStatusCode();
 				$result = @json_decode($response->getBody()->getContents());
@@ -193,7 +193,7 @@ class FCMv1 extends Base implements PushInterface
 			}
 
 			$responses = HTTP::multiple($requests);
-			foreach ($responses as $response)
+			foreach ($responses as $i => $response)
 			{
 				$status_code = $response->getStatusCode();
 				$result = @json_decode($response->getBody()->getContents());
