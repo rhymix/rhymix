@@ -61,8 +61,11 @@ class MenuMobile extends moduleObject
 			}
 		}
 
-		if(file_exists($menu_info->php_file)) @include($menu_info->php_file);
-		if(is_array($menu->list))
+		if (isset($menu_info->php_file) && file_exists($menu_info->php_file))
+		{
+			@include($menu_info->php_file);
+		}
+		if (isset($menu->list) && is_array($menu->list))
 		{
 			foreach($menu->list as $menu_item)
 			{
