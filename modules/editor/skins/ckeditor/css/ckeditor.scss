@@ -104,6 +104,7 @@ body.cke_editable {
 	@include light-dark($colorset);
 }
 textarea.cke_source.cke_editable {
+	box-sizing: border-box;
 	padding: 10px;
 }
 body.color_scheme_dark.cke_auto_dark_mode .cke_wysiwyg_div {
