@@ -5,7 +5,7 @@
         {@$thumbnail_idx = $widget_info->content_items[0]->getFirstThumbnailIdx() }
         {@$have_first_thumbnail=true}
         <p class="widgetThumb floatLeft" style="margin-right:-{$widget_info->thumbnail_width}px">
-            <a href="{$widget_info->content_items[$thumbnail_idx]->getLink()}" class="thumb" target="_blank"|cond="$widget_info->new_window"><img src="{$widget_info->content_items[$thumbnail_idx]->getThumbnail()}" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px"></a>
+            <a href="{$widget_info->content_items[$thumbnail_idx]->getLink()}" class="thumb" target="_blank"|cond="$widget_info->new_window"><img src="{$widget_info->content_items[$thumbnail_idx]->getThumbnail()}" srcset="{$widget_info->content_items[$thumbnail_idx]->getThumbnail(2)} 2x"|cond="$widget_info->content_items[$thumbnail_idx]->getThumbnail(2)" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px"></a>
         </p>
     <!--@end-->
 
@@ -63,7 +63,7 @@
         {@$thumbnail_idx = $widget_info->content_items[0]->getFirstThumbnailIdx() }
         {@$have_first_thumbnail=true}
         <p class="widgetThumb floatLeft" style="margin-right:-{$widget_info->thumbnail_width}px">
-            <a href="{$widget_info->content_items[$thumbnail_idx]->getLink()}" class="thumb" target="_blank"|cond="$widget_info->new_window"><img src="{$widget_info->content_items[$thumbnail_idx]->getThumbnail()}" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px"></a>
+            <a href="{$widget_info->content_items[$thumbnail_idx]->getLink()}" class="thumb" target="_blank"|cond="$widget_info->new_window"><img src="{$widget_info->content_items[$thumbnail_idx]->getThumbnail()}" srcset="{$widget_info->content_items[$thumbnail_idx]->getThumbnail(2)} 2x"|cond="$widget_info->content_items[$thumbnail_idx]->getThumbnail(2)" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px"></a>
         </p>
     <!--@end-->
 
