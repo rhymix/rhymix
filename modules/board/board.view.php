@@ -669,6 +669,10 @@ class BoardView extends Board
 
 		// List of columns selected by the user
 		$selectedColumnList = array_keys($this->listConfig);
+		if ($this->grant->manager)
+		{
+			$selectedColumnList[] = 'ipaddress';
+		}
 
 		// Return all columns for some legacy skins
 		if($this->module_info->skin == 'xe_guestbook' || ($this->module_info->default_style ?? '') == 'blog')
