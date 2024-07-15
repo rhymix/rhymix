@@ -6,7 +6,7 @@
         <p class="thumbArea" style="width:{$widget_info->thumbnail_width}px;margin-right:-{$widget_info->thumbnail_width}px;">
             <a href="{$item->getLink()}" class="thumb" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px" target="_blank"|cond="$widget_info->new_window">
                 <!--@if($item->getThumbnail())-->
-                    <img src="{$item->getThumbnail()}" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px" />
+                    <img src="{$item->getThumbnail()}" srcset="{$item->getThumbnail(2)} 2x"|cond="$item->getThumbnail(2)" style="width:{$widget_info->thumbnail_width}px;height:{$widget_info->thumbnail_height}px" />
                 <!--@else-->
                     <span class="imgNone">{$lang->none_image}</span>
                 <!--@end-->
