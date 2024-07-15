@@ -1893,14 +1893,10 @@ class MenuAdminController extends Menu
 			'<?php ' . PHP_EOL .
 			'require_once('.var_export(FileHandler::getRealPath('./common/autoload.php'), true) . ');' . PHP_EOL .
 			'Context::init(); ' . PHP_EOL .
+			'Context::setCacheControl(0); ' . PHP_EOL .
 			'header("Content-Type: text/xml; charset=UTF-8");' . PHP_EOL .
-			'header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");' . PHP_EOL .
-			'header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");' . PHP_EOL .
-			'header("Cache-Control: no-store, no-cache, must-revalidate");' . PHP_EOL .
-			'header("Cache-Control: post-check=0, pre-check=0", false);' . PHP_EOL .
-			'header("Pragma: no-cache");' . PHP_EOL .
 			'%s' . PHP_EOL .
-			'$oContext->close(); ?' . '>' . PHP_EOL .
+			'Context::close(); ?' . '>' . PHP_EOL .
 			'<root>%s</root>',
 			$header_script,
 			$this->getXmlTree($tree[0], $tree, $site_srl, $domain)

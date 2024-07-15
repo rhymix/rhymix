@@ -618,11 +618,8 @@ class LayoutAdminController extends Layout
 
 		$stream = $tar->toTarStream();
 		$filename = 'faceoff_' . date('YmdHis') . '.tar';
-		header("Cache-Control: ");
-		header("Pragma: ");
+		Context::setCacheControl(0);
 		header("Content-Type: application/x-compressed");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		//            header("Content-Length: " .strlen($stream)); ?? why??
 		header('Content-Disposition: attachment; filename="'. $filename .'"');
 		header("Content-Transfer-Encoding: binary\n");
 		echo $stream;
