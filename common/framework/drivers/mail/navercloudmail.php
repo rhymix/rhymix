@@ -170,7 +170,7 @@ class Navercloudmail extends Base implements \Rhymix\Framework\Drivers\MailInter
 
 		if (isset($result->error))
 		{
-			$message->errors[] = 'Navercloudmail: ' . $result->error . PHP_EOL . $result->details;
+			$message->errors[] = 'Navercloudmail: ' . $result->error->message . PHP_EOL . $result->error->details;
 			return false;
 		}
 		else
