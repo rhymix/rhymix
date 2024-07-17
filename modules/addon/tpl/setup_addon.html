@@ -100,16 +100,16 @@
 			<label class="x_control-label">{$lang->target}</label>
 			<div class="x_controls">
 				<label for="check_all"><input type="checkbox" id="check_all" /> Check all</label>
-				<block  loop="$mid_list => $module_category_srl, $modules">
-				<!--@if(count($mid_list) > 1)-->
+				<block loop="$mid_list => $module_category_srl, $modules">
+				<!--@if(is_array($mid_list) && count($mid_list) > 1)-->
 				<fieldset>
 					<legend><!--@if($modules->title)-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end--></legend>
 				<!--@end-->
 					<label loop="$modules->list => $key, $val">
-						<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list)"/>
+						<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list ?? [])"/>
 						{$key} ({$val->browser_title})
 					</label>
-				<!--@if(count($mid_list) > 1)-->
+				<!--@if(is_array($mid_list) && count($mid_list) > 1)-->
 				</fieldset>
 				<!--@end-->
 				</block>
