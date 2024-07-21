@@ -245,6 +245,15 @@
 
 				{@ $conf_value = escape(config("sms.$driver_name.$conf_name"))}
 
+				<!--@if($conf_name === 'service_id')-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="sms_{$driver_name}_service_id">{$lang->cmd_advanced_mailer_service_id}</label>
+					<div class="x_controls">
+						<input type="text" name="sms_{$driver_name}_service_id" id="sms_{$driver_name}_service_id" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+
 				<!--@if($conf_name === 'api_url')-->
 				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
 					<label class="x_control-label" for="sms_{$driver_name}_api_key">{$lang->cmd_advanced_mailer_api_url}</label>

@@ -28,6 +28,7 @@ $lang->cmd_advanced_mailer_smtp_security_tls = 'TLS (STARTTLS)';
 $lang->cmd_advanced_mailer_smtp_security_none = 'None';
 $lang->cmd_advanced_mailer_smtp_user = 'Username';
 $lang->cmd_advanced_mailer_smtp_pass = 'Password';
+$lang->cmd_advanced_mailer_service_id = 'Service ID';
 $lang->cmd_advanced_mailer_api_url = 'API URL';
 $lang->cmd_advanced_mailer_api_key = 'API key';
 $lang->cmd_advanced_mailer_api_secret = 'API secret';
