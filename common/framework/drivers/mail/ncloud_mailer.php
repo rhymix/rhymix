@@ -73,7 +73,7 @@ class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterf
 	 * @param string $secret_key
 	 * @return string
 	 */
-	protected static function _makeSignature($timestamp, $access_key, $secret_key)
+	protected static function _makeSignature($timestamp, $access_key, $secret_key): string
 	{
 		$method = 'POST';
 		$uri = '/api/v1/mails';
@@ -149,7 +149,7 @@ class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterf
 
 		// Generate the NAVER cloud gateway signature.
 		$timestamp = floor(microtime(true) * 1000);
-		$signature = $this::_makeSignature($timestamp, $this->_config['api_key'], $this->_config['api_secret']);
+		$signature = self::_makeSignature($timestamp, $this->_config['api_key'], $this->_config['api_secret']);
 		$headers = array(
 			'x-ncp-apigw-timestamp' => $timestamp,
 			'x-ncp-iam-access-key' => $this->_config['api_key'],
