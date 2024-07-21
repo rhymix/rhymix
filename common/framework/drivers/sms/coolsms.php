@@ -116,7 +116,7 @@ class CoolSMS extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		}
 		catch (\Nurigo\Exceptions\CoolsmsException $e)
 		{
-			$message->errors[] = class_basename($e) . ': ' . $e->getMessage();
+			$original->addError(class_basename($e) . ': ' . $e->getMessage());
 			return false;
 		}
 	}
