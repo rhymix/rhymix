@@ -3,9 +3,9 @@
 namespace Rhymix\Framework\Drivers\Mail;
 
 /**
- * The Navercloudmail mail driver.
+ * The ncloud Outbound Mailer mail driver.
  */
-class Navercloudmail extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * The API URL.
@@ -59,26 +59,17 @@ class Navercloudmail extends Base implements \Rhymix\Framework\Drivers\MailInter
 	 * Create signature for NAVER Cloud gateway server
 	 *
 	 * @param string $timestamp
-	 * @param string $accessKey
-	 * @param string $secretKey
-	 * This method returns signature of given timestamp, access key and secret key
-	 *
+	 * @param string $access_key
+	 * @param string $secret_key
 	 * @return string
 	 */
-	private static function _makeSignature($timestamp, $accessKey, $secretKey) {
-		$space = " ";
-		$newLine = "\n";
-		$method = "POST";
-		$uri= "/api/v1/mails";
-		$timestamp = $timestamp;
-		$accessKey = $accessKey;
-		$secretKey = $secretKey;
-	
-		$hmac = $method.$space.$uri.$newLine.$timestamp.$newLine.$accessKey;
-		$signautue = base64_encode(hash_hmac('sha256', $hmac, $secretKey,true));
-	
-		return $signautue;
-	} 
+	protected static function _makeSignature($timestamp, $access_key, $secret_key)
+	{
+		$method = 'POST';
+		$uri = '/api/v1/mails';
+		$content = "$method $uri\n$timestamp\n$access_key";
+		return base64_encode(hash_hmac('sha256', $content, $secret_key, true));
+	}
 
 	/**
 	 * Send a message.
@@ -162,7 +153,7 @@ class Navercloudmail extends Base implements \Rhymix\Framework\Drivers\MailInter
 			$request = \Rhymix\Framework\HTTP::post(self::$_url . "/mails", $data, $headers, [], ['timeout' => self::$_timeout]);
 			$result = @json_decode($request->getBody()->getContents());
 		}
-		catch (\Requests_Exception $e)
+		catch (\Exception $e)
 		{
 			$message->errors[] = 'Navercloudmail: Request error: ' . $e->getMessage();
 			return false;
