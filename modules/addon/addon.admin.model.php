@@ -398,10 +398,10 @@ class addonAdminModel extends addon
 						}
 
 						$obj->options = array();
-						for($i = 0, $c = count($val->options); $i < $c; $i++)
+						foreach ($val->options ?? [] as $i => $option)
 						{
-							$obj->options[$i]->title = $val->options[$i]->title->body;
-							$obj->options[$i]->value = $val->options[$i]->value->body;
+							$obj->options[$i]->title = $option->title->body;
+							$obj->options[$i]->value = $option->value->body;
 						}
 						$addon_info->extra_vars[] = $obj;
 					}
