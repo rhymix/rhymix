@@ -179,7 +179,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 			$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], ['timeout' => self::$_timeout]);
 			$result = @json_decode($request->getBody()->getContents());
 		}
-		catch (\Requests_Exception $e)
+		catch (\Exception $e)
 		{
 			$message->errors[] = 'Woorimail: ' . $e->getMessage();
 			return false;
