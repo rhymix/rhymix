@@ -3,15 +3,25 @@
 namespace Rhymix\Framework\Drivers\Mail;
 
 /**
- * The ncloud Outbound Mailer mail driver.
+ * The NAVER Cloud Outbound Mailer mail driver.
  */
 class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
 	 * The API URL.
 	 */
-	protected static $_url = 'https://mail.apigw.ntruss.com/api/v1';
+	protected static $_url = 'https://mail.apigw.ntruss.com/api/v1/mails';
 	protected static $_timeout = 10;
+
+	/**
+	 * Get the human-readable name of this mail driver.
+	 *
+	 * @return string
+	 */
+	public static function getName()
+	{
+		return 'NAVER Cloud Outbound Mailer';
+	}
 
 	/**
 	 * Get the list of configuration fields required by this mail driver.
@@ -137,31 +147,33 @@ class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterf
 			}
 		}
 
+		// Generate the NAVER cloud gateway signature.
 		$timestamp = floor(microtime(true) * 1000);
-
-		// Define connection options.
+		$signature = $this::_makeSignature($timestamp, $this->_config['api_key'], $this->_config['api_secret']);
 		$headers = array(
-			'Content-Type' => 'application/json',
 			'x-ncp-apigw-timestamp' => $timestamp,
 			'x-ncp-iam-access-key' => $this->_config['api_key'],
-			'x-ncp-apigw-signature-v2' => $this::_makeSignature($timestamp, $this->_config['api_key'], $this->_config['api_secret']),
+			'x-ncp-apigw-signature-v2' => $signature,
 		);
 
 		// Send the API request.
 		try
 		{
-			$request = \Rhymix\Framework\HTTP::post(self::$_url . "/mails", $data, $headers, [], ['timeout' => self::$_timeout]);
+			$request = \Rhymix\Framework\HTTP::post(self::$_url, [], $headers, [], [
+				'timeout' => self::$_timeout,
+				'json' => $data,
+			]);
 			$result = @json_decode($request->getBody()->getContents());
 		}
 		catch (\Exception $e)
 		{
-			$message->errors[] = 'Navercloudmail: Request error: ' . $e->getMessage();
+			$message->errors[] = 'NAVER Cloud Outbound Mailer: ' . $e->getMessage();
 			return false;
 		}
 
 		if (isset($result->error))
 		{
-			$message->errors[] = 'Navercloudmail: ' . $result->error->message . PHP_EOL . $result->error->details;
+			$message->errors[] = 'NAVER Cloud Outbound Mailer: ' . $result->error->message . PHP_EOL . $result->error->details;
 			return false;
 		}
 		else
