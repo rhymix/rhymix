@@ -24,7 +24,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output document list
 	 */
-	function getDocuments($search_args, $list_count = 20)
+	function searchDocuments($search_args, $list_count = 20)
 	{
 		$module_srls_list = $search_args->module_srls_list;
 		if(!is_array($module_srls_list))
@@ -34,7 +34,7 @@ class integration_searchModel extends module
 		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = getModel('module')->getAccessibleModuleList();
 
-		$search_modules = $search_args->search_modules;
+		$search_modules = $search_args->search_modules ?? array();
 		$args = new stdClass();
 		if ($search_args->target == 'exclude')
 		{
@@ -56,8 +56,8 @@ class integration_searchModel extends module
 		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = $search_args->search_target;
 		$args->search_keyword = $search_args->search_keyword;
-		$args->start_regdate = $search_args->start_regdate;
-			$args->end_regdate = $search_args->end_regdate;
+		$args->start_regdate = $search_args->start_regdate ?? null;
+		$args->end_regdate = $search_args->end_regdate ?? null;
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
 		$args->statusList = array('PUBLIC');
@@ -86,7 +86,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output comment list
 	 */
-	function getComments($search_args, $list_count = 20)
+	function searchComments($search_args, $list_count = 20)
 	{
 		$module_srls_list = $search_args->module_srls_list;
 		if(!is_array($module_srls_list))
@@ -96,7 +96,7 @@ class integration_searchModel extends module
 		$module_srls_list = array_map('intval', $module_srls_list);
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
-		$search_modules = $search_args->search_modules;
+		$search_modules = $search_args->search_modules ?? array();
 		$args = new stdClass();
 		if ($search_args->target == 'exclude')
 		{
@@ -118,8 +118,8 @@ class integration_searchModel extends module
 		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = 'content';
 		$args->search_keyword = $search_args->search_keyword;
-		$args->start_regdate = $search_args->start_regdate;
-		$args->end_regdate = $search_args->end_regdate;
+		$args->start_regdate = $search_args->start_regdate ?? null;
+		$args->end_regdate = $search_args->end_regdate ?? null;
 		$args->is_secret = 'N';
 		$args->sort_index = 'list_order';
 		$args->order_type = 'asc';
@@ -142,7 +142,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output file list
 	 */
-	function _getFiles($search_args, $list_count = 20, $direct_download = 'Y')
+	function _searchFiles($search_args, $list_count = 20, $direct_download = 'Y')
 	{
 		$module_srls_list = $search_args->module_srls_list;
 		if(!is_array($module_srls_list))
@@ -151,7 +151,7 @@ class integration_searchModel extends module
 		}
 		$accessible_modules = array_keys(getModel('module')->getAccessibleModuleList());
 
-		$search_modules = $search_args->search_modules;
+		$search_modules = $search_args->search_modules ?? array();
 		$args = new stdClass();
 		if ($search_args->target == 'exclude')
 		{
@@ -173,8 +173,8 @@ class integration_searchModel extends module
 		$args->page_count = Mobile::isFromMobilePhone() ? 5 : 10;
 		$args->search_target = 'filename';
 		$args->search_keyword = $search_args->search_keyword;
-		$args->start_regdate = $search_args->start_regdate;
-		$args->end_regdate = $search_args->end_regdate;
+		$args->start_regdate = $search_args->start_regdate ?? null;
+		$args->end_regdate = $search_args->end_regdate ?? null;
 		$args->sort_index = 'files.file_srl';
 		$args->order_type = 'desc';
 		$args->isvalid = 'Y';
@@ -262,9 +262,9 @@ class integration_searchModel extends module
 	 *
 	 * @return Object
 	 */
-	function getImages($search_args, $list_count = 20)
+	function searchImages($search_args, $list_count = 20)
 	{
-		return $this->_getFiles($search_args, $list_count);
+		return $this->_searchFiles($search_args, $list_count);
 	}
 
 	/**
@@ -275,9 +275,9 @@ class integration_searchModel extends module
 	 *
 	 * @return Object
 	 */
-	function getFiles($search_args, $list_count = 20)
+	function searchFiles($search_args, $list_count = 20)
 	{
-		return $this->_getFiles($search_args, $list_count, 'N');
+		return $this->_searchFiles($search_args, $list_count, 'N');
 	}
 
 	/**
@@ -290,6 +290,97 @@ class integration_searchModel extends module
 	{
 		return new BaseObject();
 	}
+
+	/**
+     * Legacy function to maintain backward compatibility with existing code.
+     * This function wraps the new searchDocuments function.
+	 *
+	 * @param string $target choose target. exclude or include for $module_srls_list
+	 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+	 * @param string $search_target Target
+	 * @param string $search_keyword Keyword
+	 * @param integer $page page of page navigation
+	 * @param integer $list_count list count of page navigation
+	 *
+	 * @return Object output document list
+	 */
+	function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count=20)
+	{
+		$args = new stdClass();
+		$args->target = $target;
+		$args->module_srls_list = $module_srls_list;
+		$args->search_target = $search_target;
+		$args->search_keyword = $search_keyword;
+		$args->page = $page;
+		return $this->searchDocuments($args, $list_count);
+	}
+
+	/**
+     * Legacy function to maintain backward compatibility with existing code.
+     * This function wraps the new searchComments function.	
+	 *
+	 * @param string $target choose target. exclude or include for $module_srls_list
+	 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+	 * @param string $search_keyword Keyword
+	 * @param integer $page page of page navigation
+	 * @param integer $list_count list count of page navigation
+	 *
+	 * @return Object output comment list
+	 */
+	function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count=20)
+	{
+		$args = new stdClass();
+		$args->target = $target;
+		$args->module_srls_list = $module_srls_list;
+		$args->search_keyword = $search_keyword;
+		$args->page = $page;
+		return $this->searchComments($args, $list_count);
+	}
+
+	/**
+     * Legacy function to maintain backward compatibility with existing code.
+     * This function wraps the new searchImages function.
+	 *
+	 * @param string $target choose target. exclude or include for $module_srls_list
+	 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+	 * @param string $search_keyword Keyword
+	 * @param integer $page page of page navigation
+	 * @param integer $list_count list count of page navigation
+	 *
+	 * @return Object
+	 */
+	function getImages($target, $module_srls_list, $search_keyword, $page=1, $list_count=20)
+	{
+		$args = new stdClass();
+		$args->target = $target;
+		$args->module_srls_list = $module_srls_list;
+		$args->search_keyword = $search_keyword;
+		$args->page = $page;
+		return $this->searchImages($args, $list_count);
+	}
+
+	/**
+     * Legacy function to maintain backward compatibility with existing code.
+     * This function wraps the new searchFiles function.
+	 *
+	 * @param string $target choose target. exclude or include for $module_srls_list
+	 * @param string $module_srls_list module_srl list to string type. ef - 102842,59392,102038
+	 * @param string $search_keyword Keyword
+	 * @param integer $page page of page navigation
+	 * @param integer $list_count list count of page navigation
+	 *
+	 * @return Object
+	 */
+	function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count=20)
+	{
+		$args = new stdClass();
+		$args->target = $target;
+		$args->module_srls_list = $module_srls_list;
+		$args->search_keyword = $search_keyword;
+		$args->page = $page;
+		return $this->searchFiles($args, $list_count);
+	}
+
 }
 /* End of file integration_search.model.php */
 /* Location: ./modules/integration_search/integration_search.model.php */

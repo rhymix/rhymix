@@ -186,7 +186,7 @@ class integration_searchView extends integration_search
 				case 'document' :
 					if ($target_types['document'])
 					{
-						$output = $oIS->getDocuments($search_args, 10);
+						$output = $oIS->searchDocuments($search_args, 10);
 					}
 					else
 					{
@@ -198,7 +198,7 @@ class integration_searchView extends integration_search
 				case 'comment' :
 					if ($target_types['comment'])
 					{
-						$output = $oIS->getComments($search_args, 10);
+						$output = $oIS->searchComments($search_args, 10);
 					}
 					else
 					{
@@ -210,7 +210,7 @@ class integration_searchView extends integration_search
 				case 'multimedia' :
 					if ($target_types['multimedia'])
 					{
-						$output = $oIS->getImages($search_args, 20);
+						$output = $oIS->searchImages($search_args, 20);
 					}
 					else
 					{
@@ -222,7 +222,7 @@ class integration_searchView extends integration_search
 				case 'file' :
 					if ($target_types['file'])
 					{
-						$output = $oIS->getFiles($search_args, 20);
+						$output = $oIS->searchFiles($search_args, 20);
 					}
 					else
 					{
@@ -235,7 +235,7 @@ class integration_searchView extends integration_search
 					if ($target_types['document'])
 					{
 						$search_args->search_target = 'title_content';
-						$output['document'] = $oIS->getDocuments($search_args, 5);
+						$output['document'] = $oIS->searchDocuments($search_args, 5);
 					}
 					else
 					{
@@ -243,7 +243,7 @@ class integration_searchView extends integration_search
 					}
 					if ($target_types['comment'])
 					{
-						$output['comment'] = $oIS->getComments($search_args, 5);
+						$output['comment'] = $oIS->searchComments($search_args, 5);
 					}
 					else
 					{
@@ -251,7 +251,7 @@ class integration_searchView extends integration_search
 					}
 					if ($target_types['multimedia'])
 					{
-						$output['multimedia'] = $oIS->getImages($search_args, 5);
+						$output['multimedia'] = $oIS->searchImages($search_args, 5);
 					}
 					else
 					{
@@ -259,7 +259,7 @@ class integration_searchView extends integration_search
 					}
 					if ($target_types['file'])
 					{
-						$output['file'] = $oIS->getFiles($search_args, 5);
+						$output['file'] = $oIS->searchFiles($search_args, 5);
 					}
 					else
 					{
