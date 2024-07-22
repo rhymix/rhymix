@@ -822,6 +822,10 @@ class CommentModel extends Comment
 		$args->exclude_module_srl = $obj->exclude_module_srl ?? null;
 		$args->statusList = $obj->statusList ?? null;
 		$args->document_statusList = $obj->document_statusList ?? null;
+		$args->start_date = $obj->start_date;
+		$args->end_date = $obj->end_date;
+		$args->start_regdate = $obj->start_regdate;
+		$args->end_regdate = $obj->end_regdate;
 		if (isset($obj->is_secret) && $obj->is_secret)
 		{
 			$args->s_is_secret = $obj->is_secret;

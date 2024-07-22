@@ -45,6 +45,10 @@
             <condition operation="search" column="member.user_name" var="s_user_name" pipe="or" />
             <condition operation="search" column="member.nick_name" var="s_nick_name" pipe="or" />
         </group>
+        <group pipe="and">
+            <condition operation="more" column="files.regdate" var="start_regdate" pipe="and" />
+            <condition operation="less" column="files.regdate" var="end_regdate" pipe="and" />
+        </group>
     </conditions>
     <navigation>
         <index var="sort_index" default="files.file_srl" order="order_type" order_default="desc" />

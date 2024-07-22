@@ -20,6 +20,12 @@
             <condition operation="like_prefix" column="last_update" var="s_last_upate" pipe="or" />
             <condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
         </group>
+        <group pipe="and">
+            <condition operation="more" column="comments.last_update" var="start_date" pipe="and" />
+            <condition operation="less" column="comments.last_update" var="end_date" pipe="and" />
+            <condition operation="more" column="comments.regdate" var="start_regdate" pipe="and" />
+            <condition operation="less" column="comments.regdate" var="end_regdate" pipe="and" />
+        </group>
     </conditions>
     <navigation>
         <index var="sort_index" default="list_order" order="asc" />

@@ -39,11 +39,19 @@ class integration_searchView extends integration_search
 		$logged_info = Context::get('logged_info');
 
 		// Redirect to GET if search is requested via POST
-		if($_SERVER['REQUEST_METHOD'] !== 'GET')
+		if ($_SERVER['REQUEST_METHOD'] !== 'GET')
 		{
-			$redirect_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'IS',
-				'search_target', Context::get('search_target'), 'is_keyword', Context::get('is_keyword'),
-				'where', Context::get('where'), 'page', Context::get('page'));
+			$redirect_url = getNotEncodedUrl('',
+				'mid', Context::get('mid'),
+				'act', 'IS',
+				'search_modules', Context::get('search_modules'),
+				'search_target', Context::get('search_target'),
+				'is_keyword', Context::get('is_keyword'),
+				'where', Context::get('where'),
+				'page', Context::get('page'),
+				'start_date', Context::get('start_date'),
+				'end_date', Context::get('end_date')
+			);
 			$this->setRedirectUrl($redirect_url);
 			return;
 		}
@@ -106,13 +114,8 @@ class integration_searchView extends integration_search
 		Context::set('module_info', $skin_vars);
 
 		// Include or exclude target modules.
-		$target = $config->target;
-		if(!$target) $target = 'include';
-
-		if(empty($config->target_module_srl))
-			$module_srl_list = array();
-		else
-			$module_srl_list = explode(',',$config->target_module_srl);
+		$target = $config->target ?? 'include';
+		$module_srl_list = empty($config->target_module_srl) ? array() : explode(',', $config->target_module_srl);
 
 		// https://github.com/xpressengine/xe-core/issues/1522
 		// 검색 대상을 지정하지 않았을 때 검색 제한
@@ -129,10 +132,22 @@ class integration_searchView extends integration_search
 		{
 			$is_keyword = mb_substr($is_keyword, 0, 250);
 		}
+		$start_regdate = Context::get('start_regdate');
+		$start_regdate = DateTime::createFromFormat("Y-m-d", $start_regdate) !== false ? date("Ymd", strtotime($start_regdate)) : null;
+		$end_regdate = Context::get('end_regdate');
+		$end_regdate = DateTime::createFromFormat("Y-m-d", $end_regdate) !== false ? date("Ymd", strtotime($end_regdate)) : null;
+		$search_modules = Context::get('search_modules');
+		$search_modules = $search_modules ? array_map('intval', array_filter(explode(',', $search_modules), 'is_numeric')) : array();
+		$search_target = Context::get('search_target');
+		$search_target = in_array($search_target, array('title', 'content', 'title_content', 'tag')) ? $search_target : 'title_content';
 
 		// Set page variables
 		$page = (int)Context::get('page');
-		if(!$page) $page = 1;
+		if (!$page)
+		{
+			$page = 1;
+		}
+		Context::set('page', $page);
 
 		// Set page title
 		$title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
@@ -149,8 +164,19 @@ class integration_searchView extends integration_search
 		$target_types = $config->target_types ?? ['document' => true, 'comment' => true, 'multimedia' => true, 'file' => true];
 		Context::set('target_types', $target_types);
 
+		// Set search args object
+		$search_args = new stdClass();
+		$search_args->target = $target;
+		$search_args->module_srl_list = $module_srl_list;
+		$search_args->search_target = $search_target;
+		$search_args->search_keyword = $is_keyword;
+		$search_args->start_regdate = $start_regdate;
+		$search_args->end_regdate = $end_regdate;
+		$search_args->search_modules = $search_modules;
+		$search_args->page = $page;
+
 		// Create integration search model object
-		if($is_keyword)
+		if ($is_keyword || $start_regdate || $end_regdate)
 		{
 			$oIS = integration_searchModel::getInstance();
 			Context::set('trackback_module_exist', false);
@@ -158,12 +184,9 @@ class integration_searchView extends integration_search
 			switch($where)
 			{
 				case 'document' :
-					$search_target = Context::get('search_target');
-					if(!in_array($search_target, array('title','content','title_content','tag'))) $search_target = 'title_content';
-					Context::set('search_target', $search_target);
 					if ($target_types['document'])
 					{
-						$output = $oIS->getDocuments($target, $module_srl_list, $search_target, $is_keyword, $page, 10);
+						$output = $oIS->getDocuments($search_args, 10);
 					}
 					else
 					{
@@ -175,7 +198,7 @@ class integration_searchView extends integration_search
 				case 'comment' :
 					if ($target_types['comment'])
 					{
-						$output = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 10);
+						$output = $oIS->getComments($search_args, 10);
 					}
 					else
 					{
@@ -187,7 +210,7 @@ class integration_searchView extends integration_search
 				case 'multimedia' :
 					if ($target_types['multimedia'])
 					{
-						$output = $oIS->getImages($target, $module_srl_list, $is_keyword, $page,20);
+						$output = $oIS->getImages($search_args, 20);
 					}
 					else
 					{
@@ -199,7 +222,7 @@ class integration_searchView extends integration_search
 				case 'file' :
 					if ($target_types['file'])
 					{
-						$output = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 20);
+						$output = $oIS->getFiles($search_args, 20);
 					}
 					else
 					{
@@ -211,7 +234,8 @@ class integration_searchView extends integration_search
 				default :
 					if ($target_types['document'])
 					{
-						$output['document'] = $oIS->getDocuments($target, $module_srl_list, 'title_content', $is_keyword, $page, 5);
+						$search_args->search_target = 'title_content';
+						$output['document'] = $oIS->getDocuments($search_args, 5);
 					}
 					else
 					{
@@ -219,7 +243,7 @@ class integration_searchView extends integration_search
 					}
 					if ($target_types['comment'])
 					{
-						$output['comment'] = $oIS->getComments($target, $module_srl_list, $is_keyword, $page, 5);
+						$output['comment'] = $oIS->getComments($search_args, 5);
 					}
 					else
 					{
@@ -227,7 +251,7 @@ class integration_searchView extends integration_search
 					}
 					if ($target_types['multimedia'])
 					{
-						$output['multimedia'] = $oIS->getImages($target, $module_srl_list, $is_keyword, $page, 5);
+						$output['multimedia'] = $oIS->getImages($search_args, 5);
 					}
 					else
 					{
@@ -235,7 +259,7 @@ class integration_searchView extends integration_search
 					}
 					if ($target_types['file'])
 					{
-						$output['file'] = $oIS->getFiles($target, $module_srl_list, $is_keyword, $page, 5);
+						$output['file'] = $oIS->getFiles($search_args, 5);
 					}
 					else
 					{

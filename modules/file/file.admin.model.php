@@ -87,6 +87,8 @@ class FileAdminModel extends File
 		$args->page_count = isset($obj->page_count) ? ($obj->page_count? $obj->page_count : 10) : 10;
 		$args->s_module_srl = $obj->module_srl ?? null;
 		$args->exclude_module_srl = $obj->exclude_module_srl ?? null;
+		$args->start_regdate = $obj->start_regdate;
+		$args->end_regdate = $obj->end_regdate;
 		if(toBool($obj->exclude_secret ?? null))
 		{
 			$args->document_status = array('PUBLIC');

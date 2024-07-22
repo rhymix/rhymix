@@ -72,6 +72,9 @@ class integration_searchAdminView extends integration_search
 			'  <input type="hidden" name="mid" value="{$mid}" />' . PHP_EOL .
 			'  <input type="hidden" name="act" value="IS" />' . PHP_EOL .
 			'  <input type="text" name="is_keyword"  value="{$is_keyword}" />' . PHP_EOL .
+			'  <!-- 작성 날짜로 필터링하고 싶으면 다음 두 줄을 함께 추가하세요 -->' . PHP_EOL .
+			'  <input type="date" name="start_regdate"  value="{$start_regdate}" />' . PHP_EOL .
+			'  <input type="date" name="end_regdate"  value="{$end_regdate}" />' . PHP_EOL .
 			'  <input type="submit" value="{$lang->cmd_search}" />' . PHP_EOL .
 			'</form>'));
 
