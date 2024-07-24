@@ -24,7 +24,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output document list
 	 */
-	function searchDocuments($search_args, $list_count = 20)
+	public function searchDocuments(object $search_args, int $list_count = 20)
 	{
 		$module_srls_list = $search_args->module_srls_list;
 		if(!is_array($module_srls_list))
@@ -86,7 +86,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output comment list
 	 */
-	function searchComments($search_args, $list_count = 20)
+	public function searchComments(object $search_args, int $list_count = 20)
 	{
 		$module_srls_list = $search_args->module_srls_list;
 		if(!is_array($module_srls_list))
@@ -142,7 +142,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object output file list
 	 */
-	function _searchFiles($search_args, $list_count = 20, $direct_download = 'Y')
+	private function _searchFiles(object $search_args, int $list_count = 20, string $direct_download = 'Y')
 	{
 		$module_srls_list = $search_args->module_srls_list;
 		if(!is_array($module_srls_list))
@@ -262,7 +262,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object
 	 */
-	function searchImages($search_args, $list_count = 20)
+	public function searchImages(object $search_args, int $list_count = 20)
 	{
 		return $this->_searchFiles($search_args, $list_count);
 	}
@@ -275,7 +275,7 @@ class integration_searchModel extends module
 	 *
 	 * @return Object
 	 */
-	function searchFiles($search_args, $list_count = 20)
+	public function searchFiles(object $search_args, int $list_count = 20)
 	{
 		return $this->_searchFiles($search_args, $list_count, 'N');
 	}
