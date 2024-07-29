@@ -539,6 +539,7 @@ class LayoutModel extends Layout
 
 		if(file_exists($cache_file) && filemtime($cache_file) > filemtime($xml_file))
 		{
+			$layout_info = new stdClass;
 			include($cache_file);
 
 			if($layout_info->extra_var && $vars)
