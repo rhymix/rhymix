@@ -249,7 +249,18 @@ class LayoutModel extends Layout
 			$path = $pathPrefix . $layout;
 		}
 
-		return is_readable($path . '/layout.html');
+		if (file_exists($path . '/layout.html') && is_readable($path . '/layout.html'))
+		{
+			return true;
+		}
+		elseif (file_exists($path . '/layout.blade.php') && is_readable($path . '/layout.blade.php'))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
