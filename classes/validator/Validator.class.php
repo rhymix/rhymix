@@ -437,7 +437,7 @@ class Validator
 	 */
 	function arrayTrim($array)
 	{
-		if(!is_array($array))
+		if(!is_array($array) && !is_object($array))
 		{
 			return trim($array);
 		}
