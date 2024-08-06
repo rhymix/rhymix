@@ -83,28 +83,20 @@ class TagModel extends Tag
 	 * @brief Imported Tag List
 	 * Many of the specified module in order to extract the number of tags
 	 */
-	function getTagList($obj)
+	public static function getTagList($obj)
 	{
-		if($obj->mid)
+		if(!empty($obj->mid))
 		{
-			$oModuleModel = getModel('module');
-			$obj->module_srl = $oModuleModel->getModuleSrlByMid($obj->mid);
+			$obj->module_srl = ModuleModel::getModuleSrlByMid($obj->mid);
 			unset($obj->mid);
 		}
 
 		// Module_srl passed the array may be a check whether the array
 		$args = new stdClass;
-		if(is_array($obj->module_srl))
-		{
-			$args->module_srl = implode(',', $obj->module_srl);
-		}
-		else
-		{
-			$args->module_srl = $obj->module_srl;
-		}
-
+		$args->module_srl = $obj->module_srl;
 		$args->list_count = $obj->list_count ?? null;
-		$args->count = $obj->sort_index ?? null;
+		$args->sort_index = $obj->sort_index ?? null;
+		$args->order_type = $obj->order_type ?? null;
 
 		$output = executeQueryArray('tag.getTagList', $args);
 		if(!$output->toBool()) return $output;

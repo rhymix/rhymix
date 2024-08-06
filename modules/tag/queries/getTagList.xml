@@ -13,7 +13,8 @@
         <condition operation="in" column="T.module_srl" var="module_srl" pipe="and" />
     </conditions>
     <navigation>
-        <index var="count" default="count" order="desc" />
+        <index var="sort_index" default="count" order="order_type" order-default="desc" />
+		<index var="count" order="desc" comment="For backward compatibility only" />
         <list_count var="list_count" default="20" />
     </navigation>
     <groups>
