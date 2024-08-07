@@ -1,6 +1,7 @@
 <?php
 
 namespace Rhymix\Framework\Drivers\SMS;
+use Rhymix\Framework\HTTP;
 use Rhymix\Framework\Security;
 
 /**
@@ -8,7 +9,7 @@ use Rhymix\Framework\Security;
  */
 class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
-	const appId = 'PAOe9c8ftH8R';
+	const APPID = 'PAOe9c8ftH8R';
 
 	/**
 	 * API specifications.
@@ -111,7 +112,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			}
 			if ($message->image)
 			{
-				$output = $this->uploadImage($message->image, $message->type);
+				$output = $this->_uploadImage($message->image, $message->type);
 				$options->imageId = $output->fileId;
 			}
 			$groupArray[] = $options;
@@ -121,19 +122,19 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		{
 			$jsonObject = new \stdClass();
 			$jsonObject->messages = json_encode($groupArray);
-			$groupId = $this->createGroup();
+			$groupId = $this->_createGroup();
 			if(!$groupId)
 			{
 				return false;
 			}
 
-			$result = json_decode($this->request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
+			$result = json_decode($this->_request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
 			if(!$result || $result->errorCode)
 			{
 				return false;
 			}
 
-			$result = json_decode($this->request("POST", "messages/v4/groups/{$groupId}/send"));
+			$result = json_decode($this->_request("POST", "messages/v4/groups/{$groupId}/send"));
 			if (!$result || $result->status != 'SENDING')
 			{
 				return false;
@@ -146,9 +147,9 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			$simpleObject = new \stdClass();
 			$simpleObject->message = $groupArray[0];
 			$simpleObject->agent = new \stdClass();
-			$simpleObject->agent->appId = self::appId;
+			$simpleObject->agent->appId = self::APPID;
 
-			$result = json_decode($this->request("POST", "messages/v4/send", $simpleObject));
+			$result = json_decode($this->_request("POST", "messages/v4/send", $simpleObject));
 			if(!$result || $result->errorCode)
 			{
 				return false;
@@ -163,7 +164,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * @param $config
 	 * @return string
 	 */
-	private function getHeader()
+	protected function _getHeader()
 	{
 		$date = gmdate('Y-m-d\TH:i:s\Z');
 		$salt = Security::getRandom(32);
@@ -175,11 +176,11 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * Create message group
 	 * @return string : group id
 	 */
-	private function createGroup()
+	protected function _createGroup()
 	{
 		$args = new \stdClass();
-		$args->appId = self::appId;
-		$result = $this->request("POST", 'messages/v4/groups', $args);
+		$args->appId = self::APPID;
+		$result = $this->_request("POST", 'messages/v4/groups', $args);
 		$groupId = json_decode($result)->groupId;
 		return $groupId;
 	}
@@ -190,7 +191,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * @param $type
 	 * @return mixed
 	 */
-	private function uploadImage($imageDir, $type)
+	protected function _uploadImage($imageDir, $type)
 	{
 		$path = $imageDir;
 		$data = file_get_contents($path);
@@ -199,30 +200,26 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		$jsonData->file = $imageData;
 		$jsonData->type = $type;
 		$url = "storage/v1/files";
-		return json_decode($this->request('POST', $url, $jsonData));
+		return json_decode($this->_request('POST', $url, $jsonData));
 	}
 
 	/**
 	 * Request string message.
 	 * @param $method
 	 * @param $url
-	 * @param bool $data
-	 * @return bool|string
+	 * @param array|object|null $data
+	 * @return string
 	 */
-	private function request($method, $url, $data = false)
+	protected function _request($method, $url, $data = null)
 	{
 		$url = 'https://api.solapi.com/' . $url;
+		$data = $data ? json_encode($data) : null;
+		$headers = [
+			'Authorization' => $this->_getHeader(),
+			'Content-Type' => 'application/json',
+		];
 
-		if(!$data)
-		{
-			$data = null;
-		}
-		else
-		{
-			$data = json_encode($data);
-		}
-		$result = \FileHandler::getRemoteResource($url, $data, 3, $method, 'application/json', array('Authorization' => $this->getHeader()));
-
-		return $result;
+		$result = HTTP::request($url, $method, $data, $headers, [], ['timeout' => 5]);
+		return $result->getBody()->getContents();
 	}
 }
