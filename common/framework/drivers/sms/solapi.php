@@ -1,6 +1,7 @@
 <?php
 
 namespace Rhymix\Framework\Drivers\SMS;
+use Rhymix\Framework\Security;
 
 /**
  * The Solapi SMS driver.
@@ -164,9 +165,8 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	private function getHeader()
 	{
-		date_default_timezone_set('Asia/Seoul');
-		$date = date('Y-m-d\TH:i:s.Z\Z', time());
-		$salt = uniqid();
+		$date = gmdate('Y-m-d\TH:i:s\Z');
+		$salt = Security::getRandom(32);
 		$signature = hash_hmac('sha256', $date . $salt, $this->_config['api_secret']);
 		return "HMAC-SHA256 apiKey={$this->_config['api_key']}, date={$date}, salt={$salt}, signature={$signature}";
 	}
