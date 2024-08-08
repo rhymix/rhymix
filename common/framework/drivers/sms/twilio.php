@@ -43,7 +43,7 @@ class Twilio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	/**
 	 * Config keys used by this driver are stored here.
 	 */
-	protected static $_required_config = ['api_key', 'api_secret'];
+	protected static $_required_config = ['account_sid', 'auth_token'];
 	protected static $_optional_config = [];
 
 	/**
@@ -70,9 +70,9 @@ class Twilio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
 		$status = true;
-		$url = sprintf('%s/Accounts/%s/Messages.json', self::BASEURL, $this->_config['api_key']);
+		$url = sprintf('%s/Accounts/%s/Messages.json', self::BASEURL, $this->_config['account_sid']);
 		$settings = [
-			'auth' => [$this->_config['api_key'], $this->_config['api_secret']],
+			'auth' => [$this->_config['account_sid'], $this->_config['auth_token']],
 			'timeout => 10',
 		];
 
