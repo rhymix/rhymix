@@ -83,14 +83,18 @@
 		</div>
 		<div class="vote">
 			<ul>
+				<!--@if($document_config->use_vote_up !== 'N')-->
 				<li>
 					<a cond="$oDocument->getMyVote() === false || $oDocument->getMyVote() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
 					<a cond="$oDocument->getMyVote() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-up"></i><br>{$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
 				</li>
+				<!--@end-->
+				<!--@if($document_config->use_vote_down !== 'N')-->
 				<li>
 					<a cond="$oDocument->getMyVote() === false || $oDocument->getMyVote() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
 					<a cond="$oDocument->getMyVote() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;" class="voted"> <i class="xi-thumbs-down"></i><br>{$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
 				</li>
+				<!--@end-->
 			</ul>
 		</div>
 		<div cond="$oDocument->hasUploadedFiles()" class="fileList">
@@ -114,8 +118,12 @@
 			<div cond="$oDocument->getSignature()" class="tx">{$oDocument->getSignature()}</div>
 		</div>
 		<div class="btnArea">
+			<!--@if ($document_config->use_vote_up === 'S' || $document_config->use_vote_down === 'S')-->
 			<a class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardVoteLog', 'target_srl', $oDocument->document_srl, 'target', 'document')}"><i class="xi-list-ul"></i>{$lang->cmd_document_vote_user}</a>
+			<!--@end-->
+			<!--@if ($document_config->use_history === 'Y')-->
 			<a cond="$update_view" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardUpdateLog', 'document_srl', $oDocument->document_srl)}"><i class="xi-list-ul"></i>{$lang->update_log}</a>
+			<!--@end-->
 			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'document_srl', $oDocument->document_srl)}"><i class="xi-eraser"></i>{$lang->cmd_modify}</a>
 			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDelete', 'document_srl', $oDocument->document_srl)}"><i class="xi-trash"></i>{$lang->cmd_delete}</a>
 			<span class="etc">

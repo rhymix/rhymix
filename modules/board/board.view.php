@@ -342,6 +342,19 @@ class BoardView extends Board
 					$oDocument->add('content',lang('thisissecret'));
 				}
 			}
+
+			// load module part config
+			$module_srl = $oDocument->get('module_srl');
+			$document_config = ModuleModel::getModulePartConfig('document', $module_srl);
+			$comment_config = ModuleModel::getModulePartConfig('comment', $module_srl);
+			if ($document_config)
+			{
+				Context::set('document_config', $document_config);
+			}
+			if ($comment_config)
+			{
+				Context::set('comment_config', $comment_config);
+			}
 		}
 
 		Context::set('update_view', $this->grant->update_view);
@@ -1435,13 +1448,24 @@ class BoardView extends Board
 			return $output;
 		}
 
+		// To check if like/dislike user view is set
+		if ($target === 'document')
+		{
+			$module_srl = DocumentModel::getDocument($target_srl)->get('module_srl');
+		}
+		elseif ($target === 'comment')
+		{
+			$module_srl = CommentModel::getComment($target_srl)->get('module_srl');
+		}
+		$module_part_config = ModuleModel::getModulePartConfig($target, $module_srl);
+
 		$vote_member_infos = array();
 		$blame_member_infos = array();
 		if(count($output->data) > 0)
 		{
 			foreach($output->data as $key => $log)
 			{
-				if($log->point > 0)
+				if (($log->point > 0) && ($module_part_config->use_vote_up === 'S'))
 				{
 					if($log->member_srl == $vote_member_infos[$log->member_srl]->member_srl)
 					{
@@ -1449,7 +1473,7 @@ class BoardView extends Board
 					}
 					$vote_member_infos[$log->member_srl] = MemberModel::getMemberInfo($log->member_srl);
 				}
-				else
+				elseif (($log->point < 0) && ($module_part_config->use_vote_down === 'S'))
 				{
 					if($log->member_srl == $blame_member_infos[$log->member_srl]->member_srl)
 					{
@@ -1459,8 +1483,14 @@ class BoardView extends Board
 				}
 			}
 		}
-		Context::set('vote_member_info', $vote_member_infos);
-		Context::set('blame_member_info', $blame_member_infos);
+		if ($module_part_config->use_vote_up === 'S')
+		{
+			Context::set('vote_member_info', $vote_member_infos);
+		}
+		if ($module_part_config->use_vote_down === 'S')
+		{
+			Context::set('blame_member_info', $blame_member_infos);
+		}
 		$this->setTemplateFile('vote_log');
 	}
 
