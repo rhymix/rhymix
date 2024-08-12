@@ -9,6 +9,8 @@ use Rhymix\Framework\Security;
  */
 class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 {
+	const BASEURL = 'https://api.solapi.com';
+	const TIMEOUT = 5;
 	const APPID = 'PAOe9c8ftH8R';
 
 	/**
@@ -32,7 +34,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		'mms_subject_max_length'      => 40,
 		'image_allowed_types'         => array('jpg', 'gif', 'png'),
 		'image_max_dimensions'        => array(2048, 2048),
-		'image_max_filesize'          => 300000,
+		'image_max_filesize'          => 200000,
 		'delay_supported'             => true,
 	);
 
@@ -40,7 +42,7 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * Config keys used by this driver are stored here.
 	 */
 	protected static $_required_config = array('api_key', 'api_secret');
-	protected static $_optional_config = array('sender_key');
+	protected static $_optional_config = array();
 
 	/**
 	 * Check if the current SMS driver is supported on this server.
@@ -65,102 +67,97 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	public function send(array $messages, \Rhymix\Framework\SMS $original)
 	{
-		$groupArray = array();
-		$groupMessage = false;
-		if(count($messages) > 1)
-		{
-			$groupMessage = true;
-		}
+		$data = [
+			'messages' => [],
+			'agent' => [
+				'appId' => self::APPID,
+			]
+		];
+		$images = [];
+		$schedule = null;
+		$status = true;
+
 		foreach ($messages as $i => $message)
 		{
-			if (count($message->to) > 1 && !$groupMessage)
+			foreach ($message->to as $recipient)
 			{
-				$groupMessage = true;
-			}
-			$options = new \stdClass;
-			if ($this->_config['sender_key'])
-			{
-				$options->sender_key = $this->_config['sender_key'];
-				$options->type = 'CTA';
-			}
-			else
-			{
+				$options = new \stdClass;
+				$options->to = $recipient;
+				$options->from = $message->from;
+				$options->text = $message->content ?: $message->type;
 				$options->type = $message->type;
-			}
-			$options->from = $message->from;
-			$options->to = $message->to;
-			$options->text = $message->content ?: $message->type;
-			if ($message->delay && $message->delay > time())
-			{
-				$options->datetime = gmdate('YmdHis', $message->delay + (3600 * 9));
-			}
-			if ($message->country && $message->country != 82)
-			{
-				$options->country = $message->country;
-			}
-			if ($message->subject)
-			{
-				$options->subject = $message->subject;
-			}
-			else
-			{
-				if($message->type != 'SMS')
+
+				if ($message->delay && $message->delay > time())
+				{
+					$schedule = date('c', $message->delay);
+				}
+
+				if ($message->country && $message->country != 82)
+				{
+					$options->country = $message->country;
+				}
+
+				if ($message->subject)
+				{
+					$options->subject = $message->subject;
+				}
+				elseif ($message->type != 'SMS')
 				{
 					// 문자 전송 타입이 SMS이 아닐경우 subjext가 필수
 					$options->subject = cut_str($message->content, 20);
 				}
+
+				if ($message->image)
+				{
+					if (isset($images[$message->image]))
+					{
+						$imageId = $images[$message->image];
+					}
+					else
+					{
+						$output = $this->_uploadImage($message->image, $message->type);
+						if (!empty($output->fileId))
+						{
+							$imageId = $images[$message->image] = $output->fileId;
+						}
+						else
+						{
+							$imageId = null;
+						}
+					}
+
+					if ($imageId)
+					{
+						$options->imageId = $imageId;
+					}
+				}
+
+				$data['messages'][] = $options;
 			}
-			if ($message->image)
-			{
-				$output = $this->_uploadImage($message->image, $message->type);
-				$options->imageId = $output->fileId;
-			}
-			$groupArray[] = $options;
 		}
 
-		if($groupMessage)
+		if ($schedule)
 		{
-			$jsonObject = new \stdClass();
-			$jsonObject->messages = json_encode($groupArray);
-			$groupId = $this->_createGroup();
-			if(!$groupId)
-			{
-				return false;
-			}
-
-			$result = json_decode($this->_request("PUT", "messages/v4/groups/{$groupId}/messages", $jsonObject));
-			if(!$result || $result->errorCode)
-			{
-				return false;
-			}
-
-			$result = json_decode($this->_request("POST", "messages/v4/groups/{$groupId}/send"));
-			if (!$result || $result->status != 'SENDING')
-			{
-				return false;
-			}
+			$data['scheduledDate'] = $schedule;
 		}
-		else
+
+		// Send all messages, and record failed messages.
+		$result = json_decode($this->_request('POST', '/messages/v4/send-many/detail', $data));
+		if (isset($result->failedMessageList) && is_array($result->failedMessageList) && count($result->failedMessageList))
 		{
-			// simpleMessage 를 사용 할 경우 to가 array 타입이면 문자 전송이 되지 않아 string 으로 요청
-			$groupArray[0]->to = $groupArray[0]->to[0];
-			$simpleObject = new \stdClass();
-			$simpleObject->message = $groupArray[0];
-			$simpleObject->agent = new \stdClass();
-			$simpleObject->agent->appId = self::APPID;
-
-			$result = json_decode($this->_request("POST", "messages/v4/send", $simpleObject));
-			if(!$result || $result->errorCode)
+			foreach ($result->failedMessageList as $fail)
 			{
-				return false;
+				$original->addError('Error while sending message to ' . $fail->to . ': ' . trim($fail->statusCode . ' ' . $fail->statusMessage));
 			}
+			$status = false;
 		}
 
-		return true;
+		return $status;
 	}
 
 	/**
-	 * Create header string for http protocol
+	 * Create header string for authorization.
+	 *
 	 * @param $config
 	 * @return string
 	 */
@@ -173,33 +170,18 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	}
 
 	/**
-	 * Create message group
-	 * @return string : group id
-	 */
-	protected function _createGroup()
-	{
-		$args = new \stdClass();
-		$args->appId = self::APPID;
-		$result = $this->_request("POST", 'messages/v4/groups', $args);
-		$groupId = json_decode($result)->groupId;
-		return $groupId;
-	}
-
-	/**
-	 * Upload to image for MMS message.
-	 * @param $imageDir
+	 * Upload an image for MMS message.
+	 *
+	 * @param $path
 	 * @param $type
 	 * @return mixed
 	 */
-	protected function _uploadImage($imageDir, $type)
+	protected function _uploadImage($path, $type)
 	{
-		$path = $imageDir;
-		$data = file_get_contents($path);
-		$imageData = base64_encode($data);
-		$jsonData = new \stdClass();
-		$jsonData->file = $imageData;
+		$jsonData = new \stdClass;
+		$jsonData->file = base64_encode(file_get_contents($path));
 		$jsonData->type = $type;
-		$url = "storage/v1/files";
+		$url = '/storage/v1/files';
 		return json_decode($this->_request('POST', $url, $jsonData));
 	}
 
@@ -212,14 +194,14 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 */
 	protected function _request($method, $url, $data = null)
 	{
-		$url = 'https://api.solapi.com/' . $url;
+		$url = self::BASEURL . $url;
 		$data = $data ? json_encode($data) : null;
 		$headers = [
 			'Authorization' => $this->_getHeader(),
 			'Content-Type' => 'application/json',
 		];
 
-		$result = HTTP::request($url, $method, $data, $headers, [], ['timeout' => 5]);
+		$result = HTTP::request($url, $method, $data, $headers, [], ['timeout' => self::TIMEOUT]);
 		return $result->getBody()->getContents();
 	}
 }
