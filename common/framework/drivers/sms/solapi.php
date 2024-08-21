@@ -132,6 +132,11 @@ class SolAPI extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 					}
 				}
 
+				foreach ($original->getExtraVars() as $key => $value)
+				{
+					$options->$key = $value;
+				}
+
 				$data['messages'][] = $options;
 			}
 		}
