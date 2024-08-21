@@ -742,7 +742,6 @@
 	xe.lang.go_to_site_design_setup = '{$lang->go_to_site_design_setup}';
 	xe.lang.how_to_modify_menu = '{$lang->how_to_modify_menu}';
 	xe.lang.can_drag_menu = '{$lang->can_drag_menu}';
-	xe.lang.good_to_duplicate_layout = '{$lang->good_to_duplicate_layout}';
 	xe.lang.img_uploaded = '{$lang->img_uploaded}';
 	xe.lang.img_deleted = '{$lang->img_deleted}';
 	xe.lang.no_use_layout = '{$lang->no_use_layout}';
@@ -3378,8 +3377,6 @@ jQuery(function($){
 	$('#layoutSetup').on('show', function(ev){
 		if(this !== ev.target)  return;
 
-		showQuickHelp('good_to_duplicate_layout');
-
 		//console.log($._htMarkupActionParam.sLayoutSrl);
 		var sLayoutSrl = $._htMarkupActionParam.sLayoutSrl;
 		$.exec_json("layout.getLayoutAdminSetInfoView", {layout_srl: sLayoutSrl}, function(htData){
@@ -3703,7 +3700,6 @@ jQuery(function($){
 	var htQuickHelpMsg = {
 		'how_to_modify_menu' : xe.lang.how_to_modify_menu,
 		'can_drag_menu' : xe.lang.can_drag_menu,
-		'good_to_duplicate_layout' : xe.lang.good_to_duplicate_layout,
 		'img_uploaded' : xe.lang.img_uploaded,
 		'img_deleted' : xe.lang.img_deleted
 	};

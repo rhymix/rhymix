@@ -134,7 +134,6 @@ $lang->go_to_site_design_setup = '사이트 기본 디자인 설정 페이지로
 $lang->about_menu_type_in_default = '메뉴 타입 변경을 위해서는 메뉴를 삭제 후 재생성 해야 됩니다.';
 $lang->how_to_modify_menu = '생성한 메뉴는 [메뉴 수정]에서 수정 할 수 있습니다.';
 $lang->can_drag_menu = '사이트 맵에서 메뉴를 드래그 해서도 위치를 변경 할 수 있습니다.';
-$lang->good_to_duplicate_layout = '레이아웃 설정 변경 시, [복사본 생성] 버튼을 눌러 복사본을 만들어 설정을 변경 하는 것이 좋습니다.';
 $lang->img_uploaded = '버튼 이미지가 등록 됐습니다.';
 $lang->img_deleted = '버튼 이미지가 삭제 됐습니다.';
 $lang->do_not_display_again = '다시 보지 않기.';
