@@ -1560,7 +1560,7 @@ class CommentController extends Comment
 	function _deleteDeclaredComments($commentSrls)
 	{
 		executeQuery('comment.deleteDeclaredComments', $commentSrls);
-		executeQuery('comment.deleteCommentDeclaredLog', $commentSrls);
+		executeQuery('comment.deleteDeclaredCommentLog', $commentSrls);
 	}
 
 	/**
