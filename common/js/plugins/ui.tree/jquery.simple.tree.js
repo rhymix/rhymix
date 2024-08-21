@@ -132,7 +132,6 @@ $.fn.simpleTree = function(opt){
 						}
 					});
 				}
-				
 			}
 		};
 		TREE.setTreeNodes = function(obj, useParent){
@@ -226,10 +225,7 @@ $.fn.simpleTree = function(opt){
 			trigger.click(function(event){
 				TREE.nodeToggle(node);
 			});
-			if(!$.browser.msie)
-			{
-				trigger.css('float','left');
-			}
+			trigger.css('float','left');
 		};
 		TREE.dragStart = function(event){
 			var LI = $(event.data.LI);
