@@ -33,6 +33,7 @@
     "ezyang/htmlpurifier": "4.16.*",
     "google/auth": "1.26.*",
     "guzzlehttp/guzzle": "7.8.*",
+    "guzzlehttp/psr7": "2.6.*",
     "jbbcode/jbbcode": "1.4.*",
     "leafo/lessphp": "dev-master",
     "league/html-to-markdown": "5.1.*",
