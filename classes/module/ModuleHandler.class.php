@@ -1122,7 +1122,7 @@ class ModuleHandler extends Handler
 				if($layout_info)
 				{
 					// Input extra_vars into $layout_info
-					if($layout_info->extra_var_count)
+					if(isset($layout_info->extra_var_count) && $layout_info->extra_var_count)
 					{
 
 						foreach($layout_info->extra_var as $var_id => $val)
@@ -1138,7 +1138,7 @@ class ModuleHandler extends Handler
 						}
 					}
 					// Set menus into context
-					if($layout_info->menu_count)
+					if(isset($layout_info->menu_count) && $layout_info->menu_count)
 					{
 						$oMenuAdminController = getAdminController('menu');
 						$homeMenuCacheFile = null;
