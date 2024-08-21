@@ -405,7 +405,6 @@
 					try {
 						var textarea = _getCkeContainer(data.editorSequence).find('.cke_source');
 						var editor = _getCkeInstance(data.editorSequence);
-						console.log(textarea, editor.mode);
 						if (textarea.length && editor.mode == 'source') {
 							var caretPosition = textarea[0].selectionStart;
 							var currentText = textarea[0].value;
