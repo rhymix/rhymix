@@ -498,7 +498,6 @@
 							</button>
 							<ul class="_edit_menu">
 								<li><a href="#layoutSetup" data-admin-show="#layoutSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>{$lang->full_settings} <i class="x_icon-circle-arrow-right"></i></a></li>
-								<li><a href="#layoutMarkupSetup" data-admin-show="#layoutMarkupSetup" data-param='{ "sLayoutSrl":"${LayoutSrl}"}'>HTML/CSS <i class="x_icon-circle-arrow-right"></i></a></li>
 								<li><button type="button" class="_duplicateLayout">{$lang->make_copy}</button></li>
 								<li><button type="button" class="_deleteLayout">{$lang->cmd_delete}</button></li>
 							</ul>
@@ -523,16 +522,6 @@
 		</section>
 		<button type="button" class="x_close" data-admin-hide="#layoutSetup">&times;</button>
 	</div>
-	<div class="col layoutMarkupSetup" id="layoutMarkupSetup" style="display:none">
-		<section>
-			<h1>{$lang->layout_html_css_settings}</h1>
-			<div class="cnt">
-				<div class="_contents"></div>
-			</div>
-		</section>
-		<button type="button" class="x_close" data-admin-hide="#layoutMarkupSetup">&times;</button>
-	</div>
-
 	<div class="col download" id="downloadLayout" style="display:none">
 		<section>
 			<h1>{$lang->install_other_layouts}</h1>
@@ -3423,62 +3412,6 @@ jQuery(function($){
 	top.refreshLayoutList = function(htData){
 		$('#layout').show();
 	}
-	top.refreshLayoutMarkupSetup = function(htData){
-		$('#layoutMarkupSetup').show();
-	}
-	$('#layoutMarkupSetup').on('show', function(ev){
-		var sLayoutSrl = $._htMarkupActionParam.sLayoutSrl;
-		$.exec_json("layout.getLayoutAdminSetHTMLCSS", {layout_srl: sLayoutSrl}, function(htData){
-			//console.log(htData);
-			$contents = $('#layoutMarkupSetup ._contents');
-			$contents.html(htData.html);
-
-			$allForms = $('#layoutMarkupSetup form');
-
-			$fileChest = $contents.find('form[enctype="multipart/form-data"]');
-			$markup = $contents.find('#fo_layout');
-
-			$fileDelete = $allForms.not($fileChest).not($markup);
-
-			/*
-			$fileChest.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
-			$fileChest.attr('target', 'submitTarget');
-			*/
-
-			$fileChest.add($fileDelete).append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutMarkupSetup"));
-			$markup.append($("<INPUT>").attr("type", "hidden").attr("name", "xe_js_callback").attr("value", "top.refreshLayoutList"));
-
-			$allForms.attr('target', 'submitTarget');
-
-			var $configForm = $('#config_form');
-			$configForm.on('submit', function(ev){
-				var htData = {};
-				var sKey, sValue;
-				$(this).find('input').each(function(){
-					sKey = $(this).attr('name');
-					sValue = $(this).val();
-					htData[sKey] = sValue;
-				});
-
-				ev.preventDefault();
-
-				var sUrl = $('#config_form').attr('action');
-				$.post( sUrl, htData,
-					function( strRes ) {
-						var htData = $.parseJSON(strRes);
-
-						$('#layoutSetup').hide();
-						//console.log(999, strRes, htData);
-					}
-				);
-			})
-
-			scrollToRight();
-		});
-	});
-	$('#layoutMarkupSetup').on('after-show', function(ev){
-		scrollToRight();
-	});
 
 	function doDelete(sMenuSrl, bForce, sSelectOnload, deleteModule){
 		var params = {
