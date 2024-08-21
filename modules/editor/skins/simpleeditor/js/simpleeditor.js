@@ -145,6 +145,9 @@
 	});
 
 	// Simulate CKEditor for file upload integration.
+	window._getCkeContainer = function(editor_sequence) {
+		return $('#simpleeditor_instance_' + editor_sequence);
+	};
 	window._getCkeInstance = function(editor_sequence) {
 		var instance = $('#simpleeditor_instance_' + editor_sequence);
 		return {
