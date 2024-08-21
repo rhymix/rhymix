@@ -358,7 +358,7 @@ class content extends WidgetHandler
 			$attribute = $oDocument->getObjectVars();
 			$browser_title = $args->module_srls_info[$attribute->module_srl]->browser_title;
 			$domain = $args->module_srls_info[$attribute->module_srl]->domain;
-			$category = $category_lists[$attribute->module_srl]->text;
+			$category = isset($category_lists[$attribute->module_srl]) ? $category_lists[$attribute->module_srl]->text : '';
 			$content = $oDocument->getSummary($args->content_cut_size);
 			$url = sprintf('%s#%s', $oDocument->getPermanentUrl(), $oDocument->getCommentCount());
 			$thumbnail = $oDocument->getThumbnail($args->thumbnail_width,$args->thumbnail_height,$args->thumbnail_type);
