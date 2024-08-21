@@ -251,8 +251,8 @@
 						<td style="text-align:center"><input type="checkbox" name="usable_list[]" value="{$item->name}" title="{$lang->use}" checked="checked"|cond="$item->isUse" /></td>
 						<td style="text-align:center"><input type="checkbox" name="is_{$item->name}_public" value="Y" checked="checked"|cond="$item->isPublic == 'Y'" disabled="disabled"|cond="!$item->isUse" /></td>
 						<td class="nowr">
-							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse"/> {$lang->cmd_required}</label>
-							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
+							<label for="{$item->name}_re" class="x_inline"><input type="radio" id="{$item->name}_re" name="{$item->name}" class="item_required" value="required" checked="checked"|cond="$item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_required}</label>
+							<label for="{$item->name}_op" class="x_inline"><input type="radio" id="{$item->name}_op" name="{$item->name}" class="item_optional" value="option" checked="checked"|cond="$item->isUse && !$item->required" disabled="disabled"|cond="!$item->isUse" /> {$lang->cmd_optional}</label>
 						</td>
 						<td class="desc" title="{$item->description}">{$item->description}</td>
 						<td id="{$item->member_join_form_srl}" class="nowr" style="text-align:center"><a href="#userDefine" class="modalAnchor _extendFormEdit">{$lang->cmd_edit}</a> <i>|</i> <a href="#" class="_extendFormDelete">{$lang->cmd_delete}</a></td>
