@@ -210,8 +210,7 @@ class BaseObject
 	 */
 	public function add($key, $val)
 	{
-		$this->variables[$key] = $val;
-		return $this;
+		return $this->set($key, $val);
 	}
 
 	/**
