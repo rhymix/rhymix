@@ -131,6 +131,7 @@ $lang->ffprobe_path = 'ffprobe 절대경로';
 $lang->magick_path = 'magick 절대경로';
 $lang->about_ffmpeg_path = '동영상 변환에 사용합니다.';
 $lang->about_magick_path = 'AVIF, HEIC 등 일부 이미지 변환에 사용합니다.<br />구 버전 ImageMagick의 convert 명령은 이러한 포맷을 지원하지 않습니다.<br />새 버전은 <a href="https://imagemagick.org/script/download.php" target="_blank">공식 사이트</a>에서 다운받을 수 있습니다.';
+$lang->msg_cannot_use_exec = '이 서버에서 exec() 함수를 사용할 수 없습니다.';
 $lang->msg_cannot_use_ffmpeg = '이 기능을 사용하려면 PHP에서 ffmpeg 및 ffprobe 명령을 실행할 수 있어야 합니다.';
 $lang->msg_cannot_use_exif = '이 기능을 사용하려면 PHP exif 확장모듈이 필요합니다.';
 $lang->msg_need_magick = 'AVIF, HEIC 변환을 위해서는 PHP에서 ImageMagick 7.x 이상의 magick 명령을 실행할 수 있어야 합니다.';

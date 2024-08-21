@@ -128,6 +128,7 @@ $lang->ffprobe_path = 'Absolute Path to ffprobe';
 $lang->magick_path = 'Absolute Path to magick';
 $lang->about_ffmpeg_path = 'Rhymix uses ffmpeg to convert video files.';
 $lang->about_magick_path = 'Rhymix uses magick to convert newer image formats such as AVIF and HEIC.<br />Note that the \'convert\' command from previous versions of ImageMagick doesn\'t support these formats.<br />The latest version can be downloaded from their <a href="https://imagemagick.org/script/download.php" target="_blank">official site</a>.';
+$lang->msg_cannot_use_exec = 'The exec() function is disabled on this server.';
 $lang->msg_cannot_use_ffmpeg = 'In order to use this feature, PHP must be able to execute \'ffmpeg\' and \'ffprobe\' commands.';
 $lang->msg_cannot_use_exif = 'In order to use this feature, PHP must be installed with the \'exif\' extension.';
 $lang->msg_need_magick = 'In order to handle AVIF and HEIC formats, PHP must be able to execute the \'magick\' command from ImageMagick 7.x or higher.';

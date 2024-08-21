@@ -253,6 +253,7 @@
 			<div class="x_controls">
 				<input type="text" name="ffmpeg_command" value="{$config->ffmpeg_command}" />
 				<p class="x_help-block">{$lang->about_ffmpeg_path}</p>
+				<p class="x_text-info" cond="!$is_exec_available">{$lang->msg_cannot_use_exec}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -260,6 +261,7 @@
 			<div class="x_controls">
 				<input type="text" name="ffprobe_command" value="{$config->ffprobe_command}" />
 				<p class="x_help-block">{$lang->about_ffmpeg_path}</p>
+				<p class="x_text-info" cond="!$is_exec_available">{$lang->msg_cannot_use_exec}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -267,6 +269,7 @@
 			<div class="x_controls">
 				<input type="text" name="magick_command" value="{$config->magick_command}" />
 				<p class="x_help-block">{$lang->about_magick_path}</p>
+				<p class="x_text-info" cond="!$is_exec_available">{$lang->msg_cannot_use_exec}</p>
 			</div>
 		</div>
 	</section>
