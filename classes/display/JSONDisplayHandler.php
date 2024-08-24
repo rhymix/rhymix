@@ -15,7 +15,16 @@ class JSONDisplayHandler
 		$variables['message'] = $oModule->getMessage();
 
 		self::_convertCompat($variables, Context::getRequestMethod());
-		return json_encode($variables) . "\n";
+		$result = json_encode($variables) . "\n";
+		if (json_last_error() != \JSON_ERROR_NONE)
+		{
+			trigger_error('JSON encoding error: ' . json_last_error_msg(), E_USER_WARNING);
+			return json_encode([
+				'error' => -1,
+				'message' => 'JSON encoding error',
+			]) . "\n";
+		}
+		return $result;
 	}
 
 	/**
