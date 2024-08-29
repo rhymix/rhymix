@@ -227,16 +227,19 @@ class BoardView extends Board
 			}
 
 			// Get category list for documents belong to other modules. (i.e. submodule in combined board)
-			$document_srl = Context::get('document_srl');
-			if ($document_srl)
+			if (empty($this->include_modules))
 			{
-				$module_srl = DocumentModel::getDocument($document_srl)->get("module_srl");
+				$category_list = DocumentModel::getCategoryList($this->module_srl);
 			}
 			else
 			{
-				$module_srl = $this->module_srl;
+				$category_list = array();
+				foreach ($this->include_modules as $module_srl)
+				{
+					$category_list += DocumentModel::getCategoryList($module_srl);
+				}
 			}
-			Context::set('category_list', DocumentModel::getCategoryList($module_srl));
+			Context::set('category_list', $category_list);
 
 			$oSecurity = new Security();
 			$oSecurity->encodeHTML('category_list.', 'category_list.childs.');
