@@ -19,6 +19,7 @@ class Push
 	protected $image = '';
 	protected $metadata = [];
 	protected $data = [];
+	protected $datas = [];
 	protected $errors = [];
 	protected $success_tokens = [];
 	protected $deleted_tokens = [];
@@ -142,6 +143,18 @@ class Push
 	public function addTo(int $member_srl): bool
 	{
 		$this->to[] = $member_srl;
+		return true;
+	}
+
+	/**
+	 * Add a list of data.
+	 *
+	 * @param array $data
+	 * @return bool
+	 */
+	public function addData(array $data): bool
+	{
+		$this->datas[] = $data;
 		return true;
 	}
 
@@ -365,12 +378,12 @@ class Push
 
 	/**
 	 * Get the data associated with this push notification.
-	 *
+	 * @param int $idx
 	 * @return array
 	 */
-	public function getData(): array
+	public function getData(int $idx = -1): array
 	{
-		return $this->data;
+		return $this->datas[$idx] ?? $this->data;
 	}
 
 	/**

@@ -121,16 +121,21 @@ class FCMv1 extends Base implements PushInterface
 			];
 		}
 
-		$data = $message->getData();
-		if (count($data))
-		{
-			$payload['message']['data'] = $data;
-		}
-
 		// Send a notification to each token, grouped into chunks to speed up the process.
+		$idx = 0;
 		$chunked_tokens = $tokens ? array_chunk($tokens, self::CHUNK_SIZE) : [[]];
 		foreach ($chunked_tokens as $tokens)
 		{
+			$data = $message->getData($idx);
+			if (count($data))
+			{
+				$payload_tmp = array_merge([], $payload);
+				$payload_tmp['message']['data'] = $data;
+			}
+			else
+			{
+				$payload_tmp = $payload;
+			}
 			$requests = [];
 			foreach ($tokens as $i => $token)
 			{
@@ -141,10 +146,11 @@ class FCMv1 extends Base implements PushInterface
 						'auth' => 'google_auth',
 						'base_uri' => self::BASE_URL,
 						'handler' => $stack,
-						'json' => $payload,
+						'json' => $payload_tmp,
 					],
 				];
 				$requests[$i]['settings']['json']['message']['token'] = $token;
+				$idx++;
 			}
 
 			$responses = HTTP::multiple($requests);
@@ -179,6 +185,16 @@ class FCMv1 extends Base implements PushInterface
 			$requests = [];
 			foreach ($topics as $i => $topic)
 			{
+				$data = $message->getData($i);
+				if (count($data))
+				{
+					$payload_tmp = array_merge([], $payload);
+					$payload_tmp['message']['data'] = $data;
+				}
+				else
+				{
+					$payload_tmp = $payload;
+				}
 				$requests[$i] = [
 					'url' => $api_url,
 					'method' => 'POST',
@@ -186,7 +202,7 @@ class FCMv1 extends Base implements PushInterface
 						'auth' => 'google_auth',
 						'base_uri' => self::BASE_URL,
 						'handler' => $stack,
-						'json' => $payload,
+						'json' => $payload_tmp,
 					],
 				];
 				$requests[$i]['settings']['json']['message']['topic'] = $topic;
