@@ -76,7 +76,9 @@ class FCM extends Base implements PushInterface
 			$notification['sound'] = isset($notification['sound']) ? $notification['sound'] : 'default';
 		}
 
-		$chunked_token = array_chunk($tokens, 500);
+		$_tokens = array_column($tokens, 'token');
+
+		$chunked_token = array_chunk($_tokens, 500);
 		foreach($chunked_token as $token_unit)
 		{
 			$data = [

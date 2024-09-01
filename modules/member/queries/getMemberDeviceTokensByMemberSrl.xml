@@ -3,6 +3,7 @@
         <table name="member_devices" />
     </tables>
     <columns>
+		<column name="member_srl" />
         <column name="device_token" />
         <column name="device_token_type" />
     </columns>

@@ -132,7 +132,7 @@ class FCMv1 extends Base implements PushInterface
 		foreach ($chunked_tokens as $tokens)
 		{
 			$requests = [];
-			foreach ($tokens as $i => $token)
+			foreach ($tokens as $i => $row)
 			{
 				$requests[$i] = [
 					'url' => $api_url,
@@ -144,8 +144,13 @@ class FCMv1 extends Base implements PushInterface
 						'json' => $payload,
 					],
 				];
-				$requests[$i]['settings']['json']['message']['token'] = $token;
+				$requests[$i]['settings']['json']['message']['token'] = $row->token;
 			}
+
+			$trigger_obj = new \stdClass();
+			$trigger_obj->requests = &$requests;
+			$trigger_obj->tokens = $tokens;
+			$output = \ModuleHandler::triggerCall('fcmv1.send', 'before', $trigger_obj);
 
 			$responses = HTTP::multiple($requests);
 			foreach ($responses as $i => $response)

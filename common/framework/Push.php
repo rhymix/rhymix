@@ -501,7 +501,7 @@ class Push
 
 		foreach($output->data as $row)
 		{
-			$result->{$row->device_token_type}[] = $row->device_token;
+			$result->{$row->device_token_type}[] = $row;
 		}
 
 		return $result;

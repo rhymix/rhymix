@@ -69,7 +69,7 @@ class APNs extends Base implements PushInterface
 			],
 		]);
 
-		foreach($tokens as $token)
+		foreach($tokens as $row)
 		{
 			$ctx = stream_context_create();
 			stream_context_set_option($ctx, 'ssl', 'local_cert', $local_cert);
@@ -80,13 +80,13 @@ class APNs extends Base implements PushInterface
 			{
 				$message->addError('Failed to connect socket - error code: '. $err .' - '. $errstr);
 			}
-			$msg = chr(0) . pack('n', 32) . pack('H*', $token) . pack('n', strlen($payload)) . $payload;
+			$msg = chr(0) . pack('n', 32) . pack('H*', $row->token) . pack('n', strlen($payload)) . $payload;
 			$result = fwrite($fp, $msg, strlen($msg));
 			if(!$result)
 			{
 				$message->addError('APNs return empty response.');
 			}
-			$output->success[] = $token;
+			$output->success[] = $row->token;
 			fclose($fp);
 		}
 
