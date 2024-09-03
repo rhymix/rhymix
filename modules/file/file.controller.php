@@ -808,7 +808,7 @@ class FileController extends File
 		$args->old_isvalid = 'N';
 		if($upload_target_type)
 		{
-			$args->upload_target_type = substr($upload_target_type, 0, 3);
+			$args->upload_target_type = $upload_target_type;
 		}
 		$output = executeQuery('file.updateFileValid', $args);
 		$output->add('updated_file_count', intval(DB::getInstance()->getAffectedRows()));
