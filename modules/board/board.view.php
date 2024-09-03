@@ -233,10 +233,13 @@ class BoardView extends Board
 			}
 			else
 			{
-				$category_list = array();
+				$category_list = DocumentModel::getCategoryList($this->module_srl);
 				foreach ($this->include_modules as $module_srl)
 				{
-					$category_list += DocumentModel::getCategoryList($module_srl);
+					if ($module_srl != $this->module_srl)
+					{
+						$category_list += DocumentModel::getCategoryList($module_srl);
+					}
 				}
 			}
 			Context::set('category_list', $category_list);
