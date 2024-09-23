@@ -1368,7 +1368,9 @@ class Context
 					$file['tmp_name'] = $val['tmp_name'][$i];
 					$file['error'] = $val['error'][$i];
 					$file['size'] = $val['size'][$i];
-					$files[] = $file;
+
+					$subkey = (is_int($i) || ctype_digit($i)) ? intval($i) : preg_replace('/[^a-z0-9:+=_-]/i', '', (string)$i);
+					$files[$subkey] = $file;
 				}
 				if(count($files))
 				{
