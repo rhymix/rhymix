@@ -40,6 +40,11 @@ class UATest extends \Codeception\Test\Unit
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Googlebot/2.1 (+http://www.googlebot.com/bot.html)'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Yeti/1.0 (NHN Corp.; http://help.naver.com/robots/)'));
+		$this->assertTrue(Rhymix\Framework\UA::isRobot('Random user agent (+https://url.com)'));
+		$this->assertTrue(Rhymix\Framework\UA::isRobot('facebookexternalhit/1.1'));
+		$this->assertTrue(Rhymix\Framework\UA::isRobot('meta-externalfetcher/1.1'));
+		$this->assertTrue(Rhymix\Framework\UA::isRobot('ia_archiver-web.archive.org'));
+		$this->assertTrue(Rhymix\Framework\UA::isRobot('GoogleOther'));
 
 		// Not robot
 		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'));
