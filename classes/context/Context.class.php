@@ -773,9 +773,10 @@ class Context
 		}
 		if (count($vars))
 		{
-			$title = trim(trim(preg_replace_callback('/\\$(\w+)/', function($matches) use($vars) {
+			$title = trim(preg_replace_callback('/\\$(\w+)/', function($matches) use($vars) {
 				return isset($vars[strtolower($matches[1])]) ? $vars[strtolower($matches[1])] : $matches[0];
-			}, $title), ' -'));
+			}, $title));
+			$title = preg_replace('/(-\s+)+-/', '-', trim($title, ' -'));
 		}
 		self::$_instance->browser_title = $title;
 	}
