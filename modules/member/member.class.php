@@ -714,6 +714,10 @@ class Member extends ModuleObject
 		{
 			//update
 			$content = unserialize($output->data->content);
+			if (is_array($content) && count($content) >= 250)
+			{
+				$content = array_slice($content, -200);
+			}
 			$content[] = array(\RX_CLIENT_IP, lang($message), \RX_TIME);
 			$args->content = serialize($content);
 			$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
