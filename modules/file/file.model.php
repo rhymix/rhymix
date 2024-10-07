@@ -32,7 +32,7 @@ class FileModel extends File
 		// Get uploaded files
 		if($upload_target_srl)
 		{
-			if (!$upload_target_type || $upload_target_type === 'document')
+			if (!$upload_target_type || $upload_target_type === 'doc' || $upload_target_type === 'document')
 			{
 				$oDocument = DocumentModel::getDocument($upload_target_srl);
 			}
@@ -44,7 +44,7 @@ class FileModel extends File
 			// Check permissions of the comment
 			if(!$oDocument || !$oDocument->isExists())
 			{
-				if (!$upload_target_type || $upload_target_type === 'comment')
+				if (!$upload_target_type || $upload_target_type === 'com' || $upload_target_type === 'comment')
 				{
 					$oComment = CommentModel::getComment($upload_target_srl);
 					if($oComment->isExists())
