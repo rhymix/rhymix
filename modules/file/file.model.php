@@ -81,7 +81,9 @@ class FileModel extends File
 			}
 
 			// Set file list
-			foreach(self::getFiles($upload_target_srl) as $file_info)
+			$filter_type = $_SESSION['upload_info'][$editor_sequence]->upload_target_type ?? null;
+			$files = self::getFiles($upload_target_srl, [], 'file_srl', false, $filter_type);
+			foreach ($files as $file_info)
 			{
 				$obj = new stdClass;
 				$obj->file_srl = $file_info->file_srl;
@@ -288,12 +290,17 @@ class FileModel extends File
 	 * Return number of attachments which belongs to a specific document
 	 *
 	 * @param int $upload_target_srl The sequence to get a number of files
+	 * @param ?string $upload_target_type
 	 * @return int Returns a number of files
 	 */
-	public static function getFilesCount($upload_target_srl)
+	public static function getFilesCount($upload_target_srl, $upload_target_type = null)
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
+		if ($upload_target_type)
+		{
+			$args->upload_target_type = $upload_target_type;
+		}
 		$output = executeQuery('file.getFilesCount', $args);
 		return (int)$output->data->count;
 	}
@@ -430,12 +437,20 @@ class FileModel extends File
 	 * @param string $sortIndex The column that used as sort index
 	 * @return array Returns array of object that contains file information. If no result returns null.
 	 */
-	public static function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $ckValid = false)
+	public static function getFiles($upload_target_srl, $columnList = array(), $sortIndex = 'file_srl', $valid_files_only = false, $upload_target_type = null)
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$args->sort_index = $sortIndex;
-		if($ckValid) $args->isvalid = 'Y';
+		if ($valid_files_only)
+		{
+			$args->isvalid = 'Y';
+		}
+		if ($upload_target_type)
+		{
+			$args->upload_target_type = $upload_target_type;
+		}
+
 		$output = executeQueryArray('file.getFiles', $args, $columnList);
 		if(!$output->data)
 		{

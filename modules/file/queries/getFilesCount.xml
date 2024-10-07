@@ -7,6 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" />
+		<condition operation="equal" column="upload_target_type" var="upload_target_type" pipe="and" />
 		<condition operation="like_prefix" column="regdate" var="regDate" pipe="and" />
     </conditions>
 </query>

@@ -262,7 +262,7 @@ class EditorModel extends Editor
 				$file_config->allowed_chunk_size = 0;
 			}
 
-			Context::set('file_config',$file_config);
+			Context::set('file_config', $file_config);
 
 			// Configure upload status such as file size
 			$upload_status = FileModel::getUploadStatus();
@@ -293,7 +293,7 @@ class EditorModel extends Editor
 			// Check if the file already exists
 			if ($upload_target_srl)
 			{
-				$files_count = FileModel::getFilesCount($upload_target_srl);
+				$files_count = FileModel::getFilesCount($upload_target_srl, $option->upload_target_type ?? null);
 			}
 		}
 		Context::set('files_count', (int)$files_count);
