@@ -573,19 +573,32 @@ class HTMLDisplayHandler
 
 					foreach ($document_files as $file)
 					{
-						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png|webp)$/i', $file->uploaded_filename))
+						if ($file->isvalid !== 'Y' || !preg_match('/\.(?:bmp|gif|jpe?g|png|webp|mp4)$/i', $file->uploaded_filename))
 						{
 							continue;
 						}
 
-						list($width, $height) = @getimagesize($file->uploaded_filename);
-						if ($width < 100 && $height < 100)
+						if (str_starts_with($file->mime_type, 'video/'))
 						{
-							continue;
+							if ($file->thumbnail_filename)
+							{
+								list($width, $height) = @getimagesize($file->thumbnail_filename);
+								if ($width >= 100 || $height >= 100)
+								{
+									$document_images[] = array('filepath' => $file->thumbnail_filename, 'width' => $width, 'height' => $height);
+									break;
+								}
+							}
 						}
-
-						$document_images[] = array('filepath' => $file->uploaded_filename, 'width' => $width, 'height' => $height);
-						break;
+						else
+						{
+							list($width, $height) = @getimagesize($file->uploaded_filename);
+							if ($width >= 100 || $height >= 100)
+							{
+								$document_images[] = array('filepath' => $file->uploaded_filename, 'width' => $width, 'height' => $height);
+								break;
+							}
+						}
 					}
 				}
 				Rhymix\Framework\Cache::set("seo:document_images:$document_srl", $document_images);
