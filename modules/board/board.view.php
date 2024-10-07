@@ -339,11 +339,13 @@ class BoardView extends Board
 				Context::setCanonicalURL($oDocument->getPermanentUrl());
 				$seo_title = config('seo.document_title') ?: '$SITE_TITLE - $DOCUMENT_TITLE';
 				$seo_title = Context::replaceUserLang($seo_title);
+				$category_list = Context::get('category_list');
 				Context::setBrowserTitle($seo_title, array(
 					'site_title' => Context::getSiteTitle(),
 					'site_subtitle' => Context::getSiteSubtitle(),
 					'subpage_title' => $this->module_info->browser_title,
 					'document_title' => $oDocument->getTitleText(),
+					'category' => ($oDocument->get('category_srl') && isset($category_list[$oDocument->get('category_srl')])) ? $category_list[$oDocument->get('category_srl')]->title : '',
 					'page' => Context::get('page') ?: 1,
 				));
 
