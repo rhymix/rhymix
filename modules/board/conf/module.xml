@@ -58,6 +58,7 @@
 	<actions>
 		<action name="dispBoardContent" type="view" permission="list" standalone="false" index="true">
 			<route route="$document_srl:int" priority="100" />
+			<route route="$document_srl:int/" priority="100" />
 			<route route="$document_srl:int/comment/$comment_srl:int" priority="100" />
 			<route route="$document_srl:int/page/$page:int" priority="100" />
 			<route route="category/$category:int/search/$search_target:word/$search_keyword:any" priority="60" />
