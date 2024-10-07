@@ -39,7 +39,7 @@ class content extends WidgetHandler
 		// Display time of the latest post
 		if(!$args->duration_new) $args->duration_new = 12;
 		// How to create thumbnails
-		if(!$args->thumbnail_type) $args->thumbnail_type = 'crop';
+		if(!$args->thumbnail_type) $args->thumbnail_type = 'fill';
 		// Horizontal size of thumbnails
 		if(!$args->thumbnail_width) $args->thumbnail_width = 100;
 		// Vertical size of thumbnails

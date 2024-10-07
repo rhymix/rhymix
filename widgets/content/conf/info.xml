@@ -731,20 +731,31 @@
                 <name xml:lang="ru">Тип миниатюры</name>
                 <name xml:lang="zh-TW">縮圖建立方式</name>
                 <name xml:lang="tr">Küçük resim türü</name>
-                <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다. (crop : 꽉 채우기, ratio : 비율 맞추기)</description>
-                <description xml:lang="jp">サムネールの生成方法を選択します(Crop : 刈り込み, Ratio : 比率)。</description>
-                <description xml:lang="zh-CN">可以选择缩略图生成方式。 (crop : 裁减, ratio : 比例)</description>
+                <description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다.</description>
+                <description xml:lang="jp">サムネールの生成方法を選択します。</description>
+                <description xml:lang="zh-CN">可以选择缩略图生成方式。</description>
                 <description xml:lang="en">Thumbnail Type may be set here.</description>
                 <description xml:lang="vi">Có thể đặt kiểu hình nhỏ tại đây.</description>
                 <description xml:lang="ru">Тип миниатюры может быть установлен здесь.</description>
-                <description xml:lang="zh-TW">可選擇縮圖建立方式。(crop : 裁減, ratio : 比例)</description>
+                <description xml:lang="zh-TW">可選擇縮圖建立方式。</description>
                 <description xml:lang="tr">Küçük resim türünü burada ayarlayabilirsiniz.</description>
                 <options>
+                    <value>fill</value>
+                    <name xml:lang="ko">비율 유지하며 가득 채움 (권장)</name>
+                    <name xml:lang="en">Fill (Recommended)</name>
+                    <name xml:lang="jp">Fill (刈り込み)</name>
+                    <name xml:lang="zh-CN">Fill (裁减)</name>
+                    <name xml:lang="vi">Đổ đầy</name>
+                    <name xml:lang="ru">Fill (Обрезание)</name>
+                    <name xml:lang="zh-TW">Fill (裁減)</name>
+                    <name xml:lang="tr">Doldurmak</name>
+                </options>
+                <options>
                     <value>crop</value>
-                    <name xml:lang="ko">Crop (채우기)</name>
+                    <name xml:lang="ko">비율 유지하며 잘라내기</name>
+                    <name xml:lang="en">Crop</name>
                     <name xml:lang="jp">Crop (刈り込み)</name>
                     <name xml:lang="zh-CN">Crop (裁减)</name>
-                    <name xml:lang="en">Crop</name>
                     <name xml:lang="vi">Hình cắt</name>
                     <name xml:lang="ru">Crop (Обрезание)</name>
                     <name xml:lang="zh-TW">Crop (裁減)</name>
@@ -752,10 +763,10 @@
                 </options>
                 <options>
                     <value>ratio</value>
-                    <name xml:lang="ko">Ratio (비율 맞추기)</name>
+                    <name xml:lang="ko">비율 유지하며 잘리지 않도록 함</name>
+                    <name xml:lang="en">Letterbox</name>
                     <name xml:lang="jp">Ratio (比率)</name>
                     <name xml:lang="zh-CN">Ratio (比例)</name>
-                    <name xml:lang="en">Ratio</name>
                     <name xml:lang="vi">Tỉ lệ</name>
                     <name xml:lang="ru">Ratio (Отношение)</name>
                     <name xml:lang="zh-TW">Ratio (比例)</name>
