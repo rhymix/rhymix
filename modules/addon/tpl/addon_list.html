@@ -27,7 +27,6 @@
 				<th class="nowr">{$lang->cmd_setup}</th>
 				<th class="nowr">PC</th>
 				<th class="nowr">Mobile</th>
-				<th class="nowr">{$lang->cmd_delete}</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -61,7 +60,6 @@
 				</td>
 				<td><input type="checkbox" name="pc_on[]" title="PC" value="{escape($addon->addon_name, false)}" checked="checked"|cond="$addon->activated && !$addon->isBlacklisted" disabled="disabled"|cond="$addon->isBlacklisted" /></td>
 				<td><input type="checkbox" name="mobile_on[]" title="Mobile" value="{escape($addon->addon_name, false)}" checked="checked"|cond="$addon->mactivated && !$addon->isBlacklisted" disabled="disabled"|cond="$addon->isBlacklisted" /></td>
-				<td><a cond="$addon->remove_url && $addon->version !== 'RX_VERSION'" href="{$addon->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 			</tr>
 		</tbody>
 	</table>

@@ -17,7 +17,6 @@
 			<th class="nowr">{$lang->version}</th>
 			<th class="nowr rx_detail_marks">{$lang->author}</th>
 			<th class="nowr rx_detail_marks">{$lang->path}</th>
-			<th class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -55,9 +54,6 @@
 				<!--@endforeach-->
 			</td>
 			<td class="rx_detail_marks">{$val->path}</td>
-			<td class="rx_detail_marks">
-				<a href="{$val->delete_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}" cond="$val->delete_url && $val->version !== 'RX_VERSION'">{$lang->cmd_delete}</a>
-			</td>
 		</tr>
 	</tbody>
 </table>

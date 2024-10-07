@@ -14,7 +14,6 @@
 			<th scope="col" class="rx_detail_marks">{$lang->author}</th>
 			<th scope="col" class="rx_detail_marks">{$lang->path}</th>
 			<th scope="col">{$lang->cmd_generate_code}</th>
-			<th scope="col">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -41,7 +40,6 @@
 			</td>
 			<td class="rx_detail_marks">{$widget->path}</td>
 			<td><a class="x_btn x_btn-link" href="{getUrl('act', 'dispWidgetAdminGenerateCode', 'selected_widget', $widget->widget)}">{$lang->cmd_generate_code}</a></td>
-			<td><a class="x_btn x_btn-link" cond="$widget->remove_url" href="{$widget->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
 		</tr>
 	</tbody>
 </table>

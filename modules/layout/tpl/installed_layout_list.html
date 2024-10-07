@@ -14,7 +14,6 @@
 			<th scope="col" class="nowr">{$lang->version}</th>
 			<th scope="col" class="nowr">{$lang->author}</th>
 			<th scope="col" class="nowr rx_detail_marks">{$lang->path}</th>
-			<th scope="col" class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -53,7 +52,6 @@
 				<td>-</td>
 				<td>-</td>
 				<td class="rx_detail_marks">{$layout->path}</td>
-				<td class="nowr rx_detail_marks"><a cond="$layout->remove_url" class="x_btn x_btn-link" href="{$layout->remove_url}&amp;return_url={urlencodegetRequestUriByServerEnviroment()}">{$lang->cmd_delete}</a></td>
 			</block>
 		</tr>
 	</tbody>
