@@ -13,7 +13,8 @@
 	<div class="krzip-postcode-wrap">
 		<label>{$lang->cmd_krzip_postcode}</label>
 		<input type="text" class="krzip-postcode" value="{$template_config->values[0]}" disabled="disabled" />
-		<input type="button" class="krzip-search btn" value="{$lang->cmd_search}" />
+		<button type="button" class="krzip-search btn">{$lang->cmd_search}</button>
+		<button type="button" class="krzip-delete btn">{$lang->cmd_delete}</button>
 	</div>
 	<div class="krzip-address-wrap">
 		<label>{$lang->cmd_krzip_address}</label>
@@ -29,7 +30,8 @@
 
 <!--// FOOTER -->
 <script>
-//<![CDATA[
 jQuery("#krzip-{$template_config->sequence_id}").Krzip();
-//]]>
+jQuery("#krzip-{$template_config->sequence_id}").find('.krzip-delete').on('click', function() {
+	$(this).parents('.krZip').find('input').val('');
+});
 </script>
