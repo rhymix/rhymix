@@ -657,8 +657,7 @@ class Member extends ModuleObject
 		if($error == 0) return new BaseObject($error, $message);
 
 		// Create a member model object
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
+		$config = MemberModel::getMemberConfig();
 
 		// Check if there is recoding table.
 		$oDB = DB::getInstance();
@@ -681,8 +680,6 @@ class Member extends ModuleObject
 			{
 				$args->count = 1;
 			}
-			unset($oMemberModel);
-			unset($config);
 			$output = executeQuery('member.updateLoginCountByIp', $args);
 		}
 		else
