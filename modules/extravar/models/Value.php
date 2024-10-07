@@ -269,7 +269,7 @@ class Value
 			case 'email':
 				return sprintf('<a href="mailto:%s">%s</a>', $value, $value);
 			case 'kr_zip':
-				return is_array($value) ? implode(' ', $value) : $value;
+				return is_array($value) ? trim(implode(' ', $value)) : $value;
 			case 'country':
 				$country = i18n::listCountries()[$value] ?? '';
 				if ($country)
