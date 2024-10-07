@@ -210,7 +210,7 @@ class FileModel extends File
 
 	/**
 	 * Check if the file is indexable
-	 * @param object $filename
+	 * @param string $filename
 	 * @param object $file_module_config
 	 * @return bool
 	 */
