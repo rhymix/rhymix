@@ -246,7 +246,7 @@
 				<input type="number" min="1" name="skip_bottom_list_days" value="{$module_info->skip_bottom_list_days ?: 30}" /> {$lang->unit_day}
 				<br />
 				<label for="skip_bottom_list_for_robot">
-					<input type="checkbox" name="skip_bottom_list_for_robot" id="skip_bottom_list_for_robot" value="Y" checked="checked"|cond="$module_info->skip_bottom_list_for_robot === 'Y'" />
+					<input type="checkbox" name="skip_bottom_list_for_robot" id="skip_bottom_list_for_robot" value="Y" checked="checked"|cond="$module_info->skip_bottom_list_for_robot !== 'N'" />
 					{$lang->skip_bottom_list_for_robot}
 				</label>
 				<p class="x_help-block">{$lang->about_customize_bottom_list}</p>

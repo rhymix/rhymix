@@ -565,7 +565,7 @@ class BoardView extends Board
 
 		// set the current page of documents
 		$document_srl = Context::get('document_srl');
-		if($document_srl && $this->module_info->skip_bottom_list_for_robot === 'Y' && isCrawler())
+		if($document_srl && $this->module_info->skip_bottom_list_for_robot !== 'N' && isCrawler())
 		{
 			Context::set('page', $args->page = null);
 		}
