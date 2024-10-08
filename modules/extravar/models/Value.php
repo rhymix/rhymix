@@ -4,6 +4,7 @@ namespace Rhymix\Modules\Extravar\Models;
 
 use BaseObject;
 use Context;
+use FileController;
 use ModuleModel;
 use Rhymix\Framework\DateTime;
 use Rhymix\Framework\i18n;
@@ -273,6 +274,25 @@ class Value
 		}
 
 		return null;
+	}
+
+	/**
+	 * Upload a file.
+	 *
+	 * @param array $file
+	 * @param int $target_srl
+	 * @param string $target_type
+	 * @return BaseObject
+	 */
+	public function uploadFile(array $file, int $target_srl, string $target_type): BaseObject
+	{
+		$oFileController = FileController::getInstance();
+		$output = $oFileController->insertFile($file, $this->module_srl, $target_srl);
+		if ($output->toBool())
+		{
+			$oFileController->setFilesValid($target_srl, "ev:$target_type", $output->get('file_srl'));
+		}
+		return $output;
 	}
 
 	/**

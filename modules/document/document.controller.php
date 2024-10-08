@@ -818,7 +818,11 @@ class DocumentController extends Document
 				if(isset($obj->{'extra_vars'.$idx}))
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
-					if(is_array($tmp))
+					if ($extra_item->type === 'file')
+					{
+						$value = $tmp;
+					}
+					elseif (is_array($tmp))
 					{
 						$value = implode('|@|', $tmp);
 					}
@@ -832,7 +836,7 @@ class DocumentController extends Document
 					$value = trim($obj->{$extra_item->name});
 				}
 
-				// Validate the extra value.
+				// Validate and process the extra value.
 				if ($value == NULL && $manual_inserted)
 				{
 					continue;
@@ -844,6 +848,18 @@ class DocumentController extends Document
 					{
 						$oDB->rollback();
 						return $ev_output;
+					}
+
+					// Handle extra vars that support file upload.
+					if ($extra_item->type === 'file' && is_array($value))
+					{
+						$ev_output = $extra_item->uploadFile($value, $obj->document_srl, 'doc');
+						if (!$ev_output->toBool())
+						{
+							$oDB->rollback();
+							return $ev_output;
+						}
+						$value = $ev_output->get('file_srl');
 					}
 				}
 
@@ -1168,7 +1184,10 @@ class DocumentController extends Document
 		$extra_vars = array();
 		if(Context::get('act')!='procFileDelete')
 		{
+			// Get a copy of current extra vars before deleting all existing data.
+			$old_extra_vars = DocumentModel::getExtraVars($obj->module_srl, $obj->document_srl);
 			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
+
 			// Insert extra variables if the document successfully inserted.
 			$extra_keys = DocumentModel::getExtraKeys($obj->module_srl);
 			if(count($extra_keys))
@@ -1179,7 +1198,11 @@ class DocumentController extends Document
 					if(isset($obj->{'extra_vars'.$idx}))
 					{
 						$tmp = $obj->{'extra_vars'.$idx};
-						if (is_array($tmp))
+						if ($extra_item->type === 'file')
+						{
+							$value = $tmp;
+						}
+						elseif (is_array($tmp))
 						{
 							$value = implode('|@|', $tmp);
 						}
@@ -1193,18 +1216,67 @@ class DocumentController extends Document
 						$value = trim($obj->{$extra_item->name});
 					}
 
-					// Validate the extra value.
-					if ($value == NULL && $manual_updated)
+					// Validate and process the extra value.
+					if ($value == NULL && $manual_updated && $extra_item->type !== 'file')
 					{
 						continue;
 					}
 					else
 					{
+						// Check for required and strict values.
 						$ev_output = $extra_item->validate($value);
 						if ($ev_output && !$ev_output->toBool())
 						{
 							$oDB->rollback();
 							return $ev_output;
+						}
+
+						// Handle extra vars that support file upload.
+						if ($extra_item->type === 'file')
+						{
+							// New upload (replace old file)
+							if (is_array($value) && isset($value['name']))
+							{
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									$fc_output = FileController::getInstance()->deleteFile($old_extra_vars[$idx]->value);
+									if (!$fc_output->toBool())
+									{
+										$oDB->rollback();
+										return $fc_output;
+									}
+								}
+
+								$ev_output = $extra_item->uploadFile($value, $obj->document_srl, 'doc');
+								if (!$ev_output->toBool())
+								{
+									$oDB->rollback();
+									return $ev_output;
+								}
+
+								$value = $ev_output->get('file_srl');
+							}
+							// Leave current file unchanged
+							elseif (!$value)
+							{
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									$value = $old_extra_vars[$idx]->value;
+								}
+							}
+							// Delete current file
+							elseif (isset($obj->{'_delete_extra_vars'.$idx}) && $obj->{'_delete_extra_vars'.$idx} === 'Y')
+							{
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									$fc_output = FileController::getInstance()->deleteFile($old_extra_vars[$idx]->value);
+									if (!$fc_output->toBool())
+									{
+										$oDB->rollback();
+										return $fc_output;
+									}
+								}
+							}
 						}
 					}
 					$extra_vars[$extra_item->name] = $value;
