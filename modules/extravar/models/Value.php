@@ -349,6 +349,12 @@ class Value
 			return escape($value, false);
 		}
 
+		// Process the file upload type.
+		if ($type === 'file')
+		{
+			return $value ? intval($value) : null;
+		}
+
 		// Escape and return all other types.
 		return escape($value, false);
 	}
@@ -423,6 +429,8 @@ class Value
 				return sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2));
 			case 'timezone':
 				return DateTime::getTimezoneList()[$value] ?? '';
+			case 'file':
+				return $value;
 			default:
 				return $value;
 		}

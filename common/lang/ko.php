@@ -331,6 +331,7 @@ $lang->column_type_list['date'] = '날짜';
 $lang->column_type_list['time'] = '시간';
 $lang->column_type_list['timezone'] = '표준 시간대';
 $lang->column_type_list['number'] = '숫자';
+$lang->column_type_list['file'] = '파일 업로드';
 $lang->column_name = '입력항목 이름';
 $lang->column_title = '입력항목 제목';
 $lang->default_value = '기본값';

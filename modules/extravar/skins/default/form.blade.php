@@ -41,6 +41,9 @@
 	@case ('time')
 		@include ('form_types/datetime')
 		@break
+	@case ('file')
+		@include ('form_types/file_upload')
+		@break
 	@default
 		@include ('form_types/text')
 @endswitch
