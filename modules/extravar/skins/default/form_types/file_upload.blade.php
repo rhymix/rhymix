@@ -17,7 +17,7 @@
 <input type="file" name="{{ $input_name }}"
 	id="{{ $input_id }}"|if="$input_id" class="file rx_ev_file"
 	style="{{ $definition->style }}"|if="$definition->style"
-	@required(toBool($definition->is_required))
+	@required(toBool($definition->is_required) && !$value)
 	@disabled(toBool($definition->is_disabled))
 	@readonly(toBool($definition->is_readonly))
 />

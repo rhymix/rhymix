@@ -232,9 +232,10 @@ class Value
 	 * Validate a value.
 	 *
 	 * @param mixed $value
+	 * @param mixed $old_value
 	 * @return ?BaseObject
 	 */
-	public function validate($value): ?BaseObject
+	public function validate($value, $old_value = null): ?BaseObject
 	{
 		// Take legacy encoding into consideration.
 		if (is_array($value))
@@ -256,6 +257,11 @@ class Value
 		// Check if a required value is empty.
 		if ($this->is_required === 'Y')
 		{
+			if ($this->type === 'file' && !$value && $old_value)
+			{
+				$value = $old_value;
+				$values = (array)$old_value;
+			}
 			if ($is_array && trim(implode('', $values)) === '')
 			{
 				return new BaseObject(-1, sprintf(lang('common.filter.isnull'), Context::replaceUserLang($this->name)));

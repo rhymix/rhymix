@@ -1229,7 +1229,7 @@ class DocumentController extends Document
 						// Check for required and strict values.
 						if (!$manual_updated)
 						{
-							$ev_output = $extra_item->validate($value);
+							$ev_output = $extra_item->validate($value, $old_extra_vars[$idx]->value ?? null);
 							if ($ev_output && !$ev_output->toBool())
 							{
 								$oDB->rollback();
@@ -1240,9 +1240,10 @@ class DocumentController extends Document
 						// Handle extra vars that support file upload.
 						if ($extra_item->type === 'file')
 						{
-							// New upload (replace old file)
+							// New upload
 							if (is_array($value) && isset($value['name']))
 							{
+								// Delete old file
 								if (isset($old_extra_vars[$idx]->value))
 								{
 									$fc_output = FileController::getInstance()->deleteFile($old_extra_vars[$idx]->value);
@@ -1252,14 +1253,13 @@ class DocumentController extends Document
 										return $fc_output;
 									}
 								}
-
+								// Insert new file
 								$ev_output = $extra_item->uploadFile($value, $obj->document_srl, 'doc');
 								if (!$ev_output->toBool())
 								{
 									$oDB->rollback();
 									return $ev_output;
 								}
-
 								$value = $ev_output->get('file_srl');
 							}
 							// Delete current file
@@ -1267,6 +1267,14 @@ class DocumentController extends Document
 							{
 								if (isset($old_extra_vars[$idx]->value))
 								{
+									// Check if deletion is allowed
+									$ev_output = $extra_item->validate(null);
+									if (!$ev_output->toBool())
+									{
+										$oDB->rollback();
+										return $ev_output;
+									}
+									// Delete old file
 									$fc_output = FileController::getInstance()->deleteFile($old_extra_vars[$idx]->value);
 									if (!$fc_output->toBool())
 									{
@@ -2674,8 +2682,6 @@ class DocumentController extends Document
 		$js_code[] = 'var validator = xe.getApp("validator")[0];';
 		$js_code[] = 'if(!validator) return false;';
 
-		$logged_info = Context::get('logged_info');
-
 		foreach($extra_keys as $idx => $val)
 		{
 			$idx = $val->idx;
@@ -2683,9 +2689,11 @@ class DocumentController extends Document
 			{
 				$idx .= '[]';
 			}
-			$name = str_ireplace(array('<script', '</script'), array('<scr" + "ipt', '</scr" + "ipt'), $val->name);
-			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $name);
-			if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
+			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s", %s]);', $idx, var_export($val->name, true));
+			if($val->is_required == 'Y' && $val->type !== 'file')
+			{
+				$js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
+			}
 		}
 
 		$js_code[] = '})(jQuery);';
