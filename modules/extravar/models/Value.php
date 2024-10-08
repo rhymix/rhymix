@@ -150,7 +150,6 @@ class Value
 			'type' => $this->type,
 			'value' => self::_getTypeValue($this->type, $this->value),
 			'default' => self::_getTypeValue($this->type, $this->default),
-			'options' => $this->getOptions(),
 			'input_name' => $this->parent_type === 'document' ? ('extra_vars' . $this->idx) : ($this->input_name ?: $this->eid),
 			'input_id' => $this->input_id ?: '',
 		]);
@@ -158,13 +157,24 @@ class Value
 	}
 
 	/**
-	 * Check if the current value can have options.
+	 * Get the default value.
 	 *
-	 * @return bool
+	 * @return mixed
 	 */
-	public function canHaveOptions(): bool
+	public function getDefaultValue()
 	{
-		return isset(self::OPTION_TYPES[$this->type]);
+		if (!$this->canHaveOptions())
+		{
+			return $this->default;
+		}
+		elseif (is_array($this->options))
+		{
+			return $this->default;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
@@ -191,6 +201,16 @@ class Value
 		{
 			return [];
 		}
+	}
+
+	/**
+	 * Check if the current value can have options.
+	 *
+	 * @return bool
+	 */
+	public function canHaveOptions(): bool
+	{
+		return isset(self::OPTION_TYPES[$this->type]);
 	}
 
 	/**
