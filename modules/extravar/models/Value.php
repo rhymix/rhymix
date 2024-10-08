@@ -481,7 +481,7 @@ class Value
 					$file = FileModel::getFile($value);
 					if ($file)
 					{
-						return sprintf('<span><a href="%s">%s</a> (%s)</span>', $file->download_url, $file->source_filename, FileHandler::filesize($file->file_size));
+						return sprintf('<span><a href="%s">%s</a> (%s)</span>', \RX_BASEURL . ltrim($file->download_url, './'), $file->source_filename, FileHandler::filesize($file->file_size));
 					}
 					else
 					{
