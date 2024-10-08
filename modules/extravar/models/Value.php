@@ -2,6 +2,8 @@
 
 namespace Rhymix\Modules\Extravar\Models;
 
+use BaseObject;
+use Context;
 use ModuleModel;
 use Rhymix\Framework\DateTime;
 use Rhymix\Framework\i18n;
@@ -211,6 +213,66 @@ class Value
 	public function canHaveOptions(): bool
 	{
 		return isset(self::OPTION_TYPES[$this->type]);
+	}
+
+	/**
+	 * Check if the current value is an array type.
+	 *
+	 * @return bool
+	 */
+	public function isArrayType(): bool
+	{
+		return isset(self::ARRAY_TYPES[$this->type]);
+	}
+
+	/**
+	 * Validate a value.
+	 *
+	 * @param mixed $value
+	 * @return ?BaseObject
+	 */
+	public function validate($value): ?BaseObject
+	{
+		$is_array = is_array($value);
+		$values = is_array($value) ? $value : [$value];
+
+		// Check if a required value is empty.
+		if ($this->is_required === 'Y')
+		{
+			if ($is_array && trim(implode('', $values)) === '')
+			{
+				return new BaseObject(-1, sprintf(lang('common.filter.isnull'), Context::replaceUserLang($this->name)));
+			}
+			if (!$is_array && trim(strval($value)) === '')
+			{
+				return new BaseObject(-1, sprintf(lang('common.filter.isnull'), Context::replaceUserLang($this->name)));
+			}
+		}
+
+		// Check if a strict value is not one of the specified options.
+		if ($this->is_strict === 'Y' && $value)
+		{
+			if ($this->canHaveOptions())
+			{
+				$options = $this->getOptions();
+				foreach ($values as $v)
+				{
+					if (!in_array($v, $options))
+					{
+						return new BaseObject(-1, sprintf(lang('common.filter.equalto'), Context::replaceUserLang($this->name)));
+					}
+				}
+			}
+			elseif ($this->isArrayType())
+			{
+				if (!$is_array)
+				{
+					return new BaseObject(-1, sprintf(lang('common.filter.equalto'), Context::replaceUserLang($this->name)));
+				}
+			}
+		}
+
+		return null;
 	}
 
 	/**

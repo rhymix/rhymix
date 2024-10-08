@@ -831,7 +831,21 @@ class DocumentController extends Document
 				{
 					$value = trim($obj->{$extra_item->name});
 				}
-				if($value == NULL) continue;
+
+				// Validate the extra value.
+				if ($value == NULL && $manual_inserted)
+				{
+					continue;
+				}
+				else
+				{
+					$ev_output = $extra_item->validate($value);
+					if ($ev_output && !$output->toBool())
+					{
+						$oDB->rollback();
+						return $ev_output;
+					}
+				}
 				$extra_vars[$extra_item->name] = $value;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
@@ -1164,14 +1178,35 @@ class DocumentController extends Document
 					if(isset($obj->{'extra_vars'.$idx}))
 					{
 						$tmp = $obj->{'extra_vars'.$idx};
-						if(is_array($tmp))
+						if (is_array($tmp))
+						{
 							$value = implode('|@|', $tmp);
+						}
 						else
+						{
 							$value = trim($tmp);
+						}
 					}
-					else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-					if($value == NULL) continue;
-					$extra_vars[$extra_item->name] = $value;
+					elseif (isset($obj->{$extra_item->name}))
+					{
+						$value = trim($obj->{$extra_item->name});
+					}
+
+					// Validate the extra value.
+					if ($value == NULL && $manual_updated)
+					{
+						continue;
+					}
+					else
+					{
+						$ev_output = $extra_item->validate($value);
+						if ($ev_output && !$ev_output->toBool())
+						{
+							$oDB->rollback();
+							return $ev_output;
+						}
+					}
+						$extra_vars[$extra_item->name] = $value;
 					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
 			}
