@@ -846,6 +846,7 @@ class DocumentController extends Document
 						return $ev_output;
 					}
 				}
+
 				$extra_vars[$extra_item->name] = $value;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
@@ -1206,7 +1207,7 @@ class DocumentController extends Document
 							return $ev_output;
 						}
 					}
-						$extra_vars[$extra_item->name] = $value;
+					$extra_vars[$extra_item->name] = $value;
 					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
 			}
