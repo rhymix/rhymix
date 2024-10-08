@@ -215,7 +215,12 @@
 		var action_parts = action.split('.');
 		var request_info;
 		if (action === 'raw') {
-			request_info = 'RAW FORM SUBMISSION';
+			if (params instanceof FormData) {
+				request_info = params.get('module') + '.' + params.get('act');
+			} else {
+				request_info = 'RAW FORM SUBMISSION';
+			}
+			console.log(request_info);
 		} else {
 			params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
 			//if (action_parts.length != 2) return;
@@ -342,7 +347,7 @@
 
 		// Send the AJAX request.
 		try {
-			$.ajax({
+			var args = {
 				type: "POST",
 				dataType: "json",
 				url: url,
@@ -351,7 +356,11 @@
 				headers : headers,
 				success : successHandler,
 				error : errorHandler
-			});
+			};
+			if (params instanceof FormData) {
+				args.contentType = false;
+			}
+			$.ajax(args);
 		} catch(e) {
 			alert(e);
 			return;
