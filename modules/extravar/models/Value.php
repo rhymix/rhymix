@@ -236,8 +236,22 @@ class Value
 	 */
 	public function validate($value): ?BaseObject
 	{
-		$is_array = is_array($value);
-		$values = is_array($value) ? $value : [$value];
+		// Take legacy encoding into consideration.
+		if (is_array($value))
+		{
+			$is_array = true;
+			$values = $value;
+		}
+		elseif (str_contains($value, '|@|'))
+		{
+			$is_array = true;
+			$values = explode('|@|', $value);
+		}
+		else
+		{
+			$is_array = false;
+			$values = [$value];
+		}
 
 		// Check if a required value is empty.
 		if ($this->is_required === 'Y')
@@ -355,10 +369,12 @@ class Value
 			{
 				$values = explode('|@|', $value);
 			}
+			/*
 			elseif (str_contains($value, ',') && $type !== 'kr_zip')
 			{
 				$values = explode(',', $value);
 			}
+			*/
 			else
 			{
 				$values = [$value];
