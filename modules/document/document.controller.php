@@ -843,11 +843,14 @@ class DocumentController extends Document
 				}
 				else
 				{
-					$ev_output = $extra_item->validate($value);
-					if ($ev_output && !$output->toBool())
+					if (!$manual_inserted)
 					{
-						$oDB->rollback();
-						return $ev_output;
+						$ev_output = $extra_item->validate($value);
+						if ($ev_output && !$output->toBool())
+						{
+							$oDB->rollback();
+							return $ev_output;
+						}
 					}
 
 					// Handle extra vars that support file upload.
@@ -1224,11 +1227,14 @@ class DocumentController extends Document
 					else
 					{
 						// Check for required and strict values.
-						$ev_output = $extra_item->validate($value);
-						if ($ev_output && !$ev_output->toBool())
+						if (!$manual_updated)
 						{
-							$oDB->rollback();
-							return $ev_output;
+							$ev_output = $extra_item->validate($value);
+							if ($ev_output && !$ev_output->toBool())
+							{
+								$oDB->rollback();
+								return $ev_output;
+							}
 						}
 
 						// Handle extra vars that support file upload.
