@@ -463,7 +463,9 @@ class DB
 
 			if ($this->isError())
 			{
-				return $this->getError();
+				$output = $this->getError();
+				$output->add('_count', $query_string);
+				return $output;
 			}
 			else
 			{
@@ -474,11 +476,13 @@ class DB
 		catch (Exceptions\DBError $e)
 		{
 			$output = $this->setError(-1, $e->getMessage());
+			$output->add('_count', $query_string);
 			return $output;
 		}
 		catch (\PDOException $e)
 		{
 			$output = $this->setError(-1, $e->getMessage());
+			$output->add('_count', $query_string);
 			return $output;
 		}
 
