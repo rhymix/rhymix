@@ -343,6 +343,14 @@ class Value
 			{
 				$values = $value;
 			}
+			elseif (preg_match('/^[\[\{].*[\]\}]$/', $value))
+			{
+				$values = json_decode($value, true);
+				if (!is_array($values))
+				{
+					$values = [];
+				}
+			}
 			elseif (str_contains($value, '|@|'))
 			{
 				$values = explode('|@|', $value);
