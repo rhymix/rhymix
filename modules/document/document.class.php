@@ -109,6 +109,10 @@ class Document extends ModuleObject
 		if(!$oDB->isColumnExists('document_categories', 'is_default')) return true;
 		if(!$oDB->isIndexExists('document_categories', 'idx_list_order')) return true;
 
+		// 2024.10.08 Add columns to document_extra_keys table
+		if(!$oDB->isColumnExists('document_extra_keys', 'var_is_strict')) return true;
+		if(!$oDB->isColumnExists('document_extra_keys', 'var_options')) return true;
+
 		return false;
 	}
 
@@ -218,6 +222,16 @@ class Document extends ModuleObject
 		if(!$oDB->isIndexExists('document_categories', 'idx_list_order'))
 		{
 			$oDB->addIndex('document_categories', 'idx_list_order', array('list_order'));
+		}
+
+		// 2024.10.08 Add columns to document_extra_keys table
+		if(!$oDB->isColumnExists('document_extra_keys', 'var_is_strict'))
+		{
+			$oDB->addColumn('document_extra_keys', 'var_is_strict', 'char', '1', 'N', true, 'var_is_required');
+		}
+		if(!$oDB->isColumnExists('document_extra_keys', 'var_options'))
+		{
+			$oDB->addColumn('document_extra_keys', 'var_options', 'text', '', '', false, 'var_default');
 		}
 	}
 
