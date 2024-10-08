@@ -67,7 +67,7 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="default">{$lang->extra_vars_options}</label>
 				<div class="x_controls">
-					<textarea type="text" name="options" id="options">{implode("\n", $selected_var->getOptions())}</textarea>
+					<textarea type="text" name="options" id="options">{$selected_var ? implode("\n", $selected_var->getOptions()) : ''}</textarea>
 					<p class="x_help-block">{$lang->about_extra_vars_options}</p>
 				</div>
 			</div>
