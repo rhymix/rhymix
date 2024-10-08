@@ -96,7 +96,11 @@ $lang->about_mobile_page_count = '목록 하단, 페이지를 이동하는 링�
 $lang->about_admin_id = '특정 회원에게 이 모듈의 관리 권한을 부여할 수 있습니다. 권한을 부여할 회원의 아이디 또는 이메일 주소를 입력해 주세요.';
 $lang->about_grant_deatil = '가입한 사용자는 cafeXE 등 분양형 가상 사이트에 가입을 한 로그인 사용자를 의미합니다.';
 $lang->about_module = 'Rhymix는 기본 라이브러리를 제외한 나머지는 모두 모듈로 구성되어 있습니다. 모듈 관리 모듈은 설치된 모든 모듈을 보여주고 관리를 돕습니다.';
-$lang->about_extra_vars_default_value = '다중/단일 선택 등 여러 선택지가 주어지는 경우 &#39;,&#39;(쉼표)로 구분하면 됩니다.';
+$lang->extra_vars_is_strict = '임의입력 금지';
+$lang->extra_vars_options = '선택지';
+$lang->about_extra_vars_is_strict = '단일/다중 선택에서 미리 주어진 선택지만 입력할 수 있도록 합니다. 선택지를 변경할 경우 기존 게시물에 영향을 줄 수 있습니다.';
+$lang->about_extra_vars_default_value = '단일/다중 선택의 경우, 아래에 입력한 선택지 중 하나여야 합니다.';
+$lang->about_extra_vars_options = '단일/다중 선택 등 여러 선택지가 주어지는 경우, 한 줄에 하나씩 입력하십시오.<br><span style="color:red">구 버전과 달리, 쉼표로 구분하지 않으니 주의하십시오.</span>';
 $lang->about_search_virtual_site = '가상 사이트(예:cafeXE) 도메인을 입력한 후 검색하세요. 가상 사이트 이외의 모듈은 내용을 비우고 검색하면 됩니다. (http:// 는 제외)';
 $lang->about_extra_vars_eid_value = '시스템 내에서 이 변수를 식별하기 위한 ID값입니다. 예: school<br>영문, 숫자, _를 조합해서 사용할 수 있으며 첫 글자는 영문이어야 합니다.';
 $lang->about_extra_vars_column_name = '사용자에게 보여지는 입력 항목 이름입니다. 예: 학교';

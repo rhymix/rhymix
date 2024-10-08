@@ -1611,11 +1611,16 @@ class DocumentController extends Document
 	 * @param string $var_default
 	 * @param string $var_desc
 	 * @param int $eid
+	 * @param string $var_is_strict
+	 * @param array $var_options
 	 * @return object
 	 */
-	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid = 0)
+	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid = 0, $var_is_strict = 'N', $var_options = null)
 	{
-		if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new BaseObject(-1, 'msg_invalid_request');
+		if (!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid)
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
 
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
@@ -1623,8 +1628,10 @@ class DocumentController extends Document
 		$obj->var_name = $var_name;
 		$obj->var_type = $var_type;
 		$obj->var_is_required = $var_is_required=='Y'?'Y':'N';
+		$obj->var_is_strict = $var_is_strict=='Y'?'Y':'N';
 		$obj->var_search = $var_search=='Y'?'Y':'N';
 		$obj->var_default = $var_default;
+		$obj->var_options = $var_options ? json_encode($var_options, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : null;
 		$obj->var_desc = $var_desc;
 		$obj->eid = $eid;
 
@@ -3653,7 +3660,7 @@ Content;
 			{
 				foreach($documentExtraKeys AS $extraItem)
 				{
-					$this->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
+					$this->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid, $extraItem->is_strict, $extraItem->options);
 				}
 			}
 		}

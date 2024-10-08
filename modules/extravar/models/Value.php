@@ -25,7 +25,9 @@ class Value
 	public $name = '';
 	public $desc = '';
 	public $default = null;
+	public $options = null;
 	public $is_required = 'N';
+	public $is_strict = 'N';
 	public $is_disabled = 'N';
 	public $is_readonly = 'N';
 	public $search = 'N';
@@ -56,6 +58,15 @@ class Value
 	];
 
 	/**
+	 * List of types that can have options.
+	 */
+	public const OPTION_TYPES = [
+		'checkbox' => true,
+		'radio' => true,
+		'select' => true,
+	];
+
+	/**
 	 * Constructor for compatibility with legacy ExtraItem class.
 	 *
 	 * @param int $module_srl
@@ -68,8 +79,11 @@ class Value
 	 * @param string $search (Y, N)
 	 * @param string $value
 	 * @param string $eid
+	 * @param string $parent_type
+	 * @param string $is_strict
+	 * @param string $options
 	 */
-	function __construct(int $module_srl, int $idx, string $name, string $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, string $eid = '')
+	function __construct(int $module_srl, int $idx, string $name, string $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '', $parent_type = 'document', $is_strict = '', $options = null)
 	{
 		if (!$idx)
 		{
@@ -80,11 +94,14 @@ class Value
 		$this->idx = $idx;
 		$this->eid = $eid;
 		$this->type = $type;
+		$this->parent_type = $parent_type;
 		$this->value = $value;
 		$this->name = $name;
 		$this->desc = $desc;
 		$this->default = $default;
+		$this->options = $options ? json_decode($options) : null;
 		$this->is_required = $is_required;
+		$this->is_strict = $is_strict;
 		$this->search = $search;
 	}
 
@@ -133,10 +150,47 @@ class Value
 			'type' => $this->type,
 			'value' => self::_getTypeValue($this->type, $this->value),
 			'default' => self::_getTypeValue($this->type, $this->default),
+			'options' => $this->getOptions(),
 			'input_name' => $this->parent_type === 'document' ? ('extra_vars' . $this->idx) : ($this->input_name ?: $this->eid),
 			'input_id' => $this->input_id ?: '',
 		]);
 		return $template->compile();
+	}
+
+	/**
+	 * Check if the current value can have options.
+	 *
+	 * @return bool
+	 */
+	public function canHaveOptions(): bool
+	{
+		return isset(self::OPTION_TYPES[$this->type]);
+	}
+
+	/**
+	 * Get options specified by the administrator.
+	 *
+	 * @return array
+	 */
+	public function getOptions(): array
+	{
+		if (!$this->canHaveOptions())
+		{
+			return [];
+		}
+
+		if (is_array($this->options))
+		{
+			return $this->options;
+		}
+		elseif ($this->default)
+		{
+			return explode(',', $this->default);
+		}
+		else
+		{
+			return [];
+		}
 	}
 
 	/**
