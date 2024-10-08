@@ -799,16 +799,22 @@ class FileController extends File
 	 * By changing its state to valid when a document is inserted, it prevents from being considered as a unnecessary file
 	 *
 	 * @param int $upload_target_srl
+	 * @param ?string $upload_target_type
+	 * @param ?array $file_srl
 	 * @return BaseObject
 	 */
-	function setFilesValid($upload_target_srl, $upload_target_type = null)
+	function setFilesValid($upload_target_srl, $upload_target_type = null, $file_srl = null)
 	{
 		$args = new stdClass();
 		$args->upload_target_srl = $upload_target_srl;
 		$args->old_isvalid = 'N';
-		if($upload_target_type)
+		if ($upload_target_type)
 		{
 			$args->upload_target_type = $upload_target_type;
+		}
+		if ($file_srl)
+		{
+			$args->file_srl = $file_srl;
 		}
 		$output = executeQuery('file.updateFileValid', $args);
 		$output->add('updated_file_count', intval(DB::getInstance()->getAffectedRows()));
