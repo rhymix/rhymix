@@ -5,6 +5,8 @@ namespace Rhymix\Modules\Extravar\Models;
 use BaseObject;
 use Context;
 use FileController;
+use FileHandler;
+use FileModel;
 use ModuleModel;
 use Rhymix\Framework\DateTime;
 use Rhymix\Framework\i18n;
@@ -450,7 +452,22 @@ class Value
 			case 'timezone':
 				return DateTime::getTimezoneList()[$value] ?? '';
 			case 'file':
-				return $value;
+				if ($value)
+				{
+					$file = FileModel::getFile($value);
+					if ($file)
+					{
+						return sprintf('<span><a href="%s">%s</a> (%s)</span>', $file->download_url, $file->source_filename, FileHandler::filesize($file->file_size));
+					}
+					else
+					{
+						return '';
+					}
+				}
+				else
+				{
+					return '';
+				}
 			default:
 				return $value;
 		}

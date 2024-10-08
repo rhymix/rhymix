@@ -1256,14 +1256,6 @@ class DocumentController extends Document
 
 								$value = $ev_output->get('file_srl');
 							}
-							// Leave current file unchanged
-							elseif (!$value)
-							{
-								if (isset($old_extra_vars[$idx]->value))
-								{
-									$value = $old_extra_vars[$idx]->value;
-								}
-							}
 							// Delete current file
 							elseif (isset($obj->{'_delete_extra_vars'.$idx}) && $obj->{'_delete_extra_vars'.$idx} === 'Y')
 							{
@@ -1275,6 +1267,14 @@ class DocumentController extends Document
 										$oDB->rollback();
 										return $fc_output;
 									}
+								}
+							}
+							// Leave current file unchanged
+							elseif (!$value)
+							{
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									$value = $old_extra_vars[$idx]->value;
 								}
 							}
 						}
