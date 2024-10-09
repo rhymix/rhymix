@@ -415,6 +415,7 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 
 	args[0] = filter_name;
 	args[1] = function(f) {
+		var hasFile = false;
 		var params = {}, res = [], elms = f.elements, data = $(f).serializeArray();
 		$.each(data, function(i, field) {
 			var v = $.trim(field.value), n = field.name;
@@ -435,11 +436,20 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 			}
 		});
 
+		$(f).find('input[type=file][name^=extra_vars]').each(function() {
+			if (this.files && this.files[0]) {
+				params[this.name] = this.files[0];
+				hasFile = true;
+			}
+		});
+
 		if (confirm_msg && !confirm(confirm_msg)) return false;
 
-		//exec_xml(module, act, params, callback, responses, params, form);
+		params['module'] = module;
+		params['act'] = act;
 		params['_rx_ajax_compat'] = 'XMLRPC';
-		exec_json(module + '.' + act, params, function(result) {
+
+		var callback_wrapper = function(result) {
 			if (!result) {
 				result = {};
 			}
@@ -454,7 +464,17 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 				});
 				callback(filtered_result, responses, params, form);
 			}
-		});
+		};
+
+		if (!hasFile) {
+			exec_json(module + '.' + act, params, callback_wrapper);
+		} else {
+			var fd = new FormData();
+			for (let key in params) {
+				fd.append(key, params[key]);
+			}
+			exec_json('raw', fd, callback_wrapper);
+		}
 	};
 
 	v.cast('ADD_CALLBACK', args);

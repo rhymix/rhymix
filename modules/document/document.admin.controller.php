@@ -174,8 +174,14 @@ class DocumentAdminController extends Document
 		$var_idx = Context::get('var_idx');
 		$name = Context::get('name');
 		$type = Context::get('type');
-		$is_required = Context::get('is_required');
-		$default = Context::get('default');
+		$is_required = Context::get('is_required') === 'Y' ? 'Y' : 'N';
+		$is_strict = Context::get('is_strict') === 'Y' ? 'Y' : 'N';
+		$default = trim(utf8_clean(Context::get('default')));
+		$options = trim(utf8_clean(Context::get('options')));
+		if ($options !== '')
+		{
+			$options = array_map('trim', explode("\n", $options));
+		}
 		$desc = Context::get('desc') ? Context::get('desc') : '';
 		$search = Context::get('search');
 		$eid = Context::get('eid');
@@ -201,8 +207,11 @@ class DocumentAdminController extends Document
 		}
 
 		// insert or update
-		$oDocumentController = getController('document');
-		$output = $oDocumentController->insertDocumentExtraKey($module_srl, $var_idx, $name, $type, $is_required, $search, $default, $desc, $eid);
+		$oDocumentController = DocumentController::getInstance();
+		$output = $oDocumentController->insertDocumentExtraKey(
+			$module_srl, $var_idx, $name, $type, $is_required, $search,
+			$default, $desc, $eid, $is_strict, $options
+		);
 		if(!$output->toBool()) return $output;
 
 		$this->setMessage('success_registed');

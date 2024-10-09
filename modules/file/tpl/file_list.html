@@ -57,12 +57,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<!--@foreach($file_list as $no => $val)-->
 				<!-- one document start -->
 				<!--@if($val->upload_target_srl != $cur_upload_target_srl)-->
-					<!--@if($val->upload_target_type == 'com')-->
+					<!--@if(in_array($val->upload_target_type, ['com', 'ev:com']))-->
 						{@ $document_srl = $val->target_document_srl}
 						{@ $move_uri = getUrl('', 'document_srl', $document_srl).'#comment_'.$val->upload_target_srl}
-					<!--@elseif($val->upload_target_type == 'doc')-->
+					<!--@elseif(in_array($val->upload_target_type, ['doc', 'ev:doc']))-->
 						{@ $document_srl = $val->upload_target_srl}
-						{@ $move_uri = getUrl('', 'document_srl', $document_srl)}
+						{@ $move_uri = getUrl('', 'mid', $module_list[$val->module_srl]->mid, 'document_srl', $document_srl)}
 					<!--@end-->
 					{@ $cur_upload_target_srl = $val->upload_target_srl}
 			<tr>
@@ -78,12 +78,12 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 						<!--@if($val->upload_target_type == 'mod')-->[{$lang->module}] <!--@end-->
 						<!--@if($val->upload_target_type == 'msg')-->[{$lang->member_message}] <!--@end-->
 
-						<!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[{$lang->cmd_temp_save}] <!--@end-->
-						<!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == 0)-->[{$lang->cmd_trash}] <!--@end-->
+						<!--@if(preg_match('/^(?:ev:)?doc$/', $val->upload_target_type) && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[{$lang->cmd_temp_save}] <!--@end-->
+						<!--@if(preg_match('/^(?:ev:)?doc$/', $val->upload_target_type) && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == 0)-->[{$lang->cmd_trash}] <!--@end-->
 						<!--@if($val->module_srl && isset($module_list[$val->module_srl]))-->
 							<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a>
 						<!--@end-->
-						<!--@if($document_list[$document_srl] && ($val->upload_target_type == 'doc' || $val->upload_target_type == 'com'))-->
+						<!--@if($document_list[$document_srl] && preg_match('/^(?:ev:)?(?:doc|com)$/', $val->upload_target_type))-->
 						 - <!--@if($document_list[$document_srl]->get('module_srl') != $document_list[$document_srl]->get('member_srl'))--><a href="{$move_uri}" target="_blank">{$document_list[$document_srl]->getTitle()}</a><!--@else-->{$document_list[$document_srl]->getTitle()}<!--@end-->
 						<!--@end-->
 					<!--@end-->
@@ -97,7 +97,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<!--@elseif($val->thumbnail_filename)-->
 					<img src="{$val->thumbnail_filename}" style="width:50px;height:50px;object-fit:cover;margin-right:4px">
 					<!--@end-->
-					<a href="{htmlspecialchars_decode($val->download_url)}">{htmlspecialchars($val->source_filename, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
+					<a href="{$val->download_url}">{escape($val->source_filename, false)}</a></td>
 				<td class="nowr">{FileHandler::filesize($val->file_size)}</td>
 				<td class="nowr">{$val->download_count}</td>
 				<td class="nowr">

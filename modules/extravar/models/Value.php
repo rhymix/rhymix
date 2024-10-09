@@ -2,6 +2,11 @@
 
 namespace Rhymix\Modules\Extravar\Models;
 
+use BaseObject;
+use Context;
+use FileController;
+use FileHandler;
+use FileModel;
 use ModuleModel;
 use Rhymix\Framework\DateTime;
 use Rhymix\Framework\i18n;
@@ -25,7 +30,9 @@ class Value
 	public $name = '';
 	public $desc = '';
 	public $default = null;
+	public $options = null;
 	public $is_required = 'N';
+	public $is_strict = 'N';
 	public $is_disabled = 'N';
 	public $is_readonly = 'N';
 	public $search = 'N';
@@ -56,6 +63,15 @@ class Value
 	];
 
 	/**
+	 * List of types that can have options.
+	 */
+	public const OPTION_TYPES = [
+		'checkbox' => true,
+		'radio' => true,
+		'select' => true,
+	];
+
+	/**
 	 * Constructor for compatibility with legacy ExtraItem class.
 	 *
 	 * @param int $module_srl
@@ -68,8 +84,11 @@ class Value
 	 * @param string $search (Y, N)
 	 * @param string $value
 	 * @param string $eid
+	 * @param string $parent_type
+	 * @param string $is_strict
+	 * @param string $options
 	 */
-	function __construct(int $module_srl, int $idx, string $name, string $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, string $eid = '')
+	function __construct(int $module_srl, int $idx, string $name, string $type = 'text', $default = null, $desc = '', $is_required = 'N', $search = 'N', $value = null, $eid = '', $parent_type = 'document', $is_strict = '', $options = null)
 	{
 		if (!$idx)
 		{
@@ -80,11 +99,14 @@ class Value
 		$this->idx = $idx;
 		$this->eid = $eid;
 		$this->type = $type;
+		$this->parent_type = $parent_type;
 		$this->value = $value;
 		$this->name = $name;
 		$this->desc = $desc;
 		$this->default = $default;
+		$this->options = $options ? json_decode($options) : null;
 		$this->is_required = $is_required;
+		$this->is_strict = $is_strict;
 		$this->search = $search;
 	}
 
@@ -140,6 +162,162 @@ class Value
 	}
 
 	/**
+	 * Get the default value.
+	 *
+	 * @return mixed
+	 */
+	public function getDefaultValue()
+	{
+		if (!$this->canHaveOptions())
+		{
+			return $this->default;
+		}
+		elseif (is_array($this->options))
+		{
+			return $this->default;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Get options specified by the administrator.
+	 *
+	 * @return array
+	 */
+	public function getOptions(): array
+	{
+		if (!$this->canHaveOptions())
+		{
+			return $this->options ?? [];
+		}
+
+		if (is_array($this->options))
+		{
+			return $this->options;
+		}
+		elseif ($this->default)
+		{
+			return is_array($this->default) ? $this->default : explode(',', $this->default);
+		}
+		else
+		{
+			return [];
+		}
+	}
+
+	/**
+	 * Check if the current value can have options.
+	 *
+	 * @return bool
+	 */
+	public function canHaveOptions(): bool
+	{
+		return isset(self::OPTION_TYPES[$this->type]);
+	}
+
+	/**
+	 * Check if the current value is an array type.
+	 *
+	 * @return bool
+	 */
+	public function isArrayType(): bool
+	{
+		return isset(self::ARRAY_TYPES[$this->type]);
+	}
+
+	/**
+	 * Validate a value.
+	 *
+	 * @param mixed $value
+	 * @param mixed $old_value
+	 * @return ?BaseObject
+	 */
+	public function validate($value, $old_value = null): ?BaseObject
+	{
+		// Take legacy encoding into consideration.
+		if (is_array($value))
+		{
+			$is_array = true;
+			$values = $value;
+		}
+		elseif (str_contains($value, '|@|'))
+		{
+			$is_array = true;
+			$values = explode('|@|', $value);
+		}
+		else
+		{
+			$is_array = false;
+			$values = [$value];
+		}
+
+		// Check if a required value is empty.
+		if ($this->is_required === 'Y')
+		{
+			if ($this->type === 'file' && !$value && $old_value)
+			{
+				$value = $old_value;
+				$values = (array)$old_value;
+			}
+			if ($is_array && trim(implode('', $values)) === '')
+			{
+				return new BaseObject(-1, sprintf(lang('common.filter.isnull'), Context::replaceUserLang($this->name)));
+			}
+			if (!$is_array && trim(strval($value)) === '')
+			{
+				return new BaseObject(-1, sprintf(lang('common.filter.isnull'), Context::replaceUserLang($this->name)));
+			}
+		}
+
+		// Check if a strict value is not one of the specified options.
+		if ($this->is_strict === 'Y' && $value)
+		{
+			if ($this->canHaveOptions())
+			{
+				$options = $this->getOptions();
+				foreach ($values as $v)
+				{
+					if (!in_array($v, $options))
+					{
+						return new BaseObject(-1, sprintf(lang('common.filter.equalto'), Context::replaceUserLang($this->name)));
+					}
+				}
+			}
+			elseif ($this->isArrayType())
+			{
+				if (!$is_array)
+				{
+					return new BaseObject(-1, sprintf(lang('common.filter.equalto'), Context::replaceUserLang($this->name)));
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Upload a file.
+	 *
+	 * @param array $file
+	 * @param int $target_srl
+	 * @param string $target_type
+	 * @return BaseObject
+	 */
+	public function uploadFile(array $file, int $target_srl, string $target_type): BaseObject
+	{
+		$oFileController = FileController::getInstance();
+		$output = $oFileController->insertFile($file, $this->module_srl, $target_srl);
+		if ($output->toBool())
+		{
+			$oFileController->setFilesValid($target_srl, "ev:$target_type", $output->get('file_srl'));
+		}
+		return $output;
+	}
+
+	/**
 	 * Get the next temporary ID.
 	 *
 	 * @return string
@@ -185,14 +363,24 @@ class Value
 			{
 				$values = $value;
 			}
+			elseif (preg_match('/^[\[\{].*[\]\}]$/', $value))
+			{
+				$values = json_decode($value, true);
+				if (!is_array($values))
+				{
+					$values = [];
+				}
+			}
 			elseif (str_contains($value, '|@|'))
 			{
 				$values = explode('|@|', $value);
 			}
+			/*
 			elseif (str_contains($value, ',') && $type !== 'kr_zip')
 			{
 				$values = explode(',', $value);
 			}
+			*/
 			else
 			{
 				$values = [$value];
@@ -211,6 +399,12 @@ class Value
 				$value = 'http://' . $value;
 			}
 			return escape($value, false);
+		}
+
+		// Process the file upload type.
+		if ($type === 'file')
+		{
+			return $value ? intval($value) : null;
 		}
 
 		// Escape and return all other types.
@@ -287,6 +481,23 @@ class Value
 				return sprintf('%s-%s-%s', substr($value, 0, 4), substr($value, 4, 2), substr($value, 6, 2));
 			case 'timezone':
 				return DateTime::getTimezoneList()[$value] ?? '';
+			case 'file':
+				if ($value)
+				{
+					$file = FileModel::getFile($value);
+					if ($file)
+					{
+						return sprintf('<span><a href="%s">%s</a> (%s)</span>', \RX_BASEURL . ltrim($file->download_url, './'), $file->source_filename, FileHandler::filesize($file->file_size));
+					}
+					else
+					{
+						return '';
+					}
+				}
+				else
+				{
+					return '';
+				}
 			default:
 				return $value;
 		}

@@ -1,10 +1,15 @@
+@php
+	$has_value = is_array($value);
+	$default_value = $definition->getDefaultValue();
+@endphp
+
 @if ($parent_type === 'member')
 	<div class="rx_ev_{{ $type }}" style="padding-top:5px">
-		@foreach ($default ?? [] as $v)
+		@foreach ($definition->getOptions() as $v)
 			@php
 				$column_suffix = $type === 'checkbox' ? '[]' : '';
 				$tempid = $definition->getNextTempID();
-				$is_checked = is_array($value) && in_array(trim($v), $value);
+				$is_checked = $has_value ? in_array($v, $value) : ($v === $default_value);
 			@endphp
 			<label for="{{ $tempid }}">
 				<input type="{{ $type }}" name="{{ $input_name . $column_suffix }}"
@@ -19,11 +24,11 @@
 	</div>
 @else
 	<ul class="rx_ev_{{ $type }}">
-		@foreach ($default ?? [] as $v)
+		@foreach ($definition->getOptions() as $v)
 			@php
 				$column_suffix = $type === 'checkbox' ? '[]' : '';
 				$tempid = $definition->getNextTempID();
-				$is_checked = is_array($value) && in_array(trim($v), $value);
+				$is_checked = $has_value ? in_array($v, $value) : ($v === $default_value);
 			@endphp
 			<li>
 				<input type="{{ $type }}" name="{{ $input_name . $column_suffix }}"

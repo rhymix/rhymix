@@ -818,7 +818,11 @@ class DocumentController extends Document
 				if(isset($obj->{'extra_vars'.$idx}))
 				{
 					$tmp = $obj->{'extra_vars'.$idx};
-					if(is_array($tmp))
+					if ($extra_item->type === 'file')
+					{
+						$value = $tmp;
+					}
+					elseif (is_array($tmp))
 					{
 						$value = implode('|@|', $tmp);
 					}
@@ -831,7 +835,37 @@ class DocumentController extends Document
 				{
 					$value = trim($obj->{$extra_item->name});
 				}
-				if($value == NULL) continue;
+
+				// Validate and process the extra value.
+				if ($value == NULL && $manual_inserted)
+				{
+					continue;
+				}
+				else
+				{
+					if (!$manual_inserted)
+					{
+						$ev_output = $extra_item->validate($value);
+						if ($ev_output && !$output->toBool())
+						{
+							$oDB->rollback();
+							return $ev_output;
+						}
+					}
+
+					// Handle extra vars that support file upload.
+					if ($extra_item->type === 'file' && is_array($value))
+					{
+						$ev_output = $extra_item->uploadFile($value, $obj->document_srl, 'doc');
+						if (!$ev_output->toBool())
+						{
+							$oDB->rollback();
+							return $ev_output;
+						}
+						$value = $ev_output->get('file_srl');
+					}
+				}
+
 				$extra_vars[$extra_item->name] = $value;
 				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 			}
@@ -1153,7 +1187,10 @@ class DocumentController extends Document
 		$extra_vars = array();
 		if(Context::get('act')!='procFileDelete')
 		{
+			// Get a copy of current extra vars before deleting all existing data.
+			$old_extra_vars = DocumentModel::getExtraVars($obj->module_srl, $obj->document_srl);
 			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
+
 			// Insert extra variables if the document successfully inserted.
 			$extra_keys = DocumentModel::getExtraKeys($obj->module_srl);
 			if(count($extra_keys))
@@ -1164,13 +1201,98 @@ class DocumentController extends Document
 					if(isset($obj->{'extra_vars'.$idx}))
 					{
 						$tmp = $obj->{'extra_vars'.$idx};
-						if(is_array($tmp))
+						if ($extra_item->type === 'file')
+						{
+							$value = $tmp;
+						}
+						elseif (is_array($tmp))
+						{
 							$value = implode('|@|', $tmp);
+						}
 						else
+						{
 							$value = trim($tmp);
+						}
 					}
-					else if(isset($obj->{$extra_item->name})) $value = trim($obj->{$extra_item->name});
-					if($value == NULL) continue;
+					elseif (isset($obj->{$extra_item->name}))
+					{
+						$value = trim($obj->{$extra_item->name});
+					}
+
+					// Validate and process the extra value.
+					if ($value == NULL && $manual_updated && $extra_item->type !== 'file')
+					{
+						continue;
+					}
+					else
+					{
+						// Check for required and strict values.
+						if (!$manual_updated)
+						{
+							$ev_output = $extra_item->validate($value, $old_extra_vars[$idx]->value ?? null);
+							if ($ev_output && !$ev_output->toBool())
+							{
+								$oDB->rollback();
+								return $ev_output;
+							}
+						}
+
+						// Handle extra vars that support file upload.
+						if ($extra_item->type === 'file')
+						{
+							// New upload
+							if (is_array($value) && isset($value['name']))
+							{
+								// Delete old file
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									$fc_output = FileController::getInstance()->deleteFile($old_extra_vars[$idx]->value);
+									if (!$fc_output->toBool())
+									{
+										$oDB->rollback();
+										return $fc_output;
+									}
+								}
+								// Insert new file
+								$ev_output = $extra_item->uploadFile($value, $obj->document_srl, 'doc');
+								if (!$ev_output->toBool())
+								{
+									$oDB->rollback();
+									return $ev_output;
+								}
+								$value = $ev_output->get('file_srl');
+							}
+							// Delete current file
+							elseif (isset($obj->{'_delete_extra_vars'.$idx}) && $obj->{'_delete_extra_vars'.$idx} === 'Y')
+							{
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									// Check if deletion is allowed
+									$ev_output = $extra_item->validate(null);
+									if (!$ev_output->toBool())
+									{
+										$oDB->rollback();
+										return $ev_output;
+									}
+									// Delete old file
+									$fc_output = FileController::getInstance()->deleteFile($old_extra_vars[$idx]->value);
+									if (!$fc_output->toBool())
+									{
+										$oDB->rollback();
+										return $fc_output;
+									}
+								}
+							}
+							// Leave current file unchanged
+							elseif (!$value)
+							{
+								if (isset($old_extra_vars[$idx]->value))
+								{
+									$value = $old_extra_vars[$idx]->value;
+								}
+							}
+						}
+					}
 					$extra_vars[$extra_item->name] = $value;
 					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
 				}
@@ -1611,11 +1733,16 @@ class DocumentController extends Document
 	 * @param string $var_default
 	 * @param string $var_desc
 	 * @param int $eid
+	 * @param string $var_is_strict
+	 * @param array $var_options
 	 * @return object
 	 */
-	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid = 0)
+	function insertDocumentExtraKey($module_srl, $var_idx, $var_name, $var_type, $var_is_required = 'N', $var_search = 'N', $var_default = '', $var_desc = '', $eid = 0, $var_is_strict = 'N', $var_options = null)
 	{
-		if(!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid) return new BaseObject(-1, 'msg_invalid_request');
+		if (!$module_srl || !$var_idx || !$var_name || !$var_type || !$eid)
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
 
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
@@ -1623,8 +1750,10 @@ class DocumentController extends Document
 		$obj->var_name = $var_name;
 		$obj->var_type = $var_type;
 		$obj->var_is_required = $var_is_required=='Y'?'Y':'N';
+		$obj->var_is_strict = $var_is_strict=='Y'?'Y':'N';
 		$obj->var_search = $var_search=='Y'?'Y':'N';
 		$obj->var_default = $var_default;
+		$obj->var_options = $var_options ? json_encode($var_options, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : null;
 		$obj->var_desc = $var_desc;
 		$obj->eid = $eid;
 
@@ -2553,8 +2682,6 @@ class DocumentController extends Document
 		$js_code[] = 'var validator = xe.getApp("validator")[0];';
 		$js_code[] = 'if(!validator) return false;';
 
-		$logged_info = Context::get('logged_info');
-
 		foreach($extra_keys as $idx => $val)
 		{
 			$idx = $val->idx;
@@ -2562,9 +2689,11 @@ class DocumentController extends Document
 			{
 				$idx .= '[]';
 			}
-			$name = str_ireplace(array('<script', '</script'), array('<scr" + "ipt', '</scr" + "ipt'), $val->name);
-			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s","%s"]);', $idx, $name);
-			if($val->is_required == 'Y') $js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
+			$js_code[] = sprintf('validator.cast("ADD_MESSAGE", ["extra_vars%s", %s]);', $idx, var_export($val->name, true));
+			if($val->is_required == 'Y' && $val->type !== 'file')
+			{
+				$js_code[] = sprintf('validator.cast("ADD_EXTRA_FIELD", ["extra_vars%s", { required:true }]);', $idx);
+			}
 		}
 
 		$js_code[] = '})(jQuery);';
@@ -3653,7 +3782,7 @@ Content;
 			{
 				foreach($documentExtraKeys AS $extraItem)
 				{
-					$this->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid) ;
+					$this->insertDocumentExtraKey($value, $extraItem->idx, $extraItem->name, $extraItem->type, $extraItem->is_required , $extraItem->search , $extraItem->default , $extraItem->desc, $extraItem->eid, $extraItem->is_strict, $extraItem->options);
 				}
 			}
 		}

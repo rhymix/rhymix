@@ -8,10 +8,12 @@
         <column name="var_name" alias="name" />
         <column name="var_type" alias="type" />
         <column name="var_is_required" alias="is_required" />
+        <column name="var_is_strict" alias="is_strict" />
         <column name="var_search" alias="search" />
         <column name="var_default" alias="default" />
+        <column name="var_options" alias="options" />
         <column name="var_desc" alias="desc" />
-		<column name="eid" alias="eid" />
+        <column name="eid" alias="eid" />
     </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
