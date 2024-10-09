@@ -965,7 +965,7 @@ class DocumentItem extends BaseObject
 		return $this->get('comment_count');
 	}
 
-	function getComments()
+	function getComments(?int $page = null)
 	{
 		if(!$this->getCommentCount())
 		{
@@ -979,7 +979,7 @@ class DocumentItem extends BaseObject
 
 		// cpage is a number of comment pages
 		$cpageStr = sprintf('%d_cpage', $this->document_srl);
-		$cpage = Context::get($cpageStr);
+		$cpage = $page ? $page : Context::get($cpageStr);
 		if(!$cpage)
 		{
 			$cpage = Context::get('cpage');
