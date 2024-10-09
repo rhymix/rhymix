@@ -214,15 +214,13 @@
 		var url = XE.URI(request_uri).pathname();
 		var action_parts = action.split('.');
 		var request_info;
-		if (action === 'raw') {
-			if (params instanceof FormData) {
-				request_info = (params.get('module') || params.get('mid')) + '.' + params.get('act');
-			} else {
-				request_info = 'RAW FORM SUBMISSION';
-			}
+
+		if (params instanceof FormData) {
+			request_info = (params.get('module') || params.get('mid')) + '.' + params.get('act');
+		} else if (action === 'raw') {
+			request_info = 'RAW FORM SUBMISSION';
 		} else {
 			params = params ? ($.isArray(params) ? arr2obj(params) : params) : {};
-			//if (action_parts.length != 2) return;
 			params.module = action_parts[0];
 			params.act = action_parts[1];
 			request_info = params.module + "." + params.act;
