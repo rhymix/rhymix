@@ -191,7 +191,7 @@ class Value
 	{
 		if (!$this->canHaveOptions())
 		{
-			return [];
+			return $this->options ?? [];
 		}
 
 		if (is_array($this->options))
