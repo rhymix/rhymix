@@ -1044,6 +1044,31 @@ class NcenterliteController extends Ncenterlite
 		}
 	}
 
+	public function triggerAfterGetComments($comment_list)
+	{
+		if (Context::get('act') === 'dispBoardCommentPage' && $comment_list)
+		{
+			$config = NcenterliteModel::getConfig();
+			$document_srl = Context::get('document_srl');
+			$logged_info = Context::get('logged_info');
+
+			if ($document_srl && $config->document_read == 'Y' && $logged_info && $logged_info->member_srl)
+			{
+				$args = new stdClass;
+				$args->member_srl = $logged_info->member_srl;
+				$args->target_srl = array_values(array_map(function($comment) {
+					return $comment->comment_srl;
+				}, $comment_list));
+
+				$output = executeQuery('ncenterlite.updateNotifyReadedByTargetSrl', $args);
+				if ($output->toBool() && DB::getInstance()->getAffectedRows())
+				{
+					$this->removeFlagFile($args->member_srl);
+				}
+			}
+		}
+	}
+
 	function triggerBeforeDisplay(&$output_display)
 	{
 		// Don't show notification panel in popups, iframes, admin dashboard, etc.

@@ -37,6 +37,7 @@
 		<eventHandler after="document.deleteDocument" class="controller" method="triggerAfterDeleteDocument" />
 		<eventHandler before="display" class="controller" method="triggerBeforeDisplay" />
 		<eventHandler after="moduleHandler.proc" class="controller" method="triggerAfterModuleHandlerProc" />
+		<eventHandler after="document.getComments" class="controller" method="triggerAfterGetComments" />
 		<eventHandler after="member.deleteMember" class="controller" method="triggerAfterDeleteMember" />
 		<eventHandler after="communication.sendMessage" class="controller" method="triggerAfterSendMessage" />
 		<eventHandler after="document.updateVotedCount" class="controller" method="triggerAfterDocumentVotedUpdate" />
