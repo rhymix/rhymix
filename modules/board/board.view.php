@@ -200,6 +200,12 @@ class BoardView extends Board
 		// list
 		$this->dispBoardContentList();
 
+		// Board features
+		$oDocument = Context::get('oDocument');
+		$document_module_srl = ($oDocument && $oDocument->isExists()) ? $oDocument->get('module_srl') : $this->module_srl;
+		$board_features = Rhymix\Modules\Board\Models\Features::fromModuleInfo($this->module_info, $document_module_srl);
+		Context::set('board_features', $board_features);
+
 		/**
 		 * add javascript filters
 		 **/
