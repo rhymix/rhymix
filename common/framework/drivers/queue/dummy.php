@@ -2,13 +2,12 @@
 
 namespace Rhymix\Framework\Drivers\Queue;
 
-use Rhymix\Framework\DB as RFDB;
 use Rhymix\Framework\Drivers\QueueInterface;
 
 /**
- * The DB queue driver.
+ * The Dummy queue driver.
  */
-class DB implements QueueInterface
+class Dummy implements QueueInterface
 {
 	/**
 	 * Create a new instance of the current Queue driver, using the given settings.
@@ -28,7 +27,7 @@ class DB implements QueueInterface
 	 */
 	public static function getName(): string
 	{
-		return 'DB';
+		return 'Dummy';
 	}
 
 	/**
@@ -81,10 +80,7 @@ class DB implements QueueInterface
 	 */
 	public function addTask(string $handler, ?object $args = null, ?object $options = null): int
 	{
-		$oDB = RFDB::getInstance();
-		$stmt = $oDB->prepare('INSERT INTO task_queue (handler, args, options) VALUES (?, ?, ?)');
-		$result = $stmt->execute([$handler, serialize($args), serialize($options)]);
-		return $result ? $oDB->getInsertID() : 0;
+		return 0;
 	}
 
 	/**
@@ -95,23 +91,6 @@ class DB implements QueueInterface
 	 */
 	public function getTask(int $blocking = 0): ?object
 	{
-		$oDB = RFDB::getInstance();
-		$stmt = $oDB->query('SELECT * FROM task_queue ORDER BY id LIMIT 1');
-		$result = $stmt->fetchObject();
-		$stmt->closeCursor();
-
-		if ($result)
-		{
-			$stmt = $oDB->prepare('DELETE FROM task_queue WHERE id = ?');
-			$stmt->execute([$result->id]);
-
-			$result->args = unserialize($result->args);
-			$result->options = unserialize($result->options);
-			return $result;
-		}
-		else
-		{
-			return null;
-		}
+		return null;
 	}
 }

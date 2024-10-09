@@ -7,6 +7,7 @@ $lang->subtitle_notification = '알림 설정';
 $lang->subtitle_security = '보안 설정';
 $lang->subtitle_advanced = '고급 설정';
 $lang->subtitle_debug = '디버그 설정';
+$lang->subtitle_queue = '비동기 작업';
 $lang->subtitle_seo = 'SEO 설정';
 $lang->subtitle_etc = '기타';
 $lang->current_state = '현황';

@@ -8,6 +8,7 @@ $lang->subtitle_security = 'Security';
 $lang->subtitle_advanced = 'Advanced';
 $lang->subtitle_domains = 'Domains';
 $lang->subtitle_debug = 'Debug';
+$lang->subtitle_queue = 'Async Queue';
 $lang->subtitle_seo = 'SEO Settings';
 $lang->subtitle_etc = 'Other Settings';
 $lang->current_state = 'Current state';
