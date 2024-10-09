@@ -38,11 +38,17 @@
 				</ul>
 			</div>
 			<p class="action" cond="!$comment->isDeleted()">
+				<!--@if($board_features->comment->vote_log)-->
 				<a href="{getUrl('', 'mid', $mid, 'act', 'dispBoardVoteLog', 'target_srl', $comment->comment_srl, 'target', 'comment')}">{$lang->cmd_comment_vote_user}</a>
+				<!--@endif-->
+				<!--@if($board_features->comment->vote_up)-->
 				<a cond="$comment->getMyVote() === false || $comment->getMyVote() < 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteUp','{$comment->comment_srl}');return false;" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote}{$comment->get('voted_count')}</a>
 				<a cond="$comment->getMyVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteUpCancel','{$comment->comment_srl}');return false;" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote}{$comment->get('voted_count')}</a>
+				<!--@endif-->
+				<!--@if($board_features->comment->vote_down)-->
 				<a cond="$comment->getMyVote() === false || $comment->getMyVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteDown','{$comment->comment_srl}');return false;" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote_down}{$comment->get('blamed_count')}</a>
 				<a cond="$comment->getMyVote() < 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteDownCancel','{$comment->comment_srl}');return false;" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote_down}{$comment->get('blamed_count')}</a>
+				<!--@endif-->
 				<a cond="$oDocument->allowComment()" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardReplyComment', 'comment_srl', $comment->comment_srl)}" class="reply"><i class="xi-reply"></i> {$lang->cmd_reply}</a>
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardModifyComment', 'comment_srl', $comment->comment_srl)}" class="modify"><i class="xi-eraser"></i> {$lang->cmd_modify}</a>
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDeleteComment', 'comment_srl', $comment->comment_srl)}" class="delete"><i class="xi-trash"></i> {$lang->cmd_delete}</a>
