@@ -472,9 +472,12 @@ class FileModel extends File
 	 *
 	 * @return object Returns a file configuration of current module. If user is admin, returns PHP's max file size and allow all file types.
 	 */
-	public static function getUploadConfig()
+	public static function getUploadConfig($module_srl = 0)
 	{
-		$module_srl = Context::get('module_srl') ?: (Context::get('current_module_info')->module_srl ?? 0);
+		if (!$module_srl)
+		{
+			$module_srl = Context::get('module_srl') ?: (Context::get('current_module_info')->module_srl ?? 0);
+		}
 		$config = self::getFileConfig($module_srl);
 		if (Rhymix\Framework\Session::isAdmin())
 		{
