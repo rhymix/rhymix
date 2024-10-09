@@ -15,6 +15,9 @@ class FilenameFilter
 	 */
 	public static function clean(string $filename): string
 	{
+		// Clean up unnecessary encodings.
+		$filename = strtr($filename, ['&amp;' => '&', '&#039;' => "'"]);
+
 		// Replace dangerous characters with safe alternatives, maintaining meaning as much as possible.
 		$illegal = array('\\', '/', '<', '>', '{', '}', ':', ';', '|', '"', '~', '`', '$', '%', '^', '*', '?');
 		$replace = array('', '', '(', ')', '(', ')', '_', ',', '_', '', '_', '\'', '_', '_', '_', '', '');
@@ -30,9 +33,6 @@ class FilenameFilter
 		$filename = trim($filename, ' .-_');
 		$filename = preg_replace('/__+/', '_', $filename);
 		$filename = preg_replace('/\.\.+/', '.', $filename);
-
-		// Clean up unnecessary encodings.
-		$filename = strtr($filename, array('&amp;' => '&'));
 
 		// Change .php files to .phps to make them non-executable.
 		if (strtolower(substr($filename, strlen($filename) - 4)) === '.php')

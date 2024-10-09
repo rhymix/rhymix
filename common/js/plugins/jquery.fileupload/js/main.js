@@ -353,12 +353,12 @@
 		unselectNonImageFiles: function() {},
 
 		generateHtml: function($container, file) {
-			var filename = String(file.source_filename);
+			var filename = String(file.source_filename).escape();
 			var html = '';
 			var data = $container.data();
 
 			if (filename.match(/\.(gif|jpe?g|png|webp)$/i)) {
-				html = '<img src="' + file.download_url + '" alt="' + file.source_filename + '"'
+				html = '<img src="' + file.download_url + '" alt="' + filename + '"'
 					+ ' editor_component="image_link" data-file-srl="' + file.file_srl + '" />';
 			}
 			else if (filename.match(/\.(mp3|wav|ogg|flac|aac)$/i)) {
@@ -388,7 +388,7 @@
 			}
 
 			if (html === '') {
-				html += '<a href="' + file.download_url + '" data-file-srl="' + file.file_srl + '">' + file.source_filename + '</a>\n';
+				html += '<a href="' + file.download_url + '" data-file-srl="' + file.file_srl + '">' + filename + '</a>\n';
 			}
 
 			return html;
@@ -515,7 +515,7 @@
 					$container.data(data);
 
 					file.thumbnail_url = file.download_url;
-					file.source_filename = file.source_filename.replace("&amp;", "&");
+					file.source_filename = file.source_filename.replace("&amp;", "&").replace("&#039;", "'");
 
 					if(file.thumbnail_filename) {
 						file.thumbnail_url = file.thumbnail_filename;
