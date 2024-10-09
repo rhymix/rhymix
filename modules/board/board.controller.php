@@ -63,6 +63,17 @@ class BoardController extends Board
 			throw new Rhymix\Framework\Exception('msg_content_too_long');
 		}
 
+		// Return error if content conains excessively large data URLs.
+		$inline_data_url_limit = ($this->module_info->inline_data_url_limit ?: 64) * 1024;
+		preg_match_all('!src="\s*(data:[^,]*,[a-z0-9+/=%$!._-]+)!i', (string)$obj->content, $matches);
+		foreach ($matches[1] as $match)
+		{
+			if (strlen($match) > $inline_data_url_limit)
+			{
+				throw new Rhymix\Framework\Exception('msg_data_url_restricted');
+			}
+		}
+
 		// Check category
 		$category_list = DocumentModel::getCategoryList($this->module_srl);
 		if (count($category_list) > 0)
@@ -470,6 +481,17 @@ class BoardController extends Board
 		if (strlen($obj->content) > $comment_length_limit && !$this->grant->manager)
 		{
 			throw new Rhymix\Framework\Exception('msg_content_too_long');
+		}
+
+		// Return error if content conains excessively large data URLs.
+		$inline_data_url_limit = ($this->module_info->inline_data_url_limit ?: 64) * 1024;
+		preg_match_all('!src="\s*(data:[^,]*,[a-z0-9+/=%$!._-]+)!i', (string)$obj->content, $matches);
+		foreach ($matches[1] as $match)
+		{
+			if (strlen($match) > $inline_data_url_limit)
+			{
+				throw new Rhymix\Framework\Exception('msg_data_url_restricted');
+			}
 		}
 
 		if(!$this->module_info->use_status) $this->module_info->use_status = 'PUBLIC';
