@@ -1,0 +1,119 @@
+<config autoescape="on" />
+
+<include target="config_header.html" />
+<load target="js/queue_config.js" />
+
+<div cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_queue/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<script type="text/javascript">
+	var queue_drivers = {json_encode($queue_drivers)|noescape};
+</script>
+
+<form action="./" method="post" class="x_form-horizontal">
+	<input type="hidden" name="module" value="admin" />
+	<input type="hidden" name="act" value="procAdminUpdateQueue" />
+	<input type="hidden" name="xe_validator_id" value="modules/admin/tpl/config_queue/1" />
+
+	<section class="section">
+
+		<h2>{$lang->subtitle_queue}</h2>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_queue_enabled}</label>
+			<div class="x_controls">
+				<label for="queue_enabled" class="x_inline">
+					<input type="checkbox" name="queue_enabled" id="queue_enabled" value="Y" checked="checked"|cond="config('queue.enabled')" />
+					{$lang->cmd_queue_enabled}
+				</label>
+				<br>
+				<p class="x_help-block">{$lang->cmd_queue_enabled_help}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="queue_driver">{$lang->cmd_queue_driver}</label>
+			<div class="x_controls">
+				<select name="queue_driver" id="queue_driver">
+					<!--@foreach($queue_drivers as $driver_name => $driver_definition)-->
+						<option value="{$driver_name}" selected="selected"|cond="$queue_driver === $driver_name">{$driver_name === 'dummy' ? $lang->notuse : $driver_definition['name']}</option>
+					<!--@end-->
+				</select>
+				<p class="x_help-block">{$lang->cmd_queue_driver_help}</p>
+			</div>
+		</div>
+
+		<!--@foreach($queue_drivers as $driver_name => $driver_definition)-->
+
+			{@ $conf_names = array_merge($driver_definition['required'], $driver_definition['optional'])}
+
+			<!--@foreach($conf_names as $conf_name)-->
+
+				{@ $conf_value = escape(config("queue.$driver_name.$conf_name"))}
+				{@ $text_keys = ['host', 'user']}
+				{@ $number_keys = ['port', 'dbnum']}
+				{@ $password_keys = ['pass']}
+
+				<!--@if(in_array($conf_name, $text_keys))-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="queue_{$driver_name}_{$conf_name}">{$lang->cmd_queue_config_keys[$conf_name]}</label>
+					<div class="x_controls">
+						<input type="text" name="queue_{$driver_name}_{$conf_name}" id="queue_{$driver_name}_{$conf_name}" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+
+				<!--@if(in_array($conf_name, $number_keys))-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="queue_{$driver_name}_{$conf_name}">{$lang->cmd_queue_config_keys[$conf_name]}</label>
+					<div class="x_controls">
+						<input type="number" name="queue_{$driver_name}_{$conf_name}" id="queue_{$driver_name}_{$conf_name}" value="{$conf_value}" />
+					</div>
+				</div>
+				<!--@end-->
+
+				<!--@if(in_array($conf_name, $password_keys))-->
+				<div class="x_control-group hidden-by-default show-for-{$driver_name}">
+					<label class="x_control-label" for="queue_{$driver_name}_{$conf_name}">{$lang->cmd_queue_config_keys[$conf_name]}</label>
+					<div class="x_controls">
+						<input type="password" name="queue_{$driver_name}_{$conf_name}" id="queue_{$driver_name}_{$conf_name}" value="{$conf_value}" autocomplete="new-password" />
+					</div>
+				</div>
+				<!--@end-->
+
+			<!--@end-->
+
+		<!--@end-->
+
+	</section>
+
+	<section>
+
+		<h2>{$lang->cmd_queue_call_script}</h2>
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="queue_key">{$lang->cmd_queue_webcron_key}</label>
+			<div class="x_controls">
+				<input type="text" class="x_full-width" name="queue_key" id="queue_key" value="{config('queue.key')}" />
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="queue_interval">{$lang->cmd_queue_interval}</label>
+			<div class="x_controls">
+				<input type="number" name="queue_interval" id="queue_interval" min="1" max="10" value="{config('queue.interval') ?: 1}" />
+				<span class="x_inline">{$lang->unit_min}</span>
+				<br>
+				<p class="x_help-block" style="margin-top:10px">{sprintf($lang->cmd_queue_interval_help, ini_get('max_execution_time'))|noescape}</p>
+			</div>
+		</div>
+
+	</section>
+
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</div>
+</form>

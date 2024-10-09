@@ -53,7 +53,7 @@ class Redis implements QueueInterface
 	 */
 	public static function getOptionalConfig(): array
 	{
-		return ['user', 'pass', 'dbnum'];
+		return ['dbnum', 'user', 'pass'];
 	}
 
 	/**
@@ -89,7 +89,7 @@ class Redis implements QueueInterface
 				$this->_conn->select(intval($config['dbnum']));
 			}
 
-			$this->_key = 'RXQUEUE_' . substr(sha1(\RX_BASEDIR), 0, 16);
+			$this->_key = 'rxQueue_' . substr(hash_hmac('sha1', 'rxQueue_', config('crypto.authentication_key')), 0, 24);
 		}
 		catch (\RedisException $e)
 		{
