@@ -20,6 +20,13 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label for="max_thread_depth" class="x_control-label">{$lang->max_thread_depth}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="max_thread_depth" id="max_thread_depth" value="{$comment_config->max_thread_depth ?? ''}" />
+				<p class="x_help-inline">{$lang->about_max_thread_depth}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label for="comment_count" class="x_control-label">{$lang->comment_default_page}</label>
 			<div class="x_controls">
 				<select name="default_page" id="default_page">

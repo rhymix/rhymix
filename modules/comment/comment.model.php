@@ -247,6 +247,18 @@ class CommentModel extends Comment
 	}
 
 	/**
+	 * Get comment depth.
+	 *
+	 * @param int $comment_srl
+	 * @return ?int
+	 */
+	public static function getCommentDepth(int $comment_srl): ?int
+	{
+		$output = executeQuery('comment.getCommentDepth', ['comment_srl' => $comment_srl]);
+		return isset($output->data->depth) ? (int)$output->data->depth : null;
+	}
+
+	/**
 	 * Get the total number of comments in corresponding with document_srl.
 	 * @param int $document_srl
 	 * @param array $statusList

@@ -1149,6 +1149,17 @@ class BoardView extends Board
 			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
 
+		// Check thread depth
+		$comment_config = ModuleModel::getModulePartConfig('comment', $this->module_srl);
+		if (isset($comment_config->max_thread_depth) && $comment_config->max_thread_depth > 0)
+		{
+			$parent_depth = CommentModel::getCommentDepth($parent_srl);
+			if ($parent_depth + 2 > $comment_config->max_thread_depth)
+			{
+				return $this->dispBoardMessage('msg_exceeds_max_thread_depth');
+			}
+		}
+
 		// Check allow comment
 		$oDocument = DocumentModel::getDocument($oSourceComment->get('document_srl'));
 		if(!$oDocument->allowComment())

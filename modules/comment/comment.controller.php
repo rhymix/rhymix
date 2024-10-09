@@ -735,6 +735,17 @@ class CommentController extends Comment
 			$list_args->head = $parent->head;
 			$list_args->depth = $parent->depth + 1;
 
+			// Check max thread depth.
+			$comment_config = ModuleModel::getModulePartConfig('comment', $obj->module_srl);
+			if (isset($comment_config->max_thread_depth) && $comment_config->max_thread_depth > 0)
+			{
+				if ($list_args->depth + 1 > $comment_config->max_thread_depth)
+				{
+					$oDB->rollback();
+					return new BaseObject(-1, 'msg_exceeds_max_thread_depth');
+				}
+			}
+
 			// if the depth of comments is less than 2, execute insert.
 			if($list_args->depth < 2)
 			{
@@ -2041,6 +2052,7 @@ class CommentController extends Comment
 		{
 			$comment_config->comment_page_count = 10;
 		}
+		$comment_config->max_thread_depth = (int)Context::get('max_thread_depth') ?: 0;
 
 		$comment_config->default_page = Context::get('default_page');
 		if($comment_config->default_page !== 'first')

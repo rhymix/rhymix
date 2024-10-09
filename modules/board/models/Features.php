@@ -119,6 +119,7 @@ class Features
 		{
 			$features->comment->cancel_report = ($module_info->cancel_vote ?? 'N') === 'Y';
 		}
+		$features->comment->max_thread_depth = $comment_config->max_thread_depth ?? 0;
 		$features->comment->default_page = $comment_config->default_page ?? 'last';
 
 		return $features;
