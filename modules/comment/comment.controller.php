@@ -1565,23 +1565,23 @@ class CommentController extends Comment
 
 	/**
 	 * delete declared comment, log
-	 * @param array|string $commentSrls : srls string (ex: 1, 2,56, 88)
+	 * @param object $args should contain comment_srl
 	 * @return void
 	 */
-	function _deleteDeclaredComments($commentSrls)
+	function _deleteDeclaredComments($args)
 	{
-		executeQuery('comment.deleteDeclaredComments', $commentSrls);
-		executeQuery('comment.deleteDeclaredCommentLog', $commentSrls);
+		executeQuery('comment.deleteDeclaredComments', $args);
+		executeQuery('comment.deleteDeclaredCommentLog', $args);
 	}
 
 	/**
 	 * delete voted comment log
-	 * @param array|string $commentSrls : srls string (ex: 1, 2,56, 88)
+	 * @param object $args should contain comment_srl
 	 * @return void
 	 */
-	function _deleteVotedComments($commentSrls)
+	function _deleteVotedComments($args)
 	{
-		executeQuery('comment.deleteCommentVotedLog', $commentSrls);
+		executeQuery('comment.deleteCommentVotedLog', $args);
 	}
 
 	/**
