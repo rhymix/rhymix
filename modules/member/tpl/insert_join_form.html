@@ -22,7 +22,7 @@
 			<label for="columnType" class="x_control-label"><em style="color:red">*</em> {$lang->column_type}</label>
 			<div class="x_controls">
 				<select id="columnType" class="typeSelect" name="column_type">
-					<option loop="$lang->column_type_list=>$key,$type_info" value="{$key}" selected="selected"|cond="$formInfo->column_type == $key" >{$lang->column_type_list[$key]}</option>
+					<option loop="$extravar_types=>$key,$type_info" value="{$key}" selected="selected"|cond="$formInfo->column_type == $key" >{$lang->column_type_list[$key]}</option>
 				</select>
 			</div>
 		</div>

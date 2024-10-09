@@ -307,6 +307,10 @@ class MemberAdminModel extends Member
 		$id_list = implode(',',$list);
 		Context::set('id_list',$id_list);
 
+		$extravar_types = lang('common.column_type_list');
+		unset($extravar_types['file']);
+		Context::set('extravar_types', $extravar_types);
+
 		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'insert_join_form');
 
