@@ -49,7 +49,9 @@
 				<a cond="$comment->getMyVote() === false || $comment->getMyVote() > 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteDown','{$comment->comment_srl}');return false;" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote_down}{$comment->get('blamed_count')}</a>
 				<a cond="$comment->getMyVote() < 0" href="#" onclick="doCallModuleAction('comment','procCommentVoteDownCancel','{$comment->comment_srl}');return false;" class="voted"><i class="xi-thumbs-up"></i>{$lang->cmd_vote_down}{$comment->get('blamed_count')}</a>
 				<!--@endif-->
+				<!--@if(!$board_features->comment->max_thread_depth || $comment->depth + 1 < $board_features->comment->max_thread_depth)-->
 				<a cond="$oDocument->allowComment()" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardReplyComment', 'comment_srl', $comment->comment_srl)}" class="reply"><i class="xi-reply"></i> {$lang->cmd_reply}</a>
+				<!--@endif-->
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardModifyComment', 'comment_srl', $comment->comment_srl)}" class="modify"><i class="xi-eraser"></i> {$lang->cmd_modify}</a>
 				<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardDeleteComment', 'comment_srl', $comment->comment_srl)}" class="delete"><i class="xi-trash"></i> {$lang->cmd_delete}</a>
 				<a cond="$is_logged" class="comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a>
