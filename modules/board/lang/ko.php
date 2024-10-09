@@ -15,6 +15,7 @@ $lang->last_post = '최종 글';
 $lang->board_management = '게시판 관리';
 $lang->search_result = '검색결과';
 $lang->consultation = '상담 기능';
+$lang->use_consultation = '상담 기능 사용';
 $lang->secret = '비밀글 기능';
 $lang->thisissecret = '비밀글입니다.';
 $lang->admin_mail = '관리자 메일';
@@ -37,7 +38,7 @@ $lang->about_use_anonymous_part2 = '스킨 설정에서 글쓴이 정보 등을 
 $lang->about_anonymous_except_admin = '관리권한이 있는 회원은 익명으로 표시되지 않도록 합니다.';
 $lang->about_anonymous_name = '익명 기능을 사용할 때 표시할 익명 닉네임을 정할 수 있습니다.<br><b>$NUM</b>을 사용하면 회원마다 고유한 난수를 부여할 수 있습니다. (예: 익명_$NUM → 익명_12345678)<br><b>$DAILYNUM</b>을 사용하면 매일 난수가 변경되고, <b>$DOCNUM</b>을 사용하면 문서마다 변경됩니다.<br><b>$DOCDAILYNUM</b>을 사용하면 문서마다 각각, 그리고 매일 변경됩니다.<br>각 변수 뒤에 <strong>$DAILYNUM:5</strong>와 같이 1~8 숫자를 붙여 자릿수를 조정할 수 있습니다.<br><strong>NUM</strong> 대신 <strong>STR</strong>를 사용하면 일부 알파벳이 포함된 16진수를 사용합니다.';
 $lang->about_board = '게시판을 생성하고 관리할 수 있습니다.';
-$lang->about_consultation = '상담 기능은 관리권한이 없는 회원은 자신이 쓴 글만 보이도록 하는 기능입니다. 단 상담기능 사용시 비회원 글쓰기는 자동으로 금지됩니다.';
+$lang->about_consultation = '관리 권한이 없는 회원은 자신이 쓴 글만 보이도록 합니다.<br>상담 기능 사용시 비회원 글쓰기는 금지됩니다.';
 $lang->about_secret = '게시판 및 댓글의 비밀글 기능을 사용할 수 있도록 합니다.';
 $lang->about_admin_mail = '글이나 댓글이 등록될때 등록된 메일주소로 메일이 발송됩니다. 콤마(,)로 연결시 다수의 메일주소로 발송할 수 있습니다.';
 $lang->about_list_config = '게시판의 목록형식 사용시 원하는 항목들로 배치를 할 수 있습니다. 단 스킨에서 지원하지 않는 경우 불가능합니다. 대상항목/ 표시항목의 항목을 더블클릭하면 추가/ 제거가 됩니다.';
@@ -86,7 +87,7 @@ $lang->msg_dont_have_update_log = '업데이트 로그가 기록되어 있지 �
 $lang->msg_content_too_long = '내용이 너무 깁니다.';
 $lang->msg_data_url_restricted = 'Data URL 분량이 너무 많아서 작성이 제한되었습니다.';
 $lang->original_letter = '원본글';
-$lang->msg_warning_update_log = '<span class="x_label x_label-important">주의!</span> 사용시 디비가 많이 늘어날 수 있습니다.';
+$lang->msg_warning_update_log = '<span class="x_label x_label-important">주의!</span> 사용시 DB 용량이 많이 늘어날 수 있습니다.';
 $lang->reason_update = '수정한 이유';
 $lang->msg_no_update_id = '업데이트 고유 번호는 필수입니다.';
 $lang->msg_no_update_log = '업데이트 로그가 존재하지 않습니다.';
