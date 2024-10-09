@@ -26,7 +26,7 @@
 		<input type="file" name="{{ $input_name }}"
 			id="{{ $input_id }}"|if="$input_id" class="file rx_ev_file"
 			style="{{ $definition->style }}"|if="$definition->style"
-			accept="{{ $allowed_filetypes }}"|if="$allowed_filetypes !== '' && $allowed_filetypes !== '*'"
+			accept="{{ $allowed_filetypes }}"|if="$allowed_filetypes !== '' && $allowed_filetypes !== '.*'"
 			data-allowed-filesize="{{ $allowed_filesize }}"
 			data-msg-filesize="{{ lang('file.msg_exceeds_limit_size') }}"
 			@required(toBool($definition->is_required) && !$value)

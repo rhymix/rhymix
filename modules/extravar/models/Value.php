@@ -200,7 +200,7 @@ class Value
 		}
 		elseif ($this->default)
 		{
-			return explode(',', $this->default);
+			return is_array($this->default) ? $this->default : explode(',', $this->default);
 		}
 		else
 		{
