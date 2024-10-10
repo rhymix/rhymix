@@ -402,6 +402,13 @@ class Push
 	 */
 	public function send(): bool
 	{
+		// If queue is enabled, send asynchronously.
+		if (config('queue.enabled') && !defined('RXQUEUE_CRON'))
+		{
+			Queue::addTask(self::class . '::' . 'sendAsync', $this);
+			return true;
+		}
+
 		// Get caller information.
 		$backtrace = debug_backtrace(0);
 		if(count($backtrace) && isset($backtrace[0]['file']))
@@ -462,6 +469,17 @@ class Push
 		}
 
 		return $this->sent > 0 ? true : false;
+	}
+
+	/**
+	 * Send asynchronously (for Queue integration).
+	 *
+	 * @param self $sms
+	 * @return void
+	 */
+	public static function sendAsync(self $push): void
+	{
+		$push->send();
 	}
 
 	/**
