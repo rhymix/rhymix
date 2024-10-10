@@ -178,9 +178,6 @@ class Queue
 	 */
 	public static function process(int $timeout): void
 	{
-		// Increase the time limit. This may or may not work.
-		set_time_limit(min(60, $timeout));
-
 		// This part will run in a loop until timeout.
 		$process_start_time = microtime(true);
 		while (true)
