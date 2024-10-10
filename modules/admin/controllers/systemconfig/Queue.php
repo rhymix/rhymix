@@ -60,11 +60,11 @@ class Queue extends Base
 		$driver = trim($vars->queue_driver);
 		if (!array_key_exists($driver, $drivers))
 		{
-			throw new Exception('1111');
+			throw new Exception('msg_queue_driver_not_found');
 		}
 		if ($enabled && (!$driver || $driver === 'dummy'))
 		{
-			throw new Exception('2222');
+			throw new Exception('msg_queue_driver_cannot_be_dummy');
 		}
 
 		// Validate required and optional driver settings.
@@ -74,7 +74,7 @@ class Queue extends Base
 			$conf_value = trim($vars->{'queue_' . $driver . '_' . $conf_name} ?? '');
 			if ($conf_value === '')
 			{
-				throw new Exception('3333');
+				throw new Exception('msg_queue_invalid_config');
 			}
 			$driver_config[$conf_name] = $conf_value === '' ? null : $conf_value;
 		}
@@ -88,21 +88,21 @@ class Queue extends Base
 		$interval = intval($vars->queue_interval ?? 1);
 		if ($interval < 1 || $interval > 10)
 		{
-			throw new Exception('4444');
+			throw new Exception('msg_queue_invalid_interval');
 		}
 
 		// Validate the process count.
 		$process_count = intval($vars->queue_process_count ?? 1);
 		if ($process_count < 1 || $process_count > 10)
 		{
-			throw new Exception('4444');
+			throw new Exception('msg_queue_invalid_process_count');
 		}
 
 		// Validate the key.
 		$key = trim($vars->queue_key ?? '');
 		if (strlen($key) < 16 || !ctype_alnum($key))
 		{
-			throw new Exception('5555');
+			throw new Exception('msg_queue_invalid_key');
 		}
 
 		// Save system config.
