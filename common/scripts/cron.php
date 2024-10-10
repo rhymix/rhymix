@@ -6,14 +6,16 @@
  * Unlike other scripts provided with Rhymix, it can be called
  * both on the command line and over the network.
  */
+define('RXQUEUE_CRON', true);
 
+// If called on the CLI, run additional checks.
 if (PHP_SAPI === 'cli')
 {
 	require_once __DIR__ . '/common.php';
 }
 else
 {
-	// If called over the network, bypass CLI checks.
+	// If called over the network, load Rhymix directly.
 	chdir(dirname(dirname(__DIR__)));
 	require_once dirname(__DIR__) . '/autoload.php';
 	Context::init();
