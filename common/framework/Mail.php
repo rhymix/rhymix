@@ -560,6 +560,13 @@ class Mail
 	 */
 	public function send(): bool
 	{
+		// If queue is enabled, send asynchronously.
+		if (config('queue.enabled') && !defined('RXQUEUE_CRON'))
+		{
+			Queue::addTask(self::class . '::' . 'sendAsync', $this);
+			return true;
+		}
+
 		// Get caller information.
 		$backtrace = debug_backtrace(0);
 		if(count($backtrace) && isset($backtrace[0]['file']))
@@ -598,6 +605,17 @@ class Mail
 		}
 
 		return $this->sent;
+	}
+
+	/**
+	 * Send an email asynchronously (for Queue integration).
+	 *
+	 * @param self $mail
+	 * @return void
+	 */
+	public static function sendAsync(self $mail): void
+	{
+		$mail->send();
 	}
 
 	/**
