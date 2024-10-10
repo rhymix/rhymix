@@ -1,0 +1,8 @@
+<table name="task_queue">
+	<column name="id" type="bigint" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="handler" type="varchar" size="191" notnull="notnull" />
+	<column name="args" type="longtext" notnull="notnull" />
+	<column name="options" type="longtext" notnull="notnull" />
+	<column name="lock" type="int" notnull="notnull" default="0" index="idx_lock" />
+	<column name="regdate" type="datetime" notnull="notnull" default="current_timestamp()" index="idx_regdate" />
+</table>

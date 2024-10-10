@@ -511,6 +511,13 @@ class SMS
 	 */
 	public function send(): bool
 	{
+		// If queue is enabled, send asynchronously.
+		if (config('queue.enabled') && !defined('RXQUEUE_CRON'))
+		{
+			Queue::addTask(self::class . '::' . 'sendAsync', $this);
+			return true;
+		}
+
 		// Get caller information.
 		$backtrace = debug_backtrace(0);
 		if(count($backtrace) && isset($backtrace[0]['file']))
@@ -564,6 +571,17 @@ class SMS
 		}
 
 		return $this->sent;
+	}
+
+	/**
+	 * Send an SMS asynchronously (for Queue integration).
+	 *
+	 * @param self $sms
+	 * @return void
+	 */
+	public static function sendAsync(self $sms): void
+	{
+		$sms->send();
 	}
 
 	/**
