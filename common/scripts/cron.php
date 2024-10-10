@@ -30,5 +30,5 @@ else
 }
 
 // The rest of the work will be done by the Queue class.
-$timeout = config('queue.interval') ?? 60;
+$timeout = (config('queue.interval') ?? 1) * 60;
 Rhymix\Framework\Queue::process($timeout);
