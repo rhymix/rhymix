@@ -3,6 +3,10 @@
 <include target="config_header.html" />
 <load target="js/queue_config.js" />
 
+<div class="message">
+	<p>{$lang->cmd_queue_description}</p>
+</div>
+
 <div cond="!empty($XE_VALIDATOR_MESSAGE) && $XE_VALIDATOR_ID == 'modules/admin/tpl/config_queue/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -106,6 +110,14 @@
 				<span class="x_inline">{$lang->unit_min}</span>
 				<br>
 				<p class="x_help-block" style="margin-top:10px">{sprintf($lang->cmd_queue_interval_help, ini_get('max_execution_time'))|noescape}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label" for="queue_process_count">{$lang->cmd_queue_process_count}</label>
+			<div class="x_controls">
+				<input type="number" name="queue_process_count" id="queue_process_count" min="1" max="10" value="{config('queue.process_count') ?: 1}" />
+				<p class="x_help-block">{$lang->cmd_queue_process_count_help}</p>
 			</div>
 		</div>
 

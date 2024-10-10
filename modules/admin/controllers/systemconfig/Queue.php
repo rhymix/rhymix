@@ -91,6 +91,13 @@ class Queue extends Base
 			throw new Exception('4444');
 		}
 
+		// Validate the process count.
+		$process_count = intval($vars->queue_process_count ?? 1);
+		if ($process_count < 1 || $process_count > 10)
+		{
+			throw new Exception('4444');
+		}
+
 		// Validate the key.
 		$key = trim($vars->queue_key ?? '');
 		if (strlen($key) < 16 || !ctype_alnum($key))
@@ -102,6 +109,7 @@ class Queue extends Base
 		Config::set("queue.enabled", $enabled);
 		Config::set("queue.driver", $driver);
 		Config::set("queue.interval", $interval);
+		Config::set("queue.process_count", $process_count);
 		Config::set("queue.key", $key);
 		Config::set("queue.$driver", $driver_config);
 		if (!Config::save())
