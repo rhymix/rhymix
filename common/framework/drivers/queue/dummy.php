@@ -18,9 +18,9 @@ class Dummy implements QueueInterface
 	 * Create a new instance of the current Queue driver, using the given settings.
 	 *
 	 * @param array $config
-	 * @return void
+	 * @return QueueInterface
 	 */
-	public static function getInstance(array $config): self
+	public static function getInstance(array $config): QueueInterface
 	{
 		return new self($config);
 	}
