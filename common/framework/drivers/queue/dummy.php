@@ -10,6 +10,11 @@ use Rhymix\Framework\Drivers\QueueInterface;
 class Dummy implements QueueInterface
 {
 	/**
+	 * Dummy queue for testing.
+	 */
+	protected $_dummy_queue;
+
+	/**
 	 * Create a new instance of the current Queue driver, using the given settings.
 	 *
 	 * @param array $config
@@ -80,6 +85,11 @@ class Dummy implements QueueInterface
 	 */
 	public function addTask(string $handler, ?object $args = null, ?object $options = null): int
 	{
+		$this->_dummy_queue = (object)[
+			'handler' => $handler,
+			'args' => $args,
+			'options' => $options,
+		];
 		return 0;
 	}
 
@@ -91,6 +101,8 @@ class Dummy implements QueueInterface
 	 */
 	public function getTask(int $blocking = 0): ?object
 	{
-		return null;
+		$result = $this->_dummy_queue;
+		$this->_dummy_queue = null;
+		return $result;
 	}
 }
