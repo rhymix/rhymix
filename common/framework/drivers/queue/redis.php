@@ -67,6 +67,37 @@ class Redis implements QueueInterface
 	}
 
 	/**
+	 * Validate driver configuration.
+	 *
+	 * @param mixed $config
+	 * @return bool
+	 */
+	public static function validateConfig($config): bool
+	{
+		try
+		{
+			$test = new \Redis;
+			$test->connect($config['host'], $config['port'] ?? 6379);
+			if (isset($config['user']) || isset($config['pass']))
+			{
+				$auth = [];
+				if (isset($config['user']) && $config['user']) $auth[] = $config['user'];
+				if (isset($config['pass']) && $config['pass']) $auth[] = $config['pass'];
+				$test->auth(count($auth) > 1 ? $auth : $auth[0]);
+			}
+			if (isset($config['dbnum']))
+			{
+				$test->select(intval($config['dbnum']));
+			}
+			return true;
+		}
+		catch (\Throwable $th)
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $config
@@ -77,18 +108,17 @@ class Redis implements QueueInterface
 		{
 			$this->_conn = new \Redis;
 			$this->_conn->connect($config['host'], $config['port'] ?? 6379);
-			if(isset($config['user']) || isset($config['pass']))
+			if (isset($config['user']) || isset($config['pass']))
 			{
 				$auth = [];
 				if (isset($config['user']) && $config['user']) $auth[] = $config['user'];
 				if (isset($config['pass']) && $config['pass']) $auth[] = $config['pass'];
 				$this->_conn->auth(count($auth) > 1 ? $auth : $auth[0]);
 			}
-			if(isset($config['dbnum']))
+			if (isset($config['dbnum']))
 			{
 				$this->_conn->select(intval($config['dbnum']));
 			}
-
 			$this->_key = 'rxQueue_' . substr(hash_hmac('sha1', 'rxQueue_', config('crypto.authentication_key')), 0, 24);
 		}
 		catch (\RedisException $e)

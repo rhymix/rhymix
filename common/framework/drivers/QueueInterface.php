@@ -44,6 +44,14 @@ interface QueueInterface
 	public static function isSupported(): bool;
 
 	/**
+	 * Validate driver configuration.
+	 *
+	 * @param mixed $config
+	 * @return bool
+	 */
+	public static function validateConfig($config): bool;
+
+	/**
 	 * Add a task.
 	 *
 	 * @param string $handler

@@ -66,6 +66,17 @@ class Dummy implements QueueInterface
 	}
 
 	/**
+	 * Validate driver configuration.
+	 *
+	 * @param mixed $config
+	 * @return bool
+	 */
+	public static function validateConfig($config): bool
+	{
+		return true;
+	}
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $config

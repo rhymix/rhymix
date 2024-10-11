@@ -68,7 +68,7 @@ class Queue extends Base
 		}
 
 		// Validate required and optional driver settings.
-		$driver_config = array();
+		$driver_config = [];
 		foreach ($drivers[$driver]['required'] as $conf_name)
 		{
 			$conf_value = trim($vars->{'queue_' . $driver . '_' . $conf_name} ?? '');
@@ -104,6 +104,18 @@ class Queue extends Base
 		{
 			throw new Exception('msg_queue_invalid_key');
 		}
+
+		// Validate actual operation of the driver.
+		$driver_class = '\\Rhymix\\Framework\\Drivers\\Queue\\' . $driver;
+		if (!class_exists($driver_class) || !$driver_class::isSupported())
+		{
+			throw new Exception('msg_queue_driver_not_found');
+		}
+		if (!$driver_class::validateConfig($driver_config))
+		{
+			throw new Exception('msg_queue_driver_not_usable');
+		}
+
 
 		// Save system config.
 		Config::set("queue.enabled", $enabled);
