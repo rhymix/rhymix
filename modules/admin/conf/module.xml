@@ -34,6 +34,8 @@
 		<action name="procAdminUpdateDebug" class="Controllers\SystemConfig\Debug" />
 		<action name="dispAdminConfigSEO" class="Controllers\SystemConfig\SEO" menu_name="adminConfigurationGeneral" />
 		<action name="procAdminUpdateSEO" class="Controllers\SystemConfig\SEO" />
+		<action name="dispAdminConfigQueue" class="Controllers\SystemConfig\Queue" menu_name="adminConfigurationGeneral" />
+		<action name="procAdminUpdateQueue" class="Controllers\SystemConfig\Queue" />
 		<action name="dispAdminConfigSitelock" class="Controllers\SystemConfig\SiteLock" menu_name="adminConfigurationGeneral" />
 		<action name="procAdminUpdateSitelock" class="Controllers\SystemConfig\SiteLock" />
 		<!-- Admin Interface Config -->
