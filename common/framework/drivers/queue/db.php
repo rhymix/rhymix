@@ -96,7 +96,8 @@ class DB implements QueueInterface
 	public function getTask(int $blocking = 0): ?object
 	{
 		$oDB = RFDB::getInstance();
-		$stmt = $oDB->query('SELECT * FROM task_queue ORDER BY id LIMIT 1');
+		$oDB->beginTransaction();
+		$stmt = $oDB->query('SELECT * FROM task_queue ORDER BY id LIMIT 1 FOR UPDATE');
 		$result = $stmt->fetchObject();
 		$stmt->closeCursor();
 
@@ -104,6 +105,7 @@ class DB implements QueueInterface
 		{
 			$stmt = $oDB->prepare('DELETE FROM task_queue WHERE id = ?');
 			$stmt->execute([$result->id]);
+			$oDB->commit();
 
 			$result->args = unserialize($result->args);
 			$result->options = unserialize($result->options);
@@ -111,6 +113,7 @@ class DB implements QueueInterface
 		}
 		else
 		{
+			$oDB->commit();
 			return null;
 		}
 	}
