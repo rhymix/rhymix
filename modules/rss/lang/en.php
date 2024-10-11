@@ -6,6 +6,7 @@ $lang->feed_copyright = 'Copyright';
 $lang->feed_document_count = 'Number of articles per page';
 $lang->feed_image = 'Feed Image';
 $lang->rss_type = 'RSS feed type';
+$lang->module_feed_management = 'Feeds for Each Module';
 $lang->open_rss = 'Open RSS';
 $lang->open_rss_types['Y'] = 'Open all';
 $lang->open_rss_types['H'] = 'Open summary';

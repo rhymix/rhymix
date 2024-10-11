@@ -36,6 +36,7 @@ class RssAdminView extends Rss
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 
 			$args = new stdClass;
+			$args->browser_title = $module_info->browser_title;
 			$args->mid = $module_info->mid;
 			$args->url = $oRssModel->getRssURL('rss', $module_info->mid);
 			$args->open_feed = $module_config->open_rss;

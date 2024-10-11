@@ -6,6 +6,7 @@ $lang->feed_copyright = '저작권';
 $lang->feed_document_count = '한 페이지당 글 수';
 $lang->feed_image = '피드 이미지';
 $lang->rss_type = '출력할 피드(Feed) 형식';
+$lang->module_feed_management = '모듈별 피드 관리';
 $lang->open_rss = '피드(Feed) 공개';
 $lang->open_rss_types['Y'] = '전문 공개 ';
 $lang->open_rss_types['H'] = '요약 공개';

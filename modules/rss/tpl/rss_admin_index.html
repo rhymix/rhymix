@@ -42,7 +42,7 @@
 			<label class="x_control-label" for="image">{$lang->feed_image}</label>
 			<div class="x_controls">
 				<div class="_rss_image_container" cond="$config->image">
-					<div class="x_thumbnail" style="display:inline-block;margin:0 0 5px 0"> 
+					<div class="x_thumbnail" style="display:inline-block;margin:0 0 5px 0">
 						<img src="{$config->image_url}" alt="image" style="max-width:210px;max-height:150px" />
 						<button type="button" class="_delete_rss_image">{$lang->cmd_delete}</button>
 					</div>
@@ -68,12 +68,12 @@
 	</form>
 </section>
 <section class="section">
-	<h1 style="margin-bottom:0">{$lang->feed} {$lang->cmd_management}</h1>
+	<h1 style="margin-bottom:0">{$lang->module_feed_management}</h1>
 	<form action="./" method="post">
 		<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getUrl('', 'module', $module, 'act', 'dispRssAdminIndex')}" />
 		<input type="hidden" name="xe_validator_id" value="modules/rss/tpl/rss_admin_index/1" />
-		
+
 		<table class="x_table x_table-striped x_table-hover" style="border-top:0;margin-top:0">
 			<thead>
 				<tr>
@@ -86,7 +86,8 @@
 			<tbody>
 				<tr loop="$rss_list => $module_srl,$module_config">
 					<td>
-						<a href="{$module_config->url}" target="_blank">{$module_config->mid}</a>
+						<b>{$module_config->browser_title}</b>
+						<br><a href="{$module_config->url}" target="_blank">{$module_config->mid}</a>
 					</td>
 					<td class="title">
 						<textarea name="feed_description[{$module_srl}]">{escape($module_config->feed_description)}</textarea>
@@ -110,7 +111,7 @@
 				</tr>
 			</tbody>
 		</table>
-		
+
 		<div class="x_clearfix">
 			<button type="submit" class="x_btn x_btn-primary x_pull-right">{$lang->cmd_save}</button>
 		</div>
