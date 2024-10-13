@@ -85,7 +85,7 @@ else
 /*
  * RX_SSL is true if the current request uses SSL/TLS.
  */
-if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+if (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
 {
     define('RX_SSL', true);
 }
