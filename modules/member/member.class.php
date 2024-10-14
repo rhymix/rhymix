@@ -427,10 +427,7 @@ class Member extends ModuleObject
 				}
 				else
 				{
-					var_dump($result);
-					var_dump(Rhymix\Framework\Debug::getErrors());
 					$oDB->rollback();
-					exit;
 				}
 			}
 			else
