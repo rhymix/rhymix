@@ -231,7 +231,7 @@ class Document extends ModuleObject
 		}
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_options'))
 		{
-			$oDB->addColumn('document_extra_keys', 'var_options', 'text', '', '', false, 'var_default');
+			$oDB->addColumn('document_extra_keys', 'var_options', 'text', null, null, false, 'var_default');
 		}
 	}
 
