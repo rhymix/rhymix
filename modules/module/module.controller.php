@@ -806,7 +806,7 @@ class ModuleController extends Module
 	/**
 	 * @brief Specify the admin ID to a module
 	 */
-	function insertAdminId($module_srl, $admin_id)
+	function insertAdminId($module_srl, $admin_id, $scopes = null)
 	{
 		if (strpos($admin_id, '@') !== false)
 		{
@@ -824,6 +824,14 @@ class ModuleController extends Module
 		$args = new stdClass();
 		$args->module_srl = intval($module_srl);
 		$args->member_srl = $member_info->member_srl;
+		if (is_array($scopes))
+		{
+			$args->scopes = json_encode(array_values($scopes));
+		}
+		else
+		{
+			$args->scopes = new Rhymix\Framework\Parsers\DBQuery\NullValue;
+		}
 		$output = executeQuery('module.insertAdminId', $args);
 
 		Rhymix\Framework\Cache::delete("site_and_module:module_admins:" . intval($module_srl));

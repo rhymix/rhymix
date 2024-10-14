@@ -292,6 +292,11 @@ class ModuleAdminController extends Module
 		// Register Admin ID
 		$oModuleController->deleteAdminId($module_srl);
 		$admin_member = Context::get('admin_member');
+		$scopes = Context::get('admin_scopes') ?: null;
+		if(is_string($scopes) && $scopes !== '')
+		{
+			$scopes = explode('|@|', $scopes);
+		}
 		if($admin_member)
 		{
 			$admin_members = explode(',',$admin_member);
@@ -299,7 +304,7 @@ class ModuleAdminController extends Module
 			{
 				$admin_id = trim($admin_id);
 				if(!$admin_id) continue;
-				$oModuleController->insertAdminId($module_srl, $admin_id);
+				$oModuleController->insertAdminId($module_srl, $admin_id, $scopes);
 			}
 		}
 
