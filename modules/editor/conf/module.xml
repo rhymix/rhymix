@@ -12,7 +12,7 @@
 		<action name="procEditorSaveDoc" type="controller" />
 		<action name="procEditorRemoveSavedDoc" type="controller" />
 		<action name="procEditorLoadSavedDocument" type="controller" />
-		<action name="procEditorInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
+		<action name="procEditorInsertModuleConfig" type="controller" permission="manager:config:*" check_var="target_module_srl" />
 
 		<action name="dispEditorAdminIndex" type="view" menu_name="editor" menu_index="true" admin_index="true" />
 		<action name="dispEditorAdminSetupComponent" type="view" menu_name="editor" />
