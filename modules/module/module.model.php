@@ -1853,7 +1853,9 @@ class ModuleModel extends Module
 	}
 
 	/**
-	 * @brief Check if a member is a module administrator
+	 * Check if a member is a module administrator
+	 *
+	 * @return array|bool
 	 */
 	public static function isModuleAdmin($member_info, $module_srl = null)
 	{
@@ -1882,14 +1884,22 @@ class ModuleModel extends Module
 			$module_admins = array();
 			foreach ($output->data as $module_admin)
 			{
-				$module_admins[$module_admin->member_srl] = true;
+				$module_admins[$module_admin->member_srl] = $module_admin->scopes ? json_decode($module_admin->scopes) : true;
 			}
 			if ($output->toBool())
 			{
 				Rhymix\Framework\Cache::set("site_and_module:module_admins:$module_srl", $module_admins, 0, true);
 			}
 		}
-		return isset($module_admins[$member_info->member_srl]);
+
+		if (isset($module_admins[$member_info->member_srl]))
+		{
+			return $module_admins[$member_info->member_srl];
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -1900,8 +1910,14 @@ class ModuleModel extends Module
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		$output = executeQueryArray('module.getAdminID', $obj);
-		if(!$output->toBool() || !$output->data) return;
-
+		if (!$output->toBool() || !$output->data)
+		{
+			return;
+		}
+		foreach ($output->data as $row)
+		{
+			$row->scopes = !empty($row->scopes) ? json_decode($row->scopes) : null;
+		}
 		return $output->data;
 	}
 
@@ -2129,7 +2145,12 @@ class ModuleModel extends Module
 	}
 
 	/**
-	 * @brief Return privileges(granted) information by using module info, xml info and member info
+	 * Get privileges(granted) information by using module info, xml info and member info
+	 *
+	 * @param object $module_info
+	 * @param object $member_info
+	 * @param ?object $xml_info
+	 * @return Rhymix\Modules\Module\Models\Permission
 	 */
 	public static function getGrant($module_info, $member_info, $xml_info = null)
 	{
@@ -2147,8 +2168,6 @@ class ModuleModel extends Module
 				return $__cache;
 			}
 		}
-
-		$grant = new stdClass;
 
 		// Get information of module.xml
 		if(!$xml_info)
@@ -2172,6 +2191,7 @@ class ModuleModel extends Module
 		$privilege_list = array_unique($privilege_list, SORT_STRING);
 
 		// Grant first
+		$grant = new Rhymix\Modules\Module\Models\Permission;
 		foreach($privilege_list as $val)
 		{
 			// If an administrator, grant all
@@ -2180,7 +2200,7 @@ class ModuleModel extends Module
 				$grant->{$val} = true;
 			}
 			// If a module manager, grant all (except 'root', 'is_admin')
-			else if($is_module_admin === true && $val !== 'root' && $val !== 'is_admin')
+			elseif ($is_module_admin && $val !== 'root' && $val !== 'is_admin')
 			{
 				$grant->{$val} = true;
 			}
@@ -2194,6 +2214,20 @@ class ModuleModel extends Module
 			{
 				$grant->{$val} = false;
 			}
+		}
+
+		// If module admin, add scopes
+		if ($member_info && $member_info->is_admin == 'Y')
+		{
+			$grant->scopes = true;
+		}
+		elseif ($is_module_admin)
+		{
+			$grant->scopes = $is_module_admin;
+		}
+		else
+		{
+			$grant->scopes = [];
 		}
 
 		// If access were not granted, check more

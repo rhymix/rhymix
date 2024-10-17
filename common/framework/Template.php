@@ -899,19 +899,23 @@ class Template
 	protected function _v2_checkCapability(int $check_type, $capability): bool
 	{
 		$grant = \Context::get('grant');
-		if ($check_type === 1)
+		if (!($grant instanceof \Rhymix\Modules\Module\Models\Permission))
 		{
-			return isset($grant->$capability) ? boolval($grant->$capability) : false;
+			return false;
+		}
+		elseif ($check_type === 1)
+		{
+			return $grant->can($capability);
 		}
 		elseif ($check_type === 2)
 		{
-			return isset($grant->$capability) ? !boolval($grant->$capability) : true;
+			return !$grant->can($capability);
 		}
 		elseif (is_array($capability))
 		{
 			foreach ($capability as $cap)
 			{
-				if (isset($grant->$cap) && $grant->$cap)
+				if ($grant->can($cap))
 				{
 					return true;
 				}

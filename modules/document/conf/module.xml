@@ -22,14 +22,14 @@
 		<action name="procDocumentDeclare" type="controller" permission="member" />
 		<action name="procDocumentDeclareCancel" type="controller" permission="member" />
 		<action name="procDocumentDeleteTempSaved" type="controller" permission="member" />
-		<action name="procDocumentGetList" type="controller" permission="manager" check_type="document" check_var="document_srls" />
-		<action name="procDocumentAddCart" type="controller" permission="manager" check_type="document" check_var="srls" />
-		<action name="procDocumentManageCheckedDocument" type="controller" permission="manager" check_type="document" check_var="cart" />
-		<action name="procDocumentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" />
-		<action name="procDocumentInsertCategory" type="controller" permission="manager" check_var="module_srl" ruleset="insertCategory" />
-		<action name="procDocumentDeleteCategory" type="controller" permission="manager" check_var="module_srl" />
-		<action name="procDocumentMoveCategory" type="controller" permission="manager" check_var="module_srl" />
-		<action name="procDocumentMakeXmlFile" type="controller" permission="manager" check_var="module_srl" />
+		<action name="procDocumentGetList" type="controller" permission="manager:moderate:document" check_type="document" check_var="document_srls" />
+		<action name="procDocumentAddCart" type="controller" permission="manager:moderate:document" check_type="document" check_var="srls" />
+		<action name="procDocumentManageCheckedDocument" type="controller" permission="manager:moderate:document" check_type="document" check_var="cart" />
+		<action name="procDocumentInsertModuleConfig" type="controller" permission="manager:config:*" check_var="target_module_srl" />
+		<action name="procDocumentInsertCategory" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="insertCategory" />
+		<action name="procDocumentDeleteCategory" type="controller" permission="manager:config:*" check_var="module_srl" />
+		<action name="procDocumentMoveCategory" type="controller" permission="manager:config:*" check_var="module_srl" />
+		<action name="procDocumentMakeXmlFile" type="controller" permission="manager:config:*" check_var="module_srl" />
 
 		<action name="dispDocumentAdminList" type="view" admin_index="true" menu_name="document" menu_index="true" />
 		<action name="dispDocumentAdminConfig" type="view" menu_name="document" />
@@ -44,11 +44,11 @@
 		<action name="procDocumentAdminCancelDeclare" type="controller" />
 		<action name="procDocumentAdminInsertAlias" type="controller" ruleset="insertAlias" />
 		<action name="procDocumentAdminDeleteAlias" type="controller" ruleset="deleteAlias" />
-		<action name="procDocumentAdminMoveToTrash" type="controller" permission="manager" check_type="document" check_var="document_srl" />
+		<action name="procDocumentAdminMoveToTrash" type="controller" permission="manager:moderate:document" check_type="document" check_var="document_srl" />
 		<action name="procDocumentAdminRestoreTrash" type="controller" />
-		<action name="procDocumentAdminInsertExtraVar" type="controller" permission="manager" check_var="module_srl" ruleset="insertExtraVar" />
-		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manager" check_var="module_srl" />
-		<action name="procDocumentAdminMoveExtraVar" type="controller" permission="manager" check_var="module_srl" />
+		<action name="procDocumentAdminInsertExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="insertExtraVar" />
+		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manage:config:*" check_var="module_srl" />
+		<action name="procDocumentAdminMoveExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" />
 	</actions>
 	<eventHandlers>
 		<eventHandler after="module.deleteModule" class="controller" method="triggerDeleteModuleDocuments" />

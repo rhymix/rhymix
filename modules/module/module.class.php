@@ -148,6 +148,12 @@ class Module extends ModuleObject
 		{
 			return true;
 		}
+
+		// check scope column on module_admins table
+		if (!$oDB->isColumnExists('module_admins', 'scopes'))
+		{
+			return true;
+		}
 	}
 
 	/**
@@ -310,6 +316,12 @@ class Module extends ModuleObject
 			{
 				return $output;
 			}
+		}
+
+		// check scope column on module_admins table
+		if (!$oDB->isColumnExists('module_admins', 'scopes'))
+		{
+			$oDB->addColumn('module_admins', 'scopes', 'text', null, null, false, 'member_srl');
 		}
 	}
 

@@ -23,7 +23,7 @@
 		<action name="procFileAdminInsertUploadConfig" type="controller" ruleset="insertConfig" />
 		<action name="procFileAdminInsertDownloadConfig" type="controller" />
 		<action name="procFileAdminInsertOtherConfig" type="controller" />
-		<action name="procFileAdminInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" ruleset="fileModuleConfig" />
+		<action name="procFileAdminInsertModuleConfig" type="controller" permission="manager:config:*" check_var="target_module_srl" ruleset="fileModuleConfig" />
 	</actions>
 	<eventHandlers>
 		<eventHandler after="document.deleteDocument" class="controller" method="triggerDeleteAttached" />

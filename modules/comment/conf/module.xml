@@ -13,8 +13,8 @@
 		<action name="procCommentVoteDownCancel" type="controller" />
 		<action name="procCommentDeclare" type="controller" permission="member" />
 		<action name="procCommentDeclareCancel" type="controller" permission="member" />
-		<action name="procCommentGetList" type="controller" permission="manager" check_type="comment" check_var="comment_srls" />
-		<action name="procCommentInsertModuleConfig" type="controller" permission="manager" check_var="target_module_srl" ruleset="insertCommentModuleConfig" />
+		<action name="procCommentGetList" type="controller" permission="manager:moderate:comment" check_type="comment" check_var="comment_srls" />
+		<action name="procCommentInsertModuleConfig" type="controller" permission="manager:config:comment" check_var="target_module_srl" ruleset="insertCommentModuleConfig" />
 
 		<action name="dispCommentAdminList" type="view" admin_index="true" menu_name="comment" menu_index="true" />
 		<action name="dispCommentAdminDeclared" type="view" menu_name="comment" />
@@ -23,9 +23,9 @@
 		<action name="procCommentAdminChangeStatus" type="controller"/>
 		<action name="procCommentAdminChangePublishedStatusChecked" type="controller" />
 		<action name="procCommentAdminCancelDeclare" type="controller" />
-		<action name="procCommentAdminAddCart" type="controller" permission="manager" check_type="comment" check_var="comment_srl" />
-		<action name="procCommentAdminDeleteChecked" type="controller" permission="manager" check_type="comment" check_var="cart" ruleset="deleteChecked" />
-		<action name="procCommentAdminMoveToTrash" type="controller" permission="manager" check_type="comment" check_var="comment_srl" />
+		<action name="procCommentAdminAddCart" type="controller" permission="manager:moderate:comment" check_type="comment" check_var="comment_srl" />
+		<action name="procCommentAdminDeleteChecked" type="controller" permission="manager:moderate:comment" check_type="comment" check_var="cart" ruleset="deleteChecked" />
+		<action name="procCommentAdminMoveToTrash" type="controller" permission="manager:moderate:comment" check_type="comment" check_var="comment_srl" />
 	</actions>
 	<eventHandlers>
 		<eventHandler after="document.deleteDocument" class="controller" method="triggerDeleteDocumentComments" />

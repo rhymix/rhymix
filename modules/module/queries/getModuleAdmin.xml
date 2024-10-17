@@ -2,6 +2,9 @@
     <tables>
         <table name="module_admins" />
     </tables>
+    <columns>
+        <column name="*" />
+    </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" filter="number" />
         <condition operation="equal" column="member_srl" var="member_srl" pipe="and" />

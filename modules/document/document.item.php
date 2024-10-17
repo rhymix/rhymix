@@ -218,7 +218,7 @@ class DocumentItem extends BaseObject
 		}
 
 		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl')), $logged_info);
-		if ($grant->manager)
+		if ($grant->manager && $grant->can('moderate:document'))
 		{
 			return $this->grant_cache = true;
 		}
