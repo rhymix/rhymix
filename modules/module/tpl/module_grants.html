@@ -39,9 +39,9 @@
 				{$lang->admin_scope}
 			</label>
 			<div class="x_controls">
-				{@ $default_scopes = array_keys($lang->admin_scopes->getArrayCopy())}
+				{@ $default_scopes = array_keys($manager_scopes)}
 				{@ $admin_scopes = $admin_member ? (array_first($admin_member)->scopes ?? $default_scopes) : $default_scopes}
-				<!--@foreach($lang->admin_scopes as $key => $val)-->
+				<!--@foreach($manager_scopes as $key => $val)-->
 					<label class="x_inline">
 						<input type="checkbox" name="admin_scopes[]" value="{$key}" checked="checked"|cond="in_array($key, $admin_scopes)" />
 						{$val}

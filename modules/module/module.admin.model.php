@@ -197,6 +197,8 @@ class ModuleAdminModel extends Module
 		// Extract admin ID set in the current module
 		$admin_member = ModuleModel::getAdminId($module_srl) ?: [];
 		Context::set('admin_member', $admin_member);
+		// Get defined scopes
+		Context::set('manager_scopes', $this->getModuleAdminScopes());
 		// Get a list of groups
 		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
@@ -284,6 +286,19 @@ class ModuleAdminModel extends Module
 		}
 
 		$this->add('grantList', $grantList);
+	}
+
+	/**
+	 * Get defined scopes of module admin.
+	 *
+	 * @return array
+	 */
+	public function getModuleAdminScopes(): array
+	{
+		$obj = new \stdClass;
+		$obj->scopes = lang('module.admin_scopes')->getArrayCopy();
+		ModuleHandler::triggerCall('module.getModuleAdminScopes', 'after', $obj);
+		return $obj->scopes;
 	}
 
 	/**
