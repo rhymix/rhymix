@@ -16,13 +16,11 @@ class SMSTest extends \Codeception\Test\Unit
 	{
 		$drivers = Rhymix\Framework\SMS::getSupportedDrivers();
 		$this->assertTrue(isset($drivers['dummy']));
-		$this->assertTrue(isset($drivers['apistore']));
 		$this->assertTrue(isset($drivers['coolsms']));
 		$this->assertTrue(isset($drivers['iwinv']));
 		$this->assertTrue(isset($drivers['solapi']));
 		$this->assertTrue(isset($drivers['ppurio']));
 		$this->assertEquals('Dummy', $drivers['dummy']['name']);
-		$this->assertTrue(in_array('api_user', $drivers['apistore']['required']));
 		$this->assertTrue(in_array('api_key', $drivers['coolsms']['required']));
 		$this->assertTrue(in_array('api_url', $drivers['iwinv']['required']));
 		$this->assertTrue(in_array('api_user', $drivers['ppurio']['required']));
