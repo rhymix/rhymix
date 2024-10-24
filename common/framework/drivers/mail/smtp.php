@@ -8,23 +8,6 @@ namespace Rhymix\Framework\Drivers\Mail;
 class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
-	 * Direct invocation of the constructor is not permitted.
-	 */
-	protected function __construct(array $config)
-	{
-		$security = in_array($config['smtp_security'], ['ssl', 'tls']) ? $config['smtp_security'] : null;
-		$transport = new \Swift_SmtpTransport($config['smtp_host'], $config['smtp_port'], $security);
-		$transport->setUsername($config['smtp_user']);
-		$transport->setPassword($config['smtp_pass']);
-		$local_domain = $transport->getLocalDomain();
-		if (preg_match('/^\*\.(.+)$/', $local_domain, $matches))
-		{
-			$transport->setLocalDomain($matches[1]);
-		}
-		$this->mailer = new \Swift_Mailer($transport);
-	}
-
-	/**
 	 * Get the list of configuration fields required by this mail driver.
 	 *
 	 * @return array
@@ -56,9 +39,32 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public function send(\Rhymix\Framework\Mail $message)
 	{
+		if ($this->_mailer === null)
+		{
+			if (isset($this->_config['smtp_security']) && in_array($this->_config['smtp_security'], ['ssl', 'tls']))
+			{
+				$security = $this->_config['smtp_security'];
+			}
+			else
+			{
+				$security = null;
+			}
+
+			$transport = new \Swift_SmtpTransport($this->_config['smtp_host'], $this->_config['smtp_port'], $security);
+			$transport->setUsername($this->_config['smtp_user']);
+			$transport->setPassword($this->_config['smtp_pass']);
+			$local_domain = $transport->getLocalDomain();
+			if (preg_match('/^\*\.(.+)$/', $local_domain, $matches))
+			{
+				$transport->setLocalDomain($matches[1]);
+			}
+			$this->_mailer = new \Swift_Mailer($transport);
+		}
+
 		try
 		{
-			$result = $this->mailer->send($message->message, $errors);
+			$errors = [];
+			$result = $this->_mailer->send($message->message, $errors);
 		}
 		catch(\Exception $e)
 		{
