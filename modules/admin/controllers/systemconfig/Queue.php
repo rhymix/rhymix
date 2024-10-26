@@ -84,6 +84,9 @@ class Queue extends Base
 			$driver_config[$conf_name] = $conf_value === '' ? null : $conf_value;
 		}
 
+		// Validate error display setting.
+		$display_errors = Context::get('webcron_display_errors') === 'Y' ? true : false;
+
 		// Validate the interval.
 		$interval = intval($vars->queue_interval ?? 1);
 		if ($interval < 1 || $interval > 10)
@@ -116,10 +119,10 @@ class Queue extends Base
 			throw new Exception('msg_queue_driver_not_usable');
 		}
 
-
 		// Save system config.
 		Config::set("queue.enabled", $enabled);
 		Config::set("queue.driver", $driver);
+		Config::set("queue.display_errors", $display_errors);
 		Config::set("queue.interval", $interval);
 		Config::set("queue.process_count", $process_count);
 		Config::set("queue.key", $key);

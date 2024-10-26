@@ -168,6 +168,21 @@ systemctl enable rhymix-queue.timer</code></pre>
 		</div>
 
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_queue_webcron_display_errors}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" name="webcron_display_errors" value="Y" checked="checked"|cond="config('queue.display_errors') !== false" />
+					{$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" name="webcron_display_errors" value="N" checked="checked"|cond="config('queue.display_errors') === false" />
+					{$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->cmd_queue_webcron_display_errors_help}</p>
+			</div>
+		</div>
+
+		<div class="x_control-group">
 			<label class="x_control-label" for="queue_interval">{$lang->cmd_queue_interval}</label>
 			<div class="x_controls">
 				<input type="number" name="queue_interval" id="queue_interval" min="1" max="10" value="{config('queue.interval') ?: 1}" />
