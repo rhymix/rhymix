@@ -41,6 +41,10 @@ if (PHP_SAPI !== 'cli')
 {
 	ignore_user_abort(true);
 	set_time_limit(max(60, $timeout));
+	if (Rhymix\Framework\Session::checkStart())
+	{
+		Rhymix\Framework\Session::close();
+	}
 }
 
 // Create multiple processes if configured.
