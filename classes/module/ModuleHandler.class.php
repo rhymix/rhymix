@@ -866,29 +866,29 @@ class ModuleHandler extends Handler
 		$module_config = ModuleModel::getModuleConfig('module');
 		if (!empty($module_info->meta_keywords))
 		{
-			Context::addMetaTag('keywords', $module_info->meta_keywords, false, false);
+			Context::addMetaTag('keywords', $module_info->meta_keywords);
 		}
 		elseif (!empty($site_module_info->settings->meta_keywords))
 		{
-			Context::addMetaTag('keywords', $site_module_info->settings->meta_keywords, false, false);
+			Context::addMetaTag('keywords', $site_module_info->settings->meta_keywords);
 		}
 		elseif (!empty($module_config->meta_keywords))
 		{
-			Context::addMetaTag('keywords', $module_config->meta_keywords, false, false);
+			Context::addMetaTag('keywords', $module_config->meta_keywords);
 		}
 
 		// Set meta description.
 		if (!empty($module_info->meta_description))
 		{
-			Context::addMetaTag('description', $module_info->meta_description, false, false);
+			Context::addMetaTag('description', $module_info->meta_description);
 		}
 		elseif (!empty($site_module_info->settings->meta_description))
 		{
-			Context::addMetaTag('description', $site_module_info->settings->meta_description, false, false);
+			Context::addMetaTag('description', $site_module_info->settings->meta_description);
 		}
 		elseif (!empty($module_config->meta_description))
 		{
-			Context::addMetaTag('description', $module_config->meta_description, false, false);
+			Context::addMetaTag('description', $module_config->meta_description);
 		}
 	}
 

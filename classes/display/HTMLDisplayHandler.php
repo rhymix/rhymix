@@ -512,7 +512,7 @@ class HTMLDisplayHandler
 				$description = Context::getMetaTag('description');
 			}
 			Context::addOpenGraphData('og:description', $description);
-			Context::addMetaTag('description', $description, false, false);
+			Context::addMetaTag('description', $description);
 		}
 
 		// Add metadata about this page.
@@ -669,7 +669,7 @@ class HTMLDisplayHandler
 		// Add author name for articles.
 		if ($page_type === 'article' && $permitted && config('seo.og_use_nick_name'))
 		{
-			Context::addMetaTag('author', $oDocument->getNickName(), false, false);
+			Context::addMetaTag('author', $oDocument->getNickName());
 			Context::addOpenGraphData('og:article:author', $oDocument->getNickName());
 		}
 
