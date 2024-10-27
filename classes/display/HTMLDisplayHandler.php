@@ -196,6 +196,12 @@ class HTMLDisplayHandler
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
+		// Only print the X-UA-Compatible meta tag if somebody is still using IE
+		if (preg_match('!Trident/7\.0!', $_SERVER['HTTP_USER_AGENT'] ?? ''))
+		{
+			Context::addMetaTag('X-UA-Compatible', 'IE=edge', true);
+		}
+
 		return $output;
 	}
 
