@@ -10,7 +10,7 @@
 <meta name="csrf-token" content="{!! \Rhymix\Framework\Session::getGenericToken() !!}" />
 @foreach (Context::getMetaTag() as $val)
 @if ($val['is_before_title'])
-<meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{{ $val['content'] }}" />
+<meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{!! $val['content'] !!}" />
 @endif
 @endforeach
 
@@ -58,7 +58,7 @@
 <!-- OTHER HEADERS -->
 @foreach (Context::getMetaTag() as $val)
 @if (!$val['is_before_title'])
-<meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{{ $val['content'] }}" />
+<meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{!! $val['content'] !!}" />
 @endif
 @endforeach
 @foreach (Context::getOpenGraphData() as $og_metadata)
