@@ -2879,14 +2879,10 @@ class Context
 		{
 			return isset(self::$_instance->meta_tags[$name]) ? self::$_instance->meta_tags[$name]['content'] : null;
 		}
-
-		$ret = array();
-		foreach(self::$_instance->meta_tags as $name => $content)
+		else
 		{
-			$ret[] = array('name' => $name, 'is_http_equiv' => $content['is_http_equiv'], 'content' => escape($content['content'], false));
+			return array_values(self::$_instance->meta_tags);
 		}
-
-		return $ret;
 	}
 
 	/**
@@ -2894,14 +2890,17 @@ class Context
 	 *
 	 * @param string $name name of meta tag
 	 * @param string $content content of meta tag
-	 * @param mixed $is_http_equiv value of http_equiv
+	 * @param bool $is_http_equiv
+	 * @param bool $is_before_title
 	 * @return void
 	 */
-	public static function addMetaTag($name, $content, $is_http_equiv = false)
+	public static function addMetaTag($name, $content, $is_http_equiv = false, $is_before_title = true)
 	{
 		self::$_instance->meta_tags[$name] = array(
+			'name' => $name,
+			'content' => escape(self::replaceUserLang($content, true), false),
 			'is_http_equiv' => (bool)$is_http_equiv,
-			'content' => self::replaceUserLang($content, true),
+			'is_before_title' => (bool)$is_before_title,
 		);
 	}
 

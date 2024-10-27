@@ -506,7 +506,7 @@ class HTMLDisplayHandler
 				$description = Context::getMetaTag('description');
 			}
 			Context::addOpenGraphData('og:description', $description);
-			Context::addMetaTag('description', $description);
+			Context::addMetaTag('description', $description, false, false);
 		}
 
 		// Add metadata about this page.
@@ -641,7 +641,7 @@ class HTMLDisplayHandler
 			{
 				if ($tag !== '')
 				{
-					Context::addOpenGraphData('og:article:tag', $tag, false);
+					Context::addOpenGraphData('og:article:tag', $tag);
 				}
 			}
 
@@ -663,7 +663,7 @@ class HTMLDisplayHandler
 		// Add author name for articles.
 		if ($page_type === 'article' && $permitted && config('seo.og_use_nick_name'))
 		{
-			Context::addMetaTag('author', $oDocument->getNickName());
+			Context::addMetaTag('author', $oDocument->getNickName(), false, false);
 			Context::addOpenGraphData('og:article:author', $oDocument->getNickName());
 		}
 
@@ -683,21 +683,21 @@ class HTMLDisplayHandler
 	function _addTwitterMetadata()
 	{
 		$card_type = $this->_image_type === 'document' ? 'summary_large_image' : 'summary';
-		Context::addMetaTag('twitter:card', $card_type);
+		Context::addMetaTag('twitter:card', $card_type, false, false);
 
 		foreach(Context::getOpenGraphData() as $val)
 		{
 			if ($val['property'] === 'og:title')
 			{
-				Context::addMetaTag('twitter:title', $val['content']);
+				Context::addMetaTag('twitter:title', $val['content'], false, false);
 			}
 			if ($val['property'] === 'og:description')
 			{
-				Context::addMetaTag('twitter:description', $val['content']);
+				Context::addMetaTag('twitter:description', $val['content'], false, false);
 			}
 			if ($val['property'] === 'og:image' && $this->_image_type === 'document')
 			{
-				Context::addMetaTag('twitter:image', $val['content']);
+				Context::addMetaTag('twitter:image', $val['content'], false, false);
 			}
 		}
 	}

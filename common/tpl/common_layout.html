@@ -7,11 +7,13 @@
 <meta charset="utf-8">
 <meta name="generator" content="Rhymix">
 <meta name="viewport" content="{{ config('mobile.viewport') ?? HTMLDisplayHandler::DEFAULT_VIEWPORT }}" />
+<meta name="csrf-token" content="{!! \Rhymix\Framework\Session::getGenericToken() !!}" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 @foreach (Context::getMetaTag() as $val)
+@if ($val['is_before_title'])
 <meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{{ $val['content'] }}" />
+@endif
 @endforeach
-<meta name="csrf-token" content="{!! \Rhymix\Framework\Session::getGenericToken() !!}" />
 
 <!-- TITLE -->
 <title>{{ Context::getBrowserTitle() }}</title>
@@ -55,6 +57,11 @@
 @endforeach
 
 <!-- OTHER HEADERS -->
+@foreach (Context::getMetaTag() as $val)
+@if (!$val['is_before_title'])
+<meta http-equiv="{{ $val['name'] }}"|if="$val['is_http_equiv']" name="{{ $val['name'] }}"|if="!$val['is_http_equiv']" content="{{ $val['content'] }}" />
+@endif
+@endforeach
 @foreach (Context::getOpenGraphData() as $og_metadata)
 <meta property="{{ $og_metadata['property'] }}" content="{{ $og_metadata['content'] }}" />
 @endforeach

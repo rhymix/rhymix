@@ -693,7 +693,8 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		if ($kind === 'admin') {
+		if ($kind === 'admin')
+		{
 			Context::addMetaTag('robots', 'noindex');
 		}
 
@@ -865,29 +866,29 @@ class ModuleHandler extends Handler
 		$module_config = ModuleModel::getModuleConfig('module');
 		if (!empty($module_info->meta_keywords))
 		{
-			Context::addMetaTag('keywords', $module_info->meta_keywords);
+			Context::addMetaTag('keywords', $module_info->meta_keywords, false, false);
 		}
 		elseif (!empty($site_module_info->settings->meta_keywords))
 		{
-			Context::addMetaTag('keywords', $site_module_info->settings->meta_keywords);
+			Context::addMetaTag('keywords', $site_module_info->settings->meta_keywords, false, false);
 		}
 		elseif (!empty($module_config->meta_keywords))
 		{
-			Context::addMetaTag('keywords', $module_config->meta_keywords);
+			Context::addMetaTag('keywords', $module_config->meta_keywords, false, false);
 		}
 
 		// Set meta description.
 		if (!empty($module_info->meta_description))
 		{
-			Context::addMetaTag('description', $module_info->meta_description);
+			Context::addMetaTag('description', $module_info->meta_description, false, false);
 		}
 		elseif (!empty($site_module_info->settings->meta_description))
 		{
-			Context::addMetaTag('description', $site_module_info->settings->meta_description);
+			Context::addMetaTag('description', $site_module_info->settings->meta_description, false, false);
 		}
 		elseif (!empty($module_config->meta_description))
 		{
-			Context::addMetaTag('description', $module_config->meta_description);
+			Context::addMetaTag('description', $module_config->meta_description, false, false);
 		}
 	}
 
