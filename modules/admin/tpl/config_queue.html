@@ -116,11 +116,11 @@
 					endif;
 				}
 				<p class="qss-instruction">
-					{sprintf($lang->msg_queue_instructions['crontab1'], $user_info['name'] ?? 'PHP', $user_info['dir'] . 'logs')|noescape}
+					{sprintf($lang->msg_queue_instructions['crontab1'], $user_info['name'] ?? 'PHP', $user_info['name'] ?? 'PHP')|noescape}
 				</p>
-				<pre><code>* * * * * php {\RX_BASEDIR}index.php common.cron &gt;&gt; {$user_info['dir']}logs{\DIRECTORY_SEPARATOR}queue.log 2&gt;&amp;1</code></pre>
+				<pre><code>* * * * * /usr/bin/php {\RX_BASEDIR}index.php common.cron &gt;&gt; {$user_info['dir']}logs{\DIRECTORY_SEPARATOR}queue.log 2&gt;&amp;1</code></pre>
 				<p class="qss-instruction">
-					{$lang->msg_queue_instructions['crontab2']|noescape}
+					{sprintf($lang->msg_queue_instructions['crontab2'], $user_info['dir'] . 'logs')|noescape}
 				</p>
 			</div>
 			<div class="qss-content webcron">
@@ -137,7 +137,7 @@
 Description=Rhymix Queue Service
 
 [Service]
-ExecStart=php {\RX_BASEDIR}index.php common.cron
+ExecStart=/usr/bin/php {\RX_BASEDIR}index.php common.cron
 User={$user_info['name']}</code></pre>
 				<p class="qss-instruction">
 					{$lang->msg_queue_instructions['systemd2']|noescape}
@@ -164,6 +164,21 @@ systemctl enable rhymix-queue.timer</code></pre>
 			<label class="x_control-label" for="queue_key">{$lang->cmd_queue_webcron_key}</label>
 			<div class="x_controls">
 				<input type="text" class="x_full-width" name="queue_key" id="queue_key" value="{config('queue.key')}" />
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_queue_webcron_display_errors}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="radio" name="webcron_display_errors" value="Y" checked="checked"|cond="config('queue.display_errors') !== false" />
+					{$lang->cmd_yes}
+				</label>
+				<label class="x_inline">
+					<input type="radio" name="webcron_display_errors" value="N" checked="checked"|cond="config('queue.display_errors') === false" />
+					{$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->cmd_queue_webcron_display_errors_help}</p>
 			</div>
 		</div>
 

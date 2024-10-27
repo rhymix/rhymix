@@ -196,6 +196,12 @@ class HTMLDisplayHandler
 		Context::set('favicon_url', $favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
 
+		// Only print the X-UA-Compatible meta tag if somebody is still using IE
+		if (preg_match('!Trident/7\.0!', $_SERVER['HTTP_USER_AGENT'] ?? ''))
+		{
+			Context::addMetaTag('X-UA-Compatible', 'IE=edge', true);
+		}
+
 		return $output;
 	}
 
@@ -641,7 +647,7 @@ class HTMLDisplayHandler
 			{
 				if ($tag !== '')
 				{
-					Context::addOpenGraphData('og:article:tag', $tag, false);
+					Context::addOpenGraphData('og:article:tag', $tag);
 				}
 			}
 
@@ -683,21 +689,21 @@ class HTMLDisplayHandler
 	function _addTwitterMetadata()
 	{
 		$card_type = $this->_image_type === 'document' ? 'summary_large_image' : 'summary';
-		Context::addMetaTag('twitter:card', $card_type);
+		Context::addMetaTag('twitter:card', $card_type, false, false);
 
 		foreach(Context::getOpenGraphData() as $val)
 		{
 			if ($val['property'] === 'og:title')
 			{
-				Context::addMetaTag('twitter:title', $val['content']);
+				Context::addMetaTag('twitter:title', $val['content'], false, false);
 			}
 			if ($val['property'] === 'og:description')
 			{
-				Context::addMetaTag('twitter:description', $val['content']);
+				Context::addMetaTag('twitter:description', $val['content'], false, false);
 			}
 			if ($val['property'] === 'og:image' && $this->_image_type === 'document')
 			{
-				Context::addMetaTag('twitter:image', $val['content']);
+				Context::addMetaTag('twitter:image', $val['content'], false, false);
 			}
 		}
 	}

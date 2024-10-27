@@ -8,15 +8,6 @@ namespace Rhymix\Framework\Drivers\Mail;
 class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterface
 {
 	/**
-	 * Direct invocation of the constructor is not permitted.
-	 */
-	protected function __construct()
-	{
-		include_once \RX_BASEDIR . 'common/libraries/swift_mail.php';
-		$this->_mailer = new \Swift_Mailer(new \Swift_MailTransport);
-	}
-
-	/**
 	 * Get the human-readable name of this mail driver.
 	 *
 	 * @return string
@@ -58,6 +49,12 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 */
 	public function send(\Rhymix\Framework\Mail $message)
 	{
+		if ($this->_mailer === null)
+		{
+			include_once \RX_BASEDIR . 'common/libraries/swift_mail.php';
+			$this->_mailer = new \Swift_Mailer(new \Swift_MailTransport);
+		}
+
 		try
 		{
 			$errors = [];

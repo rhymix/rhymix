@@ -693,7 +693,8 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		if ($kind === 'admin') {
+		if ($kind === 'admin')
+		{
 			Context::addMetaTag('robots', 'noindex');
 		}
 

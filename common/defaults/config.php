@@ -151,5 +151,7 @@ return array(
 	],
 	'use_rewrite' => true,
 	'use_sso' => false,
-	'other' => array(),
+	'other' => [
+		'proxy' => null,
+	],
 );

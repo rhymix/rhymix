@@ -33,6 +33,7 @@ else
 }
 
 // Get queue configuration set by the administrator.
+$display_errors = config('queue.display_errors') === false ? false : true;
 $timeout = (config('queue.interval') ?? 1) * 60;
 $process_count = config('queue.process_count') ?? 1;
 
@@ -41,6 +42,14 @@ if (PHP_SAPI !== 'cli')
 {
 	ignore_user_abort(true);
 	set_time_limit(max(60, $timeout));
+	if ($display_errors)
+	{
+		ini_set('display_errors', true);
+	}
+	if (Rhymix\Framework\Session::checkStart())
+	{
+		Rhymix\Framework\Session::close();
+	}
 }
 
 // Create multiple processes if configured.
@@ -88,4 +97,10 @@ if (PHP_SAPI === 'cli' && $process_count > 1 && function_exists('pcntl_fork') &&
 else
 {
 	Rhymix\Framework\Queue::process($timeout);
+}
+
+// If called over the network, display a simple OK message to indicate success.
+if (PHP_SAPI !== 'cli')
+{
+	echo "OK\n";
 }
