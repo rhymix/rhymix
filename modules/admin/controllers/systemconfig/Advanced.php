@@ -109,6 +109,7 @@ class Advanced extends Base
 		Context::set('minify_scripts', Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Config::get('view.concat_scripts'));
 		Context::set('jquery_version', Config::get('view.jquery_version'));
+		Context::set('outgoing_proxy', Config::get('other.proxy'));
 
 		$this->setTemplateFile('config_advanced');
 	}
@@ -215,6 +216,13 @@ class Advanced extends Base
 		Config::set('locale.auto_select_lang', $vars->auto_select_lang === 'Y');
 		Config::set('locale.default_timezone', $vars->default_timezone);
 
+		// Proxy
+		$proxy = trim($vars->outgoing_proxy ?? '');
+		if ($proxy !== '' && !preg_match('!^(https?|socks)://.+!', $proxy))
+		{
+			throw new Exception('msg_invalid_outgoing_proxy');
+		}
+
 		// Other settings
 		Config::set('url.rewrite', intval($vars->use_rewrite));
 		Config::set('use_rewrite', $vars->use_rewrite > 0);
@@ -226,6 +234,7 @@ class Advanced extends Base
 		Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
 		Config::set('view.delay_compile', intval($vars->delay_template_compile));
 		Config::set('view.jquery_version', $vars->jquery_version == 3 ? 3 : 2);
+		Config::set('other.proxy', $proxy);
 
 		// Save
 		if (!Config::save())
