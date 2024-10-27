@@ -116,11 +116,11 @@
 					endif;
 				}
 				<p class="qss-instruction">
-					{sprintf($lang->msg_queue_instructions['crontab1'], $user_info['name'] ?? 'PHP', $user_info['dir'] . 'logs')|noescape}
+					{sprintf($lang->msg_queue_instructions['crontab1'], $user_info['name'] ?? 'PHP', $user_info['name'] ?? 'PHP')|noescape}
 				</p>
 				<pre><code>* * * * * /usr/bin/php {\RX_BASEDIR}index.php common.cron &gt;&gt; {$user_info['dir']}logs{\DIRECTORY_SEPARATOR}queue.log 2&gt;&amp;1</code></pre>
 				<p class="qss-instruction">
-					{$lang->msg_queue_instructions['crontab2']|noescape}
+					{sprintf($lang->msg_queue_instructions['crontab2'], $user_info['dir'] . 'logs')|noescape}
 				</p>
 			</div>
 			<div class="qss-content webcron">
