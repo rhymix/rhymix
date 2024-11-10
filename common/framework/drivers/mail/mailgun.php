@@ -116,12 +116,13 @@ class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		// Send the API request.
 		$url = self::$_url . '/' . $this->_config['api_domain'] . '/messages.mime';
 		$request = \Rhymix\Framework\HTTP::post($url, $data, $headers, [], $settings);
-		$result = @json_decode($request->getBody()->getContents());
+		$result_text = $request->getBody()->getContents();
+		$result = @json_decode($result_text);
 
 		// Parse the result.
 		if (!$result)
 		{
-			$message->errors[] = 'Mailgun: API error: ' . $request->getBody()->getContents();
+			$message->errors[] = 'Mailgun: API error: ' . $result_text;
 			return false;
 		}
 		elseif (!$result->id)
