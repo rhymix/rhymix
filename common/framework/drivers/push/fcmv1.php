@@ -151,7 +151,8 @@ class FCMv1 extends Base implements PushInterface
 			foreach ($responses as $i => $response)
 			{
 				$status_code = $response->getStatusCode();
-				$result = @json_decode($response->getBody()->getContents());
+				$result_text = $response->getBody()->getContents();
+				$result = @json_decode($result_text);
 				if ($status_code === 200)
 				{
 					$output->success[$tokens[$i]] = $result->name ?? '';
@@ -161,6 +162,10 @@ class FCMv1 extends Base implements PushInterface
 					$error_message = $result->error->message ?? ($result->error->status ?? '');
 					$message->addError('FCM error: HTTP ' . $status_code . ' ' . $error_message);
 					if (str_contains($error_message, 'not a valid FCM registration token'))
+					{
+						$output->invalid[$tokens[$i]] = $tokens[$i];
+					}
+					elseif (str_contains($error_message, 'Requested entity was not found'))
 					{
 						$output->invalid[$tokens[$i]] = $tokens[$i];
 					}
@@ -196,7 +201,8 @@ class FCMv1 extends Base implements PushInterface
 			foreach ($responses as $i => $response)
 			{
 				$status_code = $response->getStatusCode();
-				$result = @json_decode($response->getBody()->getContents());
+				$result_text = $response->getBody()->getContents();
+				$result = @json_decode($result_text);
 				if ($status_code === 200)
 				{
 					$output->success[$topics[$i]] = $result->name ?? '';
