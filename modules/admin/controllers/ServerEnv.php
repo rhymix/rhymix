@@ -20,7 +20,7 @@ class ServerEnv extends Base
 		$info = array();
 		$skip = array(
 			'phpext' => array('core', 'session', 'spl', 'standard', 'date', 'ctype', 'tokenizer', 'apache2handler', 'filter', 'reflection'),
-			'module' => array('addon', 'admin', 'adminlogging', 'advanced_mailer', 'autoinstall', 'board', 'comment', 'communication', 'counter', 'document', 'editor', 'file', 'importer', 'install', 'integration_search', 'krzip', 'layout', 'member', 'menu', 'message', 'module', 'ncenterlite', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget'),
+			'module' => array('addon', 'admin', 'adminlogging', 'advanced_mailer', 'autoinstall', 'board', 'comment', 'communication', 'counter', 'document', 'editor', 'extravar', 'file', 'importer', 'install', 'integration_search', 'krzip', 'layout', 'member', 'menu', 'message', 'module', 'ncenterlite', 'opage', 'page', 'point', 'poll', 'rss', 'session', 'spamfilter', 'tag', 'trackback', 'trash', 'widget'),
 			'addon' => array('adminlogging', 'autolink', 'counter', 'member_extra_info', 'point_level_icon', 'photoswipe', 'resize_image'),
 			'layout' => array('default', 'user_layout', 'xedition'),
 			'widget' => array('content', 'counter_status', 'language_select', 'login_info', 'mcontent', 'pollWidget'),

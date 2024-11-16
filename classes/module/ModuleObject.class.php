@@ -370,28 +370,36 @@ class ModuleObject extends BaseObject
 			}
 		}
 		// If permission is 'manager', check 'is user have manager privilege(granted)'
-		else if(preg_match('/^(manager|([a-z0-9\_]+)-managers)$/', $permission, $type))
+		else if(preg_match('/^(manager(?::(.+))?|([a-z0-9\_]+)-managers)$/', $permission, $type))
 		{
-			if($grant->manager)
+			// If permission is manager(:scope), check manager privilege and scope
+			if ($grant->manager)
 			{
-				return true;
+				if (empty($type[2]))
+				{
+					return true;
+				}
+				elseif ($grant->can($type[2]))
+				{
+					return true;
+				}
 			}
 
 			// If permission is '*-managers', search modules to find manager privilege of the member
-			if(Context::get('is_logged') && isset($type[2]))
+			if(Context::get('is_logged') && isset($type[3]))
 			{
 				// Manager privilege of the member is found by search all modules, Pass
-				if($type[2] == 'all' && ModuleModel::findManagerPrivilege($member_info) !== false)
+				if($type[3] == 'all' && ModuleModel::findManagerPrivilege($member_info) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as this module, Pass
-				elseif($type[2] == 'same' && ModuleModel::findManagerPrivilege($member_info, $this->module) !== false)
+				elseif($type[3] == 'same' && ModuleModel::findManagerPrivilege($member_info, $this->module) !== false)
 				{
 					return true;
 				}
 				// Manager privilege of the member is found by search same module as the module, Pass
-				elseif(ModuleModel::findManagerPrivilege($member_info, $type[2]) !== false)
+				elseif(ModuleModel::findManagerPrivilege($member_info, $type[3]) !== false)
 				{
 					return true;
 				}

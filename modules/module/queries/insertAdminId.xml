@@ -5,6 +5,7 @@
     <columns>
         <column name="module_srl" var="module_srl" notnull="notnull" />
         <column name="member_srl" var="member_srl" notnull="notnull" />
+		<column name="scopes" var="scopes" />
         <column name="regdate" default="curdate()" />
     </columns>
 </query>

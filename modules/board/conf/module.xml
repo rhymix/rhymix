@@ -116,21 +116,21 @@
 		<action name="dispBoardAdminContent" type="view" admin_index="true" menu_name="board" menu_index="true" />
 		<action name="dispBoardAdminInsertBoard" type="view" setup_index="true" menu_name="board" />
 		<action name="dispBoardAdminDeleteBoard" type="view" menu_name="board" />
-		<action name="dispBoardAdminBoardInfo" type="view" permission="manager" menu_name="board" />
-		<action name="dispBoardAdminCategoryInfo" type="view" permission="manager" menu_name="board" />
-		<action name="dispBoardAdminExtraVars" type="view" permission="manager" menu_name="board" />
-		<action name="dispBoardAdminGrantInfo" type="view" permission="manager" menu_name="board" />
-		<action name="dispBoardAdminBoardAdditionSetup" type="view" permission="manager" menu_name="board" />
-		<action name="dispBoardAdminSkinInfo" type="view" permission="manager" menu_name="board" />
-		<action name="dispBoardAdminMobileSkinInfo" type="view" permission="manager" menu_name="board" />
+		<action name="dispBoardAdminBoardInfo" type="view" permission="manager:config:*" menu_name="board" />
+		<action name="dispBoardAdminCategoryInfo" type="view" permission="manager:config:*" menu_name="board" />
+		<action name="dispBoardAdminExtraVars" type="view" permission="manager:config:*" menu_name="board" />
+		<action name="dispBoardAdminGrantInfo" type="view" permission="manager:config:*" menu_name="board" />
+		<action name="dispBoardAdminBoardAdditionSetup" type="view" permission="manager:config:*" menu_name="board" />
+		<action name="dispBoardAdminSkinInfo" type="view" permission="manager:config:*" menu_name="board" />
+		<action name="dispBoardAdminMobileSkinInfo" type="view" permission="manager:config:*" menu_name="board" />
 
 		<action name="getBoardAdminSimpleSetup" type="model" simple_setup_index="true" />
 
-		<action name="procBoardAdminInsertBoard" type="controller" permission="manager" check_var="module_srl" ruleset="insertBoard" />
-		<action name="procBoardAdminDeleteBoard" type="controller" permission="manager" check_var="module_srl" />
+		<action name="procBoardAdminInsertBoard" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="insertBoard" />
+		<action name="procBoardAdminDeleteBoard" type="controller" permission="manager:config:*" check_var="module_srl" />
 		<action name="procBoardAdminUpdateBoard" type="controller" ruleset="insertBoardForBasic" />
 		<action name="procBoardAdminInsertCombinedConfig" type="controller" />
-		<action name="procBoardAdminSaveCategorySettings" type="controller" permission="manager" check_var="module_srl" ruleset="saveCategorySettings" />
+		<action name="procBoardAdminSaveCategorySettings" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="saveCategorySettings" />
 	</actions>
 	<eventHandlers>
 		<eventHandler after="member.getMemberMenu" class="controller" method="triggerMemberMenu" />
