@@ -3,11 +3,12 @@
 		<table name="admin_log" />
 	</tables>
 	<columns>
-		<column name="ipaddress" var="ipaddress" notnull="notnull" />
-		<column name="regdate" var="regdate" />
-		<column name="site_srl" var="siteSrl" filter="number" default="0" />
+		<column name="site_srl" var="site_srl" filter="number" default="0" />
+		<column name="member_srl" var="member_srl" filter="number" default="0" />
 		<column name="module" var="module" />
 		<column name="act" var="act" />
-		<column name="request_vars" var="requestVars" />
+		<column name="request_vars" var="request_vars" />
+		<column name="regdate" var="regdate" default="curdate()" />
+		<column name="ipaddress" var="ipaddress" default="ipaddress()" />
 	</columns>
 </query>
