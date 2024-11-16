@@ -11,22 +11,6 @@
  */
 class adminloggingController extends adminlogging
 {
-
-	/**
-	 * Initialization
-	 * @return void
-	 */
-	function init()
-	{
-		// forbit access if the user is not an administrator
-		$oMemberModel = getModel('member');
-		$logged_info = $oMemberModel->getLoggedInfo();
-		if($logged_info->is_admin != 'Y')
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted('admin.msg_is_not_administrator');
-		}
-	}
-
 	/**
 	 * Insert log
 	 * @return void
