@@ -22,7 +22,7 @@
 	</thead>
 	<tbody>
 		<tr loop="$board_list => $no,$val">
-			<td>{$no}</td>
+			<td>{$val->module_srl}</td>
 			<td>
 				<block cond="!$val->module_category_srl">
 					<block cond="$val->site_srl">{$lang->virtual_site}</block>
