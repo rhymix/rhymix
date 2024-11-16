@@ -32,7 +32,7 @@
 			</td>
 			<td class="domain_prefix"><span class="domain">{$val->domain ?? ''}</span>{\RX_BASEURL}</td>
 			<td>{$val->mid}</td>
-			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}">{$val->browser_title}</a></td>
+			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" target="_blank">{$val->browser_title}</a></td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>
 			<td>
 				<a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}"><i class="x_icon-cog"></i> {$lang->cmd_setup}</a> &nbsp;
