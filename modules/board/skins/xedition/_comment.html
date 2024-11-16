@@ -91,8 +91,10 @@
 			</span>
 			<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" id="notify_message" class="iCheck" />
 			<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
-			<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck" />
-			<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
+			<!--@if(isset($module_info->secret) && $module_info->secret === 'Y')-->
+				<input type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck" />
+				<label for="is_secret">{$lang->secret}</label>
+			<!--@endif-->
 		</div>
 		<div class="write_captcha" cond="isset($captcha) && $captcha && $captcha->isTargetAction('comment')">
 			{$captcha}

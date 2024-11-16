@@ -138,7 +138,7 @@ class HTMLDisplayHandler
 				{
 
 					// handle separately if the layout is faceoff
-					if($layout_info && $layout_info->type == 'faceoff')
+					if($layout_info && isset($layout_info->type) && $layout_info->type == 'faceoff')
 					{
 						$oLayoutModel->doActivateFaceOff($layout_info);
 						Context::set('layout_info', $layout_info);

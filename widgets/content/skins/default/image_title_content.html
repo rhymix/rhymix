@@ -44,7 +44,7 @@
                 <span class="icon">{$item->printExtraImages()}</span>
             <!--@end-->
 
-            <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
+            <!--@if(isset($widget_info->option_view_arr[$j+1]) && $widget_info->option_view_arr[$j+1]=='regdate')-->
                 <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
             <!--@end-->
         </p>
@@ -52,7 +52,7 @@
         <!--@else if($widget_info->option_view_arr[$j]=='content')-->
         <p class="text" style="margin-left:{$widget_info->thumbnail_width+20}px;">
             {$item->getContent()}
-            <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
+            <!--@if(isset($widget_info->option_view_arr[$j+1]) && $widget_info->option_view_arr[$j+1]=='regdate')-->
                 <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
             <!--@end-->
         </p>
@@ -60,7 +60,7 @@
         <!--@else if($widget_info->option_view_arr[$j]=='nickname')-->
         <p class="authorArea" style="margin-left:{$widget_info->thumbnail_width+20}px;">
                 <a href="#" onclick="return false;" class="author member_{$item->getMemberSrl()}" target="_blank"|cond="$widget_info->new_window">{$item->getNickName($widget_info->nickname_cut_size)}</a>
-            <!--@if($widget_info->option_view_arr[$j+1]=='regdate')-->
+            <!--@if(isset($widget_info->option_view_arr[$j+1]) && $widget_info->option_view_arr[$j+1]=='regdate')-->
                 <span class="date">{$item->getRegdate("Y-m-d")}</span> <span class="hour">{$item->getRegdate("H:i")}</span>
             <!--@end-->
         </p>

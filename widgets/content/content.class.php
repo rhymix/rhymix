@@ -187,7 +187,7 @@ class content extends WidgetHandler
 		$obj->sort_index = $args->order_target;
 		$obj->list_count = $args->list_count * $args->page_count;
 		$obj->statusList = [1];
-		if($args->show_secret != 'Y')
+		if(($args->show_secret ?? 'N') !== 'Y')
 		{
 			$obj->is_secret = 'N';
 		}
@@ -201,7 +201,7 @@ class content extends WidgetHandler
 		foreach($output as $key => $oComment)
 		{
 			$oDocument = getModel('document')->getDocument($oComment->get('document_srl'), false, false);
-			if(!$oDocument->isExists() || $oDocument->isSecret() && $args->show_secret != 'Y')
+			if(!$oDocument->isExists() || $oDocument->isSecret() && ($args->show_secret ?? 'N') !== 'Y')
 			{
 				continue;
 			}
@@ -256,7 +256,7 @@ class content extends WidgetHandler
 			$obj->order_type = $args->order_type=="desc"?"desc":"asc";
 		}
 
-		if($args->show_secret == 'Y')
+		if(($args->show_secret ?? 'N') == 'Y')
 		{
 			$obj->statusList = array('PUBLIC', 'SECRET');
 		}
