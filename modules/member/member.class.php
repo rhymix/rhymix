@@ -15,16 +15,6 @@ class Member extends ModuleObject
 	public const STATUS_LIST = ['APPROVED', 'DENIED', 'UNAUTHED', 'SUSPENDED', 'DELETED'];
 
 	/**
-	 * constructor
-	 *
-	 * @return void
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * Implement if additional tasks are necessary when installing
 	 *
 	 * @return Object
