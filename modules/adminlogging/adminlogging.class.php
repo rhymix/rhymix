@@ -18,7 +18,7 @@ class adminlogging extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		
+
 	}
 
 	/**
@@ -27,7 +27,23 @@ class adminlogging extends ModuleObject
 	 */
 	function checkUpdate()
 	{
-		return FALSE;
+		$oDB = DB::getInstance();
+		if (!$oDB->isColumnExists('admin_log', 'member_srl'))
+		{
+			return true;
+		}
+		if (!$oDB->isIndexExists('admin_log', 'idx_member_srl'))
+		{
+			return true;
+		}
+
+		$column_info = $oDB->getColumnInfo('admin_log', 'request_vars');
+		if ($column_info->xetype !== 'bigtext')
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -36,7 +52,21 @@ class adminlogging extends ModuleObject
 	 */
 	function moduleUpdate()
 	{
-		
+		$oDB = DB::getInstance();
+		if (!$oDB->isColumnExists('admin_log', 'member_srl'))
+		{
+			$oDB->addColumn('admin_log', 'member_srl', 'number', null, 0, true, 'site_srl');
+		}
+		if (!$oDB->isIndexExists('admin_log', 'idx_member_srl'))
+		{
+			$oDB->addIndex('admin_log', 'idx_member_srl', ['member_srl']);
+		}
+
+		$column_info = $oDB->getColumnInfo('admin_log', 'request_vars');
+		if ($column_info->xetype !== 'bigtext')
+		{
+			$oDB->modifyColumn('admin_log', 'request_vars', 'bigtext');
+		}
 	}
 
 	/**
@@ -45,7 +75,7 @@ class adminlogging extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		
+
 	}
 
 }

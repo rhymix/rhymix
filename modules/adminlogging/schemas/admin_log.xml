@@ -1,8 +1,10 @@
 <table name="admin_log">
-    <column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_admin_ip" />
-    <column name="regdate" type="date" index="idx_admin_date" />
-	<column name="site_srl" type="number" size="11" default="0" />
+	<column name="id" type="number" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="site_srl" type="number" default="0" />
+	<column name="member_srl" type="number" default="0" index="idx_member_srl" />
 	<column name="module" type="varchar" size="100" />
 	<column name="act" type="varchar" size="100" />
-	<column name="request_vars" type="text" />
+	<column name="request_vars" type="bigtext" />
+    <column name="regdate" type="date" index="idx_admin_date" />
+    <column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_admin_ip" />
 </table>
