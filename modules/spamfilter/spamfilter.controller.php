@@ -52,7 +52,15 @@ class SpamfilterController extends Spamfilter
 
 		// Check if the IP is prohibited
 		$output = SpamfilterModel::isDeniedIP();
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$config = SpamfilterModel::getConfig();
+			if (!isset($config->blocked_actions) || in_array('document', $config->blocked_actions))
+			{
+				return $output;
+			}
+		}
+
 		// Check if there is a ban on the word
 		$filter_targets = [$obj->title, $obj->content, $obj->tags ?? ''];
 		if(!$is_logged)
@@ -104,7 +112,15 @@ class SpamfilterController extends Spamfilter
 
 		// Check if the IP is prohibited
 		$output = SpamfilterModel::isDeniedIP();
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$config = SpamfilterModel::getConfig();
+			if (!isset($config->blocked_actions) || in_array('comment', $config->blocked_actions))
+			{
+				return $output;
+			}
+		}
+
 		// Check if there is a ban on the word
 		if($is_logged)
 		{
@@ -185,12 +201,22 @@ class SpamfilterController extends Spamfilter
 	 */
 	function triggerVote(&$obj)
 	{
-		if ($_SESSION['avoid_log'])
+		if (!empty($_SESSION['avoid_log']))
 		{
 			return;
 		}
 
 		if ($this->user->isAdmin() || (Context::get('grant')->manager ?? false))
+		{
+			return;
+		}
+
+		$config = SpamfilterModel::getConfig();
+		if ($obj->point > 0 && isset($config->blocked_actions) && !in_array('vote_up', $config->blocked_actions))
+		{
+			return;
+		}
+		if ($obj->point < 0 && isset($config->blocked_actions) && !in_array('vote_down', $config->blocked_actions))
 		{
 			return;
 		}
@@ -207,12 +233,18 @@ class SpamfilterController extends Spamfilter
 	 */
 	function triggerDeclare(&$obj)
 	{
-		if ($_SESSION['avoid_log'])
+		if (!empty($_SESSION['avoid_log']))
 		{
 			return;
 		}
 
 		if ($this->user->isAdmin() || (Context::get('grant')->manager ?? false))
+		{
+			return;
+		}
+
+		$config = SpamfilterModel::getConfig();
+		if (isset($config->blocked_actions) && !in_array('declare', $config->blocked_actions))
 		{
 			return;
 		}
@@ -229,25 +261,36 @@ class SpamfilterController extends Spamfilter
 	 */
 	function triggerSendMessage(&$obj)
 	{
-		if($_SESSION['avoid_log']) return;
+		if($this->user->isAdmin() || !empty($_SESSION['avoid_log']))
+		{
+			return;
+		}
+
 		if(isset($obj->use_spamfilter) && $obj->use_spamfilter === false)
 		{
 			return;
 		}
 
-		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == 'Y') return;
-
 		// Check if the IP is prohibited
 		$output = SpamfilterModel::isDeniedIP();
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$config = SpamfilterModel::getConfig();
+			if (!isset($config->blocked_actions) || in_array('message', $config->blocked_actions))
+			{
+				return $output;
+			}
+		}
+
 		// Check if there is a ban on the word
 		$text = $obj->title . ' ' . $obj->content;
 		$output = SpamfilterModel::isDeniedWord($text);
 		if(!$output->toBool()) return $output;
+
 		// Check the specified time
 		$output = SpamfilterModel::checkLimited(TRUE);
 		if(!$output->toBool()) return $output;
+
 		// Save a log
 		$this->insertLog();
 	}

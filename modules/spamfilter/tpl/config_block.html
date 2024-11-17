@@ -28,6 +28,36 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->cmd_blocked_actions}</label>
+			<div class="x_controls">
+				<label class="x_inline">
+					<input type="checkbox" name="blocked_actions[]" value="document" checked="checked"|cond="!$config->blocked_actions || in_array('document', $config->blocked_actions)" />
+					{$lang->document}
+				</label>
+				<label class="x_inline">
+					<input type="checkbox" name="blocked_actions[]" value="comment" checked="checked"|cond="!$config->blocked_actions || in_array('comment', $config->blocked_actions)" />
+					{$lang->comment}
+				</label>
+				<label class="x_inline">
+					<input type="checkbox" name="blocked_actions[]" value="vote_up" checked="checked"|cond="!$config->blocked_actions || in_array('vote_up', $config->blocked_actions)" />
+					{$lang->cmd_vote}
+				</label>
+				<label class="x_inline">
+					<input type="checkbox" name="blocked_actions[]" value="vote_down" checked="checked"|cond="!$config->blocked_actions || in_array('vote_down', $config->blocked_actions)" />
+					{$lang->cmd_vote_down}
+				</label>
+				<label class="x_inline">
+					<input type="checkbox" name="blocked_actions[]" value="declare" checked="checked"|cond="!$config->blocked_actions || in_array('declare', $config->blocked_actions)" />
+					{$lang->cmd_declare}
+				</label>
+				<label class="x_inline">
+					<input type="checkbox" name="blocked_actions[]" value="message" checked="checked"|cond="!$config->blocked_actions || in_array('message', $config->blocked_actions)" />
+					{$lang->member_message}
+				</label>
+				<p class="x_help-block">{$lang->cmd_blocked_actions_help}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="custom_message">{$lang->custom_message}</label>
 			<div class="x_controls">
 				<textarea name="custom_message" id="custom_message" class="lang_code">{escape($config->custom_message, false)}</textarea>
