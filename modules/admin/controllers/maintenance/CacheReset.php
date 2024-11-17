@@ -95,7 +95,7 @@ class CacheReset extends Base
 					// If possible, use system command to speed up recursive deletion
 					if (function_exists('exec') && !preg_match('/(?<!_)exec/', ini_get('disable_functions')))
 					{
-						if (strncasecmp(\PHP_OS, 'win', 3) == 0)
+						if (\RX_WINDOWS)
 						{
 							@exec('rmdir /S /Q ' . escapeshellarg($tmp_dir));
 						}

@@ -176,7 +176,7 @@ class Cleanup extends Base
 		{
 			return $cache = true;
 		}
-		if (preg_match('/Win/i', \PHP_OS))
+		if (\RX_WINDOWS)
 		{
 			return $cache = false;
 		}
