@@ -61,7 +61,7 @@
 					<i class="no_profile">?</i>
 					<!--@end-->
 				</td>
-				{@ $member_info['group_list'] = implode(', ', $member_info['group_list'])}
+				{@ $member_info['group_list'] = Context::replaceUserLang(implode(', ', $member_info['group_list']), true)}
 				<td class="nowr" loop="$usedIdentifiers=>$name,$title">
 					<!--@if($name === 'email_address')-->
 						<a href="#popup_menu_area" class="member_{$member_info['member_srl']}">{getEncodeEmailAddress($member_info['email_address'])}</a>

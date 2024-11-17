@@ -176,6 +176,11 @@ class MemberView extends Member
 			$member_info->email_address = sprintf('%s@%s', $protect_id, $email_host);
 		}
 
+		foreach ($member_info->group_list ?? [] as $key => $val)
+		{
+			$member_info->group_list[$key] = Context::replaceUserLang($val, true);
+		}
+
 		Context::set('memberInfo', get_object_vars($member_info));
 
 		$extendForm = MemberModel::getCombineJoinForm($member_info);
