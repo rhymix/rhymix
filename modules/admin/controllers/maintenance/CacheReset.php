@@ -115,6 +115,12 @@ class CacheReset extends Base
 		$oAutoinstallAdminController = getAdminController('autoinstall');
 		$oAutoinstallAdminController->checkInstalled();
 
+		// Opcache reset
+		if (function_exists('opcache_reset'))
+		{
+			opcache_reset();
+		}
+
 		$this->setMessage('success_updated');
 	}
 }
