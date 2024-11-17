@@ -17,11 +17,15 @@
 		<action name="procSpamfilterAdminInsertConfigCaptcha" type="controller" />
 	</actions>
 	<eventHandlers>
+		<eventHandler before="document.manage" class="controller" method="triggerManageDocument" />
 		<eventHandler before="document.insertDocument" class="controller" method="triggerInsertDocument" />
 		<eventHandler before="document.updateDocument" class="controller" method="triggerInsertDocument" />
-		<eventHandler before="document.manage" class="controller" method="triggerManageDocument" />
+		<eventHandler before="document.updateVotedCount" class="controller" method="triggerVote" />
+		<eventHandler before="document.declaredDocument" class="controller" method="triggerDeclare" />
 		<eventHandler before="comment.insertComment" class="controller" method="triggerInsertComment" />
 		<eventHandler before="comment.updateComment" class="controller" method="triggerInsertComment" />
+		<eventHandler before="comment.updateVotedCount" class="controller" method="triggerVote" />
+		<eventHandler before="comment.declaredComment" class="controller" method="triggerDeclare" />
 		<eventHandler before="communication.sendMessage" class="controller" method="triggerSendMessage" />
 		<eventHandler before="moduleObject.proc" class="controller" method="triggerCheckCaptcha" />
 	</eventHandlers>

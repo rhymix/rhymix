@@ -183,6 +183,50 @@ class SpamfilterController extends Spamfilter
 	}
 
 	/**
+	 * Block voting from a spam IP.
+	 */
+	function triggerVote(&$obj)
+	{
+		if ($_SESSION['avoid_log'])
+		{
+			return;
+		}
+
+		if ($this->user->isAdmin() || (Context::get('grant')->manager ?? false))
+		{
+			return;
+		}
+
+		$output = SpamfilterModel::getInstance()->isDeniedIP();
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+	}
+
+	/**
+	 * Block reporting from a spam IP.
+	 */
+	function triggerDeclare(&$obj)
+	{
+		if ($_SESSION['avoid_log'])
+		{
+			return;
+		}
+
+		if ($this->user->isAdmin() || (Context::get('grant')->manager ?? false))
+		{
+			return;
+		}
+
+		$output = SpamfilterModel::getInstance()->isDeniedIP();
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+	}
+
+	/**
 	 * @brief The routine process to check the time it takes to store a message, when writing it, and to ban IP/word
 	 */
 	function triggerSendMessage(&$obj)
