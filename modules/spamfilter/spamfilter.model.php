@@ -8,16 +8,9 @@
 class SpamfilterModel extends Spamfilter
 {
 	/**
-	 * @brief Initialization
-	 */
-	function init()
-	{
-	}
-
-	/**
 	 * @brief Return the user setting values of the Spam filter module
 	 */
-	function getConfig()
+	public static function getConfig()
 	{
 		return ModuleModel::getModuleConfig('spamfilter') ?: new stdClass;
 	}
@@ -25,7 +18,7 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Return the list of registered IP addresses which were banned
 	 */
-	function getDeniedIPList($sort_index = 'regdate')
+	public static function getDeniedIPList($sort_index = 'regdate')
 	{
 		$args = new stdClass();
 		$args->sort_index = $sort_index;
@@ -38,12 +31,12 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Check if the ipaddress is in the list of banned IP addresses
 	 */
-	function isDeniedIP()
+	public static function isDeniedIP()
 	{
 		$ip_list = Rhymix\Framework\Cache::get('spamfilter:denied_ip_list');
 		if ($ip_list === null)
 		{
-			$ip_list = $this->getDeniedIPList();
+			$ip_list = self::getDeniedIPList();
 			Rhymix\Framework\Cache::set('spamfilter:denied_ip_list', $ip_list);
 		}
 		if (!count($ip_list))
@@ -75,7 +68,7 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Return the list of registered Words which were banned
 	 */
-	function getDeniedWordList($sort_index = 'hit')
+	public static function getDeniedWordList($sort_index = 'hit')
 	{
 		$args = new stdClass();
 		$args->sort_index = $sort_index;
@@ -86,12 +79,12 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Check if the text, received as a parameter, is banned or not
 	 */
-	function isDeniedWord($text)
+	public static function isDeniedWord($text)
 	{
 		$word_list = Rhymix\Framework\Cache::get('spamfilter:denied_word_list');
 		if ($word_list === null)
 		{
-			$word_list = $this->getDeniedWordList();
+			$word_list = self::getDeniedWordList();
 			Rhymix\Framework\Cache::set('spamfilter:denied_word_list', $word_list);
 		}
 		if (!count($word_list))
@@ -128,7 +121,7 @@ class SpamfilterModel extends Spamfilter
 				$args->word = $word;
 				executeQuery('spamfilter.updateDeniedWordHit', $args);
 
-				$config = $this->getConfig();
+				$config = self::getConfig();
 
 				if($config->custom_message)
 				{
@@ -161,9 +154,9 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Check the specified time
 	 */
-	function checkLimited($isMessage = FALSE)
+	public static function checkLimited($isMessage = FALSE)
 	{
-		$config = $this->getConfig();
+		$config = self::getConfig();
 
 		if($config->limits != 'Y') return new BaseObject();
 		$limit_count = $config->limits_count ?: 3;
@@ -177,7 +170,7 @@ class SpamfilterModel extends Spamfilter
 			}
 		}
 
-		$count = $this->getLogCount($interval);
+		$count = self::getLogCount($interval);
 
 		// Ban the IP address if the interval is exceeded
 		if($count>=$limit_count)
@@ -272,7 +265,7 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Check if the trackbacks have already been registered to a particular article
 	 */
-	function isInsertedTrackback($document_srl)
+	public static function isInsertedTrackback($document_srl)
 	{
 		$oTrackbackModel = getModel('trackback');
 		if (is_object($oTrackbackModel) && method_exists($oTrackbackModel, 'getTrackbackCountByIPAddress'))
@@ -289,7 +282,7 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * @brief Return the number of logs recorded within the interval for the specified IPaddress
 	 */
-	function getLogCount($time = 60, $ipaddress='')
+	public static function getLogCount($time = 60, $ipaddress='')
 	{
 		if(!$ipaddress) $ipaddress = \RX_CLIENT_IP;
 
