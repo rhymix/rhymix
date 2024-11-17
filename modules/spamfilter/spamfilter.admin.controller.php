@@ -177,9 +177,10 @@ class SpamfilterAdminController extends Spamfilter
 	{
 		//스팸 키워드 추가
 		$word_list = Context::get('word_list');
+		$enable_description = Context::get('enable_description') ?? 'N';
 		if($word_list)
 		{
-			$output = $this->insertWord($word_list);
+			$output = $this->insertWord($word_list, $enable_description);
 			if(!$output->toBool() && !$output->get('fail_list')) return $output;
 
 			if($output->get('fail_list')) $message_fail = '<em>'.sprintf(lang('msg_faillist'),$output->get('fail_list')).'</em>';
@@ -258,7 +259,7 @@ class SpamfilterAdminController extends Spamfilter
 	 * @brief Register the spam word
 	 * The post, which contains the newly registered spam word, should be considered as a spam
 	 */
-	public function insertWord($word_list)
+	public function insertWord($word_list, $enable_description = 'Y')
 	{
 		if (!is_array($word_list))
 		{
@@ -273,7 +274,7 @@ class SpamfilterAdminController extends Spamfilter
 			{
 				continue;
 			}
-			if (preg_match('/^(.+?)#(.+)$/', $word, $matches))
+			if ($enable_description === 'Y' && preg_match('/^(.+?)#(.+)$/', $word, $matches))
 			{
 				$word = trim($matches[1]);
 				$description = trim($matches[2]);
