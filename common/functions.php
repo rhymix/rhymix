@@ -741,20 +741,6 @@ function is_empty_html_content($str): bool
 }
 
 /**
- * Polyfill for is_countable() in PHP < 7.3
- *
- * @param mixed $var
- * @return bool
-**/
-if (!function_exists('is_countable'))
-{
-	function is_countable($var)
-	{
-		return is_array($var) || $var instanceof Countable;
-	}
-}
-
-/**
  * Polyfill for str_starts_with() in PHP < 8.0
  *
  * @param string $haystack
