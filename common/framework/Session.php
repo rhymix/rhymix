@@ -79,17 +79,7 @@ class Session
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		if ($samesite)
-		{
-			if (PHP_VERSION_ID >= 70300)
-			{
-				ini_set('session.cookie_samesite', $samesite);
-			}
-			else
-			{
-				$path = ($path ?: '/') . '; SameSite=' . $samesite;
-			}
-		}
+		ini_set('session.cookie_samesite', $samesite ? 1 : 0);
 		session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 

@@ -79,24 +79,7 @@ class Cookie
 			$options['samesite'] = config('cookie.samesite') ?? 'Lax';
 		}
 
-		// PHP 7.3+ supports the samesite attribute natively. PHP 7.2 requires a hack.
-		if (\PHP_VERSION_ID >= 70300)
-		{
-			$result = setcookie($name, $value, $options);
-		}
-		else
-		{
-			$expires = $options['expires'];
-			$path = $options['path'] ?? '/';
-			$domain = $options['domain'] ?? null;
-			$secure = $options['secure'] ?? false;
-			$httponly = $options['httponly'] ?? false;
-			if (!empty($options['samesite']))
-			{
-				$path = ($path ?: '/') . '; SameSite=' . $options['samesite'];
-			}
-			$result = setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
-		}
+		$result = setcookie($name, $value, $options);
 
 		// Make the cookie immediately available server-side.
 		if ($result && $options['expires'] >= 0)
