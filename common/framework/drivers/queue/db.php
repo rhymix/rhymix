@@ -93,8 +93,8 @@ class DB implements QueueInterface
 	public function addTask(string $handler, ?object $args = null, ?object $options = null): int
 	{
 		$oDB = RFDB::getInstance();
-		$stmt = $oDB->prepare('INSERT INTO task_queue (handler, args, options) VALUES (?, ?, ?)');
-		$result = $stmt->execute([$handler, serialize($args), serialize($options)]);
+		$stmt = $oDB->prepare('INSERT INTO task_queue (handler, args, options, regdate) VALUES (?, ?, ?, ?)');
+		$result = $stmt->execute([$handler, serialize($args), serialize($options), date('Y-m-d H:i:s')]);
 		return $result ? $oDB->getInsertID() : 0;
 	}
 

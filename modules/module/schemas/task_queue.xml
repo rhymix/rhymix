@@ -3,5 +3,5 @@
 	<column name="handler" type="varchar" size="191" notnull="notnull" />
 	<column name="args" type="longtext" notnull="notnull" />
 	<column name="options" type="longtext" notnull="notnull" />
-	<column name="regdate" type="datetime" notnull="notnull" default="current_timestamp()" index="idx_regdate" />
+	<column name="regdate" type="datetime" notnull="notnull" index="idx_regdate" />
 </table>
