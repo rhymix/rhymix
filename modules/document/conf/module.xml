@@ -47,7 +47,7 @@
 		<action name="procDocumentAdminMoveToTrash" type="controller" permission="manager:moderate:document" check_type="document" check_var="document_srl" />
 		<action name="procDocumentAdminRestoreTrash" type="controller" />
 		<action name="procDocumentAdminInsertExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="insertExtraVar" />
-		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manage:config:*" check_var="module_srl" />
+		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" />
 		<action name="procDocumentAdminMoveExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" />
 	</actions>
 	<eventHandlers>
