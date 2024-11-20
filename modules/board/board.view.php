@@ -289,9 +289,6 @@ class BoardView extends Board
 					}
 				}
 
-				// check the manage grant
-				if($this->grant->manager) $oDocument->setGrant();
-
 				// if the consultation function is enabled, and the document is not a notice
 				if($this->consultation && !$oDocument->isNotice())
 				{
