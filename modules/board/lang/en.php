@@ -97,7 +97,7 @@ $lang->cmd_do_not_message = 'Never';
 $lang->delete_placeholder = 'Delete Placeholder';
 $lang->msg_document_notify_mail = '[%s] The new post : %s';
 $lang->cmd_board_combined_board = 'Combined Board';
-$lang->about_board_combined_board = 'You can use this board to view documents from other boards. Press the Ctrl key and click to select multiple boards.<br />Caution: view permissions for the current board will apply to all affected documents.';
+$lang->about_board_combined_board = 'You can use this board to view documents from other boards. Press the Ctrl key and click to select multiple boards.<br /><span style="color:red">Warning: permissions for the current board will apply to all affected documents and comments.</span>';
 $lang->cmd_board_include_modules = 'Include Boards';
 $lang->cmd_board_include_modules_none = '(None)';
 $lang->cmd_board_include_days = 'Include Duration';

@@ -109,7 +109,7 @@ $lang->cmd_document_vote_user = '이 글의 추천인 목록';
 $lang->cmd_comment_vote_user = '이 댓글의 추천인 목록';
 $lang->msg_not_target = '문서 또는 댓글의 추천인목록만 조회가능합니다.';
 $lang->cmd_board_combined_board = '통합 게시판';
-$lang->about_board_combined_board = '다른 게시판의 글을 모아서 볼 수 있습니다. 여러 게시판을 선택하려면 Ctrl 키를 누르고 클릭하세요.<br />주의: 현재 게시판의 읽기 권한 설정이 모든 글에 적용됩니다.';
+$lang->about_board_combined_board = '다른 게시판의 글을 모아서 볼 수 있습니다. 여러 게시판을 선택하려면 Ctrl 키를 누르고 클릭하세요.<br /><span style="color:red">주의: 현재 게시판의 권한 설정이 모든 글에 적용됩니다.</span>';
 $lang->cmd_board_include_modules = '포함할 게시판 선택';
 $lang->cmd_board_include_modules_none = '(포함하지 않음)';
 $lang->cmd_board_include_days = '포함할 기간';
