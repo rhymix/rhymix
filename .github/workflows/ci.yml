@@ -6,7 +6,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [ '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
 
     name: PHP ${{ matrix.php }}
     steps:
@@ -14,18 +14,11 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup PHP
-      uses: nanasess/setup-php@master
-      with:
-        php-version: ${{ matrix.php }}
+    - name: Install PHP
+      run: chmod +x .github/workflows/setup-php.sh && .github/workflows/setup-php.sh ${{ matrix.php }}
 
-    - name: Start MySQL and create database
-      run: |
-        sudo systemctl start mysql.service
-        sudo mysql -uroot -proot -e "CREATE DATABASE rhymix CHARSET utf8mb4 COLLATE utf8mb4_unicode_ci"
-        sudo mysql -uroot -proot -e "CREATE USER rhymix@localhost IDENTIFIED WITH mysql_native_password BY 'rhymix'"
-        sudo mysql -uroot -proot -e "GRANT ALL ON rhymix.* to rhymix@localhost; FLUSH PRIVILEGES"
-        sudo mysql -uroot -proot -e "SELECT VERSION()"
+    - name: Create test database
+      run: chmod +x .github/workflows/setup-mysql.sh && .github/workflows/setup-mysql.sh
 
     - name: PHP Lint
       run: if find . -name "*.php" ! -path "./common/vendor/*" -print0 | xargs -0 -n 1 -P 8 php -l | grep -v "No syntax errors detected"; then exit 1; fi
