@@ -133,6 +133,10 @@ class MemberController extends Member
 
 		// If a device key is present, unregister it.
 		Rhymix\Modules\Member\Controllers\Device::getInstance()->autoUnregisterDevice($logged_info->member_srl);
+		if (isset($_COOKIE['device_key']))
+		{
+			Rhymix\Framework\Cookie::remove('device_key');
+		}
 
 		// Set redirect URL.
 		$output = new BaseObject();
