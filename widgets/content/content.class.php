@@ -711,7 +711,7 @@ class content extends WidgetHandler
 
 		$widget_info->markup_type = $args->markup_type;
 		// If it is a tab type, list up tab items and change key value(module_srl) to index
-		if($args->tab_type != 'none' && $args->tab_type)
+		if (!empty($args->tab_type) && $args->tab_type != 'none')
 		{
 			$tab = array();
 			foreach($args->mid_lists as $module_srl => $mid)
