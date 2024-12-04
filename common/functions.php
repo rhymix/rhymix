@@ -692,7 +692,7 @@ function utf8_normalize_spaces($str, bool $multiline = false): string
  */
 function utf8_trim($str): string
 {
-	return preg_replace('/^[\s\pZ\pC]+|[\s\pZ\pC]+$/u', '', (string)$str);
+	return preg_replace('/^[\s\pZ\pC]+|[\s\pZ\pC]+$/u', '', (string)$str) ?? '';
 }
 
 /**
