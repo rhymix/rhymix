@@ -215,7 +215,10 @@ class HTTP
 				$proxy = parse_url($proxy);
 				$proxy_scheme = preg_match('/^(https|socks)/', $proxy['scheme'] ?? '') ? ($proxy['scheme'] . '://') : 'http://';
 				$proxy_auth = (!empty($proxy['user']) && !empty($proxy['pass'])) ? ($proxy['user'] . ':' . $proxy['pass'] . '@') : '';
-				$settings['proxy'] = sprintf('%s%s%s:%s', $proxy_scheme, $proxy_auth, $proxy['host'], $proxy['port']);
+				if (!empty($proxy['host']) && !empty($proxy['port']))
+				{
+					$settings['proxy'] = sprintf('%s%s%s:%s', $proxy_scheme, $proxy_auth, $proxy['host'], $proxy['port']);
+				}
 			}
 
 			self::$_client = new \GuzzleHttp\Client($settings);
