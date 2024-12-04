@@ -58,9 +58,12 @@ class MemberAdminView extends Member
 
 		// retrieve group list
 		$this->group_list = $oMemberModel->getGroups();
-		foreach ($this->group_list as $group)
+		if ($this->act !== 'dispMemberAdminGroupList')
 		{
-			$group->title = Context::replaceUserLang($group->title, true);
+			foreach ($this->group_list as $group)
+			{
+				$group->title = Context::replaceUserLang($group->title, true);
+			}
 		}
 		Context::set('group_list', $this->group_list);
 
