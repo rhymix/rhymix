@@ -890,10 +890,13 @@ class CommentController extends Comment
 					Author: " . $member_info->nick_name . "
 					<br />Author e-mail: " . $member_info->email_address . "
 					<br />From : <a href=\"" . $url_comment . "\">" . $url_comment . "</a>
+					<br />
 					<br />Comment:
 					<br />\"" . $obj->content . "\"
+					<br />
 					<br />Document:
-					<br />\"" . $oDocument->getContentText(). "\"
+					<br />\"" . $oDocument->getTitleText(). "\"
+					<br />\"" . $oDocument->getContentPlainText(). "\"
 					<br />
 					<br />
 					Approve it: <a href=\"" . $url_approve . "\">" . $url_approve . "</a>
@@ -908,10 +911,13 @@ class CommentController extends Comment
 					Author: " . $member_info->nick_name . "
 					<br />Author e-mail: " . $member_info->email_address . "
 					<br />From : <a href=\"" . $url_comment . "\">" . $url_comment . "</a>
+					<br />
 					<br />Comment:
 					<br />\"" . $obj->content . "\"
+					<br />
 					<br />Document:
-					<br />\"" . $oDocument->getContentText(). "\"
+					<br />\"" . $oDocument->getTitleText(). "\"
+					<br />\"" . $oDocument->getContentPlainText(). "\"
 					";
 			}
 
