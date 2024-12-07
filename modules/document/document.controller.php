@@ -1719,6 +1719,12 @@ class DocumentController extends Document
 			$_SESSION['readed_document'][$document_srl] = true;
 		}
 
+		// Prevent session data getting too large
+		if (is_array($_SESSION['readed_document']) && count($_SESSION['readed_document']) > 1000)
+		{
+			$_SESSION['readed_document'] = array_slice($_SESSION['readed_document'], 500, null, true);
+		}
+
 		return TRUE;
 	}
 
@@ -2105,6 +2111,12 @@ class DocumentController extends Document
 			$output->add('blamed_count', $trigger_obj->after_point);
 		}
 
+		// Prevent session data getting too large
+		if (count($_SESSION['voted_document']) > 200)
+		{
+			$_SESSION['voted_document'] = array_slice($_SESSION['voted_document'], 100, null, true);
+		}
+
 		return $output;
 	}
 
@@ -2263,6 +2275,12 @@ class DocumentController extends Document
 
 		// Leave in the session information
 		$_SESSION['declared_document'][$document_srl] = true;
+
+		// Prevent session data getting too large
+		if (count($_SESSION['declared_document']) > 200)
+		{
+			$_SESSION['declared_document'] = array_slice($_SESSION['declared_document'], 100, null, true);
+		}
 
 		$this->setMessage('success_declared');
 	}

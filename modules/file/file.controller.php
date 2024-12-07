@@ -772,6 +772,10 @@ class FileController extends File
 		{
 			$_SESSION['upload_info'] = array();
 		}
+		if(count($_SESSION['upload_info']) > 200)
+		{
+			$_SESSION['upload_info'] = array_slice($_SESSION['upload_info'], 100, null, true);
+		}
 		if(!isset($_SESSION['upload_info'][$editor_sequence]))
 		{
 			$_SESSION['upload_info'][$editor_sequence] = new stdClass();

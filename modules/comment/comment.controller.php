@@ -1716,6 +1716,12 @@ class CommentController extends Comment
 			$output->add('blamed_count', $trigger_obj->after_point);
 		}
 
+		// Prevent session data getting too large
+		if (count($_SESSION['voted_comment']) > 200)
+		{
+			$_SESSION['voted_comment'] = array_slice($_SESSION['voted_comment'], 100, null, true);
+		}
+
 		return $output;
 	}
 
@@ -1874,6 +1880,12 @@ class CommentController extends Comment
 
 		// leave into the session information
 		$_SESSION['declared_comment'][$comment_srl] = TRUE;
+
+		// Prevent session data getting too large
+		if (count($_SESSION['declared_comment']) > 200)
+		{
+			$_SESSION['declared_comment'] = array_slice($_SESSION['declared_comment'], 100, null, true);
+		}
 
 		$this->setMessage('success_declared');
 	}
