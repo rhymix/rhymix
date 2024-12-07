@@ -221,9 +221,10 @@ class BoardView extends Board
 	/**
 	 * @brief display the category list
 	 **/
-	function dispBoardCategoryList(){
+	public function dispBoardCategoryList()
+	{
 		// check if the use_category option is enabled
-		if($this->module_info->use_category=='Y')
+		if ($this->module_info->use_category === 'Y' || !empty($this->include_modules))
 		{
 			// check the grant
 			if(!$this->grant->list)
@@ -239,13 +240,30 @@ class BoardView extends Board
 			}
 			else
 			{
-				$category_list = DocumentModel::getCategoryList($this->module_srl);
+				if ($this->module_info->use_category === 'Y')
+				{
+					$category_list = DocumentModel::getCategoryList($this->module_srl);
+				}
+				else
+				{
+					$category_list = [];
+				}
+
 				foreach ($this->include_modules as $module_srl)
 				{
 					if ($module_srl != $this->module_srl)
 					{
-						$category_list += DocumentModel::getCategoryList($module_srl);
+						if ((ModuleModel::getModuleExtraVars($module_srl)->hide_category ?? 'N') !== 'Y')
+						{
+							$category_list += DocumentModel::getCategoryList($module_srl);
+						}
 					}
+				}
+
+				if ($category_list)
+				{
+					$this->module_info->hide_category = 'N';
+					$this->module_info->use_category = 'Y';
 				}
 			}
 			Context::set('category_list', $category_list);
