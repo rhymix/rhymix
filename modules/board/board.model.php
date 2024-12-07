@@ -21,6 +21,7 @@ class BoardModel extends Board
 	public static function getListConfig($module_srl)
 	{
 		// get the list config value, if it is not exitsted then setup the default value
+		$module_srl = (int)$module_srl;
 		$list_config = ModuleModel::getModulePartConfig('board', $module_srl);
 		if(!is_array($list_config) || count($list_config) <= 0)
 		{
