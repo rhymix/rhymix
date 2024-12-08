@@ -9,6 +9,7 @@
 	@required(toBool($definition->is_required))
 	@disabled(toBool($definition->is_disabled))
 	@readonly(toBool($definition->is_readonly))>
+	<option value="">@lang('cmd_select')</option>
 	@foreach ($definition->getOptions() as $v)
 		<option value="{{ $v }}" @selected($has_value ? in_array($v, $value) : ($v === $default_value))>{{ $v }}</option>
 	@endforeach
