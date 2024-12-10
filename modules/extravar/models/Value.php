@@ -233,9 +233,9 @@ class Value
 	 *
 	 * @param mixed $value
 	 * @param mixed $old_value
-	 * @return ?BaseObject
+	 * @return BaseObject
 	 */
-	public function validate($value, $old_value = null): ?BaseObject
+	public function validate($value, $old_value = null): BaseObject
 	{
 		// Take legacy encoding into consideration.
 		if (is_array($value))
@@ -295,7 +295,7 @@ class Value
 			}
 		}
 
-		return null;
+		return new BaseObject;
 	}
 
 	/**
