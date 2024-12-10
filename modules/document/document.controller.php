@@ -1269,7 +1269,7 @@ class DocumentController extends Document
 								{
 									// Check if deletion is allowed
 									$ev_output = $extra_item->validate(null);
-									if (!$ev_output->toBool())
+									if ($ev_output && !$ev_output->toBool())
 									{
 										$oDB->rollback();
 										return $ev_output;
