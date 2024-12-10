@@ -9,34 +9,58 @@
 
 class Board extends ModuleObject
 {
-	var $search_option = array('title_content','title','content','comment','user_name','nick_name','user_id','tag'); ///< 검색 옵션
-
-	var $order_target = array('list_order', 'update_order', 'regdate', 'voted_count', 'blamed_count', 'readed_count', 'comment_count', 'title', 'nick_name', 'user_name', 'user_id'); // 정렬 옵션
-
-	var $skin = "default"; ///< skin name
-	var $list_count = 20; ///< the number of documents displayed in a page
-	var $page_count = 10; ///< page number
-	var $category_list = NULL; ///< category list
+	/**
+	 * Default search columns
+	 */
+	public $search_option = [
+		'title_content',
+		'title',
+		'content',
+		'comment',
+		'user_name',
+		'nick_name',
+		'user_id',
+		'tag',
+	];
 
 	/**
-	 * @brief install the module
-	 **/
+	 * Default sort columns
+	 */
+	public $order_target = [
+		'list_order',
+		'update_order',
+		'regdate',
+		'voted_count',
+		'blamed_count',
+		'readed_count',
+		'comment_count',
+		'title',
+		'nick_name',
+		'user_name',
+		'user_id',
+	];
+
+	/**
+	 * Default values
+	 */
+	public $skin = 'default';
+	public $list_count = 20;
+	public $page_count = 10;
+	public $category_list;
+
+	/**
+	 * Callback functions for autoinstall
+	 */
 	function moduleInstall()
 	{
 
 	}
 
-	/**
-	 * @brief chgeck module method
-	 **/
 	function checkUpdate()
 	{
 
 	}
 
-	/**
-	 * @brief update module
-	 **/
 	function moduleUpdate()
 	{
 
