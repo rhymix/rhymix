@@ -1916,7 +1916,7 @@ class NcenterliteController extends Ncenterlite
 	 */
 	protected static function _createSummary($str): string
 	{
-		$str = escape(utf8_normalize_spaces(trim(strip_tags($str)), false));
+		$str = escape(utf8_normalize_spaces(trim(strip_tags($str))), false);
 		if (function_exists('mb_strimwidth'))
 		{
 			return mb_strimwidth($str, 0, 50, '...', 'UTF-8');
@@ -1935,7 +1935,7 @@ class NcenterliteController extends Ncenterlite
 	 */
 	protected static function _createContent($str): string
 	{
-		$str = escape(utf8_normalize_spaces(trim(strip_tags($str)), false));
+		$str = escape(utf8_normalize_spaces(trim(strip_tags($str))), false);
 		if (function_exists('mb_strimwidth'))
 		{
 			return mb_strimwidth($str, 0, 200, '...', 'UTF-8');
