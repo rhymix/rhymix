@@ -54,17 +54,6 @@ class Board extends ModuleObject
 
 	function moduleUninstall()
 	{
-		$output = executeQueryArray("board.getAllBoard");
-		if(!$output->data) return new BaseObject();
-		@set_time_limit(0);
 
-		$oModuleController = getController('module');
-
-		foreach($output->data as $board)
-		{
-			$oModuleController->deleteModule($board->module_srl);
-		}
-
-		return new BaseObject();
 	}
 }
