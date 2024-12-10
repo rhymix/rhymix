@@ -19,16 +19,6 @@ class Board extends ModuleObject
 	var $category_list = NULL; ///< category list
 
 	/**
-	 * constructor
-	 *
-	 * @return void
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
-
-	/**
 	 * @brief install the module
 	 **/
 	function moduleInstall()
