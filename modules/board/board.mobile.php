@@ -3,7 +3,7 @@
 
 class BoardMobile extends BoardView
 {
-	function getBoardCommentPage()
+	public function getBoardCommentPage()
 	{
 		$this->dispBoardCommentPage();
 		$oTemplate = TemplateHandler::getInstance();

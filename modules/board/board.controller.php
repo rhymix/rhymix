@@ -5,21 +5,14 @@
  * @class  boardController
  * @author NAVER (developers@xpressengine.com)
  * @brief  board module Controller class
- **/
+ */
 
 class BoardController extends Board
 {
 	/**
-	 * @brief initialization
-	 **/
-	function init()
-	{
-	}
-
-	/**
 	 * @brief insert document
-	 **/
-	function procBoardInsertDocument()
+	 */
+	public function procBoardInsertDocument()
 	{
 		// check grant
 		if(!$this->grant->write_document)
@@ -295,7 +288,7 @@ class BoardController extends Board
 		$this->setMessage($msg_code);
 	}
 
-	function procBoardRevertDocument()
+	public function procBoardRevertDocument()
 	{
 		$update_id = Context::get('update_id');
 		$logged_info = Context::get('logged_info');
@@ -338,8 +331,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief delete the document
-	 **/
-	function procBoardDeleteDocument()
+	 */
+	public function procBoardDeleteDocument()
 	{
 		// get the document_srl
 		$document_srl = Context::get('document_srl');
@@ -416,8 +409,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief vote
-	 **/
-	function procBoardVoteDocument()
+	 */
+	public function procBoardVoteDocument()
 	{
 		// Check document_srl
 		$document_srl = intval(Context::get('document_srl'));
@@ -434,8 +427,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief insert comments
-	 **/
-	function procBoardInsertComment()
+	 */
+	public function procBoardInsertComment()
 	{
 		// check grant
 		if(!$this->grant->write_comment)
@@ -625,8 +618,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief delete the comment
-	 **/
-	function procBoardDeleteComment()
+	 */
+	public function procBoardDeleteComment()
 	{
 		// get the comment_srl
 		$comment_srl = Context::get('comment_srl');
@@ -741,8 +734,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief delete the tracjback
-	 **/
-	function procBoardDeleteTrackback()
+	 */
+	public function procBoardDeleteTrackback()
 	{
 		$trackback_srl = Context::get('trackback_srl');
 
@@ -765,8 +758,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief check the password for document and comment
-	 **/
-	function procBoardVerificationPassword()
+	 */
+	public function procBoardVerificationPassword()
 	{
 		// get the id number of the document and the comment
 		$password = Context::get('password');
@@ -790,7 +783,9 @@ class BoardController extends Board
 			}
 
 			$oComment->setGrantForSession();
-		} else {
+		}
+		else
+		{
 			 // get the document information
 			$oDocument = DocumentModel::getDocument($document_srl);
 			if(!$oDocument->isExists())
@@ -810,8 +805,8 @@ class BoardController extends Board
 
 	/**
 	 * @brief the trigger for displaying 'view document' link when click the user ID
-	 **/
-	function triggerMemberMenu($obj)
+	 */
+	public function triggerMemberMenu($obj)
 	{
 		if(!$mid = Context::get('cur_mid'))
 		{
