@@ -497,23 +497,43 @@ class ModuleModel extends Module
 	public static function addModuleExtraVars($module_info)
 	{
 		// Process although one or more module informaion is requested
-		if(!is_array($module_info)) $target_module_info = array($module_info);
-		else $target_module_info = $module_info;
+		if (!is_array($module_info))
+		{
+			$target_module_info = array($module_info);
+		}
+		else
+		{
+			$target_module_info = $module_info;
+		}
+
 		// Get module_srl
 		$module_srls = array();
 		foreach($target_module_info as $key => $val)
 		{
-			$module_srl = $val->module_srl;
-			if(!$module_srl) continue;
-			$module_srls[] = $val->module_srl;
+			if ($val->module_srl)
+			{
+				$module_srls[] = $val->module_srl;
+			}
 		}
+		if (!count($module_srls))
+		{
+			return $module_info;
+		}
+
 		// Extract extra information of the module and skin
 		$extra_vars = self::getModuleExtraVars($module_srls);
-		if(!count($module_srls) || !count($extra_vars)) return $module_info;
+		if (!count($extra_vars))
+		{
+			return $module_info;
+		}
 
 		foreach($target_module_info as $key => $val)
 		{
-			if(!$extra_vars[$val->module_srl] || !count(get_object_vars($extra_vars[$val->module_srl]))) continue;
+			if (!isset($extra_vars[$val->module_srl]))
+			{
+				continue;
+			}
+
 			foreach($extra_vars[$val->module_srl] as $k => $v)
 			{
 				if(isset($target_module_info[$key]->{$k}) && $target_module_info[$key]->{$k})
@@ -524,8 +544,14 @@ class ModuleModel extends Module
 			}
 		}
 
-		if(is_array($module_info)) return $target_module_info;
-		return $target_module_info[0];
+		if(is_array($module_info))
+		{
+			return $target_module_info;
+		}
+		else
+		{
+			return $target_module_info[0];
+		}
 	}
 
 	/**
