@@ -105,6 +105,34 @@ class Dummy implements QueueInterface
 	}
 
 	/**
+	 * Add a task to be executed at a specific time.
+	 *
+	 * @param int $time
+	 * @param string $handler
+	 * @param ?object $args
+	 * @param ?object $options
+	 * @return int
+	 */
+	public function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null): int
+	{
+		return 1;
+	}
+
+	/**
+	 * Add a task to be executed at an interval.
+	 *
+	 * @param string $interval
+	 * @param string $handler
+	 * @param ?object $args
+	 * @param ?object $options
+	 * @return int
+	 */
+	public function addTaskAtInterval(string $interval, string $handler, ?object $args = null, ?object $options = null): int
+	{
+		return 2;
+	}
+
+	/**
 	 * Get the next task from the queue.
 	 *
 	 * @param int $blocking
@@ -115,5 +143,27 @@ class Dummy implements QueueInterface
 		$result = $this->_dummy_queue;
 		$this->_dummy_queue = null;
 		return $result;
+	}
+
+	/**
+	 * Get scheduled tasks.
+	 *
+	 * @param string $type
+	 * @return array
+	 */
+	public function getScheduledTasks(string $type): array
+	{
+		return [];
+	}
+
+	/**
+	 * Update the last executed timestamp of a scheduled task.
+	 *
+	 * @param object $task
+	 * @return void
+	 */
+	public function updateLastRunTimestamp(object $task): void
+	{
+
 	}
 }
