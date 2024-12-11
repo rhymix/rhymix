@@ -1,10 +1,10 @@
 <table name="task_schedule">
-	<column name="id" type="bigint" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
-	<column name="type" type="varchar" size="40" index="idx_type" />
-	<column name="interval" type="varchar" size="191" index="idx_interval" />
+	<column name="task_srl" type="bigint" notnull="notnull" primary_key="primary_key" />
+	<column name="task_type" type="varchar" size="40" index="idx_task_type" />
+	<column name="run_interval" type="varchar" size="191" index="idx_run_interval" />
+	<column name="run_count" type="bigint" notnull="notnull" default="0" index="idx_run_count" />
 	<column name="first_run" type="datetime" index="idx_first_run" />
 	<column name="last_run" type="datetime" index="idx_last_run" />
-	<column name="run_count" type="bigint" notnull="notnull" default="0" index="idx_run_count" />
 	<column name="handler" type="varchar" size="191" notnull="notnull" />
 	<column name="args" type="longtext" notnull="notnull" />
 	<column name="options" type="longtext" notnull="notnull" />

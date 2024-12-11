@@ -111,12 +111,14 @@ class DB implements QueueInterface
 	public function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null): int
 	{
 		$oDB = RFDB::getInstance();
+		$task_srl = getNextSequence();
 		$stmt = $oDB->prepare(trim(<<<END
 			INSERT INTO task_schedule
-			(type, first_run, handler, args, options, regdate)
-			VALUES (?, ?, ?, ?, ?, ?)
+			(task_srl, task_type, first_run, handler, args, options, regdate)
+			VALUES (?, ?, ?, ?, ?, ?, ?)
 		END));
 		$result = $stmt->execute([
+			$task_srl,
 			'once',
 			date('Y-m-d H:i:s', $time),
 			$handler,
@@ -124,7 +126,7 @@ class DB implements QueueInterface
 			serialize($options),
 			date('Y-m-d H:i:s'),
 		]);
-		return $result ? $oDB->getInsertID() : 0;
+		return $result ? $task_srl : 0;
 	}
 
 	/**
@@ -139,12 +141,14 @@ class DB implements QueueInterface
 	public function addTaskAtInterval(string $interval, string $handler, ?object $args = null, ?object $options = null): int
 	{
 		$oDB = RFDB::getInstance();
+		$task_srl = getNextSequence();
 		$stmt = $oDB->prepare(trim(<<<END
 			INSERT INTO task_schedule
-			(type, `interval`, handler, args, options, regdate)
-			VALUES (?, ?, ?, ?, ?, ?)
+			(task_srl, task_type, run_interval, handler, args, options, regdate)
+			VALUES (?, ?, ?, ?, ?, ?, ?)
 		END));
 		$result = $stmt->execute([
+			$task_srl,
 			'interval',
 			$interval,
 			$handler,
@@ -152,7 +156,7 @@ class DB implements QueueInterface
 			serialize($options),
 			date('Y-m-d H:i:s'),
 		]);
-		return $result ? $oDB->getInsertID() : 0;
+		return $result ? $task_srl : 0;
 	}
 
 	/**
@@ -196,24 +200,25 @@ class DB implements QueueInterface
 	{
 		$oDB = RFDB::getInstance();
 		$tasks = [];
-		$ids = [];
+		$task_srls = [];
 
 		// Get tasks to be executed once at the current time.
 		if ($type === 'once')
 		{
 			$oDB->beginTransaction();
-			$stmt = $oDB->query("SELECT * FROM task_schedule WHERE `type` = 'once' AND `first_run` <= ? ORDER BY id FOR UPDATE", [$timestamp]);
+			$timestamp = date('Y-m-d H:i:s');
+			$stmt = $oDB->query("SELECT * FROM task_schedule WHERE task_type = 'once' AND first_run <= ? ORDER BY first_run FOR UPDATE", [$timestamp]);
 			while ($task = $stmt->fetchObject())
 			{
 				$task->args = unserialize($task->args);
 				$task->options = unserialize($task->options);
 				$tasks[] = $task;
-				$ids[] = $task->id;
+				$task_srls[] = $task->task_srl;
 			}
-			if (count($ids))
+			if (count($task_srls))
 			{
-				$stmt = $oDB->prepare('DELETE FROM task_schedule WHERE id IN (' . implode(', ', array_fill(0, count($ids), '?')) . ')');
-				$stmt->execute($ids);
+				$stmt = $oDB->prepare('DELETE FROM task_schedule WHERE task_srl IN (' . implode(', ', array_fill(0, count($task_srls), '?')) . ')');
+				$stmt->execute($task_srls);
 			}
 			$oDB->commit();
 		}
@@ -221,18 +226,18 @@ class DB implements QueueInterface
 		// Get tasks to be executed at an interval.
 		if ($type === 'interval')
 		{
-			$stmt = $oDB->query("SELECT id, `interval` FROM task_schedule WHERE `type` = 'interval' ORDER BY id");
+			$stmt = $oDB->query("SELECT task_srl, run_interval FROM task_schedule WHERE task_type = 'interval' ORDER BY task_srl");
 			while ($task = $stmt->fetchObject())
 			{
-				if (Queue::parseInterval($task->interval, \RX_TIME))
+				if (Queue::parseInterval($task->run_interval, time()))
 				{
-					$ids[] = $task->id;
+					$task_srls[] = $task->task_srl;
 				}
 			}
-			if (count($ids))
+			if (count($task_srls))
 			{
-				$stmt = $oDB->prepare('SELECT * FROM task_schedule WHERE id IN (' . implode(', ', array_fill(0, count($ids), '?')) . ')');
-				$stmt->execute($ids);
+				$stmt = $oDB->prepare('SELECT * FROM task_schedule WHERE task_srl IN (' . implode(', ', array_fill(0, count($task_srls), '?')) . ')');
+				$stmt->execute($task_srls);
 				while ($task = $stmt->fetchObject())
 				{
 					$task->args = unserialize($task->args);
@@ -251,10 +256,10 @@ class DB implements QueueInterface
 	 * @param int $id
 	 * @return void
 	 */
-	public function updateLastRunTimestamp(int $id): void
+	public function updateLastRunTimestamp(int $task_srl): void
 	{
 		$oDB = RFDB::getInstance();
-		$stmt = $oDB->prepare('UPDATE task_schedule SET last_run = ?, run_count = run_count + 1 WHERE id = ?');
-		$stmt->execute([date('Y-m-d H:i:s'), $id]);
+		$stmt = $oDB->prepare('UPDATE task_schedule SET last_run = ?, run_count = run_count + 1 WHERE task_srl = ?');
+		$stmt->execute([date('Y-m-d H:i:s'), $task_srl]);
 	}
 }
