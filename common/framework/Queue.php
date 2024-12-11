@@ -25,7 +25,7 @@ class Queue
 	}
 
 	/**
-	 * Get the default driver.
+	 * Get a Queue driver instance.
 	 *
 	 * @param string $name
 	 * @return ?Drivers\QueueInterface
@@ -47,6 +47,16 @@ class Queue
 		{
 			return null;
 		}
+	}
+
+	/**
+	 * Get the DB driver instance, for managing scheduled tasks.
+	 *
+	 * @return Drivers\Queue\DB
+	 */
+	public static function getDbDriver(): Drivers\Queue\DB
+	{
+		return self::getDriver('db');
 	}
 
 	/**
@@ -86,7 +96,9 @@ class Queue
 	}
 
 	/**
-	 * Add a task.
+	 * Add a task to the queue.
+	 *
+	 * The queued task will be executed as soon as possible.
 	 *
 	 * The handler can be in one of the following formats:
 	 *   - Global function, e.g. myHandler
@@ -128,29 +140,58 @@ class Queue
 	}
 
 	/**
-	 * Get the first task to execute immediately.
+	 * Add a task to be executed at a specific time.
 	 *
-	 * If no tasks are pending, this method will return null.
-	 * Detailed scheduling of tasks will be handled by each driver.
+	 * The queued task will be executed once at the configured time.
+	 * The rest is identical to addTask().
 	 *
-	 * @param int $blocking
-	 * @return ?object
+	 * @param int $time
+	 * @param string $handler
+	 * @param ?object $args
+	 * @param ?object $options
+	 * @return int
 	 */
-	public static function getTask(int $blocking = 0): ?object
+	public static function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null): int
 	{
-		$driver_name = config('queue.driver');
-		if (!$driver_name)
+		if (!config('queue.enabled'))
 		{
 			throw new Exceptions\FeatureDisabled('Queue not configured');
 		}
 
-		$driver = self::getDriver($driver_name);
-		if (!$driver)
+		// This feature always uses the DB driver.
+		$driver = self::getDbDriver();
+		return $driver->addTaskAt($time, $handler, $args, $options);
+	}
+
+	/**
+	 * Add a task to be executed at an interval.
+	 *
+	 * The queued task will be executed repeatedly at the scheduled interval.
+	 * The synax for specifying the interval is the same as crontab.
+	 * The rest is identical to addTask().
+	 *
+	 * @param string $interval
+	 * @param string $handler
+	 * @param ?object $args
+	 * @param ?object $options
+	 * @return int
+	 */
+	public static function addTaskAtInterval(string $interval, string $handler, ?object $args = null, ?object $options = null): int
+	{
+		if (!config('queue.enabled'))
 		{
 			throw new Exceptions\FeatureDisabled('Queue not configured');
 		}
 
-		return $driver->getTask($blocking);
+		// Validate the interval syntax.
+		if (!self::checkIntervalSyntax($interval))
+		{
+			throw new Exceptions\InvalidRequest('Invalid interval syntax: ' . $interval);
+		}
+
+		// This feature always uses the DB driver.
+		$driver = self::getDbDriver();
+		return $driver->addTaskAtInterval($interval, $handler, $args, $options);
 	}
 
 	/**
@@ -165,7 +206,80 @@ class Queue
 	}
 
 	/**
-	 * Process the queue.
+	 * Check the interval syntax.
+	 *
+	 * This method returns true if the interval string is well-formed,
+	 * and false otherwise. However, it does not check that all the numbers
+	 * are in the correct range (e.g. 0-59 for minutes).
+	 *
+	 * @param string $interval
+	 * @return bool
+	 */
+	public static function checkIntervalSyntax(string $interval): bool
+	{
+		$parts = preg_split('/\s+/', $interval);
+		if (!$parts || count($parts) !== 5)
+		{
+			return false;
+		}
+		foreach ($parts as $part)
+		{
+			if (!preg_match('!^(?:\\*(?:/\d+)?|\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*)$!', $part))
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Parse an interval string check it against a timestamp.
+	 *
+	 * This method returns true if the interval covers the given timestamp,
+	 * and false otherwise.
+	 *
+	 * @param string $interval
+	 * @param ?int $time
+	 * @return bool
+	 */
+	public static function parseInterval(string $interval, ?int $time): bool
+	{
+		$parts = preg_split('/\s+/', $interval);
+		if (!$parts || count($parts) !== 5)
+		{
+			return false;
+		}
+
+		$current_time = explode(' ', ltrim(date('i G j n N', $time ?? time()), '0'));
+		foreach ($parts as $i => $part)
+		{
+			$subparts = explode(',', $part);
+			foreach ($subparts as $subpart)
+			{
+				if ($subpart === '*' || $subpart === $current_time[$i])
+				{
+					continue 2;
+				}
+				if ($subpart === '7' && $i === 4 && $current_time[$i] === '0')
+				{
+					continue 2;
+				}
+				if (preg_match('!^\\*/(\d+)?$!', $subpart, $matches) && ($div = intval($matches[1])) && (intval($current_time[$i]) % $div === 0))
+				{
+					continue 2;
+				}
+				if (preg_match('!^(\d+)-(\d+)$!', $subpart, $matches) && $current_time[$i] >= intval($matches[1]) && $current_time[$i] <= intval($matches[2]))
+				{
+					continue 2;
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Process queued and scheduled tasks.
 	 *
 	 * This will usually be called by a separate script, run every minute
 	 * through an external scheduler such as crontab or systemd.
@@ -173,115 +287,54 @@ class Queue
 	 * If you are on a shared hosting service, you may also call a URL
 	 * using a "web cron" service provider.
 	 *
+	 * @param int $index
+	 * @param int $count
 	 * @param int $timeout
 	 * @return void
 	 */
-	public static function process(int $timeout): void
+	public static function process(int $index, int $count, int $timeout): void
 	{
 		// This part will run in a loop until timeout.
 		$process_start_time = microtime(true);
+
+		// Get default driver instance.
+		$driver_name = config('queue.driver');
+		$driver = self::getDriver($driver_name);
+		if (!$driver_name || !$driver)
+		{
+			throw new Exceptions\FeatureDisabled('Queue not configured');
+		}
+
+		// Process scheduled tasks.
+		if ($index === 0)
+		{
+			$db_driver = self::getDbDriver();
+			$tasks = $db_driver->getScheduledTasks('once');
+			foreach ($tasks as $task)
+			{
+				self::_executeTask($task);
+			}
+		}
+		if ($index === 1 || $count < 2)
+		{
+			$db_driver = self::getDbDriver();
+			$tasks = $db_driver->getScheduledTasks('interval');
+			foreach ($tasks as $task)
+			{
+				$db_driver->updateLastRunTimestamp($task->id);
+				self::_executeTask($task);
+			}
+		}
+
+		// Process queued tasks.
 		while (true)
 		{
-			// Get a task from the driver.
+			// Get a task from the driver, with a 1 second delay at maximum.
 			$loop_start_time = microtime(true);
-			$task = self::getTask(1);
-
-			// Wait 1 second and loop back.
+			$task = $driver->getNextTask(1);
 			if ($task)
 			{
-				// Find the handler for the task.
-				$task->handler = trim($task->handler, '\\()');
-				$handler = null;
-				try
-				{
-					if (preg_match('/^(?:\\\\)?([\\\\\\w]+)::(\\w+)$/', $task->handler, $matches))
-					{
-						$class_name = '\\' . $matches[1];
-						$method_name = $matches[2];
-						if (class_exists($class_name) && method_exists($class_name, $method_name))
-						{
-							$handler = [$class_name, $method_name];
-						}
-						else
-						{
-							error_log('RxQueue: task handler not found: ' . $task->handler);
-						}
-					}
-					elseif (preg_match('/^(?:\\\\)?([\\\\\\w]+)::(\\w+)(?:\(\))?->(\\w+)$/', $task->handler, $matches))
-					{
-						$class_name = '\\' . $matches[1];
-						$initializer_name = $matches[2];
-						$method_name = $matches[3];
-						if (class_exists($class_name) && method_exists($class_name, $initializer_name))
-						{
-							$obj = $class_name::$initializer_name();
-							if (method_exists($obj, $method_name))
-							{
-								$handler = [$obj, $method_name];
-							}
-							else
-							{
-								error_log('RxQueue: task handler not found: ' . $task->handler);
-							}
-						}
-						else
-						{
-							error_log('RxQueue: task handler not found: ' . $task->handler);
-						}
-					}
-					elseif (preg_match('/^new (?:\\\\)?([\\\\\\w]+)(?:\(\))?->(\\w+)$/', $task->handler, $matches))
-					{
-						$class_name = '\\' . $matches[1];
-						$method_name = $matches[2];
-						if (class_exists($class_name) && method_exists($class_name, $method_name))
-						{
-							$obj = new $class_name();
-							$handler = [$obj, $method_name];
-						}
-						else
-						{
-							error_log('RxQueue: task handler not found: ' . $task->handler);
-						}
-					}
-					else
-					{
-						if (function_exists('\\' . $task->handler))
-						{
-							$handler = '\\' . $task->handler;
-						}
-						else
-						{
-							error_log('RxQueue: task handler not found: ' . $task->handler);
-						}
-					}
-				}
-				catch (\Throwable $th)
-				{
-					error_log(vsprintf('RxQueue: task handler %s could not be accessed: %s in %s:%d', [
-						$task->handler,
-						get_class($th),
-						$th->getFile(),
-						$th->getLine(),
-					]));
-				}
-
-				// Call the handler.
-				try
-				{
-					if ($handler)
-					{
-						call_user_func($handler, $task->args, $task->options);
-					}
-				}
-				catch (\Throwable $th)
-				{
-					error_log(vsprintf('RxQueue: task handler %s threw %s in %s:%d', [
-						$task->handler,
-						get_class($th),
-						$th->getFile(),
-						$th->getLine(),
-					]));
-				}
+				self::_executeTask($task);
 			}
 
 			// If the timeout is imminent, break the loop.
@@ -297,6 +350,109 @@ class Queue
 			{
 				usleep(intval((1 - $loop_elapsed_time) * 1000000));
 			}
+		}
+	}
+
+	/**
+	 * Execute a task.
+	 *
+	 * @param object $task
+	 * @return void
+	 */
+	protected static function _executeTask(object $task): void
+	{
+		// Find the handler for the task.
+		$task->handler = trim($task->handler, '\\()');
+		$handler = null;
+		try
+		{
+			if (preg_match('/^(?:\\\\)?([\\\\\\w]+)::(\\w+)$/', $task->handler, $matches))
+			{
+				$class_name = '\\' . $matches[1];
+				$method_name = $matches[2];
+				if (class_exists($class_name) && method_exists($class_name, $method_name))
+				{
+					$handler = [$class_name, $method_name];
+				}
+				else
+				{
+					error_log('RxQueue: task handler not found: ' . $task->handler);
+				}
+			}
+			elseif (preg_match('/^(?:\\\\)?([\\\\\\w]+)::(\\w+)(?:\(\))?->(\\w+)$/', $task->handler, $matches))
+			{
+				$class_name = '\\' . $matches[1];
+				$initializer_name = $matches[2];
+				$method_name = $matches[3];
+				if (class_exists($class_name) && method_exists($class_name, $initializer_name))
+				{
+					$obj = $class_name::$initializer_name();
+					if (method_exists($obj, $method_name))
+					{
+						$handler = [$obj, $method_name];
+					}
+					else
+					{
+						error_log('RxQueue: task handler not found: ' . $task->handler);
+					}
+				}
+				else
+				{
+					error_log('RxQueue: task handler not found: ' . $task->handler);
+				}
+			}
+			elseif (preg_match('/^new (?:\\\\)?([\\\\\\w]+)(?:\(\))?->(\\w+)$/', $task->handler, $matches))
+			{
+				$class_name = '\\' . $matches[1];
+				$method_name = $matches[2];
+				if (class_exists($class_name) && method_exists($class_name, $method_name))
+				{
+					$obj = new $class_name();
+					$handler = [$obj, $method_name];
+				}
+				else
+				{
+					error_log('RxQueue: task handler not found: ' . $task->handler);
+				}
+			}
+			else
+			{
+				if (function_exists('\\' . $task->handler))
+				{
+					$handler = '\\' . $task->handler;
+				}
+				else
+				{
+					error_log('RxQueue: task handler not found: ' . $task->handler);
+				}
+			}
+		}
+		catch (\Throwable $th)
+		{
+			error_log(vsprintf('RxQueue: task handler %s could not be accessed: %s in %s:%d', [
+				$task->handler,
+				get_class($th),
+				$th->getFile(),
+				$th->getLine(),
+			]));
+		}
+
+		// Call the handler.
+		try
+		{
+			if ($handler)
+			{
+				call_user_func($handler, $task->args, $task->options);
+			}
+		}
+		catch (\Throwable $th)
+		{
+			error_log(vsprintf('RxQueue: task handler %s threw %s in %s:%d', [
+				$task->handler,
+				get_class($th),
+				$th->getFile(),
+				$th->getLine(),
+			]));
 		}
 	}
 }

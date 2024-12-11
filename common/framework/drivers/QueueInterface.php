@@ -62,10 +62,10 @@ interface QueueInterface
 	public function addTask(string $handler, ?object $args = null, ?object $options = null): int;
 
 	/**
-	 * Get the first task.
+	 * Get the next task from the queue.
 	 *
 	 * @param int $blocking
 	 * @return ?object
 	 */
-	public function getTask(int $blocking = 0): ?object;
+	public function getNextTask(int $blocking = 0): ?object;
 }
