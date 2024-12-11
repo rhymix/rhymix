@@ -253,13 +253,21 @@ class DB implements QueueInterface
 	/**
 	 * Update the last executed timestamp of a scheduled task.
 	 *
-	 * @param int $id
+	 * @param object $task
 	 * @return void
 	 */
-	public function updateLastRunTimestamp(int $task_srl): void
+	public function updateLastRunTimestamp(object $task): void
 	{
 		$oDB = RFDB::getInstance();
-		$stmt = $oDB->prepare('UPDATE task_schedule SET last_run = ?, run_count = run_count + 1 WHERE task_srl = ?');
-		$stmt->execute([date('Y-m-d H:i:s'), $task_srl]);
+		if ($task->first_run)
+		{
+			$stmt = $oDB->prepare('UPDATE task_schedule SET last_run = ?, run_count = run_count + 1 WHERE task_srl = ?');
+			$stmt->execute([date('Y-m-d H:i:s'), $task->task_srl]);
+		}
+		else
+		{
+			$stmt = $oDB->prepare('UPDATE task_schedule SET first_run = ?, last_run = ?, run_count = run_count + 1 WHERE task_srl = ?');
+			$stmt->execute([date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), $task->task_srl]);
+		}
 	}
 }

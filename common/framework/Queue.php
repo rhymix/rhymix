@@ -321,7 +321,7 @@ class Queue
 			$tasks = $db_driver->getScheduledTasks('interval');
 			foreach ($tasks as $task)
 			{
-				$db_driver->updateLastRunTimestamp($task->task_srl);
+				$db_driver->updateLastRunTimestamp($task);
 				self::_executeTask($task);
 			}
 		}
