@@ -12,12 +12,12 @@ class QueueTest extends \Codeception\Test\Unit
 
 		Rhymix\Framework\Queue::addTask($handler, $args, $options);
 
-		$output = Rhymix\Framework\Queue::getTask();
+		$output = Rhymix\Framework\Queue::getDriver('dummy')->getNextTask();
 		$this->assertEquals('myfunc', $output->handler);
 		$this->assertEquals('bar', $output->args->foo);
 		$this->assertEquals('val', $output->options->key);
 
-		$output = Rhymix\Framework\Queue::getTask();
+		$output = Rhymix\Framework\Queue::getDriver('dummy')->getNextTask();
 		$this->assertNull($output);
 	}
 }
