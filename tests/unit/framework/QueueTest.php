@@ -23,6 +23,9 @@ class QueueTest extends \Codeception\Test\Unit
 
 	public function testScheduledTaskAt()
 	{
+		config('queue.enabled', true);
+		config('queue.driver', 'dummy');
+
 		$timestamp = time() + 43200;
 		$handler = 'MyClass::myFunc';
 		$args = (object)['foo' => 'bar'];
@@ -45,6 +48,9 @@ class QueueTest extends \Codeception\Test\Unit
 
 	public function testScheduledTaskAtInterval()
 	{
+		config('queue.enabled', true);
+		config('queue.driver', 'db');
+
 		$interval = '30 9 1-15 */2 *';
 		$handler = 'MyClass::getInstance()->myMethod';
 		$args = (object)['foo' => 'bar'];
