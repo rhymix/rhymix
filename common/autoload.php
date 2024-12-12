@@ -134,17 +134,17 @@ require_once RX_BASEDIR . 'common/framework/Debug.php';
 require_once RX_BASEDIR . 'common/framework/Lang.php';
 
 /**
+ * Load system configuration.
+ */
+Rhymix\Framework\Config::init();
+
+/**
  * Load user configuration.
  */
 if(file_exists(RX_BASEDIR . 'config/config.user.inc.php'))
 {
 	require_once RX_BASEDIR . 'config/config.user.inc.php';
 }
-
-/**
- * Load system configuration.
- */
-Rhymix\Framework\Config::init();
 
 /**
  * Install the debugger.
