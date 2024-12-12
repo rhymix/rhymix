@@ -531,6 +531,7 @@ class DB
 			$result = array();
 			$index = $last_index;
 			$step = $last_index !== 0 ? -1 : 1;
+			$count = 0;
 			$result_class = ($result_class && $result_class !== 'master') ? $result_class : 'stdClass';
 			if (!class_exists($result_class))
 			{
@@ -540,6 +541,11 @@ class DB
 			{
 				$result[$index] = $row;
 				$index += $step;
+				$count++;
+				if ($count === 10000 && $this->_query_id !== '')
+				{
+					trigger_error('XML query ' . $this->_query_id . ' returned 10000 rows or more', E_USER_WARNING);
+				}
 			}
 
 			$stmt->closeCursor();
