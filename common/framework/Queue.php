@@ -195,6 +195,30 @@ class Queue
 	}
 
 	/**
+	 * Get information about a scheduled task if it exists.
+	 *
+	 * @param int $task_srl
+	 * @return ?object
+	 */
+	public static function getScheduledTask(int $task_srl): ?object
+	{
+		$driver = self::getDbDriver();
+		return $driver->getScheduledTask($task_srl);
+	}
+
+	/**
+	 * Cancel a scheduled task.
+	 *
+	 * @param int $task_srl
+	 * @return bool
+	 */
+	public static function cancelScheduledTask(int $task_srl): bool
+	{
+		$driver = self::getDbDriver();
+		return $driver->cancelScheduledTask($task_srl);
+	}
+
+	/**
 	 * Check the process key.
 	 *
 	 * @param string $key

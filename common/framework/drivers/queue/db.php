@@ -191,6 +191,21 @@ class DB implements QueueInterface
 	}
 
 	/**
+	 * Get a scheduled task by its task_srl.
+	 *
+	 * @param int $task_srl
+	 * @return ?object
+	 */
+	public function getScheduledTask(int $task_srl): ?object
+	{
+		$oDB = RFDB::getInstance();
+		$stmt = $oDB->query('SELECT * FROM task_schedule WHERE task_srl = ?', [$task_srl]);
+		$task = $stmt->fetchObject();
+		$stmt->closeCursor();
+		return $task ?: null;
+	}
+
+	/**
 	 * Get scheduled tasks.
 	 *
 	 * @param string $type
@@ -269,5 +284,18 @@ class DB implements QueueInterface
 			$stmt = $oDB->prepare('UPDATE task_schedule SET first_run = ?, last_run = ?, run_count = run_count + 1 WHERE task_srl = ?');
 			$stmt->execute([date('Y-m-d H:i:s'), date('Y-m-d H:i:s'), $task->task_srl]);
 		}
+	}
+
+	/**
+	 * Cancel a scheduled task.
+	 *
+	 * @param int $task_srl
+	 * @return bool
+	 */
+	public function cancelScheduledTask(int $task_srl): bool
+	{
+		$oDB = RFDB::getInstance();
+		$stmt = $oDB->query('DELETE FROM task_schedule WHERE task_srl = ?', [$task_srl]);
+		return ($stmt && $stmt->rowCount()) ? true : false;
 	}
 }
