@@ -274,25 +274,25 @@ class Queue
 			return false;
 		}
 
-		$current_time = explode(' ', ltrim(date('i G j n N', $time ?? time()), '0'));
+		$current_time = explode(' ', date('i G j n w', $time ?? time()));
 		foreach ($parts as $i => $part)
 		{
 			$subparts = explode(',', $part);
 			foreach ($subparts as $subpart)
 			{
-				if ($subpart === '*' || $subpart === $current_time[$i])
+				if ($subpart === '*' || ltrim($subpart, '0') === ltrim($current_time[$i], '0'))
 				{
 					continue 2;
 				}
-				if ($subpart === '7' && $i === 4 && $current_time[$i] === '0')
+				if ($subpart === '7' && $i === 4 && intval($current_time[$i], 10) === 0)
 				{
 					continue 2;
 				}
-				if (preg_match('!^\\*/(\d+)?$!', $subpart, $matches) && ($div = intval($matches[1])) && (intval($current_time[$i]) % $div === 0))
+				if (preg_match('!^\\*/(\d+)?$!', $subpart, $matches) && ($div = intval($matches[1], 10)) && (intval($current_time[$i], 10) % $div === 0))
 				{
 					continue 2;
 				}
-				if (preg_match('!^(\d+)-(\d+)$!', $subpart, $matches) && $current_time[$i] >= intval($matches[1]) && $current_time[$i] <= intval($matches[2]))
+				if (preg_match('!^(\d+)-(\d+)$!', $subpart, $matches) && intval($current_time[$i], 10) >= intval($matches[1], 10) && intval($current_time[$i], 10) <= intval($matches[2], 10))
 				{
 					continue 2;
 				}
