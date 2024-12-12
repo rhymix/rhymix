@@ -202,7 +202,17 @@ class DB implements QueueInterface
 		$stmt = $oDB->query('SELECT * FROM task_schedule WHERE task_srl = ?', [$task_srl]);
 		$task = $stmt->fetchObject();
 		$stmt->closeCursor();
-		return $task ?: null;
+
+		if ($task)
+		{
+			$task->args = unserialize($task->args);
+			$task->options = unserialize($task->options);
+			return $task;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
