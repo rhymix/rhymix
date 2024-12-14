@@ -165,6 +165,10 @@ class EditorView extends Editor
 		// Get a group list
 		$group_list = MemberModel::getGroups();
 		Context::set('group_list', $group_list);
+		foreach ($group_list ?: [] as $group)
+		{
+			$group->title = Context::replaceUserLang($group->title, true);
+		}
 
 		//Security
 		$security = new Security();

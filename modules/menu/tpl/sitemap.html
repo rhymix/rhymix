@@ -350,7 +350,9 @@
 			<h1>{$lang->menu_img_btn}</h1>
 			<div class="cnt">
 				<p style="border-bottom:1px solid #ddd;width:220px;min-width:100%;padding-bottom:10px">{$lang->about_imgbtn}</p>
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
+				<form action="{\RX_BASEURL}" class="_btn_normal" target="submitTarget" method="post" enctype="multipart/form-data">
+					<input name="module" type="hidden" value="menu" />
+					<input name="act" type="hidden" value="procMenuAdminButtonUpload" />
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isNormalDelete" type="hidden" value="Y"/>
@@ -368,7 +370,9 @@
 						</span>
 					</div>
 				</form>
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_hover" target="submitTarget" method="post" enctype="multipart/form-data">
+				<form action="{\RX_BASEURL}" class="_btn_hover" target="submitTarget" method="post" enctype="multipart/form-data">
+					<input name="module" type="hidden" value="menu" />
+					<input name="act" type="hidden" value="procMenuAdminButtonUpload" />
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isHoverDelete" type="hidden" value="Y"/>
@@ -386,7 +390,9 @@
 						</span>
 					</div>
 				</form>
-				<form action="?module=menu&act=procMenuAdminButtonUpload" class="_btn_selected" target="submitTarget" method="post" enctype="multipart/form-data">
+				<form action="{\RX_BASEURL}" class="_btn_selected" target="submitTarget" method="post" enctype="multipart/form-data">
+					<input name="module" type="hidden" value="menu" />
+					<input name="act" type="hidden" value="procMenuAdminButtonUpload" />
 					<input name="menu_item_srl" type="hidden" value=""/>
 					<input name="xe_js_callback" type="hidden" value="top.onBtnImgUploaded"/>
 					<input name="isActiveDelete" type="hidden" value="Y"/>

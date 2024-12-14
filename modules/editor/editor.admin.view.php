@@ -111,6 +111,10 @@ class EditorAdminView extends Editor
 
 		// Get a group list to set a group
 		$group_list = MemberModel::getGroups(0);
+		foreach ($group_list ?: [] as $group)
+		{
+			$group->title = Context::replaceUserLang($group->title, true);
+		}
 		Context::set('group_list', $group_list);
 
 		// Get a mid list

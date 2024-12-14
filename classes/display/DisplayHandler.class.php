@@ -97,7 +97,7 @@ class DisplayHandler extends Handler
 		}
 		else
 		{
-			if($responseMethod == 'JSON' || $responseMethod == 'JS_CALLBACK' || isset($_SERVER['HTTP_X_AJAX_COMPAT']) || isset($_POST['_rx_ajax_compat']))
+			if($responseMethod == 'JSON' || isset($_SERVER['HTTP_X_AJAX_COMPAT']) || isset($_POST['_rx_ajax_compat']))
 			{
 				self::_printJSONHeader();
 			}

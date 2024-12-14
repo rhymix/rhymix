@@ -155,12 +155,12 @@ class Redis implements QueueInterface
 	}
 
 	/**
-	 * Get the first task.
+	 * Get the next task from the queue.
 	 *
 	 * @param int $blocking
 	 * @return ?object
 	 */
-	public function getTask(int $blocking = 0): ?object
+	public function getNextTask(int $blocking = 0): ?object
 	{
 		if ($this->_conn)
 		{

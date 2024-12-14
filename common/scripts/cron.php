@@ -73,7 +73,7 @@ if (PHP_SAPI === 'cli' && $process_count > 1 && function_exists('pcntl_fork') &&
 		}
 		elseif ($pid == 0)
 		{
-			Rhymix\Framework\Queue::process($timeout);
+			Rhymix\Framework\Queue::process($i, $process_count, $timeout);
 			exit;
 		}
 		else
@@ -96,7 +96,7 @@ if (PHP_SAPI === 'cli' && $process_count > 1 && function_exists('pcntl_fork') &&
 }
 else
 {
-	Rhymix\Framework\Queue::process($timeout);
+	Rhymix\Framework\Queue::process(0, 1, $timeout);
 }
 
 // If called over the network, display a simple OK message to indicate success.

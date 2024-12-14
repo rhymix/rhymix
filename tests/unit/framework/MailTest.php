@@ -2,6 +2,19 @@
 
 class MailTest extends \Codeception\Test\Unit
 {
+	protected $_prev_queue_config;
+
+	public function _before()
+	{
+		$this->_prev_queue_config = config('queue');
+		config('queue.enabled', false);
+	}
+
+	public function _after()
+	{
+		config('queue', $this->_prev_queue_config);
+	}
+
 	public function testGetSetDefaultDriver()
 	{
 		$driver = Rhymix\Framework\Mail::getDefaultDriver();
