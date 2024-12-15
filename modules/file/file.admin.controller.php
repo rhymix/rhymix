@@ -296,6 +296,142 @@ class FileAdminController extends File
 			else $_SESSION['file_management'][$output->file_srl] = true;
 		}
 	}
+
+	/**
+	 * Edit filename
+	 */
+	public function procFileAdminEditFileName()
+	{
+		$file_srl = Context::get('file_srl');
+		if (!$file_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$file = FileModel::getFile($file_srl);
+		if (!$file)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		$file_name = trim(utf8_normalize_spaces(utf8_clean(Context::get('file_name'))));
+		$file_name = Rhymix\Framework\Filters\FilenameFilter::clean($file_name);
+		if ($file_name === '')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$output = executeQuery('file.updateFileName', [
+			'file_srl' => $file_srl,
+			'source_filename' => $file_name,
+		]);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispFileAdminEdit', 'file_srl' => $file_srl]));
+	}
+
+	/**
+	 * Edit image
+	 */
+	public function procFileAdminEditImage()
+	{
+		$file_srl = Context::get('file_srl');
+		if (!$file_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$file = FileModel::getFile($file_srl);
+		if (!$file)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
+		// Validate user input.
+		$width = intval(Context::get('new_width'));
+		$height = intval(Context::get('new_height'));
+		$format = Context::get('format');
+		$quality = intval(Context::get('quality'));
+		if ($width <= 0 || $height <= 0 || !in_array($format, ['jpg', 'png', 'webp']) || $quality <= 0 || $quality > 100)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		// Generate filenames.
+		$uploaded_filename = FileHandler::getRealPath($file->uploaded_filename);
+		$temp_filename = \RX_BASEDIR . 'files/cache/temp/' . Rhymix\Framework\Security::getRandom(32, 'hex') . '.' . $format;
+		$new_filename = preg_replace('/\.[a-z]+$/', '.' . $format, $file->source_filename);
+		$del_filename = null;
+
+		// Should this file be moved from binaries to images?
+		if (str_starts_with($uploaded_filename, \RX_BASEDIR . 'files/attach/binaries/'))
+		{
+			$del_filename = $uploaded_filename;
+			$uploaded_filename = preg_replace('!/files/attach/binaries/!', '/files/attach/images/', $uploaded_filename, 1) . '.' . $format;
+		}
+
+		// Resize the image using GD or ImageMagick.
+		$config = FileModel::getFileConfig();
+		$result = FileHandler::createImageFile(FileHandler::getRealPath($file->uploaded_filename), $temp_filename, $width, $height, $format, 'fill', $quality);
+		if (!$result && !empty($config->magick_command))
+		{
+			$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
+				\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+				escapeshellarg(FileHandler::getRealPath($file->uploaded_filename)),
+				$width, $height, $quality,
+				'-auto-orient -strip',
+				'-limit memory 64MB -limit map 128MB -limit disk 1GB',
+				escapeshellarg($temp_filename),
+			]);
+			@exec($command, $output, $return_var);
+			$result = $return_var === 0 ? true : false;
+		}
+
+		// If successfully resized, replace original file and update the image size in DB.
+		if ($result && Rhymix\Framework\Storage::exists($temp_filename) && filesize($temp_filename) > 0)
+		{
+			$moved = Rhymix\Framework\Storage::move($temp_filename, $uploaded_filename);
+			if (!$moved)
+			{
+				throw new Rhymix\Framework\Exception;
+			}
+			if ($del_filename)
+			{
+				Rhymix\Framework\Storage::delete($del_filename);
+			}
+
+			clearstatcache(true, $uploaded_filename);
+			$filesize = filesize($uploaded_filename);
+			$relative_path = preg_replace('!^' . preg_quote(\RX_BASEDIR, '!') . '!', './', $uploaded_filename, 1);
+
+			$updated = executeQuery('file.updateFile', [
+				'file_srl' => $file_srl,
+				'module_srl' => $file->module_srl,
+				'upload_target_srl' => $file->upload_target_srl,
+				'source_filename' => $new_filename,
+				'uploaded_filename' => $relative_path,
+				'direct_download' => 'Y',
+				'mime_type' => Rhymix\Framework\MIME::getTypeByFilename($new_filename),
+				'original_type' => $file->original_type ?: $file->mime_type,
+				'is_cover' => $file->cover_image,
+				'file_size' => $filesize,
+				'width' => $width,
+				'height' => $height,
+			]);
+			if (!$updated->toBool())
+			{
+				return $updated;
+			}
+		}
+		else
+		{
+			throw new Rhymix\Framework\Exception;
+		}
+
+		$this->setMessage('success_updated');
+		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispFileAdminEdit', 'file_srl' => $file_srl]));
+	}
 }
 /* End of file file.admin.controller.php */
 /* Location: ./modules/file/file.admin.controller.php */

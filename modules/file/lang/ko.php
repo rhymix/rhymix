@@ -135,3 +135,6 @@ $lang->msg_cannot_use_exec = '이 서버에서 exec() 함수를 사용할 수 �
 $lang->msg_cannot_use_ffmpeg = '이 기능을 사용하려면 PHP에서 ffmpeg 및 ffprobe 명령을 실행할 수 있어야 합니다.';
 $lang->msg_cannot_use_exif = '이 기능을 사용하려면 PHP exif 확장모듈이 필요합니다.';
 $lang->msg_need_magick = 'AVIF, HEIC 변환을 위해서는 PHP에서 ImageMagick 7.x 이상의 magick 명령을 실행할 수 있어야 합니다.';
+$lang->image_conversion = '이미지 변환';
+$lang->image_size = '이미지 크기';
+$lang->image_format = '이미지 포맷';

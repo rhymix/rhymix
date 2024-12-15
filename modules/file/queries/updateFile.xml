@@ -3,11 +3,19 @@
         <table name="files" />
     </tables>
     <columns>
+        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
         <column name="upload_target_srl" var="upload_target_srl" filter="number" notnull="notnull" />
         <column name="upload_target_type" var="upload_target_type" />
-        <column name="module_srl" var="module_srl" filter="number" notnull="notnull" />
+		<column name="source_filename" var="source_filename" />
         <column name="uploaded_filename" var="uploaded_filename" notnull="notnull" minlength="1" maxlength="250" />
         <column name="cover_image" var="is_cover" default="N" />
+		<column name="direct_download" var="direct_download" />
+		<column name="mime_type" var="mime_type" />
+		<column name="original_type" var="original_type" />
+		<column name="file_size" var="file_size" />
+		<column name="width" var="width" />
+		<column name="height" var="height" />
+		<column name="duration" var="duration" />
     </columns>
     <conditions>
         <condition operation="equal" column="file_srl" var="file_srl" filter="number" notnull="notnull" />

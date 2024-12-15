@@ -6,7 +6,7 @@ function getFileList() {
 	var fileListTable = jQuery('#fileListTable');
 	var cartList = [];
 	fileListTable.find(':checkbox[name=cart]').each(function(){
-		if(this.checked) cartList.push(this.value); 
+		if(this.checked) cartList.push(this.value);
 	});
 
     var params = new Array();
@@ -58,3 +58,24 @@ function checkSearch(form)
 	}
 	*/
 }
+
+(function() {
+	$(function() {
+		$('.preset_size').on('click', function() {
+			const preset_size = parseInt($(this).text(), 10);
+			const width = parseInt($('input[name=original_width]').val(), 10);
+			const height = parseInt($('input[name=original_height]').val(), 10);
+			let new_width = 0;
+			let new_height = 0;
+			if (width > height) {
+				new_width = preset_size;
+				new_height = Math.round(preset_size * (height / width));
+			} else {
+				new_width = Math.round(preset_size * (width / height));
+				new_height = preset_size;
+			}
+			$('input[name=new_width]').val(new_width);
+			$('input[name=new_height]').val(new_height);
+		});
+	});
+})(jQuery);

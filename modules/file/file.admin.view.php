@@ -7,19 +7,11 @@
 class FileAdminView extends File
 {
 	/**
-	 * Initialization
-	 * @return void
-	 */
-	function init()
-	{
-	}
-
-	/**
 	 * Display output list (for administrator)
 	 *
 	 * @return Object
 	 */
-	function dispFileAdminList()
+	public function dispFileAdminList()
 	{
 		// Options to get a list
 		$args = new stdClass();
@@ -213,11 +205,35 @@ class FileAdminView extends File
 	}
 
 	/**
-	 * Upload config screen
-	 *
-	 * @return Object
+	 * File edit screen
 	 */
-	function dispFileAdminUploadConfig()
+	public function dispFileAdminEdit()
+	{
+		$file_srl = intval(Context::get('file_srl'));
+		if (!$file_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		$file = FileModel::getFile($file_srl);
+		if (!$file)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
+		$config = FileModel::getFileConfig();
+		Context::set('config', $config);
+		Context::set('file', $file);
+		Context::set('is_ffmpeg', function_exists('exec') && !empty($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && !empty($config->ffprobe_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
+		Context::set('is_magick', function_exists('exec') && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command));
+
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile('file_edit');
+	}
+
+	/**
+	 * Upload config screen
+	 */
+	public function dispFileAdminUploadConfig()
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
@@ -233,10 +249,8 @@ class FileAdminView extends File
 
 	/**
 	 * Download config screen
-	 *
-	 * @return Object
 	 */
-	function dispFileAdminDownloadConfig()
+	public function dispFileAdminDownloadConfig()
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();
@@ -249,10 +263,8 @@ class FileAdminView extends File
 
 	/**
 	 * Other config screen
-	 *
-	 * @return Object
 	 */
-	function dispFileAdminOtherConfig()
+	public function dispFileAdminOtherConfig()
 	{
 		$oFileModel = getModel('file');
 		$config = $oFileModel->getFileConfig();

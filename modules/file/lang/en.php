@@ -132,3 +132,6 @@ $lang->msg_cannot_use_exec = 'The exec() function is disabled on this server.';
 $lang->msg_cannot_use_ffmpeg = 'In order to use this feature, PHP must be able to execute \'ffmpeg\' and \'ffprobe\' commands.';
 $lang->msg_cannot_use_exif = 'In order to use this feature, PHP must be installed with the \'exif\' extension.';
 $lang->msg_need_magick = 'In order to handle AVIF and HEIC formats, PHP must be able to execute the \'magick\' command from ImageMagick 7.x or higher.';
+$lang->image_conversion = 'Image conversion';
+$lang->image_size = 'Image size';
+$lang->image_format = 'Image format';

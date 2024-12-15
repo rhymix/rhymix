@@ -1,0 +1,83 @@
+<include target="header.html" />
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/edit/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/file/tpl/edit/2'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+	<p>{$XE_VALIDATOR_MESSAGE}</p>
+</div>
+
+<section class="section">
+	<h2>{$lang->file_name}</h2>
+	<form action="./" method="post" class="x_form-horizontal">
+		<input type="hidden" name="module" value="file" />
+		<input type="hidden" name="act" value="procFileAdminEditFileName" />
+		<input type="hidden" name="xe_validator_id" value="modules/file/tpl/edit/1" />
+		<input type="hidden" name="file_srl" value="{$file->file_srl}" />
+		<div class="x_control-group">
+			<label class="x_control-label" for="file_name">{$lang->file_name}</label>
+			<div class="x_controls">
+				<input type="text" name="file_name" id="file_name" value="{$file->source_filename}" />
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+			</div>
+		</div>
+	</form>
+</section>
+
+<!--@if(preg_match('/\.(gif|jpe?g|png|bmp|webp|heic|avif)$/i', $file->source_filename, $matches))-->
+	<!--@if(!$file->width || !$file->height)-->
+		{@ list($file->width, $file->height) = getimagesize($file->uploaded_filename)}
+	<!--@endif-->
+	{@ $extension = strtolower($matches[1]); if ($extension === 'jpeg') $extension = 'jpg'; }
+	<section class="section">
+		<h2>{$lang->image_conversion}</h2>
+		<form action="./" method="post" class="x_form-horizontal">
+			<input type="hidden" name="module" value="file" />
+			<input type="hidden" name="act" value="procFileAdminEditImage" />
+			<input type="hidden" name="xe_validator_id" value="modules/file/tpl/edit/2" />
+			<input type="hidden" name="file_srl" value="{$file->file_srl}" />
+			<input type="hidden" name="original_width" value="{$file->width}" />
+			<input type="hidden" name="original_height" value="{$file->height}" />
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->image_size}</label>
+				<div class="x_controls">
+					<input type="number" name="new_width" id="new_width" value="{$file->width}" /> x
+					<input type="number" name="new_height" id="new_height" value="{$file->height}" />
+					<p class="x_help-block">
+						<button type="button" class="preset_size">2560</button>
+						<button type="button" class="preset_size">1920</button>
+						<button type="button" class="preset_size">1440</button>
+						<button type="button" class="preset_size">1280</button>
+						<button type="button" class="preset_size">1024</button>
+					</p>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label" for="format">{$lang->image_format}</label>
+				<div class="x_controls">
+					<select name="format" id="format">
+						<option value="jpg" selected="selected"|cond="$extension === 'jpg'">JPG</option>
+						<option value="png" selected="selected"|cond="$extension === 'png'">PNG</option>
+						<option value="webp" selected="selected"|cond="$extension === 'webp'">WebP</option>
+					</select>
+				</div>
+			</div>
+			<div class="x_control-group">
+				<label class="x_control-label" for="quality">{$lang->image_quality}</label>
+				<div class="x_controls">
+					<input type="number" min="50" max="100" name="quality" id="quality" value="{$config->image_quality_adjustment ?? 75}" /> %
+				</div>
+			</div>
+			<div class="x_clearfix btnArea">
+				<div class="x_pull-right">
+					<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+				</div>
+			</div>
+		</form>
+	</section>
+<!--@endif-->
