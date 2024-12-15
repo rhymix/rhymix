@@ -156,12 +156,17 @@ class FileController extends File
 		// Create the response
 		Context::setResponseMethod('JSON');
 		$this->add('file_srl', $output->get('file_srl'));
-		$this->add('file_size', $output->get('file_size'));
-		$this->add('direct_download', $output->get('direct_download'));
-		$this->add('source_filename', $output->get('source_filename'));
 		$this->add('upload_target_srl', $output->get('upload_target_srl'));
+		$this->add('source_filename', $output->get('source_filename'));
 		$this->add('thumbnail_filename', $output->get('thumbnail_filename'));
+		$this->add('file_size', $output->get('file_size'));
+		$this->add('disp_file_size', FileHandler::filesize($output->get('file_size')));
+		$this->add('mime_type', $output->get('mime_type'));
 		$this->add('original_type', $output->get('original_type'));
+		$this->add('width', $output->get('width'));
+		$this->add('height', $output->get('height'));
+		$this->add('duration', $output->get('duration'));
+		$this->add('direct_download', $output->get('direct_download'));
 		if ($output->get('direct_download') === 'Y')
 		{
 			$this->add('download_url', FileModel::getDirectFileUrl($output->get('uploaded_filename')));
@@ -1101,13 +1106,17 @@ class FileController extends File
 
 		$output->add('file_srl', $args->file_srl);
 		$output->add('file_size', $args->file_size);
-		$output->add('sid', $args->sid);
+		$output->add('upload_target_srl', $upload_target_srl);
 		$output->add('direct_download', $args->direct_download);
 		$output->add('source_filename', $args->source_filename);
-		$output->add('upload_target_srl', $upload_target_srl);
 		$output->add('uploaded_filename', $args->uploaded_filename);
 		$output->add('thumbnail_filename', $args->thumbnail_filename);
+		$output->add('mime_type', $args->mime_type);
 		$output->add('original_type', $args->original_type);
+		$output->add('width', $args->width);
+		$output->add('height', $args->height);
+		$output->add('duration', $args->duration);
+		$output->add('sid', $args->sid);
 
 		return $output;
 	}

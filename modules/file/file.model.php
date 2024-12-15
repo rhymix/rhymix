@@ -93,6 +93,9 @@ class FileModel extends File
 				$obj->disp_file_size = FileHandler::filesize($file_info->file_size);
 				$obj->mime_type = $file_info->mime_type;
 				$obj->original_type = $file_info->original_type;
+				$obj->width = $file_info->width;
+				$obj->height = $file_info->height;
+				$obj->duration = $file_info->duration;
 				$obj->direct_download = $file_info->direct_download;
 				$obj->cover_image = ($file_info->cover_image === 'Y') ? true : false;
 				if($obj->direct_download === 'Y' && self::isDownloadable($file_info))
