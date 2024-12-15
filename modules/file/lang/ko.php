@@ -138,3 +138,5 @@ $lang->msg_need_magick = 'AVIF, HEIC 변환을 위해서는 PHP에서 ImageMagic
 $lang->image_conversion = '이미지 변환';
 $lang->image_size = '이미지 크기';
 $lang->image_format = '이미지 포맷';
+$lang->msg_image_converted = '이미지가 변환되었습니다. (%s → %s)';
+$lang->msg_image_conversion_failed = '이미지 변환에 실패했습니다.';

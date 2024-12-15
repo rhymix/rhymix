@@ -394,7 +394,7 @@ class FileAdminController extends File
 			$moved = Rhymix\Framework\Storage::move($temp_filename, $uploaded_filename);
 			if (!$moved)
 			{
-				throw new Rhymix\Framework\Exception;
+				throw new Rhymix\Framework\Exception(lang('file.msg_image_conversion_failed'));
 			}
 			if ($del_filename)
 			{
@@ -426,10 +426,10 @@ class FileAdminController extends File
 		}
 		else
 		{
-			throw new Rhymix\Framework\Exception;
+			throw new Rhymix\Framework\Exception(lang('file.msg_image_conversion_failed'));
 		}
 
-		$this->setMessage('success_updated');
+		$this->setMessage(sprintf(lang('file.msg_image_converted'), FileHandler::filesize($file->file_size), FileHandler::filesize($filesize)));
 		$this->setRedirectUrl(Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispFileAdminEdit', 'file_srl' => $file_srl]));
 	}
 }

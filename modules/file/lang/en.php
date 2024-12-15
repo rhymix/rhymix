@@ -135,3 +135,5 @@ $lang->msg_need_magick = 'In order to handle AVIF and HEIC formats, PHP must be 
 $lang->image_conversion = 'Image conversion';
 $lang->image_size = 'Image size';
 $lang->image_format = 'Image format';
+$lang->msg_image_converted = 'The image has been converted. (%s → %s)';
+$lang->msg_image_conversion_failed = 'The image conversion has failed.';
