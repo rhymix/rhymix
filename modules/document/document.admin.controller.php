@@ -731,6 +731,44 @@ class DocumentAdminController extends Document
 		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'), true, true, $oDocument);
 		return $output;
 	}
+
+	/**
+	 * Recalculate category document counts
+	 */
+	public function procDocumentAdminRecalculateCategoryCounts()
+	{
+		// Get the document count for each category.
+		$oDB = DB::getInstance();
+		$output = executeQueryArray('document.getCategoryDocumentCounts', []);
+		$module_srl_list = [];
+
+		// Update the document count of each category.
+		$oDB->beginTransaction();
+		foreach ($output->data ?: [] as $row)
+		{
+			$module_srl_list[$row->module_srl] = true;
+			$output = executeQuery('document.updateCategoryCount', [
+				'category_srl' => $row->category_srl,
+				'document_count' => $row->count,
+			]);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+		$oDB->commit();
+
+		// Refresh category cache files for affected modules.
+		$oDocumentController = DocumentController::getInstance();
+		foreach ($module_srl_list as $module_srl => $unused)
+		{
+			$oDocumentController->makeCategoryFile($module_srl);
+		}
+
+		$this->setError(-1);
+		$this->setMessage('success_updated');
+	}
 }
 /* End of file document.admin.controller.php */
 /* Location: ./modules/document/document.admin.controller.php */

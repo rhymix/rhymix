@@ -134,3 +134,6 @@ $lang->allow_declare_from_same_ip = 'Allow reporting from same IP';
 $lang->allow_declare_cancel = 'Allow report cancellation';
 $lang->cmd_search_division = 'Search division';
 $lang->about_search_division = 'Divide search results into sections in order to reduce time and server load. Setting this value to 0 will disable divisions entirely.<br />Disabling divisions or using large values may cause serious problems such as timeouts or server overload. Values between 5000 and 10000 are recommended.';
+$lang->cmd_recalculate_category_counts = 'Recalculate per-category document counts';
+$lang->about_recalculate_category_counts = 'If per-category document counts are displayed incorrectly after batch move or deletion, click the button above to refresh the statistics.<br />This may take a long time if you have a large number of posts.';
+$lang->prevent_redeclare = 'Prevent the same user from reporting this post again.';

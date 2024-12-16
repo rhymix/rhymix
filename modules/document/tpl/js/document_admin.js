@@ -21,7 +21,7 @@ function doManageDocument(type) {
 
 /* 선택된 글의 삭제 또는 이동 후 */
 function completeManageDocument(ret_obj) {
-    if(opener) { 
+    if(opener) {
         opener.window.location.href = opener.window.current_url.setQuery('document_srl', '');
     }
     alert(ret_obj['message']);
@@ -106,7 +106,7 @@ function getDocumentList() {
 	var documentListTable = jQuery('#documentListTable');
 	var cartList = [];
 	documentListTable.find(':checkbox[name=cart]').each(function(){
-		if(this.checked) cartList.push(this.value); 
+		if(this.checked) cartList.push(this.value);
 	});
 
     var params = new Array();
@@ -174,11 +174,15 @@ function completeGetModuleList(ret_obj, response_tags)
 }
 
 jQuery(document).ready(function($){
-	$('#module_list').bind('change', function(e){
+	$('#module_list').on('change', function(e){
 		makeMidList($('#module_list').val());
 	});
-	$('#mid_list').bind('change', function(e){
+	$('#mid_list').on('change', function(e){
 		doGetCategoryFromModule($('#mid_list').val());
+	});
+	$('.recalculate_category_counts').on('click', function(e) {
+		exec_json('document.procDocumentAdminRecalculateCategoryCounts', { });
+		e.preventDefault();
 	});
 });
 
