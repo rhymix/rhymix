@@ -423,6 +423,31 @@ class FileAdminController extends File
 			{
 				return $updated;
 			}
+
+			if (isset($config->save_changelog) && $config->save_changelog === 'Y')
+			{
+				$changelog1 = executeQuery('file.insertFileChangelog', [
+					'change_type' => 'D',
+					'file_srl' => $file->file_srl,
+					'file_size' => $file->file_size,
+					'uploaded_filename' => $file->uploaded_filename,
+				]);
+				if (!$changelog1->toBool())
+				{
+					return $changelog1;
+				}
+
+				$changelog2 = executeQuery('file.insertFileChangelog', [
+					'change_type' => 'I',
+					'file_srl' => $file->file_srl,
+					'file_size' => $filesize,
+					'uploaded_filename' => $relative_path,
+				]);
+				if (!$changelog2->toBool())
+				{
+					return $changelog2;
+				}
+			}
 		}
 		else
 		{
