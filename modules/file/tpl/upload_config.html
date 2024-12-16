@@ -70,12 +70,16 @@
 				</p>
 				<p class="x_help-block">
 					<label class="x_inline" for="max_image_size_same_format_Y">
-						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_Y" value="Y" checked="checked"|cond="$config->max_image_size_same_format === 'Y'" />
+						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_Y" value="Y" checked="checked"|cond="!isset($config->max_image_size_same_format) || $config->max_image_size_same_format === 'Y'" />
 						{$lang->max_image_size_same_format_Y}
 					</label>
-					<label class="x_inline" for="max_image_size_same_format_N">
-						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_N" value="N" checked="checked"|cond="$config->max_image_size_same_format !== 'Y'" />
-						{$lang->max_image_size_same_format_N}
+					<label class="x_inline" for="max_image_size_same_format_to_jpg">
+						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_to_jpg" value="jpg" checked="checked"|cond="$config->max_image_size_same_format === 'jpg' || $config->max_image_size_same_format === 'N'" />
+						{$lang->max_image_size_same_format_to_jpg}
+					</label>
+					<label class="x_inline" for="max_image_size_same_format_to_webp">
+						<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_to_webp" value="webp" checked="checked"|cond="$config->max_image_size_same_format === 'webp'" />
+						{$lang->max_image_size_same_format_to_webp}
 					</label>
 					<label for="max_image_size_admin">
 						<input type="checkbox" name="max_image_size_admin" id="max_image_size_admin" value="Y" checked="checked"|cond="$config->max_image_size_admin === 'Y'" />

@@ -1247,7 +1247,7 @@ class FileController extends File
 				$adjusted['height'] = (int)$resize_height;
 				if (!$is_animated && $adjusted['type'] === $image_info['type'] && $config->max_image_size_same_format !== 'Y')
 				{
-					$adjusted['type'] = 'jpg';
+					$adjusted['type'] = $config->max_image_size_same_format ?: 'jpg';
 				}
 			}
 		}
