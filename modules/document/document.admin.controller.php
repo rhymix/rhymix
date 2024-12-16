@@ -738,24 +738,18 @@ class DocumentAdminController extends Document
 	public function procDocumentAdminRecalculateCategoryCounts()
 	{
 		// Get the document count for each category.
-		$oDB = DB::getInstance();
 		$output = executeQueryArray('document.getCategoryDocumentCounts', []);
 		$module_srl_list = [];
 
 		// Update the document count of each category.
+		$oDB = DB::getInstance();
 		$oDB->beginTransaction();
+		$oDB->query('UPDATE document_categories SET document_count = 0');
+		$stmt = $oDB->prepare('UPDATE document_categories SET document_count = ? WHERE category_srl = ?');
 		foreach ($output->data ?: [] as $row)
 		{
 			$module_srl_list[$row->module_srl] = true;
-			$output = executeQuery('document.updateCategoryCount', [
-				'category_srl' => $row->category_srl,
-				'document_count' => $row->count,
-			]);
-			if (!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
+			$stmt->execute([$row->count, $row->category_srl]);
 		}
 		$oDB->commit();
 
