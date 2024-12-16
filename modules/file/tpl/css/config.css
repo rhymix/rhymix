@@ -4,6 +4,21 @@
 	background: #f5f5f5;
 }
 
+.image_autoconv_types {
+	margin-bottom: 5px;
+}
+.image_autoconv_types:last-of-type {
+	margin-bottom: 10px;
+}
+.image_autoconv_types .x_inline {
+	display: inline-block;
+	min-width: 40px;
+}
+.image_autoconv_types select {
+	min-width: 0 !important;
+	margin-left: 16px;
+}
+
 .x_help-block .preset_size {
 	font-size: 12px;
 }

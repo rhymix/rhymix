@@ -1176,23 +1176,11 @@ class FileController extends File
 		{
 			$adjusted['type'] = 'mp4';
 		}
-		elseif ($config->image_autoconv['png2jpg'] && $image_info['type'] === 'png' && function_exists('imagepng'))
+		elseif (!empty($config->image_autoconv[$image_info['type']]))
 		{
-			$adjusted['type'] = 'jpg';
+			$adjusted['type'] = $config->image_autoconv[$image_info['type']];
 		}
-		elseif ($config->image_autoconv['webp2jpg'] && $image_info['type'] === 'webp' && function_exists('imagewebp'))
-		{
-			$adjusted['type'] = 'jpg';
-		}
-		elseif ($config->image_autoconv['bmp2jpg'] && $image_info['type'] === 'bmp' && function_exists('imagebmp'))
-		{
-			$adjusted['type'] = 'jpg';
-		}
-		elseif ($config->image_autoconv['avif2jpg'] && $image_info['type'] === 'avif')
-		{
-			$adjusted['type'] = 'jpg';
-		}
-		elseif ($config->image_autoconv['heic2jpg'] && $image_info['type'] === 'heic')
+		elseif (!empty($config->image_autoconv[$image_info['type'] . '2jpg']))
 		{
 			$adjusted['type'] = 'jpg';
 		}

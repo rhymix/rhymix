@@ -72,12 +72,18 @@ class FileAdminController extends File
 		$config->allowed_filetypes = Context::get('allowed_filetypes');
 
 		// Image settings
-		$config->image_autoconv['bmp2jpg'] = Context::get('image_autoconv_bmp2jpg') === 'Y' ? true : false;
-		$config->image_autoconv['png2jpg'] = Context::get('image_autoconv_png2jpg') === 'Y' ? true : false;
-		$config->image_autoconv['webp2jpg'] = Context::get('image_autoconv_webp2jpg') === 'Y' ? true : false;
-		$config->image_autoconv['avif2jpg'] = Context::get('image_autoconv_avif2jpg') === 'Y' ? true : false;
-		$config->image_autoconv['heic2jpg'] = Context::get('image_autoconv_heic2jpg') === 'Y' ? true : false;
-		$config->image_autoconv['gif2mp4'] = Context::get('image_autoconv_gif2mp4') === 'Y' ? true : false;
+		$config->image_autoconv = [];
+		foreach (Context::get('image_autoconv') ?: [] as $source_type => $target_type)
+		{
+			if (in_array($target_type, ['Y', 'N']))
+			{
+				$config->image_autoconv[$source_type] = tobool($target_type);
+			}
+			elseif (in_array($target_type, ['', 'jpg', 'png', 'webp']))
+			{
+				$config->image_autoconv[$source_type] = $target_type;
+			}
+		}
 		$config->max_image_width = intval(Context::get('max_image_width')) ?: '';
 		$config->max_image_height = intval(Context::get('max_image_height')) ?: '';
 		$config->max_image_size_action = Context::get('max_image_size_action') ?: '';
