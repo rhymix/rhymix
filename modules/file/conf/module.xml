@@ -14,11 +14,14 @@
 		<action name="procFileGetList" type="controller" permission="root" />
 
 		<action name="dispFileAdminList" type="view" admin_index="true" menu_name="file" menu_index="true" />
+		<action name="dispFileAdminEdit" type="view" menu_name="file" />
 		<action name="dispFileAdminUploadConfig" type="view" menu_name="file" />
 		<action name="dispFileAdminDownloadConfig" type="view" menu_name="file" />
 		<action name="dispFileAdminOtherConfig" type="view" menu_name="file" />
 
 		<action name="procFileAdminAddCart" type="controller" />
+		<action name="procFileAdminEditFileName" type="controller" />
+		<action name="procFileAdminEditImage" type="controller" />
 		<action name="procFileAdminDeleteChecked" type="controller" ruleset="deleteChecked" />
 		<action name="procFileAdminInsertUploadConfig" type="controller" ruleset="insertConfig" />
 		<action name="procFileAdminInsertDownloadConfig" type="controller" />

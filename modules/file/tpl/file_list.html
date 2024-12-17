@@ -32,6 +32,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					</a>
 				</th>
 				<th scope="col" class="nowr">
+					{$lang->image_size}
+				</th>
+				<th scope="col" class="nowr">
 					<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList', 'sort_index', 'download_count', 'order_type',  ($order_type == 'desc' && $sort_index == 'download_count') ? 'asc' : 'desc', 'isvalid', $isvalid ?? null)}">
 						{$lang->cmd_download}
 						<block cond="$sort_index == 'download_count'">
@@ -50,6 +53,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				</th>
 				<th scope="col" class="nowr">{$lang->ipaddress}</th>
 				<th scope="col" class="nowr">{$lang->status}</th>
+				<th scope="col" class="nowr">{$lang->cmd_edit}</th>
 				<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
 			</tr>
 		</thead>
@@ -66,7 +70,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<!--@end-->
 					{@ $cur_upload_target_srl = $val->upload_target_srl}
 			<tr>
-				<th colspan="8" scope="col">
+				<th colspan="10" scope="col">
 					<!--@if(!$val->upload_target_type)-->
 						<!--@if($val->isvalid=='Y')-->
 							{$lang->is_valid}
@@ -99,6 +103,14 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<!--@end-->
 					<a href="{$val->download_url}">{escape($val->source_filename, false)}</a></td>
 				<td class="nowr">{FileHandler::filesize($val->file_size)}</td>
+				<td class="nowr">
+					<!--@if($val->width && $val->height)-->
+						{$val->width}x{$val->height}
+					<!--@endif-->
+					<!--@if($val->duration)-->
+						<br>({$val->duration}{$lang->unit_sec})
+					<!--@endif-->
+				</td>
 				<td class="nowr">{$val->download_count}</td>
 				<td class="nowr">
 					<!--@if($val->upload_target_type == 'doc' && $document_list[$document_srl])-->
@@ -112,6 +124,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<td class="nowr">{zdate($val->regdate,"Y-m-d H:i")}</td>
 				<td class="nowr"><a href="{getUrl('search_target','ipaddress','search_keyword',$val->ipaddress)}">{$val->ipaddress}</a></td>
 				<td class="nowr"><!--@if($val->isvalid=='Y')-->{$lang->is_valid}<!--@else-->{$lang->is_stand_by}<!--@end--></td>
+				<td class="nowr">
+					<a href="{getUrl(['module' => 'admin', 'act' => 'dispFileAdminEdit', 'file_srl' => $val->file_srl])}">{$lang->cmd_edit}</a>
+				</td>
 				<td>
 					<input type="checkbox" name="cart" value="{$val->file_srl}" />
 				</td>
