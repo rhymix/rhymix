@@ -694,7 +694,7 @@ class DocumentController extends Document
 			unset($obj->user_id);
 		}
 
-		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
+		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl, 'doc');
 
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
@@ -991,7 +991,7 @@ class DocumentController extends Document
 		if(($obj->title_color ?? 'N') === 'N') $obj->title_color = 'N';
 		if(($obj->notify_message ?? 'N') !== 'Y') $obj->notify_message = 'N';
 		if(($obj->allow_trackback ?? 'N') !== 'Y') $obj->allow_trackback = 'N';
-		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl);
+		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl, 'doc');
 
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.updateDocument', 'before', $obj);
@@ -3769,7 +3769,7 @@ Content;
 
 			$args = new stdClass;
 			$args->document_srl = $document_srl;
-			$args->uploaded_count = FileModel::getFilesCount($document_srl);
+			$args->uploaded_count = FileModel::getFilesCount($document_srl, 'doc');
 			executeQuery('document.updateUploadedCount', $args);
 		}
 	}
