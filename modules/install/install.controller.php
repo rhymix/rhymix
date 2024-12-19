@@ -337,7 +337,7 @@ class installController extends install
 		}
 
 		// Check curl
-		if(function_exists('curl_init'))
+		if(function_exists('curl_init') && function_exists('curl_exec'))
 		{
 			$checklist['curl'] = true;
 		}
@@ -347,7 +347,7 @@ class installController extends install
 		}
 
 		// Check GD
-		if(function_exists('imagecreatefromgif'))
+		if(function_exists('imagecreatefromjpeg') && function_exists('imagecreatefrompng'))
 		{
 			$checklist['gd'] = true;
 		}
@@ -367,7 +367,7 @@ class installController extends install
 		}
 
 		// Check json
-		if(function_exists('json_encode'))
+		if(function_exists('json_encode') && function_exists('json_decode'))
 		{
 			$checklist['json'] = true;
 		}
