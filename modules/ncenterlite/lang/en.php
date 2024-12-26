@@ -83,7 +83,7 @@ $lang->ncenterlite_sir = ' ';
 $lang->ncenterlite_message = 'You have <strong class="num">%s</strong> new notification.';
 $lang->ncenterlite_messages = 'You have <strong class="num">%s</strong> new notifications.';
 $lang->ncenterlite_not_have_message = 'There is no new notification for you.';
-$lang->ncenterlite_thisistest = '[*] This is a test notice.';
+$lang->ncenterlite_thisistest = '[*] This is a dummy notification.';
 $lang->ncenterlite_delete_all = 'delete all';
 $lang->ncenterlite_more = 'More';
 $lang->ncenterlite_stop_no_permission_other_user = 'You don\'t have the authority to read settings of other members.';
@@ -152,36 +152,28 @@ $lang->member_menu_off = 'Hide';
 $lang->about_member_menu_view = 'Each member may have their own setting panel for their notification center. They can personalize their notification settings in their panel. Please select if you will allow them to have their panel or not.';
 $lang->user_notify_setting = 'User notify setting.';
 $lang->about_user_notify_setting = 'Each member can set a notify settings. Warning! If a member setting not use notifications, they will not be notified regardless of their default settings.';
-
 $lang->ncenterlite_push_before_sms = 'Try Push before SMS';
 $lang->ncenterlite_push_before_sms_about = 'Don\'t send SMS if the recipient has at least one device to which a push notification has been successfully sent.';
 $lang->ncenterlite_no_notify = 'There is no notification to present.';
-
 $lang->ncenterlite_all_delete = 'Delete all';
 $lang->ncenterlite_month_before_delete = 'Delete older than 1 month';
 $lang->dont_check_notify_delete = 'Unread notifications will be deleted, too.';
-
 $lang->anonymous_nick_name_setting = 'Alternative nickname for anonymous';
 $lang->about_anonymous_nick_name = 'Defining an alternative nickname for notifications from anonymous.';
 $lang->mention_suffixes = 'Common name suffixes';
 $lang->about_mention_suffixes = 'Please define common suffixes for names. This notification system will identify the name with and without the defined suffixes. For instance, if " Doe" is defined as a suffix, both "@John Doe" and "@John" will point to "@John" in this system. Please separate multiple suffixes with a comma (,) between each.';
 $lang->mention_suffix_always_cut = 'Handling nicknames with the defined suffixes';
 $lang->mention_suffix_always_cut_y = 'Prioritize members\' nicknames withOUT the suffixes';
-$lang->mention_suffix_always_cut_n = 'Prioritize members\' nicknames WITH the suffixes접미사를 포함한 이름의 회원 우선';
+$lang->mention_suffix_always_cut_n = 'Prioritize members\' nicknames WITH the suffixes';
 $lang->about_mention_suffix_always_cut = 'Decide which one should receive a notification for "@John Doe" when both John Doe and John are in your database.';
 $lang->mention_limit = 'Maximum numbers of notifications';
 $lang->about_mention_limit = 'To prevent a server-side overload, you can limit the maximum numbers of notifications in a single document or comment.';
 $lang->ncenterlite_msg_setting_error = 'There are errors in your settings. Please check your inputs.';
 $lang->ncenterlite_use_help = 'Select which kinds of notifications can be sent to the members via selected methods. Your members can personalize their settings in their own settings panel among your selections here.';
-$lang->ncenterlite_use_othercomment_help = '글 작성자가 댓글을 남기면 해당 글에 댓글을 작성한 모든 사람에게 알림을 전송합니다.';
-$lang->member_phone_variable = '회원 전화번호 변수';
-$lang->member_phone_variable_about = '문자 알림 사용시 회원의 전화번호를 어디에서 불러올지 선택합니다. 회원정보의 전화번호 또는 확장변수를 선택할 수 있습니다.<br />전화번호 형태의 확장변수가 1개뿐인 경우 설치시 자동으로 설정이 저장됩니다.';
-$lang->member_phone_builtin_field = '회원정보의 전화정보';
-
-
-
-
-
+$lang->ncenterlite_use_othercomment_help = 'Send notifications to every commenter when the author of the original document leaves a comment.';
+$lang->member_phone_variable = 'Variable of member\'s phone number';
+$lang->member_phone_variable_about = 'Define where the phone number will be referred. Either member\'s account information or the extended variable of the document can be selected.<br />If there is only one extended variable in the form of a phone number, the settings are automatically saved on installation.';
+$lang->member_phone_builtin_field = 'Phone number in the member\'s account information';
 $lang->anonymous_voter = 'anonymous voter';
 $lang->about_anonymous_voter = 'anonymize voter in vote notification';
 $lang->anonymous_scrap = 'anonymous scrap';
@@ -194,17 +186,15 @@ $lang->cmd_mail_notify = 'Email';
 $lang->cmd_sms_notify = 'SMS';
 $lang->cmd_push_notify = 'Push';
 $lang->ncenterlite_content_type = 'Type of the contents';
-$lang->ncenterlite_type_id = '알림 타입 아이디';
-$lang->ncenterlite_type_objects = '알림 타입 변수값';
-$lang->ncenterlite_type_content = '알림 타입 내용';
-$lang->ncenterlite_notify_type = '알림 타입 리스트';
-$lang->msg_do_not_notify_type = '생성한 알림타입이 존재하지 않습니다.';
-$lang->ncenterlite_custom_list = '커스텀 리스트';
-
+$lang->ncenterlite_type_id = 'Notification Type ID';
+$lang->ncenterlite_type_objects = 'Value of Notification Type Variable';
+$lang->ncenterlite_type_content = 'Content of Notification Type';
+$lang->ncenterlite_notify_type = 'List of Notification Type';
+$lang->msg_do_not_notify_type = 'There is no matched type for generating a notification.';
+$lang->ncenterlite_custom_list = 'Tailored list';
 $lang->msg_not_use_user_setting = 'user setting\'s not use. Please contact your administrator.';
 $lang->msg_denger_rhymix_user = '<strong>Warning!</strong> Rhymix includes notification center by default.<br />Please remove this XE-only module and reinstall the Rhymix native version.';
-
-$lang->msg_test_notifycation_success = '테스트알림더미를 정상적으로 생성하였습니다.';
-$lang->msg_unsubscribe_block_not_support = '개별 수신 거부 기능을 제공하지 않습니다. 관리자에게 문의하세요.';
-$lang->msg_unsubscribe_not_permission = '다른 회원의 구독리스트를 조회할 권한이 없습니다.';
+$lang->msg_test_notifycation_success = 'Dummy notification was successfully generated.';
+$lang->msg_unsubscribe_block_not_support = 'You are not allowed to turn off your notification. Please refer to the website administrator.';
+$lang->msg_unsubscribe_not_permission = 'You are not allowed to see the other members\' subscription lists.';
 $lang->msg_unsubscribe_not_in_list = 'This contents is not in the unsubscribed list.';
