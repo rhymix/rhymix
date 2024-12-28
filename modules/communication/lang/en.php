@@ -50,3 +50,7 @@ $lang->enable_communication_friend = 'Friend Enable';
 $lang->enable_communication_message = 'Message Enable';
 $lang->enable_attachment = 'Allow Attachment';
 $lang->attachment_size_limit = 'Attachment Size Limit';
+$lang->warning = 'Caution!';
+$lang->msg_allow_message_friend = 'You can only receive direct messages from your friends.';
+$lang->msg_allow_meesage_Block = 'Your direct message box is turned off.';
+$lang->msg_allow_message_please = 'You should allow direct messages from everyone in order to receive the replies for this message.';
