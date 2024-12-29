@@ -1,4 +1,5 @@
 <?php
+$lang->editor_now = 'Editor Preview with the Current Settings';
 $lang->editor_component = 'Editor Component';
 $lang->main_editor = 'Main Editor';
 $lang->comment_editor = 'Comment Editor';
