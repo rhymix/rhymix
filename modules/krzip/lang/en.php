@@ -1,0 +1,20 @@
+<?php
+$lang->krzip = 'Korean Postal Code';
+$lang->cmd_krzip_api_type = 'Select API Provider';
+$lang->cmd_krzip_daumapi = 'Daum-Kakao API';
+$lang->cmd_krzip_epostapi = 'Korean Post API';
+$lang->cmd_krzip_postcodify = 'Postcodify';
+$lang->cmd_krzip_regkey = 'Registration Key';
+$lang->cmd_krzip_postcode = 'Postal Code';
+$lang->cmd_krzip_address = 'Mailing Address';
+$lang->cmd_krzip_detail_address = 'Detailed Address';
+$lang->about_krzip = 'Postal code searching using public APIs for postal codes in South Korea.';
+$lang->about_krzip_api_handler = '우편번호 검색을 어떤 API를 통해 할 것인지 결정합니다.';
+$lang->about_krzip_epostapi_regkey = '우체국 우편번호 API를 이용하기 위해 인터넷 우체국에서 발급 받은 등록키를 입력합니다.';
+$lang->msg_krzip_road_address_expectation = '예상 도로명 주소: %s';
+$lang->msg_krzip_jibun_address_expectation = '예상 지번 주소: %s';
+$lang->msg_krzip_no_query = '검색할 주소가 없습니다.';
+$lang->msg_krzip_is_maintenance = '점검 중입니다.';
+$lang->msg_krzip_wrong_regkey = '잘못된 등록키입니다.';
+$lang->msg_krzip_no_result = '검색된 주소가 없습니다.';
+$lang->msg_krzip_riddling_wrong = '알 수 없는 오류입니다.';
