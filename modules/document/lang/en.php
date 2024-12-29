@@ -105,6 +105,7 @@ $lang->select_category = 'Select a category.';
 $lang->category_description = 'Category Description';
 $lang->no_title_document = 'No title in this document.';
 $lang->send_default_message = 'Send the default message';
+$lang->msg_admin_document_no_move_to_trash = 'You are not allowed to move the superadmin\'s article to the trash bin.';
 $lang->default_message_format = '%1$s the document by manager.';
 $lang->default_message_verbs['move'] = 'moved';
 $lang->default_message_verbs['copy'] = 'copied';
