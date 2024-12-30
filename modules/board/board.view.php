@@ -344,6 +344,7 @@ class BoardView extends Board
 		else
 		{
 			$oDocument = DocumentModel::getDocument(0);
+			$oDocument->add('module_srl', $this->module_srl);
 		}
 
 		/**
