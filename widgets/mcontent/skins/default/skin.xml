@@ -3,21 +3,25 @@
     <title xml:lang="ko">모바일 콘텐츠 위젯 스킨</title>
     <title xml:lang="zh-TW">內容預設面板</title>
     <title xml:lang="tr">Tercihler</title>
+    <title xml:lang="en">Mobile Contents Widget Skin</title>
     <description xml:lang="ko">모바일 콘텐츠 전용 심플한 스킨 입니다.</description>
     <description xml:lang="zh-TW">簡單面板</description>
     <description xml:lang="tr">簡單面板</description>
+    <description xml:lang="en">Minimalised Content Skin for Mobile.</description>
     <version>1.7</version>
     <date>2013-11-27</date>
     <author email_address="developers@xpressengine.com" link="http://xpressengine.com/">
         <name xml:lang="ko">NAVER</name>
         <name xml:lang="zh-TW">NAVER</name>
         <name xml:lang="tr">NAVER</name>
+        <name xml:lang="en">NAVER</name>
     </author>
     <colorset>
         <color name="white">
             <title xml:lang="ko">흰색 바탕용</title>
             <title xml:lang="zh-TW">白色</title>
             <title xml:lang="tr">Beyaz</title>
+            <title xml:lang="en">White Background</title>
         </color>
 	</colorset>
 </skin>
