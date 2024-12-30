@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
 	<title xml:lang="ko">휴지통</title>
-	<title xml:lang="en">trash</title>
+	<title xml:lang="en">Recycle Bin</title>
 	<title xml:lang="jp">ゴミ箱</title>
 	<title xml:lang="zh-TW">回收桶</title>
 	<description xml:lang="ko">문서, 댓글 등을 완전히 삭제하지 않고 복구 가능한 상태로 만들어 관리합니다.</description>
 	<description xml:lang="jp">ドミュメンと、コメントなどを完全に削除せずに復旧可能な状態に作って管理します。</description>
+	<description xml:lang="en">Recycle Bin is a logical reservoir for deleted items, such as posts and comments, which enables the administrators to restore the deleted items.</description>
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>
 	<category>content</category>
