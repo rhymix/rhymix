@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget version="0.2">
     <title xml:lang="ko">Content 위젯</title>
-    <title xml:lang="en">Content</title>
+    <title xml:lang="en">Content Widget</title>
     <title xml:lang="vi">Nội dung</title>
     <title xml:lang="ru">Содержание</title>
     <title xml:lang="zh-CN">全局内容控件</title>
