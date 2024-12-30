@@ -6,7 +6,7 @@
 		본문 이미지를 하나의 갤러리 처럼 볼 수 있도록 하는 애드온입니다.
 	</description>
 	<description xml:lang="en">
-		Swipe your images of an document on your screens.
+		Swipe your images of a post on your screen.
 	</description>
 	<license>MIT License (codes from http://photoswipe.com/), GPLv2 (other codes by Rhymix contributors)</license>
 	<version>RX_VERSION</version>
@@ -23,9 +23,9 @@
 	<extra_vars>
 		<var name="display_name" type="select">
 			<title xml:lang="ko">파일이름 출력 설정</title>
-			<title xml:lang="en">Display filenames</title>
+			<title xml:lang="en">Display Filenames</title>
 			<description xml:lang="ko">넘겨보기 실행시 하단에 파일이름을 출력할 것인지 여부를 선택합니다. 기본값은 사용하도록 되어있습니다.</description>
-			<description xml:lang="en">Whether the PhotoSwipe display the filenames or not. The default is display.</description>
+			<description xml:lang="en">Whether the PhotoSwipe displays the filenames or not. The default is to display.</description>
 			<options value="block">
 				<title xml:lang="ko">사용</title>
 				<title xml:lang="en">Display</title>
