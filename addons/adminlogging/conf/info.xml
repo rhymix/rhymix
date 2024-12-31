@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
     <title xml:lang="ko">어드민 메뉴 접근 로깅</title>
-    <title xml:lang="en">admin menu access logging</title>
+    <title xml:lang="en">Logging Access to the Administrator Menu</title>
 	<title xml:lang="zh-CN">后台访问日志</title>
     <title xml:lang="zh-TW">管理選單訪問日誌</title>
     <description xml:lang="ko">
@@ -12,6 +12,9 @@
 	</description>
     <description xml:lang="zh-TW">
 		管理選單訪問紀錄及登入日誌。
+    </description>
+    <description xml:lang="en">
+		This addon will record Rhymix administrators' access to the menu.
     </description>
     <version>RX_VERSION</version>
     <date>RX_CORE</date>

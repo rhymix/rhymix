@@ -329,7 +329,7 @@ $lang->use_rewrite = 'Use Short URLs';
 $lang->use_rewrite_0 = 'None';
 $lang->use_rewrite_1 = 'XE-compatible URLs only';
 $lang->use_rewrite_2 = 'All supported URLs';
-$lang->about_use_rewrite = 'Your web server must support mod_rewrite in order for short URLs to work. Apache usually detects the .htaccess file automatically.<br />nginx users should configure rewrite rules according to <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md> target="_blank">the manual</a>. Outdated versions of nginx rewrite rules only support XE-compatible short URLs.';
+$lang->about_use_rewrite = 'Your web server must support mod_rewrite in order for short URLs to work. Apache usually detects the .htaccess file automatically.<br />nginx users should configure rewrite rules according to <a href="https://github.com/rhymix/rhymix-docs/blob/master/ko/introduction/nginx.md" target="_blank">the manual</a>. Outdated versions of nginx rewrite rules only support XE-compatible short URLs.';
 $lang->timezone = 'Time Zone';
 $lang->use_mobile_view = 'Enable Mobile View';
 $lang->about_use_mobile_view = 'Show mobile page when visitors access with mobile devices.';

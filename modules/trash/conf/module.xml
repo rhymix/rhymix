@@ -11,7 +11,7 @@
 	</actions>
 	<menus>
 		<menu name="trash">
-			<title xml:lang="en">Trash</title>
+			<title xml:lang="en">Recycle Bin</title>
 			<title xml:lang="ko">휴지통</title>
 			<title xml:lang="zh-CN">Trash</title>
 			<title xml:lang="jp">ゴミ箱</title>

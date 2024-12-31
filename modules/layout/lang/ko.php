@@ -19,7 +19,7 @@ $lang->about_downloaded_layouts = '다운로드되어 있는 레이아웃 목록
 $lang->about_title = '페이지에 연결 시 쉽게 구분할 수 있는 제목을 입력해주세요.';
 $lang->about_not_apply_menu = '지정한 메뉴에 연결된 모든 페이지의 레이아웃을 현재 레이아웃으로 지정합니다.';
 $lang->about_layout = '사이트의 레이아웃을 쉽게 만들 수 있도록 도와줍니다. 레이아웃 설정과 메뉴의 연결을 통해서 완성된 사이트의 모습으로 보여줄 수 있도록 합니다. 삭제나 수정이 불가능한 레이아웃은 페이지에 포함된 레이아웃이므로 해당 페이지에서 설정해야 합니다.';
-$lang->about_layout_code = '아래 레이아웃의 코드를 직접 수정 후 저장하면 서비스에 반영이 됩니다. 꼭 미리보기를 한 후에 저장을 하세요. XE의 템플릿 문법은 <a href="http://code.google.com/p/xe-core/wiki/TemplateSyntax" target="_blank">XE 템플릿</a> 을 참고하면 됩니다.';
+$lang->about_layout_code = '아래 레이아웃의 코드를 직접 수정 후 저장하면 서비스에 반영이 됩니다. 꼭 미리보기를 한 후에 저장을 하세요. Rhymix의 템플릿 문법은 <a href="https://rhymix.org/manual/theme/intro" target="_blank">테마 제작 매뉴얼</a>을 참고하면 됩니다.';
 $lang->layout_export = '내보내기';
 $lang->layout_btn_export = '내 레이아웃 다운로드';
 $lang->about_layout_export = '현재 수정된 레이아웃을 내보내기를 합니다.';

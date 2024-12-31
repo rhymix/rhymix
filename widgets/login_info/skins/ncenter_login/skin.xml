@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <skin version="0.2">
 	<title xml:lang="ko">RX 알림센터 로그인 스킨</title>
+	<title xml:lang="en">RX Notification Center Login Skin</title>
 	<description xml:lang="ko">RX 알림센터겸용 로그인 스킨입니다.</description>
+	<description xml:lang="en">Login Skin supporting Rhymix Notification Center</description>
 	<version>1.0</version>
 	<date>2016-05-27</date>
 	<link>http://bjrambo.com</link>
 
 	<author email_address="qw5414@naver.com" link="http://bjrambo.com">
 		<name xml:lang="ko">NAVER</name>
+		<name xml:lang="en">BJ Rambo</name>
 	</author>
 
 	<colorset>

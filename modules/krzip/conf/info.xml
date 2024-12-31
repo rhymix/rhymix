@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module version="0.2">
 	<title xml:lang="ko">한국 우편번호</title>
+	<title xml:lang="en">Korean Postal Code</title>
 	<description xml:lang="ko">공개 API를 이용해 우편번호 검색 서비스를 이용합니다.</description>
+	<description xml:lang="en">Module to utilize public postal code searching APIs in South Korea.</description>
 	<version>RX_VERSION</version>
 	<date>RX_CORE</date>
 	
 	<author email_address="developers@xpressengine.com" link="http://www.xpressengine.com/">
 		<name xml:lang="ko">NAVER</name>
+		<name xml:lang="en">NAVER</name>
 	</author>
 </module>

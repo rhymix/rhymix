@@ -11,6 +11,7 @@ $lang->success_poll = 'Thank you for joining the poll.';
 $lang->msg_already_poll = 'You already polled!';
 $lang->msg_poll_is_null = 'Please select a poll to delete.';
 $lang->msg_checked_poll_is_deleted = '%d poll(s) are deleted.';
+$lang->confirm_poll_delete = 'Are you sure to delete %s of poll(s)?';
 $lang->msg_check_poll_item = 'Please select a poll item to poll.\\n(Required poll item(s) may be different in each poll.)';
 $lang->msg_poll_not_exists = 'The selected poll does not exist.';
 $lang->cmd_null_item = 'No item value exists to post a poll. Please re-try.';

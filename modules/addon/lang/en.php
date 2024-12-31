@@ -11,3 +11,6 @@ $lang->about_installed_addon = 'Check PC and Mobile to switch on the addon.';
 $lang->fixed = 'Fixed';
 $lang->about_fixed = 'Check this, and the site administrator cannot change this setting.';
 $lang->msg_not_exist_option = 'Configuration for this addon does not exist.';
+$lang->run_method = 'Select opt-in or opt-out';
+$lang->run_selected_module = 'Run this addon on the selected modules';
+$lang->no_run_selected_module = 'Do NOT run this addon on the selected modules';
