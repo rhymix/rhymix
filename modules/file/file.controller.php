@@ -29,7 +29,10 @@ class FileController extends File
 		$file_info = Context::get('Filedata');
 
 		// An error appears if not a normally uploaded file
-		if(!$file_info || !is_uploaded_file($file_info['tmp_name'])) exit();
+		if (!$file_info || !is_uploaded_file($file_info['tmp_name']))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
 
 		// Validate editor_sequence and module_srl.
 		$editor_sequence = Context::get('editor_sequence');
