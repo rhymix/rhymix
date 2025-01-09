@@ -1460,7 +1460,7 @@ class DocumentItem extends BaseObject
 
 		if(!isset($this->uploadedFiles[$sortIndex]))
 		{
-			$this->uploadedFiles[$sortIndex] = FileModel::getFiles($this->document_srl, array(), $sortIndex, true, 'doc');
+			$this->uploadedFiles[$sortIndex] = FileModel::getFiles($this->document_srl, array(), $sortIndex, true, 'doc', true);
 		}
 
 		return $this->uploadedFiles[$sortIndex];

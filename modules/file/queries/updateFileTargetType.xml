@@ -6,6 +6,6 @@
         <column name="upload_target_type" var="upload_target_type" />
     </columns>
     <conditions>
-        <condition operation="equal" column="file_srl" var="file_srl" filter="number" notnull="notnull" />
+        <condition operation="in" column="file_srl" var="file_srl" filter="number" notnull="notnull" />
     </conditions>
 </query>

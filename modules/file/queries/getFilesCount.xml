@@ -7,7 +7,10 @@
     </columns>
     <conditions>
         <condition operation="equal" column="upload_target_srl" var="upload_target_srl" filter="number" />
-		<condition operation="equal" column="upload_target_type" var="upload_target_type" pipe="and" />
+		<group pipe="and">
+			<condition operation="equal" column="upload_target_type" var="upload_target_type" />
+			<condition operation="null" column="upload_target_type" if="include_null_target_type" pipe="or" />
+		</group>
 		<condition operation="like_prefix" column="regdate" var="regDate" pipe="and" />
     </conditions>
 </query>

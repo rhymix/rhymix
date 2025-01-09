@@ -834,6 +834,21 @@ class FileController extends File
 	}
 
 	/**
+	 * Update upload target type
+	 *
+	 * @param int|array $file_srl
+	 * @param string $upload_target_type
+	 * @return BaseObject
+	 */
+	public function updateTargetType($file_srl, $upload_target_type)
+	{
+		$args = new stdClass;
+		$args->file_srl = $file_srl;
+		$args->upload_target_type = $upload_target_type;
+		return executeQuery('file.updateFileTargetType', $args);
+	}
+
+	/**
 	 * Add an attachement
 	 *
 	 * <pre>

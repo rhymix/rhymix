@@ -677,7 +677,7 @@ class CommentItem extends BaseObject
 			return;
 		}
 
-		$file_list = FileModel::getFiles($this->comment_srl, array(), 'file_srl', TRUE);
+		$file_list = FileModel::getFiles($this->comment_srl, array(), 'file_srl', true, 'com', true);
 		return $file_list;
 	}
 
