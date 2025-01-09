@@ -19,8 +19,13 @@
 		<div class="x_controls">
 			<select name="domain_srl" id="domain_srl">
 				<option value="-1" selected="selected"|cond="!isset($module_info->domain_srl) || $module_info->domain_srl == -1">{$lang->cmd_any_domain}</option>
+				{@ $domain_srl_list = []}
 				<!--@foreach(ModuleModel::getAllDomains(100)->data as $domain)-->
 					<option value="{$domain->domain_srl}" selected="selected"|cond="$domain->domain_srl == $module_info->domain_srl">{$domain->domain}</option>
+					{@ $domain_srl_list[] = $domain->domain_srl}
+				<!--@endif-->
+				<!--@if(isset($module_info->domain_srl) && $module_info->domain_srl > -1 && !in_array($module_info->domain_srl, $domain_srl_list))-->
+					<option value="-1" selected="selected">{$lang->deleted_domain}</option>
 				<!--@endif-->
 			</select>
 			<span class="baseurl">{\RX_BASEURL}<!--@if(!config('url.rewrite'))-->index.php?mid=<!--@endif--></span>

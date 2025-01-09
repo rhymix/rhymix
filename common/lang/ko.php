@@ -152,6 +152,7 @@ $lang->colorset = '컬러셋';
 $lang->mobile_colorset = '모바일 컬러셋';
 $lang->extra_vars = '확장 변수';
 $lang->domain = '도메인';
+$lang->deleted_domain = '삭제된 도메인';
 $lang->url = 'URL';
 $lang->document_url = '게시글 주소';
 $lang->trackback_url = '엮인글 주소';

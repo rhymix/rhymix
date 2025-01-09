@@ -152,6 +152,7 @@ $lang->colorset = 'Colorset';
 $lang->mobile_colorset = 'Mobile Colorset';
 $lang->extra_vars = 'Extra Input Fields';
 $lang->domain = 'Domain Name';
+$lang->deleted_domain = 'Deleted Domain';
 $lang->url = 'URL';
 $lang->document_url = 'Article URL';
 $lang->trackback_url = 'Trackback URL';

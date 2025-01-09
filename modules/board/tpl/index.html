@@ -30,7 +30,14 @@
 				</block>
 				<block cond="$val->module_category_srl">{$module_category[$val->module_category_srl]->title}</block>
 			</td>
-			<td class="domain_prefix"><span class="domain">{$val->domain ?? ''}</span>{\RX_BASEURL}</td>
+			<td class="domain_prefix">
+				{@
+					if (isset($val->domain_srl) && $val->domain_srl > -1 && !isset($val->domain)):
+						$val->domain = lang('deleted_domain');
+					endif;
+				}
+				<span class="domain">{$val->domain ?? ''}</span>{\RX_BASEURL}
+			</td>
 			<td>{$val->mid}</td>
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" target="_blank">{$val->browser_title}</a></td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>
