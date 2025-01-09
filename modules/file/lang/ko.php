@@ -38,7 +38,7 @@ $lang->about_allow_indexing_format = '구글 등 검색엔진에 의한 색인�
 $lang->about_allow_outlink = '다른 사이트에서 파일 다운로드 링크에 직접 접근하는 것을 허용합니다.<br />본문에 바로 삽입할 수 있는 이미지 파일은 라이믹스에서 접근을 통제할 수 없으며, 이를 차단하려면 웹서버 설정이 필요합니다.';
 $lang->about_allow_outlink_format = '파일 외부 링크 설정에 상관없이 허용하는 파일 확장자입니다.<br />여러 개 입력시 쉼표(,)을 이용해서 구분해 주세요. 예) doc, zip, pdf';
 $lang->about_allow_outlink_site = '파일 외부 링크 설정에 상관없이 허용하는 사이트 주소입니다.<br />여러 개 입력시 줄을 바꿔서 구분해 주세요. 예) https://www.rhymix.org/';
-$lang->about_allow_multimedia_direct_download = '오디오, 동영상 등의 멀티미디어 파일 링크를 본문에 삽입할 때 직접 접근이 가능한 링크를 사용합니다.<br>다운로드시 PHP를 거치지 않게 되므로 서버 부하가 줄어들지만, 권한이 없는 사람에게 링크가 노출되지 않도록 주의해야 합니다.<br>&quot;아니오&quot;를 선택하면 본문에 삽입된 동영상을 재생할 때마다 첨부파일의 다운로드 횟수가 증가됩니다.';
+$lang->about_allow_multimedia_direct_download = '오디오, 동영상 등의 멀티미디어 파일 링크를 본문에 삽입할 때 직접 접근이 가능한 링크를 사용합니다.<br>다운로드시 PHP를 거치지 않게 되므로 서버 부하가 줄어들지만, 권한이 없는 사람에게 링크가 노출되지 않도록 주의해야 합니다.<br>&quot;아니오&quot;를 선택하면 본문에 삽입된 멀티미디어 파일이 자동 재생되지 않을 수 있습니다.';
 $lang->about_allowed_filesize = '각 파일의 용량을 제한할 수 있습니다.<br />관리자에게는 이 게시판의 제한과 <a href="%s" target="_blank">파일 모듈</a>의 제한 중 높은 쪽이 적용됩니다.';
 $lang->about_allowed_attach_size = '하나의 문서에 첨부할 수 있는 최대 용량을 제한할 수 있습니다.<br />관리자에게는 이 게시판의 제한과 <a href="%s" target="_blank">파일 모듈</a>의 제한 중 높은 쪽이 적용됩니다.';
 $lang->about_allowed_filesize_global = '관리자를 포함하여 사이트 전체에 적용되는 파일 용량 제한입니다.';
