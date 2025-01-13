@@ -260,10 +260,10 @@ class Storage
 	 * @param string $filename
 	 * @param string|resource $content
 	 * @param string $mode (optional)
-	 * @param int $perms (optional)
+	 * @param ?int $perms (optional)
 	 * @return string|false
 	 */
-	public static function write(string $filename, $content, string $mode = 'w', int $perms = null)
+	public static function write(string $filename, $content, string $mode = 'w', ?int $perms = null)
 	{
 		$filename = rtrim($filename, '/\\');
 		$destination_dir = dirname($filename);
