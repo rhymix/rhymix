@@ -694,12 +694,12 @@ class Template
 		}
 
 		// If any of the variables seems to be an array or object, it's $vars.
-		if (!is_scalar($media_type))
+		if (!is_scalar($media_type ?? ''))
 		{
 			$vars = $media_type;
 			$media_type = null;
 		}
-		if (!is_scalar($index))
+		if (!is_scalar($index ?? ''))
 		{
 			$vars = $index;
 			$index = null;
