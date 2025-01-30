@@ -22,28 +22,28 @@ return array(
 	'maps.google.co.kr/',
 
 	// Meta corp services(facebook, instagram, Threads, Giphy)
-	'www.facebook.com',
-	'www.instagram.com',
-	'threads.net',
-	'giphy.com',
+	'www.facebook.com/',
+	'www.instagram.com/',
+	'threads.net/',
+	'giphy.com/',
 	
 	// X (formerly known as Twitter)
-	'platform.twitter.com',
-	'syndication.twitter.com',
+	'platform.twitter.com/',
+	'syndication.twitter.com/',
 
 	// Tiktok
-	'www.tiktok.com',
+	'www.tiktok.com/',
 
 	// Discord
-	'discordapp.com',
+	'discordapp.com/',
 
 	// Sooplive
-	'vod.sooplive.co.kr',
+	'vod.sooplive.co.kr/',
 
 	// Kakao TV
-	'tv.kakao.com',
-	'play-tv.kakao.com',
+	'tv.kakao.com/',
+	'play-tv.kakao.com/',
 
 	// Naver
-	'chzzk.naver.com',
+	'chzzk.naver.com/',
 );
