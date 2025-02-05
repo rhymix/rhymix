@@ -18,24 +18,9 @@ return array(
 	
 	// Google Maps
 	'www.google.com/maps/embed',
-	'maps.google.com/',
-	'maps.google.co.kr/',
 
-	// Meta corp services(facebook, instagram, Threads, Giphy)
-	'www.facebook.com/',
-	'www.instagram.com/',
-	'threads.net/',
+	// Giphy
 	'giphy.com/',
-	
-	// X (formerly known as Twitter)
-	'platform.twitter.com/',
-	'syndication.twitter.com/',
-
-	// Tiktok
-	'www.tiktok.com/',
-
-	// Discord
-	'discordapp.com/',
 
 	// Sooplive
 	'vod.sooplive.co.kr/',
