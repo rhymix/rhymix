@@ -166,8 +166,8 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$target = '<audio src=""></audio>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
-		$source = '<video width="320" height="240"><source src="http://api.v.daum.net/something" type="video/mp4" /></video>';
-		$target = '<video width="320" height="240"><source src="http://api.v.daum.net/something" type="video/mp4" /></video>';
+		$source = '<video width="320" height="240"><source src="http://player.vimeo.com/something" type="video/mp4" /></video>';
+		$target = '<video width="320" height="240"><source src="http://player.vimeo.com/something" type="video/mp4" /></video>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
 		$source = '<video width="320" height="240"><source src="http://wrong-site.net/" type="video/mp4" /></video>';
