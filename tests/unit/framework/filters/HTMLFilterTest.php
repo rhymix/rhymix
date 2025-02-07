@@ -114,8 +114,8 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 
 	public function testHTMLFilterEmbeddedMedia()
 	{
-		$source = '<iframe title="Video Test" width="640" height="360" src="http://videofarm.daum.net/controller/video/viewer/Video.html?vid=s474b7BR2zzREo0g7OT7EKo&amp;play_loc=undefined&amp;alert=true" frameborder="0" scrolling="no"></iframe>';
-		$target = '<iframe title="Video Test" width="640" height="360" src="http://videofarm.daum.net/controller/video/viewer/Video.html?vid=s474b7BR2zzREo0g7OT7EKo&amp;play_loc=undefined&amp;alert=true" frameborder="0" scrolling="no"></iframe>';
+		$source = '<iframe title="Video Test" width="640" height="360" src="http://vod.sooplive.co.kr/any/path?foo=bar&amp;param=%ED%95%9C%EA%B8%80" frameborder="0" scrolling="no"></iframe>';
+		$target = '<iframe title="Video Test" width="640" height="360" src="http://vod.sooplive.co.kr/any/path?foo=bar&amp;param=%ED%95%9C%EA%B8%80" frameborder="0" scrolling="no"></iframe>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
 		$source = '<iframe title="Video Test" width="640" height="360" src="http://not-allowed.com/whatever-video.mp4" frameborder="0" scrolling="no"></iframe>';
@@ -139,22 +139,22 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
 		$source = '<object type="application/x-shockwave-flash" width="640px" height="360px" align="middle" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,3,0,0">' .
-			'<param name="movie" value="http://videofarm.daum.net/controller/player/VodPlayer.swf" />' .
+			'<param name="movie" value="http://tv.kakao.com/player/VodPlayer.swf" />' .
 			'<param name="allowScriptAccess" value="always" />' .
 			'<param name="allowFullScreen" value="true" />' .
 			'<param name="bgcolor" value="#000000" />' .
 			'<param name="wmode" value="window" />' .
 			'<param name="flashvars" value="vid=s474b7BR2zzREo0g7OT7EKo&playLoc=undefined&alert=true" />' .
-			'<embed src="http://videofarm.daum.net/controller/player/VodPlayer.swf" width="640px" height="360px" allowScriptAccess="always" type="application/x-shockwave-flash" allowFullScreen="true" bgcolor="#000000" flashvars="vid=s474b7BR2zzREo0g7OT7EKo&playLoc=undefined&alert=true"></embed>' .
+			'<embed src="http://tv.kakao.com/player/VodPlayer.swf" width="640px" height="360px" allowScriptAccess="always" type="application/x-shockwave-flash" allowFullScreen="true" bgcolor="#000000" flashvars="vid=s474b7BR2zzREo0g7OT7EKo&playLoc=undefined&alert=true"></embed>' .
 			'</object>';
-		$target = '<object type="application/x-shockwave-flash" width="640" height="360" data="http://videofarm.daum.net/controller/player/VodPlayer.swf">' .
+		$target = '<object type="application/x-shockwave-flash" width="640" height="360" data="http://tv.kakao.com/player/VodPlayer.swf">' .
 			'<param name="allowScriptAccess" value="never" />' .
 			'<param name="allowNetworking" value="internal" />' .
-			'<param name="movie" value="http://videofarm.daum.net/controller/player/VodPlayer.swf" />' .
+			'<param name="movie" value="http://tv.kakao.com/player/VodPlayer.swf" />' .
 			'<param name="allowFullScreen" value="true" />' .
 			'<param name="wmode" value="window" />' .
 			'<param name="flashvars" value="vid=s474b7BR2zzREo0g7OT7EKo&amp;playLoc=undefined&amp;alert=true" />' .
-			'<embed src="http://videofarm.daum.net/controller/player/VodPlayer.swf" width="640" height="360" type="application/x-shockwave-flash" flashvars="vid=s474b7BR2zzREo0g7OT7EKo&amp;playLoc=undefined&amp;alert=true" allowscriptaccess="never" allownetworking="internal" />' .
+			'<embed src="http://tv.kakao.com/player/VodPlayer.swf" width="640" height="360" type="application/x-shockwave-flash" flashvars="vid=s474b7BR2zzREo0g7OT7EKo&amp;playLoc=undefined&amp;alert=true" allowscriptaccess="never" allownetworking="internal" />' .
 			'</object>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
