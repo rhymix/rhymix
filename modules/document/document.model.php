@@ -1434,7 +1434,7 @@ class DocumentModel extends Document
 		}
 
 		// add subcategories
-		if(isset($args->category_srl) && $args->category_srl)
+		if(isset($args->category_srl) && $args->category_srl && !is_array($args->category_srl))
 		{
 			$category_list = self::getCategoryList($args->module_srl);
 			if(isset($category_list[$args->category_srl]))
