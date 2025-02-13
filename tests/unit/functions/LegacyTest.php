@@ -81,6 +81,8 @@ class LegacyTest extends \Codeception\Test\Unit
 	{
 		$this->assertEquals('안녕하세요? 라이믹스...', cut_str('안녕하세요? 라이믹스입니다. 제목이 너무 길어서 잘립니다.', 20));
 		$this->assertEquals('Hello? This is Rhymix...', cut_str('Hello? This is Rhymix. This title is very long.', 20));
+		$this->assertEquals('Hello &lt;world&gt; 😁', cut_str('Hello &lt;world&gt; &#x1F601;', 20));
+		$this->assertEquals('Hello &quot;Rhymix&quot; test &amp;...', cut_str('Hello "Rhymix" test &amp;amp;', 20));
 	}
 
 	public function testTimeFunctions()

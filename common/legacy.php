@@ -495,7 +495,8 @@ function cut_str($string, $cut_size = 0, $tail = '...'): string
 	if(isset($GLOBALS['use_mb_strimwidth']) || function_exists('mb_strimwidth'))
 	{
 		$GLOBALS['use_mb_strimwidth'] = TRUE;
-		return mb_strimwidth($string, 0, $cut_size + 4, $tail, 'utf-8');
+		$string = html_entity_decode($string);
+		return escape(mb_strimwidth($string, 0, $cut_size + 4, $tail, 'utf-8'));
 	}
 
 	$chars = array(12, 4, 3, 5, 7, 7, 11, 8, 4, 5, 5, 6, 6, 4, 6, 4, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 4, 8, 6, 8, 6, 10, 8, 8, 9, 8, 8, 7, 9, 8, 3, 6, 7, 7, 11, 8, 9, 8, 9, 8, 8, 7, 8, 8, 10, 8, 8, 8, 6, 11, 6, 6, 6, 4, 7, 7, 7, 7, 7, 3, 7, 7, 3, 3, 6, 3, 9, 7, 7, 7, 7, 4, 7, 3, 7, 6, 10, 6, 6, 7, 6, 6, 6, 9);
