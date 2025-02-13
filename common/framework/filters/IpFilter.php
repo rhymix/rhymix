@@ -135,7 +135,7 @@ class IpFilter
 	 */
 	public static function getCloudFlareRealIP()
 	{
-		if (!isset($_SERVER['HTTP_CF_CONNECTING_IP']))
+		if (!isset($_SERVER['HTTP_CF_CONNECTING_IP']) || isset($_SERVER['HTTP_CF_WORKER']))
 		{
 			return false;
 		}
