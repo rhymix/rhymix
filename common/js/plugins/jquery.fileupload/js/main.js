@@ -181,7 +181,7 @@
 						else if (filename.match(/\.(mp3|wav|ogg|flac|aac)$/i) && opt.autoinsertTypes.audio) {
 							temp_code = self.generateHtml($container, result);
 						}
-						else if (filename.match(/\.(mp4|webm|ogv)$/i) && opt.autoinsertTypes.video) {
+						else if (filename.match(/\.(mp4|webm)$/i) && opt.autoinsertTypes.video) {
 							temp_code = self.generateHtml($container, result);
 						}
 
@@ -365,7 +365,7 @@
 				html = '<audio src="' + file.download_url + '" controls' +
 					' data-file-srl="' + file.file_srl + '" />';
 			}
-			else if (filename.match(/\.(mp4|webm|ogv)$/i)) {
+			else if (filename.match(/\.(mp4|webm)$/i)) {
 				if (file.original_type === 'image/gif') {
 					html = '<video src="' + file.download_url + '"'
 						+ ' autoplay loop muted playsinline data-file-srl="' + file.file_srl + '" />';
@@ -519,7 +519,7 @@
 
 					if(file.thumbnail_filename) {
 						file.thumbnail_url = file.thumbnail_filename;
-						if(/\.(mp4|webm|ogv)$/i.test(file.source_filename)) {
+						if(/\.(mp4|webm)$/i.test(file.source_filename)) {
 							result_image.push(template_fileimte_video(file));
 						} else {
 							result_image.push(template_fileimte_image(file));

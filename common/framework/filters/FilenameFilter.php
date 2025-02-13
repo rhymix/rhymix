@@ -101,8 +101,8 @@ class FilenameFilter
 	{
 		$images = 'gif|jpe?g|jfif|png|webp';
 		$audios = 'mp3|wav|ogg|flac|aac';
-		$videos = 'mp4|webm|ogv';
-		$legacy = 'avi|as[fx]|flv|m4[av]|midi?|mkv|moo?v|mpe?g|qt|r[am]m?|wm[av]';
+		$videos = 'mp4|webm';
+		$legacy = 'avi|as[fx]|flv|m4[av]|midi?|mkv|moo?v|mpe?g|qt|r[am]m?|wm[av]|ogv';
 
 		if ($include_multimedia)
 		{
