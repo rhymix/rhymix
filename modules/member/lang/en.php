@@ -87,6 +87,7 @@ $lang->verify_by_sms_confirm = 'Confirm';
 $lang->verify_by_sms_message = 'Your verification code is %s.';
 $lang->verify_by_sms_code_sent = 'A verification code has been sent to the number you entered.';
 $lang->verify_by_sms_code_incorrect = 'The code you entered is incorrect.';
+$lang->verify_by_sms_code_expired = 'The code has expired. Please try again.';
 $lang->verify_by_sms_code_confirmed = 'Your phone number has been confirmed.';
 $lang->verify_by_sms_incomplete = 'Your phone number has not been verified. Please go through the verification process first.';
 $lang->verify_by_sms_error = 'This website cannot send SMS.';

@@ -3776,6 +3776,7 @@ class MemberController extends Member
 			'country' => $phone_country,
 			'number' => $phone_number,
 			'code' => $is_special ? intval($config->special_phone_code) : $code,
+			'time' => time(),
 			'status' => false,
 		);
 
@@ -3827,6 +3828,11 @@ class MemberController extends Member
 		if(!isset($_SESSION['verify_by_sms']) || $_SESSION['verify_by_sms']['code'] !== $code)
 		{
 			throw new Rhymix\Framework\Exception('verify_by_sms_code_incorrect');
+		}
+
+		if (isset($_SESSION['verify_by_sms']['time']) && $_SESSION['verify_by_sms']['time'] < time() - 600)
+		{
+			throw new Rhymix\Framework\Exception('verify_by_sms_code_expired');
 		}
 
 		$_SESSION['verify_by_sms']['status'] = true;
