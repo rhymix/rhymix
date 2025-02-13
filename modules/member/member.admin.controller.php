@@ -123,12 +123,18 @@ class MemberAdminController extends Member
 		}
 
 		// remove whitespace
-		$checkInfos = array('user_id', 'user_name', 'nick_name', 'email_address');
-		foreach($checkInfos as $val)
+		foreach(['user_id', 'nick_name', 'email_address'] as $val)
 		{
 			if(isset($args->{$val}))
 			{
 				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
+			}
+		}
+		foreach(['user_name'] as $val)
+		{
+			if(isset($args->{$val}))
+			{
+				$args->{$val} = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->{$val})));
 			}
 		}
 
