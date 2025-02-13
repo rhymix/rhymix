@@ -145,7 +145,6 @@ class BoardController extends Board
 			$manual = true;
 			$anonymous_name = $this->module_info->anonymous_name ?: 'anonymous';
 			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
-			$this->module_info->admin_mail = '';
 
 			$obj->notify_message = 'N';
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
@@ -506,7 +505,6 @@ class BoardController extends Board
 		// For anonymous use, remove writer's information and notifying information
 		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || ($this->module_info->anonymous_except_admin ?? 'N') !== 'Y'))
 		{
-			$this->module_info->admin_mail = '';
 			$obj->notify_message = 'N';
 			$obj->member_srl = -1*$logged_info->member_srl;
 			$obj->email_address = $obj->homepage = $obj->user_id = '';
