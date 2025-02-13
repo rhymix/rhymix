@@ -338,6 +338,9 @@ body>.x,
 	padding: 10px 15px;
 	border-bottom: 1px solid #aaa;
 	background-color: #78909C;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .x .x_modal-header>h1,
 .x .x_modal-header>h2,
@@ -346,6 +349,13 @@ body>.x,
 	line-height: 30px;
 	margin: 0;
 	color: #fff;
+}
+.x .x_modal-header>.close_window {
+	font-size: 20px;
+	font-weight: bold;
+	text-decoration: none;
+	color: #fff;
+	opacity: 0.5;
 }
 .x .x_modal-body {
 	overflow-y: visible;
