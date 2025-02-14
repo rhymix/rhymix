@@ -1,7 +1,8 @@
-<block cond="$oDocument">
-<h1 cond="($module_info->display_title ?? '') !== 'hide'">{$oDocument->getTitle()}</h1>
-{$oDocument->getContent(false)}
-</block>
-<block cond="!$oDocument">
-{$lang->none_content}
-</block>
+<!--@if($oDocument && $oDocument->isExists())-->
+	<!--@if(($module_info->display_title ?? '') !== 'hide')-->
+		<h1>{$oDocument->getTitle()}</h1>
+	<!--@endif-->
+	{$oDocument->getContent(false)}
+<!--@else-->
+	{$lang->none_content}
+<!--@endif-->

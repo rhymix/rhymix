@@ -15,4 +15,13 @@
 			<!--@end-->
 		</span>
     </div>
+<!--@elseif($grant->modify && $module_info->page_type === 'ARTICLE')-->
+	<div class="btnArea">
+		<span class="btn-group">
+			<a class="btn" href="{getUrl('act','dispPageAdminContentModify','document_srl','')}">{$lang->cmd_page_modify}</a>
+			<!--@if($module_info->use_mobile === 'Y')-->
+			<a class="btn" href="{getUrl('act','dispPageAdminMobileContent','module_srl',$module_info->module_srl)}">{$lang->mobile}</a>
+			<!--@end-->
+		</span>
+	</div>
 <!--@end-->
