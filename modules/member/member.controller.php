@@ -873,12 +873,24 @@ class MemberController extends Member
 		$this->putSignature($args->member_srl, $signature);
 
 		// Log-in
-		if($config->enable_confirm != 'Y')
+		if ($config->enable_confirm != 'Y')
 		{
-			$output = $this->doLogin($args->{$config->identifier});
-			if(!$output->toBool()) {
-				if($output->error == -9)
+			if (isset($config->identifiers) && is_array($config->identifiers))
+			{
+				$identifier = array_first($config->identifiers);
+			}
+			else
+			{
+				$identifier = $config->identifier ?? 'user_id';
+			}
+
+			$output = $this->doLogin($args->{$identifier});
+			if (!$output->toBool())
+			{
+				if ($output->error == -9)
+				{
 					$output->error = -11;
+				}
 				return $this->setRedirectUrl(getUrl('', 'act', 'dispMemberLoginForm'), $output);
 			}
 		}
