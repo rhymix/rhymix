@@ -3,7 +3,7 @@
 	<grants>
 		<grant name="modify" default="manager">
 			<title xml:lang="ko">페이지 수정</title>
-			<title xml:lang="en">page modify</title>
+			<title xml:lang="en">Edit Page</title>
 		</grant>
 	</grants>
 	<actions>

@@ -309,15 +309,10 @@ class PageAdminController extends Page
 
 	function procPageAdminArticleDocumentInsert()
 	{
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-
+		// Check privileges
 		$logged_info = Context::get('logged_info');
-
-		$oModuleModel = getModel('module');
-		$grant = $oModuleModel->getGrant($this->module_info, $logged_info);
-
-		if(!$grant->manager)
+		$grant = ModuleModel::getGrant($this->module_info, $logged_info);
+		if(!$grant->manager && !$grant->modify)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
@@ -326,42 +321,59 @@ class PageAdminController extends Page
 		$obj->module_srl = $this->module_info->module_srl;
 		$obj->is_notice = 'N';
 
-		settype($obj->title, "string");
-		if($obj->title == '') $obj->title = cut_str(strip_tags($obj->content),20,'...');
-		//그래도 없으면 Untitled
-		if($obj->title == '') $obj->title = 'Untitled';
+		// If the tile is empty, extract string from the contents.
+		$obj->title = escape($obj->title, false);
+		if ($obj->title === '')
+		{
+			$obj->title = escape(cut_str(trim(utf8_normalize_spaces(strip_tags($obj->content))), 20, '...'), false);
+		}
+		if ($obj->title === '')
+		{
+			$obj->title = 'Untitled';
+		}
 
-		$document_srl = $obj->document_srl;
+		// Check original document
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
+		if ($oDocument->isExists() && $oDocument->get('module_srl') != $this->module_info->module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
-		// 이미 존재하는 글인지 체크
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
-
-		$bAnonymous = false;
-		$target = ($obj->isMobile == 'Y') ? 'mdocument_srl' : 'document_srl';
-
-		// 이미 존재하는 경우 수정
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		// Insert or update document
+		$oDocumentController = DocumentController::getInstance();
+		if ($oDocument->isExists())
 		{
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 			$msg_code = 'success_updated';
+			$document_srl = $obj->document_srl;
 		}
 		else
 		{
-			// 그렇지 않으면 신규 등록
-			$output = $oDocumentController->insertDocument($obj, $bAnonymous);
+			$output = $oDocumentController->insertDocument($obj);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 			$msg_code = 'success_registed';
 			$document_srl = $output->get('document_srl');
 		}
 
+		// Update module info
+		$target = ($obj->isMobile == 'Y') ? 'mdocument_srl' : 'document_srl';
 		if(!isset($this->module_info->{$target}) || (isset($this->module_info->{$target}) && $this->module_info->{$target} !== $document_srl))
 		{
-			$oModuleController = getController('module');
 			$this->module_info->{$target} = $document_srl;
-			$oModuleController->updateModule($this->module_info);
+			$oModuleController = ModuleController::getInstance();
+			$output = $oModuleController->updateModule($this->module_info);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 		}
-
-		// 오류 발생시 멈춤
-		if(!$output->toBool()) return $output;
 
 		// 결과를 리턴
 		$this->add('mid', Context::get('mid'));
