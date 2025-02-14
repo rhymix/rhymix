@@ -2296,6 +2296,10 @@ class ModuleModel extends Module
 					else if(count($member_group) && in_array($val->group_srl, $member_group))
 					{
 						$grant->{$val->name} = true;
+						if ($val->name === 'manager' && !$grant->scopes)
+						{
+							$grant->scopes = true;
+						}
 					}
 				}
 			}
