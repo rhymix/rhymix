@@ -5,13 +5,16 @@
 	xe.lang.deleteImageMark = '{$lang->msg_delete_extend_form}';
 	xe.lang.deleteImageName = '{$lang->msg_delete_extend_form}';
 </script>
+
 <div class="x_page-header">
 	<h1 cond="$member_srl">{$lang->msg_update_member}</h1>
 	<h1 cond="!$member_srl">{$lang->msg_new_member}</h1>
 </div>
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/member/tpl/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
+
 <form action="./" class="x_form-horizontal" ruleset="insertAdminMember" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="module" value="member" />
 	<input type="hidden" name="act" value="procMemberAdminInsert" />
@@ -20,36 +23,26 @@
 	<input type="hidden" name="success_return_url" value="{getUrl('act', $act)}" cond="$member_srl" />
 	<input type="hidden" name="success_return_url" value="{getUrl('act', 'dispMemberAdminList')}" cond="!$member_srl" />
 	<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
-	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title}</label>
-		<div class="x_controls">
-			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
-			<input id="identifierForm" type="email" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
+
+	<!--@foreach($formTags as $formTag)-->
+		<div class="x_control-group">
+			<label class="x_control-label" for="{$formTag->name}">{$formTag->title}</label>
+			<div class="x_controls">
+				<!--@if($formTag->name === 'password')-->
+					<!--@if($member_srl)-->
+						<input id="password" type="password" name="reset_password" value="" autocomplete="off" />
+					<!--@else-->
+						<input id="password" type="password" name="password" value="" autocomplete="off" />
+					<!--@endif-->
+				<!--@elseif($formTag->name === 'signature')-->
+					{$editor|noescape}
+				<!--@else-->
+					{$formTag->inputTag}
+				<!--@endif-->
+			</div>
 		</div>
-	</div>
-	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="identifierForm"><em style="color:red">*</em> {$identifierForm->title}</label>
-		<div class="x_controls">
-			<input id="identifierForm" type="text" name="{$identifierForm->name}" value="" />
-		</div>
-	</div>
-	<div cond="$member_srl" class="x_control-group">
-		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
-		<div class="x_controls">
-			<input id="password" type="password" name="reset_password" value="" autocomplete="off" />
-		</div>
-	</div>
-	<div cond="!$member_srl" class="x_control-group">
-		<label class="x_control-label" for="password"><em style="color:red">*</em> {$lang->password}</label>
-		<div class="x_controls">
-			<input id="password" type="text" name="password" value="" autocomplete="off" />
-		</div>
-	</div>
-	<div loop="$formTags=>$formTag" class="x_control-group">
-		<label class="x_control-label" for="{$formTag->name}">{$formTag->title}</label>
-		<div class="x_controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-		<div class="x_controls" cond="$formTag->name == 'signature'">{$editor|noescape}</div>
-	</div>
+	<!--@endforeach-->
+
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_mailing}</label>
 		<div class="x_controls">
@@ -57,6 +50,7 @@
 			<label class="x_inline" for="mailingNo"><input type="radio" name="allow_mailing" id="mailingNo" value="N" checked="checked"|cond="$member_info->allow_mailing != 'Y'" > {$lang->cmd_no}</label>
 		</div>
 	</div>
+
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_message}</label>
 		<div class="x_controls">
@@ -65,6 +59,7 @@
 			</block>
 		</div>
 	</div>
+
 	<div class="x_control-group div_status" cond="$member_srl">
 		<label class="x_control-label">{$lang->status}</label>
 		<div class="x_controls">
@@ -73,6 +68,7 @@
 			<label class="x_inline" for="status_unauthed"><input type="radio" name="status" id="status_unauthed" value="UNAUTHED" checked="checked"|cond="$member_info->status == 'UNAUTHED' && $member_info->member_srl != $logged_info->member_srl" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl" /> {$lang->member_unauthenticated}</label>
 		</div>
 	</div>
+
 	<div class="x_control-group div_refused_reason">
 		<label class="x_control-label">{$lang->refused_reason}</label>
 		<div class="x_controls">
@@ -80,6 +76,7 @@
 			<span class="x_help-inline">{$lang->about_refused_reason}</span>
 		</div>
 	</div>
+
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label" for="until">{$lang->limit_date}</label>
 		<div class="x_controls">
@@ -89,6 +86,7 @@
 			<span class="x_help-inline">{$lang->about_limit_date}</span>
 		</div>
 	</div>
+
 	<div class="x_control-group div_limited_reason">
 		<label class="x_control-label">{$lang->limited_reason}</label>
 		<div class="x_controls">
@@ -96,6 +94,7 @@
 			<span class="x_help-inline">{$lang->about_limited_reason}</span>
 		</div>
 	</div>
+
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->is_admin}</label>
 		<div class="x_controls">
@@ -103,6 +102,7 @@
 			<label class="x_inline" for="not_admin"><input type="radio" name="is_admin" id="not_admin" value="N" checked="checked"|cond="$member_info->is_admin != 'Y'" disabled="disabled"|cond="$member_info->member_srl == $logged_info->member_srl"> {$lang->cmd_no}</label>
 		</div>
 	</div>
+
 	<div class="x_control-group">
 		<label class="x_control-label" for="description">{$lang->description}</label>
 		<div class="x_controls">
@@ -110,6 +110,7 @@
 			<span class="x_help-inline">{$lang->about_member_description}</span>
 		</div>
 	</div>
+
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label">{$lang->signup_date}</label>
 		<div class="x_controls">
@@ -119,6 +120,7 @@
 			<!--@end-->
 		</div>
 	</div>
+
 	<div class="x_control-group" cond="$member_srl">
 		<label class="x_control-label">{$lang->last_login}</label>
 		<div class="x_controls">
@@ -128,6 +130,7 @@
 			<!--@end-->
 		</div>
 	</div>
+
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->member_group}</label>
 		<div class="x_controls">
@@ -137,11 +140,14 @@
 			</label>
 		</div>
 	</div>
+
 	<div class="x_clearfix btnArea">
 		<span class="x_pull-left" cond="$member_srl"><button class="x_btn" type="button" onclick="history.go(-1)">{$lang->cmd_cancel}</button></span>
 		<span class="x_pull-right"><input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" /></span>
 	</div>
+
 </form>
+
 <script>
 (function($){
 	$(function(){
