@@ -281,11 +281,17 @@ class VariableBase
 	/**
 	 * Get the current value, falling back to the default value if necessary.
 	 *
+	 * Format of return value: [value, is_expression, is_default_value]
+	 *
 	 * @param array $args
 	 * @return array
 	 */
 	public function getValue(array $args): array
 	{
+		$value = null;
+		$is_expression = false;
+		$is_default_value = false;
+
 		if ($this->var && Query::isValidVariable($args[$this->var] ?? null, $this instanceof ColumnWrite))
 		{
 			if ($args[$this->var] === '')
@@ -293,34 +299,31 @@ class VariableBase
 				if ($this instanceof ColumnWrite)
 				{
 					$value = $args[$this->var];
-					$is_expression = false;
 				}
 				else
 				{
 					list($is_expression, $value) = $this->getDefaultValue();
+					$is_default_value = true;
 				}
 			}
 			else
 			{
-				$is_expression = false;
 				$value = $args[$this->var];
 			}
 		}
 		elseif ($this->default !== null)
 		{
 			list($is_expression, $value) = $this->getDefaultValue();
-		}
-		else
-		{
-			$is_expression = null;
-			$value = null;
+			$is_default_value = true;
 		}
 
-		return [$is_expression, $value];
+		return [$value, $is_expression, $is_default_value];
 	}
 
 	/**
 	 * Get the default value of this variable.
+	 *
+	 * Format of return value: [is_expression, value]
 	 *
 	 * @return array
 	 */

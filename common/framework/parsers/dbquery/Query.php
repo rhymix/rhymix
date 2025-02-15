@@ -609,7 +609,7 @@ class Query extends VariableBase
 		{
 			// Get the name of the column or expression to order by.
 			$column_name = '';
-			list($is_expression, $column_name) = $orderby->getValue($this->_args);
+			list($column_name, $is_expression) = $orderby->getValue($this->_args);
 			if (!$column_name)
 			{
 				continue;
@@ -649,7 +649,7 @@ class Query extends VariableBase
 	protected function _arrangeLimitOffset(Navigation $navigation): string
 	{
 		// Get the list count.
-		list($is_expression, $list_count) = $navigation->list_count->getValue($this->_args);
+		$list_count = $navigation->list_count->getValue($this->_args)[0];
 		if ($list_count <= 0)
 		{
 			return '';
@@ -660,11 +660,11 @@ class Query extends VariableBase
 		// Get the offset from the page or offset variable.
 		if ($navigation->page)
 		{
-			list($is_expression, $page) = $navigation->page->getValue($this->_args);
+			$page = $navigation->page->getValue($this->_args)[0];
 		}
 		if ($navigation->offset)
 		{
-			list($is_expression, $offset) = $navigation->offset->getValue($this->_args);
+			$offset = $navigation->offset->getValue($this->_args)[0];
 		}
 
 		// If page is available, set the offset and require pagination for this query.
