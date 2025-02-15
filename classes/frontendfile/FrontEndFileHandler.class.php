@@ -72,7 +72,7 @@ class FrontEndFileHandler extends Handler
 	 * <pre>
 	 * case js
 	 * 		$args[0]: file name
-	 * 		$args[1]: type (head | body)
+	 * 		$args[1]: type (head | body | module)
 	 * 		$args[2]: unused (previously targetIe)
 	 * 		$args[3]: index
 	 * case css
@@ -245,6 +245,7 @@ class FrontEndFileHandler extends Handler
 		}
 		else if($file->fileExtension == 'js')
 		{
+			$file->jstype = $media === 'module' ? $media : '';
 			$file->key = sprintf('%s/%s', $file->filePath, $file->keyName);
 		}
 
@@ -602,7 +603,12 @@ class FrontEndFileHandler extends Handler
 					{
 						$url .= '?t=' . filemtime($file->fileFullPath);
 					}
-					$result[] = array('file' => $url);
+					$attrs = '';
+					if ($file->jstype)
+					{
+						$attrs = ' type="' . $file->jstype . '"';
+					}
+					$result[] = array('file' => $url, 'attrs' => $attrs);
 				}
 			}
 		}
@@ -624,7 +630,7 @@ class FrontEndFileHandler extends Handler
 		{
 			foreach ($indexedMap as $file)
 			{
-				if ($file->isExternalURL || !is_readable($file->fileFullPath))
+				if ($file->isExternalURL || !is_readable($file->fileFullPath) || !empty($file->jstype))
 				{
 					$concat_key++;
 					$concat_list[$concat_key][] = $file;
