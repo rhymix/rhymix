@@ -516,6 +516,10 @@ class MemberAdminView extends Member
 			{
 				continue;
 			}
+			if((in_array($formInfo->name, $identifiers) && $formInfo->name === array_first($identifiers)) && !$isAdmin)
+			{
+				continue;
+			}
 
 			$formTag = new stdClass();
 			$inputTag = '';
