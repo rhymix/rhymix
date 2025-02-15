@@ -48,12 +48,8 @@
 	<div loop="$formTags=>$formTag" class="x_control-group">
 		<label class="x_control-label" for="{$formTag->name}">{$formTag->title}</label>
 		<div class="x_controls" cond="$formTag->name != 'signature'">{$formTag->inputTag}</div>
-		<div class="x_controls" cond="$formTag->name =='signature'">{$editor|noescape}</div>
+		<div class="x_controls" cond="$formTag->name == 'signature'">{$editor|noescape}</div>
 	</div>
-<style scoped>
-.xpress-editor>#smart_content,
-.xpress-editor>#smart_content>.tool{clear:none}
-</style>
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->allow_mailing}</label>
 		<div class="x_controls">

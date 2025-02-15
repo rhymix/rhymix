@@ -470,6 +470,14 @@ class MemberAdminView extends Member
 			$member_info->limit_date = '';
 		}
 
+		if (Context::get('member_srl'))
+		{
+			Context::setBrowserTitle(lang('member.msg_update_member'));
+		}
+		else
+		{
+			Context::setBrowserTitle(lang('member.msg_new_member'));
+		}
 		$this->setTemplateFile('insert_member');
 	}
 
