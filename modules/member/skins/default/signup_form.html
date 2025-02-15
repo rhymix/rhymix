@@ -27,7 +27,7 @@
 				</label>
 			</div>
 		</div>
-		<div class="control-group">
+		<div class="control-group" cond="$identifierForm->name !== 'phone_number'">
 			<label for="{$identifierForm->name}" class="control-label"><em style="color:red">*</em> {$identifierForm->title}</label>
 			<div class="controls">
 				<input type="text"|cond="$identifierForm->name!='email_address'" type="email"|cond="$identifierForm->name=='email_address'" name="{$identifierForm->name}" id="{$identifierForm->name}" value="" required />

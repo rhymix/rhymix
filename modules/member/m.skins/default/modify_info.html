@@ -26,7 +26,7 @@
 
 	<fieldset class="sn">
 		<ul>
-			<li>
+			<li cond="$identifierForm->name !== 'phone_number'">
 				<label for="identifierForm">{$identifierForm->title} <em style="color:red">*</em></label>
 				<input id="identifierForm" type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
 				<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
