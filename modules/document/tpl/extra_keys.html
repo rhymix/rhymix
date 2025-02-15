@@ -1,4 +1,5 @@
 <load target="js/document_admin.js" />
+<load target="js/document_extra_keys.js" />
 <!--%import("filter/insert_extra_var.xml")-->
 <!--%import("filter/delete_extra_var.xml")-->
 
@@ -49,7 +50,7 @@
 					<label class="x_inline" for="is_required_n"><input type="radio" name="is_required" id="is_required_n" value="N" checked="checked"|cond="$selected_var->is_required != 'Y'" /> {$lang->not}</label>
 				</div>
 			</div>
-			<div class="x_control-group">
+			<div class="x_control-group" data-visible-types="select,radio,checkbox">
 				<label class="x_control-label">{$lang->extra_vars_is_strict}</label>
 				<div class="x_controls">
 					<label class="x_inline" for="is_strict_y"><input type="radio" name="is_strict" id="is_strict_y" value="Y" checked="checked"|cond="$selected_var->is_strict == 'Y'" /> {$lang->yes}</label>
@@ -57,14 +58,14 @@
 					<p class="x_help-block">{$lang->about_extra_vars_is_strict}</p>
 				</div>
 			</div>
-			<div class="x_control-group">
+			<div class="x_control-group" data-invisible-types="file">
 				<label class="x_control-label" for="default">{$lang->default_value}</label>
 				<div class="x_controls">
 					<input type="text" name="default" id="default" value="{$selected_var->default}" />
 					<p class="x_help-block">{$lang->about_extra_vars_default_value}</p>
 				</div>
 			</div>
-			<div class="x_control-group">
+			<div class="x_control-group" data-visible-types="select,radio,checkbox">
 				<label class="x_control-label" for="default">{$lang->extra_vars_options}</label>
 				<div class="x_controls">
 					<textarea type="text" name="options" id="options">{$selected_var ? implode("\n", $selected_var->getOptions()) : ''}</textarea>
