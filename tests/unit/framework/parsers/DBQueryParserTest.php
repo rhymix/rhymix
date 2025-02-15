@@ -554,4 +554,48 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `module_srl` IS NULL AND `member_srl` IS NOT NULL', $sql);
 		$this->assertEquals([], $query->getQueryParams());
 	}
+
+	public function testIfVar()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/ifVarTest.xml');
+
+		$sql = $query->getQueryString('rx_', array(
+			'if_table' => true,
+			'module_srl' => 1234,
+		));
+		$this->assertEquals('SELECT `module_srl` FROM `rx_documents` AS `documents`', $sql);
+
+		$sql = $query->getQueryString('rx_', array(
+			'if_table' => true,
+			'if_column' => true,
+			'if_condition' => true,
+		));
+		$this->assertEquals('SELECT `module_srl`, `document_srl` FROM `rx_documents` AS `documents`', $sql);
+
+		$sql = $query->getQueryString('rx_', array(
+			'if_table' => true,
+			'if_column' => true,
+			'if_condition' => true,
+			'module_srl' => 1234,
+		));
+		$this->assertEquals('SELECT `module_srl`, `document_srl` FROM `rx_documents` AS `documents` WHERE `module_srl` = ?', $sql);
+		$this->assertFalse($query->requires_pagination);
+
+		$sql = $query->getQueryString('rx_', array(
+			'if_table' => true,
+			'if_sort_index' => true,
+		));
+		$this->assertEquals('SELECT `module_srl` FROM `rx_documents` AS `documents` ORDER BY `list_order` DESC', $sql);
+		$this->assertFalse($query->requires_pagination);
+
+		$sql = $query->getQueryString('rx_', array(
+			'if_table' => true,
+			'if_sort_index' => true,
+			'if_list_count' => true,
+			'if_page_count' => true,
+			'if_page' => true,
+		));
+		$this->assertEquals('SELECT `module_srl` FROM `rx_documents` AS `documents` ORDER BY `list_order` DESC LIMIT 40, 20', $sql);
+		$this->assertTrue($query->requires_pagination);
+	}
 }

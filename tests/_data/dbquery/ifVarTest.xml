@@ -1,0 +1,18 @@
+<query id="ifVarTest" action="select">
+	<tables>
+		<table name="documents" if="if_table" />
+	</tables>
+	<columns>
+		<column name="module_srl" />
+		<column name="document_srl" if="if_column" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="module_srl" var="module_srl" if="if_condition" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="list_order" order="desc" if="if_sort_index" />
+		<list_count var="list_count" default="20" if="if_list_count" />
+		<page_count var="page_count" default="10" if="if_page_count" />
+		<page var="page" default="3" if="if_page" />
+	</navigation>
+</query>

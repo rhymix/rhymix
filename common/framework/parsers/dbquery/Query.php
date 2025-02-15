@@ -245,7 +245,11 @@ class Query extends VariableBase
 		// Compose the ORDER BY clause.
 		if ($this->navigation && count($this->navigation->orderby) && !$count_only)
 		{
-			$result .= ' ORDER BY ' . $this->_arrangeOrderBy($this->navigation);
+			$order_by = $this->_arrangeOrderBy($this->navigation);
+			if ($order_by !== '')
+			{
+				$result .= ' ORDER BY ' . $order_by;
+			}
 		}
 
 		// Compose the LIMIT/OFFSET clause.
