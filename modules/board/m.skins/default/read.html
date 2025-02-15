@@ -22,8 +22,10 @@
 			{@ $_extra_vars = $oDocument->getExtraVars(); }
 			<dl class="xv">
 			<!--@foreach($_extra_vars as $key => $val)-->
-				<dt>{$val->name}</dt>
-				<dd>{$val->getValueHTML()}</dd>
+				<!--@if($val->hasValue())-->
+					<dt>{$val->name}</dt>
+					<dd>{$val->getValueHTML()}</dd>
+				<!--@end-->
 			<!--@end-->
 			</dl>
 		<!--@end-->

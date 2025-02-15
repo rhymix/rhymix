@@ -22,7 +22,7 @@
 	<!-- Extra Output -->
 	<div class="exOut" cond="$oDocument->isExtraVarsExists() && $oDocument->isAccessible()">
 		<table border="1" cellspacing="0" summary="Extra Form Output">
-			<tr loop="$oDocument->getExtraVars() => $key,$val">
+			<tr loop="$oDocument->getExtraVars() => $key,$val" cond="$val->hasValue()">
 				<th scope="row">{$val->name}</th>
 				<td>{$val->getValueHTML()}&nbsp;</td>
 			</tr>
