@@ -156,7 +156,7 @@ function clearValue(){
 	// clear value
 	$w.find('input[type="text"], textarea').val('');
 	$w.find('.x_inline.checked').removeClass('checked');
-	$w.find('input[type="checkbox"]').removeAttr('checked');
+	$w.find('input[type="checkbox"]').prop('checked', false);
 	$w.find('.lang_code').trigger('reload-multilingual');
 	$w.find('.color-indicator').trigger('keyup');
 	$w.find('.rx-spectrum').trigger('keyup');
@@ -204,14 +204,14 @@ function modifyNode(node,e){
 		$w.find('textarea[name="category_description"]').val(data.category_info.description).trigger('reload-multilingual');
 		for(var i in data.category_info.group_srls){
 			var group_srl = data.category_info.group_srls[i];
-			$w.find('input[name="group_srls[]"][value="' + group_srl + '"]').attr('checked', 'checked')
+			$w.find('input[name="group_srls[]"][value="' + group_srl + '"]').prop('checked', true)
 				.parent().addClass('checked');
 		}
 		if(data.category_info.expand == 'Y'){
-			$w.find('input[name="expand"]').attr('checked', 'checked');
+			$w.find('input[name="expand"]').prop('checked', true).parent().addClass('checked');
 		}
 		if(data.category_info.is_default == 'Y'){
-			$w.find('input[name="is_default"]').attr('checked', 'checked');
+			$w.find('input[name="is_default"]').prop('checked', true).parent().addClass('checked');
 		}
 	});
 
