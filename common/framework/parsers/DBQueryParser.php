@@ -198,6 +198,7 @@ class DBQueryParser extends BaseParser
 				$orderby->default = ($attribs['default'] ?? null) ?: null;
 				$orderby->order_var = ($attribs['order'] ?? null) ?: null;
 				$orderby->order_default = strtoupper($attribs['orderdefault'] ?? '') === 'DESC' ? 'DESC' : 'ASC';
+				$orderby->ifvar = trim($attribs['if'] ?? '') ?: null;
 				$query->navigation->orderby[] = $orderby;
 			}
 			foreach (['list_count', 'page_count', 'page', 'offset'] as $key)
@@ -207,6 +208,7 @@ class DBQueryParser extends BaseParser
 					$query->navigation->{$key} = new DBQuery\VariableBase;
 					$query->navigation->{$key}->var = trim($tag['var'] ?? '') ?: null;
 					$query->navigation->{$key}->default = trim($tag['default'] ?? '') ?: null;
+					$query->navigation->{$key}->ifvar = trim($tag['if'] ?? '') ?: null;
 				}
 			}
 		}

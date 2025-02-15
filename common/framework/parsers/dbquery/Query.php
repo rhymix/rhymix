@@ -607,6 +607,12 @@ class Query extends VariableBase
 		// Process each column definition.
 		foreach ($navigation->orderby as $orderby)
 		{
+			// Skip
+			if ($orderby->ifvar && empty($this->_args[$orderby->ifvar]))
+			{
+				continue;
+			}
+
 			// Get the name of the column or expression to order by.
 			$column_name = '';
 			list($column_name, $is_expression) = $orderby->getValue($this->_args);
@@ -648,23 +654,34 @@ class Query extends VariableBase
 	 */
 	protected function _arrangeLimitOffset(Navigation $navigation): string
 	{
+		$list_count = 0;
+		$page = 0;
+		$offset = 0;
+
 		// Get the list count.
-		$list_count = $navigation->list_count->getValue($this->_args)[0];
+		if (!$navigation->list_count->ifvar || !empty($this->_args[$navigation->list_count->ifvar]))
+		{
+			$list_count = $navigation->list_count->getValue($this->_args)[0];
+		}
 		if ($list_count <= 0)
 		{
 			return '';
 		}
-		$page = 0;
-		$offset = 0;
 
 		// Get the offset from the page or offset variable.
 		if ($navigation->page)
 		{
-			$page = $navigation->page->getValue($this->_args)[0];
+			if (!$navigation->page->ifvar || !empty($this->_args[$navigation->page->ifvar]))
+			{
+				$page = $navigation->page->getValue($this->_args)[0];
+			}
 		}
 		if ($navigation->offset)
 		{
-			$offset = $navigation->offset->getValue($this->_args)[0];
+			if (!$navigation->offset->ifvar || !empty($this->_args[$navigation->offset->ifvar]))
+			{
+				$offset = $navigation->offset->getValue($this->_args)[0];
+			}
 		}
 
 		// If page is available, set the offset and require pagination for this query.

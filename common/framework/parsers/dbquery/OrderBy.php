@@ -11,4 +11,5 @@ class OrderBy extends VariableBase
 	public $default;
 	public $order_var;
 	public $order_default = 'ASC';
+	public $ifvar;
 }
