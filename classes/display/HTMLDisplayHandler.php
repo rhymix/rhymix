@@ -136,7 +136,6 @@ class HTMLDisplayHandler
 				// compile if connected to the layout
 				if($layout_srl > 0)
 				{
-
 					// handle separately if the layout is faceoff
 					if($layout_info && isset($layout_info->type) && $layout_info->type == 'faceoff')
 					{
@@ -163,6 +162,16 @@ class HTMLDisplayHandler
 
 				$oTemplate = new Rhymix\Framework\Template;
 				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
+
+				// Add layout header script.
+				if ($layout_srl > 0)
+				{
+					$part_config = ModuleModel::getModulePartConfig('layout', $layout_srl);
+					if ($part_config && isset($part_config->header_script))
+					{
+						Context::addHtmlHeader($part_config->header_script);
+					}
+				}
 
 				// if popup_layout, remove admin bar.
 				$realLayoutPath = FileHandler::getRealPath($layout_path);

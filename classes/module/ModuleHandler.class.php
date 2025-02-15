@@ -268,13 +268,6 @@ class ModuleHandler extends Handler
 
 			// Reset layout_srl in module_info.
 			$module_info->{$targetSrl} = $layoutSrl;
-
-			// Add layout header script.
-			$part_config = ModuleModel::getModulePartConfig('layout', $layoutSrl);
-			if ($part_config && isset($part_config->header_script))
-			{
-				Context::addHtmlHeader($part_config->header_script);
-			}
 		}
 		else
 		{
