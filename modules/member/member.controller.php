@@ -3801,6 +3801,7 @@ class MemberController extends Member
 			'number' => $phone_number,
 			'code' => $is_special ? intval($config->special_phone_code) : $code,
 			'time' => time(),
+			'count' => 0,
 			'status' => false,
 		);
 
@@ -3849,14 +3850,24 @@ class MemberController extends Member
 		}
 
 		$code = intval($code);
-		if(!isset($_SESSION['verify_by_sms']) || $_SESSION['verify_by_sms']['code'] !== $code)
+		if(!isset($_SESSION['verify_by_sms']))
 		{
 			throw new Rhymix\Framework\Exception('verify_by_sms_code_incorrect');
 		}
-
+		if (isset($_SESSION['verify_by_sms']['count']) && $_SESSION['verify_by_sms']['count'] >= 10)
+		{
+			unset($_SESSION['verify_by_sms']);
+			throw new Rhymix\Framework\Exception('verify_by_sms_code_too_many_tries');
+		}
 		if (isset($_SESSION['verify_by_sms']['time']) && $_SESSION['verify_by_sms']['time'] < time() - 600)
 		{
+			unset($_SESSION['verify_by_sms']);
 			throw new Rhymix\Framework\Exception('verify_by_sms_code_expired');
+		}
+		if ($_SESSION['verify_by_sms']['code'] !== $code)
+		{
+			$_SESSION['verify_by_sms']['count']++;
+			throw new Rhymix\Framework\Exception('verify_by_sms_code_incorrect');
 		}
 
 		$_SESSION['verify_by_sms']['status'] = true;

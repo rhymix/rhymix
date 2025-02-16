@@ -87,6 +87,7 @@ $lang->verify_by_sms_confirm = '인증번호 확인';
 $lang->verify_by_sms_message = '인증번호는 %s입니다.';
 $lang->verify_by_sms_code_sent = '인증번호가 SMS로 발송되었습니다.';
 $lang->verify_by_sms_code_incorrect = '인증번호가 올바르지 않습니다.';
+$lang->verify_by_sms_code_too_many_tries = '여러 번 틀려서 인증번호가 초기화됩니다. 다시 인증해 주세요.';
 $lang->verify_by_sms_code_expired = '인증번호의 유효기간이 만료되었습니다. 다시 인증해 주세요.';
 $lang->verify_by_sms_code_confirmed = '인증이 완료되었습니다.';
 $lang->verify_by_sms_incomplete = '전화번호가 인증되지 않았습니다. 인증 과정을 거쳐 주십시오.';
