@@ -1,0 +1,14 @@
+<query id="sortIndexTest" action="select">
+	<tables>
+		<table name="documents" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="status" default="PUBLIC" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="RAND()" order="order_type" order-default="DESC" />
+	</navigation>
+</query>
