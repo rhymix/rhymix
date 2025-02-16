@@ -619,7 +619,7 @@ class Query extends VariableBase
 
 			// Get the name of the column or expression to order by.
 			$column_name = '';
-			list($column_name, $is_expression) = $orderby->getValue($this->_args);
+			list($column_name, $is_expression, $is_default_value) = $orderby->getValue($this->_args);
 			if (!$column_name)
 			{
 				continue;
@@ -627,6 +627,10 @@ class Query extends VariableBase
 			if (!$is_expression && self::isValidColumnName($column_name))
 			{
 				$column_name = self::quoteName($column_name);
+			}
+			elseif (!$is_default_value)
+			{
+				continue;
 			}
 
 			// Get the ordering (ASC or DESC).
