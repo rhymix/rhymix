@@ -293,7 +293,7 @@ class Session
 				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_REQUEST', 400);
 				exit;
 			}
-			if (!URL::isInternalUrl($sso_request) || !URL::isInternalURL($_SERVER['HTTP_REFERER']))
+			if (!URL::isInternalUrl($sso_request) || !URL::isInternalURL($_SERVER['HTTP_REFERER'] ?? ''))
 			{
 				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_REQUEST', 400);
 				exit;
