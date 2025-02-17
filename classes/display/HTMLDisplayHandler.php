@@ -169,7 +169,7 @@ class HTMLDisplayHandler
 					$part_config = ModuleModel::getModulePartConfig('layout', $layout_srl);
 					if ($part_config && isset($part_config->header_script))
 					{
-						Context::addHtmlHeader($part_config->header_script);
+						Context::addHtmlHeader($part_config->header_script, true);
 					}
 				}
 
