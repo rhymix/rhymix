@@ -367,7 +367,7 @@ $lang->site_default_color_scheme_options = array(
 	'dark' => '어두운 색상 고정',
 );
 $lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> 사용';
-$lang->about_use_sso = '한 번만 로그인하면 모든 도메인에 로그인되도록 합니다.';
+$lang->about_use_sso = '한 번만 로그인하면 모든 도메인에 로그인되도록 합니다.<br>이 기능은 폐기 예정이니 의존하지 마시기 바랍니다.';
 $lang->about_arrange_session = '세션을 정리하시겠습니까?';
 $lang->cmd_clear_session = '세션 정리';
 $lang->save = '저장';

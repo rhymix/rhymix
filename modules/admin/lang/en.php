@@ -371,7 +371,7 @@ $lang->site_default_color_scheme_options = array(
 	'dark' => 'Dark mode only',
 );
 $lang->use_sso = 'Use <abbr title="Single Sign On">SSO</abbr>?';
-$lang->about_use_sso = 'Logging into one domain will automatically log the user into all domains.';
+$lang->about_use_sso = 'Logging into one domain will automatically log the user into all domains.<br>Do not rely on this feature, as it will be removed in the future.';
 $lang->about_arrange_session = 'Do you want to clean up old session data?';
 $lang->cmd_clear_session = 'Session cleanup';
 $lang->save = 'Save';
