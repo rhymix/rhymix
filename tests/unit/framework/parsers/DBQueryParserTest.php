@@ -598,4 +598,29 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$this->assertEquals('SELECT `module_srl` FROM `rx_documents` AS `documents` ORDER BY `list_order` DESC LIMIT 40, 20', $sql);
 		$this->assertTrue($query->requires_pagination);
 	}
+
+	public function testSortIndex()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/sortIndexTest.xml');
+
+		$sql = $query->getQueryString('rx_', array());
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `status` = ? ORDER BY RAND() DESC', $sql);
+
+		$sql = $query->getQueryString('rx_', array(
+			'sort_index' => 'list_order',
+			'order_type' => 'asc',
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `status` = ? ORDER BY `list_order` ASC', $sql);
+
+		$sql = $query->getQueryString('rx_', array(
+			'sort_index' => 'voted_count + blamed_count',
+			'order_type' => 'desc',
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `status` = ?', $sql);
+
+		$sql = $query->getQueryString('rx_', array(
+			'sort_index' => 'RAND()',
+		));
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `status` = ?', $sql);
+	}
 }
