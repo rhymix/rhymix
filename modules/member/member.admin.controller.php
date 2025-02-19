@@ -672,7 +672,33 @@ class MemberAdminController extends Member
 			$args->mskin = 'default';
 		}
 
+		// Update member module config
 		$output = $oModuleController->updateModuleConfig('member', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Sync member mid info with module config
+		$config = MemberModel::getMemberConfig();
+		if ($config->mid)
+		{
+			$module_info = ModuleModel::getModuleInfoByMid($config->mid);
+			if ($module_info->module === 'member')
+			{
+				$module_info->layout_srl = $args->layout_srl ?? -1;
+				$module_info->mlayout_srl = $args->mlayout_srl ?? -1;
+				$module_info->skin = $args->skin;
+				$module_info->mskin = $args->mskin;
+				$module_info->is_skin_fix = str_starts_with($module_info->skin, '/') ? 'N' : 'Y';
+				$module_info->is_mskin_fix = str_starts_with($module_info->mskin, '/') ? 'N' : 'Y';
+				$output = ModuleController::getInstance()->updateModule($module_info);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
 
 		// default setting end
 		$this->setMessage('success_updated');
