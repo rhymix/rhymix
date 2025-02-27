@@ -1537,7 +1537,7 @@ class NcenterliteController extends Ncenterlite
 
 		// Extract mentions.
 		$content = html_entity_decode(strip_tags($content));
-		preg_match_all('/(?:^|\s)@([^\pC\pM\pP\pS\pZ]+)/u', $content, $matches);
+		preg_match_all('/(?:^|[\s\n(])@([\w.-]+)/u', $content, $matches);
 		$mentions = array_unique($matches[1]);
 		$members = array();
 
