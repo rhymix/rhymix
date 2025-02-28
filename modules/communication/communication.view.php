@@ -290,8 +290,9 @@ class CommunicationView extends communication
 		$option->editor_skin = $this->config->editor_skin;
 		$option->sel_editor_colorset = $this->config->editor_colorset;
 		$option->editor_focus = Context::get('source_message') ? 'Y' : 'N';
-		if(Context::get('m'))
+		if(Context::get('m') || stripos($_SERVER['HTTP_USER_AGENT'] ?? '', 'mobile') !== false)
 		{
+			$option->editor_toolbar = 'simple';
 			$option->editor_toolbar_hide = 'Y';
 		}
 		if ($option->allow_fileupload)
