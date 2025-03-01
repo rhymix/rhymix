@@ -737,7 +737,7 @@ class CommentModel extends Comment
 			// generate a list
 			$list[$comment_srl] = $source_list[$i];
 
-			if($parent_srl)
+			if($parent_srl && isset($list[$parent_srl]))
 			{
 				$list[$parent_srl]->child[] = &$list[$comment_srl];
 			}
