@@ -32,7 +32,7 @@ class reCAPTCHA
 			'secret' => self::$config->secret_key,
 			'response' => $response,
 			'remoteip' => \RX_CLIENT_IP,
-		]);
+		], [], [], ['timeout' => 10]);
 		if ($verify_request->getStatusCode() !== 200 || !$verify_request->getBody())
 		{
 			throw new Exception('msg_recaptcha_connection_error');
