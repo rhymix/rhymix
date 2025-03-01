@@ -968,7 +968,7 @@ class Debug
 			case \E_USER_ERROR: return 'User Error';
 			case \E_USER_WARNING: return 'Warning';
 			case \E_USER_NOTICE: return 'Notice';
-			case \E_STRICT: return 'Strict Standards';
+			case 2048: return 'Strict Standards'; /* E_STRICT is deprecated */
 			case \E_PARSE: return 'Parse Error';
 			case \E_DEPRECATED: return 'Deprecated';
 			case \E_USER_DEPRECATED: return 'User Deprecated';
