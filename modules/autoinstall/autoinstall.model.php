@@ -370,7 +370,7 @@ class autoinstallModel extends autoinstall
 	function getRemoveUrlByPackageSrl($packageSrl)
 	{
 		$ftp_info = Context::getFTPInfo();
-		if(!$ftp_info->ftp_root_path)
+		if(empty($ftp_info->ftp_root_path))
 		{
 			return;
 		}

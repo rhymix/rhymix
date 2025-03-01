@@ -706,8 +706,8 @@ class Context
 	 */
 	public static function getFTPInfo()
 	{
-		$ftp_info = self::$_instance->db_info->ftp_info;
-		if (!$ftp_info->ftp_user || !$ftp_info->ftp_root_path)
+		$ftp_info = self::$_instance->db_info->ftp_info ?? null;
+		if (empty($ftp_info->ftp_user) || empty($ftp_info->ftp_root_path))
 		{
 			return null;
 		}

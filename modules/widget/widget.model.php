@@ -79,7 +79,7 @@ class WidgetModel extends Widget
 
 			// get easyinstall need update
 			$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-			$widget_info->need_update = $package[$packageSrl]->need_update;
+			$widget_info->need_update = $package[$packageSrl]->need_update ?? 'N';
 
 			// get easyinstall update url
 			if ($widget_info->need_update == 'Y')
