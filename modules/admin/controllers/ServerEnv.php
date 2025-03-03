@@ -34,7 +34,7 @@ class ServerEnv extends Base
 		$info['php'] = sprintf('%s (%d-bit)', phpversion(), PHP_INT_SIZE * 8);
 		$info['server'] = $_SERVER['SERVER_SOFTWARE'];
 		$info['os'] = sprintf('%s %s', php_uname('s'), php_uname('r'));
-		$info['sapi'] = php_sapi_name();
+		$info['sapi'] = PHP_SAPI;
 		$info['baseurl'] = Context::getRequestUri();
 		$info['basedir'] = RX_BASEDIR;
 		$info['owner'] = sprintf('%s (%d:%d)', get_current_user(), getmyuid(), getmygid());

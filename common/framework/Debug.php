@@ -755,7 +755,7 @@ class Debug
 	public static function displayErrorScreen(string $message, string $location = ''): void
 	{
 		// Do not display error screen in CLI.
-		if (php_sapi_name() === 'cli')
+		if (PHP_SAPI === 'cli')
 		{
 			return;
 		}
