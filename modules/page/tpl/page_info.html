@@ -18,7 +18,7 @@
 		<label class="x_control-label" for="page_name">{$lang->url}</label>
 		<div class="x_controls">
 			<select name="domain_srl" id="domain_srl">
-				<option value="-1" selected="selected"|cond="!isset($module_info->domain_srl) || $module_info->domain_srl == -1">{$lang->cmd_any_domain}</option>
+				<option value="-1" selected="selected"|cond="!isset($module_info->domain_srl) || $module_info->domain_srl == -1">{lang('admin.cmd_any_domain')}</option>
 				{@ $domain_srl_list = []}
 				<!--@foreach(ModuleModel::getAllDomains(100)->data as $domain)-->
 					<option value="{$domain->domain_srl}" selected="selected"|cond="$domain->domain_srl == $module_info->domain_srl">{$domain->domain}</option>
