@@ -220,8 +220,13 @@ class Sanitizer
             return '';
         }
 
-        // Strip php tags
-        $dirty = preg_replace('/<\?(=|php)(.+?)\?>/i', '', $dirty);
+        do {
+            /*
+             * recursively remove php tags because they can be hidden inside tags
+             * i.e. <?p<?php test?>hp echo . ' danger! ';?>
+             */
+            $dirty = preg_replace('/<\?(=|php)(.+?)\?>/i', '', $dirty);
+        } while (preg_match('/<\?(=|php)(.+?)\?>/i', $dirty) != 0);
 
         $this->resetInternal();
         $this->setUpBefore();
@@ -230,6 +235,7 @@ class Sanitizer
 
         // If we couldn't parse the XML then we go no further. Reset and return false
         if (!$loaded) {
+            $this->xmlIssues = self::getXmlErrors();
             $this->resetAfter();
             return false;
         }
@@ -363,7 +369,7 @@ class Sanitizer
                     $breaksOutOfForeignContent = false;
                     for ($x = $currentElement->attributes->length - 1; $x >= 0; $x--) {
                         // get attribute name
-                        $attrName = $currentElement->attributes->item( $x )->name;
+                        $attrName = $currentElement->attributes->item( $x )->nodeName;
 
                         if (in_array(strtolower($attrName), ['face', 'color', 'size'])) {
                             $breaksOutOfForeignContent = true;
@@ -398,7 +404,7 @@ class Sanitizer
     {
         for ($x = $element->attributes->length - 1; $x >= 0; $x--) {
             // get attribute name
-            $attrName = $element->attributes->item($x)->name;
+            $attrName = $element->attributes->item($x)->nodeName;
 
             // Remove attribute if not in whitelist
             if (!in_array(strtolower($attrName), $this->allowedAttrs) && !$this->isAriaAttribute(strtolower($attrName)) && !$this->isDataAttribute(strtolower($attrName))) {
@@ -697,5 +703,22 @@ class Sanitizer
                 $this->cleanUnsafeNodes($childElement);
             }
         }
+    }
+
+    /**
+     * Retrieve array of errors
+     * @return array
+     */
+    private static function getXmlErrors()
+    {
+        $errors = [];
+        foreach (libxml_get_errors() as $error) {
+            $errors[] = [
+                'message' => trim($error->message),
+                'line' => $error->line,
+            ];
+        }
+
+        return $errors;
     }
 }
