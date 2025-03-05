@@ -1437,7 +1437,7 @@ class MemberModel extends Member
 		$args->page = $page;
 		if($logged_info->is_admin == 'Y')
 		{
-			if($search_keyword && $search_keyword)
+			if($search_target && $search_keyword)
 			{
 				switch ($search_target)
 				{
