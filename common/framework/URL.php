@@ -258,7 +258,12 @@ class URL
 			$position = 0;
 		}
 
-		if (function_exists('idn_to_utf8'))
+		$domain = (string)$domain;
+		if ($domain === '')
+		{
+			$new_domain = '';
+		}
+		elseif (function_exists('idn_to_utf8'))
 		{
 			$new_domain = idn_to_utf8($domain);
 		}

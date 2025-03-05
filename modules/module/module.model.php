@@ -195,13 +195,13 @@ class ModuleModel extends Module
 	/**
 	 * @brief Get the default mid according to the domain
 	 */
-	public static function getDefaultMid($domain = null)
+	public static function getDefaultMid($domain = '')
 	{
 		// Get current domain.
 		$domain = $domain ? Rhymix\Framework\URL::decodeIdna($domain) : Rhymix\Framework\URL::getCurrentDomain();
 
 		// Find the domain information.
-		$domain_info = self::getSiteInfoByDomain($domain);
+		$domain_info = $domain ? self::getSiteInfoByDomain($domain) : null;
 		if (!$domain_info)
 		{
 			$domain_info = self::getDefaultDomainInfo();
