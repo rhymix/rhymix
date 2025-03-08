@@ -317,13 +317,14 @@ class Context
 		$lang->loadDirectory(RX_BASEDIR . 'common/lang', 'common');
 		$lang->loadDirectory(RX_BASEDIR . 'modules/module/lang', 'module');
 		self::setLangType(self::$_instance->lang_type = $lang_type);
-		self::set('lang', self::$_instance->lang = $lang);
 
 		// Set global variables for backward compatibility.
 		$GLOBALS['oContext'] = self::$_instance;
 		$GLOBALS['__Context__'] = &self::$_user_vars;
 		$GLOBALS['_time_zone'] = config('locale.default_timezone');
 		$GLOBALS['lang'] = &$lang;
+		self::$_user_vars->lang = $lang;
+		self::$_instance->lang = $lang;
 
 		// set session handler
 		if(self::isInstalled() && config('session.use_db'))
