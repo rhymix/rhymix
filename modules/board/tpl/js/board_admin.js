@@ -147,3 +147,18 @@ function doSaveListConfig(module_srl)
 
 	exec_json('board.procBoardAdminInsertListConfig', params, function() { location.reload(); });
 }
+
+$(function() {
+	$('#use_mobile_y,#use_mobile_n').on('change', function() {
+		if ($(this).is(':checked')) {
+			if ($(this).val() == 'Y') {
+				$('.hide-if-not-mobile-view').show();
+			} else {
+				$('.hide-if-not-mobile-view').hide();
+			}
+		}
+	});
+	if ($('#use_mobile_n').is(':checked')) {
+		$('.hide-if-not-mobile-view').hide();
+	}
+});

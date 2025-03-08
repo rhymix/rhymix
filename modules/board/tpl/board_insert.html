@@ -121,9 +121,18 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->mobile_view}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="use_mobile"><input type="checkbox" name="use_mobile" id="use_mobile" value="Y" checked="checked"|cond="$module_info->use_mobile == 'Y'" /> {$lang->about_mobile_view}</label>
+				<label for="use_mobile_y" class="x_inline">
+					<input type="radio" name="use_mobile" id="use_mobile_y" value="Y" checked="checked"|cond="$module_info->use_mobile === 'Y'" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="use_mobile_n" class="x_inline">
+					<input type="radio" name="use_mobile" id="use_mobile_n" value="N" checked="checked"|cond="$module_info->use_mobile !== 'Y'" />
+					{$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_mobile_view}</p>
 			</div>
 		</div>
+		<div class="hide-if-not-mobile-view">
 		<div class="x_control-group">
 			<label class="x_control-label" for="mlayout_srl">{$lang->mobile_layout}</label>
 			<div class="x_controls">
@@ -179,6 +188,7 @@
 				<textarea name="mobile_footer_text" id="mobile_footer_text" class="lang_code" rows="8" cols="42">{$module_info->mobile_footer_text}</textarea>
 				<p id="mobile_footer_text_help" class="x_help-block">{$lang->about_mobile_footer_text}</p>
 			</div>
+		</div>
 		</div>
 	</section>
 	<section class="section">

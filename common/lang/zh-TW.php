@@ -293,5 +293,5 @@ $lang->reload = '重新讀取';
 $lang->play = '播放';
 $lang->use_and_display = '使用+專題刊物歷史';
 $lang->mobile_view = '手機瀏覽';
-$lang->about_mobile_view = '使用手機瀏覽時將會顯示最適當的畫面。';
+$lang->about_mobile_view = '在PC和手機上分別使用不同的佈局和皮膚。<br>如果使用同時支持PC和手機的適應型（反應型）主題，請選擇"不"。';
 $lang->more = '更多';

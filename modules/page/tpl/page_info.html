@@ -1,4 +1,5 @@
-<!--#include("header.html")-->
+<include target="header.html" />
+
 <div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/page/tpl/page_info/1'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
@@ -72,10 +73,15 @@
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->mobile_view}</label>
 		<div class="x_controls">
-			<label for="use_mobile">
-				<input type="checkbox" name="use_mobile" id="use_mobile" value="Y" checked="checked"|cond="$module_info->use_mobile == 'Y'" />
-				{$lang->about_mobile_view}
+			<label for="use_mobile_y" class="x_inline">
+				<input type="radio" name="use_mobile" id="use_mobile_y" value="Y" checked="checked"|cond="$module_info->use_mobile === 'Y'" />
+				{$lang->cmd_yes}
 			</label>
+			<label for="use_mobile_n" class="x_inline">
+				<input type="radio" name="use_mobile" id="use_mobile_n" value="N" checked="checked"|cond="$module_info->use_mobile !== 'Y'" />
+				{$lang->cmd_no}
+			</label>
+			<p class="x_help-block">{$lang->about_mobile_view}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -88,7 +94,7 @@
 			<p class="x_help-block" id="aboutLayout">{$lang->about_layout}</p>
 		</div>
 	</div>
-	<div class="x_control-group">
+	<div class="x_control-group hide-if-not-mobile-view">
 		<label class="x_control-label" for="mlayout_srl">{$lang->mobile_layout}</label>
 		<div class="x_controls">
 			<select name="mlayout_srl" id="mlayout_srl">
@@ -112,7 +118,7 @@
 			<p class="x_help-block" id="aboutOpagePath">{$lang->about_opage_path}<b>{realpath("./")}</b></p>
 		</div>
 	</div>
-	<div class="x_control-group" cond="$module_info->page_type == 'OUTSIDE'">
+	<div class="x_control-group hide-if-not-mobile-view" cond="$module_info->page_type == 'OUTSIDE'">
 		<label class="x_control-label" for="mpath">{$lang->opage_mobile_path}</label>
 		<div class="x_controls">
 			<input type="text" name="mpath" id="mpath" value="{$module_info->mpath}"  />
@@ -142,7 +148,7 @@
 			<p class="x_help-block" id="aboutSkin">{$lang->about_skin}</p>
 		</div>
 	</div>
-	<div class="x_control-group optionnalData articleType" cond="$module_info->page_type == 'ARTICLE'">
+	<div class="x_control-group hide-if-not-mobile-view optionnalData articleType" cond="$module_info->page_type == 'ARTICLE'">
 		<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 		<div class="x_controls">
 			<select name="mskin">
