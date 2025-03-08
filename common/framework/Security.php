@@ -317,11 +317,11 @@ class Security
 		$check_csrf_token = config('security.check_csrf_token') ? true : false;
 		if ($token = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : null)
 		{
-			return Session::verifyToken($token, '', $check_csrf_token);
+			return Session::verifyToken((string)$token, '', $check_csrf_token);
 		}
 		elseif ($token = isset($_REQUEST['_rx_csrf_token']) ? $_REQUEST['_rx_csrf_token'] : null)
 		{
-			return Session::verifyToken($token, '', $check_csrf_token);
+			return Session::verifyToken((string)$token, '', $check_csrf_token);
 		}
 		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
 		{
