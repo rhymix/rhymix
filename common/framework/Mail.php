@@ -556,12 +556,13 @@ class Mail
 	/**
 	 * Send the email.
 	 *
+	 * @param bool $sync
 	 * @return bool
 	 */
-	public function send(): bool
+	public function send(bool $sync = false): bool
 	{
 		// If queue is enabled, send asynchronously.
-		if (config('queue.enabled') && !defined('RXQUEUE_CRON'))
+		if (!$sync && config('queue.enabled') && !defined('RXQUEUE_CRON'))
 		{
 			Queue::addTask(self::class . '::' . 'sendAsync', $this);
 			return true;
