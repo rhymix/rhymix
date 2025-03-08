@@ -576,7 +576,7 @@ class BoardView extends Board
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
-			$args->category_srl = (int)Context::get('category');
+			$args->category_srl = (int)Context::get('category') ?: null;
 		}
 
 		// setup the sort index and order index
@@ -592,7 +592,7 @@ class BoardView extends Board
 		}
 
 		// set the current page of documents
-		$document_srl = (int)Context::get('document_srl');
+		$document_srl = (int)Context::get('document_srl') ?: null;
 		if($document_srl && $this->module_info->skip_bottom_list_for_robot !== 'N' && isCrawler())
 		{
 			Context::set('page', $args->page = null);
