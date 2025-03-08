@@ -45,9 +45,9 @@ class PointModel extends Point
 
 		// Get from object cache
 		$use_cache = Rhymix\Framework\Cache::getDriverName() !== 'dummy';
+		$cache_key = sprintf('member:point:%d', $member_srl);
 		if (!$from_db && $use_cache)
 		{
-			$cache_key = sprintf('member:point:%d', $member_srl);
 			$point = Rhymix\Framework\Cache::get($cache_key);
 			if ($point !== null)
 			{
