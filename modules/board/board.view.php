@@ -540,7 +540,7 @@ class BoardView extends Board
 			return;
 		}
 
-		// setup module_srl/page number/ list number/ page count
+		// Setup basic parameters such as module and page.
 		$args = new stdClass();
 		$args->module_srl = $this->include_modules ?: $this->module_srl;
 		$args->page = intval(Context::get('page')) ?: null;
@@ -551,29 +551,22 @@ class BoardView extends Board
 			$args->start_regdate = date('YmdHis', time() - ($this->module_info->include_days * 86400));
 		}
 
-		// get the search target and keyword
+		// Filter by search target and keyword.
 		if ($this->grant->view)
 		{
 			$args->search_target = (string)Context::get('search_target');
 			$args->search_keyword = (string)Context::get('search_keyword');
+
+			// Remove unsupported search target
+			$search_option = Context::get('search_option') ?: $this->search_option;
+			if ($args->search_target !== '' && !isset($search_option[$args->search_target]))
+			{
+				$args->search_target = '';
+				$args->search_keyword = '';
+			}
 		}
 
-		if(!$search_option = Context::get('search_option'))
-		{
-			$search_option = $this->search_option;
-		}
-		if(!isset($search_option[$args->search_target]))
-		{
-			$args->search_target = '';
-		}
-
-		// set member_srl for view particular member's document
-		if($this->module_info->use_anonymous !== 'Y')
-		{
-			$args->member_srl = abs(Context::get('member_srl') ?? 0) ?: null;
-		}
-
-		// if the category is enabled, then get the category
+		// Filter by category.
 		if ($this->module_info->use_category === 'Y')
 		{
 			$args->category_srl = (string)Context::get('category') ?: null;
@@ -581,23 +574,54 @@ class BoardView extends Board
 			// Support comma-separated categories #2519
 			if ($args->category_srl)
 			{
-				$args->category_srl = implode(',', array_map('intval', explode(',', $args->category_srl)));
+				$args->category_srl = array_map('intval', explode(',', $args->category_srl));
+				if (count($args->category_srl) === 1)
+				{
+					$args->category_srl = $args->category_srl[0];
+				}
 			}
 		}
 
-		// setup the sort index and order index
-		$args->sort_index = (string)Context::get('sort_index');
-		$args->order_type = (string)Context::get('order_type');
-		if(!in_array($args->sort_index, $this->order_target))
+		// Filter by consultation member_srl, or the member_srl parameter if given.
+		if ($this->consultation)
 		{
-			$args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
+			if ($this->module_info->use_anonymous === 'Y')
+			{
+				$args->member_srl = [$this->user->member_srl, $this->user->member_srl * -1];
+			}
+			else
+			{
+				$args->member_srl = $this->user->member_srl;
+			}
 		}
-		if(!in_array($args->order_type, array('asc','desc')))
+		else
 		{
-			$args->order_type = $this->module_info->order_type?$this->module_info->order_type:'asc';
+			if ($this->module_info->use_anonymous !== 'Y')
+			{
+				$args->member_srl = abs(intval(Context::get('member_srl'))) ?: null;
+			}
 		}
 
-		// set the current page of documents
+		// If we are filtering by category or search keyword, use search_list_count instead of list_count.
+		if (!empty($args->category_srl) || !empty($args->search_keyword))
+		{
+			$args->list_count = $this->search_list_count;
+		}
+
+		// Setup sorting.
+		$args->sort_index = (string)Context::get('sort_index');
+		$args->order_type = (string)Context::get('order_type');
+		if (!in_array($args->sort_index, $this->order_target ?? []))
+		{
+			$args->sort_index = $this->module_info->order_target ?: 'list_order';
+		}
+		if (!in_array($args->order_type, ['asc', 'desc']))
+		{
+			$args->order_type = $this->module_info->order_type ?: 'asc';
+		}
+
+		// Find the page on which the current document is located.
+		// This is very resource-intensive, so we only do it when necessary.
 		$document_srl = (int)Context::get('document_srl') ?: null;
 		if($document_srl && $this->module_info->skip_bottom_list_for_robot !== 'N' && isCrawler())
 		{
@@ -619,27 +643,6 @@ class BoardView extends Board
 					$args->page = DocumentModel::getDocumentPage($oDocument, $args);
 					Context::set('page', $args->page);
 				}
-			}
-		}
-
-		// setup the list count to be serach list count, if the category or search keyword has been set
-		if($args->category_srl ?? null || $args->search_keyword ?? null)
-		{
-			$args->list_count = $this->search_list_count;
-		}
-
-		// if the consultation function is enabled,  the get the logged user information
-		if($this->consultation)
-		{
-			$logged_info = Context::get('logged_info');
-
-			if($this->module_info->use_anonymous === 'Y')
-			{
-				$args->member_srl = array($logged_info->member_srl, $logged_info->member_srl * -1);
-			}
-			else
-			{
-				$args->member_srl = $logged_info->member_srl;
 			}
 		}
 
