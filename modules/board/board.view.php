@@ -574,9 +574,15 @@ class BoardView extends Board
 		}
 
 		// if the category is enabled, then get the category
-		if($this->module_info->use_category=='Y')
+		if ($this->module_info->use_category === 'Y')
 		{
-			$args->category_srl = (int)Context::get('category') ?: null;
+			$args->category_srl = (string)Context::get('category') ?: null;
+
+			// Support comma-separated categories #2519
+			if ($args->category_srl)
+			{
+				$args->category_srl = implode(',', array_map('intval', explode(',', $args->category_srl)));
+			}
 		}
 
 		// setup the sort index and order index
