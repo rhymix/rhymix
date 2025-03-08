@@ -626,7 +626,7 @@ class Router
 		$route = preg_replace_callback('#\\$([a-zA-Z0-9_]+)(:[a-z]+)?#i', function($match) use(&$vars) {
 			if (isset($vars[$match[1]]))
 			{
-				$replacement = urlencode($vars[$match[1]]);
+				$replacement = urlencode(strval($vars[$match[1]]));
 				unset($vars[$match[1]]);
 				return (isset($match[2]) && $match[2] === ':delete') ? '' : $replacement;
 			}
