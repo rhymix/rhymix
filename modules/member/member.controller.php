@@ -38,15 +38,15 @@ class MemberController extends Member
 		// User ID, email address or phone number
 		if (!$user_id)
 		{
-			$user_id = trim(Context::get('user_id'));
+			$user_id = (string)Context::get('user_id');
 		}
 		if (!$user_id && $config->identifiers && in_array('email_address', $config->identifiers))
 		{
-			$user_id = trim(Context::get('email_address'));
+			$user_id = (string)Context::get('email_address');
 		}
 		if (!$user_id && $config->identifiers && in_array('phone_number', $config->identifiers))
 		{
-			$user_id = trim(Context::get('phone_number'));
+			$user_id = (string)Context::get('phone_number');
 		}
 		if (!$user_id)
 		{
@@ -56,7 +56,7 @@ class MemberController extends Member
 		// Password
 		if (!$password)
 		{
-			$password = trim(Context::get('password'));
+			$password = (string)Context::get('password');
 		}
 		if (!$password)
 		{
@@ -1338,7 +1338,7 @@ class MemberController extends Member
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		// Extract the necessary information in advance
-		$password = trim(Context::get('password'));
+		$password = (string)Context::get('password');
 		// Get information of logged-in user
 		$logged_info = Context::get('logged_info');
 		$member_srl = $logged_info->member_srl;
@@ -4141,7 +4141,7 @@ class MemberController extends Member
 			}
 			if ($formInfo->name === 'password' && $args->{$formInfo->name})
 			{
-				$password_check = trim(Context::get('password2'));
+				$password_check = (string)Context::get('password2');
 				if ($password_check !== '' && !hash_equals($args->password, $password_check))
 				{
 					return new BaseObject(-1, 'msg_password_mismatch');
