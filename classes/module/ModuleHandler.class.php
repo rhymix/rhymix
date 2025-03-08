@@ -88,11 +88,11 @@ class ModuleHandler extends Handler
 
 		// Set variables from request arguments
 		$this->method = Context::getRequestMethod();
-		$this->module = $module ? $module : Context::get('module');
-		$this->act = $act ? $act : Context::get('act');
-		$this->mid = $mid ? $mid : Context::get('mid');
-		$this->document_srl = $document_srl ? (int) $document_srl : (int) Context::get('document_srl');
-		$this->module_srl = $module_srl ? (int) $module_srl : (int) Context::get('module_srl');
+		$this->module = strval($module ?: Context::get('module'));
+		$this->act = strval($act ?: Context::get('act'));
+		$this->mid = strval($mid ?: Context::get('mid'));
+		$this->document_srl = intval($document_srl ?: Context::get('document_srl'));
+		$this->module_srl = intval($module_srl ?: Context::get('module_srl'));
 		$this->route = Context::getCurrentRequest() ?: new stdClass;
 		$this->is_mobile = Mobile::isFromMobilePhone();
         if($entry = Context::get('entry'))
@@ -156,7 +156,7 @@ class ModuleHandler extends Handler
 		$urls = array('success_return_url', 'error_return_url');
 		foreach($urls as $key)
 		{
-			$url = Context::get($key);
+			$url = strval(Context::get($key));
 			if ($url && !Rhymix\Framework\URL::isInternalURL($url))
 			{
 				Context::set($key, null);
