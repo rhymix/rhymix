@@ -1449,7 +1449,7 @@ class DocumentModel extends Document
 		$query_id = null;
 		$use_division = false;
 		$search_target = $searchOpt->search_target ?? null;
-		$search_keyword = trim($searchOpt->search_keyword ?? '') ?: null;
+		$search_keyword = strval($searchOpt->search_keyword ?? '') ?: null;
 
 		// search
 		if($search_target && $search_keyword)

@@ -281,8 +281,7 @@ class BoardView extends Board
 	public function dispBoardContentView()
 	{
 		// get the variable value
-		$document_srl = Context::get('document_srl');
-		$page = Context::get('page');
+		$document_srl = (int)Context::get('document_srl');
 
 		/**
 		 * if the document exists, then get the document information
@@ -555,8 +554,8 @@ class BoardView extends Board
 		// get the search target and keyword
 		if ($this->grant->view)
 		{
-			$args->search_target = Context::get('search_target');
-			$args->search_keyword = Context::get('search_keyword');
+			$args->search_target = (string)Context::get('search_target');
+			$args->search_keyword = (string)Context::get('search_keyword');
 		}
 
 		if(!$search_option = Context::get('search_option'))
@@ -577,12 +576,12 @@ class BoardView extends Board
 		// if the category is enabled, then get the category
 		if($this->module_info->use_category=='Y')
 		{
-			$args->category_srl = Context::get('category');
+			$args->category_srl = (int)Context::get('category');
 		}
 
 		// setup the sort index and order index
-		$args->sort_index = Context::get('sort_index');
-		$args->order_type = Context::get('order_type');
+		$args->sort_index = (string)Context::get('sort_index');
+		$args->order_type = (string)Context::get('order_type');
 		if(!in_array($args->sort_index, $this->order_target))
 		{
 			$args->sort_index = $this->module_info->order_target?$this->module_info->order_target:'list_order';
@@ -593,7 +592,7 @@ class BoardView extends Board
 		}
 
 		// set the current page of documents
-		$document_srl = Context::get('document_srl');
+		$document_srl = (int)Context::get('document_srl');
 		if($document_srl && $this->module_info->skip_bottom_list_for_robot !== 'N' && isCrawler())
 		{
 			Context::set('page', $args->page = null);
