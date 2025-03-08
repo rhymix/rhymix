@@ -1489,9 +1489,18 @@ class Context
 		}
 		foreach($val as $_key => $_val)
 		{
-			if(is_array($_val))
+			if($is_array)
 			{
-				$_val = self::_filterRequestVar($key, $_val);
+				if(in_array($key, array('mid', 'vid', 'act', 'module')))
+				{
+					self::$_instance->security_check = 'DENY ALL';
+					self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+					$_val = null;
+				}
+				else
+				{
+					$_val = self::_filterRequestVar($key, $_val);
+				}
 			}
 			elseif($_val = trim($_val))
 			{
