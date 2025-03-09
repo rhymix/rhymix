@@ -677,6 +677,8 @@ class MenuAdminController extends Menu
 		$cmArgs->menu_srl = $request->menu_srl;
 		$cmArgs->layout_srl = -1;
 		$cmArgs->mlayout_srl = -1;
+		$cmArgs->skin = '/USE_DEFAULT/';
+		$cmArgs->mskin = ModuleModel::getModuleDefaultSkin($cmArgs->module, 'M') ?: '/USE_DEFAULT/';
 		$cmArgs->is_skin_fix = 'N';
 		$cmArgs->is_mskin_fix = 'N';
 

@@ -986,9 +986,16 @@ class ModuleModel extends Module
 		if(array_key_exists($moduleName, $installedMenuTypes))
 		{
 			$defaultSkinName = self::getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
-			if(isset($defaultSkinName))
+			if ($defaultSkinName)
 			{
-				$defaultSkinInfo = self::loadSkinInfo($path, $defaultSkinName, $dir);
+				if ($defaultSkinName === '/USE_RESPONSIVE/')
+				{
+					$defaultSkinInfo = (object)array('title' => lang('use_responsive_pc_skin'));
+				}
+				else
+				{
+					$defaultSkinInfo = self::loadSkinInfo($path, $defaultSkinName, $dir);
+				}
 
 				$useDefault = new stdClass();
 				$useDefault->title = lang('use_site_default_skin') . ' (' . ($defaultSkinInfo->title ?? null) . ')';
