@@ -310,7 +310,8 @@
 .x input.x_full-width,
 .x textarea.x_full-width,
 .x .x_uneditable-input.x_full-width{width:calc(100% - 14px)}
-.x textarea{height:auto}
+.x textarea.x_full-width.lang_code{width:calc(100% - 42px)}
+.x textarea{height:auto;min-height:80px;resize:vertical}
 .x textarea,
 .x input[type="text"],
 .x input[type="password"],

@@ -103,29 +103,29 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="meta_keywords">{$lang->site_meta_keywords}</label>
 			<div class="x_controls">
-				<input type="text" name="meta_keywords" id="meta_keywords" value="{$domain_info ? $domain_info->settings->meta_keywords : ''}" class="lang_code" />
+				<input type="text" name="meta_keywords" id="meta_keywords" value="{$domain_info ? $domain_info->settings->meta_keywords : ''}" class="x_full-width lang_code" />
 			</div>
 		</div>
 
 		<div class="x_control-group">
 			<label class="x_control-label" for="meta_description">{$lang->site_meta_description}</label>
 			<div class="x_controls">
-				<input type="text" name="meta_description" id="meta_description" value="{$domain_info ? $domain_info->settings->meta_description : ''}" class="lang_code" />
+				<input type="text" name="meta_description" id="meta_description" value="{$domain_info ? $domain_info->settings->meta_description : ''}" class="x_full-width lang_code" />
 			</div>
 		</div>
 
 		<div class="x_control-group">
 			<label class="x_control-label" for="html_header">{$lang->input_header_script}</label>
-			<div class="x_controls" style="margin-right:14px">
-				<textarea name="html_header" id="html_header" rows="6" style="width:100%">{$domain_info ? $domain_info->settings->html_header : ''}</textarea>
+			<div class="x_controls">
+				<textarea name="html_header" id="html_header" rows="6" class="x_full-width">{$domain_info ? $domain_info->settings->html_header : ''}</textarea>
 				<div class="x_help-block">{$lang->detail_input_header_script}</div>
 			</div>
 		</div>
 
 		<div class="x_control-group">
 			<label class="x_control-label" for="html_footer">{$lang->input_footer_script}</label>
-			<div class="x_controls" style="margin-right:14px">
-				<textarea name="html_footer" id="html_footer" rows="6" style="width:100%">{$domain_info ? $domain_info->settings->html_footer : ''}</textarea>
+			<div class="x_controls">
+				<textarea name="html_footer" id="html_footer" rows="6" class="x_full-width">{$domain_info ? $domain_info->settings->html_footer : ''}</textarea>
 				<div class="x_help-block">{$lang->detail_input_footer_script}</div>
 			</div>
 		</div>
