@@ -181,6 +181,7 @@ class MemberView extends Member
 			$member_info->group_list[$key] = Context::replaceUserLang($val, true);
 		}
 
+		Context::addBrowserTitle(lang('cmd_view_member_info'));
 		Context::set('memberInfo', get_object_vars($member_info));
 
 		$extendForm = MemberModel::getCombineJoinForm($member_info);
@@ -375,6 +376,7 @@ class MemberView extends Member
 		$member_config->agreement = $member_config->agreements[1]->content ?? '';
 
 		// Set a template file
+		Context::addBrowserTitle(lang('cmd_signup'));
 		$this->setTemplateFile('signup_form');
 	}
 
@@ -411,6 +413,7 @@ class MemberView extends Member
 			Context::set('identifierValue', $logged_info->user_id);
 		}
 
+		Context::addBrowserTitle(lang('cmd_modify_member_info'));
 		$this->setTemplateFile('rechecked_password');
 	}
 
@@ -496,6 +499,7 @@ class MemberView extends Member
 		$this->addExtraFormValidatorMessage();
 
 		// Set a template file
+		Context::addBrowserTitle(lang('cmd_modify_member_info'));
 		$this->setTemplateFile('modify_info');
 	}
 
@@ -546,6 +550,7 @@ class MemberView extends Member
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('document_list...title', 'search_target', 'search_keyword');
 
+		Context::addBrowserTitle(lang('cmd_view_own_document'));
 		$this->setTemplateFile('document_list');
 	}
 
@@ -593,6 +598,7 @@ class MemberView extends Member
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('search_target', 'search_keyword');
 
+		Context::addBrowserTitle(lang('cmd_view_own_comment'));
 		$this->setTemplateFile('comment_list');
 	}
 
@@ -702,6 +708,7 @@ class MemberView extends Member
 		$security = new Security($output->data);
 		$security->encodeHTML('..nick_name');
 
+		Context::addBrowserTitle(lang('cmd_view_scrapped_document'));
 		$this->setTemplateFile('scrapped_list');
 	}
 
@@ -736,6 +743,7 @@ class MemberView extends Member
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
+		Context::addBrowserTitle(lang('cmd_view_saved_document'));
 		$this->setTemplateFile('saved_list');
 	}
 
@@ -775,6 +783,7 @@ class MemberView extends Member
 		$output = executeQueryArray('member.getMemberDevice', $args);
 		Context::set('registered_devices', $output->data);
 
+		Context::addBrowserTitle(lang('cmd_view_active_logins'));
 		$this->setTemplateFile('active_logins');
 	}
 
@@ -813,6 +822,7 @@ class MemberView extends Member
 		}
 
 		// Set a template file
+		Context::addBrowserTitle(lang('cmd_login'));
 		$this->setTemplateFile('login_form');
 	}
 
@@ -848,6 +858,7 @@ class MemberView extends Member
 			Context::set('formValue', $member_info->email_address);
 		}
 		// Set a template file
+		Context::addBrowserTitle(lang('cmd_modify_member_password'));
 		$this->setTemplateFile('modify_password');
 	}
 
@@ -882,6 +893,7 @@ class MemberView extends Member
 			Context::set('formValue', $member_info->email_address);
 		}
 		// Set a template file
+		Context::addBrowserTitle(lang('msg_leave_member'));
 		$this->setTemplateFile('leave_form');
 	}
 
@@ -936,6 +948,7 @@ class MemberView extends Member
 		Context::set('identifier', $this->member_config->identifier);
 		Context::set('enable_find_account_question', 'N');
 
+		Context::addBrowserTitle(lang('cmd_find_member_account'));
 		$this->setTemplateFile('find_member_account');
 	}
 
@@ -954,6 +967,7 @@ class MemberView extends Member
 			return;
 		}
 
+		Context::addBrowserTitle(lang('cmd_resend_auth_mail'));
 		$this->setTemplateFile('resend_auth_mail');
 	}
 
@@ -973,6 +987,7 @@ class MemberView extends Member
 
 		$_SESSION['rechecked_password_step'] = 'INPUT_DATA';
 
+		Context::addBrowserTitle(lang('cmd_modify_member_email_address'));
 		$this->setTemplateFile('modify_email_address');
 	}
 
@@ -1091,6 +1106,7 @@ class MemberView extends Member
 		Context::set('nickname_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
+		Context::addBrowserTitle(lang('cmd_modify_nickname_log'));
 		$this->setTemplateFile('member_nick');
 	}
 }

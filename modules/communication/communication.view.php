@@ -137,6 +137,15 @@ class CommunicationView extends communication
 		$oSecurity = new Security();
 		$oSecurity->encodeHTML('message_list..nick_name');
 
+		if ($message)
+		{
+			Context::addBrowserTitle($message->title);
+		}
+		else
+		{
+			Context::addBrowserTitle(lang('communication.message_box.' . $message_type));
+		}
+
 		$this->setTemplateFile($template_filename);
 	}
 
@@ -177,6 +186,7 @@ class CommunicationView extends communication
 			Context::set('message', $message);
 		}
 
+		Context::addBrowserTitle($message->title ?? lang('cmd_view_message_box'));
 		$this->setTemplateFile('new_message');
 	}
 
@@ -303,6 +313,7 @@ class CommunicationView extends communication
 		$editor = $oEditorModel->getEditor(getNextSequence(), $option);
 		$editor = $editor . "\n" . '<input type="hidden" name="temp_srl" value="" />' . "\n";
 		Context::set('editor', $editor);
+		Context::addBrowserTitle(lang('cmd_send_message'));
 		$this->setTemplateFile('send_message');
 
 		// Fix for skins that don't support window_type=self
@@ -376,6 +387,7 @@ class CommunicationView extends communication
 		Context::set('friend_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
+		Context::addBrowserTitle(lang('cmd_view_friend'));
 		$this->setTemplateFile('friends');
 	}
 
@@ -448,6 +460,7 @@ class CommunicationView extends communication
 		$friend_group_list = $oCommunicationModel->getFriendGroups();
 		Context::set('friend_group_list', $friend_group_list);
 
+		Context::addBrowserTitle(lang('cmd_add_friend'));
 		$this->setTemplateFile('add_friend');
 
 		// Fix for skins that don't support window_type=self
@@ -511,6 +524,7 @@ class CommunicationView extends communication
 			}
 		}
 
+		Context::addBrowserTitle(lang('cmd_add_friend_group'));
 		$this->setTemplateFile('add_friend_group');
 
 		// Fix for skins that don't support window_type=self
