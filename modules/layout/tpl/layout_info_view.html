@@ -45,7 +45,7 @@
 	<div class="x_control-group">
 		<label class="x_control-label" for="header_script">{$lang->header_script}</label>
 		<div class="x_controls">
-			<textarea name="header_script" id="header_script" rows="4" cols="42">{$selected_layout->header_script}</textarea>
+			<textarea name="header_script" id="header_script" rows="4" cols="42" class="x_full-width">{$selected_layout->header_script}</textarea>
 			<span class="x_help-block">{$lang->about_header_script}</span>
 		</div>
 	</div>
@@ -64,7 +64,7 @@
 
 		{@$group = ''}
 		{@$cnt = 1}
-		
+
 		<block loop="$selected_layout->extra_var => $name, $var">
 		<block cond="$cnt == 1 && $var->group"><div class="x_tab-content"></block>
 			<block cond="$group != $var->group">
