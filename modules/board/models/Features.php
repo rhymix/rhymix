@@ -61,8 +61,10 @@ class Features
 
 		// Document features
 		$features->document->vote_up = ($document_config->use_vote_up ?? 'Y') !== 'N';
+		$features->document->vote_up_log = ($document_config->use_vote_up ?? 'Y') === 'S';
 		$features->document->vote_down = ($document_config->use_vote_down ?? 'Y') !== 'N';
-		$features->document->vote_log = ($document_config->use_vote_up ?? 'Y') === 'S' || ($document_config->use_vote_down ?? 'Y') === 'S';
+		$features->document->vote_down_log = ($document_config->use_vote_down ?? 'Y') === 'S';
+		$features->document->vote_log = $features->document->vote_up_log || $features->document->vote_down_log;
 		if (isset($document_config->allow_vote_cancel))
 		{
 			$features->document->cancel_vote = $document_config->allow_vote_cancel === 'Y';
@@ -92,8 +94,10 @@ class Features
 
 		// Comment features
 		$features->comment->vote_up = ($comment_config->use_vote_up ?? 'Y') !== 'N';
+		$features->comment->vote_up_log = ($comment_config->use_vote_up ?? 'Y') === 'S';
 		$features->comment->vote_down = ($comment_config->use_vote_down ?? 'Y') !== 'N';
-		$features->comment->vote_log = ($comment_config->use_vote_up ?? 'Y') === 'S' || ($comment_config->use_vote_down ?? 'Y') === 'S';
+		$features->comment->vote_down_log = ($comment_config->use_vote_down ?? 'Y') === 'S';
+		$features->comment->vote_log = $features->comment->vote_up_log || $features->comment->vote_down_log;
 		if (isset($comment_config->allow_vote_cancel))
 		{
 			$features->comment->cancel_vote = $comment_config->allow_vote_cancel === 'Y';

@@ -1523,6 +1523,12 @@ class BoardView extends Board
 			throw new Rhymix\Framework\Exception('msg_not_target');
 		}
 
+		$features = Rhymix\Modules\Board\Models\Features::fromModuleInfo($this->module_info);
+		if (!$features->{$target}->vote_log)
+		{
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+
 		$output = executeQueryArray($queryId, $args);
 		if(!$output->toBool())
 		{
@@ -1537,7 +1543,11 @@ class BoardView extends Board
 			{
 				if($log->point > 0)
 				{
-					if($log->member_srl == $vote_member_infos[$log->member_srl]->member_srl)
+					if (isset($vote_member_infos[$log->member_srl]))
+					{
+						continue;
+					}
+					if (!$features->{$target}->vote_up_log)
 					{
 						continue;
 					}
@@ -1545,7 +1555,11 @@ class BoardView extends Board
 				}
 				else
 				{
-					if($log->member_srl == $blame_member_infos[$log->member_srl]->member_srl)
+					if (isset($blame_member_infos[$log->member_srl]))
+					{
+						continue;
+					}
+					if (!$features->{$target}->vote_down_log)
 					{
 						continue;
 					}
@@ -1553,6 +1567,8 @@ class BoardView extends Board
 				}
 			}
 		}
+
+		Context::set('board_features', $features);
 		Context::set('vote_member_info', $vote_member_infos);
 		Context::set('blame_member_info', $blame_member_infos);
 		$this->setTemplateFile('vote_log');
