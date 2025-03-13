@@ -28,7 +28,7 @@ class NcenterliteView extends Ncenterlite
 		Context::set('ncenterlite_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
-		Context::addBrowserTitle(lang('ncenterlite_my_list'));
+		MemberView::setMemberPageBrowserTitle(lang('ncenterlite_my_list'));
 		$this->setTemplateFileOrDefault('NotifyList');
 	}
 
@@ -86,7 +86,7 @@ class NcenterliteView extends Ncenterlite
 		Context::set('sms_available', Rhymix\Framework\SMS::getDefaultDriver()->getName() !== 'Dummy');
 		Context::set('push_available', count(Rhymix\Framework\Config::get('push.types') ?? []) > 0);
 
-		Context::addBrowserTitle(lang('ncenterlite_my_settings'));
+		MemberView::setMemberPageBrowserTitle(lang('ncenterlite_my_settings'));
 		$this->setTemplateFileOrDefault('userconfig');
 	}
 
@@ -140,7 +140,7 @@ class NcenterliteView extends Ncenterlite
 		Context::set('unsubscribe_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
-		Context::addBrowserTitle(lang('unsubscribe_list'));
+		MemberView::setMemberPageBrowserTitle(lang('unsubscribe_list'));
 		$this->setTemplateFileOrDefault('unsubscribeList');
 	}
 
@@ -230,7 +230,7 @@ class NcenterliteView extends Ncenterlite
 		Context::set('text', $text);
 		Context::set('type', $type);
 
-		Context::addBrowserTitle(lang('unsubscribe_list'));
+		MemberView::setMemberPageBrowserTitle(lang('unsubscribe_list'));
 		$this->setTemplateFileOrDefault('unsubscribe');
 	}
 

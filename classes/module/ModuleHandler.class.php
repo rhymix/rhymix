@@ -848,15 +848,10 @@ class ModuleHandler extends Handler
 			$seo_title = config('seo.subpage_title') ?: '$SITE_TITLE - $SUBPAGE_TITLE';
 		}
 		$seo_title = Context::replaceUserLang($seo_title);
-		$subpage_title = $module_info->browser_title;
-		if (in_array($module_info->module, ['member']))
-		{
-			$subpage_title = '';
-		}
 		Context::setBrowserTitle($seo_title, array(
 			'site_title' => Context::getSiteTitle(),
 			'site_subtitle' => Context::getSiteSubtitle(),
-			'subpage_title' => $subpage_title,
+			'subpage_title' => $module_info->browser_title,
 			'page' => Context::get('page') ?: 1,
 		));
 
