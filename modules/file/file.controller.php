@@ -1971,8 +1971,16 @@ class FileController extends File
 	function triggerMoveDocument($obj)
 	{
 		$obj->upload_target_srls = $obj->document_srls;
-		executeQuery('file.updateFileModule', $obj);
-		executeQuery('file.updateFileModuleComment', $obj);
+		$output = executeQuery('file.updateFileModule', $obj);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		$output = executeQuery('file.updateFileModuleComment', $obj);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	function triggerAddCopyDocument(&$obj)
