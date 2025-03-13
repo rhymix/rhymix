@@ -1723,14 +1723,18 @@ class FileController extends File
 		// Get a full list of attachments
 		$args = new stdClass;
 		$args->module_srl = $module_srl;
-		$output = executeQueryArray('file.getModuleFiles', $args);
-		if(!$output->toBool() || empty($file_list = $output->data))
+		$output = executeQueryArray('file.getModuleFilesProper', $args);
+		if (!$output->toBool())
 		{
 			return $output;
 		}
+		if (!$output->data)
+		{
+			return;
+		}
 
-		// Delete the file
-		return $this->deleteFile($file_list);
+		// Delete each file.
+		return $this->deleteFile($output->data);
 	}
 
 	/**
