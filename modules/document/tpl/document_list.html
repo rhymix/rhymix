@@ -72,16 +72,15 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			</tr>
 		</tbody>
 	</table>
-	<div class="x_clearfix">
-		<div class="x_btn-group x_pull-right">
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
-			<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
-		</div>
+	<div class="x_btn-group x_pull-right">
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="trash">{$lang->trash}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="delete">{$lang->delete}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="move">{$lang->move}</a>
+		<a href="#manageForm" class="x_btn modalAnchor" data-value="copy">{$lang->copy}</a>
 	</div>
 </form>
-<form action="./" class="x_pagination x_pull-left" style="margin:-36px 0 0 0">
+
+<form action="./" class="x_pagination">
 	<input type="hidden" name="error_return_url" value="" />
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />

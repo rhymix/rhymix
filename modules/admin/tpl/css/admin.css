@@ -185,6 +185,11 @@ body>.x,
 	height: 24px;
 	padding: 0 6px;
 }
+@media screen and (max-width: 800px) {
+	.x .x_pagination {
+		clear: both;
+	}
+}
 .x .btn {
 	color: #333;
 }
