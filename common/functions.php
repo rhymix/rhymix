@@ -680,7 +680,7 @@ function utf8_mbencode($str): string
  */
 function utf8_normalize_spaces($str, bool $multiline = false): string
 {
-	return $multiline ? preg_replace('/((?!\x0A)[\pZ\pC])+/u', ' ', (string)$str) : preg_replace('/[\pZ\pC]+/u', ' ', (string)$str);
+	return $multiline ? preg_replace('/((?!\x0D|\x0A)[\pZ\pC])+/u', ' ', (string)$str) : preg_replace('/[\pZ\pC]+/u', ' ', (string)$str);
 }
 
 /**
