@@ -782,7 +782,7 @@ class TemplateParser_v2
 						'json_encode(%s, self::$_json_options2) : ' .
 						'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 				case 'lang':
-					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js($this->_v2_lang(%s)) : $this->_v2_lang(%s); ?>', $args, $args);
+					return sprintf('<?php echo $this->config->context === \'HTML\' ? $this->_v2_lang(%s) : $this->_v2_escape($this->_v2_lang(%s)); ?>', $args, $args);
 				case 'dump':
 					return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
 				case 'dd':
@@ -790,7 +790,7 @@ class TemplateParser_v2
 				case 'stack':
 					return sprintf('<?php echo implode("\n", self::\$_stacks[%s] ?? []) . "\n"; ?>', $args);
 				case 'url':
-					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(getNotEncodedUrl(%s)) : getUrl(%s); ?>', $args, $args);
+					return sprintf('<?php echo $this->config->context === \'HTML\' ? getUrl(%s) : $this->_v2_escape(getNotEncodedUrl(%s)); ?>', $args, $args);
 				default:
 					return $match[0];
 			}
@@ -968,11 +968,11 @@ class TemplateParser_v2
 		switch($option)
 		{
 			case 'autocontext':
-				return "\$this->config->context === 'JS' ? escape_js({$str2}) : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
+				return "\$this->config->context === 'HTML' ? htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false) : \$this->_v2_escape({$str2})";
 			case 'autocontext_json':
 				return "\$this->config->context === 'JS' ? {$str2} : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
 			case 'autocontext_lang':
-				return "\$this->config->context === 'JS' ? escape_js({$str2}) : ({$str})";
+				return "\$this->config->context === 'HTML' ? ({$str}) : \$this->_v2_escape({$str2})";
 			case 'autoescape':
 				return "htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
 			case 'autolang':

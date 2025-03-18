@@ -956,6 +956,23 @@ class Template
 	}
 
 	/**
+	 * Contextual escape function for v2.
+	 *
+	 * @param string $str
+	 * @param string $type
+	 * @return string
+	 */
+	protected function _v2_escape(string $str, string $type = ''): string
+	{
+		switch ($this->config->context)
+		{
+			case 'CSS': return escape_css($str);
+			case 'JS': return escape_js($str);
+			default: return escape($str);
+		}
+	}
+
+	/**
 	 * Lang shortcut for v2.
 	 *
 	 * @param ...$args
