@@ -226,6 +226,8 @@ class FunctionsTest extends \Codeception\Test\Unit
 
 		$this->assertEquals("Weird spaces are in this string", utf8_normalize_spaces("Weird\x20spaces\xe2\x80\x80are\xe2\x80\x84in\xe2\x80\x86\xe2\x80\x8bthis\x0astring"));
 		$this->assertEquals("Weird spaces are in this\nstring", utf8_normalize_spaces("Weird\x20spaces\xe2\x80\x80are\xe2\x80\x84in\xe2\x80\x86\xe2\x80\x8bthis\x0astring", true));
+		$this->assertEquals("Stupid Windows\nLine Breaks", utf8_normalize_spaces("Stupid Windows \r\n Line Breaks", true));
+		$this->assertEquals("Multiple\nCRLF\n\nsequences", utf8_normalize_spaces("Multiple \r\nCRLF\r\n\t\r\n sequences", true));
 		$this->assertEquals("Trimmed", utf8_trim("\x20\xe2\x80\x80Trimmed\xe2\x80\x84\xe2\x80\x86\xe2\x80\x8b"));
 		$this->assertEquals("Trimmed", utf8_trim("\x20\xe2\x80\x80Trimmed\x0a\x0c\x07\x09"));
 	}
