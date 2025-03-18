@@ -822,6 +822,13 @@ class TemplateParser_v2
 			return $this->_arrangeOutputFilters($match);
 		}, $content);
 
+		// Exclude {single} curly braces in non-HTML contexts.
+		$content = preg_replace_callback('#(<\?php \$this->config->context = \'(?:CSS|JS)\'; \?>)(.*?)(<\?php \$this->config->context = \'HTML\'; \?>)#s', function($match) {
+			$warning = '<?php trigger_error("Template v1 syntax not allowed in CSS/JS context", \E_USER_WARNING); ?>';
+			$match[2] = preg_replace('#(?<!\{)\{(?!\s)([^{}]+?)\}#', '&#x1B;&#x7B;' . $warning . '$1&#x1B;&#x7D;', $match[2]);
+			return $match[1] . $match[2] . $match[3];
+		}, $content);
+
 		// Convert {single} curly braces.
 		$content = preg_replace_callback('#(?<!\{)\{(?!\s)([^{}]+?)\}#', [$this, '_arrangeOutputFilters'], $content);
 
