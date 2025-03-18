@@ -60,7 +60,7 @@
 	]); ?>></span>
 </div>
 
-<script type="text/javascript"<?php $this->config->context = "JS"; ?>>
+<script type="text/javascript"<?php $this->config->context = 'JS'; ?>>
 	const foo = '<?php echo $this->config->context === 'JS' ? escape_js($__Context->foo ?? '') : htmlspecialchars($__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false); ?>';
 	const bar = <?php echo $this->config->context === 'JS' ? json_encode($__Context->bar, self::$_json_options2) : htmlspecialchars(json_encode($__Context->bar, self::$_json_options), \ENT_QUOTES, 'UTF-8', false); ?>;
-<?php $this->config->context = "HTML"; ?></script>
+<?php $this->config->context = 'HTML'; ?></script>

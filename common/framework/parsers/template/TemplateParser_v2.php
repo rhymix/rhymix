@@ -179,20 +179,45 @@ class TemplateParser_v2
 	 */
 	protected function _addContextSwitches(string $content): string
 	{
-		return preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) {
+		// Inline styles.
+		$content = preg_replace_callback('#(?<=\s)(style=")([^"]*?)"#i', function($match) {
+			return $match[1] . '<?php $this->config->context = \'CSS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
+		}, $content);
+
+		// Inline scripts.
+		$content = preg_replace_callback('#(?<=\s)(href="javascript:|on[a-z]+=")([^"]*?)"#i', function($match) {
+			return $match[1] . '<?php $this->config->context = \'JS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
+		}, $content);
+
+		// <style> tags.
+		$content = preg_replace_callback('#(<style\b([^>]*)|</style)#i', function($match) {
 			if (substr($match[1], 1, 1) === '/')
 			{
-				return '<?php $this->config->context = "HTML"; ?>' . $match[1];
+				return '<?php $this->config->context = \'HTML\'; ?>' . $match[1];
+			}
+			else
+			{
+				return $match[1] . '<?php $this->config->context = \'CSS\'; ?>';
+			}
+		}, $content);
+
+		// <script> tags that aren't links.
+		$content = preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) {
+			if (substr($match[1], 1, 1) === '/')
+			{
+				return '<?php $this->config->context = \'HTML\'; ?>' . $match[1];
 			}
 			elseif (!str_contains($match[2] ?? '', 'src="'))
 			{
-				return $match[1] . '<?php $this->config->context = "JS"; ?>';
+				return $match[1] . '<?php $this->config->context = \'JS\'; ?>';
 			}
 			else
 			{
 				return $match[0];
 			}
 		}, $content);
+
+		return $content;
 	}
 
 	/**
@@ -203,7 +228,7 @@ class TemplateParser_v2
 	 */
 	protected static function _removeContextSwitches(string $content): string
 	{
-		return preg_replace('#<\?php \$this->config->context = "[A-Z]+"; \?>#', '', $content);
+		return preg_replace('#<\?php \$this->config->context = \'[A-Z]+\'; \?>#', '', $content);
 	}
 
 	/**

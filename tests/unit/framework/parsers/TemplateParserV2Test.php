@@ -248,6 +248,34 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertEquals($target, $this->_parse($source));
 	}
 
+	public function testContextSwitches()
+	{
+		// <script> tag
+		$source = '<script type="text/javascript"> foobar(); </script>';
+		$target = '<script type="text/javascript"<?php $this->config->context = \'JS\'; ?>> foobar(); <?php $this->config->context = \'HTML\'; ?></script>';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+
+		// Inline script in link href
+		$source = '<a href="javascript:void(0)">Hello</a>';
+		$target = '<a href="javascript:<?php $this->config->context = \'JS\'; ?>void(0)<?php $this->config->context = \'HTML\'; ?>">Hello</a>';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+
+		// Inline script in event handler
+		$source = '<div class="foo" onClick="bar.barr()">Hello</div>';
+		$target = '<div class="foo" onClick="<?php $this->config->context = \'JS\'; ?>bar.barr()<?php $this->config->context = \'HTML\'; ?>">Hello</div>';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+
+		// <style> tag
+		$source = '<style> body { font-size: 16px; } </style>';
+		$target = '<style<?php $this->config->context = \'CSS\'; ?>> body { font-size: 16px; } <?php $this->config->context = \'HTML\'; ?></style>';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+
+		// Inline style
+		$source = '<div style="background-color: #ffffff;" class="foobar"><span></span></div>';
+		$target = '<div style="<?php $this->config->context = \'CSS\'; ?>background-color: #ffffff;<?php $this->config->context = \'HTML\'; ?>" class="foobar"><span></span></div>';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+	}
+
 	public function testEchoStatements()
 	{
 		// Basic usage of XE-style single braces
@@ -364,11 +392,6 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		// Escape for Javascript (alternate name)
 		$source = '{{ $foo|escapejs }}';
 		$target = "<?php echo escape_js(\$__Context->foo ?? ''); ?>";
-		$this->assertEquals($target, $this->_parse($source));
-
-		// Context-aware escape
-		$source = '<script type="text/javascript"> foobar(); </script>';
-		$target = '<script type="text/javascript"<?php $this->config->context = "JS"; ?>> foobar(); <?php $this->config->context = "HTML"; ?></script>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// JSON using context-aware escape
@@ -573,7 +596,7 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 
 		// Script tag with external path
 		$source = '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>';
-		$target = '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"><?php $this->config->context = "HTML"; ?></script>';
+		$target = '<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.0/js/bootstrap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>';
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Absolute URL
@@ -1295,9 +1318,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 	 *
 	 * @param string $source
 	 * @param bool $force_v2 Disable version detection
+	 * @param bool $remove_context_switches Remove context switches that make code difficult to read
 	 * @return string
 	 */
-	protected function _parse(string $source, bool $force_v2 = true): string
+	protected function _parse(string $source, bool $force_v2 = true, bool $remove_context_switches = true): string
 	{
 		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'empty.html');
 		if ($force_v2)
@@ -1309,6 +1333,13 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		{
 			$result = substr($result, strlen($this->prefix));
 		}
+
+		// Remove context switches.
+		if ($remove_context_switches)
+		{
+			$result = preg_replace('#<\?php \$this->config->context = \'[A-Z]+\'; \?>#', '', $result);
+		}
+
 		return $result;
 	}
 
