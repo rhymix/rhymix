@@ -858,10 +858,10 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'@endmobile',
 		]);
 		$target = implode("\n", [
-			"<?php if (!\\Context::get('m')): ?>",
+			'<?php if (!$this->_v2_isMobile()): ?>',
 			'<p>4K or GTFO!</p>',
 			'<?php endif; ?>',
-			"<?php if (\\Context::get('m')): ?>",
+			'<?php if ($this->_v2_isMobile()): ?>',
 			'<p>USB C is the way to go~</p>',
 			'<?php endif; ?>',
 		]);

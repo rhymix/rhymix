@@ -946,6 +946,16 @@ class Template
 	}
 
 	/**
+	 * Check if the current visitor is using a mobile device for v2.
+	 *
+	 * @return bool
+	 */
+	protected function _v2_isMobile(): bool
+	{
+		return UA::isMobile() && (config('mobile.tablets') || !UA::isTablet());
+	}
+
+	/**
 	 * Lang shortcut for v2.
 	 *
 	 * @param ...$args
