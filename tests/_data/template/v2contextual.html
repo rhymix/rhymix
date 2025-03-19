@@ -11,17 +11,16 @@
 </p>
 
 <script type="text/javascript">
-	function() {
+	const str = @json($var);
+	const tpl = `template literal with ${var} inside`;
+	const fun = function() {
 		const foo = '{{ $var }}';
 		const bar = '{{ $var|noescape }}';
-		const json = @json($var);
 	}
 </script>
 
 <style>
-	body {
-		background-image: url('{{ $var }}');
-	}
+	body{background-image: url('{{ $var }}')}
 </style>
 
 <ul class="test">
