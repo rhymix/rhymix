@@ -1220,6 +1220,24 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$this->assertStringContainsString('/tests/_data/template/css/style.scss', array_first($list)['file']);
 	}
 
+	public function testCompileContextualEscape()
+	{
+		// Contextual escape
+		$tmpl = new \Rhymix\Framework\Template('./tests/_data/template', 'v2contextual.html');
+		$tmpl->disableCache();
+		$tmpl->setVars([
+			'var' => 'Hello <"world"> (\'string\') variable.jpg'
+		]);
+
+		$executed_output = $tmpl->compile();
+		//Rhymix\Framework\Storage::write(\RX_BASEDIR . 'tests/_data/template/v2contextual.executed.html', $executed_output);
+		$expected = file_get_contents(\RX_BASEDIR . 'tests/_data/template/v2contextual.executed.html');
+		$this->assertEquals(
+			$this->_normalizeWhitespace($expected),
+			$this->_normalizeWhitespace($executed_output)
+		);
+	}
+
 	public function testCompileLang()
 	{
 		// Lang
