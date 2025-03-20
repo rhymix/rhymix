@@ -450,14 +450,21 @@ class WidgetController extends Widget
 		// Save for debug run-time widget
 		$start = microtime(true);
 
-		// urldecode the value of args haejum
-		$object_vars = get_object_vars($args);
-		if(count($object_vars))
+		// Type juggling
+		if (is_array($args))
 		{
-			foreach($object_vars as $key => $val)
+			$args = (object)$args;
+		}
+
+		// Apply urldecode for backward compatibility
+		if ($escaped)
+		{
+			foreach (get_object_vars($args) ?: [] as $key => $val)
 			{
-				if(in_array($key, array('widgetbox_content','body','class','style','widget_sequence','widget','widget_padding_left','widget_padding_top','widget_padding_bottom','widget_padding_right','widgetstyle','document_srl'))) continue;
-				if($escaped) $args->{$key} = utf8RawUrlDecode($val);
+				if (!in_array($key, ['body', 'class', 'style', 'document_srl', 'widget', 'widget_sequence', 'widgetstyle', 'widgetbox_content', 'widget_padding_left', 'widget_padding_top', 'widget_padding_bottom', 'widget_padding_right']))
+				{
+					$args->{$key} = utf8RawUrlDecode($val);
+				}
 			}
 		}
 

@@ -205,7 +205,7 @@ function escape($str, bool $double_escape = true, bool $except_lang_code = false
  */
 function escape_css(string $str): string
 {
-	return preg_replace('/[^a-zA-Z0-9_.#\/-]/', '', (string)$str);
+	return preg_replace('/[^a-zA-Z0-9_.,#%\/\'()\x20-]/', '', (string)$str);
 }
 
 /**

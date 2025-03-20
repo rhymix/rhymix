@@ -1,0 +1,26 @@
+
+<a href="javascript:alert('Hello \u003C\u0022world\u0022\u003E (\u0027string\u0027) variable.jpg')">
+Hello &lt;&quot;world&quot;&gt; (&#039;string&#039;) variable.jpg</p>
+
+<p onclick="location.href = 'Hello \u003C\u0022world\u0022\u003E (\u0027string\u0027) variable.jpg';">
+	<span style="font: Hello &lt;&quot;world&quot;&gt; (&#039;string&#039;) variable.jpg">
+Hello &lt;&quot;world&quot;&gt; (&#039;string&#039;) variable.jpg	</span>
+</p>
+
+<script type="text/javascript">
+	const str = "Hello \u003C\u0022world\u0022\u003E ('string') variable.jpg";
+	const tpl = `template literal with ${var} inside`;
+	const fun = function() {
+		const foo = 'Hello \u003C\u0022world\u0022\u003E (\u0027string\u0027) variable.jpg';
+		const bar = 'Hello <"world"> ('string') variable.jpg';
+	}
+</script>
+
+<style>
+	body{background-image: url('Hello &lt;&quot;world&quot;&gt; (&#039;string&#039;) variable.jpg')}
+</style>
+
+<ul class="test">
+	<li>Hello &lt;&quot;world&quot;&gt; (&#039;string&#039;) variable.jpg</li>
+	<li>Hello <"world"> ('string') variable.jpg</li>
+</ul>

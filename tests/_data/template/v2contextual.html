@@ -1,0 +1,29 @@
+@version(2)
+
+<a href="javascript:alert('{{ $var }}')">
+	{{ $var }}
+</p>
+
+<p onclick="location.href = '{{ $var }}';">
+	<span style="font: {{ $var }}">
+		{{ $var }}
+	</span>
+</p>
+
+<script type="text/javascript">
+	const str = @json($var);
+	const tpl = `template literal with ${var} inside`;
+	const fun = function() {
+		const foo = '{{ $var }}';
+		const bar = '{{ $var|noescape }}';
+	}
+</script>
+
+<style>
+	body{background-image: url('{{ $var }}')}
+</style>
+
+<ul class="test">
+	<li>{{ $var }}</li>
+	<li>{{ $var|noescape }}</li>
+</ul>

@@ -946,6 +946,31 @@ class Template
 	}
 
 	/**
+	 * Check if the current visitor is using a mobile device for v2.
+	 *
+	 * @return bool
+	 */
+	protected function _v2_isMobile(): bool
+	{
+		return UA::isMobile() && (config('mobile.tablets') || !UA::isTablet());
+	}
+
+	/**
+	 * Contextual escape function for v2.
+	 *
+	 * @param string $str
+	 * @return string
+	 */
+	protected function _v2_escape(string $str): string
+	{
+		switch ($this->config->context)
+		{
+			case 'JS': return escape_js($str);
+			default: return escape($str);
+		}
+	}
+
+	/**
 	 * Lang shortcut for v2.
 	 *
 	 * @param ...$args

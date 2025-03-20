@@ -104,8 +104,8 @@ class TemplateParser_v2
 		'cannot' => ['if ($this->_v2_checkCapability(2, %s)):', 'endif;'],
 		'canany' => ['if ($this->_v2_checkCapability(3, %s)):', 'endif;'],
 		'guest' => ['if (!$this->user->isMember()):', 'endif;'],
-		'desktop' => ["if (!\\Context::get('m')):", 'endif;'],
-		'mobile' => ["if (\\Context::get('m')):", 'endif;'],
+		'desktop' => ['if (!$this->_v2_isMobile()):', 'endif;'],
+		'mobile' => ['if ($this->_v2_isMobile()):', 'endif;'],
 		'env' => ['if (!empty($_ENV[%s])):', 'endif;'],
 		'else' => ['else:'],
 		'elseif' => ['elseif (%s):'],
@@ -179,20 +179,45 @@ class TemplateParser_v2
 	 */
 	protected function _addContextSwitches(string $content): string
 	{
-		return preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) {
+		// Inline styles.
+		$content = preg_replace_callback('#(?<=\s)(style=")([^"]*?)"#i', function($match) {
+			return $match[1] . '<?php $this->config->context = \'CSS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
+		}, $content);
+
+		// Inline scripts.
+		$content = preg_replace_callback('#(?<=\s)(href="javascript:|on[a-z]+=")([^"]*?)"#i', function($match) {
+			return $match[1] . '<?php $this->config->context = \'JS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
+		}, $content);
+
+		// <style> tags.
+		$content = preg_replace_callback('#(<style\b([^>]*)|</style)#i', function($match) {
 			if (substr($match[1], 1, 1) === '/')
 			{
-				return '<?php $this->config->context = "HTML"; ?>' . $match[1];
+				return '<?php $this->config->context = \'HTML\'; ?>' . $match[1];
+			}
+			else
+			{
+				return $match[1] . '<?php $this->config->context = \'CSS\'; ?>';
+			}
+		}, $content);
+
+		// <script> tags that aren't links.
+		$content = preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) {
+			if (substr($match[1], 1, 1) === '/')
+			{
+				return '<?php $this->config->context = \'HTML\'; ?>' . $match[1];
 			}
 			elseif (!str_contains($match[2] ?? '', 'src="'))
 			{
-				return $match[1] . '<?php $this->config->context = "JS"; ?>';
+				return $match[1] . '<?php $this->config->context = \'JS\'; ?>';
 			}
 			else
 			{
 				return $match[0];
 			}
 		}, $content);
+
+		return $content;
 	}
 
 	/**
@@ -203,7 +228,7 @@ class TemplateParser_v2
 	 */
 	protected static function _removeContextSwitches(string $content): string
 	{
-		return preg_replace('#<\?php \$this->config->context = "[A-Z]+"; \?>#', '', $content);
+		return preg_replace('#<\?php \$this->config->context = \'[A-Z]+\'; \?>#', '', $content);
 	}
 
 	/**
@@ -735,6 +760,7 @@ class TemplateParser_v2
 	 * @dd($var, $var, ...)
 	 * @stack('name')
 	 * @url(['mid' => $mid, 'act' => $act])
+	 * @widget('name', $args)
 	 *
 	 * @param string $content
 	 * @return string
@@ -748,7 +774,7 @@ class TemplateParser_v2
 
 		// Insert JSON, lang codes, and dumps.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|stack|url)\x20?('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|dd|stack|url|widget)\x20?('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, -1));
 			switch ($match[1])
 			{
@@ -757,7 +783,7 @@ class TemplateParser_v2
 						'json_encode(%s, self::$_json_options2) : ' .
 						'htmlspecialchars(json_encode(%s, self::$_json_options), \ENT_QUOTES, \'UTF-8\', false); ?>', $args, $args);
 				case 'lang':
-					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js($this->_v2_lang(%s)) : $this->_v2_lang(%s); ?>', $args, $args);
+					return sprintf('<?php echo $this->config->context === \'HTML\' ? $this->_v2_lang(%s) : $this->_v2_escape($this->_v2_lang(%s)); ?>', $args, $args);
 				case 'dump':
 					return sprintf('<?php ob_start(); var_dump(%s); \$__dump = ob_get_clean(); echo rtrim(\$__dump); ?>', $args);
 				case 'dd':
@@ -765,7 +791,9 @@ class TemplateParser_v2
 				case 'stack':
 					return sprintf('<?php echo implode("\n", self::\$_stacks[%s] ?? []) . "\n"; ?>', $args);
 				case 'url':
-					return sprintf('<?php echo $this->config->context === \'JS\' ? escape_js(getNotEncodedUrl(%s)) : getUrl(%s); ?>', $args, $args);
+					return sprintf('<?php echo $this->config->context === \'HTML\' ? getUrl(%s) : $this->_v2_escape(getNotEncodedUrl(%s)); ?>', $args, $args);
+				case 'widget':
+					return sprintf('<?php echo \WidgetController::getInstance()->execute(%s); ?>', $args);
 				default:
 					return $match[0];
 			}
@@ -795,6 +823,15 @@ class TemplateParser_v2
 		$content = preg_replace_callback('#(?<!@)\{!!(.+?)!!\}#s', function($match) {
 			$match[1] .= '|noescape';
 			return $this->_arrangeOutputFilters($match);
+		}, $content);
+
+		// Exclude {single} curly braces in non-HTML contexts.
+		$content = preg_replace_callback('#(<\?php \$this->config->context = \'(?:CSS|JS)\'; \?>)(.*?)(<\?php \$this->config->context = \'HTML\'; \?>)#s', function($match) {
+			$match[2] = preg_replace_callback('#(?<!\{)\{(?!\s)([^{}]+?)\}#', function($m) {
+				$warning = preg_match('#^\$\w#', $m[1]) ? '<?php trigger_error("Template v1 syntax not allowed in CSS/JS context", \E_USER_WARNING); ?>' : '';
+				return '&#x1B;&#x7B;' . $warning . $m[1] . '&#x1B;&#x7D;';
+			}, $match[2]);
+			return $match[1] . $match[2] . $match[3];
 		}, $content);
 
 		// Convert {single} curly braces.
@@ -943,11 +980,11 @@ class TemplateParser_v2
 		switch($option)
 		{
 			case 'autocontext':
-				return "\$this->config->context === 'JS' ? escape_js({$str2}) : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
+				return "\$this->config->context === 'HTML' ? htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false) : \$this->_v2_escape({$str2})";
 			case 'autocontext_json':
 				return "\$this->config->context === 'JS' ? {$str2} : htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
 			case 'autocontext_lang':
-				return "\$this->config->context === 'JS' ? escape_js({$str2}) : ({$str})";
+				return "\$this->config->context === 'HTML' ? ({$str}) : \$this->_v2_escape({$str2})";
 			case 'autoescape':
 				return "htmlspecialchars({$str}, \ENT_QUOTES, 'UTF-8', false)";
 			case 'autolang':
