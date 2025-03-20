@@ -1031,6 +1031,11 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = "@url('', 'mid', \$mid, 'act', \$act])";
 		$target = "<?php echo \$this->config->context === 'HTML' ? getUrl('', 'mid', \$__Context->mid, 'act', \$__Context->act]) : \$this->_v2_escape(getNotEncodedUrl('', 'mid', \$__Context->mid, 'act', \$__Context->act])); ?>";
 		$this->assertEquals($target, $this->_parse($source));
+
+		// Widget
+		$source = "@widget('login_info', ['skin' => 'default'])";
+		$target = "<?php echo \WidgetController::getInstance()->execute('login_info', ['skin' => 'default']); ?>";
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testComments()

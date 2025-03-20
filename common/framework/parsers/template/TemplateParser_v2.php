@@ -760,6 +760,7 @@ class TemplateParser_v2
 	 * @dd($var, $var, ...)
 	 * @stack('name')
 	 * @url(['mid' => $mid, 'act' => $act])
+	 * @widget('name', $args)
 	 *
 	 * @param string $content
 	 * @return string
@@ -773,7 +774,7 @@ class TemplateParser_v2
 
 		// Insert JSON, lang codes, and dumps.
 		$parentheses = self::_getRegexpForParentheses(2);
-		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|stack|url)\x20?('. $parentheses . ')#', function($match) {
+		$content = preg_replace_callback('#(?<!@)@(json|lang|dump|dd|stack|url|widget)\x20?('. $parentheses . ')#', function($match) {
 			$args = self::_convertVariableScope(substr($match[2], 1, -1));
 			switch ($match[1])
 			{
@@ -791,6 +792,8 @@ class TemplateParser_v2
 					return sprintf('<?php echo implode("\n", self::\$_stacks[%s] ?? []) . "\n"; ?>', $args);
 				case 'url':
 					return sprintf('<?php echo $this->config->context === \'HTML\' ? getUrl(%s) : $this->_v2_escape(getNotEncodedUrl(%s)); ?>', $args, $args);
+				case 'widget':
+					return sprintf('<?php echo \WidgetController::getInstance()->execute(%s); ?>', $args);
 				default:
 					return $match[0];
 			}
