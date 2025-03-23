@@ -5,7 +5,7 @@
   "license": "GPL-2.0-or-later",
   "type": "project",
   "authors": [
-    { "name": "Rhymix Developers and Contributors", "email": "devops@rhymix.org" },
+    { "name": "Poesis Inc. and Contributors", "email": "devops@rhymix.org" },
     { "name": "NAVER", "email": "developers@xpressengine.com" }
   ],
   "config": {

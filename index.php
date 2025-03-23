@@ -8,7 +8,7 @@
  *
  * -----------------------------------------------------------------------------
  *
- *  Copyright (c) Rhymix Developers and Contributors <devops@rhymix.org>
+ *  Copyright (c) Poesis Inc. and Contributors <devops@rhymix.org>
  *  Copyright (c) NAVER <http://www.navercorp.com>
  *
  *  This program is free software: you can redistribute it and/or modify it

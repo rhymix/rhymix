@@ -3,7 +3,7 @@
 /**
  * Function library for Rhymix
  *
- * Copyright (c) Rhymix Developers and Contributors
+ * Copyright (c) Poesis Inc. and Contributors
  */
 
 /**
