@@ -290,30 +290,30 @@ class BoardController extends Board
 	public function procBoardRevertDocument()
 	{
 		$update_id = Context::get('update_id');
-		$logged_info = Context::get('logged_info');
-		if(!$update_id)
+		if (!$update_id)
 		{
 			throw new Rhymix\Framework\Exception('msg_no_update_id');
 		}
 
-		$oDocumentController = DocumentController::getInstance();
 		$update_log = DocumentModel::getUpdateLog($update_id);
-
-		if($logged_info->is_admin != 'Y')
-		{
-			$Exists_log = DocumentModel::getUpdateLogAdminisExists($update_log->document_srl);
-			if($Exists_log === true)
-			{
-				throw new Rhymix\Framework\Exception('msg_admin_update_log');
-			}
-		}
-
-		if(!$update_log)
+		if (!$update_log)
 		{
 			throw new Rhymix\Framework\Exception('msg_no_update_log');
 		}
 
 		$oDocument = DocumentModel::getDocument($update_log->document_srl);
+		if (!$oDocument->isGranted())
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted();
+		}
+		if (!$this->user->isAdmin())
+		{
+			if (DocumentModel::getUpdateLogAdminisExists($update_log->document_srl))
+			{
+				throw new Rhymix\Framework\Exception('msg_admin_update_log');
+			}
+		}
+
 		$obj = new stdClass();
 		$obj->title = $update_log->title;
 		$obj->document_srl = $update_log->document_srl;
@@ -322,10 +322,19 @@ class BoardController extends Board
 		$obj->content = $update_log->content;
 		$obj->update_log_setting = 'Y';
 		$obj->reason_update = lang('board.revert_reason_update');
+		$oDocumentController = DocumentController::getInstance();
 		$output = $oDocumentController->updateDocument($oDocument, $obj);
-		$this->setRedirectUrl(getNotEncodedUrl('', 'mid', Context::get('mid'),'act', '', 'document_srl', $update_log->document_srl));
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
 		$this->add('mid', Context::get('mid'));
 		$this->add('document_srl', $update_log->document_srl);
+		$this->setRedirectUrl(getNotEncodedUrl([
+			'mid' => Context::get('mid'),
+			'document_srl' => $update_log->document_srl,
+		]));
 	}
 
 	/**
