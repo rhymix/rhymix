@@ -117,7 +117,7 @@
 			<!--@if($board_features->document->vote_log)-->
 			<a class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardVoteLog', 'target_srl', $oDocument->document_srl, 'target', 'document')}"><i class="xi-list-ul"></i>{$lang->cmd_document_vote_user}</a>
 			<!--@endif-->
-			<!--@if($board_features->document->history)-->
+			<!--@if($module_info->update_log == 'Y' && $grant->can('update_view'))-->
 			<a cond="$update_view" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardUpdateLog', 'document_srl', $oDocument->document_srl)}"><i class="xi-list-ul"></i>{$lang->update_log}</a>
 			<!--@endif-->
 			<a cond="$oDocument->isEditable()" class="btn" href="{getUrl('', 'mid', $mid, 'act', 'dispBoardWrite', 'document_srl', $oDocument->document_srl)}"><i class="xi-eraser"></i>{$lang->cmd_modify}</a>
