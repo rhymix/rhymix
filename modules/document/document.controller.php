@@ -1153,26 +1153,14 @@ class DocumentController extends Document
 		}
 
 		// Set lang_code if the original document doesn't have it.
-		if (!$source_obj->get('lang_code'))
+		$source_lang_code = $source_obj->get('lang_code');
+		if (!$source_lang_code)
 		{
+			$source_lang_code = Context::getLangType();
 			$output = executeQuery('document.updateDocumentsLangCode', [
 				'document_srl' => $source_obj->get('document_srl'),
-				'lang_code' => Context::getLangType(),
+				'lang_code' => $source_lang_code,
 			]);
-		}
-		// Move content to extra vars if the current language is different from the original document's lang_code.
-		elseif ($source_obj->get('lang_code') !== Context::getLangType())
-		{
-			$extra_content = new stdClass;
-			$extra_content->title = $obj->title;
-			$extra_content->content = $obj->content;
-
-			$document_output = executeQuery('document.getDocument', ['document_srl' => $source_obj->get('document_srl')], ['title', 'content']);
-			if (isset($document_output->data->title))
-			{
-				$obj->title = $document_output->data->title;
-				$obj->content = $document_output->data->content;
-			}
 		}
 
 		// Insert data into the DB
@@ -1189,7 +1177,11 @@ class DocumentController extends Document
 		{
 			// Get a copy of current extra vars before deleting all existing data.
 			$old_extra_vars = DocumentModel::getExtraVars($obj->module_srl, $obj->document_srl);
-			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
+			$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, $source_lang_code);
+			if ($source_lang_code !== Context::getLangType())
+			{
+				$this->deleteDocumentExtraVars($source_obj->get('module_srl'), $obj->document_srl, null, Context::getLangType());
+			}
 
 			// Insert extra variables if the document successfully inserted.
 			$extra_keys = DocumentModel::getExtraKeys($obj->module_srl);
@@ -1294,15 +1286,8 @@ class DocumentController extends Document
 						}
 					}
 					$extra_vars[$extra_item->name] = $value;
-					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
+					$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid, $source_lang_code);
 				}
-			}
-
-			// Inert extra vars for multi-language support of title and contents.
-			if (isset($extra_content))
-			{
-				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -1, $extra_content->title, 'title_'.Context::getLangType());
-				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, -2, $extra_content->content, 'content_'.Context::getLangType());
 			}
 		}
 
