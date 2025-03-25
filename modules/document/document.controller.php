@@ -867,7 +867,7 @@ class DocumentController extends Document
 				}
 
 				$extra_vars[$extra_item->name] = $value;
-				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid);
+				$this->insertDocumentExtraVar($obj->module_srl, $obj->document_srl, $idx, $value, $extra_item->eid, $obj->lang_code);
 			}
 		}
 
@@ -1858,12 +1858,18 @@ class DocumentController extends Document
 			}
 		}
 
+		if (!$lang_code)
+		{
+			$oDocument = DocumentModel::getDocument($document_srl);
+			$lang_code = $oDocument->get('lang_code') ?: Context::getLangType();
+		}
+
 		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
 		$obj->var_idx = $idx_or_eid;
 		$obj->value = $value;
-		$obj->lang_code = $lang_code ?: Context::getLangType();
+		$obj->lang_code = $lang_code;
 		$obj->eid = $eid;
 
 		return executeQuery('document.insertDocumentExtraVar', $obj);
@@ -1907,12 +1913,18 @@ class DocumentController extends Document
 			}
 		}
 
+		if (!$lang_code)
+		{
+			$oDocument = DocumentModel::getDocument($document_srl);
+			$lang_code = $oDocument->get('lang_code') ?: Context::getLangType();
+		}
+
 		$obj = new stdClass;
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
 		$obj->var_idx = $idx_or_eid;
 		$obj->value = $value;
-		$obj->lang_code = $lang_code ?: Context::getLangType();
+		$obj->lang_code = $lang_code;
 		$obj->eid = $eid;
 
 		$oDB = DB::getInstance();
