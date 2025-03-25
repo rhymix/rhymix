@@ -57,10 +57,10 @@ class PointModel extends Point
 		}
 
 		// Get from file cache
+		$cache_path = sprintf(RX_BASEDIR . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
+		$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
 		if (!$from_db && !$use_cache)
 		{
-			$cache_path = sprintf(RX_BASEDIR . 'files/member_extra_info/point/%s', getNumberingPath($member_srl));
-			$cache_filename = sprintf('%s/%d.cache.txt', $cache_path, $member_srl);
 			if (file_exists($cache_filename))
 			{
 				$point = trim(Rhymix\Framework\Storage::read($cache_filename));
