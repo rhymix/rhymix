@@ -163,7 +163,7 @@ class Context
 		{
 			// Create a singleton instance and initialize static properties.
 			self::$_instance = new Context();
-			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = new FrontEndFileHandler();
+			self::$_oFrontEndFileHandler = self::$_instance->oFrontEndFileHandler = FrontEndFileHandler::getInstance();
 			self::$_user_vars = self::$_user_vars ?: new stdClass;
 		}
 		return self::$_instance;

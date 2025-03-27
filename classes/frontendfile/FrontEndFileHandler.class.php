@@ -60,12 +60,31 @@ class FrontEndFileHandler extends Handler
 	protected $_log_entries = [];
 
 	/**
+	 * Singleton
+	 */
+	protected static $_instance = null;
+
+	/**
+	 * Get singleton instance
+	 *
+	 * @return self
+	 */
+	public static function getInstance(): self
+	{
+		if (self::$_instance === null)
+		{
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	/**
 	 * Check SSL
 	 *
 	 * @return bool If using ssl returns true, otherwise returns false.
      * @deprecated
 	 */
-	public function isSsl()
+	public static function isSsl()
 	{
 		return \RX_SSL;
 	}
