@@ -397,7 +397,8 @@ class WidgetController extends Widget
 		}
 
 		// If cached data exists, return it.
-		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
+		$cache_key = 'widget_cache:' . $widget_sequence . ':' . $lang_type;
+		$cache_data = Rhymix\Framework\Cache::get($cache_key);
 		if (is_object($cache_data) && isset($cache_data->assets))
 		{
 			foreach ($cache_data->assets as $asset)
@@ -422,7 +423,7 @@ class WidgetController extends Widget
 		$cache_data = new stdClass;
 		$cache_data->assets = $oFrontEndFileHandler->endLog();
 		$cache_data->content = $widget_content;
-		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_data, $widget_cache, true);
+		Rhymix\Framework\Cache::set($cache_key, $cache_data, $widget_cache, true);
 
 		return Context::replaceUserLang($widget_content);
 	}
@@ -805,10 +806,14 @@ class WidgetController extends Widget
 
 		if($vars->widget_sequence)
 		{
-			Rhymix\Framework\Cache::delete('widget_cache:' . $vars->widget_sequence);
+			$lang_type = Context::getLangType();
+			Rhymix\Framework\Cache::delete('widget_cache:' . $vars->widget_sequence . ':' . $lang_type);
 		}
 
-		if($vars->widget_cache>0) $vars->widget_sequence = getNextSequence();
+		if($vars->widget_cache > 0)
+		{
+			$vars->widget_sequence = getNextSequence();
+		}
 
 		$attribute = array();
 		foreach($vars as $key => $val)
