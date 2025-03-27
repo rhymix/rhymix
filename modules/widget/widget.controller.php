@@ -383,60 +383,48 @@ class WidgetController extends Widget
 			$widget_cache = intval(floatval($widget_cache) * 60);
 		}
 
-		/**
-		 * Even if the cache number and value of the cache and return it to extract data
-		 */
+		// If widget cache is disabled, just execute the widget and return the result.
 		if(!$ignore_cache && !$widget_cache)
 		{
 			$oWidget = $this->getWidgetObject($widget);
-			if(!$oWidget || !method_exists($oWidget, 'proc')) return;
+			if (!$oWidget || !method_exists($oWidget, 'proc'))
+			{
+				return;
+			}
 
 			$widget_content = $oWidget->proc($args);
-			$widget_content = Context::replaceUserLang($widget_content);
-			return $widget_content;
+			return Context::replaceUserLang($widget_content);
 		}
 
+		// If cached data exists, return it.
 		$cache_data = Rhymix\Framework\Cache::get('widget_cache:' . $widget_sequence);
-		if ($cache_data)
+		if (is_object($cache_data) && isset($cache_data->assets))
 		{
-			// Load the variables, need to load the LESS or SCSS files.
-			if(is_object($cache_data))
+			foreach ($cache_data->assets as $asset)
 			{
-				foreach ($cache_data->variables as $key => $value)
-				{
-					Context::set($key, $value);
-				}
-				$cache_data = $cache_data->content;
+				Context::loadFile($asset);
 			}
-			return str_replace('<!--#Meta:', '<!--Meta:', $cache_data);
+			return Context::replaceUserLang($cache_data->content);
 		}
 
+		// Otherwise, execute the widget, cache the result, and return it.
 		$oWidget = $this->getWidgetObject($widget);
-		if(!$oWidget || !method_exists($oWidget,'proc')) return;
+		if (!$oWidget || !method_exists($oWidget, 'proc'))
+		{
+			return;
+		}
+
+		$oFrontEndFileHandler = FrontEndFileHandler::getInstance();
+		$oFrontEndFileHandler->startLog();
 
 		$widget_content = $oWidget->proc($args);
-		$widget_content = Context::replaceUserLang($widget_content);
 
-		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $widget_content, $widget_cache, true);
+		$cache_data = new stdClass;
+		$cache_data->assets = $oFrontEndFileHandler->endLog();
+		$cache_data->content = $widget_content;
+		Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_data, $widget_cache, true);
 
-		// Keep the variables, need to load the LESS or SCSS files.
-		if(preg_match_all('/<!--#Meta:([a-z0-9\_\-\/\.\@\:]+)(\?\$\_\_Context\-\>[a-z0-9\_\-\/\.\@\:]+)?-->/is', $widget_content, $widget_var_matches, PREG_SET_ORDER))
-		{
-			$cache_content = new stdClass();
-			$cache_content->content = $widget_content;
-			$cache_content->variables = new stdClass();
-			foreach($widget_var_matches as $matches)
-			{
-				if(isset($matches[2]) && $matches[2])
-				{
-					$key = str_replace('?$__Context->', '', $matches[2]);
-					$cache_content->variables->{$key} = Context::get($key);
-				}
-			}
-			Rhymix\Framework\Cache::set('widget_cache:' . $widget_sequence, $cache_content, $widget_cache, true);
-		}
-
-		return $widget_content;
+		return Context::replaceUserLang($widget_content);
 	}
 
 	/**
