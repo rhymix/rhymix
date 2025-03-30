@@ -260,7 +260,7 @@ class TemplateParser_v2
 		$basepath = \RX_BASEURL . $this->template->relative_dirname;
 
 		// Convert all src and srcset attributes.
-		$regexp = '#(<(?:img|audio|video|script|input|source|link)\s[^>]*)(src|srcset|poster)="([^"]+)"#';
+		$regexp = '#(<(?:img|audio|video|script|input|source|link)\s[^>]*)(?<=\s)(src|srcset|poster)="([^"]+)"#';
 		$content = preg_replace_callback($regexp, function($match) use ($basepath) {
 			if ($match[2] !== 'srcset')
 			{
