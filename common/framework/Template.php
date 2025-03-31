@@ -961,12 +961,12 @@ class Template
 	 * @param string $str
 	 * @return string
 	 */
-	protected function _v2_escape(string $str): string
+	protected function _v2_escape($str): string
 	{
 		switch ($this->config->context)
 		{
-			case 'JS': return escape_js($str);
-			default: return escape($str);
+			case 'JS': return escape_js(strval($str));
+			default: return escape(strval($str));
 		}
 	}
 
