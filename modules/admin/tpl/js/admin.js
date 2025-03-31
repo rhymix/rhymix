@@ -1299,7 +1299,7 @@ jQuery(function($){
 				position = {x:event.pageX, y:event.pageY};
 				offset   = getOffset($tr.get(0), ofspar);
 
-				$clone = $tr.attr('target', true).clone(true).appendTo($table);
+				$clone = $tr.attr('target', true).clone(true).find('input').removeAttr('id name').end().appendTo($table);
 
 				// get colspan
 				cols = ($th=$table.find('thead th')).length;
