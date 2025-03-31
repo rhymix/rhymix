@@ -1792,7 +1792,10 @@ class MemberController extends Member
 			$chk_args = new stdClass;
 			$chk_args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.chkAuthMail', $chk_args);
-			if($output->toBool() && $output->data->count != '0') throw new Rhymix\Framework\Exception('msg_user_not_confirmed');
+			if ($output->toBool() && $output->data->count > 0)
+			{
+				throw new Rhymix\Framework\Exception(sprintf('msg_user_not_confirmed', $member_info->email_address));
+			}
 		}
 
 		// Get password reset method
