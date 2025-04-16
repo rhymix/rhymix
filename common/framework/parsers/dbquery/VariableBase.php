@@ -450,14 +450,28 @@ class VariableBase
 		}
 
 		// Check minimum and maximum lengths.
-		$length = is_scalar($value) ? iconv_strlen($value, 'UTF-8') : (is_countable($value) ? count($value) : 1);
-		if (isset($this->minlength) && $this->minlength > 0 && $length < $this->minlength)
+		$length = null;
+		if (isset($this->minlength) && $this->minlength > 0)
 		{
-			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no less than ' . $this->minlength . ' characters');
+			if ($length === null)
+			{
+				$length = is_scalar($value) ? mb_strlen($value, 'UTF-8') : (is_countable($value) ? count($value) : 1);
+			}
+			if ($length < $this->minlength)
+			{
+				throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no less than ' . $this->minlength . ' characters');
+			}
 		}
-		if (isset($this->maxlength) && $this->maxlength > 0 && $length > $this->maxlength)
+		if (isset($this->maxlength) && $this->maxlength > 0)
 		{
-			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->maxlength . ' characters');
+			if ($length === null)
+			{
+				$length = is_scalar($value) ? mb_strlen($value, 'UTF-8') : (is_countable($value) ? count($value) : 1);
+			}
+			if ($length > $this->maxlength)
+			{
+				throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' must contain no more than ' . $this->maxlength . ' characters');
+			}
 		}
 	}
 
