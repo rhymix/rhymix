@@ -9,7 +9,6 @@ class DisplayHandler extends Handler
 {
 	public static $response_size = 0;
 	public static $debug_printed = 0;
-	public $content_size = 0;
 	public $handler = NULL;
 
 	/**
@@ -140,12 +139,15 @@ class DisplayHandler extends Handler
 		$buff = ltrim($buff, "\n\r\t\v\x00\x20\u{FEFF}");
 
 		// call a trigger after display
-		self::$response_size = $this->content_size = strlen($output);
 		ModuleHandler::triggerCall('display', 'after', $output);
+
+		// Measure the response size.
+		self::$response_size = strlen((string)$output);
 
 		// Output buffered content only if the current page is HTML.
 		if ($handler instanceof HTMLDisplayHandler)
 		{
+			self::$response_size += strlen($buff);
 			echo $buff;
 		}
 
