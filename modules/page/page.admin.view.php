@@ -305,8 +305,17 @@ class PageAdminView extends Page
 		Context::set('oDocument', $oDocument);
 		Context::set('mid', $this->module_info->mid);
 
-		$this->setLayoutFile('');
-		$this->setTemplateFile('article_content_modify');
+		$this->setLayoutAndTemplatePaths($isMobile ? 'M' : 'P', $this->module_info);
+		$skin_path = rtrim($this->getTemplatePath(), '/') . '/';
+		if (file_exists($skin_path . 'content_modify.blade.php') || file_exists($skin_path . 'content_modify.html'))
+		{
+			$this->setTemplateFile('content_modify');
+		}
+		else
+		{
+			$this->setTemplatePath($this->module_path . 'tpl');
+			$this->setTemplateFile('article_content_modify');
+		}
 	}
 
 	/**
