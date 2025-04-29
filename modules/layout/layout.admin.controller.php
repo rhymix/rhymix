@@ -390,6 +390,7 @@ class LayoutAdminController extends Layout
 		if(!is_dir($path)) FileHandler::makeDir($path);
 
 		$filename = strtolower($source['name']);
+		$filename = Rhymix\Framework\Filters\FilenameFilter::clean($filename);
 		if($filename != urlencode($filename))
 		{
 			$ext = substr(strrchr($filename,'.'),1);
@@ -407,9 +408,19 @@ class LayoutAdminController extends Layout
 	 */
 	function procLayoutAdminUserImageDelete()
 	{
-		$filename = Context::get('filename');
 		$layout_srl = Context::get('layout_srl');
-		$this->removeUserLayoutImage($layout_srl,$filename);
+		if (!$layout_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+
+		$filename = Context::get('filename');
+		if (preg_match('!(\.\.|[/\\\\])!', $filename))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest();
+		}
+
+		$this->removeUserLayoutImage($layout_srl, $filename);
 		$this->setMessage('success_deleted');
 		$this->setRedirectUrl(Context::get('error_return_url'));
 	}
@@ -418,13 +429,19 @@ class LayoutAdminController extends Layout
 	 * delete image into user layout
 	 * @param int $layout_srl
 	 * @param string $filename
-	 * @return void
+	 * @return bool
 	 */
 	function removeUserLayoutImage($layout_srl,$filename)
 	{
 		$oLayoutModel = getModel('layout');
 		$path = $oLayoutModel->getUserLayoutImagePath($layout_srl);
-		@unlink($path . $filename);
+		$path = FileHandler::getRealPath($path . Rhymix\Framework\Filters\FilenameFilter::clean($filename));
+		if (!Rhymix\Framework\Storage::exists($path))
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound();
+		}
+
+		return Rhymix\Framework\Storage::delete($path);
 	}
 
 	// deprecated
