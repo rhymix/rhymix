@@ -190,9 +190,14 @@ class Value
 		{
 			return $this->default;
 		}
-		elseif (is_array($this->options))
+
+		if (is_array($this->options))
 		{
 			return $this->default;
+		}
+		elseif ($this->default)
+		{
+			return array_first($this->getOptions());
 		}
 		else
 		{
