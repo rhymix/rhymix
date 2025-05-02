@@ -1194,7 +1194,7 @@ class FileController extends File
 		{
 			$adjusted['type'] = 'mp4';
 		}
-		elseif (!empty($config->image_autoconv[$image_info['type']]))
+		elseif (!empty($config->image_autoconv[$image_info['type']]) && tobool($config->image_autoconv[$image_info['type']]))
 		{
 			$adjusted['type'] = $config->image_autoconv[$image_info['type']];
 		}
