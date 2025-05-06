@@ -913,6 +913,7 @@ class BoardView extends Board
 		$oDocument->setDocument($document_srl);
 
 		$savedDoc = ($oDocument->get('module_srl') == $oDocument->get('member_srl'));
+		$oDocument->add('origin_module_srl', $oDocument->get('module_srl'));
 		$oDocument->add('module_srl', $this->module_srl);
 
 		if($oDocument->isExists())
