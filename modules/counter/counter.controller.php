@@ -70,11 +70,11 @@ class counterController extends counter
 	{
 		$oDB = DB::getInstance();
 		$oDB->begin();
-		
+
 		$args = new stdClass();
 		$args->regdate = [0, $date = date('Ymd')];
 		executeQuery('counter.updateCounterUnique', $args);
-		
+
 		$affected_rows = $oDB->getAffectedRows();
 		if ($affected_rows == 1)
 		{
@@ -88,9 +88,9 @@ class counterController extends counter
 			$args->regdate = 0;
 			executeQuery('counter.insertTodayStatus', $args);
 		}
-		
+
 		$this->insertLog();
-		
+
 		$oDB->commit();
 	}
 
@@ -119,15 +119,15 @@ class counterController extends counter
 	 */
 	public function insertTotalStatus()
 	{
-		
+
 	}
-	
+
 	/**
 	 * @deprecated
 	 */
 	public function deleteSiteCounterLogs()
 	{
-		
+
 	}
 }
 /* End of file counter.controller.php */

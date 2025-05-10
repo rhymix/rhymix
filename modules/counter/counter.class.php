@@ -15,7 +15,7 @@ class counter extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		
+
 	}
 
 	/**
@@ -30,7 +30,7 @@ class counter extends ModuleObject
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -55,7 +55,7 @@ class counter extends ModuleObject
 	 */
 	function recompileCache()
 	{
-		
+
 	}
 
 }

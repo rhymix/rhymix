@@ -29,7 +29,7 @@ class counterModel extends counter
 		{
 			return true;
 		}
-		
+
 		$args = new stdClass();
 		$args->regdate = $date;
 		$args->ipaddress = \RX_CLIENT_IP;
@@ -39,24 +39,24 @@ class counterModel extends counter
 		{
 			$_SESSION['counter_logged'][$date] = true;
 		}
-		
+
 		return $iplogged;
 	}
 
 	/**
-	 * Check if a row of today's counter status exists 
+	 * Check if a row of today's counter status exists
 	 *
 	 * @deprecated
 	 */
 	public static function isInsertedTodayStatus()
 	{
-		
+
 	}
 
 	/**
 	 * Get access statistics for a given date
 	 *
-	 * @param mixed $selected_date Date(YYYYMMDD) list 
+	 * @param mixed $selected_date Date(YYYYMMDD) list
 	 * @return Object
 	 */
 	public static function getStatus($selected_date)
@@ -212,7 +212,7 @@ class counterModel extends counter
 
 		$status->max = $max;
 		$status->sum = $sum;
-		
+
 		return $status;
 	}
 

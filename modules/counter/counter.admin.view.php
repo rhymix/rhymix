@@ -21,7 +21,7 @@ class counterAdminView extends counter
 	}
 
 	/**
-	 * Admin page 
+	 * Admin page
 	 *
 	 * @return Object
 	 */
