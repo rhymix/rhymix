@@ -391,7 +391,7 @@ class importerAdminController extends importer
 			$obj->signature = base64_decode($xmlObj->member->signature->body);
 			$obj->regdate = base64_decode($xmlObj->member->regdate->body);
 			$obj->last_login = base64_decode($xmlObj->member->last_login->body);
-
+			$obj->extra_vars = new stdClass();
 			if($xmlObj->member->extra_vars)
 			{
 				foreach($xmlObj->member->extra_vars as $key => $val)
@@ -426,10 +426,8 @@ class importerAdminController extends importer
 			if(!$obj->last_login) $obj->last_login = $obj->regdate;
 			// Set the list order
 			$obj->list_order = -1 * $obj->member_srl;
-			// List extra vars
-			$extra_vars = $obj->extra_vars;
-			unset($obj->extra_vars);
-			$obj->extra_vars = serialize($extra_vars);
+			// Serialize extra vars
+			$obj->extra_vars = serialize($obj->extra_vars);
 			// Check if the same user ID exists
 			$args = new stdClass;
 			$args->user_id = $obj->user_id;
