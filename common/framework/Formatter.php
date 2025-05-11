@@ -453,8 +453,8 @@ class Formatter
 				}
 				if ($import_type === 'scss')
 				{
-					$import_content = preg_replace('!//.*?\n!s', '', $import_content);
-					$import_content = preg_replace('![\r\n]+!', ' ', $import_content);
+					$import_content = preg_replace('@(?<!:)//.*?\n@s', '', $import_content);
+					$import_content = preg_replace('@[\r\n]@', ' ', $import_content);
 				}
 				return trim($import_content);
 			}, $content);
