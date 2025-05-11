@@ -1,3 +1,6 @@
 .inc1 {
 	margin: $setting;
+	& > a[href^="https://rhymix.org/abc"] {
+		text-decoration:none;
+	}
 }

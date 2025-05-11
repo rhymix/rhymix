@@ -4,6 +4,9 @@
 .inc1 {
   margin: 5px;
 }
+.inc1 > a[href^="https://rhymix.org/abc"] {
+  text-decoration: none;
+}
 .inc2 {
   padding-left: 10px;
 }
