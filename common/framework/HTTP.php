@@ -91,7 +91,11 @@ class HTTP
 		$target_dir = dirname($target_filename);
 		if (!Storage::isDirectory($target_dir) && !Storage::createDirectory($target_dir))
 		{
-			return false;
+			return new Helpers\HTTPHelper(new Exception('Cannot create directory: ' . $target_dir));
+		}
+		if (!Storage::isWritable($target_dir) && (!Storage::exists($target_filename) || !Storage::isWritable($target_filename)))
+		{
+			return new Helpers\HTTPHelper(new Exception('No permission to write file: ' . $target_filename));
 		}
 
 		// Pass to request() with appropriate settings for the filename.
