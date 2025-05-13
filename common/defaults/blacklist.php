@@ -30,6 +30,7 @@ return array(
 		'homepage' => true,
 		'multidomain' => true,
 		'seo' => true,
+		'syndication' => true,
 		'trackback' => true,
 	),
 
