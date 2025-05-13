@@ -11,6 +11,7 @@
 </script>
 <div class="x_modal-header">
 	<h1>{$component_info->title}</h1>
+	<a class="close_window" href="javascript:window.close()">&times;</a>
 </div>
 <div class="x_modal-body">
 	<form action="./" method="post" id="fo_component" onSubmit="procFilter(this, insert_poll); return false;" class="x_form-horizontal">
@@ -89,12 +90,12 @@
 				<th scope="row"><div>{$lang->poll_title}</div></th>
 				<td><input type="text" name="title_tidx" /></td>
 			</tr>
-			
+
 			<tr>
 				<th scope="row"><div>{$lang->poll_item} 1</div></th>
 				<td><input type="text" name="item_tidx_1" /></td>
 			</tr>
-			
+
 			<tr>
 				<th scope="row"><div>{$lang->poll_item} 2</div></th>
 				<td><input type="text" name="item_tidx_2" /></td>
