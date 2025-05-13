@@ -947,7 +947,12 @@ var objForSavedDoc = null;
 function doDocumentLoad(obj) {
 	// 저장된 게시글 목록 불러오기
 	objForSavedDoc = obj.form;
-	popopen(request_uri.setQuery('module','document').setQuery('act','dispTempSavedList'));
+	var popup_url = request_uri.setQuery('module','document').setQuery('act','dispTempSavedList');
+	if (navigator.userAgent.match(/mobile/i)) {
+		openFullScreenIframe(popup_url);
+	} else {
+		popopen(popup_url);
+	}
 }
 
 /* 저장된 게시글의 선택 */
@@ -957,7 +962,7 @@ function doDocumentSelect(document_srl, module) {
 		return;
 	}
 
-	if(module===undefined) {
+	if(module === undefined) {
 		module = 'document';
 	}
 
@@ -978,7 +983,7 @@ function doDocumentSelect(document_srl, module) {
 			opener.location.href = url;
 			break;
 		default :
-			opener.location.href = opener.current_url.setQuery('document_srl', document_srl).setQuery('act', 'dispBoardWrite');
+			opener.location.href = opener.current_url.setQuery('act', 'dispBoardWrite').setQuery('document_srl', document_srl);
 			break;
 	}
 	window.close();

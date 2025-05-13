@@ -1,6 +1,8 @@
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
+<div>
 <div class="x_modal-header">
 	<h1>{$lang->cmd_view_saved_document}</h1>
+	<a class="close_window" href="javascript:window.close()">&times;</a>
 </div>
 <div class="x_modal-body">
 	<!-- 목록 -->
@@ -40,6 +42,7 @@
 		<!--@end-->
 		<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{$lang->last_page} &rsaquo;</a>
 	</div>
+</div>
 </div>
 
 <script type="text/javascript">
