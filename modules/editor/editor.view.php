@@ -55,12 +55,23 @@ class EditorView extends Editor
 	{
 		// add a css file
 		Context::loadFile($this->module_path."tpl/css/editor.css", true);
+
 		// List variables
 		$editor_sequence = Context::get('editor_sequence');
-		$component = Context::get('component');
+		$iframe_sequence = Context::get('iframe_sequence');
+		if (empty($editor_sequence) || !ctype_alnum($editor_sequence))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		if (isset($iframe_sequence) && !ctype_alnum($iframe_sequence))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
 
+		$component = Context::get('component');
 		$site_module_info = Context::get('site_module_info');
 		$site_srl = (int)$site_module_info->site_srl;
+
 		// Get compoenet object
 		$oComponent = EditorModel::getComponentObject($component, $editor_sequence, $site_srl);
 		if(!$oComponent->toBool())
