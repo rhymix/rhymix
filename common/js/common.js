@@ -205,6 +205,7 @@
 			var menu_id = params.menu_id;
 			var menus = ret_obj.menus;
 			var html = "";
+			var isMobile = navigator.userAgent.match(/mobile/i);
 
 			if(this.loaded_popup_menus[menu_id]) {
 				html = this.loaded_popup_menus[menu_id];
@@ -234,7 +235,11 @@
 							var matches = [];
 							/* if(icon) styleText = " style=\"background-image:url('"+icon+"')\" "; */
 							if (target === 'popup') {
-								click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
+								if (isMobile) {
+									click_str = 'onclick="openFullScreenIframe(this.href, \''+target+'\'); return false;"';
+								} else {
+									click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
+								}
 								classText += 'popup ';
 							} else if (target === 'javascript') {
 								click_str = 'onclick="'+url+'; return false; "';
