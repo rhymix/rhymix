@@ -87,7 +87,6 @@ $(function() {
 
 		// Patch for iOS: https://github.com/rhymix/rhymix/issues/932
 		if (config.ios_patch) {
-			settings.loadXeComponent = false;
 			$('head').append('<style>'
 				+ '.cke_wysiwyg_div { padding: 8px !important; }'
 				+ 'html { min-width: unset; min-height: unset; width: unset; height: unset; margin: unset; padding: unset; }'
@@ -102,7 +101,7 @@ $(function() {
 				{ name: 'styles', items: [ 'Font', 'FontSize', '-', 'Bold', 'Italic', 'Underline', 'Strike', 'TextColor', 'BGColor' ] },
 				{ name: 'paragraph', items: [ 'JustifyLeft', 'JustifyCenter', 'JustifyRight' ] },
 				{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste' ] },
-				{ name: 'insert', items: [ 'Link', 'Image', 'Table' ] },
+				{ name: 'insert', items: [ 'Link', 'Image', 'Table', 'poll_maker' ] },
 				{ name: 'tools', items: [ 'Maximize', '-', 'Source' ] }
 			];
 		}
