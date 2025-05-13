@@ -211,24 +211,10 @@ function openComponent(component_name, editor_sequence, manual_url) {
 	if(typeof(current_mid)!="undefined" && current_mid) popup_url += "&mid="+escape(current_mid);
 
 	if (navigator.userAgent.match(/mobile/i)) {
-		openComponentInIframe(popup_url);
+		openFullScreenIframe(popup_url, 'editorComponent');
 	} else {
 		popopen(popup_url, 'editorComponent');
 	}
-}
-
-function openComponentInIframe(popup_url) {
-	var iframe_sequence = String(Date.now()) + Math.round(Math.random() * 1000000);
-	var iframe = document.createElement('iframe');
-	popup_url += '&iframe_sequence=' + iframe_sequence;
-	iframe.setAttribute('id', 'editor_iframe_' + iframe_sequence);
-	iframe.setAttribute('src', popup_url);
-	iframe.setAttribute('width', '100%');
-	iframe.setAttribute('height', '100%');
-	iframe.setAttribute('frameborder', '0');
-	iframe.setAttribute('scrolling', 'no');
-	iframe.setAttribute('style', 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:999999999; background-color: #fff; overflow-y:auto');
-	$(document.body).append(iframe);
 }
 
 // 더블클릭 이벤트 발생시에 본문내에 포함된 컴포넌트를 찾는 함수
@@ -256,7 +242,12 @@ function editorSearchComponent(evt) {
 		editorPrevNode = obj;
 
 		if(editorMode[editor_sequence]=='html') return;
-		popopen(request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&module_srl="+editor_sequence,'GenerateCodeInPage');
+		var popup_url = request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&module_srl="+editor_sequence
+		if (navigator.userAgent.match(/mobile/i)) {
+			openFullScreenIframe(popup_url, 'GenerateCodeInPage');
+		} else {
+			popopen(popup_url, 'GenerateCodeInPage');
+		}
 		return;
 	}
 
