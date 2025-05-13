@@ -18,10 +18,18 @@
 		};
 	</script>
 	<style>
-		.x.popup { width: 100vw; height: 100vh; display: flex; flex-direction: column; }
-		.x.popup > form { width: 100vw; height: 100vh; display: flex; flex-direction: column; margin: 0; }
+		.x.popup {
+			width: 100vw; height: 100vh;
+			display: flex; flex-direction: column;
+		}
+		.x.popup > form {
+			width: 100vw; height: 100vh;
+			display: flex; flex-direction: column;
+			margin: 0 !important;
+		}
 		.x_modal-header { flex: 0 0 auto; }
 		.x_modal-body { flex: 1; overflow: scroll; }
+		.x_modal-footer { padding-bottom: 24px !important; }
 	</style>
 @else
 	<script>

@@ -9,6 +9,7 @@
 
 <div class="x_modal-header">
 	<h1>{$lang->cmd_spammer}</h1>
+	<a class="close_window" href="javascript:window.close()">&times;</a>
 </div>
 
 <form action="./" method="post" id="fo_management" onsubmit="return doSpammerManage();">
@@ -79,14 +80,14 @@ function progressSpammerManage( data ) {
 	setTimeout( function() {
 		var info = data.progress + '%';
 		jQuery('#progressBar').width(data.progress + '%');
-		
+
 		if( data.total_count != undefined && parseInt( data.total_count ) > 0 )  {
 			var doc_count = parseInt( data.total_count ) - parseInt( data.remain_count );
 			info = info + ' (' + doc_count + ' / ' + data.total_count + ')';
 		}
-		
+
 		jQuery('#progress-info').text( info );
-		
+
 		if(data.remain_count <= 0 || bSpammerManageProc === false) {
 			jQuery('.stop').hide();
 			if(data.remain_count <= 0) {
@@ -96,7 +97,7 @@ function progressSpammerManage( data ) {
 			}
 			return;
 		}
-		
+
 		doSpammerManage( data );
 	}, 500 );
 }

@@ -12,8 +12,9 @@
 	<input type="hidden" name="xe_validator_id" value="modules/comment/tpl/1" />
 	<div class="x_modal-header">
 		<h1>{$lang->improper_comment_declare} <!--@if($type == 'cancel')-->{$lang->cmd_cancel}<!--@end--></h1>
+		<a class="close_window" href="javascript:window.close()">&times;</a>
 	</div>
-	<div class="x_modal-body x_form-horizontal" style="max-height:none">
+	<div class="x_modal-body">
 		<blockquote>
 			<section class="target_article">
 				<h1>{$lang->replies}</h1>
@@ -32,11 +33,11 @@
 			</div>
 		</div>
 		<!--@end-->
-		<div class="x_modal-footer">
-			<span class="x_btn-group x_pull-right">
-				<button type="submit" class="x_btn x_btn-primary"><!--@if($type == 'cancel')-->{$lang->cmd_cancel_declare}<!--@else-->{$lang->cmd_submit}<!--@end--></button>
-			</span>
-		</div>
+	</div>
+	<div class="x_modal-footer">
+		<span class="x_btn-group x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary"><!--@if($type == 'cancel')-->{$lang->cmd_cancel_declare}<!--@else-->{$lang->cmd_submit}<!--@end--></button>
+		</span>
 	</div>
 </form>
 <script cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/comment/tpl/1'">
