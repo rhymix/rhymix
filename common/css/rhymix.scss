@@ -28,6 +28,7 @@ a img {
 	} @else {
 		word-break: $default_word_break;
 		word-wrap: break-word;
+		overflow-wrap: anywhere;
 	}
 	p {
 		margin: 0 0 $default_paragraph_spacing 0;
