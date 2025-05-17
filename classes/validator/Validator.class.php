@@ -146,7 +146,7 @@ class Validator
 					continue;
 				}
 
-				$message = $rule->message ? $rule->message->body : NULL;
+				$message = isset($rule->message) ? $rule->message->body : NULL;
 				$rule = (array) $rule->attrs;
 				$rule['message'] = $message;
 				$name = $rule['name'];
@@ -183,7 +183,7 @@ class Validator
 				continue;
 			}
 
-			$title = $field->title ? $field->title->body : NULL;
+			$title = isset($field->title) ? $field->title->body : NULL;
 			$filter = (array) $field->attrs;
 			$filter['title'] = $title;
 
