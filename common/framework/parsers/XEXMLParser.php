@@ -5,6 +5,7 @@ namespace Rhymix\Framework\Parsers;
 /**
  * Generic XML parser that produces output identical to XE's XML parser.
  */
+#[\AllowDynamicProperties]
 class XEXMLParser
 {
 	/**
