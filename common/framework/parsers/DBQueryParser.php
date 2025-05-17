@@ -31,7 +31,7 @@ class DBQueryParser extends BaseParser
 	/**
 	 * Parse a query.
 	 *
-	 * @param SimpleXMLElement $xml
+	 * @param \SimpleXMLElement $xml
 	 * @param string $name
 	 * @return object
 	 */
@@ -248,7 +248,7 @@ class DBQueryParser extends BaseParser
 	/**
 	 * Parse conditions.
 	 *
-	 * @param SimpleXMLElement $parent
+	 * @param \SimpleXMLElement $parent
 	 * @return array
 	 */
 	protected static function _parseConditions(\SimpleXMLElement $parent): array

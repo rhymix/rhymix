@@ -33,7 +33,7 @@ class DBTableParser extends BaseParser
 	 * @param string $content
 	 * @return ?object
 	 */
-	public static function loadXML(string $filename = '', string $content = ''): object
+	public static function loadXML(string $filename = '', string $content = ''): ?object
 	{
 		// Load the XML content.
 		if ($content)
