@@ -12,9 +12,9 @@ class XEXMLParser
 	 *
 	 * @param string $filename
 	 * @param string $lang
-	 * @return ?object
+	 * @return ?self
 	 */
-	public static function loadXMLFile(string $filename, string $lang = ''): ?object
+	public static function loadXMLFile(string $filename, string $lang = ''): ?self
 	{
 		$content = file_get_contents($filename);
 		return self::loadXMLString($content, $lang);
@@ -25,9 +25,9 @@ class XEXMLParser
 	 *
 	 * @param string $filename
 	 * @param string $lang
-	 * @return ?object
+	 * @return ?self
 	 */
-	public static function loadXMLString(string $content, string $lang = ''): ?object
+	public static function loadXMLString(string $content, string $lang = ''): ?self
 	{
 		// Apply transformations identical to XE's XML parser.
 		$content = str_replace([chr(1), chr(2)], ['', ''], $content);
@@ -41,7 +41,7 @@ class XEXMLParser
 		$lang = $lang ?: (\Context::getLangType() ?: 'en');
 
 		// Create the result object.
-		$result = new \stdClass;
+		$result = new self;
 		$root_name = $xml->getName();
 		$result->$root_name = self::_recursiveConvert($xml, $lang);
 		return $result;
@@ -52,14 +52,14 @@ class XEXMLParser
 	 *
 	 * @param \SimpleXMLElement $element
 	 * @param string $lang
-	 * @return object
+	 * @return self
 	 */
-	protected static function _recursiveConvert(\SimpleXMLElement $element, string $lang): \stdClass
+	protected static function _recursiveConvert(\SimpleXMLElement $element, string $lang): self
 	{
 		// Create the basic structure of the node.
-		$node = new \stdClass;
+		$node = new self;
 		$node->node_name = $element->getName();
-		$node->attrs = new \stdClass;
+		$node->attrs = new self;
 		$node->body = trim($element->__toString());
 
 		// Add attributes.
@@ -101,5 +101,15 @@ class XEXMLParser
 		}
 
 		return $node;
+	}
+
+	/**
+	 * Hack to prevent undefined property errors.
+	 *
+	 * @param string $name
+	 */
+	public function __get($name)
+	{
+		return isset($this->$name) ? $this->$name : null;
 	}
 }

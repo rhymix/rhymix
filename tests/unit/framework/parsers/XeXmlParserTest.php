@@ -23,5 +23,8 @@ class XeXmlParserTest extends \Codeception\Test\Unit
 		$this->assertEquals('라이믹스', $output->layout->author->name->body);
 		$this->assertEquals('웹 폰트', $output->layout->extra_vars->var[1]->title->body);
 		$this->assertEquals('Noto Sans', $output->layout->extra_vars->var[1]->options[0]->attrs->value);
+
+		$this->assertInstanceOf(\Rhymix\Framework\Parsers\XEXMLParser::class, $output);
+		$this->assertNull($output->layout->attrs->foo);
 	}
 }
