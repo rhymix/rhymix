@@ -4,7 +4,7 @@ class XmlrpcParserTest extends \Codeception\Test\Unit
 {
 	public function testParse()
 	{
-		$xml = file_get_contents(\RX_BASEDIR . 'tests/_data/xmlrpc/request.xml');
+		$xml = file_get_contents(\RX_BASEDIR . 'tests/_data/xml/xmlrpc.xml');
 		$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($xml);
 		$this->assertTrue(is_array($params));
 		$this->assertEquals('board', $params['module']);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout version="0.2">
+    <title xml:lang="ko">기본 레이아웃</title>
+    <title xml:lang="en">Default Layout</title>
+    <author email_address="devops@rhymix.org" link="https://rhymix.org/">
+        <name xml:lang="ko">라이믹스</name>
+        <name xml:lang="en">Rhymix</name>
+    </author>
+	<extra_vars>
+		<var name="logo_image" type="image">
+			<title xml:lang="ko">로고 이미지</title>
+			<title xml:lang="en">Logo Image</title>
+		</var>
+		<var name="web_font" type="select">
+			<title xml:lang="ko">웹 폰트</title>
+			<title xml:lang="en">Web Font</title>
+			<options value="Noto Sans">
+				<title>Noto Sans</title>
+			</options>
+			<options value="Pretendard">
+				<title>Pretendard</title>
+			</options>
+		</var>
+	</extra_vars>
+</layout>
