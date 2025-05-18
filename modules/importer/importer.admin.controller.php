@@ -18,11 +18,6 @@ class importerAdminController extends importer
 	 * @var int
 	 */
 	var $unit_count = 300;
-	/**
-	 * Xml parser
-	 * @var XmlParser
-	 */
-	var $oXmlParser = null;
 
 	/**
 	 * Initialization
@@ -346,8 +341,6 @@ class importerAdminController extends importer
 	function importMember($key, $cur, $index_file)
 	{
 		if(!$cur) $cur = 0;
-		// Create the xmlParser object
-		$oXmlParser = new XeXmlParser();
 		// Create objects for importing member information
 		$this->oMemberController = getController('member');
 		$this->oMemberModel = getModel('member');
@@ -368,7 +361,7 @@ class importerAdminController extends importer
 			// Find a given location
 			$target_file = trim(fgets($f, 1024));
 			// Load and parse the file
-			$xmlObj = $oXmlParser->loadXmlFile($target_file);
+			$xmlObj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($target_file);
 			FileHandler::removeFile($target_file);
 			if(!$xmlObj) continue;
 			// List Objects
@@ -539,8 +532,6 @@ class importerAdminController extends importer
 	function importMessage($key, $cur, $index_file)
 	{
 		if(!$cur) $cur = 0;
-		// Create the xmlParser object
-		$oXmlParser = new XeXmlParser();
 		// Open an index file
 		$f = fopen($index_file,"r");
 		// Pass if already read
@@ -552,7 +543,7 @@ class importerAdminController extends importer
 			// Find a location
 			$target_file = trim(fgets($f, 1024));
 			// Load and parse the file
-			$xmlObj = $oXmlParser->loadXmlFile($target_file);
+			$xmlObj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($target_file);
 			FileHandler::removeFile($target_file);
 			if(!$xmlObj) continue;
 			// List objects
@@ -638,8 +629,6 @@ class importerAdminController extends importer
 	 */
 	function importModule($key, $cur, $index_file, $module_srl)
 	{
-		// Pre-create the objects needed
-		$this->oXmlParser = new XeXmlParser();
 		// Get category information of the target module
 		$oDocumentController = getController('document');
 		$oDocumentModel = getModel('document');
@@ -651,9 +640,7 @@ class importerAdminController extends importer
 		if(file_exists($category_file))
 		{
 			$buff = FileHandler::readFile($category_file);
-
-			// Create the xmlParser object
-			$xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
+			$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($category_file);
 
 			$categories = $xmlDoc->items->category;
 			if($categories)
@@ -757,7 +744,7 @@ class importerAdminController extends importer
 				if($started) $buff[] = $str;
 			}
 
-			$xmlDoc = $this->oXmlParser->parse(implode('', $buff));
+			$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString(implode('', $buff));
 
 			$category = base64_decode($xmlDoc->post->category->body);
 			if($category_titles[$category]) $obj->category_srl = $category_titles[$category];
@@ -901,7 +888,7 @@ class importerAdminController extends importer
 			// If </trackback>, insert to the DB
 			if(trim($str) == '</trackback>')
 			{
-				$xmlDoc = $this->oXmlParser->parse($buff);
+				$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
 
 				$obj = new stdClass;
 				$obj->trackback_srl = getNextSequence();
@@ -963,7 +950,7 @@ class importerAdminController extends importer
 			// If </comment> is, insert to the DB
 			if(trim($str) == '</comment>')
 			{
-				$xmlDoc = $this->oXmlParser->parse($buff);
+				$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
 
 				$sequence = base64_decode($xmlDoc->comment->sequence->body);
 				$sequences[$sequence] = $obj->comment_srl;
@@ -1106,7 +1093,7 @@ class importerAdminController extends importer
 			// If it ends with </attach>, handle attachements
 			if(trim($str) == '</attach>')
 			{
-				$xmlDoc = $this->oXmlParser->parse($buff.$str);
+				$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff.$str);
 
 				$file_obj->source_filename = base64_decode($xmlDoc->attach->filename->body);
 				$file_obj->download_count = base64_decode($xmlDoc->attach->download_count->body);
@@ -1250,14 +1237,13 @@ class importerAdminController extends importer
 		if(!$buff) return array();
 
 		$buff = '<extra_vars>'.$buff;
-		$oXmlParser = new XeXmlParser();
-		$xmlDoc = $this->oXmlParser->parse($buff);
+		$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
 		if(empty($xmlDoc->extra_vars->key)) return array();
 
 		$index = 1;
 		foreach($xmlDoc->extra_vars->key as $k => $v)
 		{
-			unset($vobj);
+			$vobj = new stdClass();
 			if($v->var_idx)
 			{
 				$vobj->var_idx = base64_decode($v->var_idx->body);

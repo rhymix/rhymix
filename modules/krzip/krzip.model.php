@@ -173,8 +173,7 @@ class krzipModel extends krzip
 			$request_config
 		);
 
-		$oXmlParser = new XeXmlParser();
-		$result = $oXmlParser->parse($buff);
+		$result = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
 		if($result->error)
 		{
 			$err_msg = trim($result->error->message->body);

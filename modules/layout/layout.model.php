@@ -572,13 +572,17 @@ class LayoutModel extends Layout
 			return $layout_info;
 		}
 		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XeXmlParser();
-		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
+		$tmp_xml_obj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($xml_file);
+		if (!$tmp_xml_obj)
+		{
+			return;
+		}
 
-		if($tmp_xml_obj->layout) $xml_obj = $tmp_xml_obj->layout;
-		elseif($tmp_xml_obj->skin) $xml_obj = $tmp_xml_obj->skin;
-
-		if(!$xml_obj) return;
+		$xml_obj = !empty($tmp_xml_obj->layout) ? $tmp_xml_obj->layout : $tmp_xml_obj->skin;
+		if (!$xml_obj)
+		{
+			return;
+		}
 
 		$buff = array();
 		$buff[] = '$layout_info = new stdClass;';

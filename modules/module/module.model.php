@@ -1031,8 +1031,7 @@ class ModuleModel extends Module
 		}
 
 		// Create XmlParser object
-		$oXmlParser = new XeXmlParser();
-		$_xml_obj = $oXmlParser->loadXmlFile($skin_xml_file);
+		$_xml_obj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($skin_xml_file);
 		// Return if no skin information is
 		if(!$_xml_obj->skin) return;
 		$xml_obj = $_xml_obj->skin;

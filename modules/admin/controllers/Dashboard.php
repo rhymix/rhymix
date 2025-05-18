@@ -185,8 +185,7 @@ class Dashboard extends Base
 		$params["act"] = "getResourceapiLastupdate";
 		$body = \XmlGenerater::generate($params);
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml");
-		$xml_lUpdate = new \XeXmlParser();
-		$lUpdateDoc = $xml_lUpdate->parse($buff);
+		$lUpdateDoc = \Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
 		$updateDate = $lUpdateDoc->response->updatedate->body;
 
 		if(!$updateDate)
