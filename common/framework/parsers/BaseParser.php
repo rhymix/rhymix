@@ -10,7 +10,7 @@ abstract class BaseParser
 	/**
 	 * Get all attributes of an element as an associative array.
 	 *
-	 * @param SimpleXMLElement $element
+	 * @param \SimpleXMLElement $element
 	 * @param bool $normalize
 	 * @return array
 	 */
@@ -31,7 +31,7 @@ abstract class BaseParser
 	/**
 	 * Get the string value of an XML attribute after normalizing its name.
 	 *
-	 * @param SimpleXMLElement $element
+	 * @param \SimpleXMLElement $element
 	 * @param string $name
 	 * @return string
 	 */
@@ -55,7 +55,7 @@ abstract class BaseParser
 	 * A value that is identical to the name of the attribute will be treated as true.
 	 * Other values will be passed to toBool() for evaluation.
 	 *
-	 * @param SimpleXMLElement $element
+	 * @param \SimpleXMLElement $element
 	 * @param string $name
 	 * @return bool
 	 */
@@ -77,7 +77,7 @@ abstract class BaseParser
 	/**
 	 * Get the contents of child elements that match a language.
 	 *
-	 * @param SimpleXMLElement $parent
+	 * @param \SimpleXMLElement $parent
 	 * @param string $tag_name
 	 * @param string $lang
 	 * @return string
@@ -107,7 +107,7 @@ abstract class BaseParser
 	/**
 	 * Parse extra_vars.
 	 *
-	 * @param SimpleXMLElement $extra_vars
+	 * @param \SimpleXMLElement $extra_vars
 	 * @param string $lang
 	 * @return object
 	 */
@@ -132,6 +132,10 @@ abstract class BaseParser
 			$item->title = self::_getChildrenByLang($var, 'title', $lang);
 			$item->description = str_replace('\\n', "\n", self::_getChildrenByLang($var, 'description', $lang));
 			$item->default = trim($var['default']) ?: null;
+			if (!isset($item->default))
+			{
+				$item->default = self::_getChildrenByLang($var, 'default', $lang);
+			}
 			$item->value = null;
 			if ($var->options)
 			{

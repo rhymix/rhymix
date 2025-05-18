@@ -197,16 +197,19 @@ class addonAdminController extends addonController
 	 */
 	function procAddonAdminSetupAddon()
 	{
-		$args = Context::getRequestVars();
-		$module = $args->module;
-		$addon_name = $args->addon_name;
-		unset($args->module);
-		unset($args->act);
-		unset($args->addon_name);
-		unset($args->body);
-		unset($args->error_return_url);
+		$vars = Context::getRequestVars();
+		$module = $vars->module;
+		$addon_name = $vars->addon_name;
+		$args = new stdClass();
 
 		$site_module_info = Context::get('site_module_info');
+		$addon_info = AddonAdminModel::getInstance()->getAddonInfoXml($addon_name, $site_module_info->site_srl, 'site');
+		foreach ($addon_info->extra_vars as $key => $val)
+		{
+			$args->{$key} = $vars->{$key} ?? '';
+		}
+		$args->xe_run_method = $vars->xe_run_method ?? '';
+		$args->mid_list = $vars->mid_list ?? [];
 
 		$output = $this->doSetup($addon_name, $args, $site_module_info->site_srl, 'site');
 		if(!$output->toBool())

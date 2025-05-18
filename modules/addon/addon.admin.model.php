@@ -162,18 +162,14 @@ class addonAdminModel extends addon
 			return;
 		}
 
-		// Read the xml file for module skin information
+		// Read the xml file for addon information
 		$xml_file = sprintf("%sconf/info.xml", FileHandler::getRealpath($addon_path));
-		if(!file_exists($xml_file))
+		if (!file_exists($xml_file))
 		{
 			return;
 		}
-
-		$oXmlParser = new XeXmlParser();
-		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-		$xml_obj = $tmp_xml_obj->addon;
-
-		if(!$xml_obj)
+		$addon_info = Rhymix\Framework\Parsers\AddonInfoParser::loadXML($xml_file, $addon);
+		if (!$addon_info)
 		{
 			return;
 		}
@@ -190,224 +186,52 @@ class addonAdminModel extends addon
 			$db_args->site_srl = $site_srl;
 			$output = executeQuery('addon.getSiteAddonInfo', $db_args);
 		}
-		$extra_vals = unserialize($output->data->extra_vars);
 
-		$addon_info = new stdClass();
-		if($extra_vals->mid_list)
+		// Add run settings
+		$extra_vals = isset($output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
+		if (!empty($extra_vals->mid_list))
 		{
 			$addon_info->mid_list = $extra_vals->mid_list;
 		}
-		else
-		{
-			$addon_info->mid_list = array();
-		}
-
-		if($extra_vals->xe_run_method)
+		if (!empty($extra_vals->xe_run_method))
 		{
 			$addon_info->xe_run_method = $extra_vals->xe_run_method;
 		}
-
-		// Add information
-		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
+		if (isset($output->data) && $output->data->is_used === 'Y')
 		{
-			// addon format v0.2
-			if ($xml_obj->date->body === 'RX_CORE')
+			$addon_info->is_enabled->pc = true;
+		}
+		if (isset($output->data) && $output->data->is_used_m === 'Y')
+		{
+			$addon_info->is_enabled->mobile = true;
+		}
+
+		// Add current settings
+		foreach ($addon_info->extra_vars ?? [] as $key => $val)
+		{
+			if (isset($extra_vals->{$key}))
 			{
-				$addon_info->date = '';
+				if (is_string($extra_vals->{$key}) && str_contains($extra_vals->{$key}, '|@|'))
+				{
+					$val->value = explode('|@|', $extra_vals->{$key});
+				}
+				else
+				{
+					$val->value = $extra_vals->{$key};
+				}
 			}
 			else
 			{
-				$date_obj = new stdClass();
-				sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-				$addon_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
+				$val->value = $val->default;
 			}
-			$addon_info->addon_name = $addon;
-			$addon_info->title = $xml_obj->title->body;
-			$addon_info->description = trim($xml_obj->description->body);
-			$addon_info->version = $xml_obj->version->body;
-			$addon_info->homepage = $xml_obj->link->body;
-			$addon_info->license = $xml_obj->license->body;
-			$addon_info->license_link = $xml_obj->license->attrs->link;
 
-			if(!is_array($xml_obj->author))
+			if ($val->type === 'mid_list' && !is_array($val->value))
 			{
-				$author_list = array();
-				$author_list[] = $xml_obj->author;
-			}
-			else
-			{
-				$author_list = $xml_obj->author;
+				$val->value = isset($val->value) ? [$val->value] : [];
 			}
 
-			$addon_info->author = array();
-			foreach($author_list as $author)
-			{
-				$author_obj = new stdClass();
-				$author_obj->name = $author->name->body;
-				$author_obj->email_address = $author->attrs->email_address;
-				$author_obj->homepage = $author->attrs->link;
-				$addon_info->author[] = $author_obj;
-			}
-
-			// Expand the variable order
-			if($xml_obj->extra_vars)
-			{
-				$extra_var_groups = $xml_obj->extra_vars->group;
-				if(!$extra_var_groups)
-				{
-					$extra_var_groups = $xml_obj->extra_vars;
-				}
-				if(!is_array($extra_var_groups))
-				{
-					$extra_var_groups = array($extra_var_groups);
-				}
-
-				foreach($extra_var_groups as $group)
-				{
-					$extra_vars = $group->var;
-					if(!is_array($group->var))
-					{
-						$extra_vars = array($group->var);
-					}
-
-					foreach($extra_vars as $key => $val)
-					{
-						if(!$val)
-						{
-							continue;
-						}
-
-						$obj = new stdClass();
-						if(!$val->attrs)
-						{
-							$val->attrs = new stdClass();
-						}
-						if(!$val->attrs->type)
-						{
-							$val->attrs->type = 'text';
-						}
-
-						$obj->group = $group->title->body;
-						$obj->name = $val->attrs->name;
-						$obj->title = $val->title->body;
-						$obj->type = $val->attrs->type;
-						$obj->description = $val->description->body;
-						if($obj->name)
-						{
-							$obj->value = $extra_vals->{$obj->name};
-						}
-						if(strpos($obj->value, '|@|') != FALSE)
-						{
-							$obj->value = explode('|@|', $obj->value);
-						}
-						if($obj->type == 'mid_list' && !is_array($obj->value))
-						{
-							$obj->value = array($obj->value);
-						}
-
-						// 'Select'type obtained from the option list.
-						if($val->options && !is_array($val->options))
-						{
-							$val->options = array($val->options);
-						}
-
-						for($i = 0, $c = countobj($val->options); $i < $c; $i++)
-						{
-							$obj->options[$i] = new stdClass();
-							$obj->options[$i]->title = $val->options[$i]->title->body;
-							$obj->options[$i]->value = $val->options[$i]->attrs->value;
-						}
-
-						$addon_info->extra_vars[] = $obj;
-					}
-				}
-			}
 		}
-		else
-		{
-			// addon format 0.1
-			$addon_info = new stdClass();
-			$addon_info->addon_name = $addon;
-			$addon_info->title = $xml_obj->title->body;
-			$addon_info->description = trim($xml_obj->author->description->body);
-			$addon_info->version = $xml_obj->attrs->version;
 
-			$date_obj = new stdClass();
-			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$addon_info->date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-
-			$author_obj = new stdClass();
-			$author_obj->name = $xml_obj->author->name->body;
-			$author_obj->email_address = $xml_obj->author->attrs->email_address;
-			$author_obj->homepage = $xml_obj->author->attrs->link;
-
-			$addon_info->author = array();
-			$addon_info->author[] = $author_obj;
-
-			if($xml_obj->extra_vars)
-			{
-				// Expand the variable order
-				$extra_var_groups = $xml_obj->extra_vars->group;
-				if(!$extra_var_groups)
-				{
-					$extra_var_groups = $xml_obj->extra_vars;
-				}
-				if(!is_array($extra_var_groups))
-				{
-					$extra_var_groups = array($extra_var_groups);
-				}
-				foreach($extra_var_groups as $group)
-				{
-					$extra_vars = $group->var;
-					if(!is_array($group->var))
-					{
-						$extra_vars = array($group->var);
-					}
-
-					$addon_info->extra_vars = array();
-					foreach($extra_vars as $key => $val)
-					{
-						if(!$val)
-						{
-							continue;
-						}
-
-						$obj = new stdClass();
-
-						$obj->group = $group->title->body;
-						$obj->name = $val->attrs->name;
-						$obj->title = $val->title->body;
-						$obj->type = $val->type->body ? $val->type->body : 'text';
-						$obj->description = $val->description->body;
-						if($obj->name)
-						{
-							$obj->value = $extra_vals->{$obj->name};
-						}
-						if(strpos($obj->value, '|@|') != false)
-						{
-							$obj->value = explode('|@|', $obj->value);
-						}
-						if($obj->type == 'mid_list' && !is_array($obj->value))
-						{
-							$obj->value = array($obj->value);
-						}
-						// 'Select'type obtained from the option list.
-						if($val->options && !is_array($val->options))
-						{
-							$val->options = array($val->options);
-						}
-
-						$obj->options = array();
-						foreach ($val->options ?? [] as $i => $option)
-						{
-							$obj->options[$i]->title = $option->title->body;
-							$obj->options[$i]->value = $option->value->body;
-						}
-						$addon_info->extra_vars[] = $obj;
-					}
-				}
-			}
-		}
 		return $addon_info;
 	}
 
