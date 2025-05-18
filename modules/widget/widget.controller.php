@@ -301,8 +301,7 @@ class WidgetController extends Widget
 	function transWidgetBox($matches)
 	{
 		$buff = preg_replace('/<div><div>(.*)$/i','</div>',$matches[0]);
-		$oXmlParser = new XeXmlParser();
-		$xml_doc = $oXmlParser->parse($buff);
+		$xml_doc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
 
 		$vars = $xml_doc->div->attrs;
 		$widget = $vars->widget;
@@ -324,13 +323,11 @@ class WidgetController extends Widget
 		// Bringing widget cache sequence
 		preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);
 
-		$oXmlParser = new XeXmlParser();
-
 		$cnt = count($matches[1]);
 		for($i=0;$i<$cnt;$i++)
 		{
 			$buff = $matches[0][$i];
-			$xml_doc = $oXmlParser->parse(trim($buff));
+			$xml_doc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString(trim($buff));
 			$args = $xml_doc->img->attrs;
 			$widget = $args->widget;
 			if(!$args || !$widget || empty($args->widget_cache))

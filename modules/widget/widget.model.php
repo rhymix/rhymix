@@ -137,9 +137,8 @@ class WidgetModel extends Widget
 			return $widget_info;
 		}
 		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XeXmlParser();
-		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-		$xml_obj = $tmp_xml_obj->widget;
+		$tmp_xml_obj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($xml_file);
+		$xml_obj = $tmp_xml_obj->widget ?? null;
 		if(!$xml_obj) return;
 
 		$buff = '$widget_info = new stdClass;';
@@ -287,9 +286,8 @@ class WidgetModel extends Widget
 			return $widgetStyle_info;
 		}
 		// If no cache file exists, parse the xml and then return the variable.
-		$oXmlParser = new XeXmlParser();
-		$tmp_xml_obj = $oXmlParser->loadXmlFile($xml_file);
-		$xml_obj = $tmp_xml_obj->widgetstyle;
+		$tmp_xml_obj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($xml_file);
+		$xml_obj = $tmp_xml_obj->widgetstyle ?? null;
 		if(!$xml_obj) return;
 
 		$buff = array();
