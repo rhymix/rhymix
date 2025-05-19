@@ -300,16 +300,24 @@ class WidgetController extends Widget
 	 */
 	function transWidgetBox($matches)
 	{
-		$buff = preg_replace('/<div><div>(.*)$/i','</div>',$matches[0]);
-		$xml_doc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
+		$buff = preg_replace('/<div><div>(.*)$/i','</div>', $matches[0]);
+		$xml = simplexml_load_string(trim($buff));
+		$args = new stdClass;
+		foreach ($xml->div ? $xml->div->attributes() : $xml->attributes() as $key => $val)
+		{
+			$args->{$key} = strval($val);
+		}
 
-		$vars = $xml_doc->div->attrs;
-		$widget = $vars->widget;
-		if(!$widget) return $matches[0];
+		$widget = $args->widget ?? null;
+		if(!$widget)
+		{
+			return $matches[0];
+		}
+
+		$args->widgetbox_content = $matches[3];
 		unset($vars->widget);
 
-		$vars->widgetbox_content = $matches[3];
-		return $this->execute($widget, $vars, $this->javascript_mode);
+		return $this->execute($widget, $args, $this->javascript_mode);
 	}
 
 	/**
@@ -320,16 +328,25 @@ class WidgetController extends Widget
 	{
 		// Language in bringing
 		$lang_list = Context::get('lang_supported');
+
 		// Bringing widget cache sequence
 		preg_match_all('!<img([^\>]*)widget=([^\>]*?)\>!is', $content, $matches);
 
-		$cnt = count($matches[1]);
-		for($i=0;$i<$cnt;$i++)
+		foreach ($matches[0] as $buff)
 		{
-			$buff = $matches[0][$i];
-			$xml_doc = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString(trim($buff));
-			$args = $xml_doc->img->attrs;
-			$widget = $args->widget;
+			$xml = simplexml_load_string(trim($buff));
+			if ($xml === false)
+			{
+				continue;
+			}
+
+			$args = new stdClass;
+			foreach ($xml->img ? $xml->img->attributes() : $xml->attributes() as $key => $val)
+			{
+				$args->{$key} = strval($val);
+			}
+
+			$widget = $args->widget ?? null;
 			if(!$args || !$widget || empty($args->widget_cache))
 			{
 				continue;
@@ -338,12 +355,7 @@ class WidgetController extends Widget
 			$args->widget_sequence = $args->widget_sequence ?? 0;
 			$args->colorset = $args->colorset ?? null;
 
-			foreach($args as $k => $v)
-			{
-				$args->{$k} = urldecode($v);
-			}
-
-			foreach($lang_list as $lang_type => $val)
+			foreach ($lang_list as $lang_type => $val)
 			{
 				$this->getCache($widget, $args, $lang_type, true);
 			}
