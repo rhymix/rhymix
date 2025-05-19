@@ -134,14 +134,14 @@ abstract class BaseParser
 			$item->group = $group_name;
 
 			// id and name
-			if ($type === 'widget')
+			if ($type === 'widget' || $type === 'widgetstyle')
 			{
-				$item->id = trim($var['id']) ?: trim($var->id);
+				$item->id = trim($var['id'] ?? '') ?: trim($var->id);
 				if (!$item->id)
 				{
-					$item->id = trim($var['name']);
+					$item->id = trim($var['name'] ?? '');
 				}
-				$item->name = $var->nameself::_getChildrenByLang($var, 'name', $lang);
+				$item->name = self::_getChildrenByLang($var, 'name', $lang);
 				if (!$item->name)
 				{
 					$item->name = self::_getChildrenByLang($var, 'title', $lang);
@@ -149,11 +149,11 @@ abstract class BaseParser
 			}
 			else
 			{
-				$item->name = trim($var['name']);
+				$item->name = trim($var['name'] ?? '');
 			}
 
 			// type
-			$item->type = trim($var['type']);
+			$item->type = trim($var['type'] ?? '');
 			if (!$item->type)
 			{
 				$item->type = trim($var->type) ?: 'text';
@@ -167,7 +167,7 @@ abstract class BaseParser
 			// Other common attributes
 			$item->title = self::_getChildrenByLang($var, 'title', $lang);
 			$item->description = str_replace('\\n', "\n", self::_getChildrenByLang($var, 'description', $lang));
-			$item->default = trim($var['default']) ?: null;
+			$item->default = trim($var['default'] ?? '') ?: null;
 			if (!isset($item->default))
 			{
 				$item->default = self::_getChildrenByLang($var, 'default', $lang);
@@ -180,22 +180,38 @@ abstract class BaseParser
 				$item->options = array();
 				foreach ($var->options as $option)
 				{
-					$option_item = new \stdClass;
-					$option_item->title = self::_getChildrenByLang($option, 'title', $lang);
-					$option_item->value = trim($option['value']) ?: trim($option->value);
-					$item->options[$option_item->value] = $option_item;
-					if ($type === 'widget' && $option['default'] === 'true')
+					if ($type === 'widget' || $type === 'widgetstyle')
 					{
-						$item->default_options[$option_item->value] = true;
+						$value = trim($option->value ?? '');
+						$item->options[$value] = self::_getChildrenByLang($option, 'name', $lang);
+						if ($option['default'] === 'true')
+						{
+							$item->default_options[$value] = true;
+						}
+						if ($option['init'] === 'true')
+						{
+							$item->init_options[$value] = true;
+						}
 					}
-					if ($type === 'widget' && $option['init'] === 'true')
+					else
 					{
-						$item->init_options[$option_item->value] = true;
+						$option_item = new \stdClass;
+						$option_item->title = self::_getChildrenByLang($option, 'title', $lang);
+						$option_item->value = trim($option['value'] ?? '') ?: trim($option->value ?? '');
+						$item->options[$option_item->value] = $option_item;
 					}
 				}
 			}
 
-			$result->{$item->name} = $item;
+			// Add to list of variables
+			if ($type === 'widget' || $type === 'widgetstyle')
+			{
+				$result->{$item->id} = $item;
+			}
+			else
+			{
+				$result->{$item->name} = $item;
+			}
 		}
 
 		return $result;
