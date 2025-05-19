@@ -30,31 +30,25 @@ class Validator
 	 * rule list
 	 * @var array
 	 */
-	var $_rules;
+	var $_rules = [];
 
 	/**
 	 * filter list
 	 * @var array
 	 */
-	var $_filters;
+	var $_filters = [];
 
 	/**
 	 * custom message list
 	 * @var array
 	 */
-	var $_message;
+	var $_message = [];
 
 	/**
 	 * custom field name list
 	 * @var array
 	 */
-	var $_fieldNames;
-
-	/**
-	 * Can usable status for multibyte string function
-	 * @var boolean
-	 */
-	var $_has_mb_func;
+	var $_fieldNames = [];
 
 	/**
 	 * validator version
@@ -75,12 +69,10 @@ class Validator
 	 */
 	function __construct($xml_path = '')
 	{
-		$this->_rules = array();
-		$this->_filters = array();
-		$this->_xml_ruleset = NULL;
-
-		if($xml_path)
+		if ($xml_path)
+		{
 			$this->load($xml_path);
+		}
 
 		// predefined rules
 		$this->addRule(array(
@@ -93,8 +85,7 @@ class Validator
 			'float' => '/^\d+(\.\d+)?$/'
 		));
 
-		$this->_has_mb_func = is_callable('mb_strlen');
-		$this->setCacheDir(RX_BASEDIR . 'files/cache');
+		$this->_cache_dir = RX_BASEDIR . 'files/cache';
 	}
 
 	/**
@@ -114,112 +105,26 @@ class Validator
 	 */
 	function load($xml_path)
 	{
-		$this->_xml_ruleset = NULL;
-		if(!is_readable($xml_path))
+		if (!file_exists($xml_path) || !is_readable($xml_path))
 		{
-			return FALSE;
+			return false;
 		}
 
-		$parser = new XeXmlParser();
-		$xml = $parser->loadXmlFile($xml_path);
-		if(!isset($xml->ruleset) || !isset($xml->ruleset->fields) || !isset($xml->ruleset->fields->field))
+		$output = Rhymix\Framework\Parsers\RulesetParser::loadXML($xml_path);
+		if (!$output)
 		{
-			return FALSE;
+			return false;
 		}
 
-		$rules = array();
-		$messages = array();
-
-		// custom rules
-		if(isset($xml->ruleset->customrules) && isset($xml->ruleset->customrules->rule))
+		if ($output->rules)
 		{
-			$customrules = $xml->ruleset->customrules->rule;
-			if(!is_array($customrules))
-			{
-				$customrules = array($customrules);
-			}
-
-			foreach($customrules as $rule)
-			{
-				if(!isset($rule->attrs) || !isset($rule->attrs->name))
-				{
-					continue;
-				}
-
-				$message = isset($rule->message) ? $rule->message->body : NULL;
-				$rule = (array) $rule->attrs;
-				$rule['message'] = $message;
-				$name = $rule['name'];
-				unset($rule['name']);
-
-				$rules[$name] = $rule;
-				if(isset($message))
-				{
-					$messages['invalid_' . $name] = $message;
-				}
-			}
-			if(count($rules))
-			{
-				$this->addRule($rules);
-			}
+			$this->addRule($output->rules);
 		}
-
-		// filters
-		$fields = $xml->ruleset->fields->field;
-		if(!is_array($fields))
-		{
-			$fields = array($fields);
-		}
-
-		$filters = array();
-		$fieldsNames = array();
-		foreach($fields as $field)
-		{
-			$name = '';
-			$filter = array();
-
-			if(!isset($field->attrs) || !isset($field->attrs->name))
-			{
-				continue;
-			}
-
-			$title = isset($field->title) ? $field->title->body : NULL;
-			$filter = (array) $field->attrs;
-			$filter['title'] = $title;
-
-			$name = $filter['name'];
-			if(isset($title))
-			{
-				$fieldsNames[$name] = $title;
-			}
-
-			unset($filter['name']);
-
-			// conditional statement
-			if(isset($field->if))
-			{
-				$if = $field->if;
-				if(!is_array($if))
-				{
-					$if = array($if);
-				}
-				foreach($if as $idx => $cond)
-				{
-					$if[$idx] = (array) $cond->attrs;
-				}
-				$filter['if'] = $if;
-			}
-
-			$filters[$name] = $filter;
-		}
-
-		$this->_xml_ruleset = $xml->ruleset;
-		$this->_filters = $filters;
-		$this->_message = $messages;
-		$this->_fieldNames = $fieldsNames;
+		$this->_filters = $output->filters;
+		$this->_message = $output->messages;
+		$this->_fieldNames = $output->fieldsNames;
 		$this->_xml_path = $xml_path;
-
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -389,7 +294,7 @@ class Validator
 				$strbytes = strlen($value);
 				if(!$is_min_b || !$is_max_b)
 				{
-					$strlength = $this->_has_mb_func ? mb_strlen($value, 'utf-8') : $this->mbStrLen($value);
+					$strlength = mb_strlen($value, 'UTF-8');
 				}
 
 				if(($min && $min > ($is_min_b ? $strbytes : $strlength)) || ($max && $max < ($is_max_b ? $strbytes : $strlength)))
@@ -628,21 +533,6 @@ class Validator
 		}
 
 		return TRUE;
-	}
-
-	/**
-	 * if not supported 'mb_strlen' function, this method can use.
-	 * @param string $str
-	 * @return int
-	 */
-	function mbStrLen($str)
-	{
-		$arr = count_chars($str);
-		for($i = 0x80; $i < 0xc0; $i++)
-		{
-			unset($arr[$i]);
-		}
-		return array_sum($arr);
 	}
 
 	/**

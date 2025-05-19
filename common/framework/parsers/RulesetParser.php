@@ -44,6 +44,7 @@ class RulesetParser extends BaseParser
 					$def[trim($key)] = trim($val);
 				}
 				$def['message'] = self::_getChildrenByLang($rule, 'message', $lang) ?: null;
+				unset($def['name']);
 
 				$rule_name = trim($rule['name']);
 				$info->rules[$rule_name] = $def;
@@ -66,6 +67,7 @@ class RulesetParser extends BaseParser
 					$def[trim($key)] = trim($val);
 				}
 				$def['title'] = self::_getChildrenByLang($field, 'title', $lang) ?: null;
+				unset($def['name']);
 
 				if ($field->if)
 				{
