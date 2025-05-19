@@ -80,6 +80,10 @@ class AddonInfoParser extends BaseParser
 		{
 			$info->extra_vars = get_object_vars(self::_getExtraVars($xml->extra_vars, $lang, 'addon'));
 		}
+		else
+		{
+			$info->extra_vars = [];
+		}
 
 		// Prepare additional fields that will be filled in later.
 		$info->is_enabled = (object)['pc' => false, 'mobile' => false];

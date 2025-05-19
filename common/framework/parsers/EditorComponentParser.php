@@ -80,6 +80,10 @@ class EditorComponentParser extends BaseParser
 		{
 			$info->extra_vars = self::_getExtraVars($xml->extra_vars, $lang, 'editor_component');
 		}
+		else
+		{
+			$info->extra_vars = new \stdClass;
+		}
 
 		// Return the complete result.
 		return $info;
