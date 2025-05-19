@@ -109,26 +109,62 @@ abstract class BaseParser
 	 *
 	 * @param \SimpleXMLElement $extra_vars
 	 * @param string $lang
+	 * @param string $type
 	 * @return object
 	 */
-	protected static function _getExtraVars(\SimpleXMLElement $extra_vars, string $lang): \stdClass
+	protected static function _getExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = ''): \stdClass
 	{
 		$result = new \stdClass;
+
+		// Recurse into groups.
 		$group_name = $extra_vars->getName() === 'group' ? self::_getChildrenByLang($extra_vars, 'title', $lang) : null;
 		foreach ($extra_vars->group ?: [] as $group)
 		{
-			$group_result = self::_getExtraVars($group, $lang);
+			$group_result = self::_getExtraVars($group, $lang, $type);
 			foreach ($group_result as $key => $val)
 			{
 				$result->{$key} = $val;
 			}
 		}
+
+		// Parse each variable in the group.
 		foreach ($extra_vars->var ?: [] as $var)
 		{
 			$item = new \stdClass;
 			$item->group = $group_name;
-			$item->name = trim($var['name']);
-			$item->type = trim($var['type']) ?: 'text';
+
+			// id and name
+			if ($type === 'widget')
+			{
+				$item->id = trim($var['id']) ?: trim($var->id);
+				if (!$item->id)
+				{
+					$item->id = trim($var['name']);
+				}
+				$item->name = $var->nameself::_getChildrenByLang($var, 'name', $lang);
+				if (!$item->name)
+				{
+					$item->name = self::_getChildrenByLang($var, 'title', $lang);
+				}
+			}
+			else
+			{
+				$item->name = trim($var['name']);
+			}
+
+			// type
+			$item->type = trim($var['type']);
+			if (!$item->type)
+			{
+				$item->type = trim($var->type) ?: 'text';
+			}
+			if ($item->type === 'filebox' && isset($var->type))
+			{
+				$item->filter = trim($var->type['filter'] ?? '');
+				$item->allow_multiple = trim($var->type['allow_multiple'] ?? '');
+			}
+
+			// Other common attributes
 			$item->title = self::_getChildrenByLang($var, 'title', $lang);
 			$item->description = str_replace('\\n', "\n", self::_getChildrenByLang($var, 'description', $lang));
 			$item->default = trim($var['default']) ?: null;
@@ -137,6 +173,8 @@ abstract class BaseParser
 				$item->default = self::_getChildrenByLang($var, 'default', $lang);
 			}
 			$item->value = null;
+
+			// Options
 			if ($var->options)
 			{
 				$item->options = array();
@@ -144,13 +182,22 @@ abstract class BaseParser
 				{
 					$option_item = new \stdClass;
 					$option_item->title = self::_getChildrenByLang($option, 'title', $lang);
-					$option_item->value = trim($option['value']);
+					$option_item->value = trim($option['value']) ?: trim($option->value);
 					$item->options[$option_item->value] = $option_item;
+					if ($type === 'widget' && $option['default'] === 'true')
+					{
+						$item->default_options[$option_item->value] = true;
+					}
+					if ($type === 'widget' && $option['init'] === 'true')
+					{
+						$item->init_options[$option_item->value] = true;
+					}
 				}
 			}
 
 			$result->{$item->name} = $item;
 		}
+
 		return $result;
 	}
 }

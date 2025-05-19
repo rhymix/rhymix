@@ -41,7 +41,7 @@ class AddonInfoParser extends BaseParser
 			$info->description = self::_getChildrenByLang($xml, 'description', $lang);
 			$info->version = trim($xml->version);
 			$info->date = ($xml->date === 'RX_CORE') ? '' : date('Ymd', strtotime($xml->date . 'T12:00:00Z'));
-			$info->homepage = trim($xml->homepage);
+			$info->homepage = trim($xml->link);
 			$info->license = trim($xml->license);
 			$info->license_link = trim($xml->license['link'] ?? '');
 			$info->author = array();
@@ -63,25 +63,22 @@ class AddonInfoParser extends BaseParser
 			$info->description = self::_getChildrenByLang($xml->author, 'description', $lang);
 			$info->version = trim($xml['version'] ?? '');
 			$info->date = date('Ymd', strtotime($xml->author['date'] . 'T12:00:00Z'));
-			$info->homepage = trim($xml->homepage);
+			$info->homepage = trim($xml->link);
 			$info->license = trim($xml->license);
 			$info->license_link = trim($xml->license['link'] ?? '');
 			$info->author = array();
 
-			foreach ($xml->author as $author)
-			{
-				$author_info = new \stdClass;
-				$author_info->name = self::_getChildrenByLang($author, 'name', $lang);
-				$author_info->email_address = trim($author['email_address']);
-				$author_info->homepage = trim($author['link'] ?? '');
-				$info->author[] = $author_info;
-			}
+			$author_info = new \stdClass;
+			$author_info->name = self::_getChildrenByLang($xml->author, 'name', $lang);
+			$author_info->email_address = trim($xml->author['email_address']);
+			$author_info->homepage = trim($xml->author['link'] ?? '');
+			$info->author[] = $author_info;
 		}
 
 		// Get extra_vars.
 		if ($xml->extra_vars)
 		{
-			$info->extra_vars = get_object_vars(self::_getExtraVars($xml->extra_vars, $lang));
+			$info->extra_vars = get_object_vars(self::_getExtraVars($xml->extra_vars, $lang, 'addon'));
 		}
 
 		// Prepare additional fields that will be filled in later.
