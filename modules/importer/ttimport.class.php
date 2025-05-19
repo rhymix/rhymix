@@ -14,12 +14,6 @@
 class ttimport
 {
 	/**
-	 * Xml Parse
-	 * @var XmlParser
-	 */
-	var $oXmlParser = null;
-
-	/**
 	 * Import data in module.xml format
 	 * @param int $key
 	 * @param int $cur
@@ -33,8 +27,6 @@ class ttimport
 	 */
 	function importModule($key, $cur, $index_file, $unit_count, $module_srl, $guestbook_module_srl, $user_id, $module_name=null)
 	{
-		// Pre-create the objects needed
-		$this->oXmlParser = new XeXmlParser();
 		// Get category information of the target module
 		$oDocumentController = getController('document');
 		$oDocumentModel = getModel('document');
@@ -45,8 +37,8 @@ class ttimport
 		$category_file = preg_replace('/index$/i', 'category.xml', $index_file);
 		if(file_exists($category_file))
 		{
-			// Create the xmlParser object
-			$xmlDoc = $this->oXmlParser->loadXmlFile($category_file);
+			$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXmlFile($category_file);
+
 			// List category information
 			if($xmlDoc->categories->category)
 			{
@@ -62,7 +54,7 @@ class ttimport
 
 					$obj = null;
 					$obj->title = $category;
-					$obj->module_srl = $module_srl; 
+					$obj->module_srl = $module_srl;
 					if($v->parent) $obj->parent_srl = $match_sequence[$v->parent];
 					$output = $oDocumentController->insertCategory($obj);
 
@@ -126,7 +118,7 @@ class ttimport
 				if($started) $buff .= $str;
 			}
 
-			$xmlDoc = $this->oXmlParser->parse('<post>'.$buff);
+			$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXmlString('<post>'.$buff);
 
 			$author_xml_id = $xmlDoc->post->author->body;
 
@@ -250,7 +242,7 @@ class ttimport
 				// Save state if not published
 				if(!in_array($xmlDoc->post->visibility->body, $status_published))
 				{
-					$obj->module_srl = $member_info->member_srl; 
+					$obj->module_srl = $member_info->member_srl;
 				}
 			}
 			// Document
@@ -288,8 +280,8 @@ class ttimport
 		$guestbook_file = preg_replace('/index$/i', 'guestbook.xml', $index_file);
 		if(file_exists($guestbook_file))
 		{
-			// Create the xmlParser object
-			$xmlDoc = $this->oXmlParser->loadXmlFile($guestbook_file);
+			$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXmlFile($guestbook_file);
+
 			// Handle guest book information
 			if($guestbook_module_srl && $xmlDoc->guestbook->comment)
 			{
@@ -480,7 +472,7 @@ class ttimport
 
 		$buff .= '</attachment>';
 
-		$xmlDoc = $this->oXmlParser->parse($buff);
+		$xmlDoc = Rhymix\Framework\Parsers\XEXMLParser::loadXmlString($buff);
 
 		$file_obj->source_filename = $xmlDoc->attachment->label->body;
 		$file_obj->download_count = $xmlDoc->attachment->downloads->body;
@@ -516,7 +508,7 @@ class ttimport
 		{
 			$uploaded_count++;
 			$tmp_obj = null;
-			if($file_obj->direct_download == 'Y') $files[$name]->url = $file_obj->uploaded_filename; 
+			if($file_obj->direct_download == 'Y') $files[$name]->url = $file_obj->uploaded_filename;
 			else $files[$name]->url = getUrl('','module','file','act','procFileDownload','file_srl',$file_obj->file_srl,'sid',$file_obj->sid);
 			$files[$name]->direct_download = $file_obj->direct_download;
 			$files[$name]->source_filename = $file_obj->source_filename;
@@ -583,7 +575,7 @@ class ttimport
 			if(preg_match('/\.(jpg|gif|jpeg|png)$/i', $obj->source_filename))
 			{
 				return sprintf('<img editor_component="image_link" src="%s" alt="%s" />', $obj->url, str_replace('"','\\"',$matches[4]));
-				// If other multimedia file but image is, 
+				// If other multimedia file but image is,
 			}
 			else
 			{
@@ -606,7 +598,7 @@ class ttimport
 		$key = $matches[1];
 		if(!$key) return $matches[0];
 
-		return 
+		return
 			'<object type="application/x-shockwave-flash" classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" width="100%" height="402">'.
 			'<param name="movie" value="http://flvs.daum.net/flvPlayer.swf?vid='.urlencode($key).'"/>'.
 			'<param name="allowScriptAccess" value="always"/>'.
