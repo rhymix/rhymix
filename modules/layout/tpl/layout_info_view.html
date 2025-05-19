@@ -53,10 +53,10 @@
 		<h1>{$lang->extra_vars}</h1>
 		{@$cnt = 1}
 		<block loop="$selected_layout->extra_var => $name, $var">
-			<block cond="$cnt == 1 && $var->group"><div class="x_tabbable"><ul class="x_nav x_nav-tabs"></block>
-			<block cond="$group != $var->group">
+			<block cond="$cnt == 1 && !empty($var->group)"><div class="x_tabbable"><ul class="x_nav x_nav-tabs"></block>
+			<block cond="($group ?? null) != ($var->group ?? null)">
 				<li class="x_active"|cond="$cnt == 1"><a href="#extra_var{$cnt}" data-index="{$cnt}">{$var->group}</a></li>
-				{@$group = $var->group}
+				{@$group = $var->group ?? null}
 				{@$cnt ++}
 			</block>
 		</block>
@@ -77,7 +77,7 @@
 				<label class="x_control-label" for="{$name}"|cond="$var->type!='text'&&$var->type!='textarea'" for="lang_{$name}"|cond="$var->type=='text'||$var->type=='textarea'">{$var->title}</label>
 				<div class="x_controls">
 					<div cond="$var->type == 'text'">
-						<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{$var->value}<!--@end-->" />
+						<input type="text" name="{$name}" id="{$name}" class="lang_code" value="<!--@if(strpos($var->value ?? '', '$user_lang->') !== false)-->{htmlspecialchars($var->value ?? '', ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{$var->value}<!--@end-->" />
 					</div>
 
 					<div cond="$var->type == 'textarea'">
@@ -118,7 +118,7 @@
 					<block cond="$var->type == 'radio'">
 						<div class="x_thumbnails">
 							<block loop="$var->options => $key, $val">
-								<div class="x_span2 <!--@if($val->thumbnail)-->x_thumbnail<!--@end-->">
+								<div class="x_span2 <!--@if(!empty($val->thumbnail))-->x_thumbnail<!--@end-->">
 									<img src="../../../{$val->thumbnail}" cond="$val->thumbnail" alt="{$val->val}" />
 									<div class="x_caption">
 										<label><input type="radio" name="{$name}" value="{$key}" checked="checked"|cond="$key == $var->value" /> {$val->val}</label>
@@ -156,8 +156,8 @@
 
 	<div class="x_clearfix btnArea">
 		<span class="etc">
-			<a cond="$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout, 'type', $type)}">{$lang->cmd_list}</a>
-			<a cond="!$layout" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList', 'type', $type)}">{$lang->cmd_list}</a>
+			<a cond="!empty($layout)" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminInstanceList', 'layout', $selected_layout->layout, 'type', $type ?? null)}">{$lang->cmd_list}</a>
+			<a cond="empty($layout)" class="x_btn" href="{getUrl('', 'module', 'admin', 'act', 'dispLayoutAdminAllInstanceList', 'type', $type ?? null)}">{$lang->cmd_list}</a>
 		</span>
 		<span class="x_btn-group x_pull-right">
 			<input class="x_btn x_btn-primary" type="submit" value="{$lang->cmd_save}" onclick="doSubmitConfig()"/>
