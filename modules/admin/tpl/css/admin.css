@@ -356,11 +356,15 @@ body>.x,
 	color: #fff;
 }
 .x .x_modal-header>.close_window {
-	font-size: 20px;
+	font-size: 24px;
+	line-height: 30px;
 	font-weight: bold;
 	text-decoration: none;
 	color: #fff;
-	opacity: 0.5;
+	opacity: 0.6;
+}
+.x .x_modal-header>.close_window:hover {
+	opacity: 0.8;
 }
 .x .x_modal-body {
 	overflow-y: visible;

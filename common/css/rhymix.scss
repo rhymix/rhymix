@@ -10,6 +10,10 @@ article, aside, details, figcaption, figure, footer, header, hgroup, nav, sectio
 }
 body {
 	position: relative;
+	&.rx_modal_open {
+		overflow: hidden;
+		position: fixed;
+	}
 }
 a img {
 	border: 0;

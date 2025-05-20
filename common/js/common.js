@@ -749,6 +749,7 @@ function openFullScreenIframe(url, target) {
 	const iframe = document.createElement('iframe');
 	const iframe_sequence = String(Date.now()) + Math.round(Math.random() * 1000000);
 	iframe.setAttribute('id', '_rx_iframe_' + iframe_sequence);
+	iframe.setAttribute('class', 'rx_fullscreen_iframe');
 	iframe.setAttribute('name', target || ('_rx_iframe_' + iframe_sequence))
 	iframe.setAttribute('src', url + '&iframe_sequence=' + iframe_sequence);
 	iframe.setAttribute('width', '100%');
@@ -756,7 +757,26 @@ function openFullScreenIframe(url, target) {
 	iframe.setAttribute('frameborder', '0');
 	iframe.setAttribute('scrolling', 'no');
 	iframe.setAttribute('style', 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:999999999; background-color: #fff; overflow-y:auto');
-	$(document.body).append(iframe);
+
+	const body = $(document.body);
+	body.data('rx_scroll_position', {
+		left: $(window).scrollLeft(),
+		top: $(window).scrollTop()
+	});
+	body.addClass('rx_modal_open');
+	body.append(iframe);
+}
+
+function closeFullScreenIframe() {
+	$('.rx_fullscreen_iframe').remove();
+	const body = $(document.body);
+	body.removeClass('rx_modal_open');
+	const scroll_position = body.data('rx_scroll_position');
+	if (scroll_position) {
+		$(window).scrollLeft(scroll_position.left);
+		$(window).scrollTop(scroll_position.top);
+		body.removeData('rx_scroll_position');
+	}
 }
 
 /**
