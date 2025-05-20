@@ -670,8 +670,6 @@ function _displayMultimedia(src, width, height, options) {
 	var autostart = (params.autostart && params.autostart != 'false') ? 'true' : 'false';
 	delete(params.autostart);
 
-	var clsid = "";
-	var codebase = "";
 	var html = "";
 	var background = "black";
 	width = parseInt(width, 10);
