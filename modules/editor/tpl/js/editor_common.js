@@ -211,7 +211,7 @@ function openComponent(component_name, editor_sequence, manual_url) {
 	if(typeof(current_mid)!="undefined" && current_mid) popup_url += "&mid="+escape(current_mid);
 
 	if (navigator.userAgent.match(/mobile/i)) {
-		openFullScreenIframe(popup_url, 'editorComponent');
+		openModalIframe(popup_url, 'editorComponent');
 	} else {
 		popopen(popup_url, 'editorComponent');
 	}
@@ -244,7 +244,7 @@ function editorSearchComponent(evt) {
 		if(editorMode[editor_sequence]=='html') return;
 		var popup_url = request_uri+"?module=widget&act=dispWidgetGenerateCodeInPage&selected_widget="+widget+"&module_srl="+editor_sequence
 		if (navigator.userAgent.match(/mobile/i)) {
-			openFullScreenIframe(popup_url, 'GenerateCodeInPage');
+			openModalIframe(popup_url, 'GenerateCodeInPage');
 		} else {
 			popopen(popup_url, 'GenerateCodeInPage');
 		}

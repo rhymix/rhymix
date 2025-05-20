@@ -236,7 +236,7 @@
 							/* if(icon) styleText = " style=\"background-image:url('"+icon+"')\" "; */
 							if (target === 'popup') {
 								if (isMobile) {
-									click_str = 'onclick="openFullScreenIframe(this.href, \''+target+'\'); return false;"';
+									click_str = 'onclick="openModalIframe(this.href, \''+target+'\'); return false;"';
 								} else {
 									click_str = 'onclick="popopen(this.href, \''+target+'\'); return false;"';
 								}
@@ -544,6 +544,23 @@ jQuery(function($) {
 })(jQuery);
 
 /**
+ * Main handler for popstate events
+ */
+window.addEventListener('popstate', function(event) {
+	// Close modal if it is open
+	if ($(document.body).hasClass('rx_modal_open')) {
+		const body = $(document.body).removeClass('rx_modal_open');
+		const scroll_position = body.data('rx_scroll_position');
+		if (scroll_position) {
+			$(window).scrollLeft(scroll_position.left);
+			$(window).scrollTop(scroll_position.top);
+			body.removeData('rx_scroll_position');
+		}
+		$('.rx_modal').remove();
+	}
+});
+
+/**
  * @brief xSleep(micro time)
  **/
 function xSleep(sec) {
@@ -705,11 +722,12 @@ function zbxe_folder_close(id) {
 /**
  * 팝업창 대신 전체 화면 iframe을 띄우는 함수
  */
-function openFullScreenIframe(url, target) {
+function openModalIframe(url, target) {
 	const iframe = document.createElement('iframe');
 	const iframe_sequence = String(Date.now()) + Math.round(Math.random() * 1000000);
-	iframe.setAttribute('id', '_rx_iframe_' + iframe_sequence);
-	iframe.setAttribute('class', 'rx_fullscreen_iframe');
+	const iframe_id = '_rx_iframe_' + iframe_sequence;
+	iframe.setAttribute('id', iframe_id);
+	iframe.setAttribute('class', 'rx_modal');
 	iframe.setAttribute('name', target || ('_rx_iframe_' + iframe_sequence))
 	iframe.setAttribute('src', url + '&iframe_sequence=' + iframe_sequence);
 	iframe.setAttribute('width', '100%');
@@ -719,24 +737,26 @@ function openFullScreenIframe(url, target) {
 	iframe.setAttribute('style', 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:999999999; background-color: #fff; overflow-y:auto');
 
 	const body = $(document.body);
-	body.data('rx_scroll_position', {
-		left: $(window).scrollLeft(),
-		top: $(window).scrollTop()
-	});
+	if (!body.data('rx_scroll_position')) {
+		body.data('rx_scroll_position', {
+			left: $(window).scrollLeft(),
+			top: $(window).scrollTop()
+		});
+	}
 	body.addClass('rx_modal_open');
 	body.append(iframe);
+	history.pushState({ modal: iframe_id }, '', location.href);
 }
 
-function closeFullScreenIframe() {
-	$('.rx_fullscreen_iframe').remove();
-	const body = $(document.body);
-	body.removeClass('rx_modal_open');
-	const scroll_position = body.data('rx_scroll_position');
-	if (scroll_position) {
-		$(window).scrollLeft(scroll_position.left);
-		$(window).scrollTop(scroll_position.top);
-		body.removeData('rx_scroll_position');
+function closeModal(id) {
+	history.back();
+	/*
+	if (typeof id === 'string') {
+		$('#' + id).remove();
+	} else {
+		$('.rx_modal').remove();
 	}
+	*/
 }
 
 /**
@@ -934,7 +954,7 @@ function doDocumentLoad(obj) {
 	objForSavedDoc = obj.form;
 	var popup_url = request_uri.setQuery('module','document').setQuery('act','dispTempSavedList');
 	if (navigator.userAgent.match(/mobile/i)) {
-		openFullScreenIframe(popup_url);
+		openModalIframe(popup_url);
 	} else {
 		popopen(popup_url);
 	}

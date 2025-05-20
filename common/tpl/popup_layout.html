@@ -11,7 +11,7 @@
 		const iframe_sequence = '{{ $iframe_sequence }}';
 		window.opener = window.parent;
 		window.close = function() {
-			parent.closeFullScreenIframe('_rx_iframe_' + iframe_sequence);
+			parent.closeModal('_rx_iframe_' + iframe_sequence);
 		};
 	</script>
 	<style>
