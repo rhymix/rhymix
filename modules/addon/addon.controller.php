@@ -111,7 +111,7 @@ class addonController extends addon
 			$buff[] = sprintf('$addon_file = RX_BASEDIR . \'addons/%s/%s.addon.php\';', $addon, $addon);
 
 			// Addon configuration
-			$buff[] = '$addon_info = unserialize(' . var_export(serialize($extra_vars), true) . ');';
+			$buff[] = '$addon_info = ' . var_export($extra_vars, true) . ';';
 
 			// Decide whether to run in this mid
 			if ($run_method === 'no_run_selected')
@@ -159,9 +159,27 @@ class addonController extends addon
 	 */
 	function doSetup($addon, $extra_vars, $site_srl = 0, $gtype = 'site')
 	{
-		if(!is_array($extra_vars->mid_list))
+		if (!is_object($extra_vars))
 		{
-			unset($extra_vars->mid_list);
+			$extra_vars = new stdClass();
+		}
+		if (!isset($extra_vars->xe_run_method))
+		{
+			$extra_vars->xe_run_method = 'run_selected';
+		}
+		if (!isset($extra_vars->mid_list) || !is_array($extra_vars->mid_list))
+		{
+			$extra_vars->mid_list = [];
+		}
+
+		$xml_file = RX_BASEDIR . 'addons/' . $addon . '/conf/info.xml';
+		$addon_info = Rhymix\Framework\Parsers\AddonInfoParser::loadXML($xml_file, $addon);
+		foreach ($addon_info->extra_vars as $key => $val)
+		{
+			if (!isset($extra_vars->$key) && isset($val->default))
+			{
+				$extra_vars->$key = $val->default;
+			}
 		}
 
 		$args = new stdClass();

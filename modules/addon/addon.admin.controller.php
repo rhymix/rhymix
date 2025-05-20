@@ -237,6 +237,29 @@ class addonAdminController extends addonController
 	 */
 	function doInsert($addon, $site_srl = 0, $gtype = 'site', $isUsed = 'N', $extra_vars = null)
 	{
+		if (!is_object($extra_vars))
+		{
+			$extra_vars = new stdClass();
+		}
+		if (!isset($extra_vars->xe_run_method))
+		{
+			$extra_vars->xe_run_method = 'run_selected';
+		}
+		if (!isset($extra_vars->mid_list) || !is_array($extra_vars->mid_list))
+		{
+			$extra_vars->mid_list = [];
+		}
+
+		$xml_file = RX_BASEDIR . 'addons/' . $addon . '/conf/info.xml';
+		$addon_info = Rhymix\Framework\Parsers\AddonInfoParser::loadXML($xml_file, $addon);
+		foreach ($addon_info->extra_vars as $key => $val)
+		{
+			if (!isset($extra_vars->$key))
+			{
+				$extra_vars->$key = $val->default;
+			}
+		}
+
 		$args = new stdClass;
 		$args->addon = $addon;
 		if (strlen($isUsed) == 2)
