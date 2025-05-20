@@ -556,7 +556,13 @@ window.addEventListener('popstate', function(event) {
 			$(window).scrollTop(scroll_position.top);
 			body.removeData('rx_scroll_position');
 		}
-		$('.rx_modal').remove();
+		$('.rx_modal').each(function() {
+			if (this.nodeName === 'IFRAME') {
+				$(this).remove();
+			} else {
+				$(this).removeClass('active');
+			}
+		});
 	}
 });
 
@@ -748,6 +754,26 @@ function openModalIframe(url, target) {
 	history.pushState({ modal: iframe_id }, '', location.href);
 }
 
+/**
+ * 특정 요소를 모달로 띄우는 함수
+ */
+function openModal(id) {
+	$('#' + id).addClass('active');
+	const body = $(document.body);
+	if (!body.data('rx_scroll_position')) {
+		body.data('rx_scroll_position', {
+			left: $(window).scrollLeft(),
+			top: $(window).scrollTop()
+		});
+	}
+	body.addClass('rx_modal_open');
+	body.append(iframe);
+	history.pushState({ modal: id }, '', location.href);
+}
+
+/**
+ * 모달을 닫는 함수
+ */
 function closeModal(id) {
 	history.back();
 	/*
