@@ -423,44 +423,6 @@ jQuery(function($) {
 		$(this).triggerHandler("click");
 	});
 
-	/* select - option의 disabled=disabled 속성을 IE에서도 체크하기 위한 함수 */
-	if(navigator.userAgent.match(/MSIE/)) {
-		$('select').each(function(i, sels) {
-			var disabled_exists = false;
-			var first_enable = [];
-
-			for(var j=0; j < sels.options.length; j++) {
-				if(sels.options[j].disabled) {
-					sels.options[j].style.color = '#CCCCCC';
-					disabled_exists = true;
-				}else{
-					first_enable[i] = (first_enable[i] > -1) ? first_enable[i] : j;
-				}
-			}
-
-			if(!disabled_exists) return;
-
-			sels.oldonchange = sels.onchange;
-			sels.onchange = function() {
-				if(this.options[this.selectedIndex].disabled) {
-
-					this.selectedIndex = first_enable[i];
-					/*
-					if(this.options.length<=1) this.selectedIndex = -1;
-					else if(this.selectedIndex < this.options.length - 1) this.selectedIndex++;
-					else this.selectedIndex--;
-					*/
-
-				} else {
-					if(this.oldonchange) this.oldonchange();
-				}
-			};
-
-			if(sels.selectedIndex >= 0 && sels.options[ sels.selectedIndex ].disabled) sels.onchange();
-
-		});
-	}
-
 	/* enforce max filesize on file uploaeds */
 	$(document).on('change', 'input[type=file]', function() {
 		var max_filesize = $(this).data('max-filesize');
