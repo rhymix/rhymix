@@ -357,9 +357,7 @@ Rhymix.modal.openIframe = function(url, target) {
 	iframe.setAttribute('src', url + '&iframe_sequence=' + iframe_sequence);
 	iframe.setAttribute('width', '100%');
 	iframe.setAttribute('height', '100%');
-	iframe.setAttribute('frameborder', '0');
-	iframe.setAttribute('scrolling', 'no');
-	iframe.setAttribute('style', 'position:fixed; top:0; left:0; width:100%; height:100%; z-index:999999999; background-color: #fff; overflow-y:auto');
+	iframe.setAttribute('style', 'position:fixed; top:0; left:0; width:100%; height:100%; border:0; z-index:999999999; background-color: #fff; overflow-y:auto');
 	this.saveBackgroundPosition(iframe_id, true);
 	$(document.body).append(iframe);
 };
