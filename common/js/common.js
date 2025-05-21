@@ -393,7 +393,7 @@ Rhymix.ajax = function(action, params, success, error) {
 	// Extract action info
 	if (!action) {
 		if (params instanceof FormData) {
-			action = (params.get('mid') || params.get('module')) + '.' + params.get('act');
+			action = (params.get('module') || params.get('mid')) + '.' + params.get('act');
 			if (action === '.') {
 				action = null;
 			}
@@ -410,11 +410,13 @@ Rhymix.ajax = function(action, params, success, error) {
 
 	// Add action to URL if the current rewrite level supports it
 	let url = this.URI(window.request_uri).pathname();
+	/*
 	if (this.getRewriteLevel() >= 2 && action !== null) {
 		url = url + action.replace('.', '/');
 	} else {
 		url = url + 'index.php';
 	}
+	*/
 
 	// Add CSRF token and AJAX compatibility hint
 	const headers = {};
