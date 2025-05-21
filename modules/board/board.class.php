@@ -20,6 +20,7 @@ class Board extends ModuleObject
 		'user_name',
 		'nick_name',
 		'user_id',
+		'regdate',
 		'tag',
 	];
 

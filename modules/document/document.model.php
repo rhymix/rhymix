@@ -1484,10 +1484,12 @@ class DocumentModel extends Document
 				case 'nick_name' :
 				case 'email_address' :
 				case 'homepage' :
-				case 'regdate' :
-				case 'last_update' :
 				case 'ipaddress' :
 					$args->{'s_' . $search_target} = str_replace(' ', '%', $search_keyword);
+					break;
+				case 'regdate' :
+				case 'last_update' :
+					$args->{'s_' . $search_target} = preg_replace('/[^\d]/', '', $search_keyword);
 					break;
 				case 'member_srl' :
 				case 'readed_count' :
