@@ -244,9 +244,9 @@ $(function() {
 	}
 
 	// Add debug data from pending AJAX requests.
-	if (window.rhymix_debug_pending_data) {
-		while (window.rhymix_debug_pending_data.length) {
-			rhymix_debug_add_data(window.rhymix_debug_pending_data.shift());
+	if (Rhymix.pendingDebugData) {
+		while (Rhymix.pendingDebugData.length) {
+			rhymix_debug_add_data(Rhymix.pendingDebugData.shift());
 		}
 	}
 });

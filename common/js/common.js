@@ -13,6 +13,7 @@ const Rhymix = {
 	addedDocument: [],
 	loadedPopupMenus: [],
 	openWindowList: {},
+	pendingDebugData: [],
 	showAjaxErrors: ['ALL'],
 	unloading: false,
 	modal: {}
@@ -470,7 +471,7 @@ Rhymix.ajaxSuccessHandler = function(xhr, textStatus, action, data, params, succ
 		if (window.rhymix_debug_add_data) {
 			window.rhymix_debug_add_data(data._rx_debug);
 		} else {
-			window.rhymix_debug_pending_data.push(data._rx_debug);
+			this.pendingDebugData.push(data._rx_debug);
 		}
 	}
 
@@ -749,9 +750,6 @@ Rhymix.IPv6 = window.IPv6;
 
 // Alias to XE for backward compatibility
 const XE = Rhymix;
-
-// Other global variables
-window.rhymix_debug_pending_data = [];
 
 /**
  * ============================
