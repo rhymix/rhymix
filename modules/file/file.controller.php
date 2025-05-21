@@ -1265,7 +1265,14 @@ class FileController extends File
 				$adjusted['height'] = (int)$resize_height;
 				if (!$is_animated && $adjusted['type'] === $image_info['type'] && $config->max_image_size_same_format !== 'Y')
 				{
-					$adjusted['type'] = $config->max_image_size_same_format ?: 'jpg';
+					if (in_array($config->max_image_size_same_format, ['jpg', 'png', 'webp']))
+					{
+						$adjusted['type'] = $config->max_image_size_same_format;
+					}
+					else
+					{
+						$adjusted['type'] = 'jpg';
+					}
 				}
 			}
 		}
