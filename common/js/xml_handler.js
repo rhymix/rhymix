@@ -18,12 +18,6 @@
 	window.show_leaving_warning = false;
 
 	/**
-	 * This variable becomes true when the user tries to navigate away from the page.
-	 * It should not be manually edited.
-	 */
-	var page_unloading = false;
-
-	/**
 	 * Function for compatibility with XE's exec_xml()
 	 */
 	window.exec_xml = $.exec_xml = function(module, act, params, callback_success, return_fields, callback_success_arg, fo_obj) {
@@ -127,7 +121,7 @@
 			}
 
 			// If the user is navigating away, don't do anything.
-			if (xhr.status == 0 && page_unloading) {
+			if (xhr.status == 0 && Rhymix.unloading) {
 				return;
 			}
 
@@ -293,7 +287,7 @@
 		var errorHandler = function(xhr, textStatus) {
 
 			// If the user is navigating away, don't do anything.
-			if (xhr.status == 0 && page_unloading) {
+			if (xhr.status == 0 && Rhymix.unloading) {
 				return;
 			}
 
@@ -421,7 +415,7 @@
 	 * Empty placeholder for beforeUnload handler.
 	 */
 	var beforeUnloadHandler = function() {
-		page_unloading = true;
+		Rhymix.unloading = true;
 		return "";
 	};
 
@@ -434,10 +428,6 @@
 				$(window).bind("beforeunload", beforeUnloadHandler);
 			}).bind("ajaxStop cancel_confirm", function() {
 				$(window).unbind("beforeunload", beforeUnloadHandler);
-			});
-		} else {
-			$(window).on('beforeunload', function() {
-				page_unloading = true;
 			});
 		}
 	});

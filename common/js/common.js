@@ -13,6 +13,8 @@ const Rhymix = {
 	addedDocument: [],
 	loadedPopupMenus: [],
 	openWindowList: {},
+	showAjaxErrors: ['ALL'],
+	unloading: false,
 	modal: {}
 };
 
@@ -375,6 +377,202 @@ Rhymix.modal.close = function(id) {
 		$('.rx_modal').remove();
 	}
 	*/
+};
+
+/**
+ * Make an AJAX request
+ *
+ * @param string action
+ * @param object params
+ * @param function success
+ * @param function error
+ * @return void
+ */
+Rhymix.ajax = function(action, params, success, error) {
+
+	// Extract action info
+	if (!action) {
+		if (params instanceof FormData) {
+			action = (params.get('mid') || params.get('module')) + '.' + params.get('act');
+			if (action === '.') {
+				action = null;
+			}
+		} else {
+			action = null;
+		}
+	} else {
+		action = action.split('.');
+		params = params || {};
+		params.module = action[0];
+		params.act = action[1];
+		action = action.join('.');
+	}
+
+	// Add action to URL if the current rewrite level supports it
+	let url = this.URI(window.request_uri).pathname();
+	if (this.getRewriteLevel() >= 2 && action !== null) {
+		url = url + action.replace('.', '/');
+	} else {
+		url = url + 'index.php';
+	}
+
+	// Add CSRF token and AJAX compatibility hint
+	const headers = {};
+	if (action !== null) {
+		headers['X-CSRF-Token'] = getCSRFToken();
+		if (!params['_rx_ajax_compat']) {
+			headers['X-AJAX-Compat'] = 'JSON';
+		}
+	};
+
+	// Send the AJAX request
+	try {
+		const args = {
+			type: 'POST',
+			dataType: 'json',
+			url: url,
+			data: params,
+			processData: (action !== null),
+			headers : headers,
+			success : function(data, textStatus, xhr) {
+				Rhymix.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
+			},
+			error : function(xhr, textStatus, errorThrown) {
+				Rhymix.ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
+			}
+		};
+		if (params instanceof FormData) {
+			args.contentType = false;
+		}
+		$.ajax(args);
+	} catch(e) {
+		alert(e);
+	}
+};
+
+/**
+ * Default success handler for AJAX requests
+ *
+ * @param object xhr
+ * @param string textStatus
+ * @param string action
+ * @param object data
+ * @param object params
+ * @param function success
+ * @param function errror
+ * @return void
+ */
+Rhymix.ajaxSuccessHandler = function(xhr, textStatus, action, data, params, success, error) {
+
+	// Add debug information.
+	if (data._rx_debug) {
+		data._rx_debug.page_title = "AJAX : " + action;
+		if (window.rhymix_debug_add_data) {
+			window.rhymix_debug_add_data(data._rx_debug);
+		} else {
+			window.rhymix_debug_pending_data.push(data._rx_debug);
+		}
+	}
+
+	// If the response contains a Rhymix error code, display the error message.
+	if (typeof data.error !== 'undefined' && data.error != 0) {
+
+		// If an error callback is defined, call it. Abort if it returns false.
+		if ($.isFunction(error) && error(data, xhr) === false) {
+			return;
+		}
+
+		// If an error message was supplied, display it.
+		if (data.message) {
+			let msg = data.message.replace(/\\n/g, "\n");
+			if (data.errorDetail) {
+				msg += "\n\n" + data.errorDetail;
+			}
+			alert(msg);
+			return;
+		}
+
+		// Rhymix should never return an error code without a message, but if someone does, we handle it here.
+		let msg = 'AJAX error: ' + (action || 'form submission') + "\n\n" + xhr.responseText;
+		if (msg.length > 1000) {
+			msg = msg.substring(0, 1000) + '...';
+		}
+		console.error(msg.trim().replace(/\n+/g, "\n"));
+		if (this.showAjaxErrors.indexOf('ALL') >= 0 || this.showAjaxErrors.indexOf(xhr.status) >= 0) {
+			alert(msg.trim());
+		}
+		return;
+	}
+
+	// If a success callback was defined, call it.
+	if ($.isFunction(success)) {
+		success(data, xhr);
+		return;
+	}
+
+	// If the response contains a redirect URL, follow the redirect.
+	if (data.redirect_url) {
+		this.redirectToUrl(data.redirect_url.replace(/&amp;/g, "&"));
+		return;
+	}
+};
+
+/**
+ * Default error handler for AJAX requests
+ *
+ * @param object xhr
+ * @param string textStatus
+ * @param string action
+ * @param string url
+ * @param object params
+ * @param function success
+ * @param function errror
+ * @return void
+ */
+Rhymix.ajaxErrorHandler = function(xhr, textStatus, action, url, params, success, error) {
+
+	// If the user is navigating away, don't do anything.
+	if (xhr.status == 0 && this.unloading) {
+		return;
+	}
+
+	// If the response contains valid JSON, call the success callback instead.
+	if (xhr.status >= 400 && xhr.responseText) {
+		let data;
+		try {
+			data = JSON.parse(xhr.responseText);
+		} catch (e) { }
+		if (data && typeof data.error !== 'undefined') {
+			this.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
+			return;
+		}
+	}
+
+	// If an error callback is defined, call it. Abort if it returns false.
+	if ($.isFunction(error)) {
+		let fakedata = { error: -3, message: textStatus };
+		if (error(fakedata, xhr) === false) {
+			return;
+		}
+	}
+
+	// Otherwise, generate a simple error message.
+	let error_info, msg;
+	if (xhr.status == 0) {
+		error_info = 'Connection failed: ' + url + "\n\n" + (xhr.responseText || '');
+	} else {
+		error_info = 'Response code: ' + xhr.status + "\n\n" + (xhr.responseText || '');
+	}
+	msg = 'AJAX error: ' + (action || 'form submission') + "\n\n" + error_info;
+	if (msg.length > 1000) {
+		msg = msg.substring(0, 1000) + '...';
+	}
+
+	// Print the error message.
+	console.error(msg.trim().replace(/\n+/g, "\n"));
+	if (this.showAjaxErrors.indexOf('ALL') >= 0 || this.showAjaxErrors.indexOf(xhr.status) >= 0) {
+		alert(msg.trim());
+	}
 };
 
 /**
@@ -807,7 +1005,12 @@ $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 	}
 });
 
-// Generic handler for popstate events
+// General handler for page unload events
+window.addEventListener('beforeunload', function() {
+	Rhymix.unloading = true;
+});
+
+// General handler for popstate events
 window.addEventListener('popstate', function(event) {
 	// Close modal if it is open
 	if ($(document.body).hasClass('rx_modal_open')) {
@@ -1367,7 +1570,7 @@ function doChangeLangType(obj) {
 /**
  * Make an AJAX request with a given target_srl
  *
- * Please use exec_json() instead, which is much more powerful.
+ * Please use Rhymix.ajax() instead, which is much more powerful.
  *
  * @deprecated
  * @param string module
