@@ -467,13 +467,13 @@ function legacy_filter(filter_name, form, module, act, callback, responses, conf
 		};
 
 		if (!hasFile) {
-			exec_json(module + '.' + act, params, callback_wrapper);
+			Rhymix.ajax(module + '.' + act, params, callback_wrapper);
 		} else {
 			var fd = new FormData();
 			for (let key in params) {
 				fd.append(key, params[key]);
 			}
-			exec_json('raw', fd, callback_wrapper);
+			Rhymix.ajax(null, fd, callback_wrapper);
 		}
 	};
 
