@@ -432,7 +432,7 @@ Rhymix.ajax = function(action, params, success, error) {
 			dataType: 'json',
 			url: url,
 			data: params,
-			processData: (action !== null),
+			processData: (action !== null && !(params instanceof FormData)),
 			headers : headers,
 			success : function(data, textStatus, xhr) {
 				Rhymix.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
@@ -840,6 +840,16 @@ $(function() {
 		Cookies.remove('rhymix_alert_delay', { path: '/' });
 	}
 	$('#rhymix_alert').on('click', rhymix_alert_close);
+
+	/**
+	 * Intercept form submission and handle them with AJAX
+	 */
+	$(document).on('submit', 'form.rx_ajax', function(event) {
+		if (!$(this).attr('target')) {
+			event.preventDefault();
+			Rhymix.ajaxForm(this);
+		}
+	});
 
 	/**
 	 * Editor preview replacement

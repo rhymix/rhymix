@@ -375,41 +375,31 @@
 	/**
 	 * Function for AJAX submission of arbitrary forms.
 	 */
-	XE.ajaxForm = function(form, callback_success, callback_error) {
-		form = $(form);
+	Rhymix.ajaxForm = function(form, callback_success, callback_error) {
+		const $form = $(form);
 		// Get success and error callback functions.
 		if (typeof callback_success === 'undefined') {
-			callback_success = form.data('callbackSuccess');
-			if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
+			callback_success = $form.data('callbackSuccess');
+			if (callback_success && $.isFunction(callback_success)) {
+				// no-op
+			} else if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
 				callback_success = window[callback_success];
 			} else {
-				callback_success = function(data) {
-					if (data.message && data.message !== 'success') {
-						rhymix_alert(data.message, data.redirect_url);
-					}
-					if (data.redirect_url) {
-						redirect(data.redirect_url);
-					}
-				};
+				callback_success = null;
 			}
 		}
 		if (typeof callback_error === 'undefined') {
-			callback_error = form.data('callbackError');
-			if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
+			callback_error = $form.data('callbackError');
+			if (callback_error && $.isFunction(callback_error)) {
+				// no-op
+			} else if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
 				callback_error = window[callback_error];
 			} else {
 				callback_error = null;
 			}
 		}
-		window.exec_json('raw', new FormData(form[0]), callback_success, callback_error);
+		Rhymix.ajax(null, new FormData($form[0]), callback_success, callback_error);
 	};
-	$(document).on('submit', 'form.rx_ajax', function(event) {
-		// Abort if the form already has a 'target' attribute.
-		if (!$(this).attr('target')) {
-			event.preventDefault();
-			XE.ajaxForm(this);
-		}
-	});
 
 	/**
 	 * Empty placeholder for beforeUnload handler.
