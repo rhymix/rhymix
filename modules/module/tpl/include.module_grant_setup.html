@@ -13,8 +13,9 @@
 		<label class="x_control-label" for="{$grant_name}_default">{$grant_item->title}</label>
 		<div class="x_controls">
 			<select name="{$grant_name}_default" id="{$grant_name}_default" class="grant_default">
-				<option value="0" cond="$grant_item->default == 'guest'">{$lang->grant_to_all}</option>
-				<option value="-1" cond="$grant_item->default != 'manager'">{$lang->grant_to_login_user}</option>
+				<option value="0">{$lang->grant_to_all}</option>
+				<option value="-1">{$lang->grant_to_login_user}</option>
+				<option value="-4">{$lang->grant_to_non_login_user}</option>
 				<option value="-3">{$lang->grant_to_admin}</option>
 				<option value="">{$lang->grant_to_group}</option>
 			</select>

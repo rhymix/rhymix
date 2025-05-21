@@ -58,8 +58,9 @@
 				<label for="{$grant_name}_default" class="x_control-label">{$grant_item->title}</label>
 				<div class="x_controls">
 					<select name="{$grant_name}_default" id="{$grant_name}_default" class="grant_default">
-						<!--@if($grant_item->default == 'guest')--><option value="0" <!--@if($default_grant[$grant_name]=='all')-->selected="selected"<!--@end-->>{$lang->grant_to_all}</option><!--@end-->
-						<!--@if($grant_item->default != 'manager')--><option value="-1" <!--@if($default_grant[$grant_name]=='member' || $default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_login_user}</option><!--@end-->
+						<option value="0" <!--@if($default_grant[$grant_name]=='all')-->selected="selected"<!--@end-->>{$lang->grant_to_all}</option>
+						<option value="-1" <!--@if($default_grant[$grant_name]=='member' || $default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_login_user}</option>
+						<option value="-4" <!--@if($default_grant[$grant_name]=='not_member')-->selected="selected"<!--@end-->>{$lang->grant_to_non_login_user}</option>
 						<option value="-3" <!--@if($default_grant[$grant_name]=='manager')-->selected="selected"<!--@end-->>{$lang->grant_to_admin}</option>
 						<option value="" <!--@if($default_grant[$grant_name]=='group')-->selected="selected"<!--@end-->>{$lang->grant_to_group}</option>
 					</select>

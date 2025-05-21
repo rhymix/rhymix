@@ -37,7 +37,7 @@ class Permission
 		$member_groups = !empty($member_info->group_list) ? array_keys($member_info->group_list) : [];
 
 		// Generate the list of default permissions.
-		$defaults = [
+		$this->_spec = [
 			'access' => '',
 			'root' => 'root',
 			'manager' => 'manager',
@@ -46,11 +46,10 @@ class Permission
 		];
 		foreach ($xml_grant_list as $key => $val)
 		{
-			$defaults[$key] = $val->default ?? '';
+			$this->_spec[$key] = $val->default ?? '';
 		}
 
-		// Generate the combined spec for this module.
-		$this->_spec = $defaults;
+		// Override the defaults with user settings.
 		foreach ($module_grants as $row)
 		{
 			$key = $row->name;
@@ -62,6 +61,11 @@ class Permission
 			if ($row->group_srl == -1 || $row->group_srl == -2)
 			{
 				$this->_spec[$key] = 'member';
+				continue;
+			}
+			if ($row->group_srl == -4)
+			{
+				$this->_spec[$key] = 'not_member';
 				continue;
 			}
 			if ($row->group_srl == -3)
@@ -90,19 +94,15 @@ class Permission
 		if ($member_info && $member_info->is_admin === 'Y')
 		{
 			$this->_scopes = true;
-			foreach ($defaults as $key => $default)
+			foreach ($this->_spec as $key => $requirement)
 			{
 				$this->{$key} = true;
 			}
 			return;
 		}
-		elseif ($is_module_admin)
+		if ($is_module_admin)
 		{
 			$this->_scopes = $is_module_admin;
-			foreach ($defaults as $key => $default)
-			{
-				$this->{$key} = ($default !== 'root');
-			}
 		}
 
 		// Check if each permission is granted to the current user.
@@ -115,6 +115,10 @@ class Permission
 			elseif ($requirement === 'member')
 			{
 				$this->{$key} = ($member_info && $member_info->member_srl);
+			}
+			elseif ($requirement === 'not_member')
+			{
+				$this->{$key} = !($member_info && $member_info->member_srl);
 			}
 			elseif ($requirement === 'manager')
 			{

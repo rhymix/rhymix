@@ -680,6 +680,7 @@
 						<select id="auth${PermId}">
 							<option class="_group_all" value="0">{$lang->grant_to_all}</option>
 							<option class="_group_loggedin" value="-1">{$lang->grant_to_login_user}</option>
+							<option class="_group_not_loggedin" value="-4">{$lang->grant_to_non_login_user}</option>
 							<option class="_group_manager" value="-3">{$lang->grant_to_admin}</option>
 							<option class="_group_selected" value="-10">{$lang->grant_to_group}</option>
 						</select>
@@ -2328,7 +2329,8 @@ jQuery(function($){
 			var htGrantStrToSelectValMap = {
 				'all': '0',
 				'member': '-1',
-				'site': '-2',
+				'site': '-1',
+				'not_member': '-4',
 				'manager': '-3',
 				'group': '-10'
 			};
@@ -2366,7 +2368,7 @@ jQuery(function($){
 				/*
 					guest : 모든 옵션 사용 가능, 항상 권한 있음.
 					member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
-					site : '모든 사용자' 제외하고 사용 가능, 가상 사이트일 경우에는 가입된 그룹 정보가 있어야 하며, 가상 사이트가 아닐 경우에는 'member'와 동일.
+					not_member : 비로그인 사용자, 로그인 정보가 *없을* 경우 true
 					manager : '관리자만','선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
 					root : manager와 동일.
 				*/
@@ -2375,6 +2377,9 @@ jQuery(function($){
 						//
 					break;
 					case 'member':
+						$node.find('._group_all').remove();
+					break;
+					case 'not_member':
 						$node.find('._group_all').remove();
 					break;
 					case 'site':
