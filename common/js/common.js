@@ -811,7 +811,7 @@ $(function() {
 			}
 		}
 	});
-	$('body').on('click', 'a[target]', function(event) {
+	$(document).on('click', 'a[target]', function(event) {
 		const $this = $(this);
 		const href = String($this.attr('href')).trim();
 		const target = String($this.attr('target')).trim();
@@ -829,47 +829,6 @@ $(function() {
 				blankshield.open(href);
 			}
 		}
-	});
-
-	/**
-	 * Display any pending alert messages
-	 */
-	if(Cookies.get('rhymix_alert_message')) {
-		rhymix_alert(Cookies.get('rhymix_alert_message'), null, Cookies.get('rhymix_alert_delay'));
-		Cookies.remove('rhymix_alert_message', { path: '/' });
-		Cookies.remove('rhymix_alert_delay', { path: '/' });
-	}
-	$('#rhymix_alert').on('click', rhymix_alert_close);
-
-	/**
-	 * Intercept form submission and handle them with AJAX
-	 */
-	$(document).on('submit', 'form.rx_ajax', function(event) {
-		if (!$(this).attr('target')) {
-			event.preventDefault();
-			Rhymix.ajaxForm(this);
-		}
-	});
-
-	/**
-	 * Editor preview replacement
-	 */
-	$('.editable_preview').addClass('rhymix_content xe_content').attr('tabindex', 0);
-	$('.editable_preview').on('click', function() {
-		var input = $(this).siblings('.editable_preview_content');
-		if (input.size()) {
-			$(this).off('click').off('focus').hide();
-			input = input.first();
-			if (input.attr('type') !== 'hidden') {
-				input.hide();
-			}
-			var iframe = $('<iframe class="editable_preview_iframe"></iframe>');
-			iframe.attr('src', current_url.setQuery('module', 'editor').setQuery('act', 'dispEditorFrame').setQuery('parent_input_id', input.attr('id')).replace(/^https?:/, ''));
-			iframe.insertAfter(input);
-		}
-	});
-	$('.editable_preview').on('focus', function() {
-		$(this).triggerHandler('click');
 	});
 
 	/**
@@ -892,16 +851,25 @@ $(function() {
 	});
 
 	/**
+	 * Intercept form submission and handle them with AJAX
+	 */
+	$(document).on('submit', 'form.rx_ajax', function(event) {
+		if (!$(this).attr('target')) {
+			event.preventDefault();
+			Rhymix.ajaxForm(this);
+		}
+	});
+
+	/**
 	 * Prevent repeated click on submit button
 	 */
-	$('input[type="submit"],button[type="submit"]').on('click', function(e) {
-		const target = $(e.currentTarget);
+	$(document).on('click', 'input[type="submit"],button[type="submit"]', function(e) {
 		const timeout = 3000;
 		setTimeout(function() {
-			target.prop('disabled', true);
-		}, 0);
+			$(this).prop('disabled', true);
+		}, 100);
 		setTimeout(function() {
-			target.prop('disabled', false);
+			$(this).prop('disabled', false);
 		}, timeout);
 	});
 
@@ -977,7 +945,7 @@ $(function() {
 	/**
 	 * Create popup windows automatically for _xe_popup links
 	 */
-	$('body').on('click', 'a._xe_popup', function(e) {
+	$(document).on('click', 'a._xe_popup', function(e) {
 		var $this = $(this);
 		var name = $this.attr('name');
 		var href = $this.attr('href');
@@ -989,6 +957,27 @@ $(function() {
 	});
 
 	/**
+	 * Editor preview replacement
+	 */
+	$('.editable_preview').addClass('rhymix_content xe_content').attr('tabindex', 0);
+	$('.editable_preview').on('click', function() {
+		var input = $(this).siblings('.editable_preview_content');
+		if (input.size()) {
+			$(this).off('click').off('focus').hide();
+			input = input.first();
+			if (input.attr('type') !== 'hidden') {
+				input.hide();
+			}
+			var iframe = $('<iframe class="editable_preview_iframe"></iframe>');
+			iframe.attr('src', current_url.setQuery('module', 'editor').setQuery('act', 'dispEditorFrame').setQuery('parent_input_id', input.attr('id')).replace(/^https?:/, ''));
+			iframe.insertAfter(input);
+		}
+	});
+	$('.editable_preview').on('focus', function() {
+		$(this).triggerHandler('click');
+	});
+
+	/**
 	 * Datepicker default settings
 	 */
 	if ($.datepicker) {
@@ -996,6 +985,16 @@ $(function() {
 			dateFormat : 'yy-mm-dd'
 		});
 	}
+
+	/**
+	 * Display any pending alert messages
+	 */
+	if(Cookies.get('rhymix_alert_message')) {
+		rhymix_alert(Cookies.get('rhymix_alert_message'), null, Cookies.get('rhymix_alert_delay'));
+		Cookies.remove('rhymix_alert_message', { path: '/' });
+		Cookies.remove('rhymix_alert_delay', { path: '/' });
+	}
+	$('#rhymix_alert').on('click', rhymix_alert_close);
 
 });
 
