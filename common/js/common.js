@@ -13,6 +13,7 @@ const Rhymix = {
 	addedDocument: [],
 	loadedPopupMenus: [],
 	openWindowList: {},
+	currentDebugData: null,
 	pendingDebugData: [],
 	showAjaxErrors: ['ALL'],
 	unloading: false,
@@ -468,8 +469,8 @@ Rhymix.ajaxSuccessHandler = function(xhr, textStatus, action, data, params, succ
 	// Add debug information.
 	if (data._rx_debug) {
 		data._rx_debug.page_title = "AJAX : " + action;
-		if (window.rhymix_debug_add_data) {
-			window.rhymix_debug_add_data(data._rx_debug);
+		if (this.addDebugData) {
+			this.addDebugData(data._rx_debug);
 		} else {
 			this.pendingDebugData.push(data._rx_debug);
 		}

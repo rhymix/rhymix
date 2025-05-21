@@ -257,7 +257,7 @@ class DisplayHandler extends Handler
 					case 'HTML':
 						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
 						$panel_script = sprintf('<script src="%s%s?t=%d"></script>', RX_BASEURL, 'common/js/debug.js', filemtime(RX_BASEDIR . 'common/js/debug.js'));
-						$panel_script .= "\n<script>\nvar rhymix_debug_content = " . json_encode($data, $json_options) . ";\n</script>";
+						$panel_script .= "\n<script>\nRhymix.currentDebugData = " . json_encode($data, $json_options) . ";\n</script>";
 						$body_end_position = strrpos($output, '</body>') ?: strlen($output);
 						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
 						break;

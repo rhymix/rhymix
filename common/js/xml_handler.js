@@ -60,10 +60,10 @@
 			// Add debug information.
 			if (data._rx_debug) {
 				data._rx_debug.page_title = "AJAX : " + params.module + "." + params.act;
-				if (window.rhymix_debug_add_data) {
-					window.rhymix_debug_add_data(data._rx_debug);
+				if (Rhymix.addDebugData) {
+					Rhymix.addDebugData(data._rx_debug);
 				} else {
-					window.rhymix_debug_pending_data.push(data._rx_debug);
+					Rhymix.pendingDebugData.push(data._rx_debug);
 				}
 			}
 
@@ -226,10 +226,10 @@
 			// Add debug information.
 			if (data._rx_debug) {
 				data._rx_debug.page_title = "AJAX : " + request_info;
-				if (window.rhymix_debug_add_data) {
-					window.rhymix_debug_add_data(data._rx_debug);
+				if (Rhymix.addDebugData) {
+					Rhymix.addDebugData(data._rx_debug);
 				} else {
-					window.rhymix_debug_pending_data.push(data._rx_debug);
+					Rhymix.pendingDebugData.push(data._rx_debug);
 				}
 			}
 
