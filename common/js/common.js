@@ -514,7 +514,7 @@ Rhymix.ajaxSuccessHandler = function(xhr, textStatus, action, data, params, succ
 
 	// If the response contains a redirect URL, follow the redirect.
 	if (data.redirect_url) {
-		this.redirectToUrl(data.redirect_url.replace(/&amp;/g, "&"));
+		this.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
 		return;
 	}
 };
@@ -595,7 +595,14 @@ Rhymix.ajaxForm = function(form, success, error) {
 		} else if (success && window[success] && $.isFunction(window[success])) {
 			success = window[success];
 		} else {
-			success = null;
+			success = function(data) {
+				if (data.message && data.message !== 'success') {
+					alert(data.message);
+				}
+				if (data.redirect_url) {
+					Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
+				}
+			};
 		}
 	}
 	if (typeof error === 'undefined') {
