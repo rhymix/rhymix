@@ -105,7 +105,7 @@ class Validator
 	 */
 	function load($xml_path)
 	{
-		if (!file_exists($xml_path) || !is_readable($xml_path))
+		if (!file_exists($xml_path) || !is_file($xml_path) || !is_readable($xml_path))
 		{
 			return false;
 		}
