@@ -999,21 +999,22 @@ $(function() {
 	/**
 	 * Editor preview replacement
 	 */
-	$('.editable_preview').addClass('rhymix_content xe_content').attr('tabindex', 0);
-	$('.editable_preview').on('click', function() {
-		var input = $(this).siblings('.editable_preview_content');
+	const editable_previews = $('.editable_preview');
+	editable_previews.addClass('rhymix_content xe_content').attr('tabindex', 0);
+	editable_previews.on('click', function() {
+		let input = $(this).siblings('.editable_preview_content');
 		if (input.size()) {
 			$(this).off('click').off('focus').hide();
 			input = input.first();
 			if (input.attr('type') !== 'hidden') {
 				input.hide();
 			}
-			var iframe = $('<iframe class="editable_preview_iframe"></iframe>');
+			let iframe = $('<iframe class="editable_preview_iframe"></iframe>');
 			iframe.attr('src', current_url.setQuery('module', 'editor').setQuery('act', 'dispEditorFrame').setQuery('parent_input_id', input.attr('id')).replace(/^https?:/, ''));
 			iframe.insertAfter(input);
 		}
 	});
-	$('.editable_preview').on('focus', function() {
+	editable_previews.on('focus', function() {
 		$(this).triggerHandler('click');
 	});
 
