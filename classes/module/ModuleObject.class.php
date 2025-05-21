@@ -356,21 +356,29 @@ class ModuleObject extends BaseObject
 			$permission = 'root';
 		}
 
-		// If permission is not or 'guest', Pass
-		if(empty($permission) || $permission == 'guest')
+		// If there is no permission or eveyone is allowed, pass
+		if (empty($permission) || $permission === 'guest' || $permission === 'everyone')
 		{
 			return true;
 		}
-		// If permission is 'member', check logged-in
-		else if($permission == 'member')
+		// If permission is 'member', the user must be logged in
+		elseif ($permission === 'member')
 		{
 			if($member_info->member_srl)
 			{
 				return true;
 			}
 		}
+		// If permission is 'not_member', the user must be logged out
+		elseif ($permission === 'not_member' || $permission === 'not-member')
+		{
+			if(!$member_info->member_srl)
+			{
+				return true;
+			}
+		}
 		// If permission is 'manager', check 'is user have manager privilege(granted)'
-		else if(preg_match('/^(manager(?::(.+))?|([a-z0-9\_]+)-managers)$/', $permission, $type))
+		elseif (preg_match('/^(manager(?::(.+))?|([a-z0-9\_]+)-managers)$/', $permission, $type))
 		{
 			// If permission is manager(:scope), check manager privilege and scope
 			if ($grant->manager)
@@ -407,12 +415,12 @@ class ModuleObject extends BaseObject
 		}
 		// If permission is 'root', false
 		// Because an administrator who have root privilege(granted) was passed already
-		else if($permission == 'root')
+		elseif ($permission == 'root')
 		{
 			return false;
 		}
 		// If grant name, check the privilege(granted) of the user
-		else if($grant_names = explode(',', $permission))
+		elseif ($grant_names = explode(',', $permission))
 		{
 			$privilege_list = array_keys((array) $this->xml_info->grant);
 
