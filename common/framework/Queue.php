@@ -13,6 +13,13 @@ class Queue
 	protected static $_drivers = [];
 
 	/**
+	 * Priority constants.
+	 */
+	public const PRIORITY_HIGH = 'high';
+	public const PRIORITY_NORMAL = 'normal';
+	public const PRIORITY_LOW = 'low';
+
+	/**
 	 * Add a custom Queue driver.
 	 *
 	 * @param string $name
@@ -120,9 +127,10 @@ class Queue
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public static function addTask(string $handler, ?object $args = null, ?object $options = null): int
+	public static function addTask(string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int
 	{
 		$driver_name = config('queue.driver');
 		if (!$driver_name)
@@ -136,7 +144,7 @@ class Queue
 			throw new Exceptions\FeatureDisabled('Queue not configured');
 		}
 
-		return $driver->addTask($handler, $args, $options);
+		return $driver->addTask($handler, $args, $options, $priority);
 	}
 
 	/**
@@ -149,9 +157,10 @@ class Queue
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public static function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null): int
+	public static function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int
 	{
 		if (!config('queue.enabled'))
 		{
@@ -160,7 +169,7 @@ class Queue
 
 		// This feature always uses the DB driver.
 		$driver = self::getDbDriver();
-		return $driver->addTaskAt($time, $handler, $args, $options);
+		return $driver->addTaskAt($time, $handler, $args, $options, $priority);
 	}
 
 	/**

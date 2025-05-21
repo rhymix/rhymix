@@ -57,9 +57,10 @@ interface QueueInterface
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public function addTask(string $handler, ?object $args = null, ?object $options = null): int;
+	public function addTask(string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int;
 
 	/**
 	 * Get the next task from the queue.

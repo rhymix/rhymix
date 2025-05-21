@@ -89,14 +89,43 @@ class DB implements QueueInterface
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public function addTask(string $handler, ?object $args = null, ?object $options = null): int
+	public function addTask(string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int
 	{
 		$oDB = RFDB::getInstance();
-		$stmt = $oDB->prepare('INSERT INTO task_queue (handler, args, options, regdate) VALUES (?, ?, ?, ?)');
-		$result = $stmt->execute([$handler, serialize($args), serialize($options), date('Y-m-d H:i:s')]);
-		return $result ? $oDB->getInsertID() : 0;
+
+		if ($priority === \Rhymix\Framework\Queue::PRIORITY_HIGH)
+		{
+			$stmt = $oDB->query('SELECT MIN(id) AS min_id FROM task_queue');
+			$min_id = intval($stmt->fetchColumn());
+			$stmt->closeCursor();
+			$id = $min_id ? ($min_id - rand(1, 10)) : null;
+		}
+		else
+		{
+			$min_id = null;
+			$id = null;
+		}
+
+		$stmt = $oDB->prepare('INSERT INTO task_queue (id, handler, args, options, regdate) VALUES (?, ?, ?, ?, ?)');
+		$result = $stmt->execute([
+			$id,
+			$handler,
+			serialize($args),
+			serialize($options),
+			date('Y-m-d H:i:s'),
+		]);
+
+		if ($result)
+		{
+			return $id ?? $oDB->getInsertID();
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	/**
@@ -106,10 +135,20 @@ class DB implements QueueInterface
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null): int
+	public function addTaskAt(int $time, string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int
 	{
+		if ($priority === \Rhymix\Framework\Queue::PRIORITY_HIGH)
+		{
+			$time = $time - 1;
+		}
+		elseif ($priority === \Rhymix\Framework\Queue::PRIORITY_LOW)
+		{
+			$time = $time + 1;
+		}
+
 		$oDB = RFDB::getInstance();
 		$task_srl = getNextSequence();
 		$stmt = $oDB->prepare(trim(<<<END
@@ -117,6 +156,7 @@ class DB implements QueueInterface
 			(task_srl, task_type, first_run, handler, args, options, regdate)
 			VALUES (?, ?, ?, ?, ?, ?, ?)
 		END));
+
 		$result = $stmt->execute([
 			$task_srl,
 			'once',
@@ -126,6 +166,7 @@ class DB implements QueueInterface
 			serialize($options),
 			date('Y-m-d H:i:s'),
 		]);
+
 		return $result ? $task_srl : 0;
 	}
 

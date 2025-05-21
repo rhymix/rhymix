@@ -133,9 +133,10 @@ class Redis implements QueueInterface
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public function addTask(string $handler, ?object $args = null, ?object $options = null): int
+	public function addTask(string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int
 	{
 		$value = serialize((object)[
 			'handler' => $handler,
@@ -145,7 +146,14 @@ class Redis implements QueueInterface
 
 		if ($this->_conn)
 		{
-			$result = $this->_conn->rPush($this->_key, $value);
+			if ($priority === \Rhymix\Framework\Queue::PRIORITY_HIGH)
+			{
+				$result = $this->_conn->lPush($this->_key, $value);
+			}
+			else
+			{
+				$result = $this->_conn->rPush($this->_key, $value);
+			}
 			return intval($result);
 		}
 		else

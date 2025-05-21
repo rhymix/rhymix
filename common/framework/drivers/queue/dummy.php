@@ -92,9 +92,10 @@ class Dummy implements QueueInterface
 	 * @param string $handler
 	 * @param ?object $args
 	 * @param ?object $options
+	 * @param ?string $priority
 	 * @return int
 	 */
-	public function addTask(string $handler, ?object $args = null, ?object $options = null): int
+	public function addTask(string $handler, ?object $args = null, ?object $options = null, ?string $priority = null): int
 	{
 		$this->_dummy_queue = (object)[
 			'handler' => $handler,
