@@ -578,6 +578,40 @@ Rhymix.ajaxErrorHandler = function(xhr, textStatus, action, url, params, success
 };
 
 /**
+ * Submit a form using AJAX instead of navigating away
+ *
+ * @param HTMLElement form
+ * @param function success
+ * @param function error
+ * @return void
+ */
+Rhymix.ajaxForm = function(form, success, error) {
+	const $form = $(form);
+	// Get success and error callback functions.
+	if (typeof success === 'undefined') {
+		success = $form.data('callbackSuccess');
+		if (success && $.isFunction(success)) {
+			// no-op
+		} else if (success && window[success] && $.isFunction(window[success])) {
+			success = window[success];
+		} else {
+			success = null;
+		}
+	}
+	if (typeof error === 'undefined') {
+		error = $form.data('callbackError');
+		if (error && $.isFunction(error)) {
+			// no-op
+		} else if (error && window[error] && $.isFunction(window[error])) {
+			error = window[error];
+		} else {
+			error = null;
+		}
+	}
+	this.ajax(null, new FormData($form[0]), success, error);
+};
+
+/**
  * Toggle all checkboxes that have the same name
  *
  * This is a legacy function. Do not write new code that relies on it.

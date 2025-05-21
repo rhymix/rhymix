@@ -373,35 +373,6 @@
 	};
 
 	/**
-	 * Function for AJAX submission of arbitrary forms.
-	 */
-	Rhymix.ajaxForm = function(form, callback_success, callback_error) {
-		const $form = $(form);
-		// Get success and error callback functions.
-		if (typeof callback_success === 'undefined') {
-			callback_success = $form.data('callbackSuccess');
-			if (callback_success && $.isFunction(callback_success)) {
-				// no-op
-			} else if (callback_success && window[callback_success] && $.isFunction(window[callback_success])) {
-				callback_success = window[callback_success];
-			} else {
-				callback_success = null;
-			}
-		}
-		if (typeof callback_error === 'undefined') {
-			callback_error = $form.data('callbackError');
-			if (callback_error && $.isFunction(callback_error)) {
-				// no-op
-			} else if (callback_error && window[callback_error] && $.isFunction(window[callback_error])) {
-				callback_error = window[callback_error];
-			} else {
-				callback_error = null;
-			}
-		}
-		Rhymix.ajax(null, new FormData($form[0]), callback_success, callback_error);
-	};
-
-	/**
 	 * Empty placeholder for beforeUnload handler.
 	 */
 	var beforeUnloadHandler = function() {
