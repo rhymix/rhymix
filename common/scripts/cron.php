@@ -52,6 +52,19 @@ if (PHP_SAPI !== 'cli')
 	}
 }
 
+// Set up a signal handler.
+if (PHP_SAPI === 'cli' && function_exists('pcntl_signal'))
+{
+	if (function_exists('pcntl_async_signals'))
+	{
+		pcntl_async_signals(true);
+	}
+	foreach ([SIGINT, SIGHUP, SIGTERM, SIGQUIT, SIGUSR1, SIGUSR2] as $signal)
+	{
+		pcntl_signal($signal, [Rhymix\Framework\Queue::class, 'signalHandler']);
+	}
+}
+
 // Create multiple processes if configured.
 if (PHP_SAPI === 'cli' && $process_count > 1 && function_exists('pcntl_fork') && function_exists('pcntl_waitpid'))
 {
@@ -84,7 +97,7 @@ if (PHP_SAPI === 'cli' && $process_count > 1 && function_exists('pcntl_fork') &&
 	}
 
 	// The parent process waits for its children to finish.
-	while (count($pids))
+	while (count($pids) && !Rhymix\Framework\Queue::signalReceived())
 	{
 		$pid = pcntl_waitpid(-1, $status, \WNOHANG);
 		if ($pid)

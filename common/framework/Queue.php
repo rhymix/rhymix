@@ -11,6 +11,7 @@ class Queue
 	 * Static properties.
 	 */
 	protected static $_drivers = [];
+	protected static $_signal = 0;
 
 	/**
 	 * Priority constants.
@@ -346,6 +347,11 @@ class Queue
 			foreach ($tasks as $task)
 			{
 				self::_executeTask($task);
+
+				if (self::signalReceived())
+				{
+					return;
+				}
 			}
 		}
 		if ($index === 1 || $count < 2)
@@ -356,6 +362,11 @@ class Queue
 			{
 				$db_driver->updateLastRunTimestamp($task);
 				self::_executeTask($task);
+
+				if (self::signalReceived())
+				{
+					return;
+				}
 			}
 		}
 
@@ -368,6 +379,11 @@ class Queue
 			if ($task)
 			{
 				self::_executeTask($task);
+
+				if (self::signalReceived())
+				{
+					return;
+				}
 			}
 
 			// If the timeout is imminent, break the loop.
@@ -382,6 +398,12 @@ class Queue
 			if (!$task && $loop_elapsed_time < 1)
 			{
 				usleep(intval((1 - $loop_elapsed_time) * 1000000));
+			}
+
+			// Check for a signal again after the sleep.
+			if (self::signalReceived())
+			{
+				break;
 			}
 		}
 	}
@@ -487,5 +509,27 @@ class Queue
 				$th->getLine(),
 			]));
 		}
+	}
+
+	/**
+	 * Signal handler.
+	 *
+	 * @param int $signal
+	 * @param mixed $siginfo
+	 * @return void
+	 */
+	public static function signalHandler(int $signal, $siginfo): void
+	{
+		self::$_signal = $signal;
+	}
+
+	/**
+	 * Has a signal been received?
+	 *
+	 * @return int
+	 */
+	public static function signalReceived(): int
+	{
+		return self::$_signal;
 	}
 }
