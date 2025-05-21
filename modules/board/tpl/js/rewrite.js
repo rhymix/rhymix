@@ -13,7 +13,7 @@
 	if (match && match[1] === window.current_mid) {
 		newpath = location.pathname.replace(/\/(comment|page)\/([0-9]+)$/, '');
 	}
-	if (location.pathname.match(/\/([0-9]+)$/) && location.search.match(/^\?category=[0-9]+$/)) {
+	if (location.pathname.match(/\/([0-9]+)$/) && location.search.match(/^\?(category|comment_srl|page)=[0-9]+$/)) {
 		newpath = newpath ? newpath : location.pathname;
 	}
 	if (newpath && location.hash && location.hash != '#') {
