@@ -2186,7 +2186,7 @@ class ModuleModel extends Module
 	 */
 	public static function getGrant($module_info, $member_info, $xml_info = null)
 	{
-		if(empty($module_info->module))
+		if (empty($module_info->module))
 		{
 			$module_info = new stdClass;
 			$module_info->module = $module_info->module_srl = 0;
@@ -2201,148 +2201,16 @@ class ModuleModel extends Module
 			}
 		}
 
-		// Get information of module.xml
-		if(!$xml_info)
+		// Get module grant information
+		if (!$xml_info)
 		{
 			$xml_info = self::getModuleActionXml($module_info->module);
 		}
 		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
+		$module_grants = self::getModuleGrants($module_info->module_srl)->data ?: [];
 
-		// Get group information of member
-		$member_group = !empty($member_info->group_list) ? array_keys($member_info->group_list) : array();
-		$is_module_admin = !empty($module_info->module_srl) ? self::isModuleAdmin($member_info, $module_info->module_srl) : false;
-
-		// Get 'privilege name' list from module.xml
-		$privilege_list = array_keys($xml_grant_list);
-
-		// Prepend default 'privilege name'
-		// manager, is_site_admin not distinguish because of compatibility.
-		array_unshift($privilege_list, 'access', 'is_admin', 'manager', 'is_site_admin', 'root');
-
-		// Unique
-		$privilege_list = array_unique($privilege_list, SORT_STRING);
-
-		// Grant first
-		$grant = new Rhymix\Modules\Module\Models\Permission;
-		foreach($privilege_list as $val)
-		{
-			// If an administrator, grant all
-			if($member_info && $member_info->is_admin == 'Y')
-			{
-				$grant->{$val} = true;
-			}
-			// If a module manager, grant all (except 'root', 'is_admin')
-			elseif ($is_module_admin && $val !== 'root' && $val !== 'is_admin')
-			{
-				$grant->{$val} = true;
-			}
-			// If module_srl doesn't exist, grant access
-			else if(empty($module_info->module_srl) && $val === 'access')
-			{
-				$grant->{$val} = true;
-			}
-			// Default : not grant
-			else
-			{
-				$grant->{$val} = false;
-			}
-		}
-
-		// If module admin, add scopes
-		if ($member_info && $member_info->is_admin == 'Y')
-		{
-			$grant->scopes = true;
-		}
-		elseif ($is_module_admin)
-		{
-			$grant->scopes = $is_module_admin;
-		}
-		else
-		{
-			$grant->scopes = [];
-		}
-
-		// If access were not granted, check more
-		if(!$grant->access)
-		{
-			$checked = array();
-
-			// Grant privileges by information that get from the DB
-			foreach(self::getModuleGrants($module_info->module_srl)->data as $val)
-			{
-				$checked[$val->name] = true;
-				if($grant->{$val->name})
-				{
-					continue;
-				}
-
-				// All user
-				if($val->group_srl == 0)
-				{
-					$grant->{$val->name} = true;
-					continue;
-				}
-
-				// Log-in member only
-				if($member_info && $member_info->member_srl)
-				{
-					if($val->group_srl == -1 || $val->group_srl == -2)
-					{
-						$grant->{$val->name} = true;
-					}
-					// Manager only
-					else if($val->group_srl == -3)
-					{
-						if($grant->manager)
-						{
-							$grant->{$val->name} = true;
-						}
-					}
-					// If a target is a group
-					else if(count($member_group) && in_array($val->group_srl, $member_group))
-					{
-						$grant->{$val->name} = true;
-						if ($val->name === 'manager' && !$grant->scopes)
-						{
-							$grant->scopes = true;
-						}
-					}
-				}
-			}
-
-			// Grant access by default
-			if(!isset($checked['access']))
-			{
-				$grant->access = true;
-			}
-
-			// Grant privileges by default information of module
-			foreach($xml_grant_list as $name => $item)
-			{
-				if(isset($checked[$name]) || $grant->{$name})
-				{
-					continue;
-				}
-
-				// All user
-				if($item->default == 'guest')
-				{
-					$grant->{$name} = true;
-
-					continue;
-				}
-
-				// Log-in member only
-				if($member_info && $member_info->member_srl)
-				{
-					if($item->default == 'member' || $item->default == 'site')
-					{
-						$grant->{$name} = true;
-					}
-				}
-			}
-		}
-
+		// Generate grant
+		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants, $module_info, $member_info);
 		return $__cache = $grant;
 	}
 
