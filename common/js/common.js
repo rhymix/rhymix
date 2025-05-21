@@ -1633,7 +1633,7 @@ function doCallModuleAction(module, action, target_srl) {
 		cur_mid: current_mid,
 		mid: current_mid
 	};
-	exec_json(module + '.' + action, params, function(data) {
+	Rhymix.ajax(module + '.' + action, params, function(data) {
 		if (data.message !== 'success') {
 			alert(data.message);
 		}
