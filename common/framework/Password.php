@@ -128,12 +128,12 @@ class Password
 			$algorithm = $config->password_hashing_algorithm ?? '';
 			if (strval($algorithm) === '')
 			{
-				$algorithm = 'md5';
+				$algorithm = self::getBestSupportedAlgorithm();
 			}
 		}
 		else
 		{
-			$algorithm = 'md5';
+			$algorithm = self::getBestSupportedAlgorithm();
 		}
 		return $algorithm;
 	}
