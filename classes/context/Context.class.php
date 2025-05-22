@@ -1120,6 +1120,14 @@ class Context
 			self::$_instance->security_check = 'DENY ALL';
 			self::$_instance->security_check_detail = 'ERR_UNSAFE_ENV';
 		}
+
+		if (PHP_VERSION_ID < 80000)
+		{
+			libxml_disable_entity_loader(true);
+		}
+		libxml_set_external_entity_loader(function($a, $b, $c) {
+			return null;
+		});
 	}
 
 	/**
@@ -1260,10 +1268,6 @@ class Context
 					self::$_instance->security_check_detail = 'ERR_UNSAFE_XML';
 					$GLOBALS['HTTP_RAW_POST_DATA'] = '';
 					return;
-				}
-				if (PHP_VERSION_ID < 80000)
-				{
-					libxml_disable_entity_loader(true);
 				}
 				$params = Rhymix\Framework\Parsers\XMLRPCParser::parse($GLOBALS['HTTP_RAW_POST_DATA']) ?: [];
 			}
