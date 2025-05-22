@@ -1,5 +1,7 @@
 "use strict";
 
+function getEditorSkinColorList() { }
+
 (function($) {
 	$(function() {
 		$('.editor_skin_selector').on('change', function() {
