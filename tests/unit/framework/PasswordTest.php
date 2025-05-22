@@ -30,7 +30,7 @@ class PasswordTest extends \Codeception\Test\Unit
 	public function testGetDefaultAlgorithm()
 	{
 		$algo = Rhymix\Framework\Password::getDefaultAlgorithm();
-		$this->assertTrue($algo === 'argon2id' || $algo === 'bcrypt' || $algo === 'pbkdf2' || $algo === 'md5');
+		$this->assertTrue($algo === 'argon2id' || $algo === 'bcrypt' || $algo === 'pbkdf2');
 	}
 
 	public function testGetWorkFactor()
