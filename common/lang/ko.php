@@ -251,6 +251,7 @@ $lang->msg_not_founded = '대상을 찾을 수 없습니다.';
 $lang->msg_no_result = '검색 결과가 없습니다.';
 $lang->msg_fail_to_request_open = '요청한 연결에 실패했습니다.';
 $lang->msg_invalid_format = '잘못된 형식입니다.';
+$lang->msg_administrator_only = '관리자만 사용할 수 있는 기능입니다.';
 $lang->msg_not_permitted_act = '요청한 기능을 실행할 수 있는 권한이 없습니다.';
 $lang->msg_module_is_not_exists = '요청한 페이지를 찾을 수 없습니다. 사이트 관리자에게 문의해 주세요.';
 $lang->msg_module_is_not_standalone = '요청한 페이지는 독립적으로 동작할 수 없습니다.';
