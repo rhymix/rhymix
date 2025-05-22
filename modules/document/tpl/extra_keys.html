@@ -110,7 +110,7 @@
 			<a class="x_btn" href="{getUrl('type','insertExtraForm','selected_var_idx','')}">{$lang->cmd_insert}</a>
 		</div>
 	</div>
-	<table class="x_table x_table-striped x_table-hover">
+	<table class="x_table x_table-striped x_table-hover sortable extra_keys" data-module-srl="{$module_srl}">
 		<thead>
 			<tr class="nowr">
 				<th>{$lang->no}</th>
@@ -123,10 +123,15 @@
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
-		<tbody>
+		<tbody class="uDrag">
 			<block loop="$extra_keys => $key,$val">
-			<tr>
-				<td rowspan="2"|cond="$val->desc">{$val->idx}</td>
+			<tr data-eid="{$val->eid}" data-idx="{$val->idx}">
+				<td>
+					<div class="wrap" style="user-select:none">
+						<button type="button" class="dragBtn">Move to</button>
+						{$val->idx}
+					</div>
+				</td>
 				<td>{$val->eid}</td>
 				<td class="nowr"><strong>{$val->name}</strong></td>
 				<td class="nowr">{$lang->column_type_list[$val->type]}</td>
@@ -143,9 +148,6 @@
 					<a href="{getUrl('selected_var_idx',$val->idx)}" class="x_icon-wrench">{$lang->cmd_modify}</a>
 					<button type="button" class="x_icon-trash" onclick="return doDeleteExtraKey('{$module_srl}','{$val->idx}');">{$lang->cmd_delete}</button>
 				</td>
-			</tr>
-			<tr cond="$val->desc">
-				<td colspan="7">{$val->desc}</td>
 			</tr>
 			</block>
 		</tbody>

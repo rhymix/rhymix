@@ -49,6 +49,7 @@
 		<action name="procDocumentAdminInsertExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="insertExtraVar" />
 		<action name="procDocumentAdminDeleteExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" />
 		<action name="procDocumentAdminMoveExtraVar" type="controller" permission="manager:config:*" check_var="module_srl" />
+		<action name="procDocumentAdminReorderExtraVars" type="controller" permission="manager:config:*" check_var="module_srl" />
 		<action name="procDocumentAdminRecalculateCategoryCounts" type="controller" />
 	</actions>
 	<eventHandlers>

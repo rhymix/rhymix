@@ -246,28 +246,49 @@ class DocumentAdminController extends Document
 		$type = Context::get('type');
 		$module_srl = Context::get('module_srl');
 		$var_idx = Context::get('var_idx');
+		if (!$type || !$module_srl || !$var_idx)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
-		if(!$type || !$module_srl || !$var_idx) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$module_info || !$module_info->module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
 
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$module_info->module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$extra_keys = DocumentModel::getExtraKeys($module_srl);
+		if (!$extra_keys)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$extra_keys[$var_idx])
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
-		$oDocumentModel = getModel('document');
-		$extra_keys = $oDocumentModel->getExtraKeys($module_srl);
-		if(!$extra_keys[$var_idx]) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		if($type == 'up') $new_idx = $var_idx-1;
-		else $new_idx = $var_idx+1;
-		if($new_idx<1) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$new_idx = ($type === 'up') ? $var_idx - 1 : $var_idx + 1;
+		if ($new_idx < 1)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$args->var_idx = $new_idx;
 		$output = executeQuery('document.getDocumentExtraKeys', $args);
-		if (!$output->toBool()) return $output;
-		if (!$output->data) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+		if (!$output->data)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		unset($args);
+
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
 		// update immediately if there is no idx to change
 		if(!$extra_keys[$new_idx])
@@ -277,11 +298,19 @@ class DocumentAdminController extends Document
 			$args->var_idx = $var_idx;
 			$args->new_idx = $new_idx;
 			$output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 			$output = executeQuery('document.updateDocumentExtraVarIdx', $args);
-			if(!$output->toBool()) return $output;
-			// replace if exists
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
+		// replace if exists
 		else
 		{
 			$args = new stdClass();
@@ -289,25 +318,174 @@ class DocumentAdminController extends Document
 			$args->var_idx = $new_idx;
 			$args->new_idx = -10000;
 			$output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 			$output = executeQuery('document.updateDocumentExtraVarIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 
 			$args->var_idx = $var_idx;
 			$args->new_idx = $new_idx;
 			$output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 			$output = executeQuery('document.updateDocumentExtraVarIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 
 			$args->var_idx = -10000;
 			$args->new_idx = $var_idx;
 			$output = executeQuery('document.updateDocumentExtraKeyIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 			$output = executeQuery('document.updateDocumentExtraVarIdx', $args);
-			if(!$output->toBool()) return $output;
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
 		}
 
+		$oDB->commit();
+
+		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
+	}
+
+	/**
+	 * Reorder extra vars of a module.
+	 */
+	public function procDocumentAdminReorderExtraVars()
+	{
+		// Validate input data.
+		$module_srl = intval(Context::get('module_srl'));
+		$order = Context::get('order');
+		if (!$module_srl || !$order || !is_array($order))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		foreach ($order as $key => $val)
+		{
+			$order[$key] = $val = (object)$val;
+			if (empty($val->eid))
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
+		}
+
+		// Validate module info and existing extra keys.
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$module_info || !$module_info->module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+
+		$extra_keys = DocumentModel::getExtraKeys($module_srl);
+		if (!$extra_keys)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		$extra_keys = array_combine(array_map(function($item) {
+			return $item->eid;
+		}, $extra_keys), array_values($extra_keys));
+
+		// Calculate changes.
+		// We don't actually do anything with the submitted values of old/new idx.
+		// We calculate them anew with the data we have on the server.
+		$changes = [];
+		$i = 1;
+		foreach ($order as $key => $val)
+		{
+			if (!isset($extra_keys[$val->eid]))
+			{
+				continue;
+			}
+			if ($i != $extra_keys[$val->eid]->idx)
+			{
+				$changes[] = [
+					'eid' => $val->eid,
+					'old_idx' => $extra_keys[$val->eid]->idx,
+					'new_idx' => $i,
+				];
+			}
+			$i++;
+		}
+
+		// Begin transaction.
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
+		// Apply changes.
+		// We need to do this twice because of the unique constraint.
+		foreach ($changes as $change)
+		{
+			$output = executeQuery('document.updateDocumentExtraKeyIdxByEid', [
+				'module_srl' => $module_srl,
+				'eid' => $change['eid'],
+				'var_idx' => $change['old_idx'],
+				'new_idx' => $change['new_idx'] - 10000,
+			]);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
+			$output = executeQuery('document.updateDocumentExtraVarIdxByEid', [
+				'module_srl' => $module_srl,
+				'eid' => $change['eid'],
+				'var_idx' => $change['old_idx'],
+				'new_idx' => $change['new_idx'] - 10000,
+			]);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+		foreach ($changes as $change)
+		{
+			$output = executeQuery('document.updateDocumentExtraKeyIdx', [
+				'module_srl' => $module_srl,
+				'var_idx' => $change['new_idx'] - 10000,
+				'new_idx' => $change['new_idx'],
+			]);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
+			$output = executeQuery('document.updateDocumentExtraVarIdx', [
+				'module_srl' => $module_srl,
+				'var_idx' => $change['new_idx'] - 10000,
+				'new_idx' => $change['new_idx'],
+			]);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+		}
+
+		// Commit.
+		$oDB->commit();
+
+		// Clear cache.
 		Rhymix\Framework\Cache::delete("site_and_module:module_document_extra_keys:$module_srl");
 	}
 

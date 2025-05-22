@@ -1,5 +1,24 @@
 (function($) {
 	$(function() {
+
+		// Reorder extra keys
+		$('table.extra_keys.sortable').on('after-drag.st', function(e) {
+			let order = [];
+			let i = 1;
+			$(this).find('tbody > tr').each(function() {
+				order.push({
+					eid: $(this).data('eid'),
+					old_idx: parseInt($(this).data('idx'), 10),
+					new_idx: i++
+				});
+			});
+			Rhymix.ajax('document.procDocumentAdminReorderExtraVars', {
+				module_srl: $(this).data('moduleSrl'),
+				order: order
+			});
+		});
+
+		// Show or hide fields depending on the type of variable
 		$('select#type').on('change', function() {
 			const selected_type = $(this).val();
 			$(this).parents('form').find('.x_control-group').each(function() {
@@ -21,5 +40,6 @@
 				}
 			});
 		}).triggerHandler('change');
+
 	});
 })(jQuery);

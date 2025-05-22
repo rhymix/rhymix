@@ -2206,11 +2206,11 @@ class ModuleModel extends Module
 		{
 			$xml_info = self::getModuleActionXml($module_info->module);
 		}
-		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
-		$module_grants = self::getModuleGrants($module_info->module_srl)->data ?: [];
 
 		// Generate grant
-		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants, $module_info, $member_info);
+		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
+		$module_grants = self::getModuleGrants($module_info->module_srl ?? 0)->data ?: [];
+		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
 		return $__cache = $grant;
 	}
 
