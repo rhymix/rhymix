@@ -3,12 +3,10 @@
  * @brief 모든 생성된 섬네일 삭제하는 액션 호출
  **/
 function doDeleteAllThumbnail() {
-    exec_xml('document','procDocumentAdminDeleteAllThumbnail', [], completeDeleteAllThumbnail);
-}
-
-function completeDeleteAllThumbnail(ret_obj) {
-    alert(ret_obj['message']);
-    location.reload();
+    Rhymix.ajax('document.procDocumentAdminDeleteAllThumbnail', {}, function(ret_obj) {
+    	alert(ret_obj['message']);
+    	location.reload();
+	});
 }
 
 /* 선택된 글의 삭제 또는 이동 */
@@ -28,22 +26,20 @@ function completeManageDocument(ret_obj) {
     window.close();
 }
 
-
+/* 신고 취소 */
 function doCancelDeclare() {
     var document_srl = [];
-    jQuery('#fo_list input[name=cart]:checked').each(function() {
-        document_srl[document_srl.length] = jQuery(this).val();
+    $('#fo_list input[name=cart]:checked').each(function() {
+        document_srl.push($(this).val());
     });
+    if (document_srl.length < 1) {
+		return;
+	}
 
-    if(document_srl.length<1) return;
-
-    var params = {document_srl : document_srl.join(',')};
-
-    exec_xml('document','procDocumentAdminCancelDeclare', params, completeCancelDeclare);
-}
-
-function completeCancelDeclare(ret_obj) {
-    location.reload();
+    var params = { document_srl : document_srl.join(',') };
+    Rhymix.ajax('document.procDocumentAdminCancelDeclare', params, function() {
+		location.reload();
+	});
 }
 
 function completeInsertExtraVar(ret_obj) {
@@ -93,8 +89,9 @@ function moveVar(type, module_srl, var_idx) {
 		module_srl : module_srl,
 		var_idx    : var_idx
 	};
-    var response_tags = ['error','message'];
-    exec_xml('document','procDocumentAdminMoveExtraVar', params, function() { location.reload() });
+    Rhymix.ajax('document.procDocumentAdminMoveExtraVar', params, function() {
+		location.reload();
+	});
 }
 
 function completeRestoreTrash(ret_obj) {
