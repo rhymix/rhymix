@@ -32,13 +32,9 @@ class Permission
 	 */
 	public function __construct(array $xml_grant_list, array $module_grants, ?object $module_info = null, ?object $member_info = null)
 	{
-		// Collect additional information from module and member info.
-		$is_module_admin = !empty($module_info->module_srl) ? \ModuleModel::isModuleAdmin($member_info, $module_info->module_srl) : false;
-		$member_groups = !empty($member_info->group_list) ? array_keys($member_info->group_list) : [];
-
 		// Generate the list of default permissions.
 		$this->_spec = [
-			'access' => '',
+			'access' => 'guest',
 			'root' => 'root',
 			'manager' => 'manager',
 			'is_admin' => 'root',
@@ -84,12 +80,6 @@ class Permission
 			}
 		}
 
-		// If the spec says nothing about access permissions, it is 'guest' by default.
-		if (!$this->_spec['access'])
-		{
-			$this->_spec['access'] = 'guest';
-		}
-
 		// If the member is an administrator, grant all possible permissions.
 		if ($member_info && $member_info->is_admin === 'Y')
 		{
@@ -100,9 +90,14 @@ class Permission
 			}
 			return;
 		}
-		if ($is_module_admin)
+
+		// If the member is a module manager, fill the scope of management.
+		$manager_scopes = !empty($module_info->module_srl) ? \ModuleModel::isModuleAdmin($member_info, $module_info->module_srl) : false;
+		$member_groups = !empty($member_info->group_list) ? array_keys($member_info->group_list) : [];
+		if ($manager_scopes)
 		{
-			$this->_scopes = $is_module_admin;
+			$this->manager = true;
+			$this->_scopes = $manager_scopes;
 		}
 
 		// Check if each permission is granted to the current user.
@@ -118,7 +113,7 @@ class Permission
 			}
 			elseif ($requirement === 'not_member')
 			{
-				$this->{$key} = !($member_info && $member_info->member_srl);
+				$this->{$key} = !($member_info && $member_info->member_srl) || $this->manager;
 			}
 			elseif ($requirement === 'manager')
 			{
@@ -130,17 +125,10 @@ class Permission
 			}
 			elseif (is_array($requirement))
 			{
-				if (array_intersect($member_groups, $requirement))
+				$this->{$key} = array_intersect($member_groups, $requirement) ? true : false;
+				if ($key === 'manager' && $this->{$key} === true)
 				{
-					$this->{$key} = true;
-					if ($key === 'manager' && $is_module_admin && !$this->_scopes)
-					{
-						$this->_scopes = true;
-					}
-				}
-				else
-				{
-					$this->{$key} = false;
+					$this->_scopes = true;
 				}
 			}
 		}
