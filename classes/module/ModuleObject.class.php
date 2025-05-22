@@ -476,9 +476,17 @@ class ModuleObject extends BaseObject
 		{
 			return 'msg_administrator_only';
 		}
-		elseif (is_array($failed_requirement))
+		elseif (is_array($failed_requirement) && count($failed_requirement))
 		{
-			return 'msg_required_specific_group';
+			if (class_exists('PointModel'))
+			{
+				$min_level = PointModel::getMinimumLevelForGroup($failed_requirement);
+				if ($min_level)
+				{
+					return sprintf(lang('member.msg_required_minimum_level'), $min_level);
+				}
+			}
+			return 'member.msg_required_specific_group';
 		}
 		else
 		{

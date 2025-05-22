@@ -118,6 +118,39 @@ class PointModel extends Point
 	}
 
 	/**
+	 * Get the minimum level required to belong in group(s)
+	 *
+	 * @param int|array $group_srl
+	 * @return ?int
+	 */
+	public static function getMinimumLevelForGroup($group_srl): ?int
+	{
+		if (!is_array($group_srl))
+		{
+			$group_srl = [$group_srl];
+		}
+
+		$min_level = null;
+		$config = self::getConfig();
+		foreach ($config->point_group ?? [] as $group => $required_level)
+		{
+			if (in_array($group, $group_srl))
+			{
+				if ($min_level === null)
+				{
+					$min_level = $required_level;
+				}
+				else
+				{
+					$min_level = min($min_level, $required_level);
+				}
+			}
+		}
+
+		return $min_level;
+	}
+
+	/**
 	 * @deprecated
 	 */
 	public function getMembersPointInfo()
