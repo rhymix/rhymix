@@ -261,7 +261,7 @@
 	}
 
 	window.xe = $.extend(_app_base, _xe_base);
-	window.xe.lang = {}; // language repository
+	window.xe.lang = Rhymix.langCodes;
 
 	// domready event
 	$(function(){ xe.broadcast('ONREADY'); });

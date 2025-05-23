@@ -11,6 +11,7 @@
 const Rhymix = {
 	baseurl: null,
 	addedDocument: [],
+	langCodes: {},
 	loadedPopupMenus: [],
 	openWindowList: {},
 	currentDebugData: null,
@@ -781,6 +782,21 @@ Rhymix.filesizeFormat = function(size) {
 		return (size / 1073741824).toFixed(2) + 'GB';
 	}
 	return (size / 1099511627776).toFixed(2) + 'TB';
+};
+
+/**
+ * Get or set a lang code
+ *
+ * @param string key
+ * @param string val
+ * @return string|void
+ */
+Rhymix.lang = function(key, val) {
+	if (typeof val === 'undefined')	{
+		return this.langCodes[key] || key;
+	} else {
+		return this.langCodes[key] = val;
+	}
 };
 
 // Add aliases to loaded libraries
