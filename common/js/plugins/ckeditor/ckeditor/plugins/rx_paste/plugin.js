@@ -102,7 +102,7 @@ CKEDITOR.plugins.add('rx_paste', {
 		 * Display an error message.
 		 */
 		const displayError = function(type, message) {
-			alert(window.xe.msg_file_upload_error + ' (Type ' + type + ")\n" + message);
+			alert(Rhymix.lang('msg_file_upload_error') + ' (Type ' + type + ")\n" + message);
 		};
 
 	}

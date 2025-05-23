@@ -1522,12 +1522,12 @@ jQuery(function($){
 
 	$(document.body).on("click", '._menuSelector_menuTreeContainer a', function(){
 		if($(this).hasClass('_nodeType_1')){
-			$.xeMsgBox.alert(xe.msg_no_root);
+			$.xeMsgBox.alert(xe.lang.msg_no_root);
 			return;
 		}
 
 		if($(this).hasClass('_nodeType_3')){
-			$.xeMsgBox.alert(xe.msg_no_shortcut);
+			$.xeMsgBox.alert(xe.lang.msg_no_shortcut);
 			return;
 		}
 

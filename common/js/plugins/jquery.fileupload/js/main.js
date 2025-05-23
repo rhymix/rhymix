@@ -106,7 +106,7 @@
 					$.each(item.files, function(index, file) {
 						if(data.settings.maxFileSize > 0 && data.settings.maxFileSize < file.size) {
 							dfd.reject();
-							alert(window.xe.msg_exceeds_limit_size);
+							alert(window.xe.lang.msg_exceeds_limit_size);
 							return false;
 						}
 						dfd.resolve();
@@ -133,19 +133,19 @@
 							if (res.result.message) {
 								alert(res.result.message);
 							} else {
-								alert(window.xe.msg_file_upload_error + " (Type 1)");
+								alert(window.xe.lang.msg_file_upload_error + " (Type 1)");
 							}
 							return chunkStatus = false;
 						}
 					} else {
-						alert(window.xe.msg_file_upload_error + " (Type 2)");
+						alert(window.xe.lang.msg_file_upload_error + " (Type 2)");
 						return chunkStatus = false;
 					}
 				},
 				chunkfail: function(e, res) {
 					lastUploadTime = Date.now();
 					if (chunkStatus) {
-						alert(window.xe.msg_file_upload_error + " (Type 3)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 3)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
 						return chunkStatus = false;
 					}
 				},
@@ -162,14 +162,14 @@
 					var result = res.response().result;
 					var temp_code = '';
 					if (!result) {
-						alert(window.xe.msg_file_upload_error + " (Type 4)");
+						alert(window.xe.lang.msg_file_upload_error + " (Type 4)");
 						return false;
 					}
 					if (!jQuery.isPlainObject(result)) {
 						result = jQuery.parseJSON(result);
 					}
 					if (!result) {
-						alert(window.xe.msg_file_upload_error + " (Type 5)" + "<br>\n" + res.response().result);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 5)" + "<br>\n" + res.response().result);
 						return false;
 					}
 
@@ -215,7 +215,7 @@
 						return false;
 					} else {
 						$container.data('editorStatus', null);
-						alert(window.xe.msg_file_upload_error + " (Type 6)" + "<br>\n" + res.response().result);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 6)" + "<br>\n" + res.response().result);
 						return false;
 					}
 				},
@@ -229,7 +229,7 @@
 						}
 					}, 1000);
 					if (chunkStatus) {
-						alert(window.xe.msg_file_upload_error + " (Type 7)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 7)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
 						return false;
 					}
 				},
