@@ -782,11 +782,11 @@ class DB
 		$table = Parsers\DBTableParser::loadXML($filename, $content);
 		if (!$table)
 		{
-			return $this->setError(-1, 'Table creation failed.');
+			return $this->setError(-1, 'Failed to load table schema file');
 		}
 		if ($table->deleted)
 		{
-			return new Helpers\DBResultHelper;
+			return new Helpers\DBResultHelper(-1, 'Table is marked as deleted');
 		}
 
 		// Generate the CREATE TABLE query and execute it.

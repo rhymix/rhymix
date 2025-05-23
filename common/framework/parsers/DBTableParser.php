@@ -61,10 +61,10 @@ class DBTableParser extends BaseParser
 			$table->name = strval($xml['name']);
 		}
 
-		$deleted = strval($xml['deleted']);
-		if ($deleted !== '')
+		$is_deleted = strval($xml['deleted']);
+		if ($is_deleted !== '')
 		{
-			$table->deleted = toBool($deleted);
+			$table->is_deleted = toBool($is_deleted);
 		}
 
 		// Load columns.

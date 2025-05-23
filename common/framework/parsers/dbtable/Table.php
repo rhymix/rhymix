@@ -12,7 +12,7 @@ class Table
 	public $indexes = array();
 	public $primary_key = array();
 	public $constraints = array();
-	public $deleted = false;
+	public $is_deleted = false;
 
 	/**
 	 * Generate the CREATE TABLE query for this table.
