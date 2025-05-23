@@ -433,7 +433,7 @@ class DocumentAdminController extends Document
 		// We need to do this twice because of the unique constraint.
 		foreach ($changes as $change)
 		{
-			$output = executeQuery('document.updateDocumentExtraKeyIdxByEid', [
+			$output = executeQuery('document.updateDocumentExtraKeyIdx', [
 				'module_srl' => $module_srl,
 				'eid' => $change['eid'],
 				'var_idx' => $change['old_idx'],
@@ -445,7 +445,7 @@ class DocumentAdminController extends Document
 				return $output;
 			}
 
-			$output = executeQuery('document.updateDocumentExtraVarIdxByEid', [
+			$output = executeQuery('document.updateDocumentExtraVarIdx', [
 				'module_srl' => $module_srl,
 				'eid' => $change['eid'],
 				'var_idx' => $change['old_idx'],

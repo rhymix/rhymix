@@ -7,6 +7,7 @@
     </columns>
     <conditions>
         <condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
-        <condition operation="equal" column="var_idx" var="var_idx" filter="number" notnull="notnull" pipe="and" />
+        <condition operation="equal" column="var_idx" var="var_idx" filter="number" />
+        <condition operation="equal" column="eid" var="eid" />
     </conditions>
 </query>
