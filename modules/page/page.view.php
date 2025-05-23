@@ -188,14 +188,8 @@ class PageView extends Page
 			return;
 		}
 
-		// Kick out anyone who tries to exploit RVE-2022-2.
-		foreach (Context::getRequestVars() as $key => $val)
-		{
-			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key) || preg_match('/[\{\}\(\)<>\$\'"]/', $val))
-			{
-				throw new Rhymix\Framework\Exceptions\SecurityViolation();
-			}
-		}
+		// Check parameters.
+		$this->_checkParams(Context::getRequestVars());
 
 		// External URL
 		if (preg_match('!^[a-z]+://!i', $this->path))
@@ -207,6 +201,34 @@ class PageView extends Page
 		else
 		{
 			return $this->executeFile($this->path, $this->interval, $this->cache_file);
+		}
+	}
+
+	/**
+	 * Check parameters for suspicious keys or values.
+	 *
+	 * This helps protect external pages from RVE-2022-2.
+	 *
+	 * @param array|object $vars
+	 * @return void
+	 */
+	protected function _checkParams($vars)
+	{
+		foreach ($vars as $key => $val)
+		{
+			if (preg_match('/[\{\}\(\)<>\$\'"]/', $key))
+			{
+				throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			}
+
+			if (is_array($val) || is_object($val))
+			{
+				$this->_checkParams($val);
+			}
+			elseif (preg_match('/[\{\}\(\)<>\$\'"]/', (string)$val))
+			{
+				throw new Rhymix\Framework\Exceptions\SecurityViolation();
+			}
 		}
 	}
 
