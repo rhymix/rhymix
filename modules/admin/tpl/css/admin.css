@@ -1694,14 +1694,16 @@ html[lang="id"] .x .g11n.active>[disabled],
 }
 .x .uDrag .dragBtn {
 	position: absolute;
-	width: 8px;
+	width: 24px;
 	height: 100%;
-	padding: 0;
+	box-sizing: content-box;
 	overflow: hidden;
-	background: url(../img/bgDragable.gif);
+	background: url(../img/bgDragable.png);
+	background-position: center top;
+	background-repeat: no-repeat;
 	top: 1px;
-	left: 0;
-	text-indent: 12px;
+	left: -8px;
+	text-indent: 20px;
 	border: 0;
 	cursor: n-resize;
 	white-space: nowrap;

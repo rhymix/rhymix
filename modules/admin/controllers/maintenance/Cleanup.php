@@ -332,6 +332,7 @@ class Cleanup extends Base
 		'modules/admin/tpl/js/config.min.js' => 'deleted',
 		'modules/admin/tpl/js/admin.min.js' => 'deleted',
 		'modules/admin/tpl/js/menu_setup.min.js' => 'deleted',
+		'modules/admin/tpl/img/bgDragable.gif' => 'deleted',
 		'modules/admin/tpl/img/faviconSample.png' => 'deleted',
 		'modules/admin/tpl/img/mobiconSample.png' => 'deleted',
 		'modules/autoinstall/ruleset/' => 'deleted:xe',
