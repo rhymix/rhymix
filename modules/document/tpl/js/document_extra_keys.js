@@ -3,9 +3,10 @@
 
 		// Reorder extra keys
 		$('table.extra_keys.sortable').on('after-drag.st', function(e) {
+			const $table = $(this);
 			let order = [];
 			let i = 1;
-			$(this).find('tbody > tr').each(function() {
+			$table.find('tbody > tr').each(function() {
 				order.push({
 					eid: $(this).data('eid'),
 					old_idx: parseInt($(this).data('idx'), 10),
@@ -15,6 +16,12 @@
 			Rhymix.ajax('document.procDocumentAdminReorderExtraVars', {
 				module_srl: $(this).data('moduleSrl'),
 				order: order
+			}, function() {
+				let i = 1;
+				$table.find('.var_idx').each(function() {
+					$(this).text(i);
+					i++;
+				});
 			});
 		});
 
