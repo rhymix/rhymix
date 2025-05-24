@@ -1971,6 +1971,7 @@ function replaceOuterHTML(obj, html) {
 /**
  * Show or hide an element
  *
+ * @deprecated
  * @param string id
  * @return void
  */
