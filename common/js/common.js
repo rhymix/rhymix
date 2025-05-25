@@ -431,13 +431,10 @@ Rhymix.ajax = function(action, params, success, error) {
 	}
 	*/
 
-	// Add CSRF token and AJAX compatibility hint
+	// Add a CSRF token.
 	const headers = {};
 	if (action !== null) {
 		headers['X-CSRF-Token'] = getCSRFToken();
-		if (!params['_rx_ajax_compat']) {
-			headers['X-AJAX-Compat'] = 'JSON';
-		}
 	};
 
 	// Send the AJAX request
