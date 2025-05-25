@@ -9,7 +9,6 @@
  */
 
 const Rhymix = {
-	baseurl: null,
 	addedDocument: [],
 	langCodes: {},
 	loadedPopupMenus: [],
@@ -18,7 +17,8 @@ const Rhymix = {
 	pendingDebugData: [],
 	showAjaxErrors: ['ALL'],
 	unloading: false,
-	modal: {}
+	modal: {},
+	state: {}
 };
 
 /**
@@ -106,7 +106,7 @@ Rhymix.getLangType = function() {
  * @return void
  */
 Rhymix.setLangType = function(lang_type) {
-	const baseurl = this.URI(default_url).pathname();
+	const baseurl = this.getBaseUrl();
 	if (baseurl !== '/') {
 		this.cookie.remove('lang_type', { path: '/' });
 	}
@@ -142,7 +142,19 @@ Rhymix.getRewriteLevel = function() {
 };
 
 /**
- * Get the default URL
+ * Get the base URL relative to the current origin
+ *
+ * @return string
+ */
+Rhymix.getBaseUrl = function() {
+	if (!this.state.baseUrl) {
+		this.state.baseUrl = this.URI(default_url).pathname();
+	}
+	return this.state.baseUrl;
+};
+
+/**
+ * Get the full default URL
  *
  * @return string
  */
@@ -227,20 +239,20 @@ Rhymix.isSameHost = function(url) {
 	if (url.match(/^\w+:[^\/]*$/) || url.match(/^(https?:)?\/\/[^\/]*[^a-z0-9\/.:_-]/i)) {
 		return false;
 	}
-	if (!this.baseurl) {
-		this.baseurl = this.URI(window.request_uri).normalizePort().normalizeHostname().normalizePathname();
-		this.baseurl = this.baseurl.hostname() + this.baseurl.directory();
+	if (!this.state.partialOrigin) {
+		let uri = this.URI(window.request_uri).normalizePort().normalizeHostname().normalizePathname();
+		this.state.partialOrigin = uri.hostname() + uri.directory();
 	}
 	try {
 		let target_url = this.URI(url).normalizePort().normalizeHostname().normalizePathname();
-		if (target_url.is("urn")) {
+		if (target_url.is('urn')) {
 			return false;
 		}
 		if (!target_url.hostname()) {
 			target_url = target_url.absoluteTo(window.request_uri);
 		}
 		target_url = target_url.hostname() + target_url.directory();
-		return target_url.indexOf(this.baseurl) === 0;
+		return target_url.indexOf(this.state.partialOrigin) === 0;
 	} catch(err) {
 		return false;
 	}
