@@ -441,11 +441,16 @@ Rhymix.ajax = function(action, params, success, error) {
 	}
 	*/
 
-	// Add a CSRF token.
-	const headers = {};
-	if (action !== null) {
-		headers['X-CSRF-Token'] = getCSRFToken();
+	// Add a CSRF token to the header, and remove it from the parameters
+	const headers = {
+		'X-CSRF-Token': getCSRFToken()
 	};
+	if (isFormData && params.has('_rx_csrf_token') && params.get('_rx_csrf_token') === headers['X-CSRF-Token']) {
+		params.delete('_rx_csrf_token');
+	}
+	if (typeof params._rx_csrf_token !== 'undefined' && params._rx_csrf_token === headers['X-CSRF-Token']) {
+		delete params._rx_csrf_token;
+	}
 
 	// Generate AJAX parameters
 	const args = {
