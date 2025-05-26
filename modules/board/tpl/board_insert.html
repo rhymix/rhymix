@@ -38,7 +38,7 @@
 			<div class="x_controls">
 				<input type="text" name="browser_title" id="browser_title" value="{$module_info->browser_title}" class="lang_code" />
 				<a href="#browser_title_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="browser_title_help" class="x_help-block" hidden>{$lang->about_browser_title}</p>
+				<p id="browser_title_help" class="x_help-block x_hide">{$lang->about_browser_title}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -69,7 +69,7 @@
 					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
 				</select>
 				<a href="#layout_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="layout_help" class="x_help-block" hidden>{$lang->about_layout}</p>
+				<p id="layout_help" class="x_help-block x_hide">{$lang->about_layout}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -141,7 +141,7 @@
 					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl== $val->layout_srl">{$val->title} <block cond="$val->layout">({$val->layout})</block></option>
 				</select>
 				<a href="#mobile_layout_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="mobile_layout_help" class="x_help-block" hidden>{$lang->about_layout}</p>
+				<p id="mobile_layout_help" class="x_help-block x_hide">{$lang->about_layout}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -151,7 +151,7 @@
 					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key || (!$module_info->skin && $key=='default')">{$val->title}</option>
 				</select>
 				<a href="#mobile_skin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="mobile_skin_help" class="x_help-block" hidden>{$lang->about_skin}</p>
+				<p id="mobile_skin_help" class="x_help-block x_hide">{$lang->about_skin}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -424,7 +424,7 @@
 			<div class="x_controls">
 				<input type="text" name="admin_mail" id="admin_mail" value="{$module_info->admin_mail}" />
 				<a href="#admin_mail_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="admin_mail_help" class="x_help-block" hidden>{$lang->about_admin_mail}</p>
+				<p id="admin_mail_help" class="x_help-block x_hide">{$lang->about_admin_mail}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -435,7 +435,7 @@
 					<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl == $key">{$val->title}</option>
 				</select>
 				<a href="#module_category_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="module_category_help" class="x_help-block" hidden>{$lang->about_module_category}</p>
+				<p id="module_category_help" class="x_help-block x_hide">{$lang->about_module_category}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -443,7 +443,7 @@
 			<div class="x_controls">
 				<textarea name="description" id="description" rows="4" cols="42" placeholder="{$lang->about_description}" style="vertical-align:top">{$module_info->description}</textarea>
 				<a href="#description_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="description_help" class="x_help-block" hidden>{$lang->about_description}</p>
+				<p id="description_help" class="x_help-block x_hide">{$lang->about_description}</p>
 			</div>
 		</div>
 	</section>

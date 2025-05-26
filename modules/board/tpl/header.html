@@ -8,7 +8,7 @@
 		<a href="#aboutModule" data-toggle class="x_icon-question-sign">{$lang->help}</a>
 	</h1>
 </div>
-<p class="x_alert x_alert-info" id="aboutModule" hidden>{$lang->about_board}</p>
+<p class="x_alert x_alert-info x_hide" id="aboutModule">{$lang->about_board}</p>
 <ul class="x_nav x_nav-tabs" cond="$module_info && $act != 'dispBoardAdminContent' && $act != 'dispBoardAdminDeleteBoard'">
 	<li cond="$module=='admin'" class="x_active"|cond="$act=='dispBoardAdminContent'"><a href="{getUrl('act','dispBoardAdminContent','module_srl','', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_board_list}</a></li>
 	<!--<li class="x_active" cond="$act=='dispBoardAdminInsertBoard'"><a href="{getUrl('act','dispBoardAdminInsertBoard', 'selected_var_idx', '', 'type', '')}">{$lang->cmd_create_board}</a></li>-->
