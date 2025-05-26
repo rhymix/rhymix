@@ -462,10 +462,10 @@ Rhymix.ajax = function(action, params, success, error) {
 		processData: false,
 		headers: headers,
 		success: function(data, textStatus, xhr) {
-			Rhymix.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
+			Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
 		},
 		error: function(xhr, textStatus, errorThrown) {
-			Rhymix.ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
+			Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
 		}
 	};
 
@@ -489,7 +489,7 @@ Rhymix.ajax = function(action, params, success, error) {
  * @param function errror
  * @return void
  */
-Rhymix.ajaxSuccessHandler = function(xhr, textStatus, action, data, params, success, error) {
+Rhymix._ajaxSuccessHandler = function(xhr, textStatus, action, data, params, success, error) {
 
 	// Add debug information.
 	if (data._rx_debug) {
@@ -556,7 +556,7 @@ Rhymix.ajaxSuccessHandler = function(xhr, textStatus, action, data, params, succ
  * @param function errror
  * @return void
  */
-Rhymix.ajaxErrorHandler = function(xhr, textStatus, action, url, params, success, error) {
+Rhymix._ajaxErrorHandler = function(xhr, textStatus, action, url, params, success, error) {
 
 	// If the user is navigating away, don't do anything.
 	if (xhr.status == 0 && this.unloading) {
@@ -570,7 +570,7 @@ Rhymix.ajaxErrorHandler = function(xhr, textStatus, action, url, params, success
 			data = JSON.parse(xhr.responseText);
 		} catch (e) { }
 		if (data && typeof data.error !== 'undefined') {
-			this.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
+			this._ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
 			return;
 		}
 	}
