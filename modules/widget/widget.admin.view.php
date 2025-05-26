@@ -21,8 +21,7 @@ class WidgetAdminView extends Widget
 	function dispWidgetAdminDownloadedList()
 	{
 		// Set widget list
-		$oWidgetModel = getModel('widget');
-		$widget_list = $oWidgetModel->getDownloadedWidgetList();
+		$widget_list = WidgetModel::getDownloadedWidgetList();
 
 		$security = new Security($widget_list);
 		$widget_list = $security->encodeHTML('..', '..author..');
@@ -59,20 +58,21 @@ class WidgetAdminView extends Widget
 	function dispWidgetAdminAddContent()
 	{
 		$module_srl = Context::get('module_srl');
-		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if (!$module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$document_srl = Context::get('document_srl');
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument($document_srl);
+		$oDocument = DocumentModel::getDocument($document_srl);
 		Context::set('oDocument', $oDocument);
 
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'mid');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
 		Context::set('module_info', $module_info);
+
 		// Editors settings of the module by calling getEditor
-		$oEditorModel = getModel('editor');
-		$editor = $oEditorModel->getModuleEditor('document',$module_srl, $module_srl,'module_srl','content');
+		$editor = EditorModel::getModuleEditor('document', $module_srl, $module_srl, 'module_srl', 'content');
 		Context::set('editor', $editor);
 
 		$security = new Security();

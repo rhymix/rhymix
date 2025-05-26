@@ -9,40 +9,31 @@
 class WidgetModel extends Widget
 {
 	/**
-	 * @brief Initialization
-	 */
-	function init()
-	{
-	}
-
-	/**
 	 * @brief Wanted widget's path
 	 */
-	function getWidgetPath($widget_name)
+	public static function getWidgetPath($widget_name)
 	{
 		$path = sprintf('./widgets/%s/', $widget_name);
 		if(is_dir($path)) return $path;
-
 		return "";
 	}
 
 	/**
 	 * @brief Wanted widget style path
 	 */
-	function getWidgetStylePath($widgetStyle_name)
+	public static function getWidgetStylePath($widgetStyle_name)
 	{
 		$path = sprintf('./widgetstyles/%s/', $widgetStyle_name);
 		if(is_dir($path)) return $path;
-
 		return "";
 	}
 
 	/**
 	 * @brief Wanted widget style path
 	 */
-	function getWidgetStyleTpl($widgetStyle_name)
+	public static function getWidgetStyleTpl($widgetStyle_name)
 	{
-		$path = $this->getWidgetStylePath($widgetStyle_name);
+		$path = self::getWidgetStylePath($widgetStyle_name);
 		$tpl = sprintf('%swidgetstyle.html', $path);
 		return $tpl;
 	}
@@ -51,7 +42,7 @@ class WidgetModel extends Widget
 	 * @brief Wanted photos of the type and information
 	 * Download a widget with type (generation and other means)
 	 */
-	function getDownloadedWidgetList()
+	public static function getDownloadedWidgetList()
 	{
 		$oAutoinstallModel = getModel('autoinstall');
 
@@ -66,7 +57,7 @@ class WidgetModel extends Widget
 			// The name of the widget
 			$widget = $searched_list[$i];
 			// Wanted information on the Widget
-			$widget_info = $this->getWidgetInfo($widget);
+			$widget_info = self::getWidgetInfo($widget);
 
 			if(!$widget_info)
 			{
@@ -96,7 +87,7 @@ class WidgetModel extends Widget
 	 * @brief Wanted photos of the type and information
 	 * Download a widget with type (generation and other means)
 	 */
-	function getDownloadedWidgetStyleList()
+	public static function getDownloadedWidgetStyleList()
 	{
 		// 've Downloaded the widget and the widget's list of installed Wanted
 		$searched_list = FileHandler::readDir('./widgetstyles');
@@ -109,7 +100,7 @@ class WidgetModel extends Widget
 			// The name of the widget
 			$widgetStyle = $searched_list[$i];
 			// Wanted information on the Widget
-			$widgetStyle_info = $this->getWidgetStyleInfo($widgetStyle);
+			$widgetStyle_info = self::getWidgetStyleInfo($widgetStyle);
 
 			$list[] = $widgetStyle_info;
 		}
@@ -120,11 +111,11 @@ class WidgetModel extends Widget
 	 * @brief Modules conf/info.xml wanted to read the information
 	 * It uses caching to reduce time for xml parsing ..
 	 */
-	function getWidgetInfo($widget)
+	public static function getWidgetInfo($widget)
 	{
 		// Check the widget path.
 		$widget = preg_replace('/[^a-zA-Z0-9-_]/', '', $widget);
-		$widget_path = $this->getWidgetPath($widget);
+		$widget_path = self::getWidgetPath($widget);
 		if (!$widget_path)
 		{
 			return;
@@ -161,11 +152,11 @@ class WidgetModel extends Widget
 	 * @brief Modules conf/info.xml wanted to read the information
 	 * It uses caching to reduce time for xml parsing ..
 	 */
-	function getWidgetStyleInfo($widgetStyle)
+	public static function getWidgetStyleInfo($widgetStyle)
 	{
 		// Check the widget style path.
 		$widgetStyle = preg_replace('/[^a-zA-Z0-9-_]/', '', $widgetStyle);
-		$widgetStyle_path = $this->getWidgetStylePath($widgetStyle);
+		$widgetStyle_path = self::getWidgetStylePath($widgetStyle);
 		if (!$widgetStyle_path)
 		{
 			return;

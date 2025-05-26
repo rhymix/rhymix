@@ -21,13 +21,18 @@ class WidgetView extends Widget
 	function dispWidgetInfo()
 	{
 		// If people have skin widget widget output as a function of the skin More Details
-		if(Context::get('skin')) return $this->dispWidgetSkinInfo();
+		if (Context::get('skin'))
+		{
+			return $this->dispWidgetSkinInfo();
+		}
+
 		// Wanted widget is selected information
-		$oWidgetModel = getModel('widget');
-		$widget_info = $oWidgetModel->getWidgetInfo(Context::get('selected_widget'));
+		$widget_info = WidgetModel::getWidgetInfo(Context::get('selected_widget'));
 		Context::set('widget_info', $widget_info);
+
 		// Specifies the widget to pop up
 		$this->setLayoutFile('popup_layout');
+
 		// Set a template file
 		$this->setTemplateFile('widget_detail_info');
 	}
@@ -40,14 +45,14 @@ class WidgetView extends Widget
 		$widget = Context::get('selected_widget');
 		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
 
-		$path = sprintf('./widgets/%s/', $widget);
 		// Wanted widget is selected information
-		$oModuleModel = getModel('module');
-		$skin_info = $oModuleModel->loadSkinInfo($path, $skin);
-
+		$path = sprintf('./widgets/%s/', $widget);
+		$skin_info = ModuleModel::loadSkinInfo($path, $skin);
 		Context::set('skin_info',$skin_info);
+
 		// Specifies the widget to pop up
 		$this->setLayoutFile('popup_layout');
+
 		// Set a template file
 		$this->setTemplateFile('skin_info');
 	}
@@ -58,31 +63,32 @@ class WidgetView extends Widget
 	function dispWidgetGenerateCode()
 	{
 		// Wanted widget is selected information
-		$oWidgetModel = getModel('widget');
-
-		$widget_list = $oWidgetModel->getDownloadedWidgetList();
+		$widget_list = WidgetModel::getDownloadedWidgetList();
 		$selected_widget = Context::get('selected_widget');
-		if(!$selected_widget) $selected_widget = $widget_list[0]->widget;
+		if (!$selected_widget)
+		{
+			$selected_widget = $widget_list[0]->widget;
+		}
 
-		$widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
+		$widget_info = WidgetModel::getWidgetInfo($selected_widget);
 		Context::set('widget_info', $widget_info);
 		Context::set('widget_list', $widget_list);
 		Context::set('selected_widget', $selected_widget);
 
-		$oModuleModel = getModel('module');
 		// Get a list of module categories
-		$module_categories = $oModuleModel->getModuleCategories();
+		$module_categories = ModuleModel::getModuleCategories();
+
 		// Get a mid list
 		$site_module_info = Context::get('site_module_info');
 		$args = new stdClass();
 		$args->site_srl = $site_module_info->site_srl;
 		$columnList = array('module_srl', 'module_category_srl', 'browser_title', 'mid');
-		$mid_list = $oModuleModel->getMidList($args, $columnList);
+		$mid_list = ModuleModel::getMidList($args, $columnList);
 
 		// Get a list of groups
-		$oMemberModel = getModel('member');
-		$group_list = $oMemberModel->getGroups($site_module_info->site_srl);
+		$group_list = MemberModel::getGroups($site_module_info->site_srl);
 		Context::set('group_list', $group_list);
+
 		// module_category and module combination
 		if($module_categories)
 		{
@@ -102,14 +108,18 @@ class WidgetView extends Widget
 		}
 
 		Context::set('mid_list',$module_categories);
+
 		// Menu Get a list
 		$output = executeQueryArray('menu.getMenus');
 		Context::set('menu_list',$output->data);
+
 		// Wanted information on skin
-		$skin_list = $oModuleModel->getSkins($widget_info->path);
+		$skin_list = ModuleModel::getSkins($widget_info->path);
 		Context::set('skin_list', $skin_list);
+
 		// Specifies the widget to pop up
 		$this->setLayoutFile('popup_layout');
+
 		// Set a template file
 		$this->setTemplateFile('widget_generate_code');
 	}
@@ -119,11 +129,14 @@ class WidgetView extends Widget
 	 */
 	function dispWidgetGenerateCodeInPage()
 	{
-		$oWidgetModel = getModel('widget');
-		$widget_list = $oWidgetModel->getDownloadedWidgetList();
-		Context::set('widget_list',$widget_list);
+		$widget_list = WidgetModel::getDownloadedWidgetList();
+		Context::set('widget_list', $widget_list);
+
 		// When there is no widget is selected in the first widget
-		if(!Context::get('selected_widget')) Context::set('selected_widget',$widget_list[0]->widget);
+		if (!Context::get('selected_widget'))
+		{
+			Context::set('selected_widget', $widget_list[0]->widget);
+		}
 
 		$this->dispWidgetGenerateCode();
 		$this->setLayoutFile('popup_layout');
@@ -136,15 +149,15 @@ class WidgetView extends Widget
 	function dispWidgetStyleGenerateCodeInPage()
 	{
 		// Widget-style list
-		$oWidgetModel = getModel('widget');
-		$widgetStyle_list = $oWidgetModel->getDownloadedWidgetStyleList();
+		$widgetStyle_list = WidgetModel::getDownloadedWidgetStyleList();
 		Context::set('widgetStyle_list',$widgetStyle_list);
+
 		// Selected list of widget styles
 		$widgetstyle = Context::get('widgetstyle');
-		$widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetstyle);
-		if($widgetstyle && $widgetstyle_info)
+		$widgetstyle_info = WidgetModel::getWidgetStyleInfo($widgetstyle);
+		if ($widgetstyle && $widgetstyle_info)
 		{
-			Context::set('widgetstyle_info',$widgetstyle_info);
+			Context::set('widgetstyle_info', $widgetstyle_info);
 		}
 
 		$this->dispWidgetGenerateCode();

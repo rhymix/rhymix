@@ -28,16 +28,18 @@ class WidgetController extends Widget
 		$skin = Context::get('skin');
 
 		$path = sprintf('./widgets/%s/', $widget);
-		$oModuleModel = getModel('module');
-		$skin_info = $oModuleModel->loadSkinInfo($path, $skin);
+		$skin_info = ModuleModel::loadSkinInfo($path, $skin);
 
 		$colorset_list = [];
-		foreach($skin_info->colorset ?: [] as $colorset)
+		foreach ($skin_info->colorset ?: [] as $colorset)
 		{
 			$colorset_list[] = sprintf('%s|@|%s', $colorset->name, $colorset->title);
 		}
+		if (count($colorset_list))
+		{
+			$colorsets = implode("\n", $colorset_list);
+		}
 
-		if(count($colorset_list)) $colorsets = implode("\n", $colorset_list);
 		$this->add('colorset_list', $colorsets);
 	}
 
@@ -47,13 +49,18 @@ class WidgetController extends Widget
 	function procWidgetGenerateCode()
 	{
 		$widget = Context::get('selected_widget');
-		if(!$widget) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		if(!Context::get('skin')) throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
+		if (!$widget)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if (!Context::get('skin'))
+		{
+			throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
+		}
 
 		$attribute = $this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
 		$widget_code = sprintf('<img class="zbxe_widget_output" widget="%s" %s />', $widget, implode(' ',$attribute));
-		// Code output
 		$this->add('widget_code', $widget_code);
 	}
 
@@ -63,9 +70,14 @@ class WidgetController extends Widget
 	function procWidgetGenerateCodeInPage()
 	{
 		$widget = Context::get('selected_widget');
-		if(!$widget) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		if(!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin')) throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
+		if (!$widget)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if (!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin'))
+		{
+			throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
+		}
 
 		$this->arrangeWidgetVars($widget, Context::getRequestVars(), $vars);
 
@@ -100,17 +112,23 @@ class WidgetController extends Widget
 		$editor_sequence = Context::get('editor_sequence');
 
 		$err = 0;
-		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayout($module_srl);
-		if(!$layout_info || $layout_info->type != 'faceoff') $err++;
+		$layout_info = LayoutModel::getLayout($module_srl);
+		if (!$layout_info || $layout_info->type != 'faceoff')
+		{
+			$err++;
+		}
 
 		// Destination Information Wanted page module
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
-		if(!$page_info->module_srl || $page_info->module != 'page') $err++;
-
-		if($err > 1) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$page_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
+		if (!$page_info->module_srl || $page_info->module != 'page')
+		{
+			$err++;
+		}
+		if ($err > 1)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Check permissions
 		$logged_info = Context::get('logged_info');
@@ -118,23 +136,21 @@ class WidgetController extends Widget
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
+		$module_grant = ModuleModel::getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		// Enter post
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-
 		$obj = new stdClass();
 		$obj->module_srl = $module_srl;
 		$obj->content = $content;
 		$obj->document_srl = $document_srl;
 		$obj->use_editor = 'Y';
 
-		$oDocument = $oDocumentModel->getDocument($obj->document_srl);
+		$oDocument = DocumentModel::getDocument($obj->document_srl);
+		$oDocumentController = DocumentController::getInstance();
 		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
 		{
 			$output = $oDocumentController->updateDocument($oDocument, $obj);
@@ -146,7 +162,10 @@ class WidgetController extends Widget
 		}
 
 		// Stop when an error occurs
-		if(!$output->toBool()) return $output;
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		// Return results
 		$this->add('document_srl', $obj->document_srl);
@@ -160,18 +179,16 @@ class WidgetController extends Widget
 		// Variable Wanted
 		$document_srl = Context::get('document_srl');
 
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-		$oDocumentAdminController = getAdminController('document');
-
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$oDocument = DocumentModel::getDocument($document_srl);
+		if (!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		$module_srl = $oDocument->get('module_srl');
 
 		// Destination Information Wanted page module
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$page_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
 		if(!$page_info->module_srl || $page_info->module != 'page') throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		// Check permissions
@@ -180,14 +197,18 @@ class WidgetController extends Widget
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
+		$module_grant = ModuleModel::getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
+		$oDocumentAdminController = DocumentAdminController::getInstance();
 		$output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
-		if(!$output->toBool()) return $output;
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		// Return results
 		$copied_srls = $output->get('copied_srls');
@@ -201,18 +222,19 @@ class WidgetController extends Widget
 	{
 		// Variable Wanted
 		$document_srl = Context::get('document_srl');
-
-		$oDocumentModel = getModel('document');
-		$oDocumentController = getController('document');
-
-		$oDocument = $oDocumentModel->getDocument($document_srl);
-		if(!$oDocument->isExists()) return;
+		$oDocument = DocumentModel::getDocument($document_srl);
+		if (!$oDocument->isExists())
+		{
+			return;
+		}
 		$module_srl = $oDocument->get('module_srl');
 
 		// Destination Information Wanted page module
-		$oModuleModel = getModel('module');
-		$page_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
-		if(!$page_info->module_srl || $page_info->module != 'page') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		$page_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$page_info->module_srl || $page_info->module != 'page')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Check permissions
 		$logged_info = Context::get('logged_info');
@@ -220,14 +242,18 @@ class WidgetController extends Widget
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-		$module_grant = $oModuleModel->getGrant($page_info, $logged_info);
+		$module_grant = ModuleModel::getGrant($page_info, $logged_info);
 		if (!$module_grant->manager)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
+		$oDocumentController = DocumentController::getInstance();
 		$output = $oDocumentController->deleteDocument($oDocument->get('document_srl'));
-		if(!$output->toBool()) return $output;
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 	}
 
 	/**
@@ -258,11 +284,14 @@ class WidgetController extends Widget
 		{
 			$content = Context::replaceUserLang($content);
 		}
+
 		// Check whether to include information about editing
 		$this->javascript_mode = $javascript_mode;
+
 		// Widget code box change
 		$content = preg_replace_callback('!<div([^>]*)widget=([^>]*?)><div><div>((<img.*?>)*)!is', array($this, 'transWidgetBox'), $content);
-		// Widget code information byeogyeong
+
+		// Widget code information change
 		$content = preg_replace_callback('!<img([^>]*)widget=([^>]*?)>!is', array($this, 'transWidget'), $content);
 
 		return $content;
@@ -519,8 +548,7 @@ class WidgetController extends Widget
 				case 'widgetContent' :
 					if($args->document_srl)
 					{
-						$oDocumentModel = getModel('document');
-						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, true);
+						$oDocument = DocumentModel::getDocument($args->document_srl, false, true);
 						$body = $oDocument->getContent(false, false, false, false);
 					}
 					else
@@ -528,7 +556,7 @@ class WidgetController extends Widget
 						$body = base64_decode($args->body);
 					}
 					// Change the editor component
-					$oEditorController = getController('editor');
+					$oEditorController = EditorController::getInstance();
 					$body = $oEditorController->transComponent($body);
 
 					$widget_content_header = sprintf('<div class="rhymix_content xe_content xe-widget-wrapper ' . ($args->css_class ?? '') . '" %sstyle="%s"><div style="%s">', $args->id ?? '', $style, $inner_style);
@@ -559,8 +587,7 @@ class WidgetController extends Widget
 				case 'widgetContent' :
 					if($args->document_srl)
 					{
-						$oDocumentModel = getModel('document');
-						$oDocument = $oDocumentModel->getDocument($args->document_srl, false, true);
+						$oDocument = DocumentModel::getDocument($args->document_srl, false, true);
 						$body = $oDocument->getContent(false, false, false, false);
 					}
 					else
@@ -694,24 +721,33 @@ class WidgetController extends Widget
 		if(!isset($GLOBALS['_xe_loaded_widgets_'][$widget]))
 		{
 			// Finding the location of a widget
-			$oWidgetModel = getModel('widget');
-			$path = $oWidgetModel->getWidgetPath($widget);
+			$path = WidgetModel::getWidgetPath($widget);
+
 			// If you do not find the class file error output widget (html output)
 			$class_file = sprintf('%s%s.class.php', $path, $widget);
-			if(!file_exists($class_file)) return sprintf(lang('msg_widget_is_not_exists'), $widget);
+			if (!file_exists($class_file))
+			{
+				return sprintf(lang('msg_widget_is_not_exists'), $widget);
+			}
+
 			// Widget classes include
 			require_once($class_file);
 
 			// Creating Objects
-			if(!class_exists($widget, false))
+			if (!class_exists($widget, false))
 			{
 				return sprintf(lang('msg_widget_object_is_null'), $widget);
 			}
 
 			$oWidget = new $widget();
-			if(!is_object($oWidget)) return sprintf(lang('msg_widget_object_is_null'), $widget);
-
-			if(!method_exists($oWidget, 'proc')) return sprintf(lang('msg_widget_proc_is_null'), $widget);
+			if (!is_object($oWidget))
+			{
+				return sprintf(lang('msg_widget_object_is_null'), $widget);
+			}
+			if (!method_exists($oWidget, 'proc'))
+			{
+				return sprintf(lang('msg_widget_proc_is_null'), $widget);
+			}
 
 			$oWidget->widget_path = $path;
 
@@ -722,12 +758,17 @@ class WidgetController extends Widget
 
 	function compileWidgetStyle($widgetStyle,$widget,$widget_content_body, $args, $javascript_mode)
 	{
-		if(!$widgetStyle) return $widget_content_body;
+		if (!$widgetStyle)
+		{
+			return $widget_content_body;
+		}
 
-		$oWidgetModel = getModel('widget');
 		// Bring extra_var widget style tie
-		$widgetstyle_info = $oWidgetModel->getWidgetStyleInfo($widgetStyle);
-		if(!$widgetstyle_info) return $widget_content_body;
+		$widgetstyle_info = WidgetModel::getWidgetStyleInfo($widgetStyle);
+		if (!$widgetstyle_info)
+		{
+			return $widget_content_body;
+		}
 
 		$widgetstyle_extra_var = new stdClass();
 		$widgetstyle_extra_var_key = get_object_vars($widgetstyle_info);
@@ -742,7 +783,7 @@ class WidgetController extends Widget
 		// #18994272 오타를 수정했으나 하위 호환성을 위해 남겨둠 - deprecated
 		Context::set('widgetstyle_extar_var', $widgetstyle_extra_var);
 
-		if($javascript_mode && $widget=='widgetBox')
+		if ($javascript_mode && $widget == 'widgetBox')
 		{
 			Context::set('widget_content', '<div class="widget_inner">'.$widget_content_body.'</div>');
 		}
@@ -750,8 +791,9 @@ class WidgetController extends Widget
 		{
 			Context::set('widget_content', $widget_content_body);
 		}
+
 		// Compilation
-		$widgetstyle_path = $oWidgetModel->getWidgetStylePath($widgetStyle);
+		$widgetstyle_path = WidgetModel::getWidgetStylePath($widgetStyle);
 		$oTemplate = Rhymix\Framework\Template::getInstance();
 		$tpl = $oTemplate->compile($widgetstyle_path, 'widgetstyle');
 
@@ -763,8 +805,7 @@ class WidgetController extends Widget
 	 */
 	function arrangeWidgetVars($widget, $request_vars, &$vars)
 	{
-		$oWidgetModel = getModel('widget');
-		$widget_info = $oWidgetModel->getWidgetInfo($widget);
+		$widget_info = WidgetModel::getWidgetInfo($widget);
 
 		if(!$vars)
 		{
@@ -800,7 +841,7 @@ class WidgetController extends Widget
 		// If the widget style
 		if($request_vars->widgetstyle)
 		{
-			$widgetStyle_info = $oWidgetModel->getWidgetStyleInfo($request_vars->widgetstyle);
+			$widgetStyle_info = WidgetModel::getWidgetStyleInfo($request_vars->widgetstyle);
 			if(countobj($widgetStyle_info->extra_var))
 			{
 				foreach($widgetStyle_info->extra_var as $key=>$val)
