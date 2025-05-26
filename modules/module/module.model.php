@@ -2421,8 +2421,7 @@ class ModuleModel extends Module
 			$param = explode("=",$param);
 			if($param[0] == 'selected_widget') $selected_widget = $param[1];
 		}
-		$oWidgetModel = getModel('widget');
-		if($selected_widget) $widget_info = $oWidgetModel->getWidgetInfo($selected_widget);
+		if($selected_widget) $widget_info = WidgetModel::getWidgetInfo($selected_widget);
 		Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
 
 		$output = self::getModuleFileBoxList();

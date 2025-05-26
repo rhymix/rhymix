@@ -18,12 +18,10 @@ class PageAdminView extends Page
 	{
 		// Pre-check if module_srl exists. Set module_info if exists
 		$module_srl = Context::get('module_srl');
-		// Create module model object
-		$oModuleModel = getModel('module');
 		// module_srl two come over to save the module, putting the information in advance
 		if($module_srl)
 		{
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 			if(!$module_info)
 			{
 				Context::set('module_srl','');
@@ -37,7 +35,7 @@ class PageAdminView extends Page
 			}
 		}
 		// Get a list of module categories
-		$module_category = $oModuleModel->getModuleCategories();
+		$module_category = ModuleModel::getModuleCategories();
 		Context::set('module_category', $module_category);
 		//Security
 		$security = new Security();
@@ -65,8 +63,7 @@ class PageAdminView extends Page
 		if(in_array($search_target,$search_target_list) && $search_keyword) $args->{$search_target} = $search_keyword;
 
 		$output = executeQuery('page.getPageList', $args);
-		$oModuleModel = getModel('module');
-		$page_list = $oModuleModel->addModuleExtraVars($output->data);
+		$page_list = ModuleModel::addModuleExtraVars($output->data);
 		moduleModel::syncModuleToSite($page_list);
 
 		$oModuleAdminModel = getAdminModel('module'); /* @var $oModuleAdminModel moduleAdminModel */
@@ -105,27 +102,24 @@ class PageAdminView extends Page
 		// If the layout is destined to add layout information haejum (layout_title, layout)
 		if($module_info->layout_srl > 0)
 		{
-			$oLayoutModel = getModel('layout');
-			$layout_info = $oLayoutModel->getLayout($module_info->layout_srl);
+			$layout_info = LayoutModel::getLayout($module_info->layout_srl);
 			$module_info->layout = $layout_info->layout;
 			$module_info->layout_title = $layout_info->layout_title;
 		}
 		// Get a layout list
-		$oLayoutModel = getModel('layout');
-		$layout_list = $oLayoutModel->getLayoutList();
+		$layout_list = LayoutModel::getLayoutList();
 		Context::set('layout_list', $layout_list);
 
-		$mobile_layout_list = $oLayoutModel->getLayoutList(0,"M");
+		$mobile_layout_list = LayoutModel::getLayoutList(0,"M");
 		Context::set('mlayout_list', $mobile_layout_list);
 		// Set a template file
 
 		if($this->module_info->page_type == 'ARTICLE')
 		{
-			$oModuleModel = getModel('module');
-			$skin_list = $oModuleModel->getSkins($this->module_path);
+			$skin_list = ModuleModel::getSkins($this->module_path);
 			Context::set('skin_list',$skin_list);
 
-			$mskin_list = $oModuleModel->getSkins($this->module_path, "m.skins");
+			$mskin_list = ModuleModel::getSkins($this->module_path, "m.skins");
 			Context::set('mskin_list', $mskin_list);
 		}
 
@@ -179,8 +173,7 @@ class PageAdminView extends Page
 		{
 			if($method == '_getArticleContent' && $this->module_info->is_mskin_fix == 'N')
 			{
-				$oModuleModel = getModel('module');
-				$oPageMobile->module_info->mskin = $oModuleModel->getModuleDefaultSkin('page', 'M');
+				$oPageMobile->module_info->mskin = ModuleModel::getModuleDefaultSkin('page', 'M');
 			}
 			$page_content = $oPageMobile->{$method}();
 		}
@@ -246,13 +239,12 @@ class PageAdminView extends Page
 
 		Context::set('content', $content);
 		// Convert them to teach the widget
-		$oWidgetController = getController('widget');
+		$oWidgetController = WidgetController::getInstance();
 		$content = $oWidgetController->transWidgetCode($content, true, !$isMobile);
 		// $content = str_replace('$', '&#36;', $content);
 		Context::set('page_content', $content);
 		// Set widget list
-		$oWidgetModel = getModel('widget');
-		$widget_list = $oWidgetModel->getDownloadedWidgetList();
+		$widget_list = WidgetModel::getDownloadedWidgetList();
 		Context::set('widget_list', $widget_list);
 
 		//Security
@@ -270,8 +262,7 @@ class PageAdminView extends Page
 
 	function _setArticleTypeContentModify($isMobile = false)
 	{
-		$oDocumentModel = getModel('document');
-		$oDocument = $oDocumentModel->getDocument(0);
+		$oDocument = DocumentModel::getDocument(0);
 
 		if($isMobile)
 		{
@@ -326,9 +317,8 @@ class PageAdminView extends Page
 		$module_srl = Context::get('module_srl');
 		if(!$module_srl) return $this->dispContent();
 
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module', 'mid');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
 		Context::set('module_info',$module_info);
 		// Set a template file
 		$this->setTemplateFile('page_delete');

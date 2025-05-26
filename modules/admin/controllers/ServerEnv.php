@@ -175,13 +175,12 @@ class ServerEnv extends Base
 		// Widgets
 		$info[] = '[Widgets]';
 		$info['widget'] = array();
-		$oWidgetModel = WidgetModel::getInstance();
-		$widget_list = $oWidgetModel->getDownloadedWidgetList() ?: array();
+		$widget_list = WidgetModel::getDownloadedWidgetList() ?: array();
 		foreach ($widget_list as $widget)
 		{
 			if (!in_array($widget->widget, $skip['widget']))
 			{
-				$widgetInfo = $oWidgetModel->getWidgetInfo($widget->widget);
+				$widgetInfo = WidgetModel::getWidgetInfo($widget->widget);
 				if ($widgetInfo->version === 'RX_VERSION')
 				{
 					$info['widget'][] = $widget->widget;
@@ -198,13 +197,12 @@ class ServerEnv extends Base
 		// Widgetstyles
 		$info[] = '[Widgetstyles]';
 		$info['widgetstyle'] = array();
-		$oWidgetModel = WidgetModel::getInstance();
-		$widgetstyle_list = $oWidgetModel->getDownloadedWidgetStyleList() ?: array();
+		$widgetstyle_list = WidgetModel::getDownloadedWidgetStyleList() ?: array();
 		foreach ($widgetstyle_list as $widgetstyle)
 		{
 			if (!in_array($widgetstyle->widgetStyle, $skip['widgetstyle']))
 			{
-				$widgetstyleInfo = $oWidgetModel->getWidgetStyleInfo($widgetstyle->widgetStyle);
+				$widgetstyleInfo = WidgetModel::getWidgetStyleInfo($widgetstyle->widgetStyle);
 				if ($widgetstyleInfo->version === 'RX_VERSION')
 				{
 					$info['widgetstyle'][] = $widgetstyle->widgetStyle;
