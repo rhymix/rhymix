@@ -403,11 +403,18 @@ Rhymix.modal.close = function(id) {
  */
 Rhymix.ajax = function(action, params, success, error) {
 
-	// Extract action info
+	// Extract module and act
+	let isFormData = params instanceof FormData;
+	let module, act;
 	if (!action) {
-		if (params instanceof FormData) {
-			action = (params.get('module') || params.get('mid')) + '.' + params.get('act');
-			if (action === '.') {
+		if (isFormData) {
+			module = params.get('module');
+			act = params.get('act');
+			if (module && act) {
+				action = module + '.' + act;
+			} else if (act) {
+				action = act;
+			} else {
 				action = null;
 			}
 		} else {
@@ -416,13 +423,16 @@ Rhymix.ajax = function(action, params, success, error) {
 	} else {
 		action = action.split('.');
 		params = params || {};
-		params.module = action[0];
-		params.act = action[1];
+		params.module = module = action[0];
+		params.act = act = action[1];
 		action = action.join('.');
 	}
 
 	// Add action to URL if the current rewrite level supports it
-	let url = this.URI(window.request_uri).pathname();
+	let url = this.URI(window.request_uri).pathname() + 'index.php';
+	if (act) {
+		url = url + '?act=' + act;
+	}
 	/*
 	if (this.getRewriteLevel() >= 2 && action !== null) {
 		url = url + action.replace('.', '/');
@@ -437,25 +447,25 @@ Rhymix.ajax = function(action, params, success, error) {
 		headers['X-CSRF-Token'] = getCSRFToken();
 	};
 
+	// Generate AJAX parameters
+	const args = {
+		type: 'POST',
+		dataType: 'json',
+		url: url,
+		data: isFormData ? params : JSON.stringify(params),
+		contentType: isFormData ? false : 'application/json; charset=UTF-8',
+		processData: false,
+		headers: headers,
+		success: function(data, textStatus, xhr) {
+			Rhymix.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
+		},
+		error: function(xhr, textStatus, errorThrown) {
+			Rhymix.ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
+		}
+	};
+
 	// Send the AJAX request
 	try {
-		const args = {
-			type: 'POST',
-			dataType: 'json',
-			url: url,
-			data: params,
-			processData: (action !== null && !(params instanceof FormData)),
-			headers : headers,
-			success : function(data, textStatus, xhr) {
-				Rhymix.ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
-			},
-			error : function(xhr, textStatus, errorThrown) {
-				Rhymix.ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
-			}
-		};
-		if (params instanceof FormData) {
-			args.contentType = false;
-		}
 		$.ajax(args);
 	} catch(e) {
 		alert(e);
