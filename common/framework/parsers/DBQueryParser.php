@@ -286,6 +286,7 @@ class DBQueryParser extends BaseParser
 				$group->conditions = self::_parseConditions($tag);
 				$group->pipe = strtoupper($attribs['pipe'] ?? '') ?: 'AND';
 				$group->ifvar = $attribs['if'] ?? null;
+				$group->not_null = ($attribs['notnull'] ?? false) ? true : false;
 				$result[] = $group;
 			}
 			elseif ($name === 'query')

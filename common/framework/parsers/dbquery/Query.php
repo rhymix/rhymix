@@ -580,6 +580,10 @@ class Query extends VariableBase
 				{
 					$result .= ($result === '' ? '' : (' ' . $condition->pipe . ' ')) . '(' . $condition_string . ')';
 				}
+				elseif ($condition->not_null)
+				{
+					throw new \Rhymix\Framework\Exceptions\QueryError('Condition group marked as NOT NULL must contain at least one valid condition');
+				}
 			}
 
 			// Simple condition

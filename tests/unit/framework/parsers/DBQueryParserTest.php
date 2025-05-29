@@ -512,31 +512,58 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 			'user_name' => null,
 			'nick_name' => 'TEST',
 			'document_srl' => 1234,
+			'module_srl' => 5678,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = ? WHERE `document_srl` = ?', $sql);
-		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
+		$this->assertEquals('UPDATE `rx_documents` SET `nick_name` = ? WHERE `document_srl` = ? AND (`module_srl` = ?)', $sql);
+		$this->assertEquals(['TEST', 1234, 5678], $query->getQueryParams());
 
 		$sql = $query->getQueryString('rx_', array(
 			'user_name' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
 			'nick_name' => 'TEST',
 			'document_srl' => 1234,
+			'module_srl' => 5678,
+			'member_srl' => 9000,
 		));
-		$this->assertEquals('UPDATE `rx_documents` SET `user_name` = NULL, `nick_name` = ? WHERE `document_srl` = ?', $sql);
-		$this->assertEquals(['TEST', 1234], $query->getQueryParams());
+		$this->assertEquals('UPDATE `rx_documents` SET `user_name` = NULL, `nick_name` = ? WHERE `document_srl` = ? AND (`module_srl` = ? OR `member_srl` = ?)', $sql);
+		$this->assertEquals(['TEST', 1234, 5678, 9000], $query->getQueryParams());
 
-		$this->tester->expectThrowable('Exception', function() use($query) {
+		$this->tester->expectThrowable('Rhymix\Framework\Exceptions\QueryError', function() use($query) {
+			$query->getQueryString('rx_', array(
+					'nick_name' => 'TEST',
+					'document_srl' => 1234,
+			));
+		});
+
+		$this->tester->expectThrowable('Rhymix\Framework\Exceptions\QueryError', function() use($query) {
+			$query->getQueryString('rx_', array(
+				'nick_name' => 'TEST',
+				'document_srl' => 1234,
+			));
+		});
+
+		$this->tester->expectThrowable('Rhymix\Framework\Exceptions\QueryError', function() use($query) {
 			$query->getQueryString('rx_', array(
 				'nick_name' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
 				'document_srl' => 1234,
+				'module_srl' => 5678,
 			));
 		});
 
-		$this->tester->expectThrowable('Exception', function() use($query) {
+		$this->tester->expectThrowable('Rhymix\Framework\Exceptions\QueryError', function() use($query) {
 			$query->getQueryString('rx_', array(
 				'nick_name' => null,
 				'document_srl' => 1234,
+				'member_srl' => 5678,
 			));
 		});
+
+		// No exception
+		$query->getQueryString('rx_', array(
+			'nick_name' => 'TEST',
+			'document_srl' => 1234,
+			'module_srl' => new \Rhymix\Framework\Parsers\DBQuery\NullValue,
+			'member_srl' => null,
+		));
 
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/nullValueTest2.xml');
 

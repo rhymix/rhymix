@@ -10,4 +10,5 @@ class ConditionGroup
 	public $conditions = array();
 	public $pipe = 'AND';
 	public $ifvar;
+	public $not_null;
 }

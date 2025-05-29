@@ -8,5 +8,9 @@
     </columns>
     <conditions>
         <condition operation="equal" column="document_srl" var="document_srl" />
+		<group notnull="notnull">
+			<condition operation="equal" column="module_srl" var="module_srl" />
+			<condition operation="equal" column="member_srl" var="member_srl" pipe="or" />
+		</group>
     </conditions>
 </query>
