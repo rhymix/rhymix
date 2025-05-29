@@ -388,7 +388,11 @@ class Member extends ModuleObject
 		}
 		if(!$oDB->isIndexExists('member_auth_mail', 'unique_auth_key'))
 		{
-			$oDB->addIndex('member_auth_mail', 'unique_auth_key', ['auth_key'], true);
+			$output = $oDB->addIndex('member_auth_mail', 'unique_auth_key', ['auth_key'], true);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 		}
 		if(!$oDB->isIndexExists('member_auth_mail', 'idx_member_srl'))
 		{
