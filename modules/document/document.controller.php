@@ -2734,7 +2734,7 @@ class DocumentController extends Document
 		if(!$args) $args = Context::gets('module_srl','category_srl','parent_srl','category_title','category_description','expand','is_default','group_srls','category_color','mid');
 		$args->title = trim($args->category_title);
 		$args->description = trim($args->category_description);
-		$args->color = $args->category_color;
+		$args->color = trim($args->category_color);
 		$args->expand = (isset($args->expand) && $args->expand === 'Y') ? 'Y' : 'N';
 		$args->is_default = (isset($args->is_default) && $args->is_default === 'Y') ? 'Y' : 'N';
 
