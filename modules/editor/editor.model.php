@@ -280,7 +280,10 @@ class EditorModel extends Editor
 			}
 			FileController::setUploadInfo($option->editor_sequence, $upload_target_srl, $option->module_srl ?? 0, $upload_config);
 
-			// Set editor mid
+			// Set editor_mid, which may be different from current_mid on the client side.
+			// While current_mid follows the URL that the user is currently viewing,
+			// editor_mid unambiguously refers to the module to which files should be uploaded.
+			// This difference may be significant when a document from one module is shown in another module.
 			if (!empty($option->module_srl))
 			{
 				$option->mid = ModuleModel::getModuleInfoByModuleSrl($option->module_srl)->mid ?? null;
