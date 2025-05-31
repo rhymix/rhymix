@@ -110,9 +110,10 @@ abstract class BaseParser
 	 * @param \SimpleXMLElement $extra_vars
 	 * @param string $lang
 	 * @param string $type
+	 * @param array $options
 	 * @return object
 	 */
-	protected static function _getExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = ''): \stdClass
+	protected static function _getExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = '', array $options = []): \stdClass
 	{
 		$result = new \stdClass;
 
@@ -193,12 +194,29 @@ abstract class BaseParser
 							$item->init_options[$value] = true;
 						}
 					}
+					elseif ($type === 'layout')
+					{
+						$option_item = new \stdClass;
+						if (!empty($option['src']))
+						{
+							$thumbnail_path = $options['layout_path'] . $option['src'];
+							if (file_exists($thumbnail_path))
+							{
+								$option_item->thumbnail = $thumbnail_path;
+								$item->thumbnail_exist = true;
+							}
+						}
+						$title = self::_getChildrenByLang($option, 'title', $lang);
+						$value = trim($option['value'] ?? '') ?: trim($option->value ?? '');
+						$option_item->val = $title;
+						$item->options[$value] = $option_item;
+					}
 					else
 					{
 						$option_item = new \stdClass;
 						$option_item->title = self::_getChildrenByLang($option, 'title', $lang);
 						$option_item->value = trim($option['value'] ?? '') ?: trim($option->value ?? '');
-						$item->options[$option_item->value] = $option_item;
+						$item->options[trim($option_item->value ?? '')] = $option_item;
 					}
 				}
 			}

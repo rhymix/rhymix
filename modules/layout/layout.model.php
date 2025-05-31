@@ -494,7 +494,7 @@ class LayoutModel extends Layout
 			$layout = $info->layout;
 			$layout_srl = $info->layout_srl;
 			$site_srl = $info->site_srl;
-			$vars = unserialize($info->extra_vars);
+			$vars = $info->extra_vars ? unserialize($info->extra_vars) : null;
 
 			if($info->module_srl)
 			{
@@ -550,10 +550,19 @@ class LayoutModel extends Layout
 
 		if(file_exists($cache_file) && filemtime($cache_file) > filemtime($xml_file))
 		{
+			// Read cache file in a way that is compatible with the old format.
+			// The old format sets $layout_info directly, while the new format returns an object.
 			$layout_info = new stdClass;
-			include($cache_file);
+			if (is_object($output = include($cache_file)))
+			{
+				$layout_info = $output;
+			}
+			if (empty($layout_info->layout))
+			{
+				return;
+			}
 
-			if($layout_info->extra_var && $vars)
+			if ($layout_info->extra_var && $vars)
 			{
 				foreach($vars as $key => $value)
 				{
@@ -563,252 +572,41 @@ class LayoutModel extends Layout
 					}
 				}
 			}
-
-			if(!$layout_info->title)
-			{
-				$layout_info->title = $layout;
-			}
-
 			return $layout_info;
 		}
+
 		// If no cache file exists, parse the xml and then return the variable.
-		$tmp_xml_obj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($xml_file);
-		if (!$tmp_xml_obj)
+		$xml_info = Rhymix\Framework\Parsers\LayoutInfoParser::loadXML($xml_file, $layout, $layout_path);
+		if (!$xml_info)
 		{
 			return;
 		}
 
-		$xml_obj = !empty($tmp_xml_obj->layout) ? $tmp_xml_obj->layout : $tmp_xml_obj->skin;
-		if (!$xml_obj)
+		// Fill in user configuration
+		foreach ($xml_info->extra_var ?: [] as $key => $value)
 		{
-			return;
-		}
-
-		$buff = array();
-		$buff[] = '$layout_info = new stdClass;';
-		$buff[] = sprintf('$layout_info->site_srl = %s;', var_export($site_srl ?? 0, true));
-
-		if($xml_obj->version && $xml_obj->attrs->version == '0.2')
-		{
-			// Layout title, version and other information
-			$date_obj = new stdClass;
-			sscanf($xml_obj->date->body, '%d-%d-%d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$buff[] = sprintf('$layout_info->layout = %s;', var_export($layout, true));
-			$buff[] = sprintf('$layout_info->type = %s;', var_export($xml_obj->attrs->type ?? null, true));
-			$buff[] = sprintf('$layout_info->path = %s;', var_export($layout_path, true));
-			$buff[] = sprintf('$layout_info->title = %s;', var_export($xml_obj->title->body ?? null, true));
-			$buff[] = sprintf('$layout_info->description = %s;', var_export($xml_obj->description->body ?? null, true));
-			$buff[] = sprintf('$layout_info->version = %s;', var_export($xml_obj->version->body ?? null, true));
-			$buff[] = sprintf('$layout_info->date = %s;', var_export($date, true));
-			$buff[] = sprintf('$layout_info->homepage = %s;', var_export($xml_obj->link->body ?? null, true));
-			$buff[] = sprintf('$layout_info->layout_srl = $layout_srl;');
-			$buff[] = sprintf('$layout_info->layout_title = $layout_title;');
-			$buff[] = sprintf('$layout_info->license = %s;', var_export($xml_obj->license->body ?? null, true));
-			$buff[] = sprintf('$layout_info->license_link = %s;', var_export($xml_obj->license->attrs->link ?? null, true));
-			$buff[] = sprintf('$layout_info->layout_type = %s;', var_export($layout_type, true));
-
-			// Author information
-			if(!is_array($xml_obj->author)) $author_list[] = $xml_obj->author;
-			else $author_list = $xml_obj->author;
-
-			$buff[] = '$layout_info->author = array();';
-			for($i=0, $c=count($author_list); $i<$c; $i++)
+			if (isset($vars->{$key}))
 			{
-				$buff[] = sprintf('$layout_info->author[%d] = new stdClass;', $i);
-				$buff[] = sprintf('$layout_info->author[%d]->name = %s;', $i, var_export($author_list[$i]->name->body, true));
-				$buff[] = sprintf('$layout_info->author[%d]->email_address = %s;', $i, var_export($author_list[$i]->attrs->email_address, true));
-				$buff[] = sprintf('$layout_info->author[%d]->homepage = %s;', $i, var_export($author_list[$i]->attrs->link, true));
-			}
-
-			// Extra vars (user defined variables to use in a template)
-			$extra_var_groups = $xml_obj->extra_vars->group;
-			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
-			if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
-
-			$buff[] = '$layout_info->extra_var = new stdClass;';
-			$extra_var_count = 0;
-			foreach($extra_var_groups as $group)
-			{
-				$extra_vars = $group->var;
-				if($extra_vars)
-				{
-					if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-
-					$count = count($extra_vars);
-					$extra_var_count += $count;
-
-					for($i=0;$i<$count;$i++)
-					{
-						unset($var, $options);
-						$var = $extra_vars[$i];
-						$name = $var->attrs->name;
-
-						$buff[] = sprintf('$layout_info->extra_var->%s = new stdClass;', $name);
-						$buff[] = sprintf('$layout_info->extra_var->%s->group = %s;', $name, var_export($group->title->body ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->title = %s;', $name, var_export($var->title->body ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->type = %s;', $name, var_export($var->attrs->type ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->value = $vars->%s ?? null;', $name, $name);
-						$buff[] = sprintf('$layout_info->extra_var->%s->description = %s;', $name, var_export($var->description->body ?? null, true));
-
-						$options = $var->options;
-						if(!$options) continue;
-						if(!is_array($options)) $options = array($options);
-
-						$buff[] = sprintf('$layout_info->extra_var->%s->options = array();', $var->attrs->name);
-						$options_count = count($options);
-						$thumbnail_exist = false;
-						for($j=0; $j < $options_count; $j++)
-						{
-							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s] = new stdClass;', $var->attrs->name, var_export($options[$j]->attrs->value, true));
-							$thumbnail = $options[$j]->attrs->src;
-							if($thumbnail)
-							{
-								$thumbnail = $layout_path.$thumbnail;
-								if(file_exists($thumbnail))
-								{
-									$buff[] = sprintf('$layout_info->extra_var->%s->options[%s]->thumbnail = %s;', $var->attrs->name, var_export($options[$j]->attrs->value, true), var_export($thumbnail, true));
-									if(!$thumbnail_exist)
-									{
-										$buff[] = sprintf('$layout_info->extra_var->%s->thumbnail_exist = true;', $var->attrs->name);
-										$thumbnail_exist = true;
-									}
-								}
-							}
-							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s]->val = %s;', $var->attrs->name, var_export($options[$j]->attrs->value, true), var_export($options[$j]->title->body, true));
-						}
-					}
-				}
-			}
-			$buff[] = sprintf('$layout_info->extra_var_count = %d;', $extra_var_count);
-			// Menu
-			if($xml_obj->menus->menu)
-			{
-				$menus = $xml_obj->menus->menu;
-				if(!is_array($menus)) $menus = array($menus);
-
-				$menu_count = count($menus);
-				$buff[] = sprintf('$layout_info->menu_count = %d;', $menu_count);
-				$buff[] = '$layout_info->menu = new stdClass;';
-				for($i=0;$i<$menu_count;$i++)
-				{
-					$name = $menus[$i]->attrs->name;
-					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = %s;', var_export($name, true));
-					$buff[] = sprintf('$layout_info->menu->%s = new stdClass;', $name);
-					$buff[] = sprintf('$layout_info->menu->%s->name = %s;', $name, var_export($menus[$i]->attrs->name, true));
-					$buff[] = sprintf('$layout_info->menu->%s->title = %s;', $name, var_export($menus[$i]->title->body, true));
-					$buff[] = sprintf('$layout_info->menu->%s->maxdepth = %s;', $name, var_export($menus[$i]->attrs->maxdepth, true));
-
-					$buff[] = sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $name, $name);
-					$buff[] = sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$name, $name);
-					$buff[] = sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);
-				}
+				$value->value = $vars->{$key};
 			}
 		}
-		else
+		foreach ($xml_info->menu ?: [] as $key => $value)
 		{
-			// Layout title, version and other information
-			$date_obj = new stdClass;
-			sscanf($xml_obj->author->attrs->date, '%d. %d. %d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$date = sprintf('%04d%02d%02d', $date_obj->y, $date_obj->m, $date_obj->d);
-			$buff[] = sprintf('$layout_info->layout = %s;', var_export($layout, true));
-			$buff[] = sprintf('$layout_info->path = %s;', var_export($layout_path, true));
-			$buff[] = sprintf('$layout_info->title = %s;', var_export($xml_obj->title->body ?? null, true));
-			$buff[] = sprintf('$layout_info->description = %s;', var_export($xml_obj->author->description->body ?? null, true));
-			$buff[] = sprintf('$layout_info->version = %s;', var_export($xml_obj->attrs->version ?? null, true));
-			$buff[] = sprintf('$layout_info->date = %s;', var_export($date, true));
-			$buff[] = sprintf('$layout_info->layout_srl = $layout_srl;');
-			$buff[] = sprintf('$layout_info->layout_title = $layout_title;');
-			// Author information
-			$buff[] = '$layout_info->author[0] = new stdClass();';
-			$buff[] = sprintf('$layout_info->author[0]->name = %s;', var_export($xml_obj->author->name->body ?? null, true));
-			$buff[] = sprintf('$layout_info->author[0]->email_address = %s;', var_export($xml_obj->author->attrs->email_address ?? null, true));
-			$buff[] = sprintf('$layout_info->author[0]->homepage = %s;', var_export($xml_obj->author->attrs->link ?? null, true));
-			// Extra vars (user defined variables to use in a template)
-			$extra_var_groups = $xml_obj->extra_vars->group;
-			if(!$extra_var_groups) $extra_var_groups = $xml_obj->extra_vars;
-			if(!is_array($extra_var_groups)) $extra_var_groups = array($extra_var_groups);
-
-			$extra_var_count = 0;
-			$buff[] = '$layout_info->extra_var = new stdClass;';
-			foreach($extra_var_groups as $group)
+			if (isset($vars->{$key}) && $vars->{$key})
 			{
-				$extra_vars = $group->var;
-				if($extra_vars)
-				{
-					if(!is_array($extra_vars)) $extra_vars = array($extra_vars);
-
-					$count = count($extra_vars);
-					$extra_var_count += $count;
-
-					for($i=0;$i<$count;$i++)
-					{
-						unset($var, $options);
-						$var = $extra_vars[$i];
-						$name = $var->attrs->name;
-						$buff[] = sprintf('$layout_info->extra_var->%s = new stdClass();', $name);
-						$buff[] = sprintf('$layout_info->extra_var->%s->group = %s;', $name, var_export($group->title->body ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->title = %s;', $name, var_export($var->title->body ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->type = %s;', $name, var_export($var->attrs->type ?? null, true));
-						$buff[] = sprintf('$layout_info->extra_var->%s->value = $vars->%s ?? null;', $name, $name);
-						$buff[] = sprintf('$layout_info->extra_var->%s->description = %s ?? null;', $name, var_export($var->description->body ?? null, true));
-
-						$options = $var->options;
-						if(!$options) continue;
-
-						if(!is_array($options)) $options = array($options);
-						$options_count = count($options);
-						for($j=0;$j<$options_count;$j++)
-						{
-							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s] = new stdClass;', $var->attrs->name, var_export($options[$j]->value->body, true));
-							$buff[] = sprintf('$layout_info->extra_var->%s->options[%s]->val = %s;', $var->attrs->name, var_export($options[$j]->value->body, true), var_export($options[$j]->title->body, true));
-						}
-					}
-				}
-			}
-			$buff[] = sprintf('$layout_info->extra_var_count = %d;', $extra_var_count);
-			// Menu
-			if($xml_obj->menus->menu)
-			{
-				$menus = $xml_obj->menus->menu;
-				if(!is_array($menus)) $menus = array($menus);
-
-				$menu_count = count($menus);
-				$buff[] = sprintf('$layout_info->menu_count = %d;', $menu_count);
-				$buff[] = '$layout_info->menu = new stdClass();';
-				for($i=0;$i<$menu_count;$i++)
-				{
-					$name = $menus[$i]->attrs->name;
-					if($menus[$i]->attrs->default == "true") $buff[] = sprintf('$layout_info->default_menu = %s;', var_export($name, true));
-					$buff[] = sprintf('$layout_info->menu->%s = new stdClass();', $name);
-					$buff[] = sprintf('$layout_info->menu->%s->name = %s;', $name, var_export($name, true));
-					$buff[] = sprintf('$layout_info->menu->%s->title = %s;', $name, var_export($menus[$i]->title->body ?? null, true));
-					$buff[] = sprintf('$layout_info->menu->%s->maxdepth = %s;', $name, var_export($menus[$i]->maxdepth->body ?? null, true));
-					$buff[] = sprintf('$layout_info->menu->%s->menu_srl = $vars->%s;', $name, $name);
-					$buff[] = sprintf('$layout_info->menu->%s->xml_file = "./files/cache/menu/".$vars->%s.".xml.php";',$name, $name);
-					$buff[] = sprintf('$layout_info->menu->%s->php_file = "./files/cache/menu/".$vars->%s.".php";',$name, $name);
-				}
+				$value->menu_srl = $vars->{$key};
+				$value->xml_file = sprintf('./files/cache/menu/%s.xml.php', $vars->{$key});
+				$value->php_file = sprintf('./files/cache/menu/%s.php', $vars->{$key});
 			}
 		}
 
-		// header_script
 		$layout_config = ModuleModel::getModulePartConfig('layout', $layout_srl);
-		$header_script = trim($layout_config->header_script ?? '');
+		$xml_info->header_script = trim($layout_config->header_script ?? '');
+		$xml_info->layout_srl = $layout_srl;
+		$xml_info->layout_title = $layout_title;
 
-		if(!empty($header_script))
-		{
-			$buff[] = sprintf(' $layout_info->header_script = %s; ', var_export($header_script, true));
-		}
-
-		FileHandler::writeFile($cache_file, '<?php if(!defined("__XE__")) exit(); ' . join(PHP_EOL, $buff));
-		if(FileHandler::exists($cache_file)) include($cache_file);
-
-		if(!$layout_info->title)
-		{
-			$layout_info->title = $layout;
-		}
-
-		return $layout_info;
+		Rhymix\Framework\Storage::writePHPData($cache_file, $xml_info, null, false);
+		return $xml_info;
 	}
 
 	/**

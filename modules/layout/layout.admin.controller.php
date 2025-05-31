@@ -92,12 +92,17 @@ class LayoutAdminController extends Layout
 		// Consider the rest of items as extra vars, except module, act, layout_srl, layout, and title  .. Some gurida ..
 		$extra_vars = Context::getRequestVars();
 		unset($extra_vars->module);
+		unset($extra_vars->module);
 		unset($extra_vars->act);
 		unset($extra_vars->layout_srl);
 		unset($extra_vars->layout);
 		unset($extra_vars->title);
 		unset($extra_vars->apply_layout);
 		unset($extra_vars->apply_mobile_view);
+		unset($extra_vars->success_return_url);
+		unset($extra_vars->error_return_url);
+		unset($extra_vars->xe_validator_id);
+		unset($extra_vars->ruleset);
 
 		$is_sitemap = $extra_vars->is_sitemap;
 		unset($extra_vars->is_sitemap);
