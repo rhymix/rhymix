@@ -779,7 +779,7 @@ class EditorModel extends Editor
 		// if not inserted converter, Get converter from skin
 		if (!$converter)
 		{
-			$converter = self::getSkinConfig($skin)->converter;
+			$converter = self::getSkinConfig($skin)->converter ?? null;
 		}
 
 		// if not inserted converter, Check
@@ -789,7 +789,7 @@ class EditorModel extends Editor
 			{
 				$converter = 'text';
 			}
-			elseif (strpos($type == 'comment' ? $config->sel_comment_editor_colorset : $config->sel_editor_colorset, 'nohtml') !== false)
+			elseif (strpos($type == 'comment' ? ($config->sel_comment_editor_colorset ?? '') : ($config->sel_editor_colorset ?? ''), 'nohtml') !== false)
 			{
 				$converter = 'text';
 			}

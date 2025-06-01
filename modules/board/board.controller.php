@@ -61,7 +61,7 @@ class BoardController extends Board
 
 		// Return error if content conains excessively large data URLs.
 		$inline_data_url_limit = $this->module_info->inline_data_url_limit * 1024;
-		preg_match_all('!src="\s*(data:[^,]*,[a-z0-9+/=%$!._-]+)!i', (string)$obj->content, $matches);
+		preg_match_all('!src="\s*(data:[^,]*,[a-z0-9+/=\%\$\!._-]+)!i', (string)$obj->content, $matches);
 		foreach ($matches[1] as $match)
 		{
 			if (strlen($match) > $inline_data_url_limit)
@@ -116,7 +116,7 @@ class BoardController extends Board
 		$use_status = explode('|@|', $this->module_info->use_status);
 
 		// Set status
-		if(($obj->is_secret == 'Y' || $obj->status == $secret_status) && is_array($use_status) && in_array($secret_status, $use_status))
+		if((($obj->is_secret ?? 'N') == 'Y' || $obj->status == $secret_status) && is_array($use_status) && in_array($secret_status, $use_status))
 		{
 			$obj->status = $secret_status;
 		}
@@ -224,7 +224,14 @@ class BoardController extends Board
 					$obj->title_bold = $oDocument->get('title_bold');
 				}
 
-				$obj->reason_update = escape($obj->reason_update);
+				if (isset($obj->reason_update))
+				{
+					$obj->reason_update = escape($obj->reason_update);
+				}
+				else
+				{
+					$obj->reason_update = '';
+				}
 			}
 
 			// Update
@@ -495,7 +502,7 @@ class BoardController extends Board
 
 		// Return error if content conains excessively large data URLs.
 		$inline_data_url_limit = ($this->module_info->inline_data_url_limit ?: 64) * 1024;
-		preg_match_all('!src="\s*(data:[^,]*,[a-z0-9+/=%$!._-]+)!i', (string)$obj->content, $matches);
+		preg_match_all('!src="\s*(data:[^,]*,[a-z0-9+/=\%\$\!._-]+)!i', (string)$obj->content, $matches);
 		foreach ($matches[1] as $match)
 		{
 			if (strlen($match) > $inline_data_url_limit)

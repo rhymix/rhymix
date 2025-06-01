@@ -1007,12 +1007,12 @@ class CommentController extends Comment
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
-		if($obj->password)
+		if(!empty($obj->password))
 		{
 			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
 
-		if($obj->homepage)
+		if(!empty($obj->homepage))
 		{
 			$obj->homepage = escape($obj->homepage);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
@@ -1021,7 +1021,7 @@ class CommentController extends Comment
 			}
 		}
 
-		if(!$obj->content)
+		if(!isset($obj->content) || !$obj->content)
 		{
 			$obj->content = $source_obj->get('content');
 		}

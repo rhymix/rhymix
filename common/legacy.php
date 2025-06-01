@@ -574,7 +574,7 @@ function zgap($timestamp = null): int
  */
 function ztime($str): ?int
 {
-	$len = strlen($str);
+	$len = strlen($str ?? '');
 	if (!$len)
 	{
 		return null;

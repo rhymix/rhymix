@@ -38,7 +38,11 @@ class SpamfilterController extends Spamfilter
 	 */
 	function triggerInsertDocument(&$obj)
 	{
-		if($_SESSION['avoid_log']) return;
+		if (!empty($_SESSION['avoid_log']))
+		{
+			return;
+		}
+
 		// Check the login status, login information, and permission
 		$is_logged = Context::get('is_logged');
 		$logged_info = Context::get('logged_info');
@@ -98,7 +102,11 @@ class SpamfilterController extends Spamfilter
 	 */
 	function triggerInsertComment(&$obj)
 	{
-		if($_SESSION['avoid_log']) return;
+		if (!empty($_SESSION['avoid_log']))
+		{
+			return;
+		}
+
 		// Check the login status, login information, and permission
 		$is_logged = Context::get('is_logged');
 		$logged_info = Context::get('logged_info');

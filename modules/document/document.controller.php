@@ -1091,7 +1091,7 @@ class DocumentController extends Document
 		}
 
 		// Hash the password if it exists
-		if($obj->password)
+		if (!empty($obj->password))
 		{
 			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
