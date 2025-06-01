@@ -9,6 +9,101 @@
 class BoardModel extends Board
 {
 	/**
+	 * Default cofiguration for each module instance.
+	 */
+	public const DEFAULT_MODULE_CONFIG = [
+
+		// Title and SEO settings
+		'browser_title' => '',
+		'meta_keywords' => '',
+		'meta_description' => '',
+		'robots_tag' => 'all',
+
+		// PC and common display settings
+		'layout_srl' => -1,
+		'skin' => '/USE_DEFAULT/',
+		'list_count' => 20,
+		'search_list_count' => 20,
+		'page_count' => 10,
+		'header_text' => '',
+		'footer_text' => '',
+
+		// Mobile display settings
+		'use_mobile' => 'N',
+		'mlayout_srl' => -2,
+		'mskin' => '/USE_DEFAULT/',
+		'mobile_list_count' => 20,
+		'mobile_search_list_count' => 20,
+		'mobile_page_count' => 5,
+		'mobile_header_text' => '',
+		'mobile_footer_text' => '',
+
+		// List settings
+		'order_target' => 'list_order',
+		'order_type' => 'asc',
+		'except_notice' => 'Y',
+		'use_bottom_list' => 'Y',
+		'skip_bottom_list_for_olddoc' => 'N',
+		'skip_bottom_list_days' => 30,
+		'skip_bottom_list_for_robot' => 'Y',
+
+		// Feature settings
+		'consultation' => 'N',
+		'use_anonymous' => 'N',
+		'anonymous_except_admin' => 'N',
+		'anonymous_name' => 'anonymous',
+		'update_log' => 'N',
+		'update_order_on_comment' => 'N',
+		'comment_delete_message' => 'no',
+		'trash_use' => 'N',
+		'use_status' => 'PUBLIC',
+		'use_category' => 'N',
+		'allow_no_category' => 'N',
+
+		// Limits and protections
+		'document_length_limit' => 1024,
+		'comment_length_limit' => 128,
+		'inline_data_url_limit' => 64,
+		'filter_specialchars' => 'Y',
+		'protect_delete_content' => 'N',
+		'protect_update_content' => 'N',
+		'protect_delete_comment' => 'N',
+		'protect_update_comment' => 'N',
+		'protect_admin_content_delete' => 'Y',
+		'protect_admin_content_update' => 'Y',
+		'protect_document_regdate' => '',
+		'protect_comment_regdate' => '',
+
+		// Extra settings
+		'admin_mail' => '',
+		'module_category_srl' => 0,
+		'description' => '',
+	];
+
+	/**
+	 * Fix module configuration so that there are no missing values.
+	 *
+	 * The return value will be set to true if any values were added.
+	 * The object will be modified in place.
+	 *
+	 * @param object $module_info
+	 * @return bool
+	 */
+	public static function fixModuleConfig(object $module_info): bool
+	{
+		$fixed = false;
+		foreach (self::DEFAULT_MODULE_CONFIG as $key => $value)
+		{
+			if (!isset($module_info->{$key}))
+			{
+				$module_info->{$key} = $value;
+				$fixed = true;
+			}
+		}
+		return $fixed;
+	}
+
+	/**
 	 * @brief get the list configuration
 	 */
 	public static function getListConfig($module_srl)

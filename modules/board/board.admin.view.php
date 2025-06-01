@@ -142,6 +142,9 @@ class BoardAdminView extends Board {
 			return $this->alertMessage('msg_invalid_request');
 		}
 
+		// Fix missing module configuration values
+		BoardModel::fixModuleConfig($this->module_info);
+
 		// get the skins list
 		$oModuleModel = getModel('module');
 		$skin_list = $oModuleModel->getSkins($this->module_path);
@@ -199,6 +202,10 @@ class BoardAdminView extends Board {
 	 * additonal setup panel is for connecting the service modules with other modules
 	 **/
 	function dispBoardAdminBoardAdditionSetup() {
+
+		// Fix missing module configuration values
+		BoardModel::fixModuleConfig($this->module_info);
+
 		// sice content is obtained from other modules via call by reference, declare it first
 		$content = '';
 

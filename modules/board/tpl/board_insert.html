@@ -66,7 +66,7 @@
 			<div class="x_controls">
 				<select name="layout_srl" id="layout_srl">
 					<option value="0">{$lang->notuse}</option>
-					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl== $val->layout_srl">{$val->title} ({$val->layout})</option>
+					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl == $val->layout_srl">{$val->title} ({$val->layout})</option>
 				</select>
 				<a href="#layout_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="layout_help" class="x_help-block x_hide">{$lang->about_layout}</p>
@@ -76,28 +76,28 @@
 			<label class="x_control-label" for="skin">{$lang->skin}</label>
 			<div class="x_controls">
 				<select name="skin" id="skin" style="width:auto">
-					<option loop="$skin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->skin== $key || (!$module_info->skin && $key=='default')">{$val->title}</option>
+					<option loop="$skin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->skin == $key || (!$module_info->skin && $key == 'default')">{$val->title}</option>
 				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="list_count">{$lang->list_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="list_count" id="list_count" value="{$module_info->list_count?$module_info->list_count:20}" />
+				<input type="number" min="1" name="list_count" id="list_count" value="{$module_info->list_count ?: BoardModel::DEFAULT_MODULE_CONFIG['list_count']}" />
 				<p class="x_help-inline">{$lang->about_list_count}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="search_list_count">{$lang->search_list_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="search_list_count" id="search_list_count" value="{$module_info->search_list_count?$module_info->search_list_count:20}" />
+				<input type="number" min="1" name="search_list_count" id="search_list_count" value="{$module_info->search_list_count ?: BoardModel::DEFAULT_MODULE_CONFIG['search_list_count']}" />
 				<p class="x_help-inline">{$lang->about_search_list_count}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="page_count">{$lang->page_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="page_count" id="page_count" value="{$module_info->page_count?$module_info->page_count:10}" />
+				<input type="number" min="1" name="page_count" id="page_count" value="{$module_info->page_count ?: BoardModel::DEFAULT_MODULE_CONFIG['page_count']}" />
 				<p class="x_help-inline">{$lang->about_page_count}</p>
 			</div>
 		</div>
@@ -138,7 +138,7 @@
 			<div class="x_controls">
 				<select name="mlayout_srl" id="mlayout_srl">
 					<option value="0">{$lang->notuse}</option>
-					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl== $val->layout_srl">{$val->title} <block cond="$val->layout">({$val->layout})</block></option>
+					<option loop="$mlayout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->mlayout_srl == $val->layout_srl">{$val->title} <block cond="$val->layout">({$val->layout})</block></option>
 				</select>
 				<a href="#mobile_layout_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="mobile_layout_help" class="x_help-block x_hide">{$lang->about_layout}</p>
@@ -148,7 +148,7 @@
 			<label class="x_control-label" for="mskin">{$lang->mobile_skin}</label>
 			<div class="x_controls">
 				<select name="mskin" id="mskin">
-					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin== $key || (!$module_info->skin && $key=='default')">{$val->title}</option>
+					<option loop="$mskin_list=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->mskin == $key || (!$module_info->skin && $key == 'default')">{$val->title}</option>
 				</select>
 				<a href="#mobile_skin_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
 				<p id="mobile_skin_help" class="x_help-block x_hide">{$lang->about_skin}</p>
@@ -157,21 +157,21 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="mobile_list_count">{$lang->list_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="mobile_list_count" id="mobile_list_count" value="{$module_info->mobile_list_count?$module_info->mobile_list_count:20}" />
+				<input type="number" min="1" name="mobile_list_count" id="mobile_list_count" value="{$module_info->mobile_list_count ?: BoardModel::DEFAULT_MODULE_CONFIG['mobile_list_count']}" />
 				<p class="x_help-inline">{$lang->about_list_count}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="mobile_search_list_count">{$lang->search_list_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="mobile_search_list_count" id="mobile_search_list_count" value="{$module_info->mobile_search_list_count?$module_info->mobile_search_list_count:20}" />
+				<input type="number" min="1" name="mobile_search_list_count" id="mobile_search_list_count" value="{$module_info->mobile_search_list_count ?: BoardModel::DEFAULT_MODULE_CONFIG['mobile_search_list_count']}" />
 				<p class="x_help-inline">{$lang->about_search_list_count}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="mobile_page_count">{$lang->page_count}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="mobile_page_count" id="mobile_page_count" value="{$module_info->mobile_page_count?$module_info->mobile_page_count:5}" />
+				<input type="number" min="1" name="mobile_page_count" id="mobile_page_count" value="{$module_info->mobile_page_count ?: BoardModel::DEFAULT_MODULE_CONFIG['mobile_page_count']}" />
 				<p class="x_help-inline">{$lang->about_mobile_page_count}</p>
 			</div>
 		</div>
@@ -224,9 +224,9 @@
 			<label class="x_control-label">{$lang->order_type}</label>
 			<div class="x_controls">
 				<select name="order_target" id="order_target" title="{$lang->order_target}">
-					<option loop="$order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target== $key">{$val}</option>
+					<option loop="$order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target == $key">{$val}</option>
 					<block cond="$extra_order_target">
-					<option loop="$extra_order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target== $key">{Context::replaceUserLang($val)}</option>
+					<option loop="$extra_order_target=> $key, $val" value="{$key}" selected="selected"|cond="$module_info->order_target == $key">{Context::replaceUserLang($val)}</option>
 					</block>
 				</select>
 				<select name="order_type" id="order_type" title="{$lang->order_type}">
@@ -293,28 +293,28 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->anonymous_name}</label>
 			<div class="x_controls">
-				<input type="text" name="anonymous_name" id="anonymous_name" value="{$module_info->anonymous_name ?: 'anonymous'}" />
+				<input type="text" name="anonymous_name" id="anonymous_name" value="{$module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name']}" />
 				<p class="x_help-block">{$lang->about_anonymous_name}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->document_length_limit}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="document_length_limit" id="document_length_limit" value="{$module_info->document_length_limit ?: 1024}" /> KB
+				<input type="number" min="1" name="document_length_limit" id="document_length_limit" value="{$module_info->document_length_limit ?: BoardModel::DEFAULT_MODULE_CONFIG['document_length_limit']}" /> KB
 				<p class="x_help-block">{$lang->about_document_length_limit}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->comment_length_limit}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="comment_length_limit" id="comment_length_limit" value="{$module_info->comment_length_limit ?: 128}" /> KB
+				<input type="number" min="1" name="comment_length_limit" id="comment_length_limit" value="{$module_info->comment_length_limit ?: BoardModel::DEFAULT_MODULE_CONFIG['comment_length_limit']}" /> KB
 				<p class="x_help-block">{$lang->about_comment_length_limit}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->inline_data_url_limit}</label>
 			<div class="x_controls">
-				<input type="number" min="1" name="inline_data_url_limit" id="inline_data_url_limit" value="{$module_info->inline_data_url_limit ?: 64}" /> KB
+				<input type="number" min="1" name="inline_data_url_limit" id="inline_data_url_limit" value="{$module_info->inline_data_url_limit ?: BoardModel::DEFAULT_MODULE_CONFIG['inline_data_url_limit']}" /> KB
 				<p class="x_help-block">{$lang->about_inline_data_url_limit}</p>
 			</div>
 		</div>
