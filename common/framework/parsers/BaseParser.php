@@ -121,7 +121,7 @@ abstract class BaseParser
 		$group_name = $extra_vars->getName() === 'group' ? self::_getChildrenByLang($extra_vars, 'title', $lang) : null;
 		foreach ($extra_vars->group ?: [] as $group)
 		{
-			$group_result = self::_getExtraVars($group, $lang, $type);
+			$group_result = self::_getExtraVars($group, $lang, $type, $options);
 			foreach ($group_result as $key => $val)
 			{
 				$result->{$key} = $val;
@@ -173,13 +173,36 @@ abstract class BaseParser
 			{
 				$item->default = self::_getChildrenByLang($var, 'default', $lang);
 			}
-			$item->value = null;
+			if ($type === 'skin')
+			{
+				$item->value = trim($var['value'] ?? '') ?: null;
+				if ($item->value && preg_match('/(,|\|@\|)/', $item->value ?? '', $delimiter))
+				{
+					$item->value = explode($delimiter[1], $item->value);
+				}
+				if ($item->type === 'mid_list' && !is_array($item->value))
+				{
+					$item->value = [$item->value];
+				}
+			}
+			else
+			{
+				$item->value = null;
+			}
 
 			// Options
-			if ($var->options)
+			if ($type === 'skin' && $options['version'] === '0.1')
 			{
-				$item->options = array();
-				foreach ($var->options as $option)
+				$xml_options = $var->default ?? null;
+			}
+			else
+			{
+				$xml_options = $var->options ?? null;
+			}
+			if ($xml_options)
+			{
+				$item->options = [];
+				foreach ($xml_options as $option)
 				{
 					if ($type === 'widget' || $type === 'widgetstyle')
 					{
@@ -207,9 +230,23 @@ abstract class BaseParser
 							}
 						}
 						$title = self::_getChildrenByLang($option, 'title', $lang);
-						$value = trim($option['value'] ?? '') ?: trim($option->value ?? '');
+						$value = trim($option['value'] ?? '');
 						$option_item->val = $title;
 						$item->options[$value] = $option_item;
+					}
+					elseif ($type === 'skin' && $options['version'] === '0.1')
+					{
+						$option_item = new \stdClass;
+						$option_item->title = trim($option);
+						$option_item->value = trim($option);
+						$item->options[] = $option_item; // Numeric keys only
+					}
+					elseif ($type === 'skin' && $options['version'] === '0.2')
+					{
+						$option_item = new \stdClass;
+						$option_item->title = self::_getChildrenByLang($option, 'title', $lang);
+						$option_item->value = trim($option['value'] ?? '');
+						$item->options[] = $option_item; // Numeric keys only
 					}
 					else
 					{
@@ -218,6 +255,17 @@ abstract class BaseParser
 						$option_item->value = trim($option['value'] ?? '') ?: trim($option->value ?? '');
 						$item->options[trim($option_item->value ?? '')] = $option_item;
 					}
+				}
+			}
+
+			// Other attributes
+			if ($type === 'skin' && $options['version'] === '0.1')
+			{
+				$item->width = intval($var['width'] ?? 0) ?: null;
+				$item->height = intval($var['height'] ?? 0) ?: null;
+				if (isset($item->options) && count($item->options))
+				{
+					$item->default = reset($item->options)->value;
 				}
 			}
 
