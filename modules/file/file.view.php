@@ -36,8 +36,21 @@ class FileView extends File
 
 		// Get file configurations of the module
 		$config = FileModel::getFileConfig($current_module_srl);
+		if (!isset($config->use_default_file_config))
+		{
+			$config->use_default_file_config = 'Y';
+		}
+		if (!isset($config->use_image_default_file_config))
+		{
+			$config->use_image_default_file_config = 'Y';
+		}
+		if (!isset($config->use_video_default_file_config))
+		{
+			$config->use_video_default_file_config = 'Y';
+		}
 		Context::set('config', $config);
-		Context::set('is_ffmpeg', function_exists('exec') && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
+		Context::set('is_ffmpeg', function_exists('exec') && !empty($config->ffmpeg_command) && Rhymix\Framework\Storage::isExecutable($config->ffmpeg_command) && !empty($config->ffprobe_command) && Rhymix\Framework\Storage::isExecutable($config->ffprobe_command));
+		Context::set('is_magick', function_exists('exec') && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command));
 
 		// Get a permission for group setting
 		$group_list = MemberModel::getGroups();

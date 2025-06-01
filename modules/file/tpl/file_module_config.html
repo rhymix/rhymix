@@ -55,19 +55,24 @@
 			<div class="x_control-group">
 				<label class="x_control-label">{$lang->image_autoconv}</label>
 				<div class="x_controls">
-					<label for="image_autoconv_bmp2jpg">
-						<input type="checkbox" name="image_autoconv_bmp2jpg" id="image_autoconv_bmp2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['bmp2jpg']" disabled="disabled"|cond="!function_exists('imagebmp')" />
-						{$lang->image_autoconv_bmp2jpg}
-					</label>
-					<label for="image_autoconv_png2jpg">
-						<input type="checkbox" name="image_autoconv_png2jpg" id="image_autoconv_png2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['png2jpg']" disabled="disabled"|cond="!function_exists('imagepng')" />
-						{$lang->image_autoconv_png2jpg}
-					</label>
-					<label for="image_autoconv_webp2jpg">
-						<input type="checkbox" name="image_autoconv_webp2jpg" id="image_autoconv_webp2jpg" value="Y" checked="checked"|cond="$config->image_autoconv['webp2jpg']" disabled="disabled"|cond="!function_exists('imagewebp')" />
-						{$lang->image_autoconv_webp2jpg}
-					</label>
-					<p class="x_help-block">{$lang->about_image_autoconv}</p>
+					{@ $source_types = ['bmp', 'jpg', 'png', 'webp', 'avif', 'heic']}
+					<!--@foreach($source_types as $source_type)-->
+						<div class="image_autoconv_types">
+							<label for="image_autoconv_{$source_type}" class="x_inline">
+								{strtoupper($source_type)}
+							</label> →
+							<select name="image_autoconv[{$source_type}]" id="image_autoconv_{$source_type}" disabled="disabled"|cond="!$is_magick && in_array($source_type, ['avif', 'heic'])">
+								<option value=""></option>
+								<option value="jpg" selected="selected"|cond="($config->image_autoconv[$source_type] ?? '') === 'jpg' || !empty($config->image_autoconv[$source_type . '2jpg'])">JPG</option>
+								<option value="png" selected="selected"|cond="($config->image_autoconv[$source_type] ?? '') === 'png'">PNG</option>
+								<option value="webp" selected="selected"|cond="($config->image_autoconv[$source_type] ?? '') === 'webp'">WebP</option>
+							</select>
+						</div>
+					<!--@endforeach-->
+					<p class="x_help-block">
+						{$lang->about_image_autoconv}<br />
+						{$lang->msg_need_magick}
+					</p>
 				</div>
 			</div>
 			<div class="x_control-group">
@@ -85,12 +90,16 @@
 					</p>
 					<p class="x_help-block">
 						<label class="x_inline" for="max_image_size_same_format_Y">
-							<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_Y" value="Y" checked="checked"|cond="$config->max_image_size_same_format === 'Y'" />
+							<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_Y" value="Y" checked="checked"|cond="!isset($config->max_image_size_same_format) || $config->max_image_size_same_format === 'Y'" />
 							{$lang->max_image_size_same_format_Y}
 						</label>
-						<label class="x_inline" for="max_image_size_same_format_N">
-							<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_N" value="N" checked="checked"|cond="$config->max_image_size_same_format !== 'Y'" />
-							{$lang->max_image_size_same_format_N}
+						<label class="x_inline" for="max_image_size_same_format_to_jpg">
+							<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_to_jpg" value="jpg" checked="checked"|cond="$config->max_image_size_same_format === 'jpg' || $config->max_image_size_same_format === 'N'" />
+							{$lang->max_image_size_same_format_to_jpg}
+						</label>
+						<label class="x_inline" for="max_image_size_same_format_to_webp">
+							<input type="radio" name="max_image_size_same_format" id="max_image_size_same_format_to_webp" value="webp" checked="checked"|cond="$config->max_image_size_same_format === 'webp'" />
+							{$lang->max_image_size_same_format_to_webp}
 						</label>
 						<label for="max_image_size_admin">
 							<input type="checkbox" name="max_image_size_admin" id="max_image_size_admin" value="Y" checked="checked"|cond="$config->max_image_size_admin === 'Y'" />
@@ -144,11 +153,11 @@
 				<label class="x_control-label">{$lang->image_autoconv_gif2mp4}</label>
 				<div class="x_controls">
 					<label for="image_autoconv_gif2mp4_Y" class="x_inline">
-						<input type="radio" name="image_autoconv_gif2mp4" id="image_autoconv_gif2mp4_Y" value="Y" checked="checked"|cond="$config->image_autoconv['gif2mp4'] === true" disabled="disabled"|cond="!$is_ffmpeg" />
+						<input type="radio" name="image_autoconv[gif2mp4]" id="image_autoconv_gif2mp4_Y" value="Y" checked="checked"|cond="$config->image_autoconv['gif2mp4'] === true" disabled="disabled"|cond="!$is_ffmpeg" />
 						{$lang->cmd_yes}
 					</label>
 					<label for="image_autoconv_gif2mp4_N" class="x_inline">
-						<input type="radio" name="image_autoconv_gif2mp4" id="image_autoconv_gif2mp4_N" value="N" checked="checked"|cond="$config->image_autoconv['gif2mp4'] !== true" disabled="disabled"|cond="!$is_ffmpeg" />
+						<input type="radio" name="image_autoconv[gif2mp4]" id="image_autoconv_gif2mp4_N" value="N" checked="checked"|cond="$config->image_autoconv['gif2mp4'] !== true" disabled="disabled"|cond="!$is_ffmpeg" />
 						{$lang->cmd_no}
 					</label>
 					<p class="x_help-block">{$lang->about_image_autoconv_gif2mp4}</p>
