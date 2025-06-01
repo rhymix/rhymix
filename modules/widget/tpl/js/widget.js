@@ -609,19 +609,19 @@ function doShowWidgetSizeSetup(px, py, obj) {
 		margin_bottom  : _getInt($obj.css('marginBottom')),
 
 		border_top_color : transRGB2Hex($obj.css('borderTopColor')),
-		border_top_thick : $obj.css('borderTopWidth').replace(/px$/i, ''),
+		border_top_thick : Math.round($obj.css('borderTopWidth').replace(/px$/i, '')),
 		border_top_type  : $obj.css('borderTopStyle'),
 
 		border_bottom_color : transRGB2Hex($obj.css('borderBottomColor')),
-		border_bottom_thick : $obj.css('borderBottomWidth').replace(/px$/i, ''),
+		border_bottom_thick : Math.round($obj.css('borderBottomWidth').replace(/px$/i, '')),
 		border_bottom_type  : $obj.css('borderBottomStyle'),
 
 		border_right_color : transRGB2Hex($obj.css('borderRightColor')),
-		border_right_thick : $obj.css('borderRightWidth').replace(/px$/i, ''),
+		border_right_thick : Math.round($obj.css('borderRightWidth').replace(/px$/i, '')),
 		border_right_type  : $obj.css('borderRightStyle'),
 
 		border_left_color : transRGB2Hex($obj.css('borderLeftColor')),
-		border_left_thick : $obj.css('borderLeftWidth').replace(/px$/i, ''),
+		border_left_thick : Math.round($obj.css('borderLeftWidth').replace(/px$/i, '')),
 		border_left_type  : $obj.css('borderLeftStyle'),
 
 		background_color     : transRGB2Hex($obj.css('backgroundColor')),
