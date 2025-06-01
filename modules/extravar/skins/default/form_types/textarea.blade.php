@@ -4,4 +4,4 @@
 	@required(toBool($definition->is_required))
 	@disabled(toBool($definition->is_disabled))
 	@readonly(toBool($definition->is_readonly))
-	rows="8" cols="42">{{ $value !== null ? $value : $definition->getDefaultValue() }}</textarea>
+	rows="8" cols="42">{{ $value !== null ? $value : strval($definition->getDefaultValue()) }}</textarea>
