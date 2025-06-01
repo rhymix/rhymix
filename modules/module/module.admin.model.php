@@ -172,6 +172,7 @@ class ModuleAdminModel extends Module
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
 		// Get a permission group granted to the current module
+		$selected_group = array();
 		$default_grant = array();
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
@@ -375,21 +376,24 @@ class ModuleAdminModel extends Module
 			$skin_vars = $oModuleModel->getModuleMobileSkinVars($module_srl);
 		}
 
-		if($skin_info->extra_vars)
+		if($skin_info && $skin_info->extra_vars)
 		{
 			foreach($skin_info->extra_vars as $key => $val)
 			{
 				$group = $val->group;
 				$name = $val->name;
 				$type = $val->type;
-				if($skin_vars[$name])
+				if (isset($skin_vars[$name]) && $skin_vars[$name])
 				{
 					$value = $skin_vars[$name]->value;
 				}
-				else $value = '';
-				if($type=="checkbox")
+				else
 				{
-					$value = $value?unserialize($value):array();
+					$value = '';
+				}
+				if ($type === 'checkbox')
+				{
+					$value = $value ? unserialize($value) : [];
 				}
 
 				$value = empty($value) ? $val->default : $value;

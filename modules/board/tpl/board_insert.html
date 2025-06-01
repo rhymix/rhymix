@@ -9,7 +9,7 @@
 	<input type="hidden" name="act" value="procBoardAdminInsertBoard" />
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="module_srl" value="{$module_info->module_srl}" />
-	<input cond="$mid || $module_srl" type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
+	<input cond="!empty($mid) || !empty($module_srl)" type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 	<input cond="$logged_info->is_admin != 'Y'" type="hidden" name="board_name" value="{$module_info->mid}" />
 	<input type="hidden" name="xe_validator_id" value="modules/board/tpl/board_insert/1" />
 	<section class="section">
@@ -201,7 +201,7 @@
 				<p style="padding:3px 0 0 0">{$lang->about_list_config}</p>
 				<div style="display:inline-block">
 					<select class="multiorder_show" size="8" multiple="multiple" style="width:220px;vertical-align:top;margin-bottom:8px">
-						<option loop="$extra_vars => $key, $val" cond="!$list_config[$key]" value="{$key}">{Context::replaceUserLang($val->name)}</option>
+						<option loop="$extra_vars => $key, $val" cond="empty($list_config[$key])" value="{$key}">{Context::replaceUserLang($val->name)}</option>
 					</select><br />
 					<button type="button" class="x_btn multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
 				</div>

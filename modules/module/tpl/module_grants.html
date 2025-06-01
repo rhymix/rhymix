@@ -58,16 +58,16 @@
 				<label for="{$grant_name}_default" class="x_control-label">{$grant_item->title}</label>
 				<div class="x_controls">
 					<select name="{$grant_name}_default" id="{$grant_name}_default" class="grant_default">
-						<option value="0" <!--@if($default_grant[$grant_name]=='all')-->selected="selected"<!--@end-->>{$lang->grant_to_all}</option>
-						<option value="-1" <!--@if($default_grant[$grant_name]=='member' || $default_grant[$grant_name]=='site')-->selected="selected"<!--@end-->>{$lang->grant_to_login_user}</option>
-						<option value="-4" <!--@if($default_grant[$grant_name]=='not_member')-->selected="selected"<!--@end-->>{$lang->grant_to_non_login_user}</option>
-						<option value="-3" <!--@if($default_grant[$grant_name]=='manager')-->selected="selected"<!--@end-->>{$lang->grant_to_admin}</option>
-						<option value="" <!--@if($default_grant[$grant_name]=='group')-->selected="selected"<!--@end-->>{$lang->grant_to_group}</option>
+						<option value="0" <!--@if(($default_grant[$grant_name] ?? '') == 'all')-->selected="selected"<!--@end-->>{$lang->grant_to_all}</option>
+						<option value="-1" <!--@if(($default_grant[$grant_name] ?? '') == 'member' || ($default_grant[$grant_name] ?? '') == 'site')-->selected="selected"<!--@end-->>{$lang->grant_to_login_user}</option>
+						<option value="-4" <!--@if(($default_grant[$grant_name] ?? '') == 'not_member')-->selected="selected"<!--@end-->>{$lang->grant_to_non_login_user}</option>
+						<option value="-3" <!--@if(($default_grant[$grant_name] ?? '') == 'manager')-->selected="selected"<!--@end-->>{$lang->grant_to_admin}</option>
+						<option value="" <!--@if(($default_grant[$grant_name] ?? '') == 'group')-->selected="selected"<!--@end-->>{$lang->grant_to_group}</option>
 					</select>
 					<div id="zone_{$grant_name}" hidden style="margin:8px 0 0 0">
 						<!--@foreach($group_list as $group_srl => $group_item)-->
 						<label for="grant_{$grant_name}_{$group_srl}" class="x_inline">
-							<input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" checked="checked"|cond="is_array($selected_group[$grant_name])&&in_array($group_srl,$selected_group[$grant_name])" />
+							<input type="checkbox" class="checkbox" name="{$grant_name}" value="{$group_item->group_srl}" id="grant_{$grant_name}_{$group_srl}" checked="checked"|cond="is_array($selected_group[$grant_name] ?? null) && in_array($group_srl, $selected_group[$grant_name])" />
 							{Context::replaceUserLang($group_item->title, true)}
 						</label>
 						<!--@end-->

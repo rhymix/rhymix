@@ -1,13 +1,13 @@
 <section class="section">
 	<h1>{$lang->open_rss}</h1>
 	<p>{$lang->about_open_rss}</p>
-	
+
 	<form ruleset="insertRssModuleConfig" action="./" method="post" class="x_form-horizontal">
 		<input type="hidden" name="module" value="rss" />
 		<input type="hidden" name="act" value="procRssAdminInsertModuleConfig" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
 		<input type="hidden" name="target_module_srl" value="{$module_config->module_srl ?: $module_srls}" />
-		
+
 		<div class="x_control-group">
 			<label for="open_rss" class="x_control-label">{$lang->open_rss}</label>
 			<div class="x_controls">
@@ -28,14 +28,14 @@
 		<div class="x_control-group">
 			<label for="feed_description" class="x_control-label">{$lang->description}</label>
 			<div class="x_controls">
-				<textarea name="feed_description" id="feed_description" rows="4" cols="42" style="float:left;margin-right:8px">{escape($module_config->feed_description)}</textarea>
+				<textarea name="feed_description" id="feed_description" rows="4" cols="42" style="float:left;margin-right:8px">{escape($module_config->feed_description ?? '')}</textarea>
 				<p class="x_help-block">{$lang->about_feed_description}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="feed_copyright" class="x_control-label">{$lang->feed_copyright}</label>
 			<div class="x_controls">
-				<textarea name="feed_copyright" id="feed_copyright" rows="4" cols="42" style="float:left;margin-right:8px">{escape($module_config->feed_copyright)}</textarea>
+				<textarea name="feed_copyright" id="feed_copyright" rows="4" cols="42" style="float:left;margin-right:8px">{escape($module_config->feed_copyright ?? '')}</textarea>
 				<p class="x_help-block">{$lang->about_feed_copyright}</p>
 			</div>
 		</div>

@@ -25,7 +25,7 @@
 				{$lang->skin_author}
 			</label>
 			<div class="x_controls" style="padding-top:3px">
-				<block loop="$skin_info->author=>$author">
+				<block loop="$skin_info->author ?? [] => $author">
 					{$author->name}
 					<block cond="$author->homepage || $author->email_address">
 						(<a href="{$author->homepage}" target="_blank" cond="$author->homepage">{$author->homepage}</a>
@@ -41,16 +41,16 @@
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->date}</label>
-			<div class="x_controls" style="padding-top:3px">{zdate($skin_info->date, 'Y-m-d')}</div>
+			<div class="x_controls" style="padding-top:3px">{zdate($skin_info->date ?? '', 'Y-m-d')}</div>
 		</div>
-		<div class="x_control-group" cond="$skin_info->license || $skin_info->license_link">
+		<div class="x_control-group" cond="!empty($skin_info->license) || !empty($skin_info->license_link)">
 			<label class="x_control-label">{$lang->skin_license}</label>
 			<div class="x_controls" style="padding-top:3px">
 				{nl2br(trim($skin_info->license))}
 				<p cond="$skin_info->license_link"><a href="{$skin_info->license_link}" target="_blank">{$skin_info->license_link}</a></p>
 			</div>
 		</div>
-		<div class="x_control-group" cond="$skin_info->description">
+		<div class="x_control-group" cond="!empty($skin_info->description)">
 			<label class="x_control-label">{$lang->description}</label>
 			<div class="x_controls" style="padding-top:3px">{nl2br(trim($skin_info->description))}</div>
 		</div>
@@ -79,7 +79,7 @@
 			</div>
 		</div>
 		<block loop="$skin_info->extra_vars => $key, $val">
-			<block cond="$val->group && ((!$group) || $group != $val->group)">
+			<block cond="$val->group && (empty($group) || $group != $val->group)">
 				{@$group = $val->group}
 				</section>
 				<section class="section">
@@ -90,10 +90,10 @@
 				<label class="x_control-label" for="{$val->name}"|cond="$val->type!='text'&&$val->type!='textarea'" for="lang_{$val->name}"|cond="$val->type=='text'||$val->type=='textarea'">{$val->title}</label>
 				<div class="x_controls">
 					<!--// text -->
-					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="<!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->" class="lang_code" />
+					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="<!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->" class="lang_code" />
 
 					<!--// textarea -->
-					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code"><!--@if(strpos($val->value, '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end--></textarea>
+					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code"><!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end--></textarea>
 
 					<!--// select -->
 					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">
@@ -130,6 +130,6 @@
 		<button class="x_btn x_btn-primary x_pull-right" type="submit">{$lang->cmd_registration}</button>
 	</div>
 </form>
-<!--@if($use_colorpicker)-->
+<!--@if($use_colorpicker ?? false)-->
 	<!--%load_js_plugin("spectrum")-->
 <!--@end-->

@@ -147,8 +147,8 @@
 						<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
 					</label>
 					<label>
-						<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} :
-						<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="$editor_config->font_defined == 'Y'" />
+						<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="isset($editor_config->font_defined) && $editor_config->font_defined == 'Y'" /> {$lang->by_you} :
+						<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="isset($editor_config->font_defined) && $editor_config->font_defined == 'Y'" />
 					</label>
 				</td>
 			</tr>

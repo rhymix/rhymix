@@ -424,14 +424,14 @@ class ModuleModel extends Module
 	 *
 	 * @param stdClass $moduleInfo Module information
 	 */
-	private static function _applyDefaultSkin(&$module_info)
+	private static function _applyDefaultSkin($module_info)
 	{
-		if($module_info->is_skin_fix == 'N')
+		if(isset($module_info->is_skin_fix) && $module_info->is_skin_fix == 'N')
 		{
 			$module_info->skin = '/USE_DEFAULT/';
 		}
 
-		if($module_info->is_mskin_fix == 'N' && $module_info->mskin !== '/USE_RESPONSIVE/')
+		if(isset($module_info->is_mskin_fix) && $module_info->is_mskin_fix == 'N' && $module_info->mskin !== '/USE_RESPONSIVE/')
 		{
 			$module_info->mskin = '/USE_DEFAULT/';
 		}
