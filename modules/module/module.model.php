@@ -529,6 +529,10 @@ class ModuleModel extends Module
 
 		foreach($target_module_info as $key => $val)
 		{
+			if (!isset($val->module_srl) || !$val->module_srl)
+			{
+				continue;
+			}
 			if (!isset($extra_vars[$val->module_srl]))
 			{
 				continue;

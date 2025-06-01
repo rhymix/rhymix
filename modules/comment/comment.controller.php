@@ -571,7 +571,7 @@ class CommentController extends Comment
 		$obj->comment_srl = intval($obj->comment_srl);
 		$obj->module_srl = intval($obj->module_srl);
 		$obj->document_srl = intval($obj->document_srl);
-		$obj->parent_srl = intval($obj->parent_srl);
+		$obj->parent_srl = intval($obj->parent_srl ?? 0);
 
 		// Only managers can customize dates.
 		$grant = Context::get('grant');
@@ -615,7 +615,7 @@ class CommentController extends Comment
 		}
 
 		// even for manual_inserted if password exists, hash it.
-		if($obj->password)
+		if(!empty($obj->password))
 		{
 			$obj->password = \Rhymix\Framework\Password::hashPassword($obj->password, \Rhymix\Framework\Password::getBackwardCompatibleAlgorithm());
 		}
@@ -876,7 +876,7 @@ class CommentController extends Comment
 		$module_info = ModuleModel::getModuleInfoByDocumentSrl($obj->document_srl);
 
 		// If there is no problem to register comment then send an email to all admin were set in module admin panel
-		if($module_info->admin_mail && $member_info->is_admin != 'Y')
+		if(isset($module_info->admin_mail) && $module_info->admin_mail && $member_info->is_admin != 'Y')
 		{
 			$browser_title = Context::replaceUserLang($module_info->browser_title);
 			$mail_title = sprintf(lang('msg_comment_notify_mail'), $browser_title, cut_str($oDocument->getTitleText(), 20, '...'));
@@ -1521,12 +1521,12 @@ class CommentController extends Comment
 		}
 
 		// get a list of comments and then execute a trigger(way to reduce the processing cost for delete all)
+		$commentSrlList = array();
 		$args = new stdClass();
 		$args->document_srl = $document_srl;
 		$comments = executeQueryArray('comment.getAllComments', $args);
 		if($comments->data)
 		{
-			$commentSrlList = array();
 			foreach($comments->data as $comment)
 			{
 				$commentSrlList[] = $comment->comment_srl;

@@ -581,7 +581,7 @@ class BoardController extends Board
 			$update_document = $this->module_info->update_order_on_comment === 'N' ? false : true;
 
 			// Check parent comment.
-			if($obj->parent_srl)
+			if (!empty($obj->parent_srl))
 			{
 				$parent_comment = CommentModel::getComment($obj->parent_srl);
 				if(!$parent_comment->comment_srl || $parent_comment->get('document_srl') != $oDocument->get('document_srl'))

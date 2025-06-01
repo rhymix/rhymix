@@ -15,7 +15,7 @@ class Image
 	 */
 	public static function isImage(string $filename): bool
 	{
-		return array_shift(explode('/', MIME::getContentType($filename))) === 'image';
+		return preg_match('!^image/!', MIME::getContentType($filename));
 	}
 
 	/**

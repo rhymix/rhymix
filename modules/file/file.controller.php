@@ -60,7 +60,7 @@ class FileController extends File
 		}
 
 		// Handle chunking
-		if (preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE'], $matches))
+		if (preg_match('!^bytes (\d+)-(\d+)/(\d+)$!', $_SERVER['HTTP_CONTENT_RANGE'] ?? '', $matches))
 		{
 			// Check basic sanity
 			$chunk_start = intval($matches[1]);
@@ -325,7 +325,7 @@ class FileController extends File
 
 		// Not allow the file outlink
 		$file_module_config = FileModel::getFileConfig($file_obj->module_srl);
-		if($file_module_config->allow_outlink == 'N' && $_SERVER["HTTP_REFERER"])
+		if($file_module_config->allow_outlink == 'N' && !empty($_SERVER['HTTP_REFERER']))
 		{
 			// Handles extension to allow outlink
 			if($file_module_config->allow_outlink_format)
@@ -886,7 +886,7 @@ class FileController extends File
 		$file_info['name'] = Rhymix\Framework\Filters\FilenameFilter::clean($file_info['name']);
 		$file_info['type'] = Rhymix\Framework\MIME::getContentType($file_info['tmp_name']);
 		$file_info['original_type'] = $file_info['type'];
-		$file_info['extension'] = strtolower(array_pop(explode('.', $file_info['name'])));
+		$file_info['extension'] = strtolower(array_last(explode('.', $file_info['name'])));
 		$file_info['original_extension'] = $file_info['extension'];
 		$file_info['width'] = null;
 		$file_info['height'] = null;
