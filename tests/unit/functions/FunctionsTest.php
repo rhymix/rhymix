@@ -75,7 +75,7 @@ class FunctionsTest extends \Codeception\Test\Unit
 		$this->assertEquals(array('foo', 'bar,baz'), explode_with_escape(',', 'foo,bar\\,baz'));
 		$this->assertEquals(array('foo', 'bar\\', 'baz'), explode_with_escape(',', 'foo,bar\\ , baz'));
 		$this->assertEquals(array('foo', 'bar,baz', 'rhymix'), explode_with_escape(',', 'foo,bar\\,baz,rhymix'));
-		$this->assertEquals(array('foo', 'bar,baz'), explode_with_escape(',', 'foo,bar!,baz', null, '!'));
+		$this->assertEquals(array('foo', 'bar,baz'), explode_with_escape(',', 'foo,bar!,baz', 0, '!'));
 	}
 
 	public function testStartsEndsContains()
