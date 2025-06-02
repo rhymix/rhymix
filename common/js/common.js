@@ -279,6 +279,7 @@ Rhymix.redirectToUrl = function(url) {
  * @param string url
  * @param string target
  * @param string features
+ * @return void
  */
 Rhymix.openWindow = function(url, target, features) {
 

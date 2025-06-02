@@ -11,7 +11,7 @@
  *
  * @param string $key
  * @param string $value (optional)
- * @return mixed
+ * @return string|array|null
  */
 function config(string $key, $value = null)
 {
@@ -256,7 +256,7 @@ function escape_dqstr(string $str): string
  * @param string $escape_char The escape character (default: backslash)
  * @return array
  */
-function explode_with_escape(string $delimiter, string $str, $limit = 0, $escape_char = '\\'): array
+function explode_with_escape(string $delimiter, string $str, int $limit = 0, string $escape_char = '\\'): array
 {
 	if ($limit < 1) $limit = 0;
 	$str = (string)$str;
@@ -417,7 +417,7 @@ function base64_decode_urlsafe(string $str): string
 /**
  * This function shortens a number using common suffixes.
  *
- * @param int $number The number to shorten
+ * @param int|float $number The number to shorten
  * @param int $significant_digits The number of significant digits to retain
  * @return string
  */
