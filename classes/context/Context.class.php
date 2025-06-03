@@ -2024,17 +2024,20 @@ class Context
 	/**
 	 * Get one more vars in object vars with given arguments(key1, key2, key3,...)
 	 *
-	 * @return object
+	 * @return ?object
 	 */
 	public static function gets()
 	{
-		$num_args = func_num_args();
-		if($num_args < 1)
+		$args_list = func_get_args();
+		if (count($args_list) < 1)
 		{
 			return;
 		}
+		if (count($args_list) === 1 && is_array($args_list[0]))
+		{
+			$args_list = $args_list[0];
+		}
 
-		$args_list = func_get_args();
 		$output = new stdClass;
 		self::$_user_vars = self::$_user_vars !== null ? self::$_user_vars : new stdClass;
 		foreach($args_list as $key)
