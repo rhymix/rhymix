@@ -3010,7 +3010,7 @@ class Context
 	 * Add OpenGraph metadata
 	 *
 	 * @param string $name
-	 * @param mixed $content
+	 * @param array $content
 	 * @return void
 	 */
 	public static function addOpenGraphData($name, $content)
@@ -3047,6 +3047,6 @@ class Context
 	 */
 	public static function getCanonicalURL()
 	{
-		return self::$_instance->canonical_url;
+		return self::$_instance->canonical_url ?? '';
 	}
 }
