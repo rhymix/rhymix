@@ -719,9 +719,10 @@ class Context
 	 * Append string to browser title
 	 *
 	 * @param string $title Browser title to be appended
+	 * @param string $delimiter
 	 * @return void
 	 */
-	public static function addBrowserTitle($title)
+	public static function addBrowserTitle($title, $delimiter = ' - ')
 	{
 		if(!$title)
 		{
@@ -729,7 +730,7 @@ class Context
 		}
 		if(self::$_instance->browser_title)
 		{
-			self::$_instance->browser_title .= ' - ' . $title;
+			self::$_instance->browser_title .= $delimiter . $title;
 		}
 		else
 		{
@@ -741,9 +742,10 @@ class Context
 	 * Prepend string to browser title
 	 *
 	 * @param string $title Browser title to be prepended
+	 * @param string $delimiter
 	 * @return void
 	 */
-	public static function prependBrowserTitle($title)
+	public static function prependBrowserTitle($title, $delimiter = ' - ')
 	{
 		if(!$title)
 		{
@@ -751,7 +753,7 @@ class Context
 		}
 		if(self::$_instance->browser_title)
 		{
-			self::$_instance->browser_title = $title . ' - ' . self::$_instance->browser_title;
+			self::$_instance->browser_title = $title . $delimiter . self::$_instance->browser_title;
 		}
 		else
 		{
