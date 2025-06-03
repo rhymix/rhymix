@@ -128,7 +128,7 @@ class ModuleObject extends BaseObject
 	 * setter to set an url for redirection
 	 *
 	 * @param string|array $url url for redirection
-	 * @return $this
+	 * @return object
 	 */
 	public function setRedirectUrl($url = './', $output = NULL)
 	{
@@ -151,7 +151,7 @@ class ModuleObject extends BaseObject
 	/**
 	 * get url for redirection
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getRedirectUrl()
 	{
@@ -546,7 +546,7 @@ class ModuleObject extends BaseObject
 	/**
 	 * retrieve the directory path of the template directory
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getTemplateFile()
 	{
@@ -577,7 +577,7 @@ class ModuleObject extends BaseObject
 	/**
 	 * retrieve the directory path of the template directory
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getTemplatePath()
 	{
@@ -600,7 +600,7 @@ class ModuleObject extends BaseObject
 	/**
 	 * retreived the file name of edited_layout_file
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getEditedLayoutFile()
 	{
@@ -622,7 +622,7 @@ class ModuleObject extends BaseObject
 	/**
 	 * get the file name of the layout file
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getLayoutFile()
 	{
@@ -653,7 +653,7 @@ class ModuleObject extends BaseObject
 	/**
 	 * set the directory path of the layout directory
 	 *
-	 * @return string
+	 * @return ?string
 	 */
 	public function getLayoutPath($layout_name = "", $layout_type = "P")
 	{

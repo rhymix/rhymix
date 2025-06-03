@@ -49,7 +49,7 @@ class ModuleHandler extends Handler
 	 * prepares variables to use in moduleHandler
 	 * @param string $module name of module
 	 * @param string $act name of action
-	 * @param int $mid
+	 * @param string $mid
 	 * @param int $document_srl
 	 * @param int $module_srl
 	 * @return void
