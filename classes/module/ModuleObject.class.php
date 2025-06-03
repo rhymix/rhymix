@@ -655,7 +655,7 @@ class ModuleObject extends BaseObject
 	 *
 	 * @return ?string
 	 */
-	public function getLayoutPath($layout_name = "", $layout_type = "P")
+	public function getLayoutPath()
 	{
 		return $this->layout_path;
 	}
