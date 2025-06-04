@@ -831,8 +831,9 @@ Rhymix.URITemplate = window.URITemplate;
 Rhymix.SecondLevelDomains = window.SecondLevelDomains;
 Rhymix.IPv6 = window.IPv6;
 
-// Alias to XE for backward compatibility
-const XE = Rhymix;
+// Set window properties for backward compatibility
+window.XE = Rhymix;
+window.Rhymix = Rhymix;
 
 /**
  * ============================
