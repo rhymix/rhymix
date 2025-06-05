@@ -8,7 +8,7 @@
  * =============
  */
 
-const Rhymix = {
+const Rhymix = window.Rhymix = {
 	addedDocument: [],
 	langCodes: {},
 	loadedPopupMenus: [],
@@ -832,8 +832,7 @@ Rhymix.SecondLevelDomains = window.SecondLevelDomains;
 Rhymix.IPv6 = window.IPv6;
 
 // Set window properties for backward compatibility
-window.XE = Rhymix;
-window.Rhymix = Rhymix;
+const XE = window.XE = Rhymix;
 
 /**
  * ============================
