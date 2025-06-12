@@ -195,7 +195,7 @@ class Value
 		{
 			return $this->default;
 		}
-		elseif ($this->default)
+		elseif ($this->default && $this->parent_type !== 'member' && !in_array($this->type, ['checkbox', 'radio']))
 		{
 			return is_array($this->default) ? array_first($this->default) : array_first(explode(',', $this->default));
 		}
