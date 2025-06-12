@@ -197,7 +197,7 @@ class Value
 		}
 		elseif ($this->default)
 		{
-			return array_first($this->getOptions());
+			return is_array($this->default) ? array_first($this->default) : array_first(explode(',', $this->default));
 		}
 		else
 		{
