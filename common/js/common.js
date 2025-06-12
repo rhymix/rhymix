@@ -402,7 +402,7 @@ Rhymix.modal.close = function(id) {
  * @param function error
  * @return void
  */
-Rhymix.ajax = function(action, params, success, error) {
+Rhymix.ajax = async function(action, params, success, error) {
 
 	// Extract module and act
 	let isFormData = params instanceof FormData;
@@ -453,7 +453,7 @@ Rhymix.ajax = function(action, params, success, error) {
 		delete params._rx_csrf_token;
 	}
 
-	// Generate AJAX parameters
+	// Define common AJAX arguments
 	const args = {
 		type: 'POST',
 		dataType: 'json',
@@ -462,19 +462,37 @@ Rhymix.ajax = function(action, params, success, error) {
 		contentType: isFormData ? false : 'application/json; charset=UTF-8',
 		processData: false,
 		headers: headers,
-		success: function(data, textStatus, xhr) {
-			Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
-		},
-		error: function(xhr, textStatus, errorThrown) {
-			Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
-		}
 	};
 
-	// Send the AJAX request
-	try {
-		$.ajax(args);
-	} catch(e) {
-		alert(e);
+	// Split between Promise version and callback version
+	if ($.isFunction(success) || $.isFunction(error)) {
+		try {
+			$.ajax($.extend(args, {
+				success: function(data, textStatus, xhr) {
+					Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
+				}
+			}));
+		} catch(e) {
+			alert(e);
+		}
+	} else {
+		return new Promise(function(resolve, reject) {
+			const rejectWrapper = function(data, xhr) {
+				reject(data, xhr);
+				return false;
+			};
+			$.ajax($.extend(args, {
+				success: function(data, textStatus, xhr) {
+					Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, resolve, rejectWrapper);
+				},
+				error: function(xhr, textStatus, errorThrown) {
+					Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, resolve, rejectWrapper);
+				}
+			}));
+		});
 	}
 };
 
