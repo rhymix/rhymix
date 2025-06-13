@@ -464,36 +464,33 @@ Rhymix.ajax = function(action, params, success, error) {
 		headers: headers,
 	};
 
-	// Split between Promise version and callback version
-	if ($.isFunction(success) || $.isFunction(error)) {
-		try {
-			$.ajax($.extend(args, {
-				success: function(data, textStatus, xhr) {
-					Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
-				},
-				error: function(xhr, textStatus, errorThrown) {
-					Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, success, error);
-				}
-			}));
-		} catch(e) {
-			alert(e);
-		}
-	} else {
-		return new Promise(function(resolve, reject) {
-			const rejectWrapper = function(data, xhr) {
-				reject(data, xhr);
+	return new Promise(function(resolve, reject) {
+		const resolveWrapper = function(data, xhr) {
+			if (typeof success === 'function') {
+				success(data, xhr);
+			}
+			if (resolve) {
+				resolve(data);
+			}
+		};
+		const rejectWrapper = function(data, xhr) {
+			if (typeof error === 'function' && error(data, xhr) === false) {
 				return false;
-			};
-			$.ajax($.extend(args, {
-				success: function(data, textStatus, xhr) {
-					Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, resolve, rejectWrapper);
-				},
-				error: function(xhr, textStatus, errorThrown) {
-					Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, resolve, rejectWrapper);
-				}
-			}));
-		});
-	}
+			}
+			if (reject) {
+				reject(data);
+				return false;
+			}
+		};
+		$.ajax($.extend(args, {
+			success: function(data, textStatus, xhr) {
+				Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, resolveWrapper, rejectWrapper);
+			},
+			error: function(xhr, textStatus, errorThrown) {
+				Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, resolveWrapper, rejectWrapper);
+			}
+		}));
+	});
 };
 
 /**
@@ -524,7 +521,7 @@ Rhymix._ajaxSuccessHandler = function(xhr, textStatus, action, data, params, suc
 	if (typeof data.error !== 'undefined' && data.error != 0) {
 
 		// If an error callback is defined, call it. Abort if it returns false.
-		if ($.isFunction(error) && error(data, xhr) === false) {
+		if (typeof error === 'function' && error(data, xhr) === false) {
 			return;
 		}
 
@@ -551,7 +548,7 @@ Rhymix._ajaxSuccessHandler = function(xhr, textStatus, action, data, params, suc
 	}
 
 	// If a success callback was defined, call it.
-	if ($.isFunction(success)) {
+	if (typeof success === 'function') {
 		success(data, xhr);
 		return;
 	}
@@ -595,7 +592,7 @@ Rhymix._ajaxErrorHandler = function(xhr, textStatus, action, url, params, succes
 	}
 
 	// If an error callback is defined, call it. Abort if it returns false.
-	if ($.isFunction(error)) {
+	if (typeof error === 'function') {
 		let fakedata = { error: -3, message: textStatus };
 		if (error(fakedata, xhr) === false) {
 			return;
