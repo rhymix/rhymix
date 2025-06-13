@@ -402,7 +402,7 @@ Rhymix.modal.close = function(id) {
  * @param function error
  * @return void
  */
-Rhymix.ajax = async function(action, params, success, error) {
+Rhymix.ajax = function(action, params, success, error) {
 
 	// Extract module and act
 	let isFormData = params instanceof FormData;
