@@ -757,12 +757,18 @@ class HTMLDisplayHandler
 			'plugins/cookie/js.cookie.min.js',
 			'plugins/blankshield/blankshield.min.js',
 			'plugins/uri/URI.min.js',
-			'x.js',
-			'common.js',
-			'js_app.js',
-			'xml_handler.js',
-			'xml_js_filter.js',
 		);
+
+		if (str_contains($_SERVER['HTTP_USER_AGENT'] ?? '', 'Trident/'))
+		{
+			$original_file_list[] = 'polyfills/promise.min.js';
+		}
+
+		$original_file_list[] = 'x.js';
+		$original_file_list[] = 'common.js';
+		$original_file_list[] = 'js_app.js';
+		$original_file_list[] = 'xml_handler.js';
+		$original_file_list[] = 'xml_js_filter.js';
 
 		if(config('view.minify_scripts') === 'none')
 		{
