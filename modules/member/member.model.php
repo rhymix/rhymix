@@ -806,31 +806,38 @@ class MemberModel extends Member
 			if(!$join_form_list) return NULL;
 			// Need to unserialize because serialized array is inserted into DB in case of default_value
 			if(!is_array($join_form_list)) $join_form_list = array($join_form_list);
-			$join_form_count = count($join_form_list);
-			for($i=0;$i<$join_form_count;$i++)
+			foreach ($join_form_list as $i => $join_form)
 			{
-				$join_form_list[$i]->column_name = strtolower($join_form_list[$i]->column_name);
+				$join_form->column_name = strtolower($join_form->column_name);
 
-				$member_join_form_srl = $join_form_list[$i]->member_join_form_srl;
-				$column_type = $join_form_list[$i]->column_type;
-				$column_name = $join_form_list[$i]->column_name;
-				$column_title = $join_form_list[$i]->column_title;
-				$default_value = $join_form_list[$i]->default_value;
 				// Add language variable
-				if(!isset($lang->extend_vars)) $lang->extend_vars = array();
-				$lang->extend_vars[$column_name] = $column_title;
-				// unserialize if the data type if checkbox, select and so on
-				if(in_array($column_type, array('checkbox','select','radio')))
+				$column_name = $join_form->column_name;
+				$column_title = $join_form->column_title;
+				if (!isset($lang->extend_vars))
 				{
-					$join_form_list[$i]->default_value = unserialize($default_value);
-					if(!$join_form_list[$i]->default_value[0]) $join_form_list[$i]->default_value = '';
+					$lang->extend_vars = array();
+				}
+				$lang->extend_vars[$column_name] = $column_title;
+
+				// unserialize if the data type if checkbox, select and so on
+				if (in_array($join_form->column_type, ['checkbox','select','radio']))
+				{
+					if (isset($join_form->options) && $join_form->options !== '')
+					{
+						$join_form->options = json_decode($join_form->options, true);
+					}
+					elseif (preg_match('/^a:\d+:\{i:/', $join_form->default_value))
+					{
+						$join_form->options = unserialize($join_form->default_value);
+						$join_form->default_value = '';
+					}
 				}
 				else
 				{
-					$join_form_list[$i]->default_value = '';
+					$join_form->default_value = '';
 				}
 
-				$list[$member_join_form_srl] = $join_form_list[$i];
+				$list[$join_form->member_join_form_srl] = $join_form;
 			}
 			self::$_join_form_list = $list;
 		}
@@ -958,12 +965,17 @@ class MemberModel extends Member
 		$join_form = $output->data;
 		if(!$join_form) return NULL;
 
-		$column_type = $join_form->column_type;
-		$default_value = $join_form->default_value;
-
-		if(in_array($column_type, array('checkbox','select','radio')))
+		if (in_array($join_form->column_type, ['checkbox','select','radio']))
 		{
-			$join_form->default_value = unserialize($default_value);
+			if (isset($join_form->options) && $join_form->options !== '')
+			{
+				$join_form->options = json_decode($join_form->options, true);
+			}
+			elseif (preg_match('/^a:\d+:\{i:/', $join_form->default_value))
+			{
+				$join_form->options = unserialize($join_form->default_value);
+				$join_form->default_value = '';
+			}
 		}
 		else
 		{

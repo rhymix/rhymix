@@ -486,7 +486,7 @@ class MemberAdminView extends Member
 	{
 		$extend_form_list = MemberModel::getCombineJoinForm($memberInfo);
 		$security = new Security($extend_form_list);
-		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		$security->encodeHTML('..column_title', '..description', '..default_value', '..options.');
 
 		if ($memberInfo)
 		{
@@ -725,6 +725,7 @@ class MemberAdminView extends Member
 					$input->input_id = $extendForm->column_name;
 					$input->value = $extendForm->value ?? '';
 					$input->default = $extendForm->default_value ?? null;
+					$input->options = $extendForm->options ?? null;
 					if ($extendForm->column_type === 'tel' || $extendForm->column_type === 'tel_intl')
 					{
 						$input->style = 'width:33.3px';

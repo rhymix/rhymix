@@ -2871,7 +2871,7 @@ class MemberController extends Member
 
 		$extend_form_list = MemberModel::getJoinFormlist();
 		$security = new Security($extend_form_list);
-		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		$security->encodeHTML('..column_title', '..description', '..default_value', '..options.');
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $no => $formInfo)
@@ -3167,7 +3167,7 @@ class MemberController extends Member
 
 		$extend_form_list = MemberModel::getJoinFormlist();
 		$security = new Security($extend_form_list);
-		$security->encodeHTML('..column_title', '..description', '..default_value.');
+		$security->encodeHTML('..column_title', '..description', '..default_value', '..options.');
 		if($config->signupForm)
 		{
 			foreach($config->signupForm as $no => $formInfo)
