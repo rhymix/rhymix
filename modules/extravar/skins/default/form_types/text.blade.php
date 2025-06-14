@@ -17,7 +17,7 @@
 		@readonly(toBool($definition->is_readonly))
 	/>
 @elseif ($type === 'number')
-	<input type="number" name="{{ $input_name }}"
+	<input type="text" inputmode="numeric" name="{{ $input_name }}"
 		id="{{ $input_id }}"|if="$input_id" class="number rx_ev_number"
 		style="{{ $definition->style }}"|if="$definition->style"
 		value="{{ strval($value) !== '' ? $value : strval($default) }}"
