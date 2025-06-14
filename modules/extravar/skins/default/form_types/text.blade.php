@@ -17,6 +17,7 @@
 		@readonly(toBool($definition->is_readonly))
 	/>
 @elseif ($type === 'number')
+	@load('../assets/number.js')
 	<input type="text" inputmode="numeric" name="{{ $input_name }}"
 		id="{{ $input_id }}"|if="$input_id" class="number rx_ev_number"
 		style="{{ $definition->style }}"|if="$definition->style"
