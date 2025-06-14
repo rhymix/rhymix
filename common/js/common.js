@@ -1012,7 +1012,7 @@ $(function() {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (window[Rhymix.loadedPopupMenus[params.menu_id]]) {
+		if (Rhymix.loadedPopupMenus[params.menu_id]) {
 			return Rhymix.displayPopupMenu(params, response_tags, params);
 		}
 
