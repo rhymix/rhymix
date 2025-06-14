@@ -216,6 +216,10 @@ class MenuAdminModel extends Menu
 			{
 				$menuItem->grant = 'manager';
 			}
+			else if($menuItem->group_srls[0] == -4)
+			{
+				$menuItem->grant = 'not_member';
+			}
 			else
 			{
 				$menuItem->grant = 'group';
