@@ -103,7 +103,11 @@ class Permission
 		// Check if each permission is granted to the current user.
 		foreach ($this->_spec as $key => $requirement)
 		{
-			if ($requirement === 'guest')
+			if ($key === 'manager' && $this->manager)
+			{
+				continue;
+			}
+			elseif ($requirement === 'guest')
 			{
 				$this->{$key} = true;
 			}
