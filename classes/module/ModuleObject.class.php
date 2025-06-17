@@ -254,15 +254,15 @@ class ModuleObject extends BaseObject
 			// Get privileges(granted) information for target module by <permission check> of module.xml
 			if(($permission = $this->xml_info->action->{$this->act}->permission) && $permission->check_var)
 			{
-				// Check parameter
-				if(empty($check_module_srl = trim(Context::get($permission->check_var))))
+				// Ensure that the list of modules to check is the right type and not empty
+				$check_var = Context::get($permission->check_var);
+				if (is_scalar($check_var))
 				{
-					return false;
-				}
+					if (empty($check_module_srl = trim($check_var)))
+					{
+						return false;
+					}
 
-				// If value is not array
-				if(!is_array($check_module_srl))
-				{
 					// Convert string to array. delimiter is ,(comma) or |@|
 					if(preg_match('/,|\|@\|/', $check_module_srl, $delimiter) && $delimiter[0])
 					{
@@ -271,6 +271,14 @@ class ModuleObject extends BaseObject
 					else
 					{
 						$check_module_srl = array($check_module_srl);
+					}
+				}
+				else
+				{
+					$check_module_srl = array_map('trim', $check_var);
+					if (!count($check_var))
+					{
+						return false;
 					}
 				}
 
@@ -295,7 +303,15 @@ class ModuleObject extends BaseObject
 		}
 
 		// Check permission based on the grant information for the current module.
-		$grant = ModuleModel::getInstance()->getGrant($this->module_info, $this->user, $this->xml_info);
+		if (isset($check_grant))
+		{
+			$grant = $check_grant;
+		}
+		else
+		{
+			$grant = ModuleModel::getInstance()->getGrant($this->module_info, $this->user, $this->xml_info);
+		}
+
 		if(!$this->checkPermission($grant, $this->user, $failed_requirement))
 		{
 			$this->stop($this->_generatePermissionError($failed_requirement));

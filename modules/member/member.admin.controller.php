@@ -878,20 +878,26 @@ class MemberAdminController extends Member
 		$args->column_type = Context::get('column_type');
 		$args->column_name = strtolower(Context::get('column_id'));
 		$args->column_title = Context::get('column_title');
-		$args->default_value = explode("\n", str_replace("\r", '', Context::get('default_value')));
-		$args->required = Context::get('required');
-		$args->is_active = (isset($args->required));
-		if(!in_array(strtoupper($args->required), array('Y','N')))$args->required = 'N';
-		$args->description = Context::get('description') ? Context::get('description') : '';
-		// Default values
-		if(in_array($args->column_type, array('checkbox','select','radio')) && count($args->default_value))
+		$args->default_value = trim(utf8_clean(Context::get('default_value')));
+		$args->options = trim(utf8_clean(Context::get('options')));
+		if ($args->options !== '')
 		{
-			$args->default_value = serialize($args->default_value);
+			$args->options = array_map('trim', explode("\n", $args->options));
+			$args->options = json_encode($args->options, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES);
 		}
 		else
 		{
-			$args->default_value = '';
+			$args->options = null;
 		}
+
+		$args->required = Context::get('required');
+		if (!in_array(strtoupper($args->required), array('Y','N')))
+		{
+			$args->required = 'N';
+		}
+
+		$args->is_active = (isset($args->required));
+		$args->description = Context::get('description') ? Context::get('description') : '';
 
 		// Check ID duplicated
 		if (Context::isReservedWord($args->column_name))
@@ -909,7 +915,7 @@ class MemberAdminController extends Member
 			}
 		}
 		// Fix if member_join_form_srl exists. Add if not exists.
-		$isInsert;
+		$isInsert = false;
 		if(!$args->member_join_form_srl)
 		{
 			$isInsert = true;

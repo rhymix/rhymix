@@ -3301,16 +3301,23 @@ class DocumentController extends Document
 		}
 
 		// Get document_srl
-		$srls = explode(',',Context::get('srls'));
-		for($i = 0; $i < count($srls); $i++)
+		$srls = Context::get('srls');
+		if (is_array($srls))
 		{
-			$srl = trim($srls[$i]);
-
-			if(!$srl) continue;
-
-			$document_srls[] = $srl;
+			$document_srls = array_map('intval', $srls);
 		}
-		if(!count($document_srls)) return;
+		else
+		{
+			$document_srls = array_map('intval', explode(',', $srls));
+		}
+
+		$document_srls = array_unique(array_filter($document_srls, function($srl) {
+			return $srl > 0;
+		}));
+		if (!count($document_srls))
+		{
+			return;
+		}
 
 		// Get module_srl of the documents
 		$args = new stdClass;
@@ -3781,7 +3788,17 @@ Content;
 		}
 	}
 
+	/**
+	 * A typo of updateUploadedCount, maintained for backward compatibility.
+	 *
+	 * @deprecated
+	 */
 	public function updateUploaedCount($document_srl_list)
+	{
+		return $this->updateUploadedCount($document_srl_list);
+	}
+
+	public function updateUploadedCount($document_srl_list)
 	{
 		if(!is_array($document_srl_list))
 		{
@@ -3797,7 +3814,8 @@ Content;
 
 		foreach($document_srl_list as $document_srl)
 		{
-			if(!$document_srl = (int) $document_srl)
+			$document_srl = (int)$document_srl;
+			if ($document_srl <= 0)
 			{
 				continue;
 			}
@@ -3817,7 +3835,7 @@ Content;
 			return;
 		}
 
-		$this->updateUploaedCount($file->upload_target_srl);
+		$this->updateUploadedCount($file->upload_target_srl);
 	}
 
 	/**

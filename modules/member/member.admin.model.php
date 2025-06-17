@@ -288,13 +288,24 @@ class MemberAdminModel extends Member
 		if($output->toBool() && $output->data)
 		{
 			$formInfo = $output->data;
-			$default_value = $formInfo->default_value;
-			if($default_value)
+			$default_value = '';
+			$options = '';
+			if (isset($formInfo->options) && $formInfo->options !== '')
 			{
-				$default_value = unserialize($default_value);
-				Context::set('default_value', $default_value);
+				$default_value = $formInfo->default_value;
+				$options = json_decode($formInfo->options, true);
+			}
+			elseif (preg_match('/^a:\d+:\{i:/', $formInfo->default_value))
+			{
+				$options = unserialize($formInfo->default_value);
+			}
+			else
+			{
+				$default_value = $formInfo->default_value;
 			}
 			Context::set('formInfo', $output->data);
+			Context::set('default_value', $default_value);
+			Context::set('options', $options);
 		}
 
 		$oMemberModel = getModel('member');
@@ -314,7 +325,7 @@ class MemberAdminModel extends Member
 		$oTemplate = TemplateHandler::getInstance();
 		$tpl = $oTemplate->compile($this->module_path.'tpl', 'insert_join_form');
 
-		$this->add('tpl', str_replace("\n"," ",$tpl));
+		$this->add('tpl', $tpl);
 	}
 
 	/**

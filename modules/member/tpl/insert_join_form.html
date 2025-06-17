@@ -26,11 +26,17 @@
 				</select>
 			</div>
 		</div>
-		<div class="x_control-group multiExample">
-			<label for="multiSelect" class="x_control-label"><em style="color:red">*</em> {$lang->options}</label>
+		<div class="x_control-group">
+			<label for="default_value" class="x_control-label"> {$lang->default_value}</label>
 			<div class="x_controls">
-				<textarea rows="4" cols="42" id="multiSelect" name="default_value" style="vertical-align:top"><block cond="$default_value">{implode('|@|', $default_value)}</block></textarea>
-				<p class="x_help-inline">{$lang->about_multi_type}</p>
+				<input type="text" id="default_value" name="default_value" value="{$default_value}" />
+			</div>
+		</div>
+		<div class="x_control-group multiExample">
+			<label for="multiSelect" class="x_control-label"> {$lang->options}</label>
+			<div class="x_controls">
+				<textarea rows="4" cols="42" id="multiSelect" name="options" style="vertical-align:top"><block cond="$options">{implode("\n", $options)}</block></textarea>
+				<p class="x_help-block">{$lang->about_multi_type}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -51,7 +57,6 @@
 		<span class="x_pull-right"><button class="x_btn x_btn-primary" type="submit" name="mode" <!--@if($formInfo)-->value="update"<!--@else-->value="insert"<!--@end--> >{$lang->cmd_save}</button></span>
 	</div>
 <script>
-	var $ = jQuery;
 	var typeSelect = $('.typeSelect');
 	var multiOption = $('.typeSelect>option[value=checkbox], .typeSelect>option[value=radio], .typeSelect>option[value=select_multiple], .typeSelect>option[value=select]');
 	var multiExample = $('.multiExample');

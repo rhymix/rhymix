@@ -280,6 +280,7 @@ class MemberView extends Member
 				$extvalue->input_id = $formInfo->name;
 				$extvalue->value = $extendFormInfo[$formInfo->member_join_form_srl]->value ?? null;
 				$extvalue->default = $extendFormInfo[$formInfo->member_join_form_srl]->default_value ?? null;
+				$extvalue->options = $extendFormInfo[$formInfo->member_join_form_srl]->options ?? null;
 				$item->value = $extvalue->getValueHTML();
 			}
 

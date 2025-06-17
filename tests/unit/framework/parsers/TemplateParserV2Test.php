@@ -265,6 +265,14 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = '<div class="foo" onClick="<?php $this->config->context = \'JS\'; ?>bar.barr()<?php $this->config->context = \'HTML\'; ?>">Hello</div>';
 		$this->assertEquals($target, $this->_parse($source, true, false));
 
+		// pattern attribute in <input> tag
+		$source = '<input type="text" pattern="[a-z0-9]{4,8}" value="Hello" />';
+		$target = '<input type="text" pattern="<?php $this->config->context = \'JS\'; ?>[a-z0-9]{4,8}<?php $this->config->context = \'HTML\'; ?>" value="Hello" />';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+		$source = '<input type="text" pattern="[{{ $chars }}]{4,8}" value="Hello" />';
+		$target = '<input type="text" pattern="<?php $this->config->context = \'JS\'; ?>[<?php echo $this->config->context === \'HTML\' ? htmlspecialchars($__Context->chars ?? \'\', \ENT_QUOTES, \'UTF-8\', false) : $this->_v2_escape($__Context->chars ?? \'\'); ?>]{4,8}<?php $this->config->context = \'HTML\'; ?>" value="Hello" />';
+		$this->assertEquals($target, $this->_parse($source, true, false));
+
 		// <style> tag
 		$source = '<style> body { font-size: 16px; } </style>';
 		$target = '<style<?php $this->config->context = \'CSS\'; ?>> body { font-size: 16px; } <?php $this->config->context = \'HTML\'; ?></style>';

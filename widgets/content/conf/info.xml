@@ -246,7 +246,7 @@
                     <name xml:lang="tr">UL (list)</name>
                 </options>
             </var>
-            <var id="list_count" type="text">
+            <var id="list_count" type="text" default="5">
                 <name xml:lang="ko">목록수</name>
                 <name xml:lang="zh-CN">目录数</name>
                 <name xml:lang="jp">リスト数</name>
@@ -266,7 +266,7 @@
                 <description xml:lang="zh-TW">設置要顯示的目錄數。(預設是5個)</description>
                 <description xml:lang="tr">Görüntülenecek yazıların sayısını ayarlayabilirsiniz. (varsayılan değer 5'tir)</description>
             </var>
-            <var id="cols_list_count" type="text">
+            <var id="cols_list_count" type="text" default="5">
                 <name xml:lang="ko">가로 이미지 수</name>
                 <name xml:lang="jp">横並びイメージ数</name>
                 <name xml:lang="zh-CN">横向图片数</name>

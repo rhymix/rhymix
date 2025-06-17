@@ -185,7 +185,7 @@ class TemplateParser_v2
 		}, $content);
 
 		// Inline scripts.
-		$content = preg_replace_callback('#(?<=\s)(href="javascript:|on[a-z]+=")([^"]*?)"#i', function($match) {
+		$content = preg_replace_callback('#(?<=\s)(href="javascript:|pattern="|on[a-z]+=")([^"]*?)"#i', function($match) {
 			return $match[1] . '<?php $this->config->context = \'JS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
 		}, $content);
 

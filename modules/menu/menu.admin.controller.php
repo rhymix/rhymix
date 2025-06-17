@@ -2003,7 +2003,7 @@ class MenuAdminController extends Menu
 			// If the value of node->group_srls exists
 			if($node->group_srls) {
 				$group_srls_exported = json_encode(array_values(is_array($node->group_srls) ? $node->group_srls : array_map('intval', explode(',', $node->group_srls))));
-				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, %s)))||($is_logged&&%s))', $group_srls_exported, $node->group_srls == '-1' ? 1 : 0);
+				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, %s)))||($is_logged&&%s)||(!$is_logged&&%s))', $group_srls_exported, $node->group_srls == '-1' ? 1 : 0, $node->group_srls == '-4' ? 1 : 0);
 			}
 			else
 			{
@@ -2099,7 +2099,7 @@ class MenuAdminController extends Menu
 			if($node->group_srls)
 			{
 				$group_srls_exported = json_encode(array_values(is_array($node->group_srls) ? $node->group_srls : array_map('intval', explode(',', $node->group_srls))));
-				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, %s)))||($is_logged && %s))', $group_srls_exported, $node->group_srls == '-1' ? 1 : 0);
+				$group_check_code = sprintf('($is_admin==true||(is_array($group_srls)&&count(array_intersect($group_srls, %s)))||($is_logged && %s)||(!$is_logged && %s))', $group_srls_exported, $node->group_srls == '-1' ? 1 : 0, $node->group_srls == '-4' ? 1 : 0);
 			}
 			else
 			{

@@ -668,7 +668,7 @@ Rhymix.ajaxForm = function(form, success, error) {
  * @return void
  */
 Rhymix.checkboxToggleAll = function(name) {
-	if (!window[name]) {
+	if (typeof name === 'undefined') {
 		name='cart';
 	}
 	let options = {
@@ -1027,7 +1027,7 @@ $(function() {
 		e.preventDefault();
 		e.stopPropagation();
 
-		if (window[Rhymix.loadedPopupMenus[params.menu_id]]) {
+		if (Rhymix.loadedPopupMenus[params.menu_id]) {
 			return Rhymix.displayPopupMenu(params, response_tags, params);
 		}
 
@@ -1472,12 +1472,16 @@ function popopen(url, target) {
  * @return void
  */
 function doAddDocumentCart(obj) {
-	Rhymix.addedDocument.push(obj.value);
+	if (obj && obj.value) {
+		Rhymix.addedDocument.push(obj.value);
+	}
 	setTimeout(function() {
-		exec_json('document.procDocumentAddCart', {
-			srls: Rhymix.addedDocument.join(',')
-		});
-		Rhymix.addedDocument = [];
+		if (Rhymix.addedDocument.length > 0) {
+			exec_json('document.procDocumentAddCart', {
+				srls: Rhymix.addedDocument
+			});
+			Rhymix.addedDocument = [];
+		}
 	}, 100);
 }
 

@@ -167,6 +167,9 @@ class Member extends ModuleObject
 		if(!$oDB->isIndexExists('member_auth_mail', 'idx_member_srl')) return true;
 		if($oDB->isIndexExists('member_auth_mail', 'unique_key')) return true;
 
+		// Check join form options column
+		if(!$oDB->isColumnExists('member_join_form', 'options')) return true;
+
 		// Update status column
 		$output = executeQuery('member.getDeniedAndStatus');
 		if ($output->data->count)
@@ -401,6 +404,12 @@ class Member extends ModuleObject
 		if($oDB->isIndexExists('member_auth_mail', 'unique_key'))
 		{
 			$oDB->dropIndex('member_auth_mail', 'unique_key');
+		}
+
+		// Check join form options column
+		if(!$oDB->isColumnExists('member_join_form', 'options'))
+		{
+			$oDB->addColumn('member_join_form', 'options', 'text', null, null, null, 'default_value');
 		}
 
 		// Update status column

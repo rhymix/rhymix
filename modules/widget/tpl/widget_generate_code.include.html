@@ -37,15 +37,15 @@
 	</div>
 </div>
 
-{@$suggestion_id = 0}
+{@ $group = ''; $not_first = false; $suggestion_id = 0; }
 <block loop="$widget_info->extra_var => $id, $var">
-	{@$suggestion_id++}
+	{@ $suggestion_id++; }
 	<block cond="!$not_first && !$var->group"><section class="extra_vars section"></block>
 	<block cond="$group != $var->group">
 		<block cond="$not_first"></section></block>
 		<section class="extra_vars section">
 		<h1>{$var->group}</h1>
-		{@$group = $var->group}
+		{@ $group = $var->group; }
 	</block>
 
 	{@$not_first = true}
@@ -53,21 +53,21 @@
 		<label class="x_control-label" for="{$id}"|cond="$var->type != 'radio' && $var->type != 'checkbox'">{$var->name}</label>
 		<div class="x_controls">
 			<block cond="$var->type == 'text'">
-				<input type="text" name="{$id}" />
+				<input type="text" name="{$id}" value="{$var->default}" />
 			</block>
 			<block cond="$var->type == 'color'">
 				<input type="text" name="{$id}" value="" id="{$id}" class="rx-spectrum" style="width:178px" />
 			</block>
 			<block cond="$var->type == 'textarea'">
-				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" rows="8" cols="42"></textarea>
+				<textarea cond="$var->type == 'textarea'" name="{$id}" id="{$id}" rows="8" cols="42">{$var->default}</textarea>
 			</block>
 			<block cond="$var->type == 'select'">
 				<select name="{$id}" id="{$id}">
-					<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
+					<option loop="$var->options => $key, $val" value="{$key}" selected="selected"|cond="$var->default !== '' && $key == $var->default">{$val}</option>
 				</select>
 			</block>
 			<block cond="$var->type == 'select-multi-order'">
-				<!--@if($var->init_options && is_array($var->init_options))-->
+				<!--@if(isset($var->init_options) && is_array($var->init_options))-->
 				{@$inits = array_keys($var->init_options)}
 				<input type="hidden" name="{$id}" value="{implode(',', $inits)}" />
 				<!--@else-->
@@ -76,7 +76,7 @@
 				<div style="display:inline-block;padding-top:3px">
 					<label>{$lang->display_no}</label>
 					<select class="multiorder_show" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px">
-						<option loop="$var->options => $key, $val" cond="!$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
+						<option loop="$var->options => $key, $val" cond="empty($var->init_options[$key])" value="{$key}" default="true"|cond="!empty($var->default_options[$key])">{$val}</option>
 					</select>
 					<br>
 					<button type="button" class="x_btn multiorder_add" style="vertical-align:top">{$lang->cmd_insert}</button>
@@ -84,7 +84,7 @@
 				<div style="display:inline-block;padding-top:3px">
 					<label>{$lang->display_yes}</label>
 					<select class="multiorder_selected" size="8" multiple="multiple" style="vertical-align:top;margin-bottom:5px">
-						<option loop="$var->options => $key, $val" cond="$var->init_options[$key]" value="{$key}" default="true"|cond="$var->default_options[$key]">{$val}</option>
+						<option loop="$var->options => $key, $val" cond="!empty($var->init_options[$key])" value="{$key}" default="true"|cond="!empty($var->default_options[$key])">{$val}</option>
 					</select>
 					<br>
 					<button type="button" class="x_btn multiorder_up" style="margin:0 -5px 0 0;border-radius:2px 0 0 2px">{$lang->cmd_move_up}</button>
