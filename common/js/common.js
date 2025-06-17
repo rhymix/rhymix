@@ -586,21 +586,21 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
  * Submit a form using AJAX instead of navigating away
  *
  * @param HTMLElement form
- * @param function success
- * @param function error
+ * @param function callback_success
+ * @param function callback_error
  * @return void
  */
-Rhymix.ajaxForm = function(form, success, error) {
+Rhymix.ajaxForm = function(form, callback_success, callback_error) {
 	const $form = $(form);
 	// Get success and error callback functions.
-	if (typeof success === 'undefined') {
-		success = $form.data('callbackSuccess');
-		if (success && $.isFunction(success)) {
+	if (typeof callback_success === 'undefined') {
+		callback_success = $form.data('callbackSuccess');
+		if (callback_success && typeof callback_success === 'function') {
 			// no-op
-		} else if (success && window[success] && $.isFunction(window[success])) {
-			success = window[success];
+		} else if (callback_success && window[callback_success] && typeof window[callback_success] === 'function') {
+			callback_success = window[callback_success];
 		} else {
-			success = function(data) {
+			callback_success = function(data) {
 				if (data.message && data.message !== 'success') {
 					alert(data.message);
 				}
@@ -610,17 +610,17 @@ Rhymix.ajaxForm = function(form, success, error) {
 			};
 		}
 	}
-	if (typeof error === 'undefined') {
-		error = $form.data('callbackError');
-		if (error && $.isFunction(error)) {
+	if (typeof callback_error === 'undefined') {
+		callback_error = $form.data('callbackError');
+		if (callback_error && typeof callback_error === 'function') {
 			// no-op
-		} else if (error && window[error] && $.isFunction(window[error])) {
-			error = window[error];
+		} else if (callback_error && window[callback_error] && typeof window[callback_error] === 'function') {
+			callback_error = window[callback_error];
 		} else {
-			error = null;
+			callback_error = null;
 		}
 	}
-	this.ajax(null, new FormData($form[0]), success, error);
+	this.ajax(null, new FormData($form[0]), callback_success, callback_error);
 };
 
 /**
