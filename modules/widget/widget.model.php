@@ -128,12 +128,19 @@ class WidgetModel extends Widget
 			return;
 		}
 
-		// Check the cache.
+		// Check the local cache.
 		$xml_mtime = filemtime($xml_file);
+		if (isset($GLOBALS['__widget_info__'][$widget][$xml_mtime]))
+		{
+			return $GLOBALS['__widget_info__'][$widget][$xml_mtime];
+		}
+
+		// Check the system cache.
 		$cache_key = sprintf('widget_info:%s:%d', $widget, $xml_mtime);
 		$widget_info = Rhymix\Framework\Cache::get($cache_key);
 		if ($widget_info)
 		{
+			$GLOBALS['__widget_info__'][$widget][$xml_mtime] = $widget_info;
 			return $widget_info;
 		}
 
@@ -145,6 +152,7 @@ class WidgetModel extends Widget
 		}
 
 		Rhymix\Framework\Cache::set($cache_key, $widget_info);
+		$GLOBALS['__widget_info__'][$widget][$xml_mtime] = $widget_info;
 		return $widget_info;
 	}
 
@@ -169,12 +177,19 @@ class WidgetModel extends Widget
 			return;
 		}
 
-		// Check the cache.
+		// Check the local cache.
 		$xml_mtime = filemtime($xml_file);
+		if (isset($GLOBALS['__widgetstyle_info__'][$widgetStyle][$xml_mtime]))
+		{
+			return $GLOBALS['__widgetstyle_info__'][$widgetStyle][$xml_mtime];
+		}
+
+		// Check the system cache.
 		$cache_key = sprintf('widgetstyle_info:%s:%d', $widgetStyle, $xml_mtime);
 		$widgetStyle_info = Rhymix\Framework\Cache::get($cache_key);
 		if ($widgetStyle_info)
 		{
+			$GLOBALS['__widgetstyle_info__'][$widgetStyle][$xml_mtime] = $widgetStyle_info;
 			return $widgetStyle_info;
 		}
 
@@ -186,6 +201,7 @@ class WidgetModel extends Widget
 		}
 
 		Rhymix\Framework\Cache::set($cache_key, $widgetStyle_info);
+		$GLOBALS['__widgetstyle_info__'][$widgetStyle][$xml_mtime] = $widgetStyle_info;
 		return $widgetStyle_info;
 	}
 }
