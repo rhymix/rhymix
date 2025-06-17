@@ -398,11 +398,11 @@ Rhymix.modal.close = function(id) {
  *
  * @param string action
  * @param object params
- * @param function success
- * @param function error
+ * @param function callback_success
+ * @param function callback_error
  * @return void
  */
-Rhymix.ajax = function(action, params, success, error) {
+Rhymix.ajax = function(action, params, callback_success, callback_error) {
 
 	// Extract module and act
 	let isFormData = params instanceof FormData;
@@ -453,169 +453,109 @@ Rhymix.ajax = function(action, params, success, error) {
 		delete params._rx_csrf_token;
 	}
 
-	// Define common AJAX arguments
-	const args = {
-		type: 'POST',
-		dataType: 'json',
-		url: url,
-		data: isFormData ? params : JSON.stringify(params),
-		contentType: isFormData ? false : 'application/json; charset=UTF-8',
-		processData: false,
-		headers: headers,
-	};
-
 	return new Promise(function(resolve, reject) {
-		const resolveWrapper = function(data, xhr) {
-			if (typeof success === 'function') {
-				success(data, xhr);
+
+		// Define the success wrapper.
+		const successWrapper = function(data, textStatus, xhr) {
+
+			console.log(resolve);
+			// Add debug information.
+			if (data._rx_debug) {
+				data._rx_debug.page_title = "AJAX : " + action;
+				if (Rhymix.addDebugData) {
+					Rhymix.addDebugData(data._rx_debug);
+				} else {
+					Rhymix.pendingDebugData.push(data._rx_debug);
+				}
 			}
-			if (resolve) {
-				resolve(data);
+
+			// If the response contains a Rhymix error code, display the error message.
+			if (typeof data.error !== 'undefined' && data.error != 0) {
+				return errorWrapper(data, textStatus, xhr);
 			}
+
+			// If a success callback was defined, call it.
+			if (typeof callback_success === 'function') {
+				callback_success(data, xhr);
+				return;
+			}
+
+			// If the response contains a redirect URL, follow the redirect.
+			if (data.redirect_url) {
+				Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
+				return;
+			}
+
+			// Resolve the promise with the response data.
+			resolve(data);
 		};
-		const rejectWrapper = function(data, xhr) {
-			if (typeof error === 'function' && error(data, xhr) === false) {
-				return false;
+
+		// Define the error wrapper.
+		const errorWrapper = function(data, textStatus, xhr) {
+
+			// If an error callback is defined, and if it returns false, stop processing this error.
+			// This will also prevent the promise from being rejected.
+			if (typeof callback_error === 'function' && callback_error(data, xhr) === false) {
+				return;
 			}
-			if (reject) {
-				reject(data);
-				return false;
+
+			// Otherwise, generate a generic error message.
+			let error_message = 'AJAX error: ' + (action || 'form submission');
+			let error_details = '';
+			if (data.error != 0 && data.message) {
+				error_message = data.message.replace(/\\n/g, "\n");
+				if (data.errorDetail) {
+					error_details = data.errorDetail;
+				}
+			} else if (xhr.status == 0) {
+				error_details = 'Connection failed: ' + url + "\n\n" + (xhr.responseText || '');
+			} else {
+				error_details = (xhr.responseText || '');
 			}
+			if (error_details.length > 1000) {
+				error_details = error_details.substring(0, 1000) + '...';
+			}
+			if (error_details.length > 0) {
+				error_message = error_message + "\n\n" + error_details;
+			}
+
+			// Reject the promise with an error object.
+			// If uncaught, this will be handled by the 'unhandledrejection' event listener.
+			const err = new Error(error_message);
+			err._rx_ajax_error = true;
+			err.cause = data;
+			err.xhr = xhr;
+			reject(err);
 		};
-		$.ajax($.extend(args, {
-			success: function(data, textStatus, xhr) {
-				Rhymix._ajaxSuccessHandler(xhr, textStatus, action, data, params, resolveWrapper, rejectWrapper);
-			},
+
+		// Pass off to jQuery with another wrapper around the success and error wrappers.
+		// This allows us to handle HTTP 400+ error codes with valid JSON responses.
+		$.ajax({
+			type: 'POST',
+			dataType: 'json',
+			url: url,
+			data: isFormData ? params : JSON.stringify(params),
+			contentType: isFormData ? false : 'application/json; charset=UTF-8',
+			processData: false,
+			headers: headers,
+			success: successWrapper,
 			error: function(xhr, textStatus, errorThrown) {
-				Rhymix._ajaxErrorHandler(xhr, textStatus, action, url, params, resolveWrapper, rejectWrapper);
+				if (xhr.status == 0 && Rhymix.unloading) {
+					return;
+				}
+				if (xhr.status >= 400 && xhr.responseText) {
+					try {
+						let data = JSON.parse(xhr.responseText);
+						if (data) {
+							successWrapper(data, textStatus, xhr);
+							return;
+						}
+					} catch (e) { }
+				}
+				errorWrapper({ error: 0, message: textStatus }, textStatus, xhr);
 			}
-		}));
+		});
 	});
-};
-
-/**
- * Default success handler for AJAX requests
- *
- * @param object xhr
- * @param string textStatus
- * @param string action
- * @param object data
- * @param object params
- * @param function success
- * @param function errror
- * @return void
- */
-Rhymix._ajaxSuccessHandler = function(xhr, textStatus, action, data, params, success, error) {
-
-	// Add debug information.
-	if (data._rx_debug) {
-		data._rx_debug.page_title = "AJAX : " + action;
-		if (this.addDebugData) {
-			this.addDebugData(data._rx_debug);
-		} else {
-			this.pendingDebugData.push(data._rx_debug);
-		}
-	}
-
-	// If the response contains a Rhymix error code, display the error message.
-	if (typeof data.error !== 'undefined' && data.error != 0) {
-
-		// If an error callback is defined, call it. Abort if it returns false.
-		if (typeof error === 'function' && error(data, xhr) === false) {
-			return;
-		}
-
-		// If an error message was supplied, display it.
-		if (data.message) {
-			let msg = data.message.replace(/\\n/g, "\n");
-			if (data.errorDetail) {
-				msg += "\n\n" + data.errorDetail;
-			}
-			alert(msg);
-			return;
-		}
-
-		// Rhymix should never return an error code without a message, but if someone does, we handle it here.
-		let msg = 'AJAX error: ' + (action || 'form submission') + "\n\n" + xhr.responseText;
-		if (msg.length > 1000) {
-			msg = msg.substring(0, 1000) + '...';
-		}
-		console.error(msg.trim().replace(/\n+/g, "\n"));
-		if (this.showAjaxErrors.indexOf('ALL') >= 0 || this.showAjaxErrors.indexOf(xhr.status) >= 0) {
-			alert(msg.trim());
-		}
-		return;
-	}
-
-	// If a success callback was defined, call it.
-	if (typeof success === 'function') {
-		success(data, xhr);
-		return;
-	}
-
-	// If the response contains a redirect URL, follow the redirect.
-	if (data.redirect_url) {
-		this.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
-		return;
-	}
-};
-
-/**
- * Default error handler for AJAX requests
- *
- * @param object xhr
- * @param string textStatus
- * @param string action
- * @param string url
- * @param object params
- * @param function success
- * @param function errror
- * @return void
- */
-Rhymix._ajaxErrorHandler = function(xhr, textStatus, action, url, params, success, error) {
-
-	// If the user is navigating away, don't do anything.
-	if (xhr.status == 0 && this.unloading) {
-		return;
-	}
-
-	// If the response contains valid JSON, call the success callback instead.
-	if (xhr.status >= 400 && xhr.responseText) {
-		let data;
-		try {
-			data = JSON.parse(xhr.responseText);
-		} catch (e) { }
-		if (data && typeof data.error !== 'undefined') {
-			this._ajaxSuccessHandler(xhr, textStatus, action, data, params, success, error);
-			return;
-		}
-	}
-
-	// If an error callback is defined, call it. Abort if it returns false.
-	if (typeof error === 'function') {
-		let fakedata = { error: -3, message: textStatus };
-		if (error(fakedata, xhr) === false) {
-			return;
-		}
-	}
-
-	// Otherwise, generate a simple error message.
-	let error_info, msg;
-	if (xhr.status == 0) {
-		error_info = 'Connection failed: ' + url + "\n\n" + (xhr.responseText || '');
-	} else {
-		error_info = 'Response code: ' + xhr.status + "\n\n" + (xhr.responseText || '');
-	}
-	msg = 'AJAX error: ' + (action || 'form submission') + "\n\n" + error_info;
-	if (msg.length > 1000) {
-		msg = msg.substring(0, 1000) + '...';
-	}
-
-	// Print the error message.
-	console.error(msg.trim().replace(/\n+/g, "\n"));
-	if (this.showAjaxErrors.indexOf('ALL') >= 0 || this.showAjaxErrors.indexOf(xhr.status) >= 0) {
-		alert(msg.trim());
-	}
 };
 
 /**
@@ -1114,6 +1054,19 @@ $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
 // General handler for page unload events
 window.addEventListener('beforeunload', function() {
 	Rhymix.unloading = true;
+});
+
+// General handler for unhandled Promise rejections
+window.addEventListener('unhandledrejection', function(event) {
+	if (event.reason && event.reason['_rx_ajax_error']) {
+		event.preventDefault();
+		const error_message = event.reason.message.trim();
+		const error_xhr = event.reason.xhr || {};
+		console.error(error_message.replace(/\n+/g, "\n"));
+		if (Rhymix.showAjaxErrors.indexOf('ALL') >= 0 || Rhymix.showAjaxErrors.indexOf(error_xhr.status) >= 0) {
+			alert(error_message.trim());
+		}
+	}
 });
 
 // General handler for popstate events
