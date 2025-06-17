@@ -3788,7 +3788,17 @@ Content;
 		}
 	}
 
+	/**
+	 * A typo of updateUploadedCount, maintained for backward compatibility.
+	 *
+	 * @deprecated
+	 */
 	public function updateUploaedCount($document_srl_list)
+	{
+		return $this->updateUploadedCount($document_srl_list);
+	}
+
+	public function updateUploadedCount($document_srl_list)
 	{
 		if(!is_array($document_srl_list))
 		{
@@ -3804,7 +3814,8 @@ Content;
 
 		foreach($document_srl_list as $document_srl)
 		{
-			if(!$document_srl = (int) $document_srl)
+			$document_srl = (int)$document_srl;
+			if ($document_srl <= 0)
 			{
 				continue;
 			}
@@ -3824,7 +3835,7 @@ Content;
 			return;
 		}
 
-		$this->updateUploaedCount($file->upload_target_srl);
+		$this->updateUploadedCount($file->upload_target_srl);
 	}
 
 	/**

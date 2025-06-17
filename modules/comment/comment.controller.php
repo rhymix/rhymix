@@ -2002,6 +2002,41 @@ class CommentController extends Comment
 	}
 
 	/**
+	 * Update the number of uploaded files in the comment
+	 *
+	 * @param int|array $comment_srl_list
+	 * @return void
+	 */
+	public function updateUploadedCount($comment_srl_list)
+	{
+		if (!is_array($comment_srl_list))
+		{
+			$comment_srl_list = array($comment_srl_list);
+		}
+
+		if (!count($comment_srl_list))
+		{
+			return;
+		}
+
+		$comment_srl_list = array_unique($comment_srl_list);
+
+		foreach($comment_srl_list as $comment_srl)
+		{
+			$comment_srl = (int)$comment_srl;
+			if ($comment_srl <= 0)
+			{
+				continue;
+			}
+
+			$args = new stdClass;
+			$args->comment_srl = $comment_srl;
+			$args->uploaded_count = FileModel::getFilesCount($comment_srl);
+			executeQuery('comment.updateUploadedCount', $args);
+		}
+	}
+
+	/**
 	 * Method to add a pop-up menu when clicking for displaying child comments
 	 * @param string $url
 	 * @param string $str

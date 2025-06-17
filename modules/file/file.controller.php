@@ -2002,6 +2002,8 @@ class FileController extends File
 		}
 
 		$this->copyFiles($obj->source->document_srl, $obj->copied->module_srl, $obj->copied->document_srl, $obj->copied->content);
+		$this->setFilesValid($obj->copied->document_srl, 'doc');
+		DocumentController::getInstance()->updateUploadedCount($obj->copied->document_srl);
 	}
 
 	function triggerAddCopyCommentByDocument(&$obj)
@@ -2012,6 +2014,8 @@ class FileController extends File
 		}
 
 		$this->copyFiles($obj->source->comment_srl, $obj->copied->module_srl, $obj->copied->comment_srl, $obj->copied->content);
+		$this->setFilesValid($obj->copied->comment_srl, 'com');
+		CommentController::getInstance()->updateUploadedCount($obj->copied->comment_srl);
 	}
 
 	function triggerCopyModule(&$obj)
