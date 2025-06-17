@@ -262,14 +262,37 @@ Rhymix.isSameHost = function(url) {
  * Redirect to a URL, but reload instead if the target is the same as the current page
  *
  * @param string url
+ * @param int delay
  * @return void
  */
-Rhymix.redirectToUrl = function(url) {
-	if (this.isCurrentUrl(url)) {
-		window.location.href = url;
-		window.location.reload();
+Rhymix.redirectToUrl = function(url, delay) {
+	const callback = function() {
+		if (Rhymix.isCurrentUrl(url)) {
+			window.location.href = url;
+			window.location.reload();
+		} else {
+			window.location.href = url;
+		}
+	};
+	if (delay) {
+		this.pendingRedirect = setTimeout(callback, delay);
 	} else {
-		window.location.href = url;
+		callback();
+	}
+};
+
+/**
+ * Cancel any pending redirect
+ *
+ * @return bool
+ */
+Rhymix.cancelPendingRedirect = function() {
+	if (this.pendingRedirect) {
+		clearTimeout(this.pendingRedirect);
+		this.pendingRedirect = null;
+		return true;
+	} else {
+		return false;
 	}
 };
 
@@ -481,8 +504,9 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 			}
 
 			// If the response contains a redirect URL, follow the redirect.
+			// This can be canceled by Rhymix.cancelPendingRedirect() within 100 milliseconds.
 			if (data.redirect_url) {
-				Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
+				Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'), 100);
 				return;
 			}
 
