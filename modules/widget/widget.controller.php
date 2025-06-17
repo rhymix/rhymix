@@ -382,7 +382,7 @@ class WidgetController extends Widget
 			}
 
 			$args->widget_sequence = $args->widget_sequence ?? 0;
-			$args->colorset = $args->colorset ?? null;
+			$args->colorset = $args->colorset ?? '';
 
 			foreach ($lang_list as $lang_type => $val)
 			{
@@ -430,6 +430,14 @@ class WidgetController extends Widget
 				return;
 			}
 
+			foreach (WidgetModel::getWidgetInfo($widget)->extra_var ?? [] as $key => $val)
+			{
+				if (!isset($args->{$key}))
+				{
+					$args->{$key} = $val->default;
+				}
+			}
+
 			$widget_content = $oWidget->proc($args);
 			return Context::replaceUserLang($widget_content);
 		}
@@ -451,6 +459,14 @@ class WidgetController extends Widget
 		if (!$oWidget || !method_exists($oWidget, 'proc'))
 		{
 			return;
+		}
+
+		foreach (WidgetModel::getWidgetInfo($widget)->extra_var ?? [] as $key => $val)
+		{
+			if (!isset($args->{$key}))
+			{
+				$args->{$key} = $val->default;
+			}
 		}
 
 		$oFrontEndFileHandler = FrontEndFileHandler::getInstance();
@@ -498,7 +514,7 @@ class WidgetController extends Widget
 		// Set default
 		$args->widget_sequence = $args->widget_sequence ?? 0;
 		$args->widget_cache = $args->widget_cache ?? 0;
-		$args->colorset = $args->colorset ?? null;
+		$args->colorset = $args->colorset ?? '';
 
 		/**
 		 * Widgets widgetContent/widgetBox Wanted If you are not content
@@ -854,25 +870,20 @@ class WidgetController extends Widget
 		$vars->widget_padding_bottom = trim($request_vars->widget_padding_bottom);
 		$vars->document_srl= trim($request_vars->document_srl);
 
-		if(countobj($widget_info->extra_var))
+		foreach ($widget_info->extra_var ?? [] as $key => $val)
 		{
-			foreach($widget_info->extra_var as $key=>$val)
-			{
-				$vars->{$key} = trim($request_vars->{$key} ?? '');
-			}
+			$vars->{$key} = trim($request_vars->{$key} ?? '');
 		}
-		// If the widget style
+
+		// Additional configuration for widget styles
 		if($request_vars->widgetstyle)
 		{
 			$widgetStyle_info = WidgetModel::getWidgetStyleInfo($request_vars->widgetstyle);
-			if(countobj($widgetStyle_info->extra_var))
+			foreach ($widgetStyle_info->extra_var ?? [] as $key => $val)
 			{
-				foreach($widgetStyle_info->extra_var as $key=>$val)
+				if (in_array($val->type, ['color', 'text', 'select', 'filebox', 'textarea']))
 				{
-					if($val->type =='color' || $val->type =='text' || $val->type =='select' || $val->type =='filebox' || $val->type == 'textarea')
-					{
-						$vars->{$key} = trim($request_vars->{$key} ?? '');
-					}
+					$vars->{$key} = trim($request_vars->{$key} ?? '');
 				}
 			}
 		}
