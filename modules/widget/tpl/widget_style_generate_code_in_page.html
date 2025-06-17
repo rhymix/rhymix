@@ -28,9 +28,9 @@
 		</div>
 		<div class="x_modal-body x_form-horizontal">
 			<a href="{getUrl('widgetstyle','none')}" class="widgetStyle"><img src="images/widgetstyle_none.gif" title="{$lang->notuse}" /></a>
-			<a loop="$widgetStyle_list => $key, $widgetStyle" cond="$widgetStyle->preview" href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle==$widgetstyle)-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
+			<a loop="$widgetStyle_list => $key, $widgetStyle" cond="$widgetStyle->preview" href="{getUrl('widgetstyle',$widgetStyle->widgetStyle)}" class="widgetStyle <!--@if($widgetStyle->widgetStyle == ($widgetstyle ?? ''))-->selected<!--@end-->"><img src="{getUrl()}{$widgetStyle->preview}" title="{$widgetStyle->title}" /><span>{$widgetStyle->title}</span></a>
 			<block cond="$widgetstyle_info">
-	
+
 				<h2>{$widgetstyle_info->title} ver {$widgetstyle_info->version}</h2>
 				<div class="x_control-group">
 					<label class="x_control-label">{$lang->description}</label>
@@ -52,45 +52,46 @@
 						{zdate($widgetstyle_info->date,'Y-m-d')}
 					</div>
 				</div>
-	
+
+				{@ $group = ''; $not_first = false; $suggestion_id = 0; }
 				<block loop="$widgetstyle_info->extra_var => $id, $var">
-					{@$suggestion_id++}
+					{@ $suggestion_id++; }
 					<block cond="!$not_first && !$var->group"><section class="section"></block>
 					<block cond="$group != $var->group">
 						<block cond="$not_first"></section></block>
 						<h1>{$var->group}</h1>
 						<section class="section">
-						{@$group = $var->group}
+						{@ $group = $var->group; }
 					</block>
-					{@$not_first = true}
+					{@ $not_first = true; }
 					<div class="x_control-group">
 						<label class="x_control-label" for="{$id}"|cond="$var->type!='text'&&$var->type!='textarea'" for="lang_{$id}"|cond="$var->type=='text'||$var->type=='textarea'">{$var->name}</label>
 						<div class="x_controls extra_vars">
 							<div cond="$var->type == 'text'">
-								<input type="text" name="{$id}" value="" class="lang_code" />
+								<input type="text" name="{$id}" value="{$var->default}" class="lang_code" />
 							</div>
-	
-							<input cond="$var->type == 'color'" type="text" name="{$id}" class="rx-spectrum" />
-	
+
+							<input cond="$var->type == 'color'" type="text" name="{$id}" value="{$var->default}" class="rx-spectrum" />
+
 							<div cond="$var->type == 'textarea'">
-								<textarea name="{$id}" rows="8" cols="42" class="lang_code"></textarea>
+								<textarea name="{$id}" rows="8" cols="42" class="lang_code">{$var->default}</textarea>
 							</div>
-	
+
 							<select cond="$var->type == 'select'" name="{$id}">
-								<option loop="$var->options => $key, $val" value="{$key}">{$val}</option>
+								<option loop="$var->options ?? [] => $key, $val" value="{$key}" selected="selected"|cond="$var->default !== '' && $key == $var->default">{$val}</option>
 							</select>
-	
+
 							<block cond="$var->type == 'filebox'">
 								<input type="hidden" name="{$id}" />
 								<a href="#modalFilebox" class="modalAnchor filebox">{$lang->cmd_select}</a>
 								{@$use_filebox = TRUE}
 							</block>
 
-							<label loop="$var->options => $key, $val" cond="$var->type == 'radio'">
+							<label loop="$var->options ?? [] => $key, $val" cond="$var->type == 'radio'">
 								<input type="radio" name="{$id}" id="{$id}_{$key}" value="{$key}" > {$val}
 							</label>
 
-							<label loop="$var->options => $key, $val" cond="$var->type == 'checkbox'">
+							<label loop="$var->options ?? [] => $key, $val" cond="$var->type == 'checkbox'">
 								<input type="checkbox" name="{$id}" id="{$id}_{$key}" value="{$key}" > {$val}
 							</label>
 							<span class="x_help-block">{$var->description}</span>

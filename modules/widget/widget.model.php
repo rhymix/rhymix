@@ -155,7 +155,7 @@ class WidgetModel extends Widget
 	public static function getWidgetStyleInfo($widgetStyle)
 	{
 		// Check the widget style path.
-		$widgetStyle = preg_replace('/[^a-zA-Z0-9-_]/', '', $widgetStyle);
+		$widgetStyle = preg_replace('/[^a-zA-Z0-9-_]/', '', (string)$widgetStyle);
 		$widgetStyle_path = self::getWidgetStylePath($widgetStyle);
 		if (!$widgetStyle_path)
 		{

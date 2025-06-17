@@ -600,25 +600,30 @@ class WidgetController extends Widget
 					{
 						foreach($args as $key => $val)
 						{
+							$val = (string)$val;
 							if(in_array($key, array('class','style','widget_padding_top','widget_padding_right','widget_padding_bottom','widget_padding_left','widget','widgetstyle','document_srl'))) continue;
 							if(strpos($val,'|@|')>0) $val = str_replace('|@|',',',$val);
 							$attribute[] = sprintf('%s="%s"', $key, htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false));
 						}
 					}
 
-					$oWidgetController = getController('widget');
-
-					$widget_content_header = sprintf(
-						'<div class="rhymix_content xe_content widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
+					$widget_content_header = vsprintf(
+						'<div class="rhymix_content xe_content widgetOutput ' . ($args->css_class ?? '') . '" widgetstyle="%s" style="%s" widget_padding_left="%s" widget_padding_right="%s" widget_padding_top="%s" widget_padding_bottom="%s" widget="widgetContent" document_srl="%d" %s>'.
 						'<div class="widgetResize"></div>'.
 						'<div class="widgetResizeLeft"></div>'.
 						'<div class="widgetBorder">'.
-						'<div style="%s">',$args->widgetstyle,
+						'<div style="%s">',
+					[
+						$args->widgetstyle ?? '',
 						$style,
-						$args->widget_padding_left, $args->widget_padding_right, $args->widget_padding_top, $args->widget_padding_bottom,
+						$args->widget_padding_left,
+						$args->widget_padding_right,
+						$args->widget_padding_top,
+						$args->widget_padding_bottom,
 						$args->document_srl,
-						implode(' ',$attribute),
-						$inner_style);
+						implode(' ', $attribute),
+						$inner_style,
+					]);
 
 					$widget_content_body = $body;
 					$widget_content_footer = sprintf('</div>'.
@@ -642,11 +647,21 @@ class WidgetController extends Widget
 						}
 					}
 
-					$widget_content_header = sprintf(
-						'<div class="widgetOutput ' . $args->css_class . '" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
+					$widget_content_header = vsprintf(
+						'<div class="widgetOutput ' . ($args->css_class ?? '') . '" widgetstyle="%s" widget="widgetBox" style="%s;" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" %s >'.
 						'<div class="widgetBoxResize"></div>'.
 						'<div class="widgetBoxResizeLeft"></div>'.
-						'<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',$args->widgetstyle,$style, $widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,implode(' ',$attribute),$inner_style);
+						'<div class="widgetBoxBorder"><div class="nullWidget" style="%s">',
+					[
+						$args->widgetstyle ?? '',
+						$style,
+						$widget_padding_top,
+						$widget_padding_right,
+						$widget_padding_bottom,
+						$widget_padding_left,
+						implode(' ', $attribute),
+						$inner_style,
+					]);
 
 					$widget_content_body = $widgetbox_content;
 
@@ -667,12 +682,20 @@ class WidgetController extends Widget
 						}
 					}
 
-					$widget_content_header = sprintf('<div class="widgetOutput ' . $args->css_class . '" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
+					$widget_content_header = vsprintf('<div class="widgetOutput ' . ($args->css_class ?? '') . '" widgetstyle="%s" style="%s" widget_padding_top="%s" widget_padding_right="%s" widget_padding_bottom="%s" widget_padding_left="%s" widget="%s" %s >'.
 						'<div class="widgetResize"></div>'.
 						'<div class="widgetResizeLeft"></div>'.
-						'<div class="widgetBorder">',$args->widgetstyle,$style,
-						$widget_padding_top, $widget_padding_right, $widget_padding_bottom, $widget_padding_left,
-						$widget, implode(' ',$attribute));
+						'<div class="widgetBorder">',
+					[
+						$args->widgetstyle ?? '',
+						$style,
+						$widget_padding_top,
+						$widget_padding_right,
+						$widget_padding_bottom,
+						$widget_padding_left,
+						$widget,
+						implode(' ', $attribute),
+					]);
 
 					$widget_content_body = sprintf('<div style="%s">%s</div>',$inner_style, $widget_content);
 
