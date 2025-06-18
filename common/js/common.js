@@ -1111,6 +1111,15 @@ window.addEventListener('popstate', function(event) {
 	}
 });
 
+// Fix for browsers that don't support the unhandledrejection event
+if (typeof Promise._unhandledRejectionFn !== 'undefined') {
+	Promise._unhandledRejectionFn = function(error) {
+		if (error['_rx_ajax_error']) {
+			alert(error.message.trim());
+		}
+	};
+}
+
 /**
  * =================
  * jQuery extensions
