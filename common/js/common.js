@@ -429,8 +429,18 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 
 	// Extract module and act
 	let isFormData = params instanceof FormData;
-	let module, act;
-	if (!action) {
+	let module, act, url;
+	if (action) {
+		if (typeof action === 'string' && action.match(/^[a-z0-9_]+\.[a-z0-9_]+$/i)) {
+			let parts = action.split('.');
+			params = params || {};
+			params.module = module = parts[0];
+			params.act = act = parts[1];
+		} else {
+			url = action;
+			action = null;
+		}
+	} else {
 		if (isFormData) {
 			module = params.get('module');
 			act = params.get('act');
@@ -444,26 +454,22 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		} else {
 			action = null;
 		}
-	} else {
-		action = action.split('.');
-		params = params || {};
-		params.module = module = action[0];
-		params.act = act = action[1];
-		action = action.join('.');
 	}
 
 	// Add action to URL if the current rewrite level supports it
-	let url = this.URI(window.request_uri).pathname() + 'index.php';
-	if (act) {
-		url = url + '?act=' + act;
+	if (!url) {
+		url = this.URI(window.request_uri).pathname() + 'index.php';
+		if (act) {
+			url = url + '?act=' + act;
+		}
+		/*
+		if (this.getRewriteLevel() >= 2 && action !== null) {
+			url = url + '_' + action.replace('.', '/');
+		} else {
+			url = url + 'index.php';
+		}
+		*/
 	}
-	/*
-	if (this.getRewriteLevel() >= 2 && action !== null) {
-		url = url + action.replace('.', '/');
-	} else {
-		url = url + 'index.php';
-	}
-	*/
 
 	// Add a CSRF token to the header, and remove it from the parameters
 	const headers = {
