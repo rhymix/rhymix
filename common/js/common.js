@@ -429,7 +429,7 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 
 	// Extract module and act
 	let isFormData = params instanceof FormData;
-	let module, act, url;
+	let module, act, url, promise;
 	if (action) {
 		if (typeof action === 'string' && action.match(/^[a-z0-9_]+\.[a-z0-9_]+$/i)) {
 			let parts = action.split('.');
@@ -482,7 +482,8 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		delete params._rx_csrf_token;
 	}
 
-	return new Promise(function(resolve, reject) {
+	// Create and return a Promise for this AJAX request
+	return promise = new Promise(function(resolve, reject) {
 
 		// Define the success wrapper.
 		const successWrapper = function(data, textStatus, xhr) {
@@ -523,8 +524,12 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		const errorWrapper = function(data, textStatus, xhr) {
 
 			// If an error callback is defined, and if it returns false, stop processing this error.
-			// This will also prevent the promise from being rejected.
+			// This will also cause the promise to be rejected, but silently.
 			if (typeof callback_error === 'function' && callback_error(data, xhr) === false) {
+				promise.catch(function(dummy_err) { });
+				let dummy_err = new Error('AJAX error handled by callback function');
+				dummy_err._rx_ajax_error = false;
+				reject(dummy_err);
 				return;
 			}
 
@@ -1085,8 +1090,11 @@ window.addEventListener('beforeunload', function() {
 
 // General handler for unhandled Promise rejections
 window.addEventListener('unhandledrejection', function(event) {
-	if (event.reason && event.reason['_rx_ajax_error']) {
+	if (event.reason && typeof event.reason['_rx_ajax_error'] === 'boolean') {
 		event.preventDefault();
+		if (event.reason['_rx_ajax_error'] === false) {
+			return;
+		}
 		const error_message = event.reason.message.trim();
 		const error_details = event.reason.details || '';
 		const error_xhr = event.reason.xhr || {};
