@@ -481,7 +481,6 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		// Define the success wrapper.
 		const successWrapper = function(data, textStatus, xhr) {
 
-			console.log(resolve);
 			// Add debug information.
 			if (data._rx_debug) {
 				data._rx_debug.page_title = "AJAX : " + action;
@@ -507,7 +506,6 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 			// This can be canceled by Rhymix.cancelPendingRedirect() within 100 milliseconds.
 			if (data.redirect_url) {
 				Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'), 100);
-				return;
 			}
 
 			// Resolve the promise with the response data.
@@ -539,15 +537,13 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 			if (error_details.length > 1000) {
 				error_details = error_details.substring(0, 1000) + '...';
 			}
-			if (error_details.length > 0) {
-				error_message = error_message + "\n\n" + error_details;
-			}
 
 			// Reject the promise with an error object.
 			// If uncaught, this will be handled by the 'unhandledrejection' event listener.
 			const err = new Error(error_message);
 			err._rx_ajax_error = true;
 			err.cause = data;
+			err.details = error_details;
 			err.xhr = xhr;
 			reject(err);
 		};
@@ -1085,10 +1081,11 @@ window.addEventListener('unhandledrejection', function(event) {
 	if (event.reason && event.reason['_rx_ajax_error']) {
 		event.preventDefault();
 		const error_message = event.reason.message.trim();
+		const error_details = event.reason.details || '';
 		const error_xhr = event.reason.xhr || {};
-		console.error(error_message.replace(/\n+/g, "\n"));
+		console.error(error_message.replace(/\n+/g, "\n" + error_details));
 		if (Rhymix.showAjaxErrors.indexOf('ALL') >= 0 || Rhymix.showAjaxErrors.indexOf(error_xhr.status) >= 0) {
-			alert(error_message.trim());
+			alert(error_message.trim() + (error_details ? ("\n\n" + error_details) : ''));
 		}
 	}
 });
