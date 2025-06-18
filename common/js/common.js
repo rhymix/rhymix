@@ -423,7 +423,7 @@ Rhymix.modal.close = function(id) {
  * @param object params
  * @param function callback_success
  * @param function callback_error
- * @return void
+ * @return Promise
  */
 Rhymix.ajax = function(action, params, callback_success, callback_error) {
 
@@ -499,6 +499,7 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 			// If a success callback was defined, call it.
 			if (typeof callback_success === 'function') {
 				callback_success(data, xhr);
+				resolve(data);
 				return;
 			}
 
