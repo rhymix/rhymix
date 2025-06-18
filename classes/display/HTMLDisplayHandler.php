@@ -761,6 +761,7 @@ class HTMLDisplayHandler
 
 		if (str_contains($_SERVER['HTTP_USER_AGENT'] ?? '', 'Trident/'))
 		{
+			$original_file_list[] = 'polyfills/formdata.min.js';
 			$original_file_list[] = 'polyfills/promise.min.js';
 		}
 
