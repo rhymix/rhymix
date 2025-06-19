@@ -523,13 +523,17 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		// Define the error wrapper.
 		const errorWrapper = function(data, textStatus, xhr) {
 
-			// If an error callback is defined, and if it returns false, stop processing this error.
-			// This will also cause the promise to be rejected, but silently.
-			if (typeof callback_error === 'function' && callback_error(data, xhr) === false) {
-				promise.catch(function(dummy_err) { });
-				let dummy_err = new Error('AJAX error handled by callback function');
-				dummy_err._rx_ajax_error = false;
-				reject(dummy_err);
+			// If an error callback is defined, call it.
+			// The promise will still be rejected, but silently.
+			if (typeof callback_error === 'function') {
+				callback_error(data, xhr);
+				promise.catch(function(dummy) { });
+				let dummy = new Error('Rhymix.ajax() error already handled by callback function');
+				dummy._rx_ajax_error = true;
+				dummy.cause = data;
+				dummy.details = '';
+				dummy.xhr = xhr;
+				reject(dummy);
 				return;
 			}
 
@@ -1092,9 +1096,6 @@ window.addEventListener('beforeunload', function() {
 window.addEventListener('unhandledrejection', function(event) {
 	if (event.reason && typeof event.reason['_rx_ajax_error'] === 'boolean') {
 		event.preventDefault();
-		if (event.reason['_rx_ajax_error'] === false) {
-			return;
-		}
 		const error_message = event.reason.message.trim();
 		const error_details = event.reason.details || '';
 		const error_xhr = event.reason.xhr || {};
