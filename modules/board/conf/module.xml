@@ -41,11 +41,11 @@
 			<title xml:lang="zh-TW">發表評論</title>
 			<title xml:lang="es">yorum yaz</title>
 		</grant>
-		<grant name="vote_log_view" default="guest">
+		<grant name="vote_log_view" default="member">
 			<title xml:lang="ko">추천인 보기</title>
 			<title xml:lang="en">view recommender</title>
 		</grant>
-		<grant name="update_view" default="guest">
+		<grant name="update_view" default="member">
 			<title xml:lang="ko">수정 내역 보기</title>
 			<title xml:lang="en">view update history</title>
 		</grant>
