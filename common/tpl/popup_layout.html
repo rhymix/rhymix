@@ -11,7 +11,9 @@
 		const iframe_sequence = '{{ $iframe_sequence }}';
 		window.opener = window.parent;
 		window.close = function() {
-			parent.closeModal('_rx_iframe_' + iframe_sequence);
+			setTimeout(function() {
+				parent.closeModal('_rx_iframe_' + iframe_sequence);
+			}, 100);
 		};
 	</script>
 	<style>
