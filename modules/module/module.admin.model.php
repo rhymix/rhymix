@@ -171,9 +171,18 @@ class ModuleAdminModel extends Module
 		$grant_list->manager->title = lang('grant_manager');
 		$grant_list->manager->default = 'manager';
 		Context::set('grant_list', $grant_list);
+
 		// Get a permission group granted to the current module
 		$selected_group = array();
 		$default_grant = array();
+		foreach ($grant_list as $key => $val)
+		{
+			if (!empty($val->default))
+			{
+				$default_grant[$key] = $val->default;
+			}
+		}
+
 		$args = new stdClass();
 		$args->module_srl = $module_srl;
 		$output = executeQueryArray('module.getModuleGrants', $args);
