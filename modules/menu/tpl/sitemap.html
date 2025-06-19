@@ -2374,14 +2374,10 @@ jQuery(function($){
 				*/
 				switch(sDefault){
 					case 'guest':
-						//
+						// no-op
 					break;
 					case 'member':
-						$node.find('._group_all').remove();
-					break;
 					case 'not_member':
-						$node.find('._group_all').remove();
-					break;
 					case 'site':
 						$node.find('._group_all').remove();
 					break;
@@ -2390,7 +2386,7 @@ jQuery(function($){
 					default:
 						$node.find('._group_all').remove();
 						$node.find('._group_loggedin').remove();
-						$node.find('._group_signedup').remove();
+						$node.find('._group_not_loggedin').remove();
 				}
 			}
 			//console.log(22, $node);
