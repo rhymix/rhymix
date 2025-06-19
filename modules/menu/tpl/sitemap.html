@@ -2361,35 +2361,29 @@ jQuery(function($){
 				$node.find('._groups').append($groupNode);
 			}
 
-			if(i === 0){
-				$node.find('._group_signedup').remove();
-				//$node.find('._group_manager').remove();
-			}else{
-				/*
-					guest : 모든 옵션 사용 가능, 항상 권한 있음.
-					member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
-					not_member : 비로그인 사용자, 로그인 정보가 *없을* 경우 true
-					manager : '관리자만','선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
-					root : manager와 동일.
-				*/
-				switch(sDefault){
-					case 'guest':
-						// no-op
+			/*
+				guest : 모든 옵션 사용 가능, 항상 권한 있음.
+				member : '모든 사용자' 제외하고 사용 가능, 로그인 정보가 있을 경우 true
+				not_member : 비로그인 사용자, 로그인 정보가 *없을* 경우 true
+				manager : '관리자만','선택그룹 사용자' 옵션만 사용가능, 관리자일 경우에만 true
+				root : manager와 동일.
+			*/
+			switch(sDefault) {
+				case 'guest':
 					break;
-					case 'member':
-					case 'not_member':
-					case 'site':
-						$node.find('._group_all').remove();
+				case 'member':
+				case 'not_member':
+				case 'site':
+					$node.find('._group_loggedin').prop('selected', true);
 					break;
-					case 'manager':
-					case 'root':
-					default:
-						$node.find('._group_all').remove();
-						$node.find('._group_loggedin').remove();
-						$node.find('._group_not_loggedin').remove();
-				}
+				case 'manager':
+				case 'root':
+				default:
+					$node.find('._group_manager').prop('selected', true);
+					$node.find('._group_all').remove();
+					$node.find('._group_loggedin').remove();
+					$node.find('._group_not_loggedin').remove();
 			}
-			//console.log(22, $node);
 			$List.append($node);
 			$('#auth select').trigger('change');
 		}
