@@ -434,7 +434,7 @@ class WidgetController extends Widget
 			{
 				if (!isset($args->{$key}))
 				{
-					$args->{$key} = $val->default;
+					$args->{$key} = $val->default !== '' ? $val->default : null;
 				}
 			}
 
@@ -465,7 +465,7 @@ class WidgetController extends Widget
 		{
 			if (!isset($args->{$key}))
 			{
-				$args->{$key} = $val->default;
+				$args->{$key} = $val->default !== '' ? $val->default : null;
 			}
 		}
 
