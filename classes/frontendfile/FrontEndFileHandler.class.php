@@ -430,6 +430,10 @@ class FrontEndFileHandler extends Handler
 	public function unloadFile($fileName, $unused = '', $media = 'all')
 	{
 		$file = $this->getFileInfo($fileName, $unused, $media);
+		if (!isset($file->key))
+		{
+			return;
+		}
 
 		if($file->fileExtension == 'css')
 		{
