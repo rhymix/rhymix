@@ -309,9 +309,10 @@
 .x .x_uneditable-input{width:206px}
 .x input.x_full-width,
 .x textarea.x_full-width,
-.x .x_uneditable-input.x_full-width{width:calc(100% - 14px)}
-.x textarea.x_full-width.lang_code{width:calc(100% - 42px)}
-.x textarea{height:auto;min-height:80px;resize:vertical}
+.x .x_uneditable-input.x_full-width{width:calc(100% - 14px);resize:vertical}
+.x textarea.x_full-width.lang_code{width:calc(100% - 42px);resize:vertical}
+.x textarea.x_full-width + textarea.lang_code{width:calc(100% - 42px);resize:vertical}
+.x textarea{height:auto;min-height:80px;}
 .x textarea,
 .x input[type="text"],
 .x input[type="password"],
