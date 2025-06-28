@@ -60,7 +60,7 @@
 	<section class="section">
 		<h1>HTML<small> - layout.html</small></h1>
 		<div style="margin-right:14px">
-			<textarea name="code" rows="8" cols="42" style="width:100%; height:300px; font:12px 'DejaVu Sans Mono', monospace;">{$layout_code}</textarea>
+			<textarea name="code" rows="8" cols="42" style="width:100%; height:300px; font-size:12px" class="x_full-width x_code-font">{$layout_code}</textarea>
 		</div>
 		<div>
 			<block loop="$widget_list => $widget"> <i class="vr">|</i> <a href="{getUrl('','module','admin','act','dispWidgetAdminGenerateCode','selected_widget',$widget->widget)}" target="_blank">{$widget->title}</a></block>
@@ -84,7 +84,7 @@
 	<section class="section">
 		<h1>CSS<small> - layout.css</small></h1>
 		<div style="margin-right:14px">
-			<textarea name="code_css" rows="8" cols="42" style="width:100%; height:300px; font:12px 'DejaVu Sans Mono', monospace;">{$layout_code_css}</textarea>
+			<textarea name="code_css" rows="8" cols="42" style="width:100%; height:300px; font-size:12px" class="x_full-width x_code-font">{$layout_code_css}</textarea>
 		</div>
 	</section>
 
