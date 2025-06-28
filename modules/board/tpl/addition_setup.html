@@ -19,7 +19,7 @@
 				<select name="include_modules[]" id="include_modules" size="8" multiple="multiple">
 					<option value="">{$lang->cmd_board_include_modules_none}</option>
 					<!--@foreach($board_list as $board_info)-->
-						<option value="{$board_info->module_srl}" selected="selected"|cond="in_array($board_info->module_srl, $include_modules)">{$board_info->browser_title}</option>
+						<option value="{$board_info->module_srl}" selected="selected"|cond="in_array($board_info->module_srl, $include_modules)">{$board_info->browser_title} ({$board_info->mid})</option>
 					<!--@endforeach-->
 				</select>
 				<p class="x_help-block">{$lang->about_board_combined_board}</p>
