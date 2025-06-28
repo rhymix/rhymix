@@ -373,6 +373,7 @@
 .x textarea:-ms-input-placeholder{color:#999999}
 .x input::-webkit-input-placeholder,
 .x textarea::-webkit-input-placeholder{color:#999999}
+.x textarea.x_code-font, .x textarea.x_code-font + textarea.lang_code { font-family: Consolas, SF Mono, monospace !important; }
 .x .x_radio,
 .x .x_checkbox{min-height:20px;padding-left:20px}
 .x .x_radio input[type="radio"],

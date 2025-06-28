@@ -46,14 +46,14 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="header_text">{$lang->header_text}</label>
 			<div class="x_controls">
-				<textarea name="header_text" id="header_text" rows="4" cols="42">{htmlspecialchars($module_info->header_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
+				<textarea name="header_text" id="header_text" rows="4" cols="42" class="x_full-width x_code-font">{htmlspecialchars($module_info->header_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 				<p class="x_help-block" id="aboutHeaderText">{$lang->about_header_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="footer_text">{$lang->footer_text}</label>
 			<div class="x_controls">
-				<textarea name="footer_text" rows="4" cols="42">{htmlspecialchars($module_info->footer_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
+				<textarea name="footer_text" rows="4" cols="42" class="x_full-width x_code-font">{htmlspecialchars($module_info->footer_text, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</textarea>
 				<p class="x_help-block" id="aboutFooterText">{$lang->about_footer_text}</p>
 			</div>
 		</div>
@@ -68,5 +68,5 @@
 	<div class="x_modal-footer">
 		<input type="submit" class="x_btn x_btn-primary" value="{$lang->cmd_registration}" />
 	</div>
-	
+
 </form>
