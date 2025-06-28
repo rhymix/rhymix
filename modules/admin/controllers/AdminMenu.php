@@ -7,6 +7,7 @@ use MenuAdminController;
 use MenuAdminModel;
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Storage;
+use Rhymix\Framework\Exceptions\TargetNotFound;
 use Rhymix\Modules\Admin\Models\AdminMenu as AdminMenuModel;
 use Rhymix\Modules\Admin\Models\Favorite as FavoriteModel;
 
@@ -64,6 +65,10 @@ class AdminMenu extends Base
 	{
 		// Check if favorite exists.
 		$module_name = Context::get('module_name');
+		if (!$module_name)
+		{
+			throw new TargetNotFound();
+		}
 		$output = FavoriteModel::isFavorite($module_name);
 		if(!$output->toBool())
 		{
