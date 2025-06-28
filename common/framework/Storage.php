@@ -560,6 +560,7 @@ class Storage
 					return false;
 				}
 			}
+			chmod($destination, 0666 & ~self::getUmask());
 		}
 		elseif ($type === 'move')
 		{
@@ -570,6 +571,7 @@ class Storage
 					return false;
 				}
 			}
+			chmod($destination, 0666 & ~self::getUmask());
 		}
 		else
 		{
