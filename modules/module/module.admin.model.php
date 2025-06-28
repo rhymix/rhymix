@@ -174,11 +174,13 @@ class ModuleAdminModel extends Module
 
 		// Get a permission group granted to the current module
 		$selected_group = array();
+		$default_xml_grant = array();
 		$default_grant = array();
 		foreach ($grant_list as $key => $val)
 		{
 			if (!empty($val->default))
 			{
+				$default_xml_grant[$key] = $val->default;
 				$default_grant[$key] = $val->default;
 			}
 		}
@@ -203,6 +205,7 @@ class ModuleAdminModel extends Module
 			}
 		}
 		Context::set('selected_group', $selected_group);
+		Context::set('default_xml_grant', $default_xml_grant);
 		Context::set('default_grant', $default_grant);
 		Context::set('module_srl', $module_srl);
 		// Extract admin ID set in the current module
