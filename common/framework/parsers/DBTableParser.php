@@ -304,7 +304,13 @@ class DBTableParser extends BaseParser
 					if ($constraint->references)
 					{
 						$ref = explode('.', $constraint->references);
-						$info->refs[] = $ref[0];
+						$reference_table_name = $ref[0];
+						if ($reference_table_name === $table_name)
+						{
+							continue; // Ignore self-references.
+						}
+
+						$info->refs[] = $reference_table_name;
 					}
 				}
 				$ref_list[$table_name] = $info;
@@ -328,7 +334,6 @@ class DBTableParser extends BaseParser
 						}
 					}
 				}
-				$k++;
 			}
 			if (!$changed)
 			{
