@@ -349,7 +349,7 @@ class Korea
 					return self::$_domain_cache[$domain] = false;
 				}
 			}
-			foreach (self::_getDNSRecords($domain, \DNS_A) as $mx_ip)
+			foreach (self::_getDNSRecords($mx, \DNS_A) as $mx_ip)
 			{
 				return self::$_domain_cache[$domain] = self::isKoreanIP($mx_ip);
 			}
