@@ -614,7 +614,7 @@ Rhymix.ajaxForm = function(form, callback_success, callback_error) {
 		} else {
 			callback_success = function(data) {
 				if (data.message && data.message !== 'success') {
-					alert(data.message);
+					rhymix_alert(data.message, data.redirect_url);
 				}
 				if (data.redirect_url) {
 					Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
