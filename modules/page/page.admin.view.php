@@ -296,7 +296,10 @@ class PageAdminView extends Page
 		Context::set('oDocument', $oDocument);
 		Context::set('mid', $this->module_info->mid);
 
-		$this->setLayoutAndTemplatePaths($isMobile ? 'M' : 'P', $this->module_info);
+		if(config('view.manager_layout') !== 'admin')
+		{
+			$this->setLayoutAndTemplatePaths($isMobile ? 'M' : 'P', $this->module_info);
+		}
 		$skin_path = rtrim($this->getTemplatePath(), '/') . '/';
 		if (file_exists($skin_path . 'content_modify.blade.php') || file_exists($skin_path . 'content_modify.html'))
 		{
