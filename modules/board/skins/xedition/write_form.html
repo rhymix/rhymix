@@ -6,9 +6,11 @@
 	<div class="write_header">
 		<select name="category_srl" cond="$module_info->use_category=='Y'">
 			<option value="">{$lang->category}</option>
-			<option loop="$category_list => $val" disabled="disabled"|cond="!$val->grant" value="{$val->category_srl}" selected="selected"|cond="$val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl')">
-				{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
+			<!--@foreach($category_list as $val)-->
+			<option value="{$val->category_srl}" disabled="disabled"|cond="!$val->grant" selected="selected"|cond="$val->grant && (($val->selected && !$oDocument->get('category_srl')) || $val->category_srl == $oDocument->get('category_srl'))">
+				{str_repeat('&nbsp;&nbsp;', $val->depth)} {$val->title} ({$val->document_count})
 			</option>
+			<!--@endforeach-->
 		</select>
 		<input cond="$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" value="{escape($oDocument->getTitleText(), false)}" />
 		<input cond="!$oDocument->getTitleText()" type="text" name="title" class="iText" title="{$lang->title}" />

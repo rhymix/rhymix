@@ -19,11 +19,12 @@
 			<li>
 				<label for="nCategory">{$lang->category}</label>
 				<select name="category_srl" id="nCategory">
-					<!--@foreach($category_list as $val)-->	
-					<option <!--@if(!$val->grant)-->disabled="disabled"<!--@endif--> value="{$val->category_srl}" <!--@if($val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl'))-->selected="selected"<!--@endif-->>
-					{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
+					<option value="">{$lang->category}</option>
+					<!--@foreach($category_list as $val)-->
+					<option value="{$val->category_srl}" disabled="disabled"|cond="!$val->grant" selected="selected"|cond="$val->grant && (($val->selected && !$oDocument->get('category_srl')) || $val->category_srl == $oDocument->get('category_srl'))">
+						{str_repeat('&nbsp;&nbsp;', $val->depth)} {$val->title} ({$val->document_count})
 					</option>
-					<!--@end-->
+					<!--@endforeach-->
 				</select>
 			</li>
 			<!--@end-->
