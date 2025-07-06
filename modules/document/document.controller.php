@@ -944,8 +944,8 @@ class DocumentController extends Document
 		{
 			$this->addGrant($obj->document_srl);
 		}
-		$output->add('document_srl',$obj->document_srl);
-		$output->add('category_srl',$obj->category_srl);
+		$output->add('document_srl', $obj->document_srl);
+		$output->add('category_srl', $obj->category_srl);
 
 		return $output;
 	}
@@ -1392,7 +1392,8 @@ class DocumentController extends Document
 		// Remove the thumbnail file
 		Rhymix\Framework\Storage::deleteDirectory(RX_BASEDIR . sprintf('files/thumbnails/%s', getNumberingPath($obj->document_srl, 3)));
 
-		$output->add('document_srl',$obj->document_srl);
+		$output->add('document_srl', $obj->document_srl);
+		$output->add('category_srl', $obj->category_srl);
 
 		//remove from cache
 		self::clearDocumentCache($obj->document_srl);
