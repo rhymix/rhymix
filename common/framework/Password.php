@@ -112,7 +112,7 @@ class Password
 		{
 			unset($algos['argon2id']);
 		}
-		return array_first_key($algos);
+		return array_key_first($algos);
 	}
 
 	/**

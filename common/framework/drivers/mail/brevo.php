@@ -69,7 +69,7 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$from = $message->message->getFrom();
 		$to = $message->message->getTo();
 		$data = [
-			'sender' => ['email' => array_first_key($from), 'name' => array_first($from)],
+			'sender' => ['email' => array_key_first($from), 'name' => array_first($from)],
 			'to' => array_map($format_callback, array_keys($to), array_values($to)),
 			'subject' => $message->message->getSubject(),
 			'htmlContent' => $message->message->getBody(),
@@ -84,7 +84,7 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		}
 		if ($reply_to = $message->message->getReplyTo())
 		{
-			$data['replyTo'] = ['email' => array_first_key($reply_to)];
+			$data['replyTo'] = ['email' => array_key_first($reply_to)];
 		}
 		foreach ($message->getAttachments() as $attachment)
 		{
@@ -93,7 +93,7 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 				'name' => $attachment->display_filename ?: $attachment->cid,
 			];
 		}
-		
+
 		// Prepare headers and options for Requests.
 		$headers = [
 			'api-key' => $this->_config['api_key'],
@@ -103,7 +103,7 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$options = [
 			'timeout' => 8,
 		];
-		
+
 		// Send the API request.
 		$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], $options);
 		$status_code = $request->getStatusCode();

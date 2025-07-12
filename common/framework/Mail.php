@@ -585,7 +585,7 @@ class Mail
 		// Reset Message-ID in case send() is called multiple times.
 		$random = substr(hash('sha256', mt_rand() . microtime() . getmypid()), 0, 32);
 		$sender = $this->message->getFrom();
-		$sender_email = strval(array_first_key($sender));
+		$sender_email = strval(array_key_first($sender));
 		$id = $random . '@' . (preg_match('/^(.+)@([^@]+)$/', $sender_email, $matches) ? $matches[2] : 'swift.generated');
 		$this->message->getHeaders()->get('Message-ID')->setId($id);
 

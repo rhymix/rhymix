@@ -608,7 +608,7 @@ class Router
 				return false;
 			}
 			arsort($reordered_routes);
-			$best_route = array_first_key($reordered_routes);
+			$best_route = array_key_first($reordered_routes);
 			return $best_route;
 		}
 	}

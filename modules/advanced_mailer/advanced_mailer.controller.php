@@ -18,7 +18,7 @@ class Advanced_MailerController extends Advanced_Mailer
 		$recipients = $mail->message->getTo() ?: array();
 		if ($recipients)
 		{
-			$first_recipient = array_first_key($recipients);
+			$first_recipient = array_key_first($recipients);
 			if ($exception_driver = $this->getSendingMethodForEmailAddress($first_recipient, $config))
 			{
 				$driver_class = '\\Rhymix\\Framework\\Drivers\Mail\\' . $exception_driver;
@@ -51,7 +51,7 @@ class Advanced_MailerController extends Advanced_Mailer
 			else
 			{
 				$sender = $mail->message->getFrom();
-				$original_sender_email = $sender ? array_first_key($sender) : null;
+				$original_sender_email = $sender ? array_key_first($sender) : null;
 				$original_sender_name = $sender ? array_first($sender) : null;
 				list($default_from, $default_name) = $this->getDefaultEmailIdentity();
 				if ($original_sender_email !== $default_from && $default_from)

@@ -220,7 +220,7 @@
 						{@ $conf_exists = config("sms.$driver_name.api_key")}
 						<select type="select" name="sms_{$driver_name}_{$conf_name}" id="sms_{$driver_name}_{$conf_name}">
 							<!--@foreach($driver_definition['api_urls'] as $api_url => $api_url_name)-->
-								<option value="{$api_url}" selected="selected"|cond="$conf_value === $api_url || (!$conf_value && $conf_exists && $api_url === array_last_key($driver_definition['api_urls']))">{$api_url_name}</option>
+								<option value="{$api_url}" selected="selected"|cond="$conf_value === $api_url || (!$conf_value && $conf_exists && $api_url === array_key_last($driver_definition['api_urls']))">{$api_url_name}</option>
 							<!--@endforeach-->
 						</select>
 					</div>

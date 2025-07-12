@@ -108,7 +108,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$from = $message->message->getFrom();
 		if ($from)
 		{
-			$data['from']['email'] = array_first_key($from);
+			$data['from']['email'] = array_key_first($from);
 			if (array_first($from))
 			{
 				$data['from']['name'] = array_first($from);
@@ -119,7 +119,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$replyTo = $message->message->getReplyTo();
 		if ($replyTo)
 		{
-			$data['reply_to']['email'] = array_first_key($from);
+			$data['reply_to']['email'] = array_key_first($from);
 		}
 
 		// Set the subject.
