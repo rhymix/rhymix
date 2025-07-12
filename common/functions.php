@@ -72,8 +72,7 @@ if (!function_exists('array_first'))
  */
 function array_first_key(array $array)
 {
-	reset($array);
-	return key($array);
+	return array_key_first($array);
 }
 
 /**
@@ -98,8 +97,7 @@ if (!function_exists('array_last'))
  */
 function array_last_key(array $array)
 {
-	end($array);
-	return key($array);
+	return array_key_last($array);
 }
 
 /**
