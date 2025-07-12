@@ -368,7 +368,10 @@ class Template
 			$content = $this->parse();
 			if (!Storage::write($this->cache_path, $content))
 			{
-				throw new Exception('Cannot write template cache file: ' . $this->cache_path);
+				if (!Storage::write($this->cache_path, $content))
+				{
+					throw new Exception('Cannot write template cache file: ' . $this->cache_path);
+				}
 			}
 		}
 
