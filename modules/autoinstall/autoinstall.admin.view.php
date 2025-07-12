@@ -343,9 +343,9 @@ class autoinstallAdminView extends autoinstall
 		$xml_lUpdate = new XeXmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
 		$res = array();
-		if($xmlDoc && $xmlDoc->response->packagelist->item)
+		if($xmlDoc && $xmlDoc->response->packageList->item)
 		{
-			$item_list = $this->rearranges($xmlDoc->response->packagelist->item, $package_list);
+			$item_list = $this->rearranges($xmlDoc->response->packageList->item, $package_list);
 			foreach($package_list as $package_srl => $package)
 			{
 				if($item_list[$package_srl])
@@ -507,9 +507,9 @@ class autoinstallAdminView extends autoinstall
 			$params["search_keyword"] = $search_keyword;
 		}
 		$xmlDoc = XmlGenerater::getXmlDoc($params);
-		if($xmlDoc && $xmlDoc->response->packagelist->item)
+		if($xmlDoc && $xmlDoc->response->packageList->item)
 		{
-			$item_list = $this->rearranges($xmlDoc->response->packagelist->item);
+			$item_list = $this->rearranges($xmlDoc->response->packageList->item);
 			Context::set('item_list', $item_list);
 			$array = array('total_count', 'total_page', 'cur_page', 'page_count', 'first_page', 'last_page');
 			$page_nav = $this->rearrange($xmlDoc->response->page_navigation, $array);
@@ -596,9 +596,9 @@ class autoinstallAdminView extends autoinstall
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XeXmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
-		if($xmlDoc && $xmlDoc->response->packagelist->item)
+		if($xmlDoc && $xmlDoc->response->packageList->item)
 		{
-			$item_list = $this->rearranges($xmlDoc->response->packagelist->item);
+			$item_list = $this->rearranges($xmlDoc->response->packageList->item);
 			$installedPackage->title = $item_list[$package_srl]->title;
 			$installedPackage->type = $item_list[$package_srl]->category;
 			$installedPackage->avail_remove = $item_list[$package_srl]->avail_remove;
