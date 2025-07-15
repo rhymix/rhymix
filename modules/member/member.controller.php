@@ -4017,7 +4017,7 @@ class MemberController extends Member
 		$logged_info = Context::get('logged_info');
 		$spam_description = trim( Context::get('spam_description') );
 
-		// get member current infomation
+		// get member current information
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		$cnt_comment = CommentModel::getCommentCountByMemberSrl($member_srl);
 		$cnt_document = DocumentModel::getDocumentCountByMemberSrl($member_srl);
