@@ -15,7 +15,7 @@ class PollModel extends Poll
 	}
 
 	/**
-	 * @brief returns poll infomation
+	 * @brief returns poll information
 	 */
 	public function _getPollinfo($poll_srl)
 	{
@@ -77,7 +77,7 @@ class PollModel extends Poll
 	}
 
 	/**
-	 * @brief returns poll infomation
+	 * @brief returns poll information
 	 */
 	public function getPollinfo()
 	{
@@ -88,7 +88,7 @@ class PollModel extends Poll
 	}
 
 	/**
-	 * @brief returns poll item infomation
+	 * @brief returns poll item information
 	 */
 	public function getPollitemInfo()
 	{

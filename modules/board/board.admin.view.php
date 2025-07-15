@@ -25,7 +25,7 @@ class BoardAdminView extends Board {
 		// generate module model object
 		$oModuleModel = getModel('module');
 
-		// get the module infomation based on the module_srl
+		// get the module information based on the module_srl
 		if($module_srl) {
 			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
 			if(!$module_info) {

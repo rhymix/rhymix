@@ -12,7 +12,7 @@ class PointAdminView extends Point
 	 */
 	function init()
 	{
-		// Get teh configuration information
+		// Get the configuration information
 		$oModuleModel = getModel('module');
 		$config = $oModuleModel->getModuleConfig('point');
 		// Set the configuration variable

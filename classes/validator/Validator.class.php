@@ -389,8 +389,8 @@ class Validator
 	}
 
 	/**
-	 * Returns the last error infomation including a field name and an error message.
-	 * @return array The last error infomation
+	 * Returns the last error information including a field name and an error message.
+	 * @return array The last error information
 	 */
 	function getLastError()
 	{
