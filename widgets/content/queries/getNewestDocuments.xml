@@ -2,6 +2,9 @@
     <tables>
         <table name="documents" />
     </tables>
+    <index_hint for="ALL">
+        <index table="documents" name="idx_module_status" type="USE" />
+    </index_hint>
     <columns>
         <column name="*" />
     </columns>
