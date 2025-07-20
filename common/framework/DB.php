@@ -1113,29 +1113,44 @@ class DB
 	 */
 	public function addPrefixes(string $query_string): string
 	{
+		// Return early if no prefix is set.
 		if (!$this->_prefix)
 		{
 			return $query_string;
 		}
+
+		// Generate a list of common table expressions (CTEs) to exclude from prefixing.
+		if (preg_match_all('/\bWITH(?:\s+RECURSIVE)?\s+`?(\w+)`?\s+AS\b/', $query_string, $matches))
+		{
+			$exceptions = $matches[1];
+		}
 		else
 		{
-			return preg_replace_callback('/((?:DELETE\s+)?FROM|JOIN|INTO|UPDATE)(?i)\s+((?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/', function($m) {
-				$type = strtoupper($m[1]);
-				$tables = array_map(function($str) use($type) {
-					return preg_replace_callback('/`?(\w+)`?(?:\s+AS\s+`?(\w+)`?)?/i', function($m) use($type) {
-						if ($type === 'FROM' || $type === 'JOIN')
-						{
-							return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[1]);
-						}
-						else
-						{
-							return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s`', $this->_prefix, $m[1]);
-						}
-					}, trim($str));
-				}, explode(',', $m[2]));
-				return $m[1] . ' ' . implode(', ', $tables);
-			}, $query_string);
+			$exceptions = [];
 		}
+
+		// Add prefixes to all other table names in the query string.
+		return preg_replace_callback('/\b((?:DELETE\s+)?FROM|JOIN|INTO|(?<!KEY\s)UPDATE)(?i)\s+((?:`?\w+`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/', function($m) use($exceptions) {
+			$type = strtoupper($m[1]);
+			$tables = array_map(function($str) use($type, $exceptions) {
+				$str = trim($str);
+				if (count($exceptions) && in_array(trim($str, '`'), $exceptions))
+				{
+					return $str;
+				}
+				return preg_replace_callback('/`?(\w+)`?(?:\s+AS\s+`?(\w+)`?)?/i', function($m) use($type) {
+					if ($type === 'FROM' || $type === 'JOIN')
+					{
+						return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[1]);
+					}
+					else
+					{
+						return isset($m[2]) ? sprintf('`%s%s` AS `%s`', $this->_prefix, $m[1], $m[2]) : sprintf('`%s%s`', $this->_prefix, $m[1]);
+					}
+				}, $str);
+			}, explode(',', $m[2]));
+			return $m[1] . ' ' . implode(', ', $tables);
+		}, $query_string);
 	}
 
 	/**

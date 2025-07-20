@@ -159,6 +159,22 @@ class DBTest extends \Codeception\Test\Unit
 		$target = 'DELETE FROM `' . $prefix . 'documents` WHERE d = ?';
 		$this->assertEquals($target, $oDB->addPrefixes($source));
 
+		$source = 'WITH cte AS (SELECT * FROM documents) SELECT * FROM cte WHERE document_srl = ?';
+		$target = 'WITH cte AS (SELECT * FROM `' . $prefix . 'documents` AS `documents`) SELECT * FROM cte WHERE document_srl = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
+		$source = 'WITH RECURSIVE cte AS (SELECT * FROM documents INNER JOIN `cte`) SELECT * FROM cte JOIN member on cte.member_srl = member.member_srl';
+		$target = 'WITH RECURSIVE cte AS (SELECT * FROM `' . $prefix . 'documents` AS `documents` INNER JOIN `cte`) SELECT * FROM cte JOIN `rx_member` AS `member` on cte.member_srl = member.member_srl';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
+		$source = 'WITH RECURSIVE `cte` AS (SELECT * FROM cte) SELECT * FROM cte WHERE a = ?';
+		$target = 'WITH RECURSIVE `cte` AS (SELECT * FROM cte) SELECT * FROM cte WHERE a = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
+		$source = 'INSERT INTO documents (a, b, c) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE b = ?, c = ?';
+		$target = 'INSERT INTO `' . $prefix . 'documents` (a, b, c) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE b = ?, c = ?';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
 		$source = 'update documents set a = ?, b = ? where c = ?';
 		$this->assertEquals($source, $oDB->addPrefixes($source));
 
