@@ -149,7 +149,7 @@ class MenuAdminModel extends Menu
 
 	/**
 	 * Return item information of the menu_srl
-	 * group_srls uses a seperator with comma(,) and converts to an array by explode
+	 * group_srls uses a separator with comma(,) and converts to an array by explode
 	 * @param int $menu_item_srl
 	 * @return object
 	 */

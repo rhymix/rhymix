@@ -316,7 +316,7 @@ class PointAdminController extends Point
 		// A variable to store member's points
 		$member = array();
 
-		// Get member infomation
+		// Get member information
 		$output = executeQueryArray('point.getMemberCount');
 		if(!$output->toBool()) return $output;
 

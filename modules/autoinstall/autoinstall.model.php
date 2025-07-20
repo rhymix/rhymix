@@ -157,7 +157,7 @@ class autoinstallModel extends autoinstall
 	 * @param int $depth Depth of category
 	 * @param array $list Category list
 	 * @param array $resultList Final result list
-	 * @return string $siblingList Comma seperated list
+	 * @return string $siblingList Comma separated list
 	 */
 	function setDepth(&$item, $depth, &$list, &$resultList)
 	{
