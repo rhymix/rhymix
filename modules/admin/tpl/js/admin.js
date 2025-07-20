@@ -367,7 +367,17 @@ jQuery(function($){
 	$.fn.tableSpan = function(){
 		this.each(function(){
 			var $this = $(this);
-			var thNum = $this.find('>thead>tr:eq(0)>th').length;
+			var thList = $this.find('>thead>tr:eq(0)>th');
+			var thNum = 0;
+			thList.each(function(){
+				var $th = $(this);
+				if($th.attr('colspan')){ // th의 colspan 반영
+					thNum += parseInt($th.attr('colspan'), 10);
+				} else {
+					thNum++;
+				}
+			});
+
 			var $tdTarget = $this.find('>tbody>tr:eq(0)>td:only-child');
 			if(thNum != $tdTarget.attr('colspan')){
 				$tdTarget.attr('colspan', thNum).css('text-align','center');
