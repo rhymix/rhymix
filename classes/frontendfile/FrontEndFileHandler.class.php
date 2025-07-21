@@ -624,7 +624,8 @@ class FrontEndFileHandler extends Handler
 					{
 						$url .= '?t=' . filemtime($file->fileFullPath);
 					}
-					$result[] = array('file' => $url);
+					$attrs = empty($file->jstype) ? '' : (' type="' . $file->jstype . '"');
+					$result[] = array('file' => $url, 'attrs' => $attrs);
 				}
 				else
 				{
@@ -642,7 +643,7 @@ class FrontEndFileHandler extends Handler
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, $concat_content);
 					}
 					$concat_filename .= '?t=' . filemtime(\RX_BASEDIR . $concat_filename);
-					$result[] = array('file' => \RX_BASEURL . $concat_filename);
+					$result[] = array('file' => \RX_BASEURL . $concat_filename, 'attrs' => '');
 				}
 			}
 		}
