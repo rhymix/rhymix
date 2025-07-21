@@ -1476,6 +1476,20 @@ margin-bottom: 10px;
 }
 
 }
+
+.x .g11n.x_input-append {
+	display: inline-flex;
+	align-items: flex-start;
+}
+.x .g11n.x_full-width {
+	width: 100%;
+}
+.x .g11n > input.lang_code,
+.x .g11n > textarea.lang_code {
+	flex: 1;
+	width: unset;
+	min-width: 0;
+}
 .x .g11n>.x_add-on {
 	font-size: 0;
 	position: relative;
@@ -1492,8 +1506,9 @@ margin-bottom: 10px;
 }
 .x .g11n>.x_add-on.remover {
 	display: none;
-	width: 26px;
-	height: 26px;
+	height: 16px;
+	padding: 4px;
+	box-sizing: content-box;
 }
 .x .g11n.active>[disabled] {
 	padding-left: 25px;
@@ -1501,7 +1516,7 @@ margin-bottom: 10px;
 	background-repeat: no-repeat;
 }
 .x .g11n.active>.x_add-on.remover {
-	display: inline-block;
+	display: block;
 }
 .x .g11n>.x_add-on:hover>i {
 	opacity: 1;
