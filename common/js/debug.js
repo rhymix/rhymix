@@ -148,7 +148,7 @@ $(function() {
 					if (data.queries[i].backtrace && data.queries[i].backtrace.length) {
 						backtrace = $('<ul></ul>').appendTo(description.find('li:first-child'));
 						for (j in data.queries[i].backtrace) {
-							if (data.queries[i].backtrace[j].file) {
+							if (j > 0 && data.queries[i].backtrace[j].file) {
 								backtrace.append($('<li></li>').text(data.queries[i].backtrace[j].file + ":" + data.queries[i].backtrace[j].line));
 							}
 						}

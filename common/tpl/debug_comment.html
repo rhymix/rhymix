@@ -126,7 +126,7 @@ Database Queries
 			echo sprintf('    - Call Stack:  %s', $query_caller) . ($query->count > 1 ? (' (×' . $query->count . ')') : '') . "\n";
 			foreach ($query->backtrace ?? [] as $key => $backtrace)
 			{
-				if (isset($backtrace['file']) && isset($backtrace['line']))
+				if ($key > 0 && isset($backtrace['file']) && isset($backtrace['line']))
 				{
 					echo sprintf('                   %s line %d', $backtrace['file'], $backtrace['line']) . "\n";
 				}

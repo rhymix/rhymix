@@ -1269,7 +1269,7 @@ class DB
 					if (isset($backtrace[$no]))
 					{
 						$result['called_method'] = ($backtrace[$no]['class'] ?? '') . ($backtrace[$no]['type'] ?? '') . ($backtrace[$no]['function'] ?? '');
-						$result['backtrace'] = $this->_debug_full_stack ? array_slice($backtrace, $no) : [];
+						$result['backtrace'] = $this->_debug_full_stack ? array_slice($backtrace, $no - 1) : [];
 					}
 					else
 					{
