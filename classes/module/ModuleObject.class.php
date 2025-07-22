@@ -235,7 +235,7 @@ class ModuleObject extends BaseObject
 			catch (Rhymix\Framework\Exception $e)
 			{
 				$this->stop($e->getMessage(), -2);
-				$this->add('rx_error_location', $e->getFile() . ':' . $e->getLine());
+				$this->add('rx_error_location', $e->getUserFileAndLine());
 			}
 		}
 
@@ -857,8 +857,7 @@ class ModuleObject extends BaseObject
 			catch (Rhymix\Framework\Exception $e)
 			{
 				$output = new BaseObject(-2, $e->getMessage());
-				$location = $e->getFile() . ':' . $e->getLine();
-				$output->add('rx_error_location', $location);
+				$output->add('rx_error_location', $e->getUserFileAndLine());
 			}
 
 			// Trigger after specific action
