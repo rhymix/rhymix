@@ -244,6 +244,10 @@ function setUserSequence($seq): void
 	}
 	$seq = intval($seq);
 	$_SESSION['seq'][$seq] = $seq;
+	if (count($_SESSION['seq']) > 1000)
+	{
+		$_SESSION['seq'] = array_slice($_SESSION['seq'], 600, null, true);
+	}
 }
 
 /**
