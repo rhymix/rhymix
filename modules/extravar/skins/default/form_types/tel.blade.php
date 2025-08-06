@@ -25,6 +25,9 @@
   		<option value=""></option>
 		@foreach ($countries as $country)
 			@php
+				if (!$country->calling_code) {
+					continue;
+				}
 				$country_name = $lang_type === 'ko' ? $country->name_korean : $country->name_english;
 				if ($selected_iso_code) {
 					$is_selected = $selected_iso_code === $country->iso_3166_1_alpha3;
