@@ -80,6 +80,10 @@ class MemberAdminController extends Member
 		{
 			$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
 			$extra_vars = ($output->data && $output->data->extra_vars) ? unserialize($output->data->extra_vars) : new stdClass;
+			if (!is_object($extra_vars))
+			{
+				$extra_vars = new stdClass;
+			}
 			foreach(self::NOUSE_EXTRA_VARS as $key)
 			{
 				unset($extra_vars->$key);
