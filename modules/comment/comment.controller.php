@@ -1606,9 +1606,16 @@ class CommentController extends Comment
 		}
 
 		// invalid vote if vote info exists in the session info.
-		if(!empty($_SESSION['voted_comment'][$comment_srl]))
+		if (!empty($_SESSION['voted_comment'][$comment_srl]))
 		{
-			return new BaseObject(-1, $failed_voted . '_already');
+			if ($_SESSION['voted_comment'][$comment_srl] > 0)
+			{
+				return new BaseObject(-1, 'failed_voted_already');
+			}
+			else
+			{
+				return new BaseObject(-1, 'failed_blamed_already');
+			}
 		}
 
 		// Get the original comment
@@ -1649,10 +1656,17 @@ class CommentController extends Comment
 		$output = executeQuery('comment.getCommentVotedLogInfo', $args);
 
 		// Pass after registering a session if log information has vote-up logs
-		if($output->data->count)
+		if ($output->data->count)
 		{
-			$_SESSION['voted_comment'][$comment_srl] = false;
-			return new BaseObject(-1, $failed_voted);
+			$_SESSION['voted_comment'][$comment_srl] = intval($output->data->point);
+			if ($output->data->point > 0)
+			{
+				return new BaseObject(-1, 'failed_voted_already');
+			}
+			else
+			{
+				return new BaseObject(-1, 'failed_blamed_already');
+			}
 		}
 
 		// Call a trigger (before)
