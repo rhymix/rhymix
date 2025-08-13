@@ -1,4 +1,4 @@
-{'<?xml version="1.0" encoding="UTF-8" ?>'}
+<?php echo '<?xml version="1.0" encoding="UTF-8" ?>'; ?>
 
 <config autoescape="on" />
 <feed xmlns="http://www.w3.org/2005/Atom">
@@ -25,4 +25,4 @@
 		<category cond="$oDocument->get('category_srl') && $category_name = $category_list[$oDocument->get('module_srl')][$oDocument->get('category_srl')]->title" term="{$oDocument->get('category_srl')}" label="{Context::replaceUserLang($category_name)}" />
 		<category loop="$oDocument->get('tag_list')=>$tag" term="{$tag}"/>
 	</entry>
-</feed> 
+</feed>
