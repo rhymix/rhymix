@@ -294,6 +294,16 @@ a img {
 				font-weight: bold;
 				margin: 0;
 				padding: 0;
+				.error_count {
+					display: inline-block;
+					margin-left: 6px;
+					border-radius: 4px;
+					padding: 2px 6px;
+					font-size: 12px;
+					line-height: 12px;
+					background: #f44336;
+					color: #ffffff;
+				}
 			}
 		}
 		.debug_page_collapse {

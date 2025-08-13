@@ -234,6 +234,7 @@ $(function() {
 		// If there are errors, turn the button text red.
 		if (data.errors && data.errors.length) {
 			button_link.addClass("has_errors");
+			page_header.find('h3').append($('<span class="error_count"></span>').text(data.errors.length));
 		}
 	};
 
