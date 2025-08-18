@@ -446,9 +446,19 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$target = "<?php echo nl2br(htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false)); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
-		// nl2br() with gratuitous escape
+		// nl2br() with extra escape
 		$source = '{{ $foo|nl2br|escape }}';
-		$target = "<?php echo htmlspecialchars(nl2br(htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false)), \ENT_QUOTES, 'UTF-8', true); ?>";
+		$target = "<?php echo nl2br(htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', true)); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// nl2br() with noescape
+		$source = '{{ $foo|nl2br|noescape }}';
+		$target = "<?php echo nl2br(\$__Context->foo ?? ''); ?>";
+		$this->assertEquals($target, $this->_parse($source));
+
+		// nl2br() with noescape and autoescape
+		$source = '{{ $foo|noescape|nl2br|autoescape }}';
+		$target = "<?php echo nl2br(htmlspecialchars(\$__Context->foo ?? '', \ENT_QUOTES, 'UTF-8', false)); ?>";
 		$this->assertEquals($target, $this->_parse($source));
 
 		// Array join (default joiner is comma)
