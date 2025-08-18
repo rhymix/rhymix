@@ -93,7 +93,7 @@
 					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="<!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->" class="lang_code" />
 
 					<!--// textarea -->
-					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="lang_code"><!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end--></textarea>
+					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="x_full-width lang_code"><!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end--></textarea>
 
 					<!--// select -->
 					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">

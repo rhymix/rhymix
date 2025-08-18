@@ -82,7 +82,7 @@
 
 					<div cond="$var->type == 'textarea'">
 						{@$use_multilang_textarea = true}
-						<textarea name="{$name}" rows="4" cols="42" class="lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{$var->value}<!--@end--></textarea>
+						<textarea name="{$name}" rows="4" cols="42" class="x_full-width lang_code"><!--@if(strpos($var->value, "$user_lang->") !== false)-->{htmlspecialchars($var->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@else-->{$var->value}<!--@end--></textarea>
 					</div>
 
 					<block cond="$var->type == 'image'">
