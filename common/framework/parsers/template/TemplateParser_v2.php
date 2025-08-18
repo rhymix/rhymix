@@ -138,9 +138,9 @@ class TemplateParser_v2
 		// Apply conversions.
 		$content = $this->_addContextSwitches($content);
 		$content = $this->_removeComments($content);
+		$content = $this->_convertVerbatimSections($content);
 		$content = $this->_convertRelativePaths($content);
 		$content = $this->_convertPHPSections($content);
-		$content = $this->_convertVerbatimSections($content);
 		$content = $this->_convertFragments($content);
 		$content = $this->_convertClassAliases($content);
 		$content = $this->_convertIncludes($content);

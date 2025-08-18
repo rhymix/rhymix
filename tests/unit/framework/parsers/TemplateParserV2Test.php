@@ -1115,6 +1115,40 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 			'',
 		]);
 		$this->assertEquals($target, $this->_parse($source));
+
+		// @verbatim block inside @php block
+		$source = implode("\n", [
+			'@php',
+			'@verbatim',
+			'$foo = $bar->$baz;',
+			'@endverbatim',
+			'@endphp',
+		]);
+		$target = implode("\n", [
+			'<?php',
+			'',
+			'$foo = $bar->$baz;',
+			'',
+			'?>',
+		]);
+		$this->assertEquals($target, $this->_parse($source));
+
+		// @php block inside @verbatim block
+		$source = implode("\n", [
+			'@verbatim',
+			'@php',
+			'$foo = $bar->$baz;',
+			'@endphp',
+			'@endverbatim',
+		]);
+		$target = implode("\n", [
+			'',
+			'@php',
+			'$foo = $bar->$baz;',
+			'@endphp',
+			'',
+		]);
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testRawPhpCode()
