@@ -7,5 +7,7 @@
 	</columns>
 	<conditions>
 		<condition operation="search" column="content" var="s_content" />
+		<condition operation="equal" column="COUNT(DISTINCT voted_count)" var="s_voted_count" />
+		<condition operation="equal" column="other_table.blamed_count" var="s_blamed_count" />
 	</conditions>
 </query>

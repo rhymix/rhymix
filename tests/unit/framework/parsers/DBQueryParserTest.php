@@ -132,6 +132,23 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$this->assertEquals(['%검색%', '%키워드%', '%라이믹스 유닛테스트%'], $params);
 	}
 
+	public function testQuoteName()
+	{
+		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest3.xml');
+
+		$args = array('s_voted_count' => 24);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE COUNT(DISTINCT `voted_count`) = ?', $sql);
+		$this->assertEquals([24], $params);
+
+		$args = array('s_blamed_count' => 42);
+		$sql = $query->getQueryString('rx_', $args);
+		$params = $query->getQueryParams();
+		$this->assertEquals('SELECT * FROM `rx_documents` AS `documents` WHERE `other_table`.`blamed_count` = ?', $sql);
+		$this->assertEquals([42], $params);
+	}
+
 	public function testJoin1()
 	{
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectJoinTest1.xml');
