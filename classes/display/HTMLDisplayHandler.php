@@ -183,7 +183,7 @@ class HTMLDisplayHandler
 				$pathInfo = pathinfo($layout_file);
 				$onlyLayoutFile = $pathInfo['filename'];
 
-				$GLOBALS['__layout_compile_elapsed__'] = microtime(true) - $start;
+				Rhymix\Framework\Debug::addTime('layout', microtime(true) - $start);
 			}
 		}
 
@@ -297,7 +297,7 @@ class HTMLDisplayHandler
 			$output = preg_replace_callback('@<textarea[^>]*\sname="' . $keys . '".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
 		}
 
-		$GLOBALS['__trans_content_elapsed__'] = microtime(true) - $start;
+		Rhymix\Framework\Debug::addTime('trans_content', microtime(true) - $start);
 
 		// Remove unnecessary information
 		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);

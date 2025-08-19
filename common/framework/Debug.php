@@ -28,9 +28,13 @@ class Debug
 	 * Store timers here.
 	 */
 	protected static $_timers = [
+		'query' => 0,
 		'session' => 0,
 		'remote' => 0,
-		'query' => 0,
+		'layout' => 0,
+		'widget' => 0,
+		'template' => 0,
+		'trans_content' => 0,
 	];
 
 	/**
@@ -577,6 +581,8 @@ class Debug
 		);
 
 		self::$_widgets[] = $widget_object;
+		self::$_timers['widget'] += $widget_object->widget_time;
+
 		if ($widget_object->widget_time && $widget_object->widget_time >= (self::$_config['log_slow_widgets'] ?? 1))
 		{
 			self::$_slow_widgets[] = $widget_object;
@@ -904,13 +910,12 @@ class Debug
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
 				'db_query' => sprintf('%0.4f sec (count: %d)', self::$_timers['query'], count(self::$_queries)),
 				'db_class' => sprintf('%0.4f sec', max(0, $db->getTotalElapsedTime() - self::$_timers['query'])),
-				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__'] ?? 0),
-				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__'] ?? 0),
-				'remote' => sprintf('%0.4f sec', self::$_timers['remote']),
 				'session' => sprintf('%0.4f sec', self::$_timers['session']),
-				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__'] ?? 0),
-				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),
-				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__'] ?? 0),
+				'remote' => sprintf('%0.4f sec', self::$_timers['remote']),
+				'layout' => sprintf('%0.4f sec', self::$_timers['layout']),
+				'widget' => sprintf('%0.4f sec', self::$_timers['widget']),
+				'template' => sprintf('%0.4f sec', self::$_timers['template']),
+				'trans' => sprintf('%0.4f sec', self::$_timers['trans_content']),
 			),
 			'entries' => array_values(self::$_entries),
 			'errors' => array_values(self::$_errors),

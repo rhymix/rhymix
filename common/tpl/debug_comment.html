@@ -17,11 +17,10 @@ Page Generation Time
 Total Time:              <?php echo $data->timing->total . "\n"; ?>
 DB Query Time:           <?php echo $data->timing->db_query . "\n"; ?>
 DB Processing Time:      <?php echo $data->timing->db_class . "\n"; ?>
+Session Lock Wait Time:  <?php echo $data->timing->session . "\n"; ?>
+Remote Request Time:     <?php echo $data->timing->remote . "\n"; ?>
 Layout Processing Time:  <?php echo $data->timing->layout . "\n"; ?>
 Widget Processing Time:  <?php echo $data->timing->widget . "\n"; ?>
-Remote Request Time:     <?php echo $data->timing->remote . "\n"; ?>
-Session Lock Wait Time:  <?php echo $data->timing->session . "\n"; ?>
-XML Parsing Time:        <?php echo $data->timing->xmlparse . "\n"; ?>
 Template Compile Time:   <?php echo $data->timing->template . "\n"; ?>
 Content Transform Time:  <?php echo $data->timing->trans . "\n"; ?>
 
