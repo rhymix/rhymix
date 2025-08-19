@@ -23,8 +23,15 @@ class Debug
 	protected static $_slow_widgets = array();
 	protected static $_remote_requests = array();
 	protected static $_slow_remote_requests = array();
-	protected static $_session_time = 0;
-	protected static $_query_time = 0;
+
+	/**
+	 * Store timers here.
+	 */
+	protected static $_timers = [
+		'session' => 0,
+		'remote' => 0,
+		'query' => 0,
+	];
 
 	/**
 	 * Enable log collection.
@@ -227,8 +234,10 @@ class Debug
 		self::$_slow_widgets = array();
 		self::$_remote_requests = array();
 		self::$_slow_remote_requests = array();
-		self::$_session_time = 0;
-		self::$_query_time = 0;
+		foreach (self::$_timers as $key => $val)
+		{
+			self::$_timers[$key] = 0;
+		}
 	}
 
 	/**
@@ -244,14 +253,22 @@ class Debug
 	}
 
 	/**
-	 * Add session start time.
+	 * Add time to a timer variable.
 	 *
-	 * @param float $session_start_time
+	 * @param string $type
+	 * @param float $time
 	 * @return void
 	 */
-	public static function addSessionStartTime(float $session_start_time): void
+	public static function addTime(string $type, float $time): void
 	{
-		self::$_session_time += $session_start_time;
+		if (isset(self::$_timers[$type]))
+		{
+			self::$_timers[$type] += $time;
+		}
+		else
+		{
+			self::$_timers[$type] = $time;
+		}
 	}
 
 	/**
@@ -449,7 +466,7 @@ class Debug
 		}
 
 		// Record query time.
-		self::$_query_time += $query_object->query_time;
+		self::$_timers['query'] += $query_object->query_time;
 
 		// Add the query to the error log if the result wasn't successful.
 		if ($query['result'] === 'error')
@@ -597,12 +614,7 @@ class Debug
 		);
 
 		self::$_remote_requests[] = $request_object;
-
-		if (!isset($GLOBALS['__remote_request_elapsed__']))
-		{
-			$GLOBALS['__remote_request_elapsed__'] = 0;
-		}
-		$GLOBALS['__remote_request_elapsed__'] += $request_object->elapsed_time;
+		self::$_timers['remote'] += $request_object->elapsed_time;
 
 		if ($request_object->elapsed_time && is_numeric($request_object->elapsed_time) && $request_object->elapsed_time >= (self::$_config['log_slow_remote_requests'] ?? 1))
 		{
@@ -890,12 +902,12 @@ class Debug
 			'memory' => memory_get_peak_usage(),
 			'timing' => (object)array(
 				'total' => sprintf('%0.4f sec', microtime(true) - \RX_MICROTIME),
-				'db_query' => sprintf('%0.4f sec (count: %d)', self::$_query_time, count(self::$_queries)),
-				'db_class' => sprintf('%0.4f sec', max(0, $db->getTotalElapsedTime() - self::$_query_time)),
+				'db_query' => sprintf('%0.4f sec (count: %d)', self::$_timers['query'], count(self::$_queries)),
+				'db_class' => sprintf('%0.4f sec', max(0, $db->getTotalElapsedTime() - self::$_timers['query'])),
 				'layout' => sprintf('%0.4f sec', $GLOBALS['__layout_compile_elapsed__'] ?? 0),
 				'widget' => sprintf('%0.4f sec', $GLOBALS['__widget_excute_elapsed__'] ?? 0),
-				'remote' => sprintf('%0.4f sec', $GLOBALS['__remote_request_elapsed__'] ?? 0),
-				'session' => sprintf('%0.4f sec', self::$_session_time),
+				'remote' => sprintf('%0.4f sec', self::$_timers['remote']),
+				'session' => sprintf('%0.4f sec', self::$_timers['session']),
 				'xmlparse' => sprintf('%0.4f sec', $GLOBALS['__xmlparse_elapsed__'] ?? 0),
 				'template' => sprintf('%0.4f sec (count: %d)', $GLOBALS['__template_elapsed__'] ?? 0, $GLOBALS['__TemplateHandlerCalled__'] ?? 0),
 				'trans' => sprintf('%0.4f sec', $GLOBALS['__trans_content_elapsed__'] ?? 0),

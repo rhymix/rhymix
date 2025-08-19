@@ -100,7 +100,7 @@ class Session
 			trigger_error('Session cannot be started', \E_USER_WARNING);
 			return false;
 		}
-		Debug::addSessionStartTime(microtime(true) - $session_start_time);
+		Debug::addTime('session', microtime(true) - $session_start_time);
 
 		// Mark the session as started.
 		self::$_started = true;

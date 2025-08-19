@@ -324,56 +324,13 @@ class HTTP
 				Debug::addRemoteRequest($log);
 			};
 		}
+		else
+		{
+			$settings['on_stats'] = function($stats) {
+				Debug::addTime('remote', $stats->getTransferTime());
+			};
+		}
 
 		return $settings;
-	}
-
-	/**
-	 * Record a request with the Debug class.
-	 *
-	 * @param string $url
-	 * @param int $status_code
-	 * @param float $elapsed_time
-	 * @return void
-	 */
-	protected static function _debug(string $url, int $status_code = 0, float $elapsed_time = 0): void
-	{
-		if (!isset($GLOBALS['__remote_request_elapsed__']))
-		{
-			$GLOBALS['__remote_request_elapsed__'] = 0;
-		}
-		$GLOBALS['__remote_request_elapsed__'] += $elapsed_time;
-
-		if (Debug::isEnabledForCurrentUser())
-		{
-			$log = array();
-			$log['url'] = $url;
-			$log['status'] = $status_code;
-			$log['elapsed_time'] = $elapsed_time;
-			$log['called_file'] = $log['called_line'] = $log['called_method'] = null;
-			$log['backtrace'] = [];
-
-			if (in_array('slow_remote_requests', config('debug.display_content')))
-			{
-				$bt = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS);
-				foreach ($bt as $no => $call)
-				{
-					if($call['file'] !== __FILE__ && $call['file'] !== \RX_BASEDIR . 'classes/file/FileHandler.class.php')
-					{
-						$log['called_file'] = $bt[$no]['file'];
-						$log['called_line'] = $bt[$no]['line'];
-						$next = $no + 1;
-						if (isset($bt[$next]))
-						{
-							$log['called_method'] = $bt[$next]['class'].$bt[$next]['type'].$bt[$next]['function'];
-							$log['backtrace'] = array_slice($bt, $next, 1);
-						}
-						break;
-					}
-				}
-			}
-
-
-		}
 	}
 }
