@@ -1,9 +1,0 @@
-<include target="./common_header.html" />
-<import target="filter/logout.xml" />
-<form action="./" method="get" onsubmit="return procFilter(this, logout)">
-	<input type="hidden" name="mid" value="{$mid}" />
-    <h1>{$lang->cmd_logout}</h1>
-	<p>{$lang->confirm_logout}</p>
-	<p><input type="submit" value="{$lang->cmd_logout}" class="btn btn-inverse" /></p>
-</form>
-<include target="./common_footer.html" />
