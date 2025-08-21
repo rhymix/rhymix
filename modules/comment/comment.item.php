@@ -594,7 +594,7 @@ class CommentItem extends BaseObject
 
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
-		$content = escape($content);
+		$content = escape($content, false);
 
 		if ($content === '')
 		{
