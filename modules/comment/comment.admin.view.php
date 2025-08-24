@@ -67,26 +67,12 @@ class CommentAdminView extends Comment
 		Context::set('secret_name_list', $secretNameList);
 
 		// Module List
-		$oModuleModel = getModel('module');
-		$module_list = array();
-		$mod_srls = array();
-		foreach($output->data as $val)
+		$module_list = [];
+		$mod_output = executeQueryArray('comment.getModuleList');
+		foreach ($mod_output->data as $item)
 		{
-			$mod_srls[] = $val->module_srl;
-		}
-		$mod_srls = array_unique($mod_srls);
-		$mod_srls_count = count($mod_srls);
-		if($mod_srls_count)
-		{
-			$columnList = array('module_srl', 'mid', 'browser_title');
-			$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
-			if($module_output && is_array($module_output))
-			{
-				foreach($module_output as $module)
-				{
-					$module_list[$module->module_srl] = $module;
-				}
-			}
+			$item->browser_title = Context::replaceUserLang($item->browser_title);
+			$module_list[$item->module_srl] = $item;
 		}
 		Context::set('module_list', $module_list);
 
@@ -115,8 +101,9 @@ class CommentAdminView extends Comment
 		}
 		Context::set('member_nick_name', $member_nick_name);
 
-		$security = new Security();
-		$security->encodeHTML('search_target', 'search_keyword');
+		// Other search options
+		Context::set('search_target', escape(Context::get('search_target'), false));
+		Context::set('search_keyword', escape(Context::get('search_keyword'), false));
 
 		// set the template
 		$this->setTemplatePath($this->module_path . 'tpl');

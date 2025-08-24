@@ -1,0 +1,20 @@
+<query id="getModuleList" action="select">
+    <tables>
+        <table name="modules" />
+    </tables>
+    <columns>
+        <column name="module_srl" />
+		<column name="mid" />
+		<column name="browser_title" />
+    </columns>
+	<conditions>
+		<query operation="in" column="module_srl">
+			<tables>
+				<table name="documents" />
+			</tables>
+			<columns distinct="distinct">
+				<column name="module_srl" />
+			</columns>
+		</query>
+	</conditions>
+</query>

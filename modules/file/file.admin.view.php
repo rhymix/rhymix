@@ -37,7 +37,7 @@ class FileAdminView extends File
 			$file_list = array();
 			$document_list = array();
 			$comment_list = array();
-			$module_list= array();
+			$module_list = array();
 
 			$doc_srls = array();
 			$com_srls = array();
@@ -162,20 +162,6 @@ class FileAdminView extends File
 					}
 				}
 			}
-			// Module List
-			$mod_srls_count = count($mod_srls);
-			if($mod_srls_count)
-			{
-				$columnList = array('module_srl', 'mid', 'browser_title');
-				$module_output = $oModuleModel->getModulesInfo($mod_srls, $columnList);
-				if($module_output && is_array($module_output))
-				{
-					foreach($module_output as $module)
-					{
-						$module_list[$module->module_srl] = $module;
-					}
-				}
-			}
 
 			foreach($file_list as $srl => $file)
 			{
@@ -185,6 +171,15 @@ class FileAdminView extends File
 				}
 			}
 		}
+
+		// Module list
+		$mod_output = executeQueryArray('comment.getModuleList');
+		foreach ($mod_output->data as $item)
+		{
+			$item->browser_title = Context::replaceUserLang($item->browser_title);
+			$module_list[$item->module_srl] = $item;
+		}
+		Context::set('module_list', $module_list);
 
 		Context::set('file_list', $file_list);
 		Context::set('document_list', $document_list);
