@@ -239,6 +239,10 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
+			if (self::$_driver instanceof Drivers\Cache\APC && \PHP_SAPI === 'cli')
+			{
+				self::sendClearRequest([$key]);
+			}
 			return self::$_driver->delete(self::getRealKey($key)) ? true : false;
 		}
 		else
@@ -323,6 +327,10 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
+			if (self::$_driver instanceof Drivers\Cache\APC && \PHP_SAPI === 'cli')
+			{
+				self::sendClearRequest([$group_name . ':*']);
+			}
 			$success = self::$_driver->incr(self::$_prefix . $group_name . '#version', 1) ? true : false;
 			unset(self::$_group_versions[$group_name]);
 			return $success;
@@ -344,6 +352,10 @@ class Cache
 	{
 		if (self::$_driver !== null)
 		{
+			if (self::$_driver instanceof Drivers\Cache\APC && \PHP_SAPI === 'cli')
+			{
+				self::sendClearRequest(['*']);
+			}
 			return self::$_driver->clear() ? true : false;
 		}
 		else
@@ -395,5 +407,28 @@ class Cache
 		}
 
 		return self::$_prefix . $key;
+	}
+
+	/**
+	 * Send a web request to clear the cache.
+	 *
+	 * @param array $keys
+	 * @return void
+	 */
+	public static function sendClearRequest(array $keys): void
+	{
+		if (!$keys)
+		{
+			return;
+		}
+
+		$keystring = implode('|', $keys);
+		$signature = Security::createSignature($keystring);
+		HTTP::post(\Context::getRequestUri(), [
+			'module' => 'module',
+			'act' => 'procModuleClearCache',
+			'keys' => $keys,
+			'signature' => $signature,
+		]);
 	}
 }

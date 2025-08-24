@@ -7,16 +7,17 @@
 		<action name="dispModuleFileBox" type="view" permission="root" meta-noindex="true" />
 		<action name="dispModuleFileBoxAdd" type="view" permission="root" meta-noindex="true" />
 		<action name="dispModuleChangeLang" type="view" />
-		
+
 		<action name="getModuleSkinInfoList" type="model" permission="root" />
 		<action name="getFileBoxListHtml" type="model" permission="root" />
 		<action name="getModuleInfoByMenuItemSrl" type="model" permission="root" />
 		<action name="getLangListByLangcodeForAutoComplete" type="model" permission="manager" />
 		<action name="getLangByLangcode" type="model" />
-		
+
 		<action name="procModuleFileBoxAdd" type="controller" permission="root" />
 		<action name="procModuleFileBoxDelete" type="controller" permission="root" />
-		
+		<action name="procModuleClearCache" type="controller" check_csrf="false" />
+
 		<action name="dispModuleAdminContent" type="view" menu_name="installedModule" menu_index="true" admin_index="true" />
 		<action name="dispModuleAdminCategory" type="view" menu_name="installedModule" />
 		<action name="dispModuleAdminInfo" type="view" />
@@ -26,7 +27,7 @@
 		<action name="dispModuleAdminCopyModule" type="view" />
 		<action name="dispModuleAdminFileBox" type="view" menu_name="filebox" menu_index="true" />
 		<action name="dispModuleAdminLangcode" type="view" menu_name="multilingual" menu_index="true" />
-		
+
 		<action name="getModuleAdminModuleList" type="model" />
 		<action name="getModuleAdminModuleInfo" type="model" />
 		<action name="getModuleAdminGrant" type="model" />
@@ -36,12 +37,12 @@
 		<action name="getModuleAdminModuleSearcherHtml" type="model" />
 		<action name="getModuleAdminMultilingualHtml" type="model" permission="manager" />
 		<action name="getModuleAdminLangListHtml" type="model" permission="manager" />
-		
+
 		<action name="procModuleAdminInsertCategory" type="controller" ruleset="insertCategory" />
 		<action name="procModuleAdminUpdateCategory" type="controller" ruleset="updateCategory" />
 		<action name="procModuleAdminDeleteCategory" type="controller" ruleset="deleteCategory" />
 		<action name="procModuleAdminModuleSetup" type="controller" ruleset="insertModuleSetup" />
-		<action name="procModuleAdminModuleGrantSetup" type="controller" ruleset="insertModulesGrant" />		
+		<action name="procModuleAdminModuleGrantSetup" type="controller" ruleset="insertModulesGrant" />
 		<action name="procModuleAdminCopyModule" type="controller" ruleset="copyModule" />
 		<action name="procModuleAdminInsertGrant" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procModuleAdminUpdateSkinInfo" type="controller" permission="manager" check_var="module_srl" />

@@ -1267,6 +1267,62 @@ class ModuleController extends Module
 	}
 
 	/**
+	 * API call to clear cache entries.
+	 *
+	 * This can be used to clear the APC cache from CLI scripts,
+	 * such as async tasks run from crontab.
+	 */
+	public function procModuleClearCache()
+	{
+		// This is a JSON API.
+		Context::setResponseMethod('JSON');
+		if (PHP_SAPI === 'cli')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		// Get cache keys to clear.
+		$keys = Context::get('keys');
+		if (!$keys)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if (!is_array($keys))
+		{
+			$keys = [$keys];
+		}
+
+		// Verify the API signature.
+		$keystring = implode('|', $keys);
+		$signature = Context::get('signature');
+		if (!$signature)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		if (!Rhymix\Framework\Security::verifySignature($keystring, $signature))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+
+		// Clear the requested cache keys.
+		foreach ($keys as $key)
+		{
+			if ($key === '*')
+			{
+				Rhymix\Framework\Cache::clearAll();
+			}
+			elseif (preg_match('/^([^:]+):\*$/', $key, $matches))
+			{
+				Rhymix\Framework\Cache::clearGroup($matches[1]);
+			}
+			else
+			{
+				Rhymix\Framework\Cache::delete($key);
+			}
+		}
+	}
+
+	/**
 	 * @brief function of locking (timeout is in seconds)
 	 */
 	function lock($lock_name, $timeout, $member_srl = null)
