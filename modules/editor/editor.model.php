@@ -136,7 +136,7 @@ class EditorModel extends Editor
 		{
 			if(empty($_SESSION['_editor_sequence_']))
 			{
-				$_SESSION['_editor_sequence_'] = 1;
+				$_SESSION['_editor_sequence_'] = 4;
 			}
 			$option->editor_sequence = $_SESSION['_editor_sequence_']++;
 		}
