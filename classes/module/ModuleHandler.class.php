@@ -182,6 +182,9 @@ class ModuleHandler extends Handler
 			}
 		}
 
+		// Initialize module info.
+		$module_info = null;
+
 		// Get module info from document_srl.
 		if($this->document_srl)
 		{
@@ -191,23 +194,21 @@ class ModuleHandler extends Handler
 				return false;
 			}
 		}
-		else
-		{
-			$module_info = null;
-		}
 
 		// Get module info from mid.
 		if(!$module_info && $this->mid)
 		{
 			$module_info = ModuleModel::getModuleInfoByMid($this->mid);
-			if($module_info && isset($module_info->domain_srl) && $module_info->domain_srl > -1)
+		}
+
+		// If the module does not belong to the current domain, throw a 404.
+		if($module_info && isset($module_info->domain_srl) && $module_info->domain_srl > -1)
+		{
+			if($module_info->domain_srl != $site_module_info->domain_srl)
 			{
-				if($module_info->domain_srl != $site_module_info->domain_srl)
-				{
-					$this->error = 'msg_module_is_not_exists';
-					$this->httpStatusCode = 404;
-					return true;
-				}
+				$this->error = 'msg_module_is_not_exists';
+				$this->httpStatusCode = 404;
+				return true;
 			}
 		}
 
