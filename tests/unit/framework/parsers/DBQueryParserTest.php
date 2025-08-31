@@ -178,7 +178,8 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$this->assertEquals('AND', $query->conditions[1]->pipe);
 
 		$this->assertTrue($query->groupby instanceof Rhymix\Framework\Parsers\DBQuery\GroupBy);
-		$this->assertEquals('member.member_srl', $query->groupby->columns[0]);
+		$this->assertEquals(['member.member_srl', null], $query->groupby->columns[0]);
+		$this->assertEquals(['member.nick_name', 'if_groupby_nick_name'], $query->groupby->columns[1]);
 		$this->assertEquals(1, count($query->groupby->having));
 		$this->assertTrue($query->groupby->having[0] instanceof Rhymix\Framework\Parsers\DBQuery\Condition);
 		$this->assertEquals('member.member_srl', $query->groupby->having[0]->column);
@@ -195,6 +196,12 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 			'WHERE `documents`.`member_srl` = `member`.`member_srl` AND `documents`.`member_srl` = `member`.`member_srl` ' .
 			'AND `documents`.`document_srl` IN (?, ?, ?) GROUP BY `member`.`member_srl` HAVING `member`.`member_srl` != ?', $sql);
 		$this->assertEquals(['12', '34', '56', '4'], $params);
+
+		$args['if_groupby_nick_name'] = true;
+		$sql = $query->getQueryString('rx_', $args);
+		$this->assertEquals('SELECT `member`.`member_srl`, COUNT(*) AS `count` FROM `rx_documents` AS `documents`, `rx_member` AS `member` ' .
+			'WHERE `documents`.`member_srl` = `member`.`member_srl` AND `documents`.`member_srl` = `member`.`member_srl` ' .
+			'AND `documents`.`document_srl` IN (?, ?, ?) GROUP BY `member`.`member_srl`, `member`.`nick_name` HAVING `member`.`member_srl` != ?', $sql);
 
 		$args = array(
 			'document_srl_list' => [12, 34, 56], 'exclude_member_srl' => 4, 'exclude_document_srl_list' => '78,90',

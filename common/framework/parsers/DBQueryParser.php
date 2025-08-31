@@ -175,9 +175,10 @@ class DBQueryParser extends BaseParser
 			foreach ($xml->groups->children() as $tag)
 			{
 				$name = $tag->getName();
+				$ifvar = trim($tag['if'] ?? '') ?: null;
 				if ($name === 'group')
 				{
-					$query->groupby->columns[] = trim($tag['column'] ?? '');
+					$query->groupby->columns[] = [trim($tag['column'] ?? ''), $ifvar];
 				}
 				elseif ($name === 'having')
 				{

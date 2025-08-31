@@ -222,6 +222,14 @@ class Query extends VariableBase
 			$columns = array();
 			foreach ($this->groupby->columns as $column_name)
 			{
+				if (is_array($column_name))
+				{
+					list($column_name, $ifvar) = $column_name;
+					if ($ifvar && empty($this->_args[$ifvar]))
+					{
+						continue;
+					}
+				}
 				if (self::isValidColumnName($column_name))
 				{
 					$columns[] = self::quoteName($column_name);

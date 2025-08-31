@@ -15,6 +15,7 @@
 	</conditions>
 	<groups if="if_groupby">
 		<group column="member.member_srl" />
+		<group column="member.nick_name" if="if_groupby_nick_name" />
 		<having>
 			<condition operation="notequal" column="member.member_srl" var="exclude_member_srl" notnull="notnull" />
 		</having>
