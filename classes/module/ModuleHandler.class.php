@@ -784,6 +784,14 @@ class ModuleHandler extends Handler
 				}
 			}
 
+			// Redirect if a member action is requested with an unnecessary document_srl. (For backward compatibility)
+			if(preg_match('/^disp(Member|Communication)/', $this->act))
+			{
+				Context::setCacheControl(0);
+				header('Location: ' . getNotEncodedUrl('document_srl', null), true, 301);
+				return false;
+			}
+
 			// Remove module info if a different module has already been selected for the current request.
 			if($this->module && $module_info->module !== $this->module)
 			{
