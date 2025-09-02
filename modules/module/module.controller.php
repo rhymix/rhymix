@@ -656,8 +656,8 @@ class ModuleController extends Module
 		{
 			unset($args);
 			$args = new stdClass;
-			$args->menu_srl = $output->data->menu_srl;
-			$args->menu_item_srl = $output->data->menu_item_srl;
+			$args->menu_srl = $output->data->menu_srl ?: 0;
+			$args->menu_item_srl = $output->data->menu_item_srl ?: 0;
 			$args->is_force = 'N';
 
 			$oMenuAdminController = getAdminController('menu');
