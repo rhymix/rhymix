@@ -278,7 +278,7 @@ class TemplateParser_v1
 
 		$skip = sprintf('(?!%s)', implode('|', ['marquee']));
 		$split_regex = "@(</?{$skip}[a-zA-Z](?>[^<>{}\"]+|<!--.*?-->.*?<!--.*?end-->|{[^}]*}|\"(?>'.*?'|.)*?\"|.)*?>)@s";
-		$nodes = preg_split($split_regex, $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+		$nodes = preg_split($split_regex, $content, -1, PREG_SPLIT_DELIM_CAPTURE) ?: [];
 
 		for($idx = 1, $node_len = count($nodes); $idx < $node_len; $idx+=2)
 		{
