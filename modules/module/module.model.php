@@ -779,9 +779,6 @@ class ModuleModel extends Module
 		{
 			return null;
 		}
-
-		$domain = $module_info->domain ?: Context::getCurrentDomain();
-		return sprintf('%s://%s/%s', $module_info->scheme, $domain, $module_info->path);
 	}
 
 	/**
