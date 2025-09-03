@@ -12,6 +12,7 @@ class ModuleModel extends Module
 	 */
 	public static $_mid_map = [];
 	public static $_module_srl_map = [];
+	public static $_domain_map = [];
 
 	/**
 	 * @brief Initialization
@@ -708,13 +709,13 @@ class ModuleModel extends Module
 		$mid = Rhymix\Framework\Cache::get('site_and_module:module_srl_mid:' . $module_srl);
 		if (isset($mid))
 		{
-			return $mid;
+			return self::$_module_srl_map[$module_srl] = $mid;
 		}
 
 		$args = new stdClass;
 		$args->module_srls = $module_srl;
 		$output = executeQuery('module.getModuleInfoByModuleSrl', $args, ['mid']);
-		if ($output->data)
+		if (is_object($output->data))
 		{
 			$mid = self::$_module_srl_map[$module_srl] = $output->data->mid;
 			Rhymix\Framework\Cache::set('site_and_module:module_srl_mid:' . $module_srl, $mid, 0, true);
@@ -724,6 +725,63 @@ class ModuleModel extends Module
 		{
 			return null;
 		}
+	}
+
+	/**
+	 * Return the domain (including scheme and port) by module_srl
+	 *
+	 * @param int $module_srl
+	 * @return ?string
+	 */
+	public static function getDomainByModuleSrl(int $module_srl): ?string
+	{
+		$module_srl = intval($module_srl);
+		if (isset(self::$_domain_map[$module_srl]))
+		{
+			return self::$_domain_map[$module_srl];
+		}
+
+		$prefix = Rhymix\Framework\Cache::get('site_and_module:module_srl_prefix:' . $module_srl);
+		if (isset($prefix))
+		{
+			self::$_domain_map[$module_srl] = $prefix;
+			return $prefix;
+		}
+
+		$args = new stdClass;
+		$args->module_srls = $module_srl;
+		$args->include_domain_info = true;
+		$output = executeQuery('module.getModuleInfoByModuleSrl', $args);
+		if (is_object($output->data))
+		{
+			$info = self::$_module_srl_map[$module_srl] = $output->data;
+			if (!$info->domain_srl || $info->domain_srl == -1 || !isset($info->domain))
+			{
+				$prefix = '';
+			}
+			else
+			{
+				$prefix = $info->security === 'always' ? 'https://' : 'http://';
+				$prefix .= $info->domain;
+				if ($info->security === 'always' && $info->https_port)
+				{
+					$prefix .= ':' . $info->https_port;
+				}
+				if ($info->security !== 'always' && $info->http_port)
+				{
+					$prefix .= ':' . $info->http_port;
+				}
+			}
+			Rhymix\Framework\Cache::set('site_and_module:module_srl_prefix:' . $module_srl, $prefix, 0, true);
+			return $prefix;
+		}
+		else
+		{
+			return null;
+		}
+
+		$domain = $module_info->domain ?: Context::getCurrentDomain();
+		return sprintf('%s://%s/%s', $module_info->scheme, $domain, $module_info->path);
 	}
 
 	/**

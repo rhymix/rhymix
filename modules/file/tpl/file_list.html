@@ -85,7 +85,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 						<!--@if(preg_match('/^(?:ev:)?doc$/', $val->upload_target_type) && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == $document_list[$document_srl]->get('member_srl'))-->[{$lang->cmd_temp_save}] <!--@end-->
 						<!--@if(preg_match('/^(?:ev:)?doc$/', $val->upload_target_type) && $document_list[$document_srl] && $document_list[$document_srl]->get('module_srl') == 0)-->[{$lang->cmd_trash}] <!--@end-->
 						<!--@if($val->module_srl && isset($module_list[$val->module_srl]))-->
-							<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a>
+							<a href="{ModuleModel::getDomainByModuleSrl($val->module_srl)}{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a>
 						<!--@end-->
 						<!--@if($document_list[$document_srl] && preg_match('/^(?:ev:)?(?:doc|com)$/', $val->upload_target_type))-->
 						 - <!--@if($document_list[$document_srl]->get('module_srl') != $document_list[$document_srl]->get('member_srl'))--><a href="{$move_uri}" target="_blank">{$document_list[$document_srl]->getTitle()}</a><!--@else-->{$document_list[$document_srl]->getTitle()}<!--@end-->

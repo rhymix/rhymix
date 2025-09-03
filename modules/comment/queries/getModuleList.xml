@@ -3,6 +3,7 @@
         <table name="modules" />
     </tables>
     <columns>
+		<column name="domain_srl" />
         <column name="module_srl" />
 		<column name="mid" />
 		<column name="browser_title" />

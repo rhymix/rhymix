@@ -1,8 +1,20 @@
 <query id="getModuleInfoByModuleSrl" action="select">
     <tables>
         <table name="modules" />
+		<table name="domains" type="left join" if="include_domain_info">
+			<conditions>
+				<condition operation="equal" column="domains.domain_srl" var="modules.domain_srl" />
+			</conditions>
+		</table>
     </tables>
+	<columns>
+		<column name="modules.*" />
+		<column name="domains.domain" if="include_domain_info" />
+		<column name="domains.security" if="include_domain_info" />
+		<column name="domains.http_port" if="include_domain_info" />
+		<column name="domains.https_port" if="include_domain_info" />
+	</columns>
     <conditions>
-        <condition operation="in" column="module_srl" var="module_srls" notnull="notnull" />
+        <condition operation="in" column="modules.module_srl" var="module_srls" notnull="notnull" />
     </conditions>
 </query>

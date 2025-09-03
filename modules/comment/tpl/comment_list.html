@@ -50,7 +50,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				{@ $comment = $val->getContentText(200)}
 				<td>
 					<block cond="isset($module_list[$val->module_srl])">
-					<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> -
+						<a href="{ModuleModel::getDomainByModuleSrl($val->module_srl)}{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> -
 					</block>
 					<a href="{getUrl('','document_srl',$val->document_srl,'comment_srl',$val->comment_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a>
 				</td>
