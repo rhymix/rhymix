@@ -186,7 +186,7 @@ class ModuleHandler extends Handler
 		$module_info = null;
 
 		// Get module info from document_srl.
-		if($this->document_srl)
+		if($this->document_srl && !preg_match('/Admin/', $this->act))
 		{
 			$module_info = $this->_checkDocumentSrl();
 			if ($module_info === false)
