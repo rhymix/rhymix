@@ -50,14 +50,17 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr loop="$document_list => $no, $oDocument">
 
 				<td class="title">
-					<a href="{$oDocument->getPermanentUrl()}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
-					<span cond="isset($module_list[$oDocument->get('module_srl')])">
+					<!--@if(isset($module_list[$oDocument->get('module_srl')]))-->
 						<!--@if($module_list[$oDocument->get('module_srl')]->domain_srl == -1 || $module_list[$oDocument->get('module_srl')]->domain_srl == $site_module_info->domain_srl)-->
+							<a href="{$oDocument->getPermanentUrl()}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
 							- <a href="{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
 						<!--@else-->
+							<a href="{ModuleModel::getDomainByModuleSrl($oDocument->get('module_srl'))}{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid, 'document_srl', $oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
 							- <a href="{ModuleModel::getDomainByModuleSrl($oDocument->get('module_srl'))}{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
 						<!--@endif-->
-					</span>
+					<!--@else-->
+						<a href="{$oDocument->getPermanentUrl()}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
+					<!--@endif-->
 				</td>
 				<td class="nowr">
 					<span cond="$oDocument->get('member_srl') <= 0">{$oDocument->getNickName()}</span>

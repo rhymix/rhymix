@@ -49,10 +49,16 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tr loop="$comment_list => $no, $val">
 				{@ $comment = $val->getContentText(200)}
 				<td>
-					<block cond="isset($module_list[$val->module_srl])">
-						<a href="{ModuleModel::getDomainByModuleSrl($val->module_srl)}{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> -
-					</block>
-					<a href="{getUrl('','document_srl',$val->document_srl,'comment_srl',$val->comment_srl)}#comment_{$val->comment_srl}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a>
+					{@ $comment_url = getUrl(['mid' => $module_list[$val->module_srl]->mid ?? null, 'document_srl' => $val->document_srl, 'comment_srl' => $val->comment_srl]) . '#comment_' . $val->comment_srl}
+					<!--@if(isset($module_list[$val->module_srl]))-->
+						<!--@if($module_list[$val->module_srl]->domain_srl == -1 || $module_list[$val->module_srl]->domain_srl == $site_module_info->domain_srl)-->
+							<a href="{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> -
+						<!--@else-->
+							{@ $module_url = ModuleModel::getDomainByModuleSrl($val->module_srl); $comment_url = $module_url . $comment_url; }
+							<a href="{$module_url}{getUrl('', 'mid', $module_list[$val->module_srl]->mid)}" target="_blank">{$module_list[$val->module_srl]->browser_title}</a> -
+						<!--@endif-->
+					<!--@endif-->
+					<a href="{$comment_url}" target="_blank"><!--@if(strlen($comment))-->{$comment}<!--@else--><em>{$lang->no_text_comment}</em><!--@end--></a>
 				</td>
 				<td class="nowr">
 					<span cond="$val->get('member_srl') <= 0">{$val->getNickName()}</span>
