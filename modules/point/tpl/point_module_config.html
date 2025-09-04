@@ -11,18 +11,36 @@
 			<label for="insert_document" class="x_control-label">{$lang->point_insert_document}</label>
 			<div class="x_controls">
 				<input type="number" name="insert_document" id="insert_document" value="{$module_config['insert_document'] ?? ''}" /> {$module_config['point_name']}
+				&nbsp; {$lang->cmd_point_revert_on_delete}
+				<select name="insert_document_revert_on_delete">
+					<option value="" selected="selected"|cond="!isset($module_config['insert_document_revert_on_delete'])">{$lang->default_value}</option>
+					<option value="Y" selected="selected"|cond="($module_config['insert_document_revert_on_delete'] ?? null) === true">{$lang->cmd_yes}</option>
+					<option value="N" selected="selected"|cond="($module_config['insert_document_revert_on_delete'] ?? null) === false">{$lang->cmd_no}</option>
+				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="insert_comment" class="x_control-label">{$lang->point_insert_comment}</label>
 			<div class="x_controls">
 				<input type="number" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment'] ?? ''}" /> {$module_config['point_name']}
+				&nbsp; {$lang->cmd_point_revert_on_delete}
+				<select name="insert_comment_revert_on_delete">
+					<option value="" selected="selected"|cond="!isset($module_config['insert_comment_revert_on_delete'])">{$lang->default_value}</option>
+					<option value="Y" selected="selected"|cond="($module_config['insert_comment_revert_on_delete'] ?? null) === true">{$lang->cmd_yes}</option>
+					<option value="N" selected="selected"|cond="($module_config['insert_comment_revert_on_delete'] ?? null) === false">{$lang->cmd_no}</option>
+				</select>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="upload_file" class="x_control-label">{$lang->point_upload_file}</label>
 			<div class="x_controls">
 				<input type="number" name="upload_file" id="upload_file" value="{$module_config['upload_file'] ?? ''}" /> {$module_config['point_name']}
+				&nbsp; {$lang->cmd_point_revert_on_delete}
+				<select name="upload_file_revert_on_delete">
+					<option value="" selected="selected"|cond="!isset($module_config['upload_file_revert_on_delete'])">{$lang->default_value}</option>
+					<option value="Y" selected="selected"|cond="($module_config['upload_file_revert_on_delete'] ?? null) === true">{$lang->cmd_yes}</option>
+					<option value="N" selected="selected"|cond="($module_config['upload_file_revert_on_delete'] ?? null) === false">{$lang->cmd_no}</option>
+				</select>
 			</div>
 		</div>
 		<div class="x_control-group">

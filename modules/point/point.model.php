@@ -271,7 +271,7 @@ class PointModel extends Point
 	 *
 	 * @param int $module_srl
 	 * @param string $config_key
-	 * @return int
+	 * @return int|bool
 	 */
 	public static function getModulePointConfig($module_srl, $config_key)
 	{
@@ -306,10 +306,10 @@ class PointModel extends Point
 		else
 		{
 			$default_config = self::getConfig();
-			$point = $default_config->{$config_key};
+			$point = $default_config->{$config_key} ?? 0;
 		}
 
-		return intval($point);
+		return is_bool($point) ? $point : intval($point);
 	}
 }
 /* End of file point.model.php */

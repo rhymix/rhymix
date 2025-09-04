@@ -257,7 +257,7 @@ class PointAdminController extends Point
 			}
 
 			$config = [];
-			$keys = [
+			$numeric_keys = [
 				'insert_document',
 				'insert_comment',
 				'upload_file',
@@ -274,13 +274,26 @@ class PointAdminController extends Point
 				'voted_comment',
 				'blamed_comment'
 			];
+			$boolean_keys = [
+				'insert_document_revert_on_delete',
+				'insert_comment_revert_on_delete',
+				'upload_file_revert_on_delete'
+			];
 
-			foreach ($keys as $key)
+			foreach ($numeric_keys as $key)
 			{
 				$value = trim(Context::get($key) ?? '');
 				if ($value !== '')
 				{
 					$config[$key] = (int)$value;
+				}
+			}
+			foreach ($boolean_keys as $key)
+			{
+				$value = trim(Context::get($key) ?? '');
+				if ($value !== '')
+				{
+					$config[$key] = ($value === 'Y');
 				}
 			}
 

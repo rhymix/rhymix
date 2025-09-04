@@ -211,8 +211,8 @@ class PointController extends Point
 		}
 
 		// Return if disabled
-		$config = $this->getConfig();
-		if ($config->insert_document_revert_on_delete === false)
+		$revert = PointModel::getModulePointConfig($module_srl, 'insert_document_revert_on_delete');
+		if ($revert === false)
 		{
 			return;
 		}
@@ -319,8 +319,8 @@ class PointController extends Point
 		}
 
 		// Return if disabled
-		$config = $this->getConfig();
-		if ($config->insert_comment_revert_on_delete === false)
+		$revert = PointModel::getModulePointConfig($module_srl, 'insert_comment_revert_on_delete');
+		if ($revert === false)
 		{
 			return;
 		}
@@ -333,6 +333,7 @@ class PointController extends Point
 		}
 
 		// Abort if the document is older than a configured limit.
+		$config = $this->getConfig();
 		$time_limit = $config->insert_comment_limit ?: $config->no_point_date;
 		if ($time_limit > 0 && ztime($oDocument->get('regdate')) < RX_TIME - ($time_limit * 86400))
 		{
@@ -381,13 +382,11 @@ class PointController extends Point
 		}
 
 		// Return if disabled
-		$config = $this->getConfig();
-		if ($config->upload_file_revert_on_delete === false)
+		$revert = PointModel::getModulePointConfig($module_srl, 'upload_file_revert_on_delete');
+		if ($revert === false)
 		{
 			return;
 		}
-
-		// Get the points of the member
 
 		// Subtract points for the file.
 		$diff = PointModel::getModulePointConfig($module_srl, 'upload_file');
