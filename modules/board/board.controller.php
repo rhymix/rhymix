@@ -258,7 +258,7 @@ class BoardController extends Board
 				$oDocument->setGrantForSession();
 
 				// send an email to admin user
-				if ($this->module_info->admin_mail && config('mail.default_from'))
+				if (isset($this->module_info->admin_mail) && $this->module_info->admin_mail && config('mail.default_from'))
 				{
 					$browser_title = Context::replaceUserLang($this->module_info->browser_title);
 					$mail_title = sprintf(lang('msg_document_notify_mail'), $browser_title, cut_str($obj->title, 20, '...'));
