@@ -231,32 +231,59 @@ class PointAdminController extends Point
 	function procPointAdminInsertPointModuleConfig()
 	{
 		$module_srl = Context::get('target_module_srl');
-		if(!$module_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if (!$module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
 		// In case of batch configuration of several modules
-		if(preg_match('/^([0-9,]+)$/',$module_srl)) $module_srl = explode(',',$module_srl);
-		else $module_srl = array($module_srl);
+		if (preg_match('/^([0-9,]+)$/',$module_srl))
+		{
+			$module_srl = explode(',',$module_srl);
+		}
+		else
+		{
+			$module_srl = array($module_srl);
+		}
+
 		// Save configurations
 		$oModuleController = getController('module');
 		for($i=0;$i<count($module_srl);$i++)
 		{
-			$srl = trim($module_srl[$i]);
-			if(!$srl) continue;
-			unset($config);
-			$config['insert_document'] = (int)Context::get('insert_document');
-			$config['insert_comment'] = (int)Context::get('insert_comment');
-			$config['upload_file'] = (int)Context::get('upload_file');
-			$config['download_file'] = (int)Context::get('download_file');
-			$config['read_document'] = (int)Context::get('read_document');
-			$config['voter'] = (int)Context::get('voter');
-			$config['blamer'] = (int)Context::get('blamer');
-			$config['voter_comment'] = (int)Context::get('voter_comment');
-			$config['blamer_comment'] = (int)Context::get('blamer_comment');
-			$config['download_file_author'] = (int)Context::get('download_file_author');
-			$config['read_document_author'] = (int)Context::get('read_document_author');
-			$config['voted'] = (int)Context::get('voted');
-			$config['blamed'] = (int)Context::get('blamed');
-			$config['voted_comment'] = (int)Context::get('voted_comment');
-			$config['blamed_comment'] = (int)Context::get('blamed_comment');
+			$srl = trim($module_srl[$i] ?? '');
+			if (!$srl)
+			{
+				continue;
+			}
+
+			$config = [];
+			$keys = [
+				'insert_document',
+				'insert_comment',
+				'upload_file',
+				'download_file',
+				'read_document',
+				'voter',
+				'blamer',
+				'voter_comment',
+				'blamer_comment',
+				'download_file_author',
+				'read_document_author',
+				'voted',
+				'blamed',
+				'voted_comment',
+				'blamed_comment'
+			];
+
+			foreach ($keys as $key)
+			{
+				$value = trim(Context::get($key) ?? '');
+				if ($value !== '')
+				{
+					$config[$key] = (int)$value;
+				}
+			}
+
 			$oModuleController->insertModulePartConfig('point', $srl, $config);
 		}
 

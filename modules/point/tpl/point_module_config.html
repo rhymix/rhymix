@@ -1,101 +1,100 @@
 <load target="js/point_admin.js" />
 <section class="section">
 	<h1>{$lang->point}</h1>
-
 	<form action="./" method="post" id="fo_point" class="x_form-horizontal">
 		<input type="hidden" name="module" value="point" />
 		<input type="hidden" name="act" value="procPointAdminInsertPointModuleConfig" />
 		<input type="hidden" name="target_module_srl" value="{$module_config['module_srl']?$module_config['module_srl']:$module_srls}" />
 		<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />
-		
+
 		<div class="x_control-group">
 			<label for="insert_document" class="x_control-label">{$lang->point_insert_document}</label>
 			<div class="x_controls">
-				<input type="number" name="insert_document" id="insert_document" value="{$module_config['insert_document'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="insert_document" id="insert_document" value="{$module_config['insert_document'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="insert_comment" class="x_control-label">{$lang->point_insert_comment}</label>
 			<div class="x_controls">
-				<input type="number" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="insert_comment" id="insert_comment" value="{$module_config['insert_comment'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="upload_file" class="x_control-label">{$lang->point_upload_file}</label>
 			<div class="x_controls">
-				<input type="number" name="upload_file" id="upload_file" value="{$module_config['upload_file'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="upload_file" id="upload_file" value="{$module_config['upload_file'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="download_file" class="x_control-label">{$lang->point_download_file}</label>
 			<div class="x_controls">
-				<input type="number" name="download_file" id="download_file" value="{$module_config['download_file'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="download_file" id="download_file" value="{$module_config['download_file'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="read_document" class="x_control-label">{$lang->point_read_document}</label>
 			<div class="x_controls">
-				<input type="number" name="read_document" id="read_document" value="{$module_config['read_document'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="read_document" id="read_document" value="{$module_config['read_document'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="voter" class="x_control-label">{$lang->point_voter}</label>
 			<div class="x_controls">
-				<input type="number" name="voter" id="voter" value="{$module_config['voter'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="voter" id="voter" value="{$module_config['voter'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="blamer" class="x_control-label">{$lang->point_blamer}</label>
 			<div class="x_controls">
-				<input type="number" name="blamer" id="blamer" value="{$module_config['blamer'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="blamer" id="blamer" value="{$module_config['blamer'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="voter_comment" class="x_control-label">{$lang->point_voter_comment}</label>
 			<div class="x_controls">
-				<input type="number" name="voter_comment" id="voter_comment" value="{$module_config['voter_comment'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="voter_comment" id="voter_comment" value="{$module_config['voter_comment'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="blamer_comment" class="x_control-label">{$lang->point_blamer_comment}</label>
 			<div class="x_controls">
-				<input type="number" name="blamer_comment" id="blamer_comment" value="{$module_config['blamer_comment'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="blamer_comment" id="blamer_comment" value="{$module_config['blamer_comment'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="download_file_author" class="x_control-label">{$lang->point_download_file_author}</label>
 			<div class="x_controls">
-				<input type="number" name="download_file_author" id="download_file_author" value="{$module_config['download_file_author'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="download_file_author" id="download_file_author" value="{$module_config['download_file_author'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="read_document_author" class="x_control-label">{$lang->point_read_document_author}</label>
 			<div class="x_controls">
-				<input type="number" name="read_document_author" id="read_document_author" value="{$module_config['read_document_author'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="read_document_author" id="read_document_author" value="{$module_config['read_document_author'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="voted" class="x_control-label">{$lang->point_voted}</label>
 			<div class="x_controls">
-				<input type="number" name="voted" id="voted" value="{$module_config['voted'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="voted" id="voted" value="{$module_config['voted'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="blamed" class="x_control-label">{$lang->point_blamed}</label>
 			<div class="x_controls">
-				<input type="number" name="blamed" id="blamed" value="{$module_config['blamed'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="blamed" id="blamed" value="{$module_config['blamed'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="voted_comment" class="x_control-label">{$lang->point_voted_comment}</label>
 			<div class="x_controls">
-				<input type="number" name="voted_comment" id="voted_comment" value="{$module_config['voted_comment'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="voted_comment" id="voted_comment" value="{$module_config['voted_comment'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label for="blamed_comment" class="x_control-label">{$lang->point_blamed_comment}</label>
 			<div class="x_controls">
-				<input type="number" name="blamed_comment" id="blamed_comment" value="{$module_config['blamed_comment'] ?? null}" /> {$module_config['point_name']}
+				<input type="number" name="blamed_comment" id="blamed_comment" value="{$module_config['blamed_comment'] ?? ''}" /> {$module_config['point_name']}
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">
