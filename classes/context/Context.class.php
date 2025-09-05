@@ -242,7 +242,7 @@ class Context
 		else
 		{
 			$site_module_info = new stdClass;
-			$site_module_info->domain = $_SERVER['HTTP_HOST'];
+			$site_module_info->domain = Rhymix\Framework\URL::getCurrentDomain();
 			$site_module_info->security = RX_SSL ? 'always' : 'none';
 			$site_module_info->settings = new stdClass;
 			$site_module_info->is_default_replaced = true;

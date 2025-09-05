@@ -147,7 +147,11 @@ class ModuleHandler extends Handler
 						return true;
 
 					case 'display':
-						// pass
+						$site_module_info->domain_srl = -1;
+						$site_module_info->domain = Rhymix\Framework\URL::getCurrentDomain();
+						$site_module_info->is_default_domain = 'N';
+						$site_module_info->is_default_replaced = true;
+						Context::set('site_module_info', $site_module_info);
 				}
 			}
 		}
