@@ -88,6 +88,7 @@ class BoardAdminController extends Board {
 		$args->meta_description = trim(utf8_normalize_spaces($args->meta_description));
 		$args->header_text = Rhymix\Modules\Admin\Models\Utility::cleanHeaderAndFooterScripts($args->header_text ?? '');
 		$args->footer_text = Rhymix\Modules\Admin\Models\Utility::cleanHeaderAndFooterScripts($args->footer_text ?? '');
+		$args->admin_mail = implode(', ', array_map('trim', explode(',', $args->admin_mail ?? '')));
 
 		// if there is an existed module
 		if ($args->module_srl && $module_info->module_srl != $args->module_srl)
