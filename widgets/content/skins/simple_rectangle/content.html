@@ -1,6 +1,6 @@
 <load target="./js/content_widget.js" cond="$widget_info->page_count || (is_countable($widget_info->tab) && count($widget_info->tab))" />
 <!--// Check layout. If it is Simple World, select layout primary colors as a primary color of this skin -->
-{@$layout_info = Context::get('layout_info')}
+{@$layout_info = Context::get('layout_info') ?? new stdClass();}
 <block cond="$layout_info->extra_var->primary_color->type === 'select' || $layout_info->extra_var->customized_primary_color->type === 'colorpicker'">
 	{@
 		if(!$layout_info->primary_color)
