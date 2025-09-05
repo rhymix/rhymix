@@ -37,7 +37,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_CharsetObserver
      *
      * @param string|null $charset
      */
-    public function __construct(Swift_Mime_HeaderEncoder $encoder, Swift_Encoder $paramEncoder, EmailValidator $emailValidator, $charset = null, Swift_AddressEncoder $addressEncoder = null)
+    public function __construct(Swift_Mime_HeaderEncoder $encoder, Swift_Encoder $paramEncoder, EmailValidator $emailValidator, $charset = null, ?Swift_AddressEncoder $addressEncoder = null)
     {
         $this->encoder = $encoder;
         $this->paramEncoder = $paramEncoder;
@@ -72,7 +72,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_CharsetObserver
      *
      * @return Swift_Mime_Header
      */
-    public function createDateHeader($name, DateTimeInterface $dateTime = null)
+    public function createDateHeader($name, ?DateTimeInterface $dateTime = null)
     {
         $header = new Swift_Mime_Headers_DateHeader($name);
         if (isset($dateTime)) {
