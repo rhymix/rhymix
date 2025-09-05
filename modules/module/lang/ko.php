@@ -80,7 +80,7 @@ $lang->msg_extra_name_exists = '이미 존재하는 확장 변수 ID입니다. �
 $lang->about_browser_title = '브라우저 제목에 나타나는 값입니다. RSS/Trackback에서도 사용됩니다.';
 $lang->about_mid = 'URL상의 모듈 이름은 영문, 숫자, _ 만으로 이루어져야 하며, 첫 글자는 반드시 영문 알파벳이어야 합니다.';
 $lang->about_default = '선택하면 사이트에 mid값 없이 접속하였을 경우 기본으로 보여줍니다.';
-$lang->about_module_category = '분류를 통한 관리를 할 수 있도록 합니다. 모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory">모듈분류</a>에서 할 수 있습니다.';
+$lang->about_module_category = '모듈 분류 관리는 <a href="./?module=admin&amp;act=dispModuleAdminCategory" target="_blank">모듈 분류</a>에서 할 수 있습니다.';
 $lang->about_description = '관리용으로 사용되는 설명입니다.';
 $lang->about_header_text = '콘텐츠 상단에 표시되는 내용입니다. (HTML 태그 사용 가능)';
 $lang->about_footer_text = '콘텐츠 하단에 표시되는 내용입니다. (HTML 태그 사용 가능)';

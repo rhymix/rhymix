@@ -68,8 +68,6 @@
 					<option value="0">{$lang->notuse}</option>
 					<option loop="$layout_list => $key, $val" value="{$val->layout_srl}" selected="selected"|cond="$module_info->layout_srl == $val->layout_srl">{$val->title} ({$val->layout})</option>
 				</select>
-				<a href="#layout_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="layout_help" class="x_help-block x_hide">{$lang->about_layout}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -423,8 +421,7 @@
 			<label class="x_control-label" for="admin_mail">{$lang->admin_mail}</label>
 			<div class="x_controls">
 				<input type="text" name="admin_mail" id="admin_mail" value="{$module_info->admin_mail}" />
-				<a href="#admin_mail_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="admin_mail_help" class="x_help-block x_hide">{$lang->about_admin_mail}</p>
+				<p class="x_help-block">{$lang->about_admin_mail}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
@@ -434,16 +431,13 @@
 					<option value="0">{$lang->notuse}</option>
 					<option loop="$module_category => $key, $val" value="{$key}" selected="selected"|cond="$module_info->module_category_srl == $key">{$val->title}</option>
 				</select>
-				<a href="#module_category_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="module_category_help" class="x_help-block x_hide">{$lang->about_module_category}</p>
+				<p class="x_help-block">{$lang->about_module_category}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="description">{$lang->description}</label>
 			<div class="x_controls">
 				<textarea name="description" id="description" rows="4" cols="42" placeholder="{$lang->about_description}" style="vertical-align:top">{$module_info->description}</textarea>
-				<a href="#description_help" class="x_icon-question-sign" data-toggle>{$lang->help}</a>
-				<p id="description_help" class="x_help-block x_hide">{$lang->about_description}</p>
 			</div>
 		</div>
 	</section>

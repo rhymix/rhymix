@@ -80,8 +80,7 @@ $lang->msg_extra_name_exists = 'Already registered field ID. Please input anothe
 $lang->about_browser_title = 'It will be shown in the browser title. It will be also used in a RSS/Trackback.';
 $lang->about_mid = 'The module name must begin with a Latin alphabet, and only consist of Latin alphabets, numerals, and underscores.';
 $lang->about_default = 'If checked, this module will be shown when users access the site without mid value (mid=NoValue).';
-$lang->about_module_category = 'It enables you to manage it through a module category.
- The URL for the module manager is <a href="./?module=admin&amp;act=dispModuleAdminCategory">Module category </a>.';
+$lang->about_module_category = 'Module categories can be edited in <a href="./?module=admin&amp;act=dispModuleAdminCategory" target="_blank">Module category</a>.';
 $lang->about_description = 'This description is only for a manager.';
 $lang->about_header_text = 'The contents will be shown on the top of the module. (html tags available)';
 $lang->about_footer_text = 'The contents will be shown on the bottom of the module. (html tags available)';
