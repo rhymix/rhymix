@@ -41,9 +41,21 @@
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="message_content">{$lang->cmd_send_message}</label>
-			<div class="x_controls" style="margin-right:14px">
-				<textarea name="message_content" id="message_content" rows="4" cols="42" style="width:100%"></textarea>
-				<label for="send_default_message" class="x_inline"><input type="checkbox" name="send_default_message" id="send_default_message" value="Y" checked="checked" /> {$lang->send_default_message}</label>
+			<div class="x_controls" id="message_options">
+				<label for="send_default_message" class="x_inline">
+					<input type="radio" name="send_message" id="send_default_message" value="default" checked="checked" />
+					{$lang->send_default_message}
+				</label>
+				<label for="send_custom_message" class="x_inline">
+					<input type="radio" name="send_message" id="send_custom_message" value="custom" />
+					{$lang->send_custom_message}
+				</label>
+				<label for="send_no_message" class="x_inline">
+					<input type="radio" name="send_message" id="send_no_message" value="none" />
+					{$lang->send_no_message}
+				</label>
+				<br />
+				<textarea name="message_content" id="message_content" rows="4" cols="42" class="x_full-width"></textarea>
 			</div>
 		</div>
 	</div>
@@ -61,20 +73,19 @@
 </form>
 <script>
 jQuery(function($){
-	var message_content_area = $('#message_content');
-	if($('#send_default_message').is(':checked'))
-	{
-		message_content_area.prop("disabled", true);
-	}
-	$('#send_default_message').change(function(){
-		if($(this).is(':checked')){
-			message_content_area.prop("disabled", true);
-		} else {
+	const message_options = $('#message_options');
+	const message_content_area = $('#message_content');
+	message_content_area.prop('disabled', true);
+	message_options.on('change', 'input[name="send_message"]', function(){
+		if($('#send_custom_message').is(':checked')) {
 			message_content_area.prop("disabled", false);
+		} else {
+			message_content_area.prop("disabled", true);
 		}
 	});
-	<!--@if($module_srl > 0)-->
-	doGetCategoryFromModule({$module_srl});
-	<!--@end-->
+	const module_srl = {intval($module_srl)};
+	if (module_srl > 0) {
+		doGetCategoryFromModule(module_srl);
+	}
 });
 </script>

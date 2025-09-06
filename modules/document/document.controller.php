@@ -3402,8 +3402,12 @@ class DocumentController extends Document
 		$obj->target_module_srl = intval(Context::get('module_srl') ?: Context::get('target_module_srl'));
 		$obj->target_category_srl = intval(Context::get('target_category_srl'));
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
-		$obj->send_message = $obj->manager_message || Context::get('send_default_message') == 'Y';
+		$obj->send_message = Context::get('send_message') ?? 'default';
 		$obj->return_message = '';
+		if (Context::get('send_default_message') === 'Y')
+		{
+			$obj->send_message = 'default';
+		}
 
 		// Check permission of target module
 		if($obj->target_module_srl)
@@ -3534,40 +3538,42 @@ class DocumentController extends Document
 
 		// Send a message
 		$actions = lang('default_message_verbs');
-		if(isset($actions[$obj->type]) && $obj->send_message)
+		if(isset($actions[$obj->type]) && $obj->send_message !== 'none')
 		{
 			// Set message
 			$title = sprintf(lang('default_message_format'), $actions[$obj->type]);
-			$content = <<< Content
-<div style="padding:10px 0;"><strong>{$title}</strong></div>
-<p>{$obj->manager_message}</p>
-<hr>
-<ul>%1\$s</ul>
-Content;
-			$document_item = '<li><a href="%1$s">%2$s</a></li>';
+			$content = <<<EOT
+				<div style="padding:10px 0;"><strong>{$title}</strong></div>
+				<p>{$obj->manager_message}</p>
+				<hr>
+				<ul>%1\$s</ul>
+			EOT;
 
 			// Set recipient
 			$recipients = array();
 			foreach ($obj->document_list as $document_srl => $oDocument)
 			{
-				if(!($member_srl = abs($oDocument->get('member_srl'))) || $logged_info->member_srl == $member_srl)
+				$member_srl = abs($oDocument->get('member_srl'));
+				if(!$member_srl || $logged_info->member_srl == $member_srl)
 				{
 					continue;
 				}
-
 				if(!isset($recipients[$member_srl]))
 				{
 					$recipients[$member_srl] = array();
 				}
-
-				$recipients[$member_srl][] = sprintf($document_item, $oDocument->getPermanentUrl(), $oDocument->getTitleText());
+				$recipients[$member_srl][] = vsprintf('<li><a href="%1$s">%2$s</a></li>', [
+					escape($oDocument->getPermanentUrl()),
+					$oDocument->getTitleText(),
+				]);
 			}
 
 			// Send
 			$oCommunicationController = CommunicationController::getInstance();
 			foreach ($recipients as $member_srl => $items)
 			{
-				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, sprintf($content, implode('', $items)), true, null, false);
+				$content = sprintf($content, implode('', $items));
+				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, $content, true, null, false);
 			}
 		}
 
