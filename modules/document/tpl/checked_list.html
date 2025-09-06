@@ -1,8 +1,9 @@
 <!--%import("filter/manage_checked_document.xml")-->
 <load target="js/document_admin.js" />
 {@Context::addMetaTag('viewport', 'width=device-width', FALSE);}
-<form action="./" method="get" id="fo_management">
+<form action="./" method="post" id="fo_management">
 	<input type="hidden" name="module" value="document" />
+	<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
 	<input type="hidden" name="type" value="" />
 	<div class="x_modal-header">
 		<h1>{$lang->cmd_manage_document}</h1>
