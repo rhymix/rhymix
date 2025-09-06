@@ -111,6 +111,13 @@ $(function() {
 			settings.ckeconfig.removeButtons = 'Save,Preview,Print,Cut,Copy,Paste,Source';
 		}
 
+		// fix unused fillEmptyBlocks
+		settings.ckeconfig.fillEmptyBlocks = function ( element ) {
+			if (['video'].includes(element.name)) {
+				return false;
+			}
+		}
+
 		// Disable loading of custom configuration if config.js does not exist.
 		if (!config.custom_config_exists) {
 			CKEDITOR.config.customConfig = '';
