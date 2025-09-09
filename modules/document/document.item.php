@@ -657,9 +657,9 @@ class DocumentItem extends BaseObject
 		$content = preg_replace('!(</p>|</div>|<br)!i', ' $1', $this->get('content'));
 		//$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
 		//$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
-		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
+			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 			return escape(cut_str($content, $strlen, '...'), false);
 		}
 		else
