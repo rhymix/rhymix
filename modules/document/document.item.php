@@ -634,10 +634,12 @@ class DocumentItem extends BaseObject
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
-			$content = cut_str($content, $strlen, '...');
+			return escape(cut_str($content, $strlen, '...'), false);
 		}
-
-		return escape($content);
+		else
+		{
+			return escape($content);
+		}
 	}
 
 	function getContentText($strlen = 0)
@@ -653,17 +655,22 @@ class DocumentItem extends BaseObject
 		}
 
 		$content = preg_replace('!(</p>|</div>|<br)!i', ' $1', $this->get('content'));
-		$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
-		$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
+		//$content = preg_replace_callback('/<(object|param|embed)[^>]*/is', array($this, '_checkAllowScriptAccess'), $content);
+		//$content = preg_replace_callback('/<object[^>]*>/is', array($this, '_addAllowScriptAccess'), $content);
+		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
-			$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
-			$content = cut_str($content, $strlen, '...');
+			return escape(cut_str($content, $strlen, '...'), false);
 		}
-
-		return escape($content);
+		else
+		{
+			return escape($content);
+		}
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function _addAllowScriptAccess($m)
 	{
 		if($this->allowscriptaccessList[$this->allowscriptaccessKey] == 1)
@@ -674,6 +681,9 @@ class DocumentItem extends BaseObject
 		return $m[0];
 	}
 
+	/**
+	 * @deprecated
+	 */
 	function _checkAllowScriptAccess($m)
 	{
 		if($m[1] == 'object')
@@ -806,8 +816,7 @@ class DocumentItem extends BaseObject
 
 		// Truncate string
 		$content = cut_str($content, $str_size, $tail);
-
-		return escape($content);
+		return escape($content, false);
 	}
 
 	function getRegdate($format = 'Y.m.d H:i:s', $conversion = true)

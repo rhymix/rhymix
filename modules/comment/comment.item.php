@@ -466,10 +466,12 @@ class CommentItem extends BaseObject
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
-			$content = cut_str($content, $strlen, '...');
+			$content = escape(cut_str($content, $strlen, '...'), false);
 		}
-
-		$content = escape($content);
+		else
+		{
+			$content = escape($content);
+		}
 
 		if ($content === '')
 		{
@@ -511,9 +513,12 @@ class CommentItem extends BaseObject
 		$content = trim(utf8_normalize_spaces(html_entity_decode(strip_tags($content))));
 		if($strlen)
 		{
-			$content = cut_str($content, $strlen, '...');
+			return escape(cut_str($content, $strlen, '...'), false);
 		}
-		return escape($content);
+		else
+		{
+			return escape($content);
+		}
 	}
 
 	/**
