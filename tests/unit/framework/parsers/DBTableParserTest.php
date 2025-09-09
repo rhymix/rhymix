@@ -63,4 +63,14 @@ class DBTableParserTest extends \Codeception\Test\Unit
 		$this->assertStringContainsString('CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci', $sql);
 		$this->assertStringContainsString('ENGINE = InnoDB', $sql);
 	}
+
+	public function testGeneratedColumn()
+	{
+		$table = Rhymix\Framework\Parsers\DBTableParser::loadXML(\RX_BASEDIR . 'tests/_data/dbtable/generated.xml');
+		$sql = $table->getCreateQuery('rx_');
+		$this->assertStringContainsString('CREATE TABLE `rx_generated`', $sql);
+		$this->assertStringContainsString('`gentest1` BIGINT GENERATED ALWAYS AS (document_srl + member_srl) STORED NOT NULL,', $sql);
+		$this->assertStringContainsString('`gentest2` BIGINT GENERATED ALWAYS AS (MAX(module_srl, document_srl)),', $sql);
+		$this->assertStringContainsString('`gentest3` VARCHAR(40) GENERATED ALWAYS AS (CONCAT(module_srl, \'_\', document_srl)) NOT NULL,', $sql);
+	}
 }

@@ -1,0 +1,9 @@
+<table name="generated">
+    <column name="id" type="bignumber" size="11" notnull="notnull" auto_increment="auto_increment" primary_key="primary_key" />
+    <column name="module_srl" type="number" notnull="notnull" index="idx_module_srl" />
+	<column name="document_srl" type="number" notnull="notnull" index="idx_document_srl" />
+	<column name="member_srl" type="number" notnull="notnull" index="idx_member_srl" />
+	<column name="gentest1" type="number" generated="always" default="document_srl + member_srl" stored="true" notnull="notnull" />
+	<column name="gentest2" type="number" generated="always" default="MAX(module_srl, document_srl)" stored="false" />
+	<column name="gentest3" type="varchar" size="40" notnull="notnull" generated="always" default="CONCAT(module_srl, '_', document_srl)" />
+</table>

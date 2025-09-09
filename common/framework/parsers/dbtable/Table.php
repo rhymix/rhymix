@@ -53,29 +53,42 @@ class Table
 					$columndef .= ' CHARACTER SET ' . $column->charset . ' COLLATE ' . $column->charset . '_general_ci';
 				}
 			}
+			if ($column instanceof GeneratedColumn)
+			{
+				$columndef .= ' GENERATED ' . strtoupper($column->generated ?: 'always');
+				$columndef .= ' AS (' . $column->default_value . ')';
+				if ($column->is_stored)
+				{
+					$columndef .= ' STORED';
+				}
+			}
+			else
+			{
+				if ($column->default_value !== null)
+				{
+					if (preg_match('/(?:int|float|double|decimal|number)/i', $column->type) && is_numeric($column->default_value))
+					{
+						$columndef .= ' DEFAULT ' . $column->default_value;
+					}
+					elseif (preg_match('/^\w+\(\)$/', $column->default_value))
+					{
+						$columndef .= ' DEFAULT ' . $column->default_value;
+					}
+					else
+					{
+						$columndef .= ' DEFAULT \'' . $column->default_value . '\'';
+					}
+				}
+			}
 			if ($column->not_null)
 			{
 				$columndef .= ' NOT NULL';
-			}
-			if ($column->default_value !== null)
-			{
-				if (preg_match('/(?:int|float|double|decimal|number)/i', $column->type) && is_numeric($column->default_value))
-				{
-					$columndef .= ' DEFAULT ' . $column->default_value;
-				}
-				elseif (preg_match('/^\w+\(\)$/', $column->default_value))
-				{
-					$columndef .= ' DEFAULT ' . $column->default_value;
-				}
-				else
-				{
-					$columndef .= ' DEFAULT \'' . $column->default_value . '\'';
-				}
 			}
 			if ($column->auto_increment)
 			{
 				$columndef .= ' AUTO_INCREMENT';
 			}
+
 			$columns[] = $columndef;
 		}
 

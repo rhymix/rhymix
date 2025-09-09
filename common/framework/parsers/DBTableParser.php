@@ -70,8 +70,21 @@ class DBTableParser extends BaseParser
 		// Load columns.
 		foreach ($xml->column as $column_info)
 		{
+			// Is this column generated?
+			$is_generated = strval($column_info['generated'] ?? '') !== '';
+			if ($is_generated)
+			{
+				$column = new DBTable\GeneratedColumn;
+				$column->generated = strtolower($column_info['generated']);
+				$column->is_stored = strtolower($column_info['stored'] ?? '');
+				$column->is_stored = $column->is_stored !== 'virtual' && toBool($column->is_stored);
+			}
+			else
+			{
+				$column = new DBTable\Column;
+			}
+
 			// Get the column name and type.
-			$column = new DBTable\Column;
 			$column->name = strval($column_info['name']);
 			list($column->type, $column->xetype, $column->size) = self::getTypeAndSize(strval($column_info['type']), strval($column_info['size']));
 
