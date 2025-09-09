@@ -4,14 +4,18 @@
  * This script runs the task queue.
  *
  * Unlike other scripts provided with Rhymix, it can be called
- * both on the command line and over the network.
+ * both on the CLI (through index.php) and over the network (directly).
  */
 define('RXQUEUE_CRON', true);
 
 // If called on the CLI, run additional checks.
 if (PHP_SAPI === 'cli')
 {
-	require_once __DIR__ . '/common.php';
+	if (!defined('RX_VERSION'))
+	{
+		echo "Error: This script must not be called directly.\n";
+		exit(1);
+	}
 }
 else
 {
