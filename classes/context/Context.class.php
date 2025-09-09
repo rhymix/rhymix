@@ -338,7 +338,11 @@ class Context
 		}
 
 		// start session
-		if (\PHP_SAPI !== 'cli')
+		if (\PHP_SAPI === 'cli')
+		{
+			$_SESSION = [];
+		}
+		else
 		{
 			if (self::$_current_request->getRouteOption('enable_session'))
 			{
