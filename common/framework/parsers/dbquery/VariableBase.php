@@ -398,7 +398,11 @@ class VariableBase
 		// Don't apply a filter if there is no variable.
 		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
 		$filter = isset($this->filter) ? $this->filter : '';
-		if (!is_array($value) && strval($value) === '')
+		if (is_object($value) && !method_exists($value, '__toString'))
+		{
+			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . $column . ' is not stringable');
+		}
+		if (is_scalar($value) && strval($value) === '')
 		{
 			$filter = '';
 		}
