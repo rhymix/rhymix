@@ -443,6 +443,10 @@ class ModuleController extends Module
 			{
 				$oMenuAdminController = getAdminController('menu');
 				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
+				if ($menuSrl instanceof BaseObject && !$menuSrl->toBool())
+				{
+					return $menuSrl;
+				}
 
 				$menuArgs->menu_srl = $menuSrl;
 				$menuArgs->menu_item_srl = getNextSequence();
