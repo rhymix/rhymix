@@ -28,7 +28,7 @@
 	<item loop="$document_list=>$oDocument" rdf:about="{$oDocument->getPermanentUrl()}">
 		<title>{$oDocument->getTitleText()}</title>
 		<link>{$oDocument->getPermanentUrl()}</link>
-		<description>{$oDocument->getSummary(400)|escape}</description>
+		<description>{$oDocument->getSummary(400)}</description>
 		<dc:creator>{$oDocument->getNickName()}</dc:creator>
 		<dc:date>{date('c', ztime($oDocument->get('regdate')))}</dc:date>
 	</item>
