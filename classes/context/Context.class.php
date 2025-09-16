@@ -1218,7 +1218,7 @@ class Context
 			else
 			{
 				// Set HTTP_RAW_POST_DATA for third-party apps that look for it.
-				if (!$_POST && !isset($GLOBALS['HTTP_RAW_POST_DATA']))
+				if (empty($_POST) && empty($_FILES) && !isset($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
 					$GLOBALS['HTTP_RAW_POST_DATA'] = file_get_contents('php://input');
 				}
@@ -1234,7 +1234,7 @@ class Context
 				}
 
 				// Decide whether it's JSON or XMLRPC by looking at the first character of the POST data.
-				if (!$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+				if (empty($_POST) && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 				{
 					self::$_instance->request_method = substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '<' ? 'XMLRPC' : 'JSON';
 					return;
@@ -1262,7 +1262,7 @@ class Context
 		}
 
 		// Set JSON and XMLRPC arguments.
-		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && !$_POST && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
+		if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST) && !empty($GLOBALS['HTTP_RAW_POST_DATA']))
 		{
 			$params = array();
 			$request_method = self::getRequestMethod();
