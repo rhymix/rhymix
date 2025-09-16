@@ -19,31 +19,32 @@ function memberSetEvent() {
 // 실제 서버에 특정 필드의 value check를 요청하고 이상이 있으면 메세지를 뿌려주는 함수
 function memberCheckValue(event) {
 	var field  = event.target;
-	var _name  = field.name;
-	var _value = field.value;
-	if(!_name || !_value) return;
+	if(!field.name || !field.value) {
+		return;
+	}
 
-	var params = {name:_name, value:_value};
-	var response_tags = ['error','message'];
-
-	exec_xml('member','procMemberCheckValue', params, completeMemberCheckValue, response_tags, field);
+	exec_json('member.procMemberCheckValue', {
+		name: field.name,
+		value: field.value
+	}, function(data) {
+		completeMemberCheckValue(data, null, field);
+	});
 }
 
 // 서버에서 응답이 올 경우 이상이 있으면 메세지를 출력
-function completeMemberCheckValue(ret_obj, response_tags, field) {
+function completeMemberCheckValue(data, unused, field) {
 	var _id   = 'dummy_check'+field.name;
 	var dummy = jQuery('#'+_id);
-   
-    if(ret_obj['message']=='success') {
-        dummy.html('').hide();
-        return;
-    }
-
 	if (!dummy.length) {
 		dummy = jQuery('<p class="checkValue help-inline" style="color:red" />').attr('id', _id).appendTo(field.parentNode);
 	}
 
-	dummy.html(ret_obj['message']).show();
+    if(data.message == 'success') {
+        dummy.html('').hide();
+        return;
+    } else {
+		dummy.html(data.message).show();
+	}
 }
 
 // 결과 메세지를 정리하는 함수
