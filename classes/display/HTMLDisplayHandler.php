@@ -151,13 +151,20 @@ class HTMLDisplayHandler
 						Context::loadFile(array($edited_layout_css, 'all', '', 100));
 					}
 				}
-				if(!$layout_path)
+				if (!$layout_path)
 				{
 					$layout_path = './common/tpl';
 				}
-				if(!$layout_file)
+				if (!$layout_file)
 				{
-					$layout_file = 'default_layout';
+					if ($layout_path === './common/tpl')
+					{
+						$layout_file = 'default_layout';
+					}
+					else
+					{
+						$layout_file = 'layout';
+					}
 				}
 
 				$oTemplate = new Rhymix\Framework\Template;
