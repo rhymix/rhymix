@@ -671,7 +671,7 @@ function utf8_mbencode($str): string
 		$bytes = array(ord($m[0][0]), ord($m[0][1]), ord($m[0][2]), ord($m[0][3]));
 		$codepoint = ((0x07 & $bytes[0]) << 18) + ((0x3F & $bytes[1]) << 12) + ((0x3F & $bytes[2]) << 6) + (0x3F & $bytes[3]);
 		return '&#x' . dechex($codepoint) . ';';
-	}, (string)$str);
+	}, (string)$str) ?? '';
 }
 
 /**
@@ -686,11 +686,11 @@ function utf8_normalize_spaces($str, bool $multiline = false): string
 {
 	if ($multiline)
 	{
-		return preg_replace(['/((?!\x0A)[\pZ\pC])+/u', '/\x20*\x0A\x20*/'], [' ', "\n"], (string)$str);
+		return preg_replace(['/((?!\x0A)[\pZ\pC])+/u', '/\x20*\x0A\x20*/'], [' ', "\n"], (string)$str) ?? '';
 	}
 	else
 	{
-		return preg_replace('/[\pZ\pC]+/u', ' ', (string)$str);
+		return preg_replace('/[\pZ\pC]+/u', ' ', (string)$str) ?? '';
 	}
 }
 
