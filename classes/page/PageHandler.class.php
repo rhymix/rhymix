@@ -44,24 +44,23 @@ class PageHandler extends Handler implements Iterator
 		$this->page_count = $page_count;
 		$this->point = 0;
 
-		$first_page = $cur_page - (int) ($page_count / 2);
-		if($first_page < 1)
+		if ($this->cur_page > $total_page)
 		{
-			$first_page = 1;
+			$this->cur_page = $total_page;
+		}
+		if ($this->page_count > $total_page)
+		{
+			$this->page_count = $total_page;
 		}
 
-		if($total_page > $page_count && $first_page + $page_count - 1 > $total_page)
+		$first_page = max(1, $this->cur_page - floor($this->page_count / 2));
+		if (($first_page + $this->page_count - 1) > $total_page)
 		{
-			$first_page -= $first_page + $page_count - 1 - $total_page;
+			$first_page = max(1, $total_page - $this->page_count + 1);
 		}
 
 		$this->first_page = $first_page;
 		$this->last_page = $total_page;
-
-		if($total_page < $this->page_count)
-		{
-			$this->page_count = $total_page;
-		}
 	}
 
 	/**
