@@ -151,7 +151,16 @@ class ModuleHandler extends Handler
 						$site_module_info->domain = Rhymix\Framework\URL::getCurrentDomain();
 						$site_module_info->is_default_domain = 'N';
 						$site_module_info->is_default_replaced = true;
+
+						// Reset context variables if the domain was replaced.
 						Context::set('site_module_info', $site_module_info);
+						Context::set('_default_url', null);
+						Context::set('request_uri', $current_url = Context::getRequestUri());
+						if ($query_string = http_build_query(Context::getCurrentRequest()->args))
+						{
+							$current_url .= '?' . $query_string;
+						}
+						Context::set('current_url', $current_url);
 				}
 			}
 		}
