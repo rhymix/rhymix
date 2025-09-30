@@ -175,6 +175,22 @@ class DBTest extends \Codeception\Test\Unit
 		$target = 'INSERT INTO `' . $prefix . 'documents` (a, b, c) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE b = ?, c = ?';
 		$this->assertEquals($target, $oDB->addPrefixes($source));
 
+		$source = "LOAD DATA LOCAL INFILE '/tmp/foo.csv' INTO TABLE foo_table FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' (a, b, c)";
+		$target = "LOAD DATA LOCAL INFILE '/tmp/foo.csv' INTO TABLE `" . $prefix . "foo_table` FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' (a, b, c)";
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
+		$source = 'ALTER TABLE documents ADD INDEX idx_foo (a, b)';
+		$target = 'ALTER TABLE `' . $prefix . 'documents` ADD INDEX idx_foo (a, b)';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
+		$source = 'TRUNCATE TABLE documents';
+		$target = 'TRUNCATE TABLE `' . $prefix . 'documents`';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
+		$source = 'DROP TABLE documents';
+		$target = 'DROP TABLE `' . $prefix . 'documents`';
+		$this->assertEquals($target, $oDB->addPrefixes($source));
+
 		$source = 'update documents set a = ?, b = ? where c = ?';
 		$this->assertEquals($source, $oDB->addPrefixes($source));
 

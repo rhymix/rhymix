@@ -1126,17 +1126,17 @@ class DB
 		}
 		else
 		{
-			$exceptions = [];
+			$exceptions = ['TABLE'];
 		}
 
 		// Add prefixes to all other table names in the query string.
-		return preg_replace_callback('/\b((?:DELETE\s+)?FROM|JOIN|INTO|(?<!KEY\s)UPDATE)(?i)\s+((?:`?\w+`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/', function($m) use($exceptions) {
+		return preg_replace_callback('/\b((?:DELETE\s+)?FROM|JOIN|INTO(?: TABLE)?|TABLE|(?<!KEY\s)UPDATE)(?i)\s+((?:`?\w+`?)(?:\s+AS\s+`?\w+`?)?(?:\s*,\s*(?:`?\w+\`?)(?:\s+AS\s+`?\w+`?)?)*)/', function($m) use($exceptions) {
 			$type = strtoupper($m[1]);
 			$tables = array_map(function($str) use($type, $exceptions) {
 				return preg_replace_callback('/`?(\w+)`?(?:\s+AS\s+`?(\w+)`?)?/i', function($m) use($type, $exceptions) {
 					if (count($exceptions) && in_array($m[1], $exceptions))
 					{
-						return isset($m[2]) ? sprintf('`%s` AS `%s`',  $m[1], $m[2]) : sprintf('`%s`', $m[1]);
+						return isset($m[2]) ? sprintf('`%s` AS `%s`',  $m[1], $m[2]) : (ctype_upper($m[1]) ? $m[1] : sprintf('`%s`', $m[1]));
 					}
 					elseif ($type === 'FROM' || $type === 'JOIN')
 					{
