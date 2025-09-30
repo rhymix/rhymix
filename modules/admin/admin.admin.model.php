@@ -56,11 +56,7 @@ class AdminAdminModel extends Admin
 	 */
 	public function getSiteAllList()
 	{
-		if(Context::get('domain'))
-		{
-			$domain = Context::get('domain');
-		}
-		$siteList = $this->getAllSitesThatHaveModules($domain);
+		$siteList = $this->getAllSitesThatHaveModules(Context::get('domain'));
 		$this->add('site_list', $siteList);
 	}
 
