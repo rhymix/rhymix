@@ -145,7 +145,7 @@
 				chunkfail: function(e, res) {
 					lastUploadTime = Date.now();
 					if (chunkStatus) {
-						alert(window.xe.lang.msg_file_upload_error + " (Type 3)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 3)" + "\n" + res.errorThrown + "\n" + res.textStatus);
 						return chunkStatus = false;
 					}
 				},
@@ -169,7 +169,7 @@
 						result = jQuery.parseJSON(result);
 					}
 					if (!result) {
-						alert(window.xe.lang.msg_file_upload_error + " (Type 5)" + "<br>\n" + res.response().result);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 5)" + "\n" + res.response().result);
 						return false;
 					}
 
@@ -215,7 +215,7 @@
 						return false;
 					} else {
 						$container.data('editorStatus', null);
-						alert(window.xe.lang.msg_file_upload_error + " (Type 6)" + "<br>\n" + res.response().result);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 6)" + "\n" + res.response().result);
 						return false;
 					}
 				},
@@ -229,7 +229,7 @@
 						}
 					}, 1000);
 					if (chunkStatus) {
-						alert(window.xe.lang.msg_file_upload_error + " (Type 7)" + "<br>\n" + res.errorThrown + "<br>\n" + res.textStatus);
+						alert(window.xe.lang.msg_file_upload_error + " (Type 7)" + "\n" + res.errorThrown + "\n" + res.textStatus);
 						return false;
 					}
 				},
