@@ -296,11 +296,11 @@ class Member extends ModuleObject
 		// Add columns for IP address
 		if(!$oDB->isColumnExists("member", "ipaddress"))
 		{
-			$oDB->addColumn("member", "ipaddress", "varchar", 120, null, false, 'regdate');
+			$oDB->addColumn("member", "ipaddress", "varchar", 60, null, false, 'regdate');
 		}
 		if(!$oDB->isColumnExists("member", "last_login_ipaddress"))
 		{
-			$oDB->addColumn("member", "last_login_ipaddress", "varchar", 120, null, false, 'last_login');
+			$oDB->addColumn("member", "last_login_ipaddress", "varchar", 60, null, false, 'last_login');
 		}
 		if(!$oDB->isIndexExists("member","idx_ipaddress"))
 		{
