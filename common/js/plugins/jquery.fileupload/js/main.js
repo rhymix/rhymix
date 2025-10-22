@@ -384,7 +384,10 @@
 			}
 
 			if (html !== '' && data.settings.autoinsertPosition === 'paragraph') {
-					html = '<p>' + html + '</p>\n';
+				html = '<p>' + html + '</p>\n';
+				if (html.match(/<video /)) {
+					html += '<p>&nbsp;</p>\n';
+				}
 			}
 
 			if (html === '') {
