@@ -728,6 +728,10 @@ class FileHandler
 		}
 		elseif ($target_type === 'webp' && function_exists('imagewebp'))
 		{
+			if (!imageistruecolor($thumb))
+			{
+				imagepalettetotruecolor($thumb);
+			}
 			$output = imagewebp($thumb, $target_file);
 		}
 		else
