@@ -58,10 +58,9 @@ class WidgetModel extends Widget
 			$widget = $searched_list[$i];
 			// Wanted information on the Widget
 			$widget_info = self::getWidgetInfo($widget);
-
-			if(!$widget_info)
+			if (!$widget_info)
 			{
-				$widget_info = new stdClass();
+				continue;
 			}
 
 			// get easyinstall remove url
@@ -101,8 +100,10 @@ class WidgetModel extends Widget
 			$widgetStyle = $searched_list[$i];
 			// Wanted information on the Widget
 			$widgetStyle_info = self::getWidgetStyleInfo($widgetStyle);
-
-			$list[] = $widgetStyle_info;
+			if ($widgetStyle_info)
+			{
+				$list[] = $widgetStyle_info;
+			}
 		}
 		return $list;
 	}
