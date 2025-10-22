@@ -314,39 +314,57 @@ class Security
 	 */
 	public static function checkCSRF(?string $referer = null): bool
 	{
+		// If CSRF token checking is enabled, check the token header or parameter first.
+		// Tokens are allowed to be missing for unauthenticated users.
 		$check_csrf_token = config('security.check_csrf_token') ? true : false;
-		if ($token = isset($_SERVER['HTTP_X_CSRF_TOKEN']) ? $_SERVER['HTTP_X_CSRF_TOKEN'] : null)
+		if ($check_csrf_token)
 		{
-			return Session::verifyToken((string)$token, '', $check_csrf_token);
+			$token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? ($_REQUEST['_rx_csrf_token'] ?? null);
+			if ($token)
+			{
+				return Session::verifyToken((string)$token, '', $check_csrf_token);
+			}
+			elseif (Session::getMemberSrl())
+			{
+				trigger_error('CSRF token missing in authenticated POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
+				return false;
+			}
 		}
-		elseif ($token = isset($_REQUEST['_rx_csrf_token']) ? $_REQUEST['_rx_csrf_token'] : null)
-		{
-			return Session::verifyToken((string)$token, '', $check_csrf_token);
-		}
-		elseif ($_SERVER['REQUEST_METHOD'] === 'GET')
+
+		// Return early for GET and other "safe" requests.
+		if (in_array($_SERVER['REQUEST_METHOD'], ['GET', 'HEAD', 'OPTIONS', 'TRACE']))
 		{
 			return false;
 		}
+
+		// The Sec-Fetch-Site header is the standard way to check whether the request is same-origin.
+		$sec_fetch_site = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
+		if ($sec_fetch_site === 'same-origin' || $sec_fetch_site === 'none')
+		{
+			return true;
+		}
+		if ($sec_fetch_site === 'cross-site')
+		{
+			return false;
+		}
+
+		// If the Sec-Fetch-Site header is not available, check the Origin header.
+		$origin = strval($_SERVER['HTTP_ORIGIN'] ?? '');
+		if ($origin !== '' && $origin !== 'null')
+		{
+			return URL::isInternalURL($origin);
+		}
+
+		// If the Origin header is not available, fall back to the Referer header.
+		// The Referer header is NOT allowed to be empty in this case.
+		$referer = $referer ?? strval($_SERVER['HTTP_REFERER'] ?? '');
+		if ($referer !== '' && $referer !== 'null')
+		{
+			return URL::isInternalURL($referer);
+		}
 		else
 		{
-			$is_logged = Session::getMemberSrl();
-			if ($is_logged)
-			{
-				trigger_error('CSRF token missing in POST request: ' . (\Context::get('act') ?: '(no act)'), \E_USER_WARNING);
-			}
-
-			if (!$referer)
-			{
-				$referer = strval(($_SERVER['HTTP_ORIGIN'] ?? '') ?: ($_SERVER['HTTP_REFERER'] ?? ''));
-			}
-			if ($referer !== '' && $referer !== 'null' && (!$check_csrf_token || !$is_logged))
-			{
-				return URL::isInternalURL($referer);
-			}
-			else
-			{
-				return false;
-			}
+			return false;
 		}
 	}
 

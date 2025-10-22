@@ -106,10 +106,13 @@ class SecurityTest extends \Codeception\Test\Unit
 	{
 		$error_reporting = error_reporting(0);
 
+		config('security.check_csrf_token', true);
+
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$_SERVER['HTTP_REFERER'] = '';
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = Rhymix\Framework\Session::createToken();
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
 
@@ -117,6 +120,7 @@ class SecurityTest extends \Codeception\Test\Unit
 		$_SERVER['HTTP_REFERER'] = '';
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = Rhymix\Framework\Session::createToken();
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
 
@@ -124,27 +128,63 @@ class SecurityTest extends \Codeception\Test\Unit
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
 
-		$_SERVER['HTTP_REFERER'] = 'http://www.rhymix.org/foo/bar';
-		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = Rhymix\Framework\Session::createToken();
 		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+
 		$_SERVER['HTTP_X_CSRF_TOKEN'] = 'invalid value';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
 
-		$_SERVER['HTTP_ORIGIN'] = 'http://www.rhymix.org';
-		$_SERVER['HTTP_REFERER'] = 'http://www.foobar.com';
-		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
-		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
-		$_SERVER['HTTP_REFERER'] = '';
-		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
-		$_SERVER['HTTP_ORIGIN'] = 'http://www.foobar.com';
+		$_SERVER['HTTP_X_CSRF_TOKEN'] = '0';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
+		config('security.check_csrf_token', false);
+		unset($_SERVER['HTTP_X_CSRF_TOKEN']);
+
+		$_SERVER['HTTP_REFERER'] = 'https://www.rhymix.org/foo/bar';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+
+		$_SERVER['HTTP_ORIGIN'] = 'https://www.rhymix.org';
+		$_SERVER['HTTP_REFERER'] = 'https://www.foobar.com';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+
+		$_SERVER['HTTP_ORIGIN'] = 'https://www.foobar.com';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'same-origin';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'none';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'invalid value';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
+		unset($_SERVER['HTTP_SEC_FETCH_SITE']);
+
+		$_SERVER['HTTP_ORIGIN'] = '';
+		$_SERVER['HTTP_REFERER'] = '';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
 		$_SERVER['HTTP_ORIGIN'] = 'null';
+		$_SERVER['HTTP_REFERER'] = '';
 		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
 
-		$_SERVER['HTTP_REFERER'] = '';
-		$_SERVER['HTTP_X_CSRF_TOKEN'] = '';
-		$this->assertTrue(Rhymix\Framework\Security::checkCSRF('http://www.rhymix.org/'));
+		$_SERVER['HTTP_ORIGIN'] = 'null';
+		$_SERVER['HTTP_REFERER'] = 'https://www.rhymix.org';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF());
 
+		$_SERVER['HTTP_ORIGIN'] = '';
+		$_SERVER['HTTP_REFERER'] = 'null';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF());
+
+		$_SERVER['HTTP_ORIGIN'] = '';
+		$_SERVER['HTTP_REFERER'] = '';
+		$this->assertTrue(Rhymix\Framework\Security::checkCSRF('https://www.rhymix.org/'));
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'cross-site';
+		$this->assertFalse(Rhymix\Framework\Security::checkCSRF('https://www.rhymix.org/'));
+
+		unset($_SERVER['HTTP_SEC_FETCH_SITE']);
 		error_reporting($error_reporting);
 	}
 

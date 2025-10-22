@@ -187,7 +187,7 @@ $lang->about_use_session_ssl = 'Force the session to be SSL-only.<br>This helps 
 $lang->use_cookies_ssl = 'Use SSL-only cookies';
 $lang->about_use_cookies_ssl = 'Force all cookies to be SSL-only.';
 $lang->check_csrf_token = 'Use CSRF tokens';
-$lang->about_check_csrf_token = 'Use CSRF tokens to validate requests. This is more secure but may break some functionality.<br>If not selected, Rhymix will use only the Referer header to defend against CSRF attacks.';
+$lang->about_check_csrf_token = 'Use CSRF tokens to validate requests. This may break some functionality.<br>If not selected, Rhymix will use headers such as Sec-Fetch-Site and Origin to block CSRF attacks.';
 $lang->use_nofollow = 'Add nofollow attribute to Links';
 $lang->about_use_nofollow = 'Add rel=&quot;nofollow&quot; to all links submitted by users in order to reduce the effectiveness of spamming.<br>This does not apply to content submitted by the administrator.';
 $lang->use_object_cache = 'Use Cache';
