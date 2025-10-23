@@ -4,30 +4,52 @@
 sudo add-apt-repository -y ppa:ondrej/php
 
 # Install all required packages
-sudo apt -y install \
-	php$1-apcu \
-	php$1-bcmath \
-	php$1-cli \
-	php$1-common \
-	php$1-curl \
-	php$1-gd \
-	php$1-intl \
-	php$1-mbstring \
-	php$1-mysql \
-	php$1-opcache \
-	php$1-readline \
-	php$1-sqlite3 \
-	php$1-xml \
-	php$1-zip
+if [[ "$1" == "8.5" ]]; then
+  sudo apt -y install \
+    php$1-bcmath \
+    php$1-cli \
+    php$1-common \
+    php$1-curl \
+    php$1-gd \
+    php$1-intl \
+    php$1-mbstring \
+    php$1-mysql \
+    php$1-readline \
+    php$1-sqlite3 \
+    php$1-xml \
+    php$1-zip
+else
+  sudo apt -y install \
+    php$1-apcu \
+    php$1-bcmath \
+    php$1-cli \
+    php$1-common \
+    php$1-curl \
+    php$1-gd \
+    php$1-intl \
+    php$1-mbstring \
+    php$1-mysql \
+    php$1-opcache \
+    php$1-readline \
+    php$1-sqlite3 \
+    php$1-xml \
+    php$1-zip
+fi
 
-# Enable and tune opcache
-sudo bash -c 'echo "opcache.enable = 1" >> /etc/php/$1/cli/conf.d/10-opcache.ini'
-sudo bash -c 'echo "opcache.enable_cli = 1" >> /etc/php/$1/cli/conf.d/10-opcache.ini'
-sudo bash -c 'echo "opcache.jit = tracing" >> /etc/php/$1/cli/conf.d/10-opcache.ini'
-sudo bash -c 'echo "opcache.jit_buffer_size = 128M" >> /etc/php/$1/cli/conf.d/10-opcache.ini'
+# Adjust php.ini settings
+if [[ "$1" == "8.5" ]]; then
+  sudo bash -c "echo 'register_argc_argv = On' >> /etc/php/$1/cli/php.ini"
+else
+  sudo bash -c "echo 'opcache.enable = 1' >> /etc/php/$1/cli/conf.d/10-opcache.ini"
+  sudo bash -c "echo 'opcache.enable_cli = 1' >> /etc/php/$1/cli/conf.d/10-opcache.ini"
+  sudo bash -c "echo 'opcache.jit = tracing' >> /etc/php/$1/cli/conf.d/10-opcache.ini"
+  sudo bash -c "echo 'opcache.jit_buffer_size = 128M' >> /etc/php/$1/cli/conf.d/10-opcache.ini"
+fi
 
 # Enable APCu
-sudo bash -c 'echo "apc.enable_cli = 1" >> /etc/php/$1/cli/conf.d/20-apcu.ini'
+if [ -f "/etc/php/$1/cli/conf.d/20-apcu.ini" ]; then
+  sudo bash -c "echo 'apc.enable_cli = 1' >> /etc/php/$1/cli/conf.d/20-apcu.ini"
+fi
 
 # Disable xdebug
 sudo phpdismod -v ALL -s ALL xdebug
