@@ -87,9 +87,6 @@ class Document extends ModuleObject
 		if(!$oDB->isIndexExists("document_extra_vars", "unique_extra_vars")) return true;
 		if($oDB->isIndexExists("document_extra_vars", "unique_module_vars")) return true;
 
-		// 2011. 03. 30 Cubrid index Check the index in the document_extra_vars table
-		if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order")) return true;
-
 		// 2011. 10. 25 status index check
 		if(!$oDB->isIndexExists("documents", "idx_module_status")) return true;
 
@@ -116,6 +113,9 @@ class Document extends ModuleObject
 		// 2025.10.23 Add sort to document_extra_keys table, and sort_value to document_extra_vars table
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_sort')) return true;
 		if(!$oDB->isColumnExists('document_extra_vars', 'sort_value') || !$oDB->isIndexExists('document_extra_vars', 'idx_sort_value')) return true;
+
+		// Delete unnecessary index
+		if($oDB->isIndexExists('document_extra_vars', 'idx_document_list_order')) return true;
 
 		return false;
 	}
@@ -182,12 +182,7 @@ class Document extends ModuleObject
 			$oDB->dropIndex("document_extra_vars", "unique_module_vars", true);
 		}
 
-		// 2011. 03. 30 Cubrid index Check the index in the document_extra_vars table
-		if(!$oDB->isIndexExists("document_extra_vars", "idx_document_list_order"))
-		{
-			$oDB->addIndex("document_extra_vars", "idx_document_list_order", array("document_srl","module_srl","var_idx"), false);
-		}
-
+		// 2011. 10. 25 status index check
 		if(!$oDB->isIndexExists("documents", "idx_module_status"))
 		{
 			$oDB->addIndex("documents", "idx_module_status", array("module_srl","status"));
@@ -266,7 +261,13 @@ class Document extends ModuleObject
 				}
 			}
 			$oDB->commit();
-			$oDB->addIndex('document_extra_vars', 'idx_sort_value', array('sort_value'));
+			$oDB->addIndex('document_extra_vars', 'idx_sort_value', array('module_srl', 'sort_value'));
+		}
+
+		// Delete unnecessary index
+		if($oDB->isIndexExists('document_extra_vars', 'idx_document_list_order'))
+		{
+			$oDB->dropIndex('document_extra_vars', 'idx_document_list_order');
 		}
 	}
 

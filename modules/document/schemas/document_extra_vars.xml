@@ -1,9 +1,10 @@
 <table name="document_extra_vars">
-    <column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
-    <column name="document_srl" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
-    <column name="var_idx" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
-    <column name="lang_code" type="varchar" size="10" notnull="notnull" unique="unique_extra_vars" />
-    <column name="value" type="bigtext" />
-	<column name="sort_value" type="bigint" index="idx_sort_value" />
-    <column name="eid" type="varchar" size="40" />
+	<column name="module_srl" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
+	<column name="document_srl" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
+	<column name="var_idx" type="number" size="11" notnull="notnull" unique="unique_extra_vars" />
+	<column name="lang_code" type="varchar" size="10" notnull="notnull" unique="unique_extra_vars" />
+	<column name="value" type="bigtext" />
+	<column name="sort_value" type="bigint" />
+	<column name="eid" type="varchar" size="40" />
+	<index name="idx_sort_value" columns="module_srl,sort_value" />
 </table>

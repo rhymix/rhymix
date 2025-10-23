@@ -3,7 +3,7 @@
 		<table name="document_extra_vars" />
 	</tables>
 	<columns>
-		<column name="sort_value" default="CAST(value AS UNSIGNED)" />
+		<column name="sort_value" default="CAST(value AS SIGNED)" />
 	</columns>
 	<conditions>
 		<condition operation="equal" column="module_srl" var="module_srl" filter="number" notnull="notnull" />
