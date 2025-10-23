@@ -383,6 +383,12 @@ class VariableBase
 			}
 		}
 
+		// If the default value is any other kind of SQL expression, return it as is.
+		if (isset($column) && preg_match('/^[A-Z_]+\([^)]+\)/', $this->default))
+		{
+			return [true, $this->default];
+		}
+
 		// Otherwise, just return the literal value.
 		return [false, $this->default];
 	}
