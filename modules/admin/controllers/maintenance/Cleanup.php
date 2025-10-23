@@ -335,6 +335,7 @@ class Cleanup extends Base
 		'common/js/plugins/spectrum/docs/' => 'deleted',
 		'common/js/plugins/spectrum/example/' => 'deleted',
 		'common/js/plugins/spectrum/test/' => 'deleted',
+		'common/js/plugins/uploader/' => 'deleted:xe',
 		'common/lang/lang.info' => 'deleted:xe',
 		'common/libraries/bmp.php' => 'deleted',
 		'common/manual/server_config/rhymix-nginx-help.md' => 'deleted',
