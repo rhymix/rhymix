@@ -7,6 +7,7 @@
         <column name="document_srl" var="document_srl" filter="number" notnull="notnull" />
         <column name="var_idx" var="var_idx" filter="number" notnull="notnull" />
         <column name="value" var="value" notnull="notnull" />
+		<column name="sort_value" var="sort_value" />
         <column name="lang_code" var="lang_code" />
         <column name="eid" var="eid" notnull="notnull" />
     </columns>

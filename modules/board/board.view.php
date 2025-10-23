@@ -100,9 +100,13 @@ class BoardView extends Board
 		{
 			foreach($extra_keys as $val)
 			{
-				$this->order_target[] = $val->eid;
+				if ($val->sort === 'Y')
+				{
+					$this->order_target[] = $val->eid;
+				}
 			}
 		}
+
 		/**
 		 * load javascript, JS filters
 		 */

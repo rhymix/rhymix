@@ -6,6 +6,7 @@
     <column name="var_is_required" type="char" size="1" default="N" notnull="notnull" />
     <column name="var_is_strict" type="char" size="1" default="N" notnull="notnull" />
     <column name="var_search" type="char" size="1" default="N" notnull="notnull" />
+	<column name="var_sort" type="char" size="1" default="N" notnull="notnull" />
     <column name="var_default" type="text" />
     <column name="var_options" type="text" />
     <column name="var_desc" type="text" />

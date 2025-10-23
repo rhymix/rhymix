@@ -22,6 +22,7 @@ $lang->cmd_upload = '업로드';
 $lang->cmd_load = '불러오기';
 $lang->cmd_input = '입력';
 $lang->cmd_search = '검색';
+$lang->cmd_sort = '정렬';
 $lang->cmd_find = '찾기';
 $lang->cmd_replace = '바꾸기';
 $lang->cmd_confirm = '확인';

@@ -183,7 +183,8 @@ class DocumentAdminController extends Document
 			$options = array_map('trim', explode("\n", $options));
 		}
 		$desc = Context::get('desc') ? Context::get('desc') : '';
-		$search = Context::get('search');
+		$search = Context::get('search') === 'Y' ? 'Y' : 'N';
+		$sort = Context::get('sort') === 'Y' ? 'Y' : 'N';
 		$eid = Context::get('eid');
 		$obj = new stdClass();
 
@@ -210,7 +211,7 @@ class DocumentAdminController extends Document
 		$oDocumentController = DocumentController::getInstance();
 		$output = $oDocumentController->insertDocumentExtraKey(
 			$module_srl, $var_idx, $name, $type, $is_required, $search,
-			$default, $desc, $eid, $is_strict, $options
+			$default, $desc, $eid, $is_strict, $options, $sort
 		);
 		if(!$output->toBool()) return $output;
 

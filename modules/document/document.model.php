@@ -239,6 +239,7 @@ class DocumentModel extends Document
 		$sort_check = self::_setSortIndex($obj, $load_extra_vars);
 		$obj->sort_index = $sort_check->sort_index;
 		$obj->isExtraVars = $sort_check->isExtraVars;
+		$obj->isExtraVarsSortAsNumber = $sort_check->isExtraVarsSortAsNumber;
 		$obj->except_notice = $except_notice;
 		$obj->columnList = $columnList;
 
@@ -672,6 +673,7 @@ class DocumentModel extends Document
 		$sort_check = self::_setSortIndex($opt);
 		$opt->sort_index = $sort_check->sort_index;
 		$opt->isExtraVars = $sort_check->isExtraVars;
+		$opt->isExtraVarsSortAsNumber = $sort_check->isExtraVarsSortAsNumber;
 
 		self::_setSearchOption($opt, $args, $query_id, $use_division);
 
@@ -1363,20 +1365,20 @@ class DocumentModel extends Document
 			return $args;
 		}
 
-		$eids = array();
-		foreach($extra_keys as $idx => $key)
+		foreach($extra_keys as $extra_key)
 		{
-			$eids[] = $key->eid;
+			if ($args->sort_index === $extra_key->eid)
+			{
+				$args->isExtraVars = true;
+				if ($extra_key->type === 'number')
+				{
+					$args->isExtraVarsSortAsNumber = true;
+				}
+				return $args;
+			}
 		}
 
-		// check it exists in extra keys of the module
-		if(!in_array($args->sort_index, $eids))
-		{
-			$args->sort_index = 'list_order';
-			return $args;
-		}
-
-		$args->isExtraVars = true;
+		$args->sort_index = 'list_order';
 		return $args;
 	}
 
@@ -1556,7 +1558,14 @@ class DocumentModel extends Document
 				{
 					$args->sort_eid = $args->sort_index;
 					$args->sort_lang = Context::getLangType();
-					$args->sort_index = 'extra_sort.value';
+					if ($searchOpt->isExtraVarsSortAsNumber ?? false)
+					{
+						$args->sort_index = 'extra_sort.sort_value';
+					}
+					else
+					{
+						$args->sort_index = 'extra_sort.value';
+					}
 				}
 				$query_id = 'document.getDocumentListWithExtraVars';
 			}

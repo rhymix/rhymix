@@ -10,6 +10,7 @@
         <column name="var_is_required" alias="is_required" />
         <column name="var_is_strict" alias="is_strict" />
         <column name="var_search" alias="search" />
+        <column name="var_sort" alias="sort" />
         <column name="var_default" alias="default" />
         <column name="var_options" alias="options" />
         <column name="var_desc" alias="desc" />

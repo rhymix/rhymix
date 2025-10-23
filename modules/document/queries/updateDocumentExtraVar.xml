@@ -4,6 +4,7 @@
     </tables>
     <columns>
         <column name="value" var="value" />
+		<column name="sort_value" var="sort_value" />
         <column name="lang_code" var="lang_code" />
         <column name="eid" var="eid" />
     </columns>

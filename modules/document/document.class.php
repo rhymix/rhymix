@@ -113,6 +113,10 @@ class Document extends ModuleObject
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_is_strict')) return true;
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_options')) return true;
 
+		// 2025.10.23 Add sort to document_extra_keys table, and sort_value to document_extra_vars table
+		if(!$oDB->isColumnExists('document_extra_keys', 'var_sort')) return true;
+		if(!$oDB->isColumnExists('document_extra_vars', 'sort_value') || !$oDB->isIndexExists('document_extra_vars', 'idx_sort_value')) return true;
+
 		return false;
 	}
 
@@ -232,6 +236,37 @@ class Document extends ModuleObject
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_options'))
 		{
 			$oDB->addColumn('document_extra_keys', 'var_options', 'text', null, null, false, 'var_default');
+		}
+
+		// 2025.10.23 Add sort to document_extra_keys table, and sort_value to document_extra_vars table
+		if(!$oDB->isColumnExists('document_extra_keys', 'var_sort'))
+		{
+			$oDB->addColumn('document_extra_keys', 'var_sort', 'char', '1', 'N', true, 'var_search');
+		}
+		if(!$oDB->isColumnExists('document_extra_vars', 'sort_value') || !$oDB->isIndexExists('document_extra_vars', 'idx_sort_value'))
+		{
+			$oDB->addColumn('document_extra_vars', 'sort_value', 'bigint', null, null, false, 'value');
+			$oDB->begin();
+			$output = executeQueryArray('document.getDocumentNumericExtraKeys', ['var_type' => 'number']);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+			foreach ($output->data ?? [] as $item)
+			{
+				$output = executeQuery('document.updateDocumentExtraVarSortValue', [
+					'module_srl' => $item->module_srl,
+					'var_idx' => $item->var_idx,
+				]);
+				if (!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
+			}
+			$oDB->commit();
+			$oDB->addIndex('document_extra_vars', 'idx_sort_value', array('sort_value'));
 		}
 	}
 

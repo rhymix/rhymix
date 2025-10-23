@@ -86,6 +86,13 @@
 					<label class="x_inline" for="search_n"><input type="radio" name="search" id="search_n" value="N" checked="checked"|cond="$selected_var->search!='Y'" /> {$lang->not}</label>
 				</div>
 			</div>
+			<div class="x_control-group">
+				<label class="x_control-label">{$lang->cmd_sort}</label>
+				<div class="x_controls">
+					<label class="x_inline" for="sort_y"><input type="radio" name="sort" id="sort_y" value="Y" checked="checked"|cond="$selected_var->sort=='Y'" /> {$lang->yes}</label>
+					<label class="x_inline" for="sort_n"><input type="radio" name="sort" id="sort_n" value="N" checked="checked"|cond="$selected_var->sort!='Y'" /> {$lang->not}</label>
+				</div>
+			</div>
 
 			<div class="x_clearfix btnArea">
 				<div class="x_pull-left">
@@ -120,6 +127,7 @@
 				<th>{$lang->default_value}</th>
 				<th>{$lang->is_required}</th>
 				<th>{$lang->cmd_search}</th>
+				<th>{$lang->cmd_sort}</th>
 				<th>&nbsp;</th>
 			</tr>
 		</thead>
@@ -138,6 +146,7 @@
 				<td>{$val->default}&nbsp;</td>
 				<td class="nowr"><!--@if($val->is_required=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
 				<td class="nowr"><!--@if($val->search=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
+				<td class="nowr"><!--@if($val->sort=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
 				<td class="nowr" style="text-align:right">
 					<block cond="$val->idx > 1">
 						<button type="button" class="x_icon-arrow-up" onclick="moveVar('up','{$module_srl}','{$val->idx}')">{$lang->cmd_move_up}</button>

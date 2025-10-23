@@ -10,6 +10,7 @@
 		<column name="var_is_required" var="var_is_required" default="N" notnull="notnull" />
 		<column name="var_is_strict" var="var_is_strict" default="N" notnull="notnull" />
 		<column name="var_search" var="var_search" default="N" notnull="notnull" />
+		<column name="var_sort" var="var_sort" default="N" notnull="notnull" />
 		<column name="var_default" var="var_default" />
 		<column name="var_options" var="var_options" />
 		<column name="var_desc" var="var_desc" />

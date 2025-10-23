@@ -22,6 +22,7 @@ $lang->cmd_upload = 'Upload';
 $lang->cmd_load = 'Load';
 $lang->cmd_input = 'Input';
 $lang->cmd_search = 'Search';
+$lang->cmd_sort = 'Sort';
 $lang->cmd_find = 'Find';
 $lang->cmd_replace = 'Replace';
 $lang->cmd_confirm = 'Confirm';

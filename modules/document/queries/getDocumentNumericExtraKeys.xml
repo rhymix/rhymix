@@ -1,0 +1,13 @@
+<query id="getDocumentNumericExtraKeys" action="select">
+	<tables>
+		<table name="document_extra_keys" />
+	</tables>
+	<columns>
+		<column name="module_srl" />
+		<column name="var_idx" />
+		<column name="var_type" />
+	</columns>
+	<conditions>
+		<condition operation="in" column="var_type" var="var_type" />
+	</conditions>
+</query>

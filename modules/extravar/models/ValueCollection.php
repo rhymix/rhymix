@@ -50,7 +50,7 @@ class ValueCollection
 
 		foreach ($keys as $val)
 		{
-			$this->keys[$val->idx] = new Value($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value ?? null, $val->eid, $val->parent_type ?? 'document', $val->is_strict, $val->options);
+			$this->keys[$val->idx] = new Value($val->module_srl, $val->idx, $val->name, $val->type, $val->default, $val->desc, $val->is_required, $val->search, $val->value ?? null, $val->eid, $val->parent_type ?? 'document', $val->is_strict, $val->options, $val->sort ?? 'N');
 		}
 	}
 
