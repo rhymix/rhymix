@@ -1350,6 +1350,7 @@ class DocumentModel extends Document
 		$args = new stdClass;
 		$args->sort_index = $obj->sort_index ?? null;
 		$args->isExtraVars = false;
+		$args->isExtraVarsSortAsNumber = false;
 
 		// check it's default sort
 		$default_sort = array('list_order', 'regdate', 'last_update', 'update_order', 'readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count', 'uploaded_count', 'title', 'category_srl');
