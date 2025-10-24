@@ -6,5 +6,6 @@
 	<column name="value" type="bigtext" />
 	<column name="sort_value" type="bigint" />
 	<column name="eid" type="varchar" size="40" />
+	<index name="idx_prefix_value" columns="module_srl,value(10)" />
 	<index name="idx_sort_value" columns="module_srl,sort_value" />
 </table>
