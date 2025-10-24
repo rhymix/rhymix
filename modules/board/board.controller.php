@@ -71,32 +71,14 @@ class BoardController extends Board
 		}
 
 		// Check category
-		$category_list = DocumentModel::getCategoryList($this->module_srl);
-		if (count($category_list) > 0)
+		if (!$obj->category_srl && !$this->grant->manager && $this->module_info->allow_no_category !== 'Y')
 		{
-			if ($obj->category_srl)
+			$category_list = DocumentModel::getCategoryList($this->module_srl);
+			if (count($category_list) > 0)
 			{
-				if (isset($category_list[$obj->category_srl]))
-				{
-					if (!$category_list[$obj->category_srl]->grant)
-					{
-						return new BaseObject(-1, 'msg_not_permitted');
-					}
-				}
-				else
-				{
-					$obj->category_srl = 0;
-				}
-			}
-			if (!$obj->category_srl && $this->module_info->allow_no_category !== 'Y')
-			{
-				if (!$this->grant->manager)
-				{
-					return new BaseObject(-1, sprintf(lang('common.filter.isnull'), lang('common.category')));
-				}
+				return new BaseObject(-1, sprintf(lang('common.filter.isnull'), lang('common.category')));
 			}
 		}
-
 
 		// unset document style if not manager
 		if(!$this->grant->manager)
@@ -134,7 +116,6 @@ class BoardController extends Board
 
 		$manual = false;
 		$logged_info = Context::get('logged_info');
-
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
 
 		// Set anonymous information when insert mode or status is temp

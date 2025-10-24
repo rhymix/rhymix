@@ -38,6 +38,7 @@ $lang->msg_category_not_moved = '이동할 수 없습니다.';
 $lang->msg_is_secret = '비밀글입니다.';
 $lang->msg_checked_document_is_deleted = '%d개의 글이 삭제되었습니다.';
 $lang->msg_document_is_admin_not_permitted = '최고 관리자의 게시글을 삭제할 권한이 없습니다.';
+$lang->msg_category_not_permitted = '선택한 분류에 게시할 권한이 없습니다.';
 $lang->move_target_module = '대상 페이지';
 $lang->search_target_list['title'] = '제목';
 $lang->search_target_list['content'] = '내용';

@@ -756,13 +756,17 @@ class DocumentController extends Document
 				{
 					if (!$category_list[$obj->category_srl]->grant)
 					{
-						return new BaseObject(-1, 'msg_not_permitted');
+						return new BaseObject(-1, 'document.msg_category_not_permitted');
 					}
 				}
 				else
 				{
 					$obj->category_srl = 0;
 				}
+			}
+			else
+			{
+				$obj->category_srl = 0;
 			}
 		}
 
@@ -1116,13 +1120,17 @@ class DocumentController extends Document
 				{
 					if (!$category_list[$obj->category_srl]->grant)
 					{
-						return new BaseObject(-1, 'msg_not_permitted');
+						return new BaseObject(-1, 'document.msg_category_not_permitted');
 					}
 				}
 				else
 				{
 					$obj->category_srl = 0;
 				}
+			}
+			else
+			{
+				$obj->category_srl = 0;
 			}
 		}
 

@@ -859,60 +859,6 @@ class BoardView extends Board
 		// Fix any missing module configurations
 		BoardModel::fixModuleConfig($this->module_info);
 
-		/**
-		 * check if the category option is enabled not not
-		 */
-		if ($this->module_info->use_category === 'Y')
-		{
-			// get the user group information
-			if(Context::get('is_logged'))
-			{
-				$group_srls = array_keys($this->user->group_list);
-			}
-			else
-			{
-				$group_srls = array();
-			}
-
-			// check the grant after obtained the category list
-			$category_list = array();
-			$normal_category_list = DocumentModel::getCategoryList($this->module_srl);
-			if(count($normal_category_list))
-			{
-				foreach($normal_category_list as $category_srl => $category)
-				{
-					$is_granted = TRUE;
-					if(isset($category->group_srls) && $category->group_srls)
-					{
-						$category_group_srls = explode(',',$category->group_srls);
-						$is_granted = FALSE;
-						if(count(array_intersect($group_srls, $category_group_srls))) $is_granted = TRUE;
-
-					}
-					if($is_granted) $category_list[$category_srl] = $category;
-				}
-			}
-
-			// check if at least one category is granted
-			$grant_exists = false;
-			foreach ($category_list as $category)
-			{
-				if ($category->grant)
-				{
-					$grant_exists = true;
-				}
-			}
-			if ($grant_exists)
-			{
-				Context::set('category_list', $category_list);
-			}
-			else
-			{
-				$this->module_info->use_category = 'N';
-				Context::set('category_list', array());
-			}
-		}
-
 		// GET parameter document_srl from request
 		$document_srl = Context::get('document_srl');
 		$oDocument = DocumentModel::getDocument(0);
@@ -988,12 +934,70 @@ class BoardView extends Board
 				}
 			}
 		}
-		if(!$oDocument->get('status')) $oDocument->add('status', DocumentModel::getDefaultStatus());
 
 		$statusList = $this->_getStatusNameList();
-		if(count($statusList) > 0) Context::set('status_list', $statusList);
+		if (count($statusList) > 0)
+		{
+			Context::set('status_list', $statusList);
+		}
+		if (!$oDocument->get('status'))
+		{
+			$oDocument->add('status', DocumentModel::getDefaultStatus());
+		}
 
-		// get Document status config value
+		// Check category grants
+		if ($this->module_info->use_category === 'Y')
+		{
+			$category_list = array();
+			$normal_category_list = DocumentModel::getCategoryList($this->module_srl);
+			$group_srls = $this->user->group_list ?? [];
+			if(count($normal_category_list))
+			{
+				foreach ($normal_category_list as $category_srl => $category)
+				{
+					$is_granted = true;
+					if (isset($category->group_srls) && $category->group_srls)
+					{
+						$category_group_srls = explode(',', $category->group_srls);
+						$is_granted = false;
+						if (count(array_intersect($group_srls, $category_group_srls)))
+						{
+							$is_granted = true;
+						}
+					}
+					if ($oDocument->isExists() && $oDocument->get('category_srl') == $category_srl)
+					{
+						$category->grant = true;
+						$is_granted = true;
+					}
+					if ($is_granted)
+					{
+						$category_list[$category_srl] = $category;
+					}
+				}
+			}
+
+			// check if at least one category is granted
+			$grant_exists = false;
+			foreach ($category_list as $category)
+			{
+				if ($category->grant)
+				{
+					$grant_exists = true;
+				}
+			}
+			if ($grant_exists)
+			{
+				Context::set('category_list', $category_list);
+			}
+			else
+			{
+				$this->module_info->use_category = 'N';
+				Context::set('category_list', array());
+			}
+		}
+
+		// Set to Context
 		Context::set('document_srl',$document_srl);
 		Context::set('oDocument', $oDocument);
 
