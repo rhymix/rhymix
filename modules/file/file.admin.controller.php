@@ -92,6 +92,7 @@ class FileAdminController extends File
 		$config->image_quality_adjustment = max(50, min(100, intval(Context::get('image_quality_adjustment'))));
 		$config->image_autorotate = Context::get('image_autorotate') === 'Y' ? true : false;
 		$config->image_remove_exif_data = Context::get('image_remove_exif_data') === 'Y' ? true : false;
+		$config->image_always_reencode = Context::get('image_always_reencode') === 'Y' ? true : false;
 
 		// Video settings
 		$config->max_video_width = intval(Context::get('max_video_width')) ?: '';

@@ -130,6 +130,20 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->image_always_reencode}</label>
+			<div class="x_controls">
+				<label for="image_always_reencode_Y" class="x_inline">
+					<input type="radio" name="image_always_reencode" id="image_always_reencode_Y" value="Y" checked="checked"|cond="$config->image_always_reencode === true" />
+					{$lang->cmd_yes}
+				</label>
+				<label for="image_always_reencode_N" class="x_inline">
+					<input type="radio" name="image_always_reencode" id="image_always_reencode_N" value="N" checked="checked"|cond="$config->image_always_reencode !== true" />
+					{$lang->cmd_no}
+				</label>
+				<p class="x_help-block">{$lang->about_image_always_reencode}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->image_autoconv_gif2mp4}</label>
 			<div class="x_controls">
 				<label for="image_autoconv_gif2mp4_Y" class="x_inline">

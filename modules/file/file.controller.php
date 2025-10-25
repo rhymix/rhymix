@@ -1290,6 +1290,12 @@ class FileController extends File
 			}
 		}
 
+		// Check if this image should be reencoded anyway
+		if (isset($config->image_always_reencode) && $config->image_always_reencode)
+		{
+			$force = true;
+		}
+
 		// Convert image if adjusted
 		if ($adjusted['width'] !== $image_info['width'] ||
 			$adjusted['height'] !== $image_info['height'] ||
