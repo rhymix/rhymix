@@ -238,6 +238,7 @@ class Document extends ModuleObject
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_sort'))
 		{
 			$oDB->addColumn('document_extra_keys', 'var_sort', 'char', '1', 'N', true, 'var_search');
+			Rhymix\Framework\Cache::clearGroup('site_and_module');
 		}
 		if(!$oDB->isColumnExists('document_extra_vars', 'sort_value') || !$oDB->isIndexExists('document_extra_vars', 'idx_sort_value'))
 		{
