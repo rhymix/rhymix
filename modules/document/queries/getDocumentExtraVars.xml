@@ -6,7 +6,6 @@
         <column name="*" />
     </columns>
     <conditions>
-        <condition operation="more" column="extra_vars.module_srl" default="-1" notnull="notnull" pipe="and" />
         <condition operation="in" column="extra_vars.document_srl" var="document_srl" notnull="notnull" pipe="and" />
         <condition operation="more" column="extra_vars.var_idx" default="-2" pipe="and" />
     </conditions>

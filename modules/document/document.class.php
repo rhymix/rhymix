@@ -113,6 +113,7 @@ class Document extends ModuleObject
 		// 2025.10.23 Add sort to document_extra_keys table, and sort_value to document_extra_vars table
 		if(!$oDB->isColumnExists('document_extra_keys', 'var_sort')) return true;
 		if(!$oDB->isColumnExists('document_extra_vars', 'sort_value') || !$oDB->isIndexExists('document_extra_vars', 'idx_sort_value')) return true;
+		if(!$oDB->isIndexExists('document_extra_vars', 'idx_document_var_idx')) return true;
 		if(!$oDB->isIndexExists('document_extra_vars', 'idx_prefix_value')) return true;
 
 		// Delete unnecessary index
@@ -264,6 +265,10 @@ class Document extends ModuleObject
 			}
 			$oDB->commit();
 			$oDB->addIndex('document_extra_vars', 'idx_sort_value', array('module_srl', 'sort_value'));
+		}
+		if(!$oDB->isIndexExists('document_extra_vars', 'idx_document_var_idx'))
+		{
+			$oDB->addIndex('document_extra_vars', 'idx_document_var_idx', array('document_srl', 'var_idx'));
 		}
 		if(!$oDB->isIndexExists('document_extra_vars', 'idx_prefix_value'))
 		{
