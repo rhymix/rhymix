@@ -65,14 +65,13 @@ class DocumentItem extends BaseObject
 	 * Constructor
 	 * @param int $document_srl
 	 * @param bool $load_extra_vars
-	 * @param array columnList
+	 * @param bool $reload_counts
 	 * @return void
 	 */
-	function __construct($document_srl = 0, $load_extra_vars = true, $columnList = array())
+	function __construct($document_srl = 0, $load_extra_vars = true, $reload_counts = true)
 	{
 		$this->document_srl = $document_srl;
-		$this->columnList = $columnList;
-		$this->_loadFromDB($load_extra_vars);
+		$this->_loadFromDB($load_extra_vars, $reload_counts);
 	}
 
 	function setDocument($document_srl, $load_extra_vars = true)
@@ -86,22 +85,12 @@ class DocumentItem extends BaseObject
 	 * @param bool $load_extra_vars
 	 * @return void
 	 */
-	function _loadFromDB($load_extra_vars = true)
+	function _loadFromDB($load_extra_vars = true, $reload_counts = true)
 	{
 		if(!$this->document_srl)
 		{
 			return;
 		}
-
-		$document_item = false;
-		$columnList = array();
-		$reload_counts = true;
-
-		if ($this->columnList === false)
-		{
-			$reload_counts = false;
-		}
-		$this->columnList = array();
 
 		// cache controll
 		$cache_key = 'document_item:' . getNumberingPath($this->document_srl) . $this->document_srl;
@@ -110,8 +99,12 @@ class DocumentItem extends BaseObject
 		{
 			$columnList = array('readed_count', 'voted_count', 'blamed_count', 'comment_count', 'trackback_count');
 		}
+		else
+		{
+			$columnList = [];
+		}
 
-		if(!$document_item || $reload_counts)
+		if(!$document_item || $reload_counts !== false)
 		{
 			$args = new stdClass();
 			$args->document_srl = $this->document_srl;
