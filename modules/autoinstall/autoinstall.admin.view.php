@@ -342,6 +342,7 @@ class autoinstallAdminView extends autoinstall
 		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
 		$xml_lUpdate = new XeXmlParser();
 		$xmlDoc = $xml_lUpdate->parse($buff);
+		$item_list = array();
 		$res = array();
 		if($xmlDoc && $xmlDoc->response->packagelist->item)
 		{
