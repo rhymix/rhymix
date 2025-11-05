@@ -476,8 +476,8 @@ class FileModel extends File
 		$nullList = array();
 		foreach ($output->data as $file)
 		{
-			$file->source_filename = escape($file->source_filename, false);
 			$file->download_url = self::getDownloadUrl($file->file_srl, $file->sid, 0, $file->source_filename);
+			$file->source_filename = escape($file->source_filename, false);
 			$fileList[] = $file;
 			if ($file->upload_target_type === null)
 			{
