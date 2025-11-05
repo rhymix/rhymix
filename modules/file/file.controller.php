@@ -318,7 +318,7 @@ class FileController extends File
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
-		if ($filename_arg !== null && $filename_arg !== $filename)
+		if ($filename_arg !== null && html_entity_decode($filename_arg, ENT_QUOTES, 'UTF-8') !== $filename)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
@@ -460,7 +460,7 @@ class FileController extends File
 		}
 
 		// Check filename if given
-		if ($filename_arg !== null && $filename_arg !== $filename)
+		if ($filename_arg !== null && html_entity_decode($filename_arg, ENT_QUOTES, 'UTF-8') !== $filename)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
