@@ -728,7 +728,7 @@ class HTMLDisplayHandler
 	 * import basic .js files.
 	 * @return void
 	 */
-	function _loadDesktopJSCSS()
+	public function _loadDesktopJSCSS()
 	{
 		$this->_loadCommonJSCSS();
 	}
