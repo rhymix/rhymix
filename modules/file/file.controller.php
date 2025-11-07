@@ -307,7 +307,7 @@ class FileController extends File
 
 		$file_srl = Context::get('file_srl');
 		$sid = Context::get('sid');
-		$filename_arg = htmlspecialchars_decode(Context::get('filename'));
+		$filename_arg = htmlspecialchars_decode(Context::get('filename') ?? '');
 
 		// Get file information from the DB
 		$file_obj = FileModel::getFile($file_srl);
@@ -318,7 +318,7 @@ class FileController extends File
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
-		if ($filename_arg !== null && $filename_arg !== $filename)
+		if ($filename_arg !== '' && $filename_arg !== $filename)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
@@ -434,7 +434,7 @@ class FileController extends File
 		// Get requsted file info
 		$file_srl = Context::get('file_srl');
 		$file_key = Context::get('file_key');
-		$filename_arg = htmlspecialchars_decode(Context::get('filename'));
+		$filename_arg = htmlspecialchars_decode(Context::get('filename') ?? '');
 
 		$columnList = array('source_filename', 'uploaded_filename', 'file_size');
 		$file_obj = FileModel::getFile($file_srl, $columnList);
@@ -460,7 +460,7 @@ class FileController extends File
 		}
 
 		// Check filename if given
-		if ($filename_arg !== null && $filename_arg !== $filename)
+		if ($filename_arg !== '' && $filename_arg !== $filename)
 		{
 			throw new Rhymix\Framework\Exceptions\TargetNotFound('msg_file_not_found');
 		}
