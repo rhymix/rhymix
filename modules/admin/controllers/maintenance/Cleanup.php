@@ -284,6 +284,7 @@ class Cleanup extends Base
 		'addons/member_communication/' => 'deleted:xe',
 		'addons/mobile/' => 'deleted:xe',
 		'addons/openid_delegation_id/' => 'deleted:xe',
+		'admin/' => 'deleted:xe',
 		'classes/cache/CacheApc.class.php' => 'deleted:xe',
 		'classes/cache/CacheFile.class.php' => 'deleted:xe',
 		'classes/cache/CacheMemcache.class.php' => 'deleted:xe',
