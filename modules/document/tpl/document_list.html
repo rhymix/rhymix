@@ -167,8 +167,20 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<tbody>
 				</tbody>
 			</table>
-			<div class="x_control-group" style="padding-right:14px;border-top:0">
-				<label for="message">{$lang->message_notice}</label>
+			<div class="x_control-group" id="message_options" style="padding-right:14px;border-top:0">
+				<label for="send_default_message" class="x_inline">
+					<input type="radio" name="send_message" id="send_default_message" value="default" checked="checked" />
+					{$lang->send_default_message}
+				</label>
+				<label for="send_custom_message" class="x_inline">
+					<input type="radio" name="send_message" id="send_custom_message" value="custom" />
+					{$lang->send_custom_message}
+				</label>
+				<label for="send_no_message" class="x_inline">
+					<input type="radio" name="send_message" id="send_no_message" value="none" />
+					{$lang->send_no_message}
+				</label>
+				<br />
 				<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
 			</div>
 		</section>
@@ -229,6 +241,14 @@ jQuery(function($){
 					$('#manageForm input[name=module_srl]').val(aSelected[0].module_srl);
 				});
 			}
+		}
+	});
+	$('#message').prop('disabled', true);
+	$('#message_options').on('change', 'input[name="send_message"]', function(){
+		if($('#send_custom_message').is(':checked')) {
+			$('#message').prop("disabled", false);
+		} else {
+			$('#message').prop("disabled", true);
 		}
 	});
 });
