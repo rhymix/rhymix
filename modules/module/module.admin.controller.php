@@ -326,8 +326,6 @@ class ModuleAdminController extends Module
 			if(strlen($default))
 			{
 				$grant->{$grant_name}[] = $default;
-				continue;
-				// users in a particular group
 			}
 			else
 			{
@@ -339,9 +337,7 @@ class ModuleAdminController extends Module
 					else $group_srls = array($group_srls);
 					$grant->{$grant_name} = $group_srls;
 				}
-				continue;
 			}
-			$grant->{$group_srls} = array(); // dead code????
 		}
 
 		// Stored in the DB
@@ -609,8 +605,6 @@ class ModuleAdminController extends Module
 			if(strlen($default))
 			{
 				$grant->{$grant_name}[] = $default;
-				continue;
-				// Users in a particular group
 			}
 			else
 			{
@@ -625,9 +619,7 @@ class ModuleAdminController extends Module
 					}
 					$grant->{$grant_name} = $group_srls;
 				}
-				continue;
 			}
-			$grant->{$group_srls} = array(); // dead code, too??
 		}
 
 		// Stored in the DB

@@ -937,8 +937,8 @@ class ModuleController extends Module
 			}
 			if(!$output->toBool())
 			{
-				return $output;
 				$oDB->rollback();
+				return $output;
 			}
 		}
 
@@ -1192,11 +1192,10 @@ class ModuleController extends Module
 		$args->module_filebox_srl = $vars->module_filebox_srl;
 		$args->comment = $vars->comment;
 
-		return executeQuery('module.updateModuleFileBox', $args);
+		$output = executeQuery('module.updateModuleFileBox', $args);
 		$output->add('save_filename', $save_filename);
 		return $output;
 	}
-
 
 	/**
 	 * @brief Add a file into the file box
