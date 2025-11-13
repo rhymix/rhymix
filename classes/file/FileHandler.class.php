@@ -461,18 +461,28 @@ class FileHandler
 	 * Check available memory to load image file
 	 *
 	 * @param array $imageInfo Image info retrieved by getimagesize function
+	 * @param array $resizeInfo Resize width and height
 	 * @return bool TRUE: it's ok, FALSE: otherwise
 	 */
-	public static function checkMemoryLoadImage(&$imageInfo)
+	public static function checkMemoryLoadImage($imageInfo, $resizeInfo = [])
 	{
-		$K64 = 65536;
-		$TWEAKFACTOR = 2.0;
-		$channels = $imageInfo['channels'] ?? 6;
-		if(!$channels)
+		$bits = $imageInfo['bits'] ?? 8;
+		$channels = ($imageInfo['channels'] ?? 6) ?: 6; // for png
+		if (!$resizeInfo)
 		{
-			$channels = 6; //for png
+			$resizeInfo = $imageInfo;
 		}
-		$memoryNeeded = round(($imageInfo[0] * $imageInfo[1] * $imageInfo['bits'] * $channels / 8 + $K64 ) * $TWEAKFACTOR);
+		$src_memory = round($imageInfo[0] * $imageInfo[1] * $bits * $channels / 8) + 65536;
+		$dst_memory = round($resizeInfo[0] * $resizeInfo[1] * 8 * $channels / 8) + 65536;
+
+		$gd_info = gd_info();
+		$gd_version = $gd_info['GD Version'] ?? '';
+		$gd_type = str_contains($gd_version, 'bundled') ? 'bundled' : 'external';
+		if ($gd_type === 'external')
+		{
+			$dst_memory = 0;
+		}
+
 		$memoryLimit = ini_get('memory_limit');
 		if($memoryLimit <= 0)
 		{
@@ -484,7 +494,7 @@ class FileHandler
 			return true;
 		}
 		$availableMemory = $memoryLimit - memory_get_usage();
-		if($availableMemory < $memoryNeeded)
+		if($availableMemory < ($src_memory + $dst_memory))
 		{
 			return false;
 		}
@@ -559,11 +569,6 @@ class FileHandler
 
 		// retrieve source image's information
 		$imageInfo = getimagesize($source_file);
-		if(!self::checkMemoryLoadImage($imageInfo))
-		{
-			return false;
-		}
-
 		list($width, $height, $type) = $imageInfo;
 		if($width < 1 || $height < 1)
 		{
@@ -594,6 +599,12 @@ class FileHandler
 		if ($resize_height === 'auto')
 		{
 			$resize_height = round($resize_width / ($width / $height));
+		}
+
+		// Check memory usage
+		if(!self::checkMemoryLoadImage($imageInfo, [$resize_width, $resize_height]))
+		{
+			return false;
 		}
 
 		// create temporary image having original type
@@ -646,6 +657,8 @@ class FileHandler
 			$thumb = imagecreatetruecolor($resize_width, $resize_height);
 			if (!$thumb)
 			{
+				imagedestroy($source);
+				unset($source);
 				return false;
 			}
 
@@ -706,6 +719,9 @@ class FileHandler
 			imagecopyresampled($thumb, $source, $dst_x, $dst_y, 0, 0, $dst_width, $dst_height, $width, $height);
 		}
 
+		imagedestroy($source);
+		unset($source);
+
 		// create directory
 		self::makeDir(dirname($target_file));
 
@@ -736,12 +752,14 @@ class FileHandler
 		}
 		else
 		{
+			imagedestroy($thumb);
+			unset($thumb);
 			return false;
 		}
 
-		imagedestroy($thumb);
-		imagedestroy($source);
 		@chmod($target_file, 0666 & ~Rhymix\Framework\Storage::getUmask());
+		imagedestroy($thumb);
+		unset($thumb);
 		return $output;
 	}
 
