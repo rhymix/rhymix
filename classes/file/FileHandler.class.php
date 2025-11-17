@@ -657,8 +657,14 @@ class FileHandler
 			$thumb = imagecreatetruecolor($resize_width, $resize_height);
 			if (!$thumb)
 			{
-				imagedestroy($source);
-				unset($source);
+				if (version_compare(PHP_VERSION, '8.0', '<'))
+				{
+					imagedestroy($source);
+				}
+				else
+				{
+					unset($source);
+				}
 				return false;
 			}
 
@@ -719,8 +725,10 @@ class FileHandler
 			imagecopyresampled($thumb, $source, $dst_x, $dst_y, 0, 0, $dst_width, $dst_height, $width, $height);
 		}
 
-		imagedestroy($source);
-		unset($source);
+		if (version_compare(PHP_VERSION, '8.0', '>='))
+		{
+			unset($source);
+		}
 
 		// create directory
 		self::makeDir(dirname($target_file));
@@ -752,14 +760,27 @@ class FileHandler
 		}
 		else
 		{
-			imagedestroy($thumb);
-			unset($thumb);
+			if (version_compare(PHP_VERSION, '8.0', '<'))
+			{
+				imagedestroy($thumb);
+			}
+			else
+			{
+				unset($thumb);
+			}
 			return false;
 		}
 
 		@chmod($target_file, 0666 & ~Rhymix\Framework\Storage::getUmask());
-		imagedestroy($thumb);
-		unset($thumb);
+
+		if (version_compare(PHP_VERSION, '8.0', '<'))
+		{
+			imagedestroy($thumb);
+		}
+		else
+		{
+			unset($thumb);
+		}
 		return $output;
 	}
 
