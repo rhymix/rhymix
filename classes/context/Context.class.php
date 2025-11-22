@@ -139,7 +139,7 @@ class Context
 	 */
 	private static $_check_patterns = array(
 		'@<(?:\?|%)@' => 'DENY ALL',
-		'@<script\s*?language\s*?=@i' => 'DENY ALL',
+		'@<script\s*?language\s*?=\s*?(?![\'"]javascript[\'"])@i' => 'DENY ALL',
 		'@</?script@i' => 'ALLOW ADMIN ONLY',
 	);
 
