@@ -469,6 +469,11 @@ class EditorModel extends Editor
 		if ($type === 'document')
 		{
 			$option->upload_target_type = 'doc';
+			// For dispWidgetAdminAddContent
+			if ($primary_key_name === 'module_srl')
+			{
+				$option->upload_target_type = 'mod';
+			}
 		}
 		elseif ($type === 'comment')
 		{
