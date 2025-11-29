@@ -62,6 +62,27 @@
 	<span @style(['a' => false, 'b' => false])></span>
 </div>
 
+@php
+	$employees = [
+		['name' => 'Alice', 'age' => 30],
+		['name' => 'Bob', 'age' => 25],
+		['name' => 'Charlie', 'age' => 35],
+	];
+	$suffix = '님';
+	$names = array_map(function($e, $key = 'name') use ($suffix) {
+		return $e[$key] . $suffix;
+	}, $employees);
+	function convert_names(array $names = array()): array
+	{
+		return array_map(function($name) {
+			return ucfirst($name);
+		}, $names);
+	}
+@endphp
+<div class="employees">
+	{{ implode(', ', convert_names($names)) }} welcome!
+</div>
+
 <script type="text/javascript">
 	const foo = '{{ $foo }}';
 	const bar = @json($bar);

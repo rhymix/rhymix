@@ -1084,6 +1084,37 @@ class TemplateParser_v2
 	 */
 	protected function _convertVariableScope(string $content): string
 	{
+		// Pre-escape function declarations and closures so that variables inside them are not converted.
+		$used_vars = [];
+		$function_regexp = '#\b(function(?:\s+[a-zA-Z_][a-zA-Z0-9_]*)?)' .
+			'(\s*)(' . self::_getRegexpForParentheses(3) . ')' .
+			'(\s*)(use\s*\([^()]+\))?' .
+			'(\s*:\s*\w+)?' .
+			'(\s*)(' . self::_getRegexpForCurlyBraces(8) . ')#';
+		$content = preg_replace_callback($function_regexp, function($match) use (&$used_vars) {
+			$fn = $match[1] . $match[2] . self::_escapeVars($match[3]) .
+				$match[4] . self::_escapeVars($match[5]) .
+				$match[6] . $match[7] . self::_escapeVars($match[8]);
+			if (str_starts_with($match[5], 'use'))
+			{
+				preg_match_all('#\$([a-zA-Z_][a-zA-Z0-9_]*)#', $match[5], $uses);
+				foreach ($uses[1] as $var)
+				{
+					$used_vars[$var] = true;
+				}
+			}
+			return $fn;
+		}, $content);
+		if (count($used_vars))
+		{
+			$prefix = ' ';
+			foreach ($used_vars as $var => $unused)
+			{
+				$prefix .= self::_escapeVars('$' . $var) . ' = &$__Context->' . $var . '; ';
+			}
+			$content = $prefix . $content;
+		}
+
 		// Replace variables that need to be enclosed in curly braces, using temporary entities to prevent double-replacement.
 		$content = preg_replace_callback('#(?<!\$__Context)->\$([a-zA-Z_][a-zA-Z0-9_]*)#', function($match) {
 			return '->' . self::_escapeCurly('{') . '$__Context->' . $match[1] . self::_escapeCurly('}');
@@ -1142,6 +1173,17 @@ class TemplateParser_v2
 	protected static function _getRegexpForParentheses(int $position_in_regexp): string
 	{
 		return '\([^)(]*+(?:(?' . $position_in_regexp . ')[^)(]*)*+\)';
+	}
+
+	/**
+	 * Same as above, but for curly braces.
+	 *
+	 * @param int $position_in_regexp
+	 * @return string
+	 */
+	protected static function _getRegexpForCurlyBraces(int $position_in_regexp): string
+	{
+		return '\{[^}{]*+(?:(?' . $position_in_regexp . ')[^}{]*)*+\}';
 	}
 
 	/**
