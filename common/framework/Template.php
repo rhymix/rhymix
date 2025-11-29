@@ -865,7 +865,14 @@ class Template
 			}
 		}
 
-		return sprintf(' %s="%s"', $attribute, escape(implode($delimiters[$attribute], $values), false));
+		if (count($values))
+		{
+			return sprintf(' %s="%s"', $attribute, escape(implode($delimiters[$attribute], $values), false));
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**
