@@ -1271,36 +1271,74 @@ class CommentModel extends Comment
 		return (int) $output->data->count;
 	}
 
-
 	/**
-	 * Get comment list of the doc in corresponding woth member_srl.
+	 * Get the total number of comments posted on the given document by the given member.
+	 *
+	 * @param int $document_srl
 	 * @param int $member_srl
-	 * @param array $columnList
-	 * @param int $unused1 (Previously $page)
-	 * @param int $unused2 (Previously $is_admin)
-	 * @param int $count
 	 * @param array $statusList
-	 * @return object
+	 * @return int
 	 */
-	public static function getCommentListByMemberSrl($member_srl, $columnList = [], $unused1 = 0, $unused2 = 0, $count = 0, $statusList = [])
+	public static function getCommentCountByDocumentSrlAndMemberSrl($document_srl, $member_srl, $statusList = [])
 	{
 		$args = new stdClass();
+		$args->document_srl = $document_srl;
 		$args->member_srl = $member_srl;
-		$args->list_count = $count;
 		if ($statusList)
 		{
 			$args->statusList = $statusList;
 		}
-		$output = executeQuery('comment.getCommentListByMemberSrl', $args, $columnList);
-		$comment_list = $output->data;
-
-		if(!$comment_list) return array();
-		if(!is_array($comment_list)) $comment_list = array($comment_list);
-
-		return $comment_list;
-
+		$output = executeQuery('comment.getCommentCountByMemberSrl', $args);
+		return (int) $output->data->count;
 	}
 
+	/**
+	 * Get the list of comments posted by the given member.
+	 *
+	 * @param int $member_srl
+	 * @param array $columnList
+	 * @param int $unused1 (Previously $page)
+	 * @param int $unused2 (Previously $is_admin)
+	 * @param int $list_count
+	 * @param array $statusList
+	 * @return array
+	 */
+	public static function getCommentListByMemberSrl($member_srl, $columnList = [], $unused1 = 0, $unused2 = 0, $list_count = 0, $statusList = [])
+	{
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->list_count = $list_count;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
+		$output = executeQueryArray('comment.getCommentListByMemberSrl', $args, $columnList);
+		return $output->data ?? [];
+	}
+
+	/**
+	 * Get the list of comments posted on the given document by the given member.
+	 *
+	 * @param int $document_srl
+	 * @param int $member_srl
+	 * @param int $list_count
+	 * @param array $columnList
+	 * @param array $statusList
+	 * @return array
+	 */
+	public static function getCommentListByDocumentSrlAndMemberSrl($document_srl, $member_srl, $list_count = 0, $columnList = [], $statusList = [])
+	{
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
+		$args->member_srl = $member_srl;
+		$args->list_count = $list_count;
+		if ($statusList)
+		{
+			$args->statusList = $statusList;
+		}
+		$output = executeQueryArray('comment.getCommentListByMemberSrl', $args, $columnList);
+		return $output->data ?? [];
+	}
 }
 /* End of file comment.model.php */
 /* Location: ./modules/comment/comment.model.php */
