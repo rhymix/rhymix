@@ -308,7 +308,7 @@ class CommentModel extends Comment
 	}
 
 	/**
-	 * Get the total number of comments in corresponding with document_srl.
+	 * Get the total number of comments posted on the given date.
 	 * @param string $date
 	 * @param array $moduleList
 	 * @param array $statusList
