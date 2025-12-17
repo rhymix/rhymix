@@ -163,7 +163,7 @@ class MemberController extends Member
 	 */
 	function procMemberScrapDocument()
 	{
-		$document_srl = (int) (Context::get('document_srl') ?: Context::get('target_srl'));
+		$document_srl = intval(Context::get('document_srl') ?: Context::get('target_srl'));
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -272,7 +272,7 @@ class MemberController extends Member
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 
-		$document_srl = (int)Context::get('document_srl');
+		$document_srl = intval(Context::get('document_srl') ?: Context::get('target_srl'));
 		if(!$document_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -312,8 +312,8 @@ class MemberController extends Member
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 
-		$document_srl = (int)Context::get('document_srl');
-		$folder_srl = (int)Context::get('folder_srl');
+		$document_srl = intval(Context::get('document_srl') ?: Context::get('target_srl'));
+		$folder_srl = intval(Context::get('folder_srl'));
 		if(!$document_srl || !$folder_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -524,7 +524,7 @@ class MemberController extends Member
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\MustLogin;
 		$logged_info = Context::get('logged_info');
 
-		$document_srl = (int)Context::get('document_srl');
+		$document_srl = intval(Context::get('document_srl') ?: Context::get('target_srl'));
 		if(!$document_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oDocument = DocumentModel::getDocument($document_srl);
