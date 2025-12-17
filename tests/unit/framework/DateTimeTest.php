@@ -113,6 +113,18 @@ class DateTimeTest extends \Codeception\Test\Unit
 		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
 		$this->assertEquals($expected, zdate('19600419', 'Y-m-d H:i:s'));
 
+		// Test special dates.
+		Rhymix\Framework\Config::set('locale.internal_timezone', 32400);
+		$expected = '1970-01-01 09:00:00';
+		$this->assertEquals($expected, zdate('19700101', 'Y-m-d H:i:s'));
+		$expected = '1969-12-31 15:00:00';
+		$this->assertEquals($expected, zdate('1969-12-31 15:00:00', 'Y-m-d H:i:s'));
+		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
+		$expected = '1970-01-01 06:00:00';
+		$this->assertEquals($expected, zdate('19700101000000', 'Y-m-d H:i:s'));
+		$expected = '1970-01-01 00:00:00';
+		$this->assertEquals($expected, zdate('19691231180000', 'Y-m-d H:i:s'));
+
 		// Restore the internal timezone.
 		Rhymix\Framework\Config::set('locale.internal_timezone', 10800);
 	}

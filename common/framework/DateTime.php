@@ -28,11 +28,11 @@ class DateTime
 	{
 		if ($format === self::FORMAT_RELATIVE)
 		{
-			return self::getRelativeTimestamp($timestamp ?: time());
+			return self::getRelativeTimestamp($timestamp ?? time());
 		}
 
-		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp);
-		return gmdate($format, ($timestamp ?: time()) + $offset);
+		$offset = Config::get('locale.internal_timezone') ?: date('Z', $timestamp ?? time());
+		return gmdate($format, ($timestamp ?? time()) + $offset);
 	}
 
 	/**
@@ -46,7 +46,7 @@ class DateTime
 	{
 		if ($format === self::FORMAT_RELATIVE)
 		{
-			return self::getRelativeTimestamp($timestamp ?: time());
+			return self::getRelativeTimestamp($timestamp ?? time());
 		}
 
 		$timezone = self::getTimezoneForCurrentUser();
@@ -55,7 +55,7 @@ class DateTime
 			self::$_timezones[$timezone] = new \DateTimeZone($timezone);
 		}
 		$datetime = new \DateTime();
-		$datetime->setTimestamp($timestamp ?: time());
+		$datetime->setTimestamp($timestamp ?? time());
 		$datetime->setTimezone(self::$_timezones[$timezone]);
 		return $datetime->format($format);
 	}
@@ -123,7 +123,7 @@ class DateTime
 			self::$_timezones[$timezone] = new \DateTimeZone($timezone);
 		}
 		$datetime = new \DateTime();
-		$datetime->setTimestamp($timestamp ?: time());
+		$datetime->setTimestamp($timestamp ?? time());
 		$datetime->setTimezone(self::$_timezones[$timezone]);
 		return $datetime->getOffset();
 	}
@@ -137,7 +137,7 @@ class DateTime
 	 */
 	public static function getTimezoneOffsetFromInternal(string $timezone, ?int $timestamp = null): int
 	{
-		return self::getTimezoneOffset($timezone, $timestamp ?: time()) - Config::get('locale.internal_timezone');
+		return self::getTimezoneOffset($timezone, $timestamp ?? time()) - Config::get('locale.internal_timezone');
 	}
 
 	/**
@@ -192,7 +192,7 @@ class DateTime
 	 */
 	public static function getRelativeTimestamp(?int $timestamp = null): string
 	{
-		$diff = \RX_TIME - intval($timestamp ?: time());
+		$diff = \RX_TIME - intval($timestamp ?? time());
 		$langs = lang('common.time_gap');
 
 		if ($diff < 3)
