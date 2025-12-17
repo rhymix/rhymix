@@ -15,6 +15,7 @@
 			<th scope="col" class="domain_prefix">{$lang->domain}&thinsp;/</th>
 			<th scope="col">{$lang->url}</th>
 			<th scope="col">{$lang->browser_title}</th>
+			<th scope="col">{$lang->board_special_features}</th>
 			<th scope="col">{$lang->regdate}</th>
 			<th scope="col">{$lang->cmd_edit}</th>
 			<th scope="col"><input type="checkbox" data-name="cart" title="Check All" /></th>
@@ -40,6 +41,17 @@
 			</td>
 			<td>{$val->mid}</td>
 			<td><a href="{getSiteUrl($val->domain,'','mid',$val->mid)}" target="_blank">{$val->browser_title}</a></td>
+			<td>
+				<!--@if($val->consultation === 'Y')-->
+					<span title="{$lang->consultation}"><i class="xi-headset"></i></span>
+				<!--@end-->
+				<!--@if($val->use_anonymous === 'Y')-->
+					<span title="{$lang->use_anonymous}"><i class="xi-user-lock"></i></span>
+				<!--@end-->
+				<!--@if(!empty($val->include_modules))-->
+					<span title="{$lang->cmd_board_combined_board}"><i class="xi-file-add"></i></span>
+				<!--@end-->
+			</td>
 			<td>{zdate($val->regdate,"Y-m-d")}</td>
 			<td>
 				<a href="{getUrl('act','dispBoardAdminBoardInfo','module_srl',$val->module_srl)}"><i class="x_icon-cog"></i> {$lang->cmd_setup}</a> &nbsp;

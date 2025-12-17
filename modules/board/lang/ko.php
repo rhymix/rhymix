@@ -1,5 +1,6 @@
 <?php
 $lang->board = '게시판';
+$lang->board_special_features = '특이사항';
 $lang->except_notice = '공지사항 제외';
 $lang->use_bottom_list = '하단목록 표시';
 $lang->customize_bottom_list = '하단목록 설정';

@@ -1,5 +1,6 @@
 <?php
 $lang->board = 'Board';
+$lang->board_special_features = 'Features';
 $lang->except_notice = 'Exclude Notices';
 $lang->use_bottom_list = 'Display Bottom List';
 $lang->customize_bottom_list = 'Customize Bottom List';

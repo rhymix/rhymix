@@ -89,6 +89,7 @@ class BoardAdminView extends Board {
 
 		$output = executeQueryArray('board.getBoardList', $args);
 		ModuleModel::syncModuleToSite($output->data);
+		ModuleModel::addModuleExtraVars($output->data);
 
 		// get the skins path
 		$oModuleModel = getModel('module');
