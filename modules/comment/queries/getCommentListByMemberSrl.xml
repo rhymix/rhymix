@@ -12,6 +12,9 @@
 	</columns>
 	<conditions>
 		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<condition operation="equal" column="module_srl" var="module_srl" filter="number" />
+		<condition operation="equal" column="document_srl" var="document_srl" filter="number" />
+		<condition operation="equal" column="status" var="status" pipe="and" />
 		<condition operation="in" column="status" var="statusList" pipe="and" />
 	</conditions>
 	<navigation>
