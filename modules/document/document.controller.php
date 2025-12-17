@@ -925,7 +925,7 @@ class DocumentController extends Document
 		}
 
 		// Call a trigger (after)
-		if($obj->update_log_setting === 'Y')
+		if (isset($obj->update_log_setting) && $obj->update_log_setting === 'Y')
 		{
 			$obj->extra_vars = serialize($extra_vars);
 			$update_output = $this->insertDocumentUpdateLog($obj);
@@ -1381,7 +1381,7 @@ class DocumentController extends Document
 		}
 
 		// Update log
-		if($obj->update_log_setting === 'Y')
+		if (isset($obj->update_log_setting) && $obj->update_log_setting === 'Y')
 		{
 			$obj->extra_vars = serialize($extra_vars);
 			if($grant->manager)
