@@ -607,7 +607,7 @@ class DocumentController extends Document
 	 */
 	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true)
 	{
-		if (!$manual_inserted && !checkCSRF())
+		if (!$manual_inserted && !Rhymix\Framework\Security::checkCSRF())
 		{
 			return new BaseObject(-1, 'msg_security_violation');
 		}
@@ -974,7 +974,7 @@ class DocumentController extends Document
 	 */
 	function updateDocument($source_obj, $obj, $manual_updated = FALSE)
 	{
-		if(!$manual_updated && !checkCSRF())
+		if(!$manual_updated && !Rhymix\Framework\Security::checkCSRF())
 		{
 			return new BaseObject(-1, 'msg_security_violation');
 		}

@@ -393,7 +393,7 @@ class ModuleHandler extends Handler
 		// check CSRF for non-GET (POST, PUT, etc.) actions
 		if(!in_array(Context::getRequestMethod(), self::$_nocsrf_methods) && Context::isInstalled())
 		{
-			if(isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
+			if(isset($xml_info->action->{$this->act}) && $xml_info->action->{$this->act}->check_csrf !== 'false' && !Rhymix\Framework\Security::checkCSRF())
 			{
 				return self::_createErrorMessage(-1, 'msg_security_violation', 403, 'ERR_CSRF_CHECK_FAILED');
 			}
@@ -555,7 +555,7 @@ class ModuleHandler extends Handler
 				// check CSRF for non-GET (POST, PUT, etc.) actions
 				if(!in_array(Context::getRequestMethod(), self::$_nocsrf_methods) && Context::isInstalled())
 				{
-					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !checkCSRF())
+					if($xml_info->action->{$this->act} && $xml_info->action->{$this->act}->check_csrf !== 'false' && !Rhymix\Framework\Security::checkCSRF())
 					{
 						return self::_createErrorMessage(-1, 'msg_security_violation', 403, 'ERR_CSRF_CHECK_FAILED');
 					}

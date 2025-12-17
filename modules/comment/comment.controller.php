@@ -517,7 +517,7 @@ class CommentController extends Comment
 	 */
 	function insertComment($obj, $manual_inserted = FALSE, $update_document = TRUE)
 	{
-		if(!$manual_inserted && !checkCSRF())
+		if(!$manual_inserted && !Rhymix\Framework\Security::checkCSRF())
 		{
 			return new BaseObject(-1, 'msg_security_violation');
 		}
@@ -954,7 +954,7 @@ class CommentController extends Comment
 	 */
 	function updateComment($obj, $skip_grant_check = FALSE, $manual_updated = FALSE)
 	{
-		if(!$manual_updated && !checkCSRF())
+		if(!$manual_updated && !Rhymix\Framework\Security::checkCSRF())
 		{
 			return new BaseObject(-1, 'msg_security_violation');
 		}

@@ -320,7 +320,7 @@ class LayoutView extends Layout
 	 */
 	function dispLayoutPreview()
 	{
-		if(!checkCSRF())
+		if(!Rhymix\Framework\Security::checkCSRF())
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
