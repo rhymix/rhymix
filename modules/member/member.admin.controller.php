@@ -127,18 +127,26 @@ class MemberAdminController extends Member
 		}
 
 		// remove whitespace
-		foreach(['user_id', 'nick_name', 'email_address'] as $val)
+		foreach (['user_id', 'email_address'] as $val)
 		{
-			if(isset($args->{$val}))
+			if (isset($args->{$val}))
 			{
 				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
 			}
 		}
-		foreach(['user_name'] as $val)
+		if (isset($args->user_name))
 		{
-			if(isset($args->{$val}))
+			$args->user_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->user_name)));
+		}
+		if (isset($args->nick_name))
+		{
+			if (isset($config->nickname_spaces) && $config->nickname_spaces === 'Y')
 			{
-				$args->{$val} = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->{$val})));
+				$args->nick_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->nick_name)));
+			}
+			else
+			{
+				$args->nick_name = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->nick_name)));
 			}
 		}
 
@@ -256,6 +264,7 @@ class MemberAdminController extends Member
 			'update_nickname_log',
 			'nickname_symbols',
 			'nickname_symbols_allowed_list',
+			'nickname_spaces',
 			'allow_duplicate_nickname',
 			'member_profile_view'
 		);
@@ -347,6 +356,7 @@ class MemberAdminController extends Member
 			$args->nickname_symbols = 'Y';
 		}
 		$args->nickname_symbols_allowed_list = utf8_trim($args->nickname_symbols_allowed_list);
+		$args->nickname_spaces = (isset($args->nickname_spaces) && $args->nickname_spaces === 'Y') ? 'Y' : 'N';
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('member', $args);

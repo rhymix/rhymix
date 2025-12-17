@@ -796,25 +796,34 @@ class MemberController extends Member
 		}
 
 		// remove whitespace
-		foreach(['user_id', 'nick_name', 'email_address'] as $val)
+		foreach (['user_id', 'email_address'] as $val)
 		{
-			if(isset($args->{$val}))
+			if (isset($args->{$val}))
 			{
 				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
 			}
 		}
-		foreach(['user_name'] as $val)
+		if (isset($args->user_name))
 		{
-			if(isset($args->{$val}))
+			$args->user_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->user_name)));
+		}
+		if (isset($args->nick_name))
+		{
+			if (isset($config->nickname_spaces) && $config->nickname_spaces === 'Y')
 			{
-				$args->{$val} = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->{$val})));
+				$args->nick_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->nick_name)));
 			}
+			else
+			{
+				$args->nick_name = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->nick_name)));
+			}
+
 		}
 
 		// Check symbols in nickname
 		if($config->nickname_symbols === 'N')
 		{
-			if(preg_match('/[^\pL\d]/u', $args->nick_name, $matches))
+			if(preg_match('/[^\pL\d\s]/u', $args->nick_name, $matches))
 			{
 				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
 			}
@@ -822,7 +831,7 @@ class MemberController extends Member
 		elseif($config->nickname_symbols === 'LIST')
 		{
 			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
-			if(preg_match('/[^\pL\d' . $list . ']/u', $args->nick_name, $matches))
+			if(preg_match('/[^\pL\d\s' . $list . ']/u', $args->nick_name, $matches))
 			{
 				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
 			}
@@ -1098,19 +1107,28 @@ class MemberController extends Member
 		$args->extra_vars = serialize($extra_vars);
 
 		// remove whitespace
-		foreach(['user_id', 'nick_name', 'email_address'] as $val)
+		foreach (['user_id', 'email_address'] as $val)
 		{
-			if(isset($args->{$val}))
+			if (isset($args->{$val}))
 			{
 				$args->{$val} = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->{$val})));
 			}
 		}
-		foreach(['user_name'] as $val)
+		if (isset($args->user_name))
 		{
-			if(isset($args->{$val}))
+			$args->user_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->user_name)));
+		}
+		if (isset($args->nick_name))
+		{
+			if (isset($config->nickname_spaces) && $config->nickname_spaces === 'Y')
 			{
-				$args->{$val} = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->{$val})));
+				$args->nick_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->nick_name)));
 			}
+			else
+			{
+				$args->nick_name = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->nick_name)));
+			}
+
 		}
 
 		// Check if nickname change is allowed
@@ -1134,7 +1152,7 @@ class MemberController extends Member
 		// Check symbols in nickname
 		if($config->nickname_symbols === 'N')
 		{
-			if(preg_match('/[^\pL\d]/u', $args->nick_name, $matches))
+			if(preg_match('/[^\pL\d\s]/u', $args->nick_name, $matches))
 			{
 				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
 			}
@@ -1142,7 +1160,7 @@ class MemberController extends Member
 		elseif($config->nickname_symbols === 'LIST')
 		{
 			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
-			if(preg_match('/[^\pL\d' . $list . ']/u', $args->nick_name, $matches))
+			if(preg_match('/[^\pL\d\s' . $list . ']/u', $args->nick_name, $matches))
 			{
 				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
 			}

@@ -152,6 +152,7 @@ $lang->cmd_modify_nickname_allow = 'Allow Nickname Change';
 $lang->cmd_modify_nickname_log = 'Nickname Change Log';
 $lang->cmd_nickname_symbols = 'Allow Symbols in Nickname';
 $lang->cmd_nickname_symbols_list = 'Only Allow:';
+$lang->cmd_nickname_allow_spaces = 'Allow Spaces';
 $lang->cmd_member_profile_view = 'Show member profile picture';
 $lang->cmd_allow_duplicate_nickname = 'Allow Duplicate Nicknames';
 $lang->about_allow_duplicate_nickname = 'Allow more than one member to use the same nickname.';

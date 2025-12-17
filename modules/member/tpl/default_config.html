@@ -83,6 +83,7 @@
 			<label class="x_inline" for="nickname_symbols_list"><input type="radio" name="nickname_symbols" id="nickname_symbols_list" value="LIST" checked="checked"|cond="$config->nickname_symbols == 'LIST'"/> {$lang->cmd_nickname_symbols_list}</label>
 			<input type="text" name="nickname_symbols_allowed_list" value="{$config->nickname_symbols_allowed_list ?: ''}" />
 			<p class="x_help-block">{$lang->about_nickname_symbols}</p>
+			<label for="nickname_spaces"><input type="checkbox" name="nickname_spaces" id="nickname_spaces" value="Y" checked="checked"|cond="$config->nickname_spaces == 'Y'" /> {$lang->cmd_nickname_allow_spaces}</label>
 		</div>
 	</div>
 	<div class="x_control-group" style="display:none"|cond="$config->allow_duplicate_nickname != 'Y'">

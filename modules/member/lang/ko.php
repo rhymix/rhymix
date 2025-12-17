@@ -154,6 +154,7 @@ $lang->cmd_modify_nickname_allow = '닉네임 변경 허용';
 $lang->cmd_modify_nickname_log = '닉네임 변경 기록';
 $lang->cmd_nickname_symbols = '닉네임에 특수문자 허용';
 $lang->cmd_nickname_symbols_list = '다음의 문자만 허용:';
+$lang->cmd_nickname_allow_spaces = '띄어쓰기 허용';
 $lang->cmd_member_profile_view = '회원 프로필사진 보이기';
 $lang->cmd_allow_duplicate_nickname = '닉네임 중복 허용';
 $lang->about_allow_duplicate_nickname = '여러 회원이 동일한 닉네임을 사용하는 것을 허용합니다. 주의: 잘못 사용할 경우 혼란이 발생할 수 있습니다.';
