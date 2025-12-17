@@ -184,9 +184,12 @@ class CommunicationController extends communication
 	{
 		// Encode the title and content.
 		$title = escape($title, false);
-		$content = removeHackTag($content);
-		$title = utf8_mbencode($title);
-		$content = utf8_mbencode($content);
+		$content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$content);
+		if (config('db.master.charset') !== 'utf8mb4')
+		{
+			$title = utf8_mbencode($title);
+			$content = utf8_mbencode($content);
+		}
 
 		$message_srl = $temp_srl ?: getNextSequence();
 		$related_srl = getNextSequence();
@@ -309,7 +312,7 @@ class CommunicationController extends communication
 
 		$mail_content = vsprintf('From: %s<br><hr><br>%s<br><hr><br>%s<br><a href="%s" target="_blank">%s</a>', [
 			$sender->nick_name,
-			utf8_mbencode(removeHackTag($content)),
+			utf8_mbencode(Rhymix\Framework\Filters\HTMLFilter::clean((string)$content)),
 			Context::getSiteTitle(),
 			$view_url, $view_url,
 		]);

@@ -55,11 +55,10 @@ class DocumentView extends Document
 			throw new Rhymix\Framework\Exceptions\SecurityViolation;
 		}
 
-		$content = Context::get('content');
-
-		if(Context::get('logged_info')->is_admin != 'Y')
+		$content = (string)Context::get('content');
+		if (Context::get('logged_info')->is_admin !== 'Y')
 		{
-			$content = removeHackTag($content);
+			$content = Rhymix\Framework\Filters\HTMLFilter::clean($content);
 		}
 
 		// Editor converter

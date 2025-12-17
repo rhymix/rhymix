@@ -677,23 +677,26 @@ class CommentController extends Comment
 		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if(!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
+		if (!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
 		{
 			$obj->content = EditorModel::converter($obj, 'comment');
 		}
 
 		// remove iframe and script if not a top administrator on the session.
-		if($logged_info->is_admin != 'Y')
+		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = removeHackTag($obj->content);
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
 		}
-		$obj->content = utf8_mbencode($obj->content);
+		if (config('db.master.charset') !== 'utf8mb4')
+		{
+			$obj->content = utf8_mbencode($obj->content);
+		}
 
+		// Set other flags.
 		if (isset($obj->notify_message) && $obj->notify_message !== 'Y')
 		{
 			$obj->notify_message = 'N';
 		}
-
 		if (isset($obj->is_secret) && $obj->is_secret !== 'Y')
 		{
 			$obj->is_secret = 'N';
@@ -1042,11 +1045,14 @@ class CommentController extends Comment
 
 		// remove iframe and script if not a top administrator on the session
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin != 'Y')
+		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = removeHackTag($obj->content);
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
 		}
-		$obj->content = utf8_mbencode($obj->content);
+		if (config('db.master.charset') !== 'utf8mb4')
+		{
+			$obj->content = utf8_mbencode($obj->content);
+		}
 
 		// begin transaction
 		$oDB = DB::getInstance();
