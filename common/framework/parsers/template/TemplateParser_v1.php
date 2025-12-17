@@ -156,7 +156,7 @@ class TemplateParser_v1
 		// if not exists default hidden tag, generate hidden tag
 		if ($autoform)
 		{
-			preg_match_all('/<input[^>]* name="(act|mid)"/is', $matches[2], $m2);
+			preg_match_all('/<(?:input|select)[^>]* name="(act|mid)"/is', $matches[2], $m2);
 			$missing_inputs = array_diff(['act', 'mid'], $m2[1]);
 			if(is_array($missing_inputs))
 			{
