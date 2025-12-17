@@ -843,6 +843,23 @@ class BoardController extends Board
 	}
 
 	/**
+	 * Trigger called at module copy
+	 */
+	public function triggerCopyModule(&$obj)
+	{
+		$board_config = ModuleModel::getModulePartConfig('board', $obj->originModuleSrl);
+
+		$oModuleController = ModuleController::getInstance();
+		if (is_array($obj->moduleSrlList))
+		{
+			foreach ($obj->moduleSrlList as $module_srl)
+			{
+				$oModuleController->insertModulePartConfig('board', $module_srl, $board_config);
+			}
+		}
+	}
+
+	/**
 	 * Create an anonymous nickname.
 	 *
 	 * @param string $format

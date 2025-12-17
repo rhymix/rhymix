@@ -130,6 +130,7 @@
 	<eventHandlers>
 		<eventHandler after="member.getMemberMenu" class="controller" method="triggerMemberMenu" />
 		<eventHandler after="menu.getModuleListInSitemap" class="model" method="triggerModuleListInSitemap" />
+		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModule" />
 	</eventHandlers>
 	<menus>
 		<menu name="board" type="all">
