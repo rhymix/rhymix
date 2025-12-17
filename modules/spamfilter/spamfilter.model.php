@@ -218,7 +218,7 @@ class SpamfilterModel extends Spamfilter
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
 		$user = Context::get('logged_info');
-		if (!isset($config) || !isset($config->captcha) || !in_array($config->captcha->type, ['recaptcha', 'turnstile']) || !$config->captcha->site_key || !$config->captcha->secret_key)
+		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
 		{
 			return false;
 		}
@@ -248,18 +248,56 @@ class SpamfilterModel extends Spamfilter
 	/**
 	 * Get a CAPTCHA instance.
 	 *
-	 * @return object
+	 * @return ?object
 	 */
-	public static function getCaptcha($target_action)
+	public static function getCaptcha($target_action = null)
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		$captcha_class = 'Rhymix\\Modules\\Spamfilter\\Captcha\\' . $config->captcha->type;
-		$captcha_class::init($config->captcha);
+		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
+		{
+			return null;
+		}
 
+		$captcha_class = 'Rhymix\\Modules\\Spamfilter\\Captcha\\' . $config->captcha->type;
+		if (!class_exists($captcha_class))
+		{
+			return null;
+		}
+
+		$captcha_class::init($config->captcha);
 		$captcha = new $captcha_class();
-		$captcha->setTargetActions([$target_action => true]);
+		if ($target_action)
+		{
+			$captcha->setTargetActions([$target_action => true]);
+		}
 		$captcha->addScripts();
 		return $captcha;
+	}
+
+	/**
+	 * Check the CAPTCHA.
+	 *
+	 * This method will throw an exception if the CAPTCHA is invalid.
+	 *
+	 * @param ?string $response
+	 * @return void
+	 */
+	public static function checkCaptchaResponse(?string $response = null): void
+	{
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
+		{
+			throw new Exception('msg_recaptcha_not_configured');
+		}
+
+		$captcha_class = 'Rhymix\\Modules\\Spamfilter\\Captcha\\' . $config->captcha->type;
+		if (!class_exists($captcha_class))
+		{
+			throw new Exception('msg_recaptcha_not_configured');
+		}
+
+		$captcha_class::init($config->captcha);
+		$captcha_class::check($response);
 	}
 
 	/**

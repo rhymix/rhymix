@@ -1,0 +1,32 @@
+<config autoescape="on" />
+<include target="./header.html" />
+<section class="section">
+	<form action="./" method="post" id="spamfilterConfig" class="x_form-horizontal">
+		<input type="hidden" name="act" value="procSpamfilterAdminSubmitCaptchaTest" />
+		<input type="hidden" name="module" value="spamfilter" />
+		<input type="hidden" name="xe_validator_id" value="modules/spamfilter/tpl/3" />
+		<div cond="$XE_VALIDATOR_MESSAGE && $XE_VALIDATOR_ID == 'modules/spamfilter/tpl/3'" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
+			<p>{$XE_VALIDATOR_MESSAGE}</p>
+		</div>
+		<!--@if($captcha)-->
+		<div class="x_control-group">
+			<label class="x_control-label" for="captcha_type">{$lang->cmd_captcha_test}</label>
+			<div class="x_controls">
+				{$captcha|noescape}
+			</div>
+		</div>
+		<div class="x_clearfix btnArea">
+			<div class="x_pull-right">
+				<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_submit}</button>
+			</div>
+		</div>
+		<!--@else-->
+		<div class="message error">
+			<p>{$lang->msg_recaptcha_not_configured}</p>
+		</div>
+		<!--@end-->
+	</form>
+</section>
+<include target="./footer.html" />
+
+

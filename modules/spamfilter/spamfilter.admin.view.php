@@ -86,6 +86,20 @@ class SpamfilterAdminView extends Spamfilter
 
 		$this->setTemplateFile('config_captcha');
 	}
+
+	/**
+	 * @brief CAPTCHA Test
+	 */
+	public function dispSpamfilterAdminConfigCaptchaTest()
+	{
+		$config = ModuleModel::getModuleConfig('spamfilter');
+		Context::set('config', $config);
+
+		$captcha = SpamfilterModel::getCaptcha();
+		Context::set('captcha', $captcha);
+
+		$this->setTemplateFile('captcha_test');
+	}
 }
 /* End of file spamfilter.admin.view.php */
 /* Location: ./modules/spamfilter/spamfilter.admin.view.php */

@@ -115,6 +115,23 @@ class SpamfilterAdminController extends Spamfilter
 		$this->setRedirectUrl($returnUrl);
 	}
 
+	public function procSpamfilterAdminSubmitCaptchaTest()
+	{
+		$response = Context::get('g-recaptcha-response') ?? Context::get('cf-turnstile-response');
+
+		try
+		{
+			SpamfilterModel::checkCaptchaResponse($response);
+		}
+		catch (Exception $e)
+		{
+			return new BaseObject(-1, $e->getMessage());
+		}
+
+		$this->setMessage('msg_recaptcha_test_success');
+		$this->setRedirectUrl(getNotEncodedUrl('', 'module', 'admin', 'act', 'dispSpamfilterAdminConfigCaptchaTest'));
+	}
+
 	public function procSpamfilterAdminInsertDeniedIP()
 	{
 		//스팸IP  추가

@@ -20,9 +20,12 @@ class reCAPTCHA
 		self::$config = $config;
 	}
 
-	public static function check()
+	public static function check($response = null)
 	{
-		$response = Context::get('g-recaptcha-response');
+		if (!$response)
+		{
+			$response = Context::get('g-recaptcha-response');
+		}
 		if (!$response)
 		{
 			throw new Exception('msg_recaptcha_invalid_response');
