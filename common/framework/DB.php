@@ -962,7 +962,7 @@ class DB
 	public function getColumnInfo(string $table_name, string $column_name): ?object
 	{
 		// If column information is not found, return null.
-		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
+		$stmt = $this->_handle->query(sprintf("SHOW FULL COLUMNS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
 		$column_info = $this->fetch($stmt);
 		if (!$column_info)
 		{
@@ -982,6 +982,16 @@ class DB
 		}
 		$xetype = Parsers\DBTableParser::getXEType($dbtype, $size ?: '');
 
+		// Detect the character set.
+		if (preg_match('/^([a-zA-Z0-9]+)/', $column_info->{'Collation'} ?? '', $matches))
+		{
+			$charset = $matches[1] === 'utf8mb3' ? 'utf8' : $matches[1];
+		}
+		else
+		{
+			$charset = null;
+		}
+
 		// Return the result as an object.
 		return (object)array(
 			'name' => $column_name,
@@ -990,6 +1000,8 @@ class DB
 			'size' => $size,
 			'default_value' => $column_info->{'Default'},
 			'notnull' => strncmp($column_info->{'Null'}, 'NO', 2) == 0 ? true : false,
+			'charset' => $charset,
+			'collation' => $column_info->{'Collation'} ?: null,
 		);
 	}
 
@@ -1100,6 +1112,7 @@ class DB
 		return (object)array(
 			'name' => $column->Key_name,
 			'table' => $column->Table,
+			'type' => $column->Index_type,
 			'is_unique' => $is_unique,
 			'columns' => $columns,
 		);
