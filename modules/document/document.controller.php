@@ -708,7 +708,7 @@ class DocumentController extends Document
 			$obj->user_id = htmlspecialchars_decode($logged_info->user_id);
 			$obj->user_name = htmlspecialchars_decode($logged_info->user_name);
 			$obj->nick_name = htmlspecialchars_decode($logged_info->nick_name);
-			$obj->email_address = $logged_info->email_address;
+			$obj->email_address = $logged_info->email_address ?? '';
 			$obj->homepage = $logged_info->homepage;
 		}
 		if(!$logged_info->member_srl && !$manual_inserted && !$isRestore)
