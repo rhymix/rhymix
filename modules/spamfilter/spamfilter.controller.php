@@ -337,8 +337,12 @@ class SpamfilterController extends Spamfilter
 		if (count($target_actions))
 		{
 			$captcha_class = 'Rhymix\\Modules\\Spamfilter\\Captcha\\' . $config->captcha->type;
-			$captcha_class::init($config->captcha);
+			if (!class_exists($captcha_class))
+			{
+				return;
+			}
 
+			$captcha_class::init($config->captcha);
 			if (strncasecmp('proc', $obj->act, 4) === 0)
 			{
 				$captcha_class::check();

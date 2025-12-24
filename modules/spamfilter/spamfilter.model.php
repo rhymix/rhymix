@@ -218,7 +218,7 @@ class SpamfilterModel extends Spamfilter
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
 		$user = Context::get('logged_info');
-		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
+		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || $config->captcha->type === 'none' || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
 		{
 			return false;
 		}
@@ -253,7 +253,7 @@ class SpamfilterModel extends Spamfilter
 	public static function getCaptcha($target_action = null)
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
+		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || $config->captcha->type === 'none' || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
 		{
 			return null;
 		}
@@ -285,7 +285,7 @@ class SpamfilterModel extends Spamfilter
 	public static function checkCaptchaResponse(?string $response = null): void
 	{
 		$config = ModuleModel::getModuleConfig('spamfilter');
-		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
+		if (!isset($config) || empty($config->captcha) || empty($config->captcha->type) || $config->captcha->type === 'none' || empty($config->captcha->site_key) || empty($config->captcha->secret_key))
 		{
 			throw new Exception('msg_recaptcha_not_configured');
 		}
