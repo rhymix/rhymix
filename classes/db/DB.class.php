@@ -1,6 +1,3 @@
 <?php
 
-class DB extends Rhymix\Framework\DB
-{
-	
-}
+class_alias('Rhymix\\Framework\\DB', 'DB');
