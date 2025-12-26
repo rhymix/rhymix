@@ -1,0 +1,22 @@
+parameters:
+	level: 0
+	bootstrapFiles:
+		- common/constants.php
+	paths:
+		- addons
+		- classes
+		- common
+		- modules
+		- widgets
+	excludePaths:
+		analyse:
+			- */vendor/*
+		analyseAndScan:
+			- */lang/*
+			- */tests/*
+			- modules/*/lang
+			- modules/*/skins
+			- widgets/*/skins
+			- widgetstyles
+	universalObjectCratesClasses:
+		- BaseObject
