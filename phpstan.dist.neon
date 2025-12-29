@@ -3,20 +3,38 @@ parameters:
 	bootstrapFiles:
 		- common/constants.php
 	paths:
-		- addons
 		- classes
 		- common
+	scanDirectories:
 		- modules
-		- widgets
 	excludePaths:
 		analyse:
 			- */vendor/*
 		analyseAndScan:
 			- */lang/*
 			- */tests/*
-			- modules/*/lang
 			- modules/*/skins
 			- widgets/*/skins
 			- widgetstyles
 	universalObjectCratesClasses:
 		- BaseObject
+	dynamicConstantNames:
+		RX_SSL: bool
+		RX_CLIENT_IP_VERSION: int
+		RX_POST: bool
+		RX_WINDOWS: bool
+		RX_REQUEST_URL: string
+		RX_BASEURL: string
+		RX_BASEDIR: string
+		RX_TIME: int
+		RX_MICROTIME: int
+	tips:
+		treatPhpDocTypesAsCertain: false
+	ignoreErrors:
+		-
+			identifier: constructor.unusedParameter
+		-
+			identifier: class.nameCase
+		-
+			identifier: missingType.iterableValue
+
