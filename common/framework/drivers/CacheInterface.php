@@ -4,6 +4,8 @@ namespace Rhymix\Framework\Drivers;
 
 /**
  * The cache driver interface.
+ *
+ * @property bool $prefix
  */
 interface CacheInterface
 {
@@ -11,7 +13,7 @@ interface CacheInterface
 	 * Create a new instance of the current cache driver, using the given settings.
 	 *
 	 * @param array $config
-	 * @return void
+	 * @return CacheInterface
 	 */
 	public static function getInstance(array $config);
 
@@ -87,7 +89,7 @@ interface CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function incr($key, $amount);
 
@@ -99,7 +101,7 @@ interface CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function decr($key, $amount);
 

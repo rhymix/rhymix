@@ -110,7 +110,7 @@ class SMS
 					'required' => $driver->getRequiredConfig(),
 					'optional' => $driver->getOptionalConfig(),
 					'api_types' => $driver->getAPITypes(),
-					'api_spec' => $class_name::getAPISpec(),
+					'api_spec' => $driver::getAPISpec(),
 				);
 			}
 		}
@@ -354,7 +354,6 @@ class SMS
 	/**
 	 * Get all extra variables.
 	 *
-	 * @param string $key
 	 * @return array
 	 */
 	public function getExtraVars(): array

@@ -186,7 +186,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 	/**
 	 * Get the real key in a way that is mostly compatible with R\F\Cache.
 	 *
-	 * @param string
+	 * @param string $key
 	 * @return string
 	 */
 	protected function _getRealKey($key): string

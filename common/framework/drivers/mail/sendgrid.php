@@ -59,7 +59,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param \Rhymix\Framework\Mail $message
 	 * @return bool
 	 */
 	public function send(\Rhymix\Framework\Mail $message)
@@ -68,7 +68,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		if (!isset($this->_config['api_token']) || !$this->_config['api_token'])
 		{
 			$message->errors[] = 'SendGrid: Please use API key (token) instead of username and password.';
-			return;
+			return false;
 		}
 
 		// Initialize the request data.
