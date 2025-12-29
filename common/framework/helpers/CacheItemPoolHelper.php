@@ -4,7 +4,7 @@ namespace Rhymix\Framework\Helpers;
 
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Psr\Cache\InvalidArgumentException;
+use Rhymix\Framework\Exceptions\PsrCacheInvalidArgumentException;
 
 /**
  * Helper class to implement PSR-6 cache item pool using Rhymix cache configuration.
@@ -47,14 +47,14 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Returns a Cache Item representing the specified key.
      *
      * @param string $key
-     * @throws InvalidArgumentException
+     * @throws PsrCacheInvalidArgumentException
      * @return CacheItemInterface
      */
     public function getItem($key)
 	{
 		if (!is_scalar($key) || empty($key))
 		{
-			throw new InvalidArgumentException;
+			throw new PsrCacheInvalidArgumentException;
 		}
 
 		$key = $this->_getRealKey($key);
@@ -65,7 +65,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Returns a traversable set of cache items.
      *
      * @param string[] $keys
-     * @throws InvalidArgumentException
+     * @throws PsrCacheInvalidArgumentException
      * @return array
      */
     public function getItems(array $keys = [])
@@ -75,7 +75,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		{
 			if (!is_scalar($key) || empty($key))
 			{
-				throw new InvalidArgumentException;
+				throw new PsrCacheInvalidArgumentException;
 			}
 
 			$key = $this->_getRealKey($key);
@@ -88,7 +88,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Confirms if the cache contains specified cache item.
      *
      * @param string $key
-     * @throws InvalidArgumentException
+     * @throws PsrCacheInvalidArgumentException
      * @return bool
      */
     public function hasItem($key)
@@ -110,14 +110,14 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Removes the item from the pool.
      *
      * @param string $key
-     * @throws InvalidArgumentException
+     * @throws PsrCacheInvalidArgumentException
      * @return bool
      */
     public function deleteItem($key)
 	{
 		if (!is_scalar($key) || empty($key))
 		{
-			throw new InvalidArgumentException;
+			throw new PsrCacheInvalidArgumentException;
 		}
 
 		$key = $this->_getRealKey($key);
@@ -128,7 +128,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Removes multiple items from the pool.
      *
      * @param string[] $keys
-     * @throws InvalidArgumentException
+     * @throws PsrCacheInvalidArgumentException
      * @return bool
      */
     public function deleteItems(array $keys)
@@ -138,7 +138,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		{
 			if (!is_scalar($key) || empty($key))
 			{
-				throw new InvalidArgumentException;
+				throw new PsrCacheInvalidArgumentException;
 			}
 
 			$key = $this->_getRealKey($key);
