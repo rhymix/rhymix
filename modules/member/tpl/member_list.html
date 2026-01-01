@@ -14,7 +14,7 @@
 <form action="" method="post">
 	<table id="memberList" class="x_table x_table-striped x_table-hover dsTg">
 		<caption>
-			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="!$filter_type">{$lang->cmd_show_all_member}<block cond="!$filter_type">({$total_count})</block></a>
+			<a href="{getUrl('filter_type', '', 'page', '')}" class="active"|cond="empty($filter_type)">{empty($search_keyword) ? $lang->cmd_show_all_member : $lang->cmd_show_searched_member}<block cond="empty($filter_type)">({$total_count})</block></a>
 			<i>|</i>
 			<a href="{getUrl('filter_type', 'admin', 'page', '')}" class="active"|cond="$filter_type=='admin'">{$lang->cmd_show_super_admin_member}<block cond="$filter_type=='admin'">({$total_count})</block></a>
 			<i>|</i>

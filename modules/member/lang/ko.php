@@ -346,6 +346,7 @@ $lang->count_manage_id = '<span class="_deniedIDCount">%s</span>개의 금지 �
 $lang->count_manage_nick_name = '<span class="_deniedNickNameCount">%s</span>개의 금지 닉네임이 있습니다.';
 $lang->user_list = '회원 목록';
 $lang->cmd_show_all_member = '모든 회원';
+$lang->cmd_show_searched_member = '검색된 회원';
 $lang->cmd_show_super_admin_member = '최고 관리자';
 $lang->cmd_show_site_admin_member = '사이트 관리자';
 $lang->approval = '승인';
