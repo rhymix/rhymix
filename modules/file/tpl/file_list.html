@@ -12,7 +12,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="module" value="file" />
 	<table id="fileListTable" class="x_table x_table-striped x_table-hover">
 		<caption>
-			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" class="active"|cond="!$isvalid">{$lang->all}<block cond="!$isvalid">({number_format($total_count)})</block></a>
+			<a href="{getUrl('search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && !empty($search_keyword)" class="active">{$lang->cmd_search}({number_format($total_count)})</a>
+			<i>|</i>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispFileAdminList')}" class="active"|cond="empty($isvalid) && empty($search_target) && empty($search_keyword)">{$lang->all}<block cond="empty($isvalid) && empty($search_target) && empty($search_keyword)">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('isvalid', 'Y')}" class="active"|cond="$isvalid == 'Y'">{$lang->is_valid}<block cond="$isvalid == 'Y'">({number_format($total_count)})</block></a>
 			<i>|</i>

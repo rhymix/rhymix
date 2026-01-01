@@ -189,6 +189,8 @@ class FileAdminView extends File
 		Context::set('total_page', $output->total_page);
 		Context::set('page', $output->page);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('isvalid', $args->isvalid);
+
 		// Set a template
 		$security = new Security();
 		$security->encodeHTML('file_list..');

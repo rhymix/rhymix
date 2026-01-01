@@ -185,7 +185,7 @@ class BaseObject
 	{
 		$type = $this->get('message_type');
 		$typeList = array('error' => 1, 'info' => 1, 'update' => 1);
-		if(!isset($typeList[$type]))
+		if (!isset($type) || !isset($typeList[$type]))
 		{
 			$type = $this->getError() ? 'error' : 'info';
 		}
