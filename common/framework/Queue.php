@@ -24,7 +24,7 @@ class Queue
 	 * Add a custom Queue driver.
 	 *
 	 * @param string $name
-	 * @param object $driver
+	 * @param Drivers\QueueInterface $driver
 	 * @return void
 	 */
 	public static function addDriver(string $name, Drivers\QueueInterface $driver): void
@@ -64,7 +64,9 @@ class Queue
 	 */
 	public static function getDbDriver(): Drivers\Queue\DB
 	{
-		return self::getDriver('db');
+		/** @var Drivers\Queue\DB */
+		$driver = self::getDriver('db');
+		return $driver;
 	}
 
 	/**

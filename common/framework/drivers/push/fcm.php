@@ -44,7 +44,7 @@ class FCM extends Base implements PushInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param Push $message
 	 * @param array $tokens
 	 * @return \stdClass
 	 */
@@ -95,7 +95,7 @@ class FCM extends Base implements PushInterface
 				$decoded_response = json_decode($response->getBody());
 				if(!$decoded_response)
 				{
-					$message->addError('FCM error: Invalid Response: '. $response);
+					$message->addError('FCM error: Invalid Response: '. $response->getBody());
 					return $output;
 				}
 				$results = $decoded_response->results ?: [];

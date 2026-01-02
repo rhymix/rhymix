@@ -7,18 +7,8 @@ use Rhymix\Framework\Storage;
 /**
  * The SQLite cache driver.
  */
-class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
+class SQLite extends Base implements \Rhymix\Framework\Drivers\CacheInterface
 {
-	/**
-	 * Set this flag to false to disable cache prefixes.
-	 */
-	public $prefix = false;
-
-	/**
-	 * The singleton instance is stored here.
-	 */
-	protected static $_instance = null;
-
 	/**
 	 * The database handle and prepared statements are stored here.
 	 */
@@ -64,21 +54,6 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 		$this->_dbh->busyTimeout(250);
 		$this->_dbh->exec('PRAGMA journal_mode = MEMORY');
 		$this->_dbh->exec('PRAGMA synchronous = OFF');
-	}
-
-	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 *
-	 * @param array $config
-	 * @return void
-	 */
-	public static function getInstance(array $config)
-	{
-		if (self::$_instance === null)
-		{
-			self::$_instance = new self();
-		}
-		return self::$_instance;
 	}
 
 	/**
@@ -242,7 +217,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function incr($key, $amount)
 	{
@@ -269,7 +244,7 @@ class SQLite implements \Rhymix\Framework\Drivers\CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function decr($key, $amount)
 	{

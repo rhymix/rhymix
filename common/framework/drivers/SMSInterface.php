@@ -11,7 +11,7 @@ interface SMSInterface
 	 * Create a new instance of the current SMS driver, using the given settings.
 	 *
 	 * @param array $config
-	 * @return void
+	 * @return SMSInterface
 	 */
 	public static function getInstance(array $config);
 
@@ -65,7 +65,7 @@ interface SMSInterface
 	 * This method returns true on success and false on failure.
 	 *
 	 * @param array $messages
-	 * @param object $original
+	 * @param \Rhymix\Framework\SMS $original
 	 * @return bool
 	 */
 	public function send(array $messages, \Rhymix\Framework\SMS $original);
