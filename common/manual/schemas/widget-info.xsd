@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	elementFormDefault="qualified">
+
+	<xs:element name="widget">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="description" type="localizedString" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xs:element name="version" type="versionText" minOccurs="0" />
+				<xs:element name="date" type="dateValue" minOccurs="0" />
+				<xs:element name="category" type="xs:string" minOccurs="0" />
+				<xs:element name="link" type="xs:anyURI" minOccurs="0" />
+				<xs:element name="license" type="licenseType" minOccurs="0" />
+				<xs:element name="author" type="authorType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="extra_vars" type="extraVarsType" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="licenseType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="link" type="xs:anyURI" use="optional" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="authorType">
+		<xs:sequence>
+			<xs:element name="name" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="email_address" type="xs:string" use="optional" />
+		<xs:attribute name="link" type="xs:anyURI" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="extraVarsType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="var" type="varType" />
+			<xs:element name="group" type="varGroupType" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="varGroupType">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="var" type="varType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="varType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="name" type="localizedString" />
+			<xs:element name="title" type="localizedString" />
+			<xs:element name="description" type="localizedString" />
+			<xs:element name="type" type="xs:string" />
+			<xs:element name="options" type="varOptionType" />
+			<xs:element name="default" type="xs:string" />
+			<xs:element name="attrs" type="varAttrsType" />
+		</xs:choice>
+		<xs:attribute name="id" type="xs:string" use="optional" />
+		<xs:attribute name="type" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="varAttrsType">
+		<xs:sequence>
+			<xs:element name="attr" type="varAttrType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="varAttrType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="varOptionType">
+		<xs:sequence>
+			<xs:element name="value" type="xs:string" minOccurs="0" />
+			<xs:element name="name" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="description" type="localizedString" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="localizedString">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace"
+					processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="versionText">
+		<xs:union memberTypes="versionPattern placeholderToken" />
+	</xs:simpleType>
+
+	<xs:simpleType name="versionPattern">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d+(\.\d+){0,2}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="placeholderToken">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="RX_[A-Z0-9_]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="dateValue">
+		<xs:union memberTypes="xs:date placeholderToken" />
+	</xs:simpleType>
+
+</xs:schema>

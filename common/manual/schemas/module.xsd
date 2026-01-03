@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace"
+	elementFormDefault="qualified">
+
+	<xs:element name="module">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="namespaces" type="namespacesType" minOccurs="0" />
+				<xs:element name="classes" type="classesType" minOccurs="0" />
+				<xs:element name="grants" type="grantsType" minOccurs="0" />
+				<xs:element name="actions" type="actionsType" minOccurs="0" />
+				<xs:element name="permissions" type="permissionsType" minOccurs="0" />
+				<xs:element name="eventHandlers" type="eventHandlersType" minOccurs="0" />
+				<xs:element name="menus" type="menusType" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="namespacesType">
+		<xs:sequence>
+			<xs:element name="namespace" type="namespaceType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="namespaceType">
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="classesType">
+		<xs:sequence>
+			<xs:element name="class" type="classType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="classType">
+		<xs:attribute name="type" type="xs:string" use="optional" />
+		<xs:attribute name="name" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="grantsType">
+		<xs:sequence>
+			<xs:element name="grant" type="grantType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="grantType">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="default" type="grantDefaultType" use="optional" />
+	</xs:complexType>
+
+	<xs:simpleType name="grantDefaultType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="guest" />
+			<xs:enumeration value="member" />
+			<xs:enumeration value="admin" />
+			<xs:enumeration value="manager" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="permissionsType">
+		<xs:sequence>
+			<xs:element name="permission" type="permissionType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="permissionType">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="actionsType">
+		<xs:sequence>
+			<xs:element name="action" type="actionType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="actionType">
+		<xs:sequence>
+			<xs:element name="route" type="routeType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="type" type="actionKind" use="optional" />
+		<xs:attribute name="class" type="xs:string" use="optional" />
+		<xs:attribute name="permission" type="xs:string" use="optional" />
+		<xs:attribute name="method" type="xs:string" use="optional" />
+		<xs:attribute name="ruleset" type="xs:string" use="optional" />
+		<xs:attribute name="route" type="xs:string" use="optional" />
+		<xs:attribute name="standalone" type="xs:boolean" use="optional" />
+		<xs:attribute name="index" type="xs:boolean" use="optional" />
+		<xs:attribute name="admin_index" type="xs:boolean" use="optional" />
+		<xs:attribute name="admin-index" type="xs:boolean" use="optional" />
+		<xs:attribute name="menu_name" type="xs:string" use="optional" />
+		<xs:attribute name="menu-name" type="xs:string" use="optional" />
+		<xs:attribute name="menu_index" type="xs:boolean" use="optional" />
+		<xs:attribute name="menu-index" type="xs:boolean" use="optional" />
+		<xs:attribute name="setup_index" type="xs:boolean" use="optional" />
+		<xs:attribute name="simple_setup_index" type="xs:boolean" use="optional" />
+		<xs:attribute name="meta-noindex" type="xs:boolean" use="optional" />
+		<xs:attribute name="check_var" type="xs:string" use="optional" />
+		<xs:attribute name="check_type" type="xs:string" use="optional" />
+		<xs:attribute name="check_csrf" type="xs:boolean" use="optional" />
+		<xs:attribute name="check-csrf" type="xs:boolean" use="optional" />
+		<xs:attribute name="error-handlers" type="xs:string" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="routeType">
+		<xs:attribute name="route" type="xs:string" use="required" />
+		<xs:attribute name="priority" type="xs:integer" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="eventHandlersType">
+		<xs:sequence>
+			<xs:element name="eventHandler" type="eventHandlerType" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="eventHandlerType">
+		<xs:attribute name="before" type="xs:string" use="optional" />
+		<xs:attribute name="after" type="xs:string" use="optional" />
+		<xs:attribute name="beforeAction" type="xs:string" use="optional" />
+		<xs:attribute name="afterAction" type="xs:string" use="optional" />
+		<xs:attribute name="class" type="xs:string" use="required" />
+		<xs:attribute name="method" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="menusType">
+		<xs:sequence>
+			<xs:element name="menu" type="menuType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="menuType">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="type" type="xs:string" use="optional" />
+		<xs:attribute name="maxdepth" type="xs:integer" use="optional" />
+		<xs:attribute name="default" type="xs:boolean" use="optional" />
+	</xs:complexType>
+
+	<xs:simpleType name="actionKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="view" />
+			<xs:enumeration value="model" />
+			<xs:enumeration value="controller" />
+			<xs:enumeration value="mobile" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="localizedString">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace"
+					processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+</xs:schema>
