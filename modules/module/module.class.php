@@ -13,7 +13,7 @@ class Module extends ModuleObject
 	function moduleInstall()
 	{
 		// Insert new domain
-		if(!getModel('module')->getDefaultDomainInfo())
+		if (!Rhymix\Modules\Module\Models\Domain::getDefaultDomain())
 		{
 			$current_url = Rhymix\Framework\URL::getCurrentUrl();
 			$current_port = intval(parse_url($current_url, PHP_URL_PORT)) ?: null;
@@ -55,7 +55,7 @@ class Module extends ModuleObject
 		if(!is_dir(RX_BASEDIR . 'files/ruleset')) return true;
 
 		// Check domains
-		if (!$oDB->isTableExists('domains') || !getModel('module')->getDefaultDomainInfo())
+		if (!$oDB->isTableExists('domains') || !Rhymix\Modules\Module\Models\Domain::getDefaultDomain())
 		{
 			return true;
 		}
@@ -162,7 +162,7 @@ class Module extends ModuleObject
 		$oDB = DB::getInstance();
 
 		// Migrate domains
-		if (!getModel('module')->getDefaultDomainInfo())
+		if (!Rhymix\Modules\Module\Models\Domain::getDefaultDomain())
 		{
 			$this->migrateDomains();
 		}

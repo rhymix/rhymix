@@ -29,7 +29,7 @@ class RouterTest extends \Codeception\Test\Unit
         $this->assertGreaterThan(0, count($info->route->GET));
         $this->assertGreaterThan(0, count($info->action->dispBoardContent->route));
 
-        getController('module')->registerActionForwardRoutes('member');
+        ModuleController::getInstance()->registerActionForwardRoutes('member');
 
         $args = array('mid' => 'board', 'act' => 'dispBoardContent');
         $this->assertEquals('board', Rhymix\Framework\Router::getURL($args, 2));
