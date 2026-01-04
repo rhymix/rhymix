@@ -14,11 +14,10 @@ class Domain
 	/**
 	 * Attributes to match database columns.
 	 */
-	public int $domain_srl;
-	public string $domain;
+	public ?int $domain_srl = 0;
+	public string $domain = '';
 	public string $is_default_domain = 'N';
 	public bool $is_default_replaced = false;
-	public int $site_srl = 0;
 	public int $index_module_srl = 0;
 	public int $index_document_srl = 0;
 	public int $default_layout_srl = 0;
@@ -27,8 +26,9 @@ class Domain
 	public string $default_language = '';
 	public ?int $http_port = null;
 	public ?int $https_port = null;
+	public ?int $site_srl = 0;
 	public string $security = 'none';
-	public string $description = '';
+	public $description;
 	public $settings;
 	public $regdate;
 
@@ -58,6 +58,11 @@ class Domain
 		else
 		{
 			$this->default_language = config('locale.default_lang');
+		}
+
+		if (!isset($this->site_srl))
+		{
+			$this->site_srl = 0;
 		}
 	}
 

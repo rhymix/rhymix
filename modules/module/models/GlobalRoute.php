@@ -81,7 +81,7 @@ class GlobalRoute
 		string $type,
 		$route_regexp = null,
 		$route_config = null,
-		string $global_route = 'N'
+		$global_route = 'N'
 	): DBResultHelper
 	{
 		$args = [
