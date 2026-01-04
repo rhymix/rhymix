@@ -114,7 +114,7 @@ class Updater
 		{
 			if (!isset($action_forward[$action_name]))
 			{
-				$output = GlobalRoute::insertGlobalRoute($action_name, $module_name, $route_info['type'], $action_name,
+				$output = GlobalRoute::insertGlobalRoute($action_name, $module_name, $route_info['type'],
 					$route_info['regexp'], $route_info['config'], $route_info['global_route']);
 				if (!$output->toBool())
 				{
@@ -125,7 +125,7 @@ class Updater
 				$action_forward[$action_name]->route_config !== $route_info['config'] ||
 				$action_forward[$action_name]->global_route !== $route_info['global_route'])
 			{
-				$output = GlobalRoute::deleteGlobalRoute($action_name, $module_name, $route_info['type'], $action_name);
+				$output = GlobalRoute::deleteGlobalRoute($action_name, $module_name, $route_info['type']);
 				if (!$output->toBool())
 				{
 					return $output;

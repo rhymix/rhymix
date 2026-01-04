@@ -51,11 +51,11 @@ class GlobalRoute
 			{
 				if ($item->route_regexp)
 				{
-					$item->route_regexp = @unserialize($item->route_regexp);
+					$item->route_regexp = unserialize($item->route_regexp);
 				}
 				if ($item->route_config)
 				{
-					$item->route_config = @unserialize($item->route_config);
+					$item->route_config = unserialize($item->route_config);
 				}
 				$list[$item->act] = $item;
 			}
@@ -81,15 +81,15 @@ class GlobalRoute
 		string $type,
 		$route_regexp = null,
 		$route_config = null,
-		$global_route = 'N'
+		string $global_route = 'N'
 	): DBResultHelper
 	{
 		$args = [
 			'act' => $act,
 			'module' => $module,
 			'type' => $type,
-			'route_regexp' => is_array($route_regexp) ? serialize($route_regexp) : $route_regexp,
-			'route_config' => is_array($route_config) ? serialize($route_config) : $route_config,
+			'route_regexp' => serialize($route_regexp ?: null),
+			'route_config' => serialize($route_config ?: null),
 			'global_route' => $global_route === 'Y' ? 'Y' : 'N',
 		];
 
