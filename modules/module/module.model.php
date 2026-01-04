@@ -15,41 +15,18 @@ class ModuleModel extends Module
 	public static $_domain_map = [];
 
 	/**
-	 * @brief Initialization
-	 */
-	public function init()
-	{
-	}
-
-	/**
 	 * @brief Check if mid is available
 	 */
 	public static function isIDExists($id, $module = null)
 	{
-		if (!preg_match('/^[a-z]{1}([a-z0-9_]+)$/i', $id))
+		if (!Rhymix\Modules\Module\Models\Prefix::isValidPrefix((string)$id, $module))
 		{
 			return true;
 		}
-		if (Context::isReservedWord(strtolower($id)) && $id !== $module)
+		if (Rhymix\Modules\Module\Models\Prefix::exists((string)$id))
 		{
 			return true;
 		}
-
-		$dirs = array_map('strtolower', FileHandler::readDir(RX_BASEDIR));
-		$dirs[] = 'rss';
-		$dirs[] = 'atom';
-		$dirs[] = 'api';
-		if (in_array(strtolower($id), $dirs))
-		{
-			return true;
-		}
-
-		// mid test
-		$args = new stdClass();
-		$args->mid = $id;
-		$output = executeQuery('module.isExistsModuleName', $args);
-		if($output->data->count) return true;
-
 		return false;
 	}
 
@@ -58,15 +35,7 @@ class ModuleModel extends Module
 	 */
 	public static function getAllDomains($count = 20, $page = 1)
 	{
-		$args = new stdClass;
-		$args->list_count = $count;
-		$args->page = $page;
-		$output = executeQueryArray('module.getDomains', $args);
-		foreach ($output->data as &$domain)
-		{
-			$domain->settings = $domain->settings ? json_decode($domain->settings) : new stdClass;
-		}
-		return $output;
+		return Rhymix\Modules\Module\Models\Domain::getDomainList($count, $page);
 	}
 
 	/**
@@ -74,27 +43,7 @@ class ModuleModel extends Module
 	 */
 	public static function getDefaultDomainInfo()
 	{
-		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:default');
-		if ($domain_info === null)
-		{
-			$args = new stdClass();
-			$args->is_default_domain = 'Y';
-			$output = executeQuery('module.getDomainInfo', $args);
-			if ($output->data)
-			{
-				$domain_info = $output->data;
-				$domain_info->site_srl = 0;
-				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
-				Rhymix\Framework\Cache::set('site_and_module:domain_info:default', $domain_info, 0, true);
-			}
-			else
-			{
-				$domain_info = false;
-			}
-		}
-
-		return $domain_info;
+		return Rhymix\Modules\Module\Models\Domain::getDefaultDomain() ?: false;
 	}
 
 	/**
@@ -102,71 +51,21 @@ class ModuleModel extends Module
 	 */
 	public static function getSiteInfo($domain_srl)
 	{
-		$domain_srl = intval($domain_srl);
-		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:srl:' . $domain_srl);
-		if ($domain_info === null)
-		{
-			$args = new stdClass();
-			$args->domain_srl = $domain_srl;
-			$output = executeQuery('module.getDomainInfo', $args);
-			if ($output->data)
-			{
-				$domain_info = $output->data;
-				$domain_info->site_srl = 0;
-				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
-				Rhymix\Framework\Cache::set('site_and_module:domain_info:srl:' . $domain_srl, $domain_info, 0, true);
-			}
-			else
-			{
-				$domain_info = false;
-			}
-		}
-
-		return $domain_info;
+		return Rhymix\Modules\Module\Models\Domain::getDomain((int)$domain_srl) ?: false;
 	}
 
 	/**
 	 * @brief Get site information by domain name
 	 */
-	public static function getSiteInfoByDomain($domain)
+	public static function getSiteInfoByDomain($domain_name)
 	{
-		if (strpos($domain, '/') !== false)
+		$domain_name = (string)$domain_name;
+		if (str_contains($domain_name, '/'))
 		{
-			$domain = Rhymix\Framework\URL::getDomainFromURL($domain);
-		}
-		if (strpos($domain, 'xn--') !== false)
-		{
-			$domain = Rhymix\Framework\URL::decodeIdna($domain);
-		}
-		if (strval($domain) === '')
-		{
-			return false;
+			$domain_name = Rhymix\Framework\URL::getDomainFromURL($domain_name);
 		}
 
-		$domain = strtolower($domain);
-		$domain_info = Rhymix\Framework\Cache::get('site_and_module:domain_info:domain:' . $domain);
-		if ($domain_info === null)
-		{
-			$args = new stdClass();
-			$args->domain = $domain;
-			$output = executeQuery('module.getDomainInfo', $args);
-			if ($output->data)
-			{
-				$domain_info = $output->data;
-				$domain_info->site_srl = 0;
-				$domain_info->settings = $domain_info->settings ? json_decode($domain_info->settings) : new stdClass;
-				if(!isset($domain_info->settings->color_scheme)) $domain_info->settings->color_scheme = 'auto';
-				$domain_info->default_language = $domain_info->settings->language ?: config('locale.default_lang');
-				Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:' . $domain, $domain_info, 0, true);
-			}
-			else
-			{
-				$domain_info = false;
-			}
-		}
-
-		return $domain_info;
+		return Rhymix\Modules\Module\Models\Domain::getDomainByDomainName($domain_name) ?: false;
 	}
 
 	/**
@@ -567,27 +466,7 @@ class ModuleModel extends Module
 	 */
 	public static function getNextAvailableMid($prefix)
 	{
-		$prefix = trim($prefix);
-		if (!$prefix)
-		{
-			return '';
-		}
-
-		$args = new stdClass;
-		$args->mid_prefix = $prefix;
-		$output = executeQueryArray('module.getMidInfo', $args, ['mid']);
-
-		$max = 0;
-		$len = strlen($prefix);
-		foreach ($output->data as $info)
-		{
-			$suffix = substr($info->mid, $len);
-			if (ctype_digit($suffix))
-			{
-				$max = max($max, intval($suffix));
-			}
-		}
-		return $prefix . ($max + 1);
+		return Rhymix\Modules\Module\Models\Prefix::getNextAvailablePrefix((string)$prefix);
 	}
 
 	/**
@@ -783,40 +662,20 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Get forward value by the value of act
+	 *
+	 * @param ?string $act
+	 * @return array|object|null
 	 */
 	public static function getActionForward($act = null)
 	{
-		$action_forward = Rhymix\Framework\Cache::get('action_forward');
-		if($action_forward === null)
+		if ($act === null)
 		{
-			$args = new stdClass();
-			$output = executeQueryArray('module.getActionForward', $args);
-			if(!$output->toBool())
-			{
-				return;
-			}
-
-			$action_forward = array();
-			foreach($output->data as $item)
-			{
-				if ($item->route_regexp) $item->route_regexp = unserialize($item->route_regexp);
-				if ($item->route_config) $item->route_config = unserialize($item->route_config);
-				$action_forward[$item->act] = $item;
-			}
-
-			Rhymix\Framework\Cache::set('action_forward', $action_forward, 0, true);
+			return Rhymix\Modules\Module\Models\GlobalRoute::getAllGlobalRoutes();
 		}
-
-		if(!isset($act))
+		else
 		{
-			return $action_forward;
+			return Rhymix\Modules\Module\Models\GlobalRoute::getGlobalRoute($act);
 		}
-		if(!isset($action_forward[$act]))
-		{
-			return;
-		}
-
-		return $action_forward[$act];
 	}
 
 	/**
@@ -1117,41 +976,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleConfig($module)
 	{
-		if (!$module || !is_scalar($module))
-		{
-			return null;
-		}
-
-		if(!isset($GLOBALS['__ModuleConfig__'][$module]))
-		{
-			$config = Rhymix\Framework\Cache::get('site_and_module:module_config:' . $module);
-			if($config === null)
-			{
-				$args = new stdClass;
-				$args->module = $module;
-				$output = executeQuery('module.getModuleConfig', $args);
-
-				// Only object type
-				if(isset($output->data->config) && $output->data->config)
-				{
-					$config = unserialize($output->data->config);
-				}
-				else
-				{
-					$config = -1;  // Use -1 as a temporary value because null cannot be cached
-				}
-
-				// Set cache
-				if($output->toBool())
-				{
-					Rhymix\Framework\Cache::set('site_and_module:module_config:' . $module, $config, 0, true);
-				}
-			}
-			$GLOBALS['__ModuleConfig__'][$module] = $config;
-		}
-
-		$config = $GLOBALS['__ModuleConfig__'][$module];
-		return $config === -1 ? null : $config;
+		return Rhymix\Modules\Module\Models\ModuleConfig::getModuleConfig((string)$module);
 	}
 
 	/**
@@ -1163,7 +988,11 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleSectionConfig($module, $section)
 	{
-		return self::getModuleConfig("$module:$section");
+		if (!$module || !is_scalar($module) || !$section || !is_scalar($section))
+		{
+			return null;
+		}
+		return Rhymix\Modules\Module\Models\ModuleConfig::getModuleConfig("$module:$section");
 	}
 
 	/**
@@ -1179,44 +1008,7 @@ class ModuleModel extends Module
 		{
 			return null;
 		}
-
-		if(!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
-		{
-			$config = Rhymix\Framework\Cache::get('site_and_module:module_part_config:' . $module . '_' . $module_srl);
-			if($config === null)
-			{
-				$args = new stdClass;
-				$args->module = $module;
-				$args->module_srl = $module_srl ?: 0;
-				$output = executeQuery('module.getModulePartConfig', $args);
-
-				// Object or Array(compatibility) type
-				if($output->data && isset($output->data->config))
-				{
-					$config = unserialize($output->data->config);
-				}
-				else
-				{
-					$config = -1;  // Use -1 as a temporary value because null cannot be cached
-				}
-
-				// Deprecate use of ArrayObject because of https://bugs.php.net/bug.php?id=77298
-				if($config instanceof ArrayObject)
-				{
-					$config = (object)($config->getArrayCopy());
-				}
-
-				// Set cache
-				if($output->toBool())
-				{
-					Rhymix\Framework\Cache::set('site_and_module:module_part_config:' . $module . '_' . $module_srl, $config, 0, true);
-				}
-			}
-			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
-		}
-
-		$config = $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
-		return $config === -1 ? null : $config;
+		return Rhymix\Modules\Module\Models\ModuleConfig::getModulePartConfig((string)$module, (int)$module_srl);
 	}
 
 	/**
@@ -1224,40 +1016,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModulePartConfigs($module)
 	{
-		$args = new stdClass();
-		$args->module = $module;
-		$output = executeQueryArray('module.getModulePartConfigs', $args);
-
-		if(!$output->toBool() || !$output->data)
-		{
-			return array();
-		}
-
-		$result = array();
-		foreach($output->data as $key => $val)
-		{
-			$result[$val->module_srl] = unserialize($val->config);
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @brief Get a list of module category
-	 */
-	public static function getModuleCategories($moduleCategorySrl = array())
-	{
-		$args = new stdClass();
-		$args->moduleCategorySrl = $moduleCategorySrl;
-		// Get data from the DB
-		$output = executeQueryArray('module.getModuleCategories', $args);
-		if(!$output->toBool()) return $output;
-		$category_list = [];
-		foreach($output->data as $val)
-		{
-			$category_list[$val->module_category_srl] = $val;
-		}
-		return $category_list;
+		return Rhymix\Modules\Module\Models\ModuleConfig::getModulePartConfigs((string)$module);
 	}
 
 	/**
@@ -1265,12 +1024,15 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleCategory($module_category_srl)
 	{
-		// Get data from the DB
-		$args = new stdClass;
-		$args->module_category_srl = $module_category_srl;
-		$output = executeQuery('module.getModuleCategory', $args);
-		if(!$output->toBool()) return $output;
-		return $output->data;
+		return Rhymix\Modules\Module\Models\ModuleCategory::getModuleCategory((int)$module_category_srl);
+	}
+
+	/**
+	 * @brief Get a list of module category
+	 */
+	public static function getModuleCategories($module_category_srl = array())
+	{
+		return Rhymix\Modules\Module\Models\ModuleCategory::getModuleCategories((array)$module_category_srl);
 	}
 
 	/**
@@ -1403,37 +1165,12 @@ class ModuleModel extends Module
 
 	public static function checkNeedInstall($module_name)
 	{
-		$oDB = DB::getInstance();
-		$info = null;
-
-		$moduledir = ModuleHandler::getModulePath($module_name);
-		if(file_exists(FileHandler::getRealPath($moduledir."schemas")))
-		{
-			$tmp_files = FileHandler::readDir($moduledir."schemas", '/(\.xml)$/');
-			$table_count = count($tmp_files);
-			// Check if the table is created
-			$created_table_count = 0;
-			for($j=0;$j<count($tmp_files);$j++)
-			{
-				list($table_name) = explode(".",$tmp_files[$j]);
-				if($oDB->isTableExists($table_name)) $created_table_count ++;
-			}
-			// Check if DB is installed
-			if($table_count > $created_table_count) return true;
-			else return false;
-		}
-		return false;
+		return Rhymix\Modules\Module\Models\Updater::needsInstall((string)$module_name);
 	}
 
 	public static function checkNeedUpdate($module_name)
 	{
-		// Check if it is upgraded to module.class.php on each module
-		$oDummy = self::getModuleInstallClass($module_name);
-		if($oDummy && method_exists($oDummy, "checkUpdate"))
-		{
-			return $oDummy->checkUpdate();
-		}
-		return false;
+		return Rhymix\Modules\Module\Models\Updater::needsUpdate((string)$module_name);
 	}
 
 	/**

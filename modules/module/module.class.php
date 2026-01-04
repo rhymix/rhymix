@@ -385,7 +385,7 @@ class Module extends ModuleObject
 		}
 		else
 		{
-			$output = executeQuery('module.getDefaultMidInfo', $args);
+			$output = executeQuery('module.getDefaultMidInfo', []);
 			$default_hostinfo = parse_url(Rhymix\Framework\URL::getCurrentURL());
 
 			$domain = new stdClass();
@@ -465,7 +465,12 @@ class Module extends ModuleObject
 		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
 
 		// Return the default domain info.
-		return $default_domain;
+		$return_domain = new Rhymix\Modules\Module\Models\Domain();
+		foreach ($default_domain as $key => $value)
+		{
+			$return_domain->{$key} = $value;
+		}
+		return $return_domain;
 	}
 
 	/**
