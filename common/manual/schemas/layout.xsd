@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xml="http://www.w3.org/XML/1998/namespace"
-	elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="shared-types.xsd" />
 
 	<xs:element name="layout">
 		<xs:complexType>
@@ -9,34 +9,19 @@
 				<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="description" type="localizedString" minOccurs="0"
 					maxOccurs="unbounded" />
-				<xs:element name="version" type="versionText" minOccurs="0" />
-				<xs:element name="date" type="xs:date" minOccurs="0" />
+				<xs:element name="version" type="versionString" minOccurs="0" />
+				<xs:element name="date" type="dateString" minOccurs="0" />
 				<xs:element name="link" type="xs:anyURI" minOccurs="0" />
 				<xs:element name="license" type="licenseType" minOccurs="0" />
 				<xs:element name="author" type="authorType" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="menus" type="menusType" minOccurs="0" />
 				<xs:element name="extra_vars" type="extraVarsType" minOccurs="0" />
 			</xs:sequence>
-			<xs:attribute name="version" type="xs:string" use="optional" />
+			<xs:attributeGroup ref="commonVersionAttribute"></xs:attributeGroup>
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="licenseType">
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<xs:attribute name="link" type="xs:anyURI" use="optional" />
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
-	<xs:complexType name="authorType">
-		<xs:sequence>
-			<xs:element name="name" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
-		</xs:sequence>
-		<xs:attribute name="email_address" type="xs:string" use="optional" />
-		<xs:attribute name="link" type="xs:anyURI" use="optional" />
-	</xs:complexType>
-
+	<!-- Element:menus -->
 	<xs:complexType name="menusType">
 		<xs:sequence>
 			<xs:element name="menu" type="menuType" minOccurs="0" maxOccurs="unbounded" />
@@ -52,6 +37,7 @@
 		<xs:attribute name="default" type="xs:boolean" use="optional" />
 	</xs:complexType>
 
+	<!-- Element:extra_vars -->
 	<xs:complexType name="extraVarsType">
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="var" type="varType" />
@@ -83,30 +69,4 @@
 		</xs:sequence>
 		<xs:attribute name="value" type="xs:string" use="required" />
 	</xs:complexType>
-
-	<xs:complexType name="localizedString">
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace"
-					processContents="lax" />
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
-	<xs:simpleType name="versionText">
-		<xs:union memberTypes="versionPattern placeholderToken" />
-	</xs:simpleType>
-
-	<xs:simpleType name="versionPattern">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="\d+(\.\d+){0,2}" />
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:simpleType name="placeholderToken">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="RX_[A-Z0-9_]+" />
-		</xs:restriction>
-	</xs:simpleType>
-
 </xs:schema>

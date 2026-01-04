@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xml="http://www.w3.org/XML/1998/namespace"
-	elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
 
 	<xs:annotation>
 		<xs:documentation> Schema describing database table definitions located under
 			modules/*/schemas. </xs:documentation>
 	</xs:annotation>
 
-	<xs:element name="table" type="tableType" />
+	<xs:element name="table">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="column" type="columnType" />
+					<xs:element name="index" type="indexType" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="dbIdentifier" use="required" />
+			<xs:attribute name="deleted" type="xs:boolean" use="optional" />
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
 
-	<xs:complexType name="tableType">
-		<xs:sequence>
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="column" type="columnType" />
-				<xs:element name="index" type="indexType" />
-			</xs:choice>
-		</xs:sequence>
-		<xs:attribute name="name" type="dbIdentifier" use="required" />
-		<xs:attribute name="deleted" type="xs:boolean" use="optional" />
-		<xs:anyAttribute processContents="lax" />
-	</xs:complexType>
-
+	<!-- Element:column -->
 	<xs:complexType name="columnType">
 		<xs:attribute name="name" type="dbIdentifier" use="required" />
 		<xs:attribute name="type" type="columnDataType" use="required" />
@@ -37,20 +36,24 @@
 		<xs:anyAttribute processContents="lax" />
 	</xs:complexType>
 
+	<!-- Element:index -->
 	<xs:complexType name="indexType">
 		<xs:attribute name="name" type="constraintName" use="required" />
 		<xs:attribute name="columns" type="xs:string" use="required" />
 		<xs:anyAttribute processContents="lax" />
 	</xs:complexType>
 
+	<!-- Types -->
 	<xs:simpleType name="dbIdentifier">
 		<xs:restriction base="xs:string">
+			<!-- FIXME -->
 			<xs:pattern value="[A-Za-z_][A-Za-z0-9_]*" />
 		</xs:restriction>
 	</xs:simpleType>
 
 	<xs:simpleType name="constraintName">
 		<xs:restriction base="xs:string">
+			<!-- FIXME -->
 			<xs:pattern value="[A-Za-z_][A-Za-z0-9_]*" />
 		</xs:restriction>
 	</xs:simpleType>

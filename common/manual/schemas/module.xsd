@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xml="http://www.w3.org/XML/1998/namespace"
-	elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="shared-types.xsd" />
 
 	<xs:element name="module">
 		<xs:complexType>
@@ -17,6 +17,7 @@
 		</xs:complexType>
 	</xs:element>
 
+	<!-- Element:namespaces -->
 	<xs:complexType name="namespacesType">
 		<xs:sequence>
 			<xs:element name="namespace" type="namespaceType" minOccurs="1" maxOccurs="unbounded" />
@@ -27,6 +28,7 @@
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 
+	<!-- Element:classes -->
 	<xs:complexType name="classesType">
 		<xs:sequence>
 			<xs:element name="class" type="classType" minOccurs="1" maxOccurs="unbounded" />
@@ -38,6 +40,7 @@
 		<xs:attribute name="name" type="xs:string" use="required" />
 	</xs:complexType>
 
+	<!-- Element:grants -->
 	<xs:complexType name="grantsType">
 		<xs:sequence>
 			<xs:element name="grant" type="grantType" minOccurs="0" maxOccurs="unbounded" />
@@ -61,6 +64,7 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+	<!-- Element:permissions -->
 	<xs:complexType name="permissionsType">
 		<xs:sequence>
 			<xs:element name="permission" type="permissionType" minOccurs="0" maxOccurs="unbounded" />
@@ -75,6 +79,7 @@
 		<xs:attribute name="default" type="xs:string" use="optional" />
 	</xs:complexType>
 
+	<!-- Element:actions -->
 	<xs:complexType name="actionsType">
 		<xs:sequence>
 			<xs:element name="action" type="actionType" minOccurs="0" maxOccurs="unbounded" />
@@ -110,11 +115,22 @@
 		<xs:attribute name="error-handlers" type="xs:string" use="optional" />
 	</xs:complexType>
 
+	<xs:simpleType name="actionKind">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="view" />
+			<xs:enumeration value="model" />
+			<xs:enumeration value="controller" />
+			<xs:enumeration value="mobile" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<!-- Element:route -->
 	<xs:complexType name="routeType">
 		<xs:attribute name="route" type="xs:string" use="required" />
 		<xs:attribute name="priority" type="xs:integer" use="optional" />
 	</xs:complexType>
 
+	<!-- Element:eventHandlers -->
 	<xs:complexType name="eventHandlersType">
 		<xs:sequence>
 			<xs:element name="eventHandler" type="eventHandlerType" minOccurs="0"
@@ -131,6 +147,7 @@
 		<xs:attribute name="method" type="xs:string" use="required" />
 	</xs:complexType>
 
+	<!-- Element:menus -->
 	<xs:complexType name="menusType">
 		<xs:sequence>
 			<xs:element name="menu" type="menuType" minOccurs="0" maxOccurs="unbounded" />
@@ -146,23 +163,4 @@
 		<xs:attribute name="maxdepth" type="xs:integer" use="optional" />
 		<xs:attribute name="default" type="xs:boolean" use="optional" />
 	</xs:complexType>
-
-	<xs:simpleType name="actionKind">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="view" />
-			<xs:enumeration value="model" />
-			<xs:enumeration value="controller" />
-			<xs:enumeration value="mobile" />
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:complexType name="localizedString">
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace"
-					processContents="lax" />
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
 </xs:schema>

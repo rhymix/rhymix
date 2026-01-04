@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:complexType name="commonInfoElements">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="1" maxOccurs="unbounded" />
+			<xs:element name="description" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="version" type="versionString" minOccurs="0" />
+			<xs:element name="date" type="dateString" minOccurs="0" />
+			<xs:element name="link" type="xs:anyURI" minOccurs="0" />
+			<xs:element name="license" type="licenseType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:attributeGroup name="commonVersionAttribute">
+		<xs:attribute name="version" type="xs:string" fixed="0.2"/>
+	</xs:attributeGroup>
+
+	<xs:complexType name="licenseType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="link" type="xs:anyURI" use="optional" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:complexType name="authorType">
+		<xs:sequence>
+			<xs:element name="name" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="email_address" type="xs:string" use="optional" />
+		<xs:attribute name="link" type="xs:anyURI" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="localizedString">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace"
+					processContents="lax" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+
+	<xs:simpleType name="versionString">
+		<xs:union memberTypes="semanticVersion versionPattern rxCoreVersion" />
+	</xs:simpleType>
+
+	<xs:simpleType name="dateString">
+		<xs:union memberTypes="xs:date rxCoreDate" />
+	</xs:simpleType>
+
+	<xs:simpleType name="semanticVersion">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(-((0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)(\.((0|[1-9]\d*|\d*[A-Za-z-][0-9A-Za-z-]*)))*))?(\+([0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*))?" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="versionPattern">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="\d+(\.\d+){1,3}" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="rxCoreVersion">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="RX_VERSION" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="rxCoreDate">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="RX_CORE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

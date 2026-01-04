@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:xml="http://www.w3.org/XML/1998/namespace"
-	elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="shared-types.xsd" />
 
 	<xs:element name="module">
 		<xs:complexType>
@@ -11,14 +11,15 @@
 					maxOccurs="unbounded" />
 				<xs:element name="version" type="versionString" minOccurs="0" />
 				<xs:element name="date" type="dateString" minOccurs="0" />
-				<xs:element name="category" type="categoryType" minOccurs="0" />
 				<xs:element name="license" type="licenseType" minOccurs="0" />
+				<xs:element name="category" type="categoryType" minOccurs="0" />
 				<xs:element name="author" type="authorType" minOccurs="0" maxOccurs="unbounded" />
 			</xs:sequence>
-			<xs:attribute name="version" type="xs:string" use="optional" />
+			<xs:attributeGroup ref="commonVersionAttribute"></xs:attributeGroup>
 		</xs:complexType>
 	</xs:element>
 
+	<!-- Element:category -->
 	<xs:simpleType name="categoryType">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="accessory" />
@@ -32,56 +33,4 @@
 			<xs:enumeration value="utility" />
 		</xs:restriction>
 	</xs:simpleType>
-
-	<xs:complexType name="localizedString">
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<xs:anyAttribute namespace="http://www.w3.org/XML/1998/namespace"
-					processContents="lax" />
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
-	<xs:complexType name="licenseType">
-		<xs:simpleContent>
-			<xs:extension base="xs:string">
-				<xs:attribute name="link" type="xs:anyURI" use="optional" />
-			</xs:extension>
-		</xs:simpleContent>
-	</xs:complexType>
-
-	<xs:complexType name="authorType">
-		<xs:sequence>
-			<xs:element name="name" type="localizedString" minOccurs="1" maxOccurs="unbounded" />
-		</xs:sequence>
-		<xs:attribute name="email_address" type="xs:string" use="optional" />
-		<xs:attribute name="link" type="xs:anyURI" use="optional" />
-	</xs:complexType>
-
-	<xs:simpleType name="versionString">
-		<xs:union memberTypes="semanticVersion rxVersion" />
-	</xs:simpleType>
-
-	<xs:simpleType name="semanticVersion">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="\d+(\.\d+){0,2}" />
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:simpleType name="rxVersion">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="RX_VERSION" />
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:simpleType name="dateString">
-		<xs:union memberTypes="xs:date rxDate" />
-	</xs:simpleType>
-
-	<xs:simpleType name="rxDate">
-		<xs:restriction base="xs:string">
-			<xs:pattern value="RX_CORE" />
-		</xs:restriction>
-	</xs:simpleType>
-
 </xs:schema>
