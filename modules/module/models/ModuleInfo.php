@@ -17,6 +17,105 @@ use ModuleModel;
 class ModuleInfo
 {
 	/**
+	 * Constructor.
+	 */
+	public function __construct()
+	{
+		// Apply default skin.
+		if (isset($this->is_skin_fix) && $this->is_skin_fix == 'N')
+		{
+			$this->skin = '/USE_DEFAULT/';
+		}
+		if (isset($this->is_mskin_fix) && $this->is_mskin_fix == 'N' && (!isset($this->mskin) || $this->mskin !== '/USE_RESPONSIVE/'))
+		{
+			$this->mskin = '/USE_DEFAULT/';
+		}
+	}
+
+	/**
+	 * Get module information by module_srl.
+	 *
+	 * @param int $module_srl
+	 * @return ?ModuleInstance
+	 */
+	public static function getModuleInfoByModuleSrl(int $module_srl): ?ModuleInstance
+	{
+		if (!$module_srl)
+		{
+			return null;
+		}
+
+		$module_info = Cache::get("site_and_module:module_info:$module_srl");
+		if (!($module_info instanceof ModuleInstance))
+		{
+			$output = executeQueryArray('module.getMidInfo', ['module_srl' => $module_srl], [], ModuleInstance::class);
+			if (!$output->toBool() || !count($output->data))
+			{
+				return null;
+			}
+			$module_info = array_first($output->data);
+			Cache::set("site_and_module:module_info:$module_srl", $module_info, 0, true);
+		}
+
+		return self::addExtraVars($module_info);
+	}
+
+	/**
+	 * Get module information by URL prefix (mid).
+	 *
+	 * @param string $prefix
+	 * @return ?ModuleInstance
+	 */
+	public static function getModuleInfoByPrefix(string $prefix): ?ModuleInstance
+	{
+		if ($prefix === '' || !preg_match('/^[a-z]([a-z0-9_]+)$/i', $prefix))
+		{
+			return null;
+		}
+
+		$module_srl = ModuleModel::$_mid_map[$prefix] ?? Cache::get('site_and_module:module_srl:' . $prefix);
+		if ($module_srl)
+		{
+			return self::getModuleInfoByModuleSrl($module_srl);
+		}
+
+		$output = executeQueryArray('module.getMidInfo', ['mid' => $prefix], [], ModuleInstance::class);
+		if (!$output->toBool() || !count($output->data))
+		{
+			return null;
+		}
+		$module_info = array_first($output->data);
+		ModuleModel::$_mid_map[$prefix] = $module_info->module_srl;
+		Cache::set('site_and_module:module_info:' . $module_info->module_srl, $module_info, 0, true);
+		Cache::set('site_and_module:module_srl:' . $prefix, $module_info->module_srl, 0, true);
+
+		return self::addExtraVars($module_info);
+	}
+
+	/**
+	 * Get module information with document_srl.
+	 *
+	 * @param int $document_srl
+	 * @return ?ModuleInstance
+	 */
+	public static function getModuleInfoByDocumentSrl(int $document_srl): ?ModuleInstance
+	{
+		$module_info = Cache::get("site_and_module:document_srl:$document_srl");
+		if (!($module_info instanceof ModuleInstance))
+		{
+			$output = executeQueryArray('module.getModuleInfoByDocument', ['document_srl' => $document_srl], [], ModuleInstance::class);
+			if (!$output->toBool() || !count($output->data))
+			{
+				return null;
+			}
+			$module_info = array_first($output->data);
+			Cache::set("site_and_module:document_srl:$document_srl", $module_info);
+		}
+
+		return self::addExtraVars($module_info);
+	}
+
+	/**
 	 * Insert a module.
 	 *
 	 * @param object $args
@@ -642,6 +741,76 @@ class ModuleInfo
 		$output = executeQuery('module.deleteAdminId', $args);
 		Cache::delete("site_and_module:module_admins:$module_srl");
 		return $output;
+	}
+
+	/**
+	 * Load extra variables from the DB and add them to module information.
+	 *
+	 * @param array|self $module_info
+	 * @return array|self
+	 */
+	public static function addExtraVars($module_info)
+	{
+		// If a single module info is given, convert it to an array.
+		if (is_array($module_info))
+		{
+			$target_module_info = $module_info;
+		}
+		else
+		{
+			$target_module_info = array($module_info);
+		}
+
+		// Compile the list of module_srl.
+		$module_srls = array();
+		foreach ($target_module_info as $key => $val)
+		{
+			if ($val->module_srl)
+			{
+				$module_srls[] = $val->module_srl;
+			}
+		}
+		if (!count($module_srls))
+		{
+			return $module_info;
+		}
+
+		// Get extra vars for all modules.
+		$extra_vars = ModuleModel::getModuleExtraVars($module_srls);
+		if (!count($extra_vars))
+		{
+			return $module_info;
+		}
+
+		// Add extra_vars to each object.
+		foreach ($target_module_info as $key => $val)
+		{
+			if (!isset($val->module_srl) || !$val->module_srl)
+			{
+				continue;
+			}
+			if (!isset($extra_vars[$val->module_srl]))
+			{
+				continue;
+			}
+			foreach ($extra_vars[$val->module_srl] as $k => $v)
+			{
+				if (!isset($val->{$k}) || !$val->{$k})
+				{
+					$val->{$k} = $v;
+				}
+			}
+		}
+
+		// Return the result in the original format (array or object).
+		if (is_array($module_info))
+		{
+			return $target_module_info;
+		}
+		else
+		{
+			return $target_module_info[0];
+		}
 	}
 
 	/**

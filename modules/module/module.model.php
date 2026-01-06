@@ -69,27 +69,47 @@ class ModuleModel extends Module
 	}
 
 	/**
-	 * @brief Get module information with document_srl
-	 * In this case, it is unable to use the cache file
+	 * Get module information corresponding to module_srl
+	 *
+	 * @param int $module_srl
+	 * @return ?object
+	 */
+	public static function getModuleInfoByModuleSrl($module_srl)
+	{
+		return Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByModuleSrl((int)$module_srl);
+	}
+
+	/**
+	 * Shortcut to getModuleInfoByModuleSrl()
+	 *
+	 * @param int $module_srl
+	 * @return ?object
+	 */
+	public static function getModuleInfo($module_srl)
+	{
+		return Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByModuleSrl((int)$module_srl);
+	}
+
+	/**
+	 * Get module information by mid
+	 *
+	 * @param string $mid
+	 * @return ?object
+	 */
+	public static function getModuleInfoByMid($mid)
+	{
+		return Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByPrefix((string)$mid);
+	}
+
+	/**
+	 * Get module information with document_srl
+	 *
+	 * @param int $document_srl
+	 * @return ?object
 	 */
 	public static function getModuleInfoByDocumentSrl($document_srl)
 	{
-		$document_srl = intval($document_srl);
-		$module_info = Rhymix\Framework\Cache::get('site_and_module:document_srl:' . $document_srl);
-		if (!$module_info)
-		{
-			$args = new stdClass();
-			$args->document_srl = $document_srl;
-			$output = executeQuery('module.getModuleInfoByDocument', $args);
-			$module_info = $output->data;
-			if ($module_info)
-			{
-				Rhymix\Framework\Cache::set('site_and_module:document_srl:' . $document_srl, $module_info, 0, true);
-			}
-		}
-
-		self::_applyDefaultSkin($module_info);
-		return self::addModuleExtraVars($module_info);
+		return Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByDocumentSrl((int)$document_srl);
 	}
 
 	/**
@@ -101,10 +121,10 @@ class ModuleModel extends Module
 		$domain = $domain ? Rhymix\Framework\URL::decodeIdna($domain) : Rhymix\Framework\URL::getCurrentDomain();
 
 		// Find the domain information.
-		$domain_info = $domain ? self::getSiteInfoByDomain($domain) : null;
+		$domain_info = $domain ? Rhymix\Modules\Module\Models\Domain::getDomainByDomainName($domain) : null;
 		if (!$domain_info)
 		{
-			$domain_info = self::getDefaultDomainInfo();
+			$domain_info = Rhymix\Modules\Module\Models\Domain::getDefaultDomain();
 			if (!$domain_info)
 			{
 				$domain_info = Module::getInstance()->migrateDomains();
@@ -121,49 +141,6 @@ class ModuleModel extends Module
 		{
 			return $domain_info;
 		}
-	}
-
-	/**
-	 * @brief Get module information by mid
-	 */
-	public static function getModuleInfoByMid($mid)
-	{
-		if(!$mid || ($mid && !preg_match("/^[a-z][a-z0-9_-]+$/i", $mid)))
-		{
-			return;
-		}
-
-		$args = new stdClass();
-		$args->mid = $mid;
-
-		$module_srl = isset(self::$_mid_map[$mid]) ? self::$_mid_map[$mid] : Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
-		if($module_srl)
-		{
-			$module_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
-		}
-		else
-		{
-			$module_info = null;
-		}
-
-		if($module_info === null)
-		{
-			$output = executeQuery('module.getMidInfo', $args);
-			$module_info = $output->data;
-			if($module_info)
-			{
-				Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $module_info->module_srl, 0, true);
-				Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $module_info->module_srl, $module_info, 0, true);
-			}
-			else
-			{
-				return;
-			}
-		}
-
-		self::_applyDefaultSkin($module_info);
-		if(!$module_info->module_srl && $module_info->data[0]) $module_info = $module_info->data[0];
-		return self::addModuleExtraVars($module_info);
 	}
 
 	/**
@@ -185,7 +162,7 @@ class ModuleModel extends Module
 
 		$args = new stdClass();
 		$args->menu_item_srl = $menuItemSrl;
-		$output = executeQuery('module.getModuleInfoByMenuItemSrl', $args);
+		$output = executeQuery('module.getModuleInfoByMenuItemSrl', $args, [], 'auto', Rhymix\Modules\Module\Models\ModuleInstance::class);
 		if(!$output->toBool())
 		{
 			return $output;
@@ -232,7 +209,7 @@ class ModuleModel extends Module
 		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
 		if($module_srl)
 		{
-			$mid_info = Rhymix\Framework\Cache::get('site_and_module:mid_info:' . $module_srl);
+			$mid_info = Rhymix\Framework\Cache::get('site_and_module:module_info:' . $module_srl);
 		}
 		else
 		{
@@ -242,7 +219,7 @@ class ModuleModel extends Module
 		if($mid_info === null)
 		{
 			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $output->data->module_srl, 0, true);
-			Rhymix\Framework\Cache::set('site_and_module:mid_info:' . $output->data->module_srl, $moduleInfo, 0, true);
+			Rhymix\Framework\Cache::set('site_and_module:module_info:' . $output->data->module_srl, $moduleInfo, 0, true);
 		}
 		else
 		{
@@ -264,80 +241,6 @@ class ModuleModel extends Module
 	}
 
 	/**
-	 * @brief Get module information corresponding to module_srl
-	 */
-	public static function getModuleInfoByModuleSrl($module_srl, $columnList = array())
-	{
-		if(intval($module_srl) == 0)
-		{
-			return false;
-		}
-		$mid_info = Rhymix\Framework\Cache::get("site_and_module:mid_info:$module_srl");
-		if($mid_info === null)
-		{
-			// Get data
-			$args = new stdClass();
-			$args->module_srl = $module_srl;
-			$output = executeQuery('module.getMidInfo', $args);
-			if(!$output->toBool()) return;
-			$mid_info = $output->data;
-			if($mid_info)
-			{
-				self::_applyDefaultSkin($mid_info);
-				Rhymix\Framework\Cache::set("site_and_module:mid_info:$module_srl", $mid_info, 0, true);
-			}
-		}
-
-		if($mid_info && count($columnList))
-		{
-			$module_info = new stdClass();
-			foreach($mid_info as $key => $item)
-			{
-				if(in_array($key, $columnList))
-				{
-					$module_info->$key = $item;
-				}
-			}
-		}
-		else
-		{
-			$module_info = $mid_info;
-		}
-
-		self::_applyDefaultSkin($module_info);
-		return self::addModuleExtraVars($module_info);
-	}
-
-	/**
-	 * @brief Shortcut to getModuleInfoByModuleSrl()
-	 *
-	 * @param int $module_srl
-	 * @return object
-	 */
-	public static function getModuleInfo($module_srl)
-	{
-		return self::getModuleInfoByModuleSrl(intval($module_srl));
-	}
-
-	/**
-	 * Apply default skin info
-	 *
-	 * @param stdClass $moduleInfo Module information
-	 */
-	private static function _applyDefaultSkin($module_info)
-	{
-		if(isset($module_info->is_skin_fix) && $module_info->is_skin_fix == 'N')
-		{
-			$module_info->skin = '/USE_DEFAULT/';
-		}
-
-		if(isset($module_info->is_mskin_fix) && $module_info->is_mskin_fix == 'N' && $module_info->mskin !== '/USE_RESPONSIVE/')
-		{
-			$module_info->mskin = '/USE_DEFAULT/';
-		}
-	}
-
-	/**
 	 * @brief Get module information corresponding to layout_srl
 	 */
 	public static function getModulesInfoByLayout($layout_srl, $columnList = array())
@@ -345,7 +248,7 @@ class ModuleModel extends Module
 		// Imported data
 		$args = new stdClass;
 		$args->layout_srl = $layout_srl;
-		$output = executeQueryArray('module.getModulesByLayout', $args, $columnList);
+		$output = executeQueryArray('module.getModulesByLayout', $args, [], Rhymix\Modules\Module\Models\ModuleInstance::class);
 
 		$count = count($output->data);
 
@@ -380,7 +283,7 @@ class ModuleModel extends Module
 
 		$args = new stdClass();
 		$args->module_srls = $module_srls;
-		$output = executeQueryArray('module.getModulesInfo', $args, $columnList);
+		$output = executeQueryArray('module.getModulesInfo', $args, [], Rhymix\Modules\Module\Models\ModuleInstance::class);
 		$result = $output->data ?: [];
 		if (!$columnList)
 		{
@@ -396,66 +299,7 @@ class ModuleModel extends Module
 	 */
 	public static function addModuleExtraVars($module_info)
 	{
-		// Process although one or more module informaion is requested
-		if (!is_array($module_info))
-		{
-			$target_module_info = array($module_info);
-		}
-		else
-		{
-			$target_module_info = $module_info;
-		}
-
-		// Get module_srl
-		$module_srls = array();
-		foreach($target_module_info as $key => $val)
-		{
-			if ($val->module_srl)
-			{
-				$module_srls[] = $val->module_srl;
-			}
-		}
-		if (!count($module_srls))
-		{
-			return $module_info;
-		}
-
-		// Extract extra information of the module and skin
-		$extra_vars = self::getModuleExtraVars($module_srls);
-		if (!count($extra_vars))
-		{
-			return $module_info;
-		}
-
-		foreach($target_module_info as $key => $val)
-		{
-			if (!isset($val->module_srl) || !$val->module_srl)
-			{
-				continue;
-			}
-			if (!isset($extra_vars[$val->module_srl]))
-			{
-				continue;
-			}
-
-			foreach($extra_vars[$val->module_srl] as $k => $v)
-			{
-				if(isset($target_module_info[$key]->{$k}) && $target_module_info[$key]->{$k})
-				{
-					continue;
-				}
-				$target_module_info[$key]->{$k} = $v;
-			}
-		}
-
-		if(is_array($module_info))
-		{
-			return $target_module_info;
-		}
-		else
-		{
-			return $target_module_info[0];
-		}
+		return Rhymix\Modules\Module\Models\ModuleInfo::addExtraVars($module_info);
 	}
 
 	/**
@@ -1782,7 +1626,7 @@ class ModuleModel extends Module
 		}
 
 		// Generate grant
-		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
+		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
 		$module_grants = self::getModuleGrants($module_info->module_srl ?? 0)->data ?: [];
 		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
 		return $__cache = $grant;
