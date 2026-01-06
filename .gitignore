@@ -18,6 +18,7 @@ codeception.yml
 /bower_components/
 composer.phar
 codecept.phar
+phpstan.phar
 
 .idea
 *.sublime-workspace
@@ -25,3 +26,4 @@ codecept.phar
 .codeintel
 .vscode
 error_log
+phpstan.neon
