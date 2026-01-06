@@ -227,7 +227,7 @@ class TemplateParser_v2
 		{
 			$content = preg_replace_callback('#(<\?php \$this->config->context = \'JS\'; /\* !CTX([0-9]+)! \*/\?>)(.*?)(<\?php \$this->config->context = \'HTML\'; /\* !CTX\2! \*/\?>)#s', function($match) {
 				return preg_replace('#/\* !CTX\d+! \*/#', '', $match[1]) .
-					preg_replace('#<\?php \$this->config->context = \'[A-Z]+\'; \?>#', '', $match[3]) .
+					preg_replace('#<\?php \$this->config->context = \'[A-Z]+\'; (?:/\* !CTX[0-9]+! \*/)?\?>#', '', $match[3]) .
 					preg_replace('#/\* !CTX\d+! \*/#', '', $match[4]);
 			}, $content);
 
