@@ -179,14 +179,18 @@ class TemplateParser_v2
 	 */
 	protected function _addContextSwitches(string $content): string
 	{
+		$context_index = random_int(12000, 99000);
+
 		// Inline styles.
 		$content = preg_replace_callback('#(?<=\s)(style=")([^"]*?)"#i', function($match) {
 			return $match[1] . '<?php $this->config->context = \'CSS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
 		}, $content);
 
 		// Inline scripts.
-		$content = preg_replace_callback('#(?<=\s)(href="javascript:|pattern="|on[a-z]+=")([^"]*?)"#i', function($match) {
-			return $match[1] . '<?php $this->config->context = \'JS\'; ?>' . $match[2] . '<?php $this->config->context = \'HTML\'; ?>"';
+		$content = preg_replace_callback('#(?<=\s)(href="javascript:|pattern="|on[a-z]+=")([^"]*?)"#i', function($match) use(&$context_index) {
+			$context_index++;
+			return $match[1] . '<?php $this->config->context = \'JS\'; /* !CTX' . $context_index . '! */?>' .
+				$match[2] . '<?php $this->config->context = \'HTML\'; /* !CTX' . $context_index . '! */?>"';
 		}, $content);
 
 		// <style> tags.
@@ -202,20 +206,33 @@ class TemplateParser_v2
 		}, $content);
 
 		// <script> tags that aren't links.
-		$content = preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) {
+		$content = preg_replace_callback('#(<script\b([^>]*)|</script)#i', function($match) use(&$context_index) {
 			if (substr($match[1], 1, 1) === '/')
 			{
-				return '<?php $this->config->context = \'HTML\'; ?>' . $match[1];
+				return '<?php $this->config->context = \'HTML\'; /* !CTX' . $context_index . '! */?>' . $match[1];
 			}
 			elseif (!str_contains($match[2] ?? '', 'src="'))
 			{
-				return $match[1] . '<?php $this->config->context = \'JS\'; ?>';
+				$context_index++;
+				return $match[1] . '<?php $this->config->context = \'JS\'; /* !CTX' . $context_index . '! */?>';
 			}
 			else
 			{
 				return $match[0];
 			}
 		}, $content);
+
+		// Remove nested context switches.
+		if ($context_index > 0)
+		{
+			$content = preg_replace_callback('#(<\?php \$this->config->context = \'JS\'; /\* !CTX([0-9]+)! \*/\?>)(.*?)(<\?php \$this->config->context = \'HTML\'; /\* !CTX\2! \*/\?>)#s', function($match) {
+				return preg_replace('#/\* !CTX\d+! \*/#', '', $match[1]) .
+					preg_replace('#<\?php \$this->config->context = \'[A-Z]+\'; \?>#', '', $match[3]) .
+					preg_replace('#/\* !CTX\d+! \*/#', '', $match[4]);
+			}, $content);
+
+			$content = preg_replace('#(<\?php \$this->config->context = \'[A-Z]+\'; )/\* !CTX[0-9]+! \*/(\?>)#', '$1$2', $content);
+		}
 
 		return $content;
 	}
