@@ -10,8 +10,8 @@
 		<caption>Total : {number_format($total_count)}, Page {number_format($page)}/{number_format($total_page)}</caption>
 		<thead>
 			<tr>
-				<th class="title">{$lang->date}</th>
 				<th class="title">{$lang->title}</th>
+				<th class="title">{$lang->date}</th>
 				<th class="title" style="width:60px">{$lang->cmd_select}</th>
 				<th class="title" style="width:60px">{$lang->cmd_delete}</th>
 			</tr>
@@ -19,13 +19,17 @@
 		<tbody>
 			<!--@foreach($document_list as $no => $val)-->
 			<tr>
-				<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
 				<td>
-					<a href="#" class="toggle_content">{$val->getTitle()}</a>
-					<div id="saved_document_{$val->document_srl}" class="saved_content" style="display:none;margin:20px -120px 0 0">{$val->getContent(false)}</div>
+					<a href="#" class="toggle_content" data-document-srl="{$val->document_srl}">{$val->getTitle()}</a>
 				</td>
+				<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
 				<td><a href="#" class="btn btn_select_temp_saved" data-document-srl="{$val->document_srl}" data-document-type="{$val->getDocumentType()}">{$lang->cmd_select}</a></td>
 				<td><a href="#" class="btn btn_delete_temp_saved" data-document-srl="{$val->document_srl}">{$lang->cmd_delete}</a></td>
+			</tr>
+			<tr id="saved_document_{$val->document_srl}" class="saved_content" style="display:none">
+				<td colspan="4">
+					{$val->getSummary(200)}
+				</td>
 			</tr>
 			<!--@end-->
 		</tbody>
@@ -49,7 +53,8 @@
 	$(function() {
 		$('.toggle_content').on('click', function(event) {
 			event.preventDefault();
-			$(this).next('.saved_content').toggle();
+			var document_srl = $(this).data('documentSrl');
+			$('#saved_document_' + document_srl).toggle();
 			setFixedPopupSize();
 		});
 		$('.btn_select_temp_saved').on('click', function(event) {
