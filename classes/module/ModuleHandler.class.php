@@ -126,7 +126,7 @@ class ModuleHandler extends Handler
 		// Check unregistered domain action.
 		if (!$site_module_info || !isset($site_module_info->domain_srl) || ($site_module_info->is_default_replaced ?? false))
 		{
-			$site_module_info = ModuleModel::getDefaultDomainInfo();
+			$site_module_info = Rhymix\Modules\Module\Models\Domain::getDefaultDomain();
 			if ($site_module_info)
 			{
 				$domain_action = config('url.unregistered_domain_action') ?: 'redirect_301';
@@ -211,7 +211,7 @@ class ModuleHandler extends Handler
 		// Get module info from mid.
 		if(!$module_info && $this->mid)
 		{
-			$module_info = ModuleModel::getModuleInfoByMid($this->mid);
+			$module_info = Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByPrefix(strval($this->mid));
 		}
 
 		// If the module does not belong to the current domain, throw a 404.
@@ -519,7 +519,7 @@ class ModuleHandler extends Handler
 
 			if(empty($forward->module))
 			{
-				$forward = ModuleModel::getActionForward($this->act);
+				$forward = Rhymix\Modules\Module\Models\GlobalRoute::getGlobalRoute($this->act);
 			}
 
 			if(!empty($forward->module))
@@ -766,7 +766,7 @@ class ModuleHandler extends Handler
 	protected function _checkDocumentSrl()
 	{
 		// Get the module that the document belongs to.
-		$module_info = ModuleModel::getModuleInfoByDocumentSrl($this->document_srl);
+		$module_info = Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByDocumentSrl(intval($this->document_srl));
 		if($module_info)
 		{
 			// Compare the current mid to the module that the document belongs to.
@@ -878,7 +878,7 @@ class ModuleHandler extends Handler
 		));
 
 		// Set meta keywords.
-		$module_config = ModuleModel::getModuleConfig('module');
+		$module_config = Rhymix\Modules\Module\Models\ModuleConfig::getModuleConfig('module');
 		if (!empty($module_info->meta_keywords))
 		{
 			Context::addMetaTag('keywords', $module_info->meta_keywords);

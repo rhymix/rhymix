@@ -33,6 +33,11 @@ class Domain
 	public $regdate;
 
 	/**
+	 * Internal cache.
+	 */
+	protected static array $_module_srl_map = [];
+
+	/**
 	 * Decode settings when a row is loaded from DB.
 	 */
 	public function __construct()
@@ -64,6 +69,26 @@ class Domain
 		{
 			$this->site_srl = 0;
 		}
+	}
+
+	/**
+	 * Get the full URL prefix for this domain.
+	 * Example: https://www.example.com:8443
+	 *
+	 * @return string
+	 */
+	public function getUrlPrefix(): string
+	{
+		$prefix = ($this->security === 'always' ? 'https://' : 'http://') . $this->domain;
+		if ($this->security === 'always' && !empty($this->https_port))
+		{
+			$prefix .= ':' . $this->https_port;
+		}
+		if ($this->security !== 'always' && !empty($this->http_port))
+		{
+			$prefix .= ':' . $this->http_port;
+		}
+		return $prefix;
 	}
 
 	/**
@@ -141,6 +166,105 @@ class Domain
 		}
 
 		return $domain_info;
+	}
+
+	/**
+	 * Get a domain with associated module information.
+	 *
+	 * This method will create a default domain if it does not exist,
+	 * and add module extra variables to the domain object.
+	 *
+	 * @param ?string $domain_name
+	 * @return self
+	 */
+	public static function getDefaultDomainWithModuleInfo(?string $domain_name = null): self
+	{
+		// Use the current domain name if not provided.
+		if (!$domain_name)
+		{
+			$domain_name = URL::getCurrentDomain();
+		}
+
+		// Try to get domain info by domain name.
+		$domain_info = $domain_name ? self::getDomainByDomainName($domain_name) : null;
+
+		// Fall back to the default domain, or create one if it does not exist.
+		if (!$domain_info)
+		{
+			$domain_info = self::getDefaultDomain();
+			if (!$domain_info)
+			{
+				$domain_info = \Module::getInstance()->migrateDomains();
+			}
+			$domain_info->is_default_replaced = true;
+		}
+
+		// Fill in module extra vars and return.
+		if ($domain_info->module_srl)
+		{
+			return array_first(ModuleInfo::addExtraVars([$domain_info]));
+		}
+		else
+		{
+			return $domain_info;
+		}
+	}
+
+	/**
+	 * Get the URL prefix of the domain that a module instance belongs to.
+	 *
+	 * The result is a proper URL including the scheme and port.
+	 * If the module instance does not belong to any domain, null is returned.
+	 *
+	 * @param int $module_srl
+	 * @return ?string
+	 */
+	public static function getDomainPrefixByModuleSrl(int $module_srl): ?string
+	{
+		$module_srl = intval($module_srl);
+		if (isset(self::$_module_srl_map[$module_srl]))
+		{
+			return self::$_module_srl_map[$module_srl];
+		}
+
+		$prefix = Cache::get('site_and_module:module_srl_prefix:' . $module_srl);
+		if (isset($prefix))
+		{
+			self::$_module_srl_map[$module_srl] = $prefix;
+			return $prefix;
+		}
+
+		$output = executeQuery('module.getModuleInfoByModuleSrl', [
+			'module_srl' => $module_srl,
+			'include_domain_info' => true,
+		]);
+		if (is_object($output->data))
+		{
+			$info = $output->data;
+			if (!$info->domain_srl || $info->domain_srl == -1 || !isset($info->domain))
+			{
+				$prefix = '';
+			}
+			else
+			{
+				$prefix = ($info->security === 'always' ? 'https://' : 'http://') . $info->domain;
+				if ($info->security === 'always' && !empty($info->https_port))
+				{
+					$prefix .= ':' . $info->https_port;
+				}
+				if ($info->security !== 'always' && !empty($info->http_port))
+				{
+					$prefix .= ':' . $info->http_port;
+				}
+			}
+			Cache::set('site_and_module:module_srl_prefix:' . $module_srl, $prefix, 0, true);
+			self::$_module_srl_map[$module_srl] = $prefix;
+			return $prefix;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**

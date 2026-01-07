@@ -230,7 +230,7 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
-			$site_module_info = ModuleModel::getDefaultMid() ?: new stdClass;
+			$site_module_info = Rhymix\Modules\Module\Models\Domain::getDefaultDomainWithModuleInfo() ?: new stdClass;
 			$site_timezone = (isset($site_module_info->settings->timezone) && $site_module_info->settings->timezone !== 'default') ? $site_module_info->settings->timezone : null;
 			self::set('site_module_info', $site_module_info);
 			self::set('_default_timezone', $site_timezone);
@@ -1954,7 +1954,7 @@ class Context
 		{
 			if (!isset($domain_infos[$domain]))
 			{
-				$domain_infos[$domain] = ModuleModel::getInstance()->getSiteInfoByDomain($domain);
+				$domain_infos[$domain] = ModuleModel::getSiteInfoByDomain($domain);
 			}
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}

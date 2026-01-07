@@ -33,12 +33,12 @@ class ModuleInfo
 	}
 
 	/**
-	 * Get module information by module_srl.
+	 * Get module instance information by module_srl.
 	 *
 	 * @param int $module_srl
 	 * @return ?ModuleInstance
 	 */
-	public static function getModuleInfoByModuleSrl(int $module_srl): ?ModuleInstance
+	public static function getModuleInfo(int $module_srl): ?ModuleInstance
 	{
 		if (!$module_srl)
 		{
@@ -57,7 +57,8 @@ class ModuleInfo
 			Cache::set("site_and_module:module_info:$module_srl", $module_info, 0, true);
 		}
 
-		return self::addExtraVars($module_info);
+		self::addExtraVars([$module_info]);
+		return $module_info;
 	}
 
 	/**
@@ -76,7 +77,7 @@ class ModuleInfo
 		$module_srl = ModuleModel::$_mid_map[$prefix] ?? Cache::get('site_and_module:module_srl:' . $prefix);
 		if ($module_srl)
 		{
-			return self::getModuleInfoByModuleSrl($module_srl);
+			return self::getModuleInfo($module_srl);
 		}
 
 		$output = executeQueryArray('module.getMidInfo', ['mid' => $prefix], [], ModuleInstance::class);
@@ -89,7 +90,8 @@ class ModuleInfo
 		Cache::set('site_and_module:module_info:' . $module_info->module_srl, $module_info, 0, true);
 		Cache::set('site_and_module:module_srl:' . $prefix, $module_info->module_srl, 0, true);
 
-		return self::addExtraVars($module_info);
+		self::addExtraVars([$module_info]);
+		return $module_info;
 	}
 
 	/**
@@ -112,7 +114,191 @@ class ModuleInfo
 			Cache::set("site_and_module:document_srl:$document_srl", $module_info);
 		}
 
-		return self::addExtraVars($module_info);
+		self::addExtraVars([$module_info]);
+		return $module_info;
+	}
+
+	/**
+	 * Get a list of module instances specified by their module_srl.
+	 *
+	 * @param array $module_srls
+	 * @param array $columnList
+	 * @return array<ModuleInstance>
+	 */
+	public static function getModuleInfos(array $module_srls, array $columnList = []): array
+	{
+		if (!count($module_srls))
+		{
+			return [];
+		}
+
+		$output = executeQueryArray('module.getModulesInfo', ['module_srls' => $module_srls], $columnList, ModuleInstance::class);
+		$result = $output->data ?? [];
+		if (!$columnList)
+		{
+			$result = self::addExtraVars($result);
+		}
+		return $result;
+	}
+
+	/**
+	 * Get a list of module instances.
+	 *
+	 * @param ?object $args
+	 * @param array $columnList
+	 * @return array<ModuleInstance>
+	 */
+	public static function getModuleInstanceList(?object $args = null, array $columnList = []): array
+	{
+		// Is this a custom search?
+		$is_custom_search = isset($args) && count(get_object_vars($args)) > 0;
+		if (!$is_custom_search)
+		{
+			$columnList = [];
+		}
+
+		// Use cache only if this is NOT a custom search.
+		$list = $is_custom_search ? null : Cache::get('site_and_module:module:module_info_list');
+		if ($list === null)
+		{
+			$output = executeQueryArray('module.getMidList', $args, $columnList, ModuleInstance::class);
+			$list = $output->data ?? [];
+
+			// Set cache only if there are no arguments.
+			if (!$is_custom_search)
+			{
+				Cache::set('site_and_module:module:module_info_list', $list, 0, true);
+			}
+		}
+
+		$assoc_list = [];
+		foreach($list as $val)
+		{
+			$assoc_list[$val->mid] = $val;
+		}
+		return $assoc_list;
+	}
+
+	/**
+	 * Get the number of instances belonging to a module.
+	 * This method will return the count of all instances if no module or domain is specified.
+	 *
+	 * @param ?string $module
+	 * @param ?int $domain_srl
+	 * @return int
+	 */
+	public static function getModuleInstanceCount(?string $module = null, ?int $domain_srl = null): int
+	{
+		$args = new \stdClass;
+		$args->module = $module;
+		$args->domain_srl = $domain_srl;
+		$output = executeQuery('module.getModuleCount', $args);
+		return intval($output->data->count ?? 0);
+	}
+
+	/**
+	 * Get extra variables for a list of modules.
+	 * These variables are stored in the module_extra_vars table.
+	 *
+	 * @param array $module_srls
+	 * @return array
+	 */
+	public static function getExtraVars($module_srls): array
+	{
+		// Compile the list of module_srl.
+		$extra_vars = [];
+		$load_from_db_srls = [];
+		foreach ($module_srls as $module_srl)
+		{
+			$module_srl = (int)$module_srl;
+			$vars = Cache::get('site_and_module:module_extra_vars:' . $module_srl);
+			if($vars !== null)
+			{
+				$extra_vars[$module_srl] = $vars;
+			}
+			else
+			{
+				$load_from_db_srls[] = $module_srl;
+			}
+		}
+
+		if (count($load_from_db_srls) > 0)
+		{
+			$output = executeQueryArray('module.getModuleExtraVars', ['module_srl' => $load_from_db_srls]);
+			if (!$output->toBool())
+			{
+				return $extra_vars;
+			}
+
+			foreach ($output->data ?? [] as $val)
+			{
+				if (in_array($val->name, ['mid', 'module']) || $val->value === 'Array')
+				{
+					continue;
+				}
+				if (!isset($extra_vars[$val->module_srl]))
+				{
+					$extra_vars[$val->module_srl] = new \stdClass;
+				}
+				$extra_vars[$val->module_srl]->{$val->name} = $val->value;
+			}
+
+			foreach ($load_from_db_srls as $module_srl)
+			{
+				if (isset($extra_vars[$module_srl]))
+				{
+					Cache::set('site_and_module:module_extra_vars:' . $module_srl, $extra_vars[$module_srl], 0, true);
+				}
+				else
+				{
+					$extra_vars[$module_srl] = new \stdClass;
+				}
+			}
+		}
+
+		return $extra_vars;
+	}
+
+	/**
+	 * Get skin variables for a module.
+	 * These variables are stored in the module_skin_vars table.
+	 *
+	 * @param int $module_srl
+	 * @param string $mode 'P' for PC skin, 'M' for mobile skin
+	 * @return object
+	 */
+	public static function getSkinVars(int $module_srl, string $mode = 'P'): object
+	{
+		if ($mode === 'P')
+		{
+			$cache_key = "site_and_module:module_skin_vars:$module_srl";
+			$query_id = 'module.getModuleSkinVars';
+		}
+		else
+		{
+			$cache_key = "site_and_module:module_mobile_skin_vars:$module_srl";
+			$query_id = 'module.getModuleMobileSkinVars';
+		}
+
+		$skin_vars = Cache::get($cache_key);
+		if (!is_object($skin_vars))
+		{
+			$output = executeQueryArray($query_id, ['module_srl' => $module_srl]);
+			if (!$output->toBool())
+			{
+				return new \stdClass;
+			}
+
+			$skin_vars = new \stdClass;
+			foreach ($output->data as $vars)
+			{
+				$skin_vars->{$vars->name} = $vars;
+			}
+
+			Cache::set($cache_key, $skin_vars, 0, true);
+		}
+
+		return $skin_vars;
 	}
 
 	/**
@@ -253,7 +439,7 @@ class ModuleInfo
 		}
 
 		// Check whether the module name already exists
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
+		$module_info = self::getModuleInfo($args->module_srl);
 		if ($args->mid !== $module_info->mid && ModuleModel::isIDExists($args->mid))
 		{
 			if ($args->module !== $args->mid)
@@ -364,7 +550,7 @@ class ModuleInfo
 			return new BaseObject(-1,'msg_invalid_request');
 		}
 
-		$output = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		$output = self::getModuleInfo($module_srl);
 
 		$args = new \stdClass();
 		$args->url = $output->mid;
@@ -746,24 +932,14 @@ class ModuleInfo
 	/**
 	 * Load extra variables from the DB and add them to module information.
 	 *
-	 * @param array|self $module_info
-	 * @return array|self
+	 * @param array $module_info
+	 * @return array
 	 */
-	public static function addExtraVars($module_info)
+	public static function addExtraVars(array $module_infos)
 	{
-		// If a single module info is given, convert it to an array.
-		if (is_array($module_info))
-		{
-			$target_module_info = $module_info;
-		}
-		else
-		{
-			$target_module_info = array($module_info);
-		}
-
 		// Compile the list of module_srl.
-		$module_srls = array();
-		foreach ($target_module_info as $key => $val)
+		$module_srls = [];
+		foreach ($module_infos as $val)
 		{
 			if ($val->module_srl)
 			{
@@ -772,18 +948,18 @@ class ModuleInfo
 		}
 		if (!count($module_srls))
 		{
-			return $module_info;
+			return $module_infos;
 		}
 
 		// Get extra vars for all modules.
-		$extra_vars = ModuleModel::getModuleExtraVars($module_srls);
+		$extra_vars = self::getExtraVars($module_srls);
 		if (!count($extra_vars))
 		{
-			return $module_info;
+			return $module_infos;
 		}
 
 		// Add extra_vars to each object.
-		foreach ($target_module_info as $key => $val)
+		foreach ($module_infos as $val)
 		{
 			if (!isset($val->module_srl) || !$val->module_srl)
 			{
@@ -802,15 +978,7 @@ class ModuleInfo
 			}
 		}
 
-		// Return the result in the original format (array or object).
-		if (is_array($module_info))
-		{
-			return $target_module_info;
-		}
-		else
-		{
-			return $target_module_info[0];
-		}
+		return $module_infos;
 	}
 
 	/**
@@ -821,7 +989,6 @@ class ModuleInfo
 	 */
 	public static function splitExtraVars(object $args): array
 	{
-
 		$extra_vars = new \stdClass();
 
 		foreach ($args as $key => $val)
@@ -878,6 +1045,7 @@ class ModuleInfo
 	public const DELETE_VARS = [
 		'error_return_url' => true,
 		'success_return_url' => true,
+		'xe_js_callback' => true,
 		'xe_validator_id' => true,
 		'_filter' => true,
 		'_rx_ajax_compat' => true,

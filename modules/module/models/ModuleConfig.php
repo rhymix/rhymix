@@ -80,7 +80,7 @@ class ModuleConfig
 		{
 			$cache_key = 'site_and_module:module_part_config:' . $module . '_' . $module_srl;
 			$config = Cache::get($cache_key);
-			if ($config === null)
+			if (!is_object($config))
 			{
 				$output = executeQuery('module.getModulePartConfig', [
 					'module' => $module,
