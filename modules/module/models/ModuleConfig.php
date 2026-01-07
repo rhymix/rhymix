@@ -22,7 +22,7 @@ class ModuleConfig
 			return null;
 		}
 
-		if (!isset($GLOBALS['__ModuleConfig__'][$module]))
+		if (!isset(ModuleCache::$moduleConfig[$module]))
 		{
 			$cache_key = "site_and_module:module_config:$module";
 			$config = Cache::get($cache_key);
@@ -43,10 +43,10 @@ class ModuleConfig
 					Cache::set($cache_key, $config, 0, true);
 				}
 			}
-			$GLOBALS['__ModuleConfig__'][$module] = $config;
+			ModuleCache::$moduleConfig[$module] = $config;
 		}
 
-		$config = $GLOBALS['__ModuleConfig__'][$module];
+		$config = ModuleCache::$moduleConfig[$module];
 		return $config === -1 ? null : $config;
 	}
 
@@ -76,7 +76,7 @@ class ModuleConfig
 			return null;
 		}
 
-		if (!isset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]))
+		if (!isset(ModuleCache::$modulePartConfig[$module][$module_srl]))
 		{
 			$cache_key = 'site_and_module:module_part_config:' . $module . '_' . $module_srl;
 			$config = Cache::get($cache_key);
@@ -101,10 +101,10 @@ class ModuleConfig
 					Cache::set($cache_key, $config, 0, true);
 				}
 			}
-			$GLOBALS['__ModulePartConfig__'][$module][$module_srl] = $config;
+			ModuleCache::$modulePartConfig[$module][$module_srl] = $config;
 		}
 
-		$config = $GLOBALS['__ModulePartConfig__'][$module][$module_srl];
+		$config = ModuleCache::$modulePartConfig[$module][$module_srl];
 		return $config === -1 ? null : $config;
 	}
 
@@ -162,7 +162,7 @@ class ModuleConfig
 		$oDB->commit();
 
 		// Clear cache
-		unset($GLOBALS['__ModuleConfig__'][$module]);
+		unset(ModuleCache::$moduleConfig[$module]);
 		Cache::clearGroup('site_and_module');
 		return $output;
 	}
@@ -256,7 +256,7 @@ class ModuleConfig
 		$oDB->commit();
 
 		// Clear cache
-		unset($GLOBALS['__ModulePartConfig__'][$module][$module_srl]);
+		unset(ModuleCache::$modulePartConfig[$module][$module_srl]);
 		Cache::clearGroup('site_and_module');
 		return $output;
 	}

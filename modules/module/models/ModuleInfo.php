@@ -54,6 +54,7 @@ class ModuleInfo
 				return null;
 			}
 			$module_info = array_first($output->data);
+			ModuleCache::$module_srl2prefix[$module_srl] = $module_info->mid;
 			Cache::set("site_and_module:module_info:$module_srl", $module_info, 0, true);
 		}
 
@@ -74,7 +75,7 @@ class ModuleInfo
 			return null;
 		}
 
-		$module_srl = ModuleModel::$_mid_map[$prefix] ?? Cache::get('site_and_module:module_srl:' . $prefix);
+		$module_srl = ModuleCache::$prefix2module_srl[$prefix] ?? Cache::get('site_and_module:module_srl:' . $prefix);
 		if ($module_srl)
 		{
 			return self::getModuleInfo($module_srl);
@@ -86,7 +87,7 @@ class ModuleInfo
 			return null;
 		}
 		$module_info = array_first($output->data);
-		ModuleModel::$_mid_map[$prefix] = $module_info->module_srl;
+		ModuleCache::$prefix2module_srl[$prefix] = $module_info->module_srl;
 		Cache::set('site_and_module:module_info:' . $module_info->module_srl, $module_info, 0, true);
 		Cache::set('site_and_module:module_srl:' . $prefix, $module_info->module_srl, 0, true);
 
@@ -416,8 +417,7 @@ class ModuleInfo
 		// commit
 		$oDB->commit();
 
-		Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
+		ModuleCache::clearAll();
 		$output->add('module_srl',$args->module_srl);
 		return $output;
 	}
@@ -531,8 +531,7 @@ class ModuleInfo
 		$output->add('module_srl',$args->module_srl);
 
 		//remove from cache
-		Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
+		ModuleCache::clearAll();
 		return $output;
 	}
 
@@ -656,8 +655,7 @@ class ModuleInfo
 		$oDB->commit();
 
 		// Clear cache
-		Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
+		ModuleCache::clearAll();
 		return $output;
 	}
 

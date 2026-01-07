@@ -10,12 +10,6 @@ use Context;
 class Prefix
 {
 	/**
-	 * Internal cache.
-	 */
-	protected static array $_prefix_map = [];
-	protected static array $_module_srl_map = [];
-
-	/**
 	 * Check if a given prefix (mid) is valid.
 	 *
 	 * @param string $prefix
@@ -110,9 +104,9 @@ class Prefix
 		if (count($prefix) === 1)
 		{
 			$first_prefix = array_first($prefix);
-			if (isset(self::$_prefix_map[$first_prefix]))
+			if (isset(ModuleCache::$prefix2module_srl[$first_prefix]))
 			{
-				return [$first_prefix => self::$_prefix_map[$first_prefix]];
+				return [$first_prefix => ModuleCache::$prefix2module_srl[$first_prefix]];
 			}
 		}
 
@@ -121,7 +115,7 @@ class Prefix
 		foreach ($output->data as $row)
 		{
 			$result[$row->mid] = $row->module_srl;
-			self::$_prefix_map[$row->mid] = $row->module_srl;
+			ModuleCache::$prefix2module_srl[$row->mid] = $row->module_srl;
 		}
 		return $result;
 	}
@@ -141,9 +135,9 @@ class Prefix
 		if (count($module_srl) === 1)
 		{
 			$first_module_srl = array_first($module_srl);
-			if (isset(self::$_module_srl_map[$first_module_srl]))
+			if (isset(ModuleCache::$module_srl2prefix[$first_module_srl]))
 			{
-				return [$first_module_srl => self::$_module_srl_map[$first_module_srl]];
+				return [$first_module_srl => ModuleCache::$module_srl2prefix[$first_module_srl]];
 			}
 		}
 
@@ -156,7 +150,7 @@ class Prefix
 		foreach ($output->data as $row)
 		{
 			$result[$row->module_srl] = $row->mid;
-			self::$_module_srl_map[$row->module_srl] = $row->mid;
+			ModuleCache::$module_srl2prefix[$row->module_srl] = $row->mid;
 		}
 		return $result;
 	}

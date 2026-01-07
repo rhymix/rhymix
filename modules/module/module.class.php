@@ -461,8 +461,7 @@ class Module extends ModuleObject
 		}
 
 		// Clear cache.
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
+		Rhymix\Modules\Module\Models\ModuleCache::clearAll();
 
 		// Return the default domain info.
 		$return_domain = new Rhymix\Modules\Module\Models\Domain();

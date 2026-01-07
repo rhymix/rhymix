@@ -222,15 +222,15 @@ class Domain
 	public static function getDomainPrefixByModuleSrl(int $module_srl): ?string
 	{
 		$module_srl = intval($module_srl);
-		if (isset(self::$_module_srl_map[$module_srl]))
+		if (isset(ModuleCache::$module_srl2domain[$module_srl]))
 		{
-			return self::$_module_srl_map[$module_srl];
+			return ModuleCache::$module_srl2domain[$module_srl];
 		}
 
 		$prefix = Cache::get('site_and_module:module_srl_prefix:' . $module_srl);
 		if (isset($prefix))
 		{
-			self::$_module_srl_map[$module_srl] = $prefix;
+			ModuleCache::$module_srl2domain[$module_srl] = $prefix;
 			return $prefix;
 		}
 
@@ -258,7 +258,7 @@ class Domain
 				}
 			}
 			Cache::set('site_and_module:module_srl_prefix:' . $module_srl, $prefix, 0, true);
-			self::$_module_srl_map[$module_srl] = $prefix;
+			ModuleCache::$module_srl2domain[$module_srl] = $prefix;
 			return $prefix;
 		}
 		else

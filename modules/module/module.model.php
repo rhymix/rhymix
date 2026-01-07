@@ -8,13 +8,6 @@
 class ModuleModel extends Module
 {
 	/**
-	 * Internal cache
-	 */
-	public static $_mid_map = [];
-	public static $_module_srl_map = [];
-	public static $_domain_map = [];
-
-	/**
 	 * @brief Check if mid is available
 	 */
 	public static function isIDExists($id, $module = null)
@@ -1389,9 +1382,9 @@ class ModuleModel extends Module
 			$module_info->module = $module_info->module_srl = 0;
 		}
 
-		if (isset($GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)]))
+		if (isset(Rhymix\Modules\Module\Models\ModuleCache::$modulePermissions[$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)]))
 		{
-			$__cache = &$GLOBALS['__MODULE_GRANT__'][$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)];
+			$__cache = &Rhymix\Modules\Module\Models\ModuleCache::$modulePermissions[$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)];
 			if (is_object($__cache) && !$xml_info)
 			{
 				return $__cache;
