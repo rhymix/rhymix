@@ -11,7 +11,7 @@ interface PushInterface
 	 * Create a new instance of the current Push driver, using the given settings.
 	 *
 	 * @param array $config
-	 * @return void
+	 * @return PushInterface
 	 */
 	public static function getInstance(array $config): PushInterface;
 
@@ -50,7 +50,7 @@ interface PushInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param \Rhymix\Framework\Push $message
 	 * @param array $tokens
 	 * @return \stdClass
 	 */

@@ -261,7 +261,7 @@ class Storage
 	 * @param string|resource $content
 	 * @param string $mode (optional)
 	 * @param ?int $perms (optional)
-	 * @return string|false
+	 * @return bool
 	 */
 	public static function write(string $filename, $content, string $mode = 'w', ?int $perms = null)
 	{
@@ -357,7 +357,7 @@ class Storage
 	 * @param mixed $data
 	 * @param string|null $comment (optional)
 	 * @param bool $serialize (optional)
-	 * @return string|false
+	 * @return bool
 	 */
 	public static function writePHPData(string $filename, $data, ?string $comment = null, bool $serialize = true)
 	{

@@ -44,7 +44,7 @@ class MailFunction extends Base implements \Rhymix\Framework\Drivers\MailInterfa
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param \Rhymix\Framework\Mail $message
 	 * @return bool
 	 */
 	public function send(\Rhymix\Framework\Mail $message)
