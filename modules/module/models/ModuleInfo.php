@@ -303,6 +303,98 @@ class ModuleInfo
 	}
 
 	/**
+	 * Get module grants.
+	 *
+	 * @param int $module_srl
+	 * @return DBResultHelper
+	 */
+	public static function getGrants(int $module_srl): DBResultHelper
+	{
+		$output = Cache::get("site_and_module:module_grants:$module_srl");
+		if (!($output instanceof DBResultHelper))
+		{
+			$output = executeQueryArray('module.getModuleGrants', ['module_srl' => $module_srl]);
+			if ($output->toBool())
+			{
+				Cache::set("site_and_module:module_grants:$module_srl", $output, 0, true);
+			}
+		}
+		return $output;
+	}
+
+	/**
+	 * Get the list of a module's managers.
+	 *
+	 * @param int $module_srl
+	 * @return array
+	 */
+	public static function getManagers(int $module_srl): array
+	{
+		$output = executeQueryArray('module.getAdminID', ['module_srl' => $module_srl]);
+		if (!$output->toBool() || !$output->data)
+		{
+			return [];
+		}
+		foreach ($output->data as $row)
+		{
+			$row->scopes = !empty($row->scopes) ? json_decode($row->scopes) : null;
+		}
+		return $output->data;
+	}
+
+	/**
+	 * Check if a member is a module manager.
+	 *
+	 * @param object $member_info
+	 * @param ?int $module_srl
+	 * @return array|bool
+	 */
+	public static function isManager(object $member_info, ?int $module_srl = null)
+	{
+		if (empty($member_info->member_srl))
+		{
+			return false;
+		}
+		if (isset($member_info->is_admin) && $member_info->is_admin == 'Y')
+		{
+			return true;
+		}
+		if ($module_srl === null)
+		{
+			$site_module_info = Context::get('site_module_info');
+			if (!$site_module_info || !$site_module_info->module_srl)
+			{
+				return false;
+			}
+			$module_srl = $site_module_info->module_srl;
+		}
+
+		$managers = Cache::get("site_and_module:module_managers:$module_srl");
+		if ($managers === null)
+		{
+			$output = executeQueryArray('module.getModuleAdmin', ['module_srl' => $module_srl]);
+			$managers = array();
+			foreach ($output->data as $module_admin)
+			{
+				$managers[$module_admin->member_srl] = $module_admin->scopes ? json_decode($module_admin->scopes) : true;
+			}
+			if ($output->toBool())
+			{
+				Cache::set("site_and_module:module_managers:$module_srl", $managers, 0, true);
+			}
+		}
+
+		if (isset($managers[$member_info->member_srl]))
+		{
+			return $managers[$member_info->member_srl];
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Insert a module.
 	 *
 	 * @param object $args

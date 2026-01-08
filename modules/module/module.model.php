@@ -478,25 +478,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleInfoXml($module)
 	{
-		// Check the path and XML file name.
-		$module_path = ModuleHandler::getModulePath($module);
-		if (!$module_path) return;
-		$xml_file = $module_path . 'conf/info.xml';
-		if (!file_exists($xml_file)) return;
-
-		// Load the XML file and cache the definition.
-		$lang_type = Context::getLangType() ?: 'en';
-		$mtime1 = filemtime($xml_file);
-		$mtime2 = file_exists($module_path . 'conf/module.xml') ? filemtime($module_path . 'conf/module.xml') : 0;
-		$cache_key = sprintf('site_and_module:module_info_xml:%s:%s:%d:%d', $module, $lang_type, $mtime1, $mtime2);
-		$info = Rhymix\Framework\Cache::get($cache_key);
-		if($info === null)
-		{
-			$info = Rhymix\Framework\Parsers\ModuleInfoParser::loadXML($xml_file);
-			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
-		}
-
-		return $info;
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getModuleInfoXml((string)$module);
 	}
 
 	/**
@@ -504,24 +486,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleActionXml($module)
 	{
-		// Check the path and XML file name.
-		$module_path = ModuleHandler::getModulePath($module);
-		if (!$module_path) return;
-		$xml_file = $module_path . 'conf/module.xml';
-		if (!file_exists($xml_file)) return;
-
-		// Load the XML file and cache the definition.
-		$lang_type = Context::getLangType() ?: 'en';
-		$mtime = filemtime($xml_file);
-		$cache_key = sprintf('site_and_module:module_action_xml:%s:%s:%d', $module, $lang_type, $mtime);
-		$info = Rhymix\Framework\Cache::get($cache_key);
-		if($info === null)
-		{
-			$info = Rhymix\Framework\Parsers\ModuleActionParser::loadXML($xml_file);
-			Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
-		}
-
-		return $info;
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getModuleActionXml((string)$module);
 	}
 
 	/**
@@ -739,31 +704,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModulesXmlInfo()
 	{
-		// Get a list of downloaded and installed modules
-		$searched_list = FileHandler::readDir('./modules');
-		$searched_count = count($searched_list);
-		if(!$searched_count) return;
-		sort($searched_list);
-
-		for($i=0;$i<$searched_count;$i++)
-		{
-			// Module name
-			$module_name = $searched_list[$i];
-
-			$path = ModuleHandler::getModulePath($module_name);
-			// Get information of the module
-			$info = self::getModuleInfoXml($module_name);
-			unset($obj);
-
-			if(!isset($info)) continue;
-			$info->module = $module_name;
-			$info->created_table_count = null; //$created_table_count;
-			$info->table_count = null; //$table_count;
-			$info->path = $path;
-			$info->admin_index_act = $info->admin_index_act ?? null;
-			$list[] = $info;
-		}
-		return $list;
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getInstalledModuleList();
 	}
 
 	/**
@@ -776,42 +717,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleDefaultClass(string $module_name, ?object $module_action_info = null)
 	{
-		if (!$module_action_info)
-		{
-			$module_action_info = self::getModuleActionXml($module_name);
-		}
-
-		if (isset($module_action_info->namespaces) && count($module_action_info->namespaces))
-		{
-			$namespace = array_first($module_action_info->namespaces);
-		}
-		else
-		{
-			$namespace = 'Rhymix\\Modules\\' . ucfirst($module_name);
-		}
-
-		if (isset($module_action_info->classes['default']))
-		{
-			$class_name = $namespace . '\\' . $module_action_info->classes['default'];
-			return class_exists($class_name) ? $class_name::getInstance() : null;
-		}
-
-		$class_name = $namespace . '\\Base';
-		if (class_exists($class_name))
-		{
-			return $class_name::getInstance();
-		}
-
-		$class_name = $namespace . '\\Controllers\\Base';
-		if (class_exists($class_name))
-		{
-			return $class_name::getInstance();
-		}
-
-		if ($oModule = getModule($module_name, 'class'))
-		{
-			return $oModule;
-		}
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getDefaultClass((string)$module_name, $module_action_info);
 	}
 
 	/**
@@ -824,42 +730,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleInstallClass(string $module_name, ?object $module_action_info = null)
 	{
-		if (!$module_action_info)
-		{
-			$module_action_info = self::getModuleActionXml($module_name);
-		}
-
-		if (isset($module_action_info->namespaces) && count($module_action_info->namespaces))
-		{
-			$namespace = array_first($module_action_info->namespaces);
-		}
-		else
-		{
-			$namespace = 'Rhymix\\Modules\\' . ucfirst($module_name);
-		}
-
-		if (isset($module_action_info->classes['install']))
-		{
-			$class_name = $namespace . '\\' . $module_action_info->classes['install'];
-			return class_exists($class_name) ? $class_name::getInstance() : null;
-		}
-
-		$class_name = $namespace . '\\Install';
-		if (class_exists($class_name))
-		{
-			return $class_name::getInstance();
-		}
-
-		$class_name = $namespace . '\\Controllers\\Install';
-		if (class_exists($class_name))
-		{
-			return $class_name::getInstance();
-		}
-
-		if ($oModule = getModule($module_name, 'class'))
-		{
-			return $oModule;
-		}
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getInstallClass((string)$module_name, $module_action_info);
 	}
 
 	public static function checkNeedInstall($module_name)
@@ -897,190 +768,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleList()
 	{
-		// Create DB Object
-		$oDB = DB::getInstance();
-		// Get a list of downloaded and installed modules
-		$searched_list = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
-		sort($searched_list);
-
-		$searched_count = count($searched_list);
-		if(!$searched_count) return;
-
-		// Get action forward
-		$action_forward = self::getActionForward();
-
-		foreach ($searched_list as $module_name)
-		{
-			$path = ModuleHandler::getModulePath($module_name);
-			if(!is_dir(FileHandler::getRealPath($path))) continue;
-
-			// Get the number of xml files to create a table in schemas
-			$table_count = 0;
-			$schema_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/', false, true);
-			foreach ($schema_files as $filename)
-			{
-				if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($filename)))
-				{
-					$table_count++;
-				}
-			}
-
-			// Check if the table is created
-			$created_table_count = 0;
-			foreach ($schema_files as $filename)
-			{
-				if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
-				{
-					continue;
-				}
-
-				if($oDB->isTableExists($matches[1]))
-				{
-					$created_table_count++;
-				}
-			}
-			// Get information of the module
-			$info = self::getModuleInfoXml($module_name);
-			if(!$info) continue;
-
-			$info->module = $module_name;
-			$info->created_table_count = $created_table_count;
-			$info->table_count = $table_count;
-			$info->path = $path;
-			$info->admin_index_act = $info->admin_index_act ?? null;
-			$info->need_install = false;
-			$info->need_update = false;
-
-			if(!Context::isBlacklistedPlugin($module_name, 'module'))
-			{
-				// Check if DB is installed
-				if($table_count > $created_table_count)
-				{
-					$info->need_install = true;
-				}
-
-				// Check if it is upgraded to module.class.php on each module
-				$oDummy = self::getModuleInstallClass($module_name);
-				if($oDummy && method_exists($oDummy, "checkUpdate"))
-				{
-					$info->need_update = $oDummy->checkUpdate();
-				}
-				unset($oDummy);
-
-				// Check if all action-forwardable routes are registered
-				$module_action_info = self::getModuleActionXml($module_name);
-				$forwardable_routes = array();
-				foreach ($module_action_info->action ?? [] as $action_name => $action_info)
-				{
-					if (count($action_info->route) && $action_info->standalone === 'true')
-					{
-						$forwardable_routes[$action_name] = array(
-							'regexp' => array(),
-							'config' => $action_info->route,
-						);
-					}
-				}
-				foreach ($module_action_info->route->GET ?? [] as $regexp => $action_name)
-				{
-					if (isset($forwardable_routes[$action_name]))
-					{
-						$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
-					}
-				}
-				foreach ($module_action_info->route->POST ?? [] as $regexp => $action_name)
-				{
-					if (isset($forwardable_routes[$action_name]))
-					{
-						$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
-					}
-				}
-				foreach ($forwardable_routes as $action_name => $route_info)
-				{
-					if (!isset($action_forward[$action_name]) ||
-						$action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
-						$action_forward[$action_name]->route_config !== $route_info['config'])
-					{
-						$info->need_update = true;
-					}
-				}
-
-				// Clean up any action-forward routes that are no longer needed.
-				foreach ($forwardable_routes as $action_name => $route_info)
-				{
-					unset($action_forward[$action_name]);
-				}
-				foreach ($action_forward as $action_name => $forward_info)
-				{
-					if ($forward_info->module === $module_name && $forward_info->route_regexp !== null)
-					{
-						$info->need_update = true;
-					}
-				}
-
-				// Check if all event handlers are registered.
-				$registered_event_handlers = [];
-				foreach ($module_action_info->event_handlers ?? [] as $ev)
-				{
-					$key = implode(':', [$ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position]);
-					$registered_event_handlers[$key] = true;
-					if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
-					{
-						$info->need_update = true;
-					}
-				}
-				if (count($registered_event_handlers))
-				{
-					foreach ($GLOBALS['__triggers__'] as $trigger_name => $val1)
-					{
-						foreach ($val1 as $called_position => $val2)
-						{
-							foreach ($val2 as $item)
-							{
-								if ($item->module === $module_name)
-								{
-									$key = implode(':', [$trigger_name, $item->module, $item->type, $item->called_method, $called_position]);
-									if (!isset($registered_event_handlers[$key]))
-									{
-										$info->need_update = true;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				// Check if all namespaces are registered.
-				$namespaces = config('namespaces') ?? [];
-				foreach ($module_action_info->namespaces ?? [] as $name)
-				{
-					if(!isset($namespaces['mapping'][$name]))
-					{
-						$info->need_update = true;
-					}
-				}
-				foreach ($namespaces['mapping'] ?? [] as $name => $path)
-				{
-					$attached_module = preg_replace('!^modules/!', '', $path);
-					if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))
-					{
-						$info->need_update = true;
-					}
-				}
-
-				// Check if all prefixes are registered.
-				foreach ($module_action_info->prefixes ?? [] as $name)
-				{
-					if(!ModuleModel::getModuleSrlByMid($name))
-					{
-						$info->need_update = true;
-					}
-				}
-			}
-
-			$list[] = $info;
-		}
-
-		return $list;
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getInstalledModuleDetails();
 	}
 
 	/**
@@ -1090,52 +778,13 @@ class ModuleModel extends Module
 	 */
 	public static function syncModuleToSite(&$data)
 	{
-		if(!$data) return;
-
-		if(is_array($data))
-		{
-			foreach($data as $key => $val)
-			{
-				$module_srls[] = $val->module_srl;
-			}
-			if(!count($module_srls)) return;
-		}
-		else
-		{
-			$module_srls[] = $data->module_srl;
-		}
-
-		$args = new stdClass();
-		$args->module_srls = implode(',',$module_srls);
-		$output = executeQueryArray('module.getModuleSites', $args);
-		if(!$output->data) return array();
-		foreach($output->data as $key => $val)
-		{
-			$modules[$val->module_srl] = $val;
-		}
-
-		if(is_array($data))
-		{
-			foreach($data as $key => $val)
-			{
-				if (isset($modules[$val->module_srl]))
-				{
-					$data[$key]->domain = $modules[$val->module_srl]->domain;
-				}
-				elseif (!isset($data[$key]->domain))
-				{
-					$data[$key]->domain = null;
-				}
-			}
-		}
-		else
-		{
-			$data->domain = $modules[$data->module_srl]->domain ?? null;
-		}
+		return Rhymix\Modules\Module\Models\ModuleDefinition::syncModuleToSite($data);
 	}
 
 	/**
 	 * @brief Check if it is an administrator of site_module_info
+	 *
+	 * @deprecated
 	 */
 	public static function isSiteAdmin($member_info)
 	{
@@ -1151,6 +800,8 @@ class ModuleModel extends Module
 
 	/**
 	 * @brief Get admin information of the site
+	 *
+	 * @deprecated
 	 */
 	public static function getSiteAdmin()
 	{
@@ -1160,51 +811,24 @@ class ModuleModel extends Module
 	/**
 	 * Check if a member is a module administrator
 	 *
-	 * @return array|bool
+	 * @return bool
 	 */
 	public static function isModuleAdmin($member_info, $module_srl = null)
 	{
-		if (!$member_info || !$member_info->member_srl)
+		if (!is_object($member_info))
 		{
 			return false;
 		}
-		if ($member_info->is_admin == 'Y')
-		{
-			return true;
-		}
-		if ($module_srl === null)
-		{
-			$site_module_info = Context::get('site_module_info');
-			if(!$site_module_info) return false;
-			$module_srl = $site_module_info->module_srl;
-		}
-
-		$module_srl = $module_srl ?: 0;
-		$module_admins = Rhymix\Framework\Cache::get("site_and_module:module_admins:$module_srl");
-		if ($module_admins === null)
-		{
-			$args = new stdClass;
-			$args->module_srl = $module_srl;
-			$output = executeQueryArray('module.getModuleAdmin', $args);
-			$module_admins = array();
-			foreach ($output->data as $module_admin)
-			{
-				$module_admins[$module_admin->member_srl] = $module_admin->scopes ? json_decode($module_admin->scopes) : true;
-			}
-			if ($output->toBool())
-			{
-				Rhymix\Framework\Cache::set("site_and_module:module_admins:$module_srl", $module_admins, 0, true);
-			}
-		}
-
-		if (isset($module_admins[$member_info->member_srl]))
-		{
-			return $module_admins[$member_info->member_srl];
-		}
-		else
+		if ($module_srl !== null && !is_scalar($module_srl))
 		{
 			return false;
 		}
+		if ($module_srl !== null)
+		{
+			$module_srl = (int)$module_srl;
+		}
+
+		return Rhymix\Modules\Module\Models\ModuleInfo::isManager($member_info, $module_srl);
 	}
 
 	/**
@@ -1212,18 +836,7 @@ class ModuleModel extends Module
 	 */
 	public static function getAdminId($module_srl)
 	{
-		$obj = new stdClass();
-		$obj->module_srl = $module_srl;
-		$output = executeQueryArray('module.getAdminID', $obj);
-		if (!$output->toBool() || !$output->data)
-		{
-			return;
-		}
-		foreach ($output->data as $row)
-		{
-			$row->scopes = !empty($row->scopes) ? json_decode($row->scopes) : null;
-		}
-		return $output->data;
+		return Rhymix\Modules\Module\Models\ModuleInfo::getManagers((int)$module_srl);
 	}
 
 	/**
@@ -1376,32 +989,19 @@ class ModuleModel extends Module
 	 */
 	public static function getGrant($module_info, $member_info, $xml_info = null)
 	{
-		if (empty($module_info->module))
+		if (!is_object($module_info))
 		{
 			$module_info = new stdClass;
-			$module_info->module = $module_info->module_srl = 0;
+			$module_info->module = '_';
+			$module_info->module_srl = 0;
 		}
-
-		if (isset(Rhymix\Modules\Module\Models\ModuleCache::$modulePermissions[$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)]))
+		if (!is_object($member_info))
 		{
-			$__cache = &Rhymix\Modules\Module\Models\ModuleCache::$modulePermissions[$module_info->module][intval($module_info->module_srl ?? 0)][intval($member_info->member_srl ?? 0)];
-			if (is_object($__cache) && !$xml_info)
-			{
-				return $__cache;
-			}
+			$member_info = new stdClass;
+			$member_info->member_srl = 0;
 		}
 
-		// Get module grant information
-		if (!$xml_info)
-		{
-			$xml_info = self::getModuleActionXml($module_info->module);
-		}
-
-		// Generate grant
-		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
-		$module_grants = self::getModuleGrants($module_info->module_srl ?? 0)->data ?: [];
-		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
-		return $__cache = $grant;
+		return Rhymix\Modules\Module\Models\Permission::create($module_info, $member_info, $xml_info);
 	}
 
 	/**
@@ -1533,18 +1133,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleGrants($module_srl)
 	{
-		$output = Rhymix\Framework\Cache::get("site_and_module:module_grants:$module_srl");
-		if ($output === null)
-		{
-			$args = new stdClass;
-			$args->module_srl = $module_srl;
-			$output = executeQueryArray('module.getModuleGrants', $args);
-			if($output->toBool())
-			{
-				Rhymix\Framework\Cache::set("site_and_module:module_grants:$module_srl", $output, 0, true);
-			}
-		}
-		return $output;
+		return Rhymix\Modules\Module\Models\ModuleInfo::getGrants((int)$module_srl);
 	}
 
 	public static function getModuleFileBox($module_filebox_srl)

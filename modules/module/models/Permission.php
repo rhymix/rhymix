@@ -23,14 +23,14 @@ class Permission
 	protected $_scopes = [];
 
 	/**
-	 * Constructor will be called from ModuleModel::getGrant().
+	 * Constructor will be called from create().
 	 *
 	 * @param array $xml_grant_list
 	 * @param array $module_grants
 	 * @param ?object $module_info
 	 * @param ?object $member_info
 	 */
-	public function __construct(array $xml_grant_list, array $module_grants, ?object $module_info = null, ?object $member_info = null)
+	protected function __construct(array $xml_grant_list, array $module_grants, ?object $module_info = null, ?object $member_info = null)
 	{
 		// Generate the list of default permissions.
 		$this->_spec = [
@@ -224,5 +224,41 @@ class Permission
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Generate a Permission object for the given module and member.
+	 *
+	 * @param object $module_info
+	 * @param object $member_info
+	 * @param ?object $xml_info
+	 * @return self
+	 */
+	public static function create(object $module_info, object $member_info, ?object $xml_info = null): self
+	{
+		// Check cache
+		$module_srl = intval($module_info->module_srl ?? 0);
+		$member_srl = intval($member_info->member_srl ?? 0);
+		if (isset(ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl]))
+		{
+			$grant = ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl];
+			if ($grant instanceof self && !$xml_info)
+			{
+				return $grant;
+			}
+		}
+
+		// Get module grant information
+		if (!$xml_info)
+		{
+			$xml_info = ModuleDefinition::getModuleActionXml($module_info->module);
+		}
+
+		// Generate a Permission object
+		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
+		$module_grants = ModuleInfo::getGrants($module_srl)->data ?: [];
+		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
+		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $grant;
+		return $grant;
 	}
 }
