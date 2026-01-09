@@ -2,6 +2,8 @@
 
 namespace Rhymix\Modules\Module\Models;
 
+use Rhymix\Framework\Cache;
+
 #[\AllowDynamicProperties]
 class Permission
 {
@@ -260,5 +262,71 @@ class Permission
 		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
 		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $grant;
 		return $grant;
+	}
+
+	/**
+	 * Get the list of modules that a member can access.
+	 *
+	 * @param object $member_info
+	 * @return array
+	 */
+	public static function listModulesAccessibleBy(object $member_info): array
+	{
+		$result = Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
+		if ($result === null)
+		{
+			$result = [];
+			$module_list = ModuleInfo::getModuleInstanceList();
+			foreach ($module_list as $module_info)
+			{
+				$grant = self::create($module_info, $member_info);
+				if (!$grant->access)
+				{
+					continue;
+				}
+				if (isset($grant->{'list'}) && $grant->{'list'} === false)
+				{
+					continue;
+				}
+				if (isset($grant->{'view'}) && $grant->{'view'} === false)
+				{
+					continue;
+				}
+				$result[$module_info->module_srl] = $module_info;
+			}
+			ksort($result);
+
+			Cache::set(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl), $result);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get the list of modules that a member can access.
+	 *
+	 * @param object $member_info
+	 * @param ?string $module
+	 * @return array
+	 */
+	public static function listModulesManagedBy(object $member_info, ?string $module = null): array
+	{
+		$result = [];
+		$module_list = ModuleInfo::getModuleInstanceList();
+		foreach ($module_list as $module_info)
+		{
+			if ($module && $module_info->module != $module)
+			{
+				continue;
+			}
+
+			$grant = self::create($module_info, $member_info);
+			if ($grant->manager)
+			{
+				$result[$module_info->module_srl] = $module_info;
+			}
+		}
+		ksort($result);
+		return $result;
 	}
 }

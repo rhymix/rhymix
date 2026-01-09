@@ -238,57 +238,6 @@ class ModuleDefinition
 	}
 
 	/**
-	 * @brief Combine module_srls with domain of sites
-	 * Because XE DBHandler doesn't support left outer join,
-	 * it should be as same as $Output->data[]->module_srl.
-	 */
-	public static function syncModuleToSite(&$data)
-	{
-		if(!$data) return;
-
-		if(is_array($data))
-		{
-			foreach($data as $key => $val)
-			{
-				$module_srls[] = $val->module_srl;
-			}
-			if(!count($module_srls)) return;
-		}
-		else
-		{
-			$module_srls[] = $data->module_srl;
-		}
-
-		$args = new \stdClass;
-		$args->module_srls = implode(',',$module_srls);
-		$output = executeQueryArray('module.getModuleSites', $args);
-		if(!$output->data) return array();
-		foreach($output->data as $key => $val)
-		{
-			$modules[$val->module_srl] = $val;
-		}
-
-		if(is_array($data))
-		{
-			foreach($data as $key => $val)
-			{
-				if (isset($modules[$val->module_srl]))
-				{
-					$data[$key]->domain = $modules[$val->module_srl]->domain;
-				}
-				elseif (!isset($data[$key]->domain))
-				{
-					$data[$key]->domain = null;
-				}
-			}
-		}
-		else
-		{
-			$data->domain = $modules[$data->module_srl]->domain ?? null;
-		}
-	}
-
-	/**
 	 * @brief Get information from conf/info.xml
 	 */
 	public static function getModuleInfoXml($module)
@@ -340,8 +289,9 @@ class ModuleDefinition
 	}
 
 	/**
-	 * @brief Get a list of skins for the module
-	 * Return file analysis of skin and skin.xml
+	 * Get a list of skins available for a module.
+	 *
+	 * @return array
 	 */
 	public static function getSkins($path, $dir = 'skins')
 	{

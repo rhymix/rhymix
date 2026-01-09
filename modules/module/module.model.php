@@ -521,89 +521,7 @@ class ModuleModel extends Module
 		{
 			$path = substr($path, 0, -1);
 		}
-
-		$skin_list = array();
-		$skin_path = sprintf("%s/%s/", $path, $dir);
-		$list = FileHandler::readDir($skin_path);
-		//if(!count($list)) return;
-
-		natcasesort($list);
-
-		foreach($list as $skin_name)
-		{
-			if(!is_dir($skin_path . $skin_name))
-			{
-				continue;
-			}
-			unset($skin_info);
-			$skin_info = self::loadSkinInfo($path, $skin_name, $dir);
-			if(!$skin_info)
-			{
-				$skin_info = new stdClass();
-				$skin_info->title = $skin_name;
-			}
-
-			$skin_list[$skin_name] = $skin_info;
-		}
-
-		$tmpPath = strtr($path, array('/' => ' '));
-		$tmpPath = trim($tmpPath);
-		$module = array_last(explode(' ', $tmpPath));
-
-		if($dir == 'skins')
-		{
-			$oAdminModel = getAdminModel('admin');
-			$themesInfo = $oAdminModel->getThemeList();
-
-			foreach($themesInfo as $themeName => $info)
-			{
-				$skinInfos = $info->skin_infos;
-				if(isset($skinInfos[$module]) && $skinInfos[$module]->is_theme)
-				{
-					$themeSkinInfo = $GLOBALS['__ThemeModuleSkin__'][$module]['skins'][$skinInfos[$module]->name] ?? null;
-					$skin_list[$skinInfos[$module]->name] = $themeSkinInfo;
-				}
-			}
-		}
-
-		$siteInfo = Context::get('site_module_info');
-		$oMenuAdminModel = getAdminModel('menu');
-		$installedMenuTypes = $oMenuAdminModel->getModuleListInSitemap();
-		$moduleName = $module;
-		if($moduleName === 'page')
-		{
-			$moduleName = 'ARTICLE';
-		}
-
-		$useDefaultList = array();
-		if(array_key_exists($moduleName, $installedMenuTypes))
-		{
-			$defaultSkinName = self::getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
-			if ($defaultSkinName)
-			{
-				if ($defaultSkinName === '/USE_RESPONSIVE/')
-				{
-					$defaultSkinInfo = (object)array('title' => lang('use_responsive_pc_skin'));
-				}
-				else
-				{
-					$defaultSkinInfo = self::loadSkinInfo($path, $defaultSkinName, $dir);
-				}
-
-				$useDefault = new stdClass();
-				$useDefault->title = lang('use_site_default_skin') . ' (' . ($defaultSkinInfo->title ?? null) . ')';
-
-				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
-			}
-		}
-		if($dir == 'm.skins')
-		{
-			$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
-		}
-
-		$skin_list = array_merge($useDefaultList, $skin_list);
-
-		return $skin_list;
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getSkins($path, $dir);
 	}
 
 	/**
@@ -611,25 +529,7 @@ class ModuleModel extends Module
 	 */
 	public static function loadSkinInfo($path, $skin, $dir = 'skins')
 	{
-		// Read xml file having skin information
-		if (!str_ends_with($path, '/'))
-		{
-			$path .= '/';
-		}
-		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin ?? ''))
-		{
-			return;
-		}
-
-		$skin_path = sprintf("%s%s/%s/", $path, $dir, $skin);
-		$skin_xml_file = $skin_path . 'skin.xml';
-		if (!file_exists($skin_xml_file))
-		{
-			return;
-		}
-
-		$skin_info = Rhymix\Framework\Parsers\SkinInfoParser::loadXML($skin_xml_file, $skin, $skin_path);
-		return $skin_info;
+		return Rhymix\Modules\Module\Models\ModuleDefinition::loadSkinInfo($path, $skin, $dir);
 	}
 
 	/**
@@ -776,9 +676,42 @@ class ModuleModel extends Module
 	 * Because XE DBHandler doesn't support left outer join,
 	 * it should be as same as $Output->data[]->module_srl.
 	 */
-	public static function syncModuleToSite(&$data)
+	public static function syncModuleToSite($data)
 	{
-		return Rhymix\Modules\Module\Models\ModuleDefinition::syncModuleToSite($data);
+		if (!is_array($data))
+		{
+			$data = [$data];
+		}
+
+		$module_srls = [];
+		foreach ($data as $module_info)
+		{
+			if (empty($module_info->domain))
+			{
+				$module_srls[$module_info->module_srl] = null;
+			}
+		}
+		if (!count($module_srls))
+		{
+			return;
+		}
+
+		$output = executeQueryArray('module.getModuleSites', ['module_srls' => array_keys($module_srls)]);
+		foreach ($output->data as $val)
+		{
+			$module_srls[$val->module_srl] = $val;
+		}
+		foreach ($data as $val)
+		{
+			if (isset($module_srls[$val->module_srl]->domain))
+			{
+				$val->domain = $module_srls[$val->module_srl]->domain;
+			}
+			elseif (!isset($val->domain))
+			{
+				$val->domain = null;
+			}
+		}
 	}
 
 	/**
@@ -934,25 +867,22 @@ class ModuleModel extends Module
 	/**
 	 * @brief Combine skin information with module information
 	 */
-	public static function syncSkinInfoToModuleInfo(&$module_info)
+	public static function syncSkinInfoToModuleInfo($module_info)
 	{
-		if (!$module_info->module_srl)
+		if ($module_info instanceof Rhymix\Modules\Module\Models\ModuleInfo)
 		{
-			return;
+			$module_info->addSkinVars();
 		}
-
-		$mode = 'P';
-		if(Mobile::isFromMobilePhone() && $module_info->mskin !== '/USE_RESPONSIVE/')
+		elseif (isset($module_info->module_srl) && $module_info->module_srl)
 		{
-			$mode = 'M';
-		}
-
-		$skin_vars = Rhymix\Modules\Module\Models\ModuleInfo::getSkinVars($module_info->module_srl, $mode);
-		foreach ($skin_vars as $name => $val)
-		{
-			if (!isset($module_info->{$name}))
+			$mode = (\Mobile::isFromMobilePhone() && $module_info->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
+			$skin_vars = Rhymix\Modules\Module\Models\ModuleInfo::getSkinVars($module_info->module_srl, $mode);
+			foreach ($skin_vars as $name => $val)
 			{
-				$module_info->{$name} = $val->value;
+				if (!isset($module_info->{$name}))
+				{
+					$module_info->{$name} = $val->value;
+				}
 			}
 		}
 	}
@@ -962,7 +892,7 @@ class ModuleModel extends Module
 	 * @param $module_info Module information
 	 * @deprecated
 	 */
-	public static function syncMobileSkinInfoToModuleInfo(&$module_info)
+	public static function syncMobileSkinInfoToModuleInfo($module_info)
 	{
 		if (!$module_info->module_srl)
 		{
@@ -1012,43 +942,42 @@ class ModuleModel extends Module
 	 */
 	public static function getAccessibleModuleList($member_info = null)
 	{
-		if(!$member_info)
+		$member_info = $member_info ?? Rhymix\Framework\Session::getMemberInfo();
+		return Rhymix\Modules\Module\Models\Permission::listModulesAccessibleBy($member_info);
+	}
+
+	/**
+	 * Search all modules to find manager privilege of the member.
+	 *
+	 * @deprecated
+	 * @param object $member_info member information
+	 * @param string $module module name. if used, search scope is same module
+	 * @return mixed success : object, fail : false
+	 */
+	public static function findManagerPrivilege($member_info, $module = null)
+	{
+		$member_info = $member_info ?? Rhymix\Framework\Session::getMemberInfo();
+		if (!$member_info || !$member_info->member_srl)
 		{
-			$member_info = Context::get('logged_info');
+			return false;
 		}
 
-		$result = Rhymix\Framework\Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
-		if($result === null)
+		$module = $module ? (string)$module : null;
+		$result = Rhymix\Modules\Module\Models\Permission::listModulesManagedBy($member_info, $module);
+		if ($result)
 		{
-			$mid_list = self::getMidList();
-			$result = array();
-
-			foreach($mid_list as $module_info)
-			{
-				$grant = self::getGrant($module_info, $member_info);
-				if(!$grant->access)
-				{
-					continue;
-				}
-				foreach(array('list', 'view') as $require_grant)
-				{
-					if(isset($grant->{$require_grant}) && $grant->{$require_grant} === false)
-					{
-						continue 2;
-					}
-				}
-				$result[$module_info->module_srl] = $module_info;
-			}
-			ksort($result);
-
-			Rhymix\Framework\Cache::set(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl), $result);
+			$module_info = array_first($result);
+			return Rhymix\Modules\Module\Models\Permission::create($module_info, $member_info);
 		}
-
-		return $result;
+		else
+		{
+			return false;
+		}
 	}
 
 	/**
 	 * Get privileges(granted) information of the member for target module by target_srl
+	 *
 	 * @param string $target_srl as module_srl. It may be a reference serial number
 	 * @param string $type module name. get module_srl from module
 	 * @param object $member_info member information
@@ -1100,35 +1029,6 @@ class ModuleModel extends Module
 	}
 
 	/**
-	 * @brief Search all modules to find manager privilege of the member
-	 * @param object $member_info member information
-	 * @param string $module module name. if used, search scope is same module
-	 * @return mixed success : object, fail : false
-	 */
-	public static function findManagerPrivilege($member_info, $module = null)
-	{
-		if(!$member_info->member_srl || empty($mid_list = self::getMidList()))
-		{
-			return false;
-		}
-
-		foreach($mid_list as $module_info)
-		{
-			if($module && $module_info->module != $module)
-			{
-				continue;
-			}
-
-			if(($grant = self::getGrant($module_info, $member_info)) && $grant->manager)
-			{
-				return $grant;
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * @brief Get module grants
 	 */
 	public static function getModuleGrants($module_srl)
@@ -1138,51 +1038,17 @@ class ModuleModel extends Module
 
 	public static function getModuleFileBox($module_filebox_srl)
 	{
-		$args = new stdClass();
-		$args->module_filebox_srl = $module_filebox_srl;
-		return executeQuery('module.getModuleFileBox', $args);
+		return Rhymix\Modules\Module\Models\Filebox::getFile((int)$module_filebox_srl);
 	}
 
 	public static function getModuleFileBoxList()
 	{
-		$args = new stdClass();
-		$args->page = Context::get('page');
-		$args->list_count = 5;
-		$args->page_count = 5;
-		$output = executeQuery('module.getModuleFileBoxList', $args);
-		$output = self::unserializeAttributes($output);
-		return $output;
+		return Rhymix\Modules\Module\Models\Filebox::getFileList(5, intval(Context::get('page') ?? 1));
 	}
 
 	public static function unserializeAttributes($module_filebox_list)
 	{
-		if(is_array($module_filebox_list->data))
-		{
-			foreach($module_filebox_list->data as &$item)
-			{
-				if(empty($item->comment))
-				{
-					continue;
-				}
-
-				$attributes = explode(';', $item->comment);
-				foreach($attributes as $attribute)
-				{
-					$values = explode(':', $attribute);
-					if((count($values) % 2) ==1)
-					{
-						for($i=2;$i<count($values);$i++)
-						{
-							$values[1].=":".$values[$i];
-						}
-					}
-					$atts[$values[0]]=$values[1];
-				}
-				$item->attributes = $atts;
-				unset($atts);
-			}
-		}
-		return $module_filebox_list;
+		// no-op
 	}
 
 	public function getFileBoxListHtml()

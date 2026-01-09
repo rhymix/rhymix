@@ -33,7 +33,7 @@ class ModuleCategory
 	 * @brief Get a list of module category
 	 *
 	 * @param array $module_category_srl
-	 * @return array
+	 * @return array<self>
 	 */
 	public static function getModuleCategories(array $module_category_srl = []): array
 	{

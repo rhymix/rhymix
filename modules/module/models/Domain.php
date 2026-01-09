@@ -9,7 +9,7 @@ use Rhymix\Framework\Helpers\DBResultHelper;
 use Context;
 
 #[\AllowDynamicProperties]
-class Domain
+class Domain extends ModuleInfo
 {
 	/**
 	 * Attributes to match database columns.
@@ -31,11 +31,6 @@ class Domain
 	public $description;
 	public $settings;
 	public $regdate;
-
-	/**
-	 * Internal cache.
-	 */
-	protected static array $_module_srl_map = [];
 
 	/**
 	 * Decode settings when a row is loaded from DB.
@@ -69,6 +64,8 @@ class Domain
 		{
 			$this->site_srl = 0;
 		}
+
+		parent::__construct();
 	}
 
 	/**

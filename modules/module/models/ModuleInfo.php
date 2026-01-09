@@ -33,6 +33,27 @@ class ModuleInfo
 	}
 
 	/**
+	 * Load skin variables and add them to the current object.
+	 */
+	public function addSkinVars(): void
+	{
+		if (empty($this->module_srl))
+		{
+			return;
+		}
+
+		$mode = (\Mobile::isFromMobilePhone() && $this->mskin !== '/USE_RESPONSIVE/') ? 'M' : 'P';
+		$skin_vars = self::getSkinVars($this->module_srl, $mode);
+		foreach ($skin_vars as $name => $val)
+		{
+			if (!isset($this->{$name}))
+			{
+				$this->{$name} = $val->value;
+			}
+		}
+	}
+
+	/**
 	 * Get module instance information by module_srl.
 	 *
 	 * @param int $module_srl
@@ -504,7 +525,7 @@ class ModuleInfo
 			return $output;
 		}
 		// Insert module extra vars
-		self::insertModuleExtraVars($args->module_srl, $extra_vars);
+		self::insertExtraVars($args->module_srl, $extra_vars);
 
 		// commit
 		$oDB->commit();
@@ -616,7 +637,7 @@ class ModuleInfo
 		}
 
 		// Insert module extra vars
-		self::insertModuleExtraVars($args->module_srl, $extra_vars);
+		self::insertExtraVars($args->module_srl, $extra_vars);
 
 		$oDB->commit();
 
@@ -730,11 +751,11 @@ class ModuleInfo
 		}
 
 		// Delete module extra vars
-		self::deleteModuleExtraVars($module_srl);
+		self::deleteExtraVars($module_srl);
 
 		// Delete skin settings
-		self::deleteModuleSkinVars($module_srl, 'P');
-		self::deleteModuleSkinVars($module_srl, 'M');
+		self::deleteSkinVars($module_srl, 'P');
+		self::deleteSkinVars($module_srl, 'M');
 
 		// Delete permissions and module managers
 		self::deleteModuleGrants($module_srl);
@@ -758,10 +779,10 @@ class ModuleInfo
 	 * @param object $extra_vars
 	 * @return BaseObject
 	 */
-	public static function insertModuleExtraVars(int $module_srl, object $extra_vars): BaseObject
+	public static function insertExtraVars(int $module_srl, object $extra_vars): BaseObject
 	{
 		$output = null;
-		self::deleteModuleExtraVars($module_srl);
+		self::deleteExtraVars($module_srl);
 		foreach (get_object_vars($extra_vars) as $key => $val)
 		{
 			$key = trim($key);
@@ -793,7 +814,7 @@ class ModuleInfo
 	 * @param int $module_srl
 	 * @return DBResultHelper
 	 */
-	public static function deleteModuleExtraVars(int $module_srl): DBResultHelper
+	public static function deleteExtraVars(int $module_srl): DBResultHelper
 	{
 		$output = executeQuery('module.deleteModuleExtraVars', ['module_srl' => $module_srl]);
 		Cache::delete("site_and_module:module_extra_vars:$module_srl");
@@ -808,7 +829,7 @@ class ModuleInfo
 	 * @param string $mode 'P' for PC skin, 'M' for mobile skin
 	 * @return BaseObject
 	 */
-	public static function insertModuleSkinVars(int $module_srl, object $skin_vars, string $mode = 'P'): BaseObject
+	public static function insertSkinVars(int $module_srl, object $skin_vars, string $mode = 'P'): BaseObject
 	{
 		$mode = $mode === 'P' ? 'P' : 'M';
 		$output = null;
@@ -816,7 +837,7 @@ class ModuleInfo
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$output = self::deleteModuleSkinVars($module_srl, $mode);
+		$output = self::deleteSkinVars($module_srl, $mode);
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
@@ -873,7 +894,7 @@ class ModuleInfo
 	 * @param string $mode 'P' for PC skin, 'M' for mobile skin
 	 * @return DBResultHelper
 	 */
-	public static function deleteModuleSkinVars(int $module_srl, string $mode = 'P'): DBResultHelper
+	public static function deleteSkinVars(int $module_srl, string $mode = 'P'): DBResultHelper
 	{
 		$mode = $mode === 'P' ? 'P' : 'M';
 
@@ -900,7 +921,7 @@ class ModuleInfo
 	 * @param object $obj
 	 * @return BaseObject
 	 */
-	public static function insertModuleGrants(int $module_srl, object $obj): BaseObject
+	public static function insertGrants(int $module_srl, object $obj): BaseObject
 	{
 		$output = null;
 		self::deleteModuleGrants($module_srl);
@@ -934,7 +955,7 @@ class ModuleInfo
 	 * @param int $module_srl
 	 * @return DBResultHelper
 	 */
-	public static function deleteModuleGrants(int $module_srl): DBResultHelper
+	public static function deleteGrants(int $module_srl): DBResultHelper
 	{
 		$output = executeQuery('module.deleteModuleGrants', ['module_srl' => $module_srl]);
 		Cache::delete("site_and_module:module_grants:$module_srl");
@@ -949,7 +970,7 @@ class ModuleInfo
 	 * @param ?array $scopes
 	 * @return BaseObject
 	 */
-	public static function insertModuleManager(int $module_srl, string $user_id, ?array $scopes = null): BaseObject
+	public static function insertManager(int $module_srl, string $user_id, ?array $scopes = null): BaseObject
 	{
 		if (strpos($user_id, '@') !== false)
 		{
@@ -992,7 +1013,7 @@ class ModuleInfo
 	 * @param ?string $user_id
 	 * @return BaseObject
 	 */
-	public static function deleteModuleManager(int $module_srl, ?string $user_id = null): BaseObject
+	public static function deleteManager(int $module_srl, ?string $user_id = null): BaseObject
 	{
 		$args = new \stdClass();
 		$args->module_srl = intval($module_srl);

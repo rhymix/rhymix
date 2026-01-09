@@ -495,7 +495,7 @@ class ModuleController extends Module
 	 */
 	public function insertModuleExtraVars($module_srl, $obj)
 	{
-		return Rhymix\Modules\Module\Models\ModuleInfo::insertModuleExtraVars((int)$module_srl, $obj);
+		return Rhymix\Modules\Module\Models\ModuleInfo::insertExtraVars((int)$module_srl, $obj);
 	}
 
 	/**
@@ -503,7 +503,7 @@ class ModuleController extends Module
 	 */
 	public function deleteModuleExtraVars($module_srl)
 	{
-		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModuleExtraVars((int)$module_srl);
+		return Rhymix\Modules\Module\Models\ModuleInfo::deleteExtraVars((int)$module_srl);
 	}
 
 	/**
@@ -512,7 +512,7 @@ class ModuleController extends Module
 	public function insertModuleGrants($module_srl, $obj)
 	{
 		if(!$obj || !countobj($obj)) return;
-		return Rhymix\Modules\Module\Models\ModuleInfo::insertModuleGrants((int)$module_srl, $obj);
+		return Rhymix\Modules\Module\Models\ModuleInfo::insertGrants((int)$module_srl, $obj);
 	}
 
 	/**
@@ -520,7 +520,7 @@ class ModuleController extends Module
 	 */
 	public function deleteModuleGrants($module_srl)
 	{
-		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModuleGrants((int)$module_srl);
+		return Rhymix\Modules\Module\Models\ModuleInfo::deleteGrants((int)$module_srl);
 	}
 
 	/**
@@ -528,7 +528,7 @@ class ModuleController extends Module
 	 */
 	public function insertAdminId($module_srl, $admin_id, $scopes = null)
 	{
-		return Rhymix\Modules\Module\Models\ModuleInfo::insertModuleManager($module_srl, $admin_id, $scopes);
+		return Rhymix\Modules\Module\Models\ModuleInfo::insertManager($module_srl, $admin_id, $scopes);
 	}
 
 	/**
@@ -536,7 +536,7 @@ class ModuleController extends Module
 	 */
 	public function deleteAdminId($module_srl, $admin_id = '')
 	{
-		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModuleManager($module_srl, $admin_id);
+		return Rhymix\Modules\Module\Models\ModuleInfo::deleteManager($module_srl, $admin_id);
 	}
 
 	/**
@@ -618,7 +618,7 @@ class ModuleController extends Module
 	public function _insertModuleSkinVars($module_srl, $obj, $mode)
 	{
 		$mode = $mode === 'P' ? 'P' : 'M';
-		return Rhymix\Modules\Module\Models\ModuleInfo::insertModuleSkinVars((int)$module_srl, $obj, $mode);
+		return Rhymix\Modules\Module\Models\ModuleInfo::insertSkinVars((int)$module_srl, $obj, $mode);
 	}
 
 	/**
@@ -654,7 +654,7 @@ class ModuleController extends Module
 	public function _deleteModuleSkinVars($module_srl, $mode)
 	{
 		$mode = $mode === 'P' ? 'P' : 'M';
-		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModuleSkinVars((int)$module_srl, $mode);
+		return Rhymix\Modules\Module\Models\ModuleInfo::deleteSkinVars((int)$module_srl, $mode);
 	}
 
 	/**
