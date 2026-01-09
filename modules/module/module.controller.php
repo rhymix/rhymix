@@ -108,16 +108,13 @@ class ModuleController extends Module
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
-		$module_filebox_srl = Context::get('module_filebox_srl');
+		$module_filebox_srl = intval(Context::get('module_filebox_srl'));
 		if(!$module_filebox_srl)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$vars = new \stdClass();
-		$vars->module_filebox_srl = $module_filebox_srl;
-		$output = Rhymix\Modules\Module\Models\Filebox::deleteFile($vars);
-		if(!$output->toBool()) return $output;
+		return Rhymix\Modules\Module\Models\Filebox::deleteFile($module_filebox_srl);
 	}
 
 	/**

@@ -19,14 +19,16 @@ class ModuleAdminController extends Module
 	 */
 	function procModuleAdminInsertCategory()
 	{
-		$args = new stdClass();
-		$args->title = Context::get('title');
-		$output = executeQuery('module.insertModuleCategory', $args);
-		if(!$output->toBool()) return $output;
+		$title = strval(Context::get('title'));
+		$output = Rhymix\Modules\Module\Models\ModuleCategory::insertModuleCategory($title);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		$this->setMessage("success_registed");
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminCategory']);
 		$this->setRedirectUrl($returnUrl);
 	}
 
@@ -35,12 +37,17 @@ class ModuleAdminController extends Module
 	 */
 	function procModuleAdminUpdateCategory()
 	{
-		$output = $this->doUpdateModuleCategory();
-		if(!$output->toBool()) return $output;
+		$module_category_srl = intval(Context::get('module_category_srl'));
+		$title = strval(Context::get('title'));
+		$output = Rhymix\Modules\Module\Models\ModuleCategory::updateModuleCategory($module_category_srl, $title);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		$this->setMessage('success_updated');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminCategory']);
 		$this->setRedirectUrl($returnUrl);
 	}
 
@@ -49,34 +56,17 @@ class ModuleAdminController extends Module
 	 */
 	function procModuleAdminDeleteCategory()
 	{
-		$output = $this->doDeleteModuleCategory();
-		if(!$output->toBool()) return $output;
+		$module_category_srl = intval(Context::get('module_category_srl'));
+		$output = Rhymix\Modules\Module\Models\ModuleCategory::deleteModuleCategory($module_category_srl);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		$this->setMessage('success_deleted');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminCategory');
+		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminCategory']);
 		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
-	 * @brief Change the title of the module category
-	 */
-	function doUpdateModuleCategory()
-	{
-		$args = new stdClass();
-		$args->title = Context::get('title');
-		$args->module_category_srl = Context::get('module_category_srl');
-		return executeQuery('module.updateModuleCategory', $args);
-	}
-
-	/**
-	 * @brief Delete the module category
-	 */
-	function doDeleteModuleCategory()
-	{
-		$args = new stdClass;
-		$args->module_category_srl = Context::get('module_category_srl');
-		return executeQuery('module.deleteModuleCategory', $args);
 	}
 
 	/**

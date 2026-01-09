@@ -2,6 +2,7 @@
 
 namespace Rhymix\Modules\Module\Models;
 
+use Rhymix\Framework\Exception;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Storage;
@@ -83,8 +84,11 @@ class Filebox
 
 	/**
 	 * Insert a file.
+	 *
+	 * @param object $args
+	 * @return DBResultHelper
 	 */
-	public static function insertFile($args)
+	public static function insertFile(object $args): DBResultHelper
 	{
 		// set module_filebox_srl
 		$args->module_filebox_srl = getNextSequence();
@@ -101,7 +105,7 @@ class Filebox
 		// upload
 		if(!move_uploaded_file($tmp, $save_filename))
 		{
-			return false;
+			throw new Exception('Cannot move uploaded file');
 		}
 
 		// insert
@@ -123,10 +127,12 @@ class Filebox
 
 	/**
 	 * @brief Update a file into the file box
+	 *
+	 * @param object $args
+	 * @return DBResultHelper
 	 */
-	public static function updateFile($args)
+	public static function updateFile(object $args): DBResultHelper
 	{
-		$args = new \stdClass;
 		// have file
 		if($args->addfile['tmp_name'] && is_uploaded_file($args->addfile['tmp_name']))
 		{
@@ -141,9 +147,9 @@ class Filebox
 			$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
 			$tmp = $args->addfile['tmp_name'];
 
-			if(!@move_uploaded_file($tmp, $save_filename))
+			if(!move_uploaded_file($tmp, $save_filename))
 			{
-				return false;
+				throw new Exception('Cannot move uploaded file');
 			}
 
 			$args->fileextension = $ext;
@@ -155,22 +161,28 @@ class Filebox
 		$args->comment = $args->comment;
 
 		$output = executeQuery('module.updateModuleFileBox', $args);
-		$output->add('save_filename', $save_filename);
+		if (isset($save_filename))
+		{
+			$output->add('save_filename', $save_filename);
+		}
 		return $output;
 	}
 
 	/**
 	 * Delete a file.
+	 *
+	 * @param int $module_filebox_srl
+	 * @return DBResultHelper
 	 */
-	public static function deleteFile($args)
+	public static function deleteFile(int $module_filebox_srl): DBResultHelper
 	{
 		// delete real file
-		$output = self::getFile($args->module_filebox_srl);
+		$output = self::getFile($module_filebox_srl);
 		FileHandler::removeFile($output->data->filename);
 
-		$args = new \stdClass;
-		$args->module_filebox_srl = $args->module_filebox_srl;
-		return executeQuery('module.deleteModuleFileBox', $args);
+		return executeQuery('module.deleteModuleFileBox', [
+			'module_filebox_srl' => $module_filebox_srl,
+		]);
 	}
 
 	/**
