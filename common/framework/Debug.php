@@ -788,7 +788,7 @@ class Debug
 		$title = lang('msg_server_error');
 		if ($title === 'msg_server_error')
 		{
-			$message = 'Server Error';
+			$title = 'Server Error';
 		}
 
 		// Localize the error message.
