@@ -2,6 +2,8 @@
 
 namespace Rhymix\Modules\Module\Models;
 
+use Rhymix\Framework\Helpers\DBResultHelper;
+
 class Filebox
 {
 	/**
@@ -64,16 +66,15 @@ class Filebox
 	 *
 	 * @param int $count
 	 * @param int $page
-	 * @return array
+	 * @return DBResultHelper
 	 */
-	public static function getFileList(int $count = 5, int $page = 1): array
+	public static function getFileList(int $count = 5, int $page = 1): DBResultHelper
 	{
 		$args = new \stdClass;
 		$args->list_count = $count;
 		$args->page_count = 5;
 		$args->page = $page;
-		$output = executeQueryArray('module.getModuleFileBoxList', $args, [], self::class);
-		return $output->data;
+		return executeQueryArray('module.getModuleFileBoxList', $args, [], self::class);
 	}
 
 	/**
