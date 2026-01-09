@@ -8,7 +8,7 @@ namespace Rhymix\Modules\Module\Models;
  */
 class ModuleInstance extends ModuleInfo
 {
-	/**
+	/*
 	 * Default attributes.
 	 */
 	public int $module_srl;

@@ -8,7 +8,7 @@ use Rhymix\Framework\Helpers\DBResultHelper;
 
 class ModuleCategory
 {
-	/**
+	/*
 	 * Attributes to match database columns.
 	 */
 	public int $module_category_srl;

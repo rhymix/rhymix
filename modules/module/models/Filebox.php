@@ -11,7 +11,7 @@ use FileHandler;
 
 class Filebox
 {
-	/**
+	/*
 	 * Attributes to match database columns.
 	 */
 	public int $module_filebox_srl;

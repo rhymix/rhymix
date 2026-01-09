@@ -8,7 +8,7 @@ namespace Rhymix\Modules\Module\Models;
  */
 class StaticModuleInfo extends ModuleInfo
 {
-	/**
+	/*
 	 * Default attributes.
 	 */
 	public string $module;

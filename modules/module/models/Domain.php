@@ -11,7 +11,7 @@ use Context;
 #[\AllowDynamicProperties]
 class Domain extends ModuleInfo
 {
-	/**
+	/*
 	 * Attributes to match database columns.
 	 */
 	public ?int $domain_srl = 0;

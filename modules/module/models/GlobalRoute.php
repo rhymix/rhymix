@@ -13,7 +13,7 @@ use Rhymix\Framework\Helpers\DBResultHelper;
  */
 class GlobalRoute
 {
-	/**
+	/*
 	 * Attributes to match database columns.
 	 */
 	public string $act;

@@ -7,7 +7,7 @@ use Rhymix\Framework\Cache;
 #[\AllowDynamicProperties]
 class Permission
 {
-	/**
+	/*
 	 * Default properties.
 	 */
 	public $access;
