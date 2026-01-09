@@ -3,6 +3,10 @@
 namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Helpers\DBResultHelper;
+use Rhymix\Framework\Security;
+use Rhymix\Framework\Storage;
+use FileController;
+use FileHandler;
 
 class Filebox
 {
@@ -80,24 +84,103 @@ class Filebox
 	/**
 	 * Insert a file.
 	 */
-	public static function insertFile()
+	public static function insertFile($args)
 	{
+		// set module_filebox_srl
+		$args->module_filebox_srl = getNextSequence();
 
+		// get file path
+		$path = self::getStoragePath($args->module_filebox_srl);
+		FileHandler::makeDir($path);
+
+		$random = Security::getRandom(32, 'hex');
+		$ext = substr(strrchr($args->addfile['name'], '.'), 1);
+		$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
+		$tmp = $args->addfile['tmp_name'];
+
+		// upload
+		if(!move_uploaded_file($tmp, $save_filename))
+		{
+			return false;
+		}
+
+		// insert
+		$output = executeQuery('module.insertModuleFileBox', [
+			'module_filebox_srl' => $args->module_filebox_srl,
+			'member_srl' => $args->member_srl,
+			'comment' => $args->comment,
+			'filename' => $save_filename,
+			'fileextension' => $ext,
+			'filesize' => $args->addfile['size'],
+		]);
+		if ($output->toBool())
+		{
+			$output->add('module_filebox_srl', $args->module_filebox_srl);
+			$output->add('save_filename', $save_filename);
+		}
+		return $output;
 	}
 
 	/**
-	 * Update a file.
+	 * @brief Update a file into the file box
 	 */
-	public static function updateFile()
+	public static function updateFile($args)
 	{
+		$args = new \stdClass;
+		// have file
+		if($args->addfile['tmp_name'] && is_uploaded_file($args->addfile['tmp_name']))
+		{
+			$output = self::getFile($args->module_filebox_srl);
+			FileHandler::removeFile($output->data->filename);
 
+			$path = self::getStoragePath($args->module_filebox_srl);
+			FileHandler::makeDir($path);
+
+			$random = Security::getRandom(32, 'hex');
+			$ext = substr(strrchr($args->addfile['name'], '.'), 1);
+			$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
+			$tmp = $args->addfile['tmp_name'];
+
+			if(!@move_uploaded_file($tmp, $save_filename))
+			{
+				return false;
+			}
+
+			$args->fileextension = $ext;
+			$args->filename = $save_filename;
+			$args->filesize = $args->addfile['size'];
+		}
+
+		$args->module_filebox_srl = $args->module_filebox_srl;
+		$args->comment = $args->comment;
+
+		$output = executeQuery('module.updateModuleFileBox', $args);
+		$output->add('save_filename', $save_filename);
+		return $output;
 	}
 
 	/**
 	 * Delete a file.
 	 */
-	public static function deleteFile()
+	public static function deleteFile($args)
 	{
+		// delete real file
+		$output = self::getFile($args->module_filebox_srl);
+		FileHandler::removeFile($output->data->filename);
 
+		$args = new \stdClass;
+		$args->module_filebox_srl = $args->module_filebox_srl;
+		return executeQuery('module.deleteModuleFileBox', $args);
+	}
+
+	/**
+	 * Get the storage path for a file.
+	 *
+	 * @param int $module_filebox_srl
+	 * @return string
+	 */
+	public static function getStoragePath(int $module_filebox_srl): string
+	{
+		return FileController::getStoragePath('filebox', 0, $module_filebox_srl, 0, '', false);
 	}
 }

@@ -63,6 +63,10 @@ class ModuleController extends Module
 		{
 			$vars->module_filebox_srl = $module_filebox_srl;
 			$output = $this->updateModuleFileBox($vars);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 		}
 		// insert
 		else
@@ -72,6 +76,10 @@ class ModuleController extends Module
 			if(!is_uploaded_file($addfile['tmp_name'])) throw new Rhymix\Framework\Exception('msg_error_occured');
 			if($vars->addfile['error'] != 0) throw new Rhymix\Framework\Exception('msg_error_occured');
 			$output = $this->insertModuleFileBox($vars);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
 		}
 
 		$this->setTemplatePath($this->module_path.'tpl');
@@ -87,81 +95,6 @@ class ModuleController extends Module
 			if($output) $this->add('save_filename', $output->get('save_filename'));
 			else $this->add('save_filename', '');
 		}
-	}
-
-	/**
-	 * @brief Add a file into the file box
-	 */
-	public function insertModuleFileBox($vars)
-	{
-		// set module_filebox_srl
-		$vars->module_filebox_srl = getNextSequence();
-
-		// get file path
-		$path = ModuleModel::getModuleFileBoxPath($vars->module_filebox_srl);
-		FileHandler::makeDir($path);
-
-		$random = Rhymix\Framework\Security::getRandom(32, 'hex');
-		$ext = substr(strrchr($vars->addfile['name'], '.'), 1);
-		$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
-		$tmp = $vars->addfile['tmp_name'];
-
-		// upload
-		if(!@move_uploaded_file($tmp, $save_filename))
-		{
-			return false;
-		}
-
-		// insert
-		$args = new stdClass;
-		$args->module_filebox_srl = $vars->module_filebox_srl;
-		$args->member_srl = $vars->member_srl;
-		$args->comment = $vars->comment;
-		$args->filename = $save_filename;
-		$args->fileextension = $ext;
-		$args->filesize = $vars->addfile['size'];
-
-		$output = executeQuery('module.insertModuleFileBox', $args);
-		$output->add('save_filename', $save_filename);
-		return $output;
-	}
-
-	/**
-	 * @brief Update a file into the file box
-	 */
-	public function updateModuleFileBox($vars)
-	{
-		$args = new stdClass;
-		// have file
-		if($vars->addfile['tmp_name'] && is_uploaded_file($vars->addfile['tmp_name']))
-		{
-			$output = ModuleModel::getModuleFileBox($vars->module_filebox_srl);
-			FileHandler::removeFile($output->data->filename);
-
-			$path = ModuleModel::getModuleFileBoxPath($vars->module_filebox_srl);
-			FileHandler::makeDir($path);
-
-			$random = Rhymix\Framework\Security::getRandom(32, 'hex');
-			$ext = substr(strrchr($vars->addfile['name'], '.'), 1);
-			$save_filename = sprintf('%s%s.%s', $path, $random, $ext);
-			$tmp = $vars->addfile['tmp_name'];
-
-			if(!@move_uploaded_file($tmp, $save_filename))
-			{
-				return false;
-			}
-
-			$args->fileextension = $ext;
-			$args->filename = $save_filename;
-			$args->filesize = $vars->addfile['size'];
-		}
-
-		$args->module_filebox_srl = $vars->module_filebox_srl;
-		$args->comment = $vars->comment;
-
-		$output = executeQuery('module.updateModuleFileBox', $args);
-		$output->add('save_filename', $save_filename);
-		return $output;
 	}
 
 	/**
@@ -181,21 +114,34 @@ class ModuleController extends Module
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$vars = new stdClass();
+		$vars = new \stdClass();
 		$vars->module_filebox_srl = $module_filebox_srl;
-		$output = $this->deleteModuleFileBox($vars);
+		$output = Rhymix\Modules\Module\Models\Filebox::deleteFile($vars);
 		if(!$output->toBool()) return $output;
 	}
 
+	/**
+	 * @brief Add a file into the file box
+	 */
+	public function insertModuleFileBox($vars)
+	{
+		return Rhymix\Modules\Module\Models\Filebox::insertFile($vars);
+	}
+
+	/**
+	 * @brief Update a file into the file box
+	 */
+	public function updateModuleFileBox($vars)
+	{
+		return Rhymix\Modules\Module\Models\Filebox::updateFile($vars);
+	}
+
+	/**
+	 * @brief Delete a file from the file box
+	 */
 	public function deleteModuleFileBox($vars)
 	{
-		// delete real file
-		$output = ModuleModel::getModuleFileBox($vars->module_filebox_srl);
-		FileHandler::removeFile($output->data->filename);
-
-		$args = new stdClass();
-		$args->module_filebox_srl = $vars->module_filebox_srl;
-		return executeQuery('module.deleteModuleFileBox', $args);
+		return Rhymix\Modules\Module\Models\Filebox::deleteFile($vars);
 	}
 
 	/**

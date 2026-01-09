@@ -1088,7 +1088,7 @@ class ModuleModel extends Module
 
 	public static function getModuleFileBoxPath($module_filebox_srl)
 	{
-		return FileController::getStoragePath('filebox', 0, $module_filebox_srl, 0, '', false);
+		return Rhymix\Modules\Module\Models\Filebox::getStoragePath((int)$module_filebox_srl);
 	}
 
 	/**
