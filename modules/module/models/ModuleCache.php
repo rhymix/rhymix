@@ -13,6 +13,8 @@ class ModuleCache
 	/**
 	 * Internal data maps.
 	 */
+	public static array $eventHandlers = [];
+	public static array $registeredHandlers = [];
 	public static array $prefix2module_srl = [];
 	public static array $module_srl2prefix = [];
 	public static array $module_srl2domain = [];
@@ -29,6 +31,8 @@ class ModuleCache
 	{
 		Cache::clearGroup('site_and_module');
 
+		self::$eventHandlers = [];
+		self::$registeredHandlers = [];
 		self::$prefix2module_srl = [];
 		self::$module_srl2prefix = [];
 		self::$module_srl2domain = [];

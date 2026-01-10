@@ -49,8 +49,11 @@ class ModuleController extends Module
 	 */
 	public function addTriggerFunction($trigger_name, $called_position, $callback_function)
 	{
-		$GLOBALS['__trigger_functions__'][$trigger_name][$called_position][] = $callback_function;
-		return true;
+		return Rhymix\Modules\Module\Models\Event::addEventHandler(
+			(string)$trigger_name,
+			(string)$called_position,
+			$callback_function
+		);
 	}
 
 	/**
@@ -60,23 +63,13 @@ class ModuleController extends Module
 	 */
 	public function insertTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		$args = new stdClass();
-		$args->trigger_name = $trigger_name;
-		$args->module = $module;
-		$args->type = $type;
-		$args->called_method = $called_method;
-		$args->called_position = $called_position;
-
-		$output = executeQuery('module.deleteTrigger', $args);
-		$output = executeQuery('module.insertTrigger', $args);
-		if($output->toBool())
-		{
-			//remove from cache
-			$GLOBALS['__triggers__'] = NULL;
-			Rhymix\Framework\Cache::delete('triggers');
-		}
-
-		return $output;
+		return Rhymix\Modules\Module\Models\Event::registerHandler(
+			(string)$trigger_name,
+			(string)$called_position,
+			(string)$module,
+			(string)$type,
+			(string)$called_method
+		);
 	}
 
 	/**
@@ -85,22 +78,13 @@ class ModuleController extends Module
 	 */
 	public function deleteTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		$args = new stdClass();
-		$args->trigger_name = $trigger_name;
-		$args->module = $module;
-		$args->type = $type;
-		$args->called_method = $called_method;
-		$args->called_position = $called_position;
-
-		$output = executeQuery('module.deleteTrigger', $args);
-		if($output->toBool())
-		{
-			//remove from cache
-			$GLOBALS['__triggers__'] = NULL;
-			Rhymix\Framework\Cache::delete('triggers');
-		}
-
-		return $output;
+		return Rhymix\Modules\Module\Models\Event::unregisterHandler(
+			(string)$trigger_name,
+			(string)$called_position,
+			(string)$module,
+			(string)$type,
+			(string)$called_method
+		);
 	}
 
 	/**
@@ -109,18 +93,7 @@ class ModuleController extends Module
 	 */
 	public function deleteModuleTriggers($module)
 	{
-		$args = new stdClass();
-		$args->module = $module;
-
-		$output = executeQuery('module.deleteModuleTriggers', $args);
-		if($output->toBool())
-		{
-			//remove from cache
-			$GLOBALS['__triggers__'] = NULL;
-			Rhymix\Framework\Cache::delete('triggers');
-		}
-
-		return $output;
+		return Rhymix\Modules\Module\Models\Event::unregisterHandlersByModule((string)$module);
 	}
 
 	/**

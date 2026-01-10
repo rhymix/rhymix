@@ -340,7 +340,7 @@ class ModuleHandler extends Handler
 		}
 
 		// Get action information with conf/module.xml
-		$xml_info = ModuleModel::getModuleActionXml($this->module);
+		$xml_info = Rhymix\Modules\Module\Models\ModuleDefinition::getModuleActionXml($this->module);
 
 		// If not installed yet, modify act
 		if($this->module == "install")
@@ -469,7 +469,7 @@ class ModuleHandler extends Handler
 			$oModule = self::getModuleInstance($this->module, $type ?: 'class', $kind);
 			if (!$oModule)
 			{
-				$oModule = ModuleModel::getModuleDefaultClass($this->module, $xml_info);
+				$oModule = Rhymix\Modules\Module\Models\ModuleDefinition::getDefaultClass($this->module, $xml_info);
 			}
 		}
 
@@ -491,7 +491,7 @@ class ModuleHandler extends Handler
 			if(preg_match('/^[a-z]+([A-Z][a-z0-9\_]+).*$/', $this->act, $matches))
 			{
 				$module = strtolower($matches[1]);
-				$xml_info = ModuleModel::getModuleActionXml($module);
+				$xml_info = Rhymix\Modules\Module\Models\ModuleDefinition::getModuleActionXml($module);
 
 				if(!isset($xml_info->action->{$this->act}))
 				{
@@ -534,10 +534,10 @@ class ModuleHandler extends Handler
 					Context::addMetaTag('robots', 'noindex');
 				}
 
-				$xml_info = ModuleModel::getModuleActionXml($forward->module);
+				$xml_info = Rhymix\Modules\Module\Models\ModuleDefinition::getModuleActionXml($forward->module);
 
 				// Protect admin action
-				if(($this->module == 'admin' || $kind == 'admin') && !ModuleModel::getGrant($forward, $logged_info)->root)
+				if(($this->module == 'admin' || $kind == 'admin') && !Rhymix\Modules\Module\Models\Permission::create($forward, $logged_info)->root)
 				{
 					if($this->module == 'admin' || empty($xml_info->action->{$this->act}->permission->target))
 					{
@@ -778,7 +778,7 @@ class ModuleHandler extends Handler
 					return null;
 				}
 				// If the requested mid is set to include documents from other modules, preserve the current mid.
-				elseif($this->mid && ($mid_info = ModuleModel::getModuleInfoByMid($this->mid)) && $mid_info->include_modules && in_array($module_info->module_srl, explode(',', $mid_info->include_modules)))
+				elseif($this->mid && ($mid_info = Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfoByPrefix($this->mid)) && $mid_info->include_modules && in_array($module_info->module_srl, explode(',', $mid_info->include_modules)))
 				{
 					return $mid_info;
 				}
@@ -1309,7 +1309,7 @@ class ModuleHandler extends Handler
 			return new BaseObject();
 		}
 
-		$triggers = ModuleModel::getTriggers($trigger_name, $called_position);
+		$triggers = Rhymix\Modules\Module\Models\Event::getRegisteredHandlers($trigger_name, $called_position);
 		if(!$triggers)
 		{
 			$triggers = array();
@@ -1379,7 +1379,7 @@ class ModuleHandler extends Handler
 			unset($oModule);
 		}
 
-		$trigger_functions = ModuleModel::getTriggerFunctions($trigger_name, $called_position);
+		$trigger_functions = Rhymix\Modules\Module\Models\Event::getEventHandlers($trigger_name, $called_position);
 		foreach($trigger_functions as $item)
 		{
 			try

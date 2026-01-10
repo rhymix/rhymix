@@ -291,14 +291,7 @@ class ModuleModel extends Module
 	 */
 	public static function getTriggerFunctions($trigger_name, $called_position)
 	{
-		if(isset($GLOBALS['__trigger_functions__'][$trigger_name][$called_position]))
-		{
-			return $GLOBALS['__trigger_functions__'][$trigger_name][$called_position];
-		}
-		else
-		{
-			return array();
-		}
+		return Rhymix\Modules\Module\Models\Event::getEventHandlers($trigger_name, $called_position);
 	}
 
 	/**
@@ -306,27 +299,7 @@ class ModuleModel extends Module
 	 */
 	public static function getTriggers($trigger_name, $called_position)
 	{
-		if(!isset($GLOBALS['__triggers__']))
-		{
-			$triggers = Rhymix\Framework\Cache::get('triggers');
-			if($triggers === null)
-			{
-				$output = executeQueryArray('module.getTriggers');
-				$triggers = $output->data;
-				if($output->toBool())
-				{
-					Rhymix\Framework\Cache::set('triggers', $triggers, 0, true);
-				}
-			}
-
-			$triggers = $triggers ?: array();
-			foreach($triggers as $item)
-			{
-				$GLOBALS['__triggers__'][$item->trigger_name][$item->called_position][] = $item;
-			}
-		}
-
-		return $GLOBALS['__triggers__'][$trigger_name][$called_position] ?? [];
+		return Rhymix\Modules\Module\Models\Event::getRegisteredHandlers($trigger_name, $called_position);
 	}
 
 	/**
@@ -334,20 +307,13 @@ class ModuleModel extends Module
 	 */
 	public static function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		$triggers = self::getTriggers($trigger_name, $called_position);
-
-		if($triggers && is_array($triggers))
-		{
-			foreach($triggers as $item)
-			{
-				if($item->module == $module && $item->type == $type && $item->called_method == $called_method)
-				{
-					return $item;
-				}
-			}
-		}
-
-		return NULL;
+		return Rhymix\Modules\Module\Models\Event::isRegisteredHandler(
+			$trigger_name,
+			$called_position,
+			$module,
+			$type,
+			$called_method
+		);
 	}
 
 	/**
