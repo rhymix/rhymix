@@ -2,21 +2,21 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispModuleSelectList" type="view" permission="all-managers" meta-noindex="true" />
-		<action name="dispModuleSkinInfo" type="view" permission="all-managers" meta-noindex="true" />
-		<action name="dispModuleFileBox" type="view" permission="root" meta-noindex="true" />
-		<action name="dispModuleFileBoxAdd" type="view" permission="root" meta-noindex="true" />
-		<action name="dispModuleChangeLang" type="view" />
+		<action name="dispModuleSelectList" class="Controllers\General" permission="all-managers" />
+		<action name="dispModuleSkinInfo" class="Controllers\General" permission="all-managers" />
+		<action name="getModuleSkinInfoList" class="Controllers\General" permission="root" />
+		<action name="getModuleInfoByMenuItemSrl" class="Controllers\General" permission="root" />
+		<action name="procModuleClearCache" class="Controllers\General" check_csrf="false" />
 
-		<action name="getModuleSkinInfoList" type="model" permission="root" />
-		<action name="getFileBoxListHtml" type="model" permission="root" />
-		<action name="getModuleInfoByMenuItemSrl" type="model" permission="root" />
-		<action name="getLangListByLangcodeForAutoComplete" type="model" permission="manager" />
-		<action name="getLangByLangcode" type="model" />
+		<action name="dispModuleFileBox" class="Controllers\Filebox" permission="root" />
+		<action name="dispModuleFileBoxAdd" class="Controllers\Filebox" permission="root" />
+		<action name="getFileBoxListHtml" class="Controllers\Filebox" permission="root" />
+		<action name="procModuleFileBoxAdd" class="Controllers\Filebox" permission="root" />
+		<action name="procModuleFileBoxDelete" class="Controllers\Filebox" permission="root" />
 
-		<action name="procModuleFileBoxAdd" type="controller" permission="root" />
-		<action name="procModuleFileBoxDelete" type="controller" permission="root" />
-		<action name="procModuleClearCache" type="controller" check_csrf="false" />
+		<action name="dispModuleChangeLang" class="Controllers\Lang" />
+		<action name="getLangListByLangcodeForAutoComplete" class="Controllers\Lang" permission="manager" />
+		<action name="getLangByLangcode" class="Controllers\Lang" />
 
 		<action name="dispModuleAdminContent" type="view" menu_name="installedModule" menu_index="true" admin_index="true" />
 		<action name="dispModuleAdminCategory" type="view" menu_name="installedModule" />

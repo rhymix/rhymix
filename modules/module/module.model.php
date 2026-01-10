@@ -113,121 +113,19 @@ class ModuleModel extends Module
 		return Rhymix\Modules\Module\Models\Domain::getDefaultDomainWithModuleInfo($domain ?: null);
 	}
 
-	/**
-	 * Get module info by menu_item_srl.
-	 *
-	 * @params int $menu_item_srl
-	 *
-	 * @return Object $moduleInfo
-	 */
 	public function getModuleInfoByMenuItemSrl($menu_item_srl = 0)
 	{
-		$menuItemSrl = Context::get('menu_item_srl');
-		$menuItemSrl = (!$menuItemSrl) ? $menu_item_srl : $menuItemSrl;
-
-		if(!$menuItemSrl)
-		{
-			return new BaseObject(-1, 'msg_invalid_request');
-		}
-
-		$args = new stdClass();
-		$args->menu_item_srl = $menuItemSrl;
-		$output = executeQuery('module.getModuleInfoByMenuItemSrl', $args, [], 'auto', Rhymix\Modules\Module\Models\ModuleInstance::class);
-		if(!$output->toBool())
-		{
-			return $output;
-		}
-
-		$moduleInfo = $output->data;
-		$mid = $moduleInfo->mid;
-
-		$moduleInfo->designSettings = new stdClass();
-		$moduleInfo->designSettings->layout = new stdClass();
-		$moduleInfo->designSettings->skin = new stdClass();
-
-		$oLayoutAdminModel = getAdminModel('layout');
-		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P') : $moduleInfo->layout_srl;
-		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M') : $moduleInfo->mlayout_srl;
-		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? self::getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
-		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? self::getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
-
-		$oLayoutModel = getModel('layout');
-		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
-		$layoutInfoMobile = $layoutSrlMobile ? $oLayoutModel->getLayoutRawData($layoutSrlMobile, array('title')) : NULL;
-		$skinInfoPc = self::loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNamePc);
-		$skinInfoMobile = self::loadSkinInfo(Modulehandler::getModulePath($moduleInfo->module), $skinNameMobile, 'm.skins');
-		if(!$skinInfoPc)
-		{
-			$skinInfoPc = new stdClass();
-			$skinInfoPc->title = $skinNamePc;
-		}
-		if(!$skinInfoMobile)
-		{
-			$skinInfoMobile = new stdClass();
-			$skinInfoMobile->title = $skinNameMobile;
-		}
-
-		$moduleInfo->designSettings->layout->pcIsDefault = $moduleInfo->layout_srl == -1 ? 1 : 0;
-		$moduleInfo->designSettings->layout->pc = $layoutInfoPc->title ?? null;
-		$moduleInfo->designSettings->layout->mobileIsDefault = $moduleInfo->mlayout_srl == -1 ? 1 : 0;
-		$moduleInfo->designSettings->layout->mobile = $layoutInfoMobile->title ?? null;
-		$moduleInfo->designSettings->skin->pcIsDefault = $moduleInfo->is_skin_fix == 'N' ? 1 : 0;
-		$moduleInfo->designSettings->skin->pc = $skinInfoPc->title ?? null;
-		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
-		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title ?? null;
-
-		$module_srl = Rhymix\Framework\Cache::get('site_and_module:module_srl:' . $mid);
-		if($module_srl)
-		{
-			$mid_info = Rhymix\Framework\Cache::get('site_and_module:module_info:' . $module_srl);
-		}
-		else
-		{
-			$mid_info = null;
-		}
-
-		if($mid_info === null)
-		{
-			Rhymix\Framework\Cache::set('site_and_module:module_srl:' . $mid, $output->data->module_srl, 0, true);
-			Rhymix\Framework\Cache::set('site_and_module:module_info:' . $output->data->module_srl, $moduleInfo, 0, true);
-		}
-		else
-		{
-			$mid_info->designSettings = $moduleInfo->designSettings;
-			$moduleInfo = $mid_info;
-		}
-
-		$moduleInfo = self::addModuleExtraVars($moduleInfo);
-
-		if($moduleInfo->module == 'page' && $moduleInfo->page_type != 'ARTICLE')
-		{
-			unset($moduleInfo->skin);
-			unset($moduleInfo->mskin);
-		}
-
-		$this->add('module_info_by_menu_item_srl', $moduleInfo);
-
-		return $moduleInfo;
+		$oController = Rhymix\Modules\Module\Controllers\General::getInstance();
+		return $oController->getModuleInfoByMenuItemSrl($menu_item_srl);
 	}
 
 	/**
 	 * @brief Get module information corresponding to layout_srl
 	 */
-	public static function getModulesInfoByLayout($layout_srl, $columnList = array())
+	public static function getModulesInfoByLayout($layout_srl)
 	{
-		// Imported data
-		$args = new stdClass;
-		$args->layout_srl = $layout_srl;
-		$output = executeQueryArray('module.getModulesByLayout', $args, [], Rhymix\Modules\Module\Models\ModuleInstance::class);
-
-		$count = count($output->data);
-
-		$modules = array();
-		for($i=0;$i<$count;$i++)
-		{
-			$modules[] = $output->data[$i];
-		}
-		return self::addModuleExtraVars($modules);
+		$output = executeQueryArray('module.getModulesByLayout', ['layout_srl' => $layout_srl], [], Rhymix\Modules\Module\Models\ModuleInstance::class);
+		return self::addModuleExtraVars($output->data);
 	}
 
 	/**
@@ -487,28 +385,6 @@ class ModuleModel extends Module
 	public static function getModuleActionXml($module)
 	{
 		return Rhymix\Modules\Module\Models\ModuleDefinition::getModuleActionXml((string)$module);
-	}
-
-	/**
-	 * Get a skin list for js API.
-	 * return void
-	 */
-	public function getModuleSkinInfoList()
-	{
-		$module = Context::get('module_type');
-
-		if($module == 'ARTICLE')
-		{
-			$module = 'page';
-		}
-
-		$skinType = Context::get('skin_type');
-
-		$path = ModuleHandler::getModulePath($module);
-		$dir = ($skinType == 'M') ? 'm.skins' : 'skins';
-		$skin_list = self::getSkins($path, $dir);
-
-		$this->add('skin_info_list', $skin_list);
 	}
 
 	/**
@@ -1051,41 +927,6 @@ class ModuleModel extends Module
 		// no-op
 	}
 
-	public function getFileBoxListHtml()
-	{
-		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
-		{
-			return new BaseObject(-1, 'msg_not_permitted');
-		}
-
-		$link = parse_url($_SERVER["HTTP_REFERER"]);
-		$link_params = explode('&',$link['query']);
-		foreach ($link_params as $param)
-		{
-			$param = explode("=",$param);
-			if($param[0] == 'selected_widget') $selected_widget = $param[1];
-		}
-		if($selected_widget) $widget_info = WidgetModel::getWidgetInfo($selected_widget);
-		Context::set('allow_multiple', $widget_info->extra_var->images->allow_multiple);
-
-		$output = self::getModuleFileBoxList();
-		Context::set('filebox_list', $output->data);
-
-		$page = Context::get('page');
-		if (!$page) $page = 1;
-		Context::set('page', $page);
-		Context::set('page_navigation', $output->page_navigation);
-
-		$security = new Security();
-		$security->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
-
-		$oTemplate = TemplateHandler::getInstance();
-		$html = $oTemplate->compile(RX_BASEDIR . 'modules/module/tpl/', 'filebox_list_html');
-
-		$this->add('html', $html);
-	}
-
 	public static function getModuleFileBoxPath($module_filebox_srl)
 	{
 		return Rhymix\Modules\Module\Models\Filebox::getStoragePath((int)$module_filebox_srl);
@@ -1124,40 +965,6 @@ class ModuleModel extends Module
 		if(!file_exists($xml_file)) return;
 
 		return $xml_file;
-	}
-
-	public function getLangListByLangcodeForAutoComplete()
-	{
-		$args = new stdClass;
-		$args->page = 1; // /< Page
-		$args->list_count = 100; // /< the number of posts to display on a single page
-		$args->page_count = 5; // /< the number of pages that appear in the page navigation
-		$args->sort_index = 'name';
-		$args->order_type = 'asc';
-		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search*/
-		$output = executeQueryArray('module.getLangListByLangcode', $args);
-
-		$list = array();
-
-		if($output->toBool())
-		{
-			foreach((array)$output->data as $code_info)
-			{
-				unset($codeInfo);
-				$codeInfo = array('name'=>'$user_lang->'.$code_info->name, 'value'=>$code_info->value);
-				$list[] = $codeInfo;
-			}
-		}
-		$this->add('results', $list);
-	}
-
-	public function getLangByLangcode()
-	{
-		$langCode = Context::get('langCode');
-		if (!$langCode) return;
-
-		$langCode = Context::replaceUserLang($langCode);
-		$this->add('lang', $langCode);
 	}
 }
 /* End of file module.model.php */

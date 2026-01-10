@@ -8,116 +8,6 @@
 class ModuleController extends Module
 {
 	/**
-	 * @brief Add and update a file into the file box
-	 */
-	public function procModuleFileBoxAdd()
-	{
-		$ajax = Context::get('ajax');
-		if ($ajax) Context::setRequestMethod('JSON');
-
-		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
-		}
-
-		$vars = Context::gets('addfile','filter');
-		$attributeNames = Context::get('attribute_name');
-		$attributeValues = Context::get('attribute_value');
-		if(is_array($attributeNames) && is_array($attributeValues) && count($attributeNames) == count($attributeValues))
-		{
-			$attributes = array();
-			foreach($attributeNames as $no => $name)
-			{
-				if(empty($name))
-				{
-					continue;
-				}
-				$attributes[] = sprintf('%s:%s', $name, $attributeValues[$no]);
-			}
-			$attributes = implode(';', $attributes);
-		}
-
-		$vars->comment = $attributes;
-		$module_filebox_srl = Context::get('module_filebox_srl');
-
-		$ext = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));
-		$vars->ext = $ext;
-		if ($vars->filter)
-		{
-			$filter = array_map('trim', explode(',',$vars->filter));
-			if (!in_array($ext, $filter))
-			{
-				throw new Rhymix\Framework\Exception('msg_error_occured');
-			}
-		}
-		if (in_array($ext, ['php', 'js']))
-		{
-			throw new Rhymix\Framework\Exception(sprintf(lang('msg_filebox_invalid_extension'), $ext));
-		}
-
-		$vars->member_srl = $logged_info->member_srl;
-
-		// update
-		if($module_filebox_srl > 0)
-		{
-			$vars->module_filebox_srl = $module_filebox_srl;
-			$output = $this->updateModuleFileBox($vars);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-		// insert
-		else
-		{
-			if(!Context::isUploaded()) throw new Rhymix\Framework\Exception('msg_error_occured');
-			$addfile = Context::get('addfile');
-			if(!is_uploaded_file($addfile['tmp_name'])) throw new Rhymix\Framework\Exception('msg_error_occured');
-			if($vars->addfile['error'] != 0) throw new Rhymix\Framework\Exception('msg_error_occured');
-			$output = $this->insertModuleFileBox($vars);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-
-		$this->setTemplatePath($this->module_path.'tpl');
-
-		if (!$ajax)
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminFileBox');
-			$this->setRedirectUrl($returnUrl);
-			return;
-		}
-		else
-		{
-			if($output) $this->add('save_filename', $output->get('save_filename'));
-			else $this->add('save_filename', '');
-		}
-	}
-
-	/**
-	 * @brief Delete a file from the file box
-	 */
-	public function procModuleFileBoxDelete()
-	{
-		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin !='Y' && !$logged_info->is_site_admin)
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
-		}
-
-		$module_filebox_srl = intval(Context::get('module_filebox_srl'));
-		if(!$module_filebox_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		return Rhymix\Modules\Module\Models\Filebox::deleteFile($module_filebox_srl);
-	}
-
-	/**
 	 * @brief Add a file into the file box
 	 */
 	public function insertModuleFileBox($vars)
@@ -143,58 +33,11 @@ class ModuleController extends Module
 
 	/**
 	 * API call to clear cache entries.
-	 *
-	 * This can be used to clear the APC cache from CLI scripts,
-	 * such as async tasks run from crontab.
 	 */
 	public function procModuleClearCache()
 	{
-		// This is a JSON API.
-		Context::setResponseMethod('JSON');
-		if (PHP_SAPI === 'cli')
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-
-		// Get cache keys to clear.
-		$keys = Context::get('keys');
-		if (!$keys)
-		{
-			throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		}
-		if (!is_array($keys))
-		{
-			$keys = [$keys];
-		}
-
-		// Verify the API signature.
-		$keystring = implode('|', $keys);
-		$signature = Context::get('signature');
-		if (!$signature)
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
-		}
-		if (!Rhymix\Framework\Security::verifySignature($keystring, $signature))
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
-		}
-
-		// Clear the requested cache keys.
-		foreach ($keys as $key)
-		{
-			if ($key === '*')
-			{
-				Rhymix\Framework\Cache::clearAll();
-			}
-			elseif (preg_match('/^([^:]+):\*$/', $key, $matches))
-			{
-				Rhymix\Framework\Cache::clearGroup($matches[1]);
-			}
-			else
-			{
-				Rhymix\Framework\Cache::delete($key);
-			}
-		}
+		$oController = Rhymix\Modules\Module\Controllers\General::getInstance();
+		return $oController->procModuleClearCache();
 	}
 
 	/**
