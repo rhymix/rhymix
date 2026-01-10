@@ -5,10 +5,6 @@ namespace Rhymix\Modules\Module\Models;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\Storage;
 use BaseObject;
-use FileHandler;
-use ModuleController;
-use ModuleHandler;
-use ModuleModel;
 
 class Updater
 {
@@ -21,7 +17,7 @@ class Updater
 	public static function needsInstall(string $module_name): bool
 	{
 		$oDB = DB::getInstance();
-		$module_dir = FileHandler::getRealPath(ModuleHandler::getModulePath($module_name));
+		$module_dir = \RX_BASEDIR . 'modules/' . $module_name . '/';
 		if (Storage::isDirectory($module_dir. 'schemas'))
 		{
 			$schema_files = glob($module_dir . 'schemas/*.xml');
@@ -53,7 +49,7 @@ class Updater
 	 */
 	public static function needsUpdate(string $module_name): bool
 	{
-		$oDummy = ModuleModel::getModuleInstallClass($module_name);
+		$oDummy = ModuleDefinition::getInstallClass($module_name);
 		if ($oDummy && method_exists($oDummy, 'checkUpdate'))
 		{
 			return call_user_func([$oDummy, 'checkUpdate']);
@@ -78,7 +74,7 @@ class Updater
 	public static function registerGlobalRoutes(string $module_name): BaseObject
 	{
 		$action_forward = GlobalRoute::getAllGlobalRoutes();
-		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+		$module_action_info = ModuleDefinition::getModuleActionXml($module_name);
 
 		// Get the list of forwardable actions and their routes.
 		$forwardable_routes = array();
@@ -168,18 +164,17 @@ class Updater
 	 */
 	public static function registerEventHandlers(string $module_name): BaseObject
 	{
-		$module_action_info = ModuleModel::getModuleActionXml($module_name);
-		$registered_event_handlers = [];
-		$oModuleController = ModuleController::getInstance();
+		$module_action_info = ModuleDefinition::getModuleActionXml($module_name);
+		$registered = [];
 
 		// Insert new event handlers.
 		foreach ($module_action_info->event_handlers ?? [] as $ev)
 		{
-			$key = implode(':', [$ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position]);
-			$registered_event_handlers[$key] = true;
-			if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
+			$key = implode(':', [$ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method]);
+			$registered[$key] = true;
+			if(!Event::isRegisteredHandler($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
 			{
-				$output = $oModuleController->insertTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position);
+				$output = Event::registerHandler($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method);
 				if (!$output->toBool())
 				{
 					return $output;
@@ -188,23 +183,27 @@ class Updater
 		}
 
 		// Remove event handlers that are no longer defined by this module.
-		if (count($registered_event_handlers))
+		if (count($registered))
 		{
-			// Refresh cache
-			ModuleModel::getTriggers('null', 'null');
+			// Dummy call to refresh cache
+			Event::getRegisteredHandlers('null', 'null');
 
-			foreach ($GLOBALS['__triggers__'] as $trigger_name => $val1)
+			foreach (ModuleCache::$registeredHandlers as $event_name => $val1)
 			{
-				foreach ($val1 as $called_position => $val2)
+				foreach ($val1 as $position => $val2)
 				{
 					foreach ($val2 as $item)
 					{
 						if ($item->module === $module_name)
 						{
-							$key = implode(':', [$trigger_name, $item->module, $item->type, $item->called_method, $called_position]);
-							if (!isset($registered_event_handlers[$key]))
+							$key = implode(':', [$event_name, $position, $item->module, $item->type, $item->called_method]);
+							if (!isset($registered[$key]))
 							{
-								$oModuleController->deleteTrigger($trigger_name, $item->module, $item->type, $item->called_method, $called_position);
+								$output = Event::unregisterHandler($event_name, $position, $item->module, $item->type, $item->called_method);
+								if (!$output->toBool())
+								{
+									return $output;
+								}
 							}
 						}
 					}
@@ -223,7 +222,7 @@ class Updater
 	 */
 	public static function registerNamespacePrefixes(string $module_name): BaseObject
 	{
-		$module_action_info = ModuleModel::getModuleActionXml($module_name);
+		$module_action_info = ModuleDefinition::getModuleActionXml($module_name);
 		$namespaces = config('namespaces') ?? [];
 		$changed = false;
 
