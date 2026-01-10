@@ -11,57 +11,58 @@ use Context;
 use FileHandler;
 use ModuleHandler;
 use ModuleModel;
+use ModuleObject;
 
 class ModuleDefinition
 {
 	/**
-	 * @brief Get xml information of the module
+	 * Get the list of installed modules.
+	 *
+	 * @return array
 	 */
-	public static function getInstalledModuleList()
+	public static function getInstalledModuleList(): array
 	{
-		// Get a list of downloaded and installed modules
-		$searched_list = FileHandler::readDir('./modules');
-		$searched_count = count($searched_list);
-		if(!$searched_count) return;
+		$searched_list = FileHandler::readDir(\RX_BASEDIR . 'modules', '/^([a-zA-Z0-9_]+)$/');
+		if(!count($searched_list))
+		{
+			return [];
+		}
 		sort($searched_list);
 
-		for($i=0;$i<$searched_count;$i++)
+		$list = [];
+		foreach ($searched_list as $module_name)
 		{
-			// Module name
-			$module_name = $searched_list[$i];
-
-			$path = ModuleHandler::getModulePath($module_name);
-			// Get information of the module
 			$info = self::getModuleInfoXml($module_name);
-			unset($obj);
-
-			if(!isset($info)) continue;
-			$info->module = $module_name;
-			$info->created_table_count = null; //$created_table_count;
-			$info->table_count = null; //$table_count;
-			$info->path = $path;
-			$info->admin_index_act = $info->admin_index_act ?? null;
-			$list[] = $info;
+			if ($info)
+			{
+				$info->module = $module_name;
+				$info->created_table_count = null;
+				$info->table_count = null;
+				$info->path = ModuleHandler::getModulePath($module_name);
+				$info->admin_index_act = $info->admin_index_act ?? null;
+				$list[] = $info;
+			}
 		}
 		return $list;
 	}
 
 	/**
-	 * @brief Get a type and information of the module
+	 * Get the list of installed modules, with details about installation and update status.
+	 *
+	 * @return array
 	 */
-	public static function getInstalledModuleDetails()
+	public static function getInstalledModuleDetails(): array
 	{
-		// Create DB Object
-		$oDB = DB::getInstance();
-		// Get a list of downloaded and installed modules
-		$searched_list = FileHandler::readDir('./modules', '/^([a-zA-Z0-9_-]+)$/');
+		$searched_list = FileHandler::readDir(\RX_BASEDIR . 'modules', '/^([a-zA-Z0-9_]+)$/');
+		if(!count($searched_list))
+		{
+			return [];
+		}
 		sort($searched_list);
 
-		$searched_count = count($searched_list);
-		if(!$searched_count) return;
-
-		// Get action forward
 		$action_forward = GlobalRoute::getAllGlobalRoutes();
+		$oDB = DB::getInstance();
+		$list = [];
 
 		foreach ($searched_list as $module_name)
 		{
@@ -400,9 +401,9 @@ class ModuleDefinition
 	 * This method supports namespaced modules as well as XE-compatible modules.
 	 *
 	 * @param string $module_name
-	 * @return ModuleObject|null
+	 * @return ?ModuleObject
 	 */
-	public static function getDefaultClass(string $module_name, ?object $module_action_info = null)
+	public static function getDefaultClass(string $module_name, ?object $module_action_info = null): ?ModuleObject
 	{
 		if (!$module_action_info)
 		{
@@ -440,6 +441,8 @@ class ModuleDefinition
 		{
 			return $oModule;
 		}
+
+		return null;
 	}
 
 	/**
@@ -448,9 +451,9 @@ class ModuleDefinition
 	 * This method supports namespaced modules as well as XE-compatible modules.
 	 *
 	 * @param string $module_name
-	 * @return ModuleObject|null
+	 * @return ?ModuleObject
 	 */
-	public static function getInstallClass(string $module_name, ?object $module_action_info = null)
+	public static function getInstallClass(string $module_name, ?object $module_action_info = null): ?ModuleObject
 	{
 		if (!$module_action_info)
 		{
@@ -488,5 +491,7 @@ class ModuleDefinition
 		{
 			return $oModule;
 		}
+
+		return null;
 	}
 }

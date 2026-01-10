@@ -65,7 +65,7 @@ class ModuleConfig
 	/**
 	 * Get config for a specific pair of module and module_srl.
 	 *
-	 * @param string module
+	 * @param string $module
 	 * @param int $module_srl
 	 * @return ?object
 	 */
