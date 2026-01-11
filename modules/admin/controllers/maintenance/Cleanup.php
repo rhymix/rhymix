@@ -443,6 +443,7 @@ class Cleanup extends Base
 		'modules/member/skins/default/filter/find_member_account_by_question.xml' => 'deleted:xe',
 		'modules/module/schemas/site_admin.xml' => 'deleted',
 		'modules/module/tpl/css/module_admin.less' => 'deleted',
+		'modules/module/ruleset/' => 'deleted',
 		'modules/page/page.wap.php' => 'deleted:xe',
 		'modules/page/tpl/css/mpage.css' => 'deleted',
 		'modules/poll/skins/default/css/poll.min.css' => 'deleted',

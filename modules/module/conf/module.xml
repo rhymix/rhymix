@@ -45,10 +45,10 @@
 		<action name="dispModuleAdminModuleSetup" class="Controllers\ModuleConfig"/>
 		<action name="dispModuleAdminModuleAdditionSetup" class="Controllers\ModuleConfig"/>
 		<action name="dispModuleAdminModuleGrantSetup" class="Controllers\ModuleConfig"/>
-		<action name="procModuleAdminModuleSetup" class="Controllers\ModuleConfig" ruleset="insertModuleSetup" />
-		<action name="procModuleAdminModuleGrantSetup" class="Controllers\ModuleConfig" ruleset="insertModulesGrant" />
-		<action name="procModuleAdminInsertGrant" class="Controllers\ModuleConfig" permission="manager" check_var="module_srl" />
-		<action name="procModuleAdminUpdateSkinInfo" class="Controllers\ModuleConfig" permission="manager" check_var="module_srl" />
+		<action name="procModuleAdminModuleSetup" class="Controllers\ModuleConfig" />
+		<action name="procModuleAdminModuleGrantSetup" class="Controllers\ModuleConfig" />
+		<action name="procModuleAdminInsertGrant" class="Controllers\ModuleConfig" standalone="true" permission="manager" check_var="module_srl" />
+		<action name="procModuleAdminUpdateSkinInfo" class="Controllers\ModuleConfig" standalone="true" permission="manager" check_var="module_srl" />
 		<action name="procModuleAdminSetDesignInfo" class="Controllers\ModuleConfig" />
 		<action name="procModuleAdminUpdateUseMobile" class="Controllers\ModuleConfig" />
 	</actions>
