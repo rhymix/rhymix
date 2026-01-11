@@ -9,13 +9,36 @@ use Rhymix\Framework\Template;
 use Rhymix\Modules\Module\Models\Filebox as FileboxModel;
 use BaseObject;
 use Context;
+use FileHandler;
 use ModuleModel;
 use Security;
-use TemplateHandler;
 use WidgetModel;
 
 class Filebox extends \Module
 {
+	/**
+	 * Filebox management page.
+	 */
+	public function dispModuleAdminFileBox()
+	{
+		$output = ModuleModel::getModuleFileBoxList();
+		Context::set('filebox_list', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+		Context::set('page', intval(Context::get('page') ?: 1));
+
+		$max_filesize = min(
+			FileHandler::returnBytes(ini_get('upload_max_filesize')),
+			FileHandler::returnBytes(ini_get('post_max_size'))
+		);
+		Context::set('max_filesize', $max_filesize);
+
+		$oSecurity = new Security();
+		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
+
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile('adminFileBox');
+	}
+
 	/**
 	 * Filebox view popup (for legacy support).
 	 */

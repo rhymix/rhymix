@@ -8,12 +8,14 @@
 		<action name="getModuleInfoByMenuItemSrl" class="Controllers\General" permission="root" />
 		<action name="procModuleClearCache" class="Controllers\General" check_csrf="false" />
 
+		<action name="dispModuleAdminFileBox" class="Controllers\Filebox" menu_name="filebox" menu_index="true" />
 		<action name="dispModuleFileBox" class="Controllers\Filebox" permission="root" />
 		<action name="dispModuleFileBoxAdd" class="Controllers\Filebox" permission="root" />
 		<action name="getFileBoxListHtml" class="Controllers\Filebox" permission="root" />
 		<action name="procModuleFileBoxAdd" class="Controllers\Filebox" permission="root" />
 		<action name="procModuleFileBoxDelete" class="Controllers\Filebox" permission="root" />
 
+		<action name="dispModuleAdminLangcode" class="Controllers\Lang" menu_name="multilingual" menu_index="true" />
 		<action name="dispModuleChangeLang" class="Controllers\Lang" />
 		<action name="getLangListByLangcodeForAutoComplete" class="Controllers\Lang" permission="manager" />
 		<action name="getLangByLangcode" class="Controllers\Lang" />
@@ -25,8 +27,6 @@
 		<action name="dispModuleAdminModuleAdditionSetup" type="view" />
 		<action name="dispModuleAdminModuleGrantSetup" type="view" />
 		<action name="dispModuleAdminCopyModule" type="view" />
-		<action name="dispModuleAdminFileBox" type="view" menu_name="filebox" menu_index="true" />
-		<action name="dispModuleAdminLangcode" type="view" menu_name="multilingual" menu_index="true" />
 
 		<action name="getModuleAdminModuleList" type="model" />
 		<action name="getModuleAdminModuleInfo" type="model" />
