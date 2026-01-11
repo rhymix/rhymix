@@ -359,11 +359,8 @@ class ModuleModel extends Module
 	 */
 	public static function getSkins($path, $dir = 'skins')
 	{
-		if(substr($path, -1) == '/')
-		{
-			$path = substr($path, 0, -1);
-		}
-		return Rhymix\Modules\Module\Models\ModuleDefinition::getSkins($path, $dir);
+		$abs_path = FileHandler::getRealPath(rtrim($path, '/') . '/' . $dir);
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getSkins($abs_path);
 	}
 
 	/**
@@ -371,7 +368,8 @@ class ModuleModel extends Module
 	 */
 	public static function loadSkinInfo($path, $skin, $dir = 'skins')
 	{
-		return Rhymix\Modules\Module\Models\ModuleDefinition::loadSkinInfo($path, $skin, $dir);
+		$abs_path = FileHandler::getRealPath(rtrim($path, '/') . '/' . rtrim($dir, '/') . '/' . $skin);
+		return Rhymix\Modules\Module\Models\ModuleDefinition::getSkinInfo($abs_path);
 	}
 
 	/**

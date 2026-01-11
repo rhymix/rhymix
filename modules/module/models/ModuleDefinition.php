@@ -7,9 +7,10 @@ use Rhymix\Framework\DB;
 use Rhymix\Framework\Parsers\ModuleActionParser;
 use Rhymix\Framework\Parsers\ModuleInfoParser;
 use Rhymix\Framework\Parsers\SkinInfoParser;
+use Rhymix\Framework\Storage;
 use Context;
 use FileHandler;
-use ModuleHandler;
+use MenuAdminModel;
 use ModuleModel;
 use ModuleObject;
 
@@ -38,8 +39,10 @@ class ModuleDefinition
 				$info->module = $module_name;
 				$info->created_table_count = null;
 				$info->table_count = null;
-				$info->path = ModuleHandler::getModulePath($module_name);
+				$info->path = sprintf('./modules/%s/', $module_name);
 				$info->admin_index_act = $info->admin_index_act ?? null;
+				$info->is_blacklisted = Context::isBlacklistedPlugin($module_name, 'module');
+
 				$list[] = $info;
 			}
 		}
@@ -60,177 +63,51 @@ class ModuleDefinition
 		}
 		sort($searched_list);
 
-		$action_forward = GlobalRoute::getAllGlobalRoutes();
-		$oDB = DB::getInstance();
 		$list = [];
-
 		foreach ($searched_list as $module_name)
 		{
-			$path = ModuleHandler::getModulePath($module_name);
-			if(!is_dir(FileHandler::getRealPath($path))) continue;
-
-			// Get the number of xml files to create a table in schemas
-			$table_count = 0;
-			$schema_files = FileHandler::readDir($path.'schemas', '/(\.xml)$/', false, true);
-			foreach ($schema_files as $filename)
+			$path = sprintf('./modules/%s/', $module_name);
+			if (!Storage::isDirectory(FileHandler::getRealPath($path)))
 			{
-				if (!preg_match('/<table\s[^>]*deleted="true"/i', file_get_contents($filename)))
-				{
-					$table_count++;
-				}
+				continue;
 			}
 
-			// Check if the table is created
-			$created_table_count = 0;
-			foreach ($schema_files as $filename)
-			{
-				if (!preg_match('/\/([a-zA-Z0-9_]+)\.xml$/', $filename, $matches))
-				{
-					continue;
-				}
-
-				if($oDB->isTableExists($matches[1]))
-				{
-					$created_table_count++;
-				}
-			}
 			// Get information of the module
 			$info = self::getModuleInfoXml($module_name);
-			if(!$info) continue;
+			if (!$info)
+			{
+				continue;
+			}
+
+			// Check created tables
+			$tables = Updater::checkTables($module_name);
 
 			$info->module = $module_name;
-			$info->created_table_count = $created_table_count;
-			$info->table_count = $table_count;
+			$info->created_table_count = count(array_filter($tables, function($val) {
+				return $val->exists;
+			}));
+			$info->table_count = count($tables);
 			$info->path = $path;
 			$info->admin_index_act = $info->admin_index_act ?? null;
+			$info->is_blacklisted = Context::isBlacklistedPlugin($module_name, 'module');
 			$info->need_install = false;
 			$info->need_update = false;
 
-			if(!Context::isBlacklistedPlugin($module_name, 'module'))
+			// If the module is blacklisted, stop here.
+			if ($info->is_blacklisted)
 			{
-				// Check if DB is installed
-				if($table_count > $created_table_count)
-				{
-					$info->need_install = true;
-				}
-
-				// Check if it is upgraded to module.class.php on each module
-				$oDummy = self::getInstallClass($module_name);
-				if($oDummy && method_exists($oDummy, "checkUpdate"))
-				{
-					$info->need_update = $oDummy->checkUpdate();
-				}
-				unset($oDummy);
-
-				// Check if all action-forwardable routes are registered
-				$module_action_info = self::getModuleActionXml($module_name);
-				$forwardable_routes = array();
-				foreach ($module_action_info->action ?? [] as $action_name => $action_info)
-				{
-					if (count($action_info->route) && $action_info->standalone === 'true')
-					{
-						$forwardable_routes[$action_name] = array(
-							'regexp' => array(),
-							'config' => $action_info->route,
-						);
-					}
-				}
-				foreach ($module_action_info->route->GET ?? [] as $regexp => $action_name)
-				{
-					if (isset($forwardable_routes[$action_name]))
-					{
-						$forwardable_routes[$action_name]['regexp'][] = ['GET', $regexp];
-					}
-				}
-				foreach ($module_action_info->route->POST ?? [] as $regexp => $action_name)
-				{
-					if (isset($forwardable_routes[$action_name]))
-					{
-						$forwardable_routes[$action_name]['regexp'][] = ['POST', $regexp];
-					}
-				}
-				foreach ($forwardable_routes as $action_name => $route_info)
-				{
-					if (!isset($action_forward[$action_name]) ||
-						$action_forward[$action_name]->route_regexp !== $route_info['regexp'] ||
-						$action_forward[$action_name]->route_config !== $route_info['config'])
-					{
-						$info->need_update = true;
-					}
-				}
-
-				// Clean up any action-forward routes that are no longer needed.
-				foreach ($forwardable_routes as $action_name => $route_info)
-				{
-					unset($action_forward[$action_name]);
-				}
-				foreach ($action_forward as $action_name => $forward_info)
-				{
-					if ($forward_info->module === $module_name && $forward_info->route_regexp !== null)
-					{
-						$info->need_update = true;
-					}
-				}
-
-				// Check if all event handlers are registered.
-				$registered_event_handlers = [];
-				foreach ($module_action_info->event_handlers ?? [] as $ev)
-				{
-					$key = implode(':', [$ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position]);
-					$registered_event_handlers[$key] = true;
-					if(!ModuleModel::getTrigger($ev->event_name, $module_name, $ev->class_name, $ev->method, $ev->position))
-					{
-						$info->need_update = true;
-					}
-				}
-				if (count($registered_event_handlers))
-				{
-					foreach ($GLOBALS['__triggers__'] as $trigger_name => $val1)
-					{
-						foreach ($val1 as $called_position => $val2)
-						{
-							foreach ($val2 as $item)
-							{
-								if ($item->module === $module_name)
-								{
-									$key = implode(':', [$trigger_name, $item->module, $item->type, $item->called_method, $called_position]);
-									if (!isset($registered_event_handlers[$key]))
-									{
-										$info->need_update = true;
-									}
-								}
-							}
-						}
-					}
-				}
-
-				// Check if all namespaces are registered.
-				$namespaces = config('namespaces') ?? [];
-				foreach ($module_action_info->namespaces ?? [] as $name)
-				{
-					if(!isset($namespaces['mapping'][$name]))
-					{
-						$info->need_update = true;
-					}
-				}
-				foreach ($namespaces['mapping'] ?? [] as $name => $path)
-				{
-					$attached_module = preg_replace('!^modules/!', '', $path);
-					if ($attached_module === $module_name && !in_array($name, $module_action_info->namespaces ?? []))
-					{
-						$info->need_update = true;
-					}
-				}
-
-				// Check if all prefixes are registered.
-				foreach ($module_action_info->prefixes ?? [] as $name)
-				{
-					if(!ModuleModel::getModuleSrlByMid($name))
-					{
-						$info->need_update = true;
-					}
-				}
+				$list[] = $info;
+				continue;
 			}
+
+			// Check if DB is installed
+			if($info->table_count > $info->created_table_count)
+			{
+				$info->need_install = true;
+			}
+
+			// Check the update status.
+			$info->need_update = Updater::needsUpdate($module_name);
 
 			$list[] = $info;
 		}
@@ -239,23 +116,28 @@ class ModuleDefinition
 	}
 
 	/**
-	 * @brief Get information from conf/info.xml
+	 * Parse info.xml of a module.
+	 *
+	 * @param string $module
+	 * @return ?object
 	 */
-	public static function getModuleInfoXml($module)
+	public static function getModuleInfoXml(string $module): ?object
 	{
 		// Check the path and XML file name.
-		$module_path = ModuleHandler::getModulePath($module);
-		if (!$module_path) return;
-		$xml_file = $module_path . 'conf/info.xml';
-		if (!file_exists($xml_file)) return;
+		$xml_file = \RX_BASEDIR . sprintf('./modules/%s/conf/info.xml', $module);
+		if (!Storage::isFile($xml_file) || !Storage::isReadable($xml_file))
+		{
+			return null;
+		}
 
 		// Load the XML file and cache the definition.
 		$lang_type = Context::getLangType() ?: 'en';
+		$xml_file2 = \RX_BASEDIR . sprintf('./modules/%s/conf/module.xml', $module);
 		$mtime1 = filemtime($xml_file);
-		$mtime2 = file_exists($module_path . 'conf/module.xml') ? filemtime($module_path . 'conf/module.xml') : 0;
+		$mtime2 = file_exists($xml_file2) ? filemtime($xml_file2) : 0;
 		$cache_key = sprintf('site_and_module:module_info_xml:%s:%s:%d:%d', $module, $lang_type, $mtime1, $mtime2);
 		$info = Cache::get($cache_key);
-		if($info === null)
+		if ($info === null)
 		{
 			$info = ModuleInfoParser::loadXML($xml_file);
 			Cache::set($cache_key, $info, 0, true);
@@ -265,22 +147,26 @@ class ModuleDefinition
 	}
 
 	/**
-	 * @brief Return permisson and action data by conf/module.xml
+	 * Parse module.xml.
+	 *
+	 * @param string $module
+	 * @return ?object
 	 */
-	public static function getModuleActionXml($module)
+	public static function getModuleActionXml(string $module): ?object
 	{
 		// Check the path and XML file name.
-		$module_path = ModuleHandler::getModulePath($module);
-		if (!$module_path) return;
-		$xml_file = $module_path . 'conf/module.xml';
-		if (!file_exists($xml_file)) return;
+		$xml_file = \RX_BASEDIR . sprintf('./modules/%s/conf/module.xml', $module);
+		if (!Storage::isFile($xml_file) || !Storage::isReadable($xml_file))
+		{
+			return null;
+		}
 
 		// Load the XML file and cache the definition.
 		$lang_type = Context::getLangType() ?: 'en';
 		$mtime = filemtime($xml_file);
 		$cache_key = sprintf('site_and_module:module_action_xml:%s:%s:%d', $module, $lang_type, $mtime);
 		$info = Cache::get($cache_key);
-		if($info === null)
+		if ($info === null)
 		{
 			$info = ModuleActionParser::loadXML($xml_file);
 			Cache::set($cache_key, $info, 0, true);
@@ -290,33 +176,34 @@ class ModuleDefinition
 	}
 
 	/**
-	 * Get a list of skins available for a module.
+	 * Get a list of skins available in the given directory.
 	 *
+	 * This method does not assume that the directory is for module skins.
+	 * It also supports widget skins and other arbitrary paths,
+	 * but some features are only available for module skins.
+	 *
+	 * @param string $path
 	 * @return array
 	 */
-	public static function getSkins($path, $dir = 'skins')
+	public static function getSkins(string $path): array
 	{
-		if(substr($path, -1) == '/')
-		{
-			$path = substr($path, 0, -1);
-		}
+		// Clean up the path and skin name.
+		$path = rtrim($path, '/');
 
-		$skin_list = array();
-		$skin_path = sprintf("%s/%s/", $path, $dir);
-		$list = FileHandler::readDir($skin_path);
-		//if(!count($list)) return;
-
+		// Get the list of subdirectories that might be skins.
+		$skin_list = [];
+		$list = FileHandler::readDir($path);
 		natcasesort($list);
 
-		foreach($list as $skin_name)
+		// Collect basic information about each skin.
+		foreach ($list as $skin_name)
 		{
-			if(!is_dir($skin_path . $skin_name))
+			if (!Storage::isDirectory($path . '/' . $skin_name))
 			{
 				continue;
 			}
-			unset($skin_info);
-			$skin_info = self::loadSkinInfo($path, $skin_name, $dir);
-			if(!$skin_info)
+			$skin_info = self::getSkinInfo($path . '/' . $skin_name);
+			if (!$skin_info)
 			{
 				$skin_info = new \stdClass;
 				$skin_info->title = $skin_name;
@@ -325,74 +212,80 @@ class ModuleDefinition
 			$skin_list[$skin_name] = $skin_info;
 		}
 
-		$tmpPath = strtr($path, array('/' => ' '));
-		$tmpPath = trim($tmpPath);
-		$module = array_last(explode(' ', $tmpPath));
-
-		$siteInfo = Context::get('site_module_info');
-		$oMenuAdminModel = getAdminModel('menu');
-		$installedMenuTypes = $oMenuAdminModel->getModuleListInSitemap();
-		$moduleName = $module;
-		if($moduleName === 'page')
+		// Detect the module to which these skins belong.
+		if (preg_match('#/modules/([a-zA-Z0-9_]+)/((m\.)?skins)$#', $path, $matches))
 		{
-			$moduleName = 'ARTICLE';
+			$module = $matches[1];
+			$dir = $matches[2];
+		}
+		else
+		{
+			$module = '';
+			$dir = basename($path);
 		}
 
-		$useDefaultList = array();
-		if(array_key_exists($moduleName, $installedMenuTypes))
+		$useDefaultList = [];
+
+		// Check if the module has a default skin.
+		$oMenuAdminModel = MenuAdminModel::getInstance();
+		$installedMenuTypes = $oMenuAdminModel->getModuleListInSitemap();
+		$moduleName = ($module === 'page') ? 'ARTICLE' : $module;
+		if (array_key_exists($moduleName, $installedMenuTypes))
 		{
 			$defaultSkinName = ModuleModel::getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
 			if ($defaultSkinName)
 			{
 				if ($defaultSkinName === '/USE_RESPONSIVE/')
 				{
-					$defaultSkinInfo = (object)array('title' => lang('use_responsive_pc_skin'));
+					$opt = new \stdClass;
+					$opt->title = lang('use_responsive_pc_skin');
 				}
 				else
 				{
-					$defaultSkinInfo = self::loadSkinInfo($path, $defaultSkinName, $dir);
+					$defaultSkinInfo = self::getSkinInfo($path . '/' . $defaultSkinName);
+					$opt = new \stdClass;
+					$opt->title = lang('use_site_default_skin') .
+						(isset($defaultSkinInfo->title) ? ' (' . $defaultSkinInfo->title . ')' : '');
 				}
 
-				$useDefault = new \stdClass();
-				$useDefault->title = lang('use_site_default_skin') . ' (' . ($defaultSkinInfo->title ?? null) . ')';
-
-				$useDefaultList['/USE_DEFAULT/'] = $useDefault;
+				$useDefaultList['/USE_DEFAULT/'] = $opt;
 			}
 		}
-		if($dir == 'm.skins')
+
+		// If mobile, add the responsive option.
+		if ($module && $dir == 'm.skins')
 		{
-			$useDefaultList['/USE_RESPONSIVE/'] = (object)array('title' => lang('use_responsive_pc_skin'));
+			$opt = new \stdClass;
+			$opt->title = lang('use_responsive_pc_skin');
+			$useDefaultList['/USE_RESPONSIVE/'] = $opt;
 		}
 
-		$skin_list = array_merge($useDefaultList, $skin_list);
-
-		return $skin_list;
+		return array_merge($useDefaultList, $skin_list);
 	}
 
 	/**
-	 * @brief Get skin information on a specific location
+	 * Load skin information from a path.
+	 *
+	 * @param string $path
+	 * @return ?object
 	 */
-	public static function loadSkinInfo($path, $skin, $dir = 'skins')
+	public static function getSkinInfo(string $path): ?object
 	{
-		// Read xml file having skin information
-		if (!str_ends_with($path, '/'))
+		// Clean up the path and skin name.
+		$path = rtrim($path, '/');
+		$skin = basename($path);
+		if (!preg_match('/^[a-zA-Z0-9_-]+$/', (string)$skin))
 		{
-			$path .= '/';
-		}
-		if (!preg_match('/^[a-zA-Z0-9_-]+$/', $skin ?? ''))
-		{
-			return;
+			return null;
 		}
 
-		$skin_path = sprintf("%s%s/%s/", $path, $dir, $skin);
-		$skin_xml_file = $skin_path . 'skin.xml';
-		if (!file_exists($skin_xml_file))
+		$skin_xml_file = $path . '/skin.xml';
+		if (!Storage::isFile($skin_xml_file) || !Storage::isReadable($skin_xml_file))
 		{
-			return;
+			return null;
 		}
 
-		$skin_info = SkinInfoParser::loadXML($skin_xml_file, $skin, $skin_path);
-		return $skin_info;
+		return SkinInfoParser::loadXML($skin_xml_file, $skin, $path);
 	}
 
 	/**
