@@ -1256,7 +1256,9 @@ class ModuleHandler extends Handler
 	}
 
 	/**
-	 * returns module's path
+	 * Get a module's path.
+	 *
+	 * @deprecated
 	 * @param string $module module name
 	 * @return string path of the module
 	 * */

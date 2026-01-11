@@ -233,7 +233,7 @@ class ModuleController extends Module
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModule((int)$module_srl);
+		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModuleWithMenu((int)$module_srl);
 	}
 
 	/**
@@ -246,7 +246,7 @@ class ModuleController extends Module
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		return Rhymix\Modules\Module\Models\ModuleInfo::onlyDeleteModule((int)$module_srl);
+		return Rhymix\Modules\Module\Models\ModuleInfo::deleteModule((int)$module_srl);
 	}
 
 	/**

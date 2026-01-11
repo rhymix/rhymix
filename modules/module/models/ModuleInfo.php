@@ -10,8 +10,9 @@ use Rhymix\Framework\Parsers\DBQuery\NullValue;
 use BaseObject;
 use Context;
 use MemberModel;
+use MenuAdminController;
+use MenuAdminModel;
 use ModuleHandler;
-use ModuleModel;
 
 #[\AllowDynamicProperties]
 class ModuleInfo
@@ -423,72 +424,84 @@ class ModuleInfo
 	 */
 	public static function insertModule(object $args): BaseObject
 	{
+		// This flag will be removed in the future.
 		$isMenuCreate = $args->isMenuCreate ?? true;
 
+		// Split extra vars from $args.
 		list($args, $extra_vars) = self::splitExtraVars($args);
+
+		// Check the prefix.
 		if (!Prefix::isValidPrefix($args->mid, $args->module ?? null))
 		{
 			return new BaseObject(-1, 'msg_limit_mid');
 		}
-
-		// Check whether the module name already exists
-		if (ModuleModel::isIDExists($args->mid, $args->module))
+		if (Prefix::exists($args->mid))
 		{
 			return new BaseObject(-1, 'msg_module_name_exists');
 		}
 
-		// Fill default values
+		// Fill default values.
 		if (empty($args->module_srl))
 		{
 			$args->module_srl = getNextSequence();
 		}
 		$args->browser_title = escape($args->browser_title ?? '', false, true);
-		$args->description = isset($args->description) ? escape($args->description, false) : null;
+		$args->description = isset($args->description) ? escape($args->description, false, true) : null;
+
+		// is_skin_fix is 'Y' only if a skin is explicitly selected.
+		// Deferring to the default skin does not count as having selected a fixed skin.
 		if (!isset($args->skin) || $args->skin == '/USE_DEFAULT/')
 		{
 			$args->is_skin_fix = 'N';
 		}
+		elseif (isset($args->is_skin_fix))
+		{
+			$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
+		}
 		else
 		{
-			if (isset($args->is_skin_fix))
-			{
-				$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
-			}
-			else
-			{
-				$args->is_skin_fix = 'Y';
-			}
+			$args->is_skin_fix = 'Y';
 		}
+
+		// is_mskin_fix is 'Y' only if a mobile skin is explicitly selected.
+		// Deferring to the default skin or a responsive PC skin does not count.
 		if (!isset($args->mskin) || $args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
+		elseif (isset($args->is_mskin_fix))
+		{
+			$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
+		}
 		else
 		{
-			if (isset($args->is_mskin_fix))
-			{
-				$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
-			}
-			else
-			{
-				$args->is_mskin_fix = 'Y';
-			}
+			$args->is_mskin_fix = 'Y';
 		}
 
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
+		// Create a menu for the module. This will be removed in the future.
+		$menuArgs = new \stdClass;
 		if ($isMenuCreate)
 		{
-			$menuArgs = new \stdClass;
-			$menuArgs->menu_srl = $args->menu_srl;
-			$menuOutput = executeQuery('menu.getMenu', $menuArgs);
-
-			// if menu is not created, create menu also. and does not supported that in virtual site.
-			if (!$menuOutput->data)
+			// Check if a menu already exists.
+			if (isset($args->menu))
 			{
-				$oMenuAdminController = getAdminController('menu');
+				$menuArgs->menu_srl = $args->menu_srl;
+				$menuOutput = executeQuery('menu.getMenu', $menuArgs);
+				$menuExists = $menuOutput->toBool() && $menuOutput->data;
+			}
+			else
+			{
+				$menuExists = false;
+			}
+
+			// Create a new menu if none exists.
+			if (!$menuExists)
+			{
+				$oMenuAdminController = MenuAdminController::getInstance();
 				$menuSrl = $oMenuAdminController->getUnlinkedMenu();
 				if ($menuSrl instanceof BaseObject && !$menuSrl->toBool())
 				{
@@ -517,21 +530,21 @@ class ModuleInfo
 		}
 
 		// Insert a module
-		$args->menu_srl = $menuArgs->menu_srl;
+		$args->menu_srl = $menuArgs->menu_srl ?? null;
 		$output = executeQuery('module.insertModule', $args);
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
+
 		// Insert module extra vars
 		self::insertExtraVars($args->module_srl, $extra_vars);
 
-		// commit
 		$oDB->commit();
 
 		ModuleCache::clearAll();
-		$output->add('module_srl',$args->module_srl);
+		$output->add('module_srl', $args->module_srl);
 		return $output;
 	}
 
@@ -543,72 +556,69 @@ class ModuleInfo
 	 */
 	public static function updateModule(object $args): BaseObject
 	{
+		// This flag will be removed in the future.
 		$isMenuCreate = $args->isMenuCreate ?? true;
 
+		// Split extra vars from $args.
 		list($args, $extra_vars) = self::splitExtraVars($args);
+
+		// Check the prefix.
 		if (!Prefix::isValidPrefix($args->mid, $args->module ?? null))
 		{
 			return new BaseObject(-1, 'msg_limit_mid');
 		}
 
-		// Check whether the module name already exists
+		// Check whether the prefix already exists.
 		$module_info = self::getModuleInfo($args->module_srl);
-		if ($args->mid !== $module_info->mid && ModuleModel::isIDExists($args->mid))
+		if (Prefix::exists($args->mid) && $args->mid !== $module_info->mid)
 		{
-			if ($args->module !== $args->mid)
-			{
-				return new BaseObject(-1, 'msg_module_name_exists');
-			}
+			return new BaseObject(-1, 'msg_module_name_exists');
 		}
 
 		$args->browser_title = escape($args->browser_title ?? $module_info->browser_title, false, true);
 		$args->description = isset($args->description) ? escape($args->description, false) : null;
 
-		// default value
+		// is_skin_fix
 		if (!isset($args->skin) || $args->skin == '/USE_DEFAULT/')
 		{
 			$args->is_skin_fix = 'N';
 		}
+		elseif (isset($args->is_skin_fix))
+		{
+			$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
+		}
 		else
 		{
-			if (isset($args->is_skin_fix))
-			{
-				$args->is_skin_fix = ($args->is_skin_fix != 'Y') ? 'N' : 'Y';
-			}
-			else
-			{
-				$args->is_skin_fix = 'Y';
-			}
+			$args->is_skin_fix = 'Y';
 		}
 
+		// is_mskin_fix
 		if (!isset($args->mskin) || $args->mskin == '/USE_DEFAULT/' || $args->mskin == '/USE_RESPONSIVE/')
 		{
 			$args->is_mskin_fix = 'N';
 		}
+		elseif (isset($args->is_mskin_fix))
+		{
+			$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
+		}
 		else
 		{
-			if (isset($args->is_mskin_fix))
-			{
-				$args->is_mskin_fix = ($args->is_mskin_fix != 'Y') ? 'N' : 'Y';
-			}
-			else
-			{
-				$args->is_mskin_fix = 'Y';
-			}
+			$args->is_mskin_fix = 'Y';
 		}
 
 		// begin transaction
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		if ($isMenuCreate)
+		// Update the menu for the module if the prefix has changed.
+		if ($isMenuCreate && $module_info->mid != $args->mid)
 		{
 			$menuArgs = new \stdClass;
 			$menuArgs->url = $module_info->mid;
 			$menuOutput = executeQueryArray('menu.getMenuItemByUrl', $menuArgs);
 			if ($menuOutput->data && count($menuOutput->data))
 			{
-				$oMenuAdminController = getAdminController('menu');
+				$oMenuAdminController = MenuAdminController::getInstance();
 				foreach ($menuOutput->data as $itemInfo)
 				{
 					$itemInfo->url = $args->mid;
@@ -623,6 +633,7 @@ class ModuleInfo
 			}
 		}
 
+		// Update the module.
 		$output = executeQuery('module.updateModule', $args);
 		if (!$output->toBool())
 		{
@@ -630,49 +641,48 @@ class ModuleInfo
 			return $output;
 		}
 
-		// if mid changed, change mid of success_return_url to new mid
-		if ($module_info->mid != $args->mid && Context::get('success_return_url'))
-		{
-			changeValueInUrl('mid', $args->mid, $module_info->mid);
-		}
-
-		// Insert module extra vars
+		// Update module extra vars.
 		self::insertExtraVars($args->module_srl, $extra_vars);
 
 		$oDB->commit();
 
-		$output->add('module_srl',$args->module_srl);
+		// if mid changed, change mid of success_return_url to new mid
+		if ($module_info->mid != $args->mid && ($success_return_url = Context::get('success_return_url')))
+		{
+			$success_return_url = preg_replace('/(?<=&|\?)mid=' . preg_quote($module_info->mid, '/') . '\b/', 'mid=' . urlencode($args->mid), $success_return_url);
+			Context::set('success_return_url', $success_return_url);
+		}
 
-		//remove from cache
 		ModuleCache::clearAll();
+		$output->add('module_srl', $args->module_srl);
 		return $output;
 	}
 
 	/**
-	 * Delete a module, with all related information.
+	 * Delete a module with the associated menu.
 	 *
 	 * @param int $module_srl
 	 * @param bool $delete_menu
 	 * @return BaseObject
 	 */
-	public static function deleteModule(int $module_srl, bool $delete_menu = true): BaseObject
+	public static function deleteModuleWithMenu(int $module_srl, bool $delete_menu = true): BaseObject
 	{
-		if (!$module_srl)
+		if ($module_srl <= 0)
 		{
 			return new BaseObject(-1,'msg_invalid_request');
 		}
 
-		$output = self::getModuleInfo($module_srl);
+		$module_info = self::getModuleInfo($module_srl);
 
 		$args = new \stdClass();
-		$args->url = $output->mid;
+		$args->url = $module_info->mid;
 		$args->is_shortcut = 'N';
 
-		$oMenuAdminModel = getAdminModel('menu');
+		$oMenuAdminModel = MenuAdminModel::getInstance();
 		$menuOutput = $oMenuAdminModel->getMenuList($args);
 		if (is_array($menuOutput->data))
 		{
-			foreach ($menuOutput->data AS $key=>$value)
+			foreach ($menuOutput->data as $value)
 			{
 				$args->menu_srl = $value->menu_srl;
 				break;
@@ -683,13 +693,12 @@ class ModuleInfo
 		$output = executeQuery('menu.getMenuItemByUrl', $args);
 		if ($output->data && $delete_menu)
 		{
-			unset($args);
 			$args = new \stdClass;
 			$args->menu_srl = $output->data->menu_srl ?: 0;
 			$args->menu_item_srl = $output->data->menu_item_srl ?: 0;
 			$args->is_force = 'N';
 
-			$oMenuAdminController = getAdminController('menu');
+			$oMenuAdminController = MenuAdminController::getInstance();
 			$output = $oMenuAdminController->deleteItem($args, true);
 
 			if ($output->toBool())
@@ -704,7 +713,7 @@ class ModuleInfo
 		// only delete module
 		else
 		{
-			return self::onlyDeleteModule($module_srl);
+			return self::deleteModule($module_srl);
 		}
 	}
 
@@ -714,17 +723,16 @@ class ModuleInfo
 	 * @param int $module_srl
 	 * @return BaseObject
 	 */
-	public static function onlyDeleteModule(int $module_srl): BaseObject
+	public static function deleteModule(int $module_srl): BaseObject
 	{
-		if (!$module_srl)
+		if ($module_srl <= 0)
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
-		// check start module
-		$columnList = array('sites.index_module_srl');
-		$start_module = ModuleModel::getSiteInfo(0, $columnList);
-		if ($module_srl == $start_module->index_module_srl)
+		// The index module of the default domain cannot be deleted.
+		$default_domain = Domain::getDefaultDomain();
+		if ($default_domain && $module_srl == $default_domain->index_module_srl)
 		{
 			return new BaseObject(-1, 'msg_cannot_delete_startmodule');
 		}
@@ -751,15 +759,42 @@ class ModuleInfo
 		}
 
 		// Delete module extra vars
-		self::deleteExtraVars($module_srl);
+		$output = self::deleteExtraVars($module_srl);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// Delete skin settings
-		self::deleteSkinVars($module_srl, 'P');
-		self::deleteSkinVars($module_srl, 'M');
+		$output = self::deleteSkinVars($module_srl, 'P');
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = self::deleteSkinVars($module_srl, 'M');
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// Delete permissions and module managers
-		self::deleteModuleGrants($module_srl);
-		self::deleteModuleManager($module_srl);
+		$output = self::deleteGrants($module_srl);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$output = self::deleteManager($module_srl);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// Call a trigger (after)
 		ModuleHandler::triggerCall('module.deleteModule', 'after', $trigger_obj);
