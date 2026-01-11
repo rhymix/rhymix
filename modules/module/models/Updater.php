@@ -5,6 +5,7 @@ namespace Rhymix\Modules\Module\Models;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\Storage;
 use BaseObject;
+use InstallAdminController;
 
 class Updater
 {
@@ -37,6 +38,9 @@ class Updater
 	 */
 	public static function installModule(string $module_name): BaseObject
 	{
+		// TODO: decide where to place the install logic
+		$oController = InstallAdminController::getInstance();
+		$oController->procInstallAdminInstall($module_name);
 		return new BaseObject;
 	}
 
@@ -185,6 +189,9 @@ class Updater
 	 */
 	public static function updateModule(string $module_name): BaseObject
 	{
+		// TODO: decide where to place the install logic
+		$oController = InstallAdminController::getInstance();
+		$oController->procInstallAdminUpdate($module_name);
 		return new BaseObject;
 	}
 
