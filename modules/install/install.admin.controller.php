@@ -67,14 +67,14 @@ class installAdminController extends install
 			return $output;
 		}
 
-		$output = Rhymix\Modules\Module\Models\Updater::registerNamespaces($module_name);
+		$output = Rhymix\Modules\Module\Models\Updater::registerNamespacePrefixes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();
 			return $output;
 		}
 
-		$output = Rhymix\Modules\Module\Models\Updater::registerPrefixes($module_name);
+		$output = Rhymix\Modules\Module\Models\Updater::registerDefaultPrefixes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();
