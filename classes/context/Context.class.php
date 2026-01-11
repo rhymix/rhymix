@@ -950,12 +950,12 @@ class Context
 	public static function replaceUserLang($string, $fix_double_escape = false)
 	{
 		static $lang = null;
-		if($lang === null)
+		if ($lang === null)
 		{
 			$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . self::getLangType());
-			if($lang === null)
+			if ($lang === null)
 			{
-				$lang = ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
+				$lang = Rhymix\Modules\Module\Models\Lang::generateCache();
 			}
 		}
 

@@ -656,74 +656,6 @@ class ModuleAdminController extends Module
 		}
 	}
 
-	/**
-	 * @brief Add/Update language
-	 */
-	function procModuleAdminInsertLang()
-	{
-		// Get language code
-		$site_module_info = Context::get('site_module_info');
-		$target = Context::get('target');
-		$module = Context::get('module');
-		$args = new stdClass();
-		$args->name = str_replace(' ','_',Context::get('lang_code'));
-		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
-		if(!empty($args->lang_name)) $args->name = $args->lang_name;
-
-		// if args->name is empty, random generate for user define language
-		if(empty($args->name)) $args->name = 'userLang'.date('YmdHis').''.sprintf('%03d', mt_rand(0, 100));
-
-		if(!$args->name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		// Check whether a language code exists
-		$output = executeQueryArray('module.getLang', $args);
-		if(!$output->toBool()) return $output;
-		// If exists, clear the old values for updating
-		if($output->data) $output = executeQuery('module.deleteLang', $args);
-		if(!$output->toBool()) return $output;
-		// Enter
-		$lang_supported = Context::get('lang_supported');
-		foreach($lang_supported as $key => $val)
-		{
-			$args->lang_code = $key;
-			$args->value = trim(Context::get($key));
-			if($args->value)
-			{
-				$output = executeQuery('module.insertLang', $args);
-				if(!$output->toBool()) return $output;
-			}
-		}
-		$this->makeCacheDefinedLangCode();
-
-		$this->add('name', $args->name);
-		$this->setMessage("success_saved", 'info');
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
-	 * @brief Remove language
-	 */
-	function procModuleAdminDeleteLang()
-	{
-		// Get language code
-		$site_module_info = Context::get('site_module_info');
-		$args = new stdClass();
-		$args->name = str_replace(' ','_',Context::get('name'));
-		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
-		if(!empty($args->lang_name)) $args->name = $args->lang_name;
-		if(!$args->name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$output = executeQuery('module.deleteLang', $args);
-		if(!$output->toBool()) return $output;
-		$this->makeCacheDefinedLangCode();
-
-		$this->setMessage("success_deleted", 'info');
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', 'admin', 'act', 'dispModuleAdminLangcode');
-		$this->setRedirectUrl($returnUrl);
-	}
-
 	function procModuleAdminGetList()
 	{
 		if(!Context::get('is_logged')) throw new Rhymix\Framework\Exceptions\NotPermitted;
@@ -823,52 +755,7 @@ class ModuleAdminController extends Module
 	 */
 	function makeCacheDefinedLangCode()
 	{
-		$args = new stdClass();
-		$output = executeQueryArray('module.getLang', $args);
-		if(!$output->toBool()) return;
-
-		$langMap = array();
-		foreach($output->data as $lang)
-		{
-			$langMap[$lang->lang_code][$lang->name] = $lang->value;
-		}
-
-		$lang_supported = Context::loadLangSelected();
-		$defaultLang = config('locale.default_lang');
-
-		if(!isset($langMap[$defaultLang]))
-		{
-			$langMap[$defaultLang] = array();
-		}
-
-		foreach($lang_supported as $langCode => $langName)
-		{
-			if(!isset($langMap[$langCode]))
-			{
-				$langMap[$langCode] = array();
-			}
-
-			$langMap[$langCode] += $langMap[$defaultLang];
-			foreach($lang_supported as $targetLangCode => $targetLangName)
-			{
-				if($langCode == $targetLangCode || $langCode == $defaultLang)
-				{
-					continue;
-				}
-
-				if(!isset($langMap[$targetLangCode]))
-				{
-					$langMap[$targetLangCode] = array();
-				}
-
-				$langMap[$langCode] += $langMap[$targetLangCode];
-			}
-
-			Rhymix\Framework\Cache::set('site_and_module:user_defined_langs:0:' . $langCode, $langMap[$langCode], 0, true);
-		}
-
-		$currentLang = Context::getLangType();
-		return isset($langMap[$currentLang]) ? $langMap[$currentLang] : array();
+		return Rhymix\Modules\Module\Models\Lang::generateCache();
 	}
 
 	public function procModuleAdminSetDesignInfo()

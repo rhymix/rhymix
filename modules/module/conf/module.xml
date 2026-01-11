@@ -16,6 +16,13 @@
 		<action name="procModuleFileBoxDelete" class="Controllers\Filebox" permission="root" />
 
 		<action name="dispModuleAdminLangcode" class="Controllers\Lang" menu_name="multilingual" menu_index="true" />
+		<action name="getModuleAdminLangCode" class="Controllers\Lang" permission="manager" />
+		<action name="getModuleAdminLangListByName" class="Controllers\Lang" permission="manager" />
+		<action name="getModuleAdminLangListByValue" class="Controllers\Lang" permission="manager" />
+		<action name="getModuleAdminMultilingualHtml" class="Controllers\Lang" permission="manager" />
+		<action name="getModuleAdminLangListHtml" class="Controllers\Lang" permission="manager" />
+		<action name="procModuleAdminInsertLang" class="Controllers\Lang" permission="manager" />
+		<action name="procModuleAdminDeleteLang" class="Controllers\Lang" />
 		<action name="dispModuleChangeLang" class="Controllers\Lang" />
 		<action name="getLangListByLangcodeForAutoComplete" class="Controllers\Lang" permission="manager" />
 		<action name="getLangByLangcode" class="Controllers\Lang" />
@@ -31,12 +38,7 @@
 		<action name="getModuleAdminModuleList" type="model" />
 		<action name="getModuleAdminModuleInfo" type="model" />
 		<action name="getModuleAdminGrant" type="model" />
-		<action name="getModuleAdminLangCode" type="model" permission="manager" />
-		<action name="getModuleAdminLangListByName" type="model" permission="manager" />
-		<action name="getModuleAdminLangListByValue" type="model" permission="manager" />
 		<action name="getModuleAdminModuleSearcherHtml" type="model" />
-		<action name="getModuleAdminMultilingualHtml" type="model" permission="manager" />
-		<action name="getModuleAdminLangListHtml" type="model" permission="manager" />
 
 		<action name="procModuleAdminInsertCategory" type="controller" ruleset="insertCategory" />
 		<action name="procModuleAdminUpdateCategory" type="controller" ruleset="updateCategory" />
@@ -46,8 +48,6 @@
 		<action name="procModuleAdminCopyModule" type="controller" ruleset="copyModule" />
 		<action name="procModuleAdminInsertGrant" type="controller" permission="manager" check_var="module_srl" />
 		<action name="procModuleAdminUpdateSkinInfo" type="controller" permission="manager" check_var="module_srl" />
-		<action name="procModuleAdminInsertLang" type="controller" permission="manager" />
-		<action name="procModuleAdminDeleteLang" type="controller" />
 		<action name="procModuleAdminGetList" type="controller" />
 		<action name="procModuleAdminSetDesignInfo" type="controller" />
 		<action name="procModuleAdminUpdateUseMobile" type="controller" />
