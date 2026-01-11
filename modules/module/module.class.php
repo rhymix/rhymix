@@ -13,7 +13,7 @@ class Module extends ModuleObject
 	function moduleInstall()
 	{
 		// Insert new domain
-		if(!getModel('module')->getDefaultDomainInfo())
+		if (!Rhymix\Modules\Module\Models\Domain::getDefaultDomain())
 		{
 			$current_url = Rhymix\Framework\URL::getCurrentUrl();
 			$current_port = intval(parse_url($current_url, PHP_URL_PORT)) ?: null;
@@ -55,7 +55,7 @@ class Module extends ModuleObject
 		if(!is_dir(RX_BASEDIR . 'files/ruleset')) return true;
 
 		// Check domains
-		if (!$oDB->isTableExists('domains') || !getModel('module')->getDefaultDomainInfo())
+		if (!$oDB->isTableExists('domains') || !Rhymix\Modules\Module\Models\Domain::getDefaultDomain())
 		{
 			return true;
 		}
@@ -162,7 +162,7 @@ class Module extends ModuleObject
 		$oDB = DB::getInstance();
 
 		// Migrate domains
-		if (!getModel('module')->getDefaultDomainInfo())
+		if (!Rhymix\Modules\Module\Models\Domain::getDefaultDomain())
 		{
 			$this->migrateDomains();
 		}
@@ -385,7 +385,7 @@ class Module extends ModuleObject
 		}
 		else
 		{
-			$output = executeQuery('module.getDefaultMidInfo', $args);
+			$output = executeQuery('module.getDefaultMidInfo', []);
 			$default_hostinfo = parse_url(Rhymix\Framework\URL::getCurrentURL());
 
 			$domain = new stdClass();
@@ -461,11 +461,15 @@ class Module extends ModuleObject
 		}
 
 		// Clear cache.
-		Rhymix\Framework\Cache::clearGroup('site_and_module');
-		ModuleModel::$_mid_map = ModuleModel::$_module_srl_map = [];
+		Rhymix\Modules\Module\Models\ModuleCache::clearAll();
 
 		// Return the default domain info.
-		return $default_domain;
+		$return_domain = new Rhymix\Modules\Module\Models\Domain();
+		foreach ($default_domain as $key => $value)
+		{
+			$return_domain->{$key} = $value;
+		}
+		return $return_domain;
 	}
 
 	/**

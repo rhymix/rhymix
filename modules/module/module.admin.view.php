@@ -13,7 +13,7 @@ class ModuleAdminView extends Module
 	function init()
 	{
 		// Set the template path
-		$this->setTemplatePath($this->module_path.'tpl');
+		$this->setTemplatePath($this->module_path . 'tpl');
 	}
 
 	/**
@@ -265,58 +265,6 @@ class ModuleAdminView extends Module
 		$this->setLayoutFile('popup_layout');
 		// Set a template file
 		$this->setTemplateFile('module_grant_setup');
-	}
-
-	/**
-	 * @brief Language codes
-	 */
-	function dispModuleAdminLangcode()
-	{
-		// Get the language file of the current site
-		$args = new stdClass();
-		$args->langCode = Context::get('lang_type');
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
-		$args->page_count = 5; // /< the number of pages that appear in the page navigation
-		$args->sort_index = 'name';
-		$args->order_type = 'asc';
-		$args->search_target = Context::get('search_target'); // /< search (title, contents ...)
-		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search
-
-		$oModuleAdminModel = getAdminModel('module');
-		$output = $oModuleAdminModel->getLangListByLangcode($args);
-
-		Context::set('total_count', $output->total_count);
-		Context::set('total_page', $output->total_page);
-		Context::set('page', $output->page);
-		Context::set('lang_code_list', $output->data);
-		Context::set('page_navigation', $output->page_navigation);
-
-		if(Context::get('module') != 'admin')
-		{
-			$this->setLayoutPath('./common/tpl');
-			$this->setLayoutFile('popup_layout');
-		}
-		// Set a template file
-		$this->setTemplateFile('module_langcode');
-	}
-
-	function dispModuleAdminFileBox()
-	{
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getModuleFileBoxList();
-		$page = Context::get('page');
-		$page = $page?$page:1;
-		Context::set('filebox_list', $output->data);
-		Context::set('page_navigation', $output->page_navigation);
-		Context::set('page', $page);
-
-		$max_filesize = min(FileHandler::returnBytes(ini_get('upload_max_filesize')), FileHandler::returnBytes(ini_get('post_max_size')));
-		Context::set('max_filesize', $max_filesize);
-
-		$oSecurity = new Security();
-		$oSecurity->encodeHTML('filebox_list..comment', 'filebox_list..attributes.');
-		$this->setTemplateFile('adminFileBox');
 	}
 }
 /* End of file module.admin.view.php */
