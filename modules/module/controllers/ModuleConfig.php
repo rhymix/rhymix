@@ -18,7 +18,7 @@ use ModuleHandler;
 use ModuleModel;
 use Security;
 
-class ModuleConfig extends \Module
+class ModuleConfig extends Base
 {
 	/**
 	 * @brief Applying the default settings to all modules
@@ -30,18 +30,17 @@ class ModuleConfig extends \Module
 		$modules = explode(',',$module_srls);
 		if(!count($modules)) if(!$module_srls) throw new InvalidRequest;
 
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
+		$module_info = ModuleInfoModel::getModuleInfo($modules[0], $columnList);
 		// Get a skin list of the module
-		$skin_list = $oModuleModel->getSkins(RX_BASEDIR . 'modules/'.$module_info->module);
+		$skin_list = ModuleDefinitionModel::getSkins(RX_BASEDIR . 'modules/' . $module_info->module . '/skins');
 		Context::set('skin_list',$skin_list);
 		// Get a layout list
 		$oLayoutModel = getModel('layout');
 		$layout_list = $oLayoutModel->getLayoutList();
 		Context::set('layout_list', $layout_list);
 		// Get a list of module categories
-		$module_category = $oModuleModel->getModuleCategories();
+		$module_category = ModuleCategoryModel::getModuleCategories();
 		Context::set('module_category', $module_category);
 
 		$security = new Security();
@@ -93,7 +92,7 @@ class ModuleConfig extends \Module
 
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
+		$module_info = ModuleInfoModel::getModuleInfo($modules[0], $columnList);
 		$xml_info = $oModuleModel->getModuleActionXml($module_info->module);
 		$source_grant_list = $xml_info->grant;
 		// Grant virtual permissions for access and manager
@@ -218,7 +217,7 @@ class ModuleConfig extends \Module
 
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$module_info = ModuleInfoModel::getModuleInfo($module_srl, $columnList);
 		// Grant virtual permission for access and manager
 		$grant_list = new \stdClass();
 		$grant_list->access = new \stdClass();
@@ -419,7 +418,7 @@ class ModuleConfig extends \Module
 
 		foreach($module_srls as $module_srl)
 		{
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+			$module_info = ModuleInfoModel::getModuleInfo($module_srl, $columnList);
 
 			foreach($updateList as $val)
 			{
@@ -463,7 +462,7 @@ class ModuleConfig extends \Module
 		$oModuleModel = getModel('module');
 
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($modules[0], $columnList);
+		$module_info = ModuleInfoModel::getModuleInfo($modules[0], $columnList);
 		$xml_info = $oModuleModel->getModuleActionXml($module_info->module);
 		$grant_list = $xml_info->grant;
 
@@ -555,7 +554,7 @@ class ModuleConfig extends \Module
 		$module_srl = Context::get('module_srl');
 		// Get information of the module
 		$columnList = array('module_srl', 'module');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$module_info = ModuleInfoModel::getModuleInfo($module_srl, $columnList);
 		if(!$module_info) throw new InvalidRequest;
 
 		$oDB = DB::getInstance();
@@ -649,7 +648,7 @@ class ModuleConfig extends \Module
 
 		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'module', 'skin', 'mskin', 'is_skin_fix', 'is_mskin_fix');
-		$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl, $columnList);
+		$module_info = ModuleInfoModel::getModuleInfo($module_srl, $columnList);
 		if($module_info->module_srl)
 		{
 			if($mode === 'M')
@@ -823,7 +822,7 @@ class ModuleConfig extends \Module
 		}
 		else
 		{
-			$moduleInfo = $oModuleModel->getModuleInfoByModuleSrl($moduleSrl);
+			$moduleInfo = ModuleInfoModel::getModuleInfo($moduleSrl);
 		}
 
 		if(!$moduleInfo)

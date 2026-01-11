@@ -14,7 +14,7 @@ use LayoutModel;
 use ModuleHandler;
 use ModuleModel;
 
-class General extends \Module
+class General extends Base
 {
 	/**
 	 * Display a module selection list.

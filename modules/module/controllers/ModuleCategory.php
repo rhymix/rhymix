@@ -7,7 +7,7 @@ use Rhymix\Modules\Module\Models\ModuleCategory as ModuleCategoryModel;
 use Context;
 use Security;
 
-class ModuleCategory extends \Module
+class ModuleCategory extends Base
 {
 	/**
 	 * Module category list.

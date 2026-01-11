@@ -9,7 +9,7 @@ use Rhymix\Modules\Module\Models\Lang as LangModel;
 use Context;
 use Security;
 
-class Lang extends \Module
+class Lang extends Base
 {
 	/**
 	 * Language code management page.

@@ -14,7 +14,7 @@ use ModuleModel;
 use Security;
 use WidgetModel;
 
-class Filebox extends \Module
+class Filebox extends Base
 {
 	/**
 	 * Filebox management page.

@@ -14,11 +14,10 @@ use AutoinstallModel;
 use BaseObject;
 use Context;
 use DocumentAdminController;
-use ModuleController;
 use ModuleHandler;
 use Security;
 
-class ModuleInfo extends \Module
+class ModuleInfo extends Base
 {
 	/**
 	 * Admin index page for the module, kept for backward compatibility.
