@@ -27,8 +27,12 @@
 		<action name="getLangListByLangcodeForAutoComplete" class="Controllers\Lang" permission="manager" />
 		<action name="getLangByLangcode" class="Controllers\Lang" />
 
+		<action name="dispModuleAdminCategory" class="Controllers\ModuleCategory" menu_name="installedModule" />
+		<action name="procModuleAdminInsertCategory" class="Controllers\ModuleCategory" />
+		<action name="procModuleAdminUpdateCategory" class="Controllers\ModuleCategory" />
+		<action name="procModuleAdminDeleteCategory" class="Controllers\ModuleCategory" />
+
 		<action name="dispModuleAdminContent" type="view" menu_name="installedModule" menu_index="true" admin_index="true" />
-		<action name="dispModuleAdminCategory" type="view" menu_name="installedModule" />
 		<action name="dispModuleAdminInfo" type="view" />
 		<action name="dispModuleAdminModuleSetup" type="view" />
 		<action name="dispModuleAdminModuleAdditionSetup" type="view" />
@@ -40,9 +44,6 @@
 		<action name="getModuleAdminGrant" type="model" />
 		<action name="getModuleAdminModuleSearcherHtml" type="model" />
 
-		<action name="procModuleAdminInsertCategory" type="controller" ruleset="insertCategory" />
-		<action name="procModuleAdminUpdateCategory" type="controller" ruleset="updateCategory" />
-		<action name="procModuleAdminDeleteCategory" type="controller" ruleset="deleteCategory" />
 		<action name="procModuleAdminModuleSetup" type="controller" ruleset="insertModuleSetup" />
 		<action name="procModuleAdminModuleGrantSetup" type="controller" ruleset="insertModulesGrant" />
 		<action name="procModuleAdminCopyModule" type="controller" ruleset="copyModule" />

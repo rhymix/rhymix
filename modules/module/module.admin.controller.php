@@ -15,61 +15,6 @@ class ModuleAdminController extends Module
 	}
 
 	/**
-	 * @brief Add the module category
-	 */
-	function procModuleAdminInsertCategory()
-	{
-		$title = strval(Context::get('title'));
-		$output = Rhymix\Modules\Module\Models\ModuleCategory::insertModuleCategory($title);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-
-		$this->setMessage("success_registed");
-
-		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminCategory']);
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
-	 * @brief Update category
-	 */
-	function procModuleAdminUpdateCategory()
-	{
-		$module_category_srl = intval(Context::get('module_category_srl'));
-		$title = strval(Context::get('title'));
-		$output = Rhymix\Modules\Module\Models\ModuleCategory::updateModuleCategory($module_category_srl, $title);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-
-		$this->setMessage('success_updated');
-
-		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminCategory']);
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
-	 * @brief Delete category
-	 */
-	function procModuleAdminDeleteCategory()
-	{
-		$module_category_srl = intval(Context::get('module_category_srl'));
-		$output = Rhymix\Modules\Module\Models\ModuleCategory::deleteModuleCategory($module_category_srl);
-		if (!$output->toBool())
-		{
-			return $output;
-		}
-
-		$this->setMessage('success_deleted');
-
-		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminCategory']);
-		$this->setRedirectUrl($returnUrl);
-	}
-
-	/**
 	 * @brief Copy Module
 	 */
 	function procModuleAdminCopyModule($args = NULL)

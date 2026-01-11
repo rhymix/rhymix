@@ -98,48 +98,6 @@ class ModuleAdminView extends Module
 	}
 
 	/**
-	 * @brief Module Categories
-	 */
-	function dispModuleAdminCategory()
-	{
-		$module_category_srl = Context::get('module_category_srl');
-
-		// Obtain a list of modules
-		$oModuleModel = getModel('module');
-		// Display the category page if a category is selected
-		//Security
-		$security = new Security();
-
-		if($module_category_srl)
-		{
-			$selected_category  = $oModuleModel->getModuleCategory($module_category_srl);
-			Context::set('selected_category', $selected_category);
-
-			//Security
-			$security->encodeHTML('selected_category.title');
-
-			// Set a template file
-			$this->setTemplateFile('category_update_form');
-			// If not selected, display a list of categories
-		}
-		else
-		{
-			$category_list = $oModuleModel->getModuleCategories();
-			if (!is_array($category_list))
-			{
-				return $category_list;
-			}
-			Context::set('category_list', $category_list);
-
-			//Security
-			$security->encodeHTML('category_list..title');
-
-			// Set a template file
-			$this->setTemplateFile('category_list');
-		}
-	}
-
-	/**
 	 * @brief Feature to copy module
 	 */
 	function dispModuleAdminCopyModule()
