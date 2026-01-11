@@ -417,6 +417,19 @@ class ModuleInfo
 	}
 
 	/**
+	 * Get defined scopes of permission for module managers.
+	 *
+	 * @return array
+	 */
+	public static function getManagerScopes(): array
+	{
+		$obj = new \stdClass;
+		$obj->scopes = lang('module.admin_scopes')->getArrayCopy();
+		ModuleHandler::triggerCall('module.getModuleAdminScopes', 'after', $obj);
+		return $obj->scopes;
+	}
+
+	/**
 	 * Insert a module.
 	 *
 	 * @param object $args
@@ -959,7 +972,7 @@ class ModuleInfo
 	public static function insertGrants(int $module_srl, object $obj): BaseObject
 	{
 		$output = null;
-		self::deleteModuleGrants($module_srl);
+		self::deleteGrants($module_srl);
 		foreach ($obj as $name => $val)
 		{
 			if (!$val)

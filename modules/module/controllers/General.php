@@ -17,38 +17,9 @@ use ModuleModel;
 class General extends \Module
 {
 	/**
-	 * Display skin information.
-	 */
-	function dispModuleSkinInfo()
-	{
-		$selected_module = Context::get('selected_module');
-		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
-
-		// Get modules/skin information
-		$module_path = sprintf("./modules/%s/", $selected_module);
-		if (!is_dir($module_path))
-		{
-			throw new InvalidRequest;
-		}
-
-		$skin_info_xml = sprintf("%sskins/%s/skin.xml", $module_path, $skin);
-		if (!file_exists($skin_info_xml))
-		{
-			throw new InvalidRequest;
-		}
-
-		$skin_info = ModuleModel::loadSkinInfo($module_path, $skin);
-		Context::set('skin_info', $skin_info);
-
-		$this->setLayoutFile('popup_layout');
-		$this->setTemplatePath($this->module_path . 'tpl');
-		$this->setTemplateFile('skin_info');
-	}
-
-	/**
 	 * Display a module selection list.
 	 */
-	function dispModuleSelectList()
+	public function dispModuleSelectList()
 	{
 		// Get a list of modules at the site
 		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', []);
@@ -102,6 +73,35 @@ class General extends \Module
 		$this->setLayoutFile('popup_layout');
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('module_selector');
+	}
+
+	/**
+	 * Display skin information.
+	 */
+	public function dispModuleSkinInfo()
+	{
+		$selected_module = Context::get('selected_module');
+		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
+
+		// Get modules/skin information
+		$module_path = sprintf("./modules/%s/", $selected_module);
+		if (!is_dir($module_path))
+		{
+			throw new InvalidRequest;
+		}
+
+		$skin_info_xml = sprintf("%sskins/%s/skin.xml", $module_path, $skin);
+		if (!file_exists($skin_info_xml))
+		{
+			throw new InvalidRequest;
+		}
+
+		$skin_info = ModuleModel::loadSkinInfo($module_path, $skin);
+		Context::set('skin_info', $skin_info);
+
+		$this->setLayoutFile('popup_layout');
+		$this->setTemplatePath($this->module_path . 'tpl');
+		$this->setTemplateFile('skin_info');
 	}
 
 	/**
