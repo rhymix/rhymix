@@ -14,7 +14,7 @@ use FileHandler;
 class Install extends Base
 {
 	/**
-	 * @brief Implement if additional tasks are necessary when installing
+	 * Implement if additional tasks are necessary when installing
 	 */
 	public function moduleInstall()
 	{
@@ -51,7 +51,7 @@ class Install extends Base
 	}
 
 	/**
-	 * @brief a method to check if successfully installed
+	 * a method to check if successfully installed
 	 */
 	public function checkUpdate()
 	{
@@ -161,7 +161,7 @@ class Install extends Base
 	}
 
 	/**
-	 * @brief Execute update
+	 * Execute update
 	 */
 	public function moduleUpdate()
 	{

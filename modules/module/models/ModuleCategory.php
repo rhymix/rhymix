@@ -29,7 +29,7 @@ class ModuleCategory
 	}
 
 	/**
-	 * @brief Get a list of module category
+	 * Get a list of module categories.
 	 *
 	 * @param array $module_category_srl
 	 * @return array<self>

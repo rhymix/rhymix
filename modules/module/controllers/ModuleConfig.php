@@ -21,7 +21,7 @@ use Security;
 class ModuleConfig extends Base
 {
 	/**
-	 * @brief Applying the default settings to all modules
+	 * Applying the default settings to all modules
 	 */
 	public function dispModuleAdminModuleSetup()
 	{
@@ -57,7 +57,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief Apply module addition settings to all modules
+	 * Apply module addition settings to all modules
 	 */
 	public function dispModuleAdminModuleAdditionSetup()
 	{
@@ -81,7 +81,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief Applying module permission settings to all modules
+	 * Applying module permission settings to all modules
 	 */
 	public function dispModuleAdminModuleGrantSetup()
 	{
@@ -201,7 +201,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief Common:: module's permission displaying page in the module
+	 * Common:: module's permission displaying page in the module
 	 * Available when using module instance in all the modules
 	 */
 	public function getModuleGrantHTML($module_srl, $source_grant_list)
@@ -388,7 +388,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief List module information
+	 * List module information
 	 */
 	public function procModuleAdminModuleSetup()
 	{
@@ -448,7 +448,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief List permissions of the module
+	 * List permissions of the module
 	 */
 	public function procModuleAdminModuleGrantSetup()
 	{
@@ -544,7 +544,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief Save the module permissions
+	 * Save the module permissions
 	 */
 	public function procModuleAdminInsertGrant()
 	{
@@ -637,7 +637,7 @@ class ModuleConfig extends Base
 	}
 
 	/**
-	 * @brief Updating Skins
+	 * Updating Skins
 	 */
 	public function procModuleAdminUpdateSkinInfo()
 	{

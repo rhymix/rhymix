@@ -126,7 +126,7 @@ class Filebox
 	}
 
 	/**
-	 * @brief Update a file into the file box
+	 * Update a file in the file box.
 	 *
 	 * @param object $args
 	 * @return DBResultHelper
