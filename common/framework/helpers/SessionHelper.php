@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework\Helpers;
 
+use Rhymix\Modules\Module\Models\ModuleInfo as ModuleInfoModel;
+
 /**
  * Session helper class.
  */
@@ -85,7 +87,7 @@ class SessionHelper
 	 */
 	public function isModuleAdmin(?int $module_srl = null): bool
 	{
-		return $this->is_admin === 'Y' || ($module_srl && \ModuleModel::isModuleAdmin($this, $module_srl));
+		return $this->is_admin === 'Y' || ($module_srl && ModuleInfoModel::isManager($this, $module_srl));
 	}
 
 	/**

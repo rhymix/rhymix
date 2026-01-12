@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework;
 
+use Rhymix\Modules\Module\Models\Domain as DomainModel;
+
 /**
  * The URL class.
  */
@@ -116,7 +118,7 @@ class URL
 			return true;
 		}
 
-		if (\ModuleModel::getInstance()->getSiteInfoByDomain($domain))
+		if (DomainModel::getDomainByDomainName($domain))
 		{
 			return true;
 		}
