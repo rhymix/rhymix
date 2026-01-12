@@ -225,10 +225,22 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		// Set module info as the default module for the domain.
-		if(!$module_info && !$this->module && !$this->mid)
+		// Set module info as the index module for the domain.
+		if (!$module_info && !$this->module && !$this->mid)
 		{
-			$module_info = $site_module_info;
+			if ($site_module_info instanceof Rhymix\Modules\Module\Models\Domain)
+			{
+				$module_info = $site_module_info->getIndexModule();
+			}
+			elseif (!empty($site_module_info->index_module_srl))
+			{
+				$module_info = Rhymix\Modules\Module\Models\ModuleInfo::getModuleInfo($site_module_info->index_module_srl);
+			}
+
+			if (!$module_info)
+			{
+				$module_info = $site_module_info;
+			}
 		}
 
 		// Set the index document.
@@ -285,15 +297,12 @@ class ModuleHandler extends Handler
 		}
 		else
 		{
-			$this->module_info = new stdClass;
+			$this->module_info = new Rhymix\Modules\Module\Models\StaticModuleInfo;
 			$this->module_info->module = $this->module;
 			$this->module_info->mid = $this->mid;
 		}
 
 		$this->_setModuleColorScheme($site_module_info);
-
-		// Always overwrite site_srl (deprecated)
-		$this->module_info->site_srl = $site_module_info->site_srl;
 
 		// Still no module? it's an error
 		if(!$this->module)
@@ -675,9 +684,9 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		$oModule->setAct($this->act);
-
 		$this->module_info->module_type = $type;
+
+		$oModule->setAct($this->act);
 		$oModule->setModuleInfo($this->module_info, $xml_info);
 
 		if(($type === 'view' || $type === 'mobile') && $kind !== 'admin')

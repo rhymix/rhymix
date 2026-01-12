@@ -7,6 +7,8 @@ use Rhymix\Framework\DB;
 use Rhymix\Framework\URL;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Context;
+use DocumentItem;
+use DocumentModel;
 
 #[\AllowDynamicProperties]
 class Domain extends ModuleInfo
@@ -70,6 +72,41 @@ class Domain extends ModuleInfo
 		}
 
 		parent::__construct();
+	}
+
+	/**
+	 * Get the index module for this domain.
+	 *
+	 * @return ?ModuleInfo
+	 */
+	public function getIndexModule(): ?ModuleInfo
+	{
+		if ($this->index_module_srl > 0)
+		{
+			return ModuleInfo::getModuleInfo($this->index_module_srl);
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Get the index document for this domain.
+	 *
+	 * @return ?DocumentItem
+	 */
+	public function getIndexDocument(): ?DocumentItem
+	{
+		if ($this->index_document_srl > 0)
+		{
+			$document = DocumentModel::getDocument($this->index_document_srl);
+			return $document->isExists() ? $document : null;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**
