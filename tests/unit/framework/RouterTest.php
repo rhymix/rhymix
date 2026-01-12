@@ -67,7 +67,7 @@ class RouterTest extends \Codeception\Test\Unit
         $this->assertEquals('index.php?mid=board&act=dispMemberInfo', Rhymix\Framework\Router::getURL($args, 0));
 
         $args = array('module' => 'document', 'act' => 'procDocumentVoteUp');
-        $this->assertEquals('document/procDocumentVoteUp', Rhymix\Framework\Router::getURL($args, 2));
+        $this->assertEquals('_document/procDocumentVoteUp', Rhymix\Framework\Router::getURL($args, 2));
         $this->assertEquals('index.php?module=document&act=procDocumentVoteUp', Rhymix\Framework\Router::getURL($args, 1));
         $this->assertEquals('index.php?module=document&act=procDocumentVoteUp', Rhymix\Framework\Router::getURL($args, 0));
 	}
@@ -106,5 +106,16 @@ class RouterTest extends \Codeception\Test\Unit
         $this->assertEquals($args, Rhymix\Framework\Router::parseURL('POST', 'board/login', 2)->args);
         $this->assertEquals('member', Rhymix\Framework\Router::parseURL('POST', 'board/login', 2)->module);
 
+        $args = array('mid' => 'member', 'act' => 'procMemberLogin');
+        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('POST', 'member/login', 2)->args);
+        $this->assertEquals('member', Rhymix\Framework\Router::parseURL('POST', 'member/login', 2)->module);
+
+        $args = array('module' => 'member', 'act' => 'procMemberLogin');
+        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('POST', '_member/login', 2)->args);
+        $this->assertEquals('procMemberLogin', Rhymix\Framework\Router::parseURL('POST', '_member/login', 2)->act);
+
+        $args = array('module' => 'board', 'act' => 'procBoardInsertDocument');
+        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('POST', '_board/procBoardInsertDocument', 2)->args);
+        $this->assertEquals('board', Rhymix\Framework\Router::parseURL('POST', '_board/procBoardInsertDocument', 2)->module);
 	}
 }
