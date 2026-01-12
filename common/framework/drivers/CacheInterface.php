@@ -15,7 +15,7 @@ interface CacheInterface
 	 * @param array $config
 	 * @return CacheInterface
 	 */
-	public static function getInstance(array $config);
+	public static function getInstance(array $config): CacheInterface;
 
 	/**
 	 * Check if the current cache driver is supported on this server.

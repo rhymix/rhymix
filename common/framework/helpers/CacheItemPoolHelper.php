@@ -4,7 +4,11 @@ namespace Rhymix\Framework\Helpers;
 
 use Psr\Cache\CacheItemInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Rhymix\Framework\Exceptions\PsrCacheInvalidArgumentException;
+use Rhymix\Framework\Cache;
+use Rhymix\Framework\Drivers\Cache\APC as APCDriver;
+use Rhymix\Framework\Drivers\Cache\Dummy as DummyDriver;
+use Rhymix\Framework\Drivers\CacheInterface;
+use Rhymix\Framework\Exceptions\InvalidCacheKey;
 
 /**
  * Helper class to implement PSR-6 cache item pool using Rhymix cache configuration.
@@ -14,7 +18,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 	/**
 	 * Cache the driver instance here.
 	 *
-	 * @var \Rhymix\Framework\Drivers\CacheInterface
+	 * @var CacheInterface
 	 */
 	protected $_driver;
 
@@ -32,12 +36,12 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 	 */
 	public function __construct(bool $force = false)
 	{
-		$this->_driver = \Rhymix\Framework\Cache::getDriverInstance();
-		if ($this->_driver === null || (\PHP_SAPI === 'cli' && $this->_driver instanceof \Rhymix\Framework\Drivers\Cache\APC))
+		$this->_driver = Cache::getDriverInstance();
+		if ($this->_driver === null || (\PHP_SAPI === 'cli' && $this->_driver instanceof APCDriver))
 		{
-			$this->_driver = \Rhymix\Framework\Drivers\Cache\Dummy::getInstance([]);
+			$this->_driver = DummyDriver::getInstance([]);
 		}
-		if ($this->_driver instanceof \Rhymix\Framework\Drivers\Cache\Dummy)
+		if ($this->_driver instanceof DummyDriver)
 		{
 			$this->force = $force;
 		}
@@ -47,14 +51,14 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Returns a Cache Item representing the specified key.
      *
      * @param string $key
-     * @throws PsrCacheInvalidArgumentException
+     * @throws InvalidCacheKey
      * @return CacheItemInterface
      */
     public function getItem($key)
 	{
 		if (!is_scalar($key) || empty($key))
 		{
-			throw new PsrCacheInvalidArgumentException;
+			throw new InvalidCacheKey;
 		}
 
 		$key = $this->_getRealKey($key);
@@ -65,7 +69,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Returns a traversable set of cache items.
      *
      * @param string[] $keys
-     * @throws PsrCacheInvalidArgumentException
+     * @throws InvalidCacheKey
      * @return array
      */
     public function getItems(array $keys = [])
@@ -75,7 +79,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		{
 			if (!is_scalar($key) || empty($key))
 			{
-				throw new PsrCacheInvalidArgumentException;
+				throw new InvalidCacheKey;
 			}
 
 			$key = $this->_getRealKey($key);
@@ -88,7 +92,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Confirms if the cache contains specified cache item.
      *
      * @param string $key
-     * @throws PsrCacheInvalidArgumentException
+     * @throws InvalidCacheKey
      * @return bool
      */
     public function hasItem($key)
@@ -110,14 +114,14 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Removes the item from the pool.
      *
      * @param string $key
-     * @throws PsrCacheInvalidArgumentException
+     * @throws InvalidCacheKey
      * @return bool
      */
     public function deleteItem($key)
 	{
 		if (!is_scalar($key) || empty($key))
 		{
-			throw new PsrCacheInvalidArgumentException;
+			throw new InvalidCacheKey;
 		}
 
 		$key = $this->_getRealKey($key);
@@ -128,7 +132,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
      * Removes multiple items from the pool.
      *
      * @param string[] $keys
-     * @throws PsrCacheInvalidArgumentException
+     * @throws InvalidCacheKey
      * @return bool
      */
     public function deleteItems(array $keys)
@@ -138,7 +142,7 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 		{
 			if (!is_scalar($key) || empty($key))
 			{
-				throw new PsrCacheInvalidArgumentException;
+				throw new InvalidCacheKey;
 			}
 
 			$key = $this->_getRealKey($key);
@@ -200,6 +204,6 @@ class CacheItemPoolHelper implements CacheItemPoolInterface
 			$key = $matches[1] . '#0:' . $matches[2];
 		}
 
-		return \Rhymix\Framework\Cache::getPrefix() . $key;
+		return Cache::getPrefix() . $key;
 	}
 }

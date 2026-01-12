@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Mail;
+
 /**
  * The NAVER Cloud Outbound Mailer mail driver.
  */
-class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Ncloud_Mailer extends Base implements MailInterface
 {
 	/**
 	 * The API URL.
@@ -86,10 +90,10 @@ class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterf
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param \Rhymix\Framework\Mail $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message)
+	public function send(Mail $message)
 	{
 		// Prepare data for Requests.
 		$data = array(
@@ -159,7 +163,7 @@ class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterf
 		// Send the API request.
 		try
 		{
-			$request = \Rhymix\Framework\HTTP::post(self::$_url, [], $headers, [], [
+			$request = HTTP::post(self::$_url, [], $headers, [], [
 				'timeout' => self::$_timeout,
 				'json' => $data,
 			]);

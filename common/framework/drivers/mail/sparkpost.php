@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Mail;
+
 /**
  * The SparkPost mail driver.
  */
-class SparkPost extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class SparkPost extends Base implements MailInterface
 {
 	/**
 	 * The API URL.
@@ -59,10 +63,10 @@ class SparkPost extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param \Rhymix\Framework\Mail $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message)
+	public function send(Mail $message)
 	{
 		// Assemble the list of recipients.
 		$recipients = array();
@@ -92,6 +96,7 @@ class SparkPost extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$headers = array(
 			'Authorization' => $this->_config['api_token'],
 			'Content-Type' => 'application/json',
+			'User-Agent' => 'PHP',
 		);
 		$data = json_encode(array(
 			'options' => array(
@@ -102,14 +107,13 @@ class SparkPost extends Base implements \Rhymix\Framework\Drivers\MailInterface
 				'email_rfc822' => $message->message->toString(),
 			),
 		));
-		$options = array(
+		$settings = array(
 			'timeout' => 5,
-			'useragent' => 'PHP',
 		);
 
 		// Send the API request.
-		$request = \Requests::post(self::$_url, $headers, $data, $options);
-		$result = @json_decode($request->body);
+		$request = HTTP::post(self::$_url, $data, $headers, [], $settings);
+		$result = @json_decode($request->getBody()->getContents());
 
 		// Parse the result.
 		if (!$result)

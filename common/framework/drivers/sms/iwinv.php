@@ -2,10 +2,15 @@
 
 namespace Rhymix\Framework\Drivers\SMS;
 
+use Rhymix\Framework\Drivers\SMSInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Korea;
+use Rhymix\Framework\SMS;
+
 /**
  * The iwinv SMS driver.
  */
-class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
+class Iwinv extends Base implements SMSInterface
 {
 	/**
 	 * API endpoint URL (fallback if URL is not explicitly configured)
@@ -75,10 +80,10 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * This method returns true on success and false on failure.
 	 *
 	 * @param array $messages
-	 * @param \Rhymix\Framework\SMS $original
+	 * @param SMS $original
 	 * @return bool
 	 */
-	public function send(array $messages, \Rhymix\Framework\SMS $original)
+	public function send(array $messages, SMS $original)
 	{
 		$status = true;
 
@@ -92,9 +97,9 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 
 			// Sender and recipient
 			$data = array();
-			$data['from'] = str_replace('-', '', \Rhymix\Framework\Korea::formatPhoneNumber($message->from));
+			$data['from'] = str_replace('-', '', Korea::formatPhoneNumber($message->from));
 			$data['to'] = array_map(function($num) {
-				return str_replace('-', '', \Rhymix\Framework\Korea::formatPhoneNumber($num));
+				return str_replace('-', '', Korea::formatPhoneNumber($num));
 			}, $message->to);
 			if (count($data['to']) === 1)
 			{
@@ -131,7 +136,7 @@ class iwinv extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			}
 
 			// Send the request.
-			$request = \Rhymix\Framework\HTTP::post($api_url, $data, $headers, [], ['timeout' => self::DEFAULT_TIMEOUT]);
+			$request = HTTP::post($api_url, $data, $headers, [], ['timeout' => self::DEFAULT_TIMEOUT]);
 			$result = $request->getBody()->getContents();
 			$status_code = $request->getStatusCode();
 

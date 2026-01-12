@@ -2,12 +2,16 @@
 
 namespace Rhymix\Framework\Drivers\SMS;
 
+use Rhymix\Framework\Drivers\SMSInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Korea;
+use Rhymix\Framework\SMS;
 use Rhymix\Framework\Storage;
 
 /**
  * The NAVER Cloud SENS SMS driver.
  */
-class Ncloud_Sens extends Base implements \Rhymix\Framework\Drivers\SMSInterface
+class Ncloud_Sens extends Base implements SMSInterface
 {
 	/**
 	 * API endpoint URL
@@ -114,7 +118,7 @@ class Ncloud_Sens extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 		try
 		{
 			$url = self::API_HOST . sprintf(self::API_PATH, $this->_config['service_id'], 'files');
-			$request = \Rhymix\Framework\HTTP::post($url, [], $headers, [], [
+			$request = HTTP::post($url, [], $headers, [], [
 				'timeout' => self::TIMEOUT,
 				'json' => [
 					'fileName' => $filename,
@@ -143,10 +147,10 @@ class Ncloud_Sens extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * This method returns true on success and false on failure.
 	 *
 	 * @param array $messages
-	 * @param \Rhymix\Framework\SMS $original
+	 * @param SMS $original
 	 * @return bool
 	 */
-	public function send(array $messages, \Rhymix\Framework\SMS $original)
+	public function send(array $messages, SMS $original)
 	{
 		$status = true;
 		$file_ids = [];
@@ -156,7 +160,7 @@ class Ncloud_Sens extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			// Basic information
 			$data = array();
 			$data['type'] = $message->type;
-			$data['from'] = str_replace('-', '', \Rhymix\Framework\Korea::formatPhoneNumber($message->from));
+			$data['from'] = str_replace('-', '', Korea::formatPhoneNumber($message->from));
 			if ($message->country && $message->country != 82)
 			{
 				$data['countryCode'] = $message->country;
@@ -173,7 +177,7 @@ class Ncloud_Sens extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			foreach ($message->to as $num)
 			{
 				$data['messages'][] = [
-					'to' => str_replace('-', '', \Rhymix\Framework\Korea::formatPhoneNumber($num)),
+					'to' => str_replace('-', '', Korea::formatPhoneNumber($num)),
 				];
 			}
 
@@ -211,7 +215,7 @@ class Ncloud_Sens extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 			try
 			{
 				$url = self::API_HOST . sprintf(self::API_PATH, $this->_config['service_id'], 'messages');
-				$request = \Rhymix\Framework\HTTP::post($url, [], $headers, [], [
+				$request = HTTP::post($url, [], $headers, [], [
 					'timeout' => self::TIMEOUT,
 					'json' => $data,
 				]);

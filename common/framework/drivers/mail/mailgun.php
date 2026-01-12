@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\Mail;
+use Rhymix\Framework\HTTP;
+
 /**
  * The Mailgun mail driver.
  */
-class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Mailgun extends Base implements MailInterface
 {
 	/**
 	 * The API URL.
@@ -59,10 +63,10 @@ class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param \Rhymix\Framework\Mail $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message)
+	public function send(Mail $message)
 	{
 		// Assemble the list of recipients.
 		$recipients = array();
@@ -115,7 +119,7 @@ class Mailgun extends Base implements \Rhymix\Framework\Drivers\MailInterface
 
 		// Send the API request.
 		$url = self::$_url . '/' . $this->_config['api_domain'] . '/messages.mime';
-		$request = \Rhymix\Framework\HTTP::post($url, $data, $headers, [], $settings);
+		$request = HTTP::post($url, $data, $headers, [], $settings);
 		$result_text = $request->getBody()->getContents();
 		$result = @json_decode($result_text);
 

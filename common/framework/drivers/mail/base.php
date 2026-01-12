@@ -2,10 +2,13 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\Mail;
+
 /**
  * The base class for other mail drivers.
  */
-abstract class Base implements \Rhymix\Framework\Drivers\MailInterface
+abstract class Base implements MailInterface
 {
 	/**
 	 * The configuration is stored here.
@@ -29,9 +32,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\MailInterface
 	 * Create a new instance of the current mail driver, using the given settings.
 	 *
 	 * @param array $config
-	 * @return object
+	 * @return MailInterface
 	 */
-	public static function getInstance(array $config)
+	public static function getInstance(array $config): MailInterface
 	{
 		return new static($config);
 	}
@@ -103,10 +106,10 @@ abstract class Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param \Rhymix\Framework\Mail $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message)
+	public function send(Mail $message)
 	{
 		return false;
 	}

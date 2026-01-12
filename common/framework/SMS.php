@@ -110,7 +110,7 @@ class SMS
 					'required' => $driver->getRequiredConfig(),
 					'optional' => $driver->getOptionalConfig(),
 					'api_types' => $driver->getAPITypes(),
-					'api_spec' => $driver::getAPISpec(),
+					'api_spec' => $driver->getAPISpec(),
 				);
 			}
 		}

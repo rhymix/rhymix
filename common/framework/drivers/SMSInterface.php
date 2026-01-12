@@ -13,7 +13,7 @@ interface SMSInterface
 	 * @param array $config
 	 * @return SMSInterface
 	 */
-	public static function getInstance(array $config);
+	public static function getInstance(array $config): SMSInterface;
 
 	/**
 	 * Get the human-readable name of this SMS driver.

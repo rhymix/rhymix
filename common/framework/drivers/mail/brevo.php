@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Mail;
+
 /**
  * The Brevo mail driver.
  */
-class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Brevo extends Base implements MailInterface
 {
 	/**
 	 * The API URL.
@@ -59,10 +63,10 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param \Rhymix\Framework\Mail $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message): bool
+	public function send(Mail $message): bool
 	{
 		// Prepare data for Requests.
 		$format_callback = function(string $address, ?string $name): array { return ['email' => $address, 'name' => $name]; };
@@ -105,7 +109,7 @@ class Brevo extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		];
 
 		// Send the API request.
-		$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], $options);
+		$request = HTTP::post(self::$_url, $data, $headers, [], $options);
 		$status_code = $request->getStatusCode();
 		$result = @json_decode($request->getBody()->getContents());
 

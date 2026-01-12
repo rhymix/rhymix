@@ -4,6 +4,7 @@ namespace Rhymix\Framework\Exceptions;
 
 use Psr\Cache\InvalidArgumentException as PsrCacheInvalidArgumentExceptionInterface;
 
-class PsrCacheInvalidArgumentException extends \InvalidArgumentException implements PsrCacheInvalidArgumentExceptionInterface
+class InvalidCacheKey extends \InvalidArgumentException implements PsrCacheInvalidArgumentExceptionInterface
 {
+
 }

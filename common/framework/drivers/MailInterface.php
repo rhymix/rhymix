@@ -13,7 +13,7 @@ interface MailInterface
 	 * @param array $config
 	 * @return MailInterface
 	 */
-	public static function getInstance(array $config);
+	public static function getInstance(array $config): MailInterface;
 
 	/**
 	 * Get the human-readable name of this mail driver.
