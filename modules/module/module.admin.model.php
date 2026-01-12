@@ -6,7 +6,7 @@
  * @version 0.1
  * @brief AdminModel class of the "module" module
  */
-class ModuleAdminModel extends Module
+class ModuleAdminModel extends Rhymix\Modules\Module\Controllers\Base
 {
 	public static function getModuleMidList($args)
 	{

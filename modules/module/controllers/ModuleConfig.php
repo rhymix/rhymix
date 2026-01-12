@@ -649,7 +649,7 @@ class ModuleConfig extends Base
 			$scopes = explode('|@|', $scopes);
 		}
 
-		ModuleInfoModel::deleteModuleManager($module_srl);
+		ModuleInfoModel::deleteManager($module_srl);
 		if ($managers)
 		{
 			$managers = explode(',', $managers);
@@ -658,7 +658,7 @@ class ModuleConfig extends Base
 				$user_id = trim($user_id);
 				if ($user_id)
 				{
-					$output = ModuleInfoModel::insertModuleManager($module_srl, $user_id, $scopes);
+					$output = ModuleInfoModel::insertManager($module_srl, $user_id, $scopes);
 					if (!$output->toBool())
 					{
 						$oDB->rollback();

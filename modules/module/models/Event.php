@@ -5,7 +5,7 @@ namespace Rhymix\Modules\Module\Models;
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Helpers\DBResultHelper;
 
-class Event extends \Module
+class Event
 {
 	/**
 	 * Get the list of event handlers that have been added to an event.

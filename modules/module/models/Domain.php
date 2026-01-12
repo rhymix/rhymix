@@ -6,6 +6,7 @@ use Rhymix\Framework\Cache;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\URL;
 use Rhymix\Framework\Helpers\DBResultHelper;
+use Rhymix\Modules\Module\Controllers\Install as InstallController;
 use Context;
 use DocumentItem;
 use DocumentModel;
@@ -232,7 +233,7 @@ class Domain extends ModuleInfo
 			$domain_info = self::getDefaultDomain();
 			if (!$domain_info)
 			{
-				$domain_info = \Module::getInstance()->migrateDomains();
+				$domain_info = InstallController::getInstance()->migrateDomains();
 			}
 			$domain_info->is_default_replaced = 'Y';
 		}

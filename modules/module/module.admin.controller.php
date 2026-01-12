@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief admin controller class of the module module
  */
-class ModuleAdminController extends Module
+class ModuleAdminController extends Rhymix\Modules\Module\Controllers\Base
 {
 	/**
 	 * Copy a module.

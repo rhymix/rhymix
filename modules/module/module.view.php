@@ -3,7 +3,7 @@
 /**
  * @deprecated
  */
-class ModuleView extends Module
+class ModuleView extends Rhymix\Modules\Module\Controllers\Base
 {
 
 }

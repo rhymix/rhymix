@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief controller class of the module module
  */
-class ModuleController extends Module
+class ModuleController extends Rhymix\Modules\Module\Controllers\Base
 {
 	/**
 	 * @brief Add a file into the file box
@@ -42,14 +42,10 @@ class ModuleController extends Module
 
 	/**
 	 * @brief Add trigger callback function
-	 *
-	 * @param string $trigger_name
-	 * @param string $called_position
-	 * @param callable $callback_function
 	 */
 	public function addTriggerFunction($trigger_name, $called_position, $callback_function)
 	{
-		return Rhymix\Modules\Module\Models\Event::addEventHandler(
+		Rhymix\Modules\Module\Models\Event::addEventHandler(
 			(string)$trigger_name,
 			(string)$called_position,
 			$callback_function
@@ -58,8 +54,6 @@ class ModuleController extends Module
 
 	/**
 	 * @brief Add module trigger
-	 * module trigger is to call a trigger to a target module
-	 *
 	 */
 	public function insertTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
@@ -74,7 +68,6 @@ class ModuleController extends Module
 
 	/**
 	 * @brief Delete module trigger
-	 *
 	 */
 	public function deleteTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
@@ -88,8 +81,7 @@ class ModuleController extends Module
 	}
 
 	/**
-	 * @brief Delete module trigger
-	 *
+	 * @brief Delete module triggers
 	 */
 	public function deleteModuleTriggers($module)
 	{

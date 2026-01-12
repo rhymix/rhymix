@@ -337,7 +337,7 @@ class Permission
 			$module_list = ModuleInfo::getModuleInstanceList();
 			foreach ($module_list as $module_info)
 			{
-				$grant = self::create($module_info, $member_info);
+				$grant = self::get($module_info, $member_info);
 				if (!$grant->access)
 				{
 					continue;
@@ -378,7 +378,7 @@ class Permission
 				continue;
 			}
 
-			$grant = self::create($module_info, $member_info);
+			$grant = self::get($module_info, $member_info);
 			if ($grant->manager)
 			{
 				$result[$module_info->module_srl] = $module_info;

@@ -24,7 +24,7 @@ class General extends Base
 	public function dispModuleSelectList()
 	{
 		// Get a list of modules at the site
-		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', []);
+		$output = executeQueryArray('module.getSiteModules', []);
 
 		$mid_list = array();
 

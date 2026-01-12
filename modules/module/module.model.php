@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief Model class of module module
  */
-class ModuleModel extends Module
+class ModuleModel extends Rhymix\Modules\Module\Controllers\Base
 {
 	/**
 	 * @brief Check if mid is available

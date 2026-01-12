@@ -5,7 +5,7 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief admin view class of the module module
  */
-class ModuleAdminView extends Module
+class ModuleAdminView extends Rhymix\Modules\Module\Controllers\Base
 {
 	/**
 	 * @brief Applying the default settings to all modules
