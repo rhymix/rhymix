@@ -3,7 +3,7 @@
         <table name="module_categories" />
     </tables>
     <conditions>
-        <condition operation="in" column="module_category_srl" var="moduleCategorySrl" />
+        <condition operation="in" column="module_category_srl" var="module_category_srl" />
     </conditions>
     <navigation>
         <index var="sort_index" default="title" order="asc" />

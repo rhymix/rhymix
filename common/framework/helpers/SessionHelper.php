@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework\Helpers;
 
+use Rhymix\Modules\Module\Models\ModuleInfo as ModuleInfoModel;
+
 /**
  * Session helper class.
  */
@@ -85,7 +87,7 @@ class SessionHelper
 	 */
 	public function isModuleAdmin(?int $module_srl = null): bool
 	{
-		return $this->is_admin === 'Y' || ($module_srl && \ModuleModel::isModuleAdmin($this, $module_srl));
+		return $this->is_admin === 'Y' || ($module_srl && ModuleInfoModel::isManager($this, $module_srl));
 	}
 
 	/**
@@ -95,7 +97,7 @@ class SessionHelper
 	 */
 	public function isValid(): bool
 	{
-		if ($this->denied === 'N' && (!$this->limit_date || substr($this->limit_date, 0, 8) < date('Ymd')))
+		if ($this->denied === 'N' && (empty($this->limit_date) || substr($this->limit_date, 0, 8) < date('Ymd')))
 		{
 			return true;
 		}

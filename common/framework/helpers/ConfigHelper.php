@@ -2,8 +2,8 @@
 
 namespace Rhymix\Framework\Helpers;
 
+use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Framework\Config;
-use Rhymix\Framework\Plugin;
 
 /**
  * Config helper class.
@@ -68,7 +68,7 @@ class ConfigHelper
 			{
 				if (!isset(self::$_config_cache[$option[0]]))
 				{
-					self::$_config_cache[$option[0]] = \ModuleModel::getInstance()->getModuleConfig($option[0]) ?: new \stdClass;
+					self::$_config_cache[$option[0]] = ModuleConfigModel::getModuleConfig($option[0]) ?: new \stdClass;
 				}
 				$options = explode('.', $option[1]);
 				$temp = self::$_config_cache[$option[0]];

@@ -78,14 +78,14 @@ class Password
 
 	public static function pbkdf2($password, $salt, $algorithm = 'sha256', $iterations = 8192, $length = 24)
 	{
-		$hash = Rhymix\Framework\Security::pbkdf2($password, $salt, $algorithm, $iterations, $length);
+		$hash = Rhymix\Framework\Password::pbkdf2($password, $salt, $algorithm, $iterations, $length);
 		$hash = explode(':', $hash);
 		return base64_decode($hash[3]);
 	}
 
 	public static function bcrypt($password, $salt = null)
 	{
-		return Rhymix\Framework\Security::bcrypt($password, $salt);
+		return Rhymix\Framework\Password::bcrypt($password, $salt);
 	}
 
 	public static function strcmpConstantTime($a, $b)

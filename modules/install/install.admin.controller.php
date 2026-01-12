@@ -17,25 +17,24 @@ class installAdminController extends install
 	/**
 	 * @brief Install the module
 	 */
-	function procInstallAdminInstall()
+	function procInstallAdminInstall($module_name = null)
 	{
-		$module_name = Context::get('module_name');
+		$module_name = $module_name ?? Context::get('module_name');
 		if(!$module_name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
 		$oInstallController = getController('install');
 		$oInstallController->installModule($module_name, './modules/'.$module_name);
-		$oModuleController = getController('module');
-		$oModuleController->registerActionForwardRoutes($module_name);
+		Rhymix\Modules\Module\Models\Updater::registerGlobalRoutes($module_name);
 		$this->setMessage('success_installed');
 	}
 
 	/**
 	 * @brief Upate the module
 	 */
-	function procInstallAdminUpdate()
+	function procInstallAdminUpdate($module_name = null)
 	{
 		@set_time_limit(0);
-		$module_name = Context::get('module_name');
+		$module_name = $module_name ?? Context::get('module_name');
 		if(!$module_name)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
@@ -43,8 +42,7 @@ class installAdminController extends install
 
 		Rhymix\Framework\Session::close();
 
-		$oModuleController = ModuleController::getInstance();
-		$oModule = ModuleModel::getModuleInstallClass($module_name);
+		$oModule = Rhymix\Modules\Module\Models\ModuleDefinition::getInstallClass($module_name);
 		if($oModule && method_exists($oModule, 'moduleUpdate'))
 		{
 			$output = $oModule->moduleUpdate();
@@ -55,28 +53,28 @@ class installAdminController extends install
 			}
 		}
 
-		$output = $oModuleController->registerActionForwardRoutes($module_name);
+		$output = Rhymix\Modules\Module\Models\Updater::registerGlobalRoutes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();
 			return $output;
 		}
 
-		$output = $oModuleController->registerEventHandlers($module_name);
+		$output = Rhymix\Modules\Module\Models\Updater::registerEventHandlers($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();
 			return $output;
 		}
 
-		$output = $oModuleController->registerNamespaces($module_name);
+		$output = Rhymix\Modules\Module\Models\Updater::registerNamespacePrefixes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();
 			return $output;
 		}
 
-		$output = $oModuleController->registerPrefixes($module_name);
+		$output = Rhymix\Modules\Module\Models\Updater::registerDefaultPrefixes($module_name);
 		if($output instanceof BaseObject && !$output->toBool())
 		{
 			Rhymix\Framework\Session::start();

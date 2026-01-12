@@ -53,7 +53,7 @@ class VariableBase
 				$is_expression = true;
 				if ($args[$this->var] instanceof NullValue)
 				{
-					if ($this->not_null)
+					if (isset($this->not_null) && $this->not_null)
 					{
 						throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . ($this->column ?? ($this->name ?? 'unknown')) . ' must not be null');
 					}
@@ -87,7 +87,7 @@ class VariableBase
 		{
 			list($is_expression, $value) = $this->getDefaultValue();
 		}
-		elseif ($this->not_null)
+		elseif (isset($this->not_null) && $this->not_null)
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Variable ' . $this->var . ' for column ' . ($this->column ?? ($this->name ?? 'unknown')) . ' is not set');
 		}
@@ -402,7 +402,7 @@ class VariableBase
 	public function filterValue($value): void
 	{
 		// Don't apply a filter if there is no variable.
-		$column = $this instanceof ColumnWrite ? $this->name : $this->column;
+		$column = $this instanceof ColumnWrite ? $this->name : ($this->column ?? '');
 		$filter = isset($this->filter) ? $this->filter : '';
 		if (is_object($value) && !method_exists($value, '__toString'))
 		{

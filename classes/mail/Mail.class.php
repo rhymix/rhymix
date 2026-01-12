@@ -26,8 +26,7 @@ class Mail extends Rhymix\Framework\Mail
 	 * @param string $pass STMP user password
 	 * @param string $secure method ('ssl','tls')
 	 * @param int $port STMP port
-	 *
-	 * @return bool TRUE if SMTP is set correct, otherwise return FALSE
+	 * @return void
 	 */
 	public static function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{

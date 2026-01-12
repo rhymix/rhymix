@@ -2,7 +2,7 @@
 <script>
     jQuery( function() { jQuery('.grant_default').change( function(event) { doShowGrantZone(); } ); doShowGrantZone() } );
 </script>
-<form ruleset="insertModulesGrant" action="./" method="post" id="manageSelectedModuleGrant" class="section x_form-horizontal">
+<form action="./" method="post" id="manageSelectedModuleGrant" class="section x_form-horizontal">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminModuleGrantSetup" />
 	<input type="hidden" name="success_return_url" value="{getRequestUriByServerEnviroment()}" />

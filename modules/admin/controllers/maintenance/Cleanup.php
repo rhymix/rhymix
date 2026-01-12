@@ -442,6 +442,8 @@ class Cleanup extends Base
 		'modules/integration_search/skins/default/trackback.html' => 'deleted',
 		'modules/member/skins/default/filter/find_member_account_by_question.xml' => 'deleted:xe',
 		'modules/module/schemas/site_admin.xml' => 'deleted',
+		'modules/module/module.mobile.php' => 'deleted',
+		'modules/module/ruleset/' => 'deleted',
 		'modules/module/tpl/css/module_admin.less' => 'deleted',
 		'modules/page/page.wap.php' => 'deleted:xe',
 		'modules/page/tpl/css/mpage.css' => 'deleted',

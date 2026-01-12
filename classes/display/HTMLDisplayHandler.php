@@ -173,7 +173,7 @@ class HTMLDisplayHandler
 				// Add layout header script.
 				if ($layout_srl > 0)
 				{
-					$part_config = ModuleModel::getModulePartConfig('layout', $layout_srl);
+					$part_config = Rhymix\Modules\Module\Models\ModuleConfig::getModulePartConfig('layout', $layout_srl);
 					if ($part_config && isset($part_config->header_script))
 					{
 						Context::addHtmlHeader($part_config->header_script, true);
