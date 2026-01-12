@@ -137,7 +137,7 @@ class Filebox
 		if($args->addfile['tmp_name'] && is_uploaded_file($args->addfile['tmp_name']))
 		{
 			$output = self::getFile($args->module_filebox_srl);
-			FileHandler::removeFile($output->data->filename);
+			FileHandler::removeFile($output->filename);
 
 			$path = self::getStoragePath($args->module_filebox_srl);
 			FileHandler::makeDir($path);
@@ -178,7 +178,7 @@ class Filebox
 	{
 		// delete real file
 		$output = self::getFile($module_filebox_srl);
-		FileHandler::removeFile($output->data->filename);
+		FileHandler::removeFile($output->filename);
 
 		return executeQuery('module.deleteModuleFileBox', [
 			'module_filebox_srl' => $module_filebox_srl,

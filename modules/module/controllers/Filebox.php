@@ -167,7 +167,7 @@ class Filebox extends Base
 			$attributes = implode(';', $attributes);
 		}
 
-		$vars->comment = $attributes;
+		$vars->comment = $attributes ?? null;
 		$module_filebox_srl = Context::get('module_filebox_srl');
 
 		$ext = strtolower(substr(strrchr($vars->addfile['name'],'.'),1));

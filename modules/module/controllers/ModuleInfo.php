@@ -297,16 +297,13 @@ class ModuleInfo extends Base
 			}
 		}
 
-		// Get module category name
+		// Get module category titles
+		$categoryNameList = array();
 		$moduleCategorySrl = array_unique($moduleCategorySrl);
 		$output = ModuleCategoryModel::getModuleCategories($moduleCategorySrl);
-		$categoryNameList = array();
-		if (is_array($output))
+		foreach ($output as $value)
 		{
-			foreach ($output as $value)
-			{
-				$categoryNameList[$value->module_category_srl] = $value->title;
-			}
+			$categoryNameList[$value->module_category_srl] = $value->title;
 		}
 
 		$selected_module = Context::get('selected_module');
@@ -546,6 +543,6 @@ class ModuleInfo extends Base
 			$this->setMessage('success_registed');
 		}
 
-		return $new_module_srl;
+		return $new_module_srl ?? null;
 	}
 }

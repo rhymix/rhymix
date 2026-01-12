@@ -877,12 +877,11 @@ class ModuleInfo
 	 * @param int $module_srl
 	 * @param object $skin_vars
 	 * @param string $mode 'P' for PC skin, 'M' for mobile skin
-	 * @return BaseObject
+	 * @return DBResultHelper
 	 */
-	public static function insertSkinVars(int $module_srl, object $skin_vars, string $mode = 'P'): BaseObject
+	public static function insertSkinVars(int $module_srl, object $skin_vars, string $mode = 'P'): DBResultHelper
 	{
 		$mode = $mode === 'P' ? 'P' : 'M';
-		$output = null;
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -934,7 +933,7 @@ class ModuleInfo
 		}
 
 		$oDB->commit();
-		return $output ?? new BaseObject;
+		return $output;
 	}
 
 	/**
@@ -1093,10 +1092,10 @@ class ModuleInfo
 	/**
 	 * Load extra variables from the DB and add them to module information.
 	 *
-	 * @param array $module_info
+	 * @param array $module_infos
 	 * @return array
 	 */
-	public static function addExtraVars(array $module_infos)
+	public static function addExtraVars(array $module_infos): array
 	{
 		// Compile the list of module_srl.
 		$module_srls = [];

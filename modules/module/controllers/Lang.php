@@ -6,6 +6,7 @@ use Rhymix\Framework\DB;
 use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Template;
 use Rhymix\Modules\Module\Models\Lang as LangModel;
+use BaseObject;
 use Context;
 use Security;
 
@@ -51,7 +52,7 @@ class Lang extends Base
 		$name = strval(Context::get('name'));
 		if ($name === '')
 		{
-			return $this->setError('msg_invalid_request');
+			return new BaseObject(-1, 'msg_invalid_request');
 		}
 
 		$output = LangModel::getUserLang('$user_lang->' . $name);

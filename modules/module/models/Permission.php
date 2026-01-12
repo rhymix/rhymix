@@ -184,7 +184,7 @@ class Permission
 	 * If you pass the name of a scope, the result might vary
 	 * depending on whether you are a module manager.
 	 *
-	 * @param string key
+	 * @param string $key
 	 * @return string|array
 	 */
 	public function whocan(string $key)
@@ -259,7 +259,7 @@ class Permission
 		// Generate a Permission object
 		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
 		$module_grants = ModuleInfo::getGrants($module_srl)->data ?: [];
-		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
+		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info);
 		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $grant;
 		return $grant;
 	}

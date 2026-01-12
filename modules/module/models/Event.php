@@ -28,6 +28,10 @@ class Event
 
 	/**
 	 * Get the list of event handlers that have been registered to an event.
+	 *
+	 * @param string $event_name
+	 * @param string $position
+	 * @return array
 	 */
 	public static function getRegisteredHandlers(string $event_name, string $position): array
 	{
@@ -77,14 +81,11 @@ class Event
 	): ?object
 	{
 		$handlers = self::getRegisteredHandlers($event_name, $position);
-		if (is_array($handlers))
+		foreach ($handlers as $item)
 		{
-			foreach ($handlers as $item)
+			if ($item->module == $module && $item->type == $class_name && $item->called_method == $method_name)
 			{
-				if ($item->module == $module && $item->type == $class_name && $item->called_method == $method_name)
-				{
-					return $item;
-				}
+				return $item;
 			}
 		}
 		return null;

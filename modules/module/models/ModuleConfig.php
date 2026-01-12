@@ -142,10 +142,10 @@ class ModuleConfig
 		{
 			include($designInfoFile);
 			$skin = $designInfo->module->{$module}->{$target} ?? null;
-		}
-		if ($skin !== null)
-		{
-			return $skin;
+			if ($skin !== null)
+			{
+				return $skin;
+			}
 		}
 
 		// If there is no default skin specified in the site design info file,
@@ -207,11 +207,7 @@ class ModuleConfig
 	{
 		$args = new \stdClass;
 		$args->module = $module;
-		$args->config = serialize(self::_normalizeConfig($config));
-		if ($args->config === null)
-		{
-			$args->config = new NullValue;
-		}
+		$args->config = $config ? serialize(self::_normalizeConfig($config)) : new NullValue;
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
@@ -301,11 +297,7 @@ class ModuleConfig
 		$args = new \stdClass;
 		$args->module = $module;
 		$args->module_srl = $module_srl;
-		$args->config = serialize(self::_normalizeConfig($config));
-		if ($args->config === null)
-		{
-			$args->config = new NullValue;
-		}
+		$args->config = $config ? serialize(self::_normalizeConfig($config)) : new NullValue;
 
 		$oDB = DB::getInstance();
 		$oDB->begin();

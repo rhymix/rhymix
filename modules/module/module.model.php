@@ -402,7 +402,7 @@ class ModuleModel extends Rhymix\Modules\Module\Controllers\Base
 	/**
 	 * Get config for a specific module_srl.
 	 *
-	 * @param string module
+	 * @param string $module
 	 * @param int $module_srl
 	 * @return mixed
 	 */
@@ -823,9 +823,12 @@ class ModuleModel extends Rhymix\Modules\Module\Controllers\Base
 
 	/**
 	 * @brief Return ruleset cache file path
-	 * @param module, act
+	 *
+	 * @param string $module
+	 * @param string $ruleset
+	 * @param ?string $mid
 	 */
-	public static function getValidatorFilePath($module, $ruleset, $mid=null)
+	public static function getValidatorFilePath($module, $ruleset, $mid = null)
 	{
 		// load dynamic ruleset xml file
 		if(strpos($ruleset, '@') !== false)

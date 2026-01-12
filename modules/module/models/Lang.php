@@ -24,7 +24,7 @@ class Lang
 		}
 
 		$lang_supported = $load_all_languages ? Context::loadLangSupported() : Context::loadLangSelected();
-		if (!is_array($lang_supported) || count($lang_supported) == 0)
+		if (!$lang_supported)
 		{
 			$lang_supported = [Context::getLangType() => Context::getLangType()];
 		}
@@ -71,7 +71,7 @@ class Lang
 	 *
 	 * @param string $name
 	 * @param array $values
-	 * @return DBResultHelper
+	 * @return ?DBResultHelper
 	 */
 	public static function insertLang(string $name, array $values): DBResultHelper
 	{
@@ -93,7 +93,7 @@ class Lang
 		}
 
 		$oDB->commit();
-		return $output;
+		return $output ?? null;
 	}
 
 	/**
