@@ -4,12 +4,12 @@ namespace Rhymix\Modules\Module\Controllers;
 
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\DB;
+use Rhymix\Framework\Storage;
 use Rhymix\Framework\URL;
 use Rhymix\Modules\Module\Models\Domain as DomainModel;
 use Rhymix\Modules\Module\Models\ModuleCache as ModuleCacheModel;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\ModuleDefinition as ModuleDefinitionModel;
-use FileHandler;
 
 class Install extends Base
 {
@@ -22,15 +22,15 @@ class Install extends Base
 		if (!DomainModel::getDefaultDomain())
 		{
 			$current_url = URL::getCurrentUrl();
-			$current_port = intval(parse_url($current_url, PHP_URL_PORT)) ?: null;
+			$current_port = intval(parse_url($current_url, \PHP_URL_PORT)) ?: null;
 			$domain = new \stdClass();
 			$domain->domain_srl = 0;
 			$domain->domain = URL::getDomainFromURL($current_url);
 			$domain->is_default_domain = 'Y';
 			$domain->index_module_srl = 0;
 			$domain->index_document_srl = 0;
-			$domain->http_port = RX_SSL ? null : $current_port;
-			$domain->https_port = RX_SSL ? $current_port : null;
+			$domain->http_port = \RX_SSL ? null : $current_port;
+			$domain->https_port = \RX_SSL ? $current_port : null;
 			$domain->security = config('url.ssl') ?: 'none';
 			$domain->description = '';
 			$domain->settings = json_encode(array(
@@ -44,10 +44,9 @@ class Install extends Base
 			}
 		}
 
-		// Create a directory to use in the module module
-		FileHandler::makeDir('./files/cache/module_info');
-		FileHandler::makeDir('./files/cache/triggers');
-		FileHandler::makeDir('./files/ruleset');
+		// Create cache directories.
+		Storage::createDirectory(\RX_BASEDIR . 'files/cache');
+		Storage::createDirectory(\RX_BASEDIR . 'files/ruleset');
 	}
 
 	/**
@@ -58,7 +57,7 @@ class Install extends Base
 		$oDB = DB::getInstance();
 
 		// check ruleset directory
-		if(!is_dir(RX_BASEDIR . 'files/ruleset')) return true;
+		if(!is_dir(\RX_BASEDIR . 'files/ruleset')) return true;
 
 		// Check domains
 		if (!$oDB->isTableExists('domains') || !DomainModel::getDefaultDomain())
@@ -222,7 +221,10 @@ class Install extends Base
 		}
 
 		// check ruleset directory
-		FileHandler::makeDir(RX_BASEDIR . 'files/ruleset');
+		if (!Storage::exists(\RX_BASEDIR . 'files/ruleset'))
+		{
+			Storage::createDirectory(\RX_BASEDIR . 'files/ruleset');
+		}
 
 		// check module_config data type
 		$column_info = $oDB->getColumnInfo('module_config', 'config');

@@ -70,7 +70,7 @@
 					<!--@end-->
 					<div class="x_thumbnail"|cond="$val->screenshot" style="display:inline-block;width:{$_width}px;margin-right:10px;">
 						<label for="colorset_{$key}">
-							<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars['colorset']->value==$val->name" />
+							<input type="radio" name="colorset" value="{$val->name}" id="colorset_{$key}" checked="checked"|cond="$skin_vars->colorset->value==$val->name" />
 							{$val->title}
 						</label>
 						<img src="../../../{$val->screenshot}" alt="{$val->title}" cond="$val->screenshot" />

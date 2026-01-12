@@ -132,6 +132,7 @@ class General extends Base
 	/**
 	 * Get module info by menu_item_srl.
 	 *
+	 * @deprecated
 	 * @param int $menu_item_srl
 	 * @return Object $moduleInfo
 	 */
