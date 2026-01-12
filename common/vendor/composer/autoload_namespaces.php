@@ -6,7 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'Michelf' => array($vendorDir . '/michelf/php-smartypants'),
     'JBBCode' => array($vendorDir . '/jbbcode/jbbcode'),
     'Hautelook' => array($vendorDir . '/bordoni/phpass/src'),
