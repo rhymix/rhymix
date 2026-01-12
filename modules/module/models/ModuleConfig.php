@@ -27,7 +27,7 @@ class ModuleConfig
 		{
 			$cache_key = "site_and_module:module_config:$module";
 			$config = Cache::get($cache_key);
-			if ($config === null)
+			if (!is_object($config) && $config !== -1)
 			{
 				$output = executeQuery('module.getModuleConfig', ['module' => $module]);
 				if (isset($output->data->config) && $output->data->config)
@@ -81,7 +81,7 @@ class ModuleConfig
 		{
 			$cache_key = 'site_and_module:module_part_config:' . $module . '_' . $module_srl;
 			$config = Cache::get($cache_key);
-			if (!is_object($config))
+			if (!is_object($config) && $config !== -1)
 			{
 				$output = executeQuery('module.getModulePartConfig', [
 					'module' => $module,
