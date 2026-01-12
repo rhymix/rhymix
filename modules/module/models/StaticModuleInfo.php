@@ -11,7 +11,8 @@ class StaticModuleInfo extends ModuleInfo
 	/*
 	 * Default attributes.
 	 */
-	public string $module = '';
-	public string $mid = '';
+	public ?int $module_srl = null;
+	public ?string $module = null;
+	public ?string $mid = null;
 
 }
