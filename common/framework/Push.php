@@ -34,7 +34,7 @@ class Push
 	 * Add a custom Push driver.
 	 *
 	 * @param string $name
-	 * @param object $driver
+	 * @param Drivers\PushInterface $driver
 	 * @return void
 	 */
 	public static function addDriver(string $name, Drivers\PushInterface $driver): void
@@ -126,7 +126,7 @@ class Push
 	/**
 	 * Get the sender's phone number.
 	 *
-	 * @return int|null
+	 * @return int
 	 */
 	public function getFrom(): int
 	{
@@ -475,7 +475,7 @@ class Push
 	/**
 	 * Send asynchronously (for Queue integration).
 	 *
-	 * @param self $sms
+	 * @param self $push
 	 * @return void
 	 */
 	public static function sendAsync(self $push): void
@@ -530,7 +530,7 @@ class Push
 	/**
 	 * Delete the device toekn
 	 *
-	 * @param array
+	 * @param array $invalid_tokens
 	 * @return bool
 	 */
 	protected function _deleteInvalidTokens(array $invalid_tokens): bool
@@ -548,7 +548,7 @@ class Push
 	/**
 	 * Update the device toekn
 	 *
-	 * @param array
+	 * @param array $update_tokens
 	 * @return bool
 	 */
 	protected function _updateDeviceTokens(array $update_tokens): bool

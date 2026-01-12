@@ -2,10 +2,13 @@
 
 namespace Rhymix\Framework\Drivers\SMS;
 
+use Rhymix\Framework\Drivers\SMSInterface;
+use Rhymix\Framework\SMS;
+
 /**
  * The base class for other SMS drivers.
  */
-abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
+abstract class Base implements SMSInterface
 {
 	/**
 	 * The configuration is stored here.
@@ -35,9 +38,9 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * Create a new instance of the current SMS driver, using the given settings.
 	 *
 	 * @param array $config
-	 * @return object
+	 * @return SMSInterface
 	 */
-	public static function getInstance(array $config)
+	public static function getInstance(array $config): SMSInterface
 	{
 		return new static($config);
 	}
@@ -110,10 +113,10 @@ abstract class Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * This method returns true on success and false on failure.
 	 *
 	 * @param array $messages
-	 * @param object $original
+	 * @param SMS $original
 	 * @return bool
 	 */
-	public function send(array $messages, \Rhymix\Framework\SMS $original)
+	public function send(array $messages, SMS $original)
 	{
 		return false;
 	}

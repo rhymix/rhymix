@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Mail;
+
 /**
  * The Woorimail mail driver.
  */
-class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class Woorimail extends Base implements MailInterface
 {
 	/**
 	 * The API URL.
@@ -89,10 +93,10 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message)
+	public function send(Mail $message)
 	{
 		// Assemble the POST data.
 		$data = array(
@@ -176,7 +180,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		// Send the API request.
 		try
 		{
-			$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], ['timeout' => self::$_timeout]);
+			$request = HTTP::post(self::$_url, $data, $headers, [], ['timeout' => self::$_timeout]);
 			$result = @json_decode($request->getBody()->getContents());
 		}
 		catch (\Exception $e)
@@ -188,7 +192,7 @@ class Woorimail extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		// Parse the result.
 		if (!$result)
 		{
-			$message->errors[] = 'Woorimail: Connection error: ' . $request->body;
+			$message->errors[] = 'Woorimail: Connection error: ' . $request->getBody();
 			return false;
 		}
 		elseif($result->result === 'OK')

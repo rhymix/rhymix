@@ -97,7 +97,7 @@ class SessionHelper
 	 */
 	public function isValid(): bool
 	{
-		if ($this->denied === 'N' && (!$this->limit_date || substr($this->limit_date, 0, 8) < date('Ymd')))
+		if ($this->denied === 'N' && (empty($this->limit_date) || substr($this->limit_date, 0, 8) < date('Ymd')))
 		{
 			return true;
 		}

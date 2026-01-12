@@ -101,8 +101,8 @@ class Mail
 					'name' => $driver->getName(),
 					'required' => $driver->getRequiredConfig(),
 					'api_types' => $driver->getAPITypes(),
-					'spf_hint' => $class_name::getSPFHint(),
-					'dkim_hint' => $class_name::getDKIMHint(),
+					'spf_hint' => $driver::getSPFHint(),
+					'dkim_hint' => $driver::getDKIMHint(),
 				);
 			}
 		}
@@ -450,7 +450,7 @@ class Mail
 	/**
 	 * Set the content type.
 	 *
-	 * @param string $mode The type
+	 * @param string $type The type
 	 * @return void
 	 */
 	public function setContentType(string $type = 'text/html'): void

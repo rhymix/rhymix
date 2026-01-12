@@ -889,7 +889,7 @@ class Template
 			case 'admin': return $this->user->isAdmin();
 			case 'manager': return $grant->manager ?? false;
 			case 'member': return $this->user->isMember();
-			default: false;
+			default: return false;
 		}
 	}
 

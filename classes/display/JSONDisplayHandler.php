@@ -30,9 +30,9 @@ class JSONDisplayHandler
 	/**
 	 * Convert arrays in a format that is compatible with XE.
 	 *
-	 * @param array $array
+	 * @param array &$array
 	 * @param string $compat_type
-	 * @return array
+	 * @return void
 	 */
 	protected static function _convertCompat(&$array, $compat_type = 'JSON')
 	{

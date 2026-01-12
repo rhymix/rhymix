@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Mail;
+
 /**
  * The Postmark mail driver.
  */
-class Postmark extends SMTP implements \Rhymix\Framework\Drivers\MailInterface
+class Postmark extends SMTP implements MailInterface
 {
 	/**
 	 * Direct invocation of the constructor is not permitted.

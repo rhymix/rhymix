@@ -1,14 +1,17 @@
 <?php
 
 namespace Rhymix\Framework\Drivers\SMS;
+
+use Rhymix\Framework\Drivers\SMSInterface;
 use Rhymix\Framework\HTTP;
+use Rhymix\Framework\SMS;
 use Rhymix\Framework\Storage;
 use RHymix\Framework\URL;
 
 /**
  * The Twilio SMS driver.
  */
-class Twilio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
+class Twilio extends Base implements SMSInterface
 {
 	/**
 	 * API Base URL.
@@ -64,10 +67,10 @@ class Twilio extends Base implements \Rhymix\Framework\Drivers\SMSInterface
 	 * This method returns true on success and false on failure.
 	 *
 	 * @param array $messages
-	 * @param object $original
+	 * @param SMS $original
 	 * @return bool
 	 */
-	public function send(array $messages, \Rhymix\Framework\SMS $original)
+	public function send(array $messages, SMS $original)
 	{
 		$status = true;
 		$url = sprintf('%s/Accounts/%s/Messages.json', self::BASEURL, $this->_config['account_sid']);
