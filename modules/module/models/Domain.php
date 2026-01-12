@@ -13,11 +13,15 @@ class Domain extends ModuleInfo
 {
 	/*
 	 * Attributes to match database columns.
+	 *
+	 * For historical reasons, 0 can be a valid domain_srl.
+	 * Nonexistent domains are indicated by -1 instead.
+	 * Null should not occur except while populating a new object.
 	 */
 	public ?int $domain_srl = 0;
 	public string $domain = '';
 	public string $is_default_domain = 'N';
-	public bool $is_default_replaced = false;
+	public string $is_default_replaced = 'N';
 	public int $index_module_srl = 0;
 	public int $index_document_srl = 0;
 	public int $default_layout_srl = 0;
@@ -96,7 +100,7 @@ class Domain extends ModuleInfo
 	 */
 	public static function getDomain(int $domain_srl): ?self
 	{
-		$cache_key = 'site_and_module:domain_info:domain_srl:' . $domain_srl;
+		$cache_key = 'site_and_module:domain_srl:' . $domain_srl;
 		$domain_info = Cache::get($cache_key);
 		if (!($domain_info instanceof self))
 		{
@@ -128,7 +132,7 @@ class Domain extends ModuleInfo
 			$domain_name = URL::decodeIdna($domain_name);
 		}
 		$domain_name = strtolower($domain_name);
-		$cache_key = 'site_and_module:domain_info:domain_name:' . $domain_name;
+		$cache_key = 'site_and_module:domain_name:' . $domain_name;
 		$domain_info = Cache::get($cache_key);
 		if (!($domain_info instanceof self))
 		{
@@ -150,7 +154,7 @@ class Domain extends ModuleInfo
 	 */
 	public static function getDefaultDomain(): ?self
 	{
-		$cache_key = 'site_and_module:domain_info:default_domain';
+		$cache_key = 'site_and_module:default_domain';
 		$domain_info = Cache::get($cache_key);
 		if (!($domain_info instanceof self))
 		{
@@ -193,7 +197,7 @@ class Domain extends ModuleInfo
 			{
 				$domain_info = \Module::getInstance()->migrateDomains();
 			}
-			$domain_info->is_default_replaced = true;
+			$domain_info->is_default_replaced = 'Y';
 		}
 
 		// Fill in module extra vars and return.
@@ -224,7 +228,7 @@ class Domain extends ModuleInfo
 			return ModuleCache::$module_srl2domain[$module_srl];
 		}
 
-		$prefix = Cache::get('site_and_module:module_srl_prefix:' . $module_srl);
+		$prefix = Cache::get('site_and_module:domain_prefix_by_module_srl:' . $module_srl);
 		if (isset($prefix))
 		{
 			ModuleCache::$module_srl2domain[$module_srl] = $prefix;

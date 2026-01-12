@@ -124,7 +124,7 @@ class ModuleHandler extends Handler
 		$site_module_info = Context::get('site_module_info');
 
 		// Check unregistered domain action.
-		if (!$site_module_info || !isset($site_module_info->domain_srl) || ($site_module_info->is_default_replaced ?? false))
+		if (!$site_module_info || !isset($site_module_info->domain_srl) || ($site_module_info->is_default_replaced ?? 'N') === 'Y')
 		{
 			$site_module_info = Rhymix\Modules\Module\Models\Domain::getDefaultDomain();
 			if ($site_module_info)
@@ -150,7 +150,7 @@ class ModuleHandler extends Handler
 						$site_module_info->domain_srl = -1;
 						$site_module_info->domain = Rhymix\Framework\URL::getCurrentDomain();
 						$site_module_info->is_default_domain = 'N';
-						$site_module_info->is_default_replaced = true;
+						$site_module_info->is_default_replaced = 'Y';
 
 						// Reset context variables if the domain was replaced.
 						Context::set('site_module_info', $site_module_info);

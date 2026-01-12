@@ -245,12 +245,12 @@ class Context
 			$site_module_info->domain = Rhymix\Framework\URL::getCurrentDomain();
 			$site_module_info->security = RX_SSL ? 'always' : 'none';
 			$site_module_info->settings = new stdClass;
-			$site_module_info->is_default_replaced = true;
+			$site_module_info->is_default_replaced = 'Y';
 			self::set('site_module_info', $site_module_info);
 		}
 
 		// Redirect to SSL if the current domain requires SSL.
-		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && !$site_module_info->is_default_replaced)
+		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && $site_module_info->is_default_replaced !== 'Y')
 		{
 			$url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
 			self::redirect($url, 301);
