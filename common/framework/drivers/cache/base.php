@@ -7,9 +7,9 @@ use Rhymix\Framework\Drivers\CacheInterface;
 abstract class Base implements CacheInterface
 {
 	/**
-	 * Set this flag to false to disable cache prefixes
+	 * Set this flag to true in a subclass to enable cache prefixes.
 	 */
-	public bool $prefix;
+	public bool $prefix = false;
 
 	/**
 	 * The singleton instance is stored here.
