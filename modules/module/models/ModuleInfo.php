@@ -67,7 +67,7 @@ class ModuleInfo
 			return null;
 		}
 
-		$module_info = Cache::get("site_and_module:module_info:$module_srl");
+		$module_info = Cache::get("site_and_module:module_info2:$module_srl");
 		if (!($module_info instanceof ModuleInstance))
 		{
 			$output = executeQueryArray('module.getMidInfo', ['module_srl' => $module_srl], [], ModuleInstance::class);
@@ -76,11 +76,12 @@ class ModuleInfo
 				return null;
 			}
 			$module_info = array_first($output->data);
+			self::addExtraVars([$module_info]);
+
 			ModuleCache::$module_srl2prefix[$module_srl] = $module_info->mid;
-			Cache::set("site_and_module:module_info:$module_srl", $module_info, 0, true);
+			Cache::set("site_and_module:module_info2:$module_srl", $module_info, 0, true);
 		}
 
-		self::addExtraVars([$module_info]);
 		return $module_info;
 	}
 
@@ -109,11 +110,12 @@ class ModuleInfo
 			return null;
 		}
 		$module_info = array_first($output->data);
+		self::addExtraVars([$module_info]);
+
 		ModuleCache::$prefix2module_srl[$prefix] = $module_info->module_srl;
-		Cache::set('site_and_module:module_info:' . $module_info->module_srl, $module_info, 0, true);
+		Cache::set('site_and_module:module_info2:' . $module_info->module_srl, $module_info, 0, true);
 		Cache::set('site_and_module:module_srl:' . $prefix, $module_info->module_srl, 0, true);
 
-		self::addExtraVars([$module_info]);
 		return $module_info;
 	}
 
@@ -125,7 +127,7 @@ class ModuleInfo
 	 */
 	public static function getModuleInfoByDocumentSrl(int $document_srl): ?ModuleInstance
 	{
-		$module_info = Cache::get("site_and_module:document_srl:$document_srl");
+		$module_info = Cache::get("site_and_module:module_info_by_document:$document_srl");
 		if (!($module_info instanceof ModuleInstance))
 		{
 			$output = executeQueryArray('module.getModuleInfoByDocument', ['document_srl' => $document_srl], [], ModuleInstance::class);
@@ -134,10 +136,10 @@ class ModuleInfo
 				return null;
 			}
 			$module_info = array_first($output->data);
-			Cache::set("site_and_module:document_srl:$document_srl", $module_info);
+			self::addExtraVars([$module_info]);
+			Cache::set("site_and_module:module_info_by_document:$document_srl", $module_info);
 		}
 
-		self::addExtraVars([$module_info]);
 		return $module_info;
 	}
 

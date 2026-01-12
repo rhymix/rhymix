@@ -7,6 +7,7 @@ use Rhymix\Framework\Exceptions\NotPermitted;
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Cache;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
+use Rhymix\Modules\Module\Models\ModuleInfo as ModuleInfoModel;
 use Rhymix\Modules\Module\Models\ModuleInstance as ModuleInstanceModel;
 use BaseObject;
 use Context;
@@ -190,28 +191,7 @@ class General extends Base
 		$moduleInfo->designSettings->skin->mobileIsDefault = ($moduleInfo->is_mskin_fix == 'N' && $moduleInfo->mskin !== '/USE_RESPONSIVE/') ? 1 : 0;
 		$moduleInfo->designSettings->skin->mobile = $skinInfoMobile->title ?? null;
 
-		$module_srl = Cache::get('site_and_module:module_srl:' . $mid);
-		if ($module_srl)
-		{
-			$mid_info = Cache::get('site_and_module:module_info:' . $module_srl);
-		}
-		else
-		{
-			$mid_info = null;
-		}
-
-		if ($mid_info === null)
-		{
-			Cache::set('site_and_module:module_srl:' . $mid, $output->data->module_srl, 0, true);
-			Cache::set('site_and_module:module_info:' . $output->data->module_srl, $moduleInfo, 0, true);
-		}
-		else
-		{
-			$mid_info->designSettings = $moduleInfo->designSettings;
-			$moduleInfo = $mid_info;
-		}
-
-		ModuleModel::addModuleExtraVars($moduleInfo);
+		ModuleInfoModel::addExtraVars([$moduleInfo]);
 		if ($moduleInfo->module === 'page' && $moduleInfo->page_type !== 'ARTICLE')
 		{
 			unset($moduleInfo->skin);
