@@ -86,7 +86,7 @@ abstract class Base implements PushInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param \Rhymix\Framework\Push $message
 	 * @param array $tokens
 	 * @return \stdClass
 	 */

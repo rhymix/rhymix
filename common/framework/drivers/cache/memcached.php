@@ -5,18 +5,8 @@ namespace Rhymix\Framework\Drivers\Cache;
 /**
  * The Memcached cache driver.
  */
-class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
+class Memcached extends Base implements \Rhymix\Framework\Drivers\CacheInterface
 {
-	/**
-	 * Set this flag to false to disable cache prefixes.
-	 */
-	public $prefix = true;
-
-	/**
-	 * The singleton instance is stored here.
-	 */
-	protected static $_instance = null;
-
 	/**
 	 * The Memcached connection is stored here.
 	 */
@@ -28,6 +18,8 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	protected function __construct(array $config)
 	{
+		$this->prefix = true;
+
 		if (class_exists('\\Memcached', false))
 		{
 			$this->_conn = new \Memcached;
@@ -58,21 +50,6 @@ class Memcached implements \Rhymix\Framework\Drivers\CacheInterface
 				}
 			}
 		}
-	}
-
-	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 *
-	 * @param array $config
-	 * @return void
-	 */
-	public static function getInstance(array $config)
-	{
-		if (self::$_instance === null)
-		{
-			self::$_instance = new self($config);
-		}
-		return self::$_instance;
 	}
 
 	/**

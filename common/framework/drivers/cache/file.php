@@ -7,18 +7,8 @@ use Rhymix\Framework\Storage;
 /**
  * The file cache driver.
  */
-class File implements \Rhymix\Framework\Drivers\CacheInterface
+class File extends Base implements \Rhymix\Framework\Drivers\CacheInterface
 {
-	/**
-	 * Set this flag to false to disable cache prefixes.
-	 */
-	public $prefix = false;
-
-	/**
-	 * The singleton instance is stored here.
-	 */
-	protected static $_instance = null;
-
 	/**
 	 * The cache directory.
 	 */
@@ -34,21 +24,6 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 		{
 			Storage::createDirectory($this->_dir);
 		}
-	}
-
-	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 *
-	 * @param array $config
-	 * @return void
-	 */
-	public static function getInstance(array $config)
-	{
-		if (static::$_instance === null)
-		{
-			static::$_instance = new static($config);
-		}
-		return static::$_instance;
 	}
 
 	/**
@@ -155,7 +130,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function incr($key, $amount)
 	{
@@ -172,7 +147,7 @@ class File implements \Rhymix\Framework\Drivers\CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function decr($key, $amount)
 	{

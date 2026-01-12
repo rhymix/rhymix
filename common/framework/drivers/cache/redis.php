@@ -5,18 +5,8 @@ namespace Rhymix\Framework\Drivers\Cache;
 /**
  * The Redis cache driver.
  */
-class Redis implements \Rhymix\Framework\Drivers\CacheInterface
+class Redis extends Base implements \Rhymix\Framework\Drivers\CacheInterface
 {
-	/**
-	 * Set this flag to false to disable cache prefixes.
-	 */
-	public $prefix = true;
-
-	/**
-	 * The singleton instance is stored here.
-	 */
-	protected static $_instance = null;
-
 	/**
 	 * The Redis connection is stored here.
 	 */
@@ -27,6 +17,8 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	 */
 	protected function __construct(array $config)
 	{
+		$this->prefix = true;
+
 		try
 		{
 			$this->_conn = null;
@@ -70,21 +62,6 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 		{
 			$this->_conn = null;
 		}
-	}
-
-	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 *
-	 * @param array $config
-	 * @return void
-	 */
-	public static function getInstance(array $config)
-	{
-		if (self::$_instance === null)
-		{
-			self::$_instance = new self($config);
-		}
-		return self::$_instance;
 	}
 
 	/**
@@ -261,7 +238,7 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function incr($key, $amount)
 	{
@@ -283,7 +260,7 @@ class Redis implements \Rhymix\Framework\Drivers\CacheInterface
 	 *
 	 * @param string $key
 	 * @param int $amount
-	 * @return int
+	 * @return int|false
 	 */
 	public function decr($key, $amount)
 	{

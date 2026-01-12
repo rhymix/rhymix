@@ -5,39 +5,14 @@ namespace Rhymix\Framework\Drivers\Cache;
 /**
  * The APC cache driver.
  */
-class APC implements \Rhymix\Framework\Drivers\CacheInterface
+class APC extends Base implements \Rhymix\Framework\Drivers\CacheInterface
 {
-	/**
-	 * Set this flag to false to disable cache prefixes.
-	 */
-	public $prefix = true;
-
-	/**
-	 * The singleton instance is stored here.
-	 */
-	protected static $_instance = null;
-
 	/**
 	 * Direct invocation of the constructor is not permitted.
 	 */
 	protected function __construct()
 	{
-
-	}
-
-	/**
-	 * Create a new instance of the current cache driver, using the given settings.
-	 *
-	 * @param array $config
-	 * @return void
-	 */
-	public static function getInstance(array $config)
-	{
-		if (self::$_instance === null)
-		{
-			self::$_instance = new self();
-		}
-		return self::$_instance;
+		$this->prefix = true;
 	}
 
 	/**

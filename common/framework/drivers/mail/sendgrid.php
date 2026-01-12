@@ -2,10 +2,14 @@
 
 namespace Rhymix\Framework\Drivers\Mail;
 
+use Rhymix\Framework\Drivers\MailInterface;
+use Rhymix\Framework\HTTP;
+use Rhymix\Framework\Mail;
+
 /**
  * The SendGrid mail driver.
  */
-class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
+class SendGrid extends Base implements MailInterface
 {
 	/**
 	 * The API URL.
@@ -59,16 +63,16 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 *
 	 * This method returns true on success and false on failure.
 	 *
-	 * @param object $message
+	 * @param Mail $message
 	 * @return bool
 	 */
-	public function send(\Rhymix\Framework\Mail $message)
+	public function send(Mail $message)
 	{
 		// Check API token.
 		if (!isset($this->_config['api_token']) || !$this->_config['api_token'])
 		{
 			$message->errors[] = 'SendGrid: Please use API key (token) instead of username and password.';
-			return;
+			return false;
 		}
 
 		// Initialize the request data.
@@ -119,7 +123,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		$replyTo = $message->message->getReplyTo();
 		if ($replyTo)
 		{
-			$data['reply_to']['email'] = array_key_first($from);
+			$data['reply_to']['email'] = array_key_first($replyTo);
 		}
 
 		// Set the subject.
@@ -154,7 +158,7 @@ class SendGrid extends Base implements \Rhymix\Framework\Drivers\MailInterface
 		);
 
 		// Send the API request.
-		$request = \Rhymix\Framework\HTTP::post(self::$_url, $data, $headers, [], $options);
+		$request = HTTP::post(self::$_url, $data, $headers, [], $options);
 		$status_code = $request->getStatusCode();
 		$result = $request->getBody()->getContents();
 
