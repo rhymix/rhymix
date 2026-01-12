@@ -1954,7 +1954,7 @@ class Context
 		{
 			if (!isset($domain_infos[$domain]))
 			{
-				$domain_infos[$domain] = ModuleModel::getSiteInfoByDomain($domain);
+				$domain_infos[$domain] = Rhymix\Modules\Module\Models\Domain::getDomainByDomainName($domain);
 			}
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}

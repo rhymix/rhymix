@@ -201,7 +201,7 @@ class ModuleObject extends BaseObject
 		$this->origin_module_info = $module_info;
 		$this->xml_info = $xml_info;
 		$this->skin_vars = $module_info->skin_vars ?? null;
-		$this->module_config = ModuleModel::getInstance()->getModuleConfig($this->module, $module_info->site_srl);
+		$this->module_config = Rhymix\Modules\Module\Models\ModuleConfig::getModuleConfig($this->module);
 
 		// Set privileges(granted) information
 		if($this->setPrivileges() !== true)
