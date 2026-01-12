@@ -42,7 +42,7 @@ class GlobalRoute
 	 */
 	public static function getAllGlobalRoutes(): array
 	{
-		$list = Cache::get('action_forward');
+		$list = Cache::get('global_routes');
 		if ($list === null)
 		{
 			$list = [];
@@ -59,7 +59,7 @@ class GlobalRoute
 				}
 				$list[$item->act] = $item;
 			}
-			Cache::set('action_forward', $list, 0, true);
+			Cache::set('global_routes', $list, 0, true);
 		}
 		return $list;
 	}
@@ -99,7 +99,7 @@ class GlobalRoute
 		$output = executeQuery('module.insertActionForward', $args);
 		$oDB->commit();
 
-		Cache::delete('action_forward');
+		Cache::delete('global_routes');
 		return $output;
 	}
 
@@ -123,7 +123,7 @@ class GlobalRoute
 			'type' => $type,
 		]);
 
-		Cache::delete('action_forward');
+		Cache::delete('global_routes');
 		return $output;
 	}
 }
