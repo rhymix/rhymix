@@ -1270,7 +1270,7 @@ class ModuleHandler extends Handler
 	 * @param string $module module name
 	 * @param string $type instance type, (e.g., view, controller, model)
 	 * @param string $kind admin or svc
-	 * @return ModuleObject module instance (if failed it returns null)
+	 * @return ?ModuleObject module instance (if failed it returns null)
 	 * @remarks if there exists a module instance created before, returns it.
 	 * */
 	public static function getModuleInstance($module, $type = 'view', $kind = '')
@@ -1291,6 +1291,10 @@ class ModuleHandler extends Handler
 		if (class_exists($class_name) && is_subclass_of($class_name, 'ModuleObject'))
 		{
 			return $class_name::getInstance($module);
+		}
+		else
+		{
+			return null;
 		}
 	}
 
@@ -1519,6 +1523,7 @@ class ModuleHandler extends Handler
 
 		Context::set('http_status_code', $code);
 		Context::set('http_status_message', $statusMessage);
+		return $statusMessage;
 	}
 
 }

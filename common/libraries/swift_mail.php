@@ -33,7 +33,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      */
     public function __construct()
     {
-        
+
     }
 
     /**
@@ -56,6 +56,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      */
     public function stop()
     {
+
     }
 
     /**
@@ -63,6 +64,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      */
     public function ping()
     {
+		return true;
     }
 
     /**
@@ -194,7 +196,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
      */
     public function registerPlugin(Swift_Events_EventListener $plugin)
     {
-        
+
     }
 
     /** Throw a TransportException, first sending it to any listeners */
@@ -220,7 +222,7 @@ class Swift_Transport_MailTransport implements Swift_Transport
     {
         return @mail($to, $subject, $body, $headers, $extraParams);
     }
-	
+
     /** Determine the best-use reverse path for this message */
     private function _getReversePath(Swift_Mime_SimpleMessage $message)
     {
