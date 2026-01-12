@@ -11,6 +11,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="page" value="{$page}" />
 	<table id="documentListTable" class="x_table x_table-striped x_table-hover dsTg">
 		<caption>
+			<a href="{getUrl('search_target', $search_target, 'search_keyword', $search_keyword)}" cond="!empty($search_target) && $search_target !== 'is_secret' && !empty($search_keyword)" class="active">{$lang->cmd_search}({number_format($total_count)})</a>
+			<i>|</i>
 			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}" class="active"|cond="$search_keyword == ''">{$lang->all}<block cond="$search_keyword == ''">({number_format($total_count)})</block></a>
 			<i>|</i>
 			<a href="{getUrl('search_target', 'is_secret', 'search_keyword', 'N')}" class="active"|cond="$search_target == 'is_secret' && $search_keyword == 'N'">{$status_name_list['PUBLIC']}<block cond="$search_target == 'is_secret' && $search_keyword == 'N'">({number_format($total_count)})</block></a>

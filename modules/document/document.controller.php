@@ -889,7 +889,7 @@ class DocumentController extends Document
 					if (!$manual_inserted)
 					{
 						$ev_output = $extra_item->validate($value);
-						if ($ev_output && !$output->toBool())
+						if ($ev_output && !$ev_output->toBool())
 						{
 							$oDB->rollback();
 							return $ev_output;
