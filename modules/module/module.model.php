@@ -649,59 +649,7 @@ class ModuleModel extends Module
 	 */
 	public static function getModuleDefaultSkin($module_name, $skin_type = 'P', $site_srl = 0, $updateCache = true)
 	{
-		$target = ($skin_type == 'M') ? 'mskin' : 'skin';
-		$designInfoFile = RX_BASEDIR.'files/site_design/design_0.php';
-		if(is_readable($designInfoFile))
-		{
-			include($designInfoFile);
-
-			$skinName = $designInfo->module->{$module_name}->{$target} ?? null;
-		}
-		if(!isset($designInfo))
-		{
-			$designInfo = new stdClass();
-		}
-		if(!$skinName)
-		{
-			$dir = ($skin_type == 'M') ? 'm.skins/' : 'skins/';
-			$moduleSkinPath = ModuleHandler::getModulePath($module_name).$dir;
-
-			if(is_dir($moduleSkinPath.'default'))
-			{
-				$skinName = 'default';
-			}
-			else if(is_dir($moduleSkinPath.'xe_default'))
-			{
-				$skinName = 'xe_default';
-			}
-			else
-			{
-				$skins = FileHandler::readDir($moduleSkinPath);
-				if(count($skins) > 0)
-				{
-					$skinName = $skins[0];
-				}
-				else
-				{
-					$skinName = NULL;
-				}
-			}
-
-			if($updateCache && $skinName)
-			{
-				if(!isset($designInfo->module))
-				{
-					$designInfo->module = new stdClass();
-				}
-				if(!isset($designInfo->module->{$module_name})) $designInfo->module->{$module_name} = new stdClass();
-				$designInfo->module->{$module_name}->{$target} = $skinName;
-
-				$oAdminController = getAdminController('admin');
-				$oAdminController->makeDefaultDesignFile($designInfo);
-			}
-		}
-
-		return $skinName;
+		return Rhymix\Modules\Module\Models\ModuleConfig::getModuleDefaultSkin((string)$module_name, (string)$skin_type);
 	}
 
 	/**
@@ -771,7 +719,7 @@ class ModuleModel extends Module
 			$member_info->member_srl = 0;
 		}
 
-		return Rhymix\Modules\Module\Models\Permission::create($module_info, $member_info, $xml_info);
+		return Rhymix\Modules\Module\Models\Permission::get($module_info, $member_info, $xml_info);
 	}
 
 	/**
@@ -807,7 +755,7 @@ class ModuleModel extends Module
 		if ($result)
 		{
 			$module_info = array_first($result);
-			return Rhymix\Modules\Module\Models\Permission::create($module_info, $member_info);
+			return Rhymix\Modules\Module\Models\Permission::get($module_info, $member_info);
 		}
 		else
 		{
@@ -825,47 +773,24 @@ class ModuleModel extends Module
 	 * */
 	public static function getPrivilegesBySrl($target_srl, $type = null, $member_info = null)
 	{
-		if(empty($target_srl = trim($target_srl)) || !preg_match('/^([0-9]+)$/', $target_srl) && $type != 'module')
+		if (empty(trim($target_srl)) || !$type)
 		{
 			return false;
 		}
-
-		if($type)
+		if ($type === 'module' && !preg_match('/^([0-9]+)$/', $target_srl))
 		{
-			if($type == 'document')
+			$target_srl = array_first(Rhymix\Modules\Module\Models\Prefix::getModuleSrlByPrefix([$target_srl]));
+			if (!$target_srl)
 			{
-				$target_srl = DocumentModel::getDocument($target_srl, false, false)->get('module_srl');
-			}
-			else if($type == 'comment')
-			{
-				$target_srl = CommentModel::getComment($target_srl)->get('module_srl');
-			}
-			else if($type == 'file')
-			{
-				$target_srl = FileModel::getFile($target_srl)->module_srl;
-			}
-			else if($type == 'module')
-			{
-				$module_info = self::getModuleInfoByMid($target_srl);
+				return false;
 			}
 		}
-
-		if(!isset($module_info))
-		{
-			$module_info = self::getModuleInfoByModuleSrl($target_srl);
-		}
-
-		if(!$module_info->module_srl)
-		{
-			return false;
-		}
-
-		if(!$member_info)
+		if (!$member_info)
 		{
 			$member_info = Context::get('logged_info');
 		}
 
-		return self::getGrant($module_info, $member_info);
+		return Rhymix\Modules\Module\Models\Permission::findByTargetType((string)$type, (int)$target_srl, $member_info) ?: false;
 	}
 
 	/**

@@ -236,7 +236,7 @@ class Permission
 	 * @param ?object $xml_info
 	 * @return self
 	 */
-	public static function create(object $module_info, object $member_info, ?object $xml_info = null): self
+	public static function get(object $module_info, object $member_info, ?object $xml_info = null): self
 	{
 		// Check cache
 		$module_srl = intval($module_info->module_srl ?? 0);
@@ -262,6 +262,64 @@ class Permission
 		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
 		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $grant;
 		return $grant;
+	}
+
+	/**
+	 * Generate a Permission object for the given target (document, comment, etc.) and member.
+	 *
+	 * @param string $target_type
+	 * @param int $target_srl
+	 * @param object $member_info
+	 * @return ?self
+	 * */
+	public static function findByTargetType(string $target_type, int $target_srl, object $member_info): ?self
+	{
+		$module_srl = null;
+
+		switch ($target_type)
+		{
+			case 'document':
+				$document = \DocumentModel::getDocument($target_srl, false, false);
+				if ($document->isExists() && $document->get('module_srl'))
+				{
+					$module_srl = intval($document->get('module_srl'));
+				}
+				break;
+			case 'comment':
+				$comment = \CommentModel::getComment($target_srl);
+				if ($comment->isExists() && $comment->get('module_srl'))
+				{
+					$module_srl = intval($comment->get('module_srl'));
+				}
+				break;
+			case 'file':
+				$file = \FileModel::getFile($target_srl);
+				if ($file && isset($file->module_srl))
+				{
+					$module_srl = intval($file->module_srl);
+				}
+				break;
+			case 'module':
+				$module_srl = $target_srl;
+				break;
+			default:
+				return null;
+		}
+
+		if ($module_srl)
+		{
+			$module_info = ModuleInfo::getModuleInfo($module_srl);
+			if (!$module_info)
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return null;
+		}
+
+		return self::get($module_info, $member_info);
 	}
 
 	/**

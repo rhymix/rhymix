@@ -8,6 +8,7 @@ use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Filters\FilenameFilter;
 use Rhymix\Framework\Template;
 use Rhymix\Modules\Module\Models\ModuleCategory as ModuleCategoryModel;
+use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\ModuleDefinition as ModuleDefinitionModel;
 use Rhymix\Modules\Module\Models\ModuleInfo as ModuleInfoModel;
 use BaseObject;
@@ -312,7 +313,7 @@ class ModuleConfig extends Base
 		{
 			if($module_info->is_skin_fix == 'N')
 			{
-				$skin = ModuleModel::getModuleDefaultSkin($module_info->module, 'P');
+				$skin = ModuleConfigModel::getModuleDefaultSkin($module_info->module, 'P');
 			}
 			else
 			{
@@ -324,7 +325,7 @@ class ModuleConfig extends Base
 			if($module_info->is_mskin_fix == 'N')
 			{
 				$skin_type = $module_info->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M';
-				$skin = ModuleModel::getModuleDefaultSkin($module_info->module, $skin_type);
+				$skin = ModuleConfigModel::getModuleDefaultSkin($module_info->module, $skin_type);
 			}
 			else
 			{
@@ -660,7 +661,7 @@ class ModuleConfig extends Base
 				else
 				{
 					$skin_type = $module_info->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M';
-					$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, $skin_type);
+					$skin = ModuleConfigModel::getModuleDefaultSkin($module_info->module, $skin_type);
 				}
 			}
 			else
@@ -671,7 +672,7 @@ class ModuleConfig extends Base
 				}
 				else
 				{
-					$skin = $oModuleModel->getModuleDefaultSkin($module_info->module, 'P');
+					$skin = ModuleConfigModel::getModuleDefaultSkin($module_info->module, 'P');
 				}
 			}
 

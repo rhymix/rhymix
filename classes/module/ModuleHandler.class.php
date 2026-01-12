@@ -537,7 +537,7 @@ class ModuleHandler extends Handler
 				$xml_info = Rhymix\Modules\Module\Models\ModuleDefinition::getModuleActionXml($forward->module);
 
 				// Protect admin action
-				if(($this->module == 'admin' || $kind == 'admin') && !Rhymix\Modules\Module\Models\Permission::create($forward, $logged_info)->root)
+				if(($this->module == 'admin' || $kind == 'admin') && !Rhymix\Modules\Module\Models\Permission::get($forward, $logged_info)->root)
 				{
 					if($this->module == 'admin' || empty($xml_info->action->{$this->act}->permission->target))
 					{

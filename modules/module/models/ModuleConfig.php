@@ -6,6 +6,7 @@ use Rhymix\Framework\Cache;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Rhymix\Framework\Parsers\DBQuery\NullValue;
+use Rhymix\Framework\Storage;
 
 class ModuleConfig
 {
@@ -123,6 +124,76 @@ class ModuleConfig
 			$result[$val->module_srl] = self::_normalizeConfig(unserialize($val->config));
 		}
 		return $result;
+	}
+
+	/**
+	 * Get the default skin for a module.
+	 *
+	 * @param string $module
+	 * @param string $mode
+	 * @return ?string
+	 */
+	public static function getModuleDefaultSkin(string $module, string $mode = 'P'): ?string
+	{
+		// Load default skin name from the site design info file.
+		$target = ($mode === 'M') ? 'mskin' : 'skin';
+		$designInfoFile = \RX_BASEDIR . 'files/site_design/design_0.php';
+		if (Storage::isFile($designInfoFile) && Storage::isReadable($designInfoFile))
+		{
+			include($designInfoFile);
+			$skin = $designInfo->module->{$module}->{$target} ?? null;
+		}
+		if ($skin !== null)
+		{
+			return $skin;
+		}
+
+		// If there is no default skin specified in the site design info file,
+		// set a reasonable default skin by scanning the skin directory.
+		$skins_dir = \RX_BASEDIR . 'modules/' . $module . '/' . ($mode === 'M' ? 'm.skins/' : 'skins/');
+		foreach (['default', 'xe_default', 'xedition'] as $candidate)
+		{
+			if (Storage::isDirectory($skins_dir . $candidate))
+			{
+				$skin = $candidate;
+				break;
+			}
+		}
+		if (!$skin)
+		{
+			$skins = glob($skins_dir . '/*', \GLOB_ONLYDIR);
+			if(count($skins) > 0)
+			{
+				$skin = basename($skins[0]);
+			}
+			else
+			{
+				$skin = null;
+			}
+		}
+		if (!$skin)
+		{
+			return null;
+		}
+
+		// Update the site design info file.
+		if (!isset($designInfo))
+		{
+			$designInfo = new \stdClass;
+		}
+		if (!isset($designInfo->module))
+		{
+			$designInfo->module = new \stdClass;
+		}
+		if (!isset($designInfo->module->{$module}))
+		{
+			$designInfo->module->{$module} = new \stdClass;
+		}
+		$designInfo->module->{$module}->{$target} = $skin;
+		$oAdminController = \Rhymix\Modules\Admin\Controllers\Design::getInstance();
+		$oAdminController->makeDefaultDesignFile($designInfo);
+
+		return $skin;
 	}
 
 	/**

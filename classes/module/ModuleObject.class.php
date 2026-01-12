@@ -309,7 +309,7 @@ class ModuleObject extends BaseObject
 		}
 		else
 		{
-			$grant = ModuleModel::getInstance()->getGrant($this->module_info, $this->user, $this->xml_info);
+			$grant = Rhymix\Modules\Module\Models\Permission::get($this->module_info, $this->user, $this->xml_info);
 		}
 
 		if(!$this->checkPermission($grant, $this->user, $failed_requirement))
@@ -350,7 +350,7 @@ class ModuleObject extends BaseObject
 		// Get privileges(granted) information of the member for current module
 		if(!$grant)
 		{
-			$grant = ModuleModel::getGrant($this->module_info, $member_info, $this->xml_info);
+			$grant = Rhymix\Modules\Module\Models\Permission::get($this->module_info, $member_info, $this->xml_info);
 		}
 
 		// If an administrator, Pass
@@ -743,7 +743,7 @@ class ModuleObject extends BaseObject
 			$skin = ($config->skin ?? '') ?: 'default';
 			if ($skin === '/USE_DEFAULT/')
 			{
-				$skin = ModuleModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
+				$skin = Rhymix\Modules\Module\Models\ModuleConfig::getModuleDefaultSkin($this->module, 'P') ?: 'default';
 			}
 			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
 			if (!Rhymix\Framework\Storage::exists($template_path))
@@ -756,7 +756,7 @@ class ModuleObject extends BaseObject
 			$mskin = ($config->mskin ?? '') ?: 'default';
 			if ($mskin === '/USE_DEFAULT/')
 			{
-				$mskin = ModuleModel::getModuleDefaultSkin($this->module, 'M') ?: 'default';
+				$mskin = Rhymix\Modules\Module\Models\ModuleConfig::getModuleDefaultSkin($this->module, 'M') ?: 'default';
 			}
 
 			if($mskin === '/USE_RESPONSIVE/')
@@ -764,7 +764,7 @@ class ModuleObject extends BaseObject
 				$skin = ($config->skin ?? '') ?: 'default';
 				if ($skin === '/USE_DEFAULT/')
 				{
-					$skin = ModuleModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
+					$skin = Rhymix\Modules\Module\Models\ModuleConfig::getModuleDefaultSkin($this->module, 'P') ?: 'default';
 				}
 				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
 				if (!Rhymix\Framework\Storage::exists($template_path))

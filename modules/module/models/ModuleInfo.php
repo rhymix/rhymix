@@ -325,7 +325,7 @@ class ModuleInfo
 	}
 
 	/**
-	 * Get module grants.
+	 * Get module grants (list of permissions).
 	 *
 	 * @param int $module_srl
 	 * @return DBResultHelper

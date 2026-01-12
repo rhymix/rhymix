@@ -232,7 +232,7 @@ class ModuleDefinition
 		$moduleName = ($module === 'page') ? 'ARTICLE' : $module;
 		if (array_key_exists($moduleName, $installedMenuTypes))
 		{
-			$defaultSkinName = ModuleModel::getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
+			$defaultSkinName = ModuleConfig::getModuleDefaultSkin($module, $dir == 'skins' ? 'P' : 'M');
 			if ($defaultSkinName)
 			{
 				if ($defaultSkinName === '/USE_RESPONSIVE/')

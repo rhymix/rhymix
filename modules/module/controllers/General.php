@@ -6,6 +6,7 @@ use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Exceptions\NotPermitted;
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Cache;
+use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\ModuleInstance as ModuleInstanceModel;
 use BaseObject;
 use Context;
@@ -160,8 +161,8 @@ class General extends Base
 		$oLayoutAdminModel = LayoutAdminModel::getInstance();
 		$layoutSrlPc = ($moduleInfo->layout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('P') : $moduleInfo->layout_srl;
 		$layoutSrlMobile = ($moduleInfo->mlayout_srl == -1) ? $oLayoutAdminModel->getSiteDefaultLayout('M') : $moduleInfo->mlayout_srl;
-		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? ModuleModel::getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
-		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? ModuleModel::getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
+		$skinNamePc = ($moduleInfo->is_skin_fix == 'N') ? ModuleConfigModel::getModuleDefaultSkin($moduleInfo->module, 'P') : $moduleInfo->skin;
+		$skinNameMobile = ($moduleInfo->is_mskin_fix == 'N') ? ModuleConfigModel::getModuleDefaultSkin($moduleInfo->module, $moduleInfo->mskin === '/USE_RESPONSIVE/' ? 'P' : 'M') : $moduleInfo->mskin;
 
 		$oLayoutModel = LayoutModel::getInstance();
 		$layoutInfoPc = $layoutSrlPc ? $oLayoutModel->getLayoutRawData($layoutSrlPc, array('title')) : NULL;
