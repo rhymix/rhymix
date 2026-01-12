@@ -3792,6 +3792,7 @@ class DocumentController extends Document
 			Rhymix\Framework\Cache::delete('document_item:' . getNumberingPath($document_srl) . $document_srl);
 			Rhymix\Framework\Cache::delete('seo:document_images:' . $document_srl);
 			Rhymix\Framework\Cache::delete('site_and_module:document_srl:' . $document_srl);
+			Rhymix\Framework\Cache::delete('site_and_module:module_info_by_document:' . $document_srl);
 			unset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]);
 		}
 		if ($type === 'all' || $type === 'extra_vars')

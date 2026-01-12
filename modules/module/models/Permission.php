@@ -2,10 +2,12 @@
 
 namespace Rhymix\Modules\Module\Models;
 
+use Rhymix\Framework\Cache;
+
 #[\AllowDynamicProperties]
 class Permission
 {
-	/**
+	/*
 	 * Default properties.
 	 */
 	public $access;
@@ -23,14 +25,14 @@ class Permission
 	protected $_scopes = [];
 
 	/**
-	 * Constructor will be called from ModuleModel::getGrant().
+	 * Constructor will be called from create().
 	 *
 	 * @param array $xml_grant_list
 	 * @param array $module_grants
 	 * @param ?object $module_info
 	 * @param ?object $member_info
 	 */
-	public function __construct(array $xml_grant_list, array $module_grants, ?object $module_info = null, ?object $member_info = null)
+	protected function __construct(array $xml_grant_list, array $module_grants, ?object $module_info = null, ?object $member_info = null)
 	{
 		// Generate the list of default permissions.
 		$this->_spec = [
@@ -182,7 +184,7 @@ class Permission
 	 * If you pass the name of a scope, the result might vary
 	 * depending on whether you are a module manager.
 	 *
-	 * @param string key
+	 * @param string $key
 	 * @return string|array
 	 */
 	public function whocan(string $key)
@@ -224,5 +226,165 @@ class Permission
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Generate a Permission object for the given module and member.
+	 *
+	 * @param object $module_info
+	 * @param object $member_info
+	 * @param ?object $xml_info
+	 * @return self
+	 */
+	public static function get(object $module_info, object $member_info, ?object $xml_info = null): self
+	{
+		// Check cache
+		$module_srl = intval($module_info->module_srl ?? 0);
+		$member_srl = intval($member_info->member_srl ?? 0);
+		if (isset(ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl]))
+		{
+			$grant = ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl];
+			if ($grant instanceof self && !$xml_info)
+			{
+				return $grant;
+			}
+		}
+
+		// Get module grant information
+		if (!$xml_info)
+		{
+			$xml_info = ModuleDefinition::getModuleActionXml($module_info->module);
+		}
+
+		// Generate a Permission object
+		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
+		$module_grants = ModuleInfo::getGrants($module_srl)->data ?: [];
+		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info);
+		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $grant;
+		return $grant;
+	}
+
+	/**
+	 * Generate a Permission object for the given target (document, comment, etc.) and member.
+	 *
+	 * @param string $target_type
+	 * @param int $target_srl
+	 * @param object $member_info
+	 * @return ?self
+	 * */
+	public static function findByTargetType(string $target_type, int $target_srl, object $member_info): ?self
+	{
+		$module_srl = null;
+
+		switch ($target_type)
+		{
+			case 'document':
+				$document = \DocumentModel::getDocument($target_srl, false, false);
+				if ($document->isExists() && $document->get('module_srl'))
+				{
+					$module_srl = intval($document->get('module_srl'));
+				}
+				break;
+			case 'comment':
+				$comment = \CommentModel::getComment($target_srl);
+				if ($comment->isExists() && $comment->get('module_srl'))
+				{
+					$module_srl = intval($comment->get('module_srl'));
+				}
+				break;
+			case 'file':
+				$file = \FileModel::getFile($target_srl);
+				if ($file && isset($file->module_srl))
+				{
+					$module_srl = intval($file->module_srl);
+				}
+				break;
+			case 'module':
+				$module_srl = $target_srl;
+				break;
+			default:
+				return null;
+		}
+
+		if ($module_srl)
+		{
+			$module_info = ModuleInfo::getModuleInfo($module_srl);
+			if (!$module_info)
+			{
+				return null;
+			}
+		}
+		else
+		{
+			return null;
+		}
+
+		return self::get($module_info, $member_info);
+	}
+
+	/**
+	 * Get the list of modules that a member can access.
+	 *
+	 * @param object $member_info
+	 * @return array
+	 */
+	public static function listModulesAccessibleBy(object $member_info): array
+	{
+		$result = Cache::get(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl));
+		if ($result === null)
+		{
+			$result = [];
+			$module_list = ModuleInfo::getModuleInstanceList();
+			foreach ($module_list as $module_info)
+			{
+				$grant = self::get($module_info, $member_info);
+				if (!$grant->access)
+				{
+					continue;
+				}
+				if (isset($grant->{'list'}) && $grant->{'list'} === false)
+				{
+					continue;
+				}
+				if (isset($grant->{'view'}) && $grant->{'view'} === false)
+				{
+					continue;
+				}
+				$result[$module_info->module_srl] = $module_info;
+			}
+			ksort($result);
+
+			Cache::set(sprintf('site_and_module:accessible_modules:%d', $member_info->member_srl), $result);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get the list of modules that a member can access.
+	 *
+	 * @param object $member_info
+	 * @param ?string $module
+	 * @return array
+	 */
+	public static function listModulesManagedBy(object $member_info, ?string $module = null): array
+	{
+		$result = [];
+		$module_list = ModuleInfo::getModuleInstanceList();
+		foreach ($module_list as $module_info)
+		{
+			if ($module && $module_info->module != $module)
+			{
+				continue;
+			}
+
+			$grant = self::get($module_info, $member_info);
+			if ($grant->manager)
+			{
+				$result[$module_info->module_srl] = $module_info;
+			}
+		}
+		ksort($result);
+		return $result;
 	}
 }

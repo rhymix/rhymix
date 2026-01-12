@@ -77,7 +77,7 @@ class BaseObject
 	/**
 	 * Setter to set error code or message
 	 *
-	 * @param int|strong $error error code or message
+	 * @param int|string $error error code or message
 	 * @return $this
 	 */
 	public function setError($error = 0)

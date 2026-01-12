@@ -230,7 +230,7 @@ class Context
 					define('RX_BASEURL', parse_url($default_url, PHP_URL_PATH));
 				}
 			}
-			$site_module_info = ModuleModel::getDefaultMid() ?: new stdClass;
+			$site_module_info = Rhymix\Modules\Module\Models\Domain::getDefaultDomainWithModuleInfo() ?: new stdClass;
 			$site_timezone = (isset($site_module_info->settings->timezone) && $site_module_info->settings->timezone !== 'default') ? $site_module_info->settings->timezone : null;
 			self::set('site_module_info', $site_module_info);
 			self::set('_default_timezone', $site_timezone);
@@ -245,12 +245,12 @@ class Context
 			$site_module_info->domain = Rhymix\Framework\URL::getCurrentDomain();
 			$site_module_info->security = RX_SSL ? 'always' : 'none';
 			$site_module_info->settings = new stdClass;
-			$site_module_info->is_default_replaced = true;
+			$site_module_info->is_default_replaced = 'Y';
 			self::set('site_module_info', $site_module_info);
 		}
 
 		// Redirect to SSL if the current domain requires SSL.
-		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && !$site_module_info->is_default_replaced)
+		if (!RX_SSL && PHP_SAPI !== 'cli' && $site_module_info->security !== 'none' && $site_module_info->is_default_replaced !== 'Y')
 		{
 			$url = self::getDefaultUrl($site_module_info, true) . RX_REQUEST_URL;
 			self::redirect($url, 301);
@@ -950,12 +950,12 @@ class Context
 	public static function replaceUserLang($string, $fix_double_escape = false)
 	{
 		static $lang = null;
-		if($lang === null)
+		if ($lang === null)
 		{
 			$lang = Rhymix\Framework\Cache::get('site_and_module:user_defined_langs:0:' . self::getLangType());
-			if($lang === null)
+			if ($lang === null)
 			{
-				$lang = ModuleAdminController::getInstance()->makeCacheDefinedLangCode(0);
+				$lang = Rhymix\Modules\Module\Models\Lang::generateCache();
 			}
 		}
 
@@ -1954,7 +1954,7 @@ class Context
 		{
 			if (!isset($domain_infos[$domain]))
 			{
-				$domain_infos[$domain] = ModuleModel::getInstance()->getSiteInfoByDomain($domain);
+				$domain_infos[$domain] = Rhymix\Modules\Module\Models\Domain::getDomainByDomainName($domain);
 			}
 			$site_module_info = $domain_infos[$domain] ?: $site_module_info;
 		}

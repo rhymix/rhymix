@@ -1034,7 +1034,7 @@ class DB
 	 * @param string $table_name
 	 * @param string $index_name
 	 * @param array $columns
-	 * @param string $type
+	 * @param string|bool|int $type
 	 * @param string $options
 	 * @return Helpers\DBResultHelper
 	 */

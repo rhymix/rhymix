@@ -2,6 +2,8 @@
 
 namespace Rhymix\Framework;
 
+use Rhymix\Modules\Module\Models\Domain as DomainModel;
+
 /**
  * The session class.
  */
@@ -255,12 +257,12 @@ class Session
 		}
 
 		// Get the current site information.
-		$is_default_domain = ($site_module_info->domain_srl == 0);
+		$is_default_domain = ($site_module_info->is_default_domain === 'Y');
 		if (!$is_default_domain)
 		{
 			$current_domain = $site_module_info->domain;
 			$current_url = URL::getCurrentUrl();
-			$default_domain = \ModuleModel::getDefaultDomainInfo();
+			$default_domain = DomainModel::getDefaultDomain();
 			$default_url = \Context::getDefaultUrl($default_domain);
 		}
 

@@ -2,6 +2,10 @@
 
 namespace Rhymix\Framework;
 
+use Rhymix\Modules\Module\Models\GlobalRoute as GlobalRouteModel;
+use Rhymix\Modules\Module\Models\ModuleDefinition as ModuleDefinitionModel;
+use Rhymix\Modules\Module\Models\ModuleInfo as ModuleInfoModel;
+
 /**
  * The router class.
  */
@@ -456,7 +460,7 @@ class Router
 			return self::_getActionInfoByModule(self::$_action_cache_prefix[$prefix]) ?: false;
 		}
 
-		$module_info = \ModuleModel::getModuleInfoByMid($prefix);
+		$module_info = ModuleInfoModel::getModuleInfoByPrefix($prefix);
 		if ($module_info && $module_info->module)
 		{
 			$module_name = self::$_action_cache_prefix[$prefix] = $module_info->module;
@@ -481,7 +485,7 @@ class Router
 			return self::$_action_cache_module[$module];
 		}
 
-		$action_info = \ModuleModel::getModuleActionXml($module);
+		$action_info = ModuleDefinitionModel::getModuleActionXml($module);
 		return self::$_action_cache_module[$module] = $action_info ?: false;
 	}
 
@@ -498,7 +502,7 @@ class Router
 		{
 			if ($request->module && $request->act)
 			{
-				$action_info = \ModuleModel::getModuleActionXml($request->module);
+				$action_info = ModuleDefinitionModel::getModuleActionXml($request->module);
 				if (isset($action_info->action->{$request->act}))
 				{
 					$action = $action_info->action->{$request->act};
@@ -540,7 +544,7 @@ class Router
 		self::$_internal_forwarded_cache['POST'] = array();
 		self::$_internal_forwarded_cache['reverse'] = array();
 
-		$action_forward = \ModuleModel::getActionForward();
+		$action_forward = GlobalRouteModel::getAllGlobalRoutes();
 		foreach ($action_forward as $action_name => $action_info)
 		{
 			if ($action_info->route_regexp)

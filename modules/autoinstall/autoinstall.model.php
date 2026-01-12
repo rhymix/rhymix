@@ -397,7 +397,7 @@ class autoinstallModel extends autoinstall
 		}
 
 		$ftp_info = Context::getFTPInfo();
-		if(!$ftp_info->ftp_root_path)
+		if(empty($ftp_info->ftp_root_path))
 		{
 			return;
 		}
