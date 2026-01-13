@@ -1,5 +1,4 @@
 <config autoescape="on" />
-<load target="js/dashboard_default.js" />
 
 {@ ob_start()}
 	<section class="member">
@@ -27,14 +26,6 @@
 				{@$document = $value->variables}
 				<a href="{getUrl('', 'document_srl', $document['document_srl'])}" target="_blank"><!--@if(trim($value->getTitle()) !== '')-->{$value->getTitleText()}<!--@else--><strong>{$lang->no_title_document}</strong><!--@end--></a>
 				<span class="side">{$value->getNickName()}</span>
-				<form class="action" action="{getUrl('')}" method="POST">
-					<input type="hidden" name="module" value="admin" />
-					<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
-					<input type="hidden" name="cart[]" value="{$document['document_srl']}" />
-					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-					<button type="submit" name="type" value="trash" class="x_icon-trash" title="{$lang->cmd_trash}">{$lang->cmd_trash}</button>
-					<button type="submit" name="type" value="delete" class="x_icon-remove" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
-				</form>
 			</li>
 			<li cond="!is_array($latestDocumentList) || count($latestDocumentList) < 1">{$lang->no_data}</li>
 		</ul>
@@ -54,14 +45,6 @@
 			<li loop="$latestCommentList => $key,$value">
 				<a href="{getUrl('', 'document_srl', $value->document_srl)}#comment_{$value->comment_srl}" target="_blank"><!--@if(trim($value->content) !== '')-->{$value->getSummary()}<!--@else--><strong>{$lang->no_text_comment}</strong><!--@end--></a>
 				<span class="side">{$value->getNickName()}</span>
-				<form class="action" action="{getUrl('')}" method="POST">
-					<input type="hidden" name="module" value="admin" />
-					<input type="hidden" name="act" value="procCommentAdminDeleteChecked" />
-					<input type="hidden" name="cart[]" value="{$value->comment_srl}" />
-					<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin')}" />
-					<button type="submit" name="is_trash" value="true" class="x_icon-trash" title="{$lang->cmd_trash}">{$lang->cmd_trash}</button>
-					<button type="submit" name="is_trash" value="false" class="x_icon-remove" title="{$lang->cmd_delete}">{$lang->cmd_delete}</button>
-				</form>
 			</li>
 			<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
 		</ul>
