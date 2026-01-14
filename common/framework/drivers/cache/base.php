@@ -12,9 +12,9 @@ abstract class Base implements CacheInterface
 	public bool $prefix = false;
 
 	/**
-	 * The singleton instance is stored here.
+	 * Singleton instances of subclasses are stored here.
 	 */
-	protected static ?CacheInterface $_instance = null;
+	protected static array $_instances = [];
 
 	/**
 	 * Create a new instance of the current cache driver, using the given settings.
@@ -24,12 +24,13 @@ abstract class Base implements CacheInterface
 	 */
 	public static function getInstance(array $config = []): CacheInterface
 	{
-		if (static::$_instance === null)
+		$class_name = static::class;
+		if (!isset(static::$_instances[$class_name]))
 		{
-			static::$_instance = new static($config);
+			static::$_instances[$class_name] = new static($config);
 		}
 
-		return static::$_instance;
+		return static::$_instances[$class_name];
 	}
 
 	/**
