@@ -66,14 +66,15 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 				break;
 			}
 
+			$debug_info = self::$_last_listener_info;
 			$before_time = microtime(true);
 			$listener($event);
 			$after_time = microtime(true);
 
 			if (Debug::isEnabledForCurrentUser())
 			{
-				self::$_last_listener_info['elapsed_time'] = $after_time - $before_time;
-				Debug::addTrigger(self::$_last_listener_info);
+				$debug_info['elapsed_time'] = $after_time - $before_time;
+				Debug::addTrigger($debug_info);
 			}
 		}
 
@@ -104,6 +105,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 
 			try
 			{
+				$debug_info = self::$_last_listener_info;
 				$before_time = microtime(true);
 				$output = $handler($data);
 				$after_time = microtime(true);
@@ -116,8 +118,8 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 
 			if (Debug::isEnabledForCurrentUser())
 			{
-				self::$_last_listener_info['elapsed_time'] = $after_time - $before_time;
-				Debug::addTrigger(self::$_last_listener_info);
+				$debug_info['elapsed_time'] = $after_time - $before_time;
+				Debug::addTrigger($debug_info);
 			}
 
 			if ($data instanceof StoppableEventInterface && $data->isPropagationStopped())
