@@ -118,7 +118,16 @@ class EventTest extends \Codeception\Test\Unit
 		$output = EventDispatcher::trigger('fakeEvent', 'before', $event);
 		$this->assertEquals(1, $handler->counter);
 		$this->assertTrue($output instanceof \BaseObject);
+		$this->assertTrue($output->toBool());
+
+		// Dispatch stopped event with error
+		$event->stopPropagation();
+		$event->setErrorMessage('An error occurred.');
+		$output = EventDispatcher::trigger('fakeEvent', 'before', $event);
+		$this->assertEquals(1, $handler->counter);
+		$this->assertTrue($output instanceof \BaseObject);
 		$this->assertFalse($output->toBool());
+		$this->assertEquals('An error occurred.', $output->getMessage());
 
 		// Dispatch arbitrary object
 		$obj = new \stdClass();

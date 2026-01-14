@@ -252,7 +252,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 		}
 		else
 		{
-			return new BaseObject(-3, 'Event propagation stopped.');
+			return new BaseObject();
 		}
 	}
 }
