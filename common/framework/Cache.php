@@ -31,7 +31,7 @@ class Cache
 	/**
 	 * Initialize the cache system.
 	 *
-	 * @param array $config
+	 * @param array|string $config
 	 * @return Drivers\CacheInterface
 	 */
 	public static function init($config): Drivers\CacheInterface

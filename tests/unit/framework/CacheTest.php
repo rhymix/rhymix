@@ -9,7 +9,8 @@ class CacheTest extends \Codeception\Test\Unit
 			Rhymix\Framework\Config::set('crypto.authentication_key', Rhymix\Framework\Security::getRandom(64, 'alnum'));
 		}
 
-		$driver = Rhymix\Framework\Cache::init(array('dummy'));
+		Rhymix\Framework\Cache::init(array('dummy'));
+		Rhymix\Framework\Cache::clearAll();
 	}
 
 	public function _after()
