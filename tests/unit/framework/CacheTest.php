@@ -159,7 +159,7 @@ class CacheTest extends \Codeception\Test\Unit
 		$this->assertEquals($prefix . 'bar#2:2016', Rhymix\Framework\Cache::getRealKey('bar:2016'));
 	}
 
-	public function testCompatibility()
+	public function testBackwardCompatibility()
 	{
 		Rhymix\Framework\Cache::init(array('type' => 'sqlite'));
 		$ch = \CacheHandler::getInstance();
@@ -188,5 +188,77 @@ class CacheTest extends \Codeception\Test\Unit
 
 		$this->assertTrue($ch->truncate());
 		$this->assertFalse($ch->get('rhymix:123:456'));
+	}
+
+	public function testPsr6()
+	{
+		$helper = new Rhymix\Framework\Helpers\CacheItemPoolHelper();
+		$this->assertTrue($helper instanceof Psr\Cache\CacheItemPoolInterface);
+
+		$this->assertFalse($helper->hasItem('foo'));
+		$this->assertFalse($helper->getItem('bar')->isHit());
+
+		$foo = $helper->getItem('foo')->set((object)['foo' => 'bar'])->expiresAt(new DateTime('+5 minutes'));
+		$this->assertTrue($foo instanceof Psr\Cache\CacheItemInterface);
+		$this->assertTrue($helper->save($foo));
+
+		$this->assertTrue($helper->getItem('foo')->isHit());
+		$this->assertTrue(is_object($helper->getItem('foo')->get()));
+		$this->assertEquals('bar', $helper->getItem('foo')->get()->foo);
+
+		$this->assertTrue($helper->deleteItem('foo'));
+		$this->assertFalse($helper->deleteItem('foo'));
+		$this->assertFalse($helper->getItem('foo')->isHit());
+		$this->assertNull($helper->getItem('foo')->get());
+
+		$this->assertTrue($helper->saveDeferred($helper->getItem('foo')->set('bar')));
+		$this->assertEquals('bar', $helper->getItem('foo')->get());
+		$this->assertTrue($helper->clear());
+		$this->assertFalse($helper->getItem('foo')->isHit());
+	}
+
+	public function testPsr16()
+	{
+		$helper = new Rhymix\Framework\Helpers\SimpleCacheHelper();
+		$this->assertTrue($helper instanceof Psr\SimpleCache\CacheInterface);
+
+		$this->assertFalse($helper->has('foo'));
+		$this->assertTrue($helper->set('foo', (object)['foo' => 'bar'], 300));
+		$this->assertTrue($helper->set('foo', (object)['foo' => 'bar'], null));
+		$this->assertTrue($helper->set('foo', (object)['foo' => 'bar'], new DateInterval('PT5M')));
+		$this->assertTrue($helper->has('foo'));
+		$this->assertTrue(is_object($helper->get('foo')));
+		$this->assertEquals('bar', $helper->get('foo')->foo);
+		$this->assertTrue($helper->delete('foo'));
+		$this->assertFalse($helper->delete('foo'));
+		$this->assertFalse($helper->has('foo'));
+		$this->assertNull($helper->get('foo'));
+		$this->assertEquals('default_value', $helper->get('foo', 'default_value'));
+
+		$items = [
+			'key1' => 'value1',
+			'key2' => 'value2',
+			'key3' => 'value3',
+		];
+		$this->assertTrue($helper->setMultiple($items, 600));
+		$this->assertEquals('value1', $helper->get('key1'));
+		$this->assertEquals('value2', $helper->get('key2'));
+		$this->assertEquals('value3', $helper->get('key3'));
+
+		$items = [
+			'key1' => 'value1',
+			'key2' => 'value2',
+			'key3' => 'value3',
+			'key4' => 'default_value',
+		];
+		$this->assertEquals($items, $helper->getMultiple(['key1', 'key2', 'key3', 'key4'], 'default_value'));
+
+		$this->assertTrue($helper->deleteMultiple(['key1', 'key2']));
+		$this->assertFalse($helper->deleteMultiple(['key1']));
+		$this->assertFalse($helper->has('key2'));
+		$this->assertTrue($helper->has('key3'));
+
+		$this->assertTrue($helper->clear());
+		$this->assertFalse($helper->has('key3'));
 	}
 }
