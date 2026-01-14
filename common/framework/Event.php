@@ -111,6 +111,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 			catch (Exception $e)
 			{
 				$output = new BaseObject(-2, $e->getMessage());
+				$after_time = microtime(true);
 			}
 
 			if (Debug::isEnabledForCurrentUser())
