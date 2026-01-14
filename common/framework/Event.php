@@ -92,7 +92,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 	 * @param mixed &$data
 	 * @return BaseObject
 	 */
-	public static function trigger(string $event_name, string $position, mixed &$data = null): BaseObject
+	public static function trigger(string $event_name, string $position, &$data = null): BaseObject
 	{
 		$handlers = self::getEventHandlers($event_name, $position);
 		foreach ($handlers as $handler)
