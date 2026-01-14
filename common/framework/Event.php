@@ -61,6 +61,11 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 		$listeners = $this->getListenersForEvent($event);
 		foreach ($listeners as $listener)
 		{
+			if ($event instanceof StoppableEventInterface && $event->isPropagationStopped())
+			{
+				break;
+			}
+
 			$before_time = microtime(true);
 			$listener($event);
 			$after_time = microtime(true);
@@ -69,11 +74,6 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 			{
 				self::$_last_listener_info['elapsed_time'] = $after_time - $before_time;
 				Debug::addTrigger(self::$_last_listener_info);
-			}
-
-			if ($event instanceof StoppableEventInterface && $event->isPropagationStopped())
-			{
-				break;
 			}
 		}
 
@@ -97,6 +97,11 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 		$handlers = self::getEventHandlers($event_name, $position);
 		foreach ($handlers as $handler)
 		{
+			if ($data instanceof StoppableEventInterface && $data->isPropagationStopped())
+			{
+				return self::toBaseObject($data);
+			}
+
 			try
 			{
 				$before_time = microtime(true);
@@ -114,10 +119,10 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 				Debug::addTrigger(self::$_last_listener_info);
 			}
 
-			if ($data instanceof AbstractEvent && $data->isPropagationStopped())
+			if ($data instanceof StoppableEventInterface && $data->isPropagationStopped())
 			{
 				self::$_last_listener_info = [];
-				return $output ?: new BaseObject(-3, $data->getErrorMessage() ?: 'Event propagation stopped.');
+				return self::toBaseObject($output);
 			}
 
 			if ($output instanceof BaseObject && !$output->toBool())
@@ -224,5 +229,27 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 
 		// Return the callable.
 		return [$oModule, $method_name];
+	}
+
+	/**
+	 * Convert any output to a BaseObject return value.
+	 *
+	 * @param mixed $output
+	 * @return BaseObject
+	 */
+	public static function toBaseObject($output): BaseObject
+	{
+		if ($output instanceof BaseObject)
+		{
+			return $output;
+		}
+		elseif ($output instanceof AbstractEvent && $output->getErrorMessage())
+		{
+			return new BaseObject(-3, $output->getErrorMessage());
+		}
+		else
+		{
+			return new BaseObject(-3, 'Event propagation stopped.');
+		}
 	}
 }
