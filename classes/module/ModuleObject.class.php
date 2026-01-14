@@ -800,7 +800,7 @@ class ModuleObject extends BaseObject
 		$is_mobile = Mobile::isFromMobilePhone();
 
 		// trigger call
-		$triggerOutput = ModuleHandler::triggerCall('moduleObject.proc', 'before', $this);
+		$triggerOutput = Rhymix\Framework\Event::trigger('moduleObject.proc', 'before', $this);
 		if(!$triggerOutput->toBool())
 		{
 			$this->setError($triggerOutput->getError());
@@ -841,7 +841,7 @@ class ModuleObject extends BaseObject
 
 			// Trigger before specific action
 			$triggerAct = sprintf('act:%s.%s', $this->module, $this->act);
-			$triggerOutput = ModuleHandler::triggerCall($triggerAct, 'before', $this);
+			$triggerOutput = Rhymix\Framework\Event::trigger($triggerAct, 'before', $this);
 			if(!$triggerOutput->toBool())
 			{
 				$this->setError($triggerOutput->getError());
@@ -861,7 +861,7 @@ class ModuleObject extends BaseObject
 			}
 
 			// Trigger after specific action
-			ModuleHandler::triggerCall($triggerAct, 'after', $output);
+			Rhymix\Framework\Event::trigger($triggerAct, 'after', $output);
 		}
 		else
 		{
@@ -885,7 +885,7 @@ class ModuleObject extends BaseObject
 		}
 
 		// trigger call
-		$triggerOutput = ModuleHandler::triggerCall('moduleObject.proc', 'after', $this);
+		$triggerOutput = Rhymix\Framework\Event::trigger('moduleObject.proc', 'after', $this);
 		if(!$triggerOutput->toBool())
 		{
 			$this->setError($triggerOutput->getError());

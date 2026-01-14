@@ -106,7 +106,7 @@ class ModuleHandler extends Handler
         }
 
 		// call a trigger before moduleHandler init
-		self::triggerCall('moduleHandler.init', 'before', $this);
+		Rhymix\Framework\Event::trigger('moduleHandler.init', 'before', $this);
 
 		// execute addon (before module initialization)
 		$called_position = 'before_module_init';
@@ -320,7 +320,7 @@ class ModuleHandler extends Handler
 		}
 
 		// Call a trigger after moduleHandler init
-		$output = self::triggerCall('moduleHandler.init', 'after', $this->module_info);
+		$output = Rhymix\Framework\Event::trigger('moduleHandler.init', 'after', $this->module_info);
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
@@ -1029,7 +1029,7 @@ class ModuleHandler extends Handler
 		}
 
 		// Call trigger after moduleHandler proc
-		$output = self::triggerCall('moduleHandler.proc', 'after', $oModule);
+		$output = Rhymix\Framework\Event::trigger('moduleHandler.proc', 'after', $oModule);
 		if(!$output->toBool())
 		{
 			$this->error = $output->getMessage();
