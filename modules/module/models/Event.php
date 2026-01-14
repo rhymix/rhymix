@@ -4,6 +4,8 @@ namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Helpers\DBResultHelper;
+use Closure;
+use ReflectionFunction;
 
 class Event
 {
@@ -101,7 +103,85 @@ class Event
 	 */
 	public static function addEventHandler(string $event_name, string $position, callable $handler): void
 	{
-		ModuleCache::$eventHandlers[$event_name][$position][] = $handler;
+		// Generate a record of who registered this event handler, because closures don't have names.
+		if ($handler instanceof Closure)
+		{
+			$reflection = new ReflectionFunction($handler);
+			$trace_str = $reflection->getFileName() . ':' . ($reflection->getStartLine() ?: '0');
+			if (str_starts_with($trace_str, \RX_BASEDIR))
+			{
+				$trace_str = substr($trace_str, strlen(RX_BASEDIR));
+			}
+		}
+		elseif (is_string($handler))
+		{
+			$trace_str = $handler;
+		}
+		elseif (is_array($handler) && count($handler) == 2)
+		{
+			if (is_object($handler[0]))
+			{
+				$trace_str = get_class($handler[0]) . '.' . strval($handler[1]);
+			}
+			else
+			{
+				$trace_str = implode('.', $handler);
+			}
+		}
+		else
+		{
+			$trace_str = null;
+			$trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+			if (isset($trace[0]))
+			{
+				$bt = $trace[0];
+				if (isset($bt['file']) && preg_match('/[\/\\\\](?:module\.controller\.php)$/', $bt['file']) && isset($trace[1]))
+				{
+					$bt = $trace[1];
+				}
+				if (isset($bt['file']))
+				{
+					$bt['file'] = strtr($bt['file'], ['\\' => '/']);
+					if (str_starts_with($bt['file'], \RX_BASEDIR))
+					{
+						$bt['file'] = substr($bt['file'], strlen(RX_BASEDIR));
+					}
+					$trace_str = $bt['file'] . ':' . ($bt['line'] ?? '0');
+				}
+			}
+		}
+
+		ModuleCache::$eventHandlers[$event_name][$position][] = (object)[
+			'callable' => $handler,
+			'added_by' => $trace_str,
+		];
+	}
+
+	/**
+	 * Remove a handler from an event.
+	 *
+	 * In order to remove an event handler, you must provide the same callable that was used to add it.
+	 *
+	 * @param string $event_name
+	 * @param string $position
+	 * @param callable $handler
+	 * @return bool
+	 */
+	public static function removeEventHandler(string $event_name, string $position, callable $handler): bool
+	{
+		$success = false;
+		if (isset(ModuleCache::$eventHandlers[$event_name][$position]))
+		{
+			foreach (ModuleCache::$eventHandlers[$event_name][$position] as $key => $value)
+			{
+				if ($value->callable === $handler)
+				{
+					unset(ModuleCache::$eventHandlers[$event_name][$position][$key]);
+					$success = true;
+				}
+			}
+		}
+		return $success;
 	}
 
 	/**
