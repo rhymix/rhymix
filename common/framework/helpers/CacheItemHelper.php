@@ -7,6 +7,9 @@ use Psr\Cache\CacheItemInterface;
 
 /**
  * Helper class to implement PSR-6 cache item using Rhymix cache configuration.
+ *
+ * This compatibility layer exists for FCMv1 key caching.
+ * For normal use, prefer SimpleCacheHelper which implements PSR-16.
  */
 class CacheItemHelper implements CacheItemInterface
 {
