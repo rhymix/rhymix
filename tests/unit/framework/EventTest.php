@@ -54,7 +54,7 @@ class EventTest extends \Codeception\Test\Unit
 
 		EventModel::subscribe(DummyEvent::class, 'before', $handler);
 
-		$event = new DummyEvent('before');
+		$event = new DummyEvent(DummyEvent::POSITION_BEFORE);
 		$this->assertFalse($event->isPropagationStopped());
 		$this->assertEquals('before', $event->getPosition());
 
@@ -73,15 +73,15 @@ class EventTest extends \Codeception\Test\Unit
 		$this->assertEquals(2, $counter);
 
 		// Event with different position
-		$dispatcher->dispatch(new DummyEvent('after'));
+		$dispatcher->dispatch(new DummyEvent(DummyEvent::POSITION_AFTER));
 		$this->assertEquals(2, $counter);
 
 		// Event with different class
-		$dispatcher->dispatch(new OtherEvent('before'));
+		$dispatcher->dispatch(new OtherEvent(OtherEvent::POSITION_BEFORE));
 		$this->assertEquals(2, $counter);
 
 		// New event
-		$new_event = new DummyEvent('before');
+		$new_event = new DummyEvent(DummyEvent::POSITION_BEFORE);
 		$dispatcher->dispatch($new_event);
 		$this->assertEquals(3, $counter);
 
@@ -107,7 +107,7 @@ class EventTest extends \Codeception\Test\Unit
 		$this->assertEquals(0, $handler->counter);
 
 		// Dispatch event
-		$event = new DummyEvent('before');
+		$event = new DummyEvent(DummyEvent::POSITION_BEFORE);
 		$output = EventDispatcher::trigger('fakeEvent', 'before', $event);
 		$this->assertEquals(1, $handler->counter);
 		$this->assertTrue($output instanceof \BaseObject);
@@ -156,7 +156,7 @@ class EventTest extends \Codeception\Test\Unit
 
 		// Register another handler
 		EventModel::registerHandler('fakeEvent', 'before', 'fakemodule', 'Controllers\\EventHandler', 'handleAnotherEvent');
-		$obj = new DummyEvent('before');
+		$obj = new DummyEvent(DummyEvent::POSITION_BEFORE);
 		$output = EventDispatcher::trigger('fakeEvent', 'before', $obj);
 		$this->assertEquals(13, $handler->counter);
 
