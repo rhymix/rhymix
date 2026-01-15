@@ -165,7 +165,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 	public static function getEventHandlers(string $event_name, string $position): iterable
 	{
 		$registered = EventModel::getRegisteredHandlers($event_name, $position);
-		$ephemeral = EventModel::getEventHandlers($event_name, $position);
+		$ephemeral = EventModel::getSubscribers($event_name, $position);
 		foreach ($registered as $handler)
 		{
 			$callable = self::toCallable($handler);
@@ -184,7 +184,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 		{
 			self::$_last_listener_info = [
 				'name' => $event_name . ':' . $position,
-				'target' => $handler->added_by,
+				'target' => $handler->identifier,
 				'target_plugin' => null,
 			];
 			yield $handler->callable;

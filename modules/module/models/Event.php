@@ -10,13 +10,13 @@ use ReflectionFunction;
 class Event
 {
 	/**
-	 * Get the list of event handlers that have been added to an event.
+	 * Get the list of event handlers that subscribe to an event.
 	 *
 	 * @param string $event_name
 	 * @param string $position
 	 * @return array
 	 */
-	public static function getEventHandlers(string $event_name, string $position): array
+	public static function getSubscribers(string $event_name, string $position): array
 	{
 		if(isset(ModuleCache::$eventHandlers[$event_name][$position]))
 		{
@@ -74,7 +74,7 @@ class Event
 	 * @param string $method_name
 	 * @return ?object
 	 */
-	public static function isRegisteredHandler(
+	public static function isRegistered(
 		string $event_name,
 		string $position,
 		string $module,
@@ -94,43 +94,46 @@ class Event
 	}
 
 	/**
-	 * Add a handler to an event. This is only valid during the current request.
+	 * Subscribe a handler to an event.
+	 *
+	 * A subscription is ephemeral, i.e. it is only valid during the current request.
+	 * In order to register an event handler persistently, use registerHandler().
 	 *
 	 * @param string $event_name
 	 * @param string $position
 	 * @param callable $handler
 	 * @return void
 	 */
-	public static function addEventHandler(string $event_name, string $position, callable $handler): void
+	public static function subscribe(string $event_name, string $position, callable $handler): void
 	{
-		// Generate a record of who registered this event handler, because closures don't have names.
+		// Generate an identifier for this subscriber, because closures don't have names.
 		if ($handler instanceof Closure)
 		{
 			$reflection = new ReflectionFunction($handler);
-			$trace_str = $reflection->getFileName() . ':' . ($reflection->getStartLine() ?: '0');
-			if (str_starts_with($trace_str, \RX_BASEDIR))
+			$identifier = $reflection->getFileName() . ':' . ($reflection->getStartLine() ?: '0');
+			if (str_starts_with($identifier, \RX_BASEDIR))
 			{
-				$trace_str = substr($trace_str, strlen(RX_BASEDIR));
+				$identifier = substr($identifier, strlen(RX_BASEDIR));
 			}
 		}
 		elseif (is_string($handler))
 		{
-			$trace_str = $handler;
+			$identifier = $handler;
 		}
 		elseif (is_array($handler) && count($handler) == 2)
 		{
 			if (is_object($handler[0]))
 			{
-				$trace_str = get_class($handler[0]) . '.' . strval($handler[1]);
+				$identifier = get_class($handler[0]) . '.' . strval($handler[1]);
 			}
 			else
 			{
-				$trace_str = implode('.', $handler);
+				$identifier = implode('.', $handler);
 			}
 		}
 		else
 		{
-			$trace_str = null;
+			$identifier = null;
 			$trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 			if (isset($trace[0]))
 			{
@@ -146,28 +149,30 @@ class Event
 					{
 						$bt['file'] = substr($bt['file'], strlen(RX_BASEDIR));
 					}
-					$trace_str = $bt['file'] . ':' . ($bt['line'] ?? '0');
+					$identifier = $bt['file'] . ':' . ($bt['line'] ?? '0');
 				}
 			}
 		}
 
 		ModuleCache::$eventHandlers[$event_name][$position][] = (object)[
 			'callable' => $handler,
-			'added_by' => $trace_str,
+			'identifier' => $identifier,
 		];
 	}
 
 	/**
-	 * Remove a handler from an event.
+	 * Unsubscribe from an event.
 	 *
-	 * In order to remove an event handler, you must provide the same callable that was used to add it.
+	 * In order to unsubscribe, you must provide the same callable that was used when subscribing.
+	 * For strings and arrays, recreating the same structure is sufficient.
+	 * For closures, you must keep a reference to the original closure.
 	 *
 	 * @param string $event_name
 	 * @param string $position
 	 * @param callable $handler
 	 * @return bool
 	 */
-	public static function removeEventHandler(string $event_name, string $position, callable $handler): bool
+	public static function unsubscribe(string $event_name, string $position, callable $handler): bool
 	{
 		$success = false;
 		if (isset(ModuleCache::$eventHandlers[$event_name][$position]))
