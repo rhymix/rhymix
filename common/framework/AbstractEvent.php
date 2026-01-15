@@ -20,6 +20,12 @@ use Psr\EventDispatcher\StoppableEventInterface;
 #[\AllowDynamicProperties]
 abstract class AbstractEvent implements StoppableEventInterface
 {
+	/*
+	 * Constants for commonly used positions.
+	 */
+	public const POSITION_BEFORE = 'before';
+	public const POSITION_AFTER = 'after';
+
 	/**
 	 * This flag indicates whether the propagation of this event is stopped.
 	 */
@@ -28,7 +34,7 @@ abstract class AbstractEvent implements StoppableEventInterface
 	/**
 	 * This attribute provides a standardized way to communicate an error message.
 	 */
-	protected string $_error_message;
+	protected string $_error_message = '';
 
 	/**
 	 * This attribute stores the 'position' attribute of the event,
@@ -41,7 +47,7 @@ abstract class AbstractEvent implements StoppableEventInterface
 	 *
 	 * @param string $position
 	 */
-	public function __construct(string $position)
+	public function __construct(string $position = AbstractEvent::POSITION_AFTER)
 	{
 		$this->_position = $position;
 	}
@@ -84,7 +90,7 @@ abstract class AbstractEvent implements StoppableEventInterface
 	 */
 	public function getErrorMessage(): string
 	{
-		return isset($this->_error_message) ? $this->_error_message : '';
+		return $this->_error_message;
 	}
 
 	/**
@@ -105,6 +111,6 @@ abstract class AbstractEvent implements StoppableEventInterface
 	 */
 	public function getPosition(): string
 	{
-		return isset($this->_position) ? $this->_position : '';
+		return $this->_position;
 	}
 }
