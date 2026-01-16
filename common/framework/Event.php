@@ -83,6 +83,22 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 	}
 
 	/**
+	 * Get the list of PSR-14 listeners for a given event.
+	 *
+	 * @param object $event
+	 * @return iterable<callable>
+	 */
+	public function getListenersForEvent(object $event): iterable
+	{
+		$class_name = get_class($event);
+		$position = $event instanceof AbstractEvent ? $event->getPosition() : 'none';
+		foreach (self::getEventHandlers($class_name, $position) as $handler)
+		{
+			yield $handler;
+		}
+	}
+
+	/**
 	 * Dispatch a legacy event to all applicable event handlers.
 	 *
 	 * $data is generally an object, but is sometimes a string for legacy reasons.
@@ -100,7 +116,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 		{
 			if ($data instanceof StoppableEventInterface && $data->isPropagationStopped())
 			{
-				return self::toBaseObject($data);
+				return self::_toBaseObject($data);
 			}
 
 			try
@@ -125,7 +141,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 			if ($data instanceof StoppableEventInterface && $data->isPropagationStopped())
 			{
 				self::$_last_listener_info = [];
-				return self::toBaseObject($output);
+				return self::_toBaseObject($output);
 			}
 
 			if ($output instanceof BaseObject && !$output->toBool())
@@ -137,22 +153,6 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 
 		self::$_last_listener_info = [];
 		return new BaseObject;
-	}
-
-	/**
-	 * Get the list of PSR-14 listeners for a given event.
-	 *
-	 * @param object $event
-	 * @return iterable<callable>
-	 */
-	public function getListenersForEvent(object $event): iterable
-	{
-		$class_name = get_class($event);
-		$position = $event instanceof AbstractEvent ? $event->getPosition() : 'none';
-		foreach (self::getEventHandlers($class_name, $position) as $handler)
-		{
-			yield $handler;
-		}
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 		$ephemeral = EventModel::getSubscribers($event_name, $position);
 		foreach ($registered as $handler)
 		{
-			$callable = self::toCallable($handler);
+			$callable = self::_toCallable($handler);
 			if (!$callable)
 			{
 				continue;
@@ -197,7 +197,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 	 * @param object $handler
 	 * @return ?callable
 	 */
-	public static function toCallable(object $handler): ?callable
+	protected static function _toCallable(object $handler): ?callable
 	{
 		// Extract handler info.
 		$module = $handler->module;
@@ -240,7 +240,7 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 	 * @param mixed $output
 	 * @return BaseObject
 	 */
-	public static function toBaseObject($output): BaseObject
+	protected static function _toBaseObject($output): BaseObject
 	{
 		if ($output instanceof BaseObject)
 		{
