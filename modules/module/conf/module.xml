@@ -16,11 +16,11 @@
 		<action name="procModuleFileBoxDelete" class="Controllers\Filebox" permission="root" />
 
 		<action name="dispModuleAdminLangcode" class="Controllers\Lang" menu_name="multilingual" menu_index="true" />
-		<action name="getModuleAdminLangCode" class="Controllers\Lang" permission="manager" />
-		<action name="getModuleAdminLangListByName" class="Controllers\Lang" permission="manager" />
-		<action name="getModuleAdminLangListByValue" class="Controllers\Lang" permission="manager" />
-		<action name="getModuleAdminMultilingualHtml" class="Controllers\Lang" permission="manager" />
-		<action name="getModuleAdminLangListHtml" class="Controllers\Lang" permission="manager" />
+		<action name="getModuleAdminLangCode" class="Controllers\Lang" permission="manager" standalone="true" />
+		<action name="getModuleAdminLangListByName" class="Controllers\Lang" permission="manager" standalone="true" />
+		<action name="getModuleAdminLangListByValue" class="Controllers\Lang" permission="manager" standalone="true" />
+		<action name="getModuleAdminMultilingualHtml" class="Controllers\Lang" permission="manager" standalone="true" />
+		<action name="getModuleAdminLangListHtml" class="Controllers\Lang" permission="manager" standalone="true" />
 		<action name="procModuleAdminInsertLang" class="Controllers\Lang" permission="manager" />
 		<action name="procModuleAdminDeleteLang" class="Controllers\Lang" />
 		<action name="dispModuleChangeLang" class="Controllers\Lang" />
