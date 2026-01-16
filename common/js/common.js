@@ -458,17 +458,12 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 
 	// Add action to URL if the current rewrite level supports it
 	if (!url) {
-		url = this.URI(window.request_uri).pathname() + 'index.php';
-		if (act) {
-			url = url + '?act=' + act;
-		}
-		/*
-		if (this.getRewriteLevel() >= 2 && action !== null) {
+		url = this.URI(window.request_uri).pathname();
+		if (this.getRewriteLevel() >= 2 && action !== null && action.indexOf('.') >= 0) {
 			url = url + '_' + action.replace('.', '/');
 		} else {
-			url = url + 'index.php';
+			url = url + 'index.php?act=' + act;
 		}
-		*/
 	}
 
 	// Add a CSRF token to the header, and remove it from the parameters

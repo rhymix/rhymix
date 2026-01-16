@@ -154,11 +154,23 @@ class Router
 			// Separate the prefix and the internal part of the URL.
 			$prefix = $matches[1];
 			$internal_url = $matches[2] ?? '';
-			$prefix_type = 'mid';
+			if (substr($prefix, 0, 1) === '_')
+			{
+				$prefix_type = 'module';
+				$prefix = substr($prefix, 1);
+			}
+			else
+			{
+				$prefix_type = 'mid';
+			}
 
 			// Find the module associated with this prefix.
+			$action_info = false;
 			$module_name = '';
-			$action_info = self::_getActionInfoByPrefix($prefix, $module_name);
+			if ($prefix_type === 'mid')
+			{
+				$action_info = self::_getActionInfoByPrefix($prefix, $module_name);
+			}
 			if ($action_info === false)
 			{
 				$action_info = self::_getActionInfoByModule($prefix);
@@ -341,22 +353,24 @@ class Router
 			return self::_insertRouteVars(self::$_route_cache[$rewrite_level][$keys_string], $args);
 		}
 
-		// Remove $mid and $act from arguments and work with the remainder.
+		// Remove $module, $mid and $act from arguments and work with the remainder.
 		$args2 = $args; unset($args2['module'], $args2['mid'], $args2['act']);
 
 		// If $mid exists, try routes defined in the module.
-		if ($rewrite_level >= 2 && (isset($args['mid']) || isset($args['module'])))
+		if ($rewrite_level >= 2 && (!empty($args['mid']) || !empty($args['module'])))
 		{
 			// Get module action info.
-			if (isset($args['mid']) && $args['mid'] !== '')
+			if (!empty($args['mid']))
 			{
 				$action_info = self::_getActionInfoByPrefix($args['mid']);
 				$prefix_type = 'mid';
+				$prefix_string = $args['mid'];
 			}
-			elseif (isset($args['module']) && $args['module'] !== '')
+			else
 			{
 				$action_info = self::_getActionInfoByModule($args['module']);
 				$prefix_type = 'module';
+				$prefix_string = '_' . $args['module'];
 			}
 
 			// If there is no $act, use the default action.
@@ -376,14 +390,14 @@ class Router
 				$result = self::_getBestMatchingRoute($action->route, $args2);
 				if ($result !== false)
 				{
-					self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
+					self::$_route_cache[$rewrite_level][$keys_string] = ($prefix_type === 'module' ? '_' : '') . '$' . $prefix_type . '/' . $result . '$act:delete';
 					$internal_url = self::_insertRouteVars($result, $args2);
-					return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
+					return $prefix_string . ($internal_url ? ('/' . $internal_url) : '');
 				}
 				elseif (isset($args['act']) && $args['act'] === $action_info->default_index_act && !count($args2))
 				{
-					self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '$act:delete';
-					return $args[$prefix_type];
+					self::$_route_cache[$rewrite_level][$keys_string] = ($prefix_type === 'module' ? '_' : '') . '$' . $prefix_type . '$act:delete';
+					return $prefix_string;
 				}
 			}
 
@@ -398,7 +412,7 @@ class Router
 					{
 						self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/' . $result . '$act:delete';
 						$internal_url = self::_insertRouteVars($result, $args2);
-						return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
+						return $prefix_string . ($internal_url ? ('/' . $internal_url) : '');
 					}
 				}
 			}
@@ -408,7 +422,7 @@ class Router
 			{
 				self::$_route_cache[$rewrite_level][$keys_string] = '$' . $prefix_type . '/$act';
 				$internal_url = $args['act'] . (count($args2) ? ('?' . http_build_query($args2)) : '');
-				return $args[$prefix_type] . ($internal_url ? ('/' . $internal_url) : '');
+				return $prefix_string . ($internal_url ? ('/' . $internal_url) : '');
 			}
 		}
 
