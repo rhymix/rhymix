@@ -45,7 +45,7 @@ class ModuleController extends Rhymix\Modules\Module\Controllers\Base
 	 */
 	public function addTriggerFunction($trigger_name, $called_position, $callback_function)
 	{
-		Rhymix\Modules\Module\Models\Event::addEventHandler(
+		Rhymix\Modules\Module\Models\Event::subscribe(
 			(string)$trigger_name,
 			(string)$called_position,
 			$callback_function

@@ -133,7 +133,7 @@ class addonController extends addon
 			$buff[] = '  $after_time = microtime(true);';
 			$buff[] = '  if (class_exists("Rhymix\\\\Framework\\\\Debug") && Rhymix\\Framework\\Debug::isEnabledForCurrentUser()):';
 			$buff[] = '    Rhymix\\Framework\\Debug::addTrigger(array(';
-			$buff[] = '      "name" => "addon." . $called_position,';
+			$buff[] = '      "name" => "addon:" . $called_position,';
 			$buff[] = '      "target" => "' . $addon . '",';
 			$buff[] = '      "target_plugin" => "' . $addon . '",';
 			$buff[] = '      "elapsed_time" => $after_time - $before_time,';

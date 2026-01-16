@@ -4,17 +4,19 @@ namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Helpers\DBResultHelper;
+use Closure;
+use ReflectionFunction;
 
 class Event
 {
 	/**
-	 * Get the list of event handlers that have been added to an event.
+	 * Get the list of event handlers that subscribe to an event.
 	 *
 	 * @param string $event_name
 	 * @param string $position
 	 * @return array
 	 */
-	public static function getEventHandlers(string $event_name, string $position): array
+	public static function getSubscribers(string $event_name, string $position): array
 	{
 		if(isset(ModuleCache::$eventHandlers[$event_name][$position]))
 		{
@@ -72,7 +74,7 @@ class Event
 	 * @param string $method_name
 	 * @return ?object
 	 */
-	public static function isRegisteredHandler(
+	public static function isRegistered(
 		string $event_name,
 		string $position,
 		string $module,
@@ -92,16 +94,99 @@ class Event
 	}
 
 	/**
-	 * Add a handler to an event. This is only valid during the current request.
+	 * Subscribe a handler to an event.
+	 *
+	 * A subscription is ephemeral, i.e. it is only valid during the current request.
+	 * In order to register an event handler persistently, use registerHandler().
 	 *
 	 * @param string $event_name
 	 * @param string $position
 	 * @param callable $handler
 	 * @return void
 	 */
-	public static function addEventHandler(string $event_name, string $position, callable $handler): void
+	public static function subscribe(string $event_name, string $position, callable $handler): void
 	{
-		ModuleCache::$eventHandlers[$event_name][$position][] = $handler;
+		// Generate an identifier for this subscriber, because closures don't have names.
+		if ($handler instanceof Closure)
+		{
+			$reflection = new ReflectionFunction($handler);
+			$identifier = $reflection->getFileName() . ':' . ($reflection->getStartLine() ?: '0');
+			if (str_starts_with($identifier, \RX_BASEDIR))
+			{
+				$identifier = substr($identifier, strlen(RX_BASEDIR));
+			}
+		}
+		elseif (is_string($handler))
+		{
+			$identifier = $handler;
+		}
+		elseif (is_array($handler) && count($handler) == 2)
+		{
+			if (is_object($handler[0]))
+			{
+				$identifier = get_class($handler[0]) . '.' . strval($handler[1]);
+			}
+			else
+			{
+				$identifier = implode('.', $handler);
+			}
+		}
+		else
+		{
+			$identifier = null;
+			$trace = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS, 2);
+			if (isset($trace[0]))
+			{
+				$bt = $trace[0];
+				if (isset($bt['file']) && preg_match('/[\/\\\\](?:module\.controller\.php)$/', $bt['file']) && isset($trace[1]))
+				{
+					$bt = $trace[1];
+				}
+				if (isset($bt['file']))
+				{
+					$bt['file'] = strtr($bt['file'], ['\\' => '/']);
+					if (str_starts_with($bt['file'], \RX_BASEDIR))
+					{
+						$bt['file'] = substr($bt['file'], strlen(RX_BASEDIR));
+					}
+					$identifier = $bt['file'] . ':' . ($bt['line'] ?? '0');
+				}
+			}
+		}
+
+		ModuleCache::$eventHandlers[$event_name][$position][] = (object)[
+			'callable' => $handler,
+			'identifier' => $identifier,
+		];
+	}
+
+	/**
+	 * Unsubscribe from an event.
+	 *
+	 * In order to unsubscribe, you must provide the same callable that was used when subscribing.
+	 * For strings and arrays, recreating the same structure is sufficient.
+	 * For closures, you must keep a reference to the original closure.
+	 *
+	 * @param string $event_name
+	 * @param string $position
+	 * @param callable $handler
+	 * @return bool
+	 */
+	public static function unsubscribe(string $event_name, string $position, callable $handler): bool
+	{
+		$success = false;
+		if (isset(ModuleCache::$eventHandlers[$event_name][$position]))
+		{
+			foreach (ModuleCache::$eventHandlers[$event_name][$position] as $key => $value)
+			{
+				if ($value->callable === $handler)
+				{
+					unset(ModuleCache::$eventHandlers[$event_name][$position][$key]);
+					$success = true;
+				}
+			}
+		}
+		return $success;
 	}
 
 	/**

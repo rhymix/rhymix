@@ -60,13 +60,13 @@ class DisplayHandler extends Handler
 		}
 
 		// call a trigger before layout
-		ModuleHandler::triggerCall('layout', 'before', $oModule);
+		Rhymix\Framework\Event::trigger('layout', 'before', $oModule);
 
 		// apply layout
 		$output = $handler->toDoc($oModule);
 
 		// call a trigger before display
-		ModuleHandler::triggerCall('display', 'before', $output);
+		Rhymix\Framework\Event::trigger('display', 'before', $output);
 		$original_output = $output;
 
 		// execute add-on
@@ -139,7 +139,7 @@ class DisplayHandler extends Handler
 		$buff = ltrim($buff, "\n\r\t\v\x00\x20\u{FEFF}");
 
 		// call a trigger after display
-		ModuleHandler::triggerCall('display', 'after', $output);
+		Rhymix\Framework\Event::trigger('display', 'after', $output);
 
 		// Measure the response size.
 		self::$response_size = strlen((string)$output);

@@ -291,7 +291,7 @@ class ModuleModel extends Rhymix\Modules\Module\Controllers\Base
 	 */
 	public static function getTriggerFunctions($trigger_name, $called_position)
 	{
-		return Rhymix\Modules\Module\Models\Event::getEventHandlers($trigger_name, $called_position);
+		return Rhymix\Modules\Module\Models\Event::getSubscribers($trigger_name, $called_position);
 	}
 
 	/**
@@ -307,7 +307,7 @@ class ModuleModel extends Rhymix\Modules\Module\Controllers\Base
 	 */
 	public static function getTrigger($trigger_name, $module, $type, $called_method, $called_position)
 	{
-		return Rhymix\Modules\Module\Models\Event::isRegisteredHandler(
+		return Rhymix\Modules\Module\Models\Event::isRegistered(
 			$trigger_name,
 			$called_position,
 			$module,

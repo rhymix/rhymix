@@ -110,7 +110,7 @@ class Updater
 		{
 			$key = implode(':', [$ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method]);
 			$registered[$key] = true;
-			if (!Event::isRegisteredHandler($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
+			if (!Event::isRegistered($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
 			{
 				return true;
 			}
@@ -343,7 +343,7 @@ class Updater
 		{
 			$key = implode(':', [$ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method]);
 			$registered[$key] = true;
-			if (!Event::isRegisteredHandler($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
+			if (!Event::isRegistered($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
 			{
 				$output = Event::registerHandler($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method);
 				if (!$output->toBool())
