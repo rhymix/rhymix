@@ -192,6 +192,36 @@ class Event implements EventDispatcherInterface, ListenerProviderInterface
 	}
 
 	/**
+	 * Subscribe to an event.
+	 *
+	 * This is a shortcut for Rhymix\Modules\Module\Models\Event::subscribe().
+	 *
+	 * @param string $event_name
+	 * @param string $position
+	 * @param callable $handler
+	 * @return void
+	 */
+	public static function subscribe(string $event_name, string $position, callable $handler): void
+	{
+		EventModel::subscribe($event_name, $position, $handler);
+	}
+
+	/**
+	 * Unsubscribe from an event.
+	 *
+	 * This is a shortcut for Rhymix\Modules\Module\Models\Event::unsubscribe().
+	 *
+	 * @param string $event_name
+	 * @param string $position
+	 * @param callable $handler
+	 * @return bool
+	 */
+	public static function unsubscribe(string $event_name, string $position, callable $handler): bool
+	{
+		return EventModel::unsubscribe($event_name, $position, $handler);
+	}
+
+	/**
 	 * Convert the old event handler format to a callable.
 	 *
 	 * @param object $handler

@@ -52,7 +52,7 @@ class EventTest extends \Codeception\Test\Unit
 			$counter += 1;
 		};
 
-		EventModel::subscribe(DummyEvent::class, 'before', $handler);
+		EventDispatcher::subscribe(DummyEvent::class, 'before', $handler);
 
 		$event = new DummyEvent(DummyEvent::POSITION_BEFORE);
 		$this->assertFalse($event->isPropagationStopped());
@@ -86,7 +86,7 @@ class EventTest extends \Codeception\Test\Unit
 		$this->assertEquals(3, $counter);
 
 		// Remove event handler
-		$output = EventModel::unsubscribe(DummyEvent::class, 'before', $handler);
+		$output = EventDispatcher::unsubscribe(DummyEvent::class, 'before', $handler);
 		$this->assertTrue($output);
 		$dispatcher->dispatch($new_event);
 		$this->assertEquals(3, $counter);
