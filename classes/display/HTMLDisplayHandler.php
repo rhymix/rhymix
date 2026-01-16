@@ -60,7 +60,7 @@ class HTMLDisplayHandler
 		{
 			if($oModule->module_info->module == $oModule->module)
 			{
-				$skin = $oModule->origin_module_info->skin;
+				$skin = $oModule->origin_module_info->skin ?? $oModule->module_info->skin;
 			}
 			else
 			{
