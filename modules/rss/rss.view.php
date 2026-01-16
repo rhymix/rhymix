@@ -7,9 +7,6 @@
  */
 class RssView extends Rss
 {
-	// Disable gzhandler
-	public $gzhandler_enable = false;
-
 	function init()
 	{
 	}
