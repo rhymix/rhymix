@@ -7,7 +7,6 @@
  */
 class PageView extends Page
 {
-	public $module_srl = 0;
 	public $list_count = 20;
 	public $page_count = 10;
 	public $cache_file = null;
