@@ -94,7 +94,7 @@ class Permission
 		}
 
 		// If the member is a module manager, fill the scope of management.
-		$manager_scopes = !empty($module_info->module_srl) ? \ModuleModel::isModuleAdmin($member_info, $module_info->module_srl) : false;
+		$manager_scopes = !empty($module_info->module_srl) ? ModuleInfo::isManager($member_info, $module_info->module_srl) : false;
 		$member_groups = !empty($member_info->group_list) ? array_keys($member_info->group_list) : [];
 		if ($manager_scopes)
 		{

@@ -8,6 +8,7 @@ use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Filters\FilenameFilter;
 use Rhymix\Framework\Storage;
 use Rhymix\Framework\Template;
+use Rhymix\Modules\Module\Models\ModuleCache as ModuleCacheModel;
 use Rhymix\Modules\Module\Models\ModuleCategory as ModuleCategoryModel;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\ModuleDefinition as ModuleDefinitionModel;
@@ -601,7 +602,9 @@ class ModuleConfig extends Base
 		}
 		$oDB->commit();
 
-		Cache::delete("site_and_module:module_grants:$module_srl");
+		Cache::clearGroup('site_and_module');
+		ModuleCacheModel::clearAll();
+
 		$this->setMessage('success_registed');
 
 		if (!in_array(Context::getRequestMethod(), ['XMLRPC','JSON']))
@@ -734,7 +737,9 @@ class ModuleConfig extends Base
 
 		$oDB->commit();
 
-		Cache::delete("site_and_module:module_grants:$module_srl");
+		Cache::clearGroup('site_and_module');
+		ModuleCacheModel::clearAll();
+
 		$this->setMessage('success_registed');
 	}
 
