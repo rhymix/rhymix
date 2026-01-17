@@ -840,10 +840,10 @@ abstract class AbstractController extends BaseObject
 			// based on the target module(s) instead of the current module.
 			// This is a legacy feature with questionable security implications,
 			// so it is recommended to avoid using it in new modules.
-			if ($permission && !empty($permission->check_type) && !empty($permission->check_var))
+			if ($permission && !empty($permission->check_var))
 			{
 				// check_type: document, comment, file, or module
-				$check_type = strval($permission->check_type);
+				$check_type = strval($permission->check_type ?: 'module');
 
 				// check_var: name of the Context variable that contains the target srl(s),
 				// separated by comma or '|@|'.
