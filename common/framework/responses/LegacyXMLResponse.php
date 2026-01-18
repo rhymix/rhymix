@@ -28,7 +28,7 @@ class LegacyXMLResponse extends AbstractResponse
 		yield "<response>\n";
 		yield sprintf("<error>%s</error>\n", escape($this->_vars['error'] ?? '0'));
 		yield sprintf("<message>%s</message>\n", escape($this->_vars['message'] ?? 'success'));
-		foreach (self::_makeXML($this->_vars) as $line)
+		foreach (self::_makeXML($this->_vars, 0) as $line)
 		{
 			yield $line;
 		}
@@ -39,13 +39,14 @@ class LegacyXMLResponse extends AbstractResponse
 	 * Encode an array as XE 1.x-compatible XML.
 	 *
 	 * @param array $vars
+	 * @param int $depth
 	 * @return iterable
 	 */
-	protected static function _makeXML(array $vars): iterable
+	protected static function _makeXML(array $vars, int $depth = 0): iterable
 	{
 		foreach ($vars as $key => $val)
 		{
-			if (in_array($key, ['error', 'message']))
+			if ($depth === 0 && in_array($key, ['error', 'message'], true))
 			{
 				continue;
 			}
@@ -66,7 +67,7 @@ class LegacyXMLResponse extends AbstractResponse
 			{
 				$val = is_array($val) ? $val : get_object_vars($val);
 				yield "<$key>\n";
-				foreach (self::_makeXML($val) as $line)
+				foreach (self::_makeXML($val, $depth + 1) as $line)
 				{
 					yield $line;
 				}
