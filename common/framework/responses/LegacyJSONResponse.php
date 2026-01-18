@@ -32,7 +32,22 @@ class LegacyJSONResponse extends AbstractResponse
 	public function render(): iterable
 	{
 		$vars = self::_convertArray($this->_vars, Context::getRequestMethod());
-		yield json_encode($vars);
+		if (!isset($vars['error']) || !isset($vars['message']))
+		{
+			$default_vars = ['error' => 0, 'message' => 'success'];
+			$vars = array_merge($default_vars, $vars);
+		}
+
+		$result = @json_encode($vars) . "\n";
+		if (json_last_error() != \JSON_ERROR_NONE)
+		{
+			trigger_error('JSON encoding error: ' . json_last_error_msg(), E_USER_WARNING);
+			return json_encode([
+				'error' => -1,
+				'message' => 'JSON encoding error',
+			]) . "\n";
+		}
+		yield $result;
 	}
 
 	/**

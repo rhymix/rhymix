@@ -7,7 +7,7 @@ use Context;
 class ResponseTest extends \Codeception\Test\Unit
 {
 	public $exampleData = [
-		'status' => 'OK',
+		'message' => 'OK',
 		'data' => [
 			'id' => 123,
 			'name' => 'Rhymix',
@@ -148,7 +148,7 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals(['id' => 123, 'name' => 'Rhymix'], $r->data);
 
 		$content = implode('', iterator_to_array($r->render()));
-		$this->assertEquals('{"status":"OK","data":{"id":123,"name":"Rhymix"},"numbers":[1,2,3],"list":{"42":"foo","84":{"a":"bar","b":"baz"}}}', $content);
+		$this->assertEquals($this->exampleData, json_decode($content, true));
 		$this->assertEquals($content, strval($r));
 
 		$headers = $r->getHeaders();
@@ -166,7 +166,7 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals([42, 84], array_keys($r->list));
 
 		// Backward compatible behavior for numeric arrays
-		$target_json = '{"status":"OK","data":{"id":123,"name":"Rhymix"},"numbers":[1,2,3],"list":["foo",{"a":"bar","b":"baz"}]}';
+		$target_json = '{"error":0,"message":"OK","data":{"id":123,"name":"Rhymix"},"numbers":[1,2,3],"list":["foo",{"a":"bar","b":"baz"}]}' . "\n";
 		$content = implode('', iterator_to_array($r->render()));
 		$this->assertEquals($target_json, $content);
 
@@ -174,7 +174,7 @@ class ResponseTest extends \Codeception\Test\Unit
 		$request_method = Context::getRequestMethod();
 		Context::setRequestMethod('XMLRPC');
 
-		$target_json = '{"status":"OK","data":{"id":123,"name":"Rhymix"},"numbers":{"item":[1,2,3]},"list":{"item":["foo",{"a":"bar","b":"baz"}]}}';
+		$target_json = '{"error":0,"message":"OK","data":{"id":123,"name":"Rhymix"},"numbers":{"item":[1,2,3]},"list":{"item":["foo",{"a":"bar","b":"baz"}]}}' . "\n";
 		$content = implode('', iterator_to_array($r->render()));
 		$this->assertEquals($target_json, $content);
 
@@ -194,8 +194,7 @@ class ResponseTest extends \Codeception\Test\Unit
 			<?xml version="1.0" encoding="UTF-8"?>
 			<response>
 				<error>0</error>
-				<message>success</message>
-				<status>OK</status>
+				<message>OK</message>
 				<data>
 					<id>123</id>
 					<name>Rhymix</name>
