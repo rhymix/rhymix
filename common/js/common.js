@@ -1604,7 +1604,11 @@ function doDocumentSelect(document_srl, module) {
 	} else {
 		opener.location.href = opener.current_url.setQuery('act', 'dispBoardWrite').setQuery('document_srl', document_srl);
 	}
-	window.close();
+
+	// 딜레이 후 창 닫기
+	setTimeout(function() {
+		window.close();
+	}, 100);
 }
 
 /**
