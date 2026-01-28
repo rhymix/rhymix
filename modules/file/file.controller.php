@@ -1865,7 +1865,14 @@ class FileController extends File
 
 		foreach($source_file_list as $source_file)
 		{
-			$this->copyFile($source_file, $module_srl, $upload_target_srl, $content);
+			$copied_file = $this->copyFile($source_file, $module_srl, $upload_target_srl, $content);
+			if ($source_file->cover_image == 'Y')
+			{
+				executeQuery('file.updateCoverImage', [
+					'file_srl' => $copied_file->get('file_srl'),
+					'cover_image' => 'Y',
+				]);
+			}
 		}
 	}
 
