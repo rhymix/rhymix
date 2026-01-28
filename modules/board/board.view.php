@@ -313,37 +313,34 @@ class BoardView extends Board
 					}
 				}
 
-				// if the consultation function is enabled, and the document is not a notice
+				// if the consultation function is enabled, only the author can read the document.
 				if($this->consultation && !$oDocument->isNotice())
 				{
-					$logged_info = Context::get('logged_info');
-					if(abs($oDocument->get('member_srl')) != $logged_info->member_srl)
+					if (abs($oDocument->get('member_srl')) != $this->user->member_srl)
 					{
-						$oDocument = DocumentModel::getDocument(0);
+						Context::set('document_srl', null, true);
+						$this->dispBoardMessage('msg_not_founded', 404);
 					}
 				}
 
-				// if the document is TEMP saved, check Grant
+				// if the document is TEMP saved, pretend that it doesn't exist.
 				if($oDocument->getStatus() == 'TEMP')
 				{
-					if(!$oDocument->isGranted())
-					{
-						$oDocument = DocumentModel::getDocument(0);
-					}
+					Context::set('document_srl', null, true);
+					$this->dispBoardMessage('msg_not_founded', 404);
 				}
-
 			}
 			else
 			{
-				// if the document is not existed, then alert a warning message
+				// if the document does not exist, then display a warning message.
 				Context::set('document_srl', null, true);
 				$this->dispBoardMessage('msg_not_founded', 404);
 			}
+		}
 
 		/**
 		 * if the document is not existed, get an empty document
 		 */
-		}
 		else
 		{
 			$oDocument = DocumentModel::getDocument(0);
@@ -351,7 +348,7 @@ class BoardView extends Board
 		}
 
 		/**
-		 *check the document view grant
+		 * Check the document view grant
 		 */
 		if($oDocument->isExists())
 		{
