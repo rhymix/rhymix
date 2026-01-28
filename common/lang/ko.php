@@ -307,6 +307,7 @@ $lang->confirm_vote = '추천하시겠습니까?';
 $lang->confirm_delete = '삭제하시겠습니까?';
 $lang->confirm_restore = '복원하시겠습니까?';
 $lang->confirm_move = '이동하시겠습니까?';
+$lang->confirm_trash = '휴지통으로 이동하시겠습니까?';
 $lang->confirm_reset = '초기화하시겠습니까?';
 $lang->confirm_leave = '탈퇴하시겠습니까?';
 $lang->confirm_update = '수정하시겠습니까?';

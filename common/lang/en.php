@@ -307,6 +307,7 @@ $lang->confirm_vote = 'Are you sure you want to upvote?';
 $lang->confirm_delete = 'Are you sure you want to delete?';
 $lang->confirm_restore = 'Are you sure you want to restore?';
 $lang->confirm_move = 'Are you sure you want to move?';
+$lang->confirm_trash = 'Are you sure you want to move to trash?';
 $lang->confirm_reset = 'Are you sure you want to reset?';
 $lang->confirm_leave = 'Are you sure you want to delete your account?';
 $lang->confirm_update = 'Are you sure you want to update?';
