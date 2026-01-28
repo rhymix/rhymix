@@ -1580,15 +1580,19 @@ function doDocumentLoad(obj) {
  *
  * @param int document_srl
  * @param string module
+ * @param string mid
  * @return void
  */
-function doDocumentSelect(document_srl, module) {
+function doDocumentSelect(document_srl, module, mid) {
 	if (!opener) {
 		window.close();
 		return;
 	}
 	if (module === undefined) {
 		module = 'document';
+	}
+	if (mid === undefined) {
+		mid = current_mid;
 	}
 
 	// 게시글을 가져와서 등록하기
@@ -1602,7 +1606,7 @@ function doDocumentSelect(document_srl, module) {
 		}
 		opener.location.href = url;
 	} else {
-		opener.location.href = opener.current_url.setQuery('act', 'dispBoardWrite').setQuery('document_srl', document_srl);
+		opener.location.href = opener.current_url.setQuery('mid', mid).setQuery('act', 'dispBoardWrite').setQuery('document_srl', document_srl);
 	}
 
 	// 딜레이 후 창 닫기
