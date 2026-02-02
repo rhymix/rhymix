@@ -87,7 +87,7 @@ abstract class AbstractController extends BaseObject
 	/**
 	 * Reference to the current module's response.
 	 */
-	public ?object $response = null;
+	public ?AbstractResponse $response = null;
 
 	/**
 	 * The template directory name.
@@ -364,6 +364,10 @@ abstract class AbstractController extends BaseObject
 			try
 			{
 				$output = $this->{$this->act}();
+				if ($output instanceof AbstractResponse)
+				{
+					$this->response = $output;
+				}
 			}
 			catch (Exception $e)
 			{
