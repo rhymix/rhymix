@@ -42,12 +42,15 @@ class LegacyJSONResponse extends AbstractResponse
 		if (json_last_error() != \JSON_ERROR_NONE)
 		{
 			trigger_error('JSON encoding error: ' . json_last_error_msg(), E_USER_WARNING);
-			return json_encode([
+			yield json_encode([
 				'error' => -1,
 				'message' => 'JSON encoding error',
 			]) . "\n";
 		}
-		yield $result;
+		else
+		{
+			yield $result;
+		}
 	}
 
 	/**

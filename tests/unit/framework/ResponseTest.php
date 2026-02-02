@@ -156,6 +156,41 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals('Content-Type: application/json', $headers[1]);
 	}
 
+	public function testRawTemplateResponse()
+	{
+		$r = new \Rhymix\Framework\Responses\RawTemplateResponse();
+		$this->assertEquals(200, $r->getStatusCode());
+		$this->assertEquals('', $r->getContentType());
+		$this->assertEquals('', $r->getCharacterSet());
+		$r->setContentType('text/plain');
+		$this->assertEquals('text/plain', $r->getContentType());
+
+		$r->setTemplate('./tests/_data/template/', 'v1example.html');
+		$this->assertEquals('v1example.html', $r->getTemplateFile());
+
+		$content = implode('', iterator_to_array($r->render()));
+		$this->assertEquals('<!--#Meta://external.host/js.js-->', $content);
+		$this->assertEquals($content, strval($r));
+	}
+
+	public function testRedirectResponse()
+	{
+		$r = new \Rhymix\Framework\Responses\RedirectResponse(301);
+		$this->assertEquals(301, $r->getStatusCode());
+		$r->setStatusCode(308);
+		$this->assertEquals(308, $r->getStatusCode());
+
+		$r->setRedirectUrl('https://rhymix.org/');
+		$this->assertEquals('https://rhymix.org/', $r->getRedirectUrl());
+
+		$content = implode('', iterator_to_array($r->render()));
+		$this->assertEquals('', $content);
+
+		$headers = $r->getHeaders();
+		$this->assertEquals('HTTP/1.1 308 Permanent Redirect', $headers[0]);
+		$this->assertEquals('Location: https://rhymix.org/', $headers[1]);
+	}
+
 	public function testLegacyJsonResponse()
 	{
 		$r = new \Rhymix\Framework\Responses\LegacyJSONResponse();
@@ -223,38 +258,84 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals('Content-Type: text/xml; charset=UTF-8', $headers[1]);
 	}
 
-	public function testRawTemplateResponse()
+	public function testLegacyCallbackResponse()
 	{
-		$r = new \Rhymix\Framework\Responses\RawTemplateResponse();
+		$r = new \Rhymix\Framework\Responses\LegacyCallbackResponse();
+		$this->assertEquals('text/html', $r->getContentType());
 		$this->assertEquals(200, $r->getStatusCode());
-		$this->assertEquals('', $r->getContentType());
-		$this->assertEquals('', $r->getCharacterSet());
-		$r->setContentType('text/plain');
-		$this->assertEquals('text/plain', $r->getContentType());
 
-		$r->setTemplate('./tests/_data/template/', 'v1example.html');
-		$this->assertEquals('v1example.html', $r->getTemplateFile());
+		Context::getInstance()->js_callback_func = 'window.parent.Rhymix.onAjaxResponse';
+		$r->setVars(['error' => -1, 'message' => 'Epic Fail']);
 
+		$target_html = <<<HTML
+			<!DOCTYPE html>
+			<html>
+			<head><title></title></head>
+			<body>
+			<script>
+			//<![CDATA[
+			window.parent.Rhymix.onAjaxResponse({"error":-1,"message":"Epic Fail"});
+			//]]>
+			</script>
+			</body>
+			</html>
+		HTML;
+
+		$target_html = preg_replace('/\t+/', '', $target_html);
 		$content = implode('', iterator_to_array($r->render()));
-		$this->assertEquals('<!--#Meta://external.host/js.js-->', $content);
-		$this->assertEquals($content, strval($r));
+		$this->assertEquals($target_html, $content);
 	}
 
-	public function testRedirectResponse()
+	public function testLegacyRedirectResponse()
 	{
-		$r = new \Rhymix\Framework\Responses\RedirectResponse(301);
-		$this->assertEquals(301, $r->getStatusCode());
-		$r->setStatusCode(308);
-		$this->assertEquals(308, $r->getStatusCode());
+		$r = new \Rhymix\Framework\Responses\LegacyRedirectResponse();
+		$this->assertEquals('text/html', $r->getContentType());
+		$this->assertEquals(200, $r->getStatusCode());
 
-		$r->setRedirectUrl('https://rhymix.org/');
-		$this->assertEquals('https://rhymix.org/', $r->getRedirectUrl());
+		// Error case
+		$r->setVars(['error' => -1, 'message' => 'Epic Fail']);
 
+		$target_html = <<<HTML
+			<!DOCTYPE html>
+			<html>
+			<head><title></title></head>
+			<body>
+			<script>
+			alert("Epic Fail");
+			</script>
+			</body>
+			</html>
+		HTML;
+
+		$target_html = preg_replace('/\t+/', '', $target_html);
 		$content = implode('', iterator_to_array($r->render()));
-		$this->assertEquals('', $content);
+		$this->assertEquals($target_html, $content);
 
-		$headers = $r->getHeaders();
-		$this->assertEquals('HTTP/1.1 308 Permanent Redirect', $headers[0]);
-		$this->assertEquals('Location: https://rhymix.org/', $headers[1]);
+		// Success case
+		$r->setVars(['error' => 0, 'redirect_url' => 'https://rhymix.org']);
+
+		$target_html = <<<HTML
+			<!DOCTYPE html>
+			<html>
+			<head><title></title></head>
+			<body>
+			<script>
+				if (opener) {
+					opener.location.href = "https:\/\/rhymix.org";
+				} else {
+					parent.location.href = "https:\/\/rhymix.org";
+				}
+			</script>
+			</body>
+			</html>
+		HTML;
+
+		$target_html = preg_replace('/\t+/', '', $target_html);
+		$content = implode('', iterator_to_array($r->render()));
+		$content = preg_replace('/  /', '', $content);
+		$this->assertEquals($target_html, $content);
+
+		// Response code is always 200
+		$this->assertEquals(200, $r->getStatusCode());
 	}
 }
