@@ -3,6 +3,7 @@
 namespace Rhymix\Tests\Unit\Framework;
 
 use Context;
+use FrontEndFileHandler;
 
 class ResponseTest extends \Codeception\Test\Unit
 {
@@ -56,6 +57,9 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertStringContainsString('<a href="http://mygony.com">Taggon\'s blog</a>', $finalized);
 		$this->assertStringContainsString('//external.host/js.js', $finalized);
 		$this->assertStringContainsString('<!DOCTYPE', $finalized);
+
+		// Cleanup
+		FrontEndFileHandler::getInstance()->unloadAllFiles();
 	}
 
 	public function testCustomResponse()
