@@ -49,20 +49,89 @@ class HTMLDisplayHandler
 	 */
 	public function toDoc(&$oModule)
 	{
-		return '';
+		$template_path = $oModule->getTemplatePath();
+		$template_file = $oModule->getTemplateFile();
+		$oTemplate = new Rhymix\Framework\Template($template_path, $template_file);
+		$output = $oTemplate->compile();
+
+		// add .x div for adminitration pages
+		if (Context::getResponseMethod() == 'HTML')
+		{
+			$x_exclude_actions = array(
+				'dispPageAdminContentModify' => true,
+				'dispPageAdminMobileContentModify' => true,
+				'dispPageAdminMobileContent' => true,
+			);
+			$current_act = strval(Context::get('act'));
+			if(Context::get('module') != 'admin' && strpos($current_act, 'Admin') !== false && !isset($x_exclude_actions[$current_act]))
+			{
+				$output = '<div class="x">' . $output . '</div>';
+			}
+
+			// Wrap content in layout
+			$use_layout = Context::get('layout') !== 'none';
+			if (!$use_layout && isset($_REQUEST['layout']) && !ModuleHandler::isPartialPageRenderingEnabled())
+			{
+				$use_layout = true;
+			}
+			if ($use_layout)
+			{
+				$layout_path = $oModule->getLayoutPath();
+				$layout_file = $oModule->getLayoutFile();
+				$edited_layout_file = $oModule->getEditedLayoutFile();
+
+				// get the layout information currently requested
+				$oLayoutModel = getModel('layout');
+				$layout_info = Context::get('layout_info') ?: new stdClass;
+				$layout_srl = $layout_info->layout_srl ?? 0;
+
+				if (!$layout_path)
+				{
+					$layout_path = './common/tpl';
+				}
+				if (!$layout_file)
+				{
+					$layout_file = ($layout_path === './common/tpl') ? 'default_layout' : 'layout';
+				}
+
+				// Add layout header script.
+				if ($layout_srl > 0)
+				{
+					$part_config = Rhymix\Modules\Module\Models\ModuleConfig::getModulePartConfig('layout', $layout_srl);
+					if ($part_config && isset($part_config->header_script))
+					{
+						Context::addHtmlHeader($part_config->header_script, true);
+					}
+				}
+
+				// Add layout edited CSS.
+				if ($layout_srl > 0)
+				{
+					// search if the changes CSS exists in the admin layout edit window
+					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
+					if(FileHandler::exists($edited_layout_css))
+					{
+						Context::loadFile(array($edited_layout_css, 'all', '', 100));
+					}
+				}
+
+				Context::set('content', $output, false);
+				Context::set('layout_info', $layout_info, false);
+
+				$oTemplate = new Rhymix\Framework\Template;
+				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
+			}
+		}
+
+		return $output;
 	}
 
 	/**
-	 * when display mode is HTML, prepare code before print.
-	 * @param string $output compiled template string
-	 * @return void
+	 * @deprecated
 	 */
 	public function prepareToPrint(&$output)
 	{
-		if (Context::getResponseMethod() != 'HTML')
-		{
-			return;
-		}
+
 	}
 
 	/**

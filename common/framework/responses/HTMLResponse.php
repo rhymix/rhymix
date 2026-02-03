@@ -161,7 +161,7 @@ class HTMLResponse extends AbstractResponse
 			// Get layout information.
 			$layout_path = $this->getLayoutPath();
 			$layout_file = $this->getLayoutFile();
-			$layout_info = Context::get('layout_info');
+			$layout_info = Context::get('layout_info') ?: new \stdClass;
 			$layout_srl = $layout_info->layout_srl ?? 0;
 
 			// Fallback to default layout if not specified.
