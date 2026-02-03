@@ -789,4 +789,82 @@ class FrontEndFileHandler extends Handler
 			$file->index += isset($cssSortList[$tmp]) ? $cssSortList[$tmp] : 0;
 		}
 	}
+
+	/**
+	 * Load common JS and CSS files.
+	 */
+	public static function loadCommonFiles()
+	{
+		// Determine jQuery and jQuery Migrate versions.
+		if (config('view.jquery_version') === 3)
+		{
+			$jquery_version = HTMLDisplayHandler::JQUERY_V3;
+			$jquery_migrate_version = HTMLDisplayHandler::JQUERY_V3_MIGRATE;
+		}
+		else
+		{
+			$jquery_version = HTMLDisplayHandler::JQUERY_V2;
+			$jquery_migrate_version = HTMLDisplayHandler::JQUERY_V2_MIGRATE;
+		}
+
+		// Load common CSS.
+		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
+
+		// Create a list of common JS plugins that should be loaded right after jQuery.
+		$original_file_list = array(
+			'plugins/jquery.migrate/jquery-migrate-' . $jquery_migrate_version . '.min.js',
+			'plugins/cookie/js.cookie.min.js',
+			'plugins/blankshield/blankshield.min.js',
+			'plugins/uri/URI.min.js',
+		);
+
+		// Add polyfills for IE 11.
+		if (str_contains($_SERVER['HTTP_USER_AGENT'] ?? '', 'Trident/'))
+		{
+			$original_file_list[] = 'polyfills/formdata.min.js';
+			$original_file_list[] = 'polyfills/promise.min.js';
+		}
+
+		// Add remaining common JS files.
+		$original_file_list[] = 'x.js';
+		$original_file_list[] = 'common.js';
+		$original_file_list[] = 'js_app.js';
+		$original_file_list[] = 'xml_handler.js';
+		$original_file_list[] = 'xml_js_filter.js';
+
+		// Minify and concatenate if configured.
+		if (config('view.minify_scripts') === 'none')
+		{
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
+			foreach ($original_file_list as $filename)
+			{
+				Context::loadFile(array('./common/js/' . $filename, 'head', '', -1700000000), true);
+			}
+		}
+		else
+		{
+			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
+			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
+			if (file_exists(\RX_BASEDIR . $concat_target_filename))
+			{
+				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);
+				$original_mtime = 0;
+				foreach ($original_file_list as $filename)
+				{
+					$original_mtime = max($original_mtime, filemtime(\RX_BASEDIR . 'common/js/' . $filename));
+				}
+				if ($concat_target_mtime > $original_mtime)
+				{
+					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
+					return;
+				}
+			}
+
+			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
+				return \RX_BASEDIR . 'common/js/' . $str;
+			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
+
+			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
+		}
+	}
 }

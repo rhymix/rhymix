@@ -135,6 +135,18 @@ class Context
 	);
 
 	/**
+	 * Input parameters that will be auto-escaped
+	 */
+	private static $_auto_escape_keys = array(
+		'search_target' => true,
+		'search_keyword' => true,
+		'is_keyword' => true,
+		'order_target' => true,
+		'order_type' => true,
+		'xe_validator_id' => true,
+	);
+
+	/**
 	 * Pattern for request vars check
 	 */
 	private static $_check_patterns = array(
@@ -1527,7 +1539,7 @@ class Context
 						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
 					}
 				}
-				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
+				elseif(isset(self::$_auto_escape_keys[$key]) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
 				{
 					$_val = escape($_val, false);
 					if(ends_with('url', $key, false))

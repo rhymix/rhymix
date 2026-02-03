@@ -36,6 +36,17 @@ class LegacyXMLResponse extends AbstractResponse
 	}
 
 	/**
+	 * For backward compatibility, this response always returns status code 200.
+	 *
+	 * @return array
+	 */
+	public function getHeaders(): array
+	{
+		$this->_status_code = 200;
+		return parent::getHeaders();
+	}
+
+	/**
 	 * Encode an array as XE 1.x-compatible XML.
 	 *
 	 * @param array $vars

@@ -40,7 +40,7 @@ class HTMLDisplayHandler
 	/**
 	 * Image type information for SEO
 	 */
-	protected $_image_type = 'none';
+	protected static $_image_type = 'none';
 
 	/**
 	 * Produce HTML compliant content given a module object.\n
@@ -49,206 +49,7 @@ class HTMLDisplayHandler
 	 */
 	public function toDoc(&$oModule)
 	{
-		// SECISSUE https://github.com/xpressengine/xe-core/issues/1583
-		$oSecurity = new Security();
-		$oSecurity->encodeHTML('is_keyword', 'search_keyword', 'search_target', 'order_target', 'order_type');
-
-		$template_path = $oModule->getTemplatePath();
-		$template_file = $oModule->getTemplateFile();
-
-		if(!is_dir($template_path))
-		{
-			if($oModule->module_info->module == $oModule->module)
-			{
-				$skin = $oModule->origin_module_info->skin ?? $oModule->module_info->skin;
-			}
-			else
-			{
-				$skin = $oModule->module_config->skin;
-			}
-
-			if(Context::get('module') != 'admin' && strpos(Context::get('act'), 'Admin') === false)
-			{
-				if($skin && is_string($skin))
-				{
-					$theme_skin = explode('|@|', $skin);
-					$template_path = $oModule->getTemplatePath();
-					if(count($theme_skin) == 2)
-					{
-						$theme_path = sprintf('./themes/%s', $theme_skin[0]);
-						// FIXME $theme_path $theme_path $theme_path ??
-						if(substr($theme_path, 0, strlen($theme_path)) != $theme_path)
-						{
-							$template_path = sprintf('%s/modules/%s/', $theme_path, $theme_skin[1]);
-						}
-					}
-				}
-				else
-				{
-					$template_path = $oModule->getTemplatePath();
-				}
-			}
-			else
-			{
-				$template_path = $oModule->getTemplatePath();
-			}
-		}
-
-		$oTemplate = new Rhymix\Framework\Template($template_path, $template_file);
-		$output = $oTemplate->compile();
-
-		// add .x div for adminitration pages
-		if(Context::getResponseMethod() == 'HTML')
-		{
-			$x_exclude_actions = array(
-				'dispPageAdminContentModify' => true,
-				'dispPageAdminMobileContentModify' => true,
-				'dispPageAdminMobileContent' => true,
-			);
-			$current_act = strval(Context::get('act'));
-			if(Context::get('module') != 'admin' && strpos($current_act, 'Admin') !== false && !isset($x_exclude_actions[$current_act]))
-			{
-				$output = '<div class="x">' . $output . '</div>';
-			}
-
-			// Wrap content in layout
-			$use_layout = Context::get('layout') !== 'none';
-			if (!$use_layout && isset($_REQUEST['layout']) && !self::isPartialPageRendering())
-			{
-				$use_layout = true;
-			}
-			if ($use_layout)
-			{
-				$start = microtime(true);
-
-				Context::set('content', $output, false);
-
-				$layout_path = $oModule->getLayoutPath();
-				$layout_file = $oModule->getLayoutFile();
-
-				$edited_layout_file = $oModule->getEditedLayoutFile();
-
-				// get the layout information currently requested
-				$oLayoutModel = getModel('layout');
-				$layout_info = Context::get('layout_info');
-				$layout_srl = $layout_info->layout_srl ?? 0;
-
-				// compile if connected to the layout
-				if($layout_srl > 0)
-				{
-					// handle separately if the layout is faceoff
-					if($layout_info && isset($layout_info->type) && $layout_info->type == 'faceoff')
-					{
-						$oLayoutModel->doActivateFaceOff($layout_info);
-						Context::set('layout_info', $layout_info);
-					}
-
-					// search if the changes CSS exists in the admin layout edit window
-					$edited_layout_css = $oLayoutModel->getUserLayoutCss($layout_srl);
-
-					if(FileHandler::exists($edited_layout_css))
-					{
-						Context::loadFile(array($edited_layout_css, 'all', '', 100));
-					}
-				}
-				if (!$layout_path)
-				{
-					$layout_path = './common/tpl';
-				}
-				if (!$layout_file)
-				{
-					if ($layout_path === './common/tpl')
-					{
-						$layout_file = 'default_layout';
-					}
-					else
-					{
-						$layout_file = 'layout';
-					}
-				}
-
-				$oTemplate = new Rhymix\Framework\Template;
-				$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
-
-				// Add layout header script.
-				if ($layout_srl > 0)
-				{
-					$part_config = Rhymix\Modules\Module\Models\ModuleConfig::getModulePartConfig('layout', $layout_srl);
-					if ($part_config && isset($part_config->header_script))
-					{
-						Context::addHtmlHeader($part_config->header_script, true);
-					}
-				}
-
-				// if popup_layout, remove admin bar.
-				$realLayoutPath = FileHandler::getRealPath($layout_path);
-				if(substr_compare($realLayoutPath, '/', -1) !== 0)
-				{
-					$realLayoutPath .= '/';
-				}
-
-				$pathInfo = pathinfo($layout_file);
-				$onlyLayoutFile = $pathInfo['filename'];
-
-				Rhymix\Framework\Debug::addTime('layout', microtime(true) - $start);
-			}
-		}
-
-		// Add OpenGraph and Twitter metadata
-		if (config('seo.og_enabled') && Context::get('module') !== 'admin')
-		{
-			$this->_addOpenGraphMetadata();
-			if (config('seo.twitter_enabled'))
-			{
-				$this->_addTwitterMetadata();
-			}
-		}
-
-		// set icon
-		$site_module_info = Context::get('site_module_info');
-		$oAdminModel = getAdminModel('admin');
-		$favicon_url = $oAdminModel->getFaviconUrl($site_module_info->domain_srl);
-		$mobicon_url = $oAdminModel->getMobileIconUrl($site_module_info->domain_srl);
-		Context::set('favicon_url', $favicon_url);
-		Context::set('mobicon_url', $mobicon_url);
-
-		// Only print the X-UA-Compatible meta tag if somebody is still using IE
-		if (preg_match('!Trident/7\.0!', $_SERVER['HTTP_USER_AGENT'] ?? ''))
-		{
-			Context::addMetaTag('X-UA-Compatible', 'IE=edge', true);
-		}
-
-		return $output;
-	}
-
-	/**
-	 * Check if partial page rendering (dropping the layout) is enabled.
-	 *
-	 * @return bool
-	 */
-	public static function isPartialPageRendering()
-	{
-		$ppr = config('view.partial_page_rendering') ?? 'internal_only';
-		if ($ppr === 'disabled')
-		{
-			return false;
-		}
-		elseif ($ppr === 'ajax_only' && empty($_SERVER['HTTP_X_REQUESTED_WITH']))
-		{
-			return false;
-		}
-		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !Rhymix\Framework\URL::isInternalURL($_SERVER['HTTP_REFERER'])))
-		{
-			return false;
-		}
-		elseif ($ppr === 'except_robots' && isCrawler())
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return '';
 	}
 
 	/**
@@ -258,80 +59,20 @@ class HTMLDisplayHandler
 	 */
 	public function prepareToPrint(&$output)
 	{
-		if(Context::getResponseMethod() != 'HTML')
+		if (Context::getResponseMethod() != 'HTML')
 		{
 			return;
 		}
+	}
 
-		$start = microtime(true);
-
-		// move <style>...</style> in body to the header
-		$output = preg_replace_callback('!<style(.*?)>(.*?)<\/style>!is', array($this, '_moveStyleToHeader'), $output);
-
-		// move <link> and <meta> in body to the header
-		$output = preg_replace_callback('!<(link|meta)\b(.*?)>!is', array($this, '_moveLinkToHeader'), $output);
-
-		// change a meta fine(widget often put the tag like <!--Meta:path--> to the content because of caching)
-		$output = preg_replace_callback('/<!--(#)?Meta:([a-z0-9\_\-\/\.\@\:]+)(\?\$\_\_Context\-\>[a-z0-9\_\-\/\.\@\:\>]+)?-->/is', array($this, '_transMeta'), $output);
-
-		// handles a relative path generated by using the rewrite module
-		if(Context::isAllowRewrite())
-		{
-			$pattern = '/(action)=(["\'])(["\'])/s';
-			$output = preg_replace($pattern, '$1=$2' . \RX_BASEURL . '$3', $output);
-
-			$pattern = '/(action|poster|src|href)=(["\'])\.\/([^"\']*)(["\'])/s';
-			$output = preg_replace($pattern, '$1=$2' . \RX_BASEURL . '$3$4', $output);
-
-			$pattern = '/src=(["\'])((?:files\/(?:attach|cache|faceOff|member_extra_info|thumbnails)|addons|common|(?:m\.)?layouts|modules|widgets|widgetstyle)\/[^"\']+)(["\'])/s';
-			$output = preg_replace($pattern, 'src=$1' . \RX_BASEURL . '$2$3', $output);
-
-			$pattern = '/href=(["\'])(\?[^"\']+)/s';
-			$output = preg_replace($pattern, 'href=$1' . \RX_BASEURL . '$2', $output);
-		}
-
-		// prevent the 2nd request due to url(none) of the background-image
-		$output = preg_replace('/url\((["\']?)none(["\']?)\)/is', 'none', $output);
-
-		$INPUT_ERROR = Context::get('INPUT_ERROR');
-		if(is_array($INPUT_ERROR) && count($INPUT_ERROR))
-		{
-			$keys = array_map(function($str) { return preg_quote($str, '@'); }, array_keys($INPUT_ERROR));
-			$keys = '(' . implode('|', $keys) . ')';
-
-			$output = preg_replace_callback('@(<input)([^>]*?)\sname="' . $keys . '"([^>]*?)/?>@is', array(&$this, '_preserveValue'), $output);
-			$output = preg_replace_callback('@<select[^>]*\sname="' . $keys . '".+</select>@isU', array(&$this, '_preserveSelectValue'), $output);
-			$output = preg_replace_callback('@<textarea[^>]*\sname="' . $keys . '".+</textarea>@isU', array(&$this, '_preserveTextAreaValue'), $output);
-		}
-
-		Rhymix\Framework\Debug::addTime('trans_content', microtime(true) - $start);
-
-		// Remove unnecessary information
-		$output = preg_replace('/member\_\-([0-9]+)/s', 'member_0', $output);
-
-		// convert the final layout
-		Context::set('content', $output);
-		if(Mobile::isFromMobilePhone())
-		{
-			$this->_loadMobileJSCSS();
-		}
-		else
-		{
-			$this->_loadDesktopJSCSS();
-		}
-		$oTemplate = new Rhymix\Framework\Template('./common/tpl', 'common_layout');
-		$output = $oTemplate->compile();
-
-		// replace the user-defined-language
-		$output = Context::replaceUserLang($output);
-
-		// remove template path comment tag
-		/*
-		if(!Rhymix\Framework\Debug::isEnabledForCurrentUser())
-		{
-			$output = preg_replace('/\n<!-- Template (?:start|end) : .*? -->\r?\n/', "\n", $output);
-		}
-		*/
+	/**
+	 * Check if partial page rendering (dropping the layout) is enabled.
+	 *
+	 * @return bool
+	 */
+	public static function isPartialPageRendering()
+	{
+		return false;
 	}
 
 	/**
@@ -474,7 +215,7 @@ class HTMLDisplayHandler
 	 *
 	 * @return void
 	 */
-	function _addOpenGraphMetadata()
+	public static function _addOpenGraphMetadata()
 	{
 		// Get information about the current request.
 		$page_type = 'website';
@@ -638,7 +379,7 @@ class HTMLDisplayHandler
 			Context::addOpenGraphData('og:image', Rhymix\Framework\URL::getCurrentDomainURL($first_image['filepath']));
 			Context::addOpenGraphData('og:image:width', $first_image['width']);
 			Context::addOpenGraphData('og:image:height', $first_image['height']);
-			$this->_image_type = 'document';
+			self::$_image_type = 'document';
 		}
 		elseif ($default_image = getAdminModel('admin')->getSiteDefaultImageUrl($site_module_info->domain_srl, $width, $height))
 		{
@@ -648,11 +389,11 @@ class HTMLDisplayHandler
 				Context::addOpenGraphData('og:image:width', $width);
 				Context::addOpenGraphData('og:image:height', $height);
 			}
-			$this->_image_type = 'site';
+			self::$_image_type = 'site';
 		}
 		else
 		{
-			$this->_image_type = 'none';
+			self::$_image_type = 'none';
 		}
 
 		// Add tags and hashtags for articles.
@@ -702,9 +443,9 @@ class HTMLDisplayHandler
 	 *
 	 * @return void
 	 */
-	function _addTwitterMetadata()
+	public static function _addTwitterMetadata()
 	{
-		$card_type = $this->_image_type === 'document' ? 'summary_large_image' : 'summary';
+		$card_type = self::$_image_type === 'document' ? 'summary_large_image' : 'summary';
 		Context::addMetaTag('twitter:card', $card_type, false, false);
 
 		foreach(Context::getOpenGraphData() as $val)
@@ -717,7 +458,7 @@ class HTMLDisplayHandler
 			{
 				Context::addMetaTag('twitter:description', $val['content'], false, false);
 			}
-			if ($val['property'] === 'og:image' && $this->_image_type === 'document')
+			if ($val['property'] === 'og:image' && self::$_image_type === 'document')
 			{
 				Context::addMetaTag('twitter:image', $val['content'], false, false);
 			}
@@ -725,89 +466,26 @@ class HTMLDisplayHandler
 	}
 
 	/**
-	 * import basic .js files.
-	 * @return void
+	 * @deprecated
 	 */
 	public function _loadDesktopJSCSS()
 	{
-		$this->_loadCommonJSCSS();
+		FrontEndFileHandler::loadCommonFiles();
 	}
 
 	/**
-	 * import basic .js files for mobile
+	 * @deprecated
 	 */
 	private function _loadMobileJSCSS()
 	{
-		$this->_loadCommonJSCSS();
+		FrontEndFileHandler::loadCommonFiles();
 	}
 
 	/**
-	 * import common .js and .css files for (both desktop and mobile)
+	 * @deprecated
 	 */
 	private function _loadCommonJSCSS()
 	{
-		if (config('view.jquery_version') === 3)
-		{
-			$jquery_version = self::JQUERY_V3;
-			$jquery_migrate_version = self::JQUERY_V3_MIGRATE;
-		}
-		else
-		{
-			$jquery_version = self::JQUERY_V2;
-			$jquery_migrate_version = self::JQUERY_V2_MIGRATE;
-		}
-
-		Context::loadFile(array('./common/css/rhymix.scss', '', '', -1600000000), true);
-
-		$original_file_list = array(
-			'plugins/jquery.migrate/jquery-migrate-' . $jquery_migrate_version . '.min.js',
-			'plugins/cookie/js.cookie.min.js',
-			'plugins/blankshield/blankshield.min.js',
-			'plugins/uri/URI.min.js',
-		);
-
-		if (str_contains($_SERVER['HTTP_USER_AGENT'] ?? '', 'Trident/'))
-		{
-			$original_file_list[] = 'polyfills/formdata.min.js';
-			$original_file_list[] = 'polyfills/promise.min.js';
-		}
-
-		$original_file_list[] = 'x.js';
-		$original_file_list[] = 'common.js';
-		$original_file_list[] = 'js_app.js';
-		$original_file_list[] = 'xml_handler.js';
-		$original_file_list[] = 'xml_js_filter.js';
-
-		if(config('view.minify_scripts') === 'none')
-		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.js', 'head', '', -1800000000), true);
-			foreach($original_file_list as $filename)
-			{
-				Context::loadFile(array('./common/js/' . $filename, 'head', '', -1700000000), true);
-			}
-		}
-		else
-		{
-			Context::loadFile(array('./common/js/jquery-' . $jquery_version . '.min.js', 'head', '', -1800000000), true);
-			$concat_target_filename = 'files/cache/assets/minified/rhymix.min.js';
-			if(file_exists(\RX_BASEDIR . $concat_target_filename))
-			{
-				$concat_target_mtime = filemtime(\RX_BASEDIR . $concat_target_filename);
-				$original_mtime = 0;
-				foreach($original_file_list as $filename)
-				{
-					$original_mtime = max($original_mtime, filemtime(\RX_BASEDIR . 'common/js/' . $filename));
-				}
-				if($concat_target_mtime > $original_mtime)
-				{
-					Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
-					return;
-				}
-			}
-			Rhymix\Framework\Formatter::minifyJS(array_map(function($str) {
-				return \RX_BASEDIR . 'common/js/' . $str;
-			}, $original_file_list), \RX_BASEDIR . $concat_target_filename);
-			Context::loadFile(array('./' . $concat_target_filename, 'head', '', -1700000000), true);
-		}
+		FrontEndFileHandler::loadCommonFiles();
 	}
 }

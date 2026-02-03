@@ -54,6 +54,17 @@ class LegacyJSONResponse extends AbstractResponse
 	}
 
 	/**
+	 * For backward compatibility, this response always returns status code 200.
+	 *
+	 * @return array
+	 */
+	public function getHeaders(): array
+	{
+		$this->_status_code = 200;
+		return parent::getHeaders();
+	}
+
+	/**
 	 * Convert an array into a format that is compatible with the XE 1.x JSON response format.
 	 *
 	 * @param array $array

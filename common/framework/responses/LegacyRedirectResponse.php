@@ -49,4 +49,15 @@ class LegacyRedirectResponse extends AbstractResponse
 
 		yield "</script>\n</body>\n</html>";
 	}
+
+	/**
+	 * For backward compatibility, this response always returns status code 200.
+	 *
+	 * @return array
+	 */
+	public function getHeaders(): array
+	{
+		$this->_status_code = 200;
+		return parent::getHeaders();
+	}
 }

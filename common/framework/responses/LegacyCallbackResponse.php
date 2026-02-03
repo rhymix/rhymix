@@ -27,14 +27,14 @@ class LegacyCallbackResponse extends AbstractResponse
 	public function render(): iterable
 	{
 		// Ensure that 'error' and 'message' are always present.
-		if (!isset($vars['error']) || !isset($vars['message']))
+		if (!isset($this->_vars['error']) || !isset($this->_vars['message']))
 		{
 			$default_vars = ['error' => 0, 'message' => 'success'];
-			$vars = array_merge($default_vars, $this->_vars);
+			$this->_vars = array_merge($default_vars, $this->_vars);
 		}
 
 		// Encode the result as JSON. If there is an error, also encode the error as JSON.
-		$result = @json_encode($vars);
+		$result = @json_encode($this->_vars);
 		if (json_last_error() != \JSON_ERROR_NONE)
 		{
 			trigger_error('JSON encoding error: ' . json_last_error_msg(), E_USER_WARNING);
@@ -51,5 +51,16 @@ class LegacyCallbackResponse extends AbstractResponse
 		yield sprintf("%s(%s);\n", Context::getInstance()->js_callback_func ?? '', $result);
 		yield '//]]>' . "\n";
 		yield "</script>\n</body>\n</html>";
+	}
+
+	/**
+	 * For backward compatibility, this response always returns status code 200.
+	 *
+	 * @return array
+	 */
+	public function getHeaders(): array
+	{
+		$this->_status_code = 200;
+		return parent::getHeaders();
 	}
 }
