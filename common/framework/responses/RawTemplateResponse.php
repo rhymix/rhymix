@@ -4,6 +4,7 @@ namespace Rhymix\Framework\Responses;
 
 use Rhymix\Framework\AbstractResponse;
 use Rhymix\Framework\Template;
+use Context;
 
 /**
  * The raw template response class.
@@ -63,6 +64,10 @@ class RawTemplateResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
+		// Set the legacy response method to RAW.
+		Context::setResponseMethod('RAW');
+
+		// Render the template.
 		if ($this->_template_dirname && $this->_template_filename)
 		{
 			$tpl = new Template($this->_template_dirname, $this->_template_filename);

@@ -80,8 +80,9 @@ class DisplayHandler extends Handler
 		}
 
 		// Apply layout.
-		if ($handler instanceof Rhymix\Framework\Responses\FileResponse)
+		if ($handler instanceof Rhymix\Framework\Responses\LateRenderingResponse)
 		{
+			Context::setResponseMethod('RAW');
 			$output = '';
 		}
 		else
@@ -162,7 +163,7 @@ class DisplayHandler extends Handler
 		$debug = self::getDebugInfo($output);
 
 		// Output the page content.
-		if ($handler instanceof Rhymix\Framework\Responses\FileResponse)
+		if ($handler instanceof Rhymix\Framework\Responses\LateRenderingResponse)
 		{
 			foreach ($handler->render() as $chunk)
 			{

@@ -3,6 +3,7 @@
 namespace Rhymix\Framework\Responses;
 
 use Rhymix\Framework\AbstractResponse;
+use Context;
 
 /**
  * The JSON response class.
@@ -27,6 +28,10 @@ class JSONResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
+		// Set the legacy response method to JSON.
+		Context::setResponseMethod('JSON');
+
+		// Output the JSON-encoded variables.
 		yield json_encode($this->_vars);
 	}
 }

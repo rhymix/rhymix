@@ -10,7 +10,7 @@ use Rhymix\Framework\UA;
  *
  * This class can be used to send a file to the user.
  */
-class FileResponse extends AbstractResponse
+class FileResponse extends AbstractResponse implements LateRenderingResponse
 {
 	/**
 	 * Internal state.

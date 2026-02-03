@@ -122,6 +122,9 @@ class HTMLResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
+		// Set the legacy response method to HTML.
+		Context::setResponseMethod('HTML');
+
 		// Extract temporary variable.
 		$edited_layout_file = $this->_vars['edited_layout_file'] ?? '';
 		unset($this->_vars['edited_layout_file']);

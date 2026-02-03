@@ -9,7 +9,7 @@ use Rhymix\Framework\AbstractResponse;
  *
  * This class will print the raw string supplied to it.
  */
-class CustomResponse extends AbstractResponse
+class CustomResponse extends AbstractResponse implements LateRenderingResponse
 {
 	/**
 	 * Internal state.

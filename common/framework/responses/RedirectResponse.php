@@ -3,7 +3,7 @@
 namespace Rhymix\Framework\Responses;
 
 use Rhymix\Framework\AbstractResponse;
-use Rhymix\Framework\Exception;
+use Context;
 
 /**
  * The redirect response class.
@@ -46,6 +46,10 @@ class RedirectResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
+		// Set the legacy response method to RAW.
+		Context::setResponseMethod('RAW');
+
+		// No body content for redirect response.
 		yield '';
 	}
 
