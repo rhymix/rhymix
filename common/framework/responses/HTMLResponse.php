@@ -15,6 +15,7 @@ use FileHandler;
 use FrontEndFileHandler;
 use HTMLDisplayHandler;
 use LayoutModel;
+use ModuleHandler;
 
 /**
  * The HTML response class.
@@ -149,7 +150,7 @@ class HTMLResponse extends AbstractResponse
 
 		// Wrap in layout.
 		$use_layout = Context::get('layout') !== 'none';
-		if (!$use_layout && isset($_REQUEST['layout']) && !self::_isPartialPageRenderingEnabled())
+		if (!$use_layout && isset($_REQUEST['layout']) && !ModuleHandler::isPartialPageRenderingEnabled())
 		{
 			$use_layout = true;
 		}
@@ -296,36 +297,6 @@ class HTMLResponse extends AbstractResponse
 		*/
 
 		return $content;
-	}
-
-	/**
-	 * Check if partial page rendering (dropping the layout) is enabled.
-	 *
-	 * @return bool
-	 */
-	protected static function _isPartialPageRenderingEnabled(): bool
-	{
-		$ppr = config('view.partial_page_rendering') ?? 'internal_only';
-		if ($ppr === 'disabled')
-		{
-			return false;
-		}
-		elseif ($ppr === 'ajax_only' && empty($_SERVER['HTTP_X_REQUESTED_WITH']))
-		{
-			return false;
-		}
-		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !URL::isInternalURL($_SERVER['HTTP_REFERER'])))
-		{
-			return false;
-		}
-		elseif ($ppr === 'except_robots' && isCrawler())
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
 	}
 
 	/**

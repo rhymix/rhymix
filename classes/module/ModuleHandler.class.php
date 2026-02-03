@@ -1037,7 +1037,7 @@ class ModuleHandler extends Handler
 
 		// Use message view object, if HTML call
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
-		if(!isset($methodList[Context::getRequestMethod()]))
+		if (!isset($methodList[Context::getRequestMethod()]))
 		{
 			// Handle redirects.
 			if($oModule->getRedirectUrl())
@@ -1067,25 +1067,20 @@ class ModuleHandler extends Handler
 			}
 
 			// If error occurred, handle it
-			if($this->error)
+			if ($this->error)
 			{
-				// display content with message module instance
+				// Create an instance of message module.
 				$oMessageObject = self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, $this->error_detail, $oModule->get('rx_error_location'));
-
-				// display Error Page
-				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
+				if (!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
 				{
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
 
-				// If module was called normally, change the templates of the module into ones of the message view module
-				if($oModule)
+				// Copy the message module's response to the target module.
+				if ($oModule)
 				{
-					$oModule->setTemplatePath($oMessageObject->getTemplatePath());
-					$oModule->setTemplateFile($oMessageObject->getTemplateFile());
-					$oModule->setHttpStatusCode($oMessageObject->getHttpStatusCode());
+					$oModule->copyResponseFrom($oMessageObject);
 				}
-				// Otherwise, set message instance as the target module
 				else
 				{
 					$oModule = $oMessageObject;
@@ -1202,6 +1197,8 @@ class ModuleHandler extends Handler
 					}
 				}
 			}
+
+			// Layout drop handling
 			$isLayoutDrop = Context::get('isLayoutDrop');
 			if($isLayoutDrop)
 			{
@@ -1210,7 +1207,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule->setLayoutFile('popup_layout');
 				}
-				elseif (HTMLDisplayHandler::isPartialPageRendering())
+				elseif (self::isPartialPageRenderingEnabled())
 				{
 					$oModule->setLayoutPath('common/tpl');
 					$oModule->setLayoutFile('default_layout');
@@ -1325,6 +1322,36 @@ class ModuleHandler extends Handler
 		}
 
 		return Rhymix\Framework\Event::trigger($trigger_name, $called_position, $obj);
+	}
+
+	/**
+	 * Check if partial page rendering (dropping the layout) is enabled.
+	 *
+	 * @return bool
+	 */
+	public static function isPartialPageRenderingEnabled(): bool
+	{
+		$ppr = config('view.partial_page_rendering') ?? 'internal_only';
+		if ($ppr === 'disabled')
+		{
+			return false;
+		}
+		elseif ($ppr === 'ajax_only' && empty($_SERVER['HTTP_X_REQUESTED_WITH']))
+		{
+			return false;
+		}
+		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !URL::isInternalURL($_SERVER['HTTP_REFERER'])))
+		{
+			return false;
+		}
+		elseif ($ppr === 'except_robots' && isCrawler())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 
 	/**
