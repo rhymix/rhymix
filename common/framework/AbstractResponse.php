@@ -195,7 +195,10 @@ abstract class AbstractResponse
 	 */
 	public function getHeaders(): array
 	{
-		$headers = ['HTTP/1.1 ' . $this->_status_code . ' ' . ModuleHandler::STATUS_MESSAGES[$this->_status_code]];
+		if ($this->_status_code !== 200)
+		{
+			$headers = ['HTTP/1.1 ' . $this->_status_code . ' ' . ModuleHandler::STATUS_MESSAGES[$this->_status_code]];
+		}
 		if ($this->_content_type)
 		{
 			$headers[] = 'Content-Type: ' . $this->_content_type . ($this->_charset ? ('; charset=' . $this->_charset) : '');

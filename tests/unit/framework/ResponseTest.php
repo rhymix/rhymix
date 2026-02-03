@@ -53,7 +53,9 @@ class ResponseTest extends \Codeception\Test\Unit
 
 		// Finalization
 		$finalized = $r->finalize($content);
-		$this->assertStringContainsString($content, $finalized);
+		$this->assertStringContainsString('<a href="http://mygony.com">Taggon\'s blog</a>', $finalized);
+		$this->assertStringContainsString('//external.host/js.js', $finalized);
+		$this->assertStringContainsString('<!DOCTYPE', $finalized);
 	}
 
 	public function testCustomResponse()
@@ -116,10 +118,9 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals($file_content, $content);
 
 		$headers = $r->getHeaders();
-		$this->assertEquals('HTTP/1.1 200 OK', $headers[0]);
-		$this->assertEquals('Content-Type: image/png', $headers[1]);
-		$this->assertEquals('Content-Disposition: attachment; filename="' . rawurlencode($r->getFilename()) . '"', $headers[2]);
-		$this->assertEquals('Content-Length: ' . filesize($r->getSourcePath()), $headers[3]);
+		$this->assertEquals('Content-Type: image/png', $headers[0]);
+		$this->assertEquals('Content-Disposition: attachment; filename="' . rawurlencode($r->getFilename()) . '"', $headers[1]);
+		$this->assertEquals('Content-Length: ' . filesize($r->getSourcePath()), $headers[2]);
 
 		// Partial content
 		$r->setFilename('');
@@ -254,8 +255,7 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals($content, strval($r));
 
 		$headers = $r->getHeaders();
-		$this->assertEquals('HTTP/1.1 200 OK', $headers[0]);
-		$this->assertEquals('Content-Type: text/xml; charset=UTF-8', $headers[1]);
+		$this->assertEquals('Content-Type: text/xml; charset=UTF-8', $headers[0]);
 	}
 
 	public function testLegacyCallbackResponse()

@@ -649,8 +649,8 @@ class Context
 
 		$prefix = ($site_module_info->security !== 'none' || $use_ssl) ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
-		$port = ($prefix === 'https://') ? $site_module_info->https_port : $site_module_info->http_port;
-		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
+		$port = ($prefix === 'https://') ? ($site_module_info->https_port ?? 0) : ($site_module_info->http_port ?? 0);
+		$result = $prefix . $hostname . ($port > 0 ? sprintf(':%d', $port) : '') . RX_BASEURL;
 		return $result;
 	}
 

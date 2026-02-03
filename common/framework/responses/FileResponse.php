@@ -195,7 +195,7 @@ class FileResponse extends AbstractResponse
 			{
 				$length = max(0, $this->_range_end - $this->_range_start + 1);
 			}
-			$headers[0] = 'HTTP/1.1 206 Partial Content';
+			array_unshift($headers, 'HTTP/1.1 206 Partial Content');
 			$headers[] = 'Content-Range: bytes ' . vsprintf('%d-%d/%d', [
 				$this->_range_start,
 				($this->_range_end ? $this->_range_end : ($filesize - 1)),

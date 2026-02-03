@@ -73,8 +73,8 @@ class DisplayHandler extends Handler
 			else
 			{
 				$handler = new Rhymix\Framework\Responses\HTMLResponse($oModule->getHttpStatusCode());
-				$handler->setLayout($oModule->getLayoutPath(), $oModule->getLayoutFile());
-				$handler->setTemplate($oModule->getTemplatePath(), $oModule->getTemplateFile());
+				$handler->setLayout($oModule->getLayoutPath() ?? '', $oModule->getLayoutFile() ?? '');
+				$handler->setTemplate($oModule->getTemplatePath() ?? '', $oModule->getTemplateFile() ?? '');
 				$handler->edited_layout_file = $oModule->getEditedLayoutFile();
 			}
 		}
@@ -106,18 +106,14 @@ class DisplayHandler extends Handler
 			$output = $original_output;
 		}
 
-		// Allow the handler to modify the output before printing.
+		// Update the HTTP status code in case it was changed by an addon.
+		$handler->setStatusCode($oModule->getHttpStatusCode());
+
+		// Finalize the output.
 		$output = $handler->finalize($output);
 
 		// If $_SESSION was touched, start the session so that changes will be saved.
 		Context::checkSessionStatus();
-
-		// Update the HTTP status code in case it was changed by an addon.
-		$status_code = $oModule->getHttpStatusCode();
-		if ($status_code !== 200)
-		{
-			$handler->setStatusCode($status_code);
-		}
 
 		// Print headers.
 		$headers = $handler->getHeaders();
@@ -340,39 +336,6 @@ class DisplayHandler extends Handler
 		}
 
 		return $debug_output;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public static function _printXMLHeader()
-	{
-		header("Content-Type: text/xml; charset=UTF-8");
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public static function _printHTMLHeader()
-	{
-		header("Content-Type: text/html; charset=UTF-8");
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public static function _printJSONHeader()
-	{
-		header("Content-Type: application/json; charset=UTF-8");
-	}
-
-	/**
-	 * @deprecated
-	 */
-	public static function _printCustomContentTypeHeader($content_type)
-	{
-		$charset = (strpos($content_type, 'text/') === 0) ? '; charset=UTF-8' : '';
-		header('Content-Type: ' . $content_type . $charset);
 	}
 
 	/**
