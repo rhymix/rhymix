@@ -18,6 +18,7 @@ abstract class AbstractResponse
 	protected int $_status_code = 200;
 	protected string $_content_type = '';
 	protected string $_charset = '';
+	protected array $_headers = [];
 	protected array $_vars = [];
 
 	/**
@@ -187,6 +188,18 @@ abstract class AbstractResponse
 	abstract public function render(): iterable;
 
 	/**
+	 * Add a header to this response.
+	 *
+	 * @param string $header
+	 * @return self
+	 */
+	public function addHeader(string $header): self
+	{
+		$this->_headers[] = $header;
+		return $this;
+	}
+
+	/**
 	 * Get headers for this response.
 	 *
 	 * This method may be overridden or expanded by each subclass.
@@ -202,6 +215,10 @@ abstract class AbstractResponse
 		if ($this->_content_type)
 		{
 			$headers[] = 'Content-Type: ' . $this->_content_type . ($this->_charset ? ('; charset=' . $this->_charset) : '');
+		}
+		foreach ($this->_headers as $header)
+		{
+			$headers[] = $header;
 		}
 		return $headers;
 	}

@@ -156,9 +156,13 @@ class ResponseTest extends \Codeception\Test\Unit
 		$this->assertEquals($this->exampleData, json_decode($content, true));
 		$this->assertEquals($content, strval($r));
 
+		$r->addHeader('X-Custom-Header: RhymixTest');
+		$r->addHeader('X-Custom-Header: another header; foo=bar; samesite=strict');
 		$headers = $r->getHeaders();
 		$this->assertEquals('HTTP/1.1 429 Too Many Requests', $headers[0]);
 		$this->assertEquals('Content-Type: application/json', $headers[1]);
+		$this->assertEquals('X-Custom-Header: RhymixTest', $headers[2]);
+		$this->assertEquals('X-Custom-Header: another header; foo=bar; samesite=strict', $headers[3]);
 	}
 
 	public function testRawTemplateResponse()
