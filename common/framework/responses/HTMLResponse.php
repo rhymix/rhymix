@@ -54,7 +54,7 @@ class HTMLResponse extends AbstractResponse
 	 * @param string $filename
 	 * @return self
 	 */
-	public function setLayout(string $dirname, string $filename): self
+	public function setLayout(string $dirname, string $filename = 'layout'): self
 	{
 		$this->_layout_dirname = $dirname;
 		$this->_layout_filename = $filename;
