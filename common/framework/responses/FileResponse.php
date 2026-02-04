@@ -54,6 +54,18 @@ class FileResponse extends AbstractResponse implements LateRenderingResponse
 	}
 
 	/**
+	 * Set the filename to be displayed to the client.
+	 *
+	 * @param string $filename
+	 * @return self
+	 */
+	public function setFilename(string $filename): self
+	{
+		$this->_filename = $filename;
+		return $this;
+	}
+
+	/**
 	 * Set the range of bytes to be sent to the client.
 	 *
 	 * @param int $range_start
@@ -85,18 +97,6 @@ class FileResponse extends AbstractResponse implements LateRenderingResponse
 	public function getRangeEnd(): ?int
 	{
 		return $this->_range_end;
-	}
-
-	/**
-	 * Set the filename to be displayed to the client.
-	 *
-	 * @param string $filename
-	 * @return self
-	 */
-	public function setFilename(string $filename): self
-	{
-		$this->_filename = $filename;
-		return $this;
 	}
 
 	/**
