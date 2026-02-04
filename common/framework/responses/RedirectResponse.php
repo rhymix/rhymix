@@ -46,11 +46,19 @@ class RedirectResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
-		// Set the legacy response method to RAW.
-		Context::setResponseMethod('RAW');
-
-		// No body content for redirect response.
 		yield '';
+	}
+
+	/**
+	 * Finalize the response for presentation.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	public function finalize(string $content): string
+	{
+		Context::setResponseMethod('RAW');
+		return $content;
 	}
 
 	/**

@@ -64,10 +64,6 @@ class RawTemplateResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
-		// Set the legacy response method to RAW.
-		Context::setResponseMethod('RAW');
-
-		// Render the template.
 		if ($this->_template_dirname && $this->_template_filename)
 		{
 			$tpl = new Template($this->_template_dirname, $this->_template_filename);
@@ -81,5 +77,17 @@ class RawTemplateResponse extends AbstractResponse
 		{
 			yield '';
 		}
+	}
+
+	/**
+	 * Finalize the response for presentation.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	public function finalize(string $content): string
+	{
+		Context::setResponseMethod('RAW');
+		return $content;
 	}
 }
