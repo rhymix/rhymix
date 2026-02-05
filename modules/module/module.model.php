@@ -1012,7 +1012,7 @@ class ModuleModel extends Module
 			$skin_list[$skin_name] = $skin_info;
 		}
 
-		$tmpPath = strtr($path, array('/' => ' '));
+		$tmpPath = strtr($path, array('/' => ' ', '\\' => ' '));
 		$tmpPath = trim($tmpPath);
 		$module = array_last(explode(' ', $tmpPath));
 
