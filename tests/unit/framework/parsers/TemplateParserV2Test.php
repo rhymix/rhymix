@@ -676,6 +676,16 @@ class TemplateParserV2Test extends \Codeception\Test\Unit
 		$source = '<p class="url(foo.svg)" style="url(../foo.jpg)"> url(img/foo.jpg); } </p>';
 		$target = '<p class="url(foo.svg)" style="url(' . $this->baseurl . 'tests/_data/foo.jpg)"> url(img/foo.jpg); } </p>';
 		$this->assertEquals($target, $this->_parse($source));
+
+		// No conversion if it's a template variable
+		$source = '<img src="{ get_image_path(\'foo/bar.jpg\') }" />';
+		$target = '<img src="{ get_image_path(\'foo/bar.jpg\') }" />';
+		$this->assertEquals($target, $this->_parse($source));
+
+		// No conversion if it's a JS template variable
+		$source = '@verbatim let src = `<source src="${foo.url}" />` @endverbatim';
+		$target = ' let src = `<source src="${foo.url}" />` ';
+		$this->assertEquals($target, $this->_parse($source));
 	}
 
 	public function testBlockConditions()

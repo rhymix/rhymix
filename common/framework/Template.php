@@ -528,7 +528,7 @@ class Template
 	 */
 	public function isRelativePath(string $path): bool
 	{
-		return !preg_match('#^((?:https?|file|data):|[\/\{<])#i', $path);
+		return !preg_match('#^((?:https?|file|data):|[\/\{\\\\<$\#@]|&\#x1B;)#i', $path);
 	}
 
 	/**
