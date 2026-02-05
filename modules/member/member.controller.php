@@ -1841,6 +1841,7 @@ class MemberController extends Member
 		}
 		Context::set('auth_args', $args);
 
+		// Prepare member information to be included in the email #2594 #2663
 		$memberInfo = array();
 		if (in_array('user_id', $member_config->identifiers))
 		{
@@ -1850,6 +1851,21 @@ class MemberController extends Member
 		{
 			$memberInfo[$lang->email_address] = $member_info->email_address;
 		}
+		if (in_array('phone_number', $member_config->identifiers))
+		{
+			$phone_number = $member_info->phone_number;
+			if($member_config->phone_number_hide_country !== 'Y')
+			{
+				$phone_number = Rhymix\Framework\i18n::formatPhoneNumber($phone_number, $member_info->phone_country);
+			}
+			elseif($member_config->phone_number_default_country === 'KOR' && ($member_info->phone_country === 'KOR' || $member_info->phone_country == '82'))
+			{
+				$phone_number = Rhymix\Framework\Korea::formatPhoneNumber($phone_number);
+			}
+			$memberInfo[$lang->phone_number] = $phone_number;
+		}
+		$memberInfo[$lang->user_name] = $member_info->user_name;
+		$memberInfo[$lang->nick_name] = $member_info->nick_name;
 		Context::set('memberInfo', $memberInfo);
 
 		if(!$member_config->skin) $member_config->skin = "default";
