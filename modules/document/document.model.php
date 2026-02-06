@@ -1558,13 +1558,13 @@ class DocumentModel extends Document
 				if($searchOpt->isExtraVars)
 				{
 					$args->sort_eid = $args->sort_index;
-					$args->sort_lang = Context::getLangType();
 					if ($searchOpt->isExtraVarsSortAsNumber ?? false)
 					{
 						$args->sort_index = 'extra_sort.sort_value';
 					}
 					else
 					{
+						$args->sort_lang = Context::getLangType();
 						$args->sort_index = 'extra_sort.value';
 					}
 				}
