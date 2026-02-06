@@ -597,11 +597,11 @@ class BoardController extends Board
 		{
 			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 			{
-				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 				{
 					$format =  lang('msg_protect_regdate_comment');
-					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					throw new Rhymix\Framework\Exception($massage);
+					$message = sprintf($format, $this->module_info->protect_comment_regdate);
+					throw new Rhymix\Framework\Exception($message);
 				}
 			}
 			// check the grant
@@ -678,11 +678,11 @@ class BoardController extends Board
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
-			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 			{
 				$format =  lang('msg_protect_regdate_comment');
-				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				throw new Rhymix\Framework\Exception($massage);
+				$message = sprintf($format, $this->module_info->protect_comment_regdate);
+				throw new Rhymix\Framework\Exception($message);
 			}
 		}
 		// generate comment  controller object
