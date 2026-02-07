@@ -12,41 +12,14 @@ class DisplayHandler extends Handler
 	public $handler = NULL;
 
 	/**
-	 * print either html or xml content given oModule object
-	 * @remark addon execution and the trigger execution are included within this method, which might create inflexibility for the fine grained caching
-	 * @param ModuleObject $oModule the module object
+	 * Print the response content.
+	 *
+	 * @param Rhymix\Framework\AbstractController $oModule
 	 * @return void
 	 */
-	public function printContent(&$oModule)
+	public function printContent(Rhymix\Framework\AbstractController $oModule)
 	{
-		// Extract contents to display by the response method
-		$responseMethod = Context::getResponseMethod();
-		if(Context::get('xeVirtualRequestMethod') == 'xml')
-		{
-			$handler = new VirtualXMLDisplayHandler();
-		}
-		elseif($responseMethod == 'JSON' || isset($_POST['_rx_ajax_compat']))
-		{
-			$handler = new JSONDisplayHandler();
-		}
-		elseif($responseMethod == 'JS_CALLBACK')
-		{
-			$handler = new JSCallbackDisplayHandler();
-		}
-		elseif($responseMethod == 'XMLRPC')
-		{
-			$handler = new XMLDisplayHandler();
-		}
-		elseif($responseMethod == 'RAW')
-		{
-			$handler = new RawDisplayHandler();
-		}
-		else
-		{
-			$handler = new HTMLDisplayHandler();
-		}
-
-		// Handle error location info
+		// Set error location info.
 		if ($location = $oModule->get('rx_error_location'))
 		{
 			if (!Rhymix\Framework\Debug::isEnabledForCurrentUser())
@@ -59,102 +32,150 @@ class DisplayHandler extends Handler
 			}
 		}
 
-		// call a trigger before layout
+		// Dispatch event: layout (before)
 		Rhymix\Framework\Event::trigger('layout', 'before', $oModule);
 
-		// apply layout
-		$output = $handler->toDoc($oModule);
+		// Decide which class to use for display handling
+		if (isset($oModule->response))
+		{
+			$handler = $oModule->response;
+		}
+		else
+		{
+			$response_method = Context::getResponseMethod();
+			$response_vars = array_merge(['error' => $oModule->getError(), 'message' => $oModule->getMessage()], $oModule->getVariables());
+			if (Context::get('xeVirtualRequestMethod') == 'xml')
+			{
+				$handler = new Rhymix\Framework\Responses\LegacyRedirectResponse(200, $response_vars);
+			}
+			elseif ($response_method == 'JSON' || isset($_SERVER['HTTP_X_AJAX_COMPAT']) || isset($_POST['_rx_ajax_compat']))
+			{
+				$handler = new Rhymix\Framework\Responses\LegacyJSONResponse(200, $response_vars);
+			}
+			elseif ($response_method == 'XMLRPC')
+			{
+				$handler = new Rhymix\Framework\Responses\LegacyXMLResponse(200, $response_vars);
+			}
+			elseif ($response_method == 'JS_CALLBACK')
+			{
+				$handler = new Rhymix\Framework\Responses\LegacyCallbackResponse(200, $response_vars);
+			}
+			elseif ($response_method == 'RAW')
+			{
+				$handler = new Rhymix\Framework\Responses\RawTemplateResponse($oModule->getHttpStatusCode());
+				$handler->setTemplate($oModule->getTemplatePath(), $oModule->getTemplateFile());
+				$content_type = Context::get('response_content_type');
+				if ($content_type)
+				{
+					$handler->setContentType($content_type);
+				}
+			}
+			else
+			{
+				$handler = new Rhymix\Framework\Responses\HTMLResponse($oModule->getHttpStatusCode());
+				$handler->setLayout($oModule->getLayoutPath() ?? '', $oModule->getLayoutFile() ?? '');
+				$handler->setTemplate($oModule->getTemplatePath() ?? '', $oModule->getTemplateFile() ?? '');
+				$handler->edited_layout_file = $oModule->getEditedLayoutFile();
+			}
+		}
 
-		// call a trigger before display
+		// Apply layout.
+		if ($handler instanceof Rhymix\Framework\Responses\LateRenderingResponse)
+		{
+			Context::setResponseMethod('RAW');
+			$output = '';
+		}
+		else
+		{
+			$output = implode('', iterator_to_array($handler->render()));
+		}
+
+		// Dispatch event: display (before)
 		Rhymix\Framework\Event::trigger('display', 'before', $output);
 		$original_output = $output;
 
-		// execute add-on
+		// Addon execution point: 'before_display_content'.
 		$called_position = 'before_display_content';
 		$oAddonController = AddonController::getInstance();
-		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? "mobile" : "pc");
-		if(file_exists($addon_file)) include($addon_file);
-		if($output === false || $output === null || $output instanceof BaseObject)
+		$addon_file = $oAddonController->getCacheFilePath(Mobile::isFromMobilePhone() ? 'mobile' : 'pc');
+		if (file_exists($addon_file))
+		{
+			include $addon_file;
+		}
+		if ($output === false || $output === null || $output instanceof BaseObject)
 		{
 			$output = $original_output;
 		}
 
-		if(method_exists($handler, "prepareToPrint"))
-		{
-			$handler->prepareToPrint($output);
-		}
+		// Update the HTTP status code in case it was changed by an addon.
+		$handler->setStatusCode($oModule->getHttpStatusCode());
 
-		// Start the session if $_SESSION was touched
+		// Finalize the output.
+		$output = $handler->finalize($output);
+
+		// If $_SESSION was touched, start the session so that changes will be saved.
 		Context::checkSessionStatus();
 
-		// header output
-		$httpStatusCode = $oModule->getHttpStatusCode();
-		$responseMethod = Context::getResponseMethod();
-		if($httpStatusCode !== 200 && !in_array($responseMethod, array('XMLRPC', 'JSON', 'JS_CALLBACK')))
+		// Print headers.
+		$headers = $handler->getHeaders();
+		foreach ($headers as $header)
 		{
-			self::_printHttpStatusCode($httpStatusCode);
-		}
-		else
-		{
-			if($responseMethod == 'JSON' || isset($_SERVER['HTTP_X_AJAX_COMPAT']) || isset($_POST['_rx_ajax_compat']))
-			{
-				self::_printJSONHeader();
-			}
-			elseif($responseMethod == 'XMLRPC')
-			{
-				self::_printXMLHeader();
-			}
-			elseif($responseMethod == 'RAW' && $content_type = Context::get('response_content_type'))
-			{
-				self::_printCustomContentTypeHeader($content_type);
-			}
-			else
-			{
-				self::_printHTMLHeader();
-			}
+			header($header);
 		}
 
-		// Print security-related headers.
-		if($header_value = config('security.x_frame_options'))
+		// Add security-related headers.
+		if ($header_value = config('security.x_frame_options'))
 		{
 			header('X-Frame-Options: ' . $header_value);
 		}
-		if($header_value = config('security.x_content_type_options'))
+		if ($header_value = config('security.x_content_type_options'))
 		{
 			header('X-Content-Type-Options: ' . $header_value);
 		}
 
-		// Print robot headers.
+		// Add robot headers.
 		if (isset($oModule->module_info->robots_tag) && $oModule->module_info->robots_tag === 'noindex')
 		{
 			header('X-Robots-Tag: noindex');
 		}
 
-		// Flush the output buffer, and remove unnecessary whitespace at the beginning.
+		// Dispatch event: display (after)
+		Rhymix\Framework\Event::trigger('display', 'after', $output);
+
+		// Measure the response size.
+		self::$response_size = strlen((string)$output);
+
+		// Clean the output buffer.
+		// Existing output will be prepended to the response only if the response type is HTML.
 		$buff = '';
 		while (ob_get_level())
 		{
 			$buff .= ob_get_clean();
 		}
 		$buff = ltrim($buff, "\n\r\t\v\x00\x20\u{FEFF}");
-
-		// call a trigger after display
-		Rhymix\Framework\Event::trigger('display', 'after', $output);
-
-		// Measure the response size.
-		self::$response_size = strlen((string)$output);
-
-		// Output buffered content only if the current page is HTML.
-		if ($handler instanceof HTMLDisplayHandler)
+		if ($handler instanceof Rhymix\Framework\Responses\HTMLResponse)
 		{
 			self::$response_size += strlen($buff);
 			echo $buff;
 		}
 
-		// Output the page content and debug data.
+		// Finalize the debug data.
 		$debug = self::getDebugInfo($output);
-		print $output;
-		print $debug;
+
+		// Output the page content.
+		if ($handler instanceof Rhymix\Framework\Responses\LateRenderingResponse)
+		{
+			foreach ($handler->render() as $chunk)
+			{
+				echo $chunk;
+				flush();
+			}
+		}
+		else
+		{
+			echo $output;
+			echo $debug;
+		}
 	}
 
 	/**
@@ -319,52 +340,11 @@ class DisplayHandler extends Handler
 	}
 
 	/**
-	 * print a HTTP HEADER for XML, which is encoded in UTF-8
-	 * @return void
-	 */
-	public static function _printXMLHeader()
-	{
-		header("Content-Type: text/xml; charset=UTF-8");
-	}
-
-	/**
-	 * print a HTTP HEADER for HTML, which is encoded in UTF-8
-	 * @return void
-	 */
-	public static function _printHTMLHeader()
-	{
-		header("Content-Type: text/html; charset=UTF-8");
-	}
-
-	/**
-	 * print a HTTP HEADER for JSON, which is encoded in UTF-8
-	 * @return void
-	 */
-	public static function _printJSONHeader()
-	{
-		header("Content-Type: application/json; charset=UTF-8");
-	}
-
-	/**
-	 * print a custom Content-Type header.
-	 *
-	 * @param string $content_type
-	 * @return void
-	 */
-	public static function _printCustomContentTypeHeader($content_type)
-	{
-		$charset = (strpos($content_type, 'text/') === 0) ? '; charset=UTF-8' : '';
-		header('Content-Type: ' . $content_type . $charset);
-	}
-
-	/**
-	 * print a HTTP HEADER for HTML, which is encoded in UTF-8
-	 * @return void
+	 * @deprecated
 	 */
 	public static function _printHttpStatusCode($code)
 	{
 		$statusMessage = Context::get('http_status_message');
-		header("HTTP/1.0 $code $statusMessage");
+		header("HTTP/1.1 $code $statusMessage");
 	}
-
 }

@@ -1037,7 +1037,7 @@ class ModuleHandler extends Handler
 
 		// Use message view object, if HTML call
 		$methodList = array('XMLRPC' => 1, 'JSON' => 1, 'JS_CALLBACK' => 1);
-		if(!isset($methodList[Context::getRequestMethod()]))
+		if (!isset($methodList[Context::getRequestMethod()]))
 		{
 			// Handle redirects.
 			if($oModule->getRedirectUrl())
@@ -1067,25 +1067,20 @@ class ModuleHandler extends Handler
 			}
 
 			// If error occurred, handle it
-			if($this->error)
+			if ($this->error)
 			{
-				// display content with message module instance
+				// Create an instance of message module.
 				$oMessageObject = self::_createErrorMessage(-1, $this->error, $this->httpStatusCode, $this->error_detail, $oModule->get('rx_error_location'));
-
-				// display Error Page
-				if(!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
+				if (!in_array($oMessageObject->getHttpStatusCode(), array(200, 403)))
 				{
 					$oMessageObject->setTemplateFile('http_status_code');
 				}
 
-				// If module was called normally, change the templates of the module into ones of the message view module
-				if($oModule)
+				// Copy the message module's response to the target module.
+				if ($oModule)
 				{
-					$oModule->setTemplatePath($oMessageObject->getTemplatePath());
-					$oModule->setTemplateFile($oMessageObject->getTemplateFile());
-					$oModule->setHttpStatusCode($oMessageObject->getHttpStatusCode());
+					$oModule->copyResponseFrom($oMessageObject);
 				}
-				// Otherwise, set message instance as the target module
 				else
 				{
 					$oModule = $oMessageObject;
@@ -1202,6 +1197,8 @@ class ModuleHandler extends Handler
 					}
 				}
 			}
+
+			// Layout drop handling
 			$isLayoutDrop = Context::get('isLayoutDrop');
 			if($isLayoutDrop)
 			{
@@ -1210,7 +1207,7 @@ class ModuleHandler extends Handler
 				{
 					$oModule->setLayoutFile('popup_layout');
 				}
-				elseif (HTMLDisplayHandler::isPartialPageRendering())
+				elseif (self::isPartialPageRenderingEnabled())
 				{
 					$oModule->setLayoutPath('common/tpl');
 					$oModule->setLayoutFile('default_layout');
@@ -1328,90 +1325,118 @@ class ModuleHandler extends Handler
 	}
 
 	/**
+	 * Check if partial page rendering (dropping the layout) is enabled.
+	 *
+	 * @return bool
+	 */
+	public static function isPartialPageRenderingEnabled(): bool
+	{
+		$ppr = config('view.partial_page_rendering') ?? 'internal_only';
+		if ($ppr === 'disabled')
+		{
+			return false;
+		}
+		elseif ($ppr === 'ajax_only' && empty($_SERVER['HTTP_X_REQUESTED_WITH']))
+		{
+			return false;
+		}
+		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !URL::isInternalURL($_SERVER['HTTP_REFERER'])))
+		{
+			return false;
+		}
+		elseif ($ppr === 'except_robots' && isCrawler())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * get http status message by http status code
 	 * @param string $code
 	 * @return string
 	 * */
 	public static function _setHttpStatusMessage($code)
 	{
-		$statusMessageList = array(
-			'100' => 'Continue',
-			'101' => 'Switching Protocols',
-			'102' => 'Processing',
-			'103' => 'Checkpoint',
-			'200' => 'OK',
-			'201' => 'Created',
-			'202' => 'Accepted',
-			'203' => 'Non-Authoritative Information',
-			'204' => 'No Content',
-			'205' => 'Reset Content',
-			'206' => 'Partial Content',
-			'207' => 'Multi-Status',
-			'208' => 'Already Reported',
-			'226' => 'IM Used',
-			'300' => 'Multiple Choices',
-			'301' => 'Moved Permanently',
-			'302' => 'Found',
-			'303' => 'See Other',
-			'304' => 'Not Modified',
-			'305' => 'Use Proxy',
-			'306' => 'Switch Proxy',
-			'307' => 'Temporary Redirect',
-			'308' => 'Permanent Redirect',
-			'400' => 'Bad Request',
-			'401' => 'Unauthorized',
-			'402' => 'Payment Required',
-			'403' => 'Forbidden',
-			'404' => 'Not Found',
-			'405' => 'Method Not Allowed',
-			'406' => 'Not Acceptable',
-			'407' => 'Proxy Authentication Required',
-			'408' => 'Request Timeout',
-			'409' => 'Conflict',
-			'410' => 'Gone',
-			'411' => 'Length Required',
-			'412' => 'Precondition Failed',
-			'413' => 'Payload Too Large',
-			'414' => 'URI Too Long',
-			'415' => 'Unsupported Media Type',
-			'416' => 'Range Not Satisfiable',
-			'417' => 'Expectation Failed',
-			'418' => 'I\'m a teapot',
-			'420' => 'Enhance Your Calm',
-			'421' => 'Misdirected Request',
-			'422' => 'Unprocessable Entity',
-			'423' => 'Locked',
-			'424' => 'Failed Dependency',
-			'425' => 'Unordered Collection',
-			'426' => 'Upgrade Required',
-			'428' => 'Precondition Required',
-			'429' => 'Too Many Requests',
-			'431' => 'Request Header Fields Too Large',
-			'444' => 'No Response',
-			'449' => 'Retry With',
-			'451' => 'Unavailable For Legal Reasons',
-			'500' => 'Internal Server Error',
-			'501' => 'Not Implemented',
-			'502' => 'Bad Gateway',
-			'503' => 'Service Unavailable',
-			'504' => 'Gateway Timeout',
-			'505' => 'HTTP Version Not Supported',
-			'506' => 'Variant Also Negotiates',
-			'507' => 'Insufficient Storage',
-			'508' => 'Loop Detected',
-			'509' => 'Bandwidth Limit Exceeded',
-			'510' => 'Not Extended',
-			'511' => 'Network Authentication Required',
-		);
-		$statusMessage = $statusMessageList[strval($code)];
-		if(!$statusMessage)
-		{
-			$statusMessage = 'OK';
-		}
-
+		$statusMessage = self::STATUS_MESSAGES[strval($code)] ?? 'OK';
 		Context::set('http_status_code', $code);
 		Context::set('http_status_message', $statusMessage);
 		return $statusMessage;
 	}
 
+	/**
+	 * List of HTTP status messages.
+	 */
+	public const STATUS_MESSAGES = [
+		'100' => 'Continue',
+		'101' => 'Switching Protocols',
+		'102' => 'Processing',
+		'103' => 'Checkpoint',
+		'200' => 'OK',
+		'201' => 'Created',
+		'202' => 'Accepted',
+		'203' => 'Non-Authoritative Information',
+		'204' => 'No Content',
+		'205' => 'Reset Content',
+		'206' => 'Partial Content',
+		'207' => 'Multi-Status',
+		'208' => 'Already Reported',
+		'226' => 'IM Used',
+		'300' => 'Multiple Choices',
+		'301' => 'Moved Permanently',
+		'302' => 'Found',
+		'303' => 'See Other',
+		'304' => 'Not Modified',
+		'305' => 'Use Proxy',
+		'306' => 'Switch Proxy',
+		'307' => 'Temporary Redirect',
+		'308' => 'Permanent Redirect',
+		'400' => 'Bad Request',
+		'401' => 'Unauthorized',
+		'402' => 'Payment Required',
+		'403' => 'Forbidden',
+		'404' => 'Not Found',
+		'405' => 'Method Not Allowed',
+		'406' => 'Not Acceptable',
+		'407' => 'Proxy Authentication Required',
+		'408' => 'Request Timeout',
+		'409' => 'Conflict',
+		'410' => 'Gone',
+		'411' => 'Length Required',
+		'412' => 'Precondition Failed',
+		'413' => 'Payload Too Large',
+		'414' => 'URI Too Long',
+		'415' => 'Unsupported Media Type',
+		'416' => 'Range Not Satisfiable',
+		'417' => 'Expectation Failed',
+		'418' => 'I\'m a teapot',
+		'420' => 'Enhance Your Calm',
+		'421' => 'Misdirected Request',
+		'422' => 'Unprocessable Entity',
+		'423' => 'Locked',
+		'424' => 'Failed Dependency',
+		'425' => 'Unordered Collection',
+		'426' => 'Upgrade Required',
+		'428' => 'Precondition Required',
+		'429' => 'Too Many Requests',
+		'431' => 'Request Header Fields Too Large',
+		'444' => 'No Response',
+		'449' => 'Retry With',
+		'451' => 'Unavailable For Legal Reasons',
+		'500' => 'Internal Server Error',
+		'501' => 'Not Implemented',
+		'502' => 'Bad Gateway',
+		'503' => 'Service Unavailable',
+		'504' => 'Gateway Timeout',
+		'505' => 'HTTP Version Not Supported',
+		'506' => 'Variant Also Negotiates',
+		'507' => 'Insufficient Storage',
+		'508' => 'Loop Detected',
+		'509' => 'Bandwidth Limit Exceeded',
+		'510' => 'Not Extended',
+		'511' => 'Network Authentication Required',
+	];
 }

@@ -475,10 +475,13 @@ class Template
 		}
 
 		// Insert comments for debugging.
-		if(Debug::isEnabledForCurrentUser() && \Context::getResponseMethod() === 'HTML' && !preg_match('/^<(?:\!DOCTYPE|\?xml)/', $content))
+		if(Debug::isEnabledForCurrentUser() && \PHP_SAPI !== 'cli')
 		{
-			$meta = '<!--Template%s:' . $this->relative_path . '-->' . "\n";
-			$content = sprintf($meta, 'Start') . $content . sprintf($meta, 'End');
+			if (\Context::getResponseMethod() === 'HTML' && !preg_match('/^<(?:\!DOCTYPE|\?xml)/', $content))
+			{
+				$meta = '<!--Template%s:' . $this->relative_path . '-->' . "\n";
+				$content = sprintf($meta, 'Start') . $content . sprintf($meta, 'End');
+			}
 		}
 
 		return $content;

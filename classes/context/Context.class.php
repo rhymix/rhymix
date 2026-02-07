@@ -135,6 +135,18 @@ class Context
 	);
 
 	/**
+	 * Input parameters that will be auto-escaped
+	 */
+	private static $_auto_escape_keys = array(
+		'search_target' => true,
+		'search_keyword' => true,
+		'is_keyword' => true,
+		'order_target' => true,
+		'order_type' => true,
+		'xe_validator_id' => true,
+	);
+
+	/**
 	 * Pattern for request vars check
 	 */
 	private static $_check_patterns = array(
@@ -637,8 +649,8 @@ class Context
 
 		$prefix = ($site_module_info->security !== 'none' || $use_ssl) ? 'https://' : 'http://';
 		$hostname = $site_module_info->domain;
-		$port = ($prefix === 'https://') ? $site_module_info->https_port : $site_module_info->http_port;
-		$result = $prefix . $hostname . ($port ? sprintf(':%d', $port) : '') . RX_BASEURL;
+		$port = ($prefix === 'https://') ? ($site_module_info->https_port ?? 0) : ($site_module_info->http_port ?? 0);
+		$result = $prefix . $hostname . ($port > 0 ? sprintf(':%d', $port) : '') . RX_BASEURL;
 		return $result;
 	}
 
@@ -1527,7 +1539,7 @@ class Context
 						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
 					}
 				}
-				elseif(in_array($key, array('search_target', 'search_keyword', 'xe_validator_id')) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
+				elseif(isset(self::$_auto_escape_keys[$key]) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
 				{
 					$_val = escape($_val, false);
 					if(ends_with('url', $key, false))
