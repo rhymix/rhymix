@@ -24,7 +24,7 @@
 			guide         : $this.find(".krzip-guide")
 		};
 
-		var krzip = new daum.Postcode({
+		var krzip = new kakao.Postcode({
 			oncomplete: function (response) {
 				var fullAddr = "", extraAddr = "";
 
