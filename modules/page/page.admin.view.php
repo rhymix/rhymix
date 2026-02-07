@@ -7,9 +7,8 @@
  */
 class PageAdminView extends Page
 {
-	var $module_srl = 0;
-	var $list_count = 20;
-	var $page_count = 10;
+	public $list_count = 20;
+	public $page_count = 10;
 
 	/**
 	 * @brief Initialization
@@ -155,14 +154,14 @@ class PageAdminView extends Page
 
 	function dispPageAdminMobileContent()
 	{
-		if($this->module_info->page_type == 'OUTSIDE')
+		if ($this->module_info->page_type == 'OUTSIDE')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		if($this->module_srl)
+		if (isset($this->module_srl) && $this->module_srl)
 		{
-			Context::set('module_srl',$this->module_srl);
+			Context::set('module_srl', $this->module_srl);
 		}
 
 		$oPageMobile = getMobile('page');
