@@ -1,7 +1,7 @@
 <?php
 $lang->krzip = '한국 우편번호';
 $lang->cmd_krzip_api_type = 'API 선택';
-$lang->cmd_krzip_daumapi = '다음 우편번호';
+$lang->cmd_krzip_daumapi = '카카오 우편번호';
 $lang->cmd_krzip_epostapi = '우체국 우편번호';
 $lang->cmd_krzip_postcodify = 'Postcodify';
 $lang->cmd_krzip_regkey = '등록키';

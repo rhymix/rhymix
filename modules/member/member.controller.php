@@ -1841,6 +1841,7 @@ class MemberController extends Member
 		}
 		Context::set('auth_args', $args);
 
+		// Prepare member information to be included in the email #2594 #2663
 		$memberInfo = array();
 		if (in_array('user_id', $member_config->identifiers))
 		{
@@ -1850,6 +1851,21 @@ class MemberController extends Member
 		{
 			$memberInfo[$lang->email_address] = $member_info->email_address;
 		}
+		if (in_array('phone_number', $member_config->identifiers))
+		{
+			$phone_number = $member_info->phone_number;
+			if($member_config->phone_number_hide_country !== 'Y')
+			{
+				$phone_number = Rhymix\Framework\i18n::formatPhoneNumber($phone_number, $member_info->phone_country);
+			}
+			elseif($member_config->phone_number_default_country === 'KOR' && ($member_info->phone_country === 'KOR' || $member_info->phone_country == '82'))
+			{
+				$phone_number = Rhymix\Framework\Korea::formatPhoneNumber($phone_number);
+			}
+			$memberInfo[$lang->phone_number] = $phone_number;
+		}
+		$memberInfo[$lang->user_name] = $member_info->user_name;
+		$memberInfo[$lang->nick_name] = $member_info->nick_name;
 		Context::set('memberInfo', $memberInfo);
 
 		if(!$member_config->skin) $member_config->skin = "default";
@@ -2387,7 +2403,7 @@ class MemberController extends Member
 	 * @param string $autologin_key
 	 * @return int|false
 	 */
-	function doAutologin($autologin_key = null)
+	public static function doAutoLogin($autologin_key = null)
 	{
 		// Validate the key.
 		if (strlen($autologin_key) == 48)
@@ -2430,6 +2446,28 @@ class MemberController extends Member
 			return false;
 		}
 
+		// Get the member info and check it.
+		$member_info = MemberModel::getMemberInfo($output->data->member_srl);
+		if (!$member_info)
+		{
+			return false;
+		}
+		if (!empty($member_info->denied) && $member_info->denied === 'Y')
+		{
+			return false;
+		}
+		if (!empty($member_info->limit_date) && substr($member_info->limit_date, 0, 8) >= date('Ymd'))
+		{
+			return false;
+		}
+
+		// Call a trigger before auto-login.
+		$trigger_output = ModuleHandler::triggerCall('member.doAutoLogin', 'before', $member_info);
+		if (!$trigger_output->toBool())
+		{
+			return false;
+		}
+
 		// If the current security key matches, generate a new key.
 		// If the previous key matches, don't update until the client has the current key.
 		// Resending the current key in this case will be handled by the Session class.
@@ -2462,13 +2500,10 @@ class MemberController extends Member
 		}
 
 		// Update the last login time.
-		executeQuery('member.updateLastLogin', (object)['member_srl' => $output->data->member_srl]);
-		self::clearMemberCache($output->data->member_srl);
+		self::updateLastLogin($output->data->member_srl);
 
-		// Call a trigger after validate security key (after)
-		$trigger_obj = new stdClass();
-		$trigger_obj->member_srl = $output->data->member_srl;
-		ModuleHandler::triggerCall('member.doAutoLogin', 'after', $trigger_obj);
+		// Call a trigger after validate security key.
+		ModuleHandler::triggerCall('member.doAutoLogin', 'after', $member_info);
 
 		// Return the member_srl.
 		return intval($output->data->member_srl);
@@ -2640,11 +2675,6 @@ class MemberController extends Member
 			}
 		}
 
-		// Update the latest login time
-		$args->member_srl = $member_info->member_srl;
-		$output = executeQuery('member.updateLastLogin', $args);
-		self::clearMemberCache($args->member_srl);
-
 		// Check if there is recoding table.
 		$oDB = DB::getInstance();
 		if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
@@ -2702,6 +2732,7 @@ class MemberController extends Member
 
 		// Log in!
 		Rhymix\Framework\Session::login($member_info->member_srl);
+		self::updateLastLogin($member_info->member_srl);
 		$this->setSessionInfo();
 
 		// Log out all other sessions if so configured.
@@ -2717,9 +2748,22 @@ class MemberController extends Member
 	}
 
 	/**
+	 * Update the last login timestamp of a member.
+	 *
+	 * @param int $member_srl
+	 * @return object
+	 */
+	public static function updateLastLogin(int $member_srl)
+	{
+		$output = executeQuery('member.updateLastLogin', ['member_srl' => $member_srl]);
+		self::clearMemberCache($member_srl);
+		return $output;
+	}
+
+	/**
 	 * Update or create session information
 	 */
-	function setSessionInfo()
+	public function setSessionInfo()
 	{
 		// If your information came through the current session information to extract information from the users
 		$member_info = Rhymix\Framework\Session::getMemberInfo(true);

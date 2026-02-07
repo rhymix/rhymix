@@ -14,7 +14,7 @@
 			<dl>
 				<dt>{$lang->menu_gnb['user']}: </dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{number_format($status->member->totalCount)} (<!--@if($status->member->todayCount > 0)-->+<!--@end-->{number_format($status->member->todayCount)})</a></dd>
 			</dl>
-			<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}"><i class="xi-angle-right"></i><span>{$lang->more}</span></a>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispMemberAdminList')}">{$lang->more} <i class="xi-angle-right"></i></a>
 		</div>
 	</section>
 {@ $dashboard_stack->left[] = ob_get_clean()}
@@ -42,7 +42,7 @@
 			<dl>
 				<dt>{$lang->menu_gnb_sub['document']}: </dt><dd><a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{number_format($status->document->totalCount)} (<!--@if($status->document->todayCount > 0)-->+<!--@end-->{number_format($status->document->todayCount)})</a></dd>
 			</dl>
-			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}"><i class="xi-angle-right"></i><span>{$lang->more}</span></a>
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList')}">{$lang->more} <i class="xi-angle-right"></i></a>
 		</div>
 	</section>
 {@ $dashboard_stack->right[] = ob_get_clean()}
@@ -65,7 +65,11 @@
 			</li>
 			<li cond="!is_array($latestCommentList) || count($latestCommentList) < 1">{$lang->no_data}</li>
 		</ul>
-		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}"><i class="xi-angle-right"></i><span>{$lang->more}</span></a></p>
+		<p class="more"><a href="{getUrl('', 'module', 'admin', 'act', 'dispCommentAdminList')}">{$lang->more} <i class="xi-angle-right"></i></a></p>
 	</section>
 {@ $dashboard_stack->right[] = ob_get_clean()}
 
+<script>
+xe.lang.confirm_delete = '{$lang->confirm_delete}';
+xe.lang.confirm_trash = '{$lang->confirm_trash}';
+</script>

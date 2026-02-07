@@ -167,7 +167,7 @@ class LayoutModel extends Layout
 
 		if($layout)
 		{
-			if(count($instanceList) < 1 && $downloadedList[$layout])
+			if(count($instanceList) < 1 && isset($downloadedList[$layout]))
 			{
 				$insertArgs = new stdClass();
 				$insertArgs->layout_srl = getNextSequence();
@@ -383,7 +383,7 @@ class LayoutModel extends Layout
 			// Get information of the layout
 			$layout_info = self::getLayoutInfo($layout, null, $layout_type);
 
-			if(!$layout_info)
+			if (!$layout_info || !self::isExistsLayoutFile($layout, $layout_type))
 			{
 				continue;
 			}

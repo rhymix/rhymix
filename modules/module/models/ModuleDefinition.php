@@ -188,7 +188,7 @@ class ModuleDefinition
 	public static function getSkins(string $path): array
 	{
 		// Clean up the path and skin name.
-		$path = rtrim($path, '/');
+		$path = rtrim(strtr($path, '\\', '/'), '/');
 
 		// Get the list of subdirectories that might be skins.
 		$skin_list = [];

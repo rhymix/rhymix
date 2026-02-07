@@ -313,37 +313,34 @@ class BoardView extends Board
 					}
 				}
 
-				// if the consultation function is enabled, and the document is not a notice
+				// if the consultation function is enabled, only the author can read the document.
 				if($this->consultation && !$oDocument->isNotice())
 				{
-					$logged_info = Context::get('logged_info');
-					if(abs($oDocument->get('member_srl')) != $logged_info->member_srl)
+					if (abs($oDocument->get('member_srl')) != $this->user->member_srl)
 					{
-						$oDocument = DocumentModel::getDocument(0);
+						Context::set('document_srl', null, true);
+						$this->dispBoardMessage('msg_not_founded', 404);
 					}
 				}
 
-				// if the document is TEMP saved, check Grant
+				// if the document is TEMP saved, pretend that it doesn't exist.
 				if($oDocument->getStatus() == 'TEMP')
 				{
-					if(!$oDocument->isGranted())
-					{
-						$oDocument = DocumentModel::getDocument(0);
-					}
+					Context::set('document_srl', null, true);
+					$this->dispBoardMessage('msg_not_founded', 404);
 				}
-
 			}
 			else
 			{
-				// if the document is not existed, then alert a warning message
+				// if the document does not exist, then display a warning message.
 				Context::set('document_srl', null, true);
 				$this->dispBoardMessage('msg_not_founded', 404);
 			}
+		}
 
 		/**
 		 * if the document is not existed, get an empty document
 		 */
-		}
 		else
 		{
 			$oDocument = DocumentModel::getDocument(0);
@@ -351,7 +348,7 @@ class BoardView extends Board
 		}
 
 		/**
-		 *check the document view grant
+		 * Check the document view grant
 		 */
 		if($oDocument->isExists())
 		{
@@ -875,15 +872,16 @@ class BoardView extends Board
 				if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 				{
 					$format =  lang('msg_protect_regdate_document');
-					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					throw new Rhymix\Framework\Exception($massage);
+					$message = sprintf($format, $this->module_info->protect_document_regdate);
+					throw new Rhymix\Framework\Exception($message);
 				}
 			}
 			if ($this->module_info->protect_content === 'Y' || $this->module_info->protect_update_content === 'Y')
 			{
-				if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
+				$comment_limit = $this->module_info->protect_update_content_limit ?? 1;
+				if($oDocument->get('comment_count') >= $comment_limit && $this->grant->manager == false)
 				{
-					throw new Rhymix\Framework\Exception('msg_protect_update_content');
+					throw new Rhymix\Framework\Exception(sprintf(lang('msg_protect_update_content'), $comment_limit));
 				}
 			}
 
@@ -1098,17 +1096,18 @@ class BoardView extends Board
 		{
 			if($oDocument->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
 			{
-				$format =  lang('msg_protect_regdate_document');
-				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				throw new Rhymix\Framework\Exception($massage);
+				$format = lang('msg_protect_regdate_document');
+				$message = sprintf($format, $this->module_info->protect_document_regdate);
+				throw new Rhymix\Framework\Exception($message);
 			}
 		}
 
 		if($this->module_info->protect_content == "Y" || $this->module_info->protect_delete_content == 'Y')
 		{
-			if($oDocument->get('comment_count')>0 && $this->grant->manager == false)
+			$comment_limit = $this->module_info->protect_delete_content_limit ?? 1;
+			if($oDocument->get('comment_count') >= $comment_limit && $this->grant->manager == false)
 			{
-				throw new Rhymix\Framework\Exception('msg_protect_delete_content');
+				return $this->dispBoardMessage(sprintf(lang('msg_protect_delete_content'), $comment_limit));
 			}
 		}
 
@@ -1293,19 +1292,20 @@ class BoardView extends Board
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
-			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 			{
-				$format =  lang('msg_protect_regdate_comment');
-				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				throw new Rhymix\Framework\Exception($massage);
+				$format = lang('msg_protect_regdate_comment');
+				$message = sprintf($format, $this->module_info->protect_comment_regdate);
+				throw new Rhymix\Framework\Exception($message);
 			}
 		}
 		if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 		{
+			$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
 			$childs = CommentModel::getChildComments($comment_srl);
-			if(count($childs) > 0)
+			if(count($childs) >= $childs_limit)
 			{
-				throw new Rhymix\Framework\Exception('msg_board_update_protect_comment');
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_update_protect_comment'), $childs_limit));
 			}
 		}
 
@@ -1380,20 +1380,21 @@ class BoardView extends Board
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
-			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			if($oComment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 			{
 				$format =  lang('msg_protect_regdate_comment');
-				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				throw new Rhymix\Framework\Exception($massage);
+				$message = sprintf($format, $this->module_info->protect_comment_regdate);
+				throw new Rhymix\Framework\Exception($message);
 			}
 		}
 
 		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
 		{
+			$childs_limit = $this->module_info->protect_delete_comment_limit ?? 1;
 			$childs = CommentModel::getChildComments($comment_srl);
-			if(count($childs) > 0)
+			if(count($childs) >= $childs_limit)
 			{
-				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_delete_protect_comment'), $childs_limit));
 			}
 		}
 

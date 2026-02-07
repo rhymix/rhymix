@@ -1,7 +1,7 @@
 <?php
 $lang->krzip = 'Korean Postal Code';
 $lang->cmd_krzip_api_type = 'Select API Provider';
-$lang->cmd_krzip_daumapi = 'Daum-Kakao API';
+$lang->cmd_krzip_daumapi = 'Kakao API';
 $lang->cmd_krzip_epostapi = 'Korea Post API';
 $lang->cmd_krzip_postcodify = 'Postcodify';
 $lang->cmd_krzip_regkey = 'Registration Key';

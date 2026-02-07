@@ -875,6 +875,7 @@ function getDestroyXeVars($vars)
  */
 function getNumberingPath($no, int $size = 3): string
 {
+	$no = intval($no);
 	$mod = pow(10, $size);
 	$output = sprintf('%0' . $size . 'd/', intval($no % $mod));
 	if($no >= $mod)

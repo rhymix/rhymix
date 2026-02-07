@@ -171,9 +171,10 @@ class BoardController extends Board
 				// Protect document by comment
 				if($this->module_info->protect_content == 'Y' || $this->module_info->protect_update_content == 'Y')
 				{
-					if($oDocument->get('comment_count') > 0 && !$this->grant->manager)
+					$comment_limit = $this->module_info->protect_update_content_limit ?? 1;
+					if($oDocument->get('comment_count') >= $comment_limit && !$this->grant->manager)
 					{
-						throw new Rhymix\Framework\Exception('msg_protect_update_content');
+						throw new Rhymix\Framework\Exception(sprintf(lang('msg_protect_update_content'), $comment_limit));
 					}
 				}
 
@@ -358,9 +359,10 @@ class BoardController extends Board
 		// check protect content
 		if($this->module_info->protect_content == 'Y' || $this->module_info->protect_delete_content == 'Y')
 		{
-			if($oDocument->get('comment_count') > 0 && $this->grant->manager == false)
+			$comment_limit = $this->module_info->protect_delete_content_limit ?? 1;
+			if($oDocument->get('comment_count') >= $comment_limit && $this->grant->manager == false)
 			{
-				throw new Rhymix\Framework\Exception('msg_protect_delete_content');
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_protect_delete_content'), $comment_limit));
 			}
 		}
 
@@ -538,10 +540,11 @@ class BoardController extends Board
 			$comment = CommentModel::getComment($obj->comment_srl);
 			if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 			{
+				$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
 				$childs = CommentModel::getChildComments($obj->comment_srl);
-				if(count($childs) > 0)
+				if(count($childs) >= $childs_limit)
 				{
-					throw new Rhymix\Framework\Exception('msg_board_update_protect_comment');
+					throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_update_protect_comment'), $childs_limit));
 				}
 			}
 		}
@@ -594,11 +597,11 @@ class BoardController extends Board
 		{
 			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 			{
-				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 				{
 					$format =  lang('msg_protect_regdate_comment');
-					$massage = sprintf($format, $this->module_info->protect_document_regdate);
-					throw new Rhymix\Framework\Exception($massage);
+					$message = sprintf($format, $this->module_info->protect_comment_regdate);
+					throw new Rhymix\Framework\Exception($message);
 				}
 			}
 			// check the grant
@@ -656,10 +659,11 @@ class BoardController extends Board
 		$childs = null;
 		if($this->module_info->protect_delete_comment === 'Y' && $this->grant->manager == false)
 		{
+			$childs_limit = $this->module_info->protect_delete_comment_limit ?? 1;
 			$childs = CommentModel::getChildComments($comment_srl);
-			if(count($childs) > 0)
+			if(count($childs) >= $childs_limit)
 			{
-				throw new Rhymix\Framework\Exception('msg_board_delete_protect_comment');
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_delete_protect_comment'), $childs_limit));
 			}
 		}
 
@@ -674,11 +678,11 @@ class BoardController extends Board
 
 		if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 		{
-			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_document_regdate.' day')))
+			if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 			{
 				$format =  lang('msg_protect_regdate_comment');
-				$massage = sprintf($format, $this->module_info->protect_document_regdate);
-				throw new Rhymix\Framework\Exception($massage);
+				$message = sprintf($format, $this->module_info->protect_comment_regdate);
+				throw new Rhymix\Framework\Exception($message);
 			}
 		}
 		// generate comment  controller object

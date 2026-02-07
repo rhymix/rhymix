@@ -2,7 +2,13 @@
 <hr noshade="noshade" />
 <ul>
 	<li>{$lang->site} : <a href="{getUrl()}" target="_blank">{getUrl()}</a></li>
-	<li loop="$memberInfo=>$name,$value" cond="!is_object($value)&&!is_array($value)">{$name} : {$value}</li>
+	<!--@if($memberInfo[$lang->user_id])-->
+	<li>{$lang->user_id} : {$memberInfo[$lang->user_id]}</li>
+	<!--@elseif($memberInfo[$lang->email_address])-->
+	<li>{$lang->email_address} : {$memberInfo[$lang->email_address]}</li>
+	<!--@elseif($memberInfo[$lang->phone_number])-->
+	<li>{$lang->phone_number} : {$memberInfo[$lang->phone_number]}</li>
+	<!--@end-->
 	<li>{$lang->password} : <span style="color:red">{$auth_args->new_password}</span></li>
 </ul>
 <hr noshade="noshade" />

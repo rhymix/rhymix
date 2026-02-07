@@ -11,6 +11,7 @@
 		<thead>
 			<tr>
 				<th class="title">{$lang->title}</th>
+				<th class="title">{$lang->module}</th>
 				<th class="title">{$lang->date}</th>
 				<th class="title" style="width:60px">{$lang->cmd_select}</th>
 				<th class="title" style="width:60px">{$lang->cmd_delete}</th>
@@ -22,8 +23,9 @@
 				<td>
 					<a href="#" class="toggle_content" data-document-srl="{$val->document_srl}">{$val->getTitle()}</a>
 				</td>
+				<td>{$val->getModuleName()}</td>
 				<td>{$val->getRegdate("Y-m-d H:i:s")}</td>
-				<td><a href="#" class="btn btn_select_temp_saved" data-document-srl="{$val->document_srl}" data-document-type="{$val->getDocumentType()}">{$lang->cmd_select}</a></td>
+				<td><a href="#" class="btn btn_select_temp_saved" data-document-srl="{$val->document_srl}" data-document-type="{$val->getDocumentType()}" data-document-mid="{$val->getDocumentMid()}">{$lang->cmd_select}</a></td>
 				<td><a href="#" class="btn btn_delete_temp_saved" data-document-srl="{$val->document_srl}">{$lang->cmd_delete}</a></td>
 			</tr>
 			<tr id="saved_document_{$val->document_srl}" class="saved_content" style="display:none">
@@ -61,7 +63,8 @@
 			event.preventDefault();
 			var document_srl = $(this).data('documentSrl');
 			var document_type = $(this).data('documentType');
-			doDocumentSelect(document_srl, document_type);
+			var document_mid = $(this).data('documentMid');
+			doDocumentSelect(document_srl, document_type, document_mid);
 		});
 		$('.btn_delete_temp_saved').on('click', function(event) {
 			event.preventDefault();

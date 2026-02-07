@@ -58,7 +58,21 @@ class BoardAdminController extends Board {
 		if($args->use_anonymous != 'Y') $args->use_anonymous = 'N';
 		if($args->anonymous_except_admin != 'Y') $args->anonymous_except_admin = 'N';
 		if($args->consultation != 'Y') $args->consultation = 'N';
-		if($args->protect_content != 'Y') $args->protect_content = 'N';
+
+		// Protection settings
+		if ($args->protect_content != 'Y') $args->protect_content = 'N';
+		if ($args->protect_document_regdate === 'Y')
+		{
+			$args->protect_document_regdate = intval($args->protect_document_regdate_limit ?? 0) ?: null;
+		}
+		if ($args->protect_comment_regdate === 'Y')
+		{
+			$args->protect_comment_regdate = intval($args->protect_comment_regdate_limit ?? 0) ?: null;
+		}
+		unset($args->protect_document_regdate_limit);
+		unset($args->protect_comment_regdate_limit);
+
+		// Admin protection settings
 		if($this->user->isAdmin())
 		{
 			if($args->protect_admin_content_update != 'Y') $args->protect_admin_content_update = 'N';

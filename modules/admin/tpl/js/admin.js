@@ -347,9 +347,14 @@ jQuery(function($){
 	$.fn.checkToggle = function(){
 		function check(){
 			setTimeout(function(){
-				$(':checked').parent('label').addClass('checked');
-				$(':not(":checked")').parent('label').removeClass('checked');
-			},0);
+				$(':radio, :checkbox').each(function() {
+					if ($(this).is(':checked')) {
+						$(this).parent('label').addClass('checked');
+					} else {
+						$(this).parent('label').removeClass('checked');
+					}
+				});
+			}, 0);
 		}
 		this.change(check);
 		check();

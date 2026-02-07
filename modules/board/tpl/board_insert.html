@@ -362,17 +362,52 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_content}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="protect_delete_content"><input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" /> {$lang->cmd_delete}</label>
-				<label class="x_inline" for="protect_update_content"><input type="checkbox" name="protect_update_content" id="protect_update_content" value="Y" checked="checked"|cond="$module_info->protect_update_content == 'Y'" /> {$lang->cmd_modify}</label>
-				<p>{$lang->about_protect_content}</p>
+				<label for="protect_update_content">
+					<input type="checkbox" name="protect_update_content" id="protect_update_content" value="Y" checked="checked"|cond="$module_info->protect_update_content == 'Y'" />
+					{array_first(explode('%d', $lang->about_protect_content_update))}
+					<input type="number" min="0" name="protect_update_content_limit" value="{$module_info->protect_update_content_limit ?? 1}" style="width:50px" />
+					{array_last(explode('%d', $lang->about_protect_content_update))}
+				</label>
+				<label for="protect_delete_content">
+					<input type="checkbox" name="protect_delete_content" id="protect_delete_content" value="Y" checked="checked"|cond="$module_info->protect_delete_content == 'Y'" />
+					{array_first(explode('%d', $lang->about_protect_content_delete))}
+					<input type="number" min="0" name="protect_delete_content_limit" value="{$module_info->protect_delete_content_limit ?? 1}" style="width:50px" />
+					{array_last(explode('%d', $lang->about_protect_content_delete))}
+				</label>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->protect_comment}</label>
 			<div class="x_controls">
-				<label class="x_inline" for="protect_delete_comment"><input type="checkbox" name="protect_delete_comment" id="protect_delete_comment" value="Y" checked="checked"|cond="$module_info->protect_delete_comment == 'Y'" /> {$lang->cmd_delete}</label>
-				<label class="x_inline" for="protect_update_comment"><input type="checkbox" name="protect_update_comment" id="protect_update_comment" value="Y" checked="checked"|cond="$module_info->protect_update_comment == 'Y'" /> {$lang->cmd_modify}</label>
-				<p>{$lang->about_protect_comment}</p>
+				<label for="protect_update_comment">
+					<input type="checkbox" name="protect_update_comment" id="protect_update_comment" value="Y" checked="checked"|cond="$module_info->protect_update_comment == 'Y'" />
+					{array_first(explode('%d', $lang->about_protect_comment_update))}
+					<input type="number" min="0" name="protect_update_comment_limit" value="{$module_info->protect_update_comment_limit ?? 1}" style="width:50px" />
+					{array_last(explode('%d', $lang->about_protect_comment_update))}
+				</label>
+				<label for="protect_delete_comment">
+					<input type="checkbox" name="protect_delete_comment" id="protect_delete_comment" value="Y" checked="checked"|cond="$module_info->protect_delete_comment == 'Y'" />
+					{array_first(explode('%d', $lang->about_protect_comment_delete))}
+					<input type="number" min="0" name="protect_delete_comment_limit" value="{$module_info->protect_delete_comment_limit ?? 1}" style="width:50px" />
+					{array_last(explode('%d', $lang->about_protect_comment_delete))}
+				</label>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->protect_regdate}</label>
+			<div class="x_controls">
+				<label for="protect_document_regdate">
+					<input type="checkbox" name="protect_document_regdate" id="protect_document_regdate" value="Y" checked="checked"|cond="!empty($module_info->protect_document_regdate)" />
+					{array_first(explode('%d', $lang->about_protect_document_regdate))}
+					<input type="number" min="0" name="protect_document_regdate_limit" value="{$module_info->protect_document_regdate ?? ''}" style="width:50px" />
+					{array_last(explode('%d', $lang->about_protect_document_regdate))}
+				</label>
+				<label for="protect_comment_regdate">
+					<input type="checkbox" name="protect_comment_regdate" id="protect_comment_regdate" value="Y" checked="checked"|cond="!empty($module_info->protect_comment_regdate)" />
+					{array_first(explode('%d', $lang->about_protect_comment_regdate))}
+					<input type="number" min="0" name="protect_comment_regdate_limit" value="{$module_info->protect_comment_regdate ?? ''}" style="width:50px" />
+					{array_last(explode('%d', $lang->about_protect_comment_regdate))}
+				</label>
 			</div>
 		</div>
 		<!--@if($this->user->isAdmin())-->
@@ -385,14 +420,6 @@
 			</div>
 		</div>
 		<!--@end-->
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->protect_regdate}</label>
-			<div class="x_controls">
-				{$lang->document} : <input type="number" min="0" name="protect_document_regdate" id="protect_document_regdate" value="{$module_info->protect_document_regdate}" />
-				{$lang->comment} : <input type="number" min="0" name="protect_comment_regdate" id="protect_comment_regdate" value="{$module_info->protect_comment_regdate}" />
-				<p>{$lang->about_protect_regdate}</p>
-			</div>
-		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="comment_delete_message">{$lang->comment_delete_message}</label>
 			<div class="x_controls">

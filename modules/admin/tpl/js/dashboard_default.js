@@ -10,4 +10,17 @@ $(function() {
 			$(this).removeClass('hover').find('>.action').hide();
 		}
 	});
+	var forms = $('.dashboard>div>section form.action');
+	forms.on('click', 'button', function(e) {
+		var title = $(this).closest('form').siblings('a').first().text();
+		var message;
+		if ($(this).val() === 'trash' || $(this).val() === 'true') {
+			message = xe.lang.confirm_trash;
+		} else {
+			message = xe.lang.confirm_delete;
+		}
+		if (!confirm(title + "\n" + message)) {
+			e.preventDefault();
+		}
+	});
 });

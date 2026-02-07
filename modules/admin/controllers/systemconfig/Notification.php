@@ -20,17 +20,16 @@ class Notification extends Base
 	public function dispAdminConfigNotification()
 	{
 		// Load advanced mailer module (for lang).
-		$oAdvancedMailerAdminView = \Advanced_mailerAdminView::getInstance();
+		$oAdvancedMailerController = \Advanced_mailerController::getInstance();
 
 		// Load advanced mailer config.
-		$advanced_mailer_config = $oAdvancedMailerAdminView->getConfig();
+		$advanced_mailer_config = $oAdvancedMailerController->getConfig();
 		Context::set('advanced_mailer_config', $advanced_mailer_config);
 
 		// Load member config.
-		$member_config = ModuleModel::getModuleConfig('member');
-		Context::set('member_config', $member_config);
-		Context::set('webmaster_name', !empty($member_config->webmaster_name) ? $member_config->webmaster_name : 'webmaster');
-		Context::set('webmaster_email', $member_config->webmaster_email ?? '');
+		$default_identity = $oAdvancedMailerController->getDefaultEmailIdentity();
+		Context::set('webmaster_name', $default_identity[1]);
+		Context::set('webmaster_email', $default_identity[0]);
 
 		// Load module config.
 		$module_config = ModuleModel::getModuleConfig('module');
@@ -89,7 +88,7 @@ class Notification extends Base
 		$vars = Context::getRequestVars();
 
 		// Load advanced mailer module (for lang).
-		$oAdvancedMailerAdminView = \Advanced_mailerAdminView::getInstance();
+		$oAdvancedMailerController = \Advanced_mailerController::getInstance();
 
 		// Validate the mail sender's information.
 		if (!$vars->mail_default_name)

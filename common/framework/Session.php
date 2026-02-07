@@ -382,7 +382,7 @@ class Session
 		self::$_autologin_key = self::_getAutologinKey();
 		if (!$member_srl && self::$_autologin_key)
 		{
-			$member_srl = \MemberController::getInstance()->doAutologin(self::$_autologin_key);
+			$member_srl = \MemberController::doAutoLogin(self::$_autologin_key);
 			if ($member_srl && self::isValid($member_srl))
 			{
 				self::login($member_srl, false);

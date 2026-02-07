@@ -40,6 +40,7 @@ class UATest extends \Codeception\Test\Unit
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Googlebot/2.1 (+http://www.googlebot.com/bot.html)'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Yeti/1.0 (NHN Corp.; http://help.naver.com/robots/)'));
+		$this->assertTrue(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (compatible; MSIE or Firefox mutant; not on Windows server;) Daum 4.1'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('Random user agent (+https://url.com)'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('facebookexternalhit/1.1'));
 		$this->assertTrue(Rhymix\Framework\UA::isRobot('meta-externalfetcher/1.1'));
@@ -49,6 +50,7 @@ class UATest extends \Codeception\Test\Unit
 		// Not robot
 		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (iPhone; CPU iPhone OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'));
 		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5376e Safari/8536.25'));
+		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (Linux; Android 15; SM-XXX Build/AAAA; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/143.0.0.0 Mobile Safari/537.36 DaumApps/8.0.0 DaumDevice/mobile'));
 		$this->assertFalse(Rhymix\Framework\UA::isRobot('Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; AS; rv:11.0) like Gecko'));
 	}
 
