@@ -437,6 +437,10 @@ class ModuleHandler extends Handler
 		{
 			MemberController::replaceLangForMemberMenu($logged_info);
 		}
+		else
+		{
+			$logged_info = Rhymix\Framework\Session::getMemberInfo();
+		}
 
 		// Create an instance of the requested module and class
 		if($class_name)
