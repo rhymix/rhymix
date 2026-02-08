@@ -441,6 +441,7 @@ class Cleanup extends Base
 		'modules/install/tpl/js/install_admin.js' => 'deleted:xe',
 		'modules/integration_search/skins/default/trackback.html' => 'deleted',
 		'modules/member/skins/default/filter/find_member_account_by_question.xml' => 'deleted:xe',
+		'modules/message/tpl/filter/' => 'deleted:xe',
 		'modules/module/schemas/site_admin.xml' => 'deleted',
 		'modules/module/tpl/css/module_admin.less' => 'deleted',
 		'modules/page/page.wap.php' => 'deleted:xe',
