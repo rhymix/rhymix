@@ -1,7 +1,0 @@
-<filter name="update_lang_select" module="install" act="procInstallAdminSaveLangSelected" >
-    <form />
-    <response callback_func="completeMessage">
-        <tag name="error" />
-        <tag name="message" />
-    </response>
-</filter>

@@ -369,6 +369,7 @@ class Cleanup extends Base
 		'modules/admin/tpl/css/admin_en.css' => 'deleted:xe',
 		'modules/admin/tpl/css/admin_jp.css' => 'deleted:xe',
 		'modules/admin/tpl/css/admin_ko.css' => 'deleted:xe',
+		'modules/admin/tpl/filter/' => 'deleted:xe',
 		'modules/autoinstall/ruleset/' => 'deleted:xe',
 		'modules/autoinstall/tpl/filter/uninstall_package.xml' => 'deleted:xe',
 		'modules/board/board.wap.php' => 'deleted:xe',

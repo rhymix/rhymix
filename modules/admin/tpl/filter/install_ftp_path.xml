@@ -1,9 +1,0 @@
-<filter name="install_ftp_path" module="install" act="procInstallAdminSaveFTPPath" confirm_msg_code="confirm_submit">
-    <form>
-        <node target="ftp_root_path" required="true" />
-    </form>
-    <response callback_func="completeFtpPath">
-        <tag name="error" />
-        <tag name="message" />
-    </response>
-</filter>

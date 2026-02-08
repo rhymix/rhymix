@@ -1,9 +1,0 @@
-<filter name="update_env_config" module="install" act="procInstallAdminSaveTimeZone" >
-    <form>
-        <node target="time_zone" required="true" />
-    </form>
-    <response callback_func="completeMessage">
-        <tag name="error" />
-        <tag name="message" />
-    </response>
-</filter>
