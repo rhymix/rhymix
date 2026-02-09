@@ -17,10 +17,11 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr loop="$layout_list => $key, $layout">
-			<block cond="$layout->title">
+		<!--@foreach($layout_list as $layout)-->
+		<tr>
+			<!--@if($layout->title)-->
 				<td class="title">
-					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->title}</a></p>
+					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}" style="font-weight:bold;color:#000">{$layout->title}</a></p>
 					<p>{$layout->description}</p>
 					<p cond="$layout->need_update == 'Y'" class="update">
 						{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
@@ -40,9 +41,10 @@
 					</block>
 				</td>
 				<td class="rx_detail_marks">{$layout->path}</td>
-				<td class="nowr rx_detail_marks"><a cond="$layout->remove_url" class="x_btn x_btn-link" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a></td>
-			</block>
-			<block cond="!$layout->title">
+				<td class="nowr rx_detail_marks">
+					<a cond="$layout->remove_url" class="x_btn x_btn-link" href="{$layout->remove_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->cmd_delete}</a>
+				</td>
+			<!--@else-->
 				<td class="title">
 					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}">{$layout->layout}</a></p>
 					<p cond="$layout->need_update == 'Y'" class="update">
@@ -52,7 +54,31 @@
 				<td>-</td>
 				<td>-</td>
 				<td class="rx_detail_marks">{$layout->path}</td>
-			</block>
+				<td class="rx_detail_marks"></td>
+			<!--@endif-->
 		</tr>
+		<!--@if(isset($instance_list[$layout->layout]))-->
+			<!--@foreach($instance_list[$layout->layout] as $instance)-->
+			<tr>
+				<td colspan="2" style="padding-left:20px;">
+					<i class="xi-reply-l" style="transform:rotate(180deg);"></i> &nbsp;
+					<a href="{getUrl(['module' => 'admin', 'act' => 'dispLayoutAdminModify', 'layout_srl' => $instance->layout_srl])}">
+						{$instance->title}
+					</a>
+				</td>
+				<td>
+					<!--@if($instance->is_edited)-->
+						<a href="{getUrl(['module' => 'admin', 'act' => 'dispLayoutAdminEdit', 'layout_srl' => $instance->layout_srl])}">{$lang->cmd_edit}</a>
+					<!--@else-->
+						<span style="color:#999">편집</span>
+					<!--@endif-->
+					<a href="{getUrl(['module' => 'layout', 'act' => 'dispLayoutAdminCopyLayout', 'layout_srl' => $instance->layout_srl])}" onclick="popopen(this.href);return false;" title="{$lang->cmd_copy}">{$lang->cmd_copy}</a></td>
+				</td>
+				<td class="rx_detail_marks"></td>
+				<td class="rx_detail_marks"></td>
+			</tr>
+			<!--@endforeach-->
+		<!--@endif-->
+		<!--@endforeach-->
 	</tbody>
 </table>
