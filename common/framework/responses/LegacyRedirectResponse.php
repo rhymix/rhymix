@@ -60,4 +60,14 @@ class LegacyRedirectResponse extends AbstractResponse
 		$this->_status_code = 200;
 		return parent::getHeaders();
 	}
+
+	/**
+	 * Get the legacy response type string.
+	 *
+	 * @return string
+	 */
+	public function getLegacyResponseType(): string
+	{
+		return 'HTML';
+	}
 }

@@ -47,6 +47,16 @@ class LegacyXMLResponse extends AbstractResponse
 	}
 
 	/**
+	 * Get the legacy response type string.
+	 *
+	 * @return string
+	 */
+	public function getLegacyResponseType(): string
+	{
+		return 'XMLRPC';
+	}
+
+	/**
 	 * Encode an array as XE 1.x-compatible XML.
 	 *
 	 * @param array $vars

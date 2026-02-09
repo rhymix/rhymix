@@ -296,10 +296,17 @@ class HTMLResponse extends AbstractResponse
 		}
 		*/
 
-		// Set the legacy response method to HTML.
-		Context::setResponseMethod('HTML');
-
 		return $content;
+	}
+
+	/**
+	 * Get the legacy response type string.
+	 *
+	 * @return string
+	 */
+	public function getLegacyResponseType(): string
+	{
+		return 'HTML';
 	}
 
 	/**

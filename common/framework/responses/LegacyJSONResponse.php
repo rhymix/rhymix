@@ -65,6 +65,16 @@ class LegacyJSONResponse extends AbstractResponse
 	}
 
 	/**
+	 * Get the legacy response type string.
+	 *
+	 * @return string
+	 */
+	public function getLegacyResponseType(): string
+	{
+		return 'JSON';
+	}
+
+	/**
 	 * Convert an array into a format that is compatible with the XE 1.x JSON response format.
 	 *
 	 * @param array $array

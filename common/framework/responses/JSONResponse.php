@@ -39,7 +39,16 @@ class JSONResponse extends AbstractResponse
 	 */
 	public function finalize(string $content): string
 	{
-		Context::setResponseMethod('JSON');
 		return $content;
+	}
+
+	/**
+	 * Get the legacy response type string.
+	 *
+	 * @return string
+	 */
+	public function getLegacyResponseType(): string
+	{
+		return 'JSON';
 	}
 }

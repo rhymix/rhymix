@@ -36,8 +36,9 @@ class DisplayHandler extends Handler
 		Rhymix\Framework\Event::trigger('layout', 'before', $oModule);
 
 		// Decide which class to use for display handling
-		if (isset($oModule->response))
+		if (isset($oModule->response) && $oModule->response instanceof Rhymix\Framework\AbstractResponse)
 		{
+			Context::setResponseMethod($oModule->response->getLegacyResponseType());
 			$handler = $oModule->response;
 		}
 		else
@@ -82,7 +83,6 @@ class DisplayHandler extends Handler
 		// Apply layout.
 		if ($handler instanceof Rhymix\Framework\Responses\LateRenderingResponse)
 		{
-			Context::setResponseMethod('RAW');
 			$output = '';
 		}
 		else

@@ -188,6 +188,20 @@ abstract class AbstractResponse
 	abstract public function render(): iterable;
 
 	/**
+	 * Finalize the response for presentation.
+	 *
+	 * This method is primarily intended for the HTML response,
+	 * but other subclasses are free to use it, too.
+	 *
+	 * @param string $content
+	 * @return string
+	 */
+	public function finalize(string $content): string
+	{
+		return $content;
+	}
+
+	/**
 	 * Add a header to this response.
 	 *
 	 * @param string $header
@@ -224,16 +238,15 @@ abstract class AbstractResponse
 	}
 
 	/**
-	 * Finalize the response for presentation.
+	 * Get the legacy response type string.
 	 *
-	 * This method is primarily intended for the HTML response,
-	 * but other subclasses are free to use it, too.
+	 * The return value is treated as if it were returned by Context::getResponseMethod().
+	 * This method can be overridden by subclasses to return a specific response type.
 	 *
-	 * @param string $content
 	 * @return string
 	 */
-	public function finalize(string $content): string
+	public function getLegacyResponseType(): string
 	{
-		return $content;
+		return 'RAW';
 	}
 }

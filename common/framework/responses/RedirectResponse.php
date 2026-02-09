@@ -57,7 +57,6 @@ class RedirectResponse extends AbstractResponse
 	 */
 	public function finalize(string $content): string
 	{
-		Context::setResponseMethod('RAW');
 		return $content;
 	}
 
