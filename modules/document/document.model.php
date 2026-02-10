@@ -600,7 +600,7 @@ class DocumentModel extends Document
 				$url = getUrl('','module','admin','act','dispDocumentAdminList','search_target','ipaddress','search_keyword',$oDocument->getIpAddress());
 				$oDocumentController->addDocumentPopupMenu($url,'cmd_search_by_ipaddress',$icon_path,'TraceByIpaddress');
 
-				$url = sprintf("var params = new Array(); params['ipaddress_list']='%s'; exec_xml('spamfilter', 'procSpamfilterAdminInsertDeniedIP', params, completeCallModuleAction)", $oDocument->getIpAddress());
+				$url = sprintf("var params = new Array(); params['ipaddress_list']='%s'; exec_json('spamfilter.procSpamfilterAdminInsertDeniedIP', params)", $oDocument->getIpAddress());
 				$oDocumentController->addDocumentPopupMenu($url,'cmd_add_ip_to_spamfilter','','javascript');
 			}
 		}

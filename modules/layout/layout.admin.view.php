@@ -22,50 +22,44 @@ class LayoutAdminView extends Layout
 	 */
 	function dispLayoutAdminInstalledList()
 	{
-		$type = Context::get('type');
-		$type = ($type != 'M') ? 'P' : 'M';
+		$type = Context::get('type') === 'M' ? 'M' : 'P';
 
-		// Set a layout list
-		$oLayoutModel = getModel('layout');
-		$layout_list = $oLayoutModel->getDownloadedLayoutList($type, true);
-		if(!is_array($layout_list))
+		// Get installed layout list
+		$layout_list = LayoutModel::getDownloadedLayoutList($type, true);
+		if (!is_array($layout_list))
 		{
-			$layout_list = array();
+			$layout_list = [];
 		}
 
-		if($type == 'P')
+		// Get instance list
+		$columns = ['layout_srl', 'layout', 'module_srl', 'title', 'regdate'];
+		$instances = LayoutModel::getLayoutInstanceList(0, $type, null, $columns);
+		$instance_list = [];
+		foreach ($instances as $instance)
 		{
-			// get Theme layout
-			$oAdminModel = getAdminModel('admin');
-			$themeList = $oAdminModel->getThemeList();
-			$themeLayoutList = array();
-			foreach($themeList as $themeInfo)
-			{
-				if(strpos($themeInfo->layout_info->name, '.') === false) continue;
-				$themeLayoutList[] = $oLayoutModel->getLayoutInfo($themeInfo->layout_info->name, null, 'P');
-			}
-			$layout_list = array_merge($layout_list, $themeLayoutList);
-			$layout_list[] = $oLayoutModel->getLayoutInfo('faceoff', null, 'P');
+			$instance_list[$instance->layout][] = $instance;
 		}
+		Context::set('instance_list', $instance_list);
 
-		$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
-		$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
+		// Get installed layout count by type
+		$pcLayoutCount = LayoutModel::getInstalledLayoutCount('P');
+		$mobileLayoutCount = LayoutModel::getInstalledLayoutCount('M');
 		Context::set('pcLayoutCount', $pcLayoutCount);
 		Context::set('mobileLayoutCount', $mobileLayoutCount);
-		$this->setTemplateFile('installed_layout_list');
 
+		// Security?
 		$security = new Security($layout_list);
 		$layout_list = $security->encodeHTML('..', '..author..');
-
-		//Security
 		$security = new Security();
-		$security->encodeHTML('layout_list..layout','layout_list..title');
-
-		foreach($layout_list as $no => $layout_info)
+		$security->encodeHTML('layout_list..layout','layout_list..title','instance_list..');
+		foreach ($layout_list as $no => $layout_info)
 		{
 			$layout_list[$no]->description = nl2br(trim($layout_info->description));
 		}
 		Context::set('layout_list', $layout_list);
+
+		// Set template file
+		$this->setTemplateFile('installed_layout_list');
 	}
 
 	/**
@@ -74,19 +68,17 @@ class LayoutAdminView extends Layout
 	 */
 	function dispLayoutAdminAllInstanceList()
 	{
-		$type = Context::get('type');
+		$type = Context::get('type') === 'M' ? 'M' : 'P';
 
-		if(!in_array($type, array('P', 'M'))) $type = 'P';
-
-		$oLayoutModel = getModel('layout');
-
-		$pcLayoutCount = $oLayoutModel->getInstalledLayoutCount('P');
-		$mobileLayoutCount = $oLayoutModel->getInstalledLayoutCount('M');
+		// Get installed layout count
+		$pcLayoutCount = LayoutModel::getInstalledLayoutCount('P');
+		$mobileLayoutCount = LayoutModel::getInstalledLayoutCount('M');
 		Context::set('pcLayoutCount', $pcLayoutCount);
 		Context::set('mobileLayoutCount', $mobileLayoutCount);
 
+		// Get layout instance list
 		$columnList = array('layout_srl', 'layout', 'module_srl', 'title', 'regdate');
-		$_layout_list = $oLayoutModel->getLayoutInstanceList(0, $type, null, $columnList);
+		$_layout_list = LayoutModel::getLayoutInstanceList(0, $type, null, $columnList);
 
 		$layout_list = array();
 		foreach($_layout_list as $item)
@@ -94,7 +86,7 @@ class LayoutAdminView extends Layout
 			if(!$layout_list[$item->layout])
 			{
 				$layout_list[$item->layout] = array();
-				$layout_info = $oLayoutModel->getLayoutInfo($item->layout, null, $type);
+				$layout_info = LayoutModel::getLayoutInfo($item->layout, null, $type);
 				if ($layout_info)
 				{
 					$layout_list[$item->layout]['title'] = $layout_info->title;
@@ -108,10 +100,10 @@ class LayoutAdminView extends Layout
 
 		Context::set('layout_list', $layout_list);
 
-		$this->setTemplateFile('layout_all_instance_list');
-
 		$security = new Security();
 		$security->encodeHTML('layout_list..');
+
+		$this->setTemplateFile('layout_all_instance_list');
 	}
 
 	/**
