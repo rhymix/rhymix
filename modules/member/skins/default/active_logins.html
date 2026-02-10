@@ -22,7 +22,7 @@
 			</td>
 			<td>{zdate($autologin_info->regdate, 'Y-m-d H:i')}<br />{$autologin_info->ipaddress}</td>
 			<td>{zdate($autologin_info->last_visit, 'Y-m-d H:i')}<br />{$autologin_info->last_ipaddress}</td>
-			<td><button class="delete_autologin" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button></td>
+			<td><button class="delete_autologin btn" data-autologin-id="{$autologin_info->id}" data-autologin-key="{$autologin_info->autologin_key}">{$lang->cmd_delete}</button></td>
 		</tr>
 	</tbody>
 </table>
@@ -58,7 +58,7 @@
 			</td>
 			<td>{zdate($device_info->regdate, 'Y-m-d H:i')}</td>
 			<td>{zdate($device_info->last_active_date, 'Y-m-d H:i')}</td>
-			<td><button class="delete_device" data-device-srl="{$device_info->device_srl}">{$lang->cmd_delete}</button></td>
+			<td><button class="delete_device btn" data-device-srl="{$device_info->device_srl}">{$lang->cmd_delete}</button></td>
 		</tr>
 	</tbody>
 </table>

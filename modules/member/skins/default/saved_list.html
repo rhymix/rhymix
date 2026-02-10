@@ -16,7 +16,7 @@
 				<div id="saved_document_{$val->document_srl}" class="savedContent" style="display:none;">{$val->getContent(false)}</div>
 			</td>
 			<td>{$val->getRegdate("Y-m-d")}</td>
-			<td><button type="button" class="text" onclick="doDeleteSavedDocument('{$val->document_srl}','{$lang->confirm_delete}');">{$lang->cmd_delete}</button></td>
+			<td><button type="button" class="btn" onclick="doDeleteSavedDocument('{$val->document_srl}','{$lang->confirm_delete}');">{$lang->cmd_delete}</button></td>
 		</tr>
 	</tbody>
 </table>

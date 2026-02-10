@@ -38,7 +38,7 @@
 			<td class="title"><a href="{getUrl('','document_srl',$val->document_srl)}" target="_blank">{htmlspecialchars($val->title, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}</a></td>
 			<td><a href="#popup_menu_area" class="member_{$val->target_member_srl}">{$val->nick_name}</a></td>
 			<td>{zdate($val->regdate, "Y-m-d")}</td>
-			<td><button type="button" class="text" onclick="doDeleteScrap({$val->document_srl});">{$lang->cmd_delete}</button></td>
+			<td><button type="button" class="btn" onclick="doDeleteScrap({$val->document_srl});">{$lang->cmd_delete}</button></td>
 			<td>
 				<select class="scrap_folder_move" data-document-srl="{$val->document_srl}">
 					<option value="">{$lang->cmd_move}</option>

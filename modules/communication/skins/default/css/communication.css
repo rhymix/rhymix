@@ -18,6 +18,7 @@
 .xc select,
 .xc textarea{font-weight:normal;line-height:20px}
 .xc label{display:block;margin-bottom:5px}
+.xc select,
 .xc textarea,
 .xc input[type="text"],
 .xc input[type="password"],
@@ -32,7 +33,7 @@
 .xc input[type="url"],
 .xc input[type="search"],
 .xc input[type="tel"],
-.xc input[type="color"]{display:inline-block;height:20px;padding:4px 6px;margin-bottom:10px;line-height:20px;color:#555555;vertical-align:middle;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
+.xc input[type="color"]{display:inline-block;height:20px;padding:2px 6px;margin-bottom:10px;line-height:20px;color:#555555;vertical-align:middle;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px}
 .xc input,
 .xc textarea{width:206px}
 .xc textarea{height:auto}
@@ -75,8 +76,8 @@
 .xc input[type="button"],
 .xc input[type="radio"],
 .xc input[type="checkbox"]{width:auto}
-.xc select,
 .xc input[type="file"]{height:26px;*margin-top:4px;line-height:26px}
+.xc select{height:26px;line-height:24px; padding: 0 4px; }
 .xc select{background-color:#ffffff;border:1px solid #cccccc}
 .xc select[multiple],
 .xc select[size]{height:auto}
