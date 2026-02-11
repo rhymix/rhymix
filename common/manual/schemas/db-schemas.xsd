@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation> Schema describing database table definitions located under
+			modules/*/schemas. </xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="table">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice minOccurs="0" maxOccurs="unbounded">
+					<xs:element name="column" type="columnType" />
+					<xs:element name="index" type="indexType" />
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="dbIdentifier" use="required" />
+			<xs:attribute name="deleted" type="xs:boolean" use="optional" />
+			<xs:anyAttribute processContents="lax" />
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Element:column -->
+	<xs:complexType name="columnType">
+		<xs:attribute name="name" type="dbIdentifier" use="required" />
+		<xs:attribute name="type" type="columnDataType" use="required" />
+		<xs:attribute name="size" type="xs:positiveInteger" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:attribute name="notnull" type="notNullLiteral" use="optional" />
+		<xs:attribute name="primary_key" type="primaryKeyLiteral" use="optional" />
+		<xs:attribute name="unique" type="constraintName" use="optional" />
+		<xs:attribute name="index" type="constraintName" use="optional" />
+		<xs:attribute name="auto_increment" type="autoIncrementLiteral" use="optional" />
+		<xs:attribute name="charset" type="charsetName" use="optional" />
+		<xs:attribute name="brief" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<!-- Element:index -->
+	<xs:complexType name="indexType">
+		<xs:attribute name="name" type="constraintName" use="required" />
+		<xs:attribute name="columns" type="xs:string" use="required" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<!-- Types -->
+	<xs:simpleType name="dbIdentifier">
+		<xs:restriction base="xs:string">
+			<!-- FIXME -->
+			<xs:pattern value="[A-Za-z_][A-Za-z0-9_]*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="constraintName">
+		<xs:restriction base="xs:string">
+			<!-- FIXME -->
+			<xs:pattern value="[A-Za-z_][A-Za-z0-9_]*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="columnDataType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bigint" />
+			<xs:enumeration value="bignumber" />
+			<xs:enumeration value="bigtext" />
+			<xs:enumeration value="char" />
+			<xs:enumeration value="date" />
+			<xs:enumeration value="datetime" />
+			<xs:enumeration value="int" />
+			<xs:enumeration value="longtext" />
+			<xs:enumeration value="number" />
+			<xs:enumeration value="text" />
+			<xs:enumeration value="varchar" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="notNullLiteral">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="notnull" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="primaryKeyLiteral">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="primary_key" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="autoIncrementLiteral">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="auto_increment" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="charsetName">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z0-9_-]+" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

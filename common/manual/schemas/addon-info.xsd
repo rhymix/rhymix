@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="shared-types.xsd" />
+
+	<xs:element name="addon">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="title" type="localizedString" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element name="description" type="localizedString" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xs:element name="version" type="versionString" minOccurs="0" />
+				<xs:element name="date" type="dateString" minOccurs="0" />
+				<xs:element name="link" type="xs:anyURI" minOccurs="0" />
+				<xs:element name="license" type="licenseType" minOccurs="0" />
+				<xs:element name="author" type="authorType" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="extra_vars" type="extraVarsType" minOccurs="0" />
+			</xs:sequence>
+			<xs:attributeGroup ref="commonVersionAttribute"></xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Element:extra_vars -->
+	<xs:complexType name="extraVarsType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="var" type="varType" />
+			<xs:element name="group" type="varGroupType" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="varGroupType">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="var" type="varType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="varType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="title" type="localizedString" />
+			<xs:element name="description" type="localizedString" />
+			<xs:element name="options" type="varOptionType" />
+		</xs:choice>
+		<xs:attribute name="name" type="xs:string" use="optional" />
+		<xs:attribute name="id" type="xs:string" use="optional" />
+		<xs:attribute name="type" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="varOptionType">
+		<xs:sequence>
+			<xs:element name="title" type="localizedString" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="description" type="localizedString" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+</xs:schema>
