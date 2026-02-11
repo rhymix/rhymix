@@ -207,7 +207,7 @@ class URL
 	 */
 	public static function encodeIdna(string $url): string
 	{
-		if (preg_match('@[:/#]@', $url) && !str_starts_with($url, '/'))
+		if (!preg_match('@^/(?!/)@', $url) && preg_match('@[:/#]@', $url))
 		{
 			$domain = parse_url($url, \PHP_URL_HOST);
 			if (!$domain)
@@ -247,7 +247,7 @@ class URL
 	 */
 	public static function decodeIdna(string $url): string
 	{
-		if (preg_match('@[:/#]@', $url) && !str_starts_with($url, '/'))
+		if (!preg_match('@^/(?!/)@', $url) && preg_match('@[:/#]@', $url))
 		{
 			$domain = parse_url($url, \PHP_URL_HOST);
 			if (!$domain)
