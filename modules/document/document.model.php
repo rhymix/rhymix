@@ -111,6 +111,7 @@ class DocumentModel extends Document
 					foreach($GLOBALS['XE_EXTRA_KEYS'][$module_srl] as $idx => $key)
 					{
 						$document_extra_vars[$idx] = clone($key);
+						$document_extra_vars[$idx]->parent_srl = $document_srl;
 
 						// set variable value in user language
 						if(isset($document_extra_values[$idx][$user_lang_code]))
