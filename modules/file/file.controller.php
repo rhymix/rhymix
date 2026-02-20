@@ -936,6 +936,14 @@ class FileController extends File
 			}
 		}
 
+		// Sanitize SVG
+		if(!$manual_insert && !$this->user->isAdmin() && ($file_info['type'] === 'image/svg+xml' || $file_info['extension'] === 'svg'))
+		{
+			$dirty_svg = Rhymix\Framework\Storage::read($file_info['tmp_name']);
+			$clean_svg = Rhymix\Framework\Security::sanitize($dirty_svg, 'svg');
+			Rhymix\Framework\Storage::write($file_info['tmp_name'], $clean_svg);
+		}
+
 		// Adjust
 		if(!$manual_insert)
 		{
