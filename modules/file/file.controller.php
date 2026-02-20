@@ -551,7 +551,7 @@ class FileController extends File
 		{
 			$download_type = 'inline';
 		}
-		if (Context::get('force_download') === 'Y')
+		if ($mime_type === 'image/svg+xml' || Context::get('force_download') === 'Y')
 		{
 			$download_type = 'attachment';
 		}
