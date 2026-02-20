@@ -15,6 +15,16 @@ class SecurityTest extends \Codeception\Test\Unit
 
 		// Filename (more thorough tests in FilenameFilterTest)
 		$this->assertEquals('foo(bar).xls', Rhymix\Framework\Security::sanitize('foo<bar>.xls', 'filename'));
+
+		// SVG #1
+		$source = '<svg><rect><a href="javascript:alert(0)">Test</a></rect></svg>';
+		$target = '<?xml version="1.0" encoding="UTF-8"?>' . "\n<svg>\n  <rect>\n    <a>Test</a>\n  </rect>\n</svg>\n";
+		$this->assertEquals($target, Rhymix\Framework\Security::sanitize($source, 'svg'));
+
+		// SVG #2
+		$source = '<svg><rect></rect><script></script></svg>';
+		$target = '<?xml version="1.0" encoding="UTF-8"?>' . "\n<svg>\n  <rect></rect>\n</svg>\n";
+		$this->assertEquals($target, Rhymix\Framework\Security::sanitize($source, 'svg'));
 	}
 
 	public function testEncryption()
