@@ -19,6 +19,7 @@
 			<condition operation="like" column="phone_number" var="s_phone_number" pipe="or" />
             <condition operation="like" column="birthday" var="s_birthday" pipe="or" />
             <condition operation="like" column="extra_vars" var="s_extra_vars" pipe="or" />
+			<condition operation="like" column="description" var="s_description" pipe="or" />
             <condition operation="like_prefix" column="regdate" var="s_regdate" pipe="or" />
 			<condition operation="like_prefix" column="ipaddress" var="s_ipaddress" pipe="or" />
             <condition operation="like_prefix" column="last_login" var="s_last_login" pipe="or" />
