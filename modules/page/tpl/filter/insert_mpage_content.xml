@@ -6,7 +6,7 @@
         <param name="module_srl" target="module_srl" />
         <param name="mid" target="mid" />
         <param name="mcontent" target="content" />
-		<parma name="type" target="type" />
+		<param name="type" target="type" />
     </parameter>
     <response callback_func="completeInsertMobilePageContent">
         <tag name="error" />
