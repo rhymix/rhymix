@@ -58,7 +58,7 @@ class BoardAdminView extends Board {
 
 		// install order (sorting) options
 		foreach($this->order_target as $key) $order_target[$key] = lang($key);
-		$order_target['list_order'] = lang('document_srl');
+		$order_target['list_order'] = lang('default_value');
 		$order_target['update_order'] = lang('last_update');
 		Context::set('order_target', $order_target);
 	}
