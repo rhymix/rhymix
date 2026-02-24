@@ -1650,6 +1650,10 @@ class DocumentItem extends BaseObject
 		return ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'))->browser_title;
 	}
 
+	/**
+	 * Get the title of the module to which the document belongs.
+	 * @return string
+	 */
 	function getBrowserTitle()
 	{
 		return $this->getModuleName();
