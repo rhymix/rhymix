@@ -18,5 +18,6 @@ v.cast('ADD_MESSAGE',['invalid_alpha_number','%s의 형식이 잘못되었습니
 v.cast('ADD_MESSAGE',['invalid_mid','%s의 형식이 잘못되었습니다. 첫 글자는 영문으로 시작해야 하며 \'영문+숫자+_\'로만 입력해야 합니다.']);
 v.cast('ADD_MESSAGE',['invalid_number','%s의 형식이 잘못되었습니다. 숫자로만 입력해야 합니다.']);
 v.cast('ADD_MESSAGE',['invalid_float','%s의 형식이 잘못되었습니다. 숫자로만 입력해야 합니다.']);
+v.cast('ADD_MESSAGE',['invalid_file','%s의 값은 올바르게 업로드된 파일이 아닙니다.']);
 v.cast('ADD_MESSAGE',['invalid_extension','%s의 형식이 잘못되었습니다. gif, jpg, png 등 쉼표로 구분하여 입력해야 합니다.']);
 })(jQuery);

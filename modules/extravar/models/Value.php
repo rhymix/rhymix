@@ -25,6 +25,7 @@ class Value
 	public $input_id = '';
 	public $input_name = '';
 	public $parent_type = 'document';
+	public $parent_srl = null;
 	public $type = 'text';
 	public $value = null;
 	public $name = '';
@@ -159,7 +160,7 @@ class Value
 	 */
 	public function getValueHTML(): string
 	{
-		return self::_getTypeValueHTML($this->type, $this->value);
+		return self::_getTypeValueHTML($this->type, $this->value, $this->parent_type, $this->parent_srl);
 	}
 
 	/**
@@ -280,7 +281,7 @@ class Value
 			$values = [$value];
 		}
 
-		// Check if a required value is empty.
+		// Check that a required value is not empty.
 		if ($this->is_required === 'Y')
 		{
 			if ($this->type === 'file' && !$value && $old_value)
@@ -298,7 +299,7 @@ class Value
 			}
 		}
 
-		// Check if a strict value is not one of the specified options.
+		// Check that a strict value equals one of the specified options.
 		if ($this->is_strict === 'Y' && $value)
 		{
 			if ($this->canHaveOptions())
@@ -318,6 +319,15 @@ class Value
 				{
 					return new BaseObject(-1, sprintf(lang('common.filter.equalto'), Context::replaceUserLang($this->name)));
 				}
+			}
+		}
+
+		// Check that a file value is actually an uploaded file.
+		if ($this->type === 'file' && $value)
+		{
+			if (!isset($value['tmp_name']) || !is_uploaded_file($value['tmp_name']))
+			{
+				return new BaseObject(-1, sprintf(lang('common.filter.invalid_file'), Context::replaceUserLang($this->name)));
 			}
 		}
 
@@ -442,9 +452,11 @@ class Value
 	 *
 	 * @param string $type
 	 * @param string|array $value
+	 * @param string $parent_type
+	 * @param ?int $parent_srl
 	 * @return string
 	 */
-	protected static function _getTypeValueHTML(string $type, $value): string
+	protected static function _getTypeValueHTML(string $type, $value, string $parent_type, ?int $parent_srl = null): string
 	{
 		// Return if the value is empty.
 		$value = self::_getTypeValue($type, $value);
@@ -511,9 +523,13 @@ class Value
 				if ($value)
 				{
 					$file = FileModel::getFile($value);
-					if ($file)
+					if ($file && $file->upload_target_srl == $parent_srl)
 					{
 						return sprintf('<span><a href="%s">%s</a> (%s)</span>', \RX_BASEURL . ltrim($file->download_url, './'), $file->source_filename, FileHandler::filesize($file->file_size));
+					}
+					elseif ($file)
+					{
+						return sprintf('<span>%s (%s)</span>', $file->source_filename, FileHandler::filesize($file->file_size));
 					}
 					else
 					{
