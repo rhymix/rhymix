@@ -44,7 +44,7 @@ class FileContentFilter
 		$skip_xml = preg_match('/^(hwpx)$/', $ext);
 
 		// Check SVG files.
-		if (($ext === 'svg' || $is_xml) && !self::_checkSVG($fp, 0, $filesize))
+		if (($ext === 'svg' || $is_xml) && !self::_checkSVG($fp, 0, $filesize, $ext))
 		{
 			fclose($fp);
 			return false;
@@ -89,11 +89,12 @@ class FileContentFilter
 	 * @param resource $fp
 	 * @param int $from
 	 * @param int $to
+	 * @param string $ext
 	 * @return bool
 	 */
-	protected static function _checkSVG($fp, $from, $to)
+	protected static function _checkSVG($fp, $from, $to, $ext)
 	{
-		if (self::_matchStream('/(?:<|&lt;)(?:script|iframe|foreignObject|object|embed|handler)|javascript:|xlink:href\s*=\s*"(?!data:)/i', $fp, $from, $to))
+		if (self::_matchStream('/(?:<|&lt;|:)(?:script|iframe|foreignObject|object|embed|handler)|javascript:|(?:\s|:)href\s*=\s*"(?!data:)/i', $fp, $from, $to))
 		{
 			return false;
 		}
