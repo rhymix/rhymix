@@ -204,6 +204,13 @@ class installController extends install
 		// Set the default umask.
 		$config['file']['umask'] = Rhymix\Framework\Storage::recommendUmask();
 
+		// Set default security settings.
+		if ($config['url']['ssl'] === 'always')
+		{
+			$config['session']['use_ssl'] = true;
+			$config['session']['use_ssl_cookies'] = true;
+		}
+
 		// Load the new configuration.
 		Rhymix\Framework\Config::setAll($config);
 		Context::loadDBInfo($config);

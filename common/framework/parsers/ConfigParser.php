@@ -184,6 +184,8 @@ class ConfigParser
 		if (isset($db_info->use_ssl) && in_array($db_info->use_ssl, ['always', 'optional']))
 		{
 			$config['url']['ssl'] = 'always';
+			$config['session']['use_ssl'] = true;
+			$config['session']['use_ssl_cookies'] = true;
 		}
 		else
 		{
