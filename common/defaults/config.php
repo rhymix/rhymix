@@ -90,7 +90,7 @@ return array(
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
 		'delay_compile' => 0,
-		'jquery_version' => 2,
+		'jquery_version' => 3,
 	),
 	'admin' => array(
 		'allow' => array(),
