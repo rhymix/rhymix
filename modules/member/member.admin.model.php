@@ -121,6 +121,9 @@ class MemberAdminModel extends Member
 				case 'extra_vars' :
 					$args->s_extra_vars = $search_keyword;
 					break;
+				case 'description' :
+					$args->s_description = $search_keyword;
+					break;
 			}
 		}
 

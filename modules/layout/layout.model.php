@@ -81,11 +81,7 @@ class LayoutModel extends Layout
 			}
 
 			$token = explode('|@|', $val->layout);
-			if(count($token) == 2)
-			{
-				$thumbnailPath = sprintf('./themes/%s/layouts/%s/thumbnail.png' , $token[0], $token[1]);
-			}
-			else if($layoutType == 'M')
+			if($layoutType == 'M')
 			{
 				$thumbnailPath = sprintf('./m.layouts/%s/thumbnail.png' , $val->layout);
 			}
@@ -227,26 +223,13 @@ class LayoutModel extends Layout
 	 */
 	public static function isExistsLayoutFile($layout, $layoutType)
 	{
-		//TODO If remove a support themes, remove this codes also.
 		if($layoutType == 'P')
 		{
-			$pathPrefix = RX_BASEDIR . 'layouts/';
-			$themePathFormat = RX_BASEDIR . 'themes/%s/layouts/%s';
+			$path = RX_BASEDIR . 'layouts/' . $layout;
 		}
 		else
 		{
-			$pathPrefix = RX_BASEDIR . 'm.layouts/';
-			$themePathFormat = RX_BASEDIR . 'themes/%s/m.layouts/%s';
-		}
-
-		if(strpos($layout, '|@|') !== FALSE)
-		{
-			list($themeName, $layoutName) = explode('|@|', $layout);
-			$path = sprintf($themePathFormat, $themeName, $layoutName);
-		}
-		else
-		{
-			$path = $pathPrefix . $layout;
+			$path = RX_BASEDIR . 'm.layouts/' . $layout;
 		}
 
 		if (file_exists($path . '/layout.html') && is_readable($path . '/layout.html'))
@@ -333,12 +316,7 @@ class LayoutModel extends Layout
 	 */
 	public function getLayoutPath($layout_name = "", $layout_type = "P")
 	{
-		$layout_parse = explode('|@|', $layout_name ?? '');
-		if(count($layout_parse) > 1)
-		{
-			$class_path = './themes/'.$layout_parse[0].'/layouts/'.$layout_parse[1].'/';
-		}
-		else if($layout_name == 'faceoff')
+		if($layout_name == 'faceoff')
 		{
 			$class_path = './modules/layout/faceoff/';
 		}

@@ -551,7 +551,7 @@ class FileController extends File
 		{
 			$download_type = 'inline';
 		}
-		if (Context::get('force_download') === 'Y')
+		if ($mime_type === 'image/svg+xml' || Context::get('force_download') === 'Y')
 		{
 			$download_type = 'attachment';
 		}
@@ -934,6 +934,14 @@ class FileController extends File
 			{
 				throw new Rhymix\Framework\Exception('msg_not_allowed_filetype');
 			}
+		}
+
+		// Sanitize SVG
+		if(!$manual_insert && !$this->user->isAdmin() && ($file_info['type'] === 'image/svg+xml' || $file_info['extension'] === 'svg'))
+		{
+			$dirty_svg = Rhymix\Framework\Storage::read($file_info['tmp_name']);
+			$clean_svg = Rhymix\Framework\Security::sanitize($dirty_svg, 'svg');
+			Rhymix\Framework\Storage::write($file_info['tmp_name'], $clean_svg);
 		}
 
 		// Adjust

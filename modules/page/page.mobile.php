@@ -19,16 +19,17 @@ class PageMobile extends PageView
 			Context::set('document_srl', $document_srl);
 		}
 		Context::set('oDocument', $oDocument);
+		Context::set('page_content', $oDocument->getContent(false, false));
 
 		$oTemplate = Rhymix\Framework\Template::getInstance();
-		$template_path = $this->getTemplatePath();
+		$template_path = $this->getTemplatePath() ?: ($this->module_path . 'tpl');
 		if (preg_match('!/skins/!', $template_path))
 		{
-			$page_content = $oTemplate->compile($this->getTemplatePath(), 'content');
+			$page_content = $oTemplate->compile($template_path, 'content');
 		}
 		else
 		{
-			$page_content = $oTemplate->compile($this->getTemplatePath(), 'mobile');
+			$page_content = $oTemplate->compile($template_path, 'mobile');
 		}
 
 		return $page_content;

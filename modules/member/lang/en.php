@@ -114,6 +114,7 @@ $lang->search_target_list['last_login_less'] = 'Last Login Date (less)';
 $lang->search_target_list['last_login_ipaddress'] = 'Last Login IP address';
 $lang->search_target_list['birthday'] = 'Birthday';
 $lang->search_target_list['extra_vars'] = 'User Defined';
+$lang->search_target_list['description'] = 'Admin Memo';
 $lang->cmd_modify_new_auth_email_address = 'New email address';
 $lang->cmd_set_design_info = 'Desgin';
 $lang->cmd_login = 'Login';

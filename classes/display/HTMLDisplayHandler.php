@@ -7,8 +7,8 @@ class HTMLDisplayHandler
 	 */
 	public const JQUERY_V2 = '2.2.4';
 	public const JQUERY_V2_MIGRATE = '1.4.1';
-	public const JQUERY_V3 = '3.6.3';
-	public const JQUERY_V3_MIGRATE = '3.4.0';
+	public const JQUERY_V3 = '3.7.1';
+	public const JQUERY_V3_MIGRATE = '3.6.0';
 
 	/**
 	 * Default viewport setting

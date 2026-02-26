@@ -38,6 +38,12 @@ class Security
 				if (!utf8_check($input)) return false;
 				return Filters\FilenameFilter::clean($input);
 
+			// Clean up SVG content to prevent various attacks.
+			case 'svg':
+				if (!utf8_check($input)) return false;
+				$sanitizer = new \enshrined\svgSanitize\Sanitizer();
+				return strval($sanitizer->sanitize($input));
+
 			// Unknown filters.
 			default:
 				throw new Exception('Unknown filter type for sanitize: ' . $type);

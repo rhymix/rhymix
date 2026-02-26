@@ -796,7 +796,8 @@ class FrontEndFileHandler extends Handler
 	public static function loadCommonFiles()
 	{
 		// Determine jQuery and jQuery Migrate versions.
-		if (config('view.jquery_version') === 3)
+		$jquery_version = config('view.jquery_version') ?: 2;
+		if ($jquery_version == 3)
 		{
 			$jquery_version = HTMLDisplayHandler::JQUERY_V3;
 			$jquery_migrate_version = HTMLDisplayHandler::JQUERY_V3_MIGRATE;

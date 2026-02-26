@@ -116,6 +116,7 @@ $lang->search_target_list['last_login_less'] = '최근 로그인 일시(이하)'
 $lang->search_target_list['last_login_ipaddress'] = '최근 로그인 IP 주소';
 $lang->search_target_list['birthday'] = '생일';
 $lang->search_target_list['extra_vars'] = '사용자 정의';
+$lang->search_target_list['description'] = '관리자 메모';
 $lang->cmd_modify_new_auth_email_address = '신규 메일 주소로 변경 후 인증 메일 발송';
 $lang->cmd_set_design_info = '디자인';
 $lang->cmd_login = '로그인';
