@@ -28,6 +28,11 @@ class installView extends install
 		// Specify the template path.
 		$this->setTemplatePath($this->module_path.'tpl');
 
+		// Set default frontend configurations.
+		config('view.jquery_version', 3);
+		config('view.minify_scripts', 'none');
+		config('view.concat_scripts', 'none');
+
 		// Check the environment.
 		$oInstallController = getController('install');
 		self::$checkEnv = $oInstallController->checkInstallEnv();
