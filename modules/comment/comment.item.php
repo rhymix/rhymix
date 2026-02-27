@@ -112,15 +112,15 @@ class CommentItem extends BaseObject
 		}
 
 		$logged_info = Context::get('logged_info');
-		if (!$logged_info->member_srl)
+		if (!$logged_info || !$logged_info->member_srl)
 		{
 			return $this->grant_cache = false;
 		}
-		if ($logged_info->is_admin == 'Y')
+		if ($logged_info && $logged_info->is_admin == 'Y')
 		{
 			return $this->grant_cache = true;
 		}
-		if ($this->get('member_srl') && abs($this->get('member_srl')) == $logged_info->member_srl)
+		if ($logged_info && $this->get('member_srl') && abs($this->get('member_srl')) == $logged_info->member_srl)
 		{
 			return $this->grant_cache = true;
 		}
@@ -292,7 +292,7 @@ class CommentItem extends BaseObject
 
 		// return if the currently logged-in user is an author of the comment.
 		$logged_info = Context::get('logged_info');
-		if($logged_info->member_srl == $this->get('member_srl'))
+		if($logged_info && $logged_info->member_srl && $logged_info->member_srl == abs($this->get('member_srl')))
 		{
 			return;
 		}
@@ -306,7 +306,7 @@ class CommentItem extends BaseObject
 		$title .= cut_str(strip_tags($content), 30, '...');
 		$content = sprintf('%s<br /><br />from : <a href="%s#comment_%s" target="_blank">%s</a>', $content, getFullUrl('', 'document_srl', $this->get('document_srl')), $this->get('comment_srl'), getFullUrl('', 'document_srl', $this->get('document_srl')));
 		$receiver_srl = $this->get('member_srl');
-		$sender_member_srl = $logged_info->member_srl;
+		$sender_member_srl = ($logged_info && $logged_info->member_srl) ? $logged_info->member_srl : $this->get('member_srl');
 
 		// send a message
 		$oCommunicationController = getController('communication');
@@ -376,17 +376,24 @@ class CommentItem extends BaseObject
 
 	function getMyVote()
 	{
-		if(!$this->comment_srl) return false;
-		if(isset($_SESSION['voted_comment'][$this->comment_srl]))
+		if (!$this->comment_srl)
+		{
+			return false;
+		}
+
+		if (isset($_SESSION['voted_comment'][$this->comment_srl]))
 		{
 			return $_SESSION['voted_comment'][$this->comment_srl];
 		}
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl) return false;
+		if (!$logged_info || !$logged_info->member_srl)
+		{
+			return false;
+		}
 
 		$args = new stdClass();
-		if($logged_info->member_srl)
+		if ($logged_info && $logged_info->member_srl)
 		{
 			$args->member_srl = $logged_info->member_srl;
 		}
@@ -413,7 +420,7 @@ class CommentItem extends BaseObject
 		}
 
 		$logged_info = Context::get('logged_info');
-		if (!$logged_info->member_srl)
+		if (!$logged_info || !$logged_info->member_srl)
 		{
 			return false;
 		}
@@ -424,7 +431,7 @@ class CommentItem extends BaseObject
 		}
 
 		$args = new stdClass();
-		if ($logged_info->member_srl)
+		if ($logged_info && $logged_info->member_srl)
 		{
 			$args->member_srl = $logged_info->member_srl;
 		}
