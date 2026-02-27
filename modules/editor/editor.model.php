@@ -387,6 +387,7 @@ class EditorModel extends Editor
 		}
 		else
 		{
+			$logged_info = new Rhymix\Framework\Helpers\SessionHelper();
 			$group_list = array();
 		}
 
@@ -507,7 +508,7 @@ class EditorModel extends Editor
 			$logged_info = Context::get('logged_info');
 			$auto_save_args->member_srl = $logged_info->member_srl;
 		}
-		elseif($_COOKIE['autosave_certify_key_' . $auto_save_args->module_srl])
+		elseif(!empty($_COOKIE['autosave_certify_key_' . $auto_save_args->module_srl]))
 		{
 			$auto_save_args->certify_key = $_COOKIE['autosave_certify_key_' . $auto_save_args->module_srl];
 		}
@@ -647,8 +648,8 @@ class EditorModel extends Editor
 					unset($component_list->{$key});
 					continue;
 				}
-				if($logged_info->is_admin == "Y") continue;
-				if($val->target_group)
+				if($logged_info && $logged_info->is_admin == "Y") continue;
+				if(isset($val->target_group) && $val->target_group)
 				{
 					if(!Context::get('is_logged'))
 					{
@@ -664,7 +665,7 @@ class EditorModel extends Editor
 						if(!$is_granted) $val->enabled = "N";
 					}
 				}
-				if($val->enabled != "N" && $val->mid_list)
+				if($val->enabled != "N" && !empty($val->mid_list))
 				{
 					$mid = Context::get('mid');
 					if(!in_array($mid, $val->mid_list)) $val->enabled = "N";

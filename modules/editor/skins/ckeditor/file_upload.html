@@ -10,7 +10,7 @@
 <div cond="$allow_fileupload" id="xefu-container-{$editor_sequence}" class="xefu-container xe-clearfix"
 	data-editor-sequence="{$editor_sequence}"
 	data-editor-status="{json_encode(FileModel::getInstance()->getFileList($editor_sequence), JSON_UNESCAPED_UNICODE)}"
-	data-max-file-size="{$logged_info->is_admin === 'Y' ? 0 : $file_config->allowed_filesize}"
+	data-max-file-size="{$this->user->isAdmin() ? 0 : $file_config->allowed_filesize}"
 	data-max-chunk-size="{$file_config->allowed_chunk_size ?: 0}"
 	data-autoinsert-types="{json_encode($editor_autoinsert_types)}"
 	data-autoinsert-position="{$editor_autoinsert_position ?: 'paragraph'}">
