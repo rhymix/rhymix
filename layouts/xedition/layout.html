@@ -209,7 +209,7 @@
 						<a href="#" title="{$lang->cmd_search}"><i class="xi-magnifier"></i><span class="blind">{$lang->cmd_search}</span></a>
 					</li>
 					<!-- admin -->
-					<li cond="$logged_info->is_admin == 'Y'">
+					<li cond="$logged_info && $logged_info->is_admin == 'Y'">
 						<a href="{getUrl('', 'module', 'admin')}" target="_blank" title="{$lang->cmd_management}"><i class="xi-cog"></i><span class="blind">{$lang->cmd_management}</span></a>
 					</li>
 					<!-- login -->
