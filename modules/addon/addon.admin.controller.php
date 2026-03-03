@@ -209,6 +209,10 @@ class addonAdminController extends addonController
 			$args->{$key} = $vars->{$key} ?? '';
 		}
 		$args->xe_run_method = $vars->xe_run_method ?? '';
+		if (!in_array($args->xe_run_method, ['run_selected', 'no_run_selected']))
+		{
+			$args->xe_run_method = 'run_selected';
+		}
 		$args->mid_list = $vars->mid_list ?? [];
 
 		$output = $this->doSetup($addon_name, $args, $site_module_info->site_srl, 'site');

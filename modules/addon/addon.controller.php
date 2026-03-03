@@ -102,8 +102,8 @@ class addonController extends addon
 			$buff[] = '$before_time = microtime(true);';
 
 			// Run method and mid list
-			$run_method = ($extra_vars->xe_run_method ?? null) ?: 'run_selected';
-			$buff[] = '$rm = \'' . $run_method . "';";
+			$run_method = strval($extra_vars->xe_run_method ?? 'run_selected');
+			$buff[] = '$rm = ' . var_export($run_method, true) . ';';
 			$buff[] = '$ml = ' . var_export(array_fill_keys($mid_list, true), true) . ';';
 			$buff[] = '$_m = Context::get(\'mid\');';
 
