@@ -319,6 +319,7 @@ class BoardView extends Board
 					if (abs($oDocument->get('member_srl')) != $this->user->member_srl)
 					{
 						$oDocument = DocumentModel::getDocument(0);
+						$oDocument->add('module_srl', $this->module_srl);
 						Context::set('document_srl', null, true);
 						$this->dispBoardMessage('msg_not_founded', 404);
 					}
@@ -328,6 +329,7 @@ class BoardView extends Board
 				if($oDocument->getStatus() == 'TEMP')
 				{
 					$oDocument = DocumentModel::getDocument(0);
+					$oDocument->add('module_srl', $this->module_srl);
 					Context::set('document_srl', null, true);
 					$this->dispBoardMessage('msg_not_founded', 404);
 				}
@@ -357,6 +359,7 @@ class BoardView extends Board
 			if(!$this->grant->view && !$oDocument->isGranted())
 			{
 				$oDocument = DocumentModel::getDocument(0);
+				$oDocument->add('module_srl', $this->module_srl);
 				Context::set('document_srl', null, true);
 				$this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 			}
