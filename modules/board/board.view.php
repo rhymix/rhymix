@@ -318,6 +318,7 @@ class BoardView extends Board
 				{
 					if (abs($oDocument->get('member_srl')) != $this->user->member_srl)
 					{
+						$oDocument = DocumentModel::getDocument(0);
 						Context::set('document_srl', null, true);
 						$this->dispBoardMessage('msg_not_founded', 404);
 					}
@@ -326,6 +327,7 @@ class BoardView extends Board
 				// if the document is TEMP saved, pretend that it doesn't exist.
 				if($oDocument->getStatus() == 'TEMP')
 				{
+					$oDocument = DocumentModel::getDocument(0);
 					Context::set('document_srl', null, true);
 					$this->dispBoardMessage('msg_not_founded', 404);
 				}
