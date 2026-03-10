@@ -323,7 +323,7 @@ class Value
 		}
 
 		// Check that a file value is actually an uploaded file.
-		if ($this->type === 'file' && $value)
+		if ($this->type === 'file' && $value && $value !== $old_value)
 		{
 			if (!isset($value['tmp_name']) || !is_uploaded_file($value['tmp_name']))
 			{

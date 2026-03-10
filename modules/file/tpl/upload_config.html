@@ -24,6 +24,13 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label for="allowedFiletypes" class="x_control-label">{$lang->pre_conversion_filesize}</label>
+		<div class="x_controls">
+			<input type="number" min="0" name="pre_conversion_filesize" id="pre_conversion_filesize" value="{$config->pre_conversion_filesize ?? ''}" size="7" style="min-width:80px" /> MB
+			<p class="x_help-block">{$lang->about_pre_conversion_filesize}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label for="allowedFiletypes" class="x_control-label">{$lang->allowed_filetypes}</label>
 		<div class="x_controls">
 			<input id="allowedFiletypes" type="text" name="allowed_filetypes" value="{implode(', ', $config->allowed_extensions)}" />

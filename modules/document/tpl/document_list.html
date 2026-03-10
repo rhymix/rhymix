@@ -89,8 +89,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	</div>
 </form>
 
-<form action="./" class="x_pagination">
-	<input type="hidden" name="error_return_url" value="" />
+<form action="./" class="x_pagination" no-error-return-url="true">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
 	<input cond="$search_keyword" type="hidden" name="search_keyword" value="{$search_keyword}" />
@@ -126,10 +125,9 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 		<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
 	</ul>
 </form>
-<form action="./" method="get" class="search center x_input-append x_clearfix">
+<form action="./" method="get" class="search center x_input-append x_clearfix" no-error-return-url="true">
 	<input type="hidden" name="module" value="{$module}" />
 	<input type="hidden" name="act" value="{$act}" />
-	<input type="hidden" name="error_return_url" value="" />
 	<select name="module_srl" style="margin-right:4px">
 		<option value="">{lang('all')}</option>
 		<!--@foreach($module_list as $item)-->
@@ -149,8 +147,8 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 	<input type="hidden" name="module" value="document" />
 	<input type="hidden" name="act" value="procDocumentManageCheckedDocument" />
 	<input type="hidden" name="type" value="" />
-	<input type="hidden" name="module_srl" value="" />
-	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'is_secret', $is_secret, 'search_target', $search_target, 'search_keyword', $search_keyword, 'page', $page)}" />
+	<input type="hidden" name="module_srl" value="{$module_srl}" />
+	<input type="hidden" name="success_return_url" value="{getUrl('', 'module', 'admin', 'act', 'dispDocumentAdminList', 'module_srl', $module_srl, 'is_secret', $is_secret, 'search_target', $search_target, 'search_keyword', $search_keyword, 'page', $page)}" />
 	<input type="hidden" name="xe_validator_id" value="modules/document/tpl/document_list/1" />
 	<div class="x_modal-header">
 		<h1>{$lang->document_manager}: <span class="_sub"></span></h1>

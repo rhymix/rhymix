@@ -3574,7 +3574,7 @@ class DocumentController extends Document
 		{
 			// Set message
 			$title = sprintf(lang('default_message_format'), $actions[$obj->type]);
-			$content = <<<EOT
+			$common_content = <<<EOT
 				<div style="padding:10px 0;"><strong>{$title}</strong></div>
 				<p>{$obj->manager_message}</p>
 				<hr>
@@ -3604,7 +3604,7 @@ class DocumentController extends Document
 			$oCommunicationController = CommunicationController::getInstance();
 			foreach ($recipients as $member_srl => $items)
 			{
-				$content = sprintf($content, implode('', $items));
+				$content = sprintf($common_content, implode('', $items));
 				$oCommunicationController->sendMessage($this->user->member_srl, $member_srl, $title, $content, true, null, false);
 			}
 		}

@@ -222,11 +222,11 @@ class SpamfilterModel extends Spamfilter
 		{
 			return false;
 		}
-		if ($user->is_admin === 'Y')
+		if ($user && $user->is_admin === 'Y')
 		{
 			return false;
 		}
-		if ($config->captcha->target_users !== 'everyone' && $user->member_srl)
+		if ($config->captcha->target_users !== 'everyone' && $user && $user->member_srl)
 		{
 			return false;
 		}

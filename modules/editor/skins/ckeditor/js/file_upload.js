@@ -10,6 +10,8 @@ $(function() {
 		container.data('instance', container.xeUploader({
 			maxFileSize: parseInt(data.maxFileSize, 10),
 			maxChunkSize: parseInt(data.maxChunkSize, 10),
+			preConversionSize: parseInt(data.preConversionSize || 0, 10),
+			preConversionTypes: data.preConversionTypes ? data.preConversionTypes.split(',') : [],
 			autoinsertTypes: data.autoinsertTypes,
 			autoinsertPosition: data.autoinsertPosition,
 			singleFileUploads: true

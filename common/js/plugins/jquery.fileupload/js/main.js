@@ -104,7 +104,14 @@
 					var dfd = jQuery.Deferred();
 
 					$.each(item.files, function(index, file) {
-						if(data.settings.maxFileSize > 0 && data.settings.maxFileSize < file.size) {
+						var extension = file.name.split('.').pop().toLowerCase();
+						var preConversionTypes = data.settings.preConversionTypes || [];
+						var limit = data.settings.maxFileSize;
+						if (preConversionTypes.length > 0 && preConversionTypes.indexOf(extension) > -1) {
+							limit = data.settings.preConversionSize || limit;
+						}
+						console.log('file size: ' + file.size + ', limit: ' + limit);
+						if (limit > 0 && limit < file.size) {
 							dfd.reject();
 							alert(window.xe.lang.msg_exceeds_limit_size);
 							return false;

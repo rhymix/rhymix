@@ -201,11 +201,11 @@ class DocumentItem extends BaseObject
 		{
 			return $this->grant_cache = false;
 		}
-		if ($logged_info->is_admin == 'Y')
+		if ($logged_info && $logged_info->is_admin == 'Y')
 		{
 			return $this->grant_cache = true;
 		}
-		if ($this->get('member_srl') && abs($this->get('member_srl')) == $logged_info->member_srl)
+		if ($logged_info && $this->get('member_srl') && abs($this->get('member_srl')) == $logged_info->member_srl)
 		{
 			return $this->grant_cache = true;
 		}
@@ -411,7 +411,7 @@ class DocumentItem extends BaseObject
 
 		// Return if the currently logged-in user is an author
 		$logged_info = Context::get('logged_info');
-		if($logged_info->member_srl == $this->get('member_srl'))
+		if($logged_info && $logged_info->member_srl && $logged_info->member_srl == abs($this->get('member_srl')))
 		{
 			return;
 		}
@@ -421,7 +421,7 @@ class DocumentItem extends BaseObject
 		$content = sprintf('%s<br><br>from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('', 'document_srl', $this->document_srl), getFullUrl('', 'document_srl', $this->document_srl));
 
 		// Send a message
-		$sender_member_srl = $logged_info->member_srl ?: $this->get('member_srl');
+		$sender_member_srl = ($logged_info && $logged_info->member_srl) ? $logged_info->member_srl : $this->get('member_srl');
 		getController('communication')->sendMessage($sender_member_srl, $this->get('member_srl'), $title, $content, false, null, false);
 	}
 
@@ -514,17 +514,17 @@ class DocumentItem extends BaseObject
 		}
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl)
+		if (!$logged_info || !$logged_info->member_srl)
 		{
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($this->get('module_srl'));
-			if($module_info->non_login_vote !== 'Y')
+			if(!isset($module_info->non_login_vote) || $module_info->non_login_vote !== 'Y')
 			{
 				return false;
 			}
 		}
 
 		$args = new stdClass;
-		if($logged_info->member_srl)
+		if ($logged_info && $logged_info->member_srl)
 		{
 			$args->member_srl = $logged_info->member_srl;
 		}
@@ -554,7 +554,7 @@ class DocumentItem extends BaseObject
 		}
 
 		$logged_info = Context::get('logged_info');
-		if(!$logged_info->member_srl)
+		if(!$logged_info || !$logged_info->member_srl)
 		{
 			return false;
 		}
@@ -565,7 +565,7 @@ class DocumentItem extends BaseObject
 		}
 
 		$args = new stdClass();
-		if($logged_info->member_srl)
+		if($logged_info && $logged_info->member_srl)
 		{
 			$args->member_srl = $logged_info->member_srl;
 		}
@@ -1027,7 +1027,7 @@ class DocumentItem extends BaseObject
 
 		// Cache the vote log for all comments.
 		$logged_info = Context::get('logged_info');
-		if ($logged_info->member_srl)
+		if ($logged_info && $logged_info->member_srl)
 		{
 			$comment_srls = array();
 			foreach ($comment_list as $comment_srl => $comment)

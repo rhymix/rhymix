@@ -311,12 +311,20 @@ class LayoutAdminController extends Layout
 
 		$layout_srl = Context::get('layout_srl');
 		$code = Context::get('code');
-		$code_css   = Context::get('code_css');
-		$is_post    = ($_SERVER['REQUEST_METHOD'] == 'POST');
-
-		if(!$layout_srl || !$code || !$is_post)
+		$code_css = Context::get('code_css');
+		if (!$layout_srl || !$code || !\RX_POST)
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$layout_info = LayoutModel::getLayout($layout_srl);
+		if (!$layout_info)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$layout_info->is_edited)
+		{
+			return new BaseObject(-1, 'layout.layout_editing_deprecated_p1');
 		}
 
 		$oLayoutModel = getModel('layout');

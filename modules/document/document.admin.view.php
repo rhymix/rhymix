@@ -37,10 +37,15 @@ class DocumentAdminView extends Document
 	{
 		// option to get a list
 		$args = new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
-		$args->page_count = 5; // /< the number of pages that appear in the page navigation
+		$args->list_count = intval(Context::get('list_count')) ?: 30;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
+		$args->sort_index = 'list_order';
+		$args->module_srl = Context::get('module_srl');
+		$args->statusList = [];
+		$args->use_division = false;
 
+		// search options
 		$args->search_target = Context::get('search_target'); // /< search (title, contents ...)
 		$args->search_keyword = Context::get('search_keyword'); // /< keyword to search
 		if ($args->search_target === 'member_srl')
@@ -52,11 +57,6 @@ class DocumentAdminView extends Document
 				unset($args->search_target, $args->search_keyword);
 			}
 		}
-
-		$args->sort_index = 'list_order'; // /< sorting value
-		$args->module_srl = Context::get('module_srl');
-		$args->statusList = [];
-		$args->use_division = false;
 
 		// get a list
 		$columnList = array('document_srl', 'module_srl', 'category_srl', 'member_srl', 'title', 'nick_name', 'comment_count', 'trackback_count', 'readed_count', 'voted_count', 'blamed_count', 'regdate', 'ipaddress', 'status');
@@ -160,9 +160,9 @@ class DocumentAdminView extends Document
 
 		// option for a list
 		$args = new stdClass();
-		$args->page = intval(Context::get('page')) ?: 1; // /< Page
-		$args->list_count = 20; // /< the number of posts to display on a single page
-		$args->page_count = 10; // /< the number of pages that appear in the page navigation
+		$args->list_count = intval(Context::get('list_count')) ?: 20;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
 		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
 
 		// select sort method
@@ -254,11 +254,10 @@ class DocumentAdminView extends Document
 	{
 		// option for a list
 		$args = new stdClass;
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
-		$args->page_count = 10; // /< the number of pages that appear in the page navigation
 		$args->document_srl = intval(Context::get('target_srl'));
-
+		$args->list_count = intval(Context::get('list_count')) ?: 20;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
 
 		// get Status name list
 		$oDocumentModel = getModel('document');
@@ -330,12 +329,11 @@ class DocumentAdminView extends Document
 	{
 		// options for a list
 		$args = new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
-		$args->page_count = 10; // /< the number of pages that appear in the page navigation
-
-		$args->sort_index = 'list_order'; // /< sorting values
-		$args->order_type = 'desc'; // /< sorting values by order
+		$args->list_count = intval(Context::get('list_count')) ?: 30;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
+		$args->sort_index = 'list_order';
+		$args->order_type = 'desc';
 
 		$args->module_srl = Context::get('module_srl');
 
