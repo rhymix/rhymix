@@ -29,13 +29,12 @@ class CommentAdminView extends Comment
 	{
 		// option to get a list
 		$args = new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // / the number of postings to appear on a single page
-		$args->page_count = 5; // / the number of pages to appear on the page navigation
-
+		$args->list_count = intval(Context::get('list_count')) ?: 20;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
 		$args->sort_index = 'list_order'; // /< Sorting values
-
 		$args->module_srl = Context::get('module_srl');
+
 		/*
 		  $search_target = Context::get('search_target');
 		  $search_keyword = Context::get('search_keyword');
@@ -118,10 +117,10 @@ class CommentAdminView extends Comment
 	{
 		// option to get a blacklist
 		$args = new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of comment postings to appear on a single page
-		$args->page_count = 10; // /< the number of pages to appear on the page navigation
-		$args->order_type = 'desc'; // /< sorted value
+		$args->list_count = intval(Context::get('list_count')) ?: 20;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
+		$args->order_type = 'desc';
 
 		// select sort method
 		$sort_index = Context::get('sort_index');
@@ -214,11 +213,10 @@ class CommentAdminView extends Comment
 	{
 		// option for a list
 		$args = new stdClass;
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< the number of posts to display on a single page
-		$args->page_count = 10; // /< the number of pages that appear in the page navigation
 		$args->comment_srl = intval(Context::get('target_srl'));
-
+		$args->list_count = intval(Context::get('list_count')) ?: 20;
+		$args->page_count = 5;
+		$args->page = max(1, intval(Context::get('page')));
 
 		// get Status name list
 		$oCommentModel = getModel('comment');

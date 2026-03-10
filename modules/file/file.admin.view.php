@@ -15,14 +15,14 @@ class FileAdminView extends File
 	{
 		// Options to get a list
 		$args = new stdClass();
-		$args->page = Context::get('page'); // /< Page
-		$args->list_count = 30; // /< Number of documents that appear on a single page
-		$args->page_count = 10; // /< Number of pages that appear in the page navigation
-
-		$args->sort_index = Context::get('sort_index') ?? 'file_srl'; // /< Sorting values
-		$args->order_type = Context::get('order_type') ?? null;
+		$args->list_count = intval(Context::get('list_count')) ?: 30;
+		$args->page_count = 10;
+		$args->page = max(1, intval(Context::get('page')));
+		$args->sort_index = Context::get('sort_index') ?: 'file_srl';
+		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
 		$args->isvalid = Context::get('isvalid');
 		$args->module_srl = Context::get('module_srl');
+
 		// Get a list
 		$oFileAdminModel = getAdminModel('file');
 		$output = $oFileAdminModel->getFileList($args);
