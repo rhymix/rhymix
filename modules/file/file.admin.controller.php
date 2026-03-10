@@ -67,9 +67,10 @@ class FileAdminController extends File
 	{
 		// Default settings
 		$config = getModel('module')->getModuleConfig('file') ?: new stdClass;
-		$config->allowed_filesize = Context::get('allowed_filesize');
-		$config->allowed_attach_size = Context::get('allowed_attach_size');
+		$config->allowed_filesize = intval(Context::get('allowed_filesize'));
+		$config->allowed_attach_size = intval(Context::get('allowed_attach_size'));
 		$config->allowed_filetypes = Context::get('allowed_filetypes');
+		$config->pre_conversion_filesize = intval(Context::get('pre_conversion_filesize')) ?: null;
 
 		// Image settings
 		$config->image_autoconv = [];
@@ -147,6 +148,28 @@ class FileAdminController extends File
 			$config->allowed_filetypes = '*.*';
 		}
 
+		// Generate pre-conversion whitelist
+		$config->pre_conversion_types = [];
+		foreach ($config->image_autoconv ?? [] as $source_type => $target_type)
+		{
+			if (!empty($target_type) && $target_type !== true)
+			{
+				$config->pre_conversion_types[] = $source_type;
+				if ($source_type === 'jpg')
+				{
+					$config->pre_conversion_types[] = 'jpeg';
+				}
+			}
+			elseif ($source_type === 'gif2mp4' && $target_type === true)
+			{
+				$config->pre_conversion_types[] = 'gif';
+			}
+		}
+		if ($config->video_autoconv['any2mp4'])
+		{
+			$config->pre_conversion_types = array_merge($config->pre_conversion_types, ['mp4', 'webm', 'ogv', 'avi', 'mkv', 'mov', 'mpg', 'mpe', 'mpeg', 'wmv', 'm4v', 'flv']);
+		}
+
 		// Save and redirect
 		$output = getController('module')->insertModuleConfig('file', $config);
 		$returnUrl = Context::get('success_return_url') ?: getNotEncodedUrl('', 'module', 'admin', 'act', 'dispFileAdminUploadConfig');
@@ -206,9 +229,10 @@ class FileAdminController extends File
 		if(!Context::get('use_default_file_config'))
 		{
 			$config->use_default_file_config = 'N';
-			$config->allowed_filesize = Context::get('allowed_filesize');
-			$config->allowed_attach_size = Context::get('allowed_attach_size');
+			$config->allowed_filesize = intval(Context::get('allowed_filesize'));
+			$config->allowed_attach_size = intval(Context::get('allowed_attach_size'));
 			$config->allowed_filetypes = Context::get('allowed_filetypes');
+			$config->pre_conversion_filesize = intval(Context::get('pre_conversion_filesize')) ?: null;
 
 			// Check maximum file size
 			if (PHP_INT_SIZE < 8)
@@ -273,6 +297,20 @@ class FileAdminController extends File
 		// Set download groups
 		$download_grant = Context::get('download_grant');
 		$config->download_grant = is_array($download_grant) ? array_values($download_grant) : array($download_grant);
+
+		// Create pre-conversion whitelist
+		$config->pre_conversion_types = [];
+		foreach ($config->image_autoconv ?? [] as $source_type => $target_type)
+		{
+			if ($target_type && $target_type !== true)
+			{
+				$config->pre_conversion_types[] = $source_type;
+				if ($source_type === 'jpg')
+				{
+					$config->pre_conversion_types[] = 'jpeg';
+				}
+			}
+		}
 
 		// Update
 		$oModuleController = getController('module');

@@ -102,6 +102,15 @@ class FileController extends File
 					$module_config = FileModel::getFileConfig($module_srl);
 					$allowed_attach_size = $module_config->allowed_attach_size * 1024 * 1024;
 					$allowed_filesize = $module_config->allowed_filesize * 1024 * 1024;
+					if (!empty($module_config->pre_conversion_filesize) && !empty($module_config->pre_conversion_types))
+					{
+						$extension = strtolower(array_last(explode('.', $file_info['name'])));
+						if ($extension && in_array($extension, $module_config->pre_conversion_types))
+						{
+							$allowed_attach_size = ($allowed_attach_size - $allowed_filesize) + ($module_config->pre_conversion_filesize * 1024 * 1024);
+							$allowed_filesize = $module_config->pre_conversion_filesize * 1024 * 1024;
+						}
+					}
 				}
 				if ($total_size > $allowed_filesize)
 				{

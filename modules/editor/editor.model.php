@@ -235,12 +235,16 @@ class EditorModel extends Editor
 		{
 			// Get file upload limits
 			$file_config = FileModel::getUploadConfig();
-			$file_config->allowed_attach_size = $file_config->allowed_attach_size*1024*1024;
-			$file_config->allowed_filesize = $file_config->allowed_filesize*1024*1024;
+			$file_config->allowed_attach_size = $file_config->allowed_attach_size * 1048576;
+			$file_config->allowed_filesize = $file_config->allowed_filesize * 1048576;
 			if (isset($option->allowed_filesize) && $option->allowed_filesize > 0)
 			{
 				$file_config->allowed_attach_size = $option->allowed_filesize;
 				$file_config->allowed_filesize = $option->allowed_filesize;
+			}
+			if (isset($file_config->pre_conversion_filesize))
+			{
+				$file_config->pre_conversion_filesize = $file_config->pre_conversion_filesize * 1048576;
 			}
 
 			// Calculate the appropriate chunk size.
