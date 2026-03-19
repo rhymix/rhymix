@@ -1876,7 +1876,7 @@ class MemberController extends Member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		$find_url = getFullUrl ('', 'module', 'member', 'act', 'procMemberAuthAccount', 'member_srl', $member_info->member_srl, 'auth_key', $args->auth_key);
+		$find_url = self::generateSafeAuthUrl('procMemberAuthAccount', $member_info->member_srl, $args->auth_key);
 		Context::set('find_url', $find_url);
 
 		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'find_member_account_mail');
@@ -2108,7 +2108,7 @@ class MemberController extends Member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_info->auth_key);
+		$auth_url = self::generateSafeAuthUrl('procMemberAuthAccount', $member_info->member_srl, $auth_info->auth_key);
 		Context::set('auth_url', $auth_url);
 
 		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_account_mail');
@@ -2165,7 +2165,7 @@ class MemberController extends Member
 		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
 		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
 
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthAccount','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
+		$auth_url = self::generateSafeAuthUrl('procMemberAuthAccount', $member_info->member_srl, $auth_args->auth_key);
 		Context::set('auth_url', $auth_url);
 
 		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_account_mail');
@@ -3725,7 +3725,7 @@ class MemberController extends Member
 		Context::set('memberInfo', $memberInfo);
 		Context::set('newEmail', $newEmail);
 
-		$auth_url = getFullUrl('','module','member','act','procMemberAuthEmailAddress','member_srl',$member_info->member_srl, 'auth_key',$auth_args->auth_key);
+		$auth_url = self::generateSafeAuthUrl('procMemberAuthEmailAddress', $member_info->member_srl, $auth_args->auth_key);
 		Context::set('auth_url', $auth_url);
 
 		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_new_email');
@@ -4056,6 +4056,43 @@ class MemberController extends Member
 		$this->add('proc_type', $proc_type);
 
 		return new BaseObject(0);
+	}
+
+	/**
+	 * Generate a URL pointing to the main page of a properly configured domain.
+	 *
+	 * @return string
+	 */
+	public static function generateSafeLink(string $target = '_blank'): string
+	{
+		$domain_info = ModuleModel::getSiteInfoByDomain($_SERVER['HTTP_HOST']) ?: ModuleModel::getDefaultDomainInfo();
+		$base_url = Context::getRequestUri(0, $domain_info->domain);
+		$title = Context::replaceUserLang($domain_info->settings->title ?? '');
+		if ($title === '')
+		{
+			$title = $base_url;
+		}
+		return sprintf('<a href="%s" target="%s">%s</a>', escape($base_url, false), escape($target, false), escape($title, false));
+	}
+
+	/**
+	 * Generate a URL for account auth.
+	 *
+	 * @param string $act
+	 * @param int $member_srl
+	 * @param string $auth_key
+	 * @return string
+	 */
+	public static function generateSafeAuthUrl(string $act, int $member_srl, string $auth_key): string
+	{
+		$domain_info = ModuleModel::getSiteInfoByDomain($_SERVER['HTTP_HOST']) ?: ModuleModel::getDefaultDomainInfo();
+		$base_url = Context::getRequestUri(0, $domain_info->domain);
+		return $base_url . substr(getUrl([
+			'module' => 'member',
+			'act' => $act,
+			'member_srl' => $member_srl,
+			'auth_key' => $auth_key,
+		]), strlen(\RX_BASEURL));
 	}
 
 	/**
