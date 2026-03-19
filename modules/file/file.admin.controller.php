@@ -426,7 +426,7 @@ class FileAdminController extends File
 		// Resize the image using GD or ImageMagick.
 		$config = FileModel::getFileConfig();
 		$result = FileHandler::createImageFile(FileHandler::getRealPath($file->uploaded_filename), $temp_filename, $width, $height, $format, 'fill', $quality);
-		if (!$result && !empty($config->magick_command))
+		if (!$result && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command))
 		{
 			$temp_dir = dirname($temp_filename);
 			if (!Rhymix\Framework\Storage::isDirectory($temp_dir))
@@ -434,7 +434,7 @@ class FileAdminController extends File
 				Rhymix\Framework\Storage::createDirectory($temp_dir);
 			}
 			$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-				\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+				(preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command,
 				escapeshellarg(FileHandler::getRealPath($file->uploaded_filename)),
 				$width, $height, $quality,
 				'-auto-orient -strip',
