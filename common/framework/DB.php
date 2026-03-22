@@ -496,9 +496,9 @@ class DB
 		}
 
 		// Collect various counts used in the page calculation.
-		$list_count = $query->navigation->list_count->getValue($args)[0];
-		$page_count = $query->navigation->page_count->getValue($args)[0];
-		$page = $query->navigation->page->getValue($args)[0];
+		$list_count = $query->navigation->list_count ? $query->navigation->list_count->getValue($args)[0] : 10;
+		$page_count = $query->navigation->page_count ? $query->navigation->page_count->getValue($args)[0] : 10;
+		$page = $query->navigation->page ? $query->navigation->page->getValue($args)[0] : 1;
 		$total_count = intval($count);
 		$total_page = max(1, intval(ceil($total_count / $list_count)));
 		$last_index = $total_count - (($page - 1) * $list_count);
