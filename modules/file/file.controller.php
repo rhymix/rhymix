@@ -1166,6 +1166,10 @@ class FileController extends File
 		{
 			$command = \RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command;
 			$command .= ' identify ' . escapeshellarg($file_info['tmp_name']);
+			if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
+			{
+				$command = 'timeout -k1 ' . intval($config->magick_timeout) . ' ' . $command;
+			}
 			@exec($command, $output, $return_var);
 			if ($return_var === 0 && preg_match('/([A-Z]+) ([0-9]+)x([0-9]+)/', substr(array_last($output), strlen($file_info['tmp_name'])), $matches))
 			{
@@ -1335,6 +1339,10 @@ class FileController extends File
 				$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
 				$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
 				$command .= ' ' . escapeshellarg($output_name);
+				if (!\RX_WINDOWS && isset($config->ffmpeg_timeout) && $config->ffmpeg_timeout > 0)
+				{
+					$command = 'timeout -k1 ' . intval($config->ffmpeg_timeout) . ' ' . $command;
+				}
 				@exec($command, $output, $return_var);
 				$result = $return_var === 0 ? true : false;
 
@@ -1365,6 +1373,10 @@ class FileController extends File
 					'-limit memory 64MB -limit map 128MB -limit disk 1GB',
 					escapeshellarg($output_name),
 				]);
+				if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
+				{
+					$command = 'timeout -k1 ' . intval($config->magick_timeout) . ' ' . $command;
+				}
 				@exec($command, $output, $return_var);
 				$result = $return_var === 0 ? true : false;
 			}
@@ -1386,6 +1398,10 @@ class FileController extends File
 						'-limit memory 64MB -limit map 128MB -limit disk 1GB',
 						escapeshellarg($output_name),
 					]);
+					if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
+					{
+						$command = 'timeout -k1 ' . intval($config->magick_timeout) . ' ' . $command;
+					}
 					@exec($command, $output, $return_var);
 					$result = $return_var === 0 ? true : false;
 				}
@@ -1572,6 +1588,10 @@ class FileController extends File
 			$command .= empty($stream_info['audio']) ? ' -an' : ' -acodec aac';
 			$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
 			$command .= ' ' . escapeshellarg($output_name);
+			if (!\RX_WINDOWS && isset($config->ffmpeg_timeout) && $config->ffmpeg_timeout > 0)
+			{
+				$command = 'timeout -k1 ' . intval($config->ffmpeg_timeout) . ' ' . $command;
+			}
 			@exec($command, $output, $return_var);
 			$result = $return_var === 0 ? true : false;
 
@@ -1604,6 +1624,10 @@ class FileController extends File
 			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
 			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
 			$command .= ' -nostdin ' . escapeshellarg($thumbnail_name);
+			if (!\RX_WINDOWS && isset($config->ffmpeg_timeout) && $config->ffmpeg_timeout > 0)
+			{
+				$command = 'timeout -k1 ' . intval($config->ffmpeg_timeout) . ' ' . $command;
+			}
 			@exec($command, $output, $return_var);
 			if ($return_var === 0)
 			{

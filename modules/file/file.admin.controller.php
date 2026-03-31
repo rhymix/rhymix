@@ -122,6 +122,10 @@ class FileAdminController extends File
 			$config->magick_command = escape(utf8_trim(Context::get('magick_command'))) ?: '';
 		}
 
+		// Timeouts
+		$config->ffmpeg_timeout = max(0, intval(Context::get('ffmpeg_timeout'))) ?: null;
+		$config->magick_timeout = max(0, intval(Context::get('magick_timeout'))) ?: null;
+
 		// Check maximum file size (probably not necessary anymore)
 		if (PHP_INT_SIZE < 8)
 		{
@@ -441,6 +445,10 @@ class FileAdminController extends File
 				'-limit memory 64MB -limit map 128MB -limit disk 1GB',
 				escapeshellarg($temp_filename),
 			]);
+			if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
+			{
+				$command = 'timeout -k1 ' . intval($config->magick_timeout) . ' ' . $command;
+			}
 			@exec($command, $output, $return_var);
 			$result = $return_var === 0 ? true : false;
 		}
