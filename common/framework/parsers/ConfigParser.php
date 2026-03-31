@@ -84,7 +84,7 @@ class ConfigParser
 			$config['db']['master']['prefix'] .= '_';
 		}
 
-		$config['db']['master']['charset'] = $db_info->master_db['db_charset'] ?: 'utf8';
+		$config['db']['master']['charset'] = empty($db_info->master_db['db_charset']) ? 'utf8' : $db_info->master_db['db_charset'];
 
 		if (strpos($config['db']['master']['type'], 'innodb') !== false)
 		{
@@ -105,7 +105,7 @@ class ConfigParser
 					$slave_id = 'slave' . $slave_id;
 					$config['db'][$slave_id]['type'] = strtolower($slave_db['db_type']);
 					$config['db'][$slave_id]['host'] = $slave_db['db_hostname'];
-					$config['db'][$slave_id]['port'] = $slave_db['db_type'];
+					$config['db'][$slave_id]['port'] = $slave_db['db_port'];
 					$config['db'][$slave_id]['user'] = $slave_db['db_userid'];
 					$config['db'][$slave_id]['pass'] = $slave_db['db_password'];
 					$config['db'][$slave_id]['database'] = $slave_db['db_database'];
@@ -116,7 +116,7 @@ class ConfigParser
 						$config['db'][$slave_id]['prefix'] .= '_';
 					}
 
-					$config['db'][$slave_id]['charset'] = $slave_db['db_charset'] ?: 'utf8';
+					$config['db'][$slave_id]['charset'] = empty($slave_db['db_charset']) ? 'utf8' : $slave_db['db_charset'];
 
 					if (strpos($config['db'][$slave_id]['type'], 'innodb') !== false)
 					{
@@ -145,7 +145,7 @@ class ConfigParser
 
 		// Create new crypto keys.
 		$config['crypto']['encryption_key'] = Security::getRandom(64, 'alnum');
-		$config['crypto']['authentication_key'] = $db_info->secret_key ?: Security::getRandom(64, 'alnum');
+		$config['crypto']['authentication_key'] = empty($db_info->secret_key) ? Security::getRandom(64, 'alnum') : $db_info->secret_key;
 		$config['crypto']['session_key'] = Security::getRandom(64, 'alnum');
 
 		// Convert language configuration.
@@ -177,8 +177,8 @@ class ConfigParser
 			$default_url = \Context::decodeIdna($default_url);
 		}
 		$config['url']['default'] = $default_url ?: (\RX_SSL ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . \RX_BASEURL;
-		$config['url']['http_port'] = $db_info->http_port ?: null;
-		$config['url']['https_port'] = $db_info->https_port ?: null;
+		$config['url']['http_port'] = $db_info->http_port ?? null;
+		$config['url']['https_port'] = $db_info->https_port ?? null;
 
 		// Convert SSL configuration.
 		if (isset($db_info->use_ssl) && in_array($db_info->use_ssl, ['always', 'optional']))
@@ -193,11 +193,11 @@ class ConfigParser
 		}
 
 		// Convert session configuration.
-		$config['session']['delay'] = $db_info->delay_session === 'Y' ? true : false;
-		$config['session']['use_db'] = $db_info->use_db_session === 'Y' ? true : false;
+		$config['session']['delay'] = ($db_info->delay_session ?? 'N') === 'Y' ? true : false;
+		$config['session']['use_db'] = ($db_info->use_db_session ?? 'N') === 'Y' ? true : false;
 
 		// Convert view configuration.
-		$config['view']['minify_scripts'] = $db_info->minify_scripts ?: 'common';
+		$config['view']['minify_scripts'] = $db_info->minify_scripts ?? 'common';
 
 		// Convert admin IP whitelist.
 		if (isset($db_info->admin_ip_list) && is_array($db_info->admin_ip_list) && count($db_info->admin_ip_list))
@@ -206,9 +206,9 @@ class ConfigParser
 		}
 
 		// Convert sitelock configuration.
-		$config['lock']['locked'] = $db_info->use_sitelock === 'Y' ? true : false;
-		$config['lock']['title'] = strval($db_info->sitelock_title);
-		$config['lock']['message'] = strval($db_info->sitelock_message);
+		$config['lock']['locked'] = ($db_info->use_sitelock ?? 'N') === 'Y' ? true : false;
+		$config['lock']['title'] = strval($db_info->sitelock_title ?? '');
+		$config['lock']['message'] = strval($db_info->sitelock_message ?? '');
 		if (!is_array($db_info->sitelock_whitelist))
 		{
 			$db_info->sitelock_whitelist = $db_info->sitelock_whitelist ? array_map('trim', explode(',', trim($db_info->sitelock_whitelist))) : array();
@@ -220,7 +220,7 @@ class ConfigParser
 		$config['lock']['allow'] = array_values($db_info->sitelock_whitelist);
 
 		// Convert media filter configuration.
-		if (is_array($db_info->embed_white_iframe))
+		if (is_array($db_info->embed_white_iframe ?? null))
 		{
 			$whitelist = array_unique(array_map(function($item) {
 				return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
@@ -228,7 +228,7 @@ class ConfigParser
 			natcasesort($whitelist);
 			$config['mediafilter']['iframe'] = $whitelist;
 		}
-		if (is_array($db_info->embed_white_object))
+		if (is_array($db_info->embed_white_object ?? null))
 		{
 			$whitelist = array_unique(array_map(function($item) {
 				return preg_match('@^https?://(.*)$@i', $item, $matches) ? $matches[1] : $item;
@@ -240,9 +240,9 @@ class ConfigParser
 		// Convert miscellaneous configuration.
 		$config['file']['folder_structure'] = 1;
 		$config['file']['umask'] = Storage::recommendUmask();
-		$config['mobile']['enabled'] = $db_info->use_mobile_view === 'N' ? false : true;
-		$config['use_rewrite'] = $db_info->use_rewrite === 'Y' ? true : false;
-		$config['use_sso'] = $db_info->use_sso === 'Y' ? true : false;
+		$config['mobile']['enabled'] = ($db_info->use_mobile_view ?? 'N') === 'N' ? false : true;
+		$config['use_rewrite'] = ($db_info->use_rewrite ?? 'N') === 'Y' ? true : false;
+		$config['use_sso'] = ($db_info->use_sso ?? 'N') === 'Y' ? true : false;
 
 		// Copy other configuration.
 		unset($db_info->master_db, $db_info->slave_db);
