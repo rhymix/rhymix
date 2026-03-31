@@ -1,7 +1,7 @@
 {$lang->msg_find_account_info}<br />
 <hr noshade="noshade" />
 <ul>
-	<li>{$lang->site} : <a href="{getUrl()}" target="_blank">{getUrl()}</a></li>
+	<li>{$lang->site} : {MemberController::generateSafeLink()}</li>
 	<!--@if($memberInfo[$lang->user_id])-->
 	<li>{$lang->user_id} : {$memberInfo[$lang->user_id]}</li>
 	<!--@elseif($memberInfo[$lang->email_address])-->
