@@ -1164,7 +1164,7 @@ class FileController extends File
 		// Get image information
 		if (in_array($file_info['extension'], ['avif', 'heic', 'heif']) && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command))
 		{
-			$command = (preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command;
+			$command = Rhymix\Framework\Security::sanitize($config->magick_command, 'command');
 			$command .= ' identify ' . escapeshellarg($file_info['tmp_name']);
 			if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
 			{
@@ -1334,7 +1334,7 @@ class FileController extends File
 				$adjusted['height'] -= $adjusted['height'] % 2;
 
 				// Convert using ffmpeg
-				$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
+				$command = Rhymix\Framework\Security::sanitize($config->ffmpeg_command, 'command');
 				$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
 				$command .= ' -movflags +faststart -pix_fmt yuv420p -c:v libx264 -crf 23';
 				$command .= sprintf(' -vf "scale=%d:%d"', $adjusted['width'], $adjusted['height']);
@@ -1364,7 +1364,7 @@ class FileController extends File
 
 				// Convert using magick
 				$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-					(preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command,
+					Rhymix\Framework\Security::sanitize($config->magick_command, 'command'),
 					escapeshellarg($file_info['tmp_name']),
 					$adjusted['width'],
 					$adjusted['height'],
@@ -1389,7 +1389,7 @@ class FileController extends File
 				if (!$result && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command))
 				{
 					$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-						(preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command,
+						Rhymix\Framework\Security::sanitize($config->magick_command, 'command'),
 						escapeshellarg($file_info['tmp_name']),
 						$adjusted['width'],
 						$adjusted['height'],
@@ -1434,7 +1434,7 @@ class FileController extends File
 		}
 
 		// Analyze video file
-		$command = \RX_WINDOWS ? escapeshellarg($config->ffprobe_command) : $config->ffprobe_command;
+		$command = Rhymix\Framework\Security::sanitize($config->ffprobe_command, 'command');
 		$command .= ' -v quiet -print_format json -show_streams';
 		$command .= ' ' . escapeshellarg($file_info['tmp_name']);
 		@exec($command, $output, $return_var);
@@ -1578,7 +1578,7 @@ class FileController extends File
 			$adjusted['height'] -= $adjusted['height'] % 2;
 
 			// Convert using ffmpeg
-			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
+			$command = Rhymix\Framework\Security::sanitize($config->ffmpeg_command, 'command');
 			$command .= ' -nostdin -i ' . escapeshellarg($file_info['tmp_name']);
 			if ($adjusted['duration'] !== $file_info['duration'])
 			{
@@ -1621,7 +1621,7 @@ class FileController extends File
 		if ($config->video_thumbnail)
 		{
 			$thumbnail_name = $file_info['tmp_name'] . '.thumbnail.jpeg';
-			$command = \RX_WINDOWS ? escapeshellarg($config->ffmpeg_command) : $config->ffmpeg_command;
+			$command = Rhymix\Framework\Security::sanitize($config->ffmpeg_command, 'command');
 			$command .= sprintf(' -ss 00:00:00.%d -i %s -vframes 1', mt_rand(0, 99), escapeshellarg($file_info['tmp_name']));
 			$command .= ' -nostdin ' . escapeshellarg($thumbnail_name);
 			if (!\RX_WINDOWS && isset($config->ffmpeg_timeout) && $config->ffmpeg_timeout > 0)

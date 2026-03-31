@@ -438,7 +438,7 @@ class FileAdminController extends File
 				Rhymix\Framework\Storage::createDirectory($temp_dir);
 			}
 			$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-				(preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command,
+				Rhymix\Framework\Security::sanitize($config->magick_command, 'command'),
 				escapeshellarg(FileHandler::getRealPath($file->uploaded_filename)),
 				$width, $height, $quality,
 				'-auto-orient -strip',
