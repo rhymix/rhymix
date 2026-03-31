@@ -1162,9 +1162,9 @@ class FileController extends File
 	public function adjustUploadedImage($file_info, $config)
 	{
 		// Get image information
-		if (in_array($file_info['extension'], ['avif', 'heic', 'heif']) && !empty($config->magick_command))
+		if (in_array($file_info['extension'], ['avif', 'heic', 'heif']) && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command))
 		{
-			$command = \RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command;
+			$command = (preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command;
 			$command .= ' identify ' . escapeshellarg($file_info['tmp_name']);
 			if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
 			{
@@ -1364,7 +1364,7 @@ class FileController extends File
 
 				// Convert using magick
 				$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-					\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+					(preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command,
 					escapeshellarg($file_info['tmp_name']),
 					$adjusted['width'],
 					$adjusted['height'],
@@ -1386,10 +1386,10 @@ class FileController extends File
 				$result = FileHandler::createImageFile($file_info['tmp_name'], $output_name, $adjusted['width'], $adjusted['height'], $adjusted['type'], 'fill', $adjusted['quality'], $adjusted['rotate']);
 
 				// If the image cannot be resized using GD, try ImageMagick.
-				if (!$result && !empty($config->magick_command))
+				if (!$result && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command))
 				{
 					$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-						\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+						(preg_match('![^a-z0-9/._-]!', $config->magick_command) || \RX_WINDOWS) ? escapeshellarg($config->magick_command) : $config->magick_command,
 						escapeshellarg($file_info['tmp_name']),
 						$adjusted['width'],
 						$adjusted['height'],
