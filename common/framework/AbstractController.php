@@ -447,7 +447,7 @@ abstract class AbstractController extends BaseObject
 		// Execute API methods of the module (deprecated feature).
 		if (isset($this->module_info->module_type) && in_array($this->module_info->module_type, ['view', 'mobile']))
 		{
-			if (in_array(Context::getResponseMethod(), ['XMLRPC', 'JSON']))
+			if ($this->getHttpStatusCode() < 400 && in_array(Context::getResponseMethod(), ['JSON', 'XMLRPC']))
 			{
 				$oAPI = getAPI($this->module_info->module);
 				if ($oAPI && method_exists($oAPI, $this->act))

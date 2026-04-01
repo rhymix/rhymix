@@ -37,12 +37,18 @@ class Security
 			case 'filename':
 				if (!utf8_check($input)) return false;
 				return Filters\FilenameFilter::clean($input);
-
+			
 			// Clean up SVG content to prevent various attacks.
 			case 'svg':
 				if (!utf8_check($input)) return false;
 				$sanitizer = new \enshrined\svgSanitize\Sanitizer();
 				return strval($sanitizer->sanitize($input));
+
+			// Clean up a path to prevent argument injection.
+			case 'command':
+				if (!utf8_check($input)) return false;
+				if (\RX_WINDOWS || preg_match('![^a-z0-9/._-]!', $input)) return escapeshellarg($input);
+				return strval($input);
 
 			// Unknown filters.
 			default:

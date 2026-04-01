@@ -284,10 +284,26 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->ffmpeg_timeout}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="ffmpeg_timeout" value="{$config->ffmpeg_timeout}" style="min-width:80px" /> {$lang->unit_sec}
+				<p class="x_help-block">{sprintf($lang->about_ffmpeg_timeout, ini_get('max_execution_time'))}</p>
+				<p class="x_text-info" cond="!$is_exec_available">{$lang->msg_cannot_use_exec}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label">{$lang->magick_path}</label>
 			<div class="x_controls">
 				<input type="text" name="magick_command" value="{$config->magick_command}" />
 				<p class="x_help-block">{$lang->about_magick_path}</p>
+				<p class="x_text-info" cond="!$is_exec_available">{$lang->msg_cannot_use_exec}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->magick_timeout}</label>
+			<div class="x_controls">
+				<input type="number" min="0" name="magick_timeout" value="{$config->magick_timeout}" style="min-width:80px" /> {$lang->unit_sec}
+				<p class="x_help-block">{sprintf($lang->about_magick_timeout, ini_get('max_execution_time'))}</p>
 				<p class="x_text-info" cond="!$is_exec_available">{$lang->msg_cannot_use_exec}</p>
 			</div>
 		</div>

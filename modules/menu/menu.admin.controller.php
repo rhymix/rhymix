@@ -1561,61 +1561,6 @@ class MenuAdminController extends Menu
 	}
 
 	/**
-	 * Register a menu image button
-	 * @return void
-	 */
-	function procMenuAdminUploadButton()
-	{
-		$menu_srl = Context::get('menu_srl');
-		$menu_item_srl = Context::get('menu_item_srl');
-		$target = Context::get('target');
-		$target_file = Context::get($target);
-		// Error occurs when the target is neither a uploaded file nor a valid file
-		if(!$menu_srl || !$menu_item_srl)
-		{
-			Context::set('error_messge', lang('msg_invalid_request'));
-
-		}
-		else if(!$target_file || !is_uploaded_file($target_file['tmp_name']) || !preg_match('/\.(jpe?g|gif|png|svg|webp)$/i',$target_file['name']))
-		{
-			Context::set('error_messge', lang('msg_invalid_request'));
-		}
-
-		// Move the file to a specific director if the uploaded file meets requirement
-		else
-		{
-			$tmp_arr = explode('.',$target_file['name']);
-			$ext = $tmp_arr[count($tmp_arr)-1];
-
-			$path = sprintf('./files/attach/menu_button/%d/', $menu_srl);
-			$filename = sprintf('%s%d.%s.%s', $path, $menu_item_srl, $target, $ext);
-
-			if(!is_dir($path)) FileHandler::makeDir($path);
-
-			move_uploaded_file($target_file['tmp_name'], $filename);
-			Context::set('filename', $filename);
-		}
-
-		$this->setTemplatePath($this->module_path.'tpl');
-		$this->setTemplateFile('menu_file_uploaded');
-	}
-
-	/**
-	 * Remove the menu image button
-	 * @return void
-	 */
-	function procMenuAdminDeleteButton()
-	{
-		$menu_srl = Context::get('menu_srl');
-		$menu_item_srl = Context::get('menu_item_srl');
-		$target = Context::get('target');
-		$filename = Context::get('filename');
-		FileHandler::removeFile($filename);
-
-		$this->add('target', $target);
-	}
-
-	/**
 	 * Get all act list for admin menu
 	 * @return void
 	 */

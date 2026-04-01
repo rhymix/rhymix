@@ -30,7 +30,7 @@ class BoardView extends Board
 		$this->search_list_count = $m ? ($this->module_info->mobile_search_list_count ?? 20) : ($this->module_info->search_list_count ?? 20);
 		$this->page_count = $m ? ($this->module_info->mobile_page_count ?? 5) : ($this->module_info->page_count ?? 10);
 		$this->except_notice = ($this->module_info->except_notice ?? '') == 'N' ? FALSE : TRUE;
-		$this->include_modules = ($this->module_info->include_modules ?? []) ? explode(',', $this->module_info->include_modules) : [];
+		$this->include_modules = ($this->module_info->include_modules ?? []) ? array_map('intval', explode(',', $this->module_info->include_modules)) : [];
 		if (count($this->include_modules) && !in_array($this->module_info->module_srl, $this->include_modules))
 		{
 			$this->include_modules[] = $this->module_info->module_srl;
@@ -318,6 +318,7 @@ class BoardView extends Board
 				{
 					if (abs($oDocument->get('member_srl')) != $this->user->member_srl)
 					{
+						$oDocument = DocumentModel::getBlankDocument($this->module_srl);
 						Context::set('document_srl', null, true);
 						$this->dispBoardMessage('msg_not_founded', 404);
 					}
@@ -326,6 +327,7 @@ class BoardView extends Board
 				// if the document is TEMP saved, pretend that it doesn't exist.
 				if($oDocument->getStatus() == 'TEMP')
 				{
+					$oDocument = DocumentModel::getBlankDocument($this->module_srl);
 					Context::set('document_srl', null, true);
 					$this->dispBoardMessage('msg_not_founded', 404);
 				}
@@ -343,8 +345,7 @@ class BoardView extends Board
 		 */
 		else
 		{
-			$oDocument = DocumentModel::getDocument(0);
-			$oDocument->add('module_srl', $this->module_srl);
+			$oDocument = DocumentModel::getBlankDocument($this->module_srl);
 		}
 
 		/**
@@ -354,7 +355,7 @@ class BoardView extends Board
 		{
 			if(!$this->grant->view && !$oDocument->isGranted())
 			{
-				$oDocument = DocumentModel::getDocument(0);
+				$oDocument = DocumentModel::getBlankDocument($this->module_srl);
 				Context::set('document_srl', null, true);
 				$this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 			}

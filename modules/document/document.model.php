@@ -146,22 +146,23 @@ class DocumentModel extends Document
 	}
 
 	/**
-	 * Import Document
+	 * Get a document.
+	 * 
 	 * @param int $document_srl
 	 * @param bool $is_admin
 	 * @param bool $load_extra_vars
 	 * @param bool $reload_counts
-	 * @return documentItem
+	 * @return DocumentItem
 	 */
 	public static function getDocument($document_srl = 0, $is_admin = false, $load_extra_vars = true, $reload_counts = true)
 	{
 		if(!$document_srl)
 		{
-			return new documentItem();
+			return new DocumentItem();
 		}
 		if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$document_srl]))
 		{
-			$oDocument = new documentItem($document_srl, $load_extra_vars, $reload_counts);
+			$oDocument = new DocumentItem($document_srl, $load_extra_vars, $reload_counts);
 			if(!$oDocument->isExists())
 			{
 				return $oDocument;
@@ -177,12 +178,25 @@ class DocumentModel extends Document
 	}
 
 	/**
+	 * Create a blank document.
+	 * 
+	 * @param int $module_srl
+	 * @return DocumentItem
+	 */
+	public static function getBlankDocument($module_srl = 0): DocumentItem
+	{
+		$oDocument = new DocumentItem();
+		$oDocument->add('module_srl', $module_srl);
+		return $oDocument;
+	}
+
+	/**
 	 * Bringing multiple documents (or paging)
 	 * @param array|string $document_srls
 	 * @param bool $is_admin
 	 * @param bool $load_extra_vars
 	 * @param array $columnList
-	 * @return array value type is documentItem
+	 * @return array value type is DocumentItem
 	 */
 	public static function getDocuments($document_srls, $is_admin = false, $load_extra_vars = true, $columnList = array())
 	{
@@ -207,7 +221,7 @@ class DocumentModel extends Document
 		{
 			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
 			{
-				$oDocument = new documentItem();
+				$oDocument = new DocumentItem();
 				$oDocument->setAttribute($attribute, false);
 			}
 			if($is_admin)
@@ -233,7 +247,7 @@ class DocumentModel extends Document
 	 * @param bool $except_notice
 	 * @param bool $load_extra_vars
 	 * @param array $columnList
-	 * @return Object
+	 * @return BaseObject
 	 */
 	public static function getDocumentList($obj, $except_notice = false, $load_extra_vars = true, $columnList = array())
 	{
@@ -300,7 +314,7 @@ class DocumentModel extends Document
 	 * Module_srl value, bringing the document's gongjisa Port
 	 * @param object $obj
 	 * @param array $columnList
-	 * @return object|void
+	 * @return BaseObject
 	 */
 	public static function getNoticeList($obj, $columnList = array())
 	{
@@ -338,7 +352,7 @@ class DocumentModel extends Document
 		{
 			if(!isset($GLOBALS['XE_DOCUMENT_LIST'][$attribute->document_srl]))
 			{
-				$oDocument = new documentItem();
+				$oDocument = new DocumentItem();
 				$oDocument->setAttribute($attribute, false);
 			}
 

@@ -25,6 +25,17 @@ class SecurityTest extends \Codeception\Test\Unit
 		$source = '<svg><rect></rect><script></script></svg>';
 		$target = '<?xml version="1.0" encoding="UTF-8"?>' . "\n<svg>\n  <rect></rect>\n</svg>\n";
 		$this->assertEquals($target, Rhymix\Framework\Security::sanitize($source, 'svg'));
+
+		// Command
+		if (!\RX_WINDOWS)
+		{
+			$source = '/usr/bin/ffmpeg';
+			$target = '/usr/bin/ffmpeg';
+			$this->assertEquals($target, Rhymix\Framework\Security::sanitize($source, 'command'));
+			$source = '/usr/bin/path with space/ffmpeg';
+			$target = '\'/usr/bin/path with space/ffmpeg\'';
+			$this->assertEquals($target, Rhymix\Framework\Security::sanitize($source, 'command'));
+		}
 	}
 
 	public function testEncryption()

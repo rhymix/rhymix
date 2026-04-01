@@ -944,6 +944,8 @@ class MemberAdminController extends Member
 		if(!$output->toBool()) return $output;
 
 		// memberConfig update
+		$config = MemberModel::getMemberConfig();
+
 		$signupItem = new stdClass();
 		$signupItem->name = $args->column_name;
 		$signupItem->title = $args->column_title;
@@ -953,9 +955,6 @@ class MemberAdminController extends Member
 		$signupItem->isUse = ($args->is_active == 'Y');
 		$signupItem->description = $args->description;
 		$signupItem->isPublic = 'Y';
-
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
 
 		if($isInsert)
 		{
@@ -967,6 +966,7 @@ class MemberAdminController extends Member
 			{
 				if($val->member_join_form_srl == $signupItem->member_join_form_srl)
 				{
+					$signupItem->isPublic = $val->isPublic ?? 'Y';
 					$config->signupForm[$key] = $signupItem;
 				}
 			}

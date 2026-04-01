@@ -122,6 +122,10 @@ class FileAdminController extends File
 			$config->magick_command = escape(utf8_trim(Context::get('magick_command'))) ?: '';
 		}
 
+		// Timeouts
+		$config->ffmpeg_timeout = max(0, intval(Context::get('ffmpeg_timeout'))) ?: null;
+		$config->magick_timeout = max(0, intval(Context::get('magick_timeout'))) ?: null;
+
 		// Check maximum file size (probably not necessary anymore)
 		if (PHP_INT_SIZE < 8)
 		{
@@ -426,7 +430,7 @@ class FileAdminController extends File
 		// Resize the image using GD or ImageMagick.
 		$config = FileModel::getFileConfig();
 		$result = FileHandler::createImageFile(FileHandler::getRealPath($file->uploaded_filename), $temp_filename, $width, $height, $format, 'fill', $quality);
-		if (!$result && !empty($config->magick_command))
+		if (!$result && !empty($config->magick_command) && Rhymix\Framework\Storage::isExecutable($config->magick_command))
 		{
 			$temp_dir = dirname($temp_filename);
 			if (!Rhymix\Framework\Storage::isDirectory($temp_dir))
@@ -434,13 +438,17 @@ class FileAdminController extends File
 				Rhymix\Framework\Storage::createDirectory($temp_dir);
 			}
 			$command = vsprintf('%s %s -resize %dx%d -quality %d %s %s %s', [
-				\RX_WINDOWS ? escapeshellarg($config->magick_command) : $config->magick_command,
+				Rhymix\Framework\Security::sanitize($config->magick_command, 'command'),
 				escapeshellarg(FileHandler::getRealPath($file->uploaded_filename)),
 				$width, $height, $quality,
 				'-auto-orient -strip',
 				'-limit memory 64MB -limit map 128MB -limit disk 1GB',
 				escapeshellarg($temp_filename),
 			]);
+			if (!\RX_WINDOWS && isset($config->magick_timeout) && $config->magick_timeout > 0)
+			{
+				$command = 'timeout -k1 ' . intval($config->magick_timeout) . ' ' . $command;
+			}
 			@exec($command, $output, $return_var);
 			$result = $return_var === 0 ? true : false;
 		}

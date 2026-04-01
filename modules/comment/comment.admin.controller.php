@@ -237,7 +237,8 @@ class CommentAdminController extends Comment
 				$module_infos[$module_srl] = ModuleModel::getModuleInfoByModuleSrl($module_srl)->comment_delete_message ?? '';
 			}
 
-			if($module_infos[$module_srl] === 'yes')
+			$policy = $module_infos[$module_srl];
+			if ($policy === 'yes' && !in_array($comment->get('status'), [\RX_STATUS_DELETED, \RX_STATUS_DELETED_BY_ADMIN]))
 			{
 				$output = $oCommentController->updateCommentByDelete($comment, true);
 				if(!$output->toBool() && $output->error !== -2)
@@ -246,7 +247,7 @@ class CommentAdminController extends Comment
 					return $output;
 				}
 			}
-			elseif(starts_with('only_comm', $module_infos[$module_srl]))
+			elseif (starts_with('only_comm', $policy) && !in_array($comment->get('status'), [\RX_STATUS_DELETED, \RX_STATUS_DELETED_BY_ADMIN]))
 			{
 				$childs = CommentModel::getChildComments($comment_srl);
 				if(count($childs) > 0)

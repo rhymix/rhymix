@@ -254,8 +254,11 @@ class VariableBase
 				break;
 			case 'search':
 				$parsed_keywords = $this->_parseSearchKeywords($column, $value);
-				$where = $parsed_keywords[0];
-				$params = array_merge($params, $parsed_keywords[1]);
+				if (count($parsed_keywords))
+				{
+					$where = $parsed_keywords[0];
+					$params = array_merge($params, $parsed_keywords[1]);
+				}
 				break;
 			case 'plus':
 				$where = sprintf('%s = %s + %s', $column, $column, $is_expression ? $value : '?');
@@ -500,7 +503,7 @@ class VariableBase
 
 		// parse the value (text);
 		$value = str_replace('&quot;', '"', $value);
-		$keywords = preg_split('/(\([^\)]*?\))|(\-?\"[^\"]*?\")|[\s,]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
+		$keywords = preg_split('/(\([^\)]*?\))|(\-?\"[^\"]*?\")|[\s]+/', trim($value), 10, \PREG_SPLIT_NO_EMPTY | \PREG_SPLIT_DELIM_CAPTURE);
 		$conditions = array();
 		$operators = array('AND' => 'AND', 'OR' => 'OR', '|' => 'OR');
 
@@ -521,9 +524,12 @@ class VariableBase
 				if ($item !== '')
 				{
 					$parsed_keywords = $this->_parseSearchKeywords($column, $item);
-					$conditions[] = $parsed_keywords[0];
-					$conditions[] = 'AND';
-					$params = array_merge($params, $parsed_keywords[1]);
+					if (count($parsed_keywords))
+					{
+						$conditions[] = $parsed_keywords[0];
+						$conditions[] = 'AND';
+						$params = array_merge($params, $parsed_keywords[1]);
+					}
 				}
 				continue;
 			}
@@ -563,9 +569,17 @@ class VariableBase
 
 		// remove the last point (would be an operator)
 		array_pop($conditions);
-		$conditions = implode(' ', $conditions);
-		$where = count($keywords) === 1 ? $conditions : "($conditions)";
 
-		return [$where, $params];
+		// combine the conditions and return
+		if (count($params) === 0)
+		{
+			return [];
+		}
+		else
+		{
+			$conditions = implode(' ', $conditions);
+			$where = count($params) === 1 ? $conditions : "($conditions)";
+			return [$where, $params];
+		}
 	}
 }
