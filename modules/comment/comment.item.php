@@ -839,13 +839,18 @@ class CommentItem extends BaseObject
 			'url' => $thumbnail_url,
 		];
 		$output = ModuleHandler::triggerCall('comment.getThumbnail', 'before', $trigger_obj);
+		$width = $trigger_obj->width;
+		$height = $trigger_obj->height;
+		$thumbnail_type = $trigger_obj->type;
+		$thumbnail_file = $trigger_obj->filename;
+		$thumbnail_url = $trigger_obj->url;
 		clearstatcache(true, $thumbnail_file);
 		if (file_exists($thumbnail_file) && filesize($thumbnail_file) > 0)
 		{
 			return $thumbnail_url . '?t=' . filemtime($thumbnail_file);
 		}
 
-		// return false if neigher attached file nor image;
+		// return false if neither attached file nor image;
 		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content')))
 		{
 			return;

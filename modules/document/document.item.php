@@ -1158,6 +1158,11 @@ class DocumentItem extends BaseObject
 			'url' => $thumbnail_url,
 		];
 		$output = ModuleHandler::triggerCall('document.getThumbnail', 'before', $trigger_obj);
+		$width = $trigger_obj->width;
+		$height = $trigger_obj->height;
+		$thumbnail_type = $trigger_obj->type;
+		$thumbnail_file = $trigger_obj->filename;
+		$thumbnail_url = $trigger_obj->url;
 		clearstatcache(true, $thumbnail_file);
 		if (file_exists($thumbnail_file) && filesize($thumbnail_file) > 0)
 		{
