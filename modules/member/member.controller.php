@@ -2679,6 +2679,7 @@ class MemberController extends Member
 		if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
 		{
 			// check if there is login fail records.
+			/*
 			$args = new stdClass;
 			$args->member_srl = $member_info->member_srl;
 			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
@@ -2713,6 +2714,7 @@ class MemberController extends Member
 					$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
 				}
 			}
+			*/
 		}
 
 		// When user checked to use auto-login
