@@ -641,7 +641,7 @@ class DocumentController extends Document
 
 		if (!empty($obj->homepage))
 		{
-			$obj->homepage = escape($obj->homepage);
+			$obj->homepage = escape($obj->homepage, false);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
 			{
 				$obj->homepage = 'http://'.$obj->homepage;
@@ -1077,7 +1077,7 @@ class DocumentController extends Document
 		if($obj->commentStatus == 'DENY') $this->_checkCommentStatusForOldVersion($obj);
 		if($obj->homepage)
 		{
-			$obj->homepage = escape($obj->homepage);
+			$obj->homepage = escape($obj->homepage, false);
 			if(!preg_match('/^[a-z]+:\/\//i',$obj->homepage))
 			{
 				$obj->homepage = 'http://'.$obj->homepage;
