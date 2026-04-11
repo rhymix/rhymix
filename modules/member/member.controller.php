@@ -299,6 +299,8 @@ class MemberController extends Member
 
 		// Call trigger (after)
 		ModuleHandler::triggerCall('member.deleteScrapDocument', 'after', $args);
+
+		$this->setMessage('success_deleted');
 	}
 
 	/**
