@@ -607,7 +607,7 @@ class DocumentController extends Document
 	 */
 	function insertDocument($obj, $manual_inserted = false, $isRestore = false, $isLatest = true)
 	{
-		if (!$manual_inserted && !Rhymix\Framework\Security::checkCSRF())
+		if (!$manual_inserted && !$isRestore && !Rhymix\Framework\Security::checkCSRF())
 		{
 			return new BaseObject(-1, 'msg_security_violation');
 		}
@@ -677,7 +677,7 @@ class DocumentController extends Document
 
 		// Dates can only be manipulated by administrators.
 		$grant = Context::get('grant');
-		if (!$grant->manager)
+		if (!$grant->manager && !$isRestore)
 		{
 			unset($obj->regdate);
 			unset($obj->last_update);
@@ -805,13 +805,13 @@ class DocumentController extends Document
 		$obj->content = preg_replace('!<\!--(Before|After)(Document|Comment)\(([0-9]+),([0-9]+)\)-->!is', '', $obj->content);
 
 		// Return error if content is empty.
-		if (!$manual_inserted && is_empty_html_content($obj->content))
+		if (!$manual_inserted && !$isRestore && is_empty_html_content($obj->content))
 		{
 			return new BaseObject(-1, 'msg_empty_content');
 		}
 
 		// if use editor of nohtml, Remove HTML tags from the contents.
-		if (!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html))
+		if (!$isRestore && (!$manual_inserted || isset($obj->allow_html) || isset($obj->use_html)))
 		{
 			$obj->content = EditorModel::converter($obj, 'document');
 		}
@@ -880,13 +880,13 @@ class DocumentController extends Document
 				}
 
 				// Validate and process the extra value.
-				if ($value == NULL && $manual_inserted)
+				if ($value == NULL && ($manual_inserted || $isRestore))
 				{
 					continue;
 				}
 				else
 				{
-					if (!$manual_inserted)
+					if (!$manual_inserted && !$isRestore)
 					{
 						$ev_output = $extra_item->validate($value);
 						if ($ev_output && !$ev_output->toBool())
@@ -955,7 +955,7 @@ class DocumentController extends Document
 		$oDB->commit();
 
 		// return
-		if(!$manual_inserted)
+		if(!$manual_inserted && !$isRestore)
 		{
 			$this->addGrant($obj->document_srl);
 		}
