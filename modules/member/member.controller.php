@@ -600,12 +600,29 @@ class MemberController extends Member
 	{
 		$name = Context::get('name');
 		$value = Context::get('value');
-		if(!$value) return;
+		if (!$value)
+		{
+			return;
+		}
 
 		$config = MemberModel::getMemberConfig();
-
-		// Check if logged-in
 		$logged_info = Context::get('logged_info');
+		if (!$logged_info)
+		{
+			$logged_info = new stdClass;
+			$logged_info->member_srl = 0;
+		}
+
+		// Call trigger (before)
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$args->name = $name;
+		$args->value = $value;
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberCheckValue', 'before', $args);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
 
 		switch($name)
 		{
@@ -651,6 +668,9 @@ class MemberController extends Member
 				if($member_srl && $logged_info->member_srl != $member_srl ) return new BaseObject(0,'msg_exists_email_address');
 				break;
 		}
+
+		// Call trigger (after)
+		ModuleHandler::triggerCall('member.procMemberCheckValue', 'after', $args);
 	}
 
 	/**
@@ -1013,6 +1033,15 @@ class MemberController extends Member
 		$config = MemberModel::getMemberConfig();
 		$logged_info = Context::get('logged_info');
 
+		// Call trigger (before)
+		$args = new stdClass;
+		$args->member_srl = $logged_info->member_srl;
+		$trigger_output = ModuleHandler::triggerCall('member.procMemberModifyInfo', 'before', $args);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// Extract the necessary information in advance
 		$getVars = array('allow_mailing','allow_message');
 		$use_phone = false;
@@ -1028,7 +1057,6 @@ class MemberController extends Member
 			}
 		}
 
-		$args = new stdClass;
 		foreach($getVars as $val)
 		{
 			$args->{$val} = Context::get($val);
@@ -1084,9 +1112,6 @@ class MemberController extends Member
 				return $output;
 			}
 		}
-
-		// Fill in member_srl
-		$args->member_srl = $logged_info->member_srl;
 
 		// Get existing extra vars
 		$output = executeQuery('member.getMemberInfoByMemberSrl', ['member_srl' => $args->member_srl], ['extra_vars']);
