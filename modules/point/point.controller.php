@@ -607,7 +607,7 @@ class PointController extends Point
 			$point = PointModel::getModulePointConfig($obj->module_srl, $config_key);
 			if ($point)
 			{
-				$note = $is_comment ? 'voter_comment' : 'voter_document';
+				$note = ($obj->point > 0) ? ($is_comment ? 'voter_comment' : 'voter_document') : ($is_comment ? 'blamer_comment' : 'blamer_document');
 				if (isset($obj->cancel) && $obj->cancel)
 				{
 					$point = -1 * $point;
@@ -624,7 +624,7 @@ class PointController extends Point
 			$point = PointModel::getModulePointConfig($obj->module_srl, $config_key);
 			if ($point)
 			{
-				$note = $is_comment ? 'voted_comment' : 'voted_document';
+				$note = ($obj->point > 0) ? ($is_comment ? 'voted_comment' : 'voted_document') : ($is_comment ? 'blamed_comment' : 'blamed_document');
 				if (isset($obj->cancel) && $obj->cancel)
 				{
 					$point = -1 * $point;
