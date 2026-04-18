@@ -333,7 +333,7 @@ class PointAdminController extends Point
 		$point = $m[2];
 
 		$oPointController = getController('point');
-		$output = $oPointController->setPoint($member_srl, (int)$point, $action);
+		$output = $oPointController->setPoint($member_srl, (int)$point, $action, 'admin_update');
 
 		$this->setError(-1);
 		$this->setMessage('success_updated', 'info');

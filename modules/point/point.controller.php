@@ -37,7 +37,7 @@ class PointController extends Point
 			// New member is not supposed to have points,
 			// but we check just in case another module has intervened.
 			$cur_point = PointModel::getPoint($member_srl);
-			$this->setPoint($member_srl, $cur_point + $diff, 'signup');
+			$this->setPoint($member_srl, $cur_point + $diff, 'signup', 'signup');
 		}
 	}
 
@@ -62,7 +62,7 @@ class PointController extends Point
 		$diff = intval($config->login_point);
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'plus');
+			$this->setPoint($member_srl, $diff, 'plus', 'login');
 		}
 	}
 
@@ -119,7 +119,7 @@ class PointController extends Point
 		// Increase the point.
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'plus');
+			$this->setPoint($member_srl, $diff, 'plus', 'insert_document');
 		}
 	}
 
@@ -179,7 +179,7 @@ class PointController extends Point
 		// Increase the point.
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'plus');
+			$this->setPoint($member_srl, $diff, 'plus', 'update_document');
 		}
 
 		// Remove the reference to the original document.
@@ -233,7 +233,7 @@ class PointController extends Point
 		// Decrease the point.
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'minus');
+			$this->setPoint($member_srl, $diff, 'minus', 'delete_document');
 		}
 	}
 
@@ -290,7 +290,7 @@ class PointController extends Point
 		// Increase the point.
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'plus');
+			$this->setPoint($member_srl, $diff, 'plus', 'insert_comment');
 		}
 	}
 
@@ -347,7 +347,7 @@ class PointController extends Point
 		// Decrease the point.
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'minus');
+			$this->setPoint($member_srl, $diff, 'minus', 'delete_comment');
 		}
 	}
 
@@ -394,7 +394,7 @@ class PointController extends Point
 		// Update the point.
 		if ($diff != 0)
 		{
-			$this->setPoint($member_srl, $diff, 'minus');
+			$this->setPoint($member_srl, $diff, 'minus', 'delete_file');
 		}
 	}
 
@@ -451,7 +451,7 @@ class PointController extends Point
 			$point = PointModel::getModulePointConfig($module_srl, 'download_file');
 			if ($point)
 			{
-				$this->setPoint($logged_member_srl, $point, 'plus');
+				$this->setPoint($logged_member_srl, $point, 'plus', 'download_file');
 			}
 		}
 
@@ -461,7 +461,7 @@ class PointController extends Point
 			$point = PointModel::getModulePointConfig($module_srl, 'download_file_author');
 			if ($point)
 			{
-				$this->setPoint($author_member_srl, $point, 'plus');
+				$this->setPoint($author_member_srl, $point, 'plus', 'download_file_author');
 			}
 		}
 	}
@@ -556,14 +556,14 @@ class PointController extends Point
 				$args->member_srl = $logged_member_srl;
 				$args->document_srl = $obj->document_srl;
 				$output = executeQuery('document.insertDocumentReadedLog', $args);
-				$this->setPoint($logged_member_srl, $reader_point, 'plus');
+				$this->setPoint($logged_member_srl, $reader_point, 'plus', 'read_document');
 			}
 		}
 
 		// Adjust points of the person who wrote the document.
 		if ($author_point && $author_member_srl)
 		{
-			$this->setPoint($author_member_srl, $author_point, 'plus');
+			$this->setPoint($author_member_srl, $author_point, 'plus', 'read_document_author');
 		}
 	}
 
@@ -607,11 +607,13 @@ class PointController extends Point
 			$point = PointModel::getModulePointConfig($obj->module_srl, $config_key);
 			if ($point)
 			{
+				$note = $is_comment ? 'voter_comment' : 'voter_document';
 				if (isset($obj->cancel) && $obj->cancel)
 				{
 					$point = -1 * $point;
+					$note .= '_cancel';
 				}
-				$this->setPoint($logged_member_srl, $point, 'plus');
+				$this->setPoint($logged_member_srl, $point, 'plus', $note);
 			}
 		}
 
@@ -622,11 +624,13 @@ class PointController extends Point
 			$point = PointModel::getModulePointConfig($obj->module_srl, $config_key);
 			if ($point)
 			{
+				$note = $is_comment ? 'voted_comment' : 'voted_document';
 				if (isset($obj->cancel) && $obj->cancel)
 				{
 					$point = -1 * $point;
+					$note .= '_cancel';
 				}
-				$this->setPoint($target_member_srl, $point, 'plus');
+				$this->setPoint($target_member_srl, $point, 'plus', $note);
 			}
 		}
 	}
@@ -653,9 +657,15 @@ class PointController extends Point
 	}
 
 	/**
-	 * @brief Set points
+	 * Set or update points for a member.
+	 *
+	 * @param int $member_srl
+	 * @param int $point
+	 * @param string $mode
+	 * @param string $note
+	 * @return BaseObject
 	 */
-	public static function setPoint($member_srl, $point, $mode = 'update')
+	public static function setPoint($member_srl, $point, $mode = 'update', $note = '')
 	{
 		// Normalize parameters
 		$member_srl = abs($member_srl);
@@ -722,6 +732,7 @@ class PointController extends Point
 		$trigger_obj = new stdClass();
 		$trigger_obj->member_srl = $args->member_srl;
 		$trigger_obj->mode = $mode === 'plus' ? 'add' : $mode;
+		$trigger_obj->note = $note;
 		$trigger_obj->current_point = $current_point;
 		$trigger_obj->current_level = $current_level;
 		$trigger_obj->set_point = $new_point;
