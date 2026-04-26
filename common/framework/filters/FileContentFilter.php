@@ -51,28 +51,39 @@ class FileContentFilter
 		}
 
 		// Check other image files.
-		if (in_array($ext, array('jpg', 'jpeg', 'png', 'gif')) && $mime_type !== false && $mime_type !== 'image')
+		if (preg_match('/^(jpe?g|png|gif|webp)$/', $ext))
 		{
-			fclose($fp);
-			return false;
+			if ($mime_type !== false && $mime_type !== 'image')
+			{
+				fclose($fp);
+				return false;
+			}
+			$image_info = @getimagesize($file);
+			if ($image_info)
+			{
+				$skip_xml = true;
+			}
 		}
 
 		// Check audio and video files.
-		if (preg_match('/(wm[va]|mpe?g|avi|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/', $file) && $mime_type !== false && $mime_type !== 'audio' && $mime_type !== 'video')
+		if (preg_match('/^(wm[va]|mpe?g|avi|flv|mp[1-4]|as[fx]|wav|midi?|moo?v|qt|r[am]{1,2}|m4v)$/', $ext))
 		{
-			fclose($fp);
-			return false;
+			if ($mime_type !== false && $mime_type !== 'audio' && $mime_type !== 'video')
+			{
+				fclose($fp);
+				return false;
+			}
 		}
 
 		// Check XML files.
-		if (($ext === 'xml' || $is_xml) && !self::_checkXML($fp, 0, $filesize))
+		if (($ext === 'xml' || ($is_xml && !$skip_xml)) && !self::_checkXML($fp, 0, $filesize))
 		{
 			fclose($fp);
 			return false;
 		}
 
 		// Check HTML files.
-		if (($ext === 'html' || $ext === 'shtml' || $ext === 'xhtml' || $ext === 'phtml' || ($is_xml && !$skip_xml)) && !self::_checkHTML($fp, 0, $filesize))
+		if ((preg_match('/html$/', $ext) || ($is_xml && !$skip_xml)) && !self::_checkHTML($fp, 0, $filesize))
 		{
 			fclose($fp);
 			return false;
