@@ -27,6 +27,7 @@ class CommunicationController extends communication
 		}
 
 		$args = new stdClass();
+		$args->member_srl = $this->user->member_srl;
 		$args->allow_message = Context::get('allow_message');
 
 		if(!in_array($args->allow_message, array('Y', 'N', 'F')))
@@ -34,7 +35,11 @@ class CommunicationController extends communication
 			$args->allow_message = 'Y';
 		}
 
-		$args->member_srl = $this->user->member_srl;
+		$config = CommunicationModel::getConfig();
+		if ($config->enable_friend !== 'Y' && $args->allow_message === 'F')
+		{
+			$args->allow_message = 'Y';
+		}
 
 		$output = executeQuery('communication.updateAllowMessage', $args);
 		if(!$output->toBool())
