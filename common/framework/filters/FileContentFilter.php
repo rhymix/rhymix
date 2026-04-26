@@ -58,10 +58,12 @@ class FileContentFilter
 				fclose($fp);
 				return false;
 			}
-			$image_info = @getimagesize($file);
-			if ($image_info)
+			if ($mime_type === 'image' && $is_xml && $image_info = @getimagesize($file))
 			{
-				$skip_xml = true;
+				if ($image_info[0] && $image_info[1] && !empty($image_info[2]))
+				{
+					$skip_xml = true;
+				}
 			}
 		}
 
