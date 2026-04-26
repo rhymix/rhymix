@@ -2546,12 +2546,24 @@ class DocumentController extends Document
 			$obj->list_order = $obj->category_srl = getNextSequence();
 		}
 
+		$output = ModuleHandler::triggerCall('document.insertCategory', 'before', $obj);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
 		$output = executeQuery('document.insertCategory', $obj);
-		if($output->toBool())
+		if ($output->toBool())
 		{
 			$output->add('category_srl', $obj->category_srl);
 			$this->makeCategoryFile($obj->module_srl);
 		}
+		else
+		{
+			return $output;
+		}
+
+		ModuleHandler::triggerCall('document.insertCategory', 'after', $obj);
 
 		return $output;
 	}
@@ -2595,7 +2607,10 @@ class DocumentController extends Document
 		$args->category_srl = $category_srl;
 		$args->{$mode} = $document_count;
 		$output = executeQuery('document.updateCategoryCount', $args);
-		if($output->toBool()) $this->makeCategoryFile($module_srl);
+		if ($output->toBool())
+		{
+			$this->makeCategoryFile($module_srl);
+		}
 
 		return $output;
 	}
@@ -2607,8 +2622,23 @@ class DocumentController extends Document
 	 */
 	function updateCategory($obj)
 	{
+		$output = ModuleHandler::triggerCall('document.updateCategory', 'before', $obj);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
 		$output = executeQuery('document.updateCategory', $obj);
-		if($output->toBool()) $this->makeCategoryFile($obj->module_srl);
+		if ($output->toBool())
+		{
+			$this->makeCategoryFile($obj->module_srl);
+		}
+		else
+		{
+			return $output;
+		}
+
+		ModuleHandler::triggerCall('document.updateCategory', 'after', $obj);
 		return $output;
 	}
 
@@ -2622,43 +2652,53 @@ class DocumentController extends Document
 		$args = new stdClass();
 		$args->category_srl = $category_srl;
 		$category_info = DocumentModel::getCategory($category_srl);
-		// Display an error that the category cannot be deleted if it has a child
+
+		// Check if the category has any children.
 		$output = executeQuery('document.getChildCategoryCount', $args);
-		if(!$output->toBool()) return $output;
-		if($output->data->count>0) return new BaseObject(-1, 'msg_cannot_delete_for_child');
-		// Delete a category information
-		$output = executeQuery('document.deleteCategory', $args);
-		if(!$output->toBool()) return $output;
-
-		$this->makeCategoryFile($category_info->module_srl);
-
-		// remove cache
-		$page = 0;
-		while(true)
+		if (!$output->toBool())
 		{
-			$args = new stdClass();
-			$args->category_srl = $category_srl;
-			$args->list_count = 100;
-			$args->page = ++$page;
-			$output = executeQuery('document.getDocumentList', $args, array('document_srl'));
-
-			if($output->data == array())
-			{
-				break;
-			}
-
-			foreach($output->data as $val)
-			{
-				self::clearDocumentCache($val->document_srl);
-			}
+			return $output;
+		}
+		if ($output->data->count > 0)
+		{
+			return new BaseObject(-1, 'msg_cannot_delete_for_child');
 		}
 
-		// Update category_srl of the documents in the same category to 0
+		// Call trigger (before)
+		$output = ModuleHandler::triggerCall('document.deleteCategory', 'before', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Delete the category.
+		$output = executeQuery('document.deleteCategory', $args);
+		if ($output->toBool())
+		{
+			$this->makeCategoryFile($category_info->module_srl);
+		}
+		else
+		{
+			return $output;
+		}
+
+		// Documents in the deleted category will be moved to category 0.
 		$args = new stdClass();
 		$args->target_category_srl = 0;
 		$args->source_category_srl = $category_srl;
 		$output = executeQuery('document.updateDocumentCategory', $args);
+		if ($output->toBool())
+		{
+			Rhymix\Framework\Cache::clearGroup('document_item');
+			$GLOBALS['XE_DOCUMENT_LIST'] = [];
+		}
+		else
+		{
+			return $output;
+		}
 
+		// Call trigger (after)
+		ModuleHandler::triggerCall('document.deleteCategory', 'after', $args);
 		return $output;
 	}
 
