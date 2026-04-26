@@ -117,7 +117,14 @@ class CommunicationController extends communication
 			{
 				if(!$oCommunicationModel->isFriend($receiver_member_info->member_srl))
 				{
-					throw new Rhymix\Framework\Exception('msg_allow_message_to_friend');
+					if ($config->enable_friend === 'Y')
+					{
+						throw new Rhymix\Framework\Exception('msg_allow_message_to_friend');
+					}
+					else
+					{
+						throw new Rhymix\Framework\Exception('msg_disallow_message');
+					}
 				}
 			}
 			else if($receiver_member_info->allow_message == 'N')

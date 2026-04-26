@@ -127,6 +127,13 @@ class CommunicationView extends communication
 		$page = max(1, intval(Context::get('page')));
 		$output = $oCommunicationModel->getMessages($message_type, $columnList, $search_target, $search_keyword, $page);
 
+		$allow_message_type = lang('allow_message_type')->getArrayCopy();
+		if ($this->config->allow_friend === 'N')
+		{
+			unset($allow_message_type['F']);
+		}
+		Context::set('allow_message_type', $allow_message_type);
+
 		// set a template file
 		Context::set('total_count', $output->total_count);
 		Context::set('total_page', $output->total_page);

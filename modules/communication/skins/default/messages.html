@@ -15,7 +15,7 @@
 		<input type="hidden" name="act" value="procCommunicationUpdateAllowMessage" />
 		<input type="hidden" name="message_type" value="{$message_type}" />
 		<select name="allow_message" style="margin:0">
-			<option loop="$lang->allow_message_type => $key,$val" value="{$key}" selected="selected"|cond="$logged_info->allow_message==$key">{$val}</option>
+			<option loop="$allow_message_type => $key,$val" value="{$key}" selected="selected"|cond="$logged_info->allow_message==$key">{$val}</option>
 		</select>
 		<input type="submit" value="{$lang->cmd_save}" class="btn">
 	</form>
