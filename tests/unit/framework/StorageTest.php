@@ -346,6 +346,16 @@ class StorageTest extends \Codeception\Test\Unit
 		$this->assertFalse(Rhymix\Framework\Storage::deleteDirectory($nonexistent));
 	}
 
+	public function testProtectDirectory()
+	{
+		$dir = \RX_BASEDIR . 'tests/_output/protectdir';
+		mkdir($dir);
+		$this->assertTrue(Rhymix\Framework\Storage::protectDirectory($dir));
+		$this->assertTrue(file_exists($dir . '/index.html'));
+		$this->assertTrue(file_exists($dir . '/.htaccess'));
+		$this->assertStringContainsString('Require all denied', file_get_contents($dir . '/.htaccess'));
+	}
+
 	public function testDeleteDirectoryKeepRoot()
 	{
 		$sourcedir = \RX_BASEDIR . 'tests/_output/sourcedir';
