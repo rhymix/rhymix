@@ -126,13 +126,13 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->thumbnail_target}</label>
 			<div class="x_controls">
-				<label for="thumbnail_target_all" class="x_inline">
-					<input type="radio" name="thumbnail_target" id="thumbnail_target_all" value="all" checked="checked"|cond="$thumbnail_target == 'all' || !$thumbnail_target" />
-					{$lang->thumbnail_target_all}
-				</label>
 				<label for="thumbnail_target_attachment" class="x_inline">
-					<input type="radio" name="thumbnail_target" id="thumbnail_target_attachment" value="attachment" checked="checked"|cond="$thumbnail_target == 'attachment'" />
+					<input type="radio" name="thumbnail_target" id="thumbnail_target_attachment" value="attachment" checked="checked"|cond="$thumbnail_target == 'attachment' || !$thumbnail_target" />
 					{$lang->thumbnail_target_attachment}
+				</label>
+				<label for="thumbnail_target_all" class="x_inline">
+					<input type="radio" name="thumbnail_target" id="thumbnail_target_all" value="all" checked="checked"|cond="$thumbnail_target == 'all'" />
+					{$lang->thumbnail_target_all}
 				</label>
 				<label for="thumbnail_target_none" class="x_inline">
 					<input type="radio" name="thumbnail_target" id="thumbnail_target_none" value="none" checked="checked"|cond="$thumbnail_target == 'none'" />

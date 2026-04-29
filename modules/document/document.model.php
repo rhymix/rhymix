@@ -147,7 +147,7 @@ class DocumentModel extends Document
 
 	/**
 	 * Get a document.
-	 * 
+	 *
 	 * @param int $document_srl
 	 * @param bool $is_admin
 	 * @param bool $load_extra_vars
@@ -179,7 +179,7 @@ class DocumentModel extends Document
 
 	/**
 	 * Create a blank document.
-	 * 
+	 *
 	 * @param int $module_srl
 	 * @return DocumentItem
 	 */
@@ -1039,7 +1039,7 @@ class DocumentModel extends Document
 		}
 		if (!isset(self::$_config->thumbnail_target))
 		{
-			self::$_config->thumbnail_target = 'all';
+			self::$_config->thumbnail_target = 'attachment';
 		}
 		if (!isset(self::$_config->thumbnail_type))
 		{
