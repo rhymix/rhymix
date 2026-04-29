@@ -6,7 +6,7 @@
 	<p>{$XE_VALIDATOR_MESSAGE}</p>
 </div>
 <section class="section">
-		
+
 	<table id="domain_list" class="x_table x_table-striped x_table-hover dsTg">
 		<caption>
 			<div class="x_pull-right x_btn-group">
@@ -101,15 +101,6 @@
 					<input type="radio" name="unregistered_domain_action" id="unregistered_domain_block" value="block" checked="checked"|cond="config('url.unregistered_domain_action') === 'block'" />
 					{$lang->cmd_unregistered_domain_block}
 				</label>
-			</div>
-		</div>
-		<div class="x_control-group">
-			<label class="x_control-label">{$lang->use_sso}</label>
-			<div class="x_controls">
-				<label for="use_sso_y" class="x_inline"><input type="radio" name="use_sso" id="use_sso_y" value="Y" checked="checked"|cond="config('use_sso')" /> {$lang->cmd_yes}</label>
-				<label for="use_sso_n" class="x_inline"><input type="radio" name="use_sso" id="use_sso_n" value="N" checked="checked"|cond="!config('use_sso')" /> {$lang->cmd_no}</label>
-				<br />
-				<p class="x_help-block">{$lang->about_use_sso}</p>
 			</div>
 		</div>
 		<div class="x_clearfix btnArea">

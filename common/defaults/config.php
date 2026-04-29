@@ -150,7 +150,6 @@ return array(
 		'regexp' => '',
 	],
 	'use_rewrite' => true,
-	'use_sso' => false,
 	'other' => [
 		'proxy' => null,
 	],

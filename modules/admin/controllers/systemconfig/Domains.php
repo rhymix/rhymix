@@ -205,7 +205,6 @@ class Domains extends Base
 
 		// Save system config.
 		Config::set('url.unregistered_domain_action', $vars->unregistered_domain_action);
-		Config::set('use_sso', $vars->use_sso === 'Y');
 		if (!Config::save())
 		{
 			throw new Exception('msg_failed_to_save_config');

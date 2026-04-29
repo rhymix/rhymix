@@ -242,7 +242,6 @@ class ConfigParser
 		$config['file']['umask'] = Storage::recommendUmask();
 		$config['mobile']['enabled'] = ($db_info->use_mobile_view ?? 'N') === 'N' ? false : true;
 		$config['use_rewrite'] = ($db_info->use_rewrite ?? 'N') === 'Y' ? true : false;
-		$config['use_sso'] = ($db_info->use_sso ?? 'N') === 'Y' ? true : false;
 
 		// Copy other configuration.
 		unset($db_info->master_db, $db_info->slave_db);

@@ -96,7 +96,6 @@ $lang->allow_use_favicon = '是否启用自定义favicon?';
 $lang->about_use_favicon = '请上传16*16像素的<em>*.ico</em>文件.';
 $lang->allow_use_mobile_icon = '是否启用移动版屏幕图标?';
 $lang->detail_use_mobile_icon = '请上传57*57像素或者114*114像素的<em>*.png</em>文件.';
-$lang->use_sso = '是否启用通行证<abbr title="Single Sign On">SSO</abbr>?';
 $lang->about_arrange_session = '你想要整理session吗？';
 $lang->cmd_clear_session = '整理sessioon';
 $lang->save = '保存';
