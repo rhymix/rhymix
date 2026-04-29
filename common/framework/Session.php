@@ -430,7 +430,8 @@ class Session
 		if ($refresh_cookie)
 		{
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
-			Cookie::set(session_name(), session_id(), $options);
+			//Cookie::set(session_name(), session_id(), $options);
+			session_regenerate_id(true);
 			if (self::$_autologin_key = self::_getAutologinKey())
 			{
 				self::setAutologinKeys(substr(self::$_autologin_key, 0, 24), substr(self::$_autologin_key, 24, 24));
