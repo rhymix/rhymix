@@ -113,7 +113,11 @@ class Session
 		}
 
 		// Check if the session needs to be refreshed.
-		if (!$must_create && !isset($_SESSION['RHYMIX']['domains'][$alt_domain]['started']) || $_SESSION['RHYMIX']['domains'][$alt_domain]['started'] < time() - $refresh_interval)
+		if (!$must_create && (!isset($_SESSION['RHYMIX']['last_refresh']) || $_SESSION['RHYMIX']['last_refresh'] < time() - $refresh_interval))
+		{
+			$must_refresh = true;
+		}
+		if (!$must_create && isset($_SESSION['RHYMIX']['next_refresh']) && $_SESSION['RHYMIX']['next_refresh'] === true)
 		{
 			$must_refresh = true;
 		}
@@ -127,8 +131,9 @@ class Session
 		}
 
 		// If this is not a GET request, do not refresh now.
-		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET')
+		if ($must_refresh && (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET'))
 		{
+			$_SESSION['RHYMIX']['next_refresh'] = true;
 			$must_refresh = false;
 		}
 
@@ -250,6 +255,8 @@ class Session
 		$_SESSION['RHYMIX'] = array();
 		$_SESSION['RHYMIX']['login'] = false;
 		$_SESSION['RHYMIX']['last_login'] = false;
+		$_SESSION['RHYMIX']['last_refresh'] = time();
+		$_SESSION['RHYMIX']['next_refresh'] = false;
 		$_SESSION['RHYMIX']['autologin_key'] = false;
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
@@ -319,7 +326,10 @@ class Session
 		);
 
 		// Update the domain initialization timestamp.
-		$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
+		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['started']))
+		{
+			$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
+		}
 		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['trusted']))
 		{
 			$_SESSION['RHYMIX']['domains'][$alt_domain]['trusted'] = 0;
@@ -328,6 +338,8 @@ class Session
 		// Refresh the main session cookie and the autologin key.
 		if ($refresh_cookie)
 		{
+			$_SESSION['RHYMIX']['last_refresh'] = time();
+			$_SESSION['RHYMIX']['next_refresh'] = false;
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
 			//Cookie::set(session_name(), session_id(), $options);
 			session_regenerate_id(true);

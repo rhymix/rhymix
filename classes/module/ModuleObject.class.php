@@ -211,7 +211,7 @@ class ModuleObject extends BaseObject
 		}
 
 		// Special treatment for admin actions
-		if(preg_match('/^disp[A-Z][a-z0-9\_]+Admin/', $this->act))
+		if(preg_match('/^disp(?:Admin[A-Z]|[A-Z][a-z0-9\_]+Admin)/', $this->act))
 		{
 			// Set admin layout
 			if(config('view.manager_layout') === 'admin')
