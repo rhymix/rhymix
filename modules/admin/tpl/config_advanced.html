@@ -130,14 +130,15 @@
 					<input type="radio" name="thumbnail_target" id="thumbnail_target_attachment" value="attachment" checked="checked"|cond="$thumbnail_target == 'attachment' || !$thumbnail_target" />
 					{$lang->thumbnail_target_attachment}
 				</label>
-				<label for="thumbnail_target_all" class="x_inline">
-					<input type="radio" name="thumbnail_target" id="thumbnail_target_all" value="all" checked="checked"|cond="$thumbnail_target == 'all'" />
-					{$lang->thumbnail_target_all}
+				<label for="thumbnail_target_content" class="x_inline">
+					<input type="radio" name="thumbnail_target" id="thumbnail_target_content" value="content" checked="checked"|cond="$thumbnail_target == 'content'" />
+					{$lang->thumbnail_target_content}
 				</label>
 				<label for="thumbnail_target_none" class="x_inline">
 					<input type="radio" name="thumbnail_target" id="thumbnail_target_none" value="none" checked="checked"|cond="$thumbnail_target == 'none'" />
 					{$lang->thumbnail_none}
 				</label>
+				<p class="x_help-block">{$lang->about_thumbnail_target}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
