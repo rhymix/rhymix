@@ -79,7 +79,7 @@ class Session
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		ini_set('session.cookie_samesite', $samesite ? 1 : 0);
+		ini_set('session.cookie_samesite', $samesite);
 		session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 
@@ -948,7 +948,7 @@ class Session
 		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
 		$secure = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		$httponly = Config::get('session.httponly') ?? true;
-		$samesite = config('session.samesite');
+		$samesite = config('session.samesite') ?: '';
 		return array($lifetime, $refresh, $domain, $path, $secure, $httponly, $samesite);
 	}
 
