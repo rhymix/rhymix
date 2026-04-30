@@ -446,7 +446,7 @@ class Session
 		if ($refresh)
 		{
 			self::checkLoginStatusCookie();
-			return self::refresh(true);
+			return $_SESSION['RHYMIX']['next_refresh'] = true;
 		}
 		else
 		{

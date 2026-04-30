@@ -226,9 +226,9 @@ class ModuleObject extends BaseObject
 			}
 
 			// Refresh session
-			if (!isset($_SESSION['RHYMIX']['admin_accessed']))
+			if (!isset($_SESSION['RHYMIX']['admin_accessed']) && !headers_sent())
 			{
-				if (!headers_sent())
+				if (!isset($_SESSION['RHYMIX']['last_refresh']) || $_SESSION['RHYMIX']['last_refresh'] < time() - 10)
 				{
 					$_SESSION['RHYMIX']['admin_accessed'] = \RX_TIME;
 					Rhymix\Framework\Session::refresh(true);
