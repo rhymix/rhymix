@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:include schemaLocation="shared-types.xsd" />
+
+	<xs:element name="module">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="title" type="localizedString" minOccurs="1" maxOccurs="unbounded" />
+				<xs:element name="description" type="localizedString" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xs:element name="version" type="versionString" minOccurs="0" />
+				<xs:element name="date" type="dateString" minOccurs="0" />
+				<xs:element name="license" type="licenseType" minOccurs="0" />
+				<xs:element name="category" type="categoryType" minOccurs="0" />
+				<xs:element name="author" type="authorType" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attributeGroup ref="commonVersionAttribute"></xs:attributeGroup>
+		</xs:complexType>
+	</xs:element>
+
+	<!-- Element:category -->
+	<xs:simpleType name="categoryType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="accessory" />
+			<xs:enumeration value="construction" />
+			<xs:enumeration value="content" />
+			<xs:enumeration value="member" />
+			<xs:enumeration value="migration" />
+			<xs:enumeration value="service" />
+			<xs:enumeration value="statistics" />
+			<xs:enumeration value="system" />
+			<xs:enumeration value="utility" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
