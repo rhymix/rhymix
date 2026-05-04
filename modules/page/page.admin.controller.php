@@ -411,7 +411,7 @@ class PageAdminController extends Page
 		if (!preg_match('!^https?://!i', $path) && file_exists($path))
 		{
 			$realpath = realpath($path);
-			if (!self::_isAllowedExternalPath($realpath))
+			if ($realpath !== $path && !self::_isAllowedExternalPath($realpath))
 			{
 				return false;
 			}
