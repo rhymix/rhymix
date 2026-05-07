@@ -301,6 +301,9 @@ class LayoutView extends Layout
 		Context::set('skin_type', null);
 		Context::set('skin_vars', null);
 
+		// Set dummy variable
+		Context::set('layout_info', Context::get('layout_info') ?: new stdClass());
+
 		// Proc module
 		$oModule = $oModuleHandler->procModule();
 		if(!$oModule->toBool())
