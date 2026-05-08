@@ -394,6 +394,15 @@ class MemberView extends Member
 		// Set a copy of the agreement for compatibility with old skins
 		$member_config->agreement = $member_config->agreements[1]->content ?? '';
 
+		// Check whether friends are enabled in the communication module.
+		$comm_config = CommunicationModel::getConfig();
+		if ($comm_config->enable_friend !== 'Y')
+		{
+			$allow_message_type = lang('member.allow_message_type');
+			unset($allow_message_type['F']);
+			$GLOBALS['lang']->set('member.allow_message_type', $allow_message_type);
+		}
+
 		// Set a template file
 		self::setMemberPageBrowserTitle(lang('cmd_signup'));
 		$this->setTemplateFile('signup_form');
@@ -516,6 +525,15 @@ class MemberView extends Member
 		Context::set('identifierForm', $identifierForm);
 
 		$this->addExtraFormValidatorMessage();
+
+		// Check whether friends are enabled in the communication module.
+		$comm_config = CommunicationModel::getConfig();
+		if ($comm_config->enable_friend !== 'Y')
+		{
+			$allow_message_type = lang('member.allow_message_type');
+			unset($allow_message_type['F']);
+			$GLOBALS['lang']->set('member.allow_message_type', $allow_message_type);
+		}
 
 		// Set a template file
 		self::setMemberPageBrowserTitle(lang('cmd_modify_member_info'));
