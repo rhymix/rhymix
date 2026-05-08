@@ -28,7 +28,7 @@
 			<div class="x_controls">
 				<span class="x_input-append">
 					<input type="hidden" name="target_module_srl" id="target_module" value="{$module_srl}" />
-					<input type="text" name="_target_module" id="_target_module" value="{$mid}({$browser_title})" readonly="readonly" />
+					<input type="text" name="_target_module" id="_target_module" value="{$browser_title} ({$mid})" readonly="readonly" />
 					<a href="{getUrl('','module','module','act','dispModuleSelectList','id','target_module','type','single')}" onclick="popopen(this.href,'ModuleSelect');return false;" class="x_btn">{$lang->cmd_select}</a>
 				</span>
 			</div>
