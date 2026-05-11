@@ -138,8 +138,6 @@ $lang->allow_use_favicon = 'ファビコン設定';
 $lang->about_use_favicon = '16 x 16 サイズの<em>*.ico</em> ファイルのみ登録できます。';
 $lang->allow_use_mobile_icon = '待受画面のアイコン設定';
 $lang->detail_use_mobile_icon = '57 x 57 、または114 x 114 サイズの<em>*.png</em> ファイルのみ登録できます。';
-$lang->use_sso = '<abbr title="Single Sign On">SSO</abbr>を使用';
-$lang->about_use_sso = 'ユーザが一度のログインで基本サイトと仮想サイトに同時にログインされる機能です。 仮想サイトの機能を使用してない場合、設定する必要がありません。';
 $lang->about_arrange_session = 'セッションを整理しますか？';
 $lang->cmd_clear_session = 'セッション整理';
 $lang->save = '保存';

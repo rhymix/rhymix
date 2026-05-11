@@ -79,7 +79,7 @@ class Session
 		ini_set('session.use_cookies', 1);
 		ini_set('session.use_only_cookies', 1);
 		ini_set('session.use_strict_mode', 1);
-		ini_set('session.cookie_samesite', $samesite ? 1 : 0);
+		ini_set('session.cookie_samesite', $samesite);
 		session_set_cookie_params($lifetime, $path, $domain, $secure, $httponly);
 		session_name($session_name = Config::get('session.name') ?: session_name());
 
@@ -113,7 +113,11 @@ class Session
 		}
 
 		// Check if the session needs to be refreshed.
-		if (!$must_create && !isset($_SESSION['RHYMIX']['domains'][$alt_domain]['started']) || $_SESSION['RHYMIX']['domains'][$alt_domain]['started'] < time() - $refresh_interval)
+		if (!$must_create && (!isset($_SESSION['RHYMIX']['last_refresh']) || $_SESSION['RHYMIX']['last_refresh'] < time() - $refresh_interval))
+		{
+			$must_refresh = true;
+		}
+		if (!$must_create && isset($_SESSION['RHYMIX']['next_refresh']) && $_SESSION['RHYMIX']['next_refresh'] === true)
 		{
 			$must_refresh = true;
 		}
@@ -127,8 +131,9 @@ class Session
 		}
 
 		// If this is not a GET request, do not refresh now.
-		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET')
+		if ($must_refresh && (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET'))
 		{
+			$_SESSION['RHYMIX']['next_refresh'] = true;
 			$must_refresh = false;
 		}
 
@@ -238,107 +243,6 @@ class Session
 	}
 
 	/**
-	 * Check if this session needs to be shared with another site with SSO.
-	 *
-	 * This method uses more or less the same logic as XE's SSO mechanism.
-	 * It may need to be changed to a more secure mechanism later.
-	 *
-	 * @param object $site_module_info
-	 * @return void
-	 */
-	public static function checkSSO(object $site_module_info): void
-	{
-		// Abort if SSO is disabled, the visitor is a robot, or this is not a typical GET request.
-		if (!isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET' || !config('use_sso') || UA::isRobot() || in_array(\Context::get('act'), array('rss', 'atom')))
-		{
-			return;
-		}
-
-		// Get the current site information.
-		$is_default_domain = ($site_module_info->domain_srl == 0);
-		if (!$is_default_domain)
-		{
-			$current_domain = $site_module_info->domain;
-			$current_url = URL::getCurrentUrl();
-			$default_domain = \ModuleModel::getDefaultDomainInfo();
-			$default_url = \Context::getDefaultUrl($default_domain);
-		}
-
-		// Step 1: if the current site is not the default site, send SSO validation request to the default site.
-		if(!$is_default_domain && !\Context::get('sso_response') && $_COOKIE['sso'] !== md5($current_domain))
-		{
-			// Set sso cookie to prevent multiple simultaneous SSO validation requests.
-			Cookie::set('sso', md5($current_domain), array(
-				'expires' => 0,
-				'path' => '/',
-				'domain' => null,
-				'secure' => !!config('session.use_ssl'),
-				'httponly' => true,
-				'samesite' => config('session.samesite'),
-			));
-
-			// Redirect to the default site.
-			$sso_request = Security::encrypt($current_url);
-			header('Location:' . URL::modifyURL($default_url, array('sso_request' => $sso_request)));
-			exit;
-		}
-
-		// Step 2: receive and process SSO validation request at the default site.
-		if($is_default_domain && \Context::get('sso_request'))
-		{
-			// Get the URL of the origin site
-			$sso_request = Security::decrypt(\Context::get('sso_request'));
-			if (!$sso_request || !preg_match('!^https?://!', $sso_request))
-			{
-				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_REQUEST', 400);
-				exit;
-			}
-			if (!URL::isInternalUrl($sso_request) || !URL::isInternalURL($_SERVER['HTTP_REFERER'] ?? ''))
-			{
-				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_REQUEST', 400);
-				exit;
-			}
-
-			// Encrypt the session ID.
-			self::start(true);
-			$sso_response = Security::encrypt(session_id());
-
-			// Redirect back to the origin site.
-			header('Location: ' . URL::modifyURL($sso_request, array('sso_response' => $sso_response)));
-			self::close();
-			exit;
-		}
-
-		// Step 3: back at the origin site, set session ID to be the same as the default site.
-		if(!$is_default_domain && \Context::get('sso_response'))
-		{
-			// Check SSO response
-			$sso_response = Security::decrypt(\Context::get('sso_response'));
-			if ($sso_response === false)
-			{
-				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_RESPONSE', 400);
-				exit;
-			}
-
-			// Check that the response was given by the default site (to prevent session fixation CSRF).
-			if(isset($_SERVER['HTTP_REFERER']) && !URL::isInternalURL($_SERVER['HTTP_REFERER']))
-			{
-				\Context::displayErrorPage('SSO Error', 'ERR_INVALID_SSO_RESPONSE', 400);
-				exit;
-			}
-
-			// Set the session ID.
-			session_id($sso_response);
-			self::start(true, false);
-
-			// Finally, redirect to the originally requested URL.
-			header('Location: ' . URL::getCurrentURL(array('sso_response' => null)));
-			self::close();
-			exit;
-		}
-	}
-
-	/**
 	 * Create the data structure for a new Rhymix session.
 	 *
 	 * This method is called automatically by start() when needed.
@@ -351,6 +255,8 @@ class Session
 		$_SESSION['RHYMIX'] = array();
 		$_SESSION['RHYMIX']['login'] = false;
 		$_SESSION['RHYMIX']['last_login'] = false;
+		$_SESSION['RHYMIX']['last_refresh'] = time();
+		$_SESSION['RHYMIX']['next_refresh'] = false;
 		$_SESSION['RHYMIX']['autologin_key'] = false;
 		$_SESSION['RHYMIX']['ipaddress'] = $_SESSION['ipaddress'] = \RX_CLIENT_IP;
 		$_SESSION['RHYMIX']['useragent'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
@@ -420,7 +326,10 @@ class Session
 		);
 
 		// Update the domain initialization timestamp.
-		$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
+		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['started']))
+		{
+			$_SESSION['RHYMIX']['domains'][$alt_domain]['started'] = time();
+		}
 		if (!isset($_SESSION['RHYMIX']['domains'][$alt_domain]['trusted']))
 		{
 			$_SESSION['RHYMIX']['domains'][$alt_domain]['trusted'] = 0;
@@ -429,8 +338,11 @@ class Session
 		// Refresh the main session cookie and the autologin key.
 		if ($refresh_cookie)
 		{
+			$_SESSION['RHYMIX']['last_refresh'] = time();
+			$_SESSION['RHYMIX']['next_refresh'] = false;
 			self::destroyCookiesFromConflictingDomains(array(session_name()));
-			Cookie::set(session_name(), session_id(), $options);
+			//Cookie::set(session_name(), session_id(), $options);
+			session_regenerate_id(true);
 			if (self::$_autologin_key = self::_getAutologinKey())
 			{
 				self::setAutologinKeys(substr(self::$_autologin_key, 0, 24), substr(self::$_autologin_key, 24, 24));
@@ -534,7 +446,7 @@ class Session
 		if ($refresh)
 		{
 			self::checkLoginStatusCookie();
-			return self::refresh(true);
+			return $_SESSION['RHYMIX']['next_refresh'] = true;
 		}
 		else
 		{
@@ -1048,7 +960,7 @@ class Session
 		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
 		$secure = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		$httponly = Config::get('session.httponly') ?? true;
-		$samesite = config('session.samesite');
+		$samesite = config('session.samesite') ?: '';
 		return array($lifetime, $refresh, $domain, $path, $secure, $httponly, $samesite);
 	}
 

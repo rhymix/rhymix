@@ -58,7 +58,6 @@ $lang->thumbnail_crop = '裁切';
 $lang->thumbnail_ratio = '比例';
 $lang->trash = '垃圾';
 $lang->timezone = '時區';
-$lang->about_use_sso = '此功能可讓用戶只需登入一次即可訪問多個網站。 使用虛擬網站，這將會是很重要的功能。';
 $lang->move = '搬移';
 $lang->modify = '修改';
 $lang->restore = '復原';
