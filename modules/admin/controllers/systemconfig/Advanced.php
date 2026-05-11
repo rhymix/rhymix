@@ -76,7 +76,7 @@ class Advanced extends Base
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$config = $oDocumentModel->getDocumentConfig();
-		Context::set('thumbnail_target', $config->thumbnail_target ?: 'all');
+		Context::set('thumbnail_target', $config->thumbnail_target ?: 'attachment');
 		Context::set('thumbnail_type', $config->thumbnail_type ?: 'fill');
 		Context::set('thumbnail_quality', $config->thumbnail_quality ?: 75);
 		if ($config->thumbnail_type === 'none')
@@ -190,7 +190,7 @@ class Advanced extends Base
 		// Thumbnail settings
 		$oDocumentModel = getModel('document');
 		$document_config = $oDocumentModel->getDocumentConfig();
-		$document_config->thumbnail_target = $vars->thumbnail_target ?: 'all';
+		$document_config->thumbnail_target = $vars->thumbnail_target ?: 'attachment';
 		$document_config->thumbnail_type = $vars->thumbnail_type ?: 'fill';
 		$document_config->thumbnail_quality = intval($vars->thumbnail_quality) ?: 75;
 		$oModuleController = getController('module');

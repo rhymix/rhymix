@@ -1036,9 +1036,9 @@ class DocumentModel extends Document
 		{
 			self::$_config = ModuleModel::getModuleConfig('document') ?: new stdClass;
 		}
-		if (!isset(self::$_config->thumbnail_target))
+		if (!isset(self::$_config->thumbnail_target) || self::$_config->thumbnail_target === 'all')
 		{
-			self::$_config->thumbnail_target = 'all';
+			self::$_config->thumbnail_target = 'attachment';
 		}
 		if (!isset(self::$_config->thumbnail_type))
 		{
