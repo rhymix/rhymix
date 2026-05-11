@@ -44,6 +44,13 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label" for="login_failure_except_ip">{$lang->login_failure_except_ip}</label>
+		<div class="x_controls">
+			<textarea id="login_failure_except_ip" name="login_failure_except_ip">{implode("\n", $config->login_failure_except_ip ?? [])}</textarea>
+			<p class="x_help-block">{$lang->about_login_failure_except_ip}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label">{$lang->cmd_login_invalidate_other_sessions}</label>
 		<div class="x_controls">
 			<label for="login_invalidate_other_sessions_y" class="x_inline"><input type="radio" name="login_invalidate_other_sessions" id="login_invalidate_other_sessions_y" value="Y" checked="checked"|cond="$config->login_invalidate_other_sessions === 'Y'" /> {$lang->cmd_yes}</label>

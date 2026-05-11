@@ -2642,20 +2642,21 @@ class MemberController extends Member
 		$args = new stdClass;
 		$args->ipaddress = \RX_CLIENT_IP;
 		$output = executeQuery('member.getLoginCountByIp', $args);
-		$errorCount = $output->data->count;
-		if($errorCount >= $config->max_error_count)
+		if ($output->data->count >= $config->max_error_count)
 		{
-			$last_update = strtotime($output->data->last_update);
-			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
-			if($term < $config->max_error_count_time)
+			$last_update = ztime($output->data->last_update);
+			$term = intval(\RX_TIME - $last_update);
+			if ($term < $config->max_error_count_time)
 			{
-				$term = $config->max_error_count_time - $term;
-				if($term < 60) $term = intval($term).lang('unit_sec');
-				elseif(60 <= $term && $term < 3600) $term = intval($term/60).lang('unit_min');
-				elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
-				else $term = intval($term/86400).lang('unit_day');
-
-				return new BaseObject(-1, sprintf(lang('excess_ip_access_count'), $term));
+				if (!$config->login_failure_except_ip || !Rhymix\Framework\Filters\IpFilter::inRanges(\RX_CLIENT_IP, $config->login_failure_except_ip))
+				{
+					$term = $config->max_error_count_time - $term;
+					if($term < 60) $term = intval($term).lang('unit_sec');
+					elseif(60 <= $term && $term < 3600) $term = intval($term/60).lang('unit_min');
+					elseif(3600 <= $term && $term < 86400) $term = intval($term/3600).lang('unit_hour');
+					else $term = intval($term/86400).lang('unit_day');
+					return new BaseObject(-1, sprintf(lang('excess_ip_access_count'), $term));
+				}
 			}
 			else
 			{
