@@ -23,16 +23,16 @@ class PageAdminController extends Page
 		$args = Context::getRequestVars();
 		$args->module = 'page';
 		$args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
-		$args->path = (!$args->path) ? '' : $args->path;
-		$args->mpath = (!$args->mpath) ? '' : $args->mpath;
-		if (preg_match('!\bfiles/cache/!i', $args->path))
+		$args->path = isset($args->path) ? strval($args->path) : '';
+		$args->mpath = isset($args->mpath) ? strval($args->mpath) : '';
+		if (!self::_isAllowedExternalPath($args->path))
 		{
 			$this->setError(-1);
 			$this->setMessage('msg_invalid_opage_pc_path');
 			$this->setRedirectUrl(Context::get('success_return_url'));
 			return;
 		}
-		if (preg_match('!\bfiles/cache/!i', $args->mpath))
+		if (!self::_isAllowedExternalPath($args->mpath))
 		{
 			$this->setError(-1);
 			$this->setMessage('msg_invalid_opage_mobile_path');
@@ -382,6 +382,42 @@ class PageAdminController extends Page
 
 		// 성공 메세지 등록
 		$this->setMessage($msg_code);
+	}
+
+	/**
+	 * Check if the path to an external page is valid.
+	 *
+	 * @param string $path
+	 * @return bool
+	 */
+	protected static function _isAllowedExternalPath(string $path): bool
+	{
+		// Normalize the directory separator.
+		$path = str_replace('\\', '/', $path);
+
+		// Check for forbidden paths.
+		if (preg_match('!(?:^|/)files/(?:attach|cache|config|debug|env|member_extra_info|ruleset|site_design|thumbnails)/!i', $path))
+		{
+			return false;
+		}
+
+		// Check for forbidden extensions.
+		if (preg_match('!(?:image|audio|video)/!i', Rhymix\Framework\MIME::getTypeByFilename($path)))
+		{
+			return false;
+		}
+
+		// Run the check again after resolving any symbolic links.
+		if (!preg_match('!^https?://!i', $path) && file_exists($path))
+		{
+			$realpath = realpath($path);
+			if ($realpath !== $path && !self::_isAllowedExternalPath($realpath))
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
 /* End of file page.admin.controller.php */
