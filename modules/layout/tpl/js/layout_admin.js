@@ -70,16 +70,6 @@ function addLayoutCopyInputbox()
 
 (function($){
 
-/* preview layout */
-function doPreviewLayoutCode(layout_srl) {
-	var fo  = $('#fo_layout');
-	var act = fo.find('input[name=act]:first').val();
-	fo.attr('target', '_LayoutPreview').find('input[name=act]').val('dispLayoutAdminPreview');
-	fo.submit();
-	//.removeAttr('target').find('input[name=act]').val(act);
-}
-window.doPreviewLayoutCode = doPreviewLayoutCode;
-
 /* restore layout code */
 function doResetLayoutCode(layout_srl) {
     procFilter($('#fo_layout')[0], reset_layout_code);

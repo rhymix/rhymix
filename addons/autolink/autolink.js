@@ -36,7 +36,7 @@
 			var content  = textNode.nodeValue;
 			var dummy    = $('<span>');
 
-			content = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			content = content.escape();
 			content = content.replace(url_regex, function(match, p1, offset, string) {
 				var match;
 				var suffix = '';
@@ -107,5 +107,5 @@
 			$this.attr("target", "_blank");
 		}
 	});
-	
+
 })(jQuery);
