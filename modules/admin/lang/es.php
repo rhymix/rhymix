@@ -41,7 +41,6 @@ $lang->about_server_ports = '80 de HTTP, HTTPS al puerto 443 si se utiliza otro 
 $lang->about_db_session = 'This setting will use PHP session used for authentication as DB. For the Websites which do not use web server frequently, you can uncheck this setting to improve response time. However, session DB will make it difficult to get current users, so you cannot use related functions.';
 $lang->trash = 'Basura';
 $lang->timezone = 'Huso horario';
-$lang->about_use_sso = 'SSO will enable users to sign in just once for both default and virtual site. You will need this only if you are using virtual sites.';
 $lang->modify = 'Modificar';
 $lang->ftp_form_title = 'Datos de conexión para FTP';
 $lang->ftp = 'FTP';

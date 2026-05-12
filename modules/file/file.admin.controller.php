@@ -302,19 +302,8 @@ class FileAdminController extends File
 		$download_grant = Context::get('download_grant');
 		$config->download_grant = is_array($download_grant) ? array_values($download_grant) : array($download_grant);
 
-		// Create pre-conversion whitelist
-		$config->pre_conversion_types = [];
-		foreach ($config->image_autoconv ?? [] as $source_type => $target_type)
-		{
-			if ($target_type && $target_type !== true)
-			{
-				$config->pre_conversion_types[] = $source_type;
-				if ($source_type === 'jpg')
-				{
-					$config->pre_conversion_types[] = 'jpeg';
-				}
-			}
-		}
+		// Unset pre-conversion type setting #2707
+		unset($config->pre_conversion_types);
 
 		// Update
 		$oModuleController = getController('module');

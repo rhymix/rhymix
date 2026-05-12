@@ -27,6 +27,7 @@ class CommunicationController extends communication
 		}
 
 		$args = new stdClass();
+		$args->member_srl = $this->user->member_srl;
 		$args->allow_message = Context::get('allow_message');
 
 		if(!in_array($args->allow_message, array('Y', 'N', 'F')))
@@ -34,7 +35,11 @@ class CommunicationController extends communication
 			$args->allow_message = 'Y';
 		}
 
-		$args->member_srl = $this->user->member_srl;
+		$config = CommunicationModel::getConfig();
+		if ($config->enable_friend !== 'Y' && $args->allow_message === 'F')
+		{
+			$args->allow_message = 'Y';
+		}
 
 		$output = executeQuery('communication.updateAllowMessage', $args);
 		if(!$output->toBool())
@@ -117,7 +122,14 @@ class CommunicationController extends communication
 			{
 				if(!$oCommunicationModel->isFriend($receiver_member_info->member_srl))
 				{
-					throw new Rhymix\Framework\Exception('msg_allow_message_to_friend');
+					if ($config->enable_friend === 'Y')
+					{
+						throw new Rhymix\Framework\Exception('msg_allow_message_to_friend');
+					}
+					else
+					{
+						throw new Rhymix\Framework\Exception('msg_disallow_message');
+					}
 				}
 			}
 			else if($receiver_member_info->allow_message == 'N')

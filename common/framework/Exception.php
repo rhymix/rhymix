@@ -19,6 +19,11 @@ class Exception extends \Exception
 	public function getUserFileAndLine(): string
 	{
 		$regexp = '!^' . preg_quote(\RX_BASEDIR, '!') . '(?:classes|common)/!';
+		if (!preg_match($regexp, $this->getFile()))
+		{
+			return $this->getFile() . ':' . $this->getLine();
+		}
+
 		$trace = $this->getTrace();
 		foreach ($trace as $frame)
 		{

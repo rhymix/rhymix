@@ -66,7 +66,7 @@ class AdminMenu
 			$lang = \Rhymix\Framework\Cache::get('admin_menu_langs:' . Context::getLangType());
 		}
 
-		if ($lang === null)
+		if ($lang === null || !is_array($lang))
 		{
 			$lang = [];
 			$installed_module_list = ModuleModel::getModulesXmlInfo();

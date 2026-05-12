@@ -147,7 +147,7 @@ class DocumentModel extends Document
 
 	/**
 	 * Get a document.
-	 * 
+	 *
 	 * @param int $document_srl
 	 * @param bool $is_admin
 	 * @param bool $load_extra_vars
@@ -179,7 +179,7 @@ class DocumentModel extends Document
 
 	/**
 	 * Create a blank document.
-	 * 
+	 *
 	 * @param int $module_srl
 	 * @return DocumentItem
 	 */
@@ -690,37 +690,37 @@ class DocumentModel extends Document
 		$opt->isExtraVars = $sort_check->isExtraVars;
 		$opt->isExtraVarsSortAsNumber = $sort_check->isExtraVarsSortAsNumber;
 
+		$args = new stdClass();
 		self::_setSearchOption($opt, $args, $query_id, $use_division);
 
-		if($sort_check->isExtraVars || !$opt->list_count)
+		if ($sort_check->isExtraVars || !$opt->list_count)
 		{
 			return 1;
 		}
 		else
 		{
-			if($sort_check->sort_index === 'list_order' || $sort_check->sort_index === 'update_order')
+			$args->sort_index = preg_replace('/^documents\./', '', $args->sort_index ?? 'list_order');
+			if ($args->sort_index === 'list_order' || $args->sort_index === 'update_order')
 			{
-				if($args->order_type === 'desc')
+				if ($args->order_type === 'desc')
 				{
-					$args->{'rev_' . $sort_check->sort_index} = $oDocument->get($sort_check->sort_index);
+					$args->{'rev_' . $args->sort_index} = $oDocument->get($args->sort_index);
 				}
 				else
 				{
-					$args->{$sort_check->sort_index} = $oDocument->get($sort_check->sort_index);
+					$args->{$args->sort_index} = $oDocument->get($args->sort_index);
 				}
 			}
-			elseif($sort_check->sort_index === 'regdate')
+			elseif ($args->sort_index === 'regdate')
 			{
-
-				if($args->order_type === 'asc')
+				if ($args->order_type === 'asc')
 				{
-					$args->{'rev_' . $sort_check->sort_index} = $oDocument->get($sort_check->sort_index);
+					$args->{'rev_' . $args->sort_index} = $oDocument->get($args->sort_index);
 				}
 				else
 				{
-					$args->{$sort_check->sort_index} = $oDocument->get($sort_check->sort_index);
+					$args->{$args->sort_index} = $oDocument->get($args->sort_index);
 				}
-
 			}
 			else
 			{
@@ -728,7 +728,6 @@ class DocumentModel extends Document
 			}
 		}
 
-		// Guhanhu total number of the article search page
 		$output = executeQuery($query_id . 'Page', $args);
 		$count = $output->data->count;
 		$page = (int)(($count-1)/$opt->list_count)+1;
@@ -1037,9 +1036,9 @@ class DocumentModel extends Document
 		{
 			self::$_config = ModuleModel::getModuleConfig('document') ?: new stdClass;
 		}
-		if (!isset(self::$_config->thumbnail_target))
+		if (!isset(self::$_config->thumbnail_target) || self::$_config->thumbnail_target === 'all')
 		{
-			self::$_config->thumbnail_target = 'all';
+			self::$_config->thumbnail_target = 'attachment';
 		}
 		if (!isset(self::$_config->thumbnail_type))
 		{

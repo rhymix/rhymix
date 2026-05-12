@@ -115,7 +115,7 @@ $lang->cmd_multidomain_configuration = '멀티도메인 기능 설정';
 $lang->cmd_unregistered_domain_action = '설정하지 않은 도메인 처리';
 $lang->cmd_unregistered_domain_redirect_301 = '기본 도메인으로 301 Redirect (권장)';
 $lang->cmd_unregistered_domain_redirect_302 = '기본 도메인으로 302 Redirect';
-$lang->cmd_unregistered_domain_display = '메인 화면 표시';
+$lang->cmd_unregistered_domain_display = '접속 허용 (권장하지 않음)';
 $lang->cmd_unregistered_domain_block = '404 Not Found 오류 표시';
 $lang->cmd_delete_domain = '이 도메인을 삭제하시겠습니까?';
 $lang->about_use_ssl = 'SSL 인증서가 설치되지 않은 상태에서 HTTPS 사용을 시도하면 접속이 되지 않을 수 있으니 주의하시기 바랍니다.';
@@ -334,8 +334,9 @@ $lang->mobile_viewport = '모바일 viewport 설정';
 $lang->about_mobile_viewport = '모바일 접속시 여기 입력한 내용이 &lt;meta name=&quot;viewport&quot;&gt; 태그로 출력됩니다.';
 $lang->restore_default_viewport = '기본값 복원';
 $lang->thumbnail_target = '썸네일 생성 대상';
-$lang->thumbnail_target_all = '모든 이미지 (외부 이미지 포함)';
+$lang->thumbnail_target_content = '모든 이미지 (외부 이미지 포함)';
 $lang->thumbnail_target_attachment = '첨부된 이미지';
+$lang->about_thumbnail_target = '외부 이미지를 사용하여 썸네일을 생성하는 경우 페이지 로딩 속도, 저작권, 보안 등 다양한 문제가 발생할 수 있으니 주의하시기 바랍니다.';
 $lang->thumbnail_type = '썸네일 생성 방식';
 $lang->input_header_script = '상단(헤더) 스크립트';
 $lang->detail_input_header_script = '모든 페이지의 최상단에 코드를 삽입합니다. 관리자 화면에는 적용되지 않습니다.';
@@ -366,8 +367,6 @@ $lang->site_default_color_scheme_options = array(
 	'light' => '밝은 색상 고정',
 	'dark' => '어두운 색상 고정',
 );
-$lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> 사용';
-$lang->about_use_sso = '한 번만 로그인하면 모든 도메인에 로그인되도록 합니다.<br>이 기능은 폐기 예정이니 의존하지 마시기 바랍니다.';
 $lang->about_arrange_session = '세션을 정리하시겠습니까?';
 $lang->cmd_clear_session = '세션 정리';
 $lang->save = '저장';

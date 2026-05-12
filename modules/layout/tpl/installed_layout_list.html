@@ -21,9 +21,9 @@
 		<tr>
 			<!--@if($layout->title)-->
 				<td class="title">
-					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type, 'layout', $layout->layout)}" style="font-weight:bold;color:#000">{$layout->title}</a></p>
+					<p><a href="{getUrl('act', 'dispLayoutAdminInstanceList', 'type', $type ?? null, 'layout', $layout->layout)}" style="font-weight:bold;color:#000">{$layout->title}</a></p>
 					<p>{$layout->description}</p>
-					<p cond="$layout->need_update == 'Y'" class="update">
+					<p cond="isset($layout->need_update) && $layout->need_update == 'Y'" class="update">
 						{$lang->msg_avail_easy_update} <a href="{$layout->update_url}&amp;return_url={urlencode(getRequestUriByServerEnviroment())}">{$lang->msg_do_you_like_update}</a>
 					</p>
 				</td>

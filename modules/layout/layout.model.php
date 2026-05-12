@@ -161,6 +161,7 @@ class LayoutModel extends Layout
 			}
 		}
 
+		$isCreateInstance = false;
 		if($layout)
 		{
 			if(count($instanceList) < 1 && isset($downloadedList[$layout]))

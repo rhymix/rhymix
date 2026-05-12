@@ -11,11 +11,11 @@
 	</h1>
 </div>
 
-<div cond="$layout == 'faceoff'" class="x_alert x_alert-block">
+<div cond="isset($layout) && $layout == 'faceoff'" class="x_alert x_alert-block">
 	<p>{$lang->faceoff_migration[0]}</p>
 	<p><a href="#faceoff_migration_info" class="modalAnchor">{$lang->faceoff_migration[1]}</a></p>
 </div>
-<section cond="$layout == 'faceoff'" id="faceoff_migration_info" class="x_modal">
+<section cond="isset($layout) && $layout == 'faceoff'" id="faceoff_migration_info" class="x_modal">
 	<div class="x_modal-header">
 		<h1>{$lang->faceoff_migration[1]}</h1>
 	</div>

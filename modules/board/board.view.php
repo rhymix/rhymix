@@ -141,7 +141,7 @@ class BoardView extends Board
 		 */
 		if(!$this->grant->access || !$this->grant->list)
 		{
-			$this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
+			return $this->dispBoardMessage($this->user->isMember() ? 'msg_not_permitted' : 'msg_not_logged');
 		}
 
 		/**

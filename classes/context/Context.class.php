@@ -359,7 +359,6 @@ class Context
 			if (self::$_current_request->getRouteOption('enable_session'))
 			{
 				session_cache_limiter('');
-				Rhymix\Framework\Session::checkSSO($site_module_info);
 				Rhymix\Framework\Session::start(false);
 			}
 			if (self::$_current_request->getRouteOption('cache_control'))

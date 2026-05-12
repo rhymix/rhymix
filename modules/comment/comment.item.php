@@ -839,13 +839,18 @@ class CommentItem extends BaseObject
 			'url' => $thumbnail_url,
 		];
 		$output = ModuleHandler::triggerCall('comment.getThumbnail', 'before', $trigger_obj);
+		$width = $trigger_obj->width;
+		$height = $trigger_obj->height;
+		$thumbnail_type = $trigger_obj->type;
+		$thumbnail_file = $trigger_obj->filename;
+		$thumbnail_url = $trigger_obj->url;
 		clearstatcache(true, $thumbnail_file);
 		if (file_exists($thumbnail_file) && filesize($thumbnail_file) > 0)
 		{
 			return $thumbnail_url . '?t=' . filemtime($thumbnail_file);
 		}
 
-		// return false if neigher attached file nor image;
+		// return false if neither attached file nor image;
 		if(!$this->get('uploaded_count') && !preg_match("!<img!is", $this->get('content')))
 		{
 			return;
@@ -919,28 +924,34 @@ class CommentItem extends BaseObject
 						$target_src = Context::getRequestUri().$target_src;
 					}
 
-					$tmp_file = sprintf('./files/cache/tmp/%d', md5(rand(111111, 999999) . $this->comment_srl));
-					if(!is_dir('./files/cache/tmp'))
+					$tmp_file = sprintf('./files/cache/tmp/%s', Rhymix\Framework\Security::getRandom(32));
+					if (!Rhymix\Framework\Storage::exists(\RX_BASEDIR . 'files/cache/tmp'))
 					{
-						FileHandler::makeDir('./files/cache/tmp');
+						Rhymix\Framework\Storage::createDirectory(\RX_BASEDIR . 'files/cache/tmp');
+					}
+					if (!Rhymix\Framework\Storage::exists(\RX_BASEDIR . 'files/cache/tmp/.htaccess'))
+					{
+						Rhymix\Framework\Storage::protectDirectory(\RX_BASEDIR . 'files/cache/tmp');
 					}
 					FileHandler::getRemoteFile($target_src, $tmp_file);
-					if(!file_exists($tmp_file))
+					if (!Rhymix\Framework\Storage::exists($tmp_file))
 					{
 						continue;
 					}
 					else
 					{
-						if($is_img = @getimagesize($tmp_file))
+						if ($is_img = @getimagesize($tmp_file))
 						{
 							list($_w, $_h, $_t, $_a) = $is_img;
 							if($_w < ($external_image_min_width) && ($height === 'auto' || $_h < ($external_image_min_height)))
 							{
+								Rhymix\Framework\Storage::delete($tmp_file);
 								continue;
 							}
 						}
 						else
 						{
+							Rhymix\Framework\Storage::delete($tmp_file);
 							continue;
 						}
 						$source_file = $tmp_file;

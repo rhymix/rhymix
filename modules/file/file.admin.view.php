@@ -18,7 +18,7 @@ class FileAdminView extends File
 		$args->list_count = intval(Context::get('list_count')) ?: 30;
 		$args->page_count = 10;
 		$args->page = max(1, intval(Context::get('page')));
-		$args->sort_index = Context::get('sort_index') ?: 'file_srl';
+		$args->sort_index = Context::get('sort_index') ?: 'regdate';
 		$args->order_type = strtolower(Context::get('order_type')) === 'asc' ? 'asc' : 'desc';
 		$args->isvalid = Context::get('isvalid');
 		$args->module_srl = Context::get('module_srl');

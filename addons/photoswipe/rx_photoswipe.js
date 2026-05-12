@@ -182,7 +182,7 @@ var initPhotoSwipeFromDOM = function(gallerySelector) {
 					captionEl.children[0].innerText = '';
 					return false;
 				}
-				captionEl.children[0].innerHTML = item.title;
+				captionEl.children[0].innerText = item.title;
 				return true;
 			},
 

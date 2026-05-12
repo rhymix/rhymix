@@ -131,7 +131,10 @@ function doDeleteImageMark(member_srl) {
 function doDeleteScrap(document_srl) {
     var params = new Array();
     params['document_srl'] = document_srl;
-    exec_json('member.procMemberDeleteScrap', params, function() { location.reload(); });
+    exec_json('member.procMemberDeleteScrap', params, function(data) {
+		alert(data.message);
+		location.reload();
+	});
 }
 
 /* 비밀번호 찾기 후 */

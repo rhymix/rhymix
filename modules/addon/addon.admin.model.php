@@ -61,7 +61,7 @@ class addonAdminModel extends addon
 			else
 			{
 				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-				$addonList[$key]->need_update = $package[$packageSrl]->need_update;
+				$addonList[$key]->need_update = $package[$packageSrl]->need_update ?? null;
 			}
 
 			// get easyinstall update url

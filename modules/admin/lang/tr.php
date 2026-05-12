@@ -100,8 +100,6 @@ $lang->allow_use_favicon = 'Favicon\'u kullanmak istiyor musunuz?';
 $lang->about_use_favicon = '16 x 16 boyutunda<em>*.Ico</em> dosyalar yüklenebilir.';
 $lang->allow_use_mobile_icon = 'Mobil Ana Ekran Simgesini kullanmak istiyor musunuz?';
 $lang->detail_use_mobile_icon = '57 x 57 veya 114 x 114 boyutu<em>*.Png</em> dosyalar yüklenebilir.';
-$lang->use_sso = '<abbr title="Single Sign On">SSO</abbr> kullanmak ister misiniz?';
-$lang->about_use_sso = 'SSO kullanıcıları, geçreli ya da sanal siteye bir kere kayıt olmakla, ikisinden de yararlandıracaktır. Bu, size sadece sanal websiteler kullandığınız durumda lazım olacaktır.';
 $lang->about_arrange_session = 'Bu oturumu temizlemek istiyor musunuz?';
 $lang->cmd_clear_session = 'Oturum temizleme';
 $lang->save = 'Kayıt';

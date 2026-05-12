@@ -58,7 +58,7 @@
 
 	<block cond="count($addon_info->extra_vars ?: [])">
 		<block loop="$addon_info->extra_vars => $id, $var">
-			<block cond="$group != $var->group">
+			<block cond="!empty($group) && $group != $var->group">
 				<h2 style="margin-top:50px;">{$var->group}</h2>
 				{@$group = $var->group}
 			</block>
@@ -103,9 +103,9 @@
 				<block loop="$mid_list => $module_category_srl, $modules">
 				<!--@if(is_array($mid_list) && count($mid_list) > 1)-->
 				<fieldset>
-					<legend><!--@if($modules->title)-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end--></legend>
+					<legend><!--@if(!empty($modules->title))-->{$modules->title}<!--@else-->{$lang->none_category}<!--@end--></legend>
 				<!--@end-->
-					<label loop="$modules->list => $key, $val">
+					<label cond="!empty($modules->list)" loop="$modules->list => $key, $val">
 						<input type="checkbox" value="{$key}" name="mid_list[]" id="chk_mid_list_{$key}" checked="checked"|cond="in_array($key, $addon_info->mid_list ?? [])"/>
 						{$key} ({$val->browser_title})
 					</label>

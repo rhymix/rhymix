@@ -43,10 +43,10 @@ class General extends Base
 
 			$obj = new \stdClass;
 			$obj->module_srl = $val->module_srl;
-			$obj->browser_title = $val->browser_title;
+			$obj->browser_title = Context::replaceUserLang($val->browser_title);
 
 			$mid_list[$val->module]->list[$val->category ?: 0][$val->mid] = $obj;
-			$mid_list[$val->module]->title = ModuleModel::getModuleInfoXml($val->module)->title;
+			$mid_list[$val->module]->title = Context::replaceUserLang(ModuleModel::getModuleInfoXml($val->module)->title);
 		}
 
 		Context::set('mid_list', $mid_list);

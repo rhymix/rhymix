@@ -360,7 +360,10 @@ class FileModel extends File
 			$module_config = ModuleModel::getModulePartConfig('file', $module_srl);
 			foreach((array)$module_config as $key => $value)
 			{
-				$config->$key = $value;
+				if ($value !== null)
+				{
+					$config->$key = $value;
+				}
 			}
 		}
 

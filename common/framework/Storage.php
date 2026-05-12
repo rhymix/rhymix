@@ -874,6 +874,45 @@ class Storage
 	}
 
 	/**
+	 * Prevent access to a directory by creating .htaccess and index.html files in it.
+	 *
+	 * This is a best-effort measure only, and depends on web server configuration.
+	 * It is recommended to use proper server configuration to protect sensitive directories.
+	 *
+	 * @param string $dirname
+	 * @return bool
+	 */
+	public static function protectDirectory(string $dirname): bool
+	{
+		$dirname = rtrim($dirname, '/\\');
+		if (!self::isDirectory($dirname) || !self::isWritable($dirname))
+		{
+			return false;
+		}
+
+		$result = self::write($dirname . '/index.html', '');
+		if (!$result)
+		{
+			return false;
+		}
+		$result = self::write($dirname . '/.htaccess', preg_replace('/\\t/', '', <<<END
+			<IfModule authz_core_module>
+				Require all denied
+			</IfModule>
+			<IfModule !authz_core_module>
+				Order deny,allow
+				Deny from all
+			</IfModule>
+		END));
+		if (!$result)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get the current umask.
 	 *
 	 * @return int

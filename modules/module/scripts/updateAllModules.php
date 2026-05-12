@@ -21,11 +21,11 @@ $need_install = array();
 $need_update = array();
 foreach ($module_list as $key => $value)
 {
-	if ($value->need_install)
+	if (!empty($value->need_install) && $value->need_install !== 'N')
 	{
 		$need_install[] = $value->module;
 	}
-	if ($value->need_update)
+	if (!empty($value->need_update) && $value->need_update !== 'N')
 	{
 		$need_update[] = $value->module;
 	}
@@ -61,7 +61,7 @@ foreach ($need_update as $module)
 }
 
 // Set the exit status if there were any errors.
-if ($exit_status != 0)
+if (isset($exit_status) && $exit_status != 0)
 {
 	exit($exit_status);
 }

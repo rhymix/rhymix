@@ -54,15 +54,36 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<td class="title">
 					<!--@if(isset($module_list[$oDocument->get('module_srl')]))-->
 						<!--@if($module_list[$oDocument->get('module_srl')]->domain_srl == -1 || $module_list[$oDocument->get('module_srl')]->domain_srl == $site_module_info->domain_srl)-->
-							<a href="{$oDocument->getPermanentUrl()}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
-							- <a href="{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
+							{@ $document_link = $oDocument->getPermanentUrl()}
+							{@ $module_link = getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}
 						<!--@else-->
-							<a href="{ModuleModel::getDomainByModuleSrl($oDocument->get('module_srl'))}{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid, 'document_srl', $oDocument->document_srl)}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
-							- <a href="{ModuleModel::getDomainByModuleSrl($oDocument->get('module_srl'))}{getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
+							{@ $document_link = ModuleModel::getDomainByModuleSrl($oDocument->get('module_srl')) . getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid, 'document_srl', $oDocument->document_srl)}
+							{@ $module_link = ModuleModel::getDomainByModuleSrl($oDocument->get('module_srl')) . getUrl('', 'mid', $module_list[$oDocument->get('module_srl')]->mid)}
 						<!--@endif-->
 					<!--@else-->
-						<a href="{$oDocument->getPermanentUrl()}" target="_blank"><!--@if(trim($oDocument->getTitleText()) !== '')-->{escape($oDocument->getTitleText(), false)}<!--@else--><em>{$lang->no_title_document}</em><!--@end--></a>
+						{@ $document_link = $oDocument->getPermanentUrl()}
+						{@ $module_link = null}
 					<!--@endif-->
+					<!--@if($document_link && $oDocument->get('status') !== 'TEMP')-->
+						<a href="{$document_link}" target="_blank">
+							<!--@if(trim($oDocument->getTitleText()) !== '')-->
+								{escape($oDocument->getTitleText(), false)}
+							<!--@else-->
+								<em>{$lang->no_title_document}</em>
+							<!--@end-->
+						</a>
+					<!--@else-->
+						<span style="cursor:not-allowed">
+							<!--@if(trim($oDocument->getTitleText()) !== '')-->
+								{escape($oDocument->getTitleText(), false)}
+							<!--@else-->
+								<em>{$lang->no_title_document}</em>
+							<!--@end-->
+						</span>
+					<!--@endif-->
+					<!--@if($module_link)-->
+						- <a href="{$module_link}" target="_blank">{$module_list[$oDocument->get('module_srl')]->browser_title}</a>
+					<!--@end-->
 				</td>
 				<td class="nowr">
 					<span cond="$oDocument->get('member_srl') <= 0">{$oDocument->getNickName()}</span>

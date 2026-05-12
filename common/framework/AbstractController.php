@@ -266,8 +266,9 @@ abstract class AbstractController extends BaseObject
 		}
 
 		// Set admin layout if the act contains 'Admin'.
-		if (preg_match('/^disp[A-Z][a-z0-9\_]+Admin/', $this->act))
+		if (preg_match('/^disp(?:Admin[A-Z]|[A-Z][a-z0-9\_]+Admin)/', $this->act))
 		{
+			// Set admin layout.
 			if (config('view.manager_layout') === 'admin')
 			{
 				$this->setLayoutPath('modules/admin/tpl');
@@ -279,6 +280,16 @@ abstract class AbstractController extends BaseObject
 				// This might be better handled elsewhere in the future.
 				$oTemplate = new Template('modules/admin/tpl', '_admin_common.html');
 				$oTemplate->compile();
+			}
+
+			// Refresh the session.
+			if (!isset($_SESSION['RHYMIX']['admin_accessed']) && !headers_sent())
+			{
+				if (!isset($_SESSION['RHYMIX']['last_refresh']) || $_SESSION['RHYMIX']['last_refresh'] < time() - 10)
+				{
+					$_SESSION['RHYMIX']['admin_accessed'] = \RX_TIME;
+					Session::refresh(true);
+				}
 			}
 		}
 
@@ -321,6 +332,10 @@ abstract class AbstractController extends BaseObject
 		{
 			$this->setError($event_output->getError());
 			$this->setMessage($event_output->getMessage());
+			if ($event_output->get('rx_error_location'))
+			{
+				$this->add('rx_error_location', $event_output->get('rx_error_location'));
+			}
 			return false;
 		}
 
@@ -357,6 +372,10 @@ abstract class AbstractController extends BaseObject
 			{
 				$this->setError($event_output->getError());
 				$this->setMessage($event_output->getMessage());
+				if ($event_output->get('rx_error_location'))
+				{
+					$this->add('rx_error_location', $event_output->get('rx_error_location'));
+				}
 				return false;
 			}
 
@@ -409,8 +428,6 @@ abstract class AbstractController extends BaseObject
 		{
 			$this->setError($event_output->getError());
 			$this->setMessage($event_output->getMessage());
-
-			// Copy error location if provided.
 			if ($event_output->get('rx_error_location'))
 			{
 				$this->add('rx_error_location', $event_output->get('rx_error_location'));

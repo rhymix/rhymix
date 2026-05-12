@@ -116,7 +116,7 @@ $lang->cmd_multidomain_configuration = 'Multidomain Configuration';
 $lang->cmd_unregistered_domain_action = 'Unconfigured Domains';
 $lang->cmd_unregistered_domain_redirect_301 = '301 Redirect to Default Domain (Recommended)';
 $lang->cmd_unregistered_domain_redirect_302 = '302 Redirect to Default Domain';
-$lang->cmd_unregistered_domain_display = 'Display Main Screen as Usual';
+$lang->cmd_unregistered_domain_display = 'Allow Access (Not Recommended)';
 $lang->cmd_unregistered_domain_block = '404 Not Found';
 $lang->cmd_delete_domain = 'Would you like to delete this domain?';
 $lang->about_use_ssl = 'Caution: an SSL certificate must be installed before activating this setting. Otherwise you may be unable to access your site afterward.';
@@ -338,8 +338,9 @@ $lang->mobile_viewport = 'Mobile viewport Setting';
 $lang->about_mobile_viewport = 'The settings entered above will be output in a &lt;meta name=&quot;viewport&quot;&gt; tag for mobile visitors.';
 $lang->restore_default_viewport = 'Restore Default';
 $lang->thumbnail_target = 'Extract Thumbnail From';
-$lang->thumbnail_target_all = 'All images';
+$lang->thumbnail_target_content = 'All embedded images, including external images';
 $lang->thumbnail_target_attachment = 'Attached images only';
+$lang->about_thumbnail_target = 'Using external images to generate thumbnails may cause various issues with respect to page load speed, copyright, and security. Please be careful.';
 $lang->thumbnail_type = 'Thumbnail Type';
 $lang->input_header_script = 'Header Script';
 $lang->detail_input_header_script = 'Content added here will be printed at the top of every page, except the admin module.';
@@ -370,8 +371,6 @@ $lang->site_default_color_scheme_options = array(
 	'light' => 'Light mode only',
 	'dark' => 'Dark mode only',
 );
-$lang->use_sso = 'Use <abbr title="Single Sign On">SSO</abbr>?';
-$lang->about_use_sso = 'Logging into one domain will automatically log the user into all domains.<br>Do not rely on this feature, as it will be removed in the future.';
 $lang->about_arrange_session = 'Do you want to clean up old session data?';
 $lang->cmd_clear_session = 'Session cleanup';
 $lang->save = 'Save';
