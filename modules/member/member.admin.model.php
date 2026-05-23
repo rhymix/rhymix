@@ -94,10 +94,10 @@ class MemberAdminModel extends Member
 					$args->s_regdate = preg_replace("/[^0-9]/","",$search_keyword);
 					break;
 				case 'regdate_more' :
-					$args->s_regdate_more = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
+					$args->s_regdate_more = str_pad(preg_replace('/[^0-9]/', '', $search_keyword), 14, '0');
 					break;
 				case 'regdate_less' :
-					$args->s_regdate_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
+					$args->s_regdate_less = str_pad(preg_replace('/[^0-9]/', '', $search_keyword), 14, '9');
 					break;
 				case 'ipaddress' :
 					$args->s_ipaddress = preg_replace('/[^0-9a-z.:]/', '', $search_keyword) . '%';
@@ -107,10 +107,10 @@ class MemberAdminModel extends Member
 					//$args->s_last_login = $search_keyword;
 					break;
 				case 'last_login_more' :
-					$args->s_last_login_more = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
+					$args->s_last_login_more = str_pad(preg_replace('/[^0-9]/', '', $search_keyword), 14, '0');
 					break;
 				case 'last_login_less' :
-					$args->s_last_login_less = substr(preg_replace("/[^0-9]/","",$search_keyword) . '00000000000000',0,14);
+					$args->s_last_login_less = str_pad(preg_replace('/[^0-9]/', '', $search_keyword), 14, '9');
 					break;
 				case 'last_login_ipaddress' :
 					$args->s_last_login_ipaddress = preg_replace('/[^0-9a-z.:]/', '', $search_keyword) . '%';
