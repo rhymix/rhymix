@@ -125,6 +125,7 @@
 				<th>{$lang->column_name}</th>
 				<th>{$lang->column_type}</th>
 				<th>{$lang->default_value}</th>
+				<th>{$lang->extra_vars_options}</th>
 				<th>{$lang->is_required}</th>
 				<th>{$lang->cmd_search}</th>
 				<th>{$lang->cmd_sort}</th>
@@ -143,7 +144,12 @@
 				<td>{$val->eid}</td>
 				<td class="nowr"><strong>{$val->name}</strong></td>
 				<td class="nowr">{$lang->column_type_list[$val->type]}</td>
-				<td>{$val->default}&nbsp;</td>
+				<td>{$val->getDefaultValue()}</td>
+				<td>
+					<span style="display:block; max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+						{implode(', ', $val->getOptions())}
+					</span>
+				</td>
 				<td class="nowr"><!--@if($val->is_required=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
 				<td class="nowr"><!--@if($val->search=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
 				<td class="nowr"><!--@if($val->sort=='Y')--><strong>Y</strong><!--@else-->N<!--@end--></td>
