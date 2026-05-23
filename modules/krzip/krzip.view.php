@@ -18,12 +18,12 @@ class krzipView extends krzip
 	 * @param integer $api_handler
 	 * @return mixed
 	 */
-	function dispKrzipSearchForm($api_handler)
+	function dispKrzipSearchForm($api_handler = "")
 	{
 		$oKrzipModel = getModel('krzip');
 		$module_config = $oKrzipModel->getConfig();
 		$module_config->sequence_id = ++self::$sequence_id;
-		if(!isset($api_handler) || !isset(self::$api_list[$api_handler]))
+		if(!$api_handler || !isset(self::$api_list[$api_handler]))
 		{
 			$api_handler = $module_config->api_handler;
 		}

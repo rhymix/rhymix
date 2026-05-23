@@ -27,7 +27,7 @@
 		if(!krzip) {
 			krzip = {
 				open: function (query) {
-					var request_url = "./"
+					var request_url = request_uri
 						.setQuery("module", "krzip")
 						.setQuery("act", "dispKrzipSearchForm")
 						.setQuery("query", query);
