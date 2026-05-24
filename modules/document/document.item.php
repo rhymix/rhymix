@@ -1001,7 +1001,7 @@ class DocumentItem extends BaseObject
 
 		// Get a list of comments
 		$output = CommentModel::getCommentList($this->document_srl, $cpage);
-		if(!$output->toBool() || !count($output->data)) return;
+		if(!$output || !$output->toBool() || !count($output->data)) return;
 
 		// Create commentItem object from a comment list
 		// If admin priviledge is granted on parent posts, you can read its child posts.
