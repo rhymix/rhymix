@@ -3,7 +3,7 @@
         'name' => 'rhymix/rhymix',
         'pretty_version' => '2.2.x-dev',
         'version' => '2.2.9999999.9999999-dev',
-        'reference' => '4fed492ff7a3cf1ffb4439be935481305d11b01b',
+        'reference' => '992cdc776118fc02f85cf71f01c5f2bab6d71a3a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -273,7 +273,7 @@
         'rhymix/rhymix' => array(
             'pretty_version' => '2.2.x-dev',
             'version' => '2.2.9999999.9999999-dev',
-            'reference' => '4fed492ff7a3cf1ffb4439be935481305d11b01b',
+            'reference' => '992cdc776118fc02f85cf71f01c5f2bab6d71a3a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

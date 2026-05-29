@@ -1148,7 +1148,7 @@ class DocumentController extends Document
 		}
 
 		// If the tile is empty, extract string from the contents.
-		$obj->title = escape($obj->title, false);
+		$obj->title = escape($obj->title ?? '', false);
 		if ($obj->title === '')
 		{
 			$obj->title = escape(cut_str(trim(utf8_normalize_spaces(strip_tags($obj->content))), 20, '...'), false);
@@ -1710,15 +1710,21 @@ class DocumentController extends Document
 			return false;
 		}
 
+		// Call a trigger when the read count is updated (before)
+		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
+		if (!$trigger_output->toBool())
+		{
+			return $trigger_output;
+		}
+
 		// Get the view count option, and use the default if the value is empty or invalid.
+		$config = DocumentModel::getDocumentConfig();
 		$valid_options = array(
 			'all' => true,
 			'some' => true,
 			'once' => true,
 			'none' => true,
 		);
-
-		$config = DocumentModel::getDocumentConfig();
 		if (!isset($config->view_count_option) || !isset($valid_options[$config->view_count_option]))
 		{
 			$config->view_count_option = 'once';
@@ -1761,10 +1767,6 @@ class DocumentController extends Document
 				return false;
 			}
 		}
-
-		// Call a trigger when the read count is updated (before)
-		$trigger_output = ModuleHandler::triggerCall('document.updateReadedCount', 'before', $oDocument);
-		if(!$trigger_output->toBool()) return $trigger_output;
 
 		// Update read counts
 		$oDB = DB::getInstance();

@@ -27,7 +27,7 @@ const Rhymix = window.Rhymix = {
  * @return bool
  */
 Rhymix.isMobile = function() {
-	return String(navigator.userAgent).match(/mobile/i);
+	return String(navigator.userAgent).match(/android|ip(hone|ad|od)|blackberry|nokia|palm|mobile/i);
 };
 
 /**
