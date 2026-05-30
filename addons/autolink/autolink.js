@@ -5,7 +5,7 @@
  */
 (function($){
 	var protocol_re = '(?:(?:https?|ftp|news|telnet|irc|mms)://)';
-	var domain_re   = '(?:[^\\s./)>]+\\.)+[^\\s./)>]+';
+	var domain_re   = '(?:[^\\s./\'"&;)>]+\\.)+[^\\s./\'"&;)>]+';
 	var max_255_re  = '(?:1[0-9]{2}|2[0-4][0-9]|25[0-5]|[1-9]?[0-9])';
 	var ip_re       = '(?:'+max_255_re+'\\.){3}'+max_255_re;
 	var port_re     = '(?::([0-9]+))?';
@@ -50,10 +50,16 @@
 				} else if (p1.indexOf('&lt;') < 0 && p1.match(/&gt;$/)) {
 					p1 = p1.replace(/&gt;$/, '');
 					suffix = '&gt;';
-				} else if (match = /^([\x21-\x7E]+\.[a-z]+)([가-힣]{1,3})$/.exec(p1)) {
-					p1 = match[1];
-					suffix = match[2];
 				}
+				if (match = /^([\x21-\x7E]+\.[a-z]+)([가-힣]{1,3})$/.exec(p1)) {
+					p1 = match[1];
+					suffix = match[2] + suffix;
+				}
+				if (match = /^(.*?)(&(lt|gt|quot);.*)$/i.exec(p1)) {
+					p1 = match[1];
+					suffix = match[2] + suffix;
+				}
+				console.log(p1, suffix);
 				if(!isSameOrigin(location.href, p1)) {
 					attribute = ' target="_blank"';
 				}
