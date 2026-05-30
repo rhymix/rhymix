@@ -327,7 +327,7 @@ class Context
 		self::$_instance->lang = $lang;
 
 		// set session handler
-		if(self::isInstalled() && config('session.use_db'))
+		if (self::isInstalled() && config('session.use_db') && \PHP_SAPI !== 'cli')
 		{
 			ini_set('session.serialize_handler', 'php');
 			session_set_save_handler(SessionController::getInstance(), true);
