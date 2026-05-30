@@ -5,59 +5,60 @@
  * @author NAVER (developers@xpressengine.com)
  * @brief The controller class of the session module
  */
-class SessionController extends Session
+class SessionController extends Session implements SessionHandlerInterface
 {
-	/**
-	 * @brief Initialization
-	 */
-	function init()
-	{
-	}
-
-	function open()
+	public function open($save_path, $session_name): bool
 	{
 		return true;
 	}
 
-	function close()
+	public function close(): bool
 	{
 		return true;
 	}
 
-	function write($session_key, $val)
+	#[\ReturnTypeWillChange]
+	public function read($id): string
 	{
-		if(!$session_key || !$this->session_started) return;
-
-		$args = new stdClass;
-		$args->session_key = $session_key;
-
-		$output = executeQuery('session.getSession', $args);
-		$session_info = $output->data;
-
-		$args->expired = date("YmdHis", time() + $this->lifetime);
-		$args->val = $val;
-		$args->cur_mid = Context::get('mid');
-
-		if(!$args->cur_mid)
+		if (!$id || !$this->session_started)
 		{
-			$module_info = Context::get('current_module_info');
-			$args->cur_mid = $module_info->mid;
+			return '';
 		}
 
-		if(Context::get('is_logged'))
+		$output = executeQuery('session.getSession', ['session_key' => $id], ['session_key', 'cur_mid', 'val']);
+		return $output->data->val ?? '';
+	}
+
+	public function write($id, $data): bool
+	{
+		if (!$id || !$this->session_started)
 		{
-			$logged_info = Context::get('logged_info');
-			$args->member_srl = $logged_info->member_srl;
+			return false;
 		}
-		else
+		if ($data === '')
 		{
-			$args->member_srl = 0;
+			return $this->destroy($id);
 		}
+
+		$output = executeQuery('session.getSession', ['session_key' => $id], ['session_key']);
+		$session_info = $output->data ?? null;
+
+		$add_lifetime = max($this->lifetime, intval(ini_get('session.gc_maxlifetime')));
+
+		$args = new stdClass();
+		$args->session_key = $id;
+		$args->expired = date('YmdHis', time() + $add_lifetime);
+		$args->val = $data;
+		$args->member_srl = Context::get('logged_info')->member_srl ?? 0;
 		$args->ipaddress = \RX_CLIENT_IP;
 		$args->last_update = date('YmdHis');
+		$args->cur_mid = Context::get('mid');
+		if (!$args->cur_mid)
+		{
+			$args->cur_mid = Context::get('current_module_info')->mid ?? null;
+		}
 
-		//put session into db
-		if($session_info->session_key)
+		if ($session_info)
 		{
 			$output = executeQuery('session.updateSession', $args);
 		}
@@ -66,27 +67,31 @@ class SessionController extends Session
 			$output = executeQuery('session.insertSession', $args);
 		}
 
-		return true;
+		return $output->toBool();
 	}
 
-	function destroy($session_key)
+	#[\ReturnTypeWillChange]
+	public function destroy($id): bool
 	{
-		if(!$session_key || !$this->session_started) return;
+		if (!$id || !$this->session_started)
+		{
+			return false;
+		}
 
-		//remove session from db
-		$args = new stdClass();
-		$args->session_key = $session_key;
-		executeQuery('session.deleteSession', $args);
-
-		return true;
+		$output = executeQuery('session.deleteSession', ['session_key' => $id]);
+		return $output->toBool();
 	}
 
-	function gc($maxlifetime)
+	#[\ReturnTypeWillChange]
+	public function gc($max_lifetime): bool
 	{
-		if(!$this->session_started) return;
+		if (!$this->session_started)
+		{
+			return false;
+		}
 
-		executeQuery('session.gcSession');
-		return true;
+		$output = executeQuery('session.gcSession');
+		return $output->toBool();
 	}
 }
 /* End of file session.controller.php */
