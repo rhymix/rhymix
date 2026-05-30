@@ -137,6 +137,14 @@ class Session
 			$must_refresh = false;
 		}
 
+		// If this is a file download request, do not refresh now.
+		$act = \Context::get('act');
+		if ($act === 'procFileDownload' || $act === 'procFileOutput')
+		{
+			$_SESSION['RHYMIX']['next_refresh'] = true;
+			$must_refresh = false;
+		}
+
 		// Resend the autologin key if the client has not recognized its change.
 		if (isset($_SESSION['RHYMIX']['autologin_key']) && strlen($_SESSION['RHYMIX']['autologin_key']) === 48)
 		{
