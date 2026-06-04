@@ -20,33 +20,33 @@ class Security
 		{
 			// Escape HTML special characters.
 			case 'escape':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return escape($input);
 
 			// Strip all HTML tags.
 			case 'strip':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return escape(strip_tags($input));
 
 			// Clean up HTML content to prevent XSS attacks.
 			case 'html':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return Filters\HTMLFilter::clean($input);
 
 			// Clean up the input to be used as a safe filename.
 			case 'filename':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return Filters\FilenameFilter::clean($input);
-			
+
 			// Clean up SVG content to prevent various attacks.
 			case 'svg':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				$sanitizer = new \enshrined\svgSanitize\Sanitizer();
 				return strval($sanitizer->sanitize($input));
 
 			// Clean up a path to prevent argument injection.
 			case 'command':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				if (\RX_WINDOWS || preg_match('![^a-z0-9/._-]!', $input)) return escapeshellarg($input);
 				return strval($input);
 
