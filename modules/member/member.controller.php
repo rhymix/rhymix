@@ -2465,7 +2465,7 @@ class MemberController extends Member
 		$hashed_security_key = base64_encode(hash_hmac('sha256', $security_key, $autologin_key, true));
 
 		// Check the security key.
-		if ($hashed_security_key !== $output->data->security_key && $hashed_security_key !== $output->data->previous_key ?? '')
+		if ($hashed_security_key !== ($output->data->security_key ?? '') && $hashed_security_key !== ($output->data->previous_key ?? ''))
 		{
 			$args = new stdClass;
 			$args->autologin_key = $autologin_key;
