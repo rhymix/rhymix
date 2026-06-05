@@ -245,6 +245,7 @@ $lang->msg_invalid_request = '잘못된 요청입니다.';
 $lang->msg_invalid_password = '비밀번호가 올바르지 않습니다.';
 $lang->msg_password_mismatch = '비밀번호가 서로 일치하지 않습니다. 오타 여부를 확인해 주십시오.';
 $lang->msg_security_violation = '보안정책상 허용되지 않습니다.';
+$lang->msg_sec_upload_blocked = '보안정책상 파일 업로드가 차단되었습니다.';
 $lang->msg_method_not_allowed = '이 요청에 사용할 수 없는 HTTP 메소드입니다.';
 $lang->msg_feature_disabled = '사용할 수 없는 기능입니다.';
 $lang->msg_error_occured = '오류가 발생했습니다.';

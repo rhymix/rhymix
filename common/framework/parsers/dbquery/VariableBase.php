@@ -130,7 +130,7 @@ class VariableBase
 				if (!$is_expression) $params[] = $value;
 				break;
 			case 'excess':
-			case 'gt';
+			case 'gt':
 				$where = sprintf('%s > %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
@@ -140,16 +140,16 @@ class VariableBase
 				if (!$is_expression) $params[] = $value;
 				break;
 			case 'below':
-			case 'lt';
+			case 'lt':
 				$where = sprintf('%s < %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
-			case 'regexp';
+			case 'regexp':
 				$where = sprintf('%s REGEXP %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
-			case 'notregexp';
-			case 'not_regexp';
+			case 'notregexp':
+			case 'not_regexp':
 				$where = sprintf('%s NOT REGEXP %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
@@ -183,19 +183,15 @@ class VariableBase
 				break;
 			case 'and':
 				$where = sprintf('%s & %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'or':
 				$where = sprintf('%s | %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'xor':
 				$where = sprintf('%s ^ %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
-				break;
-			case 'not':
-				$where = sprintf('%s ~ %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'null':
 				$where = sprintf('%s IS NULL', $column);

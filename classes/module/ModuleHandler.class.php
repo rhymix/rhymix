@@ -81,7 +81,7 @@ class ModuleHandler extends Handler
 				break;
 			case 'DENY ALL':
 			default:
-				$this->error = 'msg_security_violation';
+				$this->error = ($oContext->security_check_detail === 'ERR_UNSAFE_FILE') ? 'msg_sec_upload_blocked' : 'msg_security_violation';
 				$this->error_detail = $oContext->security_check_detail;
 				return;
 		}
