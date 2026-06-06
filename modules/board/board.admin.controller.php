@@ -37,6 +37,10 @@ class BoardAdminController extends Board {
 		{
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 		}
+		else
+		{
+			$module_info = null;
+		}
 
 		// setup extra_order_target
 		$extra_order_target = array();

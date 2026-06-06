@@ -1416,7 +1416,8 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
 {
 	if($requestKey != $dbKey)
 	{
-		$arrayUrl = parse_url(Context::get('success_return_url'));
+		$success_return_url = Context::get($urlName);
+		$arrayUrl = parse_url($success_return_url);
 		if($arrayUrl['query'])
 		{
 			parse_str($arrayUrl['query'], $parsedStr);
@@ -1424,9 +1425,14 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
 			if(isset($parsedStr[$key]))
 			{
 				$parsedStr[$key] = $requestKey;
-				$successReturnUrl = $arrayUrl['path'].'?'.http_build_query($parsedStr);
-				Context::set($urlName, $successReturnUrl);
+				$success_return_url = $arrayUrl['path'].'?'.http_build_query($parsedStr);
+				Context::set($urlName, $success_return_url);
 			}
+		}
+		elseif ($key === 'mid' && str_starts_with($success_return_url, RX_BASEURL . $dbKey . '/'))
+		{
+			$success_return_url = str_replace(RX_BASEURL . $dbKey . '/', RX_BASEURL . $requestKey . '/', $success_return_url);
+			Context::set($urlName, $success_return_url);
 		}
 	}
 }
