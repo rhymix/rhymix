@@ -22,8 +22,9 @@
 	<tbody>
 		<tr loop="$module_list => $key,$val" data-type1="#"|cond="in_array($val->module,$favoriteModuleList)" data-type2="#"|cond="$val->need_install || $val->need_update || $val->need_autoinstall_update">
 			<td class="nodescription"|cond="!$val->description">
-				<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="in_array($val->module,$favoriteModuleList)">{lang("favorite")} ({lang("on")})</button>
-				<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="!in_array($val->module,$favoriteModuleList)">{lang("favorite")} ({lang("off")})</button>
+				<button type="button" class="fvOn" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="$val->admin_index_act && in_array($val->module,$favoriteModuleList)">{lang("favorite")} ({lang("on")})</button>
+				<button type="button" class="fvOff" onclick="doToggleFavoriteModule(this, '{$val->module}')" cond="$val->admin_index_act && !in_array($val->module,$favoriteModuleList)">{lang("favorite")} ({lang("off")})</button>
+				<button type="button" class="fvDisabled" onclick="return false" cond="!$val->admin_index_act"></button>
 			</td>
 			<td class="title">
 				<p>
