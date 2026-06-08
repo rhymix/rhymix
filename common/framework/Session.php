@@ -113,7 +113,7 @@ class Session
 		}
 
 		// Check if the session needs to be refreshed.
-		if (!$must_create && (!isset($_SESSION['RHYMIX']['last_refresh']) || $_SESSION['RHYMIX']['last_refresh'] < time() - $refresh_interval))
+		if (!$must_create && $refresh_interval > 0 && (!isset($_SESSION['RHYMIX']['last_refresh']) || $_SESSION['RHYMIX']['last_refresh'] < time() - $refresh_interval))
 		{
 			$must_refresh = true;
 		}
@@ -963,12 +963,12 @@ class Session
 	protected static function _getParams(): array
 	{
 		$lifetime = Config::get('session.lifetime');
-		$refresh = Config::get('session.refresh') ?: 300;
+		$refresh = Config::get('session.refresh') ?? 300;
 		$domain = self::getDomain();
 		$path = Config::get('session.path') ?: ini_get('session.cookie_path');
 		$secure = (\RX_SSL && config('session.use_ssl')) ? true : false;
 		$httponly = Config::get('session.httponly') ?? true;
-		$samesite = config('session.samesite') ?: '';
+		$samesite = config('session.samesite') ?? '';
 		return array($lifetime, $refresh, $domain, $path, $secure, $httponly, $samesite);
 	}
 

@@ -34,6 +34,7 @@ class Security extends Base
 		// Session and cookie security settings
 		Context::set('autologin_lifetime', Config::get('session.autologin_lifetime') ?: 365);
 		Context::set('autologin_refresh', Config::get('session.autologin_refresh') ?? true);
+		Context::set('session_refresh', Config::get('session.refresh') ?? 300);
 		Context::set('use_httponly', Config::get('session.httponly'));
 		Context::set('use_samesite', Config::get('session.samesite'));
 		Context::set('use_session_ssl', Config::get('session.use_ssl'));
@@ -131,6 +132,7 @@ class Security extends Base
 		Config::set('admin.deny', array_values($denied_ip));
 		Config::set('session.autologin_lifetime', max(1, min(400, intval($vars->autologin_lifetime))));
 		Config::set('session.autologin_refresh', ($vars->autologin_refresh ?? 'N') === 'Y');
+		Config::set('session.refresh', ($vars->use_session_refresh ?? 'N') === 'Y' ? 300 : 0);
 		Config::set('session.httponly', $vars->use_httponly === 'Y');
 		Config::set('session.samesite', $vars->use_samesite);
 		Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');
