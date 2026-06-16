@@ -128,6 +128,7 @@ class extract
 		}
 		else
 		{
+			if(!file_exists($this->filename)) return new BaseObject(-1, 'msg_no_xml_file');
 			$this->fd = fopen($this->filename,"r");
 		}
 
