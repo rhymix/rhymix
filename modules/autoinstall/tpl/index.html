@@ -1,27 +1,63 @@
+<config autoescape="on" />
+
 <include target="header.html" />
-{@
-	$from_id = array(
-		'modules/autoinstall/tpl/install/1' => 1,
-		'modules/autoinstall/tpl/index/1' => 1,
-		'modules/autoinstall/tpl/uninstall/1' => 1
-	);
-}
-<div cond="$XE_VALIDATOR_MESSAGE && isset($from_id[$XE_VALIDATOR_ID])" class="message {$XE_VALIDATOR_MESSAGE_TYPE}">
-	<p>{$XE_VALIDATOR_MESSAGE}</p>
+
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$type == 'all'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('all')}</a>
+	</li>
+	<!--@foreach($package_types as $_type => $_typename)-->
+		<li class="x_active"|cond="$type == $_type">
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex', 'type', $_type)}">{$_typename}</a>
+		</li>
+	<!--@endforeach-->
+</ul>
+
+<div id="__list_simple">
+	<div class="list">
+		<!--@foreach($package_list as $package)-->
+			<div class="x_thumbnail">
+				<div class="thumb" style="min-height:80px">
+					<!--@if(!empty($package->extra_vars->thumbnail))-->
+						<img src="{$package->extra_vars->thumbnail}" alt="" style="width:120px;height:80px" />
+					<!--@endif-->
+				</div>
+				<div class="text">
+					<h3>
+						<span class="x_label x_label-info">{$package_types[$package->type] ?? lang('autoinstall.typename.' . $package->type)}</span>
+						<a href="{$package->extra_vars->url}" title="{$package->title}" target="_blank">{$package->title}</a>
+					</h3>
+					<p>
+						{$package->description}
+					</p>
+					<p>
+						{$package->author}
+					</p>
+					<p>
+						<i class="xi-cloud-download"></i> {$package->extra_vars->download_count}
+						<i class="xi-heart"></i> {$package->extra_vars->like_count}
+					</p>
+				</div>
+			</div>
+		<!--@endforeach-->
+	</div>
 </div>
-<!--
-<form action="" method="post">
-	<input type="hidden" name="module" value="autoinstall" />
-	<input type="hidden" name="act" value="procAutoinstallAdminUpdateinfo" />
-	<input type="hidden" name="xe_validator_id" value="modules/autoinstall/tpl/index/1" />
-	<p>
-		<block cond="$show_ftp_note">
-			{@$ftp_link = sprintf('<a href="%s">%s</a>', getUrl('', 'module', 'admin', 'act', 'dispAdminConfigFtp'), $lang->ftp_setup)}
-			{sprintf($lang->description_ftp_note, $ftp_link)}
-		</block>
-		{@$btnUpdate = sprintf('<input type="submit" value="%s" class="x_btn x_btn-link" style="position:relative;top:-1px;text-decoration:underline !important" />', $lang->status_update)}
-		{sprintf($lang->description_update, $btnUpdate)}
-	</p>
-</form>
--->
-<include target="list.html" />
+
+<div class="x_clearfix" style="margin-top:-10px">
+	<div cond="$page_navigation" class="x_pagination x_pull-left">
+		<ul>
+			<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
+			<!--@while($page_no = $page_navigation->getNextPage())-->
+				{@ $last_page = $page_no}
+				<li class="x_active"|cond="$page_no == $page"><a  href="{getUrl('page', $page_no)}">{$page_no}</a></li>
+			<!--@end-->
+			<li class="x_disabled"|cond="$page == $page_navigation->last_page"><a href="{getUrl('page', $page_navigation->last_page)}" title="{$page_navigation->last_page}">{$lang->last_page} &raquo;</a></li>
+		</ul>
+	</div>
+	<form action="./" class="search x_input-append x_pull-right" no-error-return-url="true">
+		<input type="hidden" name="module" value="admin" />
+		<input type="hidden" name="act" value="{$act}" />
+		<input type="search" name="search_keyword" required value="{$search_keyword}" />
+		<button class="x_btn x_btn-inverse" type="submit">{$lang->cmd_search}</button>
+	</form>
+</div>

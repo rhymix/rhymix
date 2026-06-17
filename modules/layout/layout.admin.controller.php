@@ -255,26 +255,7 @@ class LayoutAdminController extends Layout
 				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl', 'layout'));
 				if(count($layoutList) <= 1)
 				{
-					// uninstall package
-					$path = $layoutInfo->path;
-
-					$oAutoinstallModel = getModel('autoinstall');
-					$packageSrl = $oAutoinstallModel->getPackageSrlByPath($path);
-					$oAutoinstallAdminController = getAdminController('autoinstall');
-
-					if($packageSrl)
-					{
-						$output = $oAutoinstallAdminController->uninstallPackageByPackageSrl($packageSrl);
-					}
-					else
-					{
-						$output = $oAutoinstallAdminController->uninstallPackageByPath($path);
-					}
-
-					if(!$output->toBool())
-					{
-						throw new Rhymix\Framework\Exception($output->message);
-					}
+					// Autoinstall integration has been removed.
 				}
 			}
 		}

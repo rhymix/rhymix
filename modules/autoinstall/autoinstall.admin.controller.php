@@ -8,7 +8,7 @@ require_once(RX_BASEDIR . 'modules/autoinstall/autoinstall.lib.php');
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class autoinstallAdminController extends autoinstall
+class AutoinstallAdminController extends Autoinstall
 {
 
 	/**
@@ -204,7 +204,7 @@ class autoinstallAdminController extends autoinstall
 			{
 				continue;
 			}
-			
+
 			if(!$oAdminModel->checkUseDirectModuleInstall($package)->toBool())
 			{
 				return new BaseObject(-1, 'msg_no_permission_to_install');
@@ -391,19 +391,19 @@ class autoinstallAdminController extends autoinstall
 		{
 			$_download_server .= '/';
 		}
-		
+
 		$args = new stdClass();
 		$args->location_site = $_location_site;
 		$args->download_server = $_download_server;
 
 		$oModuleController = getController('module');
 		$output = $oModuleController->updateModuleConfig('autoinstall', $args);
-	
+
 		// init. DB tables
 		executeQuery("autoinstall.deletePackages");
 		executeQuery("autoinstall.deleteCategory");
 		executeQuery("autoinstall.deleteInstalledPackage");
-		
+
 		// default setting end
 		$this->setMessage('success_updated');
 

@@ -42,33 +42,12 @@ class addonAdminModel extends addon
 	function getAddonListForSuperAdmin()
 	{
 		$addonList = $this->getAddonList(0, 'site');
-
-		$oAutoinstallModel = getModel('autoinstall');
 		foreach($addonList as $key => $addon)
 		{
-			// check blacklist
 			$addonList[$key]->isBlacklisted = Context::isBlacklistedPlugin($addon->addon, 'addon');
-
-			// get easyinstall remove url
-			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($addon->path);
-			$addonList[$key]->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
-
-			// get easyinstall need update
-			if($addonList[$key]->isBlacklisted)
-			{
-				$addonList[$key]->need_update = 'N';
-			}
-			else
-			{
-				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-				$addonList[$key]->need_update = $package[$packageSrl]->need_update ?? null;
-			}
-
-			// get easyinstall update url
-			if($addonList[$key]->need_update == 'Y')
-			{
-				$addonList[$key]->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
-			}
+			$addonList[$key]->remove_url = null;
+			$addonList[$key]->update_url = null;
+			$addonList[$key]->need_update = null;
 		}
 
 		return $addonList;

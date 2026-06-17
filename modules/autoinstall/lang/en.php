@@ -45,17 +45,19 @@ $lang->msg_does_not_support_delete = 'Cannot delete this package (no moduleUnins
 $lang->msg_update_core_title = 'Rhymix Core is updateing.';
 $lang->msg_update_core = 'Prior to updating Rhymix Core, please check the compatibility of the installed packages (e.g., modules, widgets, layouts, skins, etc.).';
 $lang->installed = 'Installed';
+
 $lang->typename['core'] = 'Core';
-$lang->typename['m.layout'] = 'Mobile layout';
 $lang->typename['module'] = 'Module';
 $lang->typename['addon'] = 'Addon';
 $lang->typename['layout'] = 'Layout';
 $lang->typename['widget'] = 'Widget';
-$lang->typename['component'] = 'Editor component';
-$lang->typename['m.skin'] = 'Mobile Skin';
-$lang->typename['skin'] = 'Skin';
-$lang->typename['widgetstyle'] = 'Widget style';
-$lang->typename['style'] = 'Document style';
+$lang->typename['plugin'] = 'Plugin';
+$lang->typename['theme'] = 'Theme';
+$lang->typename['module-skin'] = 'Module skin';
+$lang->typename['widget-skin'] = 'Widget skin';
+$lang->typename['editor-skin'] = 'Editor';
+$lang->typename['editor-component'] = 'Editor component';
+$lang->typename['theme-package'] = 'Theme package';
 
 $lang->location_site = 'Download Homepage';
 $lang->about_location_site = 'Please type your download homepage. ex)https://xe1.xpressengine.com/';

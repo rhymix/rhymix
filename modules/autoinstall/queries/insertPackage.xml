@@ -1,14 +1,20 @@
 <query id="insertPackage" action="insert">
-    <tables>
-        <table name="autoinstall_packages" />
-    </tables>
-    <columns>
-        <column name="package_srl" var="package_srl" filter="number" notnull="notnull" />
-        <column name="category_srl" var="category_srl" filter="number" />
-        <column name="path" var="path" notnull="notnull" />
-        <column name="have_instance" var="have_instance" notnull="notnull" />
-        <column name="updatedate" var="updatedate" notnull="notnull" />
-        <column name="latest_item_srl" var="latest_item_srl" notnull="notnull" />
-        <column name="version" var="version" notnull="notnull" />
-    </columns>
+	<tables>
+		<table name="autoinstall_packages" />
+	</tables>
+	<columns>
+		<column name="package_srl" var="package_srl" filter="number" notnull="notnull" />
+		<column name="type" var="type" notnull="notnull" />
+		<column name="title" var="title" notnull="notnull" />
+		<column name="description" var="description" notnull="notnull" />
+		<column name="author" var="author" notnull="notnull" />
+		<column name="license" var="license" notnull="notnull" />
+		<column name="last_release_version" var="last_release_version" notnull="notnull" />
+		<column name="install_path" var="install_path" notnull="notnull" />
+		<column name="install_enabled" var="install_enabled" notnull="notnull" />
+		<column name="sale_enabled" var="sale_enabled" notnull="notnull" />
+		<column name="created" var="created" notnull="notnull" />
+		<column name="updated" var="updated" notnull="notnull" />
+		<column name="extra_vars" var="extra_vars" notnull="notnull" />
+	</columns>
 </query>

@@ -1,465 +1,142 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
-/**
- * Model class of the autoinstall module
- * @author NAVER (developers@xpressengine.com)
- */
-class autoinstallModel extends autoinstall
+class AutoinstallModel extends Autoinstall
 {
+	/**
+	 * Package list API URL
+	 */
+	public const PACKAGE_LIST_URL = 'https://api.rhymix.org/pds/index.json';
 
 	/**
-	 * Get category information
+	 * Get module configuration
 	 *
-	 * @param int $category_srl The sequence of category to get information
 	 * @return object
 	 */
-	function getCategory($category_srl)
+	public static function getConfig()
 	{
-		$args = new stdClass();
-		$args->category_srl = $category_srl;
-		$output = executeQueryArray("autoinstall.getCategory", $args);
-		if(!$output->data)
-		{
-			return null;
-		}
-		return array_shift($output->data);
+		return ModuleModel::getModuleConfig('autoinstall') ?: new stdClass();
 	}
 
 	/**
-	 * Get packages information
+	 * Get package count
 	 *
-	 * @return array
+	 * @param string $type
+	 * @return int
 	 */
-	function getPackages()
+	public static function getPackageCount($type = 'all')
 	{
-		$output = executeQueryArray("autoinstall.getPackages");
-		if(!$output->data)
+		$args = new stdClass;
+		$args->type = $type === 'all' ? null : $type;
+		return executeQuery('autoinstall.getPackageCount', $args)->data->count ?? 0;
+	}
+
+	/**
+	 * Get package information
+	 *
+	 * @param int $package_srl
+	 * @return ?object
+	 */
+	public static function getPackage($package_srl)
+	{
+		$args = new stdClass;
+		$args->package_srl = intval($package_srl);
+		$output = executeQuery('autoinstall.getPackage', $args);
+		if (!$output->toBool())
 		{
-			return array();
+			return null;
+		}
+		if (isset($output->data->extra_vars))
+		{
+			$output->data->extra_vars = json_decode($output->data->extra_vars);
 		}
 		return $output->data;
 	}
 
 	/**
-	 * Get installed packages information
+	 * Search packages
 	 *
-	 * @param int $package_srl The sequence of package to get information
-	 * @return object
-	 */
-	function getInstalledPackage($package_srl)
-	{
-		$args = new stdClass();
-		$args->package_srl = $package_srl;
-		$output = executeQueryArray("autoinstall.getInstalledPackage", $args);
-		if(!$output->data)
-		{
-			return null;
-		}
-		return array_shift($output->data);
-	}
-
-	/**
-	 * Get one package information
-	 *
-	 * @param int $package_srl The sequence of package to get information
-	 * @return object
-	 */
-	function getPackage($package_srl)
-	{
-		$args = new stdClass();
-		$args->package_srl = $package_srl;
-		$output = executeQueryArray("autoinstall.getPackage", $args);
-		if(!$output->data)
-		{
-			return null;
-		}
-		return array_shift($output->data);
-	}
-
-	/**
-	 * Get category list
-	 *
-	 * @return array
-	 */
-	function getCategoryList()
-	{
-		$output = executeQueryArray("autoinstall.getCategories");
-		if(!$output->toBool() || !$output->data)
-		{
-			return array();
-		}
-
-		$categoryList = array();
-		foreach($output->data as $category)
-		{
-			$category->children = array();
-			$categoryList[$category->category_srl] = $category;
-		}
-
-		$depth0 = array();
-		foreach($categoryList as $key => $category)
-		{
-			if($category->parent_srl)
-			{
-				$categoryList[$category->parent_srl]->children[] = & $categoryList[$key];
-			}
-			else
-			{
-				$depth0[] = $key;
-			}
-		}
-		$resultList = array();
-		foreach($depth0 as $category_srl)
-		{
-			$this->setDepth($categoryList[$category_srl], 0, $categoryList, $resultList);
-		}
-		return $resultList;
-	}
-
-	/**
-	 * Get pcakge count in category
-	 *
-	 * @param int $category_srl The sequence of category to get count
-	 * @return int
-	 */
-	function getPackageCount($category_srl)
-	{
-		$args = new stdClass();
-		$args->category_srl = $category_srl;
-		$output = executeQuery("autoinstall.getPackageCount", $args);
-		if(!$output->data)
-		{
-			return 0;
-		}
-		return $output->data->count;
-	}
-
-	/**
-	 * Get installed package count
-	 *
-	 * @return int
-	 */
-	function getInstalledPackageCount()
-	{
-		$output = executeQuery("autoinstall.getInstalledPackageCount");
-		if(!$output->data)
-		{
-			return 0;
-		}
-		return $output->data->count;
-	}
-
-	/**
-	 * Set depth, children list and package count of category
-	 *
-	 * @param object $item Category information
-	 * @param int $depth Depth of category
-	 * @param array $list Category list
-	 * @param array $resultList Final result list
-	 * @return string $siblingList Comma separated list
-	 */
-	function setDepth(&$item, $depth, &$list, &$resultList)
-	{
-		$resultList[$item->category_srl] = &$item;
-		$item->depth = $depth;
-		$siblingList = $item->category_srl;
-		foreach($item->children as $child)
-		{
-			$siblingList .= "," . $this->setDepth($list[$child->category_srl], $depth + 1, $list, $resultList);
-		}
-		if(count($item->children) < 1)
-		{
-			$item->nPackages = $this->getPackageCount($item->category_srl);
-		}
-		$item->childrenList = $siblingList;
-		return $siblingList;
-	}
-
-	/**
-	 * Get lastest package information
-	 *
-	 * @return object Returns lastest package information. If no result returns null.
-	 */
-	function getLatestPackage()
-	{
-		$output = executeQueryArray("autoinstall.getLatestPackage");
-		if(!$output->data)
-		{
-			return null;
-		}
-		return array_shift($output->data);
-	}
-
-	/**
-	 * Get installed package informations
-	 *
-	 * @param array $package_list Package sequence list to get information
-	 * @return array Returns array contains pacakge information. If no result returns empty array.
-	 */
-	function getInstalledPackages($package_list)
-	{
-		$args = new stdClass();
-		$args->package_list = $package_list;
-		$output = executeQueryArray("autoinstall.getInstalledPackages", $args);
-		$result = array();
-		if(!$output->data)
-		{
-			return $result;
-		}
-		foreach($output->data as $value)
-		{
-			$result[$value->package_srl] = $value;
-		}
-		return $result;
-	}
-
-	/**
-	 * Get installed package list
-	 *
+	 * @param string $type
+	 * @param ?string $search_keyword
+	 * @param int $count
 	 * @param int $page
-	 * @return Object
+	 * @return BaseObject
 	 */
-	function getInstalledPackageList($page)
+	public static function searchPackages($type, $search_keyword = null, $count = 20, $page = 1)
 	{
-		$args = new stdClass();
+		$args = new stdClass;
+		$args->type = $type === 'all' ? null : $type;
+		$args->search_keyword = $search_keyword ?: null;
+		$args->list_count = $count;
 		$args->page = $page;
-		$args->list_count = 10;
-		$args->page_count = 5;
-		if(Context::getDBType() == 'mssql')
+		$output = executeQueryArray('autoinstall.getPackages', $args);
+		foreach ($output->data as $row)
 		{
-			$args->sort_index = 'package_srl';
+			$row->extra_vars = json_decode($row->extra_vars);
 		}
-		$output = executeQueryArray("autoinstall.getInstalledPackageList", $args);
-		$res = array();
-		if($output->data)
-		{
-			foreach($output->data as $val)
-			{
-				$res[$val->package_srl] = $val;
-			}
-		}
-		$output->data = $res;
 		return $output;
 	}
 
 	/**
-	 * Get type using path
+	 * Update package list from official repository
 	 *
-	 * @param string $path Path to get type
-	 * @return string
-	 */
-	function getTypeFromPath($path)
-	{
-		if(!$path)
-		{
-			return NULL;
-		}
-
-		if($path == ".")
-		{
-			return "core";
-		}
-
-		$path_array = explode("/", $path);
-		$target_name = array_pop($path_array);
-		if(!$target_name)
-		{
-			$target_name = array_pop($path_array);
-		}
-		$type = substr(array_pop($path_array), 0, -1);
-		return $type;
-	}
-
-	/**
-	 * Get config file path by type
-	 *
-	 * @param string $type Type to get config file path
-	 * @return string
-	 */
-	function getConfigFilePath($type)
-	{
-		$config_file = NULL;
-		switch($type)
-		{
-			case "m.layout":
-			case "module":
-			case "addon":
-			case "layout":
-			case "widget":
-			case 'theme': // for backward compatibility
-				$config_file = "/conf/info.xml";
-				break;
-			case "component":
-				$config_file = "/info.xml";
-				break;
-			case "m.skin":
-			case "skin":
-			case "widgetstyle":
-			case "style":
-				$config_file = "/skin.xml";
-				break;
-			case "drcomponent":
-				$config_file = "/info.xml";
-				break;
-		}
-		return $config_file;
-	}
-
-	/**
-	 * Returns target is removable
-	 *
-	 * @param string $path Path
 	 * @return bool
 	 */
-	function checkRemovable($path)
+	public static function updatePackageList()
 	{
-		$path_array = explode("/", $path);
-		$target_name = array_pop($path_array);
-		$oModule = ModuleModel::getModuleInstallClass($target_name);
-		if(!$oModule)
+		// Fetch the latest package list.
+		$request = Rhymix\Framework\HTTP::get(self::PACKAGE_LIST_URL, null, [], [], ['timeout' => 10]);
+		if ($request->getStatusCode() !== 200)
 		{
-			return FALSE;
+			return false;
 		}
-		if(method_exists($oModule, "moduleUninstall"))
+		$response = $request->getBody()->getContents();
+		if ($response === '')
 		{
-			return TRUE;
+			return false;
 		}
-		else
+		$response = json_decode($response);
+		if (!$response || !isset($response->category))
 		{
-			return FALSE;
+			return false;
 		}
+
+		// Store the package list in the database.
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		$oDB->query('TRUNCATE TABLE autoinstall_packages');
+		foreach (array_reverse($response->packages) as $package)
+		{
+			$args = new stdClass;
+			$extra_vars = new stdClass;
+			$args->package_srl = $package->package_srl;
+			$args->type = $package->type;
+			$args->title = $package->title;
+			$args->description = $package->description;
+			$args->author = $package->author;
+			$args->license = $package->license;
+			$args->last_release_version = $package->last_release_version;
+			$args->install_path = $package->install_path;
+			$args->install_enabled = $package->install_enabled ? 'Y' : 'N';
+			$args->sale_enabled = $package->sale_enabled ? 'Y' : 'N';
+			$args->created = $package->created;
+			$args->updated = $package->updated;
+			foreach ($package as $key => $val)
+			{
+				if (!isset($args->{$key}) && isset($val))
+				{
+					$extra_vars->{$key} = $val;
+				}
+			}
+			$args->extra_vars = json_encode($extra_vars, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+			$output = executeQuery('autoinstall.insertPackage', $args);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return false;
+			}
+		}
+		$oDB->commit();
+
+		return true;
 	}
-
-	/**
-	 * Get sequence of package by path
-	 *
-	 * @param string $path Path to get sequence
-	 * @return int
-	 */
-	function getPackageSrlByPath($path)
-	{
-		if(!$path)
-		{
-			return;
-		}
-
-		if(substr($path, -1) == '/')
-		{
-			$path = substr($path, 0, strlen($path) - 1);
-		}
-
-		if(empty($GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path]))
-		{
-			$args = new stdClass();
-			$args->path = $path;
-			$output = executeQuery('autoinstall.getPackageSrlByPath', $args);
-
-			$GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path] = $output->data->package_srl ?? null;
-		}
-
-		return $GLOBALS['XE_AUTOINSTALL_PACKAGE_SRL_BY_PATH'][$path];
-	}
-
-	/**
-	 * Get remove url by package srl
-	 *
-	 * @param int $packageSrl Sequence of pakcage to get url
-	 * @return string
-	 */
-	function getRemoveUrlByPackageSrl($packageSrl)
-	{
-		$ftp_info = Context::getFTPInfo();
-		if(empty($ftp_info->ftp_root_path))
-		{
-			return;
-		}
-
-		if(!$packageSrl)
-		{
-			return;
-		}
-
-		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
-	}
-
-	/**
-	 * Get remove url by path
-	 *
-	 * @param string $path Path to get url
-	 * @return string
-	 */
-	function getRemoveUrlByPath($path)
-	{
-		if(!$path)
-		{
-			return;
-		}
-
-		$ftp_info = Context::getFTPInfo();
-		if(empty($ftp_info->ftp_root_path))
-		{
-			return;
-		}
-
-		$packageSrl = $this->getPackageSrlByPath($path);
-		if(!$packageSrl)
-		{
-			return;
-		}
-
-		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminUninstall', 'package_srl', $packageSrl);
-	}
-
-	/**
-	 * Get update url by package srl
-	 *
-	 * @param int $packageSrl Sequence to get url
-	 * @return string
-	 */
-	function getUpdateUrlByPackageSrl($packageSrl)
-	{
-		if(!$packageSrl)
-		{
-			return;
-		}
-
-		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
-	}
-
-	/**
-	 * Get update url by path
-	 *
-	 * @param string $path Path to get url
-	 * @return string
-	 */
-	function getUpdateUrlByPath($path)
-	{
-		if(!$path)
-		{
-			return;
-		}
-
-		$packageSrl = $this->getPackageSrlByPath($path);
-		if(!$packageSrl)
-		{
-			return;
-		}
-
-		return getNotEncodedUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminInstall', 'package_srl', $packageSrl);
-	}
-
-	function getHaveInstance($columnList = array())
-	{
-		$output = executeQueryArray('autoinstall.getHaveInstance', NULL, $columnList);
-		if(!$output->data)
-		{
-			return array();
-		}
-
-		return $output->data;
-	}
-
 }
-/* End of file autoinstall.model.php */
-/* Location: ./modules/autoinstall/autoinstall.model.php */
