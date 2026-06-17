@@ -370,6 +370,7 @@ class Cleanup extends Base
 		'modules/admin/tpl/css/admin_jp.css' => 'deleted:xe',
 		'modules/admin/tpl/css/admin_ko.css' => 'deleted:xe',
 		'modules/admin/tpl/filter/' => 'deleted:xe',
+		'modules/autoinstall/autoinstall.lib.php' => 'deleted:xe',
 		'modules/autoinstall/ruleset/' => 'deleted:xe',
 		'modules/autoinstall/schemas/ai_installed_packages.xml' => 'deleted:xe',
 		'modules/autoinstall/schemas/ai_remote_categories.xml' => 'deleted:xe',
