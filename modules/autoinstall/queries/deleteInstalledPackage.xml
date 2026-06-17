@@ -1,8 +1,0 @@
-<query id="deleteInstalledPackage" action="delete">
-    <tables>
-        <table name="ai_installed_packages" />
-    </tables>
-    <conditions>
-        <condition operation="equal" column="package_srl" var="package_srl" filter="number" />
-    </conditions>
-</query>
