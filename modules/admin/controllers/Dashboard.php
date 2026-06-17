@@ -15,11 +15,6 @@ use ModuleModel;
 class Dashboard extends Base
 {
 	/**
-	 * Easy install flag file
-	 */
-	public const EASYINSTALL_FLAG_FILE = 'files/env/easyinstall_last';
-
-	/**
 	 * Display the dashboard.
 	 */
 	public function dispAdminIndex()
@@ -114,12 +109,7 @@ class Dashboard extends Base
 			}
 		}
 
-		// Retrieve the list of installed modules
-		$this->checkEasyInstall();
-
 		// Get need update from easy install
-		//$oAutoinstallAdminModel = getAdminModel('autoinstall');
-		//$needUpdateList = $oAutoinstallAdminModel->getNeedUpdateList();
 		$needUpdateList = array();
 
 		// Check counter addon
@@ -162,54 +152,5 @@ class Dashboard extends Base
 	{
 		MemberController::getInstance()->procMemberLogout();
 		header('Location: ' . getNotEncodedUrl(''));
-	}
-
-	/**
-	 * Check easy install.
-	 *
-	 * @return void
-	 */
-	public function checkEasyInstall()
-	{
-		$lastTime = intval(FileHandler::readFile(self::EASYINSTALL_FLAG_FILE));
-		if($lastTime > $_SERVER['REQUEST_TIME'] - 60 * 60 * 24 * 30)
-		{
-			return;
-		}
-
-		$oAutoinstallAdminModel = getAdminModel('autoinstall');
-		$config = $oAutoinstallAdminModel->getAutoInstallAdminModuleConfig();
-
-		$oAutoinstallModel = getModel('autoinstall');
-		$params = array();
-		$params["act"] = "getResourceapiLastupdate";
-		$body = \XmlGenerater::generate($params);
-		$buff = FileHandler::getRemoteResource($config->download_server, $body, 3, "POST", "application/xml");
-		$lUpdateDoc = simplexml_load_string($buff);
-		$updateDate = trim($lUpdateDoc->updatedate);
-
-		if(!$updateDate)
-		{
-			$this->_updateEasyInstallFlagFile();
-			return;
-		}
-
-		$item = $oAutoinstallModel->getLatestPackage();
-		if(!$item || $item->updatedate < $updateDate)
-		{
-			$oController = getAdminController('autoinstall');
-			$oController->_updateinfo();
-		}
-		$this->_updateEasyInstallFlagFile();
-	}
-
-	/**
-	 * Update the easy install flag file.
-	 *
-	 * @return void
-	 */
-	protected function _updateEasyInstallFlagFile()
-	{
-		FileHandler::writeFile(self::EASYINSTALL_FLAG_FILE, \RX_TIME);
 	}
 }
