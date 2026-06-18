@@ -96,6 +96,18 @@ class AutoinstallModel extends Autoinstall
 		{
 			$row->extra_vars = json_decode($row->extra_vars);
 		}
+
+		// Cap featured list to 3 pages
+		if ($type === 'featured' && $output->total_page > 3)
+		{
+			$output->total_count = $count * 3;
+			$output->total_page = 3;
+			$output->page_navigation->total_count = $count * 3;
+			$output->page_navigation->total_page = 3;
+			$output->page_navigation->page_count = 3;
+			$output->page_navigation->last_page = 3;
+		}
+
 		return $output;
 	}
 
