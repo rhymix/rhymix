@@ -116,9 +116,9 @@ class FormatterTest extends \Codeception\Test\Unit
 		$test_target1 = \RX_BASEDIR . 'tests/_output/scss.target1.css';
 		$test_target2 = \RX_BASEDIR . 'tests/_output/scss.target2.css';
 
-		$this->assertTrue(Rhymix\Framework\Formatter::compileSCSS($sources, $test_target1, $variables));
+		$this->assertTrue(Rhymix\Framework\Formatter::compileSCSS($sources, $test_target1, $variables, false, true));
 		$this->assertEquals($real_target1, file_get_contents($test_target1));
-		$this->assertTrue(Rhymix\Framework\Formatter::compileSCSS($sources, $test_target2, $variables, true));
+		$this->assertTrue(Rhymix\Framework\Formatter::compileSCSS($sources, $test_target2, $variables, true, false));
 		$this->assertEquals($real_target2, file_get_contents($test_target2));
 
 		unlink($test_target1);

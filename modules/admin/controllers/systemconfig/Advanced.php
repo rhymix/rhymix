@@ -108,6 +108,7 @@ class Advanced extends Base
 		Context::set('manager_layout', Config::get('view.manager_layout'));
 		Context::set('minify_scripts', Config::get('view.minify_scripts'));
 		Context::set('concat_scripts', Config::get('view.concat_scripts'));
+		Context::set('make_sourcemap', Config::get('view.make_sourcemap'));
 		Context::set('jquery_version', Config::get('view.jquery_version'));
 		Context::set('outgoing_proxy', Config::get('other.proxy'));
 
@@ -232,6 +233,7 @@ class Advanced extends Base
 		Config::set('view.manager_layout', $vars->manager_layout ?: 'module');
 		Config::set('view.minify_scripts', $vars->minify_scripts ?: 'common');
 		Config::set('view.concat_scripts', $vars->concat_scripts ?: 'none');
+		Config::set('view.make_sourcemap', $vars->make_sourcemap === 'Y');
 		Config::set('view.delay_compile', intval($vars->delay_template_compile));
 		Config::set('view.jquery_version', $vars->jquery_version == 3 ? 3 : 2);
 		Config::set('other.proxy', $proxy);

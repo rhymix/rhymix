@@ -406,7 +406,8 @@ class FrontEndFileHandler extends Handler
 		if ($recompile)
 		{
 			$method_name = 'compile' . $file->fileExtension;
-			Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify);
+			$make_sourcemap = config('view.make_sourcemap') !== false;
+			Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify, $make_sourcemap);
 		}
 
 		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
