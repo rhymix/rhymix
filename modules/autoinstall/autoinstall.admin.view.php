@@ -43,7 +43,7 @@ class AutoinstallAdminView extends Autoinstall
 	 */
 	public function dispAutoinstallAdminIndex()
 	{
-		$type = trim(Context::get('type') ?? 'all');
+		$type = trim(Context::get('type') ?? 'featured');
 		$page = intval(Context::get('page')) ?: 1;
 		$search_keyword = escape(trim(Context::get('search_keyword') ?? ''), false);
 		Context::set('type', $type);

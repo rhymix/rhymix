@@ -57,6 +57,8 @@ $lang->typename['widget-skin'] = '위젯 스킨';
 $lang->typename['editor-skin'] = '에디터';
 $lang->typename['editor-component'] = '에디터 컴포넌트';
 $lang->typename['theme-package'] = '테마 패키지';
+
+$lang->featured_packages = '추천 자료';
 $lang->autoinstall_rhymix_pds_message = '자료를 클릭하면 Rhymix 공식 홈페이지 자료실로 연결됩니다. 자료실에서 다운로드 또는 구매하실 수 있습니다.<br>직접 설치하는 기능은 퍼미션이 허용되는 서버 환경 한정으로 Rhymix 2.2부터 지원할 예정입니다.';
 $lang->license_pricing_format = '%s원~';
 $lang->license_for_sale = '유료';

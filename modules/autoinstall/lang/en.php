@@ -58,6 +58,8 @@ $lang->typename['widget-skin'] = 'Widget skin';
 $lang->typename['editor-skin'] = 'Editor';
 $lang->typename['editor-component'] = 'Editor component';
 $lang->typename['theme-package'] = 'Theme package';
+
+$lang->featured_packages = 'Featured Packages';
 $lang->autoinstall_rhymix_pds_message = 'Clicking on an item will take you to the Rhymix official website resource center, where you can download or purchase the item.<br>Direct installation will be supported from Rhymix 2.2 in server environments with favorable permissions.';
 $lang->license_pricing_format = 'From %s KRW';
 $lang->license_for_sale = 'For Sale';

@@ -26,7 +26,7 @@ class AutoinstallModel extends Autoinstall
 	public static function getPackageCount($type = 'all')
 	{
 		$args = new stdClass;
-		$args->type = $type === 'all' ? null : $type;
+		$args->type = ($type === 'all' || $type === 'featured') ? null : $type;
 		return executeQuery('autoinstall.getPackageCount', $args)->data->count ?? 0;
 	}
 
@@ -86,8 +86,9 @@ class AutoinstallModel extends Autoinstall
 	public static function searchPackages($type, $search_keyword = null, $count = 20, $page = 1)
 	{
 		$args = new stdClass;
-		$args->type = $type === 'all' ? null : $type;
+		$args->type = ($type === 'all' || $type === 'featured') ? null : $type;
 		$args->search_keyword = $search_keyword ?: null;
+		$args->sort_index = ($type === 'featured') ? 'featured_count' : 'updated';
 		$args->list_count = $count;
 		$args->page = $page;
 		$output = executeQueryArray('autoinstall.getPackages', $args);
@@ -135,13 +136,19 @@ class AutoinstallModel extends Autoinstall
 			$args->title = $package->title;
 			$args->description = $package->description;
 			$args->author = $package->author;
-			$args->license = $package->license;
-			$args->last_release_version = $package->last_release_version;
-			$args->install_path = $package->install_path;
+			$args->license = $package->license ?: '';
+			$args->last_release_version = $package->last_release_version ?: '';
+			$args->install_path = $package->install_path ?: '';
 			$args->install_enabled = $package->install_enabled ? 'Y' : 'N';
 			$args->sale_enabled = $package->sale_enabled ? 'Y' : 'N';
 			$args->created = $package->created;
 			$args->updated = $package->updated;
+
+			$featured_count = sqrt($package->download_count) + $package->like_count;
+			$age = (time() - ztime($args->updated)) / (86400 * 365);
+			$featured_count = $featured_count / (1 + $age);
+			$args->featured_count = round($featured_count);
+
 			foreach ($package as $key => $val)
 			{
 				if (!isset($args->{$key}) && isset($val))

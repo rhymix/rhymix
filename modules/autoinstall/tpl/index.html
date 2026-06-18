@@ -3,8 +3,8 @@
 <include target="header.html" />
 
 <ul class="x_nav x_nav-tabs">
-	<li class="x_active"|cond="$type == 'all'">
-		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('all')}</a>
+	<li class="x_active"|cond="$type == 'featured'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('featured_packages')}</a>
 	</li>
 	<!--@foreach($package_types as $_type => $_typename)-->
 		<li class="x_active"|cond="$type == $_type">

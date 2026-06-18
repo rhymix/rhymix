@@ -15,6 +15,7 @@
 		<column name="sale_enabled" var="sale_enabled" notnull="notnull" />
 		<column name="created" var="created" notnull="notnull" />
 		<column name="updated" var="updated" notnull="notnull" />
+		<column name="featured_count" var="featured_count" default="0" />
 		<column name="extra_vars" var="extra_vars" notnull="notnull" />
 	</columns>
 </query>
