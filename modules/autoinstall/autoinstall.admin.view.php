@@ -14,10 +14,10 @@ class AutoinstallAdminView extends Autoinstall
 		$this->config = $config;
 
 		// Update the package list.
-		$package_count = AutoinstallModel::getPackageCount();
+		$package_count = Rhymix\Modules\Autoinstall\Models\Package::getPackageCount();
 		if (!$package_count || !isset($config->last_update_check) || ($config->last_update_check < time() - 86400))
 		{
-			$success = AutoinstallModel::updatePackageList();
+			$success = Rhymix\Modules\Autoinstall\Models\Package::updatePackageList();
 			if ($success)
 			{
 				$config->last_update_check = time();
@@ -50,7 +50,7 @@ class AutoinstallAdminView extends Autoinstall
 		Context::set('page', $page);
 		Context::set('search_keyword', $search_keyword);
 
-		$output = AutoinstallModel::searchPackages($type, $search_keyword, 20, $page);
+		$output = Rhymix\Modules\Autoinstall\Models\Package::searchPackages($type, $search_keyword, 20, $page);
 		Context::set('package_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 

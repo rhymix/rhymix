@@ -12,7 +12,7 @@ class AutoinstallAdminModel extends Autoinstall
 	 */
 	public static function getAutoInstallAdminModuleConfig()
 	{
-		return ModuleModel::getModuleConfig('autoinstall') ?: new stdClass();
+		return AutoinstallModel::getConfig();
 	}
 
 	public function getAutoinstallAdminMenuPackageList()

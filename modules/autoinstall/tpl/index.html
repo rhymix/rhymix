@@ -28,10 +28,10 @@
 				</div>
 				<div class="info">
 					<div class="package_type">
-						{$package_types[$package->type] ?? lang('autoinstall.typename.' . $package->type)} |
+						{$package->getType()} |
 						<!--@if($package->license === 'FOR SALE')-->
-							<!--@if($package->extra_vars->pricing && AutoinstallModel::getLowestPrice($package))-->
-								{sprintf($lang->license_pricing_format, number_format(AutoinstallModel::getLowestPrice($package)))}
+							<!--@if($package->extra_vars->pricing && $package->getLowestPrice())-->
+								{sprintf($lang->license_pricing_format, number_format($package->getLowestPrice()))}
 							<!--@else-->
 								{$lang->license_for_sale}
 							<!--@endif-->
@@ -55,6 +55,11 @@
 						<!--@endif-->
 						<span class="like_count"><i class="xi-heart"></i> {$package->extra_vars->like_count}</span>
 					</div>
+				</div>
+				<div class="badges">
+					<!--@if($package->isInstalled())-->
+						<span class="x_badge x_badge-success">{$lang->installed}</span>
+					<!--@endif-->
 				</div>
 				<a href="{$package->extra_vars->url}" target="_blank" class="cover">&nbsp;</a>
 			</div>
