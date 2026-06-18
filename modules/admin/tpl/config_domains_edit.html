@@ -133,14 +133,33 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->allow_use_favicon}</label>
 			<div class="x_controls">
-				<p id="faviconPreview">
-					<img src="{$favicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Favicon" class="fn1" style="width:16px;height:16px">
-					<img src="{$favicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Favicon" class="fn2" style="width:16px;height:16px">
+				<p class="faviconPreview">
+					<img src="{$favicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Favicon" />
+					<span>Rhymix</span>
+					<label for="delete_favicon" cond="$favicon_url">
+						<input type="checkbox" name="delete_favicon" id="delete_favicon" value="1" /> {$lang->cmd_delete}
+					</label>
 				</p>
-				<label for="delete_favicon" cond="$favicon_url">
-					<input type="checkbox" name="delete_favicon" id="delete_favicon" value="1" /> {$lang->cmd_delete}
-				</label>
 				<input type="file" name="favicon" id="favicon" title="Favicon" />
+				<span class="x_help-block">{$lang->about_use_favicon}</span>
+			</div>
+		</div>
+
+		<div class="x_control-group">
+			<label class="x_control-label">{$lang->dark_mode_favicon}</label>
+			<div class="x_controls">
+				<p class="faviconPreview darkMode">
+					<!--@if($dark_favicon_url)-->
+						<img src="{$dark_favicon_url}" alt="Favicon" />
+					<!--@else-->
+						<span class="favicon-placeholder"></span>
+					<!--@endif-->
+					<span>Rhymix</span>
+					<label for="delete_dark_favicon" cond="$dark_favicon_url">
+						<input type="checkbox" name="delete_dark_favicon" id="delete_dark_favicon" value="1" /> {$lang->cmd_delete}
+					</label>
+				</p>
+				<input type="file" name="dark_favicon" id="dark_favicon" title="Dark Mode Favicon" />
 				<span class="x_help-block">{$lang->about_use_favicon}</span>
 			</div>
 		</div>
@@ -148,7 +167,7 @@
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->allow_use_mobile_icon}</label>
 			<div class="x_controls">
-				<p id="mobiconPreview">
+				<p class="mobiconPreview">
 					<img src="{$mobicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Mobile Home Icon" width="32" height="32" />
 					<span>Rhymix</span>
 				</p>

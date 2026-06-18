@@ -362,6 +362,7 @@ $lang->about_admin_ip_deny = 'This list can be used to designate IP addresses th
 $lang->msg_current_ip_will_be_denied = 'The given IP list cannot be applied, as they would block your own IP address.';
 $lang->allow_use_favicon = 'Favicon';
 $lang->about_use_favicon = 'The favicon should be 16x16, 32x32 or 64x64 pixels, either ico or png format.';
+$lang->dark_mode_favicon = 'Dark Mode Favicon';
 $lang->allow_use_mobile_icon = 'Home Screen Icon';
 $lang->detail_use_mobile_icon = 'The mobile icon should be 57x57 or 114x114, only png format.';
 $lang->cmd_site_default_image = 'Default Image';

@@ -111,6 +111,7 @@ class Domains extends Base
 		if ($domain_info)
 		{
 			Context::set('favicon_url', IconModel::getFaviconUrl($domain_info->domain_srl));
+			Context::set('dark_favicon_url', IconModel::getDarkFaviconUrl($domain_info->domain_srl));
 			Context::set('mobicon_url', IconModel::getMobiconUrl($domain_info->domain_srl));
 			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_info->domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
@@ -181,6 +182,7 @@ class Domains extends Base
 		if ($domain_info)
 		{
 			Context::set('favicon_url', IconModel::getFaviconUrl($domain_srl ?? 0));
+			Context::set('dark_favicon_url', IconModel::getDarkFaviconUrl($domain_srl ?? 0));
 			Context::set('mobicon_url', IconModel::getMobiconUrl($domain_srl ?? 0));
 			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_srl ?? 0));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
@@ -445,6 +447,22 @@ class Domains extends Base
 			Storage::copy($source_filename, $target_filename);
 		}
 
+		// Save or copy the dark mode favicon.
+		if ($vars->delete_dark_favicon)
+		{
+			IconModel::deleteIcon($domain_srl, 'favicon.dark.ico');
+		}
+		elseif (isset($vars->dark_favicon) && is_array($vars->dark_favicon))
+		{
+			IconModel::saveIcon($domain_srl, 'favicon.dark.ico', $vars->dark_favicon);
+		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'favicon.dark.ico';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'favicon.dark.ico';
+			Storage::copy($source_filename, $target_filename);
+		}
+
 		// Save or copy the mobile icon.
 		if ($vars->delete_mobicon)
 		{
@@ -553,6 +571,7 @@ class Domains extends Base
 
 		// Delete icons and default image for the domain.
 		IconModel::deleteIcon($domain_srl, 'favicon.ico');
+		IconModel::deleteIcon($domain_srl, 'favicon.dark.ico');
 		IconModel::deleteIcon($domain_srl, 'mobicon.png');
 		IconModel::deleteDefaultImage($domain_srl);
 

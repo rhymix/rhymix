@@ -45,8 +45,11 @@
 @if (!empty($canonical_url = Context::getCanonicalURL()))
 <link rel="canonical" href="{{ $canonical_url }}" />
 @endif
+@if (!empty($dark_favicon_url))
+<link rel="icon" href="{{ $dark_favicon_url }}" media="(prefers-color-scheme: dark)" />
+@endif
 @if (!empty($favicon_url))
-<link rel="shortcut icon" href="{{ $favicon_url }}" />
+<link rel="icon" href="{{ $favicon_url }}" media="(prefers-color-scheme: light)"|if="!empty($dark_favicon_url)" />
 @endif
 @if (!empty($mobicon_url))
 <link rel="apple-touch-icon" href="{{ $mobicon_url }}" />
