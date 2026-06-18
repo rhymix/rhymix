@@ -59,6 +59,8 @@ $lang->typename['editor-skin'] = 'Editor';
 $lang->typename['editor-component'] = 'Editor component';
 $lang->typename['theme-package'] = 'Theme package';
 
+$lang->cmd_autoinstall_update_available = 'Update Available';
+$lang->cmd_autoinstall_update_not_available = 'Can\'t Update';
 $lang->install_environment['min'] = 'or above';
 $lang->install_environment['max'] = 'or below';
 

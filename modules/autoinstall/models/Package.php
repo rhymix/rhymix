@@ -207,6 +207,41 @@ class Package
 	}
 
 	/**
+	 * Check if an update is available for the current package.
+	 *
+	 * @return bool
+	 */
+	public function isUpdateAvailable()
+	{
+		if (!$this->last_release_version)
+		{
+			return false;
+		}
+
+		if (!$this->isInstalled())
+		{
+			return false;
+		}
+
+		$basedir = \RX_BASEDIR . rtrim(ltrim($this->install_path, './'), '/') . '/';
+		$info_filename = self::INFO_FILES[$this->type] ?? null;
+		$info = Storage::read($basedir . $info_filename);
+		if (!$info)
+		{
+			return false;
+		}
+
+		if (preg_match('!<version>([^<]+)</version>!', $info, $matches) && version_compare($matches[1], $this->last_release_version, '<'))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Get cached package count.
 	 *
 	 * @param string $type

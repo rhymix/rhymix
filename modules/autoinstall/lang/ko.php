@@ -58,6 +58,8 @@ $lang->typename['editor-skin'] = '에디터';
 $lang->typename['editor-component'] = '에디터 컴포넌트';
 $lang->typename['theme-package'] = '테마 패키지';
 
+$lang->cmd_autoinstall_update_available = '업데이트 가능';
+$lang->cmd_autoinstall_update_not_available = '업데이트 불가';
 $lang->install_environment['min'] = '이상';
 $lang->install_environment['max'] = '이하';
 

@@ -58,7 +58,11 @@
 				</div>
 				<div class="badges">
 					<!--@if($package->isInstalled())-->
-						<span class="x_badge x_badge-success">{$lang->installed}</span>
+						<!--@if($package->isUpdateAvailable())-->
+							<span class="x_badge x_badge-warning">{$lang->cmd_autoinstall_update_available}</span>
+						<!--@else-->
+							<span class="x_badge x_badge-success">{$lang->installed}</span>
+						<!--@endif-->
 					<!--@endif-->
 				</div>
 				<a href="{$package->extra_vars->url}" target="_blank" class="cover">&nbsp;</a>
