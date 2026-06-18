@@ -206,9 +206,9 @@ class HTMLDisplayHandler
 
 		// set icon
 		$site_module_info = Context::get('site_module_info');
-		$favicon_url = Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($site_module_info->domain_srl);
-		$dark_favicon_url = Rhymix\Modules\Admin\Models\Icon::getDarkFaviconUrl($site_module_info->domain_srl);
-		$mobicon_url = Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($site_module_info->domain_srl);
+		$favicon_url = Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($site_module_info->domain_srl ?? 0);
+		$dark_favicon_url = Rhymix\Modules\Admin\Models\Icon::getDarkFaviconUrl($site_module_info->domain_srl ?? 0);
+		$mobicon_url = Rhymix\Modules\Admin\Models\Icon::getMobiconUrl($site_module_info->domain_srl ?? 0);
 		Context::set('favicon_url', $favicon_url);
 		Context::set('dark_favicon_url', $dark_favicon_url);
 		Context::set('mobicon_url', $mobicon_url);
