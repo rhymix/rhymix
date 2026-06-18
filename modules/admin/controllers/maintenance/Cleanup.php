@@ -374,7 +374,7 @@ class Cleanup extends Base
 		'modules/autoinstall/ruleset/' => 'deleted:xe',
 		'modules/autoinstall/schemas/ai_installed_packages.xml' => 'deleted:xe',
 		'modules/autoinstall/schemas/ai_remote_categories.xml' => 'deleted:xe',
-		'modules/autoinstall/tpl/filter/uninstall_package.xml' => 'deleted:xe',
+		'modules/autoinstall/tpl/filter/' => 'deleted:xe',
 		'modules/autoinstall/tpl/config.html' => 'deleted:xe',
 		'modules/autoinstall/tpl/list.html' => 'deleted:xe',
 		'modules/board/board.wap.php' => 'deleted:xe',
