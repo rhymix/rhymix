@@ -42,7 +42,7 @@ $lang->msg_sftp_not_supported = 'SFTP is not supported.';
 $lang->msg_no_permission_to_install = 'Your web server does not have permission to update the installation path. Please check server permissions.';
 $lang->msg_direct_install_not_supported = 'Cannot proceed due to write permission missing to the directories listed in the list below.';
 $lang->msg_does_not_support_delete = 'Cannot delete this package (no moduleUninstall() in the module class).';
-$lang->msg_update_core_title = 'Rhymix Core is updateing.';
+$lang->msg_update_core_title = 'Rhymix Core is updating.';
 $lang->msg_update_core = 'Prior to updating Rhymix Core, please check the compatibility of the installed packages (e.g., modules, widgets, layouts, skins, etc.).';
 $lang->installed = 'Installed';
 
@@ -58,8 +58,7 @@ $lang->typename['widget-skin'] = 'Widget skin';
 $lang->typename['editor-skin'] = 'Editor';
 $lang->typename['editor-component'] = 'Editor component';
 $lang->typename['theme-package'] = 'Theme package';
-
-$lang->location_site = 'Download Homepage';
-$lang->about_location_site = 'Please type your download homepage. ex)https://xe1.xpressengine.com/';
-$lang->download_server = 'Download Server';
-$lang->about_download_server = 'Please type your download server. ex)https://download.xpressengine.com/';
+$lang->autoinstall_rhymix_pds_message = 'Clicking on an item will take you to the Rhymix official website resource center, where you can download or purchase the item.<br>Direct installation will be supported from Rhymix 2.2 in server environments with favorable permissions.';
+$lang->license_pricing_format = 'From %s KRW';
+$lang->license_for_sale = 'For Sale';
+$lang->license_free = 'Free';

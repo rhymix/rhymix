@@ -53,6 +53,28 @@ class AutoinstallModel extends Autoinstall
 	}
 
 	/**
+	 * Get the lowest price of a package
+	 *
+	 * @param object $package
+	 * @return ?int
+	 */
+	public static function getLowestPrice($package)
+	{
+		if (empty($package->extra_vars->pricing))
+		{
+			return null;
+		}
+
+		$prices = [];
+		foreach ($package->extra_vars->pricing as $pricing)
+		{
+			$prices[] = intval($pricing->price);
+		}
+		sort($prices);
+		return $prices[0] ?? null;
+	}
+
+	/**
 	 * Search packages
 	 *
 	 * @param string $type

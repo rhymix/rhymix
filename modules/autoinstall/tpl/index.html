@@ -13,37 +13,52 @@
 	<!--@endforeach-->
 </ul>
 
-<div id="__list_simple">
-	<div class="list">
-		<!--@foreach($package_list as $package)-->
+<div class="message">
+	<p>{$lang->autoinstall_rhymix_pds_message}</p>
+</div>
+
+<div class="autoinstall_list">
+	<!--@foreach($package_list as $package)-->
+		<div class="list_item">
 			<div class="x_thumbnail">
 				<div class="thumb" style="min-height:80px">
 					<!--@if(!empty($package->extra_vars->thumbnail))-->
 						<img src="{$package->extra_vars->thumbnail}" alt="" style="width:120px;height:80px" />
 					<!--@endif-->
 				</div>
-				<div class="text">
+				<div class="info">
+					<div class="package_type">
+						{$package_types[$package->type] ?? lang('autoinstall.typename.' . $package->type)} |
+						<!--@if($package->license === 'FOR SALE')-->
+							<!--@if($package->extra_vars->pricing && AutoinstallModel::getLowestPrice($package))-->
+								{sprintf($lang->license_pricing_format, number_format(AutoinstallModel::getLowestPrice($package)))}
+							<!--@else-->
+								{$lang->license_for_sale}
+							<!--@endif-->
+						<!--@else-->
+							{$lang->license_free}
+						<!--@endif-->
+					</div>
 					<h3>
-						<span class="x_label x_label-info">{$package_types[$package->type] ?? lang('autoinstall.typename.' . $package->type)}</span>
 						<a href="{$package->extra_vars->url}" title="{$package->title}" target="_blank">{$package->title}</a>
 					</h3>
-					<p>
+					<div class="description">
 						{$package->description}
-					</p>
-					<p>
-						{$package->author}
-					</p>
-					<p>
-						<i class="xi-cloud-download"></i> {$package->extra_vars->download_count}
-						<i class="xi-heart"></i> {$package->extra_vars->like_count}
-					</p>
+					</div>
+					<div class="meta">
+						<span class="author"><i class="xi-user"></i> {$package->author}</span>
+						<!--@if($package->license !== 'FOR SALE')-->
+							<span class="download_count"><i class="xi-cloud-download"></i> {$package->extra_vars->download_count}</span>
+						<!--@endif-->
+						<span class="like_count"><i class="xi-heart"></i> {$package->extra_vars->like_count}</span>
+					</div>
 				</div>
 			</div>
-		<!--@endforeach-->
-	</div>
+		</div>
+	<!--@endforeach-->
 </div>
 
-<div class="x_clearfix" style="margin-top:-10px">
+<div class="x_clearfix">
 	<div cond="$page_navigation" class="x_pagination x_pull-left">
 		<ul>
 			<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
