@@ -1,6 +1,6 @@
 ---
 name: Default issue template
-about: Describe this issue template's purpose here.
+about: 여기를 클릭하여 주의사항을 확인한 후 이슈를 작성해 주세요.
 title: ''
 labels: ''
 assignees: ''
