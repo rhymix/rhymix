@@ -1817,6 +1817,13 @@ class MemberController extends Member
 	 */
 	function procMemberFindAccount()
 	{
+		// Rate limit
+		if (isset($_SESSION['find_account_request_time']) && $_SESSION['find_account_request_time'] > time() - 60)
+		{
+			throw new Rhymix\Framework\Exception('msg_rate_limited_find_account');
+		}
+
+		// Check email address
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -1926,7 +1933,9 @@ class MemberController extends Member
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberFindAccount');
 			$this->setRedirectUrl($returnUrl);
 		}
-		return new BaseObject(0,$msg);
+
+		$_SESSION['find_account_request_time'] = time();
+		return new BaseObject(0, $msg);
 	}
 
 	/**
@@ -2056,9 +2065,16 @@ class MemberController extends Member
 	 */
 	function procMemberResendAuthMail()
 	{
+		// Rate limit
+		if (isset($_SESSION['find_account_request_time']) && $_SESSION['find_account_request_time'] > time() - 60)
+		{
+			throw new Rhymix\Framework\Exception('msg_rate_limited_find_account');
+		}
+
 		// Get an email_address
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+
 		// Log test by using email_address
 		$args = new stdClass;
 		$args->email_address = $email_address;
@@ -2153,6 +2169,8 @@ class MemberController extends Member
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 		$this->setRedirectUrl($returnUrl);
+
+		$_SESSION['find_account_request_time'] = time();
 	}
 
 	function _sendAuthMail($auth_args, $member_info)

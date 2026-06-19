@@ -309,6 +309,7 @@ $lang->find_account_question_items['9'] = '가장 좋아하는 음식은?';
 $lang->temp_password = '임시 비밀번호';
 $lang->cmd_get_temp_password = '임시 비밀번호 발급';
 $lang->about_get_temp_password = '로그인 후 비밀번호 변경해 주세요.';
+$lang->msg_rate_limited_find_account = 'ID/PW 찾기 및 인증메일 재발송을 다시 요청하려면 1분 이상의 간격을 두고 다시 시도해 주세요.';
 $lang->msg_activation_not_needed = '이미 인증된 회원입니다.';
 $lang->msg_activation_key_not_found = '인증 메일 발송 내역이 없습니다.';
 $lang->msg_feature_deprecated = '지원되지 않는 기능입니다.';

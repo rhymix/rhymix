@@ -305,6 +305,7 @@ $lang->find_account_question_items['9'] = 'What is your favorite food?';
 $lang->temp_password = 'Temporary password';
 $lang->cmd_get_temp_password = 'Get a temporary password';
 $lang->about_get_temp_password = 'Change your password after you logged in.';
+$lang->msg_rate_limited_find_account = 'Please wait at least 1 minute before retrying account recovery.';
 $lang->msg_activation_not_needed = 'Your account is already activated.';
 $lang->msg_activation_key_not_found = 'There is no activation email to resend.';
 $lang->msg_feature_deprecated = 'This feature is deprecated.';
