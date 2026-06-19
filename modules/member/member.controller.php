@@ -2639,6 +2639,7 @@ class MemberController extends Member
 			return $this->recordLoginError(-1, 'invalid_user_id');
 		}
 
+		// Check recent login failures from the same IP.
 		$args = new stdClass;
 		$args->ipaddress = \RX_CLIENT_IP;
 		$output = executeQuery('member.getLoginCountByIp', $args);
