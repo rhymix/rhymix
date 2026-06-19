@@ -2703,49 +2703,6 @@ class MemberController extends Member
 			}
 		}
 
-		// Check if there is recoding table.
-		$oDB = DB::getInstance();
-		if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
-		{
-			// check if there is login fail records.
-			/*
-			$args = new stdClass;
-			$args->member_srl = $member_info->member_srl;
-			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
-			if($output->data && $output->data->content)
-			{
-				$title = lang('login_fail_report');
-				$message = '<ul>';
-				$content = unserialize($output->data->content);
-				if(count($content) > $config->max_error_count)
-				{
-					foreach($content as $val)
-					{
-						$message .= '<li>'.lang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.lang('ipaddress').': '.$val[0].'</li><li>'.lang('message').': '.$val[1].'</li></ul></li>';
-					}
-					$message .= '</ul>';
-					$content = sprintf(lang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
-
-					//send message
-					$oCommunicationController = getController('communication');
-					$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true, null, false);
-
-					if($member_info->email_address && $member_info->allow_mailing == 'Y')
-					{
-						$view_url = Context::getRequestUri();
-						$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $member_info->nick_name, $member_info->email_id);
-						$oMail = new \Rhymix\Framework\Mail();
-						$oMail->setSubject($title);
-						$oMail->setBody($content);
-						$oMail->addTo($member_info->email_address, $member_info->email_id.' ('.$member_info->nick_name.')');
-						$oMail->send();
-					}
-					$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
-				}
-			}
-			*/
-		}
-
 		// When user checked to use auto-login
 		if($keep_signed)
 		{

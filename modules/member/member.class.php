@@ -661,7 +661,10 @@ class Member extends ModuleObject
 
 		// Check if there is recoding table.
 		$oDB = DB::getInstance();
-		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
+		if (!$oDB->isTableExists('member_login_count'))
+		{
+			return new BaseObject($error, $message);
+		}
 
 		$args = new stdClass();
 		$args->ipaddress = \RX_CLIENT_IP;
@@ -704,7 +707,10 @@ class Member extends ModuleObject
 
 		// Check if there is recoding table.
 		$oDB = DB::getInstance();
-		if(!$oDB->isTableExists('member_count_history') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
+		if (!$oDB->isTableExists('member_count_history'))
+		{
+			return new BaseObject($error, $message);
+		}
 
 		$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 		if($output->data && $output->data->content)

@@ -118,13 +118,13 @@ class MemberModel extends Member
 			$config->identifier = array_first($config->identifiers) === 'email_address' ? 'email_address' : 'user_id';
 		}
 		$config->change_password_date = $config->change_password_date ?? 0;
-		$config->enable_login_fail_report = $config->enable_login_fail_report ?? 'Y';
 		$config->max_error_count = $config->max_error_count ?? 10;
 		$config->max_error_count_time = $config->max_error_count_time ?? 300;
 		$config->login_failure_except_ip = $config->login_failure_except_ip ?? [];
 		$config->login_invalidate_other_sessions = $config->login_invalidate_other_sessions ?? 'N';
 		$config->after_login_url = $config->after_login_url ?? null;
 		$config->after_logout_url = $config->after_logout_url ?? null;
+		unset($config->enable_login_fail_report);
 
 		// Set design config
 		$config->layout_srl = $config->layout_srl ?? 0;

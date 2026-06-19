@@ -593,7 +593,6 @@ class MemberAdminController extends Member
 		$args = Context::gets(
 			'identifiers',
 			'change_password_date',
-			'enable_login_fail_report',
 			'max_error_count',
 			'max_error_count_time',
 			'login_failure_except_ip',
