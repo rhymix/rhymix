@@ -183,7 +183,7 @@ class addonController extends addon
 		}
 
 		$args = new stdClass();
-		$args->addon = $addon;
+		$args->addon = preg_replace('/[^\w]/', '', $addon);
 		$args->extra_vars = serialize($extra_vars);
 		if($gtype == 'global')
 		{
@@ -195,9 +195,9 @@ class addonController extends addon
 			$output = executeQuery('addon.updateSiteAddon', $args);
 		}
 
-		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'any'));
-		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'pc'));
-		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $addon, 'mobile'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $args->addon, 'any'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $args->addon, 'pc'));
+		Rhymix\Framework\Cache::delete(sprintf('addonConfig:%s:%s', $args->addon, 'mobile'));
 		return $output;
 	}
 
