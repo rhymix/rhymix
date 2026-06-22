@@ -11,8 +11,7 @@
 		<column name="license" var="license" notnull="notnull" />
 		<column name="last_release_version" var="last_release_version" notnull="notnull" />
 		<column name="install_path" var="install_path" notnull="notnull" />
-		<column name="install_enabled" var="install_enabled" notnull="notnull" />
-		<column name="sale_enabled" var="sale_enabled" notnull="notnull" />
+		<column name="install_type" var="install_type" notnull="notnull" />
 		<column name="created" var="created" notnull="notnull" />
 		<column name="updated" var="updated" notnull="notnull" />
 		<column name="featured_count" var="featured_count" default="0" />

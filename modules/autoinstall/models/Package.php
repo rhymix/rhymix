@@ -64,8 +64,7 @@ class Package
 	public $license;
 	public $last_release_version;
 	public $install_path;
-	public $install_enabled;
-	public $sale_enabled;
+	public $install_type;
 	public $featured_count;
 	public $created;
 	public $updated;
@@ -150,11 +149,7 @@ class Package
 	 */
 	public function isInstallable()
 	{
-		if ($this->install_enabled !== 'Y')
-		{
-			return false;
-		}
-		if ($this->license === 'FOR SALE' && $this->sale_enabled !== 'Y')
+		if (!preg_match('/_(auto)$/', $this->install_type))
 		{
 			return false;
 		}
@@ -345,8 +340,7 @@ class Package
 			$args->license = $package->license ?: '';
 			$args->last_release_version = $package->last_release_version ?: '';
 			$args->install_path = $package->install_path ?: '';
-			$args->install_enabled = $package->install_enabled ? 'Y' : 'N';
-			$args->sale_enabled = $package->sale_enabled ? 'Y' : 'N';
+			$args->install_type = $package->install_type ?: '';
 			$args->created = $package->created;
 			$args->updated = $package->updated;
 
