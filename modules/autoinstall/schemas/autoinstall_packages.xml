@@ -8,8 +8,9 @@
 	<column name="last_release_version" type="varchar" size="80" notnull="notnull" />
 	<column name="install_path" type="varchar" size="180" notnull="notnull" index="idx_install_path" />
 	<column name="install_type" type="varchar" size="40" notnull="notnull" index="idx_install_type" />
-	<column name="featured_count" type="int" notnull="notnull" index="idx_featured_count" />
 	<column name="created" type="datetime" notnull="notnull" index="idx_created" />
 	<column name="updated" type="datetime" notnull="notnull" index="idx_updated" />
+	<column name="featured_count" type="int" notnull="notnull" index="idx_featured_count" />
+	<column name="list_order" type="int" notnull="notnull" index="idx_list_order" />
 	<column name="extra_vars" type="text" notnull="notnull" />
 </table>

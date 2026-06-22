@@ -15,6 +15,7 @@
 		<column name="created" var="created" notnull="notnull" />
 		<column name="updated" var="updated" notnull="notnull" />
 		<column name="featured_count" var="featured_count" default="0" />
+		<column name="list_order" var="list_order" default="0" />
 		<column name="extra_vars" var="extra_vars" notnull="notnull" />
 	</columns>
 </query>

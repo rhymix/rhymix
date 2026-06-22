@@ -281,7 +281,7 @@ class Package
 		$args = new \stdClass;
 		$args->type = ($type === 'all' || $type === 'featured') ? null : $type;
 		$args->search_keyword = $search_keyword ?: null;
-		$args->sort_index = ($type === 'featured') ? 'featured_count' : 'updated';
+		$args->sort_index = ($type === 'featured') ? 'featured_count' : 'list_order';
 		$args->list_count = $count;
 		$args->page = $page;
 		$output = executeQueryArray('autoinstall.getPackages', $args, [], self::class);
@@ -328,6 +328,7 @@ class Package
 		$oDB = DB::getInstance();
 		$oDB->begin();
 		$oDB->query('TRUNCATE TABLE autoinstall_packages');
+		$list_order = 1;
 		foreach (array_reverse($response->packages) as $package)
 		{
 			$args = new \stdClass;
@@ -343,6 +344,7 @@ class Package
 			$args->install_type = $package->install_type ?: '';
 			$args->created = $package->created;
 			$args->updated = $package->updated;
+			$args->list_order = $list_order++;
 
 			$featured_count = sqrt($package->download_count) + $package->like_count;
 			$age = (time() - ztime($args->updated)) / (86400 * 365);
