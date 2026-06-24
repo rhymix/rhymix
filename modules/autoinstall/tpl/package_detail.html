@@ -101,6 +101,9 @@
 		<!--@if($package->isInstalled())-->
 			<!--@if($update_info->update_available)-->
 				<!--@if($package->isInstallable())-->
+					<div class="message">
+						<p><span class="x_badge">{$lang->msg_autoinstall_experimental_warning}</span> {$lang->msg_autoinstall_experimental_update}</p>
+					</div>
 					<a class="x_btn x_btn-primary autoinstall_update_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}">
 						{$lang->cmd_autoinstall_update_available}
 					</a>
@@ -118,22 +121,27 @@
 				{$lang->cmd_autoinstall_uninstall}
 			</a>
 		<!--@elseif($package->isInstallable())-->
-			<a class="x_btn x_btn-primary autoinstall_install_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}">
-				{$lang->cmd_autoinstall_install}
-			</a>
+			<div class="message">
+				<p><span class="x_badge">{$lang->msg_autoinstall_experimental_warning}</span> {$lang->msg_autoinstall_experimental_install}</p>
+			</div>
+			<div>
+				<a class="x_btn x_btn-primary autoinstall_install_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}">
+					{$lang->cmd_autoinstall_install}
+				</a>
+			</div>
 		<!--@else-->
 			<!--@if(!$package->checkInstallEnvironment())-->
-				<a class="x_btn" href="#">
-					{$lang->msg_autoinstall_not_installable_environment}
-				</a>
+				<div class="message error">
+					<p>{$lang->msg_autoinstall_not_installable_environment}</p>
+				</div>
 			<!--@elseif(!$package->checkInstallPermissions())-->
-				<a class="x_btn" href="#">
-					{$lang->msg_autoinstall_not_installable_permissions}
-				</a>
+				<div class="message error">
+					<p>{$lang->msg_autoinstall_not_installable_permissions}</p>
+				</div>
 			<!--@else-->
-				<a class="x_btn" href="{$package->extra_vars->url}" target="_blank">
-					{$lang->msg_autoinstall_not_installable}
-				</a>
+				<div class="message error">
+					<p>{$lang->msg_autoinstall_not_installable}</p>
+				</div>
 			<!--@endif-->
 		<!--@endif-->
 	</div>
