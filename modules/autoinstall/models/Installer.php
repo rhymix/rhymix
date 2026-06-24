@@ -118,6 +118,7 @@ class Installer
 		}
 
 		// Create a map of files and directories to be extracted.
+		$use_stream = method_exists($zip, 'getStreamIndex');
 		$map = [];
 
 		// Pre-check all entries for validity and permissions, before actually extracting anything.
@@ -204,8 +205,14 @@ class Installer
 				}
 			}
 
+			// Directories don't need to be extracted, since they are created above.
+			if ($is_directory)
+			{
+				continue;
+			}
+
 			// Extract the file.
-			if (!$is_directory)
+			if ($use_stream)
 			{
 				$stream = $zip->getStreamIndex($i);
 				if (!$stream)
@@ -226,6 +233,17 @@ class Installer
 				stream_copy_to_stream($stream, $fp);
 				fclose($stream);
 				fclose($fp);
+			}
+			else
+			{
+				$content = $zip->getFromIndex($i);
+				if (!file_put_contents($absolute_path, $content))
+				{
+					$zip->close();
+					Storage::delete($temp_filename);
+					$failed_path = './' . substr($absolute_path, strlen(\RX_BASEDIR));
+					return new BaseObject(-1, lang('autoinstall.msg_autoinstall_extraction_failed') . "\n" . escape($failed_path));
+				}
 			}
 		}
 
