@@ -2,6 +2,7 @@
 
 namespace Rhymix\Modules\Autoinstall\Models;
 
+use Rhymix\Framework\Cache;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Rhymix\Framework\HTTP;
@@ -15,6 +16,7 @@ class Package
 	 * Package list API URL
 	 */
 	public const PACKAGE_LIST_URL = 'https://api.rhymix.org/pds/index.json';
+	public const PACKAGE_DETAIL_URL = 'https://api.rhymix.org/pds/detail/%d.json';
 
 	/**
 	 * Install path format of each type of package
@@ -65,9 +67,10 @@ class Package
 	public $last_release_version;
 	public $install_path;
 	public $install_type;
-	public $featured_count;
 	public $created;
 	public $updated;
+	public $featured_count;
+	public $list_order;
 	public $extra_vars;
 
 	/**
@@ -143,20 +146,12 @@ class Package
 	}
 
 	/**
-	 * Check if the current package is installable.
+	 * Check the install environment.
 	 *
 	 * @return bool
 	 */
-	public function isInstallable()
+	public function checkInstallEnvironment(): bool
 	{
-		if (!preg_match('/_(auto)$/', $this->install_type))
-		{
-			return false;
-		}
-		if (!self::_validateInstallPath($this->install_path, $this->type))
-		{
-			return false;
-		}
 		if (!empty($this->extra_vars->install_env->core_min) && version_compare(\RX_VERSION, $this->extra_vars->install_env->core_min, '<'))
 		{
 			return false;
@@ -178,11 +173,73 @@ class Package
 	}
 
 	/**
+	 * Check the install permissions.
+	 *
+	 * @return bool
+	 */
+	public function checkInstallPermissions(): bool
+	{
+		$path = \RX_BASEDIR . rtrim(ltrim($this->install_path, './'), '/');
+		if (Storage::exists($path) && Storage::isDirectory($path))
+		{
+			return Storage::isWritable($path);
+		}
+		else
+		{
+			$parent_path = dirname($path);
+			if (Storage::exists($parent_path) && Storage::isDirectory($parent_path))
+			{
+				return Storage::isWritable($parent_path);
+			}
+			else
+			{
+				$parent_path = dirname($parent_path);
+				if (Storage::exists($parent_path) && Storage::isDirectory($parent_path))
+				{
+					return Storage::isWritable($parent_path);
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+	}
+
+	/**
+	 * Check if the current package is installable.
+	 *
+	 * @param string $check_type 'all', 'environment', 'permissions'
+	 * @return bool
+	 */
+	public function isInstallable(string $check_type = 'all'): bool
+	{
+		if (!preg_match('/_(auto)$/', $this->install_type))
+		{
+			return false;
+		}
+		if (!self::_validateInstallPath($this->install_path, $this->type))
+		{
+			return false;
+		}
+		if (in_array($check_type, ['all', 'environment']) && !$this->checkInstallEnvironment())
+		{
+			return false;
+		}
+		if (in_array($check_type, ['all', 'permissions']) && !$this->checkInstallPermissions())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Check if the current package is installed.
 	 *
 	 * @return bool
 	 */
-	public function isInstalled()
+	public function isInstalled(): bool
 	{
 		if (!self::_validateInstallPath($this->install_path, $this->type))
 		{
@@ -204,18 +261,23 @@ class Package
 	/**
 	 * Check if an update is available for the current package.
 	 *
-	 * @return bool
+	 * @return object
 	 */
-	public function isUpdateAvailable()
+	public function getUpdateInfo(): object
 	{
+		$result = new \stdClass;
+		$result->update_available = false;
+		$result->installed_version = null;
+		$result->latest_version = null;
+
 		if (!$this->last_release_version)
 		{
-			return false;
+			return $result;
 		}
 
 		if (!$this->isInstalled())
 		{
-			return false;
+			return $result;
 		}
 
 		$basedir = \RX_BASEDIR . rtrim(ltrim($this->install_path, './'), '/') . '/';
@@ -223,17 +285,17 @@ class Package
 		$info = Storage::read($basedir . $info_filename);
 		if (!$info)
 		{
-			return false;
+			return $result;
 		}
 
-		if (preg_match('!<version>([^<]+)</version>!', $info, $matches) && version_compare($matches[1], $this->last_release_version, '<'))
+		if (preg_match('!<version>([^<]+)</version>!', $info, $matches))
 		{
-			return true;
+			$result->update_available = version_compare($matches[1], $this->last_release_version, '<') ? true : false;
+			$result->installed_version = $matches[1];
+			$result->latest_version = $this->last_release_version;
 		}
-		else
-		{
-			return false;
-		}
+
+		return $result;
 	}
 
 	/**
@@ -242,7 +304,7 @@ class Package
 	 * @param string $type
 	 * @return int
 	 */
-	public static function getPackageCount($type = 'all')
+	public static function getPackageCount($type = 'all'): int
 	{
 		$args = new \stdClass;
 		$args->type = ($type === 'all' || $type === 'featured') ? null : $type;
@@ -255,7 +317,7 @@ class Package
 	 * @param int $package_srl
 	 * @return ?self
 	 */
-	public static function getPackage($package_srl)
+	public static function getPackage($package_srl): ?self
 	{
 		$args = new \stdClass;
 		$args->package_srl = intval($package_srl);
@@ -276,7 +338,7 @@ class Package
 	 * @param int $page
 	 * @return DBResultHelper
 	 */
-	public static function searchPackages($type, $search_keyword = null, $count = 20, $page = 1)
+	public static function searchPackages($type, $search_keyword = null, $count = 20, $page = 1): DBResultHelper
 	{
 		$args = new \stdClass;
 		$args->type = ($type === 'all' || $type === 'featured') ? null : $type;
@@ -301,11 +363,65 @@ class Package
 	}
 
 	/**
+	 * Get package detail from official repository
+	 *
+	 * @param int $package_srl
+	 * @return ?self
+	 */
+	public static function getPackageDetail(int $package_srl): ?self
+	{
+		// Check the cache.
+		$cache_key = sprintf('autoinstall:package_detail:%d', $package_srl);
+		$package = Cache::get($cache_key);
+		if ($package instanceof self)
+		{
+			return $package;
+		}
+
+		// Fetch the latest package information.
+		$detail_url = sprintf(self::PACKAGE_DETAIL_URL, $package_srl);
+		$request = HTTP::get($detail_url, null, [], [], ['timeout' => 10]);
+		if ($request->getStatusCode() !== 200)
+		{
+			return null;
+		}
+		$response = $request->getBody()->getContents();
+		if ($response === '')
+		{
+			return null;
+		}
+		$response = json_decode($response);
+		if (!$response || !isset($response->package_srl))
+		{
+			return null;
+		}
+
+		// Parse into a Package object
+		$package = new self();
+		$package->extra_vars = new \stdClass();
+		foreach ($response as $key => $val)
+		{
+			if (property_exists($package, $key))
+			{
+				$package->{$key} = $val;
+			}
+			else
+			{
+				$package->extra_vars->{$key} = $val;
+			}
+		}
+
+		// Store in the cache and return.
+		Cache::set($cache_key, $package, 3600, true);
+		return $package;
+	}
+
+	/**
 	 * Update package list from official repository
 	 *
 	 * @return bool
 	 */
-	public static function updatePackageList()
+	public static function updatePackageList(): bool
 	{
 		// Fetch the latest package list.
 		$request = HTTP::get(self::PACKAGE_LIST_URL, null, [], [], ['timeout' => 10]);
@@ -367,7 +483,7 @@ class Package
 			}
 		}
 		$oDB->commit();
-
+		Cache::clearGroup('autoinstall');
 		return true;
 	}
 
@@ -389,7 +505,7 @@ class Package
 	 * @param string $type
 	 * @return bool
 	 */
-	protected static function _validateInstallPath($path, $type)
+	protected static function _validateInstallPath($path, $type): bool
 	{
 		if (!$path)
 		{

@@ -13,13 +13,9 @@
 	<!--@endforeach-->
 </ul>
 
-<div class="message">
-	<p>{$lang->autoinstall_rhymix_pds_message}</p>
-</div>
-
 <div class="autoinstall_list">
 	<!--@foreach($package_list as $package)-->
-		<div class="list_item">
+		<div class="autoinstall_list_item">
 			<div class="x_thumbnail">
 				<div class="thumb">
 					<!--@if(!empty($package->extra_vars->thumbnail))-->
@@ -30,7 +26,7 @@
 					<div class="package_type">
 						{$package->getType()} |
 						<!--@if($package->license === 'FOR SALE')-->
-							<!--@if($package->extra_vars->pricing && $package->getLowestPrice())-->
+							<!--@if(isset($package->extra_vars->pricing) && $package->getLowestPrice())-->
 								{sprintf($lang->license_pricing_format, number_format($package->getLowestPrice()))}
 							<!--@else-->
 								{$lang->license_for_sale}
@@ -40,7 +36,7 @@
 						<!--@endif-->
 					</div>
 					<h3>
-						<a href="{$package->extra_vars->url}" target="_blank">{$package->title}</a>
+						<a href="{getUrl(['module' => $module, 'act' => 'dispAutoinstallAdminPackageDetail', 'package_srl' => $package->package_srl])}">{$package->title}</a>
 					</h3>
 					<div class="description">
 						{$package->description}
@@ -58,14 +54,14 @@
 				</div>
 				<div class="badges">
 					<!--@if($package->isInstalled())-->
-						<!--@if($package->isUpdateAvailable())-->
+						<!--@if($package->getUpdateInfo()->update_available)-->
 							<span class="x_badge x_badge-warning">{$lang->cmd_autoinstall_update_available}</span>
 						<!--@else-->
 							<span class="x_badge x_badge-success">{$lang->installed}</span>
 						<!--@endif-->
 					<!--@endif-->
 				</div>
-				<a href="{$package->extra_vars->url}" target="_blank" class="cover">&nbsp;</a>
+				<a href="{getUrl(['module' => $module, 'act' => 'dispAutoinstallAdminPackageDetail', 'package_srl' => $package->package_srl])}" class="cover">&nbsp;</a>
 			</div>
 		</div>
 	<!--@endforeach-->

@@ -8,13 +8,18 @@
 class AutoinstallAdminModel extends Autoinstall
 {
 	/**
-	 * For backward compatibility only
+	 * Get module configuration
+	 *
+	 * @return object
 	 */
 	public static function getAutoInstallAdminModuleConfig()
 	{
-		return AutoinstallModel::getConfig();
+		return ModuleModel::getModuleConfig('autoinstall') ?: new \stdClass;
 	}
 
+	/**
+	 * For backward compatibility only
+	 */
 	public function getAutoinstallAdminMenuPackageList()
 	{
 
@@ -57,26 +62,6 @@ class AutoinstallAdminModel extends Autoinstall
 
 	public static function isWritableDir($path)
 	{
-		$path_list = explode('/', dirname($path));
-		$real_path = './';
-
-		$check_path = realpath($real_path);
-		while ($path_list)
-		{
-			$check_path = realpath($real_path . implode('/', $path_list));
-			if(FileHandler::isDir($check_path))
-			{
-				break;
-			}
-			array_pop($path_list);
-		}
-
-		if (!FileHandler::isWritableDir($check_path))
-		{
-			$output = new BaseObject(-1, 'msg_unwritable_directory');
-			$output->add('path', FileHandler::getRealPath($check_path));
-			return $output;
-		}
 		return new BaseObject();
 	}
 }
