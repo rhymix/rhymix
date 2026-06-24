@@ -26,7 +26,6 @@ class Autoinstall extends ModuleObject
 		'layout',
 		'widget',
 		'module-skin',
-		'widget-skin',
 		'editor-skin',
 		'editor-component',
 		'theme-package',
