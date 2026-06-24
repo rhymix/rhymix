@@ -823,6 +823,7 @@ Rhymix.SecondLevelDomains = window.SecondLevelDomains;
 Rhymix.IPv6 = window.IPv6;
 
 // Set window properties for backward compatibility
+const NativeAlert = window.alert;
 const XE = window.XE = Rhymix;
 
 /**
