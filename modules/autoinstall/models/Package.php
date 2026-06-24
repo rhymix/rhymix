@@ -209,7 +209,7 @@ class Package
 	/**
 	 * Check if the current package is installable.
 	 *
-	 * @param string $check_type 'all', 'environment', 'permissions'
+	 * @param string $check_type 'all', 'minimal', 'environment', 'permissions'
 	 * @return bool
 	 */
 	public function isInstallable(string $check_type = 'all'): bool
@@ -218,7 +218,7 @@ class Package
 		{
 			return false;
 		}
-		if (!self::_validateInstallPath($this->install_path, $this->type))
+		if (in_array($check_type, ['all', 'minimal']) && !self::_validateInstallPath($this->install_path, $this->type))
 		{
 			return false;
 		}

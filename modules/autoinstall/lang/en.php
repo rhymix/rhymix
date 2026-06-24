@@ -9,6 +9,7 @@ $lang->update = 'Update';
 $lang->msg_avail_easy_update = 'There is new version for this item.';
 $lang->msg_do_you_like_update = 'Would you like to update?';
 $lang->featured_packages = 'Featured Packages';
+$lang->autoinstallable = 'Easy Install';
 
 $lang->typename['core'] = 'Core';
 $lang->typename['module'] = 'Module';

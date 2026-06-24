@@ -73,7 +73,7 @@
 				flex: 1;
 			}
 			.download_count {
-				color: #3a87ad;
+				color: #555;
 			}
 			.like_count {
 				color: #d9534f;
@@ -85,6 +85,10 @@
 		top: 12px;
 		right: 12px;
 		z-index: 1;
+		.is_installable {
+			font-size: 12px;
+			color: #3a87ad;
+		}
 	}
 	.cover {
 		position: absolute;
@@ -161,6 +165,9 @@
 			height: 60px;
 		}
 		.info {
+			.license_details {
+				display: none;
+			}
 			.description {
 				-webkit-line-clamp: 2;
 			}

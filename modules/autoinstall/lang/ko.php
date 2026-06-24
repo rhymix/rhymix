@@ -9,6 +9,7 @@ $lang->update = '업데이트';
 $lang->msg_avail_easy_update = '이 항목의 새로운 버전이 있습니다.';
 $lang->msg_do_you_like_update = '업데이트하시겠습니까?';
 $lang->featured_packages = '추천 자료';
+$lang->autoinstallable = '쉬운 설치 지원';
 
 $lang->typename['core'] = '코어';
 $lang->typename['module'] = '모듈';

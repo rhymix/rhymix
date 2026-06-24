@@ -24,16 +24,19 @@
 				</div>
 				<div class="info">
 					<div class="package_type">
-						{$package->getType()} |
-						<!--@if($package->license === 'FOR SALE')-->
-							<!--@if(isset($package->extra_vars->pricing) && $package->getLowestPrice())-->
-								{sprintf($lang->license_pricing_format, number_format($package->getLowestPrice()))}
+						{$package->getType()}
+						<span class="license_details">
+							|
+							<!--@if($package->license === 'FOR SALE')-->
+								<!--@if(isset($package->extra_vars->pricing) && $package->getLowestPrice())-->
+									{sprintf($lang->license_pricing_format, number_format($package->getLowestPrice()))}
+								<!--@else-->
+									{$lang->license_for_sale}
+								<!--@endif-->
 							<!--@else-->
-								{$lang->license_for_sale}
+								{$lang->license_free}
 							<!--@endif-->
-						<!--@else-->
-							{$lang->license_free}
-						<!--@endif-->
+						</span>
 					</div>
 					<h3>
 						<a href="{getUrl(['module' => $module, 'act' => 'dispAutoinstallAdminPackageDetail', 'package_srl' => $package->package_srl])}">{$package->title}</a>
@@ -45,10 +48,11 @@
 						<span class="author">
 							<i class="xi-user"></i> {$package->author} &nbsp;&nbsp;
 							<i class="xi-update"></i> {zdate($package->updated, 'Y-m-d')}
+							<!--@if($package->license !== 'FOR SALE')-->
+								&nbsp;&nbsp;
+								<span class="download_count"><i class="xi-cloud-download"></i> {$package->extra_vars->download_count}</span>
+							<!--@endif-->
 						</span>
-						<!--@if($package->license !== 'FOR SALE')-->
-							<span class="download_count"><i class="xi-cloud-download"></i> {$package->extra_vars->download_count}</span>
-						<!--@endif-->
 						<span class="like_count"><i class="xi-heart"></i> {$package->extra_vars->like_count}</span>
 					</div>
 				</div>
@@ -59,6 +63,8 @@
 						<!--@else-->
 							<span class="x_badge x_badge-success">{$lang->installed}</span>
 						<!--@endif-->
+					<!--@elseif($package->isInstallable('minimal'))-->
+						<span class="is_installable"><i class="xi-check"></i> {$lang->autoinstallable}</span>
 					<!--@endif-->
 				</div>
 				<a href="{getUrl(['module' => $module, 'act' => 'dispAutoinstallAdminPackageDetail', 'package_srl' => $package->package_srl])}" class="cover">&nbsp;</a>
