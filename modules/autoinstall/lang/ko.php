@@ -3,7 +3,6 @@
 $lang->autoinstall = '쉬운 설치';
 $lang->package_update = '최근 업데이트';
 $lang->package_downloaded_count = '전체 다운로드';
-$lang->success_installed = '설치에 성공하였습니다.';
 $lang->install = '설치';
 $lang->update = '업데이트';
 $lang->msg_avail_easy_update = '이 항목의 새로운 버전이 있습니다.';
@@ -53,6 +52,9 @@ $lang->msg_autoinstall_downloading = '다운로드 중...';
 $lang->msg_autoinstall_installing = '설치 중...';
 $lang->msg_autoinstall_updating = '업데이트 중...';
 $lang->msg_autoinstall_cleanup = '정리 중...';
+$lang->msg_autoinstall_success_installed = '설치되었습니다.';
+$lang->msg_autoinstall_success_updated = '업데이트되었습니다.';
+$lang->msg_autoinstall_success_uninstalled = '삭제되었습니다.';
 $lang->msg_autoinstall_confirm_uninstall = '이 패키지를 삭제하시겠습니까?';
 $lang->msg_autoinstall_invalid_package_srl = '패키지 정보가 올바르지 않습니다.';
 $lang->msg_autoinstall_package_not_found = '패키지를 찾을 수 없습니다.';

@@ -120,6 +120,8 @@ class AutoinstallAdminController extends Autoinstall
 			$output->setMessage(nl2br($output->getMessage()));
 			return $output;
 		}
+
+		$this->setMessage('msg_autoinstall_success_uninstalled');
 	}
 
 	/**

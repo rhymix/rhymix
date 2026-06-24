@@ -104,7 +104,7 @@
 					<div class="message">
 						<p><span class="x_badge">{$lang->msg_autoinstall_experimental_warning}</span> {$lang->msg_autoinstall_experimental_update}</p>
 					</div>
-					<a class="x_btn x_btn-primary autoinstall_update_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}">
+					<a class="x_btn x_btn-primary autoinstall_update_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_updated}">
 						{$lang->cmd_autoinstall_update_available}
 					</a>
 				<!--@else-->
@@ -117,7 +117,7 @@
 					{$lang->msg_autoinstall_is_installed}
 				</a>
 			<!--@endif-->
-			<a class="x_btn x_pull-right autoinstall_uninstall_btn" href="#" data-package-srl="{$package->package_srl}" data-confirm="{$lang->msg_autoinstall_confirm_uninstall}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}">
+			<a class="x_btn x_pull-right autoinstall_uninstall_btn" href="#" data-package-srl="{$package->package_srl}" data-confirm="{$lang->msg_autoinstall_confirm_uninstall}">
 				{$lang->cmd_autoinstall_uninstall}
 			</a>
 		<!--@elseif($package->isInstallable())-->
@@ -125,7 +125,7 @@
 				<p><span class="x_badge">{$lang->msg_autoinstall_experimental_warning}</span> {$lang->msg_autoinstall_experimental_install}</p>
 			</div>
 			<div>
-				<a class="x_btn x_btn-primary autoinstall_install_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}">
+				<a class="x_btn x_btn-primary autoinstall_install_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_installed}">
 					{$lang->cmd_autoinstall_install}
 				</a>
 			</div>

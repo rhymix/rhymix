@@ -3,7 +3,6 @@
 $lang->autoinstall = 'Easy Install';
 $lang->package_update = 'Recent Update';
 $lang->package_downloaded_count = 'Download Count';
-$lang->success_installed = 'Successfully Installed';
 $lang->install = 'Install';
 $lang->update = 'Update';
 $lang->msg_avail_easy_update = 'There is new version for this item.';
@@ -53,6 +52,9 @@ $lang->msg_autoinstall_downloading = 'Downloading...';
 $lang->msg_autoinstall_installing = 'Installing...';
 $lang->msg_autoinstall_updating = 'Updating...';
 $lang->msg_autoinstall_cleanup = 'Cleaning up...';
+$lang->msg_autoinstall_success_installed = 'Successfully installed.';
+$lang->msg_autoinstall_success_updated = 'Successfully updated.';
+$lang->msg_autoinstall_success_uninstalled = 'Successfully uninstalled.';
 $lang->msg_autoinstall_confirm_uninstall = 'Are you sure you want to uninstall this package?';
 $lang->msg_autoinstall_invalid_package_srl = 'Invalid package information.';
 $lang->msg_autoinstall_package_not_found = 'Package not found.';
