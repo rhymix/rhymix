@@ -13,6 +13,8 @@
 			if (btn.hasClass('x_btn-disabled')) {
 				return;
 			}
+
+			// Disable button while processing
 			btn.addClass('x_btn-disabled').removeClass('x_btn-primary');
 			btn.data('originalText', btn.text());
 
