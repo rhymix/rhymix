@@ -1357,7 +1357,7 @@ class MemberModel extends Member
 			{
 				$required_work_factor = Rhymix\Framework\Password::getWorkFactor();
 				$current_work_factor = Rhymix\Framework\Password::checkWorkFactor($hashed_password);
-				if ($current_work_factor !== false && $required_work_factor > $current_work_factor)
+				if ($current_work_factor != 0 && $required_work_factor > $current_work_factor)
 				{
 					$need_upgrade = true;
 				}
