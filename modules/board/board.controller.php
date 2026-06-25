@@ -534,22 +534,28 @@ class BoardController extends Board
 		if(!$obj->comment_srl)
 		{
 			$obj->comment_srl = getNextSequence();
+			$comment = null;
 		}
 		else
 		{
 			$comment = CommentModel::getComment($obj->comment_srl);
-			if($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
+			if (!$comment->isExists() || $comment->comment_srl != $obj->comment_srl)
 			{
-				$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
-				$childs = CommentModel::getChildComments($obj->comment_srl);
-				if(count($childs) >= $childs_limit)
-				{
-					throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_update_protect_comment'), $childs_limit));
-				}
+				$comment = null;
 			}
 		}
 
-		if ($this->module_info->protect_admin_content_update === 'Y')
+		if ($comment && $this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
+		{
+			$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
+			$childs = CommentModel::getChildComments($obj->comment_srl);
+			if(count($childs) >= $childs_limit)
+			{
+				throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_update_protect_comment'), $childs_limit));
+			}
+		}
+
+		if ($comment && $this->module_info->protect_admin_content_update === 'Y')
 		{
 			$member_info = MemberModel::getMemberInfo($comment->member_srl);
 			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
@@ -559,7 +565,7 @@ class BoardController extends Board
 		}
 
 		// INSERT if comment_srl does not exist.
-		if($comment->comment_srl != $obj->comment_srl)
+		if (!$comment)
 		{
 			// Update document last_update info?
 			$update_document = $this->module_info->update_order_on_comment === 'N' ? false : true;
