@@ -6,13 +6,11 @@
 		<action name="dispInstallCheckEnv" type="view" meta-noindex="true" />
 		<action name="dispInstallDBConfig" type="view" meta-noindex="true" />
 		<action name="dispInstallOtherConfig" type="view" meta-noindex="true" />
-		
-		<action name="getInstallFTPList" type="model" permission="root" />
-		
+
 		<action name="procInstallLicenseAgreement" type="controller" />
 		<action name="procDBConfig" type="controller" />
 		<action name="procInstall" type="controller" ruleset="install" />
-		
+
 		<action name="procInstallAdminInstall" type="controller" />
 		<action name="procInstallAdminUpdate" type="controller" />
 	</actions>
