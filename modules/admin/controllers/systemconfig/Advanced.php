@@ -60,7 +60,7 @@ class Advanced extends Base
 				Context::set('object_cache_port', parse_url(array_first($cache_servers), PHP_URL_PORT) ?: null);
 				Context::set('object_cache_user', parse_url(array_first($cache_servers), PHP_URL_USER) ?? '');
 				Context::set('object_cache_pass', parse_url(array_first($cache_servers), PHP_URL_PASS) ?? '');
-				$cache_dbnum = preg_replace('/[^\d]/', '', parse_url(array_first($cache_servers), PHP_URL_FRAGMENT) ?: parse_url(array_first($cache_servers), PHP_URL_PATH));
+				$cache_dbnum = preg_replace('/[^\d]/', '', strval(parse_url(array_first($cache_servers), PHP_URL_FRAGMENT) ?: parse_url(array_first($cache_servers), PHP_URL_PATH)));
 				Context::set('object_cache_dbnum', $cache_dbnum === '' ? 1 : intval($cache_dbnum));
 			}
 		}
@@ -127,30 +127,30 @@ class Advanced extends Base
 		{
 			if ($vars->object_cache_type === 'memcached' || $vars->object_cache_type === 'redis')
 			{
-				if (starts_with('unix:/', $vars->object_cache_host))
+				if (starts_with('unix:/', $vars->object_cache_host ?? ''))
 				{
-					$cache_servers = array(substr($vars->object_cache_host, 5));
+					$cache_servers = array(substr($vars->object_cache_host ?? '', 5));
 				}
-				elseif (starts_with('/', $vars->object_cache_host))
+				elseif (starts_with('/', $vars->object_cache_host ?? ''))
 				{
-					$cache_servers = array($vars->object_cache_host);
+					$cache_servers = array($vars->object_cache_host ?? '');
 				}
 				else
 				{
-					if (trim($vars->object_cache_user) !== '' || trim($vars->object_cache_pass) !== '')
+					if (trim($vars->object_cache_user ?? '') !== '' || trim($vars->object_cache_pass ?? '') !== '')
 					{
-						$auth = sprintf('%s:%s@', urlencode(trim($vars->object_cache_user)), urlencode(trim($vars->object_cache_pass)));
+						$auth = sprintf('%s:%s@', urlencode(trim($vars->object_cache_user ?? '')), urlencode(trim($vars->object_cache_pass ?? '')));
 					}
 					else
 					{
 						$auth = '';
 					}
-					$cache_servers = array($vars->object_cache_type . '://' . $auth . $vars->object_cache_host . ':' . intval($vars->object_cache_port));
+					$cache_servers = array($vars->object_cache_type . '://' . $auth . ($vars->object_cache_host ?? '') . ':' . intval($vars->object_cache_port ?? 0));
 				}
 
 				if ($vars->object_cache_type === 'redis')
 				{
-					$cache_servers[0] .= '#' . intval($vars->object_cache_dbnum);
+					$cache_servers[0] .= '#' . intval($vars->object_cache_dbnum ?? 0);
 				}
 			}
 			else
@@ -200,7 +200,7 @@ class Advanced extends Base
 		// Mobile view
 		Config::set('mobile.enabled', $vars->use_mobile_view === 'Y');
 		Config::set('mobile.tablets', $vars->tablets_as_mobile === 'Y');
-		Config::set('mobile.viewport', utf8_trim($vars->mobile_viewport));
+		Config::set('mobile.viewport', utf8_trim($vars->mobile_viewport ?? ''));
 		if (Config::get('use_mobile_view') !== null)
 		{
 			Config::set('use_mobile_view', $vars->use_mobile_view === 'Y');

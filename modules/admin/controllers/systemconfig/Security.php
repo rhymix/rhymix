@@ -68,7 +68,7 @@ class Security extends Base
 		Config::set('mediafilter.object', []);
 
 		// HTML classes
-		$classes = $vars->mediafilter_classes;
+		$classes = $vars->mediafilter_classes ?? '';
 		$classes = array_filter(array_map('trim', preg_split('/[\r\n]/', $classes)), function($item) {
 			return preg_match('/^[a-zA-Z0-9_-]+$/u', $item);
 		});
@@ -76,7 +76,7 @@ class Security extends Base
 		Config::set('mediafilter.classes', array_values($classes));
 
 		// Robot user agents
-		$robot_user_agents = $vars->robot_user_agents;
+		$robot_user_agents = $vars->robot_user_agents ?? '';
 		$robot_user_agents = array_filter(array_map('trim', preg_split('/[\r\n]/', $robot_user_agents)), function($item) {
 			return $item !== '';
 		});
@@ -88,7 +88,7 @@ class Security extends Base
 		Config::setAll($config);
 
 		// Admin IP access control
-		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip ?? ''));
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
@@ -96,7 +96,7 @@ class Security extends Base
 			throw new Exception('msg_invalid_ip');
 		}
 
-		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip));
+		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip ?? ''));
 		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
 			return $item !== '';
 		}));
@@ -130,7 +130,7 @@ class Security extends Base
 
 		Config::set('admin.allow', array_values($allowed_ip));
 		Config::set('admin.deny', array_values($denied_ip));
-		Config::set('session.autologin_lifetime', max(1, min(400, intval($vars->autologin_lifetime))));
+		Config::set('session.autologin_lifetime', max(1, min(400, intval($vars->autologin_lifetime ?? 0))));
 		Config::set('session.autologin_refresh', ($vars->autologin_refresh ?? 'N') === 'Y');
 		Config::set('session.refresh', ($vars->use_session_refresh ?? 'N') === 'Y' ? 300 : 0);
 		Config::set('session.httponly', $vars->use_httponly === 'Y');

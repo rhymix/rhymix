@@ -137,7 +137,7 @@
 					<img src="{$favicon_url ?: (\RX_BASEURL . 'common/img/icon.png')}" alt="Favicon" />
 					<span>Rhymix</span>
 					<label for="delete_favicon" cond="$favicon_url">
-						<input type="checkbox" name="delete_favicon" id="delete_favicon" value="1" /> {$lang->cmd_delete}
+						<input type="checkbox" name="delete_favicon" id="delete_favicon" value="Y" /> {$lang->cmd_delete}
 					</label>
 				</p>
 				<input type="file" name="favicon" id="favicon" title="Favicon" />
@@ -156,7 +156,7 @@
 					<!--@endif-->
 					<span>Rhymix</span>
 					<label for="delete_dark_favicon" cond="$dark_favicon_url">
-						<input type="checkbox" name="delete_dark_favicon" id="delete_dark_favicon" value="1" /> {$lang->cmd_delete}
+						<input type="checkbox" name="delete_dark_favicon" id="delete_dark_favicon" value="Y" /> {$lang->cmd_delete}
 					</label>
 				</p>
 				<input type="file" name="dark_favicon" id="dark_favicon" title="Dark Mode Favicon" />
@@ -172,7 +172,7 @@
 					<span>Rhymix</span>
 				</p>
 				<label for="delete_mobicon" cond="$mobicon_url">
-					<input type="checkbox" name="delete_mobicon" id="delete_mobicon" value="1" /> {$lang->cmd_delete}
+					<input type="checkbox" name="delete_mobicon" id="delete_mobicon" value="Y" /> {$lang->cmd_delete}
 				</label>
 				<input type="file" name="mobicon" id="mobicon" title="Mobile Home Icon" />
 				<span class="x_help-block">{$lang->detail_use_mobile_icon}</span>
@@ -186,7 +186,7 @@
 					<img src="{$default_image_url}" alt="Default Image" style="width:200px;height:auto" />
 				</p>
 				<label for="delete_default_image" cond="$default_image_url">
-					<input type="checkbox" name="delete_default_image" id="delete_default_image" value="1" /> {$lang->cmd_delete}
+					<input type="checkbox" name="delete_default_image" id="delete_default_image" value="Y" /> {$lang->cmd_delete}
 				</label>
 				<input type="file" name="default_image" id="default_image" title="Default Image" />
 				<span class="x_help-block">{$lang->about_site_default_image}</span>

@@ -249,21 +249,21 @@ class Domains extends Base
 		}
 
 		// Validate the title and subtitle.
-		$vars->title = utf8_trim($vars->title);
-		$vars->subtitle = utf8_trim($vars->subtitle);
+		$vars->title = utf8_trim($vars->title ?? '');
+		$vars->subtitle = utf8_trim($vars->subtitle ?? '');
 		if ($vars->title === '')
 		{
 			throw new Exception('msg_site_title_is_empty');
 		}
 
 		// Validate the domain.
-		if (!preg_match('@^https?://@', $vars->domain))
+		if (!preg_match('@^https?://@', $vars->domain ?? ''))
 		{
-			$vars->domain = 'http://' . $vars->domain;
+			$vars->domain = 'http://' . ($vars->domain ?? '');
 		}
 		try
 		{
-			$vars->domain = URL::getDomainFromUrl(strtolower($vars->domain));
+			$vars->domain = URL::getDomainFromUrl(strtolower($vars->domain ?? ''));
 		}
 		catch (Exception $e)
 		{
@@ -280,11 +280,11 @@ class Domains extends Base
 		}
 
 		// Validate the ports.
-		if ($vars->http_port == 80 || !$vars->http_port)
+		if (empty($vars->http_port) || $vars->http_port == 80)
 		{
 			$vars->http_port = 0;
 		}
-		if ($vars->https_port == 443 || !$vars->https_port)
+		if (empty($vars->https_port) || $vars->https_port == 443)
 		{
 			$vars->https_port = 0;
 		}
@@ -312,7 +312,7 @@ class Domains extends Base
 		}
 
 		// Validate the index document setting.
-		if ($vars->index_document_srl)
+		if ($vars->index_document_srl ?? 0)
 		{
 			$oDocument = getModel('document')->getDocument($vars->index_document_srl);
 			if (!$oDocument || !$oDocument->isExists())
@@ -420,7 +420,7 @@ class Domains extends Base
 		}
 
 		// If changing the default domain, set all other domains as non-default.
-		if ($vars->is_default_domain === 'Y')
+		if (isset($vars->is_default_domain) && $vars->is_default_domain === 'Y')
 		{
 			$args = new \stdClass;
 			$args->not_domain_srl = $domain_srl;
@@ -432,7 +432,7 @@ class Domains extends Base
 		}
 
 		// Save or copy the favicon.
-		if ($vars->delete_favicon)
+		if (isset($vars->delete_favicon) && $vars->delete_favicon === 'Y')
 		{
 			IconModel::deleteIcon($domain_srl, 'favicon.ico');
 		}
@@ -448,7 +448,7 @@ class Domains extends Base
 		}
 
 		// Save or copy the dark mode favicon.
-		if ($vars->delete_dark_favicon)
+		if (isset($vars->delete_dark_favicon) && $vars->delete_dark_favicon === 'Y')
 		{
 			IconModel::deleteIcon($domain_srl, 'favicon.dark.ico');
 		}
@@ -464,7 +464,7 @@ class Domains extends Base
 		}
 
 		// Save or copy the mobile icon.
-		if ($vars->delete_mobicon)
+		if (isset($vars->delete_mobicon) && $vars->delete_mobicon === 'Y')
 		{
 			IconModel::deleteIcon($domain_srl, 'mobicon.png');
 		}
@@ -480,7 +480,7 @@ class Domains extends Base
 		}
 
 		// Save or copy the site default image.
-		if ($vars->delete_default_image)
+		if (isset($vars->delete_default_image) && $vars->delete_default_image === 'Y')
 		{
 			IconModel::deleteDefaultImage($domain_srl);
 		}
