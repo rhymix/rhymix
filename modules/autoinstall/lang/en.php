@@ -46,6 +46,7 @@ $lang->msg_autoinstall_not_installable = 'This package does not support automati
 $lang->msg_autoinstall_not_installable_environment = 'The installation environment is not suitable. Please check the Rhymix core version and PHP version.';
 $lang->msg_autoinstall_not_installable_permissions = 'Rhymix does not have write permissions to the install path. Please check the permissions and try again.';
 $lang->msg_autoinstall_experimental_warning = 'Warning';
+$lang->msg_autoinstall_security_warning = 'Installed packages can read and write all data on your site and communicate with external servers. Only install packages from trusted developers.';
 $lang->msg_autoinstall_experimental_install = 'Easy install is an experimental feature. Depending on the server environment, errors may occur during install or update.';
 $lang->msg_autoinstall_experimental_update = 'Modified files will be overwritten with originals if you update third-party packages using easy install.';
 $lang->msg_autoinstall_downloading = 'Downloading...';

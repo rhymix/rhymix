@@ -102,7 +102,10 @@
 			<!--@if($update_info->update_available)-->
 				<!--@if($package->isInstallable())-->
 					<div class="message">
-						<p><span class="x_badge">{$lang->msg_autoinstall_experimental_warning}</span> {$lang->msg_autoinstall_experimental_update}</p>
+						<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_security_warning}</p>
+					</div>
+					<div class="message">
+						<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_experimental_update}</p>
 					</div>
 					<a class="x_btn x_btn-primary autoinstall_update_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_updated}">
 						{$lang->cmd_autoinstall_update_available}
@@ -122,7 +125,10 @@
 			</a>
 		<!--@elseif($package->isInstallable())-->
 			<div class="message">
-				<p><span class="x_badge">{$lang->msg_autoinstall_experimental_warning}</span> {$lang->msg_autoinstall_experimental_install}</p>
+				<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_security_warning}</p>
+			</div>
+			<div class="message">
+				<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_experimental_install}</p>
 			</div>
 			<div>
 				<a class="x_btn x_btn-primary autoinstall_install_btn" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_installed}">
