@@ -84,6 +84,16 @@ class Package
 	}
 
 	/**
+	 * Get the name of the module, widget, or skin of the current package.
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return basename($this->install_path);
+	}
+
+	/**
 	 * Get the lowest price of the current package.
 	 *
 	 * @return ?int

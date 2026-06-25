@@ -41,13 +41,28 @@ class AutoinstallAdminController extends Autoinstall
 			return $package;
 		}
 
+		// Suspend session
+		Rhymix\Framework\Session::close();
+
 		// Install package
-		$output = Rhymix\Modules\Autoinstall\Models\Installer::installPackage($package, $mode);
-		if (!$output->toBool())
+		try
 		{
-			$output->setMessage(nl2br($output->getMessage()));
-			return $output;
+			$output = Rhymix\Modules\Autoinstall\Models\Installer::installPackage($package, $mode);
+			if (!$output->toBool())
+			{
+				Rhymix\Framework\Session::start();
+				$output->setMessage(nl2br($output->getMessage()));
+				return $output;
+			}
 		}
+		catch (\Throwable $e)
+		{
+			Rhymix\Framework\Session::start();
+			return new BaseObject(-1, $e->getMessage());
+		}
+
+		// Resume session
+		Rhymix\Framework\Session::start();
 	}
 
 	/**
@@ -70,7 +85,7 @@ class AutoinstallAdminController extends Autoinstall
 		}
 
 		// Find the module name.
-		$module_name = preg_match('!/modules/(\w+)!', $package->install_path, $matches) ? $matches[1] : '';
+		$module_name = $package->getName();
 		if (!$module_name)
 		{
 			return new BaseObject(-1, 'msg_autoinstall_invalid_module_install_path');
@@ -79,16 +94,19 @@ class AutoinstallAdminController extends Autoinstall
 		// Install and update the module.
 		try
 		{
+			Context::set('module_name', $module_name);
+			$oInstallAdminController = InstallAdminController::getInstance();
+			$oInstallAdminController->procInstallAdminInstall();
 			$module_class = ModuleModel::getModuleInstallClass($module_name);
-			if ($module_class && method_exists($module_class, 'moduleInstall'))
-			{
-				$module_class->moduleInstall();
-			}
 			if ($module_class && method_exists($module_class, 'checkUpdate'))
 			{
-				if ($module_class->checkUpdate() && method_exists($module_class, 'moduleUpdate'))
+				if ($module_class->checkUpdate())
 				{
-					$module_class->moduleUpdate();
+					$output = $oInstallAdminController->procInstallAdminUpdate();
+					if ($output instanceof BaseObject && !$output->toBool())
+					{
+						return $output;
+					}
 				}
 			}
 		}
@@ -111,6 +129,23 @@ class AutoinstallAdminController extends Autoinstall
 		if ($package instanceof BaseObject && !$package->toBool())
 		{
 			return $package;
+		}
+
+		// Call the uninstall method if it exists.
+		if ($package->type === 'module')
+		{
+			try
+			{
+				$module_class = ModuleModel::getModuleInstallClass($package->getName());
+				if ($module_class && method_exists($module_class, 'moduleUninstall'))
+				{
+					$module_class->moduleUninstall();
+				}
+			}
+			catch (\Throwable $e)
+			{
+				return new BaseObject(-1, $e->getMessage());
+			}
 		}
 
 		// Uninstall package
