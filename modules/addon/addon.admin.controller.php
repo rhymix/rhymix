@@ -162,28 +162,28 @@ class addonAdminController extends addonController
 	 */
 	function procAddonAdminToggleActivate()
 	{
-		$oAddonModel = getAdminModel('addon');
-
-		$site_module_info = Context::get('site_module_info');
-		// batahom addon values
 		$addon = Context::get('addon');
+		if (!preg_match('/^\w+$/', $addon))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
 		$type = Context::get('type');
-		if(!$type)
+		if(!$type || !in_array($type, ['pc', 'mobile'], true))
 		{
 			$type = "pc";
 		}
-		if($addon)
+
+		// If enabled Disables
+		$oAddonModel = getAdminModel('addon');
+		$site_module_info = Context::get('site_module_info');
+		if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type))
 		{
-			// If enabled Disables
-			if($oAddonModel->isActivatedAddon($addon, $site_module_info->site_srl, $type))
-			{
-				$this->doDeactivate($addon, $site_module_info->site_srl, $type);
-			}
-			// If it is disabled Activate
-			else
-			{
-				$this->doActivate($addon, $site_module_info->site_srl, $type);
-			}
+			$this->doDeactivate($addon, $site_module_info->site_srl, $type);
+		}
+		// If it is disabled Activate
+		else
+		{
+			$this->doActivate($addon, $site_module_info->site_srl, $type);
 		}
 
 		$this->makeCacheFile($site_module_info->site_srl, $type);
@@ -200,8 +200,12 @@ class addonAdminController extends addonController
 		$vars = Context::getRequestVars();
 		$module = $vars->module;
 		$addon_name = $vars->addon_name;
-		$args = new stdClass();
+		if (!preg_match('/^\w+$/', $addon_name))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
 
+		$args = new stdClass();
 		$site_module_info = Context::get('site_module_info');
 		$addon_info = AddonAdminModel::getInstance()->getAddonInfoXml($addon_name, $site_module_info->site_srl, 'site');
 		foreach ($addon_info->extra_vars as $key => $val)
