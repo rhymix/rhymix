@@ -271,6 +271,7 @@ class HTMLResponse extends AbstractResponse
 		// Add favicon and mobile icon links.
 		$site_module_info = Context::get('site_module_info');
 		Context::set('favicon_url', AdminIconModel::getFaviconUrl(intval($site_module_info->domain_srl ?? 0)));
+		Context::set('dark_favicon_url', AdminIconModel::getDarkFaviconUrl($site_module_info->domain_srl ?? 0));
 		Context::set('mobicon_url', AdminIconModel::getMobiconUrl(intval($site_module_info->domain_srl ?? 0)));
 
 		// If somebody is still using IE 11, force the latest rendering engine.

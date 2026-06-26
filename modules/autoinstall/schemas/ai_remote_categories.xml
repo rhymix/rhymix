@@ -1,6 +1,0 @@
-<table name="ai_remote_categories">
-    <column name="category_srl" type="number" size="11" default="0" notnull="notnull" primary_key="primary_key" />
-    <column name="parent_srl" type="number" size="11" default="0" notnull="notnull" index="idx_parent_srl" />
-    <column name="title" type="varchar" size="250" notnull="notnull" />
-	<column name="list_order" type="number" size="11" notnull="notnull" index="idx_list_order" />
-</table>

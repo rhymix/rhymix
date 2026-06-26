@@ -64,16 +64,6 @@
 	</form>
 </section>
 
-<block cond="$selected_layout->type == 'faceoff'">
-	<section class="section">
-		<h1>{$lang->faceoff_export}</h1>
-		<p>{nl2br($lang->about_faceoff_export)}</p>
-		<p>
-			<a class="x_btn" href="{getUrl('', 'act', 'procLayoutAdminUserLayoutExport', 'layout_srl', $layout_srl)}">{$lang->layout_btn_export}</a>
-		</p>
-	</section>
-</block>
-
 <form id="fo_layout" ruleset="codeUpdate" action="./" method="post">
 	<input type="hidden" name="module" value="layout" />
 	<input type="hidden" name="layout_srl" value="{$layout_srl}" />

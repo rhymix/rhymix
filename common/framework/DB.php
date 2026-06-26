@@ -793,7 +793,7 @@ class DB
 		{
 			return $this->setError(-1, 'Failed to load table schema file');
 		}
-		if ($table->deleted)
+		if (!empty($table->deleted))
 		{
 			return new Helpers\DBResultHelper(-1, 'Table is marked as deleted');
 		}

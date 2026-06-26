@@ -165,17 +165,6 @@ class ModuleHandler extends Handler
 			}
 		}
 
-		// Check success_return_url and error_return_url to prevent dangerous redirects.
-		$urls = array('success_return_url', 'error_return_url');
-		foreach($urls as $key)
-		{
-			$url = strval(Context::get($key));
-			if ($url && !Rhymix\Framework\URL::isInternalURL($url))
-			{
-				Context::set($key, null);
-			}
-		}
-
 		// If the Router returned an error earlier, show an error here.
 		if($this->route && $this->route->getRouteStatus() > 200)
 		{

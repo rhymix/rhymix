@@ -1,4 +1,4 @@
-.fvOff, .fvOn {
+.fvOff, .fvOn, .fvDisabled {
 	display: inline-block;
 	position: relative;
 	top: 8px;
@@ -17,12 +17,18 @@
 	}
 }
 
-.fvOff{
+.fvOff {
 	background-image: url('images/star-empty.svg');
 }
 
-.fvOn{
+.fvOn {
 	background-image: url('images/star-fill.svg');
+}
+
+.x button.fvDisabled {
+	background-image: url('images/star-empty.svg');
+	opacity: 0.3;
+	cursor: not-allowed;
 }
 
 .x_table.x_table-striped.x_table-hover.dsTg tr {

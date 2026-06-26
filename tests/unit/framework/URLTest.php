@@ -115,7 +115,16 @@ class URLTest extends \Codeception\Test\Unit
 
 	public function testIsInternalURL()
 	{
-		// This function is checked in Security::checkCSRF()
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('./index.php'));
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('/index.php'));
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('index.php'));
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL($this->baseurl . 'index.php'));
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL($this->baseurl));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('http://www.example.com/'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('//www.example.com:8080/index.php'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('https:\\\\www.example.com/'));
+
+		// More tests of this function can be found in Security::checkCSRF()
 	}
 
 	public function testURLFromServerPath()

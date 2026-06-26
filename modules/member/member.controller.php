@@ -1817,6 +1817,13 @@ class MemberController extends Member
 	 */
 	function procMemberFindAccount()
 	{
+		// Rate limit
+		if (isset($_SESSION['find_account_request_time']) && $_SESSION['find_account_request_time'] > time() - 60)
+		{
+			throw new Rhymix\Framework\Exception('msg_rate_limited_find_account');
+		}
+
+		// Check email address
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
@@ -1926,7 +1933,9 @@ class MemberController extends Member
 			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberFindAccount');
 			$this->setRedirectUrl($returnUrl);
 		}
-		return new BaseObject(0,$msg);
+
+		$_SESSION['find_account_request_time'] = time();
+		return new BaseObject(0, $msg);
 	}
 
 	/**
@@ -2056,9 +2065,16 @@ class MemberController extends Member
 	 */
 	function procMemberResendAuthMail()
 	{
+		// Rate limit
+		if (isset($_SESSION['find_account_request_time']) && $_SESSION['find_account_request_time'] > time() - 60)
+		{
+			throw new Rhymix\Framework\Exception('msg_rate_limited_find_account');
+		}
+
 		// Get an email_address
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+
 		// Log test by using email_address
 		$args = new stdClass;
 		$args->email_address = $email_address;
@@ -2153,6 +2169,8 @@ class MemberController extends Member
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 		$this->setRedirectUrl($returnUrl);
+
+		$_SESSION['find_account_request_time'] = time();
 	}
 
 	function _sendAuthMail($auth_args, $member_info)
@@ -2639,6 +2657,7 @@ class MemberController extends Member
 			return $this->recordLoginError(-1, 'invalid_user_id');
 		}
 
+		// Check recent login failures from the same IP.
 		$args = new stdClass;
 		$args->ipaddress = \RX_CLIENT_IP;
 		$output = executeQuery('member.getLoginCountByIp', $args);
@@ -2700,49 +2719,6 @@ class MemberController extends Member
 			{
 				return new BaseObject(-1, 'msg_admin_ip_not_allowed');
 			}
-		}
-
-		// Check if there is recoding table.
-		$oDB = DB::getInstance();
-		if($oDB->isTableExists('member_count_history') && $config->enable_login_fail_report != 'N')
-		{
-			// check if there is login fail records.
-			/*
-			$args = new stdClass;
-			$args->member_srl = $member_info->member_srl;
-			$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
-			if($output->data && $output->data->content)
-			{
-				$title = lang('login_fail_report');
-				$message = '<ul>';
-				$content = unserialize($output->data->content);
-				if(count($content) > $config->max_error_count)
-				{
-					foreach($content as $val)
-					{
-						$message .= '<li>'.lang('regdate').': '.date('Y-m-d h:i:sa',$val[2]).'<ul><li>'.lang('ipaddress').': '.$val[0].'</li><li>'.lang('message').': '.$val[1].'</li></ul></li>';
-					}
-					$message .= '</ul>';
-					$content = sprintf(lang('login_fail_report_contents'),$message,date('Y-m-d h:i:sa'));
-
-					//send message
-					$oCommunicationController = getController('communication');
-					$oCommunicationController->sendMessage($args->member_srl, $args->member_srl, $title, $content, true, null, false);
-
-					if($member_info->email_address && $member_info->allow_mailing == 'Y')
-					{
-						$view_url = Context::getRequestUri();
-						$content = sprintf("%s<hr /><p>From: <a href=\"%s\" target=\"_blank\">%s</a><br />To: %s(%s)</p>",$content, $view_url, $view_url, $member_info->nick_name, $member_info->email_id);
-						$oMail = new \Rhymix\Framework\Mail();
-						$oMail->setSubject($title);
-						$oMail->setBody($content);
-						$oMail->addTo($member_info->email_address, $member_info->email_id.' ('.$member_info->nick_name.')');
-						$oMail->send();
-					}
-					$output = executeQuery('member.deleteLoginCountHistoryByMemberSrl', $args);
-				}
-			}
-			*/
 		}
 
 		// When user checked to use auto-login
@@ -3532,7 +3508,7 @@ class MemberController extends Member
 	 */
 	function updateMemberPassword($args)
 	{
-		if($args->password)
+		if (isset($args->password))
 		{
 			// check password strength
 			$config = MemberModel::getMemberConfig();
@@ -3545,7 +3521,7 @@ class MemberController extends Member
 
 			$args->password = MemberModel::hashPassword($args->password);
 		}
-		else if($args->hashed_password)
+		elseif (isset($args->hashed_password))
 		{
 			$args->password = $args->hashed_password;
 		}

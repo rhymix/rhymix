@@ -432,6 +432,12 @@ class Password
 		{
 			return max(0, round(log($matches[1], 2)) - 5);
 		}
+		elseif(preg_match('/^\$argon2id\$.*,t=([0-9]+),/', $hash, $matches))
+		{
+			$time_cost = intval($matches[1]);
+			$work_factor_map = [0, 4, 7, 8, 10, 11, 12, 14, 15, 15, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32];
+			return $work_factor_map[$time_cost] ?? 32;
+		}
 		else
 		{
 			return 0;

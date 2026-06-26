@@ -19,7 +19,7 @@
 				<iframe src="{getUrl('','act', 'dispEditorConfigPreview', 'type', 'document')}" id="pre_document_frame" frameborder="0" style="border:0"></iframe>
 			</div>
 			<div class="x_tab-pane" id="pre_comment">
-				<iframe src="{getUrl('','act', 'dispEditorConfigPreview', 'type', 'comment')}" id="pre_comment_frame" frameborder="0" style="border:0"></iframe> 
+				<iframe src="{getUrl('','act', 'dispEditorConfigPreview', 'type', 'comment')}" id="pre_comment_frame" frameborder="0" style="border:0"></iframe>
 			</div>
 		</div>
 	</div>
@@ -92,9 +92,9 @@
 				</p>
 			</div>
 		</div>
-		
+
 		<h1>{$lang->comment_editor}</h1>
-	
+
 		<div class="x_control-group">
 			<label for="change_lang_type" class="x_control-label">{$lang->pc}</label>
 			<div class="x_controls">
@@ -153,9 +153,9 @@
 				</p>
 			</div>
 		</div>
-		
+
 		<h1>{$lang->editor_common_settings}</h1>
-		
+
 		<div class="x_control-group">
 			<label class="x_control-label">{$lang->guide_choose_font_body}</label>
 			<div class="x_controls">
@@ -167,7 +167,7 @@
 					<input type="radio" name="content_font" id="font_{$name}" value="{$detail}" checked="checked"|cond="$editor_config->content_font == $detail && $editor_config->font_defined != 'Y'" /> {$fontname_simplified}
 				</label>
 				<label>
-					<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} : 
+					<input type="radio" class="fontSelector" name="font_defined" id="font_defined" value="Y" checked="checked"|cond="$editor_config->font_defined== 'Y'" /> {$lang->by_you} :
 					<input type="text" name="content_font_defined" value="{$editor_config->content_font}"|cond="$editor_config->font_defined == 'Y'" />
 				</label>
 			</div>
@@ -325,7 +325,6 @@
 					<th class="nowr rx_detail_marks">{$lang->author}</th>
 					<th class="nowr rx_detail_marks">{$lang->path}</th>
 					<th class="nowr">{$lang->use}</th>
-					<th class="nowr rx_detail_marks">{$lang->cmd_delete}</th>
 				</tr>
 			</thead>
 			<tbody class="uDrag">
@@ -336,9 +335,6 @@
 						<p><b><a href="{getUrl('', 'module', 'admin', 'act', 'dispEditorAdminSetupComponent', 'component_name', $xml_info->component_name)}">{$xml_info->title}</a></b></p>
 						<input type="hidden" name="component_names[]" value="{$xml_info->component_name}" />
 						<p>{nl2br($xml_info->description)}</p>
-						<!--@if($xml_info->version && $xml_info->need_update == 'Y')-->
-						<p class="update">{$lang->msg_avail_easy_update}<a href="{getUrl('act','dispAutoinstallAdminInstall','package_srl',$xml_info->package_srl)}">{$lang->msg_do_you_like_update}</a></p>
-						<!--@end-->
 					</td>
 					<td>{$xml_info->version}</td>
 					<td class="nowr rx_detail_marks">
@@ -346,11 +342,6 @@
 					</td>
 					<td class="rx_detail_marks">{$xml_info->path}</td>
 					<td><input type="checkbox" name="enables[]" id="enable" value="{$xml_info->component_name}" title="Use this component " <!--@if($xml_info->enabled=='Y')--> checked="checked"<!--@end--> /></td>
-					<td class="rx_detail_marks">
-						<!--@if($xml_info->version && $xml_info->delete_url)-->
-						<a href="{$xml_info->delete_url}">{$lang->cmd_delete}</a>
-						<!--@end-->
-					</td>
 				</tr>
 				<!--@end-->
 			</tbody>
@@ -364,14 +355,14 @@
 </section>
 <script>
 jQuery(function($){
-	
+
 	// Restore default list of editor plugins to remove
 	$('.default_remove_plugins').on('click', function(e) {
 		var default_list = $(this).data('default-list');
 		$('#remove_plugins').val(default_list);
 		e.preventDefault();
 	});
-		
+
 	// Editor Preview
 	function preview(){
 		$('._preview iframe').css({
@@ -381,7 +372,7 @@ jQuery(function($){
 	}
 	preview();
 	$('._preview li>a').click(preview);
-	
+
 	// init
 	var fontPreview = $('.fontPreview');
 	var fontSelector = $('.fontSelector');

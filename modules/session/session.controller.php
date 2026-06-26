@@ -73,13 +73,16 @@ class SessionController extends Session implements SessionHandlerInterface
 	#[\ReturnTypeWillChange]
 	public function destroy($id): bool
 	{
-		if (!$id || !$this->session_started)
+		if (!$id || !$this->session_started || headers_sent())
 		{
 			return false;
 		}
 
-		$output = executeQuery('session.deleteSession', ['session_key' => $id]);
-		return $output->toBool();
+		register_shutdown_function(function() use ($id) {
+			executeQuery('session.deleteSession', ['session_key' => $id]);
+		});
+
+		return true;
 	}
 
 	#[\ReturnTypeWillChange]

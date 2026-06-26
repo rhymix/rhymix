@@ -89,6 +89,7 @@ return array(
 		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
+		'make_sourcemap' => true,
 		'delay_compile' => 0,
 		'jquery_version' => 3,
 	),

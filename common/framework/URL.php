@@ -88,7 +88,7 @@ class URL
 	 */
 	public static function getDomainFromURL(string $url)
 	{
-		$domain = @parse_url($url, \PHP_URL_HOST);
+		$domain = @parse_url(str_replace('\\', '/', $url), \PHP_URL_HOST);
 		if ($domain === false || $domain === null)
 		{
 			return false;

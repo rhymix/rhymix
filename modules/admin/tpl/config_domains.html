@@ -27,8 +27,16 @@
 		<tbody>
 			<tr loop="$domain_list->data => $domain">
 				<td class="nowr">
+					{@ $favicon = Rhymix\Modules\Admin\Models\Icon::getFaviconUrl($domain->domain_srl)}
+					<!--@if($favicon)-->
+						<img src="{$favicon}" alt="favicon" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;" />
+					<!--@else-->
+						<span  style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;background:#dddddd"></span>
+					<!--@endif-->
 					{$domain->settings->title|autolang}
-					<i cond="$domain->is_default_domain === 'Y'" class="x_icon-home" title="{$lang->cmd_is_default_domain}">{$lang->cmd_is_default_domain}</i>
+					<!--@if($domain->is_default_domain === 'Y')-->
+						<i class="x_icon-home" style="transform:translateY(1px)" title="{$lang->cmd_is_default_domain}"></i>
+					<!--@endif-->
 				</td>
 				<td class="nowr">{$domain->domain}</td>
 				<td class="nowr rx_detail_marks">{preg_replace('/\\(.+$/', '', $lang->ssl_options[$domain->security ?: 'none'])}</td>

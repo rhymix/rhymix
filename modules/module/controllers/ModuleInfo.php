@@ -32,29 +32,12 @@ class ModuleInfo extends Base
 	 */
 	public function dispModuleAdminList()
 	{
-		$oAutoinstallModel = AutoinstallModel::getInstance();
 		$module_list = ModuleDefinitionModel::getInstalledModuleDetails();
 		foreach ($module_list as $val)
 		{
-			$val->delete_url = $oAutoinstallModel->getRemoveUrlByPath($val->path);
-
-			// get easyinstall need update
-			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($val->path);
-			$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-			if ($packageSrl && $package && isset($package[$packageSrl]))
-			{
-				$val->need_autoinstall_update = $package[$packageSrl]->need_update ?? 'N';
-			}
-			else
-			{
-				$val->need_autoinstall_update = 'N';
-			}
-
-			// get easyinstall update url
-			if ($val->need_autoinstall_update === 'Y')
-			{
-				$val->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
-			}
+			$val->need_autoinstall_update = 'N';
+			$val->delete_url = null;
+			$val->update_url = null;
 		}
 
 		$favorites = AdminFavoriteModel::getFavorites()->get('favoriteList');

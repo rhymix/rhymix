@@ -111,6 +111,7 @@ class Domains extends Base
 		if ($domain_info)
 		{
 			Context::set('favicon_url', IconModel::getFaviconUrl($domain_info->domain_srl));
+			Context::set('dark_favicon_url', IconModel::getDarkFaviconUrl($domain_info->domain_srl));
 			Context::set('mobicon_url', IconModel::getMobiconUrl($domain_info->domain_srl));
 			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_info->domain_srl));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
@@ -181,6 +182,7 @@ class Domains extends Base
 		if ($domain_info)
 		{
 			Context::set('favicon_url', IconModel::getFaviconUrl($domain_srl ?? 0));
+			Context::set('dark_favicon_url', IconModel::getDarkFaviconUrl($domain_srl ?? 0));
 			Context::set('mobicon_url', IconModel::getMobiconUrl($domain_srl ?? 0));
 			Context::set('default_image_url', IconModel::getDefaultImageUrl($domain_srl ?? 0));
 			Context::set('color_scheme', $domain_info->settings->color_scheme ?? 'auto');
@@ -247,21 +249,21 @@ class Domains extends Base
 		}
 
 		// Validate the title and subtitle.
-		$vars->title = utf8_trim($vars->title);
-		$vars->subtitle = utf8_trim($vars->subtitle);
+		$vars->title = utf8_trim($vars->title ?? '');
+		$vars->subtitle = utf8_trim($vars->subtitle ?? '');
 		if ($vars->title === '')
 		{
 			throw new Exception('msg_site_title_is_empty');
 		}
 
 		// Validate the domain.
-		if (!preg_match('@^https?://@', $vars->domain))
+		if (!preg_match('@^https?://@', $vars->domain ?? ''))
 		{
-			$vars->domain = 'http://' . $vars->domain;
+			$vars->domain = 'http://' . ($vars->domain ?? '');
 		}
 		try
 		{
-			$vars->domain = URL::getDomainFromUrl(strtolower($vars->domain));
+			$vars->domain = URL::getDomainFromUrl(strtolower($vars->domain ?? ''));
 		}
 		catch (Exception $e)
 		{
@@ -278,11 +280,11 @@ class Domains extends Base
 		}
 
 		// Validate the ports.
-		if ($vars->http_port == 80 || !$vars->http_port)
+		if (empty($vars->http_port) || $vars->http_port == 80)
 		{
 			$vars->http_port = 0;
 		}
-		if ($vars->https_port == 443 || !$vars->https_port)
+		if (empty($vars->https_port) || $vars->https_port == 443)
 		{
 			$vars->https_port = 0;
 		}
@@ -310,7 +312,7 @@ class Domains extends Base
 		}
 
 		// Validate the index document setting.
-		if ($vars->index_document_srl)
+		if ($vars->index_document_srl ?? 0)
 		{
 			$oDocument = getModel('document')->getDocument($vars->index_document_srl);
 			if (!$oDocument || !$oDocument->isExists())
@@ -418,7 +420,7 @@ class Domains extends Base
 		}
 
 		// If changing the default domain, set all other domains as non-default.
-		if ($vars->is_default_domain === 'Y')
+		if (isset($vars->is_default_domain) && $vars->is_default_domain === 'Y')
 		{
 			$args = new \stdClass;
 			$args->not_domain_srl = $domain_srl;
@@ -430,7 +432,7 @@ class Domains extends Base
 		}
 
 		// Save or copy the favicon.
-		if ($vars->delete_favicon)
+		if (isset($vars->delete_favicon) && $vars->delete_favicon === 'Y')
 		{
 			IconModel::deleteIcon($domain_srl, 'favicon.ico');
 		}
@@ -445,8 +447,24 @@ class Domains extends Base
 			Storage::copy($source_filename, $target_filename);
 		}
 
+		// Save or copy the dark mode favicon.
+		if (isset($vars->delete_dark_favicon) && $vars->delete_dark_favicon === 'Y')
+		{
+			IconModel::deleteIcon($domain_srl, 'favicon.dark.ico');
+		}
+		elseif (isset($vars->dark_favicon) && is_array($vars->dark_favicon))
+		{
+			IconModel::saveIcon($domain_srl, 'favicon.dark.ico', $vars->dark_favicon);
+		}
+		elseif ($copy_domain_info)
+		{
+			$source_filename = \RX_BASEDIR . 'files/attach/xeicon/' . ($copy_domain_info->domain_srl ? ($copy_domain_info->domain_srl . '/') : '') . 'favicon.dark.ico';
+			$target_filename = \RX_BASEDIR . 'files/attach/xeicon/' . $domain_srl . '/' . 'favicon.dark.ico';
+			Storage::copy($source_filename, $target_filename);
+		}
+
 		// Save or copy the mobile icon.
-		if ($vars->delete_mobicon)
+		if (isset($vars->delete_mobicon) && $vars->delete_mobicon === 'Y')
 		{
 			IconModel::deleteIcon($domain_srl, 'mobicon.png');
 		}
@@ -462,7 +480,7 @@ class Domains extends Base
 		}
 
 		// Save or copy the site default image.
-		if ($vars->delete_default_image)
+		if (isset($vars->delete_default_image) && $vars->delete_default_image === 'Y')
 		{
 			IconModel::deleteDefaultImage($domain_srl);
 		}
@@ -553,6 +571,7 @@ class Domains extends Base
 
 		// Delete icons and default image for the domain.
 		IconModel::deleteIcon($domain_srl, 'favicon.ico');
+		IconModel::deleteIcon($domain_srl, 'favicon.dark.ico');
 		IconModel::deleteIcon($domain_srl, 'mobicon.png');
 		IconModel::deleteDefaultImage($domain_srl);
 

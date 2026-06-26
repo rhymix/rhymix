@@ -1,8 +1,23 @@
 <query id="getPackages" action="select">
-    <tables>
-        <table name="autoinstall_packages" />
-    </tables>
-    <columns>
-        <column name="*" />
-    </columns>
+	<tables>
+		<table name="autoinstall_packages" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="type" var="type" />
+		<condition operation="equal" column="install_path" var="install_path" />
+		<group if="search_keyword">
+			<condition operation="search" column="title" var="search_keyword" />
+			<condition operation="search" column="description" var="search_keyword" pipe="or" />
+			<condition operation="search" column="author" var="search_keyword" pipe="or" />
+		</group>
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="list_order" order="desc" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="5" />
+		<page var="page" />
+	</navigation>
 </query>

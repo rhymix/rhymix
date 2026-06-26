@@ -34,6 +34,7 @@ class Security extends Base
 		// Session and cookie security settings
 		Context::set('autologin_lifetime', Config::get('session.autologin_lifetime') ?: 365);
 		Context::set('autologin_refresh', Config::get('session.autologin_refresh') ?? true);
+		Context::set('session_refresh', Config::get('session.refresh') ?? 300);
 		Context::set('use_httponly', Config::get('session.httponly'));
 		Context::set('use_samesite', Config::get('session.samesite'));
 		Context::set('use_session_ssl', Config::get('session.use_ssl'));
@@ -67,7 +68,7 @@ class Security extends Base
 		Config::set('mediafilter.object', []);
 
 		// HTML classes
-		$classes = $vars->mediafilter_classes;
+		$classes = $vars->mediafilter_classes ?? '';
 		$classes = array_filter(array_map('trim', preg_split('/[\r\n]/', $classes)), function($item) {
 			return preg_match('/^[a-zA-Z0-9_-]+$/u', $item);
 		});
@@ -75,7 +76,7 @@ class Security extends Base
 		Config::set('mediafilter.classes', array_values($classes));
 
 		// Robot user agents
-		$robot_user_agents = $vars->robot_user_agents;
+		$robot_user_agents = $vars->robot_user_agents ?? '';
 		$robot_user_agents = array_filter(array_map('trim', preg_split('/[\r\n]/', $robot_user_agents)), function($item) {
 			return $item !== '';
 		});
@@ -87,7 +88,7 @@ class Security extends Base
 		Config::setAll($config);
 
 		// Admin IP access control
-		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip));
+		$allowed_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_allowed_ip ?? ''));
 		$allowed_ip = array_unique(array_filter($allowed_ip, function($item) {
 			return $item !== '';
 		}));
@@ -95,7 +96,7 @@ class Security extends Base
 			throw new Exception('msg_invalid_ip');
 		}
 
-		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip));
+		$denied_ip = array_map('trim', preg_split('/[\r\n]/', $vars->admin_denied_ip ?? ''));
 		$denied_ip = array_unique(array_filter($denied_ip, function($item) {
 			return $item !== '';
 		}));
@@ -129,8 +130,9 @@ class Security extends Base
 
 		Config::set('admin.allow', array_values($allowed_ip));
 		Config::set('admin.deny', array_values($denied_ip));
-		Config::set('session.autologin_lifetime', max(1, min(400, intval($vars->autologin_lifetime))));
+		Config::set('session.autologin_lifetime', max(1, min(400, intval($vars->autologin_lifetime ?? 0))));
 		Config::set('session.autologin_refresh', ($vars->autologin_refresh ?? 'N') === 'Y');
+		Config::set('session.refresh', ($vars->use_session_refresh ?? 'N') === 'Y' ? 300 : 0);
 		Config::set('session.httponly', $vars->use_httponly === 'Y');
 		Config::set('session.samesite', $vars->use_samesite);
 		Config::set('session.use_ssl', $vars->use_session_ssl === 'Y');

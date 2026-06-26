@@ -1,0 +1,204 @@
+@charset "utf-8";
+
+.autoinstall_list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	margin-bottom: 16px;
+}
+.autoinstall_list_item {
+	width: calc(50% - 8px);
+	position: relative;
+	.x_thumbnail {
+		box-shadow: 1px 1px 3px #eee;
+		padding: 12px;
+		display: flex;
+		gap: 12px;
+		overflow: hidden;
+		&:hover {
+			background: #f5f5f5;
+		}
+	}
+	.thumb {
+		flex-shrink: 0;
+		width: 135px;
+		height: 90px;
+		background-color: #f5f5f5;
+		border-radius: 4px;
+		img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: contain;
+		}
+	}
+	.info {
+		flex-grow: 1;
+		.package_type {
+			font-size: 12px;
+			color: #3a87ad;
+			margin-bottom: 4px;
+		}
+		h3 {
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 1.5;
+			margin: 0 0 4px 0;
+			a {
+				color: #333;
+				display: block;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				-moz-box-orient: vertical;
+				&:after {
+					display: none;
+				}
+			}
+		}
+		.description {
+			margin: 0 0 4px 0;
+			color: #666;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			-webkit-line-clamp: 1;
+			-webkit-box-orient: vertical;
+			-moz-box-orient: vertical;
+		}
+		.meta {
+			color: #666;
+			display: flex;
+			gap: 12px;
+			i {
+				transform: translateY(1px);
+			}
+			.author {
+				flex: 1;
+			}
+			.download_count {
+				color: #555;
+			}
+			.like_count {
+				color: #d9534f;
+			}
+		}
+	}
+	.badges {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		z-index: 1;
+		.is_installable {
+			font-size: 12px;
+			color: #3a87ad;
+		}
+	}
+	.cover {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 2;
+		&:after {
+			display: none;
+		}
+	}
+}
+
+.autoinstall_package_detail {
+	.header {
+		display: flex;
+		gap: 12px;
+		margin-bottom: 16px;
+		.thumb {
+			flex-shrink: 0;
+			width: 180px;
+			height: 120px;
+			background-color: #f5f5f5;
+			border-radius: 4px;
+			img {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: contain;
+			}
+		}
+		.info {
+			flex-grow: 1;
+			.package_type {
+				font-size: 16px;
+				color: #666;
+				margin-bottom: 4px;
+			}
+			h3 {
+				font-size: 20px;
+				font-weight: bold;
+				line-height: 1.5;
+				margin: 0 0 8px 0;
+			}
+			.description {
+				margin: 0 0 8px 0;
+				color: #666;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-line-clamp: 1;
+				-webkit-box-orient: vertical;
+				-moz-box-orient: vertical;
+			}
+			.meta {
+				margin: 0 0 8px 0;
+				color: #666;
+				display: flex;
+				gap: 16px;
+				i {
+					transform: translateY(1px);
+				}
+				.download_count {
+					color: #3a87ad;
+				}
+				.like_count {
+					color: #d9534f;
+				}
+			}
+		}
+	}
+	.x_badge-error {
+		background-color: #B94A48;
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.autoinstall_list_item {
+		width: 100%;
+		.thumb {
+			width: 90px;
+			height: 60px;
+		}
+		.info {
+			.license_details {
+				display: none;
+			}
+			.description {
+				-webkit-line-clamp: 2;
+			}
+			.meta {
+				flex-wrap: wrap;
+				gap: 4px 12px;
+				.author {
+					flex: 0 0 100%;
+					width: 100%;
+				}
+			}
+		}
+	}
+	.autoinstall_package_detail {
+		.header {
+			flex-direction: column;
+		}
+	}
+}

@@ -1,0 +1,164 @@
+<config autoescape="on" />
+
+<include target="header.html" />
+
+<ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$type == 'featured'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('featured_packages')}</a>
+	</li>
+	<!--@foreach($package_types as $_type => $_typename)-->
+		<li class="x_active"|cond="$type == $_type">
+			<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex', 'type', $_type)}">{$_typename}</a>
+		</li>
+	<!--@endforeach-->
+</ul>
+
+<div class="autoinstall_package_detail">
+	<div class="header">
+		<div class="thumb">
+			<!--@if(!empty($package->extra_vars->thumbnail))-->
+				<img src="{$package->extra_vars->thumbnail}" alt="{$package->title}" />
+			<!--@endif-->
+		</div>
+		<div class="info">
+			<h3>{$package->title}</h3>
+			<div class="description">
+				{$package->description}
+			</div>
+			<div class="meta">
+				<span class="author">
+					<i class="xi-user"></i> {$package->author} &nbsp;&nbsp;
+					<i class="xi-update"></i> {zdate($package->updated, 'Y-m-d')}
+					<!--@if($package->license !== 'FOR SALE')-->
+						&nbsp;&nbsp;
+						<span class="download_count"><i class="xi-cloud-download"></i> {$package->extra_vars->download_count}</span>
+					<!--@endif-->
+				</span>
+				<span class="like_count"><i class="xi-heart"></i> {$package->extra_vars->like_count}</span>
+			</div>
+			<div class="pds_link">
+				<a class="x_btn" href="{$package->extra_vars->url}" target="_blank">{$lang->cmd_autoinstall_see_more}</a>
+			</div>
+		</div>
+	</div>
+
+	<table class="x_table x_table-striped">
+		<tbody>
+			<tr>
+				<th scope="row" class="nowr">{$lang->cmd_autoinstall_package_type}</th>
+				<td class="nowr">
+					{$package->getType()}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row" class="nowr">{$lang->cmd_autoinstall_license_type}</th>
+				<td class="nowr">
+					<!--@if($package->license === 'FOR SALE')-->
+						<!--@if($package->extra_vars->pricing && $package->getLowestPrice())-->
+							{sprintf($lang->license_pricing_format, number_format($package->getLowestPrice()))}
+						<!--@else-->
+							{$lang->license_for_sale}
+						<!--@endif-->
+					<!--@else-->
+						{$lang->license_free}
+					<!--@endif-->
+				</td>
+			</tr>
+			<tr>
+				<th scope="row" class="nowr">{$lang->cmd_autoinstall_latest_version}</th>
+				<td class="nowr">{$package->last_release_version ?: $lang->cmd_autoinstall_no_information}</td>
+			</tr>
+			<!--@if($update_info->installed_version)-->
+				<tr>
+					<th scope="row" class="nowr">{$lang->cmd_autoinstall_installed_version}</th>
+					<td class="nowr">
+						{$update_info->installed_version}
+					</td>
+				</tr>
+			<!--@endif-->
+			<tr>
+				<th scope="row" class="nowr">{$lang->cmd_autoinstall_install_path}</th>
+				<td class="nowr">{$package->install_path}</td>
+			</tr>
+			<!--@if($package->extra_vars->repo_path)-->
+				<tr>
+					<th scope="row" class="nowr">{$lang->cmd_autoinstall_repository}</th>
+					<td class="nowr"><a href="{$package->extra_vars->repo_path}" target="_blank">{$package->extra_vars->repo_path}</a></td>
+				</tr>
+			<!--@endif-->
+			<tr>
+				<th scope="row" class="nowr">Rhymix Core Version</th>
+				<td class="nowr">{$package->getInstallEnvironment('core') ?: $lang->cmd_autoinstall_no_information}</td>
+			</tr>
+			<tr>
+				<th scope="row" class="nowr">PHP Version</th>
+				<td class="nowr">{$package->getInstallEnvironment('php') ?: $lang->cmd_autoinstall_no_information}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div class="buttons">
+		<!--@if($package->isInstalled())-->
+			<!--@if($update_info->update_available)-->
+				<!--@if($package->isInstallable())-->
+					<!--@if($package->install_type === 'free_unverified')-->
+						<div class="message error">
+							<p><span class="x_badge x_badge-error">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_unauthed_warning}</p>
+						</div>
+					<!--@endif-->
+					<div class="message">
+						<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_security_warning}</p>
+					</div>
+					<div class="message">
+						<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_experimental_update}</p>
+					</div>
+					<a class="x_btn x_btn-primary autoinstall_update_btn type_{$package->install_type}" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_updated}">
+						{$lang->cmd_autoinstall_update_available}
+					</a>
+				<!--@else-->
+					<a class="x_btn x_btn-disabled" href="#">
+						{$lang->cmd_autoinstall_not_updatable}
+					</a>
+				<!--@endif-->
+			<!--@else-->
+				<a class="x_btn x_btn-disabled" href="#">
+					{$lang->msg_autoinstall_is_installed}
+				</a>
+			<!--@endif-->
+			<a class="x_btn x_pull-right autoinstall_uninstall_btn" href="#" data-package-srl="{$package->package_srl}" data-confirm="{$lang->msg_autoinstall_confirm_uninstall}">
+				{$lang->cmd_autoinstall_uninstall}
+			</a>
+		<!--@elseif($package->isInstallable())-->
+			<!--@if($package->install_type === 'free_unverified')-->
+				<div class="message error">
+					<p><span class="x_badge x_badge-error">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_unauthed_warning}</p>
+				</div>
+			<!--@endif-->
+			<div class="message">
+				<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_security_warning}</p>
+			</div>
+			<div class="message">
+				<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_experimental_install}</p>
+			</div>
+			<div>
+				<a class="x_btn x_btn-primary autoinstall_install_btn type_{$package->install_type}" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_installed}">
+					{$lang->cmd_autoinstall_install}
+				</a>
+			</div>
+		<!--@else-->
+			<!--@if(!$package->checkInstallEnvironment())-->
+				<div class="message error">
+					<p>{$lang->msg_autoinstall_not_installable_environment}</p>
+				</div>
+			<!--@elseif(!$package->checkInstallPermissions())-->
+				<div class="message error">
+					<p>{$lang->msg_autoinstall_not_installable_permissions}</p>
+				</div>
+			<!--@else-->
+				<div class="message error">
+					<p>{$lang->msg_autoinstall_not_installable}</p>
+				</div>
+			<!--@endif-->
+		<!--@endif-->
+	</div>
+</div>

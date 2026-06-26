@@ -406,7 +406,8 @@ class FrontEndFileHandler extends Handler
 		if ($recompile)
 		{
 			$method_name = 'compile' . $file->fileExtension;
-			Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify);
+			$make_sourcemap = config('view.make_sourcemap') !== false;
+			Rhymix\Framework\Formatter::$method_name($file->fileFullPath, $compiledFilePath, $file->vars, $minify, $make_sourcemap);
 		}
 
 		$file->fileName = $compiledFileHash . '.' . $compiledFileName;
@@ -639,7 +640,7 @@ class FrontEndFileHandler extends Handler
 					$concat_filename = self::$assetdir . '/combined/' . sha1(serialize($concat_files)) . '.js';
 					if (!file_exists(\RX_BASEDIR . $concat_filename) || filemtime(\RX_BASEDIR . $concat_filename) < $concat_max_timestamp)
 					{
-						$concat_content = Rhymix\Framework\Formatter::concatJS($concat_files, \RX_BASEDIR . $concat_filename);
+						$concat_content = Rhymix\Framework\Formatter::concatJS($concat_files);
 						Rhymix\Framework\Storage::write(\RX_BASEDIR . $concat_filename, $concat_content);
 					}
 					$concat_filename .= '?t=' . filemtime(\RX_BASEDIR . $concat_filename);

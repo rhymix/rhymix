@@ -266,28 +266,22 @@ class CommentModel extends Comment
 	 */
 	public static function getCommentCount($document_srl, $statusList = [])
 	{
-		$args = new stdClass();
-		$args->document_srl = $document_srl;
-
-		// get the number of comments on the document module
-		$columnList = array('document_srl', 'module_srl');
-		$oDocument = DocumentModel::getDocument($document_srl, FALSE, TRUE, $columnList);
-
-		// return if no doc exists.
-		if(!$oDocument->isExists())
+		// Get the parent document.
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
+		if (!$oDocument->isExists())
 		{
-			return;
+			return 0;
 		}
 
-		// get a list of comments
+		// Check if module is using validation system.
 		$module_srl = $oDocument->get('module_srl');
-
-		//check if module is using validation system
 		$oCommentController = getController('comment');
 		$using_validation = $oCommentController->isModuleUsingPublishValidation($module_srl);
 		$module_info = ModuleModel::getModuleInfoByDocumentSrl($document_srl);
 		$use_comment_massage = $module_info->comment_delete_message;
 
+		$args = new stdClass();
+		$args->document_srl = $document_srl;
 		if($using_validation)
 		{
 			$args->status = 1;
@@ -499,12 +493,9 @@ class CommentModel extends Comment
 			return;
 		}
 
-		// get the number of comments on the document module
-		$columnList = array('document_srl', 'module_srl', 'comment_count');
-		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
-
 		// return if no doc exists.
-		if(!$oDocument->isExists())
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
+		if (!$oDocument->isExists())
 		{
 			return;
 		}
@@ -612,8 +603,7 @@ class CommentModel extends Comment
 	public static function getCommentPage($document_srl, $comment_srl, $count = 0, $statusList = [])
 	{
 		// Check the document
-		$columnList = array('document_srl', 'module_srl', 'comment_count');
-		$oDocument = DocumentModel::getDocument($document_srl, false, false, $columnList);
+		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
 			return 0;
