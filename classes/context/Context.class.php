@@ -1530,6 +1530,15 @@ class Context
 						$_val = strtr($_val, array('&amp;' => '&'));
 					}
 				}
+				elseif(in_array($key, array('success_return_url', 'error_return_url')))
+				{
+					if (!Rhymix\Framework\URL::isInternalURL($_val))
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+						$_val = null;
+					}
+				}
 			}
 			$result[escape($_key)] = $_val;
 			self::_recursiveCheckVar($_val);
