@@ -38,29 +38,9 @@ class importerAdminController extends importer
 		$filename = Context::get('filename');
 		$isExists = 'false';
 
-		if(strncasecmp('http://', $filename, 7) === 0)
+		if (preg_match('!^https?://!i', $filename))
 		{
-			if(ini_get('allow_url_fopen'))
-			{
-				$fp = @fopen($filename, "r");
-				if($fp)
-				{
-					$str = fgets($fp, 100);
-					if(strlen($str) > 0)
-					{
-						$isExists = 'true';
-						$type = 'XML';
-						if(stristr($str, 'tattertools')) $type = 'TTXML';
-
-						$this->add('type', $type);
-					}
-					fclose($fp);
-					$resultMessage = $lang->found_xml_file;
-				}
-				else $resultMessage = $lang->cannot_url_file;
-			}
-			else $resultMessage = $lang->cannot_allow_fopen_in_phpini;
-
+			$resultMessage = $lang->cannot_url_file;
 			$this->add('exists', $isExists);
 		}
 		else
@@ -360,6 +340,7 @@ class importerAdminController extends importer
 			if(feof($f)) break;
 			// Find a given location
 			$target_file = trim(fgets($f, 1024));
+			if(!$target_file) continue;
 			// Load and parse the file
 			$xmlObj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($target_file);
 			FileHandler::removeFile($target_file);
@@ -542,6 +523,7 @@ class importerAdminController extends importer
 			if(feof($f)) break;
 			// Find a location
 			$target_file = trim(fgets($f, 1024));
+			if(!$target_file) continue;
 			// Load and parse the file
 			$xmlObj = Rhymix\Framework\Parsers\XEXMLParser::loadXMLFile($target_file);
 			FileHandler::removeFile($target_file);
