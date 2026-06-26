@@ -15,7 +15,7 @@ class AutoinstallAdminView extends Autoinstall
 
 		// Update the package list.
 		$package_count = Rhymix\Modules\Autoinstall\Models\Package::getPackageCount();
-		if (!$package_count || !isset($config->last_update_check) || ($config->last_update_check < time() - 86400))
+		if (!$package_count || !isset($config->last_update_check) || ($config->last_update_check < time() - 14400))
 		{
 			$success = Rhymix\Modules\Autoinstall\Models\Package::updatePackageList();
 			if ($success)
