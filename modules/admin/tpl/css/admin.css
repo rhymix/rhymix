@@ -491,6 +491,9 @@ margin-bottom: 10px;
 .x p:last-child {
 	margin-bottom: 0;
 }
+.x .message p {
+	margin: 1em 0;
+}
 .x form {
 	margin: 0 0 10px 0;
 }
