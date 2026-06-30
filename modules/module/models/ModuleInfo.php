@@ -450,6 +450,10 @@ class ModuleInfo
 		{
 			return new BaseObject(-1, 'msg_limit_mid');
 		}
+		if (preg_match('![-/]!', $args->mid) && config('url.rewrite') < 2)
+		{
+			return new BaseObject(-1, 'msg_limit_mid_compat');
+		}
 		if (Prefix::exists($args->mid))
 		{
 			return new BaseObject(-1, 'msg_module_name_exists');
@@ -581,6 +585,10 @@ class ModuleInfo
 		if (!Prefix::isValidPrefix($args->mid, $args->module ?? null))
 		{
 			return new BaseObject(-1, 'msg_limit_mid');
+		}
+		if (preg_match('![-/]!', $args->mid) && config('url.rewrite') < 2)
+		{
+			return new BaseObject(-1, 'msg_limit_mid_compat');
 		}
 
 		// Check whether the prefix already exists.
