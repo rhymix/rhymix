@@ -390,7 +390,7 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$this->assertEquals('INSERT', $query->type);
 		$this->assertEquals(1, count($query->tables));
 		$this->assertEquals('document_voted_log', $query->tables['document_voted_log']->name);
-		$this->assertEquals(5, count($query->columns));
+		$this->assertEquals(6, count($query->columns));
 		$this->assertTrue($query->columns[0] instanceof Rhymix\Framework\Parsers\DBQuery\ColumnWrite);
 		$this->assertEquals('document_srl', $query->columns[0]->name);
 		$this->assertEquals('document_srl', $query->columns[0]->var);
@@ -405,8 +405,9 @@ class DBQueryParserTest extends \Codeception\Test\Unit
 		$sql = $query->getQueryString('rx_', $args);
 		$params = $query->getQueryParams();
 
-		$this->assertEquals('INSERT INTO `rx_document_voted_log` SET `document_srl` = ?, `member_srl` = ?, `ipaddress` = ?, `regdate` = ?, `point` = ? ' .
-			'ON DUPLICATE KEY UPDATE `document_srl` = ?, `member_srl` = ?, `ipaddress` = ?, `regdate` = ?, `point` = ?', $sql);
+		$this->assertEquals('INSERT INTO `rx_document_voted_log` (`document_srl`, `member_srl`, `ipaddress`, `regdate`, `point`, `test`) ' .
+			'VALUES (?, ?, ?, ?, ?, CONCAT(1, 2)) ' .
+			'ON DUPLICATE KEY UPDATE `document_srl` = ?, `member_srl` = ?, `ipaddress` = ?, `regdate` = ?, `point` = ?, `test` = CONCAT(1, 2)', $sql);
 		$this->assertEquals(10, count($params));
 		$this->assertEquals('127.0.0.1', $params[2]);
 		$this->assertRegexp('/20[0-9]{12}/', $params[3]);
