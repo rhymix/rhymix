@@ -142,10 +142,6 @@ class URL
 		{
 			return false;
 		}
-		if (isset($domain_info->security) && $domain_info->security === 'always')
-		{
-			$scheme = 'https';
-		}
 		if ($port && $port != ($domain_info->{$scheme . '_port'} ?? 0))
 		{
 			return false;
