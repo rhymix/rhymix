@@ -49,7 +49,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = [
 	'xmllangparser' => 'classes/xml/XmlLangParser.class.php',
 	'xmlparser' => 'classes/xml/XmlParser.class.php',
 	'xexmlparser' => 'classes/xml/XmlParser.class.php',
-	'vendorpass' => 'common/libraries/vendorpass.php',
 ];
 
 /**
@@ -1396,7 +1395,7 @@ function checkUploadedFile($file, $filename = null): bool
  */
 function mysql_pre4_hash_password($password): string
 {
-	return VendorPass::mysql_old_password(strval($password));
+	return Rhymix\Framework\Password::mysqlOldPassword(strval($password));
 }
 
 /**
