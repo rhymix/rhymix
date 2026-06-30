@@ -57,11 +57,34 @@ class SecurityTest extends \Codeception\Test\Unit
 		$this->assertEquals($plaintext, $decrypted);
 
 		// Test invalid ciphertext.
-		$decrypted = Rhymix\Framework\Security::decrypt('1234' . substr($encrypted, 4));
+		try
+		{
+			$decrypted = Rhymix\Framework\Security::decrypt('1234' . substr($encrypted, 4));
+		}
+		catch (\Exception $e)
+		{
+			$decrypted = false;
+		}
 		$this->assertEquals(false, $decrypted);
-		$decrypted = Rhymix\Framework\Security::decrypt(substr($encrypted, strlen($encrypted) - 4) . 'abcd');
+
+		try
+		{
+			$decrypted = Rhymix\Framework\Security::decrypt(substr($encrypted, strlen($encrypted) - 4) . 'abcd');
+		}
+		catch (\Exception $e)
+		{
+			$decrypted = false;
+		}
 		$this->assertEquals(false, $decrypted);
-		$decrypted = Rhymix\Framework\Security::decrypt($plaintext);
+
+		try
+		{
+			$decrypted = Rhymix\Framework\Security::decrypt($plaintext);
+		}
+		catch (\Exception $e)
+		{
+			$decrypted = false;
+		}
 		$this->assertEquals(false, $decrypted);
 	}
 

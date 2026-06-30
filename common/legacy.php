@@ -49,9 +49,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = [
 	'xmllangparser' => 'classes/xml/XmlLangParser.class.php',
 	'xmlparser' => 'classes/xml/XmlParser.class.php',
 	'xexmlparser' => 'classes/xml/XmlParser.class.php',
-	'ftp' => 'common/libraries/ftp.php',
-	'tar' => 'common/libraries/tar.php',
-	'cryptocompat' => 'common/libraries/cryptocompat.php',
 	'vendorpass' => 'common/libraries/vendorpass.php',
 ];
 

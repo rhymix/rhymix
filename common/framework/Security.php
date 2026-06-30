@@ -70,13 +70,13 @@ class Security
 		$key = substr(hash('sha256', $key, true), 0, 16);
 
 		// Encrypt in a format that is compatible with defuse/php-encryption 1.2.x.
-		return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
+		return base64_encode(Helpers\EncryptionHelper::encrypt($plaintext, $key));
 	}
 
 	/**
 	 * Decrypt a string using AES.
 	 *
-	 * @param string $plaintext
+	 * @param string $ciphertext
 	 * @param string $key (optional)
 	 * @return string|false
 	 */
@@ -90,11 +90,11 @@ class Security
 		$ciphertext = @base64_decode($ciphertext);
 		if (strlen($ciphertext) < 48)
 		{
-			return false;
+			throw new Exception('msg_invalid_ciphertext');
 		}
 
 		// Decrypt in a format that is compatible with defuse/php-encryption 1.2.x.
-		return \CryptoCompat::decrypt($ciphertext, $key);
+		return Helpers\EncryptionHelper::decrypt($ciphertext, $key);
 	}
 
 	/**

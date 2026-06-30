@@ -264,6 +264,7 @@ $lang->msg_empty_content = 'The content is empty.';
 $lang->msg_server_error = 'Server Error';
 $lang->msg_server_error_see_log = 'Your server is configured to hide error messages. Please see your server\'s error log for details.';
 $lang->msg_crypto_not_available = 'OpenSSL extension is not installed.';
+$lang->msg_invalid_ciphertext = 'Failed to decrypt. The encrypted string may be invalid or the key may be incorrect.';
 $lang->comment_to_be_approved = 'Your comment must be approved by admin before being published.';
 $lang->success_registed = 'Registered successfully.';
 $lang->success_declared = 'Reported successfully.';
