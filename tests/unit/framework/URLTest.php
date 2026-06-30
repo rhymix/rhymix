@@ -115,14 +115,40 @@ class URLTest extends \Codeception\Test\Unit
 
 	public function testIsInternalURL()
 	{
+		Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:포트테스트.ai.kr', (object)[
+			'http_port' => 2080,
+			'https_port' => 2443,
+			'security' => 'none',
+		]);
+
+		// Relative paths
 		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('./index.php'));
 		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('/index.php'));
 		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('index.php'));
+
+		// Absolute URLs to the same site
 		$this->assertTrue(Rhymix\Framework\URL::isInternalURL($this->baseurl . 'index.php'));
 		$this->assertTrue(Rhymix\Framework\URL::isInternalURL($this->baseurl));
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL(str_replace('https:', '', $this->baseurl)));
+
+		// Absolute and protocol-relative URLs to other domains
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('http://www.example.com/'));
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('//www.example.com:8080/index.php'));
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('https:\\\\www.example.com/'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('https:\\/www.example.com/index.php'));
+
+		// Internal-looking URLs with different ports
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('HTTP://xn--9t4b11yg5aca05m.ai.kr:2080'));
+		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('https://xn--9t4b11yg5aca05m.ai.kr:2443'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('http://포트테스트.ai.kr:8080'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('https://포트테스트.ai.kr'));
+
+		// Invalid schemes
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('file:///www.rhymix.org/etc/passwd'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('ftp:\\\\www.rhymix.org/'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('javascript:alert()'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('data:text/html;base64,AAAAAA'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('mailto:example@example.com'));
 
 		// More tests of this function can be found in Security::checkCSRF()
 	}
