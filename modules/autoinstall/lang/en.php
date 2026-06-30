@@ -43,7 +43,7 @@ $lang->license_free = 'Free';
 
 $lang->msg_autoinstall_is_installed = 'The latest version is installed.';
 $lang->msg_autoinstall_not_installable = 'This package does not support automatic installation. Please download or purchase it at the link provided.';
-$lang->msg_autoinstall_not_installable_environment = 'The installation environment is not suitable. Please check the Rhymix core version and PHP version.';
+$lang->msg_autoinstall_not_installable_environment = 'The installation environment is not suitable. Please check the Rhymix core version and PHP version, as well as the Zip extension.';
 $lang->msg_autoinstall_not_installable_permissions = 'Rhymix does not have write permissions to the install path. Please check the permissions and try again.';
 $lang->msg_autoinstall_experimental_warning = 'Warning';
 $lang->msg_autoinstall_unauthed_warning = 'This package is from an unverified developer.';
