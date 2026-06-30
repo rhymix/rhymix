@@ -1525,7 +1525,16 @@ class Context
 				{
 					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'vid', 'act', 'module')))
+				elseif(in_array($key, array('mid')))
+				{
+					$_val = preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $_val) ? $_val : null;
+					if($_val === null)
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+					}
+				}
+				elseif(in_array($key, array('vid', 'act', 'module')))
 				{
 					$_val = preg_match('/^[a-zA-Z0-9_-]*$/', $_val) ? $_val : null;
 					if($_val === null)

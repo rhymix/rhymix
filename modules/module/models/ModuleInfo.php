@@ -93,7 +93,7 @@ class ModuleInfo
 	 */
 	public static function getModuleInfoByPrefix(string $prefix): ?ModuleInstance
 	{
-		if ($prefix === '' || !preg_match('/^[a-z]([a-z0-9_]+)$/i', $prefix))
+		if ($prefix === '' || !preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $prefix))
 		{
 			return null;
 		}
