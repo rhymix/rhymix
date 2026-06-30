@@ -560,6 +560,16 @@ class ModuleInfo
 		// Insert module extra vars
 		self::insertExtraVars($args->module_srl, $extra_vars);
 
+		// Add to URL mapping.
+		if (str_contains($args->mid, '/'))
+		{
+			$mapping = config('url.prefixes.mapping') ?? [];
+			$mapping[$args->mid] = $args->module_srl;
+			\Rhymix\Framework\Config::set('url.prefixes.mapping', $mapping);
+			\Rhymix\Framework\Config::set('url.prefixes.regexp', Prefix::generateRegexp(array_keys($mapping)));
+			\Rhymix\Framework\Config::save();
+		}
+
 		$oDB->commit();
 
 		ModuleCache::clearAll();
@@ -666,6 +676,20 @@ class ModuleInfo
 
 		// Update module extra vars.
 		self::insertExtraVars($args->module_srl, $extra_vars);
+
+		// Add to URL mapping.
+		if (str_contains($args->mid, '/'))
+		{
+			$mapping = config('url.prefixes.mapping') ?? [];
+			if ($module_info->mid && isset($mapping[$module_info->mid]))
+			{
+				unset($mapping[$module_info->mid]);
+			}
+			$mapping[$args->mid] = $args->module_srl;
+			\Rhymix\Framework\Config::set('url.prefixes.mapping', $mapping);
+			\Rhymix\Framework\Config::set('url.prefixes.regexp', Prefix::generateRegexp(array_keys($mapping)));
+			\Rhymix\Framework\Config::save();
+		}
 
 		$oDB->commit();
 

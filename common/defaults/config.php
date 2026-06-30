@@ -55,6 +55,10 @@ return array(
 		'https_port' => null,
 		'ssl' => 'none',
 		'rewrite' => 1,
+		'prefixes' => [
+			'mapping' => [],
+			'regexp' => '',
+		],
 	),
 	'session' => array(
 		'autologin_lifetime' => 365,

@@ -149,7 +149,8 @@ class Router
 		}
 
 		// Try to detect the prefix. This might be $mid.
-		if ($rewrite_level >= 2 && preg_match('#^([a-zA-Z0-9_-]+)(?:/(.*))?$#s', $url, $matches) && !isset(self::$_except_prefixes[$matches[1]]))
+		$prefix_regexp = config('url.prefixes.regexp') ?? '#^([a-z0-9_-]+)(?:/(.*))?$#is';
+		if ($rewrite_level >= 2 && preg_match($prefix_regexp, $url, $matches) && !isset(self::$_except_prefixes[$matches[1]]))
 		{
 			// Separate the prefix and the internal part of the URL.
 			$prefix = $matches[1];
@@ -342,7 +343,7 @@ class Router
 		// If there is only one argument, try either $mid or $document_srl.
 		if ($rewrite_level >= 1 && $count == 1 && ($keys[0] === 'mid' || $keys[0] === 'document_srl'))
 		{
-			return urlencode($args[$keys[0]]);
+			return strtr(urlencode($args[$keys[0]]), ['%2F' => '/']);
 		}
 
 		// If the list of keys is already cached, return the corresponding route.
@@ -645,6 +646,10 @@ class Router
 			if (isset($vars[$match[1]]))
 			{
 				$replacement = urlencode(strval($vars[$match[1]]));
+				if ($match[1] === 'mid')
+				{
+					$replacement = strtr($replacement, ['%2F' => '/']);
+				}
 				unset($vars[$match[1]]);
 				return (isset($match[2]) && $match[2] === ':delete') ? '' : $replacement;
 			}

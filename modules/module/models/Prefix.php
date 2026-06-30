@@ -164,4 +164,28 @@ class Prefix
 		}
 		return $result;
 	}
+
+	/**
+	 * Generate a regular expression that matches a list of multi-part prefixes.
+	 *
+	 * @param array $prefixes
+	 * @return string
+	 */
+	public static function generateRegexp(array $prefixes): string
+	{
+		if (count($prefixes) === 0)
+		{
+			return '';
+		}
+
+		$prefixes = array_map(function($prefix) {
+			return preg_quote($prefix, '#');
+		}, $prefixes);
+
+		usort($prefixes, function($a, $b) {
+			return strlen($b) - strlen($a);
+		});
+
+		return '#^(' . implode('|', $prefixes) . '|[a-z0-9_-]+)(?:/(.*))?$#is';
+	}
 }
