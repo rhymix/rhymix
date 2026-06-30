@@ -865,9 +865,9 @@ class DocumentController extends Document
 					{
 						$value = $tmp;
 					}
-					elseif (is_array($tmp))
+					elseif ($extra_item->isArrayType())
 					{
-						$value = implode('|@|', $tmp);
+						$value = is_array($tmp) ? array_values($tmp) : (is_string($tmp) ? explode('|@|', $tmp) : []);
 					}
 					else
 					{
@@ -1259,9 +1259,9 @@ class DocumentController extends Document
 						{
 							$value = $tmp;
 						}
-						elseif (is_array($tmp))
+						elseif ($extra_item->isArrayType())
 						{
-							$value = implode('|@|', $tmp);
+							$value = is_array($tmp) ? array_values($tmp) : (is_string($tmp) ? explode('|@|', $tmp) : []);
 						}
 						else
 						{
@@ -1948,7 +1948,7 @@ class DocumentController extends Document
 		$obj->module_srl = $module_srl;
 		$obj->document_srl = $document_srl;
 		$obj->var_idx = $idx_or_eid;
-		$obj->value = $value;
+		$obj->value = is_array($value) ? json_encode($value, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : $value;
 		$obj->sort_value = $sort_value;
 		$obj->lang_code = $lang_code ?: Context::getLangType();
 		$obj->eid = $eid;
