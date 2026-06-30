@@ -149,7 +149,7 @@ class Router
 		}
 
 		// Try to detect the prefix. This might be $mid.
-		$prefix_regexp = config('url.prefixes.regexp') ?? '#^([a-z0-9_-]+)(?:/(.*))?$#is';
+		$prefix_regexp = config('url.prefixes.regexp') ?: '#^([a-z0-9_-]+)(?:/(.*))?$#is';
 		if ($rewrite_level >= 2 && preg_match($prefix_regexp, $url, $matches) && !isset(self::$_except_prefixes[$matches[1]]))
 		{
 			// Separate the prefix and the internal part of the URL.
