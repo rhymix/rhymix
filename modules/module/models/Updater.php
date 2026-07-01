@@ -456,6 +456,35 @@ class Updater
 	 */
 	public static function registerDefaultPrefixes(string $module_name): BaseObject
 	{
+		$module_action_info = ModuleDefinition::getModuleActionXml($module_name);
+
+		// Create all prefixes defined by this module.
+		foreach ($module_action_info->prefixes ?? [] as $prefix)
+		{
+			if (!Prefix::isValidPrefix($prefix, $module_name))
+			{
+				continue;
+			}
+			if (!ModuleInfo::getModuleInfoByPrefix($prefix))
+			{
+				$output = ModuleInfo::insertModule((object)array(
+					'mid' => $prefix,
+					'module' => $module_name,
+					'browser_title' => ModuleDefinition::getModuleInfoXml($module_name)->title ?? $module_name,
+					'description' => '',
+					'layout_srl' => -1,
+					'mlayout_srl' => -1,
+					'skin' => 'default',
+					'mskin' => 'default',
+					'use_mobile' => 'Y',
+				));
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+
 		return new BaseObject();
 	}
 }
