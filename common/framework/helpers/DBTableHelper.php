@@ -76,7 +76,7 @@ class DBTableHelper
 		$stmt = $this->_handle->query(vsprintf("SHOW TABLES LIKE '%s'", [
 			$this->_db->addQuotes($this->_prefix . $this->_table_name),
 		]));
-		$result = $stmt->fetchAll();
+		$result = $stmt ? $stmt->fetchAll() : [];
 		return count($result) > 0;
 	}
 
@@ -92,7 +92,7 @@ class DBTableHelper
 			$this->_db->addQuotes($this->_prefix . $this->_table_name),
 			$this->_db->addQuotes($column_name),
 		]));
-		$result = $stmt->fetchAll();
+		$result = $stmt ? $stmt->fetchAll() : [];
 		return count($result) > 0;
 	}
 
@@ -109,7 +109,7 @@ class DBTableHelper
 			$this->_db->addQuotes($this->_prefix . $this->_table_name),
 			$this->_db->addQuotes($column_name),
 		]));
-		$column_info = $this->_db->fetch($stmt);
+		$column_info = $stmt ? array_first($stmt->fetchAll(\PDO::FETCH_OBJ)) : null;
 		if (!$column_info)
 		{
 			return null;
@@ -293,7 +293,7 @@ class DBTableHelper
 			$this->_db->addQuotes($this->_prefix . $this->_table_name),
 			$this->_db->addQuotes($index_name),
 		]));
-		$result = $stmt->fetchAll();
+		$result = $stmt ? $stmt->fetchAll() : [];
 		return count($result) > 0;
 	}
 
@@ -310,7 +310,7 @@ class DBTableHelper
 			$this->_db->addQuotes($this->_prefix . $this->_table_name),
 			$this->_db->addQuotes($index_name),
 		]));
-		$index_info = $stmt->fetchAll(\PDO::FETCH_OBJ);
+		$index_info = $stmt ? $stmt->fetchAll(\PDO::FETCH_OBJ) : [];
 		if (!$index_info)
 		{
 			return null;
