@@ -54,7 +54,7 @@ return array(
 		'http_port' => null,
 		'https_port' => null,
 		'ssl' => 'none',
-		'rewrite' => 1,
+		'rewrite' => 2,
 		'prefixes' => [
 			'mapping' => [],
 			'regexp' => '',
