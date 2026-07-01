@@ -240,16 +240,6 @@ class ServerEnv extends Base
 	}
 
 	/**
-	 * Method to test if URL rewriting is properly configured in the web server.
-	 */
-	public function dispAdminRewriteTest()
-	{
-		$test = intval(Context::get('test'));
-		Context::setResponseMethod('JSON');
-		$this->add('result', $test * 42);
-	}
-
-	/**
 	 * Clear APCU cache.
 	 */
 	public function procAdminClearApcu()

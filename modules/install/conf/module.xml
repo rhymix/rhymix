@@ -10,6 +10,7 @@
 		<action name="procInstallLicenseAgreement" type="controller" />
 		<action name="procDBConfig" type="controller" />
 		<action name="procInstall" type="controller" ruleset="install" />
+		<action name="procInstallRewriteTest" type="controller" method="GET|POST" />
 
 		<action name="procInstallAdminInstall" type="controller" />
 		<action name="procInstallAdminUpdate" type="controller" />
