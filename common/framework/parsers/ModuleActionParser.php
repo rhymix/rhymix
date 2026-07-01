@@ -51,6 +51,9 @@ class ModuleActionParser extends BaseParser
 		$info->action = new \stdClass;
 		$info->grant = new \stdClass;
 		$info->menu = new \stdClass;
+		$info->features = new \stdClass;
+		$info->features->error_handlers = false;
+		$info->features->event_handlers = false;
 		$info->classes = [];
 		$info->namespaces = [];
 		$info->prefixes = [];
@@ -243,6 +246,7 @@ class ModuleActionParser extends BaseParser
 				if (intval($error_handler) > 200)
 				{
 					$info->error_handlers[intval($error_handler)] = $action_name;
+					$info->features->error_handlers = true;
 				}
 			}
 		}
@@ -285,6 +289,10 @@ class ModuleActionParser extends BaseParser
 		}
 
 		// Parse event handlers.
+		if (isset($xml->eventHandlers))
+		{
+			$info->features->event_handlers = true;
+		}
 		foreach ($xml->eventHandlers->eventHandler ?: [] as $eventHandler)
 		{
 			$attrs = self::_getAttributes($eventHandler);
