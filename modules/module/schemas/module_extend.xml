@@ -1,6 +1,0 @@
-<table name="module_extend">
-    <column name="parent_module" type="varchar" size="80" notnull="notnull" />
-    <column name="extend_module" type="varchar" size="80" notnull="notnull" />
-    <column name="type" type="varchar" size="15" notnull="notnull" />
-    <column name="kind" type="varchar" size="5" />
-</table>
