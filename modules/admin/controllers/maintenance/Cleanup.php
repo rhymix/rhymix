@@ -327,6 +327,8 @@ class Cleanup extends Base
 		'common/js/x.min.js' => 'deleted',
 		'common/js/xe.js' => 'deleted:xe',
 		'common/js/xe.min.js' => 'deleted:xe',
+		'common/js/plugins/cookie/js.cookie.js' => 'deleted',
+		'common/js/plugins/cookie/js.cookie.min.js.map' => 'deleted',
 		'common/js/plugins/jquery.migrate/jquery-migrate-1.4.1.js' => 'deleted',
 		'common/js/plugins/spectrum/bower.json' => 'deleted',
 		'common/js/plugins/spectrum/Gruntfile.js' => 'deleted',
