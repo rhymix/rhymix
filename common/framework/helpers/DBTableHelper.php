@@ -156,13 +156,11 @@ class DBTableHelper
 	 *
 	 * @param string $column_name
 	 * @param string $type
-	 * @param string $size
-	 * @param mixed $default
-	 * @param bool $notnull
-	 * @param string $after_column
+	 * @param ?string $size
+	 * @param array $options
 	 * @return self
 	 */
-	public function addColumn(string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): self
+	public function addColumn(string $column_name, string $type = 'number', ?string $size = null, array $options = []): self
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = DBTableParser::getTypeAndSize($type, strval($size));
@@ -170,29 +168,32 @@ class DBTableHelper
 		// Compose the ADD COLUMN query.
 		$query = sprintf("ADD COLUMN `%s` ", $this->_db->addQuotes($column_name));
 		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
-		$query .= $notnull ? ' NOT NULL' : '';
+		$query .= !empty($options['notnull']) ? ' NOT NULL' : '';
 
 		// Add the default value according to the type.
-		if (isset($default))
+		if (isset($options['default']))
 		{
-			if (contains('int', $type, false) && is_numeric($default))
+			if (contains('int', $type, false) && is_numeric($options['default']))
 			{
-				$query .= sprintf(" DEFAULT %s", $default);
+				$query .= sprintf(" DEFAULT %s", $options['default']);
 			}
 			else
 			{
-				$query .= sprintf(" DEFAULT '%s'", $this->_db->addQuotes($default));
+				$query .= sprintf(" DEFAULT '%s'", $this->_db->addQuotes($options['default']));
 			}
 		}
 
 		// Add position information.
-		if ($after_column === 'FIRST')
+		if (isset($options['after']))
 		{
-			$query .= ' FIRST';
-		}
-		elseif ($after_column)
-		{
-			$query .= sprintf(' AFTER `%s`', $this->_db->addQuotes($after_column));
+			if ($options['after'] === 'FIRST')
+			{
+				$query .= ' FIRST';
+			}
+			else
+			{
+				$query .= sprintf(' AFTER `%s`', $this->_db->addQuotes($options['after']));
+			}
 		}
 
 		// Add the query to the pending list and return $this for method chaining.
@@ -206,22 +207,18 @@ class DBTableHelper
 	 * @param string $column_name
 	 * @param string $type
 	 * @param string $size
-	 * @param mixed $default
-	 * @param bool $notnull
-	 * @param string $after_column
-	 * @param string $new_name
-	 * @param string $new_charset
+	 * @param array $options
 	 * @return self
 	 */
-	public function modifyColumn(string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): self
+	public function modifyColumn(string $column_name, string $type = 'number', $size = null, array $options = []): self
 	{
 		// Normalize the type and size.
 		list($type, $xetype, $size) = DBTableParser::getTypeAndSize($type, strval($size));
 
 		// Compose the MODIFY COLUMN query.
-		if ($new_name && $new_name !== $column_name)
+		if (isset($options['new_name']) && $options['new_name'] !== $column_name)
 		{
-			$query = sprintf("CHANGE `%s` `%s` ", $this->_db->addQuotes($column_name), $this->_db->addQuotes($new_name));
+			$query = sprintf("CHANGE `%s` `%s` ", $this->_db->addQuotes($column_name), $this->_db->addQuotes($options['new_name']));
 		}
 		else
 		{
@@ -230,36 +227,40 @@ class DBTableHelper
 		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
 
 		// Add the character set information.
-		if (isset($new_charset))
+		if (isset($options['new_charset']))
 		{
-			$new_collation = preg_match('/^utf8/i', $new_charset) ? ($new_charset . '_unicode_ci') : ($new_charset . '_general_ci');
-			$query .= ' CHARACTER SET ' . $new_charset . ' COLLATE ' . $new_collation;
+			$charset = $options['new_charset'];
+			$new_collation = preg_match('/^utf8/i', $charset) ? ($charset . '_unicode_ci') : ($charset . '_general_ci');
+			$query .= ' CHARACTER SET ' . $charset . ' COLLATE ' . $new_collation;
 		}
 
 		// Add the NOT NULL constraint.
-		$query .= $notnull ? ' NOT NULL' : '';
+		$query .= !empty($options['notnull']) ? ' NOT NULL' : '';
 
 		// Add the default value according to the type.
-		if (isset($default))
+		if (isset($options['default']))
 		{
-			if (contains('int', $type, false) && is_numeric($default))
+			if (contains('int', $type, false) && is_numeric($options['default']))
 			{
-				$query .= sprintf(" DEFAULT %s", $default);
+				$query .= sprintf(" DEFAULT %s", $options['default']);
 			}
 			else
 			{
-				$query .= sprintf(" DEFAULT '%s'", $this->_db->addQuotes($default));
+				$query .= sprintf(" DEFAULT '%s'", $this->_db->addQuotes($options['default']));
 			}
 		}
 
 		// Add position information.
-		if ($after_column === 'FIRST')
+		if (isset($options['after']))
 		{
-			$query .= ' FIRST';
-		}
-		elseif ($after_column)
-		{
-			$query .= sprintf(' AFTER `%s`', $this->_db->addQuotes($after_column));
+			if ($options['after'] === 'FIRST')
+			{
+				$query .= ' FIRST';
+			}
+			else
+			{
+				$query .= sprintf(' AFTER `%s`', $this->_db->addQuotes($options['after']));
+			}
 		}
 
 		// Add the query to the pending list and return $this for method chaining.

@@ -853,7 +853,13 @@ class DB
 	 */
 	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): Helpers\DBResultHelper
 	{
-		return $this->getTable($table_name)->addColumn($column_name, $type, $size, $default, $notnull, $after_column)->applyChanges();
+		$options = [
+			'default' => $default,
+			'notnull' => $notnull,
+			'after' => $after_column,
+		];
+
+		return $this->getTable($table_name)->addColumn($column_name, $type, $size, $options)->applyChanges();
 	}
 
 	/**
@@ -872,7 +878,15 @@ class DB
 	 */
 	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): Helpers\DBResultHelper
 	{
-		return $this->getTable($table_name)->modifyColumn($column_name, $type, $size, $default, $notnull, $after_column, $new_name, $new_charset)->applyChanges();
+		$options = [
+			'default' => $default,
+			'notnull' => $notnull,
+			'after' => $after_column,
+			'new_name' => $new_name,
+			'new_charset' => $new_charset,
+		];
+
+		return $this->getTable($table_name)->modifyColumn($column_name, $type, $size, $options)->applyChanges();
 	}
 
 	/**
