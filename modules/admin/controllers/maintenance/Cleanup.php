@@ -462,6 +462,7 @@ class Cleanup extends Base
 		'modules/module/module.mobile.php' => 'deleted',
 		'modules/module/ruleset/' => 'deleted',
 		'modules/module/schemas/module_extend.xml' => 'deleted',
+		'modules/module/schemas/sites.xml' => 'deleted',
 		'modules/module/tpl/css/module_admin.less' => 'deleted',
 		'modules/page/page.wap.php' => 'deleted:xe',
 		'modules/page/tpl/css/mpage.css' => 'deleted',
