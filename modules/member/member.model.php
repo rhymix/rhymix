@@ -715,13 +715,19 @@ class MemberModel extends Member
 	}
 
 	/**
-	 * @brief Get an admin group
+	 * @deprecated
 	 */
-	public static function getAdminGroup($columnList = array())
+	public static function getAdminGroup()
 	{
-		$args = new stdClass;
-		$output = executeQuery('member.getAdminGroup', $args, $columnList);
-		return $output->data;
+		return null;
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public static function getAdminGroupSrl()
+	{
+		return 0;
 	}
 
 	/**
@@ -1418,24 +1424,6 @@ class MemberModel extends Member
 		}
 
 		return true;
-	}
-
-	public static function getAdminGroupSrl()
-	{
-		$groupSrl = 0;
-		$output = self::getGroups();
-		if(is_array($output))
-		{
-			foreach($output AS $value)
-			{
-				if($value->is_admin == 'Y')
-				{
-					$groupSrl = $value->group_srl;
-					break;
-				}
-			}
-		}
-		return $groupSrl;
 	}
 
 	public static function getMemberModifyNicknameLog($page = 1, $member_srl = null)
