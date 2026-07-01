@@ -13,7 +13,6 @@
 		<action name="procAdminCleanupFiles" class="Controllers\Maintenance\Cleanup" />
 		<!-- Server Env -->
 		<action name="dispAdminViewServerEnv" class="Controllers\ServerEnv" />
-		<action name="dispAdminRewriteTest" class="Controllers\ServerEnv" standalone="true" />
 		<action name="procAdminClearApcu" class="Controllers\ServerEnv" />
 		<action name="procAdminClearOpcache" class="Controllers\ServerEnv" />
 		<!-- System Config: Domains -->

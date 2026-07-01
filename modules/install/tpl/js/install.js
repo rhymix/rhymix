@@ -1,24 +1,23 @@
 jQuery(function($){
 	$('.focus').focus();
 	if($("#mod_rewrite_checking").size()) {
-		var checking = $("#mod_rewrite_checking");
+		var testval = 1000 + Math.floor(Math.random() * 9000);
 		$.ajax({
-			url: checking.data("url"),
-			cache : false,
-			dataType: "text",
+			url: request_uri + 'common/rewrite/test/' + testval,
+			type: 'GET',
+			dataType: 'json',
 			success: function(data) {
-				if($.trim(data) === checking.data("verify")) {
+				if (data.result == testval * 42) {
 					$("#mod_write_status span.ok").show();
 					$("#mod_write_status span.no").hide();
 					$("#task-checklist-confirm").attr("href", $("#task-checklist-confirm").attr("href") + "&rewrite=Y");
+					$("#mod_rewrite_checking").hide();
 				} else {
 					$("#mod_rewrite_no_support").show();
 				}
-				checking.hide();
 			},
 			error: function() {
 				$("#mod_rewrite_no_support").show();
-				checking.hide();
 			}
 		});
 	}

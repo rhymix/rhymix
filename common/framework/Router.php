@@ -65,7 +65,7 @@ class Router
 		'common/rewrite/test/$test' => array(
 			'regexp' => '#^common/rewrite/test/(?<test>[0-9]+)$#',
 			'vars' => ['test' => 'int'],
-			'extra_vars' => ['act' => 'dispAdminRewriteTest'],
+			'extra_vars' => ['act' => 'procInstallRewriteTest'],
 			'priority' => 0,
 		),
 	);

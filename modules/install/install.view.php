@@ -8,8 +8,6 @@
 class installView extends install
 {
 	public static $checkEnv = false;
-	public static $rewriteCheckFilePath = 'files/cache/tmpRewriteCheck.txt';
-	public static $rewriteCheckString = '';
 
 	/**
 	 * @brief Initialization
@@ -77,10 +75,6 @@ class installView extends install
 	 */
 	function dispInstallCheckEnv()
 	{
-		// Create a temporary file for mod_rewrite check.
-		self::$rewriteCheckString = Rhymix\Framework\Security::getRandom(32);
-		FileHandler::writeFile(RX_BASEDIR . self::$rewriteCheckFilePath, self::$rewriteCheckString);
-
 		// Check if the web server is nginx.
 		Context::set('use_nginx', stripos($_SERVER['SERVER_SOFTWARE'], 'nginx') !== false);
 		$this->setTemplateFile('check_env');
@@ -96,9 +90,6 @@ class installView extends install
 		{
 			return $this->dispInstallCheckEnv();
 		}
-
-		// Delete mod_rewrite check file
-		FileHandler::removeFile(RX_BASEDIR . self::$rewriteCheckFilePath);
 
 		// Save mod_rewrite check status.
 		if(Context::get('rewrite') === 'Y')

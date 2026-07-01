@@ -57,8 +57,8 @@ class ModuleHandler extends Handler
 
 	public function __construct($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '')
 	{
-		// If XE has not installed yet, set module as install
-		if(!Context::isInstalled())
+		// If not installed yet, set module as install
+		if (!Context::isInstalled())
 		{
 			$this->module = 'install';
 			$this->act = Context::get('act');
