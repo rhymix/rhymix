@@ -174,7 +174,7 @@ class Plugin
 		$plugin_list = self::getEnabledConfigList();
 		foreach ($plugin_list as $plugin_name => $config)
 		{
-			$class_name = 'Rhymix\\Plugins\\' . $plugin_name . '\\Plugin';
+			$class_name = 'Rhymix\\Plugins\\' . $plugin_name . '\\plugin';
 			if (class_exists($class_name))
 			{
 				ModuleCache::$pluginInstances[$plugin_name] = new $class_name($config);
