@@ -1,0 +1,17 @@
+.ev_image_info {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.25rem;
+}
+.ev_image_info .thumbnail {
+	width: 100px;
+	height: 100px;
+	overflow: hidden;
+	background-color: rgba(0, 0, 0, 0.1);
+}
+.ev_image_info .thumbnail img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}

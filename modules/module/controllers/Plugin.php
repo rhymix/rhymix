@@ -5,9 +5,11 @@ namespace Rhymix\Modules\Module\Controllers;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Exceptions\TargetNotFound;
-use Rhymix\Framework\Responses\HTMLResponse;
+use Rhymix\Framework\Filters\FilenameFilter;
+use Rhymix\Framework\MIME;
 use Rhymix\Framework\Responses\RedirectResponse;
 use Rhymix\Modules\Extravar\Models\Value as ExtraValue;
+use Rhymix\Modules\Module\Models\Filebox as FileboxModel;
 use Rhymix\Modules\Module\Models\Plugin as PluginModel;
 use BaseObject;
 use Context;
@@ -167,28 +169,101 @@ class Plugin extends Base
 			throw new TargetNotFound;
 		}
 
-		$config = new stdClass;
+		// Fetch the old config and prepare a new config object.
+		$old_config = PluginModel::getPluginConfig($plugin_name);
+		$new_config = new stdClass;
 		$vars = Context::getRequestVars();
+
 		foreach ($plugin_info->config as $key => $var)
 		{
-			if (isset($vars->{$key}) && is_array($vars->{$key}))
+			// Image and file uploads
+			if ($var->type === 'image' || $var->type === 'file')
 			{
-				$config->{$key} = array_values($vars->{$key});
+				if (isset($vars->{'_delete_' . $key}) && $vars->{'_delete_' . $key} === 'Y')
+				{
+					// Delete existing file
+					if (isset($old_config->{$key}) && isset($old_config->{$key}->filebox_srl))
+					{
+						$output = FileboxModel::deleteFile($old_config->{$key}->filebox_srl);
+						if (!$output->toBool())
+						{
+							return $output;
+						}
+					}
+					$new_config->{$key} = null;
+				}
+				elseif (isset($vars->{$key}) && is_array($vars->{$key}) && is_uploaded_file($vars->{$key}['tmp_name']))
+				{
+					// Check file extension
+					if ($var->type === 'image')
+					{
+						if (!preg_match('/\.(gif|jpe?g|png|bmp|webp|svg)$/i', $vars->{$key}['name'], $match))
+						{
+							return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
+						}
+					}
+					else
+					{
+						if (preg_match('/\.(php[a-z0-9]|html?|s?css|js|vbs)$/i', $vars->{$key}['name'], $match))
+						{
+							return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
+						}
+					}
+
+					// Delete existing file
+					if (isset($old_config->{$key}) && isset($old_config->{$key}->filebox_srl))
+					{
+						$output = FileboxModel::deleteFile($old_config->{$key}->filebox_srl);
+						if (!$output->toBool())
+						{
+							return $output;
+						}
+					}
+
+					// Save new file to filebox
+					$output = FileboxModel::insertFile((object)[
+						'member_srl' => $this->user->member_srl,
+						'addfile' => $vars->{$key},
+						'comment' => $plugin_name . ':' . $key,
+					]);
+					if (!$output->toBool())
+					{
+						return $output;
+					}
+
+					// Store filebox information as plugin config
+					$new_config->{$key} = (object)[
+						'filebox_srl' => $output->get('module_filebox_srl'),
+						'source_filename' => FilenameFilter::clean($vars->{$key}['name']),
+						'uploaded_filename' => $output->get('save_filename'),
+						'file_size' => intval($vars->{$key}['size']),
+					];
+				}
+				else
+				{
+					$new_config->{$key} = $old_config->{$key} ?? null;
+				}
+			}
+
+			// Other types of variables
+			elseif (isset($vars->{$key}) && is_array($vars->{$key}))
+			{
+				$new_config->{$key} = array_values($vars->{$key});
 			}
 			elseif (isset($vars->{$key}))
 			{
-				$config->{$key} = strval($vars->{$key});
+				$new_config->{$key} = strval($vars->{$key});
 			}
 			else
 			{
-				$config->{$key} = null;
+				$new_config->{$key} = '';
 			}
 		}
 
-		$plugin_config = PluginModel::getPluginConfig($plugin_name);
-		if ($plugin_config === null)
+		// Insert or update the plugin configuration in the DB.
+		if ($old_config === null)
 		{
-			$output = PluginModel::insertPluginConfig($plugin_name, $config, false);
+			$output = PluginModel::insertPluginConfig($plugin_name, $new_config, false);
 			if (!$output->toBool())
 			{
 				return $output;
@@ -196,14 +271,12 @@ class Plugin extends Base
 		}
 		else
 		{
-			$output = PluginModel::updatePluginConfig($plugin_name, $config);
+			$output = PluginModel::updatePluginConfig($plugin_name, $new_config);
 			if (!$output->toBool())
 			{
 				return $output;
 			}
 		}
-
-
 
 		$response = new RedirectResponse();
 		$response->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispModuleAdminPlugins']));

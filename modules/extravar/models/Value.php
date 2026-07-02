@@ -384,6 +384,10 @@ class Value
 				return;
 			}
 		}
+		elseif (is_object($value))
+		{
+			return $value;
+		}
 		else
 		{
 			$value = trim(strval($value ?? ''));

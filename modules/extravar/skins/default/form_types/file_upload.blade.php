@@ -4,7 +4,7 @@
 
 	@if ($value)
 		@php
-			$file = FileModel::getFile(intval($value));
+			$file = is_object($value) ? $value : FileModel::getFile(intval($value));
 		@endphp
 		@if ($file)
 			<div class="ev_file_info">
