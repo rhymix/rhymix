@@ -3045,7 +3045,10 @@ class Context
 	public static function setCanonicalURL($url)
 	{
 		self::$_instance->canonical_url = escape($url, false);
-		self::addOpenGraphData('og:url', self::$_instance->canonical_url);
+		self::$_instance->opengraph_metadata = array_filter(self::$_instance->opengraph_metadata, function($val) {
+			return $val[0] !== 'og:url';
+		});
+		self::$_instance->opengraph_metadata[] = ['og:url', self::$_instance->canonical_url];
 	}
 
 	/**
