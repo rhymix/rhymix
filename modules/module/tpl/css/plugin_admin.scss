@@ -1,0 +1,25 @@
+.x .plugin_config {
+	input[type=text], input[type=password], input[type=number], input[type=email], input[type=url] {
+		width: calc(100% - 14px);
+	}
+	textarea {
+		width: calc(100% - 14px);
+		height: 80px;
+		min-height: 80px;
+		resize: vertical;
+	}
+	ul {
+		margin: 0;
+		list-style: none;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
+		li {
+			display: flex;
+			gap: 0.25rem;
+			input:checked ~ label {
+				font-weight: bold;
+			}
+		}
+	}
+}

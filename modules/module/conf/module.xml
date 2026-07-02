@@ -42,6 +42,11 @@
 		<action name="procModuleAdminUpdateCategory" class="Controllers\ModuleCategory" />
 		<action name="procModuleAdminDeleteCategory" class="Controllers\ModuleCategory" />
 
+		<action name="dispModuleAdminPlugins" class="Controllers\Plugin" menu_name="installedPlugin" menu_index="true" />
+		<action name="procModuleAdminSaveEnabledPlugins" class="Controllers\Plugin" />
+		<action name="dispModuleAdminPluginConfig" class="Controllers\Plugin" menu_name="installedPlugin" />
+		<action name="procModuleAdminSavePluginConfig" class="Controllers\Plugin" />
+
 		<action name="dispModuleAdminModuleSetup" class="Controllers\ModuleConfig"/>
 		<action name="dispModuleAdminModuleAdditionSetup" class="Controllers\ModuleConfig"/>
 		<action name="dispModuleAdminModuleGrantSetup" class="Controllers\ModuleConfig"/>
@@ -65,6 +70,10 @@
 			<title xml:lang="vi">Modules</title>
 			<title xml:lang="mn">Modules</title>
 			<title xml:lang="tr">Modules</title>
+		</menu>
+		<menu name="installedPlugin">
+			<title xml:lang="ko">설치된 플러그인</title>
+			<title xml:lang="en">Installed Plugins</title>
 		</menu>
 		<menu name="multilingual">
 			<title xml:lang="en">Multilingual</title>

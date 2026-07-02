@@ -1,0 +1,8 @@
+<query id="deletePluginConfig" action="delete">
+	<tables>
+		<table name="plugins" />
+	</tables>
+	<conditions>
+		<condition operation="equal" column="plugin_name" var="plugin_name" />
+	</conditions>
+</query>

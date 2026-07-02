@@ -11,7 +11,8 @@ class PluginInfoParser extends BaseParser
 	/*
 	 * Supported attributes
 	 */
-	public string $plugin_name;
+	public string $name;
+	public string $path;
 	public string $title = '';
 	public string $description = '';
 	public string $license = '';
@@ -43,7 +44,8 @@ class PluginInfoParser extends BaseParser
 
 		// Initialize the plugin definition.
 		$info = new self;
-		$info->plugin_name = $plugin_name;
+		$info->name = $plugin_name;
+		$info->path = './plugins/' . $plugin_name . '/';
 		$info->title = self::_getChildrenByLang($xml, 'title', $lang);
 		$info->description = self::_getChildrenByLang($xml, 'description', $lang);
 		$info->license = trim($xml->license);
