@@ -180,7 +180,7 @@ class Filebox extends Base
 				throw new Exception('msg_error_occured');
 			}
 		}
-		if (in_array($ext, ['php', 'js']))
+		if (preg_match(FileboxModel::FORBIDDEN_EXTENSIONS, $vars->addfile['name']))
 		{
 			throw new Exception(sprintf(lang('msg_filebox_invalid_extension'), $ext));
 		}

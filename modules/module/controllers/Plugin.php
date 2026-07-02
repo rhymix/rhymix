@@ -204,7 +204,7 @@ class Plugin extends Base
 					}
 					else
 					{
-						if (preg_match('/\.(php[a-z0-9]|html?|s?css|js|vbs)$/i', $vars->{$key}['name'], $match))
+						if (preg_match(FileboxModel::FORBIDDEN_EXTENSIONS, $vars->{$key}['name'], $match))
 						{
 							return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
 						}
