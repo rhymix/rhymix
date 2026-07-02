@@ -563,11 +563,11 @@ class ModuleInfo
 		// Add to URL mapping.
 		if (str_contains($args->mid, '/'))
 		{
-			$mapping = config('url.prefixes.mapping') ?? [];
-			$mapping[$args->mid] = $args->module_srl;
-			\Rhymix\Framework\Config::set('url.prefixes.mapping', $mapping);
-			\Rhymix\Framework\Config::set('url.prefixes.regexp', Prefix::generateRegexp(array_keys($mapping)));
-			\Rhymix\Framework\Config::save();
+			if (!Prefix::updateMultipartPrefixes())
+			{
+				$oDB->rollback();
+				return new BaseObject(-1, 'fail_to_registed');
+			}
 		}
 
 		$oDB->commit();
@@ -678,17 +678,13 @@ class ModuleInfo
 		self::insertExtraVars($args->module_srl, $extra_vars);
 
 		// Add to URL mapping.
-		if (str_contains($args->mid, '/'))
+		if (str_contains($args->mid, '/') || str_contains($module_info->mid, '/'))
 		{
-			$mapping = config('url.prefixes.mapping') ?? [];
-			if ($module_info->mid && isset($mapping[$module_info->mid]))
+			if (!Prefix::updateMultipartPrefixes())
 			{
-				unset($mapping[$module_info->mid]);
+				$oDB->rollback();
+				return new BaseObject(-1, 'fail_to_update');
 			}
-			$mapping[$args->mid] = $args->module_srl;
-			\Rhymix\Framework\Config::set('url.prefixes.mapping', $mapping);
-			\Rhymix\Framework\Config::set('url.prefixes.regexp', Prefix::generateRegexp(array_keys($mapping)));
-			\Rhymix\Framework\Config::save();
 		}
 
 		$oDB->commit();

@@ -166,26 +166,25 @@ class Prefix
 	}
 
 	/**
-	 * Generate a regular expression that matches a list of multi-part prefixes.
+	 * Update the cached list of multipart prefixes.
 	 *
-	 * @param array $prefixes
-	 * @return string
+	 * @return bool
 	 */
-	public static function generateRegexp(array $prefixes): string
+	public static function updateMultipartPrefixes(): bool
 	{
-		if (count($prefixes) === 0)
+		$mapping = [];
+		$prefixes = [];
+		$output = executeQueryArray('module.getMultipartPrefixes', []);
+		foreach ($output->data as $row)
 		{
-			return '';
+			$mapping[$row->mid] = $row->module_srl;
+			$prefixes[] = preg_quote($row->mid, '#');
 		}
 
-		$prefixes = array_map(function($prefix) {
-			return preg_quote($prefix, '#');
-		}, $prefixes);
-
-		usort($prefixes, function($a, $b) {
-			return strlen($b) - strlen($a);
-		});
-
-		return '#^(' . implode('|', $prefixes) . '|[a-z0-9_-]+)(?:/(.*))?$#is';
+		\Rhymix\Framework\Config::set('url.prefixes', [
+			'mapping' => $mapping,
+			'regexp' => '#^(' . implode('|', $prefixes) . '|[a-z0-9_-]+)(?:/(.*))?$#is',
+		]);
+		return \Rhymix\Framework\Config::save();
 	}
 }
