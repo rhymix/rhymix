@@ -178,6 +178,10 @@ class Package
 		{
 			return false;
 		}
+		if (!class_exists('ZipArchive'))
+		{
+			return false;
+		}
 
 		return true;
 	}

@@ -43,7 +43,7 @@ $lang->license_free = '공개';
 
 $lang->msg_autoinstall_is_installed = '최신 버전이 설치되어 있습니다.';
 $lang->msg_autoinstall_not_installable = '쉬운설치를 지원하지 않는 자료입니다. 자료실에서 다운로드 또는 구입하여 설치하세요.';
-$lang->msg_autoinstall_not_installable_environment = '설치 환경이 맞지 않아 설치할 수 없습니다. 코어 버전과 PHP 버전을 확인해 주세요.';
+$lang->msg_autoinstall_not_installable_environment = '설치 환경이 맞지 않아 설치할 수 없습니다. 코어 버전과 PHP 버전, Zip 확장 설치 여부를 확인해 주세요.';
 $lang->msg_autoinstall_not_installable_permissions = '설치 경로에 쓰기 권한이 없어 설치할 수 없습니다. 퍼미션 확인 후 다시 시도해 주세요.';
 $lang->msg_autoinstall_experimental_warning = '주의';
 $lang->msg_autoinstall_unauthed_warning = '인증되지 않은 제작자의 자료입니다.';
