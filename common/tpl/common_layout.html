@@ -68,25 +68,27 @@
 <meta property="{{ $og_metadata['property'] }}" content="{{ $og_metadata['content'] }}" />
 @endforeach
 {!! Context::getHtmlHeader() !!}
+
+<!-- RHYMIX GLOBAL VARIABLES -->
+<script type="application/json" id="rhymix_global_vars">
+{!! json_encode([
+	'default_url' => Rhymix\Framework\URL::encodeIdna(Context::getDefaultUrl(null, RX_SSL)),
+	'current_url' => Rhymix\Framework\URL::encodeIdna($current_url),
+	'request_uri' => Rhymix\Framework\URL::encodeIdna($request_uri),
+	'current_lang' => $lang_type,
+	'current_mid' => $mid ?? null,
+	'enforce_ssl' => $site_module_info->security === 'always' ? true : false,
+	'cookies_ssl' => config('session.use_ssl_cookies') ? true : false,
+	'rewrite_level' => intval(Rhymix\Framework\Router::getRewriteLevel()),
+	'http_port' => $site_module_info->http_port ?? null,
+	'https_port' => $site_module_info->https_port ?? null,
+], 457) !!}{!! "\n" !!}
+</script>
 </head>
 
 <!-- BODY START -->
 <body{!! Context::getBodyClass() !!}>
-
-<!-- COMMON JS VARIABLES -->
-<script>
-	var default_url = @json(\Rhymix\Framework\URL::encodeIdna(Context::getDefaultUrl(null, RX_SSL)));
-	var current_url = @json(\Rhymix\Framework\URL::encodeIdna($current_url));
-	var request_uri = @json(\Rhymix\Framework\URL::encodeIdna($request_uri));
-	var current_lang = xe.current_lang = @json($lang_type);
-	var current_mid = @json($mid ?? null);
-	var http_port = @json(Context::get("_http_port") ?: null);
-	var https_port = @json(Context::get("_https_port") ?: null);
-	var enforce_ssl = @json($site_module_info->security === 'always' ? true : false);
-	var cookies_ssl = @json(config('session.use_ssl_cookies') ? true : false);
-	var rewrite_level = @json(intval(\Rhymix\Framework\Router::getRewriteLevel()));
-	if (detectColorScheme) detectColorScheme();
-</script>
+<script src="{{ sprintf('%scommon/js/init.js?t=%d', RX_BASEURL, filemtime(RX_BASEDIR . 'common/js/init.js')) }}"></script>
 
 <!-- PAGE CONTENT -->
 {!! Context::getBodyHeader() !!}
