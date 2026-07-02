@@ -57,8 +57,8 @@ class ModuleHandler extends Handler
 
 	public function __construct($module = '', $act = '', $mid = '', $document_srl = '', $module_srl = '')
 	{
-		// If XE has not installed yet, set module as install
-		if(!Context::isInstalled())
+		// If not installed yet, set module as install
+		if (!Context::isInstalled())
 		{
 			$this->module = 'install';
 			$this->act = Context::get('act');
@@ -81,7 +81,7 @@ class ModuleHandler extends Handler
 				break;
 			case 'DENY ALL':
 			default:
-				$this->error = 'msg_security_violation';
+				$this->error = ($oContext->security_check_detail === 'ERR_UNSAFE_FILE') ? 'msg_sec_upload_blocked' : 'msg_security_violation';
 				$this->error_detail = $oContext->security_check_detail;
 				return;
 		}
@@ -162,17 +162,6 @@ class ModuleHandler extends Handler
 						}
 						Context::set('current_url', $current_url);
 				}
-			}
-		}
-
-		// Check success_return_url and error_return_url to prevent dangerous redirects.
-		$urls = array('success_return_url', 'error_return_url');
-		foreach($urls as $key)
-		{
-			$url = strval(Context::get($key));
-			if ($url && !Rhymix\Framework\URL::isInternalURL($url))
-			{
-				Context::set($key, null);
 			}
 		}
 

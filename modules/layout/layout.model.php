@@ -337,16 +337,10 @@ class LayoutModel extends Layout
 	 * Get a type and information of the layout
 	 * A type of downloaded layout
 	 * @param string $layout_type (P : PC, M : Mobile)
-	 * @param boolean $withAutoinstallInfo
 	 * @return array info of layout
 	 */
-	public static function getDownloadedLayoutList($layout_type = "P", $withAutoinstallInfo = false)
+	public static function getDownloadedLayoutList($layout_type = "P")
 	{
-		if ($withAutoinstallInfo)
-		{
-			$oAutoinstallModel = AutoinstallModel::getInstance();
-		}
-
 		// Get a list of downloaded layout and installed layout
 		$searched_list = self::_getInstalledLayoutDirectories($layout_type);
 		$searched_count = count($searched_list);
@@ -367,22 +361,6 @@ class LayoutModel extends Layout
 				continue;
 			}
 
-			if($withAutoinstallInfo && false)
-			{
-				// get easyinstall remove url
-				$packageSrl = $oAutoinstallModel->getPackageSrlByPath($layout_info->path);
-				$layout_info->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
-
-				// get easyinstall need update
-				$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-				$layout_info->need_update = $package[$packageSrl]->need_update;
-
-				// get easyinstall update url
-				if($layout_info->need_update)
-				{
-					$layout_info->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
-				}
-			}
 			$list[] = $layout_info;
 		}
 

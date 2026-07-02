@@ -1,10 +1,16 @@
 <table name="autoinstall_packages">
-    <column name="package_srl" type="number" size="11" notnull="notnull" default="0" index="idx_package_srl" />
-    <column name="category_srl" type="number" size="11" default="0" index="idx_category_srl" />
-    <column name="path" type="varchar" size="250" notnull="notnull" unique="unique_path" />
-	<column name="have_instance" type="char" size="1" notnull="notnull" default="N" />
-    <column name="updatedate" type="date" index="idx_regdate" />
-    <column name="latest_item_srl" type="number" size="11" default="0" notnull="notnull" />
-    <column name="version" type="varchar" size="255" />
+	<column name="package_srl" type="bigint" notnull="notnull" default="0" primary_key="primary_key" />
+	<column name="type" type="varchar" size="40" notnull="notnull" index="idx_type" />
+	<column name="title" type="varchar" size="250" notnull="notnull" />
+	<column name="description" type="text" notnull="notnull" />
+	<column name="author" type="varchar" size="80" notnull="notnull" />
+	<column name="license" type="varchar" size="80" notnull="notnull" />
+	<column name="last_release_version" type="varchar" size="80" notnull="notnull" />
+	<column name="install_path" type="varchar" size="180" notnull="notnull" index="idx_install_path" />
+	<column name="install_type" type="varchar" size="40" notnull="notnull" index="idx_install_type" />
+	<column name="created" type="datetime" notnull="notnull" index="idx_created" />
+	<column name="updated" type="datetime" notnull="notnull" index="idx_updated" />
+	<column name="featured_count" type="int" notnull="notnull" index="idx_featured_count" />
+	<column name="list_order" type="int" notnull="notnull" index="idx_list_order" />
+	<column name="extra_vars" type="text" notnull="notnull" />
 </table>
-

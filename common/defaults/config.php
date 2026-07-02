@@ -50,11 +50,15 @@ return array(
 	),
 	'url' => array(
 		'default' => null,
-		'unregistered_domain_action' => 'display',
+		'unregistered_domain_action' => 'redirect_301',
 		'http_port' => null,
 		'https_port' => null,
 		'ssl' => 'none',
-		'rewrite' => 1,
+		'rewrite' => 2,
+		'prefixes' => [
+			'mapping' => [],
+			'regexp' => '',
+		],
 	),
 	'session' => array(
 		'autologin_lifetime' => 365,
@@ -89,6 +93,7 @@ return array(
 		'manager_layout' => 'module',
 		'minify_scripts' => 'common',
 		'concat_scripts' => 'none',
+		'make_sourcemap' => true,
 		'delay_compile' => 0,
 		'jquery_version' => 3,
 	),

@@ -20,33 +20,33 @@ class Security
 		{
 			// Escape HTML special characters.
 			case 'escape':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return escape($input);
 
 			// Strip all HTML tags.
 			case 'strip':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return escape(strip_tags($input));
 
 			// Clean up HTML content to prevent XSS attacks.
 			case 'html':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return Filters\HTMLFilter::clean($input);
 
 			// Clean up the input to be used as a safe filename.
 			case 'filename':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				return Filters\FilenameFilter::clean($input);
-			
+
 			// Clean up SVG content to prevent various attacks.
 			case 'svg':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				$sanitizer = new \enshrined\svgSanitize\Sanitizer();
 				return strval($sanitizer->sanitize($input));
 
 			// Clean up a path to prevent argument injection.
 			case 'command':
-				if (!utf8_check($input)) return false;
+				if (!utf8_check($input)) return '';
 				if (\RX_WINDOWS || preg_match('![^a-z0-9/._-]!', $input)) return escapeshellarg($input);
 				return strval($input);
 
@@ -70,13 +70,13 @@ class Security
 		$key = substr(hash('sha256', $key, true), 0, 16);
 
 		// Encrypt in a format that is compatible with defuse/php-encryption 1.2.x.
-		return base64_encode(\CryptoCompat::encrypt($plaintext, $key));
+		return base64_encode(Helpers\EncryptionHelper::encrypt($plaintext, $key));
 	}
 
 	/**
 	 * Decrypt a string using AES.
 	 *
-	 * @param string $plaintext
+	 * @param string $ciphertext
 	 * @param string $key (optional)
 	 * @return string|false
 	 */
@@ -90,11 +90,11 @@ class Security
 		$ciphertext = @base64_decode($ciphertext);
 		if (strlen($ciphertext) < 48)
 		{
-			return false;
+			throw new Exception('msg_invalid_ciphertext');
 		}
 
 		// Decrypt in a format that is compatible with defuse/php-encryption 1.2.x.
-		return \CryptoCompat::decrypt($ciphertext, $key);
+		return Helpers\EncryptionHelper::decrypt($ciphertext, $key);
 	}
 
 	/**

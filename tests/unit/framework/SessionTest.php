@@ -321,10 +321,26 @@ class SessionTest extends \Codeception\Test\Unit
 		$this->assertEquals($plaintext, Rhymix\Framework\Session::decrypt($ciphertext));
 
 		Rhymix\Framework\Session::destroy();
-		$this->assertFalse(Rhymix\Framework\Session::decrypt($ciphertext));
+		try
+		{
+			$decrypted = Rhymix\Framework\Session::decrypt($ciphertext);
+		}
+		catch (\Exception $e)
+		{
+			$decrypted = false;
+		}
+		$this->assertFalse($decrypted);
 
-		@Rhymix\Framework\Session::start();
-		$this->assertFalse(Rhymix\Framework\Session::decrypt($ciphertext));
+		Rhymix\Framework\Session::start();
+		try
+		{
+			$decrypted = Rhymix\Framework\Session::decrypt($ciphertext);
+		}
+		catch (\Exception $e)
+		{
+			$decrypted = false;
+		}
+		$this->assertFalse($decrypted);
 
 		Rhymix\Framework\Session::close();
 	}

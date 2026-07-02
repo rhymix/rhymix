@@ -339,14 +339,10 @@ class Context
 		self::$_instance->lang = $lang;
 
 		// set session handler
-		if(self::isInstalled() && config('session.use_db'))
+		if (self::isInstalled() && config('session.use_db') && \PHP_SAPI !== 'cli')
 		{
-			$oSessionModel = SessionModel::getInstance();
-			$oSessionController = SessionController::getInstance();
 			ini_set('session.serialize_handler', 'php');
-			session_set_save_handler(
-					array($oSessionController, 'open'), array($oSessionController, 'close'), array($oSessionModel, 'read'), array($oSessionController, 'write'), array($oSessionController, 'destroy'), array($oSessionController, 'gc')
-			);
+			session_set_save_handler(SessionController::getInstance(), true);
 		}
 
 		// start session
@@ -1529,7 +1525,16 @@ class Context
 				{
 					$_val = (int)$_val;
 				}
-				elseif(in_array($key, array('mid', 'vid', 'act', 'module')))
+				elseif(in_array($key, array('mid')))
+				{
+					$_val = preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $_val) ? $_val : null;
+					if($_val === null)
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+					}
+				}
+				elseif(in_array($key, array('vid', 'act', 'module')))
 				{
 					$_val = preg_match('/^[a-zA-Z0-9_-]*$/', $_val) ? $_val : null;
 					if($_val === null)
@@ -1544,6 +1549,15 @@ class Context
 					if(ends_with('url', $key, false))
 					{
 						$_val = strtr($_val, array('&amp;' => '&'));
+					}
+				}
+				elseif(in_array($key, array('success_return_url', 'error_return_url')))
+				{
+					if (!Rhymix\Framework\URL::isInternalURL($_val))
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+						$_val = null;
 					}
 				}
 			}
@@ -1782,7 +1796,7 @@ class Context
 		}
 
 		// If the first argument is '', reset existing parameters.
-		if (!is_array($args_list[0]) && strval($args_list[0]) === '')
+		if (!is_array($args_list[0] ?? '') && strval($args_list[0] ?? '') === '')
 		{
 			array_shift($args_list);
 			$get_vars = array();
@@ -3052,7 +3066,10 @@ class Context
 	public static function setCanonicalURL($url)
 	{
 		self::$_instance->canonical_url = escape($url, false);
-		self::addOpenGraphData('og:url', self::$_instance->canonical_url);
+		self::$_instance->opengraph_metadata = array_filter(self::$_instance->opengraph_metadata, function($val) {
+			return $val[0] !== 'og:url';
+		});
+		self::$_instance->opengraph_metadata[] = ['og:url', self::$_instance->canonical_url];
 	}
 
 	/**

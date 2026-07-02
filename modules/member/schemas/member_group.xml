@@ -5,7 +5,6 @@
     <column name="title" type="varchar" size="80" notnull="notnull" />
     <column name="regdate" type="date" />
     <column name="is_default" type="char" default="N" />
-    <column name="is_admin" type="char" default="N" />
     <column name="image_mark" type="text" />
     <column name="description" type="text" />
 </table>

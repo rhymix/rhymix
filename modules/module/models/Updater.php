@@ -105,11 +105,11 @@ class Updater
 		}
 
 		// Check if all event handlers are registered.
-		$registered = [];
+		$event_handlers_list = [];
 		foreach ($module_action_info->event_handlers ?? [] as $ev)
 		{
 			$key = implode(':', [$ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method]);
-			$registered[$key] = true;
+			$event_handlers_list[$key] = true;
 			if (!Event::isRegistered($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
 			{
 				return true;
@@ -117,7 +117,8 @@ class Updater
 		}
 
 		// Check event handlers that are no longer defined by this module.
-		if (count($registered))
+		$strict_remove = isset($module_action_info->features->event_handlers) && $module_action_info->features->event_handlers === true;
+		if ($strict_remove || count($event_handlers_list) > 0)
 		{
 			// Dummy call to refresh cache
 			Event::getRegisteredHandlers('null', 'null');
@@ -131,7 +132,7 @@ class Updater
 						if ($item->module === $module_name)
 						{
 							$key = implode(':', [$event_name, $position, $item->module, $item->type, $item->called_method]);
-							if (!isset($registered[$key]))
+							if (!isset($event_handlers_list[$key]))
 							{
 								return true;
 							}
@@ -336,13 +337,13 @@ class Updater
 	public static function registerEventHandlers(string $module_name): BaseObject
 	{
 		$module_action_info = ModuleDefinition::getModuleActionXml($module_name);
-		$registered = [];
+		$event_handlers_list = [];
 
 		// Insert new event handlers.
 		foreach ($module_action_info->event_handlers ?? [] as $ev)
 		{
 			$key = implode(':', [$ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method]);
-			$registered[$key] = true;
+			$event_handlers_list[$key] = true;
 			if (!Event::isRegistered($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method))
 			{
 				$output = Event::registerHandler($ev->event_name, $ev->position, $module_name, $ev->class_name, $ev->method);
@@ -354,7 +355,8 @@ class Updater
 		}
 
 		// Remove event handlers that are no longer defined by this module.
-		if (count($registered))
+		$strict_remove = isset($module_action_info->features->event_handlers) && $module_action_info->features->event_handlers === true;
+		if ($strict_remove || count($event_handlers_list) > 0)
 		{
 			// Dummy call to refresh cache
 			Event::getRegisteredHandlers('null', 'null');
@@ -368,7 +370,7 @@ class Updater
 						if ($item->module === $module_name)
 						{
 							$key = implode(':', [$event_name, $position, $item->module, $item->type, $item->called_method]);
-							if (!isset($registered[$key]))
+							if (!isset($event_handlers_list[$key]))
 							{
 								$output = Event::unregisterHandler($event_name, $position, $item->module, $item->type, $item->called_method);
 								if (!$output->toBool())
@@ -454,6 +456,35 @@ class Updater
 	 */
 	public static function registerDefaultPrefixes(string $module_name): BaseObject
 	{
+		$module_action_info = ModuleDefinition::getModuleActionXml($module_name);
+
+		// Create all prefixes defined by this module.
+		foreach ($module_action_info->prefixes ?? [] as $prefix)
+		{
+			if (!Prefix::isValidPrefix($prefix, $module_name))
+			{
+				continue;
+			}
+			if (!ModuleInfo::getModuleInfoByPrefix($prefix))
+			{
+				$output = ModuleInfo::insertModule((object)array(
+					'mid' => $prefix,
+					'module' => $module_name,
+					'browser_title' => ModuleDefinition::getModuleInfoXml($module_name)->title ?? $module_name,
+					'description' => '',
+					'layout_srl' => -1,
+					'mlayout_srl' => -1,
+					'skin' => 'default',
+					'mskin' => 'default',
+					'use_mobile' => 'Y',
+				));
+				if (!$output->toBool())
+				{
+					return $output;
+				}
+			}
+		}
+
 		return new BaseObject();
 	}
 }

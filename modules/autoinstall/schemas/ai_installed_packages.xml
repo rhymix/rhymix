@@ -1,6 +1,0 @@
-<table name="ai_installed_packages">
-    <column name="package_srl" type="number" size="11" notnull="notnull" default="0" index="idx_package_srl" />
-    <column name="version" type="varchar" size="255" />
-    <column name="current_version" type="varchar" size="255" />
-    <column name="need_update" type="char" size="1" default="N" />
-</table>

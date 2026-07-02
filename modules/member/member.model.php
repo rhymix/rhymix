@@ -118,13 +118,13 @@ class MemberModel extends Member
 			$config->identifier = array_first($config->identifiers) === 'email_address' ? 'email_address' : 'user_id';
 		}
 		$config->change_password_date = $config->change_password_date ?? 0;
-		$config->enable_login_fail_report = $config->enable_login_fail_report ?? 'Y';
 		$config->max_error_count = $config->max_error_count ?? 10;
 		$config->max_error_count_time = $config->max_error_count_time ?? 300;
 		$config->login_failure_except_ip = $config->login_failure_except_ip ?? [];
 		$config->login_invalidate_other_sessions = $config->login_invalidate_other_sessions ?? 'N';
 		$config->after_login_url = $config->after_login_url ?? null;
 		$config->after_logout_url = $config->after_logout_url ?? null;
+		unset($config->enable_login_fail_report);
 
 		// Set design config
 		$config->layout_srl = $config->layout_srl ?? 0;
@@ -715,13 +715,19 @@ class MemberModel extends Member
 	}
 
 	/**
-	 * @brief Get an admin group
+	 * @deprecated
 	 */
-	public static function getAdminGroup($columnList = array())
+	public static function getAdminGroup()
 	{
-		$args = new stdClass;
-		$output = executeQuery('member.getAdminGroup', $args, $columnList);
-		return $output->data;
+		return null;
+	}
+
+	/**
+	 * @deprecated
+	 */
+	public static function getAdminGroupSrl()
+	{
+		return 0;
 	}
 
 	/**
@@ -1357,7 +1363,7 @@ class MemberModel extends Member
 			{
 				$required_work_factor = Rhymix\Framework\Password::getWorkFactor();
 				$current_work_factor = Rhymix\Framework\Password::checkWorkFactor($hashed_password);
-				if ($current_work_factor !== false && $required_work_factor > $current_work_factor)
+				if ($current_work_factor != 0 && $required_work_factor > $current_work_factor)
 				{
 					$need_upgrade = true;
 				}
@@ -1418,24 +1424,6 @@ class MemberModel extends Member
 		}
 
 		return true;
-	}
-
-	public static function getAdminGroupSrl()
-	{
-		$groupSrl = 0;
-		$output = self::getGroups();
-		if(is_array($output))
-		{
-			foreach($output AS $value)
-			{
-				if($value->is_admin == 'Y')
-				{
-					$groupSrl = $value->group_srl;
-					break;
-				}
-			}
-		}
-		return $groupSrl;
 	}
 
 	public static function getMemberModifyNicknameLog($page = 1, $member_srl = null)

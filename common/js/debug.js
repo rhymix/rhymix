@@ -239,7 +239,9 @@ $(function() {
 	};
 
 	// Add debug data from the current request.
-	if (Rhymix.currentDebugData) {
+	var debugData = document.getElementById('rhymix_debug_data');
+	if (debugData) {
+		Rhymix.currentDebugData = JSON.parse(debugData.textContent);
 		Rhymix.currentDebugData.page_title = 'MAIN PAGE';
 		Rhymix.addDebugData(Rhymix.currentDebugData, true);
 	}

@@ -625,7 +625,8 @@ class BoardView extends Board
 		// Find the page on which the current document is located.
 		// This is very resource-intensive, so we only do it when necessary.
 		$document_srl = (int)Context::get('document_srl') ?: null;
-		if($document_srl && $this->module_info->skip_bottom_list_for_robot !== 'N' && isCrawler())
+		$suspected_robot = isCrawler() || (empty($_SERVER['HTTP_REFERER']) && $_SESSION['is_new_session']);
+		if($document_srl && $this->module_info->skip_bottom_list_for_robot !== 'N' && $suspected_robot)
 		{
 			Context::set('page', $args->page = null);
 		}

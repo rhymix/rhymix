@@ -387,7 +387,7 @@ class MenuAdminController extends Menu
 		$oModuleController = ModuleController::getInstance();
 		foreach($output->data as $itemInfo)
 		{
-			if ($itemInfo->is_shortcut != 'Y' && strncasecmp('http', $itemInfo->url, 4) !== 0)
+			if ($itemInfo->is_shortcut != 'Y' && !preg_match('/^https?:/i', $itemInfo->url))
 			{
 				$moduleInfo = ModuleModel::getModuleInfoByMid($itemInfo->url, $menuInfo->site_srl);
 				if ($moduleInfo->module_srl)
@@ -611,8 +611,9 @@ class MenuAdminController extends Menu
 		$args->class = trim(preg_replace('/[^a-z0-9\x20_-]/', '', $request->menu_class ?? ''));
 		$args->desc = escape(trim($request->menu_desc ?? '') ?: '', true, true);
 
-		if($request->module_id && strncasecmp('http', $request->module_id, 4) === 0)
+		if($request->module_id && preg_match('/^https?:/i', $request->module_id))
 		{
+			$oDB->rollback();
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
@@ -622,6 +623,7 @@ class MenuAdminController extends Menu
 			$result = $this->_insertModule($request, $args);
 			if(!$result->toBool())
 			{
+				$oDB->rollback();
 				throw new Rhymix\Framework\Exception($result->message);
 			}
 		}
@@ -633,6 +635,7 @@ class MenuAdminController extends Menu
 
 		if(!$request->module_id)
 		{
+			$oDB->rollback();
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
@@ -640,7 +643,11 @@ class MenuAdminController extends Menu
 		$args->menu_item_srl = getNextSequence();
 		$args->listorder = -1*$args->menu_item_srl;
 		$output = executeQuery('menu.insertMenuItem', $args);
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		$oDB->commit();
 
@@ -652,7 +659,7 @@ class MenuAdminController extends Menu
 	 * insert module by men create value
 	 * @request value of client request
 	 * @args value for menu create
-	 * @return bool result of create module
+	 * @return BaseObject
 	 */
 	private function _insertModule(&$request, &$args)
 	{
@@ -695,11 +702,13 @@ class MenuAdminController extends Menu
 		$cmArgs->mid = $request->module_id;
 
 		// check already created module instance
-		$oModuleModel = getModel('module');
-		$output = $oModuleModel->getModuleInfoByMid($request->module_id);
-		if($output->module_srl)
+		if (!Rhymix\Modules\Module\Models\Prefix::isValidPrefix($request->module_id))
 		{
-			throw new Rhymix\Framework\Exception('msg_module_name_exists');
+			return new BaseObject(-1, 'msg_limit_mid');
+		}
+		if (Rhymix\Modules\Module\Models\Prefix::exists($request->module_id))
+		{
+			return new BaseObject(-1, 'msg_module_name_exists');
 		}
 
 		$oModuleController = getController('module');
@@ -725,6 +734,9 @@ class MenuAdminController extends Menu
 		if($request->menu_open_window != "Y") $request->menu_open_window = "N";
 		if($request->menu_expand != "Y") $request->menu_expand = "N";
 
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Get original information
 		$oMenuAdminModel = getAdminModel('menu');
 		$itemInfo = $oMenuAdminModel->getMenuItemInfo($request->menu_item_srl);
@@ -745,6 +757,7 @@ class MenuAdminController extends Menu
 				$newItemInfo = $oMenuAdminModel->getMenuItemInfo($request->shortcut_target);
 				if(!$newItemInfo->menu_item_srl)
 				{
+					$oDB->rollback();
 					throw new Rhymix\Framework\Exceptions\InvalidRequest;
 				}
 
@@ -759,20 +772,25 @@ class MenuAdminController extends Menu
 		else
 		{
 			// check already created module instance
-			$oModuleModel = getModel('module');
-			if($request->module_id != $itemInfo->url)
+			if ($request->module_id !== $itemInfo->url)
 			{
-				$output = $oModuleModel->getModuleInfoByMid($request->module_id);
-				if($output->module_srl)
+				if (!Rhymix\Modules\Module\Models\Prefix::isValidPrefix($request->module_id))
 				{
-					throw new Rhymix\Framework\Exception('msg_module_name_exists');
+					$oDB->rollback();
+					return new BaseObject(-1, 'msg_limit_mid');
+				}
+				if (Rhymix\Modules\Module\Models\Prefix::exists($request->module_id))
+				{
+					$oDB->rollback();
+					return new BaseObject(-1, 'msg_module_name_exists');
 				}
 			}
 
 			// if not exist module, return error
-			$moduleInfo = $oModuleModel->getModuleInfoByMid($itemInfo->url);
+			$moduleInfo = ModuleModel::getModuleInfoByMid($itemInfo->url);
 			if(!$moduleInfo)
 			{
+				$oDB->rollback();
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 
@@ -782,7 +800,13 @@ class MenuAdminController extends Menu
 				$moduleInfo->browser_title = $request->browser_title;
 			}
 			$oModuleController = getController('module');
-			$oModuleController->updateModule($moduleInfo);
+			$output = $oModuleController->updateModule($moduleInfo);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
+			}
+
 			$args->url = $request->module_id;
 		}
 
@@ -803,6 +827,13 @@ class MenuAdminController extends Menu
 		$args->open_window = $request->menu_open_window;
 		$args->expand = $request->menu_expand;
 		$output = $this->_updateMenuItem($args);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		$oDB->commit();
 
 		$this->makeXmlFile($args->menu_srl);
 
@@ -861,6 +892,11 @@ class MenuAdminController extends Menu
 		}
 
 		$output = $this->_updateMenuItem($item_info);
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
 
 		// recreate menu cache file
 		$this->makeXmlFile($args->menu_srl);
@@ -1006,6 +1042,9 @@ class MenuAdminController extends Menu
 
 	private function _deleteMenuItem(&$oDB, &$menuInfo, $node, $delete_module = false)
 	{
+		$oDB = DB::getInstance();
+		$oDB->begin();
+
 		// Remove from the DB
 		$args = new stdClass();
 		$args->menu_item_srl = $node['node_srl'];
@@ -1018,13 +1057,14 @@ class MenuAdminController extends Menu
 
 		// Update the xml file and get its location
 		$xml_file = $this->makeXmlFile($args->menu_srl);
+
 		// Delete all of image buttons
 		if($node['normal_btn']) FileHandler::removeFile($node['normal_btn']);
 		if($node['hover_btn']) FileHandler::removeFile($node['hover_btn']);
 		if($node['active_btn']) FileHandler::removeFile($node['active_btn']);
 
 		// Delete module
-		if($node['is_shortcut'] != 'Y' && strncasecmp('http', $node['url'], 4) !== 0)
+		if($node['is_shortcut'] != 'Y' && !preg_match('/^https?:/i', $node['url']))
 		{
 			// reference menu's url modify
 			$args->url = $node['url'];
@@ -1063,6 +1103,9 @@ class MenuAdminController extends Menu
 				}
 			}
 		}
+
+		$oDB->commit();
+
 		return new BaseObject(0, 'success');
 	}
 
@@ -1910,7 +1953,7 @@ class MenuAdminController extends Menu
 			$class = Rhymix\Framework\Filters\HTMLFilter::clean($node->class ?? '', true);
 			$desc = Rhymix\Framework\Filters\HTMLFilter::clean($node->desc ?? '', true);
 			$desc = preg_replace('/(\$user_lang)-&gt;(userLang[0-9]+)/', '$1->$2', $desc);
-			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/', $node->url))
+			if(preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
 			}
@@ -2058,7 +2101,7 @@ class MenuAdminController extends Menu
 			$class = Rhymix\Framework\Filters\HTMLFilter::clean($node->class ?? '', true);
 			$desc = Rhymix\Framework\Filters\HTMLFilter::clean($node->desc ?? '', true);
 			$desc = preg_replace('/(\$user_lang)-&gt;(userLang[0-9]+)/', '$1->$2', $desc);
-			if(preg_match('/^([0-9a-zA-Z\_\-]+)$/i', $node->url))
+			if(preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $node->url))
 			{
 				$href = "getSiteUrl('$domain', '','mid','$node->url')";
 			}

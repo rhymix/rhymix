@@ -222,9 +222,10 @@ class Formatter
 	 * @param string $target_filename
 	 * @param array $variables (optional)
 	 * @param bool $minify (optional)
+	 * @param bool $make_sourcemap (optional)
 	 * @return bool
 	 */
-	public static function compileSCSS($source_filename, string $target_filename, array $variables = [], bool $minify = false): bool
+	public static function compileSCSS($source_filename, string $target_filename, array $variables = [], bool $minify = false, bool $make_sourcemap = false): bool
 	{
 		// Get the cleaned and concatenated content.
 		$imported_list = [];
@@ -242,13 +243,16 @@ class Formatter
 			$scss_compiler = new \ScssPhp\ScssPhp\Compiler;
 			$scss_compiler->setOutputStyle($minify ? \ScssPhp\ScssPhp\OutputStyle::COMPRESSED : \ScssPhp\ScssPhp\OutputStyle::EXPANDED);
 			$scss_compiler->setImportPaths(array(dirname($primary_filename)));
-			$scss_compiler->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
-			$scss_compiler->setSourceMapOptions([
-				'sourceMapURL' => basename($sourcemap_filename),
-				'sourceMapFilename' => basename($target_filename),
-				'sourceMapBasepath' => \RX_BASEDIR,
-				'sourceRoot' => \RX_BASEURL,
-			]);
+			if ($make_sourcemap)
+			{
+				$scss_compiler->setSourceMap(\ScssPhp\ScssPhp\Compiler::SOURCE_MAP_FILE);
+				$scss_compiler->setSourceMapOptions([
+					'sourceMapURL' => basename($sourcemap_filename),
+					'sourceMapFilename' => basename($target_filename),
+					'sourceMapBasepath' => \RX_BASEDIR,
+					'sourceRoot' => \RX_BASEURL,
+				]);
+			}
 			if ($variables)
 			{
 				$converted_variables = [];
@@ -268,7 +272,7 @@ class Formatter
 
 			$compiler = $scss_compiler->compileString($content, $primary_filename);
 			$content = $compiler->getCss() . "\n";
-			$sourcemap = $compiler->getSourceMap();
+			$sourcemap = $make_sourcemap ? $compiler->getSourceMap() : '';
 			$result = true;
 		}
 		catch (\Exception $e)
@@ -282,7 +286,7 @@ class Formatter
 
 		// Save the result to the target file.
 		Storage::write($target_filename, $content);
-		if ($sourcemap)
+		if ($make_sourcemap && $sourcemap)
 		{
 			Storage::write($sourcemap_filename, $sourcemap);
 		}

@@ -44,18 +44,15 @@ class WidgetModel extends Widget
 	 */
 	public static function getDownloadedWidgetList()
 	{
-		$oAutoinstallModel = getModel('autoinstall');
-
 		// 've Downloaded the widget and the widget's list of installed Wanted
 		$searched_list = FileHandler::readDir('./widgets');
 		$searched_count = count($searched_list);
 		if(!$searched_count) return;
 		sort($searched_list);
-		// D which pertain to the list of widgets loop spins return statement review the information you need
-		for($i=0;$i<$searched_count;$i++)
+
+		$list = [];
+		foreach ($searched_list as $widget)
 		{
-			// The name of the widget
-			$widget = $searched_list[$i];
 			// Wanted information on the Widget
 			$widget_info = self::getWidgetInfo($widget);
 			if (!$widget_info)
@@ -63,19 +60,9 @@ class WidgetModel extends Widget
 				continue;
 			}
 
-			// get easyinstall remove url
-			$packageSrl = $oAutoinstallModel->getPackageSrlByPath($widget_info->path);
-			$widget_info->remove_url = $oAutoinstallModel->getRemoveUrlByPackageSrl($packageSrl);
-
-			// get easyinstall need update
-			$package = $oAutoinstallModel->getInstalledPackages($packageSrl);
-			$widget_info->need_update = $package[$packageSrl]->need_update ?? 'N';
-
-			// get easyinstall update url
-			if ($widget_info->need_update == 'Y')
-			{
-				$widget_info->update_url = $oAutoinstallModel->getUpdateUrlByPackageSrl($packageSrl);
-			}
+			$widget_info->remove_url = null;
+			$widget_info->need_update = 'N';
+			$widget_info->update_url = null;
 
 			$list[] = $widget_info;
 		}

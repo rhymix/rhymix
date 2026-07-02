@@ -37,6 +37,8 @@ class HTMLResponse extends AbstractResponse
 	protected string $_layout_filename = '';
 	protected string $_template_dirname = '';
 	protected string $_template_filename = '';
+	protected string $_title = '';
+	protected string $_canonical_url = '';
 
 	/**
 	 * List of actions that do not need to wrap with .x
@@ -113,6 +115,119 @@ class HTMLResponse extends AbstractResponse
 	public function getTemplateFile(): string
 	{
 		return $this->_template_filename;
+	}
+
+	/**
+	 * Set the title for this HTML response.
+	 *
+	 * @param string $title
+	 * @param array $vars
+	 * @return self
+	 */
+	public function setTitle(string $title, array $vars = []): self
+	{
+		Context::setBrowserTitle($title, $vars);
+		$this->_title = Context::getBrowserTitle();
+		return $this;
+	}
+
+	/**
+	 * Get the title for this HTML response.
+	 *
+	 * @return string
+	 */
+	public function getTitle(): string
+	{
+		return $this->_title !== '' ? $this->_title : Context::getBrowserTitle();
+	}
+
+	/**
+	 * Set the canonical URL for this HTML response.
+	 *
+	 * @param string $url
+	 * @return self
+	 */
+	public function setCanonicalUrl(string $url): self
+	{
+		Context::setCanonicalUrl($url);
+		$this->_canonical_url = $url;
+		return $this;
+	}
+
+	/**
+	 * Get the canonical URL for this HTML response.
+	 *
+	 * @return string
+	 */
+	public function getCanonicalUrl(): string
+	{
+		return $this->_canonical_url !== '' ? $this->_canonical_url : Context::getCanonicalURL();
+	}
+
+	/**
+	 * Add custom content to the <head> or <body> section of the HTML response.
+	 *
+	 * @param string $where
+	 * @param string $content
+	 * @return self
+	 */
+	public function addContent(string $where, string $content): self
+	{
+		switch ($where)
+		{
+			case 'head':
+				Context::addHtmlHeader($content);
+				break;
+			case 'body':
+				Context::addBodyHeader($content);
+				break;
+			case 'foot':
+				Context::addHtmlFooter($content);
+				break;
+			default:
+				throw new \InvalidArgumentException('Invalid location for addContent(): ' . $where);
+		}
+		return $this;
+	}
+
+	/**
+	 * Add a custom <meta> tag to the HTML response.
+	 *
+	 * @param string $name
+	 * @param string $content
+	 * @return self
+	 */
+	public function addMetaTag(string $name, string $content): self
+	{
+		Context::addMetaTag($name, $content);
+		return $this;
+	}
+
+	/**
+	 * Add a custom <meta> tag to the HTML response.
+	 *
+	 * @param string $filename
+	 * @param int $width
+	 * @param int $height
+	 * @return self
+	 */
+	public function addMetaImage(string $filename, int $width = 0, int $height = 0): self
+	{
+		Context::addMetaImage($filename, $width, $height);
+		return $this;
+	}
+
+	/**
+	 * Add custom OpenGraph metadata to the HTML response.
+	 *
+	 * @param string $name
+	 * @param array $attributes
+	 * @return self
+	 */
+	public function addOpenGraphData(string $name, array $attributes): self
+	{
+		Context::addOpenGraphData($name, $attributes);
+		return $this;
 	}
 
 	/**
@@ -271,6 +386,7 @@ class HTMLResponse extends AbstractResponse
 		// Add favicon and mobile icon links.
 		$site_module_info = Context::get('site_module_info');
 		Context::set('favicon_url', AdminIconModel::getFaviconUrl(intval($site_module_info->domain_srl ?? 0)));
+		Context::set('dark_favicon_url', AdminIconModel::getDarkFaviconUrl($site_module_info->domain_srl ?? 0));
 		Context::set('mobicon_url', AdminIconModel::getMobiconUrl(intval($site_module_info->domain_srl ?? 0)));
 
 		// If somebody is still using IE 11, force the latest rendering engine.

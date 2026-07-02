@@ -154,6 +154,9 @@ class Member extends ModuleObject
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_after_nick_name')) return true;
 		if(!$oDB->isIndexExists('member_nickname_log', 'idx_user_id')) return true;
 
+		// Check member_group table
+		if($oDB->isColumnExists("member_group", "is_admin")) return true;
+
 		// Check individual indexes for member_group_member table
 		if(!$oDB->isIndexExists('member_group_member', 'idx_member_srl')) return true;
 
@@ -360,6 +363,12 @@ class Member extends ModuleObject
 			$oDB->addIndex('member_nickname_log', 'idx_before_nick_name', array('before_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_after_nick_name', array('after_nick_name'));
 			$oDB->addIndex('member_nickname_log', 'idx_user_id', array('user_id'));
+		}
+
+		// Check member_group table
+		if($oDB->isColumnExists("member_group", "is_admin"))
+		{
+			$oDB->dropColumn("member_group", "is_admin");
 		}
 
 		// Check index for member_group_member table
@@ -661,7 +670,10 @@ class Member extends ModuleObject
 
 		// Check if there is recoding table.
 		$oDB = DB::getInstance();
-		if(!$oDB->isTableExists('member_login_count') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
+		if (!$oDB->isTableExists('member_login_count'))
+		{
+			return new BaseObject($error, $message);
+		}
 
 		$args = new stdClass();
 		$args->ipaddress = \RX_CLIENT_IP;
@@ -704,7 +716,10 @@ class Member extends ModuleObject
 
 		// Check if there is recoding table.
 		$oDB = DB::getInstance();
-		if(!$oDB->isTableExists('member_count_history') || $config->enable_login_fail_report == 'N') return new BaseObject($error, $message);
+		if (!$oDB->isTableExists('member_count_history'))
+		{
+			return new BaseObject($error, $message);
+		}
 
 		$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
 		if($output->data && $output->data->content)

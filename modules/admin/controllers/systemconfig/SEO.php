@@ -46,14 +46,14 @@ class SEO extends Base
 		$vars = Context::getRequestVars();
 
 		$args = new \stdClass;
-		$args->meta_keywords = $vars->site_meta_keywords ? implode(', ', array_map('trim', explode(',', $vars->site_meta_keywords))) : '';
-		$args->meta_description = trim(utf8_normalize_spaces($vars->site_meta_description));
+		$args->meta_keywords = isset($vars->site_meta_keywords) ? implode(', ', array_map('trim', explode(',', $vars->site_meta_keywords))) : '';
+		$args->meta_description = trim(utf8_normalize_spaces($vars->site_meta_description ?? ''));
 		$oModuleController = ModuleController::getInstance();
 		$oModuleController->updateModuleConfig('module', $args);
 
-		Config::set('seo.main_title', trim(utf8_normalize_spaces($vars->seo_main_title)));
-		Config::set('seo.subpage_title', trim(utf8_normalize_spaces($vars->seo_subpage_title)));
-		Config::set('seo.document_title', trim(utf8_normalize_spaces($vars->seo_document_title)));
+		Config::set('seo.main_title', trim(utf8_normalize_spaces($vars->seo_main_title ?? '')));
+		Config::set('seo.subpage_title', trim(utf8_normalize_spaces($vars->seo_subpage_title ?? '')));
+		Config::set('seo.document_title', trim(utf8_normalize_spaces($vars->seo_document_title ?? '')));
 
 		Config::set('seo.og_enabled', $vars->og_enabled === 'Y');
 		Config::set('seo.og_extract_description', $vars->og_extract_description === 'Y');

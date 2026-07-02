@@ -56,30 +56,14 @@ class EditorAdminView extends Editor
 		}
 
 		// Get editor component info
-		$oAutoinstallModel = getModel('autoinstall');
 		$component_list = $oEditorModel->getComponentList(false, 0, true);
 		$component_count = countobj($component_list);
-		$targetpackages = array();
 		foreach ($component_list as $xml_info)
 		{
 			$xml_info->path = './modules/editor/components/'.$xml_info->component_name;
-			$xml_info->delete_url = $oAutoinstallModel->getRemoveUrlByPath($xml_info->path);
-			$xml_info->package_srl = $oAutoinstallModel->getPackageSrlByPath($xml_info->path);
-			if ($xml_info->package_srl)
-			{
-				$targetpackages[$xml_info->package_srl] = 0;
-			}
-		}
-		if (count($targetpackages))
-		{
-			$packages = $oAutoinstallModel->getInstalledPackages(array_keys($targetpackages));
-		}
-		foreach ($component_list as $xml_info)
-		{
-			if ($packages[$xml_info->package_srl])
-			{
-				$xml_info->need_update = $packages[$xml_info->package_srl]->need_update;
-			}
+			$xml_info->delete_url = null;
+			$xml_info->package_srl = null;
+			$xml_info->need_update = null;
 		}
 
 		Context::set('editor_config', $editor_config);

@@ -27,9 +27,6 @@ class Password
 		'mysql_old_password' => '/^[0-9a-f]{16}$/',
 		'mysql_new_password' => '/^\*[0-9A-F]{40}$/',
 		'portable' => '/^\$P\$/',
-		'drupal' => '/^\$S\$/',
-		'joomla' => '/^[0-9a-f]{32}:[0-9a-zA-Z\.\+\/\=]{32}$/',
-		'kimsqrb' => '/\$[1-4]\$[0-9]{14}$/',
 		'crypt' => '/^([0-9a-zA-Z\.\/]{13}$|_[0-9a-zA-Z\.\/]{19}$|\$[156]\$)/',
 	);
 
@@ -295,21 +292,6 @@ class Password
 						return $match ? $salt : '';
 					}
 
-				// Drupal's SHA-512 based algorithm (must be used last)
-				case 'drupal':
-					$hashchain = \VendorPass::drupal($password, $salt);
-					return $hashchain;
-
-				// Joomla's MD5 based algorithm (must be used last)
-				case 'joomla':
-					$hashchain = \VendorPass::joomla($password, $salt);
-					return $hashchain;
-
-				// KimsQ Rb algorithms (must be used last)
-				case 'kimsqrb':
-					$hashchain = \VendorPass::kimsqrb($password, $salt);
-					return $hashchain;
-
 				// crypt() function (must be used last)
 				case 'crypt':
 					if ($salt === null) $salt = Security::getRandom(2, 'alnum');
@@ -318,17 +300,17 @@ class Password
 
 				// MS SQL's PWDENCRYPT() function (must be used last)
 				case 'mssql_pwdencrypt':
-					$hashchain = \VendorPass::mssql_pwdencrypt($hashchain, $salt);
+					$hashchain = self::pwdEncrypt($hashchain, $salt);
 					return $hashchain;
 
 				// MySQL's old PASSWORD() function.
 				case 'mysql_old_password':
-					$hashchain = \VendorPass::mysql_old_password($hashchain);
+					$hashchain = self::mysqlOldPassword($hashchain);
 					break;
 
 				// MySQL's new PASSWORD() function.
 				case 'mysql_new_password':
-					$hashchain = \VendorPass::mysql_new_password($hashchain);
+					$hashchain = self::mysqlPassword($hashchain);
 					break;
 
 				// A dummy algorithm that does nothing.
@@ -431,6 +413,12 @@ class Password
 		elseif(preg_match('/^sha[0-9]+:([0-9]+):/', $hash, $matches))
 		{
 			return max(0, round(log($matches[1], 2)) - 5);
+		}
+		elseif(preg_match('/^\$argon2id\$.*,t=([0-9]+),/', $hash, $matches))
+		{
+			$time_cost = intval($matches[1]);
+			$work_factor_map = [0, 4, 7, 8, 10, 11, 12, 14, 15, 15, 16, 18, 19, 21, 23, 24, 26, 27, 29, 31, 32];
+			return $work_factor_map[$time_cost] ?? 32;
 		}
 		else
 		{
@@ -539,6 +527,63 @@ class Password
 		}
 
 		return $algorithm . ':' . str_pad($iterations, $iterations_padding, '0', STR_PAD_LEFT) . ':' . $salt . ':' . base64_encode($hash);
+	}
+
+	/**
+	 * PHP implementation of SQL Server's legacy PWDENCRYPT() function.
+	 *
+	 * @param string $password
+	 * @param ?string $salt
+	 * @return string
+	 */
+	public static function pwdEncrypt(string $password, ?string $salt = null): string
+	{
+		if ($salt !== null && strlen($salt) === 54)
+		{
+			$salt = substr($salt, 6, 8);
+		}
+		else
+		{
+			$salt = strtoupper(str_pad(dechex(mt_rand(0, 65535)), 4, '0') . str_pad(dechex(mt_rand(0, 65535)), 4, '0'));
+		}
+		$password = mb_convert_encoding($password, 'UTF-16LE', 'UTF-8');
+		return '0x0100' . strtoupper($salt . sha1($password . pack('H*', $salt)));
+	}
+
+	/**
+	 * PHP implementation of MySQL's OLD_PASSWORD() function.
+	 *
+	 * Minor modification of the code written by Dustin Fineout, 10/9/2009
+	 * Source: http://stackoverflow.com/questions/260236/mysql-hashing-function-implementation
+	 *
+	 * @param string $password
+	 * @return string
+	 */
+	public static function mysqlOldPassword(string $password): string
+	{
+		$password = strval($password);
+		$length = strlen($password);
+		$nr1 = 0x50305735; $nr2 = 0x12345671; $add = 7; $tmp = null;
+		for ($i = 0; $i < $length; $i++) {
+			$byte = substr($password, $i, 1);
+			if ($byte === ' ' || $byte === "\t") continue;
+			$tmp = ord($byte);
+			$nr1 ^= (($nr1 << 8) & 0x7FFFFFFF) + ((($nr1 & 63) + $add) * $tmp);
+			$nr2 += (($nr2 << 8) & 0x7FFFFFFF) ^ $nr1;
+			$add += $tmp;
+		}
+		return sprintf("%08x%08x", $nr1 & 0x7FFFFFFF, $nr2 & 0x7FFFFFFF);
+	}
+
+	/**
+	 * PHP implementation of MySQL's PASSWORD() function.
+	 *
+	 * @param string $password
+	 * @return string
+	 */
+	public static function mysqlPassword(string $password): string
+	{
+		return '*' . strtoupper(sha1(sha1($password, true)));
 	}
 
 	/**

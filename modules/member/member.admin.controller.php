@@ -593,7 +593,6 @@ class MemberAdminController extends Member
 		$args = Context::gets(
 			'identifiers',
 			'change_password_date',
-			'enable_login_fail_report',
 			'max_error_count',
 			'max_error_count_time',
 			'login_failure_except_ip',
@@ -1365,11 +1364,6 @@ class MemberAdminController extends Member
 	{
 		// Assign an administrator
 		$args->is_admin = 'Y';
-		// Get admin group and set
-		$oMemberModel = getModel('member');
-		$admin_group = $oMemberModel->getAdminGroup();
-		$args->group_srl_list = $admin_group->group_srl;
-
 		$oMemberController = getController('member');
 		return $oMemberController->insertMember($args);
 	}

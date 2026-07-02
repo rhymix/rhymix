@@ -1,7 +1,0 @@
-<query id="deleteCategory" action="delete">
-    <tables>
-        <table name="ai_remote_categories" />
-    </tables>
-    <conditions>
-    </conditions>
-</query>

@@ -91,19 +91,19 @@ class Notification extends Base
 		$oAdvancedMailerController = \Advanced_mailerController::getInstance();
 
 		// Validate the mail sender's information.
-		if (!$vars->mail_default_name)
+		if (empty($vars->mail_default_name))
 		{
 			throw new Exception('msg_advanced_mailer_sender_name_is_empty');
 		}
-		if (!$vars->mail_default_from)
+		if (empty($vars->mail_default_from))
 		{
 			throw new Exception('msg_advanced_mailer_sender_email_is_empty');
 		}
-		if (!\Mail::isVaildMailAddress($vars->mail_default_from))
+		if (!\Mail::isVaildMailAddress($vars->mail_default_from ?? ''))
 		{
 			throw new Exception('msg_advanced_mailer_sender_email_is_invalid');
 		}
-		if ($vars->mail_default_reply_to && !\Mail::isVaildMailAddress($vars->mail_default_reply_to))
+		if (!empty($vars->mail_default_reply_to) && !\Mail::isVaildMailAddress($vars->mail_default_reply_to ?? ''))
 		{
 			throw new Exception('msg_advanced_mailer_reply_to_is_invalid');
 		}
@@ -120,7 +120,7 @@ class Notification extends Base
 		$mail_driver_config = array();
 		foreach ($mail_drivers[$mail_driver]['required'] as $conf_name)
 		{
-			$conf_value = $vars->{'mail_' . $mail_driver . '_' . $conf_name} ?: null;
+			$conf_value = $vars->{'mail_' . $mail_driver . '_' . $conf_name} ?? null;
 			if (!$conf_value)
 			{
 				throw new Exception('msg_advanced_mailer_smtp_host_is_invalid');
@@ -140,7 +140,7 @@ class Notification extends Base
 		$sms_driver_config = array();
 		foreach ($sms_drivers[$sms_driver]['required'] as $conf_name)
 		{
-			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
+			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?? null;
 			if (!$conf_value)
 			{
 				throw new Exception('msg_advanced_mailer_sms_config_invalid');
@@ -149,7 +149,7 @@ class Notification extends Base
 		}
 		foreach ($sms_drivers[$sms_driver]['optional'] as $conf_name)
 		{
-			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?: null;
+			$conf_value = $vars->{'sms_' . $sms_driver . '_' . $conf_name} ?? null;
 			$sms_driver_config[$conf_name] = $conf_value;
 		}
 
@@ -175,7 +175,7 @@ class Notification extends Base
 		{
 			foreach ($push_drivers[$driver_name]['required'] as $conf_name)
 			{
-				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name}) ?: null;
+				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name} ?? null) ?: null;
 				if (!$conf_value && in_array($driver_name, $push_driver_list))
 				{
 					throw new Exception('msg_advanced_mailer_push_config_invalid');
@@ -222,33 +222,33 @@ class Notification extends Base
 			}
 			foreach ($push_drivers[$driver_name]['optional'] as $conf_name)
 			{
-				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name}) ?: null;
+				$conf_value = utf8_trim($vars->{'push_' . $driver_name . '_' . $conf_name} ?? null) ?: null;
 				$push_config[$driver_name][$conf_name] = $conf_value;
 			}
 		}
 
 		// Save advanced mailer config.
 		getController('module')->updateModuleConfig('advanced_mailer', (object)array(
-			'sender_name' => trim($vars->mail_default_name),
-			'sender_email' => trim($vars->mail_default_from),
+			'sender_name' => trim($vars->mail_default_name ?? ''),
+			'sender_email' => trim($vars->mail_default_from ?? ''),
 			'force_sender' => toBool($vars->mail_force_default_sender),
-			'reply_to' => trim($vars->mail_default_reply_to),
+			'reply_to' => trim($vars->mail_default_reply_to ?? ''),
 		));
 
 		// Save member config.
 		getController('module')->updateModuleConfig('member', (object)array(
-			'webmaster_name' => trim($vars->mail_default_name),
-			'webmaster_email' => trim($vars->mail_default_from),
+			'webmaster_name' => trim($vars->mail_default_name ?? ''),
+			'webmaster_email' => trim($vars->mail_default_from ?? ''),
 		));
 
 		// Save system config.
-		Config::set("mail.default_name", trim($vars->mail_default_name));
-		Config::set("mail.default_from", trim($vars->mail_default_from));
+		Config::set("mail.default_name", trim($vars->mail_default_name ?? ''));
+		Config::set("mail.default_from", trim($vars->mail_default_from ?? ''));
 		Config::set("mail.default_force", toBool($vars->mail_force_default_sender));
-		Config::set("mail.default_reply_to", trim($vars->mail_default_reply_to));
+		Config::set("mail.default_reply_to", trim($vars->mail_default_reply_to ?? ''));
 		Config::set("mail.type", $mail_driver);
 		Config::set("mail.$mail_driver", $mail_driver_config);
-		Config::set("sms.default_from", trim($vars->sms_default_from));
+		Config::set("sms.default_from", trim($vars->sms_default_from ?? ''));
 		Config::set("sms.default_force", toBool($vars->sms_force_default_sender));
 		Config::set("sms.type", $sms_driver);
 		Config::set("sms.$sms_driver", $sms_driver_config);

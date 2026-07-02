@@ -19,28 +19,28 @@ class Prefix
 	public static function isValidPrefix(string $prefix, ?string $module = null): bool
 	{
 		// Check the format.
-		if (!preg_match('/^[a-z]([a-z0-9_]+)$/i', $prefix))
+		if (!preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $prefix, $matches))
 		{
 			return false;
 		}
+		$first_part = strtolower($matches[1]);
 
 		// Check if it is a reserved word.
-		$prefix = strtolower($prefix);
-		if (Context::isReservedWord($prefix))
+		if (Context::isReservedWord($first_part))
 		{
-			if ($module === null || $prefix !== strtolower($module))
+			if ($module === null || $first_part !== strtolower($module))
 			{
 				return false;
 			}
 		}
-		if (in_array($prefix, ['rss', 'atom', 'api']))
+		if (in_array($first_part, ['rss', 'atom', 'api']))
 		{
 			return false;
 		}
 
 		// Check if it conflicts with top-level directories.
 		$dirs = array_map('strtolower', glob(\RX_BASEDIR . '*', \GLOB_ONLYDIR | \GLOB_NOSORT));
-		if (in_array($prefix, $dirs))
+		if (in_array($first_part, $dirs))
 		{
 			return false;
 		}
@@ -56,7 +56,17 @@ class Prefix
 	 */
 	public static function exists(string $prefix): bool
 	{
-		$output = executeQuery('module.isExistsModuleName', ['mid' => $prefix]);
+		$candidates = [$prefix];
+		while (strrpos($prefix, '/') !== false)
+		{
+			$prefix = substr($prefix, 0, strrpos($prefix, '/'));
+			$candidates[] = $prefix;
+		}
+
+		$output = executeQuery('module.isExistsModuleName', [
+			'mid' => $candidates,
+			'mid_prefix' => $candidates[0] . '/',
+		]);
 		return $output->data->count ? true : false;
 	}
 
@@ -153,5 +163,28 @@ class Prefix
 			ModuleCache::$module_srl2prefix[$row->module_srl] = $row->mid;
 		}
 		return $result;
+	}
+
+	/**
+	 * Update the cached list of multipart prefixes.
+	 *
+	 * @return bool
+	 */
+	public static function updateMultipartPrefixes(): bool
+	{
+		$mapping = [];
+		$prefixes = [];
+		$output = executeQueryArray('module.getMultipartPrefixes', []);
+		foreach ($output->data as $row)
+		{
+			$mapping[$row->mid] = $row->module_srl;
+			$prefixes[] = preg_quote($row->mid, '#');
+		}
+
+		\Rhymix\Framework\Config::set('url.prefixes', [
+			'mapping' => $mapping,
+			'regexp' => '#^(' . implode('|', $prefixes) . '|[a-z0-9_-]+)(?:/(.*))?$#is',
+		]);
+		return \Rhymix\Framework\Config::save();
 	}
 }

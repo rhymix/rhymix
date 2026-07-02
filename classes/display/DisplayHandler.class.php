@@ -276,11 +276,11 @@ class DisplayHandler extends Handler
 				switch ($response_type)
 				{
 					case 'HTML':
-						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) : 0;
-						$panel_script = sprintf('<script src="%s%s?t=%d"></script>', RX_BASEURL, 'common/js/debug.js', filemtime(RX_BASEDIR . 'common/js/debug.js'));
-						$panel_script .= "\n<script>\nRhymix.currentDebugData = " . json_encode($data, $json_options) . ";\n</script>";
+						$json_options = defined('JSON_PRETTY_PRINT') ? (JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : 0;
+						$panel_script = sprintf('<script src="%s%s?t=%d"></script>', RX_BASEURL, 'common/js/debug.js', filemtime(RX_BASEDIR . 'common/js/debug.js')) . "\n" .
+							"<script type=\"application/json\" id=\"rhymix_debug_data\">\n" . json_encode($data, $json_options) . "\n</script>\n\n";
 						$body_end_position = strrpos($output, '</body>') ?: strlen($output);
-						$output = substr($output, 0, $body_end_position) . "\n$panel_script\n" . substr($output, $body_end_position);
+						$output = substr($output, 0, $body_end_position) . $panel_script . substr($output, $body_end_position);
 						break;
 					case 'JSON':
 						unset($_SESSION['_rx_debug_previous']);

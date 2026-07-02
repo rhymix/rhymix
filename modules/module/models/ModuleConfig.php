@@ -4,6 +4,7 @@ namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\DB;
+use Rhymix\Framework\Event;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Rhymix\Framework\Parsers\DBQuery\NullValue;
 use Rhymix\Framework\Storage;
@@ -207,19 +208,30 @@ class ModuleConfig
 	{
 		$args = new \stdClass;
 		$args->module = $module;
-		$args->config = $config ? serialize(self::_normalizeConfig($config)) : new NullValue;
+		$args->config = $config ? self::_normalizeConfig($config) : null;
+
+		$output = Event::trigger('module.insertModuleConfig', 'before', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$output = executeQuery('module.deleteModuleConfig', $args);
+		$output = executeQuery('module.deleteModuleConfig', [
+			'module' => $args->module,
+		]);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
 
-		$output = executeQuery('module.insertModuleConfig', $args);
+		$output = executeQuery('module.insertModuleConfig', [
+			'module' => $args->module,
+			'config' => isset($args->config) ? serialize($args->config) : new NullValue,
+		]);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
@@ -227,6 +239,8 @@ class ModuleConfig
 		}
 
 		$oDB->commit();
+
+		Event::trigger('module.insertModuleConfig', 'after', $args);
 
 		// Clear cache
 		unset(ModuleCache::$moduleConfig[$module]);
@@ -297,19 +311,32 @@ class ModuleConfig
 		$args = new \stdClass;
 		$args->module = $module;
 		$args->module_srl = $module_srl;
-		$args->config = $config ? serialize(self::_normalizeConfig($config)) : new NullValue;
+		$args->config = $config ? self::_normalizeConfig($config) : null;
+
+		$output = Event::trigger('module.insertModulePartConfig', 'before', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		$output = executeQuery('module.deleteModulePartConfig', $args);
+		$output = executeQuery('module.deleteModulePartConfig', [
+			'module' => $args->module,
+			'module_srl' => $args->module_srl,
+		]);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
 		}
 
-		$output = executeQuery('module.insertModulePartConfig', $args);
+		$output = executeQuery('module.insertModulePartConfig', [
+			'module' => $args->module,
+			'module_srl' => $args->module_srl,
+			'config' => isset($args->config) ? serialize($args->config) : new NullValue,
+		]);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
@@ -317,6 +344,8 @@ class ModuleConfig
 		}
 
 		$oDB->commit();
+
+		Event::trigger('module.insertModulePartConfig', 'after', $args);
 
 		// Clear cache
 		unset(ModuleCache::$modulePartConfig[$module][$module_srl]);

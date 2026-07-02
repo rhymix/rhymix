@@ -71,7 +71,7 @@ class DocumentItem extends BaseObject
 	function __construct($document_srl = 0, $load_extra_vars = true, $reload_counts = true)
 	{
 		$this->document_srl = $document_srl;
-		$this->_loadFromDB($load_extra_vars, $reload_counts);
+		$this->_loadFromDB($load_extra_vars, (bool)$reload_counts);
 	}
 
 	function setDocument($document_srl, $load_extra_vars = true)
@@ -110,16 +110,20 @@ class DocumentItem extends BaseObject
 			$args->document_srl = $this->document_srl;
 			$output = executeQuery('document.getDocument', $args, $columnList);
 		}
+		else
+		{
+			$output = null;
+		}
 
 		if(!$document_item)
 		{
-			$document_item = $output->data;
+			$document_item = $output->data ?? null;
 			if($document_item)
 			{
 				Rhymix\Framework\Cache::set($cache_key, $document_item);
 			}
 		}
-		else
+		elseif (isset($output) && isset($output->data))
 		{
 			$document_item->readed_count = $output->data->readed_count;
 			$document_item->voted_count = $output->data->voted_count;

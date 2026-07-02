@@ -81,7 +81,7 @@ class PasswordTest extends \Codeception\Test\Unit
 		$this->assertEquals(34, strlen($hash));
 		$this->assertTrue(Rhymix\Framework\Password::checkPassword($password, $hash, $algos));
 
-		foreach (array('drupal', 'joomla', 'kimsqrb', 'mysql_old_password', 'mysql_new_password', 'mssql_pwdencrypt') as $algo)
+		foreach (array('mysql_old_password', 'mysql_new_password', 'mssql_pwdencrypt') as $algo)
 		{
 			$hash = Rhymix\Framework\Password::hashPassword($password, $algo);
 			$this->assertTrue(Rhymix\Framework\Password::checkPassword($password, $hash, $algo));

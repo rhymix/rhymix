@@ -1,0 +1,15 @@
+<query id="getMultipartPrefixes" action="select">
+	<tables>
+		<table name="modules" />
+	</tables>
+	<columns>
+		<column name="module_srl" />
+		<column name="mid" />
+	</columns>
+	<conditions>
+		<condition operation="like" column="mid" default="/" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="LENGTH(mid)" order="desc" />
+	</navigation>
+</query>

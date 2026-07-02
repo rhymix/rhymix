@@ -26,64 +26,79 @@ class File extends ModuleObject
 	function checkUpdate()
 	{
 		$oDB = DB::getInstance();
+		$table = $oDB->getTable('files');
 
 		// Check columns
-		if(!$oDB->isColumnExists('files', 'upload_target_type'))
+		if (!$table->columnExists('upload_target_type'))
 		{
 			return true;
 		}
-		if($oDB->getColumnInfo('files', 'upload_target_type')->size < 20)
-		{
-			return true;
-		}
-		if(!$oDB->isColumnExists('files', 'cover_image'))
+		elseif ($table->getColumnInfo('upload_target_type')->size < 20)
 		{
 			return true;
 		}
 
-		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
+		if (!$table->columnExists('cover_image'))
 		{
 			return true;
 		}
-		if(!$oDB->isColumnExists('files', 'mime_type') || !$oDB->isIndexExists('files', 'idx_mime_type'))
+
+		if (!$table->columnExists('thumbnail_filename'))
 		{
 			return true;
 		}
-		if($oDB->getColumnInfo('files', 'mime_type')->size < 100)
+
+		if (!$table->columnExists('mime_type'))
 		{
 			return true;
 		}
-		if(!$oDB->isColumnExists('files', 'original_type'))
+		elseif ($table->getColumnInfo('mime_type')->size < 100)
 		{
 			return true;
 		}
-		if($oDB->getColumnInfo('files', 'original_type')->size < 100)
+
+		if (!$table->columnExists('original_type'))
 		{
 			return true;
 		}
-		if(!$oDB->isColumnExists('files', 'width'))
+		elseif ($table->getColumnInfo('original_type')->size < 100)
 		{
 			return true;
 		}
-		if(!$oDB->isColumnExists('files', 'height'))
+
+		if (!$table->columnExists('width'))
 		{
 			return true;
 		}
-		if(!$oDB->isColumnExists('files', 'duration'))
+		if (!$table->columnExists('height'))
+		{
+			return true;
+		}
+		if (!$table->columnExists('duration'))
 		{
 			return true;
 		}
 
 		// Check indexes
-		if (!$oDB->isIndexExists('files', 'idx_upload_target_type'))
+		if (!$table->indexExists('idx_mime_type'))
 		{
 			return true;
 		}
-		if (!$oDB->isIndexExists('files', 'idx_cover_image'))
+		if (!$table->indexExists('idx_upload_target_type'))
 		{
 			return true;
 		}
-		if ($oDB->isIndexExists('files', 'idx_list_order'))
+		if (!$table->indexExists('idx_cover_image'))
+		{
+			return true;
+		}
+
+		// Remove old columns and indexes
+		if ($table->columnExists('list_order'))
+		{
+			return true;
+		}
+		elseif ($table->indexExists('idx_list_order'))
 		{
 			return true;
 		}
@@ -99,71 +114,84 @@ class File extends ModuleObject
 	function moduleUpdate()
 	{
 		$oDB = DB::getInstance();
+		$table = $oDB->getTable('files');
 
 		// Check columns
-		if(!$oDB->isColumnExists('files', 'upload_target_type'))
+		if (!$table->columnExists('upload_target_type'))
 		{
-			$oDB->addColumn('files', 'upload_target_type', 'varchar', '20', null, false, 'upload_target_srl');
+			$table->addColumn('upload_target_type', 'varchar', 20, ['after' => 'upload_target_srl']);
 		}
-		if($oDB->getColumnInfo('files', 'upload_target_type')->size < 20)
+		elseif ($table->getColumnInfo('upload_target_type')->size < 20)
 		{
-			$oDB->modifyColumn('files', 'upload_target_type', 'varchar', 20, null, false);
+			$table->modifyColumn('upload_target_type', 'varchar', 20);
 		}
-		if(!$oDB->isColumnExists('files', 'cover_image'))
+
+		if (!$table->columnExists('cover_image'))
 		{
-			$oDB->addColumn('files', 'cover_image', 'char', '1', 'N', false, 'isvalid');
+			$table->addColumn('cover_image', 'char', '1', ['default' => 'N', 'notnull' => true, 'after' => 'isvalid']);
 		}
-		if(!$oDB->isColumnExists('files', 'thumbnail_filename'))
+
+		if (!$table->columnExists('thumbnail_filename'))
 		{
-			$oDB->addColumn('files', 'thumbnail_filename', 'varchar', '250', null, false, 'uploaded_filename');
+			$table->addColumn('thumbnail_filename', 'varchar', '250', ['after' => 'uploaded_filename']);
 		}
-		if(!$oDB->isColumnExists('files', 'mime_type'))
+
+		if (!$table->columnExists('mime_type'))
 		{
-			$oDB->addColumn('files', 'mime_type', 'varchar', '100', '', true, 'file_size');
+			$table->addColumn('mime_type', 'varchar', '100', ['after' => 'file_size']);
 		}
-		if($oDB->getColumnInfo('files', 'mime_type')->size < 100)
+		elseif ($table->getColumnInfo('mime_type')->size < 100)
 		{
-			$oDB->modifyColumn('files', 'mime_type', 'varchar', 100, '', true);
+			$table->modifyColumn('mime_type', 'varchar', 100);
 		}
-		if(!$oDB->isIndexExists('files', 'idx_mime_type'))
+
+		if (!$table->columnExists('original_type'))
 		{
-			$oDB->addIndex('files', 'idx_mime_type', 'mime_type');
+			$table->addColumn('original_type', 'varchar', '100', ['after' => 'mime_type']);
 		}
-		if(!$oDB->isColumnExists('files', 'original_type'))
+		elseif ($table->getColumnInfo('original_type')->size < 100)
 		{
-			$oDB->addColumn('files', 'original_type', 'varchar', '100', null, false, 'mime_type');
+			$table->modifyColumn('original_type', 'varchar', 100);
 		}
-		if($oDB->getColumnInfo('files', 'original_type')->size < 100)
+
+		if (!$table->columnExists('width'))
 		{
-			$oDB->modifyColumn('files', 'original_type', 'varchar', 100, '', false);
+			$table->addColumn('width', 'number', '11', ['after' => 'original_type']);
 		}
-		if(!$oDB->isColumnExists('files', 'width'))
+		if (!$table->columnExists('height'))
 		{
-			$oDB->addColumn('files', 'width', 'number', '11', null, false, 'original_type');
+			$table->addColumn('height', 'number', '11', ['after' => 'width']);
 		}
-		if(!$oDB->isColumnExists('files', 'height'))
+		if (!$table->columnExists('duration'))
 		{
-			$oDB->addColumn('files', 'height', 'number', '11', null, false, 'width');
-		}
-		if(!$oDB->isColumnExists('files', 'duration'))
-		{
-			$oDB->addColumn('files', 'duration', 'number', '11', null, false, 'height');
+			$table->addColumn('duration', 'number', '11', ['after' => 'height']);
 		}
 
 		// Check indexes
-		if (!$oDB->isIndexExists('files', 'idx_upload_target_type'))
+		if (!$table->indexExists('idx_mime_type'))
 		{
-			$oDB->addIndex('files', 'idx_upload_target_type', ['upload_target_type']);
+			$table->addIndex('idx_mime_type', 'mime_type');
 		}
-		if (!$oDB->isIndexExists('files', 'idx_cover_image'))
+		if (!$table->indexExists('idx_upload_target_type'))
 		{
-			$oDB->addIndex('files', 'idx_cover_image', ['cover_image']);
+			$table->addIndex('idx_upload_target_type', ['upload_target_type']);
 		}
-		if ($oDB->isIndexExists('files', 'idx_list_order'))
+		if (!$table->indexExists('idx_cover_image'))
 		{
-			$oDB->dropIndex('files', 'idx_list_order');
+			$table->addIndex('idx_cover_image', ['cover_image']);
 		}
+
+		// Remove old columns and indexes
+		if ($table->columnExists('list_order'))
+		{
+			$table->dropColumn('list_order');
+		}
+		elseif ($table->indexExists('idx_list_order'))
+		{
+			$table->dropIndex('idx_list_order');
+		}
+
+		// Apply changes
+		$table->applyChanges();
 	}
 }
-/* End of file file.class.php */
-/* Location: ./modules/file/file.class.php */

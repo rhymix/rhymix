@@ -300,8 +300,9 @@ class Query extends VariableBase
 			}
 		}
 
-		// Process the SET clause with new values.
+		// Process the VALUES clause with new values.
 		$columns = array();
+		$values = array();
 		foreach ($this->columns as $column)
 		{
 			if ($column->ifvar && empty($this->_args[$column->ifvar]))
@@ -309,18 +310,26 @@ class Query extends VariableBase
 				continue;
 			}
 
+			$column->operation = '@insert';
 			$setval_string = $this->_parseCondition($column);
 			if ($setval_string !== '')
 			{
-				$columns[] = $setval_string;
+				$setval_string = explode('|', $setval_string, 2);
+				$columns[] = $setval_string[0];
+				$values[] = $setval_string[1];
 			}
 		}
-		$result .= ' SET ' . implode(', ', $columns);
+		$result .= ' (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $values) . ')';
 
 		// Process the ON DUPLICATE KEY UPDATE (upsert) clause.
 		if ($this->update_duplicate && count($columns))
 		{
-			$result .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $columns);
+			$updates = array();
+			foreach ($columns as $i => $column)
+			{
+				$updates[] = sprintf('%s = %s', $column, $values[$i]);
+			}
+			$result .= ' ON DUPLICATE KEY UPDATE ' . implode(', ', $updates);
 			$duplicate_params = $this->_params;
 			foreach ($duplicate_params as $param)
 			{

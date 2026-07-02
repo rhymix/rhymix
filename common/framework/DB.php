@@ -779,6 +779,17 @@ class DB
 	}
 
 	/**
+	 * Get information about a table.
+	 *
+	 * @param string $table_name
+	 * @return Helpers\DBTableHelper
+	 */
+	public function getTable(string $table_name): Helpers\DBTableHelper
+	{
+		return new Helpers\DBTableHelper($table_name, $this->_prefix, $this);
+	}
+
+	/**
 	 * Create a table.
 	 *
 	 * @param string $filename
@@ -793,7 +804,7 @@ class DB
 		{
 			return $this->setError(-1, 'Failed to load table schema file');
 		}
-		if ($table->deleted)
+		if (!empty($table->deleted))
 		{
 			return new Helpers\DBResultHelper(-1, 'Table is marked as deleted');
 		}
@@ -825,9 +836,7 @@ class DB
 	 */
 	public function isColumnExists(string $table_name, string $column_name): bool
 	{
-		$stmt = $this->_handle->query(sprintf("SHOW FIELDS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		$result = $this->fetch($stmt);
-		return $result ? true : false;
+		return $this->getTable($table_name)->columnExists($column_name);
 	}
 
 	/**
@@ -844,40 +853,13 @@ class DB
 	 */
 	public function addColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null): Helpers\DBResultHelper
 	{
-		// Normalize the type and size.
-		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
+		$options = [
+			'default' => $default,
+			'notnull' => $notnull,
+			'after' => $after_column,
+		];
 
-		// Compose the ADD COLUMN query.
-		$query = sprintf("ALTER TABLE `%s` ADD COLUMN `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
-		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
-		$query .= $notnull ? ' NOT NULL' : '';
-
-		// Add the default value according to the type.
-		if (isset($default))
-		{
-			if (contains('int', $type, false) && is_numeric($default))
-			{
-				$query .= sprintf(" DEFAULT %s", $default);
-			}
-			else
-			{
-				$query .= sprintf(" DEFAULT '%s'", $this->addQuotes($default));
-			}
-		}
-
-		// Add position information.
-		if ($after_column === 'FIRST')
-		{
-			$query .= ' FIRST';
-		}
-		elseif ($after_column)
-		{
-			$query .= sprintf(' AFTER `%s`', $this->addQuotes($after_column));
-		}
-
-		// Execute the query and return the result.
-		$result = $this->_handle->exec($query);
-		return $result ? new Helpers\DBResultHelper : $this->getError();
+		return $this->getTable($table_name)->addColumn($column_name, $type, $size, $options)->applyChanges();
 	}
 
 	/**
@@ -896,56 +878,15 @@ class DB
 	 */
 	public function modifyColumn(string $table_name, string $column_name, string $type = 'number', $size = null, $default = null, $notnull = false, $after_column = null, $new_name = null, $new_charset = null): Helpers\DBResultHelper
 	{
-		// Normalize the type and size.
-		list($type, $xetype, $size) = Parsers\DBTableParser::getTypeAndSize($type, strval($size));
+		$options = [
+			'default' => $default,
+			'notnull' => $notnull,
+			'after' => $after_column,
+			'new_name' => $new_name,
+			'new_charset' => $new_charset,
+		];
 
-		// Compose the MODIFY COLUMN query.
-		if ($new_name && $new_name !== $column_name)
-		{
-			$query = sprintf("ALTER TABLE `%s` CHANGE `%s` `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name), $this->addQuotes($new_name));
-		}
-		else
-		{
-			$query = sprintf("ALTER TABLE `%s` MODIFY `%s` ", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name));
-		}
-		$query .= $size ? sprintf('%s(%s)', $type, $size) : $type;
-
-		// Add the character set information.
-		if (isset($new_charset))
-		{
-			$new_collation = preg_match('/^utf8/i', $new_charset) ? ($new_charset . '_unicode_ci') : ($new_charset . '_general_ci');
-			$query .= ' CHARACTER SET ' . $new_charset . ' COLLATE ' . $new_collation;
-		}
-
-		// Add the NOT NULL constraint.
-		$query .= $notnull ? ' NOT NULL' : '';
-
-		// Add the default value according to the type.
-		if (isset($default))
-		{
-			if (contains('int', $type, false) && is_numeric($default))
-			{
-				$query .= sprintf(" DEFAULT %s", $default);
-			}
-			else
-			{
-				$query .= sprintf(" DEFAULT '%s'", $this->addQuotes($default));
-			}
-		}
-
-		// Add position information.
-		if ($after_column === 'FIRST')
-		{
-			$query .= ' FIRST';
-		}
-		elseif ($after_column)
-		{
-			$query .= sprintf(' AFTER `%s`', $this->addQuotes($after_column));
-		}
-
-		// Execute the query and return the result.
-		$result = $this->_handle->exec($query);
-		return $result ? new Helpers\DBResultHelper : $this->getError();
+		return $this->getTable($table_name)->modifyColumn($column_name, $type, $size, $options)->applyChanges();
 	}
 
 	/**
@@ -957,8 +898,7 @@ class DB
 	 */
 	public function dropColumn(string $table_name, string $column_name): Helpers\DBResultHelper
 	{
-		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		return $result ? new Helpers\DBResultHelper : $this->getError();
+		return $this->getTable($table_name)->dropColumn($column_name)->applyChanges();
 	}
 
 	/**
@@ -970,48 +910,7 @@ class DB
 	 */
 	public function getColumnInfo(string $table_name, string $column_name): ?object
 	{
-		// If column information is not found, return null.
-		$stmt = $this->_handle->query(sprintf("SHOW FULL COLUMNS FROM `%s` WHERE Field = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($column_name)));
-		$column_info = $this->fetch($stmt);
-		if (!$column_info)
-		{
-			return null;
-		}
-
-		// Reorganize the type information.
-		$dbtype = strtolower($column_info->{'Type'});
-		if (preg_match('/^([a-z0-9_]+)\(([0-9,\s]+)\)$/i', $dbtype, $matches))
-		{
-			$dbtype = $matches[1];
-			$size = $matches[2];
-		}
-		else
-		{
-			$size = '';
-		}
-		$xetype = Parsers\DBTableParser::getXEType($dbtype, $size ?: '');
-
-		// Detect the character set.
-		if (preg_match('/^([a-zA-Z0-9]+)/', $column_info->{'Collation'} ?? '', $matches))
-		{
-			$charset = $matches[1] === 'utf8mb3' ? 'utf8' : $matches[1];
-		}
-		else
-		{
-			$charset = null;
-		}
-
-		// Return the result as an object.
-		return (object)array(
-			'name' => $column_name,
-			'dbtype' => $dbtype,
-			'xetype' => $xetype,
-			'size' => $size,
-			'default_value' => $column_info->{'Default'},
-			'notnull' => strncmp($column_info->{'Null'}, 'NO', 2) == 0 ? true : false,
-			'charset' => $charset,
-			'collation' => $column_info->{'Collation'} ?: null,
-		);
+		return $this->getTable($table_name)->getColumnInfo($column_name);
 	}
 
 	/**
@@ -1023,9 +922,7 @@ class DB
 	 */
 	public function isIndexExists(string $table_name, string $index_name): bool
 	{
-		$stmt = $this->_handle->query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
-		$result = $this->fetch($stmt);
-		return $result ? true : false;
+		return $this->getTable($table_name)->indexExists($index_name);
 	}
 
 	/**
@@ -1040,35 +937,7 @@ class DB
 	 */
 	public function addIndex(string $table_name, string $index_name, $columns, $type = '', $options = ''): Helpers\DBResultHelper
 	{
-		if (!is_array($columns))
-		{
-			$columns = array($columns);
-		}
-
-		if ($type === true || $type === 1)
-		{
-			$type = 'UNIQUE';
-		}
-
-		$query = vsprintf("ALTER TABLE `%s` ADD %s `%s` (%s) %s", array(
-			$this->addQuotes($this->_prefix . $table_name),
-			ltrim($type . ' INDEX'),
-			$this->addQuotes($index_name),
-			implode(', ', array_map(function($column_name) {
-				if (preg_match('/^([^()]+)\(([0-9]+)\)$/', $column_name, $matches))
-				{
-					return '`' . $this->addQuotes($matches[1]) . '`(' . $matches[2] . ')';
-				}
-				else
-				{
-					return '`' . $this->addQuotes($column_name) . '`';
-				}
-			}, $columns)),
-			$options,
-		));
-
-		$result = $this->_handle->exec($query);
-		return $result ? new Helpers\DBResultHelper : $this->getError();
+		return $this->getTable($table_name)->addIndex($index_name, $columns, $type, $options)->applyChanges();
 	}
 
 	/**
@@ -1080,8 +949,7 @@ class DB
 	 */
 	public function dropIndex(string $table_name, string $index_name): Helpers\DBResultHelper
 	{
-		$result = $this->_handle->exec(sprintf("ALTER TABLE `%s` DROP INDEX `%s`", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
-		return $result ? new Helpers\DBResultHelper : $this->getError();
+		return $this->getTable($table_name)->dropIndex($index_name)->applyChanges();
 	}
 
 	/**
@@ -1093,38 +961,7 @@ class DB
 	 */
 	public function getIndexInfo(string $table_name, string $index_name): ?object
 	{
-		// If the index is not found, return null.
-		$stmt = $this->_handle->query(sprintf("SHOW INDEX FROM `%s` WHERE Key_name = '%s'", $this->addQuotes($this->_prefix . $table_name), $this->addQuotes($index_name)));
-		$index_info = $this->fetch($stmt, 0, 'array');
-		if (!$index_info)
-		{
-			return null;
-		}
-
-		// Get the list of columns included in the index.
-		$is_unique = false;
-		$columns = [];
-		foreach ($index_info as $column)
-		{
-			if (!$column->Non_unique)
-			{
-				$is_unique = true;
-			}
-			$columns[] = (object)[
-				'name' => $column->Column_name,
-				'size' => $column->Sub_part ? intval($column->Sub_part) : null,
-				'cardinality' => $column->Cardinality ? intval($column->Cardinality) : null,
-			];
-		}
-
-		// Return the result as an object.
-		return (object)array(
-			'name' => $column->Key_name,
-			'table' => $column->Table,
-			'type' => $column->Index_type,
-			'is_unique' => $is_unique,
-			'columns' => $columns,
-		);
+		return $this->getTable($table_name)->getIndexInfo($index_name);
 	}
 
 	/**

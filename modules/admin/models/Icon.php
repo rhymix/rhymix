@@ -18,6 +18,17 @@ class Icon
 	}
 
 	/**
+	 * Get dark mode favicon URL for a domain.
+	 *
+	 * @param int $domain_srl
+	 * @return string
+	 */
+	public static function getDarkFaviconUrl(int $domain_srl = 0): string
+	{
+		return self::getIconUrl($domain_srl, 'favicon.dark.ico');
+	}
+
+	/**
 	 * Get mobile icon URL for a domain.
 	 *
 	 * @param int $domain_srl

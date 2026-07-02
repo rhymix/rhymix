@@ -15,7 +15,7 @@ class installController extends install
 	function init()
 	{
 		// Stop if already installed.
-		if (Context::isInstalled())
+		if (Context::isInstalled() && $this->act !== 'procInstallRewriteTest')
 		{
 			throw new Rhymix\Framework\Exception('msg_already_installed');
 		}
@@ -123,6 +123,7 @@ class installController extends install
 			$config['db']['master']['charset'] = $install_config['db_charset'];
 			$config['db']['master']['engine'] = strpos($install_config['db_type'], 'innodb') !== false ? 'innodb' : 'myisam';
 			$config['use_rewrite'] = $install_config['use_rewrite'] === 'Y' ? true : false;
+			$config['url']['rewrite'] = $install_config['use_rewrite'] === 'Y' ? 2 : 0;
 			$config['url']['ssl'] = $install_config['use_ssl'] ?: 'none';
 			$time_zone = $install_config['time_zone'];
 			$user_info = new stdClass;
@@ -143,6 +144,7 @@ class installController extends install
 			$config['db']['master']['charset'] = $_SESSION['db_config']->db_charset;
 			$config['db']['master']['engine'] = strpos($_SESSION['db_config']->db_type, 'innodb') !== false ? 'innodb' : 'myisam';
 			$config['use_rewrite'] = $_SESSION['use_rewrite'] === 'Y' ? true : false;
+			$config['url']['rewrite'] = $_SESSION['use_rewrite'] === 'Y' ? 2 : 0;
 			$config['url']['ssl'] = Context::get('use_ssl') ?: 'none';
 			$time_zone = Context::get('time_zone');
 			$user_info = Context::gets('email_address', 'password', 'nick_name', 'user_id');
@@ -644,6 +646,16 @@ class installController extends install
 	public function makeConfigFile()
 	{
 		return true;
+	}
+
+	/**
+	 * Method to test if URL rewriting is properly configured in the web server.
+	 */
+	public function procInstallRewriteTest()
+	{
+		$test = intval(Context::get('test'));
+		Context::setResponseMethod('JSON');
+		$this->add('result', $test * 42);
 	}
 }
 /* End of file install.controller.php */

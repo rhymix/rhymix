@@ -15,11 +15,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = [
 	'db' => 'classes/db/DB.class.php',
 	'displayhandler' => 'classes/display/DisplayHandler.class.php',
 	'htmldisplayhandler' => 'classes/display/HTMLDisplayHandler.php',
-	'jscallbackdisplayhandler' => 'classes/display/JSCallbackDisplayHandler.php',
-	'jsondisplayhandler' => 'classes/display/JSONDisplayHandler.php',
-	'rawdisplayhandler' => 'classes/display/RawDisplayHandler.php',
-	'virtualxmldisplayhandler' => 'classes/display/VirtualXMLDisplayHandler.php',
-	'xmldisplayhandler' => 'classes/display/XMLDisplayHandler.php',
 	'editorhandler' => 'classes/editor/EditorHandler.class.php',
 	'extravar' => 'classes/extravar/Extravar.class.php',
 	'extraitem' => 'classes/extravar/Extravar.class.php',
@@ -49,10 +44,6 @@ $GLOBALS['RX_AUTOLOAD_FILE_MAP'] = [
 	'xmllangparser' => 'classes/xml/XmlLangParser.class.php',
 	'xmlparser' => 'classes/xml/XmlParser.class.php',
 	'xexmlparser' => 'classes/xml/XmlParser.class.php',
-	'ftp' => 'common/libraries/ftp.php',
-	'tar' => 'common/libraries/tar.php',
-	'cryptocompat' => 'common/libraries/cryptocompat.php',
-	'vendorpass' => 'common/libraries/vendorpass.php',
 ];
 
 /**
@@ -1399,7 +1390,7 @@ function checkUploadedFile($file, $filename = null): bool
  */
 function mysql_pre4_hash_password($password): string
 {
-	return VendorPass::mysql_old_password(strval($password));
+	return Rhymix\Framework\Password::mysqlOldPassword(strval($password));
 }
 
 /**
@@ -1416,7 +1407,8 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
 {
 	if($requestKey != $dbKey)
 	{
-		$arrayUrl = parse_url(Context::get('success_return_url'));
+		$success_return_url = Context::get($urlName);
+		$arrayUrl = parse_url($success_return_url);
 		if($arrayUrl['query'])
 		{
 			parse_str($arrayUrl['query'], $parsedStr);
@@ -1424,9 +1416,14 @@ function changeValueInUrl($key, $requestKey, $dbKey, $urlName = 'success_return_
 			if(isset($parsedStr[$key]))
 			{
 				$parsedStr[$key] = $requestKey;
-				$successReturnUrl = $arrayUrl['path'].'?'.http_build_query($parsedStr);
-				Context::set($urlName, $successReturnUrl);
+				$success_return_url = $arrayUrl['path'].'?'.http_build_query($parsedStr);
+				Context::set($urlName, $success_return_url);
 			}
+		}
+		elseif ($key === 'mid' && str_starts_with($success_return_url, RX_BASEURL . $dbKey . '/'))
+		{
+			$success_return_url = str_replace(RX_BASEURL . $dbKey . '/', RX_BASEURL . $requestKey . '/', $success_return_url);
+			Context::set($urlName, $success_return_url);
 		}
 	}
 }

@@ -1,169 +1,86 @@
 <?php
-/* Copyright (C) NAVER <http://www.navercorp.com> */
 
-/**
- * XML Generater
- * @author NAVER (developers@xpressengine.com)
- */
-class XmlGenerater
+class Autoinstall extends ModuleObject
 {
-
-	/**
-	 * Generate XML using given data
-	 *
-	 * @param array $params The data
-	 * @return string Returns xml string
-	 */
-	public static function generate(&$params)
-	{
-		$xmlDoc = '<?xml version="1.0" encoding="utf-8" ?><methodCall><params>';
-		if(!is_array($params))
-		{
-			return NULL;
-		}
-
-		$params["module"] = "resourceapi";
-		foreach($params as $key => $val)
-		{
-			$xmlDoc .= sprintf("<%s><![CDATA[%s]]></%s>", $key, $val, $key);
-		}
-		$xmlDoc .= "</params></methodCall>";
-		return $xmlDoc;
-	}
-
-	/**
-	 * Request data to server and returns result
-	 *
-	 * @param array $params Request data
-	 * @return object
-	 */
-	public static function getXmlDoc(&$params)
-	{
-		$body = self::generate($params);
-		$request_config = array(
-			'ssl_verify_peer' => FALSE,
-			'ssl_verify_host' => FALSE
-		);
-
-		$oModuleModel = getModel('module');
-		$module_info = $oModuleModel->getModuleConfig('autoinstall');
-		$location_site = $module_info->location_site ? : 'https://xe1.xpressengine.com/';
-		$download_server = $module_info->download_server ? : 'https://download.xpressengine.com/';
-
-		$buff = FileHandler::getRemoteResource($download_server, $body, 3, "POST", "application/xml", array(), array(), array(), $request_config);
-		if(!$buff)
-		{
-			return;
-		}
-
-		$xml = new XeXmlParser();
-		$xmlDoc = $xml->parse($buff);
-		return $xmlDoc;
-	}
-
-}
-
-/**
- * High class of the autoinstall module
- * @author NAVER (developers@xpressengine.com)
- */
-class autoinstall extends ModuleObject
-{
-
 	/**
 	 * Temporary directory path
 	 */
-	var $tmp_dir = './files/cache/autoinstall/';
+	public $tmp_dir = './files/cache/autoinstall/';
 
 	/**
-	 * For additional tasks required when installing
-	 *
-	 * @return Object
+	 * Deprecated tables
 	 */
-	function moduleInstall()
-	{
-	}
+	public static $deprecated_tables = [
+		'ai_remote_categories',
+		'ai_installed_packages',
+		'autoinstall_installed_packages',
+		'autoinstall_remote_categories',
+	];
 
 	/**
-	 * Method to check if installation is succeeded
+	 * Supported package types
+	 */
+	public static $package_types = [
+		'module',
+		'addon',
+		'layout',
+		'widget',
+		'module-skin',
+		'editor-skin',
+		'editor-component',
+		'theme-package',
+	];
+
+	/**
+	 * Check update function
 	 *
 	 * @return bool
 	 */
-	function checkUpdate()
+	public function checkUpdate()
 	{
 		$oDB = DB::getInstance();
-		$oModuleModel = getModel('module');
 
-		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_installed_packages.xml') && $oDB->isTableExists("autoinstall_installed_packages"))
+		// Delete deprecated tables.
+		foreach (self::$deprecated_tables as $table)
 		{
-			return TRUE;
-		}
-		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_remote_categories.xml')
-				&& $oDB->isTableExists("autoinstall_remote_categories"))
-		{
-			return TRUE;
+			if (!Rhymix\Framework\Storage::exists($this->module_path . 'schemas/' . $table . '.xml') && $oDB->isTableExists($table))
+			{
+				return true;
+			}
 		}
 
-		// 2011.08.08 add column 'list_order' in ai_remote_categories
-		if(!$oDB->isColumnExists('ai_remote_categories', 'list_order'))
+		// Check if the autoinstall_packages table is the Rhymix version.
+		if (!$oDB->isColumnExists('autoinstall_packages', 'install_type'))
 		{
-			return TRUE;
+			return true;
 		}
 
-		// 2012.11.12 add column 'have_instance' in autoinstall_packages
-		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
-		{
-			return TRUE;
-		}
-		
-		return FALSE;
+		return false;
 	}
 
 	/**
-	 * Execute update
+	 * Update function
 	 *
 	 * @return Object
 	 */
-	function moduleUpdate()
+	public function moduleUpdate()
 	{
 		$oDB = DB::getInstance();
-		$oModuleModel = getModel('module');
-		$oModuleController = getController('module');
 
-		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_installed_packages.xml')
-				&& $oDB->isTableExists("autoinstall_installed_packages"))
+		// Delete deprecated tables.
+		foreach (self::$deprecated_tables as $table)
 		{
-			$oDB->dropTable("autoinstall_installed_packages");
-		}
-		if(!FileHandler::exists('./modules/autoinstall/schemas/autoinstall_remote_categories.xml')
-				&& $oDB->isTableExists("autoinstall_remote_categories"))
-		{
-			$oDB->dropTable("autoinstall_remote_categories");
+			if (!Rhymix\Framework\Storage::exists($this->module_path . 'schemas/' . $table . '.xml') && $oDB->isTableExists($table))
+			{
+				$oDB->dropTable($table);
+			}
 		}
 
-		// 2011.08.08 add column 'list_order' in 'ai_remote_categories
-		if(!$oDB->isColumnExists('ai_remote_categories', 'list_order'))
+		// Check if the autoinstall_packages table is the Rhymix version.
+		if (!$oDB->isColumnExists('autoinstall_packages', 'install_type'))
 		{
-			$oDB->addColumn('ai_remote_categories', 'list_order', 'number', 11, NULL, TRUE);
-			$oDB->addIndex('ai_remote_categories', 'idx_list_order', array('list_order'));
-		}
-
-		// 2012.11.12 add column 'have_instance' in autoinstall_packages
-		if(!$oDB->isColumnExists('autoinstall_packages', 'have_instance'))
-		{
-			$oDB->addColumn('autoinstall_packages', 'have_instance', 'char', '1', 'N', TRUE);
+			$oDB->dropTable('autoinstall_packages');
+			$oDB->createTable($this->module_path . 'schemas/autoinstall_packages.xml');
 		}
 	}
-
-	/**
-	 * Re-generate the cache file
-	 * @return Object
-	 */
-	function recompileCache()
-	{
-		
-	}
-
 }
-/* End of file autoinstall.class.php */
-/* Location: ./modules/autoinstall/autoinstall.class.php */

@@ -93,7 +93,7 @@ class ModuleInfo
 	 */
 	public static function getModuleInfoByPrefix(string $prefix): ?ModuleInstance
 	{
-		if ($prefix === '' || !preg_match('/^[a-z]([a-z0-9_]+)$/i', $prefix))
+		if ($prefix === '' || !preg_match('!^([a-z][a-z0-9_-]+)(/[a-z][a-z0-9_-]+)*$!i', $prefix))
 		{
 			return null;
 		}
@@ -450,6 +450,10 @@ class ModuleInfo
 		{
 			return new BaseObject(-1, 'msg_limit_mid');
 		}
+		if (preg_match('![-/]!', $args->mid) && config('url.rewrite') < 2)
+		{
+			return new BaseObject(-1, 'msg_limit_mid_compat');
+		}
 		if (Prefix::exists($args->mid))
 		{
 			return new BaseObject(-1, 'msg_module_name_exists');
@@ -556,6 +560,16 @@ class ModuleInfo
 		// Insert module extra vars
 		self::insertExtraVars($args->module_srl, $extra_vars);
 
+		// Add to URL mapping.
+		if (str_contains($args->mid, '/'))
+		{
+			if (!Prefix::updateMultipartPrefixes())
+			{
+				$oDB->rollback();
+				return new BaseObject(-1, 'fail_to_registed');
+			}
+		}
+
 		$oDB->commit();
 
 		ModuleCache::clearAll();
@@ -581,6 +595,10 @@ class ModuleInfo
 		if (!Prefix::isValidPrefix($args->mid, $args->module ?? null))
 		{
 			return new BaseObject(-1, 'msg_limit_mid');
+		}
+		if (preg_match('![-/]!', $args->mid) && config('url.rewrite') < 2)
+		{
+			return new BaseObject(-1, 'msg_limit_mid_compat');
 		}
 
 		// Check whether the prefix already exists.
@@ -658,6 +676,16 @@ class ModuleInfo
 
 		// Update module extra vars.
 		self::insertExtraVars($args->module_srl, $extra_vars);
+
+		// Add to URL mapping.
+		if (str_contains($args->mid, '/') || str_contains($module_info->mid, '/'))
+		{
+			if (!Prefix::updateMultipartPrefixes())
+			{
+				$oDB->rollback();
+				return new BaseObject(-1, 'fail_to_update');
+			}
+		}
 
 		$oDB->commit();
 

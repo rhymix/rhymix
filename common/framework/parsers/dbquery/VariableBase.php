@@ -107,7 +107,7 @@ class VariableBase
 		}
 
 		// Restrict operators for write queries.
-		if ($this instanceof ColumnWrite && $this->operation && !in_array($this->operation, ['equal', 'plus', 'minus', 'multiply']))
+		if ($this instanceof ColumnWrite && $this->operation && !in_array($this->operation, ['equal', 'plus', 'minus', 'multiply', '@insert']))
 		{
 			throw new \Rhymix\Framework\Exceptions\QueryError('Operation ' . $this->operation . ' is not valid for column in an INSERT or UPDATE query');
 		}
@@ -130,7 +130,7 @@ class VariableBase
 				if (!$is_expression) $params[] = $value;
 				break;
 			case 'excess':
-			case 'gt';
+			case 'gt':
 				$where = sprintf('%s > %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
@@ -140,16 +140,16 @@ class VariableBase
 				if (!$is_expression) $params[] = $value;
 				break;
 			case 'below':
-			case 'lt';
+			case 'lt':
 				$where = sprintf('%s < %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
-			case 'regexp';
+			case 'regexp':
 				$where = sprintf('%s REGEXP %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
-			case 'notregexp';
-			case 'not_regexp';
+			case 'notregexp':
+			case 'not_regexp':
 				$where = sprintf('%s NOT REGEXP %s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
@@ -183,19 +183,15 @@ class VariableBase
 				break;
 			case 'and':
 				$where = sprintf('%s & %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'or':
 				$where = sprintf('%s | %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'xor':
 				$where = sprintf('%s ^ %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
-				break;
-			case 'not':
-				$where = sprintf('%s ~ %s', $column, $is_expression ? $value : '?');
-				if (!$is_expression) $params[] = '%' . $value;
+				if (!$is_expression) $params[] = $value;
 				break;
 			case 'null':
 				$where = sprintf('%s IS NULL', $column);
@@ -270,6 +266,10 @@ class VariableBase
 				break;
 			case 'multiply':
 				$where = sprintf('%s = %s * %s', $column, $column, $is_expression ? $value : '?');
+				if (!$is_expression) $params[] = $value;
+				break;
+			case '@insert':
+				$where = sprintf('%s|%s', $column, $is_expression ? $value : '?');
 				if (!$is_expression) $params[] = $value;
 				break;
 			default:

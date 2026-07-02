@@ -40,7 +40,7 @@ class LayoutAdminController extends Layout
 		if(!$output->toBool()) return $output;
 
 		// initiate if it is faceoff layout
-		$this->initLayout($args->layout_srl, $args->layout);
+		// $this->initLayout($args->layout_srl, $args->layout);
 
 		// update layout info
 		Context::set('layout_srl', $args->layout_srl);
@@ -69,12 +69,11 @@ class LayoutAdminController extends Layout
 	 */
 	function initLayout($layout_srl, $layout_name)
 	{
-		$oLayoutModel = getModel('layout');
 		// Import a sample layout if it is faceoff
+		$oLayoutModel = getModel('layout');
 		if($oLayoutModel->useDefaultLayout($layout_name))
 		{
-			$this->importLayout($layout_srl, $this->module_path.'tpl/faceOff_sample.tar');
-			// Remove a directory
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled();
 		}
 		else
 		{
@@ -255,26 +254,7 @@ class LayoutAdminController extends Layout
 				$layoutList = $oLayoutModel->getLayoutInstanceList($layoutInfo->site_srl, $layoutInfo->layout_type, $layoutInfo->layout, array('layout_srl', 'layout'));
 				if(count($layoutList) <= 1)
 				{
-					// uninstall package
-					$path = $layoutInfo->path;
-
-					$oAutoinstallModel = getModel('autoinstall');
-					$packageSrl = $oAutoinstallModel->getPackageSrlByPath($path);
-					$oAutoinstallAdminController = getAdminController('autoinstall');
-
-					if($packageSrl)
-					{
-						$output = $oAutoinstallAdminController->uninstallPackageByPackageSrl($packageSrl);
-					}
-					else
-					{
-						$output = $oAutoinstallAdminController->uninstallPackageByPath($path);
-					}
-
-					if(!$output->toBool())
-					{
-						throw new Rhymix\Framework\Exception($output->message);
-					}
+					// Autoinstall integration has been removed.
 				}
 			}
 		}
@@ -577,89 +557,7 @@ class LayoutAdminController extends Layout
 	 */
 	function procLayoutAdminUserLayoutExport()
 	{
-		$layout_srl = Context::get('layout_srl');
-		if(!$layout_srl) return new BaseObject('-1','msg_invalid_request');
-
-		$oLayoutModel = getModel('layout');
-
-		// Copy files to temp path
-		$file_path = $oLayoutModel->getUserLayoutPath($layout_srl);
-		$target_path = $oLayoutModel->getUserLayoutPath(0);
-		FileHandler::copyDir($file_path, $target_path);
-
-		// replace path and ini config
-		$ini_config = $oLayoutModel->getUserLayoutIniConfig(0);
-		$file_list = $oLayoutModel->getUserLayoutFileList($layout_srl);
-		unset($file_list[2]);
-
-		foreach($file_list as $file)
-		{
-			if(strncasecmp('images', $file, 6) === 0) continue;
-
-			// replace path
-			$file = $target_path . $file;
-			$content = FileHandler::readFile($file);
-			$pattern = '/(http:\/\/[^ ]+)?(\.\/)?' . str_replace('/', '\/', (str_replace('./', '', $file_path))) . '/';
-			if(basename($file) == 'faceoff.css' || basename($file) == 'layout.css')
-				$content = preg_replace($pattern, '../', $content);
-			else
-				$content = preg_replace($pattern, './', $content);
-
-			// replace ini config
-			foreach($ini_config as $key => $value)
-			{
-				$content = str_replace('{$layout_info->faceoff_ini_config[\'' . $key . '\']}', $value, $content);
-			}
-
-			FileHandler::writeFile($file, $content);
-		}
-
-		// make info.xml
-		$info_file = $target_path . 'conf/info.xml';
-		FileHandler::copyFile('./modules/layout/faceoff/conf/info.xml', $info_file);
-		$content = FileHandler::readFile($info_file);
-		$content = str_replace('type="faceoff"', '', $content);
-		FileHandler::writeFile($info_file, $content);
-		$file_list[] = 'conf/info.xml';
-
-		// make css file
-		$css_file = $target_path . 'css/layout.css';
-		FileHandler::copyFile('./modules/layout/faceoff/css/layout.css', $css_file);
-		$content = FileHandler::readFile('./modules/layout/tpl/css/widget.css');
-		FileHandler::writeFile($css_file, "\n" . $content, 'a');
-		$content = FileHandler::readFile($target_path . 'faceoff.css');
-		FileHandler::writeFile($css_file, "\n" . $content, 'a');
-		$content = FileHandler::readFile($target_path . 'layout.css');
-		FileHandler::writeFile($css_file, "\n" . $content, 'a');
-
-		// css load
-		$content = FileHandler::readFile($target_path . 'layout.html');
-		$content = "<load target=\"css/layout.css\" />\n" . $content;
-		FileHandler::writeFile($target_path . 'layout.html', $content);
-		unset($file_list[3]);
-		unset($file_list[1]);
-		$file_list[] = 'css/layout.css';
-
-		// Compress the files
-		$tar = new tar();
-		$user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath(0));
-		chdir($user_layout_path);
-		foreach($file_list as $key => $file) $tar->addFile($file);
-
-		$stream = $tar->toTarStream();
-		$filename = 'faceoff_' . date('YmdHis') . '.tar';
-		Context::setCacheControl(0);
-		header("Content-Type: application/x-compressed");
-		header('Content-Disposition: attachment; filename="'. $filename .'"');
-		header("Content-Transfer-Encoding: binary\n");
-		echo $stream;
-		// Close Context and then exit
-		Context::close();
-
-		// delete temp path
-		FileHandler::removeDir($target_path);
-
-		exit();
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled();
 	}
 
 	/**
@@ -669,25 +567,7 @@ class LayoutAdminController extends Layout
 	 */
 	function procLayoutAdminUserLayoutImport()
 	{
-		throw new Rhymix\Framework\Exception('not supported');
-
-		// check upload
-		if(!Context::isUploaded()) exit();
-		$file = Context::get('file');
-		if(!is_uploaded_file($file['tmp_name'])) exit();
-
-		if(substr_compare($file['name'], '.tar', -4) !== 0) exit();
-
-		$layout_srl = Context::get('layout_srl');
-		if(!$layout_srl) exit();
-
-		$oLayoutModel = getModel('layout');
-		$user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($layout_srl));
-		if(!move_uploaded_file($file['tmp_name'], $user_layout_path . 'faceoff.tar')) exit();
-
-		$this->importLayout($layout_srl, $user_layout_path.'faceoff.tar');
-
-		$this->setRedirectUrl(Context::get('error_return_url'));
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled();
 	}
 
 	/**
@@ -795,7 +675,7 @@ class LayoutAdminController extends Layout
 				}
 
 				// initiate if it is faceoff layout
-				$this->initLayout($args->layout_srl, $args->layout);
+				// $this->initLayout($args->layout_srl, $args->layout);
 
 				// update layout info
 				$output = $this->updateLayout($args);
@@ -886,28 +766,7 @@ class LayoutAdminController extends Layout
 	 */
 	function importLayout($layout_srl, $source_file)
 	{
-		$oLayoutModel = getModel('layout');
-		$user_layout_path = FileHandler::getRealPath($oLayoutModel->getUserLayoutPath($layout_srl));
-		$file_list = $oLayoutModel->getUserLayoutFileList($layout_srl);
-		foreach($file_list as $key => $file)
-		{
-			FileHandler::removeFile($user_layout_path . $file);
-		}
-
-		$image_path = $oLayoutModel->getUserLayoutImagePath($layout_srl);
-		FileHandler::makeDir($image_path);
-		$tar = new tar();
-		$tar->openTAR($source_file);
-		// If layout.ini file does not exist
-		if(!$tar->getFile('layout.ini')) return;
-
-		$replace_path = getNumberingPath($layout_srl,3);
-		foreach($tar->files as $key => $info)
-		{
-			FileHandler::writeFile($user_layout_path . $info['name'],str_replace('__LAYOUT_PATH__',$replace_path,$info['file']));
-		}
-		// Remove uploaded file
-		FileHandler::removeFile($source_file);
+		throw new Rhymix\Framework\Exceptions\FeatureDisabled();
 	}
 
 	/**

@@ -491,6 +491,9 @@ margin-bottom: 10px;
 .x p:last-child {
 	margin-bottom: 0;
 }
+.x .message p {
+	margin: 1em 0;
+}
 .x form {
 	margin: 0 0 10px 0;
 }
@@ -1725,36 +1728,60 @@ html[lang="id"] .x .g11n.active>[disabled],
 	font-size: 0;
 }
 /* Favicon Preview */
-.x #faviconPreview {
+.x .faviconPreview {
 	position: relative;
-	padding: 80px 0 0 200px;
-	background: url(../img/bgFavicon.gif) no-repeat;
+	width: 227px;
+	height: 42px;
+	background: url(../img/favicon-light.png) no-repeat;
 }
-.x #faviconPreview img {
+.x .faviconPreview.darkMode {
+	background-image: url(../img/favicon-dark.png);
+}
+.x .faviconPreview img, .x .faviconPreview .favicon-placeholder {
 	position: absolute;
+	top: 13px;
+	left: 13px;
+	width: 16px;
+	height: 16px;
+	background-color: #ddd;
 }
-.x #faviconPreview .fn1 {
-	top: 30px;
-	left: 12px;
+.x .faviconPreview span {
+	display: block;
+	position: absolute;
+	font-size: 12px;
+	line-height: 14px;
+	top: 13px;
+	left: 34px;
 }
-.x #faviconPreview .fn2 {
-	top: 55px;
-	left: 68px;
+.x .faviconPreview label {
+	display: block;
+	position: absolute;
+	font-size: 12px;
+	line-height: 14px;
+	top: 8px;
+	right: 13px;
+	padding: 5px 0;
+}
+.x .faviconPreview.darkMode span, .x .faviconPreview.darkMode label {
+	color: #fff;
+}
+.x .faviconPreview.darkMode .favicon-placeholder {
+	background-color: #777;
 }
 /* Mobile Icon Preview */
-.x #mobiconPreview {
+.x .mobiconPreview {
 	position: relative;
 	padding: 270px 0 0 200px;
 	background: url(../img/bgMobileTop.png) no-repeat;
 }
-.x #mobiconPreview img {
+.x .mobiconPreview img {
 	position: absolute;
 	top: 20px;
 	left: 10px;
 	width: 32px;
 	height: 32px;
 }
-.x #mobiconPreview span {
+.x .mobiconPreview span {
 	position: absolute;
 	width: 32px;
 	text-align: center;

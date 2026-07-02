@@ -168,9 +168,6 @@ class AdminMenu
 			}
 		}
 
-		$output = MemberModel::getAdminGroup(['group_srl']);
-		$admin_group_srl = $output->group_srl;
-
 		// gnb common argument setting
 		$args = new \stdClass;
 		$args->menu_srl = $menu_srl;
@@ -179,7 +176,7 @@ class AdminMenu
 		$args->normal_btn = '';
 		$args->hover_btn = '';
 		$args->active_btn = '';
-		$args->group_srls = $admin_group_srl;
+		$args->group_srls = null;
 
 		$moduleActionInfo = array();
 		foreach (self::DEFAULT_MENU_STRUCTURE as $key => $items)

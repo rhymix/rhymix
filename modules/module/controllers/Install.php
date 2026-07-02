@@ -372,8 +372,15 @@ class Install extends Base
 		$default_domain = new \stdClass;
 
 		// Check XE sites.
-		$output = executeQueryArray('module.getSites');
-		if ($output->data)
+		if ($oDB->isTableExists('sites'))
+		{
+			$output = executeQueryArray('module.getSites');
+		}
+		else
+		{
+			$output = null;
+		}
+		if ($output && $output->data)
 		{
 			foreach ($output->data as $site_info)
 			{

@@ -102,14 +102,14 @@
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_header_text">{$lang->header_text}</label>
 			<div class="x_controls">
-				<textarea name="header_text" id="header_text" class="x_full-width x_code-font lang_code" rows="8" cols="42">{$module_info->header_text}</textarea>
+				<textarea name="header_text" id="header_text" class="x_full-width x_code-font lang_code" rows="8" cols="42" readonly="readonly"|cond="$logged_info->is_admin !== 'Y'">{$module_info->header_text}</textarea>
 				<p id="header_text_help" class="x_help-block">{$lang->about_header_text}</p>
 			</div>
 		</div>
 		<div class="x_control-group">
 			<label class="x_control-label" for="lang_footer_text">{$lang->footer_text}</label>
 			<div class="x_controls">
-				<textarea name="footer_text" id="footer_text" class="x_full-width x_code-font lang_code" rows="8" cols="42">{$module_info->footer_text}</textarea>
+				<textarea name="footer_text" id="footer_text" class="x_full-width x_code-font lang_code" rows="8" cols="42" readonly="readonly"|cond="$logged_info->is_admin !== 'Y'">{$module_info->footer_text}</textarea>
 				<p id="footer_text_help" class="x_help-block">{$lang->about_footer_text}</p>
 			</div>
 		</div>
