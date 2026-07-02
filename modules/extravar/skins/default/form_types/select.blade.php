@@ -10,7 +10,13 @@
 	@disabled(toBool($definition->is_disabled))
 	@readonly(toBool($definition->is_readonly))>
 	<option value="">@lang('cmd_select')</option>
-	@foreach ($definition->getOptions() as $v)
-		<option value="{{ $v }}" @selected($has_value ? in_array($v, $value) : ($v === $default_value))>{{ $v }}</option>
-	@endforeach
+	@if ($definition->is_dict_options === 'Y')
+		@foreach ($definition->getOptions() as $k => $v)
+			<option value="{{ $k }}" @selected($has_value ? in_array($k, $value) : ($k === $default_value))>{{ $v }}</option>
+		@endforeach
+	@else
+		@foreach ($definition->getOptions() as $v)
+			<option value="{{ $v }}" @selected($has_value ? in_array($v, $value) : ($v === $default_value))>{{ $v }}</option>
+		@endforeach
+	@endif
 </select>
