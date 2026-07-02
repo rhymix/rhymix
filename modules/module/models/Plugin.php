@@ -165,6 +165,24 @@ class Plugin
 	}
 
 	/**
+	 * Load all enabled plugins.
+	 *
+	 * @return void
+	 */
+	public static function loadPlugins(): void
+	{
+		$plugin_list = self::getEnabledConfigList();
+		foreach ($plugin_list as $plugin_name => $config)
+		{
+			$class_name = 'Rhymix\\Plugins\\' . $plugin_name . '\\Plugin';
+			if (class_exists($class_name))
+			{
+				ModuleCache::$pluginInstances[$plugin_name] = new $class_name($config);
+			}
+		}
+	}
+
+	/**
 	 * Save the configuration for a specific plugin.
 	 *
 	 * @param string $plugin_name

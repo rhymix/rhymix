@@ -21,6 +21,7 @@ class ModuleCache
 	public static array $moduleConfig = [];
 	public static array $modulePartConfig = [];
 	public static array $modulePermissions = [];
+	public static array $pluginInstances = [];
 
 	/**
 	 * Clear all caches.
