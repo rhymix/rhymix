@@ -192,11 +192,13 @@ class Context
 	}
 
 	/**
-	 * Initialization, it sets DB information, request arguments and so on.
+	 * Initialization
 	 *
+	 * @param bool $enable_plugins
+	 * @param bool $enable_session
 	 * @return void
 	 */
-	public static function init()
+	public static function init(bool $enable_plugins = true, bool $enable_session = true)
 	{
 		// Prevent calling init() twice.
 		if(self::$_init_called)
@@ -346,7 +348,7 @@ class Context
 		}
 
 		// start session
-		if (\PHP_SAPI === 'cli')
+		if (\PHP_SAPI === 'cli' || !$enable_session)
 		{
 			$_SESSION = [];
 		}
@@ -375,7 +377,7 @@ class Context
 		// set authentication information in Context and session
 		if (self::isInstalled())
 		{
-			if (Rhymix\Framework\Session::getMemberSrl())
+			if ($enable_session && Rhymix\Framework\Session::getMemberSrl())
 			{
 				MemberController::getInstance()->setSessionInfo();
 			}
@@ -416,6 +418,12 @@ class Context
 		if(config('lock.locked'))
 		{
 			self::enforceSiteLock();
+		}
+
+		// Load plugins if enabled.
+		if (self::isInstalled() && $enable_plugins)
+		{
+			Rhymix\Modules\Module\Models\Plugin::loadPlugins();
 		}
 	}
 
