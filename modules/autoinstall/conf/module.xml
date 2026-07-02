@@ -2,7 +2,7 @@
 <module>
 	<grants />
 	<actions>
-		<action name="dispAutoinstallAdminIndex" type="view" menu_name="easyInstall" admin_index="true" />
+		<action name="dispAutoinstallAdminIndex" type="view" menu_name="easyInstall" menu_index="true" admin_index="true" />
 		<action name="dispAutoinstallAdminPackageDetail" type="view" menu_name="easyInstall" />
 		<action name="procAutoinstallAdminDownloadPackage" type="controller" />
 		<action name="procAutoinstallAdminInstallPackage" type="controller" />
