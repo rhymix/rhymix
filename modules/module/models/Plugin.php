@@ -140,6 +140,17 @@ class Plugin
 	}
 
 	/**
+	 * Check if a specific plugin has been loaded in the current request.
+	 *
+	 * @param string $plugin_name
+	 * @return bool
+	 */
+	public static function isPluginLoaded(string $plugin_name): bool
+	{
+		return isset(ModuleCache::$pluginInstances[$plugin_name]);
+	}
+
+	/**
 	 * Get the list of enabled plugins and their configuration.
 	 *
 	 * @return array
