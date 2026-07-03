@@ -385,6 +385,7 @@ abstract class AbstractController extends BaseObject
 				$output = $this->{$this->act}();
 				if ($output instanceof AbstractResponse)
 				{
+					Context::setResponseMethod($output->getLegacyResponseType());
 					$this->response = $output;
 				}
 			}
