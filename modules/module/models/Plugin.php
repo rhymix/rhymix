@@ -193,10 +193,15 @@ class Plugin
 		$plugin_list = self::getEnabledConfigList();
 		foreach ($plugin_list as $plugin_name => $config)
 		{
-			$class_name = 'Rhymix\\Plugins\\' . $plugin_name . '\\plugin';
-			if (class_exists($class_name))
+			$filename = \RX_BASEDIR . 'plugins/' . $plugin_name . '/plugin.php';
+			$class_name = 'Rhymix\\Plugins\\' . $plugin_name . '\\Plugin';
+			if (file_exists($filename))
 			{
-				ModuleCache::$pluginInstances[$plugin_name] = new $class_name($config);
+				include_in_clean_scope($filename);
+				if (class_exists($class_name))
+				{
+					ModuleCache::$pluginInstances[$plugin_name] = new $class_name($config);
+				}
 			}
 		}
 	}
