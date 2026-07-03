@@ -6,6 +6,7 @@ use Rhymix\Framework\Cache;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Rhymix\Framework\Parsers\PluginInfoParser;
 use Rhymix\Framework\Storage;
+use Rhymix\Modules\Extravar\Models\Value as ExtraValue;
 
 /**
  * This class manages plugins.
@@ -122,7 +123,14 @@ class Plugin
 		$default_config = new \stdClass();
 		foreach ($info->config as $key => $var)
 		{
-			$default_config->{$var->name} = $var->default;
+			if (isset(ExtraValue::ARRAY_TYPES[$var->type]) && !in_array($var->type, ['radio', 'select']))
+			{
+				$default_config->{$var->name} = $var->default === null ? [] : [strval($var->default)];
+			}
+			else
+			{
+				$default_config->{$var->name} = $var->default === null ? '' : strval($var->default);
+			}
 		}
 		return $default_config;
 	}

@@ -176,6 +176,9 @@ class Plugin extends Base
 
 		foreach ($plugin_info->config as $key => $var)
 		{
+			// Expect an array?
+			$expect_array = isset(ExtraValue::ARRAY_TYPES[$var->type]) && !in_array($var->type, ['radio', 'select']);
+
 			// Image and file uploads
 			if ($var->type === 'image' || $var->type === 'file')
 			{
@@ -246,17 +249,20 @@ class Plugin extends Base
 			}
 
 			// Other types of variables
-			elseif (isset($vars->{$key}) && is_array($vars->{$key}))
-			{
-				$new_config->{$key} = array_values($vars->{$key});
-			}
 			elseif (isset($vars->{$key}))
 			{
-				$new_config->{$key} = strval($vars->{$key});
+				if ($expect_array)
+				{
+					$new_config->{$key} = is_array($vars->{$key}) ? array_values($vars->{$key}) : [strval($vars->{$key})];
+				}
+				else
+				{
+					$new_config->{$key} = strval($vars->{$key});
+				}
 			}
 			else
 			{
-				$new_config->{$key} = '';
+				$new_config->{$key} = $expect_array ? [] : '';
 			}
 		}
 
