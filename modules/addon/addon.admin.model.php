@@ -250,7 +250,10 @@ class addonAdminModel extends addon
 	}
 
 	/**
-	 * Returns whether to activate
+	 * Returns whether an addon is acvitated.
+	 *
+	 * This method does too many things and fakes some data for backward compatibility.
+	 * For exact information, use AddonModel::isActivated() instead.
 	 *
 	 * @param string $addon Name to check
 	 * @param int $site_srl Site srl

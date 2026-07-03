@@ -3,6 +3,35 @@
 class AddonModel extends Addon
 {
 	/**
+	 * Check if addon is activated
+	 *
+	 * @param string $addon_name
+	 * @param string $type
+	 * @return bool
+	 */
+	public static function isActivated(string $addon_name, string $type = 'any'): bool
+	{
+		$output = executeQuery('addon.getSiteAddonInfo', ['addon' => $addon_name, 'site_srl' => 0]);
+		$addon = $output->data ?: null;
+		if (!$addon)
+		{
+			return false;
+		}
+		elseif ($type === 'pc')
+		{
+			return $addon->is_used === 'Y';
+		}
+		elseif ($type === 'mobile')
+		{
+			return $addon->is_used_m === 'Y';
+		}
+		else
+		{
+			return $addon->is_used === 'Y' || $addon->is_used_m === 'Y';
+		}
+	}
+
+	/**
 	 * Get configuration for addon
 	 *
 	 * @param string $addon_name
