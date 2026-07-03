@@ -67,23 +67,41 @@
 		</div>
 	@endif
 
-	@if (!count(get_object_vars($plugin_info->config)))
+	@if (count(get_object_vars($plugin_info->config)))
+		@foreach ($plugin_info->config_groups as $group_name)
+			<section class="section plugin_config">
+				<h2>{{ $group_name }}</h2>
+				@foreach ($plugin_info->config as $key => $var)
+					@if ($var->group === $group_name)
+						<div class="x_control-group">
+							<label class="x_control-label">{{ $var->title }}</label>
+							<div class="x_controls">
+								{!! $var->input !!}
+								<span class="x_help-block">{{ nl2br($var->description) }}</span>
+							</div>
+						</div>
+					@endif
+				@endforeach
+			</section>
+		@endforeach
+		<section class="section plugin_config">
+			@foreach ($plugin_info->config as $key => $var)
+				@if ($var->group === null)
+					<div class="x_control-group">
+						<label class="x_control-label">{{ $var->title }}</label>
+						<div class="x_controls">
+							{!! $var->input !!}
+							<span class="x_help-block">{{ nl2br($var->description) }}</span>
+						</div>
+					</div>
+				@endif
+			@endforeach
+		</section>
+	@else
 		<div class="message info">
 			<p>{{ $lang->plugin_has_no_config }}</p>
 		</div>
 	@endif
-
-	<section class="section plugin_config">
-		@foreach ($plugin_info->config as $key => $var)
-			<div class="x_control-group">
-				<label class="x_control-label">{{ $var->title }}</label>
-				<div class="x_controls">
-					{!! $var->input !!}
-					<span class="x_help-block">{{ nl2br($var->description) }}</span>
-				</div>
-			</div>
-		@endforeach
-	</section>
 
 	<div class="x_clearfix">
 		<div class="x_pull-right">
