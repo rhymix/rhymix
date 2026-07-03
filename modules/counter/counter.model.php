@@ -6,15 +6,16 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class counterModel extends counter
+class CounterModel extends Counter
 {
 	/**
-	 * Initialization
+	 * Get counter config
 	 *
-	 * @return void
+	 * @return object
 	 */
-	function init()
+	public static function getConfig()
 	{
+		return ModuleModel::getModuleConfig('counter') ?: new stdClass();
 	}
 
 	/**

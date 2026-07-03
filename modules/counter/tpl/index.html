@@ -1,5 +1,5 @@
+<load target="css/counter.css" />
 <load target="js/counter_admin.js" />
-<load target="counter.css" />
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
@@ -24,7 +24,7 @@
 		<thead>
 			<tr>
 				<th scope="row">{$lang->total_counter}</th>
-				<th scope="row"> 
+				<th scope="row">
 					<span id="str_selected_date">{zdate($selected_date, "Y-m-d")}</span>
 					<input type="hidden" class="inputDate" value="{zdate($selected_date,'Y-m-d')}" />
 					<script>
@@ -46,7 +46,7 @@
 									moveDate();
 								}
 							};
-	
+
 							$.extend($.datepicker.regional['{$lang_type}'],option);
 							$(".inputDate").datepicker(option);
 						});
@@ -68,8 +68,9 @@
 </form>
 
 <ul class="x_nav x_nav-tabs">
+	<li><a href="{getUrl(['module' => 'admin', 'act' => 'dispCounterAdminConfig'])}">{$lang->cmd_setup}</a></li>
 	<li loop="$lang->cmd_select_counter_type => $key, $val" class="x_active"|cond="$type==$key || (!$type && $key == 'hour')">
-		<a href="{getUrl('type',$key)}">{$val}</a> 
+		<a href="{getUrl('type',$key)}">{$val}</a>
 	</li>
 </ul>
 

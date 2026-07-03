@@ -6,7 +6,7 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class counter extends ModuleObject
+class Counter extends ModuleObject
 {
 
 	/**
@@ -45,6 +45,13 @@ class counter extends ModuleObject
 			return true;
 		}
 
+		// Check config
+		$config = CounterModel::getConfig();
+		if (!isset($config->is_enabled))
+		{
+			return true;
+		}
+
 		return false;
 	}
 
@@ -73,6 +80,14 @@ class counter extends ModuleObject
 		if ($oDB->isIndexExists('counter_log', 'idx_counter_log'))
 		{
 			$oDB->dropIndex('counter_log', 'idx_counter_log');
+		}
+
+		// Check config
+		$config = CounterModel::getConfig();
+		if (!isset($config->is_enabled))
+		{
+			Context::set('is_enabled', AddonModel::isActivated('counter') ? 'Y' : 'N');
+			CounterAdminController::getInstance()->procCounterAdminInsertConfig();
 		}
 	}
 
