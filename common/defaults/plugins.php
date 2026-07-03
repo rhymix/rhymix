@@ -62,6 +62,12 @@ return array(
 		'widget' => true,
 	),
 
+	// Plugins
+	'plugin' => array(
+		'adminlogging' => true,
+		'autolink' => true,
+	),
+
 	// Widgets
 	'widget' => array(
 		'content' => true,
