@@ -122,6 +122,7 @@ $lang->plugin_name = '플러그인 이름';
 $lang->plugin_activate = '사용';
 $lang->about_installed_plugins = '"사용"을 체크하여 플러그인을 활성화하고, 플러그인 이름을 클릭하여 설정할 수 있습니다.<br>플러그인은 애드온보다 우선하므로, 활성화된 플러그인과 같은 이름을 가진 애드온은 일시 중지됩니다.';
 $lang->plugin_has_no_config = '설정이 없는 플러그인입니다.';
+$lang->is_core_plugin = 'Rhymix 코어와 함께 제공되는 플러그인입니다.';
 $lang->cmd_show_hide = '보기/숨김';
 $lang->no_multi_lang = '아직 등록된 다국어가 없습니다.';
 $lang->module_admin = '모듈 관리자';

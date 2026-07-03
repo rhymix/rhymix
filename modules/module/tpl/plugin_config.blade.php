@@ -10,7 +10,8 @@
 			<th class="nowr">{{ $lang->version }}</th>
 			<td>
 				@if($plugin_info->version === 'RX_VERSION' && Context::isDefaultPlugin($plugin_info->name, 'plugin'))
-					CORE
+					<img src="{{ \RX_BASEURL }}common/img/icon.png" class="core_symbol" alt="Rhymix Core" title="Rhymix Core" />
+					{{ $lang->is_core_plugin }}
 				@else
 					{{ $plugin_info->version }}
 					@if($plugin_info->date)

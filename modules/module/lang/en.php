@@ -122,6 +122,7 @@ $lang->plugin_name = 'Plugin Name';
 $lang->plugin_activate = 'Activate';
 $lang->about_installed_plugins = 'Check "Activate" to enable the plugin, and click the plugin name to configure it.<br>Plugins take precedence over addons, so any addon with the same name as an active plugin will be temporarily disabled.';
 $lang->plugin_has_no_config = 'This plugin has no configuration.';
+$lang->is_core_plugin = 'This plugin is distributed with Rhymix Core.';
 $lang->cmd_show_hide = 'show/hide';
 $lang->no_multi_lang = 'There is no multi language.';
 $lang->module_admin = 'Module Administrator';

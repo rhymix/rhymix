@@ -68,7 +68,7 @@ class Plugin extends Base
 		{
 			if (!isset($configured_plugins[$plugin_name]))
 			{
-				$output = PluginModel::insertPluginConfig($plugin_name, PluginModel::getPluginDefaultConfig($plugin_name), true);
+				$output = PluginModel::insertPluginConfig($plugin_name, PluginModel::getDefaultConfig($plugin_name), true);
 				if (!$output->toBool())
 				{
 					$oDB->rollback();
