@@ -20,6 +20,7 @@ class PluginInfoParser extends BaseParser
 	public string $date = '';
 	public array $author = [];
 	public object $config;
+	public array $config_groups = [];
 	public bool $is_enabled = false;
 
 	/**
@@ -67,6 +68,14 @@ class PluginInfoParser extends BaseParser
 		if ($xml->config)
 		{
 			$info->config = self::_parseConfig($xml->config, $lang);
+			foreach ($info->config as $key => $var)
+			{
+				if ($var->group !== null)
+				{
+					$info->config_groups[$var->group] = true;
+				}
+			}
+			$info->config_groups = array_keys($info->config_groups);
 		}
 		else
 		{

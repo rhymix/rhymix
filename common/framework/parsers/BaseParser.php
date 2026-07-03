@@ -294,18 +294,15 @@ abstract class BaseParser
 	{
 		$result = new \stdClass;
 
-		// Recurse into groups.
-		if (isset($element->group))
+		// Flatten groups while keeping the group name.
+		$group_name = $element->getName() === 'group' ? self::_getChildrenByLang($element, 'title', $lang) : null;
+		foreach ($element->group ?: [] as $group)
 		{
-			$group_id = 0;
-			foreach ($element->group ?: [] as $group)
+			$group_result = self::_parseConfig($group, $lang);
+			foreach ($group_result as $key => $val)
 			{
-				$group_result = new \stdClass;
-				$group_result->title = self::_getChildrenByLang($group, 'title', $lang);
-				$group_result->vars = self::_parseConfig($group, $lang);
-				$result->{'_group_' . $group_id++} = $group_result;
+				$result->{$key} = $val;
 			}
-			return $result;
 		}
 
 		// Parse each variable in the group.
@@ -313,6 +310,7 @@ abstract class BaseParser
 		{
 			$item = new \stdClass;
 			$item->name = trim($var['name'] ?? '');
+			$item->group = $group_name;
 			$item->type = strtolower(trim($var['type'] ?? '')) ?: 'text';
 			$item->default = trim($var['default'] ?? '') ?: null;
 			$item->title = self::_getChildrenByLang($var, 'title', $lang) ?: $item->name;
