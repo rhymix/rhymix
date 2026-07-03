@@ -2,6 +2,8 @@
 	<h1>{{ $lang->installed_plugins }}</h1>
 </div>
 
+<p>{{ $lang->about_installed_plugins }}</p>
+
 <form action="./" method="post">
 	<input type="hidden" name="module" value="module" />
 	<input type="hidden" name="act" value="procModuleAdminSaveEnabledPlugins" />
@@ -24,7 +26,7 @@
 				<th class="nowr rx_detail_marks">{{ $lang->author }}</th>
 				<th class="nowr rx_detail_marks">{{ $lang->installed_path }}</th>
 				<th class="nowr">{{ $lang->cmd_setup }}</th>
-				<th class="nowr">{{ $lang->plugin_enable }}</th>
+				<th class="nowr">{{ $lang->plugin_activate }}</th>
 			</tr>
 		</thead>
 		<tbody>

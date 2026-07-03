@@ -72,7 +72,7 @@ class addonController extends addon
 	function makeCacheFile($site_srl = 0, $type = "pc", $gtype = 'site')
 	{
 		// Add-on module for use in creating the cache file
-		$buff = array('<?php if(!defined("__XE__")) exit();');
+		$buff = array('<?php if(!defined("__XE__")) exit();', '');
 		$oAddonModel = getAdminModel('addon');
 		$addon_list = $oAddonModel->getInsertedAddons($site_srl, $gtype);
 		foreach($addon_list as $addon => $val)
@@ -99,6 +99,7 @@ class addonController extends addon
 			}
 
 			// Initialize
+			$buff[] = '// ' . $addon;
 			$buff[] = '$before_time = microtime(true);';
 
 			// Run method and mid list
@@ -126,6 +127,16 @@ class addonController extends addon
 			{
 				$buff[] = '$run = isset($ml[$_m]);';
 			}
+
+			// Disable blacklisted addons
+			$buff[] = 'if ($run && Context::isBlacklistedPlugin("' . $addon . '", "addon")):';
+			$buff[] = '  $run = false;';
+			$buff[] = 'endif;';
+
+			// Disable addons that have the same name as a loaded plugin
+			$buff[] = 'if ($run && class_exists("Rhymix\\\\Modules\\\\Module\\\\Models\\\\Plugin") && Rhymix\\Modules\\Module\\Models\\Plugin::isPluginLoaded("' . $addon . '")):';
+			$buff[] = '  $run = false;';
+			$buff[] = 'endif;';
 
 			// Write debug info
 			$buff[] = 'if ($run && file_exists($addon_file)):';
