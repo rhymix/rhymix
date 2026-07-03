@@ -113,7 +113,7 @@ abstract class BaseParser
 	 * @param array $options
 	 * @return object
 	 */
-	protected static function _getExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = '', array $options = []): \stdClass
+	protected static function _parseExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = '', array $options = []): \stdClass
 	{
 		$result = new \stdClass;
 
@@ -121,7 +121,7 @@ abstract class BaseParser
 		$group_name = $extra_vars->getName() === 'group' ? self::_getChildrenByLang($extra_vars, 'title', $lang) : null;
 		foreach ($extra_vars->group ?: [] as $group)
 		{
-			$group_result = self::_getExtraVars($group, $lang, $type, $options);
+			$group_result = self::_parseExtraVars($group, $lang, $type, $options);
 			foreach ($group_result as $key => $val)
 			{
 				$result->{$key} = $val;

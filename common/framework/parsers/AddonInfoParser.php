@@ -78,7 +78,7 @@ class AddonInfoParser extends BaseParser
 		// Get extra_vars.
 		if ($xml->extra_vars)
 		{
-			$info->extra_vars = get_object_vars(self::_getExtraVars($xml->extra_vars, $lang, 'addon'));
+			$info->extra_vars = get_object_vars(self::_parseExtraVars($xml->extra_vars, $lang, 'addon'));
 		}
 		else
 		{
