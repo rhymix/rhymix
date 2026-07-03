@@ -2,6 +2,9 @@
 	input[type=text], input[type=password], input[type=number], input[type=email], input[type=url] {
 		width: calc(100% - 14px);
 	}
+	.krZip input[type=text] {
+		width: unset;
+	}
 	textarea {
 		width: calc(100% - 14px);
 		height: 80px;
