@@ -215,7 +215,7 @@ class Installer
 			if ($use_stream)
 			{
 				$stream = $zip->getStreamIndex($i);
-				if (!$stream)
+				if ($stream === false)
 				{
 					$zip->close();
 					Storage::delete($temp_filename);
@@ -223,7 +223,7 @@ class Installer
 					return new BaseObject(-1, lang('autoinstall.msg_autoinstall_extraction_failed') . "\n" . escape($failed_path));
 				}
 				$fp = fopen($absolute_path, 'wb');
-				if (!$fp)
+				if ($fp === false)
 				{
 					$zip->close();
 					Storage::delete($temp_filename);
@@ -237,7 +237,7 @@ class Installer
 			else
 			{
 				$content = $zip->getFromIndex($i);
-				if (!file_put_contents($absolute_path, $content))
+				if (file_put_contents($absolute_path, $content) === false)
 				{
 					$zip->close();
 					Storage::delete($temp_filename);
