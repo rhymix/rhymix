@@ -317,11 +317,7 @@ class LayoutModel extends Layout
 	 */
 	public function getLayoutPath($layout_name = "", $layout_type = "P")
 	{
-		if($layout_name == 'faceoff')
-		{
-			$class_path = './modules/layout/faceoff/';
-		}
-		else if($layout_type == "M")
+		if ($layout_type === 'M')
 		{
 			$class_path = sprintf("./m.layouts/%s/", $layout_name);
 		}
