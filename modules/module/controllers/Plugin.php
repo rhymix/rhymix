@@ -227,7 +227,7 @@ class Plugin extends Base
 					$output = FileboxModel::insertFile((object)[
 						'member_srl' => $this->user->member_srl,
 						'addfile' => $vars->{$key},
-						'comment' => $plugin_name . ':' . $key,
+						'comment' => 'plugin:' . $plugin_name . ':' . $key,
 					]);
 					if (!$output->toBool())
 					{
