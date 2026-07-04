@@ -27,9 +27,6 @@
 		<action name="procLayoutAdminUserImageDelete" type="controller" />
 		<action name="procLayoutAdminConfigImageUpload" type="controller" />
 		<action name="procLayoutAdminConfigImageDelete" type="controller" />
-		<action name="procLayoutAdminUserLayoutImport" type="controller" ruleset="userLayoutImport" />
-		<action name="procLayoutAdminUserLayoutExport" type="controller" />
-		<action name="procLayoutAdminUserValueInsert" type="controller" />
 	</actions>
 	<menus>
 		<menu name="installedLayout">

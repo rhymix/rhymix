@@ -437,105 +437,6 @@ class LayoutAdminController extends Layout
 		return Rhymix\Framework\Storage::delete($path);
 	}
 
-	// deprecated
-	/**
-	 * Save layout configuration
-	 * save in "ini" format for faceoff
-	 * @deprecated
-	 * @return void|Object (void : success, Object : fail)
-	 */
-	function procLayoutAdminUserValueInsert()
-	{
-		$oModuleModel = getModel('module');
-
-		$mid = Context::get('mid');
-		if(!$mid) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$site_module_info = Context::get('site_module_info');
-		$columnList = array('layout_srl');
-		$module_info = $oModuleModel->getModuleInfoByMid($mid, $site_module_info->site_srl, $columnList);
-		$layout_srl = $module_info->layout_srl;
-		if(!$layout_srl) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-
-		$oLayoutModel = getModel('layout');
-
-		// save tmp?
-		$temp = Context::get('saveTemp');
-		if($temp =='Y')
-		{
-			$oLayoutModel->setUseUserLayoutTemp();
-		}
-		else
-		{
-			// delete temp files
-			$this->deleteUserLayoutTempFile($layout_srl);
-		}
-
-		$this->add('saveTemp',$temp);
-
-		// write user layout
-		$extension_obj = Context::gets('e1','e2','neck','knee');
-
-		$file = $oLayoutModel->getUserLayoutHtml($layout_srl);
-		$content = FileHandler::readFile($file);
-		$content = $this->addExtension($layout_srl,$extension_obj,$content);
-		FileHandler::writeFile($file,$content);
-
-		// write faceoff.css
-		$css = stripslashes(Context::get('css'));
-
-		$css_file = $oLayoutModel->getUserLayoutFaceOffCss($layout_srl);
-		FileHandler::writeFile($css_file,$css);
-
-		// write ini
-		$obj = Context::gets('type','align','column');
-		$obj = (array)$obj;
-		$src = $oLayoutModel->getUserLayoutIniConfig($layout_srl);
-		foreach($obj as $key => $val) $src[$key] = $val;
-		$this->insertUserLayoutValue($layout_srl,$src);
-	}
-
-	/**
-	 * Layout setting, save "ini"
-	 * @param int $layout_srl
-	 * @param object $arr layout ini
-	 * @return void
-	 */
-	function insertUserLayoutValue($layout_srl,$arr)
-	{
-		$oLayoutModel = getModel('layout');
-		$file = $oLayoutModel->getUserLayoutIni($layout_srl);
-		FileHandler::writeIniFile($file, $arr);
-	}
-
-	/**
-	 * Add the widget code for faceoff into user layout file
-	 * @param int $layout_srl
-	 * @param object $arg
-	 * @param string $content
-	 * @return string
-	 */
-	function addExtension($layout_srl,$arg,$content)
-	{
-		$oLayoutModel = getModel('layout');
-		$reg = '/(<\!\-\- start\-e1 \-\->)(.*)(<\!\-\- end\-e1 \-\->)/i';
-		$extension_content =  '\1' .stripslashes($arg->e1) . '\3';
-		$content = preg_replace($reg,$extension_content,$content);
-
-		$reg = '/(<\!\-\- start\-e2 \-\->)(.*)(<\!\-\- end\-e2 \-\->)/i';
-		$extension_content =  '\1' .stripslashes($arg->e2) . '\3';
-		$content = preg_replace($reg,$extension_content,$content);
-
-		$reg = '/(<\!\-\- start\-neck \-\->)(.*)(<\!\-\- end\-neck \-\->)/i';
-		$extension_content =  '\1' .stripslashes($arg->neck) . '\3';
-		$content = preg_replace($reg,$extension_content,$content);
-
-		$reg = '/(<\!\-\- start\-knee \-\->)(.*)(<\!\-\- end\-knee \-\->)/i';
-		$extension_content =  '\1' .stripslashes($arg->knee) . '\3';
-		$content = preg_replace($reg,$extension_content,$content);
-		return $content;
-	}
-
 	/**
 	 * Delete temp files for faceoff
 	 * @param int $layout_srl
@@ -549,25 +450,6 @@ class LayoutAdminController extends Layout
 		{
 			FileHandler::removeFile($file);
 		}
-	}
-
-	/**
-	 * export user layout
-	 * @return void
-	 */
-	function procLayoutAdminUserLayoutExport()
-	{
-		throw new Rhymix\Framework\Exceptions\FeatureDisabled();
-	}
-
-	/**
-	 * faceoff import
-	 * @deprecated
-	 * @return void
-	 */
-	function procLayoutAdminUserLayoutImport()
-	{
-		throw new Rhymix\Framework\Exceptions\FeatureDisabled();
 	}
 
 	/**
@@ -756,17 +638,6 @@ class LayoutAdminController extends Layout
 		$content = FileHandler::readFile($file);
 		$content = str_replace($source, $target, $content);
 		FileHandler::writeFile($file, $content);
-	}
-
-	/**
-	 * import layout
-	 * @param int $layout_srl
-	 * @param string $source_file path of imported file
-	 * @return void
-	 */
-	function importLayout($layout_srl, $source_file)
-	{
-		throw new Rhymix\Framework\Exceptions\FeatureDisabled();
 	}
 
 	/**

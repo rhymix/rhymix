@@ -838,39 +838,6 @@ class LayoutModel extends Layout
 		}
 		return $file_list;
 	}
-
-	/**
-	 * faceOff related services for the operation run out
-	 * @deprecated
-	 * @param object $layout_info
-	 * @return void
-	 */
-	public function doActivateFaceOff(&$layout_info)
-	{
-		$layout_info->faceoff_ini_config = $this->getUserLayoutIniConfig($layout_info->layout_srl, $layout_info->layout);
-		// faceoff layout CSS
-		Context::addCSSFile($this->getDefaultLayoutCss($layout_info->layout));
-		// CSS generated in the layout manager
-		$faceoff_layout_css = $this->getUserLayoutFaceOffCss($layout_info->layout_srl);
-		if($faceoff_layout_css) Context::addCSSFile($faceoff_layout_css);
-		// CSS output for the widget
-		Context::loadFile($this->module_path.'/tpl/css/widget.css', true);
-		if($layout_info->extra_var->colorset->value == 'black') Context::loadFile($this->module_path.'/tpl/css/widget@black.css', true);
-		else Context::loadFile($this->module_path.'/tpl/css/widget@white.css', true);
-		// Different page displayed upon user's permission
-		$logged_info = Context::get('logged_info');
-		// Display edit button for faceoff layout
-		if(Context::get('module')!='admin' && strpos(Context::get('act'),'Admin')===false && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin))
-		{
-			Context::addHtmlFooter('<div class="faceOffManager" style="height: 23px; position: fixed; right: 3px; top: 3px;"><a href="'.getUrl('','mid',Context::get('mid'),'act','dispLayoutAdminLayoutModify','delete_tmp','Y').'">'.lang('cmd_layout_edit').'</a></div>');
-		}
-		// Display menu when editing the faceOff page
-		if(Context::get('act')=='dispLayoutAdminLayoutModify' && ($logged_info->is_admin == 'Y' || $logged_info->is_site_admin))
-		{
-			$oTemplate = TemplateHandler::getInstance();
-			Context::addBodyHeader($oTemplate->compile($this->module_path.'/tpl', 'faceoff_layout_menu'));
-		}
-	}
 }
 /* End of file layout.model.php */
 /* Location: ./modules/layout/layout.model.php */
