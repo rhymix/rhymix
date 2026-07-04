@@ -1,7 +1,7 @@
 @load('css/plugin_admin.scss')
 
 <div class="x_page-header">
-	<h1>{{ $lang->installed_plugins }}</h1>
+	<h1>{{ $plugin_info->title }}</h1>
 </div>
 
 <table class="x_table">
