@@ -120,3 +120,6 @@ $lang->use_responsive_pc_layout = 'PC와 동일한 반응형 레이아웃 사용
 $lang->msg_unabled_preview = '해당 메뉴 타입의 페이지가 하나도 없어 미리보기가 불가능합니다.';
 $lang->article_preview_title = '문서의 제목입니다.';
 $lang->article_preview_content = '무궁화 꽃이 피었습니다.';
+$lang->installed_themes = '설치된 테마';
+$lang->about_installed_themes = '테마는 레이아웃과 모듈 스킨, 위젯 스킨 등을 포함하는 디자인 패키지입니다.<br>테마를 사용하면 서로 어울리는 레이아웃과 스킨을 한 번에 적용하고 간편하게 관리할 수 있습니다.';
+$lang->theme_name = '테마 이름';

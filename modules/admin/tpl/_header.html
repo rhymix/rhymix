@@ -92,6 +92,10 @@
 								<li class="active_"|cond="$act === 'dispModuleAdminPlugins'">
 									<a href="{getUrl(['module' => 'admin', 'act' => 'dispModuleAdminPlugins'])}">{lang('module.installed_plugins')}</a>
 								</li>
+								<!--// TEMPORARY MENU FOR THEME CONFIGURATION -->
+								<li class="active_"|cond="$act === 'dispLayoutAdminThemeList'">
+									<a href="{getUrl(['module' => 'admin', 'act' => 'dispLayoutAdminThemeList'])}">{lang('layout.installed_themes')}</a>
+								</li>
 							<!--@endif-->
 						<!--@endforeach-->
 					</ul>

@@ -1,0 +1,8 @@
+<table name="theme_config">
+	<column name="id" type="bigint" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="theme_name" type="varchar" size="80" notnull="notnull" />
+	<column name="sub_name" type="varchar" size="80" notnull="notnull" />
+	<column name="config" type="longtext" notnull="notnull" />
+	<column name="regdate" type="datetime" notnull="notnull" />
+	<index name="idx_theme_name" columns="theme_name,sub_name" />
+</table>

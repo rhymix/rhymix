@@ -465,6 +465,7 @@ class Cleanup extends Base
 		'modules/layout/faceoff/' => 'deleted:xe',
 		'modules/layout/ruleset/userLayoutImport.xml' => 'deleted:xe',
 		'modules/layout/tpl/css/faceoff_menu.css' => 'deleted:xe',
+		'modules/layout/tpl/css/widget.css' => 'deleted:xe',
 		'modules/layout/tpl/faceoff_layout_edit.html' => 'deleted:xe',
 		'modules/layout/tpl/faceoff_layout_menu.html' => 'deleted:xe',
 		'modules/layout/tpl/faceoff_migration/' => 'deleted:xe',

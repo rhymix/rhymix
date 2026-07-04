@@ -120,3 +120,6 @@ $lang->use_responsive_pc_layout = 'Use the same responsive layout as the PC';
 $lang->msg_unabled_preview = 'You can\'t preview because there is no page with this menu type.';
 $lang->article_preview_title = 'Title of the document';
 $lang->article_preview_content = 'Welcome. Nice to meet you.';
+$lang->installed_themes = 'Installed Themes';
+$lang->about_installed_themes = 'Themes are design packages that include layouts, module skins, and widget skins.<br>Using a theme allows you to set up and manage layouts and skins that go well together.';
+$lang->theme_name = 'Theme Name';

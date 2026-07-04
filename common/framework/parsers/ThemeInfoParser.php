@@ -19,7 +19,8 @@ class ThemeInfoParser extends BaseParser
 	public string $version = '';
 	public string $date = '';
 	public array $author = [];
-	public object $provides;
+	public array $thumbnails = [];
+	public array $provides = [];
 	public object $config;
 	public array $config_groups = [];
 
@@ -52,7 +53,6 @@ class ThemeInfoParser extends BaseParser
 		$info->license = trim($xml->license);
 		$info->version = trim($xml->version);
 		$info->date = ($xml->date === 'RX_CORE') ? '' : date('Ymd', strtotime($xml->date . 'T12:00:00Z'));
-		$info->provides = new \stdClass;
 		$info->config = new \stdClass;
 
 		// Get author information.
@@ -63,6 +63,21 @@ class ThemeInfoParser extends BaseParser
 			$author_info->email_address = trim($author['email_address'] ?? '');
 			$author_info->homepage = trim($author['link'] ?? '');
 			$info->author[] = $author_info;
+		}
+
+		// Get thumbnail information.
+		if ($xml->thumbnails)
+		{
+			foreach ($xml->thumbnails->thumbnail as $thumbnail)
+			{
+				$thumbnail_info = new \stdClass;
+				$thumbnail_info->type = trim($thumbnail['type'] ?? 'any');
+				$thumbnail_info->path = trim($thumbnail['path'] ?? '', './');
+				if ($thumbnail_info->path !== '')
+				{
+					$info->thumbnails[] = $thumbnail_info;
+				}
+			}
 		}
 
 		// Get details about the layouts and skins provided by this theme.
@@ -81,7 +96,7 @@ class ThemeInfoParser extends BaseParser
 				$item = new \stdClass;
 				$item->name = '';
 				$item->type = $type;
-				$item->path = trim($provide['path'] ?? '', '/') . '/';
+				$item->path = trim($provide['path'] ?? '', './') . '/';
 				if ($type === 'module_skin')
 				{
 					$item->module = trim($provide['for'] ?? '');
@@ -97,12 +112,12 @@ class ThemeInfoParser extends BaseParser
 				$base_name = 'theme:' . $theme_name . ':' . ($item->module ?? ($item->widget ?? $item->type));
 				$name = $base_name;
 				$seq = 2;
-				while (isset($info->provides->{$name}))
+				while (isset($info->provides[$name]))
 				{
 					$name = $base_name . $seq++;
 				}
 				$item->name = $name;
-				$info->provides->{$name} = $item;
+				$info->provides[$name] = $item;
 			}
 		}
 
@@ -125,37 +140,53 @@ class ThemeInfoParser extends BaseParser
 	}
 
 	/**
-	 * Return the main config definition of this theme.
+	 * Find the best matching thumbnail for the type.
 	 *
-	 * @return object
+	 * @param string $type
+	 * @return ?string
 	 */
-	public function getThemeConfig(): object
+	public function getThumbnail(string $type = 'any'): ?string
 	{
-		return $this->config;
+		foreach ($this->thumbnails as $thumbnail)
+		{
+			if ($thumbnail->type === $type)
+			{
+				return $this->path . $thumbnail->path;
+			}
+		}
+		foreach ($this->thumbnails as $thumbnail)
+		{
+			if ($thumbnail->type === 'any')
+			{
+				return $this->path . $thumbnail->path;
+			}
+		}
+
+		return null;
 	}
 
 	/**
-	 * Return the config definition of a layout or skin provided by this theme.
+	 * Load the XML file of a layout or skin provided by this theme.
 	 *
 	 * @param string $name
 	 * @param string $lang
 	 * @return ?object
 	 */
-	public function getSubConfig(string $name, string $lang = ''): ?object
+	public function loadSubConfig(string $name, string $lang = ''): ?object
 	{
 		// Check if the sub config exists.
 		if (!str_starts_with($name, 'theme:'))
 		{
 			$name = 'theme:' . $this->name . ':' . $name;
 		}
-		if (!isset($this->provides->{$name}))
+		if (!isset($this->provides[$name]))
 		{
 			return null;
 		}
 
 		// Load the XML file.
-		$type = $this->provides->{$name}->type;
-		$filename = \RX_BASEDIR . $this->path . $this->provides->{$name}->path . ($type === 'layout' ? 'layout.xml' : 'skin.xml');
+		$type = $this->provides[$name]->type;
+		$filename = \RX_BASEDIR . $this->path . $this->provides[$name]->path . ($type === 'layout' ? 'layout.xml' : 'skin.xml');
 		if (!file_exists($filename) || !is_readable($filename))
 		{
 			return null;
@@ -170,7 +201,7 @@ class ThemeInfoParser extends BaseParser
 		$lang = $lang ?: (\Context::getLangType() ?: 'en');
 
 		// Clone the provide item to add more attributes.
-		$info = clone $this->provides->{$name};
+		$info = clone $this->provides[$name];
 		$info->config = new \stdClass;
 		$info->config_groups = [];
 
