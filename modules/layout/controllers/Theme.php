@@ -13,6 +13,7 @@ use Rhymix\Modules\Module\Models\Filebox as FileboxModel;
 use BaseObject;
 use Context;
 use Layout;
+use MenuAdminModel;
 use stdClass;
 
 class Theme extends Layout
@@ -47,14 +48,15 @@ class Theme extends Layout
 			throw new TargetNotFound;
 		}
 
-		$theme_config = ThemeModel::getThemeConfig($theme_name);
+		// Load config for the theme itself.
+		$theme_config = ThemeModel::getThemeConfig($theme_name, 'theme');
 		$config_index = 1;
 		foreach ($theme_info->config as $key => $var)
 		{
 			$input = new ExtraValue(0, $config_index++, $var->name, $var->type);
 			$input->parent_type = 'theme';
-			$input->input_name = $var->name;
-			$input->input_id = $var->name;
+			$input->input_name = 'theme__' . $var->name;
+			$input->input_id = 'theme__' . $var->name;
 			$input->value = $theme_config->{$var->name} ?? $var->default;
 			if ($var->options)
 			{
@@ -68,8 +70,54 @@ class Theme extends Layout
 			$var->input = $input->getFormHTML();
 		}
 
+		// Load config for each layout and skin provided by the theme.
+		$sub_infos = [];
+		$sub_menus = [];
+		foreach ($theme_info->provides as $sub_name => $sub_info)
+		{
+			$sub_info = $theme_info->loadSubConfig($sub_name);
+			if (!$sub_info)
+			{
+				continue;
+			}
+
+			$sub_config = ThemeModel::getThemeConfig($theme_name, $sub_name);
+			$config_index = 1;
+			foreach ($sub_info->config as $key => $var)
+			{
+				$input = new ExtraValue(0, $config_index++, $var->name, $var->type);
+				$input->parent_type = 'theme';
+				$input->input_name = $sub_name . '__' . $var->name;
+				$input->input_id = $sub_name . '__' . $var->name;
+				$input->value = $sub_config->{$var->name} ?? $var->default;
+				if ($var->options)
+				{
+					$input->options = [];
+					$input->is_dict_options = 'Y';
+					foreach ($var->options as $option)
+					{
+						$input->options[$option->value] = $option->title;
+					}
+				}
+				$var->input = $input->getFormHTML();
+			}
+
+			if ($sub_info->type === 'layout')
+			{
+				$sub_menus[$sub_name] = get_object_vars($sub_config->menus ?? new stdClass);
+			}
+
+			$sub_infos[$sub_name] = $sub_info;
+		}
+
+		// Load available menu list.
+		$menu_list = MenuAdminModel::getInstance()->getMenus();
+
 		Context::set('theme', $theme_name);
 		Context::set('theme_info', $theme_info);
+		Context::set('sub_infos', $sub_infos);
+		Context::set('sub_menus', $sub_menus);
+		Context::set('menu_list', $menu_list);
 
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('theme_config');
@@ -92,135 +140,167 @@ class Theme extends Layout
 			throw new TargetNotFound;
 		}
 
-		$sub_name = Context::get('sub_name');
-		if ($sub_name !== 'theme' && !isset($theme_info->provides[$sub_name]))
-		{
-			throw new TargetNotFound;
-		}
-
-		// Fetch the old config and prepare a new config object.
-		$old_config = ThemeModel::getThemeConfig($theme_name, $sub_name);
-		$new_config = new stdClass;
 		$vars = Context::getRequestVars();
 
-		if ($sub_name === 'theme')
-		{
-			$config = $theme_info->config;
-		}
-		else
-		{
-			$config = $theme_info->loadSubConfig($sub_name);
-		}
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
-		foreach ($config as $key => $var)
+		// Update the config for the theme itself and for each layout and skin.
+		$sub_names = array_keys($theme_info->provides);
+		array_unshift($sub_names, 'theme');
+		foreach ($sub_names as $sub_name)
 		{
-			// Expect an array?
-			$expect_array = isset(ExtraValue::ARRAY_TYPES[$var->type]) && !in_array($var->type, ['radio', 'select']);
+			// Fetch the old config and prepare a new config object.
+			$old_config = ThemeModel::getThemeConfig($theme_name, $sub_name);
+			$new_config = new stdClass;
 
-			// Image and file uploads
-			if ($var->type === 'image' || $var->type === 'file')
+			if ($sub_name === 'theme')
 			{
-				if (isset($vars->{'_delete_' . $key}) && $vars->{'_delete_' . $key} === 'Y')
+				$sub_info = $theme_info;
+			}
+			else
+			{
+				$sub_info = $theme_info->loadSubConfig($sub_name);
+				if (!$sub_info)
 				{
-					// Delete existing file
-					if (isset($old_config->{$key}) && isset($old_config->{$key}->filebox_srl))
-					{
-						$output = FileboxModel::deleteFile($old_config->{$key}->filebox_srl);
-						if (!$output->toBool())
-						{
-							return $output;
-						}
-					}
-					$new_config->{$key} = null;
-				}
-				elseif (isset($vars->{$key}) && is_array($vars->{$key}) && is_uploaded_file($vars->{$key}['tmp_name']))
-				{
-					// Check file extension
-					if ($var->type === 'image')
-					{
-						if (!preg_match('/\.(gif|jpe?g|png|bmp|webp|svg)$/i', $vars->{$key}['name'], $match))
-						{
-							return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
-						}
-					}
-					else
-					{
-						if (preg_match(FileboxModel::FORBIDDEN_EXTENSIONS, $vars->{$key}['name'], $match))
-						{
-							return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
-						}
-					}
-
-					// Delete existing file
-					if (isset($old_config->{$key}) && isset($old_config->{$key}->filebox_srl))
-					{
-						$output = FileboxModel::deleteFile($old_config->{$key}->filebox_srl);
-						if (!$output->toBool())
-						{
-							return $output;
-						}
-					}
-
-					// Save new file to filebox
-					$output = FileboxModel::insertFile((object)[
-						'member_srl' => $this->user->member_srl,
-						'addfile' => $vars->{$key},
-						'comment' => 'theme:' . $theme_name . ':' . $sub_name . ':' . $key,
-					]);
-					if (!$output->toBool())
-					{
-						return $output;
-					}
-
-					// Store filebox information as theme config
-					$new_config->{$key} = (object)[
-						'filebox_srl' => $output->get('module_filebox_srl'),
-						'source_filename' => FilenameFilter::clean($vars->{$key}['name']),
-						'uploaded_filename' => $output->get('save_filename'),
-						'file_size' => intval($vars->{$key}['size']),
-					];
-				}
-				else
-				{
-					$new_config->{$key} = $old_config->{$key} ?? null;
+					continue;
 				}
 			}
 
-			// Other types of variables
-			elseif (isset($vars->{$key}))
+			foreach ($sub_info->config as $key => $var)
 			{
-				if ($expect_array)
+				// Combine the sub name with the key to get the actual submitted value.
+				$value = $vars->{$sub_name . '__' . $key} ?? null;
+				$del_value = $vars->{'_delete_' . $sub_name . '__' . $key} ?? null;
+
+				// Expect an array?
+				$expect_array = isset(ExtraValue::ARRAY_TYPES[$var->type]) && !in_array($var->type, ['radio', 'select']);
+
+				// Image and file uploads
+				if ($var->type === 'image' || $var->type === 'file')
 				{
-					$new_config->{$key} = is_array($vars->{$key}) ? array_values($vars->{$key}) : [strval($vars->{$key})];
+					if (isset($del_value) && $del_value === 'Y')
+					{
+						// Delete existing file
+						if (isset($old_config->{$key}) && isset($old_config->{$key}->filebox_srl))
+						{
+							$output = FileboxModel::deleteFile($old_config->{$key}->filebox_srl);
+							if (!$output->toBool())
+							{
+								return $output;
+							}
+						}
+						$new_config->{$key} = null;
+					}
+					elseif (isset($value) && is_array($value) && is_uploaded_file($value['tmp_name']))
+					{
+						// Check file extension
+						if ($var->type === 'image')
+						{
+							if (!preg_match('/\.(gif|jpe?g|png|bmp|webp|svg)$/i', $value['name'], $match))
+							{
+								return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
+							}
+						}
+						else
+						{
+							if (preg_match(FileboxModel::FORBIDDEN_EXTENSIONS, $value['name'], $match))
+							{
+								return new BaseObject(-1, sprintf(lang('msg_filebox_invalid_extension'), $match[1]));
+							}
+						}
+
+						// Delete existing file
+						if (isset($old_config->{$key}) && isset($old_config->{$key}->filebox_srl))
+						{
+							$output = FileboxModel::deleteFile($old_config->{$key}->filebox_srl);
+							if (!$output->toBool())
+							{
+								return $output;
+							}
+						}
+
+						// Save new file to filebox
+						$output = FileboxModel::insertFile((object)[
+							'member_srl' => $this->user->member_srl,
+							'addfile' => $value,
+							'comment' => 'theme:' . $theme_name . ':' . $sub_name . ':' . $key,
+						]);
+						if (!$output->toBool())
+						{
+							return $output;
+						}
+
+						// Store filebox information as theme config
+						$new_config->{$key} = (object)[
+							'filebox_srl' => $output->get('module_filebox_srl'),
+							'source_filename' => FilenameFilter::clean($value['name']),
+							'uploaded_filename' => $output->get('save_filename'),
+							'file_size' => intval($value['size']),
+						];
+					}
+					else
+					{
+						$new_config->{$key} = $old_config->{$key} ?? null;
+					}
+				}
+
+				// Other types of variables
+				elseif (isset($value))
+				{
+					if ($expect_array)
+					{
+						$new_config->{$key} = is_array($value) ? array_values($value) : [strval($value)];
+					}
+					else
+					{
+						$new_config->{$key} = strval($value);
+					}
 				}
 				else
 				{
-					$new_config->{$key} = strval($vars->{$key});
+					$new_config->{$key} = $expect_array ? [] : '';
+				}
+			}
+
+			// Add menu settings for layouts
+			if (isset($sub_info->type) && $sub_info->type === 'layout')
+			{
+				$new_config->menus = new stdClass;
+				foreach ($sub_info->menus as $menu)
+				{
+					$menu_value = $vars->{$sub_name . '__menus__' . $menu->name} ?? null;
+					if (isset($menu_value))
+					{
+						$new_config->menus->{$menu->name} = intval($menu_value);
+					}
+					else
+					{
+						$new_config->menus->{$menu->name} = 0;
+					}
+				}
+			}
+
+			// Insert or update the theme configuration in the DB.
+			if ($old_config === null)
+			{
+				$output = ThemeModel::insertThemeConfig($theme_name, $sub_name, $new_config);
+				if (!$output->toBool())
+				{
+					return $output;
 				}
 			}
 			else
 			{
-				$new_config->{$key} = $expect_array ? [] : '';
+				$output = ThemeModel::updateThemeConfig($theme_name, $sub_name, $new_config);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 
-		// Insert or update the theme configuration in the DB.
-		if ($old_config === null)
-		{
-			$output = ThemeModel::insertThemeConfig($theme_name, $sub_name, $new_config);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
-		else
-		{
-			$output = ThemeModel::updateThemeConfig($theme_name, $sub_name, $new_config);
-			if (!$output->toBool())
-			{
-				return $output;
-			}
-		}
+		$oDB->commit();
 
 		$response = new RedirectResponse();
 		$response->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispLayoutAdminThemeList']));

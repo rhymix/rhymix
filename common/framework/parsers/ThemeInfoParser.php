@@ -109,14 +109,14 @@ class ThemeInfoParser extends BaseParser
 				$item->description = self::_getChildrenByLang($provide, 'description', $lang);
 
 				// Generate a unique name for this item, especially if there are multiple skins for the same module or widget.
-				$base_name = 'theme:' . $theme_name . ':' . ($item->module ?? ($item->widget ?? $item->type));
+				$base_name = ($item->module ?? ($item->widget ?? $item->type));
 				$name = $base_name;
 				$seq = 2;
 				while (isset($info->provides[$name]))
 				{
 					$name = $base_name . $seq++;
 				}
-				$item->name = $name;
+				$item->name = 'theme:' . $theme_name . ':' . $name;
 				$info->provides[$name] = $item;
 			}
 		}
@@ -175,10 +175,6 @@ class ThemeInfoParser extends BaseParser
 	public function loadSubConfig(string $name, string $lang = ''): ?object
 	{
 		// Check if the sub config exists.
-		if (!str_starts_with($name, 'theme:'))
-		{
-			$name = 'theme:' . $this->name . ':' . $name;
-		}
 		if (!isset($this->provides[$name]))
 		{
 			return null;

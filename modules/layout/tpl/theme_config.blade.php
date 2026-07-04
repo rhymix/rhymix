@@ -1,4 +1,5 @@
 @load('css/theme_admin.scss')
+@load('js/theme_admin.js')
 
 <div class="x_page-header">
 	<h1>{{ $theme_info->title }}</h1>
@@ -69,43 +70,60 @@
 		</div>
 	@endif
 
-	@if (count(get_object_vars($theme_info->config)))
-		@foreach ($theme_info->config_groups as $group_name)
-			<section class="section theme_config">
-				<h2>{{ $group_name }}</h2>
-				@foreach ($theme_info->config as $key => $var)
-					@if ($var->group === $group_name)
+	<ul class="x_nav x_nav-tabs">
+		<li class="theme-config-tab x_active">
+			<a href="#" data-target="theme">{{ $lang->theme_common_config }}</a>
+		</li>
+		@foreach ($sub_infos as $sub_name => $sub_info)
+			<li class="theme-config-tab">
+				<a href="#" data-target="{{ $sub_name }}">{{ $sub_info->title }}</a>
+			</li>
+		@endforeach
+	</ul>
+
+	<div class="theme-config-content theme-config-content-theme">
+		@if (count(get_object_vars($theme_info->config)))
+			@include('theme_config_include', ['info' => $theme_info, 'type' => 'theme'])
+		@else
+			<div class="message info">
+				<p>{{ $lang->theme_has_no_config }}</p>
+			</div>
+		@endif
+	</div>
+
+	@foreach ($sub_infos as $sub_name => $sub_info)
+		<div class="theme-config-content theme-config-content-{{ $sub_name }}" style="display:none">
+			@if (count(get_object_vars($sub_info->config)))
+				@include ('theme_config_include', ['info' => $sub_info, 'type' => $sub_info->type])
+			@else
+				<div class="message info">
+					<p>{{ $lang->theme_has_no_config }}</p>
+				</div>
+			@endif
+			@if ($sub_info->type === 'layout')
+				<section class="section theme_config">
+					<h2>{{ $lang->theme_select_menu }}</h2>
+					@foreach ($sub_info->menus as $menu)
 						<div class="x_control-group">
-							<label class="x_control-label">{{ $var->title }}</label>
+							<label class="x_control-label">{{ $menu->title }}</label>
 							<div class="x_controls">
-								{!! $var->input !!}
-								<span class="x_help-block">{{ nl2br($var->description) }}</span>
+								<select name="{{ $sub_name }}__menus__{{ $menu->name }}">
+									<option value=""></option>
+									@foreach ($menu_list as $menu_item)
+										<option value="{{ $menu_item->menu_srl }}" @selected($menu_item->menu_srl == ($sub_menus[$sub_name][$menu->name] ?? 0))>
+											{{ Context::replaceUserLang($menu_item->title) }}
+										</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
-					@endif
-				@endforeach
-			</section>
-		@endforeach
-		<section class="section theme_config">
-			@foreach ($theme_info->config as $key => $var)
-				@if ($var->group === null)
-					<div class="x_control-group">
-						<label class="x_control-label">{{ $var->title }}</label>
-						<div class="x_controls">
-							{!! $var->input !!}
-							<span class="x_help-block">{{ nl2br($var->description) }}</span>
-						</div>
-					</div>
-				@endif
-			@endforeach
-		</section>
-	@else
-		<div class="message info">
-			<p>{{ $lang->theme_has_no_config }}</p>
+					@endforeach
+				</section>
+			@endif
 		</div>
-	@endif
+	@endforeach
 
-	<div class="x_clearfix">
+	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button type="submit" class="x_btn x_btn-primary">{{ $lang->cmd_save }}</button>
 		</div>
