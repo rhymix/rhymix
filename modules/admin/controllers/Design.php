@@ -3,8 +3,8 @@
 namespace Rhymix\Modules\Admin\Controllers;
 
 use Context;
-use FileHandler;
 use Rhymix\Framework\DB;
+use Rhymix\Framework\Storage;
 
 class Design extends Base
 {
@@ -28,12 +28,6 @@ class Design extends Base
 	{
 		$vars->module_skin = json_decode($vars->module_skin);
 
-		$siteDesignPath = \RX_BASEDIR . 'files/site_design/';
-		if (!is_dir($siteDesignPath))
-		{
-			FileHandler::makeDir($siteDesignPath);
-		}
-
 		$siteDesignFile = \RX_BASEDIR . 'files/site_design/design_0.php';
 		$layoutTarget = 'layout_srl';
 		$skinTarget = 'skin';
@@ -43,7 +37,7 @@ class Design extends Base
 			$skinTarget = 'mskin';
 		}
 
-		if (is_readable($siteDesignFile))
+		if (Storage::isReadable($siteDesignFile))
 		{
 			include $siteDesignFile;
 		}
@@ -83,32 +77,30 @@ class Design extends Base
 	 */
 	public function makeDefaultDesignFile(object $designInfo): void
 	{
-		$buff = array();
-		$buff[] = '<?php if(!defined("__XE__")) exit();';
-		$buff[] = '$designInfo = new stdClass;';
-
-		if($designInfo->layout_srl)
+		// Clean up the object.
+		$valid_keys = ['layout_srl', 'mlayout_srl', 'module', 'theme'];
+		foreach ($designInfo as $key => $val)
 		{
-			$buff[] = sprintf('$designInfo->layout_srl = %d; ', intval($designInfo->layout_srl));
-		}
-
-		if($designInfo->mlayout_srl)
-		{
-			$buff[] = sprintf('$designInfo->mlayout_srl = %d;', intval($designInfo->mlayout_srl));
-		}
-
-		$buff[] = '$designInfo->module = new stdClass;';
-
-		foreach($designInfo->module as $moduleName => $skinInfo)
-		{
-			$buff[] = sprintf('$designInfo->module->{%s} = new stdClass;', var_export(strval($moduleName), true));
-			foreach($skinInfo as $target => $skinName)
+			if (!in_array($key, $valid_keys))
 			{
-				$buff[] = sprintf('$designInfo->module->{%s}->{%s} = %s;', var_export(strval($moduleName), true), var_export(strval($target), true), var_export(strval($skinName), true));
+				unset($designInfo->{$key});
 			}
 		}
+		$designInfo->theme = preg_replace('/[^a-zA-Z0-9:_-]/', '', $designInfo->theme ?? '');
+		$designInfo->layout_srl = intval($designInfo->layout_srl);
+		$designInfo->mlayout_srl = intval($designInfo->mlayout_srl);
+		foreach ($designInfo->module ?? [] as $moduleName => $skinInfo)
+		{
+			$skinInfo = (object)[
+				'skin' => $skinInfo->skin ?? '',
+				'mskin' => $skinInfo->mskin ?? '',
+			];
+			$designInfo->module->{$moduleName} = $skinInfo;
+		}
 
+		// Write the object to a PHP file.
 		$siteDesignFile = \RX_BASEDIR . 'files/site_design/design_0.php';
-		FileHandler::writeFile($siteDesignFile, implode(\PHP_EOL, $buff));
+		$content = preg_replace('/=>\s+\(object\) array\(/', '=> (object) array(', var_export($designInfo, true));
+		Storage::write($siteDesignFile, "<?php\n\n" . '$designInfo = ' . $content . ";\n");
 	}
 }
