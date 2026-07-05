@@ -191,4 +191,58 @@ class Theme
 		Cache::delete('theme:config:' . $theme_name . ':' . $sub_name);
 		return $output;
 	}
+
+	/**
+	 * Get the current site's default design configuration.
+	 *
+	 * @return object
+	 */
+	public static function getDefaultDesignConfig(): object
+	{
+		include \RX_BASEDIR . 'files/site_design/design_0.php';
+		if (!isset($designInfo) || !is_object($designInfo))
+		{
+			$designInfo = new \stdClass;
+		}
+		if (!isset($designInfo->theme) || !is_string($designInfo->theme))
+		{
+			$designInfo->theme = '';
+		}
+		return $designInfo;
+	}
+
+	/**
+	 * Set the current site's default design configuration.
+	 *
+	 * @param object $config
+	 * @return bool
+	 */
+	public static function setDefaultDesignConfig(object $config): bool
+	{
+		// Clean up the object.
+		$valid_keys = ['layout_srl', 'mlayout_srl', 'module', 'theme'];
+		foreach ($config as $key => $val)
+		{
+			if (!in_array($key, $valid_keys))
+			{
+				unset($config->{$key});
+			}
+		}
+		$config->theme = preg_replace('/[^a-zA-Z0-9:_-]/', '', $config->theme ?? '');
+		$config->layout_srl = intval($config->layout_srl);
+		$config->mlayout_srl = intval($config->mlayout_srl);
+		foreach ($config->module ?? [] as $moduleName => $skinInfo)
+		{
+			$skinInfo = (object)[
+				'skin' => $skinInfo->skin ?? '',
+				'mskin' => $skinInfo->mskin ?? '',
+			];
+			$config->module->{$moduleName} = $skinInfo;
+		}
+
+		// Write the object to a PHP file.
+		$filename = \RX_BASEDIR . 'files/site_design/design_0.php';
+		$content = preg_replace('/=>\s+\(object\) array\(/', '=> (object) array(', var_export($config, true));
+		return Storage::write($filename, "<?php\n\n\$designInfo = " . $content . ";\n");
+	}
 }

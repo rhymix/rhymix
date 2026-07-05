@@ -5,6 +5,7 @@ namespace Rhymix\Modules\Admin\Controllers;
 use Context;
 use Rhymix\Framework\DB;
 use Rhymix\Framework\Storage;
+use Rhymix\Modules\Layout\Models\Theme as ThemeModel;
 
 class Design extends Base
 {
@@ -41,7 +42,7 @@ class Design extends Base
 		{
 			include $siteDesignFile;
 		}
-		else
+		if (!isset($designInfo) || !is_object($designInfo))
 		{
 			$designInfo = new \stdClass;
 		}
@@ -66,41 +67,18 @@ class Design extends Base
 			$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
 		}
 
-		$this->makeDefaultDesignFile($designInfo);
+		ThemeModel::setDefaultDesignConfig($designInfo);
 	}
 
 	/**
 	 * Subroutine for the above;
 	 *
+	 * @deprecated
 	 * @param object $designInfo
 	 * @return void
 	 */
 	public function makeDefaultDesignFile(object $designInfo): void
 	{
-		// Clean up the object.
-		$valid_keys = ['layout_srl', 'mlayout_srl', 'module', 'theme'];
-		foreach ($designInfo as $key => $val)
-		{
-			if (!in_array($key, $valid_keys))
-			{
-				unset($designInfo->{$key});
-			}
-		}
-		$designInfo->theme = preg_replace('/[^a-zA-Z0-9:_-]/', '', $designInfo->theme ?? '');
-		$designInfo->layout_srl = intval($designInfo->layout_srl);
-		$designInfo->mlayout_srl = intval($designInfo->mlayout_srl);
-		foreach ($designInfo->module ?? [] as $moduleName => $skinInfo)
-		{
-			$skinInfo = (object)[
-				'skin' => $skinInfo->skin ?? '',
-				'mskin' => $skinInfo->mskin ?? '',
-			];
-			$designInfo->module->{$moduleName} = $skinInfo;
-		}
-
-		// Write the object to a PHP file.
-		$siteDesignFile = \RX_BASEDIR . 'files/site_design/design_0.php';
-		$content = preg_replace('/=>\s+\(object\) array\(/', '=> (object) array(', var_export($designInfo, true));
-		Storage::write($siteDesignFile, "<?php\n\n" . '$designInfo = ' . $content . ";\n");
+		ThemeModel::setDefaultDesignConfig($designInfo);
 	}
 }

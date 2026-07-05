@@ -27,6 +27,10 @@ class Theme extends Layout
 		$theme_list = ThemeModel::getInstalledThemeList();
 		Context::set('theme_list', $theme_list);
 
+		// Get the currently active theme.
+		$default_design_config = ThemeModel::getDefaultDesignConfig();
+		Context::set('active_theme', $default_design_config->theme);
+
 		$this->setTemplatePath($this->module_path . 'tpl');
 		$this->setTemplateFile('theme_list');
 	}
@@ -308,10 +312,26 @@ class Theme extends Layout
 	}
 
 	/**
-	 * Apply theme
+	 * Apply theme as default
 	 */
 	public function procLayoutAdminApplyTheme()
 	{
+		$theme_name = Context::get('active_theme');
+		if ($theme_name !== null && !preg_match('/^[a-zA-Z0-9_]+$/', $theme_name))
+		{
+			throw new InvalidRequest;
+		}
+		if ($theme_name !== null && !ThemeModel::getThemeInfo($theme_name))
+		{
+			throw new TargetNotFound;
+		}
 
+		$default_design_config = ThemeModel::getDefaultDesignConfig();
+		$default_design_config->theme = $theme_name ?? '';
+		ThemeModel::setDefaultDesignConfig($default_design_config);
+
+		$response = new RedirectResponse();
+		$response->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispLayoutAdminThemeList']));
+		return $response;
 	}
 }
