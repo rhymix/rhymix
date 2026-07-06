@@ -1190,22 +1190,6 @@ class ModuleHandler extends Handler
 					}
 				}
 			}
-
-			// Layout drop handling
-			$isLayoutDrop = Context::get('isLayoutDrop');
-			if($isLayoutDrop)
-			{
-				$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
-				if($kind == 'admin')
-				{
-					$oModule->setLayoutFile('popup_layout');
-				}
-				elseif (self::isPartialPageRenderingEnabled())
-				{
-					$oModule->setLayoutPath('common/tpl');
-					$oModule->setLayoutFile('default_layout');
-				}
-			}
 		}
 
 		// Set http status code
@@ -1333,7 +1317,7 @@ class ModuleHandler extends Handler
 		{
 			return false;
 		}
-		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !URL::isInternalURL($_SERVER['HTTP_REFERER'])))
+		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !Rhymix\Framework\URL::isInternalURL($_SERVER['HTTP_REFERER'])))
 		{
 			return false;
 		}
