@@ -2051,7 +2051,7 @@ class ModuleModel extends Module
 		{
 			throw new Rhymix\Framework\Exceptions\DBError(lang('msg_db_query_failed'));
 		}
-		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants->data, $module_info, $member_info ?: null);
+		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants->data ?: [], $module_info, $member_info ?: null);
 		return $__cache = $grant;
 	}
 
