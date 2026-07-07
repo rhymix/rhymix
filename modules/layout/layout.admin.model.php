@@ -79,7 +79,7 @@ class LayoutAdminModel extends Layout
 		$layout_info->description = nl2br(trim($layout_info->description));
 		if(!is_object($layout_info->extra_var))
 		{
-			$layout_info->extra_var = new StdClass();
+			$layout_info->extra_var = new \stdClass();
 		}
 
 		foreach($layout_info->extra_var as $var_name => $val)
@@ -95,7 +95,7 @@ class LayoutAdminModel extends Layout
 	public function getLayoutAdminSiteDefaultLayout()
 	{
 		$type = Context::get('type');
-		$layoutSrl = $this->getSiteDefaultLayout($type);
+		$layoutSrl = self::getSiteDefaultLayout($type);
 
 		$oLayoutModel = getModel('layout');
 		$layoutInfo = $oLayoutModel->getLayoutRawData($layoutSrl, array('title'));
@@ -104,26 +104,23 @@ class LayoutAdminModel extends Layout
 		$this->add('title', $layoutInfo->title);
 	}
 
-	public function getSiteDefaultLayout($viewType = 'P')
+	public static function getSiteDefaultLayout($viewType = 'P')
 	{
-		$target = ($viewType == 'M') ? 'mlayout_srl' : 'layout_srl';
-		$designInfoFile = RX_BASEDIR . 'files/site_design/design_0.php';
-		if(FileHandler::exists($designInfoFile)) include($designInfoFile);
-
-		if(!$designInfo || !$designInfo->{$target})
+		$target = ($viewType === 'M') ? 'mlayout_srl' : 'layout_srl';
+		$designInfo = Rhymix\Modules\Layout\Models\Theme::getDefaultDesignConfig();
+		if (!$designInfo || empty($designInfo->{$target}))
 		{
 			return 0;
 		}
 
-		$oModel = getModel('layout');
-		$layout_info = $oModel->getLayout($designInfo->{$target});
-
-		if(!$layout_info)
+		$layout_srl = $designInfo->{$target};
+		$layout_info = LayoutModel::getLayout($layout_srl);
+		if (!$layout_info)
 		{
 			return 0;
 		}
 
-		return $designInfo->{$target};
+		return $layout_srl;
 	}
 }
 /* End of file layout.admin.model.php */

@@ -27,30 +27,24 @@ class Design extends Base
 	 */
 	public function updateDefaultDesignInfo(object $vars): void
 	{
-		$vars->module_skin = json_decode($vars->module_skin);
-
-		$siteDesignFile = \RX_BASEDIR . 'files/site_design/design_0.php';
-		$layoutTarget = 'layout_srl';
-		$skinTarget = 'skin';
 		if ($vars->target_type == 'M')
 		{
 			$layoutTarget = 'mlayout_srl';
 			$skinTarget = 'mskin';
 		}
-
-		if (Storage::isReadable($siteDesignFile))
+		else
 		{
-			include $siteDesignFile;
-		}
-		if (!isset($designInfo) || !is_object($designInfo))
-		{
-			$designInfo = new \stdClass;
+			$layoutTarget = 'layout_srl';
+			$skinTarget = 'skin';
 		}
 
-		$layoutSrl = (!$vars->layout_srl) ? 0 : $vars->layout_srl;
-		$designInfo->{$layoutTarget} = $layoutSrl;
+		$layout_srl = empty($vars->layout_srl) ? 0 : $vars->layout_srl;
 
-		foreach ($vars->module_skin as $moduleName => $skinName)
+		$designInfo = ThemeModel::getDefaultDesignConfig();
+		$designInfo->{$layoutTarget} = intval($layout_srl);
+
+		$module_skins = json_decode($vars->module_skin);
+		foreach ($module_skins as $moduleName => $skinName)
 		{
 			if ($moduleName == 'ARTICLE')
 			{

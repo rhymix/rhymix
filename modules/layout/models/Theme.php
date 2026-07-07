@@ -12,6 +12,11 @@ use Rhymix\Modules\Extravar\Models\Value as ExtraValue;
 class Theme
 {
 	/**
+	 * Default design config cache
+	 */
+	protected static ?object $_default_design_config = null;
+
+	/**
 	 * Get installed theme list
 	 *
 	 * @return array
@@ -199,6 +204,11 @@ class Theme
 	 */
 	public static function getDefaultDesignConfig(): object
 	{
+		if (isset(self::$_default_design_config))
+		{
+			return self::$_default_design_config;
+		}
+
 		include \RX_BASEDIR . 'files/site_design/design_0.php';
 		if (!isset($designInfo) || !is_object($designInfo))
 		{
@@ -208,6 +218,8 @@ class Theme
 		{
 			$designInfo->theme = '';
 		}
+
+		self::$_default_design_config = $designInfo;
 		return $designInfo;
 	}
 
@@ -239,6 +251,9 @@ class Theme
 			];
 			$config->module->{$moduleName} = $skinInfo;
 		}
+
+		// Clear local cache.
+		self::$_default_design_config = null;
 
 		// Write the object to a PHP file.
 		$filename = \RX_BASEDIR . 'files/site_design/design_0.php';

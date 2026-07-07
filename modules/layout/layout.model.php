@@ -292,7 +292,7 @@ class LayoutModel extends Layout
 		}
 
 		// Store in cache
-		Rhymix\Framework\Cache::set("layout:$layout_srl", $layout_info);
+		Rhymix\Framework\Cache::set("layout:$layout_srl", $layout_info, 0, true);
 		return $layout_info;
 	}
 

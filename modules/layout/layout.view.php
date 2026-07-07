@@ -94,10 +94,7 @@ class LayoutView extends Layout
 			{
 				if($layoutSrl == -1)
 				{
-					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
-					$designInfoFile = sprintf(RX_BASEDIR . 'files/site_design/design_%d.php', $site_srl);
-					include($designInfoFile);
-
+					$designInfo = Rhymix\Modules\Layout\Models\Theme::getDefaultDesignConfig();
 					if($skinType == 'M')
 					{
 						$layoutSrl = $designInfo->mlayout_srl;

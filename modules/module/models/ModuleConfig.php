@@ -8,6 +8,7 @@ use Rhymix\Framework\Event;
 use Rhymix\Framework\Helpers\DBResultHelper;
 use Rhymix\Framework\Parsers\DBQuery\NullValue;
 use Rhymix\Framework\Storage;
+use Rhymix\Modules\Layout\Models\Theme as ThemeModel;
 
 class ModuleConfig
 {
@@ -138,15 +139,11 @@ class ModuleConfig
 	{
 		// Load default skin name from the site design info file.
 		$target = ($mode === 'M') ? 'mskin' : 'skin';
-		$designInfoFile = \RX_BASEDIR . 'files/site_design/design_0.php';
-		if (Storage::isFile($designInfoFile) && Storage::isReadable($designInfoFile))
+ 		$designInfo = ThemeModel::getDefaultDesignConfig();
+		$skin = $designInfo->module->{$module}->{$target} ?? null;
+		if ($skin !== null)
 		{
-			include($designInfoFile);
-			$skin = $designInfo->module->{$module}->{$target} ?? null;
-			if ($skin !== null)
-			{
-				return $skin;
-			}
+			return $skin;
 		}
 
 		// If there is no default skin specified in the site design info file,
@@ -191,9 +188,7 @@ class ModuleConfig
 			$designInfo->module->{$module} = new \stdClass;
 		}
 		$designInfo->module->{$module}->{$target} = $skin;
-		$oAdminController = \Rhymix\Modules\Admin\Controllers\Design::getInstance();
-		$oAdminController->makeDefaultDesignFile($designInfo);
-
+		ThemeModel::setDefaultDesignConfig($designInfo);
 		return $skin;
 	}
 
