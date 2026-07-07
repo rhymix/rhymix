@@ -2046,8 +2046,12 @@ class ModuleModel extends Module
 
 		// Generate grant
 		$xml_grant_list = isset($xml_info->grant) ? (array)$xml_info->grant : array();
-		$module_grants = self::getModuleGrants($module_info->module_srl ?? 0)->data ?: [];
-		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants, $module_info, $member_info ?: null);
+		$module_grants = self::getModuleGrants($module_info->module_srl ?? 0);
+		if (!$module_grants->toBool())
+		{
+			throw new Rhymix\Framework\Exceptions\DBError(lang('msg_db_query_failed'));
+		}
+		$grant = new Rhymix\Modules\Module\Models\Permission($xml_grant_list, $module_grants->data, $module_info, $member_info ?: null);
 		return $__cache = $grant;
 	}
 
@@ -2186,7 +2190,7 @@ class ModuleModel extends Module
 			$args = new stdClass;
 			$args->module_srl = $module_srl;
 			$output = executeQueryArray('module.getModuleGrants', $args);
-			if($output->toBool())
+			if ($output->toBool())
 			{
 				Rhymix\Framework\Cache::set("site_and_module:module_grants:$module_srl", $output, 0, true);
 			}
