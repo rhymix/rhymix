@@ -236,8 +236,17 @@ class DB
 			$query_string .= "\n" . sprintf('/* query() %s */', \RX_CLIENT_IP);
 		}
 
+		// Clean up any previous statement.
+		if (isset($this->_last_stmt))
+		{
+			if ($this->_last_stmt instanceof \PDOStatement)
+			{
+				$this->_last_stmt->closeCursor();
+			}
+			$this->_last_stmt = null;
+		}
+
 		// Execute either a prepared statement or a regular query depending on whether there are arguments.
-		$this->_last_stmt = null;
 		if (count($args))
 		{
 			$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -255,7 +264,7 @@ class DB
 	 *
 	 * @param string $query_id
 	 * @param array|object $args
-	 * @param array $columns
+	 * @param array $column_list
 	 * @param string $result_type
 	 * @param string $result_class
 	 * @return Helpers\DBResultHelper
@@ -368,13 +377,22 @@ class DB
 		// Prepare and execute the main query.
 		try
 		{
+			$this->_query_id = $query_id;
+
 			if ($this->_debug_comment)
 			{
 				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
 			}
 
-			$this->_query_id = $query_id;
-			$this->_last_stmt = null;
+			if (isset($this->_last_stmt))
+			{
+				if ($this->_last_stmt instanceof \PDOStatement)
+				{
+					$this->_last_stmt->closeCursor();
+				}
+				$this->_last_stmt = null;
+			}
+
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -459,7 +477,15 @@ class DB
 				$query_string .= "\n" . sprintf('/* %s %s */', $query_id, \RX_CLIENT_IP);
 			}
 
-			$this->_last_stmt = null;
+			if (isset($this->_last_stmt))
+			{
+				if ($this->_last_stmt instanceof \PDOStatement)
+				{
+					$this->_last_stmt->closeCursor();
+				}
+				$this->_last_stmt = null;
+			}
+
 			if (count($query_params))
 			{
 				$this->_last_stmt = $this->_handle->prepare($query_string);
@@ -480,6 +506,7 @@ class DB
 			{
 				$count = $this->_last_stmt->fetchColumn(0);
 				$this->_last_stmt->closeCursor();
+				$this->_last_stmt = null;
 			}
 		}
 		catch (Exceptions\DBError $e)

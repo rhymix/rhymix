@@ -33,3 +33,11 @@ jobs:
       run: |
         php codecept.phar build
         php codecept.phar run --debug --fail-fast
+
+    - name: Upload codeception artifacts
+      if: always()
+      uses: actions/upload-artifact@v7
+      with:
+        name: codeception-artifacts
+        path: tests/_output/
+        if-no-files-found: ignore
