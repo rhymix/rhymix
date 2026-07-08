@@ -4,6 +4,7 @@ namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Exceptions\DBError;
+use Context;
 
 #[\AllowDynamicProperties]
 class Permission
@@ -260,7 +261,7 @@ class Permission
 		// Generate a Permission object
 		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
 		$module_grants = ModuleInfo::getGrants($module_srl);
-		if (!$module_grants->toBool() && \Context::isInstalled())
+		if (!$module_grants->toBool() && Context::isInstalled())
 		{
 			throw new DBError(lang('msg_db_query_failed'));
 		}
