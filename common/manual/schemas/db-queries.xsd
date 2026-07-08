@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:annotation>
+		<xs:documentation> Schema describing Rhymix query definition files under modules/*/queries,
+			addons/*/queries, and widgets/*/queries. </xs:documentation>
+	</xs:annotation>
+
+	<xs:element name="query" type="queryType" />
+
+	<xs:complexType name="queryType">
+		<xs:sequence>
+			<xs:element name="tables" type="tableListType" />
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="index_hint" type="indexHintType" />
+				<xs:element name="columns" type="columnCollectionType" />
+				<xs:element name="conditions" type="conditionsType" />
+				<xs:element name="groups" type="groupByCollectionType" />
+				<xs:element name="navigation" type="navigationType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="id" type="identifierType" use="optional" />
+		<xs:attribute name="action" type="queryActionType" use="optional" />
+		<xs:attribute name="alias" type="identifierType" use="optional" />
+		<xs:attribute name="column" type="xs:string" use="optional" />
+		<xs:attribute name="notnull" type="notNullLiteral" use="optional" />
+		<xs:attribute name="operation" type="conditionOperationType" use="optional" />
+		<xs:attribute name="priority" type="priorityType" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="tableListType">
+		<xs:sequence>
+			<xs:element name="table" type="tableType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="tableType">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="tables" type="tableListType" />
+				<xs:element name="columns" type="columnCollectionType" />
+				<xs:element name="conditions" type="conditionsType" />
+				<xs:element name="groups" type="groupByCollectionType" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="identifierType" use="optional" />
+		<xs:attribute name="alias" type="identifierType" use="optional" />
+		<xs:attribute name="alais" type="identifierType" use="optional" />
+		<xs:attribute name="type" type="joinType" use="optional" />
+		<xs:attribute name="query" type="queryFlagType" use="optional" />
+		<xs:attribute name="if" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="columnCollectionType">
+		<xs:sequence>
+			<xs:element name="column" type="columnType" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="distinct" type="distinctLiteral" use="optional" />
+	</xs:complexType>
+
+	<xs:complexType name="columnType">
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="alias" type="identifierType" use="optional" />
+		<xs:attribute name="alais" type="identifierType" use="optional" />
+		<xs:attribute name="var" type="xs:string" use="optional" />
+		<xs:attribute name="filter" type="filterType" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:attribute name="notnull" type="notNullLiteral" use="optional" />
+		<xs:attribute name="operation" type="columnOperationType" use="optional" />
+		<xs:attribute name="if" type="xs:string" use="optional" />
+		<xs:attribute name="maxlength" type="xs:positiveInteger" use="optional" />
+		<xs:attribute name="minlength" type="xs:nonNegativeInteger" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="conditionsType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="condition" type="conditionType" />
+			<xs:element name="group" type="conditionGroupType" />
+			<xs:element ref="query" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="conditionType">
+		<xs:attribute name="operation" type="conditionOperationType" use="required" />
+		<xs:attribute name="column" type="xs:string" use="required" />
+		<xs:attribute name="var" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:attribute name="filter" type="filterType" use="optional" />
+		<xs:attribute name="pipe" type="pipeType" use="optional" />
+		<xs:attribute name="notnull" type="notNullLiteral" use="optional" />
+		<xs:attribute name="if" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="conditionGroupType">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="condition" type="conditionType" />
+			<xs:element name="group" type="conditionGroupType" />
+			<xs:element ref="query" />
+		</xs:choice>
+		<xs:attribute name="pipe" type="pipeType" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="groupByCollectionType">
+		<xs:sequence>
+			<xs:element name="group" type="groupByEntryType" minOccurs="1" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="groupByEntryType">
+		<xs:attribute name="column" type="xs:string" use="required" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="navigationType">
+		<xs:sequence>
+			<xs:element name="index" type="navigationIndexType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="list_count" type="navigationParameterType" minOccurs="0" />
+			<xs:element name="page_count" type="navigationParameterType" minOccurs="0" />
+			<xs:element name="page" type="navigationParameterType" minOccurs="0" />
+			<xs:element name="offset" type="navigationParameterType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="navigationParameterType">
+		<xs:attribute name="var" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="navigationIndexType">
+		<xs:attribute name="var" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:attribute name="defualt" type="xs:string" use="optional" />
+		<xs:attribute name="order" type="xs:string" use="optional" />
+		<xs:attribute name="order_default" type="orderDirectionType" use="optional" />
+		<xs:attribute name="order-default" type="orderDirectionType" use="optional" />
+		<xs:attribute name="type" type="xs:string" use="optional" />
+		<xs:attribute name="name" type="identifierType" use="optional" />
+		<xs:attribute name="comment" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="indexHintType">
+		<xs:sequence>
+			<xs:element name="index" type="indexHintEntryType" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="for" type="indexHintScopeType" use="optional" />
+		<xs:attribute name="name" type="identifierType" use="optional" />
+		<xs:attribute name="type" type="indexHintModeType" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:complexType name="indexHintEntryType">
+		<xs:attribute name="table" type="identifierType" use="optional" />
+		<xs:attribute name="name" type="identifierType" use="optional" />
+		<xs:attribute name="var" type="xs:string" use="optional" />
+		<xs:attribute name="default" type="xs:string" use="optional" />
+		<xs:attribute name="type" type="xs:string" use="optional" />
+		<xs:anyAttribute processContents="lax" />
+	</xs:complexType>
+
+	<xs:simpleType name="identifierType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Za-z_][A-Za-z0-9_]*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="queryActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="select" />
+			<xs:enumeration value="insert" />
+			<xs:enumeration value="update" />
+			<xs:enumeration value="delete" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="joinType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="left join" />
+			<xs:enumeration value="left outer join" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="queryFlagType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="true" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="distinctLiteral">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="distinct" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="filterType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="email" />
+			<xs:enumeration value="homepage" />
+			<xs:enumeration value="number" />
+			<xs:enumeration value="numbers" />
+			<xs:enumeration value="userid" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="notNullLiteral">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="notnull" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="columnOperationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="plus" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="conditionOperationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="below" />
+			<xs:enumeration value="equal" />
+			<xs:enumeration value="excess" />
+			<xs:enumeration value="in" />
+			<xs:enumeration value="less" />
+			<xs:enumeration value="like" />
+			<xs:enumeration value="like_prefix" />
+			<xs:enumeration value="more" />
+			<xs:enumeration value="notequal" />
+			<xs:enumeration value="notin" />
+			<xs:enumeration value="notnull" />
+			<xs:enumeration value="null" />
+			<xs:enumeration value="search" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="pipeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="and" />
+			<xs:enumeration value="or" />
+			<xs:enumeration value="where" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="priorityType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="LOW" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="orderDirectionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="asc" />
+			<xs:enumeration value="desc" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="indexHintScopeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="ALL" />
+			<xs:enumeration value="MYSQL" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="indexHintModeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="use" />
+			<xs:enumeration value="USE" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>
