@@ -105,23 +105,57 @@ class URL
 	 */
 	public static function isInternalURL(string $url): bool
 	{
-		$domain = self::getDomainFromURL($url);
-		if ($domain === false)
+		// Check the scheme.
+		$url = str_replace('\\', '/', $url);
+		if (preg_match('!^([a-zA-Z0-9_-]+):!', $url, $matches))
+		{
+			$scheme = strtolower($matches[1]);
+			if (!in_array($scheme, ['http', 'https']))
+			{
+				return false;
+			}
+		}
+		else
+		{
+			$scheme = \RX_SSL ? 'https' : 'http';
+		}
+
+		// Get the domain and port.
+		$domain = parse_url($url, \PHP_URL_HOST);
+		if ($domain === false || $domain === null)
+		{
+			return true;
+		}
+		$domain = self::decodeIdna(strtolower($domain));
+		$port = intval(parse_url($url, \PHP_URL_PORT));
+		$hostname = $domain . ($port ? ":$port" : '');
+
+		// Check if the domain matches the current request.
+		if ($hostname === self::decodeIdna($_SERVER['HTTP_HOST'] ?? ''))
 		{
 			return true;
 		}
 
-		if ($domain === self::getDomainFromURL('http://' . $_SERVER['HTTP_HOST']))
+		// Check if the domain matches any other domain registered in the database.
+		$domain_info = \ModuleModel::getSiteInfoByDomain($domain);
+		if (!$domain_info)
 		{
-			return true;
+			return false;
+		}
+		if ($port && $port != ($domain_info->{$scheme . '_port'} ?? 0))
+		{
+			return false;
+		}
+		if ($scheme === 'http' && $domain_info->http_port && $domain_info->http_port != 80 && $port != $domain_info->http_port)
+		{
+			return false;
+		}
+		if ($scheme === 'https' && $domain_info->https_port && $domain_info->https_port != 443 && $port != $domain_info->https_port)
+		{
+			return false;
 		}
 
-		if (\ModuleModel::getInstance()->getSiteInfoByDomain($domain))
-		{
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
