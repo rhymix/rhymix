@@ -3,6 +3,7 @@
 namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Cache;
+use Rhymix\Framework\Exceptions\DBError;
 
 #[\AllowDynamicProperties]
 class Permission
@@ -258,10 +259,14 @@ class Permission
 
 		// Generate a Permission object
 		$xml_grant_list = isset($xml_info->grant) ? (array)($xml_info->grant) : array();
-		$module_grants = ModuleInfo::getGrants($module_srl)->data ?: [];
-		$grant = new self($xml_grant_list, $module_grants, $module_info, $member_info);
-		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $grant;
-		return $grant;
+		$module_grants = ModuleInfo::getGrants($module_srl);
+		if (!$module_grants->toBool() && \Context::isInstalled())
+		{
+			throw new DBError(lang('msg_db_query_failed'));
+		}
+		$permission = new self($xml_grant_list, $module_grants->data ?: [], $module_info, $member_info);
+		ModuleCache::$modulePermissions[$module_info->module][$module_srl][$member_srl] = $permission;
+		return $permission;
 	}
 
 	/**
