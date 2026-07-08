@@ -115,11 +115,11 @@ class URLTest extends \Codeception\Test\Unit
 
 	public function testIsInternalURL()
 	{
-		Rhymix\Framework\Cache::set('site_and_module:domain_info:domain:포트테스트.ai.kr', (object)[
-			'http_port' => 2080,
-			'https_port' => 2443,
-			'security' => 'none',
-		]);
+		$dummy = new Rhymix\Modules\Module\Models\Domain;
+		$dummy->http_port = 2080;
+		$dummy->https_port = 2443;
+		$dummy->security = 'none';
+		Rhymix\Framework\Cache::set('site_and_module:domain_name:포트테스트.ai.kr', $dummy);
 
 		// Relative paths
 		$this->assertTrue(Rhymix\Framework\URL::isInternalURL('./index.php'));
