@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <title xml:lang="ko">관리자 접근 로깅</title>
+    <title xml:lang="en">Admin Access Logging</title>
+    <description xml:lang="ko">관리자 기능에 접근한 기록을 기록합니다.</description>
+    <description xml:lang="en">Logs access to admin actions.</description>
+    <author email_address="devops@rhymix.org" link="https://rhymix.org">
+        <name xml:lang="ko">Rhymix</name>
+        <name xml:lang="en">Rhymix</name>
+    </author>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
+	<config></config>
+</plugin>

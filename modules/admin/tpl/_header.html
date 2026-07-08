@@ -87,6 +87,12 @@
 						<!--@foreach($value['list'] as $key2 => $value2)-->
 							{@ $href = starts_with(\RX_BASEURL, $value2['href']) ? $value2['href'] : str_replace('//', '/', \RX_BASEURL . $value2['href'])}
 							<li cond="$value2['text']!=''" class="active_"|cond="$value2['text'] == $subMenuTitle" ><a href="{$href}">{$value2['text']}</a></li>
+							<!--@if(str_contains($href, 'dispModuleAdminContent'))-->
+								<!--// TEMPORARY MENU FOR PLUGIN CONFIGURATION -->
+								<li class="active_"|cond="$act === 'dispModuleAdminPlugins'">
+									<a href="{getUrl(['module' => 'admin', 'act' => 'dispModuleAdminPlugins'])}">{lang('module.installed_plugins')}</a>
+								</li>
+							<!--@endif-->
 						<!--@endforeach-->
 					</ul>
 				</li>

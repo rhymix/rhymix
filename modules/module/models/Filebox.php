@@ -11,6 +11,11 @@ use FileHandler;
 
 class Filebox
 {
+	/**
+	 * Regexp to detect file extensions that are not allowed in the filebox.
+	 */
+	public const FORBIDDEN_EXTENSIONS = '/\.(php[0-9s]|[pxs]html|html?|s?css|js|[aj]spx?|vbs)$/i';
+
 	/*
 	 * Attributes to match database columns.
 	 */

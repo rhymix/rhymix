@@ -32,6 +32,7 @@ class Value
 	public $desc = '';
 	public $default = null;
 	public $options = null;
+	public $is_dict_options = 'N';
 	public $is_required = 'N';
 	public $is_strict = 'N';
 	public $is_disabled = 'N';
@@ -382,6 +383,10 @@ class Value
 			{
 				return;
 			}
+		}
+		elseif (is_object($value))
+		{
+			return $value;
 		}
 		else
 		{

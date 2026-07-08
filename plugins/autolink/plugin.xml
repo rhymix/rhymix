@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <title xml:lang="ko">자동 링크</title>
+    <title xml:lang="en">Auto Link</title>
+    <description xml:lang="ko">글과 댓글에 포함된 URL을 링크로 변환합니다.</description>
+    <description xml:lang="en">Converts URLs in posts and comments to links.</description>
+    <author email_address="devops@rhymix.org" link="https://rhymix.org">
+        <name xml:lang="ko">Rhymix</name>
+        <name xml:lang="en">Rhymix</name>
+    </author>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
+	<config></config>
+</plugin>

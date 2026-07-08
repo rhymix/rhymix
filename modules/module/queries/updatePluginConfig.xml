@@ -1,0 +1,13 @@
+<query id="updatePluginConfig" action="update">
+	<tables>
+		<table name="plugins" />
+	</tables>
+	<columns>
+		<column name="is_enabled" var="is_enabled" />
+		<column name="config" var="config" />
+		<column name="regdate" var="regdate" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="plugin_name" var="plugin_name" />
+	</conditions>
+</query>

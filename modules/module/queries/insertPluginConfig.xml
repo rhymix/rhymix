@@ -1,0 +1,11 @@
+<query id="insertPluginConfig" action="insert">
+	<tables>
+		<table name="plugins" />
+	</tables>
+	<columns>
+		<column name="plugin_name" var="plugin_name" />
+		<column name="is_enabled" var="is_enabled" default="N" />
+		<column name="config" var="config" />
+		<column name="regdate" var="regdate" default="datetime()" />
+	</columns>
+</query>

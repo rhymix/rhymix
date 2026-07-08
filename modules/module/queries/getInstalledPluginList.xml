@@ -1,0 +1,15 @@
+<query id="getInstalledPluginList" action="select">
+	<tables>
+		<table name="plugins" />
+	</tables>
+	<columns>
+		<column name="plugin_name" />
+		<column name="is_enabled" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="is_enabled" var="is_enabled" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="plugin_name" order="asc" />
+	</navigation>
+</query>

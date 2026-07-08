@@ -8,14 +8,17 @@ use Context;
 /**
  * The redirect response class.
  *
- * This class will send a HTTP redirect to the specified URL.
+ * This class will send a HTTP redirect to the specified URL,
+ * unless the request was made by XMLHttpRequest,
+ * in which case it will send a JSON response with the redirect URL.
  */
 class RedirectResponse extends AbstractResponse
 {
-	/**
+	/*
 	 * Internal state.
 	 */
 	protected string $_url = '';
+	protected bool $_fake_redirect = false;
 
 	/**
 	 * Get the content.
@@ -46,7 +49,16 @@ class RedirectResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
-		yield '';
+		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' && $this->_status_code === 200)
+		{
+			$this->_fake_redirect = true;
+			$this->setContentType('application/json');
+			yield json_encode(['error' => 0, 'message' => 'success', 'redirect_url' => $this->_url]) . "\n";
+		}
+		else
+		{
+			yield '';
+		}
 	}
 
 	/**
@@ -68,7 +80,10 @@ class RedirectResponse extends AbstractResponse
 	public function getHeaders(): array
 	{
 		$headers = parent::getHeaders();
-		$headers[] = 'Location: ' . utf8_normalize_spaces($this->_url);
+		if (!$this->_fake_redirect)
+		{
+			$headers[] = 'Location: ' . utf8_normalize_spaces($this->_url);
+		}
 		return $headers;
 	}
 }

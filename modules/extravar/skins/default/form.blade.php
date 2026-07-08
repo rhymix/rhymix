@@ -44,6 +44,9 @@
 	@case ('file')
 		@include ('form_types/file_upload')
 		@break
+	@case ('image')
+		@include ('form_types/image_upload')
+		@break
 	@default
 		@include ('form_types/text')
 @endswitch

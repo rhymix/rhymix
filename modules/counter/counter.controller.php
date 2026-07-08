@@ -6,24 +6,10 @@
  *
  * @author NAVER (developers@xpressengine.com)
  */
-class counterController extends counter
+class CounterController extends Counter
 {
-
 	/**
-	 * Initialization
-	 *
-	 * @return void
-	 */
-	function init()
-	{
-
-	}
-
-	/**
-	 * Counter logs.
-	 * If want use below function, you can use 'counterExecute' function instead this function
-	 *
-	 * @return void
+	 * @deprecated
 	 */
 	function procCounterExecute()
 	{
@@ -31,11 +17,24 @@ class counterController extends counter
 	}
 
 	/**
+	 * Main event handler
+	 */
+	public function triggerExecute()
+	{
+		if (!Context::isInstalled() || Context::get('module') === 'admin' || Context::getResponseMethod() !== 'HTML' || isCrawler())
+		{
+			return;
+		}
+
+		$this->counterExecute();
+	}
+
+	/**
 	 * Counter logs
 	 *
 	 * @return void
 	 */
-	function counterExecute()
+	public function counterExecute()
 	{
 		if(CounterModel::isLogged())
 		{

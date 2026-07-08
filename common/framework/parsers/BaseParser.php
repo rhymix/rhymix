@@ -105,7 +105,7 @@ abstract class BaseParser
 	}
 
 	/**
-	 * Parse extra_vars.
+	 * Parse legacy extra_vars.
 	 *
 	 * @param \SimpleXMLElement $extra_vars
 	 * @param string $lang
@@ -113,7 +113,7 @@ abstract class BaseParser
 	 * @param array $options
 	 * @return object
 	 */
-	protected static function _getExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = '', array $options = []): \stdClass
+	protected static function _parseExtraVars(\SimpleXMLElement $extra_vars, string $lang, string $type = '', array $options = []): \stdClass
 	{
 		$result = new \stdClass;
 
@@ -121,7 +121,7 @@ abstract class BaseParser
 		$group_name = $extra_vars->getName() === 'group' ? self::_getChildrenByLang($extra_vars, 'title', $lang) : null;
 		foreach ($extra_vars->group ?: [] as $group)
 		{
-			$group_result = self::_getExtraVars($group, $lang, $type, $options);
+			$group_result = self::_parseExtraVars($group, $lang, $type, $options);
 			foreach ($group_result as $key => $val)
 			{
 				$result->{$key} = $val;
@@ -278,6 +278,61 @@ abstract class BaseParser
 			{
 				$result->{$item->name} = $item;
 			}
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Parse new config syntax for plugins and themes.
+	 *
+	 * @param \SimpleXMLElement $element
+	 * @param string $lang
+	 * @return object
+	 */
+	protected static function _parseConfig(\SimpleXMLElement $element, string $lang): \stdClass
+	{
+		$result = new \stdClass;
+
+		// Flatten groups while keeping the group name.
+		$group_name = $element->getName() === 'group' ? self::_getChildrenByLang($element, 'title', $lang) : null;
+		foreach ($element->group ?: [] as $group)
+		{
+			$group_result = self::_parseConfig($group, $lang);
+			foreach ($group_result as $key => $val)
+			{
+				$result->{$key} = $val;
+			}
+		}
+
+		// Parse each variable in the group.
+		foreach ($element->var ?: [] as $var)
+		{
+			$item = new \stdClass;
+			$item->name = trim($var['name'] ?? '');
+			$item->group = $group_name;
+			$item->type = strtolower(trim($var['type'] ?? '')) ?: 'text';
+			$item->default = trim($var['default'] ?? '') ?: null;
+			$item->title = self::_getChildrenByLang($var, 'title', $lang) ?: $item->name;
+			$item->description = utf8_normalize_spaces(self::_getChildrenByLang($var, 'description', $lang), true) ?: null;
+
+			if (isset($var->option) && $var->option)
+			{
+				$item->options = [];
+				foreach ($var->option as $option)
+				{
+					$option_item = new \stdClass;
+					$option_item->title = self::_getChildrenByLang($option, 'title', $lang);
+					$option_item->value = trim($option['value'] ?? '');
+					if (isset($option['default']) && toBool(strval($option['default'])) && !isset($item->default))
+					{
+						$item->default = $option_item->value;
+					}
+					$item->options[] = $option_item;
+				}
+			}
+
+			$result->{$item->name} = $item;
 		}
 
 		return $result;

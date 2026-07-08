@@ -4,7 +4,7 @@ namespace Rhymix\Modules\Admin\Controllers;
 
 use Context;
 use FileHandler;
-use AddonAdminModel;
+use AddonModel;
 use DocumentAdminModel;
 use DocumentModel;
 use CommentModel;
@@ -112,18 +112,24 @@ class Dashboard extends Base
 		// Get need update from easy install
 		$needUpdateList = array();
 
-		// Check counter addon
-		$oAddonAdminModel = AddonAdminModel::getInstance();
-		$counterAddonActivated = $oAddonAdminModel->isActivatedAddon('counter');
-		if(!$counterAddonActivated)
+		// Check counter status
+		$counter_config = ModuleModel::getModuleConfig('counter');
+		if (isset($counter_config->is_enabled) && $counter_config->is_enabled == 'Y')
 		{
-			$columnList = array('member_srl', 'nick_name', 'user_name', 'user_id', 'email_address');
-			$args = new \stdClass;
-			$args->page = 1;
-			$args->list_count = 5;
-			$output = executeQuery('member.getMemberList', $args, $columnList);
+			$use_counter = true;
+		}
+		else
+		{
+			$use_counter = AddonModel::isActivated('counter');
+		}
+
+		// If no counter, show latest members
+		if (!$use_counter)
+		{
+			$columnList = ['member_srl', 'nick_name', 'user_name', 'user_id', 'email_address'];
+			$output = executeQuery('member.getMemberList', ['list_count' => 5, 'page' => 0], $columnList);
 			Context::set('latestMemberList', $output->data);
-			unset($args, $output, $columnList);
+			unset($output, $columnList);
 		}
 
 		// Check unnecessary files
@@ -136,7 +142,7 @@ class Dashboard extends Base
 		Context::set('wrongPaths', $wrongPaths);
 		Context::set('needUpdate', $needUpdate);
 		Context::set('newVersionList', $needUpdateList);
-		Context::set('counterAddonActivated', $counterAddonActivated);
+		Context::set('use_counter', $use_counter);
 
 		$oSecurity = new \Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');

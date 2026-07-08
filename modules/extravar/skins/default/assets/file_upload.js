@@ -1,6 +1,7 @@
 'use strict';
 
 $(function() {
+
 	$('.ev_file_upload').each(function() {
 		const container = $(this);
 		container.find('button.evFileRemover').on('click', function() {
@@ -23,4 +24,18 @@ $(function() {
 			container.find('input[type=hidden][name^=_delete_]').val('N');
 		});
 	});
+
+	$('.ev_image_upload').each(function() {
+		const container = $(this);
+		container.find('button.evFileRemover').on('click', function() {
+			container.find('div.thumbnail').remove();
+			container.find('input[type=hidden][name^=_delete_]').val('Y');
+			container.find('input[type=file]').val('');
+			$(this).remove();
+		});
+		container.find('input.rx_ev_image').on('change', function() {
+			container.find('input[type=hidden][name^=_delete_]').val('N');
+		});
+	});
+
 });

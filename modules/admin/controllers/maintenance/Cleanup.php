@@ -403,6 +403,7 @@ class Cleanup extends Base
 		'modules/counter/queries/updateSiteCounterPageview.xml' => 'deleted:xe',
 		'modules/counter/queries/updateSiteCounterUnique.xml' => 'deleted:xe',
 		'modules/counter/queries/updateSiteTotalCounterUnique.xml' => 'deleted:xe',
+		'modules/counter/tpl/counter.css' => 'deleted',
 		'modules/editor/components/emoticon/tpl/popup.less' => 'deleted',
 		'modules/editor/components/emoticon/tpl/popup.css' => 'deleted',
 		'modules/editor/components/image_gallery/tpl/gallery.min.js' => 'deleted',

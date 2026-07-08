@@ -82,7 +82,7 @@ class LayoutInfoParser extends BaseParser
 		$info->extra_var_count = 0;
 		if ($xml->extra_vars)
 		{
-			$info->extra_var = self::_getExtraVars($xml->extra_vars, $lang, 'layout', ['layout_path' => $layout_path]);
+			$info->extra_var = self::_parseExtraVars($xml->extra_vars, $lang, 'layout', ['layout_path' => $layout_path]);
 		}
 		else
 		{

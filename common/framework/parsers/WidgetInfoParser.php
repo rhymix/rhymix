@@ -79,7 +79,7 @@ class WidgetInfoParser extends BaseParser
 		// Get extra_vars.
 		if ($xml->extra_vars)
 		{
-			$info->extra_var = self::_getExtraVars($xml->extra_vars, $lang, 'widget');
+			$info->extra_var = self::_parseExtraVars($xml->extra_vars, $lang, 'widget');
 		}
 		else
 		{
