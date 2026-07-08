@@ -239,7 +239,10 @@ class DB
 		// Clean up any previous statement.
 		if (isset($this->_last_stmt))
 		{
-			$this->_last_stmt->closeCursor();
+			if ($this->_last_stmt instanceof \PDOStatement)
+			{
+				$this->_last_stmt->closeCursor();
+			}
 			$this->_last_stmt = null;
 		}
 
@@ -383,7 +386,10 @@ class DB
 
 			if (isset($this->_last_stmt))
 			{
-				$this->_last_stmt->closeCursor();
+				if ($this->_last_stmt instanceof \PDOStatement)
+				{
+					$this->_last_stmt->closeCursor();
+				}
 				$this->_last_stmt = null;
 			}
 
@@ -473,7 +479,10 @@ class DB
 
 			if (isset($this->_last_stmt))
 			{
-				$this->_last_stmt->closeCursor();
+				if ($this->_last_stmt instanceof \PDOStatement)
+				{
+					$this->_last_stmt->closeCursor();
+				}
 				$this->_last_stmt = null;
 			}
 
