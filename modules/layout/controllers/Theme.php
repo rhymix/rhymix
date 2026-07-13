@@ -53,9 +53,9 @@ class Theme extends Layout
 		}
 
 		// Load config for the theme itself.
-		$theme_config = ThemeModel::getThemeConfig($theme_name, 'theme');
+		$theme_config = ThemeModel::getThemeConfig($theme_name);
 		$config_index = 1;
-		foreach ($theme_info->config as $key => $var)
+		foreach ($theme_info->config as $var)
 		{
 			$input = new ExtraValue(0, $config_index++, $var->name, $var->type);
 			$input->parent_type = 'theme';
@@ -85,15 +85,13 @@ class Theme extends Layout
 				continue;
 			}
 
-			$sub_config = ThemeModel::getThemeConfig($theme_name, $sub_name);
-			$config_index = 1;
-			foreach ($sub_info->config as $key => $var)
+			foreach ($sub_info->config as $var)
 			{
 				$input = new ExtraValue(0, $config_index++, $var->name, $var->type);
 				$input->parent_type = 'theme';
 				$input->input_name = $sub_name . '__' . $var->name;
 				$input->input_id = $sub_name . '__' . $var->name;
-				$input->value = $sub_config->{$var->name} ?? $var->default;
+				$input->value = $theme_config->{$sub_name}->{$var->name} ?? $var->default;
 				if ($var->options)
 				{
 					$input->options = [];
@@ -108,7 +106,7 @@ class Theme extends Layout
 
 			if ($sub_info->type === 'layout')
 			{
-				$sub_menus[$sub_name] = get_object_vars($sub_config->menus ?? new stdClass);
+				$sub_menus[$sub_name] = get_object_vars($theme_config->{$sub_name}->menus ?? new stdClass);
 			}
 
 			$sub_infos[$sub_name] = $sub_info;
@@ -150,20 +148,21 @@ class Theme extends Layout
 		$oDB->begin();
 
 		// Update the config for the theme itself and for each layout and skin.
+		$theme_config = ThemeModel::getThemeConfig($theme_name);
+		$new_config = new stdClass;
 		$sub_names = array_keys($theme_info->provides);
 		array_unshift($sub_names, 'theme');
 		foreach ($sub_names as $sub_name)
 		{
-			// Fetch the old config and prepare a new config object.
-			$old_config = ThemeModel::getThemeConfig($theme_name, $sub_name);
-			$new_config = new stdClass;
-
+			// Load the existing config and info for this sub name.
 			if ($sub_name === 'theme')
 			{
+				$old_config = $theme_config;
 				$sub_info = $theme_info;
 			}
 			else
 			{
+				$old_config = $theme_config->{$sub_name} ?? new stdClass;
 				$sub_info = $theme_info->loadSubConfig($sub_name);
 				if (!$sub_info)
 				{
@@ -171,6 +170,8 @@ class Theme extends Layout
 				}
 			}
 
+			// Create a new object to hold the new config for this sub name.
+			$sub_config = new stdClass;
 			foreach ($sub_info->config as $key => $var)
 			{
 				// Combine the sub name with the key to get the actual submitted value.
@@ -194,7 +195,7 @@ class Theme extends Layout
 								return $output;
 							}
 						}
-						$new_config->{$key} = null;
+						$sub_config->{$key} = null;
 					}
 					elseif (isset($value) && is_array($value) && is_uploaded_file($value['tmp_name']))
 					{
@@ -236,7 +237,7 @@ class Theme extends Layout
 						}
 
 						// Store filebox information as theme config
-						$new_config->{$key} = (object)[
+						$sub_config->{$key} = (object)[
 							'filebox_srl' => $output->get('module_filebox_srl'),
 							'source_filename' => FilenameFilter::clean($value['name']),
 							'uploaded_filename' => $output->get('save_filename'),
@@ -245,7 +246,7 @@ class Theme extends Layout
 					}
 					else
 					{
-						$new_config->{$key} = $old_config->{$key} ?? null;
+						$sub_config->{$key} = $old_config->{$key} ?? null;
 					}
 				}
 
@@ -254,53 +255,64 @@ class Theme extends Layout
 				{
 					if ($expect_array)
 					{
-						$new_config->{$key} = is_array($value) ? array_values($value) : [strval($value)];
+						$sub_config->{$key} = is_array($value) ? array_values($value) : [strval($value)];
 					}
 					else
 					{
-						$new_config->{$key} = strval($value);
+						$sub_config->{$key} = strval($value);
 					}
 				}
 				else
 				{
-					$new_config->{$key} = $expect_array ? [] : '';
+					$sub_config->{$key} = $expect_array ? [] : '';
 				}
 			}
 
 			// Add menu settings for layouts
 			if (isset($sub_info->type) && $sub_info->type === 'layout')
 			{
-				$new_config->menus = new stdClass;
+				$sub_config->menus = new stdClass;
 				foreach ($sub_info->menus as $menu)
 				{
 					$menu_value = $vars->{$sub_name . '__menus__' . $menu->name} ?? null;
 					if (isset($menu_value))
 					{
-						$new_config->menus->{$menu->name} = intval($menu_value);
+						$sub_config->menus->{$menu->name} = intval($menu_value);
 					}
 					else
 					{
-						$new_config->menus->{$menu->name} = 0;
+						$sub_config->menus->{$menu->name} = 0;
 					}
 				}
 			}
 
-			// Insert or update the theme configuration in the DB.
-			if ($old_config === null)
+			// Add the new sub config to the new config for the theme.
+			if ($sub_name === 'theme')
 			{
-				$output = ThemeModel::insertThemeConfig($theme_name, $sub_name, $new_config);
-				if (!$output->toBool())
-				{
-					return $output;
-				}
+				$new_config = $sub_config;
 			}
 			else
 			{
-				$output = ThemeModel::updateThemeConfig($theme_name, $sub_name, $new_config);
-				if (!$output->toBool())
-				{
-					return $output;
-				}
+				$new_config->{$sub_name} = $sub_config;
+			}
+		}
+
+
+		// Insert or update the theme configuration in the DB.
+		if ($theme_config === null)
+		{
+			$output = ThemeModel::insertThemeConfig($theme_name, $new_config);
+			if (!$output->toBool())
+			{
+				return $output;
+			}
+		}
+		else
+		{
+			$output = ThemeModel::updateThemeConfig($theme_name, $new_config);
+			if (!$output->toBool())
+			{
+				return $output;
 			}
 		}
 

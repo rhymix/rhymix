@@ -3,8 +3,8 @@
 		<table name="theme_config" />
 	</tables>
 	<columns>
+		<column name="theme_srl" var="theme_srl" filter="number" notnull="notnull" />
 		<column name="theme_name" var="theme_name" notnull="notnull" />
-		<column name="sub_name" var="sub_name" notnull="notnull" />
 		<column name="config" var="config" notnull="notnull" />
 		<column name="regdate" var="regdate" default="datetime()" />
 	</columns>

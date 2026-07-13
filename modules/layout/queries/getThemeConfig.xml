@@ -6,7 +6,7 @@
 		<column name="*" />
 	</columns>
 	<conditions>
-		<condition operation="equal" column="theme_name" var="theme_name" notnull="notnull" />
-		<condition operation="equal" column="sub_name" var="sub_name" notnull="notnull" />
+		<condition operation="equal" column="theme_srl" var="theme_srl" />
+		<condition operation="equal" column="theme_name" var="theme_name" />
 	</conditions>
 </query>

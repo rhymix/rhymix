@@ -75,19 +75,18 @@ class Theme
 	 * Get theme config
 	 *
 	 * @param string $theme_name
-	 * @param string $sub_name
 	 * @return ?object
 	 */
-	public static function getThemeConfig(string $theme_name, string $sub_name = 'theme'): ?object
+	public static function getThemeConfig(string $theme_name): ?object
 	{
-		$cache_key = 'theme:config:' . $theme_name . ':' . $sub_name;
+		$cache_key = 'theme:config:' . $theme_name;
 		$config = Cache::get($cache_key);
 		if ($config)
 		{
 			return $config;
 		}
 
-		$output = executeQuery('layout.getThemeConfig', ['theme_name' => $theme_name, 'sub_name' => $sub_name]);
+		$output = executeQuery('layout.getThemeConfig', ['theme_name' => $theme_name]);
 		if ($output->toBool() && $output->data && !empty($output->data->config))
 		{
 			$config = json_decode($output->data->config);
@@ -144,19 +143,18 @@ class Theme
 	 * Save the configuration for a specific theme.
 	 *
 	 * @param string $theme_name
-	 * @param string $sub_name
 	 * @param object $config
 	 * @return DBResultHelper
 	 */
-	public static function insertThemeConfig(string $theme_name, string $sub_name, object $config): DBResultHelper
+	public static function insertThemeConfig(string $theme_name, object $config): DBResultHelper
 	{
 		$output = executeQuery('layout.insertThemeConfig', [
+			'theme_srl' => getNextSequence(),
 			'theme_name' => $theme_name,
-			'sub_name' => $sub_name,
 			'config' => json_encode($config, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES),
 		]);
 
-		Cache::delete('theme:config:' . $theme_name . ':' . $sub_name);
+		Cache::delete('theme:config:' . $theme_name);
 		return $output;
 	}
 
@@ -164,19 +162,17 @@ class Theme
 	 * Update the configuration for a specific theme.
 	 *
 	 * @param string $theme_name
-	 * @param string $sub_name
 	 * @param ?object $config
 	 * @return DBResultHelper
 	 */
-	public static function updateThemeConfig(string $theme_name, string $sub_name, ?object $config): DBResultHelper
+	public static function updateThemeConfig(string $theme_name, ?object $config): DBResultHelper
 	{
 		$output = executeQuery('layout.updateThemeConfig', [
 			'theme_name' => $theme_name,
-			'sub_name' => $sub_name,
 			'config' => $config ? json_encode($config, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : null,
 		]);
 
-		Cache::delete('theme:config:' . $theme_name . ':' . $sub_name);
+		Cache::delete('theme:config:' . $theme_name);
 		return $output;
 	}
 
@@ -186,14 +182,13 @@ class Theme
 	 * @param string $theme_name
 	 * @return DBResultHelper
 	 */
-	public static function deleteThemeConfig(string $theme_name, string $sub_name = 'theme'): DBResultHelper
+	public static function deleteThemeConfig(string $theme_name): DBResultHelper
 	{
 		$output = executeQuery('layout.deleteThemeConfig', [
 			'theme_name' => $theme_name,
-			'sub_name' => $sub_name,
 		]);
 
-		Cache::delete('theme:config:' . $theme_name . ':' . $sub_name);
+		Cache::delete('theme:config:' . $theme_name);
 		return $output;
 	}
 
