@@ -254,35 +254,6 @@ class ModuleHandler extends Handler
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
 			$this->_setModuleSEOInfo($module_info, $site_module_info);
-
-			// Check if the current request is from a mobile device.
-			$this->is_mobile = Mobile::isFromMobilePhone();
-			$viewType = $this->is_mobile ? 'M' : 'P';
-			$targetSrl = $viewType === 'M' ? 'mlayout_srl' : 'layout_srl';
-
-			// Apply default layouts.
-			if($module_info->{$targetSrl} == -1)
-			{
-				$oLayoutAdminModel = getAdminModel('layout');
-				$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
-			}
-			elseif($module_info->{$targetSrl} == -2 && $viewType === 'M')
-			{
-				$layoutSrl = $module_info->layout_srl;
-				if($layoutSrl == -1)
-				{
-					$viewType = 'P';
-					$oLayoutAdminModel = getAdminModel('layout');
-					$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
-				}
-			}
-			else
-			{
-				$layoutSrl = $module_info->{$targetSrl};
-			}
-
-			// Reset layout_srl in module_info.
-			$module_info->{$targetSrl} = $layoutSrl;
 		}
 		else
 		{
@@ -291,6 +262,10 @@ class ModuleHandler extends Handler
 			$this->module_info->mid = $this->mid;
 		}
 
+		// Check if the current request is from a mobile device.
+		$this->is_mobile = Mobile::isFromMobilePhone();
+
+		// Set the color scheme.
 		$this->_setModuleColorScheme($site_module_info);
 
 		// Still no module? it's an error
