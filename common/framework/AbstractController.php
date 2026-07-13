@@ -356,12 +356,16 @@ abstract class AbstractController extends BaseObject
 			// Set layout and template paths if module configuration specifies them.
 			if (isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
 			{
-				$use_default_skin = $this->module_info->{$is_mobile ? 'is_mskin_fix' : 'is_skin_fix'} === 'N';
-				if (!$this->getTemplatePath() || $use_default_skin)
+				if (!\RX_POST || Context::getRequestMethod() === 'HTML')
 				{
-					$this->setLayoutAndTemplatePaths($is_mobile ? 'M' : 'P', $this->module_info);
+					$use_default_skin = $this->module_info->{$is_mobile ? 'is_mskin_fix' : 'is_skin_fix'} === 'N';
+					if (!$this->getTemplatePath() || $use_default_skin)
+					{
+						$this->setLayoutAndTemplatePaths($is_mobile ? 'M' : 'P', $this->module_info);
+					}
+					ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
 				}
-				ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
+
 				Context::set('module_info', $this->module_info);
 			}
 
