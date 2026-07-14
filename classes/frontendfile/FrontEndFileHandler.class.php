@@ -786,7 +786,16 @@ class FrontEndFileHandler extends Handler
 		}
 		if ($tmp)
 		{
-			$cssSortList = array('common' => -100000, 'layouts' => -90000, 'm.layouts' => -90000, 'modules' => -80000, 'widgets' => -70000, 'addons' => -60000);
+			$cssSortList = [
+				'common' => -120000,
+				'themes' => -110000,
+				'layouts' => -100000,
+				'm.layouts' => -100000,
+				'modules' => -90000,
+				'widgets' => -80000,
+				'plugins' => -70000,
+				'addons' => -60000,
+			];
 			$file->index += isset($cssSortList[$tmp]) ? $cssSortList[$tmp] : 0;
 		}
 	}
