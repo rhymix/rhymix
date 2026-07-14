@@ -582,14 +582,6 @@ class ModuleHandler extends Handler
 				{
 					return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
 				}
-
-				// Admin page layout
-				if($this->module == 'admin' && $type == 'view' && $this->act != 'dispLayoutAdminLayoutModify')
-				{
-					Rhymix\Modules\Admin\Controllers\Base::getInstance()->loadAdminMenu($forward->module);
-					$oModule->setLayoutPath("./modules/admin/tpl");
-					$oModule->setLayoutFile("layout.html");
-				}
 			}
 			else if($xml_info->default_index_act && method_exists($oModule, $xml_info->default_index_act))
 			{

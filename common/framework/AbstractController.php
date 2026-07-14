@@ -270,8 +270,9 @@ abstract class AbstractController extends BaseObject
 		if (preg_match('/^disp(?:Admin[A-Z]|[A-Z][a-z0-9\_]+Admin)/', $this->act))
 		{
 			// Set admin layout.
-			if (config('view.manager_layout') === 'admin')
+			if (Context::get('module') === 'admin' || config('view.manager_layout') === 'admin')
 			{
+				\Rhymix\Modules\Admin\Controllers\Base::getInstance()->loadAdminMenu();
 				$this->setLayoutPath('modules/admin/tpl');
 				$this->setLayoutFile('layout');
 			}
@@ -355,7 +356,7 @@ abstract class AbstractController extends BaseObject
 		if (isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act))
 		{
 			// Set layout and template paths if module configuration specifies them.
-			if (isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
+			if (isset($this->module_info->skin) && $this->module_info->module === $this->module && empty($this->layout_path))
 			{
 				if (!in_array(Context::getRequestMethod(), ['JSON', 'XMLRPC', 'JS_CALLBACK']))
 				{
@@ -813,6 +814,12 @@ abstract class AbstractController extends BaseObject
 					$this->module_info->layout_srl = $layout_srl;
 				}
 			}
+		}
+
+		// If this is an admin action, return before setting the skin.
+		if (str_contains($this->act, 'Admin'))
+		{
+			return;
 		}
 
 		// Determine the skin to use.
