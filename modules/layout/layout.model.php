@@ -563,48 +563,6 @@ class LayoutModel extends Layout
 	}
 
 	/**
-	 * Get layout menu info.
-	 *
-	 * @param int $menu_srl
-	 * @return array
-	 */
-	public static function getLayoutMenuInfo(int $menu_srl): array
-	{
-		if ($menu_srl == 0)
-		{
-			return [];
-		}
-		elseif ($menu_srl == -1)
-		{
-			$homeMenuSrl = 0;
-			$homeMenuCacheFile = \RX_BASEDIR . 'files/cache/menu/homeSitemap.php';
-			if (FileHandler::exists($homeMenuCacheFile))
-			{
-				include $homeMenuCacheFile;
-			}
-
-			$menu_srl = $homeMenuSrl ?? 0;
-			$php_file = \RX_BASEDIR . 'files/cache/menu/' . $menu_srl . '.php';
-		}
-
-		$php_file = \RX_BASEDIR . 'files/cache/menu/' . $menu_srl . '.php';
-		if (Rhymix\Framework\Storage::exists($php_file))
-		{
-			include $php_file;
-		}
-		else
-		{
-			MenuAdminController::getInstance()->makeXmlFile($menu_srl);
-			if (Rhymix\Framework\Storage::exists($php_file))
-			{
-				include $php_file;
-			}
-		}
-
-		return (isset($menu) && isset($menu->list) && is_array($menu->list)) ? $menu->list : [];
-	}
-
-	/**
 	 * Return a list of images which are uploaded on the layout setting page
 	 * @param int $layout_srl
 	 * @return array image list in layout

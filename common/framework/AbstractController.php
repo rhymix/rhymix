@@ -10,8 +10,8 @@ use AddonController;
 use BaseObject;
 use Context;
 use FileHandler;
-use LayoutAdminModel;
 use LayoutModel;
+use MenuAdminModel;
 use Mobile;
 use MessageView;
 use ModuleModel;
@@ -343,7 +343,7 @@ abstract class AbstractController extends BaseObject
 
 		// Addon execution point: 'before_module_proc'.
 		$called_position = 'before_module_proc';
-		$addon_file = \AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
+		$addon_file = AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
 		if (FileHandler::exists($addon_file))
 		{
 			include $addon_file;
@@ -444,7 +444,7 @@ abstract class AbstractController extends BaseObject
 
 		// Addon execution point: 'after_module_proc'.
 		$called_position = 'after_module_proc';
-		$addon_file = \AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
+		$addon_file = AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
 		if (FileHandler::exists($addon_file))
 		{
 			include $addon_file;
@@ -770,7 +770,7 @@ abstract class AbstractController extends BaseObject
 				{
 					Context::set($menu_id, (object)[
 						'menu_srl' => $menu_srl,
-						'list' => LayoutModel::getLayoutMenuInfo($menu_srl ?? 0),
+						'list' => MenuAdminModel::getMenuInfo($menu_srl ?? 0)->list,
 					]);
 				}
 			}
@@ -797,7 +797,7 @@ abstract class AbstractController extends BaseObject
 				// Set menus to Context.
 				foreach ($layout_info->menu ?? [] as $menu_id => $menu)
 				{
-					$menu->list = LayoutModel::getLayoutMenuInfo($menu->menu_srl ?? 0);
+					$menu->list = MenuAdminModel::getMenuInfo($menu->menu_srl ?? 0)->list;
 					Context::set($menu_id, $menu);
 				}
 
