@@ -69,7 +69,8 @@ class Iwinv extends Base implements SMSInterface
 	public static function getApiUrls()
 	{
 		return array(
-			'https://sms.bizservice.iwinv.kr/api/send/' => 'sms.bizservice.iwinv.kr',
+			'https://sms.bizservice.iwinv.kr/api/v2/send/' => 'sms.bizservice.iwinv.kr (v2)',
+			'https://sms.bizservice.iwinv.kr/api/send/' => 'sms.bizservice.iwinv.kr (v1)',
 			'https://sms.service.iwinv.kr/send/' => 'sms.service.iwinv.kr',
 		);
 	}
@@ -143,18 +144,32 @@ class Iwinv extends Base implements SMSInterface
 			// Check the result.
 			if ($status_code !== 200)
 			{
-				$original->addError('API error while sending message ' . ($i + 1) . ' of ' . count($messages) . ': ' . $status_code);
+				$original->addError('API error (HTTP ' . $status_code . ') while sending message ' . ($i + 1) . ' of ' . count($messages));
 				$status = false;
 			}
 			elseif (trim($result) === '')
 			{
-				$original->addError('Unknown API error while sending message ' . ($i + 1) . ' of ' . count($messages));
+				$original->addError('API error (no result code) while sending message ' . ($i + 1) . ' of ' . count($messages));
 				$status = false;
 			}
-			elseif (trim($result) !== '00')
+			else
 			{
-				$original->addError('API error ' . trim($result) . ' while sending message ' . ($i + 1) . ' of ' . count($messages));
-				$status = false;
+				$result = trim($result);
+				if (preg_match('/^\{.+\}$/', $result))
+				{
+					$json = json_decode($result, true);
+					if (!isset($json['resultCode']) || $json['resultCode'] != 0)
+					{
+						$original->addError('API error ' . ($json['resultCode'] ?? '(no result code)') . ' "' . ($json['message'] ?? '') . '" ' .
+							'while sending message ' . ($i + 1) . ' of ' . count($messages));
+						$status = false;
+					}
+				}
+				elseif ($result !== '00')
+				{
+					$original->addError('API error ' . $result . ' while sending message ' . ($i + 1) . ' of ' . count($messages));
+					$status = false;
+				}
 			}
 		}
 
