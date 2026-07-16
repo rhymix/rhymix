@@ -1,11 +1,7 @@
 <?php
 
 /**
- * WidgetHandler
- *
- * @author NAVER (developers@xpressengine.com)
+ * WidgetHandler has been moved to Rhymix\Framework\AbstractWidget since Rhymix 2.2.
+ * This file is kept for backward compatibility.
  */
-class WidgetHandler
-{
-	var $widget_path = '';
-}
+class_alias('Rhymix\\Framework\\AbstractWidget', 'WidgetHandler');

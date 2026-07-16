@@ -838,22 +838,23 @@ abstract class AbstractController extends BaseObject
 				$skin_device_type = 'P';
 			}
 		}
-
-		// Apply the skin.
 		$skin_key = $skin_device_type === 'P' ? 'skin' : 'mskin';
 		$skin_dir = $skin_device_type === 'P' ? 'skins' : 'm.skins';
 		if ($skin_name === '/USE_DEFAULT/')
 		{
-			if ($layout_type === 'theme' && isset($theme_info->provides[$this->module]))
+			$skin_name = isset($design_info->module->{$this->module}->{$skin_key}) ?
+				$design_info->module->{$this->module}->{$skin_key} :
+				(ModuleConfigModel::getModuleDefaultSkin($this->module, $skin_device_type) ?: 'default');
+		}
+
+		// Apply the skin.
+		$template_path = null;
+		if (preg_match('/^theme:([^:]+):(.+)$/', $skin_name, $matches))
+		{
+			$theme_info = ThemeModel::getThemeInfo($matches[1]);
+			if ($theme_info && isset($theme_info->provides[$matches[2]]))
 			{
-				$skin_name = 'theme:' . $design_info->theme . ':' . $this->module;
-				$template_path = $theme_info->path . $theme_info->provides[$this->module]->path;
-			}
-			else
-			{
-				$skin_name = $design_info->module->{$this->module}->{$skin_key} ??
-					(ModuleConfigModel::getModuleDefaultSkin($this->module, $skin_device_type) ?: 'default');
-				$template_path = sprintf('%s%s/%s', $this->module_path, $skin_dir, $skin_name);
+				$template_path = $theme_info->path . $theme_info->provides[$matches[2]]->path;
 			}
 		}
 		else
@@ -862,7 +863,7 @@ abstract class AbstractController extends BaseObject
 		}
 
 		// Fall back to the legacy 'default' skin if the specified skin directory does not exist.
-		if (!Storage::exists($template_path))
+		if ($template_path === null || !Storage::exists($template_path))
 		{
 			$template_path = sprintf('%s%s/%s', $this->module_path, $skin_dir, 'default');
 		}

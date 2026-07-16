@@ -24,23 +24,28 @@ class WidgetController extends Widget
 	 */
 	function procWidgetGetColorsetList()
 	{
+		$colorset_list = [];
+
 		$widget = Context::get('selected_widget');
 		$skin = Context::get('skin');
-
-		$path = sprintf('./widgets/%s/', $widget);
-		$skin_info = ModuleModel::loadSkinInfo($path, $skin);
-
-		$colorset_list = [];
-		foreach ($skin_info->colorset ?: [] as $colorset)
+		if (str_starts_with($skin, 'theme:'))
 		{
-			$colorset_list[] = sprintf('%s|@|%s', $colorset->name, $colorset->title);
+			$colorset_list[] = sprintf('%s|@|%s', 'default', lang('default_value'));
 		}
-		if (count($colorset_list))
+		else
 		{
-			$colorsets = implode("\n", $colorset_list);
+			$path = sprintf('./widgets/%s/', $widget);
+			$skin_info = ModuleModel::loadSkinInfo($path, $skin);
+			if ($skin_info)
+			{
+				foreach ($skin_info->colorset ?: [] as $colorset)
+				{
+					$colorset_list[] = sprintf('%s|@|%s', $colorset->name, $colorset->title);
+				}
+			}
 		}
 
-		$this->add('colorset_list', $colorsets);
+		$this->add('colorset_list', implode("\n", $colorset_list));
 	}
 
 	/**
@@ -783,6 +788,7 @@ class WidgetController extends Widget
 				return sprintf(lang('msg_widget_proc_is_null'), $widget);
 			}
 
+			$oWidget->widget_name = $widget;
 			$oWidget->widget_path = $path;
 
 			$GLOBALS['_xe_loaded_widgets_'][$widget] = $oWidget;

@@ -24,7 +24,7 @@ class Theme extends Layout
 	public function dispLayoutAdminThemeList()
 	{
 		// Get the list of installed themes.
-		$theme_list = ThemeModel::getInstalledThemeList();
+		$theme_list = ThemeModel::getThemeList();
 		Context::set('theme_list', $theme_list);
 
 		// Get the currently active theme.

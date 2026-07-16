@@ -37,17 +37,35 @@ class LayoutModel extends Layout
 			}
 		}
 
-		$oLayoutAdminModel = LayoutAdminModel::getInstance();
-		$siteDefaultLayoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($layout_type);
-		if($siteDefaultLayoutSrl)
+		// Add default theme or layout.
+		$designInfo = Rhymix\Modules\Layout\Models\Theme::getDefaultDesignConfig();
+		if (!empty($designInfo->theme))
 		{
-			$siteDefaultLayoutInfo = self::getLayout($siteDefaultLayoutSrl);
-			$siteDefaultLayoutInfo->layout_srl = -1;
-			$siteDefaultLayoutInfo->layout = $siteDefaultLayoutInfo->title;
-			$siteDefaultLayoutInfo->title = lang('use_site_default_layout');
-
-			array_unshift($output->data, $siteDefaultLayoutInfo);
+			$theme_info = Rhymix\Modules\Layout\Models\Theme::getThemeInfo($designInfo->theme);
+			if ($theme_info)
+			{
+				$siteDefaultLayoutInfo = new stdClass();
+				$siteDefaultLayoutInfo->layout_srl = -1;
+				$siteDefaultLayoutInfo->layout = $theme_info->title;
+				$siteDefaultLayoutInfo->title = lang('use_site_default_layout');
+				$siteDefaultLayoutInfo->path = $theme_info->path;
+				array_unshift($output->data, $siteDefaultLayoutInfo);
+			}
 		}
+		else
+		{
+			$siteDefaultLayoutSrl = LayoutAdminModel::getSiteDefaultLayout($layout_type);
+			if ($siteDefaultLayoutSrl)
+			{
+				$siteDefaultLayoutInfo = self::getLayout($siteDefaultLayoutSrl);
+				$siteDefaultLayoutInfo->layout_srl = -1;
+				$siteDefaultLayoutInfo->layout = $siteDefaultLayoutInfo->title;
+				$siteDefaultLayoutInfo->title = lang('use_site_default_layout');
+				array_unshift($output->data, $siteDefaultLayoutInfo);
+			}
+		}
+
+		// Add responsive option for mobile layout.
 		if ($layout_type === 'M')
 		{
 			$responsiveLayoutInfo = new stdClass();

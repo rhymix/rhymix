@@ -21,7 +21,7 @@ class Theme
 	 *
 	 * @return array
 	 */
-	public static function getInstalledThemeList(): array
+	public static function getThemeList(): array
 	{
 		$themes = [];
 
@@ -38,6 +38,33 @@ class Theme
 		}
 
 		return $themes;
+	}
+
+	/**
+	 * Get the list of themes that provide the given module or widget's skin.
+	 *
+	 * @param string $module_name
+	 * @return array
+	 */
+	public static function getThemeSkinList(string $module_name): array
+	{
+		$result = [];
+		$themes = self::getThemeList();
+		foreach ($themes as $theme_info)
+		{
+			foreach ($theme_info->provides as $sub_info)
+			{
+				if (($sub_info->type === 'module_skin' && $sub_info->module === $module_name) ||
+					($sub_info->type === 'widget_skin' && $sub_info->widget === $module_name))
+				{
+					$result[$sub_info->name] = (object)[
+						'title' => $theme_info->title . ' - ' . $sub_info->title,
+						'path' => $theme_info->path . $sub_info->path,
+					];
+				}
+			}
+		}
+		return $result;
 	}
 
 	/**
