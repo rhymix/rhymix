@@ -94,7 +94,7 @@ class ThemeInfoParser extends BaseParser
 
 				// Parse the provide item.
 				$item = new \stdClass;
-				$item->name = '';
+				$item->name = trim($provide['name'] ?? '');
 				$item->type = $type;
 				$item->path = trim($provide['path'] ?? '', './') . '/';
 				if ($type === 'module_skin')
@@ -108,16 +108,14 @@ class ThemeInfoParser extends BaseParser
 				$item->title = self::_getChildrenByLang($provide, 'title', $lang);
 				$item->description = self::_getChildrenByLang($provide, 'description', $lang);
 
-				// Generate a unique name for this item, especially if there are multiple skins for the same module or widget.
-				$base_name = ($item->module ?? ($item->widget ?? $item->type));
-				$name = $base_name;
-				$seq = 2;
-				while (isset($info->provides[$name]))
+				// Generate a fully qualified name for this resource.
+				$short_name = $item->name ?: ($item->module ?? ($item->widget ?? $item->type));
+				$fully_qualified_name = sprintf('theme:%s:%s', $theme_name, $short_name);
+				$item->name = $fully_qualified_name;
+				if (!isset($info->provides[$short_name]))
 				{
-					$name = $base_name . $seq++;
+					$info->provides[$short_name] = $item;
 				}
-				$item->name = 'theme:' . $theme_name . ':' . $name;
-				$info->provides[$name] = $item;
 			}
 		}
 
