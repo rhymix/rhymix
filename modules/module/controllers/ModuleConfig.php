@@ -8,6 +8,8 @@ use Rhymix\Framework\Exceptions\InvalidRequest;
 use Rhymix\Framework\Filters\FilenameFilter;
 use Rhymix\Framework\Storage;
 use Rhymix\Framework\Template;
+use Rhymix\Modules\Extravar\Models\Value as ExtraValue;
+use Rhymix\Modules\Layout\Models\Theme as ThemeModel;
 use Rhymix\Modules\Module\Models\ModuleCache as ModuleCacheModel;
 use Rhymix\Modules\Module\Models\ModuleCategory as ModuleCategoryModel;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
@@ -368,6 +370,9 @@ class ModuleConfig extends Base
 		}
 
 		$module_path = './modules/' . $module_info->module;
+		$skin_info = null;
+		$theme_info = null;
+		$theme_config = null;
 		if ($mode === 'P')
 		{
 			if ($module_info->is_skin_fix == 'N')
@@ -378,8 +383,21 @@ class ModuleConfig extends Base
 			{
 				$skin = $module_info->skin;
 			}
-			$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/skins/' . $skin);
 			$skin_vars = ModuleInfoModel::getSkinVars($module_srl, 'P');
+
+			if (preg_match('/^theme:([^:]+):(.+)$/', $skin, $matches))
+			{
+				$theme_info = ThemeModel::getThemeInfo($matches[1]);
+				if ($theme_info && isset($theme_info->provides[$matches[2]]))
+				{
+					$skin_info = $theme_info->loadSubConfigAsSkinInfo($matches[2]);
+					$theme_config = ThemeModel::getThemeConfig($matches[1])->{$matches[2]} ?? null;
+				}
+			}
+			else
+			{
+				$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/skins/' . $skin);
+			}
 		}
 		else
 		{
@@ -392,12 +410,26 @@ class ModuleConfig extends Base
 			{
 				$skin = $module_info->mskin;
 			}
-			$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/m.skins/' . $skin);
 			$skin_vars = ModuleInfoModel::getSkinVars($module_srl, 'M');
+
+			if (preg_match('/^theme:([^:]+):(.+)$/', $skin, $matches))
+			{
+				$theme_info = ThemeModel::getThemeInfo($matches[1]);
+				if ($theme_info && isset($theme_info->provides[$matches[2]]))
+				{
+					$skin_info = $theme_info->loadSubConfigAsSkinInfo($matches[2]);
+					$theme_config = ThemeModel::getThemeConfig($matches[1])->{$matches[2]} ?? null;
+				}
+			}
+			else
+			{
+				$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/m.skins/' . $skin);
+			}
 		}
 
 		if ($skin_info && $skin_info->extra_vars)
 		{
+			$config_index = 1;
 			foreach ($skin_info->extra_vars as $key => $val)
 			{
 				$name = $val->name;
@@ -406,12 +438,34 @@ class ModuleConfig extends Base
 				{
 					$value = $skin_vars->{$name}->value;
 				}
+				elseif (isset($theme_info) && isset($theme_config->{$name}))
+				{
+					$value = $theme_config->{$name};
+				}
 				else
 				{
 					$value = '';
 				}
 
-				if ($type === 'checkbox')
+				if ($theme_info)
+				{
+					$input = new ExtraValue(0, $config_index++, $name, $type);
+					$input->parent_type = 'theme';
+					$input->input_name = $name;
+					$input->input_id = $name;
+					$input->value = $value;
+					if ($val->options)
+					{
+						$input->options = [];
+						$input->is_dict_options = 'Y';
+						foreach ($val->options as $option)
+						{
+							$input->options[$option->value] = $option->title;
+						}
+					}
+					$skin_info->extra_vars[$key]->input = $input->getFormHTML();
+				}
+				elseif ($type === 'checkbox')
 				{
 					$value = $value ? unserialize($value) : [];
 				}
@@ -423,6 +477,7 @@ class ModuleConfig extends Base
 
 		Context::set('module_info', $module_info);
 		Context::set('mid', $module_info->mid);
+		Context::set('theme_info', $theme_info);
 		Context::set('skin_info', $skin_info);
 		Context::set('skin_vars', $skin_vars);
 		Context::set('mode', $mode);
@@ -431,7 +486,10 @@ class ModuleConfig extends Base
 		$security = new Security();
 		$security->encodeHTML('mid');
 		$security->encodeHTML('module_info.browser_title');
-		$security->encodeHTML('skin_info...');
+		if (!$theme_info)
+		{
+			$security->encodeHTML('skin_info...');
+		}
 
 		$oTemplate = new Template;
 		return $oTemplate->compile($this->module_path . 'tpl', 'skin_config');
@@ -758,6 +816,9 @@ class ModuleConfig extends Base
 		}
 
 		$module_path = './modules/' . $module_info->module;
+		$skin_info = null;
+		$theme_info = null;
+		$theme_config = null;
 		if ($mode === 'P')
 		{
 			if ($module_info->is_skin_fix == 'N')
@@ -768,8 +829,21 @@ class ModuleConfig extends Base
 			{
 				$skin = $module_info->skin;
 			}
-			$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/skins/' . $skin);
 			$skin_vars = ModuleInfoModel::getSkinVars($module_srl, 'P');
+
+			if (preg_match('/^theme:([^:]+):(.+)$/', $skin, $matches))
+			{
+				$theme_info = ThemeModel::getThemeInfo($matches[1]);
+				if ($theme_info && isset($theme_info->provides[$matches[2]]))
+				{
+					$skin_info = $theme_info->loadSubConfigAsSkinInfo($matches[2]);
+					$theme_config = ThemeModel::getThemeConfig($matches[1])->{$matches[2]} ?? null;
+				}
+			}
+			else
+			{
+				$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/skins/' . $skin);
+			}
 		}
 		else
 		{
@@ -780,21 +854,32 @@ class ModuleConfig extends Base
 			}
 			else
 			{
+				$skin_type = 'M';
 				$skin = $module_info->mskin;
 			}
-			$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/m.skins/' . $skin);
-			$skin_vars = ModuleInfoModel::getSkinVars($module_srl, 'M');
+			$skin_vars = ModuleInfoModel::getSkinVars($module_srl, $skin_type);
+
+			if (preg_match('/^theme:([^:]+):(.+)$/', $skin, $matches))
+			{
+				$theme_info = ThemeModel::getThemeInfo($matches[1]);
+				if ($theme_info && isset($theme_info->provides[$matches[2]]))
+				{
+					$skin_info = $theme_info->loadSubConfigAsSkinInfo($matches[2]);
+					$theme_config = ThemeModel::getThemeConfig($matches[1])->{$matches[2]} ?? null;
+				}
+			}
+			else
+			{
+				$skin_info = ModuleDefinitionModel::getSkinInfo($module_path . '/m.skins/' . $skin);
+			}
 		}
 
 		// Remove unnecessary variables.
 		$obj = clone Context::getRequestVars();
-		unset($obj->module);
-		unset($obj->module_srl);
-		unset($obj->mid);
-		unset($obj->_mode);
+		unset($obj->module, $obj->module_srl, $obj->mid);
 		foreach (ModuleInfoModel::DELETE_VARS as $key => $val)
 		{
-			unset($obj->{$val});
+			unset($obj->{$key});
 		}
 
 		// Handle image uploads.
@@ -804,6 +889,25 @@ class ModuleConfig extends Base
 			{
 				if ($vars->type !== 'image')
 				{
+					if ($theme_info)
+					{
+						$expect_array = isset(ExtraValue::ARRAY_TYPES[$vars->type]) && !in_array($vars->type, ['radio', 'select']);
+						if ($expect_array)
+						{
+							if (isset($obj->{$vars->name}))
+							{
+								$obj->{$vars->name} = is_array($obj->{$vars->name}) ? array_values($obj->{$vars->name}) : [strval($obj->{$vars->name})];
+							}
+							else
+							{
+								$obj->{$vars->name} = [];
+							}
+						}
+						else
+						{
+							$obj->{$vars->name} = strval($obj->{$vars->name} ?? '');
+						}
+					}
 					continue;
 				}
 

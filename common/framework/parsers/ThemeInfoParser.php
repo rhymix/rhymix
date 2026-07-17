@@ -241,4 +241,37 @@ class ThemeInfoParser extends BaseParser
 
 		return $info;
 	}
+
+	/**
+	 * Load the XML file of a skin and return it in a format compatible with SkinInfoParser.
+	 *
+	 * @param string $name
+	 * @param string $lang
+	 * @return ?object
+	 */
+	public function loadSubConfigAsSkinInfo(string $name, string $lang = ''): ?object
+	{
+		// Load the sub config.
+		$info = $this->loadSubConfig($name, $lang);
+		if ($info === null)
+		{
+			return null;
+		}
+
+		// Fill in missing attributes with the parent theme's attributes.
+		$info->path = $this->path . $info->path;
+		$info->title = $this->title . ' - ' . $info->title;
+		foreach (['version', 'date', 'homepage', 'license', 'license_link', 'author'] as $key)
+		{
+			$info->{$key} = $this->{$key} ?? '';
+		}
+		$info->colorset = [];
+		$info->thumbnail = '';
+
+		// Fill in extra vars.
+		$info->extra_vars = get_object_vars($info->config);
+		unset($info->config, $info->config_groups);
+
+		return $info;
+	}
 }
