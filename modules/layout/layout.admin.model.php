@@ -95,13 +95,18 @@ class LayoutAdminModel extends Layout
 	public function getLayoutAdminSiteDefaultLayout()
 	{
 		$type = Context::get('type');
-		$layoutSrl = self::getSiteDefaultLayout($type);
+		$layout_srl = self::getSiteDefaultLayout($type);
+		if ($layout_srl)
+		{
+			$layout_info = LayoutModel::getLayoutRawData($layout_srl, array('title'));
+		}
+		else
+		{
+			$layout_info = null;
+		}
 
-		$oLayoutModel = getModel('layout');
-		$layoutInfo = $oLayoutModel->getLayoutRawData($layoutSrl, array('title'));
-
-		$this->add('layout_srl', $layoutSrl);
-		$this->add('title', $layoutInfo->title);
+		$this->add('layout_srl', $layout_srl);
+		$this->add('title', $layout_info ? $layout_info->title : '');
 	}
 
 	public static function getSiteDefaultLayout($viewType = 'P')
