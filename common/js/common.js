@@ -481,7 +481,7 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 	return promise = new Promise(function(resolve, reject) {
 
 		// Define the success wrapper.
-		const successWrapper = function(data, textStatus, xhr) {
+		const successWrapper = function(data, xhr) {
 
 			// Add debug information.
 			if (data._rx_debug) {
@@ -495,7 +495,7 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 
 			// If the response contains a Rhymix error code, display the error message.
 			if (typeof data.error !== 'undefined' && data.error != 0) {
-				return errorWrapper(data, textStatus, xhr);
+				return errorWrapper(data, xhr);
 			}
 
 			// If a success callback was defined, call it.
@@ -516,7 +516,7 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		};
 
 		// Define the error wrapper.
-		const errorWrapper = function(data, textStatus, xhr) {
+		const errorWrapper = function(data, xhr) {
 
 			// If an error callback is defined, call it.
 			// The promise will still be rejected, but silently.
@@ -559,33 +559,35 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 			reject(err);
 		};
 
-		// Pass off to jQuery with another wrapper around the success and error wrappers.
-		// This allows us to handle HTTP 400+ error codes with valid JSON responses.
-		$.ajax({
-			type: 'POST',
-			dataType: 'json',
-			url: url,
-			data: isFormData ? params : JSON.stringify(params),
-			contentType: isFormData ? false : 'application/json; charset=UTF-8',
-			processData: false,
-			headers: headers,
-			success: successWrapper,
-			error: function(xhr, textStatus, errorThrown) {
-				if (xhr.status == 0 && Rhymix.unloading) {
-					return;
+		// Pass off to XHR with success and error wrappers.
+		const xhr = new XMLHttpRequest();
+		try {
+			xhr.open('POST', url, true);
+		} catch (e) {
+			errorWrapper({ error: 0, message: e.message || 'error' }, xhr);
+			return;
+		}
+		xhr.setRequestHeader('X-CSRF-Token', headers['X-CSRF-Token']);
+		xhr.setRequestHeader('X-Requested-With', 'Rhymix.ajax');
+		if (!isFormData) {
+			xhr.setRequestHeader('Content-Type', 'application/json');
+		}
+		xhr.onload = function() {
+			try {
+				let data = JSON.parse(xhr.responseText);
+				successWrapper(data, xhr);
+			} catch (e) {
+				if (xhr.status == 200) {
+					errorWrapper({ error: 0, message: e.message || 'parsererror' }, xhr);
 				}
-				if (xhr.status >= 400 && xhr.responseText) {
-					try {
-						let data = JSON.parse(xhr.responseText);
-						if (data) {
-							successWrapper(data, textStatus, xhr);
-							return;
-						}
-					} catch (e) { }
-				}
-				errorWrapper({ error: 0, message: textStatus }, textStatus, xhr);
 			}
-		});
+		};
+		xhr.onerror = function() {
+			if (xhr.status != 0 || !Rhymix.unloading) {
+				errorWrapper({ error: 0, message: xhr.statusText || ('error ' + xhr.status) }, xhr);
+			}
+		};
+		xhr.send(isFormData ? params : JSON.stringify(params));
 	});
 };
 
@@ -612,7 +614,7 @@ Rhymix.ajaxForm = function(form, callback_success, callback_error) {
 					rhymix_alert(data.message, data.redirect_url);
 				}
 				if (data.redirect_url) {
-					Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'));
+					Rhymix.redirectToUrl(data.redirect_url.replace(/&amp;/g, '&'), 100);
 				}
 			};
 		}

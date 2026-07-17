@@ -1254,6 +1254,11 @@ class Context
 					self::$_instance->request_method = substr($GLOBALS['HTTP_RAW_POST_DATA'], 0, 1) === '<' ? 'XMLRPC' : 'JSON';
 					return;
 				}
+				if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'Rhymix.ajax')
+				{
+					self::$_instance->request_method = 'JSON';
+					return;
+				}
 			}
 		}
 	}
