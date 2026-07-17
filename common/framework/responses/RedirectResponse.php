@@ -49,7 +49,7 @@ class RedirectResponse extends AbstractResponse
 	 */
 	public function render(): iterable
 	{
-		if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest' && $this->_status_code === 200)
+		if ($this->_status_code === 200 && in_array($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '', ['Rhymix.ajax', 'XMLHttpRequest']))
 		{
 			$this->_fake_redirect = true;
 			$this->setContentType('application/json');
