@@ -129,7 +129,7 @@ class Plugin extends Base
 		foreach ($plugin_info->config as $key => $var)
 		{
 			$input = new ExtraValue(0, $config_index++, $var->name, $var->type);
-			$input->parent_type = 'config';
+			$input->parent_type = 'plugin';
 			$input->input_name = $var->name;
 			$input->input_id = $var->name;
 			$input->value = $plugin_config->{$var->name} ?? $var->default;
