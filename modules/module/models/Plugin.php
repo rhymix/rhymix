@@ -4,6 +4,7 @@ namespace Rhymix\Modules\Module\Models;
 
 use Rhymix\Framework\Cache;
 use Rhymix\Framework\Helpers\DBResultHelper;
+use Rhymix\Framework\Parsers\DBQuery\NullValue;
 use Rhymix\Framework\Parsers\PluginInfoParser;
 use Rhymix\Framework\Storage;
 use Rhymix\Modules\Extravar\Models\Value as ExtraValue;
@@ -99,6 +100,34 @@ class Plugin
 			$config = json_decode($output->data->config);
 			Cache::set($cache_key, $config, 0, true);
 			return $config;
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Get the extra data for a specific plugin.
+	 *
+	 * @param string $plugin_name
+	 * @return ?object
+	 */
+	public static function getPluginExtraData(string $plugin_name): ?object
+	{
+		$cache_key = 'plugin:extra_data:' . $plugin_name;
+		$extra_data = Cache::get($cache_key);
+		if ($extra_data)
+		{
+			return $extra_data;
+		}
+
+		$output = executeQuery('module.getPluginExtraData', ['plugin_name' => $plugin_name]);
+		if ($output->toBool() && $output->data && !empty($output->data->extra_data))
+		{
+			$extra_data = json_decode($output->data->extra_data);
+			Cache::set($cache_key, $extra_data, 0, true);
+			return $extra_data;
 		}
 		else
 		{
@@ -262,6 +291,24 @@ class Plugin
 
 		Cache::delete('plugin:config:' . $plugin_name);
 		Cache::delete('plugin:enabled');
+		return $output;
+	}
+
+	/**
+	 * Set extra data for a specific plugin.
+	 *
+	 * @param string $plugin_name
+	 * @param ?object $extra_data
+	 * @return DBResultHelper
+	 */
+	public static function setPluginExtraData(string $plugin_name, ?object $extra_data): DBResultHelper
+	{
+		$output = executeQuery('module.updatePluginExtraData', [
+			'plugin_name' => $plugin_name,
+			'extra_data' => $extra_data ? json_encode($extra_data, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) : new NullValue,
+		]);
+
+		Cache::delete('plugin:extra_data:' . $plugin_name);
 		return $output;
 	}
 }

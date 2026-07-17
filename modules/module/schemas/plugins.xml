@@ -1,6 +1,7 @@
 <table name="plugins">
 	<column name="plugin_name" type="varchar" size="80" notnull="notnull" primary_key="primary_key" />
 	<column name="is_enabled" type="char" size="1" notnull="notnull" default="N" index="idx_is_enabled" />
-	<column name="config" type="longtext" notnull="notnull" />
+	<column name="config" type="longtext" />
+	<column name="extra_data" type="longtext" />
 	<column name="regdate" type="datetime" notnull="notnull" />
 </table>

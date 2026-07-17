@@ -8,6 +8,6 @@
 		<column name="regdate" var="regdate" />
 	</columns>
 	<conditions>
-		<condition operation="equal" column="plugin_name" var="plugin_name" />
+		<condition operation="equal" column="plugin_name" var="plugin_name" notnull="notnull" />
 	</conditions>
 </query>

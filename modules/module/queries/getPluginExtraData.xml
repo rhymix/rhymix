@@ -1,10 +1,9 @@
-<query id="getPluginConfig" action="select">
+<query id="getPluginExtraData" action="select">
 	<tables>
 		<table name="plugins" />
 	</tables>
 	<columns>
-		<column name="is_enabled" />
-		<column name="config" />
+		<column name="extra_data" />
 	</columns>
 	<conditions>
 		<condition operation="equal" column="plugin_name" var="plugin_name" notnull="notnull" />

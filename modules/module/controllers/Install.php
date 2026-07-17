@@ -145,6 +145,12 @@ class Install extends Base
 			return true;
 		}
 
+		// check extra_data column of plugins table
+		if(!$oDB->isColumnExists('plugins', 'extra_data'))
+		{
+			return true;
+		}
+
 		// check deprecated lang code
 		$output = executeQuery('module.getLangCount', ['lang_code' => 'jp']);
 		if ($output->data->count > 0)
@@ -315,6 +321,12 @@ class Install extends Base
 		{
 			$oDB->addIndex('module_trigger', 'idx_trigger_name', array('trigger_name', 'called_position'));
 			$oDB->addIndex('module_trigger', 'idx_trigger_target', array('module', 'type', 'called_method'));
+		}
+
+		// check extra_data column of plugins table
+		if(!$oDB->isColumnExists('plugins', 'extra_data'))
+		{
+			$output = $oDB->addColumn('plugins', 'extra_data', 'longtext', null, null, false, 'config');
 		}
 
 		// check deprecated lang code

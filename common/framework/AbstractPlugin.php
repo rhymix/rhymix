@@ -3,6 +3,7 @@
 namespace Rhymix\Framework;
 
 use Rhymix\Modules\Module\Models\Event as EventModel;
+use Rhymix\Modules\Module\Models\Plugin as PluginModel;
 
 /**
  * The main class of all plugins must extend this class.
@@ -100,5 +101,37 @@ abstract class AbstractPlugin
 	public function afterAction(string $action_name, callable $handler): void
 	{
 		$this->on('act:' . $action_name, 'after', $handler);
+	}
+
+	/**
+	 * Get the name of this plugin.
+	 *
+	 * @return string
+	 */
+	public function getName(): string
+	{
+		$class_name = explode('\\', get_class($this));
+		return strtolower($class_name[count($class_name) - 2]);
+	}
+
+	/**
+	 * Get extra data associated with this plugin.
+	 *
+	 * @return ?object
+	 */
+	public function getExtraData(): ?object
+	{
+		return PluginModel::getPluginExtraData($this->getName());
+	}
+
+	/**
+	 * Set extra data associated with this plugin.
+	 *
+	 * @param ?object $extra_data
+	 * @return bool
+	 */
+	public function setExtraData(?object $extra_data): bool
+	{
+		return PluginModel::setPluginExtraData($this->getName(), $extra_data)->toBool();
 	}
 }
