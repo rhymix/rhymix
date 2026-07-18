@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <title xml:lang="ko">넘겨보는 사진</title>
+    <title xml:lang="en">PhotoSwipe</title>
+    <description xml:lang="ko">본문 이미지를 갤러리처럼 넘겨볼 수 있습니다.</description>
+    <description xml:lang="en">Show images in a post as a gallery.</description>
+    <author email_address="devops@rhymix.org" link="https://rhymix.org">
+        <name xml:lang="ko">Rhymix</name>
+        <name xml:lang="en">Rhymix</name>
+    </author>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
+	<config>
+		<var name="display_filename" type="select">
+			<title xml:lang="ko">파일 이름 표시</title>
+			<title xml:lang="en">Display Filenames</title>
+			<option value="Y">
+				<title xml:lang="ko">예</title>
+				<title xml:lang="en">Yes</title>
+			</option>
+			<option value="N" default="true">
+				<title xml:lang="ko">아니오</title>
+				<title xml:lang="en">No</title>
+			</option>
+		</var>
+	</config>
+</plugin>

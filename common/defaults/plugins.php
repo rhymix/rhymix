@@ -66,6 +66,7 @@ return array(
 	'plugin' => array(
 		'adminlogging' => true,
 		'autolink' => true,
+		'photoswipe' => true,
 	),
 
 	// Widgets
