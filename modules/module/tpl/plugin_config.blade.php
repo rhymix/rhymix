@@ -104,7 +104,7 @@
 		</div>
 	@endif
 
-	<div class="x_clearfix">
+	<div class="x_clearfix btnArea">
 		<div class="x_pull-right">
 			<button type="submit" class="x_btn x_btn-primary">{{ $lang->cmd_save }}</button>
 		</div>

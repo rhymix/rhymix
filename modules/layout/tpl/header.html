@@ -1,7 +1,3 @@
-<style>
-#faceoff_migration_info img {border:1px solid #ccc;padding:5px}
-</style>
-
 <div class="x_page-header">
 	<h1>
 		{$lang->installed_layout}
@@ -10,47 +6,6 @@
 		<span cond="$selected_layout" class="path">&gt; {$selected_layout->layout_title}</span>
 	</h1>
 </div>
-
-<div cond="isset($layout) && $layout == 'faceoff'" class="x_alert x_alert-block">
-	<p>{$lang->faceoff_migration[0]}</p>
-	<p><a href="#faceoff_migration_info" class="modalAnchor">{$lang->faceoff_migration[1]}</a></p>
-</div>
-<section cond="isset($layout) && $layout == 'faceoff'" id="faceoff_migration_info" class="x_modal">
-	<div class="x_modal-header">
-		<h1>{$lang->faceoff_migration[1]}</h1>
-	</div>
-	<div class="x_modal-body">
-		<ol>
-			<li>
-				<p>{$lang->faceoff_migration[2]}</p>
-				<img cond="$lang_type == 'ko'" src="./faceoff_migration/01.png" alt="" />
-				<img cond="$lang_type != 'ko'" src="./faceoff_migration/01_en.png" alt="" />
-			</li>
-			<li>
-				<p>{$lang->faceoff_migration[3]}</p>
-				<img cond="$lang_type == 'ko'" src="./faceoff_migration/02.png" alt="" />
-				<img cond="$lang_type != 'ko'" src="./faceoff_migration/02_en.png" alt="" />
-			</li>
-			<li>
-				<p>{$lang->faceoff_migration[4]}</p>
-				<img src="./faceoff_migration/03.png" alt="" />
-			</li>
-			<li>
-				<p>{$lang->faceoff_migration[5]}</p>
-				<img cond="$lang_type == 'ko'" src="./faceoff_migration/04.png" alt="" />
-				<img cond="$lang_type != 'ko'" src="./faceoff_migration/04_en.png" alt="" />
-			</li>
-			<li>
-				<p>{$lang->faceoff_migration[6]}</p>
-				<img cond="$lang_type == 'ko'" src="./faceoff_migration/05.png" alt="" />
-				<img cond="$lang_type != 'ko'" src="./faceoff_migration/05_en.png" alt="" />
-			</li>
-		</ol>
-	</div>
-	<div class="x_modal-footer">
-		<button type="button" class="x_btn x_pull-left" data-hide="#faceoff_migration_info">{$lang->cmd_close}</button>
-	</div>
-</section>
 
 {@
 	$validator_ids = array(

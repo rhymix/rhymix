@@ -185,15 +185,15 @@ class Template
 		{
 			$this->exists = Storage::isFile($this->absolute_path);
 		}
-		if ($this->exists && $this->extension === 'blade.php')
-		{
-			$this->config->version = 2;
-			$this->config->autoescape = true;
-		}
 		if (preg_match('!^(addons|common|(?:m\.)?layouts|modules|plugins|themes|widgets|widgetstyles)/(\w+)!', $this->relative_dirname, $match))
 		{
 			$this->source_type = $match[1];
 			$this->source_name = $match[2];
+		}
+		if (($this->exists && $this->extension === 'blade.php') || $this->source_type === 'themes' || $this->source_type === 'plugins')
+		{
+			$this->config->version = 2;
+			$this->config->autoescape = true;
 		}
 		$this->path = $this->absolute_dirname;
 		$this->web_path = \RX_BASEURL . $this->relative_dirname;

@@ -2,6 +2,11 @@
 <module>
 	<grants />
 	<actions>
+		<action name="dispLayoutAdminThemeList" class="Controllers\Theme" menu_name="installedTheme" menu_index="true" />
+		<action name="dispLayoutAdminThemeConfig" class="Controllers\Theme" />
+		<action name="procLayoutAdminSaveThemeConfig" class="Controllers\Theme" />
+		<action name="procLayoutAdminApplyTheme" class="Controllers\Theme" />
+
 		<action name="dispLayoutPreviewWithModule" type="view" permission="root" meta-noindex="true" />
 		<action name="getLayoutInstanceListForJSONP" type="model" permission="root" />
 
@@ -12,7 +17,6 @@
 		<action name="dispLayoutAdminModify" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminEdit" type="view" menu_name="installedLayout" />
 		<action name="dispLayoutAdminCopyLayout" type="view" />
-		<action name="dispLayoutAdminLayoutModify" type="view" />
 
 		<action name="getLayoutAdminSetInfoView" type="model" />
 		<action name="getLayoutAdminSiteDefaultLayout" type="model" />
@@ -27,11 +31,12 @@
 		<action name="procLayoutAdminUserImageDelete" type="controller" />
 		<action name="procLayoutAdminConfigImageUpload" type="controller" />
 		<action name="procLayoutAdminConfigImageDelete" type="controller" />
-		<action name="procLayoutAdminUserLayoutImport" type="controller" ruleset="userLayoutImport" />
-		<action name="procLayoutAdminUserLayoutExport" type="controller" />
-		<action name="procLayoutAdminUserValueInsert" type="controller" />
 	</actions>
 	<menus>
+		<menu name="installedTheme">
+			<title xml:lang="en">Themes</title>
+			<title xml:lang="ko">설치된 테마</title>
+		</menu>
 		<menu name="installedLayout">
 			<title xml:lang="en">Layouts</title>
 			<title xml:lang="ko">설치된 레이아웃</title>

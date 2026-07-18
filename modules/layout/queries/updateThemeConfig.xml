@@ -1,0 +1,14 @@
+<query id="updateThemeConfig" action="update">
+	<tables>
+		<table name="theme_config" />
+	</tables>
+	<columns>
+		<column name="config" var="config" notnull="notnull" />
+	</columns>
+	<conditions>
+		<group notnull="notnull">
+			<condition operation="equal" column="theme_srl" var="theme_srl" />
+			<condition operation="equal" column="theme_name" var="theme_name" />
+		</group>
+	</conditions>
+</query>

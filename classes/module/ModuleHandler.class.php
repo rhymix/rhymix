@@ -254,35 +254,6 @@ class ModuleHandler extends Handler
 			$this->mid = $module_info->mid;
 			$this->module_info = $module_info;
 			$this->_setModuleSEOInfo($module_info, $site_module_info);
-
-			// Check if the current request is from a mobile device.
-			$this->is_mobile = Mobile::isFromMobilePhone();
-			$viewType = $this->is_mobile ? 'M' : 'P';
-			$targetSrl = $viewType === 'M' ? 'mlayout_srl' : 'layout_srl';
-
-			// Apply default layouts.
-			if($module_info->{$targetSrl} == -1)
-			{
-				$oLayoutAdminModel = getAdminModel('layout');
-				$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
-			}
-			elseif($module_info->{$targetSrl} == -2 && $viewType === 'M')
-			{
-				$layoutSrl = $module_info->layout_srl;
-				if($layoutSrl == -1)
-				{
-					$viewType = 'P';
-					$oLayoutAdminModel = getAdminModel('layout');
-					$layoutSrl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $module_info->site_srl);
-				}
-			}
-			else
-			{
-				$layoutSrl = $module_info->{$targetSrl};
-			}
-
-			// Reset layout_srl in module_info.
-			$module_info->{$targetSrl} = $layoutSrl;
 		}
 		else
 		{
@@ -291,6 +262,10 @@ class ModuleHandler extends Handler
 			$this->module_info->mid = $this->mid;
 		}
 
+		// Check if the current request is from a mobile device.
+		$this->is_mobile = Mobile::isFromMobilePhone();
+
+		// Set the color scheme.
 		$this->_setModuleColorScheme($site_module_info);
 
 		// Still no module? it's an error
@@ -606,14 +581,6 @@ class ModuleHandler extends Handler
 				if(!is_object($oModule))
 				{
 					return self::_createErrorMessage(-1, 'msg_module_class_not_found', 404);
-				}
-
-				// Admin page layout
-				if($this->module == 'admin' && $type == 'view' && $this->act != 'dispLayoutAdminLayoutModify')
-				{
-					Rhymix\Modules\Admin\Controllers\Base::getInstance()->loadAdminMenu($forward->module);
-					$oModule->setLayoutPath("./modules/admin/tpl");
-					$oModule->setLayoutFile("layout.html");
 				}
 			}
 			else if($xml_info->default_index_act && method_exists($oModule, $xml_info->default_index_act))
@@ -1081,131 +1048,6 @@ class ModuleHandler extends Handler
 
 				self::_clearErrorSession();
 			}
-
-			// Check if layout_srl exists for the module
-			$viewType = $this->is_mobile ? 'M' : 'P';
-			if($viewType === 'M')
-			{
-				$layout_srl = $oModule->module_info->mlayout_srl ?? 0;
-				if($layout_srl == -2)
-				{
-					$layout_srl = $oModule->module_info->layout_srl ?? 0;
-					$viewType = 'P';
-				}
-			}
-			else
-			{
-				$layout_srl = $oModule->module_info->layout_srl ?? 0;
-			}
-
-			// if layout_srl is rollback by module, set default layout
-			if($layout_srl == -1)
-			{
-				$oLayoutAdminModel = LayoutAdminModel::getInstance();
-				$layout_srl = $oLayoutAdminModel->getSiteDefaultLayout($viewType, $oModule->module_info->site_srl);
-			}
-
-			if($layout_srl && !$oModule->getLayoutFile())
-			{
-				// If layout_srl exists, get information of the layout, and set the location of layout_path/ layout_file
-				$oLayoutModel = LayoutModel::getInstance();
-				$layout_info = $oLayoutModel->getLayout($layout_srl);
-				if($layout_info)
-				{
-					// Input extra_vars into $layout_info
-					if(isset($layout_info->extra_var_count) && $layout_info->extra_var_count)
-					{
-
-						foreach($layout_info->extra_var as $var_id => $val)
-						{
-							if($val->type == 'image')
-							{
-								if(strncmp('./files/attach/images/', $val->value ?? '', 22) === 0)
-								{
-									$val->value = Context::getRequestUri() . substr($val->value, 2);
-								}
-							}
-							$layout_info->{$var_id} = $val->value;
-						}
-					}
-					// Set menus into context
-					if(isset($layout_info->menu_count) && $layout_info->menu_count)
-					{
-						$oMenuAdminController = getAdminController('menu');
-						$homeMenuCacheFile = null;
-
-						foreach($layout_info->menu as $menu_id => $menu)
-						{							// No menu selected
-							if($menu->menu_srl == 0)
-							{
-								$menu->list = array();
-							}
-							else
-							{
-								if($menu->menu_srl == -1)
-								{
-									if ($homeMenuCacheFile === null)
-									{
-										$homeMenuCacheFile = $oMenuAdminController->getHomeMenuCacheFile();
-									}
-
-									$homeMenuSrl = 0;
-									if(FileHandler::exists($homeMenuCacheFile))
-									{
-										include($homeMenuCacheFile);
-									}
-
-									$menu->xml_file = './files/cache/menu/' . $homeMenuSrl . '.xml.php';
-									$menu->php_file = './files/cache/menu/' . $homeMenuSrl . '.php';
-									$menu->menu_srl = $homeMenuSrl;
-								}
-
-								$php_file = FileHandler::exists($menu->php_file);
-								if(!$php_file)
-								{
-									$oMenuAdminController->makeXmlFile($menu->menu_srl);
-									$php_file = FileHandler::exists($menu->php_file);
-								}
-								if($php_file)
-								{
-									include($php_file);
-								}
-							}
-
-							Context::set($menu_id, $menu);
-						}
-					}
-
-					// Set layout information into context
-					Context::set('layout_info', $layout_info);
-
-					$oModule->setLayoutPath($layout_info->path);
-					$oModule->setLayoutFile('layout');
-
-					// If layout was modified, use the modified version
-					$edited_layout = $oLayoutModel->getUserLayoutHtml($layout_info->layout_srl);
-					if(file_exists($edited_layout))
-					{
-						$oModule->setEditedLayoutFile($edited_layout);
-					}
-				}
-			}
-
-			// Layout drop handling
-			$isLayoutDrop = Context::get('isLayoutDrop');
-			if($isLayoutDrop)
-			{
-				$kind = stripos($this->act, 'admin') !== FALSE ? 'admin' : '';
-				if($kind == 'admin')
-				{
-					$oModule->setLayoutFile('popup_layout');
-				}
-				elseif (self::isPartialPageRenderingEnabled())
-				{
-					$oModule->setLayoutPath('common/tpl');
-					$oModule->setLayoutFile('default_layout');
-				}
-			}
 		}
 
 		// Set http status code
@@ -1333,7 +1175,7 @@ class ModuleHandler extends Handler
 		{
 			return false;
 		}
-		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !URL::isInternalURL($_SERVER['HTTP_REFERER'])))
+		elseif ($ppr === 'internal_only' && (!isset($_SERVER['HTTP_REFERER']) || !Rhymix\Framework\URL::isInternalURL($_SERVER['HTTP_REFERER'])))
 		{
 			return false;
 		}

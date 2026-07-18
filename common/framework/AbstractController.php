@@ -2,6 +2,7 @@
 
 namespace Rhymix\Framework;
 
+use Rhymix\Modules\Layout\Models\Theme as ThemeModel;
 use Rhymix\Modules\Module\Models\ModuleInfo as ModuleInfoModel;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\Permission as PermissionModel;
@@ -9,8 +10,8 @@ use AddonController;
 use BaseObject;
 use Context;
 use FileHandler;
-use LayoutAdminModel;
 use LayoutModel;
+use MenuAdminModel;
 use Mobile;
 use MessageView;
 use ModuleModel;
@@ -215,7 +216,7 @@ abstract class AbstractController extends BaseObject
 	 */
 	public function setModulePath(string $path): self
 	{
-		$this->module_path = ends_with($path, '/') ? $path : ($path . '/');
+		$this->module_path = str_ends_with($path, '/') ? $path : ($path . '/');
 		return $this;
 	}
 
@@ -269,8 +270,9 @@ abstract class AbstractController extends BaseObject
 		if (preg_match('/^disp(?:Admin[A-Z]|[A-Z][a-z0-9\_]+Admin)/', $this->act))
 		{
 			// Set admin layout.
-			if (config('view.manager_layout') === 'admin')
+			if (Context::get('module') === 'admin' || config('view.manager_layout') === 'admin')
 			{
+				\Rhymix\Modules\Admin\Controllers\Base::getInstance()->loadAdminMenu();
 				$this->setLayoutPath('modules/admin/tpl');
 				$this->setLayoutFile('layout');
 			}
@@ -341,7 +343,7 @@ abstract class AbstractController extends BaseObject
 
 		// Addon execution point: 'before_module_proc'.
 		$called_position = 'before_module_proc';
-		$addon_file = \AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
+		$addon_file = AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
 		if (FileHandler::exists($addon_file))
 		{
 			include $addon_file;
@@ -354,14 +356,18 @@ abstract class AbstractController extends BaseObject
 		if (isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act))
 		{
 			// Set layout and template paths if module configuration specifies them.
-			if (isset($this->module_info->skin) && $this->module_info->module === $this->module && strpos($this->act, 'Admin') === false)
+			if (isset($this->module_info->skin) && $this->module_info->module === $this->module && empty($this->layout_path))
 			{
-				$use_default_skin = $this->module_info->{$is_mobile ? 'is_mskin_fix' : 'is_skin_fix'} === 'N';
-				if (!$this->getTemplatePath() || $use_default_skin)
+				if (!in_array(Context::getRequestMethod(), ['JSON', 'XMLRPC', 'JS_CALLBACK']))
 				{
-					$this->setLayoutAndTemplatePaths($is_mobile ? 'M' : 'P', $this->module_info);
+					$use_default_skin = $this->module_info->{$is_mobile ? 'is_mskin_fix' : 'is_skin_fix'} === 'N';
+					if (!$this->getTemplatePath() || $use_default_skin)
+					{
+						$this->setLayoutAndTemplatePaths($is_mobile ? 'M' : 'P', $this->module_info);
+					}
+					ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
 				}
-				ModuleModel::syncSkinInfoToModuleInfo($this->module_info);
+
 				Context::set('module_info', $this->module_info);
 			}
 
@@ -438,7 +444,7 @@ abstract class AbstractController extends BaseObject
 
 		// Addon execution point: 'after_module_proc'.
 		$called_position = 'after_module_proc';
-		$addon_file = \AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
+		$addon_file = AddonController::getInstance()->getCacheFilePath($is_mobile ? 'mobile' : 'pc');
 		if (FileHandler::exists($addon_file))
 		{
 			include $addon_file;
@@ -567,7 +573,7 @@ abstract class AbstractController extends BaseObject
 		{
 			$path = './' . $path;
 		}
-		if (!ends_with($path, '/'))
+		if (!str_ends_with($path, '/'))
 		{
 			$path .= '/';
 		}
@@ -626,7 +632,7 @@ abstract class AbstractController extends BaseObject
 		{
 			$path = './' . $path;
 		}
-		if (!ends_with($path, '/'))
+		if (!str_ends_with($path, '/'))
 		{
 			$path .= '/';
 		}
@@ -700,108 +706,168 @@ abstract class AbstractController extends BaseObject
 	/**
 	 * Automatically set layout and template paths based on module configuration.
 	 *
-	 * @param string $mode 'P' or 'M'
+	 * @param string $device_type 'P' or 'M'
 	 * @param object $config
 	 * @return void
 	 */
-	public function setLayoutAndTemplatePaths(string $mode, object $config): void
+	public function setLayoutAndTemplatePaths(string $device_type, object $config): void
 	{
-		// Set the layout path.
-		if ($mode === 'P')
+		// Get the default design information.
+		$design_info = ThemeModel::getDefaultDesignConfig();
+		$theme_info = null;
+		$layout_type = (isset($design_info->theme) && $design_info->theme) ? 'theme' : 'layout';
+		$layout_srl = 0;
+
+		// Determine the layout to use.
+		if ($device_type === 'P')
 		{
 			$layout_srl = $config->layout_srl ?? 0;
-			if ($layout_srl == -1)
+			if ($layout_srl == -1 && $layout_type !== 'theme')
 			{
-				$layout_srl = LayoutAdminModel::getInstance()->getSiteDefaultLayout('P');
+				$layout_srl = $design_info->layout_srl ?? 0;
 			}
-
 			if ($layout_srl > 0)
 			{
-				$layout_info = LayoutModel::getInstance()->getLayout($layout_srl);
-				if ($layout_info)
-				{
-					$this->setLayoutPath($layout_info->path);
-					if ($config->layout_srl > 0)
-					{
-						$this->module_info->layout_srl = $layout_srl;
-					}
-				}
+				$layout_type = 'layout';
 			}
 		}
 		else
 		{
 			$layout_srl = $config->mlayout_srl ?? 0;
-			if ($layout_srl == -2)
+			if ($layout_srl == -2 && $layout_type !== 'theme')
 			{
-				$layout_srl = $config->layout_srl ?: -1;
+				$layout_srl = ($config->layout_srl ?? 0) ?: -1;
 				if ($layout_srl == -1)
 				{
-					$layout_srl = LayoutAdminModel::getInstance()->getSiteDefaultLayout('P');
+					$layout_srl = $design_info->layout_srl ?? 0;
 				}
 			}
-			elseif ($layout_srl == -1)
+			if ($layout_srl == -1 && $layout_type !== 'theme')
 			{
-				$layout_srl = LayoutAdminModel::getInstance()->getSiteDefaultLayout('M');
+				$layout_srl = $design_info->mlayout_srl ?? 0;
 			}
-
 			if ($layout_srl > 0)
 			{
-				$layout_info = LayoutModel::getInstance()->getLayout($layout_srl);
-				if ($layout_info)
-				{
-					$this->setLayoutPath($layout_info->path);
-					if ($config->mlayout_srl > 0)
-					{
-						$this->module_info->mlayout_srl = $layout_srl;
-					}
-				}
+				$layout_type = 'layout';
 			}
 		}
 
-		// Set the skin path.
-		if ($mode === 'P')
+		// Apply the layout or theme configuration.
+		if ($layout_type === 'theme')
 		{
-			$skin = ($config->skin ?? '') ?: 'default';
-			if ($skin === '/USE_DEFAULT/')
+			$theme_info = ThemeModel::getThemeInfo($design_info->theme);
+			if (isset($theme_info->provides['layout']))
 			{
-				$skin = ModuleConfigModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
-			}
-			$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
-			if (!Storage::exists($template_path))
-			{
-				$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
+				$this->setLayoutPath($theme_info->path . $theme_info->provides['layout']->path);
+				$this->setLayoutFile('layout.blade.php');
+
+				// Set theme config to Context.
+				$theme_config = ThemeModel::getThemeConfig($design_info->theme);
+				Context::set('theme_config', $theme_config);
+
+				// Set menus to Context.
+				foreach ($theme_config->layout->menus ?? [] as $menu_id => $menu_srl)
+				{
+					Context::set($menu_id, (object)[
+						'menu_srl' => $menu_srl,
+						'list' => MenuAdminModel::getMenuInfo($menu_srl ?? 0)->list,
+					]);
+				}
 			}
 		}
 		else
 		{
-			$mskin = ($config->mskin ?? '') ?: 'default';
-			if ($mskin === '/USE_DEFAULT/')
+			$layout_info = LayoutModel::getLayout($layout_srl);
+			if ($layout_info)
 			{
-				$mskin = ModuleConfigModel::getModuleDefaultSkin($this->module, 'M') ?: 'default';
-			}
+				$this->setLayoutPath($layout_info->path);
+				$this->setLayoutFile('layout');
 
-			if ($mskin === '/USE_RESPONSIVE/')
-			{
-				$skin = ($config->skin ?? '') ?: 'default';
-				if ($skin === '/USE_DEFAULT/')
+				// Set layout config to Context.
+				foreach ($layout_info->extra_var ?? [] as $key => $val)
 				{
-					$skin = ModuleConfigModel::getModuleDefaultSkin($this->module, 'P') ?: 'default';
+					if ($val->type == 'image' && str_starts_with($val->value ?? '', './files/attach/images/'))
+					{
+						$val->value = \RX_BASEURL . substr($val->value, 2);
+					}
+					$layout_info->{$key} = $val->value;
 				}
-				$template_path = sprintf('%sskins/%s', $this->module_path, $skin);
-				if (!Storage::exists($template_path))
+				Context::set('layout_info', $layout_info);
+
+				// Set menus to Context.
+				foreach ($layout_info->menu ?? [] as $menu_id => $menu)
 				{
-					$template_path = sprintf('%sskins/%s', $this->module_path, 'default');
+					$menu->list = MenuAdminModel::getMenuInfo($menu->menu_srl ?? 0)->list;
+					Context::set($menu_id, $menu);
 				}
-			}
-			else
-			{
-				$template_path = sprintf('%sm.skins/%s', $this->module_path, $mskin);
-				if (!Storage::exists($template_path))
+
+				// Set edited layout filename (for backward compatibility).
+				$edited_layout_file = LayoutModel::getInstance()->getUserLayoutHtml($layout_srl);
+				if ($edited_layout_file && Storage::exists($edited_layout_file))
 				{
-					$template_path = sprintf("%sm.skins/%s/", $this->module_path, 'default');
+					$this->setEditedLayoutFile($edited_layout_file);
+				}
+
+				// Overwrite module_info with actually used layout_srl (for backward compatibility).
+				if (isset($config->layout_srl) && $config->layout_srl > 0)
+				{
+					$this->module_info->layout_srl = $layout_srl;
 				}
 			}
 		}
+
+		// If this is an admin action, return before setting the skin.
+		if (str_contains($this->act, 'Admin'))
+		{
+			return;
+		}
+
+		// Determine the skin to use.
+		if ($device_type === 'P')
+		{
+			$skin_name = ($config->skin ?? '') ?: '/USE_DEFAULT/';
+			$skin_device_type = 'P';
+		}
+		else
+		{
+			$skin_name = ($config->mskin ?? '') ?: '/USE_DEFAULT/';
+			$skin_device_type = 'M';
+			if ($skin_name === '/USE_RESPONSIVE/')
+			{
+				$skin_name = ($config->skin ?? '') ?: '/USE_DEFAULT/';
+				$skin_device_type = 'P';
+			}
+		}
+		$skin_key = $skin_device_type === 'P' ? 'skin' : 'mskin';
+		$skin_dir = $skin_device_type === 'P' ? 'skins' : 'm.skins';
+		if ($skin_name === '/USE_DEFAULT/')
+		{
+			$skin_name = isset($design_info->module->{$this->module}->{$skin_key}) ?
+				$design_info->module->{$this->module}->{$skin_key} :
+				(ModuleConfigModel::getModuleDefaultSkin($this->module, $skin_device_type) ?: 'default');
+		}
+
+		// Apply the skin.
+		$template_path = null;
+		if (preg_match('/^theme:([^:]+):(.+)$/', $skin_name, $matches))
+		{
+			$theme_info = ThemeModel::getThemeInfo($matches[1]);
+			if ($theme_info && isset($theme_info->provides[$matches[2]]))
+			{
+				$template_path = $theme_info->path . $theme_info->provides[$matches[2]]->path;
+			}
+		}
+		else
+		{
+			$template_path = sprintf('%s%s/%s', $this->module_path, $skin_dir, $skin_name);
+		}
+
+		// Fall back to the legacy 'default' skin if the specified skin directory does not exist.
+		if ($template_path === null || !Storage::exists($template_path))
+		{
+			$template_path = sprintf('%s%s/%s', $this->module_path, $skin_dir, 'default');
+		}
+
 		$this->setTemplatePath($template_path);
 	}
 

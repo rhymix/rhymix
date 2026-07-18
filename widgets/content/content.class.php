@@ -6,7 +6,7 @@
  * @brief widget to display content
  * @version 0.1
  */
-class content extends WidgetHandler
+class Content extends Rhymix\Framework\AbstractWidget
 {
 	/**
 	 * @brief Widget handler
@@ -739,10 +739,7 @@ class content extends WidgetHandler
 		Context::set('colorset', $args->colorset ?? null);
 		Context::set('widget_info', $widget_info);
 
-		$tpl_path = sprintf('%sskins/%s', $this->widget_path, $args->skin);
-
-		$oTemplate = TemplateHandler::getInstance();
-		return $oTemplate->compile($tpl_path, "content");
+		return $this->renderWidgetSkin($args->skin, 'content');
 	}
 }
 

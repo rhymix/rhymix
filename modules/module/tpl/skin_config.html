@@ -89,37 +89,36 @@
 			<div class="x_control-group">
 				<label class="x_control-label" for="{$val->name}"|cond="$val->type!='text'&&$val->type!='textarea'" for="lang_{$val->name}"|cond="$val->type=='text'||$val->type=='textarea'">{$val->title}</label>
 				<div class="x_controls">
-					<!--// text -->
-					<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="<!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->" class="lang_code" />
-
-					<!--// textarea -->
-					<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="x_full-width lang_code"><!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end--></textarea>
-
-					<!--// select -->
-					<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">
-						<option loop="$val->options => $k, $v" value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
-					</select>
-
-					<!--// checkbox -->
-					<label cond="$val->type == 'checkbox'" loop="$val->options => $k, $v" for="ch_{$key}_{$k}" class="x_inline"><input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="is_array($val->value) && in_array($v->value, $val->value)" class="checkbox" /> {$v->title}</label>
-
-					<!--// radio -->
-					<label cond="$val->type == 'radio'" for="ch_{$key}_{$k}" loop="$val->options => $k, $v" class="x_inline"><input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" /> {$v->title}</label>
-
-					<!--// image -->
-					<block cond="$val->type == 'image'">
-						<div cond="$val->value" class="x_thumbnail" style="max-width:210px;margin:0 0 10px 0">
-							<img src="{$val->value}" />
-							<label for="del_{$val->name}" style="padding:8px 0 0 0"><input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" /> {$lang->cmd_delete}</label>
+					<!--@if(isset($val->input))-->
+						{$val->input|noescape}
+					<!--@else-->
+						<!--// text -->
+						<input cond="$val->type == 'text'" type="text" name="{$val->name}" id="{$val->name}" value="<!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end-->" class="lang_code" />
+						<!--// textarea -->
+						<textarea cond="$val->type == 'textarea'" rows="8" cols="42" name="{$val->name}" id="{$val->name}" class="x_full-width lang_code"><!--@if(strpos($val->value ?? '', '$user_lang->') === false)-->{$val->value}<!--@else-->{htmlspecialchars($val->value, ENT_COMPAT | ENT_HTML401, 'UTF-8', false)}<!--@end--></textarea>
+						<!--// select -->
+						<select cond="$val->type == 'select'" name="{$val->name}" id="{$val->name}">
+							<option loop="$val->options => $k, $v" value="{$v->value}" selected="selected"|cond="$v->value == $val->value">{$v->title}</option>
+						</select>
+						<!--// checkbox -->
+						<label cond="$val->type == 'checkbox'" loop="$val->options => $k, $v" for="ch_{$key}_{$k}" class="x_inline"><input type="checkbox" name="{$val->name}[]" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="is_array($val->value) && in_array($v->value, $val->value)" class="checkbox" /> {$v->title}</label>
+						<!--// radio -->
+						<label cond="$val->type == 'radio'" for="ch_{$key}_{$k}" loop="$val->options => $k, $v" class="x_inline"><input type="radio" name="{$val->name}" value="{$v->value}" id="ch_{$key}_{$k}" checked="checked"|cond="$v->value==$val->value" /> {$v->title}</label>
+						<!--// image -->
+						<block cond="$val->type == 'image'">
+							<div cond="$val->value" class="x_thumbnail" style="max-width:210px;margin:0 0 10px 0">
+								<img src="{$val->value}" />
+								<label for="del_{$val->name}" style="padding:8px 0 0 0"><input type="checkbox" name="del_{$val->name}" value="Y" id="del_{$val->name}" class="checkbox" /> {$lang->cmd_delete}</label>
+							</div>
+							<input type="file" name="{$val->name}" value="" />
+						</block>
+						<!--// colorpicker-->
+						<div cond="$val->type == 'colorpicker'">
+							{@ $use_colorpicker = true; }
+							<input type="text" class="rx-spectrum" name="{$val->name}" id="{$val->name}" value="{$val->value}" />
+							<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
 						</div>
-						<input type="file" name="{$val->name}" value="" />
-					</block>
-					<!--// colorpicker-->
-					<div cond="$val->type == 'colorpicker'">
-						{@ $use_colorpicker = true; }
-						<input type="text" class="rx-spectrum" name="{$val->name}" id="{$val->name}" value="{$val->value}" />
-						<p id="categoy_color_help" hidden style="margin:8px 0 0 0">{$lang->about_category_color}</p>
-					</div>
+					<!--@endif-->
 					<p class="x_help-block" cond="$val->description">{nl2br(trim($val->description))}</p>
 				</div>
 			</div>

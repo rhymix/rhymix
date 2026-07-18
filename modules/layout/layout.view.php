@@ -17,23 +17,6 @@ class LayoutView extends Layout
 	}
 
 	/**
-	 * Pop-up layout details(conf/info.xml)
-	 * @return void
-	 */
-	function dispLayoutInfo()
-	{
-		// Get the layout information
-		$oLayoutModel = getModel('layout');
-		$layout_info = $oLayoutModel->getLayoutInfo(Context::get('selected_layout'));
-		if(!$layout_info) exit();
-		Context::set('layout_info', $layout_info);
-		// Set the layout to be pop-up
-		$this->setLayoutFile('popup_layout');
-		// Set a template file
-		$this->setTemplateFile('layout_detail_info');
-	}
-
-	/**
 	 * Preview a layout with module.
 	 *
 	 * @return Object
@@ -111,10 +94,7 @@ class LayoutView extends Layout
 			{
 				if($layoutSrl == -1)
 				{
-					$site_srl = ($oModule) ? $oModule->module_info->site_srl : 0;
-					$designInfoFile = sprintf(RX_BASEDIR . 'files/site_design/design_%d.php', $site_srl);
-					include($designInfoFile);
-
+					$designInfo = Rhymix\Modules\Layout\Models\Theme::getDefaultDesignConfig();
 					if($skinType == 'M')
 					{
 						$layoutSrl = $designInfo->mlayout_srl;

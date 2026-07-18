@@ -8,6 +8,7 @@ use Rhymix\Framework\Parsers\ModuleActionParser;
 use Rhymix\Framework\Parsers\ModuleInfoParser;
 use Rhymix\Framework\Parsers\SkinInfoParser;
 use Rhymix\Framework\Storage;
+use Rhymix\Modules\Layout\Models\Theme as ThemeModel;
 use Context;
 use FileHandler;
 use MenuAdminModel;
@@ -213,15 +214,26 @@ class ModuleDefinition
 		}
 
 		// Detect the module to which these skins belong.
-		if (preg_match('#/modules/([a-zA-Z0-9_]+)/((m\.)?skins)$#', $path, $matches))
+		if (preg_match('#/(module|widget)s/([a-zA-Z0-9_]+)/((m\.)?skins)$#', $path, $matches))
 		{
-			$module = $matches[1];
-			$dir = $matches[2];
+			$type = $matches[1];
+			$module = $type === 'module' ? $matches[2] : '';
+			$widget = $type === 'widget' ? $matches[2] : '';
+			$dir = $matches[3];
 		}
 		else
 		{
+			$type = '';
 			$module = '';
+			$widget = '';
 			$dir = basename($path);
+		}
+
+		// Add skins provided by installed themes.
+		if ($module || $widget)
+		{
+			$theme_skin_list = ThemeModel::getThemeSkinList($module ?: $widget);
+			$skin_list = array_merge($theme_skin_list, $skin_list);
 		}
 
 		$useDefaultList = [];
@@ -240,12 +252,15 @@ class ModuleDefinition
 					$opt = new \stdClass;
 					$opt->title = lang('use_responsive_pc_skin');
 				}
+				elseif (isset($skin_list[$defaultSkinName]))
+				{
+					$opt = new \stdClass;
+					$opt->title = lang('use_site_default_skin') . ' (' . $skin_list[$defaultSkinName]->title . ')';
+				}
 				else
 				{
-					$defaultSkinInfo = self::getSkinInfo($path . '/' . $defaultSkinName);
 					$opt = new \stdClass;
-					$opt->title = lang('use_site_default_skin') .
-						(isset($defaultSkinInfo->title) ? ' (' . $defaultSkinInfo->title . ')' : '');
+					$opt->title = lang('use_site_default_skin');
 				}
 
 				$useDefaultList['/USE_DEFAULT/'] = $opt;

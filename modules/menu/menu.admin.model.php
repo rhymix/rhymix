@@ -80,19 +80,39 @@ class MenuAdminModel extends Menu
 	 * @param int $menu_srl
 	 * @return object
 	 */
-	public static function getMenuInfo(int $menu_srl): \stdClass
+	public static function getMenuInfo(int $menu_srl): object
 	{
 		$menu = new stdClass;
 		$menu->list = [];
 
-		$filename = sprintf('./files/cache/menu/%d.php', $menu_srl);
-		if (!FileHandler::exists($filename))
+		if ($menu_srl == 0)
 		{
-			getAdminController('menu')->makeXmlFile($menu_srl);
+			return $menu;
 		}
-		if (FileHandler::exists($filename))
+		elseif ($menu_srl == -1)
 		{
-			include $filename;
+			$homeMenuSrl = 0;
+			$homeMenuCacheFile = \RX_BASEDIR . 'files/cache/menu/homeSitemap.php';
+			if (FileHandler::exists($homeMenuCacheFile))
+			{
+				include $homeMenuCacheFile;
+			}
+
+			$menu_srl = $homeMenuSrl ?? 0;
+		}
+
+		$php_file = \RX_BASEDIR . sprintf('files/cache/menu/%d.php', $menu_srl);
+		if (Rhymix\Framework\Storage::exists($php_file))
+		{
+			include $php_file;
+		}
+		else
+		{
+			MenuAdminController::getInstance()->makeXmlFile($menu_srl);
+			if (Rhymix\Framework\Storage::exists($php_file))
+			{
+				include $php_file;
+			}
 		}
 
 		return $menu;

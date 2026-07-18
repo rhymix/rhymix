@@ -263,13 +263,27 @@ class HTMLResponse extends AbstractResponse
 			$output = '<div class="x">' . "\n" . $output . "\n" . '</div>';
 		}
 
-		// Wrap in layout.
-		$use_layout = Context::get('layout') !== 'none';
-		if (!$use_layout && isset($_REQUEST['layout']) && !ModuleHandler::isPartialPageRenderingEnabled())
+		// Check partial page rendering configuration.
+		$partial_page_rendering_enabled = ModuleHandler::isPartialPageRenderingEnabled();
+		$wrap_layout = true;
+		if (Context::get('layout') === 'none' && $partial_page_rendering_enabled)
 		{
-			$use_layout = true;
+			$wrap_layout = false;
 		}
-		if ($use_layout)
+		elseif (Context::get('isLayoutDrop'))
+		{
+			if (strpos($act, 'Admin') !== false)
+			{
+				$this->setLayout('./common/tpl', 'popup_layout');
+			}
+			elseif ($partial_page_rendering_enabled)
+			{
+				$wrap_layout = false;
+			}
+		}
+
+		// Wrap in layout.
+		if ($wrap_layout)
 		{
 			$start = microtime(true);
 

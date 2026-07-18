@@ -1236,6 +1236,7 @@ class ModuleInfo
 		'xe_js_callback' => true,
 		'xe_validator_id' => true,
 		'_filter' => true,
+		'_mode' => true,
 		'_rx_ajax_compat' => true,
 		'_rx_ajax_form' => true,
 		'_rx_csrf_token' => true,

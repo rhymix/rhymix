@@ -3,8 +3,9 @@
 namespace Rhymix\Modules\Admin\Controllers;
 
 use Context;
-use FileHandler;
 use Rhymix\Framework\DB;
+use Rhymix\Framework\Storage;
+use Rhymix\Modules\Layout\Models\Theme as ThemeModel;
 
 class Design extends Base
 {
@@ -26,36 +27,24 @@ class Design extends Base
 	 */
 	public function updateDefaultDesignInfo(object $vars): void
 	{
-		$vars->module_skin = json_decode($vars->module_skin);
-
-		$siteDesignPath = \RX_BASEDIR . 'files/site_design/';
-		if (!is_dir($siteDesignPath))
-		{
-			FileHandler::makeDir($siteDesignPath);
-		}
-
-		$siteDesignFile = \RX_BASEDIR . 'files/site_design/design_0.php';
-		$layoutTarget = 'layout_srl';
-		$skinTarget = 'skin';
 		if ($vars->target_type == 'M')
 		{
 			$layoutTarget = 'mlayout_srl';
 			$skinTarget = 'mskin';
 		}
-
-		if (is_readable($siteDesignFile))
-		{
-			include $siteDesignFile;
-		}
 		else
 		{
-			$designInfo = new \stdClass;
+			$layoutTarget = 'layout_srl';
+			$skinTarget = 'skin';
 		}
 
-		$layoutSrl = (!$vars->layout_srl) ? 0 : $vars->layout_srl;
-		$designInfo->{$layoutTarget} = $layoutSrl;
+		$layout_srl = empty($vars->layout_srl) ? 0 : $vars->layout_srl;
 
-		foreach ($vars->module_skin as $moduleName => $skinName)
+		$designInfo = ThemeModel::getDefaultDesignConfig();
+		$designInfo->{$layoutTarget} = intval($layout_srl);
+
+		$module_skins = json_decode($vars->module_skin);
+		foreach ($module_skins as $moduleName => $skinName)
 		{
 			if ($moduleName == 'ARTICLE')
 			{
@@ -72,43 +61,18 @@ class Design extends Base
 			$designInfo->module->{$moduleName}->{$skinTarget} = $skinName;
 		}
 
-		$this->makeDefaultDesignFile($designInfo);
+		ThemeModel::setDefaultDesignConfig($designInfo);
 	}
 
 	/**
 	 * Subroutine for the above;
 	 *
+	 * @deprecated
 	 * @param object $designInfo
 	 * @return void
 	 */
 	public function makeDefaultDesignFile(object $designInfo): void
 	{
-		$buff = array();
-		$buff[] = '<?php if(!defined("__XE__")) exit();';
-		$buff[] = '$designInfo = new stdClass;';
-
-		if($designInfo->layout_srl)
-		{
-			$buff[] = sprintf('$designInfo->layout_srl = %d; ', intval($designInfo->layout_srl));
-		}
-
-		if($designInfo->mlayout_srl)
-		{
-			$buff[] = sprintf('$designInfo->mlayout_srl = %d;', intval($designInfo->mlayout_srl));
-		}
-
-		$buff[] = '$designInfo->module = new stdClass;';
-
-		foreach($designInfo->module as $moduleName => $skinInfo)
-		{
-			$buff[] = sprintf('$designInfo->module->{%s} = new stdClass;', var_export(strval($moduleName), true));
-			foreach($skinInfo as $target => $skinName)
-			{
-				$buff[] = sprintf('$designInfo->module->{%s}->{%s} = %s;', var_export(strval($moduleName), true), var_export(strval($target), true), var_export(strval($skinName), true));
-			}
-		}
-
-		$siteDesignFile = \RX_BASEDIR . 'files/site_design/design_0.php';
-		FileHandler::writeFile($siteDesignFile, implode(\PHP_EOL, $buff));
+		ThemeModel::setDefaultDesignConfig($designInfo);
 	}
 }

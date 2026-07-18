@@ -298,8 +298,6 @@ class LayoutAdminView extends Layout
 		$oLayoutModel = getModel('layout');
 		$layout_info = $oLayoutModel->getLayout($layout_srl);
 		if(!$layout_info) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		// Separately handle the layout if its type is faceoff
-		if($layout_info && $layout_info->type == 'faceoff') $oLayoutModel->doActivateFaceOff($layout_info);
 		// Apply CSS directly
 		Context::addHtmlHeader("<style type=\"text/css\" charset=\"UTF-8\">".$code_css."</style>");
 		// Set names and values of extra_vars to $layout_info
@@ -341,58 +339,6 @@ class LayoutAdminView extends Layout
 		FileHandler::removeFile($edited_layout_file);
 		$this->setTemplateFile('layout_preview');
 
-	}
-
-	/**
-	 * Modify admin layout of faceoff
-	 * @deprecated
-	 * @return void
-	 */
-	function dispLayoutAdminLayoutModify()
-	{
-		// Get layout_srl
-		$current_module_info = Context::get('current_module_info');
-		$layout_srl = $current_module_info->layout_srl;
-		// Remove the remaining tmp files because of temporarily saving
-		// This part needs to be modified
-		$delete_tmp = Context::get('delete_tmp');
-		if($delete_tmp =='Y')
-		{
-			$oLayoutAdminController = getAdminController('layout');
-			$oLayoutAdminController->deleteUserLayoutTempFile($layout_srl);
-		}
-
-		$oLayoutModel = getModel('layout');
-		// layout file is used as a temp.
-		$oLayoutModel->setUseUserLayoutTemp();
-		// Apply CSS in inline style
-		$faceoffcss = $oLayoutModel->_getUserLayoutFaceOffCss($current_module_info->layout_srl);
-
-		$css = FileHandler::readFile($faceoffcss);
-		$style = [];
-		preg_match_all('/([^\{]+)\{([^\}]*)\}/is',$css,$match);
-		for($i=0,$c=count($match[1]);$i<$c;$i++)
-		{
-			$name = trim($match[1][$i]);
-			$css = trim($match[2][$i]);
-			if(!$css) continue;
-			$css = str_replace('./images/',Context::getRequestUri().$oLayoutModel->getUserLayoutImagePath($layout_srl),$css);
-			$style[] .= sprintf('"%s":"%s"',$name,$css);
-		}
-
-		if(count($style))
-		{
-			$script = '<script type="text/javascript"> var faceOffStyle = {'.implode(',',$style).'}; </script>';
-			Context::addHtmlHeader($script);
-		}
-
-		$oTemplate = TemplateHandler::getInstance();
-		Context::set('content', $oTemplate->compile($this->module_path.'tpl','about_faceoff'));
-		// Change widget codes in Javascript mode
-		$oWidgetController = getController('widget');
-		$oWidgetController->setWidgetCodeInJavascriptMode();
-		// Set a template file
-		$this->setTemplateFile('faceoff_layout_edit');
 	}
 
 	/**
