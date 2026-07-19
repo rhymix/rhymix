@@ -14,8 +14,14 @@ class WidgetModel extends Widget
 	public static function getWidgetPath($widget_name)
 	{
 		$path = sprintf('./widgets/%s/', $widget_name);
-		if(is_dir($path)) return $path;
-		return "";
+		if(file_exists($path) && is_dir($path))
+		{
+			return $path;
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**
@@ -23,9 +29,19 @@ class WidgetModel extends Widget
 	 */
 	public static function getWidgetStylePath($widgetStyle_name)
 	{
+		$path = sprintf('./modules/widget/styles/%s/', $widgetStyle_name);
+		if(file_exists($path) && is_dir($path))
+		{
+			return $path;
+		}
+
 		$path = sprintf('./widgetstyles/%s/', $widgetStyle_name);
-		if(is_dir($path)) return $path;
-		return "";
+		if(file_exists($path) && is_dir($path))
+		{
+			return $path;
+		}
+
+		return '';
 	}
 
 	/**
@@ -75,23 +91,28 @@ class WidgetModel extends Widget
 	 */
 	public static function getDownloadedWidgetStyleList()
 	{
-		// 've Downloaded the widget and the widget's list of installed Wanted
-		$searched_list = FileHandler::readDir('./widgetstyles');
-		$searched_count = count($searched_list);
-		if(!$searched_count) return;
-		sort($searched_list);
-		// D which pertain to the list of widgets loop spins return statement review the information you need
-		for($i=0;$i<$searched_count;$i++)
+		// Get list from both paths
+		$list1 = FileHandler::readDir('./modules/widget/styles');
+		$list2 = FileHandler::readDir('./widgetstyles');
+		$searched_list = array_merge($list1, $list2);
+		if(!count($searched_list))
 		{
-			// The name of the widget
-			$widgetStyle = $searched_list[$i];
-			// Wanted information on the Widget
+			return [];
+		}
+
+		$list = [];
+		foreach ($searched_list as $widgetStyle)
+		{
 			$widgetStyle_info = self::getWidgetStyleInfo($widgetStyle);
 			if ($widgetStyle_info)
 			{
 				$list[] = $widgetStyle_info;
 			}
 		}
+
+		usort($list, function($a, $b) {
+			return strcmp($a->widgetStyle, $b->widgetStyle);
+		});
 		return $list;
 	}
 

@@ -796,7 +796,7 @@ class WidgetController extends Widget
 		return $GLOBALS['_xe_loaded_widgets_'][$widget];
 	}
 
-	function compileWidgetStyle($widgetStyle,$widget,$widget_content_body, $args, $javascript_mode)
+	function compileWidgetStyle($widgetStyle, $widget, $widget_content_body, $args, $javascript_mode)
 	{
 		if (!$widgetStyle)
 		{
