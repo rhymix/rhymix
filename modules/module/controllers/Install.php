@@ -365,8 +365,8 @@ class Install extends Base
 		{
 			PluginModel::insertPluginConfig('adminlogging', new \stdClass, AddonModel::isActivated('adminlogging'));
 			PluginModel::insertPluginConfig('autolink', new \stdClass, AddonModel::isActivated('autolink'));
-			PluginModel::insertPluginConfig('member_icons', new \stdClass, AddonModel::isActivated('point_level_icon'));
-			PluginModel::insertPluginConfig('photoswipe', new \stdClass, AddonModel::isActivated('photoswipe'));
+			PluginModel::insertPluginConfig('member_icons', PluginModel::getDefaultConfig('member_icons'), AddonModel::isActivated('point_level_icon'));
+			PluginModel::insertPluginConfig('photoswipe', PluginModel::getDefaultConfig('photoswipe'), AddonModel::isActivated('photoswipe'));
 		}
 	}
 
