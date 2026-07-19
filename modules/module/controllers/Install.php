@@ -11,6 +11,7 @@ use Rhymix\Modules\Module\Models\ModuleCache as ModuleCacheModel;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\ModuleDefinition as ModuleDefinitionModel;
 use Rhymix\Modules\Module\Models\Plugin as PluginModel;
+use AddonModel;
 
 class Install extends Base
 {
@@ -165,6 +166,13 @@ class Install extends Base
 
 		// check scope column on module_admins table
 		if (!$oDB->isColumnExists('module_admins', 'scopes'))
+		{
+			return true;
+		}
+
+		// check default plugins
+		$output = executeQueryArray('module.getInstalledPluginList', []);
+		if (!$output->data)
 		{
 			return true;
 		}
@@ -349,6 +357,16 @@ class Install extends Base
 		if (!$oDB->isColumnExists('module_admins', 'scopes'))
 		{
 			$oDB->addColumn('module_admins', 'scopes', 'text', null, null, false, 'member_srl');
+		}
+
+		// check default plugins
+		$output = executeQueryArray('module.getInstalledPluginList', []);
+		if (!$output->data)
+		{
+			PluginModel::insertPluginConfig('adminlogging', new \stdClass, AddonModel::isActivated('adminlogging'));
+			PluginModel::insertPluginConfig('autolink', new \stdClass, AddonModel::isActivated('autolink'));
+			PluginModel::insertPluginConfig('member_icons', new \stdClass, AddonModel::isActivated('point_level_icon'));
+			PluginModel::insertPluginConfig('photoswipe', new \stdClass, AddonModel::isActivated('photoswipe'));
 		}
 	}
 
