@@ -10,6 +10,7 @@ use Rhymix\Modules\Module\Models\Domain as DomainModel;
 use Rhymix\Modules\Module\Models\ModuleCache as ModuleCacheModel;
 use Rhymix\Modules\Module\Models\ModuleConfig as ModuleConfigModel;
 use Rhymix\Modules\Module\Models\ModuleDefinition as ModuleDefinitionModel;
+use Rhymix\Modules\Module\Models\Plugin as PluginModel;
 
 class Install extends Base
 {
@@ -43,6 +44,10 @@ class Install extends Base
 				return $output;
 			}
 		}
+
+		// Enable default plugins.
+		PluginModel::insertPluginConfig('autolink', new \stdClass, true);
+		PluginModel::insertPluginConfig('photoswipe', new \stdClass, true);
 
 		// Create cache directories.
 		Storage::createDirectory(\RX_BASEDIR . 'files/cache');

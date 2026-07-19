@@ -15,11 +15,7 @@ class addon extends ModuleObject
 	 */
 	function moduleInstall()
 	{
-		// Register to add a few
-		$oAddonController = getAdminController('addon');
-		$oAddonController->doInsert('autolink', 0, 'site', 'YY');
-		$oAddonController->doInsert('photoswipe', 0, 'site', 'YY');
-		$oAddonController->makeCacheFile(0);
+
 	}
 
 	/**
