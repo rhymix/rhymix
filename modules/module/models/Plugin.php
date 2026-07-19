@@ -188,6 +188,20 @@ class Plugin
 	}
 
 	/**
+	 * Mark a specific plugin as loaded.
+	 *
+	 * This will prevent an addon of the same name from being executed in the current request,
+	 * which may be necessary if a plugin replaces the functionality of an addon.
+	 *
+	 * @param string $plugin_name
+	 * @return void
+	 */
+	public static function markPluginAsLoaded(string $plugin_name): void
+	{
+		ModuleCache::$pluginInstances[$plugin_name] = true;
+	}
+
+	/**
 	 * Get the list of enabled plugins and their configuration.
 	 *
 	 * @return array

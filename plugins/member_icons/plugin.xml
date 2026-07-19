@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+    <title xml:lang="ko">회원 아이콘</title>
+    <title xml:lang="en">Member Icons</title>
+    <description xml:lang="ko">
+		회원 이름 옆에 레벨, 그룹 아이콘 등을 출력합니다.
+		기존의 포인트 레벨 아이콘, 회원 확장 정보 출력 애드온을 대체합니다.
+	</description>
+    <description xml:lang="en">
+		Display level and group icons next to member names.
+		This plugin replaces the Point Level Icon and Extra Member Info addons.
+	</description>
+    <author email_address="devops@rhymix.org" link="https://rhymix.org">
+        <name xml:lang="ko">Rhymix</name>
+        <name xml:lang="en">Rhymix</name>
+    </author>
+    <version>RX_VERSION</version>
+    <date>RX_CORE</date>
+	<config>
+		<var name="icons" type="checkbox" default="level">
+			<title xml:lang="ko">표시할 아이콘</title>
+			<title xml:lang="en">Display Icons</title>
+			<option value="level">
+				<title xml:lang="ko">레벨 아이콘</title>
+				<title xml:lang="en">Level Icon</title>
+			</option>
+			<option value="image_name">
+				<title xml:lang="ko">이미지 이름</title>
+				<title xml:lang="en">Image Name</title>
+			</option>
+			<option value="image_mark">
+				<title xml:lang="ko">이미지 마크</title>
+				<title xml:lang="en">Image Mark</title>
+			</option>
+			<option value="group_mark">
+				<title xml:lang="ko">그룹 이미지 마크</title>
+				<title xml:lang="en">Group Image Mark</title>
+			</option>
+		</var>
+	</config>
+</plugin>

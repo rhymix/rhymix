@@ -66,6 +66,7 @@ return array(
 	'plugin' => array(
 		'adminlogging' => true,
 		'autolink' => true,
+		'member_icons' => true,
 		'photoswipe' => true,
 	),
 
