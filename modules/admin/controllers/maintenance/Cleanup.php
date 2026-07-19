@@ -495,6 +495,7 @@ class Cleanup extends Base
 		'modules/rss/tpl/xe_rss.html' => 'deleted',
 		'modules/spamfilter/spamfilter.lib.php' => 'deleted',
 		'modules/spamfilter/ruleset/' => 'deleted',
+		'modules/widget/ruleset/' => 'deleted',
 		'phpDoc/' => 'deleted:xe',
 		'tests/unit/classes/template/' => 'deleted',
 		'tests/unit/classes/TemplateHandlerTest.php' => 'deleted',

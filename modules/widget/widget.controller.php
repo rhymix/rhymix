@@ -75,11 +75,16 @@ class WidgetController extends Widget
 	function procWidgetGenerateCodeInPage()
 	{
 		$widget = Context::get('selected_widget');
-		if (!$widget)
+		$skin = Context::get('skin');
+		if (!$widget || preg_match('/[^a-zA-Z0-9_-]/', $widget))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		if (!in_array($widget,array('widgetBox','widgetContent')) && !Context::get('skin'))
+		if (preg_match('/[^a-zA-Z0-9_.-]/', $skin))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+		if (!in_array($widget, ['widgetBox', 'widgetContent']) && !$skin)
 		{
 			throw new Rhymix\Framework\Exception('msg_widget_skin_is_null');
 		}

@@ -123,7 +123,7 @@ class WidgetModel extends Widget
 	public static function getWidgetInfo($widget)
 	{
 		// Check the widget path.
-		$widget = preg_replace('/[^a-zA-Z0-9-_]/', '', $widget);
+		$widget = preg_replace('/[^a-zA-Z0-9_-]/', '', $widget);
 		$widget_path = self::getWidgetPath($widget);
 		if (!$widget_path)
 		{
@@ -172,7 +172,7 @@ class WidgetModel extends Widget
 	public static function getWidgetStyleInfo($widgetStyle)
 	{
 		// Check the widget style path.
-		$widgetStyle = preg_replace('/[^a-zA-Z0-9-_]/', '', (string)$widgetStyle);
+		$widgetStyle = preg_replace('/[^a-zA-Z0-9_-]/', '', (string)$widgetStyle);
 		$widgetStyle_path = self::getWidgetStylePath($widgetStyle);
 		if (!$widgetStyle_path)
 		{
