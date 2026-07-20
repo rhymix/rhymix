@@ -69,21 +69,21 @@ class addonAdminModel extends addon
 		$searched_count = count($searched_list);
 		if(!$searched_count)
 		{
-			return;
+			return [];
 		}
 
-		sort($searched_list);
+		$list = [];
 
 		$oAddonAdminController = getAdminController('addon');
 
-		for($i = 0; $i < $searched_count; $i++)
+		sort($searched_list);
+		foreach ($searched_list as $addon_name)
 		{
-			// Add the name of
-			$addon_name = $searched_list[$i];
-			if($addon_name == "smartphone")
+			if ($addon_name == "smartphone")
 			{
 				continue;
 			}
+
 			// Add the path (files/addons precedence)
 			$path = $this->getAddonPath($addon_name);
 			// Wanted information on the add-on
