@@ -706,10 +706,11 @@ class Content extends Rhymix\Framework\AbstractWidget
 		$widget_info->show_trackback_count = 'N';
 		$widget_info->show_icon = $args->show_icon;
 
+		$widget_info->content_type = $args->content_type;
 		$widget_info->list_type = $args->list_type;
 		$widget_info->tab_type = $args->tab_type;
-
 		$widget_info->markup_type = $args->markup_type;
+
 		// If it is a tab type, list up tab items and change key value(module_srl) to index
 		if (!empty($args->tab_type) && $args->tab_type != 'none')
 		{
