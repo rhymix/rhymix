@@ -111,7 +111,11 @@ class BoardModel extends Board
 		// get the list config value, if it is not exitsted then setup the default value
 		$module_srl = (int)$module_srl;
 		$list_config = ModuleModel::getModulePartConfig('board', $module_srl);
-		if(!is_array($list_config) || count($list_config) <= 0)
+		if (is_object($list_config))
+		{
+			$list_config = get_object_vars($list_config);
+		}
+		if (!is_array($list_config) || !count($list_config))
 		{
 			$list_config = array('no', 'title', 'nick_name', 'regdate', 'readed_count');
 		}
