@@ -726,7 +726,7 @@ class DocumentItem extends BaseObject
 			return lang('msg_is_secret');
 		}
 
-		$content = $this->get('content');
+		$content = $this->get('content') ?? '';
 		if(!$stripEmbedTagException)
 		{
 			stripEmbedTagForAdmin($content, $this->get('member_srl'));
