@@ -105,7 +105,7 @@ class addonController extends addon
 			$run_method = strval($extra_vars->xe_run_method ?? 'run_selected');
 			$buff[] = '$rm = ' . var_export($run_method, true) . ';';
 			$buff[] = '$ml = ' . var_export(array_fill_keys($mid_list, true), true) . ';';
-			$buff[] = '$_m = Context::get(\'mid\');';
+			$buff[] = '$_m = Context::get(\'mid\') ?? \'\';';
 
 			// Addon filename
 			$buff[] = sprintf('$addon_file = RX_BASEDIR . \'addons/%s/%s.addon.php\';', $addon, $addon);
