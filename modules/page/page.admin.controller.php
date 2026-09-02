@@ -109,7 +109,20 @@ class PageAdminController extends Page
 			$msg_code = 'success_updated';
 		}
 
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Clear cache for outside page
+		if ($args->page_type === 'OUTSIDE' && !empty($args->module_srl))
+		{
+			$cache_files = glob(RX_BASEDIR . sprintf('files/cache/opage/%d.*.php', $args->module_srl));
+			foreach ($cache_files as $cache_file)
+			{
+				Rhymix\Framework\Storage::delete($cache_file);
+			}
+		}
 
 		$this->add("page", Context::get('page'));
 		$this->add('module_srl',$output->get('module_srl'));
