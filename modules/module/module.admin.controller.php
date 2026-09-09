@@ -671,44 +671,65 @@ class ModuleAdminController extends Module
 	 */
 	function procModuleAdminInsertLang()
 	{
-		// Get language code
-		$site_module_info = Context::get('site_module_info');
-		$target = Context::get('target');
-		$module = Context::get('module');
+		// Validate or generate the language name.
 		$args = new stdClass();
-		$args->name = str_replace(' ','_',Context::get('lang_code'));
-		$args->lang_name = str_replace(' ','_',Context::get('lang_name'));
-		if(!empty($args->lang_name)) $args->name = $args->lang_name;
+		$args->name = str_replace(' ', '_', trim(Context::get('lang_name') ?: Context::get('lang_code')));
+		$args->name = preg_replace('/[^a-zA-Z0-9_]/', '', $args->name);
+		if (empty($args->name))
+		{
+			$args->name = 'userLang' . date('Ymd') . sprintf('%09d', mt_rand(0, 999999999));
+		}
 
-		// if args->name is empty, random generate for user define language
-		if(empty($args->name)) $args->name = 'userLang'.date('YmdHis').''.sprintf('%03d', mt_rand(0, 100));
+		$oDB = DB::getInstance();
+		$oDB->begin();
 
-		if(!$args->name) throw new Rhymix\Framework\Exceptions\InvalidRequest;
-		// Check whether a language code exists
+		// Delete old values.
 		$output = executeQueryArray('module.getLang', $args);
-		if(!$output->toBool()) return $output;
-		// If exists, clear the old values for updating
-		if($output->data) $output = executeQuery('module.deleteLang', $args);
-		if(!$output->toBool()) return $output;
-		// Enter
+		if ($output->toBool() && $output->data)
+		{
+			$output = executeQuery('module.deleteLang', $args);
+		}
+		if (!$output->toBool())
+		{
+			$oDB->rollback();
+			return $output;
+		}
+
+		// Insert new values.
 		$lang_supported = Context::get('lang_supported');
-		foreach($lang_supported as $key => $val)
+		foreach ($lang_supported as $key => $val)
 		{
 			$args->lang_code = $key;
-			$args->value = trim(Context::get($key));
-			if($args->value)
+			$args->value = escape(Context::get($key));
+			if ($args->value)
 			{
 				$output = executeQuery('module.insertLang', $args);
-				if(!$output->toBool()) return $output;
+				if (!$output->toBool())
+				{
+					$oDB->rollback();
+					return $output;
+				}
 			}
 		}
+
+		$oDB->commit();
+
+		// Update the cache.
 		$this->makeCacheDefinedLangCode();
 
 		$this->add('name', $args->name);
-		$this->setMessage("success_saved", 'info');
+		$this->setMessage('success_saved');
 
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'module', $module, 'target', $target, 'act', 'dispModuleAdminLangcode');
-		$this->setRedirectUrl($returnUrl);
+		if (Context::get('success_return_url'))
+		{
+			$this->setRedirectUrl(Context::get('success_return_url'));
+		}
+		else
+		{
+			$target = Context::get('target');
+			$module = Context::get('module');
+			$this->setRedirectUrl(getNotEncodedUrl(['module' => $module, 'target' => $target, 'act' => 'dispModuleAdminLangcode']));
+		}
 	}
 
 	/**
