@@ -416,7 +416,7 @@ class PageAdminController extends Page
 		{
 			return new BaseObject(-1, $mode === 'P' ? 'msg_invalid_opage_pc_path' : 'msg_invalid_opage_mobile_path');
 		}
-		if (preg_match('!/\.\./!', $path))
+		if (preg_match('!/\.\./!', ltrim($path, './')))
 		{
 			return new BaseObject(-1, $mode === 'P' ? 'msg_invalid_opage_pc_path' : 'msg_invalid_opage_mobile_path');
 		}
