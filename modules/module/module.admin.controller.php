@@ -700,7 +700,7 @@ class ModuleAdminController extends Module
 		foreach ($lang_supported as $key => $val)
 		{
 			$args->lang_code = $key;
-			$args->value = escape(Context::get($key));
+			$args->value = $this->user->isAdmin() ? trim(Context::get($key)) : escape(Context::get($key));
 			if ($args->value)
 			{
 				$output = executeQuery('module.insertLang', $args);
