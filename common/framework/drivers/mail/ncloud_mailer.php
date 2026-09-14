@@ -20,7 +20,7 @@ class Ncloud_Mailer extends Base implements \Rhymix\Framework\Drivers\MailInterf
 	 */
 	public static function getName()
 	{
-		return 'NAVER Cloud Outbound Mailer';
+		return 'NAVER Cloud SENS';
 	}
 
 	/**
