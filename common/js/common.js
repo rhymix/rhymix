@@ -488,6 +488,11 @@ Rhymix.ajax = function(action, params, callback_success, callback_error) {
 		// Define the success wrapper.
 		const successWrapper = function(data, textStatus, xhr) {
 
+			// Workaround for jQuery 2.x passing null data to success handler.
+			if (data === null) {
+				data = { error: -3, message: 'null' };
+			}
+
 			// Add debug information.
 			if (data._rx_debug) {
 				data._rx_debug.page_title = "AJAX : " + action;
