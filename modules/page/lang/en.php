@@ -29,3 +29,5 @@ $lang->page_delete_warning = 'If you delete a page, the files of the page will b
 $lang->msg_not_selected_page = 'Page not selected.';
 $lang->msg_invalid_opage_pc_path = 'Invalid path for the external document for PC.';
 $lang->msg_invalid_opage_mobile_path = 'Invalid path for the external document for Mobile.';
+$lang->msg_not_found_opage_pc_path = 'File not found at the external document path for PC.';
+$lang->msg_not_found_opage_mobile_path = 'File not found at the external document path for Mobile.';

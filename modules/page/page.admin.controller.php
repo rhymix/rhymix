@@ -25,17 +25,19 @@ class PageAdminController extends Page
 		$args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
 		$args->path = isset($args->path) ? strval($args->path) : '';
 		$args->mpath = isset($args->mpath) ? strval($args->mpath) : '';
-		if (!self::_isAllowedExternalPath($args->path))
+		$output = self::_isAllowedExternalPath($args->path, 'P');
+		if (!$output->toBool())
 		{
 			$this->setError(-1);
-			$this->setMessage('msg_invalid_opage_pc_path');
+			$this->setMessage($output->getMessage());
 			$this->setRedirectUrl(Context::get('success_return_url'));
 			return;
 		}
-		if (!self::_isAllowedExternalPath($args->mpath))
+		$output = self::_isAllowedExternalPath($args->mpath, 'M');
+		if (!$output->toBool())
 		{
 			$this->setError(-1);
-			$this->setMessage('msg_invalid_opage_mobile_path');
+			$this->setMessage($output->getMessage());
 			$this->setRedirectUrl(Context::get('success_return_url'));
 			return;
 		}
@@ -109,7 +111,20 @@ class PageAdminController extends Page
 			$msg_code = 'success_updated';
 		}
 
-		if(!$output->toBool()) return $output;
+		if(!$output->toBool())
+		{
+			return $output;
+		}
+
+		// Clear cache for outside page
+		if ($args->page_type === 'OUTSIDE' && !empty($args->module_srl))
+		{
+			$cache_files = glob(RX_BASEDIR . sprintf('files/cache/opage/%d.*.php', $args->module_srl));
+			foreach ($cache_files as $cache_file)
+			{
+				Rhymix\Framework\Storage::delete($cache_file);
+			}
+		}
 
 		$this->add("page", Context::get('page'));
 		$this->add('module_srl',$output->get('module_srl'));
@@ -388,36 +403,49 @@ class PageAdminController extends Page
 	 * Check if the path to an external page is valid.
 	 *
 	 * @param string $path
-	 * @return bool
+	 * @param string $mode 'P' or 'M'
+	 * @return BaseObject
 	 */
-	protected static function _isAllowedExternalPath(string $path): bool
+	protected static function _isAllowedExternalPath(string $path, string $mode = 'P'): BaseObject
 	{
 		// Normalize the directory separator.
 		$path = str_replace('\\', '/', $path);
 
 		// Check for forbidden paths.
-		if (preg_match('!(?:^|/)files/(?:attach|cache|config|debug|env|member_extra_info|ruleset|site_design|thumbnails)/!i', $path))
+			if (preg_match('!(?:^|/)files/(?:attach|cache|config|debug|env|member_extra_info|ruleset|site_design|thumbnails)/!i', $path))
 		{
-			return false;
+			return new BaseObject(-1, $mode === 'P' ? 'msg_invalid_opage_pc_path' : 'msg_invalid_opage_mobile_path');
+		}
+		if (preg_match('!/\.\./!', ltrim($path, './')))
+		{
+			return new BaseObject(-1, $mode === 'P' ? 'msg_invalid_opage_pc_path' : 'msg_invalid_opage_mobile_path');
 		}
 
 		// Check for forbidden extensions.
 		if (preg_match('!(?:image|audio|video)/!i', Rhymix\Framework\MIME::getTypeByFilename($path)))
 		{
-			return false;
+			return new BaseObject(-1, $mode === 'P' ? 'msg_invalid_opage_pc_path' : 'msg_invalid_opage_mobile_path');
 		}
 
 		// Run the check again after resolving any symbolic links.
-		if (!preg_match('!^https?://!i', $path) && file_exists($path))
+		if (!preg_match('!^https?://!i', $path))
 		{
-			$realpath = realpath($path);
-			if ($realpath !== $path && !self::_isAllowedExternalPath($realpath))
+			if (!Rhymix\Framework\Storage::isFile($path))
 			{
-				return false;
+				return new BaseObject(-1, $mode === 'P' ? 'msg_not_found_opage_pc_path' : 'msg_not_found_opage_mobile_path');
+			}
+			$realpath = realpath($path);
+			if ($realpath !== $path)
+			{
+				$output = self::_isAllowedExternalPath($realpath, $mode);
+				if (!$output->toBool())
+				{
+					return $output;
+				}
 			}
 		}
 
-		return true;
+		return new BaseObject;
 	}
 }
 /* End of file page.admin.controller.php */

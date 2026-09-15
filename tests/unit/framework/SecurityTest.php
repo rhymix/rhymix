@@ -146,6 +146,33 @@ class SecurityTest extends \Codeception\Test\Unit
 		$this->assertFalse(Rhymix\Framework\Security::compareStrings('foo', 'bar'));
 	}
 
+	public function testIsSameOrigin()
+	{
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'same-origin';
+		$this->assertTrue(Rhymix\Framework\Security::isSameOrigin());
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'none';
+		$this->assertTrue(Rhymix\Framework\Security::isSameOrigin());
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'cross-site';
+		$this->assertFalse(Rhymix\Framework\Security::isSameOrigin());
+
+		$_SERVER['HTTP_SEC_FETCH_SITE'] = 'invalid value';
+		$this->assertFalse(Rhymix\Framework\Security::isSameOrigin());
+
+		unset($_SERVER['HTTP_SEC_FETCH_SITE']);
+		$_SERVER['HTTP_REFERER'] = 'https://www.rhymix.org/foo/bar';
+		$this->assertTrue(Rhymix\Framework\Security::isSameOrigin());
+
+		$_SERVER['HTTP_ORIGIN'] = 'https://www.rhymix.org';
+		$_SERVER['HTTP_REFERER'] = 'https://www.foobar.com';
+		$this->assertTrue(Rhymix\Framework\Security::isSameOrigin());
+
+		$_SERVER['HTTP_ORIGIN'] = 'https://www.foobar.com';
+		$_SERVER['HTTP_REFERER'] = 'https://www.rhymix.org';
+		$this->assertFalse(Rhymix\Framework\Security::isSameOrigin());
+	}
+
 	public function testCheckCSRF()
 	{
 		$error_reporting = error_reporting(0);

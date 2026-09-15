@@ -690,20 +690,7 @@ class HTMLFilter
 	 */
 	protected static function _decodeWidgetsAndEditorComponents(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
 	{
-		if (!$allow_editor_components)
-		{
-			$content = preg_replace('!(<(?:div|img)[^>]*)\s(editor_component="(?:[^"]+)")!i', '$1', $content);
-		}
-		if (!$allow_widgets)
-		{
-			$content = preg_replace('!(<(?:div|img)[^>]*)\s(widget="(?:[^"]+)")!i', '$1blocked-$2', $content);
-		}
-		if (!$allow_editor_components && !$allow_widgets)
-		{
-			return $content;
-		}
-
-		return (string)preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
+		$content = (string)preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
 			list($encoded_properties, $signature) = explode(':', $match[4]);
 			if (!Security::verifySignature($encoded_properties, $signature))
@@ -721,6 +708,18 @@ class HTMLFilter
 			}
 			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
+
+		if (!$allow_editor_components)
+		{
+			$content = preg_replace('!(<(?:div|img)[^>]*)\s(editor_component="(?:[^"]+)")!i', '$1', $content);
+		}
+
+		if (!$allow_widgets)
+		{
+			$content = preg_replace('!(<(?:div|img)[^>]*)\s(widget="(?:[^"]+)")!i', '$1 blocked-$2', $content);
+		}
+
+		return $content;
 	}
 
 	/**

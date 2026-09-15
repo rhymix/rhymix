@@ -29,3 +29,5 @@ $lang->page_delete_warning = '페이지를 삭제할 때 파일도 함께 삭제
 $lang->msg_not_selected_page = '선택한 페이지가 없습니다.';
 $lang->msg_invalid_opage_pc_path = '사용할 수 없는 PC용 외부 문서 경로입니다.';
 $lang->msg_invalid_opage_mobile_path = '사용할 수 없는 모바일용 외부 문서 경로입니다.';
+$lang->msg_not_found_opage_pc_path = 'PC용 외부 문서 경로에 파일이 존재하지 않습니다.';
+$lang->msg_not_found_opage_mobile_path = '모바일용 외부 문서 경로에 파일이 존재하지 않습니다.';

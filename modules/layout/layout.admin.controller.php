@@ -212,13 +212,16 @@ class LayoutAdminController extends Layout
 	 * @param object $args
 	 * @return Object
 	 */
-	function updateLayout($args) {
+	public function updateLayout($args)
+	{
 		$output = executeQuery('layout.updateLayout', $args);
 		if($output->toBool())
 		{
-			$oLayoutModel = getModel('layout');
-			$cache_file = $oLayoutModel->getUserLayoutCache($args->layout_srl, Context::getLangType());
-			FileHandler::removeFile($cache_file);
+			$cache_files = glob(LayoutModel::getUserLayoutCache($args->layout_srl, '*'));
+			foreach ($cache_files as $cache_file)
+			{
+				Rhymix\Framework\Storage::delete($cache_file);
+			}
 			Rhymix\Framework\Cache::delete('layout:' . $args->layout_srl);
 		}
 

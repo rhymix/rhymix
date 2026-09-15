@@ -162,46 +162,35 @@ class Lang extends Base
 	 */
 	public function procModuleAdminInsertLang()
 	{
-		// Prepare arguments.
-		$args = new \stdClass;
-		$args->name = str_replace(' ', '_', Context::get('lang_code'));
-		$args->lang_name = str_replace(' ', '_', Context::get('lang_name'));
-		if (!empty($args->lang_name))
-		{
-			$args->name = $args->lang_name;
-		}
-
-		// Generate a name if not given.
+		// Validate or generate the language name.
+		$args = new \stdClass();
+		$args->name = str_replace(' ', '_', trim(Context::get('lang_name') ?: Context::get('lang_code')));
+		$args->name = preg_replace('/[^a-zA-Z0-9_]/', '', $args->name);
 		if (empty($args->name))
 		{
-			$args->name = 'userLang'.date('YmdHis').''.sprintf('%03d', mt_rand(0, 100));
+			$args->name = 'userLang' . date('Ymd') . sprintf('%09d', mt_rand(0, 999999999));
 		}
 
 		$oDB = DB::getInstance();
 		$oDB->begin();
 
-		// If the same name exists, delete it first.
+		// Delete old values.
 		$output = executeQueryArray('module.getLang', $args);
+		if ($output->toBool() && $output->data)
+		{
+			$output = LangModel::deleteLang($args->name);
+		}
 		if (!$output->toBool())
 		{
 			$oDB->rollback();
 			return $output;
-		}
-		if ($output->data)
-		{
-			$output = LangModel::deleteLang($args->name);
-			if (!$output->toBool())
-			{
-				$oDB->rollback();
-				return $output;
-			}
 		}
 
 		// Save to DB.
 		$values = [];
 		foreach (Context::get('lang_supported') as $key => $val)
 		{
-			$values[$key] = trim(Context::get($key));
+			$values[$key] = $this->user->isAdmin() ? trim(Context::get($key)) : escape(Context::get($key));
 		}
 
 		$output = LangModel::insertLang($args->name, $values);
@@ -215,7 +204,7 @@ class Lang extends Base
 
 		LangModel::generateCache();
 
-		$this->setMessage('success_saved', 'info');
+		$this->setMessage('success_saved');
 		$this->add('name', $args->name);
 
 		$module = Context::get('module');

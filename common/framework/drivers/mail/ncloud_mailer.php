@@ -24,7 +24,7 @@ class Ncloud_Mailer extends Base implements MailInterface
 	 */
 	public static function getName()
 	{
-		return 'NAVER Cloud Outbound Mailer';
+		return 'NAVER Cloud SENS';
 	}
 
 	/**

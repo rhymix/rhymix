@@ -115,11 +115,15 @@ function array_escape(array $array, bool $double_escape = true): array
 	{
 		if (is_array($value))
 		{
-			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = array_escape($value, $double_escape, $flags);
+			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = array_escape($value, $double_escape);
 		}
 		elseif (is_object($value))
 		{
-			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = (object)array_escape(get_object_vars($value), $double_escape, $flags);
+			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = (object)array_escape(get_object_vars($value), $double_escape);
+		}
+		elseif (is_int($value) || is_float($value) || is_bool($value) || is_null($value) || is_resource($value))
+		{
+			$result[htmlspecialchars($key, $flags, 'UTF-8', $double_escape)] = $value;
 		}
 		else
 		{

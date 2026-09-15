@@ -316,10 +316,43 @@ class Security
 	}
 
 	/**
+	 * Check if the current request comes from the same origin.
+	 *
+	 * This method is designed for GET, OPTIONS, and other "relatively safe" requests.
+	 * For POST requests, use checkCSRF() instead.
+	 *
+	 * @return bool
+	 */
+	public static function isSameOrigin(): bool
+	{
+		// Check the Sec-Fetch-Site header if available.
+		$sec_fetch_site = $_SERVER['HTTP_SEC_FETCH_SITE'] ?? '';
+		if ($sec_fetch_site === 'same-origin' || $sec_fetch_site === 'none')
+		{
+			return true;
+		}
+		if ($sec_fetch_site === 'cross-site')
+		{
+			return false;
+		}
+
+		// Fall back to the Origin header, and finally the Referer header.
+		$origin = strval($_SERVER['HTTP_ORIGIN'] ?? ($_SERVER['HTTP_REFERER'] ?? ''));
+		if ($origin !== '' && $origin !== 'null')
+		{
+			return URL::isInternalURL($origin);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Check if the current request seems to be a CSRF attack.
 	 *
-	 * This method returns true if the request seems to be innocent,
-	 * and false if it seems to be a CSRF attack.
+	 * This method is designed for POST requests and supports CSRF token verification.
+	 * For other methods, use isSameOrigin() instead.
 	 *
 	 * @param string $referer (optional)
 	 * @return bool
