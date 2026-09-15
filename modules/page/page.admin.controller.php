@@ -25,21 +25,27 @@ class PageAdminController extends Page
 		$args->mid = $args->page_name;	//because if mid is empty in context, set start page mid
 		$args->path = isset($args->path) ? strval($args->path) : '';
 		$args->mpath = isset($args->mpath) ? strval($args->mpath) : '';
-		$output = self::_isAllowedExternalPath($args->path, 'P');
-		if (!$output->toBool())
+		if ($args->path !== '')
 		{
-			$this->setError(-1);
-			$this->setMessage($output->getMessage());
-			$this->setRedirectUrl(Context::get('success_return_url'));
-			return;
+			$output = self::_isAllowedExternalPath($args->path, 'P');
+			if (!$output->toBool())
+			{
+				$this->setError(-1);
+				$this->setMessage($output->getMessage());
+				$this->setRedirectUrl(Context::get('success_return_url'));
+				return;
+			}
 		}
-		$output = self::_isAllowedExternalPath($args->mpath, 'M');
-		if (!$output->toBool())
+		if ($args->mpath !== '')
 		{
-			$this->setError(-1);
-			$this->setMessage($output->getMessage());
-			$this->setRedirectUrl(Context::get('success_return_url'));
-			return;
+			$output = self::_isAllowedExternalPath($args->mpath, 'M');
+			if (!$output->toBool())
+			{
+				$this->setError(-1);
+				$this->setMessage($output->getMessage());
+				$this->setRedirectUrl(Context::get('success_return_url'));
+				return;
+			}
 		}
 		$args->opage_proc_php = $args->opage_proc_php ?? 'N';
 		$args->opage_proc_tpl = $args->opage_proc_tpl ?? 'N';
