@@ -939,6 +939,12 @@ class MemberView extends Member
 	 */
 	function dispMemberLogout()
 	{
+		// Check the origin.
+		if (!Rhymix\Framework\Security::isSameOrigin())
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
 		// Redirect if not logged in.
 		if(!Context::get('is_logged'))
 		{
