@@ -573,7 +573,7 @@ class DocumentAdminController extends Document
 		$module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
 
 		$args = new stdClass();
-		$args->description = $message_content;
+		$args->description = '';
 		$args->document_srl = $document_srl;
 
 		$oDocumentController->moveDocumentToTrash($args);
