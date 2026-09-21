@@ -117,10 +117,9 @@ class HTMLFilter
 	 * @param string $input
 	 * @param array|bool $allow_classes (optional)
 	 * @param bool $allow_editor_components (optional)
-	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	public static function clean(string $input, $allow_classes = false, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	public static function clean(string $input, $allow_classes = false, bool $allow_editor_components = true): string
 	{
 		if ($allow_classes === true)
 		{
@@ -136,27 +135,22 @@ class HTMLFilter
 			{
 				$allowed_classes = Config::get('mediafilter.classes') ?: array();
 			}
-
-			if ($allow_widgets)
-			{
-				$allowed_classes[] = 'zbxe_widget_output';
-			}
 		}
 
 		$purifier = self::getHTMLPurifier($allowed_classes);
 
 		foreach (self::$_preproc as $callback)
 		{
-			$input = $callback($input, $purifier, $allow_editor_components, $allow_widgets);
+			$input = $callback($input, $purifier, $allow_editor_components, false);
 		}
 
-		$input = self::_preprocess($input, $purifier, $allow_editor_components, $allow_widgets);
+		$input = self::_preprocess($input, $purifier, $allow_editor_components);
 		$output = $purifier->purify($input);
-		$output = self::_postprocess($output, $purifier, $allow_editor_components, $allow_widgets);
+		$output = self::_postprocess($output, $purifier, $allow_editor_components);
 
 		foreach (self::$_postproc as $callback)
 		{
-			$output = $callback($output, $purifier, $allow_editor_components, $allow_widgets);
+			$output = $callback($output, $purifier, $allow_editor_components, false);
 		}
 
 		return $output;
@@ -351,7 +345,7 @@ class HTMLFilter
 		// Support contenteditable="false" (#1710)
 		$def->addAttribute('div', 'contenteditable', 'Enum#false');
 
-		// Support editor components and widgets.
+		// Support editor components.
 		$def->addAttribute('img', 'data-file-srl', 'Number');
 		$def->addAttribute('video', 'data-file-srl', 'Number');
 		$def->addAttribute('audio', 'data-file-srl', 'Number');
@@ -525,15 +519,14 @@ class HTMLFilter
 	 * @param string $content
 	 * @param \HTMLPurifier $purifier
 	 * @param bool $allow_editor_components (optional)
-	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _preprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	protected static function _preprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true): string
 	{
-		// Encode widget and editor component properties so that they are not removed by HTMLPurifier.
-		if ($allow_editor_components || $allow_widgets)
+		// Encode editor component properties so that they are not removed by HTMLPurifier.
+		if ($allow_editor_components)
 		{
-			$content = self::_encodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
+			$content = self::_encodeEditorComponents($content);
 		}
 
 		// Encode data-* attributes.
@@ -547,10 +540,9 @@ class HTMLFilter
 	 * @param string $content
 	 * @param \HTMLPurifier $purifier
 	 * @param bool $allow_editor_components (optional)
-	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _postprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	protected static function _postprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true): string
 	{
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
@@ -617,39 +609,35 @@ class HTMLFilter
 			return $matches[0];
 		}, $content);
 
-		// Restore widget and editor component properties.
-		$content = self::_decodeWidgetsAndEditorComponents($content, $allow_editor_components, $allow_widgets);
+		// Restore editor component properties.
+		if ($allow_editor_components)
+		{
+			$content = self::_decodeEditorComponents($content);
+		}
+		else
+		{
+			$content = preg_replace('!(<(?:div|img)[^>]*)\s(editor_component="(?:[^"]+)")!i', '$1', $content);
+		}
 
 		// Restore data-* attributes.
 		$content = self::_decodeDataAttributes($content);
+
+		// Always remove widget attributes (no configuration)
+		$content = preg_replace('!(<(?:div|img)[^>]*)\s(widget="(?:[^"]+)")!i', '$1', $content);
+		$content = preg_replace('!\s(class="zbxe_widget_output")!i', '', $content);
+
 		return $content;
 	}
 
 	/**
-	 * Encode widgets and editor components before processing.
+	 * Encode editor components before processing.
 	 *
 	 * @param string $content
-	 * @param bool $allow_editor_components (optional)
-	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _encodeWidgetsAndEditorComponents(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	protected static function _encodeEditorComponents(string $content): string
 	{
-		$regexp = array();
-		if ($allow_editor_components)
-		{
-			$regexp[] = 'editor_component="[^"]+"';
-		}
-		if ($allow_widgets)
-		{
-			$regexp[] = 'class="zbxe_widget_output"';
-		}
-		if (!count($regexp))
-		{
-			return $content;
-		}
-
-		return (string)preg_replace_callback('!<(div|img)([^>]*)(' . implode('|', $regexp) . ')([^>]*)>!i', function($match) {
+		$content = preg_replace_callback('!<(div|img)([^>]*)(editor_component="[^"]+")([^>]*)>!i', function($match) {
 			$tag = strtolower($match[1]);
 			$attrs = array();
 			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
@@ -678,17 +666,17 @@ class HTMLFilter
 			$encoded_properties = $encoded_properties . ':' . Security::createSignature($encoded_properties);
 			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
 		}, $content);
+
+		return (string)$content;
 	}
 
 	/**
-	 * Decode widgets and editor components after processing.
+	 * Decode editor components after processing.
 	 *
 	 * @param string $content
-	 * @param bool $allow_editor_components (optional)
-	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
-	protected static function _decodeWidgetsAndEditorComponents(string $content, bool $allow_editor_components = true, bool $allow_widgets = false): string
+	protected static function _decodeEditorComponents(string $content): string
 	{
 		$content = (string)preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
 			$attrs = array();
@@ -708,16 +696,6 @@ class HTMLFilter
 			}
 			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
-
-		if (!$allow_editor_components)
-		{
-			$content = preg_replace('!(<(?:div|img)[^>]*)\s(editor_component="(?:[^"]+)")!i', '$1', $content);
-		}
-
-		if (!$allow_widgets)
-		{
-			$content = preg_replace('!(<(?:div|img)[^>]*)\s(widget="(?:[^"]+)")!i', '$1 blocked-$2', $content);
-		}
 
 		return $content;
 	}
@@ -757,8 +735,6 @@ class HTMLFilter
 	 * Decode data-* attributes after processing.
 	 *
 	 * @param string $content
-	 * @param bool $allow_editor_components (optional)
-	 * @param bool $allow_widgets (optional)
 	 * @return string
 	 */
 	protected static function _decodeDataAttributes(string $content): string
