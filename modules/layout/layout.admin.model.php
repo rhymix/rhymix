@@ -110,7 +110,7 @@ class LayoutAdminModel extends Layout
 		$designInfoFile = RX_BASEDIR . 'files/site_design/design_0.php';
 		if(FileHandler::exists($designInfoFile)) include($designInfoFile);
 
-		if(!$designInfo || !$designInfo->{$target})
+		if(!$designInfo || empty($designInfo->{$target}))
 		{
 			return 0;
 		}
