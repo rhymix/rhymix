@@ -238,12 +238,20 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$target = '<p>Hello World</p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 
-		$source = '<p>Hello World</p><img class="zbxe_widget_output" widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" />';
-		$target = '<p>Hello World</p><img widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" src="" class="zbxe_widget_output" alt="" />';
+		$source = '<p>Hello World</p><img src="foo.jpg" class="zbxe_widget_output" widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" />';
+		$target = '<p>Hello World</p><img src="foo.jpg" alt="" />';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
 
-		$source = '<p>Hello World</p><img class="zbxe_widget_output" widget="content" onmouseover="alert(\'xss\');" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" />';
-		$target = '<p>Hello World</p><img widget="content" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop" src="" class="zbxe_widget_output" alt="" />';
+		$source = '<p>Hello World</p><div class="zbxe_widget_output" widget="content" onmouseover="alert(\'xss\');" skin="default" colorset="white" widget_sequence="1234" widget_cache="1m" content_type="document" module_srls="56" list_type="normal" tab_type="none" markup_type="table" page_count="1" option_view="title,regdate,nickname" show_browser_title="Y" show_comment_count="Y" show_trackback_count="Y" show_category="Y" show_icon="Y" show_secret="N" order_target="regdate" order_type="desc" thumbnail_type="crop"></div>';
+		$target = '<p>Hello World</p><div></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
+
+		$source = '<p><img editor_component="x" widget="widgetContent" body="AAAAAAAAAAAAAAAA" /></p>';
+		$target = '<p></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, false));
+
+		$source = '<p><img editor_component="x" widget="widgetContent" body="AAAAAAAAAAAAAAAA" /></p>';
+		$target = '<p><img body="AAAAAAAAAAAAAAAA" src="" editor_component="x" alt="" /></p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
 	}
 

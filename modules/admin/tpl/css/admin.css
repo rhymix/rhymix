@@ -1499,6 +1499,9 @@ margin-bottom: 10px;
 	cursor: pointer;
 	text-decoration: none;
 }
+.x .g11n>textarea[readonly] ~ .x_add-on {
+	cursor: not-allowed;
+}
 .x .g11n>.x_add-on>i {
 	position: absolute;
 	top: 50%;
