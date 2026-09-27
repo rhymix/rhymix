@@ -57,12 +57,13 @@
 	<input type="hidden" name="xe_validator_id" value="modules/addon/tpl/setup_addon/1" />
 
 	<block cond="count($addon_info->extra_vars ?: [])">
+		{@ $group = ''}
 		<block loop="$addon_info->extra_vars => $id, $var">
-			<block cond="!empty($group) && $group != $var->group">
+			<block cond="$var->group && $group != $var->group">
 				<h2 style="margin-top:50px;">{$var->group}</h2>
-				{@$group = $var->group}
+				{@ $group = $var->group}
 			</block>
-			{@$not_first = true}
+			{@ $not_first = true}
 			<div class="x_control-group" cond="!$not_first && $group != $var->group"></div>
 			<div class="x_control-group">
 				<label class="x_control-label" for="{$var->name}"|cond="$var->type != 'textarea'" for="lang_{$var->name}"|cond="$var->type == 'textarea'">{$var->title}</label>
