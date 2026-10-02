@@ -271,7 +271,7 @@ class MemberView extends Member
 					}
 				}
 			}
-			else
+			elseif ($formInfo->type)
 			{
 				$item->title = $extendFormInfo[$formInfo->member_join_form_srl]->column_title ?? null;
 				$extvalue = new Rhymix\Modules\Extravar\Models\Value(0, 1, '', $formInfo->type);
