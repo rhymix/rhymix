@@ -56,7 +56,11 @@ class NcenterliteModel extends Ncenterlite
 			}
 
 			// Convert old config format
-			if($config->use === 'Y')
+			if(!isset($config->use))
+			{
+				$config->use = array();
+			}
+			elseif($config->use === 'Y')
 			{
 				$config->use = array();
 				foreach (self::getNotifyTypes() as $type => $srl)
@@ -64,7 +68,7 @@ class NcenterliteModel extends Ncenterlite
 					$config->use[$type] = array('web' => 1);
 				}
 			}
-			elseif(is_array($config->use) && !is_array(array_first($config->use)))
+			elseif(is_array($config->use) && count($config->use) && !is_array(array_first($config->use)))
 			{
 				foreach($config->use as $key => $value)
 				{
