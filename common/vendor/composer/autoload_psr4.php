@@ -31,6 +31,7 @@ return array(
     'Google\\Auth\\' => array($vendorDir . '/google/auth/src'),
     'Firebase\\JWT\\' => array($vendorDir . '/firebase/php-jwt/src'),
     'Egulias\\EmailValidator\\' => array($vendorDir . '/egulias/email-validator/src'),
-    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib/Doctrine/Common/Lexer'),
+    'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),
+    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/src'),
     'Composer\\CaBundle\\' => array($vendorDir . '/composer/ca-bundle/src'),
 );

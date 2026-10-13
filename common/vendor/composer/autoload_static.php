@@ -81,6 +81,7 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         ),
         'D' => 
         array (
+            'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\Common\\Lexer\\' => 22,
         ),
         'C' => 
@@ -191,9 +192,13 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         array (
             0 => __DIR__ . '/..' . '/egulias/email-validator/src',
         ),
+        'Doctrine\\Deprecations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
+        ),
         'Doctrine\\Common\\Lexer\\' => 
         array (
-            0 => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer',
+            0 => __DIR__ . '/..' . '/doctrine/lexer/src',
         ),
         'Composer\\CaBundle\\' => 
         array (
@@ -233,7 +238,10 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\CaBundle\\CaBundle' => __DIR__ . '/..' . '/composer/ca-bundle/src/CaBundle.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-        'Doctrine\\Common\\Lexer\\AbstractLexer' => __DIR__ . '/..' . '/doctrine/lexer/lib/Doctrine/Common/Lexer/AbstractLexer.php',
+        'Doctrine\\Common\\Lexer\\AbstractLexer' => __DIR__ . '/..' . '/doctrine/lexer/src/AbstractLexer.php',
+        'Doctrine\\Common\\Lexer\\Token' => __DIR__ . '/..' . '/doctrine/lexer/src/Token.php',
+        'Doctrine\\Deprecations\\Deprecation' => __DIR__ . '/..' . '/doctrine/deprecations/src/Deprecation.php',
+        'Doctrine\\Deprecations\\PHPUnit\\VerifyDeprecations' => __DIR__ . '/..' . '/doctrine/deprecations/src/PHPUnit/VerifyDeprecations.php',
         'Egulias\\EmailValidator\\EmailLexer' => __DIR__ . '/..' . '/egulias/email-validator/src/EmailLexer.php',
         'Egulias\\EmailValidator\\EmailParser' => __DIR__ . '/..' . '/egulias/email-validator/src/EmailParser.php',
         'Egulias\\EmailValidator\\EmailValidator' => __DIR__ . '/..' . '/egulias/email-validator/src/EmailValidator.php',
@@ -718,6 +726,7 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         'JBBCode\\visitors\\NestLimitVisitor' => __DIR__ . '/..' . '/jbbcode/jbbcode/JBBCode/visitors/NestLimitVisitor.php',
         'JBBCode\\visitors\\SmileyVisitor' => __DIR__ . '/..' . '/jbbcode/jbbcode/JBBCode/visitors/SmileyVisitor.php',
         'JBBCode\\visitors\\TagCountingVisitor' => __DIR__ . '/..' . '/jbbcode/jbbcode/JBBCode/visitors/TagCountingVisitor.php',
+        'League\\HTMLToMarkdown\\Backticks' => __DIR__ . '/..' . '/league/html-to-markdown/src/Backticks.php',
         'League\\HTMLToMarkdown\\Coerce' => __DIR__ . '/..' . '/league/html-to-markdown/src/Coerce.php',
         'League\\HTMLToMarkdown\\Configuration' => __DIR__ . '/..' . '/league/html-to-markdown/src/Configuration.php',
         'League\\HTMLToMarkdown\\ConfigurationAwareInterface' => __DIR__ . '/..' . '/league/html-to-markdown/src/ConfigurationAwareInterface.php',
@@ -744,7 +753,11 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         'League\\HTMLToMarkdown\\Environment' => __DIR__ . '/..' . '/league/html-to-markdown/src/Environment.php',
         'League\\HTMLToMarkdown\\HtmlConverter' => __DIR__ . '/..' . '/league/html-to-markdown/src/HtmlConverter.php',
         'League\\HTMLToMarkdown\\HtmlConverterInterface' => __DIR__ . '/..' . '/league/html-to-markdown/src/HtmlConverterInterface.php',
+        'League\\HTMLToMarkdown\\LinkSyntax' => __DIR__ . '/..' . '/league/html-to-markdown/src/LinkSyntax.php',
         'League\\HTMLToMarkdown\\PreConverterInterface' => __DIR__ . '/..' . '/league/html-to-markdown/src/PreConverterInterface.php',
+        'League\\HTMLToMarkdown\\PrecedingMarkdown' => __DIR__ . '/..' . '/league/html-to-markdown/src/PrecedingMarkdown.php',
+        'League\\HTMLToMarkdown\\RawHtml' => __DIR__ . '/..' . '/league/html-to-markdown/src/RawHtml.php',
+        'League\\HTMLToMarkdown\\SiblingPositionCache' => __DIR__ . '/..' . '/league/html-to-markdown/src/SiblingPositionCache.php',
         'MatthiasMullie\\Minify\\CSS' => __DIR__ . '/..' . '/matthiasmullie/minify/src/CSS.php',
         'MatthiasMullie\\Minify\\Exception' => __DIR__ . '/..' . '/matthiasmullie/minify/src/Exception.php',
         'MatthiasMullie\\Minify\\Exceptions\\BasicException' => __DIR__ . '/..' . '/matthiasmullie/minify/src/Exceptions/BasicException.php',
