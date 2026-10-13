@@ -79,6 +79,10 @@ class Theme extends Layout
 		$sub_menus = [];
 		foreach ($theme_info->provides as $sub_name => $sub_info)
 		{
+			if ($sub_info->type === 'widget_skin')
+			{
+				continue;
+			}
 			$sub_info = $theme_info->loadSubConfig($sub_name);
 			if (!$sub_info)
 			{
@@ -162,6 +166,10 @@ class Theme extends Layout
 			}
 			else
 			{
+				if ($theme_info->provides[$sub_name]->type === 'widget_skin')
+				{
+					continue;
+				}
 				$old_config = $theme_config->{$sub_name} ?? new stdClass;
 				$sub_info = $theme_info->loadSubConfig($sub_name);
 				if (!$sub_info)

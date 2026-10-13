@@ -148,7 +148,6 @@ class Dashboard extends Base
 		$oSecurity = new \Security();
 		$oSecurity->encodeHTML('module_list..', 'module_list..author..', 'newVersionList..');
 
-		Context::set('layout', 'none');
 		$this->setTemplateFile('index');
 	}
 

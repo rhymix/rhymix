@@ -356,7 +356,8 @@ abstract class AbstractController extends BaseObject
 		if (isset($this->xml_info->action->{$this->act}) && method_exists($this, $this->act))
 		{
 			// Set layout and template paths if module configuration specifies them.
-			if (isset($this->module_info->skin) && $this->module_info->module === $this->module && empty($this->layout_path))
+			$is_same_module = $this->module_info->module === $this->module || $this->xml_info->action->{$this->act}->standalone === 'true';
+			if ($is_same_module && !empty($this->module_info->skin) && !$this->getLayoutPath())
 			{
 				if (!in_array(Context::getRequestMethod(), ['JSON', 'XMLRPC', 'JS_CALLBACK']))
 				{
