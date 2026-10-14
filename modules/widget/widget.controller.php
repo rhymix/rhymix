@@ -151,9 +151,16 @@ class WidgetController extends Widget
 
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		$oDocumentController = DocumentController::getInstance();
-		if($oDocument->isExists() && $oDocument->document_srl == $obj->document_srl)
+		if ($oDocument->isExists())
 		{
-			$output = $oDocumentController->updateDocument($oDocument, $obj);
+			if ($oDocument->get('module_srl') == $obj->module_srl)
+			{
+				$output = $oDocumentController->updateDocument($oDocument, $obj);
+			}
+			else
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 		else
 		{
@@ -176,20 +183,21 @@ class WidgetController extends Widget
 	 */
 	function procWidgetCopyDocument()
 	{
-		// Variable Wanted
+		// Check document
 		$document_srl = Context::get('document_srl');
-
 		$oDocument = DocumentModel::getDocument($document_srl);
 		if (!$oDocument->isExists())
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$module_srl = $oDocument->get('module_srl');
 
-		// Destination Information Wanted page module
-		$columnList = array('module_srl', 'module');
-		$page_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
-		if(!$page_info->module_srl || $page_info->module != 'page') throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		// Check module
+		$module_srl = $oDocument->get('module_srl');
+		$page_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$page_info || !$page_info->module_srl || $page_info->module != 'page')
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// Check permissions
 		$logged_info = Context::get('logged_info');
@@ -204,7 +212,7 @@ class WidgetController extends Widget
 		}
 
 		$oDocumentAdminController = DocumentAdminController::getInstance();
-		$output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $oDocument->get('module_srl'),0);
+		$output = $oDocumentAdminController->copyDocumentModule(array($oDocument->get('document_srl')), $module_srl, 0);
 		if (!$output->toBool())
 		{
 			return $output;
@@ -220,18 +228,18 @@ class WidgetController extends Widget
 	 */
 	function procWidgetDeleteDocument()
 	{
-		// Variable Wanted
+		// Check document
 		$document_srl = Context::get('document_srl');
 		$oDocument = DocumentModel::getDocument($document_srl);
 		if (!$oDocument->isExists())
 		{
-			return;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		$module_srl = $oDocument->get('module_srl');
 
-		// Destination Information Wanted page module
+		// Check module
+		$module_srl = $oDocument->get('module_srl');
 		$page_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
-		if (!$page_info->module_srl || $page_info->module != 'page')
+		if (!$page_info || !$page_info->module_srl || $page_info->module != 'page')
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
