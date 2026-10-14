@@ -201,13 +201,14 @@ class PointModel extends Point
 		$args->is_denied = Context::get('is_denied')=='Y'?'Y':'';
 		$args->selected_group_srl = Context::get('selected_group_srl');
 
-		$search_target = trim(Context::get('search_target'));
-		$search_keyword = trim(Context::get('search_keyword'));
+		$search_target = Context::get('search_target');
+		$search_keyword = Context::get('search_keyword');
 
 		// if search keyword is emtpy, show all list
 		if(!$search_keyword)
 		{
-			unset($args->is_admin, $args->is_denied, $args->selected_group_srl, $search_target);
+			unset($args->is_admin, $args->is_denied, $args->selected_group_srl);
+			$search_target = null;
 		}
 
 		if($search_target && $search_keyword)
@@ -242,7 +243,7 @@ class PointModel extends Point
 			}
 		}
 		// If there is a selected_group_srl, change the "query id" (for table join)
-		if($args->selected_group_srl)
+		if(isset($args->selected_group_srl) && $args->selected_group_srl)
 		{
 			$query_id = 'point.getMemberListWithinGroup';
 		}

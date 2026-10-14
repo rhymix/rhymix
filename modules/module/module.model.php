@@ -1236,7 +1236,7 @@ class ModuleModel extends Module
 		$result = array();
 		foreach($output->data as $key => $val)
 		{
-			$result[$val->module_srl] = unserialize($val->config);
+			$result[$val->module_srl] = $val->config ? unserialize($val->config) : null;
 		}
 
 		return $result;

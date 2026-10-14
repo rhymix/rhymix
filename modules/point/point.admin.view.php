@@ -66,9 +66,8 @@ class PointAdminView extends Point
 	function dispPointAdminModuleConfig()
 	{
 		// Get a list of mid
-		$oModuleModel = getModel('module');
 		$columnList = array('module_srl', 'mid', 'browser_title', 'module');
-		$mid_list = $oModuleModel->getMidList(null, $columnList);
+		$mid_list = ModuleModel::getMidList(null, $columnList);
 
 		foreach($mid_list as $mid => $item)
 		{
@@ -79,7 +78,7 @@ class PointAdminView extends Point
 		}
 
 		Context::set('mid_list', $mid_list);
-		Context::set('module_config', $oModuleModel->getModulePartConfigs('point'));
+		Context::set('module_config', ModuleModel::getModulePartConfigs('point'));
 
 		//Security
 		$security = new Security();
@@ -122,11 +121,20 @@ class PointAdminView extends Point
 		Context::set('page', $output->page);
 		Context::set('member_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+
 		// Create a member model object
 		$oMemberModel = getModel('member');
+
 		// Get a list of groups
 		$this->group_list = $oMemberModel->getGroups();
 		Context::set('group_list', $this->group_list);
+
+		// Set search variables
+		Context::set('is_admin', Context::get('is_admin') === 'Y' ? 'Y' : null);
+		Context::set('selected_group_srl', Context::get('selected_group_srl') ?: null);
+		Context::set('search_target', Context::get('search_target') ?: null);
+		Context::set('search_keyword', Context::get('search_keyword') ?: null);
+
 		//Security
 		$security = new Security();
 		$security->encodeHTML('group_list..title','group_list..description');

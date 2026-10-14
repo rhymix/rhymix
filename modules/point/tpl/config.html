@@ -162,7 +162,7 @@
 				</select>
 			</div>
 		</div>
-		<div class="x_control-group" loop="$group_list => $key,$val" cond="$val->is_admin != 'Y'">
+		<div class="x_control-group" loop="$group_list => $key,$val" cond="isset($val->is_admin) && $val->is_admin != 'Y'">
 			<label class="x_control-label" for="point_group_{$key}">{$val->title}</label>
 			<div class="x_controls">
 				<!--@if($val->is_default != 'Y')-->
