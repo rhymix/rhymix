@@ -13,23 +13,27 @@ class VirtualXMLDisplayHandler
 		$message = $oModule->getMessage();
 		$redirect_url = $oModule->get('redirect_url');
 		$request_uri = Context::get('xeRequestURI');
-		$request_url = Context::getRequestUri();
+		$default_request_uri = Context::getRequestUri();
 		$output = new stdClass();
 
-		if(substr_compare($request_url, '/', -1) !== 0)
+		if(substr_compare($default_request_uri, '/', -1) !== 0)
 		{
-			$request_url .= '/';
+			$default_request_uri .= '/';
 		}
 
 		if($error === 0)
 		{
-			if($redirect_url)
+			if ($redirect_url)
 			{
 				$output->url = $redirect_url;
 			}
-			else
+			elseif (Rhymix\Framework\URL::isInternalURL($request_uri))
 			{
 				$output->url = $request_uri;
+			}
+			else
+			{
+				$output->url = $default_request_uri;
 			}
 		}
 		else
@@ -42,12 +46,12 @@ class VirtualXMLDisplayHandler
 		$html[] = '<head>';
 		$html[] = '<script>';
 
-		if($output->message)
+		if (isset($output->message))
 		{
 			$html[] = 'alert(' . json_encode($output->message) . ');';
 		}
 
-		if($output->url)
+		if (isset($output->url))
 		{
 			$output->url = preg_replace('/#(.+)$/', '', $output->url);
 			$html[] = 'if (opener) {';
