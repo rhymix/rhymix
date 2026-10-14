@@ -101,7 +101,7 @@ class LayoutAdminModel extends Layout
 		$layoutInfo = $oLayoutModel->getLayoutRawData($layoutSrl, array('title'));
 
 		$this->add('layout_srl', $layoutSrl);
-		$this->add('title', $layoutInfo->title);
+		$this->add('title', $layoutInfo->title ?? '');
 	}
 
 	public function getSiteDefaultLayout($viewType = 'P')

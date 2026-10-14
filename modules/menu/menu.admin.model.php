@@ -676,7 +676,7 @@ class MenuAdminModel extends Menu
 		{
 			unset($midInfo, $moduleInfo);
 			$midInfo = $oModuleModel->getModuleInfoByMid($menu['url']);
-			$moduleInfo = $oModuleModel->getModuleInfoXml($midInfo->module);
+			$moduleInfo = $midInfo ? $oModuleModel->getModuleInfoXml($midInfo->module) : null;
 
 			if($midInfo)
 			{
@@ -705,7 +705,7 @@ class MenuAdminModel extends Menu
 			{
 				foreach($start_module as $start_module_info)
 				{
-					if($midInfo->mid == $start_module_info->mid)
+					if($midInfo && $midInfo->mid == $start_module_info->mid)
 					{
 						$menu['is_start_module'] = true;
 						$menu['is_start_module_of'] = $start_module_info->domain;
@@ -719,8 +719,8 @@ class MenuAdminModel extends Menu
 			}
 
 			// setting layout srl for layout management
-			$menu['layout_srl'] = $midInfo->layout_srl;
-			$menu['browser_title'] = $midInfo->browser_title;
+			$menu['layout_srl'] = $midInfo ? $midInfo->layout_srl : -1;
+			$menu['browser_title'] = $midInfo ? $midInfo->browser_title : '';
 		}
 		if(count($menu['list']) > 0)
 		{
