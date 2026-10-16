@@ -1108,8 +1108,12 @@ class MemberModel extends Member
 
 	/**
 	 * @brief Get information of the profile image
+	 *
+	 * @param int $member_srl
+	 * @param bool $use_cache Set to false to read the file system and refresh the cache
+	 * @return object|null
 	 */
-	public static function getProfileImage($member_srl)
+	public static function getProfileImage($member_srl, $use_cache = true)
 	{
 		if(!isset($GLOBALS['__member_info__']))
 		{
@@ -1119,24 +1123,31 @@ class MemberModel extends Member
 		{
 			$GLOBALS['__member_info__']['profile_image'] = [];
 		}
-		if(!array_key_exists($member_srl, $GLOBALS['__member_info__']['profile_image']))
+		if(!$use_cache || !array_key_exists($member_srl, $GLOBALS['__member_info__']['profile_image']))
 		{
-			$GLOBALS['__member_info__']['profile_image'][$member_srl] = null;
-			foreach(['jpg', 'jpeg', 'gif', 'png'] as $ext)
+			$cache_key = sprintf('member:profile_image:%d', $member_srl);
+			$info = $use_cache ? Rhymix\Framework\Cache::get($cache_key) : null;
+			if($info === null)
 			{
-				$image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext);
-				if(file_exists(\RX_BASEDIR . $image_name_file))
+				// An empty array is cached when there is no image, because drivers return null for false.
+				$info = [];
+				foreach(['jpg', 'jpeg', 'gif', 'png'] as $ext)
 				{
-					list($width, $height, $type, $attrs) = getimagesize(\RX_BASEDIR . $image_name_file);
-					$info = new stdClass();
-					$info->width = $width;
-					$info->height = $height;
-					$info->src = \RX_BASEURL . $image_name_file . '?t=' . filemtime(\RX_BASEDIR . $image_name_file);
-					$info->file = './'.$image_name_file;
-					$GLOBALS['__member_info__']['profile_image'][$member_srl] = $info;
-					break;
+					$image_name_file = sprintf('files/member_extra_info/profile_image/%s%d.%s', getNumberingPath($member_srl), $member_srl, $ext);
+					if(file_exists(\RX_BASEDIR . $image_name_file))
+					{
+						list($width, $height, $type, $attrs) = getimagesize(\RX_BASEDIR . $image_name_file);
+						$info = new stdClass();
+						$info->width = $width;
+						$info->height = $height;
+						$info->src = \RX_BASEURL . $image_name_file . '?t=' . filemtime(\RX_BASEDIR . $image_name_file);
+						$info->file = './'.$image_name_file;
+						break;
+					}
 				}
+				Rhymix\Framework\Cache::set($cache_key, $info);
 			}
+			$GLOBALS['__member_info__']['profile_image'][$member_srl] = $info ?: null;
 		}
 
 		return $GLOBALS['__member_info__']['profile_image'][$member_srl];

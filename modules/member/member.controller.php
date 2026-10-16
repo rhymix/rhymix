@@ -1651,7 +1651,7 @@ class MemberController extends Member
 
 		if($logged_info && ($logged_info->is_admin == 'Y' || $logged_info->member_srl == $member_srl))
 		{
-			$profile_image = MemberModel::getProfileImage($member_srl);
+			$profile_image = MemberModel::getProfileImage($member_srl, false);
 			if(!empty($profile_image->file))
 			{
 				FileHandler::removeFile($profile_image->file);
@@ -3625,7 +3625,6 @@ class MemberController extends Member
 		$this->procMemberDeleteImageMark($member_srl);
 		$this->procMemberDeleteProfileImage($member_srl);
 		$this->delSignature($member_srl);
-		self::clearMemberCache($member_srl);
 
 		// Delete all remaining extra info
 		$dirs = Rhymix\Framework\Storage::readDirectory(RX_BASEDIR . 'files/member_extra_info', true, true, false);
@@ -3635,6 +3634,9 @@ class MemberController extends Member
 			Rhymix\Framework\Storage::deleteDirectory($member_dir, false);
 			Rhymix\Framework\Storage::deleteEmptyDirectory($member_dir, true);
 		}
+
+		// Clear cache after the files are gone, so that it is not refilled with deleted files
+		self::clearMemberCache($member_srl);
 
 		return $output;
 	}
@@ -4383,6 +4385,7 @@ class MemberController extends Member
 		Rhymix\Framework\Cache::delete("member:member_info:$member_srl");
 		Rhymix\Framework\Cache::delete("member:member_groups:$member_srl");
 		Rhymix\Framework\Cache::delete("site_and_module:accessible_modules:$member_srl");
+		Rhymix\Framework\Cache::delete("member:profile_image:$member_srl");
 		unset($GLOBALS['__member_info__'][$member_srl]);
 		unset($GLOBALS['__member_groups__'][$member_srl]);
 		unset($GLOBALS['__member_info__']['profile_image'][$member_srl]);
