@@ -29,7 +29,7 @@
     "doctrine/lexer": "1.*",
     "egulias/email-validator": "3.2.*",
     "firebase/php-jwt": "6.4.0",
-    "enshrined/svg-sanitize": "0.*",
+    "enshrined/svg-sanitize": "^1.0",
     "ezyang/htmlpurifier": "4.18.*",
     "google/auth": "1.26.*",
     "guzzlehttp/guzzle": "7.15.*",
