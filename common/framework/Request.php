@@ -43,6 +43,7 @@ class Request
 	 */
 	protected $_route_status = 200;
 	protected $_route_options;
+	public $lang = '';
 	public $module = '';
 	public $mid = '';
 	public $act = '';

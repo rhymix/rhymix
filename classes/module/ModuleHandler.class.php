@@ -242,7 +242,12 @@ class ModuleHandler extends Handler
 		if(!$site_module_info->index_document_srl && $this->method === 'GET' && isset($this->route->args['mid']) && $this->route->args['mid'] === $site_module_info->mid && count($this->route->args) === 1)
 		{
 			Context::setCacheControl(0);
-			header('Location: ' . getNotEncodedSiteUrl($site_module_info->domain), true, 301);
+			$redirect_url = getNotEncodedSiteUrl($site_module_info->domain);
+			if ($this->route->lang && $this->route->lang !== Rhymix\Framework\Config::get('locale.default_lang'))
+			{
+				$redirect_url .= $this->route->lang . '/';
+			}
+			header('Location: ' . $redirect_url, true, 301);
 			return false;
 		}
 

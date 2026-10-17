@@ -2,6 +2,11 @@
 
 class RouterTest extends \Codeception\Test\Unit
 {
+	public function _before()
+	{
+		Rhymix\Framework\Config::set('url.lang_prefixes', false);
+	}
+
     public function testGetRewriteLevel()
     {
         Rhymix\Framework\Config::set('url.rewrite', null);
@@ -117,5 +122,41 @@ class RouterTest extends \Codeception\Test\Unit
         $args = array('module' => 'board', 'act' => 'procBoardInsertDocument');
         $this->assertEquals($args, Rhymix\Framework\Router::parseURL('POST', '_board/procBoardInsertDocument', 2)->args);
         $this->assertEquals('board', Rhymix\Framework\Router::parseURL('POST', '_board/procBoardInsertDocument', 2)->module);
+	}
+
+	public function testLangPrefixUrl()
+	{
+		Rhymix\Framework\Config::set('url.lang_prefixes', true);
+		Rhymix\Framework\Config::set('locale.default_lang', 'ko');
+		Rhymix\Framework\Config::set('locale.enabled_lang', ['ko', 'en', 'ja', 'zh-CN']);
+
+		// Parse URL with language prefix.
+        $args = array('mid' => 'board', 'act' => 'dispBoardWrite');
+        $this->assertEquals($args, Rhymix\Framework\Router::parseURL('GET', 'en/board/write', 2)->args);
+        $this->assertEquals('board', Rhymix\Framework\Router::parseURL('GET', 'en/board/write', 2)->mid);
+		$this->assertEquals('ko', Rhymix\Framework\Router::parseURL('GET', 'board/write', 2)->lang);
+		$this->assertEquals('ko', Rhymix\Framework\Router::parseURL('GET', 'ko/board/write', 2)->lang);
+        $this->assertEquals('ja', Rhymix\Framework\Router::parseURL('GET', 'ja/board/write', 2)->lang);
+        $this->assertEquals('zh-CN', Rhymix\Framework\Router::parseURL('GET', 'zh-CN/board/write', 2)->lang);
+
+		// Fail to parse URL if default language is given in URL.
+		$this->assertEquals('', Rhymix\Framework\Router::parseURL('GET', 'ko/board/write', 2)->mid);
+
+		// Fail to parse URL if the rewrite level is less than 2.
+		$this->assertEquals('', Rhymix\Framework\Router::parseURL('GET', 'zh-CN/board/write', 1)->mid);
+		$this->assertEquals('', Rhymix\Framework\Router::parseURL('GET', 'zh-CN/board/write', 1)->lang);
+
+		// Generate URL with language prefix.
+        $args = array('mid' => 'board', 'act' => 'dispBoardWrite', 'document_srl' => 123);
+        $this->assertEquals('board/123/edit', Rhymix\Framework\Router::getURL($args, 2, ''));
+		$this->assertEquals('en/board/123/edit', Rhymix\Framework\Router::getURL($args, 2, 'en'));
+
+		// Router doesn't care if the prefix given is the default language or an unknown language. This is handled in Context::getUrl().
+		$this->assertEquals('ko/board/123/edit', Rhymix\Framework\Router::getURL($args, 2, 'ko'));
+		$this->assertEquals('xx/board/123/edit', Rhymix\Framework\Router::getURL($args, 2, 'xx'));
+
+		// Router ignores the language prefix if the rewrite level is less than 2.
+		$this->assertEquals('index.php?mid=board&act=dispBoardWrite&document_srl=123', Rhymix\Framework\Router::getURL($args, 1, 'ja'));
+		$this->assertEquals('index.php?mid=board&act=dispBoardWrite&document_srl=123', Rhymix\Framework\Router::getURL($args, 0, 'zh-CN'));
 	}
 }

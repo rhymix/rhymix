@@ -96,6 +96,7 @@ class Advanced extends Base
 		Context::set('selected_timezone', Config::get('locale.default_timezone'));
 
 		// Other settings
+		Context::set('lang_prefix_url', Config::get('url.lang_prefixes') ? true : false);
 		Context::set('use_rewrite', Router::getRewriteLevel());
 		Context::set('use_mobile_view', (config('mobile.enabled') !== null ? config('mobile.enabled') : config('use_mobile_view')) ? true : false);
 		Context::set('tablets_as_mobile', config('mobile.tablets') ? true : false);
@@ -225,6 +226,7 @@ class Advanced extends Base
 		}
 
 		// Other settings
+		Config::set('url.lang_prefixes', $vars->lang_prefix_url === 'Y');
 		Config::set('url.rewrite', intval($vars->use_rewrite));
 		Config::set('use_rewrite', $vars->use_rewrite > 0);
 		Config::set('session.delay', $vars->delay_session === 'Y');

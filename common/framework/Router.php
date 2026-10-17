@@ -148,6 +148,21 @@ class Router
 			return $result;
 		}
 
+		// Check if language-specific URL prefixes are enabled.
+		if ($rewrite_level >= 2 && Config::get('url.lang_prefixes'))
+		{
+			$result->lang = Config::get('locale.default_lang');
+			if (preg_match('#^([a-z]{2}(?:-[A-Z]{2})?)/(.*)$#s', $url, $matches) && $matches[1] !== $result->lang)
+			{
+				$enabled_lang = Config::get('locale.enabled_lang') ?: [];
+				if (in_array($matches[1], $enabled_lang))
+				{
+					$result->lang = $matches[1];
+					$url = $matches[2];
+				}
+			}
+		}
+
 		// Try to detect the prefix. This might be $mid.
 		$prefix_regexp = config('url.prefixes.regexp') ?: '#^([a-z0-9_-]+)(?:/(.*))?$#is';
 		if ($rewrite_level >= 2 && preg_match($prefix_regexp, $url, $matches) && !isset(self::$_except_prefixes[$matches[1]]))
@@ -320,14 +335,25 @@ class Router
 	 *
 	 * @param array $args
 	 * @param int $rewrite_level
+	 * @param string $lang_prefix
 	 * @return string
 	 */
-	public static function getURL(array $args, int $rewrite_level): string
+	public static function getURL(array $args, int $rewrite_level, string $lang_prefix = ''): string
 	{
+		// Apply the lang prefix.
+		if ($rewrite_level >= 2 && $lang_prefix !== '')
+		{
+			$lang_prefix = $lang_prefix . '/';
+		}
+		else
+		{
+			$lang_prefix = '';
+		}
+
 		// If rewrite is turned off, just create a query string.
 		if ($rewrite_level == 0)
 		{
-			return 'index.php?' . http_build_query($args);
+			return $lang_prefix . 'index.php?' . http_build_query($args);
 		}
 
 		// Cache the number of arguments and their keys.
@@ -337,13 +363,13 @@ class Router
 		// If there are no arguments, return the URL of the main page.
 		if ($count == 0)
 		{
-			return '';
+			return $lang_prefix;
 		}
 
 		// If there is only one argument, try either $mid or $document_srl.
 		if ($rewrite_level >= 1 && $count == 1 && ($keys[0] === 'mid' || $keys[0] === 'document_srl'))
 		{
-			return strtr(urlencode($args[$keys[0]]), ['%2F' => '/']);
+			return $lang_prefix . strtr(urlencode($args[$keys[0]]), ['%2F' => '/']);
 		}
 
 		// If the list of keys is already cached, return the corresponding route.
@@ -351,7 +377,7 @@ class Router
 		$keys_string = implode('.', $keys_sorted) . ':' . ($args['mid'] ?? '') . ':' . ($args['act'] ?? '');
 		if (isset(self::$_route_cache[$rewrite_level][$keys_string]))
 		{
-			return self::_insertRouteVars(self::$_route_cache[$rewrite_level][$keys_string], $args);
+			return $lang_prefix . self::_insertRouteVars(self::$_route_cache[$rewrite_level][$keys_string], $args);
 		}
 
 		// Remove $module, $mid and $act from arguments and work with the remainder.
@@ -365,13 +391,13 @@ class Router
 			{
 				$action_info = self::_getActionInfoByPrefix($args['mid']);
 				$prefix_type = 'mid';
-				$prefix_string = $args['mid'];
+				$prefix_string = $lang_prefix . $args['mid'];
 			}
 			else
 			{
 				$action_info = self::_getActionInfoByModule($args['module']);
 				$prefix_type = 'module';
-				$prefix_string = '_' . $args['module'];
+				$prefix_string = $lang_prefix . '_' . $args['module'];
 			}
 
 			// If there is no $act, use the default action.
@@ -437,7 +463,7 @@ class Router
 				if ($result !== false)
 				{
 					self::$_route_cache[$rewrite_level][$keys_string] = $result . '$act:delete';
-					return self::_insertRouteVars($result, $args2);
+					return $lang_prefix . self::_insertRouteVars($result, $args2);
 				}
 			}
 		}
@@ -451,14 +477,14 @@ class Router
 				if ($result !== false)
 				{
 					self::$_route_cache[$rewrite_level][$keys_string] = $result;
-					return self::_insertRouteVars($result, $args);
+					return $lang_prefix . self::_insertRouteVars($result, $args);
 				}
 			}
 		}
 
 		// If no route matches, just create a query string.
 		self::$_route_cache[$rewrite_level][$keys_string] = 'index.php';
-		return 'index.php?' . http_build_query($args);
+		return $lang_prefix . 'index.php?' . http_build_query($args);
 	}
 
 	/**

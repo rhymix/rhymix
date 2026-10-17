@@ -280,7 +280,7 @@ class Context
 		{
 			$lang_type = $site_module_info->settings->language;
 		}
-		elseif ($lang_type = self::get('l'))
+		elseif ($lang_type = self::$_current_request->lang !== '' ? self::$_current_request->lang : self::get('l'))
 		{
 			if($_COOKIE['lang_type'] !== $lang_type)
 			{
@@ -1769,11 +1769,11 @@ class Context
 		static $current_domain = null;
 		static $site_module_info = null;
 		static $rewrite_level = null;
+		static $lang_prefix = null;
 		if ($rewrite_level === null)
 		{
 			$rewrite_level = Rhymix\Framework\Router::getRewriteLevel();
 		}
-
 		if ($site_module_info === null)
 		{
 			$site_module_info = self::get('site_module_info');
@@ -1781,6 +1781,21 @@ class Context
 		if ($current_domain === null)
 		{
 			$current_domain = parse_url(Rhymix\Framework\URL::getCurrentDomainURL(), PHP_URL_HOST);
+		}
+		if ($lang_prefix === null)
+		{
+			if (Rhymix\Framework\Config::get('locale.default_lang'))
+			{
+				$lang_prefix = self::getLangType();
+				if ($lang_prefix === Rhymix\Framework\Config::get('locale.default_lang'))
+				{
+					$lang_prefix = '';
+				}
+			}
+			else
+			{
+				$lang_prefix = '';
+			}
 		}
 
 		// Find the canonical form of the domain.
@@ -1900,7 +1915,7 @@ class Context
 		$query = '';
 		if(count($get_vars) > 0)
 		{
-			$query = Rhymix\Framework\Router::getURL($get_vars, $force_rewrite_level ?: $rewrite_level);
+			$query = Rhymix\Framework\Router::getURL($get_vars, $force_rewrite_level ?: $rewrite_level, $lang_prefix);
 		}
 
 		// If using SSL always
