@@ -3147,16 +3147,16 @@ class DocumentController extends Document
 			$xml_body_buff
 		);
 		// Create php cache file
-		$php_header_buff = '$_titles = array();';
-		$php_header_buff .= '$_descriptions = array();';
+		$php_header_buff = '$_titles = array();' . "\n";
+		$php_header_buff .= '$_descriptions = array();' . "\n";
 		$php_output = $this->getPhpCacheCode($tree[0], $tree, 0, $php_header_buff);
 		$php_buff = sprintf(
 			'<?php '.
-			'if(!defined("__XE__")) exit(); '.
+			'if(!defined("__XE__")) exit(); ' . "\n".
 			'%s'.
 			'%s'.
-			'$menu = new stdClass;'.
-			'$menu->list = array(%s); ',
+			'$menu = new stdClass; ' . "\n".
+			'$menu->list = array(%s); ' . "\n",
 			$header_script,
 			$php_header_buff,
 			$php_output['buff']
@@ -3305,11 +3305,11 @@ class DocumentController extends Document
 				{
 					$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					$php_header_buff .= sprintf(
-						'$_titles[%d][%s] = %s; ',
+						'$_titles[%d][%s] = %s;',
 						$category_srl,
 						var_export($key, true),
 						var_export($val, true)
-					);
+					) . "\n";
 				}
 			}
 
@@ -3321,17 +3321,22 @@ class DocumentController extends Document
 				{
 					$val = htmlspecialchars($val, ENT_COMPAT | ENT_HTML401, 'UTF-8', false);
 					$php_header_buff .= sprintf(
-						'$_descriptions[%d][%s] = %s; ',
+						'$_descriptions[%d][%s] = %s;',
 						$category_srl,
 						var_export($key, true),
 						var_export($val, true)
-					);
+					) . "\n";
 				}
 			}
 
 			// Create attributes(Use the category_srl_list to check whether to belong to the menu's node. It seems to be tricky but fast fast and powerful;)
-			$attribute = sprintf(
-				'"mid" => "%s", "module_srl" => "%d","node_srl"=>"%d","category_srl"=>"%d","parent_srl"=>"%d","text"=>$_titles[%d][$lang_type],"selected"=>(in_array(Context::get("category"),array(%s))?1:0),"expand"=>%s,"is_default"=>%s,"color"=>%s,"description"=>$_descriptions[%d][$lang_type],"list"=>array(%s),"document_count"=>"%d","grant"=>%s?true:false',
+			$attribute = sprintf("\n" .
+				'  "mid" => "%s", "module_srl" => "%d", "node_srl" => "%d", "category_srl" => "%d", "parent_srl" => "%d",' . "\n" .
+				'  "text" => $_titles[%d][$lang_type], "selected" => (in_array(Context::get("category"),array(%s))?1:0),' . "\n" .
+				'  "expand" => %s, "is_default" => %s, "color" => %s, "description" => $_descriptions[%d][$lang_type] ?? "",' . "\n" .
+				'  "list" => array(%s),' . "\n" .
+				'  "document_count" => "%d",' . "\n" .
+				'  "grant" => %s?true:false',
 				$node->mid,
 				$node->module_srl,
 				$node->category_srl,
@@ -3343,13 +3348,13 @@ class DocumentController extends Document
 				var_export($is_default, true),
 				var_export($node->color, true),
 				$node->category_srl,
-				$child_buff,
+				trim($child_buff),
 				$node->document_count,
 				$group_check_code
 			);
 
 			// Generate buff data
-			$output['buff'] .=  sprintf('%s=>array(%s),', $node->category_srl, $attribute);
+			$output['buff'] .=  sprintf("%s => array(%s\n),\n", $node->category_srl, $attribute);
 		}
 
 		return $output;
