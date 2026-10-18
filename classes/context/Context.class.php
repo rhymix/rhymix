@@ -1571,7 +1571,7 @@ class Context
 						$_val = strtr($_val, array('&amp;' => '&'));
 					}
 				}
-				elseif(in_array($key, ['success_return_url', 'error_return_url']))
+				elseif(in_array($key, ['success_return_url', 'error_return_url']) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
 				{
 					if (!Rhymix\Framework\URL::isInternalURL($_val))
 					{
