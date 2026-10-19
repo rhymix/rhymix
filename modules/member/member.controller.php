@@ -3302,42 +3302,22 @@ class MemberController extends Member
 		if($logged_info->is_admin !== 'Y' && $logged_info->email_address !== $args->email_address && MemberModel::isDeniedEmailHost($args->email_address))
 		{
 			$emailhost_check = $config->emailhost_check;
-
 			$managed_email_host = lang('managed_email_host');
 			$email_hosts = MemberModel::getManagedEmailHosts();
-			foreach ($email_hosts as $host)
-			{
-				$hosts[] = $host->email_host;
-			}
-			$message = sprintf($managed_email_host[$emailhost_check],implode(', ',$hosts),'id@'.implode(', id@',$hosts));
+			$hosts = array_map(function($host) { return $host->email_host; }, $email_hosts);
+			$message = sprintf($managed_email_host[$emailhost_check], implode(', ', $hosts), 'id@' . implode(', id@', $hosts));
 			return new BaseObject(-1, $message);
 		}
 
-		// Check if email address or user ID is duplicate
+		// Prevent changes to user ID and confirmed email address for non-admins
 		$identifiers = $config->identifiers ?? [$config->identifier];
-		if(in_array('email_address', $identifiers))
+		if (isset($config->enable_confirm) && $config->enable_confirm === 'Y' && $logged_info->is_admin !== 'Y')
 		{
-			$member_srl = MemberModel::getMemberSrlByEmailAddress($args->email_address);
-			if($member_srl && $args->member_srl != $member_srl)
-			{
-				return new BaseObject(-1, 'msg_exists_email_address');
-			}
-			if($logged_info->is_admin !== 'Y')
-			{
-				$args->email_address = $orgMemberInfo->email_address;
-			}
+			$args->email_address = $orgMemberInfo->email_address;
 		}
-		if(in_array('user_id', $identifiers))
+		if (in_array('user_id', $identifiers) && $logged_info->is_admin !== 'Y')
 		{
-			$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
-			if($member_srl && $args->member_srl != $member_srl)
-			{
-				return new BaseObject(-1, 'msg_exists_user_id');
-			}
-			if($logged_info->is_admin !== 'Y')
-			{
-				$args->user_id = $orgMemberInfo->user_id;
-			}
+			$args->user_id = $orgMemberInfo->user_id;
 		}
 
 		// Check if phone number is duplicate
@@ -3362,8 +3342,8 @@ class MemberController extends Member
 		// Check if ID is duplicate
 		if($args->user_id)
 		{
-			$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
-			if($member_srl && $args->member_srl != $member_srl)
+			$test_member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
+			if($test_member_srl && $args->member_srl != $test_member_srl)
 			{
 				return new BaseObject(-1, 'msg_exists_user_id');
 			}
@@ -3386,6 +3366,13 @@ class MemberController extends Member
 		}
 
 		list($args->email_id, $args->email_host) = explode('@', $args->email_address);
+
+		// Check if email address is duplicate
+		$test_member_srl = MemberModel::getMemberSrlByEmailAddress($args->email_address);
+		if($test_member_srl && $args->member_srl != $test_member_srl)
+		{
+			return new BaseObject(-1, 'msg_exists_email_address');
+		}
 
 		// Check password strength
 		if($args->password)
