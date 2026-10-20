@@ -166,17 +166,25 @@ class Package
 		{
 			return false;
 		}
-		if (!empty($this->extra_vars->install_env->core_max) && version_compare(\RX_VERSION, $this->extra_vars->install_env->core_max, '>'))
+		if (!empty($this->extra_vars->install_env->core_max))
 		{
-			return false;
+			$core_max = $this->extra_vars->install_env->core_max . '.999';
+			if (version_compare(\RX_VERSION, $core_max, '>'))
+			{
+				return false;
+			}
 		}
 		if (!empty($this->extra_vars->install_env->php_min) && version_compare(\PHP_VERSION, $this->extra_vars->install_env->php_min, '<'))
 		{
 			return false;
 		}
-		if (!empty($this->extra_vars->install_env->php_max) && version_compare(\PHP_VERSION, $this->extra_vars->install_env->php_max, '>'))
+		if (!empty($this->extra_vars->install_env->php_max))
 		{
-			return false;
+			$php_max = $this->extra_vars->install_env->php_max . '.999';
+			if (version_compare(\PHP_VERSION, $php_max, '>'))
+			{
+				return false;
+			}
 		}
 		if (!class_exists('ZipArchive'))
 		{
