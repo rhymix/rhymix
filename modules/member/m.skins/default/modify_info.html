@@ -28,8 +28,7 @@
 		<ul>
 			<li cond="$identifierForm->name !== 'phone_number'">
 				<label for="identifierForm">{$identifierForm->title} <em style="color:red">*</em></label>
-				<input id="identifierForm" type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" disabled="disabled" />
-				<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
+				<input id="identifierForm" type="text" name="{$identifierForm->name}" value="{$identifierForm->value}" readonly="readonly" />
 			</li>
 			<li loop="$formTags=>$formTag">
 				<label for="{$formTag->name}">{$formTag->title}</label>

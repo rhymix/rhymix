@@ -318,9 +318,12 @@ class ResponseTest extends \Codeception\Test\Unit
 		$target_html = preg_replace('/\t+/', '', $target_html);
 		$content = implode('', iterator_to_array($r->render()));
 		$this->assertEquals($target_html, $content);
+		$this->assertEquals(200, $r->getStatusCode());
 
-		// Success case
-		$r->setVars(['error' => 0, 'redirect_url' => 'https://rhymix.org']);
+		// Valid redirect case
+		$redirect_url = Context::getRequestUri() . 'foo/bar#baz';
+		$r->setVars(['error' => 0, 'redirect_url' => $redirect_url]);
+		$redirect_url = json_encode(str_replace('#baz', '', $redirect_url));
 
 		$target_html = <<<HTML
 			<!DOCTYPE html>
@@ -329,9 +332,34 @@ class ResponseTest extends \Codeception\Test\Unit
 			<body>
 			<script>
 				if (opener) {
-					opener.location.href = "https:\/\/rhymix.org";
+					opener.location.href = {$redirect_url};
 				} else {
-					parent.location.href = "https:\/\/rhymix.org";
+					parent.location.href = {$redirect_url};
+				}
+			</script>
+			</body>
+			</html>
+		HTML;
+
+		$target_html = preg_replace('/\t+/', '', $target_html);
+		$content = implode('', iterator_to_array($r->render()));
+		$content = preg_replace('/  /', '', $content);
+		$this->assertEquals($target_html, $content);
+
+		// Invalid redirect URL case
+		$r->setVars(['error' => 0, 'redirect_url' => 'https://external-site.com/foo.php']);
+		$default_url = json_encode(Context::getRequestUri());
+
+		$target_html = <<<HTML
+			<!DOCTYPE html>
+			<html>
+			<head><title></title></head>
+			<body>
+			<script>
+				if (opener) {
+					opener.location.href = {$default_url};
+				} else {
+					parent.location.href = {$default_url};
 				}
 			</script>
 			</body>

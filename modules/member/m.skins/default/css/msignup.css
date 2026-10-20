@@ -39,6 +39,8 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff input[type=email],
 .ff input[type=url],
 .ff input[type=password],
+.ff input[type=tel],
+.ff input[type=number],
 .ff textarea,
 .ff select,
 .ff select+input[type=text],
@@ -49,18 +51,22 @@ input[type=radio]{width:13px;height:13px;margin:0;padding:0}
 .ff input[type=email],
 .ff input[type=url],
 .ff input[type=password],
+.ff input[type=tel],
+.ff input[type=number],
+.ff input[type=date],
 .ff textarea,
 .ff select+input[type=text],
 .ff select+input[type=email],
 .ff select+input[type=url],
 .ff .inputText,
-.ff .tel input[type=text]{padding:5px}
+.ff .tel input[type=text]{font-size:14px;margin:0 0 5px 0;padding:5px}
 .ff .krZip input[type=text]{width:77%;font-size:14px;margin:0 0 5px 0;padding:5px}
+.ff input[readonly] { opacity: 0.5; }
 /* Button Area */
 .bna{text-align:center;padding:0 10px;margin:10px 0}
 .bna:after{content:"";display:block;clear:both}
 .bn{display:inline-block;line-height:26px !important;padding:0 10px;font-size:12px;font-weight:bold;border:1px solid;text-decoration:none;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;cursor:pointer;vertical-align:middle}
-.bn[type=submit], 
+.bn[type=submit],
 .bn[type=button]{height:28px}
 .bn[href]{height:26px}
 .bn{border-color:#b5b5b5;background:-webkit-linear-gradient(top,#fff,#f0f0f0 50%,#e4e4e4 50%,#f6f6f6);background:-moz-linear-gradient(top,#fff,#f0f0f0 50%,#e4e4e4 50%,#f6f6f6);background:-o-linear-gradient(top,#fff,#f0f0f0 50%,#e4e4e4 50%,#f6f6f6);background:-ms-linear-gradient(top,#fff,#f0f0f0 50%,#e4e4e4 50%,#f6f6f6);background:linear-gradient(top,#fff,#f0f0f0 50%,#e4e4e4 50%,#f6f6f6);background-color:#fff;color:#000}

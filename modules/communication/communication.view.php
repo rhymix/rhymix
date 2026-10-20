@@ -63,52 +63,33 @@ class CommunicationView extends communication
 		{
 			$columnList = array('message_srl', 'message_type', 'related_srl', 'sender_srl', 'receiver_srl', 'title', 'content', 'readed', 'regdate');
 			$message = $oCommunicationModel->getSelectedMessage($message_srl, $columnList);
-
-			switch($message->message_type)
+			if (!$message)
 			{
-				case 'R':
-					if($message->receiver_srl != $logged_info->member_srl)
-					{
-						throw new Rhymix\Framework\Exceptions\TargetNotFound;
-					}
-					break;
-
-				case 'S':
-					if($message->sender_srl != $logged_info->member_srl)
-					{
-						throw new Rhymix\Framework\Exceptions\TargetNotFound;
-					}
-					break;
-
-				case 'T':
-					if($message->receiver_srl != $logged_info->member_srl && $message->sender_srl != $logged_info->member_srl)
-					{
-						throw new Rhymix\Framework\Exceptions\TargetNotFound;
-					}
-					break;
-
-				case 'N':
-					if($message->receiver_srl != $logged_info->member_srl)
-					{
-						throw new Rhymix\Framework\Exceptions\TargetNotFound;
-					}
-					break;
+				throw new Rhymix\Framework\Exceptions\TargetNotFound;
 			}
 
-			if($message->message_srl == $message_srl && ($message->receiver_srl == $logged_info->member_srl || $message->sender_srl == $logged_info->member_srl))
+			if ($message->message_type === 'S')
 			{
-				stripEmbedTagForAdmin($message->content, $message->sender_srl);
-				Context::set('message', $message);
-				Context::set('message_files', CommunicationModel::getMessageFiles($message));
-
-				if(Mobile::isFromMobilePhone() && file_exists($this->getTemplatePath() . 'read_message.html'))
+				if ($message->sender_srl != $logged_info->member_srl)
 				{
-					$template_filename = 'read_message';
+					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
 			}
 			else
 			{
-				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+				if ($message->receiver_srl != $logged_info->member_srl)
+				{
+					throw new Rhymix\Framework\Exceptions\TargetNotFound;
+				}
+			}
+
+			stripEmbedTagForAdmin($message->content, $message->sender_srl);
+			Context::set('message', $message);
+			Context::set('message_files', CommunicationModel::getMessageFiles($message));
+
+			if (Mobile::isFromMobilePhone() && file_exists($this->getTemplatePath() . 'read_message.html'))
+			{
+				$template_filename = 'read_message';
 			}
 		}
 

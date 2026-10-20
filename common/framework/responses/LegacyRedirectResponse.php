@@ -3,6 +3,7 @@
 namespace Rhymix\Framework\Responses;
 
 use Rhymix\Framework\AbstractResponse;
+use Rhymix\Framework\URL;
 use Context;
 
 /**
@@ -38,6 +39,10 @@ class LegacyRedirectResponse extends AbstractResponse
 		else
 		{
 			$redirect_url = $this->_vars['redirect_url'] ?? Context::get('xeRequestURI');
+			if (!URL::isInternalURL($redirect_url))
+			{
+				$redirect_url = Context::getRequestUri();
+			}
 			$redirect_url = json_encode(preg_replace('/#(.+)$/', '', strval($redirect_url)));
 
 			yield "if (opener) {\n";

@@ -22,7 +22,6 @@
 	<div class="control-group" cond="$identifierForm->name !== 'phone_number'">
 		<label for="{$identifierForm->name}" class="control-label"><em style="color:red">*</em> {$identifierForm->title}</label>
 		<div class="controls">
-			<input type="hidden" name="{$identifierForm->name}" value="{$identifierForm->value}" />
 			<input type="text" name="{$identifierForm->name}" id="{$identifierForm->name}" value="{$identifierForm->value}" readonly="readonly" />
 		</div>
 	</div>
