@@ -106,16 +106,8 @@ class CommentView extends Comment
 	 */
 	function dispCommentDeclare()
 	{
-		$this->setLayoutFile('popup_layout');
-		$comment_srl = Context::get('target_srl');
-
-		// A message appears if the user is not logged-in
-		if(!$this->user->member_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\MustLogin;
-		}
-
 		// Creates an object for displaying the selected comment
+		$comment_srl = Context::get('target_srl');
 		$oComment = CommentModel::getComment($comment_srl);
 		if(!$oComment->isExists())
 		{
@@ -129,8 +121,10 @@ class CommentView extends Comment
 
 		// Browser title settings
 		Context::set('target_comment', $oComment);
-
 		Context::set('target_srl', $comment_srl);
+
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile('popup_layout');
 
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('declare_comment');

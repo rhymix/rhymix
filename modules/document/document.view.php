@@ -226,13 +226,6 @@ class DocumentView extends Document
 	 */
 	function dispTempSavedList()
 	{
-		$this->setLayoutFile('popup_layout');
-
-		// A message appears if the user is not logged-in
-		if(!$this->user->member_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\MustLogin;
-		}
 		// Get the saved document (module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
@@ -248,6 +241,9 @@ class DocumentView extends Document
 		Context::set('document_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
 
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile('popup_layout');
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('saved_list_popup');
 	}
@@ -258,16 +254,8 @@ class DocumentView extends Document
 	 */
 	function dispDocumentDeclare()
 	{
-		$this->setLayoutFile('popup_layout');
-		$document_srl = Context::get('target_srl');
-
-		// A message appears if the user is not logged-in
-		if(!$this->user->member_srl)
-		{
-			throw new Rhymix\Framework\Exceptions\MustLogin;
-		}
-
 		// Creates an object for displaying the selected document
+		$document_srl = Context::get('target_srl');
 		$oDocument = DocumentModel::getDocument($document_srl, false, false);
 		if(!$oDocument->isExists())
 		{
@@ -281,8 +269,10 @@ class DocumentView extends Document
 
 		// Browser title settings
 		Context::set('target_document', $oDocument);
-
 		Context::set('target_srl', $document_srl);
+
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile('popup_layout');
 
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('declare_document');
