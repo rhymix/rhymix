@@ -165,9 +165,8 @@ class PollAdminView extends Poll
 			$tmp->item[] = $val;
 		}
 
-		$poll->poll_srl = $poll_srl;
-
 		Context::set('poll',$poll);
+
 		// Configure the skin and the colorset for the default configuration
 		$oModuleModel = getModel('module');
 		$poll_config = $oModuleModel->getModuleConfig('poll');

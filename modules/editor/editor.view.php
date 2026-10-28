@@ -77,6 +77,7 @@ class EditorView extends Editor
 		if(!$oComponent->toBool())
 		{
 			Context::set('message', sprintf($oComponent->getMessage(), $component));
+			$this->setLayoutPath('./common/tpl');
 			$this->setLayoutFile('popup_layout');
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('component_not_founded');
@@ -86,9 +87,8 @@ class EditorView extends Editor
 			// Get the result after executing a method to display popup url of the component
 			$popup_content = $oComponent->getPopupContent();
 			Context::set('popup_content', $popup_content);
-			// Set layout to popup_layout
+			$this->setLayoutPath('./common/tpl');
 			$this->setLayoutFile('popup_layout');
-			// Set a template
 			$this->setTemplatePath($this->module_path.'tpl');
 			$this->setTemplateFile('popup');
 		}
@@ -114,9 +114,11 @@ class EditorView extends Editor
 
 		Context::set('component', $component);
 
+		$this->setLayoutPath('./common/tpl');
+		$this->setLayoutFile("popup_layout");
+
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('view_component');
-		$this->setLayoutFile("popup_layout");
 	}
 
 	/**
