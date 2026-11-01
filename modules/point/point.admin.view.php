@@ -68,17 +68,20 @@ class PointAdminView extends Point
 		// Get a list of mid
 		$columnList = array('module_srl', 'mid', 'browser_title', 'module');
 		$mid_list = ModuleModel::getMidList(null, $columnList);
+		$mid_list = array_filter($mid_list, function($item) {
+			return $item->module !== 'page';
+		});
+		Context::set('mid_list', $mid_list);
 
-		foreach($mid_list as $mid => $item)
+		$module_config = ModuleModel::getModulePartConfigs('point');
+		foreach ($module_config as $module_srl => $config)
 		{
-			if($item->module === 'page')
+			if (is_object($config))
 			{
-				unset($mid_list[$mid]);
+				$module_config[$module_srl] = get_object_vars($config);
 			}
 		}
-
-		Context::set('mid_list', $mid_list);
-		Context::set('module_config', ModuleModel::getModulePartConfigs('point'));
+		Context::set('module_config', $module_config);
 
 		//Security
 		$security = new Security();
