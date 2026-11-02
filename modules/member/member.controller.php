@@ -2080,9 +2080,7 @@ class MemberController extends Member
 		$email_address = Context::get('email_address');
 		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
 
-		// Log test by using email_address
-		$args = new stdClass;
-		$args->email_address = $email_address;
+		// Look up the member by email address
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl)
 		{
@@ -2099,77 +2097,37 @@ class MemberController extends Member
 			throw new Rhymix\Framework\Exception('msg_activation_not_needed');
 		}
 
-		$member_config = ModuleModel::getModuleConfig('member');
-		if(!$member_config->skin) $member_config->skin = "default";
-		if(!$member_config->colorset) $member_config->colorset = "white";
-
-		// Check if a authentication mail has been sent previously
-		$chk_args = new stdClass;
-		$chk_args->member_srl = $member_info->member_srl;
-		$output = executeQuery('member.chkAuthMail', $chk_args);
-		if($output->toBool() && $output->data->count == '0')
-		{
-			throw new Rhymix\Framework\Exception('msg_activation_key_not_found');
-		}
-
+		// Issue a signup token even if an administrator removed the previous one.
 		$auth_args = new stdClass;
+		$auth_args->user_id = $member_info->user_id;
 		$auth_args->member_srl = $member_info->member_srl;
-		$output = executeQueryArray('member.getAuthMailInfo', $auth_args);
-		if(!$output->data || !$output->data[0]->auth_key)
+		$auth_args->new_password = '';
+		$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
+		$auth_args->auth_type = 'signup';
+		$auth_args->is_register = 'Y';
+
+		// Invalidate all previous auth tokens before issuing a new signup token.
+		$oDB = DB::getInstance();
+		$oDB->begin();
+		$output = executeQuery('member.deleteAuthMail', [
+			'member_srl' => $member_info->member_srl,
+		]);
+		if(!$output->toBool())
 		{
-			throw new Rhymix\Framework\Exception('msg_activation_key_not_found');
+			$oDB->rollback();
+			return $output;
 		}
-
-		$auth_info = $output->data[0];
-
-		// Update the regdate of authmail entry
-		$renewal_args = new stdClass;
-		$renewal_args->member_srl = $member_info->member_srl;
-		$renewal_args->auth_key = $auth_info->auth_key;
-		$output = executeQuery('member.updateAuthMail', $renewal_args);
-
-		$memberInfo = array();
-		global $lang;
-		if(is_array($member_config->signupForm))
+		$output = executeQuery('member.insertAuthMail', $auth_args);
+		if(!$output->toBool())
 		{
-			$exceptForm=array('password', 'find_account_question');
-			foreach($member_config->signupForm as $form)
-			{
-				if(!in_array($form->name, $exceptForm) && $form->isDefaultForm && ($form->required || $form->mustRequired))
-				{
-					$memberInfo[$lang->{$form->name}] = $member_info->{$form->name};
-				}
-			}
+			$oDB->rollback();
+			return $output;
 		}
-		else
-		{
-			$memberInfo[$lang->user_id] = $member_info->user_id;
-			$memberInfo[$lang->user_name] = $member_info->user_name;
-			$memberInfo[$lang->nick_name] = $member_info->nick_name;
-			$memberInfo[$lang->email_address] = $member_info->email_address;
-		}
+		$oDB->commit();
 
-		// Get content of the email to send a member
-		Context::set('memberInfo', $memberInfo);
-		Context::set('member_config', $member_config);
+		$this->_sendAuthMail($auth_args, $member_info);
 
-		$tpl_path = sprintf('%sskins/%s', $this->module_path, $member_config->skin);
-		if(!is_dir($tpl_path)) $tpl_path = sprintf('%sskins/%s', $this->module_path, 'default');
-
-		$auth_url = self::generateSafeAuthUrl('procMemberAuthAccount', $member_info->member_srl, $auth_info->auth_key);
-		Context::set('auth_url', $auth_url);
-
-		$oTemplate = new Rhymix\Framework\Template($tpl_path, 'confirm_member_account_mail');
-		$content = $oTemplate->compile();
-
-		// Send a mail
-		$oMail = new \Rhymix\Framework\Mail();
-		$oMail->setSubject(lang('msg_confirm_account_title'));
-		$oMail->setBody($content);
-		$oMail->addTo($member_info->email_address, $member_info->nick_name);
-		$oMail->send();
-
-		$msg = sprintf(lang('msg_confirm_mail_sent'), $args->email_address);
+		$msg = sprintf(lang('msg_confirm_mail_sent'), $member_info->email_address);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
@@ -3137,7 +3095,7 @@ class MemberController extends Member
 			$auth_args->member_srl = $args->member_srl;
 			$auth_args->new_password = $args->password;
 			$auth_args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
-			$args->auth_type = 'signup';
+			$auth_args->auth_type = 'signup';
 			$auth_args->is_register = 'Y';
 
 			$output = executeQuery('member.insertAuthMail', $auth_args);
