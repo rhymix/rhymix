@@ -871,7 +871,15 @@ class WidgetController extends Widget
 		$vars->widget_padding_right = trim($request_vars->widget_padding_right);
 		$vars->widget_padding_top = trim($request_vars->widget_padding_top);
 		$vars->widget_padding_bottom = trim($request_vars->widget_padding_bottom);
-		$vars->document_srl= trim($request_vars->document_srl);
+		$vars->document_srl = trim($request_vars->document_srl ?? '');
+		if ($vars->document_srl !== '')
+		{
+			$oDocument = DocumentModel::getDocument($vars->document_srl, false, false);
+			if ($oDocument->isExists() && !$oDocument->isAccessible(true))
+			{
+				$vars->document_srl = '';
+			}
+		}
 
 		foreach ($widget_info->extra_var ?? [] as $key => $val)
 		{
