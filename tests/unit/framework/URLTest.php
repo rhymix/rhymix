@@ -147,6 +147,8 @@ class URLTest extends \Codeception\Test\Unit
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('file:///www.rhymix.org/etc/passwd'));
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('ftp:\\\\www.rhymix.org/'));
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('javascript:alert()'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('jav' . "\t" . 'aScript:alert()'));
+		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('&#106;avascript:alert()'));
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('data:text/html;base64,AAAAAA'));
 		$this->assertFalse(Rhymix\Framework\URL::isInternalURL('mailto:example@example.com'));
 

@@ -106,8 +106,8 @@ class URL
 	public static function isInternalURL(string $url): bool
 	{
 		// Check the scheme.
-		$url = str_replace('\\', '/', $url);
-		if (preg_match('!^([a-zA-Z0-9_-]+):!', $url, $matches))
+		$url = preg_replace('/[\pZ\pC]+/u', '', str_replace('\\', '/', $url));
+		if (preg_match('!^([a-zA-Z0-9&#%;_-]+):!', $url, $matches))
 		{
 			$scheme = strtolower($matches[1]);
 			if (!in_array($scheme, ['http', 'https']))
