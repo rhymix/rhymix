@@ -32,9 +32,12 @@ date_default_timezone_set(@date_default_timezone_get());
  * Set the default character encoding.
  */
 ini_set('default_charset', 'UTF-8');
-if (function_exists('mb_internal_encoding') && function_exists('mb_regex_encoding'))
+if (function_exists('mb_internal_encoding'))
 {
 	mb_internal_encoding('UTF-8');
+}
+if (function_exists('mb_regex_encoding') && PHP_VERSION_ID < 80600)
+{
 	mb_regex_encoding('UTF-8');
 }
 
