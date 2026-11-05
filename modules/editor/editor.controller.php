@@ -276,7 +276,7 @@ class EditorController extends Editor
 
 		if(!isset($xml_obj->attrs->editor_component) || !$xml_obj->attrs->editor_component)
 		{
-			return $match[0];
+			return '<div>' . strip_tags($match[0]) . '</div>';
 		}
 
 		// Get converted codes by using component::transHTML()
@@ -284,7 +284,7 @@ class EditorController extends Editor
 		$oComponent = $oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
 		if(!is_object($oComponent) || !method_exists($oComponent, 'transHTML'))
 		{
-			return $match[0];
+			return '<div>' . strip_tags($match[0]) . '</div>';
 		}
 
 		return $oComponent->transHTML($xml_obj);
