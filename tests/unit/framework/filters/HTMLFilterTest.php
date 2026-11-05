@@ -305,6 +305,23 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$source = '<p data-dangerous=" javascript: xss() ">Hello World</p>';
 		$target = '<p>Hello World</p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		// Potential CSTI
+		$source = '<div editor_component="x" x-init="alert(1)" v-html="alert(1)">Hello World</div>';
+		$target = '<div editor_component="x">Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div editor_component="x" ng-focus="alert(1)" hx-get="alert(1)">Hello World</div>';
+		$target = '<div editor_component="x">Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div data-dangerous=" java' . "\t" . 'Script: xss() ">Hello World</div>';
+		$target = '<div>Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<p><img editor_component="x" data-file-srl="123" src="test.jpg" alt="test" /></p>';
+		$target = '<p><img editor_component="x" data-file-srl="123" src="test.jpg" alt="test" /></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 
 	public function testHTMLFilterFixMediaUrls()
