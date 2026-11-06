@@ -1109,6 +1109,9 @@ window.addEventListener('unhandledrejection', function(event) {
 		if (Rhymix.showAjaxErrors.indexOf('ALL') >= 0 || Rhymix.showAjaxErrors.indexOf(error_xhr.status) >= 0) {
 			alert(error_message.trim() + (error_details ? ("\n\n" + error_details) : ''));
 		}
+		if (event.reason && event.reason.cause && event.reason.cause.redirect_url) {
+			redirect(event.reason.cause.redirect_url);
+		}
 	}
 });
 
