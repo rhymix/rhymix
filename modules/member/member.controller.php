@@ -88,7 +88,7 @@ class MemberController extends Member
 			if($member_info->change_password_date < date ('YmdHis', strtotime ('-' . $limit_date . ' day')))
 			{
 				$msg = sprintf(lang('msg_change_password_date'), $limit_date);
-				$change_password_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyPassword');
+				$change_password_url = getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberModifyPassword', 'required', 'Y');
 				return $this->setRedirectUrl($change_password_url, new BaseObject(-1, $msg));
 			}
 		}
