@@ -68,6 +68,9 @@ var no_text_comment = '{$lang->no_text_comment}';
 						<!--@end-->
 					</a>
 					<!--@end-->
+					<!--@if($oTrashVO->getOriginModule() == 'document' && $oTrashVO->unserializedObject['comment_count'])-->
+						<span class="comment_count">[{$oTrashVO->unserializedObject['comment_count']}]</span>
+					<!--@end-->
 				</td>
 				<td class="nowr"><a href="#popup_menu_area" class="member_{$oTrashVO->unserializedObject['member_srl']}">{$oTrashVO->unserializedObject['nick_name']}</a></td>
 				<td class="nowr">{$oTrashVO->unserializedObject['ipaddress']}</td>
