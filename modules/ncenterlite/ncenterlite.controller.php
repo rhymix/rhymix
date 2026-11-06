@@ -665,7 +665,9 @@ class NcenterliteController extends Ncenterlite
 		$args->target_content = mb_substr(trim(utf8_normalize_spaces(strip_tags($obj->content))), 0, 200, 'UTF-8');
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
-		$args->target_url = getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
+
+		$member_mid = (MemberModel::getMemberConfig()->mid ?? null) ?? (ModuleModel::getDefaultMid()->mid ?? null);
+		$args->target_url = getNotEncodedUrl(['mid' => $member_mid, 'act' => 'dispCommunicationMessages', 'message_srl' => $obj->related_srl]);
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{

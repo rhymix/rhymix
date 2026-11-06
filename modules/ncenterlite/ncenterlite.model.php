@@ -284,7 +284,7 @@ class NcenterliteModel extends Ncenterlite
 		{
 			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
-			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify);
+			$v->url = getUrl(['module' => 'ncenterlite', 'act' => 'procNcenterliteRedirect', 'notify' => $v->notify]);
 			if (isset($v->data))
 			{
 				$v->data = is_string($v->data) ? unserialize($v->data) : $v->data;

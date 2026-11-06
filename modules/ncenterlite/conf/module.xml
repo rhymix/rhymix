@@ -12,7 +12,7 @@
 
 		<action name="procNcenterliteUserConfig" type="controller" permission="member" />
 		<action name="procNcenterliteNotifyReadAll" type="controller" permission="member" />
-		<action name="procNcenterliteRedirect" type="controller" permission="member" method="GET|POST" />
+		<action name="procNcenterliteRedirect" type="controller" permission="member" method="GET|POST" route="redirect/$notify" />
 		<action name="procNcenterliteInsertUnsubscribe" type="controller" />
 
 		<action name="dispNcenterliteAdminConfig" type="view" admin_index="true" menu_name="ncenterlite" menu_index="true" />
