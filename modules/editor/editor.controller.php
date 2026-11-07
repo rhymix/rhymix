@@ -313,6 +313,14 @@ class EditorController extends Editor
 		{
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
+		if ($module_info->module === 'page' && !$grant->can('config:*'))
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		if ($module_info->module === 'member')
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
 
 		// Set information to identify the author
 		if ($logged_info && $logged_info->member_srl)
