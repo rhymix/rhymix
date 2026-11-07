@@ -1,7 +1,8 @@
 <table name="editor_autosave">
+	<column name="id" type="number" primary_key="primary_key" auto_increment="auto_increment" />
+    <column name="module_srl" type="number" index="idx_module_srl" />
     <column name="member_srl" type="number" default="0" index="idx_member_srl" />
     <column name="ipaddress" type="varchar" size="60" index="idx_ipaddress" />
-    <column name="module_srl" type="number" index="idx_module_srl" />
     <column name="document_srl" type="number" default="0" notnull="notnull" />
     <column name="title" type="varchar" size="250" />
     <column name="content" type="bigtext" notnull="notnull" />
