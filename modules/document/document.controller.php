@@ -3477,6 +3477,8 @@ class DocumentController extends Document
 		$obj->target_category_srl = intval(Context::get('target_category_srl'));
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = Context::get('send_message') ?? 'default';
+		$obj->deny_authors = toBool(Context::get('deny_authors'));
+		$obj->deny_ips = toBool(Context::get('deny_ips'));
 		$obj->return_message = '';
 		if (Context::get('send_default_message') === 'Y')
 		{
@@ -3651,6 +3653,45 @@ class DocumentController extends Document
 			}
 		}
 
+		// Deny authors and IPs
+		if ($obj->deny_authors)
+		{
+			$member_list = [];
+			foreach ($obj->document_list as $document_srl => $oDocument)
+			{
+				$member_srl = abs($oDocument->get('member_srl'));
+				if ($member_srl)
+				{
+					$member_list[] = $member_srl;
+				}
+			}
+			$member_list = array_unique($member_list);
+			foreach ($member_list as $member_srl)
+			{
+				$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+				if ($member_info && $member_info->is_admin !== 'Y')
+				{
+					executeQuery('member.updateMemberStatus', ['member_srl' => $member_srl, 'denied' => 'Y', 'status' => 'DENIED']);
+					MemberController::clearMemberCache($member_srl);
+				}
+			}
+		}
+		if ($obj->deny_ips)
+		{
+			$ip_list = [];
+			foreach ($obj->document_list as $document_srl => $oDocument)
+			{
+				$ip = $oDocument->get('ipaddress');
+				if ($ip)
+				{
+					$ip_list[] = $ip;
+				}
+			}
+			$ip_list = array_unique($ip_list);
+			$oSpamfilterController = SpamfilterController::getInstance();
+			$oSpamfilterController->insertIP($ip_list);
+		}
+
 		$_SESSION['document_management'] = array();
 
 		$this->setMessage($obj->return_message);
@@ -3809,12 +3850,17 @@ class DocumentController extends Document
 		}
 
 		$documentSrls = Context::get('document_srls');
-		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
+		$documentSrlList = $documentSrls ? explode(',', $documentSrls) : [];
 
 		if(count($documentSrlList) > 0)
 		{
-			$columnList = array('document_srl', 'title', 'nick_name', 'status');
+			$columnList = array('document_srl', 'title', 'nick_name', 'regdate', 'ipaddress', 'status');
 			$documentList = DocumentModel::getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
+			$statusNameList = DocumentModel::getStatusNameList();
+			foreach ($documentList as $document)
+			{
+				$document->variables['status_name'] = $statusNameList[$document->variables['status']] ?? $document->variables['status'];
+			}
 		}
 		else
 		{

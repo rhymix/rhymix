@@ -182,13 +182,14 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<tr>
 						<th scope="col" class="title">{$lang->title}</th>
 						<th scope="col" class="nowr">{$lang->writer}</th>
+						<th scope="col" class="nowr">{$lang->ipaddress}</th>
 						<th scope="col" class="nowr">{$lang->status}</th>
 					</tr>
 				</thead>
 				<tbody>
 				</tbody>
 			</table>
-			<div class="x_control-group" id="message_options" style="padding-right:14px;border-top:0">
+			<div class="x_control-group" id="message_options" style="border-top:0;margin-bottom:0">
 				<label for="send_default_message" class="x_inline">
 					<input type="radio" name="send_message" id="send_default_message" value="default" checked="checked" />
 					{$lang->send_default_message}
@@ -202,7 +203,17 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					{$lang->send_no_message}
 				</label>
 				<br />
-				<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
+				<textarea rows="4" cols="42" name="message_content" id="message" style="width:calc(100% - 14px)"></textarea>
+			</div>
+			<div class="x_control-group" id="deny_options" style="border-top:0;padding-top:0">
+				<label for="deny_authors" class="x_inline">
+					<input type="checkbox" name="deny_authors" id="deny_authors" value="Y" />
+					{$lang->selected_document_deny_authors}
+				</label>
+				<label for="deny_ips" class="x_inline">
+					<input type="checkbox" name="deny_ips" id="deny_ips" value="Y" />
+					{$lang->selected_document_deny_ips}
+				</label>
 			</div>
 		</section>
 		<section class="moveTree" hidden>
