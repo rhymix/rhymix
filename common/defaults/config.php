@@ -54,6 +54,7 @@ return array(
 		'http_port' => null,
 		'https_port' => null,
 		'ssl' => 'none',
+		'admin_prefix' => 'admin',
 		'rewrite' => 1,
 	),
 	'session' => array(
