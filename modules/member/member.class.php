@@ -166,6 +166,8 @@ class Member extends ModuleObject
 		if(!$oDB->isIndexExists('member_auth_mail', 'unique_auth_key')) return true;
 		if(!$oDB->isIndexExists('member_auth_mail', 'idx_member_srl')) return true;
 		if($oDB->isIndexExists('member_auth_mail', 'unique_key')) return true;
+		if(!$oDB->isColumnExists('member_auth_mail', 'ipaddress')) return true;
+		if(!$oDB->isIndexExists('member_auth_mail', 'idx_ipaddress')) return true;
 
 		// Check join form options column
 		if(!$oDB->isColumnExists('member_join_form', 'options')) return true;
@@ -404,6 +406,14 @@ class Member extends ModuleObject
 		if($oDB->isIndexExists('member_auth_mail', 'unique_key'))
 		{
 			$oDB->dropIndex('member_auth_mail', 'unique_key');
+		}
+		if(!$oDB->isColumnExists('member_auth_mail', 'ipaddress'))
+		{
+			$oDB->addColumn('member_auth_mail', 'ipaddress', 'varchar', 60, null, false);
+		}
+		if(!$oDB->isIndexExists('member_auth_mail', 'idx_ipaddress'))
+		{
+			$oDB->addIndex('member_auth_mail', 'idx_ipaddress', ['ipaddress']);
 		}
 
 		// Check join form options column
