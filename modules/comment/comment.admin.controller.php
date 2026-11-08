@@ -168,6 +168,8 @@ class CommentAdminController extends Comment
 	function procCommentAdminDeleteChecked()
 	{
 		$isTrash = Context::get('is_trash');
+		$deny_authors = toBool(Context::get('deny_authors'));
+		$deny_ips = toBool(Context::get('deny_ips'));
 
 		// Error display if none is selected
 		$cart = Context::get('cart');
@@ -215,6 +217,8 @@ class CommentAdminController extends Comment
 
 		$deleted_count = 0;
 		$module_infos = [];
+		$deny_member_list = [];
+		$deny_ip_list = [];
 
 		// Delete the comment posting
 		for($i = 0; $i < $comment_count; $i++)
@@ -275,7 +279,39 @@ class CommentAdminController extends Comment
 				}
 			}
 
+			$member_srl = abs($comment->get('member_srl'));
+			if ($member_srl && $deny_authors)
+			{
+				$deny_member_list[] = $member_srl;
+			}
+			$ipaddress = $comment->get('ipaddress');
+			if ($ipaddress && $deny_ips)
+			{
+				$deny_ip_list[] = $ipaddress;
+			}
+
 			$deleted_count++;
+		}
+
+		// Deny authors and IPs
+		if ($deny_authors && count($deny_member_list) > 0)
+		{
+			$deny_member_list = array_unique($deny_member_list);
+			foreach ($deny_member_list as $member_srl)
+			{
+				$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+				if ($member_info && $member_info->is_admin !== 'Y')
+				{
+					executeQuery('member.updateMemberStatus', ['member_srl' => $member_srl, 'denied' => 'Y', 'status' => 'DENIED']);
+					MemberController::clearMemberCache($member_srl);
+				}
+			}
+		}
+		if ($deny_ips && count($deny_ip_list) > 0)
+		{
+			$deny_ip_list = array_unique($deny_ip_list);
+			$oSpamfilterController = SpamfilterController::getInstance();
+			$oSpamfilterController->insertIP($deny_ip_list);
 		}
 
 		$oDB->commit();

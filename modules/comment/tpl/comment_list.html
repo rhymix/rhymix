@@ -170,6 +170,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<tr>
 					<th scope="col" class="title">{$lang->comment}</th>
 					<th scope="col" class="nowr">{$lang->writer}</th>
+					<th scope="col" class="nowr">{$lang->ipaddress}</th>
 					<th scope="col" class="nowr">{$lang->status}</th>
 					<th scope="col">{$lang->published}</th>
 				</tr>
@@ -177,9 +178,19 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 			<tbody>
 			</tbody>
 		</table>
-		<div class="x_control-group" style="margin:15px 14px 0 0">
+		<div class="x_control-group" style="margin:15px 0 0 0">
 			<label for="message">{$lang->message_notice}</label>
-			<textarea rows="4" cols="42" name="message_content" id="message" style="width:100%"></textarea>
+			<textarea rows="4" cols="42" name="message_content" id="message" style="width:calc(100% - 14px)"></textarea>
+		</div>
+		<div class="x_control-group" style="border-top:0;padding-top:0">
+			<label for="deny_authors" class="x_inline">
+				<input type="checkbox" name="deny_authors" id="deny_authors" value="Y" />
+				{lang('document.selected_document_deny_authors')}
+			</label>
+			<label for="deny_ips" class="x_inline">
+				<input type="checkbox" name="deny_ips" id="deny_ips" value="Y" />
+				{lang('document.selected_document_deny_ips')}
+			</label>
 		</div>
 	</div>
 	<div class="x_modal-footer">

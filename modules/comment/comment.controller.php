@@ -2204,15 +2204,11 @@ class CommentController extends Comment
 		}
 
 		$commentSrls = Context::get('comment_srls');
-		if($commentSrls)
-		{
-			$commentSrlList = explode(',', $commentSrls);
-		}
+		$commentSrlList = $commentSrls ? explode(',', $commentSrls) : [];
 
 		if(count($commentSrlList) > 0)
 		{
 			$commentList = CommentModel::getComments($commentSrlList);
-
 			if(is_array($commentList))
 			{
 				foreach($commentList as $value)
