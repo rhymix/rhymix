@@ -263,7 +263,7 @@ class EditorController extends Editor
 	public function procEditorSaveDoc()
 	{
 		$args = new stdClass;
-		$args->module_srl = Context::get('module_srl') ?: Context::get('current_module_info')->module_srl;
+		$args->module_srl = Context::get('current_module_info')->module_srl;
 		$args->document_srl = Context::get('document_srl');
 		$args->content = Context::get('content');
 		$args->title = Context::get('title');
@@ -351,7 +351,6 @@ class EditorController extends Editor
 	{
 		$editor_sequence = intval(Context::get('editor_sequence'));
 		$primary_key = escape(Context::get('primary_key'));
-		$module_srl = Context::get('module_srl') ?: Context::get('current_module_info')->module_srl;
 		$saved_doc = EditorModel::getSavedDoc(null);
 		if ($saved_doc)
 		{
@@ -386,7 +385,7 @@ class EditorController extends Editor
 	public function deleteSavedDoc($mode = false)
 	{
 		$args = new stdClass();
-		$args->module_srl = Context::get('module_srl') ?: Context::get('current_module_info')->module_srl;
+		$args->module_srl = Context::get('current_module_info')->module_srl;
 
 		// Identify the author
 		$logged_info = Context::get('logged_info');
