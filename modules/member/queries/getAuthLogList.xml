@@ -1,0 +1,22 @@
+<query id="getAuthLogList" action="select">
+	<tables>
+		<table name="member_auth_log" />
+	</tables>
+	<columns>
+		<column name="*" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="member_srl" var="member_srl" />
+		<condition operation="equal" column="email_address" var="email_address" />
+		<condition operation="equal" column="phone_number" var="phone_number" />
+		<condition operation="equal" column="action_type" var="action_type" />
+		<condition operation="like_prefix" column="regdate" var="regdate_prefix" />
+		<condition operation="equal" column="ipaddress" var="ipaddress" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="id" order="sort_order" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" />
+	</navigation>
+</query>

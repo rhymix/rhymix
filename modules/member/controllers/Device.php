@@ -172,6 +172,12 @@ class Device extends \Member
 			return $output;
 		}
 
+		// Insert auth log
+		self::insertAuthLog((int)$args->member_srl, 'register_device', (object)[
+			'device_type' => $device_type,
+			'device_token' => $device_token,
+		]);
+
 		// Call trigger (after)
 		\ModuleHandler::triggerCall('member.insertMemberDevice', 'after', $args);
 
@@ -254,7 +260,12 @@ class Device extends \Member
 			$output = \memberController::getInstance()->doLogin($user_id);
 			if(!$output->toBool())
 			{
+				self::insertAuthLog((int)$member_info->member_srl, 'login_fail', (object)['device_token' => $device_token]);
 				return new \BaseObject(-1, 'LOGIN_FAILED');
+			}
+			else
+			{
+				self::insertAuthLog((int)$member_info->member_srl, 'login');
 			}
 		}
 		else
