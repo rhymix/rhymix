@@ -1840,7 +1840,11 @@ class MemberController extends Member
 	function procMemberFindAccount()
 	{
 		// Rate limit
-		if (isset($_SESSION['find_account_request_time']) && $_SESSION['find_account_request_time'] > time() - 60)
+		$output = executeQuery('member.getLastAuthLog', [
+			'action_types' => ['email_auth_request', 'email_auth_resend'],
+			'ipaddress' => \RX_CLIENT_IP,
+		]);
+		if ($output->toBool() && $output->data && ztime($output->data->regdate) > (time() - 60))
 		{
 			throw new Rhymix\Framework\Exception('msg_rate_limited_find_account');
 		}
@@ -1959,7 +1963,6 @@ class MemberController extends Member
 			$this->setRedirectUrl($returnUrl);
 		}
 
-		$_SESSION['find_account_request_time'] = time();
 		return new BaseObject(0, $msg);
 	}
 
@@ -2097,7 +2100,11 @@ class MemberController extends Member
 	function procMemberResendAuthMail()
 	{
 		// Rate limit
-		if (isset($_SESSION['find_account_request_time']) && $_SESSION['find_account_request_time'] > time() - 60)
+		$output = executeQuery('member.getLastAuthLog', [
+			'action_types' => ['email_auth_request', 'email_auth_resend'],
+			'ipaddress' => \RX_CLIENT_IP,
+		]);
+		if ($output->toBool() && $output->data && ztime($output->data->regdate) > (time() - 60))
 		{
 			throw new Rhymix\Framework\Exception('msg_rate_limited_find_account');
 		}
@@ -2154,15 +2161,13 @@ class MemberController extends Member
 		$this->_sendAuthMail($auth_args, $member_info);
 
 		// Insert auth log
-		self::insertAuthLog($member_srl, 'email_resend_auth', (object)['email_address' => $member_info->email_address]);
+		self::insertAuthLog($member_srl, 'email_auth_resend', (object)['email_address' => $member_info->email_address]);
 
 		$msg = sprintf(lang('msg_confirm_mail_sent'), $member_info->email_address);
 		$this->setMessage($msg);
 
 		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
 		$this->setRedirectUrl($returnUrl);
-
-		$_SESSION['find_account_request_time'] = time();
 	}
 
 	function _sendAuthMail($auth_args, $member_info)

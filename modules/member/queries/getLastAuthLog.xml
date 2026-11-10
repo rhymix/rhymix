@@ -8,6 +8,7 @@
 	<conditions>
 		<condition operation="equal" column="member_srl" var="member_srl" />
 		<condition operation="equal" column="action_type" var="action_type" />
+		<condition operation="in" column="action_type" var="action_types" />
 		<condition operation="equal" column="ipaddress" var="ipaddress" />
 	</conditions>
 	<navigation>
