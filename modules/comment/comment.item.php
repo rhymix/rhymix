@@ -215,6 +215,14 @@ class CommentItem extends BaseObject
 
 		if ($this->get('status') == RX_STATUS_PUBLIC && $this->get('is_secret') !== 'Y')
 		{
+			if ($strict)
+			{
+				$oDocument = DocumentModel::getDocument($this->get('document_srl'));
+				if (!$oDocument->isAccessible($strict))
+				{
+					return false;
+				}
+			}
 			$this->setAccessible();
 			return true;
 		}

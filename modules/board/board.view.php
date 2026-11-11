@@ -1174,8 +1174,10 @@ class BoardView extends Board
 		{
 			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
-
-		// Check allow comment
+		if(!$oDocument->isAccessible(true))
+		{
+			return $this->dispBoardMessage('msg_not_permitted', 403);
+		}
 		if(!$oDocument->allowComment())
 		{
 			return $this->dispBoardMessage('msg_not_allow_comment');
@@ -1227,9 +1229,28 @@ class BoardView extends Board
 		{
 			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
+		if(!$oSourceComment->isAccessible(true))
+		{
+			return $this->dispBoardMessage('msg_not_permitted', 403);
+		}
 		if(Context::get('document_srl') && $oSourceComment->get('document_srl') != Context::get('document_srl'))
 		{
 			return $this->dispBoardMessage('msg_not_founded', 404);
+		}
+
+		// Check allow comment
+		$oDocument = DocumentModel::getDocument($oSourceComment->get('document_srl'));
+		if(!$oDocument->isExists())
+		{
+			return $this->dispBoardMessage('msg_not_founded', 404);
+		}
+		if(!$oDocument->isAccessible(true))
+		{
+			return $this->dispBoardMessage('msg_not_permitted', 403);
+		}
+		if(!$oDocument->allowComment())
+		{
+			return $this->dispBoardMessage('msg_not_allow_comment');
 		}
 
 		// Check thread depth
@@ -1241,13 +1262,6 @@ class BoardView extends Board
 			{
 				return $this->dispBoardMessage('msg_exceeds_max_thread_depth');
 			}
-		}
-
-		// Check allow comment
-		$oDocument = DocumentModel::getDocument($oSourceComment->get('document_srl'));
-		if(!$oDocument->allowComment())
-		{
-			return $this->dispBoardMessage('msg_not_allow_comment');
 		}
 
 		// get the comment information
