@@ -87,6 +87,7 @@
 		<action name="dispMemberAdminSignUpConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminLoginConfig" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminDesignConfig" type="view" menu_name="userSetting" />
+		<action name="dispMemberAdminAuthLog" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminNickNameLog" type="view" menu_name="userSetting" />
 		<action name="dispMemberAdminGroupList" type="view" menu_name="userGroup" menu_index="true" />
 		<action name="dispMemberAdminInsertJoinForm" type="view" />

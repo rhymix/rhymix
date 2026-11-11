@@ -265,7 +265,7 @@ class Device extends \Member
 			$output = \memberController::getInstance()->doLogin($user_id);
 			if(!$output->toBool())
 			{
-				self::insertAuthLog((int)$member_info->member_srl, 'login_fail', (object)['device_token' => $device_token]);
+				self::insertAuthLog((int)$member_info->member_srl, 'login_failed', (object)['device_token' => $device_token]);
 				return new \BaseObject(-1, 'LOGIN_FAILED');
 			}
 			else
