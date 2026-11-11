@@ -3895,7 +3895,10 @@ class MemberController extends Member
 	**/
 	function triggerGetDocumentMenu(&$menu_list)
 	{
-		if(!Context::get('is_logged')) return;
+		if (!Context::get('is_logged'))
+		{
+			return;
+		}
 
 		$logged_info = Context::get('logged_info');
 		$document_srl = Context::get('target_srl');
@@ -3905,11 +3908,31 @@ class MemberController extends Member
 		$member_srl = abs($oDocument->get('member_srl'));
 		$module_srl = $oDocument->get('module_srl');
 
-		if(!$member_srl || $member_srl == $logged_info->member_srl) return;
-		if(!ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info)->manager) return;
+		if (!$member_srl || $member_srl == $logged_info->member_srl)
+		{
+			return;
+		}
 
-		$oDocumentController = getController('document');
-		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
+		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info);
+		if (!$grant->root)
+		{
+			return;
+		}
+
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if ($member_info->is_admin == 'Y')
+		{
+			return;
+		}
+
+		$url = getUrl([
+			'module' => 'member',
+			'act' => 'dispMemberSpammer',
+			'member_srl' => $member_srl,
+			'module_srl' => $module_srl,
+		]);
+
+		$oDocumentController = DocumentController::getInstance();
 		$oDocumentController->addDocumentPopupMenu($url,'cmd_spammer','','popup');
 	}
 
@@ -3922,7 +3945,10 @@ class MemberController extends Member
 	**/
 	function triggerGetCommentMenu(&$menu_list)
 	{
-		if(!Context::get('is_logged')) return;
+		if (!Context::get('is_logged'))
+		{
+			return;
+		}
 
 		$logged_info = Context::get('logged_info');
 		$comment_srl = Context::get('target_srl');
@@ -3932,11 +3958,31 @@ class MemberController extends Member
 		$module_srl = $oComment->get('module_srl');
 		$member_srl = abs($oComment->get('member_srl'));
 
-		if(!$member_srl || $member_srl == $logged_info->member_srl) return;
-		if(!ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info)->manager) return;
+		if (!$member_srl || $member_srl == $logged_info->member_srl)
+		{
+			return;
+		}
 
-		$oCommentController = getController('comment');
-		$url = getUrl('','module','member','act','dispMemberSpammer','member_srl',$member_srl,'module_srl',$module_srl);
+		$grant = ModuleModel::getGrant(ModuleModel::getModuleInfoByModuleSrl($module_srl), $logged_info);
+		if (!$grant->root)
+		{
+			return;
+		}
+
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if ($member_info->is_admin == 'Y')
+		{
+			return;
+		}
+
+		$url = getUrl([
+			'module' => 'member',
+			'act' => 'dispMemberSpammer',
+			'member_srl' => $member_srl,
+			'module_srl' => $module_srl,
+		]);
+
+		$oCommentController = CommentController::getInstance();
 		$oCommentController->addCommentPopupMenu($url,'cmd_spammer','','popup');
 	}
 
@@ -3976,19 +4022,29 @@ class MemberController extends Member
 		$isMoveToTrash = ($proc_type !== 'delete') ? true : false;
 
 		// check grant
-		$columnList = array('module_srl', 'module');
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 		$grant = ModuleModel::getGrant($module_info, $logged_info);
-
-		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
+		if (!$grant->root)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if ($member_info->is_admin == 'Y')
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted('document.msg_document_is_admin_not_permitted');
+		}
 
 		// delete or trash destination
 		// proc member
-		if($cnt_loop == 1)
+		if ($cnt_loop == 1)
+		{
 			$this->_spammerMember($member_srl);
+		}
 		// proc document and comment
-		elseif($cnt_loop>1)
+		elseif ($cnt_loop > 1)
+		{
 			$this->_spammerDocuments($member_srl, $isMoveToTrash);
+		}
 
 		// get destination count
 		$cnt_document = DocumentModel::getDocumentCountByMemberSrl($member_srl);
@@ -3996,13 +4052,20 @@ class MemberController extends Member
 
 		$total_count = Context::get('total_count');
 		$remain_count = $cnt_document + $cnt_comment;
-		if($cnt_loop == 1) $total_count = $remain_count;
+		if ($cnt_loop == 1)
+		{
+			$total_count = $remain_count;
+		}
 
 		// get progress percent
-		if($total_count > 0)
+		if ($total_count > 0)
+		{
 			$progress = intval( ( ( $total_count - $remain_count ) / $total_count ) * 100 );
+		}
 		else
+		{
 			$progress = 100;
+		}
 
 		$this->add('total_count', $total_count);
 		$this->add('remain_count', $remain_count);
