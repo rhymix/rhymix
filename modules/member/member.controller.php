@@ -1702,7 +1702,7 @@ class MemberController extends Member
 			{
 				FileHandler::removeFile($image_name->file);
 				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_name->file)), true);
-				FileHandler::clearStatCache($profile_image->file);
+				FileHandler::clearStatCache($image_name->file);
 				self::clearMemberCache($member_srl);
 			}
 		}
@@ -1825,7 +1825,7 @@ class MemberController extends Member
 			{
 				FileHandler::removeFile($image_mark->file);
 				Rhymix\Framework\Storage::deleteEmptyDirectory(dirname(FileHandler::getRealPath($image_mark->file)), true);
-				FileHandler::clearStatCache($profile_image->file);
+				FileHandler::clearStatCache($image_mark->file);
 				self::clearMemberCache($member_srl);
 			}
 		}
@@ -1841,7 +1841,7 @@ class MemberController extends Member
 	{
 		// Rate limit
 		$output = executeQuery('member.getLastAuthLog', [
-			'action_types' => ['email_auth_request', 'email_auth_resend'],
+			'action_types' => ['email_auth_request', 'email_auth_request_failed', 'email_auth_resend', 'email_auth_resend_failed'],
 			'ipaddress' => \RX_CLIENT_IP,
 		]);
 		if ($output->toBool() && $output->data && ztime($output->data->regdate) > (time() - 60))
@@ -1851,17 +1851,47 @@ class MemberController extends Member
 
 		// Check email address
 		$email_address = Context::get('email_address');
-		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if (!$email_address)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		// Set default redirect URL for all non-error responses
+		if (!in_array(Context::getRequestMethod(), ['XMLRPC','JSON']))
+		{
+			$redirect_url = Context::get('success_return_url') ?: getNotEncodedUrl(['mid' => Context::get('mid'), 'act' => 'dispMemberFindAccount']);
+			$this->setRedirectUrl($redirect_url);
+		}
+
+		// Get password reset settings
+		$member_config = ModuleModel::getModuleConfig('member');
+		$password_reset_method = intval($member_config->password_reset_method ?? 1);
+		$password_reset_message = intval($member_config->password_reset_message ?? 2);
+		if ($password_reset_message == 1)
+		{
+			$success_message = sprintf(lang('msg_auth_mail_sent'), escape($email_address));
+			$error_message = 'msg_not_exists_member';
+		}
+		else
+		{
+			$success_message = sprintf(lang('msg_find_account_unified_message'), escape($email_address));
+			$error_message = sprintf(lang('msg_find_account_unified_message'), escape($email_address));
+		}
 
 		// Check if a member having the same email address exists
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
-		if(!$member_srl) throw new Rhymix\Framework\Exception('msg_not_exists_member');
+		if (!$member_srl)
+		{
+			self::insertAuthLog(0, 'email_auth_request_failed', (object)['email_address' => $email_address]);
+			return new BaseObject(0, $error_message);
+		}
 
 		// Get information of the member
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		if(!$member_info || !$member_info->member_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_exists_member');
+			self::insertAuthLog(0, 'email_auth_request_failed', (object)['email_address' => $email_address]);
+			return new BaseObject(0, $error_message);
 		}
 
 		// Check if possible to find member's ID and password
@@ -1872,13 +1902,10 @@ class MemberController extends Member
 			$output = executeQuery('member.chkAuthMail', $chk_args);
 			if ($output->toBool() && $output->data->count > 0)
 			{
-				throw new Rhymix\Framework\Exception(sprintf('msg_user_not_confirmed', $member_info->email_address));
+				self::insertAuthLog($member_info->member_srl, 'email_auth_request_failed', (object)['email_address' => $member_info->email_address]);
+				return new BaseObject(-1, sprintf('msg_user_not_confirmed', $member_info->email_address));
 			}
 		}
-
-		// Get password reset method
-		$member_config = ModuleModel::getModuleConfig('member');
-		$password_reset_method = intval($member_config->password_reset_method ?? 1);
 
 		// Insert data into the authentication DB
 		$args = new stdClass();
@@ -1888,9 +1915,12 @@ class MemberController extends Member
 		$args->auth_key = Rhymix\Framework\Security::getRandom(40, 'hex');
 		$args->auth_type = 'password_v' . $password_reset_method;
 		$args->is_register = 'N';
-
 		$output = executeQuery('member.insertAuthMail', $args);
-		if(!$output->toBool()) return $output;
+		if (!$output->toBool())
+		{
+			self::insertAuthLog($member_info->member_srl, 'email_auth_request_failed', (object)['email_address' => $member_info->email_address]);
+			return $output;
+		}
 
 		// Get content of the email to send a member
 		global $lang;
@@ -1954,16 +1984,7 @@ class MemberController extends Member
 
 		// Insert auth log
 		self::insertAuthLog($member_srl, 'email_auth_request', (object)['email_address' => $member_info->email_address]);
-
-		// Return message
-		$msg = sprintf(lang('msg_auth_mail_sent'), $member_info->email_address);
-		if(!in_array(Context::getRequestMethod(),array('XMLRPC','JSON')))
-		{
-			$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', 'dispMemberFindAccount');
-			$this->setRedirectUrl($returnUrl);
-		}
-
-		return new BaseObject(0, $msg);
+		$this->setMessage($success_message);
 	}
 
 	/**
@@ -2101,7 +2122,7 @@ class MemberController extends Member
 	{
 		// Rate limit
 		$output = executeQuery('member.getLastAuthLog', [
-			'action_types' => ['email_auth_request', 'email_auth_resend'],
+			'action_types' => ['email_auth_request', 'email_auth_request_failed', 'email_auth_resend', 'email_auth_resend_failed'],
 			'ipaddress' => \RX_CLIENT_IP,
 		]);
 		if ($output->toBool() && $output->data && ztime($output->data->regdate) > (time() - 60))
@@ -2111,23 +2132,51 @@ class MemberController extends Member
 
 		// Get an email_address
 		$email_address = Context::get('email_address');
-		if(!$email_address) throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		if (!$email_address)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		// Set default redirect URL for all non-error responses
+		if (!in_array(Context::getRequestMethod(), ['XMLRPC','JSON']))
+		{
+			$redirect_url = Context::get('success_return_url') ?: getNotEncodedUrl(['mid' => Context::get('mid')]);
+			$this->setRedirectUrl($redirect_url);
+		}
+
+		// Get password reset settings
+		$member_config = ModuleModel::getModuleConfig('member');
+		$password_reset_message = intval($member_config->password_reset_message ?? 2);
+		if ($password_reset_message == 1)
+		{
+			$success_message = sprintf(lang('msg_confirm_mail_sent'), escape($email_address));
+			$error_message = 'msg_not_exists_member';
+			$unnecessary_message = 'msg_activation_not_needed';
+		}
+		else
+		{
+			$success_message = sprintf(lang('msg_resend_mail_unified_message'), escape($email_address));
+			$error_message = sprintf(lang('msg_resend_mail_unified_message'), escape($email_address));
+			$unnecessary_message = sprintf(lang('msg_resend_mail_unified_message'), escape($email_address));
+		}
 
 		// Look up the member by email address
 		$member_srl = MemberModel::getMemberSrlByEmailAddress($email_address);
 		if(!$member_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_exists_member');
+			self::insertAuthLog(0, 'email_auth_resend_failed', (object)['email_address' => $email_address]);
+			return new BaseObject(0, $error_message);
 		}
-
 		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
 		if(!$member_info || !$member_info->member_srl)
 		{
-			throw new Rhymix\Framework\Exception('msg_not_exists_member');
+			self::insertAuthLog(0, 'email_auth_resend_failed', (object)['email_address' => $email_address]);
+			return new BaseObject(0, $error_message);
 		}
 		if($member_info->status !== 'UNAUTHED')
 		{
-			throw new Rhymix\Framework\Exception('msg_activation_not_needed');
+			self::insertAuthLog($member_srl, 'email_auth_resend_failed', (object)['email_address' => $member_info->email_address]);
+			return new BaseObject(0, $unnecessary_message);
 		}
 
 		// Issue a signup token even if an administrator removed the previous one.
@@ -2148,12 +2197,14 @@ class MemberController extends Member
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
+			self::insertAuthLog($member_srl, 'email_auth_resend_failed', (object)['email_address' => $member_info->email_address]);
 			return $output;
 		}
 		$output = executeQuery('member.insertAuthMail', $auth_args);
 		if(!$output->toBool())
 		{
 			$oDB->rollback();
+			self::insertAuthLog($member_srl, 'email_auth_resend_failed', (object)['email_address' => $member_info->email_address]);
 			return $output;
 		}
 		$oDB->commit();
@@ -2162,12 +2213,7 @@ class MemberController extends Member
 
 		// Insert auth log
 		self::insertAuthLog($member_srl, 'email_auth_resend', (object)['email_address' => $member_info->email_address]);
-
-		$msg = sprintf(lang('msg_confirm_mail_sent'), $member_info->email_address);
-		$this->setMessage($msg);
-
-		$returnUrl = Context::get('success_return_url') ? Context::get('success_return_url') : getNotEncodedUrl('', 'mid', Context::get('mid'), 'act', '');
-		$this->setRedirectUrl($returnUrl);
+		$this->setMessage($success_message);
 	}
 
 	function _sendAuthMail($auth_args, $member_info)

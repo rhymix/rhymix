@@ -260,6 +260,7 @@ class MemberAdminController extends Member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'password_reset_method',
+			'password_reset_message',
 			'allow_nickname_change',
 			'update_nickname_log',
 			'nickname_symbols',
@@ -350,7 +351,8 @@ class MemberAdminController extends Member
 		{
 			$args->password_hashing_auto_upgrade = 'N';
 		}
-		$args->password_reset_method = intval($args->password_reset_method);
+		$args->password_reset_method = intval($args->password_reset_method) === 1 ? 1 : 2;
+		$args->password_reset_message = intval($args->password_reset_message) === 1 ? 1 : 2;
 		if(!in_array($args->nickname_symbols, ['Y', 'N', 'LIST']))
 		{
 			$args->nickname_symbols = 'Y';
