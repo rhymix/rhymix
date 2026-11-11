@@ -1504,6 +1504,11 @@ class BoardView extends Board
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+		$oDocument = DocumentModel::getDocument($document_srl);
+		if (!$oDocument->isExists() || !$oDocument->isAccessible(true) || $oDocument->get('module_srl') != $this->module_info->module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$updatelog = DocumentModel::getDocumentUpdateLog($document_srl);
 		if(!$updatelog->toBool())
@@ -1528,12 +1533,22 @@ class BoardView extends Board
 		}
 
 		$update_id = Context::get('update_id');
+		if (!$update_id)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		$update_log = DocumentModel::getUpdateLog($update_id);
+		if (!$update_log || !isset($update_log->document_srl))
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 		$oDocument = DocumentModel::getDocument($update_log->document_srl);
+		if (!$oDocument->isExists() || !$oDocument->isAccessible(true) || $oDocument->get('module_srl') != $this->module_info->module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		$extra_vars = unserialize($update_log->extra_vars);
-
-
 		$document_extra_array = $oDocument->getExtraVars();
 		$extra_html = array();
 		foreach ($extra_vars as $extra_key  => $extra)
@@ -1559,34 +1574,44 @@ class BoardView extends Board
 
 	public function dispBoardVoteLog()
 	{
-		iF($this->grant->vote_log_view !== true)
-		{
-			throw new Rhymix\Framework\Exceptions\NotPermitted;
-		}
-
 		$target = Context::get('target');
 		$target_srl = Context::get('target_srl');
-
-		$args = new stdClass();
-		if($target === 'document')
+		if (!in_array($target, ['document', 'comment']) || !$target_srl)
 		{
-			$queryId = 'document.getDocumentVotedLog';
-			$args->document_srl = $target_srl;
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
-		elseif($target === 'comment')
+		if ($this->grant->vote_log_view !== true)
 		{
-			$queryId = 'comment.getCommentVotedLog';
-			$args->comment_srl = $target_srl;
-		}
-		else
-		{
-			throw new Rhymix\Framework\Exception('msg_not_target');
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		$features = Rhymix\Modules\Board\Models\Features::fromModuleInfo($this->module_info);
 		if (!$features->{$target}->vote_log)
 		{
 			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+
+		$args = new stdClass();
+		if ($target === 'document')
+		{
+			$queryId = 'document.getDocumentVotedLog';
+			$args->document_srl = $target_srl;
+
+			$oDocument = DocumentModel::getDocument($target_srl);
+			if (!$oDocument->isExists() || !$oDocument->isAccessible(true) || $oDocument->get('module_srl') != $this->module_info->module_srl)
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
+		}
+		else
+		{
+			$queryId = 'comment.getCommentVotedLog';
+			$args->comment_srl = $target_srl;
+			$oComment = CommentModel::getComment($target_srl);
+			if (!$oComment->isExists() || !$oComment->isAccessible(true) || $oComment->get('module_srl') != $this->module_info->module_srl)
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
 		}
 
 		$output = executeQueryArray($queryId, $args);
