@@ -3,6 +3,9 @@
 		<table name="member_nickname_log" />
 	</tables>
 	<conditions>
-		<condition operation="equal" column="member_srl" var="member_srl" filter="number" notnull="notnull" />
+		<group notnull="notnull">
+			<condition operation="equal" column="member_srl" var="member_srl" filter="number"  />
+			<condition operation="less" column="regdate" var="regdate_before" />
+		</group>
 	</conditions>
 </query>

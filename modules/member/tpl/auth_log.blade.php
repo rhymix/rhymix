@@ -52,7 +52,33 @@
 	@endif
 </table>
 
-<form action="./" method="get" class="search center x_input-append" no-error-return-url="true">
+<div class="x_clearfix">
+	<div class="x_pagination x_pull-left">
+		<ul>
+			<li @class(['x_disabled' => !$page || $page == 1])>
+				<a href="{{ getUrl('page', '') }}" class="direction">&laquo; {{ $lang->first_page }}</a>
+			</li>
+			@while ($page_no = $page_navigation->getNextPage())
+				@php $last_page = $page_no; @endphp
+				<li @class(['x_active' => $page_no == $page])>
+					<a href="{{ getUrl('page', $page_no) }}">{{ $page_no }}</a>
+				</li>
+			@endwhile
+			<li @class(['x_disabled' => $page == $page_navigation->last_page])>
+				<a href="{{ getUrl('page', $page_navigation->last_page) }}" class="direction">{{ $lang->last_page }} &raquo;</a>
+			</li>
+		</ul>
+	</div>
+	<form action="./" method="post" class="x_pull-right x_input-append" rx_autoform="false">
+		<input type="hidden" name="module" value="{{ $module }}" />
+		<input type="hidden" name="act" value="procMemberAdminClearAuthLog" />
+		<input type="hidden" name="xe_validator_id" value="modules/member/tpl/1" />
+		<input type="number" name="days" value="30" />
+		<button class="x_btn" type="submit">{{ $lang->cmd_auth_log_clear }}</button>
+	</form>
+</div>
+
+<form action="./" method="get" class="search center x_input-append" rx_autoform="false">
 	<input type="hidden" name="module" value="{{ $module }}" />
 	<input type="hidden" name="act" value="{{ $act }}" />
 	<select name="action_type" style="margin-right:4px" title="{{ $lang->auth_log_action_type }}">
@@ -72,23 +98,3 @@
 	<input type="search" name="search_keyword" value="{{ $search_keyword ?? '' }}" style="width:140px">
 	<button class="x_btn x_btn-inverse" type="submit">{{ $lang->cmd_search }}</button>
 </form>
-
-<div class="x_clearfix">
-	<div class="x_pagination x_pull-left">
-		<ul>
-			<li class="x_disabled" @class(['x_disabled' => !$page || $page == 1])>
-				<a href="{getUrl('page','','module_srl','')}" class="direction">&laquo; {{ $lang->first_page }}</a>
-			</li>
-			<!--@while($page_no = $page_navigation->getNextPage())-->
-			{@$last_page = $page_no}
-			<li class="x_active" @class(['x_active' => $page_no == $page])>
-				<a href="{getUrl('page', $page_no)}">{{ $page_no }}</a>
-			</li>
-			<!--@end-->
-			<li class="x_disabled" @class(['x_disabled' => $page == $page_navigation->last_page])>
-				<a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction">{{ $lang->last_page }} &raquo;</a>
-			</li>
-
-		</ul>
-	</div>
-</div>

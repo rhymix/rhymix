@@ -423,6 +423,7 @@ $lang->member_unauthenticated = '미인증';
 $lang->member_number = '회원 번호';
 $lang->msg_change_after_click = '아래 링크 클릭 후 변경 가능';
 $lang->msg_password_changed = '비밀번호가 변경되었습니다.';
+$lang->cmd_auth_log_clear = '일 이상 지난 기록 삭제';
 $lang->auth_log_guest = '비회원';
 $lang->auth_log_left_member = '탈퇴한 회원';
 $lang->auth_log_action_type = '인증 유형';

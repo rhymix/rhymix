@@ -1170,6 +1170,52 @@ class MemberAdminController extends Member
 	}
 
 	/**
+	 * Clear auth log
+	 */
+	public function procMemberAdminClearAuthLog()
+	{
+		$days = intval(Context::get('days'));
+		if ($days < 1)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$args = new stdClass;
+		$args->regdate_before = date('Y-m-d H:i:s', time() - ($days * 86400));
+		$output = executeQuery('member.deleteAuthLog', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispMemberAdminAuthLog']));
+	}
+
+	/**
+	 * Clear modify nick name log
+	 */
+	public function procMemberAdminClearModifyNickNameLog()
+	{
+		$days = intval(Context::get('days'));
+		if ($days < 1)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$args = new stdClass;
+		$args->regdate_before = date('YmdHis', time() - ($days * 86400));
+		$output = executeQuery('member.deleteMemberModifyNickNameLog', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispMemberAdminNickNameLog']));
+	}
+
+	/**
 	 * Update a group of selected memebrs
 	 * @return void|Object (void : success, Object : fail)
 	 */

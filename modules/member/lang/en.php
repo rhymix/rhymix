@@ -417,6 +417,7 @@ $lang->member_unauthenticated = 'Unauthenticated';
 $lang->member_number = 'Member identification number';
 $lang->msg_change_after_click = 'Change after clicking link below';
 $lang->msg_password_changed = 'Your password has been changed.';
+$lang->cmd_auth_log_clear = 'Clear records older than days';
 $lang->auth_log_guest = 'Guest';
 $lang->auth_log_left_member = 'Left Member';
 $lang->auth_log_action_type = 'Action';
