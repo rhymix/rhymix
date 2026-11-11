@@ -120,6 +120,7 @@ class Device extends \Member
 
 		if ($member_srl)
 		{
+			$logged_info = null;
 			$member_srl = intval($member_srl);
 		}
 		elseif ($user_id && $password)
@@ -173,10 +174,14 @@ class Device extends \Member
 		}
 
 		// Insert auth log
-		self::insertAuthLog((int)$args->member_srl, 'register_device', (object)[
-			'device_type' => $device_type,
-			'device_token' => $device_token,
-		]);
+		$member_config = \MemberModel::getMemberConfig();
+		if ($member_config->login_log !== 'N')
+		{
+			self::insertAuthLog((int)$args->member_srl, 'register_device', (object)[
+				'device_type' => $device_type,
+				'device_token' => $device_token,
+			]);
+		}
 
 		// Call trigger (after)
 		\ModuleHandler::triggerCall('member.insertMemberDevice', 'after', $args);
@@ -265,7 +270,11 @@ class Device extends \Member
 			}
 			else
 			{
-				self::insertAuthLog((int)$member_info->member_srl, 'login');
+				$member_config = \MemberModel::getMemberConfig();
+				if ($member_config->login_log !== 'N')
+				{
+					self::insertAuthLog((int)$member_info->member_srl, 'login');
+				}
 			}
 		}
 		else

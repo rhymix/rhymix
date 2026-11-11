@@ -598,6 +598,7 @@ class MemberAdminController extends Member
 			'max_error_count',
 			'max_error_count_time',
 			'login_failure_except_ip',
+			'login_log',
 			'login_invalidate_other_sessions',
 			'after_login_url',
 			'after_logout_url'
@@ -648,6 +649,11 @@ class MemberAdminController extends Member
 			$args->login_failure_except_ip = array_filter($args->login_failure_except_ip, function($val) {
 				return $val !== '';
 			});
+		}
+
+		if(!$args->login_log || $args->login_log !== 'N')
+		{
+			$args->login_log = 'Y';
 		}
 
 		if(!trim(strip_tags($args->after_login_url)))

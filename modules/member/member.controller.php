@@ -867,7 +867,10 @@ class MemberController extends Member
 		}
 
 		// Insert auth log
-		self::insertAuthLog((int)$args->member_srl, 'signup');
+		if ($config->login_log !== 'N')
+		{
+			self::insertAuthLog((int)$args->member_srl, 'signup');
+		}
 
 		// Insert agreement info
 		foreach($accept_agreement_rearranged as $agreement_sequence => $agreed)
@@ -2591,7 +2594,11 @@ class MemberController extends Member
 		self::updateLastLogin($output->data->member_srl);
 
 		// Insert auth log
-		self::insertAuthLog($output->data->member_srl, 'autologin');
+		$config = MemberModel::getMemberConfig();
+		if ($config->login_log !== 'N')
+		{
+			self::insertAuthLog($output->data->member_srl, 'autologin');
+		}
 
 		// Call a trigger after validate security key.
 		ModuleHandler::triggerCall('member.doAutoLogin', 'after', $member_info);
@@ -2824,7 +2831,10 @@ class MemberController extends Member
 		$this->setSessionInfo();
 
 		// Insert auth log
-		self::insertAuthLog($member_info->member_srl, 'login');
+		if ($config->login_log !== 'N')
+		{
+			self::insertAuthLog($member_info->member_srl, 'login');
+		}
 
 		// Log out all other sessions if so configured.
 		if ($config->login_invalidate_other_sessions === 'Y')
