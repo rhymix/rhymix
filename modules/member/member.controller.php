@@ -2675,7 +2675,7 @@ class MemberController extends Member
 		}
 
 		// Do not allow login as admin if not in allowed IP list
-		if($member_info->is_admin === 'Y' && $this->act === 'procMemberLogin')
+		if($member_info->is_admin === 'Y' && in_array($this->act, ['procMemberLogin', 'procMemberRegisterDevice']))
 		{
 			$oMemberAdminModel = getAdminModel('member');
 			if(!$oMemberAdminModel->getMemberAdminIPCheck())
