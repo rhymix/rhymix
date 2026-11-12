@@ -21,8 +21,8 @@ class ModuleView extends Module
 	 */
 	function dispModuleSkinInfo()
 	{
-		$selected_module = Context::get('selected_module');
-		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
+		$selected_module = preg_replace('/[^a-zA-Z0-9_-]/', '', Context::get('selected_module'));
+		$skin = preg_replace('/[^a-zA-Z0-9_-]/', '', Context::get('skin'));
 
 		// Get modules/skin information
 		$module_path = sprintf("./modules/%s/", $selected_module);
