@@ -234,6 +234,14 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$source = '<img src="./foo/bar.jpg" editor_component="x" test="foobar\'s" rx_encoded_properties="baz:baz" rx_editcomp_sequence="2" />';
 		$target = '<img test="foobar&#039;s" src="./foo/bar.jpg" editor_component="x" alt="" />';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div editor_component="x" custom_key="value"></div>';
+		$target = '<div custom_key="value" editor_component="x"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, ['x', 'y', 'z']));
+
+		$source = '<div editor_component="x" custom_key="value"></div>';
+		$target = '<div></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, []));
 	}
 
 	public function testHTMLFilterWidgetCode()

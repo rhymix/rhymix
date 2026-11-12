@@ -115,10 +115,10 @@ class HTMLFilter
 	 *
 	 * @param string $input
 	 * @param array|bool $allow_classes (optional)
-	 * @param bool $allow_editor_components (optional)
+	 * @param array|bool $allow_editor_components (optional)
 	 * @return string
 	 */
-	public static function clean(string $input, $allow_classes = false, bool $allow_editor_components = true): string
+	public static function clean(string $input, $allow_classes = false, $allow_editor_components = true): string
 	{
 		if ($allow_classes === true)
 		{
@@ -140,7 +140,7 @@ class HTMLFilter
 
 		foreach (self::$_preproc as $callback)
 		{
-			$input = $callback($input, $purifier, $allow_editor_components, false);
+			$input = $callback($input, $purifier, $allow_editor_components ? true : false, false);
 		}
 
 		$extra_attrs = [0 => []];
@@ -150,7 +150,7 @@ class HTMLFilter
 
 		foreach (self::$_postproc as $callback)
 		{
-			$output = $callback($output, $purifier, $allow_editor_components, false);
+			$output = $callback($output, $purifier, $allow_editor_components ? true : false, false);
 		}
 
 		return $output;
@@ -518,11 +518,11 @@ class HTMLFilter
 	 *
 	 * @param string $content
 	 * @param \HTMLPurifier $purifier
-	 * @param bool $allow_editor_components
+	 * @param array|bool $allow_editor_components
 	 * @param array &$extra_attrs
 	 * @return string
 	 */
-	protected static function _preprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components, array &$extra_attrs): string
+	protected static function _preprocess(string $content, \HTMLPurifier $purifier, $allow_editor_components, &$extra_attrs): string
 	{
 		// Remove any pre-existing custom properties from the input.
 		$content = preg_replace('!\s+(?:rx_editcomp_sequence|rx_data_sequence|rx_encoded_properties|rx_encoded_datas)=(&quot;|")[^"&]*\1!i', '', $content);
@@ -530,7 +530,13 @@ class HTMLFilter
 		// Encode editor component properties so that they are not removed by HTMLPurifier.
 		if ($allow_editor_components)
 		{
-			$content = self::_encodeEditorComponents($content, $extra_attrs);
+			if (is_array($allow_editor_components))
+			{
+				$content = preg_replace_callback('!\s+editor_component="([^"]+)"!i', function($match) use($allow_editor_components) {
+					return in_array($match[1], $allow_editor_components) ? $match[0] : '';
+				}, $content);
+			}
+			$content = self::_encodeEditorComponents($content, $allow_editor_components, $extra_attrs);
 		}
 
 		// Encode data-* attributes.
@@ -543,11 +549,11 @@ class HTMLFilter
 	 *
 	 * @param string $content
 	 * @param \HTMLPurifier $purifier
-	 * @param bool $allow_editor_components
+	 * @param array|bool $allow_editor_components
 	 * @param array $extra_attrs
 	 * @return string
 	 */
-	protected static function _postprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components, array $extra_attrs): string
+	protected static function _postprocess(string $content, \HTMLPurifier $purifier, $allow_editor_components, $extra_attrs): string
 	{
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
@@ -642,12 +648,13 @@ class HTMLFilter
 	 * Encode editor components before processing.
 	 *
 	 * @param string $content
+	 * @param array|bool $allow_editor_components
 	 * @param array &$extra_attrs
 	 * @return string
 	 */
-	protected static function _encodeEditorComponents(string $content, array &$extra_attrs): string
+	protected static function _encodeEditorComponents(string $content, $allow_editor_components, array &$extra_attrs): string
 	{
-		$content = preg_replace_callback('!<(div|img)([^>]*)(editor_component="[^"]+")([^>]*)>!i', function($match) use(&$extra_attrs) {
+		$content = preg_replace_callback('!<(div|img)(?:[^>]*)(?:editor_component="([^"]+)")(?:[^>]*)>!i', function($match) use(&$extra_attrs) {
 			$tag = strtolower($match[1]);
 			$attrs = array();
 			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {

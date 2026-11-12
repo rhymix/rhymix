@@ -685,7 +685,8 @@ class CommentController extends Comment
 		// remove iframe and script if not a top administrator on the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 		if (config('db.master.charset') !== 'utf8mb4')
 		{
@@ -1047,7 +1048,8 @@ class CommentController extends Comment
 		$logged_info = Context::get('logged_info');
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 		if (config('db.master.charset') !== 'utf8mb4')
 		{
