@@ -70,7 +70,7 @@ class PageAdminController extends Page
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl);
 			foreach ($args as $key => $val)
 			{
-				if (!in_array($key, ['page_type']))
+				if (!in_array($key, ['module', 'module_srl', 'page_type']))
 				{
 					$module_info->{$key} = $val;
 				}
@@ -104,7 +104,7 @@ class PageAdminController extends Page
 		}
 		// Insert/update depending on module_srl
 		$oModuleController = ModuleController::getInstance();
-		if(!$args->module_srl)
+		if($mode === 'insert')
 		{
 			$output = $oModuleController->insertModule($args);
 			$msg_code = 'success_registed';
