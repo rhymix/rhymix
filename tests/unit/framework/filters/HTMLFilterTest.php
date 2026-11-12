@@ -242,6 +242,14 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$source = '<div editor_component="x" custom_key="value"></div>';
 		$target = '<div></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, []));
+
+		$source = '<div editor_component="poll_maker" poll_srl="not a number" undefined_attr="whatever"></div>';
+		$target = '<div editor_component="poll_maker"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div editor_component="poll_maker" poll_srl="123" skin="default"></div>';
+		$target = '<div poll_srl="123" skin="default" editor_component="poll_maker"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 
 	public function testHTMLFilterWidgetCode()

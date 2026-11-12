@@ -113,6 +113,16 @@ class HTMLFilter
 	/**
 	 * Filter HTML content to block XSS attacks.
 	 *
+	 * $allow_classes specifies which CSS classes are allowed.
+	 * If it is an array, it will be used as an allowlist. Pass an empty array to disallow all classes.
+	 * If true, all classes are allowed.
+	 * If false, the default configuration is used.
+	 *
+	 * $allow_editor_components specifies which editor components are allowed.
+	 * If it is an array, it will be used as an allowlist.
+	 * If true, all editor components are allowed.
+	 * If false, editor components are disallowed.
+	 *
 	 * @param string $input
 	 * @param array|bool $allow_classes (optional)
 	 * @param array|bool $allow_editor_components (optional)
@@ -536,7 +546,7 @@ class HTMLFilter
 					return in_array($match[1], $allow_editor_components) ? $match[0] : '';
 				}, $content);
 			}
-			$content = self::_encodeEditorComponents($content, $allow_editor_components, $extra_attrs);
+			$content = self::_encodeEditorComponents($content, $extra_attrs);
 		}
 
 		// Encode data-* attributes.
@@ -648,25 +658,37 @@ class HTMLFilter
 	 * Encode editor components before processing.
 	 *
 	 * @param string $content
-	 * @param array|bool $allow_editor_components
 	 * @param array &$extra_attrs
 	 * @return string
 	 */
-	protected static function _encodeEditorComponents(string $content, $allow_editor_components, array &$extra_attrs): string
+	protected static function _encodeEditorComponents(string $content, array &$extra_attrs): string
 	{
 		$content = preg_replace_callback('!<(div|img)(?:[^>]*)(?:editor_component="([^"]+)")(?:[^>]*)>!i', function($match) use(&$extra_attrs) {
 			$tag = strtolower($match[1]);
+			$component = $match[2];
+			$allowed_attrs = \EditorModel::getComponentAttributeList($component);
 			$attrs = array();
-			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
+			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, $allowed_attrs, &$attrs) {
 				$attrkey = strtolower($attr[1]);
 				if ($tag === 'img' && preg_match('/^(?:width|height|src|alt|ismap|usemap)$/', $attrkey))
 				{
-					return $attr[0];
+					return $attr[0]; // Let HTMLPurifier deal with it
 				}
 				if (preg_match('/^(?:on|\w+-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|srcdoc|style|tabindex|title)$)/i', $attrkey))
 				{
-					return $attr[0];
+					return $attr[0]; // Let HTMLPurifier deal with it
 				}
+
+				// If the component declares a whitelist of attributes, use it.
+				if (is_array($allowed_attrs))
+				{
+					if (!isset($allowed_attrs[$attrkey]) || !self::_checkAttributeType($attr[2], $allowed_attrs[$attrkey]))
+					{
+						return '';
+					}
+				}
+
+				// Filter attribute value
 				$attrval = trim(utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2]))));
 				if (preg_match('/^javascript:/i', preg_replace('/\s+/', '', $attrval)))
 				{
@@ -675,10 +697,12 @@ class HTMLFilter
 				$attrs[$attrkey] = htmlspecialchars($attrval, ENT_QUOTES, 'UTF-8');
 				return '';
 			}, $match[0]);
+
 			if ($tag === 'img' && !preg_match('/\ssrc="/', $html))
 			{
 				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
+
 			if (count($attrs))
 			{
 				$extracted_sequence = count($extra_attrs);
@@ -782,5 +806,23 @@ class HTMLFilter
 			}
 			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
+	}
+
+	/**
+	 * Check the type of custom attributes for editor components.
+	 *
+	 * @param string $value
+	 * @param string $type
+	 * @return bool
+	 */
+	protected static function _checkAttributeType(string $value, string $type): bool
+	{
+		switch ($type)
+		{
+			case 'int': return ctype_digit($value);
+			case 'bool': return preg_match('/^(?:Y|N|T|F|0|1)$/i', $value) === 1;
+			case 'color': return preg_match('/^#?[0-9a-fA-F]{3,8}$/', $value) === 1;
+			case 'string': default: return true;
+		}
 	}
 }
