@@ -48,8 +48,11 @@ class poll_maker extends EditorHandler
 		$args = new stdClass();
 
 		$args->poll_srl = intval($xml_obj->attrs->poll_srl);
-		$skin = $xml_obj->attrs->skin;
-		if(!$skin) $skin = 'default';
+		$skin = trim($xml_obj->attrs->skin ?? '');
+		if (!$skin || !preg_match('/^[a-zA-Z0-9_-]+$/', $skin))
+		{
+			$skin = 'default';
+		}
 		$args->skin = $skin;
 
 		preg_match('/width([^[:digit:]]+)([0-9]+)/i',$xml_obj->attrs->style,$matches);
