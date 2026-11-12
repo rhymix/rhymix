@@ -4,7 +4,7 @@
  * This class uses openssl to perform encryption and decryption in a format
  * that is fully compatible with version 1.x of defuse/php-encryption
  * which we must preserve for backward compatibility.
- * 
+ *
  * This file is part of Rhymix and is licensed under GPLv2 or later.
  */
 class CryptoCompat
@@ -18,16 +18,16 @@ class CryptoCompat
     const ENCRYPTION_MAC_ALGO = 'sha256';
     const ENCRYPTION_MAC_SIZE = 32;
     const ENCRYPTION_MAC_INFO = 'DefusePHP|KeyForAuthentication';
-    
+
     // Encrypt method
     public static function encrypt($plaintext, $key)
     {
         // Generate subkey for encryption
         $enc_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_KEY_INFO);
-        
+
         // Generate IV
         $iv = self::_createIV();
-        
+
         // Encrypt the plaintext
         if (function_exists('openssl_encrypt'))
         {
@@ -44,11 +44,11 @@ class CryptoCompat
         {
             throw new Rhymix\Framework\Exception('msg_crypto_not_available');
         }
-        
+
         // Generate MAC
         $mac_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_MAC_INFO);
         $mac = hash_hmac(self::ENCRYPTION_MAC_ALGO, ($iv . $ciphertext), $mac_key, true);
-        
+
         // Return the MAC, IV, and ciphertext
         return $mac . $iv . $ciphertext;
     }
@@ -60,18 +60,18 @@ class CryptoCompat
         $mac = substr($ciphertext, 0, self::ENCRYPTION_MAC_SIZE);
         $iv = substr($ciphertext, self::ENCRYPTION_MAC_SIZE, self::ENCRYPTION_BLOCK_SIZE);
         $ciphertext = substr($ciphertext, self::ENCRYPTION_MAC_SIZE + self::ENCRYPTION_BLOCK_SIZE);
-        
+
         // Validate MAC
         $mac_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_MAC_INFO);
         $mac_compare = hash_hmac(self::ENCRYPTION_MAC_ALGO, ($iv . $ciphertext), $mac_key, true);
-        if (!Rhymix\Framework\Security::compareStrings($mac, $mac_compare))
+        if (!hash_equals($mac, $mac_compare))
         {
             return false;
         }
-        
+
         // Generate subkey for encryption
         $enc_key = self::_defuseCompatibleHKDF($key, self::ENCRYPTION_KEY_INFO);
-        
+
         // Decrypt the ciphertext
         if (function_exists('openssl_decrypt'))
         {
@@ -91,16 +91,16 @@ class CryptoCompat
         {
             throw new Rhymix\Framework\Exception('msg_crypto_not_available');
         }
-        
+
         if ($plaintext === false)
         {
             return false;
         }
-        
+
         // Return the plaintext
         return $plaintext;
     }
-    
+
     /**
      * @brief Create an IV
      * @return string
@@ -109,7 +109,7 @@ class CryptoCompat
     {
         return Rhymix\Framework\Security::getRandom(self::ENCRYPTION_BLOCK_SIZE, 'binary');
     }
-    
+
     /**
      * @brief Apply PKCS#7 padding to a string
      * @param string $str The string
@@ -122,7 +122,7 @@ class CryptoCompat
         if ($padding_size === 0) $padding_size = $block_size;
         return $str . str_repeat(chr($padding_size), $padding_size);
     }
-    
+
     /**
      * @brief Remove PKCS#7 padding from a string
      * @param string $str The string
