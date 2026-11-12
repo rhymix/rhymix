@@ -2887,9 +2887,14 @@ class MemberController extends Member
 		$args->nick_name = escape($args->nick_name, false);
 		$args->homepage = escape($args->homepage, false);
 		$args->blog = escape($args->blog, false);
-		if($args->homepage && !preg_match("/^[a-z]+:\/\//i",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-		if($args->blog && !preg_match("/^[a-z]+:\/\//i",$args->blog)) $args->blog = 'http://'.$args->blog;
-
+		if ($args->homepage && !preg_match('!^https?://!i', $args->homepage))
+		{
+			$args->homepage = 'http://'. $args->homepage;
+		}
+		if ($args->blog && !preg_match('!^https?://!i', $args->blog))
+		{
+			$args->blog = 'http://'. $args->blog;
+		}
 
 		$extend_form_list = MemberModel::getJoinFormlist();
 		$security = new Security($extend_form_list);
@@ -3168,8 +3173,14 @@ class MemberController extends Member
 		$args->homepage = escape($args->homepage, false);
 		$args->blog = escape($args->blog, false);
 		$args->birthday = intval($args->birthday ?? '') ?: '';
-		if($args->homepage && !preg_match("/^[a-z]+:\/\//is",$args->homepage)) $args->homepage = 'http://'.$args->homepage;
-		if($args->blog && !preg_match("/^[a-z]+:\/\//is",$args->blog)) $args->blog = 'http://'.$args->blog;
+		if ($args->homepage && !preg_match('!^https?://!i', $args->homepage))
+		{
+			$args->homepage = 'http://'. $args->homepage;
+		}
+		if ($args->blog && !preg_match('!^https?://!i', $args->blog))
+		{
+			$args->blog = 'http://'. $args->blog;
+		}
 
 		// check member identifier form
 
