@@ -22,12 +22,9 @@ class BoardAdminView extends Board {
 			Context::set('module_srl', $module_srl);
 		}
 
-		// generate module model object
-		$oModuleModel = getModel('module');
-
 		// get the module information based on the module_srl
 		if($module_srl) {
-			$module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
+			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
 			if(!$module_info) {
 				Context::set('module_srl','');
 				$this->act = 'list';
@@ -43,9 +40,13 @@ class BoardAdminView extends Board {
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
+		if (!empty($this->origin_module_info->module_srl) && $this->origin_module_info->module_srl != $module_srl)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
 
 		// get the module category list
-		$module_category = $oModuleModel->getModuleCategories();
+		$module_category = ModuleModel::getModuleCategories();
 		Context::set('module_category', $module_category);
 
 		$security = new Security();
