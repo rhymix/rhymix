@@ -268,5 +268,9 @@ class DBTest extends \Codeception\Test\Unit
 		$this->assertEquals('foobar', $oDB->addQuotes('foobar'));
 		$this->assertEquals('123.45', $oDB->addQuotes(123.45));
 		$this->assertEquals('-12345', $oDB->addQuotes(-12345));
+		$this->assertEquals('\\\'single quotes\\\'', $oDB->addQuotes("'single quotes'"));
+		$this->assertEquals('\\"double quotes\\"', $oDB->addQuotes('"double quotes"'));
+		$this->assertEquals('null\\0string', $oDB->addQuotes('null' . "\0" . 'string'));
+		$this->assertEquals('backticks and' . "\t" . 'controls', $oDB->addQuotes('`backticks` and' . "\x09\x0B\x7F" . 'controls'));
 	}
 }
