@@ -26,7 +26,7 @@ class SMTP extends Base implements \Rhymix\Framework\Drivers\MailInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('proc_open');
+		return true;
 	}
 
 	/**
