@@ -1305,7 +1305,7 @@ class DocumentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality, 'auto');
 		}
 		else
 		{
