@@ -7,5 +7,6 @@
 	<column name="phone_number" type="varchar" size="40" />
 	<column name="regdate" type="datetime" notnull="notnull" index="idx_regdate" />
 	<column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_ipaddress" />
+	<index name="idx_member_srl_action_type" columns="member_srl,action_type" />
 	<index name="idx_ipaddress_action_type" columns="ipaddress,action_type" />
 </table>
