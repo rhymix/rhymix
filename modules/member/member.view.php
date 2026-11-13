@@ -1111,10 +1111,54 @@ class MemberView extends Member
 	}
 
 	/**
-	 * Member Nickname Log
-	 * @return void
+	 * Member Auth Log
 	 */
-	function dispMemberModifyNicknameLog()
+	public function dispMemberAuthLog()
+	{
+		if ($this->member_config->features['auth_log'] === false)
+		{
+			throw new Rhymix\Framework\Exceptions\FeatureDisabled;
+		}
+
+		if (!$this->checkMidAndRedirect())
+		{
+			return;
+		}
+
+		$member_srl = Context::get('member_srl');
+		$logged_info = Context::get('logged_info');
+		if(!$member_srl)
+		{
+			$member_srl = $logged_info->member_srl;
+		}
+		else
+		{
+			if($logged_info->is_admin != 'Y')
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+		}
+
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->sort_order = 'desc';
+		$args->page = max(1, intval(Context::get('page')));
+		$output = executeQueryArray('member.getAuthLogList', $args);
+
+		Context::set('total_count', $output->page_navigation->total_count);
+		Context::set('total_page', $output->page_navigation->total_page);
+		Context::set('page', $output->page);
+		Context::set('auth_log', $output->data);
+		Context::set('page_navigation', $output->page_navigation);
+
+		self::setMemberPageBrowserTitle(lang('cmd_member_auth_log'));
+		$this->setTemplateFile('member_auth_log');
+	}
+
+	/**
+	 * Member Nickname Log
+	 */
+	public function dispMemberModifyNicknameLog()
 	{
 		if ($this->member_config->features['nickname_log'] === false || $this->member_config->update_nickname_log != 'Y')
 		{
@@ -1140,7 +1184,7 @@ class MemberView extends Member
 			}
 		}
 
-		$page = Context::get('page');
+		$page = max(1, intval(Context::get('page')));
 		$output = MemberModel::getMemberModifyNicknameLog($page, $member_srl);
 
 		Context::set('total_count', $output->page_navigation->total_count);

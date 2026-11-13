@@ -2901,6 +2901,10 @@ class MemberController extends Member
 		{
 			$this->addMemberMenu( 'dispMemberActiveLogins', 'cmd_view_active_logins');
 		}
+		if ($config->features['auth_log'] !== false)
+		{
+			$this->addMemberMenu( 'dispMemberAuthLog', 'cmd_member_auth_log');
+		}
 		if ($config->features['nickname_log'] !== false && $config->update_nickname_log == 'Y')
 		{
 			$this->addMemberMenu( 'dispMemberModifyNicknameLog', 'cmd_modify_nickname_log');

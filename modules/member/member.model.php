@@ -57,7 +57,8 @@ class MemberModel extends Member
 		$config->features['my_documents'] = $config->features['my_documents'] ?? true;
 		$config->features['my_comments'] = $config->features['my_comments'] ?? true;
 		$config->features['active_logins'] = $config->features['active_logins'] ?? true;
-		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
+		$config->features['auth_log'] = $config->features['auth_log'] ?? false;
+		$config->features['nickname_log'] = $config->features['nickname_log'] ?? false;
 
 		// Set agreements config
 		if(!isset($config->agreements) || !is_array($config->agreements))

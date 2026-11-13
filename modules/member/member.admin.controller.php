@@ -381,6 +381,7 @@ class MemberAdminController extends Member
 			'my_documents',
 			'my_comments',
 			'active_logins',
+			'auth_log',
 			'nickname_log'
 		);
 		foreach ($args as $key => $value)
