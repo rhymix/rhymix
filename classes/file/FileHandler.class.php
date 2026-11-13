@@ -557,7 +557,8 @@ class FileHandler
 		// sanitize params
 		$target_file = self::getRealPath($target_file);
 		$resize_width = intval($resize_width);
-		$resize_height = $resize_height === 'auto' ? 'auto' : intval($resize_height);
+		$resize_height_was_auto = $resize_height === 'auto';
+		$resize_height = $resize_height_was_auto ? 'auto' : intval($resize_height);
 		if(!$resize_width)
 		{
 			$resize_width = 100;
@@ -643,6 +644,10 @@ class FileHandler
 			$source = imagerotate($source, $rotate, 0);
 			$width = imagesx($source);
 			$height = imagesy($source);
+			if ($resize_height_was_auto)
+			{
+				$resize_height = round($resize_width / ($width / $height));
+			}
 		}
 
 		// If resize not needed, skip thumbnail generation
