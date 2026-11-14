@@ -33,6 +33,8 @@ class FilenameFilterTest extends \Codeception\Test\Unit
 			// Double extension
 			'Photos.docx .exe' => 'Photos.exe',
 			'Photos.png.php.jpg' => 'Photos.png.jpg',
+			'Photos.PHP.webp' => 'Photos.webp',
+			'Video.EXE . aspx. MP4' => 'Video.MP4',
 
 			// Overlong filenames
 			str_repeat('f', 200) . '.' . str_repeat('b', 30) => str_repeat('f', 111) . '.' . str_repeat('b', 15),
