@@ -771,6 +771,40 @@ class EditorModel extends Editor
 	}
 
 	/**
+	 * Get the list of attributes used by an editor component.
+	 *
+	 * @param string $component
+	 * @return ?array
+	 */
+	public static function getComponentAttributeList(string $component): ?array
+	{
+		static $_cache = [];
+		if (isset($_cache[$component]))
+		{
+			return $_cache[$component];
+		}
+
+		// Load the editor component class.
+		$component = preg_replace('/[^a-zA-Z0-9_-]/', '', $component);
+		$filename = RX_BASEDIR . sprintf('modules/editor/components/%s/%s.class.php', $component, $component);
+		if (!file_exists($filename))
+		{
+			return null;
+		}
+
+		// Check if the editor component supports getAttributeList().
+		require_once $filename;
+		if (!class_exists($component) || !is_subclass_of($component, 'EditorHandler') || !method_exists($component, 'getAttributeList'))
+		{
+			return null;
+		}
+
+		// Return the editor component's own declaration of attributes.
+		$_cache[$component] = $component::getAttributeList();
+		return $_cache[$component];
+	}
+
+	/**
 	 * Return converted content
 	 * @param object $obj
 	 * @return string

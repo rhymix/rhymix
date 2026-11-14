@@ -88,6 +88,23 @@ class image_gallery extends EditorHandler
 		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
+
+	/**
+	 * Declare custom attributes for this editor component.
+	 */
+	public static function getAttributeList(): array
+	{
+		return [
+			'gallery_align' => 'string',
+			'gallery_style' => 'string',
+			'bg_color' => 'color',
+			'border_color' => 'color',
+			'border_thickness' => 'int',
+			'images_list' => 'string',
+			'width' => 'int',
+			'height' => 'int',
+			'align' => 'string',
+			'style' => 'string',
+		];
+	}
 }
-/* End of file image_gallery.class.php */
-/* Location: ./modules/editor/components/image_gallery/image_gallery.class.php */

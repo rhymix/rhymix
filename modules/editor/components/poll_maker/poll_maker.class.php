@@ -77,6 +77,16 @@ class poll_maker extends EditorHandler
 		$oTemplate = TemplateHandler::getInstance();
 		return $oTemplate->compile($tpl_path, $tpl_file);
 	}
+
+	/**
+	 * Declare custom attributes for this editor component.
+	 */
+	public static function getAttributeList(): array
+	{
+		return [
+			'poll_srl' => 'int',
+			'skin' => 'string',
+			'style' => 'string',
+		];
+	}
 }
-/* End of file poll_maker.class.php */
-/* Location: ./modules/editor/components/poll_maker/poll_maker.class.php */

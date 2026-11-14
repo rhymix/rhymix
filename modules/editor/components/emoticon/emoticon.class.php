@@ -32,7 +32,7 @@ class emoticon extends EditorHandler
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
-		
+
 		$this->add('emoticons', $this->getEmoticons($emoticon));
 	}
 
@@ -47,7 +47,7 @@ class emoticon extends EditorHandler
 		{
 			return array();
 		}
-		
+
 		$output = array();
 		foreach($emoticon_files as $file)
 		{
@@ -55,11 +55,11 @@ class emoticon extends EditorHandler
 			{
 				continue;
 			}
-			
+
 			$file_name = basename($file);
 			list($file_width, $file_height) = getimagesize($file);
 			$svg_name = preg_replace('@\.[^.]+$@', '', $file_name) . '.svg';
-			
+
 			$output[] = array(
 				'url' => $emoticon_url . $file_name,
 				'width' => $file_width,
@@ -139,6 +139,13 @@ class emoticon extends EditorHandler
 
 		return $code;
 	}
+
+	/**
+	 * This component does not use any custom attributes.
+	 */
+	public static function getAttributeList(): array
+	{
+		return [];
+	}
 }
-/* End of file emoticon.class.php */
-/* Location: ./modules/editor/components/emoticon/emoticon.class.php */
+

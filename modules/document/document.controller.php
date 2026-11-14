@@ -821,7 +821,8 @@ class DocumentController extends Document
 		// Remove iframe and script if not a top adminisrator in the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 
 		// Fix encoding of non-BMP UTF-8 characters.
@@ -1178,7 +1179,8 @@ class DocumentController extends Document
 		// Remove iframe and script if not a top adminisrator in the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 
 		// Fix encoding of non-BMP UTF-8 characters.
