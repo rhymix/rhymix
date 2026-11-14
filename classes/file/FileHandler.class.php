@@ -539,11 +539,11 @@ class FileHandler
 	 * @param string $source_file Path of the source file
 	 * @param string $target_file Path of the target file
 	 * @param int $resize_width Width to resize
-	 * @param int $resize_height Height to resize
+	 * @param int|string $resize_height Height to resize (or 'auto')
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio, stretch, fill, center)
 	 * @param int $quality Compression ratio (0~100)
-	 * @param int $rotate Rotation degrees (0~360)
+	 * @param int|string $rotate Rotation degrees (0~360 or 'auto')
 	 * @return bool TRUE: success, FALSE: failed
 	 */
 	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'fill', $quality = 100, $rotate = 0)
@@ -557,7 +557,8 @@ class FileHandler
 		// sanitize params
 		$target_file = self::getRealPath($target_file);
 		$resize_width = intval($resize_width);
-		$resize_height = $resize_height === 'auto' ? 'auto' : intval($resize_height);
+		$resize_height_was_auto = $resize_height === 'auto';
+		$resize_height = $resize_height_was_auto ? 'auto' : intval($resize_height);
 		if(!$resize_width)
 		{
 			$resize_width = 100;
@@ -638,11 +639,19 @@ class FileHandler
 		}
 
 		// Rotate image
+		if ($rotate === 'auto')
+		{
+			$rotate = ($type === 'jpg') ? intval(self::checkImageRotation($source_file)) : 0;
+		}
 		if ($rotate)
 		{
 			$source = imagerotate($source, $rotate, 0);
 			$width = imagesx($source);
 			$height = imagesy($source);
+			if ($resize_height_was_auto)
+			{
+				$resize_height = round($resize_width / ($width / $height));
+			}
 		}
 
 		// If resize not needed, skip thumbnail generation

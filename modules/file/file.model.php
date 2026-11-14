@@ -376,6 +376,9 @@ class FileModel extends File
 		$config->download_short_url = $config->download_short_url ?? 'N';
 		$config->inline_download_format = $config->inline_download_format ?? [];
 		$config->image_autoconv = $config->image_autoconv ?? [];
+		$config->image_autorotate = $config->image_autorotate ?? true;
+		$config->image_remove_exif_data = $config->image_remove_exif_data ?? false;
+		$config->image_always_reencode = $config->image_always_reencode ?? false;
 		$config->image_quality_adjustment = $config->image_quality_adjustment ?? 75;
 		$config->video_mp4_gif_time = $config->video_mp4_gif_time ?? 0;
 		$config->ffmpeg_command = $config->ffmpeg_command ?? '/usr/bin/ffmpeg';
