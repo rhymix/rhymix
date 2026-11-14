@@ -128,7 +128,7 @@ class Security
 		$key = config('crypto.authentication_key');
 		$salt = substr($signature, 0, 8);
 		$hash = substr(base64_encode(hash_hmac('sha256', hash_hmac('sha256', $string, $salt), $key, true)), 0, 32);
-		return self::compareStrings(substr($signature, 8), strtr($hash, '+/', '-_'));
+		return hash_equals(substr($signature, 8), strtr($hash, '+/', '-_'));
 	}
 
 	/**
@@ -295,24 +295,14 @@ class Security
 	/**
 	 * Compare two strings in constant time.
 	 *
+	 * @deprecated
 	 * @param string $a
 	 * @param string $b
 	 * @return bool
 	 */
 	public static function compareStrings(string $a, string $b): bool
 	{
-		if(function_exists('hash_equals'))
-		{
-			return hash_equals($a, $b);
-		}
-
-		$diff = strlen($a) ^ strlen($b);
-		$maxlen = min(strlen($a), strlen($b));
-		for($i = 0; $i < $maxlen; $i++)
-		{
-			$diff |= ord($a[$i]) ^ ord($b[$i]);
-		}
-		return $diff === 0;
+		return hash_equals($a, $b);
 	}
 
 	/**

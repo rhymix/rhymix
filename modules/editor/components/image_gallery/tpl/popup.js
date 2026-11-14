@@ -3,7 +3,7 @@ var files = [];
 function getSlideShow() {
 	var node, $node, selected_images = '', width, style, align, border_color, bg_color, thickness;
 
-    // 부모창이 있는지 체크 
+    // 부모창이 있는지 체크
     if(typeof(opener)=="undefined") return;
 
     // 부모 위지윅 에디터에서 선택된 영역이 있으면 처리
@@ -19,19 +19,19 @@ function getSlideShow() {
         bg_color  = $node.attr('bg_color');
         thickness = $node.attr('border_thickness') || 1;
 
-        get_by_id('width').value = width; 
+        get_by_id('width').value = width;
 		get_by_id('gallery_style').selectedIndex = (style=='list')?1:0;
 		get_by_id('gallery_align').selectedIndex = (align=='left')?1:(align=='right')?2:0;
-        get_by_id('border_thickness').value = thickness; 
+        get_by_id('border_thickness').value = thickness;
 
-        get_by_id('border_color_input').value = border_color; 
+        get_by_id('border_color_input').value = border_color;
 
-        get_by_id('bg_color_input').value = bg_color; 
+        get_by_id('bg_color_input').value = bg_color;
 
         selected_images = $node.attr('images_list');
     }
 
-    // 부모창의 업로드된 파일중 이미지 목록을 모두 가져와서 세팅 
+    // 부모창의 업로드된 파일중 이미지 목록을 모두 가져와서 세팅
     var fo = get_by_id("fo");
     var editor_sequence = fo.editor_sequence.value;
     var list_obj = get_by_id("image_list");
@@ -42,7 +42,7 @@ function getSlideShow() {
 
             if(!file_srl) return;
             var filename = file.source_filename;
-            if(/\.(jpe?g|png|gif)$/i.test(filename)) {
+            if(/\.(jpe?g|png|gif|webp)$/i.test(filename)) {
                 var selected = false;
                 if(selected_images.indexOf(filename)!=-1) selected = true;
                 var opt = new Option(file.source_filename, file_srl, false, selected);

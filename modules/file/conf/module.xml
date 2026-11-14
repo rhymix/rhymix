@@ -4,7 +4,7 @@
 	<actions>
 		<action name="getFileList" type="model" />
 
-		<action name="procFileUpload" type="controller" check_csrf="false" />
+		<action name="procFileUpload" type="controller" />
 		<action name="procFileIframeUpload" type="controller" />
 		<action name="procFileImageResize" type="controller" />
 		<action name="procFileDelete" type="controller" />

@@ -382,7 +382,7 @@ class Password
 				{
 					return password_verify($password, $hash);
 				}
-				elseif (Security::compareStrings($hash, self::hashPassword($password, $algo, $hash)))
+				elseif (hash_equals($hash, self::hashPassword($password, $algo, $hash)))
 				{
 					return true;
 				}
@@ -397,7 +397,7 @@ class Password
 			}
 			else
 			{
-				return Security::compareStrings($hash, self::hashPassword($password, $algos, $hash));
+				return hash_equals($hash, self::hashPassword($password, $algos, $hash));
 			}
 		}
 	}

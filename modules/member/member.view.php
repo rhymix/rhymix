@@ -1095,11 +1095,19 @@ class MemberView extends Member
 		$columnList = array('module_srl', 'module');
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl, $columnList);
 		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
+		if (!$grant->root)
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
+		}
 
-		if(!$grant->manager) throw new Rhymix\Framework\Exceptions\NotPermitted;
+		$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+		if ($member_info->is_admin == 'Y')
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted('document.msg_document_is_admin_not_permitted');
+		}
 
 		Context::loadLang('modules/document/lang/');
-		Context::set('spammer_info', MemberModel::getMemberInfoByMemberSrl($member_srl));
+		Context::set('spammer_info', $member_info);
 		Context::set('module_srl', $module_srl);
 
 		// Select Pop-up layout

@@ -530,40 +530,23 @@ class CommentController extends Comment
 		// check if comment's module is using comment validation and set the publish status to 0 (false)
 		// for inserting query, otherwise default is 1 (true - means comment is published)
 		$using_validation = $this->isModuleUsingPublishValidation($obj->module_srl);
-		if(!$manual_inserted)
+		$is_admin = false;
+		if (!$manual_inserted)
 		{
-			if(Context::get('is_logged'))
+			$logged_info = Context::get('logged_info');
+			if ($logged_info && $logged_info->is_admin == 'Y')
 			{
-				$logged_info = Context::get('logged_info');
-				if($logged_info->is_admin == 'Y')
-				{
-					$is_admin = TRUE;
-				}
-				else
-				{
-					$is_admin = FALSE;
-				}
+				$is_admin = true;
 			}
 		}
-		else
-		{
-			$is_admin = FALSE;
-		}
 
-		if(!$using_validation)
+		if (!$using_validation)
 		{
 			$obj->status = 1;
 		}
 		else
 		{
-			if($is_admin)
-			{
-				$obj->status = 1;
-			}
-			else
-			{
-				$obj->status = 0;
-			}
+			$obj->status = $is_admin ? 1 : 0;
 		}
 		$obj->__isupdate = FALSE;
 
@@ -575,10 +558,14 @@ class CommentController extends Comment
 
 		// Only managers can customize dates.
 		$grant = Context::get('grant');
-		if(!$grant->manager)
+		if(!$grant->manager && !$manual_inserted)
 		{
 			unset($obj->regdate);
 			unset($obj->last_update);
+		}
+		if (!isset($obj->regdate))
+		{
+			$obj->regdate = date('YmdHis');
 		}
 
 		// Add the current user's info, unless it is a guest post.
@@ -598,7 +585,24 @@ class CommentController extends Comment
 			unset($obj->user_id);
 		}
 
+		// Set other flags.
+		if (isset($obj->notify_message) && $obj->notify_message !== 'Y')
+		{
+			$obj->notify_message = 'N';
+		}
+		if (isset($obj->is_secret) && $obj->is_secret !== 'Y')
+		{
+			$obj->is_secret = 'N';
+		}
+
+		// Set other defaults.
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
+		if (!$manual_inserted)
+		{
+			unset($obj->voted_count);
+			unset($obj->blamed_count);
+			$obj->ipaddress = \RX_CLIENT_IP;
+		}
 
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.insertComment', 'before', $obj);
@@ -659,11 +663,6 @@ class CommentController extends Comment
 			return new BaseObject(-1, 'msg_not_permitted');
 		}
 
-		if (empty($obj->regdate))
-		{
-			$obj->regdate = date('YmdHis');
-		}
-
 		// determine the order
 		$obj->list_order = getNextSequence() * -1;
 
@@ -690,16 +689,6 @@ class CommentController extends Comment
 		if (config('db.master.charset') !== 'utf8mb4')
 		{
 			$obj->content = utf8_mbencode($obj->content);
-		}
-
-		// Set other flags.
-		if (isset($obj->notify_message) && $obj->notify_message !== 'Y')
-		{
-			$obj->notify_message = 'N';
-		}
-		if (isset($obj->is_secret) && $obj->is_secret !== 'Y')
-		{
-			$obj->is_secret = 'N';
 		}
 
 		// begin transaction
@@ -995,7 +984,13 @@ class CommentController extends Comment
 
 		if(($obj->is_secret ?? 'N') !== 'Y') $obj->is_secret = 'N';
 		if(($obj->notify_message ?? 'N') !== 'Y') $obj->notify_message = 'N';
+
+		// Set other defaults.
 		$obj->uploaded_count = FileModel::getFilesCount($obj->comment_srl);
+		if (!$manual_updated)
+		{
+			unset($obj->last_update);
+		}
 
 		// call a trigger (before)
 		$output = ModuleHandler::triggerCall('comment.updateComment', 'before', $obj);

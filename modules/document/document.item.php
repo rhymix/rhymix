@@ -253,6 +253,13 @@ class DocumentItem extends BaseObject
 			{
 				return false;
 			}
+			if (isset($module_info->consultation) && $module_info->consultation === 'Y')
+			{
+				if (empty($grant->manager) && empty($grant->consultation_read) && !$this->isGranted())
+				{
+					return false;
+				}
+			}
 		}
 
 		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))

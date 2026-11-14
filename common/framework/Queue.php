@@ -236,7 +236,7 @@ class Queue
 	 */
 	public static function checkKey(string $key): bool
 	{
-		return config('queue.key') === $key;
+		return hash_equals(config('queue.key'), $key);
 	}
 
 	/**

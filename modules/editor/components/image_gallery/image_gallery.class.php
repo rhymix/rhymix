@@ -47,9 +47,8 @@ class image_gallery extends EditorHandler
 		$gallery_info->srl = rand(111111, 999999);
 		$gallery_info->border_thickness = (int)$xml_obj->attrs->border_thickness;
 		$gallery_info->gallery_style = $xml_obj->attrs->gallery_style;
-		$color_preg = "/^([a-fA-F0-9]{6})/";
-		$gallery_info->border_color = preg_replace($color_preg,"#$1",$xml_obj->attrs->border_color);
-		$gallery_info->bg_color = preg_replace($color_preg,"#$1",$xml_obj->attrs->bg_color);
+		$gallery_info->border_color = $xml_obj->attrs->border_color ? ('#' . preg_replace('/[^a-fA-F0-9]/', '', $xml_obj->attrs->border_color)) : '';
+		$gallery_info->bg_color = $xml_obj->attrs->bg_color ? ('#' . preg_replace('/[^a-fA-F0-9]/', '', $xml_obj->attrs->bg_color)) : '';
 		$gallery_info->gallery_align = $xml_obj->attrs->gallery_align;
 
 		if(!in_array($gallery_info->gallery_align, array('left', 'center', 'right'))) {
@@ -57,10 +56,10 @@ class image_gallery extends EditorHandler
 		}
 
 		$images_list = $xml_obj->attrs->images_list;
-		$images_list = trim(preg_replace('/\.(gif|jpe?g|png) /i', ".\\1\n", $images_list));
+		$images_list = trim(preg_replace('/\.(gif|jpe?g|png|webp) /i', ".\\1\n", $images_list));
 		$images_list = explode("\n", trim($images_list));
 		// 파일 확장자는 대문자가 될 수도 있음. (i 가 추가된 이유.) 2016.02.05 misol <misol.kr@gmail.com>
-		$gallery_info->images_list = preg_grep("/^[a-z0-9\/]+\.(gif|jpe?g|png)+$/i", $images_list);
+		$gallery_info->images_list = preg_grep("/^[a-z0-9\/]+\.(gif|jpe?g|png|webp)+$/i", $images_list);
 
 		// If you set the output to output the XML code generated a list of the image
 		if(Context::getResponseMethod() == 'XMLRPC')
