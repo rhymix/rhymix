@@ -282,7 +282,7 @@ class DocumentItem extends BaseObject
 		{
 			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
 		}
-		if(is_array($_SESSION['accessible']) && count($_SESSION['accessible']) > 200)
+		if(is_array($_SESSION['accessible'] ?? null) && count($_SESSION['accessible']) > 200)
 		{
 			$_SESSION['accessible'] = array_slice($_SESSION['accessible'], 100, null, true);
 		}
