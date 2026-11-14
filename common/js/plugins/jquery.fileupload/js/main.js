@@ -363,31 +363,31 @@
 			var filename = String(file.source_filename).escape();
 			var html = '';
 			var data = $container.data();
+			var extra_attributes = '';
+
+			if (file.download_url.match(/\b(?:procFileDownload\b|files\/download\/)/)) {
+				extra_attributes += ' preload="none"';
+				if (!file.download_url.match(/^\//)) {
+					file.download_url = Rhymix.getBaseUrl() + file.download_url;
+				}
+			}
 
 			if (filename.match(/\.(gif|jpe?g|png|webp)$/i)) {
-				html = '<img src="' + file.download_url + '" alt="' + filename + '"'
-					+ ' editor_component="image_link" data-file-srl="' + file.file_srl + '" />';
+				html = '<img src="' + file.download_url + '" alt="' + filename + '"' + extra_attributes + ' data-file-srl="' + file.file_srl + '" />';
 			}
 			else if (filename.match(/\.(mp3|wav|ogg|flac|aac)$/i)) {
-				html = '<audio src="' + file.download_url + '" controls' +
-					' data-file-srl="' + file.file_srl + '"></audio>';
+				html = '<audio src="' + file.download_url + '" controls' + extra_attributes + ' data-file-srl="' + file.file_srl + '"></audio>';
 			}
 			else if (filename.match(/\.(mp4|webm)$/i)) {
 				if (file.original_type === 'image/gif') {
-					html = '<video src="' + file.download_url + '"'
-						+ ' autoplay loop muted playsinline data-file-srl="' + file.file_srl + '"></video>';
-				} else if (file.download_url.match(/\b(?:procFileDownload\b|files\/download\/)/)) {
-					if (!file.download_url.match(/^\//)) {
-						file.download_url = XE.URI(default_url).pathname() + file.download_url;
-					}
-					html = '<video src="' + file.download_url + '" controls preload="none"'
-						+ ' data-file-srl="' + file.file_srl + '"></video>';
+					extra_attributes += ' autoplay loop muted playsinline';
 				} else {
-					html = '<video src="' + file.download_url + '" controls data-file-srl="' + file.file_srl + '"></video>';
+					extra_attributes += ' controls';
 				}
 				if (file.thumbnail_filename) {
-					html = html.replace('controls', 'poster="' + file.thumbnail_filename.replace(/^.\//, XE.URI(default_url).pathname()) + '" controls');
+					extra_attributes += ' poster="' + file.thumbnail_filename.replace(/^.\//, Rhymix.getBaseUrl()) + '"';
 				}
+				html = '<video src="' + file.download_url + '"' + extra_attributes + ' data-file-srl="' + file.file_srl + '"></video>';
 			}
 
 			if (html !== '' && data.settings.autoinsertPosition === 'paragraph') {
