@@ -887,7 +887,7 @@ class WidgetController extends Widget
 		}
 
 		// Additional configuration for widget styles
-		if($request_vars->widgetstyle)
+		if(!empty($request_vars->widgetstyle))
 		{
 			$widgetStyle_info = WidgetModel::getWidgetStyleInfo($request_vars->widgetstyle);
 			foreach ($widgetStyle_info->extra_var ?? [] as $key => $val)
