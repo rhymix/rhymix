@@ -8,39 +8,6 @@
 class EditorController extends Editor
 {
 	/**
-	 * @brief Initialization
-	 */
-	function init()
-	{
-	}
-
-	/**
-	 * @brief AutoSave
-	 */
-	function procEditorSaveDoc()
-	{
-
-		$this->deleteSavedDoc(false);
-
-		$args = new stdClass;
-		$args->document_srl = Context::get('document_srl');
-		$args->content = Context::get('content');
-		$args->title = Context::get('title');
-		$output = $this->doSaveDoc($args);
-
-		$this->setMessage('msg_auto_saved');
-	}
-
-	/**
-	 * @brief Delete autosaved documents
-	 */
-	function procEditorRemoveSavedDoc()
-	{
-		$oEditorController = getController('editor');
-		$oEditorController->deleteSavedDoc(true);
-	}
-
-	/**
 	 * @brief Execute a method of the component when the component requests ajax
 	 */
 	function procEditorCall()
@@ -291,31 +258,88 @@ class EditorController extends Editor
 	}
 
 	/**
-	 * @brief AutoSave
+	 * Autosave
 	 */
-	function doSaveDoc($args)
+	public function procEditorSaveDoc()
 	{
-		if(!$args->document_srl) $args->document_srl = $_SESSION['upload_info'][$editor_sequence]->upload_target_srl;
+		$args = new stdClass;
+		$args->module_srl = Context::get('current_module_info')->module_srl;
+		$args->document_srl = Context::get('document_srl');
+		$args->content = Context::get('content');
+		$args->title = Context::get('title');
 
-		// Get the current module if module_srl doesn't exist
-		if(!$args->module_srl) $args->module_srl = Context::get('module_srl');
-		if(!$args->module_srl)
+		$output = $this->doSaveDoc($args);
+		if (!$output->toBool())
 		{
-			$current_module_info = Context::get('current_module_info');
-			$args->module_srl = $current_module_info->module_srl;
+			return new BaseObject(-1, $output->getMessage());
+		}
+		else
+		{
+			$this->setMessage('msg_auto_saved');
+		}
+	}
+
+	/**
+	 * AutoSave
+	 *
+	 * @param object $args
+	 * @return BaseObject
+	 */
+	public function doSaveDoc(object $args): BaseObject
+	{
+		// Sanity check
+		if (!isset($args->module_srl) || !$args->module_srl)
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		if (!isset($args->document_srl))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
+		if (!isset($args->content) || is_empty_html_content($args->content))
+		{
+			return new BaseObject();
+		}
+		if (!isset($args->title) || trim($args->title) === '')
+		{
+			return new BaseObject();
 		}
 
-		if(Context::get('is_logged'))
+		// Permission check
+		$logged_info = Context::get('logged_info');
+		$module_info = Context::get('current_module_info');
+		$grant = ModuleModel::getGrant($module_info, $logged_info);
+		if (isset($grant->write_document) && !$grant->write_document)
 		{
-			$logged_info = Context::get('logged_info');
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		if ($module_info->module === 'page' && !$grant->can('config:*'))
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+		if ($module_info->module === 'member')
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
+
+		// Set information to identify the author
+		if ($logged_info && $logged_info->member_srl)
+		{
 			$args->member_srl = $logged_info->member_srl;
 		}
 		else
 		{
 			$args->ipaddress = RX_CLIENT_IP;
 			$args->certify_key = Rhymix\Framework\Security::getRandom(32);
-			setcookie('autosave_certify_key_' . $args->module_srl, $args->certify_key, time() + 86400, null, null, RX_SSL, true);
+			Rhymix\Framework\Cookie::set('autosave_certify_key_' . $args->module_srl, $args->certify_key, ['expires' => time() + 86400]);
 		}
+
+		// Delete any previous saved document in the same module by the same author
+		executeQuery('editor.deleteSavedDoc', $args);
+
+		// Escape and clean the title and content
+		$args->title = escape($args->title);
+		$args->content = Rhymix\Framework\Filters\HTMLFilter::clean($args->content);
 
 		return executeQuery('editor.insertSavedDoc', $args);
 	}
@@ -323,75 +347,88 @@ class EditorController extends Editor
 	/**
 	 * @brief Load the srl of autosaved document - for those who uses XE older versions.
 	 */
-	function procEditorLoadSavedDocument()
+	public function procEditorLoadSavedDocument()
 	{
-		$editor_sequence = Context::get('editor_sequence');
-		$primary_key = Context::get('primary_key');
+		$editor_sequence = intval(Context::get('editor_sequence'));
+		$primary_key = escape(Context::get('primary_key'));
 		$saved_doc = EditorModel::getSavedDoc(null);
-
-		FileController::setUploadInfo($editor_sequence, $saved_doc->document_srl, intval($saved_doc->module_srl));
-		$vars = $this->getVariables();
-		$this->add("editor_sequence", $editor_sequence);
-		$this->add("key", $primary_key);
-		$this->add("title", $saved_doc->title);
-		$this->add("content", $saved_doc->content);
-		$this->add("document_srl", $saved_doc->document_srl);
+		if ($saved_doc)
+		{
+			FileController::setUploadInfo($editor_sequence, $saved_doc->document_srl, intval($saved_doc->module_srl));
+			$this->add('editor_sequence', $editor_sequence);
+			$this->add('key', $primary_key);
+			$this->add('document_srl', $saved_doc->document_srl);
+			$this->add('title', $saved_doc->title);
+			$this->add('content', $saved_doc->content);
+		}
 	}
 
 	/**
-	 * @brief A trigger to remove auto-saved document when inserting/updating the document
+	 * Delete autosaved documents
 	 */
-	function triggerDeleteSavedDoc(&$obj)
+	public function procEditorRemoveSavedDoc()
+	{
+		$this->deleteSavedDoc(true);
+	}
+
+	/**
+	 * Trigger to remove auto-saved document when inserting/updating the document
+	 */
+	public function triggerDeleteSavedDoc(&$obj)
 	{
 		$this->deleteSavedDoc(false);
 	}
 
 	/**
-	 * @brief Delete the auto-saved document
-	 * Based on the current logged-in user
+	 * Delete auto-saved document
 	 */
-	function deleteSavedDoc($mode = false)
+	public function deleteSavedDoc($mode = false)
 	{
 		$args = new stdClass();
-		$args->module_srl = Context::get('module_srl');
+		$args->module_srl = Context::get('current_module_info')->module_srl;
 
-		// Get the current module if module_srl doesn't exist
-		if(!$args->module_srl)
+		// Identify the author
+		$logged_info = Context::get('logged_info');
+		if ($logged_info && $logged_info->member_srl)
 		{
-			$current_module_info = Context::get('current_module_info');
-			$args->module_srl = $current_module_info->module_srl;
-		}
-		if(Context::get('is_logged'))
-		{
-			$logged_info = Context::get('logged_info');
 			$args->member_srl = $logged_info->member_srl;
 		}
-		elseif($_COOKIE['autosave_certify_key_' . $args->module_srl])
+		elseif (!empty($_COOKIE['autosave_certify_key_' . $args->module_srl]))
 		{
+			$args->member_srl = 0;
 			$args->certify_key = $_COOKIE['autosave_certify_key_' . $args->module_srl];
 		}
 		else
 		{
+			$args->member_srl = 0;
 			$args->ipaddress = RX_CLIENT_IP;
 		}
 
-		// Check if the auto-saved document already exists
-		$output = executeQuery('editor.getSavedDocument', $args);
-		$saved_doc = $output->data;
-		if(!$saved_doc) return;
-		if($saved_doc->certify_key && !isset($args->certify_key))
+		// Check if there is an auto-saved document for the current author
+		$output = executeQueryArray('editor.getSavedDocument', $args);
+		$saved_doc = count($output->data) ? array_first($output->data) : null;
+		if (!$saved_doc)
 		{
 			return;
 		}
 
-		$oSaved = DocumentModel::getDocument($saved_doc->document_srl);
-		if(!$oSaved->isExists())
+		// Check certify_key
+		if ($saved_doc->certify_key && (!isset($args->certify_key) || $saved_doc->certify_key !== $args->certify_key))
 		{
-			if($mode)
+			return;
+		}
+
+		// Check if the auto-saved document already exists
+		if ($saved_doc->document_srl)
+		{
+			$document = DocumentModel::getDocument($saved_doc->document_srl);
+			if (!$document || !$document->isExists())
 			{
-				setcookie('autosave_certify_key_' . $args->module_srl, 'deleted', time() - 86400);
-				$output = executeQuery('editor.getSavedDocument', $args);
-				$output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
+				if ($mode)
+				{
+					Rhymix\Framework\Cookie::remove('autosave_certify_key_' . $args->module_srl);
+					$output = ModuleHandler::triggerCall('editor.deleteSavedDoc', 'after', $saved_doc);
+				}
 			}
 		}
 
