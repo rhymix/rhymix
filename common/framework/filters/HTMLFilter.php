@@ -646,7 +646,7 @@ class HTMLFilter
 				{
 					return $attr[0];
 				}
-				if (preg_match('/^(?:on|data-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|style|tabindex|title|rx_encoded_properties)$)/i', $attrkey))
+				if (preg_match('/^(?:on|\w+-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|style|tabindex|title|rx_encoded_properties)$)/i', $attrkey))
 				{
 					return $attr[0];
 				}
