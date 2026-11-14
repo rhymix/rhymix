@@ -260,6 +260,7 @@ class MemberAdminController extends Member
 			'password_hashing_auto_upgrade',
 			'password_change_invalidate_other_sessions',
 			'password_reset_method',
+			'password_reset_message',
 			'allow_nickname_change',
 			'update_nickname_log',
 			'nickname_symbols',
@@ -350,7 +351,8 @@ class MemberAdminController extends Member
 		{
 			$args->password_hashing_auto_upgrade = 'N';
 		}
-		$args->password_reset_method = intval($args->password_reset_method);
+		$args->password_reset_method = intval($args->password_reset_method) === 1 ? 1 : 2;
+		$args->password_reset_message = intval($args->password_reset_message) === 1 ? 1 : 2;
 		if(!in_array($args->nickname_symbols, ['Y', 'N', 'LIST']))
 		{
 			$args->nickname_symbols = 'Y';
@@ -379,6 +381,7 @@ class MemberAdminController extends Member
 			'my_documents',
 			'my_comments',
 			'active_logins',
+			'auth_log',
 			'nickname_log'
 		);
 		foreach ($args as $key => $value)
@@ -596,6 +599,7 @@ class MemberAdminController extends Member
 			'max_error_count',
 			'max_error_count_time',
 			'login_failure_except_ip',
+			'login_log',
 			'login_invalidate_other_sessions',
 			'after_login_url',
 			'after_logout_url'
@@ -646,6 +650,11 @@ class MemberAdminController extends Member
 			$args->login_failure_except_ip = array_filter($args->login_failure_except_ip, function($val) {
 				return $val !== '';
 			});
+		}
+
+		if(!$args->login_log || $args->login_log !== 'N')
+		{
+			$args->login_log = 'Y';
 		}
 
 		if(!trim(strip_tags($args->after_login_url)))
@@ -1159,6 +1168,52 @@ class MemberAdminController extends Member
 		}
 
 		$this->setMessage('success_deleted');
+	}
+
+	/**
+	 * Clear auth log
+	 */
+	public function procMemberAdminClearAuthLog()
+	{
+		$days = intval(Context::get('days'));
+		if ($days < 1)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$args = new stdClass;
+		$args->regdate_before = date('Y-m-d H:i:s', time() - ($days * 86400));
+		$output = executeQuery('member.deleteAuthLog', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispMemberAdminAuthLog']));
+	}
+
+	/**
+	 * Clear modify nick name log
+	 */
+	public function procMemberAdminClearModifyNickNameLog()
+	{
+		$days = intval(Context::get('days'));
+		if ($days < 1)
+		{
+			throw new Rhymix\Framework\Exceptions\InvalidRequest;
+		}
+
+		$args = new stdClass;
+		$args->regdate_before = date('YmdHis', time() - ($days * 86400));
+		$output = executeQuery('member.deleteMemberModifyNickNameLog', $args);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage('success_deleted');
+		$this->setRedirectUrl(getNotEncodedUrl(['module' => 'admin', 'act' => 'dispMemberAdminNickNameLog']));
 	}
 
 	/**

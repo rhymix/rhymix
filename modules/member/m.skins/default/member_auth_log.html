@@ -1,0 +1,20 @@
+<include target="./common_header.html" />
+<div class="xm">
+	<h2 class="hx h2">{$member_title = $lang->cmd_member_auth_log}</h2>
+	<ul class="lt">
+		<li loop="$auth_log => $val">
+			<strong style="color:red;"|cond="str_ends_with($val->action_type, 'failed')">
+				{isset($lang->auth_log_action_types[$val->action_type]) ? $lang->auth_log_action_types[$val->action_type] : $val->action_type}
+			</strong>
+			<span>{zdate($val->regdate, 'Y-m-d H:i:s')}</span>
+			<span>{$val->ipaddress}</span>
+		</li>
+	</ul>
+	<div class="pn">
+		<a cond="$page != 1" href="{getUrl('page',$page-1)}" class="prev">{$lang->cmd_prev}</a>
+		<strong>{$page} / {$page_navigation->last_page}</strong>
+		<a cond="$page != $page_navigation->last_page" href="{getUrl('page',$page+1)}" class="next">{$lang->cmd_next}</a>
+	</div>
+</div>
+
+<include target="./common_footer.html" />

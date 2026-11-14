@@ -1,0 +1,38 @@
+<query id="getAuthLogList" action="select">
+	<tables>
+		<table name="member_auth_log" alias="mal" />
+		<table name="member" alias="m" type="left join">
+			<conditions>
+				<condition operation="equal" column="mal.member_srl" default="m.member_srl" />
+			</conditions>
+		</table>
+	</tables>
+	<columns>
+		<column name="mal.*" />
+		<column name="m.user_id" alias="user_id" />
+		<column name="m.nick_name" alias="nick_name" />
+	</columns>
+	<conditions>
+		<condition operation="equal" column="mal.member_srl" var="member_srl" />
+		<condition operation="equal" column="m.user_id" var="user_id" />
+		<condition operation="equal" column="m.user_name" var="user_name" />
+		<condition operation="equal" column="m.nick_name" var="nick_name" />
+		<group if="email_address">
+			<condition operation="equal" column="mal.email_address" var="email_address" />
+			<condition operation="equal" column="m.email_address" var="email_address" pipe="or" />
+		</group>
+		<group if="phone_number">
+			<condition operation="equal" column="mal.phone_number" var="phone_number" />
+			<condition operation="equal" column="m.phone_number" var="phone_number" pipe="or" />
+		</group>
+		<condition operation="equal" column="mal.action_type" var="action_type" />
+		<condition operation="like_prefix" column="mal.regdate" var="regdate_prefix" />
+		<condition operation="equal" column="mal.ipaddress" var="ipaddress" />
+	</conditions>
+	<navigation>
+		<index var="sort_index" default="mal.id" order="sort_order" />
+		<list_count var="list_count" default="20" />
+		<page_count var="page_count" default="10" />
+		<page var="page" />
+	</navigation>
+</query>

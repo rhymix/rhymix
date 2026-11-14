@@ -660,89 +660,64 @@ class Member extends ModuleObject
 	}
 
 	/**
-	 * @brief Record login error and return the error, about IPaddress.
+	 * Record an auth log entry.
+	 *
+	 * @param int $member_srl
+	 * @param string $action_type
+	 * @param ?object $action_data
+	 * @param ?string $ipaddress
+	 * @return BaseObject
 	 */
-	function recordLoginError($error = 0, $message = 'success')
+	public static function insertAuthLog(int $member_srl, string $action_type, ?object $action_data = null, ?string $ipaddress = null): BaseObject
 	{
-		if($error == 0) return new BaseObject($error, $message);
+		$args = new stdClass();
+		$args->member_srl = $member_srl;
+		$args->action_type = $action_type;
+		if (isset($action_data) && isset($action_data->email_address))
+		{
+			$args->email_address = $action_data->email_address;
+			unset($action_data->email_address);
+		}
+		if (isset($action_data) && isset($action_data->phone_number))
+		{
+			$args->phone_number = $action_data->phone_number;
+			unset($action_data->phone_number);
+		}
+		if (isset($action_data) && count(get_object_vars($action_data)))
+		{
+			$args->action_data = json_encode($action_data, \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES);
+		}
+		$args->regdate = date('Y-m-d H:i:s');
+		$args->ipaddress = $ipaddress ?? \RX_CLIENT_IP;
+		return executeQuery('member.insertAuthLog', $args);
+	}
 
-		// Create a member model object
-		$config = MemberModel::getMemberConfig();
-
-		// Check if there is recoding table.
-		$oDB = DB::getInstance();
-		if (!$oDB->isTableExists('member_login_count'))
+	/**
+	 * Wrapper for insertAuthLog(), for non-members.
+	 */
+	public static function recordLoginError($error = 0, $message = 'success', $action_data = null)
+	{
+		if ($error == 0)
 		{
 			return new BaseObject($error, $message);
 		}
 
-		$args = new stdClass();
-		$args->ipaddress = \RX_CLIENT_IP;
-
-		$output = executeQuery('member.getLoginCountByIp', $args);
-		if($output->data && $output->data->count)
-		{
-			$last_update = strtotime($output->data->last_update);
-			$term = intval($_SERVER['REQUEST_TIME']-$last_update);
-			//update, if IP address access in a short time, update count. If not, make count 1.
-			if($term < $config->max_error_count_time)
-			{
-				$args->count = $output->data->count + 1;
-			}
-			else
-			{
-				$args->count = 1;
-			}
-			$output = executeQuery('member.updateLoginCountByIp', $args);
-		}
-		else
-		{
-			//insert
-			$args->count = 1;
-			$output = executeQuery('member.insertLoginCountByIp', $args);
-		}
+		self::insertAuthLog(0, 'login_failed', $action_data);
 		return new BaseObject($error, $message);
 	}
 
 	/**
-	 * @brief Record login error and return the error, about MemberSrl.
+	 * Wrapper for insertAuthLog(), for members.
 	 */
-	function recordMemberLoginError($error = 0, $message = 'success', $args = NULL)
+	public static function recordMemberLoginError($error = 0, $message = 'success', $action_data = null)
 	{
-		if($error == 0 || !$args->member_srl) return new BaseObject($error, $message);
-
-		// Create a member model object
-		$oMemberModel = getModel('member');
-		$config = $oMemberModel->getMemberConfig();
-
-		// Check if there is recoding table.
-		$oDB = DB::getInstance();
-		if (!$oDB->isTableExists('member_count_history'))
+		if ($error == 0)
 		{
 			return new BaseObject($error, $message);
 		}
 
-		$output = executeQuery('member.getLoginCountHistoryByMemberSrl', $args);
-		if($output->data && $output->data->content)
-		{
-			//update
-			$content = unserialize($output->data->content);
-			if (is_array($content) && count($content) >= 250)
-			{
-				$content = array_slice($content, -200);
-			}
-			$content[] = array(\RX_CLIENT_IP, lang($message), \RX_TIME);
-			$args->content = serialize($content);
-			$output = executeQuery('member.updateLoginCountHistoryByMemberSrl', $args);
-		}
-		else
-		{
-			//insert
-			$content[0] = array(\RX_CLIENT_IP, lang($message), \RX_TIME);
-			$args->content = serialize($content);
-			$output = executeQuery('member.insertLoginCountHistoryByMemberSrl', $args);
-		}
-		return $this->recordLoginError($error, $message);
+		self::insertAuthLog(intval($action_data->member_srl ?? 0), 'login_failed', $action_data);
+		return new BaseObject($error, $message);
 	}
 }
 /* End of file member.class.php */
