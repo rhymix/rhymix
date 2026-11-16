@@ -39,6 +39,7 @@ $lang->cmd_autoinstall_install = 'Install';
 $lang->cmd_autoinstall_uninstall = 'Uninstall';
 $lang->cmd_autoinstall_repository = 'Repository';
 $lang->cmd_autoinstall_update_available = 'Update Available';
+$lang->cmd_autoinstall_updatable = 'Updatable';
 $lang->cmd_autoinstall_not_updatable = 'Can\'t Update';
 $lang->cmd_autoinstall_see_more = 'See More in Rhymix Resource Center';
 $lang->install_environment['min'] = 'or above';
