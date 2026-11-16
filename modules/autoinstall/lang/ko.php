@@ -1,6 +1,9 @@
 <?php
 
 $lang->autoinstall = '쉬운 설치';
+$lang->autoinstall_updates = '업데이트';
+$lang->autoinstall_no_updates_available = '현재 업데이트 가능한 자료가 없습니다. 추천 자료를 둘러보세요.';
+$lang->autoinstall_refresh = '자료 목록 새로고침';
 $lang->package_update = '최근 업데이트';
 $lang->package_downloaded_count = '전체 다운로드';
 $lang->install = '설치';

@@ -43,16 +43,26 @@ class AutoinstallAdminView extends Autoinstall
 	 */
 	public function dispAutoinstallAdminIndex()
 	{
-		$type = trim(Context::get('type') ?? 'featured');
-		$page = intval(Context::get('page')) ?: 1;
-		$search_keyword = escape(trim(Context::get('search_keyword') ?? ''), false);
+		$type = trim(Context::get('type') ?? 'updates');
 		Context::set('type', $type);
-		Context::set('page', $page);
-		Context::set('search_keyword', $search_keyword);
 
-		$output = Rhymix\Modules\Autoinstall\Models\Package::searchPackages($type, $search_keyword, 20, $page);
-		Context::set('package_list', $output->data);
-		Context::set('page_navigation', $output->page_navigation);
+		if ($type === 'updates')
+		{
+			$updated_packages = Rhymix\Modules\Autoinstall\Models\Package::getUpdatedPackages();
+			Context::set('package_list', $updated_packages);
+			Context::set('page_navigation', null);
+		}
+		else
+		{
+			$page = intval(Context::get('page')) ?: 1;
+			$search_keyword = escape(trim(Context::get('search_keyword') ?? ''), false);
+			Context::set('page', $page);
+			Context::set('search_keyword', $search_keyword);
+
+			$output = Rhymix\Modules\Autoinstall\Models\Package::searchPackages($type, $search_keyword, 20, $page);
+			Context::set('package_list', $output->data);
+			Context::set('page_navigation', $output->page_navigation);
+		}
 
 		$this->setTemplateFile('index');
 	}

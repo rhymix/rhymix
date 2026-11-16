@@ -368,7 +368,7 @@ class Package
 		$args->sort_index = ($type === 'featured') ? 'featured_count' : 'list_order';
 		$args->list_count = $count;
 		$args->page = $page;
-		$output = executeQueryArray('autoinstall.getPackages', $args, [], self::class);
+		$output = executeQueryArray('autoinstall.getPackageList', $args, [], self::class);
 
 		// Cap featured list to 3 pages
 		if ($type === 'featured' && $output->total_page > 3)
@@ -511,6 +511,52 @@ class Package
 		$oDB->commit();
 		Cache::clearGroup('autoinstall');
 		return true;
+	}
+
+	/**
+	 * Get the list of updated packages.
+	 *
+	 * @return array
+	 */
+	public static function getUpdatedPackages(): array
+	{
+		// Put together the list of currently installed packages.
+		$installed_packages = [];
+		$output = executeQueryArray('autoinstall.getPackageInstallPaths');
+		foreach ($output->data ?? [] as $row)
+		{
+			if ($row->install_path && isset(self::INSTALL_PATHS[$row->type]) && preg_match(self::INSTALL_PATHS[$row->type], $row->install_path))
+			{
+				$check_path = \RX_BASEDIR . substr($row->install_path, 2) . '/' . self::INFO_FILES[$row->type];
+				if (Storage::exists($check_path))
+				{
+					$installed_packages[$row->package_srl] = $row->install_path;
+				}
+			}
+		}
+		if (!count($installed_packages))
+		{
+			return [];
+		}
+
+		// Check if each package has updates.
+		$updated_packages = [];
+		$output = executeQueryArray('autoinstall.getPackages', ['package_srl' => array_keys($installed_packages)], [], self::class);
+		foreach ($output->data ?? [] as $package)
+		{
+			$update_info = $package->getUpdateInfo();
+			if ($update_info->update_available)
+			{
+				$updated_packages[] = $package;
+			}
+		}
+
+		// Sort by latest update available.
+		uasort($updated_packages, function($a, $b) {
+			return strcmp($b->updated, $a->updated);
+		});
+
+		return array_values($updated_packages);
 	}
 
 	/**

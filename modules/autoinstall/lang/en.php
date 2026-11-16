@@ -1,6 +1,9 @@
 <?php
 
 $lang->autoinstall = 'Easy Install';
+$lang->autoinstall_updates = 'Updates';
+$lang->autoinstall_no_updates_available = 'There are currently no updates available. Browse the featured packages.';
+$lang->autoinstall_refresh = 'Refresh Package List';
 $lang->package_update = 'Recent Update';
 $lang->package_downloaded_count = 'Download Count';
 $lang->install = 'Install';
