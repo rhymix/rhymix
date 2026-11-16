@@ -169,33 +169,32 @@ class MemberController extends Member
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		$oDocument = DocumentModel::getDocument($document_srl);
-
 		// Check document
-		if(!$oDocument->isAccessible())
+		$oDocument = DocumentModel::getDocument($document_srl);
+		if (!$oDocument->isExists())
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound;
+		}
+		if (!$oDocument->isAccessible())
 		{
 			throw new Rhymix\Framework\Exception('msg_is_secret');
 		}
 
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
-
-		$logged_info = Context::get('logged_info');
-		$grant = ModuleModel::getGrant($module_info, $logged_info);
-
 		// Check access to module of the document
+		$logged_info = Context::get('logged_info');
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($oDocument->get('module_srl'));
+		$grant = ModuleModel::getGrant($module_info, $logged_info);
 		if(!$grant->access)
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
-
-		// Check grant to module of the document
 		if(isset($grant->list) && isset($grant->view) && (!$grant->list || !$grant->view))
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		// Check consultation option
-		if(isset($grant->consultation_read) && $module_info->consultation == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
+		if(isset($grant->consultation_read) && ($module_info->consultation ?? 'N') == 'Y' && !$grant->consultation_read && !$oDocument->isGranted())
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
@@ -225,6 +224,7 @@ class MemberController extends Member
 		// Variables
 		$args = new stdClass();
 		$args->document_srl = intval($document_srl);
+		$args->module_srl = $oDocument->get('module_srl');
 		$args->member_srl = intval($logged_info->member_srl);
 		$args->folder_srl = intval($default_folder_srl);
 		$args->user_id = $oDocument->get('user_id');
