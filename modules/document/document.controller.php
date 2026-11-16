@@ -3405,7 +3405,7 @@ class DocumentController extends Document
 		}));
 		if (!count($document_srls))
 		{
-			return;
+			return new BaseObject();
 		}
 
 		// Get module_srl of the documents
@@ -3414,22 +3414,22 @@ class DocumentController extends Document
 		$args->document_srls = implode(',',$document_srls);
 		$args->order_type = 'asc';
 		$output = executeQueryArray('document.getDocuments', $args);
-		if(!$output->data) return new BaseObject();
-
-		unset($document_srls);
-		foreach($output->data as $key => $val)
+		$document_srls = [];
+		foreach ($output->data as $val)
 		{
 			$document_srls[$val->module_srl][] = $val->document_srl;
 		}
-		if(!$document_srls || !count($document_srls)) return new BaseObject();
+		if (!count($document_srls))
+		{
+			return new BaseObject();
+		}
 
 		// Check if each of module administrators exists. Top-level administator will have a permission to modify every document of all modules.(Even to modify temporarily saved or trashed documents)
+		$logged_info = Context::get('logged_info');
 		$module_srls = array_keys($document_srls);
-		for($i=0;$i<count($module_srls);$i++)
+		foreach ($module_srls as $module_srl)
 		{
-			$module_srl = $module_srls[$i];
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
-			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
 				if(!$module_info)
@@ -3445,17 +3445,29 @@ class DocumentController extends Document
 				}
 			}
 		}
-		if(!count($document_srls)) return new BaseObject();
-
-		foreach($document_srls as $module_srl => $documents)
+		if (!count($document_srls))
 		{
-			$cnt = count($documents);
-			for($i=0;$i<$cnt;$i++)
+			return new BaseObject();
+		}
+
+		foreach ($document_srls as $module_srl => $documents)
+		{
+			foreach ($documents as $document_srl)
 			{
-				$document_srl = (int)trim($documents[$i]);
-				if(!$document_srls) continue;
-				if($_SESSION['document_management'][$document_srl]) unset($_SESSION['document_management'][$document_srl]);
-				else $_SESSION['document_management'][$document_srl] = true;
+				$document_srl = (int)trim($document_srl);
+				if (!$document_srl)
+				{
+					continue;
+				}
+
+				if (isset($_SESSION['document_management'][$document_srl]))
+				{
+					unset($_SESSION['document_management'][$document_srl]);
+				}
+				else
+				{
+					$_SESSION['document_management'][$document_srl] = true;
+				}
 			}
 		}
 	}
