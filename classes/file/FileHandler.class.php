@@ -462,9 +462,10 @@ class FileHandler
 	 *
 	 * @param array $imageInfo Image info retrieved by getimagesize function
 	 * @param array $resizeInfo Resize width and height
+	 * @param int $rotate
 	 * @return bool TRUE: it's ok, FALSE: otherwise
 	 */
-	public static function checkMemoryLoadImage($imageInfo, $resizeInfo = [])
+	public static function checkMemoryLoadImage($imageInfo, $resizeInfo = [], $rotate = 0)
 	{
 		$bits = $imageInfo['bits'] ?? 8;
 		$channels = ($imageInfo['channels'] ?? 6) ?: 6; // for png
@@ -481,6 +482,10 @@ class FileHandler
 		if ($gd_type === 'external')
 		{
 			$dst_memory = 0;
+		}
+		if ($rotate > 0)
+		{
+			$dst_memory = $src_memory;
 		}
 
 		$memoryLimit = ini_get('memory_limit');
@@ -602,8 +607,14 @@ class FileHandler
 			$resize_height = round($resize_width / ($width / $height));
 		}
 
+		// Automatically set rotation if it is 'auto'
+		if ($rotate === 'auto')
+		{
+			$rotate = ($type === 'jpg') ? intval(self::checkImageRotation($source_file)) : 0;
+		}
+
 		// Check memory usage
-		if(!self::checkMemoryLoadImage($imageInfo, [$resize_width, $resize_height]))
+		if(!self::checkMemoryLoadImage($imageInfo, [$resize_width, $resize_height], $rotate))
 		{
 			return false;
 		}
@@ -639,10 +650,6 @@ class FileHandler
 		}
 
 		// Rotate image
-		if ($rotate === 'auto')
-		{
-			$rotate = ($type === 'jpg') ? intval(self::checkImageRotation($source_file)) : 0;
-		}
 		if ($rotate)
 		{
 			$source = imagerotate($source, $rotate, 0);
