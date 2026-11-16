@@ -6,6 +6,26 @@
 			e.preventDefault();
 		});
 
+		// Refresh package list button
+		$('.autoinstall_refresh_packages').on('click', function(e) {
+			e.preventDefault();
+			const btn = $(this);
+			if (btn.hasClass('x_btn-disabled')) {
+				return;
+			}
+			btn.data('originalText', btn.text());
+			btn.text(btn.data('refreshing'));
+			btn.addClass('x_btn-disabled');
+			Rhymix.ajax('autoinstall.procAutoinstallAdminUpdatePackageList').then(function(res) {
+				NativeAlert(res.message);
+				location.reload();
+			}).catch(function(err) {
+				NativeAlert(err.message);
+				btn.text(btn.data('originalText'));
+				btn.removeClass('x_btn-disabled');
+			});
+		});
+
 		// Install & update buttons
 		$('.autoinstall_install_btn, .autoinstall_update_btn').on('click', async function(e) {
 			e.preventDefault();

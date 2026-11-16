@@ -82,6 +82,12 @@
 	</div>
 <!--@endif-->
 
+<div class="x_clearfix" cond="$type === 'updates'">
+	<div class="x_pull-left">
+		<button class="autoinstall_refresh_packages x_btn x_btn-inverse" href="#" data-refreshing="{$lang->autoinstall_refreshing}">{$lang->autoinstall_refresh}</button>
+	</div>
+</div>
+
 <div class="x_clearfix" cond="$type !== 'updates'">
 	<div class="x_pagination x_pull-left">
 		<ul>

@@ -160,6 +160,35 @@ class AutoinstallAdminController extends Autoinstall
 	}
 
 	/**
+	 * Update package list
+	 *
+	 * @return void
+	 */
+	public function procAutoinstallAdminUpdatePackageList()
+	{
+		// Get module configuration.
+		$config = AutoinstallAdminModel::getAutoInstallAdminModuleConfig();
+
+		// Rate limit the update check to once per minute.
+		if (isset($config->last_update_check) && ($config->last_update_check > time() - 60))
+		{
+			return new BaseObject(-1, 'autoinstall_refresh_rate_limited');
+		}
+
+		// Update the package list.
+		{
+			$success = Rhymix\Modules\Autoinstall\Models\Package::updatePackageList();
+			if ($success)
+			{
+				$config->last_update_check = time();
+				ModuleController::getInstance()->insertModuleConfig('autoinstall', $config);
+			}
+		}
+
+		return new BaseObject(0, 'autoinstall_refreshed');
+	}
+
+	/**
 	 * Validate package_srl and installation mode
 	 *
 	 * @param int $package_srl
