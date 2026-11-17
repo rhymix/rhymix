@@ -362,6 +362,7 @@ class Cleanup extends Base
 		'modules/admin/tpl/config_ftp.html' => 'deleted',
 		'modules/admin/tpl/css/admin.min.css' => 'deleted',
 		'modules/admin/tpl/js/config.min.js' => 'deleted',
+		'modules/admin/tpl/js/excanvas.min.js' => 'deleted',
 		'modules/admin/tpl/js/admin.min.js' => 'deleted',
 		'modules/admin/tpl/js/menu_setup.min.js' => 'deleted',
 		'modules/admin/tpl/img/bgDragable.gif' => 'deleted',
