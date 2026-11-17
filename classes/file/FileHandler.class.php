@@ -485,7 +485,7 @@ class FileHandler
 		}
 		if ($rotate > 0)
 		{
-			$dst_memory = $src_memory;
+			$dst_memory = $src_memory * 1.25;
 		}
 
 		$memoryLimit = ini_get('memory_limit');
