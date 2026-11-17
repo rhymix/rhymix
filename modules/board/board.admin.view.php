@@ -117,6 +117,9 @@ class BoardAdminView extends Board {
 		Context::set('page', $output->page);
 		Context::set('board_list', $output->data);
 		Context::set('page_navigation', $output->page_navigation);
+		Context::set('module_category_srl', Context::get('module_category_srl'));
+		Context::set('search_target', $search_target ?? '');
+		Context::set('search_keyword', $search_keyword ?? '');
 
 		$security = new Security();
 		$security->encodeHTML('board_list..browser_title','board_list..mid');

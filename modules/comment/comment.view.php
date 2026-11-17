@@ -42,7 +42,6 @@ class CommentView extends Comment
 			}
 		}
 
-		// get the comment configuration
 		$comment_config = CommentModel::getCommentConfig($current_module_srl);
 		if(!$comment_config)
 		{
@@ -68,6 +67,10 @@ class CommentView extends Comment
 		{
 			$comment_config->allow_declare_from_same_ip = 'N';
 		}
+		if (!isset($comment_config->declared_message))
+		{
+			$comment_config->declared_message = [];
+		}
 
 		if ($current_module_srl)
 		{
@@ -84,6 +87,12 @@ class CommentView extends Comment
 			{
 				$comment_config->allow_declare_cancel = (($module_info->cancel_vote ?? 'N') === 'Y') ? 'Y' : 'N';
 			}
+		}
+		else
+		{
+			$comment_config->allow_vote_cancel = $comment_config->allow_vote_cancel ?? 'N';
+			$comment_config->allow_vote_non_member = $comment_config->allow_vote_non_member ?? 'N';
+			$comment_config->allow_declare_cancel = $comment_config->allow_declare_cancel ?? 'N';
 		}
 
 		Context::set('comment_config', $comment_config);
