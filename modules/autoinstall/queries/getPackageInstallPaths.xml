@@ -1,0 +1,11 @@
+<query id="getPackageInstallPaths" action="select">
+	<tables>
+		<table name="autoinstall_packages" />
+	</tables>
+	<columns>
+		<column name="package_srl" />
+		<column name="type" />
+		<column name="install_path" />
+		<column name="install_type" />
+	</columns>
+</query>

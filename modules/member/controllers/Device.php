@@ -120,6 +120,7 @@ class Device extends \Member
 
 		if ($member_srl)
 		{
+			$logged_info = null;
 			$member_srl = intval($member_srl);
 		}
 		elseif ($user_id && $password)
@@ -170,6 +171,16 @@ class Device extends \Member
 		{
 			$oDB->rollback();
 			return $output;
+		}
+
+		// Insert auth log
+		$member_config = \MemberModel::getMemberConfig();
+		if ($member_config->login_log !== 'N')
+		{
+			self::insertAuthLog((int)$args->member_srl, 'register_device', (object)[
+				'device_type' => $device_type,
+				'device_token' => $device_token,
+			]);
 		}
 
 		// Call trigger (after)
@@ -254,7 +265,16 @@ class Device extends \Member
 			$output = \memberController::getInstance()->doLogin($user_id);
 			if(!$output->toBool())
 			{
+				self::insertAuthLog((int)$member_info->member_srl, 'login_failed', (object)['device_token' => $device_token]);
 				return new \BaseObject(-1, 'LOGIN_FAILED');
+			}
+			else
+			{
+				$member_config = \MemberModel::getMemberConfig();
+				if ($member_config->login_log !== 'N')
+				{
+					self::insertAuthLog((int)$member_info->member_srl, 'login');
+				}
 			}
 		}
 		else

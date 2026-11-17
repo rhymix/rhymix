@@ -230,6 +230,26 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 		$source = '<img somekey="somevalue" otherkey="othervalue" onkeypress="alert(\'xss\');" editor_component="component_name" />';
 		$target = '';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, false));
+
+		$source = '<img src="./foo/bar.jpg" editor_component="x" test="foobar\'s" rx_encoded_properties="baz:baz" rx_editcomp_sequence="2" />';
+		$target = '<img test="foobar&#039;s" src="./foo/bar.jpg" editor_component="x" alt="" />';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div editor_component="x" custom_key="value"></div>';
+		$target = '<div custom_key="value" editor_component="x"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, ['x', 'y', 'z']));
+
+		$source = '<div editor_component="x" custom_key="value"></div>';
+		$target = '<div></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, false, []));
+
+		$source = '<div editor_component="poll_maker" poll_srl="not a number" undefined_attr="whatever"></div>';
+		$target = '<div editor_component="poll_maker"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div editor_component="poll_maker" poll_srl="123" skin="default"></div>';
+		$target = '<div poll_srl="123" skin="default" editor_component="poll_maker"></div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 
 	public function testHTMLFilterWidgetCode()
@@ -252,6 +272,10 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 
 		$source = '<p><img editor_component="x" widget="widgetContent" body="AAAAAAAAAAAAAAAA" /></p>';
 		$target = '<p><img body="AAAAAAAAAAAAAAAA" src="" editor_component="x" alt="" /></p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
+
+		$source = '<div class="zbxe_widget_output" widget="content"></div><div class="zbxe_widget_output" widget="content" widget="content"></div>';
+		$target = '<div></div><div></div>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source, true, true, true));
 	}
 
@@ -304,6 +328,23 @@ class HTMLFilterTest extends \Codeception\Test\Unit
 
 		$source = '<p data-dangerous=" javascript: xss() ">Hello World</p>';
 		$target = '<p>Hello World</p>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		// Potential CSTI
+		$source = '<div editor_component="x" x-init="alert(1)" v-html="alert(1)">Hello World</div>';
+		$target = '<div editor_component="x">Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div editor_component="x" ng-focus="alert(1)" hx-get="alert(1)">Hello World</div>';
+		$target = '<div editor_component="x">Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<div data-dangerous=" java' . "\t" . 'Script: xss() ">Hello World</div>';
+		$target = '<div>Hello World</div>';
+		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
+
+		$source = '<p><img editor_component="x" data-file-srl="123" src="test.jpg" alt="test" /></p>';
+		$target = '<p><img editor_component="x" data-file-srl="123" src="test.jpg" alt="test" /></p>';
 		$this->assertEquals($target, Rhymix\Framework\Filters\HTMLFilter::clean($source));
 	}
 

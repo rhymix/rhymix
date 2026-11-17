@@ -1,6 +1,12 @@
 <?php
 
 $lang->autoinstall = 'Easy Install';
+$lang->autoinstall_updates = 'Updates';
+$lang->autoinstall_no_updates_available = 'There are currently no updates available. Browse the featured packages.';
+$lang->autoinstall_refresh = 'Refresh Package List';
+$lang->autoinstall_refreshing = 'Refreshing...';
+$lang->autoinstall_refreshed = 'The package list has been refreshed.';
+$lang->autoinstall_refresh_rate_limited = 'The package list is already up to date.';
 $lang->package_update = 'Recent Update';
 $lang->package_downloaded_count = 'Download Count';
 $lang->install = 'Install';
@@ -33,6 +39,7 @@ $lang->cmd_autoinstall_install = 'Install';
 $lang->cmd_autoinstall_uninstall = 'Uninstall';
 $lang->cmd_autoinstall_repository = 'Repository';
 $lang->cmd_autoinstall_update_available = 'Update Available';
+$lang->cmd_autoinstall_updatable = 'Updatable';
 $lang->cmd_autoinstall_not_updatable = 'Can\'t Update';
 $lang->cmd_autoinstall_see_more = 'See More in Rhymix Resource Center';
 $lang->install_environment['min'] = 'or above';

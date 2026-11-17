@@ -937,7 +937,7 @@ abstract class AbstractController extends BaseObject
 				// check_var: name of the Context variable that contains the target srl(s),
 				// separated by comma or '|@|'.
 				$check_var = Context::get($permission->check_var);
-				if (is_scalar($check_var))
+				if (!is_array($check_var))
 				{
 					$target_srls = trim($check_var);
 					if (empty($target_srls))

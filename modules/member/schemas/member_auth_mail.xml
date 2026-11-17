@@ -6,4 +6,5 @@
 	<column name="auth_type" type="varchar" size="20" notnull="notnull" default="password_v1" />
     <column name="is_register" type="char" size="1" notnull="notnull" default="N" />
     <column name="regdate" type="date" notnull="notnull" index="idx_regdate" />
+	<column name="ipaddress" type="varchar" size="60" index="idx_ipaddress" />
 </table>

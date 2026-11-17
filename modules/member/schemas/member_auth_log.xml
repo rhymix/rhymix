@@ -1,0 +1,12 @@
+<table name="member_auth_log">
+	<column name="id" type="bigint" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="member_srl" type="bigint" notnull="notnull" index="idx_member_srl" />
+	<column name="action_type" type="varchar" size="40" notnull="notnull" index="idx_action_type" />
+	<column name="action_data" type="text" />
+	<column name="email_address" type="varchar" size="80" />
+	<column name="phone_number" type="varchar" size="40" />
+	<column name="regdate" type="datetime" notnull="notnull" index="idx_regdate" />
+	<column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_ipaddress" />
+	<index name="idx_member_srl_action_type" columns="member_srl,action_type" />
+	<index name="idx_ipaddress_action_type" columns="ipaddress,action_type" />
+</table>

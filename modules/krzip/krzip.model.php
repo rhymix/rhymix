@@ -141,36 +141,24 @@ class krzipModel extends krzip
 		 * @note 우체국 우편번호 API는 검색어를 EUC-KR로 넘겨주어야 함
 		 */
 		$encoding = strtoupper(mb_detect_encoding($query));
-		if($encoding !== 'EUC-KR')
+		if($encoding !== 'UTF-8')
 		{
-			$query = iconv($encoding, 'EUC-KR', $query);
+			$query = iconv($encoding, 'UTF-8', $query);
 		}
 
 		$module_config = $this->getConfig();
 		$regkey = $module_config->epostapi_regkey;
 
 		$fields = array(
-			'target' => 'postRoad', /* 도로명 주소 */
+			'target' => 'postNew',
 			'regkey' => $regkey,
 			'query' => $query
 		);
-		$headers = array(
-			'accept-language' => 'ko'
-		);
-		$request_config = array(
-			'ssl_verify_peer' => FALSE
-		);
 
 		$buff = FileHandler::getRemoteResource(
-			self::$epostapi_host,
+			self::$epostapi_host . '?' . http_build_query($fields),
 			NULL,
-			30,
-			'POST',
-			'application/x-www-form-urlencoded',
-			$headers,
-			array(),
-			$fields,
-			$request_config
+			10
 		);
 
 		$result = Rhymix\Framework\Parsers\XEXMLParser::loadXMLString($buff);
@@ -217,10 +205,22 @@ class krzipModel extends krzip
 		$addr_list = array();
 		foreach($item_list as $key => $val)
 		{
-			$postcode = substr($val->postcd->body, 0, 3) . '-' . substr($val->postcd->body, 3, 3);
-			$road_addr = $val->lnmaddress->body;
-			$jibun_addr = $val->rnaddress->body;
-			$addr_list[] = $this->getMigratedPostcode('(' . $postcode . ') (' . $jibun_addr . ') ' . $road_addr);
+			$postcode = $val->postcd->body;
+			$road_addr = $val->address->body;
+			$jibun_addr = $val->addrjibun->body;
+			$extra_addr = preg_match('/\(.+\)$/', $road_addr, $matches) ? $matches[0] : '';
+			if ($extra_addr)
+			{
+				$road_addr = trim(str_replace($extra_addr, '', $road_addr));
+				$jibun_addr = trim(preg_replace('/\(.+\)$/', '', $jibun_addr));
+			}
+			$addr_list[] = [
+				$postcode,
+				$road_addr,
+				$jibun_addr,
+				'',
+				$extra_addr,
+			];
 		}
 
 		$output = new BaseObject();

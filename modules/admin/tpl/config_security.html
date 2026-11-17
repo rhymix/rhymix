@@ -46,6 +46,15 @@
 			</div>
 		</div>
 		<div class="x_control-group">
+			<label class="x_control-label">{$lang->admin_url_prefix}</label>
+			<div class="x_controls">
+				<label for="admin_url_prefix_y" class="x_inline"><input type="radio" name="admin_url_prefix" id="admin_url_prefix_y" value="Y" checked="checked"|cond="$admin_url_prefix === 'admin'" /> {$lang->cmd_yes}</label>
+				<label for="admin_url_prefix_n" class="x_inline"><input type="radio" name="admin_url_prefix" id="admin_url_prefix_n" value="N" checked="checked"|cond="$admin_url_prefix !== 'admin'" /> {$lang->cmd_no}</label>
+				<br />
+				<p class="x_help-block">{$lang->about_admin_url_prefix}</p>
+			</div>
+		</div>
+		<div class="x_control-group">
 			<label class="x_control-label" for="autologin_lifetime">{$lang->autologin_lifetime}</label>
 			<div class="x_controls">
 				<input type="number" name="autologin_lifetime" min="1" max="400" value="{$autologin_lifetime}" /> {$lang->unit_day} &nbsp;

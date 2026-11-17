@@ -641,7 +641,7 @@ class Query extends VariableBase
 			// Get the name of the column or expression to order by.
 			$column_name = '';
 			list($column_name, $is_expression, $is_default_value) = $orderby->getValue($this->_args);
-			if (!$column_name)
+			if (!$column_name || !is_scalar($column_name))
 			{
 				continue;
 			}
@@ -659,7 +659,7 @@ class Query extends VariableBase
 			{
 				$column_order = strtoupper($matches[1]);
 			}
-			elseif (isset($this->_args[$orderby->order_var]))
+			elseif (isset($this->_args[$orderby->order_var]) && is_scalar($this->_args[$orderby->order_var]))
 			{
 				$column_order = preg_replace('/[^A-Z]/', '', strtoupper($this->_args[$orderby->order_var]));
 			}

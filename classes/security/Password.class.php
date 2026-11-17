@@ -90,6 +90,6 @@ class Password
 
 	public static function strcmpConstantTime($a, $b)
 	{
-		return Rhymix\Framework\Security::compareStrings($a, $b);
+		return hash_equals($a, $b);
 	}
 }

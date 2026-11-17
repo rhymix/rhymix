@@ -31,6 +31,9 @@ class Security extends Base
 		Context::set('admin_denied_ip', implode(PHP_EOL, $denied_ip));
 		Context::set('remote_addr', RX_CLIENT_IP);
 
+		// Admin URL prefix
+		Context::set('admin_url_prefix', Config::get('url.admin_prefix') ?? 'admin');
+
 		// Session and cookie security settings
 		Context::set('autologin_lifetime', Config::get('session.autologin_lifetime') ?: 365);
 		Context::set('autologin_refresh', Config::get('session.autologin_refresh') ?? true);
@@ -110,6 +113,10 @@ class Security extends Base
 			throw new Exception('msg_current_ip_will_be_denied');
 		}
 
+		// Admin URL prefix
+		Config::set('url.admin_prefix', $vars->admin_url_prefix === 'Y' ? 'admin' : '');
+
+		// Misc security settings
 		$site_module_info = Context::get('site_module_info');
 		if (!in_array($vars->use_samesite ?? '', ['Strict', 'Lax', 'None', '']))
 		{

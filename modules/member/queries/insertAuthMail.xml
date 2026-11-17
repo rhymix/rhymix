@@ -10,5 +10,6 @@
 		<column name="auth_type" var="auth_type" default="password_v1" />
         <column name="is_register" var="is_register" default="N" />
         <column name="regdate" default="curdate()" />
+		<column name="ipaddress" default="ipaddress()" />
     </columns>
 </query>

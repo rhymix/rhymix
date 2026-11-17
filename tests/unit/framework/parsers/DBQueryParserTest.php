@@ -2,6 +2,8 @@
 
 class DBQueryParserTest extends \Codeception\Test\Unit
 {
+	protected UnitTester $tester;
+
 	public function testLoadXML()
 	{
 		$query = Rhymix\Framework\Parsers\DBQueryParser::loadXML(\RX_BASEDIR . 'tests/_data/dbquery/selectTest1.xml');

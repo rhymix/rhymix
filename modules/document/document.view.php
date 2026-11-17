@@ -162,13 +162,13 @@ class DocumentView extends Document
 			// Get information of the current module
 			$current_module_info = Context::get('current_module_info');
 			$current_module_srl = $current_module_info->module_srl;
-			if(!$current_module_srl) return new BaseObject();
+			if(!$current_module_srl)
+			{
+				return new BaseObject();
+			}
 		}
 
-		if($current_module_srl)
-		{
-			$document_config = ModuleModel::getModulePartConfig('document', $current_module_srl);
-		}
+		$document_config = ModuleModel::getModulePartConfig('document', $current_module_srl);
 		if(!isset($document_config))
 		{
 			$document_config = new stdClass();
@@ -193,6 +193,10 @@ class DocumentView extends Document
 		{
 			$document_config->allow_declare_from_same_ip = 'N';
 		}
+		if (!isset($document_config->declared_message))
+		{
+			$document_config->declared_message = [];
+		}
 
 		if ($current_module_srl)
 		{
@@ -209,6 +213,12 @@ class DocumentView extends Document
 			{
 				$document_config->allow_declare_cancel = (($module_info->cancel_vote ?? 'N') === 'Y') ? 'Y' : 'N';
 			}
+		}
+		else
+		{
+			$document_config->allow_vote_cancel = $document_config->allow_vote_cancel ?? 'N';
+			$document_config->allow_vote_non_member = $document_config->allow_vote_non_member ?? 'N';
+			$document_config->allow_declare_cancel = $document_config->allow_declare_cancel ?? 'N';
 		}
 
 		Context::set('document_config', $document_config);

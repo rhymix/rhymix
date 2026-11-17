@@ -18,6 +18,25 @@ class AutoinstallAdminModel extends Autoinstall
 	}
 
 	/**
+	 * Does the package list need to be updated?
+	 *
+	 * @param ?object $config
+	 * @return bool
+	 */
+	public static function needsUpdatePackageList($config = null): bool
+	{
+		$config = $config ?? self::getAutoInstallAdminModuleConfig();
+		if (!isset($config->last_update_check) || ($config->last_update_check < time() - self::AUTO_REFRESH_INTERVAL))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * For backward compatibility only
 	 */
 	public function getAutoinstallAdminMenuPackageList()

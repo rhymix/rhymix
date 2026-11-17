@@ -462,9 +462,10 @@ class FileHandler
 	 *
 	 * @param array $imageInfo Image info retrieved by getimagesize function
 	 * @param array $resizeInfo Resize width and height
+	 * @param int $rotate
 	 * @return bool TRUE: it's ok, FALSE: otherwise
 	 */
-	public static function checkMemoryLoadImage($imageInfo, $resizeInfo = [])
+	public static function checkMemoryLoadImage($imageInfo, $resizeInfo = [], $rotate = 0)
 	{
 		$bits = $imageInfo['bits'] ?? 8;
 		$channels = ($imageInfo['channels'] ?? 6) ?: 6; // for png
@@ -481,6 +482,10 @@ class FileHandler
 		if ($gd_type === 'external')
 		{
 			$dst_memory = 0;
+		}
+		if ($rotate > 0)
+		{
+			$dst_memory = $src_memory * 1.25;
 		}
 
 		$memoryLimit = ini_get('memory_limit');
@@ -539,11 +544,11 @@ class FileHandler
 	 * @param string $source_file Path of the source file
 	 * @param string $target_file Path of the target file
 	 * @param int $resize_width Width to resize
-	 * @param int $resize_height Height to resize
+	 * @param int|string $resize_height Height to resize (or 'auto')
 	 * @param string $target_type If $target_type is set (gif, jpg, png, bmp), result image will be saved as target type
 	 * @param string $thumbnail_type Thumbnail type(crop, ratio, stretch, fill, center)
 	 * @param int $quality Compression ratio (0~100)
-	 * @param int $rotate Rotation degrees (0~360)
+	 * @param int|string $rotate Rotation degrees (0~360 or 'auto')
 	 * @return bool TRUE: success, FALSE: failed
 	 */
 	public static function createImageFile($source_file, $target_file, $resize_width = 0, $resize_height = 0, $target_type = '', $thumbnail_type = 'fill', $quality = 100, $rotate = 0)
@@ -557,7 +562,8 @@ class FileHandler
 		// sanitize params
 		$target_file = self::getRealPath($target_file);
 		$resize_width = intval($resize_width);
-		$resize_height = $resize_height === 'auto' ? 'auto' : intval($resize_height);
+		$resize_height_was_auto = $resize_height === 'auto';
+		$resize_height = $resize_height_was_auto ? 'auto' : intval($resize_height);
 		if(!$resize_width)
 		{
 			$resize_width = 100;
@@ -601,8 +607,14 @@ class FileHandler
 			$resize_height = round($resize_width / ($width / $height));
 		}
 
+		// Automatically set rotation if it is 'auto'
+		if ($rotate === 'auto')
+		{
+			$rotate = ($type === 'jpg') ? intval(self::checkImageRotation($source_file)) : 0;
+		}
+
 		// Check memory usage
-		if(!self::checkMemoryLoadImage($imageInfo, [$resize_width, $resize_height]))
+		if(!self::checkMemoryLoadImage($imageInfo, [$resize_width, $resize_height], $rotate))
 		{
 			return false;
 		}
@@ -643,6 +655,10 @@ class FileHandler
 			$source = imagerotate($source, $rotate, 0);
 			$width = imagesx($source);
 			$height = imagesy($source);
+			if ($resize_height_was_auto)
+			{
+				$resize_height = round($resize_width / ($width / $height));
+			}
 		}
 
 		// If resize not needed, skip thumbnail generation

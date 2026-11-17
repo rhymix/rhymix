@@ -47,7 +47,7 @@
 		<ul>
 			<li loop="$ncenterlite_list => $o">
 				<a href="{$o->url}">
-					<block cond="$useProfileImage">
+					<block cond="$useProfileImage && isset($o->profileImage)">
 						<img src="{$o->profileImage}"|cond="$o->profileImage" src="{Context::getRequestUri()}modules/ncenterlite/skins/default/img/p.png"|cond="!$o->profileImage" alt="" class="nc_profile_img" />
 					</block>
 					<span class="msg">{$o->text}</span><span class="ago">{$o->ago}</span>

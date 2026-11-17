@@ -1,6 +1,12 @@
 <?php
 
 $lang->autoinstall = '쉬운 설치';
+$lang->autoinstall_updates = '업데이트';
+$lang->autoinstall_no_updates_available = '현재 업데이트 가능한 자료가 없습니다. 추천 자료를 둘러보세요.';
+$lang->autoinstall_refresh = '자료 목록 새로고침';
+$lang->autoinstall_refreshing = '새로고침 중...';
+$lang->autoinstall_refreshed = '자료 목록이 새로고침되었습니다.';
+$lang->autoinstall_refresh_rate_limited = '자료 목록이 이미 최신 상태입니다.';
 $lang->package_update = '최근 업데이트';
 $lang->package_downloaded_count = '전체 다운로드';
 $lang->install = '설치';
@@ -32,7 +38,8 @@ $lang->cmd_autoinstall_install_path = '설치 경로';
 $lang->cmd_autoinstall_install = '설치하기';
 $lang->cmd_autoinstall_uninstall = '삭제';
 $lang->cmd_autoinstall_repository = '저장소';
-$lang->cmd_autoinstall_update_available = '업데이트 가능';
+$lang->cmd_autoinstall_update_available = '업데이트 있음';
+$lang->cmd_autoinstall_updatable = '업데이트 가능';
 $lang->cmd_autoinstall_not_updatable = '업데이트 불가';
 $lang->cmd_autoinstall_see_more = 'Rhymix 자료실에서 자세히 보기';
 $lang->install_environment['min'] = '이상';

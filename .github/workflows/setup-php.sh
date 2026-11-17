@@ -4,20 +4,20 @@
 sudo add-apt-repository -y ppa:ondrej/php
 
 # Install all required packages
-sudo apt -y install \
-	php$1-apcu \
-	php$1-bcmath \
-	php$1-cli \
-	php$1-common \
-	php$1-curl \
-	php$1-gd \
-	php$1-intl \
-	php$1-mbstring \
-	php$1-mysql \
-	php$1-readline \
-	php$1-sqlite3 \
-	php$1-xml \
-	php$1-zip
+sudo apt -y -m install \
+  php$1-apcu \
+  php$1-bcmath \
+  php$1-cli \
+  php$1-common \
+  php$1-curl \
+  php$1-gd \
+  php$1-intl \
+  php$1-mbstring \
+  php$1-mysql \
+  php$1-readline \
+  php$1-sqlite3 \
+  php$1-xml \
+  php$1-zip
 
 # Adjust php.ini settings
 sudo bash -c "echo 'register_argc_argv = On' >> /etc/php/$1/cli/php.ini"

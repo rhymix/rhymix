@@ -53,21 +53,21 @@
 	<div class="x_control-group">
 		<label class="x_control-label">{$lang->cmd_robots_tag}</label>
 		<div class="x_controls">
-			<label class="x_inline" for="robots_tag_all"><input type="radio" name="robots_tag" id="robots_tag_all" value="all" checked="checked"|cond="$module_info->robots_tag !== 'noindex'" /> {$lang->cmd_yes}</label>
-			<label class="x_inline" for="robots_tag_noindex"><input type="radio" name="robots_tag" id="robots_tag_noindex" value="noindex" checked="checked"|cond="$module_info->robots_tag === 'noindex'" /> {$lang->cmd_no}</label>
+			<label class="x_inline" for="robots_tag_all"><input type="radio" name="robots_tag" id="robots_tag_all" value="all" checked="checked"|cond="($module_info->robots_tag ?? '') !== 'noindex'" /> {$lang->cmd_yes}</label>
+			<label class="x_inline" for="robots_tag_noindex"><input type="radio" name="robots_tag" id="robots_tag_noindex" value="noindex" checked="checked"|cond="($module_info->robots_tag ?? '') === 'noindex'" /> {$lang->cmd_no}</label>
 			<p class="x_help-inline">{$lang->msg_about_robots_tag}</p>
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="lang_meta_keywords">{$lang->meta_keywords}</label>
 		<div class="x_controls">
-			<input type="text" name="meta_keywords" id="meta_keywords" value="<!--@if(strpos($module_info->meta_keywords, '$user_lang->') === false)-->{$module_info->meta_keywords}<!--@else-->{htmlspecialchars($module_info->meta_keywords)}<!--@end-->" class="x_full-width lang_code" />
+			<input type="text" name="meta_keywords" id="meta_keywords" value="<!--@if(strpos($module_info->meta_keywords ?? '', '$user_lang->') === false)-->{$module_info->meta_keywords ?? ''}<!--@else-->{htmlspecialchars($module_info->meta_keywords ?? '')}<!--@end-->" class="x_full-width lang_code" />
 		</div>
 	</div>
 	<div class="x_control-group">
 		<label class="x_control-label" for="lang_meta_description">{$lang->meta_description}</label>
 		<div class="x_controls">
-			<input type="text" name="meta_description" id="meta_description" value="<!--@if(strpos($module_info->meta_description, '$user_lang->') === false)-->{$module_info->meta_description}<!--@else-->{htmlspecialchars($module_info->meta_description)}<!--@end-->" class="x_full-width lang_code" />
+			<input type="text" name="meta_description" id="meta_description" value="<!--@if(strpos($module_info->meta_description ?? '', '$user_lang->') === false)-->{$module_info->meta_description ?? ''}<!--@else-->{htmlspecialchars($module_info->meta_description ?? '')}<!--@end-->" class="x_full-width lang_code" />
 		</div>
 	</div>
 	<div class="x_control-group">
@@ -107,7 +107,7 @@
 	<div class="x_control-group" cond="$module_info->page_type != 'ARTICLE'">
 		<label class="x_control-label" for="page_caching_interval">{$lang->page_caching_interval}</label>
 		<div class="x_controls">
-			<input type="number" min="0" name="page_caching_interval" id="page_caching_interval" value="{(int)$module_info->page_caching_interval}"  /> {$lang->unit_min}
+			<input type="number" min="0" name="page_caching_interval" id="page_caching_interval" value="{intval($module_info->page_caching_interval ?? 0)}"  /> {$lang->unit_min}
 			<p class="x_help-block" id="aboutCaching">{$lang->about_page_caching_interval}</p>
 		</div>
 	</div>

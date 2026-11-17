@@ -53,7 +53,7 @@ class General extends Base
 
 		if (!empty($mid_list))
 		{
-			$selected_module = Context::get('selected_module');
+			$selected_module = preg_replace('/[^a-zA-Z0-9_-]/', '', Context::get('selected_module'));
 			if ($selected_module && isset($mid_list[$selected_module]->list))
 			{
 				Context::set('selected_mids', $mid_list[$selected_module]->list);
@@ -82,8 +82,8 @@ class General extends Base
 	 */
 	public function dispModuleSkinInfo()
 	{
-		$selected_module = Context::get('selected_module');
-		$skin = preg_replace('/[^a-zA-Z0-9-_]/', '', Context::get('skin'));
+		$selected_module = preg_replace('/[^a-zA-Z0-9_-]/', '', Context::get('selected_module'));
+		$skin = preg_replace('/[^a-zA-Z0-9_-]/', '', Context::get('skin'));
 
 		// Get modules/skin information
 		$module_path = sprintf("./modules/%s/", $selected_module);

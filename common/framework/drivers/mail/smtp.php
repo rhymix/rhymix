@@ -29,7 +29,7 @@ class SMTP extends Base implements MailInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('proc_open');
+		return true;
 	}
 
 	/**

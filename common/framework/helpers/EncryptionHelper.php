@@ -81,7 +81,7 @@ class EncryptionHelper
         // Validate MAC
         $mac_key = self::_hkdf($key, self::ENCRYPTION_MAC_INFO);
         $mac_compare = hash_hmac(self::ENCRYPTION_MAC_ALGO, ($iv . $ciphertext), $mac_key, true);
-        if (!Security::compareStrings($mac, $mac_compare))
+        if (!hash_equals($mac, $mac_compare))
         {
             throw new Exception('msg_invalid_ciphertext');
         }

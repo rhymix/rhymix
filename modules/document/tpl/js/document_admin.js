@@ -116,7 +116,6 @@ function getDocumentList() {
 function completeGetDocumentList(ret_obj, response_tags)
 {
 	var htmlListBuffer = '';
-	var statusNameList = {"PUBLIC":"Public", "SECRET":"Secret", "PRIVATE":"Private", "TEMP":"Temp"};
 	if(ret_obj['document_list'] == null)
 	{
 		htmlListBuffer = '<tr>' +
@@ -133,7 +132,8 @@ function completeGetDocumentList(ret_obj, response_tags)
 			htmlListBuffer += '<tr>' +
 								'<td class="title">'+ objDocument.variables.title +'</td>' +
 								'<td class="nowr">'+ objDocument.variables.nick_name +'</td>' +
-								'<td class="nowr">'+ statusNameList[objDocument.variables.status] +'</td>' +
+								'<td class="nowr">'+ objDocument.variables.ipaddress +'</td>' +
+								'<td class="nowr">'+ objDocument.variables.status_name +'</td>' +
 							'</tr>'+
 							'<input type="hidden" name="cart[]" value="'+objDocument.document_srl+'" />';
 		}

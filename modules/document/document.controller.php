@@ -648,10 +648,6 @@ class DocumentController extends Document
 			}
 		}
 
-		if (!$isRestore)
-		{
-			$obj->ipaddress = \RX_CLIENT_IP;
-		}
 		$obj->isRestore = $isRestore ? true : false;
 
 		// Sanitize variables
@@ -717,7 +713,17 @@ class DocumentController extends Document
 			unset($obj->user_id);
 		}
 
+		// Set other defaults.
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl, 'doc');
+		if (!$manual_inserted && !$isRestore)
+		{
+			unset($obj->readed_count);
+			unset($obj->voted_count);
+			unset($obj->blamed_count);
+			unset($obj->comment_count);
+			unset($obj->trackback_count);
+			$obj->ipaddress = \RX_CLIENT_IP;
+		}
 
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
@@ -770,11 +776,7 @@ class DocumentController extends Document
 			}
 		}
 
-		// Set the read counts and update order.
-		if (!isset($obj->readed_count))
-		{
-			$obj->readed_count = 0;
-		}
+		// Set the update order.
 		if ($isLatest)
 		{
 			$obj->update_order = $obj->list_order = $obj->document_srl * -1;
@@ -819,7 +821,8 @@ class DocumentController extends Document
 		// Remove iframe and script if not a top adminisrator in the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 
 		// Fix encoding of non-BMP UTF-8 characters.
@@ -1176,7 +1179,8 @@ class DocumentController extends Document
 		// Remove iframe and script if not a top adminisrator in the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 
 		// Fix encoding of non-BMP UTF-8 characters.
@@ -3410,7 +3414,7 @@ class DocumentController extends Document
 		}));
 		if (!count($document_srls))
 		{
-			return;
+			return new BaseObject();
 		}
 
 		// Get module_srl of the documents
@@ -3419,22 +3423,22 @@ class DocumentController extends Document
 		$args->document_srls = implode(',',$document_srls);
 		$args->order_type = 'asc';
 		$output = executeQueryArray('document.getDocuments', $args);
-		if(!$output->data) return new BaseObject();
-
-		unset($document_srls);
-		foreach($output->data as $key => $val)
+		$document_srls = [];
+		foreach ($output->data as $val)
 		{
 			$document_srls[$val->module_srl][] = $val->document_srl;
 		}
-		if(!$document_srls || !count($document_srls)) return new BaseObject();
+		if (!count($document_srls))
+		{
+			return new BaseObject();
+		}
 
 		// Check if each of module administrators exists. Top-level administator will have a permission to modify every document of all modules.(Even to modify temporarily saved or trashed documents)
+		$logged_info = Context::get('logged_info');
 		$module_srls = array_keys($document_srls);
-		for($i=0;$i<count($module_srls);$i++)
+		foreach ($module_srls as $module_srl)
 		{
-			$module_srl = $module_srls[$i];
 			$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
-			$logged_info = Context::get('logged_info');
 			if($logged_info->is_admin != 'Y')
 			{
 				if(!$module_info)
@@ -3450,17 +3454,29 @@ class DocumentController extends Document
 				}
 			}
 		}
-		if(!count($document_srls)) return new BaseObject();
-
-		foreach($document_srls as $module_srl => $documents)
+		if (!count($document_srls))
 		{
-			$cnt = count($documents);
-			for($i=0;$i<$cnt;$i++)
+			return new BaseObject();
+		}
+
+		foreach ($document_srls as $module_srl => $documents)
+		{
+			foreach ($documents as $document_srl)
 			{
-				$document_srl = (int)trim($documents[$i]);
-				if(!$document_srls) continue;
-				if($_SESSION['document_management'][$document_srl]) unset($_SESSION['document_management'][$document_srl]);
-				else $_SESSION['document_management'][$document_srl] = true;
+				$document_srl = (int)trim($document_srl);
+				if (!$document_srl)
+				{
+					continue;
+				}
+
+				if (isset($_SESSION['document_management'][$document_srl]))
+				{
+					unset($_SESSION['document_management'][$document_srl]);
+				}
+				else
+				{
+					$_SESSION['document_management'][$document_srl] = true;
+				}
 			}
 		}
 	}
@@ -3482,6 +3498,8 @@ class DocumentController extends Document
 		$obj->target_category_srl = intval(Context::get('target_category_srl'));
 		$obj->manager_message = Context::get('message_content') ? nl2br(escape(strip_tags(Context::get('message_content')))) : '';
 		$obj->send_message = Context::get('send_message') ?? 'default';
+		$obj->deny_authors = toBool(Context::get('deny_authors'));
+		$obj->deny_ips = toBool(Context::get('deny_ips'));
 		$obj->return_message = '';
 		if (Context::get('send_default_message') === 'Y')
 		{
@@ -3656,6 +3674,45 @@ class DocumentController extends Document
 			}
 		}
 
+		// Deny authors and IPs
+		if ($obj->deny_authors)
+		{
+			$member_list = [];
+			foreach ($obj->document_list as $document_srl => $oDocument)
+			{
+				$member_srl = abs($oDocument->get('member_srl'));
+				if ($member_srl)
+				{
+					$member_list[] = $member_srl;
+				}
+			}
+			$member_list = array_unique($member_list);
+			foreach ($member_list as $member_srl)
+			{
+				$member_info = MemberModel::getMemberInfoByMemberSrl($member_srl);
+				if ($member_info && $member_info->is_admin !== 'Y')
+				{
+					executeQuery('member.updateMemberStatus', ['member_srl' => $member_srl, 'denied' => 'Y', 'status' => 'DENIED']);
+					MemberController::clearMemberCache($member_srl);
+				}
+			}
+		}
+		if ($obj->deny_ips)
+		{
+			$ip_list = [];
+			foreach ($obj->document_list as $document_srl => $oDocument)
+			{
+				$ip = $oDocument->get('ipaddress');
+				if ($ip)
+				{
+					$ip_list[] = $ip;
+				}
+			}
+			$ip_list = array_unique($ip_list);
+			$oSpamfilterController = SpamfilterController::getInstance();
+			$oSpamfilterController->insertIP($ip_list);
+		}
+
 		$_SESSION['document_management'] = array();
 
 		$this->setMessage($obj->return_message);
@@ -3814,12 +3871,17 @@ class DocumentController extends Document
 		}
 
 		$documentSrls = Context::get('document_srls');
-		if($documentSrls) $documentSrlList = explode(',', $documentSrls);
+		$documentSrlList = $documentSrls ? explode(',', $documentSrls) : [];
 
 		if(count($documentSrlList) > 0)
 		{
-			$columnList = array('document_srl', 'title', 'nick_name', 'status');
+			$columnList = array('document_srl', 'title', 'nick_name', 'regdate', 'ipaddress', 'status');
 			$documentList = DocumentModel::getDocuments($documentSrlList, $this->grant->is_admin, false, $columnList);
+			$statusNameList = DocumentModel::getStatusNameList();
+			foreach ($documentList as $document)
+			{
+				$document->variables['status_name'] = $statusNameList[$document->variables['status']] ?? $document->variables['status'];
+			}
 		}
 		else
 		{

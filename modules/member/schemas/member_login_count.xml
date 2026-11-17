@@ -1,4 +1,4 @@
-<table name="member_login_count">
+<table name="member_login_count" deleted="true">
 	<column name="ipaddress" type="varchar" size="60" notnull="notnull" index="idx_ipaddress" />
 	<column name="count" type="number" default="0" notnull="notnull" />
 	<column name="regdate" type="date" index="idx_regdate" />

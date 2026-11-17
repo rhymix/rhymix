@@ -89,26 +89,20 @@ function _editorAutoSave(exe, callback) {
 
 		// 서버 호출 (서버와 교신중이라는 메세지를 보이지 않도록 함)
 		show_waiting_message = false;
-		exec_xml(
-			"editor",
-			"procEditorSaveDoc",
-			params,
-			function() {
-				var arg = jQuery.extend({}, params, {auto_saved_msg:auto_saved_msg});
-
-				editorAutoSaveObj.locked = false;
-				if(jQuery.isFunction(callback)) callback(arg);
+		Rhymix.ajax('editor.procEditorSaveDoc', params, function() {
+			var arg = jQuery.extend({}, params, { auto_saved_msg: auto_saved_msg });
+			editorAutoSaveObj.locked = false;
+			if (jQuery.isFunction(callback)) {
+				callback(arg);
 			}
-		);
+		});
 		show_waiting_message = true;
 	}
 }
 
 // 자동저장된 모든 메세지를 삭제하는 루틴
 function editorRemoveSavedDoc() {
-	var param = [];
-	param.mid = current_mid;
-	exec_xml("editor","procEditorRemoveSavedDoc", param);
+	Rhymix.ajax('editor.procEditorRemoveSavedDoc', { mid: current_mid });
 }
 
 /**

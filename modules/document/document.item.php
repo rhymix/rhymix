@@ -253,6 +253,13 @@ class DocumentItem extends BaseObject
 			{
 				return false;
 			}
+			if (isset($module_info->consultation) && $module_info->consultation === 'Y')
+			{
+				if (empty($grant->manager) && empty($grant->consultation_read) && !$this->isGranted())
+				{
+					return false;
+				}
+			}
 		}
 
 		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
@@ -282,7 +289,7 @@ class DocumentItem extends BaseObject
 		{
 			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
 		}
-		if(is_array($_SESSION['accessible']) && count($_SESSION['accessible']) > 200)
+		if(is_array($_SESSION['accessible'] ?? null) && count($_SESSION['accessible']) > 200)
 		{
 			$_SESSION['accessible'] = array_slice($_SESSION['accessible'], 100, null, true);
 		}
@@ -1305,7 +1312,7 @@ class DocumentItem extends BaseObject
 
 		if($source_file)
 		{
-			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality);
+			$output_file = FileHandler::createImageFile($source_file, $thumbnail_file, $trigger_obj->width, $trigger_obj->height, $trigger_obj->image_type, $trigger_obj->type, $trigger_obj->quality, 'auto');
 		}
 		else
 		{

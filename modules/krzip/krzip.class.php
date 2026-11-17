@@ -22,11 +22,11 @@ class krzip extends ModuleObject
 
 	public static $api_list = array('daumapi', 'epostapi', 'postcodify');
 
-	public static $epostapi_host = 'http://biz.epost.go.kr/KpostPortal/openapi';
+	public static $epostapi_host = 'http://biz.epost.go.kr/KpostPortal/openapi2';
 
 	function moduleInstall()
 	{
-		
+
 	}
 
 	function checkUpdate()
@@ -36,7 +36,7 @@ class krzip extends ModuleObject
 
 	function moduleUpdate()
 	{
-		
+
 	}
 }
 

@@ -714,6 +714,7 @@ return array(
     'WpOrg\\Requests\\Utility\\CaseInsensitiveDictionary' => $vendorDir . '/rmccue/requests/src/Utility/CaseInsensitiveDictionary.php',
     'WpOrg\\Requests\\Utility\\FilteredIterator' => $vendorDir . '/rmccue/requests/src/Utility/FilteredIterator.php',
     'WpOrg\\Requests\\Utility\\InputValidator' => $vendorDir . '/rmccue/requests/src/Utility/InputValidator.php',
+    'WpOrg\\Requests\\Utility\\Trim' => $vendorDir . '/rmccue/requests/src/Utility/Trim.php',
     'enshrined\\svgSanitize\\ElementReference\\Resolver' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
     'enshrined\\svgSanitize\\ElementReference\\Subject' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
     'enshrined\\svgSanitize\\ElementReference\\Usage' => $vendorDir . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',

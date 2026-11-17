@@ -99,7 +99,7 @@ class ModuleHandler extends Handler
         {
             $this->entry = escape($entry, false);
         }
-        if(!$this->module && $this->mid === 'admin')
+        if(!$this->module && $this->mid === 'admin' && config('url.admin_prefix') !== '')
         {
         	Context::set('module', $this->module = 'admin');
         	Context::set('mid', $this->mid = null);

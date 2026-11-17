@@ -52,7 +52,6 @@ class HTMLFilter
 		'allow-same-origin' => true,
 		'allow-scripts' => true,
 		'allow-top-navigation' => true,
-
 	);
 
 	/**
@@ -114,12 +113,22 @@ class HTMLFilter
 	/**
 	 * Filter HTML content to block XSS attacks.
 	 *
+	 * $allow_classes specifies which CSS classes are allowed.
+	 * If it is an array, it will be used as an allowlist. Pass an empty array to disallow all classes.
+	 * If true, all classes are allowed.
+	 * If false, the default configuration is used.
+	 *
+	 * $allow_editor_components specifies which editor components are allowed.
+	 * If it is an array, it will be used as an allowlist.
+	 * If true, all editor components are allowed.
+	 * If false, editor components are disallowed.
+	 *
 	 * @param string $input
 	 * @param array|bool $allow_classes (optional)
-	 * @param bool $allow_editor_components (optional)
+	 * @param array|bool $allow_editor_components (optional)
 	 * @return string
 	 */
-	public static function clean(string $input, $allow_classes = false, bool $allow_editor_components = true): string
+	public static function clean(string $input, $allow_classes = false, $allow_editor_components = true): string
 	{
 		if ($allow_classes === true)
 		{
@@ -141,16 +150,17 @@ class HTMLFilter
 
 		foreach (self::$_preproc as $callback)
 		{
-			$input = $callback($input, $purifier, $allow_editor_components, false);
+			$input = $callback($input, $purifier, $allow_editor_components ? true : false, false);
 		}
 
-		$input = self::_preprocess($input, $purifier, $allow_editor_components);
+		$extra_attrs = [0 => []];
+		$input = self::_preprocess($input, $purifier, $allow_editor_components, $extra_attrs);
 		$output = $purifier->purify($input);
-		$output = self::_postprocess($output, $purifier, $allow_editor_components);
+		$output = self::_postprocess($output, $purifier, $allow_editor_components, $extra_attrs);
 
 		foreach (self::$_postproc as $callback)
 		{
-			$output = $callback($output, $purifier, $allow_editor_components, false);
+			$output = $callback($output, $purifier, $allow_editor_components ? true : false, false);
 		}
 
 		return $output;
@@ -351,13 +361,13 @@ class HTMLFilter
 		$def->addAttribute('audio', 'data-file-srl', 'Number');
 		$def->addAttribute('img', 'editor_component', 'Text');
 		$def->addAttribute('div', 'editor_component', 'Text');
-		$def->addAttribute('img', 'rx_encoded_properties', 'Text');
-		$def->addAttribute('div', 'rx_encoded_properties', 'Text');
+		$def->addAttribute('img', 'rx_editcomp_sequence', 'Number');
+		$def->addAttribute('div', 'rx_editcomp_sequence', 'Number');
 
 		// Support encoded data-* attributes for some tags.
 		foreach (self::$_data_allowed as $tag)
 		{
-			$def->addAttribute($tag, 'rx_encoded_datas', 'Text');
+			$def->addAttribute($tag, 'rx_data_sequence', 'Number');
 		}
 	}
 
@@ -518,19 +528,29 @@ class HTMLFilter
 	 *
 	 * @param string $content
 	 * @param \HTMLPurifier $purifier
-	 * @param bool $allow_editor_components (optional)
+	 * @param array|bool $allow_editor_components
+	 * @param array &$extra_attrs
 	 * @return string
 	 */
-	protected static function _preprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true): string
+	protected static function _preprocess(string $content, \HTMLPurifier $purifier, $allow_editor_components, &$extra_attrs): string
 	{
+		// Remove any pre-existing custom properties from the input.
+		$content = preg_replace('!\s+(?:rx_editcomp_sequence|rx_data_sequence|rx_encoded_properties|rx_encoded_datas)=(&quot;|")[^"&]*\1!i', '', $content);
+
 		// Encode editor component properties so that they are not removed by HTMLPurifier.
 		if ($allow_editor_components)
 		{
-			$content = self::_encodeEditorComponents($content);
+			if (is_array($allow_editor_components))
+			{
+				$content = preg_replace_callback('!\s+editor_component="([^"]+)"!i', function($match) use($allow_editor_components) {
+					return in_array($match[1], $allow_editor_components) ? $match[0] : '';
+				}, $content);
+			}
+			$content = self::_encodeEditorComponents($content, $extra_attrs);
 		}
 
 		// Encode data-* attributes.
-		$content = self::_encodeDataAttributes($content);
+		$content = self::_encodeDataAttributes($content, $extra_attrs);
 		return $content;
 	}
 
@@ -539,10 +559,11 @@ class HTMLFilter
 	 *
 	 * @param string $content
 	 * @param \HTMLPurifier $purifier
-	 * @param bool $allow_editor_components (optional)
+	 * @param array|bool $allow_editor_components
+	 * @param array $extra_attrs
 	 * @return string
 	 */
-	protected static function _postprocess(string $content, \HTMLPurifier $purifier, bool $allow_editor_components = true): string
+	protected static function _postprocess(string $content, \HTMLPurifier $purifier, $allow_editor_components, $extra_attrs): string
 	{
 		// Define acts to allow and deny.
 		$allow_acts = array('procFileDownload');
@@ -612,7 +633,7 @@ class HTMLFilter
 		// Restore editor component properties.
 		if ($allow_editor_components)
 		{
-			$content = self::_decodeEditorComponents($content);
+			$content = self::_decodeEditorComponents($content, $extra_attrs);
 		}
 		else
 		{
@@ -620,11 +641,15 @@ class HTMLFilter
 		}
 
 		// Restore data-* attributes.
-		$content = self::_decodeDataAttributes($content);
+		$content = self::_decodeDataAttributes($content, $extra_attrs);
+
+		// Remove any remaining editor component and data-* artifacts.
+		$content = preg_replace('!\s+(?:rx_editcomp_sequence|rx_data_sequence|rx_encoded_properties|rx_encoded_datas)=(&quot;|")[^"&]*\1!i', '', $content);
 
 		// Always remove widget attributes (no configuration)
-		$content = preg_replace('!(<(?:div|img)[^>]*)\s(widget="(?:[^"]+)")!i', '$1', $content);
-		$content = preg_replace('!\s(class="zbxe_widget_output")!i', '', $content);
+		$content = preg_replace_callback('!<(?:div|img)\b[^>]*>!i', function($match) {
+			return preg_replace('!\s+(?:widget="[^"]*"|class="zbxe_widget_output")!i', '', $match[0]);
+		}, $content);
 
 		return $content;
 	}
@@ -633,38 +658,61 @@ class HTMLFilter
 	 * Encode editor components before processing.
 	 *
 	 * @param string $content
+	 * @param array &$extra_attrs
 	 * @return string
 	 */
-	protected static function _encodeEditorComponents(string $content): string
+	protected static function _encodeEditorComponents(string $content, array &$extra_attrs): string
 	{
-		$content = preg_replace_callback('!<(div|img)([^>]*)(editor_component="[^"]+")([^>]*)>!i', function($match) {
+		$content = preg_replace_callback('!<(div|img)(?:[^>]*)(?:editor_component="([^"]+)")(?:[^>]*)>!i', function($match) use(&$extra_attrs) {
 			$tag = strtolower($match[1]);
+			$component = $match[2];
+			$allowed_attrs = \EditorModel::getComponentAttributeList($component);
 			$attrs = array();
-			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, &$attrs) {
+			$html = preg_replace_callback('!([a-zA-Z0-9_-]+)="([^"]+)"!', function($attr) use($tag, $allowed_attrs, &$attrs) {
 				$attrkey = strtolower($attr[1]);
 				if ($tag === 'img' && preg_match('/^(?:width|height|src|alt|ismap|usemap)$/', $attrkey))
 				{
-					return $attr[0];
+					return $attr[0]; // Let HTMLPurifier deal with it
 				}
-				if (preg_match('/^(?:on|data-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|style|tabindex|title|rx_encoded_properties)$)/i', $attrkey))
+				if (preg_match('/^(?:on|\w+-|(?:accesskey|class|contextmenu|contenteditable|dir|draggable|dropzone|editor_component|hidden|id|lang|name|srcdoc|style|tabindex|title)$)/i', $attrkey))
 				{
-					return $attr[0];
+					return $attr[0]; // Let HTMLPurifier deal with it
 				}
+
+				// If the component declares a whitelist of attributes, use it.
+				if (is_array($allowed_attrs))
+				{
+					if (!isset($allowed_attrs[$attrkey]) || !self::_checkAttributeType($attr[2], $allowed_attrs[$attrkey]))
+					{
+						return '';
+					}
+				}
+
+				// Filter attribute value
 				$attrval = trim(utf8_normalize_spaces(utf8_clean(html_entity_decode($attr[2]))));
 				if (preg_match('/^javascript:/i', preg_replace('/\s+/', '', $attrval)))
 				{
 					return '';
 				}
-				$attrs[$attrkey] = $attrval;
+				$attrs[$attrkey] = htmlspecialchars($attrval, ENT_QUOTES, 'UTF-8');
 				return '';
 			}, $match[0]);
+
 			if ($tag === 'img' && !preg_match('/\ssrc="/', $html))
 			{
 				$html = substr($html, 0, 4) . ' src=""' . substr($html, 4);
 			}
-			$encoded_properties = base64_encode(json_encode($attrs));
-			$encoded_properties = $encoded_properties . ':' . Security::createSignature($encoded_properties);
-			return substr($html, 0, 4) . ' rx_encoded_properties="' . $encoded_properties . '"' . substr($html, 4);
+
+			if (count($attrs))
+			{
+				$extracted_sequence = count($extra_attrs);
+				$extra_attrs[$extracted_sequence] = $attrs;
+				return substr($html, 0, 4) . ' rx_editcomp_sequence="' . $extracted_sequence . '"' . substr($html, 4);
+			}
+			else
+			{
+				return $html;
+			}
 		}, $content);
 
 		return (string)$content;
@@ -674,25 +722,21 @@ class HTMLFilter
 	 * Decode editor components after processing.
 	 *
 	 * @param string $content
+	 * @param array $extra_attrs
 	 * @return string
 	 */
-	protected static function _decodeEditorComponents(string $content): string
+	protected static function _decodeEditorComponents(string $content, array $extra_attrs): string
 	{
-		$content = (string)preg_replace_callback('!<(div|img)([^>]*)(\srx_encoded_properties="([^"]+)")!i', function($match) {
+		$content = (string)preg_replace_callback('!<(div|img)([^>]*)(\srx_editcomp_sequence="([0-9]+)")!i', function($match) use($extra_attrs) {
 			$attrs = array();
-			list($encoded_properties, $signature) = explode(':', $match[4]);
-			if (!Security::verifySignature($encoded_properties, $signature))
+			$extracted_sequence = (int)$match[4];
+			if (!isset($extra_attrs[$extracted_sequence]))
 			{
 				return str_replace($match[3], '', $match[0]);
 			}
-			$decoded_properties = json_decode(base64_decode($encoded_properties));
-			if (!$decoded_properties)
+			foreach ($extra_attrs[$extracted_sequence] as $key => $val)
 			{
-				return str_replace($match[3], '', $match[0]);
-			}
-			foreach ($decoded_properties as $key => $val)
-			{
-				$attrs[] = $key . '="' . htmlspecialchars($val, ENT_QUOTES, 'UTF-8') . '"';
+				$attrs[] = $key . '="' . $val . '"';
 			}
 			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
@@ -704,12 +748,13 @@ class HTMLFilter
 	 * Encode data-* attributes so that they will survive being passed through HTMLPurifier.
 	 *
 	 * @param string $content
+	 * @param array &$extra_attrs
 	 * @return string
 	 */
-	protected static function _encodeDataAttributes(string $content): string
+	protected static function _encodeDataAttributes(string $content, array &$extra_attrs): string
 	{
 		$tags = implode('|', self::$_data_allowed);
-		return (string)preg_replace_callback('!<(' . $tags . ')\s([^>]+)>!i', function($match) {
+		return (string)preg_replace_callback('!<(' . $tags . ')\s([^>]+)>!i', function($match) use(&$extra_attrs) {
 			$attrs = array();
 			$html = preg_replace_callback('!\s(data-[a-zA-Z0-9_-]+)="([^"]*)"!', function($attr) use(&$attrs) {
 				$attrkey = strtolower($attr[1]);
@@ -722,12 +767,19 @@ class HTMLFilter
 				{
 					return '';
 				}
-				$attrs[$attrkey] = $attrval;
+				$attrs[$attrkey] = htmlspecialchars($attrval, ENT_QUOTES, 'UTF-8');
 				return '';
 			}, $match[0]);
-			$encoded_datas = base64_encode(json_encode($attrs));
-			$encoded_datas = $encoded_datas . ':' . Security::createSignature($encoded_datas);
-			return rtrim($html, ' />') . ' rx_encoded_datas="' . $encoded_datas . '"' . (preg_match('!/>$!', $html) ? ' />' : '>');
+			if (count($attrs))
+			{
+				$extracted_sequence = count($extra_attrs);
+				$extra_attrs[$extracted_sequence] = $attrs;
+				return rtrim($html, ' />') . ' rx_data_sequence="' . $extracted_sequence . '"' . (preg_match('!/>$!', $html) ? ' />' : '>');
+			}
+			else
+			{
+				return $html;
+			}
 		}, $content);
 	}
 
@@ -735,28 +787,42 @@ class HTMLFilter
 	 * Decode data-* attributes after processing.
 	 *
 	 * @param string $content
+	 * @param array $extra_attrs
 	 * @return string
 	 */
-	protected static function _decodeDataAttributes(string $content): string
+	protected static function _decodeDataAttributes(string $content, array $extra_attrs): string
 	{
 		$tags = implode('|', self::$_data_allowed);
-		return (string)preg_replace_callback('!<(' . $tags . ')([^>]*)(\srx_encoded_datas="([^"]+)")!i', function($match) {
+		return (string)preg_replace_callback('!<(' . $tags . ')([^>]*)(\srx_data_sequence="([0-9]+)")!i', function($match) use($extra_attrs) {
 			$attrs = array();
-			list($encoded_datas, $signature) = explode(':', $match[4]);
-			if (!Security::verifySignature($encoded_datas, $signature))
+			$extracted_sequence = (int)$match[4];
+			if (!isset($extra_attrs[$extracted_sequence]))
 			{
 				return str_replace($match[3], '', $match[0]);
 			}
-			$encoded_datas = json_decode(base64_decode($encoded_datas));
-			if (!$encoded_datas)
+			foreach ($extra_attrs[$extracted_sequence] as $key => $val)
 			{
-				return str_replace($match[3], '', $match[0]);
-			}
-			foreach ($encoded_datas as $key => $val)
-			{
-				$attrs[] = $key . '="' . htmlspecialchars($val, ENT_QUOTES, 'UTF-8') . '"';
+				$attrs[] = $key . '="' . $val . '"';
 			}
 			return str_replace($match[3], ' ' . implode(' ', $attrs), $match[0]);
 		}, $content);
+	}
+
+	/**
+	 * Check the type of custom attributes for editor components.
+	 *
+	 * @param string $value
+	 * @param string $type
+	 * @return bool
+	 */
+	protected static function _checkAttributeType(string $value, string $type): bool
+	{
+		switch ($type)
+		{
+			case 'int': return ctype_digit($value);
+			case 'bool': return preg_match('/^(?:Y|N|T|F|0|1)$/i', $value) === 1;
+			case 'color': return preg_match('/^#?[0-9a-fA-F]{3,8}$/', $value) === 1;
+			case 'string': default: return true;
+		}
 	}
 }

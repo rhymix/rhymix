@@ -284,7 +284,7 @@ class NcenterliteModel extends Ncenterlite
 		{
 			$v->text = $this->getNotificationText($v);
 			$v->ago = $this->getAgo($v->regdate);
-			$v->url = getUrl('','act','procNcenterliteRedirect', 'notify', $v->notify);
+			$v->url = getUrl(['module' => 'ncenterlite', 'act' => 'procNcenterliteRedirect', 'notify' => $v->notify]);
 			if (isset($v->data))
 			{
 				$v->data = is_string($v->data) ? unserialize($v->data) : $v->data;
@@ -610,9 +610,9 @@ class NcenterliteModel extends Ncenterlite
 			case 'Z':
 				return vsprintf(lang($notification->target_body), array(
 					$notification->target_member_srl,     // %1$d
-					$notification->target_nick_name,      // %2$s
-					$notification->target_user_id,        // %3$s
-					$notification->target_email_address,  // %4$s
+					escape($notification->target_nick_name, false), // %2$s
+					escape($notification->target_user_id, false), // %3$s
+					escape($notification->target_email_address, false), // %4$s
 					$notification->target_browser,        // %5$s
 					$notification->target_summary,        // %6$s
 					$notification->target_url,            // %7$s
@@ -631,43 +631,43 @@ class NcenterliteModel extends Ncenterlite
 		{
 			// Comment on your document.
 			case 'C':
-				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented'), escape($notification->target_nick_name, false), $type, $notification->target_summary);
 				break;
 
 			// Comment on a board.
 			case 'A':
-				$str = sprintf(lang('ncenterlite_commented_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented_board'), escape($notification->target_nick_name, false), $notification->target_browser, $notification->target_summary);
 				break;
 
 			// Mentioned.
 			case 'M':
-				$str = sprintf(lang('ncenterlite_mentioned'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary, $type);
+				$str = sprintf(lang('ncenterlite_mentioned'), escape($notification->target_nick_name, false), $notification->target_browser, $notification->target_summary, $type);
 				break;
 
 			// Message arrived.
 			case 'E':
-				$str = sprintf(lang('ncenterlite_message_mention'), $notification->target_nick_name, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_message_mention'), escape($notification->target_nick_name, false), $notification->target_summary);
 				break;
 
 			// Test notification.
 			case 'T':
-				$str = sprintf(lang('ncenterlite_test_noti'), $notification->target_nick_name);
+				$str = sprintf(lang('ncenterlite_test_noti'), escape($notification->target_nick_name, false));
 				break;
 
 			// New document on a board.
 			case 'P':
-				$str = sprintf(lang('ncenterlite_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_board'), escape($notification->target_nick_name, false), $notification->target_browser, $notification->target_summary);
 				break;
 
 			// New document.
 			case 'S':
 				if($notification->target_browser)
 				{
-					$str = sprintf(lang('ncenterlite_board'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+					$str = sprintf(lang('ncenterlite_board'), escape($notification->target_nick_name, false), $notification->target_browser, $notification->target_summary);
 				}
 				else
 				{
-					$str = sprintf(lang('ncenterlite_article'), $notification->target_nick_name, $notification->target_summary);
+					$str = sprintf(lang('ncenterlite_article'), escape($notification->target_nick_name, false), $notification->target_summary);
 				}
 				break;
 
@@ -679,7 +679,7 @@ class NcenterliteModel extends Ncenterlite
 				}
 				else
 				{
-					$str = sprintf(lang('ncenterlite_vote'), $notification->target_nick_name, $notification->target_summary, $type);
+					$str = sprintf(lang('ncenterlite_vote'), escape($notification->target_nick_name, false), $notification->target_summary, $type);
 				}
 				break;
 
@@ -691,21 +691,21 @@ class NcenterliteModel extends Ncenterlite
 				}
 				else
 				{
-					$str = sprintf(lang('ncenterlite_scrap'), $notification->target_nick_name, $notification->target_summary, $type);
+					$str = sprintf(lang('ncenterlite_scrap'), escape($notification->target_nick_name, false), $notification->target_summary, $type);
 				}
 				break;
 
 			// Admin notification.
 			case 'B':
-				$str = sprintf(lang('ncenterlite_admin_content_message'), $notification->target_nick_name, $notification->target_browser, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_admin_content_message'), escape($notification->target_nick_name, false), $notification->target_browser, $notification->target_summary);
 				break;
 
 			case 'I':
-				$str = sprintf(lang('ncenterlite_insert_member_message'), $notification->target_nick_name);
+				$str = sprintf(lang('ncenterlite_insert_member_message'), escape($notification->target_nick_name, false));
 				break;
 
 			case 'G':
-				$str = sprintf(lang('ncenterlite_commented'), $notification->target_nick_name, $type, $notification->target_summary);
+				$str = sprintf(lang('ncenterlite_commented'), escape($notification->target_nick_name, false), $type, $notification->target_summary);
 				break;
 
 			// Other.

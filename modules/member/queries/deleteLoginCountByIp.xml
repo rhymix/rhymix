@@ -1,8 +1,0 @@
-<query id="deleteLoginCountByIp" action="delete">
-	<tables>
-		<table name="member_login_count" />
-	</tables>
-	<conditions>
-		<condition operation="equal" column="ipaddress" var="ipaddress" notnull="notnull" />
-	</conditions>
-</query>

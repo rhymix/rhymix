@@ -1,0 +1,11 @@
+<query id="deleteAuthLog" action="delete">
+    <tables>
+        <table name="member_auth_log" />
+    </tables>
+    <conditions>
+		<group notnull="notnull">
+			<condition operation="equal" column="member_srl" var="member_srl" filter="number"  />
+			<condition operation="less" column="regdate" var="regdate_before" />
+		</group>
+    </conditions>
+</query>

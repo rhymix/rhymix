@@ -47,6 +47,14 @@
 		</div>
 	</div>
 	<div class="x_control-group">
+		<label class="x_control-label">{lang('member.cmd_login_log')}</label>
+		<div class="x_controls">
+			<label for="login_log_y" class="x_inline"><input type="radio" name="login_log" id="login_log_y" value="Y" checked="checked"|cond="$config->login_log !== 'N'" /> {$lang->cmd_yes}</label>
+			<label for="login_log_n" class="x_inline"><input type="radio" name="login_log" id="login_log_n" value="N" checked="checked"|cond="$config->login_log === 'N'" /> {$lang->cmd_no}</label>
+			<p class="x_help-block">{lang('member.about_login_log')}</p>
+		</div>
+	</div>
+	<div class="x_control-group">
 		<label class="x_control-label">{$lang->cmd_login_invalidate_other_sessions}</label>
 		<div class="x_controls">
 			<label for="login_invalidate_other_sessions_y" class="x_inline"><input type="radio" name="login_invalidate_other_sessions" id="login_invalidate_other_sessions_y" value="Y" checked="checked"|cond="$config->login_invalidate_other_sessions === 'Y'" /> {$lang->cmd_yes}</label>

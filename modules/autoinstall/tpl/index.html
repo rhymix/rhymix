@@ -3,8 +3,11 @@
 <include target="header.html" />
 
 <ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$type == 'updates'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex', 'type', 'updates')}">{lang('autoinstall_updates')}</a>
+	</li>
 	<li class="x_active"|cond="$type == 'featured'">
-		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('featured_packages')}</a>
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex', 'type', 'featured')}">{lang('featured_packages')}</a>
 	</li>
 	<!--@foreach($package_types as $_type => $_typename)-->
 		<li class="x_active"|cond="$type == $_type">
@@ -73,8 +76,20 @@
 	<!--@endforeach-->
 </div>
 
-<div class="x_clearfix">
-	<div cond="$page_navigation" class="x_pagination x_pull-left">
+<!--@if(!$package_list && $type === 'updates')-->
+	<div class="message">
+		<p>{$lang->autoinstall_no_updates_available}</p>
+	</div>
+<!--@endif-->
+
+<div class="x_clearfix" cond="$type === 'updates'">
+	<div class="x_pull-left">
+		<button class="autoinstall_refresh_packages x_btn x_btn-inverse" href="#" data-refreshing="{$lang->autoinstall_refreshing}">{$lang->autoinstall_refresh}</button>
+	</div>
+</div>
+
+<div class="x_clearfix" cond="$type !== 'updates'">
+	<div class="x_pagination x_pull-left">
 		<ul>
 			<li class="x_disabled"|cond="$page == 1"><a href="{getUrl('page', '')}">&laquo; {$lang->first_page}</a></li>
 			<!--@while($page_no = $page_navigation->getNextPage())-->

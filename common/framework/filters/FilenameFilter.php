@@ -33,9 +33,21 @@ class FilenameFilter
 		$filename = trim($filename, ' .-_');
 		$filename = preg_replace('/__+/', '_', $filename);
 		$filename = preg_replace('/\.\.+/', '.', $filename);
+		$filename = preg_replace('/\.\s+([a-z0-9]+)$/i', '.$1', $filename);
 
 		// Remove potentially misleading double extensions.
-		$filename = preg_replace('/\.(?:php[\d|s]?|txt|pdf|zip|com|exe|bat|msi|scr|jsp|aspx?|docx?|xlsx?|pptx?|hwpx?)\s?(\.[a-z0-9]+)$/', '$1', $filename);
+		while (true)
+		{
+			$result = preg_replace('/\.\s?(?:php[\d|s]?|txt|pdf|zip|com|exe|bat|msi|scr|jsp|aspx?|docx?|xlsx?|pptx?|hwpx?)\s?(\.[a-z0-9]+)$/i', '$1', $filename);
+			if ($result !== $filename)
+			{
+				$filename = $result;
+			}
+			else
+			{
+				break;
+			}
+		}
 
 		// Change .php files to .phps to make them non-executable.
 		if (strtolower(substr($filename, strlen($filename) - 4)) === '.php')

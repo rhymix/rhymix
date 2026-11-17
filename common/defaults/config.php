@@ -55,6 +55,7 @@ return array(
 		'https_port' => null,
 		'ssl' => 'none',
 		'rewrite' => 2,
+		'admin_prefix' => 'admin',
 		'lang_prefixes' => false,
 		'prefixes' => [
 			'mapping' => [],

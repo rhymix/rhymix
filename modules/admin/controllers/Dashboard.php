@@ -4,8 +4,11 @@ namespace Rhymix\Modules\Admin\Controllers;
 
 use Rhymix\Framework\Security;
 use Rhymix\Framework\Exceptions\InvalidRequest;
+use Rhymix\Modules\Autoinstall\Models\Package as PackageModel;
 use Context;
 use AddonModel;
+use AddonAdminModel;
+use AutoinstallAdminModel;
 use DocumentAdminModel;
 use DocumentModel;
 use CommentModel;
@@ -111,7 +114,8 @@ class Dashboard extends Base
 		}
 
 		// Get need update from easy install
-		$needUpdateList = array();
+		$needUpdatePackageList = AutoinstallAdminModel::needsUpdatePackageList();
+		$newVersionList = PackageModel::getUpdatedPackages();
 
 		// Check counter status
 		$counter_config = ModuleModel::getModuleConfig('counter');
@@ -138,11 +142,11 @@ class Dashboard extends Base
 
 		Context::set('cleanup_list', $cleanup_list);
 		Context::set('module_list', $module_list);
-		Context::set('needUpdate', false);
 		Context::set('addTables', $addTables);
 		Context::set('wrongPaths', $wrongPaths);
 		Context::set('needUpdate', $needUpdate);
-		Context::set('newVersionList', $needUpdateList);
+		Context::set('needUpdatePackageList', $needUpdatePackageList);
+		Context::set('newVersionList', $newVersionList);
 		Context::set('use_counter', $use_counter);
 
 		$oSecurity = new \Security();

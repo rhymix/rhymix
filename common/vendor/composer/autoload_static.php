@@ -943,6 +943,7 @@ class ComposerStaticInit1e37ff09eb6590c7436f139ffd9070de
         'WpOrg\\Requests\\Utility\\CaseInsensitiveDictionary' => __DIR__ . '/..' . '/rmccue/requests/src/Utility/CaseInsensitiveDictionary.php',
         'WpOrg\\Requests\\Utility\\FilteredIterator' => __DIR__ . '/..' . '/rmccue/requests/src/Utility/FilteredIterator.php',
         'WpOrg\\Requests\\Utility\\InputValidator' => __DIR__ . '/..' . '/rmccue/requests/src/Utility/InputValidator.php',
+        'WpOrg\\Requests\\Utility\\Trim' => __DIR__ . '/..' . '/rmccue/requests/src/Utility/Trim.php',
         'enshrined\\svgSanitize\\ElementReference\\Resolver' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Resolver.php',
         'enshrined\\svgSanitize\\ElementReference\\Subject' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Subject.php',
         'enshrined\\svgSanitize\\ElementReference\\Usage' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/ElementReference/Usage.php',

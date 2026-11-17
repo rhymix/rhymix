@@ -251,7 +251,7 @@ class FileModel extends File
 		{
 			$member_info = Rhymix\Framework\Session::getMemberInfo();
 		}
-		if($member_info->is_admin === 'Y' || $member_info->member_srl == $file_info->member_srl)
+		if($member_info->is_admin === 'Y' || ($member_info->member_srl && $member_info->member_srl == $file_info->member_srl))
 		{
 			return true;
 		}
@@ -267,7 +267,7 @@ class FileModel extends File
 			return false;
 		}
 		$grant = ModuleModel::getGrant($module_info, $member_info);
-		if($grant->manager)
+		if($grant->manager && $grant->can('moderate:document') && $grant->can('moderate:comment'))
 		{
 			return true;
 		}
@@ -376,6 +376,9 @@ class FileModel extends File
 		$config->download_short_url = $config->download_short_url ?? 'N';
 		$config->inline_download_format = $config->inline_download_format ?? [];
 		$config->image_autoconv = $config->image_autoconv ?? [];
+		$config->image_autorotate = $config->image_autorotate ?? true;
+		$config->image_remove_exif_data = $config->image_remove_exif_data ?? false;
+		$config->image_always_reencode = $config->image_always_reencode ?? false;
 		$config->image_quality_adjustment = $config->image_quality_adjustment ?? 75;
 		$config->video_mp4_gif_time = $config->video_mp4_gif_time ?? 0;
 		$config->ffmpeg_command = $config->ffmpeg_command ?? '/usr/bin/ffmpeg';

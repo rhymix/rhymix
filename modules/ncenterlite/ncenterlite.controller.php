@@ -665,7 +665,9 @@ class NcenterliteController extends Ncenterlite
 		$args->target_content = mb_substr(trim(utf8_normalize_spaces(strip_tags($obj->content))), 0, 200, 'UTF-8');
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
-		$args->target_url = getNotEncodedUrl('', 'act', 'dispCommunicationMessages', 'message_srl', $obj->related_srl);
+
+		$member_mid = (MemberModel::getMemberConfig()->mid ?? null) ?? (ModuleModel::getDefaultMid()->mid ?? null);
+		$args->target_url = getNotEncodedUrl(['mid' => $member_mid, 'act' => 'dispCommunicationMessages', 'message_srl' => $obj->related_srl]);
 		$output = $this->_insertNotify($args);
 		if(!$output->toBool())
 		{
@@ -1409,7 +1411,7 @@ class NcenterliteController extends Ncenterlite
 		if($anonymous == TRUE)
 		{
 			$args->target_member_srl = -1 * $this->user->member_srl;
-			$args->target_nick_name = strval($args->target_nick_name);
+			$args->target_nick_name = escape($args->target_nick_name);
 			$args->target_user_id = $args->target_nick_name;
 			$args->target_email_address = $args->target_nick_name;
 		}
@@ -1418,24 +1420,24 @@ class NcenterliteController extends Ncenterlite
 		{
 			$member_info = getModel('member')->getMemberInfoByMemberSrl(abs($args->target_member_srl));
 			$args->target_member_srl = intval($member_info->member_srl);
-			$args->target_nick_name = strval($member_info->nick_name);
-			$args->target_user_id = strval($member_info->user_id);
-			$args->target_email_address = strval($member_info->email_address);
+			$args->target_nick_name = escape($member_info->nick_name);
+			$args->target_user_id = escape($member_info->user_id);
+			$args->target_email_address = escape($member_info->email_address);
 		}
 		// 발신자 회원번호가 없는 경우 현재 로그인한 사용자 정보를 사용
 		elseif(Context::get('is_logged'))
 		{
 			$logged_info = Context::get('logged_info');
 			$args->target_member_srl = intval($logged_info->member_srl);
-			$args->target_nick_name = strval($logged_info->nick_name);
-			$args->target_user_id = strval($logged_info->user_id);
-			$args->target_email_address = strval($logged_info->email_address);
+			$args->target_nick_name = escape($logged_info->nick_name);
+			$args->target_user_id = escape($logged_info->user_id);
+			$args->target_email_address = escape($logged_info->email_address);
 		}
 		// 비회원인 경우
 		else
 		{
 			$args->target_member_srl = 0;
-			$args->target_nick_name = strval($args->target_nick_name);
+			$args->target_nick_name = escape($args->target_nick_name);
 			$args->target_user_id = '';
 			$args->target_email_address = '';
 		}

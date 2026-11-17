@@ -57,7 +57,8 @@ class MemberModel extends Member
 		$config->features['my_documents'] = $config->features['my_documents'] ?? true;
 		$config->features['my_comments'] = $config->features['my_comments'] ?? true;
 		$config->features['active_logins'] = $config->features['active_logins'] ?? true;
-		$config->features['nickname_log'] = $config->features['nickname_log'] ?? true;
+		$config->features['auth_log'] = $config->features['auth_log'] ?? false;
+		$config->features['nickname_log'] = $config->features['nickname_log'] ?? false;
 
 		// Set agreements config
 		if(!isset($config->agreements) || !is_array($config->agreements))
@@ -121,9 +122,12 @@ class MemberModel extends Member
 		$config->max_error_count = $config->max_error_count ?? 10;
 		$config->max_error_count_time = $config->max_error_count_time ?? 300;
 		$config->login_failure_except_ip = $config->login_failure_except_ip ?? [];
+		$config->login_log = $config->login_log ?? 'Y';
 		$config->login_invalidate_other_sessions = $config->login_invalidate_other_sessions ?? 'N';
 		$config->after_login_url = $config->after_login_url ?? null;
 		$config->after_logout_url = $config->after_logout_url ?? null;
+		$config->password_reset_method = $config->password_reset_method ?? 1;
+		$config->password_reset_message = $config->password_reset_message ?? 2;
 		unset($config->enable_login_fail_report);
 
 		// Set design config

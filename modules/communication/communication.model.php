@@ -160,13 +160,6 @@ class CommunicationModel extends communication
 			$message->user_name = $message->nick_name;
 		}
 
-		// change the status if is a received and not yet read message
-		if($message->message_type == 'R' && $message->readed != 'Y')
-		{
-			$oCommunicationController = getController('communication');
-			$oCommunicationController->setMessageReaded($message_srl);
-		}
-
 		return $message;
 	}
 
