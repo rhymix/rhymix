@@ -105,15 +105,20 @@ class URL
 	 */
 	public static function isInternalURL(string $url): bool
 	{
+		// Normalize the URL.
+		$url = str_replace('\\', '/', trim($url));
+		$url = preg_replace('![\pZ\pC]+!u', '', $url);
+		$url = preg_replace('!//+!', '//', $url);
+
 		// Check the scheme.
-		$url = str_replace('\\', '/', $url);
-		if (preg_match('!^([a-zA-Z0-9_-]+):!', $url, $matches))
+		if (preg_match('!^([a-zA-Z0-9&#%;_-]+):!', $url, $matches))
 		{
 			$scheme = strtolower($matches[1]);
 			if (!in_array($scheme, ['http', 'https']))
 			{
 				return false;
 			}
+			$url = $scheme . '://' . ltrim(substr($url, strlen($matches[0])), '/');
 		}
 		else
 		{

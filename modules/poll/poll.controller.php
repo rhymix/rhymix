@@ -308,32 +308,46 @@ class PollController extends Poll
 		// Get the information related to the survey
 		$columnList = array('poll_count', 'stop_date','poll_type');
 		$output = executeQuery('poll.getPoll', $args, $columnList);
-		if(!$output->data) throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		if (!$output->data)
+		{
+			throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		}
 
-		if($output->data->stop_date < date("Ymd")) throw new Rhymix\Framework\Exception('msg_cannot_vote');
+		if ($output->data->stop_date < date('Ymd'))
+		{
+			throw new Rhymix\Framework\Exception('msg_cannot_vote');
+		}
 
 		$columnList = array('checkcount');
 		$output = executeQuery('poll.getPollTitle', $args, $columnList);
-		if(!$output->data) return;
-
-		$poll_srl_indexes = Context::get('poll_srl_indexes');
-		$tmp_item_srls = explode(',',$poll_srl_indexes);
-		//if(count($tmp_item_srls)-1>(int)$output->data->checkcount) throw new Rhymix\Framework\Exception('msg_exceed_max_select');
-		for($i=0;$i<count($tmp_item_srls);$i++)
+		if(!$output->data)
 		{
-			$srl = (int)trim($tmp_item_srls[$i]);
-			if(!$srl) continue;
-			$item_srls[] = $srl;
+			throw new Rhymix\Framework\Exception('poll_no_poll_or_deleted_poll');
+		}
+
+		$oPollModel = getModel('poll');
+		if($oPollModel->isPolled($poll_srl)) throw new Rhymix\Framework\Exception('msg_already_poll');
+
+		$item_srls = [];
+		$poll_srl_indexes = Context::get('poll_srl_indexes');
+		foreach (explode(',', $poll_srl_indexes) as $srl)
+		{
+			$srl = (int)trim($srl);
+			if ($srl > 0)
+			{
+				$item_srls[] = $srl;
+			}
 		}
 
 		// If there is no response item, display an error
-		if(!is_array($item_srls) || !count($item_srls))
+		if (!count($item_srls))
 		{
 			throw new Rhymix\Framework\Exception('msg_check_poll_item');
 		}
-		// Make sure is the poll has already been taken
-		$oPollModel = getModel('poll');
-		if($oPollModel->isPolled($poll_srl)) throw new Rhymix\Framework\Exception('msg_already_poll');
+		if ($output->data->checkcount && count($item_srls) > (int)$output->data->checkcount)
+		{
+			throw new Rhymix\Framework\Exception('msg_exceed_max_select');
+		}
 
 		$oDB = DB::getInstance();
 		$oDB->begin();

@@ -83,6 +83,13 @@ class CommunicationView extends communication
 				}
 			}
 
+			// Set the message as read
+			if ($message->message_type === 'R' && $message->readed != 'Y')
+			{
+				$oCommunicationController = CommunicationController::getInstance();
+				$oCommunicationController->setMessageReaded($message_srl);
+			}
+
 			stripEmbedTagForAdmin($message->content, $message->sender_srl);
 			Context::set('message', $message);
 			Context::set('message_files', CommunicationModel::getMessageFiles($message));

@@ -648,10 +648,6 @@ class DocumentController extends Document
 			}
 		}
 
-		if (!$isRestore)
-		{
-			$obj->ipaddress = \RX_CLIENT_IP;
-		}
 		$obj->isRestore = $isRestore ? true : false;
 
 		// Sanitize variables
@@ -717,7 +713,17 @@ class DocumentController extends Document
 			unset($obj->user_id);
 		}
 
+		// Set other defaults.
 		$obj->uploaded_count = FileModel::getFilesCount($obj->document_srl, 'doc');
+		if (!$manual_inserted && !$isRestore)
+		{
+			unset($obj->readed_count);
+			unset($obj->voted_count);
+			unset($obj->blamed_count);
+			unset($obj->comment_count);
+			unset($obj->trackback_count);
+			$obj->ipaddress = \RX_CLIENT_IP;
+		}
 
 		// Call a trigger (before)
 		$output = ModuleHandler::triggerCall('document.insertDocument', 'before', $obj);
@@ -770,11 +776,7 @@ class DocumentController extends Document
 			}
 		}
 
-		// Set the read counts and update order.
-		if (!isset($obj->readed_count))
-		{
-			$obj->readed_count = 0;
-		}
+		// Set the update order.
 		if ($isLatest)
 		{
 			$obj->update_order = $obj->list_order = $obj->document_srl * -1;
@@ -819,7 +821,8 @@ class DocumentController extends Document
 		// Remove iframe and script if not a top adminisrator in the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 
 		// Fix encoding of non-BMP UTF-8 characters.
@@ -1176,7 +1179,8 @@ class DocumentController extends Document
 		// Remove iframe and script if not a top adminisrator in the session.
 		if ($logged_info->is_admin !== 'Y')
 		{
-			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content);
+			$allow_editor_components = array_keys(get_object_vars(EditorModel::getComponentList()));
+			$obj->content = Rhymix\Framework\Filters\HTMLFilter::clean((string)$obj->content, false, $allow_editor_components);
 		}
 
 		// Fix encoding of non-BMP UTF-8 characters.

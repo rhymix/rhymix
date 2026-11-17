@@ -267,7 +267,7 @@ class ModuleObject extends BaseObject
 			{
 				// Ensure that the list of modules to check is the right type and not empty
 				$check_var = Context::get($permission->check_var);
-				if (is_scalar($check_var))
+				if (!is_array($check_var))
 				{
 					if (empty($check_module_srl = trim($check_var)))
 					{

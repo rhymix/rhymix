@@ -101,10 +101,10 @@ function getAutoSavedSrl(ret_obj) {
 					// 자동저장된 문서 활용여부를 물은 후 사용하지 않는다면 자동저장된 문서 삭제
 					if (confirm(fo_obj._saved_doc_message.value)) {
 						if(typeof(fo_obj.title) !== 'undefined') {
-							fo_obj.title.value = saved_title;
+							fo_obj.title.value = String(saved_title).unescape();
 						}
 						content_input.val(saved_content);
-						exec_json('editor.procEditorLoadSavedDocument', {
+						Rhymix.ajax('editor.procEditorLoadSavedDocument', {
 							editor_sequence: editor_sequence,
 							primary_key: primary_key,
 							mid: current_mid

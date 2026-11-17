@@ -20,15 +20,16 @@
 				function (response) {
 					var address_list = response.address_list;
 					$this.data("address_list", address_list);
+					ui.addressList.empty();
 					for(var i = 0; i < address_list.length; i++) {
 						var val = address_list[i];
-						var $li = $("<li>").data("index", i).html(val.join(" "));
-						ui.addressList.html("").append($li);
+						var $li = $("<li>").data("index", i).text(val.join(" "));
+						ui.addressList.append($li);
 					}
 				},
 				function (response) {
 					$this.data("address_list", "");
-					ui.addressList.html("");
+					ui.addressList.empty();
 				}
 			);
 		});

@@ -492,82 +492,87 @@ class EditorModel extends Editor
 	}
 
 	/**
-	 * @brief Get information which has been auto-saved
+	 * Get autosaved document.
+	 *
+	 * @param ?int $upload_target_srl
+	 * @return ?object
 	 */
-	public static function getSavedDoc($upload_target_srl)
+	public static function getSavedDoc(?int $upload_target_srl = null)
 	{
-		$auto_save_args = new stdClass();
-		$auto_save_args->module_srl = Context::get('module_srl');
+		$args = new stdClass();
+		$args->module_srl = Context::get('current_module_info')->module_srl;
 
-		// Get the current module if module_srl doesn't exist
-		if(!$auto_save_args->module_srl)
+		// Identify the author
+		$logged_info = Context::get('logged_info');
+		if ($logged_info && $logged_info->member_srl)
 		{
-			$current_module_info = Context::get('current_module_info');
-			$auto_save_args->module_srl = $current_module_info->module_srl;
+			$args->member_srl = $logged_info->member_srl;
 		}
-
-		// Find a document by using member_srl for logged-in user and ipaddress for non-logged user
-		if(Context::get('is_logged'))
+		elseif (!empty($_COOKIE['autosave_certify_key_' . $args->module_srl]))
 		{
-			$logged_info = Context::get('logged_info');
-			$auto_save_args->member_srl = $logged_info->member_srl;
-		}
-		elseif(!empty($_COOKIE['autosave_certify_key_' . $auto_save_args->module_srl]))
-		{
-			$auto_save_args->certify_key = $_COOKIE['autosave_certify_key_' . $auto_save_args->module_srl];
+			$args->member_srl = 0;
+			$args->certify_key = $_COOKIE['autosave_certify_key_' . $args->module_srl];
 		}
 		else
 		{
-			$auto_save_args->ipaddress = RX_CLIENT_IP;
+			$args->member_srl = 0;
+			$args->ipaddress = RX_CLIENT_IP;
 		}
 
 		// Extract auto-saved data from the DB
-		$output = executeQuery('editor.getSavedDocument', $auto_save_args);
-		$saved_doc = $output->data;
-
-		// Return null if no result is auto-saved
-		if(!$saved_doc) return;
-		if(is_array($saved_doc))
+		$output = executeQueryArray('editor.getSavedDocument', $args);
+		$saved_doc = count($output->data) ? array_first($output->data) : null;
+		if (!$saved_doc)
 		{
-			$saved_doc = array_first($saved_doc);
+			return;
 		}
 
-		// Return null if certify key does not match
-		if($saved_doc->certify_key && !isset($auto_save_args->certify_key))
+		// Check certify_key
+		if ($saved_doc->certify_key && (!isset($args->certify_key) || $saved_doc->certify_key !== $args->certify_key))
 		{
 			return;
 		}
 
 		// Check if the auto-saved document already exists
-		$oSaved = DocumentModel::getDocument($saved_doc->document_srl);
-		if($oSaved->isExists()) return;
-
-		// Move all the files if the auto-saved data contains document_srl and file
-		// Then set document_srl to editor_sequence
-		if($saved_doc->document_srl && $upload_target_srl && !Context::get('document_srl'))
+		if ($saved_doc->document_srl)
 		{
-			$saved_doc->module_srl = $auto_save_args->module_srl;
-			$oFileController = getController('file');
+			$document = DocumentModel::getDocument($saved_doc->document_srl);
+			if ($document && $document->isExists())
+			{
+				return;
+			}
+		}
+
+		// Permission check on parent module
+		$module_info = Context::get('current_module_info');
+		$grant = ModuleModel::getGrant($module_info, $logged_info);
+		if (isset($grant->write_document) && !$grant->write_document)
+		{
+			return;
+		}
+
+		// Adjust upload_target_srl of attached files
+		if ($saved_doc->document_srl && $upload_target_srl && !Context::get('document_srl'))
+		{
+			$saved_doc->module_srl = $args->module_srl;
+			$oFileController = FileController::getInstance();
 			$oFileController->moveFile($saved_doc->document_srl, $saved_doc->module_srl, $upload_target_srl);
 		}
-		elseif($upload_target_srl)
+		elseif ($upload_target_srl)
 		{
 			$saved_doc->document_srl = $upload_target_srl;
 		}
 
-		// Change auto-saved data
-		$saved_doc->certify_key = $auto_save_args->certify_key;
-		if(!$saved_doc->certify_key && !Context::get('is_logged'))
+		// Update certify_key if necessary
+		if (!$saved_doc->member_srl && !$saved_doc->certify_key)
 		{
 			$saved_doc->certify_key = Rhymix\Framework\Security::getRandom(32);
-			setcookie('autosave_certify_key_' . $saved_doc->module_srl, $saved_doc->certify_key, time() + 86400, null, null, RX_SSL, true);
+			Rhymix\Framework\Cookie::set('autosave_certify_key_' . $saved_doc->module_srl, $saved_doc->certify_key, ['expires' => time() + 86400]);
+			executeQuery('editor.deleteSavedDoc', $args);
+			executeQuery('editor.insertSavedDoc', $saved_doc);
 		}
-		$oEditorController = getController('editor');
-		$oEditorController->deleteSavedDoc(false);
-		$oEditorController->doSaveDoc($saved_doc);
 
 		setUserSequence($saved_doc->document_srl);
-
 		return $saved_doc;
 	}
 
@@ -763,6 +768,40 @@ class EditorModel extends Editor
 		// Set to cache and return
 		Rhymix\Framework\Cache::set($cache_key, $info, 0, true);
 		return $info;
+	}
+
+	/**
+	 * Get the list of attributes used by an editor component.
+	 *
+	 * @param string $component
+	 * @return ?array
+	 */
+	public static function getComponentAttributeList(string $component): ?array
+	{
+		static $_cache = [];
+		if (isset($_cache[$component]))
+		{
+			return $_cache[$component];
+		}
+
+		// Load the editor component class.
+		$component = preg_replace('/[^a-zA-Z0-9_-]/', '', $component);
+		$filename = RX_BASEDIR . sprintf('modules/editor/components/%s/%s.class.php', $component, $component);
+		if (!file_exists($filename))
+		{
+			return null;
+		}
+
+		// Check if the editor component supports getAttributeList().
+		require_once $filename;
+		if (!class_exists($component) || !is_subclass_of($component, 'EditorHandler') || !method_exists($component, 'getAttributeList'))
+		{
+			return null;
+		}
+
+		// Return the editor component's own declaration of attributes.
+		$_cache[$component] = $component::getAttributeList();
+		return $_cache[$component];
 	}
 
 	/**

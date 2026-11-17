@@ -9,4 +9,7 @@
         <condition operation="equal" column="ipaddress" var="ipaddress" pipe="and" />
         <condition operation="equal" column="certify_key" var="certify_key" pipe="and" />
     </conditions>
+    <navigation>
+        <index var="sort_index" default="regdate" order="desc" />
+    </navigation>
 </query>

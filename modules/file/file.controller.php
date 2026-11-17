@@ -241,27 +241,15 @@ class FileController extends File
 			$_SESSION['upload_info'][$editor_sequence]->upload_target_srl = $upload_target_srl;
 		}
 
-		// Delete and then attempt to re-upload if file_srl is requested
-		$file_srl = Context::get('file_srl');
-		if($file_srl)
-		{
-			$file_info = FileModel::getFile($file_srl);
-			if($file_info->file_srl == $file_srl && $file_info->upload_target_srl == $upload_target_srl && FileModel::isDeletable($file_info))
-			{
-				$this->deleteFile($file_srl);
-			}
-		}
-
+		// Save the file
 		$file_info = Context::get('Filedata');
-		// An error appears if not a normally uploaded file
-		if(is_uploaded_file($file_info['tmp_name'])) {
+		if (is_uploaded_file($file_info['tmp_name'])) {
 			$output = $this->insertFile($file_info, $module_srl, $upload_target_srl, 0, false, $editor_sequence);
 			Context::set('uploaded_fileinfo',$output);
 			Context::set('module_srl', $module_srl);
 		}
 
-		Context::set('layout','none');
-
+		Context::set('layout', 'none');
 		$this->setTemplatePath($this->module_path.'tpl');
 		$this->setTemplateFile('iframe');
 	}

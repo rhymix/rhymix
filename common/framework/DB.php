@@ -1208,7 +1208,9 @@ class DB
 		}
 		else
 		{
-			return preg_replace("/^'(.*)'$/s", '$1', $this->_handle->quote(strval($str)));
+			$str = preg_replace('/[\x01-\x08\x0B\x0C\x0E-\x1F\x60\x7F]/', '', strval($str));
+			$str = preg_replace("/^'(.*)'$/s", '$1', $this->_handle->quote($str));
+			return $str;
 		}
 	}
 

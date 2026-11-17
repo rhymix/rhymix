@@ -251,7 +251,7 @@ class FileModel extends File
 		{
 			$member_info = Rhymix\Framework\Session::getMemberInfo();
 		}
-		if($member_info->is_admin === 'Y' || $member_info->member_srl == $file_info->member_srl)
+		if($member_info->is_admin === 'Y' || ($member_info->member_srl && $member_info->member_srl == $file_info->member_srl))
 		{
 			return true;
 		}
@@ -267,7 +267,7 @@ class FileModel extends File
 			return false;
 		}
 		$grant = ModuleModel::getGrant($module_info, $member_info);
-		if($grant->manager)
+		if($grant->manager && $grant->can('moderate:document') && $grant->can('moderate:comment'))
 		{
 			return true;
 		}

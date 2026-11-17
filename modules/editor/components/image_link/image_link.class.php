@@ -106,6 +106,18 @@ class image_link extends EditorHandler
 		}
 		return $code;
 	}
+
+	/**
+	 * Declare custom attributes for this editor component.
+	 */
+	public static function getAttributeList(): array
+	{
+		return [
+			'width' => 'int',
+			'height' => 'int',
+			'border' => 'int',
+			'link_url' => 'string',
+			'open_window' => 'bool',
+		];
+	}
 }
-/* End of file image_link.class.php */
-/* Location: ./modules/editor/components/image_link/image_link.class.php */
