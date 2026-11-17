@@ -3,6 +3,12 @@
 class Autoinstall extends ModuleObject
 {
 	/**
+	 * Refresh intervals
+	 */
+	public const AUTO_REFRESH_INTERVAL = 14400;
+	public const MANUAL_REFRESH_INTERVAL = 300;
+
+	/**
 	 * Temporary directory path
 	 */
 	public $tmp_dir = './files/cache/autoinstall/';

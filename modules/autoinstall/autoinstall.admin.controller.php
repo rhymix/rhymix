@@ -169,8 +169,8 @@ class AutoinstallAdminController extends Autoinstall
 		// Get module configuration.
 		$config = AutoinstallAdminModel::getAutoInstallAdminModuleConfig();
 
-		// Rate limit the update check to once per minute.
-		if (isset($config->last_update_check) && ($config->last_update_check > time() - 60))
+		// Rate limit the update check to once per MANUAL_REFRESH_INTERVAL.
+		if (isset($config->last_update_check) && ($config->last_update_check > time() - self::MANUAL_REFRESH_INTERVAL))
 		{
 			return new BaseObject(-1, 'autoinstall_refresh_rate_limited');
 		}

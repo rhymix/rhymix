@@ -548,6 +548,7 @@ class Package
 			if ($update_info->update_available)
 			{
 				$updated_packages[] = $package;
+				$package->installed_version = $update_info->installed_version;
 			}
 		}
 
