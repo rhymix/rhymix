@@ -48,7 +48,7 @@
 			Rhymix.ajax('install.procInstallAdminInstall', {
 				module_name: $(this).data('module')
 			}).then(function(data) {
-				NativeAlert(data.message);
+				alert(data.message);
 				location.reload();
 			});
 		});
@@ -58,7 +58,7 @@
 			Rhymix.ajax('install.procInstallAdminUpdate', {
 				module_name: $(this).data('module')
 			}).then(function(data) {
-				NativeAlert(data.message)
+				alert(data.message);
 				location.reload();
 			});
 		});
