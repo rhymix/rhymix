@@ -62,9 +62,13 @@
 				<div class="badges">
 					<!--@if($package->isInstalled())-->
 						<!--@if($package->getUpdateInfo()->update_available)-->
-							<span class="x_badge x_badge-warning">{$lang->cmd_autoinstall_update_available}</span>
+							<!--@if($package->isInstallable())-->
+								<span class="x_badge x_badge-info">{$lang->cmd_autoinstall_updatable}</span>
+							<!--@else-->
+								<span class="x_badge x_badge-important">{$lang->cmd_autoinstall_not_updatable}</span>
+							<!--@endif-->
 						<!--@else-->
-							<span class="x_badge x_badge-success">{$lang->installed}</span>
+							<span class="x_badge">{$lang->installed}</span>
 						<!--@endif-->
 					<!--@elseif($package->isInstallable('minimal'))-->
 						<span class="is_installable"><i class="xi-check"></i> {$lang->autoinstallable}</span>

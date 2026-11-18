@@ -74,6 +74,7 @@ $lang->msg_autoinstall_invalid_module_install_path = 'Invalid module install pat
 $lang->msg_autoinstall_package_has_no_download_url = 'This package has no download URL.';
 $lang->msg_autoinstall_download_failed = 'Download failed.';
 $lang->msg_autoinstall_extraction_failed = 'Extraction failed.';
+$lang->msg_autoinstall_permission_error = 'No write permissions in the install path.';
 $lang->msg_autoinstall_cannot_write = "Cannot proceed due to lack of write permission in the following path.\nPlease check filesystem permissions.";
 $lang->msg_autoinstall_cannot_uninstall_default_plugin = 'Cannot uninstall as it is included in the core.';
 $lang->msg_autoinstall_install_failed = 'Installation failed.';

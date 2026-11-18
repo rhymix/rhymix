@@ -74,6 +74,7 @@ $lang->msg_autoinstall_invalid_module_install_path = '모듈 설치 경로가 �
 $lang->msg_autoinstall_package_has_no_download_url = '이 패키지는 다운로드 URL이 없습니다.';
 $lang->msg_autoinstall_download_failed = '다운로드에 실패했습니다.';
 $lang->msg_autoinstall_extraction_failed = '압축 해제에 실패했습니다.';
+$lang->msg_autoinstall_permission_error = '설치 경로에 쓰기 권한이 없습니다.';
 $lang->msg_autoinstall_cannot_write = "아래의 경로에 쓰기 권한이 없어서 진행할 수 없습니다.\n퍼미션을 확인해 주시기 바랍니다.";
 $lang->msg_autoinstall_cannot_uninstall_default_plugin = '코어에 포함된 프로그램이므로 삭제할 수 없습니다.';
 $lang->msg_autoinstall_install_failed = '설치에 실패했습니다.';
