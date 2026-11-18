@@ -262,7 +262,7 @@ class DocumentItem extends BaseObject
 			}
 		}
 
-		if (isset($_SESSION['accessible'][$this->document_srl]) && $_SESSION['accessible'][$this->document_srl] === $this->get('last_update'))
+		if (isset($_SESSION['access_doc'][$this->document_srl]) && $_SESSION['access_doc'][$this->document_srl] === $this->get('last_update'))
 		{
 			return true;
 		}
@@ -285,13 +285,17 @@ class DocumentItem extends BaseObject
 
 	function setAccessible()
 	{
-		if(Context::getSessionStatus())
+		if (Context::getSessionStatus())
 		{
-			$_SESSION['accessible'][$this->document_srl] = $this->get('last_update');
+			$_SESSION['access_doc'][$this->document_srl] = $this->get('last_update');
 		}
-		if(is_array($_SESSION['accessible'] ?? null) && count($_SESSION['accessible']) > 200)
+		if (is_array($_SESSION['access_doc'] ?? null) && count($_SESSION['access_doc']) > 200)
 		{
-			$_SESSION['accessible'] = array_slice($_SESSION['accessible'], 100, null, true);
+			$_SESSION['access_doc'] = array_slice($_SESSION['access_doc'], 100, null, true);
+		}
+		if (isset($_SESSION['accessible']))
+		{
+			unset($_SESSION['accessible']);
 		}
 	}
 
