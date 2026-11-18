@@ -92,8 +92,6 @@ class BoardController extends Board
 			$obj->is_admin = 'Y';
 		}
 
-		$oDocumentController = DocumentController::getInstance();
-
 		$secret_status = DocumentModel::getConfigStatus('secret');
 		$use_status = explode('|@|', $this->module_info->use_status);
 
@@ -117,15 +115,25 @@ class BoardController extends Board
 		$manual = false;
 		$logged_info = Context::get('logged_info');
 		$oDocument = DocumentModel::getDocument($obj->document_srl);
+		if ($obj->document_srl)
+		{
+			$oDocument = DocumentModel::getDocument($obj->document_srl);
+			{
+				if (!$oDocument->isExists())
+				{
+					$obj->document_srl = getNextSequence();
+				}
+			}
+		}
+		else
+		{
+			$oDocument = DocumentModel::getDocument(0);
+			$obj->document_srl = getNextSequence();
+		}
 
 		// Set anonymous information when insert mode or status is temp
 		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N') && (!$oDocument->isExists() || $oDocument->get('status') == DocumentModel::getConfigStatus('temp')))
 		{
-			if(!$obj->document_srl)
-			{
-				$obj->document_srl = getNextSequence();
-			}
-
 			$manual = true;
 			$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
 			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
@@ -217,8 +225,8 @@ class BoardController extends Board
 			}
 
 			// Update
+			$oDocumentController = DocumentController::getInstance();
 			$output = $oDocumentController->updateDocument($oDocument, $obj, $manual);
-
 			$msg_code = 'success_updated';
 		}
 		// Insert a new document.
@@ -231,7 +239,9 @@ class BoardController extends Board
 			}
 
 			// Insert
+			$oDocumentController = DocumentController::getInstance();
 			$output = $oDocumentController->insertDocument($obj, $manual, false, $obj->document_srl ? false : true);
+			$msg_code = 'success_registed';
 
 			if ($output->toBool())
 			{
@@ -259,8 +269,6 @@ class BoardController extends Board
 					$oMail->send();
 				}
 			}
-
-			$msg_code = 'success_registed';
 		}
 
 		// if there is an error
@@ -526,23 +534,20 @@ class BoardController extends Board
 			$manual = false;
 		}
 
-		// generate comment module controller object
-		$oCommentController = CommentController::getInstance();
-
-		// check the comment is existed
-		// if the comment is not existed, then generate a new sequence
-		if(!$obj->comment_srl)
+		// Check comment_srl
+		if ($obj->comment_srl)
 		{
-			$obj->comment_srl = getNextSequence();
-			$comment = null;
+			$comment = CommentModel::getComment($obj->comment_srl);
+			if (!$comment->isExists())
+			{
+				$obj->comment_srl = getNextSequence();
+				$comment = null;
+			}
 		}
 		else
 		{
-			$comment = CommentModel::getComment($obj->comment_srl);
-			if (!$comment->isExists() || $comment->comment_srl != $obj->comment_srl)
-			{
-				$comment = null;
-			}
+			$obj->comment_srl = getNextSequence();
+			$comment = null;
 		}
 
 		if ($comment && $this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
@@ -589,6 +594,7 @@ class BoardController extends Board
 			}
 
 			// Insert comment.
+			$oCommentController = CommentController::getInstance();
 			$output = $oCommentController->insertComment($obj, $manual, $update_document);
 
 			// Set grant for the new comment.
@@ -601,6 +607,12 @@ class BoardController extends Board
 		// UPDATE if comment_srl already exists.
 		else
 		{
+			// check the grant
+			if(!$comment->isGranted())
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+
 			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
@@ -610,12 +622,10 @@ class BoardController extends Board
 					throw new Rhymix\Framework\Exception($message);
 				}
 			}
-			// check the grant
-			if(!$comment->isGranted())
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
+
 			$obj->parent_srl = $comment->parent_srl;
+
+			$oCommentController = CommentController::getInstance();
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
 		}
 
