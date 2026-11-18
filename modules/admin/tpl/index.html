@@ -80,15 +80,18 @@
 	<div class="message update" cond="count($newVersionList)">
 		<h2>{$lang->available_new_version}</h2>
 		<p>{$lang->available_new_version_details}</p>
-		<ul>
-			<!--@foreach($newVersionList as $package)-->
-				<li style="margin:0 0 4px 0">
-					[{$lang->typename[$package->type]}] {$package->title|autoescape}
-					v{$package->installed_version|autoescape} → v{$package->last_release_version|autoescape}
-					&nbsp; <a href="{getUrl(['module' => 'admin', 'act' => 'dispAutoinstallAdminPackageDetail', 'package_srl' => $package->package_srl])}" class="x_btn x_btn-small">{$lang->update_info}</a>
-				</li>
+		<p class="newVersionList">
+			{@ $newVersionFirst3 = array_slice($newVersionList, 0, 3); }
+			<!--@foreach($newVersionFirst3 as $package)-->
+				<a class="newVersionItem" href="{getUrl(['module' => 'admin', 'act' => 'dispAutoinstallAdminPackageDetail', 'package_srl' => $package->package_srl])}">{$package->title|autoescape}</a>
 			<!--@endforeach-->
-		</ul>
+			<!--@if(count($newVersionList) > 3)-->
+				{sprintf($lang->update_n_more, count($newVersionList) - 3)}
+			<!--@endif-->
+		</p>
+		<p>
+			<a href="{getUrl(['module' => 'admin', 'act' => 'dispAutoinstallAdminIndex', 'type' => 'updates'])}" class="x_btn x_btn-small">{$lang->update_info}</a>
+		</p>
 	</div>
 
 	<!--// Real dashboard begins here -->

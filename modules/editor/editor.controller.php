@@ -271,7 +271,7 @@ class EditorController extends Editor
 	{
 		$args = new stdClass;
 		$args->module_srl = Context::get('current_module_info')->module_srl;
-		$args->document_srl = Context::get('document_srl');
+		$args->document_srl = intval(Context::get('document_srl') ?? 0);
 		$args->content = Context::get('content');
 		$args->title = Context::get('title');
 

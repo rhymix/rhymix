@@ -1302,6 +1302,15 @@ margin-bottom: 10px;
 }
 
 /* Dashboard */
+.x .newVersionList .newVersionItem {
+	display: inline-block;
+	margin-right: 4px;
+	border: 1px solid rgba(70, 136, 71, 0.5);
+	color: #468847;
+	text-decoration: none;
+	padding: 2px 4px;
+	border-radius: 4px;
+}
 .x .dashboard {
 	display: flex;
 	align-items: flex-start;
@@ -1472,12 +1481,10 @@ margin-bottom: 10px;
 	overflow: visible;
 }
 @media all and (max-width: 980px) {
-
-.x .dashboard>div {
-	float: none !important;
-	width: auto;
-}
-
+	.x .dashboard>div {
+		float: none !important;
+		width: auto;
+	}
 }
 
 .x .g11n.x_input-append {

@@ -78,7 +78,12 @@
 			<!--@endif-->
 			<tr>
 				<th scope="row" class="nowr">{$lang->cmd_autoinstall_install_path}</th>
-				<td class="nowr">{$package->install_path}</td>
+				<td class="nowr">
+					{$package->install_path}
+					<!--@if(!$package->checkInstallPermissions())-->
+						<p class="x_help-block" style="color:red;margin-top:4px;">{$lang->msg_autoinstall_permission_error}</p>
+					<!--@endif-->
+				</td>
 			</tr>
 			<!--@if($package->extra_vars->repo_path)-->
 				<tr>
