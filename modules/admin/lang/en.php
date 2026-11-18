@@ -445,6 +445,7 @@ $lang->mobile_settings = 'Mobile Settings';
 $lang->details = 'Details';
 $lang->available_new_version = 'New versions are available.';
 $lang->available_new_version_details = 'New versions of the following items have been released in the Rhymix repository.';
+$lang->update_n_more = 'and %d more';
 $lang->update_info = 'Update Information';
 $lang->uv = 'Unique Visitors';
 $lang->pv = 'Page Views';
