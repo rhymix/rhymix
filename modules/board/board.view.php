@@ -1170,7 +1170,7 @@ class BoardView extends Board
 
 		// get the document information
 		$oDocument = DocumentModel::getDocument($document_srl);
-		if(!$oDocument->isExists())
+		if(!$oDocument->isExists() || $oDocument->get('module_srl') != $this->module_srl)
 		{
 			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
@@ -1225,7 +1225,7 @@ class BoardView extends Board
 		$oSourceComment = CommentModel::getComment($parent_srl);
 
 		// if the comment is not existed, opoup an error message
-		if(!$oSourceComment->isExists())
+		if(!$oSourceComment->isExists() || $oSourceComment->get('module_srl') != $this->module_srl)
 		{
 			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
@@ -1240,7 +1240,7 @@ class BoardView extends Board
 
 		// Check allow comment
 		$oDocument = DocumentModel::getDocument($oSourceComment->get('document_srl'));
-		if(!$oDocument->isExists())
+		if(!$oDocument->isExists() || $oDocument->get('module_srl') != $this->module_srl)
 		{
 			return $this->dispBoardMessage('msg_not_founded', 404);
 		}
