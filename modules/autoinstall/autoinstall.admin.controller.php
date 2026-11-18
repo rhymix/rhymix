@@ -176,15 +176,14 @@ class AutoinstallAdminController extends Autoinstall
 		}
 
 		// Update the package list.
+		Rhymix\Framework\Session::close();
+		$success = Rhymix\Modules\Autoinstall\Models\Package::updatePackageList();
+		if ($success)
 		{
-			$success = Rhymix\Modules\Autoinstall\Models\Package::updatePackageList();
-			if ($success)
-			{
-				$config->last_update_check = time();
-				ModuleController::getInstance()->insertModuleConfig('autoinstall', $config);
-			}
+			$config->last_update_check = time();
+			ModuleController::getInstance()->insertModuleConfig('autoinstall', $config);
 		}
-
+		Rhymix\Framework\Session::start();
 		return new BaseObject(0, 'autoinstall_refreshed');
 	}
 

@@ -251,7 +251,14 @@ class EditorController extends Editor
 		$oComponent = $oEditorModel->getComponentObject($xml_obj->attrs->editor_component, 0);
 		if(!is_object($oComponent) || !method_exists($oComponent, 'transHTML'))
 		{
-			return '<div>' . strip_tags($match[0]) . '</div>';
+			if ($xml_obj->attrs->editor_component === 'image_link' && str_starts_with($match[0], '<img'))
+			{
+				return preg_replace('/\s+editor_component="[^"]+"/', '', $match[0]);
+			}
+			else
+			{
+				return '<div>' . strip_tags($match[0]) . '</div>';
+			}
 		}
 
 		return $oComponent->transHTML($xml_obj);
