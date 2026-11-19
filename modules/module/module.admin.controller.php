@@ -428,9 +428,19 @@ class ModuleAdminController extends Module
 			{
 				foreach($skin_info->extra_vars as $vars)
 				{
+					$vars->name = trim($vars->name);
 					if ($vars->type !== 'image')
 					{
-						$obj->{$vars->name} = $args->{$vars->name} ?? '';
+						if (is_array($args->{$vars->name}))
+						{
+							$obj->{$vars->name} = array_map(function($str) {
+								return escape($str);
+							}, $args->{$vars->name});
+						}
+						else
+						{
+							$obj->{$vars->name} = escape($args->{$vars->name} ?? '', true, true);
+						}
 						continue;
 					}
 
@@ -456,13 +466,11 @@ class ModuleAdminController extends Module
 					// Ignore if the file is not successfully uploaded
 					if(!is_uploaded_file($image_obj['tmp_name']))
 					{
-						unset($obj->{$vars->name});
 						continue;
 					}
 					// Ignore if the file is not an image
 					if(!preg_match('/\.(jpe?g|gif|png|webp)$/i', $image_obj['name']))
 					{
-						unset($obj->{$vars->name});
 						continue;
 					}
 					// Upload the file to a path
@@ -474,7 +482,6 @@ class ModuleAdminController extends Module
 					// Move the file
 					if(!move_uploaded_file($image_obj['tmp_name'], $filename))
 					{
-						unset($obj->{$vars->name});
 						continue;
 					}
 					// Upload the file
