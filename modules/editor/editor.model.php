@@ -572,7 +572,10 @@ class EditorModel extends Editor
 			executeQuery('editor.insertSavedDoc', $saved_doc);
 		}
 
-		setUserSequence($saved_doc->document_srl);
+		if ($saved_doc->document_srl)
+		{
+			setUserSequence($saved_doc->document_srl);
+		}
 		return $saved_doc;
 	}
 
