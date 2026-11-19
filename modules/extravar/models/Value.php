@@ -270,7 +270,7 @@ class Value
 			$is_array = true;
 			$values = $value;
 		}
-		elseif (str_contains($value, '|@|'))
+		elseif (str_contains((string)$value, '|@|'))
 		{
 			$is_array = true;
 			$values = explode('|@|', $value);
