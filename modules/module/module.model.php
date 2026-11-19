@@ -511,7 +511,7 @@ class ModuleModel extends Module
 		$module_srls = array();
 		foreach($target_module_info as $key => $val)
 		{
-			if ($val->module_srl)
+			if (isset($val->module_srl) && $val->module_srl)
 			{
 				$module_srls[] = $val->module_srl;
 			}

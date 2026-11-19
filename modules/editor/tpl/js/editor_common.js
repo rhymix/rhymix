@@ -95,6 +95,8 @@ function _editorAutoSave(exe, callback) {
 			if (jQuery.isFunction(callback)) {
 				callback(arg);
 			}
+		}, function() {
+			// no-op on failure
 		});
 		show_waiting_message = true;
 	}

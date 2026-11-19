@@ -303,6 +303,10 @@ class EditorController extends Editor
 		{
 			return new BaseObject(-1, 'msg_invalid_request');
 		}
+		if ($args->document_srl && !checkUserSequence($args->document_srl))
+		{
+			return new BaseObject(-1, 'msg_invalid_request');
+		}
 		if (!isset($args->content) || is_empty_html_content($args->content))
 		{
 			return new BaseObject();

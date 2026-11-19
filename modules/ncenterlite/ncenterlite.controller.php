@@ -173,8 +173,7 @@ class NcenterliteController extends Ncenterlite
 
 		if($obj->target_srl)
 		{
-			$oNcenterliteModel = getModel('ncenterlite');
-			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $this->user->member_srl);
+			$userBlockData = NcenterliteModel::getUserUnsubscribeConfigByTargetSrl($obj->target_srl, $this->user->member_srl);
 
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
 			if($userBlockData)
@@ -193,16 +192,16 @@ class NcenterliteController extends Ncenterlite
 
 		if(!$userBlockData && $obj->unsubscribe_srl)
 		{
-			$userBlockData = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
+			$userBlockData = NcenterliteModel::getUserUnsubscribeConfigByUnsubscribeSrl($obj->unsubscribe_srl);
 
 			// The input member_srl from the POST or GET might not equal to the member_srl from the record of unsubscribe_srl.
-			if(intval($this->user->member_srl) != intval($userBlockData->member_srl))
+			if ($userBlockData && intval($this->user->member_srl) !== intval($userBlockData->member_srl))
 			{
 				throw new Rhymix\Framework\Exception('ncenterlite_stop_no_permission_other_user_block_settings');
 			}
 
 			// If there was a record directed by unsubscribe_srl, the record should be used to validate the input data.
-			if($userBlockData)
+			if ($userBlockData)
 			{
 				if (!intval($obj->target_srl))
 				{
@@ -222,15 +221,26 @@ class NcenterliteController extends Ncenterlite
 		}
 
 		// Content type can be document and comment, now. However, the default type cannot be specified, as the type can be another in the future.
-		if($obj->unsubscribe_type == 'document')
+		if ($obj->unsubscribe_type == 'document')
 		{
-			$text = self::_createSummary(getModel('document')->getDocument($obj->target_srl)->get('title'));
+			$document = DocumentModel::getDocument($obj->target_srl);
+			if (!$document->isExists() || !$document->isAccessible(true))
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
+			$text = self::_createSummary($document->get('title'));
+			$document_srl = $document->get('document_srl');
 		}
-		elseif($obj->unsubscribe_type == 'comment')
+		elseif ($obj->unsubscribe_type === 'comment')
 		{
-			$comment = getModel('comment')->getComment($obj->target_srl);
+			$comment = CommentModel::getComment($obj->target_srl);
+			if (!$comment->isExists() || !$comment->isAccessible(true))
+			{
+				throw new Rhymix\Framework\Exceptions\InvalidRequest;
+			}
 			$contentString = $comment->getContentText(30);
 			$text = strlen($contentString) ? $contentString : lang('comment.no_text_comment');
+			$document_srl = $comment->get('document_srl');
 		}
 		else
 		{
@@ -240,14 +250,7 @@ class NcenterliteController extends Ncenterlite
 		$args = new stdClass();
 		$args->member_srl = $this->user->member_srl;
 		$args->target_srl = $obj->target_srl;
-		if($obj->unsubscribe_type == 'document')
-		{
-			$args->document_srl = $obj->target_srl;
-		}
-		else
-		{
-			$args->document_srl = $comment->get('document_srl');
-		}
+		$args->document_srl = $document_srl;
 		$args->unsubscribe_type = $obj->unsubscribe_type;
 		$args->text = $text;
 
@@ -285,26 +288,25 @@ class NcenterliteController extends Ncenterlite
 
 		$this->setMessage('success_updated');
 
-		if(Context::get('is_popup') != 'Y')
+		if (!in_array(Context::getRequestMethod(), array('XMLRPC', 'JSON')))
 		{
-			if (Context::get('success_return_url'))
+			if (Context::get('is_popup') === 'Y')
+			{
+				global $lang;
+				htmlHeader();
+				alertScript($lang->success_registed);
+				closePopupScript();
+				htmlFooter();
+				Context::close();
+				exit;
+			}
+			elseif (Context::get('success_return_url'))
 			{
 				$this->setRedirectUrl(Context::get('success_return_url'));
 			}
 			else
 			{
 				$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'member_srl', $this->user->member_srl));
-			}
-		}
-		else
-		{
-			if (Context::get('success_return_url'))
-			{
-				$this->setRedirectUrl(Context::get('success_return_url'));
-			}
-			else
-			{
-				$this->setRedirectUrl(getNotEncodedUrl('act', 'dispNcenterliteUnsubscribeList', 'target_srl', $obj->target_srl, 'unsubscribe_type', $obj->unsubscribe_type));
 			}
 		}
 	}
