@@ -418,32 +418,36 @@ class ModuleAdminController extends Module
 				$skin_vars = $oModuleModel->getModuleSkinVars($module_srl);
 			}
 
-			// Check received variables (unset such variables as act, module_srl, page, mid, module)
-			$obj = Context::getRequestVars();
-			unset($obj->act);
-			unset($obj->error_return_url);
-			unset($obj->module_srl);
-			unset($obj->page);
-			unset($obj->mid);
-			unset($obj->module);
-			unset($obj->_mode);
-			// Separately handle if a type of extra_vars is an image in the original skin_info
-			if($skin_info->extra_vars)
+			// Reorganize received variables into $obj
+			$args = Context::getRequestVars();
+			$obj = new stdClass();
+			$obj->colorset = escape($args->colorset) ?? '';
+
+			// Handle extra_vars of type 'image' separately
+			if ($skin_info->extra_vars)
 			{
 				foreach($skin_info->extra_vars as $vars)
 				{
-					if($vars->type!='image') continue;
-
-					$image_obj = $obj->{$vars->name};
-					// Get a variable to delete
-					$del_var = $obj->{"del_".$vars->name};
-					unset($obj->{"del_".$vars->name});
-					if($del_var == 'Y')
+					if ($vars->type !== 'image')
 					{
-						FileHandler::removeFile($skin_vars[$vars->name]->value);
+						$obj->{$vars->name} = $args->{$vars->name} ?? '';
+						continue;
+					}
+
+					// Get a variable to delete
+					$del_var = $args->{"del_".$vars->name};
+					if($del_var == 'Y' && $skin_vars[$vars->name]->value)
+					{
+						$absolute_path = realpath(FileHandler::getRealPath($skin_vars[$vars->name]->value));
+						$basedir = realpath(RX_BASEDIR . 'files/attach/images');
+						if($absolute_path && $basedir && str_starts_with($absolute_path, $basedir . DIRECTORY_SEPARATOR))
+						{
+							Rhymix\Framework\Storage::delete($absolute_path);
+						}
 						continue;
 					}
 					// Use the previous data if not uploaded
+					$image_obj = $args->{$vars->name};
 					if(!$image_obj['tmp_name'])
 					{
 						$obj->{$vars->name} = $skin_vars[$vars->name]->value;
@@ -456,7 +460,7 @@ class ModuleAdminController extends Module
 						continue;
 					}
 					// Ignore if the file is not an image
-					if(!preg_match("/\.(jpg|jpeg|gif|png)$/i", $image_obj['name']))
+					if(!preg_match('/\.(jpe?g|gif|png|webp)$/i', $image_obj['name']))
 					{
 						unset($obj->{$vars->name});
 						continue;
@@ -476,22 +480,11 @@ class ModuleAdminController extends Module
 					// Upload the file
 					FileHandler::removeFile($skin_vars[$vars->name]->value);
 					// Change a variable
-					unset($obj->{$vars->name});
 					$obj->{$vars->name} = $filename;
 				}
 			}
-			// Load the entire skin of the module and then remove the image
-			/*
-			if($skin_info->extra_vars) {
-			foreach($skin_info->extra_vars as $vars) {
-			if($vars->type!='image') continue;
-			$value = $skin_vars[$vars->name];
-			if(file_exists($value)) @unlink($value);
-			}
-			}
-			*/
-			$oModuleController = getController('module');
 
+			$oModuleController = getController('module');
 			if($mode === 'M')
 			{
 				$output = $oModuleController->insertModuleMobileSkinVars($module_srl, $obj);
