@@ -10,6 +10,11 @@
 class BoardController extends Board
 {
 	/**
+	 * Cache for anonymity processing
+	 */
+	protected $anonymity_info = null;
+
+	/**
 	 * @brief insert document
 	 */
 	public function procBoardInsertDocument()
@@ -144,34 +149,27 @@ class BoardController extends Board
 		}
 
 		// Set anonymous information when insert mode or status is temp
-		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N') && (!$oDocument->isExists() || $oDocument->get('status') == DocumentModel::getConfigStatus('temp')))
+		if ($this->module_info->use_anonymous === 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N'))
 		{
-			$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
-			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
-
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $anonymous_name;
-			$obj->member_srl = $logged_info->member_srl * -1;
-			$obj->notify_message = 'N';
-
-			// Ensure that anonymous information is preserved.
+			$this->anonymity_info = new stdClass();
 			if ($oDocument->isExists())
 			{
-				$oDocument->add('member_srl', $obj->member_srl);
-				ModuleController::getInstance()->addTriggerFunction('document.updateDocument', 'before', function($obj) use($anonymous_name, $logged_info) {
-					$obj->email_address = $obj->homepage = $obj->user_id = '';
-					$obj->user_name = $obj->nick_name = $anonymous_name;
-					$obj->member_srl = $logged_info->member_srl * -1;
-				});
+				$this->anonymity_info->nick_name = $oDocument->get('nick_name');
+				$this->anonymity_info->member_srl = abs($oDocument->get('member_srl')) * -1;
+				$oDocument->add('member_srl', $this->anonymity_info->member_srl);
 			}
 			else
 			{
-				ModuleController::getInstance()->addTriggerFunction('document.insertDocument', 'before', function($obj) use($anonymous_name, $logged_info) {
-					$obj->email_address = $obj->homepage = $obj->user_id = '';
-					$obj->user_name = $obj->nick_name = $anonymous_name;
-					$obj->member_srl = $logged_info->member_srl * -1;
-				});
+				$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
+				$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
+				$this->anonymity_info->nick_name = $anonymous_name;
+				$this->anonymity_info->member_srl = $logged_info->member_srl * -1;
 			}
+
+			$obj->email_address = $obj->homepage = $obj->user_id = '';
+			$obj->user_name = $obj->nick_name = $this->anonymity_info->nick_name;
+			$obj->member_srl = $this->anonymity_info->member_srl;
+			$obj->notify_message = 'N';
 		}
 
 		// Update if the document already exists.
@@ -562,34 +560,27 @@ class BoardController extends Board
 		}
 
 		// For anonymous use, remove writer's information and notifying information
-		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N'))
+		if ($this->module_info->use_anonymous === 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N'))
 		{
-			$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
-			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
-
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $anonymous_name;
-			$obj->member_srl = $logged_info->member_srl * -1;
-			$obj->notify_message = 'N';
-
-			// Ensure that anonymous information is preserved.
+			$this->anonymity_info = new stdClass();
 			if ($comment)
 			{
-				$comment->add('member_srl', $obj->member_srl);
-				ModuleController::getInstance()->addTriggerFunction('comment.updateComment', 'before', function($obj) use($anonymous_name, $logged_info) {
-					$obj->email_address = $obj->homepage = $obj->user_id = '';
-					$obj->user_name = $obj->nick_name = $anonymous_name;
-					$obj->member_srl = $logged_info->member_srl * -1;
-				});
+				$this->anonymity_info->nick_name = $comment->get('nick_name');
+				$this->anonymity_info->member_srl = abs($comment->get('member_srl')) * -1;
+				$comment->add('member_srl', $this->anonymity_info->member_srl);
 			}
 			else
 			{
-				ModuleController::getInstance()->addTriggerFunction('comment.insertComment', 'before', function($obj) use($anonymous_name, $logged_info) {
-					$obj->email_address = $obj->homepage = $obj->user_id = '';
-					$obj->user_name = $obj->nick_name = $anonymous_name;
-					$obj->member_srl = $logged_info->member_srl * -1;
-				});
+				$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
+				$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
+				$this->anonymity_info->nick_name = $anonymous_name;
+				$this->anonymity_info->member_srl = $logged_info->member_srl * -1;
 			}
+
+			$obj->email_address = $obj->homepage = $obj->user_id = '';
+			$obj->user_name = $obj->nick_name = $this->anonymity_info->nick_name;
+			$obj->member_srl = $this->anonymity_info->member_srl;
+			$obj->notify_message = 'N';
 		}
 
 		// INSERT if comment_srl does not exist.
@@ -875,6 +866,58 @@ class BoardController extends Board
 	}
 
 	/**
+	 * Trigger before document.insertDocument for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeInsertDocument($obj)
+	{
+		if ($this->anonymity_info)
+		{
+			self::_applyAnonymity($obj, $this->anonymity_info);
+		}
+	}
+
+	/**
+	 * Trigger before document.updateDocument for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeUpdateDocument($obj)
+	{
+		if ($this->anonymity_info)
+		{
+			self::_applyAnonymity($obj, $this->anonymity_info);
+		}
+	}
+
+	/**
+	 * Trigger before comment.insertComment for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeInsertComment($obj)
+	{
+		if ($this->anonymity_info)
+		{
+			self::_applyAnonymity($obj, $this->anonymity_info);
+		}
+	}
+
+	/**
+	 * Trigger before comment.updateComment for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeUpdateComment($obj)
+	{
+		if ($this->anonymity_info)
+		{
+			self::_applyAnonymity($obj, $this->anonymity_info);
+		}
+	}
+
+	/**
 	 * @brief the trigger for displaying 'view document' link when click the user ID
 	 */
 	public function triggerMemberMenu($obj)
@@ -963,5 +1006,22 @@ class BoardController extends Board
 		{
 			return substr($hash, 0, $digits);
 		}
+	}
+
+	/**
+	 * Subroutine for applying anonymity information to a document or comment.
+	 *
+	 * @param object $obj
+	 * @param object $anonymity_info
+	 * @return void
+	 */
+	protected static function _applyAnonymity(object $obj, object $anonymity_info): void
+	{
+		$obj->member_srl = $anonymity_info->member_srl;
+		$obj->nick_name = $anonymity_info->nick_name;
+		$obj->user_name = $anonymity_info->nick_name;
+		$obj->user_id = '';
+		$obj->email_address = '';
+		$obj->homepage = '';
 	}
 }

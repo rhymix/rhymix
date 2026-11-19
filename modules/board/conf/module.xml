@@ -128,6 +128,10 @@
 		<action name="procBoardAdminSaveCategorySettings" type="controller" permission="manager:config:*" check_var="module_srl" ruleset="saveCategorySettings" />
 	</actions>
 	<eventHandlers>
+		<eventHandler before="document.insertDocument" class="controller" method="triggerBeforeInsertDocument" />
+		<eventHandler before="document.updateDocument" class="controller" method="triggerBeforeUpdateDocument" />
+		<eventHandler before="comment.insertComment" class="controller" method="triggerBeforeInsertComment" />
+		<eventHandler before="comment.updateComment" class="controller" method="triggerBeforeUpdateComment" />
 		<eventHandler after="member.getMemberMenu" class="controller" method="triggerMemberMenu" />
 		<eventHandler after="menu.getModuleListInSitemap" class="model" method="triggerModuleListInSitemap" />
 		<eventHandler after="module.procModuleAdminCopyModule" class="controller" method="triggerCopyModule" />
