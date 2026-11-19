@@ -81,6 +81,17 @@
 			});
 		});
 
+		// Ignore update button
+		$('.autoinstall_ignore_btn').on('click', function(e) {
+			e.preventDefault();
+			Rhymix.ajax('autoinstall.procAutoinstallAdminIgnorePackage', {
+				'package_srl': parseInt($(this).data('packageSrl'), 10)
+			}).then(function(data) {
+				NativeAlert(data.message);
+				location.reload();
+			});
+		});
+
 		// Uninstall button
 		$('.autoinstall_uninstall_btn').on('click', function(e) {
 			e.preventDefault();

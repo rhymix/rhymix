@@ -160,6 +160,42 @@ class AutoinstallAdminController extends Autoinstall
 	}
 
 	/**
+	 * Ignore a package update
+	 *
+	 * @return void
+	 */
+	public function procAutoinstallAdminIgnorePackage()
+	{
+		$package_srl = intval(Context::get('package_srl'));
+		$package = Rhymix\Modules\Autoinstall\Models\Package::getPackage($package_srl);
+		if (!$package)
+		{
+			throw new Rhymix\Framework\Exceptions\TargetNotFound();
+		}
+		if ($package->isIgnored())
+		{
+			throw new Rhymix\Framework\Exception('msg_autoinstall_already_ignored');
+		}
+
+		$output = executeQuery('autoinstall.deleteIgnoredPackage', ['package_srl' => $package_srl]);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$output = executeQuery('autoinstall.insertIgnoredPackage', [
+			'package_srl' => $package_srl,
+			'version' => $package->last_release_version,
+		]);
+		if (!$output->toBool())
+		{
+			return $output;
+		}
+
+		$this->setMessage(sprintf(lang('autoinstall.msg_autoinstall_success_ignored'), escape($package->last_release_version, false)));
+	}
+
+	/**
 	 * Update package list
 	 *
 	 * @return void
