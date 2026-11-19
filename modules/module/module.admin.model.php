@@ -405,7 +405,7 @@ class ModuleAdminModel extends Module
 				}
 				if ($type === 'checkbox')
 				{
-					$value = $value ? unserialize($value) : [];
+					$value = $value ? unserialize($value, ['allowed_classes' => false, 'max_depth' => 1]) : [];
 				}
 
 				$value = empty($value) ? $val->default : $value;
