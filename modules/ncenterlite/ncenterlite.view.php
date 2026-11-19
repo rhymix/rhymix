@@ -162,18 +162,18 @@ class NcenterliteView extends Ncenterlite
 		$unsubscribe_srl = Context::get('unsubscribe_srl');
 		$unsubscribe_type = Context::get('unsubscribe_type');
 
+		// Check member_srl
 		$member_srl = Context::get('member_srl');
-
 		if(!$member_srl)
 		{
 			$member_srl = $this->user->member_srl;
 		}
-
 		if($this->user->is_admin !== 'Y' && intval($member_srl) !== intval($this->user->member_srl))
 		{
 			throw new \Rhymix\Framework\Exception('msg_invalid_request');
 		}
 
+		// Check unsubscribe configuration
 		if($unsubscribe_srl)
 		{
 			$output = $oNcenterliteModel->getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl);
@@ -182,48 +182,64 @@ class NcenterliteView extends Ncenterlite
 		{
 			$output = $oNcenterliteModel->getUserUnsubscribeConfigByTargetSrl($target_srl, $member_srl);
 		}
-
 		if((!$target_srl || !$unsubscribe_type) && empty($output))
 		{
 			throw new Rhymix\Framework\Exceptions\InvalidRequest;
 		}
 
-		if($unsubscribe_type == 'document')
+		// Check target
+		$target = null;
+		if ($unsubscribe_type === 'document')
 		{
-			$text = getModel('document')->getDocument($target_srl)->getTitleText();
-			$type = lang('document');
-			if(!$text)
+			$target = DocumentModel::getDocument($target_srl);
+			if ($target->isExists())
 			{
-				$text = getModel('comment')->getComment($target_srl)->getContentPlainText();
-				if(!$text)
+				$text = $target->getTitleText();
+				$type = lang('document');
+			}
+			else
+			{
+				$target = CommentModel::getComment($target_srl);
+				if ($target->isExists())
 				{
-					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+					$text = $target->getContentPlainText();
+					$type = lang('comment');
+					Context::set('unsubscribe_type', 'comment');
 				}
 				else
 				{
-					Context::set('unsubscribe_type', 'comment');
-					$type = lang('comment');
+					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
 			}
-
 		}
 		else
 		{
-			$text = getModel('comment')->getComment($target_srl)->getContentPlainText();
-			$type = lang('comment');
-			if(!$text)
+			$target = CommentModel::getComment($target_srl);
+			if ($target->isExists())
 			{
-				$text = getModel('document')->getDocument($target_srl)->getTitleText();
-				if(!$text)
+				$text = $target->getContentPlainText();
+				$type = lang('comment');
+			}
+			else
+			{
+				$target = DocumentModel::getDocument($target_srl);
+				if ($target->isExists())
 				{
-					throw new Rhymix\Framework\Exceptions\InvalidRequest;
+					$text = $target->getTitleText();
+					$type = lang('document');
+					Context::set('unsubscribe_type', 'document');
 				}
 				else
 				{
-					Context::set('unsubscribe_type', 'document');
-					$type = lang('document');
+					throw new Rhymix\Framework\Exceptions\TargetNotFound;
 				}
 			}
+		}
+
+		// Check target permissions
+		if (!$target->isAccessible(true))
+		{
+			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
 
 		Context::set('unsubscribeData', $output);
