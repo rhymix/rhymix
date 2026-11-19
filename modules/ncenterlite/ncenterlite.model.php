@@ -819,7 +819,7 @@ class NcenterliteModel extends Ncenterlite
 		return $member_srls;
 	}
 
-	function getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl = 0)
+	public static function getUserUnsubscribeConfigByUnsubscribeSrl($unsubscribe_srl = 0)
 	{
 		$args = new stdClass();
 		$args->unsubscribe_srl = $unsubscribe_srl;
@@ -828,11 +828,11 @@ class NcenterliteModel extends Ncenterlite
 		return $output->data;
 	}
 
-	function getUserUnsubscribeConfigByTargetSrl($target_srl = 0, $member_srl = null)
+	public static function getUserUnsubscribeConfigByTargetSrl($target_srl = 0, $member_srl = null)
 	{
 		if(!$member_srl)
 		{
-			$member_srl = $this->user->member_srl;
+			$member_srl = Context::get('logged_info')->member_srl;
 		}
 
 		$args = new stdClass();
