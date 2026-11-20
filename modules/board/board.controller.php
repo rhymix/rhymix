@@ -99,7 +99,10 @@ class BoardController extends Board
 			$oDocument = DocumentModel::getDocument($obj->document_srl);
 			if (!$oDocument->isExists())
 			{
-				$obj->document_srl = getNextSequence();
+				if (!checkUserSequence($obj->document_srl))
+				{
+					$obj->document_srl = getNextSequence();
+				}
 			}
 			elseif (!$oDocument->isGranted())
 			{
@@ -497,7 +500,10 @@ class BoardController extends Board
 			$comment = CommentModel::getComment($obj->comment_srl);
 			if (!$comment->isExists())
 			{
-				$obj->comment_srl = getNextSequence();
+				if (!checkUserSequence($obj->comment_srl))
+				{
+					$obj->comment_srl = getNextSequence();
+				}
 				$comment = null;
 			}
 			elseif (!$comment->isGranted())
