@@ -243,10 +243,11 @@ class DocumentView extends Document
 		{
 			throw new Rhymix\Framework\Exceptions\MustLogin;
 		}
+
 		// Get the saved document (module_srl is set to member_srl instead)
 		$logged_info = Context::get('logged_info');
 		$args = new stdClass();
-		$args->member_srl = $logged_info->member_srl;
+		$args->member_srl = [$logged_info->member_srl, $logged_info->member_srl * -1];
 		$args->statusList = array($this->getConfigStatus('temp'));
 		$args->page = (int)Context::get('page') ?: 1;
 		$args->list_count = 10;
