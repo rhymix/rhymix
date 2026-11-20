@@ -3842,7 +3842,7 @@ class MemberController extends Member
 		$oMail->send();
 
 		// Insert auth log
-		self::insertAuthLog($member_srl, 'email_change_request', (object)['email_address' => $newEmail]);
+		self::insertAuthLog($member_info->member_srl, 'email_change_request', (object)['email_address' => $newEmail]);
 
 		unset($_SESSION['rechecked_password_step']);
 
