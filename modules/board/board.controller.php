@@ -10,11 +10,6 @@
 class BoardController extends Board
 {
 	/**
-	 * Cache for anonymity processing
-	 */
-	protected $anonymity_info = null;
-
-	/**
 	 * @brief insert document
 	 */
 	public function procBoardInsertDocument()
@@ -99,15 +94,16 @@ class BoardController extends Board
 		}
 
 		// Check document_srl
-		$oDocument = DocumentModel::getDocument($obj->document_srl);
 		if ($obj->document_srl)
 		{
 			$oDocument = DocumentModel::getDocument($obj->document_srl);
+			if (!$oDocument->isExists())
 			{
-				if (!$oDocument->isExists())
-				{
-					$obj->document_srl = getNextSequence();
-				}
+				$obj->document_srl = getNextSequence();
+			}
+			elseif (!$oDocument->isGranted())
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
 		}
 		else
@@ -148,38 +144,9 @@ class BoardController extends Board
 			$obj->update_log_setting = 'Y';
 		}
 
-		// Set anonymous information when insert mode or status is temp
-		if ($this->module_info->use_anonymous === 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N'))
-		{
-			$this->anonymity_info = new stdClass();
-			if ($oDocument->isExists())
-			{
-				$this->anonymity_info->nick_name = $oDocument->get('nick_name');
-				$this->anonymity_info->member_srl = abs($oDocument->get('member_srl')) * -1;
-				$oDocument->add('member_srl', $this->anonymity_info->member_srl);
-			}
-			else
-			{
-				$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
-				$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
-				$this->anonymity_info->nick_name = $anonymous_name;
-				$this->anonymity_info->member_srl = $logged_info->member_srl * -1;
-			}
-
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $this->anonymity_info->nick_name;
-			$obj->member_srl = $this->anonymity_info->member_srl;
-			$obj->notify_message = 'N';
-		}
-
 		// Update if the document already exists.
 		if($oDocument->isExists())
 		{
-			if(!$oDocument->isGranted())
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-
 			// Protect admin document
 			if ($this->module_info->protect_admin_content_update === 'Y')
 			{
@@ -533,6 +500,10 @@ class BoardController extends Board
 				$obj->comment_srl = getNextSequence();
 				$comment = null;
 			}
+			elseif (!$comment->isGranted())
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 		else
 		{
@@ -557,30 +528,6 @@ class BoardController extends Board
 		{
 			$this->module_info->secret = 'N';
 			unset($obj->is_secret);
-		}
-
-		// For anonymous use, remove writer's information and notifying information
-		if ($this->module_info->use_anonymous === 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N'))
-		{
-			$this->anonymity_info = new stdClass();
-			if ($comment)
-			{
-				$this->anonymity_info->nick_name = $comment->get('nick_name');
-				$this->anonymity_info->member_srl = abs($comment->get('member_srl')) * -1;
-				$comment->add('member_srl', $this->anonymity_info->member_srl);
-			}
-			else
-			{
-				$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
-				$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
-				$this->anonymity_info->nick_name = $anonymous_name;
-				$this->anonymity_info->member_srl = $logged_info->member_srl * -1;
-			}
-
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $this->anonymity_info->nick_name;
-			$obj->member_srl = $this->anonymity_info->member_srl;
-			$obj->notify_message = 'N';
 		}
 
 		// INSERT if comment_srl does not exist.
@@ -621,12 +568,6 @@ class BoardController extends Board
 		// UPDATE if comment_srl already exists.
 		else
 		{
-			// check the grant
-			if(!$comment->isGranted())
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-
 			if ($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
 			{
 				$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
@@ -872,10 +813,7 @@ class BoardController extends Board
 	 */
 	public function triggerBeforeInsertDocument($obj)
 	{
-		if ($this->anonymity_info)
-		{
-			self::_applyAnonymity($obj, $this->anonymity_info);
-		}
+		self::_applyAnonymity($obj, 'insertDocument');
 	}
 
 	/**
@@ -885,10 +823,7 @@ class BoardController extends Board
 	 */
 	public function triggerBeforeUpdateDocument($obj)
 	{
-		if ($this->anonymity_info)
-		{
-			self::_applyAnonymity($obj, $this->anonymity_info);
-		}
+		self::_applyAnonymity($obj, 'updateDocument');
 	}
 
 	/**
@@ -898,10 +833,7 @@ class BoardController extends Board
 	 */
 	public function triggerBeforeInsertComment($obj)
 	{
-		if ($this->anonymity_info)
-		{
-			self::_applyAnonymity($obj, $this->anonymity_info);
-		}
+		self::_applyAnonymity($obj, 'insertComment');
 	}
 
 	/**
@@ -911,10 +843,7 @@ class BoardController extends Board
 	 */
 	public function triggerBeforeUpdateComment($obj)
 	{
-		if ($this->anonymity_info)
-		{
-			self::_applyAnonymity($obj, $this->anonymity_info);
-		}
+		self::_applyAnonymity($obj, 'updateComment');
 	}
 
 	/**
@@ -974,6 +903,12 @@ class BoardController extends Board
 	 */
 	public static function createAnonymousName($format, $member_srl, $document_srl): string
 	{
+		$format = trim((string)$format);
+		if ($format === '')
+		{
+			$format = BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
+		}
+
 		return preg_replace_callback('/\$(DAILY|DOC|DOCDAILY|)(NUM|STR)(?::([0-9]))?/', function($matches) use($member_srl, $document_srl) {
 			$digits = empty($matches[3]) ? 8 : max(1, min(8, intval($matches[3])));
 			$type = strtolower($matches[2]);
@@ -984,7 +919,7 @@ class BoardController extends Board
 				case 'DOC': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, $digits, $type);
 				case 'DOCDAILY': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), $digits, $type);
 			}
-		}, (string)$format);
+		}, $format);
 	}
 
 	/**
@@ -1012,16 +947,66 @@ class BoardController extends Board
 	 * Subroutine for applying anonymity information to a document or comment.
 	 *
 	 * @param object $obj
-	 * @param object $anonymity_info
+	 * @param string $type
 	 * @return void
 	 */
-	protected static function _applyAnonymity(object $obj, object $anonymity_info): void
+	protected static function _applyAnonymity(object $obj, string $type): void
 	{
-		$obj->member_srl = $anonymity_info->member_srl;
-		$obj->nick_name = $anonymity_info->nick_name;
-		$obj->user_name = $anonymity_info->nick_name;
+		// Check whether anonymity should be applied
+		$module_srl = $obj->module_srl;
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$module_info || !isset($module_info->use_anonymous) || $module_info->use_anonymous !== 'Y')
+		{
+			return;
+		}
+		$logged_info = Context::get('logged_info');
+		if (isset($module_info->anonymous_except_admin) && $module_info->anonymous_except_admin === 'Y')
+		{
+			$grant = ModuleModel::getGrant($module_srl, $logged_info);
+			if ($grant->manager)
+			{
+				return;
+			}
+		}
+
+		// Check the source object
+		if ($type === 'updateDocument')
+		{
+			$source_obj = DocumentModel::getDocument($obj->document_srl);
+		}
+		elseif ($type === 'updateComment')
+		{
+			$source_obj = CommentModel::getComment($obj->comment_srl);
+		}
+		else
+		{
+			$source_obj = null;
+		}
+
+		if ($source_obj && $source_obj->isExists())
+		{
+			if ($source_obj->get('status') === 'TEMP')
+			{
+				$anonymous_name = self::createAnonymousName($module_info->anonymous_name ?? '', $logged_info->member_srl, $obj->document_srl);
+			}
+			else
+			{
+				$anonymous_name = $source_obj->get('nick_name');
+			}
+			$member_srl = abs($source_obj->get('member_srl')) * -1;
+		}
+		else
+		{
+			$anonymous_name = self::createAnonymousName($module_info->anonymous_name ?? '', $logged_info->member_srl, $obj->document_srl);
+			$member_srl = $logged_info->member_srl * -1;
+		}
+
+		$obj->member_srl = $member_srl;
+		$obj->nick_name = $anonymous_name;
+		$obj->user_name = $anonymous_name;
 		$obj->user_id = '';
 		$obj->email_address = '';
 		$obj->homepage = '';
+		$obj->notify_message = 'N';
 	}
 }
