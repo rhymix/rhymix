@@ -39,10 +39,10 @@
 			<div class="x_controls">
 				<div class="controls">
 					<label class="inline" for="unsubscribe_value_y">
-						<input type="radio" name="value" id="unsubscribe_value_y" value="Y" checked="checked"|cond="$unsubscribeData->value != 'N'" /> {$lang->ncenterlite_to_unsubscribe}
+						<input type="radio" name="value" id="unsubscribe_value_y" value="Y" checked="checked"|cond="!$unsubscribeData || $unsubscribeData->value != 'N'" /> {$lang->ncenterlite_to_unsubscribe}
 					</label>
 					<label class="inline" for="unsubscribe_value_n">
-						<input type="radio" name="value" id="unsubscribe_value_n" value="N" checked="checked"|cond="$unsubscribeData->value == 'N'" /> {$lang->ncenterlite_subscribe}
+						<input type="radio" name="value" id="unsubscribe_value_n" value="N" checked="checked"|cond="$unsubscribeData && $unsubscribeData->value == 'N'" /> {$lang->ncenterlite_subscribe}
 					</label>
 					<p>{$lang->about_this_message_unsubscribe}</p>
 				</div>

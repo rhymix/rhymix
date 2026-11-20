@@ -1,0 +1,6 @@
+<table name="autoinstall_ignore">
+	<column name="id" type="bigint" notnull="notnull" primary_key="primary_key" auto_increment="auto_increment" />
+	<column name="package_srl" type="bigint" notnull="notnull" index="idx_package_srl" />
+	<column name="version" type="varchar" size="80" notnull="notnull" />
+	<column name="regdate" type="datetime" notnull="notnull" index="idx_regdate" />
+</table>

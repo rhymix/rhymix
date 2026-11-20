@@ -281,6 +281,18 @@ class Package
 	}
 
 	/**
+	 * Check if the current package version is ignored.
+	 */
+	public function isIgnored(): bool
+	{
+		$output = executeQuery('autoinstall.getIgnoredPackages', [
+			'package_srl' => $this->package_srl,
+			'version' => $this->last_release_version,
+		]);
+		return $output->data ? true : false;
+	}
+
+	/**
 	 * Check if an update is available for the current package.
 	 *
 	 * @return object
@@ -539,11 +551,23 @@ class Package
 			return [];
 		}
 
+		// Check the ignored package list.
+		$output = executeQueryArray('autoinstall.getIgnoredPackages');
+		$ignored_packages = [];
+		foreach ($output->data ?? [] as $row)
+		{
+			$ignored_packages[$row->package_srl][$row->version] = true;
+		}
+
 		// Check if each package has updates.
 		$updated_packages = [];
 		$output = executeQueryArray('autoinstall.getPackages', ['package_srl' => array_keys($installed_packages)], [], self::class);
 		foreach ($output->data ?? [] as $package)
 		{
+			if (isset($ignored_packages[$package->package_srl][$package->last_release_version]))
+			{
+				continue;
+			}
 			$update_info = $package->getUpdateInfo();
 			if ($update_info->update_available)
 			{

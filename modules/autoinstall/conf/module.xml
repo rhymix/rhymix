@@ -8,6 +8,7 @@
 		<action name="procAutoinstallAdminInstallPackage" type="controller" />
 		<action name="procAutoinstallAdminPostInstallPackage" type="controller" />
 		<action name="procAutoinstallAdminUninstallPackage" type="controller" />
+		<action name="procAutoinstallAdminIgnorePackage" type="controller" />
 		<action name="procAutoinstallAdminUpdatePackageList" type="controller" />
 		<!-- For backward compatibility only -->
 		<action name="getAutoinstallAdminMenuPackageList" type="model" />

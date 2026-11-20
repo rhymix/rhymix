@@ -771,7 +771,7 @@ if (!function_exists('str_starts_with'))
 }
 
 /**
- * Polyfill for str_starts_with() in PHP < 8.0
+ * Polyfill for str_ends_with() in PHP < 8.0
  *
  * @param string $haystack
  * @param string $needle
@@ -786,7 +786,7 @@ if (!function_exists('str_ends_with'))
 }
 
 /**
- * Polyfill for str_starts_with() in PHP < 8.0
+ * Polyfill for str_contains() in PHP < 8.0
  *
  * @param string $haystack
  * @param string $needle

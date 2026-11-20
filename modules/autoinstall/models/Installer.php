@@ -253,6 +253,9 @@ class Installer
 
 		// Remove the temp file.
 		Storage::delete($temp_filename);
+
+		// Clear any ignore flags for this package.
+		$output = executeQuery('autoinstall.deleteIgnoredPackage', ['package_srl' => $package->package_srl]);
 		return new BaseObject();
 	}
 
@@ -279,6 +282,8 @@ class Installer
 			return new BaseObject(-1, 'msg_autoinstall_uninstall_failed');
 		}
 
+		// Clear any ignore flags for this package.
+		$output = executeQuery('autoinstall.deleteIgnoredPackage', ['package_srl' => $package->package_srl]);
 		return new BaseObject();
 	}
 }

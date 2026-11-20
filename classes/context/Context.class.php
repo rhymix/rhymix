@@ -1563,21 +1563,22 @@ class Context
 						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
 					}
 				}
+				elseif(in_array($key, ['success_return_url', 'error_return_url']))
+				{
+					$_val = strtr(escape($_val, false), array('&amp;' => '&'));
+					if (!Rhymix\Framework\URL::isInternalURL($_val))
+					{
+						self::$_instance->security_check = 'DENY ALL';
+						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+						$_val = null;
+					}
+				}
 				elseif(isset(self::$_auto_escape_keys[$key]) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
 				{
 					$_val = escape($_val, false);
 					if(ends_with('url', $key, false))
 					{
 						$_val = strtr($_val, array('&amp;' => '&'));
-					}
-				}
-				elseif(in_array($key, ['success_return_url', 'error_return_url']) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
-				{
-					if (!Rhymix\Framework\URL::isInternalURL($_val))
-					{
-						self::$_instance->security_check = 'DENY ALL';
-						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
-						$_val = null;
 					}
 				}
 			}

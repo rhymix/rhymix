@@ -3,8 +3,11 @@
 <include target="header.html" />
 
 <ul class="x_nav x_nav-tabs">
+	<li class="x_active"|cond="$type == 'updates'">
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex', 'type', 'updates')}">{lang('autoinstall_updates')}</a>
+	</li>
 	<li class="x_active"|cond="$type == 'featured'">
-		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex')}">{lang('featured_packages')}</a>
+		<a href="{getUrl('', 'module', 'admin', 'act', 'dispAutoinstallAdminIndex', 'type', 'featured')}">{lang('featured_packages')}</a>
 	</li>
 	<!--@foreach($package_types as $_type => $_typename)-->
 		<li class="x_active"|cond="$type == $_type">
@@ -118,8 +121,15 @@
 						<p><span class="x_badge x_badge-inverse">{$lang->msg_autoinstall_experimental_warning}</span> &nbsp;{$lang->msg_autoinstall_experimental_update}</p>
 					</div>
 					<a class="x_btn x_btn-primary autoinstall_update_btn type_{$package->install_type}" href="#" data-package-srl="{$package->package_srl}" data-downloading="{$lang->msg_autoinstall_downloading}" data-installing="{$lang->msg_autoinstall_installing}" data-cleanup="{$lang->msg_autoinstall_cleanup}" data-complete="{$lang->msg_autoinstall_success_updated}">
-						{$lang->cmd_autoinstall_updatable}
+						{$lang->cmd_autoinstall_update}
 					</a>
+					<!--@if($package->isIgnored())-->
+						<span class="autoinstall_ignoring">{$lang->cmd_autoinstall_ignoring}</span>
+					<!--@else-->
+						<a class="x_btn autoinstall_ignore_btn" href="#" data-package-srl="{$package->package_srl}">
+							{$lang->cmd_autoinstall_ignore}
+						</a>
+					<!--@endif-->
 				<!--@else-->
 					<a class="x_btn x_btn-disabled" href="#">
 						{$lang->cmd_autoinstall_not_updatable}

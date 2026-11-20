@@ -467,7 +467,7 @@ class ModuleConfig extends Base
 				}
 				elseif ($type === 'checkbox')
 				{
-					$value = $value ? unserialize($value) : [];
+					$value = $value ? unserialize($value, ['allowed_classes' => false, 'max_depth' => 1]) : [];
 				}
 
 				$value = empty($value) ? $val->default : $value;
@@ -875,11 +875,11 @@ class ModuleConfig extends Base
 		}
 
 		// Remove unnecessary variables.
-		$obj = clone Context::getRequestVars();
-		unset($obj->module, $obj->module_srl, $obj->mid);
-		foreach (ModuleInfoModel::DELETE_VARS as $key => $val)
+		$args = clone Context::getRequestVars();
+		$obj = new \stdClass();
+		if (!$theme_info)
 		{
-			unset($obj->{$key});
+			$obj->colorset = escape($args->colorset) ?? '';
 		}
 
 		// Handle image uploads.
@@ -887,6 +887,7 @@ class ModuleConfig extends Base
 		{
 			foreach ($skin_info->extra_vars as $vars)
 			{
+				$vars->name = trim($vars->name);
 				if ($vars->type !== 'image')
 				{
 					if ($theme_info)
@@ -894,9 +895,12 @@ class ModuleConfig extends Base
 						$expect_array = isset(ExtraValue::ARRAY_TYPES[$vars->type]) && !in_array($vars->type, ['radio', 'select']);
 						if ($expect_array)
 						{
-							if (isset($obj->{$vars->name}))
+							if (isset($args->{$vars->name}))
 							{
-								$obj->{$vars->name} = is_array($obj->{$vars->name}) ? array_values($obj->{$vars->name}) : [strval($obj->{$vars->name})];
+								$obj->{$vars->name} = is_array($args->{$vars->name}) ? array_values($args->{$vars->name}) : [strval($args->{$vars->name})];
+								$obj->{$vars->name} = array_map(function($str) {
+									return escape($str);
+								}, $obj->{$vars->name});
 							}
 							else
 							{
@@ -905,20 +909,24 @@ class ModuleConfig extends Base
 						}
 						else
 						{
-							$obj->{$vars->name} = strval($obj->{$vars->name} ?? '');
+							$obj->{$vars->name} = escape($args->{$vars->name} ?? '');
 						}
 					}
 					continue;
 				}
 
-				$image_obj = $obj->{$vars->name};
-				$del_var = $obj->{'del_'.$vars->name};
-				unset($obj->{'del_'.$vars->name});
+				$image_obj = $args->{$vars->name};
+				$del_var = $args->{'del_'.$vars->name};
 
 				// If delete is checked, remove the file.
 				if ($del_var === 'Y')
 				{
-					Storage::delete($skin_vars->{$vars->name}->value);
+					$filename = realpath(FileHandler::getRealPath($skin_vars->{$vars->name}->value));
+					$basedir = realpath(RX_BASEDIR . 'files/attach/images');
+					if ($filename && $basedir && str_starts_with($filename, $basedir . DIRECTORY_SEPARATOR))
+					{
+						Storage::delete($filename);
+					}
 					continue;
 				}
 

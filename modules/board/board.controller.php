@@ -19,6 +19,7 @@ class BoardController extends Board
 		{
 			throw new Rhymix\Framework\Exceptions\NotPermitted;
 		}
+		$logged_info = Context::get('logged_info');
 
 		// Fix any missing module configurations
 		BoardModel::fixModuleConfig($this->module_info);
@@ -26,7 +27,7 @@ class BoardController extends Board
 		// setup variables
 		$obj = Context::getRequestVars();
 		$obj->module_srl = $this->module_srl;
-		$obj->commentStatus = $obj->comment_status;
+		$obj->commentStatus = $obj->comment_status ?? null;
 		unset($obj->extra_vars);
 
 		// Remove disallowed Unicode symbols.
@@ -92,21 +93,50 @@ class BoardController extends Board
 			$obj->is_admin = 'Y';
 		}
 
-		$oDocumentController = DocumentController::getInstance();
-
-		$secret_status = DocumentModel::getConfigStatus('secret');
-		$use_status = explode('|@|', $this->module_info->use_status);
-
-		// Set status
-		if((($obj->is_secret ?? 'N') == 'Y' || $obj->status == $secret_status) && is_array($use_status) && in_array($secret_status, $use_status))
+		// Check document_srl
+		if ($obj->document_srl)
 		{
-			$obj->status = $secret_status;
+			$oDocument = DocumentModel::getDocument($obj->document_srl);
+			if (!$oDocument->isExists())
+			{
+				$obj->document_srl = getNextSequence();
+			}
+			elseif (!$oDocument->isGranted())
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
 		else
 		{
-			unset($obj->is_secret);
+			$oDocument = DocumentModel::getDocument(0);
+			$obj->document_srl = getNextSequence();
+		}
+
+		// Set secret status
+		if (empty($this->module_info->use_status))
+		{
+			$this->module_info->use_status = ['PUBLIC'];
+		}
+		if (!is_array($this->module_info->use_status))
+		{
+			$this->module_info->use_status = explode('|@|', $this->module_info->use_status);
+		}
+		if (in_array('SECRET', $this->module_info->use_status))
+		{
+			if ($obj->status === 'SECRET' || (isset($obj->is_secret) && $obj->is_secret === 'Y'))
+			{
+				$obj->status = DocumentModel::getConfigStatus('secret');
+			}
+			else
+			{
+				$obj->status = DocumentModel::getConfigStatus('public');
+			}
+		}
+		else
+		{
 			$obj->status = DocumentModel::getConfigStatus('public');
 		}
+		unset($obj->is_secret);
 
 		// Set update log
 		if($this->module_info->update_log == 'Y')
@@ -114,47 +144,9 @@ class BoardController extends Board
 			$obj->update_log_setting = 'Y';
 		}
 
-		$manual = false;
-		$logged_info = Context::get('logged_info');
-		$oDocument = DocumentModel::getDocument($obj->document_srl);
-
-		// Set anonymous information when insert mode or status is temp
-		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N') && (!$oDocument->isExists() || $oDocument->get('status') == DocumentModel::getConfigStatus('temp')))
-		{
-			if(!$obj->document_srl)
-			{
-				$obj->document_srl = getNextSequence();
-			}
-
-			$manual = true;
-			$anonymous_name = $this->module_info->anonymous_name ?: BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
-			$anonymous_name = $this->createAnonymousName($anonymous_name, $logged_info->member_srl, $obj->document_srl);
-
-			$obj->notify_message = 'N';
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $anonymous_name;
-			$obj->member_srl = $logged_info->member_srl * -1;
-
-			// Ensure that anonymous information is preserved on update.
-			if ($oDocument->isExists())
-			{
-				$oDocument->add('member_srl', $obj->member_srl);
-				ModuleController::getInstance()->addTriggerFunction('document.updateDocument', 'before', function($obj) use($anonymous_name, $logged_info) {
-					$obj->email_address = $obj->homepage = $obj->user_id = '';
-					$obj->user_name = $obj->nick_name = $anonymous_name;
-					$obj->member_srl = $logged_info->member_srl * -1;
-				});
-			}
-		}
-
 		// Update if the document already exists.
 		if($oDocument->isExists())
 		{
-			if(!$oDocument->isGranted())
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
-
 			// Protect admin document
 			if ($this->module_info->protect_admin_content_update === 'Y')
 			{
@@ -217,8 +209,8 @@ class BoardController extends Board
 			}
 
 			// Update
-			$output = $oDocumentController->updateDocument($oDocument, $obj, $manual);
-
+			$oDocumentController = DocumentController::getInstance();
+			$output = $oDocumentController->updateDocument($oDocument, $obj);
 			$msg_code = 'success_updated';
 		}
 		// Insert a new document.
@@ -227,11 +219,18 @@ class BoardController extends Board
 			// Update list order if document_srl is already assigned
 			if ($obj->document_srl)
 			{
+				$isLatest = false;
 				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
+			}
+			else
+			{
+				$isLatest = true;
 			}
 
 			// Insert
-			$output = $oDocumentController->insertDocument($obj, $manual, false, $obj->document_srl ? false : true);
+			$oDocumentController = DocumentController::getInstance();
+			$output = $oDocumentController->insertDocument($obj, false, false, $isLatest);
+			$msg_code = 'success_registed';
 
 			if ($output->toBool())
 			{
@@ -259,8 +258,6 @@ class BoardController extends Board
 					$oMail->send();
 				}
 			}
-
-			$msg_code = 'success_registed';
 		}
 
 		// if there is an error
@@ -494,74 +491,43 @@ class BoardController extends Board
 			}
 		}
 
-		if(!$this->module_info->use_status)
+		// Check comment_srl
+		if ($obj->comment_srl)
 		{
-			$this->module_info->use_status = 'PUBLIC';
+			$comment = CommentModel::getComment($obj->comment_srl);
+			if (!$comment->isExists())
+			{
+				$obj->comment_srl = getNextSequence();
+				$comment = null;
+			}
+			elseif (!$comment->isGranted())
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
 		}
-		if(!is_array($this->module_info->use_status))
+		else
+		{
+			$obj->comment_srl = getNextSequence();
+			$comment = null;
+		}
+
+		// Set secret status
+		if (empty($this->module_info->use_status))
+		{
+			$this->module_info->use_status = ['PUBLIC'];
+		}
+		if (!is_array($this->module_info->use_status))
 		{
 			$this->module_info->use_status = explode('|@|', $this->module_info->use_status);
 		}
-		if(in_array('SECRET', $this->module_info->use_status))
+		if (in_array('SECRET', $this->module_info->use_status))
 		{
 			$this->module_info->secret = 'Y';
 		}
 		else
 		{
-			unset($obj->is_secret);
 			$this->module_info->secret = 'N';
-		}
-
-		// For anonymous use, remove writer's information and notifying information
-		if($this->module_info->use_anonymous == 'Y' && (!$this->grant->manager || $this->module_info->anonymous_except_admin === 'N'))
-		{
-			$obj->notify_message = 'N';
-			$obj->member_srl = -1*$logged_info->member_srl;
-			$obj->email_address = $obj->homepage = $obj->user_id = '';
-			$obj->user_name = $obj->nick_name = $this->createAnonymousName($this->module_info->anonymous_name ?: 'anonymous', $logged_info->member_srl, $obj->document_srl);
-			$manual = true;
-		}
-		else
-		{
-			$manual = false;
-		}
-
-		// generate comment module controller object
-		$oCommentController = CommentController::getInstance();
-
-		// check the comment is existed
-		// if the comment is not existed, then generate a new sequence
-		if(!$obj->comment_srl)
-		{
-			$obj->comment_srl = getNextSequence();
-			$comment = null;
-		}
-		else
-		{
-			$comment = CommentModel::getComment($obj->comment_srl);
-			if (!$comment->isExists() || $comment->comment_srl != $obj->comment_srl)
-			{
-				$comment = null;
-			}
-		}
-
-		if ($comment && $this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
-		{
-			$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
-			$childs = CommentModel::getChildComments($obj->comment_srl);
-			if(count($childs) >= $childs_limit)
-			{
-				throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_update_protect_comment'), $childs_limit));
-			}
-		}
-
-		if ($comment && $this->module_info->protect_admin_content_update === 'Y')
-		{
-			$member_info = MemberModel::getMemberInfo($comment->member_srl);
-			if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
-			{
-				throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
-			}
+			unset($obj->is_secret);
 		}
 
 		// INSERT if comment_srl does not exist.
@@ -589,7 +555,8 @@ class BoardController extends Board
 			}
 
 			// Insert comment.
-			$output = $oCommentController->insertComment($obj, $manual, $update_document);
+			$oCommentController = CommentController::getInstance();
+			$output = $oCommentController->insertComment($obj, false, $update_document);
 
 			// Set grant for the new comment.
 			if ($output->toBool())
@@ -601,7 +568,26 @@ class BoardController extends Board
 		// UPDATE if comment_srl already exists.
 		else
 		{
-			if($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
+			if ($this->module_info->protect_update_comment === 'Y' && $this->grant->manager == false)
+			{
+				$childs_limit = $this->module_info->protect_update_comment_limit ?? 1;
+				$childs = CommentModel::getChildComments($obj->comment_srl);
+				if(count($childs) >= $childs_limit)
+				{
+					throw new Rhymix\Framework\Exception(sprintf(lang('msg_board_update_protect_comment'), $childs_limit));
+				}
+			}
+
+			if ($this->module_info->protect_admin_content_update === 'Y')
+			{
+				$member_info = MemberModel::getMemberInfo($comment->member_srl);
+				if($member_info->is_admin == 'Y' && $logged_info->is_admin != 'Y')
+				{
+					throw new Rhymix\Framework\Exception('msg_admin_comment_no_modify');
+				}
+			}
+
+			if ($this->module_info->protect_comment_regdate > 0 && $this->grant->manager == false)
 			{
 				if($comment->get('regdate') < date('YmdHis', strtotime('-'.$this->module_info->protect_comment_regdate.' day')))
 				{
@@ -610,12 +596,10 @@ class BoardController extends Board
 					throw new Rhymix\Framework\Exception($message);
 				}
 			}
-			// check the grant
-			if(!$comment->isGranted())
-			{
-				throw new Rhymix\Framework\Exceptions\NotPermitted;
-			}
+
 			$obj->parent_srl = $comment->parent_srl;
+
+			$oCommentController = CommentController::getInstance();
 			$output = $oCommentController->updateComment($obj, $this->grant->manager);
 		}
 
@@ -823,6 +807,46 @@ class BoardController extends Board
 	}
 
 	/**
+	 * Trigger before document.insertDocument for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeInsertDocument($obj)
+	{
+		self::_applyAnonymity($obj, 'insertDocument');
+	}
+
+	/**
+	 * Trigger before document.updateDocument for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeUpdateDocument($obj)
+	{
+		self::_applyAnonymity($obj, 'updateDocument');
+	}
+
+	/**
+	 * Trigger before comment.insertComment for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeInsertComment($obj)
+	{
+		self::_applyAnonymity($obj, 'insertComment');
+	}
+
+	/**
+	 * Trigger before comment.updateComment for anonymity processing
+	 *
+	 * @param object $obj
+	 */
+	public function triggerBeforeUpdateComment($obj)
+	{
+		self::_applyAnonymity($obj, 'updateComment');
+	}
+
+	/**
 	 * @brief the trigger for displaying 'view document' link when click the user ID
 	 */
 	public function triggerMemberMenu($obj)
@@ -879,6 +903,12 @@ class BoardController extends Board
 	 */
 	public static function createAnonymousName($format, $member_srl, $document_srl): string
 	{
+		$format = trim((string)$format);
+		if ($format === '')
+		{
+			$format = BoardModel::DEFAULT_MODULE_CONFIG['anonymous_name'];
+		}
+
 		return preg_replace_callback('/\$(DAILY|DOC|DOCDAILY|)(NUM|STR)(?::([0-9]))?/', function($matches) use($member_srl, $document_srl) {
 			$digits = empty($matches[3]) ? 8 : max(1, min(8, intval($matches[3])));
 			$type = strtolower($matches[2]);
@@ -889,7 +919,7 @@ class BoardController extends Board
 				case 'DOC': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl, $digits, $type);
 				case 'DOCDAILY': return self::_createHash(($member_srl ?: \RX_CLIENT_IP) . ':document_srl:' . $document_srl . ':date:' . date('Y-m-d'), $digits, $type);
 			}
-		}, (string)$format);
+		}, $format);
 	}
 
 	/**
@@ -911,5 +941,72 @@ class BoardController extends Board
 		{
 			return substr($hash, 0, $digits);
 		}
+	}
+
+	/**
+	 * Subroutine for applying anonymity information to a document or comment.
+	 *
+	 * @param object $obj
+	 * @param string $type
+	 * @return void
+	 */
+	protected static function _applyAnonymity(object $obj, string $type): void
+	{
+		// Check whether anonymity should be applied
+		$module_srl = $obj->module_srl;
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($module_srl);
+		if (!$module_info || !isset($module_info->use_anonymous) || $module_info->use_anonymous !== 'Y')
+		{
+			return;
+		}
+		$logged_info = Context::get('logged_info');
+		if (isset($module_info->anonymous_except_admin) && $module_info->anonymous_except_admin === 'Y')
+		{
+			$grant = ModuleModel::getGrant($module_srl, $logged_info);
+			if ($grant->manager)
+			{
+				return;
+			}
+		}
+
+		// Check the source object
+		if ($type === 'updateDocument')
+		{
+			$source_obj = DocumentModel::getDocument($obj->document_srl);
+		}
+		elseif ($type === 'updateComment')
+		{
+			$source_obj = CommentModel::getComment($obj->comment_srl);
+		}
+		else
+		{
+			$source_obj = null;
+		}
+
+		if ($source_obj && $source_obj->isExists())
+		{
+			if ($source_obj->get('status') === 'TEMP')
+			{
+				$anonymous_name = self::createAnonymousName($module_info->anonymous_name ?? '', $logged_info->member_srl, $obj->document_srl);
+			}
+			else
+			{
+				$anonymous_name = $source_obj->get('nick_name');
+			}
+			$member_srl = abs($source_obj->get('member_srl')) * -1;
+		}
+		else
+		{
+			$anonymous_name = self::createAnonymousName($module_info->anonymous_name ?? '', $logged_info->member_srl, $obj->document_srl);
+			$member_srl = $logged_info->member_srl * -1;
+		}
+
+		$obj->member_srl = $member_srl;
+		$obj->nick_name = $anonymous_name;
+		$obj->user_name = $anonymous_name;
+		$obj->user_id = '';
+		$obj->email_address = '';
+		$obj->homepage = '';
+		$obj->notify_message = 'N';
 	}
 }
