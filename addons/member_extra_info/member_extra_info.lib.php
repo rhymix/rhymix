@@ -27,7 +27,7 @@ function memberTransImageName($matches)
 		$GLOBALS['_transImageNameList'][$member_srl] = new stdClass();
 	}
 	$_tmp = &$GLOBALS['_transImageNameList'][$member_srl];
-	
+
 	// If pre-defined data in the global variables, return it
 	if(!isset($_tmp->cached) || !$_tmp->cached)
 	{
@@ -75,18 +75,17 @@ function memberTransImageName($matches)
 	}
 
 	// check member_config
-
 	$config = $oMemberModel->getMemberConfig();
 
+	$alt_text = escape($nick_name, false);
 	if($config->image_name == 'Y' && $image_name_file)
 	{
-		$nick_name = sprintf('<img src="%s%s" alt="id: %s" title="id: %s" style="border:0;vertical-align:middle;margin-right:3px" />', Context::getRequestUri(), $image_name_file, strip_tags($nick_name), strip_tags($nick_name));
+		$nick_name = sprintf('<img src="%s%s" alt="%s" title="%s" style="border:0;vertical-align:middle;margin-right:3px" />', Context::getRequestUri(), $image_name_file, $alt_text, $alt_text);
 	}
 	if($config->image_mark == 'Y' && $image_mark_file)
 	{
-		$nick_name = sprintf('<img src="%s%s" alt="id: %s" title="id : %s" style="border:0;vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri(), $image_mark_file, strip_tags($nick_name), strip_tags($nick_name), $nick_name);
+		$nick_name = sprintf('<img src="%s%s" alt="%s" title="%s" style="border:0;vertical-align:middle;margin-right:3px"/>%s', Context::getRequestUri(), $image_mark_file, $alt_text, $alt_text, $nick_name);
 	}
-
 	if($group_image)
 	{
 		$nick_name = sprintf('<img src="%s" style="border:0;max-height:16px;vertical-align:middle;margin-right:3px" alt="%s" title="%s" />%s', $group_image->src, $group_image->title, $group_image->description, $nick_name);
