@@ -1531,6 +1531,7 @@ class Context
 				}
 				elseif(in_array($key, ['success_return_url', 'error_return_url']))
 				{
+					$_val = strtr(escape($_val, false), array('&amp;' => '&'));
 					if (!Rhymix\Framework\URL::isInternalURL($_val))
 					{
 						self::$_instance->security_check = 'DENY ALL';

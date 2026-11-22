@@ -441,6 +441,7 @@ class MemberView extends Member
 			Context::set('identifierValue', $logged_info->user_id);
 		}
 
+		Context::set('success_return_url', getUrl(['mid' => Context::get('mid'), 'act' => Context::get('act')]));
 		self::setMemberPageBrowserTitle(lang('cmd_modify_member_info'));
 		$this->setTemplateFile('rechecked_password');
 	}
