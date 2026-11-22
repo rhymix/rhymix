@@ -1111,6 +1111,52 @@ class MemberModel extends Member
 	}
 
 	/**
+	 * Sanitize and normalize a nickname according to the member configuration.
+	 *
+	 * @param string $nick_name
+	 * @param ?object $config
+	 * @return BaseObject
+	 */
+	public static function getCleanNickName(string $nick_name, ?object $config = null): BaseObject
+	{
+		$config = $config ?: self::getMemberConfig();
+		$nick_name = trim(utf8_clean(html_entity_decode($nick_name)));
+
+		// Remove spaces.
+		if (isset($config->nickname_spaces) && $config->nickname_spaces === 'Y')
+		{
+			$nick_name = utf8_normalize_spaces($nick_name);
+		}
+		else
+		{
+			$nick_name = preg_replace('/[\pZ\pC]+/u', '', $nick_name);
+		}
+
+		// Check for symbols.
+		if ($config->nickname_symbols === 'N')
+		{
+			if (preg_match('/[^\pL\d\s]/u', $nick_name, $matches))
+			{
+				$output = new BaseObject(-1, sprintf(lang('msg_invalid_symbol_in_nickname'), $matches[0]));
+				return $output;
+			}
+		}
+		elseif($config->nickname_symbols === 'LIST')
+		{
+			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
+			if (preg_match('/[^\pL\d\s' . $list . ']/u', $nick_name, $matches))
+			{
+				$output = new BaseObject(-1, sprintf(lang('msg_invalid_symbol_in_nickname'), $matches[0]));
+				return $output;
+			}
+		}
+
+		$output = new BaseObject();
+		$output->add('nick_name', $nick_name);
+		return $output;
+	}
+
+	/**
 	 * @brief Get information of the profile image
 	 */
 	public static function getProfileImage($member_srl)

@@ -831,32 +831,12 @@ class MemberController extends Member
 		}
 		if (isset($args->nick_name))
 		{
-			if (isset($config->nickname_spaces) && $config->nickname_spaces === 'Y')
+			$clean_nick_name = MemberModel::getCleanNickName($args->nick_name);
+			if (!$clean_nick_name->toBool())
 			{
-				$args->nick_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->nick_name)));
+				return $clean_nick_name;
 			}
-			else
-			{
-				$args->nick_name = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->nick_name)));
-			}
-
-		}
-
-		// Check symbols in nickname
-		if($config->nickname_symbols === 'N')
-		{
-			if(preg_match('/[^\pL\d\s]/u', $args->nick_name, $matches))
-			{
-				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
-			}
-		}
-		elseif($config->nickname_symbols === 'LIST')
-		{
-			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
-			if(preg_match('/[^\pL\d\s' . $list . ']/u', $args->nick_name, $matches))
-			{
-				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
-			}
+			$args->nick_name = $clean_nick_name->get('nick_name');
 		}
 
 		// Insert member info
@@ -1153,15 +1133,12 @@ class MemberController extends Member
 		}
 		if (isset($args->nick_name))
 		{
-			if (isset($config->nickname_spaces) && $config->nickname_spaces === 'Y')
+			$clean_nick_name = MemberModel::getCleanNickName($args->nick_name, $config);
+			if (!$clean_nick_name->toBool())
 			{
-				$args->nick_name = utf8_normalize_spaces(utf8_clean(html_entity_decode($args->nick_name)));
+				return $clean_nick_name;
 			}
-			else
-			{
-				$args->nick_name = preg_replace('/[\pZ\pC]+/u', '', utf8_clean(html_entity_decode($args->nick_name)));
-			}
-
+			$args->nick_name = $clean_nick_name->get('nick_name');
 		}
 
 		// Check if nickname change is allowed
@@ -1179,23 +1156,6 @@ class MemberController extends Member
 			if (!empty($args->email_address) && $args->email_address !== $logged_info->email_address)
 			{
 				return new BaseObject(-1, 'msg_email_address_not_changeable');
-			}
-		}
-
-		// Check symbols in nickname
-		if($config->nickname_symbols === 'N')
-		{
-			if(preg_match('/[^\pL\d\s]/u', $args->nick_name, $matches))
-			{
-				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
-			}
-		}
-		elseif($config->nickname_symbols === 'LIST')
-		{
-			$list = preg_quote($config->nickname_symbols_allowed_list, '/');
-			if(preg_match('/[^\pL\d\s' . $list . ']/u', $args->nick_name, $matches))
-			{
-				throw new Rhymix\Framework\Exception(sprintf(lang('msg_invalid_symbol_in_nickname'), escape($matches[0])));
 			}
 		}
 
