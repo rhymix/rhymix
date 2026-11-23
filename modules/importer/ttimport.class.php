@@ -320,7 +320,7 @@ class ttimport
 						$obj->content = nl2br($val->content->body);
 
 						// Extract a title form the bocy
-						$obj->title = cut_str(strip_tags($obj->content),20,'...');
+						$obj->title = escape(cut_str(strip_tags($obj->content),20,'...'), false);
 						if ($obj->title == '') $obj->title = 'Untitled';
 
 						$obj->commentStatus = 'ALLOW';

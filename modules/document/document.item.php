@@ -432,7 +432,7 @@ class DocumentItem extends BaseObject
 		}
 
 		// List variables
-		$title = ($type ? sprintf('[%s] ', $type) : '') . cut_str(strip_tags($content), 10, '...');
+		$title = ($type ? sprintf('[%s] ', $type) : '') . escape(cut_str(strip_tags($content), 10, '...'), false);
 		$content = sprintf('%s<br><br>from : <a href="%s" target="_blank">%s</a>',$content, getFullUrl('', 'document_srl', $this->document_srl), getFullUrl('', 'document_srl', $this->document_srl));
 
 		// Send a message

@@ -664,7 +664,7 @@ class NcenterliteController extends Ncenterlite
 		$args->type = $this->_TYPE_MESSAGE;
 		$args->target_type = $this->_TYPE_MESSAGE;
 		$args->target_summary = $obj->title;
-		$args->target_content = mb_substr(trim(utf8_normalize_spaces(strip_tags($obj->content))), 0, 200, 'UTF-8');
+		$args->target_content = self::_createContent($obj->content);
 		$args->regdate = date('YmdHis');
 		$args->notify = $this->_getNotifyId($args);
 
@@ -1920,14 +1920,14 @@ class NcenterliteController extends Ncenterlite
 	 */
 	protected static function _createSummary($str): string
 	{
-		$str = escape(utf8_normalize_spaces(trim(strip_tags($str))), false);
+		$str = trim(utf8_normalize_spaces(strip_tags($str)));
 		if (function_exists('mb_strimwidth'))
 		{
-			return mb_strimwidth($str, 0, 50, '...', 'UTF-8');
+			return escape(mb_strimwidth($str, 0, 50, '...', 'UTF-8'), false);
 		}
 		else
 		{
-			return cut_str($str, 45);
+			return escape(cut_str($str, 45), false);
 		}
 	}
 
@@ -1939,14 +1939,14 @@ class NcenterliteController extends Ncenterlite
 	 */
 	protected static function _createContent($str): string
 	{
-		$str = escape(utf8_normalize_spaces(trim(strip_tags($str))), false);
+		$str = trim(utf8_normalize_spaces(strip_tags($str)));
 		if (function_exists('mb_strimwidth'))
 		{
-			return mb_strimwidth($str, 0, 200, '...', 'UTF-8');
+			return escape(mb_strimwidth($str, 0, 200, '...', 'UTF-8'), false);
 		}
 		else
 		{
-			return cut_str($str, 195);
+			return escape(cut_str($str, 195), false);
 		}
 	}
 }
