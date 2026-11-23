@@ -574,7 +574,7 @@ class MemberModel extends Member
 		$args = new stdClass();
 		$args->user_id = $user_id;
 		$output = executeQuery('member.getMemberSrl', $args);
-		return $output->data->member_srl;
+		return $output->data->member_srl ?? null;
 	}
 
 	/**
@@ -585,7 +585,7 @@ class MemberModel extends Member
 		$args = new stdClass();
 		$args->email_address = $email_address;
 		$output = executeQuery('member.getMemberSrl', $args);
-		return $output->data->member_srl;
+		return $output->data->member_srl ?? null;
 	}
 
 	/**
@@ -608,7 +608,7 @@ class MemberModel extends Member
 		$args = new stdClass();
 		$args->nick_name = $nick_name;
 		$output = executeQuery('member.getMemberSrl', $args);
-		return $output->data->member_srl;
+		return $output->data->member_srl ?? null;
 	}
 
 	/**
@@ -1443,7 +1443,10 @@ class MemberModel extends Member
 	public static function checkPasswordStrength($password, $strength)
 	{
 		$logged_info = Context::get('logged_info');
-		if($logged_info->is_admin == 'Y') return true;
+		if ($logged_info && $logged_info->is_admin == 'Y')
+		{
+			return true;
+		}
 
 		if($strength == NULL)
 		{

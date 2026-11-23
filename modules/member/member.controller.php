@@ -772,7 +772,10 @@ class MemberController extends Member
 
 		$args->allow_mailing = Context::get('allow_mailing');
 		$args->allow_message = Context::get('allow_message');
-		if($args->password1) $args->password = $args->password1;
+		if (isset($args->password1) && $args->password1)
+		{
+			$args->password = $args->password1;
+		}
 
 		// Check all required fields
 		$output = $this->_checkSignUpFields($config, $args, 'insert');
@@ -803,7 +806,7 @@ class MemberController extends Member
 		$extra_vars = new stdClass;
 		foreach($config->signupForm as $formInfo)
 		{
-			if (!$formInfo->isDefaultForm)
+			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
 			{
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
@@ -868,19 +871,19 @@ class MemberController extends Member
 
 		// insert ProfileImage, ImageName, ImageMark
 		$profile_image = Context::get('profile_image');
-		if(is_uploaded_file($profile_image['tmp_name']))
+		if(isset($profile_image['tmp_name']) && is_uploaded_file($profile_image['tmp_name']))
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
 
 		$image_mark = Context::get('image_mark');
-		if(is_uploaded_file($image_mark['tmp_name']))
+		if(isset($image_mark['tmp_name']) && is_uploaded_file($image_mark['tmp_name']))
 		{
 			$this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
 		}
 
 		$image_name = Context::get('image_name');
-		if(is_uploaded_file($image_name['tmp_name']))
+		if(isset($image_name['tmp_name']) && is_uploaded_file($image_name['tmp_name']))
 		{
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
 		}
@@ -1120,7 +1123,7 @@ class MemberController extends Member
 		$all_args = Context::getRequestVars();
 		foreach($config->signupForm as $formInfo)
 		{
-			if (!$formInfo->isDefaultForm)
+			if (!$formInfo->isDefaultForm && isset($all_args->{$formInfo->name}))
 			{
 				$extra_vars->{$formInfo->name} = $all_args->{$formInfo->name};
 			}
@@ -1173,19 +1176,19 @@ class MemberController extends Member
 		if(!$output->toBool()) return $output;
 
 		$profile_image = Context::get('profile_image');
-		if(is_uploaded_file($profile_image['tmp_name']))
+		if (isset($profile_image['tmp_name']) && is_uploaded_file($profile_image['tmp_name']))
 		{
 			$this->insertProfileImage($args->member_srl, $profile_image['tmp_name']);
 		}
 
 		$image_mark = Context::get('image_mark');
-		if(is_uploaded_file($image_mark['tmp_name']))
+		if (isset($image_mark['tmp_name']) && is_uploaded_file($image_mark['tmp_name']))
 		{
 			$this->insertImageMark($args->member_srl, $image_mark['tmp_name']);
 		}
 
 		$image_name = Context::get('image_name');
-		if(is_uploaded_file($image_name['tmp_name']))
+		if (isset($image_name['tmp_name']) && is_uploaded_file($image_name['tmp_name']))
 		{
 			$this->insertImageName($args->member_srl, $image_name['tmp_name']);
 		}
@@ -2934,9 +2937,8 @@ class MemberController extends Member
 		// Terms and Conditions portion of the information set up by members reaffirmed
 		$config = MemberModel::getMemberConfig();
 
-		$logged_info = Context::get('logged_info');
 		// limit_date format is YYYYMMDD
-		if($args->limit_date)
+		if (isset($args->limit_date) && $args->limit_date)
 		{
 			// mobile input date format can be different
 			if($args->limit_date !== intval($args->limit_date))
@@ -2949,7 +2951,10 @@ class MemberController extends Member
 			}
 		}
 		// If the date of the temporary restrictions limit further information on the date of
-		if($config->limit_day) $args->limit_date = date("YmdHis", $_SERVER['REQUEST_TIME']+$config->limit_day*60*60*24);
+		if(isset($config->limit_day) && $config->limit_day)
+		{
+			$args->limit_date = intval(date('YmdHis', $_SERVER['REQUEST_TIME'] + ($config->limit_day * 86400)));
+		}
 
 		$args->member_srl = getNextSequence();
 		$args->list_order = -1 * $args->member_srl;
@@ -2963,17 +2968,33 @@ class MemberController extends Member
 		{
 			$args->user_id = strtolower($args->user_id);
 		}
-		if(!$args->user_name) $args->user_name = $args->member_srl;
-		if(!$args->nick_name) $args->nick_name = $args->member_srl;
+		if (!isset($args->user_name) || !$args->user_name)
+		{
+			$args->user_name = $args->member_srl;
+		}
+		if (!isset($args->nick_name) || !$args->nick_name)
+		{
+			$args->nick_name = $args->member_srl;
+		}
 
 		// Control of essential parameters
-		if($args->allow_mailing!='Y') $args->allow_mailing = 'N';
-		if($args->denied!='Y') $args->denied = 'N';
-		if(!in_array($args->allow_message, array('Y', 'N', 'F'))) $args->allow_message = 'Y';
-
-		if($logged_info->is_admin == 'Y')
+		if (!isset($args->allow_mailing) || $args->allow_mailing != 'Y')
 		{
-			if($args->is_admin!='Y') $args->is_admin = 'N';
+			$args->allow_mailing = 'N';
+		}
+		if (!isset($args->denied) || $args->denied != 'Y')
+		{
+			$args->denied = 'N';
+		}
+		if (!isset($args->allow_message) || !in_array($args->allow_message, array('Y', 'N', 'F')))
+		{
+			$args->allow_message = 'Y';
+		}
+
+		$logged_info = Context::get('logged_info');
+		if ($logged_info && $logged_info->is_admin == 'Y')
+		{
+			$args->is_admin = (isset($args->is_admin) && $args->is_admin === 'Y') ? 'Y' : 'N';
 		}
 		else
 		{
@@ -3052,36 +3073,34 @@ class MemberController extends Member
 		}
 
 		// Check if ID is prohibited
-		if($logged_info->is_admin !== 'Y' && MemberModel::isDeniedID($args->user_id))
+		if ((!$logged_info || $logged_info->is_admin !== 'Y') && MemberModel::isDeniedID($args->user_id))
 		{
 			return new BaseObject(-1, 'denied_user_id');
 		}
 
 		// Check if ID is duplicate
-		$member_srl = MemberModel::getMemberSrlByUserID($args->user_id);
-		if($member_srl)
+		if (MemberModel::getMemberSrlByUserID($args->user_id))
 		{
 			return new BaseObject(-1, 'msg_exists_user_id');
 		}
 
 		// Check if nickname is prohibited
-		if($logged_info->is_admin !== 'Y' && MemberModel::isDeniedNickName($args->nick_name))
+		if ((!$logged_info || $logged_info->is_admin !== 'Y') && MemberModel::isDeniedNickName($args->nick_name))
 		{
 			return new BaseObject(-1, 'denied_nick_name');
 		}
 
 		// Check if nickname is duplicate
-		if($config->allow_duplicate_nickname !== 'Y')
+		if ($config->allow_duplicate_nickname !== 'Y')
 		{
-			$member_srl = MemberModel::getMemberSrlByNickName($args->nick_name);
-			if($member_srl)
+			if (MemberModel::getMemberSrlByNickName($args->nick_name))
 			{
 				return new BaseObject(-1, 'msg_exists_nick_name');
 			}
 		}
 
 		// Check managed Email Host
-		if($logged_info->is_admin !== 'Y' && MemberModel::isDeniedEmailHost($args->email_address))
+		if ((!$logged_info || $logged_info->is_admin !== 'Y') && MemberModel::isDeniedEmailHost($args->email_address))
 		{
 			$emailhost_check = $config->emailhost_check;
 
@@ -3126,8 +3145,7 @@ class MemberController extends Member
 		}
 
 		// Check if email address is duplicate
-		$member_srl = MemberModel::getMemberSrlByEmailAddress($args->email_address);
-		if($member_srl)
+		if (MemberModel::getMemberSrlByEmailAddress($args->email_address))
 		{
 			return new BaseObject(-1, 'msg_exists_email_address');
 		}
@@ -3164,40 +3182,42 @@ class MemberController extends Member
 			return $output;
 		}
 
-		if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
-		else $group_srl_list = explode('|@|', $args->group_srl_list);
-		// If no value is entered the default group, the value of group registration
-		if(!$args->group_srl_list)
+		// Set group_srl_list
+		if (isset($args->group_srl_list) && is_array($args->group_srl_list))
 		{
-			$default_group = MemberModel::getDefaultGroup(0);
-			if($default_group)
-			{
-				// Add to the default group
-				$output = $this->addMemberToGroup($args->member_srl, $default_group->group_srl);
-				if(!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
-			}
+			$group_srl_list = array_map('intval', $args->group_srl_list);
 		}
-		// If the value is the value of the group entered the group registration
+		elseif (isset($args->group_srl_list) && is_string($args->group_srl_list))
+		{
+			$group_srl_list = array_map('intval', explode('|@|', $args->group_srl_list));
+		}
 		else
 		{
-			foreach($group_srl_list as $group_srl)
-			{
-				$output = $this->addMemberToGroup($args->member_srl, $group_srl);
+			$group_srl_list = [];
+		}
 
-				if(!$output->toBool())
-				{
-					$oDB->rollback();
-					return $output;
-				}
+		// Add to the default group if no group is specified
+		if (!count($group_srl_list))
+		{
+			$default_group = MemberModel::getDefaultGroup(0);
+			if ($default_group)
+			{
+				$group_srl_list[] = $default_group->group_srl;
+			}
+		}
+
+		foreach ($group_srl_list as $group_srl)
+		{
+			$output = $this->addMemberToGroup($args->member_srl, $group_srl);
+			if (!$output->toBool())
+			{
+				$oDB->rollback();
+				return $output;
 			}
 		}
 
 		// When using email authentication mode (when you subscribed members denied a) certified mail sent
-		if($args->denied == 'Y')
+		if (isset($args->denied) && $args->denied === 'Y')
 		{
 			// Insert data into the authentication DB
 			$auth_args = new stdClass();
@@ -3290,7 +3310,7 @@ class MemberController extends Member
 		// check member identifier form
 
 		// limit_date format is YYYYMMDD
-		if($args->limit_date)
+		if (isset($args->limit_date) && $args->limit_date)
 		{
 			// mobile input date format can be different
 			if($args->limit_date !== intval($args->limit_date))
@@ -3498,12 +3518,19 @@ class MemberController extends Member
 			}
 		}
 
-		if($args->group_srl_list)
+		if (isset($args->group_srl_list) && $args->group_srl_list)
 		{
-			if(is_array($args->group_srl_list)) $group_srl_list = $args->group_srl_list;
-			else $group_srl_list = explode('|@|', $args->group_srl_list);
+			if (is_array($args->group_srl_list))
+			{
+				$group_srl_list = array_map('intval', $args->group_srl_list);
+			}
+			else
+			{
+				$group_srl_list = array_map('intval', explode('|@|', $args->group_srl_list));
+			}
+
 			// If the group information, group information changes
-			if(count($group_srl_list) > 0)
+			if (count($group_srl_list))
 			{
 				// One of its members to delete all the group
 				$output = executeQuery('member.deleteMemberGroupMember', $args);
