@@ -2608,7 +2608,7 @@ class MemberController extends Member
 		}
 		elseif($config->identifiers && in_array('phone_number', $config->identifiers) && strpos($user_id, '@') === false && !preg_match('/^[a-z]/i', $user_id))
 		{
-			if(preg_match('/^\+([0-9-]+)\.([0-9.-]+)$/', $user_id, $matches))
+			if(preg_match('/^\+([0-9A-Z-]+)\.([0-9.-]+)$/', $user_id, $matches))
 			{
 				$user_id = $matches[2];
 				$phone_country = $matches[1];
@@ -3104,6 +3104,10 @@ class MemberController extends Member
 			{
 				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
 			}
+			if ($args->phone_country && !array_key_exists($args->phone_country, Rhymix\Framework\i18n::listCountries()))
+			{
+				return new BaseObject(-1, 'msg_invalid_phone_country');
+			}
 			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
 				return new BaseObject(-1, 'msg_invalid_phone_number');
@@ -3350,6 +3354,10 @@ class MemberController extends Member
 			if ($args->phone_country && !preg_match('/^[A-Z]{3}$/', $args->phone_country))
 			{
 				$args->phone_country = Rhymix\Framework\i18n::getCountryCodeByCallingCode($args->phone_country);
+			}
+			if ($args->phone_country && !array_key_exists($args->phone_country, Rhymix\Framework\i18n::listCountries()))
+			{
+				return new BaseObject(-1, 'msg_invalid_phone_country');
 			}
 			if ($args->phone_country === 'KOR' && !Rhymix\Framework\Korea::isValidPhoneNumber($args->phone_number))
 			{
