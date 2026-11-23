@@ -901,7 +901,16 @@ class MemberController extends Member
 				$identifier = $config->identifier ?? 'user_id';
 			}
 
-			$output = $this->doLogin($args->{$identifier});
+			if ($identifier === 'phone_number')
+			{
+				$login_with_id = '+' . $args->phone_country . '.' . $args->phone_number;
+			}
+			else
+			{
+				$login_with_id = $args->{$identifier};
+			}
+
+			$output = $this->doLogin($login_with_id);
 			if (!$output->toBool())
 			{
 				if ($output->error == -9)
@@ -2608,14 +2617,10 @@ class MemberController extends Member
 		}
 		elseif($config->identifiers && in_array('phone_number', $config->identifiers) && strpos($user_id, '@') === false && !preg_match('/^[a-z]/i', $user_id))
 		{
-			if(preg_match('/^\+([0-9A-Z-]+)\.([0-9.-]+)$/', $user_id, $matches))
+			if(preg_match('/^\+([0-9A-Z-]+)\.([0-9.-]+)$/i', $user_id, $matches))
 			{
 				$user_id = $matches[2];
-				$phone_country = $matches[1];
-				if($config->phone_number_hide_country === 'Y')
-				{
-					$phone_country = $config->phone_number_default_country;
-				}
+				$phone_country = strtoupper($matches[1]);
 			}
 			elseif($config->phone_number_default_country)
 			{
