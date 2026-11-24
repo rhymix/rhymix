@@ -3510,7 +3510,11 @@ class DocumentController extends Document
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
-			if (!$module_grant->manager)
+			if (isset($module_grant->write_document) && !$module_grant->write_document)
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+			if (!$module_grant->can('moderate:document'))
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}
