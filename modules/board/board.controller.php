@@ -219,20 +219,12 @@ class BoardController extends Board
 		// Insert a new document.
 		else
 		{
-			// Update list order if document_srl is already assigned
-			if ($obj->document_srl)
-			{
-				$isLatest = false;
-				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
-			}
-			else
-			{
-				$isLatest = true;
-			}
+			// Set update order and list order.
+			$obj->update_order = $obj->list_order = $obj->document_srl * -1;
 
 			// Insert
 			$oDocumentController = DocumentController::getInstance();
-			$output = $oDocumentController->insertDocument($obj, false, false, $isLatest);
+			$output = $oDocumentController->insertDocument($obj);
 			$msg_code = 'success_registed';
 
 			if ($output->toBool())
