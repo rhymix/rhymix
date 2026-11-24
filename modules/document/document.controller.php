@@ -2952,11 +2952,18 @@ class DocumentController extends Document
 		$target_category_srl = Context::get('target_srl');
 
 		$source_category = DocumentModel::getCategory($source_category_srl);
+		if (!$source_category)
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+
 		// Check permissions
-		$columnList = array('module_srl', 'module');
-		$module_info = ModuleModel::getModuleInfoByModuleSrl($source_category->module_srl, $columnList);
+		$module_info = ModuleModel::getModuleInfoByModuleSrl($source_category->module_srl);
 		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
-		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
+		if (!$grant->manager || !$grant->can('config:*'))
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
 
 		// First child of the parent_category_srl
 		$source_args = new stdClass;
@@ -3014,11 +3021,19 @@ class DocumentController extends Document
 		$columnList = array('module_srl', 'module');
 		$module_info = ModuleModel::getModuleInfoByModuleSrl($args->module_srl, $columnList);
 		$grant = ModuleModel::getGrant($module_info, Context::get('logged_info'));
-		if(!$grant->manager) return new BaseObject(-1, 'msg_not_permitted');
+		if (!$grant->manager || !$grant->can('config:*'))
+		{
+			return new BaseObject(-1, 'msg_not_permitted');
+		}
 
 		// Get original information
 		$category_info = DocumentModel::getCategory($args->category_srl);
-		if($category_info->parent_srl) $parent_srl = $category_info->parent_srl;
+		if (!$category_info || $category_info->module_srl != $module_info->module_srl)
+		{
+			return new BaseObject(-1, 'msg_not_founded');
+		}
+		$parent_srl = $category_info->parent_srl ?? null;
+
 		// Display an error that the category cannot be deleted if it has a child node
 		if(DocumentModel::getCategoryChlidCount($args->category_srl))
 		{
@@ -3510,7 +3525,11 @@ class DocumentController extends Document
 				throw new Rhymix\Framework\Exceptions\InvalidRequest;
 			}
 			$module_grant = ModuleModel::getGrant($module_info, $logged_info);
-			if (!$module_grant->manager)
+			if (isset($module_grant->write_document) && !$module_grant->write_document)
+			{
+				throw new Rhymix\Framework\Exceptions\NotPermitted;
+			}
+			if (!$module_grant->can('moderate:document'))
 			{
 				throw new Rhymix\Framework\Exceptions\NotPermitted;
 			}

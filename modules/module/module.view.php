@@ -44,14 +44,15 @@ class ModuleView extends Module
 	function dispModuleSelectList()
 	{
 		// Get a list of modules at the site
-		$args = new stdClass;
-		$output = executeQueryArray(isset($query_id) ? $query_id : 'module.getSiteModules', $args);
+		$output = executeQueryArray('module.getSiteModules');
+		$scope = Context::get('scope');
 
 		$mid_list = array();
 
 		foreach($output->data as $key => $val)
 		{
-			if(!ModuleModel::getGrant($val, Context::get('logged_info'))->manager)
+			$grant = ModuleModel::getGrant($val, Context::get('logged_info'));
+			if (!$grant->manager || ($scope && !$grant->can($scope)))
 			{
 				continue;
 			}
