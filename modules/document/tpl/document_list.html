@@ -41,6 +41,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 				<th scope="col" class="title">{$lang->title}</th>
 				<th scope="col" class="nowr">{$lang->writer}</th>
 				<th scope="col" class="nowr rx_detail_marks">{$lang->readed_count}</th>
+				<th scope="col" class="nowr rx_detail_marks">{$lang->comment_count}</th>
 				<th scope="col" class="nowr rx_detail_marks">{$lang->cmd_vote}(+/-)</th>
 				<th scope="col" class="nowr">{$lang->date}</th>
 				<th scope="col" class="nowr rx_detail_marks">{$lang->ipaddress}</th>
@@ -91,6 +92,7 @@ xe.lang.msg_empty_search_keyword = '{$lang->msg_empty_search_keyword}';
 					<a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')}" cond="$oDocument->get('member_srl') > 0">{$oDocument->getNickName()}</a>
 				</td>
 				<td class="nowr rx_detail_marks">{$oDocument->get('readed_count')}</td>
+				<td class="nowr rx_detail_marks">{$oDocument->get('comment_count')}</td>
 				<td class="nowr rx_detail_marks">{$oDocument->get('voted_count')}/{$oDocument->get('blamed_count')}</td>
 				<td class="nowr">
 					<span class="rx_detail_marks">{$oDocument->getRegdate('Y-m-d H:i:s')}</span>
