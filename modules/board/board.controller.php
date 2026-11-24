@@ -306,6 +306,26 @@ class BoardController extends Board
 		$obj->content = $update_log->content;
 		$obj->update_log_setting = 'Y';
 		$obj->reason_update = lang('board.revert_reason_update');
+
+		$extra_vars = $update_log->extra_vars ? unserialize($update_log->extra_vars) : [];
+		$extra_vars_map = [];
+		if ($extra_vars)
+		{
+			$extra_keys = DocumentModel::getExtraKeys($oDocument->get('module_srl'));
+			foreach ($extra_keys as $item)
+			{
+				$extra_vars_map[$item->name] = $item->idx;
+			}
+		}
+		foreach ($extra_vars as $name => $value)
+		{
+			$idx = $extra_vars_map[$name] ?? null;
+			if ($idx !== null)
+			{
+				$obj->{'extra_vars' . $idx} = $value;
+			}
+		}
+
 		$oDocumentController = DocumentController::getInstance();
 		$output = $oDocumentController->updateDocument($oDocument, $obj);
 		if (!$output->toBool())
