@@ -141,6 +141,17 @@ class BoardController extends Board
 		}
 		unset($obj->is_secret);
 
+		// Validate and sanitize nick_name
+		if ($obj->nick_name)
+		{
+			$clean_nick_name = MemberModel::getCleanNickName($obj->nick_name);
+			if (!$clean_nick_name->toBool())
+			{
+				return $clean_nick_name;
+			}
+			$obj->nick_name = $clean_nick_name->get('nick_name');
+		}
+
 		// Set update log
 		if($this->module_info->update_log == 'Y')
 		{
@@ -546,6 +557,17 @@ class BoardController extends Board
 		{
 			$this->module_info->secret = 'N';
 			unset($obj->is_secret);
+		}
+
+		// Validate and sanitize nick_name
+		if ($obj->nick_name)
+		{
+			$clean_nick_name = MemberModel::getCleanNickName($obj->nick_name);
+			if (!$clean_nick_name->toBool())
+			{
+				return $clean_nick_name;
+			}
+			$obj->nick_name = $clean_nick_name->get('nick_name');
 		}
 
 		// INSERT if comment_srl does not exist.

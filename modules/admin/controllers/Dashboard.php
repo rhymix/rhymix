@@ -59,7 +59,7 @@ class Dashboard extends Base
 		{
 			foreach ($output as $key => $value)
 			{
-				$value->content = strip_tags($value->content);
+				$value->content = escape(utf8_normalize_spaces(strip_tags($value->content)), false);
 			}
 		}
 		else

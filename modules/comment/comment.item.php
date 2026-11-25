@@ -286,6 +286,9 @@ class CommentItem extends BaseObject
 
 	/**
 	 * Notify to comment owner
+	 *
+	 * @param string $type
+	 * @param string $content
 	 * @return void
 	 */
 	function notify($type, $content)
@@ -314,8 +317,12 @@ class CommentItem extends BaseObject
 		{
 			$title = "[" . $type . "] ";
 		}
+		else
+		{
+			$title = '';
+		}
 
-		$title .= cut_str(strip_tags($content), 30, '...');
+		$title .= escape(cut_str(strip_tags($content), 30, '...'), false);
 		$content = sprintf('%s<br /><br />from : <a href="%s#comment_%s" target="_blank">%s</a>', $content, getFullUrl('', 'document_srl', $this->get('document_srl')), $this->get('comment_srl'), getFullUrl('', 'document_srl', $this->get('document_srl')));
 		$receiver_srl = $this->get('member_srl');
 		$sender_member_srl = ($logged_info && $logged_info->member_srl) ? $logged_info->member_srl : $this->get('member_srl');

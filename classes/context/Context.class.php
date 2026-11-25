@@ -1482,7 +1482,8 @@ class Context
 	 */
 	private static function _filterRequestVar($key, $val)
 	{
-		if(starts_with('XE_VALIDATOR_', $key, false) && $key !== 'xe_validator_id')
+		$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+		if (preg_match('/^xe_validator_/i', $key) && $key !== 'xe_validator_id')
 		{
 			return;
 		}
@@ -1516,7 +1517,7 @@ class Context
 			}
 			elseif($_val = trim($_val))
 			{
-				if(in_array($key, ['page', 'cpage']) || ends_with('srl', $key, false) && preg_match('/[^0-9,]/', $_val))
+				if (in_array($key, ['page', 'cpage']) || preg_match('/srl$/i', $key) && preg_match('/[^0-9,]/', $_val))
 				{
 					$_val = (int)$_val;
 				}
@@ -1531,17 +1532,25 @@ class Context
 				}
 				elseif(in_array($key, ['success_return_url', 'error_return_url']))
 				{
-					if (!Rhymix\Framework\URL::isInternalURL($_val))
+					if ($method === 'GET')
 					{
-						self::$_instance->security_check = 'DENY ALL';
-						self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
 						$_val = null;
 					}
+					else
+					{
+						$_val = strtr(escape($_val, false), array('&amp;' => '&'));
+						if (!Rhymix\Framework\URL::isInternalURL($_val))
+						{
+							self::$_instance->security_check = 'DENY ALL';
+							self::$_instance->security_check_detail = 'ERR_UNSAFE_VAR';
+							$_val = null;
+						}
+					}
 				}
-				elseif(in_array($key, ['search_target', 'search_keyword', 'is_keyword', 'xe_validator_id']) || ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'GET')
+				elseif(in_array($key, ['search_target', 'search_keyword', 'is_keyword', 'xe_validator_id']) || $method === 'GET')
 				{
 					$_val = escape($_val, false);
-					if(ends_with('url', $key, false))
+					if (preg_match('/url$/i', $key))
 					{
 						$_val = strtr($_val, array('&amp;' => '&'));
 					}
