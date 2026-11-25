@@ -657,11 +657,11 @@ class MemberAdminController extends Member
 			$args->login_log = 'Y';
 		}
 
-		if(!trim(strip_tags($args->after_login_url)))
+		if(trim($args->after_login_url ?? '') === '')
 		{
 			$args->after_login_url = NULL;
 		}
-		if(!trim(strip_tags($args->after_logout_url)))
+		if(trim($args->after_logout_url ?? '') === '')
 		{
 			$args->after_logout_url = NULL;
 		}

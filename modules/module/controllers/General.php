@@ -25,12 +25,13 @@ class General extends Base
 	{
 		// Get a list of modules at the site
 		$output = executeQueryArray('module.getSiteModules', []);
-
+		$scope = Context::get('scope');
 		$mid_list = array();
 
 		foreach ($output->data as $key => $val)
 		{
-			if (!ModuleModel::getGrant($val, Context::get('logged_info'))->manager)
+			$grant = ModuleModel::getGrant($val, Context::get('logged_info'));
+			if (!$grant->manager || ($scope && !$grant->can($scope)))
 			{
 				continue;
 			}

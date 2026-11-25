@@ -141,6 +141,17 @@ class BoardController extends Board
 		}
 		unset($obj->is_secret);
 
+		// Validate and sanitize nick_name
+		if ($obj->nick_name)
+		{
+			$clean_nick_name = MemberModel::getCleanNickName($obj->nick_name);
+			if (!$clean_nick_name->toBool())
+			{
+				return $clean_nick_name;
+			}
+			$obj->nick_name = $clean_nick_name->get('nick_name');
+		}
+
 		// Set update log
 		if($this->module_info->update_log == 'Y')
 		{
@@ -219,20 +230,12 @@ class BoardController extends Board
 		// Insert a new document.
 		else
 		{
-			// Update list order if document_srl is already assigned
-			if ($obj->document_srl)
-			{
-				$isLatest = false;
-				$obj->update_order = $obj->list_order = (getNextSequence() * -1);
-			}
-			else
-			{
-				$isLatest = true;
-			}
+			// Set update order and list order.
+			$obj->update_order = $obj->list_order = $obj->document_srl * -1;
 
 			// Insert
 			$oDocumentController = DocumentController::getInstance();
-			$output = $oDocumentController->insertDocument($obj, false, false, $isLatest);
+			$output = $oDocumentController->insertDocument($obj);
 			$msg_code = 'success_registed';
 
 			if ($output->toBool())
@@ -314,6 +317,26 @@ class BoardController extends Board
 		$obj->content = $update_log->content;
 		$obj->update_log_setting = 'Y';
 		$obj->reason_update = lang('board.revert_reason_update');
+
+		$extra_vars = $update_log->extra_vars ? unserialize($update_log->extra_vars) : [];
+		$extra_vars_map = [];
+		if ($extra_vars)
+		{
+			$extra_keys = DocumentModel::getExtraKeys($oDocument->get('module_srl'));
+			foreach ($extra_keys as $item)
+			{
+				$extra_vars_map[$item->name] = $item->idx;
+			}
+		}
+		foreach ($extra_vars as $name => $value)
+		{
+			$idx = $extra_vars_map[$name] ?? null;
+			if ($idx !== null)
+			{
+				$obj->{'extra_vars' . $idx} = $value;
+			}
+		}
+
 		$oDocumentController = DocumentController::getInstance();
 		$output = $oDocumentController->updateDocument($oDocument, $obj);
 		if (!$output->toBool())
@@ -534,6 +557,17 @@ class BoardController extends Board
 		{
 			$this->module_info->secret = 'N';
 			unset($obj->is_secret);
+		}
+
+		// Validate and sanitize nick_name
+		if ($obj->nick_name)
+		{
+			$clean_nick_name = MemberModel::getCleanNickName($obj->nick_name);
+			if (!$clean_nick_name->toBool())
+			{
+				return $clean_nick_name;
+			}
+			$obj->nick_name = $clean_nick_name->get('nick_name');
 		}
 
 		// INSERT if comment_srl does not exist.
