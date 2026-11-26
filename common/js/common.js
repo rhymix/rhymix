@@ -942,12 +942,13 @@ $(function() {
 	 * Prevent repeated click on submit button
 	 */
 	$(document).on('click', 'input[type="submit"],button[type="submit"]', function(e) {
+		const $btn = $(this);
 		const timeout = 3000;
 		setTimeout(function() {
-			$(this).prop('disabled', true);
+			$btn.prop('disabled', true);
 		}, 100);
 		setTimeout(function() {
-			$(this).prop('disabled', false);
+			$btn.prop('disabled', false);
 		}, timeout);
 	});
 
